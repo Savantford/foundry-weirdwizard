@@ -4,8 +4,8 @@
     "description": "System built for the upcoming Shadow of the Weird Wizard fantasy game by Schwalb Entertainment..",
     "version": "0.0.1",
     "compatibility": {
-      "minimum": "10",
-      "verified": "10",
+      "minimum": "9",
+      "verified": "",
       "maximum": ""
     },
     "authors": [
