@@ -1,54 +1,313 @@
 {
-    "Actor": {
-      "types": ["character", "enemy", "vehicle"],
-      "templates": {
-        "background": {
-          "biography": "",
-          "hairColor": "blue"
-        },
-        "resources": {
-          "health": {
-            "min": 0,
-            "value": 10,
-            "max": 10
+  "Actor": {
+    "types": ["character", "enemy", "vehicle", "group"],
+    "templates": {
+      "common": {
+        "attributes": {
+          "str": {
+            "value": 10
           },
-          "power": {
-            "min": 0,
-            "value": 1,
-            "max": 3
+          "agi": {
+            "value": 10
+          },
+          "int": {
+            "value": 10
+          },
+          "wil": {
+            "value": 10
+          }
+        },
+        "stats": {
+          "level": {
+            "value": 1
+          },
+          "defense": {
+            "value": 10
+          },
+          "health": {
+            "value": 10
+          },
+          "damage": {
+            "value": 10
           }
         }
       },
-      "hero": {
-        "templates": ["background", "resources"],
-        "goodness": {
-          "value": 5,
-          "max": 10
-        }
-      },
-      "enemy": {
-        "templates": ["background", "resources"],
-        "wickedness": {
-          "value": 5,
-          "max": 100
+      "creature": {
+        "stats": {
+          "level": {
+            "value": 1
+          }
         }
       }
     },
-    "Item": {
-      "types": ["weapon", "spell"],
-      "templates": {
-        "rarity": {
-          "rarity": "Common",
-          "price": 20
+    "htmlFields": ["details.biography.value", "details.biography.public", "description.full", "description.summary"],
+    "character": {
+      "templates": ["common", "creature", "player"],
+      "stats": {
+        "damage_extra": {
+          "value": 0
         }
       },
-      "weapon": {
-        "templates": ["rarity"],
-        "damage": 5
+      "details": {
+        "ancestry": {
+          "value": ""
+        },
+        "novice": {
+          "value": ""
+        },
+        "expert": {
+          "value": ""
+        },
+        "master": {
+          "value": ""
+        },
+        "belief": {
+          "value": ""
+        }
       },
-      "spell": {
-        "templates": ["rarity"],
-        "cost": 2
+      "resources": {
+        "ct": {
+          "min": 0,
+          "value": 0,
+          "max": 0
+        },
+        "mt": {
+          "min": 0,
+          "value": 0,
+          "max": 0
+        }
+      },
+      "currency": {
+        "gp": 0,
+        "sp": 0,
+        "cp": 0
+      },
+      "weight": {
+        "min": 0,
+        "value": 0,
+        "max": 10
+      }
+    },
+    "npc": {
+      "templates": ["common", "creature"],
+      "details": {
+        "type": {
+          "value": ""
+        }
+      }
+    },
+    "group": {
+      "description": {
+        "full": "",
+        "summary": ""
+      },
+      "members": [],
+      "attributes": {
+        "movement": {
+          "land": 0,
+          "water": 0,
+          "air": 0
+        }
+      },
+      "currency": {
+        "gp": 0,
+        "sp": 0,
+        "cp": 0
       }
     }
+  },
+  "Item": {
+    "types": ["weapon", "defensive", "consumable", "container", "gear", "ancestry", "path", "talent", "sense", "spell"],
+    "templates": {
+      "itemDescription": {
+        "description": {
+          "value": "",
+          "chat": "",
+          "unidentified": ""
+        },
+        "source": ""
+      },
+      "physicalItem": {
+        "quantity": 1,
+        "weight": 0,
+        "price": {
+          "value": 0,
+          "denomination": "sp"
+        },
+        "equipped": false,
+        "availability": "",
+        "identified": true
+      },
+      "activatedEffect": {
+        "activation": {
+          "type": "",
+          "cost": null,
+          "condition": ""
+        },
+        "duration": {
+          "value": "",
+          "units": ""
+        },
+        "cover": null,
+        "crewed": false,
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "uses": {
+          "value": null,
+          "max": "",
+          "per": null,
+          "recovery": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "action": {
+        "attribute": null,
+        "actionType": null,
+        "chatFlavor": ""
+      }
+    },
+    "htmlFields": ["description.value", "description.chat", "description.unidentified"],
+    "background": {
+      "templates": ["itemDescription"],
+      "advancement": []
+    },
+    "weapon": {
+      "templates": ["itemDescription", "physicalItem" ,"activatedEffect", "action", "mountable"],
+      "weaponType": "simpleM",
+      "baseItem": "",
+      "properties": {},
+      "proficient": true
+    },
+    "defensive": {
+      "templates": ["itemDescription", "physicalItem", "activatedEffect", "action", "mountable"],
+      "armor": {
+        "type": "light",
+        "value": null,
+        "dex": null
+      },
+      "baseItem": "",
+      "speed": {
+        "value": null,
+        "conditions": ""
+      },
+      "strength": null,
+      "stealth": false,
+      "proficient": true
+    },
+    "consumable": {
+      "templates": ["itemDescription", "physicalItem", "activatedEffect", "action"],
+      "consumableType": "potion",
+      "uses": {
+        "autoDestroy": false
+      }
+    },
+    "container": {
+      "templates": ["itemDescription", "physicalItem"],
+      "capacity": {
+        "type": "weight",
+        "value": null,
+        "weightless": false
+      },
+      "currency": {
+        "cp": 0,
+        "sp": 0,
+        "ep": 0,
+        "gp": 0,
+        "pp": 0
+      }
+    },
+    "gear": {
+      "templates": ["itemDescription", "physicalItem"]
+    },
+    "ancestry": {
+      "templates": ["itemDescription"],
+      "identifier": "",
+      "levels": 1,
+      "hitDice": "d6",
+      "hitDiceUsed": 0,
+      "advancement": [],
+      "saves": [],
+      "skills": {
+        "number": 2,
+        "choices": [],
+        "value": []
+      },
+      "spellcasting": {
+        "progression": "none",
+        "ability": ""
+      }
+    },
+    "path": {
+      "templates": ["itemDescription"],
+      "identifier": "",
+      "levels": 1,
+      "hitDice": "d6",
+      "hitDiceUsed": 0,
+      "advancement": [],
+      "saves": [],
+      "skills": {
+        "number": 2,
+        "choices": [],
+        "value": []
+      },
+      "spellcasting": {
+        "progression": "none",
+        "ability": ""
+      }
+    },
+    "talent": {
+      "templates": ["itemDescription", "activatedEffect", "action"],
+      "type": {
+        "value": "",
+        "subtype": ""
+      },
+      "requirements": "",
+      "recharge": {
+        "value": null,
+        "charged": false
+      }
+    },
+    "sense": {
+      
+    },
+    "spell": {
+      "templates": ["itemDescription", "activatedEffect", "action"],
+      "level": 1,
+      "school": "",
+      "components": {
+        "vocal": false,
+        "somatic": false,
+        "material": false,
+        "ritual": false,
+        "concentration": false
+      },
+      "materials": {
+        "value": "",
+        "consumed": false,
+        "cost": 0,
+        "supply": 0
+      },
+      "preparation": {
+        "mode": "prepared",
+        "prepared": false
+      },
+      "scaling": {
+        "mode": "none",
+        "formula": null
+      }
+    }
+  }
 }
