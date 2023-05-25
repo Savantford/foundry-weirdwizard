@@ -1,19 +1,23 @@
 {
   "Actor": {
-    "types": ["character", "enemy", "vehicle", "group"],
+    "types": ["Character", "NPC", "Vehicle", "Group"],
     "templates": {
       "common": {
         "attributes": {
           "str": {
+            "name": "Strength",
             "value": 10
           },
           "agi": {
+            "name": "Agility",
             "value": 10
           },
           "int": {
+            "name": "Intellect",
             "value": 10
           },
           "wil": {
+            "name": "Will",
             "value": 10
           }
         },
@@ -22,13 +26,22 @@
             "value": 1
           },
           "defense": {
-            "value": 10
+            "total": 10,
+            "unarmored": 10,
+            "armor": "unarmored",
+            "bonuses": []
           },
           "health": {
-            "value": 10
+            "total": 10,
+            "starting": 0,
+            "novice": 0,
+            "expert": 0,
+            "master": 0,
+            "bonus": 0,
+            "lost": 0
           },
           "damage": {
-            "value": 10
+            "value": 0
           }
         }
       },
@@ -36,32 +49,78 @@
         "stats": {
           "level": {
             "value": 1
+          },
+          "size": {
+            "value": 1
+          }
+        },
+        "details": {
+          "type": {
+            "value": ""
+          },
+          "senses": {
+            "value": ""
+          },
+          "languages": {
+            "value": "Common"
+          },
+          "immune": {
+            "value": ""
+          },
+          "speed": {
+            "value": "5"
           }
         }
       }
     },
     "htmlFields": ["details.biography.value", "details.biography.public", "description.full", "description.summary"],
-    "character": {
+    "Character": {
       "templates": ["common", "creature", "player"],
+      "biography": "Testa",
       "stats": {
-        "damage_extra": {
+        "bonusdamage": {
           "value": 0
         }
       },
       "details": {
         "ancestry": {
-          "value": ""
+          "value": "Human"
         },
         "novice": {
-          "value": ""
+          "value": "Warrior"
         },
         "expert": {
-          "value": ""
+          "value": "Bard"
         },
         "master": {
-          "value": ""
+          "value": "Saprophyte"
+        },
+        "features": {
+          "value": "<p></p>"
+        },
+        "personality": {
+          "value": "<p></p>"
         },
         "belief": {
+          "value": "<p></p>"
+        },
+        "professions": {
+          "value": ""
+        },
+        "information": {
+          "value": "<p></p>"
+        },
+        "bg_ancestry": {
+          "value": "<p></p>"
+        },
+        "deeds": {
+          "value": "<p></p>"
+        },
+        "reputation": {
+          "min": 0,
+          "value": 0
+        },
+        "traditions": {
           "value": ""
         }
       },
@@ -81,14 +140,9 @@
         "gp": 0,
         "sp": 0,
         "cp": 0
-      },
-      "weight": {
-        "min": 0,
-        "value": 0,
-        "max": 10
       }
     },
-    "npc": {
+    "NPC": {
       "templates": ["common", "creature"],
       "details": {
         "type": {
@@ -96,7 +150,7 @@
         }
       }
     },
-    "group": {
+    "Group": {
       "description": {
         "full": "",
         "summary": ""
@@ -117,19 +171,18 @@
     }
   },
   "Item": {
-    "types": ["weapon", "defensive", "consumable", "container", "gear", "ancestry", "path", "talent", "sense", "spell"],
+    "types": ["Weapon", "Container", "Gear", "Ancestry", "Path", "Talent", "Spell"],
     "templates": {
-      "itemDescription": {
+      "base": {
         "description": {
-          "value": "",
+          "value": "<p></p>",
           "chat": "",
           "unidentified": ""
-        },
-        "source": ""
+        }
       },
       "physicalItem": {
         "quantity": 1,
-        "weight": 0,
+        "weightUnit": 0,
         "price": {
           "value": 0,
           "denomination": "sp"
@@ -161,12 +214,6 @@
           "long": null,
           "units": ""
         },
-        "uses": {
-          "value": null,
-          "max": "",
-          "per": null,
-          "recovery": ""
-        },
         "consume": {
           "type": "",
           "target": null,
@@ -174,25 +221,51 @@
         }
       },
       "action": {
-        "attribute": null,
+        "attribute": "",
+        "boons": 0,
         "actionType": null,
-        "chatFlavor": ""
+        "chatFlavor": "",
+        "uses": {
+          "value": 0,
+          "max": 0,
+          "frequency": "day"
+        },
+        "damage": "",
+        "healing": ""
       }
     },
     "htmlFields": ["description.value", "description.chat", "description.unidentified"],
     "background": {
-      "templates": ["itemDescription"],
+      "templates": ["base"],
       "advancement": []
     },
-    "weapon": {
-      "templates": ["itemDescription", "physicalItem" ,"activatedEffect", "action", "mountable"],
-      "weaponType": "simpleM",
-      "baseItem": "",
-      "properties": {},
-      "proficient": true
+    "Weapon": {
+      "templates": ["base", "physicalItem" ,"activatedEffect", "action", "mountable"],
+      "damage": "1d6",
+      "hands": "One",
+      "properties": ""
     },
-    "defensive": {
-      "templates": ["itemDescription", "physicalItem", "activatedEffect", "action", "mountable"],
+    "Container": {
+      "templates": ["base", "physicalItem"],
+      "capacity": {
+        "type": "weight",
+        "value": null,
+        "weightless": false
+      },
+      "currency": {
+        "cp": 0,
+        "sp": 0,
+        "ep": 0,
+        "gp": 0,
+        "pp": 0
+      }
+    },
+    "Gear": {
+      "templates": ["base", "physicalItem"],
+      "subtypes": ["Armor", "Consumable"]
+    },
+    "Armor": {
+      "templates": ["base", "physicalItem", "activatedEffect", "action", "mountable"],
       "armor": {
         "type": "light",
         "value": null,
@@ -207,33 +280,15 @@
       "stealth": false,
       "proficient": true
     },
-    "consumable": {
-      "templates": ["itemDescription", "physicalItem", "activatedEffect", "action"],
+    "Consumable": {
+      "templates": ["base", "physicalItem", "activatedEffect", "action"],
       "consumableType": "potion",
       "uses": {
         "autoDestroy": false
       }
     },
-    "container": {
-      "templates": ["itemDescription", "physicalItem"],
-      "capacity": {
-        "type": "weight",
-        "value": null,
-        "weightless": false
-      },
-      "currency": {
-        "cp": 0,
-        "sp": 0,
-        "ep": 0,
-        "gp": 0,
-        "pp": 0
-      }
-    },
-    "gear": {
-      "templates": ["itemDescription", "physicalItem"]
-    },
-    "ancestry": {
-      "templates": ["itemDescription"],
+    "Ancestry": {
+      "templates": ["base"],
       "identifier": "",
       "levels": 1,
       "hitDice": "d6",
@@ -250,8 +305,8 @@
         "ability": ""
       }
     },
-    "path": {
-      "templates": ["itemDescription"],
+    "Path": {
+      "templates": ["base"],
       "identifier": "",
       "levels": 1,
       "hitDice": "d6",
@@ -268,45 +323,43 @@
         "ability": ""
       }
     },
-    "talent": {
-      "templates": ["itemDescription", "activatedEffect", "action"],
+    "Talent": {
+      "templates": ["base", "activatedEffect", "action"],
+      "source": {
+        "value": "ancestry"
+      },
       "type": {
-        "value": "",
-        "subtype": ""
+        "value": "passive"
       },
-      "requirements": "",
+      "condition": {
+        "value": ""
+      }
+    },
+    "Spell": {
+      "templates": ["base", "activatedEffect", "action"],
+      "tier": {
+        "value": "starting"
+      },
+      "tradition": {
+        "value": ""
+      },
+      "requirement": {
+        "value": ""
+      },
+      "castings": {
+        "min": 1,
+        "value": 1,
+        "max": null
+      },
+      "casting": {
+        "value": ""
+      },
+      "target": {
+        "value": ""
+      },
       "recharge": {
         "value": null,
         "charged": false
-      }
-    },
-    "sense": {
-      
-    },
-    "spell": {
-      "templates": ["itemDescription", "activatedEffect", "action"],
-      "level": 1,
-      "school": "",
-      "components": {
-        "vocal": false,
-        "somatic": false,
-        "material": false,
-        "ritual": false,
-        "concentration": false
-      },
-      "materials": {
-        "value": "",
-        "consumed": false,
-        "cost": 0,
-        "supply": 0
-      },
-      "preparation": {
-        "mode": "prepared",
-        "prepared": false
-      },
-      "scaling": {
-        "mode": "none",
-        "formula": null
       }
     }
   }

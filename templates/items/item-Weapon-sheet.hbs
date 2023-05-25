@@ -1,0 +1,43 @@
+<form class="{{cssClass}}" autocomplete="off">
+  <header class="sheet-header"> {{!-- Header --}}
+    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+    <div class="header-fields">
+      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WEIRDWIZARD.ItemName"}}" /></h1>
+    </div>
+  </header>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    <div class="flex-row stat-inline flex-group-left">
+      <label class="resource-label">{{localize "WEIRDWIZARD.Damage"}}</label>
+      <input type="text" name="system.damage" value="{{system.damage}}" placeholder="1d6" style="width: 75px; text-align: center;" data-dtype="String" />
+      <div class="stat-inline flex-group-left">
+        <label class="resource-label ml-2">{{localize "WEIRDWIZARD.Hands"}}</label>
+        <select name="system.hands">
+          {{selectOptions handsObj selected=system.hands localize=true}}
+        </select>
+      </div>
+    </div>
+    <div class="flex-row stat-inline">
+      <label class="resource-label">{{localize "WEIRDWIZARD.Properties"}}</label>
+      <input type="text" name="system.properties" value="{{system.properties}}" placeholder="{{localize "WEIRDWIZARD.PropertiesPH"}}" data-dtype="String" />
+    </div>
+
+    <h2>{{localize "WEIRDWIZARD.Description"}}</h2>
+    {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
+
+    <h2>{{localize "WEIRDWIZARD.Settings"}}</h2>
+    <div class="flex-row stat-inline flex-group-left">
+      {{localize "WEIRDWIZARD.Boons.AlwaysRoll"}}
+      <select class="mx-1" name="system.attribute">
+        {{selectOptions attributesObj selected=system.attribute localize=true}}
+      </select>
+      {{localize "WEIRDWIZARD.Boons.With"}}
+      <input class="mx-1" type="number" name="system.boons" value="{{system.boons}}" placeholder="0"
+        data-dtype="Number" />
+      {{localize "WEIRDWIZARD.Boons.Or"}}
+    </div>
+
+  </section>
+</form>
