@@ -1,65 +1,43 @@
 {
-    "id": "weirdwizard",
-    "title": "Shadow of the Weird Wizard",
-    "description": "System built for the upcoming Shadow of the Weird Wizard fantasy game by Schwalb Entertainment..",
-    "version": "0.0.1",
-    "compatibility": {
-      "minimum": "10",
-      "verified": "10",
-      "maximum": "10"
-    },
-    "authors": [
-      {
-        "name": "Savantford",
-        "url": "YOUR WEBSITE ADDRESS HERE",
-        "email": "36486145+Savantford@users.noreply.github.com",
-        "discord": "YOUR DISCORD USERNAME HERE"
-      }
-    ],
-    "scripts": [
-      "scripts/system-script-1.js",
-      "scripts/system-script-2.js"
-    ],
-    "esmodules": [
-      "scripts/system-module-1.mjs"
-    ],
-    "styles": [
-      "styles/system-styles-1.css",
-      "styles/system-styles-2.css"
-    ],
-    "packs": [
-      {
-        "name": "monsters",
-        "label": "My Monsters",
-        "path": "packs/monsters.db",
-        "type": "Actor"
-      },
-      {
-        "name": "items",
-        "label": "My Items",
-        "path": "packs/items.db",
-        "type": "Item"
-      }
-    ],
+  "id": "weirdwizard",
+  "title": "Shadow of the Weird Wizard",
+  "description": "System built for the upcoming Shadow of the Weird Wizard fantasy game by Schwalb Entertainment.",
+  "version": "0.1",
+  "compatibility": {
+    "minimum": "10",
+    "verified": "11.305",
+    "maximum": ""
+  },
+  "authors": [
+    {
+      "name": "Savantford",
+      "url": "https://github.com/Savantford",
+      "discord": "@violencia",
+      "flags": {}
+    }
+  ],
+  "esmodules": ["module/weirdwizard.mjs"],
+  "styles": ["styles/weirdwizard.css"],
   "languages": [
-      {
-        "lang": "en",
-        "name": "English",
-        "path": "lang/en.json"
-      },
-      {
-        "lang": "pt-br",
-        "name": "Português (Brasil)",
-        "path": "lang/pt-br.json"
-      }
-    ],
-    "socket": false,
-    "initiative": "1d20",
-    "gridDistance": 30,
-    "gridUnits": "ft",
-    "primaryTokenAttribute": "resources.health",
-    "secondaryTokenAttribute": "resources.power",
-    "url": "https://your/hosted/system/repo/",
-    "manifest": "https://your/hosted/system/repo/system.json",
-    "download": "https://your/packaged/download/archive.zip"
-  }
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json",
+      "flags": {}
+    },
+    {
+      "lang": "pt",
+      "name": "Português (Brasil)",
+      "path": "lang/pt.json",
+      "flags": {}
+    }
+  ],
+  "initiative": "1d20",
+  "gridDistance": 30,
+  "gridUnits": "ft",
+  "primaryTokenAttribute": "health",
+  "secondaryTokenAttribute": "cp",
+  "url": "https://github.com/Savantford/foundry-weirdwizard/",
+  "manifest": "https://github.com/Savantford/foundry-weirdwizard/blob/main/system.json",
+  "download": "https://your/packaged/download/archive.zip"
+}
