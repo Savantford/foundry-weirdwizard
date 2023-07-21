@@ -39,5 +39,5 @@
   "secondaryTokenAttribute": "cp",
   "url": "https://github.com/Savantford/foundry-weirdwizard/",
   "manifest": "https://github.com/Savantford/foundry-weirdwizard/blob/main/system.json",
-  "download": "https://your/packaged/download/archive.zip"
+  "download": "https://github.com/Savantford/foundry-weirdwizard/archive/refs/tags/0.1.zip"
 }
