@@ -18,7 +18,6 @@ export class WeirdWizardItem extends Item {
 
   async _preCreate(data, options, user) {
     let icon = 'icons/svg/item-bag.svg';
-    //let name = 'icons/svg/item-bag.svg';
 
     switch (this.type) {
       case 'Container':
@@ -43,6 +42,26 @@ export class WeirdWizardItem extends Item {
 
       case 'Spell':
         icon = 'icons/svg/lightning.svg';
+        break;
+      
+      case 'Aura (NPC)':
+        icon = 'icons/svg/aura.svg';
+        break;
+      
+      case 'Talent (NPC)':
+        icon = 'icons/svg/card-hand.svg';
+        break;
+      
+      case 'Weapon (NPC)':
+        icon = 'icons/svg/sword.svg';
+        break;
+      
+      case 'Special Activity (NPC)':
+        icon = 'icons/svg/card-hand.svg';
+        break;
+      
+      case 'End of Round Effect (NPC)':
+        icon = 'icons/svg/card-hand.svg';
         break;
     }
 

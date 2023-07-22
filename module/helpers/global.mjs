@@ -5,7 +5,7 @@
 export const Global = {}
 
 Global.getAffBanes = function (system) {
-  let banes = -1;
+  let banes = 0;
   return banes
 }
 

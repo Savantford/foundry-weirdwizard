@@ -24,31 +24,13 @@
                     <label for="system.stats.health.total" class="resource-label">{{localize "WEIRDWIZARD.Damage"}} / {{localize "WEIRDWIZARD.Health.Title"}}</label>
                     <div class="flex-row flex-group-center">
                         <input type="number" name="damage" value="{{system.stats.damage.value}}" min="0" data-dtype="Number"/>
-                        <span> / {{system.stats.health.total}} <a class="health-edit" title="Edit Health"><i class="fas fa-edit"></i></a></span>
+                        <span class"ml-1">/ {{system.stats.health.total}} <a class="health-edit" title="Edit Health"><i class="fas fa-edit"></i></a></span>
                     </div>
                 </div>
                 <div class="stat flex-group-center">{{!-- Bonus Damage --}}
                     <label for="system.stats.bonusdamage.value" class="resource-label">{{localize "WEIRDWIZARD.BonusDamage"}}</label>
                     <div></div><input type="number" name="system.stats.bonusdamage.value" value="{{system.details.bonusdamage.value}}" data-dtype="Number" min="0" placeholder="1" />d6</div>
                 </div>
-                <!-- CT/MT
-                <div class="stat flex-group-center">{{!-- Combat Tokens --}}
-                    <label for="system.resources.ct.value" class="resource-label">{{localize "WEIRDWIZARD.CT"}}</label>
-                    <div class="flex-center">
-                    <input type="number" name="ct" value="{{system.resources.ct.value}}" min="0" data-dtype="Number"/>
-                    <span> / </span>
-                    <input type="number" name="ct_max" value="{{system.resources.ct.max}}" min="0" data-dtype="Number"/>
-                    </div>
-                </div>
-                <div class="stat flex-group-center">{{!-- Magic Tokens --}}
-                    <label for="system.resources.mt.value" class="resource-label">{{localize "WEIRDWIZARD.MT"}}</label>
-                    <div class="flex-center">
-                    <input type="number" name="mt" value="{{system.resources.mt.value}}" min="0" data-dtype="Number"/>
-                    <span> / </span>
-                    <input type="number" name="mt_max" value="{{system.resources.mt.max}}" min="0" data-dtype="Number"/>
-                    </div>
-                </div>
-                !-->
             </div>
         </div>
     </header>
@@ -97,7 +79,7 @@
                         <label for="defense" class="resource-label">{{localize "WEIRDWIZARD.Defense"}}</label>
                         <a class="defense-edit">{{system.stats.defense.total}}</a>
                         <label class="ml-1" for="health" class="resource-label">{{localize "WEIRDWIZARD.Health.Title"}}</label>
-                        <a class="defense-edit">{{system.stats.health.total}}</a>
+                        <a class="health-edit">{{system.stats.health.total}}</a>
                         <label class="ml-1" for="damage" class="resource-label">{{localize "WEIRDWIZARD.Damage"}}</label>
                         {{system.stats.damage.value}}
                     </div>
@@ -116,8 +98,10 @@
                     <div class="stat mt-1">{{!-- Size, Speed --}}
                         <label for="size" class="resource-label">{{localize "WEIRDWIZARD.Size"}}</label>
                         {{system.stats.size.value}}
+
                         <label class="ml-1" for="speed" class="resource-label">{{localize "WEIRDWIZARD.Speed"}}</label>
-                        {{system.details.speed.value}}
+                        {{system.stats.speed.value}}
+                        {{#if system.stats.speed.special}} ({{system.stats.speed.special}}){{/if}}
                     </div>
                     {{#if system.details.immune.value}}<div class="stat mt-1">{{!-- Immune --}}
                         <label class="" for="immune" class="resource-label">{{localize "WEIRDWIZARD.Immune"}}</label>
@@ -162,10 +146,11 @@
 
                 <div class="details-col flex-group-center">{{!-- Left Column --}}
                     <h2 class="detail-label">{{localize "WEIRDWIZARD.Traits"}}</h2>
-                    <div class="flex-row stat-inline">{{!-- Level & Ancestry --}}
+                    <div class="flex-row stat-inline">{{!-- Level, Ancestry --}}
                         <label for="system.stats.level.value" class="resource-label">{{localize "WEIRDWIZARD.Level"}}</label>
                         <input type="number" name="system.stats.level.value" value="{{system.stats.level.value}}" min="1" data-dtype="Number"/>
-                        <label for="system.details.ancestry.value" class="resource-label ml-1">{{localize "WEIRDWIZARD.Ancestry"}}</label>
+
+                        <label for="system.details.ancestry.value" class="resource-label ml-2">{{localize "WEIRDWIZARD.Ancestry"}}</label>
                         <input type="text" name="system.details.ancestry.value" value="{{system.details.ancestry.value}}" data-dtype="String"/>
                     </div>
                     <div class="flex-row stat-inline flex-group-left">{{!-- Type --}}
@@ -178,9 +163,11 @@
                     </div>
                     <div class="flex-row stat-inline flex-group-left">{{!-- Size, Speed --}}
                         <label for="system.stats.size.value" class="resource-label">{{localize "WEIRDWIZARD.Size"}}</label>
-                        <input type="number" name="system.stats.size.value" value="{{system.stats.size.value}}" data-dtype="Number" placeholder="1"/>
-                        <label for="system.details.speed.value" class="resource-label ml-2">{{localize "WEIRDWIZARD.Speed"}}</label>
-                        <input type="text" name="system.details.speed.value" value="{{system.details.speed.value}}" data-dtype="String" placeholder="{{localize "WEIRDWIZARD.SpeedPH"}}"/>
+                        <input type="number" name="system.stats.size.value" value="{{system.stats.size.value}}" data-dtype="Number" placeholder="#"/>
+
+                        <label for="system.stats.speed.value" class="resource-label ml-2">{{localize "WEIRDWIZARD.Speed"}}</label>
+                        <input class="mr-1" type="number" name="system.stats.speed.value" value="{{system.stats.speed.value}}" data-dtype="Number" min="0"/ placeholder="#">
+                        <input type="text" name="system.stats.speed.special" value="{{system.stats.speed.special}}" data-dtype="String" placeholder="{{localize "WEIRDWIZARD.SpeedPH"}}" title="{{localize "WEIRDWIZARD.SpeedTip"}}"/>
                     </div>
                     <div class="flex-row stat-inline flex-group-left">{{!-- Immune --}}
                         <label for="system.details.immune.value" class="resource-label">{{localize "WEIRDWIZARD.Immune"}}</label>

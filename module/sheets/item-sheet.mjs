@@ -76,6 +76,29 @@ export class WeirdWizardItemSheet extends ItemSheet {
         //context.sourcesObj = CONFIG.WEIRDWIZARD.dropdownSources;
         context.attributesObj = CONFIG.WEIRDWIZARD.dropdownAttributes;
         break;
+      
+      case 'Aura (NPC)':
+        context.frequenciesObj = CONFIG.WEIRDWIZARD.dropdownFrequencies;
+        context.attributesObj = CONFIG.WEIRDWIZARD.dropdownAttributes;
+        break;
+
+      case 'Talent (NPC)':
+        context.frequenciesObj = CONFIG.WEIRDWIZARD.dropdownFrequencies;
+        context.attributesObj = CONFIG.WEIRDWIZARD.dropdownAttributes;
+        break;
+      case 'Weapon (NPC)':
+        context.frequenciesObj = CONFIG.WEIRDWIZARD.dropdownFrequencies;
+        context.attributesObj = CONFIG.WEIRDWIZARD.dropdownAttributes;
+        break;
+      case 'Special Activity (NPC)':
+        context.frequenciesObj = CONFIG.WEIRDWIZARD.dropdownFrequencies;
+        context.attributesObj = CONFIG.WEIRDWIZARD.dropdownAttributes;
+        break;
+
+      case 'End of Round Effect (NPC)':
+        context.frequenciesObj = CONFIG.WEIRDWIZARD.dropdownFrequencies;
+        context.attributesObj = CONFIG.WEIRDWIZARD.dropdownAttributes;
+        break;
     }
 
     return context;
