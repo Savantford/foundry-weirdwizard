@@ -13,3 +13,10 @@ Please read the instructions below to install it manually.
 3. Click on the `Install System` button at the top.
 4. On the new window, go to the bottom and use `https://raw.githubusercontent.com/Savantford/foundry-weirdwizard/main/system.json` as the Manifest URL.
 5. Click on `Install`. Done!
+
+# Bugs & Feedback
+If you want to report a bug or share feedback about the system, please join the `SotDL for Foundry VTT` Discord server and then talk to me in the `#weirdwizard` channel. I'm `Friend / Fatlus` there, by the way!
+
+For a comprehensive list of bug reports and feedback given, please check our [Notion's board](https://www.notion.so/gado-publishing/Foundry-s-Weird-Wizard-Issues-59094762fce441269199d10747e1c807) or the [Issues](https://github.com/Savantford/foundry-weirdwizard/issues) here in GitHub.
+
+Thank you for all the reports and feedback!
