@@ -2,10 +2,10 @@
   "id": "weirdwizard",
   "title": "Shadow of the Weird Wizard",
   "description": "System built for the upcoming Shadow of the Weird Wizard fantasy game by Schwalb Entertainment.",
-  "version": "0.1",
+  "version": "0.2",
   "compatibility": {
     "minimum": "10",
-    "verified": "11.305",
+    "verified": "11.306",
     "maximum": ""
   },
   "authors": [

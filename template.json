@@ -22,9 +22,6 @@
           }
         },
         "stats": {
-          "level": {
-            "value": 1
-          },
           "defense": {
             "total": 10,
             "unarmored": 10,
@@ -52,6 +49,10 @@
           },
           "size": {
             "value": 1
+          },
+          "speed": {
+            "value": 5,
+            "special": ""
           }
         },
         "details": {
@@ -66,9 +67,6 @@
           },
           "immune": {
             "value": ""
-          },
-          "speed": {
-            "value": "5"
           }
         }
       }
@@ -171,11 +169,11 @@
     }
   },
   "Item": {
-    "types": ["Weapon", "Container", "Gear", "Ancestry", "Path", "Talent", "Spell"],
+    "types": ["Weapon", "Container", "Gear", "Ancestry", "Path", "Talent", "Spell", "Aura (NPC)", "Talent (NPC)", "Weapon (NPC)", "Special Activity (NPC)", "End of Round Effect (NPC)"],
     "templates": {
       "base": {
         "description": {
-          "value": "<p></p>",
+          "value": "",
           "chat": "",
           "unidentified": ""
         }
@@ -243,7 +241,10 @@
       "templates": ["base", "physicalItem" ,"activatedEffect", "action", "mountable"],
       "damage": "1d6",
       "hands": "One",
-      "properties": ""
+      "properties": "",
+      "description": {
+        "value": "<p></p>"
+      }
     },
     "Container": {
       "templates": ["base", "physicalItem"],
@@ -251,18 +252,14 @@
         "type": "weight",
         "value": null,
         "weightless": false
-      },
-      "currency": {
-        "cp": 0,
-        "sp": 0,
-        "ep": 0,
-        "gp": 0,
-        "pp": 0
       }
     },
     "Gear": {
       "templates": ["base", "physicalItem"],
-      "subtypes": ["Armor", "Consumable"]
+      "subtypes": ["Armor", "Consumable"],
+      "description": {
+        "value": "<p></p>"
+      }
     },
     "Armor": {
       "templates": ["base", "physicalItem", "activatedEffect", "action", "mountable"],
@@ -361,6 +358,26 @@
         "value": null,
         "charged": false
       }
+    },
+    "Aura (NPC)": {
+      "templates": ["base", "activatedEffect", "action"]
+    },
+    "Talent (NPC)": {
+      "templates": ["base", "activatedEffect", "action"]
+    },
+    "Weapon (NPC)": {
+      "templates": ["base", "activatedEffect", "action"],
+      "damage": "1d6",
+      "properties": "",
+      "description": {
+        "value": "<p></p>"
+      }
+    },
+    "Special Activity (NPC)": {
+      "templates": ["base", "activatedEffect", "action"]
+    },
+    "End of Round Effect (NPC)": {
+      "templates": ["base", "activatedEffect", "action"]
     }
   }
 }
