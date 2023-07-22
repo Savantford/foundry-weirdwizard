@@ -7,7 +7,7 @@ export class defenseDetails extends FormApplication {
   static get defaultOptions() {
     const options = super.defaultOptions;
     options.id = "defense-details";
-    options.template = "systems/weirdwizard/templates/defense-details.hbs";
+    options.template = "systems/weirdwizard/templates/apps/defense-details.hbs";
     options.height = "auto";
     options.width = 450;
     options.title = "Defense Details";

@@ -1,0 +1,308 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+    <header class="sheet-header">{{!-- Sheet Header --}}
+        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
+        <div class="header-fields npc">
+            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WEIRDWIZARD.ActorName"}}"/></h1>
+
+            <nav class="mt-2 sheet-tabs tabs npc-tabs" data-group="primary">{{!-- Sheet Tab Navigation --}}
+                <a class="item" data-tab="description">{{localize "WEIRDWIZARD.Description"}}</a>
+                <a class="item" data-tab="summary">{{localize "WEIRDWIZARD.Summary"}}</a>
+                <a class="item" data-tab="stats">{{localize "WEIRDWIZARD.Stats"}}</a>
+            </nav>
+        </div>
+    </header>
+
+    
+
+    <section class="sheet-body"> {{!-- Sheet Body --}}
+
+        <div class="tab description" data-group="primary" data-tab="description">{{!-- Description Tab --}}
+            {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
+        </div>
+
+        <div class="tab summary" data-group="primary" data-tab="summary">{{!-- Summary Tab --}}
+            <div class="resources grid grid-2col">
+
+                <div class="">{{!-- Left Column --}}
+                    <h3>{{localize "WEIRDWIZARD.Stats"}}</h3>
+                    <div class="stat">{{!-- Level, Type --}}
+                        <label for="level" class="resource-label">{{localize "WEIRDWIZARD.Level"}}</label>
+                        {{system.stats.level.value}}
+
+                        <label class="ml-2" for="type" class="resource-label">{{localize "WEIRDWIZARD.Type"}}</label>
+                        {{system.details.type.value}}
+                    </div>
+
+                    <div class="mt-1">{{!-- Auras --}}
+                        <ol class="described-list">
+                        {{#each auras as |item id|}}
+                            <li class="item item-edit" data-item-id="{{item._id}}">
+                                <a>{{item.name}}</a> ({{localize "WEIRDWIZARD.Aura"}} {{item.system.range}}) {{item.system.description.value}}
+                            </li>
+                        {{/each}}
+                        </ol>
+                    </div>
+
+                    <div class="stat">{{!-- Senses --}}
+                        {{#if system.details.senses.value}}<label for="senses" class="resource-label">{{localize "WEIRDWIZARD.Senses"}}</label>
+                        {{system.details.senses.value}}{{/if}}
+                    </div>
+                    <div class="stat mt-1">{{!-- Languages --}}
+                        {{#if system.details.languages.value}}<label class="" for="languages" class="resource-label">{{localize "WEIRDWIZARD.Languages"}}</label>
+                        {{system.details.languages.value}}{{/if}}
+                    </div>
+                   
+                    <div class="stat">{{!-- Defense --}}
+                        <label for="defense" class="resource-label">{{localize "WEIRDWIZARD.Defense"}}</label>
+                        {{system.stats.defense.total}}{{#if system.stats.defense.details}} ({{system.stats.defense.details}}){{/if}}
+                    </div>
+                    <div class="stat mt-1">{{!-- Health, Damage --}}
+                        <label for="health" class="resource-label">{{localize "WEIRDWIZARD.Health.Title"}}</label>
+                        {{system.stats.health.total}}
+
+                        <label class="ml-1" for="damage" class="resource-label">{{localize "WEIRDWIZARD.Damage"}}</label>
+                        {{system.stats.damage.value}}
+                    </div>
+
+                    <div class="stat mt-1">{{!-- Attributes 1 --}}
+                        <label for="str" class="resource-label">{{localize "WEIRDWIZARD.Strength"}}</label>
+                        <a class="attribute-mod rollable" data-label="Strength">{{system.attributes.str.value}} ({{numberFormat system.attributes.str.mod decimals=0 sign=true}})</a>
+
+                        <label class="ml-1" for="agi" class="resource-label">{{localize "WEIRDWIZARD.Agility"}}</label>
+                        <a class="attribute-mod rollable" data-label="Agility">{{system.attributes.agi.value}} ({{numberFormat system.attributes.agi.mod decimals=0 sign=true}})</a>
+                    </div>
+                    <div class="stat">{{!-- Attributes 2 --}}
+                        <label for="int" class="resource-label">{{localize "WEIRDWIZARD.Intellect"}}</label>
+                        <a class="attribute-mod rollable" data-label="Intellect">{{system.attributes.int.value}} ({{numberFormat system.attributes.int.mod decimals=0 sign=true}})</a>
+
+                        <label class="ml-1" for="wil" class="resource-label">{{localize "WEIRDWIZARD.Will"}}</label>
+                        <a class="attribute-mod rollable" data-label="Will">{{system.attributes.wil.value}} ({{numberFormat system.attributes.wil.mod decimals=0 sign=true}})</a>
+
+                    </div>
+
+                    <div class="stat mb-1 mt-1">{{!-- Size, Speed --}}
+                        <label for="size" class="resource-label">{{localize "WEIRDWIZARD.Size"}}</label>
+                        {{system.stats.size.value}}
+
+                        <label class="ml-1" for="speed" class="resource-label">{{localize "WEIRDWIZARD.Speed"}}</label>
+                        {{system.stats.speed.value}}
+                        {{#if system.stats.speed.special}} ({{system.stats.speed.special}}){{/if}}
+                    </div>
+
+                    {{#if system.details.immune.value}}<div class="stat mt-1">{{!-- Immune --}}
+                        <label class="mb-1" for="immune" class="resource-label">{{localize "WEIRDWIZARD.Immune"}}</label>
+                        {{system.details.immune.value}}
+                    </div>{{/if}}
+
+                    <ol class="described-list">{{!-- Talents --}}
+                    {{#each talents as |item id|}}
+                        <li class="item item-edit" data-item-id="{{item._id}}"><a>{{item.name}}</a></li>
+                    {{/each}}
+                    </ol>
+                    
+                </div>
+
+                <div>{{!-- Right Column --}}
+                    <h3>{{localize "WEIRDWIZARD.Weapons"}}</h3>
+                    <div class="mt-1">
+                        <ol class="attack-list">
+                        {{#each weapons as |item id|}}
+                            <li class="item item-edit" data-item-id="{{item._id}}">
+                                <a>{{item.name}}</a> ({{item.system.damage}}{{#if item.system.properties}}, {{item.system.properties}}{{/if}})
+                            </li>
+                        {{/each}}
+                        </ol>
+                    </div>
+
+                    <h3 class="mt-2">{{localize "WEIRDWIZARD.SpecialActivities"}}</h3>
+                    <ol class="described-list">
+                    {{#each activities as |item id|}}
+                        <li class="item item-edit" data-item-id="{{item._id}}"><a>{{item.name}}</a></li> {{item.system.description.value}}
+                    {{/each}}
+                    </ol>
+
+                    <h3 class="mt-2">{{localize "WEIRDWIZARD.EndOfRoundEffects"}}</h3>
+                    <ol class="described-list">
+                    {{#each end as |item id|}}
+                        <li class="item item-edit" data-item-id="{{item._id}}"><a>{{item.name}}</a></li> {{item.system.description.value}}
+                    {{/each}}
+                    </ol>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="tab stats" data-group="primary" data-tab="stats">{{!-- Stats Tab --}}
+            <div class="stats grid grid-2col">
+
+                <div class="details-col flex-group-center">{{!-- Left Column --}}
+
+                    <div class="flex-row stat-inline">{{!-- Level, Type --}}
+                        <label for="system.stats.level.value" class="resource-label">{{localize "WEIRDWIZARD.Level"}}</label>
+                        <input type="number" name="system.stats.level.value" value="{{system.stats.level.value}}" min="1" data-dtype="Number"/>
+
+                        <label for="system.details.type.value" class="resource-label ml-2">{{localize "WEIRDWIZARD.Type"}}</label>
+                        <input type="text" name="system.details.type.value" value="{{system.details.type.value}}" data-dtype="String"/>
+                    </div>
+                    <div class="flex-row stat-inline flex-group-left">{{!-- Senses --}}
+                        <label for="system.details.senses.value" class="resource-label">{{localize "WEIRDWIZARD.Senses"}}</label>
+                        <input type="text" name="system.details.senses.value" value="{{system.details.senses.value}}" data-dtype="String"/>
+                    </div>
+                    <div class="flex-row stat-inline flex-group-left">{{!-- Languages --}}
+                        <label for="system.details.languages.value" class="resource-label">{{localize "WEIRDWIZARD.Languages"}}</label>
+                        <input type="text" name="system.details.languages.value" value="{{system.details.languages.value}}" data-dtype="String" placeholder="{{localize "WEIRDWIZARD.LanguagesPH"}}"/>
+                    </div>
+
+                    <ol class="items-list">{{!-- Auras --}}
+                        <li class="item flexrow item-header">
+                            <div class="item-image"></div>
+                            <div class="item-name">{{localize "WEIRDWIZARD.Name"}}</div>
+                            <div class="item-controls">
+                                <a class="item-control item-create" title="Create item" data-type="Aura (NPC)"><i class="fas fa-plus"></i> Add aura</a>
+                            </div>
+                        </li>
+                        {{#each auras as |item id|}}
+                        <li class="item flexrow flex-group-left" data-item-id="{{item._id}}">
+                            <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
+                            <h4 class="item-name">{{item.name}}</h4> 
+                            <div class="item-controls">
+                                <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                                <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ol>
+
+                    <div class="mt-2 flex-row stat-inline flex-group-left">{{!-- Defense --}}
+                        <label for="system.stats.defense.total" class="resource-label">{{localize "WEIRDWIZARD.Defense"}}</label>
+                        <input class="mr-1" type="number" name="defense" value="{{system.stats.defense.total}}" min="0" data-dtype="Number"/>
+                        <input type="text" name="defense-details" value="{{system.stats.defense.details}}" data-dtype="String" placeholder="{{localize "WEIRDWIZARD.DefenseDetails"}}"/>
+                    </div>
+                    <div class="flex-row stat-inline flex-group-left">{{!-- Damage / Health --}}
+                        <label for="system.stats.health.total" class="resource-label">{{localize "WEIRDWIZARD.Damage"}} / {{localize "WEIRDWIZARD.Health.Title"}}</label>
+                        <div class="flex-row flex-group-center">
+                            <input type="number" name="damage" value="{{system.stats.damage.value}}" min="0" data-dtype="Number"/>
+                            <span class="mx-1">/</span>
+                            <input type="number" name="health" value="{{system.stats.health.total}}" min="0" data-dtype="Number"/>
+                        </div>
+                    </div>
+
+                    <div class="mt-1 flex-row stat-inline flex-group-left">{{!-- Attributes 1 --}}
+                        <label for="str" class="resource-label">{{localize "WEIRDWIZARD.Strength"}}</label>
+                        <input class="mr-1" type="number" name="str" value="{{system.attributes.str.value}}" min="0" data-dtype="Number"/> <a class="attribute-mod rollable" data-label="Strength">{{numberFormat system.attributes.str.mod decimals=0 sign=true}}</a>
+
+                        <label class="ml-1" for="agi" class="resource-label">{{localize "WEIRDWIZARD.Agility"}}</label>
+                        <input class="mr-1" type="number" name="agi" value="{{system.attributes.agi.value}}" min="0" data-dtype="Number"/> <a class="attribute-mod rollable" data-label="Agility">{{numberFormat system.attributes.agi.mod decimals=0 sign=true}}</a>
+
+                    </div>
+                    <div class="mt-1 flex-row stat-inline flex-group-left">{{!-- Attributes 2 --}}
+                        <label for="int" class="resource-label">{{localize "WEIRDWIZARD.Intellect"}}</label>
+                        <input class="mr-1" type="number" name="int" value="{{system.attributes.int.value}}" min="0" data-dtype="Number"/> <a class="attribute-mod rollable" data-label="Intellect">{{numberFormat system.attributes.int.mod decimals=0 sign=true}}</a>
+
+                        <label class="ml-1" for="wil" class="resource-label">{{localize "WEIRDWIZARD.Will"}}</label>
+                        <input class="mr-1" type="number" name="wil" value="{{system.attributes.wil.value}}" min="0" data-dtype="Number"/> <a class="attribute-mod rollable" data-label="Will">{{numberFormat system.attributes.wil.mod decimals=0 sign=true}}</a>
+                    </div>
+
+                    <div class="mt-1 flex-row stat-inline flex-group-left">{{!-- Size, Speed --}}
+                        <label for="system.stats.size.value" class="resource-label">{{localize "WEIRDWIZARD.Size"}}</label>
+                        <input type="number" name="system.stats.size.value" value="{{system.stats.size.value}}" data-dtype="Number" placeholder="#"/>
+
+                        <label for="system.stats.speed.value" class="resource-label ml-2">{{localize "WEIRDWIZARD.Speed"}}</label>
+                        <input class="mr-1" type="number" name="system.stats.speed.value" value="{{system.stats.speed.value}}" data-dtype="Number" min="0"/ placeholder="#">
+                        <input type="text" name="system.stats.speed.special" value="{{system.stats.speed.special}}" data-dtype="String" placeholder="{{localize "WEIRDWIZARD.SpeedPH"}}" title="{{localize "WEIRDWIZARD.SpeedTip"}}"/>
+                    </div>
+                    <div class="flex-row stat-inline flex-group-left">{{!-- Immune --}}
+                        <label for="system.details.immune.value" class="resource-label">{{localize "WEIRDWIZARD.Immune"}}</label>
+                        <input type="text" name="system.details.immune.value" value="{{system.details.immune.value}}" data-dtype="String" placeholder="{{localize "WEIRDWIZARD.ImmunePH"}}"/>
+                    </div>
+
+                </div>
+
+                <div class="details-col flex-group-center">{{!-- Right Column --}}
+
+                    <ol class="items-list">{{!-- Talents --}}
+                        <li class="item flexrow item-header">
+                            <div class="item-image"></div>
+                            <div class="item-name">{{localize "WEIRDWIZARD.Name"}}</div>
+                            <div class="item-controls">
+                                <a class="item-control item-create" title="Create item" data-type="Talent (NPC)"><i class="fas fa-plus"></i> Add talent</a>
+                            </div>
+                        </li>
+                        {{#each talents as |item id|}}
+                        <li class="item flexrow flex-group-left" data-item-id="{{item._id}}">
+                            <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
+                            <h4 class="item-name">{{item.name}}</h4> 
+                            <div class="item-controls">
+                                <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                                <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ol>
+
+                    <ol class="items-list">{{!-- Weapons --}}
+                        <li class="item flexrow item-header">
+                            <div class="item-image"></div>
+                            <div class="item-name">{{localize "WEIRDWIZARD.Name"}}</div>
+                            <div class="item-controls">
+                                <a class="item-control item-create" title="Create item" data-type="Weapon (NPC)"><i class="fas fa-plus"></i> Add weapon</a>
+                            </div>
+                        </li>
+                        {{#each weapons as |item id|}}
+                        <li class="item flexrow flex-group-left" data-item-id="{{item._id}}">
+                            <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
+                            <h4 class="item-name">{{item.name}}</h4> 
+                            <div class="item-controls">
+                                <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                                <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ol>
+
+                    <ol class="items-list">{{!-- Special Activities --}}
+                        <li class="item flexrow item-header">
+                            <div class="item-image"></div>
+                            <div class="item-name">{{localize "WEIRDWIZARD.Name"}}</div>
+                            <div class="item-controls">
+                                <a class="item-control item-create" title="Create item" data-type="Special Activity (NPC)"><i class="fas fa-plus"></i> Add special activity</a>
+                            </div>
+                        </li>
+                        {{#each activities as |item id|}}
+                        <li class="item flexrow flex-group-left" data-item-id="{{item._id}}">
+                            <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
+                            <h4 class="item-name">{{item.name}}</h4> 
+                            <div class="item-controls">
+                                <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                                <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ol>
+
+                    <ol class="items-list">{{!-- End of Round Effects --}}
+                        <li class="item flexrow item-header">
+                            <div class="item-image"></div>
+                            <div class="item-name">{{localize "WEIRDWIZARD.Name"}}</div>
+                            <div class="item-controls">
+                                <a class="item-control item-create" title="Create item" data-type="End of Round Effect (NPC)"><i class="fas fa-plus"></i> Add end of round effect</a>
+                            </div>
+                        </li>
+                        {{#each end as |item id|}}
+                        <li class="item flexrow flex-group-left" data-item-id="{{item._id}}">
+                            <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
+                            <h4 class="item-name">{{item.name}}</h4> 
+                            <div class="item-controls">
+                                <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                                <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</form>

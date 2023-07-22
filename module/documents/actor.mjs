@@ -7,19 +7,33 @@ export class WeirdWizardActor extends Actor {
 
     /** @override */
     prepareData() {
-      // Prepare data for the actor. Calling the super version of this executes
-      // the following, in order: data reset (to clear active effects),
-      // prepareBaseData(), prepareEmbeddedDocuments() (including active effects),
-      // prepareDerivedData().
-      super.prepareData();
+        // Prepare data for the actor. Calling the super version of this executes
+        // the following, in order: data reset (to clear active effects),
+        // prepareBaseData(), prepareEmbeddedDocuments() (including active effects),
+        // prepareDerivedData().
+        super.prepareData();
     }
-  
+
     /** @override */
     prepareBaseData() {
-      // Data modifications in this step occur before processing embedded
-      // documents or derived data.
+        // Data modifications in this step occur before processing embedded
+        // documents or derived data.
     }
-  
+
+    async _preCreate(data, options, user) {
+        let icon = 'icons/svg/mystery-man.svg';
+
+        switch (this.type) {
+            case 'NPC':
+                icon = 'icons/svg/mystery-man-black.svg';
+                break;
+        }
+
+        await this.updateSource({ img: icon });
+
+        return await super._preCreate(data, options, user);
+    }
+
     /**
      * @override
      * Augment the basic actor data with additional dynamic data. Typically,
@@ -31,13 +45,13 @@ export class WeirdWizardActor extends Actor {
     */
 
     prepareDerivedData() {
-      const system = this.system;
-      const flags = this.flags.weirdwizard || {};
-  
-      // Make separate methods for each Actor type (character, npc, etc.) to keep
-      // things organized.
-      this._prepareCharacterData(system);
-      this._prepareNpcData(system);
+        const system = this.system;
+        const flags = this.flags.weirdwizard || {};
+
+        // Make separate methods for each Actor type (character, npc, etc.) to keep
+        // things organized.
+        this._prepareCharacterData(system);
+        this._prepareNpcData(system);
     }
 
     /**
@@ -46,10 +60,7 @@ export class WeirdWizardActor extends Actor {
 
     _prepareCharacterData(system) {
         if (this.type !== 'Character') return;
-    
-        // Make modifications to data here. For example:
-        //const system = actorData;
-    
+
         // Loop through attributes, and add their modifiers calculated with DLE rules to our sheet output.
         for (let [key, attribute] of Object.entries(system.attributes)) {
             attribute.mod = Math.floor(attribute.value - 10);
@@ -60,12 +71,13 @@ export class WeirdWizardActor extends Actor {
     * Prepare NPC type specific data.
     */
 
-    _prepareNpcData(actorData) {
+    _prepareNpcData(system) {
         if (this.type !== 'NPC') return;
-    
-        // Make modifications to data here. For example:
-        /*const data = system.data;
-        data.xp = (data.cr * data.cr) * 100;*/
+
+        // Loop through attributes, and add their modifiers calculated with DLE rules to our sheet output.
+        for (let [key, attribute] of Object.entries(system.attributes)) {
+            attribute.mod = Math.floor(attribute.value - 10);
+        }
     }
 
     /**
@@ -74,20 +86,21 @@ export class WeirdWizardActor extends Actor {
 
     getRollData() {
         const data = super.getRollData();
-    
+
         // Prepare character roll data.
         this._getCharacterRollData(data);
         this._getNpcRollData(data);
-    
+
         return data;
     }
-  
+
     /**
     * Prepare character roll data.
     */
+
     _getCharacterRollData(system) {
         if (this.type !== 'Character') return;
-    
+
         // Copy the attribute scores to the top level, so that rolls can use
         // formulas like `@str.mod + 4`.
         if (system.attributes) {
@@ -95,19 +108,20 @@ export class WeirdWizardActor extends Actor {
                 system[k] = foundry.utils.deepClone(v);
             }
         }
-    
+
         // Add level for easier access, or fall back to 0.
         if (system.stats.level) {
             system.lvl = system.stats.level.value ?? 0;
         }
     }
-  
+
     /**
     * Prepare NPC roll data.
     */
+
     _getNpcRollData(system) {
         if (this.type !== 'NPC') return;
-    
+
         // Process additional NPC data here.
     }
 

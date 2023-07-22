@@ -99,18 +99,26 @@ export class WeirdWizardActorSheet extends ActorSheet {
     const talents = [];
     const spells = [];
     const weapons = [];
+    const auras = [];
+    const activities = [];
+    const end = [];
 
     // Iterate through items, allocating to containers
     for (let i of context.items) {
-      let item = i;
+      //let item = i;
       i.img = i.img || DEFAULT_TOKEN;
 
       // Append to gear.
       if (i.type === 'Gear') {
         gear.push(i);
       }
+      // Append to weapons.
+      else if (i.type === 'Weapon' || i.type === 'Weapon (NPC)') {
+        weapons.push(i);
+        
+      }
       // Append to talents.
-      else if (i.type === 'Talent') {
+      else if (i.type === 'Talent' || i.type === 'Talent (NPC)') {
         talents.push(i);
       }
       // Append to spells.
@@ -120,9 +128,17 @@ export class WeirdWizardActorSheet extends ActorSheet {
         }*/
         spells.push(i);
       }
-      // Append to weapons.
-      else if (i.type === 'Weapon') {
-        weapons.push(i);
+      // Append to auras.
+      else if (i.type === 'Aura (NPC)') {
+        auras.push(i);
+      }
+      // Append to activities.
+      else if (i.type === 'Special Activity (NPC)') {
+        activities.push(i);
+      }
+      // Append to end.
+      else if (i.type === 'End of Round Effect (NPC)') {
+        end.push(i);
       }
     }
 
@@ -155,9 +171,12 @@ export class WeirdWizardActorSheet extends ActorSheet {
 
     // Assign and return
     context.gear = gear;
+    context.weapons = weapons;
     context.talents = talents;
     context.spells = spells;
-    context.weapons = weapons;
+    context.auras = auras;
+    context.activities = activities;
+    context.end = end;
   }
 
   /**

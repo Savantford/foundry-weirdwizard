@@ -19,12 +19,11 @@
     "WEIRDWIZARD.ImmunePH": "poisoned",
     "WEIRDWIZARD.Size": "Size",
     "WEIRDWIZARD.Speed": "Speed",
-    "WEIRDWIZARD.SpeedPH": "5 (fly)",
+    "WEIRDWIZARD.SpeedPH": "fly",
+    "WEIRDWIZARD.SpeedTip": "special form of movement",
     "WEIRDWIZARD.Damage": "Damage",
     "WEIRDWIZARD.BonusDamage": "Bonus Damage",
     "WEIRDWIZARD.Healing": "Healing",
-    "WEIRDWIZARD.CT": "Combat Tokens",
-    "WEIRDWIZARD.MT": "Magic Tokens",
 
     "WEIRDWIZARD.Health": {
         "Title": "Health",
@@ -54,7 +53,8 @@
         "FullPlate": "Full Plate Armor"
     },
     "WEIRDWIZARD.DefenseTotal": "Defense Total",
-    "WEIRDWIZARD.DefenseUnarmored": "Unarmored Defense",
+    "WEIRDWIZARD.DefenseNatural": "Natural Defense",
+    "WEIRDWIZARD.DefenseDetails": "(armor, if any, shield, if any)",
     "WEIRDWIZARD.ModName": "Modifier Name",
     "WEIRDWIZARD.Value": "Value",
     "WEIRDWIZARD.New": "New",
@@ -118,6 +118,11 @@
     "WEIRDWIZARD.WeightUnit": "Weight per Unit",
 
     "WEIRDWIZARD.Talents": "Traits & Talents",
+    "WEIRDWIZARD.Aura": "Aura",
+    "WEIRDWIZARD.Range": "Range",
+    "WEIRDWIZARD.SpecialActivities": "Special Activities",
+    "WEIRDWIZARD.EndOfRoundEffects": "End of Round Effects",
+
     "WEIRDWIZARD.Name": "Name",
     "WEIRDWIZARD.Source": "Source",
     "WEIRDWIZARD.SourceChoices": {

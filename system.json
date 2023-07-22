@@ -2,10 +2,13 @@
   "id": "weirdwizard",
   "title": "Shadow of the Weird Wizard",
   "description": "System built for the upcoming Shadow of the Weird Wizard fantasy game by Schwalb Entertainment.",
-  "version": "0.1",
+  "version": "#{VERSION}#",
+  "url": "#{URL}#",
+  "manifest": "#{MANIFEST}#",
+  "download": "#{DOWNLOAD}#",
   "compatibility": {
     "minimum": "10",
-    "verified": "11.305",
+    "verified": "11.306",
     "maximum": ""
   },
   "authors": [
@@ -36,8 +39,5 @@
   "gridDistance": 30,
   "gridUnits": "ft",
   "primaryTokenAttribute": "health",
-  "secondaryTokenAttribute": "cp",
-  "url": "https://github.com/Savantford/foundry-weirdwizard/",
-  "manifest": "https://github.com/Savantford/foundry-weirdwizard/blob/main/system.json",
-  "download": "https://github.com/Savantford/foundry-weirdwizard/archive/refs/tags/0.1.zip"
+  "secondaryTokenAttribute": "cp"
 }
