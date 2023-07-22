@@ -17,6 +17,6 @@ Please read the instructions below to install it manually.
 # Bugs & Feedback
 If you want to report a bug or share feedback about the system, please do it in `SotDL for Foundry VTT` in the `#weirdwizard` channel ([here](https://www.notion.so/gado-publishing/Foundry-s-Weird-Wizard-Issues-59094762fce441269199d10747e1c807). I'm `Friend / Fatlus` there, by the way!
 
-For a comprehensive list of bug reports and feedback given, please check our [Notion's board](https://www.notion.so/gado-publishing/Foundry-s-Weird-Wizard-Issues-59094762fce441269199d10747e1c807)https://www.notion.so/gado-publishing/Foundry-s-Weird-Wizard-Issues-59094762fce441269199d10747e1c807 or the [Issues](https://github.com/Savantford/foundry-weirdwizard/issues)https://github.com/Savantford/foundry-weirdwizard/issues here in GitHub.
+For a comprehensive list of bug reports and feedback given, please check our [Notion's board](https://www.notion.so/gado-publishing/Foundry-s-Weird-Wizard-Issues-59094762fce441269199d10747e1c807) or the [Issues](https://github.com/Savantford/foundry-weirdwizard/issues) here in GitHub.
 
 Thank you for all the reports and feedback!
