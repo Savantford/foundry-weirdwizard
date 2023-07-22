@@ -3,6 +3,9 @@
   "title": "Shadow of the Weird Wizard",
   "description": "System built for the upcoming Shadow of the Weird Wizard fantasy game by Schwalb Entertainment.",
   "version": "#{VERSION}#",
+  "url": "#{URL}#",
+  "manifest": "#{MANIFEST}#",
+  "download": "#{DOWNLOAD}#",
   "compatibility": {
     "minimum": "10",
     "verified": "11.306",
@@ -36,8 +39,5 @@
   "gridDistance": 30,
   "gridUnits": "ft",
   "primaryTokenAttribute": "health",
-  "secondaryTokenAttribute": "cp",
-  "url": "#{URL}#",
-  "manifest": "#{MANIFEST}#",
-  "download": "#{DOWNLOAD}#"
+  "secondaryTokenAttribute": "cp"
 }

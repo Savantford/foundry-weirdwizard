@@ -345,6 +345,9 @@
   height: 100%;
   margin: 0;
 }
+.weirdwizard .npc h1.charname  {
+  margin: 5px 0 15px;
+}
 .weirdwizard .sheet-tabs {
   -webkit-box-flex: 0;
   -ms-flex: 0;
@@ -411,6 +414,15 @@
   content: "";
 }
 .weirdwizard .summary-list a {
+  font-weight: bold;
+}
+
+.weirdwizard .described-list {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+}
+.weirdwizard .described-list a {
   font-weight: bold;
 }
 

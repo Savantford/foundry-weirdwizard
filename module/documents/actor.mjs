@@ -24,7 +24,7 @@ export class WeirdWizardActor extends Actor {
         let icon = 'icons/svg/mystery-man.svg';
 
         switch (this.type) {
-            case 'Container':
+            case 'NPC':
                 icon = 'icons/svg/mystery-man-black.svg';
                 break;
         }

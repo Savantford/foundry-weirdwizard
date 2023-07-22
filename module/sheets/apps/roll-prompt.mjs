@@ -23,7 +23,7 @@ export class rollPrompt extends FormApplication {
   static get defaultOptions() {
     const options = super.defaultOptions;
     options.id = "roll-prompt";
-    options.template = "systems/weirdwizard/templates/roll-prompt.hbs";
+    options.template = "systems/weirdwizard/templates/apps/roll-prompt.hbs";
     options.height = "auto";
     options.width = 400;
     options.label = "Roll Details";
