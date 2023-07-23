@@ -8,6 +8,8 @@ Shadow of the Weird Wizard was written and designed by Robert J. Schwalb and pub
 Please read the instructions below to install it manually.
 
 # Installing the Module
+To install the system, you first have to get the Manifest URL from GitHub and then instruct Foundry to install it from the manifest (`system.json`).
+
 ## Getting the Manifest URL (system.json) on GitHub
 1. Go to the [Releases](https://github.com/Savantford/foundry-weirdwizard/releases) section.
 2. Find the system's version you'd like to install. The latest version is always listed first.
