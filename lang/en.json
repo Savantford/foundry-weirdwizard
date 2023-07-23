@@ -162,10 +162,10 @@
     "WEIRDWIZARD.Target": "Target",
 
     "WEIRDWIZARD.Weapons": "Weapons",
-    "WEIRDWIZARD.Hands": "Hands",
-    "WEIRDWIZARD.HandsOne": "One",
-    "WEIRDWIZARD.HandsTwo": "Two",
-    "WEIRDWIZARD.HandsOff": "Off",
+    "WEIRDWIZARD.Grip": "Grip",
+    "WEIRDWIZARD.GripOne": "One-Handed",
+    "WEIRDWIZARD.GripTwo": "Two-Handed",
+    "WEIRDWIZARD.GripOff": "Off-Hand",
     "WEIRDWIZARD.Properties": "Properties",
     "WEIRDWIZARD.PropertiesPH": "Brutal, Keen, etc"
 }

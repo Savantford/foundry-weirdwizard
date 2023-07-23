@@ -10,7 +10,7 @@
                     <label for="system.attributes.{{key}}.value" class="attribute-label">{{attribute.label}}</label>
                     <div class="stat flex-group-center">
                         <input type="number" name="system.attributes.{{key}}.value" value="{{attribute.value}}" min="0" data-dtype="Number"/>
-                        <a class="attribute-mod rollable" data-roll="d20+@attributes.{{key}}.mod[modifier]@boons[boons]" data-label="{{attribute.label}}">{{numberFormat attribute.mod decimals=0 sign=true}}</a>
+                        <a class="attribute-mod rollable" data-roll="d20+@attributes.{{key}}.mod[modifier]@boons[boons]" data-label="{{attribute.label}}" title="Roll {{attribute.label}}">{{numberFormat attribute.mod decimals=0 sign=true}}</a>
                     </div>
                 </div>
                 {{/each}}
@@ -54,44 +54,60 @@
                     <div class="stat">{{!-- Level, Ancestry --}}
                         <label for="level" class="resource-label">{{localize "WEIRDWIZARD.Level"}}</label>
                         {{system.stats.level.value}}
-                        <label class="ml-2" for="ancestry" class="resource-label">{{localize "WEIRDWIZARD.Ancestry"}}</label>
+
+                        <label class="ml-1" for="ancestry" class="resource-label">{{localize "WEIRDWIZARD.Ancestry"}}</label>
                         {{system.details.ancestry.value}}
                     </div>
+
                     <div class="stat">{{!-- Type, Senses --}}
                         {{#if system.details.type.value}}<label for="type" class="resource-label">{{localize "WEIRDWIZARD.Type"}}</label>
                         {{system.details.type.value}}{{/if}}
+
                         {{#if system.details.senses.value}}<label class="ml-2" for="senses" class="resource-label">{{localize "WEIRDWIZARD.Senses"}}</label>
                         {{system.details.senses.value}}{{/if}}
                     </div>
-                    <div class="stat mt-1">{{!-- Languages --}}
-                        <label class="" for="languages" class="resource-label">{{localize "WEIRDWIZARD.Languages"}}</label>
-                        {{system.details.languages.value}}
-                    </div>
-                    <div class="stat">{{!-- Paths --}}
+
+                    <div class="stat mt-1">{{!-- Paths --}}
+                        {{#if system.details.novice.value}}
                         <label for="paths" class="resource-label">{{localize "WEIRDWIZARD.Paths"}}</label>
                         <ol class="summary-list">
                             <li title="{{localize "WEIRDWIZARD.NovicePath"}}">{{system.details.novice.value}}</li>
-                            <li title="{{localize "WEIRDWIZARD.ExpertPath"}}">{{system.details.expert.value}}</li>
-                            <li title="{{localize "WEIRDWIZARD.MasterPath"}}">{{system.details.master.value}}</li>
+                            {{#if system.details.expert.value}}<li title="{{localize "WEIRDWIZARD.ExpertPath"}}">{{system.details.expert.value}}</li>{{/if}}
+                            {{#if system.details.expert.value}}<li title="{{localize "WEIRDWIZARD.MasterPath"}}">{{system.details.master.value}}</li>{{/if}}
                         </ol>
+                        {{/if}}
                     </div>
+                    {{#if system.details.professions.value}}
+                    <div class="stat">{{!-- Professions --}}
+                        <label class="" for="professions" class="resource-label">{{localize "WEIRDWIZARD.Professions"}}</label>
+                        {{system.details.professions.value}}
+                    </div>
+                    {{/if}}
+                    <div class="stat">{{!-- Languages --}}
+                        <label class="" for="languages" class="resource-label">{{localize "WEIRDWIZARD.Languages"}}</label>
+                        {{system.details.languages.value}}
+                    </div>
+
                     <div class="stat mt-1">{{!-- Defense, Health, Damage --}}
                         <label for="defense" class="resource-label">{{localize "WEIRDWIZARD.Defense"}}</label>
-                        <a class="defense-edit">{{system.stats.defense.total}}</a>
+                        <a class="defense-edit" title="Edit Defense">{{system.stats.defense.total}}</a>
                         <label class="ml-1" for="health" class="resource-label">{{localize "WEIRDWIZARD.Health.Title"}}</label>
-                        <a class="health-edit">{{system.stats.health.total}}</a>
+
+                        <a class="health-edit" title="Edit Health">{{system.stats.health.total}}</a>
                         <label class="ml-1" for="damage" class="resource-label">{{localize "WEIRDWIZARD.Damage"}}</label>
                         {{system.stats.damage.value}}
                     </div>
                     <div class="stat mt-1">{{!-- Attributes 1 --}}
                         <label for="str" class="resource-label">{{localize "WEIRDWIZARD.Strength"}}</label>
                         {{system.attributes.str.value}} ({{numberFormat system.attributes.str.mod decimals=0 sign=true}})
+
                         <label class="ml-1" for="agi" class="resource-label">{{localize "WEIRDWIZARD.Agility"}}</label>
                         {{system.attributes.agi.value}} ({{numberFormat system.attributes.agi.mod decimals=0 sign=true}})
                     </div>
                     <div class="stat">{{!-- Attributes 2 --}}
                         <label for="int" class="resource-label">{{localize "WEIRDWIZARD.Intellect"}}</label>
                         {{system.attributes.int.value}} ({{numberFormat system.attributes.int.mod decimals=0 sign=true}})
+
                         <label class="ml-1" for="wil" class="resource-label">{{localize "WEIRDWIZARD.Will"}}</label>
                         {{system.attributes.wil.value}} ({{numberFormat system.attributes.wil.mod decimals=0 sign=true}})
                     </div>
@@ -114,10 +130,12 @@
                         {{#if system.stats.bonusdamage.value}}{{system.stats.bonusdamage.value}}{{else}}0{{/if}}
                     </div>
                     <div class="mt-1">
-                        <ol class="attack-list">
+                        <ol class="described-list">
                         {{#each weapons as |item id|}}
-                            <li class="item item-edit" data-item-id="{{item._id}}">
-                                <a>{{item.name}}</a> ({{item.system.damage}}, {{item.system.hands}}{{#if item.system.properties}}, {{item.system.properties}}{{/if}})
+                            <li class="item" data-item-id="{{item._id}}">
+                                <a class="item-edit" title="Edit Weapon">{{item.name}}</a> <a class="rollable item-roll" title="Roll Attack">({{item.system.grip}}{{#if item.system.properties}}; {{item.system.properties}}{{/if}}) {{item.system.attribute}}
+                                {{#if item.system.boons}} {{localize "WEIRDWIZARD.Boons.With"}} {{item.system.boons}} {{#if (lt item.system.boons 0)}}{{localize "WEIRDWIZARD.Boons.Banes"}}{{else}}{{localize "WEIRDWIZARD.Boons.Boons"}}{{/if}}{{/if}}
+                                ({{item.system.damage}})</a>
                             </li>
                         {{/each}}
                         </ol>
@@ -128,15 +146,24 @@
                     <h3>{{localize "WEIRDWIZARD.Talents"}}</h3>
                     <ol class="summary-list">
                     {{#each talents as |item id|}}
-                        <li class="item item-edit" data-item-id="{{item._id}}"><a>{{item.name}}</a></li>
+                        <li class="item" data-item-id="{{item._id}}">
+                            <a class="item-edit" title="Edit Talent">{{item.name}}</a>
+                            <a class="rollable item-roll smaller" title="Roll Talent"><i class="fas fa-dice-d20"></i></a>
+                        </li>
                     {{/each}}
                     </ol>
+
+                    {{#if spells}}
                     <h3 class="mt-2">{{localize "WEIRDWIZARD.Spells"}}</h3>
                     <ol class="summary-list">
                     {{#each spells as |item id|}}
-                        <li class="item item-edit" data-item-id="{{item._id}}"><a>{{item.name}}</a></li>
+                        <li class="item" data-item-id="{{item._id}}">
+                            <a class="item-edit" title="Edit Spell">{{item.name}}</a>
+                            <a class="rollable item-roll smaller" title="Roll Spell"><i class="fas fa-dice-d20"></i></a>
+                        </li>
                     {{/each}}
                     </ol>
+                    {{/if}}
                 </div>
             </div>
         </div>
@@ -310,7 +337,6 @@
                 <li class="item flexrow item-header">
                 <div class="item-image"></div>
                 <div class="item-name">{{localize "WEIRDWIZARD.Name"}}</div>
-                <div>{{localize "WEIRDWIZARD.Type"}}</div>
                 <div>{{localize "WEIRDWIZARD.Source"}}</div>
                 <div>{{localize "WEIRDWIZARD.Uses"}}</div>
                 <div class="item-controls">
@@ -321,7 +347,6 @@
                 <li class="item flexrow" data-item-id="{{item._id}}">
                     <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
                     <h4 class="item-name">{{item.name}}  <a class="rollable item-roll ml-1" title="Roll Talent"><i class="fas fa-dice-d20"></i></a></h4>
-                    <div>{{item.system.type.value}}</div>
                     <div>{{item.system.source.value}}</div>
                     <div>
                         {{#each item.uses as |pip id|}}

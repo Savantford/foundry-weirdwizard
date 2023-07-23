@@ -422,16 +422,7 @@
   padding: 0px;
   margin: 0px;
 }
-.weirdwizard .described-list a {
-  font-weight: bold;
-}
-
-.weirdwizard .attack-list {
-  list-style: none;
-  padding: 0px;
-  margin: 0px;
-}
-.weirdwizard .attack-list a {
+.weirdwizard .described-list .item-edit {
   font-weight: bold;
 }
 
