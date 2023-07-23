@@ -37,8 +37,9 @@
                     <div class="mt-1">{{!-- Auras --}}
                         <ol class="described-list">
                         {{#each auras as |item id|}}
-                            <li class="item item-edit" data-item-id="{{item._id}}">
-                                <a>{{item.name}}</a> ({{localize "WEIRDWIZARD.Aura"}} {{item.system.range}}) {{item.system.description.value}}
+                            <li class="item" data-item-id="{{item._id}}">
+                                <a class="item-edit" title="Edit Special Activity">{{item.name}}</a> 
+                                <a class="rollable item-roll" title="Roll Special Activity">({{localize "WEIRDWIZARD.Aura"}} {{item.system.range}}) {{item.system.description.value}}</a>
                             </li>
                         {{/each}}
                         </ol>
@@ -67,17 +68,17 @@
 
                     <div class="stat mt-1">{{!-- Attributes 1 --}}
                         <label for="str" class="resource-label">{{localize "WEIRDWIZARD.Strength"}}</label>
-                        <a class="attribute-mod rollable" data-label="Strength">{{system.attributes.str.value}} ({{numberFormat system.attributes.str.mod decimals=0 sign=true}})</a>
+                        <a class="attribute-mod rollable" data-label="Strength" title="Roll Strength">{{system.attributes.str.value}} ({{numberFormat system.attributes.str.mod decimals=0 sign=true}})</a>
 
                         <label class="ml-1" for="agi" class="resource-label">{{localize "WEIRDWIZARD.Agility"}}</label>
-                        <a class="attribute-mod rollable" data-label="Agility">{{system.attributes.agi.value}} ({{numberFormat system.attributes.agi.mod decimals=0 sign=true}})</a>
+                        <a class="attribute-mod rollable" data-label="Agility" title="Roll Agility">{{system.attributes.agi.value}} ({{numberFormat system.attributes.agi.mod decimals=0 sign=true}})</a>
                     </div>
                     <div class="stat">{{!-- Attributes 2 --}}
                         <label for="int" class="resource-label">{{localize "WEIRDWIZARD.Intellect"}}</label>
-                        <a class="attribute-mod rollable" data-label="Intellect">{{system.attributes.int.value}} ({{numberFormat system.attributes.int.mod decimals=0 sign=true}})</a>
+                        <a class="attribute-mod rollable" data-label="Intellect" title="Roll Intellect">{{system.attributes.int.value}} ({{numberFormat system.attributes.int.mod decimals=0 sign=true}})</a>
 
                         <label class="ml-1" for="wil" class="resource-label">{{localize "WEIRDWIZARD.Will"}}</label>
-                        <a class="attribute-mod rollable" data-label="Will">{{system.attributes.wil.value}} ({{numberFormat system.attributes.wil.mod decimals=0 sign=true}})</a>
+                        <a class="attribute-mod rollable" data-label="Will" title="Roll Will">{{system.attributes.wil.value}} ({{numberFormat system.attributes.wil.mod decimals=0 sign=true}})</a>
 
                     </div>
 
@@ -97,37 +98,51 @@
 
                     <ol class="described-list">{{!-- Talents --}}
                     {{#each talents as |item id|}}
-                        <li class="item item-edit" data-item-id="{{item._id}}"><a>{{item.name}}</a></li>
+                        <li class="item" data-item-id="{{item._id}}">
+                            <a class="item-edit" title="Edit Talent">{{item.name}}</a> <a class="rollable item-roll" title="Roll Talent">{{item.system.description.value}}</a>
+                        </li>
                     {{/each}}
                     </ol>
                     
                 </div>
 
                 <div>{{!-- Right Column --}}
+                    {{#if weapons}}
                     <h3>{{localize "WEIRDWIZARD.Weapons"}}</h3>
                     <div class="mt-1">
-                        <ol class="attack-list">
+                        <ol class="described-list">
                         {{#each weapons as |item id|}}
-                            <li class="item item-edit" data-item-id="{{item._id}}">
-                                <a>{{item.name}}</a> ({{item.system.damage}}{{#if item.system.properties}}, {{item.system.properties}}{{/if}})
+                            <li class="item" data-item-id="{{item._id}}">
+                                <a class="item-edit" title="Edit Weapon">{{item.name}}</a> <a class="rollable item-roll" title="Roll Attack">{{#if item.system.properties}}({{item.system.properties}}) {{/if}}{{item.system.attribute}}
+                                {{#if item.system.boons}} {{localize "WEIRDWIZARD.Boons.With"}} {{item.system.boons}} {{#if (lt item.system.boons 0)}}{{localize "WEIRDWIZARD.Boons.Banes"}}{{else}}{{localize "WEIRDWIZARD.Boons.Boons"}}{{/if}}{{/if}}
+                                ({{item.system.damage}})</a>
                             </li>
                         {{/each}}
                         </ol>
                     </div>
+                    {{/if}}
 
+                    {{#if activities}}
                     <h3 class="mt-2">{{localize "WEIRDWIZARD.SpecialActivities"}}</h3>
                     <ol class="described-list">
                     {{#each activities as |item id|}}
-                        <li class="item item-edit" data-item-id="{{item._id}}"><a>{{item.name}}</a></li> {{item.system.description.value}}
+                        <li class="item" data-item-id="{{item._id}}">
+                            <a class="item-edit" title="Edit Special Activity">{{item.name}}</a> <a class="rollable item-roll" title="Roll Special Activity">{{item.system.description.value}}</a>
+                        </li>
                     {{/each}}
                     </ol>
+                    {{/if}}
 
+                    {{#if end}}
                     <h3 class="mt-2">{{localize "WEIRDWIZARD.EndOfRoundEffects"}}</h3>
                     <ol class="described-list">
                     {{#each end as |item id|}}
-                        <li class="item item-edit" data-item-id="{{item._id}}"><a>{{item.name}}</a></li> {{item.system.description.value}}
+                        <li class="item" data-item-id="{{item._id}}">
+                            <a class="item-edit" title="Edit End of Round Effect">{{item.name}}</a> <a class="rollable item-roll" title="Roll End of Round Effect">{{item.system.description.value}}</a>
+                        </li>
                     {{/each}}
                     </ol>
+                    {{/if}}
                     
                 </div>
             </div>
@@ -190,18 +205,18 @@
 
                     <div class="mt-1 flex-row stat-inline flex-group-left">{{!-- Attributes 1 --}}
                         <label for="str" class="resource-label">{{localize "WEIRDWIZARD.Strength"}}</label>
-                        <input class="mr-1" type="number" name="str" value="{{system.attributes.str.value}}" min="0" data-dtype="Number"/> <a class="attribute-mod rollable" data-label="Strength">{{numberFormat system.attributes.str.mod decimals=0 sign=true}}</a>
+                        <input class="mr-1" type="number" name="str" value="{{system.attributes.str.value}}" min="0" data-dtype="Number"/> <a class="attribute-mod rollable" data-label="Strength" title="Roll Strength">{{numberFormat system.attributes.str.mod decimals=0 sign=true}}</a>
 
                         <label class="ml-1" for="agi" class="resource-label">{{localize "WEIRDWIZARD.Agility"}}</label>
-                        <input class="mr-1" type="number" name="agi" value="{{system.attributes.agi.value}}" min="0" data-dtype="Number"/> <a class="attribute-mod rollable" data-label="Agility">{{numberFormat system.attributes.agi.mod decimals=0 sign=true}}</a>
+                        <input class="mr-1" type="number" name="agi" value="{{system.attributes.agi.value}}" min="0" data-dtype="Number"/> <a class="attribute-mod rollable" data-label="Agility" title="Roll Agility">{{numberFormat system.attributes.agi.mod decimals=0 sign=true}}</a>
 
                     </div>
                     <div class="mt-1 flex-row stat-inline flex-group-left">{{!-- Attributes 2 --}}
                         <label for="int" class="resource-label">{{localize "WEIRDWIZARD.Intellect"}}</label>
-                        <input class="mr-1" type="number" name="int" value="{{system.attributes.int.value}}" min="0" data-dtype="Number"/> <a class="attribute-mod rollable" data-label="Intellect">{{numberFormat system.attributes.int.mod decimals=0 sign=true}}</a>
+                        <input class="mr-1" type="number" name="int" value="{{system.attributes.int.value}}" min="0" data-dtype="Number"/> <a class="attribute-mod rollable" data-label="Intellect" title="Roll Intellect">{{numberFormat system.attributes.int.mod decimals=0 sign=true}}</a>
 
                         <label class="ml-1" for="wil" class="resource-label">{{localize "WEIRDWIZARD.Will"}}</label>
-                        <input class="mr-1" type="number" name="wil" value="{{system.attributes.wil.value}}" min="0" data-dtype="Number"/> <a class="attribute-mod rollable" data-label="Will">{{numberFormat system.attributes.wil.mod decimals=0 sign=true}}</a>
+                        <input class="mr-1" type="number" name="wil" value="{{system.attributes.wil.value}}" min="0" data-dtype="Number"/> <a class="attribute-mod rollable" data-label="Will" title="Roll Will">{{numberFormat system.attributes.wil.mod decimals=0 sign=true}}</a>
                     </div>
 
                     <div class="mt-1 flex-row stat-inline flex-group-left">{{!-- Size, Speed --}}

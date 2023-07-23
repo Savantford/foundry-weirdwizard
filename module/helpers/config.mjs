@@ -29,20 +29,20 @@ WEIRDWIZARD.dropdownAttributes = {
 }
 
 WEIRDWIZARD.dropdownSources = {
-  "ancestry": "WEIRDWIZARD.SourceChoices.Ancestry",
-  "novice": "WEIRDWIZARD.SourceChoices.Novice",
-  "expert": "WEIRDWIZARD.SourceChoices.Expert",
-  "master": "WEIRDWIZARD.SourceChoices.Master",
-  "other": "WEIRDWIZARD.SourceChoices.Other"
+  "Ancestry": "WEIRDWIZARD.SourceChoices.Ancestry",
+  "Novice": "WEIRDWIZARD.SourceChoices.Novice",
+  "Expert": "WEIRDWIZARD.SourceChoices.Expert",
+  "Master": "WEIRDWIZARD.SourceChoices.Master",
+  "Other": "WEIRDWIZARD.SourceChoices.Other"
 };
 
-WEIRDWIZARD.dropdownTypes = {
+/*WEIRDWIZARD.dropdownTypes = {
   "passive": "WEIRDWIZARD.TypeChoices.Passive",
   "action": "WEIRDWIZARD.TypeChoices.Action",
   "move": "WEIRDWIZARD.TypeChoices.Move",
   "minor": "WEIRDWIZARD.TypeChoices.Minor",
   "reaction": "WEIRDWIZARD.TypeChoices.Reaction"
-};
+};*/
 
 WEIRDWIZARD.dropdownFrequencies = {
   "day": "WEIRDWIZARD.FrequencyChoices.Day",
@@ -52,10 +52,15 @@ WEIRDWIZARD.dropdownFrequencies = {
 };
 
 WEIRDWIZARD.dropdownTiers = {
-  "starting": "WEIRDWIZARD.Starting",
-  "novice": "WEIRDWIZARD.Novice",
-  "expert": "WEIRDWIZARD.Expert",
-  "master": "WEIRDWIZARD.Master"
+  "Novice": "WEIRDWIZARD.Novice",
+  "Expert": "WEIRDWIZARD.Expert",
+  "Master": "WEIRDWIZARD.Master"
+};
+
+WEIRDWIZARD.dropdownGrip = {
+  "One-Handed": "WEIRDWIZARD.GripOne",
+  "Two-Handed": "WEIRDWIZARD.GripTwo",
+  "Off-Hand": "WEIRDWIZARD.GripOff"
 };
 
 WEIRDWIZARD.armor = {
@@ -119,10 +124,4 @@ WEIRDWIZARD.armor = {
     "bonus": null,
     "type": "Heavy"
   }
-};
-
-WEIRDWIZARD.dropdownHands = {
-  "one": "WEIRDWIZARD.HandsOne",
-  "two": "WEIRDWIZARD.HandsTwo",
-  "off": "WEIRDWIZARD.HandsOff"
 };

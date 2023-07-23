@@ -63,7 +63,7 @@ export class rollPrompt extends FormApplication {
     const damage = this.damage;
     const healing = this.healing;
 
-    let att = '1d20 + 0 + ';
+    let att = '1d20 + 0';
     if (name) att = name + " (" + mod + ")"
 
     function updateFields(ev) { // Update html fields

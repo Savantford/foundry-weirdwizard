@@ -85,13 +85,13 @@
           "value": "Human"
         },
         "novice": {
-          "value": "Warrior"
+          "value": ""
         },
         "expert": {
-          "value": "Bard"
+          "value": ""
         },
         "master": {
-          "value": "Saprophyte"
+          "value": ""
         },
         "features": {
           "value": "<p></p>"
@@ -239,8 +239,9 @@
     },
     "Weapon": {
       "templates": ["base", "physicalItem" ,"activatedEffect", "action", "mountable"],
+      "attribute": "str",
       "damage": "1d6",
-      "hands": "One",
+      "grip": "One-Handed",
       "properties": "",
       "description": {
         "value": "<p></p>"
@@ -368,6 +369,7 @@
     },
     "Weapon (NPC)": {
       "templates": ["base", "activatedEffect", "action"],
+      "attribute": "str",
       "damage": "1d6",
       "properties": "",
       "description": {

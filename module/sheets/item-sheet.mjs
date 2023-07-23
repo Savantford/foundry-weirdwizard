@@ -52,7 +52,7 @@ export class WeirdWizardItemSheet extends ItemSheet {
         break;
 
       case 'Weapon':
-        context.handsObj = CONFIG.WEIRDWIZARD.dropdownHands;
+        context.gripObj = CONFIG.WEIRDWIZARD.dropdownGrip;
         context.attributesObj = CONFIG.WEIRDWIZARD.dropdownAttributes;
         break;
 
