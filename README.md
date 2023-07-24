@@ -6,20 +6,22 @@ This is a `Shadow of the Weird Wizard` system module written for [Foundry Virtua
 Please read the instructions below to install it manually.
 
 # Installing the Module
-To install the system, you first have to get the Manifest URL from GitHub and then instruct Foundry to install it from the manifest (`system.json`).
+To install the system, follow the steps below.
 
-## Getting the Manifest URL (system.json) on GitHub
-1. Go to the [Releases](https://github.com/Savantford/foundry-weirdwizard/releases) section.
-2. Find the system's version you'd like to install. The latest version is always listed first.
-3. On the release you picked, find the attachments at the bottom of the post.
-4. Find the `system.json` on the attachments, then right click on it and copy the link address.
-
-## Using the Manifest URL on Foundry to download the system
 1. Open `Foundry Virtual Tabletop` application.
 2. Go to the `Game Systems` tab.
 3. Click on the `Install System` button at the top.
-4. On the new window, go to the bottom and paste the URL manifest.
-4. Click on `Install`. Done!
+4. On the new window, go to the bottom and paste `https://github.com/Savantford/foundry-weirdwizard/releases/latest/download/system.json` as URL manifest. If you want to install older versions of the system, see `Installing Older Versions` below.
+5. Click on `Install`. Done!
+
+## Installing Older Versions
+If you want to install an older version of the system, you first need to get a Manifest URL (`system.json`) to that specific version.
+Follow the steps below to get the Manifest URL.
+1. Go to the [Releases](https://github.com/Savantford/foundry-weirdwizard/releases) section.
+2. Find the version you'd like to install. The most recent versions are listed first.
+3. At the end of the release post, find the `system.json` on the attachments.
+4. Right click on it and copy the link address.
+5. Follow the steps to install normally, but instead of using the provided `system.json` URL, use the specific version instead. Done!
 
 # Bugs & Feedback
 If you want to report a bug or share feedback about the system, please join the `SotDL for Foundry VTT` Discord server and then talk to me in the `#weirdwizard` channel. I'm `Friend / Fatlus` there, by the way!
@@ -32,6 +34,8 @@ Thank you for all the reports and feedback!
 A big thanks to all the Foundry VTT Discord community! You guys are amazing and I couldn't pull any of this without your help.
 
 I also wanted to personally mention these folks for their patience and effort towards helping me out to get this done. In alphabetical order: ChaosOS, Mana, Mezryss 💖, mxzf and Zhell. Thank you humbly!
+
+Finally, thanks to Zaxim from the `SotDL for Foundry VTT` server for helping me out often.
 
 # Credits
 *Shadow of the Weird Wizard* is a fantasy game written and designed by **Robert J. Schwalb**, published by [Schwalb Entertainment](https://schwalbentertainment.com/).
