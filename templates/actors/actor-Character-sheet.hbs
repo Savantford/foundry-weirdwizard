@@ -29,7 +29,7 @@
                 </div>
                 <div class="stat flex-group-center">{{!-- Bonus Damage --}}
                     <label for="system.stats.bonusdamage.value" class="resource-label">{{localize "WEIRDWIZARD.BonusDamage"}}</label>
-                    <div></div><input type="number" name="system.stats.bonusdamage.value" value="{{system.details.bonusdamage.value}}" data-dtype="Number" min="0" placeholder="1" />d6</div>
+                    <div></div><input type="number" name="system.stats.bonusdamage.value" value="{{system.stats.bonusdamage.value}}" data-dtype="Number" min="0" placeholder="#" />d6</div>
                 </div>
             </div>
         </div>
@@ -127,7 +127,7 @@
                     <h3 class="mt-2">{{localize "WEIRDWIZARD.Attacks"}}</h3>
                     <div class="stat">{{!-- Bonus Damage --}}
                         <label class="" for="bonusdamage" class="resource-label">{{localize "WEIRDWIZARD.BonusDamage"}}</label>
-                        {{#if system.stats.bonusdamage.value}}{{system.stats.bonusdamage.value}}{{else}}0{{/if}}
+                        {{#if system.stats.bonusdamage.value}}{{system.stats.bonusdamage.value}}d6{{else}}0{{/if}}
                     </div>
                     <div class="mt-1">
                         <ol class="described-list">
@@ -210,7 +210,7 @@
                     </div>
                     <div class="flex-row stat-inline flex-group-left">{{!-- Professions --}}
                         <label for="system.details.professions.value" class="resource-label">{{localize "WEIRDWIZARD.Professions"}}</label>
-                        <input name="professions" type="text" value="{{system.details.professions.value}}" placeholder="{{localize "WEIRDWIZARD.ProfessionsPH"}}"/>
+                        <input name="system.details.professions.value" type="text" value="{{system.details.professions.value}}" placeholder="{{localize "WEIRDWIZARD.ProfessionsPH"}}"/>
                     </div>
                     
                     <div class="flex-row stat-inline flex-group-left">{{!-- Novice Path --}}
