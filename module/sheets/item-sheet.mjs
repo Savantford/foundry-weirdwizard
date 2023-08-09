@@ -90,11 +90,14 @@ export class WeirdWizardItemSheet extends ItemSheet {
         context.frequenciesObj = CONFIG.WEIRDWIZARD.dropdownFrequencies;
         context.attributesObj = CONFIG.WEIRDWIZARD.dropdownAttributes;
         break;
-      case 'Special Activity (NPC)':
+      case 'Action (NPC)':
         context.frequenciesObj = CONFIG.WEIRDWIZARD.dropdownFrequencies;
         context.attributesObj = CONFIG.WEIRDWIZARD.dropdownAttributes;
         break;
-
+      case 'Reaction (NPC)':
+        context.frequenciesObj = CONFIG.WEIRDWIZARD.dropdownFrequencies;
+        context.attributesObj = CONFIG.WEIRDWIZARD.dropdownAttributes;
+        break;
       case 'End of Round Effect (NPC)':
         context.frequenciesObj = CONFIG.WEIRDWIZARD.dropdownFrequencies;
         context.attributesObj = CONFIG.WEIRDWIZARD.dropdownAttributes;

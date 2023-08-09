@@ -100,7 +100,8 @@ export class WeirdWizardActorSheet extends ActorSheet {
     const spells = [];
     const weapons = [];
     const auras = [];
-    const activities = [];
+    const actions = [];
+    const reactions = [];
     const end = [];
 
     // Iterate through items, allocating to containers
@@ -132,9 +133,13 @@ export class WeirdWizardActorSheet extends ActorSheet {
       else if (i.type === 'Aura (NPC)') {
         auras.push(i);
       }
-      // Append to activities.
-      else if (i.type === 'Special Activity (NPC)') {
-        activities.push(i);
+      // Append to actionss.
+      else if (i.type === 'Action (NPC)') {
+        actions.push(i);
+      }
+      // Append to reactions.
+      else if (i.type === 'Reaction (NPC)') {
+        reactions.push(i);
       }
       // Append to end.
       else if (i.type === 'End of Round Effect (NPC)') {
@@ -175,7 +180,8 @@ export class WeirdWizardActorSheet extends ActorSheet {
     context.talents = talents;
     context.spells = spells;
     context.auras = auras;
-    context.activities = activities;
+    context.actions = actions;
+    context.reactions = reactions;
     context.end = end;
   }
 
