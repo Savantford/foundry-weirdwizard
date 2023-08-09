@@ -169,7 +169,7 @@
     }
   },
   "Item": {
-    "types": ["Weapon", "Container", "Gear", "Ancestry", "Path", "Talent", "Spell", "Aura (NPC)", "Talent (NPC)", "Weapon (NPC)", "Special Activity (NPC)", "End of Round Effect (NPC)"],
+    "types": ["Weapon", "Container", "Gear", "Ancestry", "Path", "Talent", "Spell", "Aura (NPC)", "Talent (NPC)", "Weapon (NPC)", "Action (NPC)", "Reaction (NPC)", "End of Round Effect (NPC)"],
     "templates": {
       "base": {
         "description": {
@@ -376,7 +376,10 @@
         "value": "<p></p>"
       }
     },
-    "Special Activity (NPC)": {
+    "Action (NPC)": {
+      "templates": ["base", "activatedEffect", "action"]
+    },
+    "Reaction (NPC)": {
       "templates": ["base", "activatedEffect", "action"]
     },
     "End of Round Effect (NPC)": {

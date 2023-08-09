@@ -117,11 +117,12 @@
     "WEIRDWIZARD.Quantity": "Quantity",
     "WEIRDWIZARD.WeightUnit": "Weight per Unit",
 
-    "WEIRDWIZARD.Talents": "Traits & Talents",
+    "WEIRDWIZARD.Talents": "Traits and Talents",
     "WEIRDWIZARD.Aura": "Aura",
     "WEIRDWIZARD.Range": "Range",
-    "WEIRDWIZARD.SpecialActivities": "Special Activities",
-    "WEIRDWIZARD.EndOfRoundEffects": "End of Round Effects",
+    "WEIRDWIZARD.Actions": "Actions",
+    "WEIRDWIZARD.Reactions": "Reactions",
+    "WEIRDWIZARD.EndOfTheRound": "End of The Round",
 
     "WEIRDWIZARD.Name": "Name",
     "WEIRDWIZARD.Source": "Source",
@@ -152,7 +153,7 @@
     "WEIRDWIZARD.Description": "Description",
 
     "WEIRDWIZARD.Spells": "Spells",
-    "WEIRDWIZARD.Traditions": "Traditions",
+    "WEIRDWIZARD.Traditions": "Magical Traditions",
     "WEIRDWIZARD.TraditionsPH": "Aeromancy, Alteration, etc",
     "WEIRDWIZARD.Tier": "Tier",
     "WEIRDWIZARD.Tradition": "Tradition",

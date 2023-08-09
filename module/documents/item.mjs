@@ -56,7 +56,11 @@ export class WeirdWizardItem extends Item {
         icon = 'icons/svg/sword.svg';
         break;
       
-      case 'Special Activity (NPC)':
+      case 'Action (NPC)':
+        icon = 'icons/svg/card-hand.svg';
+        break;
+
+      case 'Reaction (NPC)':
         icon = 'icons/svg/card-hand.svg';
         break;
       

@@ -1,4 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+/* Variables */
+:root {
+  --highlight-title: #49244F;
+  --highlight: #DBD3DC;
+  --text: #000000;
+  --gray: #BCBEC0;
+  --background: url(../../../ui/parchment-white.jpg) repeat;
+}
+
 /* Global styles */
 .window-app {
   font-family: "Roboto", sans-serif;
@@ -227,9 +237,44 @@
 
 
 /* Styles limited to weirdwizard sheets */
-.weirdwizard {
-  /* Nothing */
+/*.weirdwizard {
+  color: var(--text);
+}*/
+
+.weirdwizard .window-content {
+  color: var(--text);
+  background: var(--background);
 }
+
+.weirdwizard .window-content h1 {
+  color: var(--highlight-title);
+  border-bottom: 0px;
+}
+
+.weirdwizard .window-content h2 {
+  color: var(--highlight-title);
+  text-align: left;
+  border-bottom: 3px double black;
+}
+
+.weirdwizard .window-content h3 {
+  color: white;
+  background-color: var(--highlight-title);
+  border-radius: 5px;
+  padding: 2px 5px;
+}
+
+.weirdwizard .window-content h4 {
+  color: var(--text);
+  background-color: var(--gray);
+  border-radius: 5px;
+  padding: 2px 5px;
+}
+
+.weirdwizard .statbox .stat {
+  margin: 2px 5px;
+}
+
 .weirdwizard .ml-1 {
   margin-left: 5px;
 }
@@ -297,6 +342,21 @@
   font-size:smaller;
 }
 .weirdwizard .bold {
+  font-weight: bold;
+}
+.weirdwizard .hl {
+  background-color: var(--highlight);
+  padding: 1px 0px;
+  margin: 4px 0px;
+}
+
+.weirdwizard .hl2 {
+  background-color: var(--gray);
+  padding: 2px 5px;
+}
+
+.weirdwizard .hl2 label {
+  color: var(--highlight-title);
   font-weight: bold;
 }
 
@@ -383,6 +443,7 @@
 .weirdwizard .stat label,.weirdwizard .stat-inline label,.weirdwizard .stat-stretch label {
   font-weight: bold;
   white-space: nowrap;
+  color: var(--highlight-title);
 }
 .weirdwizard .stat input[type="number"],.weirdwizard .stat-inline input[type="number"],.weirdwizard .stat-stretch input[type="number"] {
   text-align: center;
@@ -420,10 +481,11 @@
 .weirdwizard .described-list {
   list-style: none;
   padding: 0px;
-  margin: 0px;
+  margin: 2px 5px;
 }
-.weirdwizard .described-list .item-edit {
+.weirdwizard .described-list .item-roll, .weirdwizard .summary-list .item-roll {
   font-weight: bold;
+  color: var(--highlight-title);
 }
 
 .weirdwizard .details-list {
@@ -501,7 +563,7 @@
   display: -ms-flexbox;
   display: flex;
 }
-.weirdwizard .items-list .item-name h3, .weirdwizard .items-list .item-name h4 {
+.weirdwizard .items-list .item-name h3, .weirdwizard .items-list .item-name label {
   margin: 0;
   white-space: nowrap;
   overflow-x: hidden;
