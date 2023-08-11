@@ -1,0 +1,43 @@
+@font-face {
+  font-family: 'Garamond Pro';
+  src: url('fonts/Adobe Garamond Pro Regular.ttf') format('truetype'),
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Garamond Pro';
+  src: url('fonts/Adobe Garamond Pro Bold.ttf') format('truetype'),
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Garamond Pro';
+  src: url('fonts/Adobe Garamond Pro Bold Italic.ttf') format('truetype'),
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Garamond Pro';
+  src: url('fonts/Adobe Garamond Pro Italic.ttf') format('truetype'),
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Queen Inline';
+  src: url('fonts/QueenInlineGrunge.ttf') format('truetype'),
+  font-weight: normal;
+  font-style: normal;
+}
+
+$font-primary: 'Garamond Pro', serif;
+$font-header: 'Queen Inline', serif;
+$base-font-size: 12px;
+
+//@font-face {
+//  font-family: 'Gotham Book';
+//  src: url('../fonts/GothamBook Regular.otf') format('opentype');
+//}

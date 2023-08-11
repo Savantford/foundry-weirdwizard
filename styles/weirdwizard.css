@@ -1,5 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 
+// Import utilities.
+@import 'utils/typography';
+
 /* Variables */
 :root {
   --highlight-title: #49244F;
@@ -11,7 +14,12 @@
 
 /* Global styles */
 .window-app {
-  font-family: "Roboto", sans-serif;
+  font-family: $font-primary;
+}
+
+.window-app .window-header {
+  font-family: $font-header;
+  font-size: 14px;
 }
 
 .rollable:hover, .rollable:focus {
