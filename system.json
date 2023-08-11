@@ -8,7 +8,7 @@
   "download": "#{DOWNLOAD}#",
   "compatibility": {
     "minimum": "10",
-    "verified": "11.306",
+    "verified": "11.308",
     "maximum": ""
   },
   "authors": [

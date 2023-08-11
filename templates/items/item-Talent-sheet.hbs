@@ -2,15 +2,15 @@
   <header class="sheet-header"> {{!-- Header --}}
     <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
     <div class="header-fields">
-      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WEIRDWIZARD.ItemName"}}" /></h1>
+      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.ItemName"}}" /></h1>
         
       <div class="flex-row stat-inline">
-        <label class="resource-label">{{localize "WEIRDWIZARD.Source"}}</label>
+        <label class="resource-label">{{localize "WW.Source"}}</label>
         <select name="system.source.value">
           {{selectOptions sourcesObj selected=system.source.value localize=true}}
         </select>
 
-        <label class="ml-2">{{localize "WEIRDWIZARD.Uses"}}</label>
+        <label class="ml-2">{{localize "WW.Uses"}}</label>
         <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="0" data-dtype="Number" />
       </div>
     </div>
@@ -21,36 +21,36 @@
 
     {{!-- <div class="detail">
       <div class="stat flexrow flex-group-left">
-        <label class="resource-label">{{localize "WEIRDWIZARD.Type"}}</label>
+        <label class="resource-label">{{localize "WW.Type"}}</label>
       </div>
       <div class="stat stat-inline">
         <select class="mr-1" name="system.type.value">
           {{selectOptions typesObj selected=system.type.value localize=true}}
         </select>
         <input type="text" name="system.condition.value" value="{{system.condition.value}}" placeholder="{{localize "
-          WEIRDWIZARD.ConditionPH"}}" data-dtype="String" />
+          WW.ConditionPH"}}" data-dtype="String" />
       </div>
     </div>--}}
 
-    <h2>{{localize "WEIRDWIZARD.Description"}}</h2>
+    <h2>{{localize "WW.Description"}}</h2>
     {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
 
-    <h2>{{localize "WEIRDWIZARD.Settings"}}</h2>
+    <h2>{{localize "WW.Settings"}}</h2>
     <div class="flex-row stat-inline">
-      {{localize "WEIRDWIZARD.Boons.AlwaysRoll"}}
+      {{localize "WW.Boons.AlwaysRoll"}}
       <select class="mx-1" name="system.attribute">
         {{selectOptions attributesObj selected=system.attribute localize=true}}
       </select>
-      {{localize "WEIRDWIZARD.Boons.With"}}
+      {{localize "WW.Boons.With"}}
       <input class="mx-1" type="number" name="system.boons" value="{{system.boons}}" placeholder="0"
         data-dtype="Number" />
-      {{localize "WEIRDWIZARD.Boons.Or"}}
+      {{localize "WW.Boons.Or"}}
     </div>
     <div class="flex-row stat-inline">
-      <label class="">{{localize "WEIRDWIZARD.Damage"}}</label>
+      <label class="">{{localize "WW.Damage"}}</label>
       <input type="text" name="system.damage" value="{{system.damage}}" placeholder="1d6" style="width: 75px; text-align: center;" data-dtype="String" />
 
-      <label class="ml-2">{{localize "WEIRDWIZARD.Healing"}}</label>
+      <label class="ml-2">{{localize "WW.Healing"}}</label>
       <input type="text" name="system.healing" value="{{system.healing}}" placeholder="1d6" style="width: 75px; text-align: center;" data-dtype="String" />
     </div>
 

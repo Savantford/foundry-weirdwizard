@@ -1,6 +1,7 @@
 import { defenseDetails } from './apps/defense-details.mjs'
 import { healthDetails } from './apps/health-details.mjs'
 import { rollPrompt } from './apps/roll-prompt.mjs'
+import {onManageActiveEffect, prepareActiveEffectCategories} from "../helpers/effects.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -8,12 +9,13 @@ import { rollPrompt } from './apps/roll-prompt.mjs'
 */
 
 export class WeirdWizardActorSheet extends ActorSheet {
-
+  
   /** @override */
   static get defaultOptions() {
+
     return mergeObject(super.defaultOptions, {
       classes: ["weirdwizard", "sheet", "actor"],
-      width: 600,
+      width: 0,
       height: 600,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "features" }]
     });
@@ -22,11 +24,15 @@ export class WeirdWizardActorSheet extends ActorSheet {
   /** @override */
   get template() {
     const path = "systems/weirdwizard/templates/actors";
+    
+    let permission = this.document.getUserLevel(game.user);
+    if ((permission === CONST.DOCUMENT_OWNERSHIP_LEVELS.LIMITED) | (permission === CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER)) return `${path}/actor-${this.actor.type}-limited.hbs`;
+    if (permission === CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) return `${path}/actor-${this.actor.type}-sheet.hbs`;
+    
     // Return a single sheet for all item types.
     // return `${path}/actor-sheet.html`;
     // Alternatively, you could use the following return statement to do a
-    // unique actor sheet by type, like `item-Character-sheet.hbs`
-    return `${path}/actor-${this.actor.type}-sheet.hbs`;
+    // unique actor sheet by type, like `actor-Character-sheet.hbs`
   }
   
   /* -------------------------------------------- */
@@ -53,11 +59,11 @@ export class WeirdWizardActorSheet extends ActorSheet {
 
     // Localize attribute names
     /*for (let [key, attr] of Object.entries(context.system.attributes)){
-        attr.label = game.i18n.localize(WEIRDWIZARD.attributes[key])
+        attr.label = game.i18n.localize(WW.attributes[key])
     }*/
     // Handle attribute scores.
     for (let [k, v] of Object.entries(context.system.attributes)) {
-      v.label = game.i18n.localize(CONFIG.WEIRDWIZARD.attributes[k]) ?? k;
+      v.label = game.i18n.localize(CONFIG.WW.attributes[k]) ?? k;
     }
 
     // Prepare character data and items.
@@ -80,7 +86,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
     context.rollData = context.actor.getRollData();
 
     // Prepare active effects
-    //context.effects = prepareActiveEffectCategories(this.actor.effects);
+    context.effects = prepareActiveEffectCategories(this.actor.effects);
 
     return context;
   }
@@ -196,7 +202,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
   _prepareCharacterData(context) {
     // Handle details data.
     for (let [k, v] of Object.entries(context.system.details)) {
-      v.label = game.i18n.localize(CONFIG.WEIRDWIZARD.details[k]) ?? k;
+      v.label = game.i18n.localize(CONFIG.WW.details[k]) ?? k;
       v.datapath = `system.details.${k}.value`
     }
 
@@ -241,7 +247,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
 
     // Calculate total Defense
     const defense = context.actor.system.stats.defense
-    const equipped = CONFIG.WEIRDWIZARD.armor[defense.armor]
+    const equipped = CONFIG.WW.armor[defense.armor]
     let armorTotal = defense.unarmored;
 
     // Select the higher Defense value from Armor flat Defense or Armor Bonus and assign to armorTotal.
@@ -396,6 +402,29 @@ export class WeirdWizardActorSheet extends ActorSheet {
       item.delete();
       li.slideUp(200, () => this.render(false));
     });
+
+    // Active Effect management
+    html.find(".effect-control").click(ev => onManageActiveEffect(ev, this.actor));
+
+    // Afflictions checkboxes
+    html.find('[data-tab="afflictions"] input').click(async ev => {
+      const input = ev.currentTarget;
+      const checked = input.checked;
+      const afflictionId = $(ev.currentTarget).data('name');
+
+      if (checked) {
+        const affliction = CONFIG.statusEffects.find(a => a.id === afflictionId);
+        if (!affliction) return false
+        affliction['statuses'] = [affliction.id];
+        await ActiveEffect.create(affliction, {parent: this.actor});
+
+      } else {
+        const affliction = this.actor.effects.find(e => e?.statuses?.has(afflictionId));
+        if (!affliction) return false
+        await affliction.delete();
+      }
+      return true
+    });
   }
   /* -------------------------------------------- */
 
@@ -444,7 +473,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
     const header = event.currentTarget;
     const type = header.dataset.type; // Get the type of item to create.
     const data = duplicate(header.dataset); // Grab any data associated with this control.
-    const name = game.i18n.format("WEIRDWIZARD.NewItem", { itemType: type.capitalize() }) // Initialize a default name.
+    const name = game.i18n.format("WW.NewItem", { itemType: type.capitalize() }) // Initialize a default name.
 
     // Prepare the item object.
     const itemData = {

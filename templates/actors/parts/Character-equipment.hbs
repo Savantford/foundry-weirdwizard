@@ -1,0 +1,70 @@
+<div class="grid grid-2col">
+
+    {{!-- Left Column --}}
+    <div class="">
+        <ol class="items-list">
+            <li class="item flexrow item-header">
+                <div class="item-image"></div>
+                <div class="item-name">{{localize "WW.Name"}}</div>
+                <div class="item-controls">
+                    <a class="item-control item-create" title="Create item" data-type="Weapon"><i
+                            class="fas fa-plus"></i> Add weapon</a>
+                </div>
+            </li>
+            {{#each weapons as |item id|}}
+            <li class="item flexrow flex-group-left" data-item-id="{{item._id}}">
+                <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
+                <label class="item-name">{{item.name}} <a class="rollable item-roll ml-1" title="Roll Attack"><i
+                            class="fas fa-dice-d20"></i></a></label>
+                <div class="item-controls">
+                    <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                    <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                </div>
+            </li>
+            {{/each}}
+        </ol>
+    </div>
+
+    {{!-- Right Column --}}
+    <div class="flex-group-center">
+        <div class="flex-row stat-inline">{{!-- Coins --}}
+            <label for="system.currency" class="resource-label">{{localize "WW.Coins"}}</label>
+            <ol class="coins-list">
+                <li><input type="number" name="system.currency.gp" value="{{system.currency.gp}}" min="0"
+                        data-dtype="Number" /> {{localize "WW.GP"}}</li>
+                <li><input type="number" name="system.currency.sp" value="{{system.currency.sp}}" min="0"
+                        data-dtype="Number" /> {{localize "WW.SP"}}</li>
+                <li><input type="number" name="system.currency.cp" value="{{system.currency.cp}}" min="0"
+                        data-dtype="Number" /> {{localize "WW.CP"}}</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div>
+    <ol class="items-list">
+        <li class="item flexrow item-header">
+            <div class="item-image"></div>
+            <div class="item-quantity">#</div>
+            <div class="item-name">{{localize "WW.Name"}}</div>
+            <div class="item-weight">{{localize "WW.Weight"}}<br /><span class="smaller">({{localize
+                    "WW.Total"}}: {{totalWeight}})</span></div>
+            <div class="item-controls">
+                <a class="item-control item-create" title="Create item" data-type="Gear"><i class="fas fa-plus"></i> Add
+                    item</a>
+            </div>
+        </li>
+        {{#each gear as |item id|}}
+        <li class="item flexrow" data-item-id="{{item._id}}">
+            <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
+            <div class="item-quantity">{{item.system.quantity}}</div>
+            <label class="item-name">{{item.name}}</label>
+            <div class="item-weight">{{item.system.weight}}</div>
+            <div class="item-controls">
+                <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+            </div>
+        </li>
+        {{/each}}
+    </ol>
+</div>

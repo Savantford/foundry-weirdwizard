@@ -21,7 +21,7 @@ export class defenseDetails extends FormApplication {
     context.system = this.object.system;
 
     // Prepare dropdown menu objects.
-    context.armorObj = Object.fromEntries(Object.entries(CONFIG.WEIRDWIZARD.armor).map(i => [i[0], i[1].label]))
+    context.armorObj = Object.fromEntries(Object.entries(CONFIG.WW.armor).map(i => [i[0], i[1].label]))
 
     return context
   }

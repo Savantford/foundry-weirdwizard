@@ -21,3 +21,4 @@ Global.sum = function (array) {
   let sum = array.reduce((partialSum, a) => partialSum + a, 0);
   return sum;
 }
+

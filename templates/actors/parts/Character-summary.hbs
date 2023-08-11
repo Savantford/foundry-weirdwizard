@@ -1,0 +1,140 @@
+<div class="resources grid grid-2col">
+
+    <div class="statbox">{{!-- Left Column --}}
+        <h3>{{localize "WW.Stats"}}</h3>
+
+        <div class="stat">{{!-- Level, Ancestry --}}
+            <label for="level" class="resource-label">{{localize "WW.Level"}}</label>
+            {{system.stats.level.value}}
+
+            <label class="ml-1" for="ancestry" class="resource-label">{{localize "WW.Ancestry"}}</label>
+            {{system.details.ancestry.value}}
+        </div>
+
+        <div class="stat">{{!-- Type, Senses --}}
+            {{#if system.details.type.value}}<label for="type" class="resource-label">{{localize
+                "WW.Type"}}</label>
+            {{system.details.type.value}}{{/if}}
+        </div>
+
+        {{#if system.details.professions.value}}
+        <div class="stat">{{!-- Professions --}}
+            <label class="" for="professions" class="resource-label">{{localize "WW.Professions"}}</label>
+            {{system.details.professions.value}}
+        </div>
+        {{/if}}
+
+        <div class="stat mt-1">{{!-- Paths --}}
+            {{#if system.details.novice.value}}
+            <label for="paths" class="resource-label">{{localize "WW.Paths"}}</label>
+            <ol class="summary-list">
+                <li title="{{localize " WW.NovicePath"}}">{{system.details.novice.value}}</li>
+                {{#if system.details.expert.value}}<li title="{{localize " WW.ExpertPath"}}">
+                    {{system.details.expert.value}}</li>{{/if}}
+                {{#if system.details.expert.value}}<li title="{{localize " WW.MasterPath"}}">
+                    {{system.details.master.value}}</li>{{/if}}
+            </ol>
+            {{/if}}
+        </div>
+
+        <div class="hl">
+            <div class="stat mt-1">{{!-- Defense, Health, Damage --}}
+                <label for="defense" class="resource-label">{{localize "WW.Defense"}}</label>
+                <a class="defense-edit" title="Edit Defense">{{system.stats.defense.total}}</a>
+                <label class="ml-1" for="health" class="resource-label">{{localize "WW.Health.Title"}}</label>
+
+                <a class="health-edit" title="Edit Health">{{system.stats.health.total}}</a>
+                <label class="ml-1" for="damage" class="resource-label">{{localize "WW.Damage"}}</label>
+                {{system.stats.damage.value}}
+            </div>
+            <div class="stat mt-1">{{!-- Attributes 1 --}}
+                <label for="str" class="resource-label">{{localize "WW.Strength"}}</label>
+                {{system.attributes.str.value}} ({{numberFormat system.attributes.str.mod decimals=0 sign=true}})
+
+                <label class="ml-1" for="agi" class="resource-label">{{localize "WW.Agility"}}</label>
+                {{system.attributes.agi.value}} ({{numberFormat system.attributes.agi.mod decimals=0 sign=true}})
+            </div>
+            <div class="stat">{{!-- Attributes 2 --}}
+                <label for="int" class="resource-label">{{localize "WW.Intellect"}}</label>
+                {{system.attributes.int.value}} ({{numberFormat system.attributes.int.mod decimals=0 sign=true}})
+
+                <label class="ml-1" for="wil" class="resource-label">{{localize "WW.Will"}}</label>
+                {{system.attributes.wil.value}} ({{numberFormat system.attributes.wil.mod decimals=0 sign=true}})
+            </div>
+        </div>
+
+        <div class="stat">{{!-- Senses --}}
+            {{#if system.details.senses.value}}<label for="senses" class="resource-label">{{localize
+                "WW.Senses"}}</label>
+            {{system.details.senses.value}}{{/if}}
+        </div>
+
+        <div class="stat">{{!-- Languages --}}
+            <label class="" for="languages" class="resource-label">{{localize "WW.Languages"}}</label>
+            {{system.details.languages.value}}
+        </div>
+        {{#if system.details.immune.value}}<div class="stat mt-1">{{!-- Immune --}}
+            <label class="" for="immune" class="resource-label">{{localize "WW.Immune"}}</label>
+            {{system.details.immune.value}}
+        </div>{{/if}}
+        <div class="stat mt-1">{{!-- Size, Speed --}}
+            <label for="size" class="resource-label">{{localize "WW.Size"}}</label>
+            {{system.stats.size.value}}
+
+            <label class="ml-1" for="speed" class="resource-label">{{localize "WW.Speed"}}</label>
+            {{system.stats.speed.value}}
+            {{#if system.stats.speed.special}} ({{system.stats.speed.special}}){{/if}}
+        </div>
+
+        <h3 class="mt-2">{{localize "WW.Attacks"}}</h3>
+        <div class="stat">{{!-- Bonus Damage --}}
+            <label class="" for="bonusdamage" class="resource-label">{{localize "WW.BonusDamage"}}</label>
+            {{#if system.stats.bonusdamage.value}}{{system.stats.bonusdamage.value}}d6{{else}}0{{/if}}
+        </div>
+        <div class="mt-1">
+            <ol class="described-list">
+                {{#each weapons as |item id|}}
+                <li class="item" data-item-id="{{item._id}}">
+                    <a class="rollable item-roll" title="Roll Attack">{{item.name}}</a> <a class="item-edit"
+                        title="Edit Weapon">({{item.system.grip}}{{#if item.system.properties}};
+                        {{item.system.properties}}{{/if}}) {{item.system.attribute}}
+                        {{#if item.system.boons}} {{localize "WW.Boons.With"}} {{item.system.boons}} {{#if (lt
+                        item.system.boons 0)}}{{localize "WW.Boons.Banes"}}{{else}}{{localize
+                        "WW.Boons.Boons"}}{{/if}}{{/if}}
+                        ({{item.system.damage}})</a>
+                </li>
+                {{/each}}
+            </ol>
+        </div>
+    </div>
+
+    <div class="statbox">{{!-- Right Column --}}
+        <h3>{{localize "WW.Talents"}}</h3>
+        <ol class="summary-list stat">
+            {{#each talents as |item id|}}
+            <li class="item" data-item-id="{{item._id}}">
+                <a class="rollable item-roll" title="Roll Talent">{{item.name}}</a>
+                <a class="item-edit smaller" title="Edit Talent"><i class="fas fa-edit"></i></a>
+            </li>
+            {{/each}}
+        </ol>
+
+        {{#if spells}}
+        <h3 class="mt-2">{{localize "WW.Spells"}}</h3>
+
+        <div class="stat mb-2">{{!-- Traditions --}}
+            <label class="" for="traditions" class="resource-label">{{localize "WW.Traditions"}}</label>
+            {{system.details.traditions.value}}
+        </div>
+
+        <ol class="summary-list stat">
+            {{#each spells as |item id|}}
+            <li class="item" data-item-id="{{item._id}}">
+                <a class="rollable item-roll" title="Roll Spell">{{item.name}}</a>
+                <a class="item-edit smaller" title="Edit Spell"><i class="fas fa-edit"></i></a>
+            </li>
+            {{/each}}
+        </ol>
+        {{/if}}
+    </div>
+</div>

@@ -1,64 +1,64 @@
 <form class="weirdwizard health-details">
     <h2 class="stat-inline flex-group-left">
-        <label name="total" class="resource-label">{{localize "WEIRDWIZARD.Health.Total"}}</label>
-        <span class="small">({{localize "WEIRDWIZARD.LevelAt"}} {{system.stats.level.value}})</span>
+        <label name="total" class="resource-label">{{localize "WW.Health.Total"}}</label>
+        <span class="small">({{localize "WW.LevelAt"}} {{system.stats.level.value}})</span>
         <span class="health-display total ml-auto">{{system.stats.health.total}}</span>
     </h2>
 
     <div class="mb-2">
         <div class="stat-stretch flex-group-left mt-2">
-            <label class="resource-label">{{localize "WEIRDWIZARD.Health.Starting"}}</label>
+            <label class="resource-label">{{localize "WW.Health.Starting"}}</label>
             <input name="starting" class="health-input starting" type="number" min="0" value="{{system.stats.health.starting}}"/>
         </div>
         <div class="stat-stretch flex-group-left mt-1">
-            <label class="resource-label">{{localize "WEIRDWIZARD.NovicePath"}}</label>
+            <label class="resource-label">{{localize "WW.NovicePath"}}</label>
             <i class="fas fa-plus mr-1"></i>
             <span class="health-levels novice">1</span>
             <i class="fas fa-xmark mx-1"></i>
-            <input name="novice" class="health-input novice" type="number" min="0" value="{{system.stats.health.novice}}" title="{{localize "WEIRDWIZARD.Health.Per"}} {{localize "WEIRDWIZARD.Health.Novice"}}"/>
+            <input name="novice" class="health-input novice" type="number" min="0" value="{{system.stats.health.novice}}" title="{{localize "WW.Health.Per"}} {{localize "WW.Health.Novice"}}"/>
             <i class="fas fa-equals ml-1 mr-2"></i>
             <i class="fas fa-plus ml-2 mr-1"></i>
             <span class="health-display novice">{{system.stats.health.novice}}</span>
         </div>
         <div class="stat-stretch flex-group-left mt-1">
-            <label class="resource-label">{{localize "WEIRDWIZARD.ExpertPath"}}</label>
+            <label class="resource-label">{{localize "WW.ExpertPath"}}</label>
             <i class="fas fa-plus mr-1"></i>
             <span class="health-levels expert">0</span>
             <i class="fas fa-xmark mx-1"></i>
-            <input name="expert" class="health-input expert" type="number" min="0" value="{{system.stats.health.expert}}" title="{{localize "WEIRDWIZARD.Health.Per"}} {{localize "WEIRDWIZARD.Health.Expert"}}"/>
+            <input name="expert" class="health-input expert" type="number" min="0" value="{{system.stats.health.expert}}" title="{{localize "WW.Health.Per"}} {{localize "WW.Health.Expert"}}"/>
             <i class="fas fa-equals ml-1 mr-2"></i>
             <i class="fas fa-plus ml-2 mr-1"></i>
             <span class="health-display expert">{{system.stats.health.expert}}</span>
         </div>
         <div class="stat-stretch flex-group-left mt-1">
-            <label class="resource-label" >{{localize "WEIRDWIZARD.MasterPath"}}</label>
+            <label class="resource-label" >{{localize "WW.MasterPath"}}</label>
             <i class="fas fa-plus mr-1"></i>
             <span class="health-levels master">0</span>
             <i class="fas fa-xmark mx-1"></i>
-            <input name="master" class="health-input master" type="number" min="0" value="{{system.stats.health.master}}" title="{{localize "WEIRDWIZARD.Health.Per"}} {{localize "WEIRDWIZARD.Health.Master"}}"/>
+            <input name="master" class="health-input master" type="number" min="0" value="{{system.stats.health.master}}" title="{{localize "WW.Health.Per"}} {{localize "WW.Health.Master"}}"/>
             <i class="fas fa-equals ml-1 mr-2"></i>
             <i class="fas fa-plus ml-2 mr-1"></i>
             <span class="health-display master">{{system.stats.health.master}}</span>
         </div>
         <div class="stat-stretch flex-group-left mt-1">
-            <label class="resource-label">{{localize "WEIRDWIZARD.Health.Bonus"}}</label>
+            <label class="resource-label">{{localize "WW.Health.Bonus"}}</label>
             <i class="fas fa-plus ml-2 mr-1"></i> <input name="bonus" class="health-input bonus" type="number" min="0" value="{{system.stats.health.bonus}}"/>
         </div>
         <div class="stat-stretch flex-group-left mt-1">
-            <label class="resource-label">{{localize "WEIRDWIZARD.Health.Lost"}}</label>
+            <label class="resource-label">{{localize "WW.Health.Lost"}}</label>
             <i class="fas fa-minus ml-2 mr-1"></i> <input name="lost" class="health-input lost" type="number" min="0" value="{{system.stats.health.lost}}"/>
         </div>
     </div>
 
     <div class="form-group">
         <button type="submit">
-            <i class="fas fa-save"></i> {{localize "WEIRDWIZARD.Save"}}
+            <i class="fas fa-save"></i> {{localize "WW.Save"}}
         </button>
         <button type="button" id="health-reset">
-            <i class="fas fa-sync"></i> {{localize "WEIRDWIZARD.Reset"}}
+            <i class="fas fa-sync"></i> {{localize "WW.Reset"}}
         </button>
         <button type="button" id="health-cancel">
-            <i class="fas fa-xmark"></i> {{localize "WEIRDWIZARD.Cancel"}}
+            <i class="fas fa-xmark"></i> {{localize "WW.Cancel"}}
         </button>
     </div>
 </form>
