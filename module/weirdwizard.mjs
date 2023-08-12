@@ -6,9 +6,10 @@ import { WeirdWizardItem } from "./documents/item.mjs";
 import { WeirdWizardActorSheet } from "./sheets/actor-sheet.mjs";
 import { WeirdWizardItemSheet } from "./sheets/item-sheet.mjs";
 // Import helper/utility classes and constants.
-//import { preloadHandlebarsTemplates } from "./helpers/templates.mjs";
-import { WEIRDWIZARD } from "./helpers/config.mjs";
-import { Global } from './helpers/global.mjs'
+import { preloadHandlebarsTemplates } from "./helpers/templates.mjs";
+import { WW } from "./helpers/config.mjs";
+import { Global } from './helpers/global.mjs';
+import { WWAfflictions } from './helpers/effects.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -24,7 +25,7 @@ Hooks.once('init', function () {
   };
 
   // Add custom constants for configuration.
-  CONFIG.WEIRDWIZARD = WEIRDWIZARD;
+  CONFIG.WW = WW;
 
   // Add global functions to configuration.
   CONFIG.Global = Global;
@@ -50,7 +51,7 @@ Hooks.once('init', function () {
   Items.registerSheet("weirdwizardplate", WeirdWizardItemSheet, { makeDefault: true });
 
   // Preload Handlebars templates.
-  //return preloadHandlebarsTemplates();
+  return preloadHandlebarsTemplates();
 });
 
 // Rollable buttons on attribute rolls.
@@ -64,6 +65,47 @@ Hooks.once('init', function () {
 
 Hooks.once("ready", function () {
   // Include steps that need to happen after Foundry has fully loaded here.
+});
+
+/* -------------------------------------------- */
+/*  Setup Hook                                  */
+/* -------------------------------------------- */
+
+/**
+ * This function runs after game data has been requested and loaded from the servers, so entities exist
+ */
+Hooks.once('setup', function () {
+  // Localize CONFIG objects once up-front
+  /*const toLocalize = ['attributes'];
+  for (const o of toLocalize) {
+    CONFIG.WW[o] = Object.entries(CONFIG.WW[o]).reduce((obj, e) => {
+      obj[e[0]] = game.i18n.localize(e[1]);
+      return obj
+    }, {});
+  }*/
+
+  const effects = WWAfflictions.buildAll();
+
+  // Add the default status icons if the setting is not on
+  /*if (!game.settings.get('demonlord', 'statusIcons')) {
+    for (const effect of CONFIG.statusEffects) {
+      effects.push({
+        id: effect.id,
+        name: effect.name,
+        icon: effect.icon,
+      });
+    }
+  }
+  // Regardless of the setting, add the "invisible" status so that actors can turn invisible
+  else {
+    effects.push(CONFIG.statusEffects.find(e => e.id === 'invisible'));
+  }*/
+
+
+  CONFIG.statusEffects = effects;
+
+  // Set active effect keys-labels
+  //WWActiveEffectConfig.initializeChangeKeys();
 });
 
 console.log('weirdwizard.mjs loaded.')

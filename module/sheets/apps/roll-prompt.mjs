@@ -43,7 +43,7 @@ export class rollPrompt extends FormApplication {
     context.affBanes = CONFIG.Global.getAffBanes();
 
     // Prepare dropdown menu objects.
-    //context.armorObj = Object.fromEntries(Object.entries(CONFIG.WEIRDWIZARD.armor).map(i => [i[0], i[1].label]))
+    //context.armorObj = Object.fromEntries(Object.entries(CONFIG.WW.armor).map(i => [i[0], i[1].label]))
 
     return context
   }
@@ -79,9 +79,9 @@ export class rollPrompt extends FormApplication {
       parent.querySelector('.boons-display.total').innerHTML = boonsFinal;
 
       if (boonsFinal > 0) {
-        parent.querySelector('.boons-expression').innerHTML = att + " " + game.i18n.format("WEIRDWIZARD.Boons.With") + " " + parseInt(boonsFinal) + " " + game.i18n.format("WEIRDWIZARD.Boons.Boons");
+        parent.querySelector('.boons-expression').innerHTML = att + " " + game.i18n.format("WW.Boons.With") + " " + parseInt(boonsFinal) + " " + game.i18n.format("WW.Boons.Boons");
       } else if (boonsFinal < 0) {
-        parent.querySelector('.boons-expression').innerHTML = att + " " + game.i18n.format("WEIRDWIZARD.Boons.With") + " " + boonsFinal*-1 + " " + game.i18n.format("WEIRDWIZARD.Boons.Banes");
+        parent.querySelector('.boons-expression').innerHTML = att + " " + game.i18n.format("WW.Boons.With") + " " + boonsFinal*-1 + " " + game.i18n.format("WW.Boons.Banes");
       } else {
         parent.querySelector('.boons-expression').innerHTML = att;
       }

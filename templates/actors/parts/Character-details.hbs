@@ -1,0 +1,43 @@
+<div class="details grid grid-2col">
+
+    {{!-- Left Column --}}
+    <div class="details-col flex-group-center">
+        <h1>{{localize "WW.Identity"}}</h1>
+        <ol class="details-list">
+            {{#each profile as |detail key|}}
+            <li class="detail">
+                <h2 class="detail-label">{{detail.label}}</h2>
+                {{editor detail.enriched target=detail.datapath button=true owner=../owner editable=../editable}}
+            </li>
+            {{/each}}
+        </ol>
+    </div>
+
+    {{!-- Right Column --}}
+    <div class="details-col flex-group-center">
+        <h1>{{localize "WW.Background"}}</h1>
+        <ol class="details-list">
+            <li class="detail">
+                <h2 class="detail-label">{{system.details.bg_ancestry.label}}</h2>
+                {{editor system.details.bg_ancestry.enriched target="system.details.bg_ancestry.value" button=true
+                owner=owner editable=editable}}
+            </li>
+            <li class="detail">
+                <h2 class="detail-label">{{system.details.deeds.label}}</h2>
+                <div class="flex-row stat-inline flex-group-center">
+                    <label for="system.details.reputation.value" class="resource-label">{{localize
+                        "WW.Reputation"}}</label>
+                    <input type="number" name="system.details.reputation.value"
+                        value="{{system.details.reputation.value}}" min="0" data-dtype="Number" />
+                </div>
+                {{editor system.details.deeds.enriched target="system.details.deeds.value" button=true owner=owner
+                editable=editable}}
+            </li>
+            <li class="detail">
+                <h2 class="detail-label">{{system.details.information.label}}</h2>
+                {{editor system.details.information.enriched target="system.details.information.value" button=true
+                owner=owner editable=editable}}
+            </li>
+        </ol>
+    </div>
+</div>

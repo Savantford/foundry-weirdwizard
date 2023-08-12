@@ -1,13 +1,13 @@
 <form class="weirdwizard">
     <h2 class="stat stat-inline flex-group-left">
-        <label class="resource-label">{{localize "WEIRDWIZARD.DefenseTotal"}}</label>
+        <label class="resource-label">{{localize "WW.DefenseTotal"}}</label>
         {{system.stats.defense.total}}
     </h2>
     
     <div class="stat stat-inline flex-group-left">
-        <label class="resource-label">{{localize "WEIRDWIZARD.DefenseUnarmored"}}</label>
+        <label class="resource-label">{{localize "WW.DefenseUnarmored"}}</label>
         <input name="unarmored" class="icon-text" type="number" min="0" value="{{system.stats.defense.unarmored}}"/>
-        <label class="resource-label ml-2">{{localize "WEIRDWIZARD.Armor.Title"}}</label>
+        <label class="resource-label ml-2">{{localize "WW.Armor.Title"}}</label>
         <select name="armor">
             {{selectOptions armorObj selected=system.stats.defense.armor localize=true}}
         </select>
@@ -19,8 +19,8 @@
 
     <ul class="def-list my-2">
         <li class="stat flexrow">
-            <label class="def-name">{{localize "WEIRDWIZARD.ModName"}}</label>
-            <label class="def-bonus">{{localize "WEIRDWIZARD.Value"}}</label>
+            <label class="def-name">{{localize "WW.ModName"}}</label>
+            <label class="def-bonus">{{localize "WW.Value"}}</label>
             <label class="def-remove"></label>
         </li>
         {{#each system.stats.defense.bonuses}}
@@ -31,18 +31,18 @@
             <a class="def-remove"><i class="fa-solid fa-trash" data-tooltip="Delete"></i></a>
         </li>
         {{/each}}
-        <li class="add-row mt-1 mb-2"><a><i class="fa-solid fa-add" style="display:contents;"></i> {{localize "WEIRDWIZARD.New"}}</a></li>
+        <li class="add-row mt-1 mb-2"><a><i class="fa-solid fa-add" style="display:contents;"></i> {{localize "WW.New"}}</a></li>
     </ul>
     
     <div class="form-group">
         <button type="submit">
-            <i class="fas fa-save"></i> {{localize "WEIRDWIZARD.Save"}}
+            <i class="fas fa-save"></i> {{localize "WW.Save"}}
         </button>
         <button type="button" id="def-reset">
-            <i class="fas fa-sync"></i> {{localize "WEIRDWIZARD.Reset"}}
+            <i class="fas fa-sync"></i> {{localize "WW.Reset"}}
         </button>
         <button type="button" id="def-cancel">
-            <i class="fas fa-xmark"></i> {{localize "WEIRDWIZARD.Cancel"}}
+            <i class="fas fa-xmark"></i> {{localize "WW.Cancel"}}
         </button>
     </div>
 </form>

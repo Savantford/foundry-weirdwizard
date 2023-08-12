@@ -169,11 +169,11 @@
     }
   },
   "Item": {
-    "types": ["Weapon", "Container", "Gear", "Ancestry", "Path", "Talent", "Spell", "Aura (NPC)", "Talent (NPC)", "Weapon (NPC)", "Action (NPC)", "Reaction (NPC)", "End of Round Effect (NPC)"],
+    "types": ["Equipment", "Trait or Talent", "Spell", "Ancestry", "Path"],
     "templates": {
       "base": {
         "description": {
-          "value": "",
+          "value": "<p></p>",
           "chat": "",
           "unidentified": ""
         }
@@ -237,52 +237,54 @@
       "templates": ["base"],
       "advancement": []
     },
-    "Weapon": {
-      "templates": ["base", "physicalItem" ,"activatedEffect", "action", "mountable"],
-      "attribute": "str",
+    "Equipment": {
+      "templates": ["base", "physicalItem", "activatedEffect", "action"],
+      "subtype": "generic",
+      "quality": "standard",
+      "attribute": "",
       "damage": "1d6",
       "grip": "One-Handed",
       "properties": "",
-      "description": {
-        "value": "<p></p>"
-      }
-    },
-    "Container": {
-      "templates": ["base", "physicalItem"],
-      "capacity": {
-        "type": "weight",
-        "value": null,
-        "weightless": false
-      }
-    },
-    "Gear": {
-      "templates": ["base", "physicalItem"],
-      "subtypes": ["Armor", "Consumable"],
-      "description": {
-        "value": "<p></p>"
-      }
-    },
-    "Armor": {
-      "templates": ["base", "physicalItem", "activatedEffect", "action", "mountable"],
-      "armor": {
-        "type": "light",
-        "value": null,
-        "dex": null
-      },
-      "baseItem": "",
-      "speed": {
-        "value": null,
-        "conditions": ""
-      },
-      "strength": null,
-      "stealth": false,
-      "proficient": true
-    },
-    "Consumable": {
-      "templates": ["base", "physicalItem", "activatedEffect", "action"],
+      "capacity": 0,
       "consumableType": "potion",
       "uses": {
         "autoDestroy": false
+      }
+    },
+    "Trait or Talent": {
+      "templates": ["base", "activatedEffect", "action"],
+      "subtype": "trait",
+      "source": "None",
+      "range": 0,
+      "condition": {
+        "value": ""
+      }
+    },
+    "Spell": {
+      "templates": ["base", "activatedEffect", "action"],
+      "tier": {
+        "value": "starting"
+      },
+      "tradition": {
+        "value": ""
+      },
+      "requirement": {
+        "value": ""
+      },
+      "castings": {
+        "min": 1,
+        "value": 1,
+        "max": null
+      },
+      "casting": {
+        "value": ""
+      },
+      "target": {
+        "value": ""
+      },
+      "recharge": {
+        "value": null,
+        "charged": false
       }
     },
     "Ancestry": {
@@ -320,70 +322,6 @@
         "progression": "none",
         "ability": ""
       }
-    },
-    "Talent": {
-      "templates": ["base", "activatedEffect", "action"],
-      "source": {
-        "value": "ancestry"
-      },
-      "type": {
-        "value": "passive"
-      },
-      "condition": {
-        "value": ""
-      }
-    },
-    "Spell": {
-      "templates": ["base", "activatedEffect", "action"],
-      "tier": {
-        "value": "starting"
-      },
-      "tradition": {
-        "value": ""
-      },
-      "requirement": {
-        "value": ""
-      },
-      "castings": {
-        "min": 1,
-        "value": 1,
-        "max": null
-      },
-      "casting": {
-        "value": ""
-      },
-      "target": {
-        "value": ""
-      },
-      "recharge": {
-        "value": null,
-        "charged": false
-      }
-    },
-    "Aura (NPC)": {
-      "templates": ["base", "activatedEffect", "action"],
-      "range": 0
-    },
-    "Talent (NPC)": {
-      "templates": ["base", "activatedEffect", "action"]
-    },
-    "Weapon (NPC)": {
-      "templates": ["base", "activatedEffect", "action"],
-      "attribute": "str",
-      "damage": "1d6",
-      "properties": "",
-      "description": {
-        "value": "<p></p>"
-      }
-    },
-    "Action (NPC)": {
-      "templates": ["base", "activatedEffect", "action"]
-    },
-    "Reaction (NPC)": {
-      "templates": ["base", "activatedEffect", "action"]
-    },
-    "End of Round Effect (NPC)": {
-      "templates": ["base", "activatedEffect", "action"]
     }
   }
 }

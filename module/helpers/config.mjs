@@ -1,125 +1,140 @@
-export const WEIRDWIZARD = {}
+export const WW = {}
 
 // Define Constants
-WEIRDWIZARD.attributes = {
-  "str": "WEIRDWIZARD.Strength",
-  "agi": "WEIRDWIZARD.Agility",
-  "int": "WEIRDWIZARD.Intellect",
-  "wil": "WEIRDWIZARD.Will"
+WW.attributes = {
+  "str": "WW.Strength",
+  "agi": "WW.Agility",
+  "int": "WW.Intellect",
+  "wil": "WW.Will"
 }
 
-WEIRDWIZARD.details = {
-  "features": "WEIRDWIZARD.Features",
-  "personality": "WEIRDWIZARD.Personality",
-  "belief": "WEIRDWIZARD.Belief",
-  "professions": "WEIRDWIZARD.Professions",
-  "languages": "WEIRDWIZARD.Languages",
-  "information": "WEIRDWIZARD.Information",
-  "bg_ancestry": "WEIRDWIZARD.Ancestry",
-  "deeds": "WEIRDWIZARD.Deeds"
+WW.details = {
+  "features": "WW.Features",
+  "personality": "WW.Personality",
+  "belief": "WW.Belief",
+  "professions": "WW.Professions",
+  "languages": "WW.Languages",
+  "information": "WW.Information",
+  "bg_ancestry": "WW.Ancestry",
+  "deeds": "WW.Deeds"
 }
 
 // Dropdown menus
-WEIRDWIZARD.dropdownAttributes = {
-  "": "WEIRDWIZARD.None",
-  "str": "WEIRDWIZARD.Strength",
-  "agi": "WEIRDWIZARD.Agility",
-  "int": "WEIRDWIZARD.Intellect",
-  "wil": "WEIRDWIZARD.Will"
+WW.dropdownAttributes = {
+  "": "WW.None",
+  "str": "WW.Strength",
+  "agi": "WW.Agility",
+  "int": "WW.Intellect",
+  "wil": "WW.Will"
 }
 
-WEIRDWIZARD.dropdownSources = {
-  "Ancestry": "WEIRDWIZARD.SourceChoices.Ancestry",
-  "Novice": "WEIRDWIZARD.SourceChoices.Novice",
-  "Expert": "WEIRDWIZARD.SourceChoices.Expert",
-  "Master": "WEIRDWIZARD.SourceChoices.Master",
-  "Other": "WEIRDWIZARD.SourceChoices.Other"
+WW.dropdownSubtypes = {
+  "trait": "WW.TalentSubtypes.Trait",
+  "aura": "WW.TalentSubtypes.Aura",
+  "action": "WW.TalentSubtypes.Action",
+  "reaction": "WW.TalentSubtypes.Reaction",
+  "end": "WW.TalentSubtypes.End",
 };
 
-/*WEIRDWIZARD.dropdownTypes = {
-  "passive": "WEIRDWIZARD.TypeChoices.Passive",
-  "action": "WEIRDWIZARD.TypeChoices.Action",
-  "move": "WEIRDWIZARD.TypeChoices.Move",
-  "minor": "WEIRDWIZARD.TypeChoices.Minor",
-  "reaction": "WEIRDWIZARD.TypeChoices.Reaction"
-};*/
-
-WEIRDWIZARD.dropdownFrequencies = {
-  "day": "WEIRDWIZARD.FrequencyChoices.Day",
-  "hour": "WEIRDWIZARD.FrequencyChoices.Hour",
-  "minute": "WEIRDWIZARD.FrequencyChoices.Minute",
-  "round": "WEIRDWIZARD.FrequencyChoices.Round"
+WW.dropdownSources = {
+  "None": "WW.TalentSources.None",
+  "Ancestry": "WW.TalentSources.Ancestry",
+  "Novice": "WW.TalentSources.Novice",
+  "Expert": "WW.TalentSources.Expert",
+  "Master": "WW.TalentSources.Master",
+  "Other": "WW.TalentSources.Other"
 };
 
-WEIRDWIZARD.dropdownTiers = {
-  "Novice": "WEIRDWIZARD.Novice",
-  "Expert": "WEIRDWIZARD.Expert",
-  "Master": "WEIRDWIZARD.Master"
+WW.dropdownFrequencies = {
+  "day": "WW.FrequencyChoices.Day",
+  "hour": "WW.FrequencyChoices.Hour",
+  "minute": "WW.FrequencyChoices.Minute",
+  "round": "WW.FrequencyChoices.Round"
 };
 
-WEIRDWIZARD.dropdownGrip = {
-  "One-Handed": "WEIRDWIZARD.GripOne",
-  "Two-Handed": "WEIRDWIZARD.GripTwo",
-  "Off-Hand": "WEIRDWIZARD.GripOff"
+WW.dropdownTiers = {
+  "Novice": "WW.Novice",
+  "Expert": "WW.Expert",
+  "Master": "WW.Master"
 };
 
-WEIRDWIZARD.armor = {
+WW.itemSubtypes = {
+  "generic": "WW.Generic",
+  "weapon": "WW.Weapon",
+  "armor": "WW.Armor.Title",
+  "consumable": "WW.Consumable",
+  "container": "WW.Container"
+};
+
+WW.itemQualities = {
+  "standard": "WW.QualityStandard",
+  "superior": "WW.QualitySuperior",
+  "inferior": "WW.QualityInferior"
+};
+
+WW.dropdownGrip = {
+  "One-Handed": "WW.GripOne",
+  "Two-Handed": "WW.GripTwo",
+  "Off-Hand": "WW.GripOff"
+};
+
+WW.armor = {
   "unarmored": {
-    "label": "WEIRDWIZARD.Armor.Unarmored",
+    "label": "WW.Armor.Unarmored",
     "def": null,
     "bonus": null,
     "type": null
   },
   "padded": {
-    "label": "WEIRDWIZARD.Armor.Padded",
+    "label": "WW.Armor.Padded",
     "def": 11,
     "bonus": null,
     "type": "Light"
   },
   "leather": {
-    "label": "WEIRDWIZARD.Armor.Leather",
+    "label": "WW.Armor.Leather",
     "def": 12,
     "bonus": 1,
     "type": "Light"
   },
   "brigandine": {
-    "label": "WEIRDWIZARD.Armor.Brigandine",
+    "label": "WW.Armor.Brigandine",
     "def": 13,
     "bonus": 1,
     "type": "Light"
   },
   "ring": {
-    "label": "WEIRDWIZARD.Armor.Ring",
+    "label": "WW.Armor.Ring",
     "def": 14,
     "bonus": 2,
     "type": "Medium"
   },
   "mail": {
-    "label": "WEIRDWIZARD.Armor.Mail",
+    "label": "WW.Armor.Mail",
     "def": 15,
     "bonus": null,
     "type": "Medium"
   },
   "plateAndMail": {
-    "label": "WEIRDWIZARD.Armor.PlateAndMail",
+    "label": "WW.Armor.PlateAndMail",
     "def": 16,
     "bonus": null,
     "type": "Medium"
   },
   "breastplate": {
-    "label": "WEIRDWIZARD.Armor.Breastplate",
+    "label": "WW.Armor.Breastplate",
     "def": 16,
     "bonus": 3,
     "type": "Heavy"
   },
   "plate": {
-    "label": "WEIRDWIZARD.Armor.Plate",
+    "label": "WW.Armor.Plate",
     "def": 17,
     "bonus": null,
     "type": "Heavy"
   },
   "fullPlate": {
-    "label": "WEIRDWIZARD.Armor.FullPlate", 
+    "label": "WW.Armor.FullPlate", 
     "def": 18,
     "bonus": null,
     "type": "Heavy"

@@ -47,61 +47,36 @@ export class WeirdWizardItemSheet extends ItemSheet {
 
     // Prepare dropdown menu objects.
     switch (context.item.type) {
-      case 'Container':
+  
+      case 'Equipment':
+        context.subtypesObj = CONFIG.WW.itemSubtypes;
+        context.qualitiesObj = CONFIG.WW.itemQualities;
+        context.attributesObj = CONFIG.WW.dropdownAttributes;
+        context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
+        context.gripObj = CONFIG.WW.dropdownGrip;
+      break;
 
-        break;
+      case 'Trait or Talent':
+        context.subtypesObj = CONFIG.WW.dropdownSubtypes;
+        context.sourcesObj = CONFIG.WW.dropdownSources;
+        context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
+        context.attributesObj = CONFIG.WW.dropdownAttributes;
+      break;
 
-      case 'Weapon':
-        context.gripObj = CONFIG.WEIRDWIZARD.dropdownGrip;
-        context.attributesObj = CONFIG.WEIRDWIZARD.dropdownAttributes;
-        break;
-
+      case 'Spell':
+        context.tiersObj = CONFIG.WW.dropdownTiers;
+        //context.sourcesObj = CONFIG.WW.dropdownSources;
+        context.attributesObj = CONFIG.WW.dropdownAttributes;
+      break;
+      
       case 'Ancestry':
 
-        break;
+      break;
 
       case 'Path':
 
-        break;
-
-      case 'Talent':
-        context.sourcesObj = CONFIG.WEIRDWIZARD.dropdownSources;
-        context.typesObj = CONFIG.WEIRDWIZARD.dropdownTypes;
-        context.frequenciesObj = CONFIG.WEIRDWIZARD.dropdownFrequencies;
-        context.attributesObj = CONFIG.WEIRDWIZARD.dropdownAttributes;
-        break;
-
-      case 'Spell':
-        context.tiersObj = CONFIG.WEIRDWIZARD.dropdownTiers;
-        //context.sourcesObj = CONFIG.WEIRDWIZARD.dropdownSources;
-        context.attributesObj = CONFIG.WEIRDWIZARD.dropdownAttributes;
-        break;
+      break;
       
-      case 'Aura (NPC)':
-        context.frequenciesObj = CONFIG.WEIRDWIZARD.dropdownFrequencies;
-        context.attributesObj = CONFIG.WEIRDWIZARD.dropdownAttributes;
-        break;
-
-      case 'Talent (NPC)':
-        context.frequenciesObj = CONFIG.WEIRDWIZARD.dropdownFrequencies;
-        context.attributesObj = CONFIG.WEIRDWIZARD.dropdownAttributes;
-        break;
-      case 'Weapon (NPC)':
-        context.frequenciesObj = CONFIG.WEIRDWIZARD.dropdownFrequencies;
-        context.attributesObj = CONFIG.WEIRDWIZARD.dropdownAttributes;
-        break;
-      case 'Action (NPC)':
-        context.frequenciesObj = CONFIG.WEIRDWIZARD.dropdownFrequencies;
-        context.attributesObj = CONFIG.WEIRDWIZARD.dropdownAttributes;
-        break;
-      case 'Reaction (NPC)':
-        context.frequenciesObj = CONFIG.WEIRDWIZARD.dropdownFrequencies;
-        context.attributesObj = CONFIG.WEIRDWIZARD.dropdownAttributes;
-        break;
-      case 'End of Round Effect (NPC)':
-        context.frequenciesObj = CONFIG.WEIRDWIZARD.dropdownFrequencies;
-        context.attributesObj = CONFIG.WEIRDWIZARD.dropdownAttributes;
-        break;
     }
 
     return context;

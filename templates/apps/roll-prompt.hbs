@@ -1,20 +1,20 @@
 <form class="weirdwizard boons-details">
     <h2 class="stat-inline flex-group-left">
-        <label name="total" class="resource-label">{{localize "WEIRDWIZARD.Boons.Total"}}</label>
+        <label name="total" class="resource-label">{{localize "WW.Boons.Total"}}</label>
         <span class="boons-display total ml-auto"></span>
     </h2>
 
     <div class="">
         <div class="stat-stretch flex-group-left mt-1">
-            <label class="resource-label">{{localize "WEIRDWIZARD.Boons.Afflictions"}}</label>
+            <label class="resource-label">{{localize "WW.Boons.Afflictions"}}</label>
             <span class="boons-display afflictions">{{numberFormat affBanes decimals=0 sign=true}}</span>
         </div>
         <div class="stat-stretch flex-group-left mt-1">
-            <label class="resource-label">{{localize "WEIRDWIZARD.Boons.Fixed"}}</label>
+            <label class="resource-label">{{localize "WW.Boons.Fixed"}}</label>
             <span class="boons-display fixed">{{numberFormat fixed decimals=0 sign=true}}</span>
         </div>
         <div class="stat-stretch flex-group-left mt-1">
-            <label class="resource-label">{{localize "WEIRDWIZARD.Boons.Situational"}}</label>
+            <label class="resource-label">{{localize "WW.Boons.Situational"}}</label>
             <input name="situational" class="boons-input situational" type="number" value="0"/>
         </div>
     </div>
@@ -23,10 +23,10 @@
 
     <div class="form-group">
         <button type="submit" id="boons-submit">
-            <i class="fas fa-dice"></i> {{localize "WEIRDWIZARD.Boons.Roll"}}
+            <i class="fas fa-dice"></i> {{localize "WW.Boons.Roll"}}
         </button>
         <button type="button" id="boons-cancel">
-            <i class="fas fa-xmark"></i> {{localize "WEIRDWIZARD.Cancel"}}
+            <i class="fas fa-xmark"></i> {{localize "WW.Cancel"}}
         </button>
     </div>
 </form>

@@ -1,39 +1,56 @@
 <form class="{{cssClass}}" autocomplete="off">
-  <header class="sheet-header"> {{!-- Header --}}
+
+  {{!-- Header --}}
+  <header class="sheet-header">
     <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
     <div class="header-fields">
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.ItemName"}}" /></h1>
-
+      
+      {{!-- Main Row --}}
       <div class="flex-row stat-inline">
-        <label class="resource-label">{{localize "WW.Tier"}}</label>
-        <select name="system.tier.value">
-          {{selectOptions tiersObj selected=system.tier.value localize=true}}
+        <label class="resource-label">{{localize "WW.Type"}}</label>
+        <select name="system.subtype">
+          {{selectOptions subtypesObj selected=system.subtype localize=true}}
         </select>
-        <label class="ml-2">{{localize "WW.Tradition"}}</label>
-        <input type="text" name="system.tradition.value" value="{{system.tradition.value}}" data-dtype="String" />
+
+        <label class="ml-2">{{localize "WW.Uses"}}</label>
+        <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="0" data-dtype="Number" />
+      </div>
+
+      {{!-- Subtype Row --}}
+      <div class="flex-row stat-inline">
+        {{#if (eq system.subtype 'trait')}} {{!-- Trait Params --}}
+        <label>{{localize "WW.Source"}}</label>
+        <select name="system.source">
+          {{selectOptions sourcesObj selected=system.source localize=true}}
+        </select>
+        {{/if}}
+
+        {{#if (eq system.subtype 'aura')}} {{!-- Aura Params --}}
+        <label>{{localize "WW.Range"}}</label>
+        <input type="number" name="system.range" value="{{system.range}}" min="0" data-dtype="Number" />
+        {{/if}}
       </div>
     </div>
+
+    {{!-- Subtype Row --}}
   </header>
 
   {{!-- Sheet Body --}}
   <section class="sheet-body">
 
-    <div class="flex-row stat-inline">
-      <label class="">{{localize "WW.Requirement"}}</label>
-      <input type="text" name="system.requirement.value" value="{{system.requirement.value}}" data-dtype="String" />
-    </div>
+    {{!-- <div class="detail">
+      <div class="stat flexrow flex-group-left">
+        <label class="resource-label">{{localize "WW.Type"}}</label>
+      </div>
+      <div class="stat stat-inline">
+        <select class="mr-1" name="system.type.value">
+          {{selectOptions typesObj selected=system.type.value localize=true}}
+        </select>
+        <input type="text" name="system.condition.value" value="{{system.condition.value}}" placeholder="{{localize "WW.ConditionPH"}}" data-dtype="String" />
+      </div>
+    </div>--}}
 
-    <div class="flex-row stat-inline">
-      <label class="">{{localize "WW.Casting"}}</label>
-      <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="1" data-dtype="Number" />
-      <input class="ml-2" type="text" name="system.casting.value" value="{{system.casting.value}}" data-dtype="String" />
-    </div>
-
-    <div class="flex-row stat-inline">
-      <label class="resource-label">{{localize "WW.Target"}}</label>
-      <input type="text" name="system.target.value" value="{{system.target.value}}" data-dtype="String" />
-    </div>
-    
     <h2>{{localize "WW.Description"}}</h2>
     {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
 
