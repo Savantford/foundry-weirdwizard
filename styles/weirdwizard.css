@@ -1,7 +1,47 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 
-/* Import utilities. */
-@import 'utils/typography';
+/* Fonts */
+@font-face {
+  font-family: 'Garamond Pro';
+  src: url('../fonts/Adobe Garamond Pro Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Garamond Pro';
+  src: url('../fonts/Adobe Garamond Pro Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Garamond Pro';
+  src: url('../fonts/Adobe Garamond Pro Bold Italic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Garamond Pro';
+  src: url('../fonts/Adobe Garamond Pro Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Queen Inline';
+  src: url('../fonts/QueenInlineGrunge.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Futura PT Book';
+  src: url('../fonts/futura-pt-book.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 /* Variables */
 :root {
@@ -11,16 +51,7 @@
   --text: #000000;
   --gray: #BCBEC0;
   --background: url(../../../ui/parchment-white.jpg) repeat;
-}
-
-/* Global styles */
-.window-app {
-  font-family: $font-primary;
-}
-
-.window-app .window-header {
-  font-family: $font-header;
-  font-size: 14px;
+  --color-shadow-primary: #c200ff;
 }
 
 .rollable:hover, .rollable:focus {
@@ -253,35 +284,51 @@
 .weirdwizard .window-content {
   color: var(--text);
   background: var(--background);
+  font-family: 'Futura PT Book', serif;
 }
 
 .weirdwizard .window-content h1 {
   color: var(--highlight-title);
   border-bottom: 0px;
+  font-family: 'Queen Inline', serif;
+  font-weight: bold;
 }
 
 .weirdwizard .window-content h2 {
   color: var(--highlight-title);
   text-align: left;
   border-bottom: 3px double black;
+  font-family: 'Queen Inline', serif;
+  font-size: 24px;
+  padding-bottom: 2px;
 }
 
 .weirdwizard .window-content h3 {
   color: white;
   background-color: var(--highlight-title);
+  border: none;
   border-radius: 5px;
   padding: 2px 5px;
+  font-family: 'Garamond Pro', serif;
+  text-transform: uppercase;
 }
 
 .weirdwizard .window-content h4 {
   color: var(--text);
   background-color: var(--gray);
-  border-radius: 5px;
+  border-radius: 3px;
   padding: 2px 5px;
+  font-family: 'Garamond Pro', serif;
+  font-size: 12px;
+  text-transform: uppercase;
 }
 
 .weirdwizard .statbox .stat {
   margin: 2px 5px;
+}
+
+.weirdwizard .statbox-header {
+  margin: 0px 0px 3px;
 }
 
 .weirdwizard .ml-1 {
@@ -413,6 +460,7 @@
   width: 100%;
   height: 100%;
   margin: 0;
+  font-weight: bold;
 }
 .weirdwizard .npc h1.charname  {
   margin: 5px 0 15px;
@@ -421,6 +469,9 @@
   -webkit-box-flex: 0;
   -ms-flex: 0;
   flex: 0;
+  font-family: 'Queen Inline';
+  font-size: 16px;
+  font-weight: bold;
 }
 .weirdwizard .sheet-body,
 .weirdwizard .sheet-body .tab,
