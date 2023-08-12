@@ -4,6 +4,7 @@
 :root {
   --highlight-title: #49244F;
   --highlight: #DBD3DC;
+  --highlight-rbg: 219, 211, 220;
   --text: #000000;
   --gray: #BCBEC0;
   --background: url(../../../ui/parchment-white.jpg) repeat;
@@ -417,6 +418,10 @@
 .weirdwizard .sheet-body .tab,
 .weirdwizard .sheet-body .tab .editor {
   height: 100%;
+}
+.weirdwizard .editor-content {
+  background: rgba(var(--highlight-rbg), 0.5);
+  border-radius: 5px;
 }
 .weirdwizard .tox .tox-editor-container {
   background: #fff;

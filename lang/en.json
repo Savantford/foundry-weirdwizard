@@ -112,13 +112,29 @@
     "WW.CP": "cp",
 
     "WW.NewItem": "New {itemType}",
+    "WW.Generic": "Generic",
+    "WW.Weapon": "Weapon",
+    "WW.WeaponStats": "Weapon Stats",
+    "WW.Consumable": "Consumable",
+    "WW.Container": "Container",
     "WW.Weight": "Weight",
     "WW.Total": "Total",
     "WW.Quantity": "Quantity",
     "WW.WeightUnit": "Weight per Unit",
+    "WW.Quality": "Quality",
+    "WW.QualityStandard": "Standard",
+    "WW.QualitySuperior": "Superior",
+    "WW.QualityInferior": "Inferior",
 
     "WW.Talents": "Traits and Talents",
-    "WW.Aura": "Aura",
+    "WW.TalentSubtypes": {
+        "Trait": "Trait or Talent",
+        "Aura": "Aura",
+        "Action": "Action",
+        "Reaction": "Reaction",
+        "End": "End of The Round"
+    },
+    
     "WW.Range": "Range",
     "WW.Actions": "Actions",
     "WW.Reactions": "Reactions",
@@ -126,19 +142,13 @@
 
     "WW.Name": "Name",
     "WW.Source": "Source",
-    "WW.SourceChoices": {
+    "WW.TalentSources": {
+        "None": "None (NPC)",
         "Ancestry": "Ancestry",
         "Novice": "Novice Path",
         "Expert": "Expert Path",
         "Master": "Master Path",
         "Other": "Other"
-    },
-    "WW.TypeChoices": {
-        "Passive": "Passive Effect",
-        "Action": "Action",
-        "Move": "Move",
-        "Minor": "Minor Action",
-        "Reaction": "Reaction"
     },
     "WW.Condition": "Condition",
     "WW.ConditionPH": "when a creature in your zone makes an attribute roll",

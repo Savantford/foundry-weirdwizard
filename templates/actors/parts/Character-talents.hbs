@@ -5,8 +5,7 @@
         <div>{{localize "WW.Source"}}</div>
         <div>{{localize "WW.Uses"}}</div>
         <div class="item-controls">
-            <a class="item-control item-create" title="Create item" data-type="Talent"><i class="fas fa-plus"></i> Add
-                trait/talent</a>
+            <a class="item-control item-create" title="Create item" data-type="Trait or Talent" data-subtype="trait" data-source="Ancestry"><i class="fas fa-plus"></i> Add trait/talent</a>
         </div>
     </li>
     {{#each talents as |item id|}}
@@ -14,7 +13,7 @@
         <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
         <label class="item-name">{{item.name}} <a class="rollable item-roll ml-1" title="Roll Talent"><i
                     class="fas fa-dice-d20"></i></a></label>
-        <div>{{item.system.source.value}}</div>
+        <div>{{item.system.source}}</div>
         <div>
             {{#each item.uses as |pip id|}}
             <a class="item-pip" title="{{#if (eq pip " far")}}Spend use{{else}}Recover use{{/if}}"><i

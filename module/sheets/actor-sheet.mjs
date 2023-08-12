@@ -1,7 +1,7 @@
 import { defenseDetails } from './apps/defense-details.mjs'
 import { healthDetails } from './apps/health-details.mjs'
 import { rollPrompt } from './apps/roll-prompt.mjs'
-import {onManageActiveEffect, prepareActiveEffectCategories} from "../helpers/effects.mjs";
+import { onManageActiveEffect, prepareActiveEffectCategories } from "../helpers/effects.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -15,7 +15,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
 
     return mergeObject(super.defaultOptions, {
       classes: ["weirdwizard", "sheet", "actor"],
-      width: 0,
+      width: 600,
       height: 600,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "features" }]
     });
@@ -101,33 +101,62 @@ export class WeirdWizardActorSheet extends ActorSheet {
 
   _prepareItems(context) {
     // Initialize containers.
-    const gear = [];
+    const equipment = [];
     const talents = [];
-    const spells = [];
-    const weapons = [];
     const auras = [];
     const actions = [];
     const reactions = [];
     const end = [];
+    const spells = [];
+    const weapons = [];
 
     // Iterate through items, allocating to containers
     for (let i of context.items) {
       //let item = i;
       i.img = i.img || DEFAULT_TOKEN;
 
-      // Append to gear.
-      if (i.type === 'Gear') {
-        gear.push(i);
+      // Append to equipment.
+      if (i.type === 'Equipment') {
+        equipment.push(i);
+
+        // If an weapon or NPC sheet, also append to weapons.
+        if ((i.system.subtype == 'weapon') || (context.actor.type == 'NPC')) {
+          weapons.push(i);
+        }
       }
-      // Append to weapons.
-      else if (i.type === 'Weapon' || i.type === 'Weapon (NPC)') {
-        weapons.push(i);
-        
-      }
+
       // Append to talents.
-      else if (i.type === 'Talent' || i.type === 'Talent (NPC)') {
-        talents.push(i);
+      else if (i.type === 'Trait or Talent') {
+
+        if (context.actor.type == 'NPC') {
+          switch (i.system.subtype) {
+            case 'trait': {
+              talents.push(i);
+              break;
+            }
+            case 'aura': {
+              auras.push(i);
+              break;
+            }
+            case 'action': {
+              actions.push(i);
+              break;
+            }
+            case 'reaction': {
+              reactions.push(i);
+              break;
+            }
+            case 'end': {
+              end.push(i);
+              break;
+            }
+          }
+        } else {
+          talents.push(i);
+        }
+
       }
+
       // Append to spells.
       else if (i.type === 'Spell') {
         /*if (i.tier != undefined) {
@@ -135,32 +164,16 @@ export class WeirdWizardActorSheet extends ActorSheet {
         }*/
         spells.push(i);
       }
-      // Append to auras.
-      else if (i.type === 'Aura (NPC)') {
-        auras.push(i);
-      }
-      // Append to actionss.
-      else if (i.type === 'Action (NPC)') {
-        actions.push(i);
-      }
-      // Append to reactions.
-      else if (i.type === 'Reaction (NPC)') {
-        reactions.push(i);
-      }
-      // Append to end.
-      else if (i.type === 'End of Round Effect (NPC)') {
-        end.push(i);
-      }
     }
 
-    // Calculate total Gear weight.
+    // Calculate total Equipment weight.
     function calcWeight(item, id) {
       item.system.weight = item.system.quantity * item.system.weightUnit;
     }
 
-    gear.forEach(calcWeight)
+    equipment.forEach(calcWeight)
 
-    context.totalWeight = CONFIG.Global.sum(gear.map(i => i.system.weight))
+    context.totalWeight = CONFIG.Global.sum(equipment.map(i => i.system.weight))
 
     // Prepare uses display for talents and spells
     function updateUses(item, id) {
@@ -181,7 +194,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
     spells.forEach(updateUses)
 
     // Assign and return
-    context.gear = gear;
+    context.equipment = equipment;
     context.weapons = weapons;
     context.talents = talents;
     context.spells = spells;
@@ -355,9 +368,27 @@ export class WeirdWizardActorSheet extends ActorSheet {
     // Edit Defense button
     html.find('.defense-edit').click(ev => {
       new defenseDetails(this.actor).render(true)
-    });
+    }); 
+
+    
+
+    // -------------------------------------------------------------
+    // Everything below here is only needed if the sheet is editable
+    if (!this.isEditable) return;
 
     //////////////// ITEMS ///////////////////
+
+    // Add Inventory Item
+    html.find('.item-create').click(this._onItemCreate.bind(this));
+
+    // Delete Inventory Item
+    html.find('.item-delete').click(ev => {
+      const li = $(ev.currentTarget).parents(".item");
+      const item = this.actor.items.get(li.data("itemId"));
+      item.delete();
+      li.slideUp(200, () => this.render(false));
+    });
+    
     // Render the item sheet for viewing/editing prior to the editable check.
     html.find('.item-edit').click(ev => {
 
@@ -367,7 +398,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
       }
 
       const item = this.actor.items.get(li.data("itemId"));
-
+      
       item.sheet.render(true);
     });
 
@@ -388,20 +419,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
       }
     });
 
-    // -------------------------------------------------------------
-    // Everything below here is only needed if the sheet is editable
-    if (!this.isEditable) return;
-
-    // Add Inventory Item
-    html.find('.item-create').click(this._onItemCreate.bind(this));
-
-    // Delete Inventory Item
-    html.find('.item-delete').click(ev => {
-      const li = $(ev.currentTarget).parents(".item");
-      const item = this.actor.items.get(li.data("itemId"));
-      item.delete();
-      li.slideUp(200, () => this.render(false));
-    });
+    
 
     // Active Effect management
     html.find(".effect-control").click(ev => onManageActiveEffect(ev, this.actor));
@@ -472,20 +490,34 @@ export class WeirdWizardActorSheet extends ActorSheet {
     event.preventDefault();
     const header = event.currentTarget;
     const type = header.dataset.type; // Get the type of item to create.
-    const data = duplicate(header.dataset); // Grab any data associated with this control.
     const name = game.i18n.format("WW.NewItem", { itemType: type.capitalize() }) // Initialize a default name.
+
+    let subtype = '';
+    let source = '';
+    let attribute = '';
+    
+    // If Talent or Equipment, set subtype
+    if ((type == 'Trait or Talent') || (type == 'Equipment')) subtype = event.currentTarget.dataset.subtype;
+
+    // If Character's Talent, set source
+    if ((this.actor.type) && (type == 'Trait or Talent')) source = event.currentTarget.dataset.source;
+
+    if (subtype == 'weapon') attribute = 'str';
 
     // Prepare the item object.
     const itemData = {
       name: name,
       type: type,
-      data: data
+      system: { subtype, source, attribute }
     };
 
-    //delete itemData.data["type"]; // Remove the type from the dataset since it's in the itemData.type prop.
+    // Create the item
+    const [createdItem] = await this.actor.createEmbeddedDocuments("Item", [itemData]);
 
-    // Finally, create the item!
-    return await Item.create(itemData, { parent: this.actor });
+    // Render the created item's template
+    createdItem.sheet.render(true);
+
+    return 
   }
 
 }

@@ -7,7 +7,7 @@
                 <div class="item-image"></div>
                 <div class="item-name">{{localize "WW.Name"}}</div>
                 <div class="item-controls">
-                    <a class="item-control item-create" title="Create item" data-type="Weapon"><i
+                    <a class="item-control item-create" title="Create item" data-type="Equipment" data-subtype="weapon"><i
                             class="fas fa-plus"></i> Add weapon</a>
                 </div>
             </li>
@@ -50,11 +50,11 @@
             <div class="item-weight">{{localize "WW.Weight"}}<br /><span class="smaller">({{localize
                     "WW.Total"}}: {{totalWeight}})</span></div>
             <div class="item-controls">
-                <a class="item-control item-create" title="Create item" data-type="Gear"><i class="fas fa-plus"></i> Add
+                <a class="item-control item-create" title="Create item" data-type="Equipment" data-subtype="generic"><i class="fas fa-plus"></i> Add
                     item</a>
             </div>
         </li>
-        {{#each gear as |item id|}}
+        {{#each equipment as |item id|}}
         <li class="item flexrow" data-item-id="{{item._id}}">
             <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
             <div class="item-quantity">{{item.system.quantity}}</div>

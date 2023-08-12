@@ -47,61 +47,36 @@ export class WeirdWizardItemSheet extends ItemSheet {
 
     // Prepare dropdown menu objects.
     switch (context.item.type) {
-      case 'Container':
-
-        break;
-
-      case 'Weapon':
-        context.gripObj = CONFIG.WW.dropdownGrip;
+  
+      case 'Equipment':
+        context.subtypesObj = CONFIG.WW.itemSubtypes;
+        context.qualitiesObj = CONFIG.WW.itemQualities;
         context.attributesObj = CONFIG.WW.dropdownAttributes;
-        break;
+        context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
+        context.gripObj = CONFIG.WW.dropdownGrip;
+      break;
 
-      case 'Ancestry':
-
-        break;
-
-      case 'Path':
-
-        break;
-
-      case 'Talent':
+      case 'Trait or Talent':
+        context.subtypesObj = CONFIG.WW.dropdownSubtypes;
         context.sourcesObj = CONFIG.WW.dropdownSources;
-        context.typesObj = CONFIG.WW.dropdownTypes;
         context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
         context.attributesObj = CONFIG.WW.dropdownAttributes;
-        break;
+      break;
 
       case 'Spell':
         context.tiersObj = CONFIG.WW.dropdownTiers;
         //context.sourcesObj = CONFIG.WW.dropdownSources;
         context.attributesObj = CONFIG.WW.dropdownAttributes;
-        break;
+      break;
       
-      case 'Aura (NPC)':
-        context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
-        context.attributesObj = CONFIG.WW.dropdownAttributes;
-        break;
+      case 'Ancestry':
 
-      case 'Talent (NPC)':
-        context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
-        context.attributesObj = CONFIG.WW.dropdownAttributes;
-        break;
-      case 'Weapon (NPC)':
-        context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
-        context.attributesObj = CONFIG.WW.dropdownAttributes;
-        break;
-      case 'Action (NPC)':
-        context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
-        context.attributesObj = CONFIG.WW.dropdownAttributes;
-        break;
-      case 'Reaction (NPC)':
-        context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
-        context.attributesObj = CONFIG.WW.dropdownAttributes;
-        break;
-      case 'End of Round Effect (NPC)':
-        context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
-        context.attributesObj = CONFIG.WW.dropdownAttributes;
-        break;
+      break;
+
+      case 'Path':
+
+      break;
+      
     }
 
     return context;

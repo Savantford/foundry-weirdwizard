@@ -28,21 +28,22 @@ WW.dropdownAttributes = {
   "wil": "WW.Will"
 }
 
-WW.dropdownSources = {
-  "Ancestry": "WW.SourceChoices.Ancestry",
-  "Novice": "WW.SourceChoices.Novice",
-  "Expert": "WW.SourceChoices.Expert",
-  "Master": "WW.SourceChoices.Master",
-  "Other": "WW.SourceChoices.Other"
+WW.dropdownSubtypes = {
+  "trait": "WW.TalentSubtypes.Trait",
+  "aura": "WW.TalentSubtypes.Aura",
+  "action": "WW.TalentSubtypes.Action",
+  "reaction": "WW.TalentSubtypes.Reaction",
+  "end": "WW.TalentSubtypes.End",
 };
 
-/*WW.dropdownTypes = {
-  "passive": "WW.TypeChoices.Passive",
-  "action": "WW.TypeChoices.Action",
-  "move": "WW.TypeChoices.Move",
-  "minor": "WW.TypeChoices.Minor",
-  "reaction": "WW.TypeChoices.Reaction"
-};*/
+WW.dropdownSources = {
+  "None": "WW.TalentSources.None",
+  "Ancestry": "WW.TalentSources.Ancestry",
+  "Novice": "WW.TalentSources.Novice",
+  "Expert": "WW.TalentSources.Expert",
+  "Master": "WW.TalentSources.Master",
+  "Other": "WW.TalentSources.Other"
+};
 
 WW.dropdownFrequencies = {
   "day": "WW.FrequencyChoices.Day",
@@ -55,6 +56,20 @@ WW.dropdownTiers = {
   "Novice": "WW.Novice",
   "Expert": "WW.Expert",
   "Master": "WW.Master"
+};
+
+WW.itemSubtypes = {
+  "generic": "WW.Generic",
+  "weapon": "WW.Weapon",
+  "armor": "WW.Armor.Title",
+  "consumable": "WW.Consumable",
+  "container": "WW.Container"
+};
+
+WW.itemQualities = {
+  "standard": "WW.QualityStandard",
+  "superior": "WW.QualitySuperior",
+  "inferior": "WW.QualityInferior"
 };
 
 WW.dropdownGrip = {

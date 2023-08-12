@@ -1,0 +1,78 @@
+<form class="{{cssClass}}" autocomplete="off">
+
+  {{!-- Header --}}
+  <header class="sheet-header">
+    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+    <div class="header-fields">
+      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+
+      {{!-- Main Row 1 --}}
+      <div class="flex-row stat-inline">
+        <label class="resource-label">{{localize "WW.Type"}}</label>
+        <select name="system.subtype">
+          {{selectOptions subtypesObj selected=system.subtype localize=true}}
+        </select>
+
+        <label class="ml-2 resource-label">{{localize "WW.Quality"}}</label>
+        <select name="system.quality">
+          {{selectOptions qualitiesObj selected=system.quality localize=true}}
+        </select>
+
+      </div>
+
+      {{!-- Main Row 2 --}}
+      <div class="flex-row stat-inline">
+        <label class="resource-label">{{localize "WW.Quantity"}}</label>
+        <input type="number" name="system.quantity" value="{{system.quantity}}" min="0" data-dtype="Number"/>
+
+        <label class="ml-2 resource-label">{{localize "WW.WeightUnit"}}</label>
+        <input type="number" name="system.weightUnit" value="{{system.weightUnit}}" min="0" data-dtype="Number"/>
+
+        {{#if (eq system.subtype 'consumable')}} {{!-- Consumable Params --}}
+        <label class="ml-2">{{localize "WW.Uses"}}</label>
+        <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="0" data-dtype="Number" />
+        {{/if}}
+      </div>
+      
+    </div>
+  </header>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{#if (eq system.subtype 'weapon')}} {{!-- Weapon Params --}}
+    <h2>{{localize "WW.WeaponStats"}}</h2>
+    <div class="mt-2 flex-row stat-inline flex-group-left">
+        <label class="resource-label">{{localize "WW.Damage"}}</label>
+        <input type="text" name="system.damage" value="{{system.damage}}" placeholder="1d6" style="width: 75px; text-align: center;" data-dtype="String" />
+        <div class="stat-inline flex-group-left">
+          <label class="resource-label ml-2">{{localize "WW.Grip"}}</label>
+          <select name="system.grip">
+            {{selectOptions gripObj selected=system.grip localize=true}}
+          </select>
+        </div>
+      </div>
+      <div class="flex-row stat-inline">
+        <label class="resource-label">{{localize "WW.Properties"}}</label>
+        <input type="text" name="system.properties" value="{{system.properties}}" placeholder="{{localize "WW.PropertiesPH"}}" data-dtype="String" />
+      </div>
+    </div>
+    {{/if}}
+
+    <h2>{{localize "WW.Description"}}</h2>
+    {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
+
+    <h2>{{localize "WW.Settings"}}</h2>
+    <div class="flex-row stat-inline flex-group-left">
+      {{localize "WW.Boons.AlwaysRoll"}}
+      <select class="mx-1" name="system.attribute">
+        {{selectOptions attributesObj selected=system.attribute localize=true}}
+      </select>
+      {{localize "WW.Boons.With"}}
+      <input class="mx-1" type="number" name="system.boons" value="{{system.boons}}" placeholder="0"
+        data-dtype="Number" />
+      {{localize "WW.Boons.Or"}}
+    </div>
+
+  </section>
+</form>

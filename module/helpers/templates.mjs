@@ -15,9 +15,11 @@
     "systems/weirdwizard/templates/actors/parts/Character-talents.hbs",
     "systems/weirdwizard/templates/actors/parts/Character-spells.hbs",
     "systems/weirdwizard/templates/actors/parts/Character-afflictions.hbs",
-    "systems/weirdwizard/templates/actors/parts/Character-effects.hbs"
+    "systems/weirdwizard/templates/actors/parts/Character-effects.hbs",
 
     // NPC
+    "systems/weirdwizard/templates/actors/parts/NPC-summary.hbs",
+    "systems/weirdwizard/templates/actors/parts/NPC-stats.hbs"
 
   ]);
 };
