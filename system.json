@@ -38,6 +38,6 @@
   "initiative": "1d20",
   "gridDistance": 30,
   "gridUnits": "ft",
-  "primaryTokenAttribute": "health",
-  "secondaryTokenAttribute": "cp"
+  "primaryTokenAttribute": "stats.damage",
+  "secondaryTokenAttribute": ""
 }

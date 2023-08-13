@@ -226,64 +226,6 @@ export class WeirdWizardActorSheet extends ActorSheet {
     // Create Details arrays and add text editor support.
     const details = context.actor.system.details
     context.profile = [details.features, details.personality, details.belief].map(o => ({ ...o, enriched: TextEditor.enrichHTML(o.value, { async: false }) }))
-
-    ///////// HEALTH ///////////
-
-    // Calculate and update Path Levels contribution to Health
-    let health = context.actor.system.stats.health // Get actor's stats
-    let level = context.actor.system.stats.level.value
-
-    function count(levels) { // Count how many of provided levels the Character has
-      let newValue = 0;
-
-      levels.forEach(function count(v) {
-        if (level >= v) { newValue += 1 }
-      })
-
-      return newValue
-    }
-
-    // Novice Path calculation
-    const noviceLv = count([2, 5, 8])
-    const noviceBonus = noviceLv * health.novice;
-
-    // Expert Path calculation
-    const expertLv = count([3, 4, 6, 9]);
-    const expertBonus = expertLv * health.expert;
-
-    // Master Path calculation
-    const masterLv = count([7, 8, 10])
-    const masterBonus = masterLv * health.master;
-
-    // Total Health calculation
-    const totalHealth = health.starting + noviceBonus + expertBonus + masterBonus + health.bonus - health.lost;
-
-    context.system.stats.health.total = totalHealth
-
-    ///////// DEFENSE ///////////
-
-    // Calculate total Defense
-    const defense = context.actor.system.stats.defense
-    const equipped = CONFIG.WW.armor[defense.armor]
-    let armorTotal = defense.unarmored;
-
-    // Select the higher Defense value from Armor flat Defense or Armor Bonus and assign to armorTotal.
-    if (equipped.def) {
-      if ((defense.unarmored + equipped.bonus) > equipped.def) {
-        armorTotal = defense.unarmored + equipped.bonus;
-      } else {
-        armorTotal = equipped.def;
-      };
-    };
-
-    // Add Defense bonuses to armorTotal to get defense total.
-    const defBonuses = CONFIG.Global.sum(defense.bonuses.map(i => i.bonus));
-
-    if (defBonuses > 0) {
-      context.system.stats.defense.total = armorTotal + defBonuses;
-    } else {
-      context.system.stats.defense.total = armorTotal;
-    }
   }
 
   /** @override */
@@ -322,8 +264,6 @@ export class WeirdWizardActorSheet extends ActorSheet {
         }
       }
       
-      //console.log(ev.target.getAttribute('data-label'))
-      console.log(ev.target)
       // If the clicked element has a data-label, use it to determine the mod and label
       switch (ev.target.getAttribute('data-label')) {
         case 'Strength': {
