@@ -2,6 +2,7 @@ console.log('Initializing weirdwizard.mjs...')
 // Import document classes.
 import { WeirdWizardActor } from "./documents/actor.mjs";
 import { WeirdWizardItem } from "./documents/item.mjs";
+//import { WeirdWizardToken } from "./documents/token.mjs";
 // Import sheet classes.
 import { WeirdWizardActorSheet } from "./sheets/actor-sheet.mjs";
 import { WeirdWizardItemSheet } from "./sheets/item-sheet.mjs";
@@ -22,6 +23,7 @@ Hooks.once('init', function () {
   game.weirdwizard = {
     WeirdWizardActor,
     WeirdWizardItem,
+    //WeirdWizardToken
   };
 
   // Add custom constants for configuration.
@@ -43,6 +45,7 @@ Hooks.once('init', function () {
   // Define custom Document classes
   CONFIG.Actor.documentClass = WeirdWizardActor;
   CONFIG.Item.documentClass = WeirdWizardItem;
+  //CONFIG.Token.documentClass = WeirdWizardToken;
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);

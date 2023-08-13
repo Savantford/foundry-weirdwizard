@@ -29,7 +29,7 @@
             "bonuses": []
           },
           "health": {
-            "total": 10,
+            "total": 0,
             "starting": 0,
             "novice": 0,
             "expert": 0,
@@ -38,7 +38,8 @@
             "lost": 0
           },
           "damage": {
-            "value": 0
+            "value": 0,
+            "max": 0
           }
         }
       },
