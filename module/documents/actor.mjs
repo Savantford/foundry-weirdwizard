@@ -41,14 +41,10 @@ export class WeirdWizardActor extends Actor {
         const health = this.system.stats.health.total;
         
         // Limit Damage to not surpass Health
-        if (changed.system) {
-            let damage = changed.system.stats.damage.value;
-
-            if (damage > health) {
-                damage = health;
-                changed.system.stats.damage.value = damage;
-            }
+        if (changed.system?.stats?.damage?.value > health) {
+            changed.system.stats.damage.value = health;
         }
+
     };
 
     /**
