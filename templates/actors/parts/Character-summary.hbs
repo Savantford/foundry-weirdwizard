@@ -114,6 +114,10 @@
             {{#each talents as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
                 <a class="rollable item-roll" title="Roll Talent">{{item.name}}</a>
+                {{#each item.uses as |pip id|}}
+                <a class="item-pip" title="{{#if (eq pip "far")}}Spend use/token{{else}}Recover use/token{{/if}}"><i
+                        class="{{pip}} fa-circle"></i></a>
+                {{/each}}
                 <a class="item-edit smaller" title="Edit Talent"><i class="fas fa-edit"></i></a>
             </li>
             {{/each}}
@@ -131,6 +135,10 @@
             {{#each spells as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
                 <a class="rollable item-roll" title="Roll Spell">{{item.name}}</a>
+                {{#each item.uses as |pip id|}}
+                <a class="item-pip" title="{{#if (eq pip "far")}}Spend casting{{else}}Recover casting{{/if}}"><i
+                        class="{{pip}} fa-circle"></i></a>
+                {{/each}}
                 <a class="item-edit smaller" title="Edit Spell"><i class="fas fa-edit"></i></a>
             </li>
             {{/each}}

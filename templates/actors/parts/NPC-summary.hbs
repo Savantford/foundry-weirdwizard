@@ -53,8 +53,8 @@
                 {{#each auras as |item id|}}
                 <li class="item" data-item-id="{{item._id}}">
                     <a class="rollable item-roll" title="Roll Aura">{{item.name}}</a>
-                    <a class="item-edit" title="Edit Aura">({{localize "WW.Aura"}} {{item.system.range}})
-                        {{item.system.description.value}}</a>
+                    <a class="item-edit" title="Edit Aura">({{localize "WW.Range"}} {{item.system.range}})
+                        {{{item.system.description.value}}}</a>
                 </li>
                 {{/each}}
             </ol>
@@ -88,8 +88,9 @@
         <ol class="described-list">{{!-- Talents --}}
             {{#each talents as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
-                <a class="rollable item-roll" title="Roll Talent">{{item.name}}</a> <a class="item-edit"
-                    title="Edit Talent">{{item.system.description.value}}</a>
+                <a class="rollable item-roll" title="Roll Talent">{{item.name}}</a>
+                <a class="item-edit" title="Edit Talent">
+                    {{{item.system.description.value}}}</a>
             </li>
             {{/each}}
         </ol>
@@ -121,8 +122,13 @@
         <ol class="described-list">
             {{#each actions as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
-                <a class="rollable item-roll" title="Roll Action">{{item.name}}</a> <a class="item-edit"
-                    title="Edit Action">{{item.system.description.value}}</a>
+                <a class="rollable item-roll" title="Roll Action">{{item.name}}</a>
+                {{#each item.uses as |pip id|}}
+                <a class="item-pip" title="{{#if (eq pip "far")}}Spend use/casting/token{{else}}Recover use/casting/token{{/if}}"><i
+                        class="{{pip}} fa-circle"></i></a>
+                {{/each}}
+                <a class="item-edit"
+                    title="Edit Action">{{{item.system.description.value}}}</a>
             </li>
             {{/each}}
         </ol>
@@ -134,7 +140,7 @@
             {{#each reactions as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
                 <a class="rollable item-roll" title="Roll Reaction">{{item.name}}</a> <a class="item-edit"
-                    title="Edit Reaction">{{item.system.description.value}}</a>
+                    title="Edit Reaction">{{{item.system.description.value}}}</a>
             </li>
             {{/each}}
         </ol>
@@ -146,7 +152,7 @@
             {{#each end as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
                 <a class="rollable item-roll" title="Roll End of Round Effect">{{item.name}}</a> <a class="item-edit"
-                    title="Edit End of Round Effect">{{item.system.description.value}}</a>
+                    title="Edit End of Round Effect">{{{item.system.description.value}}}</a>
             </li>
             {{/each}}
         </ol>

@@ -28,10 +28,9 @@
         <label class="ml-2 resource-label">{{localize "WW.WeightUnit"}}</label>
         <input type="number" name="system.weightUnit" value="{{system.weightUnit}}" min="0" data-dtype="Number"/>
 
-        {{#if (eq system.subtype 'consumable')}} {{!-- Consumable Params --}}
-        <label class="ml-2">{{localize "WW.Uses"}}</label>
+        <label class="ml-2">{{localize "WW.UsesEquipment"}}</label>
         <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="0" data-dtype="Number" />
-        {{/if}}
+  
       </div>
       
     </div>

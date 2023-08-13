@@ -5,15 +5,14 @@
 </div>
 
 <ol class="items-list">
-    <li class="item flexrow item-header">
+    <li class="item flexrow items-header">
         <div class="item-image"></div>
         <div class="item-name">{{localize "WW.Name"}}</div>
         <div>{{localize "WW.Tier"}}</div>
         <div>{{localize "WW.Tradition"}}</div>
         <div>{{localize "WW.Castings"}}</div>
         <div class="item-controls">
-            <a class="item-control item-create" title="Create item" data-type="Spell"><i class="fas fa-plus"></i> Add
-                spell</a>
+            <a class="item-control item-create" title="Create item" data-type="Spell"><i class="fas fa-plus"></i> {{localize "WW.Add"}}</a>
         </div>
     </li>
     {{#each spells as |item id|}}
@@ -25,7 +24,7 @@
         <div>{{item.system.tradition.value}}</div>
         <div>
             {{#each item.uses as |pip id|}}
-            <a class="item-pip" title="{{#if (eq pip " far")}}Spend casting{{else}}Recover casting{{/if}}"><i
+            <a class="item-pip" title="{{#if (eq pip "far")}}Spend casting{{else}}Recover casting{{/if}}"><i
                     class="{{pip}} fa-circle"></i></a>
             {{/each}}
         </div>

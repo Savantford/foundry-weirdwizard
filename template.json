@@ -24,7 +24,7 @@
         "stats": {
           "defense": {
             "total": 10,
-            "unarmored": 10,
+            "natural": 10,
             "armor": "unarmored",
             "bonuses": []
           },
@@ -141,11 +141,9 @@
       }
     },
     "NPC": {
-      "templates": ["common", "creature"],
-      "details": {
-        "description": {
-          "value": ""
-        }
+      "templates": ["common", "creature"],    
+      "description": {
+        "value": "No description."
       }
     },
     "Group": {

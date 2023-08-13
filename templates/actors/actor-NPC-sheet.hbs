@@ -17,16 +17,19 @@
     
 
     <section class="sheet-body"> {{!-- Sheet Body --}}
-
-        <div class="tab description" data-group="primary" data-tab="description">{{!-- Description Tab --}}
+        
+        {{!-- Description Tab --}}
+        <div class="tab description" data-group="primary" data-tab="description">
             {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
         </div>
 
-        <div class="tab summary" data-group="primary" data-tab="summary">{{!-- Summary Tab --}}
+        {{!-- Summary Tab --}}
+        <div class="tab summary" data-group="primary" data-tab="summary">
             {{> "systems/weirdwizard/templates/actors/parts/NPC-summary.hbs"}}
         </div>
 
-        <div class="tab stats" data-group="primary" data-tab="stats">{{!-- Stats Tab --}}
+        {{!-- Stats Tab --}}
+        <div class="tab stats" data-group="primary" data-tab="stats">
             {{> "systems/weirdwizard/templates/actors/parts/NPC-stats.hbs"}}
         </div>
 
