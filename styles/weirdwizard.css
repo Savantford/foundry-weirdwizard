@@ -50,8 +50,10 @@
   --highlight-rbg: 219, 211, 220;
   --text: #000000;
   --gray: #BCBEC0;
+  /* Overrides */
   --background: url(../../../ui/parchment-white.jpg) repeat;
   --color-shadow-primary: #c200ff;
+  --color-text-dark-secondary: #808080;
 }
 
 .rollable:hover, .rollable:focus {
@@ -391,11 +393,17 @@
   margin-top: auto;
   margin-bottom: auto;
 }
-.weirdwizard .small {
-  font-size:small;
-}
 .weirdwizard .smaller {
-  font-size:smaller;
+  font-size: smaller;
+}
+.weirdwizard .small {
+  font-size: small;
+}
+.weirdwizard .medium {
+  font-size: medium;
+}
+.weirdwizard .large {
+  font-size: large;
 }
 .weirdwizard .bold {
   font-weight: bold;
@@ -404,6 +412,7 @@
   background-color: var(--highlight);
   padding: 1px 0px;
   margin: 4px 0px;
+  border-radius: 2px;
 }
 
 .weirdwizard .hl2 {
@@ -437,6 +446,10 @@
   -ms-flex-pack: start;
   justify-content: flex-start;
   /*margin-bottom: 10px;*/
+}
+.weirdwizard img {
+  border: none;
+  background-color: var(--highlight);
 }
 .weirdwizard .sheet-header .profile-img {
   -webkit-box-flex: 0;
@@ -480,6 +493,7 @@
 }
 .weirdwizard .editor-content {
   background: rgba(var(--highlight-rbg), 0.5);
+  padding: 1px 5px;
   border-radius: 5px;
 }
 .weirdwizard .tox .tox-editor-container {
@@ -521,6 +535,147 @@
 
 .weirdwizard .stat-stretch label {
   margin-right: auto;
+}
+
+/* Lists */
+
+.weirdwizard .items-list {
+  list-style: none;
+  margin: 0;
+  /*margin-top: 15px;*/
+  overflow-y: auto;
+  scrollbar-width: thin;
+  color: #444;
+  padding: 0px;
+}
+.weirdwizard .items-list li > * {
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
+.weirdwizard .items-header {
+  /*height: 28px;*/
+  margin: 2px 0;
+  padding: 0;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--gray);
+  font-weight: bold;
+}
+
+.weirdwizard .items-header > * {
+  font-size: 12px;
+}
+.weirdwizard .item-fixed {
+  flex: 0 0 60px;
+}
+.weirdwizard .item-properties {
+  flex: 1.5;
+}
+.weirdwizard .item-name {
+  -webkit-box-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+  margin: 0;
+  overflow: hidden;
+  font-size: 13px;
+  text-align: left;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.weirdwizard .items-header .item-name {
+  font-weight: bold;
+  text-align: left;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.weirdwizard .item-name h3, .weirdwizard .item-name label {
+  margin: 0;
+  white-space: nowrap;
+  overflow-x: hidden;
+}
+.weirdwizard .item-controls {
+  display: flex;
+  flex: 0 0 50px;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+.weirdwizard .item-controls a {
+  font-size: 12px;
+  text-align: center;
+  margin: 0 6px;
+}
+.weirdwizard .item {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.weirdwizard .items-list .item {
+  padding: 0 2px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #c9c7b8;
+  font-size: 12px;
+}
+.weirdwizard .described-list .item {
+  padding-bottom: 5px;
+}
+
+.weirdwizard .item:last-child:not(:first-child) {
+  border-bottom: none;
+}
+.weirdwizard .item .item-name {
+  color: #191813;
+}
+.weirdwizard .item .item-name .item-image {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 30px;
+  flex: 0 0 30px;
+  height: 30px;
+  background-size: 30px;
+  border: none;
+  margin-right: 5px;
+}
+.weirdwizard .item-prop {
+  text-align: center;
+  border-left: 1px solid #c9c7b8;
+  border-right: 1px solid #c9c7b8;
+  font-size: 12px;
+}
+
+.weirdwizard .item-formula {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 200px;
+  flex: 0 0 200px;
+  padding: 0 8px;
+}
+.weirdwizard .item-image {
+  flex: 0 24px;
+  margin-right: 5px;
+}
+.weirdwizard .item-quantity {
+  flex: 0 20px;
+  margin-right: 5px;
+  text-align: center;
+}
+.weirdwizard .item-weight {
+  flex: 0 60px;
+  margin-right: 5px;
+}
+
+.weirdwizard .item-edit p {
+  text-indent: 1em;
+  margin: 0px;
+}
+.weirdwizard .item-edit p:nth-child(-n+1) {
+  display: inline;
 }
 
 .weirdwizard .summary-list {
@@ -575,145 +730,7 @@
 .weirdwizard .detail label {
   font-weight: bold;
 }
-.weirdwizard .items-header {
-  height: 28px;
-  margin: 2px 0;
-  padding: 0;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.05);
-  border: 2px groove #eeede0;
-  font-weight: bold;
-}
-.weirdwizard .items-header > * {
-  font-size: 14px;
-  text-align: center;
-}
-.weirdwizard .items-header .item-name {
-  font-weight: bold;
-  padding-left: 5px;
-  text-align: left;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-.weirdwizard .items-list {
-  list-style: none;
-  margin: 0;
-  margin-top: 15px;
-  padding: 0;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  color: #444;
-}
-.weirdwizard .items-list .item-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.weirdwizard .items-list .item-name {
-  -webkit-box-flex: 2;
-  -ms-flex: 2;
-  flex: 2;
-  margin: 0;
-  overflow: hidden;
-  font-size: 13px;
-  text-align: left;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-.weirdwizard .items-list .item-name h3, .weirdwizard .items-list .item-name label {
-  margin: 0;
-  white-space: nowrap;
-  overflow-x: hidden;
-}
-.weirdwizard .items-list .item-controls {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 100px;
-  flex: 0 0 100px;
-  -webkit-box-pack: end;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
-}
-.weirdwizard .items-list .item-controls a {
-  font-size: 12px;
-  text-align: center;
-  margin: 0 6px;
-}
-.weirdwizard .items-list .item {
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  padding: 0 2px;
-  border-bottom: 1px solid #c9c7b8;
-}
-.weirdwizard .items-list .item:last-child {
-  border-bottom: none;
-}
-.weirdwizard .items-list .item .item-name {
-  color: #191813;
-}
-.weirdwizard .items-list .item .item-name .item-image {
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 30px;
-  flex: 0 0 30px;
-  height: 30px;
-  background-size: 30px;
-  border: none;
-  margin-right: 5px;
-}
-.weirdwizard .items-list .item-prop {
-  text-align: center;
-  border-left: 1px solid #c9c7b8;
-  border-right: 1px solid #c9c7b8;
-  font-size: 12px;
-}
-.weirdwizard .items-list .items-header {
-  height: 28px;
-  margin: 2px 0;
-  padding: 0;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.05);
-  border: 2px groove #eeede0;
-  font-weight: bold;
-}
-.weirdwizard .items-list .items-header > * {
-  font-size: 12px;
-  text-align: center;
-}
-.weirdwizard .items-list .items-header .item-name {
-  padding-left: 5px;
-  text-align: left;
-}
-.weirdwizard .item-formula {
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 200px;
-  flex: 0 0 200px;
-  padding: 0 8px;
-}
-.weirdwizard .item-image {
-  flex: 0 24px;
-  margin-right: 5px;
-}
-.weirdwizard .item-quantity {
-  flex: 0 20px;
-  margin-right: 5px;
-  text-align: right;
-}
-.weirdwizard .item-weight {
-  flex: 0 75px;
-  margin-right: 5px;
-}
+
 .weirdwizard .effects .item .effect-source,
 .weirdwizard .effects .item .effect-duration,
 .weirdwizard .effects .item .effect-controls {
@@ -724,6 +741,7 @@
 }
 .weirdwizard .effects .item .effect-controls {
   border: none;
+  flex: 0 0 80px;
 }
 
 .weirdwizard .health-levels {

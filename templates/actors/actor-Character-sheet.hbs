@@ -15,7 +15,7 @@
                 </div>
                 {{/each}}
             </div>
-            <div class="resources grid grid-3col">
+            <div class="resources grid grid-4col">
                 <div class="stat flex-group-center">{{!-- Defense --}}
                     <label for="system.stats.defense.total" class="resource-label">{{localize "WW.Defense"}}</label>
                     <div>{{system.stats.defense.total}} <a class="defense-edit" title="Edit Defense"><i class="fas fa-edit"></i></a></div>  
@@ -29,7 +29,11 @@
                 </div>
                 <div class="stat flex-group-center">{{!-- Bonus Damage --}}
                     <label for="system.stats.bonusdamage.value" class="resource-label">{{localize "WW.BonusDamage"}}</label>
-                    <div></div><input type="number" name="system.stats.bonusdamage.value" value="{{system.stats.bonusdamage.value}}" data-dtype="Number" min="0" placeholder="#" />d6</div>
+                    <div><input type="number" name="system.stats.bonusdamage.value" value="{{system.stats.bonusdamage.value}}" data-dtype="Number" min="0" placeholder="#" />d6</div>
+                </div>
+                <div class="stat flex-group-center">
+                    <label>{{localize "WW.Luck"}}</label>
+                    <div><a class="rollable resource-label" title="Roll {{localize "WW.Luck"}}"><i class="large fas fa-dice-d20" data-label="Luck"></i></a></div>
                 </div>
             </div>
         </div>

@@ -5,8 +5,8 @@
     </h2>
     
     <div class="stat stat-inline flex-group-left">
-        <label class="resource-label">{{localize "WW.DefenseUnarmored"}}</label>
-        <input name="unarmored" class="icon-text" type="number" min="0" value="{{system.stats.defense.unarmored}}"/>
+        <label class="resource-label">{{localize "WW.DefenseNatural"}}</label>
+        <input name="natural" class="icon-text" type="number" min="0" value="{{system.stats.defense.natural}}"/>
         <label class="resource-label ml-2">{{localize "WW.Armor.Title"}}</label>
         <select name="armor">
             {{selectOptions armorObj selected=system.stats.defense.armor localize=true}}

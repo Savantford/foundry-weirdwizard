@@ -1,11 +1,11 @@
 <ol class="items-list">
-    <li class="item flexrow item-header">
+    <li class="item flexrow items-header">
         <div class="item-image"></div>
         <div class="item-name">{{localize "WW.Name"}}</div>
         <div>{{localize "WW.Source"}}</div>
-        <div>{{localize "WW.Uses"}}</div>
+        <div>{{localize "WW.UsesTalent"}}</div>
         <div class="item-controls">
-            <a class="item-control item-create" title="Create item" data-type="Trait or Talent" data-subtype="trait" data-source="Ancestry"><i class="fas fa-plus"></i> Add trait/talent</a>
+            <a class="item-control item-create" title="Create item" data-type="Trait or Talent" data-subtype="trait" data-source="Ancestry"><i class="fas fa-plus"></i> {{localize "WW.Add"}}</a>
         </div>
     </li>
     {{#each talents as |item id|}}
@@ -16,7 +16,7 @@
         <div>{{item.system.source}}</div>
         <div>
             {{#each item.uses as |pip id|}}
-            <a class="item-pip" title="{{#if (eq pip " far")}}Spend use{{else}}Recover use{{/if}}"><i
+            <a class="item-pip" title="{{#if (eq pip "far")}}Spend use{{else}}Recover use{{/if}}"><i
                     class="{{pip}} fa-circle"></i></a>
             {{/each}}
         </div>

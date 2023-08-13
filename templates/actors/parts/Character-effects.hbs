@@ -1,7 +1,8 @@
 <ol class="items-list effects-list">
   {{#each effects as |section sid|}}
-    <li class="items-header flexrow" data-effect-type="{{section.type}}">
-      <h3 class="item-name effect-name flexrow">{{localize section.name}}</h3>
+    <li class="item items-header flexrow" data-effect-type="{{section.type}}">
+      <div class="item-image"></div>
+      <div class="item-name">{{localize section.name}}</div>
       <div class="effect-source">Source</div>
       <div class="effect-source">Duration</div>
       <div class="item-controls effect-controls flexrow">
@@ -11,18 +12,16 @@
       </div>
     </li>
 
-    <ol class="item-list">
+    <ol class="items-list">
     {{#each section.effects as |effect|}}
       <li class="item effect flexrow" data-effect-id="{{effect.id}}">
-        <div class="item-name effect-name flexrow">
-          <img class="item-image" src="{{effect.icon}}"/>
-          <h4>{{effect.name}}</h4>
-        </div>
+        <img class="item-image" src="{{effect.icon}}" width="24" height="24"/>
+        <div class="item-name">{{effect.name}}</div>
         <div class="effect-source">{{effect.sourceName}}</div>
         <div class="effect-duration">{{effect.duration.name}}</div>
         <div class="item-controls effect-controls flexrow">
           <a class="effect-control" data-action="toggle" title="{{localize 'WW.EffectToggle'}}">
-            <i class="fas {{#if effect.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
+            <i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
           </a>
           <a class="effect-control" data-action="edit" title="{{localize 'WW.EffectEdit'}}">
             <i class="fas fa-edit"></i>

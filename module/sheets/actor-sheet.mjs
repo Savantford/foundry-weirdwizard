@@ -75,6 +75,8 @@ export class WeirdWizardActorSheet extends ActorSheet {
       context.system.details.information.enriched = await TextEditor.enrichHTML(context.system.details.information.value, { async: true })
       context.system.details.bg_ancestry.enriched = await TextEditor.enrichHTML(context.system.details.bg_ancestry.value, { async: true })
       context.system.details.deeds.enriched = await TextEditor.enrichHTML(context.system.details.deeds.value, { async: true })
+    } else {
+      context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true })
     }
 
     // Prepare NPC data and items.
@@ -191,6 +193,8 @@ export class WeirdWizardActorSheet extends ActorSheet {
     }
 
     talents.forEach(updateUses)
+    actions.forEach(updateUses)
+    equipment.forEach(updateUses)
     spells.forEach(updateUses)
 
     // Assign and return
@@ -317,7 +321,9 @@ export class WeirdWizardActorSheet extends ActorSheet {
           name = this.actor.system.attributes[attribute].name;
         }
       }
-
+      
+      //console.log(ev.target.getAttribute('data-label'))
+      console.log(ev.target)
       // If the clicked element has a data-label, use it to determine the mod and label
       switch (ev.target.getAttribute('data-label')) {
         case 'Strength': {
@@ -342,6 +348,11 @@ export class WeirdWizardActorSheet extends ActorSheet {
           mod = system.attributes.wil.mod;
           label = system.attributes.wil.name;
           name = system.attributes.wil.name;
+          break;
+        }
+        case 'Luck': {
+          label = game.i18n.format("WW.Luck");
+          console.log('test')
           break;
         }
       }

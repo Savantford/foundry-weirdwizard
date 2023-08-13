@@ -6,6 +6,7 @@
     "WW.Agility": "Agility",
     "WW.Intellect": "Intellect",
     "WW.Will": "Will",
+    "WW.Luck": "Luck",
     "WW.None": "None",
 
     "WW.Stats": "Stats",
@@ -118,7 +119,7 @@
     "WW.Consumable": "Consumable",
     "WW.Container": "Container",
     "WW.Weight": "Weight",
-    "WW.Total": "Total",
+    "WW.WeightTotal": "Total Weight",
     "WW.Quantity": "Quantity",
     "WW.WeightUnit": "Weight per Unit",
     "WW.Quality": "Quality",
@@ -135,10 +136,11 @@
         "End": "End of The Round"
     },
     
+    "WW.Auras": "Auras",
     "WW.Range": "Range",
     "WW.Actions": "Actions",
     "WW.Reactions": "Reactions",
-    "WW.EndOfTheRound": "End of The Round",
+    "WW.Ends": "End of The Round",
 
     "WW.Name": "Name",
     "WW.Source": "Source",
@@ -152,7 +154,8 @@
     },
     "WW.Condition": "Condition",
     "WW.ConditionPH": "when a creature in your zone makes an attribute roll",
-    "WW.Uses": "Uses",
+    "WW.UsesTalent": "Uses/Tokens",
+    "WW.UsesEquipment": "Uses/Charges",
     "WW.Per": "per",
     "WW.FrequencyChoices": {
         "Day": "Day",
