@@ -63,7 +63,7 @@ export class defenseDetails extends FormApplication {
 
     this.object.update({
       'system.stats.defense': {
-        'unarmored': formData.unarmored,
+        'natural': formData.natural,
         'armor': formData.armor,
         'bonuses': Object.values(expandObject(formData)?.bonuses ?? { 0: { 'name': 'Unknown', 'bonus': '0' } }).filter(c => c.name && c.bonus)
       }
