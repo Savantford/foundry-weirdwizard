@@ -2,44 +2,47 @@
 
     <div class="details-col flex-group-center">{{!-- Left Column --}}
         <h2>{{localize "WW.Stats"}}</h2>
-        <div class="flex-row stat-inline flex-group-left">{{!-- Level, Type --}}
-            <label for="system.stats.level.value" class="resource-label">{{localize "WW.Level"}}</label>
+        <div class="flex-row stat-inline flex-group-left">{{!-- Level, Solitary --}}
+            <label class="resource-label">{{localize "WW.Level"}}</label>
             <input type="number" name="system.stats.level.value" value="{{system.stats.level.value}}" min="1"
                 data-dtype="Number" />
 
-            <label for="system.details.type.value" class="resource-label ml-2">{{localize "WW.Type"}}</label>
+            <label class="resource-label ml-2">{{localize "WW.Solitary"}}</label>
+            <input type="checkbox" name="system.stats.solitary" {{checked system.stats.solitary}} />
+        </div>
+
+        {{!-- Type --}}
+        <div class="flex-row stat-inline flex-group-left">
+            <label class="resource-label">{{localize "WW.Type"}}</label>
             <input type="text" name="system.details.type.value" value="{{system.details.type.value}}"
                 data-dtype="String" />
         </div>
 
         <div class="mb-2">
             <div class="mt-2 flex-row stat-inline flex-group-left">{{!-- Defense --}}
-                <label for="system.stats.defense.total" class="resource-label">{{localize "WW.Defense"}}</label>
+                <label class="resource-label">{{localize "WW.Defense"}}</label>
                 <input class="mr-1" type="number" name="system.stats.defense.total"
                     value="{{system.stats.defense.total}}" min="0" data-dtype="Number" />
                 <input type="text" name="system.stats.defense.details" value="{{system.stats.defense.details}}"
                     data-dtype="String" placeholder="{{localize "WW.DefenseDetails"}}" />
             </div>
             <div class="flex-row stat-inline flex-group-left">{{!-- Damage / Health --}}
-                <label for="system.stats.health.total" class="resource-label">{{localize "WW.Damage"}} / {{localize
-                    "WW.Health.Title"}}</label>
-                <div class="flex-row flex-group-center">
-                    <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0"
-                        data-dtype="Number" />
-                    <span class="mx-1">/</span>
-                    <input type="number" name="system.stats.health.total" value="{{system.stats.health.total}}" min="0"
-                        data-dtype="Number" />
-                </div>
+                <label>{{localize "WW.Health.Title"}}</label>
+                <input type="number" name="system.stats.health.total" value="{{system.stats.health.total}}" min="0"
+                    data-dtype="Number" />
+
+                <label class="ml-2">{{localize "WW.Damage"}}</label>
+                {{system.stats.damage.value}}
             </div>
 
             <div class="mt-1 flex-row stat-inline flex-group-left">{{!-- Attributes 1 --}}
-                <label for="str" class="resource-label">{{localize "WW.Strength"}}</label>
+                <label class="resource-label">{{localize "WW.Strength"}}</label>
                 <input class="mr-1" type="number" name="system.attributes.str.value"
                     value="{{system.attributes.str.value}}" min="0" data-dtype="Number" /> <a
                     class="attribute-mod rollable" data-label="Strength" title="Roll Strength">{{numberFormat
                     system.attributes.str.mod decimals=0 sign=true}}</a>
 
-                <label class="ml-1" for="agi" class="resource-label">{{localize "WW.Agility"}}</label>
+                <label class="ml-1" class="resource-label">{{localize "WW.Agility"}}</label>
                 <input class="mr-1" type="number" name="system.attributes.agi.value"
                     value="{{system.attributes.agi.value}}" min="0" data-dtype="Number" /> <a
                     class="attribute-mod rollable" data-label="Agility" title="Roll Agility">{{numberFormat
@@ -47,13 +50,13 @@
 
             </div>
             <div class="mt-1 flex-row stat-inline flex-group-left">{{!-- Attributes 2 --}}
-                <label for="int" class="resource-label">{{localize "WW.Intellect"}}</label>
+                <label class="resource-label">{{localize "WW.Intellect"}}</label>
                 <input class="mr-1" type="number" name="system.attributes.int.value"
                     value="{{system.attributes.int.value}}" min="0" data-dtype="Number" /> <a
                     class="attribute-mod rollable" data-label="Intellect" title="Roll Intellect">{{numberFormat
                     system.attributes.int.mod decimals=0 sign=true}}</a>
 
-                <label class="ml-1" for="wil" class="resource-label">{{localize "WW.Will"}}</label>
+                <label class="ml-1" class="resource-label">{{localize "WW.Will"}}</label>
                 <input class="mr-1" type="number" name="system.attributes.wil.value"
                     value="{{system.attributes.wil.value}}" min="0" data-dtype="Number" /> <a
                     class="attribute-mod rollable" data-label="Will" title="Roll Will">{{numberFormat
@@ -63,7 +66,7 @@
 
         <h2>{{localize "WW.Talents"}}</h2>
 
-        <ol class="items-list">{{!-- Auras --}}
+        <ol class="item-list">{{!-- Auras --}}
             <li class="item flexrow items-header">
                 <div class="item-image"></div>
                 <div class="item-name">{{localize "WW.Auras"}}</div>
@@ -85,27 +88,28 @@
         </ol>
 
         <div class="mt-2 flex-row stat-inline flex-group-left">{{!-- Senses --}}
-            <label for="system.details.senses.value" class="resource-label">{{localize "WW.Senses"}}</label>
+            <label class="resource-label">{{localize "WW.Senses"}}</label>
             <input type="text" name="system.details.senses.value" value="{{system.details.senses.value}}"
                 data-dtype="String" />
         </div>
         <div class="flex-row stat-inline flex-group-left">{{!-- Languages --}}
-            <label for="system.details.languages.value" class="resource-label">{{localize "WW.Languages"}}</label>
+            <label class="resource-label">{{localize "WW.Languages"}}</label>
             <input type="text" name="system.details.languages.value" value="{{system.details.languages.value}}"
                 data-dtype="String" placeholder="{{localize "WW.LanguagesPH"}}" />
         </div>
         <div class="flex-row stat-inline flex-group-left">{{!-- Immune --}}
-            <label for="system.details.immune.value" class="resource-label">{{localize "WW.Immune"}}</label>
+            <label class="resource-label">{{localize "WW.Immune"}}</label>
             <input type="text" name="system.details.immune.value" value="{{system.details.immune.value}}"
                 data-dtype="String" placeholder="{{localize "WW.ImmunePH"}}" />
         </div>
 
         <div class="mt-1 flex-row stat-inline flex-group-left">{{!-- Size, Speed --}}
-            <label for="system.stats.size.value" class="resource-label">{{localize "WW.Size"}}</label>
-            <input type="number" name="system.stats.size.value" value="{{system.stats.size.value}}" data-dtype="Number"
-                placeholder="#" />
+            <label class="resource-label">{{localize "WW.Size"}}</label>
+            <select name="system.stats.size.value">
+                {{selectOptions numbersObj selected=system.stats.size.value localize=true}}
+            </select>
 
-            <label for="system.stats.speed.value" class="resource-label ml-2">{{localize "WW.Speed"}}</label>
+            <label class="resource-label ml-2">{{localize "WW.Speed"}}</label>
             <input class="mr-1" type="number" name="system.stats.speed.value" value="{{system.stats.speed.value}}"
                 data-dtype="Number" min="0" / placeholder="#">
             <input type="text" name="system.stats.speed.special" value="{{system.stats.speed.special}}"
@@ -116,7 +120,7 @@
 
     <div class="details-col flex-group-center">{{!-- Right Column --}}
 
-        <ol class="items-list">{{!-- Talents --}}
+        <ol class="item-list">{{!-- Talents --}}
             <li class="item flexrow items-header">
                 <div class="item-image"></div>
                 <div class="item-name">{{localize "WW.Talents"}}</div>
@@ -137,7 +141,7 @@
             {{/each}}
         </ol>
 
-        <ol class="items-list">{{!-- Weapons --}}
+        <ol class="item-list">{{!-- Weapons --}}
             <li class="item flexrow items-header">
                 <div class="item-image"></div>
                 <div class="item-name">{{localize "WW.Weapons"}}</div>
@@ -158,7 +162,7 @@
             {{/each}}
         </ol>
 
-        <ol class="items-list">{{!-- Actions --}}
+        <ol class="item-list">{{!-- Actions --}}
             <li class="item flexrow items-header">
                 <div class="item-image"></div>
                 <div class="item-name">{{localize "WW.Actions"}}</div>
@@ -179,7 +183,7 @@
             {{/each}}
         </ol>
 
-        <ol class="items-list">{{!-- Reactions --}}
+        <ol class="item-list">{{!-- Reactions --}}
             <li class="item flexrow items-header">
                 <div class="item-image"></div>
                 <div class="item-name">{{localize "WW.Reactions"}}</div>
@@ -200,7 +204,7 @@
             {{/each}}
         </ol>
 
-        <ol class="items-list">{{!-- End of Round Effects --}}
+        <ol class="item-list">{{!-- End of Round Effects --}}
             <li class="item flexrow items-header">
                 <div class="item-image"></div>
                 <div class="item-name">{{localize "WW.Ends"}}</div>

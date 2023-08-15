@@ -66,6 +66,10 @@ export class WeirdWizardActorSheet extends ActorSheet {
       v.label = game.i18n.localize(CONFIG.WW.attributes[k]) ?? k;
     }
 
+    //Prepare common data
+    context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true })
+    context.numbersObj = CONFIG.WW.dropdownNumbers;
+
     // Prepare character data and items.
     if (actorData.type == 'Character') {
       this._prepareItems(context);
@@ -75,8 +79,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
       context.system.details.information.enriched = await TextEditor.enrichHTML(context.system.details.information.value, { async: true })
       context.system.details.bg_ancestry.enriched = await TextEditor.enrichHTML(context.system.details.bg_ancestry.value, { async: true })
       context.system.details.deeds.enriched = await TextEditor.enrichHTML(context.system.details.deeds.value, { async: true })
-    } else {
-      context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true })
+  
     }
 
     // Prepare NPC data and items.
@@ -232,6 +235,10 @@ export class WeirdWizardActorSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
+    // -------------------------------------------------------------
+    // Everything below here is only needed if the sheet is editable
+    if (!this.isEditable) return;
+
     /////////// ATTRIBUTES & STATS /////////////
 
     // Rollable attributes.
@@ -292,7 +299,6 @@ export class WeirdWizardActorSheet extends ActorSheet {
         }
         case 'Luck': {
           label = game.i18n.format("WW.Luck");
-          console.log('test')
           break;
         }
       }
@@ -319,13 +325,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
     // Edit Defense button
     html.find('.defense-edit').click(ev => {
       new defenseDetails(this.actor).render(true)
-    }); 
-
-    
-
-    // -------------------------------------------------------------
-    // Everything below here is only needed if the sheet is editable
-    if (!this.isEditable) return;
+    });
 
     //////////////// ITEMS ///////////////////
 
@@ -370,8 +370,6 @@ export class WeirdWizardActorSheet extends ActorSheet {
       }
     });
 
-    
-
     // Active Effect management
     html.find(".effect-control").click(ev => onManageActiveEffect(ev, this.actor));
 
@@ -394,6 +392,16 @@ export class WeirdWizardActorSheet extends ActorSheet {
       }
       return true
     });
+
+    // Drag events for macros.
+    if (this.actor.isOwner) {
+      const handler = ev => this._onDragStart(ev)
+      html.find('.dropitem').each((i, li) => {
+        if (li.classList.contains('inventory-header')) return
+        li.setAttribute('draggable', true)
+        li.addEventListener('dragstart', handler, false)
+      })
+    }
   }
   /* -------------------------------------------- */
 
@@ -420,7 +428,6 @@ export class WeirdWizardActorSheet extends ActorSheet {
     // Handle rolls that supply the formula
     if (dataset.roll) {
       let roll = new Roll(dataset.roll, this.actor.system);
-      console.log(dataset)
       let label = dataset.label ? `Rolling ${dataset.label}` : '';
 
       roll.toMessage({
@@ -429,6 +436,32 @@ export class WeirdWizardActorSheet extends ActorSheet {
         rollMode: game.settings.get('core', 'rollMode')
       });
     }
+  }
+
+  /* -------------------------------------------- */
+  /*  Drop item events                             */
+  /* -------------------------------------------- */
+
+  /** @override */
+  async _onDropItemCreate(itemData) {
+    const isAllowed = await this.checkDroppedItem(itemData)
+    if (isAllowed) return await super._onDropItemCreate(itemData)
+    console.warn('Wrong item type dragged', this.actor, itemData)
+  }
+
+  /* -------------------------------------------- */
+  /** @override */
+  async checkDroppedItem(itemData) {
+    const type = itemData.type
+    if (['specialaction', 'endoftheround'].includes(type)) return false
+
+    if (type === 'ancestry') {
+      const currentAncestriesIds = this.actor.items.filter(i => i.type === 'ancestry').map(i => i._id)
+      if (currentAncestriesIds?.length > 0) await this.actor.deleteEmbeddedDocuments('Item', currentAncestriesIds)
+      return true
+    } else if (type === 'path' && this.actor.system.paths?.length >= 3) return false
+
+    return true
   }
 
   /**

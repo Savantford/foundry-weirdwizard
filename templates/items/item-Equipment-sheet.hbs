@@ -6,30 +6,22 @@
     <div class="header-fields">
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
 
-      {{!-- Main Row 1 --}}
-      <div class="flex-row stat-inline">
-        <label class="resource-label">{{localize "WW.Type"}}</label>
-        <select name="system.subtype">
-          {{selectOptions subtypesObj selected=system.subtype localize=true}}
-        </select>
+      {{!-- Header Row --}}
+      <div class="flex-row stat-inline flex-wrap">
 
-        <label class="ml-2 resource-label">{{localize "WW.Quality"}}</label>
-        <select name="system.quality">
-          {{selectOptions qualitiesObj selected=system.quality localize=true}}
-        </select>
-
-      </div>
-
-      {{!-- Main Row 2 --}}
-      <div class="flex-row stat-inline">
-        <label class="resource-label">{{localize "WW.Quantity"}}</label>
-        <input type="number" name="system.quantity" value="{{system.quantity}}" min="0" data-dtype="Number"/>
-
-        <label class="ml-2 resource-label">{{localize "WW.WeightUnit"}}</label>
-        <input type="number" name="system.weightUnit" value="{{system.weightUnit}}" min="0" data-dtype="Number"/>
-
-        <label class="ml-2">{{localize "WW.UsesEquipment"}}</label>
-        <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="0" data-dtype="Number" />
+        <div>
+          <label>{{localize "WW.Type"}}</label>
+          <select name="system.subtype">
+            {{selectOptions subtypesObj selected=system.subtype localize=true}}
+          </select>
+        </div>
+        
+        <div>
+          <label>{{localize "WW.Quality"}}</label>
+          <select name="system.quality">
+            {{selectOptions qualitiesObj selected=system.quality localize=true}}
+          </select>
+        </div>
   
       </div>
       
@@ -37,23 +29,89 @@
   </header>
 
   {{!-- Sheet Body --}}
-  <section class="sheet-body">
+  <section class="sheet-body mt-2">
+  
+    <div class="flex-row stat-inline flex-wrap">
+  
+      <div>
+        <label>{{localize "WW.Price"}}</label>
+        <input type="number" name="system.price.value" value="{{system.price.value}}" min="0" data-dtype="Number" />
+        <select class="ml-1" name="system.price.coin">
+          {{selectOptions coinsObj selected=system.price.coin localize=true}}
+        </select>
+      </div>
+  
+      <div>
+        <label>{{localize "WW.Quantity"}}</label>
+        <input type="number" name="system.quantity" value="{{system.quantity}}" min="0" data-dtype="Number" />
+      </div>
+  
+      <div>
+        <label>{{localize "WW.WeightUnit"}}</label>
+        <input type="number" name="system.weightUnit" value="{{system.weightUnit}}" min="0" data-dtype="Number" />
+      </div>
+  
+      <div>
+        <label>{{localize "WW.UsesEquipment"}}</label>
+        <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="0" data-dtype="Number" />
+      </div>
+  
+    </div>
 
     {{#if (eq system.subtype 'weapon')}} {{!-- Weapon Params --}}
-    <h2>{{localize "WW.WeaponStats"}}</h2>
-    <div class="mt-2 flex-row stat-inline flex-group-left">
-        <label class="resource-label">{{localize "WW.Damage"}}</label>
-        <input type="text" name="system.damage" value="{{system.damage}}" placeholder="1d6" style="width: 75px; text-align: center;" data-dtype="String" />
-        <div class="stat-inline flex-group-left">
-          <label class="resource-label ml-2">{{localize "WW.Grip"}}</label>
-          <select name="system.grip">
-            {{selectOptions gripObj selected=system.grip localize=true}}
-          </select>
+    <div>
+      <h2>{{localize "WW.WeaponDetails"}}</h2>
+      <div class="mt-2 flex-row stat-inline flex-group-left">
+          <label class="">{{localize "WW.Damage"}}</label>
+          <input type="text" name="system.damage" value="{{system.damage}}" placeholder="1d6" style="width: 75px; text-align: center;" data-dtype="String" />
+
+          {{!-- Grip --}}
+          <div class="stat-inline flex-group-left">
+            <label class="ml-2">{{localize "WW.Grip"}}</label>
+            <select name="system.grip">
+              {{selectOptions gripObj selected=system.grip localize=true}}
+            </select>
+          </div>
+
+          {{!-- Range --}}
+          <div class="stat-inline flex-group-left">
+            <label class="ml-2">{{localize "WW.Range"}}</label>
+            <input type="number" name="system.range" value="{{system.range}}" min="0" data-dtype="Number"/>
+          </div>
+
+          {{!-- Reload --}}
+          <div class="stat-inline flex-group-left">
+            <label class="ml-2">{{localize "WW.Reload"}}</label>
+            <input type="checkbox" name="system.reload" {{checked system.reload}} />
+          </div>
+        </div>
+        <div class="flex-row stat-inline">
+          <label class="">{{localize "WW.Properties"}}</label>
+          <input type="text" name="system.properties" value="{{system.properties}}" placeholder="{{localize "WW.PropertiesPH"}}" data-dtype="String" />
         </div>
       </div>
-      <div class="flex-row stat-inline">
-        <label class="resource-label">{{localize "WW.Properties"}}</label>
-        <input type="text" name="system.properties" value="{{system.properties}}" placeholder="{{localize "WW.PropertiesPH"}}" data-dtype="String" />
+    </div>
+    {{/if}}
+
+    {{#if (eq system.subtype 'armor')}} {{!-- Armor Params --}}
+    <div>
+      <h2>{{localize "WW.Armor.Details"}}</h2>
+      <div class="mt-2 flex-row stat-inline flex-group-left">
+
+        {{!-- Armor Type --}}
+        <label class="">{{localize "WW.Type"}}</label>
+        <select class="ml-1" name="system.armorType">
+          {{selectOptions armorObj selected=system.armorType localize=true}}
+        </select>
+
+        {{!-- Defense --}}
+        <label class="ml-2">{{localize "WW.Defense"}}</label>
+        <input type="number" name="system.defense" value="{{system.defense}}" min="10" data-dtype="Number"/>
+
+        {{!-- Natural Defense Bonus --}}
+        <label class="ml-2">{{localize "WW.DefenseBonus"}}</label>
+        <input type="number" name="system.defenseBonus" value="{{system.defenseBonus}}" min="0" data-dtype="Number"/>
+
       </div>
     </div>
     {{/if}}

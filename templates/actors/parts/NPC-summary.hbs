@@ -1,46 +1,48 @@
 <div class="resources grid grid-2col">
 
     <div class="statbox">{{!-- Left Column --}}
-        <h3 class="statbox-header">{{localize "WW.Stats"}}</h3>
-        <div class="hl2">{{!-- Level, Type --}}
-            <label for="level" class="resource-label">{{localize "WW.Level"}}</label>
-            {{system.stats.level.value}}
+        <h3 class="statbox-header flex-group-left"><span style="padding-top: 1px;">{{localize "WW.Stats"}}</span>
+            <span class="small bold float-right" style="padding-top: 3px;">{{localize "WW.Level"}} {{system.stats.level.value}} {{#if system.stats.solitary}}({{localize "WW.Solitary"}}){{/if}}</span>
+        </h3>
 
-            <label class="ml-2" for="type" class="resource-label">{{localize "WW.Type"}}</label>
+        {{!-- Type --}}
+        <div class="hl2">
+            <label>{{localize "WW.Type"}}</label>
             {{system.details.type.value}}
         </div>
 
         <div class="hl">
             <div class="stat">{{!-- Defense, Health, Damage --}}
-                <label for="defense" class="resource-label">{{localize "WW.Defense"}}</label>
+                <label class="resource-label">{{localize "WW.Defense"}}</label>
                 {{system.stats.defense.total}}{{#if system.stats.defense.details}}
                 ({{system.stats.defense.details}}){{/if}}
 
-                <label class="ml-1" for="health" class="resource-label">{{localize "WW.Health.Title"}}</label>
+                <label class="ml-1" class="resource-label">{{localize "WW.Health.Title"}}</label>
                 {{system.stats.health.total}}
 
-                <label class="ml-1" for="damage" class="resource-label">{{localize "WW.Damage"}}</label>
-                {{system.stats.damage.value}}
+                <label class="ml-1" class="resource-label">{{localize "WW.Damage"}}</label>
+                <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0"
+                    data-dtype="Number" />
             </div>
 
             <div class="stat mt-1">{{!-- Attributes 1 --}}
-                <label for="str" class="resource-label">{{localize "WW.Strength"}}</label>
+                <label class="resource-label">{{localize "WW.Strength"}}</label>
                 <a class="attribute-mod rollable" data-label="Strength"
                     title="Roll Strength">{{system.attributes.str.value}} ({{numberFormat system.attributes.str.mod
                     decimals=0 sign=true}})</a>
 
-                <label class="ml-1" for="agi" class="resource-label">{{localize "WW.Agility"}}</label>
+                <label class="ml-1" class="resource-label">{{localize "WW.Agility"}}</label>
                 <a class="attribute-mod rollable" data-label="Agility"
                     title="Roll Agility">{{system.attributes.agi.value}} ({{numberFormat system.attributes.agi.mod
                     decimals=0 sign=true}})</a>
             </div>
             <div class="stat">{{!-- Attributes 2 --}}
-                <label for="int" class="resource-label">{{localize "WW.Intellect"}}</label>
+                <label class="resource-label">{{localize "WW.Intellect"}}</label>
                 <a class="attribute-mod rollable" data-label="Intellect"
                     title="Roll Intellect">{{system.attributes.int.value}} ({{numberFormat system.attributes.int.mod
                     decimals=0 sign=true}})</a>
 
-                <label class="ml-1" for="wil" class="resource-label">{{localize "WW.Will"}}</label>
+                <label class="ml-1" class="resource-label">{{localize "WW.Will"}}</label>
                 <a class="attribute-mod rollable" data-label="Will" title="Roll Will">{{system.attributes.wil.value}}
                     ({{numberFormat system.attributes.wil.mod decimals=0 sign=true}})</a>
 
@@ -61,26 +63,26 @@
         </div>
 
         <div class="stat">{{!-- Senses --}}
-            {{#if system.details.senses.value}}<label for="senses" class="resource-label">{{localize
+            {{#if system.details.senses.value}}<label class="resource-label">{{localize
                 "WW.Senses"}}</label>
             {{system.details.senses.value}}{{/if}}
         </div>
         <div class="stat mt-1">{{!-- Languages --}}
-            {{#if system.details.languages.value}}<label class="" for="languages" class="resource-label">{{localize
+            {{#if system.details.languages.value}}<label class="" class="resource-label">{{localize
                 "WW.Languages"}}</label>
             {{system.details.languages.value}}{{/if}}
         </div>
 
         {{#if system.details.immune.value}}<div class="stat mt-1">{{!-- Immune --}}
-            <label class="mb-1" for="immune" class="resource-label">{{localize "WW.Immune"}}</label>
+            <label class="mb-1" class="resource-label">{{localize "WW.Immune"}}</label>
             {{system.details.immune.value}}
         </div>{{/if}}
 
         <div class="stat mb-1 mt-1">{{!-- Size, Speed --}}
-            <label for="size" class="resource-label">{{localize "WW.Size"}}</label>
+            <label class="resource-label">{{localize "WW.Size"}}</label>
             {{system.stats.size.value}}
 
-            <label class="ml-1" for="speed" class="resource-label">{{localize "WW.Speed"}}</label>
+            <label class="ml-1" class="resource-label">{{localize "WW.Speed"}}</label>
             {{system.stats.speed.value}}
             {{#if system.stats.speed.special}} ({{system.stats.speed.special}}){{/if}}
         </div>

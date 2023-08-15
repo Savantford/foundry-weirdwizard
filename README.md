@@ -31,11 +31,11 @@ For a comprehensive list of bug reports and feedback given, please check our [No
 Thank you for all the reports and feedback!
 
 # Acknowledgments
-A big thanks to all the Foundry VTT Discord community! You guys are amazing and I couldn't pull any of this without your help.
+A big thanks to the `Shadow of the Demon Lord`, `Shadow of the Weird Wizard` and `Foundry VTT` Discord communities! You guys are all amazing and I couldn't pull any of this without your help or support.
 
 I also wanted to personally mention these folks for their patience and effort towards helping me out to get this done. In alphabetical order: ChaosOS, Mana, Mezryss 💖, mxzf and Zhell. Thank you humbly!
 
-Finally, thanks to Zaxim from the `SotDL for Foundry VTT` server for helping me out often.
+Finally, thanks to ferrer (jeferrer) and Zaxim (zaxim) from the `SotDL for Foundry VTT` server for helping me out often. You guys rock!
 
 # Credits
 *Shadow of the Weird Wizard* is a fantasy game written and designed by **Robert J. Schwalb**, published by [Schwalb Entertainment](https://schwalbentertainment.com/).

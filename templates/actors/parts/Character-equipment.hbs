@@ -4,17 +4,17 @@
 
         {{!-- Coins --}}
         <div class="flex-row">
-            <label for="system.currency" class="resource-label">{{localize "WW.Coins"}}</label>
+            <label for="system.currency" class="resource-label">{{localize "WW.Coins.Title"}}</label>
             <ol class="coins-list">
                 <li><input type="number" name="system.currency.gp" value="{{system.currency.gp}}" min="0"
-                        data-dtype="Number" /> {{localize "WW.GP"}}
+                        data-dtype="Number" /> {{localize "WW.Coins.GP"}}
                 </li>
                 <li><input type="number" name="system.currency.sp" value="{{system.currency.sp}}" min="0"
-                        data-dtype="Number" /> {{localize "WW.SP"}}
+                        data-dtype="Number" /> {{localize "WW.Coins.SP"}}
                 </li>
                 <li>
                     <input type="number" name="system.currency.cp" value="{{system.currency.cp}}" min="0"
-                        data-dtype="Number" /> {{localize "WW.CP"}}
+                        data-dtype="Number" /> {{localize "WW.Coins.CP"}}
                 </li>
             </ol>
         </div>
@@ -22,14 +22,13 @@
         {{!-- Weight Total --}}
         <div class="ml-auto">
             <label>{{localize "WW.WeightTotal"}}:</label>
-            {{log system}}
             <span {{#if (gt totalWeight system.attributes.str.value)}}style="color: red; font-weight:bold"{{/if}}>{{totalWeight}} / {{system.attributes.str.value}}</span>
         </div>
     </div>
 
     {{!-- Weapons --}}
     <h2>{{localize "WW.Weapons"}}</h2>
-    <ol class="items-list">
+    <ol class="item-list">
         <li class="item flexrow items-header">
             <div class="item-image"></div>
             <div class="item-name">{{localize "WW.Name"}}</div>
@@ -61,7 +60,7 @@
 
 <div>
     <h2>{{localize "WW.Equipment"}}</h2>
-    <ol class="items-list">
+    <ol class="item-list">
         <li class="item flexrow items-header">
             <div class="item-image"></div>
             <div class="item-quantity">#</div>

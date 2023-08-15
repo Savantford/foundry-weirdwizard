@@ -124,20 +124,22 @@ export class WeirdWizardActor extends Actor {
 
         // Select the higher Defense value from Armor flat Defense or Armor Bonus and assign to armorTotal.
         if (equipped.def) {
-        if ((defense.natural + equipped.bonus) > equipped.def) {
-            armorTotal = defense.natural + equipped.bonus;
-        } else {
-            armorTotal = equipped.def;
-        };
+
+            if ((defense.natural + equipped.bonus) > equipped.def) {
+                armorTotal = defense.natural + equipped.bonus;
+            } else {
+                armorTotal = equipped.def;
+            };
+            
         };
 
         // Add Defense bonuses to armorTotal to get defense total.
         const defBonuses = CONFIG.Global.sum(defense.bonuses.map(i => i.bonus));
 
-        if (defBonuses > 0) {
-        system.stats.defense.total = armorTotal + defBonuses;
+        if (defBonuses != 0) {
+            system.stats.defense.total = armorTotal + defBonuses;
         } else {
-        system.stats.defense.total = armorTotal;
+            system.stats.defense.total = armorTotal;
         }
     }
 

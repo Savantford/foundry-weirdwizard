@@ -29,8 +29,9 @@
         </div>
         <div class="flex-row stat-inline flex-group-left">{{!-- Size, Speed --}}
             <label for="system.stats.size.value" class="resource-label">{{localize "WW.Size"}}</label>
-            <input type="number" name="system.stats.size.value" value="{{system.stats.size.value}}" data-dtype="Number"
-                placeholder="#" />
+            <select name="system.stats.size.value">
+                {{selectOptions numbersObj selected=system.stats.size.value localize=true}}
+            </select>
 
             <label for="system.stats.speed.value" class="resource-label ml-2">{{localize "WW.Speed"}}</label>
             <input class="mr-1" type="number" name="system.stats.speed.value" value="{{system.stats.speed.value}}"
