@@ -20,6 +20,21 @@ WW.details = {
 }
 
 // Dropdown menus
+WW.dropdownNumbers = {
+  "⅛": "⅛",
+  "¼": "¼",
+  "½": "½",
+  "1": "1",
+  "2": "2",
+  "3": "3",
+  "4": "4",
+  "5": "5",
+  "6": "6",
+  "7": "7",
+  "8": "8",
+  "9": "9",
+  "10": "10",
+}
 WW.dropdownAttributes = {
   "": "WW.None",
   "str": "WW.Strength",
@@ -36,12 +51,13 @@ WW.dropdownSubtypes = {
   "end": "WW.TalentSubtypes.End",
 };
 
-WW.dropdownSources = {
+WW.talentSources = {
   "None": "WW.TalentSources.None",
   "Ancestry": "WW.TalentSources.Ancestry",
   "Novice": "WW.TalentSources.Novice",
   "Expert": "WW.TalentSources.Expert",
   "Master": "WW.TalentSources.Master",
+  "Magical": "WW.TalentSources.Magical",
   "Other": "WW.TalentSources.Other"
 };
 
@@ -56,6 +72,12 @@ WW.dropdownTiers = {
   "Novice": "WW.Novice",
   "Expert": "WW.Expert",
   "Master": "WW.Master"
+};
+
+WW.coins = {
+  "cp": "WW.Coins.CP",
+  "sp": "WW.Coins.SP",
+  "gp": "WW.Coins.GP"
 };
 
 WW.itemSubtypes = {
@@ -73,10 +95,16 @@ WW.itemQualities = {
 };
 
 WW.dropdownGrip = {
-  "One-Handed": "WW.GripOne",
-  "Two-Handed": "WW.GripTwo",
-  "Off-Hand": "WW.GripOff"
+  "One": "WW.GripOne",
+  "Two": "WW.GripTwo",
+  "Off": "WW.GripOff"
 };
+
+WW.armorTypes = {
+  "light": "WW.Light",
+  "medium": "WW.Medium",
+  "heavy": "WW.Heavy"
+}
 
 WW.armor = {
   "unarmored": {

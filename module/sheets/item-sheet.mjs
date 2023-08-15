@@ -50,15 +50,17 @@ export class WeirdWizardItemSheet extends ItemSheet {
   
       case 'Equipment':
         context.subtypesObj = CONFIG.WW.itemSubtypes;
+        context.coinsObj = CONFIG.WW.coins;
         context.qualitiesObj = CONFIG.WW.itemQualities;
         context.attributesObj = CONFIG.WW.dropdownAttributes;
         context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
+        context.armorObj = CONFIG.WW.armorTypes;
         context.gripObj = CONFIG.WW.dropdownGrip;
       break;
 
       case 'Trait or Talent':
         context.subtypesObj = CONFIG.WW.dropdownSubtypes;
-        context.sourcesObj = CONFIG.WW.dropdownSources;
+        context.sourcesObj = CONFIG.WW.talentSources;
         context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
         context.attributesObj = CONFIG.WW.dropdownAttributes;
       break;

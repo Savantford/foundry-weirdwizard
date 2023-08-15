@@ -12,6 +12,7 @@
     "WW.Stats": "Stats",
     "WW.Traits": "Traits",
     "WW.Level": "Level",
+    "WW.Solitary": "Solitary",
     "WW.Type": "Type",
     "WW.Senses": "Senses",
     "WW.Languages": "Languages",
@@ -41,7 +42,8 @@
 
     "WW.Defense": "Defense",
     "WW.Armor": {
-        "Title": "Armor",
+        "Details": "Armor Details",
+        "Title": "Armor or Shield",
         "Unarmored": "Unarmored",
         "Padded": "Padded Armor",
         "Leather": "Leather Armor",
@@ -53,9 +55,13 @@
         "Plate": "Plate Armor",
         "FullPlate": "Full Plate Armor"
     },
+    "WW.Light": "Light",
+    "WW.Medium": "Medium",
+    "WW.Heavy": "Heavy",
     "WW.DefenseTotal": "Defense Total",
     "WW.DefenseNatural": "Natural Defense",
     "WW.DefenseDetails": "(armor, if any, shield, if any)",
+    "WW.DefenseBonus": "Natural Defense Bonus",
     "WW.ModName": "Modifier Name",
     "WW.Value": "Value",
     "WW.New": "New",
@@ -107,15 +113,17 @@
     "WW.Reputation": "Reputation",
 
     "WW.Equipment": "Equipment",
-    "WW.Coins": "Coins",
-    "WW.GP": "gp",
-    "WW.SP": "sp",
-    "WW.CP": "cp",
-
+    "WW.Price": "Price",
+    "WW.Coins": {
+        "Title": "Coins",
+        "GP": "gp",
+        "SP": "sp",
+        "CP": "cp"
+    },
     "WW.NewItem": "New {itemType}",
     "WW.Generic": "Generic",
     "WW.Weapon": "Weapon",
-    "WW.WeaponStats": "Weapon Stats",
+    "WW.WeaponDetails": "Weapon Details",
     "WW.Consumable": "Consumable",
     "WW.Container": "Container",
     "WW.Weight": "Weight",
@@ -150,6 +158,7 @@
         "Novice": "Novice Path",
         "Expert": "Expert Path",
         "Master": "Master Path",
+        "Magical": "Magical Talent",
         "Other": "Other"
     },
     "WW.Condition": "Condition",
@@ -182,6 +191,7 @@
     "WW.GripOff": "Off-Hand",
     "WW.Properties": "Properties",
     "WW.PropertiesPH": "Brutal, Keen, etc",
+    "WW.Reload": "Reload",
 
     "WW.Effects": "Effects",
     "WW.Add": "Add",

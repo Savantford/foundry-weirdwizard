@@ -255,6 +255,11 @@
   flex: 2;
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+  gap: 5px 10px;
+}
+
 .align-left {
   -webkit-box-pack: start;
   -ms-flex-pack: start;
@@ -312,6 +317,7 @@
   border-radius: 5px;
   padding: 2px 5px;
   font-family: 'Garamond Pro', serif;
+  font-size: 16px;
   text-transform: uppercase;
 }
 
@@ -408,6 +414,20 @@
 .weirdwizard .bold {
   font-weight: bold;
 }
+.weidwizard .width-50 {
+  width: 50px;
+}
+.weirdwizard .box-input {
+  text-align: center;
+  width: 50px;
+}
+
+.weirdwizard .float-left {
+  float: left;
+}
+.weirdwizard .float-right {
+  float: right;
+}
 .weirdwizard .hl {
   background-color: var(--highlight);
   padding: 1px 0px;
@@ -418,6 +438,7 @@
 .weirdwizard .hl2 {
   background-color: var(--gray);
   padding: 2px 5px;
+  text-transform: uppercase;
 }
 
 .weirdwizard .hl2 label {
@@ -489,9 +510,10 @@
 .weirdwizard .sheet-body,
 .weirdwizard .sheet-body .tab,
 .weirdwizard .sheet-body .tab .editor {
-  height: 100%;
+  
 }
 .weirdwizard .editor-content {
+  min-height: 2.5em;
   background: rgba(var(--highlight-rbg), 0.5);
   padding: 1px 5px;
   border-radius: 5px;
@@ -539,7 +561,7 @@
 
 /* Lists */
 
-.weirdwizard .items-list {
+.weirdwizard .item-list {
   list-style: none;
   margin: 0;
   /*margin-top: 15px;*/
@@ -548,9 +570,16 @@
   color: #444;
   padding: 0px;
 }
-.weirdwizard .items-list li > * {
+.weirdwizard .item-list li > * {
   padding-left: 1px;
   padding-right: 1px;
+}
+
+input[type="checkbox"].checkbox-reloaded {
+  height: 12px;
+  width: 12px;
+  margin: 0px;
+  border-radius: 5px;
 }
 
 .weirdwizard .items-header {
@@ -618,7 +647,7 @@
   -ms-flex-align: center;
   align-items: center;
 }
-.weirdwizard .items-list .item {
+.weirdwizard .item-list .item {
   padding: 0 2px;
   margin-bottom: 5px;
   border-bottom: 1px solid #c9c7b8;

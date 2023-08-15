@@ -75,7 +75,9 @@
     "htmlFields": ["details.biography.value", "details.biography.public", "description.full", "description.summary"],
     "Character": {
       "templates": ["common", "creature", "player"],
-      "biography": "Testa",
+      "description": {
+        "value": "Unknown biography."
+      },
       "stats": {
         "bonusdamage": {
           "value": 0
@@ -95,25 +97,25 @@
           "value": ""
         },
         "features": {
-          "value": "<p></p>"
+          "value": ""
         },
         "personality": {
-          "value": "<p></p>"
+          "value": ""
         },
         "belief": {
-          "value": "<p></p>"
+          "value": ""
         },
         "professions": {
           "value": ""
         },
         "information": {
-          "value": "<p></p>"
+          "value": ""
         },
         "bg_ancestry": {
-          "value": "<p></p>"
+          "value": ""
         },
         "deeds": {
-          "value": "<p></p>"
+          "value": ""
         },
         "reputation": {
           "min": 0,
@@ -121,18 +123,6 @@
         },
         "traditions": {
           "value": ""
-        }
-      },
-      "resources": {
-        "ct": {
-          "min": 0,
-          "value": 0,
-          "max": 0
-        },
-        "mt": {
-          "min": 0,
-          "value": 0,
-          "max": 0
         }
       },
       "currency": {
@@ -145,6 +135,9 @@
       "templates": ["common", "creature"],    
       "description": {
         "value": "No description."
+      },
+      "stats": {
+        "solitary": false
       }
     },
     "Group": {
@@ -172,17 +165,17 @@
     "templates": {
       "base": {
         "description": {
-          "value": "<p></p>",
+          "value": "",
           "chat": "",
           "unidentified": ""
         }
       },
       "physicalItem": {
         "quantity": 1,
-        "weightUnit": 0,
+        "weightUnit": 1,
         "price": {
           "value": 0,
-          "denomination": "sp"
+          "coin": "sp"
         },
         "equipped": false,
         "availability": "",
@@ -243,7 +236,13 @@
       "attribute": "",
       "damage": "1d6",
       "grip": "One-Handed",
+      "range": 0,
+      "reload": false,
+      "reloaded": true,
       "properties": "",
+      "armorType": "light",
+      "defense": 11,
+      "defenseBonus": 0,  
       "capacity": 0,
       "consumableType": "potion",
       "uses": {

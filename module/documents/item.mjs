@@ -18,25 +18,34 @@ export class WeirdWizardItem extends Item {
   }
 
   async _preCreate(data, options, user) {
-    let icon = 'icons/svg/item-bag.svg';
+    
+    let icon = data.img;
+    
+    // If no image is provided, set default by category.
+    if (!icon) {
 
-    switch (this.type) {
+      switch (this.type) {
+        case 'Equipment':
+          icon = 'icons/svg/item-bag.svg';
+        break;
    
-      case 'Trait or Talent':
-        icon = 'icons/svg/card-hand.svg';
-      break;
+        case 'Trait or Talent':
+          icon = 'icons/svg/card-hand.svg';
+        break;
+  
+        case 'Spell':
+          icon = 'icons/svg/lightning.svg';
+        break;
+  
+        case 'Ancestry':
+          icon = 'icons/svg/oak.svg';
+        break;
+  
+        case 'Path':
+          icon = 'icons/svg/stone-path.svg';
+        break;
+      }
 
-      case 'Spell':
-        icon = 'icons/svg/lightning.svg';
-      break;
-
-      case 'Ancestry':
-        icon = 'icons/svg/oak.svg';
-      break;
-
-      case 'Path':
-        icon = 'icons/svg/stone-path.svg';
-      break;
     }
 
     await this.updateSource({ img: icon });

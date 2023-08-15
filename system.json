@@ -8,14 +8,14 @@
   "download": "#{DOWNLOAD}#",
   "compatibility": {
     "minimum": "10",
-    "verified": "11.308",
+    "verified": "11",
     "maximum": ""
   },
   "authors": [
     {
-      "name": "Savantford",
-      "url": "https://github.com/Savantford",
+      "name": "Fatlus (Savantford)",
       "discord": "@violencia",
+      "url": "https://github.com/Savantford",
       "flags": {}
     }
   ],
@@ -35,9 +35,33 @@
       "flags": {}
     }
   ],
+  "packs": [
+    {
+      "name": "weapons",
+      "label": "Weapons",
+      "system": "weirdwizard",
+      "path": "packs/weapons.db",
+      "type": "Item"
+    },
+    {
+      "name": "armor",
+      "label": "Armor and Shields",
+      "system": "weirdwizard",
+      "path": "packs/armor.db",
+      "type": "Item"
+    }
+  ],
+  "packFolders": [
+    {
+      "name": "Core: Equipment",
+      "sorting": "m",
+      "packs": ["weapons", "armor"],
+      "folders": []
+    }
+  ],
   "initiative": "1d20",
-  "gridDistance": 30,
-  "gridUnits": "ft",
+  "gridDistance": 1,
+  "gridUnits": "yard",
   "primaryTokenAttribute": "stats.damage",
   "secondaryTokenAttribute": ""
 }

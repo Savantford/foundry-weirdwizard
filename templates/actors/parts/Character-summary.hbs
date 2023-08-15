@@ -89,13 +89,15 @@
         <h3 class="mt-2">{{localize "WW.Attacks"}}</h3>
         <div class="stat">{{!-- Bonus Damage --}}
             <label class="" for="bonusdamage" class="resource-label">{{localize "WW.BonusDamage"}}</label>
-            {{#if system.stats.bonusdamage.value}}{{system.stats.bonusdamage.value}}d6{{else}}0{{/if}}
+            +{{#if system.stats.bonusdamage.value}}{{system.stats.bonusdamage.value}}d6{{else}}0{{/if}}
         </div>
         <div class="mt-1">
             <ol class="described-list">
                 {{#each weapons as |item id|}}
                 <li class="item" data-item-id="{{item._id}}">
-                    <a class="rollable item-roll" title="Roll Attack">{{item.name}}</a> <a class="item-edit"
+                    <a class="rollable item-roll" title="Roll Attack">{{item.name}}</a>
+                    {{#if item.system.reload}}<input class="checkbox-reloaded" type="checkbox" name="item.system.reloaded" title="Weapon realoded?" {{checked item.system.reloaded}}/>{{/if}} 
+                    <a class="item-edit"
                         title="Edit Weapon">({{item.system.grip}}{{#if item.system.properties}};
                         {{item.system.properties}}{{/if}}) {{item.system.attribute}}
                         {{#if item.system.boons}} {{localize "WW.Boons.With"}} {{item.system.boons}} {{#if (lt
