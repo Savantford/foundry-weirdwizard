@@ -21,16 +21,28 @@ export class WeirdWizardActor extends Actor {
     }
 
     async _preCreate(data, options, user) {
-        let icon = 'icons/svg/mystery-man.svg';
-
-        switch (this.type) {
+    
+        let icon = data.img;
+        
+        // If no image is provided, set default by category.
+        if (!icon) {
+    
+          switch (this.type) {
+            
+            case 'Character':
+              icon = 'icons/svg/mystery-man.svg';
+            break;
+       
             case 'NPC':
-                icon = 'icons/svg/mystery-man-black.svg';
-                break;
+              icon = 'icons/svg/mystery-man-black.svg';
+            break;
+      
+            }
+    
         }
-
+    
         await this.updateSource({ img: icon });
-
+    
         return await super._preCreate(data, options, user);
     }
 

@@ -5,34 +5,34 @@
 
         <div class="stat">{{!-- Level, Ancestry --}}
             <label for="level" class="resource-label">{{localize "WW.Level"}}</label>
-            {{system.stats.level.value}}
+            {{system.stats.level}}
 
             <label class="ml-1" for="ancestry" class="resource-label">{{localize "WW.Ancestry"}}</label>
-            {{system.details.ancestry.value}}
+            {{system.details.ancestry}}
         </div>
 
         <div class="stat">{{!-- Type, Senses --}}
-            {{#if system.details.type.value}}<label for="type" class="resource-label">{{localize
+            {{#if system.details.type}}<label for="type" class="resource-label">{{localize
                 "WW.Type"}}</label>
-            {{system.details.type.value}}{{/if}}
+            {{system.details.type}}{{/if}}
         </div>
 
-        {{#if system.details.professions.value}}
+        {{#if system.details.professions}}
         <div class="stat">{{!-- Professions --}}
             <label class="" for="professions" class="resource-label">{{localize "WW.Professions"}}</label>
-            {{system.details.professions.value}}
+            {{system.details.professions}}
         </div>
         {{/if}}
 
         <div class="stat mt-1">{{!-- Paths --}}
-            {{#if system.details.novice.value}}
+            {{#if system.details.novice}}
             <label for="paths" class="resource-label">{{localize "WW.Paths"}}</label>
             <ol class="summary-list">
-                <li title="{{localize " WW.NovicePath"}}">{{system.details.novice.value}}</li>
-                {{#if system.details.expert.value}}<li title="{{localize " WW.ExpertPath"}}">
-                    {{system.details.expert.value}}</li>{{/if}}
-                {{#if system.details.expert.value}}<li title="{{localize " WW.MasterPath"}}">
-                    {{system.details.master.value}}</li>{{/if}}
+                <li title="{{localize " WW.NovicePath"}}">{{system.details.novice}}</li>
+                {{#if system.details.expert}}<li title="{{localize " WW.ExpertPath"}}">
+                    {{system.details.expert}}</li>{{/if}}
+                {{#if system.details.expert}}<li title="{{localize " WW.MasterPath"}}">
+                    {{system.details.master}}</li>{{/if}}
             </ol>
             {{/if}}
         </div>
@@ -64,22 +64,22 @@
         </div>
 
         <div class="stat">{{!-- Senses --}}
-            {{#if system.details.senses.value}}<label for="senses" class="resource-label">{{localize
+            {{#if system.details.senses}}<label for="senses" class="resource-label">{{localize
                 "WW.Senses"}}</label>
-            {{system.details.senses.value}}{{/if}}
+            {{system.details.senses}}{{/if}}
         </div>
 
         <div class="stat">{{!-- Languages --}}
             <label class="" for="languages" class="resource-label">{{localize "WW.Languages"}}</label>
-            {{system.details.languages.value}}
+            {{system.details.languages}}
         </div>
-        {{#if system.details.immune.value}}<div class="stat mt-1">{{!-- Immune --}}
+        {{#if system.details.immune}}<div class="stat mt-1">{{!-- Immune --}}
             <label class="" for="immune" class="resource-label">{{localize "WW.Immune"}}</label>
-            {{system.details.immune.value}}
+            {{system.details.immune}}
         </div>{{/if}}
         <div class="stat mt-1">{{!-- Size, Speed --}}
             <label for="size" class="resource-label">{{localize "WW.Size"}}</label>
-            {{system.stats.size.value}}
+            {{system.stats.size}}
 
             <label class="ml-1" for="speed" class="resource-label">{{localize "WW.Speed"}}</label>
             {{system.stats.speed.value}}
@@ -89,7 +89,7 @@
         <h3 class="mt-2">{{localize "WW.Attacks"}}</h3>
         <div class="stat">{{!-- Bonus Damage --}}
             <label class="" for="bonusdamage" class="resource-label">{{localize "WW.BonusDamage"}}</label>
-            +{{#if system.stats.bonusdamage.value}}{{system.stats.bonusdamage.value}}d6{{else}}0{{/if}}
+            +{{#if system.stats.bonusdamage}}{{system.stats.bonusdamage}}d6{{else}}0{{/if}}
         </div>
         <div class="mt-1">
             <ol class="described-list">
@@ -116,32 +116,32 @@
             {{#each talents as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
                 <a class="rollable item-roll" title="Roll Talent">{{item.name}}</a>
+                <a class="item-edit smaller" title="Edit Talent"><i class="fas fa-edit"></i></a>
                 {{#each item.uses as |pip id|}}
                 <a class="item-pip" title="{{#if (eq pip "far")}}Spend use/token{{else}}Recover use/token{{/if}}"><i
                         class="{{pip}} fa-circle"></i></a>
                 {{/each}}
-                <a class="item-edit smaller" title="Edit Talent"><i class="fas fa-edit"></i></a>
             </li>
             {{/each}}
         </ol>
 
-        {{#if spells}}
+        {{#if system.details.traditions}}
         <h3 class="mt-2">{{localize "WW.Spells"}}</h3>
 
         <div class="stat mb-2">{{!-- Traditions --}}
             <label class="" for="traditions" class="resource-label">{{localize "WW.Traditions"}}</label>
-            {{system.details.traditions.value}}
+            {{system.details.traditions}}
         </div>
 
         <ol class="summary-list stat">
             {{#each spells as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
                 <a class="rollable item-roll" title="Roll Spell">{{item.name}}</a>
+                <a class="item-edit smaller" title="Edit Spell"><i class="fas fa-edit"></i></a>
                 {{#each item.uses as |pip id|}}
                 <a class="item-pip" title="{{#if (eq pip "far")}}Spend casting{{else}}Recover casting{{/if}}"><i
                         class="{{pip}} fa-circle"></i></a>
                 {{/each}}
-                <a class="item-edit smaller" title="Edit Spell"><i class="fas fa-edit"></i></a>
             </li>
             {{/each}}
         </ol>

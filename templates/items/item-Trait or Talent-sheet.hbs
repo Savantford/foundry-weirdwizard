@@ -39,18 +39,6 @@
   {{!-- Sheet Body --}}
   <section class="sheet-body">
 
-    {{!-- <div class="detail">
-      <div class="stat flexrow flex-group-left">
-        <label class="resource-label">{{localize "WW.Type"}}</label>
-      </div>
-      <div class="stat stat-inline">
-        <select class="mr-1" name="system.type.value">
-          {{selectOptions typesObj selected=system.type.value localize=true}}
-        </select>
-        <input type="text" name="system.condition.value" value="{{system.condition.value}}" placeholder="{{localize "WW.ConditionPH"}}" data-dtype="String" />
-      </div>
-    </div>--}}
-
     <h2>{{localize "WW.Description"}}</h2>
     {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
 

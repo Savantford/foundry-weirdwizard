@@ -12,11 +12,11 @@ WW.details = {
   "features": "WW.Features",
   "personality": "WW.Personality",
   "belief": "WW.Belief",
-  "professions": "WW.Professions",
-  "languages": "WW.Languages",
-  "information": "WW.Information",
+  /*"professions": "WW.Professions",
+  "languages": "WW.Languages",*/
+  /*"information": "WW.Information",
   "bg_ancestry": "WW.Ancestry",
-  "deeds": "WW.Deeds"
+  "deeds": "WW.Deeds"*/
 }
 
 // Dropdown menus
@@ -49,6 +49,7 @@ WW.dropdownSubtypes = {
   "action": "WW.TalentSubtypes.Action",
   "reaction": "WW.TalentSubtypes.Reaction",
   "end": "WW.TalentSubtypes.End",
+  "fury": "WW.TalentSubtypes.Fury",
 };
 
 WW.talentSources = {

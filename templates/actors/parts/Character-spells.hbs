@@ -1,7 +1,8 @@
 <div class="flex-row stat-inline">{{!-- Traditions --}}
-    <label for="system.details.traditions.value">{{localize "WW.Traditions"}}</label>
-    <input type="text" name="system.details.traditions.value" value="{{system.details.traditions.value}}"
+    <label>{{localize "WW.Traditions"}}</label>
+    <input type="text" name="system.details.traditions" value="{{system.details.traditions}}"
         placeholder="{{localize "WW.TraditionsPH"}}" data-dtype="String" />
+    {{system.details.traditions.value}}
 </div>
 
 <ol class="item-list">
@@ -20,8 +21,8 @@
         <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
         <label class="item-name">{{item.name}} <a class="rollable item-roll ml-1" title="Roll Spell"><i
                     class="fas fa-dice-d20"></i></a></label>
-        <div>{{item.system.tier.value}}</div>
-        <div>{{item.system.tradition.value}}</div>
+        <div>{{item.system.tier}}</div>
+        <div>{{item.system.tradition}}</div>
         <div>
             {{#each item.uses as |pip id|}}
             <a class="item-pip" title="{{#if (eq pip "far")}}Spend casting{{else}}Recover casting{{/if}}"><i
