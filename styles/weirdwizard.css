@@ -1,34 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap');
 
 /* Fonts */
-@font-face {
-  font-family: 'Garamond Pro';
-  src: url('../fonts/Adobe Garamond Pro Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Garamond Pro';
-  src: url('../fonts/Adobe Garamond Pro Bold.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Garamond Pro';
-  src: url('../fonts/Adobe Garamond Pro Bold Italic.ttf') format('truetype');
-  font-weight: bold;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: 'Garamond Pro';
-  src: url('../fonts/Adobe Garamond Pro Italic.ttf') format('truetype');
-  font-weight: normal;
-  font-style: italic;
-}
-
 @font-face {
   font-family: 'Queen Inline';
   src: url('../fonts/QueenInlineGrunge.ttf') format('truetype');
@@ -316,7 +289,7 @@
   border: none;
   border-radius: 5px;
   padding: 2px 5px;
-  font-family: 'Garamond Pro', serif;
+  font-family: 'EB Garamond', serif;
   font-size: 16px;
   text-transform: uppercase;
 }
@@ -326,7 +299,7 @@
   background-color: var(--gray);
   border-radius: 3px;
   padding: 2px 5px;
-  font-family: 'Garamond Pro', serif;
+  font-family: 'EB Garamond', serif;
   font-size: 12px;
   text-transform: uppercase;
 }
