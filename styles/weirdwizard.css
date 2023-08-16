@@ -1,47 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
-
-/* Fonts */
-@font-face {
-  font-family: 'Garamond Pro';
-  src: url('../fonts/Adobe Garamond Pro Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Garamond Pro';
-  src: url('../fonts/Adobe Garamond Pro Bold.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Garamond Pro';
-  src: url('../fonts/Adobe Garamond Pro Bold Italic.ttf') format('truetype');
-  font-weight: bold;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: 'Garamond Pro';
-  src: url('../fonts/Adobe Garamond Pro Italic.ttf') format('truetype');
-  font-weight: normal;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: 'Queen Inline';
-  src: url('../fonts/QueenInlineGrunge.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Futura PT Book';
-  src: url('../fonts/futura-pt-book.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-}
+@import url('https://fonts.googleapis.com/css2?family=Forum&family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 /* Variables */
 :root {
@@ -50,6 +7,10 @@
   --highlight-rbg: 219, 211, 220;
   --text: #000000;
   --gray: #BCBEC0;
+  /* Fonts */
+  --font-title: 'Forum', cursive;
+  --font-header: 'Lora', serif;
+  --font-body: 'PT Sans', sans-serif;
   /* Overrides */
   --background: url(../../../ui/parchment-white.jpg) repeat;
   --color-shadow-primary: #c200ff;
@@ -68,7 +29,6 @@
   grid-column: span 2/span 2;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
-  margin: 10px 0;
   padding: 0;
 }
 
@@ -291,23 +251,26 @@
 .weirdwizard .window-content {
   color: var(--text);
   background: var(--background);
-  font-family: 'Futura PT Book', serif;
+  font-family: var(--font-body);  
+  font-size: 14px;
 }
 
 .weirdwizard .window-content h1 {
   color: var(--highlight-title);
   border-bottom: 0px;
-  font-family: 'Queen Inline', serif;
+  font-family: var(--font-title);
   font-weight: bold;
+  text-transform: uppercase;
 }
 
 .weirdwizard .window-content h2 {
   color: var(--highlight-title);
   text-align: left;
   border-bottom: 3px double black;
-  font-family: 'Queen Inline', serif;
+  font-family: var(--font-title);
   font-size: 24px;
   padding-bottom: 2px;
+  text-transform: uppercase;
 }
 
 .weirdwizard .window-content h3 {
@@ -316,7 +279,7 @@
   border: none;
   border-radius: 5px;
   padding: 2px 5px;
-  font-family: 'Garamond Pro', serif;
+  font-family: var(--font-header);
   font-size: 16px;
   text-transform: uppercase;
 }
@@ -326,9 +289,30 @@
   background-color: var(--gray);
   border-radius: 3px;
   padding: 2px 5px;
-  font-family: 'Garamond Pro', serif;
+  font-family: var(--font-header);
   font-size: 12px;
   text-transform: uppercase;
+}
+
+.weirdwizard .window-content h4 label {
+  color: var(--highlight-title);
+  font-weight: bold;
+}
+
+.weirdwizard .window-content h5 {
+  color: var(--text);
+  background-color: var(--highlight);
+  border-radius: 3px 3px 0px 0;
+  border-bottom: 1px solid var(--highlight-title);
+  padding: 2px 5px;
+  margin: 10px 0px;
+  font-family: var(--font-header);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.weirdwizard .window-content h5 a {
+  color: var(--text) !important;
 }
 
 .weirdwizard .statbox .stat {
@@ -369,6 +353,10 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+.weirdwizard .mt-0 {
+  margin-top: 0px;
+}
 .weirdwizard .mt-1 {
   margin-top: 5px;
 }
@@ -377,6 +365,9 @@
 }
 .weirdwizard .mt-auto {
   margin-top: auto;
+}
+.weirdwizard .mb-0 {
+  margin-bottom: 0px;
 }
 .weirdwizard .mb-1 {
   margin-bottom: 5px;
@@ -447,7 +438,7 @@
 }
 
 .weirdwizard .item-form {
-  font-family: "Roboto", sans-serif;
+  /*font-family: "Roboto", sans-serif;*/
 }
 .weirdwizard .sheet-header {
   -webkit-box-flex: 0;
@@ -466,8 +457,13 @@
   -webkit-box-pack: start;
   -ms-flex-pack: start;
   justify-content: flex-start;
-  /*margin-bottom: 10px;*/
+  margin-bottom: 10px;
 }
+
+.weirdwizard .character-header {
+  margin-bottom: 0px;
+}
+
 .weirdwizard img {
   border: none;
   background-color: var(--highlight);
@@ -503,15 +499,12 @@
   -webkit-box-flex: 0;
   -ms-flex: 0;
   flex: 0;
-  font-family: 'Queen Inline';
+  font-family: var(--font-title);
   font-size: 16px;
   font-weight: bold;
+  text-transform: uppercase;
 }
-.weirdwizard .sheet-body,
-.weirdwizard .sheet-body .tab,
-.weirdwizard .sheet-body .tab .editor {
-  
-}
+
 .weirdwizard .editor-content {
   min-height: 2.5em;
   background: rgba(var(--highlight-rbg), 0.5);
@@ -708,8 +701,10 @@ input[type="checkbox"].checkbox-reloaded {
 }
 
 .weirdwizard .summary-list {
-  display: inline;
   list-style: none;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 2px 5px;
   padding: 0px;
   margin: 0px;
 }
@@ -717,7 +712,7 @@ input[type="checkbox"].checkbox-reloaded {
   display: inline;
 }
 .weirdwizard .summary-list li::after {
-  content: ", ";
+  content: ",";
 }
 .weirdwizard .summary-list li:last-child::after {
   content: "";

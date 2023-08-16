@@ -45,7 +45,7 @@
     },
     {
       "name": "armor",
-      "label": "Armor and Shields",
+      "label": "Armor",
       "system": "weirdwizard",
       "path": "packs/armor.db",
       "type": "Item"
@@ -63,5 +63,12 @@
   "gridDistance": 1,
   "gridUnits": "yard",
   "primaryTokenAttribute": "stats.damage",
-  "secondaryTokenAttribute": ""
+  "secondaryTokenAttribute": "",
+  "hotReload": true,
+  "flags": {
+    "hotReload": {
+      "extensions": ["css", "html", "hbs", "json"],
+      "paths": ["templates/", "styles/", "lang/"]
+    }
+  }
 }

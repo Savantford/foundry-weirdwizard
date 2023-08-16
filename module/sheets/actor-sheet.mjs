@@ -73,13 +73,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
     // Prepare character data and items.
     if (actorData.type == 'Character') {
       this._prepareItems(context);
-      this._prepareCharacterData(context);
-
-      // Prepare enriched variables for editor.
-      context.system.details.information.enriched = await TextEditor.enrichHTML(context.system.details.information.value, { async: true })
-      context.system.details.bg_ancestry.enriched = await TextEditor.enrichHTML(context.system.details.bg_ancestry.value, { async: true })
-      context.system.details.deeds.enriched = await TextEditor.enrichHTML(context.system.details.deeds.value, { async: true })
-  
+      this._prepareCharacterData(context);  
     }
 
     // Prepare NPC data and items.
@@ -107,13 +101,14 @@ export class WeirdWizardActorSheet extends ActorSheet {
   _prepareItems(context) {
     // Initialize containers.
     const equipment = [];
+    const weapons = [];
     const talents = [];
     const auras = [];
     const actions = [];
     const reactions = [];
     const end = [];
+    const fury = [];
     const spells = [];
-    const weapons = [];
 
     // Iterate through items, allocating to containers
     for (let i of context.items) {
@@ -153,6 +148,10 @@ export class WeirdWizardActorSheet extends ActorSheet {
             }
             case 'end': {
               end.push(i);
+              break;
+            }
+            case 'fury': {
+              fury.push(i);
               break;
             }
           }
@@ -197,6 +196,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
 
     talents.forEach(updateUses)
     actions.forEach(updateUses)
+    fury.forEach(updateUses)
     equipment.forEach(updateUses)
     spells.forEach(updateUses)
 
@@ -204,11 +204,12 @@ export class WeirdWizardActorSheet extends ActorSheet {
     context.equipment = equipment;
     context.weapons = weapons;
     context.talents = talents;
-    context.spells = spells;
     context.auras = auras;
     context.actions = actions;
     context.reactions = reactions;
     context.end = end;
+    context.fury = fury;
+    context.spells = spells;
   }
 
   /**
@@ -219,16 +220,15 @@ export class WeirdWizardActorSheet extends ActorSheet {
    * @return {undefined}
   */
 
-  _prepareCharacterData(context) {
-    // Handle details data.
-    for (let [k, v] of Object.entries(context.system.details)) {
-      v.label = game.i18n.localize(CONFIG.WW.details[k]) ?? k;
-      v.datapath = `system.details.${k}.value`
-    }
+  async _prepareCharacterData(context) {
 
-    // Create Details arrays and add text editor support.
-    const details = context.actor.system.details
-    context.profile = [details.features, details.personality, details.belief].map(o => ({ ...o, enriched: TextEditor.enrichHTML(o.value, { async: false }) }))
+    // Prepare enriched variables for editor.
+    context.system.details.features.enriched = await TextEditor.enrichHTML(context.system.details.features.value, { async: true })
+    context.system.details.personality.enriched = await TextEditor.enrichHTML(context.system.details.personality.value, { async: true })
+    context.system.details.belief.enriched = await TextEditor.enrichHTML(context.system.details.belief.value, { async: true })
+    context.system.details.information.enriched = await TextEditor.enrichHTML(context.system.details.information.value, { async: true })
+    context.system.details.bg_ancestry.enriched = await TextEditor.enrichHTML(context.system.details.bg_ancestry.value, { async: true })
+    context.system.details.deeds.enriched = await TextEditor.enrichHTML(context.system.details.deeds.value, { async: true })
   }
 
   /** @override */

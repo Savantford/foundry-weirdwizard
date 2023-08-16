@@ -1,10 +1,12 @@
 <form class="{{cssClass}} flexcol" autocomplete="off">
 
-    <header class="sheet-header">{{!-- Sheet Header --}}
+    <header class="sheet-header character-header">{{!-- Sheet Header --}}
         <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
         <div class="header-fields">
             <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.ActorName"}}"/></h1>
-            <div class="attributes grid grid-4col">{{!-- Attributes --}}
+            
+            {{!-- Attributes Row --}}
+            <div class="attributes grid grid-4col">
                 {{#each system.attributes as |attribute key|}}
                 <div class="attribute stat flex-group-center">
                     <label for="system.attributes.{{key}}.value" class="attribute-label">{{attribute.label}}</label>
@@ -15,22 +17,33 @@
                 </div>
                 {{/each}}
             </div>
-            <div class="resources grid grid-4col">
-                <div class="stat flex-group-center">{{!-- Defense --}}
-                    <label for="system.stats.defense.total" class="resource-label">{{localize "WW.Defense"}}</label>
+
+            {{!-- Defense Row --}}
+            <div class="resources grid grid-4col mt-2">
+
+                {{!-- Defense --}}
+                <div class="stat flex-group-center">
+                    <label>{{localize "WW.Defense"}}</label>
                     <div>{{system.stats.defense.total}} <a class="defense-edit" title="Edit Defense"><i class="fas fa-edit"></i></a></div>  
                 </div>
-                <div class="stat flex-group-center">{{!-- Damage / Health --}}
-                    <label for="system.stats.health.total" class="resource-label">{{localize "WW.Damage"}} / {{localize "WW.Health.Title"}}</label>
+
+                {{!-- Damage / Health --}}
+                <div class="stat flex-group-center">
+                    <label>{{localize "WW.Damage"}} / {{localize "WW.Health.Title"}}</label>
                     <div class="flex-row flex-group-center">
                         <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0" data-dtype="Number"/>
                         <span class"ml-1">/ {{system.stats.health.total}} <a class="health-edit" title="Edit Health"><i class="fas fa-edit"></i></a></span>
                     </div>
                 </div>
-                <div class="stat flex-group-center">{{!-- Bonus Damage --}}
-                    <label for="system.stats.bonusdamage.value" class="resource-label">{{localize "WW.BonusDamage"}}</label>
-                    <div><input type="number" name="system.stats.bonusdamage.value" value="{{system.stats.bonusdamage.value}}" data-dtype="Number" min="0" placeholder="#" />d6</div>
+
+                {{!-- Bonus Damage --}}
+                <div class="stat flex-group-center">
+                    <label>{{localize "WW.BonusDamage"}}</label>
+                    <div><input type="number" name="system.stats.bonusdamage" value="{{system.stats.bonusdamage}}" data-dtype="Number" min="0" placeholder="#" />d6</div>
+                    {{system.stats.bonusdamage.value}}
                 </div>
+
+                {{!-- Luck Roll --}}
                 <div class="stat flex-group-center">
                     <label>{{localize "WW.Luck"}}</label>
                     <div><a class="rollable resource-label" title="Roll {{localize "WW.Luck"}}"><i class="large fas fa-dice-d20" data-label="Luck"></i></a></div>

@@ -7,12 +7,23 @@
         {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
 
         <ol class="details-list">
-            {{#each profile as |detail key|}}
             <li class="detail">
-                <h2 class="detail-label">{{detail.label}}</h2>
-                {{editor detail.enriched target=detail.datapath button=true owner=../owner editable=../editable}}
+                <h2 class="detail-label">{{localize "WW.Features"}}</h2>
+                {{editor system.details.features.enriched target="system.details.features.value" button=true
+                owner=owner editable=editable}}
             </li>
-            {{/each}}
+
+            <li class="detail">
+                <h2 class="detail-label">{{localize "WW.Personality"}}</h2>
+                {{editor system.details.personality.enriched target="system.details.personality.value" button=true
+                owner=owner editable=editable}}
+            </li>
+
+            <li class="detail">
+                <h2 class="detail-label">{{localize "WW.Belif"}}</h2>
+                {{editor system.details.belief.enriched target="system.details.belief.value" button=true
+                owner=owner editable=editable}}
+            </li>
         </ol>
     </div>
 
@@ -21,23 +32,25 @@
         <h1>{{localize "WW.Background"}}</h1>
         <ol class="details-list">
             <li class="detail">
-                <h2 class="detail-label">{{system.details.bg_ancestry.label}}</h2>
+                <h2 class="detail-label">{{localize "WW.Ancestry"}}</h2>
                 {{editor system.details.bg_ancestry.enriched target="system.details.bg_ancestry.value" button=true
                 owner=owner editable=editable}}
             </li>
             <li class="detail">
-                <h2 class="detail-label">{{system.details.deeds.label}}</h2>
+                <h2 class="detail-label">{{localize "WW.Deeds"}}</h2>
+
                 <div class="flex-row stat-inline flex-group-center">
-                    <label for="system.details.reputation.value" class="resource-label">{{localize
+                    <label>{{localize
                         "WW.Reputation"}}</label>
                     <input type="number" name="system.details.reputation.value"
                         value="{{system.details.reputation.value}}" min="0" data-dtype="Number" />
                 </div>
+
                 {{editor system.details.deeds.enriched target="system.details.deeds.value" button=true owner=owner
                 editable=editable}}
             </li>
             <li class="detail">
-                <h2 class="detail-label">{{system.details.information.label}}</h2>
+                <h2 class="detail-label">{{localize "WW.Information"}}</h2>
                 {{editor system.details.information.enriched target="system.details.information.value" button=true
                 owner=owner editable=editable}}
             </li>

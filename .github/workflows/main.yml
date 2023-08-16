@@ -119,7 +119,7 @@ jobs:
             README.md                            \
             system.json                          \
             template.json                        \
-            fonts/                               \
+            assets/                              \
             lang/                                \
             module/                              \
             packs/                               \

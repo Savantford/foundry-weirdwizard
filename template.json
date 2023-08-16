@@ -45,30 +45,18 @@
       },
       "creature": {
         "stats": {
-          "level": {
-            "value": 1
-          },
-          "size": {
-            "value": 1
-          },
+          "level": 1,
+          "size": 1,
           "speed": {
             "value": 5,
             "special": ""
           }
         },
         "details": {
-          "type": {
-            "value": ""
-          },
-          "senses": {
-            "value": ""
-          },
-          "languages": {
-            "value": "Common"
-          },
-          "immune": {
-            "value": ""
-          }
+          "type": "",
+          "senses": "",
+          "languages": "Common",
+          "immune": ""
         }
       }
     },
@@ -79,23 +67,13 @@
         "value": "Unknown biography."
       },
       "stats": {
-        "bonusdamage": {
-          "value": 0
-        }
+        "bonusdamage": 0
       },
       "details": {
-        "ancestry": {
-          "value": "Human"
-        },
-        "novice": {
-          "value": ""
-        },
-        "expert": {
-          "value": ""
-        },
-        "master": {
-          "value": ""
-        },
+        "ancestry": "Human",
+        "novice": "",
+        "expert": "",
+        "master": "",
         "features": {
           "value": ""
         },
@@ -105,9 +83,7 @@
         "belief": {
           "value": ""
         },
-        "professions": {
-          "value": ""
-        },
+        "professions": "",
         "information": {
           "value": ""
         },
@@ -117,13 +93,8 @@
         "deeds": {
           "value": ""
         },
-        "reputation": {
-          "min": 0,
-          "value": 0
-        },
-        "traditions": {
-          "value": ""
-        }
+        "reputation": 0,
+        "traditions": ""
       },
       "currency": {
         "gp": 0,
@@ -182,37 +153,40 @@
         "identified": true
       },
       "activatedEffect": {
-        "activation": {
-          "type": "",
-          "cost": null,
-          "condition": ""
-        },
-        "duration": {
-          "value": "",
-          "units": ""
-        },
-        "cover": null,
-        "crewed": false,
-        "target": {
-          "value": null,
-          "width": null,
-          "units": "",
-          "type": ""
-        },
-        "range": {
-          "value": null,
-          "long": null,
-          "units": ""
-        },
-        "consume": {
-          "type": "",
-          "target": null,
-          "amount": null
+        "effect": {
+          "activation": {
+            "type": "",
+            "cost": null,
+            "condition": ""
+          },
+          "duration": {
+            "value": "",
+            "units": ""
+          },
+          "cover": null,
+          "crewed": false,
+          "target": {
+            "value": null,
+            "width": null,
+            "units": "",
+            "type": ""
+          },
+          "range": {
+            "value": null,
+            "long": null,
+            "units": ""
+          },
+          "consume": {
+            "type": "",
+            "target": null,
+            "amount": null
+          }
         }
       },
       "action": {
         "attribute": "",
         "boons": 0,
+        "range": 0,
         "actionType": null,
         "chatFlavor": "",
         "uses": {
@@ -236,7 +210,6 @@
       "attribute": "",
       "damage": "1d6",
       "grip": "One-Handed",
-      "range": 0,
       "reload": false,
       "reloaded": true,
       "properties": "",
@@ -252,38 +225,21 @@
     "Trait or Talent": {
       "templates": ["base", "activatedEffect", "action"],
       "subtype": "trait",
-      "source": "None",
-      "range": 0,
-      "condition": {
-        "value": ""
-      }
+      "source": "None"
     },
     "Spell": {
       "templates": ["base", "activatedEffect", "action"],
-      "tier": {
-        "value": "starting"
-      },
-      "tradition": {
-        "value": ""
-      },
-      "requirement": {
-        "value": ""
-      },
+      "tier": "starting",
+      "tradition": "",
+      "requirement": "",
       "castings": {
         "min": 1,
         "value": 1,
         "max": null
       },
-      "casting": {
-        "value": ""
-      },
-      "target": {
-        "value": ""
-      },
-      "recharge": {
-        "value": null,
-        "charged": false
-      }
+      "casting": "",
+      "target": "",
+      "duration": ""
     },
     "Ancestry": {
       "templates": ["base"],

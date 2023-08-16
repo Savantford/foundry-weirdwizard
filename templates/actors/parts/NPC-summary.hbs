@@ -2,14 +2,14 @@
 
     <div class="statbox">{{!-- Left Column --}}
         <h3 class="statbox-header flex-group-left"><span style="padding-top: 1px;">{{localize "WW.Stats"}}</span>
-            <span class="small bold float-right" style="padding-top: 3px;">{{localize "WW.Level"}} {{system.stats.level.value}} {{#if system.stats.solitary}}({{localize "WW.Solitary"}}){{/if}}</span>
+            <span class="small bold float-right" style="padding-top: 3px;">{{localize "WW.Level"}} {{system.stats.level}} {{#if system.stats.solitary}}({{localize "WW.Solitary"}}){{/if}}</span>
         </h3>
 
         {{!-- Type --}}
-        <div class="hl2">
+        <h4 class="mb-0">
             <label>{{localize "WW.Type"}}</label>
-            {{system.details.type.value}}
-        </div>
+            {{system.details.type}}
+        </h4>
 
         <div class="hl">
             <div class="stat">{{!-- Defense, Health, Damage --}}
@@ -26,25 +26,41 @@
             </div>
 
             <div class="stat mt-1">{{!-- Attributes 1 --}}
+
                 <label class="resource-label">{{localize "WW.Strength"}}</label>
-                <a class="attribute-mod rollable" data-label="Strength"
-                    title="Roll Strength">{{system.attributes.str.value}} ({{numberFormat system.attributes.str.mod
-                    decimals=0 sign=true}})</a>
+                <a class="attribute-mod rollable" data-label="Strength" title="Roll Strength">
+                    {{system.attributes.str.value}} 
+                    {{#if system.attributes.str.value}}
+                     ({{numberFormat system.attributes.str.mod decimals=0 sign=true}})
+                    {{else}}—{{/if}}
+                </a>
 
                 <label class="ml-1" class="resource-label">{{localize "WW.Agility"}}</label>
-                <a class="attribute-mod rollable" data-label="Agility"
-                    title="Roll Agility">{{system.attributes.agi.value}} ({{numberFormat system.attributes.agi.mod
-                    decimals=0 sign=true}})</a>
+                <a class="attribute-mod rollable" data-label="Agility" title="Roll Agility">
+                    {{system.attributes.agi.value}}
+                    {{#if system.attributes.agi.value}}
+                     ({{numberFormat system.attributes.agi.mod decimals=0 sign=true}})
+                    {{else}}—{{/if}}
+                </a>
+
             </div>
             <div class="stat">{{!-- Attributes 2 --}}
+
                 <label class="resource-label">{{localize "WW.Intellect"}}</label>
-                <a class="attribute-mod rollable" data-label="Intellect"
-                    title="Roll Intellect">{{system.attributes.int.value}} ({{numberFormat system.attributes.int.mod
-                    decimals=0 sign=true}})</a>
+                <a class="attribute-mod rollable" data-label="Intellect" title="Roll Intellect">
+                    {{system.attributes.int.value}}
+                    {{#if system.attributes.int.value}}
+                     ({{numberFormat system.attributes.int.mod decimals=0 sign=true}})
+                    {{else}}—{{/if}}
+                </a>
 
                 <label class="ml-1" class="resource-label">{{localize "WW.Will"}}</label>
-                <a class="attribute-mod rollable" data-label="Will" title="Roll Will">{{system.attributes.wil.value}}
-                    ({{numberFormat system.attributes.wil.mod decimals=0 sign=true}})</a>
+                <a class="attribute-mod rollable" data-label="Will" title="Roll Will">
+                    {{system.attributes.wil.value}}
+                    {{#if system.attributes.wil.value}}
+                     ({{numberFormat system.attributes.wil.mod decimals=0 sign=true}})
+                    {{else}}—{{/if}}
+                </a>
 
             </div>
         </div>
@@ -63,24 +79,24 @@
         </div>
 
         <div class="stat">{{!-- Senses --}}
-            {{#if system.details.senses.value}}<label class="resource-label">{{localize
+            {{#if system.details.senses}}<label class="resource-label">{{localize
                 "WW.Senses"}}</label>
-            {{system.details.senses.value}}{{/if}}
+            {{system.details.senses}}{{/if}}
         </div>
         <div class="stat mt-1">{{!-- Languages --}}
-            {{#if system.details.languages.value}}<label class="" class="resource-label">{{localize
+            {{#if system.details.languages}}<label class="" class="resource-label">{{localize
                 "WW.Languages"}}</label>
-            {{system.details.languages.value}}{{/if}}
+            {{system.details.languages}}{{/if}}
         </div>
 
-        {{#if system.details.immune.value}}<div class="stat mt-1">{{!-- Immune --}}
+        {{#if system.details.immune}}<div class="stat mt-1">{{!-- Immune --}}
             <label class="mb-1" class="resource-label">{{localize "WW.Immune"}}</label>
-            {{system.details.immune.value}}
+            {{system.details.immune}}
         </div>{{/if}}
 
         <div class="stat mb-1 mt-1">{{!-- Size, Speed --}}
             <label class="resource-label">{{localize "WW.Size"}}</label>
-            {{system.stats.size.value}}
+            {{system.stats.size}}
 
             <label class="ml-1" class="resource-label">{{localize "WW.Speed"}}</label>
             {{system.stats.speed.value}}
@@ -106,7 +122,9 @@
             <ol class="described-list">
                 {{#each weapons as |item id|}}
                 <li class="item" data-item-id="{{item._id}}">
-                    <a class="rollable item-roll" title="Roll Attack">{{item.name}}</a> <a class="item-edit"
+                    <a class="rollable item-roll" title="Roll Attack">{{item.name}}</a>
+                    {{#if item.system.reload}}<input class="checkbox-reloaded" type="checkbox" name="item.system.reloaded" title="Weapon realoded?" {{checked item.system.reloaded}}/>{{/if}} 
+                    <a class="item-edit"
                         title="Edit Weapon">{{#if item.system.properties}}({{item.system.properties}})
                         {{/if}}{{item.system.attribute}}
                         {{#if item.system.boons}} {{localize "WW.Boons.With"}} {{item.system.boons}} {{#if (lt
@@ -149,12 +167,33 @@
         {{/if}}
 
         {{#if end}}
-        <h4 class="mt-2">{{localize "WW.EndOfTheRound"}}</h4>
+        <h4 class="mt-2">{{localize "WW.Ends"}}</h4>
         <ol class="described-list">
             {{#each end as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
                 <a class="rollable item-roll" title="Roll End of Round Effect">{{item.name}}</a> <a class="item-edit"
                     title="Edit End of Round Effect">{{{item.system.description.value}}}</a>
+            </li>
+            {{/each}}
+        </ol>
+        {{/if}}
+
+        {{#if fury}}
+        <ol class="described-list">
+            {{#each fury as |item id|}}
+            <li class="item" data-item-id="{{item._id}}">
+                <h5 class="fury-header">
+                    <a class="rollable item-roll" title="Roll End of Round Effect">{{item.name}}</a> 
+                    {{#each item.uses as |pip id|}}
+                    <a class="item-pip float-right" title="{{#if (eq pip "far")}}Spend fury token{{else}}Recover fury token{{/if}}">
+                        <i class="{{pip}} fa-circle"></i>
+                    </a>
+                    {{/each}}
+                </h5>
+
+                <a class="item-edit" title="Edit End of Round Effect">
+                    {{{item.system.description.value}}}
+                </a>
             </li>
             {{/each}}
         </ol>

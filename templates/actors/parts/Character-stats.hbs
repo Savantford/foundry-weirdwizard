@@ -4,41 +4,47 @@
     <div class="details-col flex-group-center">
         <h2 class="detail-label">{{localize "WW.Traits"}}</h2>
         <div class="flex-row stat-inline flex-group-left">{{!-- Level, Ancestry --}}
-            <label for="system.stats.level.value" class="resource-label">{{localize "WW.Level"}}</label>
-            <input type="number" name="system.stats.level.value" value="{{system.stats.level.value}}" min="1"
-                data-dtype="Number" />
+            <label>{{localize "WW.Level"}}</label>
+            <select name="system.stats.level">
+                {{selectOptions numbersObj selected=system.stats.level localize=true}}
+            </select>
+            {{system.stats.level.value}}
 
-            <label for="system.details.ancestry.value" class="resource-label ml-2">{{localize "WW.Ancestry"}}</label>
-            <input type="text" name="system.details.ancestry.value" value="{{system.details.ancestry.value}}"
+            <label class="ml-2">{{localize "WW.Ancestry"}}</label>
+            <input type="text" name="system.details.ancestry" value="{{system.details.ancestry}}"
                 data-dtype="String" />
+            {{system.details.ancestry.value}}
         </div>
         <div class="flex-row stat-inline flex-group-left">{{!-- Type --}}
-            <label for="system.details.type.value" class="resource-label">{{localize "WW.Type"}}</label>
-            <input type="text" name="system.details.type.value" value="{{system.details.type.value}}"
+            <label>{{localize "WW.Type"}}</label>
+            <input type="text" name="system.details.type" value="{{system.details.type}}"
                 data-dtype="String" />
+            {{system.details.type.value}}
         </div>
         <div class="flex-row stat-inline flex-group-left">{{!-- Senses --}}
-            <label for="system.details.senses.value" class="resource-label">{{localize "WW.Senses"}}</label>
-            <input type="text" name="system.details.senses.value" value="{{system.details.senses.value}}"
+            <label>{{localize "WW.Senses"}}</label>
+            <input type="text" name="system.details.senses" value="{{system.details.senses}}"
                 data-dtype="String" />
+            {{system.details.senses.value}}
         </div>
         <div class="flex-row stat-inline flex-group-left">{{!-- Immune --}}
-            <label for="system.details.immune.value" class="resource-label">{{localize "WW.Immune"}}</label>
-            <input type="text" name="system.details.immune.value" value="{{system.details.immune.value}}"
+            <label>{{localize "WW.Immune"}}</label>
+            <input type="text" name="system.details.immune" value="{{system.details.immune}}"
                 data-dtype="String" placeholder="{{localize "WW.ImmunePH"}}" />
+            {{system.details.immune.value}}
         </div>
         <div class="flex-row stat-inline flex-group-left">{{!-- Size, Speed --}}
-            <label for="system.stats.size.value" class="resource-label">{{localize "WW.Size"}}</label>
-            <select name="system.stats.size.value">
-                {{selectOptions numbersObj selected=system.stats.size.value localize=true}}
+            <label>{{localize "WW.Size"}}</label>
+            <select name="system.stats.size">
+                {{selectOptions numbersObj selected=system.stats.size localize=true}}
             </select>
+            {{system.stats.size.value}}
 
-            <label for="system.stats.speed.value" class="resource-label ml-2">{{localize "WW.Speed"}}</label>
+            <label class="ml-2">{{localize "WW.Speed"}}</label>
             <input class="mr-1" type="number" name="system.stats.speed.value" value="{{system.stats.speed.value}}"
                 data-dtype="Number" min="0" / placeholder="#">
             <input type="text" name="system.stats.speed.special" value="{{system.stats.speed.special}}"
-                data-dtype="String" placeholder="{{localize "WW.SpeedPH"}}" title="{{localize "
-                WW.SpeedTip"}}" />
+                data-dtype="String" placeholder="{{localize "WW.SpeedPH"}}" title="{{localize "WW.SpeedTip"}}" />
         </div>
 
     </div>
@@ -46,36 +52,45 @@
     {{!-- Right Column --}}
     <div class="details-col flex-group-center">
         <h2>{{localize "WW.Knowledge"}}</h2>
+        
+        
         <div class="flex-row stat-inline flex-group-left">{{!-- Languages --}}
-            <label for="system.details.languages.value" class="resource-label">{{localize
-                "WW.Languages"}}</label>
-            <input type="text" name="system.details.languages.value" value="{{system.details.languages.value}}"
+            <label>{{localize "WW.Languages"}}</label>
+            <input type="text" name="system.details.languages" value="{{system.details.languages}}"
                 data-dtype="String" placeholder="{{localize "WW.LanguagesPH"}}" />
-        </div>
-        <div class="flex-row stat-inline flex-group-left">{{!-- Professions --}}
-            <label for="system.details.professions.value" class="resource-label">{{localize
-                "WW.Professions"}}</label>
-            <input name="system.details.professions.value" type="text" value="{{system.details.professions.value}}"
-                placeholder="{{localize "WW.ProfessionsPH"}}" />
+            {{system.details.languages.value}}
         </div>
 
+
+        <div class="flex-row stat-inline flex-group-left">{{!-- Professions --}}
+            <label>{{localize "WW.Professions"}}</label>
+            <input name="system.details.professions" type="text" value="{{system.details.professions}}"
+                placeholder="{{localize "WW.ProfessionsPH"}}" />
+            {{system.details.professions.value}}
+        </div>
+
+
         <div class="flex-row stat-inline flex-group-left">{{!-- Novice Path --}}
-            <label for="system.details.novice.value" class="resource-label">{{localize
-                "WW.NovicePath"}}</label>
-            <input type="text" name="system.details.novice.value" value="{{system.details.novice.value}}"
+            <label>{{localize "WW.NovicePath"}}</label>
+            <input type="text" name="system.details.novice" value="{{system.details.novice}}"
                 data-dtype="String" />
+            {{system.details.novice.value}}
         </div>
+
+
         <div class="flex-row stat-inline flex-group-left">{{!-- Expert Path --}}
-            <label for="system.details.expert.value" class="resource-label">{{localize
-                "WW.ExpertPath"}}</label>
-            <input type="text" name="system.details.expert.value" value="{{system.details.expert.value}}"
+            <label>{{localize "WW.ExpertPath"}}</label>
+            <input type="text" name="system.details.expert" value="{{system.details.expert}}"
                 data-dtype="String" />
+            {{system.details.expert.value}}
         </div>
+        
+        
         <div class="flex-row stat-inline flex-group-left">{{!-- Master Path --}}
-            <label for="system.details.master.value" class="resource-label">{{localize
-                "WW.MasterPath"}}</label>
-            <input type="text" name="system.details.master.value" value="{{system.details.master.value}}"
+            <label>{{localize "WW.MasterPath"}}</label>
+            <input type="text" name="system.details.master" value="{{system.details.master}}"
                 data-dtype="String" />
+            {{system.details.master.value}}
         </div>
     </div>
 </div>
