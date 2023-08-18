@@ -87,15 +87,22 @@
         </div>
 
         <h3 class="mt-2">{{localize "WW.Attacks"}}</h3>
-        <div class="stat">{{!-- Bonus Damage --}}
+        
+        {{!-- Bonus Damage --}}
+        {{#if system.stats.bonusdamage}}
+        <div class="stat">
             <label class="" for="bonusdamage" class="resource-label">{{localize "WW.BonusDamage"}}</label>
-            +{{#if system.stats.bonusdamage}}{{system.stats.bonusdamage}}d6{{else}}0{{/if}}
+            +{{system.stats.bonusdamage}}d6
         </div>
+        {{/if}}
+
+        {{!-- Weapons List --}}
         <div class="mt-1">
             <ol class="described-list">
                 {{#each weapons as |item id|}}
                 <li class="item" data-item-id="{{item._id}}">
                     <a class="rollable item-roll" title="Roll Attack">{{item.name}}</a>
+                    <a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>
                     {{#if item.system.reload}}<input class="checkbox-reloaded" type="checkbox" name="item.system.reloaded" title="Weapon realoded?" {{checked item.system.reloaded}}/>{{/if}} 
                     <a class="item-edit"
                         title="Edit Weapon">({{item.system.grip}}{{#if item.system.properties}};
@@ -117,6 +124,8 @@
             <li class="item" data-item-id="{{item._id}}">
                 <a class="rollable item-roll" title="Roll Talent">{{item.name}}</a>
                 <a class="item-edit smaller" title="Edit Talent"><i class="fas fa-edit"></i></a>
+                {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
+                {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
                 {{#each item.uses as |pip id|}}
                 <a class="item-pip" title="{{#if (eq pip "far")}}Spend use/token{{else}}Recover use/token{{/if}}"><i
                         class="{{pip}} fa-circle"></i></a>
@@ -128,7 +137,8 @@
         {{#if system.details.traditions}}
         <h3 class="mt-2">{{localize "WW.Spells"}}</h3>
 
-        <div class="stat mb-2">{{!-- Traditions --}}
+        {{!-- Traditions --}}
+        <div class="stat mb-2">
             <label class="" for="traditions" class="resource-label">{{localize "WW.Traditions"}}</label>
             {{system.details.traditions}}
         </div>
@@ -138,6 +148,8 @@
             <li class="item" data-item-id="{{item._id}}">
                 <a class="rollable item-roll" title="Roll Spell">{{item.name}}</a>
                 <a class="item-edit smaller" title="Edit Spell"><i class="fas fa-edit"></i></a>
+                {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
+                {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
                 {{#each item.uses as |pip id|}}
                 <a class="item-pip" title="{{#if (eq pip "far")}}Spend casting{{else}}Recover casting{{/if}}"><i
                         class="{{pip}} fa-circle"></i></a>

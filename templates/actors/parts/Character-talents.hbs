@@ -11,8 +11,12 @@
     {{#each talents as |item id|}}
     <li class="item flexrow" data-item-id="{{item._id}}">
         <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
-        <label class="item-name">{{item.name}} <a class="rollable item-roll ml-1" title="Roll Talent"><i
-                    class="fas fa-dice-d20"></i></a></label>
+        <label class="item-name">{{item.name}} 
+            <a class="rollable item-roll ml-1" title="Roll Talent"><i
+                class="fas fa-dice-d20"></i></a>
+            {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
+            {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
+        </label>
         <div>{{item.system.source}}</div>
         <div>
             {{#each item.uses as |pip id|}}
