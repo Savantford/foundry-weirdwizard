@@ -8,6 +8,7 @@
             {{!-- Attributes Row --}}
             <div class="attributes grid grid-4col">
                 {{#each system.attributes as |attribute key|}}
+                {{#if (eq key 'luck')}}{{else}}
                 <div class="attribute stat flex-group-center">
                     <label for="system.attributes.{{key}}.value" class="attribute-label">{{attribute.label}}</label>
                     <div class="stat flex-group-center">
@@ -15,6 +16,7 @@
                         <a class="attribute-mod rollable" data-roll="d20+@attributes.{{key}}.mod[modifier]@boons[boons]" data-label="{{attribute.label}}" title="Roll {{attribute.label}}">{{numberFormat attribute.mod decimals=0 sign=true}}</a>
                     </div>
                 </div>
+                {{/if}}
                 {{/each}}
             </div>
 

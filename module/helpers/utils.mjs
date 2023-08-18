@@ -4,14 +4,22 @@
 
 export const Global = {}
 
-Global.getAffBanes = function (system) {
-  let banes = 0;
-  return banes
+export function getEffectBoons (attribute) {
+  return attribute.boons.global ?? 0;
 }
 
-/*Global.getMod = function() {
+// Formatting
 
+export const i18n = s => game.i18n.localize(s)
+
+/*export function capitalize(string) {
+  return string?.charAt(0).toUpperCase() + string?.toLowerCase().slice(1)
 }*/
+
+export function plusify(x) {
+  if (x == 0) return ''
+  return x > 0 ? '+' + x : x
+}
 
 /* -------------------------------------------- */
 /*  Math Functions

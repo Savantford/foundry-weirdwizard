@@ -500,9 +500,12 @@
   -ms-flex: 0;
   flex: 0;
   font-family: var(--font-title);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   text-transform: uppercase;
+}
+.weirdwizard .sheet-tabs .item {
+  white-space: nowrap;
 }
 
 .weirdwizard .editor-content {
