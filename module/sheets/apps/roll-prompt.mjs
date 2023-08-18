@@ -3,6 +3,8 @@
  * @extends {FormApplication}
 */
 
+import { getEffectBoons } from '../../helpers/utils.mjs'
+
 export class rollPrompt extends FormApplication {
   constructor(obj) {
     super(); // This is required for the constructor to work
@@ -11,13 +13,16 @@ export class rollPrompt extends FormApplication {
 
     // Assign label, name and fixed boons/banes
     this.label = obj.label;
-    this.name = obj.name;
-    this.fixed = obj.fixed ? obj.fixed : 0;
+    console.log(obj.attribute);
+    this.name = obj.attribute.name;
+    this.effectBoonsGlobal = obj.attribute.boons?.global ? obj.attribute.boons.global : 0;
+    this.fixedBoons = obj.fixedBoons ? obj.fixedBoons : 0;
     this.damage = obj.damage;
     this.healing = obj.healing;
 
     // Assign mod
-    this.mod = (obj.mod < 0 ? "" : "+") + obj.mod; // If mod is positive, give a + sign if positive. If undefined, set it to 0
+    
+    this.mod = (obj.attribute.mod < 0 ? "" : "+") + (obj.attribute.mod ? obj.attribute.mod : 0); // If mod is positive, give a + sign if positive. If undefined, set it to 0
   }
 
   static get defaultOptions() {
@@ -34,16 +39,11 @@ export class rollPrompt extends FormApplication {
   getData(options = {}) {
     let context = super.getData()
 
-    // Pass down actor data to application.
+    // Pass data to application template.
     context.system = this.system;
     context.mod = this.mod;
-    context.fixed = this.fixed;
-
-    // Count affliction banes
-    context.affBanes = CONFIG.Global.getAffBanes();
-
-    // Prepare dropdown menu objects.
-    //context.armorObj = Object.fromEntries(Object.entries(CONFIG.WW.armor).map(i => [i[0], i[1].label]))
+    context.fixedBoons = this.fixedBoons;
+    context.effectBoons = this.effectBoonsGlobal; // Conditional boons should be added here later
 
     return context
   }
@@ -59,7 +59,8 @@ export class rollPrompt extends FormApplication {
     const label = this.label;
     const mod = this.mod;
     const name = this.name;
-    const fixed = this.fixed;
+    const fixedBoons = this.fixedBoons;
+    const effectBoons = this.effectBoonsGlobal; // Conditional boons should be added here later
     const damage = this.damage;
     const healing = this.healing;
 
@@ -71,8 +72,8 @@ export class rollPrompt extends FormApplication {
 
       // Calculate and display final boons
       boonsFinal = parseInt(parent.querySelector('input[type=number].situational').value); // Set boonsFinal to the situational input value
-      if (CONFIG.Global.getAffBanes()) boonsFinal += CONFIG.Global.getAffBanes(); // If there are banes imposed by afflictions, add it
-      if (fixed) boonsFinal += fixed; // If there are fixed boons or banes, add it
+      if (effectBoons) boonsFinal += effectBoons; // If there are boons or banes applied by Active Effects, add it
+      if (fixedBoons) boonsFinal += fixedBoons; // If there are fixed boons or banes, add it
 
       boonsFinal = (boonsFinal < 0 ? "" : "+") + boonsFinal; // Add a + sign if positive
 
@@ -98,7 +99,7 @@ export class rollPrompt extends FormApplication {
 
       if (boonsFinal != 0) { boons = boonsFinal + "d6kh" } else { boons = ""; };
 
-      let rollFormula = "d20" + this.mod + boons;
+      let rollFormula = "1d20" + (this.mod != "+0" ? this.mod : "") + boons;
 
       // Construct the Roll instance
       let r = new Roll(rollFormula);

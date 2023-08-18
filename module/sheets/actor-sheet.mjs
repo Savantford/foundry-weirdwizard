@@ -1,7 +1,7 @@
 import { defenseDetails } from './apps/defense-details.mjs'
 import { healthDetails } from './apps/health-details.mjs'
 import { rollPrompt } from './apps/roll-prompt.mjs'
-import { onManageActiveEffect, prepareActiveEffectCategories } from "../helpers/effects.mjs";
+import { onManageActiveEffect, prepareActiveEffectCategories } from "../active-effects/effects.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -58,10 +58,6 @@ export class WeirdWizardActorSheet extends ActorSheet {
     }
 
     // Localize attribute names
-    /*for (let [key, attr] of Object.entries(context.system.attributes)){
-        attr.label = game.i18n.localize(WW.attributes[key])
-    }*/
-    // Handle attribute scores.
     for (let [k, v] of Object.entries(context.system.attributes)) {
       v.label = game.i18n.localize(CONFIG.WW.attributes[k]) ?? k;
     }
@@ -246,9 +242,8 @@ export class WeirdWizardActorSheet extends ActorSheet {
       // Define variables to be used
       let system = this.object.system;
       let label = '';
-      let mod = 0;
-      let name = '';
-      let fixed = 0;
+      let attribute = '';
+      let fixedBoons = 0;
       let damage = '';
       let healing = '';
       
@@ -259,46 +254,42 @@ export class WeirdWizardActorSheet extends ActorSheet {
         }
 
         const item = this.actor.items.get(li.data("itemId"));
-        const attribute = item.system.attribute;
+
         label = item.name;
-        fixed = item.system.boons;
+        fixedBoons = item.system.boons;
         damage = item.system.damage;
         healing = item.system.healing;
         
         if (this.actor.system.attributes[attribute]) {
-          mod = this.actor.system.attributes[attribute].mod;
-          name = this.actor.system.attributes[attribute].name;
+          attribute = this.actor.system.attributes[attribute];
         }
       }
       
       // If the clicked element has a data-label, use it to determine the mod and label
       switch (ev.target.getAttribute('data-label')) {
         case 'Strength': {
-          mod = system.attributes.str.mod;
           label = system.attributes.str.name;
-          name = system.attributes.str.name;
+          attribute = system.attributes.str;
           break;
         }
         case 'Agility': {
-          mod = system.attributes.agi.mod;
           label = system.attributes.agi.name;
-          name = system.attributes.agi.name;
+          attribute = system.attributes.agi;
           break;
         }
         case 'Intellect': {
-          mod = system.attributes.int.mod;
           label = system.attributes.int.name;
-          name = system.attributes.int.name;
+          attribute = system.attributes.int;
           break;
         }
         case 'Will': {
-          mod = system.attributes.wil.mod;
           label = system.attributes.wil.name;
-          name = system.attributes.wil.name;
+          attribute = system.attributes.wil;
           break;
         }
         case 'Luck': {
           label = game.i18n.format("WW.Luck");
+          attribute = system.attributes.luck;
           break;
         }
       }
@@ -307,9 +298,8 @@ export class WeirdWizardActorSheet extends ActorSheet {
         actor: this.actor,
         target: ev,
         label: label,
-        mod: mod,
-        name: name,
-        fixed: fixed,
+        attribute: attribute,
+        fixedBoons: fixedBoons,
         damage: damage,
         healing: healing
       }
@@ -373,7 +363,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
     // Active Effect management
     html.find(".effect-control").click(ev => onManageActiveEffect(ev, this.actor));
 
-    // Afflictions checkboxes
+    // Afflictions tab checkboxes
     html.find('[data-tab="afflictions"] input').click(async ev => {
       const input = ev.currentTarget;
       const checked = input.checked;

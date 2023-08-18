@@ -18,6 +18,28 @@ export class WeirdWizardActor extends Actor {
     prepareBaseData() {
         // Data modifications in this step occur before processing embedded
         // documents or derived data.
+        super.prepareBaseData();
+
+        // Create attribute boons variables
+        const attributes = this.system.attributes;
+
+        ['str', 'agi', 'int', 'wil'].forEach(function (attribute){
+            attributes[attribute].boons = {
+                global: 0,
+                conditional: 0
+            }
+        })
+
+        attributes.luck = {
+            boons: {
+                global: 0,
+                conditional: 0
+            }
+        }
+
+        // Make a copy of the raw Speed value to use in Active Effects later
+        this.system.stats.speed.raw = this.system.stats.speed.value;
+
     }
 
     async _preCreate(data, options, user) {
@@ -73,6 +95,14 @@ export class WeirdWizardActor extends Actor {
         const system = this.system;
         const flags = this.flags.weirdwizard || {};
 
+        // Make sure Speed is a float after Active Effects reduce it
+        system.stats.speed.value = Math.floor(system.stats.speed.value);
+
+        // Loop through attributes, and add their modifiers calculated with DLE rules to our sheet output.
+        for (let [key, attribute] of Object.entries(system.attributes)) {
+            if (key != 'luck') attribute.mod = attribute.value - 10;
+        }
+
         // Make separate methods for each Actor type (character, npc, etc.) to keep
         // things organized.
         this._prepareCharacterData(system);
@@ -85,11 +115,6 @@ export class WeirdWizardActor extends Actor {
 
     _prepareCharacterData(system) {
         if (this.type !== 'Character') return;
-
-        // Loop through attributes, and add their modifiers calculated with DLE rules to our sheet output.
-        for (let [key, attribute] of Object.entries(system.attributes)) {
-            attribute.mod = Math.floor(attribute.value - 10);
-        }
 
         ///////// HEALTH ///////////
 
@@ -162,10 +187,7 @@ export class WeirdWizardActor extends Actor {
     _prepareNpcData(system) {
         if (this.type !== 'NPC') return;
 
-        // Loop through attributes, and add their modifiers calculated with DLE rules to our sheet output.
-        for (let [key, attribute] of Object.entries(system.attributes)) {
-            attribute.mod = Math.floor(attribute.value - 10);
-        }
+        
     }
 
     /**
@@ -191,7 +213,7 @@ export class WeirdWizardActor extends Actor {
 
         // Copy the attribute scores to the top level, so that rolls can use
         // formulas like `@str.mod + 4`.
-        if (system.attributes) {
+        /*if (system.attributes) {
             for (let [k, v] of Object.entries(system.attributes)) {
                 system[k] = foundry.utils.deepClone(v);
             }
@@ -200,7 +222,7 @@ export class WeirdWizardActor extends Actor {
         // Add level for easier access, or fall back to 0.
         if (system.stats.level) {
             system.lvl = system.stats.level.value ?? 0;
-        }
+        }*/
     }
 
     /**

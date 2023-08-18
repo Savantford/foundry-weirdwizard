@@ -1,16 +1,16 @@
 console.log('Initializing weirdwizard.mjs...')
 // Import document classes.
-import { WeirdWizardActor } from "./documents/actor.mjs";
-import { WeirdWizardItem } from "./documents/item.mjs";
-//import { WeirdWizardToken } from "./documents/token.mjs";
+import { WeirdWizardActor } from './documents/actor.mjs';
+import { WeirdWizardItem } from './documents/item.mjs';
+//import { WeirdWizardToken } from './documents/token.mjs';
 // Import sheet classes.
-import { WeirdWizardActorSheet } from "./sheets/actor-sheet.mjs";
-import { WeirdWizardItemSheet } from "./sheets/item-sheet.mjs";
+import { WeirdWizardActorSheet } from './sheets/actor-sheet.mjs';
+import { WeirdWizardItemSheet } from './sheets/item-sheet.mjs';
 // Import helper/utility classes and constants.
-import { preloadHandlebarsTemplates } from "./helpers/templates.mjs";
-import { WW } from "./helpers/config.mjs";
-import { Global } from './helpers/global.mjs';
-import { WWAfflictions } from './helpers/effects.mjs';
+import { WW } from './config.mjs';
+import { Global } from './helpers/utils.mjs';
+import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
+import { WWAfflictions } from './active-effects/afflictions.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -38,7 +38,7 @@ Hooks.once('init', function () {
   */
   
   CONFIG.Combat.initiative = {
-    formula: "1d20 + @abilities.dex.mod",
+    formula: '1d20 + @abilities.dex.mod',
     decimals: 2
   };
 
@@ -48,10 +48,10 @@ Hooks.once('init', function () {
   //CONFIG.Token.documentClass = WeirdWizardToken;
 
   // Register sheet application classes
-  Actors.unregisterSheet("core", ActorSheet);
-  Actors.registerSheet("weirdwizard", WeirdWizardActorSheet, { makeDefault: true });
-  Items.unregisterSheet("core", ItemSheet);
-  Items.registerSheet("weirdwizardplate", WeirdWizardItemSheet, { makeDefault: true });
+  Actors.unregisterSheet('core', ActorSheet);
+  Actors.registerSheet('weirdwizard', WeirdWizardActorSheet, { makeDefault: true });
+  Items.unregisterSheet('core', ItemSheet);
+  Items.registerSheet('weirdwizardplate', WeirdWizardItemSheet, { makeDefault: true });
 
   // Preload Handlebars templates.
   return preloadHandlebarsTemplates();
@@ -59,14 +59,14 @@ Hooks.once('init', function () {
 
 // Rollable buttons on attribute rolls.
 /*Hooks.on('renderChatMessage', (chatMessage, [html], messageData) => {
-  html.querySelector('.my-button').addEventListener('click', (event) => console.log("button clicked"))
+  html.querySelector('.my-button').addEventListener('click', (event) => console.log('button clicked'))
 })*/
 
 /* -------------------------------------------- */
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
 
-Hooks.once("ready", function () {
+Hooks.once('ready', function () {
   // Include steps that need to happen after Foundry has fully loaded here.
 });
 
@@ -76,7 +76,8 @@ Hooks.once("ready", function () {
 
 /**
  * This function runs after game data has been requested and loaded from the servers, so entities exist
- */
+*/
+
 Hooks.once('setup', function () {
   // Localize CONFIG objects once up-front
   /*const toLocalize = ['attributes'];
@@ -90,7 +91,7 @@ Hooks.once('setup', function () {
   const effects = WWAfflictions.buildAll();
 
   // Add the default status icons if the setting is not on
-  /*if (!game.settings.get('demonlord', 'statusIcons')) {
+  /*if (!game.settings.get('weirdwizard', 'statusIcons')) {
     for (const effect of CONFIG.statusEffects) {
       effects.push({
         id: effect.id,
@@ -99,11 +100,10 @@ Hooks.once('setup', function () {
       });
     }
   }
-  // Regardless of the setting, add the "invisible" status so that actors can turn invisible
+  // Regardless of the setting, add the 'invisible' status so that actors can turn invisible
   else {
     effects.push(CONFIG.statusEffects.find(e => e.id === 'invisible'));
   }*/
-
 
   CONFIG.statusEffects = effects;
 

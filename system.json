@@ -6,6 +6,7 @@
   "url": "#{URL}#",
   "manifest": "#{MANIFEST}#",
   "download": "#{DOWNLOAD}#",
+  "readme": "https://github.com/Savantford/foundry-weirdwizard#readme",
   "compatibility": {
     "minimum": "10",
     "verified": "11",
