@@ -31,7 +31,7 @@
 
                 {{!-- Damage / Health --}}
                 <div class="stat flex-group-center">
-                    <label>{{localize "WW.Damage"}} / {{localize "WW.Health.Title"}}</label>
+                    <label>{{localize "WW.Damage.Title"}} / {{localize "WW.Health.Title"}}</label>
                     <div class="flex-row flex-group-center">
                         <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0" data-dtype="Number"/>
                         <span class"ml-1">/ {{system.stats.health.total}} <a class="health-edit" title="Edit Health"><i class="fas fa-edit"></i></a></span>
@@ -40,7 +40,7 @@
 
                 {{!-- Bonus Damage --}}
                 <div class="stat flex-group-center">
-                    <label>{{localize "WW.BonusDamage"}}</label>
+                    <label>{{localize "WW.Damage.Bonus"}}</label>
                     <div><input type="number" name="system.stats.bonusdamage" value="{{system.stats.bonusdamage}}" data-dtype="Number" min="0" placeholder="#" />d6</div>
                     {{system.stats.bonusdamage.value}}
                 </div>
