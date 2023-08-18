@@ -23,9 +23,16 @@
     "WW.Speed": "Speed",
     "WW.SpeedPH": "fly",
     "WW.SpeedTip": "special form of movement",
-    "WW.Damage": "Damage",
-    "WW.BonusDamage": "Bonus Damage",
+    "WW.Damage": {
+        "Title": "Damage",
+        "Of": "Damage of",
+        "Bonus": "Bonus Damage",
+        "Base": "Base Damage",
+        "OtherDice": "Extra Damage Dice (Other Sources)",
+        "OtherMod": "Extra Damage Modifier (Other Sources)"
+    },
     "WW.Healing": "Healing",
+    "WW.HealingOf": "Healing of",
 
     "WW.Health": {
         "Title": "Health",

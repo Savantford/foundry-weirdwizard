@@ -3,9 +3,7 @@
  * @extends {FormApplication}
 */
 
-import { getEffectBoons } from '../../helpers/utils.mjs'
-
-export class rollPrompt extends FormApplication {
+export class rollAttribute extends FormApplication {
   constructor(obj) {
     super(); // This is required for the constructor to work
     this.component = obj.target; // Assign HTML component
@@ -27,11 +25,11 @@ export class rollPrompt extends FormApplication {
 
   static get defaultOptions() {
     const options = super.defaultOptions;
-    options.id = "roll-prompt";
-    options.template = "systems/weirdwizard/templates/apps/roll-prompt.hbs";
+    options.id = "roll-attribute";
+    options.template = "systems/weirdwizard/templates/apps/roll-attribute.hbs";
     options.height = "auto";
     options.width = 400;
-    options.label = "Roll Details";
+    options.title = "Roll Details";
 
     return options;
   }
@@ -115,7 +113,7 @@ export class rollPrompt extends FormApplication {
       });
 
       // Append damage roll to the chat message
-      if (damage) {
+      /*if (damage) {
         let d = new Roll(damage + "[Damage]");
         await d.evaluate();
 
@@ -128,7 +126,7 @@ export class rollPrompt extends FormApplication {
         await h.evaluate();
 
         message.update({'rolls': [...message.rolls, h]})
-      }
+      }*/
       
       // The parsed terms of the roll formula
       //console.log(r.terms);    // [Die, OperatorTerm, NumericTerm, OperatorTerm, NumericTerm]

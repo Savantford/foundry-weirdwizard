@@ -1,10 +1,9 @@
-import { rollPrompt } from './apps/roll-prompt.mjs'
-
+//import { rollAttribute } from './apps/roll-attribute.mjs' NOT NEEDED
 
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
- */
+*/
 
 export class WeirdWizardItemSheet extends ItemSheet {
 
@@ -102,9 +101,9 @@ export class WeirdWizardItemSheet extends ItemSheet {
     super.activateListeners(html);
 
     // Everything below here is only needed if the sheet is editable
-    //if (!this.options.editable) return;
+    if (!this.options.editable) return;
 
-    html.find('.rollable').click(ev => { //this._onRoll.bind(this)
+    /*html.find('.rollable').click(ev => { //this._onRoll.bind(this) NOT NEEDED
       // Define variables to be used
       let label = '';
       let mod = '';
@@ -136,7 +135,7 @@ export class WeirdWizardItemSheet extends ItemSheet {
         }
       }
 
-      new rollPrompt(this.actor, ev, label, mod, fixed).render(true)
-    });
+      new rollAttribute(this.actor, ev, label, mod, fixed).render(true)
+    });*/
   }
 }

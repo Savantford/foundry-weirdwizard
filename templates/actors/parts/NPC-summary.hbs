@@ -20,7 +20,7 @@
                 <label class="ml-1" class="resource-label">{{localize "WW.Health.Title"}}</label>
                 {{system.stats.health.total}}
 
-                <label class="ml-1" class="resource-label">{{localize "WW.Damage"}}</label>
+                <label class="ml-1" class="resource-label">{{localize "WW.Damage.Title"}}</label>
                 <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0"
                     data-dtype="Number" />
             </div>
@@ -71,8 +71,11 @@
                 {{#each auras as |item id|}}
                 <li class="item" data-item-id="{{item._id}}">
                     <a class="rollable item-roll" title="Roll Aura">{{item.name}}</a>
+                    {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
+                    {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
                     <a class="item-edit" title="Edit Aura">({{localize "WW.Range"}} {{item.system.range}})
                         {{{item.system.description.value}}}</a>
+                    
                 </li>
                 {{/each}}
             </ol>
@@ -107,8 +110,11 @@
             {{#each talents as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
                 <a class="rollable item-roll" title="Roll Talent">{{item.name}}</a>
+                {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
+                {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
                 <a class="item-edit" title="Edit Talent">
                     {{{item.system.description.value}}}</a>
+                
             </li>
             {{/each}}
         </ol>
@@ -123,6 +129,7 @@
                 {{#each weapons as |item id|}}
                 <li class="item" data-item-id="{{item._id}}">
                     <a class="rollable item-roll" title="Roll Attack">{{item.name}}</a>
+                    <a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>
                     {{#if item.system.reload}}<input class="checkbox-reloaded" type="checkbox" name="item.system.reloaded" title="Weapon realoded?" {{checked item.system.reloaded}}/>{{/if}} 
                     <a class="item-edit"
                         title="Edit Weapon">{{#if item.system.properties}}({{item.system.properties}})
@@ -143,12 +150,15 @@
             {{#each actions as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
                 <a class="rollable item-roll" title="Roll Action">{{item.name}}</a>
+                {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
+                {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
                 {{#each item.uses as |pip id|}}
                 <a class="item-pip" title="{{#if (eq pip "far")}}Spend use/casting/token{{else}}Recover use/casting/token{{/if}}"><i
                         class="{{pip}} fa-circle"></i></a>
                 {{/each}}
                 <a class="item-edit"
                     title="Edit Action">{{{item.system.description.value}}}</a>
+                
             </li>
             {{/each}}
         </ol>
@@ -159,7 +169,10 @@
         <ol class="described-list">
             {{#each reactions as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
-                <a class="rollable item-roll" title="Roll Reaction">{{item.name}}</a> <a class="item-edit"
+                <a class="rollable item-roll" title="Roll Reaction">{{item.name}}</a> 
+                {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
+                {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
+                <a class="item-edit"
                     title="Edit Reaction">{{{item.system.description.value}}}</a>
             </li>
             {{/each}}
@@ -171,7 +184,10 @@
         <ol class="described-list">
             {{#each end as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
-                <a class="rollable item-roll" title="Roll End of Round Effect">{{item.name}}</a> <a class="item-edit"
+                <a class="rollable item-roll" title="Roll End of Round Effect">{{item.name}}</a> 
+                {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
+                {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
+                <a class="item-edit"
                     title="Edit End of Round Effect">{{{item.system.description.value}}}</a>
             </li>
             {{/each}}

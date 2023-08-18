@@ -1,0 +1,125 @@
+/**
+ * Extend FormApplication to make a prompt shown by damage rolls
+ * @extends {FormApplication}
+*/
+
+export class rollDamage extends FormApplication {
+  constructor(obj) {
+    super(); // This is required for the constructor to work
+
+    // Assign variables
+    this.component = obj.target; // Assign HTML component
+    this.system = obj.actor.system; // Assign actor data
+    this.label = obj.label;
+    this.baseDamage = obj.baseDamage;
+    this.bonusDamage = obj.bonusDamage;
+
+  }
+
+  static get defaultOptions() {
+    const options = super.defaultOptions;
+    options.id = 'roll-damage';
+    options.template = 'systems/weirdwizard/templates/apps/roll-damage.hbs';
+    options.height = 'auto';
+    options.width = 400;
+    options.title = 'Damage Dice';
+
+    return options;
+  }
+
+  getData(options = {}) {
+    let context = super.getData()
+
+    // Pass data to application template.
+    context.system = this.system;
+    context.baseDamage = this.baseDamage;
+    context.bonusDamage = this.bonusDamage;
+
+    return context
+  }
+
+  activateListeners(html) {
+    super.activateListeners(html);
+    
+    // Handle closing the window without saving
+    html.find('#damage-cancel').click(() => this.close({ submit: false }))
+
+    // Get roll variables
+    const label = this.label;
+    const baseDamage = this.baseDamage;
+    const bonusDamage = this.bonusDamage;
+
+    let finalExp = baseDamage; // Set the final expression to base damage
+
+    function updateFields(ev) { // Update html fields
+      const parent = ev.target.closest('.damage-details');
+
+      finalExp = baseDamage; // Reset finalExp
+
+      // Get field variables
+      let otherdice = parseInt(parent.querySelector('input[name=otherdice]').value); // Get the other sources field value
+      let othermod = parseInt(parent.querySelector('input[name=othermod]').value); // Get the other sources field value
+      let applyBonus = parent.querySelector('input[name=applyBonus]:checked'); // Get the bonus damage apply checkbox value
+      
+      // Count extra dice
+      let extraDice = 0;
+      if (applyBonus && bonusDamage) extraDice += bonusDamage;
+      if (otherdice) extraDice += otherdice;
+
+      if (extraDice) finalExp += ' + ' + extraDice + 'd6';
+
+      // Add othermod to finalExp
+      if (othermod) finalExp += ' + ' + othermod;
+
+      // Display final expression
+      parent.querySelector('.damage-expression').innerHTML = finalExp;
+      
+    }
+
+    const el = html.find('input');
+    el.change((ev) => updateFields(ev));
+    el.change();
+
+    // Roll dice when the Roll button is clicked
+    html.find('#damage-submit').click(async () => {
+      
+      // Construct the Roll instance
+      let r = new Roll(finalExp);
+
+      // Execute the roll
+      await r.evaluate();
+
+      // Send to chat
+      await r.toMessage({
+        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+        flavor: label,
+        rollMode: game.settings.get('core', 'rollMode')
+      });
+      
+      // The parsed terms of the roll formula
+      //console.log(r.terms);    // [Die, OperatorTerm, NumericTerm, OperatorTerm, NumericTerm]
+
+      // The resulting equation after it was rolled
+      console.log('Formula = ' + r.formula + '\nResult = ' + r.result + '\nTotal = ' + r.total);   // 16 + 2 + 4; 22
+
+      /*export class DLEroll extends Roll { // Extended custom Demon Lord Engine roll      // Not Needed ATM
+          constructor() { ... }
+      }*/
+    })
+
+  }
+
+  async _updateObject(event, formData) { // Update actor data.
+    //
+    /*this.object.update({
+        'system.stats.health': {
+        'starting': formData.starting,
+        'novice': formData.novice,
+        'expert': formData.expert,
+        'master': formData.master,
+        'bonus': formData.bonus,
+        'lost': formData.lost
+        }
+    })*/
+  }
+}

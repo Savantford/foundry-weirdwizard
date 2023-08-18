@@ -229,13 +229,11 @@
     },
     "Spell": {
       "templates": ["base", "activatedEffect", "action"],
-      "tier": "starting",
+      "tier": "Novice",
       "tradition": "",
       "requirement": "",
-      "castings": {
-        "min": 1,
-        "value": 1,
-        "max": null
+      "uses": {
+        "max": 1
       },
       "casting": "",
       "target": "",

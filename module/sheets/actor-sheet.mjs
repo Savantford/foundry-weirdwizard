@@ -1,6 +1,8 @@
+import { i18n } from '../helpers/utils.mjs'
 import { defenseDetails } from './apps/defense-details.mjs'
 import { healthDetails } from './apps/health-details.mjs'
-import { rollPrompt } from './apps/roll-prompt.mjs'
+import { rollAttribute } from './apps/roll-attribute.mjs'
+import { rollDamage } from './apps/roll-damage.mjs'
 import { onManageActiveEffect, prepareActiveEffectCategories } from "../active-effects/effects.mjs";
 
 /**
@@ -59,7 +61,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
 
     // Localize attribute names
     for (let [k, v] of Object.entries(context.system.attributes)) {
-      v.label = game.i18n.localize(CONFIG.WW.attributes[k]) ?? k;
+      v.label = i18n(CONFIG.WW.attributes[k]) ?? k;
     }
 
     //Prepare common data
@@ -244,8 +246,6 @@ export class WeirdWizardActorSheet extends ActorSheet {
       let label = '';
       let attribute = '';
       let fixedBoons = 0;
-      let damage = '';
-      let healing = '';
       
       if ($(ev.currentTarget).hasClass('item-roll')) { // If it is a roll from an item.
         let li = $(ev.currentTarget).parents(".item");
@@ -257,8 +257,6 @@ export class WeirdWizardActorSheet extends ActorSheet {
 
         label = item.name;
         fixedBoons = item.system.boons;
-        damage = item.system.damage;
-        healing = item.system.healing;
         
         if (this.actor.system.attributes[attribute]) {
           attribute = this.actor.system.attributes[attribute];
@@ -288,7 +286,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
           break;
         }
         case 'Luck': {
-          label = game.i18n.format("WW.Luck");
+          label = i18n("WW.Luck");
           attribute = system.attributes.luck;
           break;
         }
@@ -299,12 +297,66 @@ export class WeirdWizardActorSheet extends ActorSheet {
         target: ev,
         label: label,
         attribute: attribute,
-        fixedBoons: fixedBoons,
-        damage: damage,
-        healing: healing
+        fixedBoons: fixedBoons
       }
 
-      new rollPrompt(obj).render(true)
+      new rollAttribute(obj).render(true)
+    });
+
+    // Damage Roll
+    html.find('.damage-roll').click(ev => { //this._onRoll.bind(this)
+      // Define variables to be used
+      let li = $(ev.currentTarget).parents(".item");
+
+      if (!li.length) { // If parent does not have .item class, set li to current target.
+        li = $(ev.currentTarget);
+      }
+
+      const item = this.actor.items.get(li.data("itemId"));
+      
+      let obj = {
+        actor: this.actor,
+        target: ev,
+        label: i18n("WW.Damage.Of") + " " + item.name,
+        baseDamage: item.system.damage,
+        bonusDamage: this.actor.system.stats.bonusdamage
+      }
+
+      new rollDamage(obj).render(true)
+    });
+
+    // Healing Roll
+    html.find('.healing-roll').click(ev => { //this._onRoll.bind(this)
+      // Define variables to be used
+      let li = $(ev.currentTarget).parents(".item");
+
+      if (!li.length) { // If parent does not have .item class, set li to current target.
+        li = $(ev.currentTarget);
+      }
+
+      const item = this.actor.items.get(li.data("itemId"));
+      
+      let roll = new Roll(item.system.healing, this.actor.system);
+      let label = i18n("WW.HealingOf") + " " + item.name;
+
+      roll.toMessage({
+        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+        flavor: label,
+        rollMode: game.settings.get('core', 'rollMode')
+      });
+      
+      // Construct the Roll instance
+      /*let r = new Roll(finalExp);
+
+      // Execute the roll
+      await r.evaluate();
+
+      // Send to chat
+      await r.toMessage({
+        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+        flavor: label,
+        rollMode: game.settings.get('core', 'rollMode')
+      });*/
     });
 
     // Edit Health button
@@ -464,7 +516,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
     event.preventDefault();
     const header = event.currentTarget;
     const type = header.dataset.type; // Get the type of item to create.
-    const name = game.i18n.format("WW.NewItem", { itemType: type.capitalize() }) // Initialize a default name.
+    const name = i18n("WW.NewItem", { itemType: type.capitalize() }) // Initialize a default name.
 
     let subtype = '';
     let source = '';
