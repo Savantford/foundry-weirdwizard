@@ -470,6 +470,7 @@
   -webkit-box-flex: 0;
   -ms-flex: 0 0 100px;
   flex: 0 0 100px;
+  border-radius: 50px;
   height: 100px;
   margin-right: 10px;
 }
@@ -651,6 +652,11 @@ input[type="checkbox"].checkbox-reloaded {
   text-align: center;
   margin: 0 6px;
 }
+.weirdwizard .pip-box {
+  background-color: var(--highlight);
+  padding: 0 3px;
+  border-radius: 15px;
+}
 .weirdwizard .item {
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -701,11 +707,11 @@ input[type="checkbox"].checkbox-reloaded {
   margin-right: 5px;
 }
 
-.weirdwizard .item-edit p {
+.weirdwizard .item p {
   text-indent: 1em;
   margin: 0px;
 }
-.weirdwizard .item-edit p:nth-child(-n+1) {
+.weirdwizard .item p:nth-child(-n+1) {
   display: inline;
 }
 
@@ -730,17 +736,38 @@ input[type="checkbox"].checkbox-reloaded {
   font-weight: bold;
 }
 
-.weirdwizard .described-list {
+.weirdwizard .described-list, .weirdwizard .compact-list {
   list-style: none;
   padding: 0px;
   margin: 2px 5px;
 }
-.weirdwizard .described-list .item-roll, .weirdwizard .summary-list .item-roll {
+.weirdwizard .described-list .item-roll, .weirdwizard .summary-list .item-roll,
+.weirdwizard .compact-list .item-roll {
   font-weight: bold;
   color: var(--highlight-title);
 }
 
-.item-roll:hover, .item-roll:focus, .damage-roll:hover, .damage-roll:focus, .healing-roll:hover, .healing-roll:focus {
+.described-list .item-edit i, .described-list .item-scroll i,
+.described-list .item-roll i, .described-list .damage-roll i,
+.described-list .healing-roll i, .described-list .item-pip i {
+  font-size: smaller;
+}
+
+.summary-list .item-edit i, .summary-list .item-scroll i,
+.summary-list .item-roll i, .summary-list .damage-roll i,
+.summary-list .healing-roll i, .summary-list .item-pip i {
+  font-size: smaller;
+}
+
+.compact-list .item-edit i, .compact-list .item-scroll i,
+.compact-list .item-roll i, .compact-list .damage-roll i,
+.compact-list .healing-roll i, .compact-list .item-pip i {
+  font-size: smaller;
+}
+
+.item-edit:hover, .item-edit:focus,.item-scroll:hover, .item-scroll:focus,
+.item-roll:hover, .item-roll:focus, .damage-roll:hover, .damage-roll:focus,
+.healing-roll:hover, .healing-roll:focus, .item-pip:hover, .item-pip:focus {
   text-shadow: 0 0 5px var(--color-shadow-primary);
 }
 
@@ -819,6 +846,26 @@ input[type="checkbox"].checkbox-reloaded {
 
 .weirdwizard .boons-expression, .weirdwizard .damage-expression {
   font-size: 1.5em;
+}
+
+/* Tooltips Customization */
+
+#tooltip, .locked-tooltip {
+  max-width: 320px;
+  padding: 0 8px;
+  background: #292A2D;
+  font-family: var(--font-primary);
+  font-size: 13px;
+  line-height: 13px;
+  color: white;
+  text-align: left !important;
+  border: 0px solid var(--color-border-dark-secondary);
+  border-radius: 0px;
+  box-shadow: 0 0 0px #000;
+  transition: visibility 0s 10ms, opacity 10ms;
+}
+#tooltip.active, .locked-tooltip.active {
+  transition: opacity 10ms;
 }
 
 /* Affliction Tab */

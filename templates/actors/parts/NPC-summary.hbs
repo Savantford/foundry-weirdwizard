@@ -71,10 +71,12 @@
                 {{#each auras as |item id|}}
                 <li class="item" data-item-id="{{item._id}}">
                     <a class="rollable item-roll" title="Roll Aura">{{item.name}}</a>
+                    <a class="item-edit" title="Edit Aura"><i class="fas fa-edit"></i></a>
+                    {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
                     {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
                     {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
-                    <a class="item-edit" title="Edit Aura">({{localize "WW.Range"}} {{item.system.range}})
-                        {{{item.system.description.value}}}</a>
+                    ({{localize "WW.Aura"}} {{item.system.range}}) 
+                    <span>{{{item.system.description.value}}}</span>
                     
                 </li>
                 {{/each}}
@@ -110,10 +112,11 @@
             {{#each talents as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
                 <a class="rollable item-roll" title="Roll Talent">{{item.name}}</a>
+                <a class="item-edit" title="Edit Trait or Talent"><i class="fas fa-edit"></i></a>
+                {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
                 {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
                 {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
-                <a class="item-edit" title="Edit Talent">
-                    {{{item.system.description.value}}}</a>
+                <span>{{{item.system.description.value}}}</span>
                 
             </li>
             {{/each}}
@@ -129,15 +132,23 @@
                 {{#each weapons as |item id|}}
                 <li class="item" data-item-id="{{item._id}}">
                     <a class="rollable item-roll" title="Roll Attack">{{item.name}}</a>
+                    <a class="item-edit" title="Edit Weapon"><i class="fas fa-edit"></i></a>
+                    {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
                     <a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>
                     {{#if item.system.reload}}<input class="checkbox-reloaded" type="checkbox" name="item.system.reloaded" title="Weapon realoded?" {{checked item.system.reloaded}}/>{{/if}} 
-                    <a class="item-edit"
-                        title="Edit Weapon">{{#if item.system.properties}}({{item.system.properties}})
-                        {{/if}}{{item.system.attribute}}
-                        {{#if item.system.boons}} {{localize "WW.Boons.With"}} {{item.system.boons}} {{#if (lt
-                        item.system.boons 0)}}{{localize "WW.Boons.Banes"}}{{else}}{{localize
-                        "WW.Boons.Boons"}}{{/if}}{{/if}}
-                        ({{item.system.damage}})</a>
+                    
+                    {{#if item.system.properties}}({{item.system.properties}}) {{/if}}
+
+                    {{item.system.attributeLabel}}
+                    {{#if item.system.boons}} {{localize "WW.Boons.With"}} {{item.system.boons}} 
+                        {{#if (lt item.system.boons -1)}}{{localize "WW.Boons.Banes"}}
+                            {{else if (lt item.system.boons 0)}}{{localize "WW.Boons.Bane"}}
+                            {{else if (gt item.system.boons 1)}}{{localize "WW.Boons.Boons"}}
+                            {{else}}{{localize "WW.Boons.Boon"}}
+                        {{/if}}
+                    {{/if}}
+
+                    ({{item.system.damage}})
                 </li>
                 {{/each}}
             </ol>
@@ -150,14 +161,19 @@
             {{#each actions as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
                 <a class="rollable item-roll" title="Roll Action">{{item.name}}</a>
+                <a class="item-edit" title="Edit Action"><i class="fas fa-edit"></i></a>
+                {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
                 {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
                 {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
-                {{#each item.uses as |pip id|}}
-                <a class="item-pip" title="{{#if (eq pip "far")}}Spend use/casting/token{{else}}Recover use/casting/token{{/if}}"><i
-                        class="{{pip}} fa-circle"></i></a>
-                {{/each}}
-                <a class="item-edit"
-                    title="Edit Action">{{{item.system.description.value}}}</a>
+                {{#if item.uses}}
+                    <span class="pip-box">
+                        {{#each item.uses as |pip id|}}
+                        <a class="item-pip" title="{{#if (eq pip "far")}}Spend use/casting/token{{else}}Recover use/casting/token{{/if}}"><i
+                                class="{{pip}} fa-circle"></i></a>
+                        {{/each}}
+                    </span>
+                {{/if}}
+                <span>{{{item.system.description.value}}}</span>
                 
             </li>
             {{/each}}
@@ -170,10 +186,11 @@
             {{#each reactions as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
                 <a class="rollable item-roll" title="Roll Reaction">{{item.name}}</a> 
+                <a class="item-edit" title="Edit Reaction"><i class="fas fa-edit"></i></a>
+                {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
                 {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
                 {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
-                <a class="item-edit"
-                    title="Edit Reaction">{{{item.system.description.value}}}</a>
+                <span>{{{item.system.description.value}}}</span>
             </li>
             {{/each}}
         </ol>
@@ -184,11 +201,12 @@
         <ol class="described-list">
             {{#each end as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
-                <a class="rollable item-roll" title="Roll End of Round Effect">{{item.name}}</a> 
+                <a class="rollable item-roll" title="Roll End of Round Effect">{{item.name}}</a>
+                <a class="item-edit" title="Edit End of Round Effect"><i class="fas fa-edit"></i></a>
+                {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
                 {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
                 {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
-                <a class="item-edit"
-                    title="Edit End of Round Effect">{{{item.system.description.value}}}</a>
+                <span>{{{item.system.description.value}}}</span>
             </li>
             {{/each}}
         </ol>
@@ -199,17 +217,20 @@
             {{#each fury as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
                 <h5 class="fury-header">
-                    <a class="rollable item-roll" title="Roll End of Round Effect">{{item.name}}</a> 
-                    {{#each item.uses as |pip id|}}
-                    <a class="item-pip float-right" title="{{#if (eq pip "far")}}Spend fury token{{else}}Recover fury token{{/if}}">
-                        <i class="{{pip}} fa-circle"></i>
-                    </a>
-                    {{/each}}
+                    <a class="rollable item-roll" title="Roll Fury">{{item.name}}</a>
+                    <a class="item-edit" title="Edit Fury"><i class="fas fa-edit"></i></a>
+                    {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
+                    {{#if item.uses}}
+                    <span class="pip-box">
+                        {{#each item.uses as |pip id|}}
+                        <a class="item-pip" title="{{#if (eq pip "far")}}Spend fury token{{else}}Recover fury token{{/if}}"><i
+                                class="{{pip}} fa-circle"></i></a>
+                        {{/each}}
+                    </span>
+                {{/if}}
                 </h5>
 
-                <a class="item-edit" title="Edit End of Round Effect">
-                    {{{item.system.description.value}}}
-                </a>
+                <span>{{{item.system.description.value}}}</span>
             </li>
             {{/each}}
         </ol>

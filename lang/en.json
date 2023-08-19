@@ -86,8 +86,10 @@
         "Roll": "Roll",
         "AlwaysRoll": "Always roll",
         "With": "with",
-        "Boons": "boon(s)",
-        "Banes": "bane(s)",
+        "Boon": "boon",
+        "Boons": "boons",
+        "Bane": "bane",
+        "Banes": "banes",
         "Or": "boons(s)/bane(s)"
     },
 
@@ -153,7 +155,8 @@
     },
     
     "WW.Auras": "Auras",
-    "WW.Range": "Range",
+    "WW.Aura": "Aura",
+    "WW.AuraRange": "Aura Range",
     "WW.Actions": "Actions",
     "WW.Reactions": "Reactions",
     "WW.Ends": "End of The Round",
@@ -199,6 +202,7 @@
     "WW.GripOne": "One-Handed",
     "WW.GripTwo": "Two-Handed",
     "WW.GripOff": "Off-Hand",
+    "WW.Range": "Range",
     "WW.Properties": "Properties",
     "WW.PropertiesPH": "Brutal, Keen, etc",
     "WW.Reload": "Reload",

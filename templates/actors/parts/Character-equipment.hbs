@@ -44,6 +44,7 @@
         <li class="item flexrow flex-group-left" data-item-id="{{item._id}}">
             <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
             <label class="item-name">{{item.name}} 
+                {{#if item.system.description.value}}<a class="item-scroll" data-tooltip="{{item.system.description.value}}"><i class="far fa-scroll"></i></a>{{/if}}
                 <a class="rollable item-roll" title="Roll Attack"><i
                     class="fas fa-dice-d20"></i></a>
                 <a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>
@@ -78,7 +79,9 @@
         <li class="item flexrow" data-item-id="{{item._id}}">
             <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
             <div class="item-quantity">{{item.system.quantity}}</div>
-            <label class="item-name">{{item.name}}</label>
+            <label class="item-name">{{item.name}}
+                {{#if item.system.description.value}}<a class="item-scroll" data-tooltip="{{item.system.description.value}}"><i class="far fa-scroll"></i></a>{{/if}}
+            </label>
             <div>
                 {{#each item.uses as |pip id|}}
                 <a class="item-pip" title="{{#if (eq pip "far")}}Spend use/charge{{else}}Recover use/charge{{/if}}"><i
