@@ -14,7 +14,6 @@
     "systems/weirdwizard/templates/actors/parts/Character-equipment.hbs",
     "systems/weirdwizard/templates/actors/parts/Character-talents.hbs",
     "systems/weirdwizard/templates/actors/parts/Character-spells.hbs",
-    "systems/weirdwizard/templates/actors/parts/Character-afflictions.hbs",
     "systems/weirdwizard/templates/actors/parts/Character-effects.hbs",
 
     // NPC

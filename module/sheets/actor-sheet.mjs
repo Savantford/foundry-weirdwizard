@@ -3,7 +3,8 @@ import { defenseDetails } from './apps/defense-details.mjs'
 import { healthDetails } from './apps/health-details.mjs'
 import { rollAttribute } from './apps/roll-attribute.mjs'
 import { rollDamage } from './apps/roll-damage.mjs'
-import { onManageActiveEffect, prepareActiveEffectCategories } from "../active-effects/effects.mjs";
+import { onManageActiveEffect, prepareActiveEffectCategories } from '../active-effects/effects.mjs';
+import { WWAfflictions } from '../active-effects/afflictions.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -16,16 +17,16 @@ export class WeirdWizardActorSheet extends ActorSheet {
   static get defaultOptions() {
 
     return mergeObject(super.defaultOptions, {
-      classes: ["weirdwizard", "sheet", "actor"],
+      classes: ['weirdwizard', 'sheet', 'actor'],
       width: 600,
       height: 600,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "features" }]
+      tabs: [{ navSelector: '.sheet-tabs', contentSelector: '.sheet-body', initial: 'features' }]
     });
   }
 
   /** @override */
   get template() {
-    const path = "systems/weirdwizard/templates/actors";
+    const path = 'systems/weirdwizard/templates/actors';
     
     let permission = this.document.getUserLevel(game.user);
     if ((permission === CONST.DOCUMENT_OWNERSHIP_LEVELS.LIMITED) | (permission === CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER)) return `${path}/actor-${this.actor.type}-limited.hbs`;
@@ -53,10 +54,10 @@ export class WeirdWizardActorSheet extends ActorSheet {
     // Add the actor's data to context.system for easier access, as well as flags.
     context.system = actorData.system;
     context.flags = actorData.flags;
-    context.dtypes = ["String", "Number", "Boolean"];
+    context.dtypes = ['String', 'Number', 'Boolean'];
 
     for (let attr of Object.values(context.system.attributes)) {
-      attr.isCheckbox = attr.dtype === "Boolean";
+      attr.isCheckbox = attr.dtype === 'Boolean';
     }
 
     // Localize attribute names
@@ -64,9 +65,16 @@ export class WeirdWizardActorSheet extends ActorSheet {
       v.label = i18n(CONFIG.WW.attributes[k]) ?? k;
     }
 
-    //Prepare common data
+    // Prepare common data
     context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true })
     context.numbersObj = CONFIG.WW.dropdownNumbers;
+
+    // Prepare hasEffect for use in templates
+    context.hasEffect = {};
+
+    CONFIG.statusEffects.forEach(function (e) {
+      context.hasEffect[e.id] = actorData.statuses.has(e.id);
+    })
 
     // Prepare character data and items.
     if (actorData.type == 'Character') {
@@ -248,12 +256,12 @@ export class WeirdWizardActorSheet extends ActorSheet {
       let fixedBoons = 0;
       
       if ($(ev.currentTarget).hasClass('item-roll')) { // If it is a roll from an item.
-        let li = $(ev.currentTarget).parents(".item");
+        let li = $(ev.currentTarget).parents('.item');
         if (!li.length) { // If parent does not have .item class, set li to current target.
           li = $(ev.currentTarget);
         }
 
-        const item = this.actor.items.get(li.data("itemId"));
+        const item = this.actor.items.get(li.data('itemId'));
 
         label = item.name;
         fixedBoons = item.system.boons;
@@ -286,7 +294,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
           break;
         }
         case 'Luck': {
-          label = i18n("WW.Luck");
+          label = i18n('WW.Luck');
           attribute = system.attributes.luck;
           break;
         }
@@ -306,18 +314,18 @@ export class WeirdWizardActorSheet extends ActorSheet {
     // Damage Roll
     html.find('.damage-roll').click(ev => { //this._onRoll.bind(this)
       // Define variables to be used
-      let li = $(ev.currentTarget).parents(".item");
+      let li = $(ev.currentTarget).parents('.item');
 
       if (!li.length) { // If parent does not have .item class, set li to current target.
         li = $(ev.currentTarget);
       }
 
-      const item = this.actor.items.get(li.data("itemId"));
+      const item = this.actor.items.get(li.data('itemId'));
       
       let obj = {
         actor: this.actor,
         target: ev,
-        label: i18n("WW.Damage.Of") + " " + item.name,
+        label: i18n('WW.Damage.Of') + ' ' + item.name,
         baseDamage: item.system.damage,
         bonusDamage: this.actor.system.stats.bonusdamage
       }
@@ -328,16 +336,16 @@ export class WeirdWizardActorSheet extends ActorSheet {
     // Healing Roll
     html.find('.healing-roll').click(ev => { //this._onRoll.bind(this)
       // Define variables to be used
-      let li = $(ev.currentTarget).parents(".item");
+      let li = $(ev.currentTarget).parents('.item');
 
       if (!li.length) { // If parent does not have .item class, set li to current target.
         li = $(ev.currentTarget);
       }
 
-      const item = this.actor.items.get(li.data("itemId"));
+      const item = this.actor.items.get(li.data('itemId'));
       
       let roll = new Roll(item.system.healing, this.actor.system);
-      let label = i18n("WW.HealingOf") + " " + item.name;
+      let label = i18n('WW.HealingOf') + ' ' + item.name;
 
       roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),
@@ -345,18 +353,6 @@ export class WeirdWizardActorSheet extends ActorSheet {
         rollMode: game.settings.get('core', 'rollMode')
       });
       
-      // Construct the Roll instance
-      /*let r = new Roll(finalExp);
-
-      // Execute the roll
-      await r.evaluate();
-
-      // Send to chat
-      await r.toMessage({
-        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-        flavor: label,
-        rollMode: game.settings.get('core', 'rollMode')
-      });*/
     });
 
     // Edit Health button
@@ -376,8 +372,8 @@ export class WeirdWizardActorSheet extends ActorSheet {
 
     // Delete Inventory Item
     html.find('.item-delete').click(ev => {
-      const li = $(ev.currentTarget).parents(".item");
-      const item = this.actor.items.get(li.data("itemId"));
+      const li = $(ev.currentTarget).parents('.item');
+      const item = this.actor.items.get(li.data('itemId'));
       item.delete();
       li.slideUp(200, () => this.render(false));
     });
@@ -385,25 +381,25 @@ export class WeirdWizardActorSheet extends ActorSheet {
     // Render the item sheet for viewing/editing prior to the editable check.
     html.find('.item-edit').click(ev => {
 
-      let li = $(ev.currentTarget).parents(".item");
+      let li = $(ev.currentTarget).parents('.item');
       if (!li.length) { // If parent does not have .item class, set li to current target.
         li = $(ev.currentTarget);
       }
 
-      const item = this.actor.items.get(li.data("itemId"));
+      const item = this.actor.items.get(li.data('itemId'));
       
       item.sheet.render(true);
     });
 
     // Set uses pips to update the value when clicked
     html.find('.item-pip').click(ev => {
-      let li = $(ev.currentTarget).parents(".item");
+      let li = $(ev.currentTarget).parents('.item');
 
       if (!li.length) { // If parent does not have .item class, set li to current target.
         li = $(ev.currentTarget);
       }
 
-      const item = this.actor.items.get(li.data("itemId"));
+      const item = this.actor.items.get(li.data('itemId'));
       
       if ($(ev.target).hasClass('far')) { // If the pip is regular (unchecked)
         item.update({'system.uses.value': item.system.uses.value + 1}) // Add 1 to the current value.
@@ -413,25 +409,35 @@ export class WeirdWizardActorSheet extends ActorSheet {
     });
 
     // Active Effect management
-    html.find(".effect-control").click(ev => onManageActiveEffect(ev, this.actor));
+    html.find('.effect-control').click(ev => onManageActiveEffect(ev, this.actor));
+
+    // Disable Afflictions
+    html.find('.remove-afflictions').click(async () => {
+      await WWAfflictions.clearAfflictions(this.actor);
+    });
 
     // Afflictions tab checkboxes
-    html.find('[data-tab="afflictions"] input').click(async ev => {
+    html.find('.afflictions input').click(async ev => {
       const input = ev.currentTarget;
       const checked = input.checked;
       const afflictionId = $(ev.currentTarget).data('name');
 
       if (checked) {
         const affliction = CONFIG.statusEffects.find(a => a.id === afflictionId);
+        
         if (!affliction) return false
         affliction['statuses'] = [affliction.id];
+        
         await ActiveEffect.create(affliction, {parent: this.actor});
 
       } else {
         const affliction = this.actor.effects.find(e => e?.statuses?.has(afflictionId));
+
         if (!affliction) return false
+
         await affliction.delete();
       }
+
       return true
     });
 
@@ -516,7 +522,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
     event.preventDefault();
     const header = event.currentTarget;
     const type = header.dataset.type; // Get the type of item to create.
-    const name = i18n("WW.NewItem", { itemType: type.capitalize() }) // Initialize a default name.
+    const name = game.i18n.format('WW.NewItem', { itemType: type.capitalize() }) // Initialize a default name.
 
     let subtype = '';
     let source = '';
@@ -538,7 +544,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
     };
 
     // Create the item
-    const [createdItem] = await this.actor.createEmbeddedDocuments("Item", [itemData]);
+    const [createdItem] = await this.actor.createEmbeddedDocuments('Item', [itemData]);
 
     // Render the created item's template
     createdItem.sheet.render(true);

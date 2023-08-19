@@ -13,7 +13,7 @@ const _buildBaseAffliction = (label, icon, changes = [], flags = {}) => ({
   flags: {
     sourceType: 'affliction',
     permanent: false,
-    ...flags,
+    ...flags
   },
   changes: changes,
 });
@@ -42,9 +42,11 @@ export class WWAfflictions {
 
   static async clearAfflictions(actor) {
     if (!actor) return
+    
     const afflictions = actor
       .getEmbeddedCollection('ActiveEffect')
       .filter(e => e.statuses.size > 0)
+      .filter(e => e.flags.sourceType = 'affliction')
       .map(e => e._id);
     await actor.deleteEmbeddedDocuments('ActiveEffect', afflictions);
   }
