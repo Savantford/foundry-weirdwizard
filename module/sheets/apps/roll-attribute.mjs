@@ -3,6 +3,8 @@
  * @extends {FormApplication}
 */
 
+import { i18n, plusify } from '../../helpers/utils.mjs'
+
 export class rollAttribute extends FormApplication {
   constructor(obj) {
     super(); // This is required for the constructor to work
@@ -15,12 +17,10 @@ export class rollAttribute extends FormApplication {
     this.name = obj.attribute.name;
     this.effectBoonsGlobal = obj.attribute.boons?.global ? obj.attribute.boons.global : 0;
     this.fixedBoons = obj.fixedBoons ? obj.fixedBoons : 0;
-    this.damage = obj.damage;
-    this.healing = obj.healing;
 
     // Assign mod
     
-    this.mod = (obj.attribute.mod < 0 ? "" : "+") + (obj.attribute.mod ? obj.attribute.mod : 0); // If mod is positive, give a + sign if positive. If undefined, set it to 0
+    this.mod = plusify(obj.attribute.mod ? obj.attribute.mod : 0); // If mod is positive, give a + sign if positive. If undefined, set it to 0
   }
 
   static get defaultOptions() {
@@ -59,8 +59,6 @@ export class rollAttribute extends FormApplication {
     const name = this.name;
     const fixedBoons = this.fixedBoons;
     const effectBoons = this.effectBoonsGlobal; // Conditional boons should be added here later
-    const damage = this.damage;
-    const healing = this.healing;
 
     let att = '1d20 + 0';
     if (name) att = name + " (" + mod + ")"
@@ -77,10 +75,14 @@ export class rollAttribute extends FormApplication {
 
       parent.querySelector('.boons-display.total').innerHTML = boonsFinal;
 
-      if (boonsFinal > 0) {
-        parent.querySelector('.boons-expression').innerHTML = att + " " + game.i18n.format("WW.Boons.With") + " " + parseInt(boonsFinal) + " " + game.i18n.format("WW.Boons.Boons");
+      if (boonsFinal > 1) {
+        parent.querySelector('.boons-expression').innerHTML = att + " " + i18n("WW.Boons.With") + " " + parseInt(boonsFinal) + " " + i18n("WW.Boons.Boons");
+      } else if (boonsFinal > 0) {
+        parent.querySelector('.boons-expression').innerHTML = att + " " + i18n("WW.Boons.With") + " " + parseInt(boonsFinal) + " " + i18n("WW.Boons.Boon");
+      } else if (boonsFinal < -1 ) {
+        parent.querySelector('.boons-expression').innerHTML = att + " " + i18n("WW.Boons.With") + " " + boonsFinal*-1 + " " + i18n("WW.Boons.Banes");
       } else if (boonsFinal < 0) {
-        parent.querySelector('.boons-expression').innerHTML = att + " " + game.i18n.format("WW.Boons.With") + " " + boonsFinal*-1 + " " + game.i18n.format("WW.Boons.Banes");
+        parent.querySelector('.boons-expression').innerHTML = att + " " + i18n("WW.Boons.With") + " " + boonsFinal*-1 + " " + i18n("WW.Boons.Bane");
       } else {
         parent.querySelector('.boons-expression').innerHTML = att;
       }

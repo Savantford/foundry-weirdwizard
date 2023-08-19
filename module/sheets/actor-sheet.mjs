@@ -1,10 +1,11 @@
-import { i18n } from '../helpers/utils.mjs'
+import { i18n, plusify } from '../helpers/utils.mjs'
 import { defenseDetails } from './apps/defense-details.mjs'
 import { healthDetails } from './apps/health-details.mjs'
 import { rollAttribute } from './apps/roll-attribute.mjs'
 import { rollDamage } from './apps/roll-damage.mjs'
 import { onManageActiveEffect, prepareActiveEffectCategories } from '../active-effects/effects.mjs';
 import { WWAfflictions } from '../active-effects/afflictions.mjs';
+
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -62,7 +63,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
 
     // Localize attribute names
     for (let [k, v] of Object.entries(context.system.attributes)) {
-      v.label = i18n(CONFIG.WW.attributes[k]) ?? k;
+      v.label = i18n(CONFIG.WW.attributes[k] ?? k);
     }
 
     // Prepare common data
@@ -120,7 +121,13 @@ export class WeirdWizardActorSheet extends ActorSheet {
     for (let i of context.items) {
       //let item = i;
       i.img = i.img || DEFAULT_TOKEN;
-
+      
+      // Assign attributeLabel for template use
+      if (i.system.attribute) {
+        const attribute = context.system.attributes[i.system.attribute];
+        i.system.attributeLabel = attribute.name + ' (' + plusify(attribute.mod) + ')'
+      }
+      
       // Append to equipment.
       if (i.type === 'Equipment') {
         equipment.push(i);
@@ -408,6 +415,23 @@ export class WeirdWizardActorSheet extends ActorSheet {
       }
     });
 
+    // Item Scroll: Send item description to chat when clicked
+    html.find('.item-scroll').click(ev => {
+
+      let li = $(ev.currentTarget).parents('.item');
+      if (!li.length) { // If parent does not have .item class, set li to current target.
+        li = $(ev.currentTarget);
+      }
+
+      const item = this.actor.items.get(li.data('itemId'));
+      
+      ChatMessage.create({
+        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+        flavor: item.name,
+        content: item.system.description.value
+      })
+    });
+
     // Active Effect management
     html.find('.effect-control').click(ev => onManageActiveEffect(ev, this.actor));
 
@@ -522,7 +546,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
     event.preventDefault();
     const header = event.currentTarget;
     const type = header.dataset.type; // Get the type of item to create.
-    const name = game.i18n.format('WW.NewItem', { itemType: type.capitalize() }) // Initialize a default name.
+    const name = i18n('WW.NewItem', { itemType: type.capitalize() }) // Initialize a default name.
 
     let subtype = '';
     let source = '';

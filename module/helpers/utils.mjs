@@ -10,15 +10,15 @@ export function getEffectBoons (attribute) {
 
 // Formatting
 
-export const i18n = s => game.i18n.localize(s)
+//export const i18n = (s,d) => d ? game.i18n.format(s,d) : game.i18n.format(s)
+export const i18n = (s,d={}) => game.i18n.format(s,d);
 
 /*export function capitalize(string) {
   return string?.charAt(0).toUpperCase() + string?.toLowerCase().slice(1)
 }*/
 
 export function plusify(x) {
-  if (x == 0) return ''
-  return x > 0 ? '+' + x : x
+  return x >= 0 ? '+' + x : x
 }
 
 /* -------------------------------------------- */

@@ -102,14 +102,21 @@
                 {{#each weapons as |item id|}}
                 <li class="item" data-item-id="{{item._id}}">
                     <a class="rollable item-roll" title="Roll Attack">{{item.name}}</a>
-                    <a class="item-edit smaller" title="Edit Weapon"><i class="fas fa-edit"></i></a>
+                    <a class="item-edit" title="Edit Weapon"><i class="fas fa-edit"></i></a>
+                    {{#if item.system.description.value}}<a class="item-scroll" data-tooltip="{{item.system.description.value}}"><i class="far fa-scroll"></i></a>{{/if}}
                     <a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>
                     {{#if item.system.reload}}<input class="checkbox-reloaded" type="checkbox" name="item.system.reloaded" title="Weapon realoded?" {{checked item.system.reloaded}}/>{{/if}} 
                     ({{item.system.grip}}{{#if item.system.properties}};
-                    {{item.system.properties}}{{/if}}) {{item.system.attribute}}
-                    {{#if item.system.boons}} {{localize "WW.Boons.With"}} {{item.system.boons}} {{#if (lt
-                        item.system.boons 0)}}{{localize "WW.Boons.Banes"}}{{else}}{{localize
-                        "WW.Boons.Boons"}}{{/if}}{{/if}}
+                    {{item.system.properties}}{{/if}}) 
+
+                    {{item.system.attributeLabel}}
+                    {{#if item.system.boons}} {{localize "WW.Boons.With"}} {{item.system.boons}} 
+                        {{#if (lt item.system.boons -1)}}{{localize "WW.Boons.Banes"}}
+                            {{else if (lt item.system.boons 0)}}{{localize "WW.Boons.Bane"}}
+                            {{else if (gt item.system.boons 1)}}{{localize "WW.Boons.Boons"}}
+                            {{else}}{{localize "WW.Boons.Boon"}}
+                        {{/if}}
+                    {{/if}}
                     ({{item.system.damage}})
                 </li>
                 {{/each}}
@@ -119,17 +126,22 @@
 
     <div class="statbox">{{!-- Right Column --}}
         <h3>{{localize "WW.Talents"}}</h3>
-        <ol class="summary-list stat">
+        <ol class="compact-list stat">
             {{#each talents as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
                 <a class="rollable item-roll" title="Roll Talent">{{item.name}}</a>
-                <a class="item-edit smaller" title="Edit Talent"><i class="fas fa-edit"></i></a>
+                <a class="item-edit" title="Edit Talent"><i class="fas fa-edit"></i></a>
+                {{#if item.system.description.value}}<a class="item-scroll" data-tooltip="{{item.system.description.value}}"><i class="far fa-scroll"></i></a>{{/if}}
                 {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
                 {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
-                {{#each item.uses as |pip id|}}
-                <a class="item-pip" title="{{#if (eq pip "far")}}Spend use/token{{else}}Recover use/token{{/if}}"><i
-                        class="{{pip}} fa-circle"></i></a>
-                {{/each}}
+                {{#if item.uses}}
+                    <span class="pip-box">
+                        {{#each item.uses as |pip id|}}
+                        <a class="item-pip" title="{{#if (eq pip "far")}}Spend use/token{{else}}Recover use/token{{/if}}"><i
+                                class="{{pip}} fa-circle"></i></a>
+                        {{/each}}
+                    </span>
+                {{/if}}
             </li>
             {{/each}}
         </ol>
@@ -143,17 +155,22 @@
             {{system.details.traditions}}
         </div>
 
-        <ol class="summary-list stat">
+        <ol class="compact-list stat">
             {{#each spells as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
                 <a class="rollable item-roll" title="Roll Spell">{{item.name}}</a>
-                <a class="item-edit smaller" title="Edit Spell"><i class="fas fa-edit"></i></a>
+                <a class="item-edit" title="Edit Spell"><i class="fas fa-edit"></i></a>
+                {{#if item.system.description.value}}<a class="item-scroll" data-tooltip="{{item.system.description.value}}"><i class="far fa-scroll"></i></a>{{/if}}
                 {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
                 {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
-                {{#each item.uses as |pip id|}}
-                <a class="item-pip" title="{{#if (eq pip "far")}}Spend casting{{else}}Recover casting{{/if}}"><i
-                        class="{{pip}} fa-circle"></i></a>
-                {{/each}}
+                {{#if item.uses}}
+                    <span class="pip-box">
+                        {{#each item.uses as |pip id|}}
+                        <a class="item-pip" title="{{#if (eq pip "far")}}Spend casting{{else}}Recover casting{{/if}}"><i
+                                class="{{pip}} fa-circle"></i></a>
+                        {{/each}}
+                    </span>
+                {{/if}}
             </li>
             {{/each}}
         </ol>

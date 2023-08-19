@@ -20,6 +20,7 @@
     <li class="item flexrow" data-item-id="{{item._id}}">
         <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
         <label class="item-name">{{item.name}} 
+            {{#if item.system.description.value}}<a class="item-scroll" data-tooltip="{{item.system.description.value}}"><i class="far fa-scroll"></i></a>{{/if}}
             <a class="rollable item-roll" title="Roll Spell"><i
                 class="fas fa-dice-d20"></i></a>
             {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
