@@ -6,7 +6,7 @@
             <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.ActorName"}}"/></h1>
             
             {{!-- Attributes Row --}}
-            <div class="attributes grid grid-4col">
+            <div class="attributes grid grid-4">
                 {{#each system.attributes as |attribute key|}}
                 {{#if (eq key 'luck')}}{{else}}
                 <div class="attribute stat flex-group-center">
@@ -21,7 +21,7 @@
             </div>
 
             {{!-- Defense Row --}}
-            <div class="resources grid grid-4col mt-2">
+            <div class="resources grid grid-4 mt-2">
 
                 {{!-- Defense --}}
                 <div class="stat flex-group-center">
@@ -61,7 +61,6 @@
         <a class="item" data-tab="equipment">{{localize "WW.Equipment"}}</a>
         <a class="item" data-tab="talents">{{localize "WW.Talents"}}</a>
         <a class="item" data-tab="spells">{{localize "WW.Spells"}}</a>
-        {{!--<a class="item" data-tab="afflictions">{{localize "WW.Afflictions"}}</a>--}}
         <a class="item" data-tab="effects">{{localize "WW.Effects"}}</a>
     </nav>
 
@@ -98,13 +97,7 @@
             {{> "systems/weirdwizard/templates/actors/parts/Character-spells.hbs"}}
         </div>
 
-        {{!-- Afflictions Tab --}}
-        {{!-- <div class="tab afflictions flexcol" data-group="primary" data-tab="afflictions">
-            {{> "systems/weirdwizard/templates/actors/parts/Character-afflictions.hbs"}}
-        </div>
-        --}}
-
-        {{!-- Active Effects Tab --}}
+        {{!-- Afflictions and Effects Tab --}}
         <div class="tab effects flexcol" data-group="primary" data-tab="effects">
             {{> "systems/weirdwizard/templates/actors/parts/Character-effects.hbs"}}
         </div>

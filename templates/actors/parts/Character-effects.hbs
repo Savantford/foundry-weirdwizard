@@ -1,3 +1,80 @@
+<div class="afflictions">
+  {{#*inline "WWAffliction"}}
+    <div class="affliction selectable {{#if value}}selected{{/if}}"
+        style="width: auto; margin: 2px"
+        {{#if tooltip}}title="{{localize tooltip}}"{{/if}}>
+      <input type="checkbox" id="data.{{name}}" data-name="{{name}}" {{checked value}}/>
+      <i class="icon-{{name}}"></i>
+      <span class="sep"></span>
+      <span style="margin-left: 4px">{{localize label}}</span>
+    </div>
+  {{/inline}}
+
+  {{!-- 
+  <div class="dl-text-header-upper dl-underline-red dl-item-row-header">
+    <div class="col-12">{{localize "WW.Actions"}}</div>
+  </div>
+
+  <div class="grid-5">
+    {{> WWAffliction name="concentrate" value=flags.weirdwizard.concentrate label="WW.concentrate" tooltip="WW.AfflictionsConcentrate"}}
+    {{> WWAffliction name="defend"      value=flags.weirdwizard.defend      label="WW.defend"      tooltip="WW.AfflictionsDefend"}}
+    {{> WWAffliction name="help"        value=flags.weirdwizard.help        label="WW.help"        tooltip="WW.AfflictionsHelp"}}
+    {{> WWAffliction name="prepare"     value=flags.weirdwizard.prepare     label="WW.prepare"     tooltip="WW.AfflictionsPrepare"}}
+    {{> WWAffliction name="reload"      value=flags.weirdwizard.reload      label="WW.reload"      tooltip="WW.AfflictionsReload"}}
+    {{> WWAffliction name="retreat"     value=flags.weirdwizard.retreat     label="WW.retreat"     tooltip="WW.AfflictionsRetreat"}}
+    {{> WWAffliction name="rush"        value=flags.weirdwizard.rush        label="WW.rush"        tooltip="WW.AfflictionsRush"}}
+    {{> WWAffliction name="stabilize"   value=flags.weirdwizard.stabilize   label="WW.stabilize"   tooltip="WW.AfflictionsStabilize"}}
+  </div> --}}
+
+  <h2>{{localize "WW.Afflictions"}}</h2>
+
+  <div class="grid-3">
+    {{> WWAffliction name="Blinded"      value=hasEffect.Blinded      label="WW.Blinded"     tooltip="WW.BlindedDesc"     }}
+    {{> WWAffliction name="Confused"     value=hasEffect.Confused     label="WW.Confused"    tooltip="WW.ConfusedDesc"    }}
+    {{> WWAffliction name="Controlled"   value=hasEffect.Controlled   label="WW.Controlled"  tooltip="WW.ControlledDesc"  }}
+    {{> WWAffliction name="Cursed"       value=hasEffect.Cursed       label="WW.Cursed"      tooltip="WW.CursedDesc"      }}
+    {{> WWAffliction name="Deafened"     value=hasEffect.Deafened     label="WW.Deafened"    tooltip="WW.DeafenedDesc"    }}
+    {{> WWAffliction name="Frightened"   value=hasEffect.Frightened   label="WW.Frightened"  tooltip="WW.FrightenedDesc"  }}
+    {{> WWAffliction name="Held"         value=hasEffect.Held         label="WW.Held"        tooltip="WW.HeldDesc"        }}
+    {{> WWAffliction name="ImpairedStr"  value=hasEffect.ImpairedStr  label="WW.ImpairedStr" tooltip="WW.ImpairedDesc"    }}
+    {{> WWAffliction name="ImpairedAgi"  value=hasEffect.ImpairedAgi  label="WW.ImpairedAgi" tooltip="WW.ImpairedDesc"    }}
+    {{> WWAffliction name="ImpairedInt"  value=hasEffect.ImpairedInt  label="WW.ImpairedInt" tooltip="WW.ImpairedDesc"    }}
+    {{> WWAffliction name="ImpairedWil"  value=hasEffect.ImpairedWil  label="WW.ImpairedWil" tooltip="WW.ImpairedDesc"    }}
+    {{> WWAffliction name="OnFire"       value=hasEffect.OnFire       label="WW.OnFire"      tooltip="WW.OnFireDesc"      }}
+    {{> WWAffliction name="Poisoned"     value=hasEffect.Poisoned     label="WW.Poisoned"    tooltip="WW.PoisonedDesc"    }}
+    {{> WWAffliction name="Prone"        value=hasEffect.Prone        label="WW.Prone"       tooltip="WW.ProneDesc"       }}
+    {{> WWAffliction name="Stunned"      value=hasEffect.Stunned      label="WW.Stunned"     tooltip="WW.StunnedDesc"     }}
+    {{> WWAffliction name="Unconscious"  value=hasEffect.Unconscious  label="WW.Unconscious" tooltip="WW.UnconsciousDesc" }}
+    {{> WWAffliction name="Asleep"       value=hasEffect.Asleep       label="WW.Asleep"      tooltip="WW.AsleepDesc"      }}
+    {{> WWAffliction name="Weakened"     value=hasEffect.Weakened     label="WW.Weakened"    tooltip="WW.WeakenedDesc"    }}
+  </div>
+  {{!--
+  <div class="dl-text-header-upper dl-underline-red dl-item-row-header" style="margin-top: 8px">
+    <div class="col-12">{{localize "WW.ModsDamage"}}</div>
+  </div>
+  <div class="grid-5">
+    {{> WWAffliction name="injured"       value=flags.weirdwizard.injured       label="WW.injured"       tooltip="WW.injuredText"}}
+    {{> WWAffliction name="incapacitated" value=flags.weirdwizard.incapacitated label="WW.incapacitated" tooltip="WW.incapacitatedText"}}
+    {{> WWAffliction name="disabled"      value=flags.weirdwizard.disabled      label="WW.disabled"      tooltip="WW.disabledText"     }}
+    {{> WWAffliction name="dying"         value=flags.weirdwizard.dying         label="WW.dying"         tooltip="WW.dyingText"        }}
+  </div>
+
+  <div class="dl-text-header-upper dl-underline-red dl-item-row-header" style="margin-top: 8px">
+    <div class="col-12">{{localize "Token"}}</div>
+  </div>
+  <div class="grid-5">
+    {{> WWAffliction name="invisible"   value=flags.weirdwizard.invisible   label="EFFECT.StatusInvisible" tooltip="WW.invisibleText"}}
+  </div>
+  --}}
+  <div class="grid-3 mt-2">
+    <div></div>
+    <div class="affliction remove-afflictions" style="width: auto">
+      <span class="px-2 align-center" style="width: 100%">{{localize "WW.AfflictionsRemove"}}</span>
+    </div>
+  </div>
+</div>
+
+<h2>{{localize "WW.EffectsAll"}}</h2>
 <ol class="item-list effects-list">
   {{#each effects as |section sid|}}
     <li class="item items-header flexrow" data-effect-type="{{section.type}}">
@@ -15,7 +92,9 @@
     <ol class="item-list">
     {{#each section.effects as |effect|}}
       <li class="item effect flexrow" data-effect-id="{{effect.id}}">
-        <img class="item-image" src="{{effect.icon}}" width="24" height="24"/>
+        <div class="item-image">
+          <img src="{{effect.icon}}" width="24" height="24"/>
+        </div>
         <div class="item-name">{{effect.name}}</div>
         <div class="effect-source">{{effect.sourceName}}</div>
         <div class="effect-duration">{{effect.duration.name}}</div>
