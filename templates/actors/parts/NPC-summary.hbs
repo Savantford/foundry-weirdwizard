@@ -70,7 +70,8 @@
             <ol class="described-list">
                 {{#each auras as |item id|}}
                 <li class="item" data-item-id="{{item._id}}">
-                    <a class="rollable item-roll" title="Roll Aura">{{item.name}}</a>
+                    {{#if item.system.attribute}}<a class="rollable item-roll" title="Roll Aura">{{item.name}}</a>
+                        {{else}}<label>{{item.name}}</label>{{/if}}
                     <a class="item-edit" title="Edit Aura"><i class="fas fa-edit"></i></a>
                     {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
                     {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
@@ -111,7 +112,8 @@
         <ol class="described-list">{{!-- Talents --}}
             {{#each talents as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
-                <a class="rollable item-roll" title="Roll Talent">{{item.name}}</a>
+                {{#if item.system.attribute}}<a class="rollable item-roll" title="Roll Trait or Talent">{{item.name}}</a>
+                    {{else}}<label>{{item.name}}</label>{{/if}}
                 <a class="item-edit" title="Edit Trait or Talent"><i class="fas fa-edit"></i></a>
                 {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
                 {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
@@ -160,7 +162,8 @@
         <ol class="described-list">
             {{#each actions as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
-                <a class="rollable item-roll" title="Roll Action">{{item.name}}</a>
+                {{#if item.system.attribute}}<a class="rollable item-roll" title="Roll Action">{{item.name}}</a>
+                    {{else}}<label>{{item.name}}</label>{{/if}}
                 <a class="item-edit" title="Edit Action"><i class="fas fa-edit"></i></a>
                 {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
                 {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
@@ -185,7 +188,8 @@
         <ol class="described-list">
             {{#each reactions as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
-                <a class="rollable item-roll" title="Roll Reaction">{{item.name}}</a> 
+                {{#if item.system.attribute}}<a class="rollable item-roll" title="Roll Reaction">{{item.name}}</a>
+                    {{else}}<label>{{item.name}}</label>{{/if}}
                 <a class="item-edit" title="Edit Reaction"><i class="fas fa-edit"></i></a>
                 {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
                 {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
@@ -201,7 +205,8 @@
         <ol class="described-list">
             {{#each end as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
-                <a class="rollable item-roll" title="Roll End of Round Effect">{{item.name}}</a>
+                {{#if item.system.attribute}}<a class="rollable item-roll" title="Roll End of Round Effect">{{item.name}}</a>
+                    {{else}}<label>{{item.name}}</label>{{/if}}
                 <a class="item-edit" title="Edit End of Round Effect"><i class="fas fa-edit"></i></a>
                 {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
                 {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
@@ -217,7 +222,8 @@
             {{#each fury as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
                 <h5 class="fury-header">
-                    <a class="rollable item-roll" title="Roll Fury">{{item.name}}</a>
+                    {{#if item.system.attribute}}<a class="rollable item-roll" title="Roll Fury">{{item.name}}</a>
+                        {{else}}<label>{{item.name}}</label>{{/if}}
                     <a class="item-edit" title="Edit Fury"><i class="fas fa-edit"></i></a>
                     {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
                     {{#if item.uses}}

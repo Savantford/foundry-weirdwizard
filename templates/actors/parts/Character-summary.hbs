@@ -129,7 +129,8 @@
         <ol class="compact-list stat">
             {{#each talents as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
-                <a class="rollable item-roll" title="Roll Talent">{{item.name}}</a>
+                {{#if item.system.attribute}}<a class="rollable item-roll" title="Roll Talent">{{item.name}}</a>
+                    {{else}}<label>{{item.name}}</label>{{/if}}
                 <a class="item-edit" title="Edit Talent"><i class="fas fa-edit"></i></a>
                 {{#if item.system.description.value}}<a class="item-scroll" data-tooltip="{{item.system.description.value}}"><i class="far fa-scroll"></i></a>{{/if}}
                 {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
@@ -158,7 +159,8 @@
         <ol class="compact-list stat">
             {{#each spells as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
-                <a class="rollable item-roll" title="Roll Spell">{{item.name}}</a>
+                {{#if item.system.attribute}}<a class="rollable item-roll" title="Roll Spell">{{item.name}}</a>
+                    {{else}}<label>{{item.name}}</label>{{/if}}
                 <a class="item-edit" title="Edit Spell"><i class="fas fa-edit"></i></a>
                 {{#if item.system.description.value}}<a class="item-scroll" data-tooltip="{{item.system.description.value}}"><i class="far fa-scroll"></i></a>{{/if}}
                 {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}

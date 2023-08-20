@@ -259,6 +259,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
       // Define variables to be used
       let system = this.object.system;
       let label = '';
+      let content = '';
       let attribute = '';
       let fixedBoons = 0;
       
@@ -273,9 +274,12 @@ export class WeirdWizardActorSheet extends ActorSheet {
         label = item.name;
         fixedBoons = item.system.boons;
         
-        if (this.actor.system.attributes[attribute]) {
-          attribute = this.actor.system.attributes[attribute];
+        if (this.actor.type == 'Character') content = item.system.description.value;
+        
+        if (this.actor.system.attributes[item.system.attribute]) {
+          attribute = this.actor.system.attributes[item.system.attribute];
         }
+
       }
       
       // If the clicked element has a data-label, use it to determine the mod and label
@@ -311,6 +315,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
         actor: this.actor,
         target: ev,
         label: label,
+        content: content,
         attribute: attribute,
         fixedBoons: fixedBoons
       }
