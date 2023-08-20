@@ -13,14 +13,13 @@ export class rollAttribute extends FormApplication {
 
     // Assign label, name and fixed boons/banes
     this.label = obj.label;
-    console.log(obj.attribute);
+    this.content = obj.content;
     this.name = obj.attribute.name;
     this.effectBoonsGlobal = obj.attribute.boons?.global ? obj.attribute.boons.global : 0;
     this.fixedBoons = obj.fixedBoons ? obj.fixedBoons : 0;
 
     // Assign mod
-    
-    this.mod = plusify(obj.attribute.mod ? obj.attribute.mod : 0); // If mod is positive, give a + sign if positive. If undefined, set it to 0
+    this.mod = obj.attribute.mod ? plusify(obj.attribute.mod) : 0; // If undefined, set it to 0
   }
 
   static get defaultOptions() {
@@ -55,6 +54,7 @@ export class rollAttribute extends FormApplication {
     // Get roll variables
     let boonsFinal = 0;
     const label = this.label;
+    const content = this.content;
     const mod = this.mod;
     const name = this.name;
     const fixedBoons = this.fixedBoons;
@@ -106,39 +106,35 @@ export class rollAttribute extends FormApplication {
 
       // Execute the roll
       await r.evaluate();
-
-      // Send to chat
-      let message = await r.toMessage({
-        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-        flavor: label,
-        rollMode: game.settings.get('core', 'rollMode')
-      });
-
-      // Append damage roll to the chat message
-      /*if (damage) {
-        let d = new Roll(damage + "[Damage]");
-        await d.evaluate();
-
-        message.update({'rolls': [...message.rolls, d]})
-      }
-
-      // Append healing roll to the chat message
-      if (healing) {
-        let h = new Roll(healing + "[Healing]");
-        await h.evaluate();
-
-        message.update({'rolls': [...message.rolls, h]})
-      }*/
       
-      // The parsed terms of the roll formula
-      //console.log(r.terms);    // [Die, OperatorTerm, NumericTerm, OperatorTerm, NumericTerm]
+      // Send to chat
+      /**/
+
+      if (content) {
+        let rollHtml = await r.render();
+
+        let messageData = {
+          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+          flavor: label,
+          content: rollHtml + content,
+          sound: CONFIG.sounds.dice
+        };
+
+        ChatMessage.applyRollMode(messageData,  game.settings.get('core', 'rollMode'));
+
+        ChatMessage.create(messageData);
+
+      } else {
+        let message = await r.toMessage({
+          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+          flavor: label,
+          rollMode: game.settings.get('core', 'rollMode')
+        });
+      }
 
       // The resulting equation after it was rolled
       console.log('Formula = ' + r.formula + '\nResult = ' + r.result + '\nTotal = ' + r.total);   // 16 + 2 + 4; 22
 
-      /*export class DLEroll extends Roll { // Extended custom Demon Lord Engine roll      // Not Needed ATM
-          constructor() { ... }
-      }*/
     })
 
   }

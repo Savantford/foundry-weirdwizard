@@ -21,19 +21,19 @@
         <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
         <label class="item-name">{{item.name}} 
             {{#if item.system.description.value}}<a class="item-scroll" data-tooltip="{{item.system.description.value}}"><i class="far fa-scroll"></i></a>{{/if}}
-            <a class="rollable item-roll" title="Roll Spell"><i
-                class="fas fa-dice-d20"></i></a>
+            {{#if item.system.attribute}}<a class="rollable item-roll" title="Roll Spell">
+                <i class="fas fa-dice-d20"></i></a>{{/if}}
             {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
             {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
         </label>
-        <div>{{item.system.tier}}</div>
-        <div>{{item.system.tradition}}</div>
         <div>
             {{#each item.uses as |pip id|}}
             <a class="item-pip" title="{{#if (eq pip "far")}}Spend casting{{else}}Recover casting{{/if}}"><i
                     class="{{pip}} fa-circle"></i></a>
             {{/each}}
         </div>
+        <div>{{item.system.tier}}</div>
+        <div>{{item.system.tradition}}</div>
         <div class="item-controls">
             <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
             <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>

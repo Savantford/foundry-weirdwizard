@@ -36,11 +36,12 @@ WW.dropdownNumbers = {
   "10": "10",
 }
 WW.dropdownAttributes = {
-  "": "WW.None",
+  "": "WW.Dont",
   "str": "WW.Strength",
   "agi": "WW.Agility",
   "int": "WW.Intellect",
-  "wil": "WW.Will"
+  "wil": "WW.Will",
+  "luck": "WW.Luck"
 }
 
 WW.dropdownSubtypes = {
