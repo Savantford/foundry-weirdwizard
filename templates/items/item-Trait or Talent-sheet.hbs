@@ -25,11 +25,6 @@
           {{selectOptions sourcesObj selected=system.source localize=true}}
         </select>
         {{/if}}
-
-        {{#if (eq system.subtype 'aura')}} {{!-- Aura Params --}}
-        <label>{{localize "WW.AuraRange"}}</label>
-        <input type="number" name="system.range" value="{{system.range}}" min="0" data-dtype="Number" />
-        {{/if}}
       </div>
     </div>
 
@@ -40,26 +35,16 @@
   <section class="sheet-body">
 
     <h2>{{localize "WW.Description"}}</h2>
+    {{#if (eq system.subtype 'aura')}} {{!-- Aura Params --}}
+    <div class="flex-row stat-inline">
+      <label>{{localize "WW.AuraRange"}}</label>
+      <input type="number" name="system.range" value="{{system.range}}" min="0" placeholder="#" data-dtype="Number" />
+    </div>
+    {{/if}}
     {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
 
-    <h2>{{localize "WW.Settings"}}</h2>
-    <div class="flex-row stat-inline">
-      {{localize "WW.Boons.AlwaysRoll"}}
-      <select class="mx-1" name="system.attribute">
-        {{selectOptions attributesObj selected=system.attribute localize=true}}
-      </select>
-      {{localize "WW.Boons.With"}}
-      <input class="mx-1" type="number" name="system.boons" value="{{system.boons}}" placeholder="0"
-        data-dtype="Number" />
-      {{localize "WW.Boons.Or"}}
-    </div>
-    <div class="flex-row stat-inline">
-      <label class="">{{localize "WW.Damage.Title"}}</label>
-      <input type="text" name="system.damage" value="{{system.damage}}" placeholder="1d6" style="width: 75px; text-align: center;" data-dtype="String" />
-
-      <label class="ml-2">{{localize "WW.Healing"}}</label>
-      <input type="text" name="system.healing" value="{{system.healing}}" placeholder="1d6" style="width: 75px; text-align: center;" data-dtype="String" />
-    </div>
+    {{> "systems/weirdwizard/templates/items/parts/item-settings.hbs"}}
+    {{> "systems/weirdwizard/templates/items/parts/item-effects.hbs"}}
 
   </section>
 </form>

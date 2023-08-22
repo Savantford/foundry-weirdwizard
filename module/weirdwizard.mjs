@@ -11,6 +11,7 @@ import { WW } from './config.mjs';
 import { Global } from './helpers/utils.mjs';
 import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
 import { WWAfflictions } from './active-effects/afflictions.mjs';
+import { WWActiveEffectConfig } from './active-effects/effects-config.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -45,6 +46,7 @@ Hooks.once('init', function () {
   // Define custom Document classes
   CONFIG.Actor.documentClass = WeirdWizardActor;
   CONFIG.Item.documentClass = WeirdWizardItem;
+  DocumentSheetConfig.registerSheet(ActiveEffect, "weirdwizard", WWActiveEffectConfig, {makeDefault: true})
   //CONFIG.Token.documentClass = WeirdWizardToken;
 
   // Register sheet application classes
@@ -52,6 +54,9 @@ Hooks.once('init', function () {
   Actors.registerSheet('weirdwizard', WeirdWizardActorSheet, { makeDefault: true });
   Items.unregisterSheet('core', ItemSheet);
   Items.registerSheet('weirdwizardplate', WeirdWizardItemSheet, { makeDefault: true });
+
+  // Disable legacy pre-V11 behavior of item effects being stored on actor.effects. Use actor.appliedEffects instead for all effects
+  CONFIG.ActiveEffect.legacyTransfer = false;
 
   // Preload Handlebars templates.
   return preloadHandlebarsTemplates();
@@ -105,10 +110,12 @@ Hooks.once('setup', function () {
     effects.push(CONFIG.statusEffects.find(e => e.id === 'invisible'));
   }*/
 
+  // Assign Afflictions to token HUD
   CONFIG.statusEffects = effects;
 
   // Set active effect keys-labels
-  //WWActiveEffectConfig.initializeChangeKeys();
+  WWActiveEffectConfig.initializeChangeKeys()
+  
 });
 
 console.log('weirdwizard.mjs loaded.')

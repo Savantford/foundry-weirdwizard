@@ -6,7 +6,7 @@
  export const preloadHandlebarsTemplates = async function() {
   return loadTemplates([
 
-    // Actor partials.
+    // Actor partials
     // Character
     "systems/weirdwizard/templates/actors/parts/Character-summary.hbs",
     "systems/weirdwizard/templates/actors/parts/Character-stats.hbs",
@@ -18,7 +18,11 @@
 
     // NPC
     "systems/weirdwizard/templates/actors/parts/NPC-summary.hbs",
-    "systems/weirdwizard/templates/actors/parts/NPC-stats.hbs"
+    "systems/weirdwizard/templates/actors/parts/NPC-stats.hbs",
+
+    // Item partials
+    "systems/weirdwizard/templates/items/parts/item-settings.hbs",
+    "systems/weirdwizard/templates/items/parts/item-effects.hbs"
 
   ]);
 };

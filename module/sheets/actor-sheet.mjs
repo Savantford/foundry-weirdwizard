@@ -1,11 +1,9 @@
 import { i18n, plusify } from '../helpers/utils.mjs'
-import { defenseDetails } from './apps/defense-details.mjs'
 import { healthDetails } from './apps/health-details.mjs'
 import { rollAttribute } from './apps/roll-attribute.mjs'
 import { rollDamage } from './apps/roll-damage.mjs'
 import { onManageActiveEffect, prepareActiveEffectCategories } from '../active-effects/effects.mjs';
 import { WWAfflictions } from '../active-effects/afflictions.mjs';
-
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -94,6 +92,9 @@ export class WeirdWizardActorSheet extends ActorSheet {
     // Prepare active effects
     context.effects = prepareActiveEffectCategories(this.actor.effects);
 
+    // Prepare effect change key-labels
+    context.effectChangeKeys = CONFIG.WW.effectChangeKeys;
+
     return context;
   }
 
@@ -123,7 +124,9 @@ export class WeirdWizardActorSheet extends ActorSheet {
       i.img = i.img || DEFAULT_TOKEN;
       
       // Assign attributeLabel for template use
-      if (i.system.attribute) {
+      if (i.system.attribute == 'luck') {
+        i.system.attributeLabel = i18n('WW.Luck') + ' (+0)';
+      } else if (i.system.attribute) {
         const attribute = context.system.attributes[i.system.attribute];
         i.system.attributeLabel = attribute.name + ' (' + plusify(attribute.mod) + ')'
       }
@@ -260,7 +263,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
       let system = this.object.system;
       let label = '';
       let content = '';
-      let attribute = '';
+      let attKey = '';
       let fixedBoons = 0;
       
       if ($(ev.currentTarget).hasClass('item-roll')) { // If it is a roll from an item.
@@ -277,7 +280,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
         if (this.actor.type == 'Character') content = item.system.description.value;
         
         if (this.actor.system.attributes[item.system.attribute]) {
-          attribute = this.actor.system.attributes[item.system.attribute];
+          attKey = item.system.attribute;
         }
 
       }
@@ -285,28 +288,28 @@ export class WeirdWizardActorSheet extends ActorSheet {
       // If the clicked element has a data-label, use it to determine the mod and label
       switch (ev.target.getAttribute('data-label')) {
         case 'Strength': {
-          label = system.attributes.str.name;
-          attribute = system.attributes.str;
+          label = i18n('WW.Strength');
+          attKey = 'str';
           break;
         }
         case 'Agility': {
-          label = system.attributes.agi.name;
-          attribute = system.attributes.agi;
+          label = i18n('WW.Agility');
+          attKey = 'agi';
           break;
         }
         case 'Intellect': {
-          label = system.attributes.int.name;
-          attribute = system.attributes.int;
+          label = i18n('WW.Intellect');
+          attKey = 'int';
           break;
         }
         case 'Will': {
-          label = system.attributes.wil.name;
-          attribute = system.attributes.wil;
+          label = i18n('WW.Will');
+          attKey = 'wil';
           break;
         }
         case 'Luck': {
           label = i18n('WW.Luck');
-          attribute = system.attributes.luck;
+          attKey = 'luck';
           break;
         }
       }
@@ -316,7 +319,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
         target: ev,
         label: label,
         content: content,
-        attribute: attribute,
+        attKey: attKey,
         fixedBoons: fixedBoons
       }
 
@@ -370,11 +373,6 @@ export class WeirdWizardActorSheet extends ActorSheet {
     // Edit Health button
     html.find('.health-edit').click(ev => {
       new healthDetails(this.actor).render(true)
-    });
-
-    // Edit Defense button
-    html.find('.defense-edit').click(ev => {
-      new defenseDetails(this.actor).render(true)
     });
 
     //////////////// ITEMS ///////////////////
@@ -436,6 +434,8 @@ export class WeirdWizardActorSheet extends ActorSheet {
         content: item.system.description.value
       })
     });
+
+    ////////////////// EFFECTS ////////////////////
 
     // Active Effect management
     html.find('.effect-control').click(ev => onManageActiveEffect(ev, this.actor));

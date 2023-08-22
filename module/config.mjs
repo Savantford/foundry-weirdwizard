@@ -1,3 +1,5 @@
+//import { i18n } from './helpers/utils.mjs';
+
 export const WW = {}
 
 // Define Constants
@@ -103,9 +105,9 @@ WW.dropdownGrip = {
 };
 
 WW.armorTypes = {
-  "light": "WW.Light",
-  "medium": "WW.Medium",
-  "heavy": "WW.Heavy"
+  "light": "WW.Armor.Light",
+  "medium": "WW.Armor.Medium",
+  "heavy": "WW.Armor.Heavy"
 }
 
 WW.armor = {

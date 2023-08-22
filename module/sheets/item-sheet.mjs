@@ -5,6 +5,8 @@
  * @extends {ItemSheet}
 */
 
+import { onManageActiveEffect, prepareActiveEffectCategories } from '../active-effects/effects.mjs';
+
 export class WeirdWizardItemSheet extends ItemSheet {
 
   /** @override */
@@ -80,6 +82,12 @@ export class WeirdWizardItemSheet extends ItemSheet {
       
     }
 
+    // Prepare active effects
+    context.effects = prepareActiveEffectCategories(this.object.effects);
+
+    // Prepare effect change key-labels
+    context.effectChangeKeys = CONFIG.WW.effectChangeKeys;
+
     return context;
   }
 
@@ -103,39 +111,9 @@ export class WeirdWizardItemSheet extends ItemSheet {
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return;
 
-    /*html.find('.rollable').click(ev => { //this._onRoll.bind(this) NOT NEEDED
-      // Define variables to be used
-      let label = '';
-      let mod = '';
-      let fixed = '';
-      let system = this.object.system;
-      //html.find('.rollable')
+    ////////////////// EFFECTS ////////////////////
 
-      // If the clicked element has a data-label, use it to determine the mod and label
-      switch (ev.target.getAttribute('data-label')) {
-        case 'Strength': {
-          mod = system.attributes.str.mod;
-          label = system.attributes.str.name;
-          break;
-        }
-        case 'Agility': {
-          mod = system.attributes.agi.mod;
-          label = system.attributes.agi.name;
-          break;
-        }
-        case 'Intellect': {
-          mod = system.attributes.int.mod;
-          label = system.attributes.int.name;
-          break;
-        }
-        case 'Will': {
-          mod = system.attributes.wil.mod;
-          label = system.attributes.wil.name;
-          break;
-        }
-      }
-
-      new rollAttribute(this.actor, ev, label, mod, fixed).render(true)
-    });*/
+    // Active Effect management
+    html.find('.effect-control').click(ev => onManageActiveEffect(ev, this.object));
   }
 }

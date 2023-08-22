@@ -1,0 +1,24 @@
+<h2>{{localize "WW.Settings"}}</h2>
+
+<div class="flex-row stat-inline">
+    {{localize "WW.Boons.AlwaysRoll"}}
+    <select class="mx-1" name="system.attribute">
+        {{selectOptions attributesObj selected=system.attribute localize=true}}
+    </select>
+    {{localize "WW.Boons.With"}}
+    <input class="mx-1" type="number" name="system.boons" value="{{system.boons}}" placeholder="0"
+        data-dtype="Number" />
+    {{localize "WW.Boons.Or"}}
+</div>
+
+{{#if (ne system.subtype 'weapon')}}
+<div class="flex-row stat-inline">
+    <label class="">{{localize "WW.Damage.Title"}}</label>
+    <input type="text" name="system.damage" value="{{system.damage}}" placeholder="1d6"
+        style="width: 75px; text-align: center;" data-dtype="String" />
+
+    <label class="ml-2">{{localize "WW.Healing"}}</label>
+    <input type="text" name="system.healing" value="{{system.healing}}" placeholder="1d6"
+        style="width: 75px; text-align: center;" data-dtype="String" />
+</div>
+{{/if}}

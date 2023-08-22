@@ -55,6 +55,16 @@
         <label>{{localize "WW.UsesEquipment"}}</label>
         <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="0" data-dtype="Number" />
       </div>
+
+      {{!-- Armor Type --}}
+      {{#if (eq system.subtype 'armor')}} 
+      <div>
+        <label>{{localize "WW.Armor.Type"}}</label>
+        <select name="system.armorType">
+          {{selectOptions armorObj selected=system.armorType localize=true}}
+        </select>
+      </div>
+      {{/if}}
   
     </div>
 
@@ -93,43 +103,11 @@
     </div>
     {{/if}}
 
-    {{#if (eq system.subtype 'armor')}} {{!-- Armor Params --}}
-    <div>
-      <h2>{{localize "WW.Armor.Details"}}</h2>
-      <div class="mt-2 flex-row stat-inline flex-group-left">
-
-        {{!-- Armor Type --}}
-        <label class="">{{localize "WW.Type"}}</label>
-        <select class="ml-1" name="system.armorType">
-          {{selectOptions armorObj selected=system.armorType localize=true}}
-        </select>
-
-        {{!-- Defense --}}
-        <label class="ml-2">{{localize "WW.Defense"}}</label>
-        <input type="number" name="system.defense" value="{{system.defense}}" min="10" data-dtype="Number"/>
-
-        {{!-- Natural Defense Bonus --}}
-        <label class="ml-2">{{localize "WW.DefenseBonus"}}</label>
-        <input type="number" name="system.defenseBonus" value="{{system.defenseBonus}}" min="0" data-dtype="Number"/>
-
-      </div>
-    </div>
-    {{/if}}
-
     <h2>{{localize "WW.Description"}}</h2>
     {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
 
-    <h2>{{localize "WW.Settings"}}</h2>
-    <div class="flex-row stat-inline flex-group-left">
-      {{localize "WW.Boons.AlwaysRoll"}}
-      <select class="mx-1" name="system.attribute">
-        {{selectOptions attributesObj selected=system.attribute localize=true}}
-      </select>
-      {{localize "WW.Boons.With"}}
-      <input class="mx-1" type="number" name="system.boons" value="{{system.boons}}" placeholder="0"
-        data-dtype="Number" />
-      {{localize "WW.Boons.Or"}}
-    </div>
+    {{> "systems/weirdwizard/templates/items/parts/item-settings.hbs"}}
+    {{> "systems/weirdwizard/templates/items/parts/item-effects.hbs"}}
 
   </section>
 </form>

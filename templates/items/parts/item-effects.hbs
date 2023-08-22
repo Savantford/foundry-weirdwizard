@@ -1,0 +1,50 @@
+<h2>{{localize "WW.Effects"}}</h2>
+
+<ol class="item-list effects-list">
+    {{#each effects as |section sid|}}
+    {{#if (ne section.type 'inactive')}}
+    <li class="item items-header flexrow" data-effect-type="{{section.type}}">
+        <div class="item-image"></div>
+        <div class="item-name">{{localize section.name}}</div>
+        <div class="effect-changes">Changes</div>
+        <div class="item-controls itemeffect-controls flexrow">
+            <a class="effect-control" data-action="create" title="{{localize 'WW.EffectCreate'}}">
+                <i class="fas fa-plus"></i> {{localize "WW.Add"}}
+            </a>
+        </div>
+    </li>
+
+    <ol class="item-list">
+        
+        {{#each section.effects as |effect|}}
+        <li class="item effect flexrow" data-effect-id="{{effect.id}}">
+            <div class="item-image">
+                <img src="{{effect.icon}}" width="24" height="24" />
+            </div>
+            <div class="item-name">{{effect.name}}</div>
+            
+            <div class="effect-changes mb-1">
+                {{#each effect.changes as |change|}}
+                <div class="nowrap">
+                    {{lookup ../../../effectChangeKeys change.key}} 
+                    {{#if (eq change.mode 1)}}× {{change.value}}
+                    {{else if (eq change.mode 2)}}{{numberFormat change.value decimals=0 sign=true}}
+                    {{else}}= {{change.value}}
+                    {{/if}}
+                </div>
+                {{/each}}
+            </div>
+            <div class="item-controls itemeffect-controls flexrow">
+                <a class="effect-control" data-action="edit" title="{{localize 'WW.EffectEdit'}}">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a class="effect-control" data-action="delete" title="{{localize 'WW.EffectDelete'}}">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </div>
+        </li>
+        {{/each}}
+    </ol>
+    {{/if}}
+    {{/each}}
+</ol>
