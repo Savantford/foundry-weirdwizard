@@ -506,7 +506,7 @@
   font-weight: bold;
   text-transform: uppercase;
 }
-.weirdwizard .sheet-tabs .item {
+.weirdwizard .sheet-tabs .item, .weirdwizard .nowrap {
   white-space: nowrap;
 }
 
@@ -655,6 +655,17 @@ input[type="checkbox"].checkbox-reloaded {
   text-align: center;
   margin: 0 6px;
 }
+
+.weirdwizard .effect-changes {
+  flex: 3;
+}
+.weirdwizard .effect-controls {
+  flex: 0 0 70px;
+}
+.weirdwizard .effect-controls a {
+  margin: 0;
+}
+
 .weirdwizard .pip-box {
   background-color: var(--highlight);
   padding: 0 3px;
@@ -796,11 +807,6 @@ input[type="checkbox"].checkbox-reloaded {
 }
 .weirdwizard .detail label {
   font-weight: bold;
-}
-
-.weirdwizard .effects .item .effect-controls {
-  border: none;
-  flex: 0 0 80px;
 }
 
 .weirdwizard .effect img {

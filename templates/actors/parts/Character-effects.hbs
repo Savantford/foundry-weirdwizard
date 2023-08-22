@@ -80,8 +80,9 @@
     <li class="item items-header flexrow" data-effect-type="{{section.type}}">
       <div class="item-image"></div>
       <div class="item-name">{{localize section.name}}</div>
+      <div class="effect-changes">Changes</div>
+      <div class="effect-duration">Duration</div>
       <div class="effect-source">Source</div>
-      <div class="effect-source">Duration</div>
       <div class="item-controls effect-controls flexrow">
         <a class="effect-control" data-action="create" title="{{localize 'WW.EffectCreate'}}">
           <i class="fas fa-plus"></i> {{localize "WW.Add"}}
@@ -96,8 +97,21 @@
           <img src="{{effect.icon}}" width="24" height="24"/>
         </div>
         <div class="item-name">{{effect.name}}</div>
-        <div class="effect-source">{{effect.sourceName}}</div>
+
+        <div class="effect-changes mb-1">
+          {{#each effect.changes as |change|}}
+            <div class="nowrap">
+              {{lookup ../../../effectChangeKeys change.key}} 
+              {{#if (eq change.mode 1)}}× {{change.value}}
+              {{else if (eq change.mode 2)}}{{numberFormat change.value decimals=0 sign=true}}
+              {{else}}= {{change.value}}
+              {{/if}}
+            </div>
+          {{/each}}
+        </div>
+        
         <div class="effect-duration">{{effect.duration.name}}</div>
+        <div class="effect-source">{{effect.sourceName}}</div>
         <div class="item-controls effect-controls flexrow">
           <a class="effect-control" data-action="toggle" title="{{localize 'WW.EffectToggle'}}">
             <i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>

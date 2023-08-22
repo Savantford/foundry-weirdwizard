@@ -10,16 +10,19 @@ export class rollAttribute extends FormApplication {
     super(); // This is required for the constructor to work
     this.component = obj.target; // Assign HTML component
     this.system = obj.actor.system; // Assign actor data
+    const attKey = obj.attKey;
 
     // Assign label, name and fixed boons/banes
     this.label = obj.label;
     this.content = obj.content;
-    this.name = obj.attribute.name;
-    this.effectBoonsGlobal = obj.attribute.boons?.global ? obj.attribute.boons.global : 0;
+    this.name = attKey == 'luck' ? 'Luck' : this.system.attributes[attKey].name;
+    this.effectBoonsGlobal = this.system.boons.attributes[attKey].global ?
+      this.system.boons.attributes[attKey].global : 0;
     this.fixedBoons = obj.fixedBoons ? obj.fixedBoons : 0;
 
     // Assign mod
-    this.mod = obj.attribute.mod ? plusify(obj.attribute.mod) : 0; // If undefined, set it to 0
+    this.mod = this.system.attributes[attKey]?.mod ?
+      plusify(this.system.attributes[attKey].mod) : 0; // If undefined, set it to 0
   }
 
   static get defaultOptions() {
@@ -61,7 +64,7 @@ export class rollAttribute extends FormApplication {
     const effectBoons = this.effectBoonsGlobal; // Conditional boons should be added here later
 
     let att = '1d20 + 0';
-    if (name) att = name + " (" + mod + ")"
+    if (name) att = name + " (" + plusify(mod) + ")"
 
     function updateFields(ev) { // Update html fields
       const parent = ev.target.closest('.boons-details');

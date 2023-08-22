@@ -91,7 +91,6 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
       e.dlRemaining = e.duration.label
     }*/
 
-
     if (e.disabled) categories.inactive.effects.push(e)
     else if (e.isTemporary) categories.temporary.effects.push(e)
     else categories.passive.effects.push(e)

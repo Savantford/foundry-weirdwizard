@@ -9,7 +9,7 @@ export class WeirdWizardActor extends Actor {
     prepareData() {
         // Prepare data for the actor. Calling the super version of this executes
         // the following, in order: data reset (to clear active effects),
-        // prepareBaseData(), prepareEmbeddedDocuments() (including active effects),
+        // prepareBaseData(), prepareEmbeddedDocuments(),
         // prepareDerivedData().
         super.prepareData();
     }
@@ -17,29 +17,39 @@ export class WeirdWizardActor extends Actor {
     /** @override */
     prepareBaseData() {
         // Data modifications in this step occur before processing embedded
-        // documents or derived data.
+        // documents (including active effects) or derived data.
         super.prepareBaseData();
 
-        // Create attribute boons variables
-        const attributes = this.system.attributes;
+        // Create boons variables
+        this.system.boons = {
+            attributes: {
+                luck: {
+                    global: 0,
+                    conditional: 0
+                }
+            },
+            attacks: {
+                global: 0,
+                conditional: 0
+            }
+        };
+
+        // Attributes
+        const attributes = this.system.boons.attributes;
 
         ['str', 'agi', 'int', 'wil'].forEach(function (attribute){
-            attributes[attribute].boons = {
+            attributes[attribute] = {
                 global: 0,
                 conditional: 0
             }
         })
 
-        attributes.luck = {
-            boons: {
-                global: 0,
-                conditional: 0
-            }
-        }
-
         // Make a copy of the raw Speed value to use in Active Effects later
         this.system.stats.speed.raw = this.system.stats.speed.value;
 
+        // Reset Natural Defense and Defense before Active Effects
+        this.system.stats.defense.natural = 10;
+        this.system.stats.defense.total = 0;
     }
 
     async _preCreate(data, options, user) {
@@ -152,32 +162,12 @@ export class WeirdWizardActor extends Actor {
         // Assign Health as Max Damage
         system.stats.damage.max = system.stats.health.total;
 
-        ///////// DEFENSE ///////////
-
         // Calculate total Defense
-        const defense = system.stats.defense
-        const equipped = CONFIG.WW.armor[defense.armor]
-        let armorTotal = defense.natural;
-
-        // Select the higher Defense value from Armor flat Defense or Armor Bonus and assign to armorTotal.
-        if (equipped.def) {
-
-            if ((defense.natural + equipped.bonus) > equipped.def) {
-                armorTotal = defense.natural + equipped.bonus;
-            } else {
-                armorTotal = equipped.def;
-            };
-            
+        const defense = system.stats.defense;
+        
+        if ((defense.natural) > defense.total) {
+            defense.total = defense.natural;
         };
-
-        // Add Defense bonuses to armorTotal to get defense total.
-        const defBonuses = CONFIG.Global.sum(defense.bonuses.map(i => i.bonus));
-
-        if (defBonuses != 0) {
-            system.stats.defense.total = armorTotal + defBonuses;
-        } else {
-            system.stats.defense.total = armorTotal;
-        }
     }
 
     /**
@@ -186,8 +176,6 @@ export class WeirdWizardActor extends Actor {
 
     _prepareNpcData(system) {
         if (this.type !== 'NPC') return;
-
-        
     }
 
     /**

@@ -6,7 +6,12 @@
     "WW.Agility": "Agility",
     "WW.Intellect": "Intellect",
     "WW.Will": "Will",
+    "WW.StrengthScore": "Strength Score",
+    "WW.AgilityScore": "Agility Score",
+    "WW.IntellectScore": "Intellect Score",
+    "WW.WillScore": "Will Score",
     "WW.Luck": "Luck",
+
     "WW.Dont": "Don't Roll",
 
     "WW.Stats": "Stats",
@@ -21,6 +26,7 @@
     "WW.ImmunePH": "poisoned",
     "WW.Size": "Size",
     "WW.Speed": "Speed",
+    "WW.SpeedScore": "Speed Score",
     "WW.SpeedPH": "fly",
     "WW.SpeedTip": "special form of movement",
     "WW.Damage": {
@@ -36,6 +42,7 @@
 
     "WW.Health": {
         "Title": "Health",
+        "Score": "Health Score",
         "Total": "Health Total",
         "Starting": "Starting Health",
         "Per": "Health gained per each",
@@ -47,10 +54,20 @@
     },
     "WW.LevelAt": "At Level",
 
-    "WW.Defense": "Defense",
+    "WW.Defense": {
+        "Title": "Defense",
+        "Score": "Defense Score",
+        "Total": "Defense Total",
+        "Natural": "Natural Defense",
+        "Details": "(armor, if any, shield, if any)"
+    },
+
     "WW.Armor": {
-        "Details": "Armor Details",
         "Title": "Armor",
+        "Type": "Armor Type",
+        "Light": "Light",
+        "Medium": "Medium",
+        "Heavy": "Heavy",
         "Unarmored": "Unarmored",
         "Padded": "Padded Armor",
         "Leather": "Leather Armor",
@@ -62,14 +79,7 @@
         "Plate": "Plate Armor",
         "FullPlate": "Full Plate Armor"
     },
-    "WW.Light": "Light",
-    "WW.Medium": "Medium",
-    "WW.Heavy": "Heavy",
-    "WW.DefenseTotal": "Defense Total",
-    "WW.DefenseNatural": "Natural Defense",
-    "WW.DefenseDetails": "(armor, if any, shield, if any)",
-    "WW.DefenseBonus": "Natural Defense Bonus",
-    "WW.ModName": "Modifier Name",
+    
     "WW.Value": "Value",
     "WW.New": "New",
     "WW.Remove": "Remove",

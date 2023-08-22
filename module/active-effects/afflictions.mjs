@@ -60,10 +60,10 @@ export class WWAfflictions {
     const effectsDataList = [];
 
     const baneAllAttributes = function(v) { return [
-      addEffect('system.attributes.str.boons.global', v, effectPriority),
-      addEffect('system.attributes.agi.boons.global', v, effectPriority),
-      addEffect('system.attributes.int.boons.global', v, effectPriority),
-      addEffect('system.attributes.wil.boons.global', v, effectPriority)
+      addEffect('system.boons.attributes.str.global', v, effectPriority),
+      addEffect('system.boons.attributes.agi.global', v, effectPriority),
+      addEffect('system.boons.attributes.int.global', v, effectPriority),
+      addEffect('system.boons.attributes.wil.global', v, effectPriority)
     ];}
 
 
@@ -87,8 +87,8 @@ export class WWAfflictions {
       'Confused',
       'icons/svg/stoned.svg',
       [
-        addEffect('system.attributes.int.boons.global', -1, effectPriority),
-        addEffect('system.attributes.wil.boons.global', -1, effectPriority)
+        addEffect('system.boons.attributes.int.global', -1, effectPriority),
+        addEffect('system.boons.attributes.wil.global', -1, effectPriority)
         // Cannot use reactions
       ]
     ));
@@ -104,7 +104,7 @@ export class WWAfflictions {
     effectsDataList.push(_buildBaseAffliction(
       'Cursed',
       'icons/svg/ruins.svg',
-      [addEffect('system.attributes.luck.boons.global', -1, effectPriority)]
+      [addEffect('system.boons.attributes.luck.global', -1, effectPriority)]
     ));
 
     // Deafened
@@ -132,7 +132,7 @@ export class WWAfflictions {
       _buildBaseAffliction(
         'ImpairedStr',
         'icons/svg/bones.svg',
-        [addEffect('system.attributes.str.boons.global', -1, effectPriority)]
+        [addEffect('system.boons.attributes.str.global', -1, effectPriority)]
       ),
     );
 
@@ -141,7 +141,7 @@ export class WWAfflictions {
       _buildBaseAffliction(
         'ImpairedAgi',
         'icons/svg/anchor.svg',
-        [addEffect('system.attributes.agi.boons.global', -1, effectPriority)]
+        [addEffect('system.boons.attributes.agi.global', -1, effectPriority)]
       ),
     );
 
@@ -150,7 +150,7 @@ export class WWAfflictions {
       _buildBaseAffliction(
         'ImpairedInt',
         'icons/svg/light-off.svg',
-        [addEffect('system.attributes.int.boons.global', -1, effectPriority)]
+        [addEffect('system.boons.attributes.int.global', -1, effectPriority)]
       ),
     );
 
@@ -159,7 +159,7 @@ export class WWAfflictions {
       _buildBaseAffliction(
         'ImpairedWil',
         'icons/svg/invisible.svg',
-        [addEffect('system.attributes.wil.boons.global', -1, effectPriority)]
+        [addEffect('system.boons.attributes.wil.global', -1, effectPriority)]
       ),
     );
 
@@ -249,8 +249,8 @@ export class WWAfflictions {
       'Weakened',
       'icons/svg/downgrade.svg',
       [
-        addEffect('system.attributes.str.boons.global', -1, effectPriority),
-        addEffect('system.attributes.agi.boons.global', -1, effectPriority),
+        addEffect('system.boons.attributes.str.global', -1, effectPriority),
+        addEffect('system.boons.attributes.agi.global', -1, effectPriority),
         multiplyEffect('system.stats.speed.value', 0.5, effectPriority)
       ]
     ));
