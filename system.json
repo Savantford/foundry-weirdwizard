@@ -28,12 +28,6 @@
       "name": "English",
       "path": "lang/en.json",
       "flags": {}
-    },
-    {
-      "lang": "pt",
-      "name": "Português (Brasil)",
-      "path": "lang/pt.json",
-      "flags": {}
     }
   ],
   "packs": [

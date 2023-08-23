@@ -268,8 +268,9 @@
   border-bottom: 3px double black;
   font-family: var(--font-title);
   font-size: 24px;
-  padding-bottom: 2px;
   text-transform: uppercase;
+  padding-bottom: 2px;
+  margin-top: 5px;
 }
 
 .weirdwizard .window-content h3 {
@@ -532,7 +533,9 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 5px;
+}
+.weirdwizard .justify-between {
+  justify-content: space-between;
 }
 
 .weirdwizard .stat-inline, .stat-stretch {
@@ -884,21 +887,28 @@ input[type="checkbox"].checkbox-reloaded {
 
 /* Affliction Tab */
 
-.dl-item-row-header, .affliction {
+.dl-item-row-header, .selectable {
   background: #00000005;
   border-radius: 2px;
   border: 1px solid #0000001a;
 }
 
-.affliction {
+.selectable {
   border-radius: 4px;
   box-sizing: content-box;
   padding: 2px;
-  padding-right: 6px;
   height: 16px;
   position: relative;
   display: inline-flex !important;
   width: fit-content;
+}
+.affliction.selectable {
+  padding-right: 6px;
+}
+.selectable input[type=number] {
+  pointer-events: none !important;
+  margin-left: 5px !important;
+  cursor: default !important;
 }
 .affliction i {
   width: 16px;
@@ -919,30 +929,30 @@ input[type="checkbox"].checkbox-reloaded {
   padding-left: 2px;
   margin-left: 2px;
 }
-.affliction:not(.nohover):hover, .affliction:not(.nohover):hover span {
+.selectable:not(.nohover):hover, .selectable:not(.nohover):hover span {
   border-color: dimgray;
   cursor: pointer;
 }
-.affliction.selectable input[type=checkbox] {
+/*.affliction*/.selectable input[type=checkbox] {
   position: absolute;
   width: 100%;
   height: 100%;
-  opacity: 0;
+  opacity: 0; /* Hide the checkbox */
 }
-.affliction.selectable input[type=checkbox]:hover {
+/*.affliction*/.selectable input[type=checkbox]:hover {
   cursor: pointer;
 }
-.affliction.selectable:not(.selected) {
+/*.affliction*/.selectable:not(.selected) {
   color: gray;
 }
-.affliction.selectable:not(.selected) i {
+/*.affliction*/.selectable:not(.selected) i {
   background-color: gray;
 }
-.affliction.selectable.selected, .affliction.selectable.selected .sep {
+/*.affliction*/.selectable.selected, /*.affliction*/.selectable.selected .sep {
   border-color: var(--highlight-title);
   background-color: var(--highlight);
 }
-.affliction input {
+.selectable input {
   text-align: center !important;
   margin: 0 !important;
   height: 100% !important;
@@ -950,17 +960,14 @@ input[type="checkbox"].checkbox-reloaded {
   color: black !important;
 }
 
-.affliction input:hover, .affliction input:focus {
+.selectable input:hover, .selectable input:focus {
   cursor: text;
   box-shadow: 0 0 2px 1px var(--color-shadow-primary) !important;
   background-color: transparent !important;
   padding: 0 !important;
   border: 1px solid transparent !important;
 }
-.affliction input:last-child {
-  margin-right: -4px !important;
-}
-.affliction.nohover:hover {
+.selectable.nohover:hover {
   cursor: default;
 }
 

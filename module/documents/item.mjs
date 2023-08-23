@@ -12,9 +12,9 @@ export class WeirdWizardItem extends Item {
     super.prepareData();
 
     // Get the Item's data
-    const itemData = this.system;
+    const system = this.system;
     const actorData = this.actor ? this.actor.system : {};
-    const system = itemData;
+    
   }
 
   async _preCreate(data, options, user) {
