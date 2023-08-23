@@ -212,10 +212,99 @@
     "WW.GripOne": "One-Handed",
     "WW.GripTwo": "Two-Handed",
     "WW.GripOff": "Off-Hand",
-    "WW.Range": "Range",
-    "WW.Properties": "Properties",
-    "WW.PropertiesPH": "Brutal, Keen, etc",
-    "WW.Reload": "Reload",
+
+    "WW.Properties": {
+        "Title": "Properties",
+        "PH": "Brutal, Sharp, etc",
+        "Ammunition": {
+            "Label": "Ammunition",
+            "Tip": "Tooltip"
+        },
+        "Brutal": {
+            "Label": "Brutal",
+            "Tip": "Tooltip"
+        },
+        "Concussing": {
+            "Label": "Concussing",
+            "Tip": "Tooltip"
+        },
+        "Disarming": {
+            "Label": "Disarming",
+            "Tip": "Tooltip"
+        },
+        "Driving": {
+            "Label": "Driving",
+            "Tip": "Tooltip"
+        },
+        "Fast": {
+            "Label": "Fast",
+            "Tip": "Tooltip"
+        },
+        "Firearm": {
+            "Label": "Firearm",
+            "Tip": "Tooltip"
+        },
+        "Great": {
+            "Label": "Great",
+            "Tip": "Tooltip"
+        },
+        "Light": {
+            "Label": "Light",
+            "Tip": "Tooltip"
+        },
+        "Long": {
+            "Label": "Long",
+            "Tip": "Tooltip"
+        },
+        "Nimble": {
+            "Label": "Nimble",
+            "Tip": "Tooltip"
+        },
+        "Painful": {
+            "Label": "Painful",
+            "Tip": "Tooltip"
+        },
+        "Precise": {
+            "Label": "Precise",
+            "Tip": "Tooltip"
+        },
+        "Range": {
+            "Label": "Range",
+            "Tip": "Tooltip"
+        },
+        "Reload": {
+            "Label": "Reload",
+            "Tip": "Tooltip"
+        },
+        "Sharp": {
+            "Label": "Sharp",
+            "Tip": "Tooltip"
+        },
+        "Shattering": {
+            "Label": "Shattering",
+            "Tip": "Tooltip"
+        },
+        "Slow": {
+            "Label": "Slow",
+            "Tip": "Tooltip"
+        },
+        "Special": {
+            "Label": "Special",
+            "Tip": "Tooltip"
+        },
+        "Thrown": {
+            "Label": "Thrown",
+            "Tip": "Tooltip"
+        },
+        "Unbalancing": {
+            "Label": "Unbalancing",
+            "Tip": "Tooltip"
+        },
+        "Versatile": {
+            "Label": "Versatile",
+            "Tip": "Tooltip"
+        }
+    },
 
     "WW.Effects": "Effects",
     "WW.EffectsAll": "All Effects",

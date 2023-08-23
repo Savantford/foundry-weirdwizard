@@ -98,10 +98,123 @@ WW.itemQualities = {
   "inferior": "WW.QualityInferior"
 };
 
-WW.dropdownGrip = {
+WW.weaponGrip = {
   "One": "WW.GripOne",
   "Two": "WW.GripTwo",
   "Off": "WW.GripOff"
+};
+
+WW.weaponProperties = {
+  "ammunition": {
+    "label": "WW.Properties.Ammunition.Label",
+    "tip": "WW.Properties.Ammunition.Tip",
+    "path": "system.properties.ammunition",
+  },
+  "brutal": {
+    "label": "WW.Properties.Brutal.Label",
+    "tip": "WW.Properties.Brutal.Tip",
+    "path": "system.properties.brutal",
+  },
+  "concussing": {
+    "label": "WW.Properties.Concussing.Label",
+    "tip": "WW.Properties.Concussing.Tip",
+    "path": "system.properties.concussing",
+  },
+  "disarming": {
+    "label": "WW.Properties.Disarming.Label",
+    "tip": "WW.Properties.Disarming.Tip",
+    "path": "system.properties.disarming",
+  },
+  "driving": {
+    "label": "WW.Properties.Driving.Label",
+    "tip": "WW.Properties.Driving.Tip",
+    "path": "system.properties.driving",
+  },
+  "fast": {
+    "label": "WW.Properties.Fast.Label",
+    "tip": "WW.Properties.Fast.Tip",
+    "path": "system.properties.fast",
+  },
+  "firearm": {
+    "label": "WW.Properties.Firearm.Label",
+    "tip": "WW.Properties.Firearm.Tip",
+    "path": "system.properties.firearm",
+  },
+  "great": {
+    "label": "WW.Properties.Great.Label",
+    "tip": "WW.Properties.Great.Tip",
+    "path": "system.properties.great",
+  },
+  "light": {
+    "label": "WW.Properties.Light.Label",
+    "tip": "WW.Properties.Light.Tip",
+    "path": "system.properties.light",
+  },
+  "long": {
+    "label": "WW.Properties.Long.Label",
+    "tip": "WW.Properties.Long.Tip",
+    "path": "system.properties.long",
+  },
+  "nimble": {
+    "label": "WW.Properties.Nimble.Label",
+    "tip": "WW.Properties.Nimble.Tip",
+    "path": "system.properties.nimble",
+  },
+  "painful": {
+    "label": "WW.Properties.Painful.Label",
+    "tip": "WW.Properties.Painful.Tip",
+    "path": "system.properties.painful",
+  },
+  "precise": {
+    "label": "WW.Properties.Precise.Label",
+    "tip": "WW.Properties.Precise.Tip",
+    "path": "system.properties.precise",
+  },
+  "range": {
+    "label": "WW.Properties.Range.Label",
+    "tip": "WW.Properties.Range.Tip",
+    "path": "system.properties.range",
+  },
+  "reload": {
+    "label": "WW.Properties.Reload.Label",
+    "tip": "WW.Properties.Reload.Tip",
+    "path": "system.properties.reload"
+  },
+  "sharp": {
+    "label": "WW.Properties.Sharp.Label",
+    "tip": "WW.Properties.Sharp.Tip",
+    "path": "system.properties.sharp",
+  },
+  "shattering": {
+    "label": "WW.Properties.Shattering.Label",
+    "tip": "WW.Properties.Shattering.Tip",
+    "path": "system.properties.shattering",
+  },
+  "slow": {
+    "label": "WW.Properties.Slow.Label",
+    "tip": "WW.Properties.Slow.Tip",
+    "path": "system.properties.slow",
+  },
+  "special": {
+    "label": "WW.Properties.Special.Label",
+    "tip": "WW.Properties.Special.Tip",
+    "path": "system.properties.special",
+  },
+  "thrown": {
+    "label": "WW.Properties.Thrown.Label",
+    "tip": "WW.Properties.Thrown.Tip",
+    "path": "system.properties.thrown",
+  },
+  "unbalancing": {
+    "label": "WW.Properties.Unbalancing.Label",
+    "tip": "WW.Properties.Unbalancing.Tip",
+    "path": "system.properties.unbalancing",
+  },
+  "versatile": {
+    "label": "WW.Properties.Versatile.Label",
+    "tip": "WW.Properties.Versatile.Tip",
+    "path": "system.properties.versatile",
+  }
 };
 
 WW.armorTypes = {

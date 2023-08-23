@@ -68,38 +68,47 @@
   
     </div>
 
-    {{#if (eq system.subtype 'weapon')}} {{!-- Weapon Params --}}
+    {{!-- Weapon Params --}}
+    {{#if (eq system.subtype 'weapon')}}
     <div>
       <h2>{{localize "WW.WeaponDetails"}}</h2>
+
       <div class="mt-2 flex-row stat-inline flex-group-left">
-          <label class="">{{localize "WW.Damage.Title"}}</label>
-          <input type="text" name="system.damage" value="{{system.damage}}" placeholder="1d6" style="width: 75px; text-align: center;" data-dtype="String" />
+        <label class="">{{localize "WW.Damage.Title"}}</label>
+        <input type="text" name="system.damage" value="{{system.damage}}" placeholder="1d6" style="width: 75px; text-align: center;" data-dtype="String" />
 
-          {{!-- Grip --}}
-          <div class="stat-inline flex-group-left">
-            <label class="ml-2">{{localize "WW.Grip"}}</label>
-            <select name="system.grip">
-              {{selectOptions gripObj selected=system.grip localize=true}}
-            </select>
-          </div>
-
-          {{!-- Range --}}
-          <div class="stat-inline flex-group-left">
-            <label class="ml-2">{{localize "WW.Range"}}</label>
-            <input type="number" name="system.range" value="{{system.range}}" min="0" data-dtype="Number"/>
-          </div>
-
-          {{!-- Reload --}}
-          <div class="stat-inline flex-group-left">
-            <label class="ml-2">{{localize "WW.Reload"}}</label>
-            <input type="checkbox" name="system.reload" {{checked system.reload}} />
-          </div>
+        {{!-- Grip --}}
+        <div class="stat-inline flex-group-left">
+          <label class="ml-2">{{localize "WW.Grip"}}</label>
+          
+          <select name="system.grip">
+            {{selectOptions gripObj selected=system.grip localize=true}}
+          </select>
         </div>
-        <div class="flex-row stat-inline">
-          <label class="">{{localize "WW.Properties"}}</label>
-          <input type="text" name="system.properties" value="{{system.properties}}" placeholder="{{localize "WW.PropertiesPH"}}" data-dtype="String" />
-        </div>
+
       </div>
+      
+      {{!-- Weapon Properties --}}
+      <div class="mt-2">
+        <label>{{localize "WW.Properties.Title"}}</label>
+        {{system.propertiesList}}
+      </div>
+
+      <div class="flexrow properties-list">
+        {{#each properties as |property id|}}
+          <div class="nowrap flex-row align-center stat smaller selectable {{#if (lookup @root.system.properties id)}}selected{{/if}}" style="width: 100%" title="{{localize property.tip}}">
+            
+            <input type="checkbox" name="system.properties.{{id}}" {{checked (lookup @root.system.properties id)}}/>
+
+            {{localize property.label}}
+
+            {{#if (or (eq id "range") (eq id "thrown"))}}
+              <input type="number" name="system.range" value="{{system.range}}" min="0" placeholder="#" data-dtype="Number"/>
+            {{/if}}
+          </div>
+        {{/each}}
+      </div>
+
     </div>
     {{/if}}
 

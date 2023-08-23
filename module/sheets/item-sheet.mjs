@@ -36,15 +36,10 @@ export class WeirdWizardItemSheet extends ItemSheet {
     const context = super.getData();
 
     // Use a safe clone of the item data for further operations.
-
     context.system = context.data.system;
 
     // Prepare enriched variables for editor.
     context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true })
-
-    if (context.item.type == 'Talent') {
-
-    }
 
     // Prepare dropdown menu objects.
     switch (context.item.type) {
@@ -54,15 +49,20 @@ export class WeirdWizardItemSheet extends ItemSheet {
         context.coinsObj = CONFIG.WW.coins;
         context.qualitiesObj = CONFIG.WW.itemQualities;
         context.attributesObj = CONFIG.WW.dropdownAttributes;
-        context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
+        //context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
         context.armorObj = CONFIG.WW.armorTypes;
-        context.gripObj = CONFIG.WW.dropdownGrip;
+
+        if (context.system.subtype == 'weapon') {
+          context.gripObj = CONFIG.WW.weaponGrip;
+          context.properties = CONFIG.WW.weaponProperties;
+        }
+
       break;
 
       case 'Trait or Talent':
         context.subtypesObj = CONFIG.WW.dropdownSubtypes;
         context.sourcesObj = CONFIG.WW.talentSources;
-        context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
+        //context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
         context.attributesObj = CONFIG.WW.dropdownAttributes;
       break;
 
@@ -87,7 +87,7 @@ export class WeirdWizardItemSheet extends ItemSheet {
 
     // Prepare effect change key-labels
     context.effectChangeKeys = CONFIG.WW.effectChangeKeys;
-
+    
     return context;
   }
 
@@ -111,9 +111,13 @@ export class WeirdWizardItemSheet extends ItemSheet {
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return;
 
+    const system = this.object.system;
+    
     ////////////////// EFFECTS ////////////////////
 
     // Active Effect management
     html.find('.effect-control').click(ev => onManageActiveEffect(ev, this.object));
+
   }
+
 }

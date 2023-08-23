@@ -106,8 +106,8 @@
                     {{#if item.system.description.value}}<a class="item-scroll" data-tooltip="{{item.system.description.value}}"><i class="far fa-scroll"></i></a>{{/if}}
                     <a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>
                     {{#if item.system.reload}}<input class="checkbox-reloaded" type="checkbox" name="item.system.reloaded" title="Weapon realoded?" {{checked item.system.reloaded}}/>{{/if}} 
-                    ({{item.system.grip}}{{#if item.system.properties}};
-                    {{item.system.properties}}{{/if}}) 
+                    ({{item.system.grip}}{{#if item.system.propertiesList}};
+                    {{item.system.propertiesList}}{{/if}}) 
 
                     {{item.system.attributeLabel}}
                     {{#if item.system.boons}} {{localize "WW.Boons.With"}} {{item.system.boons}} 

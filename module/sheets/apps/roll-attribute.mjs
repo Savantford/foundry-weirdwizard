@@ -119,7 +119,7 @@ export class rollAttribute extends FormApplication {
         let messageData = {
           speaker: ChatMessage.getSpeaker({ actor: this.actor }),
           flavor: label,
-          content: rollHtml + content,
+          content: rollHtml + content/* + '<a class="damage-roll" data-damage="1d6" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>'*/,
           sound: CONFIG.sounds.dice
         };
 

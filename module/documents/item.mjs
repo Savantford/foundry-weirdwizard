@@ -3,6 +3,8 @@
  * @extends {Item}
 */
 
+import { capitalize, i18n } from '../helpers/utils.mjs';
+
 export class WeirdWizardItem extends Item {
   /**
   * Augment the basic Item data model with additional dynamic data.
@@ -12,9 +14,35 @@ export class WeirdWizardItem extends Item {
     super.prepareData();
 
     // Get the Item's data
-    const itemData = this.system;
+    const system = this.system;
     const actorData = this.actor ? this.actor.system : {};
-    const system = itemData;
+
+    // Prepare properties list for weapons
+    if (system.subtype == 'weapon') {
+      let properties = system.properties;
+      
+      // Compatibility: Convert old string data to object
+      if (typeof properties == 'string') properties = {};
+      
+      let list = '';
+
+      //console.log(Object.entries(properties))
+      Object.entries(properties).map((x) => {
+        
+        if (x[1]) list = list.concat(
+          list ? 
+            ', ' + i18n('WW.Properties.' + capitalize(x[0]) + '.Label') : 
+            i18n('WW.Properties.' + capitalize(x[0]) + '.Label')
+        
+          )
+        
+      })
+
+      this.system.propertiesList = list;
+      
+      console.log(this.system)
+    }
+    
   }
 
   async _preCreate(data, options, user) {

@@ -12,6 +12,7 @@ import { Global } from './helpers/utils.mjs';
 import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
 import { WWAfflictions } from './active-effects/afflictions.mjs';
 import { WWActiveEffectConfig } from './active-effects/effects-config.mjs';
+import { initChatListeners } from './chat/chat-listeners.mjs'
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -117,5 +118,7 @@ Hooks.once('setup', function () {
   WWActiveEffectConfig.initializeChangeKeys()
   
 });
+
+Hooks.on('renderChatLog', (app, html, _data) => initChatListeners(html))
 
 console.log('weirdwizard.mjs loaded.')
