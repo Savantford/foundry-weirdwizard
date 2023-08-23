@@ -48,8 +48,12 @@ export class WeirdWizardActor extends Actor {
         this.system.stats.speed.raw = this.system.stats.speed.value;
 
         // Reset Natural Defense and Defense before Active Effects
-        this.system.stats.defense.natural = 10;
-        this.system.stats.defense.total = 0;
+
+        if (this.type == 'Character') {
+            this.system.stats.defense.natural = 10;
+            this.system.stats.defense.total = 0;
+        }
+
     }
 
     async _preCreate(data, options, user) {
@@ -111,6 +115,16 @@ export class WeirdWizardActor extends Actor {
         // Loop through attributes, and add their modifiers calculated with DLE rules to our sheet output.
         for (let [key, attribute] of Object.entries(system.attributes)) {
             if (key != 'luck') attribute.mod = attribute.value - 10;
+        }
+        
+        // Create .statuses manually for v10
+        if (this.statuses == undefined) {
+            this.statuses = this.effects.reduce((acc, eff) => {
+                if(!eff.modifiesActor) return acc;
+                const status = eff.flags.core?.statusId;
+                if(status) acc.add(status);
+                return acc;
+            }, new Set());
         }
 
         // Make separate methods for each Actor type (character, npc, etc.) to keep

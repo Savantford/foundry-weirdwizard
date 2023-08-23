@@ -74,6 +74,8 @@ export class WeirdWizardActorSheet extends ActorSheet {
     CONFIG.statusEffects.forEach(function (e) {
       context.hasEffect[e.id] = actorData.statuses.has(e.id);
     })
+    console.log(actorData.statuses)
+    console.log(actorData.effects)
 
     // Prepare character data and items.
     if (actorData.type == 'Character') {

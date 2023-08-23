@@ -52,26 +52,9 @@ export class WeirdWizardItemSheet extends ItemSheet {
         //context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
         context.armorObj = CONFIG.WW.armorTypes;
 
-        // Prepare properties list for weapons
         if (context.system.subtype == 'weapon') {
           context.gripObj = CONFIG.WW.weaponGrip;
           context.properties = CONFIG.WW.weaponProperties;
-          
-          let itemData = this.object.system;
-          let properties = itemData.properties;
-          if (typeof properties == 'string') properties = {};
-
-          if (properties) {
-            console.log(properties)
-            /*properties.map(function (e) {
-              //context.hasEffect[e.id] = actorData.statuses.has(e.id);
-            })*/
-          }
-          /*forEach(x => {
-            //if (x) system.propertiesList.push(key)
-          })*/
-
-          //console.log(system.propertiesList)
         }
 
       break;
@@ -104,7 +87,7 @@ export class WeirdWizardItemSheet extends ItemSheet {
 
     // Prepare effect change key-labels
     context.effectChangeKeys = CONFIG.WW.effectChangeKeys;
-
+    
     return context;
   }
 

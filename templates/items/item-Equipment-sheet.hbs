@@ -89,9 +89,14 @@
       </div>
       
       {{!-- Weapon Properties --}}
-      <div class="flexrow flex-wrap justify-between mt-2" style="gap: 5px">
+      <div class="mt-2">
+        <label>{{localize "WW.Properties.Title"}}</label>
+        {{system.propertiesList}}
+      </div>
+
+      <div class="flexrow properties-list">
         {{#each properties as |property id|}}
-          <div class="nowrap flex-row align-center stat selectable {{#if (lookup @root.system.properties id)}}selected{{/if}}" style="width: 100%" title="{{localize property.tip}}">
+          <div class="nowrap flex-row align-center stat smaller selectable {{#if (lookup @root.system.properties id)}}selected{{/if}}" style="width: 100%" title="{{localize property.tip}}">
             
             <input type="checkbox" name="system.properties.{{id}}" {{checked (lookup @root.system.properties id)}}/>
 

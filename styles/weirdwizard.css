@@ -812,6 +812,21 @@ input[type="checkbox"].checkbox-reloaded {
   font-weight: bold;
 }
 
+.weirdwizard .properties-list {
+  font-size: smaller;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  white-space: nowrap;
+  justify-content: space-between;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.weirdwizard .properties-list > div {
+
+}
+
 .weirdwizard .effect img {
   background-color: #606060;
 }
