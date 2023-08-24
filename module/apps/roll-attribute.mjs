@@ -3,7 +3,7 @@
  * @extends {FormApplication}
 */
 
-import { i18n, plusify } from '../../helpers/utils.mjs'
+import { i18n, plusify } from '../helpers/utils.mjs'
 
 export class rollAttribute extends FormApplication {
   constructor(obj) {

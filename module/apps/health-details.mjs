@@ -30,7 +30,7 @@ export class healthDetails extends FormApplication {
     activateListeners(html) {
         super.activateListeners(html);
         let stats = this.object.system.stats // Get actor's stats
-        let level = stats.level.value
+        let level = stats.level;
 
         // Handle resetting the window
         html.find('#health-reset').click(() => this.render(true)) // Only kinda partially working

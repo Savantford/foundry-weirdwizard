@@ -1,7 +1,7 @@
 import { i18n, plusify } from '../helpers/utils.mjs'
-import { healthDetails } from './apps/health-details.mjs'
-import { rollAttribute } from './apps/roll-attribute.mjs'
-import { rollDamage } from './apps/roll-damage.mjs'
+import { healthDetails } from '../apps/health-details.mjs'
+import { rollAttribute } from '../apps/roll-attribute.mjs'
+import { rollDamage } from '../apps/roll-damage.mjs'
 import { onManageActiveEffect, prepareActiveEffectCategories } from '../active-effects/effects.mjs';
 import { WWAfflictions } from '../active-effects/afflictions.mjs';
 
@@ -74,8 +74,6 @@ export class WeirdWizardActorSheet extends ActorSheet {
     CONFIG.statusEffects.forEach(function (e) {
       context.hasEffect[e.id] = actorData.statuses.has(e.id);
     })
-    console.log(actorData.statuses)
-    console.log(actorData.effects)
 
     // Prepare character data and items.
     if (actorData.type == 'Character') {
@@ -96,6 +94,16 @@ export class WeirdWizardActorSheet extends ActorSheet {
 
     // Prepare effect change key-labels
     context.effectChangeKeys = CONFIG.WW.effectChangeKeys;
+
+    // Prepare enriched variables for editor
+    for (let i of context.items) {
+      console.log(i.system.description)
+      i.system.description.enriched = await TextEditor.enrichHTML(i.system.description.value, { async: true })
+    }
+
+    for (let i of context.items) {
+      if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider?.value, { async: true })
+    }
 
     return context;
   }
@@ -186,6 +194,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
         }*/
         spells.push(i);
       }
+
     }
 
     // Calculate total Equipment weight.
@@ -342,8 +351,9 @@ export class WeirdWizardActorSheet extends ActorSheet {
       let obj = {
         actor: this.actor,
         target: ev,
-        label: i18n('WW.Damage.Of') + ' ' + item.name,
+        label: item.name,
         baseDamage: item.system.damage,
+        properties: item.system.properties ? item.system.properties : {},
         bonusDamage: this.actor.system.stats.bonusdamage
       }
 

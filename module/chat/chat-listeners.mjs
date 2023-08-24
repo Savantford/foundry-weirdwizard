@@ -4,7 +4,7 @@
 
 /*import {buildActorInfo, formatDice, getChatBaseData} from './base-messages'
 import {TokenManager} from '../pixi/token-manager'*/
-import { rollDamage } from '../sheets/apps/roll-damage.mjs';
+import { rollDamage } from '../apps/roll-damage.mjs';
 
 //const tokenManager = new TokenManager()
 

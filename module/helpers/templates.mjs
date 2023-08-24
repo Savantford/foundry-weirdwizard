@@ -21,6 +21,7 @@
     "systems/weirdwizard/templates/actors/parts/NPC-stats.hbs",
 
     // Item partials
+    "systems/weirdwizard/templates/items/parts/weapon-details.hbs",
     "systems/weirdwizard/templates/items/parts/item-settings.hbs",
     "systems/weirdwizard/templates/items/parts/item-effects.hbs"
 

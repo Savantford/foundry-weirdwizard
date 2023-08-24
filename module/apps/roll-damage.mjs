@@ -13,7 +13,7 @@ export class rollDamage extends FormApplication {
     this.label = obj.label;
     this.baseDamage = obj.baseDamage;
     this.bonusDamage = obj.bonusDamage;
-
+    this.properties = obj.properties;
   }
 
   static get defaultOptions() {
@@ -31,9 +31,11 @@ export class rollDamage extends FormApplication {
     let context = super.getData()
 
     // Pass data to application template.
+    context.label = this.label;
     context.system = this.system;
     context.baseDamage = this.baseDamage;
     context.bonusDamage = this.bonusDamage;
+    context.versatile = this.properties.versatile;
 
     return context
   }
@@ -46,27 +48,34 @@ export class rollDamage extends FormApplication {
 
     // Get roll variables
     const label = this.label;
-    const baseDamage = this.baseDamage;
+    const baseDamage = this.properties.brutal ? this.baseDamage + 'r1' : this.baseDamage;
     const bonusDamage = this.bonusDamage;
+    const brutal = this.properties.brutal;
 
     let finalExp = baseDamage; // Set the final expression to base damage
 
     function updateFields(ev) { // Update html fields
       const parent = ev.target.closest('.damage-details');
 
-      finalExp = baseDamage; // Reset finalExp
-
       // Get field variables
       let otherdice = parseInt(parent.querySelector('input[name=otherdice]').value); // Get the other sources field value
       let othermod = parseInt(parent.querySelector('input[name=othermod]').value); // Get the other sources field value
+      let applyBothHands = parent.querySelector('input[name=bothHands]:checked'); // Get both hands apply checkbox value
       let applyBonus = parent.querySelector('input[name=applyBonus]:checked'); // Get the bonus damage apply checkbox value
+
+      // Reset finalExp
+      finalExp = baseDamage;
       
       // Count extra dice
       let extraDice = 0;
+
+      if (applyBothHands) extraDice += 1;
+
       if (applyBonus && bonusDamage) extraDice += bonusDamage;
+
       if (otherdice) extraDice += otherdice;
 
-      if (extraDice) finalExp += ' + ' + extraDice + 'd6';
+      if (extraDice) finalExp += ' + ' + extraDice + (brutal ? 'd6r1' : 'd6');
 
       // Add othermod to finalExp
       if (othermod) finalExp += ' + ' + othermod;
@@ -92,7 +101,7 @@ export class rollDamage extends FormApplication {
       // Send to chat
       await r.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-        flavor: label,
+        flavor: i18n('WW.Damage.Of') + ' ' + label,
         rollMode: game.settings.get('core', 'rollMode')
       });
       

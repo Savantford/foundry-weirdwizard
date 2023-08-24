@@ -31,11 +31,13 @@
     "WW.SpeedTip": "special form of movement",
     "WW.Damage": {
         "Title": "Damage",
-        "Of": "Damage of",
-        "Bonus": "Bonus Damage",
         "Base": "Base Damage",
+        "Extra": "Extra Damage",
+        "Bonus": "Bonus Damage",
         "OtherDice": "Extra Damage Dice (Other Sources)",
-        "OtherMod": "Extra Damage Modifier (Other Sources)"
+        "OtherMod": "Extra Damage Modifier (Other Sources)",
+        "Of": "Damage of",
+        "BothHands": "In Both Hands (Versatile)"
     },
     "WW.Healing": "Healing",
     "WW.HealingOf": "Healing of",
@@ -105,6 +107,8 @@
 
     "WW.Summary": "Summary",
     "WW.Attacks": "Attacks",
+    "WW.AttackRider": "Attack Rider",
+    "WW.AttackRiderPH": "**20+:** The target takes an extra 1d6 damage.",
     
     "WW.Paths": "Paths",
     "WW.Ancestry": "Ancestry",
@@ -218,91 +222,91 @@
         "PH": "Brutal, Sharp, etc",
         "Ammunition": {
             "Label": "Ammunition",
-            "Tip": "Tooltip"
+            "Tip": "You must have at least one piece of ammunition of the indicated kind in order to attack with this weapon. Ammunition, and a container to hold it, is included in the weapon’s price. You can recover spent ammunition after combat and make replacements while you rest.You can make melee attacks with a weapon that has this property; the weapon counts as an improvised weapon."
         },
         "Brutal": {
             "Label": "Brutal",
-            "Tip": "Tooltip"
+            "Tip": "If your Strength is 13 or higher and you get a success on a roll to attack with this weapon, you can reroll each die of damage that comes up as a 1, once. You must use the second roll, even if it is another 1."
         },
         "Concussing": {
             "Label": "Concussing",
-            "Tip": "Tooltip"
+            "Tip": "If your Strength is 13 or higher and you get a critical success with an attack made using this weapon, the target also becomes confused and Strength impaired until the end of your next turn."
         },
         "Disarming": {
             "Label": "Disarming",
-            "Tip": "Tooltip"
+            "Tip": "If your Agility is 13 or higher, you roll with 1 boon when you perform the disarm special attack."
         },
         "Driving": {
             "Label": "Driving",
-            "Tip": "Tooltip"
+            "Tip": "When you perform the driving attack option with this weapon, you roll an additional d20 and use the highest result."
         },
         "Fast": {
             "Label": "Fast",
-            "Tip": "Tooltip"
+            "Tip": "If your Agility is 13 or higher when you make a free attack (see chapter 2) with this weapon, you roll with 1 boon."
         },
         "Firearm": {
             "Label": "Firearm",
-            "Tip": "Tooltip"
+            "Tip": "Firearms use a number of special rules, which are detailed here.\nMoisture and Firearms: If a firearm comes into contact with water, it cannot be fired until dried and cleaned. It takes 1 hour using a tool kit and a pint of oil to clean the weapon.\nNoisy: Attacks with the firearm creature loud noise.\nSmoke: When fired, smoke spreads light obscurement out from the weapon in a 5-yard radius.\nMisfires: If the result of your roll to attack with the firearm is 5 or less, the weapon misfires. It takes 1 minute of work to repair and reload the weapon, which must be done before it can be used again.\nClubs: An unloaded firearm counts as a club."
         },
         "Great": {
             "Label": "Great",
-            "Tip": "Tooltip"
+            "Tip": "If your Strength is 13 or higher, your attacks with this weapon deal an extra 1d6 damage."
         },
         "Light": {
             "Label": "Light",
-            "Tip": "Tooltip"
+            "Tip": "Your attacks with this weapon deal half damage."
         },
         "Long": {
             "Label": "Long",
-            "Tip": "Tooltip"
+            "Tip": "When you choose targets for your attacks using this weapon, increase your reach by 2."
         },
         "Nimble": {
             "Label": "Nimble",
-            "Tip": "Tooltip"
+            "Tip": "You can use Agility in place of Strength for rolls to attack with this weapon."
         },
         "Painful": {
             "Label": "Painful",
-            "Tip": "Tooltip"
+            "Tip": "If your Agility is 13 or higher and you get a critical success on an attack made using this weapon against a flesh and blood, you force the target to make a Will roll. On a failure, the target becomes weakened until the end of your next turn."
         },
         "Precise": {
             "Label": "Precise",
-            "Tip": "Tooltip"
+            "Tip": "If your Agility is 13 or higher, you roll to attack with this weapon with 1 boon."
         },
         "Range": {
             "Label": "Range",
-            "Tip": "Tooltip"
+            "Tip": "You make ranged attacks with this weapon. You choose your targets from among those within the listed number of yards."
         },
         "Reload": {
             "Label": "Reload",
-            "Tip": "Tooltip"
+            "Tip": "You must load this weapon before you can attack with it. You use an action or 3 yards of movement to load the weapon."
         },
         "Sharp": {
             "Label": "Sharp",
-            "Tip": "Tooltip"
+            "Tip": "If your Strength is 13 or higher and you get a critical success on an attack made using this weapon, the target takes an extra 1d6 damage."
         },
         "Shattering": {
             "Label": "Shattering",
-            "Tip": "Tooltip"
+            "Tip": "If your Strength is 13 or higher, you deal an extra 1d6 damage to objects you attack using this weapon."
         },
         "Slow": {
             "Label": "Slow",
-            "Tip": "Tooltip"
+            "Tip": "If your Strength is 13 or lower when you make a free attack (see chapter 2) with this weapon, you roll with 1 bane."
         },
         "Special": {
             "Label": "Special",
-            "Tip": "Tooltip"
+            "Tip": "This weapon has a special property found in its description."
         },
         "Thrown": {
             "Label": "Thrown",
-            "Tip": "Tooltip"
+            "Tip": "If your Strength is 10 or higher, you can make a ranged attack with this weapon by throwing it. The number indicates the weapon’s maximum range. When you throw a weapon, you make a Strength roll unless the weapon has the Nimble property."
         },
         "Unbalancing": {
             "Label": "Unbalancing",
-            "Tip": "Tooltip"
+            "Tip": "When you get a critical success on a roll to attack with this weapon, you force the target to make an Agility roll. On a failure, the target falls prone."
         },
         "Versatile": {
             "Label": "Versatile",
-            "Tip": "Tooltip"
+            "Tip": "If you wield this weapon with both hands, your attacks with it deal an extra 1d6 damage."
         }
     },
 
