@@ -26,21 +26,19 @@ export class WeirdWizardItem extends Item {
       
       let list = '';
 
-      //console.log(Object.entries(properties))
       Object.entries(properties).map((x) => {
         
-        if (x[1]) list = list.concat(
-          list ? 
-            ', ' + i18n('WW.Properties.' + capitalize(x[0]) + '.Label') : 
-            i18n('WW.Properties.' + capitalize(x[0]) + '.Label')
-        
-          )
+        if (x[1]) {
+          let string = i18n('WW.Properties.' + capitalize(x[0]) + '.Label');
+          
+          if ((x[0] == 'range') || (x[0] == 'thrown')) {string += ' ' + system.range;}
+
+          list = list.concat(list ? ', ' + string : string);
+        }
         
       })
 
       this.system.propertiesList = list;
-      
-      console.log(this.system)
     }
     
   }

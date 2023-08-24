@@ -235,6 +235,9 @@
         "unbalancing": false,
         "versatile": false
       },
+      "attackRider": {
+        "value": ""
+      },
       "reloaded": true,
       "armorType": "light",
       "capacity": 0,

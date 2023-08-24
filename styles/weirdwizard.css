@@ -291,7 +291,15 @@
   padding: 2px 5px;
   font-family: var(--font-header);
   font-size: 12px;
+  font-weight: 600;
   text-transform: uppercase;
+}
+.weirdwizard .window-content h4 label {
+  font-size: 13px;
+}
+
+.weirdwizard .window-content h4:first-of-type {
+  margin-top: 0px;
 }
 
 .weirdwizard .window-content h4 label, .item label {
@@ -813,7 +821,6 @@ input[type="checkbox"].checkbox-reloaded {
 }
 
 .weirdwizard .properties-list {
-  font-size: smaller;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -824,7 +831,10 @@ input[type="checkbox"].checkbox-reloaded {
 }
 
 .weirdwizard .properties-list > div {
-
+  font-size: x-small;
+  align-items: center;
+  white-space: nowrap;
+  justify-content: center;
 }
 
 .weirdwizard .effect img {
@@ -873,6 +883,8 @@ input[type="checkbox"].checkbox-reloaded {
 
 .weirdwizard .boons-expression, .weirdwizard .damage-expression {
   font-size: 1.5em;
+  padding-top: 5px;
+  border-top: 3px double black;
 }
 
 /* Tooltips Customization */
@@ -1113,6 +1125,10 @@ i.icon-Weakened {
 }
 
 /* Foundry UI Overrides */
+
+.inline-roll > i {
+  display: inline;
+}
 
 /* Top Left Bars */
 

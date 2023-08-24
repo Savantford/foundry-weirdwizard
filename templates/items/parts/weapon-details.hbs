@@ -1,0 +1,59 @@
+{{#if (eq system.subtype 'weapon')}}
+<div>
+    <h2>{{localize "WW.WeaponDetails"}}</h2>
+
+    <div class="mt-2 stat flex-row flex-wrap">
+
+        {{!-- Damage --}}
+        <div>
+            <label>{{localize "WW.Damage.Title"}}</label>
+
+            <input type="text" name="system.damage" value="{{system.damage}}" placeholder="1d6"
+                style="width: 75px; text-align: center;" data-dtype="String" />
+        </div>
+
+        {{!-- Grip --}}
+        <div class="stat-inline flex-group-left">
+            <label>{{localize "WW.Grip"}}</label>
+
+            <select name="system.grip">
+                {{selectOptions gripObj selected=system.grip localize=true}}
+            </select>
+        </div>
+        
+        {{#if (or system.properties.range system.properties.thrown)}}<div>
+            <label>{{localize "WW.Properties.Range.Label"}} / {{localize "WW.Properties.Thrown.Label"}}</label>
+
+            <input type="number" name="system.range" value="{{system.range}}" min="0" placeholder="#"
+                data-dtype="Number" />
+        </div>{{/if}}
+
+    </div>
+
+    {{!-- Weapon Properties --}}
+    <div class="mt-2">
+        <label>{{localize "WW.Properties.Title"}}</label>
+        {{system.propertiesList}}
+    </div>
+
+    <div class="flexrow properties-list">
+        {{#each properties as |property id|}}
+        <div class="selectable {{#if (lookup @root.system.properties id)}}selected{{/if}}"
+            style="width: 100%" title="{{localize property.tip}}">
+
+            <input type="checkbox" name="system.properties.{{id}}" {{checked (lookup @root.system.properties id)}} />
+
+            {{localize property.label}}
+        </div>
+        {{/each}}
+    </div>
+
+    <div class="mt-2 stat">
+        <label>{{localize "WW.AttackRider"}}</label>
+
+        {{editor system.attackRider.enriched target="system.attackRider.value" button=true owner=owner editable=editable}}
+
+    </div>
+
+</div>
+{{/if}}

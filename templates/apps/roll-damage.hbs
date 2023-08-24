@@ -1,16 +1,30 @@
 <form class="weirdwizard damage-details">
    
     <div class="">
+        <h2>{{label}}</h2>
+
         <div class="stat-stretch flex-group-left mt-1">
             <label class="resource-label">{{localize "WW.Damage.Base"}}</label>
             <span class="damage-display afflictions">{{baseDamage}}</span>
         </div>
 
+        {{#if versatile}}
+        <div class="stat-stretch flex-group-left mt-1">
+            <label class="resource-label">{{localize "WW.Damage.BothHands"}}</label>
+            <input name="bothHands" class="damage-checkbox bothHands" type="checkbox" title="Apply Extra Damage">
+            +1d6
+        </div>
+        {{/if}}
+
+        <h3 class="mt-2">{{localize "WW.Damage.Extra"}}</h3>
+
+        {{#if bonusDamage}}
         <div class="stat-stretch flex-group-left mt-1">
             <label class="resource-label">{{localize "WW.Damage.Bonus"}}</label>
             <input name="applyBonus" class="damage-checkbox applyBonus" type="checkbox" title="Apply Full Bonus Damage">
-            +{{#if bonusDamage}}{{bonusDamage}}d6{{else}}0{{/if}}
+            +{{bonusDamage}}d6
         </div>
+        {{/if}}
 
         <div class="stat-stretch flex-group-left mt-1">
             <label class="resource-label">{{localize "WW.Damage.OtherDice"}}</label>
@@ -35,3 +49,4 @@
         </button>
     </div>
 </form>
+

@@ -8,21 +8,27 @@
         {{!-- Type --}}
         <h4 class="mb-0">
             <label>{{localize "WW.Type"}}</label>
-            {{system.details.type}}
+            <span>{{system.details.type}}</span>
         </h4>
 
         <div class="hl">
-            <div class="stat">{{!-- Defense, Health, Damage --}}
-                <label class="resource-label">{{localize "WW.Defense.Title"}}</label>
-                {{system.stats.defense.total}}{{#if system.stats.defense.details}}
-                ({{system.stats.defense.details}}){{/if}}
+            <div class="stat flex-row flex-wrap">{{!-- Defense, Health, Damage --}}
+                <div class="nowrap">
+                    <label>{{localize "WW.Defense.Title"}}</label>
+                    {{system.stats.defense.total}}{{#if system.stats.defense.details}}
+                    ({{system.stats.defense.details}}){{/if}}
+                </div>
 
-                <label class="ml-1" class="resource-label">{{localize "WW.Health.Title"}}</label>
-                {{system.stats.health.total}}
+                <div class="nowrap">
+                    <label>{{localize "WW.Health.Title"}}</label>
+                    {{system.stats.health.total}}
+                </div>
 
-                <label class="ml-1" class="resource-label">{{localize "WW.Damage.Title"}}</label>
-                <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0"
-                    data-dtype="Number" />
+                <div class="nowrap">
+                    <label>{{localize "WW.Damage.Title"}}</label>
+                    <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0"
+                        data-dtype="Number" />
+                </div>
             </div>
 
             <div class="stat mt-1">{{!-- Attributes 1 --}}
@@ -77,25 +83,29 @@
                     {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
                     {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
                     ({{localize "WW.Aura"}} {{item.system.range}}) 
-                    <span>{{{item.system.description.value}}}</span>
+                    <span>{{{item.system.description.enriched}}}</span>
                     
                 </li>
                 {{/each}}
             </ol>
         </div>
 
-        <div class="stat">{{!-- Senses --}}
-            {{#if system.details.senses}}<label class="resource-label">{{localize
+        {{!-- Senses --}}
+        {{#if system.details.senses}}<div class="stat">
+            <label class="resource-label">{{localize
                 "WW.Senses"}}</label>
-            {{system.details.senses}}{{/if}}
-        </div>
-        <div class="stat mt-1">{{!-- Languages --}}
-            {{#if system.details.languages}}<label class="" class="resource-label">{{localize
-                "WW.Languages"}}</label>
-            {{system.details.languages}}{{/if}}
-        </div>
+            {{system.details.senses}}
+        </div>{{/if}}
 
-        {{#if system.details.immune}}<div class="stat mt-1">{{!-- Immune --}}
+        {{!-- Languages --}}
+        {{#if system.details.languages}}<div class="stat">
+            <label class="" class="resource-label">{{localize
+                "WW.Languages"}}</label>
+            {{system.details.languages}}
+        </div>{{/if}}
+
+        {{!-- Immune --}}
+        {{#if system.details.immune}}<div class="stat">
             <label class="mb-1" class="resource-label">{{localize "WW.Immune"}}</label>
             {{system.details.immune}}
         </div>{{/if}}
@@ -118,7 +128,7 @@
                 {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
                 {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
                 {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
-                <span>{{{item.system.description.value}}}</span>
+                <span>{{{item.system.description.enriched}}}</span>
                 
             </li>
             {{/each}}
@@ -137,7 +147,7 @@
                     <a class="item-edit" title="Edit Weapon"><i class="fas fa-edit"></i></a>
                     {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
                     <a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>
-                    {{#if item.system.reload}}<input class="checkbox-reloaded" type="checkbox" name="item.system.reloaded" title="Weapon realoded?" {{checked item.system.reloaded}}/>{{/if}} 
+                    {{#if item.system.properties.reload}}<input class="checkbox-reloaded" type="checkbox" name="item.system.reloaded" title="Weapon realoded?" {{checked item.system.reloaded}}/>{{/if}}
                     
                     {{#if item.system.propertiesList}}({{item.system.propertiesList}}) {{/if}}
 
@@ -151,6 +161,8 @@
                     {{/if}}
 
                     ({{item.system.damage}})
+
+                    {{#if item.system.attackRider.value}}{{{item.system.attackRider.enriched}}}{{/if}}
                 </li>
                 {{/each}}
             </ol>
@@ -176,7 +188,7 @@
                         {{/each}}
                     </span>
                 {{/if}}
-                <span>{{{item.system.description.value}}}</span>
+                <span>{{{item.system.description.enriched}}}</span>
                 
             </li>
             {{/each}}
@@ -194,7 +206,7 @@
                 {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
                 {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
                 {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
-                <span>{{{item.system.description.value}}}</span>
+                <span>{{{item.system.description.enriched}}}</span>
             </li>
             {{/each}}
         </ol>
@@ -211,7 +223,7 @@
                 {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
                 {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
                 {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
-                <span>{{{item.system.description.value}}}</span>
+                <span>{{{item.system.description.enriched}}}</span>
             </li>
             {{/each}}
         </ol>
@@ -236,7 +248,7 @@
                 {{/if}}
                 </h5>
 
-                <span>{{{item.system.description.value}}}</span>
+                <span>{{{item.system.description.enriched}}}</span>
             </li>
             {{/each}}
         </ol>
