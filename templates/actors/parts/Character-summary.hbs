@@ -44,8 +44,15 @@
                 <label class="ml-1" for="health" class="resource-label">{{localize "WW.Health.Title"}}</label>
 
                 <a class="health-edit" title="Edit Health">{{system.stats.health.total}}</a>
+
                 <label class="ml-1" for="damage" class="resource-label">{{localize "WW.Damage.Title"}}</label>
+
                 {{system.stats.damage.value}}
+
+                <i class="health-indicator fas {{#if incapacitated}}fa-octagon-xmark{{else if injured}}fa-droplet{{/if}}" title="
+                    {{#if incapacitated}}{{localize "WW.Health.Incapacitated"}}
+                    {{else}}{{localize "WW.Health.Injured"}}{{/if}}">
+                </i>
             </div>
             <div class="stat mt-1">{{!-- Attributes 1 --}}
                 <label for="str" class="resource-label">{{localize "WW.Strength"}}</label>
@@ -130,52 +137,50 @@
         <h3>{{localize "WW.Talents"}}</h3>
         <ol class="compact-list stat">
             {{#each talents as |item id|}}
-            <li class="item" data-item-id="{{item._id}}">
-                {{#if item.system.attribute}}<a class="rollable item-roll" title="Roll Talent">{{item.name}}</a>
-                    {{else}}<label>{{item.name}}</label>{{/if}}
-                <a class="item-edit" title="Edit Talent"><i class="fas fa-edit"></i></a>
-                {{#if item.system.description.value}}<a class="item-scroll" data-tooltip="{{item.system.description.value}}"><i class="far fa-scroll"></i></a>{{/if}}
-                {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
-                {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
-                {{#if item.uses}}
-                    <span class="pip-box">
-                        {{#each item.uses as |pip id|}}
-                        <a class="item-pip" title="{{#if (eq pip "far")}}Spend use/token{{else}}Recover use/token{{/if}}"><i
-                                class="{{pip}} fa-circle"></i></a>
-                        {{/each}}
-                    </span>
-                {{/if}}
-            </li>
+
+            {{> "systems/weirdwizard/templates/actors/parts/Character-summary-item.hbs" item=item id=id}}
+
             {{/each}}
         </ol>
 
-        {{#if system.details.traditions}}
+        {{#if actions}}
+        <h4 class="mt-2">{{localize "WW.Actions"}}</h4>
+        <ol class="compact-list stat">
+            {{#each actions as |item id|}}
+
+            {{> "systems/weirdwizard/templates/actors/parts/Character-summary-item.hbs" item=item id=id}}
+
+            {{/each}}
+        </ol>
+        {{/if}}
+
+        {{#if reactions}}
+        <h4 class="mt-2">{{localize "WW.Reactions"}}</h4>
+        <ol class="compact-list stat">
+            {{#each reactions as |item id|}}
+
+            {{> "systems/weirdwizard/templates/actors/parts/Character-summary-item.hbs" item=item id=id}}
+
+            {{/each}}
+        </ol>
+        {{/if}}
+
+        {{#if (or system.details.traditions spells)}}
         <h3 class="mt-2">{{localize "WW.Spells"}}</h3>
 
         {{!-- Traditions --}}
+        {{#if system.details.traditions}}
         <div class="stat mb-2">
             <label class="" for="traditions" class="resource-label">{{localize "WW.Traditions"}}</label>
             {{system.details.traditions}}
         </div>
+        {{/if}}
 
         <ol class="compact-list stat">
             {{#each spells as |item id|}}
-            <li class="item" data-item-id="{{item._id}}">
-                {{#if item.system.attribute}}<a class="rollable item-roll" title="Roll Spell">{{item.name}}</a>
-                    {{else}}<label>{{item.name}}</label>{{/if}}
-                <a class="item-edit" title="Edit Spell"><i class="fas fa-edit"></i></a>
-                {{#if item.system.description.value}}<a class="item-scroll" data-tooltip="{{item.system.description.value}}"><i class="far fa-scroll"></i></a>{{/if}}
-                {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
-                {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
-                {{#if item.uses}}
-                    <span class="pip-box">
-                        {{#each item.uses as |pip id|}}
-                        <a class="item-pip" title="{{#if (eq pip "far")}}Spend casting{{else}}Recover casting{{/if}}"><i
-                                class="{{pip}} fa-circle"></i></a>
-                        {{/each}}
-                    </span>
-                {{/if}}
-            </li>
+
+            {{> "systems/weirdwizard/templates/actors/parts/Character-summary-item.hbs" item=item id=id}}
+            
             {{/each}}
         </ol>
         {{/if}}

@@ -1,0 +1,50 @@
+<li class="item" data-item-id="{{item._id}}">
+
+    {{!-- Title / Attribute Roll --}}
+    {{#if item.system.attribute}}<a class="rollable item-roll" title="{{localize "WW.Item.Roll.Attribute"}}">{{item.name}}</a>
+    {{else}}<label>{{item.name}}</label>{{/if}}
+
+    {{!-- Damage Roll Button --}}
+    {{#if item.system.damage}}<a class="damage-roll" title="{{localize "WW.Item.Roll.Damage"}}"><i class="fas fa-burst"></i></a>{{/if}}
+
+    {{!-- Healing Roll Button --}}
+    {{#if item.system.healing}}<a class="healing-roll" title="{{localize "WW.Item.Roll.Healing"}}"><i
+        class="fas fa-sparkles"></i></a>{{/if}}
+
+    {{!-- Uses Pips --}}
+    {{#if item.uses}}
+    <span class="pip-box">
+        {{#each item.uses as |pip id|}}
+        <a class="item-pip" title="
+            {{#if (eq pip " far")}}
+                {{#if (eq item.type "Equipment")}}{{localize "WW.Item.Uses.EquipmentSpend"}}
+                {{else if (eq item.type "Spell")}}{{localize "WW.Item.Uses.SpellSpend"}}
+                {{else}}{{localize "WW.Item.Uses.TalentSpend"}}{{/if}}
+            {{else}}
+                {{#if (eq item.type "Equipment")}}{{localize "WW.Item.Uses.EquipmentRecover"}}
+                {{else if (eq item.type "Spell")}}{{localize "WW.Item.Uses.SpellRecover"}}
+                {{else}}{{localize "WW.Item.Uses.TalentRecover"}}{{/if}}
+            {{/if}}"><i
+            class="{{pip}} fa-circle"></i></a>
+        {{/each}}
+    </span>
+    {{/if}}
+    
+    
+    <span class="float-right">
+        {{!-- Edit Button --}}
+        <a class="item-edit" title="{{localize (concat "WW.Item.Edit." item.type)}}"><i class="fas fa-edit"></i></a>
+
+        {{#if item.system.description.value}}
+        {{!-- Send to Chat Scroll --}}
+        <a class="item-scroll" title="{{localize "WW.Item.Send"}}"><i
+            class="far fa-scroll"></i></a>
+
+        {{!-- Show/Hide Description (Collapse) --}}
+        <a class="item-collapse" title="{{localize "WW.Item.ShowDesc"}}">
+            <i class="fas fa-square-chevron-down"></i></a>
+        {{/if}}
+    </span>
+
+    {{#if item.system.description.value}}<div class="item-desc hidden">{{{item.system.description.enriched}}}</div>{{/if}}
+</li>

@@ -3,12 +3,15 @@
  * @extends {FormApplication}
 */
 
+import { i18n } from '../helpers/utils.mjs'
+
 export class rollDamage extends FormApplication {
   constructor(obj) {
     super(); // This is required for the constructor to work
 
     // Assign variables
     this.component = obj.target; // Assign HTML component
+    this.actor = obj.actor;
     this.system = obj.actor.system; // Assign actor data
     this.label = obj.label;
     this.baseDamage = obj.baseDamage;
@@ -35,6 +38,7 @@ export class rollDamage extends FormApplication {
     context.system = this.system;
     context.baseDamage = this.baseDamage;
     context.bonusDamage = this.bonusDamage;
+    context.shattering = this.properties.shattering;
     context.versatile = this.properties.versatile;
 
     return context
@@ -57,11 +61,14 @@ export class rollDamage extends FormApplication {
     function updateFields(ev) { // Update html fields
       const parent = ev.target.closest('.damage-details');
 
-      // Get field variables
-      let otherdice = parseInt(parent.querySelector('input[name=otherdice]').value); // Get the other sources field value
-      let othermod = parseInt(parent.querySelector('input[name=othermod]').value); // Get the other sources field value
-      let applyBothHands = parent.querySelector('input[name=bothHands]:checked'); // Get both hands apply checkbox value
-      let applyBonus = parent.querySelector('input[name=applyBonus]:checked'); // Get the bonus damage apply checkbox value
+      // Get checkbox values
+      let applyBothHands = parent.querySelector('input[name=bothHands]:checked');
+      let applyShattering = parent.querySelector('input[name=shattering]:checked');
+      let applyBonus = parent.querySelector('input[name=applyBonus]:checked');
+
+      // Get other field variables
+      let otherdice = parseInt(parent.querySelector('input[name=otherdice]').value);
+      let othermod = parseInt(parent.querySelector('input[name=othermod]').value);
 
       // Reset finalExp
       finalExp = baseDamage;
@@ -70,6 +77,8 @@ export class rollDamage extends FormApplication {
       let extraDice = 0;
 
       if (applyBothHands) extraDice += 1;
+
+      if (applyShattering) extraDice += 1;
 
       if (applyBonus && bonusDamage) extraDice += bonusDamage;
 
@@ -94,7 +103,7 @@ export class rollDamage extends FormApplication {
       
       // Construct the Roll instance
       let r = new Roll(finalExp);
-
+      
       // Execute the roll
       await r.evaluate();
 

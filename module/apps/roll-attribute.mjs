@@ -9,6 +9,7 @@ export class rollAttribute extends FormApplication {
   constructor(obj) {
     super(); // This is required for the constructor to work
     this.component = obj.target; // Assign HTML component
+    this.actor = obj.actor;
     this.system = obj.actor.system; // Assign actor data
     const attKey = obj.attKey;
 
@@ -22,7 +23,7 @@ export class rollAttribute extends FormApplication {
 
     // Assign mod
     this.mod = this.system.attributes[attKey]?.mod ?
-      plusify(this.system.attributes[attKey].mod) : 0; // If undefined, set it to 0
+      plusify(this.system.attributes[attKey].mod) : '+0'; // If undefined, set it to +0
   }
 
   static get defaultOptions() {
@@ -64,7 +65,7 @@ export class rollAttribute extends FormApplication {
     const effectBoons = this.effectBoonsGlobal; // Conditional boons should be added here later
 
     let att = '1d20 + 0';
-    if (name) att = name + " (" + plusify(mod) + ")"
+    if (name) att = name + " (" + mod + ")"
 
     function updateFields(ev) { // Update html fields
       const parent = ev.target.closest('.boons-details');
@@ -111,8 +112,6 @@ export class rollAttribute extends FormApplication {
       await r.evaluate();
       
       // Send to chat
-      /**/
-
       if (content) {
         let rollHtml = await r.render();
 
