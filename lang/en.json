@@ -37,6 +37,7 @@
         "OtherDice": "Extra Damage Dice (Other Sources)",
         "OtherMod": "Extra Damage Modifier (Other Sources)",
         "Of": "Damage of",
+        "Shattering": "Target is an Object (Shattering)",
         "BothHands": "In Both Hands (Versatile)"
     },
     "WW.Healing": "Healing",
@@ -52,7 +53,9 @@
         "Expert": "Expert Path level",
         "Master": "Master Path level",
         "Bonus": "Bonus Health",
-        "Lost": "Lost Health"
+        "Lost": "Lost Health",
+        "Injured": "You are injured.\nTypically, you suffer no effects from being injured, but certain talents, spells, and other effects used against you might put you at a disadvantage because you're injured.",
+        "Incapacitated": "You are incapacitated.\nYou fall prone and become incapacitated. While you're incapacitated, you are unconscious. If you take any damage while incapacitated, you lose Health equal to the damage you took.\nIf you're incapacitated at the end of the round, lose 1d6 Health and make a luck roll. On a success, you heal 1 damage, and you are no longer incapacitated. On a failure, you remain incapacitated."
     },
     "WW.LevelAt": "At Level",
 
@@ -157,6 +160,30 @@
     "WW.QualityStandard": "Standard",
     "WW.QualitySuperior": "Superior",
     "WW.QualityInferior": "Inferior",
+
+    "WW.Item": {
+        "Roll": {
+            "Attribute": "Roll Attribute/Luck",
+            "Damage": "Roll Damage Dice",
+            "Healing": "Roll Healing Dice"
+        },
+        "Edit": {
+            "Trait or Talent": "Edit Trait/Talent",
+            "Equipment": "Edit Equipment",
+            "Spell": "Edit Spell"
+        },
+        "Uses": {
+            "TalentSpend": "Spend use/token",
+            "TalentRecover": "Recover use/token",
+            "EquipmentSpend": "Spend use/charge/token",
+            "EquipmentRecover": "Recover use/charge/token",
+            "SpellSpend": "Spend casting",
+            "SpellRecover": "Recover casting"
+        },
+        "ShowDesc": "Show description",
+        "HideDesc": "Hide description",
+        "Send": "Send description to chat"
+    },
 
     "WW.Talents": "Traits and Talents",
     "WW.TalentSubtypes": {

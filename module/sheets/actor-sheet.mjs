@@ -67,6 +67,8 @@ export class WeirdWizardActorSheet extends ActorSheet {
     // Prepare common data
     context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true })
     context.numbersObj = CONFIG.WW.dropdownNumbers;
+    context.incapacitated = (context.system.stats.damage.value >= context.system.stats.health.total) ? true : false;
+    context.injured = (context.system.stats.damage.value >= Math.floor(context.system.stats.health.total / 2)) ? true : false;
 
     // Prepare hasEffect for use in templates
     context.hasEffect = {};
@@ -97,7 +99,6 @@ export class WeirdWizardActorSheet extends ActorSheet {
 
     // Prepare enriched variables for editor
     for (let i of context.items) {
-      console.log(i.system.description)
       i.system.description.enriched = await TextEditor.enrichHTML(i.system.description.value, { async: true })
     }
 
@@ -130,6 +131,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
 
     // Iterate through items, allocating to containers
     for (let i of context.items) {
+
       //let item = i;
       i.img = i.img || DEFAULT_TOKEN;
       
@@ -182,7 +184,19 @@ export class WeirdWizardActorSheet extends ActorSheet {
             }
           }
         } else {
-          talents.push(i);
+          switch (i.system.subtype) {
+            case 'action': {
+              actions.push(i);
+              break;
+            }
+            case 'reaction': {
+              reactions.push(i);
+              break;
+            }
+            default: {
+              talents.push(i);
+            }
+          }
         }
 
       }
@@ -237,6 +251,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
     context.end = end;
     context.fury = fury;
     context.spells = spells;
+
   }
 
   /**
@@ -266,7 +281,12 @@ export class WeirdWizardActorSheet extends ActorSheet {
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
 
-    /////////// ATTRIBUTES & STATS /////////////
+    // Edit Health button
+    html.find('.health-edit').click(ev => {
+      new healthDetails(this.actor).render(true)
+    });
+
+    /////////// ITEMS: ROLL BUTTONS /////////////
 
     // Rollable attributes.
     html.find('.rollable').click(ev => { //this._onRoll.bind(this)
@@ -325,6 +345,8 @@ export class WeirdWizardActorSheet extends ActorSheet {
         }
       }
 
+      //console.log(this.actor)
+
       let obj = {
         actor: this.actor,
         target: ev,
@@ -382,12 +404,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
       
     });
 
-    // Edit Health button
-    html.find('.health-edit').click(ev => {
-      new healthDetails(this.actor).render(true)
-    });
-
-    //////////////// ITEMS ///////////////////
+    //////////////// ITEMS: HANDLING ///////////////////
 
     // Add Inventory Item
     html.find('.item-create').click(this._onItemCreate.bind(this));
@@ -412,6 +429,8 @@ export class WeirdWizardActorSheet extends ActorSheet {
       
       item.sheet.render(true);
     });
+
+    //////////////// ITEMS: MISC ///////////////////
 
     // Set uses pips to update the value when clicked
     html.find('.item-pip').click(ev => {
@@ -445,6 +464,32 @@ export class WeirdWizardActorSheet extends ActorSheet {
         flavor: item.name,
         content: item.system.description.value
       })
+    });
+
+    // Item Collapse button
+    html.find('.item-collapse').click(ev => {
+      let li = $(ev.currentTarget).parents('.item');
+      
+      if (!li.length) { // If parent does not have .item class, set li to current target.
+        li = $(ev.currentTarget);
+      }
+      let desc = li.find('.item-desc');
+      let icon = li.find('.item-collapse').find('i');
+      let test = li.find('.expand-contract');
+      
+      // Flip states
+      if (icon.hasClass('fa-square-chevron-down')) {
+        $(ev.currentTarget).attr("title", i18n('WW.Item.HideDesc'))
+        icon.removeClass('fa-square-chevron-down').addClass('fa-square-chevron-up');
+        desc.slideDown(500);
+        //this._collapsedIds.add()
+      } else {
+        $(ev.currentTarget).attr("title", i18n('WW.Item.ShowDesc'))
+        icon.removeClass('fa-square-chevron-up').addClass('fa-square-chevron-down');
+        desc.slideUp(500);
+        //this._collapsedIds.remove()
+      }
+      
     });
 
     ////////////////// EFFECTS ////////////////////
