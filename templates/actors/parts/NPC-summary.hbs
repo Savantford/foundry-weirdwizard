@@ -120,8 +120,10 @@
             <label class="resource-label">{{localize "WW.Size"}}</label>
             {{system.stats.size}}
 
-            <label class="ml-1" class="resource-label">{{localize "WW.Speed"}}</label>
-            {{system.stats.speed.value}}
+            <label class="ml-1" class="resource-label">{{localize "WW.Speed.Title"}}</label>
+
+            <a title="{{localize "WW.Speed.Raw"}}: {{system.stats.speed.raw}}">{{system.stats.speed.value}}</a>
+            
             {{#if system.stats.speed.special}} ({{system.stats.speed.special}}){{/if}}
         </div>
 

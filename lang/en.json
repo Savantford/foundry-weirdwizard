@@ -25,10 +25,15 @@
     "WW.Immune": "Immune",
     "WW.ImmunePH": "poisoned",
     "WW.Size": "Size",
-    "WW.Speed": "Speed",
-    "WW.SpeedScore": "Speed Score",
-    "WW.SpeedPH": "fly",
-    "WW.SpeedTip": "special form of movement",
+    "WW.Speed":{
+        "Title": "Speed",
+        "Score": "Speed Score",
+        "Halved": "Speed halved",
+        "Raw": "Raw Speed",
+        "PH": "fly",
+        "Tip": "special form of movement"
+    },
+
     "WW.Damage": {
         "Title": "Damage",
         "Base": "Base Damage",
@@ -91,6 +96,8 @@
     "WW.Save": "Save",
     "WW.Reset": "Reset",
     "WW.Cancel": "Cancel",
+
+    "WW.Automation": "Automation & Effects",
     "WW.Settings": "Settings",
 
     "WW.Boons": {
@@ -107,6 +114,7 @@
         "Banes": "banes",
         "Or": "boons(s)/bane(s)"
     },
+    "WW.AutoFail": "Automatic Failure",
 
     "WW.Summary": "Summary",
     "WW.Attacks": "Attacks",

@@ -1,4 +1,4 @@
-import { i18n, plusify } from '../helpers/utils.mjs'
+import { i18n, plusify, sum } from '../helpers/utils.mjs'
 import { healthDetails } from '../apps/health-details.mjs'
 import { rollAttribute } from '../apps/roll-attribute.mjs'
 import { rollDamage } from '../apps/roll-damage.mjs'
@@ -218,7 +218,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
 
     equipment.forEach(calcWeight)
 
-    context.totalWeight = CONFIG.Global.sum(equipment.map(i => i.system.weight))
+    context.totalWeight = sum(equipment.map(i => i.system.weight))
 
     // Prepare uses display for talents and spells
     function updateUses(item, id) {
@@ -345,8 +345,6 @@ export class WeirdWizardActorSheet extends ActorSheet {
         }
       }
 
-      //console.log(this.actor)
-
       let obj = {
         actor: this.actor,
         target: ev,
@@ -356,7 +354,21 @@ export class WeirdWizardActorSheet extends ActorSheet {
         fixedBoons: fixedBoons
       }
 
-      new rollAttribute(obj).render(true)
+      // Check for Automatic Failure
+      console.log(system)
+      if (system.autoFail[obj.attKey]) {
+
+        let messageData = {
+          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+          flavor: label,
+          content: '<div class="dice-formula auto-fail">' + i18n('WW.AutoFail') + '!</div>' + content,
+          sound: CONFIG.sounds.dice
+        };
+
+        ChatMessage.create(messageData);
+      } else {
+        new rollAttribute(obj).render(true)
+      }
     });
 
     // Damage Roll

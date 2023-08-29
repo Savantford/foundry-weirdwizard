@@ -8,11 +8,12 @@ import { WeirdWizardActorSheet } from './sheets/actor-sheet.mjs';
 import { WeirdWizardItemSheet } from './sheets/item-sheet.mjs';
 // Import helper/utility classes and constants.
 import { WW } from './config.mjs';
-import { Global } from './helpers/utils.mjs';
 import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
 import { WWAfflictions } from './active-effects/afflictions.mjs';
 import { WWActiveEffectConfig } from './active-effects/effects-config.mjs';
-import { initChatListeners } from './chat/chat-listeners.mjs'
+import { initChatListeners } from './chat/chat-listeners.mjs';
+// Import canvas-related classes
+import { WWToken } from './canvas/token.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -24,37 +25,25 @@ Hooks.once('init', function () {
   
   game.weirdwizard = {
     WeirdWizardActor,
-    WeirdWizardItem,
-    //WeirdWizardToken
+    WeirdWizardItem
   };
 
   // Add custom constants for configuration.
   CONFIG.WW = WW;
 
-  // Add global functions to configuration.
-  CONFIG.Global = Global;
-
-  /**
-   * Set an initiative formula for the system
-   * @type {String}
-  */
-  
-  CONFIG.Combat.initiative = {
-    formula: '1d20 + @abilities.dex.mod',
-    decimals: 2
-  };
-
   // Define custom Document classes
   CONFIG.Actor.documentClass = WeirdWizardActor;
   CONFIG.Item.documentClass = WeirdWizardItem;
   DocumentSheetConfig.registerSheet(ActiveEffect, "weirdwizard", WWActiveEffectConfig, {makeDefault: true})
-  //CONFIG.Token.documentClass = WeirdWizardToken;
 
   // Register sheet application classes
   Actors.unregisterSheet('core', ActorSheet);
   Actors.registerSheet('weirdwizard', WeirdWizardActorSheet, { makeDefault: true });
   Items.unregisterSheet('core', ItemSheet);
   Items.registerSheet('weirdwizardplate', WeirdWizardItemSheet, { makeDefault: true });
+
+  // Define custom Object classes
+  CONFIG.Token.objectClass = WWToken;
 
   // Disable legacy pre-V11 behavior of item effects being stored on actor.effects. Use actor.appliedEffects instead for all effects
   CONFIG.ActiveEffect.legacyTransfer = false;
@@ -114,7 +103,7 @@ Hooks.once('setup', function () {
   // Assign Afflictions to token HUD
   CONFIG.statusEffects = effects;
 
-  // Set active effect keys-labels
+  // Set active effect keys-labels to be used in Active Effects Config app
   WWActiveEffectConfig.initializeChangeKeys()
   
 });

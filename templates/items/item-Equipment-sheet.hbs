@@ -4,26 +4,13 @@
   <header class="sheet-header">
     <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
     <div class="header-fields">
-      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.ItemName"}}"/></h1>
 
-      {{!-- Header Row --}}
-      <div class="flex-row stat-inline flex-wrap">
-
-        <div>
-          <label>{{localize "WW.Type"}}</label>
-          <select name="system.subtype">
-            {{selectOptions subtypesObj selected=system.subtype localize=true}}
-          </select>
-        </div>
-        
-        <div>
-          <label>{{localize "WW.Quality"}}</label>
-          <select name="system.quality">
-            {{selectOptions qualitiesObj selected=system.quality localize=true}}
-          </select>
-        </div>
-  
-      </div>
+      {{!-- Header Tab Navigation --}}
+      <nav class="mt-2 sheet-tabs tabs equipment-tabs" data-group="primary">
+        <a class="item" data-tab="details">{{localize "WW.Details"}}</a>
+        <a class="item" data-tab="automation">{{localize "WW.Automation"}}</a>
+      </nav>
       
     </div>
   </header>
@@ -31,51 +18,17 @@
   {{!-- Sheet Body --}}
   <section class="sheet-body">
   
-    <div class="flex-row stat-inline flex-wrap">
-  
-      <div>
-        <label>{{localize "WW.Price"}}</label>
-        <input type="number" name="system.price.value" value="{{system.price.value}}" min="0" data-dtype="Number" />
-        <select class="ml-1" name="system.price.coin">
-          {{selectOptions coinsObj selected=system.price.coin localize=true}}
-        </select>
-      </div>
-  
-      <div>
-        <label>{{localize "WW.Quantity"}}</label>
-        <input type="number" name="system.quantity" value="{{system.quantity}}" min="0" data-dtype="Number" />
-      </div>
-  
-      <div>
-        <label>{{localize "WW.WeightUnit"}}</label>
-        <input type="number" name="system.weightUnit" value="{{system.weightUnit}}" min="0" data-dtype="Number" />
-      </div>
-  
-      <div>
-        <label>{{localize "WW.UsesEquipment"}}</label>
-        <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="0" data-dtype="Number" />
-      </div>
-
-      {{!-- Armor Type --}}
-      {{#if (eq system.subtype 'armor')}} 
-      <div>
-        <label>{{localize "WW.Armor.Type"}}</label>
-        <select name="system.armorType">
-          {{selectOptions armorObj selected=system.armorType localize=true}}
-        </select>
-      </div>
-      {{/if}}
-  
+    {{!-- Details Tab --}}
+    <div class="tab details" data-group="primary" data-tab="details">
+      {{> "systems/weirdwizard/templates/items/parts/Equipment-details.hbs"}}
     </div>
-
-    {{!-- Weapon Details --}}
-    {{> "systems/weirdwizard/templates/items/parts/weapon-details.hbs"}}
-
-    <h2>{{localize "WW.Description"}}</h2>
-    {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
-
-    {{> "systems/weirdwizard/templates/items/parts/item-settings.hbs"}}
-    {{> "systems/weirdwizard/templates/items/parts/item-effects.hbs"}}
-
+  
+    {{!-- Automation Tab --}}
+    <div class="tab automation" data-group="primary" data-tab="automation">
+      {{> "systems/weirdwizard/templates/items/parts/item-settings.hbs"}}
+      {{> "systems/weirdwizard/templates/items/parts/item-effects.hbs"}}
+    </div>
+  
   </section>
+  
 </form>

@@ -34,21 +34,34 @@ export class WeirdWizardActor extends Actor {
             }
         };
 
+        // Create autoFail object
+        this.system.autoFail = {};
+
+        // Create halved boolean for Speed reductions
+        this.system.stats.speed.halved = false;
+
+        // Assign raw Speed to value so it can be used later by Active Effects
+        let raw = this.system.stats.speed.raw;
+        let speed = this.system.stats.speed.value;
+
+        if ((speed > raw) || (raw == undefined)) this.system.stats.speed.raw = speed; // Compability: If speed.raw is undefined or lower, copy value to raw
+        
+        this.system.stats.speed.value = this.system.stats.speed.raw;
+
         // Attributes
         const attributes = this.system.boons.attributes;
+        const autoFail = this.system.autoFail;
 
         ['str', 'agi', 'int', 'wil'].forEach(function (attribute){
             attributes[attribute] = {
                 global: 0,
                 conditional: 0
             }
+
+            autoFail[attribute] = false;
         })
 
-        // Make a copy of the raw Speed value to use in Active Effects later
-        this.system.stats.speed.raw = this.system.stats.speed.value;
-
         // Reset Natural Defense and Defense before Active Effects
-
         if (this.type == 'Character') {
             this.system.stats.defense.natural = 10;
             this.system.stats.defense.total = 0;
@@ -109,8 +122,8 @@ export class WeirdWizardActor extends Actor {
         const system = this.system;
         const flags = this.flags.weirdwizard || {};
 
-        // Make sure Speed is a float after Active Effects reduce it
-        system.stats.speed.value = Math.floor(system.stats.speed.value);
+        // Halve Speed
+        if (system.stats.speed.halved) system.stats.speed.value = Math.floor(system.stats.speed.raw / 2);
 
         // Loop through attributes, and add their modifiers calculated with DLE rules to our sheet output.
         for (let [key, attribute] of Object.entries(system.attributes)) {
@@ -238,6 +251,7 @@ export class WeirdWizardActor extends Actor {
     }
 
 }
+
 
 
 

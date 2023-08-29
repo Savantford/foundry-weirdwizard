@@ -33,18 +33,20 @@
                 data-dtype="String" placeholder="{{localize "WW.ImmunePH"}}" />
             {{system.details.immune.value}}
         </div>
-        <div class="flex-row stat-inline flex-group-left">{{!-- Size, Speed --}}
+
+        {{!-- Size, Speed --}}
+        <div class="flex-row stat-inline flex-group-left">
             <label>{{localize "WW.Size"}}</label>
             <select name="system.stats.size">
                 {{selectOptions numbersObj selected=system.stats.size localize=true}}
             </select>
             {{system.stats.size.value}}
 
-            <label class="ml-2">{{localize "WW.Speed"}}</label>
-            <input class="mr-1" type="number" name="system.stats.speed.value" value="{{system.stats.speed.value}}"
+            <label class="ml-2">{{localize "WW.Speed.Title"}}</label>
+            <input class="mr-1" type="number" name="system.stats.speed.raw" value="{{system.stats.speed.raw}}"
                 data-dtype="Number" min="0" / placeholder="#">
             <input type="text" name="system.stats.speed.special" value="{{system.stats.speed.special}}"
-                data-dtype="String" placeholder="{{localize "WW.SpeedPH"}}" title="{{localize "WW.SpeedTip"}}" />
+                data-dtype="String" placeholder="{{localize "WW.Speed.PH"}}" title="{{localize "WW.Speed.Tip"}}" />
         </div>
 
     </div>

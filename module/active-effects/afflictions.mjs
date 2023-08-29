@@ -1,7 +1,8 @@
 import { addEffect, multiplyEffect, downgradeEffect, overrideEffect } from './item-effects.mjs'
 import { i18n } from "../helpers/utils.mjs";
 
-const effectPriority = 110;
+const addPriority = 120;
+const overridePriority = 150;
 
 const _buildBaseAffliction = (label, icon, changes = [], flags = {}) => ({
   id: label, // TODO: Check corrections here?
@@ -60,26 +61,20 @@ export class WWAfflictions {
     const effectsDataList = [];
 
     const baneAllAttributes = function(v) { return [
-      addEffect('system.boons.attributes.str.global', v, effectPriority),
-      addEffect('system.boons.attributes.agi.global', v, effectPriority),
-      addEffect('system.boons.attributes.int.global', v, effectPriority),
-      addEffect('system.boons.attributes.wil.global', v, effectPriority)
+      addEffect('system.boons.attributes.str.global', v, addPriority),
+      addEffect('system.boons.attributes.agi.global', v, addPriority),
+      addEffect('system.boons.attributes.int.global', v, addPriority),
+      addEffect('system.boons.attributes.wil.global', v, addPriority)
     ];}
-
-
-    //const halfSpeed = this.system
 
     // Blinded
     effectsDataList.push(_buildBaseAffliction(
       'Blinded',
       'icons/svg/blind.svg',
       [
-        multiplyEffect('system.stats.speed.value', 0.5, effectPriority)
+        overrideEffect('system.stats.speed.halved', true, overridePriority)
         // Cannot see, line of sight to nothing, must guess the target
-      ],
-      {
-        warningMessage: i18n('WW.DialogWarningBlindedChallengeFailer'),
-      }
+      ]
     ));
 
     // Confused
@@ -87,8 +82,8 @@ export class WWAfflictions {
       'Confused',
       'icons/svg/stoned.svg',
       [
-        addEffect('system.boons.attributes.int.global', -1, effectPriority),
-        addEffect('system.boons.attributes.wil.global', -1, effectPriority)
+        addEffect('system.boons.attributes.int.global', -1, addPriority),
+        addEffect('system.boons.attributes.wil.global', -1, addPriority)
         // Cannot use reactions
       ]
     ));
@@ -104,7 +99,7 @@ export class WWAfflictions {
     effectsDataList.push(_buildBaseAffliction(
       'Cursed',
       'icons/svg/ruins.svg',
-      [addEffect('system.boons.attributes.luck.global', -1, effectPriority)]
+      [addEffect('system.boons.attributes.luck.global', -1, addPriority)]
     ));
 
     // Deafened
@@ -124,7 +119,7 @@ export class WWAfflictions {
     effectsDataList.push(_buildBaseAffliction(
       'Held',
       'icons/svg/padlock.svg',
-      [overrideEffect('system.stats.speed.value', 0, 109)] // Higher priority
+      [overrideEffect('system.stats.speed.value', 0, overridePriority)]
     ));
 
     // Strength Impaired
@@ -132,7 +127,7 @@ export class WWAfflictions {
       _buildBaseAffliction(
         'ImpairedStr',
         'icons/svg/bones.svg',
-        [addEffect('system.boons.attributes.str.global', -1, effectPriority)]
+        [addEffect('system.boons.attributes.str.global', -1, addPriority)]
       ),
     );
 
@@ -141,7 +136,7 @@ export class WWAfflictions {
       _buildBaseAffliction(
         'ImpairedAgi',
         'icons/svg/anchor.svg',
-        [addEffect('system.boons.attributes.agi.global', -1, effectPriority)]
+        [addEffect('system.boons.attributes.agi.global', -1, addPriority)]
       ),
     );
 
@@ -150,7 +145,7 @@ export class WWAfflictions {
       _buildBaseAffliction(
         'ImpairedInt',
         'icons/svg/light-off.svg',
-        [addEffect('system.boons.attributes.int.global', -1, effectPriority)]
+        [addEffect('system.boons.attributes.int.global', -1, addPriority)]
       ),
     );
 
@@ -159,7 +154,7 @@ export class WWAfflictions {
       _buildBaseAffliction(
         'ImpairedWil',
         'icons/svg/invisible.svg',
-        [addEffect('system.boons.attributes.wil.global', -1, effectPriority)]
+        [addEffect('system.boons.attributes.wil.global', -1, addPriority)]
       ),
     );
 
@@ -198,15 +193,12 @@ export class WWAfflictions {
       _buildBaseAffliction(
         'Stunned',
         'icons/svg/daze.svg',
-        [overrideEffect('system.stats.speed.value', 0, 109)] // Higher priority
+        [overrideEffect('system.stats.speed.value', 0, overridePriority)]
           .concat(baneAllAttributes(-2)),
           /*You cannot use actions or reactions. Your Speed drops to 0 and
           you cannot benefit from increases to Speed until this affliction
           ends. You grant 2 boons on rolls against you, and you make attribute rolls with 2 banes.*/
         
-        {
-          warningMessage: i18n('WW.DialogWarningStunnedFailer'),
-        }
       ),
     );
 
@@ -215,9 +207,13 @@ export class WWAfflictions {
       _buildBaseAffliction(
         'Unconscious',
         'icons/svg/unconscious.svg',
-        [overrideEffect('system.stats.speed.value', 0, 109)] // Higher priority
-          .concat(baneAllAttributes(-10)), // Must be changed to automatic failure. See https://github.com/Savantford/foundry-weirdwizard/issues/40
-
+        [
+          overrideEffect('system.stats.speed.value', 0, overridePriority),
+          overrideEffect('system.autoFail.str', true, addPriority),
+          overrideEffect('system.autoFail.agi', true, addPriority),
+          overrideEffect('system.autoFail.int', true, addPriority),
+          overrideEffect('system.autoFail.wil', true, addPriority)
+        ],
           /* You cannot use actions or reactions. Your Speed drops 0 and you
           cannot benefit from increases to Speed until this affliction ends.
           You receive no information from your senses. You grant 3 boons
@@ -228,9 +224,6 @@ export class WWAfflictions {
           unconscious, you would reduce your Health to 6 and then take 6
           damage, which would cause you to become incapacitated. */
         
-        {
-          warningMessage: i18n('WW.DialogWarningUnconsciousFailer'),
-        }
       ),
     );
 
@@ -249,9 +242,9 @@ export class WWAfflictions {
       'Weakened',
       'icons/svg/downgrade.svg',
       [
-        addEffect('system.boons.attributes.str.global', -1, effectPriority),
-        addEffect('system.boons.attributes.agi.global', -1, effectPriority),
-        multiplyEffect('system.stats.speed.value', 0.5, effectPriority)
+        addEffect('system.boons.attributes.str.global', -1, addPriority),
+        addEffect('system.boons.attributes.agi.global', -1, addPriority),
+        overrideEffect('system.stats.speed.halved', true, addPriority)
       ]
     ));
 
@@ -263,12 +256,12 @@ export class WWAfflictions {
     // Defend
     effectsDataList.push(
       _buildBaseAffliction('defend', 'systems/weirdwizard/assets/icons/effects/defend.svg', [
-        addEffect('system.bonuses.defense.boons.defense', 1, effectPriority),
-        addEffect('system.bonuses.defense.boons.strength', 1, effectPriority),
-        addEffect('system.bonuses.defense.boons.agility', 1, effectPriority),
-        addEffect('system.bonuses.defense.boons.will', 1, effectPriority),
-        addEffect('system.bonuses.defense.boons.intellect', 1, effectPriority),
-        addEffect('system.bonuses.defense.boons.perception', 1, effectPriority),
+        addEffect('system.bonuses.defense.boons.defense', 1, addPriority),
+        addEffect('system.bonuses.defense.boons.strength', 1, addPriority),
+        addEffect('system.bonuses.defense.boons.agility', 1, addPriority),
+        addEffect('system.bonuses.defense.boons.will', 1, addPriority),
+        addEffect('system.bonuses.defense.boons.intellect', 1, addPriority),
+        addEffect('system.bonuses.defense.boons.perception', 1, addPriority),
         // TODO: Auto disable when Dazed, Stunned or Unconscious
       ]),
     );
@@ -285,16 +278,16 @@ export class WWAfflictions {
     // Prepare
     effectsDataList.push(
       _buildBaseAffliction('prepare', 'systems/weirdwizard/assets/icons/effects/prepare.svg', [
-        addEffect('system.bonuses.challenge.boons.strength', 1, effectPriority),
-        addEffect('system.bonuses.challenge.boons.agility', 1, effectPriority),
-        addEffect('system.bonuses.challenge.boons.intellect', 1, effectPriority),
-        addEffect('system.bonuses.challenge.boons.will', 1, effectPriority),
-        addEffect('system.bonuses.challenge.boons.perception', 1, effectPriority),
-        addEffect('system.bonuses.attack.boons.strength', 1, effectPriority),
-        addEffect('system.bonuses.attack.boons.agility', 1, effectPriority),
-        addEffect('system.bonuses.attack.boons.intellect', 1, effectPriority),
-        addEffect('system.bonuses.attack.boons.will', 1, effectPriority),
-        addEffect('system.bonuses.attack.boons.perception', 1, effectPriority),
+        addEffect('system.bonuses.challenge.boons.strength', 1, addPriority),
+        addEffect('system.bonuses.challenge.boons.agility', 1, addPriority),
+        addEffect('system.bonuses.challenge.boons.intellect', 1, addPriority),
+        addEffect('system.bonuses.challenge.boons.will', 1, addPriority),
+        addEffect('system.bonuses.challenge.boons.perception', 1, addPriority),
+        addEffect('system.bonuses.attack.boons.strength', 1, addPriority),
+        addEffect('system.bonuses.attack.boons.agility', 1, addPriority),
+        addEffect('system.bonuses.attack.boons.intellect', 1, addPriority),
+        addEffect('system.bonuses.attack.boons.will', 1, addPriority),
+        addEffect('system.bonuses.attack.boons.perception', 1, addPriority),
       ]),
     );
 
