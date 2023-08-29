@@ -23,7 +23,7 @@ export function plusify(x) {
 /*  Math Functions
 /* -------------------------------------------- */
 
-Global.sum = function (array) {
+export function sum(array) {
   let sum = array.reduce((partialSum, a) => partialSum + a, 0);
   return sum;
 }

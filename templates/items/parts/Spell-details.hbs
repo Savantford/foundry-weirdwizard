@@ -1,0 +1,49 @@
+{{!-- Header Row --}}
+<div class="flex-row stat-inline">
+
+    {{!-- Tier --}}
+    <label>{{localize "WW.Tier"}}</label>
+    <select name="system.tier">
+        {{selectOptions tiersObj selected=system.tier localize=true}}
+    </select>
+    {{system.tier.value}}
+
+    {{!-- Tradition --}}
+    <label class="ml-2">{{localize "WW.Tradition"}}</label>
+    <input type="text" name="system.tradition" value="{{system.tradition}}" data-dtype="String" />
+    {{system.tradition.value}}
+
+</div>
+
+{{!-- Requirement --}}
+<div class="flex-row stat-inline">
+    <label class="">{{localize "WW.Requirement"}}</label>
+    <input type="text" name="system.requirement" value="{{system.requirement}}" data-dtype="String" />
+    {{system.requirement.value}}
+</div>
+
+{{!-- Casting --}}
+<div class="flex-row stat-inline">
+    <label class="">{{localize "WW.Casting"}}</label>
+    <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="1" data-dtype="Number" />
+    <input class="ml-2" type="text" name="system.casting" value="{{system.casting}}" data-dtype="String" />
+    {{system.casting.value}}
+</div>
+
+{{!-- Target --}}
+<div class="flex-row stat-inline">
+    <label class="resource-label">{{localize "WW.Target"}}</label>
+    <input type="text" name="system.target" value="{{system.target}}" data-dtype="String" />
+    {{system.target.value}}
+</div>
+
+{{!-- Duration --}}
+<div class="flex-row stat-inline">
+    <label class="resource-label">{{localize "WW.Duration"}}</label>
+    <input type="text" name="system.duration" value="{{system.duration}}" data-dtype="String" />
+    {{system.duration.value}}
+</div>
+
+{{!-- Description --}}
+<h2>{{localize "WW.Description"}}</h2>
+{{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}

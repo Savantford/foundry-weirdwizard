@@ -71,6 +71,12 @@ export class WWActiveEffectConfig extends ActiveEffectConfig {
       'system.boons.attributes.wil.global': i18n('WW.Will') + ': ' + i18n('WW.Boons.Or'),
       'system.boons.attributes.luck.global': i18n('WW.Luck') + ': ' + i18n('WW.Boons.Or'),
       'system.boons.attacks.global': i18n('WW.Attacks') + ': ' + i18n('WW.Boons.Or'),
+
+      // Auto Failure
+      'system.autoFail.str': i18n('WW.Strength') + ': ' + i18n('WW.AutoFail'),
+      'system.autoFail.agi': i18n('WW.Agility') + ': ' + i18n('WW.AutoFail'),
+      'system.autoFail.int': i18n('WW.Intellect') + ': ' + i18n('WW.AutoFail'),
+      'system.autoFail.wil': i18n('WW.Will') + ': ' + i18n('WW.AutoFail'),
       
       //  Defense
       'system.stats.defense.total': i18n('WW.Defense.Score'),
@@ -94,9 +100,9 @@ export class WWActiveEffectConfig extends ActiveEffectConfig {
       // Stats
       /*'stats.level': i18n('WW.'),
       'stats.size': i18n('WW.'),*/
-      'system.stats.speed.value': i18n('WW.SpeedScore'),
-      /*'stats.speed.special': i18n('WW.'),
-      'stats.bonusdamage': i18n('WW.'),*/
+      'system.stats.speed.value': i18n('WW.Speed.Score'),
+      'system.stats.speed.halved': i18n('WW.Speed.Halved'),
+      /*'system.stats.bonusdamage': i18n('WW.'),*/
 
       // Attributes
       'system.attributes.str.value': i18n('WW.StrengthScore'),

@@ -17,7 +17,7 @@ export const multiplyEffect = (key, value, priority) => ({
 
 export const overrideEffect = (key, value, priority) => ({
   key: key,
-  value: parseInt(value),
+  value: value,
   mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
   priority: priority
 })

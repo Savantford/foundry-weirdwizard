@@ -6,20 +6,11 @@
     <div class="header-fields">
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.ItemName"}}" /></h1>
 
-      {{!-- Header Row --}}
-      <div class="flex-row stat-inline">
-
-        <label>{{localize "WW.Tier"}}</label>
-        <select name="system.tier">
-          {{selectOptions tiersObj selected=system.tier localize=true}}
-        </select>
-        {{system.tier.value}}
-
-        <label class="ml-2">{{localize "WW.Tradition"}}</label>
-        <input type="text" name="system.tradition" value="{{system.tradition}}" data-dtype="String" />
-        {{system.tradition.value}}
-        
-      </div>
+      {{!-- Header Tab Navigation --}}
+      <nav class="mt-2 sheet-tabs tabs spell-tabs" data-group="primary">
+        <a class="item" data-tab="details">{{localize "WW.Details"}}</a>
+        <a class="item" data-tab="automation">{{localize "WW.Automation"}}</a>
+      </nav>
 
     </div>
   </header>
@@ -27,40 +18,16 @@
   {{!-- Sheet Body --}}
   <section class="sheet-body">
     
-    {{!-- Requirement --}}
-    <div class="flex-row stat-inline">
-      <label class="">{{localize "WW.Requirement"}}</label>
-      <input type="text" name="system.requirement" value="{{system.requirement}}" data-dtype="String" />
-      {{system.requirement.value}}
+    {{!-- Details Tab --}}
+    <div class="tab details" data-group="primary" data-tab="details">
+      {{> "systems/weirdwizard/templates/items/parts/Spell-details.hbs"}}
     </div>
-
-    {{!-- Casting --}}
-    <div class="flex-row stat-inline">
-      <label class="">{{localize "WW.Casting"}}</label>
-      <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="1" data-dtype="Number" />
-      <input class="ml-2" type="text" name="system.casting" value="{{system.casting}}" data-dtype="String" />
-      {{system.casting.value}}
+  
+    {{!-- Automation Tab --}}
+    <div class="tab automation" data-group="primary" data-tab="automation">
+      {{> "systems/weirdwizard/templates/items/parts/item-settings.hbs"}}
+      {{> "systems/weirdwizard/templates/items/parts/item-effects.hbs"}}
     </div>
-
-    {{!-- Target --}}
-    <div class="flex-row stat-inline">
-      <label class="resource-label">{{localize "WW.Target"}}</label>
-      <input type="text" name="system.target" value="{{system.target}}" data-dtype="String" />
-      {{system.target.value}}
-    </div>
-
-    {{!-- Duration --}}
-    <div class="flex-row stat-inline">
-      <label class="resource-label">{{localize "WW.Duration"}}</label>
-      <input type="text" name="system.duration" value="{{system.duration}}" data-dtype="String" />
-      {{system.duration.value}}
-    </div>
-    
-    <h2>{{localize "WW.Description"}}</h2>
-    {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
-
-    {{> "systems/weirdwizard/templates/items/parts/item-settings.hbs"}}
-    {{> "systems/weirdwizard/templates/items/parts/item-effects.hbs"}}
 
   </section>
 </form>

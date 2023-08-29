@@ -6,45 +6,28 @@
     <div class="header-fields">
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.ItemName"}}" /></h1>
       
-      {{!-- Main Row --}}
-      <div class="flex-row stat-inline">
-        <label class="resource-label">{{localize "WW.Type"}}</label>
-        <select name="system.subtype">
-          {{selectOptions subtypesObj selected=system.subtype localize=true}}
-        </select>
+      {{!-- Header Tab Navigation --}}
+      <nav class="mt-2 sheet-tabs tabs talent-tabs" data-group="primary">
+        <a class="item" data-tab="details">{{localize "WW.Details"}}</a>
+        <a class="item" data-tab="automation">{{localize "WW.Automation"}}</a>
+      </nav>
 
-        <label class="ml-2">{{localize "WW.UsesTalent"}}</label>
-        <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="0" data-dtype="Number" />
-      </div>
-
-      {{!-- Subtype Row --}}
-      <div class="flex-row stat-inline">
-        {{#if (eq system.subtype 'trait')}} {{!-- Trait Params --}}
-        <label>{{localize "WW.Source"}}</label>
-        <select name="system.source">
-          {{selectOptions sourcesObj selected=system.source localize=true}}
-        </select>
-        {{/if}}
-      </div>
     </div>
-
-    {{!-- Subtype Row --}}
   </header>
 
   {{!-- Sheet Body --}}
   <section class="sheet-body">
 
-    <h2>{{localize "WW.Description"}}</h2>
-    {{#if (eq system.subtype 'aura')}} {{!-- Aura Params --}}
-    <div class="flex-row stat-inline">
-      <label>{{localize "WW.AuraRange"}}</label>
-      <input type="number" name="system.range" value="{{system.range}}" min="0" placeholder="#" data-dtype="Number" />
+    {{!-- Details Tab --}}
+    <div class="tab details" data-group="primary" data-tab="details">
+      {{> "systems/weirdwizard/templates/items/parts/Talent-details.hbs"}}
     </div>
-    {{/if}}
-    {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
-
-    {{> "systems/weirdwizard/templates/items/parts/item-settings.hbs"}}
-    {{> "systems/weirdwizard/templates/items/parts/item-effects.hbs"}}
+  
+    {{!-- Automation Tab --}}
+    <div class="tab automation" data-group="primary" data-tab="automation">
+      {{> "systems/weirdwizard/templates/items/parts/item-settings.hbs"}}
+      {{> "systems/weirdwizard/templates/items/parts/item-effects.hbs"}}
+    </div>
 
   </section>
 </form>
