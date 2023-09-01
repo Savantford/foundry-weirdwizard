@@ -16,7 +16,7 @@
     <span class="pip-box">
         {{#each item.uses as |pip id|}}
         <a class="item-pip" title="
-            {{#if (eq pip " far")}}
+            {{#if (eq pip "far fa-circle")}}
                 {{#if (eq item.type "Equipment")}}{{localize "WW.Item.Uses.EquipmentSpend"}}
                 {{else if (eq item.type "Spell")}}{{localize "WW.Item.Uses.SpellSpend"}}
                 {{else}}{{localize "WW.Item.Uses.TalentSpend"}}{{/if}}
@@ -24,8 +24,8 @@
                 {{#if (eq item.type "Equipment")}}{{localize "WW.Item.Uses.EquipmentRecover"}}
                 {{else if (eq item.type "Spell")}}{{localize "WW.Item.Uses.SpellRecover"}}
                 {{else}}{{localize "WW.Item.Uses.TalentRecover"}}{{/if}}
-            {{/if}}"><i
-            class="{{pip}} fa-circle"></i></a>
+            {{/if}}">
+            <i class="{{pip}}"></i></a>
         {{/each}}
     </span>
     {{/if}}

@@ -28,8 +28,8 @@ export class WeirdWizardActorSheet extends ActorSheet {
     const path = 'systems/weirdwizard/templates/actors';
     
     let permission = this.document.getUserLevel(game.user);
-    if ((permission === CONST.DOCUMENT_OWNERSHIP_LEVELS.LIMITED) | (permission === CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER)) return `${path}/actor-${this.actor.type}-limited.hbs`;
-    if (permission === CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) return `${path}/actor-${this.actor.type}-sheet.hbs`;
+    if ((permission === CONST.DOCUMENT_OWNERSHIP_LEVELS.LIMITED) | (permission === CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER)) return `${path}/${this.actor.type}-limited.hbs`;
+    if (permission === CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) return `${path}/${this.actor.type}-sheet.hbs`;
     
     // Return a single sheet for all item types.
     // return `${path}/actor-sheet.html`;
@@ -67,8 +67,8 @@ export class WeirdWizardActorSheet extends ActorSheet {
     // Prepare common data
     context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true })
     context.numbersObj = CONFIG.WW.dropdownNumbers;
-    context.incapacitated = (context.system.stats.damage.value >= context.system.stats.health.total) ? true : false;
-    context.injured = (context.system.stats.damage.value >= Math.floor(context.system.stats.health.total / 2)) ? true : false;
+    context.incapacitated = (context.system.stats.damage.value >= context.system.stats.health.current) ? true : false;
+    context.injured = (context.system.stats.damage.value >= Math.floor(context.system.stats.health.current / 2)) ? true : false;
 
     // Prepare hasEffect for use in templates
     context.hasEffect = {};
@@ -220,7 +220,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
 
     context.totalWeight = sum(equipment.map(i => i.system.weight))
 
-    // Prepare uses display for talents and spells
+    // Prepare uses pips for talents and spells
     function updateUses(item, id) {
       let spent = item.system.uses.value ? item.system.uses.value : 0;
       let max = item.system.uses.max;
@@ -229,7 +229,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
       let i = 0; // fill the Buttons with available traditions
 
       for (i = 1; i <= max; i++) { // statement 1 = beginning of the block, statement 2 = condition, statement 3 = executed at the end of each loop
-        if (i <= spent) { arr.push('fas') } else { arr.push('far') }; // fas (solid) = unspent, far (regular) = spent
+        if (i <= spent) { arr.push('fas fa-circle-x') } else { arr.push('far fa-circle') };
       };
 
       item.uses = arr;
@@ -285,6 +285,46 @@ export class WeirdWizardActorSheet extends ActorSheet {
     html.find('.health-edit').click(ev => {
       new healthDetails(this.actor).render(true)
     });
+    
+    // Rest button dialog + function
+    html.find('.rest-btn').click(async () => {
+      
+      const confirm = await Dialog.confirm({
+        title: i18n('WW.Rest.Title'),
+        content: i18n('WW.Rest.Tip') + '<p class="dialog-sure">' + i18n('WW.Rest.Confirm') + '</p>'
+      });
+
+      if(!confirm) return;
+
+      // Recover all damage
+      this.actor.update( { "system.stats.damage.value": 0 });
+
+      // Recover 1/10 of the Health, rounded down
+      const health = this.actor.system.stats.health;
+      this.actor.update( { "system.stats.health.lost": health.lost - Math.floor(health.normal/10) });
+
+      // Recover uses/tokens/castings for Talents and Spells
+      this.actor.updateEmbeddedDocuments('Item', this.actor.items.filter(i => i.system.uses.onRest === true).map(i => ({_id: i.id, 'system.uses.value': 0})
+      ));
+
+      // Send message to chat
+      let messageData = {
+        content: '<span style="font-weight: bold">' + this.actor.name + '</span> ' + i18n('WW.Rest.Finished') + '.',
+        sound: CONFIG.sounds.notification
+      };
+
+      ChatMessage.create(messageData);
+    });
+
+    // Get secret message content
+    const getSecretContent = function (content) {
+      return '<span class="owner-only">' + content + '</span>';
+    }
+
+    // Get secret label content
+    const getSecretLabel = function (label) {
+      return '<span class="owner-only">' + label + '</span><span class="non-owner-only">? ? ?</span>'
+    }
 
     /////////// ITEMS: ROLL BUTTONS /////////////
 
@@ -308,7 +348,8 @@ export class WeirdWizardActorSheet extends ActorSheet {
         label = item.name;
         fixedBoons = item.system.boons;
         
-        if (this.actor.type == 'Character') content = item.system.description.value;
+        //if (this.actor.type == 'Character') content = item.system.description.value; // No longer needed
+        content = getSecretContent(item.system.description.value);
         
         if (this.actor.system.attributes[item.system.attribute]) {
           attKey = item.system.attribute;
@@ -348,22 +389,23 @@ export class WeirdWizardActorSheet extends ActorSheet {
       let obj = {
         actor: this.actor,
         target: ev,
-        label: label,
+        label: getSecretLabel(label),
         content: content,
         attKey: attKey,
         fixedBoons: fixedBoons
       }
 
       // Check for Automatic Failure
-      console.log(system)
       if (system.autoFail[obj.attKey]) {
 
         let messageData = {
           speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-          flavor: label,
+          flavor: getSecretLabel(label),
           content: '<div class="dice-formula auto-fail">' + i18n('WW.AutoFail') + '!</div>' + content,
           sound: CONFIG.sounds.dice
         };
+
+        console.log(messageData.speaker)
 
         ChatMessage.create(messageData);
       } else {
@@ -385,7 +427,8 @@ export class WeirdWizardActorSheet extends ActorSheet {
       let obj = {
         actor: this.actor,
         target: ev,
-        label: item.name,
+        label: getSecretLabel(item.name),
+        name: item.name,
         baseDamage: item.system.damage,
         properties: item.system.properties ? item.system.properties : {},
         bonusDamage: this.actor.system.stats.bonusdamage
@@ -406,7 +449,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
       const item = this.actor.items.get(li.data('itemId'));
       
       let roll = new Roll(item.system.healing, this.actor.system);
-      let label = i18n('WW.HealingOf') + ' ' + item.name;
+      let label = i18n('WW.HealingOf') + ' ' + getSecretLabel(item.name);
 
       roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),
@@ -549,6 +592,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
       })
     }
   }
+
   /* -------------------------------------------- */
 
   /**
@@ -564,7 +608,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
 
     // Handle _onRoll events that has a defined rollType.
     if (dataset.rollType) {
-      if (dataset.rollType == 'item') {       // Handle item rolls.
+      if (dataset.rollType == 'item') { // Handle item rolls.
         const itemId = element.closest('.item').dataset.itemId;
         const item = this.actor.items.get(itemId);
         if (item) return item.roll();

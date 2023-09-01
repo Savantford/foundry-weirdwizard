@@ -77,6 +77,10 @@ export class WWActiveEffectConfig extends ActiveEffectConfig {
       'system.autoFail.agi': i18n('WW.Agility') + ': ' + i18n('WW.AutoFail'),
       'system.autoFail.int': i18n('WW.Intellect') + ': ' + i18n('WW.AutoFail'),
       'system.autoFail.wil': i18n('WW.Will') + ': ' + i18n('WW.AutoFail'),
+
+      // Extra Damage
+      'system.extraDamage.attacks.dice': i18n('WW.Damage.AttackDice'),
+      'system.extraDamage.attacks.mod': i18n('WW.Damage.AttackMod'),
       
       //  Defense
       'system.stats.defense.total': i18n('WW.Defense.Score'),
@@ -85,7 +89,8 @@ export class WWActiveEffectConfig extends ActiveEffectConfig {
       'system.stats.defense.bonuses': i18n('WW.Defense.Bonus'),*/
 
       // Health
-      'system.stats.health.total': i18n('WW.Health.Score'),
+      'system.stats.health.current': i18n('WW.Health.Current'),
+      'system.stats.health.normal': i18n('WW.Health.Normal'),
       /*'stats.health.starting': i18n('WW.'),
       'stats.health.novice': i18n('WW.'),
       'stats.health.expert': i18n('WW.'),

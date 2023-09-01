@@ -11,7 +11,7 @@
         {{#if shattering}}
         <div class="stat-stretch flex-group-left mt-1">
             <label class="resource-label">{{localize "WW.Damage.Shattering"}}</label>
-            <input name="shattering" class="damage-checkbox shattering" type="checkbox" title="Apply Extra Damage">
+            <input name="shattering" class="damage-checkbox shattering" type="checkbox" title="Apply the extra damage die">
             +1d6
         </div>
         {{/if}}
@@ -19,7 +19,7 @@
         {{#if versatile}}
         <div class="stat-stretch flex-group-left mt-1">
             <label class="resource-label">{{localize "WW.Damage.BothHands"}}</label>
-            <input name="bothHands" class="damage-checkbox bothHands" type="checkbox" title="Apply Extra Damage">
+            <input name="bothHands" class="damage-checkbox bothHands" type="checkbox" title="Apply the extra damage die">
             +1d6
         </div>
         {{/if}}
@@ -29,8 +29,24 @@
         {{#if bonusDamage}}
         <div class="stat-stretch flex-group-left mt-1">
             <label class="resource-label">{{localize "WW.Damage.Bonus"}}</label>
-            <input name="applyBonus" class="damage-checkbox applyBonus" type="checkbox" title="Apply Full Bonus Damage">
+            <input name="applyBonus" class="damage-checkbox applyBonus" type="checkbox" title="Apply all Bonus Damage dice">
             +{{bonusDamage}}d6
+        </div>
+        {{/if}}
+
+        {{#if attackDice}}
+        <div class="stat-stretch flex-group-left mt-1">
+            <label class="resource-label">{{localize "WW.Damage.AttackDice"}}</label>
+            <input name="attackDice" class="damage-checkbox attackDice" type="checkbox" title="Apply the extra damage dice">
+            +{{attackDice}}d6
+        </div>
+        {{/if}}
+        
+        {{#if attackMod}}
+        <div class="stat-stretch flex-group-left mt-1">
+            <label class="resource-label">{{localize "WW.Damage.AttackMod"}}</label>
+            <input name="attackMod" class="damage-checkbox attackMod" type="checkbox" title="Apply the extra damage modifier">
+            +{{attackMod}}
         </div>
         {{/if}}
 

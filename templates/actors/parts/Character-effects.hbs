@@ -100,6 +100,8 @@
 
         <div class="effect-changes mb-1">
           {{#each effect.changes as |change|}}
+            
+            {{#if change.key}}
             <div class="nowrap">
               {{lookup ../../../effectChangeKeys change.key}} 
               {{#if (eq change.mode 1)}}× {{change.value}}
@@ -107,6 +109,7 @@
               {{else}}= {{change.value}}
               {{/if}}
             </div>
+            {{else}}<div>-</div>{{/if}}
           {{/each}}
         </div>
         

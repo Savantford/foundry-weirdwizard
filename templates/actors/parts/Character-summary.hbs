@@ -43,7 +43,7 @@
                 <a title="{{localize "WW.Defense.Natural"}}: {{system.stats.defense.natural}}">{{system.stats.defense.total}}</a>
                 <label class="ml-1" for="health" class="resource-label">{{localize "WW.Health.Title"}}</label>
 
-                <a class="health-edit" title="Edit Health">{{system.stats.health.total}}</a>
+                <a class="health-edit" title="Click to edit Health. {{localize "WW.Health.Normal"}}: {{system.stats.health.normal}}">{{system.stats.health.current}}</a>
 
                 <label class="ml-1" for="damage" class="resource-label">{{localize "WW.Damage.Title"}}</label>
 
@@ -95,7 +95,7 @@
             {{#if system.stats.speed.special}} ({{system.stats.speed.special}}){{/if}}
         </div>
 
-        <h3 class="mt-2">{{localize "WW.Attacks"}}</h3>
+        <h3 class="mt-2">{{localize "WW.Attack.Attacks"}}</h3>
         
         {{!-- Bonus Damage --}}
         {{#if system.stats.bonusdamage}}
@@ -167,8 +167,8 @@
         </ol>
         {{/if}}
 
-        {{#if (or system.details.traditions spells)}}
-        <h3 class="mt-2">{{localize "WW.Spells"}}</h3>
+        {{#if (or system.details.traditions spells.length)}}
+        <h3>{{localize "WW.Spells"}}</h3>
 
         {{!-- Traditions --}}
         {{#if system.details.traditions}}

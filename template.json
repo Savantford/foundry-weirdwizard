@@ -27,13 +27,7 @@
             "natural": 10
           },
           "health": {
-            "total": 0,
-            "starting": 0,
-            "novice": 0,
-            "expert": 0,
-            "master": 0,
-            "bonus": 0,
-            "lost": 0
+            "current": 0
           },
           "damage": {
             "value": 0,
@@ -66,7 +60,17 @@
         "value": "Unknown biography."
       },
       "stats": {
-        "bonusdamage": 0
+        "bonusdamage": 0,
+        "health": {
+          "normal": 0,
+          "current": 0,
+          "starting": 10,
+          "novice": 0,
+          "expert": 0,
+          "master": 0,
+          "lost": 0,
+          "bonus": 0
+        }
       },
       "details": {
         "ancestry": "Human",
@@ -108,7 +112,8 @@
       },
       "stats": {
         "defense": {
-          "total": 0
+          "total": 10,
+          "details": ""
         },
         "solitary": false
       }
@@ -194,6 +199,7 @@
         "uses": {
           "value": 0,
           "max": 0,
+          "onRest": true,
           "frequency": "day"
         },
         "damage": "",
@@ -241,11 +247,12 @@
       },
       "reloaded": true,
       "armorType": "light",
-      "capacity": 0,
-      "consumableType": "potion",
       "uses": {
+        "onRest": false,
         "autoDestroy": false
-      }
+      },
+      "capacity": 0,
+      "consumableType": "potion"
     },
     "Trait or Talent": {
       "templates": ["base", "activatedEffect", "action"],

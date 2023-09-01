@@ -1,21 +1,28 @@
 {{!-- Main Row --}}
-<div class="flex-row stat-inline">
+<div class="flex-row stat flex-wrap">
 
     {{!-- Type --}}
-    <label class="resource-label">{{localize "WW.Type"}}</label>
-    <select name="system.subtype">
-        {{selectOptions subtypesObj selected=system.subtype localize=true}}
-    </select>
-
-    {{!-- Uses/Tokens --}}
-    <label class="ml-2">{{localize "WW.UsesTalent"}}</label>
-    <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="0" data-dtype="Number" />
+    <div>
+        <label class="resource-label">{{localize "WW.Type"}}</label>
+        <select name="system.subtype">
+            {{selectOptions subtypesObj selected=system.subtype localize=true}}
+        </select>
+    </div>
 
     {{!-- Source --}}
-    <label class="ml-2">{{localize "WW.Source"}}</label>
-    <select name="system.source">
-        {{selectOptions sourcesObj selected=system.source localize=true}}
-    </select>
+    <div>
+        <label>{{localize "WW.Source"}}</label>
+        <select name="system.source">
+            {{selectOptions sourcesObj selected=system.source localize=true}}
+        </select>
+    </div>
+    
+    {{!-- Uses/Tokens --}}
+    <div>
+        <label>{{localize "WW.UsesTalent"}}</label>
+        <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="0" data-dtype="Number" />
+        <input class="checkbox-uses" type="checkbox" name="system.uses.onRest" {{checked system.uses.onRest}} title="{{localize "WW.Item.Uses.OnRest"}}"/>
+    </div>
 
 </div>
 

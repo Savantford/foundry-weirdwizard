@@ -110,4 +110,15 @@ Hooks.once('setup', function () {
 
 Hooks.on('renderChatLog', (app, html, _data) => initChatListeners(html))
 
+Hooks.on("renderChatMessage", (app, html) => {
+
+  // Remove html elements meant for owners or non-owners only
+  if (!game.user.isOwner) {
+    html.find(".owner-only").remove();
+  } else {
+    html.find(".non-owner-only").remove();
+  }
+
+})
+
 console.log('weirdwizard.mjs loaded.')

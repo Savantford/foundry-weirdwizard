@@ -34,7 +34,10 @@
                     <label>{{localize "WW.Damage.Title"}} / {{localize "WW.Health.Title"}}</label>
                     <div class="flex-row flex-group-center">
                         <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0" data-dtype="Number"/>
-                        <span class"ml-1">/ {{system.stats.health.total}} <a class="health-edit" title="Edit Health"><i class="fas fa-edit"></i></a></span>
+
+                        <span class"ml-1">/ <a title="{{localize "WW.Health.Normal"}}: {{system.stats.health.normal}}">{{system.stats.health.current}}</a> 
+
+                        <a class="health-edit" title="Edit Health"><i class="fas fa-edit"></i></a></span>
                     </div>
                 </div>
 
@@ -45,10 +48,23 @@
                     {{system.stats.bonusdamage.value}}
                 </div>
 
-                {{!-- Luck Roll --}}
+                <div class="stat flex-row flex-group-center">
+                    {{!-- Luck Roll --}}
+                    <div class="mr-2">
+                        <label>{{localize "WW.Luck"}}</label>
+                        <div><a class="rollable resource-label" title="Roll {{localize "WW.Luck"}}"><i class="large fas fa-dice-d20" data-label="Luck"></i></a></div>
+                    </div>
+
+                    {{!-- Rest --}}
+                    <div>
+                        <label>{{localize "WW.Rest.Title"}}</label>
+                        <div><a class="rest-btn"><i class="large fas fa-bed"></i></a></div>
+                    </div>
+                </div>
+
+                {{!-- Rest Button --}}
                 <div class="stat flex-group-center">
-                    <label>{{localize "WW.Luck"}}</label>
-                    <div><a class="rollable resource-label" title="Roll {{localize "WW.Luck"}}"><i class="large fas fa-dice-d20" data-label="Luck"></i></a></div>
+                    
                 </div>
             </div>
         </div>
