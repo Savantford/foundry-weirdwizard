@@ -44,7 +44,8 @@ export class WeirdWizardActor extends Actor {
         let raw = this.system.stats.speed.raw;
         let speed = this.system.stats.speed.value;
 
-        if ((speed > raw) || (raw == undefined)) this.system.stats.speed.raw = speed; // Compability: If speed.raw is undefined or lower, copy value to raw
+        // Compability: If speed.raw is undefined or lower, copy value to raw
+        if ((speed > raw) || (raw == undefined)) this.system.stats.speed.raw = speed;
         
         this.system.stats.speed.value = this.system.stats.speed.raw;
 
@@ -52,7 +53,7 @@ export class WeirdWizardActor extends Actor {
         const attributes = this.system.boons.attributes;
         const autoFail = this.system.autoFail;
 
-        ['str', 'agi', 'int', 'wil'].forEach(function (attribute){
+        ['str', 'agi', 'int', 'wil'].forEach(function (attribute) {
             attributes[attribute] = {
                 global: 0,
                 conditional: 0
@@ -61,10 +62,42 @@ export class WeirdWizardActor extends Actor {
             autoFail[attribute] = false;
         })
 
-        // Reset Natural Defense and Defense before Active Effects
+        // Compatibility: Reset Natural Defense and Defense before Active Effects
         if (this.type == 'Character') {
             this.system.stats.defense.natural = 10;
             this.system.stats.defense.total = 0;
+        }
+
+        // Compatibility: Delete old Defense values
+        const defense = this.system.stats.defense;
+
+        if (defense.armor) delete this.system.stats.defense.armor;
+        if (defense.bonuses) delete this.system.stats.defense.bonuses;
+        if (defense.unarmored) delete this.system.stats.defense.unarmored;
+
+        // Compatibility: Assign health.total value to health.current
+        let health = this.system.stats.health;
+
+        if (health.total) {
+            if (this.type == 'NPC') {
+                this.system.stats.health.current = health.total;
+                delete this.system.stats.health.bonus;
+                delete this.system.stats.health.expert;
+                delete this.system.stats.health.lost;
+                delete this.system.stats.health.master;
+                delete this.system.stats.health.novice;
+                delete this.system.stats.health.starting;
+            }
+            
+            delete this.system.stats.health.total;
+        }
+
+        // Create Extra Damage variables
+        this.system.extraDamage = {
+            attacks: {
+                globalDice: 0,
+                globalMod: 0
+            }
         }
 
     }
@@ -99,11 +132,16 @@ export class WeirdWizardActor extends Actor {
         await super._preUpdate(changed, options, user);
         
         // Health Operators
-        const health = this.system.stats.health.total;
+        const health = this.system.stats.health.current;
         
         // Limit Damage to not surpass Health
         if (changed.system?.stats?.damage?.value > health) {
             changed.system.stats.damage.value = health;
+        }
+
+        // Limit Lost Health to not go below 0
+        if (changed.system?.stats?.health?.lost < 0) {
+            changed.system.stats.health.lost = 0;
         }
 
     };
@@ -157,7 +195,7 @@ export class WeirdWizardActor extends Actor {
 
         // Calculate and update Path Levels contribution to Health
         let health = system.stats.health; // Get actor's stats
-        let level = system.stats.level.value;
+        let level = system.stats.level;
 
         function count(levels) { // Count how many of provided levels the Character has
         let newValue = 0;
@@ -181,13 +219,12 @@ export class WeirdWizardActor extends Actor {
         const masterLv = count([7, 8, 10])
         const masterBonus = masterLv * health.master;
 
-        // Total Health calculation
-        const totalHealth = health.starting + noviceBonus + expertBonus + masterBonus + health.bonus - health.lost;
+        // Normal and Current Health calculations
+        system.stats.health.normal = health.starting + noviceBonus + expertBonus + masterBonus;
+        system.stats.health.current = system.stats.health.normal + health.bonus - health.lost;
 
-        system.stats.health.total = totalHealth;
-
-        // Assign Health as Max Damage
-        system.stats.damage.max = system.stats.health.total;
+        // Assign Current Health to Max Damage for Token Bars
+        system.stats.damage.max = system.stats.health.current;
 
         // Calculate total Defense
         const defense = system.stats.defense;

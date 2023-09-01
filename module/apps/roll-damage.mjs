@@ -13,10 +13,13 @@ export class rollDamage extends FormApplication {
     this.component = obj.target; // Assign HTML component
     this.actor = obj.actor;
     this.system = obj.actor.system; // Assign actor data
+    this.name = obj.name;
     this.label = obj.label;
     this.baseDamage = obj.baseDamage;
     this.bonusDamage = obj.bonusDamage;
     this.properties = obj.properties;
+    this.attackDice = obj.actor.system.extraDamage.attacks.dice;
+    this.attackMod = obj.actor.system.extraDamage.attacks.mod;
   }
 
   static get defaultOptions() {
@@ -34,12 +37,14 @@ export class rollDamage extends FormApplication {
     let context = super.getData()
 
     // Pass data to application template.
-    context.label = this.label;
+    context.label = this.name;
     context.system = this.system;
     context.baseDamage = this.baseDamage;
     context.bonusDamage = this.bonusDamage;
     context.shattering = this.properties.shattering;
     context.versatile = this.properties.versatile;
+    context.attackDice = this.attackDice;
+    context.attackMod = this.attackMod;
 
     return context
   }
@@ -52,9 +57,11 @@ export class rollDamage extends FormApplication {
 
     // Get roll variables
     const label = this.label;
+    const brutal = this.properties.brutal;
     const baseDamage = this.properties.brutal ? this.baseDamage + 'r1' : this.baseDamage;
     const bonusDamage = this.bonusDamage;
-    const brutal = this.properties.brutal;
+    const attackDice = this.attackDice;
+    const attackMod = this.attackMod;
 
     let finalExp = baseDamage; // Set the final expression to base damage
 
@@ -65,29 +72,34 @@ export class rollDamage extends FormApplication {
       let applyBothHands = parent.querySelector('input[name=bothHands]:checked');
       let applyShattering = parent.querySelector('input[name=shattering]:checked');
       let applyBonus = parent.querySelector('input[name=applyBonus]:checked');
+      let applyAttackDice = parent.querySelector('input[name=attackDice]:checked');
+      let applyAttackMod = parent.querySelector('input[name=attackMod]:checked');
 
       // Get other field variables
-      let otherdice = parseInt(parent.querySelector('input[name=otherdice]').value);
-      let othermod = parseInt(parent.querySelector('input[name=othermod]').value);
+      let otherDice = parseInt(parent.querySelector('input[name=otherdice]').value);
+      let otherMod = parseInt(parent.querySelector('input[name=othermod]').value);
 
       // Reset finalExp
       finalExp = baseDamage;
       
-      // Count extra dice
-      let extraDice = 0;
+      // Count extra damage dice
+      let diceCount = 0;
 
-      if (applyBothHands) extraDice += 1;
+      if (applyBothHands) diceCount += 1;
+      if (applyShattering) diceCount += 1;
+      if (applyBonus && bonusDamage) diceCount += bonusDamage;
+      if (applyAttackDice) diceCount += attackDice;
+      if (otherDice) diceCount += otherDice;
+      
+      // Count extra damage modifier
+      let modCount = 0;
 
-      if (applyShattering) extraDice += 1;
+      if (applyAttackMod) modCount += attackMod;
+      if (otherMod) modCount += otherMod;
 
-      if (applyBonus && bonusDamage) extraDice += bonusDamage;
-
-      if (otherdice) extraDice += otherdice;
-
-      if (extraDice) finalExp += ' + ' + extraDice + (brutal ? 'd6r1' : 'd6');
-
-      // Add othermod to finalExp
-      if (othermod) finalExp += ' + ' + othermod;
+      // Add extra dice and mod to finalExp
+      if (diceCount) finalExp += ' + ' + diceCount + (brutal ? 'd6r1' : 'd6');
+      if (modCount) finalExp += ' + ' + modCount;
 
       // Display final expression
       parent.querySelector('.damage-expression').innerHTML = finalExp;

@@ -11,8 +11,14 @@
     "WW.IntellectScore": "Intellect Score",
     "WW.WillScore": "Will Score",
     "WW.Luck": "Luck",
-
     "WW.Dont": "Don't Roll",
+
+    "WW.Rest": {
+        "Title": "Rest",
+        "Tip": "Resting allows you to heal damage and regain expended resources. If you have uninterrupted rest for 8 consecutive hours, you heal all damage, and you regain Health equal one-tenth your normal Health score (round down). Some of your other resources might also be replenished after a rest. If you stop resting to use an action or reaction, the time you have spent continuously resting is wasted and you must start resting again to gain any benefit from doing so.",
+        "Confirm": "Are you able to rest now?",
+        "Finished": "finished a rest"
+    },
 
     "WW.Stats": "Stats",
     "WW.Traits": "Traits",
@@ -39,8 +45,10 @@
         "Base": "Base Damage",
         "Extra": "Extra Damage",
         "Bonus": "Bonus Damage",
-        "OtherDice": "Extra Damage Dice (Other Sources)",
-        "OtherMod": "Extra Damage Modifier (Other Sources)",
+        "AttackDice": "Extra Damage dice for Attacks",
+        "AttackMod": "Extra Damage modifier for Attacks",
+        "OtherDice": "Extra Damage dice (Other sources)",
+        "OtherMod": "Extra Damage modifier (Other sources)",
         "Of": "Damage of",
         "Shattering": "Target is an Object (Shattering)",
         "BothHands": "In Both Hands (Versatile)"
@@ -50,8 +58,8 @@
 
     "WW.Health": {
         "Title": "Health",
-        "Score": "Health Score",
-        "Total": "Health Total",
+        "Normal": "Normal Health Score",
+        "Current": "Current Health Score",
         "Starting": "Starting Health",
         "Per": "Health gained per each",
         "Novice": "Novice Path level",
@@ -59,8 +67,8 @@
         "Master": "Master Path level",
         "Bonus": "Bonus Health",
         "Lost": "Lost Health",
-        "Injured": "You are injured.\nTypically, you suffer no effects from being injured, but certain talents, spells, and other effects used against you might put you at a disadvantage because you're injured.",
-        "Incapacitated": "You are incapacitated.\nYou fall prone and become incapacitated. While you're incapacitated, you are unconscious. If you take any damage while incapacitated, you lose Health equal to the damage you took.\nIf you're incapacitated at the end of the round, lose 1d6 Health and make a luck roll. On a success, you heal 1 damage, and you are no longer incapacitated. On a failure, you remain incapacitated."
+        "Injured": "You are injured. Typically, you suffer no effects from being injured, but certain talents, spells, and other effects used against you might put you at a disadvantage because you're injured.",
+        "Incapacitated": "You are incapacitated. You fall prone and become incapacitated. While you're incapacitated, you are unconscious. If you take any damage while incapacitated, you lose Health equal to the damage you took.\nIf you're incapacitated at the end of the round, lose 1d6 Health and make a luck roll. On a success, you heal 1 damage, and you are no longer incapacitated. On a failure, you remain incapacitated."
     },
     "WW.LevelAt": "At Level",
 
@@ -117,10 +125,12 @@
     "WW.AutoFail": "Automatic Failure",
 
     "WW.Summary": "Summary",
-    "WW.Attacks": "Attacks",
-    "WW.AttackRider": "Attack Rider",
-    "WW.AttackRiderPH": "**20+:** The target takes an extra 1d6 damage.",
-    
+    "WW.Attack": {
+        "Attacks": "Attacks",
+        "Rider": "Attack Rider",
+        "RiderPH": "**20+:** The target takes an extra 1d6 damage."
+    },
+
     "WW.Paths": "Paths",
     "WW.Ancestry": "Ancestry",
     "WW.Starting": "Starting",
@@ -186,7 +196,12 @@
             "EquipmentSpend": "Spend use/charge/token",
             "EquipmentRecover": "Recover use/charge/token",
             "SpellSpend": "Spend casting",
-            "SpellRecover": "Recover casting"
+            "SpellRecover": "Recover casting",
+            "ActionSpend": "Spend use/casting/token",
+            "ActionRecover": "Recover use/casting/token",
+            "FurySpend": "Spend fury token",
+            "FuryRecover": "Recover fury token",
+            "OnRest": "Recover on rest?"
         },
         "ShowDesc": "Show description",
         "HideDesc": "Hide description",
@@ -257,7 +272,7 @@
         "PH": "Brutal, Sharp, etc",
         "Ammunition": {
             "Label": "Ammunition",
-            "Tip": "You must have at least one piece of ammunition of the indicated kind in order to attack with this weapon. Ammunition, and a container to hold it, is included in the weapon’s price. You can recover spent ammunition after combat and make replacements while you rest.You can make melee attacks with a weapon that has this property; the weapon counts as an improvised weapon."
+            "Tip": "You must have at least one piece of ammunition of the indicated kind in order to attack with this weapon. Ammunition, and a container to hold it, is included in the weapon's price. You can recover spent ammunition after combat and make replacements while you rest.You can make melee attacks with a weapon that has this property; the weapon counts as an improvised weapon."
         },
         "Brutal": {
             "Label": "Brutal",
@@ -333,7 +348,7 @@
         },
         "Thrown": {
             "Label": "Thrown",
-            "Tip": "If your Strength is 10 or higher, you can make a ranged attack with this weapon by throwing it. The number indicates the weapon’s maximum range. When you throw a weapon, you make a Strength roll unless the weapon has the Nimble property."
+            "Tip": "If your Strength is 10 or higher, you can make a ranged attack with this weapon by throwing it. The number indicates the weapon's maximum range. When you throw a weapon, you make a Strength roll unless the weapon has the Nimble property."
         },
         "Unbalancing": {
             "Label": "Unbalancing",
@@ -375,7 +390,7 @@
     "WW.Asleep": "Asleep",
     "WW.Weakened": "Weakened",
 
-    "WW.BlindedDesc": "You cannot see and thus have line of sight to nothing. If you would attack or interact with anything, you must guess the target’s location or locate the target using other senses. Finally, you halve your Speed.",
+    "WW.BlindedDesc": "You cannot see and thus have line of sight to nothing. If you would attack or interact with anything, you must guess the target's location or locate the target using other senses. Finally, you halve your Speed.",
     "WW.ConfusedDesc": "You become unable to make sense of what is happening around you. You cannot use reactions, you grant 1 boon on rolls against you, and you make Intellect and Will rolls with 1 bane.",
     "WW.ControlledDesc": "You fall under control of the source of this affliction. You take your turn when your controller does and it decides what you do on your turn. If you have already taken a turn when you gain this affliction, you take a turn as described during the next round.",
     "WW.CursedDesc": "You make luck rolls with 1 bane.",

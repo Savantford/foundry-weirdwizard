@@ -1,8 +1,8 @@
 <div class="resources grid-2">
 
     <div class="statbox">{{!-- Left Column --}}
-        <h3 class="statbox-header flex-group-left"><span style="padding-top: 1px;">{{localize "WW.Stats"}}</span>
-            <span class="small bold float-right" style="padding-top: 3px;">{{localize "WW.Level"}} {{system.stats.level}} {{#if system.stats.solitary}}({{localize "WW.Solitary"}}){{/if}}</span>
+        <h3 class="statbox-header flex-group-left"><span>{{localize "WW.Stats"}}</span>
+            <span class="statbox-level">{{localize "WW.Level"}} {{system.stats.level}} {{#if system.stats.solitary}}({{localize "WW.Solitary"}}){{/if}}</span>
         </h3>
 
         {{!-- Type --}}
@@ -21,7 +21,7 @@
 
                 <div class="nowrap">
                     <label>{{localize "WW.Health.Title"}}</label>
-                    {{system.stats.health.total}}
+                    {{system.stats.health.current}}
                 </div>
 
                 <div class="nowrap">
@@ -146,7 +146,7 @@
 
     <div class="statbox">{{!-- Right Column --}}
         {{#if weapons}}
-        <h4>{{localize "WW.Attacks"}}</h4>
+        <h4>{{localize "WW.Attack.Attacks"}}</h4>
         <div class="mt-1">
             <ol class="described-list">
                 {{#each weapons as |item id|}}
@@ -191,8 +191,9 @@
                 {{#if item.uses}}
                     <span class="pip-box">
                         {{#each item.uses as |pip id|}}
-                        <a class="item-pip" title="{{#if (eq pip "far")}}Spend use/casting/token{{else}}Recover use/casting/token{{/if}}"><i
-                                class="{{pip}} fa-circle"></i></a>
+                        <a class="item-pip" title="{{#if (eq pip "far fa-circle")}}{{localize "WW.Item.Uses.ActionSpend"}}
+                            {{else}}{{localize "WW.Item.Uses.ActionRecover"}}{{/if}}">
+                            <i class="{{pip}} fa-circle"></i></a>
                         {{/each}}
                     </span>
                 {{/if}}
@@ -238,7 +239,7 @@
         {{/if}}
 
         {{#if fury}}
-        <ol class="described-list">
+        <ol class="described-list fury-list">
             {{#each fury as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
                 <h5 class="fury-header">
@@ -247,10 +248,11 @@
                     <a class="item-edit" title="Edit Fury"><i class="fas fa-edit"></i></a>
                     {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
                     {{#if item.uses}}
-                    <span class="pip-box">
+                    <span class="pip-box float-right">
                         {{#each item.uses as |pip id|}}
-                        <a class="item-pip" title="{{#if (eq pip "far")}}Spend fury token{{else}}Recover fury token{{/if}}"><i
-                                class="{{pip}} fa-circle"></i></a>
+                        <a class="item-pip" title="{{#if (eq pip "far fa-circle")}}{{localize "WW.Item.Uses.FurySpend"}}
+                            {{else}}{{localize "WW.Item.Uses.FuryRecover"}}{{/if}}">
+                        <i class="{{pip}} fa-circle"></i></a>
                         {{/each}}
                     </span>
                 {{/if}}

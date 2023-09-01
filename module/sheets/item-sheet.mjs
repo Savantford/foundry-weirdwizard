@@ -26,7 +26,7 @@ export class WeirdWizardItemSheet extends ItemSheet {
     // return `${path}/item-sheet.html`;
     // Alternatively, you could use the following return statement to do a
     // unique item sheet by type, like `item-Weapon-sheet.hbs`
-    return `${path}/item-${this.item.type}-sheet.hbs`;
+    return `${path}/${this.item.type}-sheet.hbs`;
   }
 
   /* -------------------------------------------- */

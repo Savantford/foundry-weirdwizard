@@ -1,5 +1,5 @@
 {{!-- Header Row --}}
-<div class="flex-row stat-inline flex-wrap">
+<div class="flex-row stat flex-wrap">
 
     <div>
         <label>{{localize "WW.Type"}}</label>
@@ -18,11 +18,12 @@
     <div>
         <label>{{localize "WW.UsesEquipment"}}</label>
         <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="0" data-dtype="Number" />
+        <input class="checkbox-uses" type="checkbox" name="system.uses.onRest" {{checked system.uses.onRest}} title="{{localize "WW.Item.Uses.OnRest"}}"/>
     </div>
 
 </div>
 
-<div class="flex-row stat-inline flex-wrap mt-1">
+<div class="flex-row stat flex-wrap mt-1">
 
     <div>
         <label>{{localize "WW.Price"}}</label>

@@ -266,11 +266,11 @@
   color: var(--highlight-title);
   text-align: left;
   border-bottom: 3px double black;
+  margin: 10px 0 5px 0;
+  padding-bottom: 2px;
   font-family: var(--font-title);
   font-size: 24px;
   text-transform: uppercase;
-  padding-bottom: 2px;
-  margin-top: 5px;
 }
 
 .weirdwizard .window-content h3 {
@@ -279,8 +279,10 @@
   border: none;
   border-radius: 5px;
   padding: 2px 5px;
+  margin: 10px 0 5px 0;
   font-family: var(--font-header);
-  font-size: 16px;
+  font-size: 15px;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
 }
 
@@ -289,17 +291,21 @@
   background-color: var(--gray);
   border-radius: 3px;
   padding: 2px 5px;
+  margin: 10px 0 5px 0;
   font-family: var(--font-header);
   font-size: 12px;
   font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
-.weirdwizard .window-content h4 label {
-  font-size: 13px;
-}
-
+.weirdwizard .window-content h2:first-of-type,
+.weirdwizard .window-content h3:first-of-type,
 .weirdwizard .window-content h4:first-of-type {
   margin-top: 0px;
+}
+
+.weirdwizard .window-content h4 label {
+  font-size: 13px;
 }
 
 .weirdwizard .window-content h4 label, .item label {
@@ -329,6 +335,13 @@
 
 .weirdwizard .statbox-header {
   margin: 0px 0px 3px;
+}
+
+.weirdwizard .statbox-header .statbox-level {
+  font-size: 11px;
+  font-weight: bold;
+  float: right;
+  padding-top: 3px;
 }
 
 .weirdwizard .ml-1 {
@@ -585,7 +598,7 @@
   padding-right: 1px;
 }
 
-input[type="checkbox"].checkbox-reloaded {
+input[type="checkbox"].checkbox-reloaded, input[type="checkbox"].checkbox-uses {
   height: 12px;
   width: 12px;
   margin: 0px;
@@ -620,7 +633,7 @@ input[type="checkbox"].checkbox-reloaded {
   margin: 0;
   overflow: hidden;
   font-size: 13px;
-  text-align: left;
+  text-align: left !important;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
@@ -682,6 +695,11 @@ input[type="checkbox"].checkbox-reloaded {
   background-color: var(--highlight);
   padding: 0 3px;
   border-radius: 15px;
+  display: inline-flex;
+  gap: 0.2em;
+}
+.weirdwizard .pip-box > a {
+  padding: 0;
 }
 .weirdwizard .item {
   -webkit-box-align: center;
@@ -712,7 +730,8 @@ input[type="checkbox"].checkbox-reloaded {
   text-align: center;
 }
 
-.weirdwizard .described-list .item {
+
+.weirdwizard .described-list .item:not(:last-child) {
   padding-bottom: 5px;
 }
 
@@ -781,6 +800,11 @@ input[type="checkbox"].checkbox-reloaded {
   padding: 0px;
   margin: 2px 5px;
 }
+
+.weirdwizard .described-list .fury-header {
+  margin: 10px -5px 5px -5px; 
+}
+
 .weirdwizard .described-list .item-roll, .weirdwizard .summary-list .item-roll,
 .weirdwizard .compact-list .item-roll {
   font-weight: bold;
@@ -854,56 +878,6 @@ input[type="checkbox"].checkbox-reloaded {
 
 .weirdwizard .effect img {
   background-color: #606060;
-}
-
-.weirdwizard .health-levels {
-  text-align: center;
-  width: 20px;
-}
-.weirdwizard .health-display {
-  text-align: center;
-  font-weight: bold;
-  width: 30px;
-}
-
-.weirdwizard .health-indicator.fas.fa-droplet {
-  color: red;
-}
-
-.weirdwizard .def-list {
-  list-style: none;
-  padding: 0px;
-  margin: 0px;
-  overflow-y: auto;
-}
-.weirdwizard .def-list li {
-  align-items: center;
-  gap: 5px;
-}
-.weirdwizard .def-list input[type="number"] {
-  text-align: center;
-  width: 30px;
-}
-/*.weirdwizard .def-name {
-  flex: 1;
-}*/
-.weirdwizard .def-bonus {
-  flex: 0 50px;
-  text-align: center;
-}
-.weirdwizard .def-remove {
-  flex: 0 16px;
-  text-align: center;
-}
-.weirdwizard .boons-display, .weirdwizard .damage-display {
-  text-align: center;
-  width: 30px;
-}
-
-.weirdwizard .boons-expression, .weirdwizard .damage-expression {
-  font-size: 1.5em;
-  padding-top: 5px;
-  border-top: 3px double black;
 }
 
 /* Tooltips Customization */
@@ -1143,6 +1117,64 @@ i.icon-Weakened {
   mask-image: url("/icons/svg/downgrade.svg");
 }
 
+
+/* ---------------------------- Applications & Dialogs -----------------------------*/
+.dialog-sure {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.weirdwizard .health-levels {
+  text-align: center;
+  width: 20px;
+}
+.weirdwizard .health-display {
+  text-align: center;
+  font-weight: bold;
+  width: 30px;
+}
+
+.weirdwizard .health-indicator.fas.fa-droplet {
+  color: red;
+}
+
+.weirdwizard .def-list {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+  overflow-y: auto;
+}
+.weirdwizard .def-list li {
+  align-items: center;
+  gap: 5px;
+}
+.weirdwizard .def-list input[type="number"] {
+  text-align: center;
+  width: 30px;
+}
+/*.weirdwizard .def-name {
+  flex: 1;
+}*/
+.weirdwizard .def-bonus {
+  flex: 0 50px;
+  text-align: center;
+}
+.weirdwizard .def-remove {
+  flex: 0 16px;
+  text-align: center;
+}
+.weirdwizard .boons-display, .weirdwizard .damage-display {
+  text-align: center;
+  width: 30px;
+}
+
+.weirdwizard .boons-expression, .weirdwizard .damage-expression {
+  font-size: 1.5em;
+  padding-top: 5px;
+  border-top: 3px double black;
+}
+
 /* ---------------------------- Foundry UI Overrides -----------------------------*/
 
 .inline-roll > i {
@@ -1228,7 +1260,7 @@ i.icon-Weakened {
   margin-top: 0px;
 }
 
-.dice-roll .dice-formula, .dice-roll .dice-total, .auto-fail {
+.dice-roll .dice-formula, .dice-roll .dice-total, .auto-fail, .secret-dice-total {
   flex: 0 0 100%;
   position: relative;
   margin: 0;
@@ -1240,13 +1272,15 @@ i.icon-Weakened {
   box-shadow: 0 0 2px #fff inset;
   word-break: break-all;
 }
+.dice-roll .dice-total, .auto-fail, .secret-dice-total {
+  flex: 0;
+  font-size: var(--font-size-20);
+  font-weight: bold;
+}
 
 .chat-message .auto-fail {
   font-family: var(--font-title);
-  font-size: 18px;
-  font-weight: bold;
   color: #a51700;
-  text-align: center;
   text-transform: uppercase;
 }
 

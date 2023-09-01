@@ -112,27 +112,20 @@ export class rollAttribute extends FormApplication {
       await r.evaluate();
       
       // Send to chat
-      if (content) {
-        let rollHtml = await r.render();
+      let rollHtml = '<span class="owner-only">' + await r.render() + '</span><h4 class="secret-dice-total non-owner-only">' + await r.total + '</h4>';
 
-        let messageData = {
-          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-          flavor: label,
-          content: rollHtml + content/* + '<a class="damage-roll" data-damage="1d6" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>'*/,
-          sound: CONFIG.sounds.dice
-        };
+      // Create message data
+      let messageData = {
+        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+        flavor: label,
+        content: rollHtml + content/* + '<a class="damage-roll" data-damage="1d6" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>'*/,
+        sound: CONFIG.sounds.dice
+      };
 
-        ChatMessage.applyRollMode(messageData,  game.settings.get('core', 'rollMode'));
+      ChatMessage.applyRollMode(messageData,  game.settings.get('core', 'rollMode'));
 
-        ChatMessage.create(messageData);
-
-      } else {
-        let message = await r.toMessage({
-          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-          flavor: label,
-          rollMode: game.settings.get('core', 'rollMode')
-        });
-      }
+      // Send to chat
+      ChatMessage.create(messageData);
 
       // The resulting equation after it was rolled
       console.log('Formula = ' + r.formula + '\nResult = ' + r.result + '\nTotal = ' + r.total);   // 16 + 2 + 4; 22
