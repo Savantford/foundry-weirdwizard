@@ -44,6 +44,10 @@ export class WeirdWizardActor extends Actor {
         let raw = this.system.stats.speed.raw;
         let speed = this.system.stats.speed.value;
 
+        // Create dynamic Defense properties
+        this.system.stats.defense.armored = 0;
+        this.system.stats.defense.bonus = 0;
+
         // Compability: If speed.raw is undefined or lower, copy value to raw
         if ((speed > raw) || (raw == undefined)) this.system.stats.speed.raw = speed;
         
@@ -229,9 +233,8 @@ export class WeirdWizardActor extends Actor {
         // Calculate total Defense
         const defense = system.stats.defense;
         
-        if ((defense.natural) > defense.total) {
-            defense.total = defense.natural;
-        };
+        (defense.natural > defense.armored) ? defense.total = defense.natural : defense.total = defense.armored;
+        defense.total += defense.bonus;
     }
 
     /**
@@ -240,6 +243,9 @@ export class WeirdWizardActor extends Actor {
 
     _prepareNpcData(system) {
         if (this.type !== 'NPC') return;
+
+        // Assign Current Health to Max Damage for Token Bars
+        system.stats.damage.max = system.stats.health.current;
     }
 
     /**

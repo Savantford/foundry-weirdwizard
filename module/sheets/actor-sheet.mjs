@@ -92,7 +92,8 @@ export class WeirdWizardActorSheet extends ActorSheet {
     context.rollData = context.actor.getRollData();
 
     // Prepare active effects
-    context.effects = prepareActiveEffectCategories(this.actor.effects);
+    context.effects = prepareActiveEffectCategories(await this.actor.appliedEffects);
+    context.actorEffects = prepareActiveEffectCategories(await this.actor.effects);
 
     // Prepare effect change key-labels
     context.effectChangeKeys = CONFIG.WW.effectChangeKeys;
@@ -105,6 +106,8 @@ export class WeirdWizardActorSheet extends ActorSheet {
     for (let i of context.items) {
       if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider?.value, { async: true })
     }
+
+    
 
     return context;
   }
@@ -121,6 +124,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
     // Initialize containers.
     const equipment = [];
     const weapons = [];
+    const allTalents = [];
     const talents = [];
     const auras = [];
     const actions = [];
@@ -184,6 +188,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
             }
           }
         } else {
+          allTalents.push(i);
           switch (i.system.subtype) {
             case 'action': {
               actions.push(i);
@@ -244,6 +249,7 @@ export class WeirdWizardActorSheet extends ActorSheet {
     // Assign and return
     context.equipment = equipment;
     context.weapons = weapons;
+    context.allTalents = allTalents;
     context.talents = talents;
     context.auras = auras;
     context.actions = actions;
@@ -547,6 +553,15 @@ export class WeirdWizardActorSheet extends ActorSheet {
       
     });
 
+    // Toggle Item Effects
+    html.find('.item-toggle-effects').click(this._onToggleItemEffects.bind(this));
+
+    // Reloaded Checkbox
+    html.find('.item-toggle-reloaded').click(this._onToggleItemReloaded.bind(this));
+    /*html[0].querySelectorAll(".checkbox-reloaded").forEach(n => {
+      n.addEventListener("change", this._onChangeItemReloaded.bind(this));
+    });*/
+
     ////////////////// EFFECTS ////////////////////
 
     // Active Effect management
@@ -626,6 +641,18 @@ export class WeirdWizardActorSheet extends ActorSheet {
         rollMode: game.settings.get('core', 'rollMode')
       });
     }
+  }
+
+  async _onToggleItemEffects(event) {
+    const target = event.currentTarget;
+    const item = this.actor.items.get(target.dataset.itemId);
+    return item.update({ "system.active": !item.system.active });
+  }
+
+  async _onToggleItemReloaded(event) {
+    const target = event.currentTarget;
+    const item = this.actor.items.get(target.dataset.itemId);
+    return item.update({ "system.reloaded": !item.system.reloaded });
   }
 
   /* -------------------------------------------- */

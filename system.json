@@ -8,14 +8,14 @@
   "download": "#{DOWNLOAD}#",
   "readme": "https://github.com/Savantford/foundry-weirdwizard#readme",
   "compatibility": {
-    "minimum": "10",
+    "minimum": "11",
     "verified": "11",
     "maximum": ""
   },
   "authors": [
     {
-      "name": "Fatlus (Savantford)",
-      "discord": "@violencia",
+      "name": "Friend (Savantford)",
+      "discord": "violencia",
       "url": "https://github.com/Savantford",
       "flags": {}
     }

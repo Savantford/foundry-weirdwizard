@@ -8,23 +8,40 @@
             <a class="item-control item-create" title="Create item" data-type="Trait or Talent" data-subtype="trait" data-source="Ancestry"><i class="fas fa-plus"></i> {{localize "WW.Add"}}</a>
         </div>
     </li>
-    {{#each talents as |item id|}}
+    {{#each allTalents as |item id|}}
     <li class="item flexrow" data-item-id="{{item._id}}">
         <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
+
+        {{!-- Name / Buttons --}}
+        
         <label class="item-name">{{item.name}} 
+
             {{#if item.system.description.value}}<a class="item-scroll" data-tooltip="{{item.system.description.value}}"><i class="far fa-scroll"></i></a>{{/if}}
             
             {{#if item.system.attribute}}<a class="rollable item-roll" title="Roll Talent">
                 <i class="fas fa-dice-d20"></i></a>{{/if}}
+
+            {{!-- Toggle Effects --}}
+            {{#if effects.length}}
+                <a class="item-toggle-effects" data-item-id="{{item._id}}" 
+                    title="{{#if item.system.active}}{{localize "WW.Item.DisableEffects"}}{{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
+                    <i class="fas {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
+            {{/if}}
+
             {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
+
             {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
         </label>
+
+        {{!-- Uses --}}
         <div>
             {{#each item.uses as |pip id|}}
             <a class="item-pip" title="{{#if (eq pip "far")}}Spend use{{else}}Recover use{{/if}}"><i
                     class="{{pip}} fa-circle"></i></a>
             {{/each}}
         </div>
+
+        {{!-- Source --}}
         <div>{{item.system.source}}</div>
         
         <div class="item-controls">

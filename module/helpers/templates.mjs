@@ -19,6 +19,7 @@
 
     // NPC
     "systems/weirdwizard/templates/actors/parts/NPC-summary.hbs",
+    "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs",
     "systems/weirdwizard/templates/actors/parts/NPC-stats.hbs",
 
     // Item partials

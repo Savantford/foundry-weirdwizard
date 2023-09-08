@@ -75,18 +75,25 @@
 </div>
 
 <h2>{{localize "WW.EffectsAll"}}</h2>
+
+{{!-- Effects --}}
 <ol class="item-list effects-list">
+  
   {{#each effects as |section sid|}}
+  {{#if (ne section.type 'inactive')}}
     <li class="item items-header flexrow" data-effect-type="{{section.type}}">
       <div class="item-image"></div>
       <div class="item-name">{{localize section.name}}</div>
       <div class="effect-changes">Changes</div>
-      <div class="effect-duration">Duration</div>
-      <div class="effect-source">Source</div>
+      {{#if section.showDuration}}<div class="effect-duration">Duration</div>{{/if}}
+      {{#if section.showSource}}<div class="effect-source">Source</div>{{/if}}
+      
       <div class="item-controls effect-controls flexrow">
+        {{#if section.showCreate}}
         <a class="effect-control" data-action="create" title="{{localize 'WW.EffectCreate'}}">
           <i class="fas fa-plus"></i> {{localize "WW.Add"}}
         </a>
+        {{/if}}
       </div>
     </li>
 
@@ -109,25 +116,99 @@
               {{else}}= {{change.value}}
               {{/if}}
             </div>
-            {{else}}<div>-</div>{{/if}}
+            {{/if}}
+          {{else}}<div>-</div>
           {{/each}}
         </div>
         
-        <div class="effect-duration">{{effect.duration.name}}</div>
-        <div class="effect-source">{{effect.sourceName}}</div>
+        {{#if section.showDuration}}<div class="effect-duration">{{effect.duration.name}}</div>{{/if}}
+        {{#if section.showSource}}<div class="effect-source">{{effect.sourceName}}</div>{{/if}}
+
         <div class="item-controls effect-controls flexrow">
+          {{#if (eq effect.parent.type 'Character')}}
+
+          {{#if (ne section.type 'temporary')}}
+          <a class="effect-control" data-action="toggle" title="{{localize 'WW.Effect.Toggle'}}">
+            <i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
+          </a>
+          {{/if}}
+
+          <a class="effect-control" data-action="edit" title="{{localize 'WW.Effect.Edit'}}">
+            <i class="fas fa-edit"></i>
+          </a>
+          <a class="effect-control" data-action="delete" title="{{localize 'WW.Effect.Delete'}}">
+            <i class="fas fa-trash"></i>
+          </a>
+          {{/if}}
+        </div>
+      </li>
+    {{/each}}
+    </ol>
+  {{/if}}
+  {{/each}}
+
+{{!-- Inactive Effects --}}
+    <li class="item items-header flexrow" data-effect-type="{{actorEffects.inactive.type}}">
+      <div class="item-image"></div>
+      <div class="item-name">{{localize actorEffects.inactive.name}}</div>
+      <div class="effect-changes">Changes</div>
+      {{#if actorEffects.inactive.showDuration}}<div class="effect-duration">Duration</div>{{/if}}
+      {{#if actorEffects.inactive.showSource}}<div class="effect-source">Source</div>{{/if}}
+
+      <div class="item-controls effect-controls flexrow">
+        {{#if actorEffects.inactive.showCreate}}
+        <a class="effect-control" data-action="create" title="{{localize 'WW.Effect.Create'}}">
+          <i class="fas fa-plus"></i> {{localize "WW.Add"}}
+        </a>
+        {{/if}}
+      </div>
+    </li>
+
+    <ol class="item-list">
+    {{#each actorEffects.inactive.effects as |effect|}}
+      <li class="item effect flexrow" data-effect-id="{{effect.id}}">
+        <div class="item-image">
+          <img src="{{effect.icon}}" width="24" height="24"/>
+        </div>
+        <div class="item-name">{{effect.name}}</div>
+
+        <div class="effect-changes mb-1">
+          {{#each effect.changes as |change|}}
+            
+            {{#if change.key}}
+            <div class="nowrap">
+              {{lookup ../../effectChangeKeys change.key}} 
+              {{#if (eq change.mode 1)}}× {{change.value}}
+              {{else if (eq change.mode 2)}}{{numberFormat change.value decimals=0 sign=true}}
+              {{else}}= {{change.value}}
+              {{/if}}
+            </div>
+            {{/if}}
+          {{else}}<div>-</div>
+          {{/each}}
+        </div>
+        
+        {{#if ../actorEffects.inactive.showDuration}}<div class="effect-duration">{{effect.duration.name}}</div>{{/if}}
+        {{#if ../actorEffects.inactive.showSource}}<div class="effect-source">{{effect.sourceName}}</div>{{/if}}
+        
+        <div class="item-controls effect-controls flexrow">
+          {{#if ../actorEffects.inactive.showControls}}
+
           <a class="effect-control" data-action="toggle" title="{{localize 'WW.EffectToggle'}}">
             <i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
           </a>
+          
           <a class="effect-control" data-action="edit" title="{{localize 'WW.EffectEdit'}}">
             <i class="fas fa-edit"></i>
           </a>
           <a class="effect-control" data-action="delete" title="{{localize 'WW.EffectDelete'}}">
             <i class="fas fa-trash"></i>
           </a>
+          {{/if}}
         </div>
+        
       </li>
     {{/each}}
     </ol>
-  {{/each}}
+
 </ol>

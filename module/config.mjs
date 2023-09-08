@@ -86,7 +86,7 @@ WW.coins = {
 
 WW.itemSubtypes = {
   "generic": "WW.Generic",
-  "weapon": "WW.Weapon",
+  "weapon": "WW.Weapon.Label",
   "armor": "WW.Armor.Title",
   "consumable": "WW.Consumable",
   "container": "WW.Container"
@@ -99,9 +99,9 @@ WW.itemQualities = {
 };
 
 WW.weaponGrip = {
-  "One": "WW.GripOne",
-  "Two": "WW.GripTwo",
-  "Off": "WW.GripOff"
+  "One": "WW.Weapon.GripOne",
+  "Two": "WW.Weapon.GripTwo",
+  "Off": "WW.Weapon.GripOff"
 };
 
 WW.weaponProperties = {

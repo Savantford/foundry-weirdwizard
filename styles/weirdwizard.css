@@ -598,13 +598,6 @@
   padding-right: 1px;
 }
 
-input[type="checkbox"].checkbox-reloaded, input[type="checkbox"].checkbox-uses {
-  height: 12px;
-  width: 12px;
-  margin: 0px;
-  border-radius: 5px;
-}
-
 .weirdwizard .items-header {
   /*height: 28px;*/
   margin: 2px 0;
@@ -684,9 +677,6 @@ input[type="checkbox"].checkbox-reloaded, input[type="checkbox"].checkbox-uses {
 .weirdwizard .effect-changes {
   flex: 3;
 }
-.weirdwizard .effect-controls {
-  flex: 0 0 70px;
-}
 .weirdwizard .effect-controls a {
   margin: 0;
 }
@@ -705,6 +695,30 @@ input[type="checkbox"].checkbox-reloaded, input[type="checkbox"].checkbox-uses {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+}
+
+.weirdwizard .compact-list .item-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.weirdwizard .compact-list .compact-left {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.weirdwizard .compact-list label,
+.weirdwizard .compact-list .item-roll {
+  margin-right: 2px;
+}
+
+input[type="checkbox"].checkbox-reloaded,
+input[type="checkbox"].checkbox-uses {
+  flex: 0;
+  margin: 0;
+  height: auto;
+  width: auto;
 }
 
 .weirdwizard .item-desc {
@@ -726,7 +740,7 @@ input[type="checkbox"].checkbox-reloaded, input[type="checkbox"].checkbox-uses {
   border-bottom: 1px solid #c9c7b8;
   font-size: 12px;
 }
-.weirdwizard .item-list .item > div:not(:first-child):not(:last-child) {
+.weirdwizard .item-list .item > div:not(:first-child):not(.effect-controls) {
   text-align: center;
 }
 
@@ -735,7 +749,7 @@ input[type="checkbox"].checkbox-reloaded, input[type="checkbox"].checkbox-uses {
   padding-bottom: 5px;
 }
 
-.weirdwizard .item:last-child:not(:first-child) {
+.weirdwizard .item:last-child:not(.items-header) {
   border-bottom: none;
 }
 

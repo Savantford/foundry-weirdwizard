@@ -2,6 +2,7 @@ console.log('Initializing weirdwizard.mjs...')
 // Import document classes.
 import { WeirdWizardActor } from './documents/actor.mjs';
 import { WeirdWizardItem } from './documents/item.mjs';
+import { WWActiveEffect } from './active-effects/active-effect.mjs';
 //import { WeirdWizardToken } from './documents/token.mjs';
 // Import sheet classes.
 import { WeirdWizardActorSheet } from './sheets/actor-sheet.mjs';
@@ -9,8 +10,8 @@ import { WeirdWizardItemSheet } from './sheets/item-sheet.mjs';
 // Import helper/utility classes and constants.
 import { WW } from './config.mjs';
 import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
+import { WWActiveEffectConfig } from './active-effects/active-effect-config.mjs';
 import { WWAfflictions } from './active-effects/afflictions.mjs';
-import { WWActiveEffectConfig } from './active-effects/effects-config.mjs';
 import { initChatListeners } from './chat/chat-listeners.mjs';
 // Import canvas-related classes
 import { WWToken } from './canvas/token.mjs';
@@ -34,19 +35,20 @@ Hooks.once('init', function () {
   // Define custom Document classes
   CONFIG.Actor.documentClass = WeirdWizardActor;
   CONFIG.Item.documentClass = WeirdWizardItem;
+  CONFIG.ActiveEffect.documentClass = WWActiveEffect;
   DocumentSheetConfig.registerSheet(ActiveEffect, "weirdwizard", WWActiveEffectConfig, {makeDefault: true})
 
   // Register sheet application classes
   Actors.unregisterSheet('core', ActorSheet);
   Actors.registerSheet('weirdwizard', WeirdWizardActorSheet, { makeDefault: true });
   Items.unregisterSheet('core', ItemSheet);
-  Items.registerSheet('weirdwizardplate', WeirdWizardItemSheet, { makeDefault: true });
+  Items.registerSheet('weirdwizard', WeirdWizardItemSheet, { makeDefault: true });
 
   // Define custom Object classes
   CONFIG.Token.objectClass = WWToken;
-
+  
   // Disable legacy pre-V11 behavior of item effects being stored on actor.effects. Use actor.appliedEffects instead for all effects
-  CONFIG.ActiveEffect.legacyTransfer = false;
+  CONFIG.ActiveEffect.legacyTransferral = false;
 
   // Preload Handlebars templates.
   return preloadHandlebarsTemplates();
@@ -104,7 +106,8 @@ Hooks.once('setup', function () {
   CONFIG.statusEffects = effects;
 
   // Set active effect keys-labels to be used in Active Effects Config app
-  WWActiveEffectConfig.initializeChangeKeys()
+  WWActiveEffectConfig.initializeChangeKeys();
+  WWActiveEffectConfig.initializeChangePriorities();
   
 });
 
