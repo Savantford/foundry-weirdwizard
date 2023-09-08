@@ -77,6 +77,8 @@
         "Score": "Defense Score",
         "Total": "Defense Total",
         "Natural": "Natural Defense",
+        "Armored": "Armored Defense",
+        "Bonus": "Bonus to Defense",
         "Details": "(armor, if any, shield, if any)"
     },
 
@@ -125,11 +127,6 @@
     "WW.AutoFail": "Automatic Failure",
 
     "WW.Summary": "Summary",
-    "WW.Attack": {
-        "Attacks": "Attacks",
-        "Rider": "Attack Rider",
-        "RiderPH": "**20+:** The target takes an extra 1d6 damage."
-    },
 
     "WW.Paths": "Paths",
     "WW.Ancestry": "Ancestry",
@@ -166,8 +163,6 @@
     },
     "WW.NewItem": "New {itemType}",
     "WW.Generic": "Generic",
-    "WW.Weapon": "Weapon",
-    "WW.WeaponDetails": "Weapon Details",
     "WW.Consumable": "Consumable",
     "WW.Container": "Container",
     "WW.Weight": "Weight",
@@ -205,7 +200,11 @@
         },
         "ShowDesc": "Show description",
         "HideDesc": "Hide description",
-        "Send": "Send description to chat"
+        "Send": "Send description to chat",
+        "EnableEffects": "Enable effects",
+        "DisableEffects": "Disable effects",
+        "Equip": "Wear equipment",
+        "Unequip": "Remove equipment"
     },
 
     "WW.Talents": "Traits and Talents",
@@ -261,11 +260,23 @@
     "WW.Target": "Target",
     "WW.Duration": "Duration",
 
-    "WW.Weapons": "Weapons",
-    "WW.Grip": "Grip",
-    "WW.GripOne": "One-Handed",
-    "WW.GripTwo": "Two-Handed",
-    "WW.GripOff": "Off-Hand",
+    "WW.Attack": {
+        "Plural": "Attacks",
+        "Rider": "Attack Rider",
+        "RiderPH": "**20+:** The target takes an extra 1d6 damage."
+    },
+
+    "WW.Weapon": {
+        "Label": "Weapon",
+        "Plural": "Weapons",
+        "Details": "Weapon Details",
+        "Grip": "Grip",
+        "GripOne": "One-Handed",
+        "GripTwo": "Two-Handed",
+        "GripOff": "Off-Hand",
+        "Reload": "Click to reload the weapon.",
+        "Fire": "Click to fire the loaded weapon."
+    },
 
     "WW.Properties": {
         "Title": "Properties",
@@ -363,11 +374,24 @@
     "WW.Effects": "Effects",
     "WW.EffectsAll": "All Effects",
     "WW.Add": "Add",
-    "WW.EffectCreate": "Create Effect",
-    "WW.EffectToggle": "Toggle Effect On/Off",
-    "WW.EffectEdit": "Edit Effect",
-    "WW.EffectDelete": "Delete Effect",
-    "WW.NewEffect": "New Effect",
+    "WW.Effect": {
+        "Create": "Create Effect",
+        "Toggle": "Enable/Disable Effect",
+        "Edit": "Edit Effect",
+        "Delete": "Delete Effect",
+        "New": "New Effect",
+        "Priority": {
+            "Auto": "Auto (Mode x 10)",
+            "0": "Special",
+            "1": "Base Value Override",
+            "10": "",
+            "20": "Add",
+            "30": "",
+            "40": "",
+            "50": "Override"
+        }
+
+    },
 
     "WW.Afflictions": "Afflictions",
     "WW.AfflictionsRemove": "Remove All Afflictions",

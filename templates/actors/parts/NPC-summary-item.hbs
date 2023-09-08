@@ -1,0 +1,52 @@
+<li class="item" data-item-id="{{item._id}}">
+
+    {{!-- Title / Attribute Roll --}}
+    {{#if item.system.attribute}}<a class="rollable item-roll" title="{{localize "WW.Item.Roll.Attribute"}}">{{item.name}}</a>
+    {{else}}<label>{{item.name}}</label>{{/if}}
+    
+    <a class="item-edit" title="{{localize (concat "WW.Item.Edit." item.type)}}"><i class="fas fa-edit"></i></a>
+    
+    {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat">
+        <i class="far fa-scroll"></i></a>{{/if}}
+
+    {{!-- Toggle Effects --}}
+    {{#if effects.length}}
+    <a class="item-toggle-effects" data-item-id="{{item._id}}" 
+        title="{{#if item.system.active}}{{localize "WW.Item.DisableEffects"}}
+        {{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
+        <i class="fas {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
+    {{/if}}
+    
+    {{!-- Damage Roll Button --}}
+    {{#if item.system.damage}}<a class="damage-roll" title="{{localize "WW.Item.Roll.Damage"}}">
+        <i class="fas fa-burst"></i></a>{{/if}}
+    
+    {{!-- Healing Roll Button --}}
+    {{#if item.system.healing}}<a class="healing-roll" title="{{localize "WW.Item.Roll.Healing"}}">
+        <i class="fas fa-sparkles"></i></a>{{/if}}
+    
+    {{!-- Uses Pips --}}
+    {{#if item.uses}}
+    <span class="pip-box">
+        {{#each item.uses as |pip id|}}
+        <a class="item-pip" title="
+            {{#if (eq pip "far fa-circle")}}
+                {{#if (eq ../item.system.subtype "action")}}{{localize "WW.Item.Uses.ActionSpend"}}
+                {{else if (eq ../item.system.subtype "fury")}}{{localize "WW.Item.Uses.FurySpend"}}
+                {{else}}{{localize "WW.Item.Uses.TalentSpend"}}{{/if}}
+            {{else}}
+                {{#if (eq ../item.system.subtype "action")}}{{localize "WW.Item.Uses.ActionRecover"}}
+                {{else if (eq ../item.system.subtype "fury")}}{{localize "WW.Item.Uses.FuryRecover"}}
+                {{else}}{{localize "WW.Item.Uses.TalentRecover"}}{{/if}}
+            {{/if}}">
+            <i class="{{pip}}"></i></a>
+        {{/each}}
+    </span>
+    {{/if}}
+    
+    {{!-- Description --}}
+    {{#if (eq item.system.subtype "aura")}}({{localize "WW.Aura"}} {{item.system.range}}){{/if}}
+    <span>{{{item.system.description.enriched}}}</span>
+    
+    
+</li>

@@ -15,7 +15,7 @@ export async function onManageActiveEffect(event, owner) {
     case 'create':
       return owner
         .createEmbeddedDocuments('ActiveEffect', [{
-          name: i18n('WW.NewEffect'),
+          name: i18n('WW.Effect.New'),
           icon: /*isCharacter ? 'icons/magic/symbols/chevron-elipse-circle-blue.webp' :*/ owner.img,
           origin: owner.uuid,
           'duration.rounds': li.dataset.effectType === 'temporary' ? 1 : undefined,
@@ -35,34 +35,42 @@ export async function onManageActiveEffect(event, owner) {
 /**
  * Prepare the data structure for Active Effects which are currently applied to an Actor or Item.
  * @param {ActiveEffect[]} effects    The array of Active Effect instances to prepare sheet data for
- * @param {Boolean} showCreateButtons Show create buttons on page
- * @param {Integer} showControls      What controls to show
+ * @param {Boolean} showDuration      Show effect duration on page
+ * @param {Boolean} showSource        Show effect source on page
+ * @param {Boolean} showControls      Show control buttons on page
+ * @param {Boolean} showCreate        Show create buttons on page
  * @return {object}                   Data for rendering
 */
 
-export function prepareActiveEffectCategories(effects, showCreateButtons = false, showControls = 3) {
+export function prepareActiveEffectCategories(effects, showDuration = false, showSource = true, showControls = true, showCreate = true) {
 
   // Define effect header categories
   let categories = {
     temporary: {
       type: 'temporary',
       name: 'Temporary Effects',
-      showCreateButtons: showCreateButtons,
+      showDuration: true,
+      showSource: showSource,
       showControls: showControls,
+      showCreate: showCreate,
       effects: [],
     },
-    passive: {
-      type: 'passive',
-      name: 'Passive Effects',
-      showCreateButtons: showCreateButtons,
+    permanent: {
+      type: 'permanent',
+      name: 'Permanent Effects',
+      showDuration: showDuration,
+      showSource: showSource,
       showControls: showControls,
+      showCreate: showCreate,
       effects: [],
     },
     inactive: {
       type: 'inactive',
       name: 'Inactive Effects',
-      showCreateButtons: showCreateButtons,
+      showDuration: showDuration,
+      showSource: showSource,
       showControls: showControls,
+      showCreate: false,
       effects: [],
     },
   }
@@ -93,7 +101,8 @@ export function prepareActiveEffectCategories(effects, showCreateButtons = false
 
     if (e.disabled) categories.inactive.effects.push(e)
     else if (e.isTemporary) categories.temporary.effects.push(e)
-    else categories.passive.effects.push(e)
+    //else if (e.parent instanceof Item) categories.item.effects.push(e)
+    else categories.permanent.effects.push(e)
   }
 
   return categories

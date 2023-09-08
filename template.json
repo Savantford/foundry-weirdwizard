@@ -146,7 +146,8 @@
           "value": "",
           "chat": "",
           "unidentified": ""
-        }
+        },
+        "active": true
       },
       "physicalItem": {
         "quantity": 1,
@@ -261,6 +262,7 @@
     },
     "Spell": {
       "templates": ["base", "activatedEffect", "action"],
+      "active": false,
       "tier": "Novice",
       "tradition": "",
       "requirement": "",

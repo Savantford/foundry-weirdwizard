@@ -45,6 +45,7 @@ export class WWActiveEffectConfig extends ActiveEffectConfig {
 
     context.descriptionHTML = await TextEditor.enrichHTML(this.object.description, {async: true, secrets: this.object.isOwner});
     context.availableChangeKeys = await WWActiveEffectConfig._availableChangeKeys;
+    context.availableChangePriorities = await WWActiveEffectConfig._availableChangePriorities;
 
     return context;
   }
@@ -83,10 +84,9 @@ export class WWActiveEffectConfig extends ActiveEffectConfig {
       'system.extraDamage.attacks.mod': i18n('WW.Damage.AttackMod'),
       
       //  Defense
-      'system.stats.defense.total': i18n('WW.Defense.Score'),
+      'system.stats.defense.bonus': i18n('WW.Defense.Bonus'),
       'system.stats.defense.natural': i18n('WW.Defense.Natural'),
-      /*'stats.defense.armor': i18n('WW.'),
-      'system.stats.defense.bonuses': i18n('WW.Defense.Bonus'),*/
+      'system.stats.defense.armored': i18n('WW.Defense.Armored'),
 
       // Health
       'system.stats.health.current': i18n('WW.Health.Current'),
@@ -143,5 +143,26 @@ export class WWActiveEffectConfig extends ActiveEffectConfig {
 
     // Save the keys-labels object in the CONFIG constant
     CONFIG.WW.effectChangeKeys = WWActiveEffectConfig._availableChangeKeys;
+  }
+
+  static initializeChangePriorities() {
+    WWActiveEffectConfig._availableChangePriorities = {
+      // value : <name>
+      // Default
+      null: i18n('WW.Effect.Priority.Auto'),
+
+      // Constant Priorities
+      0: '0: ' + i18n('WW.Effect.Priority.0'),
+      1: '1: ' + i18n('WW.Effect.Priority.1'),
+      10: '10: ' + i18n('WW.Effect.Priority.10'),
+      20: '20: ' + i18n('WW.Effect.Priority.20'),
+      30: '30: ' + i18n('WW.Effect.Priority.30'),
+      40: '40: ' + i18n('WW.Effect.Priority.40'),
+      50: '50: ' + i18n('WW.Effect.Priority.50')
+
+    }
+
+    // Save the keys-labels object in the CONFIG constant
+    CONFIG.WW.effectChangePriorities = WWActiveEffectConfig._availableChangePriorities;
   }
 }

@@ -127,7 +127,10 @@
           </div>
 
           <div class="priority">
-            <input type="number" name="changes.{{i}}.priority" value="{{change.priority}}"/>
+            {{!-- <input type="number" name="changes.{{i}}.priority" value="{{change.priority}}"/> --}}
+            <select name="changes.{{i}}.priority" data-dtype="Number">
+              {{selectOptions ../availableChangePriorities selected=change.priority}}
+            </select>
           </div>
           
           <div class="effect-controls">

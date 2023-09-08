@@ -1,6 +1,6 @@
 {{#if (eq system.subtype 'weapon')}}
 <div>
-    <h2>{{localize "WW.WeaponDetails"}}</h2>
+    <h2>{{localize "WW.Weapon.Details"}}</h2>
 
     <div class="mt-2 stat flex-row flex-wrap">
 
@@ -14,7 +14,7 @@
 
         {{!-- Grip --}}
         <div class="stat-inline flex-group-left">
-            <label>{{localize "WW.Grip"}}</label>
+            <label>{{localize "WW.Weapon.Grip"}}</label>
 
             <select name="system.grip">
                 {{selectOptions gripObj selected=system.grip localize=true}}

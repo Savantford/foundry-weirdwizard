@@ -28,10 +28,10 @@
             {{#if system.details.novice}}
             <label for="paths" class="resource-label">{{localize "WW.Paths"}}</label>
             <ol class="summary-list">
-                <li title="{{localize " WW.NovicePath"}}">{{system.details.novice}}</li>
-                {{#if system.details.expert}}<li title="{{localize " WW.ExpertPath"}}">
+                <li title="{{localize "WW.NovicePath"}}">{{system.details.novice}}</li>
+                {{#if system.details.expert}}<li title="{{localize "WW.ExpertPath"}}">
                     {{system.details.expert}}</li>{{/if}}
-                {{#if system.details.expert}}<li title="{{localize " WW.MasterPath"}}">
+                {{#if system.details.expert}}<li title="{{localize "WW.MasterPath"}}">
                     {{system.details.master}}</li>{{/if}}
             </ol>
             {{/if}}
@@ -95,7 +95,7 @@
             {{#if system.stats.speed.special}} ({{system.stats.speed.special}}){{/if}}
         </div>
 
-        <h3 class="mt-2">{{localize "WW.Attack.Attacks"}}</h3>
+        <h3 class="mt-2">{{localize "WW.Attack.Plural"}}</h3>
         
         {{!-- Bonus Damage --}}
         {{#if system.stats.bonusdamage}}
@@ -111,14 +111,25 @@
                 {{#each weapons as |item id|}}
                 <li class="item" data-item-id="{{item._id}}">
                     <a class="rollable item-roll" title="Roll Attack">{{item.name}}</a>
+
                     <a class="item-edit" title="Edit Weapon"><i class="fas fa-edit"></i></a>
+
                     {{#if item.system.description.value}}<a class="item-scroll" data-tooltip="{{item.system.description.value}}"><i class="far fa-scroll"></i></a>{{/if}}
+
+                    {{!-- Toggle Reloaded --}}
+                    {{#if item.system.properties.reload}}
+                        <a class="item-toggle-reloaded" data-item-id="{{item._id}}" 
+                            title="{{#if item.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
+                            <i class="fas {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
+                    {{/if}}
+
                     <a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>
-                    {{#if item.system.properties.reload}}<input class="checkbox-reloaded" type="checkbox" name="item.system.reloaded" title="Weapon realoded?" {{checked item.system.reloaded}}/>{{/if}}
+                    
                     ({{item.system.grip}}{{#if item.system.propertiesList}};
                     {{item.system.propertiesList}}{{/if}}) 
 
                     {{item.system.attributeLabel}}
+                    
                     {{#if item.system.boons}} {{localize "WW.Boons.With"}} {{item.system.boons}} 
                         {{#if (lt item.system.boons -1)}}{{localize "WW.Boons.Banes"}}
                             {{else if (lt item.system.boons 0)}}{{localize "WW.Boons.Bane"}}
@@ -126,7 +137,8 @@
                             {{else}}{{localize "WW.Boons.Boon"}}
                         {{/if}}
                     {{/if}}
-                    ({{item.system.damage}})
+
+                    ({{#if item.system.damage}}{{item.system.damage}}{{else}}0{{/if}})
                     
                     {{#if item.system.attackRider.value}}{{{item.system.attackRider.enriched}}}{{/if}}
                 </li>

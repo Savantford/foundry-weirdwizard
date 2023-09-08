@@ -81,17 +81,9 @@
         <div class="mt-1">{{!-- Auras --}}
             <ol class="described-list">
                 {{#each auras as |item id|}}
-                <li class="item" data-item-id="{{item._id}}">
-                    {{#if item.system.attribute}}<a class="rollable item-roll" title="Roll Aura">{{item.name}}</a>
-                        {{else}}<label>{{item.name}}</label>{{/if}}
-                    <a class="item-edit" title="Edit Aura"><i class="fas fa-edit"></i></a>
-                    {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
-                    {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
-                    {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
-                    ({{localize "WW.Aura"}} {{item.system.range}}) 
-                    <span>{{{item.system.description.enriched}}}</span>
-                    
-                </li>
+
+                {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
+                
                 {{/each}}
             </ol>
         </div>
@@ -129,16 +121,9 @@
 
         <ol class="described-list">{{!-- Talents --}}
             {{#each talents as |item id|}}
-            <li class="item" data-item-id="{{item._id}}">
-                {{#if item.system.attribute}}<a class="rollable item-roll" title="Roll Trait or Talent">{{item.name}}</a>
-                    {{else}}<label>{{item.name}}</label>{{/if}}
-                <a class="item-edit" title="Edit Trait or Talent"><i class="fas fa-edit"></i></a>
-                {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
-                {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
-                {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
-                <span>{{{item.system.description.enriched}}}</span>
-                
-            </li>
+
+            {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
+            
             {{/each}}
         </ol>
 
@@ -146,16 +131,24 @@
 
     <div class="statbox">{{!-- Right Column --}}
         {{#if weapons}}
-        <h4>{{localize "WW.Attack.Attacks"}}</h4>
+        <h4>{{localize "WW.Attack.Plural"}}</h4>
         <div class="mt-1">
             <ol class="described-list">
                 {{#each weapons as |item id|}}
                 <li class="item" data-item-id="{{item._id}}">
                     <a class="rollable item-roll" title="Roll Attack">{{item.name}}</a>
                     <a class="item-edit" title="Edit Weapon"><i class="fas fa-edit"></i></a>
+
                     {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
+
+                    {{!-- Toggle Reloaded --}}
+                    {{#if item.system.properties.reload}}
+                        <a class="item-toggle-reloaded" data-item-id="{{item._id}}" 
+                            title="{{#if item.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
+                            <i class="fas {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
+                    {{/if}}
+                    
                     <a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>
-                    {{#if item.system.properties.reload}}<input class="checkbox-reloaded" type="checkbox" name="item.system.reloaded" title="Weapon realoded?" {{checked item.system.reloaded}}/>{{/if}}
                     
                     {{#if item.system.propertiesList}}({{item.system.propertiesList}}) {{/if}}
 
@@ -168,7 +161,7 @@
                         {{/if}}
                     {{/if}}
 
-                    ({{item.system.damage}})
+                    ({{#if item.system.damage}}{{item.system.damage}}{{else}}0{{/if}})
 
                     {{#if item.system.attackRider.value}}{{{item.system.attackRider.enriched}}}{{/if}}
                 </li>
@@ -181,25 +174,9 @@
         <h4 class="mt-2">{{localize "WW.Actions"}}</h4>
         <ol class="described-list">
             {{#each actions as |item id|}}
-            <li class="item" data-item-id="{{item._id}}">
-                {{#if item.system.attribute}}<a class="rollable item-roll" title="Roll Action">{{item.name}}</a>
-                    {{else}}<label>{{item.name}}</label>{{/if}}
-                <a class="item-edit" title="Edit Action"><i class="fas fa-edit"></i></a>
-                {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
-                {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
-                {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
-                {{#if item.uses}}
-                    <span class="pip-box">
-                        {{#each item.uses as |pip id|}}
-                        <a class="item-pip" title="{{#if (eq pip "far fa-circle")}}{{localize "WW.Item.Uses.ActionSpend"}}
-                            {{else}}{{localize "WW.Item.Uses.ActionRecover"}}{{/if}}">
-                            <i class="{{pip}} fa-circle"></i></a>
-                        {{/each}}
-                    </span>
-                {{/if}}
-                <span>{{{item.system.description.enriched}}}</span>
-                
-            </li>
+
+            {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
+            
             {{/each}}
         </ol>
         {{/if}}
@@ -208,15 +185,9 @@
         <h4 class="mt-2">{{localize "WW.Reactions"}}</h4>
         <ol class="described-list">
             {{#each reactions as |item id|}}
-            <li class="item" data-item-id="{{item._id}}">
-                {{#if item.system.attribute}}<a class="rollable item-roll" title="Roll Reaction">{{item.name}}</a>
-                    {{else}}<label>{{item.name}}</label>{{/if}}
-                <a class="item-edit" title="Edit Reaction"><i class="fas fa-edit"></i></a>
-                {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
-                {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
-                {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
-                <span>{{{item.system.description.enriched}}}</span>
-            </li>
+
+            {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
+            
             {{/each}}
         </ol>
         {{/if}}
@@ -225,15 +196,9 @@
         <h4 class="mt-2">{{localize "WW.Ends"}}</h4>
         <ol class="described-list">
             {{#each end as |item id|}}
-            <li class="item" data-item-id="{{item._id}}">
-                {{#if item.system.attribute}}<a class="rollable item-roll" title="Roll End of Round Effect">{{item.name}}</a>
-                    {{else}}<label>{{item.name}}</label>{{/if}}
-                <a class="item-edit" title="Edit End of Round Effect"><i class="fas fa-edit"></i></a>
-                {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
-                {{#if item.system.damage}}<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>{{/if}}
-                {{#if item.system.healing}}<a class="healing-roll" title="Roll Healing Dice"><i class="fas fa-sparkles"></i></a>{{/if}}
-                <span>{{{item.system.description.enriched}}}</span>
-            </li>
+
+            {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
+            
             {{/each}}
         </ol>
         {{/if}}
