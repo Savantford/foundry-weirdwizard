@@ -1,4 +1,4 @@
-export class WWActiveEffect extends ActiveEffect {
+export default class WWActiveEffect extends ActiveEffect {
   
   /** @override */
   get isSuppressed() {

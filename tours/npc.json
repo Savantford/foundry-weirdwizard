@@ -1,0 +1,199 @@
+{
+  "title": "WW.Tour.NPC.Title",
+  "description": "WW.Tour.NPC.Description",
+  "canBeResumed": false,
+  "display": true,
+  "steps": [
+    {
+      "id": "sheet",
+      "selector": ".weirdwizard .window-content",
+      "title": "WW.Tour.NPC.SheetTitle",
+      "content": "WW.Tour.NPC.SheetContent",
+      "actor": {
+        "name": "WW.Tour.NPC.Actor",
+        "type": "NPC",
+        "img": "",
+        "system": {
+          "attributes": {
+            "agi": {
+              "value": 11
+            }
+          },
+          "stats": {
+            "solitary": true,
+            "health": {
+              "current": 10
+            }
+          }
+        },
+        "items": [
+          {
+            "name": "WW.Tour.NPC.Items.Bow",
+            "type": "Equipment",
+            "img": "icons/weapons/bows/longbow-recurve-leather-brown.webp",
+            "system": {
+              "description": {
+                "value": "<p>Example description.</p>"
+              },
+              "subtype": "weapon",
+              "weightUnit": 1,
+              "attribute": "agi",
+              "boons": 1,
+              "damage": "1d6",
+              "grip": "Two",
+              "range": 15,
+              "properties": {
+                "range": true
+              }
+            }
+          },
+          {
+            "name": "WW.Tour.NPC.Items.Talent",
+            "type": "Trait or Talent",
+            "img": "icons/magic/defensive/illusion-evasion-echo-purple.webp",
+            "system": {
+              "description": {
+                "value": "<p>Example description.</p>"
+              }
+            },
+            "effects": [
+              {
+                "name": "Trait Effect",
+                "icon": "icons/magic/control/buff-strength-muscle-damage-orange.webp",
+                "changes": [
+                  {
+                    "key": "system.boons.attributes.str.global",
+                    "mode": 2,
+                    "priority": null,
+                    "value": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "WW.Tour.NPC.Items.Action",
+            "type": "Trait or Talent",
+            "img": "icons/magic/control/buff-strength-muscle-damage-orange.webp",
+            "system": {
+              "description": {
+                "value": "<p>Example description.</p>"
+              },
+              "subtype": "action",
+              "damage": "1d6",
+              "uses": {
+                "value": 3,
+                "max": 5
+              }
+            }
+          },
+          {
+            "name": "WW.Tour.NPC.Items.Fury",
+            "type": "Trait or Talent",
+            "img": "icons/magic/control/silhouette-aura-energy.webp",
+            "system": {
+              "description": {
+                "value": "<p>Example description.</p>"
+              },
+              "subtype": "fury",
+              "uses": {
+                "value": 2,
+                "max": 3
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "summary",
+      "selector": ".weirdwizard .tab.summary",
+      "title": "WW.Tour.NPC.SummaryTitle",
+      "content": "WW.Tour.NPC.SummaryContent"
+    },
+    {
+      "id": "statbox",
+      "selector": ".weirdwizard .statbox",
+      "title": "WW.Tour.NPC.StatboxTitle",
+      "content": "WW.Tour.NPC.StatboxContent"
+    },
+    {
+      "id": "header",
+      "selector": ".weirdwizard .statbox-superheader",
+      "title": "WW.Tour.NPC.HeaderTitle",
+      "content": "WW.Tour.NPC.HeaderContent"
+    },
+    {
+      "id": "talents",
+      "selector": ".weirdwizard .talents-section",
+      "title": "WW.Tour.NPC.TalentsTitle",
+      "content": "WW.Tour.NPC.TalentsContent"
+    },
+    {
+      "id": "buttons",
+      "selector": ".weirdwizard .described-list .buttons",
+      "title": "WW.Tour.NPC.ButtonsTitle",
+      "content": "WW.Tour.NPC.ButtonsContent"
+    },
+    {
+      "id": "attacks",
+      "selector": ".weirdwizard .attacks-list",
+      "title": "WW.Tour.NPC.AttacksTitle",
+      "content": "WW.Tour.NPC.AttacksContent"
+    },
+    
+    {
+      "id": "actions",
+      "selector": ".weirdwizard .actions-list",
+      "title": "WW.Tour.NPC.ActionsTitle",
+      "content": "WW.Tour.NPC.ActionsContent"
+    },
+    {
+      "id": "fury",
+      "selector": ".weirdwizard .fury-list",
+      "title": "WW.Tour.NPC.FuryTitle",
+      "content": "WW.Tour.NPC.FuryContent",
+      "tab": {
+        "parent": "actor",
+        "id": "summary"
+      }
+    },
+    {
+      "id": "description",
+      "selector": ".weirdwizard .tab.description",
+      "title": "WW.Tour.NPC.DescriptionTitle",
+      "content": "WW.Tour.NPC.DescriptionContent",
+      "tab": {
+        "parent": "actor",
+        "id": "description"
+      }
+    },
+    {
+      "id": "stats",
+      "selector": ".weirdwizard .tab.stats",
+      "title": "WW.Tour.NPC.StatsTitle",
+      "content": "WW.Tour.NPC.StatsContent",
+      "tab": {
+        "parent": "actor",
+        "id": "stats"
+      }
+    },
+    {
+      "id": "effects",
+      "selector": ".weirdwizard .tab.effects",
+      "title": "WW.Tour.NPC.EffectsTitle",
+      "content": "WW.Tour.NPC.EffectsContent",
+      "tab": {
+        "parent": "actor",
+        "id": "effects"
+      }
+    }
+  ],
+  "suggestedNextTours": [
+    "weirdwizard.character",
+    "weirdwizard.effects"
+  ],
+  "localization": {
+    
+  }
+}

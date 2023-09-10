@@ -3,7 +3,7 @@
 <div class="flex-row stat-inline mb-2">
 
     {{!-- Coins --}}
-    <div class="flex-row">
+    <div class="flex-row coins">
         <label for="system.currency" class="resource-label">{{localize "WW.Coins.Title"}}</label>
         <ol class="coins-list">
             <li><input type="number" name="system.currency.gp" value="{{system.currency.gp}}" min="0"
@@ -20,7 +20,7 @@
     </div>
 
     {{!-- Weight Total --}}
-    <div class="ml-auto">
+    <div class="ml-auto total-weight">
         <label>{{localize "WW.WeightTotal"}}:</label>
         <span {{#if (gt totalWeight system.attributes.str.value)}}style="color: red; font-weight:bold"
             {{/if}}>{{totalWeight}} / {{system.attributes.str.value}}</span>
@@ -30,7 +30,7 @@
 {{!-- Weapons --}}
 <h2>{{localize "WW.Weapon.Plural"}}</h2>
 <div>
-    <ol class="item-list">
+    <ol class="item-list weapons-list">
         <li class="item flexrow items-header">
             <div class="item-image"></div>
             <div class="item-name">{{localize "WW.Name"}}</div>
@@ -67,7 +67,7 @@
 
 <h2>{{localize "WW.Equipment"}}</h2>
 <div>
-    <ol class="item-list">
+    <ol class="item-list equipment-list">
         <li class="item flexrow items-header">
             <div class="item-image"></div>
             <div class="item-quantity">#</div>

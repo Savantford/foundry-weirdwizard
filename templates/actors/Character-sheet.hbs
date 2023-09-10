@@ -9,7 +9,7 @@
             <div class="attributes grid grid-4">
                 {{#each system.attributes as |attribute key|}}
                 {{#if (eq key 'luck')}}{{else}}
-                <div class="attribute stat flex-group-center">
+                <div class="attribute stat flex-group-center {{key}}">
                     <label for="system.attributes.{{key}}.value" class="attribute-label">{{attribute.label}}</label>
                     <div class="stat flex-group-center">
                         <input type="number" name="system.attributes.{{key}}.value" value="{{attribute.value}}" min="0" data-dtype="Number"/>
@@ -24,13 +24,13 @@
             <div class="resources grid grid-4 mt-2">
 
                 {{!-- Defense --}}
-                <div class="stat flex-group-center">
+                <div class="stat flex-group-center def">
                     <label>{{localize "WW.Defense.Title"}}</label>
                     <div><a title="{{localize "WW.Defense.Natural"}}: {{system.stats.defense.natural}}">{{system.stats.defense.total}}</a></div>
                 </div>
 
                 {{!-- Damage / Health --}}
-                <div class="stat flex-group-center">
+                <div class="stat flex-group-center health">
                     <label>{{localize "WW.Damage.Title"}} / {{localize "WW.Health.Title"}}</label>
                     <div class="flex-row flex-group-center">
                         <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0" data-dtype="Number"/>
@@ -50,13 +50,13 @@
 
                 <div class="stat flex-row flex-group-center">
                     {{!-- Luck Roll --}}
-                    <div class="mr-2">
+                    <div class="mr-2 luck">
                         <label>{{localize "WW.Luck"}}</label>
                         <div><a class="rollable resource-label" title="Roll {{localize "WW.Luck"}}"><i class="large fas fa-dice-d20" data-label="Luck"></i></a></div>
                     </div>
 
                     {{!-- Rest --}}
-                    <div>
+                    <div class="rest">
                         <label>{{localize "WW.Rest.Title"}}</label>
                         <div><a class="rest-btn"><i class="large fas fa-bed"></i></a></div>
                     </div>

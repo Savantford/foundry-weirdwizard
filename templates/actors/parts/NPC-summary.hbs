@@ -1,15 +1,17 @@
 <div class="resources grid-2">
 
     <div class="statbox">{{!-- Left Column --}}
-        <h3 class="statbox-header flex-group-left"><span>{{localize "WW.Stats"}}</span>
-            <span class="statbox-level">{{localize "WW.Level"}} {{system.stats.level}} {{#if system.stats.solitary}}({{localize "WW.Solitary"}}){{/if}}</span>
-        </h3>
+        <span class="statbox-superheader">
+            <h3 class="statbox-header flex-group-left"><span>{{localize "WW.Stats"}}</span>
+                <span class="statbox-level">{{localize "WW.Level"}} {{system.stats.level}} {{#if system.stats.solitary}}({{localize "WW.Solitary"}}){{/if}}</span>
+            </h3>
 
-        {{!-- Type --}}
-        <h4 class="mb-0">
-            <label>{{localize "WW.Type"}}</label>
-            <span>{{system.details.type}}</span>
-        </h4>
+            {{!-- Type --}}
+            <h4 class="mb-0">
+                <label>{{localize "WW.Type"}}</label>
+                <span>{{system.details.type}}</span>
+            </h4>
+        </span>
 
         <div class="hl">
             <div class="stat flex-row flex-wrap">{{!-- Defense, Health, Damage --}}
@@ -77,62 +79,64 @@
             </div>
         </div>
 
-        <h4>{{localize "WW.Talents"}}</h4>
-        <div class="mt-1">{{!-- Auras --}}
-            <ol class="described-list">
-                {{#each auras as |item id|}}
+        <span class="talents-section">
+            <h4>{{localize "WW.Talents"}}</h4>
+            <div class="mt-1">{{!-- Auras --}}
+                <ol class="described-list">
+                    {{#each auras as |item id|}}
+
+                    {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
+                    
+                    {{/each}}
+                </ol>
+            </div>
+
+            {{!-- Senses --}}
+            {{#if system.details.senses}}<div class="stat">
+                <label class="resource-label">{{localize
+                    "WW.Senses"}}</label>
+                {{system.details.senses}}
+            </div>{{/if}}
+
+            {{!-- Languages --}}
+            {{#if system.details.languages}}<div class="stat">
+                <label class="" class="resource-label">{{localize
+                    "WW.Languages"}}</label>
+                {{system.details.languages}}
+            </div>{{/if}}
+
+            {{!-- Immune --}}
+            {{#if system.details.immune}}<div class="stat">
+                <label class="mb-1" class="resource-label">{{localize "WW.Immune"}}</label>
+                {{system.details.immune}}
+            </div>{{/if}}
+
+            <div class="stat mb-1 mt-1">{{!-- Size, Speed --}}
+                <label class="resource-label">{{localize "WW.Size"}}</label>
+                {{system.stats.size}}
+
+                <label class="ml-1" class="resource-label">{{localize "WW.Speed.Title"}}</label>
+
+                <a title="{{localize "WW.Speed.Raw"}}: {{system.stats.speed.raw}}">{{system.stats.speed.value}}</a>
+                
+                {{#if system.stats.speed.special}} ({{system.stats.speed.special}}){{/if}}
+            </div>
+
+            <ol class="described-list">{{!-- Talents --}}
+                {{#each talents as |item id|}}
 
                 {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
                 
                 {{/each}}
             </ol>
-        </div>
-
-        {{!-- Senses --}}
-        {{#if system.details.senses}}<div class="stat">
-            <label class="resource-label">{{localize
-                "WW.Senses"}}</label>
-            {{system.details.senses}}
-        </div>{{/if}}
-
-        {{!-- Languages --}}
-        {{#if system.details.languages}}<div class="stat">
-            <label class="" class="resource-label">{{localize
-                "WW.Languages"}}</label>
-            {{system.details.languages}}
-        </div>{{/if}}
-
-        {{!-- Immune --}}
-        {{#if system.details.immune}}<div class="stat">
-            <label class="mb-1" class="resource-label">{{localize "WW.Immune"}}</label>
-            {{system.details.immune}}
-        </div>{{/if}}
-
-        <div class="stat mb-1 mt-1">{{!-- Size, Speed --}}
-            <label class="resource-label">{{localize "WW.Size"}}</label>
-            {{system.stats.size}}
-
-            <label class="ml-1" class="resource-label">{{localize "WW.Speed.Title"}}</label>
-
-            <a title="{{localize "WW.Speed.Raw"}}: {{system.stats.speed.raw}}">{{system.stats.speed.value}}</a>
-            
-            {{#if system.stats.speed.special}} ({{system.stats.speed.special}}){{/if}}
-        </div>
-
-        <ol class="described-list">{{!-- Talents --}}
-            {{#each talents as |item id|}}
-
-            {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
-            
-            {{/each}}
-        </ol>
+        </span>
 
     </div>
 
     <div class="statbox">{{!-- Right Column --}}
         {{#if weapons}}
         <h4>{{localize "WW.Attack.Plural"}}</h4>
-        <div class="mt-1">
+        <div class="mt-1 attacks-list">
             <ol class="described-list">
                 {{#each weapons as |item id|}}
                 <li class="item" data-item-id="{{item._id}}">
@@ -172,7 +176,7 @@
 
         {{#if actions}}
         <h4 class="mt-2">{{localize "WW.Actions"}}</h4>
-        <ol class="described-list">
+        <ol class="described-list actions-list">
             {{#each actions as |item id|}}
 
             {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}

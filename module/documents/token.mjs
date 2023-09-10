@@ -3,7 +3,7 @@
  * @extends {TokenDocument}
 */
 
-export class WeirdWizardToken extends TokenDocument {
+export default class WWTokenDocument extends TokenDocument {
   /** @override */
   getTrackedAttributes(data, path = []) {
     const attr = 0;/*super.getTrackedAttributes(data, path);
