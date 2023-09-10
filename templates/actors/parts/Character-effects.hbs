@@ -97,8 +97,9 @@
       </div>
     </li>
 
-    <ol class="item-list">
+    <ol class="item-list {{section.type}}-effects">
     {{#each section.effects as |effect|}}
+    {{log effect}}
       <li class="item effect flexrow" data-effect-id="{{effect.id}}">
         <div class="item-image">
           <img src="{{effect.icon}}" width="24" height="24"/>
@@ -164,7 +165,7 @@
       </div>
     </li>
 
-    <ol class="item-list">
+    <ol class="item-list inactive-effects">
     {{#each actorEffects.inactive.effects as |effect|}}
       <li class="item effect flexrow" data-effect-id="{{effect.id}}">
         <div class="item-image">

@@ -5,7 +5,7 @@
 
 import { capitalize, i18n } from '../helpers/utils.mjs';
 
-export class WeirdWizardItem extends Item {
+export default class WWItem extends Item {
   /**
   * Augment the basic Item data model with additional dynamic data.
   */

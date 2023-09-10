@@ -7,7 +7,7 @@
 
 import { onManageActiveEffect, prepareActiveEffectCategories } from '../active-effects/effects.mjs';
 
-export class WeirdWizardItemSheet extends ItemSheet {
+export default class WWItemSheet extends ItemSheet {
 
   /** @override */
   static get defaultOptions() {

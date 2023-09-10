@@ -1,6 +1,6 @@
 import { i18n } from '../helpers/utils.mjs'
 
-export class WWActiveEffectConfig extends ActiveEffectConfig {
+export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
   /** @override */
   static get defaultOptions() {
@@ -71,7 +71,7 @@ export class WWActiveEffectConfig extends ActiveEffectConfig {
       'system.boons.attributes.int.global': i18n('WW.Intellect') + ': ' + i18n('WW.Boons.Or'),
       'system.boons.attributes.wil.global': i18n('WW.Will') + ': ' + i18n('WW.Boons.Or'),
       'system.boons.attributes.luck.global': i18n('WW.Luck') + ': ' + i18n('WW.Boons.Or'),
-      'system.boons.attacks.global': i18n('WW.Attacks') + ': ' + i18n('WW.Boons.Or'),
+      'system.boons.attacks.global': i18n('WW.Attack.Plural') + ': ' + i18n('WW.Boons.Or'),
 
       // Auto Failure
       'system.autoFail.str': i18n('WW.Strength') + ': ' + i18n('WW.AutoFail'),

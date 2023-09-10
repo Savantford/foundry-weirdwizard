@@ -896,7 +896,7 @@ input[type="checkbox"].checkbox-uses {
 
 /* Tooltips Customization */
 
-#tooltip, .locked-tooltip {
+#tooltip:not(.tour), .locked-tooltip:not(.tour) {
   max-width: 320px;
   padding: 8px;
   background: #292A2D;
@@ -911,11 +911,11 @@ input[type="checkbox"].checkbox-uses {
   transition: visibility 0s 10ms, opacity 10ms;
 }
 
-#tooltip.active, .locked-tooltip.active {
+#tooltip.active:not(.tour), .locked-tooltip.active:not(.tour) {
   transition: opacity 10ms;
 }
 
-#tooltip > p {
+#tooltip:not(.tour) > p {
   margin: 0;
 }
 

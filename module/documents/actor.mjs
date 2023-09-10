@@ -3,7 +3,7 @@
 * @extends {Actor}
 */
 
-export class WeirdWizardActor extends Actor {
+export default class WWActor extends Actor {
 
     /** @override */
     prepareData() {

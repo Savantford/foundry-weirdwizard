@@ -10,7 +10,7 @@ import { WWAfflictions } from '../active-effects/afflictions.mjs';
  * @extends {ActorSheet}
 */
 
-export class WeirdWizardActorSheet extends ActorSheet {
+export default class WWActorSheet extends ActorSheet {
   
   /** @override */
   static get defaultOptions() {

@@ -1,9 +1,11 @@
 <div class="resources grid-2">
 
-    <div class="statbox">{{!-- Left Column --}}
+    {{!-- Left Column --}}
+    <div class="statbox">
         <h3>{{localize "WW.Stats"}}</h3>
 
-        <div class="stat">{{!-- Level, Ancestry --}}
+        {{!-- Level, Ancestry --}}
+        <div class="stat">
             <label for="level" class="resource-label">{{localize "WW.Level"}}</label>
             {{system.stats.level}}
 
@@ -11,20 +13,23 @@
             {{system.details.ancestry}}
         </div>
 
-        <div class="stat">{{!-- Type, Senses --}}
+        {{!-- Type, Senses --}}
+        <div class="stat">
             {{#if system.details.type}}<label for="type" class="resource-label">{{localize
                 "WW.Type"}}</label>
             {{system.details.type}}{{/if}}
         </div>
 
+        {{!-- Professions --}}
         {{#if system.details.professions}}
-        <div class="stat">{{!-- Professions --}}
+        <div class="stat">
             <label class="" for="professions" class="resource-label">{{localize "WW.Professions"}}</label>
             {{system.details.professions}}
         </div>
         {{/if}}
 
-        <div class="stat mt-1">{{!-- Paths --}}
+        {{!-- Paths --}}
+        <div class="stat mt-1">
             {{#if system.details.novice}}
             <label for="paths" class="resource-label">{{localize "WW.Paths"}}</label>
             <ol class="summary-list">
@@ -38,7 +43,8 @@
         </div>
 
         <div class="hl">
-            <div class="stat mt-1">{{!-- Defense, Health, Damage --}}
+            {{!-- Defense, Health, Damage --}}
+            <div class="stat mt-1">
                 <label for="defense" class="resource-label">{{localize "WW.Defense.Title"}}</label>
                 <a title="{{localize "WW.Defense.Natural"}}: {{system.stats.defense.natural}}">{{system.stats.defense.total}}</a>
                 <label class="ml-1" for="health" class="resource-label">{{localize "WW.Health.Title"}}</label>
@@ -54,14 +60,18 @@
                     {{else}}{{localize "WW.Health.Injured"}}{{/if}}">
                 </i>
             </div>
-            <div class="stat mt-1">{{!-- Attributes 1 --}}
+
+            {{!-- Attributes 1 --}}
+            <div class="stat mt-1">
                 <label for="str" class="resource-label">{{localize "WW.Strength"}}</label>
                 {{system.attributes.str.value}} ({{numberFormat system.attributes.str.mod decimals=0 sign=true}})
 
                 <label class="ml-1" for="agi" class="resource-label">{{localize "WW.Agility"}}</label>
                 {{system.attributes.agi.value}} ({{numberFormat system.attributes.agi.mod decimals=0 sign=true}})
             </div>
-            <div class="stat">{{!-- Attributes 2 --}}
+
+            {{!-- Attributes 2 --}}
+            <div class="stat">
                 <label for="int" class="resource-label">{{localize "WW.Intellect"}}</label>
                 {{system.attributes.int.value}} ({{numberFormat system.attributes.int.mod decimals=0 sign=true}})
 
@@ -70,21 +80,27 @@
             </div>
         </div>
 
-        <div class="stat">{{!-- Senses --}}
+        {{!-- Senses --}}
+        <div class="stat">
             {{#if system.details.senses}}<label for="senses" class="resource-label">{{localize
                 "WW.Senses"}}</label>
             {{system.details.senses}}{{/if}}
         </div>
 
-        <div class="stat">{{!-- Languages --}}
+        {{!-- Languages --}}
+        <div class="stat">
             <label class="" for="languages" class="resource-label">{{localize "WW.Languages"}}</label>
             {{system.details.languages}}
         </div>
-        {{#if system.details.immune}}<div class="stat mt-1">{{!-- Immune --}}
+
+        {{!-- Immune --}}
+        {{#if system.details.immune}}<div class="stat mt-1">
             <label class="" for="immune" class="resource-label">{{localize "WW.Immune"}}</label>
             {{system.details.immune}}
         </div>{{/if}}
-        <div class="stat mt-1">{{!-- Size, Speed --}}
+
+        {{!-- Size, Speed --}}
+        <div class="stat mt-1">
             <label for="size" class="resource-label">{{localize "WW.Size"}}</label>
             {{system.stats.size}}
 
@@ -97,57 +113,64 @@
 
         <h3 class="mt-2">{{localize "WW.Attack.Plural"}}</h3>
         
-        {{!-- Bonus Damage --}}
-        {{#if system.stats.bonusdamage}}
-        <div class="stat">
-            <label class="" for="bonusdamage" class="resource-label">{{localize "WW.Damage.Bonus"}}</label>
-            +{{system.stats.bonusdamage}}d6
-        </div>
-        {{/if}}
+        <span class="attacks">
 
-        {{!-- Weapons List --}}
-        <div class="mt-1">
-            <ol class="described-list">
-                {{#each weapons as |item id|}}
-                <li class="item" data-item-id="{{item._id}}">
-                    <a class="rollable item-roll" title="Roll Attack">{{item.name}}</a>
+            {{!-- Bonus Damage --}}
+            {{#if system.stats.bonusdamage}}
+            <div class="stat">
+                <label class="" for="bonusdamage" class="resource-label">{{localize "WW.Damage.Bonus"}}</label>
+                +{{system.stats.bonusdamage}}d6
+            </div>
+            {{/if}}
 
-                    <a class="item-edit" title="Edit Weapon"><i class="fas fa-edit"></i></a>
+            {{!-- Weapons List --}}
+            <div class="mt-1">
+                <ol class="described-list">
+                    {{#each weapons as |item id|}}
+                    <li class="item" data-item-id="{{item._id}}">
+                        <a class="rollable item-roll" title="Roll Attack">{{item.name}}</a>
 
-                    {{#if item.system.description.value}}<a class="item-scroll" data-tooltip="{{item.system.description.value}}"><i class="far fa-scroll"></i></a>{{/if}}
+                        <a class="item-edit" title="Edit Weapon"><i class="fas fa-edit"></i></a>
 
-                    {{!-- Toggle Reloaded --}}
-                    {{#if item.system.properties.reload}}
-                        <a class="item-toggle-reloaded" data-item-id="{{item._id}}" 
-                            title="{{#if item.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
-                            <i class="fas {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
-                    {{/if}}
+                        {{#if item.system.description.value}}<a class="item-scroll" data-tooltip="{{item.system.description.value}}"><i class="far fa-scroll"></i></a>{{/if}}
 
-                    <a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>
-                    
-                    ({{item.system.grip}}{{#if item.system.propertiesList}};
-                    {{item.system.propertiesList}}{{/if}}) 
-
-                    {{item.system.attributeLabel}}
-                    
-                    {{#if item.system.boons}} {{localize "WW.Boons.With"}} {{item.system.boons}} 
-                        {{#if (lt item.system.boons -1)}}{{localize "WW.Boons.Banes"}}
-                            {{else if (lt item.system.boons 0)}}{{localize "WW.Boons.Bane"}}
-                            {{else if (gt item.system.boons 1)}}{{localize "WW.Boons.Boons"}}
-                            {{else}}{{localize "WW.Boons.Boon"}}
+                        {{!-- Toggle Reloaded --}}
+                        {{#if item.system.properties.reload}}
+                            <a class="item-toggle-reloaded" data-item-id="{{item._id}}" 
+                                title="{{#if item.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
+                                <i class="fas {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
                         {{/if}}
-                    {{/if}}
 
-                    ({{#if item.system.damage}}{{item.system.damage}}{{else}}0{{/if}})
-                    
-                    {{#if item.system.attackRider.value}}{{{item.system.attackRider.enriched}}}{{/if}}
-                </li>
-                {{/each}}
-            </ol>
-        </div>
+                        <a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>
+                        
+                        <span class="properties-line">({{item.system.grip}}{{#if item.system.propertiesList}};
+                        {{item.system.propertiesList}}{{/if}})</span> 
+
+                        <span class="modifier-line">{{item.system.attributeLabel}}
+                        
+                        {{#if item.system.boons}} {{localize "WW.Boons.With"}} {{item.system.boons}} 
+                            {{#if (lt item.system.boons -1)}}{{localize "WW.Boons.Banes"}}
+                                {{else if (lt item.system.boons 0)}}{{localize "WW.Boons.Bane"}}
+                                {{else if (gt item.system.boons 1)}}{{localize "WW.Boons.Boons"}}
+                                {{else}}{{localize "WW.Boons.Boon"}}
+                            {{/if}}
+                        {{/if}}
+                        </span>
+
+                        <span class="damage-line">({{#if item.system.damage}}{{item.system.damage}}{{else}}0{{/if}})</span>
+                        
+                        {{#if item.system.attackRider.value}}{{{item.system.attackRider.enriched}}}{{/if}}
+                    </li>
+                    {{/each}}
+                </ol>
+            </div>
+        </span>
     </div>
 
-    <div class="statbox">{{!-- Right Column --}}
+    {{!-- Right Column --}}
+    <div class="statbox">
+
+        {{!-- Talents --}}
         <h3>{{localize "WW.Talents"}}</h3>
         <ol class="compact-list stat">
             {{#each talents as |item id|}}
@@ -157,6 +180,7 @@
             {{/each}}
         </ol>
 
+        {{!-- Actions --}}
         {{#if actions}}
         <h4 class="mt-2">{{localize "WW.Actions"}}</h4>
         <ol class="compact-list stat">
@@ -168,6 +192,7 @@
         </ol>
         {{/if}}
 
+        {{!-- Reactions --}}
         {{#if reactions}}
         <h4 class="mt-2">{{localize "WW.Reactions"}}</h4>
         <ol class="compact-list stat">
@@ -179,10 +204,12 @@
         </ol>
         {{/if}}
 
+        {{!-- Spells Section --}}
         {{#if (or system.details.traditions spells.length)}}
         <h3>{{localize "WW.Spells"}}</h3>
 
         {{!-- Traditions --}}
+        <span class="spells">
         {{#if system.details.traditions}}
         <div class="stat mb-2">
             <label class="" for="traditions" class="resource-label">{{localize "WW.Traditions"}}</label>
@@ -190,6 +217,7 @@
         </div>
         {{/if}}
 
+        {{!-- Spells List --}}
         <ol class="compact-list stat">
             {{#each spells as |item id|}}
 
@@ -198,5 +226,6 @@
             {{/each}}
         </ol>
         {{/if}}
+        </span>
     </div>
 </div>

@@ -1,7 +1,7 @@
 import { mapRange } from './canvas-functions.mjs';
 
 // Code base borrowed from SWADE game system. Thank you!
-export class WWToken extends Token {
+export default class WWToken extends Token {
     #blk = 0x000000;
 
     static getDamageColor(current, max) {

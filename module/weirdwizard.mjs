@@ -1,20 +1,25 @@
 console.log('Initializing weirdwizard.mjs...')
+
 // Import document classes.
-import { WeirdWizardActor } from './documents/actor.mjs';
-import { WeirdWizardItem } from './documents/item.mjs';
-import { WWActiveEffect } from './active-effects/active-effect.mjs';
-//import { WeirdWizardToken } from './documents/token.mjs';
+import WWActor from './documents/actor.mjs';
+import WWItem from './documents/item.mjs';
+import WWActiveEffect from './active-effects/active-effect.mjs';
+//import WWTokenDocument from './documents/token-document.mjs';
+
 // Import sheet classes.
-import { WeirdWizardActorSheet } from './sheets/actor-sheet.mjs';
-import { WeirdWizardItemSheet } from './sheets/item-sheet.mjs';
+import WWActorSheet from './sheets/actor-sheet.mjs';
+import WWItemSheet from './sheets/item-sheet.mjs';
+
 // Import helper/utility classes and constants.
 import { WW } from './config.mjs';
 import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
-import { WWActiveEffectConfig } from './active-effects/active-effect-config.mjs';
+import WWActiveEffectConfig from './active-effects/active-effect-config.mjs';
 import { WWAfflictions } from './active-effects/afflictions.mjs';
 import { initChatListeners } from './chat/chat-listeners.mjs';
+import registerWWTours from './tours/registration.mjs';
+
 // Import canvas-related classes
-import { WWToken } from './canvas/token.mjs';
+import WWToken from './canvas/token.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -25,24 +30,24 @@ Hooks.once('init', function () {
   // accessible in global contexts.
   
   game.weirdwizard = {
-    WeirdWizardActor,
-    WeirdWizardItem
+    WWActor,
+    WWItem
   };
 
   // Add custom constants for configuration.
   CONFIG.WW = WW;
 
   // Define custom Document classes
-  CONFIG.Actor.documentClass = WeirdWizardActor;
-  CONFIG.Item.documentClass = WeirdWizardItem;
+  CONFIG.Actor.documentClass = WWActor;
+  CONFIG.Item.documentClass = WWItem;
   CONFIG.ActiveEffect.documentClass = WWActiveEffect;
   DocumentSheetConfig.registerSheet(ActiveEffect, "weirdwizard", WWActiveEffectConfig, {makeDefault: true})
 
   // Register sheet application classes
   Actors.unregisterSheet('core', ActorSheet);
-  Actors.registerSheet('weirdwizard', WeirdWizardActorSheet, { makeDefault: true });
+  Actors.registerSheet('weirdwizard', WWActorSheet, { makeDefault: true });
   Items.unregisterSheet('core', ItemSheet);
-  Items.registerSheet('weirdwizard', WeirdWizardItemSheet, { makeDefault: true });
+  Items.registerSheet('weirdwizard', WWItemSheet, { makeDefault: true });
 
   // Define custom Object classes
   CONFIG.Token.objectClass = WWToken;
@@ -65,6 +70,10 @@ Hooks.once('init', function () {
 
 Hooks.once('ready', function () {
   // Include steps that need to happen after Foundry has fully loaded here.
+
+  // Register Tours
+  registerWWTours();
+
 });
 
 /* -------------------------------------------- */
