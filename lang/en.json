@@ -430,6 +430,33 @@
     "WW.AsleepDesc": "If you are unconscious because you are sleeping naturally, you stop being unconscious when a creature uses an action to shake you, kick you, or do something else to waken you. A loud noise might remove the affliction if you succeed on a luck roll. Time spent sleeping counts as resting for the purpose of healing damage (see “Rest” below). If your sleep is uninterrupted, you wake up naturally whenever you choose after you fall asleep.",
     "WW.WeakenedDesc": "You make Strength and Agility rolls with 1 bane, and you grant 1 boon on rolls against your Strength and Agility. In addition, you halve your Speed, and you derive no benefit from increases to your Speed.",
 
+    "WW.Combat": {
+        "ActTip": "You have yet to take your turn during this round.\nClick here to make your turn.",
+        "ActingTip": "It's your turn.\nClick here to finish your turn.",
+        "ActedTip": "You already took your turn during this round.\nClick here if you wish to take another turn during this round.",
+        "InitiativeTip": "Click to take the initiative.",
+        "InitiativeMsg": "is taking the initiative",
+        "TurnTip": "Click to take a regular turn.",
+        "TurnMsg": "is taking a regular turn",
+        "ActAgain": {
+            "Title": "Act Again",
+            "Msg": "You already took a turn during this round. Normally, each combatant can take one turn per round ONCE.",
+            "Confirm": "Are you sure you can act again during this round?"
+        },
+        "StartTurn": {
+            "Title": "Take Your Turn",
+            "Msg": "You are about to take your turn RIGHT NOW.",
+            "Confirm": "Are you sure?"
+        },
+        "Phase": {
+            "Initiative": "Initiative Phase",
+            "Enemies": "Enemies Phase",
+            "Allies": "Allies Phase",
+            "End": "End of the Round"
+        },
+        "SkipActed": "Skip Acted?",
+        "SkipActedHint": "Automatically bypass combatants who acted already during this round."
+    },
 
     "WW.Tour": {
         "Character": {

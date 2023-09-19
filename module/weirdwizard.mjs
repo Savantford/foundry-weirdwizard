@@ -4,7 +4,9 @@ console.log('Initializing weirdwizard.mjs...')
 import WWActor from './documents/actor.mjs';
 import WWItem from './documents/item.mjs';
 import WWActiveEffect from './active-effects/active-effect.mjs';
+import WWCombat from './documents/combat.mjs';
 //import WWTokenDocument from './documents/token-document.mjs';
+import WWCombatTracker from './apps/combat-tracker.mjs';
 
 // Import sheet classes.
 import WWActorSheet from './sheets/actor-sheet.mjs';
@@ -42,6 +44,7 @@ Hooks.once('init', function () {
   CONFIG.Item.documentClass = WWItem;
   CONFIG.ActiveEffect.documentClass = WWActiveEffect;
   DocumentSheetConfig.registerSheet(ActiveEffect, "weirdwizard", WWActiveEffectConfig, {makeDefault: true})
+  CONFIG.Combat.documentClass = WWCombat;
 
   // Register sheet application classes
   Actors.unregisterSheet('core', ActorSheet);
@@ -51,9 +54,23 @@ Hooks.once('init', function () {
 
   // Define custom Object classes
   CONFIG.Token.objectClass = WWToken;
+
+  // Define custom Combat Tracker
+  CONFIG.ui.combat = WWCombatTracker;
   
   // Disable legacy pre-V11 behavior of item effects being stored on actor.effects. Use actor.appliedEffects instead for all effects
   CONFIG.ActiveEffect.legacyTransferral = false;
+
+  // Register system settings
+  game.settings.register('weirdwizard', 'skipActed', {
+    name: "WW.Combat.Skip",
+    hint: "WW.Combat.SkipHint",
+    scope: "world",
+    config: true,
+    requiresReload: false,
+    type: Boolean,
+    default: true
+  });
 
   // Preload Handlebars templates.
   return preloadHandlebarsTemplates();
