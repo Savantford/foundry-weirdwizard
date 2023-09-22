@@ -37,13 +37,22 @@ WW.dropdownNumbers = {
   "9": "9",
   "10": "10",
 }
-WW.dropdownAttributes = {
+WW.rollAttributes = {
   "": "WW.Dont",
   "str": "WW.Strength",
   "agi": "WW.Agility",
   "int": "WW.Intellect",
   "wil": "WW.Will",
   "luck": "WW.Luck"
+}
+
+WW.rollAgainst = {
+  "": "WW.DontAgainst",
+  "def": "WW.Defense.Label",
+  "str": "WW.Strength",
+  "agi": "WW.Agility",
+  "int": "WW.Intellect",
+  "wil": "WW.Will"
 }
 
 WW.dropdownSubtypes = {

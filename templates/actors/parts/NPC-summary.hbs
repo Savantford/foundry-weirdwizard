@@ -16,18 +16,18 @@
         <div class="hl">
             <div class="stat flex-row flex-wrap">{{!-- Defense, Health, Damage --}}
                 <div class="nowrap">
-                    <label>{{localize "WW.Defense.Title"}}</label>
+                    <label>{{localize "WW.Defense.Label"}}</label>
                     {{system.stats.defense.total}}{{#if system.stats.defense.details}}
                     ({{system.stats.defense.details}}){{/if}}
                 </div>
 
                 <div class="nowrap">
-                    <label>{{localize "WW.Health.Title"}}</label>
+                    <label>{{localize "WW.Health.Label"}}</label>
                     {{system.stats.health.current}}
                 </div>
 
                 <div class="nowrap">
-                    <label>{{localize "WW.Damage.Title"}}</label>
+                    <label>{{localize "WW.Damage.Label"}}</label>
                     
                     <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0"
                         data-dtype="Number" />
@@ -115,7 +115,7 @@
                 <label class="resource-label">{{localize "WW.Size"}}</label>
                 {{system.stats.size}}
 
-                <label class="ml-1" class="resource-label">{{localize "WW.Speed.Title"}}</label>
+                <label class="ml-1" class="resource-label">{{localize "WW.Speed.Label"}}</label>
 
                 <a title="{{localize "WW.Speed.Raw"}}: {{system.stats.speed.raw}}">{{system.stats.speed.value}}</a>
                 

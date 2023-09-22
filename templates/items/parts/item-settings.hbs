@@ -1,7 +1,7 @@
 <h2>{{localize "WW.Settings"}}</h2>
 
 <div class="flex-row stat-inline">
-    {{localize "WW.Boons.AlwaysRoll"}}
+    {{localize "WW.Roll.Always"}}
     <select class="mx-1" name="system.attribute">
         {{selectOptions attributesObj selected=system.attribute localize=true}}
     </select>
@@ -11,9 +11,16 @@
     {{localize "WW.Boons.Or"}}
 </div>
 
+<div class="flex-row stat-inline">
+    {{localize "WW.Roll.Against"}}
+    <select class="mx-1" name="system.against">
+        {{selectOptions againstObj selected=system.against localize=true}}
+    </select>
+</div>
+
 {{#if (ne system.subtype 'weapon')}}
 <div class="flex-row stat-inline mt-1">
-    <label class="">{{localize "WW.Damage.Title"}}</label>
+    <label class="">{{localize "WW.Damage.Label"}}</label>
     <input type="text" name="system.damage" value="{{system.damage}}" placeholder="1d6"
         style="width: 75px; text-align: center;" data-dtype="String" />
 

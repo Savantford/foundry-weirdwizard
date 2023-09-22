@@ -24,18 +24,18 @@
 
         <div class="mb-2">
             <div class="mt-2 flex-row stat-inline flex-group-left">{{!-- Defense --}}
-                <label>{{localize "WW.Defense.Title"}}</label>
+                <label>{{localize "WW.Defense.Label"}}</label>
                 <input class="mr-1" type="number" name="system.stats.defense.total"
                     value="{{system.stats.defense.total}}" min="0" data-dtype="Number" />
                 <input type="text" name="system.stats.defense.details" value="{{system.stats.defense.details}}"
                     data-dtype="String" placeholder="{{localize "WW.Defense.Details"}}" />
             </div>
             <div class="flex-row stat-inline flex-group-left">{{!-- Damage / Health --}}
-                <label>{{localize "WW.Health.Title"}}</label>
+                <label>{{localize "WW.Health.Label"}}</label>
                 <input type="number" name="system.stats.health.current" value="{{system.stats.health.current}}" min="0"
                     data-dtype="Number" />
 
-                <label class="ml-2">{{localize "WW.Damage.Title"}}</label>
+                <label class="ml-2">{{localize "WW.Damage.Label"}}</label>
                 {{system.stats.damage.value}}
             </div>
 
@@ -140,7 +140,7 @@
             </select>
             {{system.stats.size.value}}
 
-            <label class="ml-2">{{localize "WW.Speed.Title"}}</label>
+            <label class="ml-2">{{localize "WW.Speed.Label"}}</label>
             <input class="mr-1" type="number" name="system.stats.speed.raw" value="{{system.stats.speed.raw}}"
                 data-dtype="Number" min="0" / placeholder="#">
             <input type="text" name="system.stats.speed.special" value="{{system.stats.speed.special}}"

@@ -67,6 +67,14 @@ export class WWAfflictions {
       addEffect('system.boons.attributes.wil.global', v, addPriority)
     ];}
 
+    const againstAll = function(v) { return [
+      addEffect('system.boons.against.def', v, addPriority),
+      addEffect('system.boons.against.str', v, addPriority),
+      addEffect('system.boons.against.agi', v, addPriority),
+      addEffect('system.boons.against.int', v, addPriority),
+      addEffect('system.boons.against.wil', v, addPriority)
+    ];}
+
     // Blinded
     effectsDataList.push(_buildBaseAffliction(
       'Blinded',
@@ -85,7 +93,7 @@ export class WWAfflictions {
         addEffect('system.boons.attributes.int.global', -1, addPriority),
         addEffect('system.boons.attributes.wil.global', -1, addPriority)
         // Cannot use reactions
-      ]
+      ].concat(againstAll(1))
     ));
 
     // Controlled
@@ -112,6 +120,7 @@ export class WWAfflictions {
         'Frightened',
         'icons/svg/terror.svg',
         [].concat(baneAllAttributes(-1))
+          .concat(againstAll(1))
       ),
     );
 
@@ -127,7 +136,10 @@ export class WWAfflictions {
       _buildBaseAffliction(
         'ImpairedStr',
         'icons/svg/bones.svg',
-        [addEffect('system.boons.attributes.str.global', -1, addPriority)]
+        [
+          addEffect('system.boons.attributes.str.global', -1, addPriority),
+          addEffect('system.boons.against.str', 1, addPriority)
+        ]
       ),
     );
 
@@ -136,7 +148,10 @@ export class WWAfflictions {
       _buildBaseAffliction(
         'ImpairedAgi',
         'icons/svg/anchor.svg',
-        [addEffect('system.boons.attributes.agi.global', -1, addPriority)]
+        [
+          addEffect('system.boons.attributes.agi.global', -1, addPriority),
+          addEffect('system.boons.against.agi', 1, addPriority)
+        ]
       ),
     );
 
@@ -145,7 +160,10 @@ export class WWAfflictions {
       _buildBaseAffliction(
         'ImpairedInt',
         'icons/svg/light-off.svg',
-        [addEffect('system.boons.attributes.int.global', -1, addPriority)]
+        [
+          addEffect('system.boons.attributes.int.global', -1, addPriority),
+          addEffect('system.boons.against.int', 1, addPriority)
+        ]
       ),
     );
 
@@ -154,7 +172,10 @@ export class WWAfflictions {
       _buildBaseAffliction(
         'ImpairedWil',
         'icons/svg/invisible.svg',
-        [addEffect('system.boons.attributes.wil.global', -1, addPriority)]
+        [
+          addEffect('system.boons.attributes.wil.global', -1, addPriority),
+          addEffect('system.boons.against.wil', 1, addPriority)
+        ]
       ),
     );
 
@@ -175,6 +196,7 @@ export class WWAfflictions {
       'Poisoned',
       'icons/svg/poison.svg',
       [].concat(baneAllAttributes(-1))
+        .concat(againstAll(1))
       // 1d6 Health lost each round
     ));
 
@@ -194,7 +216,8 @@ export class WWAfflictions {
         'Stunned',
         'icons/svg/daze.svg',
         [overrideEffect('system.stats.speed.value', 0, overridePriority)]
-          .concat(baneAllAttributes(-2)),
+          .concat(baneAllAttributes(-2))
+          .concat(againstAll(2))
           /*You cannot use actions or reactions. Your Speed drops to 0 and
           you cannot benefit from increases to Speed until this affliction
           ends. You grant 2 boons on rolls against you, and you make attribute rolls with 2 banes.*/
@@ -213,7 +236,7 @@ export class WWAfflictions {
           overrideEffect('system.autoFail.agi', true, addPriority),
           overrideEffect('system.autoFail.int', true, addPriority),
           overrideEffect('system.autoFail.wil', true, addPriority)
-        ],
+        ].concat(againstAll(3))
           /* You cannot use actions or reactions. Your Speed drops 0 and you
           cannot benefit from increases to Speed until this affliction ends.
           You receive no information from your senses. You grant 3 boons
@@ -244,6 +267,8 @@ export class WWAfflictions {
       [
         addEffect('system.boons.attributes.str.global', -1, addPriority),
         addEffect('system.boons.attributes.agi.global', -1, addPriority),
+        addEffect('system.boons.against.str', 1, addPriority),
+        addEffect('system.boons.against.agi', 1, addPriority),
         overrideEffect('system.stats.speed.halved', true, addPriority)
       ]
     ));

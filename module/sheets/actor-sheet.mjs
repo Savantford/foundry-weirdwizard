@@ -296,8 +296,8 @@ export default class WWActorSheet extends ActorSheet {
     html.find('.rest-btn').click(async () => {
       
       const confirm = await Dialog.confirm({
-        title: i18n('WW.Rest.Title'),
-        content: i18n('WW.Rest.Tip') + '<p class="dialog-sure">' + i18n('WW.Rest.Confirm') + '</p>'
+        title: i18n('WW.Rest.Label'),
+        content: i18n('WW.Rest.Msg') + '<p class="dialog-sure">' + i18n('WW.Rest.Confirm') + '</p>'
       });
 
       if(!confirm) return;
@@ -337,11 +337,12 @@ export default class WWActorSheet extends ActorSheet {
     // Rollable attributes.
     html.find('.rollable').click(ev => { //this._onRoll.bind(this)
       // Define variables to be used
-      let system = this.object.system;
+      const system = this.actor.system;
       let label = '';
       let content = '';
       let attKey = '';
       let fixedBoons = 0;
+      let against = '';
       
       if ($(ev.currentTarget).hasClass('item-roll')) { // If it is a roll from an item.
         let li = $(ev.currentTarget).parents('.item');
@@ -353,11 +354,12 @@ export default class WWActorSheet extends ActorSheet {
 
         label = item.name;
         fixedBoons = item.system.boons;
+        against = item.system.against;
         
         //if (this.actor.type == 'Character') content = item.system.description.value; // No longer needed
         content = getSecretContent(item.system.description.value);
         
-        if (this.actor.system.attributes[item.system.attribute]) {
+        if (system.attributes[item.system.attribute]) {
           attKey = item.system.attribute;
         }
 
@@ -398,6 +400,7 @@ export default class WWActorSheet extends ActorSheet {
         label: getSecretLabel(label),
         content: content,
         attKey: attKey,
+        against: against,
         fixedBoons: fixedBoons
       }
 
@@ -407,7 +410,7 @@ export default class WWActorSheet extends ActorSheet {
         let messageData = {
           speaker: ChatMessage.getSpeaker({ actor: this.actor }),
           flavor: getSecretLabel(label),
-          content: '<div class="dice-formula auto-fail">' + i18n('WW.AutoFail') + '!</div>' + content,
+          content: '<div class="chat-failure">' + i18n('WW.Roll.AutoFail') + '!</div>' + content,
           sound: CONFIG.sounds.dice
         };
 
@@ -415,7 +418,8 @@ export default class WWActorSheet extends ActorSheet {
 
         ChatMessage.create(messageData);
       } else {
-        new rollAttribute(obj).render(true)
+        if (against && game.user.targets.size == 0) ui.notifications.warn(i18n("WW.Roll.TargetWrn"));
+        else new rollAttribute(obj).render(true)
       }
     });
 
@@ -691,19 +695,26 @@ export default class WWActorSheet extends ActorSheet {
     event.preventDefault();
     const header = event.currentTarget;
     const type = header.dataset.type; // Get the type of item to create.
-    const name = i18n('WW.NewItem', { itemType: type.capitalize() }) // Initialize a default name.
+    let name = i18n('WW.NewItem', { itemType: type.capitalize() }) // Initialize a default name.
 
     let subtype = '';
     let source = '';
     let attribute = '';
     
-    // If Talent or Equipment, set subtype
-    if ((type == 'Trait or Talent') || (type == 'Equipment')) subtype = event.currentTarget.dataset.subtype;
+    // If Talent or Equipment, set subtype and name to the subtype
+    if ((type == 'Trait or Talent') || (type == 'Equipment')) {
+      subtype = event.currentTarget.dataset.subtype;
+      name = i18n('WW.NewItem', { itemType: subtype.capitalize() });
+    }
+
+    // If weapon, set default automated roll
+    if (subtype == 'weapon') {
+      attribute = 'str';
+      against = 'def';
+    }
 
     // If Character's Talent, set source
     if ((this.actor.type) && (type == 'Trait or Talent')) source = event.currentTarget.dataset.source;
-
-    if (subtype == 'weapon') attribute = 'str';
 
     // Prepare the item object.
     const itemData = {

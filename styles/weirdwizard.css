@@ -1274,7 +1274,8 @@ i.icon-Weakened {
   margin-top: 0px;
 }
 
-.dice-roll .dice-formula, .dice-roll .dice-total, .auto-fail, .secret-dice-total {
+.dice-roll .dice-formula, .dice-roll .dice-total,
+.chat-failure, .chat-success, .secret-dice-total {
   flex: 0 0 100%;
   position: relative;
   margin: 0;
@@ -1286,16 +1287,29 @@ i.icon-Weakened {
   box-shadow: 0 0 2px #fff inset;
   word-break: break-all;
 }
-.dice-roll .dice-total, .auto-fail, .secret-dice-total {
+.dice-roll .dice-total,
+.chat-failure, .chat-success, .secret-dice-total {
   flex: 0;
   font-size: var(--font-size-20);
   font-weight: bold;
 }
 
-.chat-message .auto-fail {
+.chat-failure, .chat-success {
   font-family: var(--font-title);
-  color: #a51700;
   text-transform: uppercase;
+}
+
+.chat-failure {
+  color: #a51700;
+}
+
+.chat-success {
+  color: #006920;
+}
+
+.chat-message .chat-target {
+  font-weight: bold;
+  margin-top: 10px;
 }
 
 /* Combat Tracker */

@@ -194,6 +194,7 @@
       "action": {
         "attribute": "",
         "boons": 0,
+        "against": "",
         "range": 0,
         "actionType": null,
         "chatFlavor": "",

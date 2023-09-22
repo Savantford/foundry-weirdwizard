@@ -1,4 +1,4 @@
-import { i18n } from '../helpers/utils.mjs'
+import { i18n, capitalize } from '../helpers/utils.mjs'
 
 export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
@@ -78,6 +78,13 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
       'system.autoFail.agi': i18n('WW.Agility') + ': ' + i18n('WW.AutoFail'),
       'system.autoFail.int': i18n('WW.Intellect') + ': ' + i18n('WW.AutoFail'),
       'system.autoFail.wil': i18n('WW.Will') + ': ' + i18n('WW.AutoFail'),
+
+      // Boons Against
+      'system.boons.against.def': i18n('WW.Boons.Against') + ' ' + i18n('WW.Defense.Label'),
+      'system.boons.against.str': i18n('WW.Boons.Against') + ' ' + i18n('WW.Strength'),
+      'system.boons.against.agi': i18n('WW.Boons.Against') + ' ' + i18n('WW.Agility'),
+      'system.boons.against.int': i18n('WW.Boons.Against') + ' ' + i18n('WW.Intellect'),
+      'system.boons.against.wil': i18n('WW.Boons.Against') + ' ' + i18n('WW.Will'),
 
       // Extra Damage
       'system.extraDamage.attacks.dice': i18n('WW.Damage.AttackDice'),

@@ -31,11 +31,15 @@ export default class WWActor extends Actor {
             attacks: {
                 global: 0,
                 conditional: 0
+            },
+            against: {
+                def: 0
             }
         };
 
-        // Create autoFail object
+        // Create objects
         this.system.autoFail = {};
+        this.system.against = {};
 
         // Create halved boolean for Speed reductions
         this.system.stats.speed.halved = false;
@@ -56,12 +60,15 @@ export default class WWActor extends Actor {
         // Attributes
         const attributes = this.system.boons.attributes;
         const autoFail = this.system.autoFail;
+        const against = this.system.boons.against;
 
         ['str', 'agi', 'int', 'wil'].forEach(function (attribute) {
             attributes[attribute] = {
                 global: 0,
                 conditional: 0
             }
+
+            against[attribute] = 0;
 
             autoFail[attribute] = false;
         })

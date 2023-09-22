@@ -12,10 +12,11 @@
     "WW.WillScore": "Will Score",
     "WW.Luck": "Luck",
     "WW.Dont": "Don't Roll",
+    "WW.DontAgainst": "Don't roll against",
 
     "WW.Rest": {
-        "Title": "Rest",
-        "Tip": "Resting allows you to heal damage and regain expended resources. If you have uninterrupted rest for 8 consecutive hours, you heal all damage, and you regain Health equal one-tenth your normal Health score (round down). Some of your other resources might also be replenished after a rest. If you stop resting to use an action or reaction, the time you have spent continuously resting is wasted and you must start resting again to gain any benefit from doing so.",
+        "Label": "Rest",
+        "Msg": "Resting allows you to heal damage and regain expended resources. If you have uninterrupted rest for 8 consecutive hours, you heal all damage, and you regain Health equal one-tenth your normal Health score (round down). Some of your other resources might also be replenished after a rest. If you stop resting to use an action or reaction, the time you have spent continuously resting is wasted and you must start resting again to gain any benefit from doing so.",
         "Confirm": "Are you able to rest now?",
         "Finished": "finished a rest"
     },
@@ -32,7 +33,7 @@
     "WW.ImmunePH": "poisoned",
     "WW.Size": "Size",
     "WW.Speed":{
-        "Title": "Speed",
+        "Label": "Speed",
         "Score": "Speed Score",
         "Halved": "Speed halved",
         "Raw": "Normal Speed",
@@ -41,7 +42,7 @@
     },
 
     "WW.Damage": {
-        "Title": "Damage",
+        "Label": "Damage",
         "Base": "Base Damage",
         "Extra": "Extra Damage",
         "Bonus": "Bonus Damage",
@@ -57,7 +58,7 @@
     "WW.HealingOf": "Healing of",
 
     "WW.Health": {
-        "Title": "Health",
+        "Label": "Health",
         "Normal": "Normal Health Score",
         "Current": "Current Health Score",
         "Starting": "Starting Health",
@@ -73,7 +74,7 @@
     "WW.LevelAt": "At Level",
 
     "WW.Defense": {
-        "Title": "Defense",
+        "Label": "Defense",
         "Score": "Defense Score",
         "Total": "Defense Total",
         "Natural": "Natural Defense",
@@ -83,7 +84,7 @@
     },
 
     "WW.Armor": {
-        "Title": "Armor",
+        "Label": "Armor",
         "Type": "Armor Type",
         "Light": "Light",
         "Medium": "Medium",
@@ -110,21 +111,32 @@
     "WW.Automation": "Automation & Effects",
     "WW.Settings": "Settings",
 
+    "WW.Roll": {
+        "Label": "Roll",
+        "Always": "Always roll",
+        "Against": "Against",
+        "TargetWrn": "No target selected. Please select a target token before rolling again.",
+        "Success": "Success",
+        "CriticalSuccess": "Critical Success",
+        "Failure": "Failure",
+        "AutoFail": "Automatic Failure"
+    },
+
     "WW.Boons": {
         "Total": "Total Boons or Banes",
         "Afflictions": "Boons/banes imposed by afflictions/effects",
         "Fixed": "Boons/banes specified by the weapon/talent/spell",
         "Situational": "Situational boons or banes",
-        "Roll": "Roll",
-        "AlwaysRoll": "Always roll",
         "With": "with",
         "Boon": "boon",
         "Boons": "boons",
         "Bane": "bane",
         "Banes": "banes",
-        "Or": "boons(s)/bane(s)"
+        "Or": "boons(s)/bane(s)",
+        "Against": "Boon(s) against own",
+        "ExtraBoon": "extra boon",
+        "ExtraBoons": "extra boons"
     },
-    "WW.AutoFail": "Automatic Failure",
 
     "WW.Summary": "Summary",
 
@@ -156,7 +168,7 @@
     "WW.Equipment": "Equipment",
     "WW.Price": "Price",
     "WW.Coins": {
-        "Title": "Coins",
+        "Label": "Coins",
         "GP": "gp",
         "SP": "sp",
         "CP": "cp"
@@ -258,6 +270,7 @@
     "WW.Casting": "Casting",
     "WW.Castings": "Castings",
     "WW.Target": "Target",
+    "WW.Targets": "Targets",
     "WW.Duration": "Duration",
 
     "WW.Attack": {
@@ -279,7 +292,7 @@
     },
 
     "WW.Properties": {
-        "Title": "Properties",
+        "Label": "Properties",
         "PH": "Brutal, Sharp, etc",
         "Ammunition": {
             "Label": "Ammunition",

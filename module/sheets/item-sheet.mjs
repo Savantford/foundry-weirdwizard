@@ -52,7 +52,8 @@ export default class WWItemSheet extends ItemSheet {
         context.subtypesObj = CONFIG.WW.itemSubtypes;
         context.coinsObj = CONFIG.WW.coins;
         context.qualitiesObj = CONFIG.WW.itemQualities;
-        context.attributesObj = CONFIG.WW.dropdownAttributes;
+        context.attributesObj = CONFIG.WW.rollAttributes;
+        context.againstObj = CONFIG.WW.rollAgainst;
         //context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
         context.armorObj = CONFIG.WW.armorTypes;
 
@@ -67,13 +68,15 @@ export default class WWItemSheet extends ItemSheet {
         context.subtypesObj = CONFIG.WW.dropdownSubtypes;
         context.sourcesObj = CONFIG.WW.talentSources;
         //context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
-        context.attributesObj = CONFIG.WW.dropdownAttributes;
+        context.attributesObj = CONFIG.WW.rollAttributes;
+        context.againstObj = CONFIG.WW.rollAgainst;
       break;
 
       case 'Spell':
         context.tiersObj = CONFIG.WW.dropdownTiers;
         //context.sourcesObj = CONFIG.WW.dropdownSources;
-        context.attributesObj = CONFIG.WW.dropdownAttributes;
+        context.attributesObj = CONFIG.WW.rollAttributes;
+        context.againstObj = CONFIG.WW.rollAgainst;
       break;
       
       case 'Ancestry':

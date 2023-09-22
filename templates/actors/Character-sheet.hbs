@@ -25,13 +25,13 @@
 
                 {{!-- Defense --}}
                 <div class="stat flex-group-center def">
-                    <label>{{localize "WW.Defense.Title"}}</label>
+                    <label>{{localize "WW.Defense.Label"}}</label>
                     <div><a title="{{localize "WW.Defense.Natural"}}: {{system.stats.defense.natural}}">{{system.stats.defense.total}}</a></div>
                 </div>
 
                 {{!-- Damage / Health --}}
                 <div class="stat flex-group-center health">
-                    <label>{{localize "WW.Damage.Title"}} / {{localize "WW.Health.Title"}}</label>
+                    <label>{{localize "WW.Damage.Label"}} / {{localize "WW.Health.Label"}}</label>
                     <div class="flex-row flex-group-center">
                         <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0" data-dtype="Number"/>
 
@@ -57,7 +57,7 @@
 
                     {{!-- Rest --}}
                     <div class="rest">
-                        <label>{{localize "WW.Rest.Title"}}</label>
+                        <label>{{localize "WW.Rest.Label"}}</label>
                         <div><a class="rest-btn"><i class="large fas fa-bed"></i></a></div>
                     </div>
                 </div>
