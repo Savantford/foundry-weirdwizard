@@ -300,8 +300,31 @@ export default class WWActor extends Actor {
         // Process additional NPC data here.
     }
 
+    async applyDamage(increment) {
+        const damage = this.system.stats.damage.value;
+        //const newHp = Math.max(0, Math.min(health.max, Math.floor(health.value + increment)));
+    
+        /*if (increment > 0) {
+          // Check if hit is an instant death
+          if (increment >= health.max) {
+            await findAddEffect(this, 'dead', true);
+          }
+    
+          // If character is incapacitated, die
+          else if (this.effects.find(e => e.statuses.has("incapacitated"))) {
+            await findAddEffect(this, 'dead', true);
+          }
+        }*/
+    
+        return this.update({
+          'system.stats.damage.value': damage + increment
+        })
+    }
+
+    /*async applyHealing(fullHealingRate) {
+        let rate = this.system.characteristics.health?.healingrate || 0;
+        rate = fullHealingRate ? rate : rate / 2;
+        return await this.increaseDamage(-rate)
+    }*/
+
 }
-
-
-
-

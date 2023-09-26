@@ -343,6 +343,7 @@ export default class WWActorSheet extends ActorSheet {
       let attKey = '';
       let fixedBoons = 0;
       let against = '';
+      let item = {};
       
       if ($(ev.currentTarget).hasClass('item-roll')) { // If it is a roll from an item.
         let li = $(ev.currentTarget).parents('.item');
@@ -350,10 +351,10 @@ export default class WWActorSheet extends ActorSheet {
           li = $(ev.currentTarget);
         }
 
-        const item = this.actor.items.get(li.data('itemId'));
+        item = this.actor.items.get(li.data('itemId'));
 
         label = item.name;
-        fixedBoons = item.system.boons;
+        //fixedBoons = item.system.boons;
         against = item.system.against;
         
         //if (this.actor.type == 'Character') content = item.system.description.value; // No longer needed
@@ -400,8 +401,9 @@ export default class WWActorSheet extends ActorSheet {
         label: getSecretLabel(label),
         content: content,
         attKey: attKey,
-        against: against,
-        fixedBoons: fixedBoons
+        item: item,
+        /*against: against,
+        fixedBoons: fixedBoons*/
       }
 
       // Check for Automatic Failure
@@ -424,7 +426,7 @@ export default class WWActorSheet extends ActorSheet {
     });
 
     // Damage Roll
-    html.find('.damage-roll').click(ev => { //this._onRoll.bind(this)
+    html.find('.damage-roll').click(ev => { //this._onDamageRoll.bind(this)
       // Define variables to be used
       let li = $(ev.currentTarget).parents('.item');
 
@@ -444,7 +446,7 @@ export default class WWActorSheet extends ActorSheet {
         bonusDamage: this.actor.system.stats.bonusdamage
       }
 
-      new rollDamage(obj).render(true)
+      new rollDamage(obj).render(true);
     });
 
     // Healing Roll
@@ -700,6 +702,7 @@ export default class WWActorSheet extends ActorSheet {
     let subtype = '';
     let source = '';
     let attribute = '';
+    let damage = '';
     
     // If Talent or Equipment, set subtype and name to the subtype
     if ((type == 'Trait or Talent') || (type == 'Equipment')) {
@@ -711,6 +714,7 @@ export default class WWActorSheet extends ActorSheet {
     if (subtype == 'weapon') {
       attribute = 'str';
       against = 'def';
+      damage = '1d6';
     }
 
     // If Character's Talent, set source
@@ -720,7 +724,7 @@ export default class WWActorSheet extends ActorSheet {
     const itemData = {
       name: name,
       type: type,
-      system: { subtype, source, attribute }
+      system: { subtype, source, attribute, damage }
     };
 
     // Create the item

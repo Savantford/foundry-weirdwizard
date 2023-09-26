@@ -12,7 +12,6 @@ export class rollAttribute extends FormApplication {
     this.actor = obj.actor;
     this.system = obj.actor.system; // Assign actor data
     const attKey = obj.attKey;
-    this.against = obj.against;
 
     // Assign label, name and fixed boons/banes
     this.label = obj.label;
@@ -20,7 +19,9 @@ export class rollAttribute extends FormApplication {
     this.name = attKey == 'luck' ? 'Luck' : this.system.attributes[attKey].name;
     this.effectBoonsGlobal = this.system.boons.attributes[attKey].global ?
       this.system.boons.attributes[attKey].global : 0;
-    this.fixedBoons = obj.fixedBoons ? obj.fixedBoons : 0;
+
+    // Get item data
+    this.item = obj.item;
 
     // Assign mod
     this.mod = this.system.attributes[attKey]?.mod ?
@@ -44,9 +45,9 @@ export class rollAttribute extends FormApplication {
     // Pass data to application template.
     context.system = this.system;
     context.mod = this.mod;
-    context.fixedBoons = this.fixedBoons;
+    context.fixedBoons = this.item?.system?.boons;
     context.effectBoons = this.effectBoonsGlobal; // Conditional boons should be added here later
-    context.hasAgainst = this.against ? true : false;
+    context.hasAgainst = this.item?.system?.against ? true : false;
 
     return context
   }
@@ -61,9 +62,9 @@ export class rollAttribute extends FormApplication {
     let boonsFinal = 0;
     const label = this.label;
     const content = this.content;
-    const fixedBoons = this.fixedBoons;
+    const fixedBoons = this.item.system?.boons ? this.item.system?.boons : 0;
     const effectBoons = this.effectBoonsGlobal; // Conditional boons should be added here later
-    const against = this.against;
+    const against = this.item.system?.against;
     let targets = [];
 
     game.user.targets.forEach(t => {
@@ -133,7 +134,7 @@ export class rollAttribute extends FormApplication {
       parent.querySelector('.boons-expression').innerHTML = attDisplay + boonsDisplay + (against ? againstDisplay : '');
 
       // Targets display
-      if (game.user.targets.size > 0) {
+      if (against) {
         let targetsDisplay = '';
 
         targets.forEach(t => {
@@ -180,7 +181,6 @@ export class rollAttribute extends FormApplication {
           // Add the target name and roll result to the chat message
           rollHtml += '<p class="owner-only chat-target">' + i18n('WW.Target') + ': ' + t.name + '</p><p class="non-owner-only chat-target">' + i18n('WW.Target') + ': ???</p>';
           rollHtml += '<span class="owner-only">' + await r.render() + '</span><h4 class="secret-dice-total non-owner-only">' + await r.total + '</h4>';
-          //rollHtml += '<a class="damage-roll" data-damage="1d6" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>';
 
           // Get and set target number
           const targetNo = against == 'def' ? t.defense : t.attributes[against];
@@ -193,6 +193,15 @@ export class rollAttribute extends FormApplication {
           } else {
             rollHtml += '<div class="chat-failure">' + i18n('WW.Roll.Failure') + '</div>';
           }
+          console.log(t)
+          // Add damage and healing to the chat message, if they exist
+          if (this.item?.system?.damage) rollHtml += '<div class="damage-roll chat-button" data-itemId="' + this.item._id + 
+            '"  data-actorId="' + this.actor._id + '" data-targetId="' + t.id + 
+            '"><i class="fas fa-burst"></i>Roll Damage: ' + this.item?.system?.damage + '</div>';
+          
+          if (this.item?.system?.healing) rollHtml += '<div class="healing-roll chat-button" data-itemId="' + this.item._id + 
+            '"  data-actorId="' + this.actor._id + '" data-targetId="' + t.id + 
+            '"><i class="fas fa-sparkles"></i>Roll Healing: ' + this.item?.system?.healing + '</div>';
           
           // The resulting equation after it was rolled
           console.log('Formula = ' + r.formula + '\nResult = ' + r.result + '\nTotal = ' + r.total);   // 16 + 2 + 4; 22
@@ -212,9 +221,8 @@ export class rollAttribute extends FormApplication {
         // Execute the roll
         await r.evaluate();
 
-        // Add the target name and roll result to the chat message
+        // Add roll result to the chat message
         rollHtml += '<span class="owner-only">' + await r.render() + '</span><h4 class="secret-dice-total non-owner-only">' + await r.total + '</h4>';
-        //rollHtml += '<a class="damage-roll" data-damage="1d6" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>';
 
         // Evaluate target number
         const targetNo = 10; 
@@ -226,6 +234,13 @@ export class rollAttribute extends FormApplication {
         } else {
           rollHtml += '<div class="chat-failure">' + i18n('WW.Roll.Failure') + '</div>';
         }
+        
+        // Add damage and healing to the chat message, if they exist
+        if (this.item?.system?.damage) rollHtml += '<div class="damage-roll chat-button" data-itemId="' + this.item._id + 
+          '"  data-actorId="' + this.actor._id + '"><i class="fas fa-burst"></i>Roll Damage: ' + this.item?.system?.damage + '</div>';
+        
+        if (this.item?.system?.healing) rollHtml += '<div class="healing-roll chat-button" data-itemId="' + this.item._id + 
+          '"  data-actorId="' + this.actor._id + '"><i class="fas fa-sparkles"></i>Roll Healing: ' + this.item?.system?.healing + '</div>';
 
         // The resulting equation after it was rolled
         console.log('Formula = ' + r.formula + '\nResult = ' + r.result + '\nTotal = ' + r.total);   // 16 + 2 + 4; 22

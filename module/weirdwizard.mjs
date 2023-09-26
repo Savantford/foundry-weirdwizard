@@ -76,11 +76,6 @@ Hooks.once('init', function () {
   return preloadHandlebarsTemplates();
 });
 
-// Rollable buttons on attribute rolls.
-/*Hooks.on('renderChatMessage', (chatMessage, [html], messageData) => {
-  html.querySelector('.my-button').addEventListener('click', (event) => console.log('button clicked'))
-})*/
-
 /* -------------------------------------------- */
 /*  Ready Hook                                  */
 /* -------------------------------------------- */

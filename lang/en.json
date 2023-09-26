@@ -119,7 +119,11 @@
         "Success": "Success",
         "CriticalSuccess": "Critical Success",
         "Failure": "Failure",
-        "AutoFail": "Automatic Failure"
+        "AutoFail": "Automatic Failure",
+        "Damage": "Roll Damage",
+        "DamageApply": "Apply Damage to",
+        "Healing": "Roll Healing",
+        "HealingApply": "Apply Healing to"
     },
 
     "WW.Boons": {
