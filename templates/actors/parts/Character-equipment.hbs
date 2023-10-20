@@ -4,7 +4,7 @@
 
     {{!-- Coins --}}
     <div class="flex-row coins">
-        <label for="system.currency" class="resource-label">{{localize "WW.Coins.Title"}}</label>
+        <label for="system.currency" class="resource-label">{{localize "WW.Coins.Label"}}</label>
         <ol class="coins-list">
             <li><input type="number" name="system.currency.gp" value="{{system.currency.gp}}" min="0"
                     data-dtype="Number" /> {{localize "WW.Coins.GP"}}
@@ -34,9 +34,9 @@
         <li class="item flexrow items-header">
             <div class="item-image"></div>
             <div class="item-name">{{localize "WW.Name"}}</div>
-            <div class="item-fixed">{{localize "WW.Damage.Title"}}</div>
+            <div class="item-fixed">{{localize "WW.Damage.Label"}}</div>
             <div class="item-fixed">{{localize "WW.Weapon.Grip"}}</div>
-            <div class="item-properties">{{localize "WW.Properties.Title"}}</div>
+            <div class="item-properties">{{localize "WW.Properties.Label"}}</div>
             <div class="item-controls">
                 <a class="item-control item-create" title="Create item" data-type="Equipment" data-subtype="weapon"><i
                     class="fas fa-plus"></i> {{localize "WW.Add"}}</a>
@@ -45,14 +45,18 @@
 
         {{#each weapons as |item id|}}
         <li class="item flexrow flex-group-left" data-item-id="{{item._id}}">
+
             <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
-            <label class="item-name">{{item.name}} 
+
+            <label class="item-name"><a class="rollable item-roll" title="Attack with {{item.name}}">{{item.name}}</a>
+
+                {{#if item.isActivity}}<a class="rollable item-roll" title="Attack with {{item.name}}">
+                    <i class="fas {{#if item.system.attribute}}fa-dice-d20{{else}}fa-bolt{{/if}}"></i></a>{{/if}}
+                
                 {{#if item.system.description.value}}<a class="item-scroll" data-tooltip="{{item.system.description.value}}"><i class="far fa-scroll"></i></a>{{/if}}
-                <a class="rollable item-roll" title="Roll Attack">
-                    <i class="fas fa-dice-d20"></i></a>
-                <a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>
+            
             </label>
-            <div class="item-fixed damage-roll"><a>{{item.system.damage}}</a></div>
+            <div class="item-fixed"><a>{{item.system.damage}}</a></div>
             <div class="item-fixed">{{item.system.grip}}</div>
             <div class="item-properties">{{item.system.propertiesList}}</div>
             <div class="item-controls">
@@ -85,11 +89,15 @@
 
             <div class="item-quantity">{{item.system.quantity}}</div>
 
-            <label class="item-name">{{item.name}}
+            <label class="item-name"><a class="rollable item-roll" title="Use {{item.name}}">{{item.name}}</a>
+
+                {{#if item.isActivity}}<a class="rollable item-roll" title="Use {{item.name}}">
+                    <i class="fas {{#if item.system.attribute}}fa-dice-d20{{else}}fa-bolt{{/if}}"></i></a>{{/if}}
+                
                 {{#if item.system.description.value}}<a class="item-scroll" data-tooltip="{{item.system.description.value}}"><i class="far fa-scroll"></i></a>{{/if}}
 
                 {{!-- Toggle Effects --}}
-                {{#if effects.length}}
+                {{#if ../hasPassiveEffects}}
                     <a class="item-toggle-effects" data-item-id="{{item._id}}" 
                         title="{{#if item.system.active}}{{localize "WW.Item.DisableEffects"}}{{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
                         <i class="fas {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>

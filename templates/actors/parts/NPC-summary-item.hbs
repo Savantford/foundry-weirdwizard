@@ -11,7 +11,7 @@
             <i class="far fa-scroll"></i></a>{{/if}}
 
         {{!-- Toggle Effects --}}
-        {{#if effects.length}}
+        {{#if ../hasPassiveEffects}}
         <a class="item-toggle-effects" data-item-id="{{item._id}}" 
             title="{{#if item.system.active}}{{localize "WW.Item.DisableEffects"}}
             {{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
@@ -19,12 +19,12 @@
         {{/if}}
         
         {{!-- Damage Roll Button --}}
-        {{#if item.system.damage}}<a class="damage-roll" title="{{localize "WW.Item.Roll.Damage"}}">
-            <i class="fas fa-burst"></i></a>{{/if}}
+        {{!--{{#if item.system.damage}}<a class="damage-roll" title="{{localize "WW.Item.Roll.Damage"}}">
+            <i class="fas fa-burst"></i></a>{{/if}}--}}
         
         {{!-- Healing Roll Button --}}
-        {{#if item.system.healing}}<a class="healing-roll" title="{{localize "WW.Item.Roll.Healing"}}">
-            <i class="fas fa-sparkles"></i></a>{{/if}}
+        {{!--{{#if item.system.healing}}<a class="healing-roll" title="{{localize "WW.Item.Roll.Healing"}}">
+            <i class="fas fa-sparkles"></i></a>{{/if}}--}}
         
         {{!-- Uses Pips --}}
         {{#if item.uses}}

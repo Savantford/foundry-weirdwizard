@@ -4,15 +4,27 @@
 
 /*import {buildActorInfo, formatDice, getChatBaseData} from './base-messages'
 import {TokenManager} from '../pixi/token-manager'*/
+import { i18n } from '../helpers/utils.mjs';
 import { rollDamage } from '../apps/roll-damage.mjs';
 
 //const tokenManager = new TokenManager()
 
 export function initChatListeners(html) {
-  //html.on('click', '.damage-roll', _onChatRollDamage.bind(this))
-  /*html.on('click', '.healing-roll', _onChatApplyHealing.bind(this))
-  html.on('click', '.apply-damage', _onChatApplyDamage.bind(this))
-  html.on('click', '.apply-effect', _onChatApplyEffect.bind(this))
+  
+  // Instant Effect Rolls
+  html.on('click', '.damage-roll', _onChatRollDamage.bind(this));
+  html.on('click', '.healing-roll', _onChatRollHealing.bind(this));
+  //html.on('click', '.health-loss-roll', _onChatRollHealthLoss.bind(this));
+  //html.on('click', '.health-recovery-roll', _onChatRollHealthRecovery.bind(this));
+
+  // Instant Effect Apply
+  html.on('click', '.damage-apply', _onChatApplyDamage.bind(this));
+  //html.on('click', '.healing-apply', _onChatApplyHealing.bind(this));
+  //html.on('click', '.health-loss-apply', _onChatApplyHealthLoss.bind(this));
+  //html.on('click', '.health-recovery-apply', _onChatApplyHealthRecovery.bind(this));
+  html.on('click', '.bestow-affliction', _onChatBestowAffliction.bind(this));
+
+  /*html.on('click', '.apply-effect', _onChatApplyEffect.bind(this))
   html.on('click', '.use-talent', _onChatUseTalent.bind(this))
   html.on('click', '.place-template', _onChatPlaceTemplate.bind(this))
   html.on('click', '.request-challengeroll', _onChatRequestChallengeRoll.bind(this))
@@ -24,71 +36,90 @@ export function initChatListeners(html) {
 /* -------------------------------------------- */
 
 async function _onChatRollDamage(event) {
-  console.log(event)
+  console.log('damage')
   event.preventDefault()
-  const li = event.currentTarget
-  const token = li/*.closest('.weirdwizard')*/
-  const actor = _getChatCardActor(token)
-  const item = li.children[0]
+  const li = event.currentTarget;
+  const token = li//.closest('.weirdwizard');
+  const actor = _getChatCardActor(token);
   /*const damageformular = item.dataset.damage
   const damagetype = item.dataset.damagetype
-  const selected = tokenManager.targets
-  const itemId = item.dataset.itemId || li.closest('.weirdwizard').dataset.itemId
-  const rollMode = game.settings.get('core', 'rollMode')*/
-  console.log(item.system.damage)
+  const selected = tokenManager.targets*/
+  const itemId = li.dataset.itemId || li.closest('.weirdwizard').dataset.itemId;
+  const item = actor.items.get(itemId)
+  //const rollMode = game.settings.get('core', 'rollMode')
+  
+  // Prepare roll
   let obj = {
     actor: actor,
     target: li,
-    label: i18n('WW.Damage.Of') + ' ' + item.name,
-    baseDamage: item.system.damage,
+    label: item.name,//getSecretLabel(item.name),
+    name: item.name,
+    baseDamage: li.dataset.damage,
+    properties: item.system.properties ? item.system.properties : {},
     bonusDamage: actor.system.stats.bonusdamage
   }
 
-  new rollDamage(obj).render(true)
+  new rollDamage(obj).render(true);
 
-  /*const damageRoll = new Roll(damageformular, {})
-  damageRoll.evaluate({async: false})
+}
 
-  let totalDamage = ''
-  let totalDamageGM = ''
-  if (['blindroll'].includes(rollMode)) {
-    totalDamage = '?'
-    totalDamageGM = damageRoll.total
-  } else {
-    totalDamage = damageRoll.total
+/* -------------------------------------------- */
+
+async function _onChatRollHealing(event) {
+  event.preventDefault()
+  const li = event.currentTarget;
+  const token = li//.closest('.weirdwizard');
+  const actor = _getChatCardActor(token);
+  console.log(actor)
+  /*const damageformular = item.dataset.damage
+  const damagetype = item.dataset.damagetype
+  const selected = tokenManager.targets*/
+  const itemId = li.dataset.itemId || li.closest('.weirdwizard').dataset.itemId;
+  const item = actor.items.get(itemId);
+  
+  // Prepare roll
+  let roll = new Roll(li.dataset.healing, actor.system);
+  let label = i18n('WW.HealingOf') + ' ' + '<span class="owner-only">' + item.name + '</span><span class="non-owner-only">? ? ?</span>';
+
+  await roll.evaluate();
+  console.log(await roll.total);
+
+  await roll.toMessage({
+    speaker: ChatMessage.getSpeaker({ actor: actor }),
+    flavor: label,
+    rollMode: game.settings.get('core', 'rollMode')
+  });
+  
+}
+
+/* -------------------------------------------- */
+
+async function _onChatApplyDamage(event) {
+  event.preventDefault()
+  console.log('triggered')
+  const li = event.currentTarget;
+  const token = li//.closest('.weirdwizard');
+  const actor = _getChatCardActor(token);
+  const damage = parseInt(li.dataset.damage)
+
+  console.log(actor);
+  actor.applyDamage(damage);
+
+  /*var selected = tokenManager.targets
+  if (selected.length == 0) {
+    ui.notifications.info(game.i18n.localize('WW.DialogWarningActorsNotSelected'))
+    return
   }
 
-  var templateData = {
-    actor: actor,
-    item: {
-      id: itemId,
-    },
-    data: {},
-    diceData: formatDice(damageRoll),
-  }
-  templateData.data['damageTotal'] = totalDamage
-  templateData.data['damageTotalGM'] = totalDamageGM
-  templateData.data['damageDouble'] = +damageRoll.total * 2
-  templateData.data['damageHalf'] = Math.floor(+damageRoll.total / 2)
-  templateData.data['damagetype'] = damagetype
-  templateData.data['isCreature'] = actor.type === 'creature'
-  templateData.data['actorInfo'] = buildActorInfo(actor)
+  selected.forEach(token => token.actor.increaseDamage(+damage))*/
 
-  const chatData = getChatBaseData(actor, rollMode)
-  if (damageRoll) {
-    chatData.rolls = [damageRoll],
-    chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL
-  }
-  const template = 'systems/demonlord/templates/chat/damage.hbs'
-  renderTemplate(template, templateData).then(content => {
-    chatData.content = content
-    chatData.sound = CONFIG.sounds.dice
-    ChatMessage.create(chatData)
-  })
-  Hooks.call('WW.RollDamage', {
-    sourceToken: tokenManager.getTokenByActorId(actor.id),
+  //const sourceToken = tokenManager.getTokenByActorId(actor.id)
+  //const itemId = li.closest('.weirdwizard').dataset.itemId
+  /*Hooks.call('WW.ApplyDamage', {
+    sourceToken,
     targets: selected,
     itemId,
+    damage,
   })*/
 }
 
@@ -119,30 +150,44 @@ async function _onChatApplyHealing(event) {
 }
 
 /* -------------------------------------------- */
-/*
-async function _onChatApplyDamage(event) {
-  event.preventDefault()
-  const li = event.currentTarget
-  const item = li.children[0]
-  const damage = parseInt(item.dataset.damage)
 
-  var selected = tokenManager.targets
-  if (selected.length == 0) {
-    ui.notifications.info(game.i18n.localize('WW.DialogWarningActorsNotSelected'))
+async function _onChatBestowAffliction(event) {
+  console.log('teste')
+  event.preventDefault()
+  const li = event.currentTarget;
+  //const effectUuid = htmlTarget.attributes.getNamedItem('data-affliction').value;
+  //const activeEffect = await fromUuid(effectUuid);
+  const token = li//.closest('.weirdwizard');
+  const target = _getChatCardTarget(token);
+
+  // Get affliction
+  console.log(li)
+  const afflictionId = li.dataset.affliction;
+  const activeEffect = CONFIG.statusEffects.find(a => a.id === afflictionId);
+  activeEffect['statuses'] = [activeEffect.id];
+
+  if (!activeEffect) {
+    console.warn('Weird Wizard | _onChatBestowAffliction | Effect not found!')
     return
   }
 
-  selected.forEach(token => token.actor.increaseDamage(+damage))
+  /*const selected = tokenManager.targets
+  if (selected.length === 0) {
+    tokenManager.warnNotSelected()
+    return
+  }*/
 
-  const actor = _getChatCardActor(li.closest('.weirdwizard'))
-  const sourceToken = tokenManager.getTokenByActorId(actor.id)
-  const itemId = li.closest('.weirdwizard').dataset.itemId
-  Hooks.call('WW.ApplyDamage', {
-    sourceToken,
-    targets: selected,
-    itemId,
-    damage,
-  })
+  const effectData = activeEffect//.toObject()
+
+  if (target.actor.statuses.has(afflictionId)) {
+    ui.notifications.warn(`"${target.actor.name}" is already affected by this affliction.`);
+  } else {
+    //selected.forEach(target => {
+      await ActiveEffect.create(effectData, {parent: target.actor})
+        .then(e => ui.notifications.info(`Bestowed "${e.name}" to "${target.actor.name}".`));
+    //})
+  }
+  
 }
 
 /* -------------------------------------------- */
@@ -338,22 +383,36 @@ async function _onChatMakeInitRoll(event) {
 */
 
 function _getChatCardActor(card) {
-  console.log(card)
   // Case 1 - a synthetic actor from a Token
   const tokenKey = card.dataset.tokenId
   if (tokenKey) {
-    const [sceneId, tokenId] = tokenKey.split('.')
+    /*const [sceneId, tokenId] = tokenKey.split('.')
     const scene = game.scenes.get(sceneId)
     if (!scene) return null
     const tokenData = scene.items.get(tokenId)
     if (!tokenData) return null
-    const token = new Token(tokenData)
-    return token.actor
+    const token = new Token(tokenData)*/
+    
+    return canvas.tokens.get(tokenKey).actor//token.actor
   }
 
   // Case 2 - use Actor ID directory
-  const actorId = card.dataset.actorId
+  const actorId = card.dataset.actorId;
   return game.actors.get(actorId) || null
+}
+
+/* -------------------------------------------- */
+
+/**
+ * Get the target Actor which was the target of a chat card
+ * @param {HTMLElement} card    The chat card being used
+ * @return {Actor|null}         The Actor entity or null
+ * @private
+*/
+
+function _getChatCardTarget(card) {
+  const targetId = card.dataset.targetId;
+  return canvas.tokens.get(targetId) || null
 }
 
 /* -------------------------------------------- */

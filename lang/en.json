@@ -12,10 +12,11 @@
     "WW.WillScore": "Will Score",
     "WW.Luck": "Luck",
     "WW.Dont": "Don't Roll",
+    "WW.DontAgainst": "Don't roll against",
 
     "WW.Rest": {
-        "Title": "Rest",
-        "Tip": "Resting allows you to heal damage and regain expended resources. If you have uninterrupted rest for 8 consecutive hours, you heal all damage, and you regain Health equal one-tenth your normal Health score (round down). Some of your other resources might also be replenished after a rest. If you stop resting to use an action or reaction, the time you have spent continuously resting is wasted and you must start resting again to gain any benefit from doing so.",
+        "Label": "Rest",
+        "Msg": "Resting allows you to heal damage and regain expended resources. If you have uninterrupted rest for 8 consecutive hours, you heal all damage, and you regain Health equal one-tenth your normal Health score (round down). Some of your other resources might also be replenished after a rest. If you stop resting to use an action or reaction, the time you have spent continuously resting is wasted and you must start resting again to gain any benefit from doing so.",
         "Confirm": "Are you able to rest now?",
         "Finished": "finished a rest"
     },
@@ -32,7 +33,7 @@
     "WW.ImmunePH": "poisoned",
     "WW.Size": "Size",
     "WW.Speed":{
-        "Title": "Speed",
+        "Label": "Speed",
         "Score": "Speed Score",
         "Halved": "Speed halved",
         "Raw": "Normal Speed",
@@ -41,7 +42,7 @@
     },
 
     "WW.Damage": {
-        "Title": "Damage",
+        "Label": "Damage",
         "Base": "Base Damage",
         "Extra": "Extra Damage",
         "Bonus": "Bonus Damage",
@@ -57,7 +58,7 @@
     "WW.HealingOf": "Healing of",
 
     "WW.Health": {
-        "Title": "Health",
+        "Label": "Health",
         "Normal": "Normal Health Score",
         "Current": "Current Health Score",
         "Starting": "Starting Health",
@@ -73,7 +74,7 @@
     "WW.LevelAt": "At Level",
 
     "WW.Defense": {
-        "Title": "Defense",
+        "Label": "Defense",
         "Score": "Defense Score",
         "Total": "Defense Total",
         "Natural": "Natural Defense",
@@ -83,7 +84,7 @@
     },
 
     "WW.Armor": {
-        "Title": "Armor",
+        "Label": "Armor",
         "Type": "Armor Type",
         "Light": "Light",
         "Medium": "Medium",
@@ -110,21 +111,37 @@
     "WW.Automation": "Automation & Effects",
     "WW.Settings": "Settings",
 
+    "WW.Roll": {
+        "Label": "Roll",
+        "Always": "Always roll",
+        "Against": "Against",
+        "ForEach": "Roll separately for each target",
+        "TargetWrn": "No target selected. Please select a target token before rolling again.",
+        "Success": "Success",
+        "CriticalSuccess": "Critical Success",
+        "Failure": "Failure",
+        "AutoFail": "Automatic Failure",
+        "Damage": "Roll Damage",
+        "DamageApply": "Apply Damage to",
+        "Healing": "Roll Healing",
+        "HealingApply": "Apply Healing to"
+    },
+
     "WW.Boons": {
         "Total": "Total Boons or Banes",
         "Afflictions": "Boons/banes imposed by afflictions/effects",
         "Fixed": "Boons/banes specified by the weapon/talent/spell",
         "Situational": "Situational boons or banes",
-        "Roll": "Roll",
-        "AlwaysRoll": "Always roll",
         "With": "with",
         "Boon": "boon",
         "Boons": "boons",
         "Bane": "bane",
         "Banes": "banes",
-        "Or": "boons(s)/bane(s)"
+        "Or": "boon(s) or bane(s)",
+        "Against": "Boon(s) against own",
+        "ExtraBoon": "extra boon",
+        "ExtraBoons": "extra boons"
     },
-    "WW.AutoFail": "Automatic Failure",
 
     "WW.Summary": "Summary",
 
@@ -156,7 +173,7 @@
     "WW.Equipment": "Equipment",
     "WW.Price": "Price",
     "WW.Coins": {
-        "Title": "Coins",
+        "Label": "Coins",
         "GP": "gp",
         "SP": "sp",
         "CP": "cp"
@@ -258,6 +275,7 @@
     "WW.Casting": "Casting",
     "WW.Castings": "Castings",
     "WW.Target": "Target",
+    "WW.Targets": "Targets",
     "WW.Duration": "Duration",
 
     "WW.Attack": {
@@ -279,7 +297,7 @@
     },
 
     "WW.Properties": {
-        "Title": "Properties",
+        "Label": "Properties",
         "PH": "Brutal, Sharp, etc",
         "Ammunition": {
             "Label": "Ammunition",
@@ -371,9 +389,40 @@
         }
     },
 
-    "WW.Effects": "Effects",
-    "WW.EffectsAll": "All Effects",
+    "WW.Effects": {
+        "Label": "Effects",
+        "All": "All Effects",
+        "Instant": "Instant Effects",
+        "Temporary": "Temporary Effects",
+        "Permanent": "Permanent Effects",
+        "Inactive": "Inactive Effects"
+    },
+    
     "WW.Add": "Add",
+    "WW.InstantEffect": {
+        "Label": "Instant Effect",
+        "Damage": "Deal Damage",
+        "Heal": "Heal Damage",
+        "HealthLose": "Lose Health",
+        "HealthRecover": "Recover Lost Health",
+        "Affliction": "Bestow Affliction",
+        "Value": "Value",
+        "Roll": {
+            "Damage": "Roll Damage",
+            "Heal": "Roll Healing",
+            "HealthLose": "Roll Lost Health",
+            "HealthRecover": "Roll Health Recovery"
+        },
+        "Apply": {
+            "Took": "took",
+            "Damage": "damage",
+            "DamageTotal": "Damage Total",
+            "Healed": "healed",
+            "Lost": "Lost",
+            "Health": "Health",
+            "LostHealth": "lost Health"
+        }
+    },
     "WW.Effect": {
         "Create": "Create Effect",
         "Toggle": "Enable/Disable Effect",
@@ -389,8 +438,110 @@
             "30": "",
             "40": "",
             "50": "Override"
-        }
+        },
+        "Trigger": "Condition to Trigger Effect",
+        "Passive": "None (Passive Effect)",
+        "OnUse": "On use/cast",
+        "OnSuccess": "On a Success",
+        "OnCritical": "On a Critical Success",
+        "OnFailure": "On a Failure",
+        "Target": "Effect Target",
+        "None": "None or Self",
+        "Tokens": "Targeted Tokens",
+        "Area": "Everyone in Range",
+        "AreaAlly": "Allies in Range",
+        "AreaEnemy": "Enemies in Range"
+    },
 
+    "WW.EffectKeys": {
+        "Boons": {
+            "Header": "Grant Boons to Attribute rolls",
+            "Strength": "Boons to Strength rolls",
+            "Agility": "Boons to Agility rolls",
+            "Intellect": "Boons to Intellect rolls",
+            "Will": "Boons to Will rolls",
+            "Luck": "Boons to Luck rolls",
+            "Attack": "Boons to attack rolls"
+        },
+        "Banes": {
+            "Header": "Impose Banes to Attribute rolls",
+            "Strength": "Banes to Strength rolls",
+            "Agility": "Banes to Agility rolls",
+            "Intellect": "Banes to Intellect rolls",
+            "Will": "Banes to Will rolls",
+            "Luck": "Boons to Luck rolls",
+            "Attack": "Boons to attack rolls"
+        },
+        "AutoFail": {
+            "Header": "Automatically fail Attribute rolls",
+            "Strength": "Automatically fail Strength rolls",
+            "Agility": "Automatically fail Agility rolls",
+            "Intellect": "Automatically fail Intellect rolls",
+            "Will": "Automatically fail Will rolls"
+        },
+        "BoonsAgainst": {
+            "Header": "Grant Boons on rolls against self",
+            "Defense": "Boons to rolls against your Defense",
+            "Strength": "Boons to rolls against your Strength",
+            "Agility": "Boons to rolls against your Agility",
+            "Intellect": "Boons to rolls against your Intellect",
+            "Will": "Boons to rolls against your Will"
+        },
+        "ExtraDamage": {
+            "Header": "Grant Extra Damage to Attacks",
+            "Dice": "Increase the number of extra Damage dice by",
+            "Mod": "Increase the extra Damage by"
+        },
+        "Defense": {
+            "Header": "Adjust Defense",
+            "Override": "Total Defense becomes",
+            "Bonus": "Total Defense increases by",
+            "Armored": "Armored Defense becomes",
+            "Natural": "Natural Defense is",
+            "NaturalIncrease": "Increase Natural Defense by",
+            "NaturalReduce": "Reduce Natural Defense by"
+        },
+        "Health": {
+            "Header": "Adjust Health",
+            "TempIncrease": "Increase current Health by",
+            "TempReduce": "Reduce current Health by",
+            "Override": "Normal Health becomes",
+            "Increase": "Increase normal Health by"
+        },
+        "Speed": {
+            "Header": "Adjust Speed",
+            "TempIncrease": "Increase Speed by",
+            "TempReduce": "Reduce Speed by",
+            "Halved": "Speed is halved",
+            "Override": "Speed drops to and cannot be increased above",
+            "Increase": "Increase normal Speed by"
+        },
+        "Size": {
+            "Header": "Other Stats",
+            "Increase": "Increase Size by",
+            "Override": "Size becomes"
+        },
+        "UpgradeAttribute": {
+            "Header": "Set the Attribute Score, if not higher",
+            "Strength": "If not higher, Strength becomes",
+            "Agility": "If not higher, Agility becomes",
+            "Intellect": "If not higher, Intellect becomes",
+            "Will": "If not higher, Will becomes"
+        },
+        "DowngradeAttribute": {
+            "Header": "Set the Attribute Score, if not higher",
+            "Strength": "If not lower, Strength becomes",
+            "Agility": "If not lower, Agility becomes",
+            "Intellect": "If not lower, Intellect becomes",
+            "Will": "If not lower, Will becomes"
+        },
+        "OverrideAttribute": {
+            "Header": "Set the Attribute Score",
+            "Strength": "Strength becomes",
+            "Agility": "Agility becomes",
+            "Intellect": "Intellect becomes",
+            "Will": "Will becomes"
+        }
     },
 
     "WW.Afflictions": "Afflictions",
@@ -430,6 +581,41 @@
     "WW.AsleepDesc": "If you are unconscious because you are sleeping naturally, you stop being unconscious when a creature uses an action to shake you, kick you, or do something else to waken you. A loud noise might remove the affliction if you succeed on a luck roll. Time spent sleeping counts as resting for the purpose of healing damage (see “Rest” below). If your sleep is uninterrupted, you wake up naturally whenever you choose after you fall asleep.",
     "WW.WeakenedDesc": "You make Strength and Agility rolls with 1 bane, and you grant 1 boon on rolls against your Strength and Agility. In addition, you halve your Speed, and you derive no benefit from increases to your Speed.",
 
+    "WW.Combat": {
+        "ActTip": "You have yet to take your turn during this round.\nClick here to make your turn.",
+        "ActingTip": "It's your turn.\nClick here to finish your turn.",
+        "ActedTip": "You already took your turn during this round.\nClick here if you wish to take another turn during this round.",
+        "InitiativeTip": "Click to take the initiative.",
+        "InitiativeMsg": "is taking the initiative",
+        "TurnTip": "Click to take a regular turn.",
+        "TurnMsg": "is taking a regular turn",
+        "ActAgain": {
+            "Title": "Act Again",
+            "Msg": "You already took a turn during this round. Normally, each combatant can take one turn per round ONCE.",
+            "Confirm": "Are you sure you can act again during this round?"
+        },
+        "StartTurn": {
+            "Title": "Take Your Turn",
+            "Msg": "You are about to take your turn RIGHT NOW.",
+            "Confirm": "Are you sure?"
+        },
+        "Phase": {
+            "Initiative": "Initiative Phase",
+            "Enemies": "Enemies Phase",
+            "Allies": "Allies Phase",
+            "End": "End of the Round"
+        },
+        "SkipActed": "Skip Acted?",
+        "SkipActedHint": "Automatically bypass combatants who acted already during this round."
+    },
+
+    "WW.System": {
+        "Migration": {
+            "Started": "Outdated data found. Please wait until the data migration is finished.",
+            "Forced": "Forced data migration started. Please wait until the data migration is finished.",
+            "Finished": "Data migration successful. Enjoy your game!"
+        }
+    },
 
     "WW.Tour": {
         "Character": {
@@ -453,7 +639,7 @@
             "DefenseTitle": "Defense",
             "DefenseContent": "Defense is calculated automatically for characters, so you cannot edit it here. This will be explained later in the Equipment tab.\nYou can, however, hover your Defense score to see your Natural Defense.",
             "HealthTitle": "Damage and Health",
-            "HealthContent": "Your total Damage and current Health are displayed here.\nYou can hover your current Health to see your normal Health score, without any loss or bonus.\nIn addition, you can edit your health by clicking on the Edit button.\nFinally, when you are Injured or Incapacitated, an icon will be shown here to indicate it.",
+            "HealthContent": "Your Damage total and current Health are displayed here.\nYou can hover your current Health to see your normal Health score, without any loss or bonus.\nIn addition, you can edit your health by clicking on the Edit button.\nFinally, when you are Injured or Incapacitated, an icon will be shown here to indicate it.",
             "LuckTitle": "Luck Roll",
             "LuckContent": "You can make luck rolls by clicking on the d20 button below Luck.",
             "RestTitle": "Resting",

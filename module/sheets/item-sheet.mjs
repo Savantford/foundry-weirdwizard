@@ -1,11 +1,10 @@
-//import { rollAttribute } from './apps/roll-attribute.mjs' NOT NEEDED
+import { capitalize } from '../helpers/utils.mjs';
+import { onManageActiveEffect, onManageInstantEffect, prepareActiveEffectCategories } from '../active-effects/effects.mjs';
 
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
 */
-
-import { onManageActiveEffect, prepareActiveEffectCategories } from '../active-effects/effects.mjs';
 
 export default class WWItemSheet extends ItemSheet {
 
@@ -45,6 +44,8 @@ export default class WWItemSheet extends ItemSheet {
       context.system.attackRider.enriched = await TextEditor.enrichHTML(context.system.attackRider.value, { async: true })
     }
 
+    context.system.attributeLabel = CONFIG.WW.attributes[context.system.attribute];
+
     // Prepare dropdown menu objects.
     switch (context.item.type) {
   
@@ -52,7 +53,9 @@ export default class WWItemSheet extends ItemSheet {
         context.subtypesObj = CONFIG.WW.itemSubtypes;
         context.coinsObj = CONFIG.WW.coins;
         context.qualitiesObj = CONFIG.WW.itemQualities;
-        context.attributesObj = CONFIG.WW.dropdownAttributes;
+        context.attributesObj = CONFIG.WW.rollAttributes;
+        context.againstObj = CONFIG.WW.rollAgainst;
+        context.afflictionsObj = CONFIG.WW.bestowAfflictions;
         //context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
         context.armorObj = CONFIG.WW.armorTypes;
 
@@ -67,13 +70,17 @@ export default class WWItemSheet extends ItemSheet {
         context.subtypesObj = CONFIG.WW.dropdownSubtypes;
         context.sourcesObj = CONFIG.WW.talentSources;
         //context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
-        context.attributesObj = CONFIG.WW.dropdownAttributes;
+        context.attributesObj = CONFIG.WW.rollAttributes;
+        context.againstObj = CONFIG.WW.rollAgainst;
+        context.afflictionsObj = CONFIG.WW.bestowAfflictions;
       break;
 
       case 'Spell':
         context.tiersObj = CONFIG.WW.dropdownTiers;
         //context.sourcesObj = CONFIG.WW.dropdownSources;
-        context.attributesObj = CONFIG.WW.dropdownAttributes;
+        context.attributesObj = CONFIG.WW.rollAttributes;
+        context.againstObj = CONFIG.WW.rollAgainst;
+        context.afflictionsObj = CONFIG.WW.bestowAfflictions;
       break;
       
       case 'Ancestry':
@@ -86,11 +93,36 @@ export default class WWItemSheet extends ItemSheet {
       
     }
 
-    // Prepare active effects
-    context.effects = prepareActiveEffectCategories(this.object.effects);
+    // Prepare instant effects
+    let instEffs = context.system.instant;
 
-    // Prepare effect change key-labels
-    context.effectChangeKeys = CONFIG.WW.effectChangeKeys;
+    instEffs.forEach((e,id) => {
+      const obj = e;
+      obj.locLabel = CONFIG.WW.instantLabels[e.label];
+      obj.locTrigger = CONFIG.WW.instantTriggers[e.trigger];
+      obj.locTarget = CONFIG.WW.effectTargets[e.target];
+      obj.icon = CONFIG.WW.instantIcons[e.label];
+      
+      instEffs[id] = obj;
+    })
+    
+    context.instantEffects = instEffs;
+
+    // Prepare active effects
+    context.effects = prepareActiveEffectCategories(this.document.effects);
+    
+    for (const cat in context.effects) {
+      const category = context.effects[cat];
+      for (const e in category.effects) {
+        const effect = category.effects[e];
+        effect.locTrigger = CONFIG.WW.instantTriggers[effect.trigger];
+        effect.locTarget = CONFIG.WW.effectTargets[effect.target];
+      }
+    }
+    console.log(context.effects)
+
+    // Prepare effect change labels to display
+    context.effectChangeLabels = CONFIG.WW.effectChangeLabels;
     
     return context;
   }
@@ -115,12 +147,13 @@ export default class WWItemSheet extends ItemSheet {
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return;
 
-    const system = this.object.system;
+    const system = this.document.system;
     
     ////////////////// EFFECTS ////////////////////
 
     // Active Effect management
-    html.find('.effect-control').click(ev => onManageActiveEffect(ev, this.object));
+    html.find('.effect-control').click(ev => onManageActiveEffect(ev, this.document));
+    html.find('.instant-control').click(ev => onManageInstantEffect(ev, this.document));
 
   }
 

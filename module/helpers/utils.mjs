@@ -11,8 +11,8 @@ export function getEffectBoons (attribute) {
 // Formatting
 export const i18n = (s,d={}) => game.i18n.format(s,d);
 
-export function capitalize(string) {
-  return string?.charAt(0).toUpperCase() + string?.toLowerCase().slice(1)
+export function capitalize(string,noLowerCase) {
+  return noLowerCase ? string?.charAt(0).toUpperCase() + string?.slice(1) : string?.charAt(0).toUpperCase() + string?.toLowerCase().slice(1)
 }
 
 export function plusify(x) {

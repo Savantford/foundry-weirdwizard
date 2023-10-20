@@ -74,9 +74,9 @@
   </div>
 </div>
 
-<h2>{{localize "WW.EffectsAll"}}</h2>
+<h2>{{localize "WW.Effects.All"}}</h2>
 
-{{!-- Effects --}}
+{{!-- Dynamic Active Effects --}}
 <ol class="item-list effects-list">
   
   {{#each effects as |section sid|}}
@@ -99,22 +99,22 @@
 
     <ol class="item-list {{section.type}}-effects">
     {{#each section.effects as |effect|}}
-    {{log effect}}
+    
       <li class="item effect flexrow" data-effect-id="{{effect.id}}">
         <div class="item-image">
           <img src="{{effect.icon}}" width="24" height="24"/>
         </div>
         <div class="item-name">{{effect.name}}</div>
 
-        <div class="effect-changes mb-1">
+        <div class="effect-changes">
           {{#each effect.changes as |change|}}
             
             {{#if change.key}}
             <div class="nowrap">
-              {{lookup ../../../effectChangeKeys change.key}} 
+              {{localize (lookup ../../../effectChangeLabels change.key)}}
               {{#if (eq change.mode 1)}}× {{change.value}}
               {{else if (eq change.mode 2)}}{{numberFormat change.value decimals=0 sign=true}}
-              {{else}}= {{change.value}}
+              {{else}}{{change.value}}
               {{/if}}
             </div>
             {{/if}}
@@ -148,7 +148,7 @@
   {{/if}}
   {{/each}}
 
-{{!-- Inactive Effects --}}
+  {{!-- Inactive Effects --}}
     <li class="item items-header flexrow" data-effect-type="{{actorEffects.inactive.type}}">
       <div class="item-image"></div>
       <div class="item-name">{{localize actorEffects.inactive.name}}</div>
@@ -173,16 +173,15 @@
         </div>
         <div class="item-name">{{effect.name}}</div>
 
-        <div class="effect-changes mb-1">
+        <div class="effect-changes">
           {{#each effect.changes as |change|}}
             
             {{#if change.key}}
             <div class="nowrap">
-              {{lookup ../../effectChangeKeys change.key}} 
+              {{localize (lookup ../../effectChangeLabels change.key)}}
               {{#if (eq change.mode 1)}}× {{change.value}}
               {{else if (eq change.mode 2)}}{{numberFormat change.value decimals=0 sign=true}}
-              {{else}}= {{change.value}}
-              {{/if}}
+              {{else}}{{change.value}}{{/if}}
             </div>
             {{/if}}
           {{else}}<div>-</div>

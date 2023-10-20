@@ -1,6 +1,6 @@
 import { i18n, plusify, sum } from '../helpers/utils.mjs'
 import { healthDetails } from '../apps/health-details.mjs'
-import { rollAttribute } from '../apps/roll-attribute.mjs'
+import rollAttribute from '../apps/roll-attribute.mjs'
 import { rollDamage } from '../apps/roll-damage.mjs'
 import { onManageActiveEffect, prepareActiveEffectCategories } from '../active-effects/effects.mjs';
 import { WWAfflictions } from '../active-effects/afflictions.mjs';
@@ -95,29 +95,24 @@ export default class WWActorSheet extends ActorSheet {
     context.effects = prepareActiveEffectCategories(await this.actor.appliedEffects);
     context.actorEffects = prepareActiveEffectCategories(await this.actor.effects);
 
-    // Prepare effect change key-labels
-    context.effectChangeKeys = CONFIG.WW.effectChangeKeys;
+    // Prepare effect change labels to display
+    context.effectChangeLabels = CONFIG.WW.effectChangeLabels;
 
-    // Prepare enriched variables for editor
+    // Prepare html fields
     for (let i of context.items) {
       i.system.description.enriched = await TextEditor.enrichHTML(i.system.description.value, { async: true })
-    }
-
-    for (let i of context.items) {
       if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider?.value, { async: true })
     }
-
     
-
     return context;
   }
 
   /**
-       * Organize and classify Items for Character sheets.
-       *
-       * @param {Object} actorData The actor to prepare.
-       *
-       * @return {undefined}
+   * Organize and classify Items for actor sheets.
+   *
+   * @param {Object} actorData The actor to prepare.
+   *
+   * @return {undefined}
   */
 
   _prepareItems(context) {
@@ -144,8 +139,14 @@ export default class WWActorSheet extends ActorSheet {
         i.system.attributeLabel = i18n('WW.Luck') + ' (+0)';
       } else if (i.system.attribute) {
         const attribute = context.system.attributes[i.system.attribute];
-        i.system.attributeLabel = attribute.name + ' (' + plusify(attribute.mod) + ')'
+        const name = i18n(CONFIG.WW.attributes[i.system.attribute]);
+        i.system.attributeLabel = name + ' (' + plusify(attribute.mod) + ')'
       }
+
+      // Is the item an activity?
+      i.isActivity = false;
+
+      if (i.system.attribute || i.effects || i.system.instant) i.isActivity = true;
       
       // Append to equipment.
       if (i.type === 'Equipment') {
@@ -207,15 +208,18 @@ export default class WWActorSheet extends ActorSheet {
       }
 
       // Append to spells.
-      else if (i.type === 'Spell') {
-        /*if (i.tier != undefined) {
-            spells[i.tier].push(i);
-        }*/
-        spells.push(i);
+      else if (i.type === 'Spell') spells.push(i);
+
+      // Check if item has passive effects
+      context.hasPassiveEffects = false;
+      const effects = this.document.items.get(i._id).effects;
+      
+      for (let e of effects) {
+        if (e.trigger == 'passive') context.hasPassiveEffects = true;
       }
 
     }
-
+    
     // Calculate total Equipment weight.
     function calcWeight(item, id) {
       item.system.weight = item.system.quantity * item.system.weightUnit;
@@ -293,134 +297,15 @@ export default class WWActorSheet extends ActorSheet {
     });
     
     // Rest button dialog + function
-    html.find('.rest-btn').click(async () => {
-      
-      const confirm = await Dialog.confirm({
-        title: i18n('WW.Rest.Title'),
-        content: i18n('WW.Rest.Tip') + '<p class="dialog-sure">' + i18n('WW.Rest.Confirm') + '</p>'
-      });
-
-      if(!confirm) return;
-
-      // Recover all damage
-      this.actor.update( { "system.stats.damage.value": 0 });
-
-      // Recover 1/10 of the Health, rounded down
-      const health = this.actor.system.stats.health;
-      this.actor.update( { "system.stats.health.lost": health.lost - Math.floor(health.normal/10) });
-
-      // Recover uses/tokens/castings for Talents and Spells
-      this.actor.updateEmbeddedDocuments('Item', this.actor.items.filter(i => i.system.uses.onRest === true).map(i => ({_id: i.id, 'system.uses.value': 0})
-      ));
-
-      // Send message to chat
-      let messageData = {
-        content: '<span style="font-weight: bold">' + this.actor.name + '</span> ' + i18n('WW.Rest.Finished') + '.',
-        sound: CONFIG.sounds.notification
-      };
-
-      ChatMessage.create(messageData);
-    });
-
-    // Get secret message content
-    const getSecretContent = function (content) {
-      return '<span class="owner-only">' + content + '</span>';
-    }
-
-    // Get secret label content
-    const getSecretLabel = function (label) {
-      return '<span class="owner-only">' + label + '</span><span class="non-owner-only">? ? ?</span>'
-    }
+    html.find('.rest-btn').click(this._onRest.bind(this));
 
     /////////// ITEMS: ROLL BUTTONS /////////////
 
     // Rollable attributes.
-    html.find('.rollable').click(ev => { //this._onRoll.bind(this)
-      // Define variables to be used
-      let system = this.object.system;
-      let label = '';
-      let content = '';
-      let attKey = '';
-      let fixedBoons = 0;
-      
-      if ($(ev.currentTarget).hasClass('item-roll')) { // If it is a roll from an item.
-        let li = $(ev.currentTarget).parents('.item');
-        if (!li.length) { // If parent does not have .item class, set li to current target.
-          li = $(ev.currentTarget);
-        }
-
-        const item = this.actor.items.get(li.data('itemId'));
-
-        label = item.name;
-        fixedBoons = item.system.boons;
-        
-        //if (this.actor.type == 'Character') content = item.system.description.value; // No longer needed
-        content = getSecretContent(item.system.description.value);
-        
-        if (this.actor.system.attributes[item.system.attribute]) {
-          attKey = item.system.attribute;
-        }
-
-      }
-      
-      // If the clicked element has a data-label, use it to determine the mod and label
-      switch (ev.target.getAttribute('data-label')) {
-        case 'Strength': {
-          label = i18n('WW.Strength');
-          attKey = 'str';
-          break;
-        }
-        case 'Agility': {
-          label = i18n('WW.Agility');
-          attKey = 'agi';
-          break;
-        }
-        case 'Intellect': {
-          label = i18n('WW.Intellect');
-          attKey = 'int';
-          break;
-        }
-        case 'Will': {
-          label = i18n('WW.Will');
-          attKey = 'wil';
-          break;
-        }
-        case 'Luck': {
-          label = i18n('WW.Luck');
-          attKey = 'luck';
-          break;
-        }
-      }
-
-      let obj = {
-        actor: this.actor,
-        target: ev,
-        label: getSecretLabel(label),
-        content: content,
-        attKey: attKey,
-        fixedBoons: fixedBoons
-      }
-
-      // Check for Automatic Failure
-      if (system.autoFail[obj.attKey]) {
-
-        let messageData = {
-          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-          flavor: getSecretLabel(label),
-          content: '<div class="dice-formula auto-fail">' + i18n('WW.AutoFail') + '!</div>' + content,
-          sound: CONFIG.sounds.dice
-        };
-
-        console.log(messageData.speaker)
-
-        ChatMessage.create(messageData);
-      } else {
-        new rollAttribute(obj).render(true)
-      }
-    });
+    html.find('.rollable').click(this._onAttributeRoll.bind(this))
 
     // Damage Roll
-    html.find('.damage-roll').click(ev => { //this._onRoll.bind(this)
+    html.find('.damage-roll').click(ev => { //this._onDamageRoll.bind(this)
       // Define variables to be used
       let li = $(ev.currentTarget).parents('.item');
 
@@ -433,14 +318,14 @@ export default class WWActorSheet extends ActorSheet {
       let obj = {
         actor: this.actor,
         target: ev,
-        label: getSecretLabel(item.name),
+        label: _secretLabel(item.name),
         name: item.name,
         baseDamage: item.system.damage,
         properties: item.system.properties ? item.system.properties : {},
         bonusDamage: this.actor.system.stats.bonusdamage
       }
 
-      new rollDamage(obj).render(true)
+      new rollDamage(obj).render(true);
     });
 
     // Healing Roll
@@ -455,7 +340,7 @@ export default class WWActorSheet extends ActorSheet {
       const item = this.actor.items.get(li.data('itemId'));
       
       let roll = new Roll(item.system.healing, this.actor.system);
-      let label = i18n('WW.HealingOf') + ' ' + getSecretLabel(item.name);
+      let label = i18n('WW.HealingOf') + ' ' + _secretLabel(item.name);
 
       roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),
@@ -536,19 +421,16 @@ export default class WWActorSheet extends ActorSheet {
       }
       let desc = li.find('.item-desc');
       let icon = li.find('.item-collapse').find('i');
-      let test = li.find('.expand-contract');
       
       // Flip states
       if (icon.hasClass('fa-square-chevron-down')) {
         $(ev.currentTarget).attr("title", i18n('WW.Item.HideDesc'))
         icon.removeClass('fa-square-chevron-down').addClass('fa-square-chevron-up');
         desc.slideDown(500);
-        //this._collapsedIds.add()
       } else {
         $(ev.currentTarget).attr("title", i18n('WW.Item.ShowDesc'))
         icon.removeClass('fa-square-chevron-up').addClass('fa-square-chevron-down');
         desc.slideUp(500);
-        //this._collapsedIds.remove()
       }
       
     });
@@ -616,31 +498,115 @@ export default class WWActorSheet extends ActorSheet {
    * @private
   */
 
-  _onRoll(event) {
-    event.preventDefault();
-    const element = event.currentTarget;
-    const dataset = element.dataset;
+  _onAttributeRoll(ev) {
 
-    // Handle _onRoll events that has a defined rollType.
-    if (dataset.rollType) {
-      if (dataset.rollType == 'item') { // Handle item rolls.
-        const itemId = element.closest('.item').dataset.itemId;
-        const item = this.actor.items.get(itemId);
-        if (item) return item.roll();
+    // Define variables to be used
+    const system = this.actor.system;
+    let content = '';
+    let attKey = ev.target.dataset.key ? ev.target.dataset.key : '';
+    let label = attKey ? i18n(CONFIG.WW.attributes[attKey]) : '';
+    let item = {};
+    let baseHtml = {};
+    let instEffs = [];
+    
+    // If it is a roll from an item, assign data
+    if ($(ev.currentTarget).hasClass('item-roll')) {
+      let li = $(ev.currentTarget).parents('.item');
+      if (!li.length) { // If parent does not have .item class, set li to current target.
+        li = $(ev.currentTarget);
       }
+
+      item = this.actor.items.get(li.data('itemId'));
+      label = _secretLabel(item.name);
+      content = _secretContent(item.system.description.value);
+      instEffs = item.system.instant;
+      
+      if (system.attributes[item.system.attribute]) {
+        attKey = item.system.attribute;
+      }
+
     }
 
-    // Handle rolls that supply the formula
-    if (dataset.roll) {
-      let roll = new Roll(dataset.roll, this.actor.system);
-      let label = dataset.label ? `Rolling ${dataset.label}` : '';
+    if (instEffs) {
+    
+      for (const t of this.targets) {
+        baseHtml[t.id] = this._addInstEffs(instEffs, t, item);
+      }
+      
+    }
 
-      roll.toMessage({
+    // If an attribute key is not defined, do not roll
+    if (!attKey) {
+      let html = '';
+      for (const t of this.targets) {
+        html += baseHtml[t.id];
+      }
+
+      let messageData = {
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),
         flavor: label,
-        rollMode: game.settings.get('core', 'rollMode')
-      });
+        content: content + html,
+        sound: CONFIG.sounds.dice
+      };
+
+      ChatMessage.create(messageData);
+    } else {
+      let obj = {
+        token: this.token,
+        target: ev,
+        label: label,
+        content: content,
+        attKey: attKey,
+        item: item,
+        baseHtml: baseHtml
+      }
+  
+      // Check for Automatic Failure
+      if (system.autoFail[obj.attKey]) {
+  
+        let messageData = {
+          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+          flavor: label,
+          content: content + baseHtml + '<div class="chat-failure">' + i18n('WW.Roll.AutoFail') + '!</div>' + content,
+          sound: CONFIG.sounds.dice
+        };
+  
+        ChatMessage.create(messageData);
+      } else {
+        
+        if (needTargets(item) && !game.user.targets.size) ui.notifications.warn(i18n("WW.Roll.TargetWrn"));
+        else new rollAttribute(obj).render(true);
+      }
     }
+    
+  }
+
+  async _onRest() {
+    const confirm = await Dialog.confirm({
+      title: i18n('WW.Rest.Label'),
+      content: i18n('WW.Rest.Msg') + '<p class="dialog-sure">' + i18n('WW.Rest.Confirm') + '</p>'
+    });
+
+    if (!confirm) return;
+
+    // Recover all damage
+    this.actor.update({ "system.stats.damage.value": 0 });
+
+    // Recover 1/10 of the Health, rounded down
+    const health = this.actor.system.stats.health;
+    this.actor.update({ "system.stats.health.lost": health.lost - Math.floor(health.normal / 10) });
+
+    // Recover uses/tokens/castings for Talents and Spells
+    this.actor.updateEmbeddedDocuments('Item', this.actor.items.filter(i => i.system.uses.onRest === true).map(i => ({ _id: i.id, 'system.uses.value': 0 })
+    ));
+
+    // Send message to chat
+    let messageData = {
+      content: '<span style="display: inline"><span style="font-weight: bold">' + this.actor.name + '</span> ' + i18n('WW.Rest.Finished') + '.</span>',
+      sound: CONFIG.sounds.notification
+    };
+
+    ChatMessage.create(messageData);
   }
 
   async _onToggleItemEffects(event) {
@@ -656,7 +622,7 @@ export default class WWActorSheet extends ActorSheet {
   }
 
   /* -------------------------------------------- */
-  /*  Drop item events                             */
+  /*  Drop item events                            */
   /* -------------------------------------------- */
 
   /** @override */
@@ -691,25 +657,35 @@ export default class WWActorSheet extends ActorSheet {
     event.preventDefault();
     const header = event.currentTarget;
     const type = header.dataset.type; // Get the type of item to create.
-    const name = i18n('WW.NewItem', { itemType: type.capitalize() }) // Initialize a default name.
+    let name = i18n('WW.NewItem', { itemType: type.capitalize() }) // Initialize a default name.
 
     let subtype = '';
     let source = '';
     let attribute = '';
+    let damage = '';
+    let against = '';
     
-    // If Talent or Equipment, set subtype
-    if ((type == 'Trait or Talent') || (type == 'Equipment')) subtype = event.currentTarget.dataset.subtype;
+    // If Talent or Equipment, set subtype and name to the subtype
+    if ((type == 'Trait or Talent') || (type == 'Equipment')) {
+      subtype = event.currentTarget.dataset.subtype;
+      name = i18n('WW.NewItem', { itemType: subtype.capitalize() });
+    }
+
+    // If weapon, set default automated roll
+    if (subtype == 'weapon') {
+      attribute = 'str';
+      against = 'def';
+      damage = '1d6';
+    }
 
     // If Character's Talent, set source
     if ((this.actor.type) && (type == 'Trait or Talent')) source = event.currentTarget.dataset.source;
-
-    if (subtype == 'weapon') attribute = 'str';
 
     // Prepare the item object.
     const itemData = {
       name: name,
       type: type,
-      system: { subtype, source, attribute }
+      system: { subtype, source, attribute, against, damage }
     };
 
     // Create the item
@@ -721,4 +697,140 @@ export default class WWActorSheet extends ActorSheet {
     return 
   }
 
+  // Add intant effects to chat message html
+  _addInstEffs(effects, t, item) {
+    let finalHtml = '';
+    effects = effects.filter(e => e.trigger === 'onUse')//.map(i => ({ _id: i.id, 'system.uses.value': 0 }));
+    
+    effects.forEach(e => {
+      let html = '';
+
+      const target = canvas.tokens.get(t.id);
+        
+      if (e.label === 'affliction') html = this.prepareHtmlButton(target, e.affliction, e.label, item);
+      else html = this.prepareHtmlButton(target, e.value, e.label, item);
+      
+      finalHtml += html;
+    })
+    
+    return finalHtml;
+  }
+
+  // Prepare Html Button for the chat message
+  prepareHtmlButton(target, value, label, item) {
+    let icon = '';
+    let loc = '';
+    let cls = '';
+
+    switch (label) {
+      case 'damage': {
+        icon = 'burst';
+        loc = 'WW.InstantEffect.Roll.Damage';
+        cls = 'damage-roll';
+        break;
+      }
+      case 'heal': {
+        icon = 'sparkles';
+        label = 'healing';
+        loc = 'WW.InstantEffect.Roll.Heal';
+        cls = 'healing-roll';
+        break;
+      }
+      case 'healthLose': {
+        icon = 'droplet';
+        loc = 'WW.InstantEffect.Roll.HealthLose';
+        cls = 'health-loss-roll';
+        break;
+      }
+      case 'healthRecover': {
+        icon = 'suitcase-medical';
+        loc = 'WW.InstantEffect.Roll.HealthRecover';
+        cls = 'health-recovery-roll';
+        break;
+      }
+      case 'affliction': {
+        icon = 'skull-crossbones';
+        loc = 'WW.InstantEffect.Affliction';
+        cls = 'bestow-affliction';
+        break;
+      }
+    }
+
+    const html = '<div class="'+ cls + ' chat-button" data-item-id="' + item._id +
+    '"  data-actor-id="' + this.document._id +
+    '" data-target-id="' + target.id +
+    '" data-' + label + '="' + value +
+    '"><i class="fas fa-' + icon + '"></i>' + i18n(loc) + ': ' + value + '</div>';
+    return html;
+  }
+
+  /* -------------------------------------------- */
+  /*  Getters                                     */
+  /* -------------------------------------------- */
+  
+  get targets() {
+    let targets = [];
+    
+    if (game.user.targets.size) { // Get targets if they exist
+
+      game.user.targets.forEach(t => {
+        targets.push({
+          id: t.id,
+          name: t.document.name,
+          attributes: t.document.actor.system.attributes,
+          defense: t.document.actor.system.stats.defense.total,
+          boonsAgainst: t.document.actor.system.boons.against
+        })
+      });
+
+    } else { // Get self as a target if none is selected
+
+      targets.push({
+        id: this.token.id,
+        name: this.token.name,
+        attributes: this.actor.system.attributes,
+        defense: this.actor.system.stats.defense.total,
+        boonsAgainst: this.actor.system.boons.against
+      })
+
+    }
+
+    return targets
+  }
+
+}
+
+/* -------------------------------------------- */
+/*  Misc Functions                              */
+/* -------------------------------------------- */
+
+// Make secret message content
+function _secretContent(content) {
+  return '<span class="owner-only chat-description">' + content + '</span>';
+}
+
+// Make secret message label
+function _secretLabel(label) {
+  return '<span class="owner-only">' + label + '</span><span class="non-owner-only">? ? ?</span>'
+}
+
+// Check if targets are needed
+function needTargets(item) {
+  let need = item.system?.rollForEach;
+
+  if (item.system?.against) need = true;
+
+  if (item.effects) {
+    for (const e of item.effects) {
+      if (e.target == 'tokens') need = true;
+    }
+  }
+
+  if (item.system.instant) {
+    for (const e of item.system.instant) {
+      if (e.target == 'tokens') need = true;
+    }
+  }
+
+  return need;
 }

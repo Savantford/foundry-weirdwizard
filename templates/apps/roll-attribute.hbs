@@ -9,21 +9,28 @@
             <label class="resource-label">{{localize "WW.Boons.Afflictions"}}</label>
             <span class="boons-display afflictions">{{numberFormat effectBoons decimals=0 sign=true}}</span>
         </div>
+        {{#if fixedBoons}}
         <div class="stat-stretch flex-group-left mt-1">
             <label class="resource-label">{{localize "WW.Boons.Fixed"}}</label>
             <span class="boons-display fixed">{{numberFormat fixedBoons decimals=0 sign=true}}</span>
         </div>
+        {{/if}}
         <div class="stat-stretch flex-group-left mt-1">
             <label class="resource-label">{{localize "WW.Boons.Situational"}}</label>
             <input name="situational" class="boons-input situational" type="number" value="0"/>
         </div>
     </div>
 
-    <div class="boons-expression mb-2 mt-2 flex-group-center">{{expression}}</div>
+    <div class="boons-expression mb-2 mt-2 flex-group-center"></div>
+
+    {{#if needTargets}}
+    <h3>{{localize "WW.Targets"}}</h3>
+    <div class="boons-targets mb-2 mt-2 flex-group-center"></div>
+    {{/if}}
 
     <div class="form-group">
         <button type="submit" id="boons-submit">
-            <i class="fas fa-dice"></i> {{localize "WW.Boons.Roll"}}
+            <i class="fas fa-dice"></i> {{localize "WW.Roll.Label"}}
         </button>
         <button type="button" id="boons-cancel">
             <i class="fas fa-xmark"></i> {{localize "WW.Cancel"}}

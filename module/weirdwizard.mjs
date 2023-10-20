@@ -4,7 +4,9 @@ console.log('Initializing weirdwizard.mjs...')
 import WWActor from './documents/actor.mjs';
 import WWItem from './documents/item.mjs';
 import WWActiveEffect from './active-effects/active-effect.mjs';
+import WWCombat from './documents/combat.mjs';
 //import WWTokenDocument from './documents/token-document.mjs';
+import WWCombatTracker from './apps/combat-tracker.mjs';
 
 // Import sheet classes.
 import WWActorSheet from './sheets/actor-sheet.mjs';
@@ -17,9 +19,17 @@ import WWActiveEffectConfig from './active-effects/active-effect-config.mjs';
 import { WWAfflictions } from './active-effects/afflictions.mjs';
 import { initChatListeners } from './chat/chat-listeners.mjs';
 import registerWWTours from './tours/registration.mjs';
+import migrateWorld from './helpers/migrations.mjs';
 
 // Import canvas-related classes
 import WWToken from './canvas/token.mjs';
+
+// Import data models
+import CharacterData from './data/actors/Character.mjs';
+import NpcData from './data/actors/NPC.mjs';
+import EquipmentData from './data/items/Equipment.mjs';
+import TalentData from './data/items/Talent.mjs';
+import SpellData from './data/items/Spell.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -41,28 +51,72 @@ Hooks.once('init', function () {
   CONFIG.Actor.documentClass = WWActor;
   CONFIG.Item.documentClass = WWItem;
   CONFIG.ActiveEffect.documentClass = WWActiveEffect;
-  DocumentSheetConfig.registerSheet(ActiveEffect, "weirdwizard", WWActiveEffectConfig, {makeDefault: true})
+  CONFIG.Combat.documentClass = WWCombat;
 
   // Register sheet application classes
   Actors.unregisterSheet('core', ActorSheet);
   Actors.registerSheet('weirdwizard', WWActorSheet, { makeDefault: true });
   Items.unregisterSheet('core', ItemSheet);
   Items.registerSheet('weirdwizard', WWItemSheet, { makeDefault: true });
+  DocumentSheetConfig.registerSheet(ActiveEffect, "weirdwizard", WWActiveEffectConfig, {makeDefault: true})
+
+  // Register data models
+  CONFIG.Actor.dataModels.Character = CharacterData;
+  CONFIG.Actor.dataModels.NPC = NpcData;
+  CONFIG.Item.dataModels.Equipment = EquipmentData;
+  CONFIG.Item.dataModels['Trait or Talent'] = TalentData;
+  CONFIG.Item.dataModels.Spell = SpellData;
 
   // Define custom Object classes
   CONFIG.Token.objectClass = WWToken;
+
+  // Define custom Combat Tracker
+  CONFIG.ui.combat = WWCombatTracker;
   
   // Disable legacy pre-V11 behavior of item effects being stored on actor.effects. Use actor.appliedEffects instead for all effects
   CONFIG.ActiveEffect.legacyTransferral = false;
 
+  // Define token resources/bars
+  CONFIG.Actor.trackableAttributes = {
+    Character: {
+      bar: ["stats.damage"],
+      value: []
+    },
+    NPC: {
+      bar: ["stats.damage"],
+      value: []
+    }
+  };
+
+  // Set active effect keys-labels to be used in Active Effects Config app
+  WWActiveEffectConfig.initializeChangeKeys();
+  WWActiveEffectConfig.initializeChangeLabels();
+  WWActiveEffectConfig.initializeChangePriorities();
+
+  // Register system settings
+  game.settings.register('weirdwizard', 'skipActed', {
+    name: "WW.Combat.Skip",
+    hint: "WW.Combat.SkipHint",
+    scope: "world",
+    config: true,
+    requiresReload: false,
+    type: Boolean,
+    default: true
+  });
+
+  game.settings.register('weirdwizard', 'lastMigrationVersion', {
+    /*name: "WW.System.LastMigration",
+    hint: "WW.System.LastMigrationHint",*/
+    scope: "world",
+    config: false,
+    requiresReload: false,
+    type: String,
+    default: '0.0.0'
+  });
+
   // Preload Handlebars templates.
   return preloadHandlebarsTemplates();
 });
-
-// Rollable buttons on attribute rolls.
-/*Hooks.on('renderChatMessage', (chatMessage, [html], messageData) => {
-  html.querySelector('.my-button').addEventListener('click', (event) => console.log('button clicked'))
-})*/
 
 /* -------------------------------------------- */
 /*  Ready Hook                                  */
@@ -73,6 +127,16 @@ Hooks.once('ready', function () {
 
   // Register Tours
   registerWWTours();
+
+  // Append data migration function to game.system.migrations so it can be used for manual migrations
+  game.system.migrations = {
+    migrateWorld: migrateWorld
+    //migratePack // Specific pack as input
+    //migratePacks // All packs
+  }
+
+  // Check and run data migrations if needed
+  migrateWorld();
 
 });
 
@@ -113,10 +177,6 @@ Hooks.once('setup', function () {
 
   // Assign Afflictions to token HUD
   CONFIG.statusEffects = effects;
-
-  // Set active effect keys-labels to be used in Active Effects Config app
-  WWActiveEffectConfig.initializeChangeKeys();
-  WWActiveEffectConfig.initializeChangePriorities();
   
 });
 

@@ -20,6 +20,7 @@ export class rollDamage extends FormApplication {
     this.properties = obj.properties;
     this.attackDice = obj.actor.system.extraDamage.attacks.dice;
     this.attackMod = obj.actor.system.extraDamage.attacks.mod;
+    this.target = obj.target.dataset.targetId;
   }
 
   static get defaultOptions() {
@@ -119,22 +120,31 @@ export class rollDamage extends FormApplication {
       // Execute the roll
       await r.evaluate();
 
-      // Send to chat
-      await r.toMessage({
+      // Prepare result to display.
+      let content = '<h4 class="dice-result">' + await r.render() + '</h4>';
+
+      // Prepare apply button.
+      const tid = await canvas.tokens.get(this.target).id;
+      const tname = await canvas.tokens.get(this.target).name;
+      content += '<div class="damage-apply chat-button" data-token-id="' + await tid  + '" data-damage="' + await r.total + 
+      '"><i class="fas fa-burst"></i>' + i18n('WW.Roll.DamageApply') + ' ' + tname + '</div>';
+
+      // Create message data
+      const messageData = {
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),
         flavor: i18n('WW.Damage.Of') + ' ' + label,
-        rollMode: game.settings.get('core', 'rollMode')
-      });
-      
-      // The parsed terms of the roll formula
-      //console.log(r.terms);    // [Die, OperatorTerm, NumericTerm, OperatorTerm, NumericTerm]
+        content: content,
+        sound: CONFIG.sounds.dice
+      };
+
+      await ChatMessage.applyRollMode(messageData,  game.settings.get('core', 'rollMode'));
+
+      // Send to chat
+      await ChatMessage.create(messageData);
 
       // The resulting equation after it was rolled
       console.log('Formula = ' + r.formula + '\nResult = ' + r.result + '\nTotal = ' + r.total);   // 16 + 2 + 4; 22
 
-      /*export class DLEroll extends Roll { // Extended custom Demon Lord Engine roll      // Not Needed ATM
-          constructor() { ... }
-      }*/
     })
 
   }

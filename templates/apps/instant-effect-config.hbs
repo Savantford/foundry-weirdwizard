@@ -1,0 +1,49 @@
+<form autocomplete="off" class="weirdwizard instant-effect">
+  
+  {{!--<div class="form-group mx-2">
+    <label>{{ localize "EFFECT.IconTint" }}</label>
+    <div class="form-fields">
+      <input class="color" type="text" name="tint" value="{{data.tint}}" />
+      <input type="color" value="{{#if data.tint}}{{data.tint}}{{else}}#000000{{/if}}" data-edit="tint" />
+    </div>
+  </div>--}}
+
+  <!-- Content -->
+  <div class="form-group">
+    <label>{{ localize "WW.InstantEffect.Label" }}</label>
+    <select name="label">
+      {{selectOptions labels selected=label localize=true}}
+    </select>
+  </div>
+  
+  <div class="form-group">
+    <label>{{ localize "WW.Effect.Trigger" }}</label>
+    <select name="trigger">
+      {{selectOptions triggers selected=trigger localize=true}}
+    </select>
+  </div>
+  
+  <div class="form-group">
+    <label>{{ localize "WW.Effect.Target" }}</label>
+    <select name="target">
+      {{selectOptions targets selected=target localize=true}}
+    </select>
+  </div>
+  {{#if (eq label "affliction")}}
+  <div class="form-group">
+    <label>{{localize "WW.InstantEffect.Affliction"}}</label>
+    <select name="affliction">
+      {{selectOptions afflictions selected=affliction localize=true}}
+    </select>
+  </div>
+  {{else}}
+  <div class="form-group">
+    <label>{{ localize "WW.InstantEffect.Value" }}</label>
+    <input type="text" name="value" value="{{value}}" data-dtype="String" placeholder="1d6"/>
+  </div>
+  {{/if}}
+
+  <footer class="sheet-footer">
+    <button type="submit"><i class="fas fa-save"></i> {{localize 'EFFECT.Submit'}}</button>
+  </footer>
+</form>
