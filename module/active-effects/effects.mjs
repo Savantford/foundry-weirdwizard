@@ -1,10 +1,12 @@
+//import {calcEffectRemainingRounds, calcEffectRemainingSeconds, calcEffectRemainingTurn} from "../combat/combat.mjs";
+import {i18n} from "../helpers/utils.mjs";
+import InstantEffectConfig from '../apps/instant-effect-config.mjs'
+
 /**
  * Manage Active Effect instances through the Actor Sheet via effect control buttons.
  * @param {MouseEvent} event      The left-click event on the effect control
  * @param {Actor|Item} owner      The owning entity which manages this effect
 */
-//import {calcEffectRemainingRounds, calcEffectRemainingSeconds, calcEffectRemainingTurn} from "../combat/combat.mjs";
-import {i18n} from "../helpers/utils.mjs";
 
 export async function onManageActiveEffect(event, owner) {
   event.preventDefault();
@@ -33,6 +35,49 @@ export async function onManageActiveEffect(event, owner) {
 }
 
 /**
+ * Manage Instant Effect instances through the Actor Sheet via instant control buttons.
+ * @param {MouseEvent} event      The left-click event on the instant control
+ * @param {Item} owner      The owning item document which manages this effect
+*/
+
+export async function onManageInstantEffect(event, owner) {
+  event.preventDefault();
+  const a = event.currentTarget;
+  const li = a.closest('li');
+  const effectId = li.dataset.effectId;
+  //const effect = effectId ? owner.system.instant[effectId] : null;
+  
+  switch ( a.dataset.action ) {
+    case 'create': {
+      let arr = owner.system.instant;
+      const obj = {
+        label: 'damage',
+        trigger: 'onUse',
+        target: 'tokens',
+        value: '1d6',
+        affliction: 'Blinded'
+      }
+    
+      arr.push(obj);
+      owner.update({ 'system.instant': arr });
+      
+      return new InstantEffectConfig(owner, arr.length-1).render(true);
+    }
+      
+    case 'edit':
+      return new InstantEffectConfig(owner, effectId).render(true);
+      
+    case 'delete': {
+      let arr = owner.system.instant;
+      arr.splice(effectId, 1);
+
+      return owner.update({ 'system.instant': arr });
+    }
+      
+  }
+}
+
+/**
  * Prepare the data structure for Active Effects which are currently applied to an Actor or Item.
  * @param {ActiveEffect[]} effects    The array of Active Effect instances to prepare sheet data for
  * @param {Boolean} showDuration      Show effect duration on page
@@ -48,7 +93,7 @@ export function prepareActiveEffectCategories(effects, showDuration = false, sho
   let categories = {
     temporary: {
       type: 'temporary',
-      name: 'Temporary Effects',
+      name: 'WW.Effects.Temporary',
       showDuration: true,
       showSource: showSource,
       showControls: showControls,
@@ -57,7 +102,7 @@ export function prepareActiveEffectCategories(effects, showDuration = false, sho
     },
     permanent: {
       type: 'permanent',
-      name: 'Permanent Effects',
+      name: 'WW.Effects.Permanent',
       showDuration: showDuration,
       showSource: showSource,
       showControls: showControls,
@@ -66,7 +111,7 @@ export function prepareActiveEffectCategories(effects, showDuration = false, sho
     },
     inactive: {
       type: 'inactive',
-      name: 'Inactive Effects',
+      name: 'WW.Effects.Inactive',
       showDuration: showDuration,
       showSource: showSource,
       showControls: showControls,

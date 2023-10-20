@@ -1,4 +1,5 @@
 import { i18n, capitalize } from '../helpers/utils.mjs'
+import { effChanges } from './effect-options.mjs'
 
 export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
@@ -6,7 +7,7 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['sheet', 'active-effect-sheet'],
-      template: 'systems/weirdwizard/templates/effects-config.hbs',
+      template: 'systems/weirdwizard/templates/apps/active-effect-config.hbs',
       width: 580,
       height: 'auto',
       tabs: [{ navSelector: '.tabs', contentSelector: 'form', initial: 'details' }],
@@ -22,18 +23,22 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
     const labels = {
       transfer: {
-        name: game.i18n.localize(`EFFECT.Transfer${legacyTransfer ? "Legacy" : ""}`),
-        hint: game.i18n.localize(`EFFECT.TransferHint${legacyTransfer ? "Legacy" : ""}`)
+        name: game.i18n.localize(`EFFECT.Transfer${legacyTransfer ? 'Legacy' : ''}`),
+        hint: game.i18n.localize(`EFFECT.TransferHint${legacyTransfer ? 'Legacy' : ''}`)
       }
     };
 
     const data = {
       labels,
-      effect: this.object, // Backwards compatibility
-      data: this.object,
-      isActorEffect: this.object.parent.documentName === "Actor",
-      isItemEffect: this.object.parent.documentName === "Item",
-      submitText: "EFFECT.Submit",
+      effect: this.document, // Backwards compatibility
+      data: this.document,
+      trigger: this.document.trigger,
+      target: this.document.target,
+      triggers: CONFIG.WW.effectTriggers,
+      targets: CONFIG.WW.effectTargets,
+      isActorEffect: this.document.parent.documentName === 'Actor',
+      isItemEffect: this.document.parent.documentName === 'Item',
+      submitText: 'EFFECT.Submit',
       modes: Object.entries(CONST.ACTIVE_EFFECT_MODES).reduce((obj, e) => {
         obj[e[1]] = game.i18n.localize(`EFFECT.MODE_${e[0]}`);
         return obj;
@@ -43,9 +48,16 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
     context = foundry.utils.mergeObject(context, data);
 
-    context.descriptionHTML = await TextEditor.enrichHTML(this.object.description, {async: true, secrets: this.object.isOwner});
-    context.availableChangeKeys = await WWActiveEffectConfig._availableChangeKeys;
-    context.availableChangePriorities = await WWActiveEffectConfig._availableChangePriorities;
+    context.descriptionHTML = await TextEditor.enrichHTML(this.document.description, {async: true, secrets: this.document.isOwner});
+
+    // Prepare Effect Options to display on key dropdown menu
+    const optionsObj = deepClone(CONFIG.WW.effOptions);
+    
+    for (const [key, value] of Object.entries(optionsObj)) {
+      optionsObj[key].options = Object.entries(optionsObj[key].options).reduce((all,[k,data]) => { all[k] = data.label; return all; }, {});
+    }
+    
+    context.effOptions = optionsObj;
 
     return context;
   }
@@ -53,103 +65,91 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
   activateListeners(html) {
     super.activateListeners(html)
     // Change the duration in rounds based on seconds and vice-versa
-    // const inputSeconds = html.find('input[name="duration.seconds"]')
-    // const inputRounds = html.find('input[name="duration.rounds"]')
+    // const inputSeconds = html.find('input[name='duration.seconds']')
+    // const inputRounds = html.find('input[name='duration.rounds']')
     // inputSeconds.change(_ => inputRounds.val(Math.floor(inputSeconds.val() / 10)))
     // inputRounds.change(_ => inputSeconds.val(inputRounds.val() * 10))
   }
 
-  static initializeChangeKeys() {
-    WWActiveEffectConfig._availableChangeKeys = {
-      // <key> : <name>
-      // No change
-      '': '-',
+  async _updateObject(event, formData) { // Update actor data.
+    super._updateObject(event, formData)
 
-      // Boons and Banes
-      'system.boons.attributes.str.global': i18n('WW.Strength') + ': ' + i18n('WW.Boons.Or'),
-      'system.boons.attributes.agi.global': i18n('WW.Agility') + ': ' + i18n('WW.Boons.Or'),
-      'system.boons.attributes.int.global': i18n('WW.Intellect') + ': ' + i18n('WW.Boons.Or'),
-      'system.boons.attributes.wil.global': i18n('WW.Will') + ': ' + i18n('WW.Boons.Or'),
-      'system.boons.attributes.luck.global': i18n('WW.Luck') + ': ' + i18n('WW.Boons.Or'),
-      'system.boons.attacks.global': i18n('WW.Attack.Plural') + ': ' + i18n('WW.Boons.Or'),
+    // Set needed flags
+    this.document.setFlag('weirdwizard', 'trigger', formData.trigger)
+    this.document.setFlag('weirdwizard', 'target', formData.target)
 
-      // Auto Failure
-      'system.autoFail.str': i18n('WW.Strength') + ': ' + i18n('WW.AutoFail'),
-      'system.autoFail.agi': i18n('WW.Agility') + ': ' + i18n('WW.AutoFail'),
-      'system.autoFail.int': i18n('WW.Intellect') + ': ' + i18n('WW.AutoFail'),
-      'system.autoFail.wil': i18n('WW.Will') + ': ' + i18n('WW.AutoFail'),
-
-      // Boons Against
-      'system.boons.against.def': i18n('WW.Boons.Against') + ' ' + i18n('WW.Defense.Label'),
-      'system.boons.against.str': i18n('WW.Boons.Against') + ' ' + i18n('WW.Strength'),
-      'system.boons.against.agi': i18n('WW.Boons.Against') + ' ' + i18n('WW.Agility'),
-      'system.boons.against.int': i18n('WW.Boons.Against') + ' ' + i18n('WW.Intellect'),
-      'system.boons.against.wil': i18n('WW.Boons.Against') + ' ' + i18n('WW.Will'),
-
-      // Extra Damage
-      'system.extraDamage.attacks.dice': i18n('WW.Damage.AttackDice'),
-      'system.extraDamage.attacks.mod': i18n('WW.Damage.AttackMod'),
+    // Prepare custom mode change data
+    const changes = formData.changes;
+    let altChanges = [];
+    
+    changes.forEach(c => {
+      const change = c.key.split('.').reduce((o, i) => o[i], effChanges);
       
-      //  Defense
-      'system.stats.defense.bonus': i18n('WW.Defense.Bonus'),
-      'system.stats.defense.natural': i18n('WW.Defense.Natural'),
-      'system.stats.defense.armored': i18n('WW.Defense.Armored'),
+      c = {
+        ...c,
+        ...change
+      }
 
-      // Health
-      'system.stats.health.current': i18n('WW.Health.Current'),
-      'system.stats.health.normal': i18n('WW.Health.Normal'),
-      /*'stats.health.starting': i18n('WW.'),
-      'stats.health.novice': i18n('WW.'),
-      'stats.health.expert': i18n('WW.'),
-      'stats.health.master': i18n('WW.'),
-      'stats.health.bonus': i18n('WW.'),
-      'stats.health.lost': i18n('WW.'),*/
+      delete c.valueLabel;
+      delete c.valueType;
 
-      // Damage
-      /*'stats.damage.value': i18n('WW.Damage'),
-      'stats.damage.max': i18n('WW.'),*/
+      altChanges.push(c)
+      
+    })
 
-      // Stats
-      /*'stats.level': i18n('WW.'),
-      'stats.size': i18n('WW.'),*/
-      'system.stats.speed.value': i18n('WW.Speed.Score'),
-      'system.stats.speed.halved': i18n('WW.Speed.Halved'),
-      /*'system.stats.bonusdamage': i18n('WW.'),*/
+    // Assign to formData
+    formData.changes = altChanges;
+  }
 
-      // Attributes
-      'system.attributes.str.value': i18n('WW.StrengthScore'),
-      'system.attributes.agi.value': i18n('WW.AgilityScore'),
-      'system.attributes.int.value': i18n('WW.IntellectScore'),
-      'system.attributes.wil.value': i18n('WW.WillScore'),
+  static initializeRealChangeKeys() {
+    const refObj = CONFIG.WW.effOptions;
+    let obj = {};
+    
+    for (const [key, value] of Object.entries(refObj)) {
+      console.log(refObj[key])
+      console.log(value)
+      obj = {
+        ...obj,
+        ...Object.entries(value.options).reduce((all,[k,data]) => { all[k] = data.key; return all;}, {}
+        )
+      }
+    }
+    
+    CONFIG.WW.effectChangeKeys = obj;
+  }
 
-      // Details
-      /*'details.type': i18n('WW.'),
-      'details.senses': i18n('WW.'),
-      'details.languages': i18n('WW.'),
-      'details.immune': i18n('WW.'),
-      'details.ancestry': i18n('WW.'),
-      'details.novice': i18n('WW.'),
-      'details.expert': i18n('WW.'),
-      'details.master': i18n('WW.'),
-      'details.features.value': i18n('WW.'),
-      'details.personality.value': i18n('WW.'),
-      'details.belief.value': i18n('WW.'),
-      'details.professions': i18n('WW.'),
-      'details.information.value': i18n('WW.'),
-      'details.bg_ancestry.value': i18n('WW.'),
-      'details.deeds.value': i18n('WW.'),
-      'details.reputation': i18n('WW.'),
-      'details.traditions': i18n('WW.'),
-      'description.value': i18n('WW.'),*/
+  get realChangeKeys() {
+    
+  }
 
-      // Currency
-      /*'currency.gp': i18n('WW.'),
-      'currency.sp': i18n('WW.'),
-      'currency.cp': i18n('WW.'*/
+  static initializeChangeLabels() {
+    const refObj = CONFIG.WW.effOptions;
+    let obj = {};
+    
+    for (const [key, value] of Object.entries(refObj)) {
+      obj = {
+        ...obj,
+        ...Object.entries(value.options).reduce((all,[k,data]) => { all[k] = data.label; return all;}, {}
+        )
+      }
     }
 
-    // Save the keys-labels object in the CONFIG constant
-    CONFIG.WW.effectChangeKeys = WWActiveEffectConfig._availableChangeKeys;
+    CONFIG.WW.effectChangeLabels = obj;
+  }
+    
+  static initializeChangeKeys() {
+    const refObj = CONFIG.WW.effOptions;
+    let obj = {};
+    
+    for (const [key, value] of Object.entries(refObj)) {
+      obj = {
+        ...obj,
+        ...Object.entries(value.options).reduce((all,[k,data]) => { all[k] = data.key; return all;}, {}
+        )
+      }
+    }
+
+    CONFIG.WW.effectChangeKeys = obj;
   }
 
   static initializeChangePriorities() {
@@ -166,10 +166,12 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
       30: '30: ' + i18n('WW.Effect.Priority.30'),
       40: '40: ' + i18n('WW.Effect.Priority.40'),
       50: '50: ' + i18n('WW.Effect.Priority.50')
-
     }
 
     // Save the keys-labels object in the CONFIG constant
     CONFIG.WW.effectChangePriorities = WWActiveEffectConfig._availableChangePriorities;
   }
+
 }
+
+

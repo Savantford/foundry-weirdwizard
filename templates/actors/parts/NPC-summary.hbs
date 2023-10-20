@@ -42,7 +42,7 @@
             <div class="stat mt-1">{{!-- Attributes 1 --}}
 
                 <label class="resource-label">{{localize "WW.Strength"}}</label>
-                <a class="attribute-mod rollable" data-label="Strength" title="Roll Strength">
+                <a class="attribute-mod rollable" data-key="str" title="Roll Strength">
                     {{system.attributes.str.value}} 
                     {{#if system.attributes.str.value}}
                      ({{numberFormat system.attributes.str.mod decimals=0 sign=true}})
@@ -50,7 +50,7 @@
                 </a>
 
                 <label class="ml-1" class="resource-label">{{localize "WW.Agility"}}</label>
-                <a class="attribute-mod rollable" data-label="Agility" title="Roll Agility">
+                <a class="attribute-mod rollable" data-key="{{agi}}" title="Roll Agility">
                     {{system.attributes.agi.value}}
                     {{#if system.attributes.agi.value}}
                      ({{numberFormat system.attributes.agi.mod decimals=0 sign=true}})
@@ -61,7 +61,7 @@
             <div class="stat">{{!-- Attributes 2 --}}
 
                 <label class="resource-label">{{localize "WW.Intellect"}}</label>
-                <a class="attribute-mod rollable" data-label="Intellect" title="Roll Intellect">
+                <a class="attribute-mod rollable" data-key="int" title="Roll Intellect">
                     {{system.attributes.int.value}}
                     {{#if system.attributes.int.value}}
                      ({{numberFormat system.attributes.int.mod decimals=0 sign=true}})
@@ -69,7 +69,7 @@
                 </a>
 
                 <label class="ml-1" class="resource-label">{{localize "WW.Will"}}</label>
-                <a class="attribute-mod rollable" data-label="Will" title="Roll Will">
+                <a class="attribute-mod rollable" data-key="wil" title="Roll Will">
                     {{system.attributes.wil.value}}
                     {{#if system.attributes.wil.value}}
                      ({{numberFormat system.attributes.wil.mod decimals=0 sign=true}})
@@ -152,7 +152,7 @@
                             <i class="fas {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
                     {{/if}}
                     
-                    <a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>
+                    {{!--<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>--}}
                     
                     {{#if item.system.propertiesList}}({{item.system.propertiesList}}) {{/if}}
 

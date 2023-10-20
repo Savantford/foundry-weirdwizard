@@ -247,10 +247,11 @@
   color: var(--text);
 }*/
 
-.weirdwizard .window-content {
+.weirdwizard .window-content,
+.window-app .window-content {
   color: var(--text);
   background: var(--background);
-  font-family: var(--font-body);  
+  font-family: var(--font-body);
   font-size: 14px;
 }
 
@@ -427,12 +428,20 @@
 .weirdwizard .bold {
   font-weight: bold !important;
 }
-.weidwizard .width-50 {
+.weirdwizard .width-50 {
   width: 50px !important;
 }
 
-.weidwizard .width-auto {
+.weirdwizard .width-auto {
   width: auto !important;
+}
+
+.weirdwizard .color-green {
+  color: green;
+}
+
+.weirdwizard .color-red {
+  color: red;
 }
 
 .weirdwizard .box-input {
@@ -672,6 +681,18 @@
   font-size: 12px;
   text-align: center;
   margin: 0 6px;
+}
+
+.weirdwizard.instant-effect .form-group > * {
+  flex: 1;
+}
+
+.weirdwizard .effect-trigger {
+  flex: 0 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 2px;
 }
 
 .weirdwizard .effect-changes {
@@ -1279,6 +1300,10 @@ i.icon-Weakened {
   margin-top: 0px;
 }
 
+.chat-description {
+  margin-bottom: 10px;
+}
+
 .dice-roll .dice-formula, .dice-roll .dice-total,
 .chat-failure, .chat-success, .secret-dice-total {
   flex: 0 0 100%;
@@ -1372,6 +1397,17 @@ i.icon-Weakened {
 .combatant-acted, .combatant-taking {
   text-align: center;
   flex: 0 0 20px;
+}
+
+#token-hud .status-effects .effect-control {
+  /*width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  opacity: 0.5;
+  filter: invert(86%) sepia(95%) saturate(6026%) hue-rotate(357deg) brightness(91%) contrast(122%);*/
+  filter: invert(70%) sepia(100%) saturate(6026%) hue-rotate(357deg) brightness(91%) contrast(122%);
 }
 
 .token-resource {

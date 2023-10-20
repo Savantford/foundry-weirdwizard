@@ -63,20 +63,43 @@
 
             {{!-- Attributes 1 --}}
             <div class="stat mt-1">
-                <label for="str" class="resource-label">{{localize "WW.Strength"}}</label>
-                {{system.attributes.str.value}} ({{numberFormat system.attributes.str.mod decimals=0 sign=true}})
 
-                <label class="ml-1" for="agi" class="resource-label">{{localize "WW.Agility"}}</label>
-                {{system.attributes.agi.value}} ({{numberFormat system.attributes.agi.mod decimals=0 sign=true}})
+                <label class="resource-label">{{localize "WW.Strength"}}</label>
+                <a class="attribute-mod rollable" data-key="str" title="Roll Strength">
+                    {{system.attributes.str.value}} 
+                    {{#if system.attributes.str.value}}
+                     ({{numberFormat system.attributes.str.mod decimals=0 sign=true}})
+                    {{else}}—{{/if}}
+                </a>
+
+                <label class="ml-1" class="resource-label">{{localize "WW.Agility"}}</label>
+                <a class="attribute-mod rollable" data-key="{{agi}}" title="Roll Agility">
+                    {{system.attributes.agi.value}}
+                    {{#if system.attributes.agi.value}}
+                     ({{numberFormat system.attributes.agi.mod decimals=0 sign=true}})
+                    {{else}}—{{/if}}
+                </a>
+
             </div>
 
             {{!-- Attributes 2 --}}
             <div class="stat">
-                <label for="int" class="resource-label">{{localize "WW.Intellect"}}</label>
-                {{system.attributes.int.value}} ({{numberFormat system.attributes.int.mod decimals=0 sign=true}})
 
-                <label class="ml-1" for="wil" class="resource-label">{{localize "WW.Will"}}</label>
-                {{system.attributes.wil.value}} ({{numberFormat system.attributes.wil.mod decimals=0 sign=true}})
+                <label class="resource-label">{{localize "WW.Intellect"}}</label>
+                <a class="attribute-mod rollable" data-key="int" title="Roll Intellect">
+                    {{system.attributes.int.value}}
+                    {{#if system.attributes.int.value}}
+                     ({{numberFormat system.attributes.int.mod decimals=0 sign=true}})
+                    {{else}}—{{/if}}
+                </a>
+
+                <label class="ml-1" class="resource-label">{{localize "WW.Will"}}</label>
+                <a class="attribute-mod rollable" data-key="wil" title="Roll Will">
+                    {{system.attributes.wil.value}}
+                    {{#if system.attributes.wil.value}}
+                     ({{numberFormat system.attributes.wil.mod decimals=0 sign=true}})
+                    {{else}}—{{/if}}
+                </a>
             </div>
         </div>
 
@@ -128,7 +151,7 @@
                 <ol class="described-list">
                     {{#each weapons as |item id|}}
                     <li class="item" data-item-id="{{item._id}}">
-                        <a class="rollable item-roll" title="Roll Attack">{{item.name}}</a>
+                        <a class="rollable item-roll" title="Attack with {{item.name}}">{{item.name}}</a>
 
                         <a class="item-edit" title="Edit Weapon"><i class="fas fa-edit"></i></a>
 
@@ -141,12 +164,12 @@
                                 <i class="fas {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
                         {{/if}}
 
-                        <a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>
+                        {{!--<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>--}}
                         
                         <span class="properties-line">({{item.system.grip}}{{#if item.system.propertiesList}};
                         {{item.system.propertiesList}}{{/if}})</span> 
 
-                        <span class="modifier-line">{{item.system.attributeLabel}}
+                        <span class="modifier-line">{{localize item.system.attributeLabel}}
                         
                         {{#if item.system.boons}} {{localize "WW.Boons.With"}} {{item.system.boons}} 
                             {{#if (lt item.system.boons -1)}}{{localize "WW.Boons.Banes"}}

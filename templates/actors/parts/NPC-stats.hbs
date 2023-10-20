@@ -44,7 +44,7 @@
                 <input class="mr-1" type="number" name="system.attributes.str.value"
                     value="{{system.attributes.str.value}}" min="0" data-dtype="Number" /> 
                     
-                <a class="attribute-mod rollable" data-label="Strength" title="Roll Strength">
+                <a class="attribute-mod rollable" data-key="str" title="Roll Strength">
                     {{#if system.attributes.str.value}}
                     {{numberFormat system.attributes.str.mod decimals=0 sign=true}}
                     {{/if}}
@@ -54,7 +54,7 @@
                 <input class="mr-1" type="number" name="system.attributes.agi.value"
                     value="{{system.attributes.agi.value}}" min="0" data-dtype="Number" /> 
                     
-                <a class="attribute-mod rollable" data-label="Agility" title="Roll Agility">
+                <a class="attribute-mod rollable" data-key="agi" title="Roll Agility">
                     {{#if system.attributes.agi.value}}
                     {{numberFormat system.attributes.agi.mod decimals=0 sign=true}}
                     {{/if}}
@@ -66,7 +66,7 @@
                 <input class="mr-1" type="number" name="system.attributes.int.value"
                     value="{{system.attributes.int.value}}" min="0" data-dtype="Number" /> 
                     
-                <a class="attribute-mod rollable" data-label="Intellect" title="Roll Intellect">
+                <a class="attribute-mod rollable" data-key="int" title="Roll Intellect">
                     {{#if system.attributes.int.value}}
                     {{numberFormat system.attributes.int.mod decimals=0 sign=true}}
                     {{/if}}
@@ -76,7 +76,7 @@
                 <input class="mr-1" type="number" name="system.attributes.wil.value"
                     value="{{system.attributes.wil.value}}" min="0" data-dtype="Number" /> 
                     
-                <a class="attribute-mod rollable" data-label="Will" title="Roll Will">
+                <a class="attribute-mod rollable" data-key="wil" title="Roll Will">
                     {{#if system.attributes.wil.value}}
                     {{numberFormat system.attributes.wil.mod decimals=0 sign=true}}
                     {{/if}}

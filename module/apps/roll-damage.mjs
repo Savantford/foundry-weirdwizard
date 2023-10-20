@@ -20,7 +20,7 @@ export class rollDamage extends FormApplication {
     this.properties = obj.properties;
     this.attackDice = obj.actor.system.extraDamage.attacks.dice;
     this.attackMod = obj.actor.system.extraDamage.attacks.mod;
-    this.target = obj.target.dataset.targetid;
+    this.target = obj.target.dataset.targetId;
   }
 
   static get defaultOptions() {
@@ -126,7 +126,7 @@ export class rollDamage extends FormApplication {
       // Prepare apply button.
       const tid = await canvas.tokens.get(this.target).id;
       const tname = await canvas.tokens.get(this.target).name;
-      content += '<div class="damage-apply chat-button" data-tokenId="' + await tid  + '" data-damage="' + await r.total + 
+      content += '<div class="damage-apply chat-button" data-token-id="' + await tid  + '" data-damage="' + await r.total + 
       '"><i class="fas fa-burst"></i>' + i18n('WW.Roll.DamageApply') + ' ' + tname + '</div>';
 
       // Create message data

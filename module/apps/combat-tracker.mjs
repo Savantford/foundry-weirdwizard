@@ -161,7 +161,7 @@ export default class WWCombatTracker extends CombatTracker {
         else if (init >= 100) return init -100
         else return init;
       })
-
+      
       const turn = {
         id: combatant.id,
         name: combatant.name,
@@ -176,7 +176,7 @@ export default class WWCombatTracker extends CombatTracker {
         hasResource: resource !== null,
         resource: resource,
         canPing: (combatant.sceneId === canvas.scene?.id) && game.user.hasPermission('PING_CANVAS'),
-        type: combatant.actor.type,
+        type: combatant.actor?.type,
         flags: combatant.flags
       };
       if ( (turn.initiative !== null) && !Number.isInteger(turn.initiative) ) hasDecimals = true;

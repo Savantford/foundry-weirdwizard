@@ -40,7 +40,7 @@ export default class WWItem extends Item {
 
       this.system.propertiesList = list;
     }
-    
+
   }
 
   async _preCreate(data, options, user) {
@@ -73,9 +73,10 @@ export default class WWItem extends Item {
       }
 
     }
-
+    
     await this.updateSource({ img: icon });
 
     return await super._preCreate(data, options, user);
   }
+
 }

@@ -11,6 +11,7 @@ const _buildBaseAffliction = (label, icon, changes = [], flags = {}) => ({
   disabled: false,
   transfer: true,
   duration: {},
+  tint: '#FF0900',
   flags: {
     sourceType: 'affliction',
     permanent: false,

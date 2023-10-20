@@ -13,7 +13,7 @@
                     <label for="system.attributes.{{key}}.value" class="attribute-label">{{attribute.label}}</label>
                     <div class="stat flex-group-center">
                         <input type="number" name="system.attributes.{{key}}.value" value="{{attribute.value}}" min="0" data-dtype="Number"/>
-                        <a class="attribute-mod rollable" data-roll="d20+@attributes.{{key}}.mod[modifier]@boons[boons]" data-label="{{attribute.label}}" title="Roll {{attribute.label}}">{{numberFormat attribute.mod decimals=0 sign=true}}</a>
+                        <a class="attribute-mod rollable" data-key="{{key}}" title="Roll {{attribute.label}}">{{numberFormat attribute.mod decimals=0 sign=true}}</a>
                     </div>
                 </div>
                 {{/if}}
@@ -77,7 +77,7 @@
         <a class="item" data-tab="equipment">{{localize "WW.Equipment"}}</a>
         <a class="item" data-tab="talents">{{localize "WW.Talents"}}</a>
         <a class="item" data-tab="spells">{{localize "WW.Spells"}}</a>
-        <a class="item" data-tab="effects">{{localize "WW.Effects"}}</a>
+        <a class="item" data-tab="effects">{{localize "WW.Effects.Label"}}</a>
     </nav>
 
     {{!-- Sheet Body --}}

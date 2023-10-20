@@ -10,11 +10,20 @@ import { rollDamage } from '../apps/roll-damage.mjs';
 //const tokenManager = new TokenManager()
 
 export function initChatListeners(html) {
+  
+  // Instant Effect Rolls
   html.on('click', '.damage-roll', _onChatRollDamage.bind(this));
   html.on('click', '.healing-roll', _onChatRollHealing.bind(this));
+  //html.on('click', '.health-loss-roll', _onChatRollHealthLoss.bind(this));
+  //html.on('click', '.health-recovery-roll', _onChatRollHealthRecovery.bind(this));
+
+  // Instant Effect Apply
   html.on('click', '.damage-apply', _onChatApplyDamage.bind(this));
-  /*html.on('click', '.healing-roll', _onChatApplyHealing.bind(this))
-  
+  //html.on('click', '.healing-apply', _onChatApplyHealing.bind(this));
+  //html.on('click', '.health-loss-apply', _onChatApplyHealthLoss.bind(this));
+  //html.on('click', '.health-recovery-apply', _onChatApplyHealthRecovery.bind(this));
+  html.on('click', '.bestow-affliction', _onChatBestowAffliction.bind(this));
+
   /*html.on('click', '.apply-effect', _onChatApplyEffect.bind(this))
   html.on('click', '.use-talent', _onChatUseTalent.bind(this))
   html.on('click', '.place-template', _onChatPlaceTemplate.bind(this))
@@ -27,6 +36,7 @@ export function initChatListeners(html) {
 /* -------------------------------------------- */
 
 async function _onChatRollDamage(event) {
+  console.log('damage')
   event.preventDefault()
   const li = event.currentTarget;
   const token = li//.closest('.weirdwizard');
@@ -34,21 +44,23 @@ async function _onChatRollDamage(event) {
   /*const damageformular = item.dataset.damage
   const damagetype = item.dataset.damagetype
   const selected = tokenManager.targets*/
-  const itemId = li.dataset.itemid || li.closest('.weirdwizard').dataset.itemid;
+  const itemId = li.dataset.itemId || li.closest('.weirdwizard').dataset.itemId;
   const item = actor.items.get(itemId)
   //const rollMode = game.settings.get('core', 'rollMode')
-
+  
+  // Prepare roll
   let obj = {
     actor: actor,
     target: li,
     label: item.name,//getSecretLabel(item.name),
     name: item.name,
-    baseDamage: item.system.damage,
+    baseDamage: li.dataset.damage,
     properties: item.system.properties ? item.system.properties : {},
     bonusDamage: actor.system.stats.bonusdamage
   }
 
   new rollDamage(obj).render(true);
+
 }
 
 /* -------------------------------------------- */
@@ -62,14 +74,17 @@ async function _onChatRollHealing(event) {
   /*const damageformular = item.dataset.damage
   const damagetype = item.dataset.damagetype
   const selected = tokenManager.targets*/
-  const itemId = li.dataset.itemid || li.closest('.weirdwizard').dataset.itemid;
-  const item = actor.items.get(itemId)
-  //const rollMode = game.settings.get('core', 'rollMode')
-
-  let roll = new Roll(item.system.healing, actor.system);
+  const itemId = li.dataset.itemId || li.closest('.weirdwizard').dataset.itemId;
+  const item = actor.items.get(itemId);
+  
+  // Prepare roll
+  let roll = new Roll(li.dataset.healing, actor.system);
   let label = i18n('WW.HealingOf') + ' ' + '<span class="owner-only">' + item.name + '</span><span class="non-owner-only">? ? ?</span>';
 
-  roll.toMessage({
+  await roll.evaluate();
+  console.log(await roll.total);
+
+  await roll.toMessage({
     speaker: ChatMessage.getSpeaker({ actor: actor }),
     flavor: label,
     rollMode: game.settings.get('core', 'rollMode')
@@ -132,6 +147,47 @@ async function _onChatApplyHealing(event) {
     targets: selected,
     itemId,
   })
+}
+
+/* -------------------------------------------- */
+
+async function _onChatBestowAffliction(event) {
+  console.log('teste')
+  event.preventDefault()
+  const li = event.currentTarget;
+  //const effectUuid = htmlTarget.attributes.getNamedItem('data-affliction').value;
+  //const activeEffect = await fromUuid(effectUuid);
+  const token = li//.closest('.weirdwizard');
+  const target = _getChatCardTarget(token);
+
+  // Get affliction
+  console.log(li)
+  const afflictionId = li.dataset.affliction;
+  const activeEffect = CONFIG.statusEffects.find(a => a.id === afflictionId);
+  activeEffect['statuses'] = [activeEffect.id];
+
+  if (!activeEffect) {
+    console.warn('Weird Wizard | _onChatBestowAffliction | Effect not found!')
+    return
+  }
+
+  /*const selected = tokenManager.targets
+  if (selected.length === 0) {
+    tokenManager.warnNotSelected()
+    return
+  }*/
+
+  const effectData = activeEffect//.toObject()
+
+  if (target.actor.statuses.has(afflictionId)) {
+    ui.notifications.warn(`"${target.actor.name}" is already affected by this affliction.`);
+  } else {
+    //selected.forEach(target => {
+      await ActiveEffect.create(effectData, {parent: target.actor})
+        .then(e => ui.notifications.info(`Bestowed "${e.name}" to "${target.actor.name}".`));
+    //})
+  }
+  
 }
 
 /* -------------------------------------------- */
@@ -328,7 +384,7 @@ async function _onChatMakeInitRoll(event) {
 
 function _getChatCardActor(card) {
   // Case 1 - a synthetic actor from a Token
-  const tokenKey = card.dataset.tokenid
+  const tokenKey = card.dataset.tokenId
   if (tokenKey) {
     /*const [sceneId, tokenId] = tokenKey.split('.')
     const scene = game.scenes.get(sceneId)
@@ -341,8 +397,22 @@ function _getChatCardActor(card) {
   }
 
   // Case 2 - use Actor ID directory
-  const actorId = card.dataset.actorid;
+  const actorId = card.dataset.actorId;
   return game.actors.get(actorId) || null
+}
+
+/* -------------------------------------------- */
+
+/**
+ * Get the target Actor which was the target of a chat card
+ * @param {HTMLElement} card    The chat card being used
+ * @return {Actor|null}         The Actor entity or null
+ * @private
+*/
+
+function _getChatCardTarget(card) {
+  const targetId = card.dataset.targetId;
+  return canvas.tokens.get(targetId) || null
 }
 
 /* -------------------------------------------- */

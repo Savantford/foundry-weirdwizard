@@ -1,11 +1,62 @@
-<h2>{{localize "WW.Effects"}}</h2>
+<h2>{{localize "WW.Effects.Label"}}</h2>
 
+{{!-- Instant Effects List --}}
+<ol class="item-list effects-list">
+    <li class="item items-header flexrow">
+        <div class="item-image"></div>
+        <div class="item-name">{{localize "WW.Effects.Instant"}}</div>
+        <div class="instant-effect-trigger">Trigger</div>
+        <div class="instant-effect-target">Target</div>
+        <div class="instant-effect-value">Value</div>
+        <div class="item-controls itemeffect-controls flexrow">
+            <a class="instant-control" data-action="create" title="{{localize 'WW.Effect.Create'}}">
+                <i class="fas fa-plus"></i> {{localize "WW.Add"}}
+            </a>
+        </div>
+    </li>
+
+    <ol class="item-list">
+        
+        {{#each instantEffects as |effect id|}}
+        <li class="item effect flexrow" data-effect-id="{{id}}">
+            <div class="item-image">
+                <img src="{{effect.icon}}" width="24" height="24" />
+            </div>
+            <div class="item-name">{{localize effect.locLabel}}</div>
+            
+            <div class="instant-effect-trigger">
+                {{localize effect.locTrigger}}
+            </div>
+            <div class="instant-effect-target">
+                {{localize effect.locTarget}}
+            </div>
+            <div class="instant-effect-value">
+                {{#if (eq effect.label "affliction")}}{{effect.affliction}}
+                {{else}}{{effect.value}}
+                {{/if}}
+            </div>
+            <div class="item-controls itemeffect-controls flexrow">
+                <a class="instant-control" data-action="edit" title="{{localize 'WW.Effect.Edit'}}">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a class="instant-control" data-action="delete" title="{{localize 'WW.Effect.Delete'}}">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </div>
+        </li>
+        {{/each}}
+    </ol>
+    
+</ol>
+
+{{!-- Dynamic Active Effects Lists --}}
 <ol class="item-list effects-list">
     {{#each effects as |section sid|}}
     {{#if (ne section.type 'inactive')}}
     <li class="item items-header flexrow" data-effect-type="{{section.type}}">
         <div class="item-image"></div>
         <div class="item-name">{{localize section.name}}</div>
+        <div class="effect-trigger"></div>
         <div class="effect-changes">Changes</div>
         <div class="item-controls itemeffect-controls flexrow">
             <a class="effect-control" data-action="create" title="{{localize 'WW.Effect.Create'}}">
@@ -21,19 +72,43 @@
             <div class="item-image">
                 <img src="{{effect.icon}}" width="24" height="24" />
             </div>
+
             <div class="item-name">{{effect.name}}</div>
+
+            <div class="effect-trigger">
+
+                <i class="fas fa-{{#if (eq effect.trigger "onCritical")}}check-double
+                {{else if (eq effect.trigger "onSuccess")}}check
+                {{else if (eq effect.trigger "onFailure")}}x
+                {{else if (eq effect.trigger "onUse")}}bolt
+                {{else}}gears
+                {{/if}}" title="{{#if effect.locTrigger}}{{localize effect.locTrigger}}{{else}}{{localize "WW.Effect.Passive"}}{{/if}}"></i>
+
+                <i class="fas fa-{{#if (eq effect.target "tokens")}}users
+                {{else if (eq effect.target "area")}}users-rectangle
+                {{else if (eq effect.target "areaAlly")}}users-rectangle color-green
+                {{else if (eq effect.target "areaEnemy")}}users-rectangle color-red
+                {{else}}user
+                {{/if}}" title="{{#if effect.locTarget}}{{localize effect.locTarget}}{{else}}{{localize "WW.Effect.Passive"}}{{/if}}"></i>
+
+            </div>
             
-            <div class="effect-changes mb-1">
+            <div class="effect-changes">
                 {{#each effect.changes as |change|}}
+                {{log change}}
+                {{#if change.key}}
                 <div class="nowrap">
-                    {{lookup ../../../effectChangeKeys change.key}} 
+                    {{localize (lookup ../../../effectChangeLabels change.key)}}
                     {{#if (eq change.mode 1)}}× {{change.value}}
                     {{else if (eq change.mode 2)}}{{numberFormat change.value decimals=0 sign=true}}
-                    {{else}}= {{change.value}}
+                    {{else}}{{change.value}}
                     {{/if}}
                 </div>
+                {{/if}}
+                {{else}}<div>-</div>
                 {{/each}}
             </div>
+
             <div class="item-controls itemeffect-controls flexrow">
                 <a class="effect-control" data-action="edit" title="{{localize 'WW.Effect.Edit'}}">
                     <i class="fas fa-edit"></i>

@@ -9,10 +9,12 @@
             <label class="resource-label">{{localize "WW.Boons.Afflictions"}}</label>
             <span class="boons-display afflictions">{{numberFormat effectBoons decimals=0 sign=true}}</span>
         </div>
+        {{#if fixedBoons}}
         <div class="stat-stretch flex-group-left mt-1">
             <label class="resource-label">{{localize "WW.Boons.Fixed"}}</label>
             <span class="boons-display fixed">{{numberFormat fixedBoons decimals=0 sign=true}}</span>
         </div>
+        {{/if}}
         <div class="stat-stretch flex-group-left mt-1">
             <label class="resource-label">{{localize "WW.Boons.Situational"}}</label>
             <input name="situational" class="boons-input situational" type="number" value="0"/>
@@ -21,7 +23,7 @@
 
     <div class="boons-expression mb-2 mt-2 flex-group-center"></div>
 
-    {{#if hasAgainst}}
+    {{#if needTargets}}
     <h3>{{localize "WW.Targets"}}</h3>
     <div class="boons-targets mb-2 mt-2 flex-group-center"></div>
     {{/if}}
