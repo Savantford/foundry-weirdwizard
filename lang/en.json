@@ -68,8 +68,8 @@
         "Master": "Master Path level",
         "Bonus": "Bonus Health",
         "Lost": "Lost Health",
-        "Injured": "You are injured. Typically, you suffer no effects from being injured, but certain talents, spells, and other effects used against you might put you at a disadvantage because you're injured.",
-        "Incapacitated": "You are incapacitated. You fall prone and become incapacitated. While you're incapacitated, you are unconscious. If you take any damage while incapacitated, you lose Health equal to the damage you took.\nIf you're incapacitated at the end of the round, lose 1d6 Health and make a luck roll. On a success, you heal 1 damage, and you are no longer incapacitated. On a failure, you remain incapacitated."
+        "Injured": "You are injured.",
+        "Incapacitated": "You are incapacitated."
     },
     "WW.LevelAt": "At Level",
 
@@ -565,21 +565,21 @@
     "WW.Asleep": "Asleep",
     "WW.Weakened": "Weakened",
 
-    "WW.BlindedDesc": "You cannot see and thus have line of sight to nothing. If you would attack or interact with anything, you must guess the target's location or locate the target using other senses. Finally, you halve your Speed.",
+    "WW.BlindedDesc": "You cannot see and thus have line of sight to nothing. If you want to attack or interact with anything, you must guess the target’s location or locate the target using other senses, which usually means you make the roll with 3 banes. You cannot make use of reactions that rely on sight. Finally, your Speed is halved.",
     "WW.ConfusedDesc": "You become unable to make sense of what is happening around you. You cannot use reactions, you grant 1 boon on rolls against you, and you make Intellect and Will rolls with 1 bane.",
-    "WW.ControlledDesc": "You fall under control of the source of this affliction. You take your turn when your controller does and it decides what you do on your turn. If you have already taken a turn when you gain this affliction, you take a turn as described during the next round.",
+    "WW.ControlledDesc": "You fall under the control of the source of this affliction. You take your turn when your controller does and it decides what you do, using your traits, talents, and spells. If you have already taken a turn when you gain this affliction, you take a turn as described during the next round. While controlled, you regard the source of the affliction as an ally.",
     "WW.CursedDesc": "You make luck rolls with 1 bane.",
-    "WW.DeafenedDesc": "You cannot hear.",
+    "WW.DeafenedDesc": "You cannot hear. You cannot make use of reactions that rely on hearing and are not subject to effects that depend on hearing.",
     "WW.FrightenedDesc": "You fear the source of this affliction—a creature, an object, a space, or something else. While you have line of sight to the source of your fear, you make attribute rolls with 1 bane, and you grant 1 boon on attribute rolls against you.",
     "WW.HeldDesc": "Your Speed drops to 0 and you cannot benefit from increases to your Speed until this affliction ends.",
     "WW.ImpairedDesc": "The impaired affliction affects the attribute specified by the harmful effect, so you might be Strength impaired or Intellect impaired, for instance. You roll with 1 bane when using the specified attribute, and you grant 1 boon on rolls against the specified attribute.",
-    "WW.OnFireDesc": "You catch fire. You take 1d6 damage at the end of each round until the fire is extinguished, which is normally accomplished with a successful luck roll (see Luck Rolls). You can also use an action to overcome the flames by making a successful Agility roll or by using an action to douse the flames with water or smother them with a blanket or similar object. A creature that drops prone before trying to overcome the flames makes the roll with 1 boon.",
+    "WW.OnFireDesc": "An effect might make you catch fire. You take 1d6 damage at the end of each round until the fire is extinguished, normally with a successful luck roll. You can also use an action to overcome the flames by making a successful Agility roll, douse the flames with water, or smother them with a blanket or similar object. A creature that drops prone before trying to overcome the flames makes the roll with 1 boon.",
     "WW.PoisonedDesc": "You have been exposed to venom, poison, or some other toxin. You make attribute rolls with 1 bane, and you grant 1 boon on rolls against you. In addition, at the end of each round, you lose 1d6 Health.",
-    "WW.ProneDesc": "You are lying on the ground. You cannot use reactions. You grant 1 boon on rolls made to attack you with melee weapons, but impose 1 bane on rolls made to attack you with ranged weapons. You can use your move to crawl or stand up only.",
+    "WW.ProneDesc": "You are lying on the ground. You cannot use reactions. You grant 1 boon on rolls made to attack you with melee weapons, but impose 1 bane on rolls made to attack you with ranged weapons. You can use your move only to crawl or stand up.",
     "WW.StunnedDesc": "You cannot use actions or reactions. Your Speed drops to 0 and you cannot benefit from increases to Speed until this affliction ends. You grant 2 boons on rolls against you, and you make attribute rolls with 2 banes.",
-    "WW.UnconsciousDesc": "You cannot use actions or reactions. Your Speed drops 0 and you cannot benefit from increases to Speed until this affliction ends. You receive no information from your senses. You grant 3 boons on rolls against you, and you automatically fail all attribute rolls.\nWhen you take damage, you first lose Health equal to the amount of damage you would take and then take the damage. For example, if you have Health 12 and take 6 damage while you are unconscious, you would reduce your Health to 6 and then take 6 damage, which would cause you to become incapacitated.",
-    "WW.AsleepDesc": "If you are unconscious because you are sleeping naturally, you stop being unconscious when a creature uses an action to shake you, kick you, or do something else to waken you. A loud noise might remove the affliction if you succeed on a luck roll. Time spent sleeping counts as resting for the purpose of healing damage (see “Rest” below). If your sleep is uninterrupted, you wake up naturally whenever you choose after you fall asleep.",
-    "WW.WeakenedDesc": "You make Strength and Agility rolls with 1 bane, and you grant 1 boon on rolls against your Strength and Agility. In addition, you halve your Speed, and you derive no benefit from increases to your Speed.",
+    "WW.UnconsciousDesc": "You cannot use actions or reactions. Your Speed drops to 0 and you cannot benefit from increases to Speed. You receive no information from your senses. You grant 3 boons on rolls against you, and you automatically fail all attribute rolls.",
+    "WW.AsleepDesc": "If you are unconscious because you are sleeping naturally, you stop being unconscious when a creature uses an action to shake you, kick you, or do something else to waken you. A loud noise might remove the affliction if you succeed on a luck roll. Time spent sleeping counts as resting for the purpose of healing damage. If your sleep is uninterrupted, you wake up naturally whenever you choose after you fall asleep.",
+    "WW.WeakenedDesc": "You make Strength and Agility rolls with 1 bane, and you grant 1 boon on rolls against your Strength and Agility. In addition, your Speed is halved and you cannot benefit from increases to your Speed.",
 
     "WW.Combat": {
         "ActTip": "You have yet to take your turn during this round.\nClick here to make your turn.",

@@ -18,6 +18,7 @@ export class rollDamage extends FormApplication {
     this.baseDamage = obj.baseDamage;
     this.bonusDamage = obj.bonusDamage;
     this.properties = obj.properties;
+    this.brutal = obj.properties.brutal;
     this.attackDice = obj.actor.system.extraDamage.attacks.dice;
     this.attackMod = obj.actor.system.extraDamage.attacks.mod;
     this.target = obj.target.dataset.targetId;
@@ -47,7 +48,7 @@ export class rollDamage extends FormApplication {
     context.attackDice = this.attackDice;
     context.attackMod = this.attackMod;
 
-    return context
+    return context;
   }
 
   activateListeners(html) {
@@ -56,110 +57,107 @@ export class rollDamage extends FormApplication {
     // Handle closing the window without saving
     html.find('#damage-cancel').click(() => this.close({ submit: false }))
 
-    // Get roll variables
-    const label = this.label;
-    const brutal = this.properties.brutal;
-    const baseDamage = this.properties.brutal ? this.baseDamage + 'r1' : this.baseDamage;
-    const bonusDamage = this.bonusDamage;
-    const attackDice = this.attackDice;
-    const attackMod = this.attackMod;
-
-    let finalExp = baseDamage; // Set the final expression to base damage
-
-    function updateFields(ev) { // Update html fields
-      const parent = ev.target.closest('.damage-details');
-
-      // Get checkbox values
-      let applyBothHands = parent.querySelector('input[name=bothHands]:checked');
-      let applyShattering = parent.querySelector('input[name=shattering]:checked');
-      let applyBonus = parent.querySelector('input[name=applyBonus]:checked');
-      let applyAttackDice = parent.querySelector('input[name=attackDice]:checked');
-      let applyAttackMod = parent.querySelector('input[name=attackMod]:checked');
-
-      // Get other field variables
-      let otherDice = parseInt(parent.querySelector('input[name=otherdice]').value);
-      let otherMod = parseInt(parent.querySelector('input[name=othermod]').value);
-
-      // Reset finalExp
-      finalExp = baseDamage;
-      
-      // Count extra damage dice
-      let diceCount = 0;
-
-      if (applyBothHands) diceCount += 1;
-      if (applyShattering) diceCount += 1;
-      if (applyBonus && bonusDamage) diceCount += bonusDamage;
-      if (applyAttackDice) diceCount += attackDice;
-      if (otherDice) diceCount += otherDice;
-      
-      // Count extra damage modifier
-      let modCount = 0;
-
-      if (applyAttackMod) modCount += attackMod;
-      if (otherMod) modCount += otherMod;
-
-      // Add extra dice and mod to finalExp
-      if (diceCount) finalExp += ' + ' + diceCount + (brutal ? 'd6r1' : 'd6');
-      if (modCount) finalExp += ' + ' + modCount;
-
-      // Display final expression
-      parent.querySelector('.damage-expression').innerHTML = finalExp;
-      
-    }
-
+    // Handle updated fields
     const el = html.find('input');
-    el.change((ev) => updateFields(ev));
+    el.change((ev) => this._updateFields(ev));
     el.change();
 
-    // Roll dice when the Roll button is clicked
-    html.find('#damage-submit').click(async () => {
-      
-      // Construct the Roll instance
-      let r = new Roll(finalExp);
-      
-      // Execute the roll
-      await r.evaluate();
+  }
 
-      // Prepare result to display.
-      let content = '<h4 class="dice-result">' + await r.render() + '</h4>';
+  async _updateObject(event, formData) { // Triggers on submit
+    
+    this._onButtonSubmit(event);
+    
+  }
 
-      // Prepare apply button.
-      const tid = await canvas.tokens.get(this.target).id;
-      const tname = await canvas.tokens.get(this.target).name;
-      content += '<div class="damage-apply chat-button" data-token-id="' + await tid  + '" data-damage="' + await r.total + 
+  // Update html fields
+  _updateFields(ev) {
+    const parent = ev.target.closest('.damage-details');
+
+    // Get checkbox values
+    let applyBase = parent.querySelector('input[name=applyBase]:checked');
+    let applyBothHands = parent.querySelector('input[name=bothHands]:checked');
+    let applyShattering = parent.querySelector('input[name=shattering]:checked');
+    let applyAttackDice = parent.querySelector('input[name=attackDice]:checked');
+    let applyAttackMod = parent.querySelector('input[name=attackMod]:checked');
+    let applyBonus = parent.querySelector('input[name=applyBonus]:checked');
+
+    // Get other field variables
+    let otherDice = parseInt(parent.querySelector('input[name=otherdice]').value);
+    let otherMod = parseInt(parent.querySelector('input[name=othermod]').value);
+    
+    // Count extra damage dice
+    let diceCount = 0;
+
+    if (applyBothHands) diceCount += 1;
+    if (applyShattering) diceCount += 1;
+    if (applyAttackDice) diceCount += this.attackDice;
+    if (otherDice) diceCount += otherDice;
+    
+    // Count extra damage modifier
+    let modCount = 0;
+
+    if (applyAttackMod) modCount += this.attackMod;
+    if (otherMod) modCount += otherMod;
+
+    // Add all dice and mods to finalExp
+    this.finalExp = '';
+    if (applyBase && this.baseDamage) this.finalExp += this._addDice(this.baseDamage);
+    if (diceCount) this.finalExp += this._addDice(diceCount);
+    if (applyBonus && this.bonusDamage) this.finalExp += this._addDice(this.bonusDamage);
+    if (modCount) this.finalExp += ' + ' + modCount;
+
+    // Display final expression
+    parent.querySelector('.damage-expression').innerHTML = this.finalExp;
+    
+  }
+
+  // On submit
+  async _onButtonSubmit(event) {
+    const finalExp = event.target.querySelector('.damage-expression').innerHTML;
+
+    // Construct the Roll instance
+    let r = new Roll(finalExp);
+
+    // Execute the roll
+    await r.evaluate();
+
+    // Prepare result to display.
+    let content = '<h4 class="dice-result">' + await r.render() + '</h4>';
+
+    // Prepare apply button.
+    const tid = await canvas.tokens.get(this.target).id;
+    const tname = await canvas.tokens.get(this.target).name;
+    content += '<div class="damage-apply chat-button" data-token-id="' + await tid + '" data-damage="' + await r.total +
       '"><i class="fas fa-burst"></i>' + i18n('WW.Roll.DamageApply') + ' ' + tname + '</div>';
 
-      // Create message data
-      const messageData = {
-        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-        flavor: i18n('WW.Damage.Of') + ' ' + label,
-        content: content,
-        sound: CONFIG.sounds.dice
-      };
+    // Create message data
+    const messageData = {
+      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      flavor: i18n('WW.Damage.Of') + ' ' + this.label,
+      content: content,
+      sound: CONFIG.sounds.dice
+    };
 
-      await ChatMessage.applyRollMode(messageData,  game.settings.get('core', 'rollMode'));
+    await ChatMessage.applyRollMode(messageData, game.settings.get('core', 'rollMode'));
 
-      // Send to chat
-      await ChatMessage.create(messageData);
+    // Send to chat
+    await ChatMessage.create(messageData);
 
-      // The resulting equation after it was rolled
-      console.log('Formula = ' + r.formula + '\nResult = ' + r.result + '\nTotal = ' + r.total);   // 16 + 2 + 4; 22
-
-    })
+    // The resulting equation after it was rolled
+    console.log('Formula = ' + r.formula + '\nResult = ' + r.result + '\nTotal = ' + r.total);   // 16 + 2 + 4; 22
 
   }
 
-  async _updateObject(event, formData) { // Update actor data.
-    //
-    /*this.object.update({
-        'system.stats.health': {
-        'starting': formData.starting,
-        'novice': formData.novice,
-        'expert': formData.expert,
-        'master': formData.master,
-        'bonus': formData.bonus,
-        'lost': formData.lost
-        }
-    })*/
+  _addDice(diceExp) {
+    if (!diceExp) return '';
+    diceExp = '' + diceExp; // Make sure diceExp is a string
+    
+    let exp = '';
+    if (this.finalExp) exp += ' + ';
+    diceExp.includes('d6') ? exp += diceExp + (this.brutal ? 'r1' : '') : exp += diceExp + (this.brutal ? 'd6r1' : 'd6')
+
+    return exp;
   }
 }
+

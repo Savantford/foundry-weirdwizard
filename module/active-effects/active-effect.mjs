@@ -106,9 +106,11 @@ export default class WWActiveEffect extends ActiveEffect {
 
   apply(actor, change) {
 
-    // Determine the data type of the target field
+    // Save label key and get real change key
+    const labelKey = change.key;
     change.key = CONFIG.WW.effectChangeKeys[change.key];
 
+    // Determine the data type of the target field
     const current = foundry.utils.getProperty(actor, change.key) ?? null;
     
     let target = current;
@@ -118,6 +120,9 @@ export default class WWActiveEffect extends ActiveEffect {
     }
     let targetType = foundry.utils.getType(target);
 
+    // Alter Change Values to negative values if they are meant to be
+    if (labelKey.includes('banes') || labelKey.includes('Reduce')) change.value = -change.value;
+
     // Cast the effect change value to the correct type
     let delta;
     try {
@@ -126,6 +131,8 @@ export default class WWActiveEffect extends ActiveEffect {
         delta = this._castArray(change.value, innerType);
       }
       else delta = this._castDelta(change.value, targetType);
+      console.log()
+      console.log(delta)
     } catch(err) {
       console.warn(`Actor [${actor.id}] | Unable to parse active effect change for ${change.key}: "${change.value}"`);
       return;
