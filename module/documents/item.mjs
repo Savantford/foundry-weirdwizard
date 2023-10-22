@@ -19,14 +19,12 @@ export default class WWItem extends Item {
 
     // Prepare properties list for weapons
     if (system.subtype == 'weapon') {
-      let properties = system.properties;
-      
-      // Compatibility: Convert old string data to object
-      if (typeof properties == 'string') properties = {};
-      
+
+      // Prepare traits list
+      let traits = system.traits;
       let list = '';
 
-      Object.entries(properties).map((x) => {
+      Object.entries(traits).map((x) => {
         
         if (x[1]) {
           let string = i18n('WW.Properties.' + capitalize(x[0]) + '.Label');
@@ -38,7 +36,39 @@ export default class WWItem extends Item {
         
       })
 
-      this.system.propertiesList = list;
+      this.system.traitsList = list;
+
+      // Prepare advantages list
+      let advantages = system.advantages;
+      list = '';
+
+      Object.entries(advantages).map((x) => {
+        
+        if (x[1]) {
+          let string = i18n('WW.Properties.' + capitalize(x[0]) + '.Label');
+
+          list = list.concat(list ? ', ' + string : string);
+        }
+        
+      })
+
+      this.system.advantagesList = list;
+
+      // Prepare disadvantages list
+      let disadvantages = system.disadvantages;
+      list = '';
+
+      Object.entries(disadvantages).map((x) => {
+        
+        if (x[1]) {
+          let string = i18n('WW.Properties.' + capitalize(x[0]) + '.Label');
+
+          list = list.concat(list ? ', ' + string : string);
+        }
+        
+      })
+
+      this.system.disadvantagesList = list;
     }
 
   }
