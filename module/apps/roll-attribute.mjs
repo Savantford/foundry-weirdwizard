@@ -12,7 +12,7 @@ export default class rollAttribute extends FormApplication {
     super(); // This is required for the constructor to work
     this.component = obj.target; // Assign HTML component
     this.token = obj.token;
-    this.actor = this.token.actor;
+    this.actor = obj.token ? this.token.actor : obj.actor;
     this.baseHtml = obj.baseHtml;
     this.system = this.actor.system; // Assign actor data
     const attKey = obj.attKey;
@@ -110,10 +110,11 @@ export default class rollAttribute extends FormApplication {
     boonsFinal = parseInt(parent.querySelector('input[type=number].situational').value); // Set boonsFinal to the situational input value
     if (effectBoons) boonsFinal += effectBoons; // If there are boons or banes applied by Active Effects, add it
     if (fixedBoons) boonsFinal += fixedBoons; // If there are fixed boons or banes, add it
-
+    console.log(boonsFinal)
     boonsFinal = (boonsFinal < 0 ? "" : "+") + boonsFinal; // Add a + sign if positive
 
     parent.querySelector('.boons-display.total').innerHTML = boonsFinal;
+    this.boonsFinal = boonsFinal;
 
     let boonsDisplay = '';
 
@@ -441,8 +442,8 @@ export default class rollAttribute extends FormApplication {
     } else { // Get self as a target if none is selected
 
       targets.push({
-        id: this.token.id,
-        name: this.token.name,
+        id: this.token?.id,
+        name: this.token?.name,
         attributes: this.actor.system.attributes,
         defense: this.actor.system.stats.defense.total,
         boonsAgainst: this.actor.system.boons.against

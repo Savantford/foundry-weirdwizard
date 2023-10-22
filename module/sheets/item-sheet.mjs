@@ -1,4 +1,3 @@
-import { capitalize } from '../helpers/utils.mjs';
 import { onManageActiveEffect, onManageInstantEffect, prepareActiveEffectCategories } from '../active-effects/effects.mjs';
 
 /**
@@ -119,7 +118,6 @@ export default class WWItemSheet extends ItemSheet {
         effect.locTarget = CONFIG.WW.effectTargets[effect.target];
       }
     }
-    console.log(context.effects)
 
     // Prepare effect change labels to display
     context.effectChangeLabels = CONFIG.WW.effectChangeLabels;

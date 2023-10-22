@@ -484,7 +484,7 @@ WW.effOptions = {
         label: 'WW.EffectKeys.Speed.Halved'
       },
       'speed.override': {
-        key: 'system.stats.speed.normal',
+        key: 'system.stats.speed.current',
         label: 'WW.EffectKeys.Speed.Override'
       },
       'speed.increase': {

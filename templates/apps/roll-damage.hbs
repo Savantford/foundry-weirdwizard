@@ -5,7 +5,8 @@
 
         <div class="stat-stretch flex-group-left mt-1">
             <label class="resource-label">{{localize "WW.Damage.Base"}}</label>
-            <span class="damage-display afflictions">{{baseDamage}}</span>
+            <input name="applyBase" class="damage-checkbox applyBase" type="checkbox" title="Apply the base damage" checked="true">
+            +{{baseDamage}}
         </div>
 
         {{#if shattering}}

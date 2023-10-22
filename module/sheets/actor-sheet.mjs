@@ -503,8 +503,8 @@ export default class WWActorSheet extends ActorSheet {
     // Define variables to be used
     const system = this.actor.system;
     let content = '';
-    let attKey = ev.target.dataset.key ? ev.target.dataset.key : '';
-    let label = attKey ? i18n(CONFIG.WW.attributes[attKey]) : '';
+    let attKey = ev.currentTarget.dataset.key ? ev.currentTarget.dataset.key : '';
+    let label = attKey ? i18n(CONFIG.WW.rollAttributes[attKey]) : '';
     let item = {};
     let baseHtml = {};
     let instEffs = [];
@@ -553,6 +553,7 @@ export default class WWActorSheet extends ActorSheet {
     } else {
       let obj = {
         token: this.token,
+        actor: this.document,
         target: ev,
         label: label,
         content: content,
@@ -786,8 +787,8 @@ export default class WWActorSheet extends ActorSheet {
     } else { // Get self as a target if none is selected
 
       targets.push({
-        id: this.token.id,
-        name: this.token.name,
+        id: this.token?.id,
+        name: this.token?.name,
         attributes: this.actor.system.attributes,
         defense: this.actor.system.stats.defense.total,
         boonsAgainst: this.actor.system.boons.against
@@ -816,17 +817,17 @@ function _secretLabel(label) {
 
 // Check if targets are needed
 function needTargets(item) {
-  let need = item.system?.rollForEach;
+  let need = false;//item?.system?.rollForEach;
 
-  if (item.system?.against) need = true;
+  if (item?.system?.against) need = true;
 
-  if (item.effects) {
+  if (item?.effects) {
     for (const e of item.effects) {
       if (e.target == 'tokens') need = true;
     }
   }
 
-  if (item.system.instant) {
+  if (item?.system?.instant) {
     for (const e of item.system.instant) {
       if (e.target == 'tokens') need = true;
     }
