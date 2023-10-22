@@ -131,8 +131,7 @@ export default class WWActiveEffect extends ActiveEffect {
         delta = this._castArray(change.value, innerType);
       }
       else delta = this._castDelta(change.value, targetType);
-      console.log()
-      console.log(delta)
+      
     } catch(err) {
       console.warn(`Actor [${actor.id}] | Unable to parse active effect change for ${change.key}: "${change.value}"`);
       return;

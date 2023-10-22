@@ -59,8 +59,13 @@ export default class WWItemSheet extends ItemSheet {
         context.armorObj = CONFIG.WW.armorTypes;
 
         if (context.system.subtype == 'weapon') {
+          context.requirements = CONFIG.WW.weaponRequirements;
           context.gripObj = CONFIG.WW.weaponGrip;
-          context.properties = CONFIG.WW.weaponProperties;
+          //context.properties = CONFIG.WW.weaponProperties;
+          context.traits = CONFIG.WW.weaponTraits;
+          context.advantages = CONFIG.WW.weaponAdvantages;
+          context.disadvantages = CONFIG.WW.weaponDisadvantages;
+          
         }
 
       break;

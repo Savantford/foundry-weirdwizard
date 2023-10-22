@@ -169,6 +169,17 @@ WW.itemQualities = {
   'inferior': 'WW.QualityInferior'
 };
 
+WW.weaponRequirements = {
+  '': 'WW.Weapon.Requirements.None',
+  'str10': 'WW.Weapon.Requirements.Str10',
+  'str12': 'WW.Weapon.Requirements.Str12',
+  'str14': 'WW.Weapon.Requirements.Str14',
+  'agi11': 'WW.Weapon.Requirements.Agi11',
+  'agi12': 'WW.Weapon.Requirements.Agi12',
+  'agi14': 'WW.Weapon.Requirements.Agi14',
+  'int10agi12': 'WW.Weapon.Requirements.Int10Agi12',
+};
+
 WW.weaponGrip = {
   'One': 'WW.Weapon.GripOne',
   'Two': 'WW.Weapon.GripTwo',
@@ -285,6 +296,135 @@ WW.weaponProperties = {
     'label': 'WW.Properties.Versatile.Label',
     'tip': 'WW.Properties.Versatile.Tip',
     'path': 'system.properties.versatile',
+  }
+};
+
+WW.weaponTraits = {
+  'ammunition': {
+    'label': 'WW.Weapon.Traits.Ammunition.Label',
+    'tip': 'WW.Weapon.Traits.Ammunition.Tip',
+    'path': 'system.traits.ammunition',
+  },
+  'brutal': {
+    'label': 'WW.Weapon.Traits.Brutal.Label',
+    'tip': 'WW.Weapon.Traits.Brutal.Tip',
+    'path': 'system.traits.brutal',
+  },
+  'firearm': {
+    'label': 'WW.Weapon.Traits.Firearm.Label',
+    'tip': 'WW.Weapon.Traits.Firearm.Tip',
+    'path': 'system.traits.firearm',
+  },
+  'forceful': {
+    'label': 'WW.Weapon.Traits.Forceful.Label',
+    'tip': 'WW.Weapon.Traits.Forceful.Tip',
+    'path': 'system.traits.forceful',
+  },
+  'long': {
+    'label': 'WW.Weapon.Traits.Long.Label',
+    'tip': 'WW.Weapon.Traits.Long.Tip',
+    'path': 'system.traits.long',
+  },
+  'nimble': {
+    'label': 'WW.Weapon.Traits.Nimble.Label',
+    'tip': 'WW.Weapon.Traits.Nimble.Tip',
+    'path': 'system.traits.nimble',
+  },
+  'precise': {
+    'label': 'WW.Weapon.Traits.Precise.Label',
+    'tip': 'WW.Weapon.Traits.Precise.Tip',
+    'path': 'system.traits.precise',
+  },
+  'range': {
+    'label': 'WW.Weapon.Traits.Range.Label',
+    'tip': 'WW.Weapon.Traits.Range.Tip',
+    'path': 'system.traits.range',
+  },
+  'sharp': {
+    'label': 'WW.Weapon.Traits.Sharp.Label',
+    'tip': 'WW.Weapon.Traits.Sharp.Tip',
+    'path': 'system.traits.sharp',
+  },
+  'shattering': {
+    'label': 'WW.Weapon.Traits.Shattering.Label',
+    'tip': 'WW.Weapon.Traits.Shattering.Tip',
+    'path': 'system.traits.shattering',
+  },
+  'special': {
+    'label': 'WW.Weapon.Traits.Special.Label',
+    'tip': 'WW.Weapon.Traits.Special.Tip',
+    'path': 'system.traits.special',
+  },
+  'thrown': {
+    'label': 'WW.Weapon.Traits.Thrown.Label',
+    'tip': 'WW.Weapon.Traits.Thrown.Tip',
+    'path': 'system.traits.thrown',
+  },
+  'versatile': {
+    'label': 'WW.Weapon.Traits.Versatile.Label',
+    'tip': 'WW.Weapon.Traits.Versatile.Tip',
+    'path': 'system.traits.versatile',
+  }
+};
+
+WW.weaponAdvantages = {
+  'disarming': {
+    'label': 'WW.Weapon.Advantages.Disarming.Label',
+    'tip': 'WW.Weapon.Advantages.Disarming.Tip',
+    'path': 'system.advantages.disarming',
+  },
+  'disrupting': {
+    'label': 'WW.Weapon.Advantages.Disrupting.Label',
+    'tip': 'WW.Weapon.Advantages.Disrupting.Tip',
+    'path': 'system.advantages.disrupting',
+  },
+  'driving': {
+    'label': 'WW.Weapon.Advantages.Driving.Label',
+    'tip': 'WW.Weapon.Advantages.Driving.Tip',
+    'path': 'system.advantages.driving',
+  },
+  'guarding': {
+    'label': 'WW.Weapon.Advantages.Guarding.Label',
+    'tip': 'WW.Weapon.Advantages.Guarding.Tip',
+    'path': 'system.advantages.guarding',
+  },
+  'lunging': {
+    'label': 'WW.Weapon.Advantages.Lunging.Label',
+    'tip': 'WW.Weapon.Advantages.Lunging.Tip',
+    'path': 'system.advantages.lunging',
+  },
+  'pressing': {
+    'label': 'WW.Weapon.Advantages.Pressing.Label',
+    'tip': 'WW.Weapon.Advantages.Pressing.Tip',
+    'path': 'system.advantages.pressing',
+  },
+  'special': {
+    'label': 'WW.Weapon.Traits.Special.Label',
+    'tip': 'WW.Weapon.Traits.Special.Tip',
+    'path': 'system.advantages.special',
+  }
+};
+
+WW.weaponDisadvantages = {
+  'fixed': {
+    'label': 'WW.Weapon.Disadvantages.Fixed.Label',
+    'tip': 'WW.Weapon.Disadvantages.Fixed.Tip',
+    'path': 'system.disadvantages.fixed',
+  },
+  'light': {
+    'label': 'WW.Weapon.Disadvantages.Light.Label',
+    'tip': 'WW.Weapon.Disadvantages.Light.Tip',
+    'path': 'system.disadvantages.light',
+  },
+  'reload': {
+    'label': 'WW.Weapon.Disadvantages.Reload.Label',
+    'tip': 'WW.Weapon.Disadvantages.Reload.Tip',
+    'path': 'system.disadvantages.reload'
+  },
+  'slow': {
+    'label': 'WW.Weapon.Disadvantages.Slow.Label',
+    'tip': 'WW.Weapon.Disadvantages.Slow.Tip',
+    'path': 'system.disadvantages.slow',
   }
 };
 

@@ -895,7 +895,7 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .weirdwizard .properties-list {
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   flex-wrap: wrap;
   white-space: nowrap;
@@ -909,6 +909,7 @@ input[type="checkbox"].checkbox-uses {
   align-items: center;
   white-space: nowrap;
   justify-content: center;
+  min-width: 50px;
 }
 
 .weirdwizard .effect img {

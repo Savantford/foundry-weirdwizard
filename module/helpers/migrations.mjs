@@ -2,8 +2,6 @@ import { i18n } from './utils.mjs'
 
 export default function migrateWorld(forced) {
   const lastMigration = game.settings.get('weirdwizard', 'lastMigrationVersion');
-  //const current = game.system.version
-  const current = game.system.version != '#{VERSION}#' ? game.system.version : '2.3.0';
 
   const isNewer = foundry.utils.isNewerVersion;
 
@@ -13,9 +11,11 @@ export default function migrateWorld(forced) {
 
   // If last migration was done previous to the version indicated, perform the data migration needed
   if (isNewer(isLastMigrationExp ? '2.3.0-exp' : '2.0.0', lastMigration) || forced) _effectOverhaul(forced);
+  //if (isNewer(isLastMigrationExp ? '3.0.0-exp' : '2.1.0', lastMigration) || forced) _preReleaseDraft(forced);
   
 }
 
+/* Effect Overhaul (2.3.0-exp / 2.0.0) */
 function _effectOverhaul(forced) {
   forced ? _notifyForcedStart() : _notifyStart();
 
@@ -57,10 +57,54 @@ function _effectOverhaul(forced) {
   //game.packs.items.effects
   
   // Update lastMigrationVersion with current version value
-  game.settings.set('weirdwizard', 'lastMigrationVersion', 'current');
+  const current = game.system.version != '#{VERSION}#' ? game.system.version : '2.3.0';
+  game.settings.set('weirdwizard', 'lastMigrationVersion', current);
 
   _notifyFinish();
 }
+
+/* Rules revised on the Pre Release Draft (2.1.0) */
+/*function _preReleaseDraft(forced) {
+  forced ? _notifyForcedStart() : _notifyStart();
+
+  // Actors Tab
+  for (const a of game.actors) {
+
+    for (const i of a.items) {
+      if (i.type === "Equipment") updateProperties(i);
+    }
+  }
+
+  // Items Tab
+  for (const i of game.items) {
+    if (i.type === "Equipment") updateProperties(i);
+  }
+  
+  // Scene Unlinked Tokens
+  for (const s of game.scenes) {
+    
+    for (const t of s.tokens) {
+      const a = t.actor;
+      if (a) {
+        
+        for (const i of a.items) {
+          if (i.type === "Equipment") updateProperties(i);
+        }
+      }
+    }
+  }
+
+  // Compendium Packs
+  //game.packs.actors.effects
+  //game.packs.actors.items.effects
+  //game.packs.items.effects
+  
+  // Update lastMigrationVersion with current version value
+  const current = game.system.version != '#{VERSION}#' ? game.system.version : '2.3.0';
+  game.settings.set('weirdwizard', 'lastMigrationVersion', current);
+
+  _notifyFinish();
+}*/
 
 /**
  * @doc     A target Actor or Item document
@@ -88,7 +132,6 @@ function updateChanges(doc) {
 */
 function convertInstEffs(doc) {
   let instEffs = doc.system.instant;
-  console.log(instEffs)
 
   if ('damage' in doc.system) {
     instEffs.push(_makeInstEff('damage', doc.system.damage))
@@ -113,6 +156,49 @@ function _makeInstEff(label,value,affliction = '') {
     value: value,
     affliction: affliction
   }
+}
+
+/**
+ * @doc     A target Item document
+*/
+function updateProperties(doc) {
+  console.log(doc)
+  let traits = {};
+  let advantages = {};
+  let disadvantages = {};
+
+  const traitsList = ['ammunition', 'brutal', 'firearm', 'long', 'nimble', 'precise', 'range', 'sharp', 'shattering', 'thrown', 'versatile'];
+  const advantagesList = ['disarming', 'driving'];
+  const disadvantagesList = ['light', 'reload', 'slow'];
+  const properties = doc.system.properties;
+
+  for (const p of Object.keys(properties)) {
+    
+    // Assign traits
+    if (p === 'concussing' && properties[p]) traits['shattering'] = true;
+    if (p === 'fast' && properties[p]) traits['precise'] = true;
+    if (p === 'great' && properties[p]) traits['forceful'] = true;
+    if (p === 'painful' && properties[p]) traits['special'] = true;
+    if (p === 'unbalancing' && properties[p]) traits['forceful'] = true;
+    if (traitsList.includes(p) && properties[p]) traits[p] = true;
+
+    // Assign advantages
+    if (advantagesList.includes(p) && properties[p]) advantages[p] = true;
+
+    // Assign disadvantages
+    if (disadvantagesList.includes(p) && properties[p]) disadvantages[p] = true;
+    
+  }
+
+  doc.update({
+    'system.traits': traits,
+    'system.advantages': advantages,
+    'system.disadvantages': disadvantages
+  })
+
+  console.log(traits)
+  console.log(advantages)
+  console.log(disadvantages)
 }
 
 function _notifyStart() { ui.notifications.warn(i18n("WW.System.Migration.Started")); }

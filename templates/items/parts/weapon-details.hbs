@@ -1,8 +1,19 @@
 {{#if (eq system.subtype 'weapon')}}
 <div>
-    <h2>{{localize "WW.Weapon.Details"}}</h2>
+    <h2 class="mt-1">{{localize "WW.Weapon.Details"}}</h2>
+
+    {{!-- Requirements --}}
+    <div class="stat-inline flex-group-left">
+        <label>{{localize "WW.Weapon.Requirements.Label"}}</label>
+
+        <select name="system.requirements">
+            {{selectOptions requirements selected=system.requirements localize=true}}
+        </select>
+    </div>
 
     <div class="mt-2 stat flex-row flex-wrap">
+
+        
 
         {{!-- Damage --}}
         <div>
@@ -21,8 +32,8 @@
             </select>
         </div>
         
-        {{#if (or system.properties.range system.properties.thrown)}}<div>
-            <label>{{localize "WW.Properties.Range.Label"}} / {{localize "WW.Properties.Thrown.Label"}}</label>
+        {{#if (or system.traits.range system.traits.thrown)}}<div>
+            <label>{{localize "WW.Weapon.Traits.Range.Label"}} / {{localize "WW.Weapon.Traits.Thrown.Label"}}</label>
 
             <input type="number" name="system.range" value="{{system.range}}" min="0" placeholder="#"
                 data-dtype="Number" />
@@ -31,7 +42,7 @@
     </div>
 
     {{!-- Weapon Properties --}}
-    <div class="mt-2">
+    <!--<div class="mt-2">
         <label>{{localize "WW.Properties.Label"}}</label>
         {{system.propertiesList}}
     </div>
@@ -42,6 +53,48 @@
             style="width: 100%" title="{{localize property.tip}}">
 
             <input type="checkbox" name="system.properties.{{id}}" {{checked (lookup @root.system.properties id)}} />
+
+            {{localize property.label}}
+        </div>
+        {{/each}}
+    </div>-->
+
+    {{!-- Weapon Traits --}}
+    <div class="flexrow properties-list mt-2">
+        <label>{{localize "WW.Weapon.Traits.Label"}}</label>
+        {{#each traits as |property id|}}
+        <div class="selectable {{#if (lookup @root.system.traits id)}}selected{{/if}}"
+            style="width: 100%" title="{{localize property.tip}}">
+
+            <input type="checkbox" name="system.traits.{{id}}" {{checked (lookup @root.system.traits id)}} />
+
+            {{localize property.label}}
+        </div>
+        {{/each}}
+    </div>
+
+    {{!-- Weapon Advantages --}}
+    <div class="flexrow properties-list mt-2">
+        <label>{{localize "WW.Weapon.Advantages.Label"}}</label>
+        {{#each advantages as |property id|}}
+        <div class="selectable {{#if (lookup @root.system.advantages id)}}selected{{/if}}"
+            style="width: 100%" title="{{localize property.tip}}">
+
+            <input type="checkbox" name="system.advantages.{{id}}" {{checked (lookup @root.system.advantages id)}} />
+
+            {{localize property.label}}
+        </div>
+        {{/each}}
+    </div>
+
+    {{!-- Weapon Disadvantages --}}
+    <div class="flexrow properties-list mt-2">
+        <label>{{localize "WW.Weapon.Disadvantages.Label"}}</label>
+        {{#each disadvantages as |property id|}}
+        <div class="selectable {{#if (lookup @root.system.disadvantages id)}}selected{{/if}}"
+            style="width: 100%" title="{{localize property.tip}}">
+
+            <input type="checkbox" name="system.disadvantages.{{id}}" {{checked (lookup @root.system.disadvantages id)}} />
 
             {{localize property.label}}
         </div>

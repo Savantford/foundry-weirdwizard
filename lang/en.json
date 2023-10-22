@@ -293,99 +293,121 @@
         "GripTwo": "Two-Handed",
         "GripOff": "Off-Hand",
         "Reload": "Click to reload the weapon.",
-        "Fire": "Click to fire the loaded weapon."
-    },
-
-    "WW.Properties": {
-        "Label": "Properties",
-        "PH": "Brutal, Sharp, etc",
-        "Ammunition": {
-            "Label": "Ammunition",
-            "Tip": "You must have at least one piece of ammunition of the indicated kind in order to attack with this weapon. Ammunition, and a container to hold it, is included in the weapon's price. You can recover spent ammunition after combat and make replacements while you rest.You can make melee attacks with a weapon that has this property; the weapon counts as an improvised weapon."
+        "Fire": "Click to fire the loaded weapon.",
+        "Requirements": {
+            "Label": "Requires",
+            "None": "—",
+            "Str10": "Strength 10",
+            "Str12": "Strength 12",
+            "Str14": "Strength 14",
+            "Agi11": "Agility 11",
+            "Agi12": "Agility 12",
+            "Agi14": "Agility 14",
+            "Int10Agi12": "Intellect 10 and Agility 12"
         },
-        "Brutal": {
-            "Label": "Brutal",
-            "Tip": "If your Strength is 13 or higher and you get a success on a roll to attack with this weapon, you can reroll each die of damage that comes up as a 1, once. You must use the second roll, even if it is another 1."
+        "Traits": {
+            "Label": "Traits",
+            "PH": "Brutal, Sharp, etc",
+            "Ammunition": {
+                "Label": "Ammunition",
+                "Tip": "You must have at least one piece of ammunition of the indicated kind to attack with this weapon. Ammunition, and a container to hold it (such as a quiver, case, or bag), is included in the weapon’s price. You can recover spent ammunition after combat and make replacements while you rest. You can make melee attacks with a weapon that has this property, but it counts as an improvised weapon."
+            },
+            "Brutal": {
+                "Label": "Brutal",
+                "Tip": "When you get a success on a roll to attack with this weapon, you can reroll each d6 of damage that comes up as a 1 once. You must use the second roll, even if it is another 1."
+            },
+            "Firearm": {
+                "Label": "Firearm",
+                "Tip": "If a firearm comes into contact with water, it cannot be fired until dried and cleaned. Cleaning the weapon takes 1 hour using a tool kit and a pint of oil. Attacks with the firearm create loud noise. If the result of your roll to attack with the firearm is 5 or less, the weapon misfires. It takes 1 minute of work to repair and reload the weapon, which must be done before it can be used again. An unloaded firearm counts as an improvised weapon."
+            },
+            "Forceful": {
+                "Label": "Forceful",
+                "Tip": "When you get a critical success on a roll to attack with this weapon, you force the target to make an Agility roll. On a failure, the target falls prone. In addition, if the target is your Size or smaller, you push it up to 5 yards."
+            },
+            "Long": {
+                "Label": "Long",
+                "Tip": "When you choose targets for your attacks using this weapon, increase your reach by 1."
+            },
+            "Nimble": {
+                "Label": "Nimble",
+                "Tip": "You can use Agility in place of Strength for rolls to attack with this weapon."
+            },
+            "Precise": {
+                "Label": "Precise",
+                "Tip": "You roll to attack with this weapon with 1 boon."
+            },
+            "Range": {
+                "Label": "Range",
+                "Tip": "You make ranged attacks with this weapon. You choose your targets within the listed number of yards from you."
+            },
+            "Sharp": {
+                "Label": "Sharp",
+                "Tip": "When you get a critical success on an attack made using this weapon, you can roll twice for damage and use the higher amount."
+            },
+            "Shattering": {
+                "Label": "Shattering",
+                "Tip": "When you get a critical success on a roll to attack a creature with this weapon, you force the target to make a Strength roll. On a failure, the target becomes weakened until the end of the next round. In addition, your attack with this weapon deals an extra 1d6 damage to target objects."
+            },
+            "Special": {
+                "Label": "Special",
+                "Tip": "This weapon has a special property detailed in its description."
+            },
+            "Thrown": {
+                "Label": "Thrown",
+                "Tip": "You can make a ranged attack with this weapon by throwing it. The number indicates the weapon’s maximum range in yards. When you throw a weapon, you make a Strength roll unless the weapon also has the Nimble property."
+            },
+            "Versatile": {
+                "Label": "Versatile",
+                "Tip": "If you wield this weapon with both hands, your attacks with it deal an extra 1d6 damage."
+            }
         },
-        "Concussing": {
-            "Label": "Concussing",
-            "Tip": "If your Strength is 13 or higher and you get a critical success with an attack made using this weapon, the target also becomes confused and Strength impaired until the end of your next turn."
+        "Advantages": {
+            "Label": "Advantages",
+            "PH": "Brutal, Sharp, etc",
+            "Disarming": {
+                "Label": "Disarming",
+                "Tip": "You ignore the bane imposed on your roll to disarm a target when using this weapon."
+            },
+            "Disrupting": {
+                "Label": "Disrupting",
+                "Tip": "When you successfully make a disrupting attack, the result of your roll merely has to equal or exceed the target’s Will."
+            },
+            "Driving": {
+                "Label": "Driving",
+                "Tip": "When you perform the driving attack option with this weapon, you roll an additional d20 and use the highest result."
+            },
+            "Guarding": {
+                "Label": "Guarding",
+                "Tip": "You can make a guarded attack while wielding this weapon, even if you don’t have a shield equipped."
+            },
+            "Lunging": {
+                "Label": "Lunging",
+                "Tip": "You can make a lunging attack with this weapon without ignoring the weapon’s damage."
+            },
+            "Pressing": {
+                "Label": "Pressing",
+                "Tip": "When you successfully make a pressing attack with this weapon, the result of your roll merely has to equal or exceed the target’s Agility."
+            }
         },
-        "Disarming": {
-            "Label": "Disarming",
-            "Tip": "If your Agility is 13 or higher, you roll with 1 boon when you perform the disarm special attack."
-        },
-        "Driving": {
-            "Label": "Driving",
-            "Tip": "When you perform the driving attack option with this weapon, you roll an additional d20 and use the highest result."
-        },
-        "Fast": {
-            "Label": "Fast",
-            "Tip": "If your Agility is 13 or higher when you make a free attack (see chapter 2) with this weapon, you roll with 1 boon."
-        },
-        "Firearm": {
-            "Label": "Firearm",
-            "Tip": "Firearms use a number of special rules, which are detailed here.\nMoisture and Firearms: If a firearm comes into contact with water, it cannot be fired until dried and cleaned. It takes 1 hour using a tool kit and a pint of oil to clean the weapon.\nNoisy: Attacks with the firearm creature loud noise.\nSmoke: When fired, smoke spreads light obscurement out from the weapon in a 5-yard radius.\nMisfires: If the result of your roll to attack with the firearm is 5 or less, the weapon misfires. It takes 1 minute of work to repair and reload the weapon, which must be done before it can be used again.\nClubs: An unloaded firearm counts as a club."
-        },
-        "Great": {
-            "Label": "Great",
-            "Tip": "If your Strength is 13 or higher, your attacks with this weapon deal an extra 1d6 damage."
-        },
-        "Light": {
-            "Label": "Light",
-            "Tip": "Your attacks with this weapon deal half damage."
-        },
-        "Long": {
-            "Label": "Long",
-            "Tip": "When you choose targets for your attacks using this weapon, increase your reach by 2."
-        },
-        "Nimble": {
-            "Label": "Nimble",
-            "Tip": "You can use Agility in place of Strength for rolls to attack with this weapon."
-        },
-        "Painful": {
-            "Label": "Painful",
-            "Tip": "If your Agility is 13 or higher and you get a critical success on an attack made using this weapon against a flesh and blood, you force the target to make a Will roll. On a failure, the target becomes weakened until the end of your next turn."
-        },
-        "Precise": {
-            "Label": "Precise",
-            "Tip": "If your Agility is 13 or higher, you roll to attack with this weapon with 1 boon."
-        },
-        "Range": {
-            "Label": "Range",
-            "Tip": "You make ranged attacks with this weapon. You choose your targets from among those within the listed number of yards."
-        },
-        "Reload": {
-            "Label": "Reload",
-            "Tip": "You must load this weapon before you can attack with it. You use an action or 3 yards of movement to load the weapon."
-        },
-        "Sharp": {
-            "Label": "Sharp",
-            "Tip": "If your Strength is 13 or higher and you get a critical success on an attack made using this weapon, the target takes an extra 1d6 damage."
-        },
-        "Shattering": {
-            "Label": "Shattering",
-            "Tip": "If your Strength is 13 or higher, you deal an extra 1d6 damage to objects you attack using this weapon."
-        },
-        "Slow": {
-            "Label": "Slow",
-            "Tip": "If your Strength is 13 or lower when you make a free attack (see chapter 2) with this weapon, you roll with 1 bane."
-        },
-        "Special": {
-            "Label": "Special",
-            "Tip": "This weapon has a special property found in its description."
-        },
-        "Thrown": {
-            "Label": "Thrown",
-            "Tip": "If your Strength is 10 or higher, you can make a ranged attack with this weapon by throwing it. The number indicates the weapon's maximum range. When you throw a weapon, you make a Strength roll unless the weapon has the Nimble property."
-        },
-        "Unbalancing": {
-            "Label": "Unbalancing",
-            "Tip": "When you get a critical success on a roll to attack with this weapon, you force the target to make an Agility roll. On a failure, the target falls prone."
-        },
-        "Versatile": {
-            "Label": "Versatile",
-            "Tip": "If you wield this weapon with both hands, your attacks with it deal an extra 1d6 damage."
+        "Disadvantages": {
+            "Label": "Disadvantages",
+            "PH": "Brutal, Sharp, etc",
+            "Fixed": {
+                "Label": "Fixed",
+                "Tip": "Attacks made using this weapon ignore any effect that would enable it to deal extra damage or bonus damage."
+            },
+            "Light": {
+                "Label": "Light",
+                "Tip": "When you would apply bonus damage to attacks made using this weapon, you apply one die fewer."
+            },
+            "Reload": {
+                "Label": "Reload",
+                "Tip": "You must use an action to load this weapon before you can attack with it."
+            },
+            "Slow": {
+                "Label": "Slow",
+                "Tip": "This trait prevents you from making multiple attacks with the weapon."
+            }
         }
     },
 
