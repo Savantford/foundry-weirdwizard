@@ -17,8 +17,8 @@ export default class WWActorSheet extends ActorSheet {
 
     return mergeObject(super.defaultOptions, {
       classes: ['weirdwizard', 'sheet', 'actor'],
-      width: 600,
-      height: 600,
+      width: 860, // 600 for small sheet, 870 for new sheet
+      height: 500,
       tabs: [{ navSelector: '.sheet-tabs', contentSelector: '.sheet-body', initial: 'features' }]
     });
   }
@@ -291,6 +291,9 @@ export default class WWActorSheet extends ActorSheet {
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
 
+    // Input resize
+    this.resizeInput(html);
+
     // Edit Health button
     html.find('.health-edit').click(ev => {
       new healthDetails(this.actor).render(true)
@@ -491,6 +494,41 @@ export default class WWActorSheet extends ActorSheet {
   }
 
   /* -------------------------------------------- */
+
+  resizeInput (html) {
+    const resize = html.find('input.auto-resize');
+    const numberInput = html.find('input[type=number]');
+    console.log(numberInput)
+
+    resize.each(function() {    
+      this.style.width = 0;
+      this.style.width = (this.scrollWidth > 8 ? this.scrollWidth : 8) + "px";
+      this.style.minWidth = 0;
+      this.style.minWidth = (this.scrollWidth > 8 ? this.scrollWidth : 8) + "px";
+    });
+
+    resize.on("input", function() {
+      this.style.width = 0;
+      this.style.width = (this.scrollWidth > 8 ? (this.scrollWidth + 2) : 8) + "px";
+      this.style.minWidth = 0;
+      this.style.minWidth = (this.scrollWidth > 8 ? (this.scrollWidth + 2) : 8) + "px";
+    });
+
+    numberInput.each(function() {
+      this.style.minWidth = 0;
+      this.style.minWidth = (this.scrollWidth > 8 ? this.scrollWidth : 8) + "px";
+      this.style.width = 0;
+      this.style.width = (this.scrollWidth > 8 ? this.scrollWidth : 8) + "px";
+    });
+
+    numberInput.on("input", function() {
+      this.style.minWidth = 0;
+      this.style.minWidth = (this.scrollWidth > 8 ? this.scrollWidth : 8) + "px";
+      this.style.width = 0;
+      this.style.width = (this.scrollWidth > 8 ? this.scrollWidth : 8) + "px";
+    });
+  }
+  
 
   /**
    * Handle clickable rolls.

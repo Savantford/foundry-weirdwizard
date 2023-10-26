@@ -1,89 +1,7 @@
 <div class="stats grid-2">
 
     <div class="details-col flex-group-center">{{!-- Left Column --}}
-        <h2>{{localize "WW.Stats"}}</h2>
-
         
-        <div class="flex-row stat-inline flex-group-left">{{!-- Level, Solitary --}}
-            <label>{{localize "WW.Level"}}</label>
-            <select name="system.stats.level">
-                {{selectOptions numbersObj selected=system.stats.level localize=true}}
-            </select>
-            {{system.stats.level.value}}
-
-            <label class="ml-2">{{localize "WW.Solitary"}}</label>
-            <input type="checkbox" name="system.stats.solitary" {{checked system.stats.solitary}} />
-        </div>
-
-        {{!-- Type --}}
-        <div class="flex-row stat-inline flex-group-left">
-            <label>{{localize "WW.Type"}}</label>
-            <input type="text" name="system.details.type" value="{{system.details.type}}" data-dtype="String" />
-            {{system.details.type.value}}
-        </div>
-
-        <div class="mb-2">
-            <div class="mt-2 flex-row stat-inline flex-group-left">{{!-- Defense --}}
-                <label>{{localize "WW.Defense.Label"}}</label>
-                <input class="mr-1" type="number" name="system.stats.defense.total"
-                    value="{{system.stats.defense.total}}" min="0" data-dtype="Number" />
-                <input type="text" name="system.stats.defense.details" value="{{system.stats.defense.details}}"
-                    data-dtype="String" placeholder="{{localize "WW.Defense.Details"}}" />
-            </div>
-            <div class="flex-row stat-inline flex-group-left">{{!-- Damage / Health --}}
-                <label>{{localize "WW.Health.Label"}}</label>
-                <input type="number" name="system.stats.health.current" value="{{system.stats.health.current}}" min="0"
-                    data-dtype="Number" />
-
-                <label class="ml-2">{{localize "WW.Damage.Label"}}</label>
-                {{system.stats.damage.value}}
-            </div>
-
-            <div class="mt-1 flex-row stat-inline flex-group-left">{{!-- Attributes 1 --}}
-                <label>{{localize "WW.Strength"}}</label>
-                <input class="mr-1" type="number" name="system.attributes.str.value"
-                    value="{{system.attributes.str.value}}" min="0" data-dtype="Number" /> 
-                    
-                <a class="attribute-mod rollable" data-key="str" title="Roll Strength">
-                    {{#if system.attributes.str.value}}
-                    {{numberFormat system.attributes.str.mod decimals=0 sign=true}}
-                    {{/if}}
-                </a>
-
-                <label class="ml-1">{{localize "WW.Agility"}}</label>
-                <input class="mr-1" type="number" name="system.attributes.agi.value"
-                    value="{{system.attributes.agi.value}}" min="0" data-dtype="Number" /> 
-                    
-                <a class="attribute-mod rollable" data-key="agi" title="Roll Agility">
-                    {{#if system.attributes.agi.value}}
-                    {{numberFormat system.attributes.agi.mod decimals=0 sign=true}}
-                    {{/if}}
-                </a>
-
-            </div>
-            <div class="mt-1 flex-row stat-inline flex-group-left">{{!-- Attributes 2 --}}
-                <label>{{localize "WW.Intellect"}}</label>
-                <input class="mr-1" type="number" name="system.attributes.int.value"
-                    value="{{system.attributes.int.value}}" min="0" data-dtype="Number" /> 
-                    
-                <a class="attribute-mod rollable" data-key="int" title="Roll Intellect">
-                    {{#if system.attributes.int.value}}
-                    {{numberFormat system.attributes.int.mod decimals=0 sign=true}}
-                    {{/if}}
-                </a>
-
-                <label class="ml-1">{{localize "WW.Will"}}</label>
-                <input class="mr-1" type="number" name="system.attributes.wil.value"
-                    value="{{system.attributes.wil.value}}" min="0" data-dtype="Number" /> 
-                    
-                <a class="attribute-mod rollable" data-key="wil" title="Roll Will">
-                    {{#if system.attributes.wil.value}}
-                    {{numberFormat system.attributes.wil.mod decimals=0 sign=true}}
-                    {{/if}}
-                </a>
-            </div>
-        </div>
-
         <h2>{{localize "WW.Talents"}}</h2>
 
         {{!-- Auras --}}
@@ -108,44 +26,7 @@
             {{/each}}
         </ol>
 
-        {{!-- Senses --}}
-        <div class="flex-row stat-inline flex-group-left">
-            <label>{{localize "WW.Senses"}}</label>
-            <input type="text" name="system.details.senses" value="{{system.details.senses}}"
-                data-dtype="String" />
-            {{system.details.senses.value}}
-        </div>
-
-        {{!-- Languages --}}
-        <div class="flex-row stat-inline flex-group-left">
-            <label>{{localize "WW.Languages"}}</label>
-            <input type="text" name="system.details.languages" value="{{system.details.languages}}"
-                data-dtype="String" placeholder="{{localize "WW.LanguagesPH"}}" />
-            {{system.details.languages.value}}
-        </div>
-
-        {{!-- Immune --}}
-        <div class="flex-row stat-inline flex-group-left">
-            <label>{{localize "WW.Immune"}}</label>
-            <input type="text" name="system.details.immune" value="{{system.details.immune}}"
-                data-dtype="String" placeholder="{{localize "WW.ImmunePH"}}" />
-            {{system.details.immune.value}}
-        </div>
-
-        {{!-- Size, Speed --}}
-        <div class="mt-1 flex-row stat-inline flex-group-left">
-            <label>{{localize "WW.Size"}}</label>
-            <select name="system.stats.size">
-                {{selectOptions numbersObj selected=system.stats.size localize=true}}
-            </select>
-            {{system.stats.size.value}}
-
-            <label class="ml-2">{{localize "WW.Speed.Label"}}</label>
-            <input class="mr-1" type="number" name="system.stats.speed.raw" value="{{system.stats.speed.raw}}"
-                data-dtype="Number" min="0" / placeholder="#">
-            <input type="text" name="system.stats.speed.special" value="{{system.stats.speed.special}}"
-                data-dtype="String" placeholder="{{localize "WW.Speed.PH"}}" title="{{localize "WW.Speed.Tip"}}" />
-        </div>
+        
 
     </div>
 

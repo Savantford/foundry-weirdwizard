@@ -1,3 +1,5 @@
+<h2>{{localize "WW.Afflictions"}}</h2>
+
 <div class="afflictions">
   {{#*inline "WWAffliction"}}
     <div class="affliction selectable {{#if value}}selected{{/if}}"
@@ -26,9 +28,7 @@
     {{> WWAffliction name="stabilize"   value=flags.weirdwizard.stabilize   label="WW.stabilize"   tooltip="WW.AfflictionsStabilize"}}
   </div> --}}
 
-  <h2>{{localize "WW.Afflictions"}}</h2>
-
-  <div class="grid-3">
+  <div class="auto-grid-3">
     {{> WWAffliction name="Blinded"      value=hasEffect.Blinded      label="WW.Blinded"     tooltip="WW.BlindedDesc"     }}
     {{> WWAffliction name="Confused"     value=hasEffect.Confused     label="WW.Confused"    tooltip="WW.ConfusedDesc"    }}
     {{> WWAffliction name="Controlled"   value=hasEffect.Controlled   label="WW.Controlled"  tooltip="WW.ControlledDesc"  }}
@@ -66,11 +66,8 @@
     {{> WWAffliction name="invisible"   value=flags.weirdwizard.invisible   label="EFFECT.StatusInvisible" tooltip="WW.invisibleText"}}
   </div>
   --}}
-  <div class="grid-3 mt-2">
-    <div></div>
-    <div class="selectable remove-afflictions" style="width: auto">
-      <span class="px-2 align-center" style="width: 100%">{{localize "WW.AfflictionsRemove"}}</span>
-    </div>
+  <div class="selectable remove-afflictions">
+    <span>{{localize "WW.AfflictionsRemove"}}</span>
   </div>
 </div>
 

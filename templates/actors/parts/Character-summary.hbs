@@ -1,129 +1,134 @@
-<div class="resources grid-2">
+<div class="summary auto-grid-2">
 
     {{!-- Left Column --}}
     <div class="statbox">
         <h3>{{localize "WW.Stats"}}</h3>
-
+        
         {{!-- Level, Ancestry --}}
-        <div class="stat">
+        <div class="stat-inline">
+            <label>{{localize "WW.Level"}}</label>
+            <select name="system.stats.level">
+                {{selectOptions numbersObj selected=system.stats.level localize=true}}
+            </select>
+
+            <input class="auto-resize" type="text" name="system.details.ancestry" value="{{system.details.ancestry}}"
+                title="{{localize "WW.Ancestry"}}" data-dtype="String" />
+
+            {{!-- Type --}}
+            {{#if system.details.type}}<label class="ml-1">{{localize "WW.Type"}}</label>{{/if}}
+            <input type="text" name="system.details.type" value="{{system.details.type}}"
+                title="{{localize "WW.Type"}}" data-dtype="String" />
+        
+        </div>
+        {{!--<div class="stat">
             <label for="level" class="resource-label">{{localize "WW.Level"}}</label>
             {{system.stats.level}}
 
             <label class="ml-1" for="ancestry" class="resource-label">{{localize "WW.Ancestry"}}</label>
             {{system.details.ancestry}}
-        </div>
+        </div>--}}
 
-        {{!-- Type, Senses --}}
-        <div class="stat">
+        
+        {{!--<div class="stat">
             {{#if system.details.type}}<label for="type" class="resource-label">{{localize
                 "WW.Type"}}</label>
             {{system.details.type}}{{/if}}
-        </div>
+        </div>--}}
 
         {{!-- Professions --}}
-        {{#if system.details.professions}}
+        <div class="stat-inline">
+            <label>{{localize "WW.Professions"}}</label>
+            <input name="system.details.professions" type="text" value="{{system.details.professions}}"
+                placeholder="{{localize "WW.ProfessionsPH"}}" />
+            {{system.details.professions.value}}
+        </div>
+        {{!--{{#if system.details.professions}}
         <div class="stat">
             <label class="" for="professions" class="resource-label">{{localize "WW.Professions"}}</label>
             {{system.details.professions}}
         </div>
-        {{/if}}
+        {{/if}}--}}
 
         {{!-- Paths --}}
-        <div class="stat mt-1">
+        <div class="stat">
             {{#if system.details.novice}}
             <label for="paths" class="resource-label">{{localize "WW.Paths"}}</label>
-            <ol class="summary-list">
+            
+                <input class="auto-resize" type="text" name="system.details.novice" value="{{system.details.novice}}"
+                    title="{{localize "WW.NovicePath"}}" data-dtype="String" />
+                {{system.details.novice.value}}
+
+                {{#if (gte system.stats.level 3)}}/ {{/if}}
+                <input class="auto-resize" type="text" name="system.details.expert" value="{{system.details.expert}}"
+                    title="{{localize "WW.ExpertPath"}}" data-dtype="String" />
+                
+                {{#if (gte system.stats.level 7)}}/ {{/if}}
+                <input class="auto-resize" type="text" name="system.details.master" value="{{system.details.master}}"
+                    title="{{localize "WW.MasterPath"}}" data-dtype="String" />
+            {{!--<ol class="summary-list">
                 <li title="{{localize "WW.NovicePath"}}">{{system.details.novice}}</li>
                 {{#if system.details.expert}}<li title="{{localize "WW.ExpertPath"}}">
                     {{system.details.expert}}</li>{{/if}}
                 {{#if system.details.expert}}<li title="{{localize "WW.MasterPath"}}">
                     {{system.details.master}}</li>{{/if}}
-            </ol>
+            </ol>--}}
             {{/if}}
         </div>
 
-        <div class="hl">
-            {{!-- Defense, Health, Damage --}}
-            <div class="stat mt-1">
-                <label for="defense" class="resource-label">{{localize "WW.Defense.Label"}}</label>
-                <a title="{{localize "WW.Defense.Natural"}}: {{system.stats.defense.natural}}">{{system.stats.defense.total}}</a>
-                <label class="ml-1" for="health" class="resource-label">{{localize "WW.Health.Label"}}</label>
-
-                <a class="health-edit" title="Click to edit Health. {{localize "WW.Health.Normal"}}: {{system.stats.health.normal}}">{{system.stats.health.current}}</a>
-
-                <label class="ml-1" for="damage" class="resource-label">{{localize "WW.Damage.Label"}}</label>
-
-                {{system.stats.damage.value}}
-
-                <i class="health-indicator fas {{#if incapacitated}}fa-octagon-xmark{{else if injured}}fa-droplet{{/if}}" title="
-                    {{#if incapacitated}}{{localize "WW.Health.Incapacitated"}}
-                    {{else}}{{localize "WW.Health.Injured"}}{{/if}}">
-                </i>
-            </div>
-
-            {{!-- Attributes 1 --}}
-            <div class="stat mt-1">
-
-                <label class="resource-label">{{localize "WW.Strength"}}</label>
-                <a class="attribute-mod rollable" data-key="str" title="Roll Strength">
-                    {{system.attributes.str.value}} 
-                    {{#if system.attributes.str.value}}
-                     ({{numberFormat system.attributes.str.mod decimals=0 sign=true}})
-                    {{else}}—{{/if}}
-                </a>
-
-                <label class="ml-1" class="resource-label">{{localize "WW.Agility"}}</label>
-                <a class="attribute-mod rollable" data-key="{{agi}}" title="Roll Agility">
-                    {{system.attributes.agi.value}}
-                    {{#if system.attributes.agi.value}}
-                     ({{numberFormat system.attributes.agi.mod decimals=0 sign=true}})
-                    {{else}}—{{/if}}
-                </a>
-
-            </div>
-
-            {{!-- Attributes 2 --}}
-            <div class="stat">
-
-                <label class="resource-label">{{localize "WW.Intellect"}}</label>
-                <a class="attribute-mod rollable" data-key="int" title="Roll Intellect">
-                    {{system.attributes.int.value}}
-                    {{#if system.attributes.int.value}}
-                     ({{numberFormat system.attributes.int.mod decimals=0 sign=true}})
-                    {{else}}—{{/if}}
-                </a>
-
-                <label class="ml-1" class="resource-label">{{localize "WW.Will"}}</label>
-                <a class="attribute-mod rollable" data-key="wil" title="Roll Will">
-                    {{system.attributes.wil.value}}
-                    {{#if system.attributes.wil.value}}
-                     ({{numberFormat system.attributes.wil.mod decimals=0 sign=true}})
-                    {{else}}—{{/if}}
-                </a>
-            </div>
-        </div>
-
         {{!-- Senses --}}
-        <div class="stat">
+        <div class="stat-inline">
+            <label>{{localize "WW.Senses"}}</label>
+            <input type="text" name="system.details.senses" value="{{system.details.senses}}"
+                data-dtype="String" />
+            {{system.details.senses.value}}
+        </div>
+        {{!--<div class="stat">
             {{#if system.details.senses}}<label for="senses" class="resource-label">{{localize
                 "WW.Senses"}}</label>
             {{system.details.senses}}{{/if}}
-        </div>
+        </div>--}}
 
         {{!-- Languages --}}
-        <div class="stat">
+        <div class="stat-inline">
+            <label>{{localize "WW.Languages"}}</label>
+            <input type="text" name="system.details.languages" value="{{system.details.languages}}"
+                data-dtype="String" placeholder="{{localize "WW.LanguagesPH"}}" />
+            {{system.details.languages.value}}
+        </div>
+        {{!--<div class="stat">
             <label class="" for="languages" class="resource-label">{{localize "WW.Languages"}}</label>
             {{system.details.languages}}
-        </div>
+        </div>--}}
 
         {{!-- Immune --}}
-        {{#if system.details.immune}}<div class="stat mt-1">
+        <div class="stat-inline">
+            <label>{{localize "WW.Immune"}}</label>
+            <input type="text" name="system.details.immune" value="{{system.details.immune}}"
+                data-dtype="String" placeholder="{{localize "WW.ImmunePH"}}" />
+            {{system.details.immune.value}}
+        </div>
+        {{!--{{#if system.details.immune}}<div class="stat mt-1">
             <label class="" for="immune" class="resource-label">{{localize "WW.Immune"}}</label>
             {{system.details.immune}}
-        </div>{{/if}}
+        </div>{{/if}}--}}
 
         {{!-- Size, Speed --}}
-        <div class="stat mt-1">
+        <div class="stat-inline">
+            <label>{{localize "WW.Size"}}</label>
+            <select name="system.stats.size">
+                {{selectOptions numbersObj selected=system.stats.size localize=true}}
+            </select>
+            {{system.stats.size.value}}
+
+            <label>{{localize "WW.Speed.Label"}}</label>
+            {{!--<input type="number" name="system.stats.speed.raw" value="{{system.stats.speed.raw}}"
+                data-dtype="Number" min="0" / placeholder="#">--}}
+            <a class="mr-1" title="{{localize "WW.Speed.Raw"}}: {{system.stats.speed.raw}}">{{system.stats.speed.value}}</a>
+            {{#if system.stats.speed.special}}({{/if}}<input class="auto-resize" type="text" name="system.stats.speed.special"
+                value="{{system.stats.speed.special}}" data-dtype="String" 
+                title="{{localize "WW.Speed.Tip"}}" />{{#if system.stats.speed.special}}){{/if}}
+        </div>
+        {{!--<div class="stat mt-1">
             <label for="size" class="resource-label">{{localize "WW.Size"}}</label>
             {{system.stats.size}}
 
@@ -132,7 +137,7 @@
             <a title="{{localize "WW.Speed.Raw"}}: {{system.stats.speed.raw}}">{{system.stats.speed.value}}</a>
             
             {{#if system.stats.speed.special}} ({{system.stats.speed.special}}){{/if}}
-        </div>
+        </div>--}}
 
         <h3 class="mt-2">{{localize "WW.Attack.Plural"}}</h3>
         

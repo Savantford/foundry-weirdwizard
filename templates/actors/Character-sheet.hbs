@@ -1,64 +1,134 @@
-<form class="{{cssClass}} flexcol" autocomplete="off">
+<form class="{{cssClass}} character-sheet" autocomplete="off">
 
-    <header class="sheet-header character-header">{{!-- Sheet Header --}}
-        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
+    {{!-- Sheet Header --}}
+    <header class="sheet-header character-header">
+        
         <div class="header-fields">
             <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.ActorName"}}"/></h1>
-            
-            {{!-- Attributes Row --}}
-            <div class="attributes grid grid-4">
-                {{#each system.attributes as |attribute key|}}
-                {{#if (eq key 'luck')}}{{else}}
-                <div class="attribute stat flex-group-center {{key}}">
-                    <label for="system.attributes.{{key}}.value" class="attribute-label">{{attribute.label}}</label>
-                    <div class="stat flex-group-center">
-                        <input type="number" name="system.attributes.{{key}}.value" value="{{attribute.value}}" min="0" data-dtype="Number"/>
-                        <a class="attribute-mod rollable" data-key="{{key}}" title="Roll {{attribute.label}}">{{numberFormat attribute.mod decimals=0 sign=true}}</a>
+            <div class="character-subtitle">{{localize "WW.Level"}} {{system.stats.level}} {{system.details.ancestry}}{{#if system.details.novice}} {{system.details.novice}}{{/if}}</div>
+
+            <div class="circle" style="--total: 4">
+                <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
+                
+                <div class="stat" style="--i:1">
+                    <label class="resource-label">{{localize "WW.Strength"}}</label>
+                    <div>
+                        <input type="number" name="system.attributes.str.value" value="{{system.attributes.str.value}}" min="0" data-dtype="Number"/>
+                        <a class="attribute-mod rollable" data-key="str" title="Roll Strength">
+                            {{#if system.attributes.str.value}}
+                            {{numberFormat system.attributes.str.mod decimals=0 sign=true}}
+                            {{else}}—{{/if}}
+                        </a>
                     </div>
                 </div>
-                {{/if}}
-                {{/each}}
+
+                <div class="stat" style="--i:2">
+                    <label class="resource-label">{{localize "WW.Agility"}}</label>
+                    <div>
+                        <input type="number" name="system.attributes.agi.value" value="{{system.attributes.agi.value}}" min="0" data-dtype="Number"/>
+                        <a class="attribute-mod rollable" data-key="agi" title="Roll Agility">
+                            {{#if system.attributes.agi.value}}
+                            {{numberFormat system.attributes.agi.mod decimals=0 sign=true}}
+                            {{else}}—{{/if}}
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="stat" style="--i:4">
+                    <label class="resource-label">{{localize "WW.Intellect"}}</label>
+                    <div>
+                        <input type="number" name="system.attributes.int.value" value="{{system.attributes.int.value}}" min="0" data-dtype="Number"/>
+                        <a class="attribute-mod rollable" data-key="int" title="Roll Intellect">
+                            {{#if system.attributes.int.value}}
+                            {{numberFormat system.attributes.int.mod decimals=0 sign=true}}
+                            {{else}}—{{/if}}
+                        </a>
+                    </div>
+                </div>
+
+                <div class="stat" style="--i:3">
+                    <label class="resource-label">{{localize "WW.Will"}}</label>
+                    <div>
+                        <input type="number" name="system.attributes.wil.value" value="{{system.attributes.wil.value}}" min="0" data-dtype="Number"/>
+                        <a class="attribute-mod rollable" data-key="wil" title="Roll Will">
+                            {{#if system.attributes.wil.value}}
+                            {{numberFormat system.attributes.wil.mod decimals=0 sign=true}}
+                            {{else}}—{{/if}}
+                        </a>
+                    </div>
+                </div>
+                
+                <!--
+                <div class="stat" style="--i:5">5</div>
+                <div class="stat" style="--i:6">6</div>
+                <div class="stat" style="--i:7">7</div>
+                <div class="stat" style="--i:8">8</div>
+                <div class="stat" style="--i:9">9</div>
+                <div class="stat" style="--i:10">10</div>
+                <div class="stat" style="--i:11">11</div>
+                <div class="stat" style="--i:12">12</div>-->
             </div>
 
-            {{!-- Defense Row --}}
-            <div class="resources grid grid-4 mt-2">
+            {{!-- Character Stats --}}
+            <div class="character-stats">
 
-                {{!-- Defense --}}
-                <div class="stat flex-group-center def">
-                    <label>{{localize "WW.Defense.Label"}}</label>
-                    <div><a title="{{localize "WW.Defense.Natural"}}: {{system.stats.defense.natural}}">{{system.stats.defense.total}}</a></div>
-                </div>
-
-                {{!-- Damage / Health --}}
-                <div class="stat flex-group-center health">
-                    <label>{{localize "WW.Damage.Label"}} / {{localize "WW.Health.Label"}}</label>
-                    <div class="flex-row flex-group-center">
-                        <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0" data-dtype="Number"/>
-
-                        <span class"ml-1">/ <a title="{{localize "WW.Health.Normal"}}: {{system.stats.health.normal}}">{{system.stats.health.current}}</a> 
-
-                        <a class="health-edit" title="Edit Health"><i class="fas fa-edit"></i></a></span>
-                    </div>
-                </div>
-
-                {{!-- Bonus Damage --}}
-                <div class="stat flex-group-center">
-                    <label>{{localize "WW.Damage.Bonus"}}</label>
-                    <div><input type="number" name="system.stats.bonusdamage" value="{{system.stats.bonusdamage}}" data-dtype="Number" min="0" placeholder="#" />d6</div>
-                    {{system.stats.bonusdamage.value}}
-                </div>
-
-                <div class="stat flex-row flex-group-center">
-                    {{!-- Luck Roll --}}
-                    <div class="mr-2 luck">
-                        <label>{{localize "WW.Luck"}}</label>
-                        <div><a class="rollable resource-label" data-key="luck" title="Roll {{localize "WW.Luck"}}"><i class="large fas fa-dice-d20"></i></a></div>
+                {{!-- Defense Row --}}
+                <div class="grid-3">
+                    {{!-- Defense --}}
+                    <div class="stat flex-group-center def">
+                        <label>{{localize "WW.Defense.Label"}}</label>
+                        <div><a title="{{localize "WW.Defense.Natural"}}: {{system.stats.defense.natural}}">{{system.stats.defense.total}}</a></div>
                     </div>
 
-                    {{!-- Rest --}}
-                    <div class="rest">
-                        <label>{{localize "WW.Rest.Label"}}</label>
-                        <div><a class="rest-btn"><i class="large fas fa-bed"></i></a></div>
+                    {{!-- Health --}}
+                    <div class="stat flex-group-center health">
+                        <label>{{localize "WW.Health.Label"}}</label>
+                        <div class="flex-row flex-group-center">
+                            <a title="{{localize "WW.Health.Normal"}}: {{system.stats.health.normal}}">{{system.stats.health.current}}</a> 
+
+                            <a class="health-edit ml-1" title="Edit Health"><i class="fas fa-edit"></i></a></span>
+                        </div>
+                    </div>
+
+                    {{!-- Damage --}}
+                    <div class="stat flex-group-center health">
+                        <label>{{localize "WW.Damage.Label"}}</label>
+
+                        <div class="flex-row flex-group-center">
+                            <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0" data-dtype="Number"/>
+
+                            <i class="health-indicator fas {{#if incapacitated}}fa-octagon-xmark{{else if injured}}fa-droplet{{/if}}" title="
+                                {{#if incapacitated}}{{localize "WW.Health.Incapacitated"}}
+                                {{else}}{{localize "WW.Health.Injured"}}{{/if}}">
+                            </i>
+                        </div>
+
+                    </div>
+
+                </div>
+            
+                {{!-- Bonus Damage Row --}}
+                <div class="grid-2 mt-2">
+                    {{!-- Bonus Damage --}}
+                    <div class="stat flex-group-center">
+                        <label>{{localize "WW.Damage.Bonus"}}</label>
+                        <div><input type="number" name="system.stats.bonusdamage" value="{{system.stats.bonusdamage}}" data-dtype="Number" min="0" placeholder="#" />d6</div>
+                        {{system.stats.bonusdamage.value}}
+                    </div>
+
+                    <div class="stat flex-row flex-group-center">
+                        {{!-- Luck Roll --}}
+                        <div class="mr-2 luck">
+                            <label>{{localize "WW.Luck"}}</label>
+                            <div><a class="rollable resource-label" data-key="luck" title="Roll {{localize "WW.Luck"}}"><i class="large fas fa-dice-d20"></i></a></div>
+                        </div>
+
+                        {{!-- Rest --}}
+                        <div class="rest">
+                            <label>{{localize "WW.Rest.Label"}}</label>
+                            <div><a class="rest-btn"><i class="large fas fa-bed"></i></a></div>
+                        </div>
                     </div>
                 </div>
 
@@ -67,55 +137,63 @@
                     
                 </div>
             </div>
+
         </div>
     </header>
+    <div>
+        <nav class="sheet-tabs tabs" data-group="primary">{{!-- Sheet Tab Navigation --}}
+            <div>
+                <a class="item" data-tab="summary">{{localize "WW.Summary"}}</a>
+            {{!--<a class="item" data-tab="stats">{{localize "WW.Stats"}}</a>--}}
+            <a class="item" data-tab="details">{{localize "WW.Details"}}</a>
+            <a class="item" data-tab="equipment">{{localize "WW.Equipment"}}</a>
+            </div>
+            
+            <div>
+                <a class="item" data-tab="talents">{{localize "WW.Talents"}}</a>
+            <a class="item" data-tab="spells">{{localize "WW.Spells"}}</a>
+            <a class="item" data-tab="effects">{{localize "WW.Effects.Label"}}</a>    
+            </div>
+            
+        </nav>
 
-    <nav class="sheet-tabs tabs" data-group="primary">{{!-- Sheet Tab Navigation --}}
-        <a class="item" data-tab="summary">{{localize "WW.Summary"}}</a>
-        <a class="item" data-tab="stats">{{localize "WW.Stats"}}</a>
-        <a class="item" data-tab="details">{{localize "WW.Details"}}</a>
-        <a class="item" data-tab="equipment">{{localize "WW.Equipment"}}</a>
-        <a class="item" data-tab="talents">{{localize "WW.Talents"}}</a>
-        <a class="item" data-tab="spells">{{localize "WW.Spells"}}</a>
-        <a class="item" data-tab="effects">{{localize "WW.Effects.Label"}}</a>
-    </nav>
+        {{!-- Sheet Body --}}
+        <section class="sheet-body">
 
-    {{!-- Sheet Body --}}
-    <section class="sheet-body">
+            {{!-- Summary Tab --}}
+            <div class="tab summary" data-group="primary" data-tab="summary">
+                {{> "systems/weirdwizard/templates/actors/parts/Character-summary.hbs"}}
+            </div>
 
-        {{!-- Summary Tab --}}
-        <div class="tab summary" data-group="primary" data-tab="summary">
-            {{> "systems/weirdwizard/templates/actors/parts/Character-summary.hbs"}}
-        </div>
+            {{!-- Stats Tab --}}
+            {{!--<div class="tab stats" data-group="primary" data-tab="stats">
+                {{> "systems/weirdwizard/templates/actors/parts/Character-stats.hbs"}}
+            </div>--}}
 
-        {{!-- Stats Tab --}}
-        <div class="tab stats" data-group="primary" data-tab="stats">
-            {{> "systems/weirdwizard/templates/actors/parts/Character-stats.hbs"}}
-        </div>
+            {{!-- Details Tab --}}
+            <div class="tab details" data-group="primary" data-tab="details">
+                {{> "systems/weirdwizard/templates/actors/parts/Character-details.hbs"}}
+            </div>
 
-        {{!-- Details Tab --}}
-        <div class="tab details" data-group="primary" data-tab="details">
-            {{> "systems/weirdwizard/templates/actors/parts/Character-details.hbs"}}
-        </div>
+            {{!-- Equipment Tab --}}
+            <div class="tab equipment" data-group="primary" data-tab="equipment">
+                {{> "systems/weirdwizard/templates/actors/parts/Character-equipment.hbs"}}
+            </div>
 
-        {{!-- Equipment Tab --}}
-        <div class="tab equipment" data-group="primary" data-tab="equipment">
-            {{> "systems/weirdwizard/templates/actors/parts/Character-equipment.hbs"}}
-        </div>
+            {{!-- Traits & Talents Tab --}}
+            <div class="tab talents" data-group="primary" data-tab="talents">
+                {{> "systems/weirdwizard/templates/actors/parts/Character-talents.hbs"}}
+            </div>
 
-        {{!-- Traits & Talents Tab --}}
-        <div class="tab talents" data-group="primary" data-tab="talents">
-            {{> "systems/weirdwizard/templates/actors/parts/Character-talents.hbs"}}
-        </div>
+            {{!-- Spells Tab --}}
+            <div class="tab spells" data-group="primary" data-tab="spells">
+                {{> "systems/weirdwizard/templates/actors/parts/Character-spells.hbs"}}
+            </div>
 
-        {{!-- Spells Tab --}}
-        <div class="tab spells" data-group="primary" data-tab="spells">
-            {{> "systems/weirdwizard/templates/actors/parts/Character-spells.hbs"}}
-        </div>
-
-        {{!-- Afflictions and Effects Tab --}}
-        <div class="tab effects flexcol" data-group="primary" data-tab="effects">
-            {{> "systems/weirdwizard/templates/actors/parts/Character-effects.hbs"}}
-        </div>
-    </section>
+            {{!-- Afflictions and Effects Tab --}}
+            <div class="tab effects flexcol" data-group="primary" data-tab="effects">
+                {{> "systems/weirdwizard/templates/actors/parts/Character-effects.hbs"}}
+            </div>
+        </section>
+    </div>
 </form>
