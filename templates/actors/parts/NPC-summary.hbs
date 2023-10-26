@@ -6,26 +6,50 @@
                 <span class="statbox-level">{{localize "WW.Level"}} {{system.stats.level}} {{#if system.stats.solitary}}({{localize "WW.Solitary"}}){{/if}}</span>
             </h3>
 
+            <div class="flex-row stat-inline flex-group-left">{{!-- Level, Solitary --}}
+                <label>{{localize "WW.Level"}}</label>
+                <select name="system.stats.level">
+                    {{selectOptions numbersObj selected=system.stats.level localize=true}}
+                </select>
+
+                <label class="ml-2">{{localize "WW.Solitary"}}</label>
+                <input type="checkbox" name="system.stats.solitary" {{checked system.stats.solitary}} />
+            </div>
+
             {{!-- Type --}}
             <h4 class="mb-0">
                 <label>{{localize "WW.Type"}}</label>
-                <span>{{system.details.type}}</span>
+                <input type="text" name="system.details.type" value="{{system.details.type}}" data-dtype="String" />
             </h4>
         </span>
 
-        <div class="hl">
-            <div class="stat flex-row flex-wrap">{{!-- Defense, Health, Damage --}}
-                <div class="nowrap">
-                    <label>{{localize "WW.Defense.Label"}}</label>
-                    {{system.stats.defense.total}}{{#if system.stats.defense.details}}
-                    ({{system.stats.defense.details}}){{/if}}
-                </div>
+        
 
+        <div class="hl">
+            {{!-- Defense --}}
+            <div class="stat nowrap">
+                <label>{{localize "WW.Defense.Label"}}</label>
+            
+                <input type="number" name="system.stats.defense.total" value="{{system.stats.defense.total}}" min="0"
+                    data-dtype="Number" />
+            
+                {{#if system.stats.defense.details}}({{/if}}<input class="auto-resize" type="text"
+                    name="system.stats.defense.details" value="{{system.stats.defense.details}}" data-dtype="String"
+                    title="{{localize " WW.Defense.Details"}}" />{{#if system.stats.defense.details}}){{/if}}
+            </div>
+
+            {{!-- Health, Damage --}}
+            <div class="stat flex-row flex-wrap">
+
+                {{!-- Health --}}
                 <div class="nowrap">
                     <label>{{localize "WW.Health.Label"}}</label>
-                    {{system.stats.health.current}}
+
+                    <input type="number" name="system.stats.health.current" value="{{system.stats.health.current}}" min="0"
+                    data-dtype="Number" />
                 </div>
 
+                {{!-- Damage --}}
                 <div class="nowrap">
                     <label>{{localize "WW.Damage.Label"}}</label>
                     
@@ -39,90 +63,108 @@
                 </div>
             </div>
 
-            <div class="stat mt-1">{{!-- Attributes 1 --}}
-
-                <label class="resource-label">{{localize "WW.Strength"}}</label>
+            <div class="mt-1 stat-inline">{{!-- Attributes 1 --}}
+                <label>{{localize "WW.Strength"}}</label>
+                <input type="number" name="system.attributes.str.value"
+                    value="{{system.attributes.str.value}}" min="0" placeholder="—" data-dtype="Number" /> 
+                    
+                {{#if system.attributes.str.value}}
                 <a class="attribute-mod rollable" data-key="str" title="Roll Strength">
-                    {{system.attributes.str.value}} 
-                    {{#if system.attributes.str.value}}
-                     ({{numberFormat system.attributes.str.mod decimals=0 sign=true}})
-                    {{else}}—{{/if}}
+                    ({{numberFormat system.attributes.str.mod decimals=0 sign=true}})
                 </a>
+                {{/if}}
 
-                <label class="ml-1" class="resource-label">{{localize "WW.Agility"}}</label>
-                <a class="attribute-mod rollable" data-key="{{agi}}" title="Roll Agility">
-                    {{system.attributes.agi.value}}
-                    {{#if system.attributes.agi.value}}
-                     ({{numberFormat system.attributes.agi.mod decimals=0 sign=true}})
-                    {{else}}—{{/if}}
+                <label class="ml-1">{{localize "WW.Agility"}}</label>
+                <input type="number" name="system.attributes.agi.value"
+                    value="{{system.attributes.agi.value}}" min="0" placeholder="—" data-dtype="Number" /> 
+                
+                {{#if system.attributes.agi.value}}
+                <a class="attribute-mod rollable" data-key="agi" title="Roll Agility">
+                    ({{numberFormat system.attributes.agi.mod decimals=0 sign=true}})
                 </a>
+                {{/if}}
 
             </div>
-            <div class="stat">{{!-- Attributes 2 --}}
-
-                <label class="resource-label">{{localize "WW.Intellect"}}</label>
+            <div class="mt-1 stat-inline">{{!-- Attributes 2 --}}
+                <label>{{localize "WW.Intellect"}}</label>
+                <input type="number" name="system.attributes.int.value"
+                    value="{{system.attributes.int.value}}" min="0" placeholder="—" data-dtype="Number" /> 
+                
+                {{#if system.attributes.int.value}}
                 <a class="attribute-mod rollable" data-key="int" title="Roll Intellect">
-                    {{system.attributes.int.value}}
-                    {{#if system.attributes.int.value}}
-                     ({{numberFormat system.attributes.int.mod decimals=0 sign=true}})
-                    {{else}}—{{/if}}
+                    ({{numberFormat system.attributes.int.mod decimals=0 sign=true}})
                 </a>
+                {{/if}}
 
-                <label class="ml-1" class="resource-label">{{localize "WW.Will"}}</label>
+                <label class="ml-1">{{localize "WW.Will"}}</label>
+                <input type="number" name="system.attributes.wil.value"
+                    value="{{system.attributes.wil.value}}" min="0" placeholder="—" data-dtype="Number" /> 
+                
+                {{#if system.attributes.wil.value}}
                 <a class="attribute-mod rollable" data-key="wil" title="Roll Will">
-                    {{system.attributes.wil.value}}
-                    {{#if system.attributes.wil.value}}
-                     ({{numberFormat system.attributes.wil.mod decimals=0 sign=true}})
-                    {{else}}—{{/if}}
+                    ({{numberFormat system.attributes.wil.mod decimals=0 sign=true}})
                 </a>
-
+                {{/if}}
             </div>
+            
         </div>
 
         <span class="talents-section">
             <h4>{{localize "WW.Talents"}}</h4>
-            <div class="mt-1">{{!-- Auras --}}
-                <ol class="described-list">
-                    {{#each auras as |item id|}}
 
-                    {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
+            {{!-- Auras --}}
+            <ol class="described-list">
+                <a class="item-create" title="Create item" data-type="Trait or Talent" data-subtype="aura"><i
+                    class="fas fa-plus"></i> {{localize "WW.Add"}} {{localize "WW.TalentSubtypes.Aura"}}</a>
+
+                {{#each auras as |item id|}}
+
+                {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
                     
-                    {{/each}}
-                </ol>
-            </div>
+                {{/each}}
+            </ol>
 
             {{!-- Senses --}}
-            {{#if system.details.senses}}<div class="stat">
-                <label class="resource-label">{{localize
-                    "WW.Senses"}}</label>
-                {{system.details.senses}}
-            </div>{{/if}}
+            <div class="stat-inline">
+                <label>{{localize "WW.Senses"}}</label>
+                <input type="text" name="system.details.senses" value="{{system.details.senses}}"
+                    data-dtype="String" />
+            </div>
 
             {{!-- Languages --}}
-            {{#if system.details.languages}}<div class="stat">
-                <label class="" class="resource-label">{{localize
-                    "WW.Languages"}}</label>
-                {{system.details.languages}}
-            </div>{{/if}}
+            <div class="stat-inline">
+                <label>{{localize "WW.Languages"}}</label>
+                <input type="text" name="system.details.languages" value="{{system.details.languages}}"
+                    data-dtype="String" />
+            </div>
 
             {{!-- Immune --}}
-            {{#if system.details.immune}}<div class="stat">
-                <label class="mb-1" class="resource-label">{{localize "WW.Immune"}}</label>
-                {{system.details.immune}}
-            </div>{{/if}}
+            <div class="stat-inline">
+                <label>{{localize "WW.Immune"}}</label>
+                <input type="text" name="system.details.immune" value="{{system.details.immune}}"
+                    data-dtype="String" />
+                {{system.details.immune.value}}
+            </div>
 
-            <div class="stat mb-1 mt-1">{{!-- Size, Speed --}}
-                <label class="resource-label">{{localize "WW.Size"}}</label>
-                {{system.stats.size}}
+            {{!-- Size, Speed --}}
+            <div class="stat-inline">
+                <label>{{localize "WW.Size"}}</label>
+                <select name="system.stats.size">
+                    {{selectOptions numbersObj selected=system.stats.size localize=true}}
+                </select>
 
-                <label class="ml-1" class="resource-label">{{localize "WW.Speed.Label"}}</label>
-
-                <a title="{{localize "WW.Speed.Raw"}}: {{system.stats.speed.raw}}">{{system.stats.speed.value}}</a>
-                
-                {{#if system.stats.speed.special}} ({{system.stats.speed.special}}){{/if}}
+                <label>{{localize "WW.Speed.Label"}}</label>
+                {{!--<input type="number" name="system.stats.speed.raw" value="{{system.stats.speed.raw}}"
+                    data-dtype="Number" min="0" / placeholder="#">--}}
+                <a class="mr-1" title="{{localize "WW.Speed.Raw"}}: {{system.stats.speed.raw}}">{{system.stats.speed.value}}</a>
+                {{#if system.stats.speed.special}}({{/if}}<input class="auto-resize" type="text" name="system.stats.speed.special"
+                    value="{{system.stats.speed.special}}" data-dtype="String" 
+                    title="{{localize "WW.Speed.Tip"}}" />{{#if system.stats.speed.special}}){{/if}}
             </div>
 
             <ol class="described-list">{{!-- Talents --}}
+                <a class="item-create" title="Create item" data-type="Trait or Talent" data-subtype="trait"><i
+                        class="fas fa-plus"></i> {{localize "WW.Add"}} {{localize "WW.TalentSubtypes.Trait"}}</a>
                 {{#each talents as |item id|}}
 
                 {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
@@ -135,24 +177,27 @@
 
     <div class="statbox">{{!-- Right Column --}}
         {{#if weapons}}
-        <h4>{{localize "WW.Attack.Plural"}}</h4>
+        <h4>{{localize "WW.Attack.Plural"}}<a class="item-create ml-auto" title="Create item" data-type="Equipment" data-subtype="weapon"><i
+                        class="fas fa-plus"></i></a></h4>
         <div class="mt-1 attacks-list">
             <ol class="described-list">
+                
                 {{#each weapons as |item id|}}
                 <li class="item" data-item-id="{{item._id}}">
                     <a class="rollable item-roll" title="Roll Attack">{{item.name}}</a>
-                    <a class="item-edit" title="Edit Weapon"><i class="fas fa-edit"></i></a>
+                    <span class="buttons">
+                        {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
 
-                    {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
+                        {{!-- Toggle Reloaded --}}
+                        {{#if item.system.properties.reload}}
+                            <a class="item-toggle-reloaded" data-item-id="{{item._id}}" 
+                                title="{{#if item.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
+                                <i class="fas {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
+                        {{/if}}
 
-                    {{!-- Toggle Reloaded --}}
-                    {{#if item.system.properties.reload}}
-                        <a class="item-toggle-reloaded" data-item-id="{{item._id}}" 
-                            title="{{#if item.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
-                            <i class="fas {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
-                    {{/if}}
-                    
-                    {{!--<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>--}}
+                        <a class="item-edit" title="{{localize (concat "WW.Item.Edit." item.type)}}"><i class="fas fa-edit"></i></a>
+                        <a class="item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                    </span>
                     
                     {{#if item.system.propertiesList}}({{item.system.propertiesList}}) {{/if}}
 
@@ -174,8 +219,8 @@
         </div>
         {{/if}}
 
-        {{#if actions}}
-        <h4 class="mt-2">{{localize "WW.Actions"}}</h4>
+        <h4 class="mt-2">{{localize "WW.Actions"}}<a class="item-create ml-auto" title="Create item" data-type="Trait or Talent" data-subtype="action"><i
+                        class="fas fa-plus"></i></a></h4>
         <ol class="described-list actions-list">
             {{#each actions as |item id|}}
 
@@ -183,10 +228,9 @@
             
             {{/each}}
         </ol>
-        {{/if}}
 
-        {{#if reactions}}
-        <h4 class="mt-2">{{localize "WW.Reactions"}}</h4>
+        <h4 class="mt-2">{{localize "WW.Reactions"}}<a class="item-create ml-auto" title="Create item" data-type="Trait or Talent" data-subtype="reaction"><i
+                        class="fas fa-plus"></i></a></h4>
         <ol class="described-list">
             {{#each reactions as |item id|}}
 
@@ -194,10 +238,9 @@
             
             {{/each}}
         </ol>
-        {{/if}}
 
-        {{#if end}}
-        <h4 class="mt-2">{{localize "WW.Ends"}}</h4>
+        <h4 class="mt-2">{{localize "WW.Ends"}}<a class="item-create ml-auto" title="Create item" data-type="Trait or Talent" data-subtype="end"><i
+                        class="fas fa-plus"></i></a></h4>
         <ol class="described-list">
             {{#each end as |item id|}}
 
@@ -205,24 +248,29 @@
             
             {{/each}}
         </ol>
-        {{/if}}
 
-        {{#if fury}}
+        <a class="item-create" title="Create item" data-type="Trait or Talent" data-subtype="fury"><i
+                    class="fas fa-plus"></i> {{localize "WW.Add"}} {{localize "WW.TalentSubtypes.Fury"}}</a>
         <ol class="described-list fury-list">
             {{#each fury as |item id|}}
             <li class="item" data-item-id="{{item._id}}">
                 <h5 class="fury-header">
-                    {{#if item.system.attribute}}<a class="rollable item-roll" title="Roll Fury">{{item.name}}</a>
-                        {{else}}<label>{{item.name}}</label>{{/if}}
-                    <a class="item-edit" title="Edit Fury"><i class="fas fa-edit"></i></a>
-                    {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
-                    {{#if item.uses}}
-                    <span class="pip-box float-right">
-                        {{#each item.uses as |pip id|}}
-                        <a class="item-pip" title="{{#if (eq pip "far fa-circle")}}{{localize "WW.Item.Uses.FurySpend"}}
-                            {{else}}{{localize "WW.Item.Uses.FuryRecover"}}{{/if}}">
-                        <i class="{{pip}} fa-circle"></i></a>
-                        {{/each}}
+                    <span class="buttons">
+                        {{#if item.system.attribute}}<a class="rollable item-roll" title="Roll Fury">{{item.name}}</a>
+                            {{else}}<label>{{item.name}}</label>{{/if}}
+                        
+                        {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat"><i class="far fa-scroll"></i></a>{{/if}}
+                        <a class="item-edit" title="Edit Fury"><i class="fas fa-edit"></i></a>
+                        <a class="item-delete" title="Delete Fury"><i class="fas fa-trash"></i></a>
+                        
+                        {{#if item.uses}}
+                        <span class="pip-box float-right">
+                            {{#each item.uses as |pip id|}}
+                            <a class="item-pip" title="{{#if (eq pip "far fa-circle")}}{{localize "WW.Item.Uses.FurySpend"}}
+                                {{else}}{{localize "WW.Item.Uses.FuryRecover"}}{{/if}}">
+                            <i class="{{pip}} fa-circle"></i></a>
+                            {{/each}}
+                        </span>
                     </span>
                 {{/if}}
                 </h5>
@@ -231,7 +279,6 @@
             </li>
             {{/each}}
         </ol>
-        {{/if}}
 
     </div>
 </div>

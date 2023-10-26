@@ -169,6 +169,27 @@
   grid-column-end: span 12;
 }
 
+/* Responsive Grids */
+
+.weirdwizard.sheet.actor {
+  min-width: 600px;
+  min-height: 460px;
+}
+
+.auto-grid-2 {
+  --auto-grid-min-size: 18rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--auto-grid-min-size), 1fr));
+  grid-gap: 0.5rem;
+}
+
+.auto-grid-3 {
+  --auto-grid-min-size: 9.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--auto-grid-min-size), 1fr));
+  grid-gap: 0.2rem;
+}
+
 .flex-group-center,
 .flex-group-left,
 .flex-group-right {
@@ -218,6 +239,9 @@
   flex-wrap: wrap;
   gap: 5px 10px;
 }
+.nowrap {
+  white-space: nowrap;
+}
 
 .align-left {
   -webkit-box-pack: start;
@@ -243,9 +267,6 @@
 
 
 /* Styles limited to weirdwizard sheets */
-/*.weirdwizard {
-  color: var(--text);
-}*/
 
 .weirdwizard .window-content,
 .window-app .window-content {
@@ -298,6 +319,8 @@
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  display: inline-flex;
+  width: 100%;
 }
 .weirdwizard .window-content h2:first-of-type,
 .weirdwizard .window-content h3:first-of-type,
@@ -307,11 +330,16 @@
 
 .weirdwizard .window-content h4 label {
   font-size: 13px;
+  margin-right: 5px;
 }
 
 .weirdwizard .window-content h4 label, .item label {
   color: var(--highlight-title);
   font-weight: bold;
+}
+
+.weirdwizard .window-content h4 input {
+  font-weight: 600;
 }
 
 .weirdwizard .window-content h5 {
@@ -330,7 +358,15 @@
   color: var(--text) !important;
 }
 
+.weirdwizard .statbox {
+  text-align: left;
+}
+
 .weirdwizard .statbox .stat {
+  margin: 2px 5px;
+}
+
+.weirdwizard .statbox .stat-inline {
   margin: 2px 5px;
 }
 
@@ -344,6 +380,45 @@
   float: right;
   padding-top: 3px;
 }
+
+/* Input Styles */
+
+.weirdwizard input[type="text"],
+.weirdwizard input[type="number"],
+.weirdwizard select {
+  height: auto;
+  padding: 0;
+}
+
+.weirdwizard .auto-resize,
+.weirdwizard input[type="number"] {
+  width: auto;
+  min-width: 1ch;
+}
+
+.weirdwizard select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-overflow: '';
+}
+
+.weirdwizard select:hover,
+.weirdwizard select:focus {
+  appearance: auto;
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  margin-right: 5px;
+}
+
+.weirdwizard input:not(:hover):not(:focus),
+.weirdwizard select:not(:hover):not(:focus) {
+  background: none;
+  border: none;
+  padding: 0px;
+}
+
+/* Quick Styles */
 
 .weirdwizard .ml-1 {
   margin-left: 5px !important;
@@ -473,7 +548,14 @@
   font-weight: bold;
 }
 
-.weirdwizard .sheet-header {
+.weirdwizard .character-sheet {
+  display: grid;
+  grid-template-columns: 250px auto;
+  gap: 10px;
+  padding: 0;
+}
+
+.weirdwizard .sheet-header:not(.character-header) {
   -webkit-box-flex: 0;
   -ms-flex: 0 auto;
   flex: 0 auto;
@@ -494,41 +576,150 @@
 }
 
 .weirdwizard .character-header {
-  margin-bottom: 0px;
+  flex-direction: column !important;
+  text-align: center;
+  /*width: 250px;
+  margin-right: 10px;*/
+}
+.weirdwizard .character-header .header-fields {
+  position: fixed;
+  width: 250px;
+}
+
+.weirdwizard .character-subtitle {
+  text-align: center;
+  color: var(--highlight-title);
+  font-weight: bold;
 }
 
 .weirdwizard img {
   border: none;
   background-color: var(--highlight);
 }
+
+.weirdwizard .circle {
+  display: grid;
+  grid-template-areas: "layer";
+  place-items: center;
+  border-radius: 50%;
+
+  --radius: 11vmin;
+  width: calc(2 * var(--radius));
+  height: calc(2 * var(--radius));
+
+  position: relative;
+  margin: 20px auto;
+}
+
 .weirdwizard .sheet-header .profile-img {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 100px;
   flex: 0 0 100px;
-  border-radius: 50px;
+  border-radius: 50%;
   height: 100px;
   margin-right: 10px;
 }
+
+.weirdwizard .circle img {
+  position: absolute;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 50%;
+  margin: 0 !important;
+}
+
+.weirdwizard .circle .stat {
+  grid-area: layer;
+  
+  --ele-radius: 3.2vmin;
+  width: calc(2 * var(--ele-radius));
+  height: calc(2 * var(--ele-radius));
+  border: 1px solid var(--highlight-title);
+  border-radius: 50%;
+
+  display: grid;
+  place-items: center;
+  /*gap: 5px;*/
+
+  background: var(--highlight);
+  /*color: #185adb;*/
+  font-weight: bold;
+  /*font-size: 3vmin;*/
+
+  /* Decimal value, 0-1 based on the child's index. */
+  --d: calc(var(--i) / var(--total));
+  /* Offset to get better starting placement on the circle */
+  --r-offset: -0.625turn;;
+  /* Full circle */
+  --r-amount: 1turn;
+  /* Rotation based on the decimal and r modifiers */
+  --r: calc((var(--r-amount) * var(--d)) + var(--r-offset));
+  /* Rotate, transform out, then negative rotation so the content appears upright */
+  --transform: rotate(var(--r)) translate(var(--radius))
+    rotate(calc(-1 * var(--r)));
+
+  transform: var(--transform);
+
+}
+
+.weirdwizard .circle .stat > label {
+  align-self: flex-end;
+}
+
+.weirdwizard .circle .stat > div {
+  align-self: flex-start;
+}
+
+.weirdwizard .circle .stat input[type="number"] {
+  min-width: 20px;
+  width: 20px;
+  padding: 0;
+}
+
+.weirdwizard .circle .stat a {
+  margin-right: 5px;
+}
+
 .weirdwizard .sheet-header .header-fields {
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
 }
+
 .weirdwizard .sheet-header h1.charname {
   height: 50px;
   padding: 0px;
   margin: 5px 0;
   border-bottom: 0;
 }
+
+.weirdwizard .character-header h1.charname {
+  height: 100%;
+}
+
 .weirdwizard .sheet-header h1.charname input {
   width: 100%;
   height: 100%;
   margin: 0;
   font-weight: bold;
 }
-.weirdwizard .npc h1.charname  {
+.weirdwizard .npc h1.charname {
   margin: 5px 0 15px;
 }
+
+.weirdwizard .character-stats {
+  /*display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 0;
+  padding-top: 10px;
+  margin-top: 10px;*/
+  padding: 5px;
+  background: var(--highlight);
+  border: 1px solid var(--highlight-title);
+  border-radius: 5px;
+}
+
 .weirdwizard .sheet-tabs {
   -webkit-box-flex: 0;
   -ms-flex: 0;
@@ -537,9 +728,32 @@
   font-size: 14px;
   font-weight: bold;
   text-transform: uppercase;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2px 2px;
+  border-top: none !important;
 }
-.weirdwizard .sheet-tabs .item, .weirdwizard .nowrap {
+
+.weirdwizard .sheet-tabs > div {
+  display: flex;
+  flex-grow: 1;
+  min-width: 18rem;
+  gap: 2px 2px;
+}
+
+.weirdwizard .sheet-tabs .item {
   white-space: nowrap;
+  flex-grow: 1;
+  border-radius: 5px 5px 0px 0px;
+  background: var(--highlight);
+  padding: 4px 12px !important;
+}
+
+.weirdwizard .sheet-tabs .item.active {
+  background: var(--highlight-title);
+  color: white;
+  font-weight: normal;
+  text-shadow: none;
 }
 
 .weirdwizard .editor-content {
@@ -571,16 +785,29 @@
 
 .weirdwizard .stat-inline, .stat-stretch {
   display: flex;
+  align-items: center;
 }
 .weirdwizard .stat label,.weirdwizard .stat-inline label,.weirdwizard .stat-stretch label {
   font-weight: bold;
   white-space: nowrap;
   color: var(--highlight-title);
 }
-.weirdwizard .stat input[type="number"],.weirdwizard .stat-inline input[type="number"],.weirdwizard .stat-stretch input[type="number"] {
+.weirdwizard .stat input[type="number"],
+.weirdwizard .stat-inline input[type="number"],
+.weirdwizard .stat-stretch input[type="number"] {
   text-align: center;
-  min-width: 30px;
-  width: 30px;
+  min-width: 1ch;
+  width: 1ch;
+  /*min-width: 25px;
+  width: 25px;
+  height: auto;*/
+}
+
+.weirdwizard .stat input[type="number"]:not(:hover),
+.weirdwizard .stat-inline input[type="number"]:not(:hover),
+.weirdwizard .stat-stretch input[type="number"]:not(:hover) {
+  border: none;
+  background: none;
 }
 
 .weirdwizard .stat-inline label {
@@ -589,6 +816,10 @@
 
 .weirdwizard .stat-stretch label {
   margin-right: auto;
+}
+
+.weirdwizard .stat-inline a.attribute-mod {
+  margin-left: 5px;
 }
 
 /* Lists */
@@ -846,21 +1077,7 @@ input[type="checkbox"].checkbox-uses {
   color: var(--highlight-title);
 }
 
-.described-list .item-edit i, .described-list .item-scroll i,
-.described-list .item-roll i, .described-list .damage-roll i,
-.described-list .healing-roll i, .described-list .item-pip i {
-  font-size: smaller;
-}
-
-.summary-list .item-edit i, .summary-list .item-scroll i,
-.summary-list .item-roll i, .summary-list .damage-roll i,
-.summary-list .healing-roll i, .summary-list .item-pip i {
-  font-size: smaller;
-}
-
-.compact-list .item-edit i, .compact-list .item-scroll i,
-.compact-list .item-roll i, .compact-list .damage-roll i,
-.compact-list .healing-roll i, .compact-list .item-pip i {
+.buttons i {
   font-size: smaller;
 }
 
@@ -885,11 +1102,22 @@ input[type="checkbox"].checkbox-uses {
   list-style: none;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-wrap: nowrap;
 }
 .weirdwizard .coins-list li {
   float: left;
-  margin-right: 10px;
+  margin-right: 5px;
 }
+
+.weirdwizard .total-weight > label {
+  margin: 0px;
+}
+
+.weirdwizard .total-weight > span {
+  padding: 1px 5px;
+}
+
 .weirdwizard .detail label {
   font-weight: bold;
 }
@@ -943,6 +1171,11 @@ input[type="checkbox"].checkbox-uses {
 
 /* Affliction Tab */
 
+.afflictions {
+  display: flex;
+  flex-direction: column;
+}
+
 .dl-item-row-header, .selectable {
   background: #00000005;
   border-radius: 2px;
@@ -958,6 +1191,13 @@ input[type="checkbox"].checkbox-uses {
   display: inline-flex !important;
   width: fit-content;
 }
+
+.remove-afflictions {
+  align-self: center;
+  margin-top: 5px;
+  padding: 2px 5px;
+}
+
 .affliction.selectable {
   padding-right: 6px;
 }
@@ -1171,8 +1411,13 @@ i.icon-Weakened {
   width: 30px;
 }
 
+.weirdwizard .health-indicator {
+  margin-left: 5px;
+}
+
 .weirdwizard .health-indicator.fas.fa-droplet {
   color: red;
+  
 }
 
 .weirdwizard .def-list {
@@ -1417,6 +1662,24 @@ i.icon-Weakened {
 
 .token-initiative {
   flex: 0 0 30px !important;
+}
+
+html {
+  height: 100%;
+  display: flex;
+  background: #0a1931;
+}
+body {
+  margin: auto;
+}
+
+html {
+  height: 100%;
+  display: flex;
+  background: #0a1931;
+}
+body {
+  margin: auto;
 }
 
 

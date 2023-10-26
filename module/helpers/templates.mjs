@@ -10,7 +10,7 @@
     // Character
     "systems/weirdwizard/templates/actors/parts/Character-summary.hbs",
     "systems/weirdwizard/templates/actors/parts/Character-summary-item.hbs",
-    "systems/weirdwizard/templates/actors/parts/Character-stats.hbs",
+    /*"systems/weirdwizard/templates/actors/parts/Character-stats.hbs",*/
     "systems/weirdwizard/templates/actors/parts/Character-details.hbs",
     "systems/weirdwizard/templates/actors/parts/Character-equipment.hbs",
     "systems/weirdwizard/templates/actors/parts/Character-talents.hbs",

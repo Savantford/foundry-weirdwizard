@@ -10,6 +10,8 @@ import WWCombatTracker from './apps/combat-tracker.mjs';
 
 // Import sheet classes.
 import WWActorSheet from './sheets/actor-sheet.mjs';
+import WWCharacterSheet from './sheets/character-sheet.mjs';
+import WWNpcSheet from './sheets/npc-sheet.mjs';
 import WWItemSheet from './sheets/item-sheet.mjs';
 
 // Import helper/utility classes and constants.
@@ -55,9 +57,20 @@ Hooks.once('init', function () {
 
   // Register sheet application classes
   Actors.unregisterSheet('core', ActorSheet);
-  Actors.registerSheet('weirdwizard', WWActorSheet, { makeDefault: true });
+  Actors.registerSheet("weirdwizard", WWCharacterSheet, {
+    types: ["Character"],
+    makeDefault: true,
+    label: "WW.SheetClass.Character"
+  });
+  Actors.registerSheet("weirdwizard", WWNpcSheet, {
+    types: ["NPC"],
+    makeDefault: true,
+    label: "WW.SheetClass.NPC"
+  });
+
   Items.unregisterSheet('core', ItemSheet);
   Items.registerSheet('weirdwizard', WWItemSheet, { makeDefault: true });
+
   DocumentSheetConfig.registerSheet(ActiveEffect, "weirdwizard", WWActiveEffectConfig, {makeDefault: true})
 
   // Register data models
