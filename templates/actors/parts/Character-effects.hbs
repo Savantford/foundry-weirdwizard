@@ -109,10 +109,7 @@
             {{#if change.key}}
             <div class="nowrap">
               {{localize (lookup ../../../effectChangeLabels change.key)}}
-              {{#if (eq change.mode 1)}}× {{change.value}}
-              {{else if (eq change.mode 2)}}{{numberFormat change.value decimals=0 sign=true}}
-              {{else}}{{change.value}}
-              {{/if}}
+              {{#if (ne change.value 'true')}}{{change.value}}{{/if}}
             </div>
             {{/if}}
           {{else}}<div>-</div>

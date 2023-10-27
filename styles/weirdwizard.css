@@ -177,7 +177,7 @@
 }
 
 .auto-grid-2 {
-  --auto-grid-min-size: 18rem;
+  --auto-grid-min-size: 17.8rem;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(var(--auto-grid-min-size), 1fr));
   grid-gap: 0.5rem;
@@ -384,35 +384,62 @@
 /* Input Styles */
 
 .weirdwizard input[type="text"],
-.weirdwizard input[type="number"],
 .weirdwizard select {
   height: auto;
   padding: 0;
 }
 
-.weirdwizard .auto-resize,
 .weirdwizard input[type="number"] {
+  height: auto;
+  padding: 0;
+  text-align: center;
+  min-width: 25px;
+  width: 25px;
+}
+
+.weirdwizard .sheet .auto-resize,
+.weirdwizard .sheet input[type="number"] {
   width: auto;
   min-width: 1ch;
 }
 
+.weirdwizard .sheet .stat input[type="number"],
+.weirdwizard .sheet .stat-inline input[type="number"],
+.weirdwizard .sheet .stat-stretch input[type="number"] {
+  text-align: center;
+  min-width: 1ch;
+  width: 1ch;
+}
+
+.weirdwizard .sheet .stat input[type="number"]:not(:hover),
+.weirdwizard .sheet .stat-inline input[type="number"]:not(:hover),
+.weirdwizard .sheet .stat-stretch input[type="number"]:not(:hover) {
+  border: none;
+  background: none;
+}
+
 .weirdwizard select {
+  height: auto;
+  padding: 0;
+}
+
+.weirdwizard .sheet select {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   text-overflow: '';
 }
 
-.weirdwizard select:hover,
-.weirdwizard select:focus {
+.weirdwizard .sheet select:hover,
+.weirdwizard .sheet select:focus {
   appearance: auto;
   -webkit-appearance: auto;
   -moz-appearance: auto;
   margin-right: 5px;
 }
 
-.weirdwizard input:not(:hover):not(:focus),
-.weirdwizard select:not(:hover):not(:focus) {
+.weirdwizard .sheet input:not(:hover):not(:focus),
+.weirdwizard .sheet select:not(:hover):not(:focus) {
   background: none;
   border: none;
   padding: 0px;
@@ -792,23 +819,6 @@
   white-space: nowrap;
   color: var(--highlight-title);
 }
-.weirdwizard .stat input[type="number"],
-.weirdwizard .stat-inline input[type="number"],
-.weirdwizard .stat-stretch input[type="number"] {
-  text-align: center;
-  min-width: 1ch;
-  width: 1ch;
-  /*min-width: 25px;
-  width: 25px;
-  height: auto;*/
-}
-
-.weirdwizard .stat input[type="number"]:not(:hover),
-.weirdwizard .stat-inline input[type="number"]:not(:hover),
-.weirdwizard .stat-stretch input[type="number"]:not(:hover) {
-  border: none;
-  background: none;
-}
 
 .weirdwizard .stat-inline label {
   margin-right: 5px;
@@ -857,7 +867,7 @@
   flex: 0 0 60px;
 }
 .weirdwizard .item-properties {
-  flex: 1.5;
+  flex: 2.5;
 }
 .weirdwizard .item-name {
   -webkit-box-flex: 2;
@@ -1101,13 +1111,15 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard .coins-list {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 1px 5px;
   display: flex;
   flex-wrap: nowrap;
 }
-.weirdwizard .coins-list li {
+
+.weirdwizard .coins-list li:not(:last-child) {
   float: left;
   margin-right: 5px;
+  
 }
 
 .weirdwizard .total-weight > label {

@@ -23,6 +23,7 @@ export default class rollAttribute extends FormApplication {
     this.name = attKey == 'luck' ? 'Luck' : this.system.attributes[attKey].name;
     this.effectBoonsGlobal = this.system.boons.attributes[attKey].global ?
       this.system.boons.attributes[attKey].global : 0;
+    this.attackBoons = this.system.boons.attacks.global;
 
     // Get item data
     this.item = obj.item;
@@ -55,6 +56,7 @@ export default class rollAttribute extends FormApplication {
     context.mod = this.mod;
     context.fixedBoons = this.item?.system?.boons;
     context.effectBoons = this.effectBoonsGlobal; // Conditional boons should be added here later
+    context.attackBoons = this.attackBoons;
     context.needTargets = this.item?.system?.against;
 
     if (this.item?.effects) {
@@ -73,7 +75,7 @@ export default class rollAttribute extends FormApplication {
     html.find('#boons-cancel').click(() => this.close({ submit: false }))
 
     // Update forms fields dynamically
-    const el = html.find('input[type=number]');
+    const el = html.find('input'); // html.find('input[type=number]')
     el.change((ev) => this._updateFields(ev, this));
     el.change();
 
@@ -101,6 +103,8 @@ export default class rollAttribute extends FormApplication {
     let boonsFinal = context.boonsFinal;
     const against = context.against;
     const fixedBoons = context.item?.system?.boons ? context.item.system.boons : 0;
+    const applyAttackBoons = parent.querySelector('input[name=attack]:checked');
+    const attackBoons = context.attackBoons;
     const effectBoons = context.effectBoonsGlobal; // Conditional boons should be added here later
 
     // Set attribute display
@@ -109,6 +113,7 @@ export default class rollAttribute extends FormApplication {
     // Calculate and display final boons
     boonsFinal = parseInt(parent.querySelector('input[type=number].situational').value); // Set boonsFinal to the situational input value
     if (effectBoons) boonsFinal += effectBoons; // If there are boons or banes applied by Active Effects, add it
+    if (applyAttackBoons && attackBoons) boonsFinal += attackBoons;
     if (fixedBoons) boonsFinal += fixedBoons; // If there are fixed boons or banes, add it
     console.log(boonsFinal)
     boonsFinal = (boonsFinal < 0 ? "" : "+") + boonsFinal; // Add a + sign if positive
@@ -216,12 +221,14 @@ export default class rollAttribute extends FormApplication {
         if (critical) {
           rollHtml += criticalHtml;
           rollHtml += this.baseHtml[t.id];
+          rollHtml += this._addWeaponDamage(t);
           rollHtml += this._addInstEffs(this.instEffs.onCritical, t);
           this._applyEffects(this.effects.onCritical, t);
 
         } else if (success) {
           rollHtml += successHtml;
           rollHtml += this.baseHtml[t.id];
+          rollHtml += this._addWeaponDamage(t);
           rollHtml += this._addInstEffs(this.instEffs.onSuccess, t);
           this._applyEffects(this.effects.onSuccess, t);
 
@@ -304,6 +311,21 @@ export default class rollAttribute extends FormApplication {
     await ChatMessage.create(messageData);
   }
 
+  _addWeaponDamage(t) {
+    let finalHtml = '';
+
+    // Get Variables
+    const itemSystem = this.item.system;
+    const weaponDamage = (itemSystem.subtype == 'weapon' && itemSystem.damage) ? itemSystem.damage : 0;
+    const target = canvas.tokens.get(t.id);
+
+    if (weaponDamage) {
+      finalHtml = this.prepareHtmlButton(target, weaponDamage, 'damage');
+    }
+
+    return finalHtml;
+  }
+
   _addInstEffs(effects, t) {
     let finalHtml = '';
     effects.forEach(e => {
@@ -336,30 +358,6 @@ export default class rollAttribute extends FormApplication {
 
     })
 
-  }
-
-  async prepareRollDamage(target, damage) {
-
-    // Define variables to be used
-    /*let li = $(ev.currentTarget).parents('.item');
-
-    if (!li.length) { // If parent does not have .item class, set li to current target.
-      li = $(ev.currentTarget);
-    }*/
-
-    const item = this.item;//this.actor.items.get(li.data('itemId'));
-
-    let obj = {
-      actor: this.actor,
-      target: target,
-      label: _secretLabel(item.name),
-      name: item.name,
-      baseDamage: damage,
-      properties: item.system.properties ? item.system.properties : {},
-      bonusDamage: this.actor.system.stats.bonusdamage
-    }
-
-    new rollDamage(obj).render(true);
   }
 
   prepareHtmlButton(target, value, label) {

@@ -8,7 +8,7 @@
         <div class="stat-inline">
             <label>{{localize "WW.Level"}}</label>
             <select name="system.stats.level">
-                {{selectOptions numbersObj selected=system.stats.level localize=true}}
+                {{selectOptions numbersArr selected=system.stats.level nameAttr="key" labelAttr="label"}}
             </select>
 
             <input class="auto-resize" type="text" name="system.details.ancestry" value="{{system.details.ancestry}}"
@@ -115,15 +115,11 @@
         {{!-- Size, Speed --}}
         <div class="stat-inline">
             <label>{{localize "WW.Size"}}</label>
-            <select name="system.stats.size">
-                {{selectOptions numbersObj selected=system.stats.size localize=true}}
-            </select>
-            {{system.stats.size.value}}
+            {{system.stats.size}}
 
-            <label>{{localize "WW.Speed.Label"}}</label>
-            {{!--<input type="number" name="system.stats.speed.raw" value="{{system.stats.speed.raw}}"
-                data-dtype="Number" min="0" / placeholder="#">--}}
-            <a class="mr-1" title="{{localize "WW.Speed.Raw"}}: {{system.stats.speed.raw}}">{{system.stats.speed.value}}</a>
+            <label class="ml-1">{{localize "WW.Speed.Label"}}</label>
+            <a class="mr-1" title="{{localize "WW.Speed.Normal"}}: {{system.stats.speed.normal}}">{{system.stats.speed.current}}</a>
+            
             {{#if system.stats.speed.special}}({{/if}}<input class="auto-resize" type="text" name="system.stats.speed.special"
                 value="{{system.stats.speed.special}}" data-dtype="String" 
                 title="{{localize "WW.Speed.Tip"}}" />{{#if system.stats.speed.special}}){{/if}}

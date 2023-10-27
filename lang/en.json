@@ -34,9 +34,7 @@
     "WW.Size": "Size",
     "WW.Speed":{
         "Label": "Speed",
-        "Score": "Speed Score",
-        "Halved": "Speed halved",
-        "Raw": "Normal Speed",
+        "Normal": "Normal Speed",
         "PH": "fly",
         "Tip": "special form of movement"
     },
@@ -130,6 +128,7 @@
     "WW.Boons": {
         "Total": "Total Boons or Banes",
         "Afflictions": "Boons/banes imposed by afflictions/effects",
+        "Attack": "Boons/banes to Attack rolls",
         "Fixed": "Boons/banes specified by the weapon/talent/spell",
         "Situational": "Situational boons or banes",
         "With": "with",
@@ -292,6 +291,7 @@
         "GripOne": "One-Handed",
         "GripTwo": "Two-Handed",
         "GripOff": "Off-Hand",
+        "Properties": "Traits | Adv. | Disadv.",
         "Reload": "Click to reload the weapon.",
         "Fire": "Click to fire the loaded weapon.",
         "Requirements": {
@@ -478,36 +478,36 @@
     "WW.EffectKeys": {
         "Boons": {
             "Header": "Grant Boons to Attribute rolls",
-            "Strength": "Boons to Strength rolls",
-            "Agility": "Boons to Agility rolls",
-            "Intellect": "Boons to Intellect rolls",
-            "Will": "Boons to Will rolls",
-            "Luck": "Boons to Luck rolls",
-            "Attack": "Boons to attack rolls"
+            "Strength": "Boons to Strength rolls +",
+            "Agility": "Boons to Agility rolls +",
+            "Intellect": "Boons to Intellect rolls +",
+            "Will": "Boons to Will rolls +",
+            "Luck": "Boons to Luck rolls +",
+            "Attack": "Boons to attack rolls +"
         },
         "Banes": {
             "Header": "Impose Banes to Attribute rolls",
-            "Strength": "Banes to Strength rolls",
-            "Agility": "Banes to Agility rolls",
-            "Intellect": "Banes to Intellect rolls",
-            "Will": "Banes to Will rolls",
-            "Luck": "Boons to Luck rolls",
-            "Attack": "Boons to attack rolls"
+            "Strength": "Banes to Strength rolls +",
+            "Agility": "Banes to Agility rolls +",
+            "Intellect": "Banes to Intellect rolls +",
+            "Will": "Banes to Will rolls +",
+            "Luck": "Banes to Luck rolls +",
+            "Attack": "Banes to attack rolls +"
         },
         "AutoFail": {
             "Header": "Automatically fail Attribute rolls",
-            "Strength": "Automatically fail Strength rolls",
-            "Agility": "Automatically fail Agility rolls",
-            "Intellect": "Automatically fail Intellect rolls",
-            "Will": "Automatically fail Will rolls"
+            "Strength": "Automatically fail Strength rolls +",
+            "Agility": "Automatically fail Agility rolls +",
+            "Intellect": "Automatically fail Intellect rolls +",
+            "Will": "Automatically fail Will rolls +"
         },
         "BoonsAgainst": {
             "Header": "Grant Boons on rolls against self",
-            "Defense": "Boons to rolls against your Defense",
-            "Strength": "Boons to rolls against your Strength",
-            "Agility": "Boons to rolls against your Agility",
-            "Intellect": "Boons to rolls against your Intellect",
-            "Will": "Boons to rolls against your Will"
+            "Defense": "Boons to rolls against your Defense +",
+            "Strength": "Boons to rolls against your Strength +",
+            "Agility": "Boons to rolls against your Agility +",
+            "Intellect": "Boons to rolls against your Intellect +",
+            "Will": "Boons to rolls against your Will +"
         },
         "ExtraDamage": {
             "Header": "Grant Extra Damage to Attacks",
@@ -532,8 +532,8 @@
         },
         "Speed": {
             "Header": "Adjust Speed",
-            "TempIncrease": "Increase Speed by",
-            "TempReduce": "Reduce Speed by",
+            "TempIncrease": "Increase current Speed by",
+            "TempReduce": "Reduce current Speed by",
             "Halved": "Speed is halved",
             "Override": "Speed drops to and cannot be increased above",
             "Increase": "Increase normal Speed by"
