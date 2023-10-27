@@ -47,18 +47,18 @@ export default class WWActor extends Actor {
     // Create halved boolean for Speed reductions
     this.system.stats.speed.halved = false;
 
-    // Assign raw Speed to value so it can be used later by Active Effects
-    let raw = this.system.stats.speed.raw;
-    let speed = this.system.stats.speed.value;
+    // Assign normal Speed to current Speed so it can be used later by Active Effects
+    let normalSpeed = this.system.stats.speed.normal;
+    let currentSpeed = this.system.stats.speed.current;
 
     // Create dynamic Defense properties
     this.system.stats.defense.armored = 0;
     this.system.stats.defense.bonus = 0;
 
-    // Compability: If speed.raw is undefined or lower, copy value to raw
-    if ((speed > raw) || (raw == undefined)) this.system.stats.speed.raw = speed;
+    // Compability: If speed.normal is undefined or lower, copy current Speed to normal Speed
+    if ((currentSpeed > normalSpeed) || (normalSpeed == undefined)) this.system.stats.speed.normal = currentSpeed;
 
-    this.system.stats.speed.value = this.system.stats.speed.raw;
+    this.system.stats.speed.current = this.system.stats.speed.normal;
 
     // Attributes
     const attributes = this.system.boons.attributes;
@@ -175,7 +175,7 @@ export default class WWActor extends Actor {
     const flags = this.flags.weirdwizard || {};
 
     // Halve Speed
-    if (system.stats.speed.halved) system.stats.speed.value = Math.floor(system.stats.speed.raw / 2);
+    if (system.stats.speed.halved) system.stats.speed.current = Math.floor(system.stats.speed.normal / 2);
 
     // Loop through attributes, and add their modifiers calculated with DLE rules to our sheet output.
     for (let [key, attribute] of Object.entries(system.attributes)) {

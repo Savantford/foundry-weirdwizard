@@ -31,12 +31,14 @@ export function stats(type = String) {
       max: makeIntField()
     }),
 
-    size: makeStrField('1', false),
-    level: makeStrField('1', false),
+    size: makeNumField(),
+    level: makeNumField(),
 
     speed: new fields.SchemaField({
-      value: makeIntField(),
-      raw: makeIntField(5),
+      normal: makeIntField(5),
+      current: makeIntField(),
+      /*value: makeIntField(),
+      raw: makeIntField(5),*/
       special: makeStrField()
     })
   }
@@ -90,11 +92,18 @@ const makeBooField = (init = false) => new fields.BooleanField ({
   initial: init
 })
 
+export const makeNumField = (init = 1) => new fields.NumberField({
+  required: true,
+  initial: init,
+  positive: true
+})
+
 export const makeIntField = (init = 0) => new fields.NumberField({
   required: true,
   initial: init,
   min: 0,
-  integer: true
+  integer: true,
+  clean: true
 })
 
 const makeStrField = (init = '', blank = true) => new fields.StringField({

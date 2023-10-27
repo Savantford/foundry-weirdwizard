@@ -9,6 +9,15 @@
             <label class="resource-label">{{localize "WW.Boons.Afflictions"}}</label>
             <span class="boons-display afflictions">{{numberFormat effectBoons decimals=0 sign=true}}</span>
         </div>
+
+        {{#if attackBoons}}
+        <div class="stat-stretch flex-group-left mt-1">
+            <label class="resource-label">{{localize "WW.Boons.Attack"}}</label>
+            <input name="attack" class="damage-checkbox attack" type="checkbox" title="Apply boons/banes">
+            <span class="boons-display attack">{{numberFormat attackBoons decimals=0 sign=true}}</span>
+        </div>
+        {{/if}}
+
         {{#if fixedBoons}}
         <div class="stat-stretch flex-group-left mt-1">
             <label class="resource-label">{{localize "WW.Boons.Fixed"}}</label>

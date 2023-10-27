@@ -31,14 +31,32 @@ export default class CharacterData extends foundry.abstract.DataModel {
    * The source parameter is either original data retrieved from disk or provided by an update operation.
    * @inheritDoc
    */
-  /*static migrateData(source) {
-    if ( "weapons" in source ) {
-      source.weapons = source.weapons.map(weapon => {
-        return weapon === "bmr" ? "boomerang" : weapon;
-      });
+  static migrateData(source) {
+
+    // Migrate Speed
+    if ('stats.speed.value' in source) source.stats.speed.current = source.stats.speed.value;
+    if ('stats.speed.raw' in source) source.stats.speed.normal = source.stats.speed.raw;
+    
+    // Migrate Level
+    if (source.stats.level === '⅛' || source.stats.level === '¼' || source.stats.level === '½') {
+      switch (source.stats.level) {
+        case '⅛': source.stats.level = 0.125;
+        case '¼': source.stats.level = 0.25;
+        case '½': source.stats.level = 0.5;
+      }
     }
+
+    // Migrate Size
+    if (source.stats.size === '⅛' || source.stats.size === '¼' || source.stats.size === '½') {
+      switch (source.stats.size) {
+        case '⅛': source.stats.size = 0.125;
+        case '¼': source.stats.size = 0.25;
+        case '½': source.stats.size = 0.5;
+      }
+    }
+
     return super.migrateData(source);
-  }*/
+  }
 
   /**
    * Determine whether the character is dead.

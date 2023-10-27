@@ -23,19 +23,19 @@ WW.details = {
 
 // Dropdown menus
 WW.dropdownNumbers = {
-  '⅛': '⅛',
-  '¼': '¼',
-  '½': '½',
-  '1': '1',
-  '2': '2',
-  '3': '3',
-  '4': '4',
-  '5': '5',
-  '6': '6',
-  '7': '7',
-  '8': '8',
-  '9': '9',
-  '10': '10',
+  0.125: '⅛',
+  0.25: '¼',
+  0.5: '½',
+  1.0: '1',
+  2.0: '2',
+  3.0: '3',
+  4.0: '4',
+  5.0: '5',
+  6.0: '6',
+  7.0: '7',
+  8.0: '8',
+  9.0: '9',
+  10.0: '10',
 }
 
 WW.rollAttributes = {
@@ -428,6 +428,7 @@ WW.weaponDisadvantages = {
   }
 };
 
+/* Active Effects */
 WW.effectCategories = {
   'boons': 'WW.EffectKeys.Headers.Boons',
   'banes': 'WW.EffectKeys.Headers.Banes',
