@@ -400,15 +400,15 @@
 .weirdwizard .sheet .auto-resize,
 .weirdwizard .sheet input[type="number"] {
   width: auto;
-  min-width: 1ch;
+  min-width: 2ch;
 }
 
 .weirdwizard .sheet .stat input[type="number"],
 .weirdwizard .sheet .stat-inline input[type="number"],
 .weirdwizard .sheet .stat-stretch input[type="number"] {
   text-align: center;
-  min-width: 1ch;
-  width: 1ch;
+  min-width: 2ch;
+  width: 2ch;
 }
 
 .weirdwizard .sheet .stat input[type="number"]:not(:hover),

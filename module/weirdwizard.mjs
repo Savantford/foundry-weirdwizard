@@ -22,6 +22,7 @@ import { WWAfflictions } from './active-effects/afflictions.mjs';
 import { initChatListeners } from './chat/chat-listeners.mjs';
 import registerWWTours from './tours/registration.mjs';
 import migrateWorld from './helpers/migrations.mjs';
+import WWRoll from './dice/roll.mjs';
 
 // Import canvas-related classes
 import WWToken from './canvas/token.mjs';
@@ -101,6 +102,9 @@ Hooks.once('init', function () {
     }
   };
 
+  // Register custom Roll subclass
+  CONFIG.Dice.rolls.unshift(WWRoll);
+
   // Set active effect keys-labels to be used in Active Effects Config app
   WWActiveEffectConfig.initializeChangeKeys();
   WWActiveEffectConfig.initializeChangeLabels();
@@ -150,6 +154,9 @@ Hooks.once('ready', function () {
 
   // Check and run data migrations if needed
   migrateWorld();
+
+  // DSN: Disable simultaneous rolls
+  if (game.settings.get("dice-so-nice","enabledSimultaneousRollForMessage")) game.settings.set("dice-so-nice","enabledSimultaneousRollForMessage",false);
 
 });
 

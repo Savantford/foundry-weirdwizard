@@ -1,4 +1,4 @@
-import { i18n, plusify, capitalize, sum } from '../helpers/utils.mjs'
+import { i18n, plusify, capitalize, resizeInput, sum } from '../helpers/utils.mjs'
 import { healthDetails } from '../apps/health-details.mjs'
 import rollAttribute from '../apps/roll-attribute.mjs'
 import { rollDamage } from '../apps/roll-damage.mjs'
@@ -354,7 +354,7 @@ export default class WWActorSheet extends ActorSheet {
     if (!this.isEditable) return;
 
     // Input resize
-    this.resizeInput(html);
+    resizeInput(html);
 
     // Edit Health button
     html.find('.health-edit').click(ev => {
@@ -556,42 +556,7 @@ export default class WWActorSheet extends ActorSheet {
   }
 
   /* -------------------------------------------- */
-
-  resizeInput (html) {
-    const resize = html.find('input.auto-resize');
-    const numberInput = html.find('input[type=number]');
-    console.log(numberInput)
-
-    resize.each(function() {    
-      this.style.width = 0;
-      this.style.width = (this.scrollWidth > 8 ? this.scrollWidth : 8) + "px";
-      this.style.minWidth = 0;
-      this.style.minWidth = (this.scrollWidth > 8 ? this.scrollWidth : 8) + "px";
-    });
-
-    resize.on("input", function() {
-      this.style.width = 0;
-      this.style.width = (this.scrollWidth > 8 ? (this.scrollWidth + 2) : 8) + "px";
-      this.style.minWidth = 0;
-      this.style.minWidth = (this.scrollWidth > 8 ? (this.scrollWidth + 2) : 8) + "px";
-    });
-
-    numberInput.each(function() {
-      this.style.minWidth = 0;
-      this.style.minWidth = (this.scrollWidth > 8 ? this.scrollWidth : 8) + "px";
-      this.style.width = 0;
-      this.style.width = (this.scrollWidth > 8 ? this.scrollWidth : 8) + "px";
-    });
-
-    numberInput.on("input", function() {
-      this.style.minWidth = 0;
-      this.style.minWidth = (this.scrollWidth > 8 ? this.scrollWidth : 8) + "px";
-      this.style.width = 0;
-      this.style.width = (this.scrollWidth > 8 ? this.scrollWidth : 8) + "px";
-    });
-  }
   
-
   /**
    * Handle clickable rolls.
    * @param {Event} event   The originating click event
@@ -674,8 +639,8 @@ export default class WWActorSheet extends ActorSheet {
   
         ChatMessage.create(messageData);
       } else {
-        
-        if (needTargets(item) && !game.user.targets.size) ui.notifications.warn(i18n("WW.Roll.TargetWrn"));
+        if (item.system.subtype === 'weapon' && !item.system.against) ui.notifications.warn(i18n("WW.Roll.AgainstWrn"));
+        else if (needTargets(item) && !game.user.targets.size) ui.notifications.warn(i18n("WW.Roll.TargetWrn"));
         else new rollAttribute(obj).render(true);
       }
     }

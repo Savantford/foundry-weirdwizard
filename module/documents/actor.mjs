@@ -208,43 +208,10 @@ export default class WWActor extends Actor {
     ///////// HEALTH ///////////
 
     // Calculate and update Path Levels contribution to Health
-    let health = system.stats.health; // Get actor's stats
-    let level = system.stats.level;
-
-    function count(levels) { // Count how many of provided levels the Character has
-      let newValue = 0;
-
-      levels.forEach(function count(v) {
-        if (level >= v) { newValue += 1 }
-      })
-
-      return newValue
-    }
-
-    // Novice Path calculation
-    const noviceLv = count([2, 5, 8])
-    const noviceBonus = noviceLv * health.novice;
-
-    // Expert Path calculation
-    const expertLv = count([3, 4, 6, 9]);
-    const expertBonus = expertLv * health.expert;
-
-    // Master Path calculation
-    const masterLv = count([7, 8, 10])
-    const masterBonus = masterLv * health.master;
-
-    // Normal and Current Health calculations
-    system.stats.health.normal = health.starting + noviceBonus + expertBonus + masterBonus;
-    system.stats.health.current = system.stats.health.normal + health.bonus - health.lost;
-
-    // Assign Current Health to Max Damage for Token Bars
-    system.stats.damage.max = system.stats.health.current;
+    this._calculateHealth(system);
 
     // Calculate total Defense
-    const defense = system.stats.defense;
-
-    (defense.natural > defense.armored) ? defense.total = defense.natural : defense.total = defense.armored;
-    defense.total += defense.bonus;
+    this._calculateDefense(system);
   }
 
   /**
@@ -344,6 +311,60 @@ export default class WWActor extends Actor {
 
     // Carry over surplus damage as Health Loss
     //if (lostHealth) applyHealthLoss(lostHealth)
+  }
+
+  _calculateDefense(system) {
+    const defense = system.stats.defense;
+
+    // Defense override effect exists
+    if (defense.override) defense.total = defense.override;
+    else {
+      (defense.natural > defense.armored) ? defense.total = defense.natural : defense.total = defense.armored;
+      defense.total += defense.bonus;
+    }
+    
+  }
+
+  _calculateHealth(system) {
+    const health = system.stats.health;
+    const level = system.stats.level;
+
+    // Health override effect exists
+    if (health.override) {
+      health.normal = health.override;
+    } else {
+      function count(levels) { // Count how many of provided levels the Character has
+        let newValue = 0;
+
+        levels.forEach(function count(v) {
+          if (level >= v) { newValue += 1 }
+        })
+
+        return newValue
+      }
+
+      // Novice Path calculation
+      const noviceLv = count([2, 5, 8])
+      const noviceBonus = noviceLv * health.novice;
+
+      // Expert Path calculation
+      const expertLv = count([3, 4, 6, 9]);
+      const expertBonus = expertLv * health.expert;
+
+      // Master Path calculation
+      const masterLv = count([7, 8, 10])
+      const masterBonus = masterLv * health.master;
+
+      // Calculate normal Health
+      health.normal = health.starting + noviceBonus + expertBonus + masterBonus;
+    }
+    
+    // Assign current health
+    health.current = health.normal + health.bonus - health.lost;
+    
+    // Assign Current Health to Max Damage for Token Bars
+    system.stats.damage.max = health.current;
+    
   }
 
   *allApplicableEffects() {

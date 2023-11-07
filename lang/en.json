@@ -114,6 +114,7 @@
         "Always": "Always roll",
         "Against": "Against",
         "ForEach": "Roll separately for each target",
+        "AgainstWrn": "Nothing selected to roll against. Please select Defense or an attribute to roll against in the Weapon's Automation & Effects tab.",
         "TargetWrn": "No target selected. Please select a target token before rolling again.",
         "Success": "Success",
         "CriticalSuccess": "Critical Success",
@@ -318,7 +319,7 @@
             },
             "Firearm": {
                 "Label": "Firearm",
-                "Tip": "If a firearm comes into contact with water, it cannot be fired until dried and cleaned. Cleaning the weapon takes 1 hour using a tool kit and a pint of oil. Attacks with the firearm create loud noise. If the result of your roll to attack with the firearm is 5 or less, the weapon misfires. It takes 1 minute of work to repair and reload the weapon, which must be done before it can be used again. An unloaded firearm counts as an improvised weapon."
+                "Tip": "If a firearm comes into contact with water, it cannot be fired until dried and cleaned. Cleaning the weapon takes 1 hour using a tool kit and a pint of oil. Attacks with the firearm create loud noise. If the result of your roll to attack with the firearm is 5 or less, the weapon misfires. It takes 1 minute of work to repair and reload the weapon, which must be done before it can be used again."
             },
             "Forceful": {
                 "Label": "Forceful",
@@ -496,10 +497,10 @@
         },
         "AutoFail": {
             "Header": "Automatically fail Attribute rolls",
-            "Strength": "Automatically fail Strength rolls +",
-            "Agility": "Automatically fail Agility rolls +",
-            "Intellect": "Automatically fail Intellect rolls +",
-            "Will": "Automatically fail Will rolls +"
+            "Strength": "Automatically fail Strength rolls",
+            "Agility": "Automatically fail Agility rolls",
+            "Intellect": "Automatically fail Intellect rolls",
+            "Will": "Automatically fail Will rolls"
         },
         "BoonsAgainst": {
             "Header": "Grant Boons on rolls against self",
