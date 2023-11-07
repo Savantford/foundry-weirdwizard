@@ -429,7 +429,7 @@ WW.weaponDisadvantages = {
 };
 
 /* Active Effects */
-WW.effectCategories = {
+/*WW.effectCategories = {
   'boons': 'WW.EffectKeys.Headers.Boons',
   'banes': 'WW.EffectKeys.Headers.Banes',
   'autoFail': 'WW.EffectKeys.Headers.AutoFail',
@@ -439,7 +439,7 @@ WW.effectCategories = {
   'health': 'WW.EffectKeys.Headers.Health',
   'speed': 'WW.EffectKeys.Headers.Speed',
   'attribute': 'WW.EffectKeys.Headers.Attribute'
-}
+}*/
 
 WW.effOptions = {
   boons: {
@@ -563,7 +563,7 @@ WW.effOptions = {
     header: 'WW.EffectKeys.Defense.Header',
     options: {
       'defense.override': {
-        key: 'system.stats.defense.total',
+        key: 'system.stats.defense.override',
         label: 'WW.EffectKeys.Defense.Override'
       },
       'defense.bonus': {
@@ -592,15 +592,15 @@ WW.effOptions = {
     header: 'WW.EffectKeys.Health.Header',
     options: {
       'health.tempIncrease': {
-        key: 'system.stats.health.current',
+        key: 'system.stats.health.bonus',
         label: 'WW.EffectKeys.Health.TempIncrease'
       },
       'health.tempReduce': {
-        key: 'system.stats.health.current',
+        key: 'system.stats.health.lost',
         label: 'WW.EffectKeys.Health.TempReduce'
       },
       'health.override': {
-        key: 'system.stats.health.normal',
+        key: 'system.stats.health.override',
         label: 'WW.EffectKeys.Health.Override'
       },
       'health.increase': {

@@ -4,7 +4,7 @@
 */
 
 import { i18n, plusify } from '../helpers/utils.mjs';
-import { rollDamage } from './roll-damage.mjs';
+//import { rollDamage } from './roll-damage.mjs';
 import WWRoll from '../dice/roll.mjs';
 
 export default class rollAttribute extends FormApplication {
@@ -115,7 +115,7 @@ export default class rollAttribute extends FormApplication {
     if (effectBoons) boonsFinal += effectBoons; // If there are boons or banes applied by Active Effects, add it
     if (applyAttackBoons && attackBoons) boonsFinal += attackBoons;
     if (fixedBoons) boonsFinal += fixedBoons; // If there are fixed boons or banes, add it
-    console.log(boonsFinal)
+    
     boonsFinal = (boonsFinal < 0 ? "" : "+") + boonsFinal; // Add a + sign if positive
 
     parent.querySelector('.boons-display.total').innerHTML = boonsFinal;
@@ -190,6 +190,7 @@ export default class rollAttribute extends FormApplication {
     const against = this.against;
     const boonsFinal = this.boonsFinal;
     let boons = "0";
+    let rollArray = [];
 
     if (against) { // Against is filled; perform one separate roll for each target
       for (const t of this.targets) {
@@ -204,16 +205,50 @@ export default class rollAttribute extends FormApplication {
         // Get and set target number
         const targetNo = against == 'def' ? t.defense : t.attributes[against].value;
 
-        // Construct the Roll instance
-        let r = new WWRoll(rollFormula, { targetNo: targetNo });
-        
-        // Execute the roll
-        await r.evaluate();
+        // Construct the Roll instance and evaluate the roll
+        let r = await new WWRoll(rollFormula, { targetNo: targetNo }).evaluate({async:true});
+
+        // Save the roll order
+        const index = this.targets.findIndex(obj => { return obj.id === t.id; });
+
+        // Set the roll order and color dice for DSN
+        for (let i = 0; i < r.dice.length; i++) {
+          r.dice[i].options.rollOrder = index;
+
+          const exp = r.dice[i].expression;
+          
+          if (exp.includes('d6')) {
+            const sub = r.formula.substring(0, r.formula.indexOf(exp)).trim();
+            const sign = sub.slice(-1);
+            console.log(sign)
+            if (sign === '+') {
+              r.dice[i].options.appearance = {
+                colorset: 'boon',
+                foreground: '#FFFFFF',
+                background: '#006600',
+                outline: 'none',
+                texture: 'none'
+              };
+            
+            } else if (sign === '-') {
+              r.dice[i].options.appearance = {
+                colorset: 'bane',
+                foreground: '#FFFFFF',
+                background: '#CC0000',
+                outline: 'none',
+                texture: 'none'
+              };
+            }
+          }
+        }
+
+        // Push roll to roll array
+        rollArray.push(r);
 
         // Add the target name, the roll result and the onUse instant effects to the chat message
         rollHtml += this._targetHtml(t.name);
         rollHtml += await this._diceTotalHtml(r);
-
+        
         // Evaluate target number
         const success = await r.total >= targetNo;
         const critical = await r.total >= 20 && await r.total >= targetNo + 5;
@@ -251,11 +286,8 @@ export default class rollAttribute extends FormApplication {
       // Set targetNo to 10
       const targetNo = 10;
 
-      // Construct the Roll instance
-      let r = new WWRoll(rollFormula, { targetNo: targetNo });
-
-      // Execute the roll
-      await r.evaluate();
+      // Construct the Roll instance and evaluate the roll
+      let r = await new WWRoll(rollFormula, { targetNo: targetNo }).evaluate({async:true});
 
       // Add roll result to the chat message
       rollHtml += await this._diceTotalHtml(r);
@@ -298,15 +330,19 @@ export default class rollAttribute extends FormApplication {
     }
 
     // Create message data
+    console.log(rollArray)
+    
     const messageData = {
+      type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+      rolls: rollArray,
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
       flavor: this.label,
       content: this.content + rollHtml,
       sound: CONFIG.sounds.dice
     };
-
+    
     await ChatMessage.applyRollMode(messageData, game.settings.get('core', 'rollMode'));
-
+    
     // Send to chat
     await ChatMessage.create(messageData);
   }

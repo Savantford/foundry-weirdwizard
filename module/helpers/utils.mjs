@@ -19,6 +19,40 @@ export function plusify(x) {
   return x >= 0 ? '+' + x : x
 }
 
+export function resizeInput (html) {
+  const resize = html.find('input.auto-resize');
+  const numberInput = html.find('input[type=number]');
+  const min = 12;
+
+  resize.each(function() {
+    this.style.width = 0;
+    this.style.width = (this.scrollWidth > min ? this.scrollWidth : min) + "px";
+    this.style.minWidth = 0;
+    this.style.minWidth = (this.scrollWidth > min ? this.scrollWidth : min) + "px";
+  });
+
+  resize.on("input", function() {
+    this.style.width = 0;
+    this.style.width = (this.scrollWidth > min ? (this.scrollWidth + 2) : min) + "px";
+    this.style.minWidth = 0;
+    this.style.minWidth = (this.scrollWidth > min ? (this.scrollWidth + 2) : min) + "px";
+  });
+
+  numberInput.each(function() {
+    this.style.minWidth = 0;
+    this.style.minWidth = (this.scrollWidth > min ? this.scrollWidth : min) + "px";
+    this.style.width = 0;
+    this.style.width = (this.scrollWidth > min ? this.scrollWidth : min) + "px";
+  });
+
+  numberInput.on("input", function() {
+    this.style.minWidth = 0;
+    this.style.minWidth = (this.scrollWidth > min ? this.scrollWidth : min) + "px";
+    this.style.width = 0;
+    this.style.width = (this.scrollWidth > min ? this.scrollWidth : min) + "px";
+  });
+}
+
 /* -------------------------------------------- */
 /*  Math Functions
 /* -------------------------------------------- */
