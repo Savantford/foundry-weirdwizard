@@ -58,6 +58,20 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     }
     
     context.effOptions = optionsObj;
+    
+    // Pass down the value type
+    let i = 0;
+
+    for (const c of context.data.changes) {
+      const change = c.key.split('.').reduce((o, i) => o[i], effChanges);
+      
+      context.data.changes[i] = {
+        ...c,
+        ...change
+      }
+
+      i++;
+    }
 
     return context;
   }
@@ -69,6 +83,9 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     // const inputRounds = html.find('input[name='duration.rounds']')
     // inputSeconds.change(_ => inputRounds.val(Math.floor(inputSeconds.val() / 10)))
     // inputRounds.change(_ => inputSeconds.val(inputRounds.val() * 10))
+    
+    html.find('.key > select').change((ev) => this._updateValueInput(ev, this.document));
+
   }
 
   async _updateObject(event, formData) { // Update actor data.
@@ -83,6 +100,7 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     let altChanges = [];
     
     changes.forEach(c => {
+      
       const change = c.key.split('.').reduce((o, i) => o[i], effChanges);
       
       c = {
@@ -101,13 +119,52 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     formData.changes = altChanges;
   }
 
+  _updateValueInput(ev, doc) {
+    const select = ev.currentTarget;
+    const parent = ev.currentTarget.closest('.effect-change');
+    const div = parent.querySelector('.value');
+    let ele = parent.querySelector('.value input');
+    const valueRef = select.value.split('.').reduce((o, i) => o[i], effChanges);
+    const valueType = valueRef ? valueRef.valueType : '';
+
+    ele.remove();
+    if (valueType === "int") {
+      if (isNaN(ele.value) || !ele.value) ele.value = 0;
+      ele = '<input type="number" name="' + ele.name + '" value="' + ele.value + '" min="0"/>';
+    } else if (valueType === "str") {
+      ele = '<input type="text" name="' + ele.name + '" value="' + ele.value + '"/>';
+    } else if (valueType === "boo") {
+      ele = '<input type="checkbox" name="' + ele.name + '" checked>'
+    } else {
+      ele = '<input style="display: none;" type="text" name="' + ele.name + '" value="' + ele.value + '"/>';
+    }
+
+    div.insertAdjacentHTML('beforeend', ele);
+  }
+
+  /* Initialization functions */
+
+  static initializeChangeKeys() {
+    const refObj = CONFIG.WW.effOptions;
+    let obj = {};
+    
+    for (const [key, value] of Object.entries(refObj)) {
+      obj = {
+        ...obj,
+        ...Object.entries(value.options).reduce((all,[k,data]) => { all[k] = data.key; return all;}, {}
+        )
+      }
+    }
+
+    CONFIG.WW.effectChangeKeys = obj;
+  }
+
+  
   static initializeRealChangeKeys() {
     const refObj = CONFIG.WW.effOptions;
     let obj = {};
     
     for (const [key, value] of Object.entries(refObj)) {
-      console.log(refObj[key])
-      console.log(value)
       obj = {
         ...obj,
         ...Object.entries(value.options).reduce((all,[k,data]) => { all[k] = data.key; return all;}, {}
@@ -116,10 +173,6 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     }
     
     CONFIG.WW.effectChangeKeys = obj;
-  }
-
-  get realChangeKeys() {
-    
   }
 
   static initializeChangeLabels() {
@@ -136,23 +189,8 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
     CONFIG.WW.effectChangeLabels = obj;
   }
-    
-  static initializeChangeKeys() {
-    const refObj = CONFIG.WW.effOptions;
-    let obj = {};
-    
-    for (const [key, value] of Object.entries(refObj)) {
-      obj = {
-        ...obj,
-        ...Object.entries(value.options).reduce((all,[k,data]) => { all[k] = data.key; return all;}, {}
-        )
-      }
-    }
 
-    CONFIG.WW.effectChangeKeys = obj;
-  }
-
-  static initializeChangePriorities() {
+  /*static initializeChangePriorities() { // No longer needed
     WWActiveEffectConfig._availableChangePriorities = {
       // value : <name>
       // Default
@@ -170,7 +208,7 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
     // Save the keys-labels object in the CONFIG constant
     CONFIG.WW.effectChangePriorities = WWActiveEffectConfig._availableChangePriorities;
-  }
+  }*/
 
 }
 

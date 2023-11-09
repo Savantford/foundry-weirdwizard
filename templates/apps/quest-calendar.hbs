@@ -1,0 +1,85 @@
+<form class="weirdwizard quest-calendar">
+    {{!-- Left Panel --}}
+    <div id="qc-left-panel">
+        <div id="qc-clock-container">
+            <div id="qc-clock-display">{{time.hoursZero}}:{{time.minsZero}}</div>
+            <div id="qc-clock-hour" style="transform: rotate({{rotation.hours}}deg)"></div>
+            <div id="qc-clock-minute" style="transform: rotate({{rotation.mins}}deg)"></div>
+            <div id="qc-clock-second" style="transform: rotate({{rotation.secs}}deg)"></div>
+        </div>
+
+        <div id="qc-hours-container">
+            <div id="qc-hour-prev" title="{{localize "QC.Menu.PrevHour"}}"><i class="fas fa-{{backward}}"></i></div>
+            <div id="qc-hour-round" title="{{localize "QC.Menu.RoundHour"}}"><i class="fas fa-arrows-rotate"></i></div>
+            <div id="qc-hour-next" title="{{localize "QC.Menu.NextHour"}}"><i class="fas fa-{{forward}}"></i></div>
+            <div id="qc-rest" title="{{localize "QC.Menu.Rest"}}"><i class="fas fa-bed"></i></div>
+            <div class="qc-space"></div>
+            <div id="qc-sunrise" title="{{localize "QC.Menu.Sunrise"}}"><i class="fas fa-sunrise"></i></div>
+            <div id="qc-midday" title="{{localize "QC.Menu.Midday"}}"><i class="fas fa-sun"></i></div>
+            <div id="qc-sunset" title="{{localize "QC.Menu.Sunset"}}"><i class="fas fa-sunset"></i></div>
+            <div id="qc-midnight" title="{{localize "QC.Menu.Midnight"}}"><i class="fas fa-moon"></i></div>
+        </div>
+    </div>
+
+    {{!-- Right Panel --}}
+    <div id="qc-right-panel">
+        {{#if time.months}}
+        <div id="qc-calendar-months">
+            <div class="qc-calendar-number">
+                {{time.months}}
+            </div>
+
+            <div class="qc-sign-container">
+                <div class="qc-calendar-label">
+                    {{#if (eq time.months 1)}}{{localize "QC.Calendar.Month"}}{{else}}{{localize "QC.Calendar.Months"}}{{/if}}
+                </div>
+
+                <div class="qc-buttons">
+                    <div id="qc-month-prev" title="{{localize "QC.Calendar.MonthPrev"}}"><i class="fas fa-{{backward}}"></i></div>
+                    <div id="qc-month-next" title="{{localize "QC.Calendar.MonthNext"}}"><i class="fas fa-{{forward}}"></i></div>
+                </div>
+            </div>
+            
+        </div>
+        {{/if}}
+    
+        {{#if (or time.weeks time.months)}}
+        <div id="qc-calendar-weeks">
+            <div class="qc-calendar-number">
+                {{time.weeks}}
+            </div>
+            
+            <div class="qc-sign-container">
+                <div class="qc-calendar-label">
+                    {{#if (eq time.weeks 1)}}{{localize "QC.Calendar.Week"}}{{else}}{{localize "QC.Calendar.Weeks"}}{{/if}}
+                </div>
+
+                <div class="qc-buttons">
+                    <div id="qc-week-prev" title="{{localize "QC.Calendar.WeekPrev"}}"><i class="fas fa-{{backward}}"></i></div>
+                    <div id="qc-week-next" title="{{localize "QC.Calendar.WeekNext"}}"><i class="fas fa-{{forward}}"></i></div>
+                </div>
+            </div>
+            
+        </div>
+        {{/if}}
+    
+        <div id="qc-calendar-days">
+            <div class="qc-calendar-number">
+                {{time.days}}
+            </div>
+
+            <div class="qc-sign-container">
+                <div class="qc-calendar-label">
+                    {{#if (eq time.days 1)}}{{localize "QC.Calendar.Day"}}{{else}}{{localize "QC.Calendar.Days"}}{{/if}}
+                </div>
+                <div class="qc-buttons">
+                    <div id="qc-day-prev" title="{{localize "QC.Calendar.DayPrev"}}"><i class="fas fa-{{backward}}"></i></div>
+                    <div id="qc-day-next" title="{{localize "QC.Calendar.DayNext"}}"><i class="fas fa-{{forward}}"></i></div>
+                </div>
+            </div>
+            
+        </div>
+
+    </div>
+
+</form>

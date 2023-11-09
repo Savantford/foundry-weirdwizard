@@ -100,30 +100,30 @@ effChanges.overrideAttribute = {
 */
 
 function addInt(priority = null) {
-  return makeChangeData(2,'int','Add',priority)
+  return makeChangeData(2,'int',priority)
 }
 
 function overInt(priority = null) {
-  return makeChangeData(5,'int','Set',priority)
+  return makeChangeData(5,'int',priority)
 }
 
 function upInt(priority = null) {
-  return makeChangeData(4,'int','Set',priority)
+  return makeChangeData(4,'int',priority)
 }
 
 function downInt(priority = null) {
-  return makeChangeData(3,'int','Set',priority)
+  return makeChangeData(3,'int',priority)
 }
 
 function setBoo(priority = null) {
-  return makeChangeData(5,'boo','Set',priority)
+  return makeChangeData(5,'boo',priority)
 }
 
-function makeChangeData(mode,valueType,labelKey,priority = null) {
+function makeChangeData(mode,valueType,priority = null/*,labelKey*/) {
   return {
     mode: mode,
     priority: priority,
-    valueType: valueType,
-    valueLabel: 'WW.EffectKeys.Value.' + labelKey
+    valueType: valueType/*,
+    valueLabel: 'WW.EffectKeys.Value.' + labelKey*/
   };
 }
