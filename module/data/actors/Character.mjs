@@ -38,7 +38,8 @@ export default class CharacterData extends foundry.abstract.DataModel {
     if ('stats.speed.raw' in source) source.stats.speed.normal = source.stats.speed.raw;
     
     // Migrate Level
-    if (source.stats.level === '⅛' || source.stats.level === '¼' || source.stats.level === '½') {
+    if (isNaN(source.stats.level)) {
+      console.log('level is not a number: ' + source.stats.level)
       switch (source.stats.level) {
         case '⅛': source.stats.level = 0.125;
         case '¼': source.stats.level = 0.25;
@@ -47,7 +48,8 @@ export default class CharacterData extends foundry.abstract.DataModel {
     }
 
     // Migrate Size
-    if (source.stats.size === '⅛' || source.stats.size === '¼' || source.stats.size === '½') {
+    if (isNaN(source.stats.size)) {
+      console.log('size is not a number: ' + source.stats.size)
       switch (source.stats.size) {
         case '⅛': source.stats.size = 0.125;
         case '¼': source.stats.size = 0.25;

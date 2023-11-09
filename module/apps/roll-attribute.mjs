@@ -216,28 +216,19 @@ export default class rollAttribute extends FormApplication {
           r.dice[i].options.rollOrder = index;
 
           const exp = r.dice[i].expression;
-          
+          if (exp.includes('d20')) {
+            r.dice[i].options.appearance = { colorset: 'wwd20' };
+          }
+
           if (exp.includes('d6')) {
             const sub = r.formula.substring(0, r.formula.indexOf(exp)).trim();
             const sign = sub.slice(-1);
-            console.log(sign)
-            if (sign === '+') {
-              r.dice[i].options.appearance = {
-                colorset: 'boon',
-                foreground: '#FFFFFF',
-                background: '#006600',
-                outline: 'none',
-                texture: 'none'
-              };
             
-            } else if (sign === '-') {
-              r.dice[i].options.appearance = {
-                colorset: 'bane',
-                foreground: '#FFFFFF',
-                background: '#CC0000',
-                outline: 'none',
-                texture: 'none'
-              };
+            if (sign === '+') { // If a boon
+              r.dice[i].options.appearance = { colorset: 'wwboon' };
+            
+            } else if (sign === '-') { // If a bane
+              r.dice[i].options.appearance = { colorset: 'wwbane' };
             }
           }
         }
