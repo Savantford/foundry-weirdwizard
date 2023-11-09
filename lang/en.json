@@ -452,6 +452,8 @@
         "Edit": "Edit Effect",
         "Delete": "Delete Effect",
         "New": "New Effect",
+        "ToApply": "Effect to Apply",
+        "Value": "Value",
         "Priority": {
             "Auto": "Auto (Mode x 10)",
             "0": "Special",
@@ -771,5 +773,56 @@
             "EffectsTitle": "Effects Tab",
             "EffectsContent": "The Effects tab is the exactly same as the one present in the character sheet.\nFor more information about how to use it, see the Character Sheet and Effects tours."
         }
+    },
+
+    "QC": {
+        "Menu": {
+            "NextHour": "Skip to next hour",
+            "PrevHour": "Skip to previous hour",
+            "RoundHour": "Round time to a full hour. Rounded up if half a hour already passed, or down if not.",
+            "Rest": "Rest for 8 hours",
+            "Sunrise": "Skip to the next sunrise",
+            "Midday": "Skip to midday",
+            "Sunset": "Skip to the next sunset",
+            "Midnight": "Skip to midnight"
+        },
+        "Calendar": {
+            "Day": "Day",
+            "Days": "Days",
+            "DayNext": "Skip to next day",
+            "DayPrev": "Skip to previous day",
+            "Week": "Week",
+            "Weeks": "Weeks",
+            "WeekNext": "Skip to next week",
+            "WeekPrev": "Skip to previous week",
+            "Month": "Month",
+            "Months": "Months",
+            "MonthNext": "Skip to next month",
+            "MonthPrev": "Skip to previous month"
+        },
+        "Settings": {
+            "Label": "Settings",
+            "WindowTitle": "Quest Calendar Settings",
+            "PreciseSkip": "Precise Segment Skip",
+            "PreciseSkipHint": "When enabled, tracks the exact amount of time passed. When disabled time segments (hours, days, weeks, months) are rounded to the next whole number.",
+            "SkipRef": "Reference Time",
+            "SkipRefHint": "The time, in 24 hours format, used as reference when skipping days/weeks/months. The following day will start at the reference time.",
+            "Sunrise": "Sunrise Time (Dawn)",
+            "SunriseHint": "The time, in 24 hours format, indicating when a sunrise happens.",
+            "Midday": "Midday Time",
+            "MiddayHint": "The time, in 24 hours format, indicating when the sun is 90° towards the ground.",
+            "Sunset": "Sunset Time (Dusk)",
+            "SunsetHint": "The time, in 24 hours format, indicating when a sunset happens.",
+            "Submit": "Save Quest Calendar Settings",
+            "Midnight": "Midnight Time",
+            "MidnightHint": "The time, in 24 hours format, indicating when the sun is 90° towards the ground."
+        },
+        "Reset": {
+            "Label": "Reset",
+            "Title": "Reset tracking",
+            "Msg": "All tracked time will be reset. Once reset, the value cannot be restored by the application.",
+            "Confirm": "Are you sure you want to reset the tracker?"
+        }
+
     }
 }

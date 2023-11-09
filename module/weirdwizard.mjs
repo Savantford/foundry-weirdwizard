@@ -22,7 +22,10 @@ import { WWAfflictions } from './active-effects/afflictions.mjs';
 import { initChatListeners } from './chat/chat-listeners.mjs';
 import registerWWTours from './tours/registration.mjs';
 import migrateWorld from './helpers/migrations.mjs';
+
+// Import apps
 import WWRoll from './dice/roll.mjs';
+import { QuestCalendar } from './ui/quest-calendar.mjs'
 
 // Import canvas-related classes
 import WWToken from './canvas/token.mjs';
@@ -58,21 +61,21 @@ Hooks.once('init', function () {
 
   // Register sheet application classes
   Actors.unregisterSheet('core', ActorSheet);
-  Actors.registerSheet("weirdwizard", WWCharacterSheet, {
-    types: ["Character"],
+  Actors.registerSheet('weirdwizard', WWCharacterSheet, {
+    types: ['Character'],
     makeDefault: true,
-    label: "WW.SheetClass.Character"
+    label: 'WW.SheetClass.Character'
   });
-  Actors.registerSheet("weirdwizard", WWNpcSheet, {
-    types: ["NPC"],
+  Actors.registerSheet('weirdwizard', WWNpcSheet, {
+    types: ['NPC'],
     makeDefault: true,
-    label: "WW.SheetClass.NPC"
+    label: 'WW.SheetClass.NPC'
   });
 
   Items.unregisterSheet('core', ItemSheet);
   Items.registerSheet('weirdwizard', WWItemSheet, { makeDefault: true });
 
-  DocumentSheetConfig.registerSheet(ActiveEffect, "weirdwizard", WWActiveEffectConfig, {makeDefault: true})
+  DocumentSheetConfig.registerSheet(ActiveEffect, 'weirdwizard', WWActiveEffectConfig, {makeDefault: true})
 
   // Register data models
   CONFIG.Actor.dataModels.Character = CharacterData;
@@ -93,11 +96,11 @@ Hooks.once('init', function () {
   // Define token resources/bars
   CONFIG.Actor.trackableAttributes = {
     Character: {
-      bar: ["stats.damage"],
+      bar: ['stats.damage'],
       value: []
     },
     NPC: {
-      bar: ["stats.damage"],
+      bar: ['stats.damage'],
       value: []
     }
   };
@@ -108,13 +111,13 @@ Hooks.once('init', function () {
   // Set active effect keys-labels to be used in Active Effects Config app
   WWActiveEffectConfig.initializeChangeKeys();
   WWActiveEffectConfig.initializeChangeLabels();
-  WWActiveEffectConfig.initializeChangePriorities();
+  //WWActiveEffectConfig.initializeChangePriorities(); // No longer needed
 
   // Register system settings
   game.settings.register('weirdwizard', 'skipActed', {
-    name: "WW.Combat.Skip",
-    hint: "WW.Combat.SkipHint",
-    scope: "world",
+    name: 'WW.Combat.Skip',
+    hint: 'WW.Combat.SkipHint',
+    scope: 'world',
     config: true,
     requiresReload: false,
     type: Boolean,
@@ -122,13 +125,76 @@ Hooks.once('init', function () {
   });
 
   game.settings.register('weirdwizard', 'lastMigrationVersion', {
-    /*name: "WW.System.LastMigration",
-    hint: "WW.System.LastMigrationHint",*/
-    scope: "world",
+    /*name: 'WW.System.LastMigration',
+    hint: 'WW.System.LastMigrationHint',*/
+    scope: 'world',
     config: false,
     requiresReload: false,
     type: String,
     default: '0.0.0'
+  });
+
+  // Register Quest Calendar integrated module
+  game.settings.register('questcalendar', 'visible', {
+    name: 'Visible',
+    scope: 'client',
+    config: false,
+    type: Boolean,
+    default: true,
+  });
+
+  game.settings.register('questcalendar', 'preciseSkip', {
+    name: 'QC.Settings.PreciseSkip',
+    hint: 'QC.Settings.PreciseSkipHint',
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: false
+  });
+
+  game.settings.register('questcalendar', 'skipRef', {
+    name: 'QC.Settings.SkipRef',
+    hint: 'QC.Settings.SkipRefHint',
+    scope: 'world',
+    config: true,
+    type: String,
+    default: 'sunrise'
+  });
+
+  game.settings.register('questcalendar', 'sunrise', {
+    name: 'QC.Settings.Sunrise',
+    hint: 'QC.Settings.SunriseHint',
+    scope: 'world',
+    config: true,
+    type: Number,
+    default: '6'
+  });
+
+  game.settings.register('questcalendar', 'midday', {
+    name: 'QC.Settings.Midday',
+    hint: 'QC.Settings.MiddayHint',
+    scope: 'world',
+    config: true,
+    type: Number,
+    default: '12'
+  });
+
+  game.settings.register('questcalendar', 'sunset', {
+    name: 'QC.Settings.Sunset',
+    hint: 'QC.Settings.SunsetHint',
+    scope: 'world',
+    config: true,
+    type: Number,
+    default: '18'
+  });
+
+  game.settings.register('questcalendar', 'midnight', {
+    name: 'QC.Settings.Midnight',
+    hint: 'QC.Settings.MidnightHint',
+    scope: 'world',
+    config: true,
+    type: Number,
+    default: '0'
   });
 
   // Preload Handlebars templates.
@@ -156,7 +222,7 @@ Hooks.once('ready', function () {
   migrateWorld();
 
   // DSN: Disable simultaneous rolls
-  if (game.settings.get("dice-so-nice","enabledSimultaneousRollForMessage")) game.settings.set("dice-so-nice","enabledSimultaneousRollForMessage",false);
+  if (game.settings.get('dice-so-nice','enabledSimultaneousRollForMessage')) game.settings.set('dice-so-nice','enabledSimultaneousRollForMessage',false);
 
 });
 
@@ -200,17 +266,39 @@ Hooks.once('setup', function () {
   
 });
 
-Hooks.on('renderChatLog', (app, html, _data) => initChatListeners(html))
+Hooks.on('renderChatLog', (app, html, _data) => {
+  initChatListeners(html);
+})
 
-Hooks.on("renderChatMessage", (app, html) => {
+Hooks.on('getSceneControlButtons', (array, html) => {
+  const notes = array.find(a => a.name === 'notes');
+  
+  // Render the class page.
+  notes.tools.push({
+    name: 'quest-calendar',
+    title: 'Toggle Quest Calendar',
+    icon: 'fa-solid fa-calendar-clock',
+    button: true,
+    visible: true,
+    toggle: true,
+    //onClick: () => toggleCalendar()
+    onClick: () => QuestCalendar.toggleVis('toggle')
+  });
+});
+
+Hooks.on('renderChatMessage', (app, html) => {
 
   // Remove html elements meant for owners or non-owners only
   if (!game.user.isOwner) {
-    html.find(".owner-only").remove();
+    html.find('.owner-only').remove();
   } else {
-    html.find(".non-owner-only").remove();
+    html.find('.non-owner-only').remove();
   }
 
+})
+
+Hooks.on('updateWorldTime', (worldTime, dt, options, userId) => {
+  if (ui.questcalendar?.rendered) ui.questcalendar.render();
 })
 
 console.log('weirdwizard.mjs loaded.')

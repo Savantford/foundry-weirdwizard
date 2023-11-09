@@ -943,6 +943,11 @@
   margin: 0;
 }
 
+.weirdwizard .effect-change .value {
+  text-align: center;
+  flex: 0.3;
+}
+
 .weirdwizard .pip-box {
   background-color: var(--highlight);
   padding: 0 3px;
@@ -1466,6 +1471,182 @@ i.icon-Weakened {
   font-size: 1.5em;
   padding-top: 5px;
   border-top: 3px double black;
+}
+
+/* ---------------------------- Quest Calendar App -----------------------------*/
+
+#quest-calendar .window-content {
+  background: none;
+}
+
+form.quest-calendar {
+  display: flex;
+  flex-direction: row;
+  font-family: var(--font-header);
+  font-weight: bold;
+}
+
+.qc-space {
+  width: 10px;
+}
+
+.qc-dialog-sure {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Left Panel (Clock) */
+#qc-hours-container {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 5px;
+  color: white;
+}
+
+#qc-clock-container {
+  --radius: 160px;
+  position: relative;
+  margin: auto;
+  height: var(--radius);
+  width: var(--radius);
+  background: url("../assets/ui/clock-face.png") no-repeat, var(--background);
+  background-size: 100%;
+  border-radius: 50%;
+  box-shadow: inset 0px 0px 0px 1px black, 0px 0px 0px 1px black;
+}
+
+#qc-clock-hour,
+#qc-clock-minute,
+#qc-clock-second {
+  position: absolute;
+  /*background: black;
+  border-radius: 10px;*/
+  transform-origin: bottom;
+  background: url("../assets/ui/clock-hand.png") no-repeat;
+  background-size: 100% 100%;
+}
+
+#qc-clock-hour {
+  --width: 7%;
+  width: var(--width);
+  height: 32%;
+  bottom: 50%;
+  left: calc(50% - calc(var(--width) / 2));
+  transform-origin: center 100;
+}
+
+#qc-clock-minute {
+  /*display: none;*/
+  --width: 7%;
+  width: var(--width);
+  height: 40%;
+  bottom: 50%;
+  left: calc(50% - calc(var(--width) / 2));
+  transform-origin: center 100;
+}
+
+#qc-clock-second {
+  display: none;
+  --width: 8%;
+  width: var(--width);
+  height: 39%;
+  bottom: 50%;
+  left: calc(50% - calc(var(--width) / 2));
+  transform-origin: center 100;
+}
+
+#qc-clock-display {
+  text-align: center;
+  padding-top: 65%;
+  font-size: 1.5em;
+  position: relative;
+  z-index: 1;
+  text-shadow: 2px 2px 0px white, -2px 2px 0px white, 2px -2px 0px white, -2px -2px 0px white;
+    
+}
+
+/* Right Panel (Calendar) */
+#qc-right-panel {
+  width: 120px;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+#qc-calendar-days,
+#qc-calendar-weeks,
+#qc-calendar-months {
+  display: flex;
+  align-items: center;
+}
+
+.qc-sign-container {
+  margin-top: 3px;
+  height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.qc-calendar-number {
+  background: url("/icons/svg/hanging-sign.svg") no-repeat;
+  background-size: contain;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 50px;
+  height: 50px;
+  padding-top: 10px;
+  margin-right: 8px;
+}
+
+.qc-calendar-label {
+  background-color: white;
+  padding: 2px 5px;
+  border-radius: 5px 0;
+}
+
+.qc-buttons {
+  display: flex;
+  justify-content: space-around;
+  color: white;
+  margin-top: 2px;
+}
+
+#quest-calendar i:hover {
+  cursor: pointer;
+}
+
+/* Settings */
+#quest-calendar-config form {
+  display: flex;
+  flex-direction: column;
+}
+
+#quest-calendar-config input[type="checkbox"] {
+  margin: 0;
+}
+
+#quest-calendar-config select {
+  display: flex;
+  flex-direction: column;
+}
+
+.qc-settings-row {
+  display: flex;
+  height: fit-content;
+  align-items: center;
+  justify-content: space-between;
+  white-space: nowrap;
+  margin-bottom: 5px;
+}
+
+.qc-settings-row:last-of-type {
+  margin-bottom: 10px;
 }
 
 /* ---------------------------- Foundry UI Overrides -----------------------------*/

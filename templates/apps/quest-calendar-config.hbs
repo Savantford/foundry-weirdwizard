@@ -1,0 +1,39 @@
+<form class="weirdwizard quest-calendar">
+
+    <div class="qc-settings-row" title="{{localize "QC.Settings.PreciseSkipHint"}}">
+        <label>{{localize "QC.Settings.PreciseSkip"}}</label>
+        <input type="checkbox" name="preciseSkip" {{checked preciseSkip}}>
+    </div>
+    
+    <div class="qc-settings-row" title="{{localize "QC.Settings.SkipRefHint"}}">
+        <label>{{localize "QC.Settings.SkipRef"}}</label>
+        <select name="skipRef">
+            {{selectOptions skipRefs selected=skipRef localize=true}}
+        </select>
+    </div>
+
+    <div class="qc-settings-row" title="{{localize "QC.Settings.SunriseHint"}}">
+        <label>{{localize "QC.Settings.Sunrise"}}</label>
+        <input type="number" name="sunrise" value="{{sunrise}}" min="0" max="23" />
+    </div>
+
+    <div class="qc-settings-row" title="{{localize "QC.Settings.MiddayHint"}}">
+        <label>{{localize "QC.Settings.Midday"}}</label>
+        <input type="number" name="midday" value="{{midday}}" min="0" max="23" />
+    </div>
+
+    <div class="qc-settings-row" title="{{localize "QC.Settings.SunsetHint"}}">
+        <label>{{localize "QC.Settings.Sunset"}}</label>
+        <input type="number" name="sunset" value="{{sunset}}" min="0" max="23" />
+    </div>
+
+    <div class="qc-settings-row" title="{{localize "QC.Settings.MidnightHint"}}">
+        <label>{{localize "QC.Settings.Midnight"}}</label>
+        <input type="number" name="midnight" value="{{midnight}}" min="0" max="23" />
+    </div>
+
+    <footer class="footer">
+        <button type="submit"><i class="fas fa-save"></i> {{localize "QC.Settings.Submit"}}</button>
+    </footer>
+
+</form>
