@@ -629,17 +629,17 @@ export default class WWActorSheet extends ActorSheet {
   
       // Check for Automatic Failure
       if (system.autoFail[obj.attKey]) {
-  
+
         let messageData = {
           speaker: ChatMessage.getSpeaker({ actor: this.actor }),
           flavor: label,
-          content: content + baseHtml + '<div class="chat-failure">' + i18n('WW.Roll.AutoFail') + '!</div>' + content,
+          content: content + '<div class="chat-failure">' + i18n('WW.Roll.AutoFail') + '!</div>' + content,
           sound: CONFIG.sounds.dice
         };
   
         ChatMessage.create(messageData);
       } else {
-        if (item.system.subtype === 'weapon' && !item.system.against) ui.notifications.warn(i18n("WW.Roll.AgainstWrn"));
+        if (item?.system?.subtype === 'weapon' && !item.system.against) ui.notifications.warn(i18n("WW.Roll.AgainstWrn"));
         else if (needTargets(item) && !game.user.targets.size) ui.notifications.warn(i18n("WW.Roll.TargetWrn"));
         else new rollAttribute(obj).render(true);
       }

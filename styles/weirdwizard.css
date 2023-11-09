@@ -1739,10 +1739,6 @@ form.quest-calendar {
   margin-top: 0px;
 }
 
-.chat-description {
-  margin-bottom: 10px;
-}
-
 .dice-roll .dice-formula, .dice-roll .dice-total,
 .chat-failure, .chat-success, .secret-dice-total {
   flex: 0 0 100%;

@@ -301,4 +301,63 @@ Hooks.on('updateWorldTime', (worldTime, dt, options, userId) => {
   if (ui.questcalendar?.rendered) ui.questcalendar.render();
 })
 
+/*             Modules              */
+Hooks.on('diceSoNiceReady', (dice3d) => {
+  dice3d.addSystem({ id: "archmage", name: "Archmage" }, false);
+
+  // Disable DsN's automatic parsing of inline rolls - let users enable it
+  /*if (isNewerVersion(game.modules.get('dice-so-nice')?.version, "4.1.1")
+    && !game.settings.get("archmage", "DsNInlineOverride")) {
+    game.settings.set("dice-so-nice", "animateInlineRoll", false);
+    game.settings.set("archmage", "DsNInlineOverride", true);
+  }*/
+
+  dice3d.addColorset({
+    name: 'wwd20',
+    description: "Weird Wizard D20",
+    category: "Weird Wizard",
+    texture: 'stars',
+    material: 'metal',
+    font: 'Amiri',
+    foreground: '#FFAE00', // Label Color
+    background: "#AE00FF", // Dice Color
+    outline: '#FF7B00',
+    edge: '#FFAE00',
+    material: 'metal',
+    font: 'Amiri',
+    default: true
+  }, "preferred");
+
+  dice3d.addColorset({
+    name: 'wwboon',
+    description: "Weird Wizard Boon",
+    category: "Weird Wizard",
+    texture: 'stars',
+    material: 'metal',
+    font: 'Amiri',
+    foreground: '#FFAE00', // Label Color
+    background: "#4394FE", // Dice Color
+    outline: '#FF7B00',
+    edge: '#FFAE00',
+    material: 'metal',
+    font: 'Amiri'
+  }, "preferred");
+
+  dice3d.addColorset({
+    name: 'wwbane',
+    description: "Weird Wizard Bane",
+    category: "Weird Wizard",
+    texture: 'stars',
+    material: 'metal',
+    font: 'Amiri',
+    foreground: '#FFAE00', // Label Color
+    background: "#C70000", // Dice Color
+    outline: '#FF7B00',
+    edge: '#FFAE00',
+    material: 'metal',
+    font: 'Amiri'
+  }, "preferred");
+
+});
+
 console.log('weirdwizard.mjs loaded.')
