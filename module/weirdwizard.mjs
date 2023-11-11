@@ -220,9 +220,6 @@ Hooks.once('ready', function () {
   // Check and run data migrations if needed
   migrateWorld();
 
-  // DSN: Disable simultaneous rolls
-  if (game.settings.get('dice-so-nice','enabledSimultaneousRollForMessage')) game.settings.set('dice-so-nice','enabledSimultaneousRollForMessage',false);
-
 });
 
 /* -------------------------------------------- */
@@ -315,7 +312,9 @@ Hooks.on('updateWorldTime', (worldTime, dt, options, userId) => {
 /* -------------------------------------------- */
 
 Hooks.on('diceSoNiceReady', (dice3d) => {
-  dice3d.addSystem({ id: "archmage", name: "Archmage" }, false);
+  
+  // DSN: Disable simultaneous rolls
+  if (game.settings.get('dice-so-nice','enabledSimultaneousRollForMessage')) game.settings.set('dice-so-nice','enabledSimultaneousRollForMessage',false);
 
   // Disable DsN's automatic parsing of inline rolls - let users enable it
   /*if (isNewerVersion(game.modules.get('dice-so-nice')?.version, "4.1.1")
