@@ -1,5 +1,3 @@
-//import { i18n } from './helpers/utils.mjs';
-
 export const WW = {}
 
 // Define Constants
@@ -54,67 +52,6 @@ WW.rollAgainst = {
   'agi': 'WW.Agility',
   'int': 'WW.Intellect',
   'wil': 'WW.Will'
-}
-
-WW.instantLabels = {
-  'damage': 'WW.InstantEffect.Damage',
-  'heal': 'WW.InstantEffect.Heal',
-  'healthLose': 'WW.InstantEffect.HealthLose',
-  'healthRecover': 'WW.InstantEffect.HealthRecover',
-  'affliction': 'WW.InstantEffect.Affliction'
-}
-
-WW.instantIcons = {
-  'damage': 'icons/svg/explosion.svg',
-  'heal': 'icons/svg/heal.svg',
-  'healthLose': 'icons/svg/degen.svg',
-  'healthRecover': 'icons/svg/regen.svg',
-  'affliction': 'icons/svg/skull.svg'
-}
-
-WW.instantTriggers = {
-  'onUse': 'WW.Effect.OnUse',
-  'onSuccess': 'WW.Effect.OnSuccess',
-  'onCritical': 'WW.Effect.OnCritical',
-  'onFailure': 'WW.Effect.OnFailure'
-}
-
-WW.bestowAfflictions = {
-  /*'': 'WW.InstantEffect.DontBestow',*/
-  'Blinded': 'WW.Blinded',
-  'Confused': 'WW.Confused',
-  'Controlled': 'WW.Controlled',
-  'Cursed': 'WW.Cursed',
-  'Deafened': 'WW.Deafened',
-  'Frightened': 'WW.Frightened',
-  'Held': 'WW.Held',
-  'ImpairedStr': 'WW.ImpairedStr',
-  'ImpairedAgi': 'WW.ImpairedAgi',
-  'ImpairedInt': 'WW.ImpairedInt',
-  'ImpairedWil': 'WW.ImpairedWil',
-  'OnFire': 'WW.OnFire',
-  'Poisoned': 'WW.Poisoned',
-  'Prone': 'WW.Prone',
-  'Stunned': 'WW.Stunned',
-  'Unconscious': 'WW.Unconscious',
-  'Asleep': 'WW.Asleep',
-  'Weakened': 'WW.Weakened',
-}
-
-WW.effectTriggers = {
-  'passive': 'WW.Effect.Passive',
-  'onUse': 'WW.Effect.OnUse',
-  'onSuccess': 'WW.Effect.OnSuccess',
-  'onCritical': 'WW.Effect.OnCritical',
-  'onFailure': 'WW.Effect.OnFailure'
-}
-
-WW.effectTargets = {
-  'none': 'WW.Effect.None',
-  'tokens': 'WW.Effect.Tokens',
-  'area': 'WW.Effect.Area',
-  'areaAlly': 'WW.Effect.AreaAlly',
-  'areaEnemy': 'WW.Effect.AreaEnemy'
 }
 
 WW.dropdownSubtypes = {
@@ -428,18 +365,97 @@ WW.weaponDisadvantages = {
   }
 };
 
+/* Instant Effects */
+
+WW.instantLabels = {
+  'damage': 'WW.InstantEffect.Damage',
+  'heal': 'WW.InstantEffect.Heal',
+  'healthLose': 'WW.InstantEffect.HealthLose',
+  'healthRecover': 'WW.InstantEffect.HealthRecover',
+  'affliction': 'WW.InstantEffect.Affliction'
+}
+
+WW.instantIcons = {
+  'damage': 'icons/svg/explosion.svg',
+  'heal': 'icons/svg/heal.svg',
+  'healthLose': 'icons/svg/degen.svg',
+  'healthRecover': 'icons/svg/regen.svg',
+  'affliction': 'icons/svg/skull.svg'
+}
+
+WW.instantTriggers = {
+  'onUse': 'WW.Effect.OnUse',
+  'onSuccess': 'WW.Effect.OnSuccess',
+  'onCritical': 'WW.Effect.OnCritical',
+  'onFailure': 'WW.Effect.OnFailure'
+}
+
+WW.bestowAfflictions = {
+  /*'': 'WW.InstantEffect.DontBestow',*/
+  'Blinded': 'WW.Blinded',
+  'Confused': 'WW.Confused',
+  'Controlled': 'WW.Controlled',
+  'Cursed': 'WW.Cursed',
+  'Deafened': 'WW.Deafened',
+  'Frightened': 'WW.Frightened',
+  'Held': 'WW.Held',
+  'ImpairedStr': 'WW.ImpairedStr',
+  'ImpairedAgi': 'WW.ImpairedAgi',
+  'ImpairedInt': 'WW.ImpairedInt',
+  'ImpairedWil': 'WW.ImpairedWil',
+  'OnFire': 'WW.OnFire',
+  'Poisoned': 'WW.Poisoned',
+  'Prone': 'WW.Prone',
+  'Stunned': 'WW.Stunned',
+  'Unconscious': 'WW.Unconscious',
+  'Asleep': 'WW.Asleep',
+  'Weakened': 'WW.Weakened',
+}
+
 /* Active Effects */
-/*WW.effectCategories = {
-  'boons': 'WW.EffectKeys.Headers.Boons',
-  'banes': 'WW.EffectKeys.Headers.Banes',
-  'autoFail': 'WW.EffectKeys.Headers.AutoFail',
-  'boonAgainst': 'WW.EffectKeys.Headers.BoonsAgainst',
-  'extraDamage': 'WW.EffectKeys.Headers.ExtraDamage',
-  'defense': 'WW.EffectKeys.Headers.Defense',
-  'health': 'WW.EffectKeys.Headers.Health',
-  'speed': 'WW.EffectKeys.Headers.Speed',
-  'attribute': 'WW.EffectKeys.Headers.Attribute'
-}*/
+
+WW.effectTriggers = {
+  'passive': 'WW.Effect.Passive',
+  'onUse': 'WW.Effect.OnUse',
+  'onSuccess': 'WW.Effect.OnSuccess',
+  'onCritical': 'WW.Effect.OnCritical',
+  'onFailure': 'WW.Effect.OnFailure'
+}
+
+WW.effectTargets = {
+  'none': 'WW.Effect.None',
+  'tokens': 'WW.Effect.Tokens',
+  'area': 'WW.Effect.Area',
+  'areaAlly': 'WW.Effect.AreaAlly',
+  'areaEnemy': 'WW.Effect.AreaEnemy'
+}
+
+WW.EFFECT_DURATIONS = {
+  combat: {
+    header: "WW.EffectDurations.Combat.Header",
+    options: {
+      "luckEnds": "WW.EffectDurations.Combat.LuckEnds",
+      "1round": "WW.EffectDurations.Combat.1Round",
+      "2rounds": "WW.EffectDurations.Combat.2Rounds",
+      "Xrounds": "WW.EffectDurations.Combat.XRounds",
+      "turnEnd": "WW.EffectDurations.Combat.TurnEnd",
+      "nextTriggerTurnStart": "WW.EffectDurations.Combat.NextTriggerTurnStart",
+      "nextTargetTurnStart": "WW.EffectDurations.Combat.NextTargetTurnStart",
+      "nextTriggerTurnEnd": "WW.EffectDurations.Combat.NextTriggerTurnEnd",
+      "nextTargetTurnEnd": "WW.EffectDurations.Combat.NextTargetTurnEnd"
+    }
+  },
+  outOfCombat: {
+    header: "WW.EffectDurations.OutOfCombat.Header",
+    options: {
+      "1minute": "WW.EffectDurations.OutOfCombat.1Minute",
+      "minutes": "WW.EffectDurations.OutOfCombat.Minutes",
+      "hours": "WW.EffectDurations.OutOfCombat.Hours",
+      "days": "WW.EffectDurations.OutOfCombat.Days"
+    }
+  }
+  
+}
 
 WW.effOptions = {
   boons: {

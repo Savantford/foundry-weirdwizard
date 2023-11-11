@@ -27,10 +27,10 @@ export default class InstantEffectConfig extends FormApplication {
     const context = super.getData();
 
     const eff = this.effect;
-    context.trigger = eff.trigger;
-    context.target = eff.target;
-    context.value = eff.value;
-    context.affliction = eff.affliction;
+    context.trigger = eff?.trigger;
+    context.target = eff?.target;
+    context.value = eff?.value;
+    context.affliction = eff?.affliction;
 
     context.labels = CONFIG.WW.instantLabels;
     context.triggers = CONFIG.WW.instantTriggers;
@@ -38,7 +38,7 @@ export default class InstantEffectConfig extends FormApplication {
     context.afflictions = CONFIG.WW.bestowAfflictions;
 
     // Pass down the dynamic label
-    if (!this.label) this.label = eff.label;
+    if (!this.label) this.label = eff?.label;
     context.label = this.label;
     
     return context;

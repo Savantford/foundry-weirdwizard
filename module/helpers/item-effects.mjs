@@ -1,4 +1,4 @@
-import { plusify } from "../helpers/utils.mjs";
+import { plusify } from "./utils.mjs";
 
 // Constants
 export const addEffect = (key, value, priority) => ({

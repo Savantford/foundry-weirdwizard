@@ -1,3 +1,5 @@
+import { i18n } from '../helpers/utils.mjs';
+
 /**
  * @typedef {Object} CombatHistoryData
  * @property {number|null} round
@@ -113,13 +115,11 @@ export default class WWCombat extends Combat {
       for ( let [i, t] of this.turns.entries() ) {
         if ( i <= turn ) continue;
         if ( t.isDefeated ) continue; // Skip defeated
-        console.warn(t.name + ' passou no isDefeated com skipDefeated ligado')
         
         if (this.skipActed) {
           if (t.flags.weirdwizard?.acted) continue; // Skip acted
           next = i;
         } else {
-          console.warn(t.name + ' passou no isDefeated com skipActed desligado');
           next = i;
         }
         
@@ -133,8 +133,6 @@ export default class WWCombat extends Combat {
         break;
       }
     } else {
-      //next = i;
-      console.warn('caiu no último else')
       next = turn + 1;
     }
 
@@ -302,11 +300,16 @@ export default class WWCombat extends Combat {
    * This workflow occurs after the Combat document update, prior round information exists in this.previous.
    * This can be overridden to implement system-specific combat tracking behaviors.
    * This method only executes for one designated GM user. If no GM users are present this method will not be called.
+   * @override
    * @returns {Promise<void>}
    * @protected
    */
   async _onEndRound() {
-    if ( CONFIG.debug.combat ) console.debug(`${vtt} | Combat End Round: ${this.previous.round}`);
+    super._onEndRound();
+
+    console.warn('round ended')
+    this._expireEffectsOnEndOfRound();
+     
   }
 
   /* -------------------------------------------- */
@@ -336,6 +339,120 @@ export default class WWCombat extends Combat {
    */
   async _onStartTurn(combatant) {
     if ( CONFIG.debug.combat ) console.debug(`${vtt} | Combat Start Turn: ${this.combatant.name}`);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * @override
+   * @param {object} data Update data
+   * @param {options} options Context options
+   * @param {string} userId Triggering user ID
+   */
+  _onUpdate(data, options, userId) {
+    super._onUpdate(data, options, userId);
+    try {
+      this._expireEffectsOnUpdate(data, options, userId);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Expire active effects that lasts until an end of round.
+   */
+  async _expireEffectsOnEndOfRound() {
+
+    // Loop for each combatant
+    for (const c of this.combatants) {
+
+      // Filter effects
+      const temporaryEffects = c.actor?.temporaryEffects.filter((ae) => {
+        const { seconds, rounds, startTime, startRound } = ae.duration;
+        
+        // If selectedDuration does not includes 'round', return false
+        if (!ae.flags.weirdwizard?.selectedDuration?.includes('round')) return false;
+
+        const elapsed = this.round - (startRound ?? 0),
+          remaining = rounds - elapsed;
+        return remaining <= 0;
+      })
+
+      if (!temporaryEffects) return; // Stop if no effects were found
+
+      const disableActiveEffects = [],
+      deleteActiveEffects = [],
+      disableBuffs = [],
+      actorUpdate = {};
+
+      for (const ae of temporaryEffects) {
+      
+        await ChatMessage.create({
+          speaker: ChatMessage.getSpeaker({ actor: this }),
+          flavor: this.label,
+          content: '<div><b>' + ae.name + '</b> ' + i18n("WW.Effect.Duration.ExpiredMsg") + '.</div>',
+          sound: CONFIG.sounds.notification
+        });
+
+        if (ae.autoDelete) {
+          deleteActiveEffects.push(ae.id);
+        } else {
+          disableActiveEffects.push({ _id: ae.id, disabled: true });
+        }
+      }
+
+      const hasActorUpdates = !foundry.utils.isEmpty(actorUpdate);
+
+      const deleteAEContext = mergeObject(
+        { render: !disableBuffs.length && !disableActiveEffects.length && !hasActorUpdates },
+        context
+      );
+      if (deleteActiveEffects.length)
+        await c.actor.deleteEmbeddedDocuments("ActiveEffect", deleteActiveEffects, deleteAEContext);
+
+      const disableAEContext = mergeObject({ render: !disableBuffs.length && !hasActorUpdates }, context);
+      if (disableActiveEffects.length)
+        await c.actor.updateEmbeddedDocuments("ActiveEffect", disableActiveEffects, disableAEContext);
+
+      const disableBuffContext = mergeObject({ render: !hasActorUpdates }, context);
+      if (disableBuffs.length) await c.actor.updateEmbeddedDocuments("Item", disableBuffs, disableBuffContext);
+
+      if (hasActorUpdates) await c.actor.update(actorUpdate, context);
+
+    }
+  }
+
+  /**
+   * Expire active effects & buffs.
+   *
+   * @param {object} data Update data
+   * @param {options} options Context options
+   * @param {string} userId Triggering user ID
+   */
+  async _expireEffectsOnUpdate(data, options, userId) {
+    
+    if (data.turn === undefined && data.round === undefined) return;
+
+    const actor = this.combatant?.actor;
+    
+    if (!actor) return;
+
+    const timeOffset = options.advanceTime ?? 0;
+
+    
+    // Attempt to perform expiration on owning active user
+    const firstOwner = Object.entries(actor.ownership)
+      .filter(([_, level]) => level >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)
+      .map(([userId, _]) => game.users.get(userId))
+      .filter((u) => u?.active)
+      .sort((a, b) => a.id.localeCompare(b.id))[0];
+    if (firstOwner) {
+      if (firstOwner.id !== game.user.id) return;
+    } else if (!game.user.isGM) return;
+    
+    actor.expireActiveEffects({ timeOffset, combat: this });
   }
 
 }

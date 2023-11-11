@@ -37,25 +37,29 @@ export default class CharacterData extends foundry.abstract.DataModel {
     if ('stats.speed.value' in source) source.stats.speed.current = source.stats.speed.value;
     if ('stats.speed.raw' in source) source.stats.speed.normal = source.stats.speed.raw;
     
-    // Migrate Level
-    if (isNaN(source.stats.level)) {
-      console.log('level is not a number: ' + source.stats.level)
+    // Fix Level
+    if (isNaN(source.stats?.level)) {
       switch (source.stats.level) {
-        case '⅛': source.stats.level = 0.125;
-        case '¼': source.stats.level = 0.25;
-        case '½': source.stats.level = 0.5;
+        case '⅛': source.stats.level = 0.125; break;
+        case '¼': source.stats.level = 0.25; break;
+        case '½': source.stats.level = 0.5; break;
+        default: source.stats.level = 1; break;
       }
     }
 
-    // Migrate Size
-    if (isNaN(source.stats.size)) {
-      console.log('size is not a number: ' + source.stats.size)
+    // Fix Size
+    if (isNaN(source.stats?.size)) {
       switch (source.stats.size) {
-        case '⅛': source.stats.size = 0.125;
-        case '¼': source.stats.size = 0.25;
-        case '½': source.stats.size = 0.5;
+        case '⅛': source.stats.size = 0.125; break;
+        case '¼': source.stats.size = 0.25; break;
+        case '½': source.stats.size = 0.5; break;
+        default: source.stats.size = 1; break;
       }
     }
+
+    // Fix other stuff
+    if (isNaN(source.stats?.bonusdamage)) source.stats.bonusdamage = 0;
+    if (isNaN(source.details?.reputation)) source.details.reputation = 0;
 
     return super.migrateData(source);
   }

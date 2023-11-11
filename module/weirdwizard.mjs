@@ -3,27 +3,17 @@ console.log('Initializing weirdwizard.mjs...')
 // Import document classes.
 import WWActor from './documents/actor.mjs';
 import WWItem from './documents/item.mjs';
-import WWActiveEffect from './active-effects/active-effect.mjs';
+import WWActiveEffect from './documents/active-effect.mjs';
 import WWCombat from './documents/combat.mjs';
-//import WWTokenDocument from './documents/token-document.mjs';
 import WWCombatTracker from './apps/combat-tracker.mjs';
 
 // Import sheet classes.
-import WWActorSheet from './sheets/actor-sheet.mjs';
 import WWCharacterSheet from './sheets/character-sheet.mjs';
 import WWNpcSheet from './sheets/npc-sheet.mjs';
 import WWItemSheet from './sheets/item-sheet.mjs';
 
-// Import helper/utility classes and constants.
-import { WW } from './config.mjs';
-import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
-import WWActiveEffectConfig from './active-effects/active-effect-config.mjs';
-import { WWAfflictions } from './active-effects/afflictions.mjs';
-import { initChatListeners } from './chat/chat-listeners.mjs';
-import registerWWTours from './tours/registration.mjs';
-import migrateWorld from './helpers/migrations.mjs';
-
 // Import apps
+import WWActiveEffectConfig from './apps/active-effect-config.mjs';
 import WWRoll from './dice/roll.mjs';
 import { QuestCalendar } from './ui/quest-calendar.mjs'
 
@@ -31,11 +21,20 @@ import { QuestCalendar } from './ui/quest-calendar.mjs'
 import WWToken from './canvas/token.mjs';
 
 // Import data models
-import CharacterData from './data/actors/Character.mjs';
-import NpcData from './data/actors/NPC.mjs';
-import EquipmentData from './data/items/Equipment.mjs';
-import TalentData from './data/items/Talent.mjs';
-import SpellData from './data/items/Spell.mjs';
+import CharacterData from './data/actors/character.mjs';
+import NpcData from './data/actors/npc.mjs';
+import EquipmentData from './data/items/equipment.mjs';
+import TalentData from './data/items/talent.mjs';
+import SpellData from './data/items/spell.mjs';
+
+// Import helper/utility classes and constants.
+import { WW } from './config.mjs';
+import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
+import { WWAfflictions } from './helpers/afflictions.mjs';
+import { expireFromTokens } from './helpers/effects.mjs';
+import { initChatListeners } from './chat/chat-listeners.mjs';
+import registerWWTours from './tours/registration.mjs';
+import migrateWorld from './helpers/migrations.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -266,25 +265,13 @@ Hooks.once('setup', function () {
   
 });
 
+/* -------------------------------------------- */
+/*  Chat Hooks                                  */
+/* -------------------------------------------- */
+
 Hooks.on('renderChatLog', (app, html, _data) => {
   initChatListeners(html);
 })
-
-Hooks.on('getSceneControlButtons', (array, html) => {
-  const notes = array.find(a => a.name === 'notes');
-  
-  // Render the class page.
-  notes.tools.push({
-    name: 'quest-calendar',
-    title: 'Toggle Quest Calendar',
-    icon: 'fa-solid fa-calendar-clock',
-    button: true,
-    visible: true,
-    toggle: true,
-    //onClick: () => toggleCalendar()
-    onClick: () => QuestCalendar.toggleVis('toggle')
-  });
-});
 
 Hooks.on('renderChatMessage', (app, html) => {
 
@@ -297,11 +284,36 @@ Hooks.on('renderChatMessage', (app, html) => {
 
 })
 
+/* -------------------------------------------- */
+/*  Misc Hooks                                  */
+/* -------------------------------------------- */
+
+Hooks.on('getSceneControlButtons', (array, html) => {
+  const notes = array.find(a => a.name === 'notes');
+  
+  // Render the class page.
+  notes.tools.push({
+    name: 'quest-calendar',
+    title: 'Toggle Quest Calendar',
+    icon: 'fa-solid fa-calendar-clock',
+    button: true,
+    visible: true,
+    toggle: true,
+    onClick: () => QuestCalendar.toggleVis('toggle')
+  });
+});
+
+// On game world time change
 Hooks.on('updateWorldTime', (worldTime, dt, options, userId) => {
+  expireFromTokens();
+
   if (ui.questcalendar?.rendered) ui.questcalendar.render();
 })
 
-/*             Modules              */
+/* -------------------------------------------- */
+/*  External Module Hooks                       */
+/* -------------------------------------------- */
+
 Hooks.on('diceSoNiceReady', (dice3d) => {
   dice3d.addSystem({ id: "archmage", name: "Archmage" }, false);
 
@@ -311,52 +323,6 @@ Hooks.on('diceSoNiceReady', (dice3d) => {
     game.settings.set("dice-so-nice", "animateInlineRoll", false);
     game.settings.set("archmage", "DsNInlineOverride", true);
   }*/
-
-  dice3d.addColorset({
-    name: 'wwd20',
-    description: "Weird Wizard D20",
-    category: "Weird Wizard",
-    texture: 'stars',
-    material: 'metal',
-    font: 'Amiri',
-    foreground: '#FFAE00', // Label Color
-    background: "#AE00FF", // Dice Color
-    outline: '#FF7B00',
-    edge: '#FFAE00',
-    material: 'metal',
-    font: 'Amiri',
-    default: true
-  }, "preferred");
-
-  dice3d.addColorset({
-    name: 'wwboon',
-    description: "Weird Wizard Boon",
-    category: "Weird Wizard",
-    texture: 'stars',
-    material: 'metal',
-    font: 'Amiri',
-    foreground: '#FFAE00', // Label Color
-    background: "#4394FE", // Dice Color
-    outline: '#FF7B00',
-    edge: '#FFAE00',
-    material: 'metal',
-    font: 'Amiri'
-  }, "preferred");
-
-  dice3d.addColorset({
-    name: 'wwbane',
-    description: "Weird Wizard Bane",
-    category: "Weird Wizard",
-    texture: 'stars',
-    material: 'metal',
-    font: 'Amiri',
-    foreground: '#FFAE00', // Label Color
-    background: "#C70000", // Dice Color
-    outline: '#FF7B00',
-    edge: '#FFAE00',
-    material: 'metal',
-    font: 'Amiri'
-  }, "preferred");
 
 });
 
