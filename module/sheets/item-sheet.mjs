@@ -1,4 +1,4 @@
-import { onManageActiveEffect, onManageInstantEffect, prepareActiveEffectCategories } from '../active-effects/effects.mjs';
+import { onManageActiveEffect, onManageInstantEffect, prepareActiveEffectCategories } from '../helpers/effects.mjs';
 import { resizeInput } from '../helpers/utils.mjs';
 
 /**

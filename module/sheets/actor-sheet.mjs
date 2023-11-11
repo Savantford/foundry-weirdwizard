@@ -2,8 +2,8 @@ import { i18n, plusify, capitalize, resizeInput, sum } from '../helpers/utils.mj
 import { healthDetails } from '../apps/health-details.mjs'
 import rollAttribute from '../apps/roll-attribute.mjs'
 import { rollDamage } from '../apps/roll-damage.mjs'
-import { onManageActiveEffect, prepareActiveEffectCategories } from '../active-effects/effects.mjs';
-import { WWAfflictions } from '../active-effects/afflictions.mjs';
+import { onManageActiveEffect, prepareActiveEffectCategories } from '../helpers/effects.mjs';
+import { WWAfflictions } from '../helpers/afflictions.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications

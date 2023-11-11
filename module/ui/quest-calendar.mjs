@@ -1,10 +1,11 @@
-const adv = (t) => game.time.advance(t);
-const hour = 3600;
-const rest = 28800;// 3600*8
-const day = 86400; // 3600*24
-const week = 604800; // 3600*24*7
-const month = 2419200; // 3600*24*7*4
-const i18n = (s,d={}) => game.i18n.format(s,d);
+const adv = (t) => game.time.advance(t),
+  hour = 3600,
+  rest = 28800, // 3600*8
+  day = 86400, // 3600*24
+  week = 604800, // 3600*24*7
+  month = 2419200, // 3600*24*7*4
+  i18n = (s,d={}) => game.i18n.format(s,d)
+;
 
 import QuestCalendarConfig from './quest-calendar-config.mjs';
 

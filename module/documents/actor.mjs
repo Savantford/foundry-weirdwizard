@@ -1,4 +1,4 @@
-import { i18n } from '../helpers/utils.mjs'
+import { i18n, formatTime } from '../helpers/utils.mjs';
 
 /**
 * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
@@ -372,6 +372,97 @@ export default class WWActor extends Actor {
       if (!effect.determineTransfer(this)) continue;
       yield effect;
     }
+  }
+
+  /**
+   * Deletes expired temporary active effects and disables linked expired buffs.
+   *
+   * @param {object} [options] Additional options
+   * @param {Combat} [options.combat] Combat to expire data in, if relevant
+   * @param {number} [options.timeOffset=0] Time offset from world time
+   * @param {DocumentModificationContext} [context] Document update context
+   */
+  async expireActiveEffects({ combat, timeOffset = 0 } = {}, context = {}) {
+    if (!this.isOwner) throw new Error("Must be owner");
+    
+    const worldTime = game.time.worldTime + timeOffset;
+    
+    const temporaryEffects = this.temporaryEffects.filter((ae) => {
+      const { seconds, rounds, startTime, startRound } = ae.duration;
+      // Calculate remaining duration.
+      // AE.duration.remaining is updated by Foundry only in combat and is unreliable.
+      
+      if (seconds > 0) {
+        const elapsed = worldTime - (startTime ?? 0),
+          remaining = seconds - elapsed;
+        return remaining <= 0;
+      } else if (rounds > 0 && combat) {
+        // BUG: This will ignore which combat
+        const elapsed = combat.round - (startRound ?? 0),
+          remaining = rounds - elapsed;
+        return remaining <= 0;
+      }
+      return false;
+    });
+
+    const disableActiveEffects = [],
+      deleteActiveEffects = [],
+      disableBuffs = [],
+      actorUpdate = {};
+
+    const v11 = game.release.generation >= 11;
+    
+    for (const ae of temporaryEffects) {
+      
+      const re = ae.origin?.match(/Item\.(?<itemId>\w+)/);
+      const item = this.items.get(re?.groups.itemId);
+      if (item?.type !== "buff") {
+        const conditionId = v11 ? ae.statuses.first() : ae.getFlag("core", "statusId");
+        if (conditionId) {
+          // Disable expired conditions
+          actorUpdate[`system.attributes.conditions.-=${conditionId}`] = null;
+        } else {
+          const duration = ae.duration.seconds ? formatTime(ae.duration.seconds) : ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? i18n('WW.Effect.Duration.Rounds') : i18n('WW.Effect.Duration.Round'));
+          
+          await ChatMessage.create({
+            speaker: ChatMessage.getSpeaker({ actor: this }),
+            flavor: this.label,
+            content: '<div><b>' + ae.name + '</b> ' + i18n("WW.Effect.Duration.ExpiredMsg") + ' ' + duration + '.</div>',
+            sound: CONFIG.sounds.notification
+          });
+
+          if (ae.autoDelete) {
+            deleteActiveEffects.push(ae.id);
+          } else {
+            disableActiveEffects.push({ _id: ae.id, disabled: true });
+          }
+        }
+      } else {
+        disableBuffs.push({ _id: item.id, "system.active": false });
+      }
+    }
+
+    // Add context info for why this update happens to allow modules to understand the cause.
+    context.pf1 ??= {};
+    context.pf1.reason = "duration";
+
+    const hasActorUpdates = !foundry.utils.isEmpty(actorUpdate);
+
+    const deleteAEContext = mergeObject(
+      { render: !disableBuffs.length && !disableActiveEffects.length && !hasActorUpdates },
+      context
+    );
+    if (deleteActiveEffects.length)
+      await this.deleteEmbeddedDocuments("ActiveEffect", deleteActiveEffects, deleteAEContext);
+
+    const disableAEContext = mergeObject({ render: !disableBuffs.length && !hasActorUpdates }, context);
+    if (disableActiveEffects.length)
+      await this.updateEmbeddedDocuments("ActiveEffect", disableActiveEffects, disableAEContext);
+
+    const disableBuffContext = mergeObject({ render: !hasActorUpdates }, context);
+    if (disableBuffs.length) await this.updateEmbeddedDocuments("Item", disableBuffs, disableBuffContext);
+
+    if (hasActorUpdates) await this.update(actorUpdate, context);
   }
 
   /*async applyHealing(fullHealingRate) {

@@ -1,5 +1,5 @@
-import { i18n, capitalize } from '../helpers/utils.mjs'
-import { effChanges } from './effect-options.mjs'
+import { effChanges } from '../helpers/effect-options.mjs'
+import { formatTime } from '../helpers/utils.mjs';
 
 export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
@@ -48,7 +48,18 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
     context = foundry.utils.mergeObject(context, data);
 
+
+    // Prepare enriched description
     context.descriptionHTML = await TextEditor.enrichHTML(this.document.description, {async: true, secrets: this.document.isOwner});
+
+    // Prepare durationSelect dropdown
+    context.durationOptions = CONFIG.WW.EFFECT_DURATIONS;
+
+    // Pass down durations to display
+    context.formattedTime = {
+      seconds: formatTime(this.document.duration.seconds),
+      startTime: formatTime(this.document.duration.startTime,1)
+    }
 
     // Prepare Effect Options to display on key dropdown menu
     const optionsObj = deepClone(CONFIG.WW.effOptions);
@@ -85,15 +96,27 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     // inputRounds.change(_ => inputSeconds.val(inputRounds.val() * 10))
     
     html.find('.key > select').change((ev) => this._updateValueInput(ev, this.document));
+    html.find('select[name=selectedDuration]').change((ev) => this._updateDurationProperties(ev, this.document));
 
   }
 
   async _updateObject(event, formData) { // Update actor data.
     super._updateObject(event, formData)
-
+    
     // Set needed flags
-    this.document.setFlag('weirdwizard', 'trigger', formData.trigger)
-    this.document.setFlag('weirdwizard', 'target', formData.target)
+    this.document.setFlag('weirdwizard', 'trigger', formData.trigger);
+    this.document.setFlag('weirdwizard', 'target', formData.target);
+    this.document.setFlag('weirdwizard', 'selectedDuration', formData.selectedDuration);
+    this.document.setFlag('weirdwizard', 'autoDelete', formData.autoDelete);
+    this.document.setFlag('weirdwizard', 'durationInMinutes', formData.durationInMinutes);
+    this.document.setFlag('weirdwizard', 'durationInHours', formData.durationInHours);
+    this.document.setFlag('weirdwizard', 'durationInDays', formData.durationInDays);
+
+    switch (formData.selectedDuration) {
+      case 'minutes': formData.duration = { seconds: formData.durationInMinutes * 3600 }; break;
+      case 'hours': formData.duration = { seconds: formData.durationInHours * 3600 }; break;
+      case 'days': formData.duration = { seconds: formData.durationInDays * 3600*24 }; break;
+    }
 
     // Prepare custom mode change data
     const changes = formData.changes;
@@ -119,6 +142,7 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     formData.changes = altChanges;
   }
 
+  // Update change.value input to reflect the corresponding change.key
   _updateValueInput(ev, doc) {
     const select = ev.currentTarget;
     const parent = ev.currentTarget.closest('.effect-change');
@@ -140,6 +164,87 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     }
 
     div.insertAdjacentHTML('beforeend', ele);
+  }
+
+  // Update duration properties according to the selectedDuration dropdown value
+  _updateDurationProperties(ev, doc) {
+    const select = ev.currentTarget;
+    const parent = ev.currentTarget.closest('section [data-tab=duration]');
+
+    // Set Flag
+    doc.setFlag('weirdwizard', 'selectedDuration', select.value)
+
+    // Check the selected value and set duration values
+    switch (select.value) {
+      case '': {
+        doc.update({ 'duration.rounds': null, 'duration.seconds': null });
+      }; break;
+
+      case 'luckEnds': ''; break;
+
+      case '1round': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
+      case '2rounds': doc.update({ 'duration.rounds': 2, 'duration.seconds': null }); break;
+
+      case 'Xrounds': /*doc.update({ 'duration.rounds': 1 })*/; break;
+
+      case 'turnEnds': /*doc.update({ 'duration.rounds': 1 })*/; break;
+      case 'nextTriggerTurnStart': /*doc.update({ 'duration.rounds': 1 })*/; break;
+      case 'nextTargetTurnStart': /*doc.update({ 'duration.rounds': 1 })*/; break;
+      case 'nextTriggerTurnEnd': /*doc.update({ 'duration.rounds': 1 })*/; break;
+      case 'nextTargetTurnEnd': /*doc.update({ 'duration.rounds': 1 })*/; break;
+
+      /* World Time */
+      case '1minute': doc.update({ 'duration.seconds': 60, 'duration.rounds': null }); break;
+
+      case 'minutes': {
+        doc.update({ 'duration.rounds': null });
+
+        if (!doc.flags.weirdwizard?.durationInMinutes) {
+          doc.setFlag('weirdwizard', 'durationInMinutes', 1);
+          doc.update({ 'duration.seconds': 60 });
+        }
+      }; break;
+
+      case 'hours': {
+        doc.update({ 'duration.rounds': null });
+
+        if (!doc.flags.weirdwizard?.durationInHours) {
+          doc.setFlag('weirdwizard', 'durationInHours', 1);
+          doc.update({ 'duration.seconds': 3600 });
+        }
+      }; break;
+
+      case 'days': {
+        doc.update({ 'duration.rounds': null });
+
+        if (!doc.flags.weirdwizard?.durationInDays) {
+          doc.setFlag('weirdwizard', 'durationInDays', 1);
+          doc.update({ 'duration.seconds': 3600*24 });
+        }
+      }; break;
+      
+    }
+
+    /*this.render(true);*/
+    //
+    /*const div = parent.querySelector('.value');
+    let ele = parent.querySelector('.value input');
+    const valueRef = select.value.split('.').reduce((o, i) => o[i], effChanges);
+    const valueType = valueRef ? valueRef.valueType : '';*/
+
+    /*ele.remove();
+    if (valueType === "int") {
+      if (isNaN(ele.value) || !ele.value) ele.value = 0;
+      ele = '<input type="number" name="' + ele.name + '" value="' + ele.value + '" min="0"/>';
+    } else if (valueType === "str") {
+      ele = '<input type="text" name="' + ele.name + '" value="' + ele.value + '"/>';
+    } else if (valueType === "boo") {
+      ele = '<input type="checkbox" name="' + ele.name + '" checked>'
+    } else {
+      ele = '<input style="display: none;" type="text" name="' + ele.name + '" value="' + ele.value + '"/>';
+    }
+
+    div.insertAdjacentHTML('beforeend', ele);*/
   }
 
   /* Initialization functions */

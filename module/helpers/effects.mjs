@@ -1,5 +1,5 @@
 //import {calcEffectRemainingRounds, calcEffectRemainingSeconds, calcEffectRemainingTurn} from "../combat/combat.mjs";
-import {i18n} from "../helpers/utils.mjs";
+import { i18n } from "./utils.mjs";
 import InstantEffectConfig from '../apps/instant-effect-config.mjs'
 
 /**
@@ -21,6 +21,8 @@ export async function onManageActiveEffect(event, owner) {
           icon: /*isCharacter ? 'icons/magic/symbols/chevron-elipse-circle-blue.webp' :*/ owner.img,
           origin: owner.uuid,
           'duration.rounds': li.dataset.effectType === 'temporary' ? 1 : undefined,
+          'flags.weirdwizard.selectedDuration': li.dataset.effectType === 'temporary' ? '1round' : '',
+          'flags.weirdwizard.autoDelete': true,
           disabled: li.dataset.effectType === 'inactive'
         },
       ])
@@ -151,4 +153,18 @@ export function prepareActiveEffectCategories(effects, showDuration = false, sho
   }
 
   return categories
+}
+
+export function expireFromTokens() {
+  if (game.users.activeGM?.isSelf) {
+    for (const t of canvas.tokens.placeables) {
+      // Skip tokens in combat to avoid too early expiration
+      //if (t.combatant?.combat?.started) continue;
+      
+      // Don't do anything for actors without this function (e.g. basic actors)
+      if (!t.actor?.expireActiveEffects) continue;
+      console.log('chegou')
+      t.actor.expireActiveEffects();
+    }
+  }
 }

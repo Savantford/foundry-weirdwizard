@@ -121,7 +121,6 @@
 
         <div class="item-controls effect-controls flexrow">
           {{#if (or (eq effect.parent.type 'Character') (eq effect.parent.type 'NPC'))}}
-            {{log effect.parent.type}}
           {{#if (ne section.type 'temporary')}}
           <a class="effect-control" data-action="toggle" title="{{localize 'WW.Effect.Toggle'}}">
             <i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>

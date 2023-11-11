@@ -464,6 +464,28 @@
             "40": "",
             "50": "Override"
         },
+        "Duration": {
+            "Label": "Effect Duration",
+            "AutoDelete": "Delete automatically when expired?",
+            "ExpiredMsg": "expired after",
+            "No": "No duration",
+            "Round": "round",
+            "Rounds": "rounds",
+            "Minute": "minute",
+            "Minutes": "minutes",
+            "Hour": "hour",
+            "Hours": "hours",
+            "Day": "day",
+            "Days": "days",
+            "Week": "week",
+            "Weeks": "weeks",
+            "Month": "month",
+            "Months": "months",
+            "And": "and",
+            "InMinutes": "Duration in Minutes",
+            "InHours": "Duration in Hours",
+            "InDays": "Duration in Days"
+        },
         "Trigger": "Condition to Trigger Effect",
         "Passive": "None (Passive Effect)",
         "OnUse": "On use/cast",
@@ -567,6 +589,29 @@
             "Intellect": "Intellect becomes",
             "Will": "Will becomes"
         }
+    },
+
+    "WW.EffectDurations": {
+        "Combat": {
+            "Header": "Tracked with Rounds or Turns (Combat)",
+            "LuckEnds": "Luck Ends (BROKEN)",
+            "1Round": "Until the end of the round",
+            "2Rounds": "Until the end of the next round",
+            "XRounds": "X rounds (Choose value)",
+            "TurnEnd": "Until the end of the trigger's turn (BROKEN)",
+            "NextTriggerTurnStart": "Until the start of the trigger's next turn (BROKEN)",
+            "NextTargetTurnStart": "Until the start of the target's next turn (BROKEN)",
+            "NextTriggerTurnEnd": "Until the end of the trigger's next turn (BROKEN)",
+            "NextTargetTurnEnd": "Until the end of the target's next turn (BROKEN)"
+        },
+        "OutOfCombat": {
+            "Header": "Tracked with Time Units (Out of Combat)",
+            "1Minute": "1 minute",
+            "Minutes": "X minutes (Choose value)",
+            "Hours": "X hours (Choose value)",
+            "Days": "X days (Choose value)"
+        }
+        
     },
 
     "WW.Afflictions": "Afflictions",

@@ -4,7 +4,6 @@
 */
 
 import { i18n, plusify } from '../helpers/utils.mjs';
-//import { rollDamage } from './roll-damage.mjs';
 import WWRoll from '../dice/roll.mjs';
 
 export default class rollAttribute extends FormApplication {
@@ -217,7 +216,20 @@ export default class rollAttribute extends FormApplication {
 
           const exp = r.dice[i].expression;
           if (exp.includes('d20')) {
-            r.dice[i].options.appearance = { colorset: 'wwd20' };
+            r.dice[i].options.appearance = {
+              colorset: 'wwd20',
+              texture: 'stars',
+              material: 'metal',
+              font: 'Amiri',
+              foreground: '#FFAE00', // Label Color
+              background: "#AE00FF", // Dice Color
+              outline: '#FF7B00',
+              edge: '#FFAE00',
+              material: 'metal',
+              font: 'Amiri',
+              default: true
+            };
+          
           }
 
           if (exp.includes('d6')) {
@@ -225,10 +237,32 @@ export default class rollAttribute extends FormApplication {
             const sign = sub.slice(-1);
             
             if (sign === '+') { // If a boon
-              r.dice[i].options.appearance = { colorset: 'wwboon' };
+              r.dice[i].options.appearance = {
+                colorset: 'wwboon',
+                texture: 'stars',
+                material: 'metal',
+                font: 'Amiri',
+                foreground: '#FFAE00', // Label Color
+                background: "#4394FE", // Dice Color
+                outline: '#FF7B00',
+                edge: '#FFAE00',
+                material: 'metal',
+                font: 'Amiri'
+              };
             
             } else if (sign === '-') { // If a bane
-              r.dice[i].options.appearance = { colorset: 'wwbane' };
+              r.dice[i].options.appearance = {
+                colorset: 'wwbane',
+                texture: 'stars',
+                material: 'metal',
+                font: 'Amiri',
+                foreground: '#FFAE00', // Label Color
+                background: "#C70000", // Dice Color
+                outline: '#FF7B00',
+                edge: '#FFAE00',
+                material: 'metal',
+                font: 'Amiri'
+              };
             }
           }
         }

@@ -1,4 +1,4 @@
-import { addEffect, multiplyEffect, downgradeEffect, overrideEffect } from './item-effects.mjs'
+import { addEffect, multiplyEffect, downgradeEffect, overrideEffect } from '../helpers/item-effects.mjs'
 import { i18n } from "../helpers/utils.mjs";
 
 const addPriority = 120;

@@ -5,9 +5,19 @@ export default class WWActiveEffect extends ActiveEffect {
 
     const wwflags = this.flags.weirdwizard;
 
-    // Set external flags if it does not exist. Must have a non-passive trigger flag set and a different parent UUID
+    // Set external flag if it does not exist. Must have a non-passive trigger flag set and a different parent UUID
     if (!wwflags?.external && wwflags?.trigger != 'passive' && this.origin && !this.origin.includes(this.parent.uuid)) {
       this.setFlag('weirdwizard', 'external', true)
+    }
+
+    // Set selectedDuration flag to '' if undefined
+    if (!wwflags?.selectedDuration === undefined) {
+      this.setFlag('weirdwizard', 'selectedDuration', '')
+    }
+
+    // Set autoDelete flag to true if undefined
+    if (!wwflags?.autoDelete === undefined) {
+      this.setFlag('weirdwizard', 'autoDelete', true)
     }
     
   }
@@ -31,7 +41,6 @@ export default class WWActiveEffect extends ActiveEffect {
    * The item which this effect originates from if it has been transferred from an item to an actor.
    * @return {import('./item/item').WWItem | undefined}
   */
-
   get originatingItem() {
     if (this.parent instanceof Item) {
       return this.parent;
@@ -40,10 +49,49 @@ export default class WWActiveEffect extends ActiveEffect {
   }
 
   /**
+   * Get the selectedDuration flag.
+   * @type {string}
+  */
+  get selectedDuration() {
+    return this.flags.weirdwizard?.selectedDuration;
+  }
+
+  /**
+   * Get the autoDelete flag.
+   * @type {string}
+  */
+  get autoDelete() {
+    return this.flags.weirdwizard?.autoDelete;
+  }
+
+  /**
+   * Get the durationInMinutes flag.
+   * @type {string}
+  */
+  get durationInMinutes() {
+    return this.flags.weirdwizard?.durationInMinutes;
+  }
+
+  /**
+   * Get the durationInHours flag.
+   * @type {string}
+  */
+  get durationInHours() {
+    return this.flags.weirdwizard?.durationInHours;
+  }
+
+  /**
+   * Get the durationInDays flag.
+   * @type {string}
+  */
+  get durationInDays() {
+    return this.flags.weirdwizard?.durationInDays;
+  }
+
+  /**
    * The number of times this effect should be applied.
    * @type {number}
   */
-
   get factor() {
     return this.originatingItem?.activeEffectFactor ?? 1;
   }
@@ -53,7 +101,6 @@ export default class WWActiveEffect extends ActiveEffect {
    * Returns the default value the flag is not set.
    * @type {string}
   */
-
   get trigger() {
     const trigger = this.flags.weirdwizard?.trigger ?? 'passive';
     return typeof trigger === 'string' ? trigger : 'passive';
@@ -64,7 +111,6 @@ export default class WWActiveEffect extends ActiveEffect {
    * Returns the default value the flag is not set.
    * @type {string}
   */
-
   get target() {
     const target = this.flags.weirdwizard?.target ?? 'none';
     return typeof target === 'string' ? target : 'none';
@@ -75,7 +121,6 @@ export default class WWActiveEffect extends ActiveEffect {
    * Returns the default value the flag is not set.
    * @type {string}
   */
-
   get isExternal() {
     if (this.flags.weirdwizard?.external)
       return true;
