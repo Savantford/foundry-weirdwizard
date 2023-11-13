@@ -58,6 +58,7 @@
         <div class="item-name">{{localize section.name}}</div>
         <div class="effect-trigger"></div>
         <div class="effect-changes">Changes</div>
+        {{#if section.showDuration}}<div class="effect-duration">Duration</div>{{/if}}
         <div class="item-controls itemeffect-controls flexrow">
             <a class="effect-control" data-action="create" title="{{localize 'WW.Effect.Create'}}">
                 <i class="fas fa-plus"></i> {{localize "WW.Add"}}
@@ -105,6 +106,8 @@
                 {{/if}}
                 {{/each}}
             </div>
+
+            {{#if section.showDuration}}<div class="effect-duration">{{effect.formattedDuration}}</div>{{/if}}
 
             <div class="item-controls itemeffect-controls flexrow">
                 <a class="effect-control" data-action="edit" title="{{localize 'WW.Effect.Edit'}}">

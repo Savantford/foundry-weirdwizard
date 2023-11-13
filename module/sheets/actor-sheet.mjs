@@ -66,8 +66,11 @@ export default class WWActorSheet extends ActorSheet {
 
     // Prepare common data
     context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true })
-    context.incapacitated = (context.system.stats.damage.value >= context.system.stats.health.current) ? true : false;
-    context.injured = (context.system.stats.damage.value >= Math.floor(context.system.stats.health.current / 2)) ? true : false;
+    //context.incapacitated = (context.system.stats.damage.value >= context.system.stats.health.current) ? true : false;
+    //context.injured = (context.system.stats.damage.value >= Math.floor(context.system.stats.health.current / 2)) ? true : false;
+    context.injured = context.actor.injured;
+    context.incapacitated = context.actor.incapacitated;
+    context.dead = context.actor.dead;
 
     // Prepare numbersArr, Level and Size
     context.numbersArr = Object.entries(CONFIG.WW.dropdownNumbers).map(([k, v]) => ({key: k, label: v})).sort((a,b) => a.key - b.key);
@@ -821,11 +824,11 @@ export default class WWActorSheet extends ActorSheet {
         break;
       }
     }
-
+    
     const html = '<div class="'+ cls + ' chat-button" data-item-id="' + item._id +
-    '"  data-actor-id="' + this.document._id +
+    (this.token ? '"  data-token-key="' + this.token.parent.id + '.' + this.token._id : '"  data-actor-id="' + this.document.id) +
     '" data-target-id="' + target.id +
-    '" data-' + label + '="' + value +
+    '" data-value="' + value +
     '"><i class="fas fa-' + icon + '"></i>' + i18n(loc) + ': ' + value + '</div>';
     return html;
   }

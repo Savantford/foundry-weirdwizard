@@ -1,3 +1,5 @@
+import { i18n, formatTime } from '../helpers/utils.mjs';
+
 export default class WWActiveEffect extends ActiveEffect {
 
   prepareData() {
@@ -86,6 +88,21 @@ export default class WWActiveEffect extends ActiveEffect {
   */
   get durationInDays() {
     return this.flags.weirdwizard?.durationInDays;
+  }
+
+  /**
+   * Get the formatted duration.
+   * @type {string}
+  */
+  get formattedDuration() {
+    if (this.duration.seconds)
+      return formatTime(this.duration.seconds);
+    else {
+      const rounds = this.duration.rounds;
+      const key = 'WW.Effect.Duration.';
+      
+      return rounds + ' ' + (rounds > 1 ? i18n(key + 'Rounds') : i18n(key + 'Round'));
+    }
   }
 
   /**

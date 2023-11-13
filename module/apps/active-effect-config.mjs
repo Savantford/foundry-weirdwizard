@@ -56,10 +56,7 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     context.durationOptions = CONFIG.WW.EFFECT_DURATIONS;
 
     // Pass down durations to display
-    context.formattedTime = {
-      seconds: formatTime(this.document.duration.seconds),
-      startTime: formatTime(this.document.duration.startTime,1)
-    }
+    context.formattedStartTime = formatTime(this.document.duration.startTime,1);
 
     // Prepare Effect Options to display on key dropdown menu
     const optionsObj = deepClone(CONFIG.WW.effOptions);
@@ -180,18 +177,18 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
         doc.update({ 'duration.rounds': null, 'duration.seconds': null });
       }; break;
 
-      case 'luckEnds': ''; break;
+      case 'luckEnds': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
 
       case '1round': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
       case '2rounds': doc.update({ 'duration.rounds': 2, 'duration.seconds': null }); break;
 
-      case 'Xrounds': /*doc.update({ 'duration.rounds': 1 })*/; break;
+      case 'Xrounds': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
 
-      case 'turnEnds': /*doc.update({ 'duration.rounds': 1 })*/; break;
-      case 'nextTriggerTurnStart': /*doc.update({ 'duration.rounds': 1 })*/; break;
-      case 'nextTargetTurnStart': /*doc.update({ 'duration.rounds': 1 })*/; break;
-      case 'nextTriggerTurnEnd': /*doc.update({ 'duration.rounds': 1 })*/; break;
-      case 'nextTargetTurnEnd': /*doc.update({ 'duration.rounds': 1 })*/; break;
+      case 'turnEnds': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
+      case 'nextTriggerTurnStart': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
+      case 'nextTargetTurnStart': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
+      case 'nextTriggerTurnEnd': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
+      case 'nextTargetTurnEnd': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
 
       /* World Time */
       case '1minute': doc.update({ 'duration.seconds': 60, 'duration.rounds': null }); break;

@@ -302,6 +302,7 @@ export default class rollAttribute extends FormApplication {
       };
 
     } else { // against is false; perform a single roll for all targets
+      
       // Set boons text
       if (boonsFinal != 0) { boons = boonsFinal + "d6kh" } else { boons = ""; };
 
@@ -320,7 +321,7 @@ export default class rollAttribute extends FormApplication {
       // Evaluate target number
       const success = await r.total >= targetNo;
       const critical = await r.total >= 20 && await r.total >= targetNo + 5;
-
+      
       if (critical) {
         rollHtml += criticalHtml;
 
@@ -355,8 +356,6 @@ export default class rollAttribute extends FormApplication {
     }
 
     // Create message data
-    console.log(rollArray)
-    
     const messageData = {
       type: CONST.CHAT_MESSAGE_TYPES.ROLL,
       rolls: rollArray,
@@ -389,15 +388,16 @@ export default class rollAttribute extends FormApplication {
 
   _addInstEffs(effects, t) {
     let finalHtml = '';
+    
     effects.forEach(e => {
       let html = '';
+      console.warn('chegou')    
+      let target = canvas.tokens.get(t.id);
         
-        let target = canvas.tokens.get(t.id);
+      if (e.target === 'self') target = canvas.tokens.get(this.token.id);
         
-        if (e.target === 'self') target = canvas.tokens.get(this.token.id);
-        
-        if (e.label === 'affliction') html = this.prepareHtmlButton(target, e.affliction, e.label);
-        else html = this.prepareHtmlButton(target, e.value, e.label);
+      if (e.label === 'affliction') html = this.prepareHtmlButton(target, e.affliction, e.label);
+      else html = this.prepareHtmlButton(target, e.value, e.label);
       
       finalHtml += html;
     })
@@ -461,9 +461,9 @@ export default class rollAttribute extends FormApplication {
     }
 
     const html = '<div class="'+ cls + ' chat-button" data-item-id="' + this.item._id +
-    '"  data-actor-id="' + this.actor._id +
+    (this.token ? '"  data-token-key="' + this.token.parent.id + '.' + this.token._id : '"  data-actor-id="' + this.actor._id) +
     '" data-target-id="' + target.id +
-    '" data-' + label + '="' + value +
+    '" data-value="' + value +
     '"><i class="fas fa-' + icon + '"></i>' + i18n(loc) + ': ' + value + '</div>';
     return html;
   }
