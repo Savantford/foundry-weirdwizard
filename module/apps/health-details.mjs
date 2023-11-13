@@ -73,9 +73,14 @@ export class healthDetails extends FormApplication {
 
             parent.querySelector('.health-levels.master').innerHTML = masterLv;
             parent.querySelector('.health-display.master').innerHTML = masterBonus;
+            
+            // Get bonus and lost Health
+            const starting = parseInt(parent.querySelector('input[type=number].starting').value);
+            const bonus = parseInt(parent.querySelector('.health-display.bonus').innerHTML);
+            const lost = parseInt(parent.querySelector('.health-display.lost').innerHTML);
 
             // Current Health calculation
-            const currentHealth = parseInt(parent.querySelector('input[type=number].starting').value) + noviceBonus + expertBonus + masterBonus + parseInt(parent.querySelector('input[type=number].bonus').value) - parseInt(parent.querySelector('input[type=number].lost').value);
+            const currentHealth = starting + noviceBonus + expertBonus + masterBonus + bonus - lost;
 
             parent.querySelector('.health-display.current').innerHTML = currentHealth;
         }

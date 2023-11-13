@@ -42,11 +42,13 @@
         </div>
         <div class="stat-stretch flex-group-left mt-1">
             <label class="resource-label">{{localize "WW.Health.Bonus"}}</label>
-            <i class="fas fa-plus ml-2 mr-1"></i> {{system.stats.health.bonus}}
+            <i class="fas fa-plus ml-2 mr-1"></i>
+            <span class="health-display bonus">{{system.stats.health.bonus}}</span>
         </div>
         <div class="stat-stretch flex-group-left mt-1">
             <label class="resource-label">{{localize "WW.Health.Lost"}}</label>
-            <i class="fas fa-minus ml-2 mr-1"></i> {{system.stats.health.lost}}
+            <i class="fas fa-minus ml-2 mr-1"></i>
+            <span class="health-display lost">{{system.stats.health.lost}}</span>
         </div>
     </div>
 

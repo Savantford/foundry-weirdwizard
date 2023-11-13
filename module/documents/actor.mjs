@@ -47,18 +47,9 @@ export default class WWActor extends Actor {
     // Create halved boolean for Speed reductions
     this.system.stats.speed.halved = false;
 
-    // Assign normal Speed to current Speed so it can be used later by Active Effects
-    let normalSpeed = this.system.stats.speed.normal;
-    let currentSpeed = this.system.stats.speed.current;
-
     // Create dynamic Defense properties
     this.system.stats.defense.armored = 0;
     this.system.stats.defense.bonus = 0;
-
-    // Compability: If speed.normal is undefined or lower, copy current Speed to normal Speed
-    if ((currentSpeed > normalSpeed) || (normalSpeed == undefined)) this.system.stats.speed.normal = currentSpeed;
-
-    this.system.stats.speed.current = this.system.stats.speed.normal;
 
     // Attributes
     const attributes = this.system.boons.attributes;
@@ -75,36 +66,6 @@ export default class WWActor extends Actor {
 
       autoFail[attribute] = false;
     })
-
-    // Compatibility: Reset Natural Defense and Defense before Active Effects
-    if (this.type == 'Character') {
-      this.system.stats.defense.natural = 10;
-      this.system.stats.defense.total = 0;
-    }
-
-    // Compatibility: Delete old Defense values
-    const defense = this.system.stats.defense;
-
-    if (defense.armor) delete this.system.stats.defense.armor;
-    if (defense.bonuses) delete this.system.stats.defense.bonuses;
-    if (defense.unarmored) delete this.system.stats.defense.unarmored;
-
-    // Compatibility: Assign health.total value to health.current
-    let health = this.system.stats.health;
-
-    if (health.total) {
-      if (this.type == 'NPC') {
-        this.system.stats.health.current = health.total;
-        delete this.system.stats.health.bonus;
-        delete this.system.stats.health.expert;
-        delete this.system.stats.health.lost;
-        delete this.system.stats.health.master;
-        delete this.system.stats.health.novice;
-        delete this.system.stats.health.starting;
-      }
-
-      delete this.system.stats.health.total;
-    }
 
     // Create Extra Damage variables
     this.system.extraDamage = {
@@ -221,6 +182,8 @@ export default class WWActor extends Actor {
   _prepareNpcData(system) {
     if (this.type !== 'NPC') return;
 
+    this._calculateHealth(system);
+
     // Assign Current Health to Max Damage for Token Bars
     system.stats.damage.max = system.stats.health.current;
   }
@@ -271,35 +234,25 @@ export default class WWActor extends Actor {
   }
 
   async applyDamage(damage) {
+    // If incapacitated, turn damage into Health loss
+    if (this.incapacitated) return this.applyHealthLoss(damage);
+
+    // Get values
     const oldTotal = this.system.stats.damage.value;
     const health = this.system.stats.health.current;
     let newTotal = oldTotal + damage;
-    let lostHealth = 0;
+    let healthLost = 0;
 
     if (newTotal > health) {
-      lostHealth = newTotal - health;
+      healthLost = newTotal - health;
       newTotal = health;
     }
-
-    //const newHp = Math.max(0, Math.min(health.max, Math.floor(health.value + increment)));
-
-    /*if (increment > 0) {
-      // Check if hit is an instant death
-      if (increment >= health.max) {
-        await findAddEffect(this, 'dead', true);
-      }
- 
-      // If character is incapacitated, die
-      else if (this.effects.find(e => e.statuses.has("incapacitated"))) {
-        await findAddEffect(this, 'dead', true);
-      }
-    }*/
 
     let content = '<span style="display: inline"><span style="font-weight: bold">' + this.name + '</span> ' + 
     i18n('WW.InstantEffect.Apply.Took') + ' ' + damage + ' ' + i18n('WW.InstantEffect.Apply.Damage') + '.</span><div>' + 
     i18n('WW.InstantEffect.Apply.DamageTotal') +': ' + oldTotal + ' <i class="fas fa-arrow-right"></i> ' + newTotal;
 
-    if (lostHealth) content += ' (' + 'Health Lost' + ': ' +  lostHealth + ')</div>'; else content += '</div>';
+    //if (healthLost) content += ' (' + 'Health Lost' + ': ' +  healthLost + ')</div>'; else content += '</div>'; // no longer carries over
 
     ChatMessage.create({
       speaker: ChatMessage.getSpeaker({ actor: this }),
@@ -307,10 +260,46 @@ export default class WWActor extends Actor {
       sound: CONFIG.sounds.notification
     })
 
-    this.update({ 'system.stats.damage.value': newTotal })
+    this.update({ 'system.stats.damage.value': newTotal });
+  }
 
-    // Carry over surplus damage as Health Loss
-    //if (lostHealth) applyHealthLoss(lostHealth)
+  /* Apply loss to Health */
+  async applyHealthLoss(loss) {
+    const lost = this.system.stats.health.lost;
+    const oldCurrent = this.system.stats.health.current;
+    const current = (oldCurrent - loss) > 0 ? oldCurrent - loss : 0;
+
+    let content = '<span style="display: inline"><span style="font-weight: bold">' + this.name + '</span> ' + 
+    i18n('WW.InstantEffect.Apply.Lost') + ' ' + loss + ' ' + i18n('WW.InstantEffect.Apply.Health') + '.</span><div>' + 
+    i18n('WW.InstantEffect.Apply.CurrentHealth') +': ' + oldCurrent + ' <i class="fas fa-arrow-right"></i> ' + current;
+
+    ChatMessage.create({
+      speaker: ChatMessage.getSpeaker({ actor: this }),
+      content: content,
+      sound: CONFIG.sounds.notification
+    })
+
+    this.update({ 'system.stats.health.lost': lost + loss });
+  }
+
+  /* Apply lost Health recovery */
+  async applyHealthRecovery(recovered) {
+    const lost = this.system.stats.health.lost;
+    const oldCurrent = this.system.stats.health.current;
+    const newLost = (lost - recovered) > 0 ? lost - recovered : 0;
+    const current = oldCurrent + lost - newLost;
+
+    let content = '<span style="display: inline"><span style="font-weight: bold">' + this.name + '</span> ' + 
+    i18n('WW.InstantEffect.Apply.Recovered') + ' ' + (lost - newLost) + ' ' + i18n('WW.InstantEffect.Apply.Health') + '.</span><div>' + 
+    i18n('WW.InstantEffect.Apply.CurrentHealth') +': ' + oldCurrent + ' <i class="fas fa-arrow-right"></i> ' + current;
+
+    ChatMessage.create({
+      speaker: ChatMessage.getSpeaker({ actor: this }),
+      content: content,
+      sound: CONFIG.sounds.notification
+    })
+
+    this.update({ 'system.stats.health.lost': lost - recovered });
   }
 
   _calculateDefense(system) {
@@ -333,36 +322,41 @@ export default class WWActor extends Actor {
     if (health.override) {
       health.normal = health.override;
     } else {
-      function count(levels) { // Count how many of provided levels the Character has
-        let newValue = 0;
 
-        levels.forEach(function count(v) {
-          if (level >= v) { newValue += 1 }
-        })
-
-        return newValue
+      // If Character, calculate normal Health from Paths
+      if (this.type === 'Character') {
+        function count(levels) { // Count how many of provided levels the Character has
+          let newValue = 0;
+  
+          levels.forEach(function count(v) {
+            if (level >= v) { newValue += 1 }
+          })
+  
+          return newValue
+        }
+  
+        // Novice Path calculation
+        const noviceLv = count([2, 5, 8])
+        const noviceBonus = noviceLv * health.novice;
+  
+        // Expert Path calculation
+        const expertLv = count([3, 4, 6, 9]);
+        const expertBonus = expertLv * health.expert;
+  
+        // Master Path calculation
+        const masterLv = count([7, 8, 10])
+        const masterBonus = masterLv * health.master;
+  
+        // Calculate normal Health
+        health.normal = health.starting + noviceBonus + expertBonus + masterBonus;
       }
 
-      // Novice Path calculation
-      const noviceLv = count([2, 5, 8])
-      const noviceBonus = noviceLv * health.novice;
-
-      // Expert Path calculation
-      const expertLv = count([3, 4, 6, 9]);
-      const expertBonus = expertLv * health.expert;
-
-      // Master Path calculation
-      const masterLv = count([7, 8, 10])
-      const masterBonus = masterLv * health.master;
-
-      // Calculate normal Health
-      health.normal = health.starting + noviceBonus + expertBonus + masterBonus;
+      // Assign current health
+      health.current = health.normal + health.bonus - health.lost;
+      
     }
     
-    // Assign current health
-    health.current = health.normal + health.bonus - health.lost;
-    
-    // Assign Current Health to Max Damage for Token Bars
+    // Assign Current Health to Max Damage for Token Bars // no longer needed, done on a data models getter
     system.stats.damage.max = health.current;
     
   }
@@ -376,6 +370,7 @@ export default class WWActor extends Actor {
 
   /**
    * Deletes expired temporary active effects and disables linked expired buffs.
+   * Code borrowed from Pathfinder 1e system.
    *
    * @param {object} [options] Additional options
    * @param {Combat} [options.combat] Combat to expire data in, if relevant
@@ -443,9 +438,8 @@ export default class WWActor extends Actor {
     }
 
     // Add context info for why this update happens to allow modules to understand the cause.
-    context.pf1 ??= {};
-    context.pf1.reason = "duration";
-
+    //context.pf1 ??= {};
+    //context.pf1.reason = "duration";
     const hasActorUpdates = !foundry.utils.isEmpty(actorUpdate);
 
     const deleteAEContext = mergeObject(
@@ -470,5 +464,35 @@ export default class WWActor extends Actor {
       rate = fullHealingRate ? rate : rate / 2;
       return await this.increaseDamage(-rate)
   }*/
+
+  /* -------------------------------------------- */
+  /*  Properties (Getters)                        */
+  /* -------------------------------------------- */
+
+  /**
+   * Determine whether the character is injured.
+   * @type {boolean}
+   */
+  get injured() {
+    const damage = this.system.stats.damage;
+    return (damage.value >= Math.floor(damage.max / 2)) ? true : false;
+  }
+
+  /**
+   * Determine whether the character is incapacitated.
+   * @type {boolean}
+   */
+  get incapacitated() {
+    const damage = this.system.stats.damage;
+    return (damage.value >= damage.max) ? true : false;
+  }
+
+  /**
+   * Determine whether the character is dead or destroyed.
+   * @type {boolean}
+   */
+  get dead() {
+    return (this.system.stats.health.current > 0) ? false : true;
+  }
 
 }

@@ -156,7 +156,10 @@ function makeHealth(type) {
   })}
 
   else if (type == 'NPC') return new fields.SchemaField({
-    current: makeIntField(10)
+    current: makeIntField(),
+    normal: makeIntField(10),
+    lost: makeIntField(),
+    bonus: makeIntField()
   })
 
   else return {}

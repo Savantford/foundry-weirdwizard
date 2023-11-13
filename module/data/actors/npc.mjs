@@ -27,7 +27,7 @@ export default class NpcData extends foundry.abstract.DataModel {
     
     // Migrate Level
     if (isNaN(source.stats.level)) {
-      console.log('level is not a number: ' + source.stats.level)
+      
       switch (source.stats.level) {
         case '⅛': source.stats.level = 0.125; break;
         case '¼': source.stats.level = 0.25; break;
@@ -38,7 +38,7 @@ export default class NpcData extends foundry.abstract.DataModel {
 
     // Migrate Size
     if (isNaN(source.stats.size)) {
-      console.log('size is not a number: ' + source.stats.size)
+      
       switch (source.stats.size) {
         case '⅛': source.stats.size = 0.125; break;
         case '¼': source.stats.size = 0.25; break;

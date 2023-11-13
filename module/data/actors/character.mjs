@@ -58,21 +58,25 @@ export default class CharacterData extends foundry.abstract.DataModel {
     }
 
     // Fix other stuff
-    if (isNaN(source.stats?.bonusdamage)) source.stats.bonusdamage = 0;
-    if (isNaN(source.details?.reputation)) source.details.reputation = 0;
+    if (('stats.bonusdamage' in source) && isNaN(source.stats?.bonusdamage)) source.stats.bonusdamage = 0;
+    if (('details.reputation' in source) && isNaN(source.details?.reputation)) source.details.reputation = 0;
 
     return super.migrateData(source);
   }
 
+  /* -------------------------------------------- */
+  /*  Properties (Getters)                        */
+  /* -------------------------------------------- */
+
   /**
-   * Determine whether the character is dead.
+   * Determine whether the character is injured.
    * @type {boolean}
    */
-  get dead() {
+  /*get dead() {
     const invulnerable = CONFIG.specialStatusEffects.INVULNERABLE;
     if ( this.parent.effects.some(e => e.statuses.has("invulnerable") )) return false;
     return this.health.value <= this.health.min;
-  }
+  }*/
 
   /* The defined dead property could then be accessed on any Actor document of the character type as follows:
 

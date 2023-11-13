@@ -52,8 +52,6 @@
         "Shattering": "Target is an Object (Shattering)",
         "BothHands": "In Both Hands (Versatile)"
     },
-    "WW.Healing": "Healing",
-    "WW.HealingOf": "Healing of",
 
     "WW.Health": {
         "Label": "Health",
@@ -119,11 +117,7 @@
         "Success": "Success",
         "CriticalSuccess": "Critical Success",
         "Failure": "Failure",
-        "AutoFail": "Automatic Failure",
-        "Damage": "Roll Damage",
-        "DamageApply": "Apply Damage to",
-        "Healing": "Roll Healing",
-        "HealingApply": "Apply Healing to"
+        "AutoFail": "Automatic Failure"
     },
 
     "WW.Boons": {
@@ -426,8 +420,11 @@
         "Label": "Instant Effect",
         "Damage": "Deal Damage",
         "Heal": "Heal Damage",
+        "HealOf": "Healing of",
         "HealthLose": "Lose Health",
+        "HealthLoseOf": "Lost Health from",
         "HealthRecover": "Recover Lost Health",
+        "HealthRecoverOf": "Lost Health recovery from",
         "Affliction": "Bestow Affliction",
         "Value": "Value",
         "Roll": {
@@ -437,13 +434,18 @@
             "HealthRecover": "Roll Health Recovery"
         },
         "Apply": {
+            "Damage": "Apply Damage",
+            "Heal": "Apply Healing",
+            "HealthLose": "Apply Lost Health",
+            "HealthRecover": "Apply Health Recovery",
             "Took": "took",
-            "Damage": "damage",
+            "DamageLc": "damage",
             "DamageTotal": "Damage Total",
             "Healed": "healed",
-            "Lost": "Lost",
             "Health": "Health",
-            "LostHealth": "lost Health"
+            "Lost": "lost",
+            "Recovered": "recovered",
+            "CurrentHealth": "Current Health"
         }
     },
     "WW.Effect": {
@@ -466,6 +468,11 @@
         },
         "Duration": {
             "Label": "Effect Duration",
+            "StartRound": "Effect Start Round",
+            "InRounds": "Duration in Rounds",
+            "InMinutes": "Duration in Minutes",
+            "InHours": "Duration in Hours",
+            "InDays": "Duration in Days",
             "AutoDelete": "Delete automatically when expired?",
             "ExpiredMsg": "expired after",
             "No": "No duration",
@@ -481,10 +488,7 @@
             "Weeks": "weeks",
             "Month": "month",
             "Months": "months",
-            "And": "and",
-            "InMinutes": "Duration in Minutes",
-            "InHours": "Duration in Hours",
-            "InDays": "Duration in Days"
+            "And": "and"
         },
         "Trigger": "Condition to Trigger Effect",
         "Passive": "None (Passive Effect)",

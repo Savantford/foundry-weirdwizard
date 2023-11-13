@@ -14,14 +14,14 @@ export function initChatListeners(html) {
   // Instant Effect Rolls
   html.on('click', '.damage-roll', _onChatRollDamage.bind(this));
   html.on('click', '.healing-roll', _onChatRollHealing.bind(this));
-  //html.on('click', '.health-loss-roll', _onChatRollHealthLoss.bind(this));
-  //html.on('click', '.health-recovery-roll', _onChatRollHealthRecovery.bind(this));
+  html.on('click', '.health-loss-roll', _onChatRollHealthLoss.bind(this));
+  html.on('click', '.health-recovery-roll', _onChatRollHealthRecovery.bind(this));
 
   // Instant Effect Apply
   html.on('click', '.damage-apply', _onChatApplyDamage.bind(this));
   //html.on('click', '.healing-apply', _onChatApplyHealing.bind(this));
-  //html.on('click', '.health-loss-apply', _onChatApplyHealthLoss.bind(this));
-  //html.on('click', '.health-recovery-apply', _onChatApplyHealthRecovery.bind(this));
+  html.on('click', '.health-loss-apply', _onChatApplyHealthLoss.bind(this));
+  html.on('click', '.health-recovery-apply', _onChatApplyHealthRecovery.bind(this));
   html.on('click', '.bestow-affliction', _onChatBestowAffliction.bind(this));
 
   /*html.on('click', '.apply-effect', _onChatApplyEffect.bind(this))
@@ -34,13 +34,15 @@ export function initChatListeners(html) {
 }
 
 /* -------------------------------------------- */
+/*  Chat Roll functions                         */
+/* -------------------------------------------- */
 
 async function _onChatRollDamage(event) {
   console.log('damage')
   event.preventDefault()
   const li = event.currentTarget;
-  const token = li//.closest('.weirdwizard');
-  const actor = _getChatCardActor(token);
+  const button = li//.closest('.weirdwizard');
+  const actor = _getChatCardActor(button);
   /*const damageformular = item.dataset.damage
   const damagetype = item.dataset.damagetype
   const selected = tokenManager.targets*/
@@ -54,7 +56,7 @@ async function _onChatRollDamage(event) {
     target: li,
     label: item.name,//getSecretLabel(item.name),
     name: item.name,
-    baseDamage: li.dataset.damage,
+    baseDamage: li.dataset.value,
     properties: item.system.properties ? item.system.properties : {},
     bonusDamage: actor.system.stats.bonusdamage
   }
@@ -67,19 +69,17 @@ async function _onChatRollDamage(event) {
 
 async function _onChatRollHealing(event) {
   event.preventDefault()
-  const li = event.currentTarget;
-  const token = li//.closest('.weirdwizard');
-  const actor = _getChatCardActor(token);
-  console.log(actor)
-  /*const damageformular = item.dataset.damage
-  const damagetype = item.dataset.damagetype
-  const selected = tokenManager.targets*/
-  const itemId = li.dataset.itemId || li.closest('.weirdwizard').dataset.itemId;
-  const item = actor.items.get(itemId);
+
+  const li = event.currentTarget,
+    button = li,//.closest('.weirdwizard')
+    actor = _getChatCardActor(button),
+    itemId = li.dataset.itemId || li.closest('.weirdwizard').dataset.itemId,
+    item = actor.items.get(itemId)
+  ;
   
   // Prepare roll
-  let roll = new Roll(li.dataset.healing, actor.system);
-  let label = i18n('WW.HealingOf') + ' ' + '<span class="owner-only">' + item.name + '</span><span class="non-owner-only">? ? ?</span>';
+  let roll = new Roll(li.dataset.value, actor.system);
+  let label = i18n('WW.InstantEffect.HealOf') + ' ' + '<span class="owner-only">' + item.name + '</span><span class="non-owner-only">? ? ?</span>';
 
   await roll.evaluate();
   console.log(await roll.total);
@@ -94,33 +94,122 @@ async function _onChatRollHealing(event) {
 
 /* -------------------------------------------- */
 
+async function _onChatRollHealthLoss(event) {
+  event.preventDefault()
+
+  const li = event.currentTarget,
+    button = li,//.closest('.weirdwizard');
+    actor = _getChatCardActor(button),
+    itemId = li.dataset.itemId || li.closest('.weirdwizard').dataset.itemId,
+    item = actor.items.get(itemId)
+  ;
+  
+  // Prepare roll
+  let roll = new Roll(li.dataset.value, actor.system);
+  let label = i18n('WW.InstantEffect.HealthLoseOf') + ' ' + '<span class="owner-only">' + item.name + '</span><span class="non-owner-only">? ? ?</span>';
+
+  await roll.evaluate();
+  
+  const dataset = Object.assign({}, li.dataset);
+  dataset.value = await roll.total;
+  dataset.label = 'healthLose';
+
+  await roll.toMessage({
+    speaker: ChatMessage.getSpeaker({ actor: actor }),
+    flavor: label,
+    rollMode: game.settings.get('core', 'rollMode'),
+    content: _makeHtmlButton(dataset)
+  });
+
+}
+
+/* -------------------------------------------- */
+
+async function _onChatRollHealthRecovery(event) {
+  event.preventDefault()
+
+  const li = event.currentTarget,
+    button = li,//.closest('.weirdwizard');
+    actor = _getChatCardActor(button),
+    itemId = li.dataset.itemId || li.closest('.weirdwizard').dataset.itemId,
+    item = actor.items.get(itemId)
+  ;
+  
+  // Prepare roll
+  let roll = new Roll(li.dataset.value, actor.system);
+  let label = i18n('WW.InstantEffect.HealthRecoverOf') + ' ' + '<span class="owner-only">' + item.name + '</span><span class="non-owner-only">? ? ?</span>';
+
+  await roll.evaluate();
+  
+  const dataset = Object.assign({}, li.dataset);
+  dataset.value = await roll.total;
+  dataset.label = 'healthRecover';
+
+  await roll.toMessage({
+    speaker: ChatMessage.getSpeaker({ actor: actor }),
+    flavor: label,
+    rollMode: game.settings.get('core', 'rollMode'),
+    content: _makeHtmlButton(dataset)
+  });
+
+}
+
+/* -------------------------------------------- */
+
+function _makeHtmlButton(dataset) {
+  console.log(dataset)
+
+  switch (dataset.label) {
+    case 'damage': {
+      dataset.icon = 'burst';
+      dataset.loc = 'WW.InstantEffect.Apply.Damage';
+      dataset.cls = 'damage-apply';
+      break;
+    }
+    case 'healing': {
+      dataset.icon = 'sparkles';
+      dataset.loc = 'WW.InstantEffect.Apply.Heal';
+      dataset.cls = 'healing-apply';
+      break;
+    }
+    case 'healthLose': {
+      dataset.icon = 'droplet';
+      dataset.loc = 'WW.InstantEffect.Apply.HealthLose';
+      dataset.cls = 'health-loss-apply';
+      break;
+    }
+    case 'healthRecover': {
+      dataset.icon = 'suitcase-medical';
+      dataset.loc = 'WW.InstantEffect.Apply.HealthRecover';
+      dataset.cls = 'health-recovery-apply';
+      break;
+    }
+  }
+
+  const html = '<div class="'+ dataset.cls + ' chat-button" data-item-id="' + dataset.itemId +
+    (dataset.tokenKey ? '"  data-token-key="' + dataset.tokenKey : '"  data-actor-id="' + dataset.actorId) +
+    '" data-target-id="' + dataset.targetId +
+    '" data-value="' + dataset.value +
+    '"><i class="fas fa-' + dataset.icon + '"></i>' + i18n(dataset.loc) + ': ' + dataset.value + '</div>';
+  return html;
+}
+
+
+/* -------------------------------------------- */
+/*  Chat Apply functions                        */
+/* -------------------------------------------- */
+
 async function _onChatApplyDamage(event) {
   event.preventDefault()
   console.log('triggered')
   const li = event.currentTarget;
-  const token = li//.closest('.weirdwizard');
-  const actor = _getChatCardActor(token);
-  const damage = parseInt(li.dataset.damage)
+  const button = li//.closest('.weirdwizard');
+  const actor = _getChatCardActor(button);
+  const value = parseInt(li.dataset.value)
 
   console.log(actor);
-  actor.applyDamage(damage);
+  actor.applyDamage(value);
 
-  /*var selected = tokenManager.targets
-  if (selected.length == 0) {
-    ui.notifications.info(game.i18n.localize('WW.DialogWarningActorsNotSelected'))
-    return
-  }
-
-  selected.forEach(token => token.actor.increaseDamage(+damage))*/
-
-  //const sourceToken = tokenManager.getTokenByActorId(actor.id)
-  //const itemId = li.closest('.weirdwizard').dataset.itemId
-  /*Hooks.call('WW.ApplyDamage', {
-    sourceToken,
-    targets: selected,
-    itemId,
-    damage,
-  })*/
 }
 
 /* -------------------------------------------- */
@@ -147,21 +236,46 @@ async function _onChatApplyHealing(event) {
     targets: selected,
     itemId,
   })
+}*/
+
+/* -------------------------------------------- */
+
+async function _onChatApplyHealthLoss(event) {
+  event.preventDefault()
+  
+  const li = event.currentTarget;
+  const button = li//.closest('.weirdwizard');
+  const actor = _getChatCardActor(button);
+  const value = parseInt(li.dataset.value);
+
+  actor.applyHealthLoss(value);
+}
+
+/* -------------------------------------------- */
+
+async function _onChatApplyHealthRecovery(event) {
+  event.preventDefault()
+  
+  const li = event.currentTarget;
+  const button = li//.closest('.weirdwizard');
+  const actor = _getChatCardActor(button);
+  const value = parseInt(li.dataset.value);
+
+  actor.applyHealthRecovery(value);
 }
 
 /* -------------------------------------------- */
 
 async function _onChatBestowAffliction(event) {
-  console.log('teste')
   event.preventDefault()
+
   const li = event.currentTarget;
   //const effectUuid = htmlTarget.attributes.getNamedItem('data-affliction').value;
   //const activeEffect = await fromUuid(effectUuid);
-  const token = li//.closest('.weirdwizard');
-  const target = _getChatCardTarget(token);
+  const button = li//.closest('.weirdwizard');
+  const target = _getChatCardTarget(button);
 
   // Get affliction
-  console.log(li)
   const afflictionId = li.dataset.affliction;
   const activeEffect = CONFIG.statusEffects.find(a => a.id === afflictionId);
   activeEffect['statuses'] = [activeEffect.id];
@@ -384,16 +498,18 @@ async function _onChatMakeInitRoll(event) {
 
 function _getChatCardActor(card) {
   // Case 1 - a synthetic actor from a Token
-  const tokenKey = card.dataset.tokenId
+  const tokenKey = card.dataset.tokenKey;
+  
   if (tokenKey) {
-    /*const [sceneId, tokenId] = tokenKey.split('.')
+    const [sceneId, tokenId] = tokenKey.split('.')
     const scene = game.scenes.get(sceneId)
-    if (!scene) return null
-    const tokenData = scene.items.get(tokenId)
-    if (!tokenData) return null
-    const token = new Token(tokenData)*/
     
-    return canvas.tokens.get(tokenKey).actor//token.actor
+    if (!scene) return null
+    const tokenData = scene.tokens.get(tokenId)
+    if (!tokenData) return null
+    const token = new Token(tokenData)
+    
+    return token.actor // canvas.tokens.get(tokenKey).actor
   }
 
   // Case 2 - use Actor ID directory

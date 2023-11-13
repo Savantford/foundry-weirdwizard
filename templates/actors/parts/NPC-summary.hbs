@@ -23,8 +23,6 @@
             </h4>
         </span>
 
-        
-
         <div class="hl">
             {{!-- Defense --}}
             <div class="stat nowrap">
@@ -46,7 +44,10 @@
                     <label>{{localize "WW.Health.Label"}}</label>
 
                     <input type="number" name="system.stats.health.current" value="{{system.stats.health.current}}" min="0"
-                    data-dtype="Number" />
+                    data-dtype="Number" title="{{localize "WW.Health.Bonus"}}: {{system.stats.health.bonus}}. {{localize "WW.Health.Lost"}}: {{system.stats.health.lost}}"/>
+                    (Normal:
+                    <input type="number" name="system.stats.health.normal" value="{{system.stats.health.normal}}" min="0"
+                    data-dtype="Number" />)
                 </div>
 
                 {{!-- Damage --}}
