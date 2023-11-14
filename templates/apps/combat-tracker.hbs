@@ -95,7 +95,7 @@
 
             {{#if this.hasResource}}
             <div class="token-resource">
-                <span class="resource">{{this.resource}}</span>
+                <span class="resource">{{this.resource}}{{#if this.resourceMax}}/{{this.resourceMax}}{{/if}}</span>
             </div>
             {{/if}}
 
@@ -165,10 +165,10 @@
                     </div>
                 </div>
             </div>
-
+            
             {{#if this.hasResource}}
             <div class="token-resource">
-                <span class="resource">{{this.resource}}</span>
+                <span class="resource">{{this.resource}}{{#if this.resourceMax}}/{{this.resourceMax}}{{/if}}</span>
             </div>
             {{/if}}
 
@@ -241,10 +241,10 @@
                     </div>
                 </div>
             </div>
-
+            
             {{#if this.hasResource}}
             <div class="token-resource">
-                <span class="resource">{{this.resource}}</span>
+                <span class="resource">{{this.resource}}{{#if this.resourceMax}}/{{this.resourceMax}}{{/if}}</span>
             </div>
             {{/if}}
 

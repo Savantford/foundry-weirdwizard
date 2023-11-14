@@ -1845,8 +1845,9 @@ form.quest-calendar {
   filter: invert(70%) sepia(100%) saturate(6026%) hue-rotate(357deg) brightness(91%) contrast(122%);
 }
 
-.token-resource {
-  margin-right: 5px;
+.combat-sidebar li.combatant .token-resource {
+  flex: 0;
+  padding-right: 5px;
 }
 
 .token-initiative {

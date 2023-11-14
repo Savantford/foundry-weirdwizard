@@ -15,6 +15,7 @@ export default class WWActor extends Actor {
     // prepareBaseData(), prepareEmbeddedDocuments(),
     // prepareDerivedData().
     super.prepareData();
+    
   }
 
   /** @override */
@@ -117,6 +118,21 @@ export default class WWActor extends Actor {
     // Limit Lost Health to not go below 0
     if (changed.system?.stats?.health?.lost < 0) {
       changed.system.stats.health.lost = 0;
+    }
+
+    // Update token status icons
+    if ((changed.system?.stats?.damage || changed.system?.stats?.health) && this.token) {
+      this.token.object.updateStatusIcons();
+    }
+
+  };
+
+  async _onUpdate(changed, options, user) {
+    await super._onUpdate(changed, options, user);
+
+    // Update token status icons
+    if ((changed.system?.stats?.damage || changed.system?.stats?.health) && this.token) {
+      this.token.object.updateStatusIcons();
     }
 
   };
@@ -379,7 +395,6 @@ export default class WWActor extends Actor {
    */
   async expireActiveEffects({ combat, timeOffset = 0 } = {}, context = {}) {
     if (!this.isOwner) throw new Error("Must be owner");
-    
     const worldTime = game.time.worldTime + timeOffset;
     
     const temporaryEffects = this.temporaryEffects.filter((ae) => {
@@ -391,13 +406,14 @@ export default class WWActor extends Actor {
         const elapsed = worldTime - (startTime ?? 0),
           remaining = seconds - elapsed;
         return remaining <= 0;
-      } else if (rounds > 0 && combat) {
-        // BUG: This will ignore which combat
+      }/* else if (rounds > 0 && combat) {
+        
         const elapsed = combat.round - (startRound ?? 0),
           remaining = rounds - elapsed;
+        
         return remaining <= 0;
-      }
-      return false;
+      }*/
+      else return false;
     });
 
     const disableActiveEffects = [],
@@ -408,32 +424,29 @@ export default class WWActor extends Actor {
     const v11 = game.release.generation >= 11;
     
     for (const ae of temporaryEffects) {
-      
-      const re = ae.origin?.match(/Item\.(?<itemId>\w+)/);
-      const item = this.items.get(re?.groups.itemId);
-      if (item?.type !== "buff") {
-        const conditionId = v11 ? ae.statuses.first() : ae.getFlag("core", "statusId");
-        if (conditionId) {
-          // Disable expired conditions
-          actorUpdate[`system.attributes.conditions.-=${conditionId}`] = null;
-        } else {
-          const duration = ae.duration.seconds ? formatTime(ae.duration.seconds) : ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? i18n('WW.Effect.Duration.Rounds') : i18n('WW.Effect.Duration.Round'));
-          
-          await ChatMessage.create({
-            speaker: ChatMessage.getSpeaker({ actor: this }),
-            flavor: this.label,
-            content: '<div><b>' + ae.name + '</b> ' + i18n("WW.Effect.Duration.ExpiredMsg") + ' ' + duration + '.</div>',
-            sound: CONFIG.sounds.notification
-          });
 
-          if (ae.autoDelete) {
-            deleteActiveEffects.push(ae.id);
-          } else {
-            disableActiveEffects.push({ _id: ae.id, disabled: true });
-          }
-        }
+      //const re = ae.origin?.match(/Item\.(?<itemId>\w+)/);
+      //const item = this.items.get(re?.groups.itemId);
+      const conditionId = v11 ? ae.statuses.first() : ae.getFlag("core", "statusId");
+
+      if (conditionId) {
+        // Disable expired conditions
+        actorUpdate[`system.attributes.conditions.-=${conditionId}`] = null;
       } else {
-        disableBuffs.push({ _id: item.id, "system.active": false });
+        const duration = ae.duration.seconds ? formatTime(ae.duration.seconds) : ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? i18n('WW.Effect.Duration.Rounds') : i18n('WW.Effect.Duration.Round'));
+
+        await ChatMessage.create({
+          speaker: ChatMessage.getSpeaker({ actor: this }),
+          flavor: this.label,
+          content: '<div><b>' + ae.name + '</b> ' + i18n("WW.Effect.Duration.ExpiredMsg") + ' ' + duration + '.</div>',
+          sound: CONFIG.sounds.notification
+        });
+
+        if (ae.autoDelete) {
+          deleteActiveEffects.push(ae.id);
+        } else {
+          disableActiveEffects.push({ _id: ae.id, disabled: true });
+        }
       }
     }
 

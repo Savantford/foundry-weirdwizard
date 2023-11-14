@@ -153,8 +153,9 @@ export default class WWCombatTracker extends CombatTracker {
       if ( !combatant.visible ) continue;
       
       // Prepare turn data
-      const resource = combatant.permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER ? combatant.resource : null;
-
+      const resource = combatant.permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER ? combatant.resource : null,
+        resourceMax = combatant.permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER ? combatant.resourceMax : null;
+      
       const phaseInit = (x => {
         const init = combatant.initiative;
         if (init >= 200) return init - 200
@@ -175,6 +176,7 @@ export default class WWCombatTracker extends CombatTracker {
         hasRolled: combatant.initiative !== null,
         hasResource: resource !== null,
         resource: resource,
+        resourceMax: resourceMax,
         canPing: (combatant.sceneId === canvas.scene?.id) && game.user.hasPermission('PING_CANVAS'),
         type: combatant.actor?.type,
         flags: combatant.flags
@@ -254,7 +256,6 @@ export default class WWCombatTracker extends CombatTracker {
     
     // Combatant status logic
     if (combat.current.combatantId == li.dataset.combatantId) { // Combatant is the current turn
-      await c.setFlag('weirdwizard', 'acted', true);
       combat.nextTurn();
       
     } else if (acted) { // Combatant already acted
@@ -325,8 +326,7 @@ export default class WWCombatTracker extends CombatTracker {
     
     // Send to chat
     ChatMessage.create({
-      content: '<span style="font-weight: bold">' + token.actor.name + '</span> ' + 
-        (taking ? i18n('WW.Combat.InitiativeMsg') : i18n('WW.Combat.TurnMsg')) + '.',
+      content: '<div><b>' + token.actor.name + '</b> ' + (taking ? i18n('WW.Combat.InitiativeMsg') : i18n('WW.Combat.TurnMsg')) + '.</div>',
       sound: CONFIG.sounds.notification
     });
 

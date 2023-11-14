@@ -58,8 +58,8 @@ export default class CharacterData extends foundry.abstract.DataModel {
     }
 
     // Fix other stuff
-    if (('stats.bonusdamage' in source) && isNaN(source.stats?.bonusdamage)) source.stats.bonusdamage = 0;
-    if (('details.reputation' in source) && isNaN(source.details?.reputation)) source.details.reputation = 0;
+    if (isNaN(source.stats?.bonusdamage)) source.stats.bonusdamage = 0;
+    if (isNaN(source.details?.reputation)) source.details.reputation = 0;
 
     return super.migrateData(source);
   }

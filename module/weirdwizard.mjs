@@ -5,6 +5,7 @@ import WWActor from './documents/actor.mjs';
 import WWItem from './documents/item.mjs';
 import WWActiveEffect from './documents/active-effect.mjs';
 import WWCombat from './documents/combat.mjs';
+import WWCombatant from './documents/combatant.mjs';
 import WWCombatTracker from './apps/combat-tracker.mjs';
 
 // Import sheet classes.
@@ -57,6 +58,7 @@ Hooks.once('init', function () {
   CONFIG.Item.documentClass = WWItem;
   CONFIG.ActiveEffect.documentClass = WWActiveEffect;
   CONFIG.Combat.documentClass = WWCombat;
+  CONFIG.Combatant.documentClass = WWCombatant;
 
   // Register sheet application classes
   Actors.unregisterSheet('core', ActorSheet);

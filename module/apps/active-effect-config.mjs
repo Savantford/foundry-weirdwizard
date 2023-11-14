@@ -10,6 +10,8 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
       template: 'systems/weirdwizard/templates/apps/active-effect-config.hbs',
       width: 580,
       height: 'auto',
+      submitOnChange: true,
+      closeOnSubmit: false,
       tabs: [{ navSelector: '.tabs', contentSelector: 'form', initial: 'details' }],
     })
   }
@@ -177,14 +179,14 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
         doc.update({ 'duration.rounds': null, 'duration.seconds': null });
       }; break;
 
-      case 'luckEnds': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
+      case 'luckEnds': doc.update({ 'duration.rounds': 1337, 'duration.seconds': null }); break;
 
       case '1round': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
       case '2rounds': doc.update({ 'duration.rounds': 2, 'duration.seconds': null }); break;
 
       case 'Xrounds': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
 
-      case 'turnEnds': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
+      case 'turnEnd': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
       case 'nextTriggerTurnStart': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
       case 'nextTargetTurnStart': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
       case 'nextTriggerTurnEnd': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;

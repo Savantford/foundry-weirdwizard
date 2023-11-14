@@ -406,7 +406,7 @@ export default class rollAttribute extends FormApplication {
   }
 
   async _applyEffects(effects, t) {
-
+    console.log(effects)
     effects.forEach(e => {
 
       if (e.target == 'tokens') {
@@ -414,6 +414,7 @@ export default class rollAttribute extends FormApplication {
         obj.flags.weirdwizard.trigger = 'passive';
         
         const target = canvas.tokens.get(t.id).actor;
+        console.log(target)
         target.createEmbeddedDocuments("ActiveEffect", [obj]);
       }
 
@@ -520,17 +521,22 @@ export default class rollAttribute extends FormApplication {
       onCritical: [],
       onFailure: []
     }
-
+    
     this.item?.effects?.forEach(e => {
-
       switch (e.trigger) {
-        case 'onUse': effs.onUse.push(e); break;
-        case 'onSuccess': effs.onSuccess.push(e); break;
-        case 'onCritical': effs.onSuccess.push(e); effs.onCritical.push(e); break;
+        case 'onUse': {
+          effs.onUse.push(e);
+          effs.onSuccess.push(e);
+          effs.onCritical.push(e);
+          effs.onFailure.push(e);
+        }; break;
+        case 'onSuccess': effs.onSuccess.push(e); effs.onCritical.push(e); break;
+        case 'onCritical': effs.onCritical.push(e); break;
         case 'onFailure': effs.onFailure.push(e); break;
       }
 
     })
+    console.log
 
     return effs;
   }
@@ -546,7 +552,12 @@ export default class rollAttribute extends FormApplication {
     this.item?.system?.instant?.forEach(e => {
       
       switch (e.trigger) {
-        case 'onUse': effs.onUse.push(e); break;
+        case 'onUse': {
+          effs.onUse.push(e);
+          effs.onSuccess.push(e);
+          effs.onCritical.push(e);
+          effs.onFailure.push(e);
+        }; break;
         case 'onSuccess': effs.onSuccess.push(e); effs.onCritical.push(e); break;
         case 'onCritical': effs.onCritical.push(e); break;
         case 'onFailure': effs.onFailure.push(e); break;
