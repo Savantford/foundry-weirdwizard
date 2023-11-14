@@ -51,6 +51,23 @@ export default class WWActiveEffect extends ActiveEffect {
   }
 
   /**
+   * The combatant from which the effect originated
+  */
+  get originCombatant() {
+
+    if (this.origin.includes('Item')) {
+      const item = fromUuidSync(this.origin);
+      const combatant = item.parent.token?.combatant;
+      return combatant ?? combatant;
+    } else {
+      const actor = fromUuidSync(this.origin);
+      const combatant = actor.token?.combatant;
+      return combatant ?? combatant;
+    }
+
+  }
+
+  /**
    * Get the selectedDuration flag.
    * @type {string}
   */
