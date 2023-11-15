@@ -3,6 +3,7 @@
 /* Variables */
 :root {
   --highlight-title: #49244F;
+  --highlight-title-rgb: 73, 36, 79;
   --highlight: #DBD3DC;
   --highlight-rbg: 219, 211, 220;
   --text: #000000;
@@ -1708,39 +1709,79 @@ form.quest-calendar {
 }
 
 /* Chat Messages */
-.chat-message {
-  background: var(--background);
+.weirdwizard.chat-message {
   font-family: var(--font-body) !important;
 }
 
-.chat-message header.message-header {
+/* Chat Message Header */
+.weirdwizard.chat-message header.message-header {
   margin-bottom: 5px;
 }
 
-.chat-message h4.message-sender {
-  font-family: var(--font-header);
-}
-
-.chat-message span.flavor-text {
-  font-family: var(--font-title);
-  font-size: 16px !important;
-  font-weight: 600;
-  color: var(--highlight-title);
-  border-bottom: 3px double black;
-  margin-top: 5px;
-}
-
-.message-content {
+.weirdwizard.chat-message .flavor-title {
   display: flex;
   flex-direction: column;
 }
 
-.chat-message div.message-content p:first-of-type {
+.weirdwizard.chat-message span.flavor-text {
+  font-family: var(--font-title);
+  font-size: 16px !important;
+  font-weight: 600;
+  color: var(--highlight-title);
+  /*border-bottom: 3px double black;
+  margin-top: 5px;*/
+}
+
+.weirdwizard.chat-message .properties-container {
+  margin-top: 2px;
+}
+
+.weirdwizard.chat-message .header-button,
+.weirdwizard.chat-message .adv-button,
+.weirdwizard.chat-message .disadv-button {
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border-light-2);
+  border-radius: 3px;
+  box-shadow: 0 0 2px #fff inset;
+  padding: 0 3px;
+}
+
+.weirdwizard.chat-message .adv-button {
+  background: rgba(0, 150, 0, 0.2);
+}
+
+.weirdwizard.chat-message .disadv-button {
+  background: rgba(200, 0, 0, 0.2);
+}
+
+.weirdwizard .message-content {
+  display: flex;
+  flex-direction: column;
+  /*background: rgba(var(--highlight-rbg), 0.9);*/
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  padding: 5px;
+}
+
+.weirdwizard.chat-message div.message-content p:first-of-type {
   margin-top: 0px;
 }
 
-.dice-roll .dice-formula, .dice-roll .dice-total,
-.chat-failure, .chat-success, .secret-dice-total {
+.weirdwizard.chat-message div.message-content p:last-of-type {
+  margin-bottom: 0px;
+}
+
+/* Chat Footer */
+
+.weirdwizard.chat-message .footer-roll {
+  margin-top: 5px;
+}
+
+.weirdwizard .dice-roll .dice-formula,
+.weirdwizard .dice-roll .dice-total,
+.weirdwizard .chat-failure,
+.weirdwizard .chat-success,
+.weirdwizard .secret-dice-total {
   flex: 0 0 100%;
   position: relative;
   margin: 0;
@@ -1752,33 +1793,37 @@ form.quest-calendar {
   box-shadow: 0 0 2px #fff inset;
   word-break: break-all;
 }
-.dice-roll .dice-total,
-.chat-failure, .chat-success, .secret-dice-total {
+
+.weirdwizard .dice-roll .dice-total,
+.weirdwizard .chat-failure,
+.weirdwizard .chat-success,
+.weirdwizard .secret-dice-total {
   flex: 0;
   font-size: var(--font-size-20);
   font-weight: bold;
 }
 
-.chat-failure, .chat-success {
+.weirdwizard .chat-failure,
+.weirdwizard .chat-success {
   margin: 0 0 0.5rem;
   font-family: var(--font-title);
   text-transform: uppercase;
 }
 
-.chat-failure {
+.weirdwizard .chat-failure {
   color: #a51700;
 }
 
-.chat-success {
+.weirdwizard .chat-success {
   color: #006920;
 }
 
-.chat-message .chat-target {
+.weirdwizard.chat-message .chat-target {
   font-weight: bold;
   margin-top: 10px;
 }
 
-.chat-button {
+.weirdwizard .chat-button {
   color: gray;
   border: 1px solid;
   border-radius: 5px;
@@ -1790,14 +1835,51 @@ form.quest-calendar {
   cursor: pointer;
 }
 
-.chat-button i {
+.weirdwizard .chat-button i {
   margin-right: 3px;
 }
 
-.chat-button:focus, .chat-button:hover {
+.weirdwizard .chat-button:focus, .chat-button:hover {
   text-shadow: none;
   border-color: var(--highlight-title);
   color: black;
+}
+
+.weirdwizard.chat-message .footer-sender {
+  line-height: 20px;
+  color: var(--color-text-dark-secondary);
+  font-size: var(--font-size-12);
+  margin-top: 5px;
+}
+
+.weirdwizard.chat-message .message-sender,
+.weirdwizard.chat-message .message-metadata,
+.weirdwizard.chat-message .flavor-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.weirdwizard.chat-message .message-sender {
+  flex: 3;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.weirdwizard.chat-message .message-sender img,
+.weirdwizard.chat-message .flavor-container img {
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid #6f6c66;
+}
+
+.weirdwizard.chat-message .flavor-container img {
+  height: 36px;
+}
+
+.weirdwizard.chat-message .message-metadata {
+  flex: 2;
+  justify-content: end;
 }
 
 /* Combat Tracker */

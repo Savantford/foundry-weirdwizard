@@ -3,16 +3,14 @@ import { mapRange } from './canvas-functions.mjs';
 // Code base borrowed from SWADE game system. Thank you!
 export default class WWToken extends Token {
 
-  /** @override */
-  _onUpdate(data, options, userId) {
-    console.log('updated')
-    //super._onUpdate(data, options, userId);
-    
-    //console.log(super.changed)
-  }
-
   /* Flip Damage Bar Gradiant */
   #blk = 0x000000;
+  #wht = 0xFFFFFF;
+  #red = 0xDD0000;
+  #drd = 0x880000;
+  #grn = 0x00FF33;
+  #ylw = 0xDDDD00;
+  #gry = 0x999999;
 
   static getDamageColor(current, max) {
     const minDegrees = 30;
@@ -86,7 +84,6 @@ export default class WWToken extends Token {
    * Create an icon container for status icons.
   */
   createIconContainer() {
-    
     this.children.find(c => c.name === "iconContainer")?.destroy();
 
     const tokenSize = canvas.grid.size * this.document.width;
@@ -95,7 +92,7 @@ export default class WWToken extends Token {
     // Set parameters
     const container = this.addChild(new PIXI.Container());
     container.name = "iconContainer";
-    container.x = tokenSize - iconSize;
+    container.x = tokenSize - iconSize - iconSize/10;
     container.y = tokenSize - 2*iconSize - iconSize/2;
     container.height = iconSize * 2;
     container.width = iconSize;
@@ -121,9 +118,16 @@ export default class WWToken extends Token {
     const tokenSize = canvas.grid.size * this.document.width;
     const iconSize = tokenSize / 5;
 
-    let texture = PIXI.Texture.from('/icons/svg/blood.svg');
-    if (dead) texture = PIXI.Texture.from('/icons/svg/skull.svg');
-    else if (incapacitated) texture = PIXI.Texture.from('/icons/svg/unconscious.svg');
+    let texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/bleeding-wound.svg');
+    let tint = this.#red;
+
+    if (dead) {
+      texture = PIXI.Texture.from('/icons/svg/skull.svg');
+      tint = this.#blk;
+    } else if (incapacitated) {
+      texture = PIXI.Texture.from('/icons/svg/daze.svg');
+      tint = this.#drd;
+    }
     
     // Set icon parameters
     const healthIcon = container.addChild(new PIXI.Sprite(texture));
@@ -131,7 +135,7 @@ export default class WWToken extends Token {
     healthIcon.height = iconSize -1;
     healthIcon.width = iconSize -1;
     healthIcon.name = "healthIcon";
-    healthIcon.tint = 0xFF0000;
+    healthIcon.tint = tint;
 
     // Set icon background parameters
     const healthBg = container.addChild(new PIXI.Sprite(texture));
@@ -139,7 +143,7 @@ export default class WWToken extends Token {
     healthBg.height = iconSize;
     healthBg.width = iconSize;
     healthBg.name = "healthBg";
-    healthBg.tint = 0x000000;
+    healthBg.tint = tint == this.#red ? this.#blk : this.#gry;
     
     // Reorder overlays
     const newIndex = container.children.length-1;
@@ -154,7 +158,8 @@ export default class WWToken extends Token {
     
     const acted = this.combatant.flags.weirdwizard?.acted,
       takingInit = this.combatant.flags.weirdwizard?.takingInit,
-      current = this.combatant == this.combatant.combat.combatant
+      current = this.combatant == this.combatant.combat.combatant,
+      enemy = this.combatant.actor?.type == 'NPC'
     ;
 
     const index = container.children.length;
@@ -162,19 +167,20 @@ export default class WWToken extends Token {
     const iconSize = tokenSize / 5;
 
     let texture = PIXI.Texture.from('/icons/svg/combat.svg');
-    let tint = 0xFFFFFF;
+    let tint = this.#wht;
 
     if (current) {
       texture = PIXI.Texture.from('/icons/svg/aura.svg');
-      tint = 0x00DD00;
+      tint = this.#grn;
     } else if (acted) {
-      texture = PIXI.Texture.from('/icons/svg/clockwork.svg');
-      tint = 0xAAAAAA;
+      texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/hourglass.svg');
+      tint = this.#gry;
     } else if (takingInit) {
-      texture = PIXI.Texture.from('/icons/svg/lightning.svg');
-      tint = 0xDDDD00;
+      texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/sprint.svg');
+      tint = this.#ylw;
+    } else if (enemy) {
+      tint = this.#red;
     }
-    
     
     // Set icon parameters
     const turnIcon = container.addChild(new PIXI.Sprite(texture));
@@ -190,7 +196,7 @@ export default class WWToken extends Token {
     turnBg.height = iconSize;
     turnBg.width = iconSize;
     turnBg.name = "turnBg";
-    turnBg.tint = 0x000000;
+    turnBg.tint = this.#blk;
     
     // Reorder overlays
     const newIndex = container.children.length-1;

@@ -6,7 +6,7 @@ import WWItem from './documents/item.mjs';
 import WWActiveEffect from './documents/active-effect.mjs';
 import WWCombat from './documents/combat.mjs';
 import WWCombatant from './documents/combatant.mjs';
-import WWCombatTracker from './apps/combat-tracker.mjs';
+import WWChatMessage from './documents/chat-message.mjs';
 
 // Import sheet classes.
 import WWCharacterSheet from './sheets/character-sheet.mjs';
@@ -15,6 +15,7 @@ import WWItemSheet from './sheets/item-sheet.mjs';
 
 // Import apps
 import WWActiveEffectConfig from './apps/active-effect-config.mjs';
+import WWCombatTracker from './apps/combat-tracker.mjs';
 import WWRoll from './dice/roll.mjs';
 import { QuestCalendar } from './ui/quest-calendar.mjs'
 
@@ -59,6 +60,7 @@ Hooks.once('init', function () {
   CONFIG.ActiveEffect.documentClass = WWActiveEffect;
   CONFIG.Combat.documentClass = WWCombat;
   CONFIG.Combatant.documentClass = WWCombatant;
+  CONFIG.ChatMessage.documentClass = WWChatMessage;
 
   // Register sheet application classes
   Actors.unregisterSheet('core', ActorSheet);
@@ -85,11 +87,14 @@ Hooks.once('init', function () {
   CONFIG.Item.dataModels['Trait or Talent'] = TalentData;
   CONFIG.Item.dataModels.Spell = SpellData;
 
-  // Define custom Object classes
+  // Register custom Object classes
   CONFIG.Token.objectClass = WWToken;
 
-  // Define custom Combat Tracker
+  // Register custom Combat Tracker
   CONFIG.ui.combat = WWCombatTracker;
+
+  // Register custom templates
+  CONFIG.ChatMessage.template = 'systems/weirdwizard/templates/chat/chat-message.hbs';
   
   // Disable legacy pre-V11 behavior of item effects being stored on actor.effects. Use actor.appliedEffects instead for all effects
   CONFIG.ActiveEffect.legacyTransferral = false;

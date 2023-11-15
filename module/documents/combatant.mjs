@@ -1,5 +1,3 @@
-//import { i18n } from '../helpers/utils.mjs';
-
 export default class WWCombatant extends Combatant {
 
   /**
@@ -9,10 +7,11 @@ export default class WWCombatant extends Combatant {
    */
   updateResource() {
     if ( !this.actor || !this.combat ) return this.resource = null;
+
     const valueStr = this.parent.settings.resource,
       value = foundry.utils.getProperty(this.actor.system, valueStr),
-      maxStr = valueStr.split(".value")[0] + '.max',
-      max = foundry.utils.getProperty(this.actor.system, maxStr);
+      maxStr = valueStr ? valueStr.split(".value")[0] + '.max' : null,
+      max = maxStr ? foundry.utils.getProperty(this.actor.system, maxStr) : null;
     
     if (max) {
       return this.resource = value, this.resourceMax = max;
