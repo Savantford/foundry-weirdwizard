@@ -39,3 +39,5 @@ Finally, thanks to ferrer (jeferrer) and Zaxim (zaxim) from the `SotDL for Found
 
 # Credits
 *Shadow of the Weird Wizard* is a fantasy game written and designed by **Robert J. Schwalb**, published by [Schwalb Entertainment](https://schwalbentertainment.com/).
+
+Icons in the `assets/icons` folder are provided under the CC-BY license (or even Public Domain for some of them). Author list can be found in https://game-icons.net/about.html#authors.

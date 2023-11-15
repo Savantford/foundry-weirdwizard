@@ -598,15 +598,15 @@
     "WW.EffectDurations": {
         "Combat": {
             "Header": "Tracked with Rounds or Turns (Combat)",
-            "LuckEnds": "Luck Ends (BROKEN)",
+            "LuckEnds": "Luck Ends (Not automated)",
             "1Round": "Until the end of the round",
             "2Rounds": "Until the end of the next round",
             "XRounds": "X rounds (Choose value)",
-            "TurnEnd": "Until the end of the trigger's turn (BROKEN)",
-            "NextTriggerTurnStart": "Until the start of the trigger's next turn (BROKEN)",
-            "NextTargetTurnStart": "Until the start of the target's next turn (BROKEN)",
-            "NextTriggerTurnEnd": "Until the end of the trigger's next turn (BROKEN)",
-            "NextTargetTurnEnd": "Until the end of the target's next turn (BROKEN)"
+            "TurnEnd": "Until the end of the trigger's turn",
+            "NextTriggerTurnStart": "Until the start of the trigger's next turn",
+            "NextTargetTurnStart": "Until the start of the target's next turn",
+            "NextTriggerTurnEnd": "Until the end of the trigger's next turn",
+            "NextTargetTurnEnd": "Until the end of the target's next turn"
         },
         "OutOfCombat": {
             "Header": "Tracked with Time Units (Out of Combat)",

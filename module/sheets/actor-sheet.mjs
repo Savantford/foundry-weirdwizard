@@ -476,7 +476,10 @@ export default class WWActorSheet extends ActorSheet {
       ChatMessage.create({
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),
         flavor: item.name,
-        content: item.system.description.value
+        content: item.system.description.value,
+        'flags.weirdwizard': {
+          item: item.uuid
+        }
       })
     });
 
@@ -614,7 +617,10 @@ export default class WWActorSheet extends ActorSheet {
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),
         flavor: label,
         content: content + html,
-        sound: CONFIG.sounds.dice
+        sound: CONFIG.sounds.dice,
+        'flags.weirdwizard': {
+          item: item.uuid
+        }
       };
 
       ChatMessage.create(messageData);
@@ -637,7 +643,10 @@ export default class WWActorSheet extends ActorSheet {
           speaker: ChatMessage.getSpeaker({ actor: this.actor }),
           flavor: label,
           content: content + '<div class="chat-failure">' + i18n('WW.Roll.AutoFail') + '!</div>' + content,
-          sound: CONFIG.sounds.dice
+          sound: CONFIG.sounds.dice,
+          'flags.weirdwizard': {
+            item: this.item.uuid
+          }
         };
   
         ChatMessage.create(messageData);

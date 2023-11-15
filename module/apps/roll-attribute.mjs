@@ -271,7 +271,7 @@ export default class rollAttribute extends FormApplication {
         rollArray.push(r);
 
         // Add the target name, the roll result and the onUse instant effects to the chat message
-        rollHtml += this._targetHtml(t.name);
+        rollHtml += this._targetHtml(t);
         rollHtml += await this._diceTotalHtml(r);
         
         // Evaluate target number
@@ -326,7 +326,7 @@ export default class rollAttribute extends FormApplication {
         rollHtml += criticalHtml;
 
         for (const t of this.targets) {
-          rollHtml += this._targetHtml(t.name);
+          rollHtml += this._targetHtml(t);
           rollHtml += this.baseHtml[t.id];
           rollHtml += this._addInstEffs(this.instEffs.onCritical, t);
           this._applyEffects(this.effects.onCritical, t);
@@ -336,7 +336,7 @@ export default class rollAttribute extends FormApplication {
         rollHtml += successHtml;
         
         for (const t of this.targets) {
-          rollHtml += this._targetHtml(t.name);
+          rollHtml += this._targetHtml(t);
           rollHtml += this.baseHtml[t.id];
           rollHtml += this._addInstEffs(this.instEffs.onSuccess, t);
           this._applyEffects(this.effects.onSuccess, t);
@@ -346,7 +346,7 @@ export default class rollAttribute extends FormApplication {
         rollHtml += failureHtml;
         
         for (const t of this.targets) {
-          rollHtml += this._targetHtml(t.name);
+          rollHtml += this._targetHtml(t);
           rollHtml += this.baseHtml[t.id];
           rollHtml += this._addInstEffs(this.instEffs.onFailure, t);
           this._applyEffects(this.effects.onFailure, t);
@@ -361,8 +361,12 @@ export default class rollAttribute extends FormApplication {
       rolls: rollArray,
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
       flavor: this.label,
-      content: this.content + rollHtml,
-      sound: CONFIG.sounds.dice
+      content: this.content,
+      sound: CONFIG.sounds.dice,
+      'flags.weirdwizard': {
+        item: this.item.uuid,
+        rollHtml: rollHtml
+      }
     };
     
     await ChatMessage.applyRollMode(messageData, game.settings.get('core', 'rollMode'));
@@ -406,7 +410,7 @@ export default class rollAttribute extends FormApplication {
   }
 
   async _applyEffects(effects, t) {
-    console.log(effects)
+    
     effects.forEach(e => {
 
       if (e.target == 'tokens') {
@@ -414,7 +418,7 @@ export default class rollAttribute extends FormApplication {
         obj.flags.weirdwizard.trigger = 'passive';
         
         const target = canvas.tokens.get(t.id).actor;
-        console.log(target)
+        
         target.createEmbeddedDocuments("ActiveEffect", [obj]);
       }
 
@@ -470,8 +474,9 @@ export default class rollAttribute extends FormApplication {
   }
 
   // Prepare html for the target
-  _targetHtml(name) {
-    return '<p class="owner-only chat-target">' + i18n('WW.Target') + ': ' + name + '</p><p class="non-owner-only chat-target">' + i18n('WW.Target') + ': ???</p>';
+  _targetHtml(t) {
+    if ((t.id === undefined) || (this.actor.token.id === t.id)) return ''
+    else return '<p class="owner-only chat-target">' + i18n('WW.Target') + ': ' + t.name + '</p><p class="non-owner-only chat-target">' + i18n('WW.Target') + ': ???</p>';
   }
 
   // Prepare html for Dice Total
@@ -536,7 +541,6 @@ export default class rollAttribute extends FormApplication {
       }
 
     })
-    console.log
 
     return effs;
   }
