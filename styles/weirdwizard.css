@@ -1734,16 +1734,30 @@ form.quest-calendar {
 
 .weirdwizard.chat-message .properties-container {
   margin-top: 2px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+/* Chat Buttons */
+
+.weirdwizard.chat-message .chat-button-container {
+  width: 100%;
+  display: inline-flex;
+  flex-direction: row;
+  gap: 5px;
 }
 
 .weirdwizard.chat-message .header-button,
 .weirdwizard.chat-message .adv-button,
-.weirdwizard.chat-message .disadv-button {
+.weirdwizard.chat-message .disadv-button,
+.weirdwizard.chat-message .chat-button {
   background: rgba(0, 0, 0, 0.1);
   border: 1px solid var(--color-border-light-2);
   border-radius: 3px;
   box-shadow: 0 0 2px #fff inset;
-  padding: 0 3px;
+  padding: 0 4px;
+  font-size: var(--font-size-12);
 }
 
 .weirdwizard.chat-message .adv-button {
@@ -1754,10 +1768,50 @@ form.quest-calendar {
   background: rgba(200, 0, 0, 0.2);
 }
 
+.weirdwizard.chat-message .chat-button {
+  color: gray;
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 3px 5px;
+  margin-top: 8px;
+  min-width: 45px;
+}
+.weirdwizard.chat-message .chat-button-container .chat-button {
+  width: 100%;
+}
+
+.weirdwizard.chat-message .footer-roll > .chat-button {
+  margin-right: 5px;
+}
+
+.weirdwizard.chat-message .footer-roll > .chat-button:last-of-type {
+  margin-right: 0px
+}
+
+.weirdwizard.chat-message .chat-button > img {
+  width: 24px;
+  background: none;
+}
+
+.weirdwizard.chat-message .chat-button > i {
+  margin-right: 3px;
+}
+.weirdwizard.chat-message .chat-button > div {
+  flex: 0;
+}
+
+.weirdwizard.chat-message .chat-button:focus,
+.weirdwizard.chat-message .chat-button:hover {
+  text-shadow: none;
+  border-color: var(--highlight-title);
+  color: black;
+}
+
 .weirdwizard .message-content {
   display: flex;
   flex-direction: column;
-  /*background: rgba(var(--highlight-rbg), 0.9);*/
   background: rgba(0, 0, 0, 0.1);
   border-radius: 3px;
   padding: 5px;
@@ -1775,39 +1829,37 @@ form.quest-calendar {
 
 .weirdwizard.chat-message .footer-roll {
   margin-top: 5px;
+  text-align: center;
 }
 
-.weirdwizard .dice-roll .dice-formula,
-.weirdwizard .dice-roll .dice-total,
-.weirdwizard .chat-failure,
-.weirdwizard .chat-success,
-.weirdwizard .secret-dice-total {
-  flex: 0 0 100%;
-  position: relative;
-  margin: 0;
-  line-height: 24px;
-  text-align: center;
+.weirdwizard .dice-comparison {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.weirdwizard .dice-comparison > div {
+  font-size: var(--font-size-20);
+}
+
+.weirdwizard .dice-comparison > div:not(.dice-vs) {
   background: rgba(0, 0, 0, 0.1);
   border: 1px solid var(--color-border-light-2);
   border-radius: 3px;
   box-shadow: 0 0 2px #fff inset;
-  word-break: break-all;
-}
-
-.weirdwizard .dice-roll .dice-total,
-.weirdwizard .chat-failure,
-.weirdwizard .chat-success,
-.weirdwizard .secret-dice-total {
-  flex: 0;
-  font-size: var(--font-size-20);
+  padding: 0 4px;
+  width: 40px;
   font-weight: bold;
 }
 
-.weirdwizard .chat-failure,
-.weirdwizard .chat-success {
-  margin: 0 0 0.5rem;
+.weirdwizard .dice-outcome {
   font-family: var(--font-title);
+  font-size: var(--font-size-24);
+  font-weight: bold;
   text-transform: uppercase;
+  margin-top: 5px;
+  letter-spacing: 0.05em;
 }
 
 .weirdwizard .chat-failure {
@@ -1819,37 +1871,58 @@ form.quest-calendar {
 }
 
 .weirdwizard.chat-message .chat-target {
-  font-weight: bold;
+  background: var(--highlight-title);
+  color: white;
+  padding: 2px;
+  margin: 0px;
+  border-radius: 5px 5px 0px 0px;
+  font-family: var(--font-header);
+  letter-spacing: 0.05em;
+}
+
+.weirdwizard.chat-message .chat-target:not(:first-of-type) {
+  margin-top: 5px;
+}
+
+.weirdwizard.chat-message .chat-target-content {
+  border: 1px solid var(--highlight-title);
+  border-top: none;
+  padding: 5px;
+  border-radius: 0 0 5px 5px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* Dice Tooltip */
+.weirdwizard.dice-tooltip {
+  text-align: center;
+}
+
+.weirdwizard.dice-tooltip .dice-rolls {
+  display: flex;
+  align-items: center;
+  font-size: var(--font-size-16);
+  gap: 3px;
+  margin: 0;
+}
+
+.weirdwizard.dice-tooltip .dice-rolls .roll.discarded {
+  color: black;
+}
+
+.weirdwizard.dice-tooltip .dice-formula {
+  font-size: var(--font-size-16);
   margin-top: 10px;
 }
 
-.weirdwizard .chat-button {
-  color: gray;
-  border: 1px solid;
-  border-radius: 5px;
-  background-color: var(--highlight);
-  padding: 3px 5px;
-  margin: 5px auto 0px;
-  display: inline-flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.weirdwizard .chat-button i {
-  margin-right: 3px;
-}
-
-.weirdwizard .chat-button:focus, .chat-button:hover {
-  text-shadow: none;
-  border-color: var(--highlight-title);
-  color: black;
-}
+/* Footer Sender */
 
 .weirdwizard.chat-message .footer-sender {
   line-height: 20px;
   color: var(--color-text-dark-secondary);
   font-size: var(--font-size-12);
   margin-top: 5px;
+  padding-top: 5px;
+  border-top: 1px solid gray;
 }
 
 .weirdwizard.chat-message .message-sender,

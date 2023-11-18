@@ -31,8 +31,8 @@ export function stats(type = String) {
       max: makeIntField()
     }),
 
-    size: makeNumField(),
-    level: makeNumField(),
+    size: makeNumField(1),
+    level: makeNumField(1),
 
     speed: new fields.SchemaField({
       normal: makeIntField(5),

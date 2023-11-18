@@ -28,7 +28,7 @@ export default class WWChatMessage extends ChatMessage {
   /** @inheritdoc */
   prepareDerivedData() {
     super.prepareDerivedData();
-    console.log(CONFIG.ChatMessage.template)
+    
   }
 
   /**
@@ -46,10 +46,11 @@ export default class WWChatMessage extends ChatMessage {
     const item = await fromUuid(itemUuid);
 
     const rollHtml = data.flags?.weirdwizard?.rollHtml ? data.flags.weirdwizard.rollHtml : '';
+    const emptyContent = data.flags?.weirdwizard?.emptyContent ?? data.flags?.weirdwizard?.emptyContent;
 
     // Prepare weapon properties list
-    if (itemUuid) {
-      const sys = item.system;
+    if (item) {
+      const sys = item?.system;
 
       item.traits = [];
       item.advantages = [];
@@ -76,8 +77,6 @@ export default class WWChatMessage extends ChatMessage {
         })
       })
     }
-
-
     
     // Construct message data
     const messageData = {
@@ -86,7 +85,7 @@ export default class WWChatMessage extends ChatMessage {
       author: this.user,
       alias: this.alias,
       avatar: this.avatar,
-      item: itemUuid ? {
+      item: item ? {
         img: item.img,
         type: item.system.subtype ? this.getTypeLabel(item.system.subtype) : this.getTypeLabel(item.type),
         source: item.system.source ? item.system.source : null,
@@ -97,6 +96,7 @@ export default class WWChatMessage extends ChatMessage {
         disadvantages: item.disadvantages
       } : null,
       rollHtml: rollHtml,
+      emptyContent: emptyContent,
       cssClass: [
         this.type === CONST.CHAT_MESSAGE_TYPES.IC ? "ic" : null,
         this.type === CONST.CHAT_MESSAGE_TYPES.EMOTE ? "emote" : null,
@@ -112,9 +112,10 @@ export default class WWChatMessage extends ChatMessage {
     };
 
     // Render message data specifically for ROLL type messages
-    if ( this.isRoll ) {
+    // This is making the Roll being rendered twice and thus losing data
+    /*if ( this.isRoll ) {
       await this._renderRollContent(messageData);
-    }
+    }*/
 
     // Define a border color
     if ( this.type === CONST.CHAT_MESSAGE_TYPES.OOC ) {
@@ -126,7 +127,7 @@ export default class WWChatMessage extends ChatMessage {
     html = $(html);
 
     // Flag expanded state of dice rolls
-    if ( this._rollExpanded ) html.find(".dice-tooltip").addClass("expanded");
+    //if ( this._rollExpanded ) html.find(".dice-tooltip").addClass("expanded");
     Hooks.call("renderChatMessage", this, html, messageData);
     return html;
   }

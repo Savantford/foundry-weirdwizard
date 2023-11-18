@@ -256,7 +256,7 @@ export default class WWActor extends Actor {
     // Get values
     const oldTotal = this.system.stats.damage.value;
     const health = this.system.stats.health.current;
-    let newTotal = oldTotal + damage;
+    let newTotal = oldTotal + parseInt(damage);
     let healthLost = 0;
 
     if (newTotal > health) {
@@ -265,7 +265,28 @@ export default class WWActor extends Actor {
     }
 
     let content = '<span style="display: inline"><span style="font-weight: bold">' + this.name + '</span> ' + 
-    i18n('WW.InstantEffect.Apply.Took') + ' ' + damage + ' ' + i18n('WW.InstantEffect.Apply.Damage') + '.</span><div>' + 
+    i18n('WW.InstantEffect.Apply.Took') + ' ' + damage + ' ' + i18n('WW.InstantEffect.Apply.DamageLc') + '.</span><div>' + 
+    i18n('WW.InstantEffect.Apply.DamageTotal') +': ' + oldTotal + ' <i class="fas fa-arrow-right"></i> ' + newTotal;
+
+    //if (healthLost) content += ' (' + 'Health Lost' + ': ' +  healthLost + ')</div>'; else content += '</div>'; // no longer carries over
+
+    ChatMessage.create({
+      speaker: ChatMessage.getSpeaker({ actor: this }),
+      content: content,
+      sound: CONFIG.sounds.notification
+    })
+
+    this.update({ 'system.stats.damage.value': newTotal });
+  }
+
+  async applyHealing(healing) {
+
+    // Get values
+    const oldTotal = this.system.stats.damage.value;
+    const newTotal = ((oldTotal - parseInt(healing)) > 0) ? oldTotal - parseInt(healing) : 0;
+
+    let content = '<span style="display: inline"><span style="font-weight: bold">' + this.name + '</span> ' + 
+    i18n('WW.InstantEffect.Apply.Healed') + ' ' + healing + ' ' + i18n('WW.InstantEffect.Apply.DamageLc') + '.</span><div>' + 
     i18n('WW.InstantEffect.Apply.DamageTotal') +': ' + oldTotal + ' <i class="fas fa-arrow-right"></i> ' + newTotal;
 
     //if (healthLost) content += ' (' + 'Health Lost' + ': ' +  healthLost + ')</div>'; else content += '</div>'; // no longer carries over
@@ -283,6 +304,7 @@ export default class WWActor extends Actor {
   async applyHealthLoss(loss) {
     const lost = this.system.stats.health.lost;
     const oldCurrent = this.system.stats.health.current;
+    loss = parseInt(loss);
     const current = (oldCurrent - loss) > 0 ? oldCurrent - loss : 0;
 
     let content = '<span style="display: inline"><span style="font-weight: bold">' + this.name + '</span> ' + 
@@ -302,6 +324,7 @@ export default class WWActor extends Actor {
   async applyHealthRecovery(recovered) {
     const lost = this.system.stats.health.lost;
     const oldCurrent = this.system.stats.health.current;
+    recovered = parseInt(recovered);
     const newLost = (lost - recovered) > 0 ? lost - recovered : 0;
     const current = oldCurrent + lost - newLost;
 

@@ -32,11 +32,11 @@
         {{/if}}
     </header>
     
-    {{#if message.content}}
+    {{#unless emptyContent}}
     <div class="message-content">
         {{{message.content}}}
     </div>
-    {{/if}}
+    {{/unless}}
     
     <footer class="message-footer">
         {{#if rollHtml}}

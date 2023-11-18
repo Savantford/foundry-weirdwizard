@@ -26,7 +26,9 @@
     "systems/weirdwizard/templates/items/parts/Talent-details.hbs",
     "systems/weirdwizard/templates/items/parts/Spell-details.hbs",
     "systems/weirdwizard/templates/items/parts/item-settings.hbs",
-    "systems/weirdwizard/templates/items/parts/item-effects.hbs"
+    "systems/weirdwizard/templates/items/parts/item-effects.hbs",
 
+    // Chat
+    "systems/weirdwizard/templates/chat/dice-tooltip.hbs"
   ]);
 };
