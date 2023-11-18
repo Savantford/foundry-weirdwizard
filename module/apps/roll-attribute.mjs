@@ -5,13 +5,22 @@
 
 import { i18n, plusify } from '../helpers/utils.mjs';
 import WWRoll from '../dice/roll.mjs';
+import { diceTotalHtml, chatMessageButton } from '../chat/chat-html-templates.mjs';
 
-export default class rollAttribute extends FormApplication {
+export default class RollAttribute extends FormApplication {
   constructor(obj) {
     super(); // This is required for the constructor to work
-    this.component = obj.target; // Assign HTML component
-    this.token = obj.token;
-    this.actor = obj.token ? this.token.actor : obj.actor;
+    //this.component = obj.target; // Assign HTML component
+    this.origin = fromUuidSync(obj.origin);
+    
+    if (this.origin.documentName === 'Item') {
+      this.item = this.origin;
+      this.actor = this.origin.parent;
+    } else {
+      this.actor = this.origin;
+    }
+    
+    this.token = this.actor.token;
     this.baseHtml = obj.baseHtml;
     this.system = this.actor.system; // Assign actor data
     const attKey = obj.attKey;
@@ -23,15 +32,12 @@ export default class rollAttribute extends FormApplication {
     this.effectBoonsGlobal = this.system.boons.attributes[attKey].global ?
       this.system.boons.attributes[attKey].global : 0;
     this.attackBoons = this.system.boons.attacks.global;
-
-    // Get item data
-    this.item = obj.item;
     
     // Assign mod
     this.mod = this.system.attributes[attKey]?.mod ?
       plusify(this.system.attributes[attKey].mod) : '+0'; // If undefined, set it to +0
 
-    this.against = this.item.system?.against;
+    this.against = this.item?.system?.against;
     this.boonsFinal = 0;
 
   }
@@ -181,16 +187,16 @@ export default class rollAttribute extends FormApplication {
   }
 
   async _onFormSubmit() {
-    let rollHtml = '';
-    const successHtml = '<div class="chat-success">' + game.i18n.format('WW.Roll.Success') + '</div>';
-    const criticalHtml = '<div class="chat-success">' + game.i18n.format('WW.Roll.CriticalSuccess') + '!</div>';
-    const failureHtml = '<div class="chat-failure">' + game.i18n.format('WW.Roll.Failure') + '</div>';
+    const against = this.against,
+      boonsFinal = this.boonsFinal,
+      originUuid = this.origin.uuid
+    ;
 
-    const against = this.against;
-    const boonsFinal = this.boonsFinal;
-    let boons = "0";
-    let rollArray = [];
-
+    let rollHtml = '',
+      boons = "0",
+      rollArray = []
+    ;
+    
     if (against) { // Against is filled; perform one separate roll for each target
       for (const t of this.targets) {
 
@@ -271,33 +277,29 @@ export default class rollAttribute extends FormApplication {
         rollArray.push(r);
 
         // Add the target name, the roll result and the onUse instant effects to the chat message
-        rollHtml += this._targetHtml(t);
-        rollHtml += await this._diceTotalHtml(r);
+        let targetHtml = await diceTotalHtml(r);
         
         // Evaluate target number
         const success = await r.total >= targetNo;
         const critical = await r.total >= 20 && await r.total >= targetNo + 5;
         
         if (critical) {
-          rollHtml += criticalHtml;
-          rollHtml += this.baseHtml[t.id];
-          rollHtml += this._addWeaponDamage(t);
-          rollHtml += this._addInstEffs(this.instEffs.onCritical, t);
-          this._applyEffects(this.effects.onCritical, t);
+          targetHtml += this._addWeaponDamage(t);
+          targetHtml += this._addInstEffs(this.instEffs.onCritical, originUuid, t.id);
+          this._applyEffects(this.effects.onCritical, t.id);
 
         } else if (success) {
-          rollHtml += successHtml;
-          rollHtml += this.baseHtml[t.id];
-          rollHtml += this._addWeaponDamage(t);
-          rollHtml += this._addInstEffs(this.instEffs.onSuccess, t);
-          this._applyEffects(this.effects.onSuccess, t);
+          targetHtml += this._addWeaponDamage(t);
+          targetHtml += this._addInstEffs(this.instEffs.onSuccess, originUuid, t.id);
+          this._applyEffects(this.effects.onSuccess, t.id);
 
         } else {
-          rollHtml += failureHtml;
-          rollHtml += this.baseHtml[t.id];
-          rollHtml += this._addInstEffs(this.instEffs.onFailure, t);
-          this._applyEffects(this.effects.onFailure, t);
+          targetHtml += this._addInstEffs(this.instEffs.onFailure, originUuid, t.id);
+          this._applyEffects(this.effects.onFailure, t.id);
         }
+
+        // Add targetHtml to rollHtml
+        rollHtml += this._targetHtml(t, targetHtml);
 
       };
 
@@ -315,46 +317,97 @@ export default class rollAttribute extends FormApplication {
       // Construct the Roll instance and evaluate the roll
       let r = await new WWRoll(rollFormula, { targetNo: targetNo }).evaluate({async:true});
 
-      // Add roll result to the chat message
-      rollHtml += await this._diceTotalHtml(r);
+      // Set the roll order and color dice for DSN
+      for (let i = 0; i < r.dice.length; i++) {
+        r.dice[i].options.rollOrder = 0;
+
+        const exp = r.dice[i].expression;
+        if (exp.includes('d20')) {
+          r.dice[i].options.appearance = {
+            colorset: 'wwd20',
+            texture: 'stars',
+            material: 'metal',
+            font: 'Amiri',
+            foreground: '#FFAE00', // Label Color
+            background: "#AE00FF", // Dice Color
+            outline: '#FF7B00',
+            edge: '#FFAE00',
+            material: 'metal',
+            font: 'Amiri',
+            default: true
+          };
+        
+        }
+
+        if (exp.includes('d6')) {
+          const sub = r.formula.substring(0, r.formula.indexOf(exp)).trim();
+          const sign = sub.slice(-1);
+          
+          if (sign === '+') { // If a boon
+            r.dice[i].options.appearance = {
+              colorset: 'wwboon',
+              texture: 'stars',
+              material: 'metal',
+              font: 'Amiri',
+              foreground: '#FFAE00', // Label Color
+              background: "#4394FE", // Dice Color
+              outline: '#FF7B00',
+              edge: '#FFAE00',
+              material: 'metal',
+              font: 'Amiri'
+            };
+          
+          } else if (sign === '-') { // If a bane
+            r.dice[i].options.appearance = {
+              colorset: 'wwbane',
+              texture: 'stars',
+              material: 'metal',
+              font: 'Amiri',
+              foreground: '#FFAE00', // Label Color
+              background: "#C70000", // Dice Color
+              outline: '#FF7B00',
+              edge: '#FFAE00',
+              material: 'metal',
+              font: 'Amiri'
+            };
+          }
+        }
+      }
+
+      // Push roll to roll array
+      rollArray.push(r);
+
+      // Add the target name, the roll result and the onUse instant effects to the chat message
+      rollHtml += await diceTotalHtml(r);
 
       // Evaluate target number
       const success = await r.total >= targetNo;
       const critical = await r.total >= 20 && await r.total >= targetNo + 5;
       
       if (critical) {
-        rollHtml += criticalHtml;
-
         for (const t of this.targets) {
-          rollHtml += this._targetHtml(t);
-          rollHtml += this.baseHtml[t.id];
-          rollHtml += this._addInstEffs(this.instEffs.onCritical, t);
-          this._applyEffects(this.effects.onCritical, t);
+          let targetHtml = this._addInstEffs(this.instEffs.onCritical, originUuid, t.id);
+          this._applyEffects(this.effects.onCritical, t.id);
+          rollHtml += this._targetHtml(t, targetHtml);
         }
 
       } else if (success) {
-        rollHtml += successHtml;
-        
         for (const t of this.targets) {
-          rollHtml += this._targetHtml(t);
-          rollHtml += this.baseHtml[t.id];
-          rollHtml += this._addInstEffs(this.instEffs.onSuccess, t);
-          this._applyEffects(this.effects.onSuccess, t);
+          let targetHtml = this._addInstEffs(this.instEffs.onSuccess, originUuid, t.id);
+          this._applyEffects(this.effects.onSuccess, t.id);
+          rollHtml += this._targetHtml(t, targetHtml);
         }
 
       } else {
-        rollHtml += failureHtml;
-        
         for (const t of this.targets) {
-          rollHtml += this._targetHtml(t);
-          rollHtml += this.baseHtml[t.id];
-          rollHtml += this._addInstEffs(this.instEffs.onFailure, t);
-          this._applyEffects(this.effects.onFailure, t);
+          let targetHtml = this._addInstEffs(this.instEffs.onFailure, originUuid, t.id);
+          this._applyEffects(this.effects.onFailure, t.id);
+          rollHtml += this._targetHtml(t, targetHtml);
         }
       }
 
     }
-
+    
     // Create message data
     const messageData = {
       type: CONST.CHAT_MESSAGE_TYPES.ROLL,
@@ -364,8 +417,9 @@ export default class rollAttribute extends FormApplication {
       content: this.content,
       sound: CONFIG.sounds.dice,
       'flags.weirdwizard': {
-        item: this.item.uuid,
-        rollHtml: rollHtml
+        item: this.item?.uuid,
+        rollHtml: rollHtml,
+        emptyContent: !this.content ?? true
       }
     };
     
@@ -375,33 +429,49 @@ export default class rollAttribute extends FormApplication {
     await ChatMessage.create(messageData);
   }
 
-  _addWeaponDamage(t) {
+  _addWeaponDamage(target) {
     let finalHtml = '';
 
     // Get Variables
-    const itemSystem = this.item.system;
+    const itemSystem = this.origin.system;
     const weaponDamage = (itemSystem.subtype == 'weapon' && itemSystem.damage) ? itemSystem.damage : 0;
-    const target = canvas.tokens.get(t.id);
 
     if (weaponDamage) {
-      finalHtml = this.prepareHtmlButton(target, weaponDamage, 'damage');
+      finalHtml = chatMessageButton({
+        action: 'roll-damage',
+        originUuid: this.item?.uuid,
+        targetId: target.id,
+        value: weaponDamage
+      });
     }
 
     return finalHtml;
   }
 
-  _addInstEffs(effects, t) {
+  _addInstEffs(effects, origin, target) {
+    
+    if (!target) target = '';
+
     let finalHtml = '';
     
     effects.forEach(e => {
       let html = '';
-      console.warn('chegou')    
-      let target = canvas.tokens.get(t.id);
         
-      if (e.target === 'self') target = canvas.tokens.get(this.token.id);
+      if (e.target === 'self') target = this.token.uuid;
         
-      if (e.label === 'affliction') html = this.prepareHtmlButton(target, e.affliction, e.label);
-      else html = this.prepareHtmlButton(target, e.value, e.label);
+      if (e.label === 'affliction') html = chatMessageButton({
+        action: this.actionFromLabel(e.label),
+        value: e.affliction,
+        originUuid: origin,
+        targetId: target
+      });
+
+      else html = chatMessageButton({
+        action: this.actionFromLabel(e.label),
+        value: e.value,
+        originUuid: origin,
+        targetId: target
+      });
       
       finalHtml += html;
     })
@@ -409,7 +479,7 @@ export default class rollAttribute extends FormApplication {
     return finalHtml;
   }
 
-  async _applyEffects(effects, t) {
+  async _applyEffects(effects, target) {
     
     effects.forEach(e => {
 
@@ -417,72 +487,36 @@ export default class rollAttribute extends FormApplication {
         let obj = e.toObject()
         obj.flags.weirdwizard.trigger = 'passive';
         
-        const target = canvas.tokens.get(t.id).actor;
+        const actor = canvas.tokens.get(target).actor;
         
-        target.createEmbeddedDocuments("ActiveEffect", [obj]);
+        actor.createEmbeddedDocuments("ActiveEffect", [obj]);
       }
 
     })
 
   }
 
-  prepareHtmlButton(target, value, label) {
-    let icon = '';
-    let loc = '';
-    let cls = '';
+  /* Prepare action string from label string */
+  actionFromLabel(label) {
+    let action = '';
 
     switch (label) {
-      case 'damage': {
-        icon = 'burst';
-        loc = 'WW.InstantEffect.Roll.Damage';
-        cls = 'damage-roll';
-        break;
-      }
-      case 'heal': {
-        icon = 'sparkles';
-        label = 'healing';
-        loc = 'WW.InstantEffect.Roll.Heal';
-        cls = 'healing-roll';
-        break;
-      }
-      case 'healthLose': {
-        icon = 'droplet';
-        loc = 'WW.InstantEffect.Roll.HealthLose';
-        cls = 'health-loss-roll';
-        break;
-      }
-      case 'healthRecover': {
-        icon = 'suitcase-medical';
-        loc = 'WW.InstantEffect.Roll.HealthRecover';
-        cls = 'health-recovery-roll';
-        break;
-      }
-      case 'affliction': {
-        icon = 'skull-crossbones';
-        loc = 'WW.InstantEffect.Affliction';
-        cls = 'bestow-affliction';
-        break;
-      }
+      case ('damage'): action = 'roll-damage'; break;
+      case ('heal'): action = 'roll-healing'; break;
+      case ('healthLose'): action = 'roll-health-loss'; break;
+      case ('healthRecover'): action = 'roll-health-recovery'; break;
+      case ('affliction'): action = 'apply-affliction'; break;
     }
-
-    const html = '<div class="'+ cls + ' chat-button" data-item-id="' + this.item._id +
-    (this.token ? '"  data-token-key="' + this.token.parent.id + '.' + this.token._id : '"  data-actor-id="' + this.actor._id) +
-    '" data-target-id="' + target.id +
-    '" data-value="' + value +
-    '"><i class="fas fa-' + icon + '"></i>' + i18n(loc) + ': ' + value + '</div>';
-    return html;
+    
+    return action;
   }
 
   // Prepare html for the target
-  _targetHtml(t) {
-    if ((t.id === undefined) || (this.actor.token.id === t.id)) return ''
-    else return '<p class="owner-only chat-target">' + i18n('WW.Target') + ': ' + t.name + '</p><p class="non-owner-only chat-target">' + i18n('WW.Target') + ': ???</p>';
-  }
+  _targetHtml(target, html) {
+    if ((target.id === undefined) || !this.item) return (html ? html : '');
 
-  // Prepare html for Dice Total
-  async _diceTotalHtml(r) {
-    
-    return '<span class="owner-only">' + await r.render() + '</span><h4 class="secret-dice-total non-owner-only">' + await r.total + '</h4>';
+    else return '<p class="owner-only chat-target">' + i18n('WW.Target') + ': ' + target.name + '</p><p class="non-owner-only chat-target">' + i18n('WW.Target') +
+      ': ???</p><div class="chat-target-content">' + html + '</div>';
   }
 
   /* -------------------------------------------- */

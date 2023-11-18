@@ -18,15 +18,34 @@ export default class WWRoll extends Roll {
   
   async render({flavor, template=this.constructor.CHAT_TEMPLATE, isPrivate=false}={}) {
     if ( !this._evaluated ) await this.evaluate({async: true});
+    
     const chatData = {
       formula: isPrivate ? "???" : this._formula,
       flavor: isPrivate ? null : flavor,
       user: game.user.id,
       tooltip: isPrivate ? "" : await this.getTooltip(),
       total: isPrivate ? "?" : Math.round(this.total * 100) / 100,
-      targetNo: this.data.targetNo
+      targetNo: this.data.targetNo,
+      terms: await this.terms,
+      outcome: this.outcome
     };
+
     return renderTemplate(template, chatData);
+  }
+
+  /** 
+   * Get the outcome (None, Critical, Success or Failure)
+  */
+  get outcome() {
+    const targetNo = this.data.targetNo;
+
+    // Return nothing if there is no target number
+    if (!targetNo) return ''; 
+    
+    // Determine outcome
+    if (this.total >= 20 && this.total >= targetNo + 5) return 'critical';  
+    else if (this.total >= targetNo) return 'success';
+    else return 'failure';
   }
 
 }

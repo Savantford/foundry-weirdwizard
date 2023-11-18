@@ -1,0 +1,16 @@
+<div class="weirdwizard dice-tooltip expanded">
+    <ol class="dice-rolls flex-row">
+        {{#each terms as |term id|}}
+            {{#if term.faces}}
+                {{#each term.results as |result id|}}
+                    <li class="roll die d{{term.faces}}{{#if discarded}} discarded{{/if}}">{{result.result}}</li>
+                {{/each}}
+            {{else if term.operator}}
+                <li>{{term.operator}}</li>
+            {{else}}
+                <li>{{term.number}}</li>
+            {{/if}}
+        {{/each}}
+    </ol>
+    <div class="dice-formula">{{formula}}</div>
+</div>

@@ -1,7 +1,8 @@
-import { i18n, plusify, capitalize, resizeInput, sum } from '../helpers/utils.mjs'
-import { healthDetails } from '../apps/health-details.mjs'
-import rollAttribute from '../apps/roll-attribute.mjs'
-import { rollDamage } from '../apps/roll-damage.mjs'
+import { i18n, plusify, capitalize, resizeInput, sum } from '../helpers/utils.mjs';
+import { chatMessageButton } from '../chat/chat-html-templates.mjs';
+import { healthDetails } from '../apps/health-details.mjs';
+import RollAttribute from '../apps/roll-attribute.mjs';
+//import { RollDamage } from '../apps/roll-damage.mjs';
 import { onManageActiveEffect, prepareActiveEffectCategories } from '../helpers/effects.mjs';
 import { WWAfflictions } from '../helpers/afflictions.mjs';
 
@@ -373,7 +374,7 @@ export default class WWActorSheet extends ActorSheet {
     html.find('.rollable').click(this._onAttributeRoll.bind(this))
 
     // Damage Roll
-    html.find('.damage-roll').click(ev => { //this._onDamageRoll.bind(this)
+    /*html.find('.damage-roll').click(ev => { //this._onDamageRoll.bind(this)
       // Define variables to be used
       let li = $(ev.currentTarget).parents('.item');
 
@@ -394,10 +395,10 @@ export default class WWActorSheet extends ActorSheet {
       }
 
       new rollDamage(obj).render(true);
-    });
+    });*/
 
     // Healing Roll
-    html.find('.healing-roll').click(ev => { //this._onRoll.bind(this)
+    /*html.find('.healing-roll').click(ev => { //this._onRoll.bind(this)
       // Define variables to be used
       let li = $(ev.currentTarget).parents('.item');
 
@@ -416,7 +417,7 @@ export default class WWActorSheet extends ActorSheet {
         rollMode: game.settings.get('core', 'rollMode')
       });
       
-    });
+    });*/
 
     //////////////// ITEMS: HANDLING ///////////////////
 
@@ -598,10 +599,12 @@ export default class WWActorSheet extends ActorSheet {
 
     }
 
+    const origin = item.uuid ? item.uuid : this.actor.uuid;
+
     if (instEffs) {
     
       for (const t of this.targets) {
-        baseHtml[t.id] = this._addInstEffs(instEffs, t, item);
+        baseHtml[t.uuid] = this._addInstEffs(instEffs, origin, t.uuid);
       }
       
     }
@@ -609,8 +612,9 @@ export default class WWActorSheet extends ActorSheet {
     // If an attribute key is not defined, do not roll
     if (!attKey) {
       let html = '';
+      
       for (const t of this.targets) {
-        html += baseHtml[t.id];
+        html += baseHtml[t.uuid];
       }
 
       let messageData = {
@@ -622,38 +626,44 @@ export default class WWActorSheet extends ActorSheet {
           item: item.uuid
         }
       };
-
+      
       ChatMessage.create(messageData);
     } else {
+
       let obj = {
-        token: this.token,
-        actor: this.document,
+        origin: origin,
         target: ev,
         label: label,
         content: content,
         attKey: attKey,
-        item: item,
         baseHtml: baseHtml
       }
   
       // Check for Automatic Failure
       if (system.autoFail[obj.attKey]) {
-
+        
         let messageData = {
           speaker: ChatMessage.getSpeaker({ actor: this.actor }),
           flavor: label,
-          content: content + '<div class="chat-failure">' + i18n('WW.Roll.AutoFail') + '!</div>' + content,
+          content: content,
           sound: CONFIG.sounds.dice,
           'flags.weirdwizard': {
-            item: this.item.uuid
+            item: item.uuid,
+            rollHtml: '<div class="dice-outcome chat-failure">' + i18n('WW.Roll.AutoFail') + '!</div>',
+            emptyContent: !content ?? true
           }
         };
   
         ChatMessage.create(messageData);
       } else {
         if (item?.system?.subtype === 'weapon' && !item.system.against) ui.notifications.warn(i18n("WW.Roll.AgainstWrn"));
-        else if (needTargets(item) && !game.user.targets.size) ui.notifications.warn(i18n("WW.Roll.TargetWrn"));
-        else new rollAttribute(obj).render(true);
+        else if (needTargets(item) && !game.user.targets.size) {
+          ui.notifications.warn(i18n("WW.Roll.TargetWrn"));
+          canvas.controls.activate({tool: 'target'});
+          canvas.tokens.activate({tool:'target'})
+          this.minimize();
+        }
+        else new RollAttribute(obj).render(true);
       }
     }
     
@@ -776,70 +786,34 @@ export default class WWActorSheet extends ActorSheet {
   }
 
   // Add intant effects to chat message html
-  _addInstEffs(effects, t, item) {
+  _addInstEffs(effects, origin, target) {
+    
+    if (!target) target = '';
+    
     let finalHtml = '';
-    effects = effects.filter(e => e.trigger === 'onUse')//.map(i => ({ _id: i.id, 'system.uses.value': 0 }));
+    effects = effects.filter(e => e.trigger === 'onUse');
     
     effects.forEach(e => {
       let html = '';
-
-      const target = canvas.tokens.get(t.id);
         
-      if (e.label === 'affliction') html = this.prepareHtmlButton(target, e.affliction, e.label, item);
-      else html = this.prepareHtmlButton(target, e.value, e.label, item);
+      if (e.label === 'affliction') html = chatMessageButton({
+        origin: origin,
+        target: target,
+        label: e.label,
+        value: e.affliction
+      });
+
+      else html = chatMessageButton({
+        origin: origin,
+        target: target,
+        label: e.label,
+        value: e.value,
+      });
       
       finalHtml += html;
     })
     
     return finalHtml;
-  }
-
-  // Prepare Html Button for the chat message
-  prepareHtmlButton(target, value, label, item) {
-    let icon = '';
-    let loc = '';
-    let cls = '';
-
-    switch (label) {
-      case 'damage': {
-        icon = 'burst';
-        loc = 'WW.InstantEffect.Roll.Damage';
-        cls = 'damage-roll';
-        break;
-      }
-      case 'heal': {
-        icon = 'sparkles';
-        label = 'healing';
-        loc = 'WW.InstantEffect.Roll.Heal';
-        cls = 'healing-roll';
-        break;
-      }
-      case 'healthLose': {
-        icon = 'droplet';
-        loc = 'WW.InstantEffect.Roll.HealthLose';
-        cls = 'health-loss-roll';
-        break;
-      }
-      case 'healthRecover': {
-        icon = 'suitcase-medical';
-        loc = 'WW.InstantEffect.Roll.HealthRecover';
-        cls = 'health-recovery-roll';
-        break;
-      }
-      case 'affliction': {
-        icon = 'skull-crossbones';
-        loc = 'WW.InstantEffect.Affliction';
-        cls = 'bestow-affliction';
-        break;
-      }
-    }
-    
-    const html = '<div class="'+ cls + ' chat-button" data-item-id="' + item._id +
-    (this.token ? '"  data-token-key="' + this.token.parent.id + '.' + this.token._id : '"  data-actor-id="' + this.document.id) +
-    '" data-target-id="' + target.id +
-    '" data-value="' + value +
-    '"><i class="fas fa-' + icon + '"></i>' + i18n(loc) + ': ' + value + '</div>';
-    return html;
   }
 
   /* -------------------------------------------- */
@@ -852,6 +826,7 @@ export default class WWActorSheet extends ActorSheet {
     if (game.user.targets.size) { // Get targets if they exist
 
       game.user.targets.forEach(t => {
+        
         targets.push({
           id: t.id,
           name: t.document.name,
@@ -884,7 +859,8 @@ export default class WWActorSheet extends ActorSheet {
 
 // Make secret message content
 function _secretContent(content) {
-  return '<span class="owner-only chat-description">' + content + '</span>';
+  if (content) return '<span class="owner-only chat-description">' + content + '</span>';
+  else return ''
 }
 
 // Make secret message label

@@ -422,22 +422,22 @@
         "Heal": "Heal Damage",
         "HealOf": "Healing of",
         "HealthLose": "Lose Health",
-        "HealthLoseOf": "Lost Health from",
+        "HealthLoseOf": "Health Lost from",
         "HealthRecover": "Recover Lost Health",
-        "HealthRecoverOf": "Lost Health recovery from",
+        "HealthRecoverOf": "Health Recovery of",
         "Affliction": "Bestow Affliction",
         "Value": "Value",
-        "Roll": {
-            "Damage": "Roll Damage",
-            "Heal": "Roll Healing",
-            "HealthLose": "Roll Lost Health",
-            "HealthRecover": "Roll Health Recovery"
+        "Button": {
+            "Damage": "Damage",
+            "Half": "Half",
+            "Double": "Double",
+            "Healing": "Healing",
+            "HealthLoss": "Health Loss",
+            "HealthRecovery": "Health Recovery",
+            "LoseHealth": "Lose Health",
+            "RecoverHealth": "Recover Health"
         },
         "Apply": {
-            "Damage": "Apply Damage",
-            "Heal": "Apply Healing",
-            "HealthLose": "Apply Lost Health",
-            "HealthRecover": "Apply Health Recovery",
             "Took": "took",
             "DamageLc": "damage",
             "DamageTotal": "Damage Total",
