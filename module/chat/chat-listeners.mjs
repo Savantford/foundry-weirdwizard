@@ -1,5 +1,6 @@
 import { chatMessageButton, diceTotalHtml } from './chat-html-templates.mjs';
 import WWRoll from '../dice/roll.mjs';
+import GridTemplate from '../canvas/grid-template.mjs';
 
 /* -------------------------------------------- */
 /*  Chat methods                                */
@@ -19,7 +20,6 @@ export function initChatListeners(html) {
 
   /*html.on('click', '.apply-effect', _onChatApplyEffect.bind(this))
   html.on('click', '.use-talent', _onChatUseTalent.bind(this))
-  html.on('click', '.place-template', _onChatPlaceTemplate.bind(this))
   html.on('click', '.request-challengeroll', _onChatRequestChallengeRoll.bind(this))
   html.on('click', '.make-challengeroll', _onChatMakeChallengeRoll.bind(this))
   html.on('click', '.request-initroll', _onChatRequestInitRoll.bind(this))
@@ -39,19 +39,22 @@ async function _onChatMessageButtonClick (event) {
   
   switch (dataset.action) {
     // Instant Effect Rolls
-    case ('roll-damage'): new RollDamage(dataset).render(true); break;//_onChatRollDamage(dataset); break;
-    case ('roll-healing'): _onChatRoll(dataset, 'WW.InstantEffect.HealOf', 'apply-healing'); break;
-    case ('roll-health-loss'): _onChatRoll(dataset, 'WW.InstantEffect.HealthLoseOf', 'apply-health-loss'); break;
-    case ('roll-health-recovery'): _onChatRoll(dataset, 'WW.InstantEffect.HealthRecoverOf', 'apply-health-recovery'); break;
+    case 'roll-damage': new RollDamage(dataset).render(true); break;
+    case 'roll-healing': _onChatRoll(dataset, 'WW.InstantEffect.HealOf', 'apply-healing'); break;
+    case 'roll-health-loss': _onChatRoll(dataset, 'WW.InstantEffect.HealthLoseOf', 'apply-health-loss'); break;
+    case 'roll-health-recovery': _onChatRoll(dataset, 'WW.InstantEffect.HealthRecoverOf', 'apply-health-recovery'); break;
 
     // Instant Effect Apply
-    case ('apply-damage'): _onChatApply(dataset); break;
-    case ('apply-damage-half'): _onChatApply(dataset); break;
-    case ('apply-damage-double'): _onChatApply(dataset); break;
-    case ('apply-healing'): _onChatApply(dataset); break;
-    case ('apply-health-loss'): _onChatApply(dataset); break;
-    case ('apply-health-recovery'): _onChatApply(dataset); break;
-    case ('apply-affliction'): _onChatApplyAffliction(dataset); break;
+    case 'apply-damage': _onChatApply(dataset); break;
+    case 'apply-damage-half': _onChatApply(dataset); break;
+    case 'apply-damage-double': _onChatApply(dataset); break;
+    case 'apply-healing': _onChatApply(dataset); break;
+    case 'apply-health-loss': _onChatApply(dataset); break;
+    case 'apply-health-recovery': _onChatApply(dataset); break;
+    case 'apply-affliction': _onChatApplyAffliction(dataset); break;
+
+    // Other events
+    //case 'place-template': _onChatPlaceTemplate(dataset); break;
     
   }
   
@@ -91,7 +94,7 @@ async function _onChatRoll(dataset, label, nextAction) {
     sound: CONFIG.sounds.dice,
     'flags.weirdwizard': {
       item: data.item?.uuid,
-      rollHtml: rollHtml + chatMessageButton(dataset),
+      rollHtml: rollHtml + (dataset.targetId ? truechatMessageButton(dataset) : ''), // Hide buttons from untargeted rolls
       emptyContent: true
     }
   };
@@ -103,23 +106,6 @@ async function _onChatRoll(dataset, label, nextAction) {
 
 }
 
-//async function _onChatRollDamage(dataset) {
-  
-  // Prepare roll
-  /*let obj = {
-    actor: actor,
-    target: li,
-    label: item.name,//getSecretLabel(item.name),
-    name: item.name,
-    baseDamage: li.dataset.value,
-    properties: item.system.properties ? item.system.properties : {},
-    bonusDamage: actor.system.stats.bonusdamage
-  }*/
-
-  //new rollDamage(dataset).render(true);
-
-//}
-
 /* -------------------------------------------- */
 /*  Chat Apply functions                        */
 /* -------------------------------------------- */
@@ -128,15 +114,13 @@ async function _onChatApply(dataset) {
   const target = canvas.tokens.get(dataset.targetId).actor;
   const value = dataset.value;
 
-  console.log('chegou');
-
   switch (dataset.action) {
-    case ('apply-damage'): target.applyDamage(value); break;
-    case ('apply-damage-half'): target.applyDamage(Math.floor(value/2)); break;
-    case ('apply-damage-double'): target.applyDamage(2*value); break;
-    case ('apply-healing'): target.applyHealing(value); break;
-    case ('apply-health-loss'): target.applyHealthLoss(value); break;
-    case ('apply-health-recovery'): target.applyHealthRecovery(value); break;
+    case 'apply-damage': target.applyDamage(value); break;
+    case 'apply-damage-half': target.applyDamage(Math.floor(value/2)); break;
+    case 'apply-damage-double': target.applyDamage(2*value); break;
+    case 'apply-healing': target.applyHealing(value); break;
+    case 'apply-health-loss': target.applyHealthLoss(value); break;
+    case 'apply-health-recovery': target.applyHealthRecovery(value); break;
     
   }
 
@@ -168,6 +152,7 @@ async function _onChatApplyAffliction(dataset) {
   }
   
 }
+
 
 /* -------------------------------------------- */
 /*

@@ -54,6 +54,12 @@ WW.rollAgainst = {
   'wil': 'WW.Will'
 }
 
+WW.TARGETING_METHODS = {
+  'manual': 'WW.Roll.Targeting.Manual',
+  'template': 'WW.Roll.Targeting.Template'
+  /*'': 'WW.Roll.Targeting.Disable'*/
+}
+
 WW.dropdownSubtypes = {
   'trait': 'WW.TalentSubtypes.Trait',
   'aura': 'WW.TalentSubtypes.Aura',

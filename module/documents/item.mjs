@@ -55,4 +55,31 @@ export default class WWItem extends Item {
     return await super._preCreate(data, options, user);
   }
 
+  /**
+   * Check if item needs targets
+   * @returns needTargets
+  */ 
+  get needTargets() {
+    let need = false;
+  
+    // Check if an against attribute is checked
+    if (this.system?.against) need = true;
+  
+    // Check if any Active Effect needs tokens as targets
+    if (this.effects) {
+      for (const e of this.effects) {
+        if (e.target == 'tokens') need = true;
+      }
+    }
+  
+    // Check if any Active Effect needs tokens as targets
+    if (this.system?.instant) {
+      for (const e of this.system.instant) {
+        if (e.target == 'tokens') need = true;
+      }
+    }
+  
+    return need;
+  }
+
 }

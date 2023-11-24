@@ -10,6 +10,7 @@
     // Character
     "systems/weirdwizard/templates/actors/parts/Character-summary.hbs",
     "systems/weirdwizard/templates/actors/parts/Character-summary-item.hbs",
+    "systems/weirdwizard/templates/actors/parts/Character-summary-weapon.hbs",
     "systems/weirdwizard/templates/actors/parts/Character-details.hbs",
     "systems/weirdwizard/templates/actors/parts/Character-equipment.hbs",
     "systems/weirdwizard/templates/actors/parts/Character-talents.hbs",
@@ -19,6 +20,8 @@
     // NPC
     "systems/weirdwizard/templates/actors/parts/NPC-summary.hbs",
     "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs",
+    "systems/weirdwizard/templates/actors/parts/NPC-summary-weapon.hbs",
+    "systems/weirdwizard/templates/actors/parts/NPC-summary-fury.hbs",
 
     // Item partials
     "systems/weirdwizard/templates/items/parts/Equipment-details.hbs",

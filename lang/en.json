@@ -100,9 +100,15 @@
     "WW.Value": "Value",
     "WW.New": "New",
     "WW.Remove": "Remove",
-    "WW.Save": "Save",
-    "WW.Reset": "Reset",
-    "WW.Cancel": "Cancel",
+
+    "WW.Dialog": {
+        "Save": "Save",
+        "Reset": "Reset",
+        "TargetingConfirm": "Confirm Targets and Continue",
+        "TargetingReplace": "Replace Template",
+        "Cancel": "Cancel"
+    },
+    
 
     "WW.Automation": "Automation & Effects",
     "WW.Settings": "Settings",
@@ -113,7 +119,21 @@
         "Against": "Against",
         "ForEach": "Roll separately for each target",
         "AgainstWrn": "Nothing selected to roll against. Please select Defense or an attribute to roll against in the Weapon's Automation & Effects tab.",
-        "TargetWrn": "No target selected. Please select a target token before rolling again.",
+        "Targeting": {
+            "AttackTargeted": "Select targets and attack",
+            "AttackUntargeted": "Attack without targets",
+            "TalentTargeted": "Select targets and use trait or talent",
+            "TalentUntargeted": "Use trait or talent without targets",
+            "EquipmentTargeted": "Select targets and use equipment",
+            "EquipmentUntargeted": "Use equipment without targets",
+            "SpellTargeted": "Select targets and cast spell",
+            "SpellUntargeted": "Cast spell without targets",
+            "Method": "Targeting Method",
+            "Dont": "Don't target tokens",
+            "Template": "Use a grid area template",
+            "Manual": "Select tokens manually",
+            "SelectTargets": "Please select one or more tokens to target."
+        },
         "Success": "Success",
         "CriticalSuccess": "Critical Success",
         "Failure": "Failure",
@@ -194,7 +214,17 @@
         "Edit": {
             "Trait or Talent": "Edit Trait/Talent",
             "Equipment": "Edit Equipment",
-            "Spell": "Edit Spell"
+            "Weapon": "Edit Weapon",
+            "Spell": "Edit Spell",
+            "Attack": "Edit Weapon",
+            "Fury": "Edit Fury"
+        },
+        "Delete": {
+            "Label": "Delete",
+            "Title": "Delete Item",
+            "Msg": "You are about to delete",
+            "Msg2": "This action is irreversible.",
+            "Confirm": "Are you sure you want to delete"
         },
         "Uses": {
             "TalentSpend": "Spend use/token",
@@ -212,8 +242,8 @@
         "ShowDesc": "Show description",
         "HideDesc": "Hide description",
         "Send": "Send description to chat",
-        "EnableEffects": "Enable effects",
-        "DisableEffects": "Disable effects",
+        "EnableEffects": "Enable passive effects",
+        "DisableEffects": "Disable passive effects",
         "Equip": "Wear equipment",
         "Unequip": "Remove equipment"
     },
@@ -580,7 +610,7 @@
             "Will": "If not higher, Will becomes"
         },
         "DowngradeAttribute": {
-            "Header": "Set the Attribute Score, if not higher",
+            "Header": "Set the Attribute Score, if not lower",
             "Strength": "If not lower, Strength becomes",
             "Agility": "If not lower, Agility becomes",
             "Intellect": "If not lower, Intellect becomes",

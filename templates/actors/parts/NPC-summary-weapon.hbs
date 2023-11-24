@@ -1,0 +1,70 @@
+<li class="item">
+    
+    {{!-- Title --}}
+    {{#if item.needTargets}}<label class="item-button" data-action="targeted-use" data-item-id="{{item._id}}" 
+        title="{{localize "WW.Roll.Targeting.AttackTargeted"}}">{{item.name}}</label>
+    {{else if item.isActivity}}<label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
+        title="{{localize "WW.Roll.Targeting.AttackUntargeted"}}">{{item.name}}</label>
+    {{else}}<label>{{item.name}}</label>{{/if}}
+
+    <span class="buttons">
+        
+        {{!-- Use Buttons --}}
+        <a class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
+            title="{{localize "WW.Roll.Targeting.AttackTargeted"}}">
+        <i class="fas fa-bullseye"></i></a>
+
+        <a class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
+            title="{{localize "WW.Roll.Targeting.AttackUntargeted"}}">
+        <i class="fas fa-bolt"></i></a>
+
+        {{!-- Toggle Reloaded --}}
+        {{#if item.system.disadvantages.reload}}
+        <a class="item-button" data-action="item-toggle-reloaded" data-item-id="{{item._id}}"
+            title="{{#if item.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
+        <i class="fas {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
+        {{/if}}
+        
+        {{!-- Scroll Button --}}
+        {{#if item.system.description.value}}
+        <a class="item-button" data-action="item-scroll" data-item-id="{{item._id}}"
+            data-tooltip="{{item.system.description.value}}">
+        <i class="far fa-scroll"></i></a>
+        {{/if}}
+
+        {{!-- Edit Button --}}
+        <a class="item-button" data-action="item-edit" data-item-id="{{item._id}}"
+            title="{{localize "WW.Item.Edit.Attack"}}">
+        <i class="fas fa-edit"></i></a>
+
+        {{!-- Delete Button --}}
+        <a class="item-button" data-action="item-delete" data-item-id="{{item._id}}"
+            title="{{localize "WW.Item.Delete.Title"}}">
+        <i class="fas fa-trash"></i></a>
+    </span>
+
+    {{!-- Properties --}}
+    <span class="properties-line">
+        {{#if item.system.propertiesList}}({{item.system.propertiesList}}) {{/if}}
+    </span>
+
+    {{!-- Modifier --}}
+    <span class="modifier-line">
+        {{item.system.attributeLabel}}
+
+        {{!-- Boons --}}
+        {{#if item.system.boons}} {{localize "WW.Boons.With"}} {{item.system.boons}}
+            {{#if (lt item.system.boons -1)}}{{localize "WW.Boons.Banes"}}
+                {{else if (lt item.system.boons 0)}}{{localize "WW.Boons.Bane"}}
+                {{else if (gt item.system.boons 1)}}{{localize "WW.Boons.Boons"}}
+                {{else}}{{localize "WW.Boons.Boon"}}
+            {{/if}}
+        {{/if}}
+    </span>
+    
+    {{!-- Damage --}}
+    <span class="damage-line">({{#if item.system.damage}}{{item.system.damage}}{{else}}0{{/if}})</span>
+
+    {{!-- Attack Rider --}}
+    {{#if item.system.attackRider.value}}{{{item.system.attackRider.enriched}}}{{/if}}
+</li>

@@ -23,7 +23,7 @@ export class RollDamage extends FormApplication {
     }
 
     this.baseDamage = obj.value;
-    this.target = canvas.tokens.get(obj.targetId);
+    this.target = obj.targetId ? canvas.tokens.get(obj.targetId) : '';
   }
 
   static get defaultOptions() {
@@ -126,7 +126,7 @@ export class RollDamage extends FormApplication {
       action: 'apply-damage',
       value: '',
       originUuid: this.origin.uuid,
-      targetId: this.target.id
+      targetId: this.target?.id
     }
 
     /*content += '<div class="apply-damage chat-button" data-token-id="' + await tid + '" data-damage="' + await r.total +
@@ -147,7 +147,7 @@ export class RollDamage extends FormApplication {
       sound: CONFIG.sounds.dice,
       'flags.weirdwizard': {
         item: this.item?.uuid,
-        rollHtml: rollHtml + chatMessageButtonArray(dataset),
+        rollHtml: rollHtml + (dataset.targetId ? chatMessageButtonArray(dataset) : ''), // Hide buttons from untargeted rolls
         emptyContent: true
       }
     };

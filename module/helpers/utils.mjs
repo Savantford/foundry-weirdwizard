@@ -4,9 +4,7 @@
 
 export const Global = {}
 
-export function getEffectBoons (attribute) {
-  return attribute.boons.global ?? 0;
-}
+
 
 /* Formatting Functions */
 
@@ -76,7 +74,10 @@ export function formatTime(seconds,isDate) {
 }
 
 
-/* Misc Functions */
+/* Misc Utility Functions */
+export function getEffectBoons (attribute) {
+  return attribute.boons.global ?? 0;
+}
 
 export function resizeInput (html) {
   const resize = html.find('input.auto-resize');
@@ -110,6 +111,12 @@ export function resizeInput (html) {
     this.style.width = 0;
     this.style.width = (this.scrollWidth > min ? this.scrollWidth : min) + "px";
   });
+}
+
+export function clearUserTargets() {
+  for ( let t of game.user.targets ) {
+    t.setTarget(false, {releaseOthers: false, groupSelection: true});
+  }
 }
 
 /* -------------------------------------------- */

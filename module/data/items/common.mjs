@@ -54,11 +54,9 @@ export function activity(type = String) {
     uses: new fields.SchemaField({
       value: makeIntField(),
       max: makeIntField(),
-      onRest: makeBooField(true)/*,
-      frequency: makeStrField('day')*/
+      onRest: makeBooField(true)
     }),
 
-    //damage: makeStrField(),
     healing: makeStrField(),
     instant: new fields.ArrayField(
       new fields.ObjectField({
@@ -67,7 +65,13 @@ export function activity(type = String) {
         target: makeStrField('tokens'),
         value: makeStrField()
       })
-    )
+    ),
+
+    targeting: makeStrField('manual'),
+    template: new fields.SchemaField({
+      size: makeIntField(),
+      range: makeIntField()
+    })
     
   }
 

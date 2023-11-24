@@ -1,0 +1,17 @@
+<div class="{{cssClass}} weirdwizard targeting-hud">
+    <div>{{localize "WW.Roll.Targeting.SelectTargets"}}</div>
+
+    <div class="buttons">
+        {{#if isTemplate}}
+        <button type="button" id="targeting-replace">
+            <i class="fas fa-rotate-left"></i> {{localize "WW.Dialog.TargetingReplace"}}
+        </button>
+        {{/if}}
+        <button type="button" id="targeting-confirm" {{disabled hasTargets}}>
+            <i class="fas fa-dice"></i> {{localize "WW.Dialog.TargetingConfirm"}}
+        </button>
+        <button type="button" id="targeting-cancel">
+            <i class="fas fa-x"></i> {{localize "WW.Dialog.Cancel"}}
+        </button>
+    </div>
+</div>
