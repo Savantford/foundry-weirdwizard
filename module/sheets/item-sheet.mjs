@@ -46,23 +46,25 @@ export default class WWItemSheet extends ItemSheet {
 
     context.system.attributeLabel = CONFIG.WW.attributes[context.system.attribute];
 
-    // Prepare dropdown menu objects.
+    // Prepare common dropdown menu objects
+    context.attributesObj = CONFIG.WW.rollAttributes;
+    context.againstObj = CONFIG.WW.rollAgainst;
+    context.afflictionsObj = CONFIG.WW.bestowAfflictions;
+    context.targetingMethods = CONFIG.WW.TARGETING_METHODS;
+
+    // Prepare specific dropdown menu objects
     switch (context.item.type) {
   
       case 'Equipment':
         context.subtypesObj = CONFIG.WW.itemSubtypes;
         context.coinsObj = CONFIG.WW.coins;
         context.qualitiesObj = CONFIG.WW.itemQualities;
-        context.attributesObj = CONFIG.WW.rollAttributes;
-        context.againstObj = CONFIG.WW.rollAgainst;
-        context.afflictionsObj = CONFIG.WW.bestowAfflictions;
         //context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
         context.armorObj = CONFIG.WW.armorTypes;
 
         if (context.system.subtype == 'weapon') {
           context.requirements = CONFIG.WW.weaponRequirements;
           context.gripObj = CONFIG.WW.weaponGrip;
-          //context.properties = CONFIG.WW.weaponProperties;
           context.traits = CONFIG.WW.weaponTraits;
           context.advantages = CONFIG.WW.weaponAdvantages;
           context.disadvantages = CONFIG.WW.weaponDisadvantages;
@@ -75,17 +77,11 @@ export default class WWItemSheet extends ItemSheet {
         context.subtypesObj = CONFIG.WW.dropdownSubtypes;
         context.sourcesObj = CONFIG.WW.talentSources;
         //context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
-        context.attributesObj = CONFIG.WW.rollAttributes;
-        context.againstObj = CONFIG.WW.rollAgainst;
-        context.afflictionsObj = CONFIG.WW.bestowAfflictions;
       break;
 
       case 'Spell':
         context.tiersObj = CONFIG.WW.dropdownTiers;
         //context.sourcesObj = CONFIG.WW.dropdownSources;
-        context.attributesObj = CONFIG.WW.rollAttributes;
-        context.againstObj = CONFIG.WW.rollAgainst;
-        context.afflictionsObj = CONFIG.WW.bestowAfflictions;
       break;
       
       case 'Ancestry':
@@ -127,6 +123,9 @@ export default class WWItemSheet extends ItemSheet {
 
     // Prepare effect change labels to display
     context.effectChangeLabels = CONFIG.WW.effectChangeLabels;
+
+    // Pass down whether the item needs targets or not
+    context.needTargets = this.document.needTargets;
     
     return context;
   }

@@ -834,6 +834,13 @@
 }
 
 /* Lists */
+.weirdwizard .item-button {
+  cursor: pointer;
+}
+
+.weirdwizard .item-button:hover {
+  cursor: pointer;
+}
 
 .weirdwizard .item-list {
   list-style: none;
@@ -870,12 +877,25 @@
 .weirdwizard .item-properties {
   flex: 2.5;
 }
+
+.weirdwizard .item-image {
+  flex: 0 26px;
+  margin-right: 5px;
+}
+
+.weirdwizard .item-quantity {
+  flex: 0 20px;
+  margin-right: 5px;
+  text-align: center;
+  font-size: 13px;
+}
+
 .weirdwizard .item-name {
   -webkit-box-flex: 2;
   -ms-flex: 2;
   flex: 2;
   margin: 0;
-  overflow: hidden;
+  /*overflow: hidden;*/
   font-size: 13px;
   text-align: left !important;
   -webkit-box-align: center;
@@ -884,11 +904,18 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  gap: 5px;
   color: #191813;
 }
 
-.weirdwizard .item-name i {
-  margin-left: 5px;
+.weirdwizard .item-name label {
+  margin: 0;
+  white-space: nowrap;
+  /*overflow-x: hidden;*/
+  color: #191813;
+}
+.weirdwizard .item-name .buttons i {
+  font-size: small;
 }
 
 /*.weirdwizard .item .item-name .item-image {
@@ -907,7 +934,7 @@
   display: -ms-flexbox;
   display: flex;
 }
-.weirdwizard .item-name h3, .weirdwizard .item-name label {
+.weirdwizard .item-name h3 {
   margin: 0;
   white-space: nowrap;
   overflow-x: hidden;
@@ -1034,15 +1061,7 @@ input[type="checkbox"].checkbox-uses {
   flex: 0 0 200px;
   padding: 0 8px;
 }
-.weirdwizard .item-image {
-  flex: 0 26px;
-  margin-right: 5px;
-}
-.weirdwizard .item-quantity {
-  flex: 0 20px;
-  margin-right: 5px;
-  text-align: center;
-}
+
 .weirdwizard .item-weight {
   flex: 0 60px;
   margin-right: 5px;
@@ -1093,13 +1112,18 @@ input[type="checkbox"].checkbox-uses {
   color: var(--highlight-title);
 }
 
+.attacks-list .buttons {
+  margin-right: 5px;
+}
+
 .buttons i {
   font-size: smaller;
 }
 
-.item-edit:hover, .item-edit:focus,.item-scroll:hover, .item-scroll:focus,
-.item-roll:hover, .item-roll:focus, .damage-roll:hover, .damage-roll:focus,
-.healing-roll:hover, .healing-roll:focus, .item-pip:hover, .item-pip:focus {
+.item-button:hover,
+.item-button:focus,
+.item-pip:hover,
+.item-pip:focus {
   text-shadow: 0 0 5px var(--color-shadow-primary);
 }
 
@@ -1413,10 +1437,35 @@ i.icon-Weakened {
 
 
 /* ---------------------------- Applications & Dialogs -----------------------------*/
+
 .dialog-sure {
   text-align: center;
   font-size: 18px;
   font-weight: bold;
+}
+
+.weirdwizard.targeting-hud {
+  position: absolute;
+  left: calc(50% - 200px);
+  top: 6%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border: 1px solid var(--highlight-title);
+  padding: 5px;
+  border-radius: 5px;
+  background: rgba(var(--highlight-title-rgb), 0.3);
+  color: white;
+}
+
+.weirdwizard.targeting-hud .buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.weirdwizard.targeting-hud button {
+  white-space: nowrap;
+  background: var(--color-border-light-2);
 }
 
 .weirdwizard .health-levels {

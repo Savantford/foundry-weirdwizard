@@ -1,59 +1,82 @@
-<li class="item" data-item-id="{{item._id}}">
+<li class="item">
 
     <div class="item-header">
         
         {{!-- Left Part --}}
         <span class="compact-left">
-            {{!-- Title / Attribute Roll --}}
-            {{#if item.system.attribute}}<a class="rollable item-roll" title="{{localize "WW.Item.Roll.Attribute"}}">{{item.name}}</a>
+            {{!-- Title --}}
+            {{#if item.needTargets}}<label class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
+                title="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Roll.Targeting.TalentTargeted"}}
+                    {{else if (eq item.type "Equipment")}}{{localize "WW.Roll.Targeting.EquipmentTargeted"}}
+                    {{else if (eq item.type "Spell")}}{{localize "WW.Roll.Targeting.SpellTargeted"}}{{/if}}">{{item.name}}</label>
+            {{else if item.isActivity}}<label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
+                title="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Roll.Targeting.TalentUntargeted"}}
+                    {{else if (eq item.type "Equipment")}}{{localize "WW.Roll.Targeting.EquipmentUntargeted"}}
+                    {{else if (eq item.type "Spell")}}{{localize "WW.Roll.Targeting.SpellUntargeted"}}{{/if}}">{{item.name}}</label>
             {{else}}<label>{{item.name}}</label>{{/if}}
 
-            {{!-- Toggle Effects --}}
-            {{#if ../hasPassiveEffects}}
-                <a class="item-toggle-effects" data-item-id="{{item._id}}" 
-                    title="{{#if item.system.active}}{{localize "WW.Item.DisableEffects"}}{{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
-                    <i class="fas {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
-            {{/if}}
+            <span class="buttons">
+                {{!-- Use Buttons --}}
+                {{#if item.isActivity}}
 
-            {{!-- Damage Roll Button --}}
-            {{!--{{#if item.system.damage}}<a class="damage-roll" title="{{localize "WW.Item.Roll.Damage"}}"><i class="fas fa-burst"></i></a>{{/if}}--}}
+                    {{#if item.needTargets}}
+                    <a class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
+                        title="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Roll.Targeting.TalentTargeted"}}
+                            {{else if (eq item.type "Equipment")}}{{localize "WW.Roll.Targeting.EquipmentTargeted"}}
+                            {{else if (eq item.type "Spell")}}{{localize "WW.Roll.Targeting.SpellTargeted"}}{{/if}}">
+                    <i class="fas fa-bullseye"></i></a>
+                    {{/if}}
 
-            {{!-- Healing Roll Button --}}
-            {{!--{{#if item.system.healing}}<a class="healing-roll" title="{{localize "WW.Item.Roll.Healing"}}"><i
-                class="fas fa-sparkles"></i></a>{{/if}}--}}
+                    <a class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
+                        title="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Roll.Targeting.TalentUntargeted"}}
+                            {{else if (eq item.type "Equipment")}}{{localize "WW.Roll.Targeting.EquipmentUntargeted"}}
+                            {{else if (eq item.type "Spell")}}{{localize "WW.Roll.Targeting.SpellUntargeted"}}{{/if}}">
+                    <i class="fas fa-bolt"></i></a>
 
-            {{!-- Uses Pips --}}
-            {{#if item.uses}}
-            <span class="pip-box">
-                {{#each item.uses as |pip id|}}
-                <a class="item-pip" title="
-                    {{#if (eq pip "far fa-circle")}}
-                        {{#if (eq ../item.type "Equipment")}}{{localize "WW.Item.Uses.EquipmentSpend"}}
-                        {{else if (eq ../item.type "Spell")}}{{localize "WW.Item.Uses.SpellSpend"}}
-                        {{else}}{{localize "WW.Item.Uses.TalentSpend"}}{{/if}}
-                    {{else}}
-                        {{#if (eq ../item.type "Equipment")}}{{localize "WW.Item.Uses.EquipmentRecover"}}
-                        {{else if (eq ../item.type "Spell")}}{{localize "WW.Item.Uses.SpellRecover"}}
-                        {{else}}{{localize "WW.Item.Uses.TalentRecover"}}{{/if}}
-                    {{/if}}">
-                    <i class="{{pip}}"></i></a>
-                {{/each}}
+                {{/if}}
+
+                {{!-- Toggle Effects --}}
+                {{#if item.hasPassiveEffects}}
+                    <a class="item-button" data-action="item-toggle-effects" data-item-id="{{item._id}}"
+                        title="{{#if item.system.active}}{{localize "WW.Item.DisableEffects"}}{{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
+                        <i class="fas {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
+                {{/if}}
+
+                {{!-- Uses Pips --}}
+                {{#if item.uses}}
+                <span class="pip-box">
+                    {{#each item.uses as |pip id|}}
+                    <a class="item-pip" data-item-id="{{../item._id}}"
+                        title="{{#if (eq pip "far fa-circle")}}
+                            {{#if (eq ../item.type "Equipment")}}{{localize "WW.Item.Uses.EquipmentSpend"}}
+                            {{else if (eq ../item.type "Spell")}}{{localize "WW.Item.Uses.SpellSpend"}}
+                            {{else}}{{localize "WW.Item.Uses.TalentSpend"}}{{/if}}
+                        {{else}}
+                            {{#if (eq ../item.type "Equipment")}}{{localize "WW.Item.Uses.EquipmentRecover"}}
+                            {{else if (eq ../item.type "Spell")}}{{localize "WW.Item.Uses.SpellRecover"}}
+                            {{else}}{{localize "WW.Item.Uses.TalentRecover"}}{{/if}}
+                        {{/if}}">
+                        <i class="{{pip}}"></i></a>
+                    {{/each}}
+                </span>
+                {{/if}}
             </span>
-            {{/if}}
         </span>
         
         {{!-- Right Part --}}
-        <span>
-            {{!-- Edit Button --}}
-            <a class="item-edit" title="{{localize (concat "WW.Item.Edit." item.type)}}"><i class="fas fa-edit"></i></a>
-
+        <span class="buttons">
             {{#if item.system.description.value}}
             {{!-- Send to Chat Scroll --}}
-            <a class="item-scroll" title="{{localize "WW.Item.Send"}}"><i
+            <a class="item-button" data-action="item-scroll" data-item-id="{{item._id}}" title="{{localize "WW.Item.Send"}}"><i
                 class="far fa-scroll"></i></a>
+            {{/if}}
+
+            {{!-- Edit Button --}}
+            <a class="item-button" data-action="item-edit" data-item-id="{{item._id}}" title="{{localize (concat "WW.Item.Edit." item.type)}}"><i class="fas fa-edit"></i></a>
 
             {{!-- Show/Hide Description (Collapse) --}}
-            <a class="item-collapse" title="{{localize "WW.Item.ShowDesc"}}">
+            {{#if item.system.description.value}}
+            <a class="item-button" data-action="item-collapse" data-item-id="{{item._id}}" title="{{localize "WW.Item.ShowDesc"}}">
                 <i class="fas fa-square-chevron-down"></i></a>
             {{/if}}
         </span>

@@ -10,7 +10,7 @@ import { diceTotalHtml, chatMessageButton } from '../chat/chat-html-templates.mj
 export default class RollAttribute extends FormApplication {
   constructor(obj) {
     super(); // This is required for the constructor to work
-    //this.component = obj.target; // Assign HTML component
+    
     this.origin = fromUuidSync(obj.origin);
     
     if (this.origin.documentName === 'Item') {
@@ -22,6 +22,7 @@ export default class RollAttribute extends FormApplication {
     
     this.token = this.actor.token;
     this.baseHtml = obj.baseHtml;
+    this.action = obj.action;
     this.system = this.actor.system; // Assign actor data
     const attKey = obj.attKey;
 
@@ -62,13 +63,13 @@ export default class RollAttribute extends FormApplication {
     context.fixedBoons = this.item?.system?.boons;
     context.effectBoons = this.effectBoonsGlobal; // Conditional boons should be added here later
     context.attackBoons = this.attackBoons;
-    context.needTargets = this.item?.system?.against;
+    context.targeted = this.action === 'targeted-use' ? true : false;
 
-    if (this.item?.effects) {
+    /*if (this.item?.effects) {
       for (const e of this.item.effects) {
         if (e.target == 'tokens') context.needTargets = true;
       }
-    }
+    }*/
 
     return context
   }
@@ -85,111 +86,15 @@ export default class RollAttribute extends FormApplication {
     el.change();
 
     // Roll dice when the Roll button is clicked
-    html.find('#boons-submit').click(this._onFormSubmit.bind(this));
+    //html.find('#boons-submit').click(this._onFormSubmit.bind(this));
 
   }
 
   async _updateObject(event, formData) { // Update actor data.
-    //
-    /*this.object.update({
-        'system.stats.health': {
-        'starting': formData.starting,
-        'novice': formData.novice,
-        'expert': formData.expert,
-        'master': formData.master,
-        'bonus': formData.bonus,
-        'lost': formData.lost
-        }
-    })*/
-  }
-
-  _updateFields(ev, context) { // Update html fields
-    const parent = ev.target.closest('.boons-details');
-    let boonsFinal = context.boonsFinal;
-    const against = context.against;
-    const fixedBoons = context.item?.system?.boons ? context.item.system.boons : 0;
-    const applyAttackBoons = parent.querySelector('input[name=attack]:checked');
-    const attackBoons = context.attackBoons;
-    const effectBoons = context.effectBoonsGlobal; // Conditional boons should be added here later
-
-    // Set attribute display
-    const attDisplay = context.name ? context.name + " (" + context.mod + ")" : '1d20 + 0';
-
-    // Calculate and display final boons
-    boonsFinal = parseInt(parent.querySelector('input[type=number].situational').value); // Set boonsFinal to the situational input value
-    if (effectBoons) boonsFinal += effectBoons; // If there are boons or banes applied by Active Effects, add it
-    if (applyAttackBoons && attackBoons) boonsFinal += attackBoons;
-    if (fixedBoons) boonsFinal += fixedBoons; // If there are fixed boons or banes, add it
-    
-    boonsFinal = (boonsFinal < 0 ? "" : "+") + boonsFinal; // Add a + sign if positive
-
-    parent.querySelector('.boons-display.total').innerHTML = boonsFinal;
-    this.boonsFinal = boonsFinal;
-
-    let boonsDisplay = '';
-
-    if (boonsFinal > 1) {
-      boonsDisplay = " " + i18n("WW.Boons.With") + " " + parseInt(boonsFinal) + " " + i18n("WW.Boons.Boons");
-    } else if (boonsFinal > 0) {
-      boonsDisplay = " " + i18n("WW.Boons.With") + " " + parseInt(boonsFinal) + " " + i18n("WW.Boons.Boon");
-    } else if (boonsFinal < -1) {
-      boonsDisplay = " " + i18n("WW.Boons.With") + " " + boonsFinal * -1 + " " + i18n("WW.Boons.Banes");
-    } else if (boonsFinal < 0) {
-      boonsDisplay = " " + i18n("WW.Boons.With") + " " + boonsFinal * -1 + " " + i18n("WW.Boons.Bane");
-    }
-
-    // Set against display
-    let againstDisplay = ' ' + i18n('WW.Roll.Against').toLowerCase() + ' ';
-
-    switch (against) {
-      case 'def': {
-        againstDisplay += i18n('WW.Defense.Label');
-        break;
-      }
-      case 'str': {
-        againstDisplay += i18n('WW.Strength');
-        break;
-      }
-      case 'agi': {
-        againstDisplay += i18n('WW.Agility');
-        break;
-      }
-      case 'int': {
-        againstDisplay += i18n('WW.Intellect');
-        break;
-      }
-      case 'wil': {
-        againstDisplay += i18n('WW.Will');
-        break;
-      }
-    }
-
-    parent.querySelector('.boons-expression').innerHTML = attDisplay + boonsDisplay + (against ? againstDisplay : '');
-
-    // Targets display
-    if (this.needTargets) {
-      let targetsDisplay = '';
-
-      context.targets.forEach(t => {
-        const boonsNo = t.boonsAgainst[against];
-
-        targetsDisplay += '<p>' + t.name;
-
-        if (boonsNo > 1) targetsDisplay += ': ' + boonsNo + ' ' + i18n('WW.Boons.ExtraBoons')
-        else if (boonsNo == 1) targetsDisplay += ': ' + boonsNo + ' ' + i18n('WW.Boons.ExtraBoon');
-
-        targetsDisplay += '</p>';
-      });
-
-      parent.querySelector('.boons-targets').innerHTML = targetsDisplay;
-    }
-
-  }
-
-  async _onFormSubmit() {
     const against = this.against,
       boonsFinal = this.boonsFinal,
-      originUuid = this.origin.uuid
+      originUuid = this.origin.uuid,
+      targeted = this.action === 'targeted-use' ? true : false;
     ;
 
     let rollHtml = '',
@@ -197,7 +102,7 @@ export default class RollAttribute extends FormApplication {
       rollArray = []
     ;
     
-    if (against) { // Against is filled; perform one separate roll for each target
+    if (targeted && against) { // If Action is Targeted and Against is filled; perform one separate roll for each target
       for (const t of this.targets) {
 
         // Set boons text
@@ -384,26 +289,42 @@ export default class RollAttribute extends FormApplication {
       const success = await r.total >= targetNo;
       const critical = await r.total >= 20 && await r.total >= targetNo + 5;
       
-      if (critical) {
-        for (const t of this.targets) {
-          let targetHtml = this._addInstEffs(this.instEffs.onCritical, originUuid, t.id);
-          this._applyEffects(this.effects.onCritical, t.id);
-          rollHtml += this._targetHtml(t, targetHtml);
+      if (targeted) { // Roll is targeted
+
+        if (critical) {
+          for (const t of this.targets) {
+            let targetHtml = this._addInstEffs(this.instEffs.onCritical, originUuid, t.id);
+            this._applyEffects(this.effects.onCritical, t.id);
+            rollHtml += this._targetHtml(t, targetHtml);
+          }
+  
+        } else if (success) {
+          for (const t of this.targets) {
+            let targetHtml = this._addInstEffs(this.instEffs.onSuccess, originUuid, t.id);
+            this._applyEffects(this.effects.onSuccess, t.id);
+            rollHtml += this._targetHtml(t, targetHtml);
+          }
+  
+        } else {
+          for (const t of this.targets) {
+            let targetHtml = this._addInstEffs(this.instEffs.onFailure, originUuid, t.id);
+            this._applyEffects(this.effects.onFailure, t.id);
+            rollHtml += this._targetHtml(t, targetHtml);
+          }
         }
 
-      } else if (success) {
-        for (const t of this.targets) {
-          let targetHtml = this._addInstEffs(this.instEffs.onSuccess, originUuid, t.id);
-          this._applyEffects(this.effects.onSuccess, t.id);
-          rollHtml += this._targetHtml(t, targetHtml);
+      } else { // Roll is untargeted
+
+        if (critical) {
+          rollHtml += this._addInstEffs(this.instEffs.onCritical, originUuid);
+  
+        } else if (success) {
+          rollHtml += this._addInstEffs(this.instEffs.onSuccess, originUuid);
+  
+        } else {
+          rollHtml += this._addInstEffs(this.instEffs.onFailure, originUuid);
         }
 
-      } else {
-        for (const t of this.targets) {
-          let targetHtml = this._addInstEffs(this.instEffs.onFailure, originUuid, t.id);
-          this._applyEffects(this.effects.onFailure, t.id);
-          rollHtml += this._targetHtml(t, targetHtml);
-        }
       }
 
     }
@@ -427,6 +348,89 @@ export default class RollAttribute extends FormApplication {
     
     // Send to chat
     await ChatMessage.create(messageData);
+  }
+
+  _updateFields(ev, context) { // Update html fields
+    const parent = ev.target.closest('.boons-details');
+    let boonsFinal = context.boonsFinal;
+    const against = context.against;
+    const fixedBoons = context.item?.system?.boons ? context.item.system.boons : 0;
+    const applyAttackBoons = parent.querySelector('input[name=attack]:checked');
+    const attackBoons = context.attackBoons;
+    const effectBoons = context.effectBoonsGlobal; // Conditional boons should be added here later
+
+    // Set attribute display
+    const attDisplay = context.name ? context.name + " (" + context.mod + ")" : '1d20 + 0';
+
+    // Calculate and display final boons
+    boonsFinal = parseInt(parent.querySelector('input[type=number].situational').value); // Set boonsFinal to the situational input value
+    if (effectBoons) boonsFinal += effectBoons; // If there are boons or banes applied by Active Effects, add it
+    if (applyAttackBoons && attackBoons) boonsFinal += attackBoons;
+    if (fixedBoons) boonsFinal += fixedBoons; // If there are fixed boons or banes, add it
+    
+    boonsFinal = (boonsFinal < 0 ? "" : "+") + boonsFinal; // Add a + sign if positive
+
+    parent.querySelector('.boons-display.total').innerHTML = boonsFinal;
+    this.boonsFinal = boonsFinal;
+
+    let boonsDisplay = '';
+
+    if (boonsFinal > 1) {
+      boonsDisplay = " " + i18n("WW.Boons.With") + " " + parseInt(boonsFinal) + " " + i18n("WW.Boons.Boons");
+    } else if (boonsFinal > 0) {
+      boonsDisplay = " " + i18n("WW.Boons.With") + " " + parseInt(boonsFinal) + " " + i18n("WW.Boons.Boon");
+    } else if (boonsFinal < -1) {
+      boonsDisplay = " " + i18n("WW.Boons.With") + " " + boonsFinal * -1 + " " + i18n("WW.Boons.Banes");
+    } else if (boonsFinal < 0) {
+      boonsDisplay = " " + i18n("WW.Boons.With") + " " + boonsFinal * -1 + " " + i18n("WW.Boons.Bane");
+    }
+
+    // Set against display
+    let againstDisplay = ' ' + i18n('WW.Roll.Against').toLowerCase() + ' ';
+
+    switch (against) {
+      case 'def': {
+        againstDisplay += i18n('WW.Defense.Label');
+        break;
+      }
+      case 'str': {
+        againstDisplay += i18n('WW.Strength');
+        break;
+      }
+      case 'agi': {
+        againstDisplay += i18n('WW.Agility');
+        break;
+      }
+      case 'int': {
+        againstDisplay += i18n('WW.Intellect');
+        break;
+      }
+      case 'wil': {
+        againstDisplay += i18n('WW.Will');
+        break;
+      }
+    }
+
+    parent.querySelector('.boons-expression').innerHTML = attDisplay + boonsDisplay + (against ? againstDisplay : '');
+
+    // Targets display
+    if (this.action === 'targeted-use') {
+      let targetsDisplay = '';
+
+      context.targets.forEach(t => {
+        const boonsNo = t.boonsAgainst[against];
+
+        targetsDisplay += '<p>' + t.name;
+
+        if (boonsNo > 1) targetsDisplay += ': ' + boonsNo + ' ' + i18n('WW.Boons.ExtraBoons')
+        else if (boonsNo == 1) targetsDisplay += ': ' + boonsNo + ' ' + i18n('WW.Boons.ExtraBoon');
+
+        targetsDisplay += '</p>';
+      });
+
+      parent.querySelector('.boons-targets').innerHTML = targetsDisplay;
+    }
+
   }
 
   _addWeaponDamage(target) {
@@ -524,9 +528,9 @@ export default class RollAttribute extends FormApplication {
   /* -------------------------------------------- */
   
   get targets() {
-    let targets = [];
+    const targets = [];
     
-    if (game.user.targets.size) { // Get targets if they exist
+    //if (game.user.targets.size) { // Get targets if they exist
 
       game.user.targets.forEach(t => {
         targets.push({
@@ -538,7 +542,7 @@ export default class RollAttribute extends FormApplication {
         })
       });
 
-    } else { // Get self as a target if none is selected
+    /*} else { // Get self as a target if none is selected
 
       targets.push({
         id: this.token?.id,
@@ -548,7 +552,7 @@ export default class RollAttribute extends FormApplication {
         boonsAgainst: this.actor.system.boons.against
       })
 
-    }
+    }*/
 
     return targets
   }

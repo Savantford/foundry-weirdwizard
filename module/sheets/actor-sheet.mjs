@@ -1,10 +1,12 @@
-import { i18n, plusify, capitalize, resizeInput, sum } from '../helpers/utils.mjs';
+import { i18n, plusify, capitalize, resizeInput, clearUserTargets, sum } from '../helpers/utils.mjs';
 import { chatMessageButton } from '../chat/chat-html-templates.mjs';
 import { healthDetails } from '../apps/health-details.mjs';
 import RollAttribute from '../apps/roll-attribute.mjs';
+import TargetingHUD from '../apps/targeting-hud.mjs';
 //import { RollDamage } from '../apps/roll-damage.mjs';
 import { onManageActiveEffect, prepareActiveEffectCategories } from '../helpers/effects.mjs';
 import { WWAfflictions } from '../helpers/afflictions.mjs';
+import GridTemplate from '../canvas/grid-template.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -18,7 +20,7 @@ export default class WWActorSheet extends ActorSheet {
 
     return mergeObject(super.defaultOptions, {
       classes: ['weirdwizard', 'sheet', 'actor'],
-      width: 860, // 600 for small sheet, 870 for new sheet
+      width: 860, // 600 for small sheet, 860 for new sheet
       height: 500,
       tabs: [{ navSelector: '.sheet-tabs', contentSelector: '.sheet-body', initial: 'features' }]
     });
@@ -153,8 +155,18 @@ export default class WWActorSheet extends ActorSheet {
 
       // Is the item an activity?
       i.isActivity = false;
+      if (i.system.attribute || i.effects.length || i.system.instant.length) i.isActivity = true;
 
-      if (i.system.attribute || i.effects || i.system.instant) i.isActivity = true;
+      // Check if item has passive effects
+      i.hasPassiveEffects = false;
+      const effects = this.document.items.get(i._id).effects;
+      
+      for (let e of effects) {
+        if (e.trigger === 'passive') i.hasPassiveEffects = true;
+      }
+
+      // Pass down whether the item need targets or not
+      i.needTargets = this.document.items.get(i._id).needTargets;
       
       // Append to equipment.
       if (i.type === 'Equipment') {
@@ -276,14 +288,6 @@ export default class WWActorSheet extends ActorSheet {
       // Append to spells.
       else if (i.type === 'Spell') spells.push(i);
 
-      // Check if item has passive effects
-      context.hasPassiveEffects = false;
-      const effects = this.document.items.get(i._id).effects;
-      
-      for (let e of effects) {
-        if (e.trigger == 'passive') context.hasPassiveEffects = true;
-      }
-
     }
     
     // Calculate total Equipment weight.
@@ -366,96 +370,20 @@ export default class WWActorSheet extends ActorSheet {
     });
     
     // Rest button dialog + function
-    html.find('.rest-btn').click(this._onRest.bind(this));
+    html.find('.rest-button').click(this._onRest.bind(this));
 
-    /////////// ITEMS: ROLL BUTTONS /////////////
+    /////////////////////// ITEMS ////////////////////////
 
-    // Rollable attributes.
-    html.find('.rollable').click(this._onAttributeRoll.bind(this))
-
-    // Damage Roll
-    /*html.find('.damage-roll').click(ev => { //this._onDamageRoll.bind(this)
-      // Define variables to be used
-      let li = $(ev.currentTarget).parents('.item');
-
-      if (!li.length) { // If parent does not have .item class, set li to current target.
-        li = $(ev.currentTarget);
-      }
-
-      const item = this.actor.items.get(li.data('itemId'));
-      
-      let obj = {
-        actor: this.actor,
-        target: ev,
-        label: _secretLabel(item.name),
-        name: item.name,
-        baseDamage: item.system.damage,
-        properties: item.system.properties ? item.system.properties : {},
-        bonusDamage: this.actor.system.stats.bonusdamage
-      }
-
-      new rollDamage(obj).render(true);
-    });*/
-
-    // Healing Roll
-    /*html.find('.healing-roll').click(ev => { //this._onRoll.bind(this)
-      // Define variables to be used
-      let li = $(ev.currentTarget).parents('.item');
-
-      if (!li.length) { // If parent does not have .item class, set li to current target.
-        li = $(ev.currentTarget);
-      }
-
-      const item = this.actor.items.get(li.data('itemId'));
-      
-      let roll = new Roll(item.system.healing, this.actor.system);
-      let label = i18n('WW.HealingOf') + ' ' + _secretLabel(item.name);
-
-      roll.toMessage({
-        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-        flavor: label,
-        rollMode: game.settings.get('core', 'rollMode')
-      });
-      
-    });*/
-
-    //////////////// ITEMS: HANDLING ///////////////////
+    // Handle item buttons
+    html.find('.item-button').click(this._onItemButtonClicked.bind(this))
 
     // Add Inventory Item
     html.find('.item-create').click(this._onItemCreate.bind(this));
 
-    // Delete Inventory Item
-    html.find('.item-delete').click(ev => {
-      const li = $(ev.currentTarget).parents('.item');
-      const item = this.actor.items.get(li.data('itemId'));
-      item.delete();
-      li.slideUp(200, () => this.render(false));
-    });
-    
-    // Render the item sheet for viewing/editing prior to the editable check.
-    html.find('.item-edit').click(ev => {
-
-      let li = $(ev.currentTarget).parents('.item');
-      if (!li.length) { // If parent does not have .item class, set li to current target.
-        li = $(ev.currentTarget);
-      }
-
-      const item = this.actor.items.get(li.data('itemId'));
-      
-      item.sheet.render(true);
-    });
-
-    //////////////// ITEMS: MISC ///////////////////
-
     // Set uses pips to update the value when clicked
     html.find('.item-pip').click(ev => {
-      let li = $(ev.currentTarget).parents('.item');
-
-      if (!li.length) { // If parent does not have .item class, set li to current target.
-        li = $(ev.currentTarget);
-      }
-
-      const item = this.actor.items.get(li.data('itemId'));
+      const button = ev.currentTarget,
+        item = this.actor.items.get(button.dataset.itemId);
       
       if ($(ev.target).hasClass('far')) { // If the pip is regular (unchecked)
         item.update({'system.uses.value': item.system.uses.value + 1}) // Add 1 to the current value.
@@ -464,67 +392,13 @@ export default class WWActorSheet extends ActorSheet {
       }
     });
 
-    // Item Scroll: Send item description to chat when clicked
-    html.find('.item-scroll').click(ev => {
-
-      let li = $(ev.currentTarget).parents('.item');
-      if (!li.length) { // If parent does not have .item class, set li to current target.
-        li = $(ev.currentTarget);
-      }
-
-      const item = this.actor.items.get(li.data('itemId'));
-      
-      ChatMessage.create({
-        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-        flavor: item.name,
-        content: item.system.description.value,
-        'flags.weirdwizard': {
-          item: item.uuid
-        }
-      })
-    });
-
-    // Item Collapse button
-    html.find('.item-collapse').click(ev => {
-      let li = $(ev.currentTarget).parents('.item');
-      
-      if (!li.length) { // If parent does not have .item class, set li to current target.
-        li = $(ev.currentTarget);
-      }
-      let desc = li.find('.item-desc');
-      let icon = li.find('.item-collapse').find('i');
-      
-      // Flip states
-      if (icon.hasClass('fa-square-chevron-down')) {
-        $(ev.currentTarget).attr("title", i18n('WW.Item.HideDesc'))
-        icon.removeClass('fa-square-chevron-down').addClass('fa-square-chevron-up');
-        desc.slideDown(500);
-      } else {
-        $(ev.currentTarget).attr("title", i18n('WW.Item.ShowDesc'))
-        icon.removeClass('fa-square-chevron-up').addClass('fa-square-chevron-down');
-        desc.slideUp(500);
-      }
-      
-    });
-
-    // Toggle Item Effects
-    html.find('.item-toggle-effects').click(this._onToggleItemEffects.bind(this));
-
-    // Reloaded Checkbox
-    html.find('.item-toggle-reloaded').click(this._onToggleItemReloaded.bind(this));
-    /*html[0].querySelectorAll(".checkbox-reloaded").forEach(n => {
-      n.addEventListener("change", this._onChangeItemReloaded.bind(this));
-    });*/
-
     ////////////////// EFFECTS ////////////////////
 
     // Active Effect management
     html.find('.effect-control').click(ev => onManageActiveEffect(ev, this.actor));
 
     // Disable Afflictions
-    html.find('.remove-afflictions').click(async () => {
-      await WWAfflictions.clearAfflictions(this.actor);
-    });
+    html.find('.remove-afflictions').click(async () => { await WWAfflictions.clearAfflictions(this.actor) });
 
     // Afflictions tab checkboxes
     html.find('.afflictions input').click(async ev => {
@@ -563,44 +437,91 @@ export default class WWActorSheet extends ActorSheet {
   }
 
   /* -------------------------------------------- */
+  /*  Item button actions                         */
+  /* -------------------------------------------- */
   
   /**
-   * Handle clickable rolls.
-   * @param {Event} event   The originating click event
+   * Handle clicked sheet buttons
+   * @param {Event} ev   The originating click event
    * @private
   */
 
-  _onAttributeRoll(ev) {
+  _onItemButtonClicked(ev) {
+    const button = ev.currentTarget,
+      dataset = Object.assign({}, button.dataset),
+      item = this.actor.items.get(dataset.itemId);
 
-    // Define variables to be used
-    const system = this.actor.system;
-    let content = '';
-    let attKey = ev.currentTarget.dataset.key ? ev.currentTarget.dataset.key : '';
-    let label = attKey ? i18n(CONFIG.WW.rollAttributes[attKey]) : '';
-    let item = {};
-    let baseHtml = {};
-    let instEffs = [];
+    switch (dataset.action) {
+      case 'attribute-roll': this._onAttributeRoll(dataset); break;
+      case 'targeted-use': this._onItemUse(dataset); break;
+      case 'untargeted-use': this._onItemUse(dataset); break;
+      case 'item-scroll': this._onItemScroll(item); break;
+      case 'item-toggle-effects': this._onItemToggleEffects(item); break;
+      case 'item-toggle-reloaded': this._onItemToggleReloaded(item); break;
+      case 'item-edit': this._onItemEdit(item); break;
+      case 'item-delete': this._onItemDelete(item, button); break;
+      case 'item-collapse': this._onItemCollapse(button); break;
+    }
     
-    // If it is a roll from an item, assign data
-    if ($(ev.currentTarget).hasClass('item-roll')) {
-      let li = $(ev.currentTarget).parents('.item');
-      if (!li.length) { // If parent does not have .item class, set li to current target.
-        li = $(ev.currentTarget);
-      }
+  }
 
-      item = this.actor.items.get(li.data('itemId'));
-      label = _secretLabel(item.name);
-      content = _secretContent(item.system.description.value);
-      instEffs = item.system.instant;
-      
-      if (system.attributes[item.system.attribute]) {
-        attKey = item.system.attribute;
-      }
+  /* -------------------------------------------- */
 
+  _onAttributeRoll(dataset) {
+    // Define variables to be used
+    const system = this.actor.system,
+      origin = this.actor.uuid,
+      attKey = dataset.key,
+      label = i18n(CONFIG.WW.rollAttributes[attKey]) + ' Roll';
+
+    let content = '',
+      baseHtml = {}
+
+    // If an attribute key is not defined, do not roll
+
+
+    let obj = {
+      origin: origin,
+      label: label,
+      content: content,
+      attKey: attKey,
+      baseHtml: baseHtml
     }
 
-    const origin = item.uuid ? item.uuid : this.actor.uuid;
+    // Check for Automatic Failure
+    if (system.autoFail[obj.attKey]) {
 
+      let messageData = {
+        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+        flavor: label,
+        content: content,
+        sound: CONFIG.sounds.dice,
+        'flags.weirdwizard': {
+          item: item.uuid,
+          rollHtml: '<div class="dice-outcome chat-failure">' + i18n('WW.Roll.AutoFail') + '!</div>',
+          emptyContent: !content ?? true
+        }
+      };
+
+      ChatMessage.create(messageData);
+    } else {
+      new RollAttribute(obj).render(true);
+    }
+    
+  }
+
+  _onItemUse(dataset) {
+    
+    // Define variables to be used
+    const system = this.actor.system,
+      item = this.actor.items.get(dataset.itemId),
+      label = _secretLabel(item.name),
+      content = _secretContent(item.system.description.value),
+      instEffs = item.system.instant,
+      origin = item.uuid ? item.uuid : this.actor.uuid,
+      action = dataset.action;
+
+    let baseHtml = {};
     if (instEffs) {
     
       for (const t of this.targets) {
@@ -609,8 +530,9 @@ export default class WWActorSheet extends ActorSheet {
       
     }
 
-    // If an attribute key is not defined, do not roll
-    if (!attKey) {
+    const attKey = system.attributes[item.system.attribute] ? item.system.attribute : '';
+
+    if (!attKey) { // If an attribute key is not defined, do not roll
       let html = '';
       
       for (const t of this.targets) {
@@ -628,21 +550,21 @@ export default class WWActorSheet extends ActorSheet {
       };
       
       ChatMessage.create(messageData);
-    } else {
+    } else { // Attempt to Roll
 
-      let obj = {
+      const obj = {
         origin: origin,
-        target: ev,
         label: label,
         content: content,
         attKey: attKey,
-        baseHtml: baseHtml
+        baseHtml: baseHtml,
+        action: action
       }
   
       // Check for Automatic Failure
       if (system.autoFail[obj.attKey]) {
         
-        let messageData = {
+        const messageData = {
           speaker: ChatMessage.getSpeaker({ actor: this.actor }),
           flavor: label,
           content: content,
@@ -655,84 +577,92 @@ export default class WWActorSheet extends ActorSheet {
         };
   
         ChatMessage.create(messageData);
-      } else {
-        if (item?.system?.subtype === 'weapon' && !item.system.against) ui.notifications.warn(i18n("WW.Roll.AgainstWrn"));
-        else if (needTargets(item) && !game.user.targets.size) {
-          ui.notifications.warn(i18n("WW.Roll.TargetWrn"));
-          canvas.controls.activate({tool: 'target'});
-          canvas.tokens.activate({tool:'target'})
-          this.minimize();
-        }
-        else new RollAttribute(obj).render(true);
+      } else { // Roll
+
+        // If targeted-use button was clicked
+        if (action === 'targeted-use') {
+
+          // If item is a weapon, throw a warning if an against attribute was not selected
+          if (item?.system?.subtype === 'weapon' && !item.system.against) ui.notifications.warn(i18n("WW.Roll.AgainstWrn"));
+
+          // If the item uses a template, draw it
+          else if (item.system.targeting == 'template') {
+            this.drawTemplate(obj);
+          }
+
+          // If the item uses manual targets, prompt selection
+          else if (item.system.targeting == 'manual') {
+            this.selectTargets(obj);
+          }
+        } 
+
+        // If untargeted-use was clicked
+        else if (action === 'untargeted-use') new RollAttribute(obj).render(true);
+        
       }
     }
     
   }
 
-  async _onRest() {
+  // Item Scroll: Send item description to chat when clicked
+  _onItemScroll(item) {
+    ChatMessage.create({
+      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      flavor: item.name,
+      content: item.system.description.value,
+      'flags.weirdwizard': {
+        item: item.uuid
+      }
+    })
+  }
+
+  _onItemToggleEffects(item) {
+    item.update({ "system.active": !item.system.active });
+  }
+
+  _onItemToggleReloaded(item) {
+    item.update({ "system.reloaded": !item.system.reloaded });
+  }
+
+  // Render the item sheet for viewing/editing prior to the editable check.
+  _onItemEdit(item) {
+    item.sheet.render(true);
+  }
+
+  async _onItemDelete(item, button) {
     const confirm = await Dialog.confirm({
-      title: i18n('WW.Rest.Label'),
-      content: i18n('WW.Rest.Msg') + '<p class="dialog-sure">' + i18n('WW.Rest.Confirm') + '</p>'
+      title: i18n('WW.Item.Delete.Title'),
+      content: i18n('WW.Item.Delete.Msg') + ' <b>' + item.name + '</b>. ' + i18n('WW.Item.Delete.Msg2') + '<p class="dialog-sure">' + i18n('WW.Item.Delete.Confirm') + " " + item.name + '?</p>'
     });
 
     if (!confirm) return;
 
-    // Recover all damage
-    this.actor.update({ "system.stats.damage.value": 0 });
-
-    // Recover 1/10 of the Health, rounded down
-    const health = this.actor.system.stats.health;
-    this.actor.update({ "system.stats.health.lost": health.lost - Math.floor(health.normal / 10) });
-
-    // Recover uses/tokens/castings for Talents and Spells
-    this.actor.updateEmbeddedDocuments('Item', this.actor.items.filter(i => i.system.uses.onRest === true).map(i => ({ _id: i.id, 'system.uses.value': 0 })
-    ));
-
-    // Send message to chat
-    let messageData = {
-      content: '<span style="display: inline"><span style="font-weight: bold">' + this.actor.name + '</span> ' + i18n('WW.Rest.Finished') + '.</span>',
-      sound: CONFIG.sounds.notification
-    };
-
-    ChatMessage.create(messageData);
+    item.delete();
+    $(button).slideUp(200, () => this.render(false));
   }
 
-  async _onToggleItemEffects(event) {
-    const target = event.currentTarget;
-    const item = this.actor.items.get(target.dataset.itemId);
-    return item.update({ "system.active": !item.system.active });
-  }
+  // Collapses description
+  _onItemCollapse(button) {
+    let li = $(button).parents('.item');
+    
+    if (!li.length) { // If parent does not have .item class, set li to current target.
+      li = $(button);
+    }
 
-  async _onToggleItemReloaded(event) {
-    const target = event.currentTarget;
-    const item = this.actor.items.get(target.dataset.itemId);
-    return item.update({ "system.reloaded": !item.system.reloaded });
-  }
-
-  /* -------------------------------------------- */
-  /*  Drop item events                            */
-  /* -------------------------------------------- */
-
-  /** @override */
-  async _onDropItemCreate(itemData) {
-    const isAllowed = await this.checkDroppedItem(itemData)
-    if (isAllowed) return await super._onDropItemCreate(itemData)
-    console.warn('Wrong item type dragged', this.actor, itemData)
-  }
-
-  /* -------------------------------------------- */
-  /** @override */
-  async checkDroppedItem(itemData) {
-    const type = itemData.type
-    if (['specialaction', 'endoftheround'].includes(type)) return false
-
-    if (type === 'ancestry') {
-      const currentAncestriesIds = this.actor.items.filter(i => i.type === 'ancestry').map(i => i._id)
-      if (currentAncestriesIds?.length > 0) await this.actor.deleteEmbeddedDocuments('Item', currentAncestriesIds)
-      return true
-    } else if (type === 'path' && this.actor.system.paths?.length >= 3) return false
-
-    return true
+    const desc = li.find('.item-desc'),
+      icon = li.find('.item-button[data-action=item-collapse]').find('i');
+    
+    // Flip states
+    if (icon.hasClass('fa-square-chevron-down')) {
+      $(button).attr("title", i18n('WW.Item.HideDesc'))
+      icon.removeClass('fa-square-chevron-down').addClass('fa-square-chevron-up');
+      desc.slideDown(500);
+    } else {
+      $(button).attr("title", i18n('WW.Item.ShowDesc'))
+      icon.removeClass('fa-square-chevron-up').addClass('fa-square-chevron-down');
+      desc.slideUp(500);
+    }
+    
   }
 
   /**
@@ -740,7 +670,6 @@ export default class WWActorSheet extends ActorSheet {
    * @param {Event} event   The originating click event
    * @private
   */
-
   async _onItemCreate(event) {
     event.preventDefault();
     const header = event.currentTarget;
@@ -785,6 +714,64 @@ export default class WWActorSheet extends ActorSheet {
     return 
   }
 
+  async _onRest() {
+    const confirm = await Dialog.confirm({
+      title: i18n('WW.Rest.Label'),
+      content: i18n('WW.Rest.Msg') + '<p class="dialog-sure">' + i18n('WW.Rest.Confirm') + '</p>'
+    });
+
+    if (!confirm) return;
+
+    // Recover all damage
+    this.actor.update({ "system.stats.damage.value": 0 });
+
+    // Recover 1/10 of the Health, rounded down
+    const health = this.actor.system.stats.health;
+    this.actor.update({ "system.stats.health.lost": health.lost - Math.floor(health.normal / 10) });
+
+    // Recover uses/tokens/castings for Talents and Spells
+    this.actor.updateEmbeddedDocuments('Item', this.actor.items.filter(i => i.system.uses.onRest === true).map(i => ({ _id: i.id, 'system.uses.value': 0 })
+    ));
+
+    // Send message to chat
+    let messageData = {
+      content: '<span style="display: inline"><span style="font-weight: bold">' + this.actor.name + '</span> ' + i18n('WW.Rest.Finished') + '.</span>',
+      sound: CONFIG.sounds.notification
+    };
+
+    ChatMessage.create(messageData);
+  }
+
+  /* -------------------------------------------- */
+  /*  Drop item events                            */
+  /* -------------------------------------------- */
+
+  /** @override */
+  async _onDropItemCreate(itemData) {
+    const isAllowed = await this.checkDroppedItem(itemData)
+    if (isAllowed) return await super._onDropItemCreate(itemData)
+    console.warn('Wrong item type dragged', this.actor, itemData)
+  }
+
+  /* -------------------------------------------- */
+  /** @override */
+  async checkDroppedItem(itemData) {
+    const type = itemData.type
+    if (['specialaction', 'endoftheround'].includes(type)) return false
+
+    if (type === 'ancestry') {
+      const currentAncestriesIds = this.actor.items.filter(i => i.type === 'ancestry').map(i => i._id)
+      if (currentAncestriesIds?.length > 0) await this.actor.deleteEmbeddedDocuments('Item', currentAncestriesIds)
+      return true
+    } else if (type === 'path' && this.actor.system.paths?.length >= 3) return false
+
+    return true
+  }
+
+  /* -------------------------------------------- */
+  /*  Utility methods                             */
+  /* -------------------------------------------- */
+
   // Add intant effects to chat message html
   _addInstEffs(effects, origin, target) {
     
@@ -816,6 +803,46 @@ export default class WWActorSheet extends ActorSheet {
     return finalHtml;
   }
 
+  /**
+   * Draw template from an item
+   * @param {Object} obj
+   */
+  async drawTemplate(obj) {
+    const initialLayer = canvas.activeLayer;
+
+    new TargetingHUD(obj, initialLayer, 'template').render(true);
+    /*try {
+      await GridTemplate.fromItem(item)?.drawPreview(obj);
+    } catch(err) {
+      Hooks.onError("Item5e._onChatCardAction", err, {
+        msg: game.i18n.localize("DND5E.PlaceTemplateError"),
+        log: "error",
+        notify: "error"
+      });
+    }*/
+  }
+
+  /**
+   * Select targets for an item roll
+   * @param {Object} obj
+   */
+  async selectTargets(obj) {
+    clearUserTargets()
+
+    // Switch to the controls layer, activate target tool then switch to tokens layer
+    const initialLayer = canvas.activeLayer;
+    canvas.controls.activate({tool: 'target'});
+    canvas.tokens.activate();
+
+    // Hide the sheet that originated the preview
+    this.minimize();
+
+    // Activate TargetingHUD app
+    new TargetingHUD(obj, initialLayer, 'manual').render(true);
+  }
+
+  
+  
   /* -------------------------------------------- */
   /*  Getters                                     */
   /* -------------------------------------------- */
@@ -850,7 +877,7 @@ export default class WWActorSheet extends ActorSheet {
 
     return targets
   }
-
+  
 }
 
 /* -------------------------------------------- */
@@ -866,25 +893,4 @@ function _secretContent(content) {
 // Make secret message label
 function _secretLabel(label) {
   return '<span class="owner-only">' + label + '</span><span class="non-owner-only">? ? ?</span>'
-}
-
-// Check if targets are needed
-function needTargets(item) {
-  let need = false;//item?.system?.rollForEach;
-
-  if (item?.system?.against) need = true;
-
-  if (item?.effects) {
-    for (const e of item.effects) {
-      if (e.target == 'tokens') need = true;
-    }
-  }
-
-  if (item?.system?.instant) {
-    for (const e of item.system.instant) {
-      if (e.target == 'tokens') need = true;
-    }
-  }
-
-  return need;
 }

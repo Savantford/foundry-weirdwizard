@@ -1,42 +1,73 @@
-<li class="item" data-item-id="{{item._id}}">
+<li class="item">
 
-    {{!-- Title / Attribute Roll --}}
-    {{#if item.system.attribute}}<a class="rollable item-roll" title="{{localize "WW.Item.Roll.Attribute"}}">{{item.name}}</a>
+    {{!-- Title --}}
+    {{#if item.needTargets}}<label class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
+        title="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Roll.Targeting.TalentTargeted"}}
+            {{else if (eq item.type "Equipment")}}{{localize "WW.Roll.Targeting.EquipmentTargeted"}}
+            {{else if (eq item.type "Spell")}}{{localize "WW.Roll.Targeting.SpellTargeted"}}{{/if}}">{{item.name}}</label>
+    {{else if item.isActivity}}<label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
+        title="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Roll.Targeting.TalentUntargeted"}}
+            {{else if (eq item.type "Equipment")}}{{localize "WW.Roll.Targeting.EquipmentUntargeted"}}
+            {{else if (eq item.type "Spell")}}{{localize "WW.Roll.Targeting.SpellUntargeted"}}{{/if}}">{{item.name}}</label>
     {{else}}<label>{{item.name}}</label>{{/if}}
     
     <span class="buttons">
-        {{#if item.system.description.value}}<a class="item-scroll" title="Send to Chat">
-            <i class="far fa-scroll"></i></a>{{/if}}
+        {{!-- Use Buttons --}}
+        {{#if item.isActivity}}
+
+            {{#if item.needTargets}}
+            <a class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
+                title="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Roll.Targeting.TalentTargeted"}}
+                    {{else if (eq item.type "Equipment")}}{{localize "WW.Roll.Targeting.EquipmentTargeted"}}
+                    {{else if (eq item.type "Spell")}}{{localize "WW.Roll.Targeting.SpellTargeted"}}{{/if}}">
+            <i class="fas fa-bullseye"></i></a>
+            {{/if}}
+
+            <a class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
+                title="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Roll.Targeting.TalentUntargeted"}}
+                    {{else if (eq item.type "Equipment")}}{{localize "WW.Roll.Targeting.EquipmentUntargeted"}}
+                    {{else if (eq item.type "Spell")}}{{localize "WW.Roll.Targeting.SpellUntargeted"}}{{/if}}">
+            <i class="fas fa-bolt"></i></a>
+
+        {{/if}}
 
         {{!-- Toggle Effects --}}
-        {{#if ../hasPassiveEffects}}
-        <a class="item-toggle-effects" data-item-id="{{item._id}}" 
-            title="{{#if item.system.active}}{{localize "WW.Item.DisableEffects"}}
-            {{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
-            <i class="fas {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
+        {{#if item.hasPassiveEffects}}
+            <a class="item-button" data-action="item-toggle-effects" data-item-id="{{item._id}}"
+                title="{{#if item.system.active}}{{localize "WW.Item.DisableEffects"}}{{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
+                <i class="fas {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
         {{/if}}
-        
+
         {{!-- Uses Pips --}}
         {{#if item.uses}}
         <span class="pip-box">
             {{#each item.uses as |pip id|}}
-            <a class="item-pip" title="
-                {{#if (eq pip "far fa-circle")}}
-                    {{#if (eq ../item.system.subtype "action")}}{{localize "WW.Item.Uses.ActionSpend"}}
-                    {{else if (eq ../item.system.subtype "fury")}}{{localize "WW.Item.Uses.FurySpend"}}
-                    {{else}}{{localize "WW.Item.Uses.TalentSpend"}}{{/if}}
-                {{else}}
-                    {{#if (eq ../item.system.subtype "action")}}{{localize "WW.Item.Uses.ActionRecover"}}
-                    {{else if (eq ../item.system.subtype "fury")}}{{localize "WW.Item.Uses.FuryRecover"}}
-                    {{else}}{{localize "WW.Item.Uses.TalentRecover"}}{{/if}}
-                {{/if}}">
+                <a class="item-pip" data-item-id="{{../item._id}}"
+                    title="{{#if (eq pip "far fa-circle")}}
+                        {{#if (eq ../item.system.subtype "action")}}{{localize "WW.Item.Uses.ActionSpend"}}
+                        {{else if (eq ../item.system.subtype "fury")}}{{localize "WW.Item.Uses.FurySpend"}}
+                        {{else}}{{localize "WW.Item.Uses.TalentSpend"}}{{/if}}
+                    {{else}}
+                        {{#if (eq ../item.system.subtype "action")}}{{localize "WW.Item.Uses.ActionRecover"}}
+                        {{else if (eq ../item.system.subtype "fury")}}{{localize "WW.Item.Uses.FuryRecover"}}
+                        {{else}}{{localize "WW.Item.Uses.TalentRecover"}}{{/if}}
+                    {{/if}}">
                 <i class="{{pip}}"></i></a>
             {{/each}}
         </span>
         {{/if}}
+
+        {{!-- Send to Chat Scroll --}}
+        {{#if item.system.description.value}}
+        <a class="item-button" data-action="item-scroll" data-item-id="{{item._id}}" title="{{localize "WW.Item.Send"}}"><i
+            class="far fa-scroll"></i></a>
+        {{/if}}
+
+        {{!-- Edit Button --}}
+        <a class="item-button" data-action="item-edit" data-item-id="{{item._id}}" title="{{localize (concat "WW.Item.Edit." item.type)}}"><i class="fas fa-edit"></i></a>
         
-        <a class="item-edit" title="{{localize (concat "WW.Item.Edit." item.type)}}"><i class="fas fa-edit"></i></a>
-        <a class="item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+        {{!-- Delete Button --}}
+        <a class="item-button" data-action="item-delete" data-item-id="{{item._id}}" title="Delete Item"><i class="fas fa-trash"></i></a>
     </span>
     
     {{!-- Description --}}

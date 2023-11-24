@@ -20,20 +20,6 @@
                 title="{{localize "WW.Type"}}" data-dtype="String" />
         
         </div>
-        {{!--<div class="stat">
-            <label for="level" class="resource-label">{{localize "WW.Level"}}</label>
-            {{system.stats.level}}
-
-            <label class="ml-1" for="ancestry" class="resource-label">{{localize "WW.Ancestry"}}</label>
-            {{system.details.ancestry}}
-        </div>--}}
-
-        
-        {{!--<div class="stat">
-            {{#if system.details.type}}<label for="type" class="resource-label">{{localize
-                "WW.Type"}}</label>
-            {{system.details.type}}{{/if}}
-        </div>--}}
 
         {{!-- Professions --}}
         <div class="stat-inline">
@@ -42,12 +28,6 @@
                 placeholder="{{localize "WW.ProfessionsPH"}}" />
             {{system.details.professions.value}}
         </div>
-        {{!--{{#if system.details.professions}}
-        <div class="stat">
-            <label class="" for="professions" class="resource-label">{{localize "WW.Professions"}}</label>
-            {{system.details.professions}}
-        </div>
-        {{/if}}--}}
 
         {{!-- Paths --}}
         <div class="stat">
@@ -65,13 +45,6 @@
                 {{#if (gte system.stats.level 7)}}/ {{/if}}
                 <input class="auto-resize" type="text" name="system.details.master" value="{{system.details.master}}"
                     title="{{localize "WW.MasterPath"}}" data-dtype="String" />
-            {{!--<ol class="summary-list">
-                <li title="{{localize "WW.NovicePath"}}">{{system.details.novice}}</li>
-                {{#if system.details.expert}}<li title="{{localize "WW.ExpertPath"}}">
-                    {{system.details.expert}}</li>{{/if}}
-                {{#if system.details.expert}}<li title="{{localize "WW.MasterPath"}}">
-                    {{system.details.master}}</li>{{/if}}
-            </ol>--}}
             {{/if}}
         </div>
 
@@ -82,11 +55,6 @@
                 data-dtype="String" />
             {{system.details.senses.value}}
         </div>
-        {{!--<div class="stat">
-            {{#if system.details.senses}}<label for="senses" class="resource-label">{{localize
-                "WW.Senses"}}</label>
-            {{system.details.senses}}{{/if}}
-        </div>--}}
 
         {{!-- Languages --}}
         <div class="stat-inline">
@@ -95,10 +63,6 @@
                 data-dtype="String" placeholder="{{localize "WW.LanguagesPH"}}" />
             {{system.details.languages.value}}
         </div>
-        {{!--<div class="stat">
-            <label class="" for="languages" class="resource-label">{{localize "WW.Languages"}}</label>
-            {{system.details.languages}}
-        </div>--}}
 
         {{!-- Immune --}}
         <div class="stat-inline">
@@ -107,10 +71,6 @@
                 data-dtype="String" placeholder="{{localize "WW.ImmunePH"}}" />
             {{system.details.immune.value}}
         </div>
-        {{!--{{#if system.details.immune}}<div class="stat mt-1">
-            <label class="" for="immune" class="resource-label">{{localize "WW.Immune"}}</label>
-            {{system.details.immune}}
-        </div>{{/if}}--}}
 
         {{!-- Size, Speed --}}
         <div class="stat-inline">
@@ -124,16 +84,6 @@
                 value="{{system.stats.speed.special}}" data-dtype="String" 
                 title="{{localize "WW.Speed.Tip"}}" />{{#if system.stats.speed.special}}){{/if}}
         </div>
-        {{!--<div class="stat mt-1">
-            <label for="size" class="resource-label">{{localize "WW.Size"}}</label>
-            {{system.stats.size}}
-
-            <label class="ml-1" for="speed" class="resource-label">{{localize "WW.Speed.Label"}}</label>
-
-            <a title="{{localize "WW.Speed.Raw"}}: {{system.stats.speed.raw}}">{{system.stats.speed.value}}</a>
-            
-            {{#if system.stats.speed.special}} ({{system.stats.speed.special}}){{/if}}
-        </div>--}}
 
         <h3 class="mt-2">{{localize "WW.Attack.Plural"}}</h3>
         
@@ -151,40 +101,7 @@
             <div class="mt-1">
                 <ol class="described-list">
                     {{#each weapons as |item id|}}
-                    <li class="item" data-item-id="{{item._id}}">
-                        <a class="rollable item-roll" title="Attack with {{item.name}}">{{item.name}}</a>
-
-                        <a class="item-edit" title="Edit Weapon"><i class="fas fa-edit"></i></a>
-
-                        {{#if item.system.description.value}}<a class="item-scroll" data-tooltip="{{item.system.description.value}}"><i class="far fa-scroll"></i></a>{{/if}}
-
-                        {{!-- Toggle Reloaded --}}
-                        {{#if item.system.properties.reload}}
-                            <a class="item-toggle-reloaded" data-item-id="{{item._id}}" 
-                                title="{{#if item.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
-                                <i class="fas {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
-                        {{/if}}
-
-                        {{!--<a class="damage-roll" title="Roll Damage Dice"><i class="fas fa-burst"></i></a>--}}
-                        
-                        <span class="properties-line">({{item.system.grip}}{{#if item.system.propertiesList}};
-                        {{item.system.propertiesList}}{{/if}})</span> 
-
-                        <span class="modifier-line">{{localize item.system.attributeLabel}}
-                        
-                        {{#if item.system.boons}} {{localize "WW.Boons.With"}} {{item.system.boons}} 
-                            {{#if (lt item.system.boons -1)}}{{localize "WW.Boons.Banes"}}
-                                {{else if (lt item.system.boons 0)}}{{localize "WW.Boons.Bane"}}
-                                {{else if (gt item.system.boons 1)}}{{localize "WW.Boons.Boons"}}
-                                {{else}}{{localize "WW.Boons.Boon"}}
-                            {{/if}}
-                        {{/if}}
-                        </span>
-
-                        <span class="damage-line">({{#if item.system.damage}}{{item.system.damage}}{{else}}0{{/if}})</span>
-                        
-                        {{#if item.system.attackRider.value}}{{{item.system.attackRider.enriched}}}{{/if}}
-                    </li>
+                        {{> "systems/weirdwizard/templates/actors/parts/Character-summary-weapon.hbs" item=item id=id}}
                     {{/each}}
                 </ol>
             </div>
@@ -198,9 +115,7 @@
         <h3>{{localize "WW.Talents"}}</h3>
         <ol class="compact-list stat">
             {{#each talents as |item id|}}
-
-            {{> "systems/weirdwizard/templates/actors/parts/Character-summary-item.hbs" item=item id=id}}
-
+                {{> "systems/weirdwizard/templates/actors/parts/Character-summary-item.hbs" item=item id=id}}
             {{/each}}
         </ol>
 
@@ -209,9 +124,7 @@
         <h4 class="mt-2">{{localize "WW.Actions"}}</h4>
         <ol class="compact-list stat">
             {{#each actions as |item id|}}
-
-            {{> "systems/weirdwizard/templates/actors/parts/Character-summary-item.hbs" item=item id=id}}
-
+                {{> "systems/weirdwizard/templates/actors/parts/Character-summary-item.hbs" item=item id=id}}
             {{/each}}
         </ol>
         {{/if}}
@@ -221,9 +134,7 @@
         <h4 class="mt-2">{{localize "WW.Reactions"}}</h4>
         <ol class="compact-list stat">
             {{#each reactions as |item id|}}
-
-            {{> "systems/weirdwizard/templates/actors/parts/Character-summary-item.hbs" item=item id=id}}
-
+                {{> "systems/weirdwizard/templates/actors/parts/Character-summary-item.hbs" item=item id=id}}
             {{/each}}
         </ol>
         {{/if}}
@@ -244,9 +155,7 @@
         {{!-- Spells List --}}
         <ol class="compact-list stat">
             {{#each spells as |item id|}}
-
-            {{> "systems/weirdwizard/templates/actors/parts/Character-summary-item.hbs" item=item id=id}}
-            
+                {{> "systems/weirdwizard/templates/actors/parts/Character-summary-item.hbs" item=item id=id}}
             {{/each}}
         </ol>
         {{/if}}

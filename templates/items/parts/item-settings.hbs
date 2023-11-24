@@ -22,34 +22,10 @@
     
 </div>
 {{/if}}
-<!--
-<h3 class="mt-2">{{localize "WW.Roll.OnSuccess"}}</h3>
 
 <div class="flex-row stat-inline mt-1">
-    <label class="">{{localize "WW.Damage.Label"}}</label>
-    {{#if (ne system.subtype 'weapon')}}
-    <input type="text" name="system.damage" value="{{system.damage}}" placeholder="1d6"
-        style="width: 75px; text-align: center;" data-dtype="String" />
-    {{else}}
-    {{system.damage}}
-    {{/if}}
-
-    <label class="ml-2">{{localize "WW.Healing"}}</label>
-    <input type="text" name="system.healing" value="{{system.healing}}" placeholder="1d6"
-        style="width: 75px; text-align: center;" data-dtype="String" />
-
-</div>
-
-<div class="flex-row stat-inline mt-1">
-    <label>{{localize "WW.Roll.Affliction"}}</label>
-    <select class="mx-1" name="system.affliction">
-        {{selectOptions afflictionsObj selected=system.affliction localize=true}}
+    <label>{{localize "WW.Roll.Targeting.Method"}}</label>
+    <select class="mx-1" name="system.targeting">
+        {{selectOptions targetingMethods selected=system.targeting localize=true}}
     </select>
 </div>
-
-{{#if (eq system.subtype 'weapon')}}
-<h4>{{localize "WW.Roll.OnCritical"}}</h4>
-{{/if}}
-
-<h3>{{localize "WW.Roll.OnFailure"}}</h3>
--->
