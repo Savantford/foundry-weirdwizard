@@ -1,4 +1,5 @@
 import { i18n } from '../helpers/utils.mjs';
+import { targetHeader, addInstEffs } from '../chat/chat-html-templates.mjs';
 import RollAttribute from './roll-attribute.mjs';
 import GridTemplate from '../canvas/grid-template.mjs';
 
@@ -49,7 +50,45 @@ export default class TargetingHUD extends Application {
     
     html.find('#targeting-confirm').click(() => {
       this.return();
-      new RollAttribute(this.obj).render(true);
+
+      // Don't roll, just create a chat message
+      if (this.obj.dontRoll) {
+        
+        const { action, attKey, content, label, origin } = this.obj,
+          item = fromUuidSync(origin),
+          instEffs = item.system.instant,
+          baseHtml = {};
+        let rollHtml = '';
+
+        // Record Instant Effect parameters in baseHtml
+        if (instEffs) {
+        
+          for (const t of game.user.targets) {
+            baseHtml[t.id] = addInstEffs(instEffs, origin, t.id);
+          }
+          
+        }
+
+        for (const t of game.user.targets) {
+          rollHtml += targetHeader(t, baseHtml[t.id]);
+          console.log(rollHtml)
+        }
+  
+        let messageData = {
+          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+          flavor: label,
+          content: content,
+          sound: CONFIG.sounds.dice,
+          'flags.weirdwizard': {
+            item: origin.uuid,
+            rollHtml: rollHtml,
+            emptyContent: !content ?? true
+          }
+        };
+        
+        ChatMessage.create(messageData);
+      // Roll
+      } else new RollAttribute(this.obj).render(true);
     })
 
     html.find('#targeting-cancel').click(() => {

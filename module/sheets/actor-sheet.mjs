@@ -1,5 +1,5 @@
 import { i18n, plusify, capitalize, resizeInput, clearUserTargets, sum } from '../helpers/utils.mjs';
-import { chatMessageButton } from '../chat/chat-html-templates.mjs';
+import { chatMessageButton, targetHeader, addInstEffs, actionFromLabel } from '../chat/chat-html-templates.mjs';
 import { healthDetails } from '../apps/health-details.mjs';
 import RollAttribute from '../apps/roll-attribute.mjs';
 import TargetingHUD from '../apps/targeting-hud.mjs';
@@ -474,18 +474,13 @@ export default class WWActorSheet extends ActorSheet {
       attKey = dataset.key,
       label = i18n(CONFIG.WW.rollAttributes[attKey]) + ' Roll';
 
-    let content = '',
-      baseHtml = {}
-
-    // If an attribute key is not defined, do not roll
-
+    let content = '';
 
     let obj = {
       origin: origin,
       label: label,
       content: content,
-      attKey: attKey,
-      baseHtml: baseHtml
+      attKey: attKey
     }
 
     // Check for Automatic Failure
@@ -519,37 +514,56 @@ export default class WWActorSheet extends ActorSheet {
       content = _secretContent(item.system.description.value),
       instEffs = item.system.instant,
       origin = item.uuid ? item.uuid : this.actor.uuid,
-      action = dataset.action;
-
-    let baseHtml = {};
-    if (instEffs) {
-    
-      for (const t of this.targets) {
-        baseHtml[t.uuid] = this._addInstEffs(instEffs, origin, t.uuid);
-      }
-      
-    }
+      action = dataset.action
 
     const attKey = system.attributes[item.system.attribute] ? item.system.attribute : '';
 
     if (!attKey) { // If an attribute key is not defined, do not roll
-      let html = '';
       
-      for (const t of this.targets) {
-        html += baseHtml[t.uuid];
+      const obj = {
+        origin: origin,
+        label: label,
+        content: content,
+        attKey: attKey,
+        action: action,
+        dontRoll: true
       }
 
-      let messageData = {
-        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-        flavor: label,
-        content: content + html,
-        sound: CONFIG.sounds.dice,
-        'flags.weirdwizard': {
-          item: item.uuid
+      // If targeted-use button was clicked
+      if (action === 'targeted-use') {
+
+        // If item is a weapon, throw a warning if an against attribute was not selected
+        if (item?.system?.subtype === 'weapon' && !item.system.against) ui.notifications.warn(i18n("WW.Roll.AgainstWrn"));
+
+        // If the item uses a template, draw it
+        else if (item.system.targeting == 'template') {
+          this.drawTemplate(obj);
         }
-      };
+
+        // If the item uses manual targets, prompt selection
+        else if (item.system.targeting == 'manual') {
+          this.selectTargets(obj);
+        }
+      } 
+
+      // If untargeted-use was clicked
+      else if (action === 'untargeted-use') {
+  
+        let messageData = {
+          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+          flavor: label,
+          content: content,
+          sound: CONFIG.sounds.dice,
+          'flags.weirdwizard': {
+            item: item.uuid,
+            rollHtml: addInstEffs(instEffs, origin, ''),
+            emptyContent: !content ?? true
+          }
+        };
+        
+        ChatMessage.create(messageData);
+      }
       
-      ChatMessage.create(messageData);
     } else { // Attempt to Roll
 
       const obj = {
@@ -557,7 +571,6 @@ export default class WWActorSheet extends ActorSheet {
         label: label,
         content: content,
         attKey: attKey,
-        baseHtml: baseHtml,
         action: action
       }
   
@@ -722,16 +735,16 @@ export default class WWActorSheet extends ActorSheet {
 
     if (!confirm) return;
 
-    // Recover all damage
-    this.actor.update({ "system.stats.damage.value": 0 });
-
-    // Recover 1/10 of the Health, rounded down
+    // Heal all Damage and recover lost Health
     const health = this.actor.system.stats.health;
-    this.actor.update({ "system.stats.health.lost": health.lost - Math.floor(health.normal / 10) });
+    
+    this.actor.update({
+      "system.stats.damage.value": 0,
+      "system.stats.health.lost": health.lost - Math.floor(health.normal / 10)
+    });
 
     // Recover uses/tokens/castings for Talents and Spells
-    this.actor.updateEmbeddedDocuments('Item', this.actor.items.filter(i => i.system.uses.onRest === true).map(i => ({ _id: i.id, 'system.uses.value': 0 })
-    ));
+    this.actor.updateEmbeddedDocuments('Item', this.actor.items.filter(i => i.system.uses.onRest === true).map(i => ({ _id: i.id, 'system.uses.value': 0 })));
 
     // Send message to chat
     let messageData = {
@@ -771,37 +784,6 @@ export default class WWActorSheet extends ActorSheet {
   /* -------------------------------------------- */
   /*  Utility methods                             */
   /* -------------------------------------------- */
-
-  // Add intant effects to chat message html
-  _addInstEffs(effects, origin, target) {
-    
-    if (!target) target = '';
-    
-    let finalHtml = '';
-    effects = effects.filter(e => e.trigger === 'onUse');
-    
-    effects.forEach(e => {
-      let html = '';
-        
-      if (e.label === 'affliction') html = chatMessageButton({
-        origin: origin,
-        target: target,
-        label: e.label,
-        value: e.affliction
-      });
-
-      else html = chatMessageButton({
-        origin: origin,
-        target: target,
-        label: e.label,
-        value: e.value,
-      });
-      
-      finalHtml += html;
-    })
-    
-    return finalHtml;
-  }
 
   /**
    * Draw template from an item

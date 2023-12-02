@@ -20,9 +20,9 @@
         <div class="item-name">
             {{!-- Title --}}
             {{#if item.needTargets}}<label class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
-                title="{{localize "WW.Roll.Targeting.TalentTargeted"}}">{{item.name}}</label>
+                title="{{localize "WW.Targeting.TalentTargeted"}}">{{item.name}}</label>
             {{else if item.isActivity}}<label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-                title="{{localize "WW.Roll.Targeting.TalentUntargeted"}}">{{item.name}}</label>
+                title="{{localize "WW.Targeting.TalentUntargeted"}}">{{item.name}}</label>
             {{else}}<label>{{item.name}}</label>{{/if}}
 
             <span class="buttons">
@@ -31,12 +31,12 @@
 
                     {{#if item.needTargets}}
                     <a class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
-                        title="{{localize "WW.Roll.Targeting.TalentTargeted"}}">
+                        title="{{localize "WW.Targeting.TalentTargeted"}}">
                     <i class="fas fa-bullseye"></i></a>
                     {{/if}}
                     
                     <a class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-                        title="{{localize "WW.Roll.Targeting.TalentUntargeted"}}">
+                        title="{{localize "WW.Targeting.TalentUntargeted"}}">
                     <i class="fas fa-bolt"></i></a>
 
                 {{/if}}

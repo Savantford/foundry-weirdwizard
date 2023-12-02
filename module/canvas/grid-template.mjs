@@ -37,11 +37,8 @@ export default class GridTemplate extends MeasuredTemplate {
    * @returns {AbilityTemplate|null}    The template object, or null if the item does not produce a template
    */
   static fromItem(item, options={}) {
-    //const itemTemplate = item.system.template ?? {};
-    const itemTemplate = {
-      size: 5,
-      range: 5
-    };
+    const type = item.system.template.type;
+    const distance = item.system.template.value;
 
     //const templateShape = dnd5e.config.areaTargetTypes[target.type]?.template;
     const templateShape = 'rect';
@@ -54,7 +51,7 @@ export default class GridTemplate extends MeasuredTemplate {
     const templateData = foundry.utils.mergeObject({
       t: 'rect',
       user: game.user.id,
-      distance: itemTemplate.size,
+      distance: distance,
       direction: 0,
       x: 0,
       y: 0,
@@ -68,8 +65,8 @@ export default class GridTemplate extends MeasuredTemplate {
         templateData.angle = CONFIG.MeasuredTemplate.defaults.angle;
         break;*/
       case "rect": // Areas in WW are always cubes
-        //templateData.width = itemTemplate.size;
-        templateData.distance = Math.hypot(itemTemplate.size, itemTemplate.size); // Diagonal distance
+        templateData.width = distance;
+        templateData.distance = Math.hypot(distance, distance); // Diagonal distance
         templateData.direction = 45;
         break;
       /*case "ray": // 5e rays are most commonly 1 square (5 ft) in width

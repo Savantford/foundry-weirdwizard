@@ -240,8 +240,13 @@
   flex-wrap: wrap;
   gap: 5px 10px;
 }
+
 .nowrap {
   white-space: nowrap;
+}
+
+.nogap {
+  gap: 0;
 }
 
 .align-left {

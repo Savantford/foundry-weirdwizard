@@ -1,31 +1,69 @@
-<h2>{{localize "WW.Settings"}}</h2>
+<div class="grid-2">
+    {{!-- Left Column --}}
+    <div class="flex-group-left">
+        <h2>{{localize "WW.Roll.Settings"}}</h2>
 
-<div class="flex-row stat-inline">
-    {{localize "WW.Roll.Always"}}
-    <select class="mx-1" name="system.attribute">
-        {{selectOptions attributesObj selected=system.attribute localize=true}}
-    </select>
-    {{#if system.attribute}}
-    {{localize "WW.Boons.With"}}
-    <input class="mx-1" type="number" name="system.boons" value="{{system.boons}}" placeholder="0"
-        data-dtype="Number" />
-    {{localize "WW.Boons.Or"}}
-    {{/if}}
+        <div class="flex-row stat-inline nowrap flex-wrap nogap">
+            <label>{{localize "WW.Roll.Always"}}</label>
+            
+            <select class="mx-1" name="system.attribute">
+                {{selectOptions attributesObj selected=system.attribute localize=true}}
+            </select>
+            
+            {{#if system.attribute}}
+                {{localize "WW.Boons.With"}}
+
+                <input class="mx-1" type="number" name="system.boons" value="{{system.boons}}" placeholder="0"
+                    data-dtype="Number" />
+                
+                {{localize "WW.Boons.Or"}}
+            {{/if}}
+        </div>
+
+        {{#if system.attribute}}
+        <div class="flex-row stat-inline mt-1">
+            <label>{{localize "WW.Roll.Against"}}</label>
+
+            <select class="mx-1" name="system.against">
+                {{selectOptions againstObj selected=system.against localize=true}}
+            </select>
+            
+        </div>
+        {{/if}}
+
+    </div>
+
+    {{!-- Right Column --}}
+    <div class="flex-group-left">
+        <h2>{{localize "WW.Targeting.Label"}}</h2>
+
+        <div class="flex-row stat-inline mt-1">
+            <label>{{localize "WW.Targeting.Method"}}</label>
+
+            <select class="mx-1" name="system.targeting">
+                {{selectOptions targetingMethods selected=system.targeting localize=true}}
+            </select>
+        </div>
+
+        {{#if (eq system.targeting 'template')}}
+        <div class="flex-row stat-inline mt-1">
+            <label>{{localize "WW.Targeting.Type"}}</label>
+            
+            <select class="mx-1" name="system.template.type">
+                {{selectOptions templateTypes selected=system.template.type localize=true}}
+            </select>
+        </div>
+
+        <div class="flex-row stat-inline mt-1">
+            <label>{{localize "WW.Targeting.Value"}}</label>
+
+            <input type="number" name="system.template.value" value="{{system.template.value}}" min="1" data-dtype="Number" />
+
+            {{localize "WW.Targeting.MeasuredUnit"}}
+        </div>
+        {{/if}}
+
+    </div>
+
 </div>
 
-{{#if system.attribute}}
-<div class="flex-row stat-inline mt-1">
-    {{localize "WW.Roll.Against"}}
-    <select class="mx-1" name="system.against">
-        {{selectOptions againstObj selected=system.against localize=true}}
-    </select>
-    
-</div>
-{{/if}}
-
-<div class="flex-row stat-inline mt-1">
-    <label>{{localize "WW.Roll.Targeting.Method"}}</label>
-    <select class="mx-1" name="system.targeting">
-        {{selectOptions targetingMethods selected=system.targeting localize=true}}
-    </select>
-</div>

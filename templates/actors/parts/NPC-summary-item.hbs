@@ -2,13 +2,13 @@
 
     {{!-- Title --}}
     {{#if item.needTargets}}<label class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
-        title="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Roll.Targeting.TalentTargeted"}}
-            {{else if (eq item.type "Equipment")}}{{localize "WW.Roll.Targeting.EquipmentTargeted"}}
-            {{else if (eq item.type "Spell")}}{{localize "WW.Roll.Targeting.SpellTargeted"}}{{/if}}">{{item.name}}</label>
+        title="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Targeting.TalentTargeted"}}
+            {{else if (eq item.type "Equipment")}}{{localize "WW.Targeting.EquipmentTargeted"}}
+            {{else if (eq item.type "Spell")}}{{localize "WW.Targeting.SpellTargeted"}}{{/if}}">{{item.name}}</label>
     {{else if item.isActivity}}<label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-        title="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Roll.Targeting.TalentUntargeted"}}
-            {{else if (eq item.type "Equipment")}}{{localize "WW.Roll.Targeting.EquipmentUntargeted"}}
-            {{else if (eq item.type "Spell")}}{{localize "WW.Roll.Targeting.SpellUntargeted"}}{{/if}}">{{item.name}}</label>
+        title="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Targeting.TalentUntargeted"}}
+            {{else if (eq item.type "Equipment")}}{{localize "WW.Targeting.EquipmentUntargeted"}}
+            {{else if (eq item.type "Spell")}}{{localize "WW.Targeting.SpellUntargeted"}}{{/if}}">{{item.name}}</label>
     {{else}}<label>{{item.name}}</label>{{/if}}
     
     <span class="buttons">
@@ -17,16 +17,16 @@
 
             {{#if item.needTargets}}
             <a class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
-                title="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Roll.Targeting.TalentTargeted"}}
-                    {{else if (eq item.type "Equipment")}}{{localize "WW.Roll.Targeting.EquipmentTargeted"}}
-                    {{else if (eq item.type "Spell")}}{{localize "WW.Roll.Targeting.SpellTargeted"}}{{/if}}">
+                title="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Targeting.TalentTargeted"}}
+                    {{else if (eq item.type "Equipment")}}{{localize "WW.Targeting.EquipmentTargeted"}}
+                    {{else if (eq item.type "Spell")}}{{localize "WW.Targeting.SpellTargeted"}}{{/if}}">
             <i class="fas fa-bullseye"></i></a>
             {{/if}}
 
             <a class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-                title="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Roll.Targeting.TalentUntargeted"}}
-                    {{else if (eq item.type "Equipment")}}{{localize "WW.Roll.Targeting.EquipmentUntargeted"}}
-                    {{else if (eq item.type "Spell")}}{{localize "WW.Roll.Targeting.SpellUntargeted"}}{{/if}}">
+                title="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Targeting.TalentUntargeted"}}
+                    {{else if (eq item.type "Equipment")}}{{localize "WW.Targeting.EquipmentUntargeted"}}
+                    {{else if (eq item.type "Spell")}}{{localize "WW.Targeting.SpellUntargeted"}}{{/if}}">
             <i class="fas fa-bolt"></i></a>
 
         {{/if}}

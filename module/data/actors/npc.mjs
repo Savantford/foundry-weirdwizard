@@ -32,7 +32,7 @@ export default class NpcData extends foundry.abstract.DataModel {
         case '⅛': source.stats.level = 0.125; break;
         case '¼': source.stats.level = 0.25; break;
         case '½': source.stats.level = 0.5; break;
-        default: source.stats.level = 1; break;
+        //default: source.stats.level = 1; break; // This is causing issues
       }
     }
 
@@ -43,7 +43,7 @@ export default class NpcData extends foundry.abstract.DataModel {
         case '⅛': source.stats.size = 0.125; break;
         case '¼': source.stats.size = 0.25; break;
         case '½': source.stats.size = 0.5; break;
-        default: source.stats.size = 1; break;
+        //default: source.stats.size = 1; break; // This is causing issues
       }
     }
 

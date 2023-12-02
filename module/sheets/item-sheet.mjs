@@ -51,6 +51,7 @@ export default class WWItemSheet extends ItemSheet {
     context.againstObj = CONFIG.WW.rollAgainst;
     context.afflictionsObj = CONFIG.WW.bestowAfflictions;
     context.targetingMethods = CONFIG.WW.TARGETING_METHODS;
+    context.templateTypes = CONFIG.WW.TEMPLATE_TYPES;
 
     // Prepare specific dropdown menu objects
     switch (context.item.type) {

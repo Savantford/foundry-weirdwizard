@@ -55,9 +55,14 @@ WW.rollAgainst = {
 }
 
 WW.TARGETING_METHODS = {
-  'manual': 'WW.Roll.Targeting.Manual',
-  'template': 'WW.Roll.Targeting.Template'
+  'manual': 'WW.Targeting.Manual',
+  'template': 'WW.Targeting.Template'
   /*'': 'WW.Roll.Targeting.Disable'*/
+}
+
+WW.TEMPLATE_TYPES = {
+  'size': 'WW.Targeting.Size',
+  'spread': 'WW.Targeting.Spread'
 }
 
 WW.dropdownSubtypes = {

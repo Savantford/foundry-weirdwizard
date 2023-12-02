@@ -69,8 +69,8 @@ export function activity(type = String) {
 
     targeting: makeStrField('manual'),
     template: new fields.SchemaField({
-      size: makeIntField(),
-      range: makeIntField()
+      type: makeStrField('size'),
+      value: makeIntField(5)
     })
     
   }

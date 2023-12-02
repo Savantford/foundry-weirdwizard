@@ -53,9 +53,9 @@
             <div class="item-name">
                 {{!-- Title --}}
                 {{#if item.needTargets}}<label class="item-button" data-action="targeted-use" data-item-id="{{item._id}}" 
-                    title="{{localize "WW.Roll.Targeting.AttackTargeted"}}">{{item.name}}</label>
+                    title="{{localize "WW.Targeting.AttackTargeted"}}">{{item.name}}</label>
                 {{else if item.isActivity}}<label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-                    title="{{localize "WW.Roll.Targeting.AttackUntargeted"}}">{{item.name}}</label>
+                    title="{{localize "WW.Targeting.AttackUntargeted"}}">{{item.name}}</label>
                 {{else}}<label>{{item.name}}</label>{{/if}}
 
                 <span class="buttons">
@@ -64,12 +64,12 @@
 
                         {{#if item.needTargets}}
                         <a class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
-                            title="{{localize "WW.Roll.Targeting.AttackTargeted"}}">
+                            title="{{localize "WW.Targeting.AttackTargeted"}}">
                         <i class="fas fa-bullseye"></i></a>
                         {{/if}}
 
                         <a class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-                            title="{{localize "WW.Roll.Targeting.AttackUntargeted"}}">
+                            title="{{localize "WW.Targeting.AttackUntargeted"}}">
                         <i class="fas fa-bolt"></i></a>
 
                     {{/if}}
@@ -134,9 +134,9 @@
             <div class="item-name">
                 {{!-- Title --}}
                 {{#if item.needTargets}}<label class="item-button" data-action="targeted-use" data-item-id="{{item._id}}" 
-                    title="{{localize "WW.Roll.Targeting.EquipmentTargeted"}}">{{item.name}}</label>
+                    title="{{localize "WW.Targeting.EquipmentTargeted"}}">{{item.name}}</label>
                 {{else if item.isActivity}}<label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-                    title="{{localize "WW.Roll.Targeting.EquipmentUntargeted"}}">{{item.name}}</label>
+                    title="{{localize "WW.Targeting.EquipmentUntargeted"}}">{{item.name}}</label>
                 {{else}}<label>{{item.name}}</label>{{/if}}
 
                 <span class="buttons">
@@ -145,12 +145,12 @@
 
                         {{#if item.needTargets}}
                         <a class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
-                            title="{{localize "WW.Roll.Targeting.EquipmentTargeted"}}">
+                            title="{{localize "WW.Targeting.EquipmentTargeted"}}">
                         <i class="fas fa-bullseye"></i></a>
                         {{/if}}
 
                         <a class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-                            title="{{localize "WW.Roll.Targeting.EquipmentUntargeted"}}">
+                            title="{{localize "WW.Targeting.EquipmentUntargeted"}}">
                         <i class="fas fa-bolt"></i></a>
 
                     {{/if}}

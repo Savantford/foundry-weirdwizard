@@ -30,9 +30,9 @@
             
             {{!-- Title --}}
             {{#if item.needTargets}}<label class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
-                title="{{localize "WW.Roll.Targeting.SpellTargeted"}}">{{item.name}}</label>
+                title="{{localize "WW.Targeting.SpellTargeted"}}">{{item.name}}</label>
             {{else if item.isActivity}}<label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-                title="{{localize "WW.Roll.Targeting.SpellUntargeted"}}">{{item.name}}</label>
+                title="{{localize "WW.Targeting.SpellUntargeted"}}">{{item.name}}</label>
             {{else}}<label>{{item.name}}</label>{{/if}}
 
             <span class="buttons">
@@ -41,12 +41,12 @@
 
                     {{#if item.needTargets}}
                     <a class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
-                        title="{{localize "WW.Roll.Targeting.SpellTargeted"}}">
+                        title="{{localize "WW.Targeting.SpellTargeted"}}">
                     <i class="fas fa-bullseye"></i></a>
                     {{/if}}
 
                     <a class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-                        title="{{localize "WW.Roll.Targeting.SpellUntargeted"}}">
+                        title="{{localize "WW.Targeting.SpellUntargeted"}}">
                     <i class="fas fa-bolt"></i></a>
 
                 {{/if}}

@@ -5,7 +5,7 @@
 
 import { i18n, plusify } from '../helpers/utils.mjs';
 import WWRoll from '../dice/roll.mjs';
-import { diceTotalHtml, chatMessageButton } from '../chat/chat-html-templates.mjs';
+import { diceTotalHtml, targetHeader, chatMessageButton, actionFromLabel } from '../chat/chat-html-templates.mjs';
 
 export default class RollAttribute extends FormApplication {
   constructor(obj) {
@@ -25,11 +25,12 @@ export default class RollAttribute extends FormApplication {
     this.action = obj.action;
     this.system = this.actor.system; // Assign actor data
     const attKey = obj.attKey;
+    console.log(this.system.attributes[attKey])
 
     // Assign label, name and fixed boons/banes
     this.label = obj.label;
     this.content = obj.content;
-    this.name = attKey == 'luck' ? 'Luck' : this.system.attributes[attKey].name;
+    this.name = attKey == 'luck' ? 'Luck' : this.system.attributes[attKey].label;
     this.effectBoonsGlobal = this.system.boons.attributes[attKey].global ?
       this.system.boons.attributes[attKey].global : 0;
     this.attackBoons = this.system.boons.attacks.global;
@@ -84,9 +85,6 @@ export default class RollAttribute extends FormApplication {
     const el = html.find('input'); // html.find('input[type=number]')
     el.change((ev) => this._updateFields(ev, this));
     el.change();
-
-    // Roll dice when the Roll button is clicked
-    //html.find('#boons-submit').click(this._onFormSubmit.bind(this));
 
   }
 
@@ -204,7 +202,7 @@ export default class RollAttribute extends FormApplication {
         }
 
         // Add targetHtml to rollHtml
-        rollHtml += this._targetHtml(t, targetHtml);
+        rollHtml += targetHeader(t, targetHtml, !this.item);
 
       };
 
@@ -295,21 +293,21 @@ export default class RollAttribute extends FormApplication {
           for (const t of this.targets) {
             let targetHtml = this._addInstEffs(this.instEffs.onCritical, originUuid, t.id);
             this._applyEffects(this.effects.onCritical, t.id);
-            rollHtml += this._targetHtml(t, targetHtml);
+            rollHtml += targetHeader(t, targetHtml, !this.item);
           }
   
         } else if (success) {
           for (const t of this.targets) {
             let targetHtml = this._addInstEffs(this.instEffs.onSuccess, originUuid, t.id);
             this._applyEffects(this.effects.onSuccess, t.id);
-            rollHtml += this._targetHtml(t, targetHtml);
+            rollHtml += targetHeader(t, targetHtml, !this.item);
           }
   
         } else {
           for (const t of this.targets) {
             let targetHtml = this._addInstEffs(this.instEffs.onFailure, originUuid, t.id);
             this._applyEffects(this.effects.onFailure, t.id);
-            rollHtml += this._targetHtml(t, targetHtml);
+            rollHtml += targetHeader(t, targetHtml, !this.item);
           }
         }
 
@@ -464,14 +462,14 @@ export default class RollAttribute extends FormApplication {
       if (e.target === 'self') target = this.token.uuid;
         
       if (e.label === 'affliction') html = chatMessageButton({
-        action: this.actionFromLabel(e.label),
+        action: actionFromLabel(e.label),
         value: e.affliction,
         originUuid: origin,
         targetId: target
       });
 
       else html = chatMessageButton({
-        action: this.actionFromLabel(e.label),
+        action: actionFromLabel(e.label),
         value: e.value,
         originUuid: origin,
         targetId: target
@@ -498,29 +496,6 @@ export default class RollAttribute extends FormApplication {
 
     })
 
-  }
-
-  /* Prepare action string from label string */
-  actionFromLabel(label) {
-    let action = '';
-
-    switch (label) {
-      case ('damage'): action = 'roll-damage'; break;
-      case ('heal'): action = 'roll-healing'; break;
-      case ('healthLose'): action = 'roll-health-loss'; break;
-      case ('healthRecover'): action = 'roll-health-recovery'; break;
-      case ('affliction'): action = 'apply-affliction'; break;
-    }
-    
-    return action;
-  }
-
-  // Prepare html for the target
-  _targetHtml(target, html) {
-    if ((target.id === undefined) || !this.item) return (html ? html : '');
-
-    else return '<p class="owner-only chat-target">' + i18n('WW.Target') + ': ' + target.name + '</p><p class="non-owner-only chat-target">' + i18n('WW.Target') +
-      ': ???</p><div class="chat-target-content">' + html + '</div>';
   }
 
   /* -------------------------------------------- */
