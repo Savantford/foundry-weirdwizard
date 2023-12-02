@@ -23,7 +23,7 @@ export default class WWActor extends Actor {
     // Data modifications in this step occur before processing embedded
     // documents (including active effects) or derived data.
     super.prepareBaseData();
-
+    
     // Create boons variables
     this.system.boons = {
       attributes: {
@@ -106,7 +106,7 @@ export default class WWActor extends Actor {
 
   async _preUpdate(changed, options, user) {
     await super._preUpdate(changed, options, user);
-
+    
     // Health Operators
     const health = this.system.stats.health.current;
 
@@ -151,9 +151,6 @@ export default class WWActor extends Actor {
     const system = this.system;
     const flags = this.flags.weirdwizard || {};
 
-    // Halve Speed
-    if (system.stats.speed.halved) system.stats.speed.current = Math.floor(system.stats.speed.normal / 2);
-
     // Loop through attributes, and add their modifiers calculated with DLE rules to our sheet output.
     for (let [key, attribute] of Object.entries(system.attributes)) {
       if (key != 'luck') attribute.mod = attribute.value - 10;
@@ -169,6 +166,13 @@ export default class WWActor extends Actor {
       }, new Set());
     }
 
+    
+    // Calculate and update Path Levels contribution to Health
+    this._calculateHealth(system);
+
+    // Calculate Speed
+    this._calculateSpeed(system);
+
     // Make separate methods for each Actor type (character, npc, etc.) to keep
     // things organized.
     this._prepareCharacterData(system);
@@ -182,11 +186,6 @@ export default class WWActor extends Actor {
   _prepareCharacterData(system) {
     if (this.type !== 'Character') return;
 
-    ///////// HEALTH ///////////
-
-    // Calculate and update Path Levels contribution to Health
-    this._calculateHealth(system);
-
     // Calculate total Defense
     this._calculateDefense(system);
   }
@@ -198,55 +197,8 @@ export default class WWActor extends Actor {
   _prepareNpcData(system) {
     if (this.type !== 'NPC') return;
 
-    this._calculateHealth(system);
-
     // Assign Current Health to Max Damage for Token Bars
     system.stats.damage.max = system.stats.health.current;
-  }
-
-  /**
-  * Override getRollData() that's supplied to rolls.
-  */
-
-  getRollData() {
-    const data = super.getRollData();
-
-    // Prepare character roll data.
-    this._getCharacterRollData(data);
-    this._getNpcRollData(data);
-
-    return data;
-  }
-
-  /**
-  * Prepare character roll data.
-  */
-
-  _getCharacterRollData(system) {
-    if (this.type !== 'Character') return;
-
-    // Copy the attribute scores to the top level, so that rolls can use
-    // formulas like `@str.mod + 4`.
-    /*if (system.attributes) {
-        for (let [k, v] of Object.entries(system.attributes)) {
-            system[k] = foundry.utils.deepClone(v);
-        }
-    }
-
-    // Add level for easier access, or fall back to 0.
-    if (system.stats.level) {
-        system.lvl = system.stats.level.value ?? 0;
-    }*/
-  }
-
-  /**
-  * Prepare NPC roll data.
-  */
-
-  _getNpcRollData(system) {
-    if (this.type !== 'NPC') return;
-
-    // Process additional NPC data here.
   }
 
   async applyDamage(damage) {
@@ -397,6 +349,17 @@ export default class WWActor extends Actor {
     
     // Assign Current Health to Max Damage for Token Bars // no longer needed, done on a data models getter
     system.stats.damage.max = health.current;
+    
+  }
+
+  _calculateSpeed(system) {
+    const speed = system.stats.speed;
+
+    // Halve Speed
+    if (speed.halved) speed.current = Math.floor(speed.normal / 2)
+
+    // Assign normal Speed
+    else speed.current = speed.normal;
     
   }
 

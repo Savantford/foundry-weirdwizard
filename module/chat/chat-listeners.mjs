@@ -94,7 +94,7 @@ async function _onChatRoll(dataset, label, nextAction) {
     sound: CONFIG.sounds.dice,
     'flags.weirdwizard': {
       item: data.item?.uuid,
-      rollHtml: rollHtml + (dataset.targetId ? truechatMessageButton(dataset) : ''), // Hide buttons from untargeted rolls
+      rollHtml: rollHtml + (dataset.targetId ? chatMessageButton(dataset) : ''), // Hide buttons from untargeted rolls
       emptyContent: true
     }
   };

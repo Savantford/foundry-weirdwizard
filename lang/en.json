@@ -104,36 +104,19 @@
     "WW.Dialog": {
         "Save": "Save",
         "Reset": "Reset",
-        "TargetingConfirm": "Confirm Targets and Continue",
-        "TargetingReplace": "Replace Template",
         "Cancel": "Cancel"
     },
     
 
     "WW.Automation": "Automation & Effects",
-    "WW.Settings": "Settings",
 
     "WW.Roll": {
         "Label": "Roll",
+        "Settings": "Roll Settings",
         "Always": "Always roll",
         "Against": "Against",
         "ForEach": "Roll separately for each target",
         "AgainstWrn": "Nothing selected to roll against. Please select Defense or an attribute to roll against in the Weapon's Automation & Effects tab.",
-        "Targeting": {
-            "AttackTargeted": "Select targets and attack",
-            "AttackUntargeted": "Attack without targets",
-            "TalentTargeted": "Select targets and use trait or talent",
-            "TalentUntargeted": "Use trait or talent without targets",
-            "EquipmentTargeted": "Select targets and use equipment",
-            "EquipmentUntargeted": "Use equipment without targets",
-            "SpellTargeted": "Select targets and cast spell",
-            "SpellUntargeted": "Cast spell without targets",
-            "Method": "Targeting Method",
-            "Dont": "Don't target tokens",
-            "Template": "Use a grid area template",
-            "Manual": "Select tokens manually",
-            "SelectTargets": "Please select one or more tokens to target."
-        },
         "Success": "Success",
         "CriticalSuccess": "Critical Success",
         "Failure": "Failure",
@@ -155,6 +138,31 @@
         "Against": "Boon(s) against own",
         "ExtraBoon": "extra boon",
         "ExtraBoons": "extra boons"
+    },
+
+    "WW.Targeting": {
+        "Label": "Targeting",
+        "Method": "Method",
+        "Template": "Use a grid area template",
+        "Manual": "Select tokens manually",
+        "Type": "Area Type",
+        "Value": "Range",
+        "Size": "Size # Area",
+        "Spread": "Spread from Central Point (BROKEN)",
+        "MeasuredUnit": "yard(s)",
+        "Dialog": {
+            "SelectTargets": "Please select one or more tokens to target.",
+            "Confirm": "Confirm Targets and Continue",
+            "Replace": "Replace Template"
+        },
+        "AttackTargeted": "Select targets and attack",
+        "AttackUntargeted": "Attack without a target",
+        "TalentTargeted": "Select targets and use trait or talent",
+        "TalentUntargeted": "Use trait or talent without a target",
+        "EquipmentTargeted": "Select targets and use equipment",
+        "EquipmentUntargeted": "Use equipment without a target",
+        "SpellTargeted": "Select targets and cast spell",
+        "SpellUntargeted": "Cast spell without a target"
     },
 
     "WW.Summary": "Summary",

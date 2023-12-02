@@ -1,4 +1,4 @@
-<h2>{{localize "WW.Effects.Label"}}</h2>
+<h2 class="mt-1">{{localize "WW.Effects.Label"}}</h2>
 
 {{!-- Instant Effects List --}}
 <ol class="item-list effects-list">
@@ -96,7 +96,7 @@
             
             <div class="effect-changes">
                 {{#each effect.changes as |change|}}
-                {{log change}}
+                
                 {{#if change.key}}
                 <div class="nowrap">
                     {{localize (lookup ../../../effectChangeLabels change.key)}}

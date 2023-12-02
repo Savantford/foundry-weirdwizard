@@ -5,6 +5,14 @@ export async function diceTotalHtml(roll) {
   return '<span class="owner-only">' + await roll.render() + '</span><h4 class="secret-dice-total non-owner-only">' + await roll.total + '</h4>';
 }
 
+// Prepare html header for a target
+export function targetHeader(target, html, noItem) {
+  if ((target.id === undefined) || noItem) return (html ? html : '');
+
+  else return '<p class="owner-only chat-target">' + i18n('WW.Target') + ': ' + target.name + '</p><p class="non-owner-only chat-target">' + i18n('WW.Target') +
+    ': ???</p><div class="chat-target-content">' + html + '</div>';
+}
+
 // Prepare Html Button for a chat message
 export function chatMessageButton({action, value, originUuid, targetId}) {
   let icon = 'dice';
@@ -94,7 +102,6 @@ export function chatMessageButton({action, value, originUuid, targetId}) {
     (showNo ? (': ' + value) : '') + '</div>';
   }
   
-  
   return html;
 }
 
@@ -109,4 +116,55 @@ export function chatMessageButtonArray({value, originUuid, targetId}) {
   html += '</div>';
   
   return html;
+}
+
+
+/* Prepare action string from label string */
+export function actionFromLabel(label) {
+  let action = '';
+
+  switch (label) {
+    case ('damage'): action = 'roll-damage'; break;
+    case ('heal'): action = 'roll-healing'; break;
+    case ('healthLose'): action = 'roll-health-loss'; break;
+    case ('healthRecover'): action = 'roll-health-recovery'; break;
+    case ('affliction'): action = 'apply-affliction'; break;
+  }
+  
+  return action;
+}
+
+// Add intant effects to chat message html
+export function addInstEffs(effects, origin, target) {
+    
+  if (!target) target = '';
+
+  let finalHtml = '';
+
+  effects = effects.filter(e => e.trigger === 'onUse');
+  
+  effects.forEach(e => {
+    if (!e.value && !e.affliction) return ui.notifications.warn(i18n("WW.Roll.AgainstWrn"));
+    let html = '';
+    
+    if (e.target === 'self') target = this.token.uuid;
+    
+    if (e.label === 'affliction') html = chatMessageButton({
+      action: actionFromLabel(e.label),
+      value: e.affliction,
+      originUuid: origin,
+      targetId: target
+    });
+
+    else html = chatMessageButton({
+      action: actionFromLabel(e.label),
+      value: e.value,
+      originUuid: origin,
+      targetId: target
+    });
+    
+    finalHtml += html;
+  })
+  
+  return finalHtml;
 }

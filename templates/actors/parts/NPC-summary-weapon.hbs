@@ -2,20 +2,20 @@
     
     {{!-- Title --}}
     {{#if item.needTargets}}<label class="item-button" data-action="targeted-use" data-item-id="{{item._id}}" 
-        title="{{localize "WW.Roll.Targeting.AttackTargeted"}}">{{item.name}}</label>
+        title="{{localize "WW.Targeting.AttackTargeted"}}">{{item.name}}</label>
     {{else if item.isActivity}}<label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-        title="{{localize "WW.Roll.Targeting.AttackUntargeted"}}">{{item.name}}</label>
+        title="{{localize "WW.Targeting.AttackUntargeted"}}">{{item.name}}</label>
     {{else}}<label>{{item.name}}</label>{{/if}}
 
     <span class="buttons">
         
         {{!-- Use Buttons --}}
         <a class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
-            title="{{localize "WW.Roll.Targeting.AttackTargeted"}}">
+            title="{{localize "WW.Targeting.AttackTargeted"}}">
         <i class="fas fa-bullseye"></i></a>
 
         <a class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-            title="{{localize "WW.Roll.Targeting.AttackUntargeted"}}">
+            title="{{localize "WW.Targeting.AttackUntargeted"}}">
         <i class="fas fa-bolt"></i></a>
 
         {{!-- Toggle Reloaded --}}
