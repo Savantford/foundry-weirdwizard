@@ -87,9 +87,6 @@ Hooks.once('init', function () {
   CONFIG.Item.dataModels['Trait or Talent'] = TalentData;
   CONFIG.Item.dataModels.Spell = SpellData;
 
-  // Register custom Object classes
-  CONFIG.Token.objectClass = WWToken;
-
   // Register custom Combat Tracker
   CONFIG.ui.combat = WWCombatTracker;
 
@@ -98,6 +95,9 @@ Hooks.once('init', function () {
   
   // Disable legacy pre-V11 behavior of item effects being stored on actor.effects. Use actor.appliedEffects instead for all effects
   CONFIG.ActiveEffect.legacyTransferral = false;
+
+  // Register custom Object classes (placeables)
+  CONFIG.Token.objectClass = WWToken;
 
   // Define token resources/bars
   CONFIG.Actor.trackableAttributes = {

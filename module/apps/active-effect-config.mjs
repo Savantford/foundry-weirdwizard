@@ -97,19 +97,41 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     html.find('.key > select').change((ev) => this._updateValueInput(ev, this.document));
     html.find('select[name=selectedDuration]').change((ev) => this._updateDurationProperties(ev, this.document));
 
+    // Close window when Submit is clicked
+    html.find('button[type=submit]').click((ev) => this.close());
+
   }
 
   async _updateObject(event, formData) { // Update actor data.
-    super._updateObject(event, formData)
+    //super._updateObject(event, formData); // Triggering an infinite loop
+
+    /*const wwflags = this.flags.weirdwizard;
+
+    // Set external flag if it does not exist. Must have a non-passive trigger flag set and a different parent UUID
+    if (!wwflags?.external && wwflags?.trigger != 'passive' && this.origin && !this.origin.includes(this.parent.uuid)) {
+      this.setFlag('weirdwizard', 'external', true)
+    }*/
     
-    // Set needed flags
-    this.document.setFlag('weirdwizard', 'trigger', formData.trigger);
+    /*this.document.setFlag('weirdwizard', 'trigger', formData.trigger);
     this.document.setFlag('weirdwizard', 'target', formData.target);
-    this.document.setFlag('weirdwizard', 'selectedDuration', formData.selectedDuration);
-    this.document.setFlag('weirdwizard', 'autoDelete', formData.autoDelete);
+    this.document.setFlag('weirdwizard', 'selectedDuration', formData.selectedDuration ? formData.selectedDuraation : '');
+    this.document.setFlag('weirdwizard', 'autoDelete', formData.autoDelete ? formData.autoDelete : true);
     this.document.setFlag('weirdwizard', 'durationInMinutes', formData.durationInMinutes);
     this.document.setFlag('weirdwizard', 'durationInHours', formData.durationInHours);
-    this.document.setFlag('weirdwizard', 'durationInDays', formData.durationInDays);
+    this.document.setFlag('weirdwizard', 'durationInDays', formData.durationInDays);*/
+
+    // Set needed flags
+    formData.flags = {
+      weirdwizard: {
+        'trigger': formData.trigger,
+        'target': formData.target,
+        'selectedDuration': formData.selectedDuration ? formData.selectedDuration : '',
+        'autoDelete': formData.autoDelete ? formData.autoDelete : true,
+        'durationInMinutes': formData.durationInMinutes,
+        'durationInHours': formData.durationInHours,
+        'durationInDays': formData.durationInDays
+      }
+    }
 
     switch (formData.selectedDuration) {
       case 'minutes': formData.duration = { seconds: formData.durationInMinutes * 3600 }; break;
