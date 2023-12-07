@@ -2,25 +2,29 @@ import { i18n, formatTime } from '../helpers/utils.mjs';
 
 export default class WWActiveEffect extends ActiveEffect {
 
-  prepareData() {
-    super.prepareData();
+  async _preCreate(data, options, user) {
+
+    // Create basic flags
+    const obj = {
+      selectedDuration: '',
+      autoDelete: true,
+      external: false
+    };
 
     const wwflags = this.flags.weirdwizard;
 
     // Set external flag if it does not exist. Must have a non-passive trigger flag set and a different parent UUID
     if (!wwflags?.external && wwflags?.trigger != 'passive' && this.origin && !this.origin.includes(this.parent.uuid)) {
-      this.setFlag('weirdwizard', 'external', true)
+      obj.external = true;
     }
+    
+    await this.updateSource({ flags: obj });
 
-    // Set selectedDuration flag to '' if undefined
-    if (!wwflags?.selectedDuration === undefined) {
-      this.setFlag('weirdwizard', 'selectedDuration', '')
-    }
+    return await super._preCreate(data, options, user);
+  }
 
-    // Set autoDelete flag to true if undefined
-    if (!wwflags?.autoDelete === undefined) {
-      this.setFlag('weirdwizard', 'autoDelete', true)
-    }
+  prepareData() {
+    super.prepareData();
     
   }
 

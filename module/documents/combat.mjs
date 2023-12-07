@@ -372,7 +372,7 @@ export default class WWCombat extends Combat {
     }
 
     // Update Status Icons
-    this.combatants.forEach(c => c.token.object.updateStatusIcons());
+    this.combatants.forEach(c => c.token?.object?.updateStatusIcons());
   }
 
   /* -------------------------------------------- */
