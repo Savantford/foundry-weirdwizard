@@ -492,7 +492,8 @@
         "Edit": "Edit Effect",
         "Delete": "Delete Effect",
         "New": "New Effect",
-        "ToApply": "Effect to Apply",
+        "Changes": "Changes",
+        "ToApply": "Effect Changes to Apply",
         "Value": "Value",
         "Priority": {
             "Auto": "Auto (Mode x 10)",

@@ -87,7 +87,7 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
   }
 
   activateListeners(html) {
-    super.activateListeners(html)
+    super.activateListeners(html);
     // Change the duration in rounds based on seconds and vice-versa
     // const inputSeconds = html.find('input[name='duration.seconds']')
     // const inputRounds = html.find('input[name='duration.rounds']')
@@ -103,7 +103,7 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
   }
 
   async _updateObject(event, formData) { // Update actor data.
-    //super._updateObject(event, formData); // Triggering an infinite loop
+    super._updateObject(event, formData); // Triggering an infinite loop
 
     /*const wwflags = this.flags.weirdwizard;
 
