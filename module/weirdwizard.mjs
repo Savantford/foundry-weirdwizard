@@ -273,10 +273,6 @@ Hooks.once('setup', function () {
 /*  Chat Hooks                                  */
 /* -------------------------------------------- */
 
-Hooks.on('renderChatLog', (app, html, _data) => {
-  initChatListeners(html);
-})
-
 Hooks.on('renderChatMessage', (app, html) => {
 
   // Remove html elements meant for owners or non-owners only
@@ -285,6 +281,9 @@ Hooks.on('renderChatMessage', (app, html) => {
   } else {
     html.find('.non-owner-only').remove();
   }
+
+  // Initialize chat message listeners
+  initChatListeners(html, app);
 
 })
 

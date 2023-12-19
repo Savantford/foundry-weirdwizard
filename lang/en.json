@@ -577,6 +577,14 @@
             "Intellect": "Boons to rolls against your Intellect +",
             "Will": "Boons to rolls against your Will +"
         },
+        "BanesAgainst": {
+            "Header": "Grant Banes on rolls against self",
+            "Defense": "Banes to rolls against your Defense +",
+            "Strength": "Banes to rolls against your Strength +",
+            "Agility": "Banes to rolls against your Agility +",
+            "Intellect": "Banes to rolls against your Intellect +",
+            "Will": "Banes to rolls against your Will +"
+        },
         "ExtraDamage": {
             "Header": "Grant Extra Damage to Attacks",
             "Dice": "Increase the number of extra Damage dice by",

@@ -573,6 +573,31 @@ WW.effOptions = {
       }
     }
   },
+  banesAgainst: {
+    header: 'WW.EffectKeys.BanesAgainst.Header',
+    options: {
+      'banesAgainst.def': {
+        key: 'system.boons.against.def',
+        label: 'WW.EffectKeys.BanesAgainst.Defense'
+      },
+      'banesAgainst.str': {
+        key: 'system.boons.against.str',
+        label: 'WW.EffectKeys.BanesAgainst.Strength'
+      },
+      'banesAgainst.agi': {
+        key: 'system.boons.against.agi',
+        label: 'WW.EffectKeys.BanesAgainst.Agility'
+      },
+      'banesAgainst.int': {
+        key: 'system.boons.against.int',
+        label: 'WW.EffectKeys.BanesAgainst.Intellect'
+      },
+      'banesAgainst.wil': {
+        key: 'system.boons.against.wil',
+        label: 'WW.EffectKeys.BanesAgainst.Will'
+      }
+    }
+  },
   extraDamage: {
     header: 'WW.EffectKeys.ExtraDamage.Header',
     options: {

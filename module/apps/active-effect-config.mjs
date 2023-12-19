@@ -73,6 +73,8 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     let i = 0;
 
     for (const c of context.data.changes) {
+      console.log(c)
+      console.log(effChanges)
       const change = c.key.split('.').reduce((o, i) => o[i], effChanges);
       
       context.data.changes[i] = {
