@@ -1,6 +1,5 @@
 import { chatMessageButton, diceTotalHtml } from './chat-html-templates.mjs';
 import WWRoll from '../dice/roll.mjs';
-import GridTemplate from '../canvas/grid-template.mjs';
 
 /* -------------------------------------------- */
 /*  Chat methods                                */
@@ -13,10 +12,13 @@ import { RollDamage } from '../apps/roll-damage.mjs';
 
 //const tokenManager = new TokenManager()
 
-export function initChatListeners(html) {
+export function initChatListeners(html, app) {
   
-  // Chat Message Button Handler
-  html.on('click', '.chat-button', _onChatMessageButtonClick.bind(this));
+  // Handle chat Message Button left click
+  html.on('click', '.chat-button[data-action*=roll]', _onChatMessageButtonClick);
+
+  // Handle chat Message Button right click context menu
+  new ContextMenu(html, '.chat-button[data-action*=apply]', [], { onOpen: _onChatMessageButtonContext.bind(app), eventName:'click' });
 
   /*html.on('click', '.apply-effect', _onChatApplyEffect.bind(this))
   html.on('click', '.use-talent', _onChatUseTalent.bind(this))
@@ -30,7 +32,7 @@ export function initChatListeners(html) {
 /** 
  * Called when a chat message button is clicked.
  */
-async function _onChatMessageButtonClick (event) {
+async function _onChatMessageButtonClick(event) {
 
   event.preventDefault()
   const button = event.currentTarget,
@@ -45,13 +47,13 @@ async function _onChatMessageButtonClick (event) {
     case 'roll-health-recovery': _onChatRoll(dataset, 'WW.InstantEffect.HealthRecoverOf', 'apply-health-recovery'); break;
 
     // Instant Effect Apply
-    case 'apply-damage': _onChatApply(dataset); break;
+    /*case 'apply-damage': _onChatApply(dataset); break;
     case 'apply-damage-half': _onChatApply(dataset); break;
     case 'apply-damage-double': _onChatApply(dataset); break;
     case 'apply-healing': _onChatApply(dataset); break;
     case 'apply-health-loss': _onChatApply(dataset); break;
     case 'apply-health-recovery': _onChatApply(dataset); break;
-    case 'apply-affliction': _onChatApplyAffliction(dataset); break;
+    case 'apply-affliction': _onChatApplyAffliction(dataset); break;*/
 
     // Other events
     //case 'place-template': _onChatPlaceTemplate(dataset); break;
@@ -59,6 +61,111 @@ async function _onChatMessageButtonClick (event) {
   }
   
 }
+
+/**
+  * Handle opening of a context menu.
+  * @param {HTMLElement} element     The element the menu opens on.
+*/
+function _onChatMessageButtonContext(element) {
+
+  // Get variables
+  const target = element.dataset.targetId ? game.actors.tokens[element.dataset.targetId] : null;
+  const user = game.user;
+  const character = user.character;
+
+  function applyEffect(dataset, target) {
+    
+    const value = dataset.value;
+    
+    switch (dataset.action) {
+      case 'apply-damage': target.applyDamage(value); break;
+      case 'apply-damage-half': target.applyDamage(Math.floor(value/2)); break;
+      case 'apply-damage-double': target.applyDamage(2*value); break;
+      case 'apply-healing': target.applyHealing(value); break;
+      case 'apply-health-loss': target.applyHealthLoss(value); break;
+      case 'apply-health-recovery': target.applyHealthRecovery(value); break;
+      
+    }
+  }
+  
+  // Reset context menu items
+  ui.context.menuItems = [];
+  const menuItems = [];
+  
+  // Assign a target if it exists
+  if (target) {
+    menuItems.push({
+      name: target.name,
+      icon: iconToHTML(target.img, target.uuid),
+      group: 'target',
+      uuid: target.uuid,
+      callback: li => applyEffect(element.dataset, target)
+    })
+  }
+
+  // Assign a character if it exists
+  if (character && (!menuItems.find(o => o.uuid === character.uuid))) {
+    
+    menuItems.push({
+      name: character.name,
+      icon: iconToHTML(character.img, character.uuid),
+      group: 'character',
+      uuid: character.uuid,
+      callback: li => applyEffect(element.dataset, character)
+    })
+  }
+  
+  // Add synthetic actors in the current scene
+  for (const id in game.actors.tokens) {
+    const actor = game.actors.tokens[id];
+    
+    if (actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
+      name: actor.name,
+      icon: iconToHTML(actor.img, actor.uuid),
+      group: 'tokens',
+      uuid: actor.uuid,
+      callback: li => applyEffect(element.dataset, actor)
+    });
+  
+  }
+
+  // Add actors in the actor tab
+  for (const actor of game.actors) {
+
+    if (actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) {
+      
+      menuItems.push({
+        name: actor.name,
+        icon: iconToHTML(actor.img, actor.uuid),
+        group: 'actors',
+        uuid: actor.uuid,
+        callback: li => applyEffect(element.dataset, actor)
+      })  
+      
+    }
+  }
+
+  ui.context.menuItems = menuItems;
+
+  /*switch (ctx) {
+    case "equipped":
+      const id = element.closest("[data-item-id]")?.dataset.itemId;
+      const item = this.document.items.get(id);
+      ui.context.menuItems = [{
+        name: "ARTICHRON.EditItem",
+        icon: "<i class='fa-solid fa-edit'></i>",
+        condition: () => !!item,
+        callback: () => item.sheet.render(true)
+      }, {
+        name: "ARTICHRON.ChangeItem",
+        icon: "<i class='fa-solid fa-shield'></i>",
+        callback: this._onChangeItem.bind(this, element)
+      }];
+      break;
+  }*/
+}
+
+function iconToHTML(icon, id) { return `<img src="${icon}" data-tooltip="ID: ${id}" />`}
 
 /* -------------------------------------------- */
 /*  Chat Roll function                          */
@@ -94,7 +201,7 @@ async function _onChatRoll(dataset, label, nextAction) {
     sound: CONFIG.sounds.dice,
     'flags.weirdwizard': {
       item: data.item?.uuid,
-      rollHtml: rollHtml + (dataset.targetId ? chatMessageButton(dataset) : ''), // Hide buttons from untargeted rolls
+      rollHtml: rollHtml + chatMessageButton(dataset),
       emptyContent: true
     }
   };

@@ -129,9 +129,6 @@ export class RollDamage extends FormApplication {
       targetId: this.target?.id
     }
 
-    /*content += '<div class="apply-damage chat-button" data-token-id="' + await tid + '" data-damage="' + await r.total +
-      '"><i class="fas fa-burst"></i>' + i18n('WW.Roll.DamageApply') + ' ' + tname + '</div>';*/
-    
     // Prepare roll
     const r = await new WWRoll(this.finalExp).evaluate({async:true});
     dataset.value = await r.total;
@@ -147,7 +144,7 @@ export class RollDamage extends FormApplication {
       sound: CONFIG.sounds.dice,
       'flags.weirdwizard': {
         item: this.item?.uuid,
-        rollHtml: rollHtml + (dataset.targetId ? chatMessageButtonArray(dataset) : ''), // Hide buttons from untargeted rolls
+        rollHtml: rollHtml + chatMessageButtonArray(dataset),
         emptyContent: true
       }
     };

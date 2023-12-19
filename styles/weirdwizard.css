@@ -839,10 +839,6 @@
 }
 
 /* Lists */
-.weirdwizard .item-button {
-  cursor: pointer;
-}
-
 .weirdwizard .item-button:hover {
   cursor: pointer;
 }
@@ -2007,6 +2003,73 @@ form.quest-calendar {
 .weirdwizard.chat-message .message-metadata {
   flex: 2;
   justify-content: end;
+}
+
+.chat-button #context-menu {
+  overflow-x: clip;
+  overflow-y: auto;
+  max-height: 50vh;
+  padding: 5px 0;
+}
+
+.chat-button[data-action="apply-damage-double"] #context-menu,
+.chat-button[data-action="apply-healing"] #context-menu {
+  left: auto;
+  right: 0;
+}
+
+.chat-button #context-menu li.context-group > ol > li:not(:first-child) {
+  margin-top: 5px;
+}
+
+.chat-button #context-menu .context-items {
+  white-space: nowrap;
+}
+
+.chat-button #context-menu li.context-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 5px;
+  line-height: normal;
+}
+
+.chat-button #context-menu li.context-item:hover {
+  background: rgba(var(--highlight-title-rgb), 0.5);
+}
+
+.chat-button #context-menu img {
+  height: 20px;
+  border-radius: 50%;
+}
+
+.chat-button .context-group::before {
+  font-family: "Font Awesome 6 Pro";
+  font-weight: 900;
+}
+
+.chat-button .context-group[data-group-id="target"]::before {
+  content: "\f140";
+}
+
+.chat-button .context-group[data-group-id="character"]::before {
+  content: "\f007";
+}
+
+.chat-button .context-group[data-group-id="tokens"]::before {
+  content: "\e595";
+}
+
+.chat-button .context-group[data-group-id="actors"]::before {
+  content: "\f0c0";
+}
+
+.chat-button .context-group:not(:first-child)::before {
+  display: inline-block;
+  width: calc(100% - 10px);
+  margin: 5px;
+  padding-top: 3px;
+  border-top: 1px solid dimgray;
 }
 
 /* Combat Tracker */

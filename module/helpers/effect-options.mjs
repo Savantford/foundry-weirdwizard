@@ -33,6 +33,14 @@ effChanges.boonsAgainst = {
   wil: addInt()
 }
 
+effChanges.banesAgainst = {
+  def: addInt(),
+  str: addInt(),
+  agi: addInt(),
+  int: addInt(),
+  wil: addInt()
+}
+
 effChanges.extraDamage = {
   dice: addInt(),
   mod: addInt()
