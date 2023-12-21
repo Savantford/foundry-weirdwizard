@@ -1,24 +1,26 @@
 import { chatMessageButton, diceTotalHtml } from './chat-html-templates.mjs';
 import WWRoll from '../dice/roll.mjs';
+import { i18n } from '../helpers/utils.mjs';
+import { RollDamage } from '../apps/roll-damage.mjs';
+import RollAttribute from '../apps/roll-attribute.mjs';
 
 /* -------------------------------------------- */
 /*  Chat methods                                */
 /* -------------------------------------------- */
 
-/*import {buildActorInfo, formatDice, getChatBaseData} from './base-messages'
-import {TokenManager} from '../pixi/token-manager'*/
-import { i18n } from '../helpers/utils.mjs';
-import { RollDamage } from '../apps/roll-damage.mjs';
+
 
 //const tokenManager = new TokenManager()
 
 export function initChatListeners(html, app) {
   
   // Handle chat Message Button left click
-  html.on('click', '.chat-button[data-action*=roll]', _onChatMessageButtonClick);
+  html.on('click', '.chat-button[data-action*=roll]', _onMessageButtonRoll);
+  html.on('click', '.enricher-roll', _onMessageButtonRoll);
 
   // Handle chat Message Button right click context menu
-  new ContextMenu(html, '.chat-button[data-action*=apply]', [], { onOpen: _onChatMessageButtonContext.bind(app), eventName:'click' });
+  new ContextMenu(html, '.chat-button[data-action*=apply]', [], { onOpen: _onMessageButtonContext.bind('apply'), eventName:'click' });
+  new ContextMenu(html, '.enricher-call', [], { onOpen: _onMessageButtonContext.bind('call'), eventName:'click' });
 
   /*html.on('click', '.apply-effect', _onChatApplyEffect.bind(this))
   html.on('click', '.use-talent', _onChatUseTalent.bind(this))
@@ -30,9 +32,9 @@ export function initChatListeners(html, app) {
 }
 
 /** 
- * Called when a chat message button is clicked.
+ * Handle roll started from a chat button.
  */
-async function _onChatMessageButtonClick(event) {
+function _onMessageButtonRoll(event) {
 
   event.preventDefault()
   const button = event.currentTarget,
@@ -45,33 +47,37 @@ async function _onChatMessageButtonClick(event) {
     case 'roll-healing': _onChatRoll(dataset, 'WW.InstantEffect.HealOf', 'apply-healing'); break;
     case 'roll-health-loss': _onChatRoll(dataset, 'WW.InstantEffect.HealthLoseOf', 'apply-health-loss'); break;
     case 'roll-health-recovery': _onChatRoll(dataset, 'WW.InstantEffect.HealthRecoverOf', 'apply-health-recovery'); break;
-
-    // Instant Effect Apply
-    /*case 'apply-damage': _onChatApply(dataset); break;
-    case 'apply-damage-half': _onChatApply(dataset); break;
-    case 'apply-damage-double': _onChatApply(dataset); break;
-    case 'apply-healing': _onChatApply(dataset); break;
-    case 'apply-health-loss': _onChatApply(dataset); break;
-    case 'apply-health-recovery': _onChatApply(dataset); break;
-    case 'apply-affliction': _onChatApplyAffliction(dataset); break;*/
-
-    // Other events
-    //case 'place-template': _onChatPlaceTemplate(dataset); break;
     
   }
   
 }
 
 /**
-  * Handle opening of a context menu.
+  * Handle opening of a context menu from a chat button.
   * @param {HTMLElement} element     The element the menu opens on.
 */
-function _onChatMessageButtonContext(element) {
+function _onMessageButtonContext(element) {
 
   // Get variables
   const target = element.dataset.targetId ? game.actors.tokens[element.dataset.targetId] : null;
   const user = game.user;
   const character = user.character;
+
+  function callRoll(dataset, target) {
+    
+    const { attribute, fixedBoons }  = dataset;
+    console.log(fixedBoons)
+    const obj = {
+      origin: target.uuid,
+      label: i18n(CONFIG.WW.rollAttributes[attribute]) + ' Roll',
+      content: '',
+      attKey: attribute,
+      fixedBoons: parseInt(fixedBoons)
+    }
+
+    new RollAttribute(obj).render(true);
+    
+  }
 
   function applyEffect(dataset, target) {
     
@@ -87,9 +93,13 @@ function _onChatMessageButtonContext(element) {
       
     }
   }
-  
-  // Reset context menu items
-  ui.context.menuItems = [];
+
+  function iconToHTML(icon, id) { return `<img src="${icon}" data-tooltip="ID: ${id}" />`}
+
+  function resolveAction({action, dataset, target}) {
+    return action === 'call' ? callRoll(dataset, target) : applyEffect(dataset, target);
+  }
+
   const menuItems = [];
   
   // Assign a target if it exists
@@ -99,7 +109,7 @@ function _onChatMessageButtonContext(element) {
       icon: iconToHTML(target.img, target.uuid),
       group: 'target',
       uuid: target.uuid,
-      callback: li => applyEffect(element.dataset, target)
+      callback: li => resolveAction({ action: this, dataset: element.dataset, target: target })
     })
   }
 
@@ -111,7 +121,7 @@ function _onChatMessageButtonContext(element) {
       icon: iconToHTML(character.img, character.uuid),
       group: 'character',
       uuid: character.uuid,
-      callback: li => applyEffect(element.dataset, character)
+      callback: li => resolveAction({ action: this, dataset: element.dataset, target: character })
     })
   }
   
@@ -124,7 +134,7 @@ function _onChatMessageButtonContext(element) {
       icon: iconToHTML(actor.img, actor.uuid),
       group: 'tokens',
       uuid: actor.uuid,
-      callback: li => applyEffect(element.dataset, actor)
+      callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
     });
   
   }
@@ -139,7 +149,7 @@ function _onChatMessageButtonContext(element) {
         icon: iconToHTML(actor.img, actor.uuid),
         group: 'actors',
         uuid: actor.uuid,
-        callback: li => applyEffect(element.dataset, actor)
+        callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
       })  
       
     }
@@ -164,8 +174,6 @@ function _onChatMessageButtonContext(element) {
       break;
   }*/
 }
-
-function iconToHTML(icon, id) { return `<img src="${icon}" data-tooltip="ID: ${id}" />`}
 
 /* -------------------------------------------- */
 /*  Chat Roll function                          */
@@ -452,7 +460,6 @@ async function _onChatMakeInitRoll(event) {
  * @return {Actor|null}         The Actor entity or null
  * @private
 */
-
 function _getActorFromOrigin(origin) {
 
   if (origin.documentName === 'Item') { // Case 1 - Origin is an Item

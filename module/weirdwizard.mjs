@@ -35,6 +35,7 @@ import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
 import { WWAfflictions } from './helpers/afflictions.mjs';
 import { expireFromTokens } from './helpers/effects.mjs';
 import { initChatListeners } from './chat/chat-listeners.mjs';
+import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
 import migrateWorld from './helpers/migrations.mjs';
 
@@ -274,6 +275,9 @@ Hooks.once('setup', function () {
 /* -------------------------------------------- */
 
 Hooks.on('renderChatMessage', (app, html) => {
+
+  // Add custom enrichers
+  addCustomEnrichers();
 
   // Remove html elements meant for owners or non-owners only
   if (!game.user.isOwner) {

@@ -27,13 +27,18 @@ export default class RollAttribute extends FormApplication {
     const attKey = obj.attKey;
     console.log(this.system.attributes[attKey])
 
-    // Assign label, name and fixed boons/banes
+    // Assign label, name, etc
     this.label = obj.label;
     this.content = obj.content;
     this.name = attKey == 'luck' ? 'Luck' : this.system.attributes[attKey].label;
     this.effectBoonsGlobal = this.system.boons.attributes[attKey].global ?
       this.system.boons.attributes[attKey].global : 0;
     this.attackBoons = this.system.boons.attacks.global;
+
+    // Get fixed boons
+    if (obj.fixedBoons) this.fixedBoons = obj.fixedBoons;
+    else if (this.item?.system?.boons) this.fixedBoons = this.item.system.boons;
+    else this.fixedBoons = 0;
     
     // Assign mod
     this.mod = this.system.attributes[attKey]?.mod ?
@@ -61,7 +66,7 @@ export default class RollAttribute extends FormApplication {
     // Pass data to application template.
     context.system = this.system;
     context.mod = this.mod;
-    context.fixedBoons = this.item?.system?.boons;
+    context.fixedBoons = this.fixedBoons;
     context.effectBoons = this.effectBoonsGlobal; // Conditional boons should be added here later
     context.attackBoons = this.attackBoons;
     context.targeted = this.action === 'targeted-use' ? true : false;
@@ -218,7 +223,7 @@ export default class RollAttribute extends FormApplication {
       const targetNo = 10;
 
       // Construct the Roll instance and evaluate the roll
-      let r = await new WWRoll(rollFormula, { targetNo: targetNo }).evaluate({async:true});
+      let r = await new WWRoll(rollFormula, { targetNo: targetNo }, { template: "systems/weirdwizard/templates/chat/roll.hbs" }).evaluate({async:true});
 
       // Set the roll order and color dice for DSN
       for (let i = 0; i < r.dice.length; i++) {
@@ -352,7 +357,7 @@ export default class RollAttribute extends FormApplication {
     const parent = ev.target.closest('.boons-details');
     let boonsFinal = context.boonsFinal;
     const against = context.against;
-    const fixedBoons = context.item?.system?.boons ? context.item.system.boons : 0;
+    const fixedBoons = context.fixedBoons;
     const applyAttackBoons = parent.querySelector('input[name=attack]:checked');
     const attackBoons = context.attackBoons;
     const effectBoons = context.effectBoonsGlobal; // Conditional boons should be added here later

@@ -1,7 +1,7 @@
 export const WW = {}
 
 // Define Constants
-WW.attributes = {
+WW.ATTRIBUTES = {
   'str': 'WW.Strength',
   'agi': 'WW.Agility',
   'int': 'WW.Intellect',

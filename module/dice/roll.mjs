@@ -4,7 +4,7 @@ export default class WWRoll extends Roll {
    * @override
    * @type {string}
    */
-  static CHAT_TEMPLATE = "systems/weirdwizard/templates/chat/roll.hbs";
+  //static CHAT_TEMPLATE = "systems/weirdwizard/templates/chat/roll.hbs";
   
   /**
    * Render a Roll instance to HTML
@@ -29,6 +29,8 @@ export default class WWRoll extends Roll {
       terms: await this.terms,
       outcome: this.outcome
     };
+    
+    if (this.options?.template) template = this.options.template;
 
     return renderTemplate(template, chatData);
   }

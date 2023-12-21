@@ -40,13 +40,22 @@ export default class WWChatMessage extends ChatMessage {
 
     // Determine some metadata
     const data = this.toObject(false);
-    data.content = await TextEditor.enrichHTML(this.content, {async: true, rollData: this.getRollData()});
-    const isWhisper = this.whisper.length;
     const itemUuid = (data.flags?.weirdwizard?.item && (typeof data.flags?.weirdwizard?.item === 'string')) ? data.flags.weirdwizard.item : null;
     const item = await fromUuid(itemUuid);
+    const isWhisper = this.whisper.length;
 
-    const rollHtml = data.flags?.weirdwizard?.rollHtml ? data.flags.weirdwizard.rollHtml : '';
+    // Prepare content
     const emptyContent = data.flags?.weirdwizard?.emptyContent ?? data.flags?.weirdwizard?.emptyContent;
+    
+    data.content = await TextEditor.enrichHTML(this.content, {
+      async: true,
+      rollData: this.getRollData(),
+      relativeTo: item ? item : undefined
+    });
+
+    // Prepare rollHtml
+    const rollHtml = data.flags?.weirdwizard?.rollHtml ? data.flags.weirdwizard.rollHtml : '';
+    
 
     // Prepare weapon properties list
     if (item) {
@@ -112,10 +121,9 @@ export default class WWChatMessage extends ChatMessage {
     };
 
     // Render message data specifically for ROLL type messages
-    // This is making the Roll being rendered twice and thus losing data
-    /*if ( this.isRoll ) {
+    if ( this.isRoll ) { // This was making the Roll being rendered twice and thus losing data. No longer true?
       await this._renderRollContent(messageData);
-    }*/
+    }
 
     // Define a border color
     if ( this.type === CONST.CHAT_MESSAGE_TYPES.OOC ) {
@@ -127,8 +135,9 @@ export default class WWChatMessage extends ChatMessage {
     html = $(html);
 
     // Flag expanded state of dice rolls
-    //if ( this._rollExpanded ) html.find(".dice-tooltip").addClass("expanded");
+    if ( this._rollExpanded ) html.find(".dice-tooltip").addClass("expanded");
     Hooks.call("renderChatMessage", this, html, messageData);
+
     return html;
   }
 

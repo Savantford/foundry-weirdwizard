@@ -64,7 +64,7 @@ export default class WWActorSheet extends ActorSheet {
 
     // Localize attribute names
     for (let [k, v] of Object.entries(context.system.attributes)) {
-      v.label = i18n(CONFIG.WW.attributes[k] ?? k);
+      v.label = i18n(CONFIG.WW.ATTRIBUTES[k] ?? k);
     }
 
     // Prepare common data
@@ -149,7 +149,7 @@ export default class WWActorSheet extends ActorSheet {
         i.system.attributeLabel = i18n('WW.Luck') + ' (+0)';
       } else if (i.system.attribute) {
         const attribute = context.system.attributes[i.system.attribute];
-        const name = i18n(CONFIG.WW.attributes[i.system.attribute]);
+        const name = i18n(CONFIG.WW.ATTRIBUTES[i.system.attribute]);
         i.system.attributeLabel = name + ' (' + plusify(attribute.mod) + ')'
       }
 
@@ -476,7 +476,7 @@ export default class WWActorSheet extends ActorSheet {
 
     let content = '';
 
-    let obj = {
+    const obj = {
       origin: origin,
       label: label,
       content: content,
