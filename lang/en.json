@@ -475,6 +475,13 @@
             "LoseHealth": "Lose Health",
             "RecoverHealth": "Recover Health"
         },
+        "Roll": {
+            "Label": "Roll",
+            "Damage": "damage",
+            "Healed": "healed damage",
+            "Lost": "lost Health",
+            "Recovered": "recovered Health"
+        },
         "Apply": {
             "Took": "took",
             "DamageLc": "damage",

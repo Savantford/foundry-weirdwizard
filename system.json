@@ -32,6 +32,13 @@
   ],
   "packs": [
     {
+      "name": "docs",
+      "label": "System Documentation",
+      "system": "weirdwizard",
+      "path": "packs/docs.db",
+      "type": "JournalEntry"
+    },
+    {
       "name": "weapons",
       "label": "Weapons",
       "system": "weirdwizard",

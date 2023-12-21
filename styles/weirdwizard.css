@@ -1702,8 +1702,20 @@ form.quest-calendar {
 
 /* ---------------------------- Foundry UI Overrides -----------------------------*/
 
+/* Enrichers */
+
 .inline-roll > i {
   display: inline;
+}
+
+[class*="enricher-"] {
+  color: var(--highlight-title);
+  font-weight: 900;
+}
+
+[class*="enricher-"]:focus,
+[class*="enricher-"]:hover {
+  color: black;
 }
 
 /* Top Left Bars */
@@ -1859,9 +1871,12 @@ form.quest-calendar {
   color: black;
 }
 
+/* Other Chat Message Styles */
+
 .weirdwizard .message-content {
-  display: flex;
+  /*display: flex;
   flex-direction: column;
+  this was breaking the layout*/
   background: rgba(0, 0, 0, 0.1);
   border-radius: 3px;
   padding: 5px;
@@ -2005,11 +2020,17 @@ form.quest-calendar {
   justify-content: end;
 }
 
-.chat-button #context-menu {
+.chat-button #context-menu,
+.enricher-call #context-menu {
   overflow-x: clip;
   overflow-y: auto;
   max-height: 50vh;
   padding: 5px 0;
+  border-radius: 5px;
+  text-shadow: none;
+  font-weight: normal;
+  text-align: center;
+  font-size: var(--font-size-12);
 }
 
 .chat-button[data-action="apply-damage-double"] #context-menu,
@@ -2018,15 +2039,18 @@ form.quest-calendar {
   right: 0;
 }
 
-.chat-button #context-menu li.context-group > ol > li:not(:first-child) {
+.chat-button #context-menu li.context-group > ol > li:not(:first-child),
+.enricher-call #context-menu li.context-group > ol > li:not(:first-child) {
   margin-top: 5px;
 }
 
-.chat-button #context-menu .context-items {
+.chat-button #context-menu .context-items,
+.enricher-call #context-menu .context-items {
   white-space: nowrap;
 }
 
-.chat-button #context-menu li.context-item {
+.chat-button #context-menu li.context-item,
+.enricher-call #context-menu li.context-item {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -2034,37 +2058,45 @@ form.quest-calendar {
   line-height: normal;
 }
 
-.chat-button #context-menu li.context-item:hover {
+.chat-button #context-menu li.context-item:hover,
+.enricher-call #context-menu li.context-item:hover {
   background: rgba(var(--highlight-title-rgb), 0.5);
 }
 
-.chat-button #context-menu img {
+.chat-button #context-menu img,
+.enricher-call #context-menu img {
   height: 20px;
   border-radius: 50%;
 }
 
-.chat-button .context-group::before {
+.chat-button .context-group::before,
+.enricher-call .context-group::before {
   font-family: "Font Awesome 6 Pro";
   font-weight: 900;
 }
 
-.chat-button .context-group[data-group-id="target"]::before {
+.chat-button .context-group[data-group-id="target"]::before,
+.enricher-call .context-group[data-group-id="target"]::before {
   content: "\f140";
 }
 
-.chat-button .context-group[data-group-id="character"]::before {
+.chat-button .context-group[data-group-id="character"]::before,
+.enricher-call .context-group[data-group-id="character"]::before {
   content: "\f007";
 }
 
-.chat-button .context-group[data-group-id="tokens"]::before {
+.chat-button .context-group[data-group-id="tokens"]::before,
+.enricher-call .context-group[data-group-id="tokens"]::before {
   content: "\e595";
 }
 
-.chat-button .context-group[data-group-id="actors"]::before {
+.chat-button .context-group[data-group-id="actors"]::before,
+.enricher-call .context-group[data-group-id="actors"]::before {
   content: "\f0c0";
 }
 
-.chat-button .context-group:not(:first-child)::before {
+.chat-button .context-group:not(:first-child)::before,
+.enricher-call .context-group:not(:first-child)::before {
   display: inline-block;
   width: calc(100% - 10px);
   margin: 5px;

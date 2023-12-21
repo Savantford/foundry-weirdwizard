@@ -38,13 +38,13 @@ export default class WWItemSheet extends ItemSheet {
     context.system = context.data.system;
 
     // Prepare enriched variables for editor
-    context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true })
+    context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true, relativeTo: this.document })
     
     if (context.item.type == 'Equipment' && context.item.system.subtype == 'weapon' && context.system.attackRider.value) {
       context.system.attackRider.enriched = await TextEditor.enrichHTML(context.system.attackRider.value, { async: true })
     }
 
-    context.system.attributeLabel = CONFIG.WW.attributes[context.system.attribute];
+    context.system.attributeLabel = CONFIG.WW.ATTRIBUTES[context.system.attribute];
 
     // Prepare common dropdown menu objects
     context.attributesObj = CONFIG.WW.rollAttributes;
