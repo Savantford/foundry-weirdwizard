@@ -140,7 +140,11 @@ export default class WWActiveEffect extends ActiveEffect {
    * @type {string}
   */
   get trigger() {
-    const trigger = this.flags.weirdwizard?.trigger ?? 'passive';
+    let trigger = this.flags.weirdwizard?.trigger ?? 'passive';
+
+    // If the effect has a duration, do not allow it to be passive
+    if ((this.duration.rounds || this.duration.seconds) && trigger === 'passive') trigger = 'onUse';
+
     return typeof trigger === 'string' ? trigger : 'passive';
   }
 
@@ -191,7 +195,7 @@ export default class WWActiveEffect extends ActiveEffect {
 
     // Save label key and get real change key
     const labelKey = change.key;
-    change.key = CONFIG.WW.effectChangeKeys[change.key];
+    change.key = CONFIG.WW.EFFECT_CHANGE_KEYS[change.key];
 
     // Determine the data type of the target field
     const current = foundry.utils.getProperty(actor, change.key) ?? null;

@@ -30,16 +30,19 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
       }
     };
 
+    const doc = this.document;
+    console.log(doc)
+
     const data = {
       labels,
-      effect: this.document, // Backwards compatibility
-      data: this.document,
-      trigger: this.document.trigger,
-      target: this.document.target,
-      triggers: CONFIG.WW.effectTriggers,
-      targets: CONFIG.WW.effectTargets,
-      isActorEffect: this.document.parent.documentName === 'Actor',
-      isItemEffect: this.document.parent.documentName === 'Item',
+      effect: doc, // Backwards compatibility
+      data: doc,
+      trigger: doc.trigger,
+      target: doc.target,
+      triggers: (doc.duration.rounds || doc.duration.seconds) ? CONFIG.WW.INSTANT_TRIGGERS : CONFIG.WW.EFFECT_TRIGGERS, // Use instant triggers if effect has a duration
+      targets: CONFIG.WW.EFFECT_TARGETS,
+      isActorEffect: doc.parent.documentName === 'Actor',
+      isItemEffect: doc.parent.documentName === 'Item',
       submitText: 'EFFECT.Submit',
       modes: Object.entries(CONST.ACTIVE_EFFECT_MODES).reduce((obj, e) => {
         obj[e[1]] = game.i18n.localize(`EFFECT.MODE_${e[0]}`);
@@ -52,16 +55,16 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
 
     // Prepare enriched description
-    context.descriptionHTML = await TextEditor.enrichHTML(this.document.description, {async: true, secrets: this.document.isOwner});
+    context.descriptionHTML = await TextEditor.enrichHTML(doc.description, {async: true, secrets: doc.isOwner});
 
     // Prepare durationSelect dropdown
     context.durationOptions = CONFIG.WW.EFFECT_DURATIONS;
 
     // Pass down durations to display
-    context.formattedStartTime = formatTime(this.document.duration.startTime,1);
+    context.formattedStartTime = formatTime(doc.duration.startTime,1);
 
     // Prepare Effect Options to display on key dropdown menu
-    const optionsObj = deepClone(CONFIG.WW.effOptions);
+    const optionsObj = deepClone(CONFIG.WW.EFFECT_OPTIONS);
     
     for (const [key, value] of Object.entries(optionsObj)) {
       optionsObj[key].options = Object.entries(optionsObj[key].options).reduce((all,[k,data]) => { all[k] = data.label; return all; }, {});
@@ -73,8 +76,7 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     let i = 0;
 
     for (const c of context.data.changes) {
-      console.log(c)
-      console.log(effChanges)
+      
       const change = c.key.split('.').reduce((o, i) => o[i], effChanges);
       
       context.data.changes[i] = {
@@ -113,14 +115,6 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     if (!wwflags?.external && wwflags?.trigger != 'passive' && this.origin && !this.origin.includes(this.parent.uuid)) {
       this.setFlag('weirdwizard', 'external', true)
     }*/
-    
-    /*this.document.setFlag('weirdwizard', 'trigger', formData.trigger);
-    this.document.setFlag('weirdwizard', 'target', formData.target);
-    this.document.setFlag('weirdwizard', 'selectedDuration', formData.selectedDuration ? formData.selectedDuraation : '');
-    this.document.setFlag('weirdwizard', 'autoDelete', formData.autoDelete ? formData.autoDelete : true);
-    this.document.setFlag('weirdwizard', 'durationInMinutes', formData.durationInMinutes);
-    this.document.setFlag('weirdwizard', 'durationInHours', formData.durationInHours);
-    this.document.setFlag('weirdwizard', 'durationInDays', formData.durationInDays);*/
 
     // Set needed flags
     formData.flags = {
@@ -273,7 +267,7 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
   /* Initialization functions */
 
   static initializeChangeKeys() {
-    const refObj = CONFIG.WW.effOptions;
+    const refObj = CONFIG.WW.EFFECT_OPTIONS;
     let obj = {};
     
     for (const [key, value] of Object.entries(refObj)) {
@@ -284,12 +278,12 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
       }
     }
 
-    CONFIG.WW.effectChangeKeys = obj;
+    CONFIG.WW.EFFECT_CHANGE_KEYS = obj;
   }
 
   
   static initializeRealChangeKeys() {
-    const refObj = CONFIG.WW.effOptions;
+    const refObj = CONFIG.WW.EFFECT_OPTIONS;
     let obj = {};
     
     for (const [key, value] of Object.entries(refObj)) {
@@ -300,11 +294,11 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
       }
     }
     
-    CONFIG.WW.effectChangeKeys = obj;
+    CONFIG.WW.EFFECT_CHANGE_KEYS = obj;
   }
 
   static initializeChangeLabels() {
-    const refObj = CONFIG.WW.effOptions;
+    const refObj = CONFIG.WW.EFFECT_OPTIONS;
     let obj = {};
     
     for (const [key, value] of Object.entries(refObj)) {
@@ -315,7 +309,7 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
       }
     }
 
-    CONFIG.WW.effectChangeLabels = obj;
+    CONFIG.WW.EFFECT_CHANGE_LABELS = obj;
   }
 
   /*static initializeChangePriorities() { // No longer needed

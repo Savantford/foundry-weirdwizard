@@ -68,14 +68,14 @@ export default class WWItem extends Item {
     // Check if any Active Effect needs tokens as targets
     if (this.effects) {
       for (const e of this.effects) {
-        if (e.target == 'tokens') need = true;
+        if (e.target != 'none') need = true;
       }
     }
   
     // Check if any Active Effect needs tokens as targets
     if (this.system?.instant) {
       for (const e of this.system.instant) {
-        if (e.target == 'tokens') need = true;
+        if (e.target != 'none') need = true;
       }
     }
   

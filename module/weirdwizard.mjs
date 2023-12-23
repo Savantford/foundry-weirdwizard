@@ -112,6 +112,9 @@ Hooks.once('init', function () {
     }
   };
 
+  // Register Primary Token Attribute
+  //game.system.primaryTokenAttribute = 'system.stats.damage';
+
   // Register custom Roll subclass
   CONFIG.Dice.rolls.unshift(WWRoll);
 
@@ -249,6 +252,7 @@ Hooks.once('setup', function () {
   }*/
 
   const effects = WWAfflictions.buildAll();
+  console.log(effects)
 
   // Add the default status icons if the setting is not on
   /*if (!game.settings.get('weirdwizard', 'statusIcons')) {

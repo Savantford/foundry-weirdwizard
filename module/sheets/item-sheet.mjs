@@ -100,10 +100,10 @@ export default class WWItemSheet extends ItemSheet {
 
     instEffs.forEach((e,id) => {
       const obj = e;
-      obj.locLabel = CONFIG.WW.instantLabels[e.label];
-      obj.locTrigger = CONFIG.WW.instantTriggers[e.trigger];
-      obj.locTarget = CONFIG.WW.effectTargets[e.target];
-      obj.icon = CONFIG.WW.instantIcons[e.label];
+      obj.locLabel = CONFIG.WW.INSTANT_LABELS[e.label];
+      obj.locTrigger = CONFIG.WW.INSTANT_TRIGGERS[e.trigger];
+      obj.locTarget = CONFIG.WW.EFFECT_TARGETS[e.target];
+      obj.icon = CONFIG.WW.INSTANT_ICONS[e.label];
       
       instEffs[id] = obj;
     })
@@ -117,13 +117,13 @@ export default class WWItemSheet extends ItemSheet {
       const category = context.effects[cat];
       for (const e in category.effects) {
         const effect = category.effects[e];
-        effect.locTrigger = CONFIG.WW.instantTriggers[effect.trigger];
-        effect.locTarget = CONFIG.WW.effectTargets[effect.target];
+        effect.locTrigger = CONFIG.WW.INSTANT_TRIGGERS[effect.trigger];
+        effect.locTarget = CONFIG.WW.EFFECT_TARGETS[effect.target];
       }
     }
 
     // Prepare effect change labels to display
-    context.effectChangeLabels = CONFIG.WW.effectChangeLabels;
+    context.effectChangeLabels = CONFIG.WW.EFFECT_CHANGE_LABELS;
 
     // Pass down whether the item needs targets or not
     context.needTargets = this.document.needTargets;

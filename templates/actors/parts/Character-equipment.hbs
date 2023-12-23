@@ -46,7 +46,7 @@
         </li>
 
         {{#each weapons as |item id|}}
-        <li class="item flexrow flex-group-left">
+        <li class="item flexrow flex-group-left" data-item-id="{{item._id}}">
             {{!-- Icon --}}
             <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
 
@@ -124,7 +124,7 @@
         </li>
 
         {{#each equipment as |item id|}}
-        <li class="item flexrow">
+        <li class="item flexrow" data-item-id="{{item._id}}">
             {{!-- Icon --}}
             <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
 

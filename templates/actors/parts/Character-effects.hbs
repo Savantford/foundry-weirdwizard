@@ -29,24 +29,24 @@
   </div> --}}
 
   <div class="auto-grid-3">
-    {{> WWAffliction name="Blinded"      value=hasEffect.Blinded      label="WW.Blinded"     tooltip="WW.BlindedDesc"     }}
-    {{> WWAffliction name="Confused"     value=hasEffect.Confused     label="WW.Confused"    tooltip="WW.ConfusedDesc"    }}
-    {{> WWAffliction name="Controlled"   value=hasEffect.Controlled   label="WW.Controlled"  tooltip="WW.ControlledDesc"  }}
-    {{> WWAffliction name="Cursed"       value=hasEffect.Cursed       label="WW.Cursed"      tooltip="WW.CursedDesc"      }}
-    {{> WWAffliction name="Deafened"     value=hasEffect.Deafened     label="WW.Deafened"    tooltip="WW.DeafenedDesc"    }}
-    {{> WWAffliction name="Frightened"   value=hasEffect.Frightened   label="WW.Frightened"  tooltip="WW.FrightenedDesc"  }}
-    {{> WWAffliction name="Held"         value=hasEffect.Held         label="WW.Held"        tooltip="WW.HeldDesc"        }}
-    {{> WWAffliction name="ImpairedStr"  value=hasEffect.ImpairedStr  label="WW.ImpairedStr" tooltip="WW.ImpairedDesc"    }}
-    {{> WWAffliction name="ImpairedAgi"  value=hasEffect.ImpairedAgi  label="WW.ImpairedAgi" tooltip="WW.ImpairedDesc"    }}
-    {{> WWAffliction name="ImpairedInt"  value=hasEffect.ImpairedInt  label="WW.ImpairedInt" tooltip="WW.ImpairedDesc"    }}
-    {{> WWAffliction name="ImpairedWil"  value=hasEffect.ImpairedWil  label="WW.ImpairedWil" tooltip="WW.ImpairedDesc"    }}
-    {{> WWAffliction name="OnFire"       value=hasEffect.OnFire       label="WW.OnFire"      tooltip="WW.OnFireDesc"      }}
-    {{> WWAffliction name="Poisoned"     value=hasEffect.Poisoned     label="WW.Poisoned"    tooltip="WW.PoisonedDesc"    }}
-    {{> WWAffliction name="Prone"        value=hasEffect.Prone        label="WW.Prone"       tooltip="WW.ProneDesc"       }}
-    {{> WWAffliction name="Stunned"      value=hasEffect.Stunned      label="WW.Stunned"     tooltip="WW.StunnedDesc"     }}
-    {{> WWAffliction name="Unconscious"  value=hasEffect.Unconscious  label="WW.Unconscious" tooltip="WW.UnconsciousDesc" }}
-    {{> WWAffliction name="Asleep"       value=hasEffect.Asleep       label="WW.Asleep"      tooltip="WW.AsleepDesc"      }}
-    {{> WWAffliction name="Weakened"     value=hasEffect.Weakened     label="WW.Weakened"    tooltip="WW.WeakenedDesc"    }}
+    {{> WWAffliction name="Blinded"      value=hasEffect.Blinded      label="WW.Affliction.Blinded"     tooltip="WW.Affliction.BlindedDesc"     }}
+    {{> WWAffliction name="Confused"     value=hasEffect.Confused     label="WW.Affliction.Confused"    tooltip="WW.Affliction.ConfusedDesc"    }}
+    {{> WWAffliction name="Controlled"   value=hasEffect.Controlled   label="WW.Affliction.Controlled"  tooltip="WW.Affliction.ControlledDesc"  }}
+    {{> WWAffliction name="Cursed"       value=hasEffect.Cursed       label="WW.Affliction.Cursed"      tooltip="WW.Affliction.CursedDesc"      }}
+    {{> WWAffliction name="Deafened"     value=hasEffect.Deafened     label="WW.Affliction.Deafened"    tooltip="WW.Affliction.DeafenedDesc"    }}
+    {{> WWAffliction name="Frightened"   value=hasEffect.Frightened   label="WW.Affliction.Frightened"  tooltip="WW.Affliction.FrightenedDesc"  }}
+    {{> WWAffliction name="Held"         value=hasEffect.Held         label="WW.Affliction.Held"        tooltip="WW.Affliction.HeldDesc"        }}
+    {{> WWAffliction name="ImpairedStr"  value=hasEffect.ImpairedStr  label="WW.Affliction.ImpairedStr" tooltip="WW.Affliction.ImpairedDesc"    }}
+    {{> WWAffliction name="ImpairedAgi"  value=hasEffect.ImpairedAgi  label="WW.Affliction.ImpairedAgi" tooltip="WW.Affliction.ImpairedDesc"    }}
+    {{> WWAffliction name="ImpairedInt"  value=hasEffect.ImpairedInt  label="WW.Affliction.ImpairedInt" tooltip="WW.Affliction.ImpairedDesc"    }}
+    {{> WWAffliction name="ImpairedWil"  value=hasEffect.ImpairedWil  label="WW.Affliction.ImpairedWil" tooltip="WW.Affliction.ImpairedDesc"    }}
+    {{> WWAffliction name="OnFire"       value=hasEffect.OnFire       label="WW.Affliction.OnFire"      tooltip="WW.Affliction.OnFireDesc"      }}
+    {{> WWAffliction name="Poisoned"     value=hasEffect.Poisoned     label="WW.Affliction.Poisoned"    tooltip="WW.Affliction.PoisonedDesc"    }}
+    {{> WWAffliction name="Prone"        value=hasEffect.Prone        label="WW.Affliction.Prone"       tooltip="WW.Affliction.ProneDesc"       }}
+    {{> WWAffliction name="Stunned"      value=hasEffect.Stunned      label="WW.Affliction.Stunned"     tooltip="WW.Affliction.StunnedDesc"     }}
+    {{> WWAffliction name="Unconscious"  value=hasEffect.Unconscious  label="WW.Affliction.Unconscious" tooltip="WW.Affliction.UnconsciousDesc" }}
+    {{> WWAffliction name="Asleep"       value=hasEffect.Asleep       label="WW.Affliction.Asleep"      tooltip="WW.Affliction.AsleepDesc"      }}
+    {{> WWAffliction name="Weakened"     value=hasEffect.Weakened     label="WW.Affliction.Weakened"    tooltip="WW.Affliction.WeakenedDesc"    }}
   </div>
   {{!--
   <div class="dl-text-header-upper dl-underline-red dl-item-row-header" style="margin-top: 8px">
@@ -101,7 +101,7 @@
         <div class="item-image">
           <img src="{{effect.icon}}" width="24" height="24"/>
         </div>
-        <div class="item-name">{{effect.name}}</div>
+        <div class="item-name"><label>{{effect.name}}</label></div>
 
         <div class="effect-changes">
           {{#each effect.changes as |change|}}

@@ -64,6 +64,7 @@ export default class TargetingHUD extends Application {
         if (instEffs) {
         
           for (const t of game.user.targets) {
+            console.log(t)
             baseHtml[t.id] = addInstEffs(instEffs, origin, t.id);
           }
           

@@ -199,6 +199,7 @@ export default class WWActor extends Actor {
 
     // Assign Current Health to Max Damage for Token Bars
     system.stats.damage.max = system.stats.health.current;
+
   }
 
   async applyDamage(damage) {

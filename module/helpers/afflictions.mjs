@@ -6,8 +6,9 @@ const overridePriority = 150;
 
 const _buildBaseAffliction = (label, icon, changes = [], flags = {}) => ({
   id: label, // TODO: Check corrections here?
-  name: i18n('WW.' + label),
+  name: i18n('WW.Affliction.' + label),
   icon: icon,
+  description: label.includes('Impaired') ? i18n('WW.Affliction.ImpairedDesc') : i18n('WW.Affliction.' + label + 'Desc'),
   disabled: false,
   transfer: true,
   duration: {},

@@ -37,7 +37,7 @@ WW.dropdownNumbers = {
 }
 
 WW.rollAttributes = {
-  '': 'WW.Dont',
+  '': 'WW.Roll.Dont',
   'str': 'WW.Strength',
   'agi': 'WW.Agility',
   'int': 'WW.Intellect',
@@ -46,7 +46,7 @@ WW.rollAttributes = {
 }
 
 WW.rollAgainst = {
-  '': 'WW.DontAgainst',
+  '': 'WW.Roll.AgainstDefault',
   'def': 'WW.Defense.Label',
   'str': 'WW.Strength',
   'agi': 'WW.Agility',
@@ -378,7 +378,7 @@ WW.weaponDisadvantages = {
 
 /* Instant Effects */
 
-WW.instantLabels = {
+WW.INSTANT_LABELS = {
   'damage': 'WW.InstantEffect.Damage',
   'heal': 'WW.InstantEffect.Heal',
   'healthLose': 'WW.InstantEffect.HealthLose',
@@ -386,7 +386,7 @@ WW.instantLabels = {
   'affliction': 'WW.InstantEffect.Affliction'
 }
 
-WW.instantIcons = {
+WW.INSTANT_ICONS = {
   'damage': 'icons/svg/explosion.svg',
   'heal': 'icons/svg/heal.svg',
   'healthLose': 'icons/svg/degen.svg',
@@ -394,14 +394,14 @@ WW.instantIcons = {
   'affliction': 'icons/svg/skull.svg'
 }
 
-WW.instantTriggers = {
+WW.INSTANT_TRIGGERS = {
   'onUse': 'WW.Effect.OnUse',
   'onSuccess': 'WW.Effect.OnSuccess',
   'onCritical': 'WW.Effect.OnCritical',
   'onFailure': 'WW.Effect.OnFailure'
 }
 
-WW.bestowAfflictions = {
+WW.BESTOW_AFFLICTIONS = {
   /*'': 'WW.InstantEffect.DontBestow',*/
   'Blinded': 'WW.Blinded',
   'Confused': 'WW.Confused',
@@ -425,7 +425,7 @@ WW.bestowAfflictions = {
 
 /* Active Effects */
 
-WW.effectTriggers = {
+WW.EFFECT_TRIGGERS = {
   'passive': 'WW.Effect.Passive',
   'onUse': 'WW.Effect.OnUse',
   'onSuccess': 'WW.Effect.OnSuccess',
@@ -433,12 +433,11 @@ WW.effectTriggers = {
   'onFailure': 'WW.Effect.OnFailure'
 }
 
-WW.effectTargets = {
+WW.EFFECT_TARGETS = {
   'none': 'WW.Effect.None',
   'tokens': 'WW.Effect.Tokens',
-  'area': 'WW.Effect.Area',
-  'areaAlly': 'WW.Effect.AreaAlly',
-  'areaEnemy': 'WW.Effect.AreaEnemy'
+  'enemies': 'WW.Effect.Enemies',
+  'allies': 'WW.Effect.Allies'
 }
 
 WW.EFFECT_DURATIONS = {
@@ -468,7 +467,7 @@ WW.EFFECT_DURATIONS = {
   
 }
 
-WW.effOptions = {
+WW.EFFECT_OPTIONS = {
   boons: {
     header: 'WW.EffectKeys.Boons.Header',
     options: {

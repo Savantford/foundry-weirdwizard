@@ -263,9 +263,10 @@ export default class GridTemplate extends MeasuredTemplate {
     const targets = candidates.filter(t => {
       if ( !t.visible ) return false;
       if ( (t.document.disposition === CONST.TOKEN_DISPOSITIONS.SECRET) && !t.isOwner ) return false;
-      //const c = t.center;
-      const c = t.bounds;
-      return rect.intersects(c)
+      
+      const b = t.bounds;
+
+      return rect.intersects(b)
     });
     
     // Release other targets
