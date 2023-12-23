@@ -915,8 +915,10 @@
   /*overflow-x: hidden;*/
   color: #191813;
 }
-.weirdwizard .item-name .buttons i {
-  font-size: small;
+
+.weirdwizard .effects-list .buttons i:hover {
+  cursor: help;
+  text-shadow: 0 0 5px var(--color-shadow-primary);
 }
 
 /*.weirdwizard .item .item-name .item-image {
@@ -1023,7 +1025,7 @@ input[type="checkbox"].checkbox-uses {
   margin-top: 0;
   margin-bottom: 5px;
   border-top: 1px solid var(--highlight-title);
-  border-radius: 0 0 5px 5px;
+  /*border-radius: 0 0 5px 5px;*/
 }
 
 .weirdwizard .item .float-right {
@@ -1040,9 +1042,19 @@ input[type="checkbox"].checkbox-uses {
   text-align: center;
 }
 
+.weirdwizard .described-list .item {
+  padding: 0;
+  margin-bottom: 0;
+  border-bottom: none;
+  font-size: inherit;
+}
+
+.weirdwizard .described-list li > * {
+  padding: 0;
+}
 
 .weirdwizard .described-list .item:not(:last-child) {
-  padding-bottom: 5px;
+  padding-bottom: 2px;
 }
 
 .weirdwizard .item:last-child:not(.items-header) {
@@ -1097,17 +1109,20 @@ input[type="checkbox"].checkbox-uses {
   font-weight: bold;
 }
 
-.weirdwizard .described-list, .weirdwizard .compact-list {
+.weirdwizard .described-list,
+.weirdwizard .compact-list {
   list-style: none;
   padding: 0px;
   margin: 2px 5px;
+  color: var(--text);
 }
 
 .weirdwizard .described-list .fury-header {
   margin: 10px -5px 5px -5px; 
 }
 
-.weirdwizard .described-list .item-roll, .weirdwizard .summary-list .item-roll,
+.weirdwizard .described-list .item-roll,
+.weirdwizard .summary-list .item-roll,
 .weirdwizard .compact-list .item-roll {
   font-weight: bold;
   color: var(--highlight-title);
@@ -1513,12 +1528,24 @@ i.icon-Weakened {
   flex: 0 16px;
   text-align: center;
 }
-.weirdwizard .boons-display, .weirdwizard .damage-display {
+
+.weirdwizard .boons-display,
+.weirdwizard .damage-display {
   text-align: center;
   width: 30px;
 }
 
-.weirdwizard .boons-expression, .weirdwizard .damage-expression {
+.weirdwizard .boons-situational {
+  font-size: x-large;
+  text-align: center;
+}
+
+.weirdwizard .boons-situational > input {
+  width: 1.5em;
+}
+
+.weirdwizard .boons-expression,
+.weirdwizard .damage-expression {
   font-size: 1.5em;
   padding-top: 5px;
   border-top: 3px double black;

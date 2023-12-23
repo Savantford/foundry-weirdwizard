@@ -1,4 +1,4 @@
-<h2 class="mt-1">{{localize "WW.Effects.Label"}}</h2>
+<h2 class="mt-2">{{localize "WW.Effects.Label"}}</h2>
 
 {{!-- Instant Effects List --}}
 <ol class="item-list effects-list">
@@ -22,7 +22,7 @@
             <div class="item-image">
                 <img src="{{effect.icon}}" width="24" height="24" />
             </div>
-            <div class="item-name">{{localize effect.locLabel}}</div>
+            <div class="item-name"><label>{{localize effect.locLabel}}</label></div>
             
             <div class="instant-effect-trigger">
                 {{localize effect.locTrigger}}
@@ -56,7 +56,6 @@
     <li class="item items-header flexrow" data-effect-type="{{section.type}}">
         <div class="item-image"></div>
         <div class="item-name">{{localize section.name}}</div>
-        <div class="effect-trigger"></div>
         <div class="effect-changes">Changes</div>
         {{#if section.showDuration}}<div class="effect-duration">Duration</div>{{/if}}
         <div class="item-controls itemeffect-controls flexrow">
@@ -74,23 +73,26 @@
                 <img src="{{effect.icon}}" width="24" height="24" />
             </div>
 
-            <div class="item-name">{{effect.name}}</div>
+            <div class="item-name">
+                <label>{{effect.name}}</label>
 
-            <div class="effect-trigger">
+                <span class="buttons">
 
-                <i class="fas fa-{{#if (eq effect.trigger "onCritical")}}check-double
-                {{else if (eq effect.trigger "onSuccess")}}check
-                {{else if (eq effect.trigger "onFailure")}}x
-                {{else if (eq effect.trigger "onUse")}}bolt
-                {{else}}gears
-                {{/if}}" title="{{#if effect.locTrigger}}{{localize effect.locTrigger}}{{else}}{{localize "WW.Effect.Passive"}}{{/if}}"></i>
+                    <i class="fas fa-{{#if (eq effect.trigger "onCritical")}}check-double
+                    {{else if (eq effect.trigger "onSuccess")}}check
+                    {{else if (eq effect.trigger "onFailure")}}x
+                    {{else if (eq effect.trigger "onUse")}}bolt
+                    {{else}}gears
+                    {{/if}}" title="{{localize "WW.Effect.TriggerShort"}}: {{#if effect.locTrigger}}{{localize effect.locTrigger}}{{else}}{{localize "WW.Effect.Passive"}}{{/if}}"></i>
 
-                <i class="fas fa-{{#if (eq effect.target "tokens")}}users
-                {{else if (eq effect.target "area")}}users-rectangle
-                {{else if (eq effect.target "areaAlly")}}users-rectangle color-green
-                {{else if (eq effect.target "areaEnemy")}}users-rectangle color-red
-                {{else}}user
-                {{/if}}" title="{{#if effect.locTarget}}{{localize effect.locTarget}}{{else}}{{localize "WW.Effect.Passive"}}{{/if}}"></i>
+                    <i class="fas fa-{{#if (eq effect.target "tokens")}}users
+                    {{else if (eq effect.target "area")}}users-rectangle
+                    {{else if (eq effect.target "areaAlly")}}users-rectangle color-green
+                    {{else if (eq effect.target "areaEnemy")}}users-rectangle color-red
+                    {{else}}user
+                    {{/if}}" title="{{localize "WW.Effect.Target"}}: {{#if effect.locTarget}}{{localize effect.locTarget}}{{else}}{{localize "WW.Effect.Passive"}}{{/if}}"></i>
+
+                </span>
 
             </div>
             

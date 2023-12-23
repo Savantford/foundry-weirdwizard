@@ -24,10 +24,16 @@
             <span class="boons-display fixed">{{numberFormat fixedBoons decimals=0 sign=true}}</span>
         </div>
         {{/if}}
-        <div class="stat-stretch flex-group-left mt-1">
-            <label class="resource-label">{{localize "WW.Boons.Situational"}}</label>
-            <input name="situational" class="boons-input situational" type="number" value="0"/>
-        </div>
+        
+    </div>
+
+    {{!-- Situational Boons --}}
+    <h3 class="mt-2">{{localize "WW.Boons.Situational"}}</h3>
+
+    <div class="boons-situational">
+        <a data-action="down"><i class="fas fa-down"></i></a>
+        <input class="boons-input situational mx-1" name="situational" type="number" value="0"/>
+        <a data-action="up"><i class="fas fa-up"></i></a>
     </div>
 
     <div class="boons-expression mb-2 mt-2 flex-group-center"></div>

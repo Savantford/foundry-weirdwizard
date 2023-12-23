@@ -106,7 +106,7 @@ export default class WWActorSheet extends ActorSheet {
     context.actorEffects = prepareActiveEffectCategories(await this.actor.effects);
 
     // Prepare effect change labels to display
-    context.effectChangeLabels = CONFIG.WW.effectChangeLabels;
+    context.effectChangeLabels = CONFIG.WW.EFFECT_CHANGE_LABELS;
 
     // Prepare html fields
     for (let i of context.items) {
@@ -427,8 +427,11 @@ export default class WWActorSheet extends ActorSheet {
 
     // Drag events for macros.
     if (this.actor.isOwner) {
+      
       const handler = ev => this._onDragStart(ev)
+
       html.find('.dropitem').each((i, li) => {
+        console.log(chegou)
         if (li.classList.contains('inventory-header')) return
         li.setAttribute('draggable', true)
         li.addEventListener('dragstart', handler, false)
@@ -761,6 +764,7 @@ export default class WWActorSheet extends ActorSheet {
 
   /** @override */
   async _onDropItemCreate(itemData) {
+    
     const isAllowed = await this.checkDroppedItem(itemData)
     if (isAllowed) return await super._onDropItemCreate(itemData)
     console.warn('Wrong item type dragged', this.actor, itemData)

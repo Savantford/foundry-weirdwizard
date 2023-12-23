@@ -86,11 +86,32 @@ export default class RollAttribute extends FormApplication {
     // Handle closing the window without saving
     html.find('#boons-cancel').click(() => this.close({ submit: false }))
 
+    // Handle closing the window without saving
+    html.find('.boons-situational > a').click((ev) => this._onSituationalBoons(ev))
+
     // Update forms fields dynamically
     const el = html.find('input'); // html.find('input[type=number]')
     el.change((ev) => this._updateFields(ev, this));
     el.change();
 
+  }
+
+  _onSituationalBoons(ev) {
+    const a = ev.currentTarget;
+    const parent = a.closest('.boons-situational');
+    const action = a.dataset.action;
+
+    let value = parseInt(parent.querySelector('input[type=number].situational').value);
+    
+    if (action === 'up') {
+      value++;
+    } else {
+      value--;
+    }
+    
+    parent.querySelector('input[type=number].situational').value = value;
+
+    this._updateFields(ev, this);
   }
 
   async _updateObject(event, formData) { // Update actor data.
@@ -459,26 +480,32 @@ export default class RollAttribute extends FormApplication {
     
     if (!target) target = '';
 
+    const dispo = canvas.tokens.get(target).document.disposition;
+
     let finalHtml = '';
     
     effects.forEach(e => {
       let html = '';
-        
+      
       if (e.target === 'self') target = this.token.uuid;
-        
-      if (e.label === 'affliction') html = chatMessageButton({
-        action: actionFromLabel(e.label),
-        value: e.affliction,
-        originUuid: origin,
-        targetId: target
-      });
+      
+      else if (this._compareDispo(e.target, dispo)) {
 
-      else html = chatMessageButton({
-        action: actionFromLabel(e.label),
-        value: e.value,
-        originUuid: origin,
-        targetId: target
-      });
+        if (e.label === 'affliction') html = chatMessageButton({
+          action: actionFromLabel(e.label),
+          value: e.affliction,
+          originUuid: origin,
+          targetId: target
+        });
+  
+        else html = chatMessageButton({
+          action: actionFromLabel(e.label),
+          value: e.value,
+          originUuid: origin,
+          targetId: target
+        });
+
+      }
       
       finalHtml += html;
     })
@@ -487,10 +514,12 @@ export default class RollAttribute extends FormApplication {
   }
 
   async _applyEffects(effects, target) {
+
+    const dispo = canvas.tokens.get(target).document.disposition;
     
     effects.forEach(e => {
 
-      if (e.target == 'tokens') {
+      if (this._compareDispo(e.target, dispo)) {
         let obj = e.toObject()
         obj.flags.weirdwizard.trigger = 'passive';
         
@@ -502,6 +531,14 @@ export default class RollAttribute extends FormApplication {
     })
 
   }
+
+  _compareDispo(target, dispo) {
+    if ((target === 'allies') && (dispo === 1)) return true;
+    else if ((target === 'enemies') && (dispo === -1)) return true;
+    else if (target === 'tokens') return true;
+    else return false;
+  }
+  
 
   /* -------------------------------------------- */
   /*  Getters                                     */

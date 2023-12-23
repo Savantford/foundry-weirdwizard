@@ -32,10 +32,10 @@ export default class InstantEffectConfig extends FormApplication {
     context.value = eff?.value;
     context.affliction = eff?.affliction;
 
-    context.labels = CONFIG.WW.instantLabels;
-    context.triggers = CONFIG.WW.instantTriggers;
-    context.targets = CONFIG.WW.effectTargets;
-    context.afflictions = CONFIG.WW.bestowAfflictions;
+    context.labels = CONFIG.WW.INSTANT_LABELS;
+    context.triggers = CONFIG.WW.INSTANT_TRIGGERS;
+    context.targets = CONFIG.WW.EFFECT_TARGETS;
+    context.afflictions = CONFIG.WW.BESTOW_AFFLICTIONS;
 
     // Pass down the dynamic label
     if (!this.label) this.label = eff?.label;

@@ -4,27 +4,32 @@
         <h2>{{localize "WW.Roll.Settings"}}</h2>
 
         <div class="flex-row stat-inline nowrap flex-wrap nogap">
-            <label>{{localize "WW.Roll.Always"}}</label>
+            {{localize "WW.Roll.Always"}}
             
-            <select class="mx-1" name="system.attribute">
+            <select class="ml-1 bold" name="system.attribute">
                 {{selectOptions attributesObj selected=system.attribute localize=true}}
             </select>
             
             {{#if system.attribute}}
                 {{localize "WW.Boons.With"}}
 
-                <input class="mx-1" type="number" name="system.boons" value="{{system.boons}}" placeholder="0"
+                <input class="mx-1 bold" type="number" name="system.boons" value="{{system.boons}}" placeholder="0"
                     data-dtype="Number" />
                 
-                {{localize "WW.Boons.Or"}}
+                {{#if (lt item.system.boons -1)}}{{localize "WW.Boons.Banes"}}
+                    {{else if (lt item.system.boons 0)}}{{localize "WW.Boons.Bane"}}
+                    {{else if (gt item.system.boons 1)}}{{localize "WW.Boons.Boons"}}
+                    {{else}}{{localize "WW.Boons.Boon"}}
+                {{/if}}
+
             {{/if}}
         </div>
 
         {{#if system.attribute}}
         <div class="flex-row stat-inline mt-1">
-            <label>{{localize "WW.Roll.Against"}}</label>
+            {{localize "WW.Roll.Against"}}
 
-            <select class="mx-1" name="system.against">
+            <select class="mx-1 bold" name="system.against">
                 {{selectOptions againstObj selected=system.against localize=true}}
             </select>
             
@@ -40,7 +45,7 @@
         <div class="flex-row stat-inline mt-1">
             <label>{{localize "WW.Targeting.Method"}}</label>
 
-            <select class="mx-1" name="system.targeting">
+            <select name="system.targeting">
                 {{selectOptions targetingMethods selected=system.targeting localize=true}}
             </select>
         </div>
@@ -49,7 +54,7 @@
         <div class="flex-row stat-inline mt-1">
             <label>{{localize "WW.Targeting.Type"}}</label>
             
-            <select class="mx-1" name="system.template.type">
+            <select name="system.template.type">
                 {{selectOptions templateTypes selected=system.template.type localize=true}}
             </select>
         </div>
@@ -57,7 +62,7 @@
         <div class="flex-row stat-inline mt-1">
             <label>{{localize "WW.Targeting.Value"}}</label>
 
-            <input type="number" name="system.template.value" value="{{system.template.value}}" min="1" data-dtype="Number" />
+            <input class="mr-1" type="number" name="system.template.value" value="{{system.template.value}}" min="1" data-dtype="Number" />
 
             {{localize "WW.Targeting.MeasuredUnit"}}
         </div>

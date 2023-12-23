@@ -114,7 +114,7 @@
             <h4>{{localize "WW.Talents"}}</h4>
 
             {{!-- Auras --}}
-            <ol class="described-list">
+            <ol class="item-list described-list">
                 <a class="item-create" title="Create item" data-type="Trait or Talent" data-subtype="aura"><i
                     class="fas fa-plus"></i> {{localize "WW.Add"}} {{localize "WW.TalentSubtypes.Aura"}}</a>
 
@@ -161,7 +161,7 @@
                     title="{{localize "WW.Speed.Tip"}}" />{{#if system.stats.speed.special}}){{/if}}
             </div>
 
-            <ol class="described-list">{{!-- Talents --}}
+            <ol class="item-list described-list">{{!-- Talents --}}
                 <a class="item-create" title="Create item" data-type="Trait or Talent" data-subtype="trait"><i
                         class="fas fa-plus"></i> {{localize "WW.Add"}} {{localize "WW.TalentSubtypes.Trait"}}</a>
                 {{#each talents as |item id|}}
@@ -176,7 +176,7 @@
         <h4>{{localize "WW.Attack.Plural"}}<a class="item-create ml-auto" title="Create item" data-type="Equipment" data-subtype="weapon"><i
                         class="fas fa-plus"></i></a></h4>
         <div class="attacks-list">
-            <ol class="described-list">
+            <ol class="item-list described-list">
                 
                 {{#each weapons as |item id|}}
                     {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-weapon.hbs" item=item id=id}}
@@ -186,7 +186,7 @@
 
         <h4 class="mt-2">{{localize "WW.Actions"}}<a class="item-create ml-auto" title="Create item" data-type="Trait or Talent" data-subtype="action"><i
                         class="fas fa-plus"></i></a></h4>
-        <ol class="described-list actions-list">
+        <ol class="item-list described-list actions-list">
             {{#each actions as |item id|}}
                 {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
             {{/each}}
@@ -194,7 +194,7 @@
 
         <h4 class="mt-2">{{localize "WW.Reactions"}}<a class="item-create ml-auto" title="Create item" data-type="Trait or Talent" data-subtype="reaction"><i
                         class="fas fa-plus"></i></a></h4>
-        <ol class="described-list">
+        <ol class="item-list described-list">
             {{#each reactions as |item id|}}
                 {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
             {{/each}}
@@ -202,7 +202,7 @@
 
         <h4 class="mt-2">{{localize "WW.Ends"}}<a class="item-create ml-auto" title="Create item" data-type="Trait or Talent" data-subtype="end"><i
                         class="fas fa-plus"></i></a></h4>
-        <ol class="described-list">
+        <ol class="item-list described-list">
             {{#each end as |item id|}}
                 {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
             {{/each}}
@@ -210,7 +210,7 @@
 
         <a class="item-create" title="Create item" data-type="Trait or Talent" data-subtype="fury"><i
                     class="fas fa-plus"></i> {{localize "WW.Add"}} {{localize "WW.TalentSubtypes.Fury"}}</a>
-        <ol class="described-list fury-list">
+        <ol class="item-list described-list fury-list">
             {{#each fury as |item id|}}
                 {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-fury.hbs" item=item id=id}}
             {{/each}}
