@@ -1,8 +1,8 @@
 import { chatMessageButton, diceTotalHtml } from './chat-html-templates.mjs';
 import WWRoll from '../dice/roll.mjs';
 import { i18n } from '../helpers/utils.mjs';
-import { RollDamage } from '../apps/roll-damage.mjs';
-import RollAttribute from '../apps/roll-attribute.mjs';
+import RollDamage from '../dice/roll-damage.mjs';
+import RollAttribute from '../dice/roll-attribute.mjs';
 
 /* -------------------------------------------- */
 /*  Chat methods                                */
@@ -22,13 +22,9 @@ export function initChatListeners(html, app) {
   new ContextMenu(html, '.chat-button[data-action*=apply]', [], { onOpen: _onMessageButtonContext.bind('apply'), eventName:'click' });
   new ContextMenu(html, '.enricher-call', [], { onOpen: _onMessageButtonContext.bind('call'), eventName:'click' });
 
-  /*html.on('click', '.apply-effect', _onChatApplyEffect.bind(this))
-  html.on('click', '.use-talent', _onChatUseTalent.bind(this))
-  html.on('click', '.request-challengeroll', _onChatRequestChallengeRoll.bind(this))
-  html.on('click', '.make-challengeroll', _onChatMakeChallengeRoll.bind(this))
-  html.on('click', '.request-initroll', _onChatRequestInitRoll.bind(this))
-  html.on('click', '.make-initroll', _onChatMakeInitRoll.bind(this))*/
-  
+  // Collapse descriptions
+  html.find('.chat-message-collapse').click(_onMessageCollapse);
+
 }
 
 /** 
@@ -79,9 +75,10 @@ function _onMessageButtonContext(element) {
     
   }
 
-  function applyEffect(dataset, target) {
+  function _applyToTarget(dataset, target) {
     
-    const value = dataset.value;
+    const value = dataset.value,
+      effect = dataset.effectUuid;
     
     switch (dataset.action) {
       case 'apply-damage': target.applyDamage(value); break;
@@ -90,14 +87,15 @@ function _onMessageButtonContext(element) {
       case 'apply-healing': target.applyHealing(value); break;
       case 'apply-health-loss': target.applyHealthLoss(value); break;
       case 'apply-health-recovery': target.applyHealthRecovery(value); break;
-      
+      case 'apply-affliction': target.applyAffliction(value); break;
+      case 'apply-effect': target.applyEffect(effect); break;
     }
   }
 
   function iconToHTML(icon, id) { return `<img src="${icon}" data-tooltip="ID: ${id}" />`}
 
   function resolveAction({action, dataset, target}) {
-    return action === 'call' ? callRoll(dataset, target) : applyEffect(dataset, target);
+    return action === 'call' ? callRoll(dataset, target) : _applyToTarget(dataset, target);
   }
 
   const menuItems = [];
@@ -157,22 +155,6 @@ function _onMessageButtonContext(element) {
 
   ui.context.menuItems = menuItems;
 
-  /*switch (ctx) {
-    case "equipped":
-      const id = element.closest("[data-item-id]")?.dataset.itemId;
-      const item = this.document.items.get(id);
-      ui.context.menuItems = [{
-        name: "ARTICHRON.EditItem",
-        icon: "<i class='fa-solid fa-edit'></i>",
-        condition: () => !!item,
-        callback: () => item.sheet.render(true)
-      }, {
-        name: "ARTICHRON.ChangeItem",
-        icon: "<i class='fa-solid fa-shield'></i>",
-        callback: this._onChangeItem.bind(this, element)
-      }];
-      break;
-  }*/
 }
 
 /* -------------------------------------------- */
@@ -221,237 +203,35 @@ async function _onChatRoll(dataset, label, nextAction) {
 
 }
 
-/* -------------------------------------------- */
-/*  Chat Apply functions                        */
-/* -------------------------------------------- */
-
-async function _onChatApply(dataset) {
-  const target = canvas.tokens.get(dataset.targetId).actor;
-  const value = dataset.value;
-
-  switch (dataset.action) {
-    case 'apply-damage': target.applyDamage(value); break;
-    case 'apply-damage-half': target.applyDamage(Math.floor(value/2)); break;
-    case 'apply-damage-double': target.applyDamage(2*value); break;
-    case 'apply-healing': target.applyHealing(value); break;
-    case 'apply-health-loss': target.applyHealthLoss(value); break;
-    case 'apply-health-recovery': target.applyHealthRecovery(value); break;
-    
-  }
-
-}
-
-/* -------------------------------------------- */
-
-async function _onChatApplyAffliction(dataset) {
+function _onMessageCollapse(ev) {
   
-  const target = canvas.tokens.get(dataset.targetId).actor;
-
-  // Get affliction
-  const afflictionId = dataset.value;
-  const activeEffect = CONFIG.statusEffects.find(a => a.id === afflictionId);
-  activeEffect['statuses'] = [activeEffect.id];
-
-  if (!activeEffect) {
-    console.warn('Weird Wizard | _onChatBestowAffliction | Effect not found!')
-    return
-  }
-
-  const effectData = activeEffect;
-
-  if (target.statuses.has(afflictionId)) {
-    ui.notifications.warn(`"${target.name}" is already affected by this affliction.`);
+  const button = ev.currentTarget,
+    msg = $(button).parents('.chat-message'),
+    desc = msg.find('.message-content'),
+    footer = msg.find('.message-footer'),
+    wrapper = msg.find('.message-wrapper'),
+    icon = $(button).find('i')
+  ;
+  
+  // Flip states
+  if (icon.hasClass('fa-square-plus')) {
+    $(button).attr("title", i18n('WW.Item.HideDesc'))
+    icon.removeClass('fa-square-plus').addClass('fa-square-minus');
+    wrapper.slideDown(500);
+    desc.slideDown(500);
+    footer.slideDown(500);
   } else {
-    await ActiveEffect.create(effectData, {parent: target})
-    .then(e => ui.notifications.info(`Bestowed "${e.name}" to "${target.name}".`));
+    $(button).attr("title", i18n('WW.Item.ShowDesc'))
+    icon.removeClass('fa-square-minus').addClass('fa-square-plus');
+    wrapper.slideUp(500);
+    desc.slideUp(500);
+    footer.slideUp(500);
   }
   
 }
 
-
 /* -------------------------------------------- */
-/*
-async function _onChatApplyEffect(event) {
-  event.preventDefault()
-  const htmlTarget = event.currentTarget
-  const effectUuid = htmlTarget.attributes.getNamedItem('data-effect-uuid').value
-  const activeEffect = await fromUuid(effectUuid)
-
-  if (!activeEffect) {
-    console.warn('Demonlord | _onChatApplyEffect | Effect not found!')
-    return
-  }
-  const selected = tokenManager.targets
-  if (selected.length === 0) {
-    tokenManager.warnNotSelected()
-    return
-  }
-
-  const effectData = activeEffect.toObject()
-  selected.forEach(target => {
-    ActiveEffect.create(effectData, {parent: target.actor})
-      .then(e => ui.notifications.info(`Added "${e.name}" to "${target.actor.name}"`))
-  })
-}
-
-/* -------------------------------------------- */
-/*
-async function _onChatUseTalent(event) {
-  const token = event.currentTarget.closest('.weirdwizard')
-  const actor = _getChatCardActor(token)
-  if (!actor) return
-
-  const div = event.currentTarget.children[0]
-  const talentId = div.dataset.itemId
-  actor.rollTalent(talentId)
-}
-
-/* -------------------------------------------- */
-/*
-async function _onChatRequestChallengeRoll(event) {
-  event.preventDefault()
-  const li = event.currentTarget
-  const item = li.children[0]
-  const attribute = item.dataset.attribute
-
-  const start = li.closest('.request-challengeroll')
-  let boonsbanes = start.children[0].value
-  if (boonsbanes == undefined) boonsbanes = parseInt(item.dataset.boba)
-  if (isNaN(boonsbanes)) boonsbanes = 0
-
-  var selected = tokenManager.targets
-  if (selected.length == 0) {
-    ui.notifications.info(game.i18n.localize('WW.DialogWarningActorsNotSelected'))
-  }
-
-  let boonsbanestext = ''
-  if (boonsbanes == 1) {
-    boonsbanestext = boonsbanes + ' ' + game.i18n.localize('WW.DialogBoon')
-  }
-  if (boonsbanes > 1) {
-    boonsbanestext = boonsbanes + ' ' + game.i18n.localize('WW.DialogBoons')
-  }
-  if (boonsbanes == -1) {
-    boonsbanestext = boonsbanes.toString().replace('-', '') + ' ' + game.i18n.localize('WW.DialogBane')
-  }
-  if (boonsbanes < -1) {
-    boonsbanestext = boonsbanes.toString().replace('-', '') + ' ' + game.i18n.localize('WW.DialogBanes')
-  }
-
-  selected.forEach(token => {
-    const actor = token.actor
-
-    var templateData = {
-      actor: actor,
-      data: {
-        attribute: {
-          value: game.i18n.localize(CONFIG.DL.attributes[attribute.toLowerCase()]),
-        },
-        boonsbanes: {
-          value: boonsbanes,
-        },
-        boonsbanestext: {
-          value: boonsbanestext,
-        },
-      },
-    }
-
-    const chatData = {
-      user: game.user.id,
-      speaker: {
-        actor: actor.id,
-        token: actor.token,
-        alias: actor.name,
-      },
-    }
-
-    chatData.whisper = ChatMessage.getWhisperRecipients(actor.name)
-
-    const template = 'systems/demonlord/templates/chat/makechallengeroll.hbs'
-    renderTemplate(template, templateData).then(content => {
-      chatData.content = content
-
-      ChatMessage.create(chatData)
-    })
-  })
-}
-
-/* -------------------------------------------- */
-/*
-async function _onChatMakeChallengeRoll(event) {
-  event.preventDefault()
-  const li = event.currentTarget
-  const item = li.children[0]
-  const attributeName = item.dataset.attribute
-  const boonsbanes = item.dataset.boonsbanes
-  const actorId = item.dataset.actorid
-  const actor = game.actors.get(actorId)
-  const attribute = actor.getAttribute(attributeName)
-  const start = li.closest('.weirdwizard')
-  const boonsbanesEntered = start.children[1].children[0].children[0].children[1]?.value
-
-  actor.rollAttribute(attribute, parseInt(boonsbanes) + parseInt(boonsbanesEntered), 0)
-}
-
-/* -------------------------------------------- */
-/*
-async function _onChatRequestInitRoll(event) {
-  event.preventDefault()
-
-  var selected = tokenManager.targets
-  if (selected.length == 0) {
-    ui.notifications.info(game.i18n.localize('WW.DialogWarningActorsNotSelected'))
-  }
-
-  selected.forEach(token => {
-    const actor = token.actor
-
-    var templateData = {
-      actor: actor,
-      token: canvas.tokens.controlled[0]?.data,
-      data: {},
-    }
-
-    const chatData = {
-      user: game.user.id,
-      speaker: {
-        actor: actor.id,
-        token: actor.token,
-        alias: actor.name,
-      },
-    }
-
-    chatData.whisper = ChatMessage.getWhisperRecipients(actor.name)
-
-    const template = 'systems/demonlord/templates/chat/makeinitroll.hbs'
-    renderTemplate(template, templateData).then(content => {
-      chatData.content = content
-      ChatMessage.create(chatData)
-    })
-  })
-}
-
-/* -------------------------------------------- */
-/*
-async function _onChatMakeInitRoll(event) {
-  event.preventDefault()
-  const li = event.currentTarget
-  const item = li.children[0]
-  const actorId = item.dataset.actorid
-  const actor = game.actors.get(actorId)
-  let combatantFound = null
-
-  for (const combatant of game.combat.combatants) {
-    if (combatant.actor?._id === actor._id) {
-      combatantFound = combatant
-    }
-  }
-
-  if (combatantFound) {
-    game.combat.rollInitiative(combatantFound._id)
-  }
-}
-
+/*  Utility functions                           */
 /* -------------------------------------------- */
 
 /**
@@ -469,35 +249,3 @@ function _getActorFromOrigin(origin) {
     return origin || null;
   }
 }
-
-/* -------------------------------------------- */
-
-/**
- * Get the Actor which is the target of a chat card
- * @param {HTMLElement} _card    The chat card being used
- * @return {Array.<Actor>}      An Array of Actor entities, if any
- * @private
- */
-// eslint-disable-next-line no-unused-vars
-/*function _getChatCardTargets(_card) {
-  const character = game.user.character
-  const controlled = canvas.tokens.controlled
-  const targets = controlled.reduce((arr, t) => (t.actor ? arr.concat([t.actor]) : arr), [])
-  if (character && controlled.length === 0) targets.push(character)
-  return targets
-}
-
-/* -------------------------------------------- */
-
-/*async function _onChatPlaceTemplate(event) {
-  event.preventDefault()
-  const itemUuid = $(event.currentTarget).data('itemUuid')
-  const item = await fromUuid(itemUuid)
-
-  const template = game.weirdwizard.canvas.ActionTemplate.fromItem(item)
-  if (template) {
-    template.drawPreview()
-  }
-}
-
-/* -------------------------------------------- */

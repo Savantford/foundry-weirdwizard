@@ -1,12 +1,10 @@
 import { i18n, plusify, capitalize, resizeInput, clearUserTargets, sum } from '../helpers/utils.mjs';
 import { chatMessageButton, targetHeader, addInstEffs, actionFromLabel } from '../chat/chat-html-templates.mjs';
 import { healthDetails } from '../apps/health-details.mjs';
-import RollAttribute from '../apps/roll-attribute.mjs';
+import RollAttribute from '../dice/roll-attribute.mjs';
 import TargetingHUD from '../apps/targeting-hud.mjs';
-//import { RollDamage } from '../apps/roll-damage.mjs';
 import { onManageActiveEffect, prepareActiveEffectCategories } from '../helpers/effects.mjs';
 import { WWAfflictions } from '../helpers/afflictions.mjs';
-import GridTemplate from '../canvas/grid-template.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications

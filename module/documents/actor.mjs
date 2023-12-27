@@ -294,6 +294,59 @@ export default class WWActor extends Actor {
     this.update({ 'system.stats.health.lost': lost - recovered });
   }
 
+  /* Apply Affliction */
+  async applyAffliction(key) {
+
+    console.log(key)
+  
+    // Get affliction
+    const effect = CONFIG.statusEffects.find(a => a.id === key);
+    effect['statuses'] = [effect.id];
+  
+    if (!effect) {
+      console.warn('Weird Wizard | applyAffliction | Affliction not found!')
+      return
+    }
+
+    let content = '';
+
+    // Check if the actor already has the affliction
+    if (this.statuses.has(key)) {
+      content = `<b>${this.name}</b> ${i18n('WW.Affliction.Already')} <b class="info" data-tooltip="${effect.description}">${effect.name}</b>.`;
+    } else {
+      await ActiveEffect.create(effect, {parent: this});
+      content = `<b>${this.name}</b> ${i18n('WW.Affliction.Becomes')} <b class="info" data-tooltip="${effect.description}">${effect.name}</b>.`;
+    }
+
+    // Send chat message
+    ChatMessage.create({
+      speaker: ChatMessage.getSpeaker({ actor: this }),
+      content: content,
+      sound: CONFIG.sounds.notification
+    })
+
+  }
+
+  /* Apply Active Effect */
+  async applyEffect(effectUuid, external) {
+
+    let obj = fromUuidSync(effectUuid).toObject()
+
+    obj.flags.weirdwizard.trigger = 'passive';
+    if (external) obj.flags.weirdwizard.external = true;
+
+    let content = `<span style="display: inline"><span class="info" style="font-weight: bold" data-tooltip="${obj.description}">${obj.name}</span> ${i18n('WW.Effect.AppliedTo')} <span style="font-weight: bold">${this.name}</span>.</span><div>`;
+
+    ChatMessage.create({
+      speaker: ChatMessage.getSpeaker({ actor: this }),
+      content: content,
+      sound: CONFIG.sounds.notification
+    })
+
+    this.createEmbeddedDocuments("ActiveEffect", [obj]);
+
+  }
+
   _calculateDefense(system) {
     const defense = system.stats.defense;
 
@@ -458,12 +511,6 @@ export default class WWActor extends Actor {
 
     if (hasActorUpdates) await this.update(actorUpdate, context);
   }
-
-  /*async applyHealing(fullHealingRate) {
-      let rate = this.system.characteristics.health?.healingrate || 0;
-      rate = fullHealingRate ? rate : rate / 2;
-      return await this.increaseDamage(-rate)
-  }*/
 
   /* -------------------------------------------- */
   /*  Properties (Getters)                        */

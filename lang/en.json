@@ -63,7 +63,16 @@
         "Bonus": "Bonus Health",
         "Lost": "Lost Health",
         "Injured": "You are injured.",
-        "Incapacitated": "You are incapacitated."
+        "Incapacitated": "You are incapacitated.",
+        "Estimation": {
+            "0": "Undamaged",
+            "1": "Barely Damaged",
+            "25": "Damaged",
+            "50": "Injured",
+            "75": "Badly Injured",
+            "100": "Incapacitated",
+            "Dead": "Dead"
+        }
     },
     "WW.LevelAt": "At Level",
 
@@ -544,10 +553,15 @@
         "OnFailure": "On a Failure",
         "Target": "Effect Target",
         "None": "None or Self",
-        "Tokens": "Tokens",
+        "Any": "Everyone",
         "Enemies": "Enemies",
-        "Allies": "Allies"
-        
+        "Allies": "Allies",
+        "NoneTargeted": "Don't Target / Target Self",
+        "AnyTargeted": "Any Tokens",
+        "EnemiesTargeted": "Enemy Tokens Only",
+        "AlliesTargeted": "Ally Tokens Only",
+        "Apply": "Apply Effect",
+        "AppliedTo": "applied to"
     },
 
     "WW.EffectKeys": {
@@ -675,6 +689,8 @@
     "WW.Afflictions": "Afflictions",
     "WW.AfflictionsRemove": "Remove All Afflictions",
     "WW.Affliction": {
+        "Becomes": "becomes",
+        "Already": "is already",
         "Blinded": "Blinded",
         "BlindedDesc": "You cannot see and thus have line of sight to nothing. If you want to attack or interact with anything, you must guess the target’s location or locate the target using other senses, which usually means you make the roll with 3 banes. You cannot make use of reactions that rely on sight. Finally, your Speed is halved.",
         "Confused": "Confused",

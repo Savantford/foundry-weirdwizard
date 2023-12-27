@@ -1,4 +1,3 @@
-import RollAttribute from "../apps/roll-attribute.mjs";
 /**
  * A helper class for building MeasuredTemplates for WW talents and spells
  * Most code was originally written for the DnD5e system:

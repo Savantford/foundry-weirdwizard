@@ -118,7 +118,7 @@ export default class WWItemSheet extends ItemSheet {
       for (const e in category.effects) {
         const effect = category.effects[e];
         effect.locTrigger = CONFIG.WW.INSTANT_TRIGGERS[effect.trigger];
-        effect.locTarget = CONFIG.WW.EFFECT_TARGETS[effect.target];
+        effect.locTarget = CONFIG.WW.EFFECT_TARGETS_TARGETED[effect.target];
       }
     }
 

@@ -7,7 +7,7 @@ import WWRoll from '../dice/roll.mjs';
  * @extends {FormApplication}
 */
 
-export class RollDamage extends FormApplication {
+export default class RollDamage extends FormApplication {
   constructor(obj) {
     super(); // This is required for the constructor to work
 
@@ -130,7 +130,7 @@ export class RollDamage extends FormApplication {
     }
 
     // Prepare roll
-    const r = await new WWRoll(this.finalExp).evaluate({async:true});
+    const r = await new WWRoll(this.finalExp, {}, { template: "systems/weirdwizard/templates/chat/roll.hbs" }).evaluate({async:true});
     dataset.value = await r.total;
     const rollArray= [r];
     const rollHtml = await diceTotalHtml(r);
