@@ -636,7 +636,7 @@
   place-items: center;
   border-radius: 50%;
 
-  --radius: 11vmin;
+  --radius: 110px;
   width: calc(2 * var(--radius));
   height: calc(2 * var(--radius));
 
@@ -664,7 +664,7 @@
 .weirdwizard .circle .stat {
   grid-area: layer;
   
-  --ele-radius: 3.2vmin;
+  --ele-radius: 32px;
   width: calc(2 * var(--ele-radius));
   height: calc(2 * var(--ele-radius));
   border: 1px solid var(--highlight-title);
@@ -916,7 +916,8 @@
   color: #191813;
 }
 
-.weirdwizard .effects-list .buttons i:hover {
+.weirdwizard .effects-list .buttons i:hover,
+.weirdwizard .info:hover {
   cursor: help;
   text-shadow: 0 0 5px var(--color-shadow-primary);
 }
@@ -1803,13 +1804,10 @@ form.quest-calendar {
 }
 
 /* Chat Message Header */
-.weirdwizard.chat-message header.message-header {
-  margin-bottom: 5px;
-}
-
 .weirdwizard.chat-message .flavor-title {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .weirdwizard.chat-message span.flavor-text {
@@ -1828,13 +1826,34 @@ form.quest-calendar {
   gap: 3px;
 }
 
+.weirdwizard.chat-message .chat-message-collapse {
+  font-size: large;
+}
+
+.weirdwizard.chat-message .chat-message-collapse:hover,
+.weirdwizard.chat-message .chat-message-collapse .fa-square-plus {
+  color: black;
+}
+
 /* Chat Buttons */
+
+.weirdwizard.chat-message .chat-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3px;
+}
 
 .weirdwizard.chat-message .chat-button-container {
   width: 100%;
   display: inline-flex;
   flex-direction: row;
   gap: 5px;
+}
+
+.weirdwizard.chat-message .chat-buttons:not(:first-child),
+.weirdwizard.chat-message .chat-button-container:not(:first-child) {
+  margin-top: 10px;
 }
 
 .weirdwizard.chat-message .header-button,
@@ -1864,7 +1883,6 @@ form.quest-calendar {
   align-items: center;
   cursor: pointer;
   padding: 3px 5px;
-  margin-top: 8px;
   min-width: 45px;
 }
 .weirdwizard.chat-message .chat-button-container .chat-button {
@@ -1899,6 +1917,10 @@ form.quest-calendar {
 }
 
 /* Other Chat Message Styles */
+
+.weirdwizard .message-wrapper {
+  margin-top: 5px;
+}
 
 .weirdwizard .message-content {
   /*display: flex;
@@ -1972,7 +1994,7 @@ form.quest-calendar {
   letter-spacing: 0.05em;
 }
 
-.weirdwizard.chat-message .chat-target:not(:first-of-type) {
+.weirdwizard.chat-message .chat-target:not(:first-child) {
   margin-top: 5px;
 }
 

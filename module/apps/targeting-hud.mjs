@@ -1,6 +1,6 @@
 import { i18n } from '../helpers/utils.mjs';
 import { targetHeader, addInstEffs } from '../chat/chat-html-templates.mjs';
-import RollAttribute from './roll-attribute.mjs';
+import RollAttribute from '../dice/roll-attribute.mjs';
 import GridTemplate from '../canvas/grid-template.mjs';
 
 /**

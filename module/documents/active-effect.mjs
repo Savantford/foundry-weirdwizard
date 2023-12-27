@@ -3,29 +3,30 @@ import { i18n, formatTime } from '../helpers/utils.mjs';
 export default class WWActiveEffect extends ActiveEffect {
 
   async _preCreate(data, options, user) {
+    
+    if (!data.flags?.weirdwizard) data.flags = { weirdwizard: {} };
 
-    // Create basic flags
+    const wwflags = data.flags.weirdwizard;
+    
+    // Create basic flags if they aren't set already
     const obj = {
-      selectedDuration: '',
-      autoDelete: true,
-      external: false
+      selectedDuration: wwflags?.selectedDuration ? wwflags.selectedDuration : '',
+      autoDelete: wwflags?.autoDelete ? this.autoDelete : true,
+      external: wwflags?.external ? wwflags.external : false
     };
-
-    const wwflags = this.flags.weirdwizard;
 
     // Set external flag if it does not exist. Must have a non-passive trigger flag set and a different parent UUID
     if (!wwflags?.external && wwflags?.trigger != 'passive' && this.origin && !this.origin.includes(this.parent.uuid)) {
       obj.external = true;
     }
     
-    await this.updateSource({ flags: obj });
+    await this.updateSource({ 'flags.weirdwizard': obj });
 
     return await super._preCreate(data, options, user);
   }
 
   prepareData() {
     super.prepareData();
-    
   }
 
   /* -------------------------------------------- */
@@ -143,7 +144,7 @@ export default class WWActiveEffect extends ActiveEffect {
     let trigger = this.flags.weirdwizard?.trigger ?? 'passive';
 
     // If the effect has a duration, do not allow it to be passive
-    if ((this.duration.rounds || this.duration.seconds) && trigger === 'passive') trigger = 'onUse';
+    if ((this.parent instanceof Item) && (this.duration.rounds || this.duration.seconds) && trigger === 'passive') trigger = 'onUse';
 
     return typeof trigger === 'string' ? trigger : 'passive';
   }

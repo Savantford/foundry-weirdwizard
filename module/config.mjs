@@ -403,24 +403,24 @@ WW.INSTANT_TRIGGERS = {
 
 WW.BESTOW_AFFLICTIONS = {
   /*'': 'WW.InstantEffect.DontBestow',*/
-  'Blinded': 'WW.Blinded',
-  'Confused': 'WW.Confused',
-  'Controlled': 'WW.Controlled',
-  'Cursed': 'WW.Cursed',
-  'Deafened': 'WW.Deafened',
-  'Frightened': 'WW.Frightened',
-  'Held': 'WW.Held',
-  'ImpairedStr': 'WW.ImpairedStr',
-  'ImpairedAgi': 'WW.ImpairedAgi',
-  'ImpairedInt': 'WW.ImpairedInt',
-  'ImpairedWil': 'WW.ImpairedWil',
-  'OnFire': 'WW.OnFire',
-  'Poisoned': 'WW.Poisoned',
-  'Prone': 'WW.Prone',
-  'Stunned': 'WW.Stunned',
-  'Unconscious': 'WW.Unconscious',
-  'Asleep': 'WW.Asleep',
-  'Weakened': 'WW.Weakened',
+  'Blinded': 'WW.Affliction.Blinded',
+  'Confused': 'WW.Affliction.Confused',
+  'Controlled': 'WW.Affliction.Controlled',
+  'Cursed': 'WW.Affliction.Cursed',
+  'Deafened': 'WW.Affliction.Deafened',
+  'Frightened': 'WW.Affliction.Frightened',
+  'Held': 'WW.Affliction.Held',
+  'ImpairedStr': 'WW.Affliction.ImpairedStr',
+  'ImpairedAgi': 'WW.Affliction.ImpairedAgi',
+  'ImpairedInt': 'WW.Affliction.ImpairedInt',
+  'ImpairedWil': 'WW.Affliction.ImpairedWil',
+  'OnFire': 'WW.Affliction.OnFire',
+  'Poisoned': 'WW.Affliction.Poisoned',
+  'Prone': 'WW.Affliction.Prone',
+  'Stunned': 'WW.Affliction.Stunned',
+  'Unconscious': 'WW.Affliction.Unconscious',
+  'Asleep': 'WW.Affliction.Asleep',
+  'Weakened': 'WW.Affliction.Weakened',
 }
 
 /* Active Effects */
@@ -435,9 +435,16 @@ WW.EFFECT_TRIGGERS = {
 
 WW.EFFECT_TARGETS = {
   'none': 'WW.Effect.None',
-  'tokens': 'WW.Effect.Tokens',
+  'tokens': 'WW.Effect.Any',
   'enemies': 'WW.Effect.Enemies',
   'allies': 'WW.Effect.Allies'
+}
+
+WW.EFFECT_TARGETS_TARGETED = {
+  'none': 'WW.Effect.NoneTargeted',
+  'tokens': 'WW.Effect.AnyTargeted',
+  'enemies': 'WW.Effect.EnemiesTargeted',
+  'allies': 'WW.Effect.AlliesTargeted'
 }
 
 WW.EFFECT_DURATIONS = {

@@ -9,12 +9,16 @@ export async function diceTotalHtml(roll) {
 export function targetHeader(target, html, noItem) {
   if ((target.id === undefined) || noItem) return (html ? html : '');
 
-  else return '<p class="owner-only chat-target">' + i18n('WW.Target') + ': ' + target.name + '</p><p class="non-owner-only chat-target">' + i18n('WW.Target') +
-    ': ???</p><div class="chat-target-content">' + html + '</div>';
+  else return `<p class="owner-only chat-target">${i18n('WW.Target')}: ${target.name}</p><p class="non-owner-only chat-target">${i18n('WW.Target')}: ???</p><div class="chat-target-content">${html}</div>`;
+}
+
+// Prepare html header for a target
+export function buttonsHeader(html, label, noItem) {
+  return `<div class="chat-target">${label}</div><div class="chat-target-content"><div class="chat-buttons">${html}</div></div>`;
 }
 
 // Prepare Html Button for a chat message
-export function chatMessageButton({action, value, originUuid, targetId}) {
+export function chatMessageButton({action, value, effectUuid, originUuid, targetIds}) {
   let icon = 'dice';
   let img = '';
   let loc = 'WW.InstantEffect.Button.';
@@ -80,25 +84,33 @@ export function chatMessageButton({action, value, originUuid, targetId}) {
       showNo = false;
       break;
     }
+    case 'apply-effect': {
+      icon = 'hand-holding-magic';
+      loc = 'WW.Effect.Apply';
+      showNo = false;
+      break;
+    }
   }
   
   let html = '';
   
   if (img) { // Vertical Button
     html = '<div class="chat-button flexcol" data-action="' + action +
-    '" data-value="' + value +
+    (value ? '" data-value="' + value : '') +
+    (effectUuid ? '" data-effect-uuid="' + effectUuid : '') +
     '" data-origin-uuid="' + originUuid +
-    '" data-target-id="' + targetId + '">' +
+    '" data-target-ids="' + targetIds + '">' +
     '<img src="' + img + '"/>' + 
-    '<div>' + i18n(loc) +
+    '<div>' + i18n(loc) + (effectUuid ? ': ' + fromUuidSync(effectUuid)?.name : '') +
     (showNo ? (': ' + value) : '') + '</div></div>'
   } else { // Inline Button
     html = '<div class="chat-button" data-action="' + action +
-    '" data-value="' + value +
+    (value ? '" data-value="' + value : '') +
+    (effectUuid ? '" data-effect-uuid="' + effectUuid : '') +
     '" data-origin-uuid="' + originUuid +
-    '" data-target-id="' + targetId + '">' +
+    '" data-target-ids="' + targetIds + '">' +
     '<i class="fas fa-' + icon + '"></i>' +
-    i18n(loc) +
+    i18n(loc) + (effectUuid ? ': ' + fromUuidSync(effectUuid)?.name : '') +
     (showNo ? (': ' + value) : '') + '</div>';
   }
   

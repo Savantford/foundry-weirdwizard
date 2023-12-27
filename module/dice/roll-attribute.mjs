@@ -5,7 +5,7 @@
 
 import { i18n, plusify } from '../helpers/utils.mjs';
 import WWRoll from '../dice/roll.mjs';
-import { diceTotalHtml, targetHeader, chatMessageButton, actionFromLabel } from '../chat/chat-html-templates.mjs';
+import { diceTotalHtml, targetHeader, buttonsHeader, chatMessageButton, actionFromLabel } from '../chat/chat-html-templates.mjs';
 
 export default class RollAttribute extends FormApplication {
   constructor(obj) {
@@ -25,7 +25,6 @@ export default class RollAttribute extends FormApplication {
     this.action = obj.action;
     this.system = this.actor.system; // Assign actor data
     const attKey = obj.attKey;
-    console.log(this.system.attributes[attKey])
 
     // Assign label, name, etc
     this.label = obj.label;
@@ -127,6 +126,7 @@ export default class RollAttribute extends FormApplication {
     ;
     
     if (targeted && against) { // If Action is Targeted and Against is filled; perform one separate roll for each target
+
       for (const t of this.targets) {
 
         // Set boons text
@@ -140,7 +140,7 @@ export default class RollAttribute extends FormApplication {
         const targetNo = against == 'def' ? t.defense : t.attributes[against].value;
 
         // Construct the Roll instance and evaluate the roll
-        let r = await new WWRoll(rollFormula, { targetNo: targetNo }).evaluate({async:true});
+        let r = await new WWRoll(rollFormula, { targetNo: targetNo }, { template: "systems/weirdwizard/templates/chat/roll.hbs" }).evaluate({async:true});
 
         // Save the roll order
         const index = this.targets.findIndex(obj => { return obj.id === t.id; });
@@ -214,17 +214,14 @@ export default class RollAttribute extends FormApplication {
         
         if (critical) {
           targetHtml += this._addWeaponDamage(t);
-          targetHtml += this._addInstEffs(this.instEffs.onCritical, originUuid, t.id);
-          this._applyEffects(this.effects.onCritical, t.id);
+          targetHtml += this._addEffectButtons('onCritical', { target: t.id });
 
         } else if (success) {
           targetHtml += this._addWeaponDamage(t);
-          targetHtml += this._addInstEffs(this.instEffs.onSuccess, originUuid, t.id);
-          this._applyEffects(this.effects.onSuccess, t.id);
+          targetHtml += this._addEffectButtons('onSuccess', { target: t.id });
 
         } else {
-          targetHtml += this._addInstEffs(this.instEffs.onFailure, originUuid, t.id);
-          this._applyEffects(this.effects.onFailure, t.id);
+          targetHtml += this._addEffectButtons('onFailure', { target: t.id });
         }
 
         // Add targetHtml to rollHtml
@@ -232,7 +229,7 @@ export default class RollAttribute extends FormApplication {
 
       };
 
-    } else { // against is false; perform a single roll for all targets
+    } else { // against is false; perform a SINGLE ROLL for all targets
       
       // Set boons text
       if (boonsFinal != 0) { boons = boonsFinal + "d6kh" } else { boons = ""; };
@@ -316,37 +313,25 @@ export default class RollAttribute extends FormApplication {
       if (targeted) { // Roll is targeted
 
         if (critical) {
-          for (const t of this.targets) {
-            let targetHtml = this._addInstEffs(this.instEffs.onCritical, originUuid, t.id);
-            this._applyEffects(this.effects.onCritical, t.id);
-            rollHtml += targetHeader(t, targetHtml, !this.item);
-          }
+          rollHtml += this._addEffectButtons('onCritical', { singleRoll: true });
   
         } else if (success) {
-          for (const t of this.targets) {
-            let targetHtml = this._addInstEffs(this.instEffs.onSuccess, originUuid, t.id);
-            this._applyEffects(this.effects.onSuccess, t.id);
-            rollHtml += targetHeader(t, targetHtml, !this.item);
-          }
+          rollHtml += this._addEffectButtons('onSuccess', { singleRoll: true });
   
         } else {
-          for (const t of this.targets) {
-            let targetHtml = this._addInstEffs(this.instEffs.onFailure, originUuid, t.id);
-            this._applyEffects(this.effects.onFailure, t.id);
-            rollHtml += targetHeader(t, targetHtml, !this.item);
-          }
+          rollHtml += this._addEffectButtons('onFailure', { singleRoll: true });
         }
 
       } else { // Roll is untargeted
 
         if (critical) {
-          rollHtml += this._addInstEffs(this.instEffs.onCritical, originUuid);
+          rollHtml += this._addEffectButtons('onCritical');
   
         } else if (success) {
-          rollHtml += this._addInstEffs(this.instEffs.onSuccess, originUuid);
+          rollHtml += this._addEffectButtons('onSuccess');
   
         } else {
-          rollHtml += this._addInstEffs(this.instEffs.onFailure, originUuid);
+          rollHtml += this._addEffectButtons('onFailure');
         }
 
       }
@@ -375,13 +360,15 @@ export default class RollAttribute extends FormApplication {
   }
 
   _updateFields(ev, context) { // Update html fields
-    const parent = ev.target.closest('.boons-details');
+    
+    const parent = ev.target.closest('.boons-details'),
+      against = context.against,
+      fixedBoons = context.fixedBoons,
+      applyAttackBoons = parent.querySelector('input[name=attack]:checked'),
+      attackBoons = context.attackBoons,
+      effectBoons = context.effectBoonsGlobal; // Conditional boons should be added here later
+
     let boonsFinal = context.boonsFinal;
-    const against = context.against;
-    const fixedBoons = context.fixedBoons;
-    const applyAttackBoons = parent.querySelector('input[name=attack]:checked');
-    const attackBoons = context.attackBoons;
-    const effectBoons = context.effectBoonsGlobal; // Conditional boons should be added here later
 
     // Set attribute display
     const attDisplay = context.name ? context.name + " (" + context.mod + ")" : '1d20 + 0';
@@ -476,66 +463,104 @@ export default class RollAttribute extends FormApplication {
     return finalHtml;
   }
 
-  _addInstEffs(effects, origin, target) {
+  _addEffectButtons(trigger, { target, singleRoll = false }) {
+    const origin = this.origin.uuid,
+      instEffs = this.instEffs[trigger],
+      actEffs = this.effects[trigger],
+      targets = target ? this.targets.filter(t => t.id === target) : this.targets;
     
-    if (!target) target = '';
-
-    const dispo = canvas.tokens.get(target).document.disposition;
-
-    let finalHtml = '';
+    let finalHtml = '',
+      anyHtml = '',
+      enemiesHtml = '',
+      alliesHtml = ''
+    ;
     
-    effects.forEach(e => {
+    // Handle instant effects
+    instEffs.forEach(e => {
       let html = '';
       
-      if (e.target === 'self') target = this.token.uuid;
+      if (e.target === 'self') targets = this.token.uuid;
+
+      // Get target ids string
+      const targetIds = this._getTargetIds(targets, e.target);
+
+      // Create the chat button
+      if (e.label === 'affliction') html = chatMessageButton({
+        action: actionFromLabel(e.label),
+        value: e.affliction,
+        originUuid: origin,
+        targetIds: targetIds
+      });
+
+      else html = chatMessageButton({
+        action: actionFromLabel(e.label),
+        value: e.value,
+        originUuid: origin,
+        targetIds: targetIds
+      });
       
-      else if (this._compareDispo(e.target, dispo)) {
-
-        if (e.label === 'affliction') html = chatMessageButton({
-          action: actionFromLabel(e.label),
-          value: e.affliction,
-          originUuid: origin,
-          targetId: target
-        });
-  
-        else html = chatMessageButton({
-          action: actionFromLabel(e.label),
-          value: e.value,
-          originUuid: origin,
-          targetId: target
-        });
-
+      // Assign to group html
+      switch (e.target) {
+        case 'tokens': anyHtml += html; break;
+        case 'enemies': enemiesHtml += html; break;
+        case 'allies': alliesHtml += html; break;
       }
       
-      finalHtml += html;
     })
+
+    // Handle active effects
+    actEffs.forEach(e => {
+
+      let html = '';
+      
+      if (e.target === 'self') targets = this.token.uuid;
+
+      // Get target ids string
+      const targetIds = this._getTargetIds(targets, e.target);
+
+      // Create the chat button
+      console.log(e)
+      html = chatMessageButton({
+        action: 'apply-effect',
+        originUuid: origin,
+        targetIds: targetIds,
+        value: '',
+        effectUuid: e.uuid
+      });
+      
+      // Assign to group html
+      switch (e.target) {
+        case 'tokens': anyHtml += html; break;
+        case 'enemies': enemiesHtml += html; break;
+        case 'allies': alliesHtml += html; break;
+      }
+
+    })
+    
+    // Add htmls to finalHtml
+    if (singleRoll) {
+      console.log('chegou no single')
+      if (anyHtml) finalHtml += buttonsHeader(anyHtml, 'Any', !this.item);
+      if (enemiesHtml) finalHtml += buttonsHeader(enemiesHtml, 'Enemies', !this.item);
+      if (alliesHtml) finalHtml += buttonsHeader(alliesHtml, 'Allies', !this.item);
+    } else {
+      console.log('chegou no multi')
+      finalHtml += '<div class="chat-buttons">';
+      if (anyHtml) finalHtml += anyHtml;
+      if (enemiesHtml) finalHtml += enemiesHtml;
+      if (alliesHtml) finalHtml += alliesHtml;
+      finalHtml += '</div>';
+    }
     
     return finalHtml;
   }
 
-  async _applyEffects(effects, target) {
-
-    const dispo = canvas.tokens.get(target).document.disposition;
+  _compareDispo(effTarget, compared) {
+    const dispo = canvas.tokens.get(compared)?.document?.disposition;
     
-    effects.forEach(e => {
-
-      if (this._compareDispo(e.target, dispo)) {
-        let obj = e.toObject()
-        obj.flags.weirdwizard.trigger = 'passive';
-        
-        const actor = canvas.tokens.get(target).actor;
-        
-        actor.createEmbeddedDocuments("ActiveEffect", [obj]);
-      }
-
-    })
-
-  }
-
-  _compareDispo(target, dispo) {
-    if ((target === 'allies') && (dispo === 1)) return true;
-    else if ((target === 'enemies') && (dispo === -1)) return true;
-    else if (target === 'tokens') return true;
+    if ((effTarget === 'allies') && (dispo === 1)) return true;
+    else if ((effTarget === 'enemies') && (dispo === -1)) return true;
+    else if (effTarget === 'tokens') return true;
     else return false;
   }
   
@@ -625,6 +650,22 @@ export default class RollAttribute extends FormApplication {
     })
 
     return effs;
+  }
+
+  _getTargetIds(targets, effTarget) {
+    let targetIds = '';
+
+    targets.forEach(t => {
+
+      if (this._compareDispo(effTarget, t.id)) {
+        if (targetIds) targetIds += ',';
+
+        targetIds += t.id;
+      }
+
+    })
+
+    return targetIds;
   }
 }
 
