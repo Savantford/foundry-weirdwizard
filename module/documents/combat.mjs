@@ -362,7 +362,7 @@ export default class WWCombat extends Combat {
    * @param {options} options Context options
    * @param {string} userId Triggering user ID
    */
-  _onUpdate(data, options, userId) {
+  async _onUpdate(data, options, userId) {
     super._onUpdate(data, options, userId);
 
     try {
@@ -373,8 +373,32 @@ export default class WWCombat extends Combat {
 
     // Update Status Icons
     this.combatants.forEach(c => c.token?.object?.updateStatusIcons());
+
+    // Show Take The Initiative dialog at the beginning of a new round
+    if (options.direction === 1 && data.round) {
+
+      if (!game.user.character) {
+        ui.notifications.warn(i18n('WW.Combat.TakingInit.NoCharacter'));
+      } else {
+
+        const confirm = await Dialog.confirm({
+          title: i18n('WW.Combat.TakingInit.Title'),
+          content: `<p>${i18n('WW.Combat.TakingInit.Msg')}</p><p>${i18n('WW.Combat.TakingInit.Msg2')}</p>`
+        })
+  
+        // Check if the users's character is present as a combatant in the current combat
+        game.combat.combatants.forEach(c => {
+          if (c.actorId == game.user.character.id) c.takingInit(confirm);
+        })
+
+      }
+
+    }
+    
   }
 
+  /* -------------------------------------------- */
+  /*  Expire Effect Methods                       */
   /* -------------------------------------------- */
 
   /**
@@ -620,6 +644,68 @@ export default class WWCombat extends Combat {
     } else if (!game.user.isGM) return;
     
     actor.expireActiveEffects({ timeOffset, combat: this });
+  }
+
+  /**
+   * Expire active effects with round durations that carried over from other combats.
+   */
+  async _expireLeftoverEffects() {
+
+    // Loop for each combatant
+    for (const c of this.combatants) {
+
+      // Filter effects
+      const temporaryEffects = c.actor?.temporaryEffects.filter((ae) => {
+        const { seconds, rounds, startTime, startRound } = ae.duration;
+      
+        return rounds > 0;
+      })
+
+      if (!temporaryEffects) return; // Stop if no effects were found
+
+      const disableActiveEffects = [],
+      deleteActiveEffects = [],
+      disableBuffs = [],
+      actorUpdate = {};
+
+      for (const ae of temporaryEffects) {
+
+        const duration = ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? i18n('WW.Effect.Duration.Rounds') : i18n('WW.Effect.Duration.Round'));
+      
+        await ChatMessage.create({
+          speaker: ChatMessage.getSpeaker({ actor: this }),
+          flavor: this.label,
+          content: '<div><b>' + ae.name + '</b> ' + i18n("WW.Effect.Duration.ExpiredMsg") + ' ' + duration + '.</div>',
+          sound: CONFIG.sounds.notification
+        });
+
+        if (ae.autoDelete) {
+          deleteActiveEffects.push(ae.id);
+        } else {
+          disableActiveEffects.push({ _id: ae.id, disabled: true });
+        }
+      }
+
+      const hasActorUpdates = !foundry.utils.isEmpty(actorUpdate);
+
+      const deleteAEContext = mergeObject(
+        { render: !disableBuffs.length && !disableActiveEffects.length && !hasActorUpdates },
+        context
+      );
+      
+      if (deleteActiveEffects.length)
+        await c.actor.deleteEmbeddedDocuments("ActiveEffect", deleteActiveEffects, deleteAEContext);
+
+      const disableAEContext = mergeObject({ render: !disableBuffs.length && !hasActorUpdates }, context);
+      if (disableActiveEffects.length)
+        await c.actor.updateEmbeddedDocuments("ActiveEffect", disableActiveEffects, disableAEContext);
+
+      const disableBuffContext = mergeObject({ render: !hasActorUpdates }, context);
+      if (disableBuffs.length) await c.actor.updateEmbeddedDocuments("Item", disableBuffs, disableBuffContext);
+
+      if (hasActorUpdates) await c.actor.update(actorUpdate, context);
+
+    }
   }
 
 }

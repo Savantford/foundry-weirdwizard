@@ -307,31 +307,10 @@ export default class WWCombatTracker extends CombatTracker {
     const li = btn.closest('.combatant');
     const combat = this.viewed;
     const c = combat.combatants.get(li.dataset.combatantId);
-    
-    // Flip takingInit
+
     const taking = c.flags.weirdwizard?.takingInit ? !c.flags.weirdwizard.takingInit : true;
-    //await c.update({'flags.weirdwizard.takingInit': taking})
-    await c.setFlag('weirdwizard', 'takingInit', taking)
-    //this.render();
-
-    // Push the taking initiative status to the token
-    const token = c.token;
-    if ( !token ) return;
     
-    const status = CONFIG.statusEffects.find(e => e.id === CONFIG.specialStatusEffects.TAKINGINITIATIVE);
-    if ( !status && !token.object ) return;
-    const effect = token.actor && status ? status : CONFIG.controlIcons.takingInit;
-    /*if ( token.object ) await token.object.toggleEffect(effect, {overlay: true, active: taking});
-    else await token.toggleActiveEffect(effect, {overlay: true, active: taking});*/
-    
-    // Send to chat
-    ChatMessage.create({
-      content: '<div><b>' + token.actor.name + '</b> ' + (taking ? i18n('WW.Combat.InitiativeMsg') : i18n('WW.Combat.TurnMsg')) + '.</div>',
-      sound: CONFIG.sounds.notification
-    });
-
-    // Reorder turns
-    combat.setAll();
+    c.takingInit(taking);
   }
 
   /* -------------------------------------------- */
