@@ -54,11 +54,10 @@ function _onMessageButtonRoll(event) {
 */
 function _onMessageButtonContext(element) {
 
-  // Get variables
-  const target = element.dataset.targetId ? game.actors.tokens[element.dataset.targetId] : null;
+  // Get Variables
   const user = game.user;
   const character = user.character;
-
+  
   function callRoll(dataset, target) {
     
     const { attribute, fixedBoons }  = dataset;
@@ -100,14 +99,26 @@ function _onMessageButtonContext(element) {
 
   const menuItems = [];
   
-  // Assign a target if it exists
-  if (target) {
-    menuItems.push({
-      name: target.name,
-      icon: iconToHTML(target.img, target.uuid),
-      group: 'target',
-      uuid: target.uuid,
-      callback: li => resolveAction({ action: this, dataset: element.dataset, target: target })
+  // Get targets
+  const targetIds = element.dataset.targetIds ? element.dataset.targetIds.split(',') : [];
+  const targets = [];
+
+  targetIds.forEach(t => {
+    if(game.actors.tokens[t]) targets.push(game.actors.tokens[t]);
+  })
+
+  // Assign targets if any exist
+  if (targets) {
+    targets.forEach(actor => {
+    
+      if (actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
+        name: actor.name,
+        icon: iconToHTML(actor.img, actor.uuid),
+        group: 'targets',
+        uuid: actor.uuid,
+        callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
+      });
+    
     })
   }
 
@@ -122,8 +133,22 @@ function _onMessageButtonContext(element) {
       callback: li => resolveAction({ action: this, dataset: element.dataset, target: character })
     })
   }
+
+  // Assign combatants from current combat, if there are any
+  game.combat.combatants.forEach(c => {
+    const actor = c.actor;
+    
+    if (actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
+      name: actor.name,
+      icon: iconToHTML(actor.img, actor.uuid),
+      group: 'combatants',
+      uuid: actor.uuid,
+      callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
+    });
   
-  // Add synthetic actors in the current scene
+  })
+  
+  // Add synthetic Token actors in the current scene
   for (const id in game.actors.tokens) {
     const actor = game.actors.tokens[id];
     

@@ -1,3 +1,5 @@
+import { i18n } from '../helpers/utils.mjs'
+
 export default class WWCombatant extends Combatant {
 
   /**
@@ -25,7 +27,30 @@ export default class WWCombatant extends Combatant {
   /*  Properties                                  */
   /* -------------------------------------------- */
 
-  
+  async takingInit(taking) {
+
+    // Set takingInit
+    await this.setFlag('weirdwizard', 'takingInit', taking)
+
+    // Push the taking initiative status to the token
+    const token = this.token;
+    if ( !token ) return;
+    
+    const status = CONFIG.statusEffects.find(e => e.id === CONFIG.specialStatusEffects.TAKINGINITIATIVE);
+    if ( !status && !token.object ) return;
+    const effect = token.actor && status ? status : CONFIG.controlIcons.takingInit;
+    /*if ( token.object ) await token.object.toggleEffect(effect, {overlay: true, active: taking});
+    else await token.toggleActiveEffect(effect, {overlay: true, active: taking});*/
+    
+    // Send to chat
+    ChatMessage.create({
+      content: '<div><b>' + token.actor.name + '</b> ' + (taking ? i18n('WW.Combat.InitiativeMsg') : i18n('WW.Combat.TurnMsg')) + '.</div>',
+      sound: CONFIG.sounds.notification
+    });
+
+    // Reorder turns
+    this.combat.setAll();
+  }
   
 
 }

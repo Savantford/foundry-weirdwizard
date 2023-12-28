@@ -2124,9 +2124,9 @@ form.quest-calendar {
   font-weight: 900;
 }
 
-.chat-button .context-group[data-group-id="target"]::before,
-.enricher-call .context-group[data-group-id="target"]::before {
-  content: "\f140";
+.chat-button .context-group[data-group-id="targets"]::before,
+.enricher-call .context-group[data-group-id="targets"]::before {
+  content: "\e595";
 }
 
 .chat-button .context-group[data-group-id="character"]::before,
@@ -2134,14 +2134,19 @@ form.quest-calendar {
   content: "\f007";
 }
 
+.chat-button .context-group[data-group-id="combatants"]::before,
+.enricher-call .context-group[data-group-id="combatants"]::before {
+  content: "\f71d";
+}
+
 .chat-button .context-group[data-group-id="tokens"]::before,
 .enricher-call .context-group[data-group-id="tokens"]::before {
-  content: "\e595";
+  content: "\f0c0";
 }
 
 .chat-button .context-group[data-group-id="actors"]::before,
 .enricher-call .context-group[data-group-id="actors"]::before {
-  content: "\f0c0";
+  content: "\f07c";
 }
 
 .chat-button .context-group:not(:first-child)::before,

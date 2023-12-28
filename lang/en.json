@@ -734,6 +734,12 @@
         "InitiativeMsg": "is taking the initiative",
         "TurnTip": "Click to take a regular turn.",
         "TurnMsg": "is taking a regular turn",
+        "TakingInit": {
+            "Title": "Taking the Initiative",
+            "Msg": "A new round started.",
+            "Msg2": "Do you want to use a <b>reaction</b> to take the initiative, instead of making a regular turn?",
+            "NoCharacter": "A new round started, but you don't have a character assigned to you."
+        },
         "ActAgain": {
             "Title": "Act Again",
             "Msg": "You already took a turn during this round. Normally, each combatant can take one turn per round ONCE.",
