@@ -47,7 +47,7 @@ export default class WWActorSheet extends ActorSheet {
     // sheets are the actor object, the data object, whether or not it's
     // editable, the items array, and the effects array.
     const context = super.getData();
-
+    
     // Use a safe clone of the actor data for further operations.
     const actorData = context.actor;
 
@@ -111,6 +111,9 @@ export default class WWActorSheet extends ActorSheet {
       i.system.description.enriched = await TextEditor.enrichHTML(i.system.description.value, { async: true })
       if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider?.value, { async: true })
     }
+
+    // Prepare Disposition
+    context.disposition = await this.actor?.token ? await this.actor.token.disposition : await this.actor.prototypeToken.disposition;
     
     return context;
   }
@@ -370,6 +373,9 @@ export default class WWActorSheet extends ActorSheet {
     // Rest button dialog + function
     html.find('.rest-button').click(this._onRest.bind(this));
 
+    // Change Token Disposition
+    html.find('.change-disposition').click(this._onDispositionChange.bind(this));
+
     /////////////////////// ITEMS ////////////////////////
 
     // Handle item buttons
@@ -429,7 +435,6 @@ export default class WWActorSheet extends ActorSheet {
       const handler = ev => this._onDragStart(ev)
 
       html.find('.dropitem').each((i, li) => {
-        console.log(chegou)
         if (li.classList.contains('inventory-header')) return
         li.setAttribute('draggable', true)
         li.addEventListener('dragstart', handler, false)
@@ -754,6 +759,34 @@ export default class WWActorSheet extends ActorSheet {
     };
 
     ChatMessage.create(messageData);
+  }
+
+  _onDispositionChange() {
+    const dispo = this.actor?.token ? this.actor.token.disposition : this.actor.prototypeToken.disposition;
+    const linkedTokens = this.actor.getActiveTokens();
+    
+    if (dispo === -1) {
+      
+      this.actor.update({
+        'prototypeToken.disposition': 1,
+        'token.disposition': 1
+      })
+
+      linkedTokens.forEach(t => t.document.disposition = 1)
+
+      this.render();
+    } else {
+      
+      this.actor.update({
+        'prototypeToken.disposition': -1,
+        'token.disposition': -1
+      })
+
+      linkedTokens.forEach(t => t.document.disposition = -1)
+
+      this.render();
+    }
+
   }
 
   /* -------------------------------------------- */

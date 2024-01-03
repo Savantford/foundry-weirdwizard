@@ -44,13 +44,26 @@ export default class WWCombatant extends Combatant {
     
     // Send to chat
     ChatMessage.create({
-      content: '<div><b>' + token.actor.name + '</b> ' + (taking ? i18n('WW.Combat.InitiativeMsg') : i18n('WW.Combat.TurnMsg')) + '.</div>',
+      content: '<div><b>' + token.actor.name + '</b> ' + (taking ? i18n('WW.Combat.Initiative.Msg') : i18n('WW.Combat.Turn.Msg')) + '.</div>',
       sound: CONFIG.sounds.notification
     });
 
     // Reorder turns
     this.combat.setAll();
   }
+
+  /* -------------------------------------------- */
+  /*  Getters                                     */
+  /* -------------------------------------------- */
   
+  get initiativeBracket() {
+    if ((this.actor.type == 'Character') && this.flags.weirdwizard?.takingInit) {
+      return 1000; // Allies Taking the Initiative
+    } else if (this.actor.type == 'Character') {
+      return 3000; // Allies regular turn
+    } else {
+      return 2000; // Enemies Taking the Initiative
+    }
+  }
 
 }

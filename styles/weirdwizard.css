@@ -605,7 +605,7 @@
   -webkit-box-pack: start;
   -ms-flex-pack: start;
   justify-content: flex-start;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .weirdwizard .character-header {
@@ -736,9 +736,6 @@
   margin: 0;
   font-weight: bold;
 }
-.weirdwizard .npc h1.charname {
-  margin: 5px 0 15px;
-}
 
 .weirdwizard .character-stats {
   /*display: grid;
@@ -787,6 +784,20 @@
   color: white;
   font-weight: normal;
   text-shadow: none;
+}
+
+.weirdwizard .change-disposition {
+  background: rgba(200, 0, 0, 0.2);
+  border: 1px solid var(--color-border-light-2);
+  border-radius: 3px;
+  box-shadow: 0 0 2px #fff inset;
+  padding: 2px 4px;
+  font-weight: bold;
+  letter-spacing: 0.03em;
+}
+
+.weirdwizard .change-disposition.ally {
+  background: rgba(0, 150, 0, 0.2);
 }
 
 .weirdwizard .editor-content {
@@ -2177,6 +2188,36 @@ form.quest-calendar {
 .combat-phase h4 {
   margin: 0;
   padding: 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.combat-phase h4 img {
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  width: 1.3em;
+  height: 1.3em;
+  background-color: white;
+  border: none;
+  -webkit-mask-image: url("/icons/svg/combat.svg");
+  mask-image: url("/icons/svg/combat.svg");
+}
+
+.combat-phase h4.initiative img {
+  -webkit-mask-image: url("../assets/icons/sprint.svg");
+  mask-image: url("../assets/icons/sprint.svg");
+  background-color: #DDDD00;
+}
+
+.combat-phase h4.enemies img {
+  background-color: #DD0000;
+}
+
+.combat-phase h4.end img {
+  -webkit-mask-image: url("/icons/svg/clockwork.svg");
+  mask-image: url("/icons/svg/clockwork.svg");
 }
 
 .directory .directory-item {
@@ -2190,6 +2231,17 @@ form.quest-calendar {
 .combatant-acted, .combatant-taking {
   text-align: center;
   flex: 0 0 20px;
+}
+
+.combatant.injured .resource,
+.combatant.injured .token-name h4 {
+  color: #DD0000;
+  font-weight: bold;
+}
+
+.combatant.acted.injured .resource,
+.combatant.acted.injured .token-name h4 {
+  color: #880000;
 }
 
 #token-hud .status-effects .effect-control {

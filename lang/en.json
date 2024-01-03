@@ -1,4 +1,6 @@
 {
+    "USER.GM": "Sage",
+
     "WW.ActorName": "Actor's Name",
     "WW.ItemName": "Item's Name",
 
@@ -17,6 +19,12 @@
         "Msg": "Resting allows you to heal damage and regain expended resources. If you have uninterrupted rest for 8 consecutive hours, you heal all damage, and you regain Health equal one-tenth your normal Health score (round down). Some of your other resources might also be replenished after a rest. If you stop resting to use an action or reaction, the time you have spent continuously resting is wasted and you must start resting again to gain any benefit from doing so.",
         "Confirm": "Are you able to rest now?",
         "Finished": "finished a rest"
+    },
+
+    "WW.Disposition": {
+        "Enemy": "Enemy",
+        "Ally": "Ally",
+        "Tip": "Click to change disposition."
     },
 
     "WW.Stats": "Stats",
@@ -727,13 +735,14 @@
     },
 
     "WW.Combat": {
-        "ActTip": "You have yet to take your turn during this round.\nClick here to make your turn.",
-        "ActingTip": "It's your turn.\nClick here to finish your turn.",
-        "ActedTip": "You already took your turn during this round.\nClick here if you wish to take another turn during this round.",
-        "InitiativeTip": "Click to take the initiative.",
-        "InitiativeMsg": "is taking the initiative",
-        "TurnTip": "Click to take a regular turn.",
-        "TurnMsg": "is taking a regular turn",
+        "Initiative": {
+            "Label": "Take The Initiative",
+            "Msg": "is taking the initiative"
+        },
+        "Turn": {
+            "Label": "Take a Regular Turn",
+            "Msg": "is taking a regular turn"
+        },
         "TakingInit": {
             "Title": "Taking the Initiative",
             "Msg": "A new round started.",
@@ -745,9 +754,9 @@
             "Msg": "You already took a turn during this round. Normally, each combatant can take one turn per round ONCE.",
             "Confirm": "Are you sure you can act again during this round?"
         },
-        "StartTurn": {
-            "Title": "Take Your Turn",
-            "Msg": "You are about to take your turn RIGHT NOW.",
+        "ActNext": {
+            "Title": "Act Next Turn",
+            "Msg": "You are going to take a turn next, once the current turn is over.",
             "Confirm": "Are you sure?"
         },
         "Phase": {
@@ -756,6 +765,8 @@
             "Allies": "Allies Phase",
             "End": "End of the Round"
         },
+        "Tip": "Right click for context options.",
+        "FinishTurn": "Finish Your Turn",
         "SkipActed": "Skip Acted?",
         "SkipActedHint": "Automatically bypass combatants who acted already during this round."
     },

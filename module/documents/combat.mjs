@@ -201,24 +201,32 @@ export default class WWCombat extends Combat {
       return ids;
     }, []);
 
-    let initiative = 1;
-    let enemies = 1;
-    let allies = 1;
+    let initiative = 1001;
+    let enemies = 2001;
+    let allies = 3001;
 
     ids.forEach(c => {
       const cdata = this.combatants.get(c);
       let v = null;
 
-      if ((cdata.actor.type == 'Character') && cdata.flags.weirdwizard?.takingInit) {
-        v = initiative;
-        initiative += 1;
-      } else if (cdata.actor.type == 'Character') {
-        v = 200 + allies;
-        allies += 1;
-      } else {
-        v = 100 + enemies;
-        enemies += 1;
+      switch (cdata.initiativeBracket) {
+        case 1000: {
+          v = initiative;
+          initiative += 1;
+          break;
+        }
+        case 3000: {
+          v = allies;
+          allies += 1;
+          break;
+        }
+        case 2000: {
+          v = enemies;
+          enemies += 1;
+          break;
+        }
       }
+      
       
       return this.setInitiative(c, v);
     })
