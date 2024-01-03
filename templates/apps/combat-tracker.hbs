@@ -63,11 +63,11 @@
 
     <ol id="combat-tracker" class="directory-list">
         <li class="combat-phase">
-            <h4>{{localize "WW.Combat.Phase.Initiative"}}</h4>
+            <h4 class="initiative"><img>{{localize "WW.Combat.Phase.Initiative"}}<img></h4>
         </li>
         {{#each turns}}
         {{#if (and (eq this.type "Character") this.flags.weirdwizard.takingInit)}}
-        <li class="combatant actor directory-item flexrow{{#if this.flags.weirdwizard.acted}} acted{{/if}} {{this.css}}" data-combatant-id="{{this.id}}">
+        <li class="combatant actor directory-item flexrow{{#if this.flags.weirdwizard.acted}} acted{{/if}}{{#if this.injured}} injured{{/if}} {{this.css}}" title="{{localize "WW.Combat.Tip"}}" data-combatant-id="{{this.id}}">
             <img class="token-image" data-src="{{this.img}}" alt="{{this.name}}"/>
             <div class="token-name flexcol">
                 <h4>{{this.name}}</h4>
@@ -109,7 +109,7 @@
             </div>
             {{/if}}
 
-            <div class="combatant-acted">
+            {{!--<div class="combatant-acted">
                 
                 <a title="{{#if this.active}}{{localize "WW.Combat.ActingTip"}}
                     {{else if this.flags.weirdwizard.acted}}{{localize "WW.Combat.ActedTip"}}
@@ -132,15 +132,16 @@
                 {{/if}}
             </div>
             {{/unless}}
+            --}}
         </li>
         {{/if}}
         {{/each}}
         <li class="combat-phase">
-            <h4>{{localize "WW.Combat.Phase.Enemies"}}</h4>
+            <h4 class="enemies"><img>{{localize "WW.Combat.Phase.Enemies"}}<img></h4>
         </li>
         {{#each turns}}
         {{#if (eq this.type "NPC")}}
-        <li class="combatant actor directory-item flexrow{{#if this.flags.weirdwizard.acted}} acted{{/if}} {{this.css}}" data-combatant-id="{{this.id}}">
+        <li class="combatant actor directory-item flexrow{{#if this.flags.weirdwizard.acted}} acted{{/if}}{{#if this.injured}} injured{{/if}} {{this.css}}" title="{{localize "WW.Combat.Tip"}}" data-combatant-id="{{this.id}}">
             <img class="token-image" data-src="{{this.img}}" alt="{{this.name}}"/>
             <div class="token-name flexcol">
                 <h4>{{this.name}}</h4>
@@ -184,7 +185,7 @@
             {{/if}}
 
             
-            <div class="combatant-acted">
+            {{!--<div class="combatant-acted">
                 
                 <a title="{{#if this.active}}{{localize "WW.Combat.ActingTip"}}
                     {{else if this.flags.weirdwizard.acted}}{{localize "WW.Combat.ActedTip"}}
@@ -207,16 +208,16 @@
                     
                 {{/if}}
             </div>
-            {{/unless}}
+            {{/unless}}--}}
         </li>
         {{/if}}
         {{/each}}
         <li class="combat-phase">
-            <h4>{{localize "WW.Combat.Phase.Allies"}}</h4>
+            <h4 class="allies"><img>{{localize "WW.Combat.Phase.Allies"}}<img></h4>
         </li>
         {{#each turns}}
         {{#if (and (eq this.type "Character") (not this.flags.weirdwizard.takingInit))}}
-        <li class="combatant actor directory-item flexrow{{#if this.flags.weirdwizard.acted}} acted{{/if}} {{this.css}}" data-combatant-id="{{this.id}}">
+        <li class="combatant actor directory-item flexrow{{#if this.flags.weirdwizard.acted}} acted{{/if}}{{#if this.injured}} injured{{/if}} {{this.css}}" title="{{localize "WW.Combat.Tip"}}" data-combatant-id="{{this.id}}">
             <img class="token-image" data-src="{{this.img}}" alt="{{this.name}}"/>
             <div class="token-name flexcol">
                 <h4>{{this.name}}</h4>
@@ -259,7 +260,7 @@
             </div>
             {{/if}}
 
-            <div class="combatant-acted">
+            {{!--<div class="combatant-acted">
                 
                 <a title="{{#if this.active}}{{localize "WW.Combat.ActingTip"}}
                     {{else if this.flags.weirdwizard.acted}}{{localize "WW.Combat.ActedTip"}}
@@ -281,12 +282,12 @@
                     
                 {{/if}}
             </div>
-            {{/unless}}
+            {{/unless}}--}}
         </li>
         {{/if}}
         {{/each}}
         <li class="combat-phase">
-            <h4>{{localize "WW.Combat.Phase.End"}}</h4>
+            <h4 class="end"><img>{{localize "WW.Combat.Phase.End"}}<img></h4>
         </li>
     </ol>
 

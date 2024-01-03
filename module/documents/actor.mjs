@@ -89,17 +89,32 @@ export default class WWActor extends Actor {
 
         case 'Character':
           icon = 'icons/svg/mystery-man.svg';
-          break;
+        break;
 
         case 'NPC':
           icon = 'icons/svg/mystery-man-black.svg';
-          break;
+        break;
 
       }
 
     }
 
-    await this.updateSource({ img: icon });
+    // Assign default Prototype Token Dispositions
+    let dispo = 1;
+
+    switch (this.type) {
+
+      case 'Character':
+        dispo = 1;
+      break;
+
+      case 'NPC':
+        dispo = -1;
+      break;
+
+    }
+
+    await this.updateSource({ img: icon, 'prototypeToken.disposition': dispo });
 
     return await super._preCreate(data, options, user);
   }
