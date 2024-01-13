@@ -135,7 +135,7 @@ function _onMessageButtonContext(element) {
   }
 
   // Assign combatants from current combat, if there are any
-  game.combat.combatants.forEach(c => {
+  game.combat?.combatants.forEach(c => {
     const actor = c.actor;
     
     if (actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
