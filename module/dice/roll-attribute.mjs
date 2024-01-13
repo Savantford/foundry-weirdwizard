@@ -463,10 +463,11 @@ export default class RollAttribute extends FormApplication {
     return finalHtml;
   }
 
-  _addEffectButtons(trigger, { target, singleRoll = false }) {
+  _addEffectButtons(trigger, options = { target: null, singleRoll: false }) {
     const origin = this.origin.uuid,
       instEffs = this.instEffs[trigger],
       actEffs = this.effects[trigger],
+      target = options.target,
       targets = target ? this.targets.filter(t => t.id === target) : this.targets;
     
     let finalHtml = '',
@@ -519,7 +520,6 @@ export default class RollAttribute extends FormApplication {
       const targetIds = this._getTargetIds(targets, e.target);
 
       // Create the chat button
-      console.log(e)
       html = chatMessageButton({
         action: 'apply-effect',
         originUuid: origin,
@@ -538,7 +538,7 @@ export default class RollAttribute extends FormApplication {
     })
     
     // Add htmls to finalHtml
-    if (singleRoll) {
+    if (options.singleRoll) {
       console.log('chegou no single')
       if (anyHtml) finalHtml += buttonsHeader(anyHtml, 'Any', !this.item);
       if (enemiesHtml) finalHtml += buttonsHeader(enemiesHtml, 'Enemies', !this.item);
