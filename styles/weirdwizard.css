@@ -238,7 +238,7 @@
 
 .flex-wrap {
   flex-wrap: wrap;
-  gap: 5px 10px;
+  gap: 0 10px;
 }
 
 .nowrap {
@@ -606,6 +606,7 @@
   -ms-flex-pack: start;
   justify-content: flex-start;
   margin-bottom: 5px;
+  min-width: 200px;
 }
 
 .weirdwizard .character-header {
@@ -645,12 +646,12 @@
 }
 
 .weirdwizard .sheet-header .profile-img {
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 100px;
-  flex: 0 0 100px;
   border-radius: 50%;
-  height: 100px;
   margin-right: 10px;
+}
+
+.weirdwizard .npc-sheet .sheet-header .profile-img {
+  height: 100px;
 }
 
 .weirdwizard .circle img {
@@ -720,7 +721,6 @@
 }
 
 .weirdwizard .sheet-header h1.charname {
-  height: 50px;
   padding: 0px;
   margin: 5px 0;
   border-bottom: 0;
@@ -1129,6 +1129,24 @@ input[type="checkbox"].checkbox-uses {
   color: var(--text);
 }
 
+.weirdwizard .described-list .item .fas,
+.weirdwizard .described-list .item .far,
+.weirdwizard .compact-list .item .fas,
+.weirdwizard .compact-list .item .far,
+.weirdwizard .statbox .item-create {
+  display: none;
+}
+
+.weirdwizard .described-list:hover .item .fas,
+.weirdwizard .described-list:hover .item .far,
+.weirdwizard .compact-list:hover .item .fas,
+.weirdwizard .compact-list:hover .item .far,
+.weirdwizard .pip-box .fas,
+.weirdwizard .pip-box .far,
+.weirdwizard .statbox:hover .item-create {
+  display: inline;
+}
+
 .weirdwizard .described-list .fury-header {
   margin: 10px -5px 5px -5px; 
 }
@@ -1212,6 +1230,64 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard .effect img {
   background-color: #606060;
+}
+
+.weirdwizard .path-sheet .editor {
+  flex: 1;
+}
+
+.weirdwizard .path-sheet .left-col {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+}
+
+.weirdwizard .path-sheet .charname > input {
+  font-size: 24px;
+}
+
+.weirdwizard .path-sheet .tier {
+  background: rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid var(--color-border-light-2) !important;
+  border-radius: 3px;
+  box-shadow: 0 0 2px #fff inset;
+  padding: 2px 4px !important;
+  font-weight: bold;
+  letter-spacing: 0.03em;
+  width: fit-content;
+}
+
+.weirdwizard .path-sheet .items-area {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  padding: 2px 5px;
+  margin: 0;
+}
+
+.weirdwizard .path-sheet .fadeout {
+  box-shadow: rgba(33, 33, 33, 0.8) 0px 0px 1px 2px, rgba(33, 33, 33, 0.6) 0px 0px 0px 5000px;
+  /* border-radius: 4px; */
+  transition: all 0.3s ease-out;
+  z-index: calc(var(--z-index-tooltip) - 2);
+  position: relative;
+}
+
+.weirdwizard .path-sheet .missing {
+  color: #880000;
+}
+
+.weirdwizard .path-sheet .missing label {
+  color: var(--color-text-dark-5);
+}
+
+.weirdwizard .input-list .fas {
+  display: none;
+  font-size: smaller;
+}
+
+.weirdwizard .input-list:hover .fas {
+  display: inline;
 }
 
 /* Tooltips Customization */

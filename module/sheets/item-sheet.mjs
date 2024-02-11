@@ -1,5 +1,5 @@
 import { onManageActiveEffect, onManageInstantEffect, prepareActiveEffectCategories } from '../helpers/effects.mjs';
-import { resizeInput } from '../helpers/utils.mjs';
+import { i18n, resizeInput } from '../helpers/utils.mjs';
 
 /**
  * Extend the basic ItemSheet with some very simple modifications
@@ -14,7 +14,8 @@ export default class WWItemSheet extends ItemSheet {
       classes: ["weirdwizard", "sheet", "item"],
       width: 520,
       height: 480,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
+      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }],
+      dragDrop: [{ dragSelector: null, dropSelector: ".items-area" }] // ".items-area"
     });
   }
 
@@ -35,11 +36,32 @@ export default class WWItemSheet extends ItemSheet {
     const context = super.getData();
 
     // Use a safe clone of the item data for further operations.
-    context.system = context.data.system;
+    context.system = context.item.system;
 
     // Prepare enriched variables for editor
     context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true, relativeTo: this.document })
     
+    // Prepare regular items
+    if (context.item.type == 'Equipment' || context.item.type == 'Trait or Talent' || context.item.type == 'Spell') {
+      this._prepareRegularItem(context);
+    }
+
+    // Prepare character options
+    if (context.item.type == 'Ancestry' || context.item.type == 'Profession' || context.item.type == 'Path') {
+      await this._prepareCharOption(context);
+    }
+    
+    return context;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Prepare a regular item (Equipment, Talents and Spells) data.
+  */
+
+  async _prepareRegularItem(context) {
+
     if (context.item.type == 'Equipment' && context.item.system.subtype == 'weapon' && context.system.attackRider.value) {
       context.system.attackRider.enriched = await TextEditor.enrichHTML(context.system.attackRider.value, { async: true })
     }
@@ -85,14 +107,6 @@ export default class WWItemSheet extends ItemSheet {
         //context.sourcesObj = CONFIG.WW.dropdownSources;
       break;
       
-      case 'Ancestry':
-
-      break;
-
-      case 'Path':
-
-      break;
-      
     }
 
     // Prepare instant effects
@@ -127,8 +141,71 @@ export default class WWItemSheet extends ItemSheet {
 
     // Pass down whether the item needs targets or not
     context.needTargets = this.document.needTargets;
-    
-    return context;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Prepare a character option (Ancestry, Profession, Path) data.
+  */
+
+  async _prepareCharOption(context) {
+
+    const item = context.item;
+
+    // Prepare dropdown objects
+    context.tiers = CONFIG.WW.PATH_TIERS;
+
+    // Prepare Benefits list
+    context.benefits = item.system.benefits;
+
+    for (const b in context.benefits) {
+      const benefit = context.benefits[b];
+
+      benefit.itemsInfo = [];
+
+      for (const i of benefit.items) {
+        
+        const retrieved = await fromUuid(i);
+        
+        benefit.itemsInfo.push({
+          uuid: i,
+          name: retrieved ? retrieved.name : i18n('WW.CharOption.Unknown'),
+          description: retrieved ? retrieved.system.description.value : i18n('WW.CharOption.MissingRef'),
+          missing: retrieved ? false : true
+        });
+
+      }
+      
+    }
+
+  }
+
+  /* -------------------------------------------- */
+
+  /** @inheritdoc */
+  _getHeaderButtons() {
+    let buttons = super._getHeaderButtons();
+    const canConfigure = game.user.isGM;
+
+    if (canConfigure) {
+      const sheetIndex = buttons.findIndex(btn => btn.label === "Sheet");
+
+      if (this.item.charOption) {
+
+        // Add help button
+        buttons.splice(sheetIndex, 0, {
+          label: "WW.Help",
+          class: "help",
+          icon: "fas fa-question",
+          onclick: ev => this._onHelp(ev)
+        });
+
+      }
+
+    }
+
+    return buttons;
   }
 
   /* -------------------------------------------- */
@@ -155,13 +232,401 @@ export default class WWItemSheet extends ItemSheet {
     resizeInput(html);
 
     const system = this.document.system;
-    
-    ////////////////// EFFECTS ////////////////////
 
-    // Active Effect management
+    // Effects management
     html.find('.effect-control').click(ev => onManageActiveEffect(ev, this.document));
     html.find('.instant-control').click(ev => onManageInstantEffect(ev, this.document));
 
+    // If it's a character option
+    if (this.item.charOption) {
+      
+      // Reference handling
+      html.find('.ref-edit').click(ev => this._onRefEdit(ev));
+      html.find('.ref-remove').click(ev => this._onRefRemove(ev));
+      
+      // Handle help
+      html.find('.help').click(ev => this._onHelp(ev));
+
+      // Handle array elements
+      html.find('.array-input').change(this._onArrayInputChanged.bind(this));
+      html.find('.array-button').click(this._onArrayButtonClicked.bind(this));
+
+    }
+
   }
+
+  /* -------------------------------------------- */
+
+  async _onRefEdit(event) {
+    
+    const li = event.currentTarget.closest('.path-item');
+    const item = await fromUuid(li.dataset.itemUuid);
+    
+    await item.compendium.apps[0]._render(true);
+    await item.sheet._render(true);
+    
+  }
+
+  /* -------------------------------------------- */
+
+  async _onRefRemove(event) {
+    
+    const li = event.currentTarget.closest('.path-item');
+    const uuid = li.dataset.itemUuid;
+    const ol = event.currentTarget.closest('.items-area');
+    const benefit = ol.classList[2];
+
+    // Remove the UUID from the benefit's items
+    let benefits = this.item.system.benefits;
+    const arr = benefits[benefit].items.filter(v => { return v !== uuid; });
+    benefits[benefit].items = arr;
+
+    // Open a dialog to confirm
+    const confirm = await Dialog.confirm({
+      title: i18n('WW.CharOption.Reference.Remove.Title'),
+      content: `<p>${i18n('WW.CharOption.Reference.Remove.Msg')}</p><p class="dialog-sure">${i18n('WW.CharOption.Reference.Remove.Confirm')}</p>`
+    });
+
+    if (!confirm) return;
+
+    // Update the item
+    this.item.update({ 'system.benefits': benefits });
+  }
+
+  async _onHelp(event) {
+    let uuid = '';
+
+    // Help is for a Character Option
+    if (this.item.charOption) {
+      uuid = 'Compendium.weirdwizard.docs.JournalEntry.Lrr8Rl7mRIIoYeW1';
+    
+    // Help is for Atributte Calls and Inline Rolls
+    } else {
+      uuid = 'Compendium.weirdwizard.docs.JournalEntry.0xYsAWtUJS591nz9';
+    }
+
+    const entry = await fromUuid(uuid);
+
+    entry.sheet.render(true);
+  }
+
+  /* -------------------------------------------- */
+  /*  Array button actions                        */
+  /* -------------------------------------------- */
+  
+  /**
+   * Handle clicked array buttons
+   * @param {Event} ev   The originating click event
+   * @private
+  */
+
+  _onArrayButtonClicked(ev) {
+    const button = ev.currentTarget,
+      dataset = Object.assign({}, button.dataset);
+
+    
+    switch (dataset.action) {
+      case 'add': this._onArrayButtonAdd(dataset); break;
+      case 'remove': this._onArrayButtonRemove(dataset); break;
+    }
+    
+  }
+
+  /**
+   * Handle adding an element to an array.
+   * @param dataset   The dataset
+   * @private
+  */
+  async _onArrayButtonAdd(dataset) {
+    const arrPath = 'system.' + dataset.array,
+      arr = [...foundry.utils.getProperty(this.document, arrPath), i18n('WW.' + dataset.loc + '.New')];
+    
+    // Update document
+    this.document.update({[arrPath]: arr});
+  }
+
+  /**
+   * Handle array input changes
+   * @param {Event} ev   The originating click event
+   * @private
+  */
+
+  _onArrayInputChanged(ev) {
+    const button = ev.currentTarget,
+      dataset = Object.assign({}, button.dataset),
+      arrPath = 'system.' + dataset.array,
+      arr = [...foundry.utils.getProperty(this.document, arrPath)];
+    
+    // Override array element with input value
+    arr[dataset.id] = button.value;
+    
+    // Update document
+    this.document.update({[arrPath]: arr});
+    
+  }
+
+  /**
+   * Handle removing an element from an array
+   * @param {Event} ev   The originating click event
+   * @private
+  */
+
+  _onArrayButtonRemove(dataset) {
+    
+    const arrPath = 'system.' + dataset.array,
+      arr = [...foundry.utils.getProperty(this.document, arrPath)];
+    
+    // Delete array element
+    arr.splice(dataset.id);
+    
+    // Update document
+    this.document.update({[arrPath]: arr});
+    
+  }
+
+  /* -------------------------------------------- */
+  /*  Drop item events                            */
+  /* -------------------------------------------- */
+
+  /* -------------------------------------------- */
+  /*  Drag and Drop                               */
+  /* -------------------------------------------- */
+
+  /** @inheritdoc */
+  /*_canDragStart(selector) {
+    return this.isEditable;
+  }*/
+
+  /* -------------------------------------------- */
+
+  /** @inheritdoc */
+  /*_canDragDrop(selector) {
+    return this.isEditable;
+  }*/
+
+  /* -------------------------------------------- */
+
+  /** @inheritdoc */
+  _onDragStart(event) {
+    
+    /*const li = event.currentTarget;
+    if ( event.target.classList.contains("content-link") ) return;
+
+    // Create drag data
+    let dragData;
+
+    // Owned Items
+    if ( li.dataset.itemId ) {
+      const item = this.actor.items.get(li.dataset.itemId);
+      dragData = item.toDragData();
+    }
+
+    // Active Effect
+    if ( li.dataset.effectId ) {
+      const effect = this.actor.effects.get(li.dataset.effectId);
+      dragData = effect.toDragData();
+    }
+
+    if ( !dragData ) return;
+
+    // Set data transfer
+    event.dataTransfer.setData("text/plain", JSON.stringify(dragData));*/
+  }
+
+  /** @inheritdoc */
+  _onDragOver(event) {
+    const ol = event.target.closest('.items-area');
+
+    if ($(ol).hasClass('fadeout')) return;
+
+    $(ol).addClass('fadeout');
+
+    ol.addEventListener("dragleave", (event) => $(ol).removeClass('fadeout') );
+  }
+
+  /* -------------------------------------------- */
+
+  /** @inheritdoc */
+  async _onDrop(event) {
+
+    //const rightCol = event.target.closest('.right-col');
+    //const areas = rightCol.querySelectorAll(".example");
+    
+    // Get basic data
+    const data = TextEditor.getDragEventData(event);
+    const ol = event.target.closest('.items-area');
+    
+    if (!ol) return;
+
+    $(ol).removeClass('fadeout')
+
+    const benefit = ol.classList[2];
+
+    if (data.type !== "Item") return;
+
+    const item = await fromUuid(data.uuid);
+    
+    if (!(item.type === 'Equipment' || item.type === 'Trait or Talent' || item.type === 'Spell')) {
+      return ui.notifications.warn(i18n('WW.CharOption.TypeWarning'));
+    }
+
+    if (!item.pack) return ui.notifications.warn(i18n('WW.CharOption.CompendiumWarning'));
+    
+    const benefits = this.document.system.benefits;
+
+    benefits[benefit].items.push(data.uuid);
+
+    this.document.update({'system.benefits': benefits});
+
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle the dropping of ActiveEffect data onto an Actor Sheet
+   * @param {DragEvent} event                  The concluding DragEvent which contains drop data
+   * @param {object} data                      The data transfer extracted from the event
+   * @returns {Promise<ActiveEffect|boolean>}  The created ActiveEffect object or false if it couldn't be created.
+   * @protected
+   */
+  async _onDropActiveEffect(event, data) {
+    const effect = await ActiveEffect.implementation.fromDropData(data);
+    if ( !this.actor.isOwner || !effect ) return false;
+    if ( this.actor.uuid === effect.parent?.uuid ) return false;
+    return ActiveEffect.create(effect.toObject(), {parent: this.actor});
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle dropping of an Actor data onto another Actor sheet
+   * @param {DragEvent} event            The concluding DragEvent which contains drop data
+   * @param {object} data                The data transfer extracted from the event
+   * @returns {Promise<object|boolean>}  A data object which describes the result of the drop, or false if the drop was
+   *                                     not permitted.
+   * @protected
+   */
+  async _onDropActor(event, data) {
+    if ( !this.actor.isOwner ) return false;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle dropping of an item reference or item data onto an Actor Sheet
+   * @param {DragEvent} event            The concluding DragEvent which contains drop data
+   * @param {object} data                The data transfer extracted from the event
+   * @returns {Promise<Item[]|boolean>}  The created or updated Item instances, or false if the drop was not permitted.
+   * @protected
+   */
+  async _onDropItem(event, data) {
+    if ( !this.actor.isOwner ) return false;
+    const item = await Item.implementation.fromDropData(data);
+    const itemData = item.toObject();
+
+    // Handle item sorting within the same Actor
+    if ( this.actor.uuid === item.parent?.uuid ) return this._onSortItem(event, itemData);
+
+    // Create the owned item
+    return this._onDropItemCreate(itemData);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle dropping of a Folder on an Actor Sheet.
+   * The core sheet currently supports dropping a Folder of Items to create all items as owned items.
+   * @param {DragEvent} event     The concluding DragEvent which contains drop data
+   * @param {object} data         The data transfer extracted from the event
+   * @returns {Promise<Item[]>}
+   * @protected
+   */
+  async _onDropFolder(event, data) {
+    if ( !this.actor.isOwner ) return [];
+    const folder = await Folder.implementation.fromDropData(data);
+    if ( folder.type !== "Item" ) return [];
+    const droppedItemData = await Promise.all(folder.contents.map(async item => {
+      if ( !(document instanceof Item) ) item = await fromUuid(item.uuid);
+      return item.toObject();
+    }));
+    return this._onDropItemCreate(droppedItemData);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle the final creation of dropped Item data on the Actor.
+   * This method is factored out to allow downstream classes the opportunity to override item creation behavior.
+   * @param {object[]|object} itemData     The item data requested for creation
+   * @returns {Promise<Item[]>}
+   * @private
+   */
+  async _onDropItemCreate(itemData) {
+    itemData = itemData instanceof Array ? itemData : [itemData];
+    return this.actor.createEmbeddedDocuments("Item", itemData);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle a drop event for an existing embedded Item to sort that Item relative to its siblings
+   * @param {Event} event
+   * @param {Object} itemData
+   * @private
+   */
+  _onSortItem(event, itemData) {
+
+    // Get the drag source and drop target
+    const items = this.actor.items;
+    const source = items.get(itemData._id);
+    const dropTarget = event.target.closest("[data-item-id]");
+    if ( !dropTarget ) return;
+    const target = items.get(dropTarget.dataset.itemId);
+
+    // Don't sort on yourself
+    if ( source.id === target.id ) return;
+
+    // Identify sibling items based on adjacent HTML elements
+    const siblings = [];
+    for ( let el of dropTarget.parentElement.children ) {
+      const siblingId = el.dataset.itemId;
+      if ( siblingId && (siblingId !== source.id) ) siblings.push(items.get(el.dataset.itemId));
+    }
+
+    // Perform the sort
+    const sortUpdates = SortingHelpers.performIntegerSort(source, {target, siblings});
+    const updateData = sortUpdates.map(u => {
+      const update = u.update;
+      update._id = u.target._id;
+      return update;
+    });
+
+    // Perform the update
+    return this.actor.updateEmbeddedDocuments("Item", updateData);
+  }
+
+  /** @override */
+  async _onDropItemCreate(itemData) {
+    
+    const isAllowed = await this.checkDroppedItem(itemData)
+    if (isAllowed) return await super._onDropItemCreate(itemData)
+    console.warn('Wrong item type dragged', this.actor, itemData)
+  }
+
+  /* -------------------------------------------- */
+  /** @override */
+  async checkDroppedItem(itemData) {
+    const type = itemData.type
+    if (['specialaction', 'endoftheround'].includes(type)) return false
+
+    if (type === 'ancestry') {
+      const currentAncestriesIds = this.actor.items.filter(i => i.type === 'ancestry').map(i => i._id)
+      if (currentAncestriesIds?.length > 0) await this.actor.deleteEmbeddedDocuments('Item', currentAncestriesIds)
+      return true
+    } else if (type === 'path' && this.actor.system.paths?.length >= 3) return false
+
+    return true
+  }
+
 
 }

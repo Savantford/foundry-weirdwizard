@@ -24,9 +24,9 @@
     }
   },
   "Item": {
-    "types": ["Equipment", "Trait or Talent", "Spell", "Ancestry", "Path"],
+    "types": ["Equipment", "Trait or Talent", "Spell", "Ancestry", "Profession", "Path"],
     "htmlFields": ["description.value", "description.chat", "description.unidentified"],
-    "background": {
+    "Profession": {
       "templates": ["base"],
       "advancement": []
     },

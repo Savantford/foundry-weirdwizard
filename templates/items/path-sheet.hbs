@@ -1,0 +1,103 @@
+<form class="{{cssClass}} sheet path-sheet" autocomplete="off">
+
+  <div class="flex-row">
+
+    {{!-- Left Column --}}
+    <div class="left-col">
+
+      {{!-- Header --}}
+      <header class="sheet-header">
+        <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+        <div class="header-fields">
+          <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.ItemName"}}"/></h1>
+
+          <div>
+            <select class="tier" name="system.tier">
+                {{selectOptions tiers selected=system.tier localize=true}}
+            </select>
+          </div>
+          
+        </div>
+      </header>
+
+      {{!-- Description --}}
+      {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
+
+    </div>
+
+    {{!-- Right Column --}}
+    <div class="right-col">
+      {{#each benefits as |benefit id|}}
+        {{#if (ne benefit.levelReq 99)}}
+        <div class="statbox{{#if (ne id 'benefit1')}} mt-2{{/if}}">
+          
+          {{!-- Header --}}
+          <h3>{{localize "WW.Level"}} {{benefit.levelReq}}</h3>
+
+          {{!-- Stats --}}
+          <div class="flex-row stat-inline flex-wrap">
+            <span>
+              <label>{{localize "WW.Defense.Armored"}}</label>
+              +<input name="system.benefits.{{id}}.stats.armoredIncrease" type="number" value="{{benefit.stats.armoredIncrease}}" min="0" placeholder="0"/>
+            </span>
+
+            <span>
+              <label>{{localize "WW.Defense.Natural"}}</label>
+              +<input name="system.benefits.{{id}}.stats.naturalIncrease" type="number" value="{{benefit.stats.naturalIncrease}}" min="0" placeholder="0"/>
+              = <input name="system.benefits.{{id}}.stats.naturalSet" type="number" value="{{benefit.stats.naturalSet}}" min="0" placeholder="0"/>
+            </span>
+            
+            {{#if (and (eq @root.system.tier 'novice') (eq benefit.levelReq 1))}}
+            <span>
+              <label>{{localize "WW.Health.Starting"}}</label>
+              <input name="system.benefits.{{id}}.stats.healthStarting" type="number" value="{{benefit.stats.healthStarting}}" min="1" placeholder="1"/>
+            </span>
+            {{else}}
+            <span>
+              <label>{{localize "WW.Health.Label"}}</label>
+              +<input name="system.benefits.{{id}}.stats.healthIncrease" type="number" value="{{benefit.stats.healthIncrease}}" min="0" placeholder="0"/>
+            </span>
+            {{/if}}
+
+            <span>
+              <label>{{localize "WW.Speed.Label"}}</label>
+              +<input name="system.benefits.{{id}}.stats.speedIncrease" type="number" value="{{benefit.stats.speedIncrease}}" min="0" placeholder="0"/>
+            </span>
+
+            <span>
+              <label>{{localize "WW.Damage.Bonus"}}</label>
+              +<input name="system.benefits.{{id}}.stats.bonusDamage" type="number" value="{{benefit.stats.bonusDamage}}" min="0" placeholder="0"/>
+            </span>
+          </div>
+
+          {{!-- Magic --}}
+          <div class="flex-row stat-inline">
+            <label>{{localize "WW.Traditions"}}</label> <input name="traditions" type="text" value="{{benefit.traditions}}" placeholder="One"/>
+            <label>{{localize "WW.Spells"}}</label> <input name="traditions" type="text" value="{{benefit.spells}}" placeholder="One"/>
+          </div>
+
+          <ol class="described-list items-area {{id}}">
+            {{#unless benefit.itemsInfo}}{{localize "WW.CharOption.DropHere"}}{{/unless}}
+            
+            {{#each benefit.itemsInfo as |item id|}}
+            <li class="path-item item{{#if item.missing}} missing{{/if}}" data-item-uuid="{{item.uuid}}">
+              <label>{{item.name}}</label>
+
+              <span class="buttons">
+                {{#unless item.missing}}<a class="ref-edit" title="{{localize "WW.CharOption.EditRef"}}"><i class="fas fa-edit"></i></a>{{/unless}}
+                <a class="ref-remove" title="{{localize "WW.CharOption.RemoveRef"}}"><i class="fas fa-trash"></i></a>
+              </span>
+
+              <span>{{{item.description}}}</span>
+            </li>
+            {{/each}}
+          </ol>
+          
+        </div>
+        {{/if}}
+      {{/each}}
+    </div>
+
+  </div>
+  
+</form>

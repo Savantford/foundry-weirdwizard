@@ -376,6 +376,75 @@ WW.weaponDisadvantages = {
   }
 };
 
+WW.armorTypes = {
+  'light': 'WW.Armor.Light',
+  'medium': 'WW.Armor.Medium',
+  'heavy': 'WW.Armor.Heavy'
+}
+
+WW.armor = {
+  'unarmored': {
+    'label': 'WW.Armor.Unarmored',
+    'def': null,
+    'bonus': null,
+    'type': null
+  },
+  'padded': {
+    'label': 'WW.Armor.Padded',
+    'def': 11,
+    'bonus': null,
+    'type': 'Light'
+  },
+  'leather': {
+    'label': 'WW.Armor.Leather',
+    'def': 12,
+    'bonus': 1,
+    'type': 'Light'
+  },
+  'brigandine': {
+    'label': 'WW.Armor.Brigandine',
+    'def': 13,
+    'bonus': 1,
+    'type': 'Light'
+  },
+  'ring': {
+    'label': 'WW.Armor.Ring',
+    'def': 14,
+    'bonus': 2,
+    'type': 'Medium'
+  },
+  'mail': {
+    'label': 'WW.Armor.Mail',
+    'def': 15,
+    'bonus': null,
+    'type': 'Medium'
+  },
+  'plateAndMail': {
+    'label': 'WW.Armor.PlateAndMail',
+    'def': 16,
+    'bonus': null,
+    'type': 'Medium'
+  },
+  'breastplate': {
+    'label': 'WW.Armor.Breastplate',
+    'def': 16,
+    'bonus': 3,
+    'type': 'Heavy'
+  },
+  'plate': {
+    'label': 'WW.Armor.Plate',
+    'def': 17,
+    'bonus': null,
+    'type': 'Heavy'
+  },
+  'fullPlate': {
+    'label': 'WW.Armor.FullPlate', 
+    'def': 18,
+    'bonus': null,
+    'type': 'Heavy'
+  }
+};
+
 /* Instant Effects */
 
 WW.INSTANT_LABELS = {
@@ -632,6 +701,10 @@ WW.EFFECT_OPTIONS = {
         key: 'system.stats.defense.armored',
         label: 'WW.EffectKeys.Defense.Armored'
       },
+      'defense.armoredIncrease': {
+        key: 'system.stats.defense.armored',
+        label: 'WW.EffectKeys.Defense.ArmoredIncrease'
+      },
       'defense.natural': {
         key: 'system.stats.defense.natural',
         label: 'WW.EffectKeys.Defense.Natural'
@@ -660,6 +733,10 @@ WW.EFFECT_OPTIONS = {
       'health.override': {
         key: 'system.stats.health.override',
         label: 'WW.EffectKeys.Health.Override'
+      },
+      'health.starting': {
+        key: 'system.stats.health.normal',
+        label: 'WW.EffectKeys.Health.Starting'
       },
       'health.increase': {
         key: 'system.stats.health.normal',
@@ -770,71 +847,10 @@ WW.EFFECT_OPTIONS = {
   },
 }
 
-WW.armorTypes = {
-  'light': 'WW.Armor.Light',
-  'medium': 'WW.Armor.Medium',
-  'heavy': 'WW.Armor.Heavy'
-}
+/* Character Options */
 
-WW.armor = {
-  'unarmored': {
-    'label': 'WW.Armor.Unarmored',
-    'def': null,
-    'bonus': null,
-    'type': null
-  },
-  'padded': {
-    'label': 'WW.Armor.Padded',
-    'def': 11,
-    'bonus': null,
-    'type': 'Light'
-  },
-  'leather': {
-    'label': 'WW.Armor.Leather',
-    'def': 12,
-    'bonus': 1,
-    'type': 'Light'
-  },
-  'brigandine': {
-    'label': 'WW.Armor.Brigandine',
-    'def': 13,
-    'bonus': 1,
-    'type': 'Light'
-  },
-  'ring': {
-    'label': 'WW.Armor.Ring',
-    'def': 14,
-    'bonus': 2,
-    'type': 'Medium'
-  },
-  'mail': {
-    'label': 'WW.Armor.Mail',
-    'def': 15,
-    'bonus': null,
-    'type': 'Medium'
-  },
-  'plateAndMail': {
-    'label': 'WW.Armor.PlateAndMail',
-    'def': 16,
-    'bonus': null,
-    'type': 'Medium'
-  },
-  'breastplate': {
-    'label': 'WW.Armor.Breastplate',
-    'def': 16,
-    'bonus': 3,
-    'type': 'Heavy'
-  },
-  'plate': {
-    'label': 'WW.Armor.Plate',
-    'def': 17,
-    'bonus': null,
-    'type': 'Heavy'
-  },
-  'fullPlate': {
-    'label': 'WW.Armor.FullPlate', 
-    'def': 18,
-    'bonus': null,
-    'type': 'Heavy'
-  }
+WW.PATH_TIERS = {
+  'novice': 'WW.NovicePath',
+  'expert': 'WW.ExpertPath',
+  'master': 'WW.MasterPath'
 };

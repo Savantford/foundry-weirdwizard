@@ -150,6 +150,17 @@ export default class WWActor extends Actor {
       this.token.object.updateStatusIcons();
     }
 
+    // Update Paths' Main Effects if Level updates
+    if (changed.system?.stats?.level) {
+      
+      for (const i of this.items) {
+        
+        if (i.type === 'Path') i.updateEffectAndGrantedItems();
+        
+      }
+      
+    }
+
   };
 
   /**

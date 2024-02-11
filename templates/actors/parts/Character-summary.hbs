@@ -22,11 +22,27 @@
         </div>
 
         {{!-- Professions --}}
-        <div class="stat-inline">
-            <label>{{localize "WW.Professions"}}</label>
-            <input name="system.details.professions" type="text" value="{{system.details.professions}}"
-                placeholder="{{localize "WW.ProfessionsPH"}}" />
-            {{system.details.professions.value}}
+        <div class="stat-inline input-list">
+            <label>{{localize "WW.Professions.Label"}}</label>
+            
+            <div>
+
+                {{#each system.details.professions as |detail id|}}
+                <span>
+                <input class="array-input auto-resize" name="" data-array="details.professions" data-id="{{id}}" type="text"
+                    value="{{detail}}" />
+                
+                <a class="array-button" data-action="remove" data-array="details.professions" data-id="{{id}}"
+                    title="{{localize "WW.Professions.Remove"}}"><i class="fas fa-trash"></i></a>
+                
+                {{#unless @last}},{{/unless}}
+                </span>
+                {{/each}}
+
+                <a class="array-button" data-action="add" data-array="details.professions" data-loc="Professions"
+                    title="{{localize "WW.Professions.Add"}}"><i class="fas fa-circle-plus"></i></a>
+                
+            </div>
         </div>
 
         {{!-- Paths --}}
@@ -34,42 +50,120 @@
             {{#if system.details.novice}}
             <label for="paths" class="resource-label">{{localize "WW.Paths"}}</label>
             
+            <span>
                 <input class="auto-resize" type="text" name="system.details.novice" value="{{system.details.novice}}"
                     title="{{localize "WW.NovicePath"}}" data-dtype="String" />
                 {{system.details.novice.value}}
+                
+                {{#if charOptions.novice}}
+                <span class="buttons">
+                    <a class="item-button" data-action="item-edit" data-item-id="{{charOptions.novice._id}}" title="{{localize (concat "WW.Item.Edit." charOptions.novice.type)}}"><i class="fas fa-edit"></i></a>
+                    <a class="item-button" data-action="item-delete" data-item-id="{{charOptions.novice._id}}" title="{{localize (concat "WW.Item.Delete." charOptions.novice.type)}}"><i class="fas fa-trash"></i></a>
+                </span>
+                {{/if}}
+            </span>
 
+            <span>
                 {{#if (gte system.stats.level 3)}}/ {{/if}}
                 <input class="auto-resize" type="text" name="system.details.expert" value="{{system.details.expert}}"
                     title="{{localize "WW.ExpertPath"}}" data-dtype="String" />
-                
+
+                {{#if charOptions.expert}}
+                <span class="buttons">
+                    <a class="item-button" data-action="item-edit" data-item-id="{{charOptions.expert._id}}" title="{{localize (concat "WW.Item.Edit." charOptions.expert.type)}}"><i class="fas fa-edit"></i></a>
+                    <a class="item-button" data-action="item-delete" data-item-id="{{charOptions.expert._id}}" title="{{localize (concat "WW.Item.Delete." charOptions.expert.type)}}"><i class="fas fa-trash"></i></a>
+                </span>
+                {{/if}}
+            </span>
+
+            <span>
                 {{#if (gte system.stats.level 7)}}/ {{/if}}
                 <input class="auto-resize" type="text" name="system.details.master" value="{{system.details.master}}"
                     title="{{localize "WW.MasterPath"}}" data-dtype="String" />
+
+                {{#if charOptions.master}}
+                <span class="buttons">
+                    <a class="item-button" data-action="item-edit" data-item-id="{{charOptions.master._id}}" title="{{localize (concat "WW.Item.Edit." charOptions.master.type)}}"><i class="fas fa-edit"></i></a>
+                    <a class="item-button" data-action="item-delete" data-item-id="{{charOptions.master._id}}" title="{{localize (concat "WW.Item.Delete." charOptions.master.type)}}"><i class="fas fa-trash"></i></a>
+                </span>
+                {{/if}}
+            </span>
             {{/if}}
         </div>
 
         {{!-- Senses --}}
-        <div class="stat-inline">
-            <label>{{localize "WW.Senses"}}</label>
-            <input type="text" name="system.details.senses" value="{{system.details.senses}}"
-                data-dtype="String" />
-            {{system.details.senses.value}}
+        <div class="stat-inline input-list">
+            <label>{{localize "WW.Senses.Label"}}</label>
+
+            <div>
+
+                {{#each system.details.senses as |detail id|}}
+                <span>
+                <input class="array-input auto-resize" name="" data-array="details.senses" data-id="{{id}}" type="text"
+                    value="{{detail}}" />
+                
+                <a class="array-button" data-action="remove" data-array="details.senses" data-id="{{id}}"
+                    title="{{localize "WW.Senses.Remove"}}"><i class="fas fa-trash"></i></a>
+                
+                {{#unless @last}},{{/unless}}
+                </span>
+                {{/each}}
+
+                <a class="array-button" data-action="add" data-array="details.senses" data-loc="Senses"
+                    title="{{localize "WW.Senses.Add"}}"><i class="fas fa-circle-plus"></i></a>
+                
+            </div>
+
         </div>
 
         {{!-- Languages --}}
-        <div class="stat-inline">
-            <label>{{localize "WW.Languages"}}</label>
-            <input type="text" name="system.details.languages" value="{{system.details.languages}}"
-                data-dtype="String" placeholder="{{localize "WW.LanguagesPH"}}" />
-            {{system.details.languages.value}}
+        <div class="stat-inline input-list">
+            <label>{{localize "WW.Languages.Label"}}</label>
+
+            <div>
+
+                {{#each system.details.languages as |detail id|}}
+                <span>
+                <input class="array-input auto-resize" name="" data-array="details.languages" data-id="{{id}}" type="text"
+                    value="{{detail}}" />
+                
+                <a class="array-button" data-action="remove" data-array="details.languages" data-id="{{id}}"
+                    title="{{localize "WW.Languages.Remove"}}"><i class="fas fa-trash"></i></a>
+                
+                {{#unless @last}},{{/unless}}
+                </span>
+                {{/each}}
+
+                <a class="array-button" data-action="add" data-array="details.languages" data-loc="Languages"
+                    title="{{localize "WW.Languages.Add"}}"><i class="fas fa-circle-plus"></i></a>
+                
+            </div>
+
         </div>
 
         {{!-- Immune --}}
-        <div class="stat-inline">
-            <label>{{localize "WW.Immune"}}</label>
-            <input type="text" name="system.details.immune" value="{{system.details.immune}}"
-                data-dtype="String" placeholder="{{localize "WW.ImmunePH"}}" />
-            {{system.details.immune.value}}
+        <div class="stat-inline input-list">
+            <label>{{localize "WW.Immune.Label"}}</label>
+            
+            <div>
+
+                {{#each system.details.immune as |detail id|}}
+                <span>
+                <input class="array-input auto-resize" name="" data-array="details.immune" data-id="{{id}}" type="text"
+                    value="{{detail}}" />
+                
+                <a class="array-button" data-action="remove" data-array="details.immune" data-id="{{id}}"
+                    title="{{localize "WW.Immune.Remove"}}"><i class="fas fa-trash"></i></a>
+                
+                {{#unless @last}},{{/unless}}
+                </span>
+                {{/each}}
+
+                <a class="array-button" data-action="add" data-array="details.immune" data-loc="Immune"
+                    title="{{localize "WW.Immune.Add"}}"><i class="fas fa-circle-plus"></i></a>
+                
+            </div>
+
         </div>
 
         {{!-- Size, Speed --}}
@@ -146,9 +240,27 @@
         {{!-- Traditions --}}
         <span class="spells">
         {{#if system.details.traditions}}
-        <div class="stat mb-2">
-            <label class="" for="traditions" class="resource-label">{{localize "WW.Traditions"}}</label>
-            {{system.details.traditions}}
+        <div class="stat-inline mb-2 input-list">
+            <label>{{localize "WW.Traditions.Label"}}</label>
+            
+            <div>
+
+                {{#each system.details.traditions as |detail id|}}
+                <span>
+                <input class="array-input auto-resize" name="" data-array="details.traditions" data-id="{{id}}" type="text"
+                    value="{{detail}}" />
+                
+                <a class="array-button" data-action="remove" data-array="details.traditions" data-id="{{id}}"
+                    title="{{localize "WW.Traditions.Remove"}}"><i class="fas fa-trash"></i></a>
+                
+                {{#unless @last}},{{/unless}}
+                </span>
+                {{/each}}
+
+                <a class="array-button" data-action="add" data-array="details.traditions" data-loc="Traditions"
+                    title="{{localize "WW.Traditions.Add"}}"><i class="fas fa-circle-plus"></i></a>
+                
+            </div>
         </div>
         {{/if}}
 

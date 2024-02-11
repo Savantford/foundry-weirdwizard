@@ -72,7 +72,7 @@ export class WWActiveEffects {
 
   /* -------------------------------------------- */
 
-  static async embedActiveEffects(actor, doc, operation = 'create') {
+  /*static async embedActiveEffects(actor, doc, operation = 'create') {
     let effectDataList = []
     switch (doc.type) {
       case 'ancestry':
@@ -92,9 +92,9 @@ export class WWActiveEffects {
     }
 
     return await WWActiveEffects.addUpdateEffectsToActor(actor, effectDataList, operation)
-  }
+  }*/
 
-  static async addUpdateEffectsToActor(actor, effectDataList, operation) {
+  /*static async addUpdateEffectsToActor(actor, effectDataList, operation) {
     if (operation === 'create') {
       effectDataList = effectDataList.filter(effectData => effectData.changes.length > 0)
       if (effectDataList.length > 0) await actor.createEmbeddedDocuments('ActiveEffect', effectDataList)
@@ -118,11 +118,11 @@ export class WWActiveEffects {
       if (effectsToDel.length > 0) await actor.deleteEmbeddedDocuments('ActiveEffect', effectsToDel)
     }
     return Promise.resolve()
-  }
+  }*/
 
   /* -------------------------------------------- */
 
-  static generateEffectDataFromAncestry(item, actor = null) {
+  /*static generateEffectDataFromAncestry(item, actor = null) {
     const priority = 1
     const dataL0 = item.system
 
@@ -183,11 +183,11 @@ export class WWActiveEffects {
       changes: [addEffect('system.characteristics.health.max', dataL4.healthbonus, priority)].filter(falsyChangeFilter),
     }
     return [effectDataL0, effectDataL4]
-  }
+  }*/
 
   /* -------------------------------------------- */
 
-  static generateEffectDataFromPath(item, actor = null) {
+  /*static generateEffectDataFromPath(item, actor = null) {
     const priority = 2
     const pathdata = item.system
     const effectDataList = []
@@ -266,11 +266,11 @@ export class WWActiveEffects {
     })
 
     return effectDataList
-  }
+  }*/
 
   /* -------------------------------------------- */
 
-  static generateEffectDataFromTalent(item) {
+  /*static generateEffectDataFromTalent(item) {
     const priority = 3
     const talentData = item.system
     const effectData = {
@@ -324,11 +324,11 @@ export class WWActiveEffects {
     if (challengeChanges.length > 0) effectData.changes = effectData.changes.concat(challengeChanges)
 
     return [effectData]
-  }
+  }*/
 
   /* -------------------------------------------- */
 
-  static generateEffectDataFromArmor(item) {
+  /*static generateEffectDataFromArmor(item) {
     const priority = 4
     const armorData = item.system
     const effectData = {
@@ -354,7 +354,7 @@ export class WWActiveEffects {
       ].filter(falsyChangeFilter),
     }
     return [effectData]
-  }
+  }*/
 
   /* -------------------------------------------- */
 
@@ -362,7 +362,7 @@ export class WWActiveEffects {
    * Toggles the activation of an active effect based on its level requirements and current activation
    * @param actor
    */
-  static async toggleEffectsByActorRequirements(actor) {
+  /*static async toggleEffectsByActorRequirements(actor) {
     const notMetEffectsData = actor.effects
       .filter(
         effect =>
@@ -375,11 +375,11 @@ export class WWActiveEffects {
       }))
     if (notMetEffectsData.length > 0) await actor.updateEmbeddedDocuments('ActiveEffect', notMetEffectsData)
     return Promise.resolve()
-  }
+  }*/
 
   /* -------------------------------------------- */
 
-  static async addEncumbrance(actor, itemNames) {
+  /*static async addEncumbrance(actor, itemNames) {
     const priority = 100
     let effectName =
       game.i18n.localize('WW.encumbered') +
@@ -420,5 +420,6 @@ export class WWActiveEffects {
     else if (n !== 0) await oldEffect.update(effectData, { parent: actor })
     else await oldEffect.delete({ parent: actor })
     return Promise.resolve()
-  }
+  }*/
+
 }

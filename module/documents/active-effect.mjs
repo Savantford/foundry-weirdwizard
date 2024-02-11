@@ -27,6 +27,14 @@ export default class WWActiveEffect extends ActiveEffect {
 
   prepareData() {
     super.prepareData();
+
+  }
+
+  async _onUpdate(data, options, userId) {
+    super._onUpdate(data, options, userId);
+    
+    // If benefits were changed
+    console.log('preparing effect data')
   }
 
   /* -------------------------------------------- */
@@ -49,9 +57,11 @@ export default class WWActiveEffect extends ActiveEffect {
    * @return {import('./item/item').WWItem | undefined}
   */
   get originatingItem() {
+    
     if (this.parent instanceof Item) {
       return this.parent;
     }
+    
     return undefined;
   }
 

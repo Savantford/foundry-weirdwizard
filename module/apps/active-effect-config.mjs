@@ -31,7 +31,6 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     };
 
     const doc = this.document;
-    console.log(doc)
 
     const data = {
       labels,

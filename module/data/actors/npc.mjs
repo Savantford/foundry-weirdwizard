@@ -24,11 +24,31 @@ export default class NpcData extends foundry.abstract.DataModel {
    * @inheritDoc
    */
   static migrateData(source) {
+
+    // Migrate Input Lists (Senses, Languages, Immune)
+    
+    if (typeof source.details.senses === 'string') {
+      const arr = source.details.senses.split(",");
+
+      source.details.senses = arr.map(s => s.trim());
+    }
+
+    if (typeof source.details.languages === 'string') {
+      const arr = source.details.languages.split(",");
+
+      source.details.languages = arr.map(s => s.trim());
+    }
+
+    if (typeof source.details.immune === 'string') {
+      const arr = source.details.immune.split(",");
+
+      source.details.immune = arr.map(s => s.trim());
+    }
     
     // Migrate Level
-    if (isNaN(source.stats.level)) {
+    if (isNaN(source.stats?.level)) {
       
-      switch (source.stats.level) {
+      switch (source.stats?.level) {
         case '⅛': source.stats.level = 0.125; break;
         case '¼': source.stats.level = 0.25; break;
         case '½': source.stats.level = 0.5; break;
@@ -37,9 +57,9 @@ export default class NpcData extends foundry.abstract.DataModel {
     }
 
     // Migrate Size
-    if (isNaN(source.stats.size)) {
+    if (isNaN(source.stats?.size)) {
       
-      switch (source.stats.size) {
+      switch (source.stats?.size) {
         case '⅛': source.stats.size = 0.125; break;
         case '¼': source.stats.size = 0.25; break;
         case '½': source.stats.size = 0.5; break;

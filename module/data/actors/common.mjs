@@ -53,20 +53,19 @@ export function stats(type = String) {
 export function details(type = String) {
   const obj = {
     type: makeStrField('',1,1),
-    senses: makeStrField(),
-    languages: makeStrField(),
-    immune: makeStrField()
+    senses: new fields.ArrayField(makeStrField()),
+    languages: new fields.ArrayField(makeStrField()),
+    immune: new fields.ArrayField(makeStrField())
   }
 
   if (type === 'Character') {
-    obj.languages = makeStrField("Common");
-    obj.professions = makeStrField("",1,1);
+    obj.professions = new fields.ArrayField(makeStrField());
     obj.ancestry = makeStrField("Human",1,1);
     obj.novice = makeStrField("",1,1);
     obj.expert = makeStrField("",1,1);
     obj.master = makeStrField("",1,1);
     obj.reputation = makeIntField();
-    obj.traditions = makeStrField();
+    obj.traditions = new fields.ArrayField(makeStrField());
 
     obj.features = makeHtmlField();
     obj.personality = makeHtmlField();
