@@ -241,6 +241,10 @@
   gap: 0 10px;
 }
 
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
+
 .nowrap {
   white-space: nowrap;
 }
@@ -535,6 +539,9 @@
 }
 .weirdwizard .bold {
   font-weight: bold !important;
+}
+.weirdwizard .italic {
+  font-style: italic !important;
 }
 .weirdwizard .width-50 {
   width: 50px !important;
@@ -1281,12 +1288,16 @@ input[type="checkbox"].checkbox-uses {
   color: var(--color-text-dark-5);
 }
 
-.weirdwizard .input-list .fas {
+.weirdwizard .list-entries > div > span {
+  display: inline-block;
+}
+
+.weirdwizard .list-entries .fas {
   display: none;
   font-size: smaller;
 }
 
-.weirdwizard .input-list:hover .fas {
+.weirdwizard .list-entries:hover .fas {
   display: inline;
 }
 

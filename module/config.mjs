@@ -19,6 +19,17 @@ WW.details = {
   'deeds': 'WW.Deeds'*/
 }
 
+WW.PROFESSION_CATEGORIES = {
+  "commoner": "Commoner",
+  "academic": "Academic",
+  "aristocratic": "Aristrocratic",
+  "criminal": "Criminal",
+  "entertainment": "Entertainment",
+  "military": "Military",
+  "religious": "Religious",
+  "wilderness": "Wilderness"
+}
+
 // Dropdown menus
 WW.dropdownNumbers = {
   0.125: '⅛',

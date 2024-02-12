@@ -5,6 +5,7 @@ import RollAttribute from '../dice/roll-attribute.mjs';
 import TargetingHUD from '../apps/targeting-hud.mjs';
 import { onManageActiveEffect, prepareActiveEffectCategories } from '../helpers/effects.mjs';
 import { WWAfflictions } from '../helpers/afflictions.mjs';
+import ListEntryConfig from '../apps/list-entry-config.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -375,6 +376,18 @@ export default class WWActorSheet extends ActorSheet {
 
   async _prepareCharacterData(context) {
 
+    // Prepare Professions
+    const professions = context.system.details.professions;
+
+    professions.forEach((p,id) => {
+      const obj = p;
+      obj.categoryLoc = CONFIG.WW.PROFESSION_CATEGORIES[p.category];
+      
+      professions[id] = obj;
+    })
+    
+    context.professions = professions;
+
     // Prepare enriched variables for editor.
     context.system.details.features.enriched = await TextEditor.enrichHTML(context.system.details.features.value, { async: true })
     context.system.details.personality.enriched = await TextEditor.enrichHTML(context.system.details.personality.value, { async: true })
@@ -406,9 +419,8 @@ export default class WWActorSheet extends ActorSheet {
     // Change Token Disposition
     html.find('.change-disposition').click(this._onDispositionChange.bind(this));
 
-    // Handle array elements
-    html.find('.array-input').change(this._onArrayInputChanged.bind(this));
-    html.find('.array-button').click(this._onArrayButtonClicked.bind(this));
+    // Handle list entries
+    html.find('.array-button').click(this._onListEntryButtonClicked.bind(this));
 
     /////////////////////// ITEMS ////////////////////////
 
@@ -778,50 +790,49 @@ export default class WWActorSheet extends ActorSheet {
    * @private
   */
 
-  _onArrayButtonClicked(ev) {
+  _onListEntryButtonClicked(ev) {
     const button = ev.currentTarget,
       dataset = Object.assign({}, button.dataset);
 
     switch (dataset.action) {
-      case 'add': this._onArrayButtonAdd(dataset); break;
-      case 'remove': this._onArrayButtonRemove(dataset); break;
+      case 'add': this._onListEntryButtonAdd(dataset); break;
+      case 'edit': this._onListEntryButtonEdit(dataset); break;
+      case 'remove': this._onListEntryButtonRemove(dataset); break;
     }
     
   }
 
   /**
-   * Handle adding an element to an array.
+   * Handle adding an array entry
    * @param dataset   The dataset
    * @private
   */
-  async _onArrayButtonAdd(dataset) {
-    
+  async _onListEntryButtonAdd(dataset) {
+
     const arrPath = 'system.' + dataset.array,
-      arr = [...foundry.utils.getProperty(this.document, arrPath), i18n('WW.' + dataset.loc + '.New')];
+      oldArray = foundry.utils.getProperty(this.document, arrPath),
+      defaultName = (arrPath.includes('languages') && !oldArray.length) ? i18n('WW.Languages.Common') : i18n('WW.' + dataset.loc + '.New'),
+      arr = arrPath.includes('professions') ? [...oldArray, { name: defaultName, category: 'commoner' }] : [...oldArray, { name: defaultName }];
     
     // Update document
+    await this.document.update({[arrPath]: arr});
     
-    this.document.update({[arrPath]: arr});
+    // Add entryId to dataset and render the config window
+    dataset.entryId = arr.length-1;
+    new ListEntryConfig(this.document, dataset).render(true);
     
   }
 
   /**
-   * Handle array input changes
+   * Handle edditing a list entry
    * @param {Event} ev   The originating click event
    * @private
   */
 
-  _onArrayInputChanged(ev) {
-    const button = ev.currentTarget,
-      dataset = Object.assign({}, button.dataset),
-      arrPath = 'system.' + dataset.array,
-      arr = [...foundry.utils.getProperty(this.document, arrPath)];
+  _onListEntryButtonEdit(dataset) {
     
-    // Override array element with input value
-    arr[dataset.id] = button.value;
-    
-    // Update document
-    this.document.update({[arrPath]: arr});
+    // Render ListEntryConfig
+    new ListEntryConfig(this.document, dataset).render(true);
     
   }
 
@@ -831,13 +842,13 @@ export default class WWActorSheet extends ActorSheet {
    * @private
   */
 
-  _onArrayButtonRemove(dataset) {
+  _onListEntryButtonRemove(dataset) {
     
     const arrPath = 'system.' + dataset.array,
       arr = [...foundry.utils.getProperty(this.document, arrPath)];
     
     // Delete array element
-    arr.splice(dataset.id);
+    arr.splice(dataset.entryId, 1);
     
     // Update document
     this.document.update({[arrPath]: arr});

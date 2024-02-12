@@ -1,0 +1,29 @@
+<form autocomplete="off" class="weirdwizard list-entry">
+  
+  <!-- Content -->
+  <div class="stat-inline">
+    <label>{{localize "WW.Name"}}</label>
+    <input name="name" type="text" value="{{name}}" />
+  </div>
+
+  {{#if showCategory}}
+  <div class="stat-inline">
+    <label>{{localize "WW.Professions.Category"}}</label>
+
+    <select name="category">
+      {{selectOptions categories selected=category localize=true}}
+    </select>
+
+  </div>
+  {{/if}}
+
+  <div class="stat">
+    <label>{{localize "WW.Description"}}</label>
+
+    <textarea name="desc">{{desc}}</textarea>
+  </div>
+
+  <footer class="sheet-footer">
+    <button type="submit"><i class="fas fa-save"></i> {{localize 'EFFECT.Submit'}}</button>
+  </footer>
+</form>

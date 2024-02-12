@@ -47,7 +47,7 @@ export default class WWItemSheet extends ItemSheet {
     }
 
     // Prepare character options
-    if (context.item.type == 'Ancestry' || context.item.type == 'Profession' || context.item.type == 'Path') {
+    if (context.item.type == 'Ancestry' || context.item.type == 'Path') {
       await this._prepareCharOption(context);
     }
     
@@ -146,7 +146,7 @@ export default class WWItemSheet extends ItemSheet {
   /* -------------------------------------------- */
 
   /**
-   * Prepare a character option (Ancestry, Profession, Path) data.
+   * Prepare a character option (Ancestry or Path) data.
   */
 
   async _prepareCharOption(context) {

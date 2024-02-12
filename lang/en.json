@@ -39,23 +39,25 @@
         "Label": "Senses",
         "New": "New Sense",
         "Add": "Add new sense",
+        "Edit": "Edit sense",
         "Remove": "Remove sense"
     },
 
     "WW.Languages": {
         "Label": "Languages",
-        "PH": "Common, Sylvan",
         "Bonus": "Bonus Language(s)",
         "New": "New Language",
+        "Common": "Common",
         "Add": "Add new language",
+        "Edit": "Edit language",
         "Remove": "Remove language"
     },
 
     "WW.Immune": {
         "Label": "Immune",
-        "PH": "poisoned",
         "New": "New Immunity",
         "Add": "Add new immunity",
+        "Edit": "Edit immunity",
         "Remove": "Remove immunity"
     },
 
@@ -225,10 +227,19 @@
     "WW.Knowledge": "Knowledge",
     "WW.Professions": {
         "Label": "Professions",
-        "PH": "Laborer (Common)",
-        "New": "New Profession (Category)",
+        "New": "New Profession",
+        "Edit": "Edit profession",
         "Add": "Add new profession",
-        "Remove": "Remove profession"
+        "Remove": "Remove profession",
+        "Category": "Category",
+        "Commoner": "Commoner",
+        "Academic": "Academic",
+        "Aristocratic": "Aristrocratic",
+        "Criminal": "Criminal",
+        "Entertainment": "Entertainment",
+        "Military": "Military",
+        "Religious": "Religious",
+        "Wilderness": "Wilderness"
     },
 
     "WW.Information": "Information",
@@ -347,9 +358,9 @@
 
     "WW.Traditions": {
         "Label": "Traditions",
-        "PH": "Aeromancy, Alteration, etc",
         "New": "New Tradition",
         "Add": "Add new tradition",
+        "Edit": "Edit immunity",
         "Remove": "Remove tradition"
     },
 

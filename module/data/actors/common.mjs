@@ -53,19 +53,34 @@ export function stats(type = String) {
 export function details(type = String) {
   const obj = {
     type: makeStrField('',1,1),
-    senses: new fields.ArrayField(makeStrField()),
-    languages: new fields.ArrayField(makeStrField()),
-    immune: new fields.ArrayField(makeStrField())
+
+    senses: new fields.ArrayField(
+      new fields.ObjectField({ initial: { name: "", desc: "" } })
+    ),
+
+    languages: new fields.ArrayField(
+      new fields.ObjectField({ initial: { name: "", desc: "" } })
+    ),
+
+    immune: new fields.ArrayField(
+      new fields.ObjectField({ initial: { name: "", desc: "" } })
+    )
   }
 
   if (type === 'Character') {
-    obj.professions = new fields.ArrayField(makeStrField());
+    obj.professions = new fields.ArrayField((
+      new fields.ObjectField({ initial: { name: "", category: "", desc: "" } })
+    ));
+
     obj.ancestry = makeStrField("Human",1,1);
     obj.novice = makeStrField("",1,1);
     obj.expert = makeStrField("",1,1);
     obj.master = makeStrField("",1,1);
     obj.reputation = makeIntField();
-    obj.traditions = new fields.ArrayField(makeStrField());
+
+    obj.traditions = new fields.ArrayField(
+      new fields.ObjectField({ initial: { name: "", desc: "" } })
+    );
 
     obj.features = makeHtmlField();
     obj.personality = makeHtmlField();
