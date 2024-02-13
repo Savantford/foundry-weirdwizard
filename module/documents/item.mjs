@@ -44,6 +44,10 @@ export default class WWItem extends Item {
         case 'Ancestry':
           icon = 'icons/svg/oak.svg';
         break;
+
+        case 'Profession':
+          icon = 'icons/svg/book.svg';
+        break;
   
         case 'Path':
           icon = 'icons/svg/stone-path.svg';
@@ -90,7 +94,7 @@ export default class WWItem extends Item {
    */
   async _onUpdate(data, options, userId) {
     super._onUpdate(data, options, userId);
-    console.log(data)
+    
     // If benefits were changed
     if (data.system?.benefits) {
       this.updateEffectAndGrantedItems();
@@ -168,7 +172,7 @@ export default class WWItem extends Item {
   /* -------------------------------------------- */
 
   updateEffectAndGrantedItems() {
-    this.updateMainEffect();
+    if (this.type !== 'Profession') this.updateMainEffect();
     this.updateGrantedItems();
   }
 
@@ -188,6 +192,8 @@ export default class WWItem extends Item {
       armoredIncrease: 0,
       healthStarting: 0,
       healthIncrease: 0,
+      sizeNormal: 1,
+      speedNormal: 5,
       speedIncrease: 0,
       bonusDamage: 0
     };
@@ -208,6 +214,8 @@ export default class WWItem extends Item {
         if (this.system.tier === 'novice' && benefit.levelReq === 1) stats.healthStarting = bStats.healthStarting;
         stats.healthIncrease += bStats.healthIncrease;
 
+        if (bStats.sizeNormal) stats.sizeNormal = bStats.sizeNormal;
+        if (bStats.speedNormal) stats.speedNormal = bStats.speedNormal;
         stats.speedIncrease += bStats.speedIncrease;
         stats.bonusDamage += bStats.bonusDamage;
       }
@@ -246,15 +254,25 @@ export default class WWItem extends Item {
       value: stats.healthIncrease
     })
 
+    if (stats.sizeNormal) changes.push({
+      key: 'size.normal',
+      value: stats.sizeNormal
+    })
+
+    if (stats.speedNormal) changes.push({
+      key: 'speed.normal',
+      value: stats.speedNormal
+    })
+
     if (stats.speedIncrease) changes.push({
       key: 'speed.increase',
       value: stats.speedIncrease
     })
 
-    /*if (stats.bonusDamage) changes.push({
+    if (stats.bonusDamage) changes.push({
       key: 'bonusDamage.increase',
       value: stats.bonusDamage
-    })*/
+    })
     
     // Create effect data object
     const effectData = {

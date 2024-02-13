@@ -11,8 +11,16 @@
                 {{selectOptions numbersArr selected=system.stats.level nameAttr="key" labelAttr="label"}}
             </select>
 
+            {{!-- Ancestry --}}
             <input class="auto-resize" type="text" name="system.details.ancestry" value="{{system.details.ancestry}}"
                 title="{{localize "WW.Ancestry"}}" data-dtype="String" />
+
+            {{#if charOptions.ancestry}}
+            <span class="buttons ml-1">
+                <a class="item-button" data-action="item-edit" data-item-id="{{charOptions.ancestry._id}}" title="{{localize (concat "WW.Item.Edit." charOptions.ancestry.type)}}"><i class="fas fa-edit"></i></a>
+                <a class="item-button" data-action="item-delete" data-item-id="{{charOptions.ancestry._id}}" title="{{localize (concat "WW.Item.Delete." charOptions.ancestry.type)}}"><i class="fas fa-trash"></i></a>
+            </span>
+            {{/if}}
 
             {{!-- Type --}}
             {{#if system.details.type}}<label class="ml-1">{{localize "WW.Type"}}</label>{{/if}}
@@ -27,25 +35,36 @@
 
             <div>
 
-                {{#each system.details.professions as |detail id|}}
+                {{#each charOptions.professions as |item id|}}
                 <span>
-                {{log detail}}
-                <a data-tooltip="<p>{{localize "WW.Professions.Category"}}: {{detail.categoryLoc}}</p><br/><p>{{detail.desc}}</p>">{{detail.name}}</a>
-                
-                <a class="array-button" data-action="edit" data-array="details.professions" data-entry-id="{{id}}"
-                    title="{{localize "WW.Professions.Edit"}}"><i class="fas fa-edit"></i></a>
-                
-                <a class="array-button" data-action="remove" data-array="details.professions" data-entry-id="{{id}}"
-                    title="{{localize "WW.Professions.Remove"}}"><i class="fas fa-trash"></i></a>
+                {{log item}}
+                <a data-tooltip="<p>{{localize "WW.Professions.Category"}}: {{item.system.categoryLoc}}</p><br/><p>{{item.system.description.enriched}}</p>">{{item.name}}</a>
+
+                <span class="buttons">
+                    {{#if item.system.description.value}}
+                    {{!-- Send to Chat Scroll --}}
+                    <a class="item-button" data-action="item-scroll" data-item-id="{{item._id}}" title="{{localize "WW.Item.Send"}}"><i
+                        class="far fa-scroll"></i></a>
+                    {{/if}}
+
+                    {{!-- Edit Button --}}
+                    <a class="item-button" data-action="item-edit" data-item-id="{{item._id}}" title="{{localize (concat "WW.Item.Edit." item.type)}}"><i class="fas fa-edit"></i></a>
+
+                    {{!-- Delete Button --}}
+                    <a class="item-button" data-action="item-delete" data-item-id="{{item._id}}" title="{{localize (concat "WW.Item.Delete." item.type)}}"><i class="fas fa-trash"></i></a>
+                    
+                </span>
                 
                 {{#unless @last}},{{/unless}}
                 </span>
                 {{/each}}
 
-                {{#unless system.details.professions.length}}—{{/unless}}
-
-                <a class="array-button" data-action="add" data-array="details.professions" data-loc="Professions"
-                    title="{{localize "WW.Professions.Add"}}"><i class="fas fa-circle-plus"></i></a>
+                {{#unless charOptions.professions.length}}—{{/unless}}
+                
+                {{!-- Create Button --}}
+                <a class="item-control item-create" title="{{localize "WW.Item.Add.Profession"}}" data-type="Profession"><i
+                    class="fas fa-circle-plus"></i></a>
+                
                 
             </div>
             
@@ -53,13 +72,11 @@
 
         {{!-- Paths --}}
         <div class="stat">
-            {{#if system.details.novice}}
             <label for="paths" class="resource-label">{{localize "WW.Paths"}}</label>
             
             <span>
                 <input class="auto-resize" type="text" name="system.details.novice" value="{{system.details.novice}}"
                     title="{{localize "WW.NovicePath"}}" data-dtype="String" />
-                {{system.details.novice.value}}
                 
                 {{#if charOptions.novice}}
                 <span class="buttons">
@@ -70,7 +87,6 @@
             </span>
 
             <span>
-                {{#if (gte system.stats.level 3)}}/ {{/if}}
                 <input class="auto-resize" type="text" name="system.details.expert" value="{{system.details.expert}}"
                     title="{{localize "WW.ExpertPath"}}" data-dtype="String" />
 
@@ -83,7 +99,6 @@
             </span>
 
             <span>
-                {{#if (gte system.stats.level 7)}}/ {{/if}}
                 <input class="auto-resize" type="text" name="system.details.master" value="{{system.details.master}}"
                     title="{{localize "WW.MasterPath"}}" data-dtype="String" />
 
@@ -94,7 +109,7 @@
                 </span>
                 {{/if}}
             </span>
-            {{/if}}
+            
         </div>
 
         {{!-- Senses --}}
@@ -108,11 +123,13 @@
                 
                 <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>
                 
-                <a class="array-button" data-action="edit" data-array="details.senses" data-entry-id="{{id}}"
-                    title="{{localize "WW.Senses.Edit"}}"><i class="fas fa-edit"></i></a>
-                
-                <a class="array-button" data-action="remove" data-array="details.senses" data-entry-id="{{id}}"
-                    title="{{localize "WW.Senses.Remove"}}"><i class="fas fa-trash"></i></a>
+                <span class="buttons">
+                    <a class="array-button" data-action="edit" data-array="details.senses" data-entry-id="{{id}}"
+                        title="{{localize "WW.Senses.Edit"}}"><i class="fas fa-edit"></i></a>
+                    
+                    <a class="array-button" data-action="remove" data-array="details.senses" data-entry-id="{{id}}"
+                        title="{{localize "WW.Senses.Remove"}}"><i class="fas fa-trash"></i></a>
+                </span>
                 
                 {{#unless @last}},{{/unless}}
                 </span>
@@ -138,11 +155,13 @@
                 
                 <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>
                 
-                <a class="array-button" data-action="edit" data-array="details.languages" data-entry-id="{{id}}"
-                    title="{{localize "WW.Languages.Edit"}}"><i class="fas fa-edit"></i></a>
-                
-                <a class="array-button" data-action="remove" data-array="details.languages" data-entry-id="{{id}}"
-                    title="{{localize "WW.Languages.Remove"}}"><i class="fas fa-trash"></i></a>
+                <span class="buttons">
+                    <a class="array-button" data-action="edit" data-array="details.languages" data-entry-id="{{id}}"
+                        title="{{localize "WW.Languages.Edit"}}"><i class="fas fa-edit"></i></a>
+                    
+                    <a class="array-button" data-action="remove" data-array="details.languages" data-entry-id="{{id}}"
+                        title="{{localize "WW.Languages.Remove"}}"><i class="fas fa-trash"></i></a>
+                </span>
                 
                 {{#unless @last}},{{/unless}}
                 </span>
@@ -167,12 +186,14 @@
                 <span>
                 
                 <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>
-                
-                <a class="array-button" data-action="edit" data-array="details.immune" data-entry-id="{{id}}"
-                    title="{{localize "WW.Immune.Edit"}}"><i class="fas fa-edit"></i></a>
-                
-                <a class="array-button" data-action="remove" data-array="details.immune" data-entry-id="{{id}}"
-                    title="{{localize "WW.Immune.Remove"}}"><i class="fas fa-trash"></i></a>
+
+                <span class="buttons">
+                    <a class="array-button" data-action="edit" data-array="details.immune" data-entry-id="{{id}}"
+                        title="{{localize "WW.Immune.Edit"}}"><i class="fas fa-edit"></i></a>
+                    
+                    <a class="array-button" data-action="remove" data-array="details.immune" data-entry-id="{{id}}"
+                        title="{{localize "WW.Immune.Remove"}}"><i class="fas fa-trash"></i></a>
+                </span>
                 
                 {{#unless @last}},{{/unless}}
                 </span>

@@ -6,17 +6,6 @@
     <input name="name" type="text" value="{{name}}" />
   </div>
 
-  {{#if showCategory}}
-  <div class="stat-inline">
-    <label>{{localize "WW.Professions.Category"}}</label>
-
-    <select name="category">
-      {{selectOptions categories selected=category localize=true}}
-    </select>
-
-  </div>
-  {{/if}}
-
   <div class="stat">
     <label>{{localize "WW.Description"}}</label>
 

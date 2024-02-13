@@ -1,5 +1,6 @@
 import { onManageActiveEffect, onManageInstantEffect, prepareActiveEffectCategories } from '../helpers/effects.mjs';
 import { i18n, resizeInput } from '../helpers/utils.mjs';
+import ListEntryConfig from '../apps/list-entry-config.mjs';
 
 /**
  * Extend the basic ItemSheet with some very simple modifications
@@ -40,15 +41,14 @@ export default class WWItemSheet extends ItemSheet {
 
     // Prepare enriched variables for editor
     context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true, relativeTo: this.document })
-    
-    // Prepare regular items
-    if (context.item.type == 'Equipment' || context.item.type == 'Trait or Talent' || context.item.type == 'Spell') {
-      this._prepareRegularItem(context);
-    }
 
     // Prepare character options
-    if (context.item.type == 'Ancestry' || context.item.type == 'Path') {
+    if (this.item.charOption) {
       await this._prepareCharOption(context);
+
+    } else {
+      // Prepare regular items
+      this._prepareRegularItem(context);
     }
     
     return context;
@@ -156,6 +156,11 @@ export default class WWItemSheet extends ItemSheet {
     // Prepare dropdown objects
     context.tiers = CONFIG.WW.PATH_TIERS;
 
+    // Prepare Professions
+    if (this.document.type === 'Profession') {
+      context.professionCategories = CONFIG.WW.PROFESSION_CATEGORIES;
+    }
+
     // Prepare Benefits list
     context.benefits = item.system.benefits;
 
@@ -248,8 +253,7 @@ export default class WWItemSheet extends ItemSheet {
       html.find('.help').click(ev => this._onHelp(ev));
 
       // Handle array elements
-      html.find('.array-input').change(this._onArrayInputChanged.bind(this));
-      html.find('.array-button').click(this._onArrayButtonClicked.bind(this));
+      html.find('.array-button').click(this._onListEntryButtonClicked.bind(this));
 
     }
 
@@ -313,6 +317,81 @@ export default class WWItemSheet extends ItemSheet {
   /* -------------------------------------------- */
   /*  Array button actions                        */
   /* -------------------------------------------- */
+
+  /**
+   * Handle clicked array buttons
+   * @param {Event} ev   The originating click event
+   * @private
+  */
+
+  _onListEntryButtonClicked(ev) {
+    const button = ev.currentTarget,
+      dataset = Object.assign({}, button.dataset);
+
+    switch (dataset.action) {
+      case 'add': this._onListEntryButtonAdd(dataset); break;
+      case 'edit': this._onListEntryButtonEdit(dataset); break;
+      case 'remove': this._onListEntryButtonRemove(dataset); break;
+    }
+    
+  }
+
+  /**
+   * Handle adding an array entry
+   * @param dataset   The dataset
+   * @private
+  */
+  async _onListEntryButtonAdd(dataset) {
+
+    const arrPath = 'system.' + dataset.array,
+      oldArray = foundry.utils.getProperty(this.document, arrPath),
+      defaultName = (arrPath.includes('languages') && !oldArray.length) ? i18n('WW.Languages.Common') : i18n('WW.' + dataset.loc + '.New'),
+      arr = [...oldArray, { name: defaultName }];
+    
+    // Update document
+    await this.document.update({[arrPath]: arr});
+    
+    // Add entryId to dataset and render the config window
+    dataset.entryId = arr.length-1;
+    new ListEntryConfig(this.document, dataset).render(true);
+    
+  }
+
+  /**
+   * Handle edditing a list entry
+   * @param {Event} ev   The originating click event
+   * @private
+  */
+
+  _onListEntryButtonEdit(dataset) {
+    
+    // Render ListEntryConfig
+    new ListEntryConfig(this.document, dataset).render(true);
+    
+  }
+
+  /**
+   * Handle removing an element from an array
+   * @param {Event} ev   The originating click event
+   * @private
+  */
+
+  _onListEntryButtonRemove(dataset) {
+    
+    const arrPath = 'system.' + dataset.array,
+      arr = [...foundry.utils.getProperty(this.document, arrPath)];
+    
+    // Delete array element
+    arr.splice(dataset.entryId, 1);
+    
+    // Update document
+    this.document.update({[arrPath]: arr});
+    
+  }
+
+  /* -------------------------------------------- */
+  /*  Array button actions                        */
+  /* -------------------------------------------- */
   
   /**
    * Handle clicked array buttons
@@ -329,58 +408,6 @@ export default class WWItemSheet extends ItemSheet {
       case 'add': this._onArrayButtonAdd(dataset); break;
       case 'remove': this._onArrayButtonRemove(dataset); break;
     }
-    
-  }
-
-  /**
-   * Handle adding an element to an array.
-   * @param dataset   The dataset
-   * @private
-  */
-  async _onArrayButtonAdd(dataset) {
-    const arrPath = 'system.' + dataset.array,
-      arr = [...foundry.utils.getProperty(this.document, arrPath), i18n('WW.' + dataset.loc + '.New')];
-    
-    // Update document
-    this.document.update({[arrPath]: arr});
-  }
-
-  /**
-   * Handle array input changes
-   * @param {Event} ev   The originating click event
-   * @private
-  */
-
-  _onArrayInputChanged(ev) {
-    const button = ev.currentTarget,
-      dataset = Object.assign({}, button.dataset),
-      arrPath = 'system.' + dataset.array,
-      arr = [...foundry.utils.getProperty(this.document, arrPath)];
-    
-    // Override array element with input value
-    arr[dataset.id] = button.value;
-    
-    // Update document
-    this.document.update({[arrPath]: arr});
-    
-  }
-
-  /**
-   * Handle removing an element from an array
-   * @param {Event} ev   The originating click event
-   * @private
-  */
-
-  _onArrayButtonRemove(dataset) {
-    
-    const arrPath = 'system.' + dataset.array,
-      arr = [...foundry.utils.getProperty(this.document, arrPath)];
-    
-    // Delete array element
-    arr.splice(dataset.id);
-    
-    // Update document
-    this.document.update({[arrPath]: arr});
     
   }
 

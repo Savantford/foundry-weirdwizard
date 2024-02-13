@@ -143,14 +143,13 @@ export default class WWActorSheet extends ActorSheet {
     // Initialize charOptions
     const charOptions = {
       ancestry: null,
-      profession: null,
+      professions: [],
       novice: null,
       expert: null,
       master: null,
     }
 
     // Iterate through items, allocating to containers
-    
     for (let i of context.items) {
 
       const itemDoc = this.document.items.get(i._id);
@@ -302,17 +301,27 @@ export default class WWActorSheet extends ActorSheet {
 
         // Append to spells.
         else if (i.type === 'Spell') spells.push(i);
+
       } else { // Item is a Char Option
         
         switch(i.type) {
 
+          case 'Ancestry': charOptions.ancestry = i; break;
+
+          case 'Profession': charOptions.professions.push(i); break;
+
           case 'Path': {
-            
             if (i.system.tier === 'master') charOptions.master = i;
             else if (i.system.tier === 'expert') charOptions.expert = i;
             else charOptions.novice = i;
-          }
+            break;
+          };
 
+        }
+
+        // Prepare Profession Category Localization
+        if (i.type === 'Profession') {
+          i.system.categoryLoc = CONFIG.WW.PROFESSION_CATEGORIES[i.system.category];
         }
         
       }
@@ -375,18 +384,6 @@ export default class WWActorSheet extends ActorSheet {
   */
 
   async _prepareCharacterData(context) {
-
-    // Prepare Professions
-    const professions = context.system.details.professions;
-
-    professions.forEach((p,id) => {
-      const obj = p;
-      obj.categoryLoc = CONFIG.WW.PROFESSION_CATEGORIES[p.category];
-      
-      professions[id] = obj;
-    })
-    
-    context.professions = professions;
 
     // Prepare enriched variables for editor.
     context.system.details.features.enriched = await TextEditor.enrichHTML(context.system.details.features.value, { async: true })
@@ -812,7 +809,7 @@ export default class WWActorSheet extends ActorSheet {
     const arrPath = 'system.' + dataset.array,
       oldArray = foundry.utils.getProperty(this.document, arrPath),
       defaultName = (arrPath.includes('languages') && !oldArray.length) ? i18n('WW.Languages.Common') : i18n('WW.' + dataset.loc + '.New'),
-      arr = arrPath.includes('professions') ? [...oldArray, { name: defaultName, category: 'commoner' }] : [...oldArray, { name: defaultName }];
+      arr = [...oldArray, { name: defaultName }];
     
     // Update document
     await this.document.update({[arrPath]: arr});
@@ -915,8 +912,8 @@ export default class WWActorSheet extends ActorSheet {
   /*  Drop item events                            */
   /* -------------------------------------------- */
 
-  /** @override */
-  async _onDropItemCreate(itemData) {
+   /** @override */
+   async _onDropItemCreate(itemData) {
 
     // Check if item must be unique
     if (itemData.type === 'Ancestry' || itemData.type === 'Path') {
@@ -938,6 +935,7 @@ export default class WWActorSheet extends ActorSheet {
   }
 
   /* -------------------------------------------- */
+  
   /** @override */
   async checkDroppedItem(itemData) {
     const type = itemData.type
@@ -964,15 +962,6 @@ export default class WWActorSheet extends ActorSheet {
     const initialLayer = canvas.activeLayer;
 
     new TargetingHUD(obj, initialLayer, 'template').render(true);
-    /*try {
-      await GridTemplate.fromItem(item)?.drawPreview(obj);
-    } catch(err) {
-      Hooks.onError("Item5e._onChatCardAction", err, {
-        msg: game.i18n.localize("DND5E.PlaceTemplateError"),
-        log: "error",
-        notify: "error"
-      });
-    }*/
   }
 
   /**
@@ -993,8 +982,6 @@ export default class WWActorSheet extends ActorSheet {
     // Activate TargetingHUD app
     new TargetingHUD(obj, initialLayer, 'manual').render(true);
   }
-
-  
   
   /* -------------------------------------------- */
   /*  Getters                                     */

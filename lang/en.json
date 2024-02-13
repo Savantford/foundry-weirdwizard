@@ -231,6 +231,7 @@
         "Edit": "Edit profession",
         "Add": "Add new profession",
         "Remove": "Remove profession",
+        "Profession": "Profession",
         "Category": "Category",
         "Commoner": "Commoner",
         "Academic": "Academic",
@@ -275,7 +276,23 @@
             "Damage": "Roll Damage Dice",
             "Healing": "Roll Healing Dice"
         },
+        "Add": {
+            "Ancestry": "Add Ancestry",
+            "Profession": "Add Profession",
+            "NovicePath": "Add Novice Path",
+            "ExpertPath": "Add Expert Path",
+            "MasterPath": "Add Master Path",
+            "Trait or Talent": "Add Trait/Talent",
+            "Equipment": "Add Equipment",
+            "Weapon": "Add Weapon",
+            "Spell": "Add Spell",
+            "Attack": "Add Weapon",
+            "Fury": "Add Fury"
+        },
         "Edit": {
+            "Ancestry": "Edit Ancestry",
+            "Profession": "Edit Profession",
+            "Path": "Edit Path",
             "Trait or Talent": "Edit Trait/Talent",
             "Equipment": "Edit Equipment",
             "Weapon": "Edit Weapon",
@@ -284,6 +301,9 @@
             "Fury": "Edit Fury"
         },
         "Delete": {
+            "Ancestry": "Remove Ancestry",
+            "Profession": "Remove Profession",
+            "Path": "Remove Path",
             "Label": "Delete",
             "Title": "Delete Item",
             "Msg": "You are about to delete",
@@ -690,12 +710,18 @@
             "TempReduce": "Reduce current Speed by",
             "Halved": "Speed is halved",
             "Override": "Speed drops to and cannot be increased above",
-            "Increase": "Increase normal Speed by"
+            "Increase": "Increase normal Speed by",
+            "Normal": "Normal Speed is"
         },
         "Size": {
             "Header": "Other Stats",
             "Increase": "Increase Size by",
-            "Override": "Size becomes"
+            "Override": "Size becomes",
+            "Normal": "Normal Size is"
+        },
+        "BonusDamage": {
+            "Header": "Bonus Damage",
+            "Increase": "Increase Bonus Damage by"
         },
         "UpgradeAttribute": {
             "Header": "Set the Attribute Score, if not higher",

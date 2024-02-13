@@ -1136,22 +1136,37 @@ input[type="checkbox"].checkbox-uses {
   color: var(--text);
 }
 
-.weirdwizard .described-list .item .fas,
-.weirdwizard .described-list .item .far,
-.weirdwizard .compact-list .item .fas,
-.weirdwizard .compact-list .item .far,
-.weirdwizard .statbox .item-create {
+.weirdwizard .described-list .buttons > a,
+.weirdwizard .described-list .buttons > a,
+.weirdwizard .compact-list .buttons > a,
+.weirdwizard .compact-list .buttons > a,
+.weirdwizard .list-entries > div > span .buttons > a,
+.weirdwizard .list-entries .array-button[data-action="add"],
+.weirdwizard .list-entries .item-create {
   display: none;
 }
 
-.weirdwizard .described-list:hover .item .fas,
-.weirdwizard .described-list:hover .item .far,
-.weirdwizard .compact-list:hover .item .fas,
-.weirdwizard .compact-list:hover .item .far,
-.weirdwizard .pip-box .fas,
-.weirdwizard .pip-box .far,
-.weirdwizard .statbox:hover .item-create {
+.weirdwizard .described-list:hover .buttons > a,
+.weirdwizard .described-list:hover .buttons > a,
+.weirdwizard .compact-list:hover .buttons > a,
+.weirdwizard .compact-list:hover .buttons > a,
+.weirdwizard .list-entries > div > span:hover .buttons > a,
+.weirdwizard .list-entries:hover .array-button[data-action="add"],
+.weirdwizard .list-entries:hover .item-create {
   display: inline;
+}
+
+.weirdwizard .pip-box .fas,
+.weirdwizard .pip-box .far {
+  display: inline !important;
+}
+
+.weirdwizard .described-list:not(:hover) .pip-box,
+.weirdwizard .described-list:not(:hover) .pip-box,
+.weirdwizard .compact-list:not(:hover) .pip-box,
+.weirdwizard .compact-list:not(:hover) .pip-box {
+  background: none;
+  padding: 0;
 }
 
 .weirdwizard .described-list .fury-header {
@@ -1165,11 +1180,19 @@ input[type="checkbox"].checkbox-uses {
   color: var(--highlight-title);
 }
 
+.buttons {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  gap: 3px;
+}
+
 .attacks-list .buttons {
   margin-right: 5px;
 }
 
-.buttons i {
+.buttons i,
+.item-create i,
+.array-button[data-action="add"] i {
   font-size: smaller;
 }
 
@@ -1290,15 +1313,6 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard .list-entries > div > span {
   display: inline-block;
-}
-
-.weirdwizard .list-entries .fas {
-  display: none;
-  font-size: smaller;
-}
-
-.weirdwizard .list-entries:hover .fas {
-  display: inline;
 }
 
 /* Tooltips Customization */

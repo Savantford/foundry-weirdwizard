@@ -774,6 +774,10 @@ WW.EFFECT_OPTIONS = {
         key: 'system.stats.speed.current',
         label: 'WW.EffectKeys.Speed.Override'
       },
+      'speed.normal': {
+        key: 'system.stats.speed.normal',
+        label: 'WW.EffectKeys.Speed.Normal'
+      },
       'speed.increase': {
         key: 'system.stats.speed.normal',
         label: 'WW.EffectKeys.Speed.Increase'
@@ -790,6 +794,19 @@ WW.EFFECT_OPTIONS = {
       'size.override': {
         key: 'system.stats.size',
         label: 'WW.EffectKeys.Size.Override'
+      },
+      'size.normal': {
+        key: 'system.stats.size',
+        label: 'WW.EffectKeys.Size.Normal'
+      },
+    }
+  },
+  bonusDamage: {
+    header: 'WW.EffectKeys.BonusDamage.Header',
+    options: {
+      'bonusDamage.increase': {
+        key: 'system.stats.bonusDamage',
+        label: 'WW.EffectKeys.BonusDamage.Increase'
       }
     }
   },
