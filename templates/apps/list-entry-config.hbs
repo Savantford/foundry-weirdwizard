@@ -3,14 +3,21 @@
   <!-- Content -->
   <div class="stat-inline">
     <label>{{localize "WW.Name"}}</label>
-    <input name="name" type="text" value="{{name}}" />
+    <input name="name" type="text" value="{{entry.name}}" />
   </div>
 
   <div class="stat">
     <label>{{localize "WW.Description"}}</label>
 
-    <textarea name="desc">{{desc}}</textarea>
+    <textarea name="desc">{{entry.desc}}</textarea>
   </div>
+
+  {{#if grantedBy}}
+  <div class="stat-inline">
+    <label>{{localize "WW.CharOption.GrantedBy"}}</label>
+    {{grantedBy}}
+  </div>
+  {{/if}}
 
   <footer class="sheet-footer">
     <button type="submit"><i class="fas fa-save"></i> {{localize 'EFFECT.Submit'}}</button>

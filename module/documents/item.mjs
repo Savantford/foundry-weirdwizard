@@ -69,7 +69,7 @@ export default class WWItem extends Item {
 
     // If character option
     if (this.charOption) {
-      this.updateEffectAndGrantedItems();
+      this.updateBenefitsOnActor();
     }
   }
 
@@ -97,7 +97,7 @@ export default class WWItem extends Item {
     
     // If benefits were changed
     if (data.system?.benefits) {
-      this.updateEffectAndGrantedItems();
+      this.updateBenefitsOnActor();
     }
   }
 
@@ -110,6 +110,7 @@ export default class WWItem extends Item {
     // Delete granted Items
     if (this.charOption) {
       this.deleteGrantedItems();
+      this.deleteGrantedEntries();
     }
 
   }
@@ -171,9 +172,10 @@ export default class WWItem extends Item {
 
   /* -------------------------------------------- */
 
-  updateEffectAndGrantedItems() {
-    if (this.type !== 'Profession') this.updateMainEffect();
+  updateBenefitsOnActor() {
     this.updateGrantedItems();
+    this.updateGrantedEntries();
+    if (this.type !== 'Profession') this.updateMainEffect();
   }
 
   /* -------------------------------------------- */
@@ -192,8 +194,8 @@ export default class WWItem extends Item {
       armoredIncrease: 0,
       healthStarting: 0,
       healthIncrease: 0,
-      sizeNormal: 1,
-      speedNormal: 5,
+      sizeNormal: 0,
+      speedNormal: 0,
       speedIncrease: 0,
       bonusDamage: 0
     };
@@ -346,6 +348,74 @@ export default class WWItem extends Item {
 
   }
 
+  /* -------------------------------------------- */
+
+  async updateGrantedEntries() {
+    
+    // Return if no actor exists
+    if (!this.actor) return;
+    
+    const benefits = this.system.benefits;
+    const level = this.actor.system.stats.level;
+
+    // Get actor list entries granted by the character option
+    const aDetails = {
+      senses: this.actor.system.details.senses.filter(i => {
+        return i.grantedBy === this._id;
+      }),
+      languages: this.actor.system.details.languages.filter(i => {
+        return i.grantedBy === this._id;
+      }),
+      immune: this.actor.system.details.immune.filter(i => {
+        return i.grantedBy === this._id;
+      }),
+      traditions: this.actor.system.details.traditions.filter(i => {
+        return i.grantedBy === this._id;
+      })
+    }
+    
+    for (const b in benefits) {
+
+      const benefit = benefits[b];
+      if (!benefit.levelReq) benefit.levelReq = 0;
+      
+      // If level does not meet the requirement, ignore it
+      if (level >= benefit.levelReq) {
+
+        if (benefit.senses) await benefit.senses.forEach(e => this._addEntry(aDetails, e, 'senses'));
+
+        if (benefit.languages) await benefit.languages.forEach(e => this._addEntry(aDetails, e, 'languages'));
+
+        if (benefit.immune) await benefit.immune.forEach(e => this._addEntry(aDetails, e, 'immune'));
+
+        if (benefit.traditions) await benefit.traditions.forEach(e => this._addEntry(aDetails, e, 'traditions'));
+
+      }
+      
+    }
+
+  }
+
+  async _addEntry(actorDetails, entry, arrName) {
+
+    // If entry with the same name is not found, add it to the actor's entries list
+    if (!actorDetails[arrName].find(ae => ae.name === entry.name )) {
+
+      // Store the char option id on grantedBy
+      entry.grantedBy = this._id;
+
+      // Create new array
+      const arr = [...this.actor.system.details[arrName], entry];
+
+      // Update actor with new array
+      await this.actor.update({['system.details.' + arrName]: arr});
+
+    }
+
+  }
+
+  /* -------------------------------------------- */
+
   async deleteGrantedItems() {
     
     // Return if no actor exists
@@ -356,6 +426,32 @@ export default class WWItem extends Item {
     
     // Delete items granted by the Character Option
     this.actor.deleteEmbeddedDocuments('Item', ids);
+
+  }
+
+  async deleteGrantedEntries() {
+    
+    // Return if no actor exists
+    if (!this.actor) return;
+
+    // Get actor list entries granted by the character option
+    const newDetails = { ...this.actor.system.details,
+      senses: this.actor.system.details.senses.filter(i => {
+        return i.grantedBy !== this._id;
+      }),
+      languages: this.actor.system.details.languages.filter(i => {
+        return i.grantedBy !== this._id;
+      }),
+      immune: this.actor.system.details.immune.filter(i => {
+        return i.grantedBy !== this._id;
+      }),
+      traditions: this.actor.system.details.traditions.filter(i => {
+        return i.grantedBy !== this._id;
+      })
+    }
+
+    // Update actor with new details
+    this.actor.update({['system.details']: newDetails});
 
   }
 

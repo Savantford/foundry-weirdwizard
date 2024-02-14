@@ -27,13 +27,8 @@ export default class ListEntryConfig extends FormApplication {
     const context = super.getData();
 
     // Pass fields
-    context.name = this.entry.name;
-    context.category = this.entry.category;
-    context.categories = CONFIG.WW.PROFESSION_CATEGORIES;
-    context.desc = this.entry.desc;
-
-    // If professions, show category field
-    context.showCategory = this.arrPath.includes('professions') ? true : false;
+    context.entry = this.entry;
+    context.grantedBy = this.actor.items.get(this.entry.grantedBy) ? this.actor.items.get(this.entry.grantedBy).name : '';
     
     return context;
   }

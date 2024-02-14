@@ -150,12 +150,12 @@ export default class WWActor extends Actor {
       this.token.object.updateStatusIcons();
     }
 
-    // Update Paths' Main Effects if Level updates
+    // Update Character Options if Level updates
     if (changed.system?.stats?.level) {
       
       for (const i of this.items) {
         
-        if (i.type === 'Path') i.updateEffectAndGrantedItems();
+        if (i.charOption) i.updateBenefitsOnActor();
         
       }
       
@@ -434,7 +434,7 @@ export default class WWActor extends Actor {
 
   _calculateSpeed(system) {
     const speed = system.stats.speed;
-
+    
     // Halve Speed
     if (speed.halved) speed.current = Math.floor(speed.normal / 2)
 

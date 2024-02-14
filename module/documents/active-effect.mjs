@@ -221,6 +221,12 @@ export default class WWActiveEffect extends ActiveEffect {
     // Alter Change Values to negative values if they are meant to be
     if (labelKey.includes('banes') || (labelKey.includes('Reduce') && !labelKey.includes('health'))) change.value = -change.value;
 
+    // Fix modes automatically according to the label key
+    if (labelKey === 'speed.normal') {
+      change.mode = 5;
+      change.priority = 1;
+    }
+
     // Cast the effect change value to the correct type
     let delta;
     try {

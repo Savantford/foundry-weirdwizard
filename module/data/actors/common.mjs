@@ -55,22 +55,32 @@ export function details(type = String) {
     type: makeStrField('',1,1),
 
     senses: new fields.ArrayField(
-      new fields.ObjectField({ initial: { name: "", desc: "" } })
+      new fields.ObjectField({ initial: {
+        name: "",
+        desc: "",
+        grantedBy: null
+      } })
     ),
 
     languages: new fields.ArrayField(
-      new fields.ObjectField({ initial: { name: "", desc: "" } })
+      new fields.ObjectField({ initial: {
+        name: "",
+        desc: "",
+        grantedBy: null
+      } })
     ),
 
     immune: new fields.ArrayField(
-      new fields.ObjectField({ initial: { name: "", desc: "" } })
+      new fields.ObjectField({ initial: {
+        name: "",
+        desc: "",
+        grantedBy: null
+      } })
     )
+    
   }
 
   if (type === 'Character') {
-    obj.professions = new fields.ArrayField((
-      new fields.ObjectField({ initial: { name: "", category: "", desc: "" } })
-    ));
 
     obj.ancestry = makeStrField("Human",1,1);
     obj.novice = makeStrField("",1,1);
@@ -79,7 +89,10 @@ export function details(type = String) {
     obj.reputation = makeIntField();
 
     obj.traditions = new fields.ArrayField(
-      new fields.ObjectField({ initial: { name: "", desc: "" } })
+      new fields.ObjectField({ initial: { name: "",
+        desc: "",
+        grantedBy: null
+      } })
     );
 
     obj.features = makeHtmlField();

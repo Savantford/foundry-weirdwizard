@@ -39,16 +39,19 @@
         {{/if}}
 
         {{!-- Uses Pips --}}
+        {{log item}}
         {{#if item.uses}}
         <span class="pip-box">
             {{#each item.uses as |pip id|}}
                 <a class="item-pip" data-item-id="{{../item._id}}"
                     title="{{#if (eq pip "far fa-circle")}}
                         {{#if (eq ../item.system.subtype "action")}}{{localize "WW.Item.Uses.ActionSpend"}}
+                        {{else if (eq ../item.system.subtype "reaction")}}{{localize "WW.Item.Uses.ActionSpend"}}
                         {{else if (eq ../item.system.subtype "fury")}}{{localize "WW.Item.Uses.FurySpend"}}
                         {{else}}{{localize "WW.Item.Uses.TalentSpend"}}{{/if}}
                     {{else}}
                         {{#if (eq ../item.system.subtype "action")}}{{localize "WW.Item.Uses.ActionRecover"}}
+                        {{else if (eq ../item.system.subtype "reaction")}}{{localize "WW.Item.Uses.ActionRecover"}}
                         {{else if (eq ../item.system.subtype "fury")}}{{localize "WW.Item.Uses.FuryRecover"}}
                         {{else}}{{localize "WW.Item.Uses.TalentRecover"}}{{/if}}
                     {{/if}}">

@@ -357,6 +357,7 @@ export default class WWActorSheet extends ActorSheet {
 
     talents.forEach(updateUses)
     actions.forEach(updateUses)
+    reactions.forEach(updateUses)
     fury.forEach(updateUses)
     equipment.forEach(updateUses)
     spells.forEach(updateUses)

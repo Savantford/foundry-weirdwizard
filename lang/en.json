@@ -826,7 +826,8 @@
                 "Msg": "You are about to remove a reference for an item in a Compendium. Removing the reference will not make any changes the referenced item.",
                 "Confirm": "Are you sure you want to remove the reference?"
             }
-        }
+        },
+        "GrantedBy": "Granted by"
     },
 
     "WW.Combat": {
