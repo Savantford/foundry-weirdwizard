@@ -39,24 +39,10 @@ export default class ProfessionData extends foundry.abstract.DataModel {
 
 const makeBenefitField = () => new fields.SchemaField({
   type: makeStrField(),
-  senses: new fields.ArrayField(makeStrField()),
-  bonusLanguages: new fields.ArrayField(makeStrField()),
-  attributes: makeStrField(),
+  
+  languages: new fields.ArrayField(
+    new fields.ObjectField({ initial: { name: "", desc: "" } })
+  ),
 
-  stats: new fields.SchemaField({
-    
-    naturalIncrease: makeIntField(),
-    healthIncrease: makeIntField(),
-
-    size: new fields.NumberField({
-      min: 0,
-      max: 10,
-    }),
-    speed: makeIntField(),
-    speedSpecial: makeStrField()
-    
-  }),
-
-  immune: new fields.ArrayField(makeStrField()),
   items: new fields.ArrayField(makeStrField())
 })

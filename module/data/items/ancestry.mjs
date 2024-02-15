@@ -2,9 +2,7 @@ import {
   fields,
   base,
   makeStrField,
-  makeIntField,
-  /*makeBooField,
-  makeHtmlField*/
+  makeIntField
 } from './charoptions_base.mjs'
 
 export default class AncestryData extends foundry.abstract.DataModel {

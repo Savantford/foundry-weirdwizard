@@ -1,5 +1,5 @@
 {{!-- Header Row --}}
-<div class="flex-row stat flex-wrap">
+<div class="stat-inline flex-wrap">
 
     <div>
         <label>{{localize "WW.Type"}}</label>
@@ -23,12 +23,12 @@
 
 </div>
 
-<div class="flex-row stat flex-wrap mt-1">
+<div class="stat-inline flex-wrap mt-1">
 
     <div>
         <label>{{localize "WW.Price"}}</label>
         <input type="number" name="system.price.value" value="{{system.price.value}}" min="0" data-dtype="Number" />
-        <select class="ml-1" name="system.price.coin">
+        <select name="system.price.coin">
             {{selectOptions coinsObj selected=system.price.coin localize=true}}
         </select>
     </div>
@@ -60,3 +60,10 @@
 
 <h2 class="mt-1">{{localize "WW.Description"}}</h2>
 {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
+
+{{#if grantedBy}}
+<div class="stat-inline mt-1">
+    <label>{{localize "WW.CharOption.GrantedBy"}}</label>
+    {{grantedBy}}
+</div>
+{{/if}}

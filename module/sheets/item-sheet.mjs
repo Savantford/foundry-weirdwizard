@@ -141,6 +141,8 @@ export default class WWItemSheet extends ItemSheet {
 
     // Pass down whether the item needs targets or not
     context.needTargets = this.document.needTargets;
+    const grantedById = this.document.flags.weirdwizard?.grantedBy;
+    if (grantedById) context.grantedBy = this.document.actor.items.get(grantedById).name;
   }
 
   /* -------------------------------------------- */
@@ -155,6 +157,7 @@ export default class WWItemSheet extends ItemSheet {
 
     // Prepare dropdown objects
     context.tiers = CONFIG.WW.PATH_TIERS;
+    context.spellsLearned = CONFIG.WW.SPELLS_LEARNED;
 
     // Prepare Professions
     if (this.document.type === 'Profession') {
@@ -342,10 +345,13 @@ export default class WWItemSheet extends ItemSheet {
    * @private
   */
   async _onListEntryButtonAdd(dataset) {
-
+    console.log(dataset)
     const arrPath = 'system.' + dataset.array,
-      oldArray = foundry.utils.getProperty(this.document, arrPath),
-      defaultName = (arrPath.includes('languages') && !oldArray.length) ? i18n('WW.Languages.Common') : i18n('WW.' + dataset.loc + '.New'),
+      oldArray = foundry.utils.getProperty(this.document, arrPath);
+    console.log(this.document.system.benefits)
+    console.log(arrPath)
+    console.log(oldArray)
+    const defaultName = (arrPath.includes('languages') && !oldArray.length) ? i18n('WW.Languages.Common') : i18n('WW.' + dataset.loc + '.New'),
       arr = [...oldArray, { name: defaultName }];
     
     // Update document

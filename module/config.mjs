@@ -20,14 +20,14 @@ WW.details = {
 }
 
 WW.PROFESSION_CATEGORIES = {
-  "commoner": "Commoner",
-  "academic": "Academic",
-  "aristocratic": "Aristrocratic",
-  "criminal": "Criminal",
-  "entertainment": "Entertainment",
-  "military": "Military",
-  "religious": "Religious",
-  "wilderness": "Wilderness"
+  'commoner': 'WW.Professions.Commoner',
+  'academic': 'WW.Professions.Academic',
+  'aristocratic': 'WW.Professions.Aristrocratic',
+  'criminal': 'WW.Professions.Criminal',
+  'entertainment': 'WW.Professions.Entertainment',
+  'military': 'WW.Professions.Military',
+  'religious': 'WW.Professions.Religious',
+  'wilderness': 'WW.Professions.Wilderness'
 }
 
 // Dropdown menus
@@ -454,7 +454,18 @@ WW.armor = {
     'bonus': null,
     'type': 'Heavy'
   }
-};
+}
+
+WW.SPELLS_LEARNED = {
+  '0': '—',
+  '1n': 'WW.Spells.Learned.OneNovice',
+  '2n': 'WW.Spells.Learned.TwoNovice',
+  '3n': 'WW.Spells.Learned.ThreeNovice',
+  '4n': 'WW.Spells.Learned.FourNovice',
+  '1e': 'WW.Spells.Learned.OneExpert',
+  '2e': 'WW.Spells.Learned.TwoExpert',
+  '1m': 'WW.Spells.Learned.OneMaster'
+}
 
 /* Instant Effects */
 
@@ -529,26 +540,26 @@ WW.EFFECT_TARGETS_TARGETED = {
 
 WW.EFFECT_DURATIONS = {
   combat: {
-    header: "WW.EffectDurations.Combat.Header",
+    header: 'WW.EffectDurations.Combat.Header',
     options: {
-      "luckEnds": "WW.EffectDurations.Combat.LuckEnds",
-      "1round": "WW.EffectDurations.Combat.1Round",
-      "2rounds": "WW.EffectDurations.Combat.2Rounds",
-      "Xrounds": "WW.EffectDurations.Combat.XRounds",
-      "turnEnd": "WW.EffectDurations.Combat.TurnEnd",
-      "nextTriggerTurnStart": "WW.EffectDurations.Combat.NextTriggerTurnStart",
-      "nextTargetTurnStart": "WW.EffectDurations.Combat.NextTargetTurnStart",
-      "nextTriggerTurnEnd": "WW.EffectDurations.Combat.NextTriggerTurnEnd",
-      "nextTargetTurnEnd": "WW.EffectDurations.Combat.NextTargetTurnEnd"
+      'luckEnds': 'WW.EffectDurations.Combat.LuckEnds',
+      '1round': 'WW.EffectDurations.Combat.1Round',
+      '2rounds': 'WW.EffectDurations.Combat.2Rounds',
+      'Xrounds': 'WW.EffectDurations.Combat.XRounds',
+      'turnEnd': 'WW.EffectDurations.Combat.TurnEnd',
+      'nextTriggerTurnStart': 'WW.EffectDurations.Combat.NextTriggerTurnStart',
+      'nextTargetTurnStart': 'WW.EffectDurations.Combat.NextTargetTurnStart',
+      'nextTriggerTurnEnd': 'WW.EffectDurations.Combat.NextTriggerTurnEnd',
+      'nextTargetTurnEnd': 'WW.EffectDurations.Combat.NextTargetTurnEnd'
     }
   },
   outOfCombat: {
-    header: "WW.EffectDurations.OutOfCombat.Header",
+    header: 'WW.EffectDurations.OutOfCombat.Header',
     options: {
-      "1minute": "WW.EffectDurations.OutOfCombat.1Minute",
-      "minutes": "WW.EffectDurations.OutOfCombat.Minutes",
-      "hours": "WW.EffectDurations.OutOfCombat.Hours",
-      "days": "WW.EffectDurations.OutOfCombat.Days"
+      '1minute': 'WW.EffectDurations.OutOfCombat.1Minute',
+      'minutes': 'WW.EffectDurations.OutOfCombat.Minutes',
+      'hours': 'WW.EffectDurations.OutOfCombat.Hours',
+      'days': 'WW.EffectDurations.OutOfCombat.Days'
     }
   }
   

@@ -11,14 +11,16 @@ export default class ListEntryConfig extends FormApplication {
     return options;
   }
 
-  constructor(actor, dataset, options={}) {
+  constructor(doc, dataset, options={}) {
     super(dataset, options);
     
-    this.actor = actor;
+    this.doc = doc;
+    if (doc instanceof Actor) this.actor = doc;
     this.arrPath = 'system.' + dataset.array;
-    this.arr = foundry.utils.getProperty(this.actor, this.arrPath);
+    this.arr = foundry.utils.getProperty(doc, this.arrPath);
     this.entryId = dataset.entryId;
     this.entry = this.arr[dataset.entryId];
+    
   }
 
   /* -------------------------------------------- */
@@ -28,7 +30,7 @@ export default class ListEntryConfig extends FormApplication {
 
     // Pass fields
     context.entry = this.entry;
-    context.grantedBy = this.actor.items.get(this.entry.grantedBy) ? this.actor.items.get(this.entry.grantedBy).name : '';
+    if (this.actor) context.grantedBy = this.actor.items.get(this.entry.grantedBy) ? this.actor.items.get(this.entry.grantedBy).name : '';
     
     return context;
   }
@@ -49,7 +51,7 @@ export default class ListEntryConfig extends FormApplication {
 
     arr[this.entryId] = formData;
     
-    this.actor.update({ [this.arrPath]: arr });
+    this.doc.update({ [this.arrPath]: arr });
   }
 }
 

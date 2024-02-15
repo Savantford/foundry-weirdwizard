@@ -31,45 +31,6 @@ export default class PathData extends foundry.abstract.DataModel {
    * @inheritDoc
    */
   static migrateData(source) {
-    
-    // Make sure Range is a number
-    /*if ('range' in source && isNaN(source.range)) source.range = 0;
-
-    // Migrate weapon properties
-    if ('properties' in source && !Object.values(source.properties).every(item => item === false)) {
-      const properties = source.properties;
-      
-      let traits = source.traits ? source.traits : {};
-      let advantages = source.advantages ? source.advantages : {};
-      let disadvantages = source.disadvantages ? source.disadvantages : {};
-
-      const traitsList = ['ammunition', 'brutal', 'firearm', 'long', 'nimble', 'precise', 'range', 'sharp', 'shattering', 'thrown', 'versatile'];
-      const advantagesList = ['disarming', 'driving'];
-      const disadvantagesList = ['light', 'reload', 'slow'];
-
-      for (const p of Object.keys(properties)) {
-        
-        // Assign traits
-        if (p === 'concussing' && properties[p]) traits['shattering'] = true;
-        if (p === 'fast' && properties[p]) traits['precise'] = true;
-        if (p === 'great' && properties[p]) traits['forceful'] = true;
-        if (p === 'painful' && properties[p]) traits['special'] = true;
-        if (p === 'unbalancing' && properties[p]) traits['forceful'] = true;
-        if (traitsList.includes(p) && properties[p]) traits[p] = true;
-        
-        // Assign advantages
-        if (advantagesList.includes(p) && properties[p]) advantages[p] = true;
-        
-        // Assign disadvantages
-        if (disadvantagesList.includes(p) && properties[p]) disadvantages[p] = true;
-        
-      }
-
-      source.traits = traits;
-      source.advantages = advantages;
-      source.disadvantages = disadvantages;
-
-    }*/
 
     return super.migrateData(source);
   }
@@ -78,6 +39,10 @@ export default class PathData extends foundry.abstract.DataModel {
 
 const makeBenefitField = (level = 99) => new fields.SchemaField({
   levelReq: makeIntField(level),
+
+  languages: new fields.ArrayField(
+    new fields.ObjectField({ initial: { name: "", desc: "" } })
+  ),
 
   stats: new fields.SchemaField({
     naturalSet: makeIntField(),
@@ -89,7 +54,11 @@ const makeBenefitField = (level = 99) => new fields.SchemaField({
     bonusDamage: makeIntField(),
   }),
 
-  traditions: makeStrField(),
+  traditions: new fields.ArrayField(
+    new fields.ObjectField({ initial: { name: "", desc: "" } })
+  ),
+
   spells: makeStrField(),
+
   items: new fields.ArrayField(makeStrField())
 })

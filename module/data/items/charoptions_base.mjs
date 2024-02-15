@@ -33,65 +33,6 @@ export function grants() {
   return obj;
 };
 
-export function activity(type = String) {
-
-  let obj = {
-    attribute: makeStrField(),
-    against: makeStrField(),
-
-    boons: new fields.NumberField({
-      required: true,
-      initial: 0,
-      integer: true
-    }),
-
-    range: makeIntField(),
-    affliction: makeStrField(),
-
-    uses: new fields.SchemaField({
-      value: makeIntField(),
-      max: makeIntField(),
-      onRest: makeBooField(true)
-    }),
-
-    healing: makeStrField(),
-    instant: new fields.ArrayField(
-      new fields.ObjectField({
-        label: makeStrField(),
-        trigger: makeStrField('onUse'),
-        target: makeStrField('tokens'),
-        value: makeStrField()
-      })
-    ),
-
-    targeting: makeStrField('manual'),
-    template: new fields.SchemaField({
-      type: makeStrField('size'),
-      value: makeIntField(5)
-    })
-    
-  }
-
-  if (type === 'Equipment') {
-    obj.uses.onRest = makeBooField(false);
-    //obj.uses.autodestroy = makeBooField(false);
-  }
-
-  else if (type === 'Spell') obj.uses.max = makeIntField(1)
-
-  return obj;
-};
-
-export function currency() {
-  return {
-    currency: new fields.SchemaField({
-      gp: makeIntField(),
-      sp: makeIntField(),
-      cp: makeIntField(),
-    })
-  }
-}
-
 /****************************************/
 
 export const makeHtmlField = (init = '') => new fields.SchemaField({

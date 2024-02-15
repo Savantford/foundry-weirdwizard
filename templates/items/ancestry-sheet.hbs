@@ -1,6 +1,6 @@
 <form class="{{cssClass}} sheet path-sheet" autocomplete="off">
 
-  <div class="flex-row">
+  <div class="flexrow">
 
     {{!-- Left Column --}}
     <div class="left-col">
@@ -32,14 +32,16 @@
         <h3>{{item.name}} {{localize "WW.Traits"}}</h3>
 
         {{!-- Type --}}
-        <div class="flex-row stat-inline">
-          <label>{{localize "WW.Type"}}</label> <input name="system.benefits.benefit1.type" type="text"
+        <div class="stat-inline">
+          <label>{{localize "WW.Type"}}</label>
+          
+          <input name="system.benefits.benefit1.type" type="text"
             value="{{benefits.benefit1.type}}" />
           
         </div>
 
         {{!-- Senses --}}
-        <div class="flex-row stat-inline list-entries">
+        <div class="stat-inline list-entries">
           <label>{{localize "WW.Senses.Label"}}</label>
           
           <div>
@@ -71,7 +73,7 @@
         </div>
 
         {{!-- Bonus Languages --}}
-        <div class="flex-row stat-inline list-entries">
+        <div class="stat-inline list-entries">
           <label>{{localize "WW.Languages.Bonus"}}</label>
           
           <div>
@@ -103,13 +105,15 @@
         </div>
 
         {{!-- Attributes --}}
-        <div class="flex-row stat-inline">
-          <label>{{localize "WW.Attributes"}}</label> <input name="system.benefits.benefit1.attributes" type="text"
+        <div class="stat-inline">
+          <label>{{localize "WW.Attributes"}}</label>
+          
+          <input name="system.benefits.benefit1.attributes" type="text"
             value="{{benefits.benefit1.attributes}}" />
         </div>
       
         {{!-- Natural Defense, Health --}}
-        <div class="flex-row stat-inline">
+        <div class="stat-inline">
                 
           <span>
             <label>{{localize "WW.Defense.Natural"}}</label>
@@ -126,9 +130,9 @@
         </div>
 
         {{!-- Size, Speed --}}
-        <div class="flex-row">
+        <div class="stat-inline">
 
-          <span class="stat-inline">
+          <span>
             <label>{{localize "WW.Size"}}</label>
 
             <input name="system.benefits.benefit1.stats.sizeNormal" type="number"
@@ -136,12 +140,11 @@
             
           </span>
       
-          <span class="stat-inline">
+          <span>
             <label>{{localize "WW.Speed.Label"}}</label>
 
             <input name="system.benefits.benefit1.stats.speedNormal" type="number"
               value="{{benefits.benefit1.stats.speedNormal}}" min="1" placeholder="1" />
-            
             (<input class="auto-resize" name="system.benefits.benefit1.stats.speedSpecial" type="text"
               value="{{benefits.benefit1.stats.speedSpecial}}" placeholder="Swimmer" />)
           </span>
@@ -149,7 +152,7 @@
         </div>
 
         {{!-- Immune --}}
-        <div class="flex-row stat-inline list-entries">
+        <div class="stat-inline list-entries">
           <label>{{localize "WW.Immune.Label"}}</label>
 
           <div>

@@ -374,7 +374,18 @@
     },
     "WW.Description": "Description",
 
-    "WW.Spells": "Spells",
+    "WW.Spells": {
+        "Label": "Spells",
+        "Learned": {
+            "OneNovice": "One novice",
+            "TwoNovice": "Two novice",
+            "ThreeNovice": "Three novice",
+            "FourNovice": "Four novice",
+            "OneExpert": "One expert",
+            "TwoExpert": "Two expert",
+            "OneMaster": "One master"
+        }
+    },
 
     "WW.Traditions": {
         "Label": "Traditions",
@@ -828,6 +839,15 @@
             }
         },
         "GrantedBy": "Granted by"
+    },
+
+    "WW.Numbers": {
+        "One": "One",
+        "Two": "Two",
+        "Three": "Three",
+        "Four": "Four",
+        "Five": "Five",
+        "Six": "Six"
     },
 
     "WW.Combat": {

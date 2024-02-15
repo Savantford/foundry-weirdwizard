@@ -14,6 +14,7 @@
   --font-body: 'PT Sans', sans-serif;
   /* Overrides */
   --background: url(../../../ui/parchment-white.jpg) repeat;
+  --background-color-shadow: rgba(0, 0, 0, 0.07);
   --color-text-dark-secondary: #808080;
   --color-border-highlight: var(--color-shadow-primary);
   --color-border-highlight-alt: var(--color-shadow-primary);
@@ -238,7 +239,7 @@
 
 .flex-wrap {
   flex-wrap: wrap;
-  gap: 0 10px;
+  gap: 0 5px;
 }
 
 .flex-nowrap {
@@ -416,9 +417,12 @@
 .weirdwizard .sheet .stat input[type="number"],
 .weirdwizard .sheet .stat-inline input[type="number"],
 .weirdwizard .sheet .stat-stretch input[type="number"] {
-  text-align: center;
   min-width: 2ch;
   width: 2ch;
+}
+
+.weirdwizard .sheet .stat-inline input[type="number"] {
+  text-align: left;
 }
 
 .weirdwizard .sheet .stat input[type="number"]:not(:hover),
@@ -465,6 +469,9 @@
 }
 .weirdwizard .ml-auto {
   margin-left: auto !important;
+}
+.weirdwizard .mr-0 {
+  margin-right: 0 !important;
 }
 .weirdwizard .mr-1 {
   margin-right: 5px !important;
@@ -680,9 +687,9 @@
 
   display: grid;
   place-items: center;
-  /*gap: 5px;*/
 
-  background: var(--highlight);
+  background: var(--background), var(--background-color-shadow);
+  background-blend-mode: color;
   /*color: #185adb;*/
   font-weight: bold;
   /*font-size: 3vmin;*/
@@ -752,7 +759,7 @@
   padding-top: 10px;
   margin-top: 10px;*/
   padding: 5px;
-  background: var(--highlight);
+  background: var(--background-color-shadow);
   border: 1px solid var(--highlight-title);
   border-radius: 5px;
 }
@@ -809,7 +816,7 @@
 
 .weirdwizard .editor-content {
   min-height: 2.5em;
-  background: rgba(var(--highlight-rbg), 0.5);
+  background: var(--background-color-shadow);
   padding: 1px 5px;
   border-radius: 5px;
 }
@@ -825,30 +832,38 @@
 .weirdwizard .attribute label {
   font-weight: bold;
 }
-.weirdwizard .flex-row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+
+.weirdwizard .window-content .flexrow {
+  gap: 5px;
 }
+
+.weirdwizard .window-content .item-list .flexrow {
+  gap: 0;
+}
+
 .weirdwizard .justify-between {
   justify-content: space-between;
 }
 
-.weirdwizard .stat-inline, .stat-stretch {
+.weirdwizard .stat-inline,
+.weirdwizard .stat-stretch {
   display: flex;
   align-items: center;
 }
-.weirdwizard .stat label,.weirdwizard .stat-inline label,.weirdwizard .stat-stretch label {
+
+.weirdwizard .stat label,
+.weirdwizard .stat-inline label,
+.weirdwizard .stat-stretch label {
   font-weight: bold;
   white-space: nowrap;
   color: var(--highlight-title);
 }
 
-.weirdwizard .stat-inline label {
+.weirdwizard .stat-inline > label {
   margin-right: 5px;
 }
 
-.weirdwizard .stat-stretch label {
+.weirdwizard .stat-stretch > label {
   margin-right: auto;
 }
 
@@ -1141,7 +1156,7 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard .compact-list .buttons > a,
 .weirdwizard .compact-list .buttons > a,
 .weirdwizard .list-entries > div > span .buttons > a,
-.weirdwizard .list-entries .array-button[data-action="add"],
+.weirdwizard .statbox .list-entries .array-button[data-action="add"],
 .weirdwizard .list-entries .item-create {
   display: none;
 }
@@ -1151,7 +1166,7 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard .compact-list:hover .buttons > a,
 .weirdwizard .compact-list:hover .buttons > a,
 .weirdwizard .list-entries > div > span:hover .buttons > a,
-.weirdwizard .list-entries:hover .array-button[data-action="add"],
+.weirdwizard .statbox:hover .array-button[data-action="add"],
 .weirdwizard .list-entries:hover .item-create {
   display: inline;
 }
@@ -1270,6 +1285,7 @@ input[type="checkbox"].checkbox-uses {
   height: 100%;
   display: flex;
   flex-direction: column;
+  flex: 0.5;
   margin-right: 10px;
 }
 
@@ -1289,7 +1305,7 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .weirdwizard .path-sheet .items-area {
-  background: rgba(0, 0, 0, 0.1);
+  background: var(--background-color-shadow);
   border-radius: 3px;
   padding: 2px 5px;
   margin: 0;
@@ -1309,6 +1325,16 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard .path-sheet .missing label {
   color: var(--color-text-dark-5);
+}
+
+.weirdwizard .list-entries {
+  display: flex;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.weirdwizard .list-entries label {
+  margin-right: 0;
 }
 
 .weirdwizard .list-entries > div > span {
@@ -1607,7 +1633,7 @@ i.icon-Weakened {
   width: 30px;
 }
 
-.weirdwizard .health-indicator {
+.weirdwizard .health-indicator::before {
   margin-left: 5px;
 }
 
