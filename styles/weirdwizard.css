@@ -449,7 +449,6 @@
   appearance: auto;
   -webkit-appearance: auto;
   -moz-appearance: auto;
-  margin-right: 5px;
 }
 
 .weirdwizard .sheet input:not(:hover):not(:focus),
@@ -1151,13 +1150,31 @@ input[type="checkbox"].checkbox-uses {
   color: var(--text);
 }
 
+.weirdwizard .add-button {
+  padding: 0 5px;
+  background: var(--background-color-shadow);
+  border: 1px solid var(--highlight-title);
+  border-radius: 5px;
+}
+
+.weirdwizard .stat-edit {
+  margin-left: 5px;
+  padding: 1px;
+  background: var(--background-color-shadow);
+  border: 1px solid var(--highlight-title);
+  border-radius: 5px;
+}
+
 .weirdwizard .described-list .buttons > a,
 .weirdwizard .described-list .buttons > a,
 .weirdwizard .compact-list .buttons > a,
 .weirdwizard .compact-list .buttons > a,
-.weirdwizard .list-entries > div > span .buttons > a,
-.weirdwizard .statbox .list-entries .array-button[data-action="add"],
-.weirdwizard .list-entries .item-create {
+.weirdwizard .list-entries span .buttons > a,
+.weirdwizard .list-entries .array-button[data-action="add"],
+.weirdwizard .list-entries .item-create,
+.weirdwizard .statbox h4 .item-create,
+.weirdwizard .npc-sheet .statbox .add-button,
+.weirdwizard .stat-inline .stat-edit {
   display: none;
 }
 
@@ -1165,9 +1182,20 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard .described-list:hover .buttons > a,
 .weirdwizard .compact-list:hover .buttons > a,
 .weirdwizard .compact-list:hover .buttons > a,
-.weirdwizard .list-entries > div > span:hover .buttons > a,
-.weirdwizard .statbox:hover .array-button[data-action="add"],
-.weirdwizard .list-entries:hover .item-create {
+.weirdwizard .list-entries span:hover .buttons > a,
+.weirdwizard .list-entries:hover .array-button[data-action="add"],
+.weirdwizard .list-entries:hover .item-create,
+.weirdwizard .statbox:hover h4 .item-create,
+.weirdwizard .npc-sheet .statbox:hover .add-button,
+.weirdwizard .stat-inline:hover .stat-edit {
+  display: inline-block;
+}
+
+.weirdwizard .list-entry .buttons > a {
+  display: none;
+}
+
+.weirdwizard .list-entry:hover .buttons > a {
   display: inline;
 }
 
@@ -1285,7 +1313,7 @@ input[type="checkbox"].checkbox-uses {
   height: 100%;
   display: flex;
   flex-direction: column;
-  flex: 0.5;
+  flex: 0.6;
   margin-right: 10px;
 }
 
@@ -1329,8 +1357,16 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard .list-entries {
   display: flex;
-  gap: 5px;
+  gap: 0 5px;
+  flex-wrap: wrap;
+}
+
+.weirdwizard .list-entries span {
   white-space: nowrap;
+}
+
+.weirdwizard .list-entry:hover .buttons {
+  margin: 0 5px;
 }
 
 .weirdwizard .list-entries label {

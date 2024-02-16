@@ -36,10 +36,7 @@ export function stats(type = String) {
 
     speed: new fields.SchemaField({
       normal: makeIntField(5),
-      current: makeIntField(),
-      /*value: makeIntField(),
-      raw: makeIntField(5),*/
-      special: makeStrField()
+      current: makeIntField()
     })
   }
 
@@ -52,7 +49,13 @@ export function stats(type = String) {
 
 export function details(type = String) {
   const obj = {
-    type: makeStrField('',1,1),
+    types: new fields.ArrayField(
+      new fields.ObjectField({ initial: {
+        name: "",
+        desc: "",
+        grantedBy: null
+      } })
+    ),
 
     senses: new fields.ArrayField(
       new fields.ObjectField({ initial: {
@@ -76,16 +79,27 @@ export function details(type = String) {
         desc: "",
         grantedBy: null
       } })
+    ),
+
+    movementTraits: new fields.ArrayField(
+      new fields.ObjectField({ initial: {
+        name: "",
+        desc: "",
+        grantedBy: null
+      } })
     )
     
   }
 
   if (type === 'Character') {
 
+    // Will be deleted in 3.0.1
+    obj.professions = makeStrField("",1,1);
     obj.ancestry = makeStrField("Human",1,1);
     obj.novice = makeStrField("",1,1);
     obj.expert = makeStrField("",1,1);
     obj.master = makeStrField("",1,1);
+
     obj.reputation = makeIntField();
 
     obj.traditions = new fields.ArrayField(

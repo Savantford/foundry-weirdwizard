@@ -30,10 +30,18 @@
     },
 
     "WW.Stats": "Stats",
+    "WW.Normal": "Normal",
     "WW.Traits": "Traits",
     "WW.Level": "Level",
     "WW.Solitary": "Solitary",
-    "WW.Type": "Type",
+
+    "WW.Types": {
+        "Label": "Type",
+        "New": "New Type",
+        "Add": "Add new type or subtype",
+        "Edit": "Edit type or subtype",
+        "Remove": "Remove type or subtype"
+    },
 
     "WW.Senses": {
         "Label": "Senses",
@@ -63,11 +71,14 @@
 
     "WW.Size": "Size",
 
-    "WW.Speed":{
-        "Label": "Speed",
-        "Normal": "Normal Speed",
-        "PH": "fly",
-        "Tip": "special form of movement"
+    "WW.Movement":{
+        "Label": "Special Movement Traits",
+        "New": "New Trait",
+        "Add": "Add new special movement trait",
+        "Edit": "Edit special movement trait",
+        "Remove": "Remove special movement trait",
+        "Speed": "Speed",
+        "NormalSpeed": "Normal Speed"
     },
 
     "WW.Damage": {
@@ -292,7 +303,9 @@
         "Edit": {
             "Ancestry": "Edit Ancestry",
             "Profession": "Edit Profession",
-            "Path": "Edit Path",
+            "NovicePath": "Edit Novice Path",
+            "ExpertPath": "Edit Expert Path",
+            "MasterPath": "Edit Master Path",
             "Trait or Talent": "Edit Trait/Talent",
             "Equipment": "Edit Equipment",
             "Weapon": "Edit Weapon",
@@ -303,7 +316,9 @@
         "Delete": {
             "Ancestry": "Remove Ancestry",
             "Profession": "Remove Profession",
-            "Path": "Remove Path",
+            "NovicePath": "Remove Novice Path",
+            "ExpertPath": "Remove Expert Path",
+            "MasterPath": "Remove Master Path",
             "Label": "Delete",
             "Title": "Delete Item",
             "Msg": "You are about to delete",

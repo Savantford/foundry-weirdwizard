@@ -39,23 +39,17 @@
             <label>{{localize "WW.Languages.Label"}}</label>
 
             {{#each benefit.languages as |detail detailId|}}
-            <div>
+            <span class="list-entry">
               
-              <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>
-              
-              <span class="buttons">
+              <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
                 <a class="array-button" data-action="edit" data-array="benefits.{{id}}.languages" data-entry-id="{{detailId}}"
                   title="{{localize "WW.Languages.Edit"}}"><i class="fas fa-edit"></i></a>
               
                 <a class="array-button" data-action="remove" data-array="benefits.{{id}}.languages" data-entry-id="{{detailId}}"
                   title="{{localize "WW.Languages.Remove"}}"><i class="fas fa-trash"></i></a>
-              </span>
-              
-              {{#unless @last}},{{/unless}}
-            </div>
-            {{/each}}
-              
-            {{#unless benefit.languages.length}}—{{/unless}}
+              </span>{{#unless @last}},{{/unless}}
+            </span>
+            {{/each}}{{#unless benefit.languages.length}}—{{/unless}}
               
             <a class="array-button" data-action="add" data-array="benefits.{{id}}.languages" data-loc="Languages"
               title="{{localize "WW.Languages.Add"}}"><i class="fas fa-circle-plus"></i></a>
@@ -88,7 +82,7 @@
             {{/if}}
 
             <span>
-              <label>{{localize "WW.Speed.Label"}}</label>
+              <label>{{localize "WW.Movement.Speed"}}</label>
               +<input name="system.benefits.{{id}}.stats.speedIncrease" type="number" value="{{benefit.stats.speedIncrease}}" min="0" placeholder="0"/>
             </span>
 
@@ -106,36 +100,33 @@
               <label>{{localize "WW.Traditions.Label"}}</label>
 
               {{#each benefit.traditions as |detail detailId|}}
-              <div>
+              <span class="list-entry">
               
-                <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>
-              
-                <span class="buttons">
+                <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
                   <a class="array-button" data-action="edit" data-array="benefits.{{id}}.traditions" data-entry-id="{{detailId}}"
                     title="{{localize "WW.Traditions.Edit"}}"><i class="fas fa-edit"></i></a>
               
                   <a class="array-button" data-action="remove" data-array="benefits.{{id}}.traditions" data-entry-id="{{detailId}}"
                     title="{{localize "WW.Traditions.Remove"}}"><i class="fas fa-trash"></i></a>
-                </span>
-              
-                {{#unless @last}},{{/unless}}
-              </div>
-              {{/each}}
-              
-              {{#unless benefit.traditions.length}}—{{/unless}}
+                </span>{{#unless @last}},{{/unless}}
+              </span>
+              {{/each}}{{#unless benefit.traditions.length}}—{{/unless}}
               
               <a class="array-button" data-action="add" data-array="benefits.{{id}}.traditions" data-loc="Traditions"
                 title="{{localize "WW.Traditions.Add"}}"><i class="fas fa-circle-plus"></i></a>
 
-            </div>
-
-            {{!-- Spells --}}
-            <div>
+              {{!-- Spells --}}
               <label>{{localize "WW.Spells.Label"}}</label>
               
               <select name="system.benefits.{{id}}.spells">
                 {{selectOptions @root.spellsLearned selected=benefit.spells localize=true}}
               </select>
+              
+            </div>
+
+            
+            <div>
+              
             </div>
 
           </div>

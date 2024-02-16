@@ -738,35 +738,36 @@ export default class WWActorSheet extends ActorSheet {
     event.preventDefault();
     const header = event.currentTarget;
     const type = header.dataset.type; // Get the type of item to create.
+    
     let name = i18n('WW.NewItem', { itemType: type.capitalize() }) // Initialize a default name.
 
-    let subtype = '';
-    let source = '';
-    let attribute = '';
-    let damage = '';
-    let against = '';
+    const system = {
+      subtype: '',
+      source: type === 'Trait or Talent' ? header.dataset.source : '', // If Character's Talent, set source,
+      attribute: '',
+      damage: '',
+      against: '',
+      tier: type === 'Path' ? header.dataset.tier : '' // If a path, set tier
+    };
     
     // If Talent or Equipment, set subtype and name to the subtype
-    if ((type == 'Trait or Talent') || (type == 'Equipment')) {
-      subtype = event.currentTarget.dataset.subtype;
-      name = i18n('WW.NewItem', { itemType: subtype.capitalize() });
+    if ((type === 'Trait or Talent') || (type === 'Equipment')) {
+      system.subtype = header.dataset.subtype;
+      name = i18n('WW.NewItem', { itemType: system.subtype.capitalize() });
     }
 
     // If weapon, set default automated roll
-    if (subtype == 'weapon') {
-      attribute = 'str';
-      against = 'def';
-      damage = '1d6';
+    if (system.subtype == 'weapon') {
+      system.attribute = 'str';
+      system.against = 'def';
+      system.damage = '1d6';
     }
-
-    // If Character's Talent, set source
-    if ((this.actor.type) && (type == 'Trait or Talent')) source = event.currentTarget.dataset.source;
 
     // Prepare the item object.
     const itemData = {
       name: name,
       type: type,
-      system: { subtype, source, attribute, against, damage }
+      system: system
     };
 
     // Create the item
@@ -775,7 +776,7 @@ export default class WWActorSheet extends ActorSheet {
     // Render the created item's template
     createdItem.sheet.render(true);
 
-    return 
+    return;
   }
 
   /* -------------------------------------------- */

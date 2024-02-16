@@ -34,7 +34,9 @@ export default class AncestryData extends foundry.abstract.DataModel {
 }
 
 const makeBenefitField = () => new fields.SchemaField({
-  type: makeStrField(),
+  types: new fields.ArrayField(
+    new fields.ObjectField({ initial: { name: "", desc: "" } })
+  ),
 
   senses: new fields.ArrayField(
     new fields.ObjectField({ initial: { name: "", desc: "" } })
@@ -60,10 +62,13 @@ const makeBenefitField = () => new fields.SchemaField({
       max: 10,
       initial: 1
     }),
-    speedNormal: makeIntField(),
-    speedSpecial: makeStrField()
+    speedNormal: makeIntField()
     
   }),
+
+  movementTraits: new fields.ArrayField(
+    new fields.ObjectField({ initial: { name: "", desc: "" } })
+  ),
 
   items: new fields.ArrayField(makeStrField())
 })

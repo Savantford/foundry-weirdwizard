@@ -38,8 +38,7 @@ export default class ProfessionData extends foundry.abstract.DataModel {
 }
 
 const makeBenefitField = () => new fields.SchemaField({
-  type: makeStrField(),
-  
+    
   languages: new fields.ArrayField(
     new fields.ObjectField({ initial: { name: "", desc: "" } })
   ),

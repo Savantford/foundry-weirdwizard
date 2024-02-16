@@ -1,26 +1,26 @@
 {{!-- Traditions --}}
-<div class="stat-inline input-list">
+<div class="stat-inline mb-2 list-entries">
+
     <label>{{localize "WW.Traditions.Label"}}</label>
-    
-    <span>
-    
-        {{#each system.details.traditions as |detail id|}}
-        <span>
-            <input class="array-input auto-resize" name="" data-array="details.traditions" data-id="{{id}}" type="text"
-                value="{{detail}}" />
-    
-            <a class="array-button" data-action="remove" data-array="details.traditions" data-id="{{id}}"
-                title="{{localize " WW.Traditions.Remove"}}"><i class="fas fa-trash"></i></a>
-    
-            {{#unless @last}},{{/unless}}
-        </span>
-        {{/each}}
-    
-        <a class="array-button" data-action="add" data-array="details.traditions" data-loc="Traditions" title="{{localize "
-            WW.Traditions.Add"}}"><i class="fas fa-circle-plus"></i></a>
-    
+
+    {{#each system.details.traditions as |detail id|}}
+    <span class="list-entry">
+                
+    <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
+        <a class="array-button" data-action="edit" data-array="details.traditions" data-entry-id="{{id}}"
+            title="{{localize "WW.Traditions.Edit"}}"><i class="fas fa-edit"></i></a>
+                
+        <a class="array-button" data-action="remove" data-array="details.traditions" data-entry-id="{{id}}"
+            title="{{localize "WW.Traditions.Remove"}}"><i class="fas fa-trash"></i></a>
+
+        </span>{{#unless @last}},{{/unless}}
     </span>
-    
+    {{/each}}
+                
+    {{#unless system.details.traditions.length}}—{{/unless}}
+    <a class="array-button" data-action="add" data-array="details.traditions" data-loc="Traditions"
+        title="{{localize "WW.Traditions.Add"}}"><i class="fas fa-circle-plus"></i></a>            
+            
 </div>
 
 <ol class="item-list">

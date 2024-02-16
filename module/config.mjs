@@ -45,6 +45,8 @@ WW.dropdownNumbers = {
   8.0: '8',
   9.0: '9',
   10.0: '10',
+  11.0: '11',
+  12.0: '12',
 }
 
 WW.rollAttributes = {
