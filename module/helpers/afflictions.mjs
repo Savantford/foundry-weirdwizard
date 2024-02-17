@@ -98,7 +98,7 @@ export class WWAfflictions {
         addEffect('banes.int', 1, addPriority),
         addEffect('banes.wil', 1, addPriority)
         // Cannot use reactions
-      ].concat(againstAll(1))
+      ]
     ));
 
     // Controlled
@@ -133,7 +133,10 @@ export class WWAfflictions {
     effectsDataList.push(_buildBaseAffliction(
       'Held',
       'icons/svg/padlock.svg',
-      [overrideEffect('speed.override', 0, overridePriority)]
+      [
+        downgradeEffect('speed.override', 0, overridePriority),
+        overrideEffect('autoFail.agi', true, addPriority),
+      ]
     ));
 
     // Strength Impaired
@@ -215,12 +218,19 @@ export class WWAfflictions {
       ]),
     );
 
+    // Slowed
+    effectsDataList.push(
+      _buildBaseAffliction('Slowed', 'icons/svg/clockwork.svg', [
+        downgradeEffect('speed.override', 2, overridePriority)
+      ]),
+    );
+
     // Stunned
     effectsDataList.push(
       _buildBaseAffliction(
         'Stunned',
         'icons/svg/daze.svg',
-        [overrideEffect('speed.override', 0, overridePriority)]
+        [downgradeEffect('speed.override', 0, overridePriority)]
           .concat(baneAllAttributes(-2))
           .concat(againstAll(2))
           /*You cannot use actions or reactions. Your Speed drops to 0 and
@@ -236,7 +246,7 @@ export class WWAfflictions {
         'Unconscious',
         'icons/svg/unconscious.svg',
         [
-          overrideEffect('speed.override', 0, overridePriority),
+          downgradeEffect('speed.override', 0, overridePriority),
           overrideEffect('autoFail.str', true, addPriority),
           overrideEffect('autoFail.agi', true, addPriority),
           overrideEffect('autoFail.int', true, addPriority),
@@ -263,7 +273,14 @@ export class WWAfflictions {
     remove the affliction if you succeed on a luck roll. Time spent
     sleeping counts as resting for the purpose of healing damage (see
     “Rest” below). If your sleep is uninterrupted, you wake up naturally whenever you choose after you fall asleep. 
-*/
+    */
+
+    // Vulnerable
+    effectsDataList.push(_buildBaseAffliction(
+      'Vulnerable',
+      'icons/svg/target.svg',
+      [].concat(againstAll(1))
+    ));
 
     // Weakened
     effectsDataList.push(_buildBaseAffliction(

@@ -29,35 +29,24 @@ export default class EquipmentData extends foundry.abstract.DataModel {
 
       traits: new fields.SchemaField({
         ammunition: makeBooField(false),
+        bludgeoning: makeBooField(false),
         brutal: makeBooField(false),
+        cumbersome: makeBooField(false),
+        disarming: makeBooField(false),
         firearm: makeBooField(false),
-        forceful: makeBooField(false),
+        large: makeBooField(false),
+        light: makeBooField(false),
         long: makeBooField(false),
+        misfire: makeBooField(false),
         nimble: makeBooField(false),
-        precise: makeBooField(false),
+        piercing: makeBooField(false),
         range: makeBooField(false),
-        sharp: makeBooField(false),
-        shattering: makeBooField(false),
+        reload: makeBooField(false),
+        slashing: makeBooField(false),
+        slow: makeBooField(false),
         special: makeBooField(false),
         thrown: makeBooField(false),
         versatile: makeBooField(false)
-      }),
-
-      advantages: new fields.SchemaField({
-        disarming: makeBooField(false),
-        disrupting: makeBooField(false),
-        driving: makeBooField(false),
-        guarding: makeBooField(false),
-        lunging: makeBooField(false),
-        pressing: makeBooField(false),
-        special: makeBooField(false)
-      }),
-
-      disadvantages: new fields.SchemaField({
-        fixed: makeBooField(false),
-        light: makeBooField(false),
-        reload: makeBooField(false),
-        slow: makeBooField(false)
       }),
 
       attackRider: makeHtmlField(),
@@ -79,7 +68,7 @@ export default class EquipmentData extends foundry.abstract.DataModel {
     // Make sure Range is a number
     if ('range' in source && isNaN(source.range)) source.range = 0;
 
-    // Migrate weapon properties
+    // Migrate weapon properties to traits/advantages/disadvantages
     if ('properties' in source && !Object.values(source.properties).every(item => item === false)) {
       const properties = source.properties;
       
@@ -114,7 +103,27 @@ export default class EquipmentData extends foundry.abstract.DataModel {
       source.disadvantages = disadvantages;
 
     }
-    
+
+    // Migrate old traits to new ones
+    if (source.traits.precise) source.traits.piercing = source.traits.precise;
+    if (source.traits.sharp) source.traits.slashing = source.traits.sharp;
+    if (source.traits.shattering) source.traits.bludgeoning = source.traits.shattering;
+
+    // Migrate weapon advantages to traits
+    if ('advantages' in source) {
+      const adv = source.advantages;
+      if (adv.disarming) source.traits.disarming = adv.disarming;
+      if (adv.special) source.traits.special = adv.special;
+    }
+
+    // Migrate weapon disadvantages to traits
+    if ('disadvantages' in source) {
+      const disadv = source.advantages;
+      if (disadv.light) source.traits.light = disadv.light;
+      if (disadv.reload) source.traits.reload = disadv.reload;
+      if (disadv.slow) source.traits.slow = disadv.slow;
+      if (disadv.special) source.traits.special = disadv.special;
+    }
 
     return super.migrateData(source);
   }

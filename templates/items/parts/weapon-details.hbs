@@ -11,20 +11,18 @@
         </select>
     </div>
 
-    <div class="mt-2 stat flex-row flex-wrap">
-
-        
+    <div class="mt-2 stat-inline flex-wrap">
 
         {{!-- Damage --}}
         <div>
             <label>{{localize "WW.Damage.Label"}}</label>
 
             <input type="text" name="system.damage" value="{{system.damage}}" placeholder="1d6"
-                style="width: 75px; text-align: center;" data-dtype="String" />
+                style="width: 50px; text-align: center;" data-dtype="String" />
         </div>
 
         {{!-- Grip --}}
-        <div class="stat-inline flex-group-left">
+        <div>
             <label>{{localize "WW.Weapon.Grip"}}</label>
 
             <select name="system.grip">
@@ -41,62 +39,16 @@
 
     </div>
 
-    {{!-- Weapon Properties --}}
-    <!--<div class="mt-2">
-        <label>{{localize "WW.Properties.Label"}}</label>
-        {{system.propertiesList}}
-    </div>
-
-    <div class="flexrow properties-list">
-        {{#each properties as |property id|}}
-        <div class="selectable {{#if (lookup @root.system.properties id)}}selected{{/if}}"
-            style="width: 100%" title="{{localize property.tip}}">
-
-            <input type="checkbox" name="system.properties.{{id}}" {{checked (lookup @root.system.properties id)}} />
-
-            {{localize property.label}}
-        </div>
-        {{/each}}
-    </div>-->
-
     {{!-- Weapon Traits --}}
-    <div class="flexrow properties-list mt-2">
+    <div class="weapon-traits">
         <label>{{localize "WW.Weapon.Traits.Label"}}</label>
-        {{#each traits as |property id|}}
+        {{#each traits as |trait id|}}
         <div class="selectable {{#if (lookup @root.system.traits id)}}selected{{/if}}"
-            style="width: 100%" title="{{localize property.tip}}">
+            style="width: 100%" title="{{localize trait.tip}}">
 
             <input type="checkbox" name="system.traits.{{id}}" {{checked (lookup @root.system.traits id)}} />
 
-            {{localize property.label}}
-        </div>
-        {{/each}}
-    </div>
-
-    {{!-- Weapon Advantages --}}
-    <div class="flexrow properties-list mt-2">
-        <label>{{localize "WW.Weapon.Advantages.Label"}}</label>
-        {{#each advantages as |property id|}}
-        <div class="selectable {{#if (lookup @root.system.advantages id)}}selected{{/if}}"
-            style="width: 100%" title="{{localize property.tip}}">
-
-            <input type="checkbox" name="system.advantages.{{id}}" {{checked (lookup @root.system.advantages id)}} />
-
-            {{localize property.label}}
-        </div>
-        {{/each}}
-    </div>
-
-    {{!-- Weapon Disadvantages --}}
-    <div class="flexrow properties-list mt-2">
-        <label>{{localize "WW.Weapon.Disadvantages.Label"}}</label>
-        {{#each disadvantages as |property id|}}
-        <div class="selectable {{#if (lookup @root.system.disadvantages id)}}selected{{/if}}"
-            style="width: 100%" title="{{localize property.tip}}">
-
-            <input type="checkbox" name="system.disadvantages.{{id}}" {{checked (lookup @root.system.disadvantages id)}} />
-
-            {{localize property.label}}
+            {{localize trait.label}}
         </div>
         {{/each}}
     </div>

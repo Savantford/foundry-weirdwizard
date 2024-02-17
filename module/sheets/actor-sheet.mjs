@@ -68,8 +68,6 @@ export default class WWActorSheet extends ActorSheet {
 
     // Prepare common data
     context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true })
-    //context.incapacitated = (context.system.stats.damage.value >= context.system.stats.health.current) ? true : false;
-    //context.injured = (context.system.stats.damage.value >= Math.floor(context.system.stats.health.current / 2)) ? true : false;
     context.injured = context.actor.injured;
     context.incapacitated = context.actor.incapacitated;
     context.dead = context.actor.dead;
@@ -185,15 +183,13 @@ export default class WWActorSheet extends ActorSheet {
         // Append to equipment.
         if (i.type === 'Equipment') {
 
-          // Prepare properties list for weapons
+          // Prepare traits list for weapons
           if (i.system.subtype == 'weapon') {
 
             // Prepare traits list
-            let traits = i.system.traits;
             let list = '';
-            let propertiesList = '';
 
-            Object.entries(traits).map((x) => {
+            Object.entries(i.system.traits).map((x) => {
               
               if (x[1]) {
                 let string = i18n('WW.Weapon.Traits.' + capitalize(x[0]) + '.Label');
@@ -205,41 +201,7 @@ export default class WWActorSheet extends ActorSheet {
               
             })
 
-            if (list) propertiesList += list;
-
-            // Prepare advantages list
-            let advantages = i.system.advantages;
-            list = '';
-
-            Object.entries(advantages).map((x) => {
-              
-              if (x[1]) {
-                let string = i18n('WW.Weapon.Advantages.' + capitalize(x[0]) + '.Label');
-
-                list = list.concat(list ? ', ' + string : string);
-              }
-              
-            })
-
-            if (list) { propertiesList ? propertiesList += ' | ' + list : propertiesList = list; }
-
-            // Prepare disadvantages list
-            let disadvantages = i.system.disadvantages;
-            list = '';
-
-            Object.entries(disadvantages).map((x) => {
-              
-              if (x[1]) {
-                let string = i18n('WW.Weapon.Disadvantages.' + capitalize(x[0]) + '.Label');
-
-                list = list.concat(list ? ', ' + string : string);
-              }
-              
-            })
-            
-            if (list) { propertiesList ? propertiesList += ' | ' + list : propertiesList = list; }
-
-            i.system.propertiesList = propertiesList;
+            i.system.traitsList = list;
           }
 
           equipment.push(i);

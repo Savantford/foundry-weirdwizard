@@ -8,17 +8,6 @@ WW.ATTRIBUTES = {
   'wil': 'WW.Will'
 }
 
-WW.details = {
-  'features': 'WW.Features',
-  'personality': 'WW.Personality',
-  'belief': 'WW.Belief',
-  /*'professions': 'WW.Professions',
-  'languages': 'WW.Languages',*/
-  /*'information': 'WW.Information',
-  'bg_ancestry': 'WW.Ancestry',
-  'deeds': 'WW.Deeds'*/
-}
-
 WW.PROFESSION_CATEGORIES = {
   'commoner': 'WW.Professions.Commoner',
   'academic': 'WW.Professions.Academic',
@@ -130,7 +119,7 @@ WW.itemQualities = {
   'inferior': 'WW.QualityInferior'
 };
 
-WW.weaponRequirements = {
+WW.WEAPON_REQUIREMENTS = {
   '': 'WW.Weapon.Requirements.None',
   'str10': 'WW.Weapon.Requirements.Str10',
   'str12': 'WW.Weapon.Requirements.Str12',
@@ -141,175 +130,92 @@ WW.weaponRequirements = {
   'int10agi12': 'WW.Weapon.Requirements.Int10Agi12',
 };
 
-WW.weaponGrip = {
+WW.WEAPON_GRIPS = {
   'One': 'WW.Weapon.GripOne',
   'Two': 'WW.Weapon.GripTwo',
   'Off': 'WW.Weapon.GripOff'
 };
 
-WW.weaponProperties = {
-  'ammunition': {
-    'label': 'WW.Properties.Ammunition.Label',
-    'tip': 'WW.Properties.Ammunition.Tip',
-    'path': 'system.properties.ammunition',
-  },
-  'brutal': {
-    'label': 'WW.Properties.Brutal.Label',
-    'tip': 'WW.Properties.Brutal.Tip',
-    'path': 'system.properties.brutal',
-  },
-  'concussing': {
-    'label': 'WW.Properties.Concussing.Label',
-    'tip': 'WW.Properties.Concussing.Tip',
-    'path': 'system.properties.concussing',
-  },
-  'disarming': {
-    'label': 'WW.Properties.Disarming.Label',
-    'tip': 'WW.Properties.Disarming.Tip',
-    'path': 'system.properties.disarming',
-  },
-  'driving': {
-    'label': 'WW.Properties.Driving.Label',
-    'tip': 'WW.Properties.Driving.Tip',
-    'path': 'system.properties.driving',
-  },
-  'fast': {
-    'label': 'WW.Properties.Fast.Label',
-    'tip': 'WW.Properties.Fast.Tip',
-    'path': 'system.properties.fast',
-  },
-  'firearm': {
-    'label': 'WW.Properties.Firearm.Label',
-    'tip': 'WW.Properties.Firearm.Tip',
-    'path': 'system.properties.firearm',
-  },
-  'great': {
-    'label': 'WW.Properties.Great.Label',
-    'tip': 'WW.Properties.Great.Tip',
-    'path': 'system.properties.great',
-  },
-  'light': {
-    'label': 'WW.Properties.Light.Label',
-    'tip': 'WW.Properties.Light.Tip',
-    'path': 'system.properties.light',
-  },
-  'long': {
-    'label': 'WW.Properties.Long.Label',
-    'tip': 'WW.Properties.Long.Tip',
-    'path': 'system.properties.long',
-  },
-  'nimble': {
-    'label': 'WW.Properties.Nimble.Label',
-    'tip': 'WW.Properties.Nimble.Tip',
-    'path': 'system.properties.nimble',
-  },
-  'painful': {
-    'label': 'WW.Properties.Painful.Label',
-    'tip': 'WW.Properties.Painful.Tip',
-    'path': 'system.properties.painful',
-  },
-  'precise': {
-    'label': 'WW.Properties.Precise.Label',
-    'tip': 'WW.Properties.Precise.Tip',
-    'path': 'system.properties.precise',
-  },
-  'range': {
-    'label': 'WW.Properties.Range.Label',
-    'tip': 'WW.Properties.Range.Tip',
-    'path': 'system.properties.range',
-  },
-  'reload': {
-    'label': 'WW.Properties.Reload.Label',
-    'tip': 'WW.Properties.Reload.Tip',
-    'path': 'system.properties.reload'
-  },
-  'sharp': {
-    'label': 'WW.Properties.Sharp.Label',
-    'tip': 'WW.Properties.Sharp.Tip',
-    'path': 'system.properties.sharp',
-  },
-  'shattering': {
-    'label': 'WW.Properties.Shattering.Label',
-    'tip': 'WW.Properties.Shattering.Tip',
-    'path': 'system.properties.shattering',
-  },
-  'slow': {
-    'label': 'WW.Properties.Slow.Label',
-    'tip': 'WW.Properties.Slow.Tip',
-    'path': 'system.properties.slow',
-  },
-  'special': {
-    'label': 'WW.Properties.Special.Label',
-    'tip': 'WW.Properties.Special.Tip',
-    'path': 'system.properties.special',
-  },
-  'thrown': {
-    'label': 'WW.Properties.Thrown.Label',
-    'tip': 'WW.Properties.Thrown.Tip',
-    'path': 'system.properties.thrown',
-  },
-  'unbalancing': {
-    'label': 'WW.Properties.Unbalancing.Label',
-    'tip': 'WW.Properties.Unbalancing.Tip',
-    'path': 'system.properties.unbalancing',
-  },
-  'versatile': {
-    'label': 'WW.Properties.Versatile.Label',
-    'tip': 'WW.Properties.Versatile.Tip',
-    'path': 'system.properties.versatile',
-  }
-};
-
-WW.weaponTraits = {
+WW.WEAPON_TRAITS = {
   'ammunition': {
     'label': 'WW.Weapon.Traits.Ammunition.Label',
     'tip': 'WW.Weapon.Traits.Ammunition.Tip',
     'path': 'system.traits.ammunition',
+  },
+  'bludgeoning': {
+    'label': 'WW.Weapon.Traits.Bludgeoning.Label',
+    'tip': 'WW.Weapon.Traits.Bludgeoning.Tip',
+    'path': 'system.traits.bludgeoning',
   },
   'brutal': {
     'label': 'WW.Weapon.Traits.Brutal.Label',
     'tip': 'WW.Weapon.Traits.Brutal.Tip',
     'path': 'system.traits.brutal',
   },
+  'cumbersome': {
+    'label': 'WW.Weapon.Traits.Cumbersome.Label',
+    'tip': 'WW.Weapon.Traits.Cumbersome.Tip',
+    'path': 'system.traits.cumbersome',
+  },
+  'disarming': {
+    'label': 'WW.Weapon.Traits.Disarming.Label',
+    'tip': 'WW.Weapon.Traits.Disarming.Tip',
+    'path': 'system.traits.disarming',
+  },
   'firearm': {
     'label': 'WW.Weapon.Traits.Firearm.Label',
     'tip': 'WW.Weapon.Traits.Firearm.Tip',
     'path': 'system.traits.firearm',
   },
-  'forceful': {
-    'label': 'WW.Weapon.Traits.Forceful.Label',
-    'tip': 'WW.Weapon.Traits.Forceful.Tip',
-    'path': 'system.traits.forceful',
+  'large': {
+    'label': 'WW.Weapon.Traits.Large.Label',
+    'tip': 'WW.Weapon.Traits.Large.Tip',
+    'path': 'system.traits.large',
+  },
+  'light': {
+    'label': 'WW.Weapon.Traits.Light.Label',
+    'tip': 'WW.Weapon.Traits.Light.Tip',
+    'path': 'system.traits.light',
   },
   'long': {
     'label': 'WW.Weapon.Traits.Long.Label',
     'tip': 'WW.Weapon.Traits.Long.Tip',
     'path': 'system.traits.long',
   },
+  'misfire': {
+    'label': 'WW.Weapon.Traits.Misfire.Label',
+    'tip': 'WW.Weapon.Traits.Misfire.Tip',
+    'path': 'system.traits.misfire',
+  },
   'nimble': {
     'label': 'WW.Weapon.Traits.Nimble.Label',
     'tip': 'WW.Weapon.Traits.Nimble.Tip',
     'path': 'system.traits.nimble',
   },
-  'precise': {
-    'label': 'WW.Weapon.Traits.Precise.Label',
-    'tip': 'WW.Weapon.Traits.Precise.Tip',
-    'path': 'system.traits.precise',
+  'piercing': {
+    'label': 'WW.Weapon.Traits.Piercing.Label',
+    'tip': 'WW.Weapon.Traits.Piercing.Tip',
+    'path': 'system.traits.piercing',
   },
   'range': {
     'label': 'WW.Weapon.Traits.Range.Label',
     'tip': 'WW.Weapon.Traits.Range.Tip',
     'path': 'system.traits.range',
   },
-  'sharp': {
-    'label': 'WW.Weapon.Traits.Sharp.Label',
-    'tip': 'WW.Weapon.Traits.Sharp.Tip',
-    'path': 'system.traits.sharp',
+  'reload': {
+    'label': 'WW.Weapon.Traits.Reload.Label',
+    'tip': 'WW.Weapon.Traits.Reload.Tip',
+    'path': 'system.traits.reload'
   },
-  'shattering': {
-    'label': 'WW.Weapon.Traits.Shattering.Label',
-    'tip': 'WW.Weapon.Traits.Shattering.Tip',
-    'path': 'system.traits.shattering',
+  'slashing': {
+    'label': 'WW.Weapon.Traits.Slashing.Label',
+    'tip': 'WW.Weapon.Traits.Slashing.Tip',
+    'path': 'system.traits.slashing',
+  },
+  'slow': {
+    'label': 'WW.Weapon.Traits.Slow.Label',
+    'tip': 'WW.Weapon.Traits.Slow.Tip',
+    'path': 'system.traits.slow',
   },
   'special': {
     'label': 'WW.Weapon.Traits.Special.Label',
@@ -325,67 +231,6 @@ WW.weaponTraits = {
     'label': 'WW.Weapon.Traits.Versatile.Label',
     'tip': 'WW.Weapon.Traits.Versatile.Tip',
     'path': 'system.traits.versatile',
-  }
-};
-
-WW.weaponAdvantages = {
-  'disarming': {
-    'label': 'WW.Weapon.Advantages.Disarming.Label',
-    'tip': 'WW.Weapon.Advantages.Disarming.Tip',
-    'path': 'system.advantages.disarming',
-  },
-  'disrupting': {
-    'label': 'WW.Weapon.Advantages.Disrupting.Label',
-    'tip': 'WW.Weapon.Advantages.Disrupting.Tip',
-    'path': 'system.advantages.disrupting',
-  },
-  'driving': {
-    'label': 'WW.Weapon.Advantages.Driving.Label',
-    'tip': 'WW.Weapon.Advantages.Driving.Tip',
-    'path': 'system.advantages.driving',
-  },
-  'guarding': {
-    'label': 'WW.Weapon.Advantages.Guarding.Label',
-    'tip': 'WW.Weapon.Advantages.Guarding.Tip',
-    'path': 'system.advantages.guarding',
-  },
-  'lunging': {
-    'label': 'WW.Weapon.Advantages.Lunging.Label',
-    'tip': 'WW.Weapon.Advantages.Lunging.Tip',
-    'path': 'system.advantages.lunging',
-  },
-  'pressing': {
-    'label': 'WW.Weapon.Advantages.Pressing.Label',
-    'tip': 'WW.Weapon.Advantages.Pressing.Tip',
-    'path': 'system.advantages.pressing',
-  },
-  'special': {
-    'label': 'WW.Weapon.Traits.Special.Label',
-    'tip': 'WW.Weapon.Traits.Special.Tip',
-    'path': 'system.advantages.special',
-  }
-};
-
-WW.weaponDisadvantages = {
-  'fixed': {
-    'label': 'WW.Weapon.Disadvantages.Fixed.Label',
-    'tip': 'WW.Weapon.Disadvantages.Fixed.Tip',
-    'path': 'system.disadvantages.fixed',
-  },
-  'light': {
-    'label': 'WW.Weapon.Disadvantages.Light.Label',
-    'tip': 'WW.Weapon.Disadvantages.Light.Tip',
-    'path': 'system.disadvantages.light',
-  },
-  'reload': {
-    'label': 'WW.Weapon.Disadvantages.Reload.Label',
-    'tip': 'WW.Weapon.Disadvantages.Reload.Tip',
-    'path': 'system.disadvantages.reload'
-  },
-  'slow': {
-    'label': 'WW.Weapon.Disadvantages.Slow.Label',
-    'tip': 'WW.Weapon.Disadvantages.Slow.Tip',
-    'path': 'system.disadvantages.slow',
   }
 };
 
