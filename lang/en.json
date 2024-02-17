@@ -18,7 +18,7 @@
 
     "WW.Rest": {
         "Label": "Rest",
-        "Msg": "Resting allows you to heal damage and regain expended resources. If you have uninterrupted rest for 8 consecutive hours, you heal all damage, and you regain Health equal one-tenth your normal Health score (round down). Some of your other resources might also be replenished after a rest. If you stop resting to use an action or reaction, the time you have spent continuously resting is wasted and you must start resting again to gain any benefit from doing so.",
+        "Msg": "Resting allows you to heal damage and regain expended resources. If you have uninterrupted rest for 6 consecutive hours, you heal all damage and regain Health equal to one-tenth your normal Health score. Some of your other resources, such as spells or talents, might also be replenished after a rest. If you stop resting to use an action or reaction, the time you spent resting up to that point is wasted and you must start resting again to gain any benefit from doing so.",
         "Confirm": "Are you able to rest now?",
         "Finished": "finished a rest"
     },
@@ -449,106 +449,81 @@
         },
         "Traits": {
             "Label": "Traits",
-            "PH": "Brutal, Sharp, etc",
             "Ammunition": {
                 "Label": "Ammunition",
-                "Tip": "You must have at least one piece of ammunition of the indicated kind to attack with this weapon. Ammunition, and a container to hold it (such as a quiver, case, or bag), is included in the weapon’s price. You can recover spent ammunition after combat and make replacements while you rest. You can make melee attacks with a weapon that has this property, but it counts as an improvised weapon."
+                "Tip": "You must have at least one piece of ammunition of the indicated kind to attack with this weapon. Ammunition, and a container to hold it (such as a quiver, case, or bag), is included in the weapon’s price. You can recover spent ammunition after combat and make replacements while you rest."
+            },
+            "Bludgeoning": {
+                "Label": "Bludgeoning",
+                "Tip": "When you attack with this weapon and get a critical success, the target becomes vulnerable until the end of your next turn."
             },
             "Brutal": {
                 "Label": "Brutal",
-                "Tip": "When you get a success on a roll to attack with this weapon, you can reroll each d6 of damage that comes up as a 1 once. You must use the second roll, even if it is another 1."
+                "Tip": "When rolling damage for an attack made using this weapon, you can reroll each die that comes up as 1 once. You must use the new number rolled, even if it is another 1."
+            },
+            "Cumbersome": {
+                "Label": "Cumbersome",
+                "Tip": "When you roll to attack with this weapon, you roll with 1 bane."
+            },
+            "Disarming": {
+                "Label": "Disarming",
+                "Tip": "You ignore the bane imposed on your roll when you use this weapon to disarm."
             },
             "Firearm": {
                 "Label": "Firearm",
-                "Tip": "If a firearm comes into contact with water, it cannot be fired until dried and cleaned. Cleaning the weapon takes 1 hour using a tool kit and a pint of oil. Attacks with the firearm create loud noise. If the result of your roll to attack with the firearm is 5 or less, the weapon misfires. It takes 1 minute of work to repair and reload the weapon, which must be done before it can be used again."
+                "Tip": "Attacks you make with this weapon create a loud noise. If the weapon becomes submerged in water, you must dry and clean it before you can make ranged attacks with it. Cleaning the weapon takes 1 hour of work using a tool kit and a pint of oil. It takes 1 minute to load this weapon. If you do something else during this time, you must start over from the beginning."
             },
-            "Forceful": {
-                "Label": "Forceful",
-                "Tip": "When you get a critical success on a roll to attack with this weapon, you force the target to make an Agility roll. On a failure, the target falls prone. In addition, if the target is your Size or smaller, you push it up to 5 yards."
-            },
-            "Long": {
-                "Label": "Long",
-                "Tip": "When you choose targets for your attacks using this weapon, increase your reach by 1."
-            },
-            "Nimble": {
-                "Label": "Nimble",
-                "Tip": "You can use Agility in place of Strength for rolls to attack with this weapon."
-            },
-            "Precise": {
-                "Label": "Precise",
-                "Tip": "You roll to attack with this weapon with 1 boon."
-            },
-            "Range": {
-                "Label": "Range",
-                "Tip": "You make ranged attacks with this weapon. You choose your targets within the listed number of yards from you."
-            },
-            "Sharp": {
-                "Label": "Sharp",
-                "Tip": "When you get a critical success on an attack made using this weapon, you can roll twice for damage and use the higher amount."
-            },
-            "Shattering": {
-                "Label": "Shattering",
-                "Tip": "When you get a critical success on a roll to attack a creature with this weapon, you force the target to make a Strength roll. On a failure, the target becomes weakened until the end of the next round. In addition, your attack with this weapon deals an extra 1d6 damage to target objects."
-            },
-            "Special": {
-                "Label": "Special",
-                "Tip": "This weapon has a special property detailed in its description."
-            },
-            "Thrown": {
-                "Label": "Thrown",
-                "Tip": "You can make a ranged attack with this weapon by throwing it. The number indicates the weapon’s maximum range in yards. When you throw a weapon, you make a Strength roll unless the weapon also has the Nimble property."
-            },
-            "Versatile": {
-                "Label": "Versatile",
-                "Tip": "If you wield this weapon with both hands, your attacks with it deal an extra 1d6 damage."
-            }
-        },
-        "Advantages": {
-            "Label": "Advantages",
-            "PH": "Brutal, Sharp, etc",
-            "Disarming": {
-                "Label": "Disarming",
-                "Tip": "You ignore the bane imposed on your roll to disarm a target when using this weapon."
-            },
-            "Disrupting": {
-                "Label": "Disrupting",
-                "Tip": "When you successfully make a disrupting attack, the result of your roll merely has to equal or exceed the target’s Will."
-            },
-            "Driving": {
-                "Label": "Driving",
-                "Tip": "When you perform the driving attack option with this weapon, you roll an additional d20 and use the highest result."
-            },
-            "Guarding": {
-                "Label": "Guarding",
-                "Tip": "You can make a guarded attack while wielding this weapon, even if you don’t have a shield equipped."
-            },
-            "Lunging": {
-                "Label": "Lunging",
-                "Tip": "You can make a lunging attack with this weapon without ignoring the weapon’s damage."
-            },
-            "Pressing": {
-                "Label": "Pressing",
-                "Tip": "When you successfully make a pressing attack with this weapon, the result of your roll merely has to equal or exceed the target’s Agility."
-            }
-        },
-        "Disadvantages": {
-            "Label": "Disadvantages",
-            "PH": "Brutal, Sharp, etc",
-            "Fixed": {
-                "Label": "Fixed",
-                "Tip": "Attacks made using this weapon ignore any effect that would enable it to deal extra damage or bonus damage."
+            "Large": {
+                "Label": "Large",
+                "Tip": "The result of your roll to attack with this weapon while squeezing or while you are mounted result in an automatic failure."
             },
             "Light": {
                 "Label": "Light",
-                "Tip": "When you would apply bonus damage to attacks made using this weapon, you apply one die fewer."
+                "Tip": "When you would add Bonus Damage to an attack made using this weapon, you add one fewer die (minimum +1d6)."
+            },
+            "Long": {
+                "Label": "Long",
+                "Tip": "When you attack with this weapon, increase your reach by 1 for the purpose of choosing targets."
+            },
+            "Misfire": {
+                "Label": "Misfire",
+                "Tip": "When you get a critical failure on an attack with this weapon, the weapon misfires. Make a luck roll. On a success, you need only reload the weapon before you can attack with it again. On a failure, the weapon is ruined until repaired, which takes 1 hour, a tool kit, and spare parts whose value equals half the selling price of the weapon."
+            },
+            "Nimble": {
+                "Label": "Nimble",
+                "Tip": "When you attack with this weapon, you can use Agility in place of Strength for the roll."
+            },
+            "Piercing": {
+                "Label": "Piercing",
+                "Tip": "When you attack with this weapon and get a critical success, the target becomes weakened until the end of your next turn."
+            },
+            "Range": {
+                "Label": "Range",
+                "Tip": "You select the target for your ranged attacks with this weapon from those within the listed number of yards."
             },
             "Reload": {
                 "Label": "Reload",
-                "Tip": "You must use an action to load this weapon before you can attack with it."
+                "Tip": "You must load this weapon before you can make ranged attacks with it. You can use an action to load the weapon or, if you are capable of moving and you have a Speed of 2 or higher, you can give up your move to load the weapon."
+            },
+            "Slashing": {
+                "Label": "Slashing",
+                "Tip": "When you attack with this weapon and get a critical success, the target takes an extra 1d6 damage."
             },
             "Slow": {
                 "Label": "Slow",
-                "Tip": "This trait prevents you from making multiple attacks with the weapon."
+                "Tip": "You can attack with this weapon just once per round."
+            },
+            "Special": {
+                "Label": "Special",
+                "Tip": "This weapon has special rules detailed in its description."
+            },
+            "Thrown": {
+                "Label": "Thrown",
+                "Tip": "You can make a ranged attack with this weapon by throwing it. You use Strength for the roll unless the weapon also has the Nimble trait. You choose your target from among those within the listed number of yards. If the attack results in a success, the weapon either sticks in the target’s body or falls to its feet. If the attack results in a failure, the weapon lands 1d6 yards behind the target."
+            },
+            "Versatile": {
+                "Label": "Versatile",
+                "Tip": "When you wield this weapon with both hands, the weapon’s damage increases by 1d6."
             }
         }
     },
@@ -801,9 +776,9 @@
         "Becomes": "becomes",
         "Already": "is already",
         "Blinded": "Blinded",
-        "BlindedDesc": "You cannot see and thus have line of sight to nothing. If you want to attack or interact with anything, you must guess the target’s location or locate the target using other senses, which usually means you make the roll with 3 banes. You cannot make use of reactions that rely on sight. Finally, your Speed is halved.",
+        "BlindedDesc": "You cannot see and thus have line of sight to nothing. You treat all creatures and objects as being invisible. If you want to attack or interact with anything, you must guess the target’s location or locate the target using other senses, which usually means you make the roll with 3 banes. You cannot make use of reactions that rely on sight. Finally, your Speed is halved.",
         "Confused": "Confused",
-        "ConfusedDesc": "You become unable to make sense of what is happening around you. You cannot use reactions, you grant 1 boon on rolls against you, and you make Intellect and Will rolls with 1 bane.",
+        "ConfusedDesc": "You become unable to make sense of what is happening around you. You cannot use reactions and you make Intellect and Will rolls with 1 bane.",
         "Controlled": "Controlled",
         "ControlledDesc": "You fall under the control of the source of this affliction. You take your turn when your controller does and it decides what you do, using your traits, talents, and spells. If you have already taken a turn when you gain this affliction, you take a turn as described during the next round. While controlled, you regard the source of the affliction as an ally.",
         "Cursed": "Cursed",
@@ -813,24 +788,28 @@
         "Frightened": "Frightened",
         "FrightenedDesc": "You fear the source of this affliction—a creature, an object, a space, or something else. While you have line of sight to the source of your fear, you make attribute rolls with 1 bane, and you grant 1 boon on attribute rolls against you.",
         "Held": "Held",
-        "HeldDesc": "Your Speed drops to 0 and you cannot benefit from increases to your Speed until this affliction ends.",
+        "HeldDesc": "Your Speed drops to 0 and you cannot benefit from increases to your Speed until this affliction ends. In addition, your Agility rolls result in automatic failures.",
         "ImpairedStr": "Strength Impaired",
         "ImpairedAgi": "Agility Impaired",
         "ImpairedInt": "Intellect Impaired",
         "ImpairedWil": "Will Impaired",
         "ImpairedDesc": "The impaired affliction affects the attribute specified by the harmful effect, so you might be Strength impaired or Intellect impaired, for instance. You roll with 1 bane when using the specified attribute, and you grant 1 boon on rolls against the specified attribute.",
         "OnFire": "On Fire",
-        "OnFireDesc": "An effect might make you catch fire. You take 1d6 damage at the end of each round until the fire is extinguished, normally with a successful luck roll. You can also use an action to overcome the flames by making a successful Agility roll, douse the flames with water, or smother them with a blanket or similar object. A creature that drops prone before trying to overcome the flames makes the roll with 1 boon.",
+        "OnFireDesc": "An effect might make you catch fire. You take 1d6 damage at the end of each round until the fire is extinguished, normally with a successful luck roll. You can douse the flames with water, or smother them with a blanket or similar object. A creature that drops prone before trying to overcome the flames makes the roll with 1 boon.",
         "Poisoned": "Poisoned",
-        "PoisonedDesc": "You have been exposed to venom, poison, or some other toxin. You make attribute rolls with 1 bane, and you grant 1 boon on rolls against you. In addition, at the end of each round, you lose 1d6 Health.",
+        "PoisonedDesc": "You make attribute rolls with 1 bane, and you grant 1 boon on rolls against you. In addition, at the end of each round, you lose 1d6 Health.",
         "Prone": "Prone",
-        "ProneDesc": "You are lying on the ground. You cannot use reactions. You grant 1 boon on rolls made to attack you with melee weapons, but impose 1 bane on rolls made to attack you with ranged weapons. You can use your move only to crawl or stand up.",
+        "ProneDesc": "You are lying on the ground. You cannot use reactions. You grant 1 boon on rolls made to attack you with melee weapons, but impose 1 bane on rolls made to attack you with ranged weapons. You can use your move only to crawl or stand up",
+        "Slowed": "Slowed",
+        "SlowedDesc": "Your Speed drops to 2 if your Speed was higher than 2 and you cannot benefit from increases to Speed.",
         "Stunned": "Stunned",
         "StunnedDesc": "You cannot use actions or reactions. Your Speed drops to 0 and you cannot benefit from increases to Speed until this affliction ends. You grant 2 boons on rolls against you, and you make attribute rolls with 2 banes.",
         "Unconscious": "Unconscious",
         "UnconsciousDesc": "You cannot use actions or reactions. Your Speed drops to 0 and you cannot benefit from increases to Speed. You receive no information from your senses. You grant 3 boons on rolls against you, and you automatically fail all attribute rolls.",
         "Asleep": "Asleep",
-        "AsleepDesc": "If you are unconscious because you are sleeping naturally, you stop being unconscious when a creature uses an action to shake you, kick you, or do something else to waken you. A loud noise might remove the affliction if you succeed on a luck roll. Time spent sleeping counts as resting for the purpose of healing damage. If your sleep is uninterrupted, you wake up naturally whenever you choose after you fall asleep.",
+        "AsleepDesc": "If you are unconscious because you are sleeping naturally, you stop being unconscious when a creature uses an action to shake you, kick you, or do something else to waken you. A loud noise might remove the affliction if you succeed on a luck roll. Time spent sleeping counts as resting for the purpose of healing damage. If your sleep is uninterrupted, you wake up naturally whenever you choose.",
+        "Vulnerable": "Vulnerable",
+        "VulnerableDesc": "You grant 1 boon on rolls to attack you and on rolls made against your attributes.",
         "Weakened": "Weakened",
         "WeakenedDesc": "You make Strength and Agility rolls with 1 bane, and you grant 1 boon on rolls against your Strength and Agility. In addition, your Speed is halved and you cannot benefit from increases to your Speed."
     },
@@ -1048,7 +1027,7 @@
             "NextHour": "Skip to next hour",
             "PrevHour": "Skip to previous hour",
             "RoundHour": "Round time to a full hour. Rounded up if half a hour already passed, or down if not.",
-            "Rest": "Rest for 8 hours",
+            "Rest": "Rest for 6 hours",
             "Sunrise": "Skip to the next sunrise",
             "Midday": "Skip to midday",
             "Sunset": "Skip to the next sunset",

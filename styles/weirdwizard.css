@@ -1283,22 +1283,22 @@ input[type="checkbox"].checkbox-uses {
   font-weight: bold;
 }
 
-.weirdwizard .properties-list {
+.weirdwizard .weapon-traits {
   display: inline-flex;
   flex-direction: row;
   flex-wrap: wrap;
-  white-space: nowrap;
   justify-content: space-between;
   gap: 5px;
   margin-top: 5px;
 }
 
-.weirdwizard .properties-list > div {
+.weirdwizard .weapon-traits > div {
   font-size: x-small;
   align-items: center;
   white-space: nowrap;
   justify-content: center;
-  min-width: 50px;
+  min-width: 60px;
+  flex: 1;
 }
 
 .weirdwizard .effect img {
@@ -1502,37 +1502,41 @@ input[type="checkbox"].checkbox-uses {
 
 /* Affliction Tab Icons */
 
-i.icon-Blinded, i.icon-Confused, i.icon-Controlled, i.icon-Cursed,
+/*i.icon-Blinded, i.icon-Confused, i.icon-Controlled, i.icon-Cursed,
 i.icon-Deafened, i.icon-Frightened, i.icon-Held, i.icon-ImpairedStr,
 i.icon-ImpairedAgi, i.icon-ImpairedInt, i.icon-ImpairedWil, i.icon-OnFire,
 i.icon-Poisoned, i.icon-Prone, i.icon-Stunned, i.icon-Unconscious,
-i.icon-Asleep, i.icon-Weakened {
+i.icon-Asleep, i.icon-Weakened {*/
+[class*="icon-"] {
   -webkit-mask-size: cover;
   mask-size: cover;
   display: inline-block;
 }
 
-i.icon-Blinded.gray, i.icon-Confused.gray, i.icon-Controlled.gray, i.icon-Cursed.gray,
+/*i.icon-Blinded.gray, i.icon-Confused.gray, i.icon-Controlled.gray, i.icon-Cursed.gray,
 i.icon-Deafened.gray, i.icon-Frightened.gray, i.icon-Held.gray, i.icon-ImpairedStr.gray,
 i.icon-ImpairedAgi.gray, i.icon-ImpairedInt.gray, i.icon-ImpairedWil.gray, i.icon-OnFire.gray,
 i.icon-Poisoned.gray, i.icon-Prone.gray, i.icon-Stunned.gray, i.icon-Unconscious.gray,
-i.icon-Asleep.gray, i.icon-Weakened.gray {
+i.icon-Asleep.gray, i.icon-Weakened.gray {*/
+[class*="icon-"].gray {
   background-color: gray;
 }
-i.icon-Blinded.black, i.icon-Confused.black, i.icon-Controlled.black, i.icon-Cursed.black,
+/*i.icon-Blinded.black, i.icon-Confused.black, i.icon-Controlled.black, i.icon-Cursed.black,
 i.icon-Deafened.black, i.icon-Frightened.black, i.icon-Held.black, i.icon-ImpairedStr.black,
 i.icon-ImpairedAgi.black, i.icon-ImpairedInt.black, i.icon-ImpairedWil.black, i.icon-OnFire.black,
 i.icon-Poisoned.black, i.icon-Prone.black, i.icon-Stunned.black, i.icon-Unconscious.black,
-i.icon-Asleep.black, i.icon-Weakened.black {
+i.icon-Asleep.black, i.icon-Weakened.black {*/
+[class*="icon-"].black {
   background-color: black;
 }
 
-i.icon-Blinded.hover-red:hover, i.icon-Confused.hover-red:hover, i.icon-Controlled.hover-red:hover,
+/*i.icon-Blinded.hover-red:hover, i.icon-Confused.hover-red:hover, i.icon-Controlled.hover-red:hover,
 i.icon-Cursed.hover-red:hover, i.icon-Deafened.hover-red:hover, i.icon-Frightened.hover-red:hover,
 i.icon-Held.hover-red:hover, i.icon-ImpairedStr.hover-red:hover, i.icon-ImpairedAgi.hover-red:hover,
 i.icon-ImpairedInt.hover-red:hover, i.icon-ImpairedWil.hover-red:hover, i.icon-OnFire.hover-red:hover,
 i.icon-Poisoned.hover-red:hover, i.icon-Prone.hover-red:hover, i.icon-Stunned.hover-red:hover
-i.icon-Unconscious.hover-red:hover, i.icon-Asleep.hover-red:hover, i.icon-Weakened.hover-red:hover {
+i.icon-Unconscious.hover-red:hover, i.icon-Asleep.hover-red:hover, i.icon-Weakened.hover-red:hover {*/
+[class*="icon-"].hover-red:hover {
   background-color: var(--demonlord-red);
 }
 
@@ -1606,6 +1610,11 @@ i.icon-Prone {
   mask-image: url("/icons/svg/falling.svg");
 }
 
+i.icon-Slowed {
+  -webkit-mask-image: url("/icons/svg/clockwork.svg");
+  mask-image: url("/icons/svg/clockwork.svg");
+}
+
 i.icon-Stunned {
   -webkit-mask-image: url("/icons/svg/daze.svg");
   mask-image: url("/icons/svg/daze.svg");
@@ -1619,6 +1628,11 @@ i.icon-Unconscious {
 i.icon-Asleep {
   -webkit-mask-image: url("/icons/svg/sleep.svg");
   mask-image: url("/icons/svg/sleep.svg");
+}
+
+i.icon-Vulnerable {
+  -webkit-mask-image: url("/icons/svg/target.svg");
+  mask-image: url("/icons/svg/target.svg");
 }
 
 i.icon-Weakened {

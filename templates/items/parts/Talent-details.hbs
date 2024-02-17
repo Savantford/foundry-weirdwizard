@@ -3,7 +3,8 @@
 
     {{!-- Type --}}
     <div>
-        <label class="resource-label">{{localize "WW.Type"}}</label>
+        <label class="resource-label">{{localize "WW.Types.Label"}}</label>
+
         <select name="system.subtype">
             {{selectOptions subtypesObj selected=system.subtype localize=true}}
         </select>
@@ -12,6 +13,7 @@
     {{!-- Source --}}
     <div>
         <label>{{localize "WW.Source"}}</label>
+
         <select name="system.source">
             {{selectOptions sourcesObj selected=system.source localize=true}}
         </select>
@@ -20,7 +22,9 @@
     {{!-- Uses/Tokens --}}
     <div>
         <label>{{localize "WW.UsesTalent"}}</label>
+
         <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="0" data-dtype="Number" />
+        
         <input class="checkbox-uses" type="checkbox" name="system.uses.onRest" {{checked system.uses.onRest}} title="{{localize "WW.Item.Uses.OnRest"}}"/>
     </div>
 
