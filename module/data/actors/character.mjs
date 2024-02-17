@@ -63,11 +63,6 @@ export default class CharacterData extends foundry.abstract.DataModel {
       source.details.movementTraits = arr.filter(s => s).map((s) => ({ name: s.trim() }));
     }
 
-    if (typeof source.details.professions === 'string') { // Professions
-      const arr = source.details.professions.split(",");
-      source.details.professions = arr.filter(s => s).map((s) => ({ name: s.trim() }));
-    }
-
     if (typeof source.details.traditions === 'string') { // Traditions
       const arr = source.details.traditions.split(",");
       source.details.traditions = arr.filter(s => s).map((s) => ({ name: s.trim() }));

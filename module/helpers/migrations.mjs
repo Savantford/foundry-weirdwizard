@@ -1,6 +1,6 @@
 import { i18n } from './utils.mjs'
 
-export default function migrateWorld(forced) {
+export function fullMigration(forced) {
   const lastMigration = game.settings.get('weirdwizard', 'lastMigrationVersion');
 
   const isNewer = foundry.utils.isNewerVersion;
@@ -9,7 +9,7 @@ export default function migrateWorld(forced) {
   let isLastMigrationExp = lastMigration.includes('-exp') ? true : false;
 
   // If last migration was done previous to the version indicated, perform the data migration needed
-  //if (isNewer(isLastMigrationExp ? '3.0.0-exp' : '3.0.0', lastMigration) || forced) _charOptions(forced);
+  if (isNewer(isLastMigrationExp ? '3.0.0-exp' : '3.0.0', lastMigration) || forced) charOptions(forced);
   if (isNewer(isLastMigrationExp ? '2.3.0-exp' : '2.0.0', lastMigration) || forced) _effectOverhaul(forced);
   //if (isNewer(isLastMigrationExp ? '3.0.0-exp' : '2.1.0', lastMigration) || forced) _preReleaseDraft(forced);
   
@@ -18,12 +18,20 @@ export default function migrateWorld(forced) {
 /* ----------------------------------------------------- */
 
 /* Character Options (3.0.0-exp / 3.0.0) */
-/*function _charOptions(forced) {
+export function charOptions(forced) {
   forced ? _notifyForcedStart() : _notifyStart();
 
   // Actors Tab
   for (const a of game.actors) {
-    updateProfessions(a);
+
+    // Log task to console
+    console.log('Actor: ' + a.name + " (UUID: " + a.uuid + ")");
+
+    _charOptionsFromStr(a, a.system.details.ancestry, 'Ancestry');
+    _charOptionsFromStr(a, a.system.details.professions, 'Profession');
+    _charOptionsFromStr(a, a.system.details.novice, 'Path', 'novice');
+    _charOptionsFromStr(a, a.system.details.expert, 'Path', 'expert');
+    _charOptionsFromStr(a, a.system.details.master, 'Path', 'master');
   }
   
   // Scene Unlinked Tokens
@@ -31,13 +39,12 @@ export default function migrateWorld(forced) {
     
     for (const t of s.tokens) {
       const a = t.actor;
+
+      // Log task to console
+      console.log('Actor: ' + a.name + " (UUID: " + a.uuid + ")");
+
       if (a) {
-        updateChanges(a);
-        
-        for (const i of a.items) {
-          updateChanges(i);
-          convertInstEffs(i);
-        }
+        _charOptionsFromStr(a);
       }
     }
   }
@@ -50,14 +57,35 @@ export default function migrateWorld(forced) {
   game.settings.set('weirdwizard', 'lastMigrationVersion', current);
 
   _notifyFinish();
-}*/
+}
 
 /**
  * @actor     A target Actor document
 */
-/*function updateProfessions(actor) {
-  const professions = actor.system.details.professions;
-  console.log(professions)
+function _charOptionsFromStr(actor, oldString, type, tier) {
+  
+  if (oldString && typeof oldString === 'string') { // Make sure it's a string and not empty
+
+    // Log task
+    console.log('Creating ' + type + ' items');
+
+    // Split string in an array
+    const arr = oldString.split(",");
+
+    // Create item data array and push each profession
+    const itemDataArr = [];
+    arr.forEach(i => itemDataArr.push({
+      name: i.trim(),
+      type: type,
+      system: {
+        tier: tier
+      }
+    }));
+
+    // Create a array of items on the actor
+    actor.createEmbeddedDocuments('Item', itemDataArr);
+    
+  }
   /*for (const e of doc.effects) {
     let changes = [];
 
@@ -72,7 +100,7 @@ export default function migrateWorld(forced) {
     
     e.update({ 'changes': changes } )
   }*/
-//}*/
+}
 
 /* ----------------------------------------------------- */
 
@@ -324,5 +352,5 @@ function _notifyStart() { ui.notifications.warn(i18n("WW.System.Migration.Starte
 
 function _notifyForcedStart() { ui.notifications.warn(i18n("WW.System.Migration.Forced")); }
 
-function _notifyFinish() { ui.notifications.warn(i18n("WW.System.Migration.Finished")); }
+function _notifyFinish() { setTimeout(function(){ ui.notifications.warn(i18n("WW.System.Migration.Finished")); }, 3000); }
 

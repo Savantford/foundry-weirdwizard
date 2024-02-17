@@ -30,34 +30,26 @@
     </div>
 
     {{!-- Bonus Languages --}}
-    <div class="stat-inline entries-list">
+    <div class="stat-inline list-entries">
       <label>{{localize "WW.Languages.Bonus"}}</label>
   
-      <div>
       
-        {{#each benefits.benefit1.languages as |detail id|}}
-        <span>
       
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>
+      {{#each benefits.benefit1.languages as |detail id|}}
+      <span class="list-entry">
       
-          <span class="buttons">
-            <a class="array-button" data-action="edit" data-array="benefits.benefit1.languages" data-entry-id="{{id}}"
-              title="{{localize "WW.Languages.Edit"}}"><i class="fas fa-edit"></i></a>
+        <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
+          <a class="array-button" data-action="edit" data-array="benefits.benefit1.languages" data-entry-id="{{id}}"
+            title="{{localize "WW.Languages.Edit"}}"><i class="fas fa-edit"></i></a>
       
-            <a class="array-button" data-action="remove" data-array="benefits.benefit1.languages" data-entry-id="{{id}}"
-              title="{{localize "WW.Languages.Remove"}}"><i class="fas fa-trash"></i></a>
-          </span>
+          <a class="array-button" data-action="remove" data-array="benefits.benefit1.languages" data-entry-id="{{id}}"
+            title="{{localize "WW.Languages.Remove"}}"><i class="fas fa-trash"></i></a>
+        </span>{{#unless @last}},{{/unless}}
+      </span>
+      {{/each}}{{#unless benefits.benefit1.languages.length}}—{{/unless}}
       
-          {{#unless @last}},{{/unless}}
-        </span>
-        {{/each}}
-      
-        {{#unless benefits.benefit1.languages.length}}—{{/unless}}
-      
-        <a class="array-button" data-action="add" data-array="benefits.benefit1.languages" data-loc="Languages"
-          title="{{localize "WW.Languages.Add"}}"><i class="fas fa-circle-plus"></i></a>
-      
-      </div>
+      <a class="array-button" data-action="add" data-array="benefits.benefit1.languages" data-loc="Languages"
+        title="{{localize "WW.Languages.Add"}}"><i class="fas fa-circle-plus"></i></a>
   
     </div>
   

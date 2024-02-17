@@ -41,7 +41,7 @@ import { expireFromTokens } from './helpers/effects.mjs';
 import { initChatListeners } from './chat/chat-listeners.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
-import migrateWorld from './helpers/migrations.mjs';
+import { fullMigration, charOptions } from './helpers/migrations.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -146,8 +146,6 @@ Hooks.once('init', function () {
   });
 
   game.settings.register('weirdwizard', 'lastMigrationVersion', {
-    /*name: 'WW.System.LastMigration',
-    hint: 'WW.System.LastMigrationHint',*/
     scope: 'world',
     config: false,
     requiresReload: false,
@@ -234,13 +232,14 @@ Hooks.once('ready', function () {
 
   // Append data migration function to game.system.migrations so it can be used for manual migrations
   game.system.migrations = {
-    migrateWorld: migrateWorld
+    fullMigration: fullMigration,
+    migrateCharOptions: charOptions
     //migratePack // Specific pack as input
     //migratePacks // All packs
   }
 
   // Check and run data migrations if needed
-  migrateWorld();
+  fullMigration();
 
 });
 
