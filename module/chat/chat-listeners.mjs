@@ -61,7 +61,7 @@ function _onMessageButtonContext(element) {
   function callRoll(dataset, target) {
     
     const { attribute, fixedBoons }  = dataset;
-    console.log(fixedBoons)
+    
     const obj = {
       origin: target.uuid,
       label: i18n(CONFIG.WW.rollAttributes[attribute]) + ' Roll',

@@ -1,9 +1,26 @@
 {{!-- Traditions --}}
-<div class="flex-row stat-inline mb-1">
-    <label>{{localize "WW.Traditions"}}</label>
-    <input type="text" name="system.details.traditions" value="{{system.details.traditions}}"
-        placeholder="{{localize "WW.TraditionsPH"}}" data-dtype="String" />
-    {{system.details.traditions.value}}
+<div class="stat-inline mb-2 list-entries">
+
+    <label>{{localize "WW.Traditions.Label"}}</label>
+
+    {{#each system.details.traditions as |detail id|}}
+    <span class="list-entry">
+                
+    <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
+        <a class="array-button" data-action="edit" data-array="details.traditions" data-entry-id="{{id}}"
+            title="{{localize "WW.Traditions.Edit"}}"><i class="fas fa-edit"></i></a>
+                
+        <a class="array-button" data-action="remove" data-array="details.traditions" data-entry-id="{{id}}"
+            title="{{localize "WW.Traditions.Remove"}}"><i class="fas fa-trash"></i></a>
+
+        </span>{{#unless @last}},{{/unless}}
+    </span>
+    {{/each}}
+                
+    {{#unless system.details.traditions.length}}—{{/unless}}
+    <a class="array-button" data-action="add" data-array="details.traditions" data-loc="Traditions"
+        title="{{localize "WW.Traditions.Add"}}"><i class="fas fa-circle-plus"></i></a>            
+            
 </div>
 
 <ol class="item-list">

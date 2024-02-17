@@ -1,9 +1,11 @@
 {
     "USER.GM": "Sage",
+    "WW.Help": "Help",
 
     "WW.ActorName": "Actor's Name",
     "WW.ItemName": "Item's Name",
 
+    "WW.Attributes": "Attributes",
     "WW.Strength": "Strength",
     "WW.Agility": "Agility",
     "WW.Intellect": "Intellect",
@@ -28,21 +30,55 @@
     },
 
     "WW.Stats": "Stats",
+    "WW.Normal": "Normal",
     "WW.Traits": "Traits",
     "WW.Level": "Level",
     "WW.Solitary": "Solitary",
-    "WW.Type": "Type",
-    "WW.Senses": "Senses",
-    "WW.Languages": "Languages",
-    "WW.LanguagesPH": "Common, Sylvan",
-    "WW.Immune": "Immune",
-    "WW.ImmunePH": "poisoned",
+
+    "WW.Types": {
+        "Label": "Type",
+        "New": "New Type",
+        "Add": "Add new type or subtype",
+        "Edit": "Edit type or subtype",
+        "Remove": "Remove type or subtype"
+    },
+
+    "WW.Senses": {
+        "Label": "Senses",
+        "New": "New Sense",
+        "Add": "Add new sense",
+        "Edit": "Edit sense",
+        "Remove": "Remove sense"
+    },
+
+    "WW.Languages": {
+        "Label": "Languages",
+        "Bonus": "Bonus Language(s)",
+        "New": "New Language",
+        "Common": "Common",
+        "Add": "Add new language",
+        "Edit": "Edit language",
+        "Remove": "Remove language"
+    },
+
+    "WW.Immune": {
+        "Label": "Immune",
+        "New": "New Immunity",
+        "Add": "Add new immunity",
+        "Edit": "Edit immunity",
+        "Remove": "Remove immunity"
+    },
+
     "WW.Size": "Size",
-    "WW.Speed":{
-        "Label": "Speed",
-        "Normal": "Normal Speed",
-        "PH": "fly",
-        "Tip": "special form of movement"
+
+    "WW.Movement":{
+        "Label": "Special Movement Traits",
+        "New": "New Trait",
+        "Add": "Add new special movement trait",
+        "Edit": "Edit special movement trait",
+        "Remove": "Remove special movement trait",
+        "Speed": "Speed",
+        "NormalSpeed": "Normal Speed"
     },
 
     "WW.Damage": {
@@ -200,8 +236,24 @@
     "WW.Belief": "Religious Beliefs",
 
     "WW.Knowledge": "Knowledge",
-    "WW.Professions": "Professions",
-    "WW.ProfessionsPH": "Laborer (Common)",
+    "WW.Professions": {
+        "Label": "Professions",
+        "New": "New Profession",
+        "Edit": "Edit profession",
+        "Add": "Add new profession",
+        "Remove": "Remove profession",
+        "Profession": "Profession",
+        "Category": "Category",
+        "Commoner": "Commoner",
+        "Academic": "Academic",
+        "Aristocratic": "Aristrocratic",
+        "Criminal": "Criminal",
+        "Entertainment": "Entertainment",
+        "Military": "Military",
+        "Religious": "Religious",
+        "Wilderness": "Wilderness"
+    },
+
     "WW.Information": "Information",
     
     "WW.Background": "Background",
@@ -235,7 +287,25 @@
             "Damage": "Roll Damage Dice",
             "Healing": "Roll Healing Dice"
         },
+        "Add": {
+            "Ancestry": "Add Ancestry",
+            "Profession": "Add Profession",
+            "NovicePath": "Add Novice Path",
+            "ExpertPath": "Add Expert Path",
+            "MasterPath": "Add Master Path",
+            "Trait or Talent": "Add Trait/Talent",
+            "Equipment": "Add Equipment",
+            "Weapon": "Add Weapon",
+            "Spell": "Add Spell",
+            "Attack": "Add Weapon",
+            "Fury": "Add Fury"
+        },
         "Edit": {
+            "Ancestry": "Edit Ancestry",
+            "Profession": "Edit Profession",
+            "NovicePath": "Edit Novice Path",
+            "ExpertPath": "Edit Expert Path",
+            "MasterPath": "Edit Master Path",
             "Trait or Talent": "Edit Trait/Talent",
             "Equipment": "Edit Equipment",
             "Weapon": "Edit Weapon",
@@ -244,6 +314,11 @@
             "Fury": "Edit Fury"
         },
         "Delete": {
+            "Ancestry": "Remove Ancestry",
+            "Profession": "Remove Profession",
+            "NovicePath": "Remove Novice Path",
+            "ExpertPath": "Remove Expert Path",
+            "MasterPath": "Remove Master Path",
             "Label": "Delete",
             "Title": "Delete Item",
             "Msg": "You are about to delete",
@@ -314,9 +389,27 @@
     },
     "WW.Description": "Description",
 
-    "WW.Spells": "Spells",
-    "WW.Traditions": "Magical Traditions",
-    "WW.TraditionsPH": "Aeromancy, Alteration, etc",
+    "WW.Spells": {
+        "Label": "Spells",
+        "Learned": {
+            "OneNovice": "One novice",
+            "TwoNovice": "Two novice",
+            "ThreeNovice": "Three novice",
+            "FourNovice": "Four novice",
+            "OneExpert": "One expert",
+            "TwoExpert": "Two expert",
+            "OneMaster": "One master"
+        }
+    },
+
+    "WW.Traditions": {
+        "Label": "Traditions",
+        "New": "New Tradition",
+        "Add": "Add new tradition",
+        "Edit": "Edit immunity",
+        "Remove": "Remove tradition"
+    },
+
     "WW.Tier": "Tier",
     "WW.Tradition": "Tradition",
     "WW.Requirement": "Requirement",
@@ -622,8 +715,9 @@
         "Defense": {
             "Header": "Adjust Defense",
             "Override": "Total Defense becomes",
-            "Bonus": "Total Defense increases by",
+            "Bonus": "Increase total Defense by",
             "Armored": "Armored Defense becomes",
+            "ArmoredIncrease": "Increase Armored Defense by",
             "Natural": "Natural Defense is",
             "NaturalIncrease": "Increase Natural Defense by",
             "NaturalReduce": "Reduce Natural Defense by"
@@ -633,6 +727,7 @@
             "TempIncrease": "Increase current Health by",
             "TempReduce": "Reduce current Health by",
             "Override": "Normal Health becomes",
+            "Starting": "Starting Health is",
             "Increase": "Increase normal Health by"
         },
         "Speed": {
@@ -641,12 +736,18 @@
             "TempReduce": "Reduce current Speed by",
             "Halved": "Speed is halved",
             "Override": "Speed drops to and cannot be increased above",
-            "Increase": "Increase normal Speed by"
+            "Increase": "Increase normal Speed by",
+            "Normal": "Normal Speed is"
         },
         "Size": {
             "Header": "Other Stats",
             "Increase": "Increase Size by",
-            "Override": "Size becomes"
+            "Override": "Size becomes",
+            "Normal": "Normal Size is"
+        },
+        "BonusDamage": {
+            "Header": "Bonus Damage",
+            "Increase": "Increase Bonus Damage by"
         },
         "UpgradeAttribute": {
             "Header": "Set the Attribute Score, if not higher",
@@ -732,6 +833,36 @@
         "AsleepDesc": "If you are unconscious because you are sleeping naturally, you stop being unconscious when a creature uses an action to shake you, kick you, or do something else to waken you. A loud noise might remove the affliction if you succeed on a luck roll. Time spent sleeping counts as resting for the purpose of healing damage. If your sleep is uninterrupted, you wake up naturally whenever you choose after you fall asleep.",
         "Weakened": "Weakened",
         "WeakenedDesc": "You make Strength and Agility rolls with 1 bane, and you grant 1 boon on rolls against your Strength and Agility. In addition, your Speed is halved and you cannot benefit from increases to your Speed."
+    },
+
+    "WW.CharOption": {
+        "Description": "Description",
+        "Benefits": "Benefits",
+        "DropHere": "Drop Equipment, Traits, Talents and Spells here to add them to the level benefit.",
+        "Unknown": "Unknown",
+        "MissingRef": "Missing UUID reference for the equipment, trait, talent or spell. You can either delete this entry or restore it by putting the item back in the original Compendium.",
+        "TypeWarning": "Item must be an Equipment, a Trait or Talent, or a Spell.",
+        "CompendiumWarning": "Item must be dragged from a Compendium.",
+        "AlreadyWarning": "This character already has a character option of this type. Please remove this option before adding a new one.",
+        "Reference": {
+            "EditRef": "Edit the referenced item in the Compendium",
+            "RemoveRef": "Remove reference from this list. This won't affect the item in the Compendium.",
+            "Remove": {
+                "Title": "Remove Reference",
+                "Msg": "You are about to remove a reference for an item in a Compendium. Removing the reference will not make any changes the referenced item.",
+                "Confirm": "Are you sure you want to remove the reference?"
+            }
+        },
+        "GrantedBy": "Granted by"
+    },
+
+    "WW.Numbers": {
+        "One": "One",
+        "Two": "Two",
+        "Three": "Three",
+        "Four": "Four",
+        "Five": "Five",
+        "Six": "Six"
     },
 
     "WW.Combat": {

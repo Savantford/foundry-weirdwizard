@@ -50,6 +50,7 @@ effChanges.defense = {
   override: overInt(),
   bonus: addInt(),
   armored: upInt(1),
+  armoredIncrease: addInt(),
   natural: overInt(1),
   naturalIncrease: addInt(),
   naturalReduce: addInt()
@@ -59,6 +60,7 @@ effChanges.health = {
   tempIncrease: addInt(),
   tempReduce: addInt(),
   override: overInt(),
+  starting: overInt(1),
   increase: addInt()
 }
 

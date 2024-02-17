@@ -36,10 +36,7 @@ export function stats(type = String) {
 
     speed: new fields.SchemaField({
       normal: makeIntField(5),
-      current: makeIntField(),
-      /*value: makeIntField(),
-      raw: makeIntField(5),*/
-      special: makeStrField()
+      current: makeIntField()
     })
   }
 
@@ -52,21 +49,65 @@ export function stats(type = String) {
 
 export function details(type = String) {
   const obj = {
-    type: makeStrField('',1,1),
-    senses: makeStrField(),
-    languages: makeStrField(),
-    immune: makeStrField()
+    types: new fields.ArrayField(
+      new fields.ObjectField({ initial: {
+        name: "",
+        desc: "",
+        grantedBy: null
+      } })
+    ),
+
+    senses: new fields.ArrayField(
+      new fields.ObjectField({ initial: {
+        name: "",
+        desc: "",
+        grantedBy: null
+      } })
+    ),
+
+    languages: new fields.ArrayField(
+      new fields.ObjectField({ initial: {
+        name: "",
+        desc: "",
+        grantedBy: null
+      } })
+    ),
+
+    immune: new fields.ArrayField(
+      new fields.ObjectField({ initial: {
+        name: "",
+        desc: "",
+        grantedBy: null
+      } })
+    ),
+
+    movementTraits: new fields.ArrayField(
+      new fields.ObjectField({ initial: {
+        name: "",
+        desc: "",
+        grantedBy: null
+      } })
+    )
+    
   }
 
   if (type === 'Character') {
-    obj.languages = makeStrField("Common");
+
+    // Will be deleted in 3.0.1
     obj.professions = makeStrField("",1,1);
     obj.ancestry = makeStrField("Human",1,1);
     obj.novice = makeStrField("",1,1);
     obj.expert = makeStrField("",1,1);
     obj.master = makeStrField("",1,1);
+
     obj.reputation = makeIntField();
-    obj.traditions = makeStrField();
+
+    obj.traditions = new fields.ArrayField(
+      new fields.ObjectField({ initial: { name: "",
+        desc: "",
+        grantedBy: null
+      } })
+    );
 
     obj.features = makeHtmlField();
     obj.personality = makeHtmlField();

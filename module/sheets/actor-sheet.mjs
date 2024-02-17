@@ -5,6 +5,7 @@ import RollAttribute from '../dice/roll-attribute.mjs';
 import TargetingHUD from '../apps/targeting-hud.mjs';
 import { onManageActiveEffect, prepareActiveEffectCategories } from '../helpers/effects.mjs';
 import { WWAfflictions } from '../helpers/afflictions.mjs';
+import ListEntryConfig from '../apps/list-entry-config.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -139,157 +140,196 @@ export default class WWActorSheet extends ActorSheet {
     const fury = [];
     const spells = [];
 
+    // Initialize charOptions
+    const charOptions = {
+      ancestry: null,
+      professions: [],
+      novice: null,
+      expert: null,
+      master: null,
+    }
+
     // Iterate through items, allocating to containers
     for (let i of context.items) {
 
-      //let item = i;
-      i.img = i.img || DEFAULT_TOKEN;
-      
-      // Assign attributeLabel for template use
-      if (i.system.attribute == 'luck') {
-        i.system.attributeLabel = i18n('WW.Luck') + ' (+0)';
-      } else if (i.system.attribute) {
-        const attribute = context.system.attributes[i.system.attribute];
-        const name = i18n(CONFIG.WW.ATTRIBUTES[i.system.attribute]);
-        i.system.attributeLabel = name + ' (' + plusify(attribute.mod) + ')'
-      }
+      const itemDoc = this.document.items.get(i._id);
 
-      // Is the item an activity?
-      i.isActivity = false;
-      if (i.system.attribute || i.effects.length || i.system.instant.length) i.isActivity = true;
+      if (!itemDoc.charOption) { // Item is a regular item
+        
+        i.img = i.img || DEFAULT_TOKEN;
+        
+        // Assign attributeLabel for template use
+        if (i.system.attribute == 'luck') {
+          i.system.attributeLabel = i18n('WW.Luck') + ' (+0)';
+        } else if (i.system.attribute) {
+          const attribute = context.system.attributes[i.system.attribute];
+          const name = i18n(CONFIG.WW.ATTRIBUTES[i.system.attribute]);
+          i.system.attributeLabel = name + ' (' + plusify(attribute.mod) + ')'
+        }
 
-      // Check if item has passive effects
-      i.hasPassiveEffects = false;
-      const effects = this.document.items.get(i._id).effects;
-      
-      for (let e of effects) {
-        if (e.trigger === 'passive') i.hasPassiveEffects = true;
-      }
+        // Is the item an activity?
+        i.isActivity = false;
+        if (i.system.attribute || i.effects.length || i.system.instant.length) i.isActivity = true;
 
-      // Pass down whether the item need targets or not
-      i.needTargets = this.document.items.get(i._id).needTargets;
-      
-      // Append to equipment.
-      if (i.type === 'Equipment') {
+        // Check if item has passive effects
+        i.hasPassiveEffects = false;
+        const effects = this.document.items.get(i._id).effects;
+        
+        for (let e of effects) {
+          if (e.trigger === 'passive') i.hasPassiveEffects = true;
+        }
 
-        // Prepare properties list for weapons
-        if (i.system.subtype == 'weapon') {
+        // Pass down whether the item need targets or not
+        i.needTargets = this.document.items.get(i._id).needTargets;
+        
+        // Append to equipment.
+        if (i.type === 'Equipment') {
 
-          // Prepare traits list
-          let traits = i.system.traits;
-          let list = '';
-          let propertiesList = '';
+          // Prepare properties list for weapons
+          if (i.system.subtype == 'weapon') {
 
-          Object.entries(traits).map((x) => {
-            
-            if (x[1]) {
-              let string = i18n('WW.Weapon.Traits.' + capitalize(x[0]) + '.Label');
+            // Prepare traits list
+            let traits = i.system.traits;
+            let list = '';
+            let propertiesList = '';
+
+            Object.entries(traits).map((x) => {
               
-              if ((x[0] == 'range') || (x[0] == 'thrown')) {string += ' ' + i.system.range;}
+              if (x[1]) {
+                let string = i18n('WW.Weapon.Traits.' + capitalize(x[0]) + '.Label');
+                
+                if ((x[0] == 'range') || (x[0] == 'thrown')) {string += ' ' + i.system.range;}
 
-              list = list.concat(list ? ', ' + string : string);
-            }
+                list = list.concat(list ? ', ' + string : string);
+              }
+              
+            })
+
+            if (list) propertiesList += list;
+
+            // Prepare advantages list
+            let advantages = i.system.advantages;
+            list = '';
+
+            Object.entries(advantages).map((x) => {
+              
+              if (x[1]) {
+                let string = i18n('WW.Weapon.Advantages.' + capitalize(x[0]) + '.Label');
+
+                list = list.concat(list ? ', ' + string : string);
+              }
+              
+            })
+
+            if (list) { propertiesList ? propertiesList += ' | ' + list : propertiesList = list; }
+
+            // Prepare disadvantages list
+            let disadvantages = i.system.disadvantages;
+            list = '';
+
+            Object.entries(disadvantages).map((x) => {
+              
+              if (x[1]) {
+                let string = i18n('WW.Weapon.Disadvantages.' + capitalize(x[0]) + '.Label');
+
+                list = list.concat(list ? ', ' + string : string);
+              }
+              
+            })
             
-          })
+            if (list) { propertiesList ? propertiesList += ' | ' + list : propertiesList = list; }
 
-          if (list) propertiesList += list;
-
-          // Prepare advantages list
-          let advantages = i.system.advantages;
-          list = '';
-
-          Object.entries(advantages).map((x) => {
-            
-            if (x[1]) {
-              let string = i18n('WW.Weapon.Advantages.' + capitalize(x[0]) + '.Label');
-
-              list = list.concat(list ? ', ' + string : string);
-            }
-            
-          })
-
-          if (list) { propertiesList ? propertiesList += ' | ' + list : propertiesList = list; }
-
-          // Prepare disadvantages list
-          let disadvantages = i.system.disadvantages;
-          list = '';
-
-          Object.entries(disadvantages).map((x) => {
-            
-            if (x[1]) {
-              let string = i18n('WW.Weapon.Disadvantages.' + capitalize(x[0]) + '.Label');
-
-              list = list.concat(list ? ', ' + string : string);
-            }
-            
-          })
-          
-          if (list) { propertiesList ? propertiesList += ' | ' + list : propertiesList = list; }
-
-          i.system.propertiesList = propertiesList;
-        }
-
-        equipment.push(i);
-
-        // If an weapon or NPC sheet, also append to weapons.
-        if ((i.system.subtype == 'weapon') || (context.actor.type == 'NPC')) {
-          weapons.push(i);
-        }
-      }
-
-      // Append to talents.
-      else if (i.type === 'Trait or Talent') {
-
-        if (context.actor.type == 'NPC') {
-          switch (i.system.subtype) {
-            case 'trait': {
-              talents.push(i);
-              break;
-            }
-            case 'aura': {
-              auras.push(i);
-              break;
-            }
-            case 'action': {
-              actions.push(i);
-              break;
-            }
-            case 'reaction': {
-              reactions.push(i);
-              break;
-            }
-            case 'end': {
-              end.push(i);
-              break;
-            }
-            case 'fury': {
-              fury.push(i);
-              break;
-            }
+            i.system.propertiesList = propertiesList;
           }
-        } else {
-          allTalents.push(i);
-          switch (i.system.subtype) {
-            case 'action': {
-              actions.push(i);
-              break;
-            }
-            case 'reaction': {
-              reactions.push(i);
-              break;
-            }
-            default: {
-              talents.push(i);
-            }
+
+          equipment.push(i);
+
+          // If an weapon or NPC sheet, also append to weapons.
+          if ((i.system.subtype == 'weapon') || (context.actor.type == 'NPC')) {
+            weapons.push(i);
           }
         }
 
-      }
+        // Append to talents.
+        else if (i.type === 'Trait or Talent') {
 
-      // Append to spells.
-      else if (i.type === 'Spell') spells.push(i);
+          if (context.actor.type == 'NPC') {
+            switch (i.system.subtype) {
+              case 'trait': {
+                talents.push(i);
+                break;
+              }
+              case 'aura': {
+                auras.push(i);
+                break;
+              }
+              case 'action': {
+                actions.push(i);
+                break;
+              }
+              case 'reaction': {
+                reactions.push(i);
+                break;
+              }
+              case 'end': {
+                end.push(i);
+                break;
+              }
+              case 'fury': {
+                fury.push(i);
+                break;
+              }
+            }
+          } else {
+            allTalents.push(i);
+            switch (i.system.subtype) {
+              case 'action': {
+                actions.push(i);
+                break;
+              }
+              case 'reaction': {
+                reactions.push(i);
+                break;
+              }
+              default: {
+                talents.push(i);
+              }
+            }
+          }
+
+        }
+
+        // Append to spells.
+        else if (i.type === 'Spell') spells.push(i);
+
+      } else { // Item is a Char Option
+        
+        switch(i.type) {
+
+          case 'Ancestry': charOptions.ancestry = i; break;
+
+          case 'Profession': charOptions.professions.push(i); break;
+
+          case 'Path': {
+            if (i.system.tier === 'master') charOptions.master = i;
+            else if (i.system.tier === 'expert') charOptions.expert = i;
+            else charOptions.novice = i;
+            break;
+          };
+
+        }
+
+        // Prepare Profession Category Localization
+        if (i.type === 'Profession') {
+          i.system.categoryLoc = CONFIG.WW.PROFESSION_CATEGORIES[i.system.category];
+        }
+        
+      }
 
     }
+
+    // Assign charOption
+    context.charOptions = charOptions;
     
     // Calculate total Equipment weight.
     function calcWeight(item, id) {
@@ -317,6 +357,7 @@ export default class WWActorSheet extends ActorSheet {
 
     talents.forEach(updateUses)
     actions.forEach(updateUses)
+    reactions.forEach(updateUses)
     fury.forEach(updateUses)
     equipment.forEach(updateUses)
     spells.forEach(updateUses)
@@ -375,6 +416,9 @@ export default class WWActorSheet extends ActorSheet {
 
     // Change Token Disposition
     html.find('.change-disposition').click(this._onDispositionChange.bind(this));
+
+    // Handle list entries
+    html.find('.array-button').click(this._onListEntryButtonClicked.bind(this));
 
     /////////////////////// ITEMS ////////////////////////
 
@@ -474,6 +518,7 @@ export default class WWActorSheet extends ActorSheet {
   /* -------------------------------------------- */
 
   _onAttributeRoll(dataset) {
+    
     // Define variables to be used
     const system = this.actor.system,
       origin = this.actor.uuid,
@@ -693,35 +738,36 @@ export default class WWActorSheet extends ActorSheet {
     event.preventDefault();
     const header = event.currentTarget;
     const type = header.dataset.type; // Get the type of item to create.
+    
     let name = i18n('WW.NewItem', { itemType: type.capitalize() }) // Initialize a default name.
 
-    let subtype = '';
-    let source = '';
-    let attribute = '';
-    let damage = '';
-    let against = '';
+    const system = {
+      subtype: '',
+      source: type === 'Trait or Talent' ? header.dataset.source : '', // If Character's Talent, set source,
+      attribute: '',
+      damage: '',
+      against: '',
+      tier: type === 'Path' ? header.dataset.tier : '' // If a path, set tier
+    };
     
     // If Talent or Equipment, set subtype and name to the subtype
-    if ((type == 'Trait or Talent') || (type == 'Equipment')) {
-      subtype = event.currentTarget.dataset.subtype;
-      name = i18n('WW.NewItem', { itemType: subtype.capitalize() });
+    if ((type === 'Trait or Talent') || (type === 'Equipment')) {
+      system.subtype = header.dataset.subtype;
+      name = i18n('WW.NewItem', { itemType: system.subtype.capitalize() });
     }
 
     // If weapon, set default automated roll
-    if (subtype == 'weapon') {
-      attribute = 'str';
-      against = 'def';
-      damage = '1d6';
+    if (system.subtype == 'weapon') {
+      system.attribute = 'str';
+      system.against = 'def';
+      system.damage = '1d6';
     }
-
-    // If Character's Talent, set source
-    if ((this.actor.type) && (type == 'Trait or Talent')) source = event.currentTarget.dataset.source;
 
     // Prepare the item object.
     const itemData = {
       name: name,
       type: type,
-      system: { subtype, source, attribute, against, damage }
+      system: system
     };
 
     // Create the item
@@ -730,7 +776,82 @@ export default class WWActorSheet extends ActorSheet {
     // Render the created item's template
     createdItem.sheet.render(true);
 
-    return 
+    return;
+  }
+
+  /* -------------------------------------------- */
+  /*  Array button actions                        */
+  /* -------------------------------------------- */
+
+  /**
+   * Handle clicked array buttons
+   * @param {Event} ev   The originating click event
+   * @private
+  */
+
+  _onListEntryButtonClicked(ev) {
+    const button = ev.currentTarget,
+      dataset = Object.assign({}, button.dataset);
+
+    switch (dataset.action) {
+      case 'add': this._onListEntryButtonAdd(dataset); break;
+      case 'edit': this._onListEntryButtonEdit(dataset); break;
+      case 'remove': this._onListEntryButtonRemove(dataset); break;
+    }
+    
+  }
+
+  /**
+   * Handle adding an array entry
+   * @param dataset   The dataset
+   * @private
+  */
+  async _onListEntryButtonAdd(dataset) {
+
+    const arrPath = 'system.' + dataset.array,
+      oldArray = foundry.utils.getProperty(this.document, arrPath),
+      defaultName = (arrPath.includes('languages') && !oldArray.length) ? i18n('WW.Languages.Common') : i18n('WW.' + dataset.loc + '.New'),
+      arr = [...oldArray, { name: defaultName }];
+    
+    // Update document
+    await this.document.update({[arrPath]: arr});
+    
+    // Add entryId to dataset and render the config window
+    dataset.entryId = arr.length-1;
+    new ListEntryConfig(this.document, dataset).render(true);
+    
+  }
+
+  /**
+   * Handle edditing a list entry
+   * @param {Event} ev   The originating click event
+   * @private
+  */
+
+  _onListEntryButtonEdit(dataset) {
+    
+    // Render ListEntryConfig
+    new ListEntryConfig(this.document, dataset).render(true);
+    
+  }
+
+  /**
+   * Handle removing an element from an array
+   * @param {Event} ev   The originating click event
+   * @private
+  */
+
+  _onListEntryButtonRemove(dataset) {
+    
+    const arrPath = 'system.' + dataset.array,
+      arr = [...foundry.utils.getProperty(this.document, arrPath)];
+    
+    // Delete array element
+    arr.splice(dataset.entryId, 1);
+    
+    // Update document
+    this.document.update({[arrPath]: arr});
+    
   }
 
   async _onRest() {
@@ -793,8 +914,22 @@ export default class WWActorSheet extends ActorSheet {
   /*  Drop item events                            */
   /* -------------------------------------------- */
 
-  /** @override */
-  async _onDropItemCreate(itemData) {
+   /** @override */
+   async _onDropItemCreate(itemData) {
+
+    // Check if item must be unique
+    if (itemData.type === 'Ancestry' || itemData.type === 'Path') {
+
+      const hasOption = this.actor.items.find(i => {
+      
+        if (itemData.type === 'Path') return i.system.tier === itemData.system.tier;
+        else return i.type === itemData.type;
+  
+      })
+      
+      // If actor already has this character option, return a warning
+      if (hasOption) return ui.notifications.warn(i18n("WW.CharOption.AlreadyWarning"));
+    }
     
     const isAllowed = await this.checkDroppedItem(itemData)
     if (isAllowed) return await super._onDropItemCreate(itemData)
@@ -802,6 +937,7 @@ export default class WWActorSheet extends ActorSheet {
   }
 
   /* -------------------------------------------- */
+  
   /** @override */
   async checkDroppedItem(itemData) {
     const type = itemData.type
@@ -828,15 +964,6 @@ export default class WWActorSheet extends ActorSheet {
     const initialLayer = canvas.activeLayer;
 
     new TargetingHUD(obj, initialLayer, 'template').render(true);
-    /*try {
-      await GridTemplate.fromItem(item)?.drawPreview(obj);
-    } catch(err) {
-      Hooks.onError("Item5e._onChatCardAction", err, {
-        msg: game.i18n.localize("DND5E.PlaceTemplateError"),
-        log: "error",
-        notify: "error"
-      });
-    }*/
   }
 
   /**
@@ -857,8 +984,6 @@ export default class WWActorSheet extends ActorSheet {
     // Activate TargetingHUD app
     new TargetingHUD(obj, initialLayer, 'manual').render(true);
   }
-
-  
   
   /* -------------------------------------------- */
   /*  Getters                                     */

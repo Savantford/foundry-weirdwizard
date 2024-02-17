@@ -24,47 +24,7 @@
     }
   },
   "Item": {
-    "types": ["Equipment", "Trait or Talent", "Spell", "Ancestry", "Path"],
-    "htmlFields": ["description.value", "description.chat", "description.unidentified"],
-    "background": {
-      "templates": ["base"],
-      "advancement": []
-    },
-    "Ancestry": {
-      "templates": ["base"],
-      "identifier": "",
-      "levels": 1,
-      "hitDice": "d6",
-      "hitDiceUsed": 0,
-      "advancement": [],
-      "saves": [],
-      "skills": {
-        "number": 2,
-        "choices": [],
-        "value": []
-      },
-      "spellcasting": {
-        "progression": "none",
-        "ability": ""
-      }
-    },
-    "Path": {
-      "templates": ["base"],
-      "identifier": "",
-      "levels": 1,
-      "hitDice": "d6",
-      "hitDiceUsed": 0,
-      "advancement": [],
-      "saves": [],
-      "skills": {
-        "number": 2,
-        "choices": [],
-        "value": []
-      },
-      "spellcasting": {
-        "progression": "none",
-        "ability": ""
-      }
-    }
+    "types": ["Equipment", "Trait or Talent", "Spell", "Ancestry", "Profession", "Path"],
+    "htmlFields": ["description.value", "description.chat", "description.unidentified"]
   }
 }

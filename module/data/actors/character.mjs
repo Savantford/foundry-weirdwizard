@@ -36,10 +36,42 @@ export default class CharacterData extends foundry.abstract.DataModel {
     // Migrate Speed
     if ('stats.speed.value' in source) source.stats.speed.current = source.stats.speed.value;
     if ('stats.speed.raw' in source) source.stats.speed.normal = source.stats.speed.raw;
+
+    // Migrate List Entries
+    if (typeof source.details.type === 'string') { // Types
+      const arr = source.details.type.split(",");
+      source.details.types = arr.filter(s => s).map((s) => ({ name: s.trim() }));
+    }
+
+    if (typeof source.details.senses === 'string') { // Senses
+      const arr = source.details.senses.split(",");
+      source.details.senses = arr.filter(s => s).map((s) => ({ name: s.trim() }));
+    }
     
-    // Fix Level
+    if (typeof source.details.languages === 'string') { // Languages
+      const arr = source.details.languages.split(",");
+      source.details.languages = arr.filter(s => s).map((s) => ({ name: s.trim() }));
+    }
+
+    if (typeof source.details.immune === 'string') { // Immune
+      const arr = source.details.immune.split(",");
+      source.details.immune = arr.filter(s => s).map((s) => ({ name: s.trim() }));
+    }
+
+    if (typeof source.stats?.speed?.special === 'string') { // Movement Traits (Speed Special)
+      const arr = source.stats.speed.special.split(",");
+      source.details.movementTraits = arr.filter(s => s).map((s) => ({ name: s.trim() }));
+    }
+
+    if (typeof source.details.traditions === 'string') { // Traditions
+      const arr = source.details.traditions.split(",");
+      source.details.traditions = arr.filter(s => s).map((s) => ({ name: s.trim() }));
+    }
+    
+    // Migrate Level
     if (isNaN(source.stats?.level)) {
-      switch (source.stats.level) {
+
+      switch (source.stats?.level) {
         case '⅛': source.stats.level = 0.125; break;
         case '¼': source.stats.level = 0.25; break;
         case '½': source.stats.level = 0.5; break;
@@ -47,9 +79,10 @@ export default class CharacterData extends foundry.abstract.DataModel {
       }
     }
 
-    // Fix Size
+    // Migrate Size
     if (isNaN(source.stats?.size)) {
-      switch (source.stats.size) {
+
+      switch (source.stats?.size) {
         case '⅛': source.stats.size = 0.125; break;
         case '¼': source.stats.size = 0.25; break;
         case '½': source.stats.size = 0.5; break;
@@ -57,8 +90,8 @@ export default class CharacterData extends foundry.abstract.DataModel {
       }
     }
 
-    // Fix other stuff
-    if (isNaN(source.stats?.bonusdamage)) source.stats.bonusdamage = 0;
+    // Migrate other stuff
+    if ('stats' in source && isNaN(source.stats?.bonusdamage)) source.stats.bonusdamage = 0;
     if ('details' in source && isNaN(source.details?.reputation)) source.details.reputation = 0;
 
     return super.migrateData(source);

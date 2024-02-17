@@ -19,6 +19,17 @@ WW.details = {
   'deeds': 'WW.Deeds'*/
 }
 
+WW.PROFESSION_CATEGORIES = {
+  'commoner': 'WW.Professions.Commoner',
+  'academic': 'WW.Professions.Academic',
+  'aristocratic': 'WW.Professions.Aristrocratic',
+  'criminal': 'WW.Professions.Criminal',
+  'entertainment': 'WW.Professions.Entertainment',
+  'military': 'WW.Professions.Military',
+  'religious': 'WW.Professions.Religious',
+  'wilderness': 'WW.Professions.Wilderness'
+}
+
 // Dropdown menus
 WW.dropdownNumbers = {
   0.125: '⅛',
@@ -34,6 +45,8 @@ WW.dropdownNumbers = {
   8.0: '8',
   9.0: '9',
   10.0: '10',
+  11.0: '11',
+  12.0: '12',
 }
 
 WW.rollAttributes = {
@@ -376,6 +389,86 @@ WW.weaponDisadvantages = {
   }
 };
 
+WW.armorTypes = {
+  'light': 'WW.Armor.Light',
+  'medium': 'WW.Armor.Medium',
+  'heavy': 'WW.Armor.Heavy'
+}
+
+WW.armor = {
+  'unarmored': {
+    'label': 'WW.Armor.Unarmored',
+    'def': null,
+    'bonus': null,
+    'type': null
+  },
+  'padded': {
+    'label': 'WW.Armor.Padded',
+    'def': 11,
+    'bonus': null,
+    'type': 'Light'
+  },
+  'leather': {
+    'label': 'WW.Armor.Leather',
+    'def': 12,
+    'bonus': 1,
+    'type': 'Light'
+  },
+  'brigandine': {
+    'label': 'WW.Armor.Brigandine',
+    'def': 13,
+    'bonus': 1,
+    'type': 'Light'
+  },
+  'ring': {
+    'label': 'WW.Armor.Ring',
+    'def': 14,
+    'bonus': 2,
+    'type': 'Medium'
+  },
+  'mail': {
+    'label': 'WW.Armor.Mail',
+    'def': 15,
+    'bonus': null,
+    'type': 'Medium'
+  },
+  'plateAndMail': {
+    'label': 'WW.Armor.PlateAndMail',
+    'def': 16,
+    'bonus': null,
+    'type': 'Medium'
+  },
+  'breastplate': {
+    'label': 'WW.Armor.Breastplate',
+    'def': 16,
+    'bonus': 3,
+    'type': 'Heavy'
+  },
+  'plate': {
+    'label': 'WW.Armor.Plate',
+    'def': 17,
+    'bonus': null,
+    'type': 'Heavy'
+  },
+  'fullPlate': {
+    'label': 'WW.Armor.FullPlate', 
+    'def': 18,
+    'bonus': null,
+    'type': 'Heavy'
+  }
+}
+
+WW.SPELLS_LEARNED = {
+  '0': '—',
+  '1n': 'WW.Spells.Learned.OneNovice',
+  '2n': 'WW.Spells.Learned.TwoNovice',
+  '3n': 'WW.Spells.Learned.ThreeNovice',
+  '4n': 'WW.Spells.Learned.FourNovice',
+  '1e': 'WW.Spells.Learned.OneExpert',
+  '2e': 'WW.Spells.Learned.TwoExpert',
+  '1m': 'WW.Spells.Learned.OneMaster'
+}
+
 /* Instant Effects */
 
 WW.INSTANT_LABELS = {
@@ -449,26 +542,26 @@ WW.EFFECT_TARGETS_TARGETED = {
 
 WW.EFFECT_DURATIONS = {
   combat: {
-    header: "WW.EffectDurations.Combat.Header",
+    header: 'WW.EffectDurations.Combat.Header',
     options: {
-      "luckEnds": "WW.EffectDurations.Combat.LuckEnds",
-      "1round": "WW.EffectDurations.Combat.1Round",
-      "2rounds": "WW.EffectDurations.Combat.2Rounds",
-      "Xrounds": "WW.EffectDurations.Combat.XRounds",
-      "turnEnd": "WW.EffectDurations.Combat.TurnEnd",
-      "nextTriggerTurnStart": "WW.EffectDurations.Combat.NextTriggerTurnStart",
-      "nextTargetTurnStart": "WW.EffectDurations.Combat.NextTargetTurnStart",
-      "nextTriggerTurnEnd": "WW.EffectDurations.Combat.NextTriggerTurnEnd",
-      "nextTargetTurnEnd": "WW.EffectDurations.Combat.NextTargetTurnEnd"
+      'luckEnds': 'WW.EffectDurations.Combat.LuckEnds',
+      '1round': 'WW.EffectDurations.Combat.1Round',
+      '2rounds': 'WW.EffectDurations.Combat.2Rounds',
+      'Xrounds': 'WW.EffectDurations.Combat.XRounds',
+      'turnEnd': 'WW.EffectDurations.Combat.TurnEnd',
+      'nextTriggerTurnStart': 'WW.EffectDurations.Combat.NextTriggerTurnStart',
+      'nextTargetTurnStart': 'WW.EffectDurations.Combat.NextTargetTurnStart',
+      'nextTriggerTurnEnd': 'WW.EffectDurations.Combat.NextTriggerTurnEnd',
+      'nextTargetTurnEnd': 'WW.EffectDurations.Combat.NextTargetTurnEnd'
     }
   },
   outOfCombat: {
-    header: "WW.EffectDurations.OutOfCombat.Header",
+    header: 'WW.EffectDurations.OutOfCombat.Header',
     options: {
-      "1minute": "WW.EffectDurations.OutOfCombat.1Minute",
-      "minutes": "WW.EffectDurations.OutOfCombat.Minutes",
-      "hours": "WW.EffectDurations.OutOfCombat.Hours",
-      "days": "WW.EffectDurations.OutOfCombat.Days"
+      '1minute': 'WW.EffectDurations.OutOfCombat.1Minute',
+      'minutes': 'WW.EffectDurations.OutOfCombat.Minutes',
+      'hours': 'WW.EffectDurations.OutOfCombat.Hours',
+      'days': 'WW.EffectDurations.OutOfCombat.Days'
     }
   }
   
@@ -632,6 +725,10 @@ WW.EFFECT_OPTIONS = {
         key: 'system.stats.defense.armored',
         label: 'WW.EffectKeys.Defense.Armored'
       },
+      'defense.armoredIncrease': {
+        key: 'system.stats.defense.armored',
+        label: 'WW.EffectKeys.Defense.ArmoredIncrease'
+      },
       'defense.natural': {
         key: 'system.stats.defense.natural',
         label: 'WW.EffectKeys.Defense.Natural'
@@ -661,6 +758,10 @@ WW.EFFECT_OPTIONS = {
         key: 'system.stats.health.override',
         label: 'WW.EffectKeys.Health.Override'
       },
+      'health.starting': {
+        key: 'system.stats.health.normal',
+        label: 'WW.EffectKeys.Health.Starting'
+      },
       'health.increase': {
         key: 'system.stats.health.normal',
         label: 'WW.EffectKeys.Health.Increase'
@@ -686,6 +787,10 @@ WW.EFFECT_OPTIONS = {
         key: 'system.stats.speed.current',
         label: 'WW.EffectKeys.Speed.Override'
       },
+      'speed.normal': {
+        key: 'system.stats.speed.normal',
+        label: 'WW.EffectKeys.Speed.Normal'
+      },
       'speed.increase': {
         key: 'system.stats.speed.normal',
         label: 'WW.EffectKeys.Speed.Increase'
@@ -702,6 +807,19 @@ WW.EFFECT_OPTIONS = {
       'size.override': {
         key: 'system.stats.size',
         label: 'WW.EffectKeys.Size.Override'
+      },
+      'size.normal': {
+        key: 'system.stats.size',
+        label: 'WW.EffectKeys.Size.Normal'
+      },
+    }
+  },
+  bonusDamage: {
+    header: 'WW.EffectKeys.BonusDamage.Header',
+    options: {
+      'bonusDamage.increase': {
+        key: 'system.stats.bonusDamage',
+        label: 'WW.EffectKeys.BonusDamage.Increase'
       }
     }
   },
@@ -770,71 +888,10 @@ WW.EFFECT_OPTIONS = {
   },
 }
 
-WW.armorTypes = {
-  'light': 'WW.Armor.Light',
-  'medium': 'WW.Armor.Medium',
-  'heavy': 'WW.Armor.Heavy'
-}
+/* Character Options */
 
-WW.armor = {
-  'unarmored': {
-    'label': 'WW.Armor.Unarmored',
-    'def': null,
-    'bonus': null,
-    'type': null
-  },
-  'padded': {
-    'label': 'WW.Armor.Padded',
-    'def': 11,
-    'bonus': null,
-    'type': 'Light'
-  },
-  'leather': {
-    'label': 'WW.Armor.Leather',
-    'def': 12,
-    'bonus': 1,
-    'type': 'Light'
-  },
-  'brigandine': {
-    'label': 'WW.Armor.Brigandine',
-    'def': 13,
-    'bonus': 1,
-    'type': 'Light'
-  },
-  'ring': {
-    'label': 'WW.Armor.Ring',
-    'def': 14,
-    'bonus': 2,
-    'type': 'Medium'
-  },
-  'mail': {
-    'label': 'WW.Armor.Mail',
-    'def': 15,
-    'bonus': null,
-    'type': 'Medium'
-  },
-  'plateAndMail': {
-    'label': 'WW.Armor.PlateAndMail',
-    'def': 16,
-    'bonus': null,
-    'type': 'Medium'
-  },
-  'breastplate': {
-    'label': 'WW.Armor.Breastplate',
-    'def': 16,
-    'bonus': 3,
-    'type': 'Heavy'
-  },
-  'plate': {
-    'label': 'WW.Armor.Plate',
-    'def': 17,
-    'bonus': null,
-    'type': 'Heavy'
-  },
-  'fullPlate': {
-    'label': 'WW.Armor.FullPlate', 
-    'def': 18,
-    'bonus': null,
-    'type': 'Heavy'
-  }
+WW.PATH_TIERS = {
+  'novice': 'WW.NovicePath',
+  'expert': 'WW.ExpertPath',
+  'master': 'WW.MasterPath'
 };

@@ -14,6 +14,7 @@
   --font-body: 'PT Sans', sans-serif;
   /* Overrides */
   --background: url(../../../ui/parchment-white.jpg) repeat;
+  --background-color-shadow: rgba(0, 0, 0, 0.07);
   --color-text-dark-secondary: #808080;
   --color-border-highlight: var(--color-shadow-primary);
   --color-border-highlight-alt: var(--color-shadow-primary);
@@ -238,7 +239,11 @@
 
 .flex-wrap {
   flex-wrap: wrap;
-  gap: 5px 10px;
+  gap: 0 5px;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap;
 }
 
 .nowrap {
@@ -412,9 +417,12 @@
 .weirdwizard .sheet .stat input[type="number"],
 .weirdwizard .sheet .stat-inline input[type="number"],
 .weirdwizard .sheet .stat-stretch input[type="number"] {
-  text-align: center;
   min-width: 2ch;
   width: 2ch;
+}
+
+.weirdwizard .sheet .stat-inline input[type="number"] {
+  text-align: left;
 }
 
 .weirdwizard .sheet .stat input[type="number"]:not(:hover),
@@ -441,7 +449,6 @@
   appearance: auto;
   -webkit-appearance: auto;
   -moz-appearance: auto;
-  margin-right: 5px;
 }
 
 .weirdwizard .sheet input:not(:hover):not(:focus),
@@ -461,6 +468,9 @@
 }
 .weirdwizard .ml-auto {
   margin-left: auto !important;
+}
+.weirdwizard .mr-0 {
+  margin-right: 0 !important;
 }
 .weirdwizard .mr-1 {
   margin-right: 5px !important;
@@ -536,6 +546,9 @@
 .weirdwizard .bold {
   font-weight: bold !important;
 }
+.weirdwizard .italic {
+  font-style: italic !important;
+}
 .weirdwizard .width-50 {
   width: 50px !important;
 }
@@ -606,6 +619,7 @@
   -ms-flex-pack: start;
   justify-content: flex-start;
   margin-bottom: 5px;
+  min-width: 200px;
 }
 
 .weirdwizard .character-header {
@@ -645,12 +659,12 @@
 }
 
 .weirdwizard .sheet-header .profile-img {
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 100px;
-  flex: 0 0 100px;
   border-radius: 50%;
-  height: 100px;
   margin-right: 10px;
+}
+
+.weirdwizard .npc-sheet .sheet-header .profile-img {
+  height: 100px;
 }
 
 .weirdwizard .circle img {
@@ -672,9 +686,9 @@
 
   display: grid;
   place-items: center;
-  /*gap: 5px;*/
 
-  background: var(--highlight);
+  background: var(--background), var(--background-color-shadow);
+  background-blend-mode: color;
   /*color: #185adb;*/
   font-weight: bold;
   /*font-size: 3vmin;*/
@@ -720,7 +734,6 @@
 }
 
 .weirdwizard .sheet-header h1.charname {
-  height: 50px;
   padding: 0px;
   margin: 5px 0;
   border-bottom: 0;
@@ -745,7 +758,7 @@
   padding-top: 10px;
   margin-top: 10px;*/
   padding: 5px;
-  background: var(--highlight);
+  background: var(--background-color-shadow);
   border: 1px solid var(--highlight-title);
   border-radius: 5px;
 }
@@ -802,7 +815,7 @@
 
 .weirdwizard .editor-content {
   min-height: 2.5em;
-  background: rgba(var(--highlight-rbg), 0.5);
+  background: var(--background-color-shadow);
   padding: 1px 5px;
   border-radius: 5px;
 }
@@ -818,30 +831,38 @@
 .weirdwizard .attribute label {
   font-weight: bold;
 }
-.weirdwizard .flex-row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+
+.weirdwizard .window-content .flexrow {
+  gap: 5px;
 }
+
+.weirdwizard .window-content .item-list .flexrow {
+  gap: 0;
+}
+
 .weirdwizard .justify-between {
   justify-content: space-between;
 }
 
-.weirdwizard .stat-inline, .stat-stretch {
+.weirdwizard .stat-inline,
+.weirdwizard .stat-stretch {
   display: flex;
   align-items: center;
 }
-.weirdwizard .stat label,.weirdwizard .stat-inline label,.weirdwizard .stat-stretch label {
+
+.weirdwizard .stat label,
+.weirdwizard .stat-inline label,
+.weirdwizard .stat-stretch label {
   font-weight: bold;
   white-space: nowrap;
   color: var(--highlight-title);
 }
 
-.weirdwizard .stat-inline label {
+.weirdwizard .stat-inline > label {
   margin-right: 5px;
 }
 
-.weirdwizard .stat-stretch label {
+.weirdwizard .stat-stretch > label {
   margin-right: auto;
 }
 
@@ -1129,6 +1150,68 @@ input[type="checkbox"].checkbox-uses {
   color: var(--text);
 }
 
+.weirdwizard .add-button {
+  padding: 0 5px;
+  background: var(--background-color-shadow);
+  border: 1px solid var(--highlight-title);
+  border-radius: 5px;
+}
+
+.weirdwizard .stat-edit {
+  margin-left: 5px;
+  padding: 1px;
+  background: var(--background-color-shadow);
+  border: 1px solid var(--highlight-title);
+  border-radius: 5px;
+}
+
+.weirdwizard .described-list .buttons > a,
+.weirdwizard .described-list .buttons > a,
+.weirdwizard .compact-list .buttons > a,
+.weirdwizard .compact-list .buttons > a,
+.weirdwizard .list-entries span .buttons > a,
+.weirdwizard .list-entries .array-button[data-action="add"],
+.weirdwizard .list-entries .item-create,
+.weirdwizard .statbox h4 .item-create,
+.weirdwizard .npc-sheet .statbox .add-button,
+.weirdwizard .stat-inline .stat-edit {
+  display: none;
+}
+
+.weirdwizard .described-list:hover .buttons > a,
+.weirdwizard .described-list:hover .buttons > a,
+.weirdwizard .compact-list:hover .buttons > a,
+.weirdwizard .compact-list:hover .buttons > a,
+.weirdwizard .list-entries span:hover .buttons > a,
+.weirdwizard .list-entries:hover .array-button[data-action="add"],
+.weirdwizard .list-entries:hover .item-create,
+.weirdwizard .statbox:hover h4 .item-create,
+.weirdwizard .npc-sheet .statbox:hover .add-button,
+.weirdwizard .stat-inline:hover .stat-edit {
+  display: inline-block;
+}
+
+.weirdwizard .list-entry .buttons > a {
+  display: none;
+}
+
+.weirdwizard .list-entry:hover .buttons > a {
+  display: inline;
+}
+
+.weirdwizard .pip-box .fas,
+.weirdwizard .pip-box .far {
+  display: inline !important;
+}
+
+.weirdwizard .described-list:not(:hover) .pip-box,
+.weirdwizard .described-list:not(:hover) .pip-box,
+.weirdwizard .compact-list:not(:hover) .pip-box,
+.weirdwizard .compact-list:not(:hover) .pip-box {
+  background: none;
+  padding: 0;
+}
+
 .weirdwizard .described-list .fury-header {
   margin: 10px -5px 5px -5px; 
 }
@@ -1140,11 +1223,19 @@ input[type="checkbox"].checkbox-uses {
   color: var(--highlight-title);
 }
 
+.buttons {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  gap: 3px;
+}
+
 .attacks-list .buttons {
   margin-right: 5px;
 }
 
-.buttons i {
+.buttons i,
+.item-create i,
+.array-button[data-action="add"] i {
   font-size: smaller;
 }
 
@@ -1212,6 +1303,78 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard .effect img {
   background-color: #606060;
+}
+
+.weirdwizard .path-sheet .editor {
+  flex: 1;
+}
+
+.weirdwizard .path-sheet .left-col {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 0.6;
+  margin-right: 10px;
+}
+
+.weirdwizard .path-sheet .charname > input {
+  font-size: 24px;
+}
+
+.weirdwizard .path-sheet .tier {
+  background: rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid var(--color-border-light-2) !important;
+  border-radius: 3px;
+  box-shadow: 0 0 2px #fff inset;
+  padding: 2px 4px !important;
+  font-weight: bold;
+  letter-spacing: 0.03em;
+  width: fit-content;
+}
+
+.weirdwizard .path-sheet .items-area {
+  background: var(--background-color-shadow);
+  border-radius: 3px;
+  padding: 2px 5px;
+  margin: 0;
+}
+
+.weirdwizard .path-sheet .fadeout {
+  box-shadow: rgba(33, 33, 33, 0.8) 0px 0px 1px 2px, rgba(33, 33, 33, 0.6) 0px 0px 0px 5000px;
+  /* border-radius: 4px; */
+  transition: all 0.3s ease-out;
+  z-index: calc(var(--z-index-tooltip) - 2);
+  position: relative;
+}
+
+.weirdwizard .path-sheet .missing {
+  color: #880000;
+}
+
+.weirdwizard .path-sheet .missing label {
+  color: var(--color-text-dark-5);
+}
+
+.weirdwizard .list-entries {
+  display: flex;
+  gap: 0 5px;
+  flex-wrap: wrap;
+}
+
+.weirdwizard .list-entries span {
+  white-space: nowrap;
+}
+
+.weirdwizard .list-entry:hover .buttons {
+  margin: 0 5px;
+}
+
+.weirdwizard .list-entries label {
+  margin-right: 0;
+}
+
+.weirdwizard .list-entries > div > span {
+  display: inline-block;
 }
 
 /* Tooltips Customization */
@@ -1506,7 +1669,7 @@ i.icon-Weakened {
   width: 30px;
 }
 
-.weirdwizard .health-indicator {
+.weirdwizard .health-indicator::before {
   margin-left: 5px;
 }
 

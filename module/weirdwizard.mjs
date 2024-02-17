@@ -12,6 +12,7 @@ import WWChatMessage from './documents/chat-message.mjs';
 import WWCharacterSheet from './sheets/character-sheet.mjs';
 import WWNpcSheet from './sheets/npc-sheet.mjs';
 import WWItemSheet from './sheets/item-sheet.mjs';
+import WWCharOptionSheet from './sheets/charoption-sheet.mjs';
 
 // Import apps
 import WWActiveEffectConfig from './apps/active-effect-config.mjs';
@@ -28,6 +29,9 @@ import NpcData from './data/actors/npc.mjs';
 import EquipmentData from './data/items/equipment.mjs';
 import TalentData from './data/items/talent.mjs';
 import SpellData from './data/items/spell.mjs';
+import AncestryData from './data/items/ancestry.mjs';
+import ProfessionData from './data/items/profession.mjs';
+import PathData from './data/items/path.mjs';
 
 // Import helper/utility classes and constants.
 import { WW } from './config.mjs';
@@ -37,7 +41,7 @@ import { expireFromTokens } from './helpers/effects.mjs';
 import { initChatListeners } from './chat/chat-listeners.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
-import migrateWorld from './helpers/migrations.mjs';
+import { fullMigration, charOptions } from './helpers/migrations.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -78,6 +82,10 @@ Hooks.once('init', function () {
 
   Items.unregisterSheet('core', ItemSheet);
   Items.registerSheet('weirdwizard', WWItemSheet, { makeDefault: true });
+  Items.registerSheet('weirdwizard', WWCharOptionSheet, {
+    types: ['Ancestry', 'Profession', 'Path'],
+    makeDefault: true
+  });
 
   DocumentSheetConfig.registerSheet(ActiveEffect, 'weirdwizard', WWActiveEffectConfig, {makeDefault: true})
 
@@ -87,6 +95,9 @@ Hooks.once('init', function () {
   CONFIG.Item.dataModels.Equipment = EquipmentData;
   CONFIG.Item.dataModels['Trait or Talent'] = TalentData;
   CONFIG.Item.dataModels.Spell = SpellData;
+  CONFIG.Item.dataModels.Ancestry = AncestryData;
+  CONFIG.Item.dataModels.Profession = ProfessionData;
+  CONFIG.Item.dataModels.Path = PathData;
 
   // Register custom Combat Tracker
   CONFIG.ui.combat = WWCombatTracker;
@@ -135,8 +146,6 @@ Hooks.once('init', function () {
   });
 
   game.settings.register('weirdwizard', 'lastMigrationVersion', {
-    /*name: 'WW.System.LastMigration',
-    hint: 'WW.System.LastMigrationHint',*/
     scope: 'world',
     config: false,
     requiresReload: false,
@@ -223,13 +232,14 @@ Hooks.once('ready', function () {
 
   // Append data migration function to game.system.migrations so it can be used for manual migrations
   game.system.migrations = {
-    migrateWorld: migrateWorld
+    fullMigration: fullMigration,
+    migrateCharOptions: charOptions
     //migratePack // Specific pack as input
     //migratePacks // All packs
   }
 
   // Check and run data migrations if needed
-  migrateWorld();
+  fullMigration();
 
 });
 
@@ -252,7 +262,6 @@ Hooks.once('setup', function () {
   }*/
 
   const effects = WWAfflictions.buildAll();
-  console.log(effects)
 
   // Add the default status icons if the setting is not on
   /*if (!game.settings.get('weirdwizard', 'statusIcons')) {

@@ -1,5 +1,5 @@
 {{!-- Main Row --}}
-<div class="flex-row stat flex-wrap">
+<div class="stat-inline flex-wrap">
 
     {{!-- Type --}}
     <div>
@@ -31,10 +31,17 @@
 
 {{!-- Aura Range --}}
 {{#if (eq system.subtype 'aura')}}
-<div class="flex-row stat-inline">
+<div class="stat-inline">
     <label>{{localize "WW.AuraRange"}}</label>
     <input type="number" name="system.range" value="{{system.range}}" min="0" placeholder="#" data-dtype="Number" />
 </div>
 {{/if}}
 
 {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
+
+{{#if grantedBy}}
+<div class="stat-inline mt-1">
+    <label>{{localize "WW.CharOption.GrantedBy"}}</label>
+    {{grantedBy}}
+</div>
+{{/if}}
