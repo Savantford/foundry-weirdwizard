@@ -45,7 +45,6 @@ export default class RollDamage extends FormApplication {
     context.system = this.item.system;
     context.baseDamage = this.baseDamage;
     context.bonusDamage = this.actor.system.stats.bonusDamage;
-    context.shattering = this.item.system.traits?.shattering;
     context.versatile = this.item.system.traits?.versatile;
     context.attackDice = this.actor.system.extraDamage.attacks.dice;
     context.attackMod = this.actor.system.extraDamage.attacks.mod;
@@ -80,7 +79,6 @@ export default class RollDamage extends FormApplication {
     // Get checkbox values
     let applyBase = parent.querySelector('input[name=applyBase]:checked');
     let applyBothHands = parent.querySelector('input[name=bothHands]:checked');
-    let applyShattering = parent.querySelector('input[name=shattering]:checked');
     let applyAttackDice = parent.querySelector('input[name=attackDice]:checked');
     let applyAttackMod = parent.querySelector('input[name=attackMod]:checked');
     let applyBonus = parent.querySelector('input[name=applyBonus]:checked');
@@ -93,7 +91,6 @@ export default class RollDamage extends FormApplication {
     let diceCount = 0;
 
     if (applyBothHands) diceCount += 1;
-    if (applyShattering) diceCount += 1;
     if (applyAttackDice) diceCount += this.actor.system.extraDamage.attacks.dice;
     if (otherDice) diceCount += otherDice;
     

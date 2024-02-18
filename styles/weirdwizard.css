@@ -1321,7 +1321,7 @@ input[type="checkbox"].checkbox-uses {
   font-size: 24px;
 }
 
-.weirdwizard .path-sheet .tier {
+.weirdwizard.sheet.item .item-type {
   background: rgba(0, 0, 0, 0.1) !important;
   border: 1px solid var(--color-border-light-2) !important;
   border-radius: 3px;
@@ -1330,6 +1330,19 @@ input[type="checkbox"].checkbox-uses {
   font-weight: bold;
   letter-spacing: 0.03em;
   width: fit-content;
+  white-space: nowrap;
+}
+
+.weirdwizard.sheet.item .item-type > * {
+  font-weight: bold;
+  letter-spacing: 0.03em;
+  width: fit-content;
+}
+
+.weirdwizard.sheet.item .item-type-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .weirdwizard .path-sheet .items-area {

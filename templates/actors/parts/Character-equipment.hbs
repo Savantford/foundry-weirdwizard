@@ -4,44 +4,44 @@
 
     {{!-- Coins --}}
     <div class="flex-row stat-inline nowrap coins mr-auto">
-        <label for="system.currency" class="resource-label">{{localize "WW.Coins.Label"}}</label>
+        <label for="system.currency" class="resource-label">{{localize "WW.Equipment.Coins"}}</label>
         <ol class="coins-list hl">
             <li>
                 <input type="number" name="system.currency.gp" value="{{system.currency.gp}}" min="0"
-                    data-dtype="Number" />{{localize "WW.Coins.GP"}}
+                    data-dtype="Number" />{{localize "WW.Equipment.GP"}}
             </li>
             <li>
                 <input type="number" name="system.currency.sp" value="{{system.currency.sp}}" min="0"
-                    data-dtype="Number" />{{localize "WW.Coins.SP"}}
+                    data-dtype="Number" />{{localize "WW.Equipment.SP"}}
             </li>
             <li>
                 <input type="number" name="system.currency.cp" value="{{system.currency.cp}}" min="0"
-                    data-dtype="Number" />{{localize "WW.Coins.CP"}}
+                    data-dtype="Number" />{{localize "WW.Equipment.CP"}}
             </li>
         </ol>
     </div>
 
     {{!-- Weight Total --}}
     <div class="total-weight nowrap">
-        <label>{{localize "WW.WeightTotal"}}</label>
+        <label>{{localize "WW.Equipment.TotalWeight"}}</label>
         <span class="hl" {{#if (gt totalWeight system.attributes.str.value)}}style="color: red; font-weight:bold"
             {{/if}}>{{totalWeight}} / {{system.attributes.str.value}}</span>
     </div>
 </div>
 
 {{!-- Weapons --}}
-<h2>{{localize "WW.Weapon.Plural"}}</h2>
+<h2>{{localize "WW.Equipment.Weapons"}}</h2>
 <div>
     <ol class="item-list weapons-list">
         <li class="item flexrow items-header">
             <div class="item-image"></div>
-            <div class="item-name">{{localize "WW.Name"}}</div>
+            <div class="item-name">{{localize "WW.Item.Name"}}</div>
             <div class="item-fixed">{{localize "WW.Damage.Label"}}</div>
             <div class="item-fixed">{{localize "WW.Weapon.Grip"}}</div>
-            <div class="item-properties">{{localize "WW.Weapon.Properties"}}</div>
+            <div class="item-traits">{{localize "WW.Weapon.Traits.Label"}}</div>
             <div class="item-controls">
                 <a class="item-control item-create" title="Create item" data-type="Equipment" data-subtype="weapon"><i
-                    class="fas fa-plus"></i> {{localize "WW.Add"}}</a>
+                    class="fas fa-plus"></i> {{localize "WW.Item.Add.Label"}}</a>
             </div>
         </li>
 
@@ -92,7 +92,7 @@
             
             <div class="item-fixed"><a>{{item.system.damage}}</a></div>
             <div class="item-fixed">{{item.system.grip}}</div>
-            <div class="item-properties">{{item.system.propertiesList}}</div>
+            <div class="item-traits">{{item.system.traitsList}}</div>
 
             <div class="item-controls">              
                 {{!-- Edit Button --}}
@@ -109,17 +109,17 @@
 
 </div>
 
-<h2>{{localize "WW.Equipment"}}</h2>
+<h2>{{localize "WW.Equipment.Label"}}</h2>
 <div>
     <ol class="item-list equipment-list">
         <li class="item flexrow items-header">
             <div class="item-image"></div>
             <div class="item-quantity">#</div>
-            <div class="item-name">{{localize "WW.Name"}}</div>
-            <div class="item-uses">{{localize "WW.UsesEquipment"}}</div>
-            <div class="item-weight">{{localize "WW.Weight"}}</div>
+            <div class="item-name">{{localize "WW.Item.Name"}}</div>
+            <div class="item-uses">{{localize "WW.Equipment.Uses"}}</div>
+            <div class="item-weight">{{localize "WW.Equipment.Weight"}}</div>
             <div class="item-controls">
-                <a class="item-control item-create" title="Create item" data-type="Equipment" data-subtype="generic"><i class="fas fa-plus"></i> {{localize "WW.Add"}}</a>
+                <a class="item-control item-create" title="Create item" data-type="Equipment" data-subtype="generic"><i class="fas fa-plus"></i> {{localize "WW.Item.Add.Label"}}</a>
             </div>
         </li>
 

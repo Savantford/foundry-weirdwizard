@@ -158,7 +158,7 @@ export default class WWActorSheet extends ActorSheet {
         
         // Assign attributeLabel for template use
         if (i.system.attribute == 'luck') {
-          i.system.attributeLabel = i18n('WW.Luck') + ' (+0)';
+          i.system.attributeLabel = i18n('WW.Attributes.Luck') + ' (+0)';
         } else if (i.system.attribute) {
           const attribute = context.system.attributes[i.system.attribute];
           const name = i18n(CONFIG.WW.ATTRIBUTES[i.system.attribute]);
@@ -485,7 +485,7 @@ export default class WWActorSheet extends ActorSheet {
     const system = this.actor.system,
       origin = this.actor.uuid,
       attKey = dataset.key,
-      label = i18n(CONFIG.WW.rollAttributes[attKey]) + ' Roll';
+      label = i18n(CONFIG.WW.ROLL_ATTRIBUTES[attKey]) + ' Roll';
 
     let content = '';
 
@@ -701,7 +701,7 @@ export default class WWActorSheet extends ActorSheet {
     const header = event.currentTarget;
     const type = header.dataset.type; // Get the type of item to create.
     
-    let name = i18n('WW.NewItem', { itemType: type.capitalize() }) // Initialize a default name.
+    let name = i18n('WW.Item.New', { itemType: type.capitalize() }) // Initialize a default name.
 
     const system = {
       subtype: '',
@@ -715,7 +715,7 @@ export default class WWActorSheet extends ActorSheet {
     // If Talent or Equipment, set subtype and name to the subtype
     if ((type === 'Trait or Talent') || (type === 'Equipment')) {
       system.subtype = header.dataset.subtype;
-      name = i18n('WW.NewItem', { itemType: system.subtype.capitalize() });
+      name = i18n('WW.Item.New', { itemType: system.subtype.capitalize() });
     }
 
     // If weapon, set default automated roll

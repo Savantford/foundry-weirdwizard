@@ -107,9 +107,9 @@ export default class WWToken extends Token {
    * Display a health icon overlay
   */
   displayHealthIcon(container) {
-    const injured = this.document.actor.injured,
-      incapacitated = this.document.actor.incapacitated,
-      dead = this.document.actor.dead;
+    const injured = this.document.actor?.injured,
+      incapacitated = this.document.actor?.incapacitated,
+      dead = this.document.actor?.dead;
     
     // Return if not injured, incapacitated or dead
     if (!(dead || incapacitated || injured)) return;

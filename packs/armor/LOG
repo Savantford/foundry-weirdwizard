@@ -1,3 +1,5 @@
-2024/02/17-15:45:22.679 396c Recovering log #479
-2024/02/17-15:45:22.684 396c Delete type=0 #479
-2024/02/17-15:45:22.684 396c Delete type=3 #478
+2024/02/18-14:13:18.852 1aac Recovering log #481
+2024/02/18-14:13:18.852 1aac Level-0 table #483: started
+2024/02/18-14:13:18.854 1aac Level-0 table #483: 5892 bytes OK
+2024/02/18-14:13:18.859 1aac Delete type=0 #481
+2024/02/18-14:13:18.860 1aac Delete type=3 #480

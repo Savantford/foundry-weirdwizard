@@ -2,17 +2,17 @@
 
     <div class="statbox">{{!-- Left Column --}}
         <span class="statbox-superheader">
-            <h3 class="statbox-header flex-group-left"><span>{{localize "WW.Stats"}}</span>
-                <span class="statbox-level">{{localize "WW.Level"}} {{system.stats.level}} {{#if system.stats.solitary}}({{localize "WW.Solitary"}}){{/if}}</span>
+            <h3 class="statbox-header flex-group-left"><span>{{localize "WW.Stats.Label"}}</span>
+                <span class="statbox-level">{{localize "WW.Stats.Level"}} {{system.stats.level}} {{#if system.stats.solitary}}({{localize "WW.Stats.Solitary"}}){{/if}}</span>
             </h3>
 
             <div class="flex-row stat-inline flex-group-left">{{!-- Level, Solitary --}}
-                <label>{{localize "WW.Level"}}</label>
+                <label>{{localize "WW.Stats.Level"}}</label>
                 <select name="system.stats.level">
                     {{selectOptions numbersArr selected=system.stats.level nameAttr="key" labelAttr="label"}}
                 </select>
 
-                <label class="ml-2">{{localize "WW.Solitary"}}</label>
+                <label class="ml-2">{{localize "WW.Stats.Solitary"}}</label>
                 <input type="checkbox" name="system.stats.solitary" {{checked system.stats.solitary}} />
             </div>
 
@@ -66,7 +66,7 @@
                     <input type="number" name="system.stats.health.current" value="{{system.stats.health.current}}" min="0"
                     data-dtype="Number" title="{{localize "WW.Health.Bonus"}}: {{system.stats.health.bonus}}. {{localize "WW.Health.Lost"}}: {{system.stats.health.lost}}"/>
 
-                    <span class="stat-edit">{{localize "WW.Normal"}}: <input type="number" name="system.stats.health.normal" value="{{system.stats.health.normal}}" min="0" /></span>
+                    <span class="stat-edit">{{localize "WW.Stats.Normal"}}: <input type="number" name="system.stats.health.normal" value="{{system.stats.health.normal}}" min="0" /></span>
                     
                 </div>
 
@@ -85,7 +85,7 @@
             </div>
 
             <div class="mt-1 stat-inline">{{!-- Attributes 1 --}}
-                <label>{{localize "WW.Strength"}}</label>
+                <label>{{localize "WW.Attributes.Strength"}}</label>
                 <input type="number" name="system.attributes.str.value"
                     value="{{system.attributes.str.value}}" min="0" placeholder="—" data-dtype="Number" /> 
                     
@@ -95,7 +95,7 @@
                 </a>
                 {{/if}}
 
-                <label class="ml-1">{{localize "WW.Agility"}}</label>
+                <label class="ml-1">{{localize "WW.Attributes.Agility"}}</label>
                 <input type="number" name="system.attributes.agi.value"
                     value="{{system.attributes.agi.value}}" min="0" placeholder="—" data-dtype="Number" /> 
                 
@@ -107,7 +107,7 @@
 
             </div>
             <div class="mt-1 stat-inline">{{!-- Attributes 2 --}}
-                <label>{{localize "WW.Intellect"}}</label>
+                <label>{{localize "WW.Attributes.Intellect"}}</label>
                 <input type="number" name="system.attributes.int.value"
                     value="{{system.attributes.int.value}}" min="0" placeholder="—" data-dtype="Number" /> 
                 
@@ -117,7 +117,7 @@
                 </a>
                 {{/if}}
 
-                <label class="ml-1">{{localize "WW.Will"}}</label>
+                <label class="ml-1">{{localize "WW.Attributes.Will"}}</label>
                 <input type="number" name="system.attributes.wil.value"
                     value="{{system.attributes.wil.value}}" min="0" placeholder="—" data-dtype="Number" /> 
                 
@@ -131,12 +131,12 @@
         </div>
 
         <span class="talents-section">
-            <h4>{{localize "WW.Talents"}}</h4>
+            <h4>{{localize "WW.Talents.Label"}}</h4>
 
             {{!-- Auras --}}
             <ol class="item-list described-list">
                 <a class="item-create add-button" title="Create item" data-type="Trait or Talent" data-subtype="aura"><i
-                    class="fas fa-plus"></i> {{localize "WW.Add"}} {{localize "WW.TalentSubtypes.Aura"}}</a>
+                    class="fas fa-plus"></i> {{localize "WW.Item.Add.Aura"}}</a>
 
                 {{#each auras as |item id|}}
                     {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
@@ -223,7 +223,7 @@
             <div class="stat-inline list-entries">
 
                 {{!-- Size --}}
-                <label>{{localize "WW.Size"}}</label>
+                <label>{{localize "WW.Stats.Size"}}</label>
                 <select name="system.stats.size">
                     {{selectOptions numbersArr selected=system.stats.size nameAttr="key" labelAttr="label"}}
                 </select>
@@ -232,7 +232,7 @@
                 <label class="ml-1">{{localize "WW.Movement.Speed"}}</label>
 
                 {{system.stats.speed.current}}
-                <span class="stat-edit">{{localize "WW.Normal"}}: <input type="number" name="system.stats.speed.normal" value="{{system.stats.speed.normal}}" min="0" /></span>
+                <span class="stat-edit">{{localize "WW.Stats.Normal"}}: <input type="number" name="system.stats.speed.normal" value="{{system.stats.speed.normal}}" min="0" /></span>
                 
                 {{!-- Movement Traits --}}
                 {{#each system.details.movementTraits as |detail id|}}<span class="list-entry">
@@ -251,9 +251,10 @@
 
             </div>
 
-            <ol class="item-list described-list">{{!-- Talents --}}
+            {{!-- Traits or Talents --}}
+            <ol class="item-list described-list">
                 <a class="item-create add-button" title="Create item" data-type="Trait or Talent" data-subtype="trait"><i
-                        class="fas fa-plus"></i> {{localize "WW.Add"}} {{localize "WW.TalentSubtypes.Trait"}}</a>
+                        class="fas fa-plus"></i> {{localize "WW.Item.Add.Trait"}}</a>
                 {{#each talents as |item id|}}
                     {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
                 {{/each}}
@@ -274,7 +275,7 @@
             </ol>
         </div>
 
-        <h4 class="mt-2">{{localize "WW.Actions"}}<a class="item-create ml-auto" title="Create item" data-type="Trait or Talent" data-subtype="action"><i
+        <h4 class="mt-2">{{localize "WW.Talents.Actions"}}<a class="item-create ml-auto" title="Create item" data-type="Trait or Talent" data-subtype="action"><i
                         class="fas fa-plus"></i></a></h4>
         <ol class="item-list described-list actions-list">
             {{#each actions as |item id|}}
@@ -282,7 +283,7 @@
             {{/each}}
         </ol>
 
-        <h4 class="mt-2">{{localize "WW.Reactions"}}<a class="item-create ml-auto" title="Create item" data-type="Trait or Talent" data-subtype="reaction"><i
+        <h4 class="mt-2">{{localize "WW.Talents.Reactions"}}<a class="item-create ml-auto" title="Create item" data-type="Trait or Talent" data-subtype="reaction"><i
                         class="fas fa-plus"></i></a></h4>
         <ol class="item-list described-list">
             {{#each reactions as |item id|}}
@@ -290,7 +291,7 @@
             {{/each}}
         </ol>
 
-        <h4 class="mt-2">{{localize "WW.Ends"}}<a class="item-create ml-auto" title="Create item" data-type="Trait or Talent" data-subtype="end"><i
+        <h4 class="mt-2">{{localize "WW.Talents.Ends"}}<a class="item-create ml-auto" title="Create item" data-type="Trait or Talent" data-subtype="end"><i
                         class="fas fa-plus"></i></a></h4>
         <ol class="item-list described-list">
             {{#each end as |item id|}}
@@ -300,7 +301,7 @@
 
         <ol class="item-list described-list fury-list">
             <a class="item-create add-button" title="Create item" data-type="Trait or Talent" data-subtype="fury"><i
-                class="fas fa-plus"></i> {{localize "WW.Add"}} {{localize "WW.TalentSubtypes.Fury"}}</a>
+                class="fas fa-plus"></i> {{localize "WW.Item.Add.Fury"}}</a>
             
             {{#each fury as |item id|}}
                 {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-fury.hbs" item=item id=id}}

@@ -5,16 +5,27 @@
     "WW.ActorName": "Actor's Name",
     "WW.ItemName": "Item's Name",
 
-    "WW.Attributes": "Attributes",
-    "WW.Strength": "Strength",
-    "WW.Agility": "Agility",
-    "WW.Intellect": "Intellect",
-    "WW.Will": "Will",
-    "WW.StrengthScore": "Strength Score",
-    "WW.AgilityScore": "Agility Score",
-    "WW.IntellectScore": "Intellect Score",
-    "WW.WillScore": "Will Score",
-    "WW.Luck": "Luck",
+    "WW.Attributes": {
+        "Label": "Attributes",
+        "Strength": "Strength",
+        "StrengthScore": "Strength Score",
+        "Agility": "Agility",
+        "AgilityScore": "Agility Score",
+        "Intellect": "Intellect",
+        "IntellectScore": "Intellect Score",
+        "Will": "Will",
+        "WillScore": "Will Score",
+        "Luck": "Luck"
+    },
+
+    "WW.Stats": {
+        "Summary": "Summary",
+        "Label": "Stats",
+        "Level": "Level",
+        "Solitary": "Solitary",
+        "Size": "Size",
+        "Normal": "Normal"
+    },
 
     "WW.Rest": {
         "Label": "Rest",
@@ -23,17 +34,17 @@
         "Finished": "finished a rest"
     },
 
-    "WW.Disposition": {
-        "Enemy": "Enemy",
-        "Ally": "Ally",
-        "Tip": "Click to change disposition."
+    "WW.CharOptions": {
+        "Ancestry": "Ancestry",
+        "Professions": "Professions",
+        "Paths": "Paths",
+        "Novice": "Novice",
+        "NovicePath": "Novice Path",
+        "Expert": "Expert",
+        "ExpertPath": "Expert Path",
+        "Master": "Master",
+        "MasterPath": "Master Path"
     },
-
-    "WW.Stats": "Stats",
-    "WW.Normal": "Normal",
-    "WW.Traits": "Traits",
-    "WW.Level": "Level",
-    "WW.Solitary": "Solitary",
 
     "WW.Types": {
         "Label": "Type",
@@ -69,8 +80,6 @@
         "Remove": "Remove immunity"
     },
 
-    "WW.Size": "Size",
-
     "WW.Movement":{
         "Label": "Special Movement Traits",
         "New": "New Trait",
@@ -91,7 +100,6 @@
         "OtherDice": "Extra Damage dice (Other sources)",
         "OtherMod": "Extra Damage modifier (Other sources)",
         "Of": "Damage of",
-        "Shattering": "Target is an Object (Shattering)",
         "BothHands": "In Both Hands (Versatile)"
     },
 
@@ -130,36 +138,26 @@
         "Details": "(armor, if any, shield, if any)"
     },
 
+    "WW.Details": {
+        "Label": "Details",
+        "Identity": "Identity",
+        "Features": "Distinctive Features",
+        "Personality": "Personality",
+        "Belief": "Religious Beliefs",
+
+        "Background": "Background",
+        "Deeds": "Notable Deeds",
+        "Reputation": "Reputation",
+        "Information": "Information"
+    },
+
     "WW.Armor": {
         "Label": "Armor",
         "Type": "Armor Type",
         "Light": "Light",
         "Medium": "Medium",
-        "Heavy": "Heavy",
-        "Unarmored": "Unarmored",
-        "Padded": "Padded Armor",
-        "Leather": "Leather Armor",
-        "Brigandine": "Brigandine",
-        "Ring": "Ring Armor",
-        "Mail": "Mail Armor",
-        "PlateAndMail": "Plate and Mail",
-        "Breastplate": "Breastplate Armor",
-        "Plate": "Plate Armor",
-        "FullPlate": "Full Plate Armor"
+        "Heavy": "Heavy"
     },
-    
-    "WW.Value": "Value",
-    "WW.New": "New",
-    "WW.Remove": "Remove",
-
-    "WW.Dialog": {
-        "Save": "Save",
-        "Reset": "Reset",
-        "Cancel": "Cancel"
-    },
-    
-
-    "WW.Automation": "Automation & Effects",
 
     "WW.Roll": {
         "Label": "Roll",
@@ -167,7 +165,7 @@
         "Always": "Always roll",
         "Dont": "Don't roll",
         "Against": "Against",
-        "AgainstDefault": "10 (Default)",
+        "AgainstDefault": "Nothing (10)",
         "ForEach": "Roll separately for each target",
         "AgainstWrn": "Nothing selected to roll against. Please select Defense or an attribute to roll against in the Weapon's Automation & Effects tab.",
         "Success": "Success",
@@ -217,32 +215,19 @@
         "SpellUntargeted": "Cast spell without a target"
     },
 
-    "WW.Summary": "Summary",
+    "WW.Disposition": {
+        "Enemy": "Enemy",
+        "Ally": "Ally",
+        "Tip": "Click to change disposition."
+    },
 
-    "WW.Paths": "Paths",
-    "WW.Ancestry": "Ancestry",
-    "WW.Starting": "Starting",
-    "WW.Novice": "Novice",
-    "WW.NovicePath": "Novice Path",
-    "WW.Expert": "Expert",
-    "WW.ExpertPath": "Expert Path",
-    "WW.Master": "Master",
-    "WW.MasterPath": "Master Path",
-
-    "WW.Details": "Details",
-    "WW.Identity": "Identity",
-    "WW.Features": "Distinctive Features",
-    "WW.Personality": "Personality",
-    "WW.Belief": "Religious Beliefs",
-
-    "WW.Knowledge": "Knowledge",
-    "WW.Professions": {
-        "Label": "Professions",
+    "WW.Profession": {
+        "Label": "Profession",
         "New": "New Profession",
         "Edit": "Edit profession",
         "Add": "Add new profession",
         "Remove": "Remove profession",
-        "Profession": "Profession",
+        
         "Category": "Category",
         "Commoner": "Commoner",
         "Academic": "Academic",
@@ -254,52 +239,63 @@
         "Wilderness": "Wilderness"
     },
 
-    "WW.Information": "Information",
-    
-    "WW.Background": "Background",
-    "WW.Deeds": "Notable Deeds",
-    "WW.Reputation": "Reputation",
-
-    "WW.Equipment": "Equipment",
-    "WW.Price": "Price",
-    "WW.Coins": {
-        "Label": "Coins",
+    "WW.Equipment": {
+        "Label": "Equipment",
+        "Weapons": "Weapons",
+        
+        "Price": "Price",
+        "Coins": "Coins",
         "GP": "gp",
         "SP": "sp",
-        "CP": "cp"
+        "CP": "cp",
+        
+        "Weight": "Weight",
+        "TotalWeight": "Total Weight",
+        "WeightUnit": "Weight per Unit",
+
+        "Quantity": "Quantity",
+        "Quality": {
+            "Label": "Quality",
+            "Standard": "Standard",
+            "Superior": "Superior",
+            "Inferior": "Inferior"
+        },
+        "Uses": "Uses/Charges",
+
+        "Generic": "Generic Item",
+        "Consumable": "Consumable",
+        "Container": "Container"
     },
-    "WW.NewItem": "New {itemType}",
-    "WW.Generic": "Generic",
-    "WW.Consumable": "Consumable",
-    "WW.Container": "Container",
-    "WW.Weight": "Weight",
-    "WW.WeightTotal": "Total Weight",
-    "WW.Quantity": "Quantity",
-    "WW.WeightUnit": "Weight per Unit",
-    "WW.Quality": "Quality",
-    "WW.QualityStandard": "Standard",
-    "WW.QualitySuperior": "Superior",
-    "WW.QualityInferior": "Inferior",
 
     "WW.Item": {
+        "Name": "Name",
+        "Tier": "Tier",
+        "New": "New {itemType}",
+
         "Roll": {
             "Attribute": "Roll Attribute/Luck",
             "Damage": "Roll Damage Dice",
             "Healing": "Roll Healing Dice"
         },
+
         "Add": {
-            "Ancestry": "Add Ancestry",
-            "Profession": "Add Profession",
-            "NovicePath": "Add Novice Path",
-            "ExpertPath": "Add Expert Path",
-            "MasterPath": "Add Master Path",
-            "Trait or Talent": "Add Trait/Talent",
+            "Label": "Add",
+            
+            "Trait": "Add Trait or Talent",
+            "Aura": "Add Aura",
+            "Fury": "Add Fury",
             "Equipment": "Add Equipment",
             "Weapon": "Add Weapon",
             "Spell": "Add Spell",
             "Attack": "Add Weapon",
-            "Fury": "Add Fury"
+
+            "Ancestry": "Add Ancestry",
+            "Profession": "Add Profession",
+            "NovicePath": "Add Novice Path",
+            "ExpertPath": "Add Expert Path",
+            "MasterPath": "Add Master Path"
         },
+
         "Edit": {
             "Ancestry": "Edit Ancestry",
             "Profession": "Edit Profession",
@@ -313,6 +309,7 @@
             "Attack": "Edit Weapon",
             "Fury": "Edit Fury"
         },
+
         "Delete": {
             "Ancestry": "Remove Ancestry",
             "Profession": "Remove Profession",
@@ -325,6 +322,7 @@
             "Msg2": "This action is irreversible.",
             "Confirm": "Are you sure you want to delete"
         },
+
         "Uses": {
             "TalentSpend": "Spend use/token",
             "TalentRecover": "Recover use/token",
@@ -338,6 +336,8 @@
             "FuryRecover": "Recover fury token",
             "OnRest": "Recover on rest?"
         },
+        
+        "Description": "Description",
         "ShowDesc": "Show description",
         "HideDesc": "Hide description",
         "Send": "Send description to chat",
@@ -347,47 +347,34 @@
         "Unequip": "Remove equipment"
     },
 
-    "WW.Talents": "Traits and Talents",
-    "WW.TalentSubtypes": {
-        "Trait": "Trait or Talent",
-        "Aura": "Aura",
-        "Action": "Action",
-        "Reaction": "Reaction",
-        "End": "End of The Round",
-        "Fury": "Fury"
+    "WW.Talents": {
+        "Label": "Traits and Talents",
+        "Actions": "Actions",
+        "Reactions": "Reactions",
+        "Ends": "End of the Round"
     },
     
-    "WW.Auras": "Auras",
-    "WW.Aura": "Aura",
-    "WW.AuraRange": "Aura Range",
-    "WW.Actions": "Actions",
-    "WW.Reactions": "Reactions",
-    "WW.Ends": "End of The Round",
-    "WW.Fury": "Fury",
+    "WW.Talent": {
+        "Trait": "Trait or Talent",
+        "Aura": "Aura",
+        "AuraRange": "Aura Range",
+        "Action": "Action",
+        "Reaction": "Reaction",
+        "End": "End of the Round",
+        "Fury": "Fury",
+        "Uses": "Uses/Tokens",
 
-    "WW.Name": "Name",
-    "WW.Source": "Source",
-    "WW.TalentSources": {
-        "None": "None (NPC)",
-        "Ancestry": "Ancestry",
-        "Novice": "Novice Path",
-        "Expert": "Expert Path",
-        "Master": "Master Path",
-        "Magical": "Magical Talent",
-        "Other": "Other"
+        "Source": {
+            "Label": "Source",
+            "None": "None (NPC)",
+            "Ancestry": "Ancestry",
+            "Novice": "Novice Path",
+            "Expert": "Expert Path",
+            "Master": "Master Path",
+            "Magical": "Magical Talent",
+            "Other": "Other"
+        }
     },
-    "WW.Condition": "Condition",
-    "WW.ConditionPH": "when a creature in your zone makes an attribute roll",
-    "WW.UsesTalent": "Uses/Tokens",
-    "WW.UsesEquipment": "Uses/Charges",
-    "WW.Per": "per",
-    "WW.FrequencyChoices": {
-        "Day": "Day",
-        "Hour": "Hour",
-        "Minute": "Minute",
-        "Round": "Round"
-    },
-    "WW.Description": "Description",
 
     "WW.Spells": {
         "Label": "Spells",
@@ -410,14 +397,13 @@
         "Remove": "Remove tradition"
     },
 
-    "WW.Tier": "Tier",
-    "WW.Tradition": "Tradition",
-    "WW.Requirement": "Requirement",
-    "WW.Casting": "Casting",
-    "WW.Castings": "Castings",
-    "WW.Target": "Target",
-    "WW.Targets": "Targets",
-    "WW.Duration": "Duration",
+    "WW.Spell": {
+        "Label": "Spell",
+        "Tradition": "Tradition",
+        "Castings": "Castings",
+        "Target": "Target",
+        "Duration": "Duration"
+    },
 
     "WW.Attack": {
         "Plural": "Attacks",
@@ -427,13 +413,11 @@
 
     "WW.Weapon": {
         "Label": "Weapon",
-        "Plural": "Weapons",
         "Details": "Weapon Details",
         "Grip": "Grip",
         "GripOne": "One-Handed",
         "GripTwo": "Two-Handed",
         "GripOff": "Off-Hand",
-        "Properties": "Traits | Adv. | Disadv.",
         "Reload": "Click to reload the weapon.",
         "Fire": "Click to fire the loaded weapon.",
         "Requirements": {
@@ -527,17 +511,39 @@
             }
         }
     },
+    
+    "WW.CharOption": {
+        "Description": "Description",
+        "Traits": "Traits",
+        "Benefits": "Benefits",
+        "DropHere": "Drop Equipment, Traits, Talents and Spells here to add them to the level benefit.",
+        "Unknown": "Unknown",
+        "MissingRef": "Missing UUID reference for the equipment, trait, talent or spell. You can either delete this entry or restore it by putting the item back in the original Compendium.",
+        "TypeWarning": "Item must be an Equipment, a Trait or Talent, or a Spell.",
+        "CompendiumWarning": "Item must be dragged from a Compendium.",
+        "AlreadyWarning": "This character already has a character option of this type. Please remove this option before adding a new one.",
+        "Reference": {
+            "EditRef": "Edit the referenced item in the Compendium",
+            "RemoveRef": "Remove reference from this list. This won't affect the item in the Compendium.",
+            "Remove": {
+                "Title": "Remove Reference",
+                "Msg": "You are about to remove a reference for an item in a Compendium. Removing the reference will not make any changes the referenced item.",
+                "Confirm": "Are you sure you want to remove the reference?"
+            }
+        },
+        "GrantedBy": "Granted by"
+    },
 
     "WW.Effects": {
         "Label": "Effects",
+        "TabLabel": "Automations & Effects",
         "All": "All Effects",
         "Instant": "Instant Effects",
         "Temporary": "Temporary Effects",
         "Permanent": "Permanent Effects",
         "Inactive": "Inactive Effects"
     },
-    
-    "WW.Add": "Add",
+
     "WW.InstantEffect": {
         "Label": "Instant Effect",
         "Damage": "Deal Damage",
@@ -577,6 +583,51 @@
             "CurrentHealth": "Current Health"
         }
     },
+
+    "WW.Affliction": {
+        "Label": "Afflictions",
+        "Becomes": "becomes",
+        "Already": "is already",
+        "Remove": "Remove All Afflictions",
+        "Blinded": "Blinded",
+        "BlindedDesc": "You cannot see and thus have line of sight to nothing. You treat all creatures and objects as being invisible. If you want to attack or interact with anything, you must guess the target’s location or locate the target using other senses, which usually means you make the roll with 3 banes. You cannot make use of reactions that rely on sight. Finally, your Speed is halved.",
+        "Confused": "Confused",
+        "ConfusedDesc": "You become unable to make sense of what is happening around you. You cannot use reactions and you make Intellect and Will rolls with 1 bane.",
+        "Controlled": "Controlled",
+        "ControlledDesc": "You fall under the control of the source of this affliction. You take your turn when your controller does and it decides what you do, using your traits, talents, and spells. If you have already taken a turn when you gain this affliction, you take a turn as described during the next round. While controlled, you regard the source of the affliction as an ally.",
+        "Cursed": "Cursed",
+        "CursedDesc": "You make luck rolls with 1 bane.",
+        "Deafened": "Deafened",
+        "DeafenedDesc": "You cannot hear. You cannot make use of reactions that rely on hearing and are not subject to effects that depend on hearing.",
+        "Frightened": "Frightened",
+        "FrightenedDesc": "You fear the source of this affliction—a creature, an object, a space, or something else. While you have line of sight to the source of your fear, you make attribute rolls with 1 bane, and you grant 1 boon on attribute rolls against you.",
+        "Held": "Held",
+        "HeldDesc": "Your Speed drops to 0 and you cannot benefit from increases to your Speed until this affliction ends. In addition, your Agility rolls result in automatic failures.",
+        "ImpairedStr": "Strength Impaired",
+        "ImpairedAgi": "Agility Impaired",
+        "ImpairedInt": "Intellect Impaired",
+        "ImpairedWil": "Will Impaired",
+        "ImpairedDesc": "The impaired affliction affects the attribute specified by the harmful effect, so you might be Strength impaired or Intellect impaired, for instance. You roll with 1 bane when using the specified attribute, and you grant 1 boon on rolls against the specified attribute.",
+        "OnFire": "On Fire",
+        "OnFireDesc": "An effect might make you catch fire. You take 1d6 damage at the end of each round until the fire is extinguished, normally with a successful luck roll. You can douse the flames with water, or smother them with a blanket or similar object. A creature that drops prone before trying to overcome the flames makes the roll with 1 boon.",
+        "Poisoned": "Poisoned",
+        "PoisonedDesc": "You make attribute rolls with 1 bane, and you grant 1 boon on rolls against you. In addition, at the end of each round, you lose 1d6 Health.",
+        "Prone": "Prone",
+        "ProneDesc": "You are lying on the ground. You cannot use reactions. You grant 1 boon on rolls made to attack you with melee weapons, but impose 1 bane on rolls made to attack you with ranged weapons. You can use your move only to crawl or stand up",
+        "Slowed": "Slowed",
+        "SlowedDesc": "Your Speed drops to 2 if your Speed was higher than 2 and you cannot benefit from increases to Speed.",
+        "Stunned": "Stunned",
+        "StunnedDesc": "You cannot use actions or reactions. Your Speed drops to 0 and you cannot benefit from increases to Speed until this affliction ends. You grant 2 boons on rolls against you, and you make attribute rolls with 2 banes.",
+        "Unconscious": "Unconscious",
+        "UnconsciousDesc": "You cannot use actions or reactions. Your Speed drops to 0 and you cannot benefit from increases to Speed. You receive no information from your senses. You grant 3 boons on rolls against you, and you automatically fail all attribute rolls.",
+        "Asleep": "Asleep",
+        "AsleepDesc": "If you are unconscious because you are sleeping naturally, you stop being unconscious when a creature uses an action to shake you, kick you, or do something else to waken you. A loud noise might remove the affliction if you succeed on a luck roll. Time spent sleeping counts as resting for the purpose of healing damage. If your sleep is uninterrupted, you wake up naturally whenever you choose.",
+        "Vulnerable": "Vulnerable",
+        "VulnerableDesc": "You grant 1 boon on rolls to attack you and on rolls made against your attributes.",
+        "Weakened": "Weakened",
+        "WeakenedDesc": "You make Strength and Agility rolls with 1 bane, and you grant 1 boon on rolls against your Strength and Agility. In addition, your Speed is halved and you cannot benefit from increases to your Speed."
+    },
+
     "WW.Effect": {
         "Create": "Create Effect",
         "Toggle": "Enable/Disable Effect",
@@ -769,79 +820,11 @@
         }
         
     },
-
-    "WW.Afflictions": "Afflictions",
-    "WW.AfflictionsRemove": "Remove All Afflictions",
-    "WW.Affliction": {
-        "Becomes": "becomes",
-        "Already": "is already",
-        "Blinded": "Blinded",
-        "BlindedDesc": "You cannot see and thus have line of sight to nothing. You treat all creatures and objects as being invisible. If you want to attack or interact with anything, you must guess the target’s location or locate the target using other senses, which usually means you make the roll with 3 banes. You cannot make use of reactions that rely on sight. Finally, your Speed is halved.",
-        "Confused": "Confused",
-        "ConfusedDesc": "You become unable to make sense of what is happening around you. You cannot use reactions and you make Intellect and Will rolls with 1 bane.",
-        "Controlled": "Controlled",
-        "ControlledDesc": "You fall under the control of the source of this affliction. You take your turn when your controller does and it decides what you do, using your traits, talents, and spells. If you have already taken a turn when you gain this affliction, you take a turn as described during the next round. While controlled, you regard the source of the affliction as an ally.",
-        "Cursed": "Cursed",
-        "CursedDesc": "You make luck rolls with 1 bane.",
-        "Deafened": "Deafened",
-        "DeafenedDesc": "You cannot hear. You cannot make use of reactions that rely on hearing and are not subject to effects that depend on hearing.",
-        "Frightened": "Frightened",
-        "FrightenedDesc": "You fear the source of this affliction—a creature, an object, a space, or something else. While you have line of sight to the source of your fear, you make attribute rolls with 1 bane, and you grant 1 boon on attribute rolls against you.",
-        "Held": "Held",
-        "HeldDesc": "Your Speed drops to 0 and you cannot benefit from increases to your Speed until this affliction ends. In addition, your Agility rolls result in automatic failures.",
-        "ImpairedStr": "Strength Impaired",
-        "ImpairedAgi": "Agility Impaired",
-        "ImpairedInt": "Intellect Impaired",
-        "ImpairedWil": "Will Impaired",
-        "ImpairedDesc": "The impaired affliction affects the attribute specified by the harmful effect, so you might be Strength impaired or Intellect impaired, for instance. You roll with 1 bane when using the specified attribute, and you grant 1 boon on rolls against the specified attribute.",
-        "OnFire": "On Fire",
-        "OnFireDesc": "An effect might make you catch fire. You take 1d6 damage at the end of each round until the fire is extinguished, normally with a successful luck roll. You can douse the flames with water, or smother them with a blanket or similar object. A creature that drops prone before trying to overcome the flames makes the roll with 1 boon.",
-        "Poisoned": "Poisoned",
-        "PoisonedDesc": "You make attribute rolls with 1 bane, and you grant 1 boon on rolls against you. In addition, at the end of each round, you lose 1d6 Health.",
-        "Prone": "Prone",
-        "ProneDesc": "You are lying on the ground. You cannot use reactions. You grant 1 boon on rolls made to attack you with melee weapons, but impose 1 bane on rolls made to attack you with ranged weapons. You can use your move only to crawl or stand up",
-        "Slowed": "Slowed",
-        "SlowedDesc": "Your Speed drops to 2 if your Speed was higher than 2 and you cannot benefit from increases to Speed.",
-        "Stunned": "Stunned",
-        "StunnedDesc": "You cannot use actions or reactions. Your Speed drops to 0 and you cannot benefit from increases to Speed until this affliction ends. You grant 2 boons on rolls against you, and you make attribute rolls with 2 banes.",
-        "Unconscious": "Unconscious",
-        "UnconsciousDesc": "You cannot use actions or reactions. Your Speed drops to 0 and you cannot benefit from increases to Speed. You receive no information from your senses. You grant 3 boons on rolls against you, and you automatically fail all attribute rolls.",
-        "Asleep": "Asleep",
-        "AsleepDesc": "If you are unconscious because you are sleeping naturally, you stop being unconscious when a creature uses an action to shake you, kick you, or do something else to waken you. A loud noise might remove the affliction if you succeed on a luck roll. Time spent sleeping counts as resting for the purpose of healing damage. If your sleep is uninterrupted, you wake up naturally whenever you choose.",
-        "Vulnerable": "Vulnerable",
-        "VulnerableDesc": "You grant 1 boon on rolls to attack you and on rolls made against your attributes.",
-        "Weakened": "Weakened",
-        "WeakenedDesc": "You make Strength and Agility rolls with 1 bane, and you grant 1 boon on rolls against your Strength and Agility. In addition, your Speed is halved and you cannot benefit from increases to your Speed."
-    },
-
-    "WW.CharOption": {
-        "Description": "Description",
-        "Benefits": "Benefits",
-        "DropHere": "Drop Equipment, Traits, Talents and Spells here to add them to the level benefit.",
-        "Unknown": "Unknown",
-        "MissingRef": "Missing UUID reference for the equipment, trait, talent or spell. You can either delete this entry or restore it by putting the item back in the original Compendium.",
-        "TypeWarning": "Item must be an Equipment, a Trait or Talent, or a Spell.",
-        "CompendiumWarning": "Item must be dragged from a Compendium.",
-        "AlreadyWarning": "This character already has a character option of this type. Please remove this option before adding a new one.",
-        "Reference": {
-            "EditRef": "Edit the referenced item in the Compendium",
-            "RemoveRef": "Remove reference from this list. This won't affect the item in the Compendium.",
-            "Remove": {
-                "Title": "Remove Reference",
-                "Msg": "You are about to remove a reference for an item in a Compendium. Removing the reference will not make any changes the referenced item.",
-                "Confirm": "Are you sure you want to remove the reference?"
-            }
-        },
-        "GrantedBy": "Granted by"
-    },
-
-    "WW.Numbers": {
-        "One": "One",
-        "Two": "Two",
-        "Three": "Three",
-        "Four": "Four",
-        "Five": "Five",
-        "Six": "Six"
+    
+    "WW.Dialog": {
+        "Save": "Save",
+        "Reset": "Reset",
+        "Cancel": "Cancel"
     },
 
     "WW.Combat": {
@@ -931,8 +914,8 @@
             "ScrollContent": "The scroll button has two functionalities for attacks:\n- When you hover it, the weapon's description is shown on a tooltip.\n- When you click on it, you send the weapon's description to the chat.",
             "DamageRollTitle": "Damage Button",
             "DamageRollContent": "The damage button, as expected, allow you to roll damage dice when clicked.",
-            "PropertiesTitle": "Weapon Grip and Properties",
-            "PropertiesContent": "This text section indicates the weapon's intended grip (Off, One, Two) and its Properties, if any.",
+            "PropertiesTitle": "Weapon Grip and Traits",
+            "PropertiesContent": "This text section indicates the weapon's intended grip (Off, One, Two) and its traits, if any.",
             "ModifierTitle": "Attribute Modifier and Boons/Banes",
             "ModifierContent": "This text section indicates the weapon's attribute and modifier used on the attribute rolls.\nIf the weapon was set to roll with any boons or banes by default, it's also displayed here.",
             "DamageTitle": "Attack Damage",
@@ -958,7 +941,7 @@
             "WeightTitle": "Total Weight",
             "WeightContent": "Your total weight from equipment you carry is automatically calculated and displayed here.\nThe maximum value is your Strength score.\nWhen you go above this value, the text turns red.",
             "WeaponsTitle": "Weapons List",
-            "WeaponsContent": "Your weapons are displayed here along with details about their Damage, Grip and Properties.\nLike in the Summary, you can use the buttons for functionality here.",
+            "WeaponsContent": "Your weapons are displayed here along with details about their Damage, Grip and Traits.\nLike in the Summary, you can use the buttons for functionality here.",
             "OtherTitle": "Equipment List",
             "OtherContent": "All your Equipment besides coins are displayed in this list.\nWeight and Uses or Charges are also tracked and displayed.",
             "EquipTitle": "Enable Equipment",

@@ -26,22 +26,22 @@ export default class NpcData extends foundry.abstract.DataModel {
   static migrateData(source) {
 
     // Migrate List Entries
-    if (typeof source.details.type === 'string') { // Types
+    if (typeof source.details?.type === 'string') { // Types
       const arr = source.details.type.split(",");
       source.details.types = arr.filter(s => s).map((s) => ({ name: s.trim() }));
     }
 
-    if (typeof source.details.senses === 'string') { // Senses
+    if (typeof source.details?.senses === 'string') { // Senses
       const arr = source.details.senses.split(",");
       source.details.senses = arr.filter(s => s).map((s) => ({ name: s.trim() }));
     }
     
-    if (typeof source.details.languages === 'string') { // Languages
+    if (typeof source.details?.languages === 'string') { // Languages
       const arr = source.details.languages.split(",");
       source.details.languages = arr.filter(s => s).map((s) => ({ name: s.trim() }));
     }
 
-    if (typeof source.details.immune === 'string') { // Immune
+    if (typeof source.details?.immune === 'string') { // Immune
       const arr = source.details.immune.split(",");
       source.details.immune = arr.filter(s => s).map((s) => ({ name: s.trim() }));
     }

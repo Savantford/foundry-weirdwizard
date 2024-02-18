@@ -15,7 +15,6 @@ export default class SpellData extends foundry.abstract.DataModel {
       
       tier: makeStrField('Novice',1,1),
       tradition: makeStrField('',1,1),
-      requirement: makeStrField('',1,1),
       casting: makeStrField('',1,1),
       target: makeStrField('',1,1),
       duration: makeStrField('',1,1)

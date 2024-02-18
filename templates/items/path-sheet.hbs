@@ -11,11 +11,15 @@
         <div class="header-fields">
           <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.ItemName"}}"/></h1>
 
+          {{#if hasActor}}
+          <div class="item-type">{{tierLoc}}</div>
+          {{else}}
           <div>
-            <select class="tier" name="system.tier">
+            <select class="item-type" name="system.tier">
                 {{selectOptions tiers selected=system.tier localize=true}}
             </select>
           </div>
+          {{/if}}
           
         </div>
       </header>
@@ -32,7 +36,7 @@
         <div class="statbox{{#if (ne id 'benefit1')}} mt-2{{/if}}">
           
           {{!-- Header --}}
-          <h3>{{localize "WW.Level"}} {{benefit.levelReq}}</h3>
+          <h3>{{localize "WW.Stats.Level"}} {{benefit.levelReq}}</h3>
 
           {{!-- Languages --}}
           <div class="stat-inline list-entries">

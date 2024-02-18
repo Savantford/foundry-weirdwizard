@@ -7,8 +7,8 @@
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "
           WW.ItemName"}}" /></h1>
   
-      <div class="tier">
-        {{localize "WW.Professions.Profession"}}
+      <div class="item-type">
+        {{localize "WW.Profession.Label"}}
       </div>
   
     </div>
@@ -21,7 +21,7 @@
     
     {{!-- Category --}}
     <div class="stat-inline">
-      <label>{{localize "WW.Professions.Category"}}</label>
+      <label>{{localize "WW.Profession.Category"}}</label>
       
       <select name="category">
         {{selectOptions professionCategories selected=system.category localize=true}}

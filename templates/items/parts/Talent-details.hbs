@@ -1,27 +1,18 @@
 {{!-- Main Row --}}
 <div class="stat-inline flex-wrap">
 
-    {{!-- Type --}}
-    <div>
-        <label class="resource-label">{{localize "WW.Types.Label"}}</label>
-
-        <select name="system.subtype">
-            {{selectOptions subtypesObj selected=system.subtype localize=true}}
-        </select>
-    </div>
-
     {{!-- Source --}}
     <div>
-        <label>{{localize "WW.Source"}}</label>
+        <label>{{localize "WW.Talent.Source.Label"}}</label>
 
         <select name="system.source">
-            {{selectOptions sourcesObj selected=system.source localize=true}}
+            {{selectOptions sources selected=system.source localize=true}}
         </select>
     </div>
     
     {{!-- Uses/Tokens --}}
     <div>
-        <label>{{localize "WW.UsesTalent"}}</label>
+        <label>{{localize "WW.Talent.Uses"}}</label>
 
         <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="0" data-dtype="Number" />
         
@@ -31,12 +22,12 @@
 </div>
 
 {{!-- Description --}}
-<h2 class="mt-1">{{localize "WW.Description"}}</h2>
+<h2 class="mt-1">{{localize "WW.Item.Description"}}</h2>
 
 {{!-- Aura Range --}}
 {{#if (eq system.subtype 'aura')}}
 <div class="stat-inline">
-    <label>{{localize "WW.AuraRange"}}</label>
+    <label>{{localize "WW.Talent.AuraRange"}}</label>
     <input type="number" name="system.range" value="{{system.range}}" min="0" placeholder="#" data-dtype="Number" />
 </div>
 {{/if}}
