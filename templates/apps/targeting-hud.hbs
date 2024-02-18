@@ -2,15 +2,16 @@
     <div>{{localize "WW.Targeting.Dialog.SelectTargets"}}</div>
 
     <div class="buttons">
+
+        <button type="button" id="targeting-confirm" {{disabled hasTargets}}>
+            <i class="fas fa-dice"></i> {{localize "WW.Targeting.Dialog.Confirm"}}
+        </button>
+
         {{#if isTemplate}}
         <button type="button" id="targeting-replace">
             <i class="fas fa-rotate-left"></i> {{localize "WW.Targeting.Dialog.Replace"}}
         </button>
         {{/if}}
-        
-        <button type="button" id="targeting-confirm" {{disabled hasTargets}}>
-            <i class="fas fa-dice"></i> {{localize "WW.Targeting.Dialog.Confirm"}}
-        </button>
 
         <button type="button" id="targeting-cancel">
             <i class="fas fa-x"></i> {{localize "WW.Dialog.Cancel"}}

@@ -2,14 +2,14 @@
 
     {{!-- Left Column --}}
     <div class="statbox">
-        <h3>{{localize "WW.Stats"}}</h3>
+        <h3>{{localize "WW.Stats.Label"}}</h3>
         
         {{!-- Level, Ancestry --}}
         <div class="stat-inline flex-wrap">
 
             {{!-- Level --}}
             <div>
-                <label>{{localize "WW.Level"}}</label>
+                <label>{{localize "WW.Stats.Level"}}</label>
 
                 <select name="system.stats.level">
                     {{selectOptions numbersArr selected=system.stats.level nameAttr="key" labelAttr="label"}}
@@ -18,7 +18,7 @@
             
             {{!-- Ancestry --}}
             <div class="list-entries">
-                <label class="hover-only">{{localize "WW.Ancestry"}}</label>
+                <label class="hover-only">{{localize "WW.CharOptions.Ancestry"}}</label>
                 
                 <div class="list-entry">
                     <a data-tooltip="{{charOptions.ancestry.system.description.enriched}}">{{charOptions.ancestry.name}}</a>{{#if charOptions.ancestry}}<span class="buttons">
@@ -69,12 +69,12 @@
 
         {{!-- Professions --}}
         <div class="stat-inline list-entries">
-            <label>{{localize "WW.Professions.Label"}}</label>    
+            <label>{{localize "WW.CharOptions.Professions"}}</label>    
 
             {{#each charOptions.professions as |item id|}}
             <span class="list-entry">
                 
-                <a data-tooltip="<p>{{localize "WW.Professions.Category"}}: {{localize item.system.categoryLoc}}</p><br/><p>{{item.system.description.enriched}}</p>">{{item.name}}</a><span class="buttons">
+                <a data-tooltip="<p>{{localize "WW.Profession.Category"}}: {{localize item.system.categoryLoc}}</p><br/><p>{{item.system.description.enriched}}</p>">{{item.name}}</a><span class="buttons">
                     {{#if item.system.description.value}}
                     {{!-- Send to Chat Scroll --}}
                     <a class="item-button" data-action="item-scroll" data-item-id="{{item._id}}" title="{{localize "WW.Item.Send"}}"><i
@@ -102,7 +102,7 @@
 
         {{!-- Paths --}}
         <div class="stat-inline list-entries">
-            <label for="paths" class="resource-label">{{localize "WW.Paths"}}</label>
+            <label for="paths" class="resource-label">{{localize "WW.CharOptions.Paths"}}</label>
 
             {{!-- Novice Path --}}
             <div class="list-entry">
@@ -249,7 +249,7 @@
         {{!-- Size, Speed --}}
         <div class="stat-inline list-entries">
             {{!-- Size --}}
-            <label>{{localize "WW.Size"}}</label>
+            <label>{{localize "WW.Stats.Size"}}</label>
             {{system.stats.size}}
             
             {{!-- Speed --}}
@@ -301,7 +301,7 @@
     <div class="statbox">
 
         {{!-- Talents --}}
-        <h3>{{localize "WW.Talents"}}</h3>
+        <h3>{{localize "WW.Talents.Label"}}</h3>
         <ol class="compact-list stat">
             {{#each talents as |item id|}}
                 {{> "systems/weirdwizard/templates/actors/parts/Character-summary-item.hbs" item=item id=id}}
@@ -310,7 +310,7 @@
 
         {{!-- Actions --}}
         {{#if actions}}
-        <h4 class="mt-2">{{localize "WW.Actions"}}</h4>
+        <h4 class="mt-2">{{localize "WW.Talents.Actions"}}</h4>
         <ol class="compact-list stat">
             {{#each actions as |item id|}}
                 {{> "systems/weirdwizard/templates/actors/parts/Character-summary-item.hbs" item=item id=id}}
@@ -320,7 +320,7 @@
 
         {{!-- Reactions --}}
         {{#if reactions}}
-        <h4 class="mt-2">{{localize "WW.Reactions"}}</h4>
+        <h4 class="mt-2">{{localize "WW.Talents.Reactions"}}</h4>
         <ol class="compact-list stat">
             {{#each reactions as |item id|}}
                 {{> "systems/weirdwizard/templates/actors/parts/Character-summary-item.hbs" item=item id=id}}

@@ -2,25 +2,25 @@
 
     {{!-- Left Column --}}
     <div class="details-col flex-group-left">
-        <h1>{{localize "WW.Identity"}}</h1>
+        <h1>{{localize "WW.Details.Identity"}}</h1>
 
         {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
 
         <ol class="details-list">
             <li class="detail">
-                <h2 class="detail-label">{{localize "WW.Features"}}</h2>
+                <h2 class="detail-label">{{localize "WW.Details.Features"}}</h2>
                 {{editor system.details.features.enriched target="system.details.features.value" button=true
                 owner=owner editable=editable}}
             </li>
 
             <li class="detail">
-                <h2 class="detail-label">{{localize "WW.Personality"}}</h2>
+                <h2 class="detail-label">{{localize "WW.Details.Personality"}}</h2>
                 {{editor system.details.personality.enriched target="system.details.personality.value" button=true
                 owner=owner editable=editable}}
             </li>
 
             <li class="detail">
-                <h2 class="detail-label">{{localize "WW.Belief"}}</h2>
+                <h2 class="detail-label">{{localize "WW.Details.Belief"}}</h2>
                 {{editor system.details.belief.enriched target="system.details.belief.value" button=true
                 owner=owner editable=editable}}
             </li>
@@ -29,19 +29,19 @@
 
     {{!-- Right Column --}}
     <div class="details-col flex-group-left">
-        <h1>{{localize "WW.Background"}}</h1>
+        <h1>{{localize "WW.Details.Background"}}</h1>
         <ol class="details-list">
             <li class="detail">
-                <h2 class="detail-label">{{localize "WW.Ancestry"}}</h2>
+                <h2 class="detail-label">{{localize "WW.CharOptions.Ancestry"}}</h2>
                 {{editor system.details.bg_ancestry.enriched target="system.details.bg_ancestry.value" button=true
                 owner=owner editable=editable}}
             </li>
             <li class="detail">
-                <h2 class="detail-label">{{localize "WW.Deeds"}}</h2>
+                <h2 class="detail-label">{{localize "WW.Details.Deeds"}}</h2>
 
                 <div class="flex-row stat-inline flex-group-center">
-                    <label>{{localize
-                        "WW.Reputation"}}</label>
+                    <label>{{localize "WW.Details.Reputation"}}</label>
+
                     <input type="number" name="system.details.reputation"
                         value="{{system.details.reputation}}" min="0" data-dtype="Number" />
                 </div>
@@ -50,7 +50,7 @@
                 editable=editable}}
             </li>
             <li class="detail">
-                <h2 class="detail-label">{{localize "WW.Information"}}</h2>
+                <h2 class="detail-label">{{localize "WW.Details.Information"}}</h2>
                 {{editor system.details.information.enriched target="system.details.information.value" button=true
                 owner=owner editable=editable}}
             </li>

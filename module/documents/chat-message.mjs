@@ -145,8 +145,8 @@ export default class WWChatMessage extends ChatMessage {
     const i18n = (s,d={}) => game.i18n.format(s,d);
     
     // Try to find a match
-    if (CONFIG.WW.dropdownSubtypes[type]) return i18n(CONFIG.WW.dropdownSubtypes[type]);
-    if (CONFIG.WW.itemSubtypes[type]) return i18n(CONFIG.WW.itemSubtypes[type]);
+    if (CONFIG.WW.TALENT_SUBTYPES[type]) return i18n(CONFIG.WW.TALENT_SUBTYPES[type]);
+    if (CONFIG.WW.EQUIPMENT_SUBTYPES[type]) return i18n(CONFIG.WW.EQUIPMENT_SUBTYPES[type]);
     
     // If no match is found, return the original string
     return type;

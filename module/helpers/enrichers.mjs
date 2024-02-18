@@ -19,7 +19,7 @@ async function enrichCall (match, options) {
   const container = document.createElement("a");
   container.className = 'enricher-call';
 
-  const label = i18n(CONFIG.WW.rollAttributes[match[1]]);
+  const label = i18n(CONFIG.WW.ROLL_ATTRIBUTES[match[1]]);
   container.innerHTML = `${label}`;
 
   // Record values in dataset

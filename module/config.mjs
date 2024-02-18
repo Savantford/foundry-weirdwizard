@@ -2,21 +2,10 @@ export const WW = {}
 
 // Define Constants
 WW.ATTRIBUTES = {
-  'str': 'WW.Strength',
-  'agi': 'WW.Agility',
-  'int': 'WW.Intellect',
-  'wil': 'WW.Will'
-}
-
-WW.PROFESSION_CATEGORIES = {
-  'commoner': 'WW.Professions.Commoner',
-  'academic': 'WW.Professions.Academic',
-  'aristocratic': 'WW.Professions.Aristrocratic',
-  'criminal': 'WW.Professions.Criminal',
-  'entertainment': 'WW.Professions.Entertainment',
-  'military': 'WW.Professions.Military',
-  'religious': 'WW.Professions.Religious',
-  'wilderness': 'WW.Professions.Wilderness'
+  'str': 'WW.Attributes.Strength',
+  'agi': 'WW.Attributes.Agility',
+  'int': 'WW.Attributes.Intellect',
+  'wil': 'WW.Attributes.Will'
 }
 
 // Dropdown menus
@@ -38,96 +27,62 @@ WW.dropdownNumbers = {
   12.0: '12',
 }
 
-WW.rollAttributes = {
-  '': 'WW.Roll.Dont',
-  'str': 'WW.Strength',
-  'agi': 'WW.Agility',
-  'int': 'WW.Intellect',
-  'wil': 'WW.Will',
-  'luck': 'WW.Luck'
-}
-
-WW.rollAgainst = {
-  '': 'WW.Roll.AgainstDefault',
-  'def': 'WW.Defense.Label',
-  'str': 'WW.Strength',
-  'agi': 'WW.Agility',
-  'int': 'WW.Intellect',
-  'wil': 'WW.Will'
-}
-
-WW.TARGETING_METHODS = {
-  'manual': 'WW.Targeting.Manual',
-  'template': 'WW.Targeting.Template'
-  /*'': 'WW.Roll.Targeting.Disable'*/
-}
-
-WW.TEMPLATE_TYPES = {
-  'size': 'WW.Targeting.Size',
-  'spread': 'WW.Targeting.Spread'
-}
-
-WW.dropdownSubtypes = {
-  'trait': 'WW.TalentSubtypes.Trait',
-  'aura': 'WW.TalentSubtypes.Aura',
-  'action': 'WW.TalentSubtypes.Action',
-  'reaction': 'WW.TalentSubtypes.Reaction',
-  'end': 'WW.TalentSubtypes.End',
-  'fury': 'WW.TalentSubtypes.Fury',
+WW.COINS = {
+  'cp': 'WW.Equipment.CP',
+  'sp': 'WW.Equipment.SP',
+  'gp': 'WW.Equipment.GP'
 };
 
-WW.talentSources = {
-  'None': 'WW.TalentSources.None',
-  'Ancestry': 'WW.TalentSources.Ancestry',
-  'Novice': 'WW.TalentSources.Novice',
-  'Expert': 'WW.TalentSources.Expert',
-  'Master': 'WW.TalentSources.Master',
-  'Magical': 'WW.TalentSources.Magical',
-  'Other': 'WW.TalentSources.Other'
+/* Items */
+
+WW.TALENT_SUBTYPES = {
+  'trait': 'WW.Talent.Trait',
+  'aura': 'WW.Talent.Aura',
+  'action': 'WW.Talent.Action',
+  'reaction': 'WW.Talent.Reaction',
+  'end': 'WW.Talent.End',
+  'fury': 'WW.Talent.Fury',
 };
 
-WW.dropdownFrequencies = {
-  'day': 'WW.FrequencyChoices.Day',
-  'hour': 'WW.FrequencyChoices.Hour',
-  'minute': 'WW.FrequencyChoices.Minute',
-  'round': 'WW.FrequencyChoices.Round'
+WW.TALENT_SOURCES = {
+  'None': 'WW.Talent.Source.None',
+  'Ancestry': 'WW.Talent.Source.Ancestry',
+  'Novice': 'WW.Talent.Source.Novice',
+  'Expert': 'WW.Talent.Source.Expert',
+  'Master': 'WW.Talent.Source.Master',
+  'Magical': 'WW.Talent.Source.Magical',
+  'Other': 'WW.Talent.Source.Other'
 };
 
-WW.dropdownTiers = {
-  'Novice': 'WW.Novice',
-  'Expert': 'WW.Expert',
-  'Master': 'WW.Master'
+WW.TIERS = {
+  'Novice': 'WW.CharOptions.Novice',
+  'Expert': 'WW.CharOptions.Expert',
+  'Master': 'WW.CharOptions.Master'
 };
 
-WW.coins = {
-  'cp': 'WW.Coins.CP',
-  'sp': 'WW.Coins.SP',
-  'gp': 'WW.Coins.GP'
-};
-
-WW.itemSubtypes = {
-  'generic': 'WW.Generic',
+WW.EQUIPMENT_SUBTYPES = {
+  'generic': 'WW.Equipment.Generic',
   'weapon': 'WW.Weapon.Label',
   'armor': 'WW.Armor.Label',
-  'consumable': 'WW.Consumable',
-  'container': 'WW.Container'
+  'consumable': 'WW.Equipment.Consumable',
+  'container': 'WW.Equipment.Container'
 };
 
-WW.itemQualities = {
-  'standard': 'WW.QualityStandard',
-  'superior': 'WW.QualitySuperior',
-  'inferior': 'WW.QualityInferior'
+WW.EQUIPMENT_QUALITIES = {
+  'standard': 'WW.Equipment.Quality.Standard',
+  'superior': 'WW.Equipment.Quality.Superior',
+  'inferior': 'WW.Equipment.Quality.Inferior'
 };
 
 WW.WEAPON_REQUIREMENTS = {
   '': 'WW.Weapon.Requirements.None',
-  'str10': 'WW.Weapon.Requirements.Str10',
+  'str11': 'WW.Weapon.Requirements.Str11',
   'str12': 'WW.Weapon.Requirements.Str12',
+  'str13': 'WW.Weapon.Requirements.Str13',
   'str14': 'WW.Weapon.Requirements.Str14',
   'agi11': 'WW.Weapon.Requirements.Agi11',
   'agi12': 'WW.Weapon.Requirements.Agi12',
-  'agi14': 'WW.Weapon.Requirements.Agi14',
-  'int10agi12': 'WW.Weapon.Requirements.Int10Agi12',
+  'agi13': 'WW.Weapon.Requirements.Agi13'
 };
 
 WW.WEAPON_GRIPS = {
@@ -234,73 +189,60 @@ WW.WEAPON_TRAITS = {
   }
 };
 
-WW.armorTypes = {
+WW.ARMOR_TYPES = {
   'light': 'WW.Armor.Light',
   'medium': 'WW.Armor.Medium',
   'heavy': 'WW.Armor.Heavy'
 }
 
-WW.armor = {
-  'unarmored': {
-    'label': 'WW.Armor.Unarmored',
-    'def': null,
-    'bonus': null,
-    'type': null
-  },
-  'padded': {
-    'label': 'WW.Armor.Padded',
-    'def': 11,
-    'bonus': null,
-    'type': 'Light'
-  },
-  'leather': {
-    'label': 'WW.Armor.Leather',
-    'def': 12,
-    'bonus': 1,
-    'type': 'Light'
-  },
-  'brigandine': {
-    'label': 'WW.Armor.Brigandine',
-    'def': 13,
-    'bonus': 1,
-    'type': 'Light'
-  },
-  'ring': {
-    'label': 'WW.Armor.Ring',
-    'def': 14,
-    'bonus': 2,
-    'type': 'Medium'
-  },
-  'mail': {
-    'label': 'WW.Armor.Mail',
-    'def': 15,
-    'bonus': null,
-    'type': 'Medium'
-  },
-  'plateAndMail': {
-    'label': 'WW.Armor.PlateAndMail',
-    'def': 16,
-    'bonus': null,
-    'type': 'Medium'
-  },
-  'breastplate': {
-    'label': 'WW.Armor.Breastplate',
-    'def': 16,
-    'bonus': 3,
-    'type': 'Heavy'
-  },
-  'plate': {
-    'label': 'WW.Armor.Plate',
-    'def': 17,
-    'bonus': null,
-    'type': 'Heavy'
-  },
-  'fullPlate': {
-    'label': 'WW.Armor.FullPlate', 
-    'def': 18,
-    'bonus': null,
-    'type': 'Heavy'
-  }
+/* Item Automations */
+
+WW.ROLL_ATTRIBUTES = {
+  '': 'WW.Roll.Dont',
+  'str': 'WW.Attributes.Strength',
+  'agi': 'WW.Attributes.Agility',
+  'int': 'WW.Attributes.Intellect',
+  'wil': 'WW.Attributes.Will',
+  'luck': 'WW.Attributes.Luck'
+}
+
+WW.ROLL_AGAINST = {
+  '': 'WW.Roll.AgainstDefault',
+  'def': 'WW.Defense.Label',
+  'str': 'WW.Attributes.Strength',
+  'agi': 'WW.Attributes.Agility',
+  'int': 'WW.Attributes.Intellect',
+  'wil': 'WW.Attributes.Will'
+}
+
+WW.TARGETING_METHODS = {
+  'manual': 'WW.Targeting.Manual',
+  'template': 'WW.Targeting.Template'
+  /*'': 'WW.Roll.Targeting.Disable'*/
+}
+
+WW.TEMPLATE_TYPES = {
+  'size': 'WW.Targeting.Size',
+  'spread': 'WW.Targeting.Spread'
+}
+
+/* Character Options */
+
+WW.PATH_TIERS = {
+  'novice': 'WW.CharOptions.NovicePath',
+  'expert': 'WW.CharOptions.ExpertPath',
+  'master': 'WW.CharOptions.MasterPath'
+};
+
+WW.PROFESSION_CATEGORIES = {
+  'commoner': 'WW.Profession.Commoner',
+  'academic': 'WW.Profession.Academic',
+  'aristocratic': 'WW.Profession.Aristocratic',
+  'criminal': 'WW.Profession.Criminal',
+  'entertainment': 'WW.Profession.Entertainment',
+  'military': 'WW.Profession.Military',
+  'religious': 'WW.Profession.Religious',
+  'wilderness': 'WW.Profession.Wilderness'
 }
 
 WW.SPELLS_LEARNED = {
@@ -339,7 +281,7 @@ WW.INSTANT_TRIGGERS = {
   'onFailure': 'WW.Effect.OnFailure'
 }
 
-WW.BESTOW_AFFLICTIONS = {
+WW.AFFLICTIONS = {
   /*'': 'WW.InstantEffect.DontBestow',*/
   'Blinded': 'WW.Affliction.Blinded',
   'Confused': 'WW.Affliction.Confused',
@@ -732,11 +674,3 @@ WW.EFFECT_OPTIONS = {
     }
   },
 }
-
-/* Character Options */
-
-WW.PATH_TIERS = {
-  'novice': 'WW.NovicePath',
-  'expert': 'WW.ExpertPath',
-  'master': 'WW.MasterPath'
-};

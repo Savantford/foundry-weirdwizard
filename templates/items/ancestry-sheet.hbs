@@ -11,8 +11,8 @@
         <div class="header-fields">
           <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.ItemName"}}"/></h1>
 
-          <div class="tier">
-            {{localize "WW.Ancestry"}}
+          <div class="item-type">
+            {{localize "WW.CharOptions.Ancestry"}}
           </div>
           
         </div>
@@ -29,7 +29,7 @@
       <div class="statbox">
       
         {{!-- Header --}}
-        <h3>{{item.name}} {{localize "WW.Traits"}}</h3>
+        <h3>{{item.name}} {{localize "WW.CharOption.Traits"}}</h3>
 
         {{!-- Type(s) --}}
         <div class="stat-inline list-entries">
@@ -100,7 +100,7 @@
 
         {{!-- Attributes --}}
         <div class="stat-inline">
-          <label>{{localize "WW.Attributes"}}</label>
+          <label>{{localize "WW.Attributes.Label"}}</label>
           
           <input name="system.benefits.benefit1.attributes" type="text"
             value="{{benefits.benefit1.attributes}}" />
@@ -127,7 +127,7 @@
         <div class="stat-inline list-entries">
 
           {{!-- Size --}}
-          <label>{{localize "WW.Size"}}</label>
+          <label>{{localize "WW.Stats.Size"}}</label>
 
           <input name="system.benefits.benefit1.stats.sizeNormal" type="number"
             value="{{benefits.benefit1.stats.sizeNormal}}" min="0" placeholder="1" />

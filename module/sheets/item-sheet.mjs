@@ -69,9 +69,8 @@ export default class WWItemSheet extends ItemSheet {
     context.system.attributeLabel = CONFIG.WW.ATTRIBUTES[context.system.attribute];
 
     // Prepare common dropdown menu objects
-    context.attributesObj = CONFIG.WW.rollAttributes;
-    context.againstObj = CONFIG.WW.rollAgainst;
-    context.afflictionsObj = CONFIG.WW.bestowAfflictions;
+    context.attributes = CONFIG.WW.ROLL_ATTRIBUTES;
+    context.against = CONFIG.WW.ROLL_AGAINST;
     context.targetingMethods = CONFIG.WW.TARGETING_METHODS;
     context.templateTypes = CONFIG.WW.TEMPLATE_TYPES;
 
@@ -79,30 +78,26 @@ export default class WWItemSheet extends ItemSheet {
     switch (context.item.type) {
   
       case 'Equipment':
-        context.subtypesObj = CONFIG.WW.itemSubtypes;
-        context.coinsObj = CONFIG.WW.coins;
-        context.qualitiesObj = CONFIG.WW.itemQualities;
-        //context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
-        context.armorObj = CONFIG.WW.armorTypes;
+        context.subtypes = CONFIG.WW.EQUIPMENT_SUBTYPES;
+        context.coins = CONFIG.WW.COINS;
+        context.qualities = CONFIG.WW.EQUIPMENT_QUALITIES;
+        context.armorTypes = CONFIG.WW.ARMOR_TYPES;
 
         if (context.system.subtype == 'weapon') {
           context.requirements = CONFIG.WW.WEAPON_REQUIREMENTS;
-          context.gripObj = CONFIG.WW.WEAPON_GRIPS;
+          context.grips = CONFIG.WW.WEAPON_GRIPS;
           context.traits = CONFIG.WW.WEAPON_TRAITS;
-          
         }
 
       break;
 
       case 'Trait or Talent':
-        context.subtypesObj = CONFIG.WW.dropdownSubtypes;
-        context.sourcesObj = CONFIG.WW.talentSources;
-        //context.frequenciesObj = CONFIG.WW.dropdownFrequencies;
+        context.subtypes = CONFIG.WW.TALENT_SUBTYPES;
+        context.sources = CONFIG.WW.TALENT_SOURCES;
       break;
 
       case 'Spell':
-        context.tiersObj = CONFIG.WW.dropdownTiers;
-        //context.sourcesObj = CONFIG.WW.dropdownSources;
+        context.tiers = CONFIG.WW.TIERS;
       break;
       
     }
@@ -154,8 +149,18 @@ export default class WWItemSheet extends ItemSheet {
     const item = context.item;
 
     // Prepare dropdown objects
-    context.tiers = CONFIG.WW.PATH_TIERS;
     context.spellsLearned = CONFIG.WW.SPELLS_LEARNED;
+    
+    // Prepare paths
+    if (this.document.type === 'Path') {
+      context.hasActor = this.document.actor ? true : false;
+      
+      if (context.hasActor) {
+        context.tierLoc = i18n(CONFIG.WW.PATH_TIERS[this.document.system.tier]);
+      } else {
+        context.tiers = CONFIG.WW.PATH_TIERS;
+      }
+    }
 
     // Prepare Professions
     if (this.document.type === 'Profession') {

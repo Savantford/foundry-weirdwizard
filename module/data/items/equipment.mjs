@@ -105,9 +105,9 @@ export default class EquipmentData extends foundry.abstract.DataModel {
     }
 
     // Migrate old traits to new ones
-    if (source.traits.precise) source.traits.piercing = source.traits.precise;
-    if (source.traits.sharp) source.traits.slashing = source.traits.sharp;
-    if (source.traits.shattering) source.traits.bludgeoning = source.traits.shattering;
+    if (source.traits?.precise) source.traits.piercing = source.traits.precise;
+    if (source.traits?.sharp) source.traits.slashing = source.traits.sharp;
+    if (source.traits?.shattering) source.traits.bludgeoning = source.traits.shattering;
 
     // Migrate weapon advantages to traits
     if ('advantages' in source) {
@@ -123,6 +123,17 @@ export default class EquipmentData extends foundry.abstract.DataModel {
       if (disadv.reload) source.traits.reload = disadv.reload;
       if (disadv.slow) source.traits.slow = disadv.slow;
       if (disadv.special) source.traits.special = disadv.special;
+    }
+
+    // Migrate weapon requirements
+    if ('requirements' in source) {
+      
+      switch (source.requirements) {
+        case 'str10': source.requirements = 'str11'; break;
+        case 'agi14': source.requirements = 'agi13'; break;
+        case 'int10agi12': source.requirements = 'agi12'; break;
+      }
+
     }
 
     return super.migrateData(source);

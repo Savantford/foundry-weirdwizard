@@ -2,63 +2,42 @@
 <div class="stat-inline flex-wrap">
 
     <div>
-        <label>{{localize "WW.Types.Label"}}</label>
-        <select name="system.subtype">
-            {{selectOptions subtypesObj selected=system.subtype localize=true}}
-        </select>
-    </div>
-
-    <div>
-        <label>{{localize "WW.Quality"}}</label>
+        <label>{{localize "WW.Equipment.Quality.Label"}}</label>
         <select name="system.quality">
-            {{selectOptions qualitiesObj selected=system.quality localize=true}}
+            {{selectOptions qualities selected=system.quality localize=true}}
         </select>
     </div>
 
     <div>
-        <label>{{localize "WW.UsesEquipment"}}</label>
+        <label>{{localize "WW.Equipment.Uses"}}</label>
         <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="0" data-dtype="Number" />
         <input class="checkbox-uses" type="checkbox" name="system.uses.onRest" {{checked system.uses.onRest}} title="{{localize "WW.Item.Uses.OnRest"}}"/>
     </div>
 
-</div>
-
-<div class="stat-inline flex-wrap mt-1">
-
     <div>
-        <label>{{localize "WW.Price"}}</label>
+        <label>{{localize "WW.Equipment.Price"}}</label>
         <input type="number" name="system.price.value" value="{{system.price.value}}" min="0" data-dtype="Number" />
         <select name="system.price.coin">
-            {{selectOptions coinsObj selected=system.price.coin localize=true}}
+            {{selectOptions coins selected=system.price.coin localize=true}}
         </select>
     </div>
 
     <div>
-        <label>{{localize "WW.Quantity"}}</label>
+        <label>{{localize "WW.Equipment.Quantity"}}</label>
         <input type="number" name="system.quantity" value="{{system.quantity}}" min="0" data-dtype="Number" />
     </div>
 
     <div>
-        <label>{{localize "WW.WeightUnit"}}</label>
+        <label>{{localize "WW.Equipment.WeightUnit"}}</label>
         <input type="number" name="system.weightUnit" value="{{system.weightUnit}}" min="0" data-dtype="Number" />
     </div>
-
-    {{!-- Armor Type --}}
-    {{#if (eq system.subtype 'armor')}}
-    <div>
-        <label>{{localize "WW.Armor.Type"}}</label>
-        <select name="system.armorType">
-            {{selectOptions armorObj selected=system.armorType localize=true}}
-        </select>
-    </div>
-    {{/if}}
 
 </div>
 
 {{!-- Weapon Details --}}
 {{> "systems/weirdwizard/templates/items/parts/weapon-details.hbs"}}
 
-<h2 class="mt-1">{{localize "WW.Description"}}</h2>
+<h2 class="mt-1">{{localize "WW.Item.Description"}}</h2>
 {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
 
 {{#if grantedBy}}

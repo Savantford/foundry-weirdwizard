@@ -7,7 +7,7 @@
             {{localize "WW.Roll.Always"}}
             
             <select class="ml-1 bold" name="system.attribute">
-                {{selectOptions attributesObj selected=system.attribute localize=true}}
+                {{selectOptions attributes selected=system.attribute localize=true}}
             </select>
             
             {{#if system.attribute}}
@@ -30,7 +30,7 @@
             {{localize "WW.Roll.Against"}}
 
             <select class="mx-1 bold" name="system.against">
-                {{selectOptions againstObj selected=system.against localize=true}}
+                {{selectOptions against selected=system.against localize=true}}
             </select>
             
         </div>

@@ -6,10 +6,28 @@
     <div class="header-fields">
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.ItemName"}}" /></h1>
 
+      <div class="item-type-container">
+        <div class="item-type">
+
+          <select name="system.tier">
+            {{selectOptions tiers selected=system.tier localize=true}}
+          </select>
+
+          {{localize "WW.Spell.Label"}}
+
+        </div>
+
+        {{!-- Tradition --}}
+        <label class="ml-1">{{localize "WW.Spell.Tradition"}}</label>
+
+        <input type="text" name="system.tradition" value="{{system.tradition}}" data-dtype="String" />
+
+      </div>
+
       {{!-- Header Tab Navigation --}}
       <nav class="mt-2 sheet-tabs tabs spell-tabs" data-group="primary">
-        <a class="item" data-tab="details">{{localize "WW.Details"}}</a>
-        <a class="item" data-tab="automation">{{localize "WW.Automation"}}</a>
+        <a class="item" data-tab="details">{{localize "WW.Details.Label"}}</a>
+        <a class="item" data-tab="automation">{{localize "WW.Effects.TabLabel"}}</a>
       </nav>
 
     </div>

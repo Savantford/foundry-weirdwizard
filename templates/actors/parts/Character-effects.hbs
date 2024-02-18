@@ -1,4 +1,4 @@
-<h2>{{localize "WW.Afflictions"}}</h2>
+<h2>{{localize "WW.Affliction.Label"}}</h2>
 
 <div class="afflictions">
   {{#*inline "WWAffliction"}}
@@ -69,7 +69,7 @@
   </div>
   --}}
   <div class="selectable remove-afflictions">
-    <span>{{localize "WW.AfflictionsRemove"}}</span>
+    <span>{{localize "WW.Affliction.Remove"}}</span>
   </div>
 </div>
 
@@ -90,7 +90,7 @@
       <div class="item-controls effect-controls flexrow">
         {{#if section.showCreate}}
         <a class="effect-control" data-action="create" title="{{localize 'WW.Effect.Create'}}">
-          <i class="fas fa-plus"></i> {{localize "WW.Add"}}
+          <i class="fas fa-plus"></i> {{localize "WW.Item.Add.Label"}}
         </a>
         {{/if}}
       </div>
@@ -154,7 +154,7 @@
       <div class="item-controls effect-controls flexrow">
         {{#if actorEffects.inactive.showCreate}}
         <a class="effect-control" data-action="create" title="{{localize 'WW.Effect.Create'}}">
-          <i class="fas fa-plus"></i> {{localize "WW.Add"}}
+          <i class="fas fa-plus"></i> {{localize "WW.Item.Add.Label"}}
         </a>
         {{/if}}
       </div>
