@@ -628,6 +628,7 @@
   /*width: 250px;
   margin-right: 10px;*/
 }
+
 .weirdwizard .character-header .header-fields {
   position: fixed;
   width: 250px;
@@ -656,6 +657,9 @@
 
   position: relative;
   margin: 20px auto;
+
+  outline: 2px solid var(--highlight-title);
+  outline-offset: 5px;
 }
 
 .weirdwizard .sheet-header .profile-img {
@@ -681,7 +685,7 @@
   --ele-radius: 32px;
   width: calc(2 * var(--ele-radius));
   height: calc(2 * var(--ele-radius));
-  border: 1px solid var(--highlight-title);
+  border: 2px solid var(--highlight-title);
   border-radius: 50%;
 
   display: grid;
@@ -689,9 +693,7 @@
 
   background: var(--background), var(--background-color-shadow);
   background-blend-mode: color;
-  /*color: #185adb;*/
   font-weight: bold;
-  /*font-size: 3vmin;*/
 
   /* Decimal value, 0-1 based on the child's index. */
   --d: calc(var(--i) / var(--total));
@@ -741,6 +743,7 @@
 
 .weirdwizard .character-header h1.charname {
   height: 100%;
+  margin: 0 0 5px;
 }
 
 .weirdwizard .sheet-header h1.charname input {
@@ -750,17 +753,12 @@
   font-weight: bold;
 }
 
-.weirdwizard .character-stats {
-  /*display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  padding: 0;
-  padding-top: 10px;
-  margin-top: 10px;*/
-  padding: 5px;
-  background: var(--background-color-shadow);
-  border: 1px solid var(--highlight-title);
-  border-radius: 5px;
+.weirdwizard .character-stats,
+.weirdwizard .character-header-plate {
+  border-image: url(../assets/ui/sheet-rectangle.svg);
+  border-image-slice: 120 fill;
+  border-image-width: 15px;
+  padding: 8px;
 }
 
 .weirdwizard .sheet-tabs {
@@ -907,7 +905,7 @@
 .weirdwizard .item-fixed {
   flex: 0 0 60px;
 }
-.weirdwizard .item-properties {
+.weirdwizard .item-traits {
   flex: 2.5;
 }
 
@@ -2008,7 +2006,16 @@ form.quest-calendar {
 .weirdwizard.chat-message .flavor-title {
   display: flex;
   flex-direction: column;
+  text-align: center;
   width: 100%;
+}
+
+.weirdwizard.chat-message .flavor-title:first-child {
+  margin-left: 19px;
+}
+
+.weirdwizard.chat-message .flavor-title:not(:first-child) {
+  margin-right: 20px;
 }
 
 .weirdwizard.chat-message span.flavor-text {
@@ -2020,11 +2027,12 @@ form.quest-calendar {
   margin-top: 5px;*/
 }
 
-.weirdwizard.chat-message .properties-container {
-  margin-top: 2px;
+.weirdwizard.chat-message .traits-container {
+  margin-top: 5px;
   display: flex;
   flex-wrap: wrap;
   gap: 3px;
+  justify-content: center;
 }
 
 .weirdwizard.chat-message .chat-message-collapse {
@@ -2159,13 +2167,26 @@ form.quest-calendar {
 }
 
 .weirdwizard .dice-comparison > div:not(.dice-vs) {
-  background: rgba(0, 0, 0, 0.1);
+  /*background: rgba(0, 0, 0, 0.1);
   border: 1px solid var(--color-border-light-2);
   border-radius: 3px;
   box-shadow: 0 0 2px #fff inset;
-  padding: 0 4px;
+  padding: 0 4px;*/
   width: 40px;
+  height: 40px;
   font-weight: bold;
+  background-size: contain;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.weirdwizard .dice-comparison > .rolled-number {
+  background: url(/icons/svg/d20-grey.svg);
+}
+
+.weirdwizard .dice-comparison > .target-number {
+  background: url(../assets/ui/sheet-rectangle.svg);
 }
 
 .weirdwizard .dice-outcome {
@@ -2246,6 +2267,14 @@ form.quest-calendar {
   display: flex;
   align-items: center;
   gap: 5px;
+}
+
+.weirdwizard.chat-message .flavor-container {
+  border-image: url(../assets/ui/sheet-rectangle.svg);
+  border-image-slice: 120 fill;
+  border-image-width: 15px;
+  padding: 8px 14px;
+  gap: 3px;
 }
 
 .weirdwizard.chat-message .message-sender {

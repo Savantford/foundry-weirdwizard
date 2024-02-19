@@ -134,8 +134,7 @@ export class WWAfflictions {
       'Held',
       'icons/svg/padlock.svg',
       [
-        downgradeEffect('speed.override', 0, overridePriority),
-        overrideEffect('autoFail.agi', true, addPriority),
+        downgradeEffect('speed.override', 0, overridePriority)
       ]
     ));
 

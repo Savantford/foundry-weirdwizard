@@ -12,37 +12,37 @@
 
             {{#if item}}<img src="{{item.img}}">{{/if}}
             <div class="flavor-title">
+
+                {{!-- Title (Item Name) --}}
                 <span class="flavor-text">{{{message.flavor}}}</span>
+
+                {{!-- Subtitle --}}
                 {{#if item}}<span class="flavor-type">{{item.type}}{{#if item.source}} • {{item.source}}{{/if}}{{#if item.tier}} • {{item.tier}}{{/if}}</span>{{/if}}
+
             </div>
 
-            {{!-- Expand Icon --}}
+            {{!-- Collapse/Expand Icon --}}
             {{#if message.content}}
             <div><a class="chat-message-collapse"><i class="fas fa-square-minus"></i></a></div>
             {{/if}}
             
         </div>
-        {{/if}}
 
         {{!-- Weapon Traits --}}
         {{#if item.isWeapon}}
-        <div class="properties-container">
+        <div class="traits-container">
             {{#each item.traits as |trait id|}}
             <span class="header-button" title="{{trait.tip}}">{{trait.label}}</span>
             {{/each}}
-
-            {{#each item.advantages as |advantage id|}}
-            <span class="adv-button" title="{{advantage.tip}}">{{advantage.label}}</span>
-            {{/each}}
-
-            {{#each item.disadvantages as |disadvantage id|}}
-            <span class="disadv-button" title="{{disadvantage.tip}}">{{disadvantage.label}}</span>
-            {{/each}}
         </div>
+        {{/if}}
+
         {{/if}}
     </header>
     
     <div class="message-wrapper">
+
+        
 
         {{!-- Content (Body) --}}
         {{#unless emptyContent}}
