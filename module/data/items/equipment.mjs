@@ -31,7 +31,6 @@ export default class EquipmentData extends foundry.abstract.DataModel {
         ammunition: makeBooField(false),
         bludgeoning: makeBooField(false),
         brutal: makeBooField(false),
-        cumbersome: makeBooField(false),
         disarming: makeBooField(false),
         firearm: makeBooField(false),
         large: makeBooField(false),

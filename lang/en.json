@@ -445,10 +445,6 @@
                 "Label": "Brutal",
                 "Tip": "When rolling damage for an attack made using this weapon, you can reroll each die that comes up as 1 once. You must use the new number rolled, even if it is another 1."
             },
-            "Cumbersome": {
-                "Label": "Cumbersome",
-                "Tip": "When you roll to attack with this weapon, you roll with 1 bane."
-            },
             "Disarming": {
                 "Label": "Disarming",
                 "Tip": "You ignore the bane imposed on your roll when you use this weapon to disarm."
@@ -602,7 +598,7 @@
         "Frightened": "Frightened",
         "FrightenedDesc": "You fear the source of this affliction—a creature, an object, a space, or something else. While you have line of sight to the source of your fear, you make attribute rolls with 1 bane, and you grant 1 boon on attribute rolls against you.",
         "Held": "Held",
-        "HeldDesc": "Your Speed drops to 0 and you cannot benefit from increases to your Speed until this affliction ends. In addition, your Agility rolls result in automatic failures.",
+        "HeldDesc": "Your Speed drops to 0 and you cannot benefit from increases to your Speed until this affliction ends. In addition, creatures rolling against your Agility get an automatic success.",
         "ImpairedStr": "Strength Impaired",
         "ImpairedAgi": "Agility Impaired",
         "ImpairedInt": "Intellect Impaired",

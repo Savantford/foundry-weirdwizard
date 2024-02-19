@@ -4,8 +4,11 @@
     <header class="sheet-header character-header">
         
         <div class="header-fields">
-            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.ActorName"}}"/></h1>
-            <div class="character-subtitle">{{localize "WW.Stats.Level"}} {{level}} {{system.details.ancestry}}{{#if system.details.novice}} {{system.details.novice}}{{/if}}</div>
+            <div class="character-header-plate">
+                <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.ActorName"}}"/></h1>
+                
+                <div class="character-subtitle">{{localize "WW.Stats.Level"}} {{level}} {{system.details.ancestry}}{{#if system.details.novice}} {{system.details.novice}}{{/if}}</div>
+            </div>
 
             <div class="circle" style="--total: 4">
                 <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>

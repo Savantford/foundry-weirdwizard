@@ -235,6 +235,7 @@ function _onMessageCollapse(ev) {
     desc = msg.find('.message-content'),
     footer = msg.find('.message-footer'),
     wrapper = msg.find('.message-wrapper'),
+    traits = msg.find('.traits-container'),
     icon = $(button).find('i')
   ;
   
@@ -242,12 +243,14 @@ function _onMessageCollapse(ev) {
   if (icon.hasClass('fa-square-plus')) {
     $(button).attr("title", i18n('WW.Item.HideDesc'))
     icon.removeClass('fa-square-plus').addClass('fa-square-minus');
+    traits.slideDown(500);
     wrapper.slideDown(500);
     desc.slideDown(500);
     footer.slideDown(500);
   } else {
     $(button).attr("title", i18n('WW.Item.ShowDesc'))
     icon.removeClass('fa-square-minus').addClass('fa-square-plus');
+    traits.slideUp(500);
     wrapper.slideUp(500);
     desc.slideUp(500);
     footer.slideUp(500);

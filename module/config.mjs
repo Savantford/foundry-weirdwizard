@@ -107,11 +107,6 @@ WW.WEAPON_TRAITS = {
     'tip': 'WW.Weapon.Traits.Brutal.Tip',
     'path': 'system.traits.brutal',
   },
-  'cumbersome': {
-    'label': 'WW.Weapon.Traits.Cumbersome.Label',
-    'tip': 'WW.Weapon.Traits.Cumbersome.Tip',
-    'path': 'system.traits.cumbersome',
-  },
   'disarming': {
     'label': 'WW.Weapon.Traits.Disarming.Label',
     'tip': 'WW.Weapon.Traits.Disarming.Tip',

@@ -5,12 +5,12 @@
 
     <div class="dice-result">
         <div class="dice-comparison">
-            <div class="dice-number" data-tooltip='{{> "systems/weirdwizard/templates/chat/dice-tooltip.hbs" formula=formula terms=terms}}'>{{total}}</div>
+            <div class="dice-number rolled-number" data-tooltip='{{> "systems/weirdwizard/templates/chat/dice-tooltip.hbs" formula=formula terms=terms}}'>{{total}}</div>
 
             {{#if targetNo}}
             <div class="dice-vs">vs</div>
 
-            <div>{{targetNo}}</div>
+            <div class="target-number">{{targetNo}}</div>
             {{/if}}
             
         </div>
