@@ -175,7 +175,7 @@
 
 .weirdwizard.sheet.actor {
   min-width: 600px;
-  min-height: 460px;
+  min-height: 480px;
 }
 
 .auto-grid-2 {
@@ -1694,10 +1694,6 @@ i.icon-Weakened {
   width: 30px;
 }
 
-.weirdwizard .health-indicator::before {
-  margin-left: 5px;
-}
-
 .weirdwizard .health-indicator.fas.fa-droplet {
   color: red;
   
@@ -2186,7 +2182,7 @@ form.quest-calendar {
 }
 
 .weirdwizard .dice-comparison > .target-number {
-  background: url(../assets/ui/sheet-rectangle.svg);
+  background: url(../assets/ui/cross-grey.svg);
 }
 
 .weirdwizard .dice-outcome {

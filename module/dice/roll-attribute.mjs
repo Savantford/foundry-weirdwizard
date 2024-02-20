@@ -130,7 +130,7 @@ export default class RollAttribute extends FormApplication {
       for (const t of this.targets) {
 
         // Set boons text
-        const boonsNo = parseInt(boonsFinal) + t.boonsAgainst[against];
+        const boonsNo = parseInt(boonsFinal) + (t.boonsAgainst ? t.boonsAgainst[against] : 0);
         if (boonsNo != 0) { boons = (boonsNo < 0 ? "" : "+") + boonsNo + "d6kh" } else { boons = ""; };
 
         // Determine the rollFormula
@@ -429,7 +429,7 @@ export default class RollAttribute extends FormApplication {
       let targetsDisplay = '';
 
       context.targets.forEach(t => {
-        const boonsNo = t.boonsAgainst[against];
+        const boonsNo = t.boonsagainst ? t.boonsAgainst[against] : 0;
 
         targetsDisplay += '<p>' + t.name;
 
@@ -539,12 +539,11 @@ export default class RollAttribute extends FormApplication {
     
     // Add htmls to finalHtml
     if (options.singleRoll) {
-      console.log('chegou no single')
       if (anyHtml) finalHtml += buttonsHeader(anyHtml, 'Any', !this.item);
       if (enemiesHtml) finalHtml += buttonsHeader(enemiesHtml, 'Enemies', !this.item);
       if (alliesHtml) finalHtml += buttonsHeader(alliesHtml, 'Allies', !this.item);
+      
     } else {
-      console.log('chegou no multi')
       finalHtml += '<div class="chat-buttons">';
       if (anyHtml) finalHtml += anyHtml;
       if (enemiesHtml) finalHtml += enemiesHtml;
@@ -578,9 +577,9 @@ export default class RollAttribute extends FormApplication {
         targets.push({
           id: t.id,
           name: t.document.name,
-          attributes: t.document.actor.system.attributes,
-          defense: t.document.actor.system.stats.defense.total,
-          boonsAgainst: t.document.actor.system.boons.against
+          attributes: t.document.actor?.system.attributes,
+          defense: t.document.actor?.system.stats.defense.total,
+          boonsAgainst: t.document.actor?.system.boons.against
         })
       });
 

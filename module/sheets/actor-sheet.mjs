@@ -367,11 +367,6 @@ export default class WWActorSheet extends ActorSheet {
 
     // Input resize
     resizeInput(html);
-
-    // Edit Health button
-    html.find('.health-edit').click(ev => {
-      new healthDetails(this.actor).render(true)
-    });
     
     // Rest button dialog + function
     html.find('.rest-button').click(this._onRest.bind(this));

@@ -200,6 +200,8 @@
         "Size": "Size # Area",
         "Spread": "Spread from Central Point (BROKEN)",
         "MeasuredUnit": "yard(s)",
+        "Targets": "Targets",
+        "Target": "Target",
         "Dialog": {
             "SelectTargets": "Please select one or more tokens to target.",
             "Confirm": "Confirm Targets and Continue",

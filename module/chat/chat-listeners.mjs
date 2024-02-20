@@ -138,7 +138,7 @@ function _onMessageButtonContext(element) {
   game.combat?.combatants.forEach(c => {
     const actor = c.actor;
     
-    if (actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
+    if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
       name: actor.name,
       icon: iconToHTML(actor.img, actor.uuid),
       group: 'combatants',
@@ -152,7 +152,7 @@ function _onMessageButtonContext(element) {
   for (const id in game.actors.tokens) {
     const actor = game.actors.tokens[id];
     
-    if (actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
+    if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
       name: actor.name,
       icon: iconToHTML(actor.img, actor.uuid),
       group: 'tokens',
