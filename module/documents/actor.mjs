@@ -41,6 +41,9 @@ export default class WWActor extends Actor {
       }
     };
 
+    // Create bonus Health
+    this.system.stats.health.bonus = 0;
+
     // Create objects
     this.system.autoFail = {};
     this.system.against = {};
@@ -154,9 +157,7 @@ export default class WWActor extends Actor {
     if (changed.system?.stats?.level) {
       
       for (const i of this.items) {
-        
         if (i.charOption) i.updateBenefitsOnActor();
-        
       }
       
     }
@@ -322,8 +323,6 @@ export default class WWActor extends Actor {
 
   /* Apply Affliction */
   async applyAffliction(key) {
-
-    console.log(key)
   
     // Get affliction
     const effect = CONFIG.statusEffects.find(a => a.id === key);
@@ -388,14 +387,14 @@ export default class WWActor extends Actor {
   _calculateHealth(system) {
     const health = system.stats.health;
     const level = system.stats.level;
-
+    
     // Health override effect exists
     if (health.override) {
       health.normal = health.override;
     } else {
 
       // If Character, calculate normal Health from Paths
-      if (this.type === 'Character') {
+      /*if (this.type === 'Character') {
         function count(levels) { // Count how many of provided levels the Character has
           let newValue = 0;
   
@@ -420,7 +419,7 @@ export default class WWActor extends Actor {
   
         // Calculate normal Health
         health.normal = health.starting + noviceBonus + expertBonus + masterBonus;
-      }
+      }*/
 
       // Assign current health
       health.current = health.normal + health.bonus - health.lost;

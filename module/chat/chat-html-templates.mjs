@@ -9,7 +9,7 @@ export async function diceTotalHtml(roll) {
 export function targetHeader(target, html, noItem) {
   if ((target.id === undefined) || noItem) return (html ? html : '');
 
-  else return `<p class="owner-only chat-target">${i18n('WW.Target')}: ${target.name}</p><p class="non-owner-only chat-target">${i18n('WW.Target')}: ???</p><div class="chat-target-content">${html}</div>`;
+  else return `<p class="owner-only chat-target">${i18n('WW.Targeting.Target')}: ${target.name}</p><p class="non-owner-only chat-target">${i18n('WW.Targeting.Target')}: ???</p><div class="chat-target-content">${html}</div>`;
 }
 
 // Prepare html header for a target

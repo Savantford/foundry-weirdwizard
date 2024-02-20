@@ -243,37 +243,51 @@ export default class WWItem extends Item {
 
     if (stats.naturalIncrease) changes.push({
       key: 'defense.naturalIncrease',
-      value: stats.naturalIncrease
+      value: stats.naturalIncrease,
+      mode: 2,
+      priority: null
     })
 
     if (stats.armoredIncrease) changes.push({
       key: 'defense.armoredIncrease',
-      value: stats.armoredIncrease
+      value: stats.armoredIncrease,
+      mode: 2,
+      priority: null
     })
     
     if (stats.healthIncrease) changes.push({
       key: 'health.increase',
-      value: stats.healthIncrease
+      value: stats.healthIncrease,
+      mode: 2,
+      priority: null
     })
 
     if (stats.sizeNormal) changes.push({
       key: 'size.normal',
-      value: stats.sizeNormal
+      value: stats.sizeNormal,
+      mode: 4,
+      priority: 1
     })
 
     if (stats.speedNormal) changes.push({
       key: 'speed.normal',
-      value: stats.speedNormal
+      value: stats.speedNormal,
+      mode: 4,
+      priority: 1
     })
 
     if (stats.speedIncrease) changes.push({
       key: 'speed.increase',
-      value: stats.speedIncrease
+      value: stats.speedIncrease,
+      mode: 2,
+      priority: null
     })
 
     if (stats.bonusDamage) changes.push({
       key: 'bonusDamage.increase',
-      value: stats.bonusDamage
+      value: stats.bonusDamage,
+      mode: 2,
+      priority: null
     })
     
     // Create effect data object
@@ -354,26 +368,34 @@ export default class WWItem extends Item {
     
     // Return if no actor exists
     if (!this.actor) return;
-    
-    const benefits = this.system.benefits;
-    const level = this.actor.system.stats.level;
 
     // Get actor list entries granted by the character option
-    const aDetails = {
-      senses: this.actor.system.details.senses.filter(i => {
+    const filteredDetails = {
+      types: await this.actor.system.details.types.filter(i => {
         return i.grantedBy === this._id;
       }),
-      languages: this.actor.system.details.languages.filter(i => {
+      senses: await this.actor.system.details.senses.filter(i => {
         return i.grantedBy === this._id;
       }),
-      immune: this.actor.system.details.immune.filter(i => {
+      languages: await this.actor.system.details.languages.filter(i => {
         return i.grantedBy === this._id;
       }),
-      traditions: this.actor.system.details.traditions.filter(i => {
+      immune: await this.actor.system.details.immune.filter(i => {
+        return i.grantedBy === this._id;
+      }),
+      traditions: await this.actor.system.details.traditions.filter(i => {
         return i.grantedBy === this._id;
       })
     }
-    
+
+    // Shortcuts
+    const benefits = this.system.benefits;
+    const level = this.actor.system.stats.level;
+
+    // Create newDetails to store data
+    const newDetails = {};
+
+    // Loop through each benefit
     for (const b in benefits) {
 
       const benefit = benefits[b];
@@ -382,35 +404,42 @@ export default class WWItem extends Item {
       // If level does not meet the requirement, ignore it
       if (level >= benefit.levelReq) {
 
-        if (benefit.senses) await benefit.senses.forEach(e => this._addEntry(aDetails, e, 'senses'));
+        if (benefit.types) this._addEntries(newDetails, filteredDetails, benefit, 'types');
+        
+        if (benefit.senses) this._addEntries(newDetails, filteredDetails, benefit, 'senses');
+        
+        if (benefit.languages) this._addEntries(newDetails, filteredDetails, benefit, 'languages');
 
-        if (benefit.languages) await benefit.languages.forEach(e => this._addEntry(aDetails, e, 'languages'));
+        if (benefit.immune) this._addEntries(newDetails, filteredDetails, benefit, 'immune');
 
-        if (benefit.immune) await benefit.immune.forEach(e => this._addEntry(aDetails, e, 'immune'));
-
-        if (benefit.traditions) await benefit.traditions.forEach(e => this._addEntry(aDetails, e, 'traditions'));
+        if (benefit.traditions) this._addEntries(newDetails, filteredDetails, benefit, 'traditions');
 
       }
       
     }
 
+    // Update actor with new details object
+    await this.actor.update({['system.details']: {...this.actor.system.details, ...newDetails} });
+
   }
 
-  async _addEntry(actorDetails, entry, arrName) {
+  _addEntries(newDetails, filteredDetails, benefit, arrName) {
+    const arr = [...benefit[arrName]];
 
-    // If entry with the same name is not found, add it to the actor's entries list
-    if (!actorDetails[arrName].find(ae => ae.name === entry.name )) {
+    // For each entry
+    arr.forEach(entry => {
 
-      // Store the char option id on grantedBy
-      entry.grantedBy = this._id;
+      if (!filteredDetails[arrName].find(ae => ae.name === entry.name )) {
+        
+        // Store the char option id on grantedBy
+        entry.grantedBy = this._id;
+  
+      }
 
-      // Create new array
-      const arr = [...this.actor.system.details[arrName], entry];
+    });
 
-      // Update actor with new array
-      await this.actor.update({['system.details.' + arrName]: arr});
-
-    }
+    // Add entries to newDetails object
+    newDetails[arrName] = newDetails[arrName] ? newDetails[arrName].concat(arr) : arr;
 
   }
 

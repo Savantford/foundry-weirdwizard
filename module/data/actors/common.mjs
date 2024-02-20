@@ -185,22 +185,16 @@ function makeDefense(type) {
 
 function makeHealth(type) {
 
-  if (type == 'Character') { return new fields.SchemaField({
-    current: makeIntField(),
-    normal: makeIntField(),
-    starting: makeIntField(10),
-    novice: makeIntField(),
-    expert: makeIntField(),
-    master: makeIntField(),
-    lost: makeIntField(),
-    bonus: makeIntField()
-  })}
-
-  else if (type == 'NPC') return new fields.SchemaField({
+  if (type == 'Character') {
+    return new fields.SchemaField({
+      current: makeIntField(),
+      normal: makeIntField(),
+      lost: makeIntField()
+    })
+} else if (type == 'NPC') return new fields.SchemaField({
     current: makeIntField(),
     normal: makeIntField(10),
-    lost: makeIntField(),
-    bonus: makeIntField()
+    lost: makeIntField()
   })
 
   else return {}
