@@ -7,26 +7,23 @@
 
         <div class="header-fields npc">
             {{!-- Character Name --}}
-            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.ActorName"}}"/></h1>
+            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.Actor.Name"}}"/></h1>
 
             {{!-- Disposition Toggle --}}
-            <a class="change-disposition{{#if (eq disposition 1)}} ally{{/if}}" title="{{localize "WW.Disposition.Tip"}}">
-                {{#if (eq disposition 1)}}{{localize "WW.Disposition.Ally"}}{{else}}{{localize "WW.Disposition.Enemy"}}{{/if}}
+            <a class="change-disposition{{#if (eq disposition 1)}} ally{{/if}}" title="{{localize "WW.Actor.Disposition.Tip"}}">
+                {{#if (eq disposition 1)}}{{localize "WW.Actor.Disposition.Ally"}}{{else}}{{localize "WW.Actor.Disposition.Enemy"}}{{/if}}
             </a>
 
             {{!-- Sheet Tabs --}}
             <nav class="mt-2 sheet-tabs tabs npc-tabs" data-group="primary">{{!-- Sheet Tab Navigation --}}
-                <a class="item" data-tab="summary">{{localize "WW.Stats.Summary"}}</a>
+                <a class="item" data-tab="summary">{{localize "WW.Actor.Summary"}}</a>
                 <a class="item" data-tab="description">{{localize "WW.Item.Description"}}</a>
-                {{!--<a class="item" data-tab="stats">{{localize "WW.Stats"}}</a>--}}
                 <a class="item" data-tab="effects">{{localize "WW.Effects.Label"}}</a>
             </nav>
 
         </div>
 
     </header>
-
-    
 
     <section class="sheet-body"> {{!-- Sheet Body --}}
         
@@ -39,11 +36,6 @@
         <div class="tab summary" data-group="primary" data-tab="summary">
             {{> "systems/weirdwizard/templates/actors/parts/NPC-summary.hbs"}}
         </div>
-
-        {{!-- Stats Tab --}}
-        {{!--<div class="tab stats" data-group="primary" data-tab="stats">
-            {{> "systems/weirdwizard/templates/actors/parts/NPC-stats.hbs"}}
-        </div>--}}
 
         {{!-- Active Effects Tab --}}
         <div class="tab effects flexcol" data-group="primary" data-tab="effects">

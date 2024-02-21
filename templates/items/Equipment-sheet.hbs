@@ -5,7 +5,7 @@
     <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
 
     <div class="header-fields">
-      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.ItemName"}}"/></h1>
+      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.Item.Name"}}"/></h1>
 
       <div class="item-type-container">
         <div class="item-type">
@@ -16,7 +16,7 @@
 
         {{!-- Armor Type --}}
         {{#if (eq system.subtype 'armor')}}
-        <label>{{localize "WW.Types.Label"}}</label>
+        <label>{{localize "WW.Detail.Type.Label"}}</label>
 
         <select name="system.armorType">
           {{selectOptions armorTypes selected=system.armorType localize=true}}
@@ -27,7 +27,7 @@
 
       {{!-- Header Tab Navigation --}}
       <nav class="mt-2 sheet-tabs tabs equipment-tabs" data-group="primary">
-        <a class="item" data-tab="details">{{localize "WW.Details.Label"}}</a>
+        <a class="item" data-tab="details">{{localize "WW.Actor.Details"}}</a>
         <a class="item" data-tab="automation">{{localize "WW.Effects.TabLabel"}}</a>
       </nav>
       

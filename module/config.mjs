@@ -9,7 +9,7 @@ WW.ATTRIBUTES = {
 }
 
 // Dropdown menus
-WW.dropdownNumbers = {
+WW.FRACTION_NUMBERS = {
   0.125: '⅛',
   0.25: '¼',
   0.5: '½',
@@ -63,7 +63,7 @@ WW.TIERS = {
 WW.EQUIPMENT_SUBTYPES = {
   'generic': 'WW.Equipment.Generic',
   'weapon': 'WW.Weapon.Label',
-  'armor': 'WW.Armor.Label',
+  'armor': 'WW.Equipment.Armor.Label',
   'consumable': 'WW.Equipment.Consumable',
   'container': 'WW.Equipment.Container'
 };
@@ -86,9 +86,9 @@ WW.WEAPON_REQUIREMENTS = {
 };
 
 WW.WEAPON_GRIPS = {
-  'One': 'WW.Weapon.GripOne',
-  'Two': 'WW.Weapon.GripTwo',
-  'Off': 'WW.Weapon.GripOff'
+  'One': 'WW.Weapon.Grip.One',
+  'Two': 'WW.Weapon.Grip.Two',
+  'Off': 'WW.Weapon.Grip.Off'
 };
 
 WW.WEAPON_TRAITS = {
@@ -185,9 +185,9 @@ WW.WEAPON_TRAITS = {
 };
 
 WW.ARMOR_TYPES = {
-  'light': 'WW.Armor.Light',
-  'medium': 'WW.Armor.Medium',
-  'heavy': 'WW.Armor.Heavy'
+  'light': 'WW.Equipment.Armor.Light',
+  'medium': 'WW.Equipment.Armor.Medium',
+  'heavy': 'WW.Equipment.Armor.Heavy'
 }
 
 /* Item Automations */
@@ -324,26 +324,26 @@ WW.EFFECT_TARGETS_TARGETED = {
 
 WW.EFFECT_DURATIONS = {
   combat: {
-    header: 'WW.EffectDurations.Combat.Header',
+    header: 'WW.Effect.Duration.Combat.Header',
     options: {
-      'luckEnds': 'WW.EffectDurations.Combat.LuckEnds',
-      '1round': 'WW.EffectDurations.Combat.1Round',
-      '2rounds': 'WW.EffectDurations.Combat.2Rounds',
-      'Xrounds': 'WW.EffectDurations.Combat.XRounds',
-      'turnEnd': 'WW.EffectDurations.Combat.TurnEnd',
-      'nextTriggerTurnStart': 'WW.EffectDurations.Combat.NextTriggerTurnStart',
-      'nextTargetTurnStart': 'WW.EffectDurations.Combat.NextTargetTurnStart',
-      'nextTriggerTurnEnd': 'WW.EffectDurations.Combat.NextTriggerTurnEnd',
-      'nextTargetTurnEnd': 'WW.EffectDurations.Combat.NextTargetTurnEnd'
+      'luckEnds': 'WW.Effect.Duration.Combat.LuckEnds',
+      '1round': 'WW.Effect.Duration.Combat.1Round',
+      '2rounds': 'WW.Effect.Duration.Combat.2Rounds',
+      'Xrounds': 'WW.Effect.Duration.Combat.XRounds',
+      'turnEnd': 'WW.Effect.Duration.Combat.TurnEnd',
+      'nextTriggerTurnStart': 'WW.Effect.Duration.Combat.NextTriggerTurnStart',
+      'nextTargetTurnStart': 'WW.Effect.Duration.Combat.NextTargetTurnStart',
+      'nextTriggerTurnEnd': 'WW.Effect.Duration.Combat.NextTriggerTurnEnd',
+      'nextTargetTurnEnd': 'WW.Effect.Duration.Combat.NextTargetTurnEnd'
     }
   },
   outOfCombat: {
-    header: 'WW.EffectDurations.OutOfCombat.Header',
+    header: 'WW.Effect.Duration.OutOfCombat.Header',
     options: {
-      '1minute': 'WW.EffectDurations.OutOfCombat.1Minute',
-      'minutes': 'WW.EffectDurations.OutOfCombat.Minutes',
-      'hours': 'WW.EffectDurations.OutOfCombat.Hours',
-      'days': 'WW.EffectDurations.OutOfCombat.Days'
+      '1minute': 'WW.Effect.Duration.OutOfCombat.1Minute',
+      'minutes': 'WW.Effect.Duration.OutOfCombat.Minutes',
+      'hours': 'WW.Effect.Duration.OutOfCombat.Hours',
+      'days': 'WW.Effect.Duration.OutOfCombat.Days'
     }
   }
   
@@ -351,320 +351,320 @@ WW.EFFECT_DURATIONS = {
 
 WW.EFFECT_OPTIONS = {
   boons: {
-    header: 'WW.EffectKeys.Boons.Header',
+    header: 'WW.Effect.Keys.Boons.Header',
     options: {
       'boons.str': {
         key: 'system.boons.attributes.str.global',
-        label: 'WW.EffectKeys.Boons.Strength'
+        label: 'WW.Effect.Keys.Boons.Strength'
       },
       'boons.agi': {
         key: 'system.boons.attributes.agi.global',
-        label: 'WW.EffectKeys.Boons.Agility'
+        label: 'WW.Effect.Keys.Boons.Agility'
       },
       'boons.int': {
         key: 'system.boons.attributes.int.global',
-        label: 'WW.EffectKeys.Boons.Intellect'
+        label: 'WW.Effect.Keys.Boons.Intellect'
       },
       'boons.wil': {
         key: 'system.boons.attributes.wil.global',
-        label: 'WW.EffectKeys.Boons.Will'
+        label: 'WW.Effect.Keys.Boons.Will'
       },
       'boons.luck': {
         key: 'system.boons.attributes.luck.global',
-        label: 'WW.EffectKeys.Boons.Luck'
+        label: 'WW.Effect.Keys.Boons.Luck'
       },
       'boons.attack': {
         key: 'system.boons.attacks.global',
-        label: 'WW.EffectKeys.Boons.Attack'
+        label: 'WW.Effect.Keys.Boons.Attack'
       }
     }
   },
   banes: {
-    header: 'WW.EffectKeys.Banes.Header',
+    header: 'WW.Effect.Keys.Banes.Header',
     options: {
       'banes.str': {
         key: 'system.boons.attributes.str.global',
-        label: 'WW.EffectKeys.Banes.Strength'
+        label: 'WW.Effect.Keys.Banes.Strength'
       },
       'banes.agi': {
         key: 'system.boons.attributes.agi.global',
-        label: 'WW.EffectKeys.Banes.Agility'
+        label: 'WW.Effect.Keys.Banes.Agility'
       },
       'banes.int': {
         key: 'system.boons.attributes.int.global',
-        label: 'WW.EffectKeys.Banes.Intellect'
+        label: 'WW.Effect.Keys.Banes.Intellect'
       },
       'banes.wil': {
         key: 'system.boons.attributes.wil.global',
-        label: 'WW.EffectKeys.Banes.Will'
+        label: 'WW.Effect.Keys.Banes.Will'
       },
       'banes.luck': {
         key: 'system.boons.attributes.luck.global',
-        label: 'WW.EffectKeys.Banes.Luck'
+        label: 'WW.Effect.Keys.Banes.Luck'
       },
       'banes.attack': {
         key: 'system.boons.attacks.global',
-        label: 'WW.EffectKeys.Banes.Attack'
+        label: 'WW.Effect.Keys.Banes.Attack'
       }
     }
   },
   autoFail: {
-    header: 'WW.EffectKeys.AutoFail.Header',
+    header: 'WW.Effect.Keys.AutoFail.Header',
     options: {
       'autoFail.str': {
         key: 'system.autoFail.str',
-        label: 'WW.EffectKeys.AutoFail.Strength'
+        label: 'WW.Effect.Keys.AutoFail.Strength'
       },
       'autoFail.agi': {
         key: 'system.autoFail.agi',
-        label: 'WW.EffectKeys.AutoFail.Agility'
+        label: 'WW.Effect.Keys.AutoFail.Agility'
       },
       'autoFail.int': {
         key: 'system.autoFail.int',
-        label: 'WW.EffectKeys.AutoFail.Intellect'
+        label: 'WW.Effect.Keys.AutoFail.Intellect'
       },
       'autoFail.wil': {
         key: 'system.autoFail.wil',
-        label: 'WW.EffectKeys.AutoFail.Will'
+        label: 'WW.Effect.Keys.AutoFail.Will'
       }
     }
   },
   boonsAgainst: {
-    header: 'WW.EffectKeys.BoonsAgainst.Header',
+    header: 'WW.Effect.Keys.BoonsAgainst.Header',
     options: {
       'boonsAgainst.def': {
         key: 'system.boons.against.def',
-        label: 'WW.EffectKeys.BoonsAgainst.Defense'
+        label: 'WW.Effect.Keys.BoonsAgainst.Defense'
       },
       'boonsAgainst.str': {
         key: 'system.boons.against.str',
-        label: 'WW.EffectKeys.BoonsAgainst.Strength'
+        label: 'WW.Effect.Keys.BoonsAgainst.Strength'
       },
       'boonsAgainst.agi': {
         key: 'system.boons.against.agi',
-        label: 'WW.EffectKeys.BoonsAgainst.Agility'
+        label: 'WW.Effect.Keys.BoonsAgainst.Agility'
       },
       'boonsAgainst.int': {
         key: 'system.boons.against.int',
-        label: 'WW.EffectKeys.BoonsAgainst.Intellect'
+        label: 'WW.Effect.Keys.BoonsAgainst.Intellect'
       },
       'boonsAgainst.wil': {
         key: 'system.boons.against.wil',
-        label: 'WW.EffectKeys.BoonsAgainst.Will'
+        label: 'WW.Effect.Keys.BoonsAgainst.Will'
       }
     }
   },
   banesAgainst: {
-    header: 'WW.EffectKeys.BanesAgainst.Header',
+    header: 'WW.Effect.Keys.BanesAgainst.Header',
     options: {
       'banesAgainst.def': {
         key: 'system.boons.against.def',
-        label: 'WW.EffectKeys.BanesAgainst.Defense'
+        label: 'WW.Effect.Keys.BanesAgainst.Defense'
       },
       'banesAgainst.str': {
         key: 'system.boons.against.str',
-        label: 'WW.EffectKeys.BanesAgainst.Strength'
+        label: 'WW.Effect.Keys.BanesAgainst.Strength'
       },
       'banesAgainst.agi': {
         key: 'system.boons.against.agi',
-        label: 'WW.EffectKeys.BanesAgainst.Agility'
+        label: 'WW.Effect.Keys.BanesAgainst.Agility'
       },
       'banesAgainst.int': {
         key: 'system.boons.against.int',
-        label: 'WW.EffectKeys.BanesAgainst.Intellect'
+        label: 'WW.Effect.Keys.BanesAgainst.Intellect'
       },
       'banesAgainst.wil': {
         key: 'system.boons.against.wil',
-        label: 'WW.EffectKeys.BanesAgainst.Will'
+        label: 'WW.Effect.Keys.BanesAgainst.Will'
       }
     }
   },
   extraDamage: {
-    header: 'WW.EffectKeys.ExtraDamage.Header',
+    header: 'WW.Effect.Keys.ExtraDamage.Header',
     options: {
       'extraDamage.dice': {
         key: 'system.extraDamage.attacks.dice',
-        label: 'WW.EffectKeys.ExtraDamage.Dice'
+        label: 'WW.Effect.Keys.ExtraDamage.Dice'
       },
       'extraDamage.mod': {
         key: 'system.extraDamage.attack.mod',
-        label: 'WW.EffectKeys.ExtraDamage.Mod'
+        label: 'WW.Effect.Keys.ExtraDamage.Mod'
       }
     }
   },
   defense: {
-    header: 'WW.EffectKeys.Defense.Header',
+    header: 'WW.Effect.Keys.Defense.Header',
     options: {
       'defense.override': {
         key: 'system.stats.defense.override',
-        label: 'WW.EffectKeys.Defense.Override'
+        label: 'WW.Effect.Keys.Defense.Override'
       },
       'defense.bonus': {
         key: 'system.stats.defense.bonus',
-        label: 'WW.EffectKeys.Defense.Bonus'
+        label: 'WW.Effect.Keys.Defense.Bonus'
       },
       'defense.armored': {
         key: 'system.stats.defense.armored',
-        label: 'WW.EffectKeys.Defense.Armored'
+        label: 'WW.Effect.Keys.Defense.Armored'
       },
       'defense.armoredIncrease': {
         key: 'system.stats.defense.armored',
-        label: 'WW.EffectKeys.Defense.ArmoredIncrease'
+        label: 'WW.Effect.Keys.Defense.ArmoredIncrease'
       },
       'defense.natural': {
         key: 'system.stats.defense.natural',
-        label: 'WW.EffectKeys.Defense.Natural'
+        label: 'WW.Effect.Keys.Defense.Natural'
       },
       'defense.naturalIncrease': {
         key: 'system.stats.defense.natural',
-        label: 'WW.EffectKeys.Defense.NaturalIncrease'
+        label: 'WW.Effect.Keys.Defense.NaturalIncrease'
       },
       'defense.naturalReduce': {
         key: 'system.stats.defense.natural',
-        label: 'WW.EffectKeys.Defense.NaturalReduce'
+        label: 'WW.Effect.Keys.Defense.NaturalReduce'
       }
     }
   },
   health: {
-    header: 'WW.EffectKeys.Health.Header',
+    header: 'WW.Effect.Keys.Health.Header',
     options: {
       'health.tempIncrease': {
         key: 'system.stats.health.bonus',
-        label: 'WW.EffectKeys.Health.TempIncrease'
+        label: 'WW.Effect.Keys.Health.TempIncrease'
       },
       'health.tempReduce': {
         key: 'system.stats.health.lost',
-        label: 'WW.EffectKeys.Health.TempReduce'
+        label: 'WW.Effect.Keys.Health.TempReduce'
       },
       'health.override': {
         key: 'system.stats.health.override',
-        label: 'WW.EffectKeys.Health.Override'
+        label: 'WW.Effect.Keys.Health.Override'
       },
       'health.starting': {
         key: 'system.stats.health.normal',
-        label: 'WW.EffectKeys.Health.Starting'
+        label: 'WW.Effect.Keys.Health.Starting'
       },
       'health.increase': {
         key: 'system.stats.health.normal',
-        label: 'WW.EffectKeys.Health.Increase'
+        label: 'WW.Effect.Keys.Health.Increase'
       }
     }
   },
   speed: {
-    header: 'WW.EffectKeys.Speed.Header',
+    header: 'WW.Effect.Keys.Speed.Header',
     options: {
       'speed.tempIncrease': {
         key: 'system.stats.speed.current',
-        label: 'WW.EffectKeys.Speed.TempIncrease'
+        label: 'WW.Effect.Keys.Speed.TempIncrease'
       },
       'speed.tempReduce': {
         key: 'system.stats.speed.current',
-        label: 'WW.EffectKeys.Speed.TempReduce'
+        label: 'WW.Effect.Keys.Speed.TempReduce'
       },
       'speed.halved': {
         key: 'system.stats.speed.halved',
-        label: 'WW.EffectKeys.Speed.Halved'
+        label: 'WW.Effect.Keys.Speed.Halved'
       },
       'speed.override': {
         key: 'system.stats.speed.current',
-        label: 'WW.EffectKeys.Speed.Override'
+        label: 'WW.Effect.Keys.Speed.Override'
       },
       'speed.normal': {
         key: 'system.stats.speed.normal',
-        label: 'WW.EffectKeys.Speed.Normal'
+        label: 'WW.Effect.Keys.Speed.Normal'
       },
       'speed.increase': {
         key: 'system.stats.speed.normal',
-        label: 'WW.EffectKeys.Speed.Increase'
+        label: 'WW.Effect.Keys.Speed.Increase'
       }
     }
   },
   size: {
-    header: 'WW.EffectKeys.Size.Header',
+    header: 'WW.Effect.Keys.Size.Header',
     options: {
       'size.increase': {
         key: 'system.stats.size',
-        label: 'WW.EffectKeys.Size.Increase'
+        label: 'WW.Effect.Keys.Size.Increase'
       },
       'size.override': {
         key: 'system.stats.size',
-        label: 'WW.EffectKeys.Size.Override'
+        label: 'WW.Effect.Keys.Size.Override'
       },
       'size.normal': {
         key: 'system.stats.size',
-        label: 'WW.EffectKeys.Size.Normal'
+        label: 'WW.Effect.Keys.Size.Normal'
       },
     }
   },
   bonusDamage: {
-    header: 'WW.EffectKeys.BonusDamage.Header',
+    header: 'WW.Effect.Keys.BonusDamage.Header',
     options: {
       'bonusDamage.increase': {
         key: 'system.stats.bonusDamage',
-        label: 'WW.EffectKeys.BonusDamage.Increase'
+        label: 'WW.Effect.Keys.BonusDamage.Increase'
       }
     }
   },
   upgradeAttribute: {
-    header: 'WW.EffectKeys.UpgradeAttribute.Header',
+    header: 'WW.Effect.Keys.UpgradeAttribute.Header',
     options: {
       'upgradeAttribute.str': {
         key: 'system.attributes.str.value',
-        label: 'WW.EffectKeys.UpgradeAttribute.Strength'
+        label: 'WW.Effect.Keys.UpgradeAttribute.Strength'
       },
       'upgradeAttribute.agi': {
         key: 'system.attributes.agi.value',
-        label: 'WW.EffectKeys.UpgradeAttribute.Agility'
+        label: 'WW.Effect.Keys.UpgradeAttribute.Agility'
       },
       'upgradeAttribute.int': {
         key: 'system.attributes.int.value',
-        label: 'WW.EffectKeys.UpgradeAttribute.Intellect'
+        label: 'WW.Effect.Keys.UpgradeAttribute.Intellect'
       },
       'upgradeAttribute.wil': {
         key: 'system.attributes.wil.value',
-        label: 'WW.EffectKeys.UpgradeAttribute.Will'
+        label: 'WW.Effect.Keys.UpgradeAttribute.Will'
       }
     }
   },
   downgradeAttribute: {
-    header: 'WW.EffectKeys.DowngradeAttribute.Header',
+    header: 'WW.Effect.Keys.DowngradeAttribute.Header',
     options: {
       'downgradeAttribute.str': {
         key: 'system.attributes.str.value',
-        label: 'WW.EffectKeys.DowngradeAttribute.Strength'
+        label: 'WW.Effect.Keys.DowngradeAttribute.Strength'
       },
       'downgradeAttribute.agi': {
         key: 'system.attributes.agi.value',
-        label: 'WW.EffectKeys.DowngradeAttribute.Agility'
+        label: 'WW.Effect.Keys.DowngradeAttribute.Agility'
       },
       'downgradeAttribute.int': {
         key: 'system.attributes.int.value',
-        label: 'WW.EffectKeys.DowngradeAttribute.Intellect'
+        label: 'WW.Effect.Keys.DowngradeAttribute.Intellect'
       },
       'downgradeAttribute.wil': {
         key: 'system.attributes.wil.value',
-        label: 'WW.EffectKeys.DowngradeAttribute.Will'
+        label: 'WW.Effect.Keys.DowngradeAttribute.Will'
       }
     }
   },
   overrideAttribute: {
-    header: 'WW.EffectKeys.OverrideAttribute.Header',
+    header: 'WW.Effect.Keys.OverrideAttribute.Header',
     options: {
       'overrideAttribute.str': {
         key: 'system.attributes.str.value',
-        label: 'WW.EffectKeys.OverrideAttribute.Strength'
+        label: 'WW.Effect.Keys.OverrideAttribute.Strength'
       },
       'overrideAttribute.agi': {
         key: 'system.attributes.agi.value',
-        label: 'WW.EffectKeys.OverrideAttribute.Agility'
+        label: 'WW.Effect.Keys.OverrideAttribute.Agility'
       },
       'overrideAttribute.int': {
         key: 'system.attributes.int.value',
-        label: 'WW.EffectKeys.OverrideAttribute.Intellect'
+        label: 'WW.Effect.Keys.OverrideAttribute.Intellect'
       },
       'overrideAttribute.wil': {
         key: 'system.attributes.wil.value',
-        label: 'WW.EffectKeys.OverrideAttribute.Will'
+        label: 'WW.Effect.Keys.OverrideAttribute.Will'
       }
     }
   },
