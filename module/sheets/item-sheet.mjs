@@ -206,7 +206,7 @@ export default class WWItemSheet extends ItemSheet {
 
         // Add help button
         buttons.splice(sheetIndex, 0, {
-          label: "WW.Help",
+          label: "WW.System.Help",
           class: "help",
           icon: "fas fa-question",
           onclick: ev => this._onHelp(ev)
@@ -293,8 +293,8 @@ export default class WWItemSheet extends ItemSheet {
 
     // Open a dialog to confirm
     const confirm = await Dialog.confirm({
-      title: i18n('WW.CharOption.Reference.Remove.Title'),
-      content: `<p>${i18n('WW.CharOption.Reference.Remove.Msg')}</p><p class="dialog-sure">${i18n('WW.CharOption.Reference.Remove.Confirm')}</p>`
+      title: i18n('WW.CharOption.Reference.RemoveDialog.Title'),
+      content: `<p>${i18n('WW.CharOption.Reference.RemoveDialog.Msg')}</p><p class="dialog-sure">${i18n('WW.CharOption.Reference.RemoveDialog.Confirm')}</p>`
     });
 
     if (!confirm) return;
@@ -354,7 +354,7 @@ export default class WWItemSheet extends ItemSheet {
     console.log(this.document.system.benefits)
     console.log(arrPath)
     console.log(oldArray)
-    const defaultName = (arrPath.includes('languages') && !oldArray.length) ? i18n('WW.Languages.Common') : i18n('WW.' + dataset.loc + '.New'),
+    const defaultName = (arrPath.includes('languages') && !oldArray.length) ? i18n('WW.Detail.Language.Common') : i18n('WW.Detail.' + dataset.loc + '.New'),
       arr = [...oldArray, { name: defaultName }];
     
     // Update document

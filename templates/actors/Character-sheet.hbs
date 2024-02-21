@@ -5,7 +5,7 @@
         
         <div class="header-fields">
             <div class="character-header-plate">
-                <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.ActorName"}}"/></h1>
+                <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.Actor.Name"}}"/></h1>
                 
                 <div class="character-subtitle">{{localize "WW.Stats.Level"}} {{level}} {{system.details.ancestry}}{{#if system.details.novice}} {{system.details.novice}}{{/if}}</div>
             </div>
@@ -140,16 +140,15 @@
     <div>
         <nav class="sheet-tabs tabs" data-group="primary">{{!-- Sheet Tab Navigation --}}
             <div>
-                <a class="item" data-tab="summary">{{localize "WW.Stats.Summary"}}</a>
-            {{!--<a class="item" data-tab="stats">{{localize "WW.Stats"}}</a>--}}
-            <a class="item" data-tab="details">{{localize "WW.Details.Label"}}</a>
-            <a class="item" data-tab="equipment">{{localize "WW.Equipment.Label"}}</a>
+                <a class="item" data-tab="summary">{{localize "WW.Actor.Summary"}}</a>
+                <a class="item" data-tab="details">{{localize "WW.Actor.Details"}}</a>
+                <a class="item" data-tab="equipment">{{localize "WW.Equipment.Label"}}</a>
             </div>
             
             <div>
                 <a class="item" data-tab="talents">{{localize "WW.Talents.Label"}}</a>
-            <a class="item" data-tab="spells">{{localize "WW.Spells.Label"}}</a>
-            <a class="item" data-tab="effects">{{localize "WW.Effects.Label"}}</a>    
+                <a class="item" data-tab="spells">{{localize "WW.Spells.Label"}}</a>
+                <a class="item" data-tab="effects">{{localize "WW.Effects.Label"}}</a>
             </div>
             
         </nav>
@@ -161,11 +160,6 @@
             <div class="tab summary" data-group="primary" data-tab="summary">
                 {{> "systems/weirdwizard/templates/actors/parts/Character-summary.hbs"}}
             </div>
-
-            {{!-- Stats Tab --}}
-            {{!--<div class="tab stats" data-group="primary" data-tab="stats">
-                {{> "systems/weirdwizard/templates/actors/parts/Character-stats.hbs"}}
-            </div>--}}
 
             {{!-- Details Tab --}}
             <div class="tab details" data-group="primary" data-tab="details">

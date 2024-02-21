@@ -18,17 +18,17 @@
 
             {{!-- Type(s) --}}
             <h4 class="list-entries mb-0">
-                <label>{{localize "WW.Types.Label"}}</label>
+                <label>{{localize "WW.Detail.Type.Label"}}</label>
 
                 {{#each system.details.types as |detail id|}}
                 <span class="list-entry">
                 
                     <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
                         <a class="array-button" data-action="edit" data-array="details.types" data-entry-id="{{id}}"
-                            title="{{localize "WW.Types.Edit"}}"><i class="fas fa-edit"></i></a>
+                            title="{{localize "WW.Detail.Type.Edit"}}"><i class="fas fa-edit"></i></a>
                 
                         <a class="array-button" data-action="remove" data-array="details.types" data-entry-id="{{id}}"
-                            title="{{localize "WW.Types.Remove"}}"><i class="fas fa-trash"></i></a>
+                            title="{{localize "WW.Detail.Type.Remove"}}"><i class="fas fa-trash"></i></a>
                     </span>
 
                 </span>
@@ -36,8 +36,8 @@
                 
                 {{#unless system.details.types.length}}—{{/unless}}
                 
-                <a class="array-button" data-action="add" data-array="details.types" data-loc="Types"
-                    title="{{localize "WW.Types.Add"}}"><i class="fas fa-circle-plus"></i></a>
+                <a class="array-button" data-action="add" data-array="details.types" data-loc="Type"
+                    title="{{localize "WW.Detail.Type.Add"}}"><i class="fas fa-circle-plus"></i></a>
 
             </h4>
 
@@ -145,17 +145,17 @@
 
             {{!-- Senses --}}
             <div class="stat-inline list-entries">
-                <label>{{localize "WW.Senses.Label"}}</label>
+                <label>{{localize "WW.Detail.Sense.Label"}}</label>
 
                 {{#each system.details.senses as |detail id|}}
                 <span class="list-entry">
                 
                     <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
                         <a class="array-button" data-action="edit" data-array="details.senses" data-entry-id="{{id}}"
-                            title="{{localize "WW.Senses.Edit"}}"><i class="fas fa-edit"></i></a>
+                            title="{{localize "WW.Detail.Sense.Edit"}}"><i class="fas fa-edit"></i></a>
                 
                         <a class="array-button" data-action="remove" data-array="details.senses" data-entry-id="{{id}}"
-                            title="{{localize "WW.Senses.Remove"}}"><i class="fas fa-trash"></i></a>
+                            title="{{localize "WW.Detail.Sense.Remove"}}"><i class="fas fa-trash"></i></a>
                     </span>{{#unless @last}},{{/unless}}
 
                 </span>
@@ -163,50 +163,50 @@
                 
                 {{#unless system.details.senses.length}}—{{/unless}}
                 
-                <a class="array-button" data-action="add" data-array="details.senses" data-loc="Senses"
-                    title="{{localize "WW.Senses.Add"}}"><i class="fas fa-circle-plus"></i></a>
+                <a class="array-button" data-action="add" data-array="details.senses" data-loc="Sense"
+                    title="{{localize "WW.Detail.Sense.Add"}}"><i class="fas fa-circle-plus"></i></a>
 
             </div>
 
             {{!-- Languages --}}
             <div class="stat-inline list-entries">
                 
-                <label>{{localize "WW.Languages.Label"}}</label>
+                <label>{{localize "WW.Detail.Language.Label"}}</label>
                 
                 {{#each system.details.languages as |detail id|}}
                 <span class="list-entry">
                 
                     <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
                         <a class="array-button" data-action="edit" data-array="details.languages" data-entry-id="{{id}}"
-                            title="{{localize "WW.Languages.Edit"}}"><i class="fas fa-edit"></i></a>
+                            title="{{localize "WW.Detail.Language.Edit"}}"><i class="fas fa-edit"></i></a>
                 
                         <a class="array-button" data-action="remove" data-array="details.languages" data-entry-id="{{id}}"
-                            title="{{localize "WW.Languages.Remove"}}"><i class="fas fa-trash"></i></a>
+                            title="{{localize "WW.Detail.Language.Remove"}}"><i class="fas fa-trash"></i></a>
                     </span>{{#unless @last}},{{/unless}}
                 </span>
                 {{/each}}
                 
                 {{#unless system.details.languages.length}}—{{/unless}}
                 
-                <a class="array-button" data-action="add" data-array="details.languages" data-loc="Languages"
-                    title="{{localize "WW.Languages.Add"}}"><i class="fas fa-circle-plus"></i></a>
+                <a class="array-button" data-action="add" data-array="details.languages" data-loc="Language"
+                    title="{{localize "WW.Detail.Language.Add"}}"><i class="fas fa-circle-plus"></i></a>
 
             </div>
 
             {{!-- Immune --}}
             <div class="stat-inline list-entries">
 
-                <label>{{localize "WW.Immune.Label"}}</label>
+                <label>{{localize "WW.Detail.Immune.Label"}}</label>
 
                 {{#each system.details.immune as |detail id|}}
                 <span class="list-entry">
                     
                     <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
                         <a class="array-button" data-action="edit" data-array="details.immune" data-entry-id="{{id}}"
-                            title="{{localize "WW.Immune.Edit"}}"><i class="fas fa-edit"></i></a>
+                            title="{{localize "WW.Detail.Immune.Edit"}}"><i class="fas fa-edit"></i></a>
                             
                         <a class="array-button" data-action="remove" data-array="details.immune" data-entry-id="{{id}}"
-                            title="{{localize "WW.Immune.Remove"}}"><i class="fas fa-trash"></i></a>
+                            title="{{localize "WW.Detail.Immune.Remove"}}"><i class="fas fa-trash"></i></a>
                     </span>{{#unless @last}},{{/unless}}
 
                 </span>
@@ -215,7 +215,7 @@
                 {{#unless system.details.immune.length}}—{{/unless}}
 
                 <a class="array-button" data-action="add" data-array="details.immune" data-loc="Immune"
-                    title="{{localize "WW.Immune.Add"}}"><i class="fas fa-circle-plus"></i></a>        
+                    title="{{localize "WW.Detail.Immune.Add"}}"><i class="fas fa-circle-plus"></i></a>        
 
             </div>
 
@@ -229,7 +229,7 @@
                 </select>
                 
                 {{!-- Speed --}}
-                <label class="ml-1">{{localize "WW.Movement.Speed"}}</label>
+                <label class="ml-1">{{localize "WW.Stats.Speed"}}</label>
 
                 {{system.stats.speed.current}}
                 <span class="stat-edit">{{localize "WW.Stats.Normal"}}: <input type="number" name="system.stats.speed.normal" value="{{system.stats.speed.normal}}" min="0" /></span>

@@ -4,8 +4,7 @@
   <header class="sheet-header">
     <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
     <div class="header-fields">
-      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "
-          WW.ItemName"}}" /></h1>
+      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.Item.Name"}}" /></h1>
   
       <div class="item-type">
         {{localize "WW.Profession.Label"}}
@@ -29,9 +28,9 @@
     
     </div>
 
-    {{!-- Bonus Languages --}}
+    {{!-- Bonus Detail.Language. --}}
     <div class="stat-inline list-entries">
-      <label>{{localize "WW.Languages.Bonus"}}</label>
+      <label>{{localize "WW.Detail.Language.Bonus"}}</label>
   
       
       
@@ -40,16 +39,16 @@
       
         <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
           <a class="array-button" data-action="edit" data-array="benefits.benefit1.languages" data-entry-id="{{id}}"
-            title="{{localize "WW.Languages.Edit"}}"><i class="fas fa-edit"></i></a>
+            title="{{localize "WW.Detail.Language.Edit"}}"><i class="fas fa-edit"></i></a>
       
           <a class="array-button" data-action="remove" data-array="benefits.benefit1.languages" data-entry-id="{{id}}"
-            title="{{localize "WW.Languages.Remove"}}"><i class="fas fa-trash"></i></a>
+            title="{{localize "WW.Detail.Language.Remove"}}"><i class="fas fa-trash"></i></a>
         </span>{{#unless @last}},{{/unless}}
       </span>
       {{/each}}{{#unless benefits.benefit1.languages.length}}—{{/unless}}
       
-      <a class="array-button" data-action="add" data-array="benefits.benefit1.languages" data-loc="Languages"
-        title="{{localize "WW.Languages.Add"}}"><i class="fas fa-circle-plus"></i></a>
+      <a class="array-button" data-action="add" data-array="benefits.benefit1.languages" data-loc="Language"
+        title="{{localize "WW.Detail.Language.Add"}}"><i class="fas fa-circle-plus"></i></a>
   
     </div>
   

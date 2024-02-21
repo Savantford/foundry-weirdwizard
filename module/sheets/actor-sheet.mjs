@@ -73,9 +73,9 @@ export default class WWActorSheet extends ActorSheet {
     context.dead = context.actor.dead;
 
     // Prepare numbersArr, Level and Size
-    context.numbersArr = Object.entries(CONFIG.WW.dropdownNumbers).map(([k, v]) => ({key: k, label: v})).sort((a,b) => a.key - b.key);
-    context.level = CONFIG.WW.dropdownNumbers[context.system.stats.level];
-    context.size = CONFIG.WW.dropdownNumbers[context.system.stats.size];
+    context.numbersArr = Object.entries(CONFIG.WW.FRACTION_NUMBERS).map(([k, v]) => ({key: k, label: v})).sort((a,b) => a.key - b.key);
+    context.level = CONFIG.WW.FRACTION_NUMBERS[context.system.stats.level];
+    context.size = CONFIG.WW.FRACTION_NUMBERS[context.system.stats.size];
 
     // Prepare hasEffect for use in templates
     context.hasEffect = {};
@@ -652,8 +652,8 @@ export default class WWActorSheet extends ActorSheet {
 
   async _onItemDelete(item, button) {
     const confirm = await Dialog.confirm({
-      title: i18n('WW.Item.Delete.Title'),
-      content: i18n('WW.Item.Delete.Msg') + ' <b>' + item.name + '</b>. ' + i18n('WW.Item.Delete.Msg2') + '<p class="dialog-sure">' + i18n('WW.Item.Delete.Confirm') + " " + item.name + '?</p>'
+      title: i18n('WW.Item.Delete.Dialog.Title'),
+      content: i18n('WW.Item.Delete.Dialog.Msg') + ' <b>' + item.name + '</b>. ' + i18n('WW.Item.Delete.Dialog.Msg2') + '<p class="dialog-sure">' + i18n('WW.Item.Delete.Dialog.Confirm') + " " + item.name + '?</p>'
     });
 
     if (!confirm) return;
