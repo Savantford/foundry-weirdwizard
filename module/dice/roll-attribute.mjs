@@ -29,7 +29,7 @@ export default class RollAttribute extends FormApplication {
     // Assign label, name, etc
     this.label = obj.label;
     this.content = obj.content;
-    this.name = attKey == 'luck' ? 'Luck' : this.system.attributes[attKey].label;
+    this.name = attKey == 'luck' ? i18n('WW.Attributes.Luck') : this.system.attributes[attKey].label;
     this.effectBoonsGlobal = this.system.boons.attributes[attKey].global ?
       this.system.boons.attributes[attKey].global : 0;
     this.attackBoons = this.system.boons.attacks.global;
@@ -405,19 +405,19 @@ export default class RollAttribute extends FormApplication {
         break;
       }
       case 'str': {
-        againstDisplay += i18n('WW.Strength');
+        againstDisplay += i18n('WW.Attributes.Strength');
         break;
       }
       case 'agi': {
-        againstDisplay += i18n('WW.Agility');
+        againstDisplay += i18n('WW.Attributes.Agility');
         break;
       }
       case 'int': {
-        againstDisplay += i18n('WW.Intellect');
+        againstDisplay += i18n('WW.Attributes.Intellect');
         break;
       }
       case 'wil': {
-        againstDisplay += i18n('WW.Will');
+        againstDisplay += i18n('WW.Attributes.Will');
         break;
       }
     }

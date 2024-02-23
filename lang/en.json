@@ -45,6 +45,8 @@
 "WW.Defense.Bonus": "Bonus to Defense",
 "WW.Defense.Details": "(armor, if any, shield, if any)",
 
+"WW.Dialog.Cancel": "Cancel",
+
 "WW.Health.Label": "Health",
 "WW.Health.Normal": "Normal Health Score",
 "WW.Health.Current": "Current Health Score",
@@ -73,7 +75,7 @@
 "WW.Damage.AttackMod": "Extra Damage modifier for Attacks",
 "WW.Damage.OtherDice": "Extra Damage dice (Other sources)",
 "WW.Damage.OtherMod": "Extra Damage modifier (Other sources)",
-"WW.Damage.Of": "Damage of",
+"WW.Damage.Of": "Damage of {name}",
 "WW.Damage.BothHands": "In Both Hands (Versatile)",
 
 "WW.Rest.Label": "Rest",
@@ -116,7 +118,7 @@
 "WW.Detail.Tradition.Label": "Traditions",
 "WW.Detail.Tradition.New": "New Tradition",
 "WW.Detail.Tradition.Add": "Add new tradition",
-"WW.Detail.Tradition.Edit": "Edit immunity",
+"WW.Detail.Tradition.Edit": "Edit tradition",
 "WW.Detail.Tradition.Remove": "Remove tradition",
 
 "WW.Item.Name": "Name",
@@ -143,7 +145,7 @@
 "WW.Item.Add.Equipment": "Add Equipment",
 "WW.Item.Add.Weapon": "Add Weapon",
 "WW.Item.Add.Spell": "Add Spell",
-"WW.Item.Add.Attack": "Add Weapon",
+"WW.Item.Add.Attack": "Add Attack",
 "WW.Item.Add.Ancestry": "Add Ancestry",
 "WW.Item.Add.Profession": "Add Profession",
 "WW.Item.Add.NovicePath": "Add Novice Path",
@@ -154,7 +156,7 @@
 "WW.Item.Edit.Equipment": "Edit Equipment",
 "WW.Item.Edit.Weapon": "Edit Weapon",
 "WW.Item.Edit.Spell": "Edit Spell",
-"WW.Item.Edit.Attack": "Edit Weapon",
+"WW.Item.Edit.Attack": "Edit Attack",
 "WW.Item.Edit.Fury": "Edit Fury",
 "WW.Item.Edit.Ancestry": "Edit Ancestry",
 "WW.Item.Edit.Profession": "Edit Profession",
@@ -170,9 +172,8 @@
 "WW.Item.Delete.MasterPath": "Remove Master Path",
 
 "WW.Item.Delete.Dialog.Title": "Delete Item",
-"WW.Item.Delete.Dialog.Msg": "You are about to delete",
-"WW.Item.Delete.Dialog.Msg2": "This action is irreversible.",
-"WW.Item.Delete.Dialog.Confirm": "Are you sure you want to delete",
+"WW.Item.Delete.Dialog.Msg": "You are about to delete {name}. This action is irreversible.",
+"WW.Item.Delete.Dialog.Confirm": "Are you sure you want to delete {name}?",
 
 "WW.Item.Uses.TalentSpend": "Spend use/token",
 "WW.Item.Uses.TalentRecover": "Recover use/token",
