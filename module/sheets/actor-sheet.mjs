@@ -653,7 +653,7 @@ export default class WWActorSheet extends ActorSheet {
   async _onItemDelete(item, button) {
     const confirm = await Dialog.confirm({
       title: i18n('WW.Item.Delete.Dialog.Title'),
-      content: i18n('WW.Item.Delete.Dialog.Msg') + ' <b>' + item.name + '</b>. ' + i18n('WW.Item.Delete.Dialog.Msg2') + '<p class="dialog-sure">' + i18n('WW.Item.Delete.Dialog.Confirm') + " " + item.name + '?</p>'
+      content: i18n('WW.Item.Delete.Dialog.Msg', {name: '<b>' + item.name + '</b>'}) + '<p class="dialog-sure">' + i18n('WW.Item.Delete.Dialog.Confirm', {name: item.name}) + '</p>'
     });
 
     if (!confirm) return;
@@ -767,7 +767,7 @@ export default class WWActorSheet extends ActorSheet {
 
     const arrPath = 'system.' + dataset.array,
       oldArray = foundry.utils.getProperty(this.document, arrPath),
-      defaultName = (arrPath.includes('languages') && !oldArray.length) ? i18n('WW.Languages.Common') : i18n('WW.' + dataset.loc + '.New'),
+      defaultName = (arrPath.includes('languages') && !oldArray.length) ? i18n('WW.Detail.Language.Common') : i18n('WW.Detail.' + dataset.loc + '.New'),
       arr = [...oldArray, { name: defaultName }];
     
     // Update document

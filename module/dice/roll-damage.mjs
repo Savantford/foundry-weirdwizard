@@ -117,7 +117,7 @@ export default class RollDamage extends FormApplication {
     //const finalExp = event.target.querySelector('.damage-expression').innerHTML;
 
     // Prepare apply button.
-    const labelHtml = i18n('WW.Damage.Of') + ' ' + '<span class="owner-only">' + this.item.name + '</span><span class="non-owner-only">? ? ?</span>';
+    const labelHtml = i18n('WW.Damage.Of', { name: '<span class="owner-only">' + this.item.name + '</span><span class="non-owner-only">? ? ?</span>' });
 
     const dataset = {
       action: 'apply-damage',
