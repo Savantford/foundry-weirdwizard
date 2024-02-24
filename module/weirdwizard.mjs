@@ -301,8 +301,7 @@ Hooks.on('renderChatMessage', (app, html) => {
 
   // Initialize chat message listeners
   initChatListeners(html, app);
-
-})
+});
 
 /* -------------------------------------------- */
 /*  Misc Hooks                                  */
@@ -328,7 +327,35 @@ Hooks.on('updateWorldTime', (worldTime, dt, options, userId) => {
   expireFromTokens();
 
   if (ui.questcalendar?.rendered) ui.questcalendar.render();
-})
+});
+
+Hooks.on('renderSettingsConfig', (app, html, data) => {
+  // Add sections to settings dialog by iterating all *our* settings, stripping the module/system ID,
+  // then checking whether they have the format '<section>.setting'.
+  // If so, we check whether the section matches the last section we saw;
+  // otherwise, this is a new section and we insert a new section header.
+  let lastSectionID = '';
+  const wwSettings = html.find(`.tab[data-tab=system] .form-group`)
+  wwSettings.each((i, value) => {
+    const setting = (value.getAttribute('data-setting-id') || '').replace(/^(weirdwizard\.)/, '');
+    if (!setting || setting.indexOf('.') < 1) {
+      return;
+    }
+    const section = setting.split('.')[0];
+    if (section !== lastSectionID) {
+      const key = 'WW.Settings.Section.' + section;
+      const hintKey = key + 'Hint';
+      let hint = game.i18n.localize(hintKey)
+      if (hint !== hintKey) {
+        hint = `<p class="notes">${hint}</p>`;
+      } else {
+        hint = '';
+      }
+      wwSettings.eq(i).before(`<h3>${game.i18n.localize(key)}</h3>${hint}`);
+      lastSectionID = section;
+    }
+  });
+});
 
 /* -------------------------------------------- */
 /*  External Module Hooks                       */
