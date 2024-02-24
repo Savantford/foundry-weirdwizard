@@ -42,9 +42,13 @@ export default class WWCombatant extends Combatant {
     /*if ( token.object ) await token.object.toggleEffect(effect, {overlay: true, active: taking});
     else await token.toggleActiveEffect(effect, {overlay: true, active: taking});*/
     
+    let msg = i18n('WW.Combat.Turn.Msg', {name: '<b>' + token.actor.name + '</b>'});
+    if (taking) {
+      msg = i18n('WW.Combat.Initiative.ChatMsg', {name: '<b>' + token.actor.name + '</b>'});
+    }
     // Send to chat
     ChatMessage.create({
-      content: '<div><b>' + token.actor.name + '</b> ' + (taking ? i18n('WW.Combat.Initiative.Msg') : i18n('WW.Combat.Turn.Msg')) + '.</div>',
+      content: '<div>' + msg + '</div>',
       sound: CONFIG.sounds.notification
     });
 
