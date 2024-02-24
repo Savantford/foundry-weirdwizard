@@ -175,7 +175,6 @@
 
 .weirdwizard.sheet.actor {
   min-width: 600px;
-  min-height: 480px;
 }
 
 .auto-grid-2 {
@@ -285,6 +284,10 @@
   background: var(--background);
   font-family: var(--font-body);
   font-size: 14px;
+}
+
+.weirdwizard.sheet.actor .window-content {
+  overflow-y: scroll;
 }
 
 .weirdwizard .window-content h1 {
@@ -452,10 +455,17 @@
 }
 
 .weirdwizard .sheet input:not(:hover):not(:focus),
-.weirdwizard .sheet select:not(:hover):not(:focus) {
+.weirdwizard .sheet select:not(:hover):not(:focus),
+.weirdwizard .sheet textarea:not(:hover):not(:focus) {
   background: none;
-  border: none;
+  border: 1px solid transparent;
   padding: 0px;
+}
+
+.weirdwizard .sheet textarea {
+  font-family: inherit;
+  font-size: inherit;
+  min-height: 1lh;
 }
 
 /* Quick Styles */
@@ -595,8 +605,8 @@
 }
 
 .weirdwizard .character-sheet {
-  display: grid;
-  grid-template-columns: 250px auto;
+  display: flex;
+  flex-direction: row;
   gap: 10px;
   padding: 0;
 }
@@ -625,13 +635,13 @@
 .weirdwizard .character-header {
   flex-direction: column !important;
   text-align: center;
-  /*width: 250px;
-  margin-right: 10px;*/
+  height: fit-content;
+  flex: 0 250px;
 }
 
 .weirdwizard .character-header .header-fields {
-  position: fixed;
   width: 250px;
+  position: fixed;
 }
 
 .weirdwizard .character-subtitle {
@@ -741,16 +751,53 @@
   border-bottom: 0;
 }
 
+.weirdwizard .sheet-header h1.charname input {
+  padding: 0;
+  margin: 0;
+  font-weight: bold;
+  height: 100%;
+}
+
 .weirdwizard .character-header h1.charname {
   height: 100%;
   margin: 0 0 5px;
+  display: grid;
 }
 
-.weirdwizard .sheet-header h1.charname input {
+.weirdwizard .character-header h1.charname .textarea-overlay {
+  content: attr(data-replicated-value) " ";
+  white-space: pre-wrap;
+  visibility: hidden;
+  pointer-events: none;
+  text-transform: none;
+}
+
+.weirdwizard .character-header h1.charname > textarea {
+  resize: none;
+  overflow: hidden;
+}
+
+.weirdwizard .character-header h1.charname > textarea,
+.weirdwizard .character-header h1.charname .textarea-overlay {
+  /* Identical styling required!! */
+  font: inherit;
   width: 100%;
   height: 100%;
   margin: 0;
   font-weight: bold;
+  text-align: center;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+
+  /* Place on top of each other */
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.weirdwizard .character-header h1.charname > textarea,
+.weirdwizard .character-header h1.charname .textarea-overlay,
+.weirdwizard .character-header h1.charname > textarea:not(:hover):not(:focus),
+.weirdwizard .character-header h1.charname:not(:hover):not(:focus) .textarea-overlay {
+  padding: 0;
 }
 
 .weirdwizard .character-stats,
@@ -1167,7 +1214,7 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard .described-list .buttons > a,
 .weirdwizard .compact-list .buttons > a,
 .weirdwizard .compact-list .buttons > a,
-.weirdwizard .list-entries span .buttons > a,
+.weirdwizard .list-entries .buttons > a,
 .weirdwizard .list-entries .array-button[data-action="add"],
 .weirdwizard .list-entries .item-create,
 .weirdwizard .statbox h4 .item-create,
@@ -1180,7 +1227,7 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard .described-list:hover .buttons > a,
 .weirdwizard .compact-list:hover .buttons > a,
 .weirdwizard .compact-list:hover .buttons > a,
-.weirdwizard .list-entries span:hover .buttons > a,
+.weirdwizard .list-entries:hover .buttons > a,
 .weirdwizard .list-entries:hover .array-button[data-action="add"],
 .weirdwizard .list-entries:hover .item-create,
 .weirdwizard .statbox:hover h4 .item-create,
@@ -1189,12 +1236,8 @@ input[type="checkbox"].checkbox-uses {
   display: inline-block;
 }
 
-.weirdwizard .list-entry .buttons > a {
-  display: none;
-}
-
-.weirdwizard .list-entry:hover .buttons > a {
-  display: inline;
+.weirdwizard .list-entries:hover .buttons {
+  margin: 0 5px;
 }
 
 .weirdwizard .pip-box .fas,
@@ -1374,10 +1417,6 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard .list-entries span {
   white-space: nowrap;
-}
-
-.weirdwizard .list-entry:hover .buttons {
-  margin: 0 5px;
 }
 
 .weirdwizard .list-entries label {
