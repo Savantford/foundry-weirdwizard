@@ -674,8 +674,9 @@
 
 "WW.Combat.Tip.RightClick": "Right click for context options.",
 "WW.Combat.Tip.FinishTurn": "Finish Your Turn",
-"WW.Combat.Tip.SkipActed": "Skip Acted?",
-"WW.Combat.Tip.SkipActedHint": "Automatically bypass combatants who acted already during this round.",
+
+"WW.Settings.Combat.SkipActed": "Skip Acted?",
+"WW.Settings.Combat.SkipActedHint": "Automatically bypass combatants who already acted during this round.",
 
 "WW.System.Help": "Help",
 

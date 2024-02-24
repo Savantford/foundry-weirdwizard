@@ -136,8 +136,8 @@ Hooks.once('init', function () {
 
   // Register system settings
   game.settings.register('weirdwizard', 'skipActed', {
-    name: 'WW.Combat.Skip',
-    hint: 'WW.Combat.SkipHint',
+    name: 'WW.Settings.Combat.SkipActed',
+    hint: 'WW.Settings.Combat.SkipActedHint',
     scope: 'world',
     config: true,
     requiresReload: false,
