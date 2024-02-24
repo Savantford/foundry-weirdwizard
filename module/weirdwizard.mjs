@@ -135,6 +135,16 @@ Hooks.once('init', function () {
   //WWActiveEffectConfig.initializeChangePriorities(); // No longer needed
 
   // Register system settings
+  game.settings.register('weirdwizard', 'damageBarReverse', {
+    name: 'WW.Settings.DamageBarReverse',
+    hint: 'WW.Settings.DamageBarReverseHint',
+    scope: 'world',
+    config: true,
+    requiresReload: true,
+    type: Boolean,
+    default: false
+  });
+
   game.settings.register('weirdwizard', 'skipActed', {
     name: 'WW.Settings.Combat.SkipActed',
     hint: 'WW.Settings.Combat.SkipActedHint',

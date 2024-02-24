@@ -675,6 +675,8 @@
 
 "WW.Settings.Combat.SkipActed": "Skip Acted?",
 "WW.Settings.Combat.SkipActedHint": "Automatically bypass combatants who already acted during this round.",
+"WW.Settings.DamageBarReverse": "Reverse Damage Bars",
+"WW.Settings.DamageBarReverseHint": "If enabled, health/damage bars start full and decrease when taking damage. If disabled, bars start at 0, filling as damage increases.",
 
 "WW.System.Help": "Help",
 
