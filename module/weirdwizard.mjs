@@ -115,11 +115,11 @@ Hooks.once('init', function () {
   CONFIG.Actor.trackableAttributes = {
     Character: {
       bar: ['stats.damage'],
-      value: []
+      value: ['stats.defense.total']
     },
     NPC: {
       bar: ['stats.damage'],
-      value: []
+      value: ['stats.defense.total']
     }
   };
 
