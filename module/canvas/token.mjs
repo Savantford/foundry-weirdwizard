@@ -35,14 +35,18 @@ export default class WWToken extends Token {
 
   _drawDamageBar(number, bar, data) {
     const { value, max } = data;
-    const colorPct = Math.clamped(value, 0, max) / max;
+    let colorPct = Math.clamped(value, 0, max) / max;
+    if (game.settings.get('weirdwizard', 'damageBarReverse')) {
+      colorPct = Math.clamped(max-value, 0, max) / max
+    }
     const damageColor = WWToken.getDamageColor(value, max);
 
     // Determine the container size (logic borrowed from core)
     const w = this.w;
     let h = Math.max(canvas.dimensions.size / 12, 8);
-    if (this.document.height >= 2)
+    if (this.document.height >= 2) {
       h *= 1.6;
+    }
     const stroke = Math.clamped(h / 8, 1, 2);
 
     // Set up bar container
