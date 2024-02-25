@@ -1,6 +1,5 @@
 import { i18n, plusify, capitalize, resizeInput, clearUserTargets, sum } from '../helpers/utils.mjs';
 import { chatMessageButton, targetHeader, addInstEffs, actionFromLabel } from '../chat/chat-html-templates.mjs';
-import { healthDetails } from '../apps/health-details.mjs';
 import RollAttribute from '../dice/roll-attribute.mjs';
 import TargetingHUD from '../apps/targeting-hud.mjs';
 import { onManageActiveEffect, prepareActiveEffectCategories } from '../helpers/effects.mjs';

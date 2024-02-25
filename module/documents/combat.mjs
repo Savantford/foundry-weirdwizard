@@ -390,8 +390,8 @@ export default class WWCombat extends Combat {
       } else {
 
         const confirm = await Dialog.confirm({
-          title: i18n('WW.Combat.TakingInit.Title'),
-          content: `<p>${i18n('WW.Combat.TakingInit.Msg')}</p><p>${i18n('WW.Combat.TakingInit.Msg2')}</p>`
+          title: i18n('WW.Combat.Initiative.Title'),
+          content: i18n('WW.Combat.Initiative.Msg')
         })
   
         // Check if the users's character is present as a combatant in the current combat

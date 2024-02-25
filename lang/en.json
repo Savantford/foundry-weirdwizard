@@ -20,12 +20,16 @@
 
 "WW.Attributes.Label": "Attributes",
 "WW.Attributes.Strength": "Strength",
+"WW.Attributes.StrengthShort": "Strength",
 "WW.Attributes.StrengthScore": "Strength Score",
 "WW.Attributes.Agility": "Agility",
+"WW.Attributes.AgilityShort": "Agility",
 "WW.Attributes.AgilityScore": "Agility Score",
 "WW.Attributes.Intellect": "Intellect",
+"WW.Attributes.IntellectShort": "Intellect",
 "WW.Attributes.IntellectScore": "Intellect Score",
 "WW.Attributes.Will": "Will",
+"WW.Attributes.WillShort": "Will",
 "WW.Attributes.WillScore": "Will Score",
 "WW.Attributes.Luck": "Luck",
 
@@ -39,13 +43,9 @@
 
 "WW.Defense.Label": "Defense",
 "WW.Defense.Score": "Defense Score",
-"WW.Defense.Total": "Defense Total",
 "WW.Defense.Natural": "Natural Defense",
 "WW.Defense.Armored": "Armored Defense",
-"WW.Defense.Bonus": "Bonus to Defense",
 "WW.Defense.Details": "(armor, if any, shield, if any)",
-
-"WW.Dialog.Cancel": "Cancel",
 
 "WW.Health.Label": "Health",
 "WW.Health.Normal": "Normal Health Score",
@@ -80,7 +80,7 @@
 
 "WW.Rest.Label": "Rest",
 "WW.Rest.Msg": "Resting allows you to heal damage and regain expended resources. If you have uninterrupted rest for 6 consecutive hours, you heal all damage and regain Health equal to one-tenth your normal Health score. Some of your other resources, such as spells or talents, might also be replenished after a rest. If you stop resting to use an action or reaction, the time you spent resting up to that point is wasted and you must start resting again to gain any benefit from doing so.",
-"WW.Rest.Confirm": "Are you able to rest now?",
+"WW.Rest.Confirm": "Were you able to finish your rest?",
 "WW.Rest.Finished": "finished a rest",
 
 "WW.Detail.Type.Label": "Type",
@@ -653,13 +653,12 @@
 "WW.Combat.Phase.End": "End of the Round",
 
 "WW.Combat.Turn.Label": "Take a Regular Turn",
-"WW.Combat.Turn.Msg": "is taking a regular turn",
+"WW.Combat.Turn.Msg": "{name} is taking a regular turn.",
 
 "WW.Combat.Initiative.Label": "Take The Initiative",
-"WW.Combat.Initiative.ChatMsg": "is taking the initiative",
+"WW.Combat.Initiative.ChatMsg": "{name} is taking the initiative.",
 "WW.Combat.Initiative.Title": "Taking the Initiative",
-"WW.Combat.Initiative.Msg": "A new round started.",
-"WW.Combat.Initiative.Msg2": "Do you want to use a <b>reaction</b> to take the initiative, instead of making a regular turn?",
+"WW.Combat.Initiative.Msg": "<p>A new round started.</p><p>Do you want to use a <b>reaction</b> to take the initiative, instead of making a regular turn?</p>",
 "WW.Combat.Initiative.NoCharacter": "A new round started, but you don't have a character assigned to you.",
 
 "WW.Combat.ActAgain.Title": "Act Again",
@@ -672,8 +671,11 @@
 
 "WW.Combat.Tip.RightClick": "Right click for context options.",
 "WW.Combat.Tip.FinishTurn": "Finish Your Turn",
-"WW.Combat.Tip.SkipActed": "Skip Acted?",
-"WW.Combat.Tip.SkipActedHint": "Automatically bypass combatants who acted already during this round.",
+
+"WW.Settings.Combat.SkipActed": "Skip Acted?",
+"WW.Settings.Combat.SkipActedHint": "Automatically bypass combatants who already acted during this round.",
+"WW.Settings.DamageBarReverse": "Reverse Damage Bars",
+"WW.Settings.DamageBarReverseHint": "If enabled, health/damage bars start full and decrease when taking damage. If disabled, bars start at 0, filling as damage increases.",
 
 "WW.System.Help": "Help",
 

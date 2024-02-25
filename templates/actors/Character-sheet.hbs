@@ -1,20 +1,27 @@
-<form class="{{cssClass}} sheet character-sheet" autocomplete="off">
+<form class="{{cssClass}} sheet character-sheet" autocomplete="off" spellcheck="false">
 
     {{!-- Sheet Header --}}
     <header class="sheet-header character-header">
         
         <div class="header-fields">
             <div class="character-header-plate">
-                <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.Actor.Name"}}"/></h1>
+                <h1 class="charname">
+                    {{!--<input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.Actor.Name"}}"/>--}}
+                    
+                    <textarea name="name" rows="1" onInput="this.parentNode.dataset.replicatedValue = this.value">{{actor.name}}</textarea>
+                    
+                    <div class="textarea-overlay">{{actor.name}}</div>
+                </h1>
                 
-                <div class="character-subtitle">{{localize "WW.Stats.Level"}} {{level}} {{system.details.ancestry}}{{#if system.details.novice}} {{system.details.novice}}{{/if}}</div>
+                
+                <div class="character-subtitle">{{localize "WW.Stats.Level"}} {{level}} {{charOptions.ancestry.name}}{{#if charOptions.novice}} {{charOptions.novice.name}}{{/if}}</div>
             </div>
 
             <div class="circle" style="--total: 4">
                 <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
                 
                 <div class="stat" style="--i:1">
-                    <label class="resource-label">{{localize "WW.Attributes.Strength"}}</label>
+                    <label class="resource-label">{{localize "WW.Attributes.StrengthShort"}}</label>
                     <div>
                         <input type="number" name="system.attributes.str.value" value="{{system.attributes.str.value}}" min="0" data-dtype="Number"/>
                         <a class="attribute-mod item-button" data-action="attribute-roll" data-key="str" title="Roll Strength">
@@ -26,7 +33,7 @@
                 </div>
 
                 <div class="stat" style="--i:2">
-                    <label class="resource-label">{{localize "WW.Attributes.Agility"}}</label>
+                    <label class="resource-label">{{localize "WW.Attributes.AgilityShort"}}</label>
                     <div>
                         <input type="number" name="system.attributes.agi.value" value="{{system.attributes.agi.value}}" min="0" data-dtype="Number"/>
                         <a class="attribute-mod item-button" data-action="attribute-roll" data-key="agi" title="Roll Agility">
@@ -39,7 +46,7 @@
                 </div>
 
                 <div class="stat" style="--i:4">
-                    <label class="resource-label">{{localize "WW.Attributes.Intellect"}}</label>
+                    <label class="resource-label">{{localize "WW.Attributes.IntellectShort"}}</label>
                     <div>
                         <input type="number" name="system.attributes.int.value" value="{{system.attributes.int.value}}" min="0" data-dtype="Number"/>
                         <a class="attribute-mod item-button" data-action="attribute-roll" data-key="int" title="Roll Intellect">
@@ -51,7 +58,7 @@
                 </div>
 
                 <div class="stat" style="--i:3">
-                    <label class="resource-label">{{localize "WW.Attributes.Will"}}</label>
+                    <label class="resource-label">{{localize "WW.Attributes.WillShort"}}</label>
                     <div>
                         <input type="number" name="system.attributes.wil.value" value="{{system.attributes.wil.value}}" min="0" data-dtype="Number"/>
                         <a class="attribute-mod item-button" data-action="attribute-roll" data-key="wil" title="Roll Will">

@@ -442,6 +442,9 @@ export default class RollAttribute extends FormApplication {
       parent.querySelector('.boons-targets').innerHTML = targetsDisplay;
     }
 
+    // Update app position/scaling
+    this.setPosition()
+
   }
 
   _addWeaponDamage(target) {
