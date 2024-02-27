@@ -11,7 +11,7 @@ export default class WWCharacterSheet extends WWActorSheet {
   static get defaultOptions() {
 
     return mergeObject(super.defaultOptions, {
-      classes: ['weirdwizard', 'sheet', 'actor'],
+      classes: ['weirdwizard', 'sheet', 'actor', 'character'],
       width: 860,
       height: 480, // 480
       tabs: [{ navSelector: '.sheet-tabs', contentSelector: '.sheet-body', initial: 'summary' }]

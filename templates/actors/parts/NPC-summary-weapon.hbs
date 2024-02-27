@@ -2,9 +2,9 @@
     
     {{!-- Title --}}
     {{#if item.needTargets}}<label class="item-button" data-action="targeted-use" data-item-id="{{item._id}}" 
-        title="{{localize "WW.Targeting.AttackTargeted"}}">{{item.name}}</label>
+        title="{{localize "WW.Targeting.AttackTargeted"}}">{{item.label}}:</label>
     {{else if item.isActivity}}<label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-        title="{{localize "WW.Targeting.AttackUntargeted"}}">{{item.name}}</label>
+        title="{{localize "WW.Targeting.AttackUntargeted"}}">{{item.label}}:</label>
     {{else}}<label>{{item.name}}</label>{{/if}}
 
     <span class="buttons">
@@ -41,11 +41,6 @@
         <a class="item-button" data-action="item-delete" data-item-id="{{item._id}}"
             title="{{localize "WW.Item.Delete.Title"}}">
         <i class="fas fa-trash"></i></a>
-    </span>
-
-    {{!-- Properties --}}
-    <span class="properties-line">
-        {{#if item.system.traitsList}}({{item.system.traitsList}}) {{/if}}
     </span>
 
     {{!-- Modifier --}}

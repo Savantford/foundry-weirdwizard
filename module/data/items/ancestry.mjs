@@ -28,13 +28,16 @@ export default class AncestryData extends foundry.abstract.DataModel {
    */
   static migrateData(source) {
 
+    // Migrate Types to Descriptors
+    if (source.details?.types) source.details.descriptors = source.details.types;
+
     return super.migrateData(source);
   }
 
 }
 
 const makeBenefitField = () => new fields.SchemaField({
-  types: new fields.ArrayField(
+  descriptors: new fields.ArrayField(
     new fields.ObjectField({ initial: { name: "", desc: "" } })
   ),
 

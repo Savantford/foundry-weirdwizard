@@ -24,13 +24,13 @@ export default class TalentData extends foundry.abstract.DataModel {
    * The source parameter is either original data retrieved from disk or provided by an update operation.
    * @inheritDoc
    */
-  /*static migrateData(source) {
-    if ( 'weapons' in source ) {
-      source.weapons = source.weapons.map(weapon => {
-        return weapon === 'bmr' ? 'boomerang' : weapon;
-      });
-    }
+  static migrateData(source) {
+
+    // Convert Aura and Fury to normal traits
+    if (source.subtype === 'aura') source.subtype = 'trait';
+    if (source.subtype === 'fury') source.subtype = 'trait';
+    
     return super.migrateData(source);
-  }*/
+  }
 
 }

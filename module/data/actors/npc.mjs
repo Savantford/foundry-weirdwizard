@@ -31,6 +31,9 @@ export default class NpcData extends foundry.abstract.DataModel {
       source.details.types = arr.filter(s => s).map((s) => ({ name: s.trim() }));
     }
 
+    // Migrate Types to Descriptors
+    if (source.details?.types && !source.details?.descriptors) source.details.descriptors = source.details.types;
+
     if (typeof source.details?.senses === 'string') { // Senses
       const arr = source.details.senses.split(",");
       source.details.senses = arr.filter(s => s).map((s) => ({ name: s.trim() }));
@@ -51,16 +54,21 @@ export default class NpcData extends foundry.abstract.DataModel {
       source.details.movementTraits = arr.filter(s => s).map((s) => ({ name: s.trim() }));
     }
     
-    // Migrate Level
+    // Fix legacy Level strings
     if (isNaN(source.stats?.level)) {
       
+      // 
       switch (source.stats?.level) {
         case '⅛': source.stats.level = 0.125; break;
         case '¼': source.stats.level = 0.25; break;
         case '½': source.stats.level = 0.5; break;
         //default: source.stats.level = 1; break; // This is causing issues
       }
+
     }
+
+    // Migrate Level to Difficulty
+    if (source.stats?.level) source.stats.difficulty = source.stats.level;
 
     // Migrate Size
     if (isNaN(source.stats?.size)) {

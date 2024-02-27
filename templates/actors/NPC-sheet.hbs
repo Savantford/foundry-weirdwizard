@@ -2,39 +2,50 @@
 
     {{!-- Sheet Header --}}
     <header class="sheet-header">
-        {{!-- Profile Image --}}
-        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
 
-        <div class="header-fields npc">
-            {{!-- Character Name --}}
-            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.Actor.Name"}}"/></h1>
+        <div class="profile-img-wrapper">
+            
+            {{!-- Profile Image --}}
+            <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}"/>
 
-            {{!-- Disposition Toggle --}}
-            <a class="change-disposition{{#if (eq disposition 1)}} ally{{/if}}" title="{{localize "WW.Actor.Disposition.Tip"}}">
-                {{#if (eq disposition 1)}}{{localize "WW.Actor.Disposition.Ally"}}{{else}}{{localize "WW.Actor.Disposition.Enemy"}}{{/if}}
-            </a>
+        </div>
 
-            {{!-- Sheet Tabs --}}
-            <nav class="mt-2 sheet-tabs tabs npc-tabs" data-group="primary">{{!-- Sheet Tab Navigation --}}
-                <a class="item" data-tab="summary">{{localize "WW.Actor.Summary"}}</a>
+        <div class="header-fields">
+
+            <div>
+                {{!-- Character Name --}}
+                <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.Actor.Name"}}"/></h1>
+
+                {{!-- Disposition Toggle --}}
+                <a class="change-disposition{{#if (eq disposition 1)}} ally{{/if}}" title="{{localize "WW.Actor.Disposition.Tip"}}">
+                    {{#if (eq disposition 1)}}{{localize "WW.Actor.Disposition.Ally"}}{{else}}{{localize "WW.Actor.Disposition.Enemy"}}{{/if}}
+                </a>
+                
+            </div>
+
+            {{!-- Sheet Tab Navigation --}}
+            <nav class="sheet-tabs tabs npc-tabs" data-group="primary">
+                <a class="item" data-tab="summary">{{localize "WW.Stats.Label"}}</a>
                 <a class="item" data-tab="description">{{localize "WW.Item.Description"}}</a>
                 <a class="item" data-tab="effects">{{localize "WW.Effects.Label"}}</a>
-            </nav>
+            </nav>  
 
         </div>
 
     </header>
 
     <section class="sheet-body"> {{!-- Sheet Body --}}
-        
-        {{!-- Description Tab --}}
-        <div class="tab description" data-group="primary" data-tab="description">
-            {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
-        </div>
 
         {{!-- Summary Tab --}}
         <div class="tab summary" data-group="primary" data-tab="summary">
             {{> "systems/weirdwizard/templates/actors/parts/NPC-summary.hbs"}}
+        </div>
+
+        {{!-- Description Tab --}}
+        <div class="tab description" data-group="primary" data-tab="description">
+
+            {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
+
         </div>
 
         {{!-- Active Effects Tab --}}

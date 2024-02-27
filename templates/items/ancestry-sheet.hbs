@@ -26,31 +26,31 @@
     {{!-- Right Column --}}
     <div class="right-col">
       
-      <div class="statbox">
+      <div class="benefit-block">
       
         {{!-- Header --}}
-        <h3>{{item.name}} {{localize "WW.CharOption.Traits"}}</h3>
+        <h5>{{item.name}} {{localize "WW.CharOption.Traits"}}</h5>
 
-        {{!-- Type(s) --}}
+        {{!-- Descriptor(s) --}}
         <div class="stat-inline list-entries">
 
-          <label>{{localize "WW.Detail.Type.Label"}}</label>  
+          <label>{{localize "WW.Detail.Descriptor.Label"}}</label>  
 
-          {{#each benefits.benefit1.types as |detail id|}}
+          {{#each benefits.benefit1.descriptors as |detail id|}}
           <span class="list-entry">
             
             <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-              <a class="array-button" data-action="edit" data-array="benefits.benefit1.types" data-entry-id="{{id}}"
-                title="{{localize "WW.Detail.Type.Edit"}}"><i class="fas fa-edit"></i></a>
+              <a class="array-button" data-action="edit" data-array="benefits.benefit1.descriptors" data-entry-id="{{id}}"
+                title="{{localize "WW.Detail.Descriptor.Edit"}}"><i class="fas fa-edit"></i></a>
             
-              <a class="array-button" data-action="remove" data-array="benefits.benefit1.types" data-entry-id="{{id}}"
-                title="{{localize "WW.Detail.Type.Remove"}}"><i class="fas fa-trash"></i></a>
+              <a class="array-button" data-action="remove" data-array="benefits.benefit1.descriptors" data-entry-id="{{id}}"
+                title="{{localize "WW.Detail.Descriptor.Remove"}}"><i class="fas fa-trash"></i></a>
             </span>{{#unless @last}},{{/unless}}
           </span>
-          {{/each}}{{#unless benefits.benefit1.types.length}}—{{/unless}}
+          {{/each}}{{#unless benefits.benefit1.descriptors.length}}—{{/unless}}
             
-          <a class="array-button" data-action="add" data-array="benefits.benefit1.types" data-loc="Type"
-            title="{{localize "WW.Detail.Type.Add"}}"><i class="fas fa-circle-plus"></i></a>
+          <a class="array-button" data-action="add" data-array="benefits.benefit1.descriptors" data-loc="Descriptor"
+            title="{{localize "WW.Detail.Descriptor.Add"}}"><i class="fas fa-circle-plus"></i></a>
           
         </div>
 
