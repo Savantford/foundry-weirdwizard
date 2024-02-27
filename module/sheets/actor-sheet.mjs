@@ -71,9 +71,8 @@ export default class WWActorSheet extends ActorSheet {
     context.incapacitated = context.actor.incapacitated;
     context.dead = context.actor.dead;
 
-    // Prepare numbersArr, Level and Size
+    // Prepare numbersArr, Size, Level and Difficulty
     context.numbersArr = Object.entries(CONFIG.WW.FRACTION_NUMBERS).map(([k, v]) => ({key: k, label: v})).sort((a,b) => a.key - b.key);
-    context.level = CONFIG.WW.FRACTION_NUMBERS[context.system.stats.level];
     context.size = CONFIG.WW.FRACTION_NUMBERS[context.system.stats.size];
 
     // Prepare hasEffect for use in templates
@@ -92,6 +91,7 @@ export default class WWActorSheet extends ActorSheet {
     // Prepare NPC data and items.
     if (actorData.type == 'NPC') {
       this._prepareItems(context);
+      this._prepareNPCData(context);
     }
 
     // Add roll data for TinyMCE editors.
@@ -130,11 +130,9 @@ export default class WWActorSheet extends ActorSheet {
     const weapons = [];
     const allTalents = [];
     const talents = [];
-    const auras = [];
     const actions = [];
     const reactions = [];
     const end = [];
-    const fury = [];
     const spells = [];
 
     // Initialize charOptions
@@ -201,6 +199,9 @@ export default class WWActorSheet extends ActorSheet {
             })
 
             i.system.traitsList = list;
+
+            // Prepare name label
+            i.label = (i.system.traits.range ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + i.name + (i.system.traitsList ? ' ● ' + i.system.traitsList : '');
           }
 
           equipment.push(i);
@@ -220,10 +221,6 @@ export default class WWActorSheet extends ActorSheet {
                 talents.push(i);
                 break;
               }
-              case 'aura': {
-                auras.push(i);
-                break;
-              }
               case 'action': {
                 actions.push(i);
                 break;
@@ -234,10 +231,6 @@ export default class WWActorSheet extends ActorSheet {
               }
               case 'end': {
                 end.push(i);
-                break;
-              }
-              case 'fury': {
-                fury.push(i);
                 break;
               }
             }
@@ -319,7 +312,6 @@ export default class WWActorSheet extends ActorSheet {
     talents.forEach(updateUses)
     actions.forEach(updateUses)
     reactions.forEach(updateUses)
-    fury.forEach(updateUses)
     equipment.forEach(updateUses)
     spells.forEach(updateUses)
 
@@ -328,24 +320,25 @@ export default class WWActorSheet extends ActorSheet {
     context.weapons = weapons;
     context.allTalents = allTalents;
     context.talents = talents;
-    context.auras = auras;
     context.actions = actions;
     context.reactions = reactions;
     context.end = end;
-    context.fury = fury;
     context.spells = spells;
 
   }
 
   /**
-   * Organize and classify Items for Character sheets.
+   * Prepare data for Character sheets.
    *
-   * @param {Object} system The actor to prepare.
+   * @param {Object} context The actor's prepared context.
    *
    * @return {undefined}
   */
 
   async _prepareCharacterData(context) {
+
+    // Prepare dropdown lists
+    context.level = CONFIG.WW.FRACTION_NUMBERS[context.system.stats.level];
 
     // Prepare enriched variables for editor.
     context.system.details.features.enriched = await TextEditor.enrichHTML(context.system.details.features.value, { async: true })
@@ -354,6 +347,21 @@ export default class WWActorSheet extends ActorSheet {
     context.system.details.information.enriched = await TextEditor.enrichHTML(context.system.details.information.value, { async: true })
     context.system.details.bg_ancestry.enriched = await TextEditor.enrichHTML(context.system.details.bg_ancestry.value, { async: true })
     context.system.details.deeds.enriched = await TextEditor.enrichHTML(context.system.details.deeds.value, { async: true })
+  }
+
+  /**
+   * Prepare data for NPC sheets.
+   *
+   * @param {Object} context The actor's prepared context.
+   *
+   * @return {undefined}
+  */
+
+  async _prepareNPCData(context) {
+
+    // Prepare dropdown lists
+    context.difficulties = CONFIG.WW.BESTIARY_DIFFICULTIES;
+
   }
 
   /** @override */
@@ -771,6 +779,8 @@ export default class WWActorSheet extends ActorSheet {
     
     // Update document
     await this.document.update({[arrPath]: arr});
+
+    console.log(arr)
     
     // Add entryId to dataset and render the config window
     dataset.entryId = arr.length-1;

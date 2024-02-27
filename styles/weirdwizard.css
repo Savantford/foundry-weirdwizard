@@ -1,15 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Forum&family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Forum&family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Mate+SC&display=swap');
 
 /* Variables */
 :root {
-  --highlight-title: #49244F;
-  --highlight-title-rgb: 73, 36, 79;
-  --highlight: #DBD3DC;
-  --highlight-rbg: 219, 211, 220;
-  --text: #000000;
+  --purple-dark: #49244F;
+  --purple-dark-rgb: 73, 36, 79;
+  --purple-medium: #775B7B;
+  /*--purple-medium-rbg: 73, 36, 79;*/
+  --purple-light: #DBD3DC;
+  --purple-light-rbg: 219, 211, 220;
+  --body-text-color: #000000;
   --gray: #BCBEC0;
   /* Fonts */
-  --font-title: 'Forum', cursive;
+  --font-serif: 'Forum', cursive;
+  --font-capitalized: 'Mate SC', serif;
   --font-header: 'Lora', serif;
   --font-body: 'PT Sans', sans-serif;
   /* Overrides */
@@ -19,7 +22,9 @@
   --color-border-highlight: var(--color-shadow-primary);
   --color-border-highlight-alt: var(--color-shadow-primary);
   --color-shadow-primary: #c200ff;
-  --color-shadow-highlight: var(--highlight-title);
+  --color-shadow-highlight: var(--purple-dark);
+  /* Element Sizes */
+  --avatar-size-npc: 100px;
 }
 
 .grid, .grid-2, .grid-3, .grid-4, .grid-5, .grid-6, .grid-7, .grid-8, .grid-9, .grid-10, .grid-11, .grid-12 {
@@ -280,100 +285,178 @@
 
 .weirdwizard .window-content,
 .window-app .window-content {
-  color: var(--text);
+  color: var(--body-text-color);
   background: var(--background);
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: var(--font-size-14);
 }
 
 .weirdwizard.sheet.actor .window-content {
   overflow-y: scroll;
 }
 
-.weirdwizard .window-content h1 {
-  color: var(--highlight-title);
-  border-bottom: 0px;
-  font-family: var(--font-title);
+/* Headers */
+
+.weirdwizard .window-content h1,
+.weirdwizard .window-content h2,
+.weirdwizard .window-content h3,
+.weirdwizard .window-content h4,
+.weirdwizard .window-content h5,
+.weirdwizard .window-content h6 {
   font-weight: bold;
   text-transform: uppercase;
 }
 
-.weirdwizard .window-content h2 {
-  color: var(--highlight-title);
-  text-align: left;
-  border-bottom: 3px double black;
-  margin: 10px 0 5px 0;
-  padding-bottom: 2px;
-  font-family: var(--font-title);
-  font-size: 24px;
-  text-transform: uppercase;
-}
-
+.weirdwizard .window-content h1,
+.weirdwizard .window-content h2,
 .weirdwizard .window-content h3 {
-  color: white;
-  background-color: var(--highlight-title);
-  border: none;
-  border-radius: 5px;
-  padding: 2px 5px;
-  margin: 10px 0 5px 0;
-  font-family: var(--font-header);
-  font-size: 15px;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+  color: var(--purple-dark);
+  font-family: var(--font-serif);
 }
 
-.weirdwizard .window-content h4 {
-  color: var(--text);
-  background-color: var(--gray);
-  border-radius: 3px;
-  padding: 2px 5px;
-  margin: 10px 0 5px 0;
-  font-family: var(--font-header);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  display: inline-flex;
-  width: 100%;
-}
 .weirdwizard .window-content h2:first-of-type,
 .weirdwizard .window-content h3:first-of-type,
-.weirdwizard .window-content h4:first-of-type {
+.weirdwizard .window-content h4:first-of-type,
+.weirdwizard .window-content h5:first-of-type {
   margin-top: 0px;
 }
 
-.weirdwizard .window-content h4 label {
-  font-size: 13px;
-  margin-right: 5px;
+.weirdwizard .window-content h1 {
+  border-bottom: 0px;
+  letter-spacing: 0.02em;
 }
 
-.weirdwizard .window-content h4 label, .item label {
-  color: var(--highlight-title);
-  font-weight: bold;
+.weirdwizard .window-content h2 {
+  border-bottom: 3px double black;
+  margin: 10px 0 5px 0;
+  padding-bottom: 2px;
+  font-size: var(--font-size-24);
+  letter-spacing: 0.04em;
 }
 
-.weirdwizard .window-content h4 input {
-  font-weight: 600;
+.weirdwizard .window-content h3 {
+  border-bottom: 3px double black;
+  margin: 10px 0 5px 0;
+  padding-bottom: 2px;
+  font-size: var(--font-size-20);
+  text-transform: none;
+}
+
+.weirdwizard .window-content h4 {
+  color: white;
+  background-color: var(--purple-medium);
+  border-radius: 3px;
+  padding: 2px 5px;
+  margin: 10px 0 5px 0;
+  font-family: var(--font-body);
+  font-size: var(--font-size-14);
+  letter-spacing: 0.07em;
+  
 }
 
 .weirdwizard .window-content h5 {
-  color: var(--text);
-  background-color: var(--highlight);
-  border-radius: 3px 3px 0px 0;
-  border-bottom: 1px solid var(--highlight-title);
+  color: var(--purple-dark);
+  background-color: var(--purple-light);
+  border: 1px solid var(--purple-medium);
+  border-radius: 3px;
   padding: 2px 5px;
-  margin: 10px 0px;
-  font-family: var(--font-header);
-  font-size: 12px;
-  text-transform: uppercase;
+  margin: 10px 0 5px 0;
+  font-family: var(--font-serif);
+  font-size: var(--font-size-16);
+  letter-spacing: 0.05em;
+  text-transform: none;
 }
 
-.weirdwizard .window-content h5 a {
-  color: var(--text) !important;
+.weirdwizard.npc .window-content h5 {
+  border: none;
+  margin-bottom: 0;
 }
+
+.weirdwizard .window-content h6 {
+  color: var(--purple-dark);
+  background-color: var(--purple-light);
+  border-radius: 3px;
+  padding: 2px 5px;
+  margin: 0;
+  font-family: var(--font-capitalized);
+  font-size: var(--font-size-16);
+  text-transform: none;
+}
+
+/*.weirdwizard.npc .left-col {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 0 150px;
+  margin-right: 5px;
+}*/
+
+.weirdwizard.npc .profile-img-wrapper {
+  flex: 0 0 var(--avatar-size-npc);
+  height: var(--avatar-size-npc);
+}
+
+.weirdwizard.npc header.sheet-header img {
+  height: 100%;
+  margin: 0;
+}
+
+/* Statboxes */
 
 .weirdwizard .statbox {
+  display: flex;
+  flex-flow: column wrap;
   text-align: left;
+  padding: 1px 0px;
+  border-radius: 2px;
+}
+
+.weirdwizard .statbox > * {
+  background-color: var(--purple-light);
+  /*max-width: 35%;*/
+}
+
+.weirdwizard .statbox > :last-child {
+  flex: 1;
+}
+
+.weirdwizard .statbox > h1.charname {
+  background: none;
+}
+
+.weirdwizard.npc .statbox-section:not(:first-of-type) {
+  padding-top: 8px;
+}
+
+.weirdwizard .statbox-section fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.weirdwizard .statbox-section fieldset:not(:first-of-type) {
+  margin-top: 5px;
+}
+
+.weirdwizard .statbox-section fieldset > legend {
+  display: none;
+  margin-left: 0.5em;
+  padding: 0 2px;
+  font-family: var(--font-capitalized);
+  font-weight: bold;
+}
+
+.weirdwizard .statbox-section:hover fieldset {
+  padding-block-end: 0.3em;
+  border: 1px solid var(--purple-medium);
+}
+
+.weirdwizard .statbox-section:hover fieldset > ol {
+  margin: 2px 4px;
+}
+
+.weirdwizard .statbox-section:hover fieldset > legend {
+  display: inherit;
 }
 
 .weirdwizard .statbox .stat {
@@ -386,14 +469,40 @@
 
 .weirdwizard .statbox-header {
   margin: 0px 0px 3px;
+  background-color: var(--purple-medium);
+  border-radius: 3px;
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 0 2px 5px;
 }
 
 .weirdwizard .statbox-header .statbox-level {
-  font-size: 11px;
+  float: right;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.weirdwizard .statbox-header .statbox-difficulty {
+  font-size: 0.7rem;
   font-weight: bold;
   float: right;
-  padding-top: 3px;
+  padding-top: 1px;
 }
+
+.weirdwizard .statbox-header .statbox-level > select,
+.weirdwizard .statbox-header .statbox-difficulty > select {
+  color: white;
+  font-weight: bold;
+}
+
+.weirdwizard .statbox-header .statbox-level > select > option,
+.weirdwizard .statbox-header .statbox-difficulty > select > option {
+  color: var(--body-text-color);
+  font-family: var(--font-body);
+  font-size: var(--font-size-14);
+}
+
 
 /* Input Styles */
 
@@ -587,7 +696,7 @@
   float: right;
 }
 .weirdwizard .hl {
-  background-color: var(--highlight);
+  background-color: var(--purple-light);
   padding: 1px 0px;
   margin: 4px 0px;
   border-radius: 2px;
@@ -600,7 +709,7 @@
 }
 
 .weirdwizard .hl2 label {
-  color: var(--highlight-title);
+  color: var(--purple-dark);
   font-weight: bold;
 }
 
@@ -646,13 +755,13 @@
 
 .weirdwizard .character-subtitle {
   text-align: center;
-  color: var(--highlight-title);
+  color: var(--purple-dark);
   font-weight: bold;
 }
 
 .weirdwizard img {
   border: none;
-  background-color: var(--highlight);
+  background-color: var(--purple-light);
 }
 
 .weirdwizard .circle {
@@ -668,18 +777,17 @@
   position: relative;
   margin: 20px auto;
 
-  outline: 2px solid var(--highlight-title);
+  outline: 2px solid var(--purple-dark);
   outline-offset: 5px;
 }
 
-.weirdwizard .sheet-header .profile-img {
+.weirdwizard .sheet .profile-img {
   border-radius: 50%;
-  margin-right: 10px;
 }
 
-.weirdwizard .npc-sheet .sheet-header .profile-img {
+/*.weirdwizard .npc-sheet .sheet-header .profile-img {
   height: 100px;
-}
+}*/
 
 .weirdwizard .circle img {
   position: absolute;
@@ -695,7 +803,7 @@
   --ele-radius: 32px;
   width: calc(2 * var(--ele-radius));
   height: calc(2 * var(--ele-radius));
-  border: 2px solid var(--highlight-title);
+  border: 2px solid var(--purple-dark);
   border-radius: 50%;
 
   display: grid;
@@ -745,17 +853,35 @@
   flex: 1;
 }
 
-.weirdwizard .sheet-header h1.charname {
+.weirdwizard.npc .header-fields {
+  margin-left: 10px;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
+
+.weirdwizard.npc .header-fields > div {
+  height: 100%;
+}
+
+.weirdwizard h1.charname {
   padding: 0px;
   margin: 5px 0;
   border-bottom: 0;
 }
 
-.weirdwizard .sheet-header h1.charname input {
+.weirdwizard.npc h1.charname {
+  margin: 0 0 5px 0;
+  height: 100%;
+}
+
+.weirdwizard .sheet header.sheet-header h1 input {
   padding: 0;
   margin: 0;
+  font-family: var(--font-serif);
   font-weight: bold;
   height: 100%;
+  width: 100%;
 }
 
 .weirdwizard .character-header h1.charname {
@@ -812,14 +938,18 @@
   -webkit-box-flex: 0;
   -ms-flex: 0;
   flex: 0;
-  font-family: var(--font-title);
-  font-size: 14px;
+  font-family: var(--font-serif);
+  font-size: var(--font-size-14);
   font-weight: bold;
   text-transform: uppercase;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 2px 2px;
   border-top: none !important;
+}
+
+.weirdwizard.npc nav.sheet-tabs {
+  margin: auto 0 0 0;
 }
 
 .weirdwizard .sheet-tabs > div {
@@ -833,19 +963,22 @@
   white-space: nowrap;
   flex-grow: 1;
   border-radius: 5px 5px 0px 0px;
-  background: var(--highlight);
+  background: var(--purple-light);
   padding: 4px 12px !important;
 }
 
 .weirdwizard .sheet-tabs .item.active {
-  background: var(--highlight-title);
+  background: var(--purple-dark);
   color: white;
   font-weight: normal;
   text-shadow: none;
 }
 
 .weirdwizard .change-disposition {
-  background: rgba(200, 0, 0, 0.2);
+  position: relative;
+  float: right;
+  bottom: 105%;
+  background: #E6BEBA;
   border: 1px solid var(--color-border-light-2);
   border-radius: 3px;
   box-shadow: 0 0 2px #fff inset;
@@ -855,7 +988,11 @@
 }
 
 .weirdwizard .change-disposition.ally {
-  background: rgba(0, 150, 0, 0.2);
+  background: #BFDCBB;
+}
+
+.weirdwizard .sheet .editor {
+  flex: 1;
 }
 
 .weirdwizard .editor-content {
@@ -900,7 +1037,7 @@
 .weirdwizard .stat-stretch label {
   font-weight: bold;
   white-space: nowrap;
-  color: var(--highlight-title);
+  color: var(--purple-dark);
 }
 
 .weirdwizard .stat-inline > label {
@@ -947,7 +1084,7 @@
 }
 
 .weirdwizard .items-header > * {
-  font-size: 12px;
+  font-size: var(--font-size-12);
 }
 .weirdwizard .item-fixed {
   flex: 0 0 60px;
@@ -1015,6 +1152,7 @@
   display: -ms-flexbox;
   display: flex;
 }
+
 .weirdwizard .item-name h3 {
   margin: 0;
   white-space: nowrap;
@@ -1028,7 +1166,7 @@
   justify-content: flex-end;
 }
 .weirdwizard .item-controls a {
-  font-size: 12px;
+  font-size: var(--font-size-12);
   text-align: center;
   margin: 0 6px;
 }
@@ -1058,7 +1196,7 @@
 }
 
 .weirdwizard .pip-box {
-  background-color: var(--highlight);
+  background-color: var(--purple-light);
   padding: 0 3px;
   border-radius: 15px;
   display: inline-flex;
@@ -1071,6 +1209,11 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+}
+
+.weirdwizard .item label {
+  color: var(--purple-dark);
+  font-weight: bold;
 }
 
 .weirdwizard .compact-list .item-header {
@@ -1098,23 +1241,23 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .weirdwizard .item-desc {
-  background-color: var(--highlight);
+  background-color: var(--purple-light);
   padding: 2px 6px;
   margin-top: 0;
   margin-bottom: 5px;
-  border-top: 1px solid var(--highlight-title);
+  border-top: 1px solid var(--purple-dark);
   /*border-radius: 0 0 5px 5px;*/
 }
 
 .weirdwizard .item .float-right {
-  color: var(--highlight-title);
+  color: var(--purple-dark);
 }
 
 .weirdwizard .item-list .item {
   padding: 0 2px;
   margin-bottom: 5px;
   border-bottom: 1px solid #c9c7b8;
-  font-size: 12px;
+  font-size: var(--font-size-12);
 }
 .weirdwizard .item-list .item > div:not(:first-child):not(.effect-controls) {
   text-align: center;
@@ -1143,7 +1286,7 @@ input[type="checkbox"].checkbox-uses {
   text-align: center;
   border-left: 1px solid #c9c7b8;
   border-right: 1px solid #c9c7b8;
-  font-size: 12px;
+  font-size: var(--font-size-12);
 }
 
 .weirdwizard .item-formula {
@@ -1192,13 +1335,13 @@ input[type="checkbox"].checkbox-uses {
   list-style: none;
   padding: 0px;
   margin: 2px 5px;
-  color: var(--text);
+  color: var(--body-text-color);
 }
 
 .weirdwizard .add-button {
   padding: 0 5px;
   background: var(--background-color-shadow);
-  border: 1px solid var(--highlight-title);
+  border: 1px solid var(--purple-dark);
   border-radius: 5px;
 }
 
@@ -1206,10 +1349,11 @@ input[type="checkbox"].checkbox-uses {
   margin-left: 5px;
   padding: 1px;
   background: var(--background-color-shadow);
-  border: 1px solid var(--highlight-title);
+  border: 1px solid var(--purple-dark);
   border-radius: 5px;
 }
 
+.weirdwizard div > .hover-only,
 .weirdwizard .described-list .buttons > a,
 .weirdwizard .described-list .buttons > a,
 .weirdwizard .compact-list .buttons > a,
@@ -1217,12 +1361,13 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard .list-entries .buttons > a,
 .weirdwizard .list-entries .array-button[data-action="add"],
 .weirdwizard .list-entries .item-create,
-.weirdwizard .statbox h4 .item-create,
+.weirdwizard .statbox h6 .item-create,
 .weirdwizard .npc-sheet .statbox .add-button,
 .weirdwizard .stat-inline .stat-edit {
   display: none;
 }
 
+.weirdwizard div:hover > .hover-only,
 .weirdwizard .described-list:hover .buttons > a,
 .weirdwizard .described-list:hover .buttons > a,
 .weirdwizard .compact-list:hover .buttons > a,
@@ -1230,7 +1375,7 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard .list-entries:hover .buttons > a,
 .weirdwizard .list-entries:hover .array-button[data-action="add"],
 .weirdwizard .list-entries:hover .item-create,
-.weirdwizard .statbox:hover h4 .item-create,
+.weirdwizard .statbox:hover h6 .item-create,
 .weirdwizard .npc-sheet .statbox:hover .add-button,
 .weirdwizard .stat-inline:hover .stat-edit {
   display: inline-block;
@@ -1253,6 +1398,11 @@ input[type="checkbox"].checkbox-uses {
   padding: 0;
 }
 
+.weirdwizard h6 .item-create {
+  float: right;
+  color: var(--body-text-color);
+}
+
 .weirdwizard .described-list .fury-header {
   margin: 10px -5px 5px -5px; 
 }
@@ -1261,7 +1411,7 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard .summary-list .item-roll,
 .weirdwizard .compact-list .item-roll {
   font-weight: bold;
-  color: var(--highlight-title);
+  color: var(--purple-dark);
 }
 
 .buttons {
@@ -1346,10 +1496,6 @@ input[type="checkbox"].checkbox-uses {
   background-color: #606060;
 }
 
-.weirdwizard .path-sheet .editor {
-  flex: 1;
-}
-
 .weirdwizard .path-sheet .left-col {
   height: 100%;
   display: flex;
@@ -1359,7 +1505,12 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .weirdwizard .path-sheet .charname > input {
-  font-size: 24px;
+  font-size: var(--font-size-24);
+}
+
+.weirdwizard .path-sheet h5 {
+  text-align: center;
+  border-radius: 15px;
 }
 
 .weirdwizard.sheet.item .item-type {
@@ -1386,11 +1537,14 @@ input[type="checkbox"].checkbox-uses {
   gap: 5px;
 }
 
+.weirdwizard .path-sheet .benefit-block > * {
+  padding: 2px 5px;
+  margin: 0;
+}
+
 .weirdwizard .path-sheet .items-area {
   background: var(--background-color-shadow);
   border-radius: 3px;
-  padding: 2px 5px;
-  margin: 0;
 }
 
 .weirdwizard .path-sheet .fadeout {
@@ -1528,8 +1682,8 @@ input[type="checkbox"].checkbox-uses {
   background-color: gray;
 }
 /*.affliction*/.selectable.selected, /*.affliction*/.selectable.selected .sep {
-  border-color: var(--highlight-title);
-  background-color: var(--highlight);
+  border-color: var(--purple-dark);
+  background-color: var(--purple-light);
 }
 .selectable input {
   text-align: center !important;
@@ -1695,7 +1849,7 @@ i.icon-Weakened {
 
 .dialog-sure {
   text-align: center;
-  font-size: 18px;
+  font-size: var(--font-size-18);
   font-weight: bold;
 }
 
@@ -1706,10 +1860,10 @@ i.icon-Weakened {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  border: 1px solid var(--highlight-title);
+  border: 1px solid var(--purple-dark);
   padding: 5px;
   border-radius: 5px;
-  background: rgba(var(--highlight-title-rgb), 0.3);
+  background: rgba(var(--purple-dark-rgb), 0.3);
   color: white;
 }
 
@@ -1805,7 +1959,7 @@ form.quest-calendar {
 
 .qc-dialog-sure {
   text-align: center;
-  font-size: 18px;
+  font-size: var(--font-size-18);
   font-weight: bold;
 }
 
@@ -1971,7 +2125,7 @@ form.quest-calendar {
 }
 
 [class*="enricher-"] {
-  color: var(--highlight-title);
+  color: var(--purple-dark);
   font-weight: 900;
 }
 
@@ -2006,7 +2160,7 @@ form.quest-calendar {
   display: inline-block;
   /*-webkit-mask-image: url("/icons/svg/sun.svg");
   mask-image: url("/icons/svg/sun.svg");
-  background-color: var(--highlight-title);*/
+  background-color: var(--purple-dark);*/
   /*-webkit-filter: invert(86%) sepia(14%) saturate(4864%) hue-rotate(258deg) brightness(93%) contrast(88%);
   filter: invert(86%) sepia(14%) saturate(4864%) hue-rotate(258deg) brightness(93%) contrast(88%);*/
   width: 150px;
@@ -2028,7 +2182,7 @@ form.quest-calendar {
   color: var(--color-text-light-1);
   text-shadow: 1px 1px 30px var(--color-shadow-dark);
   text-shadow: 0 3px 5px black;
-  font-family: var(--font-title);
+  font-family: var(--font-serif);
   text-transform: uppercase;
 }
 
@@ -2054,10 +2208,10 @@ form.quest-calendar {
 }
 
 .weirdwizard.chat-message span.flavor-text {
-  font-family: var(--font-title);
-  font-size: 16px !important;
+  font-family: var(--font-serif);
+  font-size: var(--font-size-16) !important;
   font-weight: 600;
-  color: var(--highlight-title);
+  color: var(--purple-dark);
   /*border-bottom: 3px double black;
   margin-top: 5px;*/
 }
@@ -2156,7 +2310,7 @@ form.quest-calendar {
 .weirdwizard.chat-message .chat-button:focus,
 .weirdwizard.chat-message .chat-button:hover {
   text-shadow: none;
-  border-color: var(--highlight-title);
+  border-color: var(--purple-dark);
   color: black;
 }
 
@@ -2225,7 +2379,7 @@ form.quest-calendar {
 }
 
 .weirdwizard .dice-outcome {
-  font-family: var(--font-title);
+  font-family: var(--font-serif);
   font-size: var(--font-size-24);
   font-weight: bold;
   text-transform: uppercase;
@@ -2242,7 +2396,7 @@ form.quest-calendar {
 }
 
 .weirdwizard.chat-message .chat-target {
-  background: var(--highlight-title);
+  background: var(--purple-dark);
   color: white;
   padding: 2px;
   margin: 0px;
@@ -2256,7 +2410,7 @@ form.quest-calendar {
 }
 
 .weirdwizard.chat-message .chat-target-content {
-  border: 1px solid var(--highlight-title);
+  border: 1px solid var(--purple-dark);
   border-top: none;
   padding: 5px;
   border-radius: 0 0 5px 5px;
@@ -2374,7 +2528,7 @@ form.quest-calendar {
 
 .chat-button #context-menu li.context-item:hover,
 .enricher-call #context-menu li.context-item:hover {
-  background: rgba(var(--highlight-title-rgb), 0.5);
+  background: rgba(var(--purple-dark-rgb), 0.5);
 }
 
 .chat-button #context-menu img,

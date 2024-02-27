@@ -21,7 +21,6 @@
     "systems/weirdwizard/templates/actors/parts/NPC-summary.hbs",
     "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs",
     "systems/weirdwizard/templates/actors/parts/NPC-summary-weapon.hbs",
-    "systems/weirdwizard/templates/actors/parts/NPC-summary-fury.hbs",
 
     // Item partials
     "systems/weirdwizard/templates/items/parts/Equipment-details.hbs",

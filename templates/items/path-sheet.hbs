@@ -33,10 +33,10 @@
     <div class="right-col">
       {{#each benefits as |benefit id|}}
         {{#if (ne benefit.levelReq 99)}}
-        <div class="statbox{{#if (ne id 'benefit1')}} mt-2{{/if}}">
+        <div class="benefit-block{{#if (ne id 'benefit1')}} mt-2{{/if}}">
           
           {{!-- Header --}}
-          <h3>{{localize "WW.Stats.Level"}} {{benefit.levelReq}}</h3>
+          <h5>{{localize "WW.Stats.Level"}} {{benefit.levelReq}} {{@root.item.name}}</h5>
 
           {{!-- Languages --}}
           <div class="stat-inline list-entries">

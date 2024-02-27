@@ -43,6 +43,9 @@ export default class CharacterData extends foundry.abstract.DataModel {
       source.details.types = arr.filter(s => s).map((s) => ({ name: s.trim() }));
     }
 
+    // Migrate Types to Descriptors
+    if (source.details?.types && !source.details?.descriptors) source.details.descriptors = source.details.types;
+
     if (typeof source.details.senses === 'string') { // Senses
       const arr = source.details.senses.split(",");
       source.details.senses = arr.filter(s => s).map((s) => ({ name: s.trim() }));

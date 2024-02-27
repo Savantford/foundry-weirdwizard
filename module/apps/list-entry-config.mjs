@@ -30,7 +30,7 @@ export default class ListEntryConfig extends FormApplication {
 
     // Pass fields
     context.entry = this.entry;
-    if (this.actor) context.grantedBy = this.actor.items.get(this.entry.grantedBy) ? this.actor.items.get(this.entry.grantedBy).name : '';
+    if (this.actor) context.grantedBy = this.actor.items.get(this.entry?.grantedBy) ? this.actor.items.get(this.entry.grantedBy).name : '';
     
     return context;
   }

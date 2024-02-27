@@ -27,6 +27,16 @@ WW.FRACTION_NUMBERS = {
   12.0: '12',
 }
 
+WW.BESTIARY_DIFFICULTIES = {
+  1: 1,
+  2: 2,
+  4: 4,
+  8: 8,
+  16: 16,
+  32: 32,
+  64: 64
+}
+
 WW.COINS = {
   'cp': 'WW.Equipment.CP',
   'sp': 'WW.Equipment.SP',
@@ -37,11 +47,9 @@ WW.COINS = {
 
 WW.TALENT_SUBTYPES = {
   'trait': 'WW.Talent.Trait',
-  'aura': 'WW.Talent.Aura',
   'action': 'WW.Talent.Action',
   'reaction': 'WW.Talent.Reaction',
-  'end': 'WW.Talent.End',
-  'fury': 'WW.Talent.Fury',
+  'end': 'WW.Talent.End'
 };
 
 WW.TALENT_SOURCES = {

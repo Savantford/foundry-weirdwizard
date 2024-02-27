@@ -4,12 +4,12 @@
     {{#if item.needTargets}}<label class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
         title="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Targeting.TalentTargeted"}}
             {{else if (eq item.type "Equipment")}}{{localize "WW.Targeting.EquipmentTargeted"}}
-            {{else if (eq item.type "Spell")}}{{localize "WW.Targeting.SpellTargeted"}}{{/if}}">{{item.name}}</label>
+            {{else if (eq item.type "Spell")}}{{localize "WW.Targeting.SpellTargeted"}}{{/if}}">{{item.name}}:</label>
     {{else if item.isActivity}}<label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
         title="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Targeting.TalentUntargeted"}}
             {{else if (eq item.type "Equipment")}}{{localize "WW.Targeting.EquipmentUntargeted"}}
-            {{else if (eq item.type "Spell")}}{{localize "WW.Targeting.SpellUntargeted"}}{{/if}}">{{item.name}}</label>
-    {{else}}<label>{{item.name}}</label>{{/if}}
+            {{else if (eq item.type "Spell")}}{{localize "WW.Targeting.SpellUntargeted"}}{{/if}}">{{item.name}}:</label>
+    {{else}}<label>{{item.name}}:</label>{{/if}}
     
     <span class="buttons">
         {{!-- Use Buttons --}}

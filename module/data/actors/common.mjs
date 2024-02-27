@@ -23,6 +23,7 @@ export const attributes = () => ({
 export function stats(type = String) {
 
   let obj = {
+
     defense: makeDefense(type),
     health: makeHealth(type),
 
@@ -32,7 +33,6 @@ export function stats(type = String) {
     }),
 
     size: makeNumField(),
-    level: makeNumField(),
 
     speed: new fields.SchemaField({
       normal: makeIntField(5),
@@ -40,16 +40,19 @@ export function stats(type = String) {
     })
   }
 
-  if (type === 'Character') obj.bonusdamage = makeIntField();
-
-  else if (type === 'NPC') obj.solitary = makeBooField();
+  if (type === 'Character') {
+    obj.level = makeNumField();
+    obj.bonusdamage = makeIntField();
+  } else if (type === 'NPC') {
+    obj.difficulty = makeIntField(1);
+  };
 
   return {stats: new fields.SchemaField(obj)};
 };
 
 export function details(type = String) {
   const obj = {
-    types: new fields.ArrayField(
+    descriptors: new fields.ArrayField(
       new fields.ObjectField({ initial: {
         name: "",
         desc: "",
