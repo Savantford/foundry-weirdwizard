@@ -371,7 +371,7 @@ export default class WWItem extends Item {
 
     // Get actor list entries granted by the character option
     const filteredDetails = {
-      types: await this.actor.system.details.types.filter(i => {
+      descriptors: await this.actor.system.details.descriptors.filter(i => {
         return i.grantedBy === this._id;
       }),
       senses: await this.actor.system.details.senses.filter(i => {
@@ -404,7 +404,7 @@ export default class WWItem extends Item {
       // If level does not meet the requirement, ignore it
       if (level >= benefit.levelReq) {
 
-        if (benefit.types) this._addEntries(newDetails, filteredDetails, benefit, 'types');
+        if (benefit.descriptors) this._addEntries(newDetails, filteredDetails, benefit, 'descriptors');
         
         if (benefit.senses) this._addEntries(newDetails, filteredDetails, benefit, 'senses');
         

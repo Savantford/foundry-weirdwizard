@@ -1,5 +1,1 @@
-2024/02/27-20:47:20.913 4160 Log #165: 0 ops saved to Table #166 OK
-2024/02/27-20:47:20.914 4160 Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\docs/000165.log: OK
-2024/02/27-20:47:20.921 4160 Table #121: 4 entries OK
-2024/02/27-20:47:20.924 4160 Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\docs/MANIFEST-000164: OK
-2024/02/27-20:47:20.927 4160 **** Repaired leveldb C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\docs; recovered 1 files; 3826 bytes. Some data may have been lost. ****
+2024/02/27-20:47:20.937 4160 Delete type=3 #1
