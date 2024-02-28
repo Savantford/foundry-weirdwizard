@@ -23,7 +23,8 @@ export default class TargetingHUD extends Application {
       this.debounceRender();
     });
 
-    if (method === 'template') this.drawTemplate()
+    // Start drawing a template if the method uses template
+    if (method === 'template') this.drawTemplate();
     
   }
 

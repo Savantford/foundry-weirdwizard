@@ -28,13 +28,15 @@
             
         </div>
 
-        {{!-- Weapon Traits --}}
         {{#if item.isWeapon}}
+
+        {{!-- Weapon Traits --}}
         <div class="traits-container">
             {{#each item.traits as |trait id|}}
             <span class="header-button" title="{{trait.tip}}">{{trait.label}}</span>
             {{/each}}
         </div>
+
         {{/if}}
 
         {{/if}}
@@ -42,23 +44,31 @@
     
     <div class="message-wrapper">
 
-        
-
         {{!-- Content (Body) --}}
         {{#unless emptyContent}}
         <div class="message-content">
             {{{message.content}}}
         </div>
         {{/unless}}
-        
-        {{!-- Footer (Buttons) --}}
-        <footer class="message-footer">
+
+        {{!-- Roll Html --}}
             {{#if rollHtml}}
-            <div class="footer-roll">
-            {{{rollHtml}}}
+            <div class="roll-wrapper">
+                {{{rollHtml}}}
             </div>
             {{/if}}
+
+            {{!-- Attack Rider --}}
+            {{#if (and item.isWeapon item.attackRider.value)}}
+            <div class="message-attack-rider">
+                {{{item.attackRider.value}}}
+            </div>
+        {{/if}}
+        
+        {{!-- Footer --}}
+        <footer class="message-footer">
             
+            {{!-- Sender / Timestamp --}}
             <div class="footer-sender flexrow">
                 <h4 class="message-sender">{{#if avatar}}<img src="{{avatar}}">{{/if}}{{alias}}</h4>
                 <span class="message-metadata">
@@ -68,6 +78,7 @@
                     {{/if}}
                 </span>
             </div>
+
         </footer>
         
     </div>

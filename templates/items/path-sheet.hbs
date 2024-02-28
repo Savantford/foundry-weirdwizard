@@ -40,7 +40,7 @@
 
           {{!-- Languages --}}
           <div class="stat-inline list-entries">
-            <label>{{localize "WW.Detail.Language.Label"}}</label>
+            <label>{{localize "WW.Detail.Language.Label"}}:</label>
 
             {{#each benefit.languages as |detail detailId|}}
             <span class="list-entry">
@@ -53,7 +53,7 @@
                   title="{{localize "WW.Detail.Language.Remove"}}"><i class="fas fa-trash"></i></a>
               </span>{{#unless @last}},{{/unless}}
             </span>
-            {{/each}}{{#unless benefit.languages.length}}—{{/unless}}
+            {{/each}}{{#unless benefit.languages.length}}<span>—</span>{{/unless}}
               
             <a class="array-button" data-action="add" data-array="benefits.{{id}}.languages" data-loc="Language"
               title="{{localize "WW.Detail.Language.Add"}}"><i class="fas fa-circle-plus"></i></a>
@@ -63,35 +63,35 @@
           {{!-- Stats --}}
           <div class="stat-inline flex-wrap">
             <span>
-              <label>{{localize "WW.Defense.Armored"}}</label>
+              <label>{{localize "WW.Defense.Armored"}}:</label>
               +<input name="system.benefits.{{id}}.stats.armoredIncrease" type="number" value="{{benefit.stats.armoredIncrease}}" min="0" placeholder="0"/>
             </span>
 
             <span>
-              <label>{{localize "WW.Defense.Natural"}}</label>
+              <label>{{localize "WW.Defense.Natural"}}:</label>
               +<input name="system.benefits.{{id}}.stats.naturalIncrease" type="number" value="{{benefit.stats.naturalIncrease}}" min="0" placeholder="0"/>
               = <input name="system.benefits.{{id}}.stats.naturalSet" type="number" value="{{benefit.stats.naturalSet}}" min="0" placeholder="0"/>
             </span>
             
             {{#if (and (eq @root.system.tier 'novice') (eq benefit.levelReq 1))}}
             <span>
-              <label>{{localize "WW.Health.Starting"}}</label>
+              <label>{{localize "WW.Health.Starting"}}:</label>
               <input name="system.benefits.{{id}}.stats.healthStarting" type="number" value="{{benefit.stats.healthStarting}}" min="1" placeholder="1"/>
             </span>
             {{else}}
             <span>
-              <label>{{localize "WW.Health.Label"}}</label>
+              <label>{{localize "WW.Health.Label"}}:</label>
               +<input name="system.benefits.{{id}}.stats.healthIncrease" type="number" value="{{benefit.stats.healthIncrease}}" min="0" placeholder="0"/>
             </span>
             {{/if}}
 
             <span>
-              <label>{{localize "WW.Stats.Speed"}}</label>
+              <label>{{localize "WW.Stats.Speed"}}:</label>
               +<input name="system.benefits.{{id}}.stats.speedIncrease" type="number" value="{{benefit.stats.speedIncrease}}" min="0" placeholder="0"/>
             </span>
 
             <span>
-              <label>{{localize "WW.Damage.Bonus"}}</label>
+              <label>{{localize "WW.Damage.Bonus"}}:</label>
               +<input style="text-align: center;" name="system.benefits.{{id}}.stats.bonusDamage" type="number" value="{{benefit.stats.bonusDamage}}" min="0" placeholder="0"/>d6
             </span>
           </div>
@@ -101,7 +101,7 @@
 
             {{!-- Traditions --}}
             <div class="list-entries">
-              <label>{{localize "WW.Detail.Tradition.Label"}}</label>
+              <label>{{localize "WW.Detail.Tradition.Label"}}:</label>
 
               {{#each benefit.traditions as |detail detailId|}}
               <span class="list-entry">
@@ -114,13 +114,13 @@
                     title="{{localize "WW.Detail.Tradition.Remove"}}"><i class="fas fa-trash"></i></a>
                 </span>{{#unless @last}},{{/unless}}
               </span>
-              {{/each}}{{#unless benefit.traditions.length}}—{{/unless}}
+              {{/each}}{{#unless benefit.traditions.length}}<span>—</span>{{/unless}}
               
               <a class="array-button" data-action="add" data-array="benefits.{{id}}.traditions" data-loc="Tradition"
                 title="{{localize "WW.Detail.Tradition.Add"}}"><i class="fas fa-circle-plus"></i></a>
 
               {{!-- Spells --}}
-              <label>{{localize "WW.Spells.Label"}}</label>
+              <label>{{localize "WW.Spells.Label"}}:</label>
               
               <select name="system.benefits.{{id}}.spells">
                 {{selectOptions @root.spellsLearned selected=benefit.spells localize=true}}
@@ -140,7 +140,7 @@
             
             {{#each benefit.itemsInfo as |item id|}}
             <li class="path-item item{{#if item.missing}} missing{{/if}}" data-item-uuid="{{item.uuid}}">
-              <label>{{item.name}}</label>
+              <label>{{item.name}}:</label>
 
               <span class="buttons">
                 {{#unless item.missing}}<a class="ref-edit" title="{{localize "WW.CharOption.EditRef"}}"><i class="fas fa-edit"></i></a>{{/unless}}

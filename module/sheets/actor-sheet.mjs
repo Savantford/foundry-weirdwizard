@@ -71,9 +71,9 @@ export default class WWActorSheet extends ActorSheet {
     context.incapacitated = context.actor.incapacitated;
     context.dead = context.actor.dead;
 
-    // Prepare numbersArr, Size, Level and Difficulty
-    context.numbersArr = Object.entries(CONFIG.WW.FRACTION_NUMBERS).map(([k, v]) => ({key: k, label: v})).sort((a,b) => a.key - b.key);
-    context.size = CONFIG.WW.FRACTION_NUMBERS[context.system.stats.size];
+    // Prepare Sizes
+    context.sizes = Object.entries(CONFIG.WW.SIZES).map(([k, v]) => ({key: k, label: v})).sort((a,b) => a.key - b.key);
+    context.size = CONFIG.WW.SIZES[context.system.stats.size];
 
     // Prepare hasEffect for use in templates
     context.hasEffect = {};
@@ -338,7 +338,8 @@ export default class WWActorSheet extends ActorSheet {
   async _prepareCharacterData(context) {
 
     // Prepare dropdown lists
-    context.level = CONFIG.WW.FRACTION_NUMBERS[context.system.stats.level];
+    context.levels = CONFIG.WW.LEVELS;
+    context.level = CONFIG.WW.LEVELS[context.system.stats.level];
 
     // Prepare enriched variables for editor.
     context.system.details.features.enriched = await TextEditor.enrichHTML(context.system.details.features.value, { async: true })
@@ -539,6 +540,7 @@ export default class WWActorSheet extends ActorSheet {
         origin: origin,
         label: label,
         content: content,
+        attackRider: attackRider,
         attKey: attKey,
         action: action,
         dontRoll: true
@@ -937,7 +939,7 @@ export default class WWActorSheet extends ActorSheet {
    * @param {Object} obj
    */
   async selectTargets(obj) {
-    clearUserTargets()
+    //clearUserTargets()
 
     // Switch to the controls layer, activate target tool then switch to tokens layer
     const initialLayer = canvas.activeLayer;

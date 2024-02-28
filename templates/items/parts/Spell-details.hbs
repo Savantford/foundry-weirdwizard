@@ -1,6 +1,6 @@
 {{!-- Castings --}}
 <div class="flex-row stat-inline">
-    <label class="">{{localize "WW.Spell.Castings"}}</label>
+    <label class="">{{localize "WW.Spell.Castings"}}:</label>
     
     <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="1" data-dtype="Number" />
     
@@ -9,14 +9,14 @@
 
 {{!-- Target --}}
 <div class="flex-row stat-inline">
-    <label class="resource-label">{{localize "WW.Spell.Target"}}</label>
+    <label class="resource-label">{{localize "WW.Spell.Target"}}:</label>
     
     <input type="text" name="system.target" value="{{system.target}}" data-dtype="String" />
 </div>
 
 {{!-- Duration --}}
 <div class="flex-row stat-inline">
-    <label class="resource-label">{{localize "WW.Spell.Duration"}}</label>
+    <label class="resource-label">{{localize "WW.Spell.Duration"}}:</label>
 
     <input type="text" name="system.duration" value="{{system.duration}}" data-dtype="String" />
 </div>
@@ -27,7 +27,7 @@
 
 {{#if grantedBy}}
 <div class="stat-inline mt-1">
-    <label>{{localize "WW.CharOption.GrantedBy"}}</label>
+    <label>{{localize "WW.CharOption.GrantedBy"}}:</label>
     {{grantedBy}}
 </div>
 {{/if}}
