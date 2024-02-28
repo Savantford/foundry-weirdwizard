@@ -25,7 +25,7 @@ export default class WWRoll extends Roll {
       user: game.user.id,
       tooltip: isPrivate ? "" : await this.getTooltip(),
       total: isPrivate ? "?" : Math.round(this.total * 100) / 100,
-      targetNo: this.data.targetNo,
+      targetNo: isPrivate ? "?" : this.data.targetNo,
       terms: await this.terms,
       outcome: this.outcome
     };

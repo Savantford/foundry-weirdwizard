@@ -83,10 +83,10 @@ export default class RollAttribute extends FormApplication {
     super.activateListeners(html);
 
     // Handle closing the window without saving
-    html.find('#boons-cancel').click(() => this.close({ submit: false }))
+    html.find('#boons-cancel').click(() => this.close({ submit: false }));
 
     // Handle closing the window without saving
-    html.find('.boons-situational > a').click((ev) => this._onSituationalBoons(ev))
+    html.find('.boons-situational > a').click((ev) => this._onSituationalBoons(ev));
 
     // Update forms fields dynamically
     const el = html.find('input'); // html.find('input[type=number]')
@@ -237,8 +237,8 @@ export default class RollAttribute extends FormApplication {
       // Determine the rollFormula
       const rollFormula = "1d20" + (this.mod != "+0" ? this.mod : "") + boons;
 
-      // Set targetNo to 10
-      const targetNo = 10;
+      // Set targetNo to the custom
+      const targetNo = formData.targetno ? formData.targetno : '';
 
       // Construct the Roll instance and evaluate the roll
       let r = await new WWRoll(rollFormula, { targetNo: targetNo }, { template: "systems/weirdwizard/templates/chat/roll.hbs" }).evaluate({async:true});
@@ -313,9 +313,11 @@ export default class RollAttribute extends FormApplication {
       if (targeted) { // Roll is targeted
 
         if (critical) {
+          rollHtml += this._addWeaponDamage();
           rollHtml += this._addEffectButtons('onCritical', { singleRoll: true });
   
         } else if (success) {
+          rollHtml += this._addWeaponDamage();
           rollHtml += this._addEffectButtons('onSuccess', { singleRoll: true });
   
         } else {
@@ -325,9 +327,11 @@ export default class RollAttribute extends FormApplication {
       } else { // Roll is untargeted
 
         if (critical) {
+          rollHtml += this._addWeaponDamage();
           rollHtml += this._addEffectButtons('onCritical');
   
         } else if (success) {
+          rollHtml += this._addWeaponDamage();
           rollHtml += this._addEffectButtons('onSuccess');
   
         } else {
@@ -458,7 +462,7 @@ export default class RollAttribute extends FormApplication {
       finalHtml = chatMessageButton({
         action: 'roll-damage',
         originUuid: this.item?.uuid,
-        targetId: target.id,
+        targetId: target ? target.id : "",
         value: weaponDamage
       });
     }
@@ -564,8 +568,7 @@ export default class RollAttribute extends FormApplication {
     else if ((effTarget === 'enemies') && (dispo === -1)) return true;
     else if (effTarget === 'tokens') return true;
     else return false;
-  }
-  
+  }  
 
   /* -------------------------------------------- */
   /*  Getters                                     */

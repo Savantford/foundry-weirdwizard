@@ -62,8 +62,6 @@ export default class WWChatMessage extends ChatMessage {
       const sys = item?.system;
 
       item.traits = [];
-      item.advantages = [];
-      item.disadvantages = [];
 
       if (sys.traits) Object.entries(sys.traits).filter(([, val]) => val === true).map((x) => {
         item.traits.push({
@@ -72,19 +70,6 @@ export default class WWChatMessage extends ChatMessage {
         })
       })
 
-      if (sys.advantages) Object.entries(sys.advantages).filter(([, val]) => val === true).map((x) => {
-        item.advantages.push({
-          label: i18n('WW.Weapon.Advantages.' + capitalize(x[0]) + '.Label'),
-          tip: i18n('WW.Weapon.Advantages.' + capitalize(x[0]) + '.Tip'),
-        })
-      })
-
-      if (sys.disadvantages) Object.entries(sys.disadvantages).filter(([, val]) => val === true).map((x) => {
-        item.disadvantages.push({
-          label: i18n('WW.Weapon.Disadvantages.' + capitalize(x[0]) + '.Label'),
-          tip: i18n('WW.Weapon.Disadvantages.' + capitalize(x[0]) + '.Tip'),
-        })
-      })
     }
     
     // Construct message data
@@ -101,8 +86,7 @@ export default class WWChatMessage extends ChatMessage {
         tier: item.system.tier ? item.system.tier : null,
         isWeapon: item.system.subtype ?? item.system.subtype,
         traits: item.traits,
-        advantages: item.advantages,
-        disadvantages: item.disadvantages
+        attackRider: item.system.attackRider
       } : null,
       rollHtml: rollHtml,
       emptyContent: emptyContent,

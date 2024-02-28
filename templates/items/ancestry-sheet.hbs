@@ -34,7 +34,7 @@
         {{!-- Descriptor(s) --}}
         <div class="stat-inline list-entries">
 
-          <label>{{localize "WW.Detail.Descriptor.Label"}}</label>  
+          <label>{{localize "WW.Detail.Descriptor.Label"}}:</label>  
 
           {{#each benefits.benefit1.descriptors as |detail id|}}
           <span class="list-entry">
@@ -47,7 +47,7 @@
                 title="{{localize "WW.Detail.Descriptor.Remove"}}"><i class="fas fa-trash"></i></a>
             </span>{{#unless @last}},{{/unless}}
           </span>
-          {{/each}}{{#unless benefits.benefit1.descriptors.length}}—{{/unless}}
+          {{/each}}{{#unless benefits.benefit1.descriptors.length}}<span>—</span>{{/unless}}
             
           <a class="array-button" data-action="add" data-array="benefits.benefit1.descriptors" data-loc="Descriptor"
             title="{{localize "WW.Detail.Descriptor.Add"}}"><i class="fas fa-circle-plus"></i></a>
@@ -56,7 +56,7 @@
 
         {{!-- Senses --}}
         <div class="stat-inline list-entries">
-          <label>{{localize "WW.Detail.Sense.Label"}}</label>       
+          <label>{{localize "WW.Detail.Sense.Label"}}:</label>       
 
           {{#each benefits.benefit1.senses as |detail id|}}
           <span class="list-entry">
@@ -69,7 +69,7 @@
                 title="{{localize "WW.Detail.Sense.Remove"}}"><i class="fas fa-trash"></i></a>
             </span>{{#unless @last}},{{/unless}}
           </span>
-          {{/each}}{{#unless benefits.benefit1.senses.length}}—{{/unless}}
+          {{/each}}{{#unless benefits.benefit1.senses.length}}<span>—</span>{{/unless}}
             
           <a class="array-button" data-action="add" data-array="benefits.benefit1.senses" data-loc="Sense"
             title="{{localize "WW.Detail.Sense.Add"}}"><i class="fas fa-circle-plus"></i></a>        
@@ -78,7 +78,7 @@
 
         {{!-- Bonus Languages --}}
         <div class="stat-inline list-entries">
-          <label>{{localize "WW.Detail.Language.Bonus"}}</label>        
+          <label>{{localize "WW.Detail.Language.Bonus"}}:</label>        
 
           {{#each benefits.benefit1.languages as |detail id|}}
           <span class="list-entry">
@@ -91,7 +91,7 @@
                 title="{{localize "WW.Detail.Language.Remove"}}"><i class="fas fa-trash"></i></a>
             </span>{{#unless @last}},{{/unless}}
           </span>
-          {{/each}}{{#unless benefits.benefit1.languages.length}}—{{/unless}}
+          {{/each}}{{#unless benefits.benefit1.languages.length}}<span>—</span>{{/unless}}
             
           <a class="array-button" data-action="add" data-array="benefits.benefit1.languages" data-loc="Language"
             title="{{localize "WW.Detail.Language.Add"}}"><i class="fas fa-circle-plus"></i></a>
@@ -100,7 +100,7 @@
 
         {{!-- Attributes --}}
         <div class="stat-inline">
-          <label>{{localize "WW.Attributes.Label"}}</label>
+          <label>{{localize "WW.Attributes.Label"}}:</label>
           
           <input name="system.benefits.benefit1.attributes" type="text"
             value="{{benefits.benefit1.attributes}}" />
@@ -110,13 +110,13 @@
         <div class="stat-inline">
                 
           <span>
-            <label>{{localize "WW.Defense.Natural"}}</label>
+            <label>{{localize "WW.Defense.Natural"}}:</label>
             +<input name="system.benefits.benefit1.stats.naturalIncrease" type="number"
               value="{{benefits.benefit1.stats.naturalIncrease}}" min="0" placeholder="0" />
           </span>
       
           <span>
-            <label>{{localize "WW.Health.Label"}}</label>
+            <label>{{localize "WW.Health.Label"}}:</label>
             +<input name="system.benefits.benefit1.stats.healthIncrease" type="number"
               value="{{benefits.benefit1.stats.healthIncrease}}" min="0" placeholder="0" />
           </span>
@@ -127,13 +127,13 @@
         <div class="stat-inline list-entries">
 
           {{!-- Size --}}
-          <label>{{localize "WW.Stats.Size"}}</label>
+          <label>{{localize "WW.Stats.Size"}}:</label>
 
           <input name="system.benefits.benefit1.stats.sizeNormal" type="number"
             value="{{benefits.benefit1.stats.sizeNormal}}" min="0" placeholder="1" />
             
           {{!-- Speed --}}
-          <label>{{localize "WW.Stats.Speed"}}</label>
+          <label>{{localize "WW.Stats.Speed"}}:</label>
 
           <input name="system.benefits.benefit1.stats.speedNormal" type="number"
             value="{{benefits.benefit1.stats.speedNormal}}" min="1" placeholder="1" />
@@ -157,7 +157,7 @@
 
         {{!-- Immune --}}
         <div class="stat-inline list-entries">
-          <label>{{localize "WW.Detail.Immune.Label"}}</label>  
+          <label>{{localize "WW.Detail.Immune.Label"}}:</label>  
 
           {{#each benefits.benefit1.immune as |detail id|}}
           <span class="list-entry">
@@ -172,7 +172,7 @@
           </span>
           {{/each}}
             
-          {{#unless benefits.benefit1.immune.length}}—{{/unless}}
+          {{#unless benefits.benefit1.immune.length}}<span>—</span>{{/unless}}
             
           <a class="array-button" data-action="add" data-array="benefits.benefit1.immune" data-loc="Immune"
             title="{{localize "WW.Detail.Immune.Add"}}"><i class="fas fa-circle-plus"></i></a>
@@ -187,7 +187,7 @@
       
           {{#each benefits.benefit1.itemsInfo as |item id|}}
           <li class="path-item item{{#if item.missing}} missing{{/if}}" data-item-uuid="{{item.uuid}}">
-            <label>{{item.name}}</label>
+            <label>{{item.name}}:</label>
       
             <span class="buttons">
               {{#unless item.missing}}<a class="ref-edit" title="{{localize " WW.CharOption.EditRef"}}"><i

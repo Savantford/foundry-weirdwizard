@@ -17,7 +17,7 @@
                     <a class="item-button" data-action="item-delete" data-item-id="{{charOptions.ancestry._id}}"
                         title="{{localize "WW.Item.Delete.Ancestry"}}"><i class="fas fa-trash"></i></a>
                     
-                    </span>{{/if}}{{#unless charOptions.ancestry}}—
+                    </span>{{/if}}{{#unless charOptions.ancestry}}<span>—</span>
                     
                     {{!-- Create Button --}}
                     <a class="item-control item-create" title="{{localize "WW.Item.Add.Ancestry"}}" data-type="Ancestry"><i
@@ -52,28 +52,28 @@
             {{!-- Level --}}
             <div class="statbox-level">
                 
-                <label>{{localize "WW.Stats.Level"}}</label>
+                <label>{{localize "WW.Stats.Level"}}:</label>
 
                 <select name="system.stats.level">
-                    {{selectOptions numbersArr selected=system.stats.level nameAttr="key" labelAttr="label"}}
+                    {{selectOptions levels selected=system.stats.level}}
                 </select>
 
             </div>
 
         </h4>
         
-        {{!-- Level, Size, Speed, Ancestry, Descriptors --}}
+        {{!-- Size, Speed, Ancestry, Descriptors --}}
         <div class="statbox-section">
 
             {{!-- Size, Speed --}}
             <div class="stat-inline list-entries">
 
                 {{!-- Size --}}
-                <label>{{localize "WW.Stats.Size"}}</label>
-                {{system.stats.size}}
+                <label>{{localize "WW.Stats.Size"}}:</label>
+                <a>{{system.stats.size}}</a>
                 
                 {{!-- Speed --}}
-                <label class="ml-1">{{localize "WW.Stats.Speed"}}</label>
+                <label class="ml-1">{{localize "WW.Stats.Speed"}}:</label>
 
                 <a class="mr-1" title="{{localize "WW.Stats.NormalSpeed"}}: {{system.stats.speed.normal}}">{{system.stats.speed.current}}</a>
                 
@@ -101,7 +101,7 @@
 
             {{!-- Professions --}}
             <div class="stat-inline list-entries">
-                <label>{{localize "WW.CharOptions.Professions"}}</label>    
+                <label>{{localize "WW.CharOptions.Professions"}}:</label>    
 
                 {{#each charOptions.professions as |item id|}}
                 <span class="list-entry">
@@ -124,7 +124,7 @@
                 </span>
                 {{/each}}
 
-                {{#unless charOptions.professions.length}}—{{/unless}}
+                {{#unless charOptions.professions.length}}<span>—</span>{{/unless}}
                     
                 {{!-- Create Button --}}
                 <a class="item-control item-create" title="{{localize "WW.Item.Add.Profession"}}" data-type="Profession"><i
@@ -134,7 +134,7 @@
 
             {{!-- Paths --}}
             <div class="stat-inline list-entries">
-                <label for="paths" class="resource-label">{{localize "WW.CharOptions.Paths"}}</label>
+                <label for="paths" class="resource-label">{{localize "WW.CharOptions.Paths"}}:</label>
 
                 {{!-- Novice Path --}}
                 <div class="list-entry">
@@ -147,7 +147,7 @@
                         <a class="item-button" data-action="item-delete" data-item-id="{{charOptions.novice._id}}"
                             title="{{localize "WW.Item.Delete.NovicePath"}}"><i class="fas fa-trash"></i></a>
                         
-                    </span>{{/if}}{{#unless charOptions.novice}}—
+                    </span>{{/if}}{{#unless charOptions.novice}}<span>—</span>
                     
                     {{!-- Create Button --}}
                     <a class="item-control item-create" title="{{localize "WW.Item.Add.NovicePath"}}" data-type="Path" data-tier="novice"><i
@@ -167,7 +167,7 @@
                         <a class="item-button" data-action="item-delete" data-item-id="{{charOptions.expert._id}}"
                             title="{{localize "WW.Item.Delete.ExpertPath"}}"><i class="fas fa-trash"></i></a>
                         
-                    </span>{{/if}}{{#unless charOptions.expert}}—
+                    </span>{{/if}}{{#unless charOptions.expert}}<span>—</span>
                     
                     {{!-- Create Button --}}
                     <a class="item-control item-create" title="{{localize "WW.Item.Add.ExpertPath"}}" data-type="Path" data-tier="expert"><i
@@ -190,7 +190,7 @@
                         
                     </span>{{/if}}
 
-                    {{#unless charOptions.master}}—
+                    {{#unless charOptions.master}}<span>—</span>
                     
                     {{!-- Create Button --}}
                     <a class="item-control item-create" title="{{localize "WW.Item.Add.MasterPath"}}" data-type="Path" data-tier="master"><i
@@ -205,7 +205,7 @@
             {{!-- Languages --}}
             <div class="stat-inline list-entries">
                 
-                <label>{{localize "WW.Detail.Language.Label"}}</label>
+                <label>{{localize "WW.Detail.Language.Label"}}:</label>
                 
                 {{#each system.details.languages as |detail id|}}
                 <span class="list-entry">
@@ -221,7 +221,7 @@
                 </span>
                 {{/each}}
                 
-                {{#unless system.details.languages.length}}—{{/unless}}
+                {{#unless system.details.languages.length}}<span>—</span>{{/unless}}
                 
                 <a class="array-button" data-action="add" data-array="details.languages" data-loc="Language"
                     title="{{localize "WW.Detail.Language.Add"}}"><i class="fas fa-circle-plus"></i></a>
@@ -230,7 +230,7 @@
 
             {{!-- Senses --}}
             <div class="stat-inline list-entries">
-                <label>{{localize "WW.Detail.Sense.Label"}}</label>
+                <label>{{localize "WW.Detail.Sense.Label"}}:</label>
 
                 {{#each system.details.senses as |detail id|}}
                 <span class="list-entry">
@@ -247,7 +247,7 @@
                 </span>
                 {{/each}}
                 
-                {{#unless system.details.senses.length}}—{{/unless}}
+                {{#unless system.details.senses.length}}<span>—</span>{{/unless}}
                 
                 <a class="array-button" data-action="add" data-array="details.senses" data-loc="Sense"
                     title="{{localize "WW.Detail.Sense.Add"}}"><i class="fas fa-circle-plus"></i></a>
@@ -257,7 +257,7 @@
             {{!-- Immune --}}
             <div class="stat-inline list-entries">
 
-                <label>{{localize "WW.Detail.Immune.Label"}}</label>
+                <label>{{localize "WW.Detail.Immune.Label"}}:</label>
 
                 {{#each system.details.immune as |detail id|}}
                 <span class="list-entry">
@@ -274,7 +274,7 @@
                 </span>
                 {{/each}}
 
-                {{#unless system.details.immune.length}}—{{/unless}}
+                {{#unless system.details.immune.length}}<span>—</span>{{/unless}}
 
                 <a class="array-button" data-action="add" data-array="details.immune" data-loc="Immune"
                     title="{{localize "WW.Detail.Immune.Add"}}"><i class="fas fa-circle-plus"></i></a>        
@@ -289,7 +289,7 @@
             {{!-- Bonus Damage --}}
             {{#if system.stats.bonusdamage}}
             <div class="stat">
-                <label class="" for="bonusdamage" class="resource-label">{{localize "WW.Damage.Bonus"}}</label>
+                <label class="" for="bonusdamage" class="resource-label">{{localize "WW.Damage.Bonus"}}:</label>
                 +{{system.stats.bonusdamage}}d6
             </div>
             {{/if}}
@@ -350,7 +350,7 @@
             {{!-- Traditions --}}
             <div class="stat-inline mb-1 list-entries">
 
-                <label>{{localize "WW.Detail.Tradition.Label"}}</label>
+                <label>{{localize "WW.Detail.Tradition.Label"}}:</label>
 
                 {{#each system.details.traditions as |detail id|}}
                 <span class="list-entry">
@@ -367,7 +367,7 @@
                 </span>
                 {{/each}}
                     
-                {{#unless system.details.traditions.length}}—{{/unless}}
+                {{#unless system.details.traditions.length}}<span>—</span>{{/unless}}
                 <a class="array-button" data-action="add" data-array="details.traditions" data-loc="Tradition"
                     title="{{localize "WW.Detail.Tradition.Add"}}"><i class="fas fa-circle-plus"></i></a>            
                 

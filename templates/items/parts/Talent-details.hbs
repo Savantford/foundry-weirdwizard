@@ -3,7 +3,7 @@
 
     {{!-- Source --}}
     <div>
-        <label>{{localize "WW.Talent.Source.Label"}}</label>
+        <label>{{localize "WW.Talent.Source.Label"}}:</label>
 
         <select name="system.source">
             {{selectOptions sources selected=system.source localize=true}}
@@ -12,7 +12,7 @@
     
     {{!-- Uses/Tokens --}}
     <div>
-        <label>{{localize "WW.Talent.Uses"}}</label>
+        <label>{{localize "WW.Talent.Uses"}}:</label>
 
         <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="0" data-dtype="Number" />
         
@@ -27,7 +27,7 @@
 {{!-- Aura Range --}}
 {{#if (eq system.subtype 'aura')}}
 <div class="stat-inline">
-    <label>{{localize "WW.Talent.AuraRange"}}</label>
+    <label>{{localize "WW.Talent.AuraRange"}}:</label>
     <input type="number" name="system.range" value="{{system.range}}" min="0" placeholder="#" data-dtype="Number" />
 </div>
 {{/if}}
@@ -36,7 +36,7 @@
 
 {{#if grantedBy}}
 <div class="stat-inline mt-1">
-    <label>{{localize "WW.CharOption.GrantedBy"}}</label>
+    <label>{{localize "WW.CharOption.GrantedBy"}}:</label>
     {{grantedBy}}
 </div>
 {{/if}}

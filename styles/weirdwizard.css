@@ -1301,12 +1301,29 @@ input[type="checkbox"].checkbox-uses {
   margin-right: 5px;
 }
 
-.weirdwizard .item p {
-  text-indent: 1em;
-  margin: 0px;
+.weirdwizard .described-list .item,
+.weirdwizard .list-entries {
+  padding-left: 1em;
+  text-indent: -1em;
 }
-.weirdwizard .item p:nth-child(-n+1) {
+
+.weirdwizard .item p,
+.weirdwizard .list-entries > :not(:first-child) {
+  margin: 0px;
+  text-indent: 0;
+}
+
+.weirdwizard .item p:nth-child(-n+1),
+.weirdwizard .list-entries > :not(:first-child) {
   display: inline;
+}
+
+.weirdwizard .list-entries > .hover-only {
+  display: none;
+}
+
+.weirdwizard .item p:not(:first-of-type) {
+  text-indent: 1em;
 }
 
 .weirdwizard .summary-list {
@@ -1333,8 +1350,8 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard .described-list,
 .weirdwizard .compact-list {
   list-style: none;
-  padding: 0px;
-  margin: 2px 5px;
+  padding: 2px 0;
+  margin: 0 5px;
   color: var(--body-text-color);
 }
 
@@ -1418,6 +1435,7 @@ input[type="checkbox"].checkbox-uses {
   display: inline-flex;
   flex-wrap: nowrap;
   gap: 3px;
+  text-indent: 0;
 }
 
 .attacks-list .buttons {
@@ -1539,6 +1557,19 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard .path-sheet .benefit-block > * {
   padding: 2px 5px;
+  margin: 0;
+}
+
+.weirdwizard .path-sheet .benefit-block > h5 {
+  margin: 10px 0 5px 0;
+}
+
+.weirdwizard .path-sheet .benefit-block > h5:first-of-type {
+  margin-top: 0;
+}
+
+.weirdwizard .path-sheet .benefit-block > .list-entries {
+  padding: 2px calc(1em + 5px);
   margin: 0;
 }
 
@@ -2287,11 +2318,11 @@ form.quest-calendar {
   width: 100%;
 }
 
-.weirdwizard.chat-message .footer-roll > .chat-button {
+.weirdwizard.chat-message .roll-wrapper > .chat-button {
   margin-right: 5px;
 }
 
-.weirdwizard.chat-message .footer-roll > .chat-button:last-of-type {
+.weirdwizard.chat-message .roll-wrapper > .chat-button:last-of-type {
   margin-right: 0px
 }
 
@@ -2320,26 +2351,30 @@ form.quest-calendar {
   margin-top: 5px;
 }
 
-.weirdwizard .message-content {
-  /*display: flex;
-  flex-direction: column;
-  this was breaking the layout*/
+.weirdwizard .message-content,
+.weirdwizard .message-attack-rider {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 3px;
   padding: 5px;
 }
 
-.weirdwizard.chat-message div.message-content p:first-of-type {
+.weirdwizard .message-attack-rider:not(:first-child) {
+  margin-top: 10px;
+}
+
+.weirdwizard.chat-message div.message-content p:first-of-type,
+.weirdwizard.chat-message div.message-attack-rider p:first-of-type {
   margin-top: 0px;
 }
 
-.weirdwizard.chat-message div.message-content p:last-of-type {
+.weirdwizard.chat-message div.message-content p:last-of-type,
+.weirdwizard.chat-message div.message-attack-rider p:last-of-type {
   margin-bottom: 0px;
 }
 
 /* Chat Footer */
 
-.weirdwizard.chat-message .footer-roll {
+.weirdwizard.chat-message .roll-wrapper {
   margin-top: 5px;
   text-align: center;
 }

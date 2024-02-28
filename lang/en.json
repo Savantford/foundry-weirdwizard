@@ -189,6 +189,7 @@
 "WW.Roll.Dont": "Don't roll",
 "WW.Roll.Against": "Against",
 "WW.Roll.AgainstDefault": "Nothing (10)",
+"WW.Roll.TargetNumber": "Custom Target Number",
 "WW.Roll.ForEach": "Roll separately for each target",
 "WW.Roll.AgainstWrn": "Nothing selected to roll against. Please select Defense or an attribute to roll against in the Weapon's Automation & Effects tab.",
 "WW.Roll.Success": "Success",

@@ -2,20 +2,20 @@
 <div class="stat-inline flex-wrap">
 
     <div>
-        <label>{{localize "WW.Equipment.Quality.Label"}}</label>
+        <label>{{localize "WW.Equipment.Quality.Label"}}:</label>
         <select name="system.quality">
             {{selectOptions qualities selected=system.quality localize=true}}
         </select>
     </div>
 
     <div>
-        <label>{{localize "WW.Equipment.Uses"}}</label>
+        <label>{{localize "WW.Equipment.Uses"}}:</label>
         <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="0" data-dtype="Number" />
         <input class="checkbox-uses" type="checkbox" name="system.uses.onRest" {{checked system.uses.onRest}} title="{{localize "WW.Item.Uses.OnRest"}}"/>
     </div>
 
     <div>
-        <label>{{localize "WW.Equipment.Price"}}</label>
+        <label>{{localize "WW.Equipment.Price"}}:</label>
         <input type="number" name="system.price.value" value="{{system.price.value}}" min="0" data-dtype="Number" />
         <select name="system.price.coin">
             {{selectOptions coins selected=system.price.coin localize=true}}
@@ -23,12 +23,12 @@
     </div>
 
     <div>
-        <label>{{localize "WW.Equipment.Quantity"}}</label>
+        <label>{{localize "WW.Equipment.Quantity"}}:</label>
         <input type="number" name="system.quantity" value="{{system.quantity}}" min="0" data-dtype="Number" />
     </div>
 
     <div>
-        <label>{{localize "WW.Equipment.WeightUnit"}}</label>
+        <label>{{localize "WW.Equipment.WeightUnit"}}:</label>
         <input type="number" name="system.weightUnit" value="{{system.weightUnit}}" min="0" data-dtype="Number" />
     </div>
 
@@ -42,7 +42,7 @@
 
 {{#if grantedBy}}
 <div class="stat-inline mt-1">
-    <label>{{localize "WW.CharOption.GrantedBy"}}</label>
+    <label>{{localize "WW.CharOption.GrantedBy"}}:</label>
     {{grantedBy}}
 </div>
 {{/if}}

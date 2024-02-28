@@ -7,7 +7,7 @@
                 
             {{!-- Descriptor(s) --}}
             <span class="list-entries mb-0">
-                {{log system.details.descriptors}}
+                
                 {{#each system.details.descriptors as |detail id|}}
                 <span class="list-entry">
                 
@@ -136,13 +136,14 @@
                 {{!-- Size --}}
                 <label>{{localize "WW.Stats.Size"}}:</label>
                 <select name="system.stats.size">
-                    {{selectOptions numbersArr selected=system.stats.size nameAttr="key" labelAttr="label"}}
+                    {{selectOptions sizes selected=system.stats.size nameAttr="key" labelAttr="label"}}
                 </select>
                 
                 {{!-- Speed --}}
                 <label class="ml-1">{{localize "WW.Stats.Speed"}}:</label>
 
-                {{system.stats.speed.current}}
+                <span>{{system.stats.speed.current}}</span>
+                
                 <span class="stat-edit">{{localize "WW.Stats.Normal"}}: <input type="number" name="system.stats.speed.normal" value="{{system.stats.speed.normal}}" min="0" /></span>
                 
                 {{!-- Movement Traits --}}
