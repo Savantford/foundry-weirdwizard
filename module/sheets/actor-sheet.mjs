@@ -204,11 +204,11 @@ export default class WWActorSheet extends ActorSheet {
             i.label = (i.system.traits.range ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + i.name + (i.system.traitsList ? ' ● ' + i.system.traitsList : '');
           }
 
-          equipment.push(i);
-
-          // If an weapon or NPC sheet, also append to weapons.
+          // If an weapon or NPC sheet, append to weapons.
           if ((i.system.subtype == 'weapon') || (context.actor.type == 'NPC')) {
             weapons.push(i);
+          } else {
+            equipment.push(i);
           }
         }
 
