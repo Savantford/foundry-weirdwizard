@@ -38,7 +38,7 @@
     </span>
 
     {{!-- Traits --}}
-    <span class="traits-line">({{item.system.grip}}{{#if item.system.traitsList}};
+    <span class="traits-line">({{localize (concat 'WW.Weapon.Grip.' item.system.grip 'Short')}}{{#if item.system.traitsList}};
         {{item.system.traitsList}}{{/if}})</span>
 
     {{!-- Modifier --}}

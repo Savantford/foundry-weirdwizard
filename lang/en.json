@@ -314,8 +314,11 @@
 
 "WW.Weapon.Grip.Label": "Grip",
 "WW.Weapon.Grip.One": "One-Handed",
+"WW.Weapon.Grip.OneShort": "One",
 "WW.Weapon.Grip.Two": "Two-Handed",
+"WW.Weapon.Grip.TwoShort": "Two",
 "WW.Weapon.Grip.Off": "Off-Hand",
+"WW.Weapon.Grip.OffShort": "Off",
 
 "WW.Weapon.Requirements.Label": "Requires",
 "WW.Weapon.Requirements.None": "—",
