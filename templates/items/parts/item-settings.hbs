@@ -13,8 +13,12 @@
             {{#if system.attribute}}
                 {{localize "WW.Boons.With"}}
 
-                <input class="mx-1 bold" type="number" name="system.boons" value="{{system.boons}}" placeholder="0"
-                    data-dtype="Number" />
+                <div class="mx-1 input-wrap bold">
+                    <input type="number" name="system.boons" value="{{system.boons}}" placeholder="0"
+                        data-dtype="Number" />
+
+                    <div class="input-overlay">{{system.boons}}</div>
+                </div>
                 
                 {{#if (lt item.system.boons -1)}}{{localize "WW.Boons.Banes"}}
                     {{else if (lt item.system.boons 0)}}{{localize "WW.Boons.Bane"}}
@@ -62,7 +66,11 @@
         <div class="flex-row stat-inline mt-1">
             <label>{{localize "WW.Targeting.Value"}}</label>
 
-            <input class="mr-1" type="number" name="system.template.value" value="{{system.template.value}}" min="1" data-dtype="Number" />
+            <div class="input-wrap mr-1">
+                <input type="number" name="system.template.value" value="{{system.template.value}}" min="1" data-dtype="Number" />
+
+                <div class="input-overlay">{{system.template.value}}</div>
+            </div>
 
             {{localize "WW.Targeting.MeasuredUnit"}}
         </div>

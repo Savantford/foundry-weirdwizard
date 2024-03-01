@@ -5,19 +5,42 @@
     {{!-- Coins --}}
     <div class="flex-row stat-inline nowrap coins mr-auto">
         <label for="system.currency" class="resource-label">{{localize "WW.Equipment.Coins"}}</label>
-        <ol class="coins-list hl">
+
+        <ol class="coins-list hl flex-children">
+
             <li>
-                <input type="number" name="system.currency.gp" value="{{system.currency.gp}}" min="0"
-                    data-dtype="Number" />{{localize "WW.Equipment.GP"}}
+                <div class="input-wrap">
+                    <input type="number" name="system.currency.gp" value="{{system.currency.gp}}" min="0"
+                    data-dtype="Number" />
+
+                    <div class="input-overlay">{{system.currency.gp}}</div>
+                </div>
+
+                {{localize "WW.Equipment.GP"}}
             </li>
+
             <li>
-                <input type="number" name="system.currency.sp" value="{{system.currency.sp}}" min="0"
-                    data-dtype="Number" />{{localize "WW.Equipment.SP"}}
+                <div class="input-wrap">
+                    <input type="number" name="system.currency.sp" value="{{system.currency.sp}}" min="0"
+                        data-dtype="Number" />
+
+                    <div class="input-overlay">{{system.currency.sp}}</div>
+                </div>
+
+                {{localize "WW.Equipment.SP"}}
             </li>
+
             <li>
-                <input type="number" name="system.currency.cp" value="{{system.currency.cp}}" min="0"
-                    data-dtype="Number" />{{localize "WW.Equipment.CP"}}
+                <div class="input-wrap">
+                    <input type="number" name="system.currency.cp" value="{{system.currency.cp}}" min="0"
+                        data-dtype="Number" />
+
+                    <div class="input-overlay">{{system.currency.cp}}</div>
+                </div>
+                    
+                {{localize "WW.Equipment.CP"}}
             </li>
+
         </ol>
     </div>
 

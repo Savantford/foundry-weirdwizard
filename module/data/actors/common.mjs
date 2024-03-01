@@ -96,14 +96,12 @@ export function details(type = String) {
 
   if (type === 'Character') {
 
-    // Will be deleted in 3.0.1
+    // Will be deleted in a later date
     obj.professions = makeStrField("",1,1);
     obj.ancestry = makeStrField("Human",1,1);
     obj.novice = makeStrField("",1,1);
     obj.expert = makeStrField("",1,1);
     obj.master = makeStrField("",1,1);
-
-    obj.reputation = makeIntField();
 
     obj.traditions = new fields.ArrayField(
       new fields.ObjectField({ initial: { name: "",
@@ -112,12 +110,18 @@ export function details(type = String) {
       } })
     );
 
-    obj.features = makeHtmlField();
+    // Details
+    obj.appearance = makeHtmlField();
+    obj.features = makeHtmlField(); // Deleted
+    obj.background = makeHtmlField();
+    obj.bg_ancestry = makeHtmlField(); // Deleted
     obj.personality = makeHtmlField();
-    obj.belief = makeHtmlField();
-    obj.information = makeHtmlField();
-    obj.bg_ancestry = makeHtmlField();
-    obj.deeds = makeHtmlField();
+    obj.beliefs = makeHtmlField();
+    obj.belief = makeHtmlField(); // Deleted
+    
+    obj.notes = makeHtmlField();
+    obj.information = makeHtmlField(); // Deleted
+    obj.deeds = makeHtmlField(); // Deleted
   }
   
 

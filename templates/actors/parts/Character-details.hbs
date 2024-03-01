@@ -1,59 +1,49 @@
 <div class="details auto-grid-2">
 
     {{!-- Left Column --}}
-    <div class="details-col flex-group-left">
-        <h1>{{localize "WW.Actor.Identity"}}</h1>
+    <div>
 
-        {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
-
-        <ol class="details-list">
-            <li class="detail">
-                <h2 class="detail-label">{{localize "WW.Actor.Features"}}</h2>
-                {{editor system.details.features.enriched target="system.details.features.value" button=true
+        <div>
+            <h1>{{localize "WW.Actor.Appearance"}}</h1>
+            
+            {{editor system.details.appearance.enriched target="system.details.appearance.value" button=true
                 owner=owner editable=editable}}
-            </li>
+            
+        </div>
+        
+        <div>
+            <h1 class="mt-2">{{localize "WW.Actor.Background"}}</h1>
 
-            <li class="detail">
-                <h2 class="detail-label">{{localize "WW.Actor.Personality"}}</h2>
-                {{editor system.details.personality.enriched target="system.details.personality.value" button=true
+            {{editor system.details.background.enriched target="system.details.background.value" button=true
                 owner=owner editable=editable}}
-            </li>
-
-            <li class="detail">
-                <h2 class="detail-label">{{localize "WW.Actor.Belief"}}</h2>
-                {{editor system.details.belief.enriched target="system.details.belief.value" button=true
-                owner=owner editable=editable}}
-            </li>
-        </ol>
+            
+        </div>
+        
     </div>
 
     {{!-- Right Column --}}
-    <div class="details-col flex-group-left">
-        <h1>{{localize "WW.Actor.Background"}}</h1>
-        <ol class="details-list">
-            <li class="detail">
-                <h2 class="detail-label">{{localize "WW.CharOptions.Ancestry"}}</h2>
-                {{editor system.details.bg_ancestry.enriched target="system.details.bg_ancestry.value" button=true
+    <div>
+
+        <div>
+            <h1>{{localize "WW.Actor.Identity"}}</h1>
+
+            <h2 class="detail-label">{{localize "WW.Actor.Personality"}}</h2>
+            {{editor system.details.personality.enriched target="system.details.personality.value" button=true
                 owner=owner editable=editable}}
-            </li>
-            <li class="detail">
-                <h2 class="detail-label">{{localize "WW.Actor.Deeds"}}</h2>
 
-                <div class="flex-row stat-inline flex-group-center">
-                    <label>{{localize "WW.Actor.Reputation"}}</label>
+            <h2 class="detail-label">{{localize "WW.Actor.Beliefs"}}</h2>
+            {{editor system.details.beliefs.enriched target="system.details.beliefs.value" button=true
+                owner=owner editable=editable}}
+            
+        </div>
 
-                    <input type="number" name="system.details.reputation"
-                        value="{{system.details.reputation}}" min="0" data-dtype="Number" />
-                </div>
+        <div class="mt-2">
+            <h1>{{localize "WW.Actor.Notes"}}</h1>
 
-                {{editor system.details.deeds.enriched target="system.details.deeds.value" button=true owner=owner
+            {{editor system.details.notes.enriched target="system.details.notes.value" button=true owner=owner
                 editable=editable}}
-            </li>
-            <li class="detail">
-                <h2 class="detail-label">{{localize "WW.Actor.Information"}}</h2>
-                {{editor system.details.information.enriched target="system.details.information.value" button=true
-                owner=owner editable=editable}}
-            </li>
-        </ol>
+        </div>
+        
     </div>
+    
 </div>

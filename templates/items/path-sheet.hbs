@@ -61,39 +61,108 @@
           </div>
 
           {{!-- Stats --}}
-          <div class="stat-inline flex-wrap">
+          <div class="stat-inline flex-wrap flex-children">
+
+            {{!-- Armored Defense --}}
             <span>
               <label>{{localize "WW.Defense.Armored"}}:</label>
-              +<input name="system.benefits.{{id}}.stats.armoredIncrease" type="number" value="{{benefit.stats.armoredIncrease}}" min="0" placeholder="0"/>
+              
+              <span class="mr-n1">+</span>
+
+              <div class="input-wrap">
+                <input name="system.benefits.{{id}}.stats.armoredIncrease" type="number"
+                  value="{{benefit.stats.armoredIncrease}}" min="0" placeholder="0"/>
+
+                <div class="input-overlay">{{benefit.stats.armoredIncrease}}</div>
+              </div>
+              
             </span>
 
+            {{!-- Natural Defense --}}
             <span>
               <label>{{localize "WW.Defense.Natural"}}:</label>
-              +<input name="system.benefits.{{id}}.stats.naturalIncrease" type="number" value="{{benefit.stats.naturalIncrease}}" min="0" placeholder="0"/>
-              = <input name="system.benefits.{{id}}.stats.naturalSet" type="number" value="{{benefit.stats.naturalSet}}" min="0" placeholder="0"/>
+
+              <span class="mr-n1">+</span>
+
+              <div class="input-wrap">
+                <input name="system.benefits.{{id}}.stats.naturalIncrease" type="number"
+                  value="{{benefit.stats.naturalIncrease}}" min="0" placeholder="0"/>
+
+                <div class="input-overlay">{{benefit.stats.naturalIncrease}}</div>
+              </div>
+
+              <span>=</span>
+
+              <div class="input-wrap">
+                <input name="system.benefits.{{id}}.stats.naturalSet" type="number"
+                  value="{{benefit.stats.naturalSet}}" min="0" placeholder="0"/>
+
+                <div class="input-overlay">{{benefit.stats.naturalSet}}</div>
+              </div>
+
             </span>
             
+            {{!-- Health --}}
             {{#if (and (eq @root.system.tier 'novice') (eq benefit.levelReq 1))}}
             <span>
               <label>{{localize "WW.Health.Starting"}}:</label>
-              <input name="system.benefits.{{id}}.stats.healthStarting" type="number" value="{{benefit.stats.healthStarting}}" min="1" placeholder="1"/>
+
+              <div class="input-wrap">
+                <input name="system.benefits.{{id}}.stats.healthStarting" type="number"
+                  value="{{benefit.stats.healthStarting}}" min="1" placeholder="1"/>
+
+                <div class="input-overlay">{{benefit.stats.healthStarting}}</div>
+              </div>
+              
             </span>
             {{else}}
             <span>
               <label>{{localize "WW.Health.Label"}}:</label>
-              +<input name="system.benefits.{{id}}.stats.healthIncrease" type="number" value="{{benefit.stats.healthIncrease}}" min="0" placeholder="0"/>
+
+              <span class="mr-n1">+</span>
+
+              <div class="input-wrap">
+                <input name="system.benefits.{{id}}.stats.healthIncrease" type="number"
+                  value="{{benefit.stats.healthIncrease}}" min="0" placeholder="0"/>
+
+                <div class="input-overlay">{{benefit.stats.healthIncrease}}</div>
+              </div>
+
             </span>
             {{/if}}
 
-            <span>
-              <label>{{localize "WW.Stats.Speed"}}:</label>
-              +<input name="system.benefits.{{id}}.stats.speedIncrease" type="number" value="{{benefit.stats.speedIncrease}}" min="0" placeholder="0"/>
-            </span>
-
+            {{!-- Bonus Damage --}}
             <span>
               <label>{{localize "WW.Damage.Bonus"}}:</label>
-              +<input style="text-align: center;" name="system.benefits.{{id}}.stats.bonusDamage" type="number" value="{{benefit.stats.bonusDamage}}" min="0" placeholder="0"/>d6
+
+              <span class="mr-n1">+</span>
+
+              <div class="input-wrap">
+                <input style="text-align: center;" name="system.benefits.{{id}}.stats.bonusDamage" type="number"
+                  value="{{benefit.stats.bonusDamage}}" min="0" placeholder="0"/>
+
+                <div class="input-overlay">{{benefit.stats.bonusDamage}}</div>
+              </div>
+
+              <span class="ml-n1">d6</span>
+
             </span>
+
+            {{!-- Speed --}}
+            <span>
+              <label>{{localize "WW.Stats.Speed"}}:</label>
+
+              <span class="mr-n1">+</span>
+
+              <div class="input-wrap">
+                <input name="system.benefits.{{id}}.stats.speedIncrease" type="number"
+                  value="{{benefit.stats.speedIncrease}}" min="0" placeholder="0"/>
+
+                <div class="input-overlay">{{benefit.stats.speedIncrease}}</div>
+              </div>
+
+            </span>
+            
           </div>
 
           {{!-- Magic --}}

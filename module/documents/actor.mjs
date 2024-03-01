@@ -386,40 +386,11 @@ export default class WWActor extends Actor {
 
   _calculateHealth(system) {
     const health = system.stats.health;
-    const level = system.stats.level;
     
     // Health override effect exists
     if (health.override) {
       health.normal = health.override;
     } else {
-
-      // If Character, calculate normal Health from Paths
-      /*if (this.type === 'Character') {
-        function count(levels) { // Count how many of provided levels the Character has
-          let newValue = 0;
-  
-          levels.forEach(function count(v) {
-            if (level >= v) { newValue += 1 }
-          })
-  
-          return newValue
-        }
-  
-        // Novice Path calculation
-        const noviceLv = count([2, 5, 8])
-        const noviceBonus = noviceLv * health.novice;
-  
-        // Expert Path calculation
-        const expertLv = count([3, 4, 6, 9]);
-        const expertBonus = expertLv * health.expert;
-  
-        // Master Path calculation
-        const masterLv = count([7, 8, 10])
-        const masterBonus = masterLv * health.master;
-  
-        // Calculate normal Health
-        health.normal = health.starting + noviceBonus + expertBonus + masterBonus;
-      }*/
 
       // Assign current health
       health.current = health.normal + health.bonus - health.lost;

@@ -1,5 +1,5 @@
 {{!-- Main Row --}}
-<div class="stat-inline flex-wrap">
+<div class="stat-inline flex-wrap flex-children">
 
     {{!-- Source --}}
     <div>
@@ -14,7 +14,11 @@
     <div>
         <label>{{localize "WW.Talent.Uses"}}:</label>
 
-        <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="0" data-dtype="Number" />
+        <div class="input-wrap">
+            <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="0" data-dtype="Number" />
+
+            <div class="input-overlay">{{system.uses.max}}</div>
+        </div>
         
         <input class="checkbox-uses" type="checkbox" name="system.uses.onRest" {{checked system.uses.onRest}} title="{{localize "WW.Item.Uses.OnRest"}}"/>
     </div>

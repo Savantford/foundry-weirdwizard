@@ -1,4 +1,4 @@
-import { i18n, plusify, capitalize, resizeInput, clearUserTargets, sum } from '../helpers/utils.mjs';
+import { i18n, plusify, capitalize, clearUserTargets, sum } from '../helpers/utils.mjs';
 import { chatMessageButton, targetHeader, addInstEffs, actionFromLabel } from '../chat/chat-html-templates.mjs';
 import RollAttribute from '../dice/roll-attribute.mjs';
 import TargetingHUD from '../apps/targeting-hud.mjs';
@@ -342,12 +342,19 @@ export default class WWActorSheet extends ActorSheet {
     context.level = CONFIG.WW.LEVELS[context.system.stats.level];
 
     // Prepare enriched variables for editor.
-    context.system.details.features.enriched = await TextEditor.enrichHTML(context.system.details.features.value, { async: true })
+    context.system.details.appearance.enriched = await TextEditor.enrichHTML(context.system.details.appearance.value, { async: true })
+    context.system.details.features.enriched = await TextEditor.enrichHTML(context.system.details.features.value, { async: true }) // Deleted
+
+    context.system.details.background.enriched = await TextEditor.enrichHTML(context.system.details.background.value, { async: true });
+    context.system.details.bg_ancestry.enriched = await TextEditor.enrichHTML(context.system.details.bg_ancestry.value, { async: true }) // Deleted
+    
     context.system.details.personality.enriched = await TextEditor.enrichHTML(context.system.details.personality.value, { async: true })
-    context.system.details.belief.enriched = await TextEditor.enrichHTML(context.system.details.belief.value, { async: true })
-    context.system.details.information.enriched = await TextEditor.enrichHTML(context.system.details.information.value, { async: true })
-    context.system.details.bg_ancestry.enriched = await TextEditor.enrichHTML(context.system.details.bg_ancestry.value, { async: true })
-    context.system.details.deeds.enriched = await TextEditor.enrichHTML(context.system.details.deeds.value, { async: true })
+    context.system.details.beliefs.enriched = await TextEditor.enrichHTML(context.system.details.beliefs.value, { async: true })
+    context.system.details.belief.enriched = await TextEditor.enrichHTML(context.system.details.belief.value, { async: true }) // Deleted
+    
+    context.system.details.notes.enriched = await TextEditor.enrichHTML(context.system.details.notes.value, { async: true });
+    context.system.details.information.enriched = await TextEditor.enrichHTML(context.system.details.information.value, { async: true }) // Deleted
+    context.system.details.deeds.enriched = await TextEditor.enrichHTML(context.system.details.deeds.value, { async: true }) // Deleted
   }
 
   /**
@@ -374,7 +381,7 @@ export default class WWActorSheet extends ActorSheet {
     if (!this.isEditable) return;
 
     // Input resize
-    resizeInput(html);
+    //resizeInput(html);
     
     // Rest button dialog + function
     html.find('.rest-button').click(this._onRest.bind(this));
@@ -781,8 +788,6 @@ export default class WWActorSheet extends ActorSheet {
     
     // Update document
     await this.document.update({[arrPath]: arr});
-
-    console.log(arr)
     
     // Add entryId to dataset and render the config window
     dataset.entryId = arr.length-1;
