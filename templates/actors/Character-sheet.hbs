@@ -5,14 +5,12 @@
         
         <div class="header-fields">
             <div class="character-header-plate">
-                <h1 class="charname">
-                    {{!--<input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.Actor.Name"}}"/>--}}
-                    
-                    <textarea name="name" rows="1" onInput="this.parentNode.dataset.replicatedValue = this.value">{{actor.name}}</textarea>
+
+                <h1 class="charname textarea-resizeable">                    
+                    <textarea name="name" rows="1">{{actor.name}}</textarea>
                     
                     <div class="textarea-overlay">{{actor.name}}</div>
                 </h1>
-                
                 
                 <div class="character-subtitle">{{localize "WW.Stats.Level"}} {{level}} {{charOptions.ancestry.name}}{{#if charOptions.novice}} {{charOptions.novice.name}}{{/if}}</div>
             </div>
@@ -103,8 +101,12 @@
                     <div class="stat">
                         <label>{{localize "WW.Damage.Label"}}</label>
 
-                        <div>
-                            <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0" data-dtype="Number"/>
+                        <div class="flex align-center">
+                            <div class="input-wrap">
+                                <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0" data-dtype="Number"/>
+
+                                <div class="input-overlay">{{system.stats.damage.value}}</div>
+                            </div>
                             
                             <i class="health-indicator fas {{#if incapacitated}}fa-octagon-xmark{{else if injured}}fa-droplet{{/if}}" title="
                                 {{#if incapacitated}}{{localize "WW.Health.Incapacitated"}}
@@ -121,20 +123,31 @@
                     {{!-- Bonus Damage --}}
                     <div class="stat">
                         <label>{{localize "WW.Damage.Bonus"}}</label>
-                        <div><input type="number" name="system.stats.bonusdamage" value="{{system.stats.bonusdamage}}" data-dtype="Number" min="0" placeholder="#" />d6</div>
-                        {{system.stats.bonusdamage.value}}
+
+                        <div class="flex nogap align-center">
+                            <div class="input-wrap">
+                                <input type="number" name="system.stats.bonusdamage" value="{{system.stats.bonusdamage}}" data-dtype="Number" min="0" placeholder="#" />
+
+                                <div class="input-overlay">{{system.stats.bonusdamage}}</div>
+                            </div>
+                            
+                            <div>d6</div>
+                        </div>
+                        
                     </div>
 
                     <div class="stat flexrow">
                         {{!-- Luck Roll --}}
                         <div class="mr-2 luck">
                             <label>{{localize "WW.Attributes.Luck"}}</label>
+
                             <div><a class="item-button resource-label" data-action="attribute-roll" data-key="luck" title="Roll {{localize "WW.Attributes.Luck"}}"><i class="large fas fa-dice-d20"></i></a></div>
                         </div>
 
                         {{!-- Rest --}}
                         <div class="rest">
                             <label>{{localize "WW.Rest.Label"}}</label>
+
                             <div><a class="rest-button"><i class="large fas fa-bed"></i></a></div>
                         </div>
                     </div>

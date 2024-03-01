@@ -107,36 +107,60 @@
         </div>
       
         {{!-- Natural Defense, Health --}}
-        <div class="stat-inline">
+        <div class="stat-inline flex-wrap flex-children">
                 
-          <span>
+          <div>
             <label>{{localize "WW.Defense.Natural"}}:</label>
-            +<input name="system.benefits.benefit1.stats.naturalIncrease" type="number"
-              value="{{benefits.benefit1.stats.naturalIncrease}}" min="0" placeholder="0" />
-          </span>
+
+            <span class="mr-n1">+</span>
+
+            <div class="input-wrap">
+              <input name="system.benefits.benefit1.stats.naturalIncrease" type="number"
+                value="{{benefits.benefit1.stats.naturalIncrease}}" min="0" placeholder="0" />
+
+              <div class="input-overlay">{{benefits.benefit1.stats.naturalIncrease}}</div>
+            </div>
+            
+          </div>
       
-          <span>
+          <div>
             <label>{{localize "WW.Health.Label"}}:</label>
-            +<input name="system.benefits.benefit1.stats.healthIncrease" type="number"
-              value="{{benefits.benefit1.stats.healthIncrease}}" min="0" placeholder="0" />
-          </span>
+
+            <span class="mr-n1">+</span>
+
+            <div class="input-wrap">
+              <input name="system.benefits.benefit1.stats.healthIncrease" type="number"
+                value="{{benefits.benefit1.stats.healthIncrease}}" min="0" placeholder="0" />
+
+              <div class="input-overlay">{{benefits.benefit1.stats.healthIncrease}}</div>
+            </div>
+            
+          </div>
           
         </div>
 
         {{!-- Size, Speed --}}
-        <div class="stat-inline list-entries">
+        <div class="stat-inline list-entries flex-children">
 
           {{!-- Size --}}
           <label>{{localize "WW.Stats.Size"}}:</label>
 
-          <input name="system.benefits.benefit1.stats.sizeNormal" type="number"
-            value="{{benefits.benefit1.stats.sizeNormal}}" min="0" placeholder="1" />
+          <div class="input-wrap">
+            <input name="system.benefits.benefit1.stats.sizeNormal" type="number"
+              value="{{benefits.benefit1.stats.sizeNormal}}" min="0" placeholder="1" />
+
+            <div class="input-overlay">{{benefits.benefit1.stats.sizeNormal}}</div>
+          </div>
             
           {{!-- Speed --}}
           <label>{{localize "WW.Stats.Speed"}}:</label>
+          
+          <div class="input-wrap">
+            <input name="system.benefits.benefit1.stats.speedNormal" type="number"
+              value="{{benefits.benefit1.stats.speedNormal}}" min="1" placeholder="1" />
 
-          <input name="system.benefits.benefit1.stats.speedNormal" type="number"
-            value="{{benefits.benefit1.stats.speedNormal}}" min="1" placeholder="1" />
+            <div class="input-overlay">{{benefits.benefit1.stats.speedNormal}}</div>
+          </div>
             
           {{!-- Movement Traits --}}
           {{#each benefits.benefit1.movementTraits as |detail id|}}<span class="list-entry">

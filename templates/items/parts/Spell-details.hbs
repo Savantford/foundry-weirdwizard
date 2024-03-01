@@ -1,8 +1,12 @@
 {{!-- Castings --}}
 <div class="flex-row stat-inline">
     <label class="">{{localize "WW.Spell.Castings"}}:</label>
-    
-    <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="1" data-dtype="Number" />
+
+    <div class="input-wrap">
+        <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="1" data-dtype="Number" />
+
+        <div class="input-overlay">{{system.uses.max}}</div>
+    </div>
     
     <input class="ml-2" type="text" name="system.casting" value="{{system.casting}}" data-dtype="String" />
 </div>

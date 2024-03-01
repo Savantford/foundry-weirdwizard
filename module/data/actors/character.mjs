@@ -33,12 +33,18 @@ export default class CharacterData extends foundry.abstract.DataModel {
    */
   static migrateData(source) {
 
+    // Migrate Details
+    if (source.details?.features?.value && !source.details?.appearance?.value) source.details.appearance = {value: source.details.features.value};
+    if ((source.description?.value || source.details?.bg_ancestry?.value) && !source.details?.background?.value) source.details.background = {value: source.description.value + source.details.bg_ancestry.value};
+    if (source.details?.belief?.value && !source.details?.beliefs?.value) source.details.beliefs = {value: source.details.belief.value};
+    if ((source.details?.deeds?.value || source.details?.information?.value) && !source.details?.notes?.value) source.details.notes = {value: source.details.deeds.value + source.details.information.value};
+
     // Migrate Speed
     if ('stats.speed.value' in source) source.stats.speed.current = source.stats.speed.value;
     if ('stats.speed.raw' in source) source.stats.speed.normal = source.stats.speed.raw;
 
     // Migrate List Entries
-    if (typeof source.details.type === 'string') { // Types
+    if (typeof source.details?.type === 'string') { // Types
       const arr = source.details.type.split(",");
       source.details.types = arr.filter(s => s).map((s) => ({ name: s.trim() }));
     }
@@ -46,17 +52,17 @@ export default class CharacterData extends foundry.abstract.DataModel {
     // Migrate Types to Descriptors
     if (source.details?.types && !source.details?.descriptors) source.details.descriptors = source.details.types;
 
-    if (typeof source.details.senses === 'string') { // Senses
+    if (typeof source.details?.senses === 'string') { // Senses
       const arr = source.details.senses.split(",");
       source.details.senses = arr.filter(s => s).map((s) => ({ name: s.trim() }));
     }
     
-    if (typeof source.details.languages === 'string') { // Languages
+    if (typeof source.details?.languages === 'string') { // Languages
       const arr = source.details.languages.split(",");
       source.details.languages = arr.filter(s => s).map((s) => ({ name: s.trim() }));
     }
 
-    if (typeof source.details.immune === 'string') { // Immune
+    if (typeof source.details?.immune === 'string') { // Immune
       const arr = source.details.immune.split(",");
       source.details.immune = arr.filter(s => s).map((s) => ({ name: s.trim() }));
     }
@@ -66,7 +72,7 @@ export default class CharacterData extends foundry.abstract.DataModel {
       source.details.movementTraits = arr.filter(s => s).map((s) => ({ name: s.trim() }));
     }
 
-    if (typeof source.details.traditions === 'string') { // Traditions
+    if (typeof source.details?.traditions === 'string') { // Traditions
       const arr = source.details.traditions.split(",");
       source.details.traditions = arr.filter(s => s).map((s) => ({ name: s.trim() }));
     }

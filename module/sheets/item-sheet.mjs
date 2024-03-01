@@ -1,5 +1,5 @@
 import { onManageActiveEffect, onManageInstantEffect, prepareActiveEffectCategories } from '../helpers/effects.mjs';
-import { i18n, resizeInput } from '../helpers/utils.mjs';
+import { i18n } from '../helpers/utils.mjs';
 import ListEntryConfig from '../apps/list-entry-config.mjs';
 
 /**
@@ -240,7 +240,7 @@ export default class WWItemSheet extends ItemSheet {
     if (!this.options.editable) return;
 
     // Input resize
-    resizeInput(html);
+    //resizeInput(html);
 
     const system = this.document.system;
 
