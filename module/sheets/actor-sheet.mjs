@@ -163,8 +163,7 @@ export default class WWActorSheet extends ActorSheet {
         }
 
         // Is the item an activity?
-        i.isActivity = false;
-        if (i.system.attribute || i.effects.length || i.system.instant.length) i.isActivity = true;
+        i.isActivity = i.system.attribute || i.effects.length || i.system.instant.length;
 
         // Check if item has passive effects
         i.hasPassiveEffects = false;
