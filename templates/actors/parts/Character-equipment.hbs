@@ -63,7 +63,7 @@
             <div class="item-fixed">{{localize "WW.Weapon.Grip.Label"}}</div>
             <div class="item-traits">{{localize "WW.Weapon.Traits.Label"}}</div>
             <div class="item-controls">
-                <a class="item-control item-create" title="Create item" data-type="Equipment" data-subtype="weapon"><i
+                <a class="item-control item-create" data-tooltip="Create item" data-type="Equipment" data-subtype="weapon"><i
                     class="fas fa-plus"></i> {{localize "WW.Item.Add.Label"}}</a>
             </div>
         </li>
@@ -71,14 +71,14 @@
         {{#each weapons as |item id|}}
         <li class="item flexrow flex-group-left" data-item-id="{{item._id}}">
             {{!-- Icon --}}
-            <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
+            <div class="item-image"><img src="{{item.img}}" data-tooltip="{{item.name}}" width="24" height="24" /></div>
 
             <div class="item-name">
                 {{!-- Title --}}
                 {{#if item.needTargets}}<label class="item-button" data-action="targeted-use" data-item-id="{{item._id}}" 
-                    title="{{localize "WW.Targeting.AttackTargeted"}}">{{item.name}}</label>
+                    data-tooltip="{{localize "WW.Targeting.AttackTargeted"}}">{{item.name}}</label>
                 {{else if item.isActivity}}<label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-                    title="{{localize "WW.Targeting.AttackUntargeted"}}">{{item.name}}</label>
+                    data-tooltip="{{localize "WW.Targeting.AttackUntargeted"}}">{{item.name}}</label>
                 {{else}}<label>{{item.name}}</label>{{/if}}
 
                 <span class="buttons">
@@ -87,12 +87,12 @@
 
                         {{#if item.needTargets}}
                         <a class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
-                            title="{{localize "WW.Targeting.AttackTargeted"}}">
+                            data-tooltip="{{localize "WW.Targeting.AttackTargeted"}}">
                         <i class="fas fa-bullseye"></i></a>
                         {{/if}}
 
                         <a class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-                            title="{{localize "WW.Targeting.AttackUntargeted"}}">
+                            data-tooltip="{{localize "WW.Targeting.AttackUntargeted"}}">
                         <i class="fas fa-bolt"></i></a>
 
                     {{/if}}
@@ -100,7 +100,7 @@
                     {{!-- Toggle Reloaded --}}
                     {{#if item.system.disadvantages.reload}}
                     <a class="item-button" data-action="item-toggle-reloaded" data-item-id="{{item._id}}"
-                        title="{{#if item.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
+                        data-tooltip="{{#if item.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
                     <i class="fas {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
                     {{/if}}
                     
@@ -120,11 +120,11 @@
             <div class="item-controls">              
                 {{!-- Edit Button --}}
                 <a class="item-button" data-action="item-edit" data-item-id="{{item._id}}"
-                    title="{{localize "WW.Item.Edit.Weapon"}}">
+                    data-tooltip="{{localize "WW.Item.Edit.Weapon"}}">
                 <i class="fas fa-edit"></i></a>
 
                 {{!-- Delete Button --}}
-                <a class="item-button" data-action="item-delete" data-item-id="{{item._id}}" title="Delete Item"><i class="fas fa-trash"></i></a>
+                <a class="item-button" data-action="item-delete" data-item-id="{{item._id}}" data-tooltip="Delete Item"><i class="fas fa-trash"></i></a>
             </div>
         </li>
         {{/each}}
@@ -142,14 +142,14 @@
             <div class="item-uses">{{localize "WW.Equipment.Uses"}}</div>
             <div class="item-weight">{{localize "WW.Equipment.Weight"}}</div>
             <div class="item-controls">
-                <a class="item-control item-create" title="Create item" data-type="Equipment" data-subtype="generic"><i class="fas fa-plus"></i> {{localize "WW.Item.Add.Label"}}</a>
+                <a class="item-control item-create" data-tooltip="Create item" data-type="Equipment" data-subtype="generic"><i class="fas fa-plus"></i> {{localize "WW.Item.Add.Label"}}</a>
             </div>
         </li>
 
         {{#each equipment as |item id|}}
         <li class="item flexrow" data-item-id="{{item._id}}">
             {{!-- Icon --}}
-            <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
+            <div class="item-image"><img src="{{item.img}}" data-tooltip="{{item.name}}" width="24" height="24" /></div>
 
             {{!-- Quantity --}}
             <div class="item-quantity">{{item.system.quantity}}</div>
@@ -157,9 +157,9 @@
             <div class="item-name">
                 {{!-- Title --}}
                 {{#if item.needTargets}}<label class="item-button" data-action="targeted-use" data-item-id="{{item._id}}" 
-                    title="{{localize "WW.Targeting.EquipmentTargeted"}}">{{item.name}}</label>
+                    data-tooltip="{{localize "WW.Targeting.EquipmentTargeted"}}">{{item.name}}</label>
                 {{else if item.isActivity}}<label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-                    title="{{localize "WW.Targeting.EquipmentUntargeted"}}">{{item.name}}</label>
+                    data-tooltip="{{localize "WW.Targeting.EquipmentUntargeted"}}">{{item.name}}</label>
                 {{else}}<label>{{item.name}}</label>{{/if}}
 
                 <span class="buttons">
@@ -168,12 +168,12 @@
 
                         {{#if item.needTargets}}
                         <a class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
-                            title="{{localize "WW.Targeting.EquipmentTargeted"}}">
+                            data-tooltip="{{localize "WW.Targeting.EquipmentTargeted"}}">
                         <i class="fas fa-bullseye"></i></a>
                         {{/if}}
 
                         <a class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-                            title="{{localize "WW.Targeting.EquipmentUntargeted"}}">
+                            data-tooltip="{{localize "WW.Targeting.EquipmentUntargeted"}}">
                         <i class="fas fa-bolt"></i></a>
 
                     {{/if}}
@@ -181,7 +181,7 @@
                     {{!-- Toggle Effects --}}
                     {{#if item.hasPassiveEffects}}
                         <a class="item-button" data-action="item-toggle-effects" data-item-id="{{item._id}}"
-                            title="{{#if item.system.active}}{{localize "WW.Item.DisableEffects"}}{{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
+                            data-tooltip="{{#if item.system.active}}{{localize "WW.Item.DisableEffects"}}{{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
                             <i class="fas {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
                     {{/if}}
 
@@ -200,7 +200,7 @@
                 <span class="pip-box">
                     {{#each item.uses as |pip id|}}
                     <a class="item-pip" data-item-id="{{item._id}}"
-                        title="{{#if (eq pip "far fa-circle")}}{{localize "WW.Item.Uses.EquipmentSpend"}}{{else}}{{localize "WW.Item.Uses.EquipmentRecover"}}{{/if}}">
+                        data-tooltip="{{#if (eq pip "far fa-circle")}}{{localize "WW.Item.Uses.EquipmentSpend"}}{{else}}{{localize "WW.Item.Uses.EquipmentRecover"}}{{/if}}">
                     <i class="{{pip}}"></i></a>
                     {{/each}}
                 </span>
@@ -213,11 +213,11 @@
             <div class="item-controls">              
                 {{!-- Edit Button --}}
                 <a class="item-button" data-action="item-edit" data-item-id="{{item._id}}"
-                    title="{{localize "WW.Item.Edit.Equipment"}}">
+                    data-tooltip="{{localize "WW.Item.Edit.Equipment"}}">
                 <i class="fas fa-edit"></i></a>
 
                 {{!-- Delete Button --}}
-                <a class="item-button" data-action="item-delete" data-item-id="{{item._id}}" title="Delete Item"><i class="fas fa-trash"></i></a>
+                <a class="item-button" data-action="item-delete" data-item-id="{{item._id}}" data-tooltip="Delete Item"><i class="fas fa-trash"></i></a>
             </div>
         </li>
         {{/each}}

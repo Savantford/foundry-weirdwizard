@@ -4,7 +4,7 @@
   {{#*inline "WWAffliction"}}
     <div class="affliction selectable {{#if value}}selected{{/if}}"
         style="width: auto; margin: 2px"
-        {{#if tooltip}}title="{{localize tooltip}}"{{/if}}>
+        {{#if tooltip}}data-tooltip="{{localize tooltip}}"{{/if}}>
       <input type="checkbox" id="data.{{name}}" data-name="{{name}}" {{checked value}}/>
       <i class="icon-{{name}}"></i>
       <span class="sep"></span>
@@ -89,7 +89,7 @@
       
       <div class="item-controls effect-controls flexrow">
         {{#if section.showCreate}}
-        <a class="effect-control" data-action="create" title="{{localize 'WW.Effect.Create'}}">
+        <a class="effect-control" data-action="create" data-tooltip="{{localize 'WW.Effect.Create'}}">
           <i class="fas fa-plus"></i> {{localize "WW.Item.Add.Label"}}
         </a>
         {{/if}}
@@ -124,15 +124,15 @@
         <div class="item-controls effect-controls flexrow">
           {{#if (or (eq effect.parent.type 'Character') (eq effect.parent.type 'NPC'))}}
           {{#if (ne section.type 'temporary')}}
-          <a class="effect-control" data-action="toggle" title="{{localize 'WW.Effect.Toggle'}}">
+          <a class="effect-control" data-action="toggle" data-tooltip="{{localize 'WW.Effect.Toggle'}}">
             <i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
           </a>
           {{/if}}
 
-          <a class="effect-control" data-action="edit" title="{{localize 'WW.Effect.Edit'}}">
+          <a class="effect-control" data-action="edit" data-tooltip="{{localize 'WW.Effect.Edit'}}">
             <i class="fas fa-edit"></i>
           </a>
-          <a class="effect-control" data-action="delete" title="{{localize 'WW.Effect.Delete'}}">
+          <a class="effect-control" data-action="delete" data-tooltip="{{localize 'WW.Effect.Delete'}}">
             <i class="fas fa-trash"></i>
           </a>
           {{/if}}
@@ -153,7 +153,7 @@
 
       <div class="item-controls effect-controls flexrow">
         {{#if actorEffects.inactive.showCreate}}
-        <a class="effect-control" data-action="create" title="{{localize 'WW.Effect.Create'}}">
+        <a class="effect-control" data-action="create" data-tooltip="{{localize 'WW.Effect.Create'}}">
           <i class="fas fa-plus"></i> {{localize "WW.Item.Add.Label"}}
         </a>
         {{/if}}
@@ -187,14 +187,14 @@
         <div class="item-controls effect-controls flexrow">
           {{#if ../actorEffects.inactive.showControls}}
 
-          <a class="effect-control" data-action="toggle" title="{{localize 'WW.EffectToggle'}}">
+          <a class="effect-control" data-action="toggle" data-tooltip="{{localize 'WW.EffectToggle'}}">
             <i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
           </a>
           
-          <a class="effect-control" data-action="edit" title="{{localize 'WW.EffectEdit'}}">
+          <a class="effect-control" data-action="edit" data-tooltip="{{localize 'WW.EffectEdit'}}">
             <i class="fas fa-edit"></i>
           </a>
-          <a class="effect-control" data-action="delete" title="{{localize 'WW.EffectDelete'}}">
+          <a class="effect-control" data-action="delete" data-tooltip="{{localize 'WW.EffectDelete'}}">
             <i class="fas fa-trash"></i>
           </a>
           {{/if}}
