@@ -5,14 +5,14 @@
 
         <div class="stat-stretch flex-group-left mt-1">
             <label class="resource-label">{{localize "WW.Damage.Base"}}</label>
-            <input name="applyBase" class="damage-checkbox applyBase" type="checkbox" title="Apply the base damage" checked="true">
+            <input name="applyBase" class="damage-checkbox applyBase" type="checkbox" data-tooltip="WW.Roll.ApplyBaseDamage" checked="true">
             +{{baseDamage}}
         </div>
 
         {{#if versatile}}
         <div class="stat-stretch flex-group-left mt-1">
             <label class="resource-label">{{localize "WW.Damage.BothHands"}}</label>
-            <input name="bothHands" class="damage-checkbox bothHands" type="checkbox" title="Apply the extra damage die">
+            <input name="bothHands" class="damage-checkbox bothHands" type="checkbox" data-tooltip="WW.Roll.ApplyExtraDamage">
             +1d6
         </div>
         {{/if}}
@@ -22,7 +22,7 @@
         {{#if bonusDamage}}
         <div class="stat-stretch flex-group-left mt-1">
             <label class="resource-label">{{localize "WW.Damage.Bonus"}}</label>
-            <input name="applyBonus" class="damage-checkbox applyBonus" type="checkbox" title="Apply all Bonus Damage dice">
+            <input name="applyBonus" class="damage-checkbox applyBonus" type="checkbox" data-tooltip="WW.Roll.ApplyBonusDamage">
             +{{bonusDamage}}d6
         </div>
         {{/if}}
@@ -30,7 +30,7 @@
         {{#if attackDice}}
         <div class="stat-stretch flex-group-left mt-1">
             <label class="resource-label">{{localize "WW.Damage.AttackDice"}}</label>
-            <input name="attackDice" class="damage-checkbox attackDice" type="checkbox" title="Apply the extra damage dice">
+            <input name="attackDice" class="damage-checkbox attackDice" type="checkbox" data-tooltip="WW.Roll.ApplyExtraDamageDice">
             +{{attackDice}}d6
         </div>
         {{/if}}
@@ -38,7 +38,7 @@
         {{#if attackMod}}
         <div class="stat-stretch flex-group-left mt-1">
             <label class="resource-label">{{localize "WW.Damage.AttackMod"}}</label>
-            <input name="attackMod" class="damage-checkbox attackMod" type="checkbox" title="Apply the extra damage modifier">
+            <input name="attackMod" class="damage-checkbox attackMod" type="checkbox" data-tooltip="WW.Roll.ApplyExtraDamageMod">
             +{{attackMod}}
         </div>
         {{/if}}

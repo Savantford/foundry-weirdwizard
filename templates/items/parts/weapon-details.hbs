@@ -44,7 +44,7 @@
         <label>{{localize "WW.Weapon.Traits.Label"}}</label>
         {{#each traits as |trait id|}}
         <div class="selectable {{#if (lookup @root.system.traits id)}}selected{{/if}}"
-            style="width: 100%" title="{{localize trait.tip}}">
+            style="width: 100%" data-tooltip="{{trait.tip}}">
 
             <input type="checkbox" name="system.traits.{{id}}" {{checked (lookup @root.system.traits id)}} />
 

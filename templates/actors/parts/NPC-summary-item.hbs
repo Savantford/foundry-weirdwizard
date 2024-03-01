@@ -2,11 +2,11 @@
 
     {{!-- Title --}}
     {{#if item.needTargets}}<label class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
-        title="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Targeting.TalentTargeted"}}
+        data-tooltip="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Targeting.TalentTargeted"}}
             {{else if (eq item.type "Equipment")}}{{localize "WW.Targeting.EquipmentTargeted"}}
             {{else if (eq item.type "Spell")}}{{localize "WW.Targeting.SpellTargeted"}}{{/if}}">{{item.name}}:</label>
     {{else if item.isActivity}}<label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-        title="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Targeting.TalentUntargeted"}}
+        data-tooltip="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Targeting.TalentUntargeted"}}
             {{else if (eq item.type "Equipment")}}{{localize "WW.Targeting.EquipmentUntargeted"}}
             {{else if (eq item.type "Spell")}}{{localize "WW.Targeting.SpellUntargeted"}}{{/if}}">{{item.name}}:</label>
     {{else}}<label>{{item.name}}:</label>{{/if}}
@@ -17,14 +17,14 @@
 
             {{#if item.needTargets}}
             <a class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
-                title="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Targeting.TalentTargeted"}}
+                data-tooltip="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Targeting.TalentTargeted"}}
                     {{else if (eq item.type "Equipment")}}{{localize "WW.Targeting.EquipmentTargeted"}}
                     {{else if (eq item.type "Spell")}}{{localize "WW.Targeting.SpellTargeted"}}{{/if}}">
             <i class="fas fa-bullseye"></i></a>
             {{/if}}
 
             <a class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-                title="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Targeting.TalentUntargeted"}}
+                data-tooltip="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Targeting.TalentUntargeted"}}
                     {{else if (eq item.type "Equipment")}}{{localize "WW.Targeting.EquipmentUntargeted"}}
                     {{else if (eq item.type "Spell")}}{{localize "WW.Targeting.SpellUntargeted"}}{{/if}}">
             <i class="fas fa-bolt"></i></a>
@@ -34,7 +34,7 @@
         {{!-- Toggle Effects --}}
         {{#if item.hasPassiveEffects}}
             <a class="item-button" data-action="item-toggle-effects" data-item-id="{{item._id}}"
-                title="{{#if item.system.active}}{{localize "WW.Item.DisableEffects"}}{{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
+                data-tooltip="{{#if item.system.active}}{{localize "WW.Item.DisableEffects"}}{{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
                 <i class="fas {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
         {{/if}}
 
@@ -43,7 +43,7 @@
         <span class="pip-box">
             {{#each item.uses as |pip id|}}
                 <a class="item-pip" data-item-id="{{../item._id}}"
-                    title="{{#if (eq pip "far fa-circle")}}
+                    data-tooltip="{{#if (eq pip "far fa-circle")}}
                         {{#if (eq ../item.system.subtype "action")}}{{localize "WW.Item.Uses.ActionSpend"}}
                         {{else if (eq ../item.system.subtype "reaction")}}{{localize "WW.Item.Uses.ActionSpend"}}
                         {{else if (eq ../item.system.subtype "fury")}}{{localize "WW.Item.Uses.FurySpend"}}
@@ -61,15 +61,15 @@
 
         {{!-- Send to Chat Scroll --}}
         {{#if item.system.description.value}}
-        <a class="item-button" data-action="item-scroll" data-item-id="{{item._id}}" title="{{localize "WW.Item.Send"}}"><i
+        <a class="item-button" data-action="item-scroll" data-item-id="{{item._id}}" data-tooltip="WW.Item.Send"><i
             class="far fa-scroll"></i></a>
         {{/if}}
 
         {{!-- Edit Button --}}
-        <a class="item-button" data-action="item-edit" data-item-id="{{item._id}}" title="{{localize (concat "WW.Item.Edit." item.type)}}"><i class="fas fa-edit"></i></a>
+        <a class="item-button" data-action="item-edit" data-item-id="{{item._id}}" data-tooltip="{{concat "WW.Item.Edit." item.type}}"><i class="fas fa-edit"></i></a>
         
         {{!-- Delete Button --}}
-        <a class="item-button" data-action="item-delete" data-item-id="{{item._id}}" title="Delete Item"><i class="fas fa-trash"></i></a>
+        <a class="item-button" data-action="item-delete" data-item-id="{{item._id}}" data-tooltip="{{concat "WW.Item.Delete." item.type}}"><i class="fas fa-trash"></i></a>
     </span>
     
     {{!-- Description --}}

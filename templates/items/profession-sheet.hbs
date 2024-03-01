@@ -2,7 +2,7 @@
 
   {{!-- Header --}}
   <header class="sheet-header">
-    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+    <img class="profile-img" src="{{item.img}}" data-edit="img" data-tooltip="WW.System.EditImage" />
     <div class="header-fields">
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.Item.Name"}}" /></h1>
   
@@ -39,16 +39,16 @@
       
         <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
           <a class="array-button" data-action="edit" data-array="benefits.benefit1.languages" data-entry-id="{{id}}"
-            title="{{localize "WW.Detail.Language.Edit"}}"><i class="fas fa-edit"></i></a>
+            data-tooltip="WW.Detail.Language.Edit"><i class="fas fa-edit"></i></a>
       
           <a class="array-button" data-action="remove" data-array="benefits.benefit1.languages" data-entry-id="{{id}}"
-            title="{{localize "WW.Detail.Language.Remove"}}"><i class="fas fa-trash"></i></a>
+            data-tooltip="WW.Detail.Language.Remove"><i class="fas fa-trash"></i></a>
         </span>{{#unless @last}},{{/unless}}
       </span>
       {{/each}}{{#unless benefits.benefit1.languages.length}}<span>—</span>{{/unless}}
       
       <a class="array-button" data-action="add" data-array="benefits.benefit1.languages" data-loc="Language"
-        title="{{localize "WW.Detail.Language.Add"}}"><i class="fas fa-circle-plus"></i></a>
+        data-tooltip="WW.Detail.Language.Add"><i class="fas fa-circle-plus"></i></a>
   
     </div>
   
@@ -61,9 +61,9 @@
         <label>{{item.name}}:</label>
   
         <span class="buttons">
-          {{#unless item.missing}}<a class="ref-edit" title="{{localize " WW.CharOption.EditRef"}}"><i
+          {{#unless item.missing}}<a class="ref-edit" data-tooltip="WW.CharOption.EditRef"><i
               class="fas fa-edit"></i></a>{{/unless}}
-          <a class="ref-remove" title="{{localize " WW.CharOption.RemoveRef"}}"><i class="fas fa-trash"></i></a>
+          <a class="ref-remove" data-tooltip="WW.CharOption.RemoveRef"><i class="fas fa-trash"></i></a>
         </span>
   
         <span>{{{item.description}}}</span>
