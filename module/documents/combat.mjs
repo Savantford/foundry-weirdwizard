@@ -386,7 +386,9 @@ export default class WWCombat extends Combat {
     if (options.direction === 1 && data.round) {
 
       if (!game.user.character) {
-        ui.notifications.warn(i18n('WW.Combat.TakingInit.NoCharacter'));
+        if (!game.user.isGM) {
+          ui.notifications.warn(i18n('WW.Combat.Initiative.NoCharacter'));
+        }
       } else {
 
         const confirm = await Dialog.confirm({
