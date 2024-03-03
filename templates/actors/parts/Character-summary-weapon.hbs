@@ -1,26 +1,26 @@
 <li class="item" data-item-id="{{item._id}}">
     {{!-- Title --}}
     {{#if item.needTargets}}<label class="item-button" data-action="targeted-use" data-item-id="{{item._id}}" 
-        title="{{localize "WW.Targeting.AttackTargeted"}}">{{item.name}}</label>
+        data-tooltip="WW.Targeting.AttackTargeted">{{item.name}}</label>
     {{else if item.isActivity}}<label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-        title="{{localize "WW.Targeting.AttackUntargeted"}}">{{item.name}}</label>
+        data-tooltip="WW.Targeting.AttackUntargeted">{{item.name}}</label>
     {{else}}<label>{{item.name}}</label>{{/if}}
 
     <span class="buttons">
 
         {{!-- Use Buttons --}}
         <a class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
-            title="{{localize "WW.Targeting.AttackTargeted"}}">
+            data-tooltip="WW.Targeting.AttackTargeted">
         <i class="fas fa-bullseye"></i></a>
 
         <a class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-            title="{{localize "WW.Targeting.AttackUntargeted"}}">
+            data-tooltip="WW.Targeting.AttackUntargeted">
         <i class="fas fa-bolt"></i></a>
 
         {{!-- Toggle Reloaded --}}
         {{#if item.system.disadvantages.reload}}
         <a class="item-button" data-action="item-toggle-reloaded" data-item-id="{{item._id}}"
-            title="{{#if item.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
+            data-tooltip="{{#if item.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
         <i class="fas {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
         {{/if}}
         
@@ -33,7 +33,7 @@
 
         {{!-- Edit Button --}}
         <a class="item-button" data-action="item-edit" data-item-id="{{item._id}}"
-            title="{{localize "WW.Item.Edit.Weapon"}}">
+            data-tooltip="WW.Item.Edit.Weapon">
         <i class="fas fa-edit"></i></a>
     </span>
 

@@ -690,11 +690,11 @@ export default class WWActorSheet extends ActorSheet {
     
     // Flip states
     if (icon.hasClass('fa-square-chevron-down')) {
-      $(button).attr("title", i18n('WW.Item.HideDesc'))
+      $(button).attr('data-tooltip', 'WW.Item.HideDesc')
       icon.removeClass('fa-square-chevron-down').addClass('fa-square-chevron-up');
       desc.slideDown(500);
     } else {
-      $(button).attr("title", i18n('WW.Item.ShowDesc'))
+      $(button).attr('data-tooltip', 'WW.Item.ShowDesc')
       icon.removeClass('fa-square-chevron-up').addClass('fa-square-chevron-down');
       desc.slideUp(500);
     }

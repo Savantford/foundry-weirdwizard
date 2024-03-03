@@ -33,7 +33,7 @@
         {{!-- Weapon Traits --}}
         <div class="traits-container">
             {{#each item.traits as |trait id|}}
-            <span class="header-button" title="{{trait.tip}}">{{trait.label}}</span>
+            <span class="header-button" data-tooltip="{{trait.tip}}">{{trait.label}}</span>
             {{/each}}
         </div>
 
