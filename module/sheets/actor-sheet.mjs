@@ -1,4 +1,4 @@
-import { i18n, plusify, capitalize, clearUserTargets, sum } from '../helpers/utils.mjs';
+import { i18n, plusify, capitalize, sum } from '../helpers/utils.mjs';
 import { chatMessageButton, targetHeader, addInstEffs, actionFromLabel } from '../chat/chat-html-templates.mjs';
 import RollAttribute from '../dice/roll-attribute.mjs';
 import TargetingHUD from '../apps/targeting-hud.mjs';
@@ -943,8 +943,6 @@ export default class WWActorSheet extends ActorSheet {
    * @param {Object} obj
    */
   async selectTargets(obj) {
-    //clearUserTargets()
-
     // Switch to the controls layer, activate target tool then switch to tokens layer
     const initialLayer = canvas.activeLayer;
     canvas.controls.activate({tool: 'target'});
