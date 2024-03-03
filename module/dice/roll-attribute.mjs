@@ -346,7 +346,7 @@ export default class RollAttribute extends FormApplication {
     const messageData = {
       type: CONST.CHAT_MESSAGE_TYPES.ROLL,
       rolls: rollArray,
-      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
       flavor: this.label,
       content: this.content,
       sound: CONFIG.sounds.dice,
@@ -576,30 +576,16 @@ export default class RollAttribute extends FormApplication {
   
   get targets() {
     const targets = [];
-    
-    //if (game.user.targets.size) { // Get targets if they exist
 
-      game.user.targets.forEach(t => {
-        targets.push({
-          id: t.id,
-          name: t.document.name,
-          attributes: t.document.actor?.system.attributes,
-          defense: t.document.actor?.system.stats.defense.total,
-          boonsAgainst: t.document.actor?.system.boons.against
-        })
-      });
-
-    /*} else { // Get self as a target if none is selected
-
+    game.user.targets.forEach(t => {
       targets.push({
-        id: this.token?.id,
-        name: this.token?.name,
-        attributes: this.actor.system.attributes,
-        defense: this.actor.system.stats.defense.total,
-        boonsAgainst: this.actor.system.boons.against
+        id: t.id,
+        name: game.weirdwizard.utils.getAlias({ token: t.document, actor: t.document.actor }),
+        attributes: t.document.actor?.system.attributes,
+        defense: t.document.actor?.system.stats.defense.total,
+        boonsAgainst: t.document.actor?.system.boons.against
       })
-
-    }*/
+    });
 
     return targets
   }

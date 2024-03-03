@@ -509,7 +509,7 @@ export default class WWActorSheet extends ActorSheet {
     if (system.autoFail[obj.attKey]) {
 
       let messageData = {
-        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+        speaker: game.weirdwizard.utils.getSpeaker.getSpeaker({ actor: this.actor }),
         flavor: label,
         content: content,
         sound: CONFIG.sounds.dice,
@@ -573,7 +573,7 @@ export default class WWActorSheet extends ActorSheet {
       else if (action === 'untargeted-use') {
   
         let messageData = {
-          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+          speaker: game.weirdwizard.utils.getSpeaker.getSpeaker({ actor: this.actor }),
           flavor: label,
           content: content,
           sound: CONFIG.sounds.dice,
@@ -601,7 +601,7 @@ export default class WWActorSheet extends ActorSheet {
       if (system.autoFail[obj.attKey]) {
         
         const messageData = {
-          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+          speaker: game.weirdwizard.utils.getSpeaker.getSpeaker({ actor: this.actor }),
           flavor: label,
           content: content,
           sound: CONFIG.sounds.dice,
@@ -643,7 +643,7 @@ export default class WWActorSheet extends ActorSheet {
   // Item Scroll: Send item description to chat when clicked
   _onItemScroll(item) {
     ChatMessage.create({
-      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      speaker: game.weirdwizard.utils.getSpeaker.getSpeaker({ actor: this.actor }),
       flavor: item.name,
       content: item.system.description.value,
       'flags.weirdwizard': {
@@ -847,7 +847,7 @@ export default class WWActorSheet extends ActorSheet {
 
     // Send message to chat
     let messageData = {
-      content: '<span style="display: inline"><span style="font-weight: bold">' + this.actor.name + '</span> ' + i18n('WW.Rest.Finished') + '.</span>',
+      content: '<span style="display: inline"><span style="font-weight: bold">' + game.weirdwizard.utils.getAlias({ actor: this.actor }) + '</span> ' + i18n('WW.Rest.Finished') + '.</span>',
       sound: CONFIG.sounds.notification
     };
 
@@ -968,7 +968,7 @@ export default class WWActorSheet extends ActorSheet {
         
         targets.push({
           id: t.id,
-          name: t.document.name,
+          name: game.weirdwizard.utils.getAlias({ token: t.document }),
           attributes: t.document.actor.system.attributes,
           defense: t.document.actor.system.stats.defense.total,
           boonsAgainst: t.document.actor.system.boons.against
@@ -979,7 +979,7 @@ export default class WWActorSheet extends ActorSheet {
 
       targets.push({
         id: this.token?.id,
-        name: this.token?.name,
+        name: game.weirdwizard.utils.getAlias({ token: this.token }),
         attributes: this.actor.system.attributes,
         defense: this.actor.system.stats.defense.total,
         boonsAgainst: this.actor.system.boons.against
