@@ -843,7 +843,7 @@ export default class WWActorSheet extends ActorSheet {
     });
 
     // Recover uses/tokens/castings for Talents and Spells
-    this.actor.updateEmbeddedDocuments('Item', this.actor.items.filter(i => i.system.uses.onRest === true).map(i => ({ _id: i.id, 'system.uses.value': 0 })));
+    this.actor.updateEmbeddedDocuments('Item', this.actor.items.filter(i => i.system.uses?.onRest === true).map(i => ({ _id: i.id, 'system.uses.value': 0 })));
 
     // Send message to chat
     let messageData = {
