@@ -82,6 +82,9 @@ export default class WWActor extends Actor {
   }
 
   async _preCreate(data, options, user) {
+    const sourceId = this.getFlag("core", "sourceId");
+    // Don't change actors imported from compendia.
+    if (sourceId?.startsWith("Compendium.")) return await super._preCreate(data, options, user);
 
     let icon = data.img;
 
@@ -102,7 +105,7 @@ export default class WWActor extends Actor {
 
     }
 
-    // Assign default Prototype Token Dispositions
+    // Assign default Prototype Token Dispositions.
     let dispo = 1;
 
     switch (this.type) {
@@ -117,7 +120,36 @@ export default class WWActor extends Actor {
 
     }
 
-    await this.updateSource({ img: icon, 'prototypeToken.disposition': dispo });
+    // Set Protoype Token Sight by actor type.
+    let sight;
+
+    switch (this.type) {
+
+      case 'Character':
+        sight = {
+          enabled: true
+        };
+      break;
+
+    }
+
+    // Set Protoype Token Actor Link by actor type.
+    let actorLink = false;
+
+    switch (this.type) {
+
+      case 'Character':
+        actorLink = true;
+      break;
+
+    }
+
+    await this.updateSource({
+      img: icon,
+      'prototypeToken.disposition': dispo,
+      'prototypeToken.sight': sight,
+      'prototypeToken.actorLink': actorLink
+    });
 
     return await super._preCreate(data, options, user);
   }
