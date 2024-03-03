@@ -42,6 +42,7 @@ import { initChatListeners } from './chat/chat-listeners.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
 import { fullMigration, charOptions } from './helpers/migrations.mjs';
+import { Utils } from './helpers/utils.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -53,7 +54,8 @@ Hooks.once('init', function () {
   
   game.weirdwizard = {
     WWActor,
-    WWItem
+    WWItem,
+    utils: Utils
   };
 
   // Add custom constants for configuration.

@@ -77,7 +77,7 @@ export default class TargetingHUD extends Application {
         }
   
         let messageData = {
-          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+          speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
           flavor: label,
           content: content,
           sound: CONFIG.sounds.dice,

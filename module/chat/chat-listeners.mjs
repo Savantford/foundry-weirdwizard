@@ -112,7 +112,7 @@ function _onMessageButtonContext(element) {
     targets.forEach(actor => {
     
       if (actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
-        name: actor.name,
+        name: game.weirdwizard.utils.getAlias({ actor: actor }),
         icon: iconToHTML(actor.img, actor.uuid),
         group: 'targets',
         uuid: actor.uuid,
@@ -126,7 +126,7 @@ function _onMessageButtonContext(element) {
   if (character && (!menuItems.find(o => o.uuid === character.uuid))) {
     
     menuItems.push({
-      name: character.name,
+      name: game.weirdwizard.utils.getAlias({ actor: character }),
       icon: iconToHTML(character.img, character.uuid),
       group: 'character',
       uuid: character.uuid,
@@ -139,7 +139,7 @@ function _onMessageButtonContext(element) {
     const actor = c.actor;
     
     if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
-      name: actor.name,
+      name: game.weirdwizard.utils.getAlias({ actor: actor }),
       icon: iconToHTML(actor.img, actor.uuid),
       group: 'combatants',
       uuid: actor.uuid,
@@ -153,7 +153,7 @@ function _onMessageButtonContext(element) {
     const actor = game.actors.tokens[id];
     
     if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
-      name: actor.name,
+      name: game.weirdwizard.utils.getAlias({ actor: actor }),
       icon: iconToHTML(actor.img, actor.uuid),
       group: 'tokens',
       uuid: actor.uuid,
@@ -168,7 +168,7 @@ function _onMessageButtonContext(element) {
     if (actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) {
       
       menuItems.push({
-        name: actor.name,
+        name: game.weirdwizard.utils.getAlias({ actor: actor }),
         icon: iconToHTML(actor.img, actor.uuid),
         group: 'actors',
         uuid: actor.uuid,
@@ -210,7 +210,7 @@ async function _onChatRoll(dataset, label, nextAction) {
   const messageData = {
     type: CONST.CHAT_MESSAGE_TYPES.ROLL,
     rolls: rollArray,
-    speaker: ChatMessage.getSpeaker({ actor: data.actor }),
+    speaker: game.weirdwizard.utils.getSpeaker({ actor: data.actor }),
     flavor: labelHtml,
     content: '<div></div>',
     sound: CONFIG.sounds.dice,
