@@ -41,12 +41,22 @@ Follow the steps below to get the Manifest URL.
 If you want to report a bug or share feedback about the system,
 please join the [SotDL for Foundry VTT Discord](https://discord.com/invite/DUMfrUc)
 server and talk to us in the `#ww-feedback-requests` channel.
-I'm `Friend / Savantford` there, by the way!
+Feel free to talk to `Friend / Savantford` there, if you wish!
 
-For a comprehensive list of bug reports and feedback given, please check our [Notion's board](https://www.notion.so/gado-publishing/Foundry-s-Weird-Wizard-Issues-59094762fce441269199d10747e1c807) or the [Issues](https://github.com/Savantford/foundry-weirdwizard/issues) here in GitHub.
-The latter also has [Milestones](https://github.com/Savantford/foundry-weirdwizard/milestones).
+You can check our [Issues](https://github.com/Savantford/foundry-weirdwizard/issues) for a list of existing bug reports and suggestions.
+Issues are also grouped in [Milestones](https://github.com/Savantford/foundry-weirdwizard/milestones) in a more comprehensive manner.
 
 Thank you for all the reports and feedback!
+
+## Contributions
+
+This project was created and is currently maintained by @Savantford (Friend).
+
+However, contributions were done directly to the project by a few awesome contributors:
+- @mhilbrunner: Lots of stuff. Lots of stuff!
+- @SolarizedRed: Initial styling and Fonts selection.
+
+A huge thank you to all of them!
 
 ## Acknowledgments
 
