@@ -6,7 +6,7 @@
         <div class="profile-img-wrapper">
             
             {{!-- Profile Image --}}
-            <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}"/>
+            <img class="profile-img" src="{{actor.img}}" data-edit="img" data-tooltip="WW.System.EditImage"/>
 
         </div>
 
@@ -17,7 +17,7 @@
                 <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.Actor.Name"}}"/></h1>
 
                 {{!-- Disposition Toggle --}}
-                <a class="change-disposition{{#if (eq disposition 1)}} ally{{/if}}" title="{{localize "WW.Actor.Disposition.Tip"}}">
+                <a class="change-disposition{{#if (eq disposition 1)}} ally{{/if}}" data-tooltip="WW.Actor.Disposition.Tip">
                     {{#if (eq disposition 1)}}{{localize "WW.Actor.Disposition.Ally"}}{{else}}{{localize "WW.Actor.Disposition.Enemy"}}{{/if}}
                 </a>
                 

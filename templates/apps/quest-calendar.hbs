@@ -9,15 +9,15 @@
         </div>
 
         <div id="qc-hours-container">
-            <div id="qc-hour-prev" title="{{localize "QC.Menu.PrevHour"}}"><i class="fas fa-{{backward}}"></i></div>
-            <div id="qc-hour-round" title="{{localize "QC.Menu.RoundHour"}}"><i class="fas fa-arrows-rotate"></i></div>
-            <div id="qc-hour-next" title="{{localize "QC.Menu.NextHour"}}"><i class="fas fa-{{forward}}"></i></div>
-            <div id="qc-rest" title="{{localize "QC.Menu.Rest"}}"><i class="fas fa-bed"></i></div>
+            <div id="qc-hour-prev" data-tooltip="QC.Menu.PrevHour"><i class="fas fa-{{backward}}"></i></div>
+            <div id="qc-hour-round" data-tooltip="QC.Menu.RoundHour"><i class="fas fa-arrows-rotate"></i></div>
+            <div id="qc-hour-next" data-tooltip="QC.Menu.NextHour"><i class="fas fa-{{forward}}"></i></div>
+            <div id="qc-rest" data-tooltip="QC.Menu.Rest"><i class="fas fa-bed"></i></div>
             <div class="qc-space"></div>
-            <div id="qc-sunrise" title="{{localize "QC.Menu.Sunrise"}}"><i class="fas fa-sunrise"></i></div>
-            <div id="qc-midday" title="{{localize "QC.Menu.Midday"}}"><i class="fas fa-sun"></i></div>
-            <div id="qc-sunset" title="{{localize "QC.Menu.Sunset"}}"><i class="fas fa-sunset"></i></div>
-            <div id="qc-midnight" title="{{localize "QC.Menu.Midnight"}}"><i class="fas fa-moon"></i></div>
+            <div id="qc-sunrise" data-tooltip="QC.Menu.Sunrise"><i class="fas fa-sunrise"></i></div>
+            <div id="qc-midday" data-tooltip="QC.Menu.Midday"><i class="fas fa-sun"></i></div>
+            <div id="qc-sunset" data-tooltip="QC.Menu.Sunset"><i class="fas fa-sunset"></i></div>
+            <div id="qc-midnight" data-tooltip="QC.Menu.Midnight"><i class="fas fa-moon"></i></div>
         </div>
     </div>
 
@@ -35,8 +35,8 @@
                 </div>
 
                 <div class="qc-buttons">
-                    <div id="qc-month-prev" title="{{localize "QC.Calendar.MonthPrev"}}"><i class="fas fa-{{backward}}"></i></div>
-                    <div id="qc-month-next" title="{{localize "QC.Calendar.MonthNext"}}"><i class="fas fa-{{forward}}"></i></div>
+                    <div id="qc-month-prev" data-tooltip="QC.Calendar.MonthPrev"><i class="fas fa-{{backward}}"></i></div>
+                    <div id="qc-month-next" data-tooltip="QC.Calendar.MonthNext"><i class="fas fa-{{forward}}"></i></div>
                 </div>
             </div>
             
@@ -55,8 +55,8 @@
                 </div>
 
                 <div class="qc-buttons">
-                    <div id="qc-week-prev" title="{{localize "QC.Calendar.WeekPrev"}}"><i class="fas fa-{{backward}}"></i></div>
-                    <div id="qc-week-next" title="{{localize "QC.Calendar.WeekNext"}}"><i class="fas fa-{{forward}}"></i></div>
+                    <div id="qc-week-prev" data-tooltip="QC.Calendar.WeekPrev"><i class="fas fa-{{backward}}"></i></div>
+                    <div id="qc-week-next" data-tooltip="QC.Calendar.WeekNext"><i class="fas fa-{{forward}}"></i></div>
                 </div>
             </div>
             
@@ -73,8 +73,8 @@
                     {{#if (eq time.days 1)}}{{localize "QC.Calendar.Day"}}{{else}}{{localize "QC.Calendar.Days"}}{{/if}}
                 </div>
                 <div class="qc-buttons">
-                    <div id="qc-day-prev" title="{{localize "QC.Calendar.DayPrev"}}"><i class="fas fa-{{backward}}"></i></div>
-                    <div id="qc-day-next" title="{{localize "QC.Calendar.DayNext"}}"><i class="fas fa-{{forward}}"></i></div>
+                    <div id="qc-day-prev" data-tooltip="QC.Calendar.DayPrev"><i class="fas fa-{{backward}}"></i></div>
+                    <div id="qc-day-next" data-tooltip="QC.Calendar.DayNext"><i class="fas fa-{{forward}}"></i></div>
                 </div>
             </div>
             

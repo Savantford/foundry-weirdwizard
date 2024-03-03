@@ -166,6 +166,10 @@
 "WW.Item.Delete.NovicePath": "Remove Novice Path",
 "WW.Item.Delete.ExpertPath": "Remove Expert Path",
 "WW.Item.Delete.MasterPath": "Remove Master Path",
+"WW.Item.Delete.Weapon": "Remove Weapon",
+"WW.Item.Delete.Equipment": "Remove Equipment",
+"WW.Item.Delete.Spell": "Remove Spell",
+"WW.Item.Delete.Trait": "Remove Trait/Talent",
 
 "WW.Item.Delete.Dialog.Title": "Delete Item",
 "WW.Item.Delete.Dialog.Msg": "You are about to delete {name}. This action is irreversible.",
@@ -194,7 +198,18 @@
 "WW.Roll.CriticalSuccess": "Critical Success",
 "WW.Roll.Failure": "Failure",
 "WW.Roll.AutoFail": "Automatic Failure",
+"WW.Roll.Strength": "Roll Strength",
+"WW.Roll.Agility": "Roll Agility",
+"WW.Roll.Intellect": "Roll Intellect",
+"WW.Roll.Will": "Roll Will",
+"WW.Roll.Luck": "Roll Luck",
+"WW.Roll.ApplyBaseDamage": "Apply the base damage",
+"WW.Roll.ApplyExtraDamage": "Apply the extra damage die",
+"WW.Roll.ApplyExtraDamageDice": "Apply the extra damage dice",
+"WW.Roll.ApplyExtraDamageMod": "Apply the extra damage modifier",
+"WW.Roll.ApplyBonusDamage": "Apply all Bonus damage dice",
 
+"WW.Boons.Apply": "Apply boons/banes",
 "WW.Boons.Total": "Total Boons or Banes",
 "WW.Boons.Afflictions": "Boons/banes imposed by afflictions/effects",
 "WW.Boons.Attack": "Boons/banes to Attack rolls",
@@ -681,6 +696,8 @@
 "WW.System.Dialog.Save": "Save",
 "WW.System.Dialog.Reset": "Reset",
 "WW.System.Dialog.Cancel": "Cancel",
+
+"WW.System.EditImage": "Click to edit image",
 
 "WW.System.Migration.Started": "Outdated data found. Please wait until the data migration is finished.",
 "WW.System.Migration.Forced": "Forced data migration started. Please wait until the data migration is finished.",

@@ -42,6 +42,7 @@ import { initChatListeners } from './chat/chat-listeners.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
 import { fullMigration, charOptions } from './helpers/migrations.mjs';
+import { Utils } from './helpers/utils.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -53,7 +54,8 @@ Hooks.once('init', function () {
   
   game.weirdwizard = {
     WWActor,
-    WWItem
+    WWItem,
+    utils: Utils
   };
 
   // Add custom constants for configuration.
@@ -365,6 +367,31 @@ Hooks.on('renderSettingsConfig', (app, html, data) => {
       lastSectionID = section;
     }
   });
+});
+
+// Pretty up the system version display in the settings sidebar.
+Hooks.on("renderSettings", (app, [html]) => {
+  const details = html.querySelector("#game-details");
+  const pip = details.querySelector(".system-info .update");
+  details.querySelector(".system").remove();
+
+  const heading = document.createElement("div");
+  heading.classList.add("weirdwizard", "sidebar-heading");
+  heading.innerHTML = `<h2>${game.i18n.localize("WORLD.GameSystem")}</h2>`;
+  details.insertAdjacentElement("afterend", heading);
+
+  const badge = document.createElement("div");
+  badge.classList.add("weirdwizard", "system-badge");
+  badge.innerHTML = `
+    <img src="systems/weirdwizard/assets/ui/sotww-logo.png" data-tooltip="${game.system.title}" alt="${game.system.title}">
+    <p class="system-info" style="text-align: center;">${game.system.title} Version ${game.system.version}<br>
+        <a href="https://github.com/Savantford/foundry-weirdwizard/releases/latest" target="_blank">Patchnotes</a> •
+        <a href="https://github.com/Savantford/foundry-weirdwizard/issues" target="_blank">Issues</a> •
+        <a href="https://discord.com/invite/DUMfrUc" target="_blank">Discord</a>
+    </p>
+  `;
+  if (pip) badge.querySelector(".system-info").insertAdjacentElement("beforeend", pip);
+  heading.insertAdjacentElement("afterend", badge);
 });
 
 /* -------------------------------------------- */

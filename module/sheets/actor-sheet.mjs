@@ -1,4 +1,4 @@
-import { i18n, plusify, capitalize, clearUserTargets, sum } from '../helpers/utils.mjs';
+import { i18n, plusify, capitalize, sum } from '../helpers/utils.mjs';
 import { chatMessageButton, targetHeader, addInstEffs, actionFromLabel } from '../chat/chat-html-templates.mjs';
 import RollAttribute from '../dice/roll-attribute.mjs';
 import TargetingHUD from '../apps/targeting-hud.mjs';
@@ -509,7 +509,7 @@ export default class WWActorSheet extends ActorSheet {
     if (system.autoFail[obj.attKey]) {
 
       let messageData = {
-        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+        speaker: game.weirdwizard.utils.getSpeaker.getSpeaker({ actor: this.actor }),
         flavor: label,
         content: content,
         sound: CONFIG.sounds.dice,
@@ -573,7 +573,7 @@ export default class WWActorSheet extends ActorSheet {
       else if (action === 'untargeted-use') {
   
         let messageData = {
-          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+          speaker: game.weirdwizard.utils.getSpeaker.getSpeaker({ actor: this.actor }),
           flavor: label,
           content: content,
           sound: CONFIG.sounds.dice,
@@ -601,7 +601,7 @@ export default class WWActorSheet extends ActorSheet {
       if (system.autoFail[obj.attKey]) {
         
         const messageData = {
-          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+          speaker: game.weirdwizard.utils.getSpeaker.getSpeaker({ actor: this.actor }),
           flavor: label,
           content: content,
           sound: CONFIG.sounds.dice,
@@ -643,7 +643,7 @@ export default class WWActorSheet extends ActorSheet {
   // Item Scroll: Send item description to chat when clicked
   _onItemScroll(item) {
     ChatMessage.create({
-      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      speaker: game.weirdwizard.utils.getSpeaker.getSpeaker({ actor: this.actor }),
       flavor: item.name,
       content: item.system.description.value,
       'flags.weirdwizard': {
@@ -690,11 +690,11 @@ export default class WWActorSheet extends ActorSheet {
     
     // Flip states
     if (icon.hasClass('fa-square-chevron-down')) {
-      $(button).attr("title", i18n('WW.Item.HideDesc'))
+      $(button).attr('data-tooltip', 'WW.Item.HideDesc')
       icon.removeClass('fa-square-chevron-down').addClass('fa-square-chevron-up');
       desc.slideDown(500);
     } else {
-      $(button).attr("title", i18n('WW.Item.ShowDesc'))
+      $(button).attr('data-tooltip', 'WW.Item.ShowDesc')
       icon.removeClass('fa-square-chevron-up').addClass('fa-square-chevron-down');
       desc.slideUp(500);
     }
@@ -843,11 +843,11 @@ export default class WWActorSheet extends ActorSheet {
     });
 
     // Recover uses/tokens/castings for Talents and Spells
-    this.actor.updateEmbeddedDocuments('Item', this.actor.items.filter(i => i.system.uses.onRest === true).map(i => ({ _id: i.id, 'system.uses.value': 0 })));
+    this.actor.updateEmbeddedDocuments('Item', this.actor.items.filter(i => i.system.uses?.onRest === true).map(i => ({ _id: i.id, 'system.uses.value': 0 })));
 
     // Send message to chat
     let messageData = {
-      content: '<span style="display: inline"><span style="font-weight: bold">' + this.actor.name + '</span> ' + i18n('WW.Rest.Finished') + '.</span>',
+      content: '<span style="display: inline"><span style="font-weight: bold">' + game.weirdwizard.utils.getAlias({ actor: this.actor }) + '</span> ' + i18n('WW.Rest.Finished') + '.</span>',
       sound: CONFIG.sounds.notification
     };
 
@@ -943,8 +943,6 @@ export default class WWActorSheet extends ActorSheet {
    * @param {Object} obj
    */
   async selectTargets(obj) {
-    //clearUserTargets()
-
     // Switch to the controls layer, activate target tool then switch to tokens layer
     const initialLayer = canvas.activeLayer;
     canvas.controls.activate({tool: 'target'});
@@ -970,7 +968,7 @@ export default class WWActorSheet extends ActorSheet {
         
         targets.push({
           id: t.id,
-          name: t.document.name,
+          name: game.weirdwizard.utils.getAlias({ token: t.document }),
           attributes: t.document.actor.system.attributes,
           defense: t.document.actor.system.stats.defense.total,
           boonsAgainst: t.document.actor.system.boons.against
@@ -981,7 +979,7 @@ export default class WWActorSheet extends ActorSheet {
 
       targets.push({
         id: this.token?.id,
-        name: this.token?.name,
+        name: game.weirdwizard.utils.getAlias({ token: this.token }),
         attributes: this.actor.system.attributes,
         defense: this.actor.system.stats.defense.total,
         boonsAgainst: this.actor.system.boons.against

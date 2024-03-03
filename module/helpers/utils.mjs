@@ -1,16 +1,23 @@
-/* -------------------------------------------- */
-/*  Global Functions
-/* -------------------------------------------- */
+/* ------------------------------------------------------- */
+/*  Utility Functions (available as game.weirdwizard.utils.*)
+/* ------------------------------------------------------- */
 
-export const Global = {}
-
-
+export class Utils {
+  static capitalize = capitalize;
+  static plusify = plusify;
+  static formatTime = formatTime;
+  static getEffectBoons = getEffectBoons;
+  static clearUserTargets = clearUserTargets;
+  static getSpeaker = getSpeaker;
+  static getAlias = getAlias;
+  static sum = sum;
+}
 
 /* Formatting Functions */
 
 export const i18n = (s,d={}) => game.i18n.format(s,d);
 
-export function capitalize(string,noLowerCase) {
+export function capitalize(string, noLowerCase) {
   return noLowerCase ? string?.charAt(0).toUpperCase() + string?.slice(1) : string?.charAt(0).toUpperCase() + string?.toLowerCase().slice(1)
 }
 
@@ -18,7 +25,7 @@ export function plusify(x) {
   return x >= 0 ? '+' + x : x
 }
 
-export function formatTime(seconds,isDate) {
+export function formatTime(seconds, isDate) {
   const hour = 3600,
     day = 86400, // 3600*24
     week = 604800, // 3600*24*7
@@ -73,50 +80,42 @@ export function formatTime(seconds,isDate) {
   }
 }
 
-
 /* Misc Utility Functions */
-export function getEffectBoons (attribute) {
+export function getEffectBoons(attribute) {
   return attribute.boons.global ?? 0;
 }
 
-export function resizeInput (html) {
-  const resize = html.find('input.auto-resize');
-  const numberInput = html.find('input[type=number]');
-  const min = 12;
+// ChatMessage.getSpeaker() but better!
+// Mainly by preferring token names to avoid spoiling actor names.
+export function getSpeaker({scene, actor, token, alias}={}) {
+  const speaker = ChatMessage.getSpeaker({ scene, actor, token, alias });
+  
+  if (alias) {
+    // We got a specific alias; prefer that over everything else.
+    return speaker;
+  }
 
-  resize.each(function() {
-    this.style.width = 0;
-    this.style.width = (this.scrollWidth > min ? this.scrollWidth : min) + "px";
-    this.style.minWidth = 0;
-    this.style.minWidth = (this.scrollWidth > min ? this.scrollWidth : min) + "px";
-  });
+  if (token) {
+    // We got a token; prefer token.name > prototypeToken.name > getSpeaker().
+    if (token.name) {
+      speaker.alias = token.name;
+    } else {
+      if (token.actor?.prototypeToken?.name) {
+        speaker.alias = token.actor.prototypeToken.name;
+      }
+    }
+  } else if (actor) {
+    // We got an actor; prefer prototypeToken.name > getSpeaker().
+    if (actor.prototypeToken?.name) {
+      speaker.alias = actor.prototypeToken.name;
+    }
+  }
 
-  resize.on("input", function() {
-    this.style.width = 0;
-    this.style.width = (this.scrollWidth > min ? (this.scrollWidth + 2) : min) + "px";
-    this.style.minWidth = 0;
-    this.style.minWidth = (this.scrollWidth > min ? (this.scrollWidth + 2) : min) + "px";
-  });
-
-  numberInput.each(function() {
-    this.style.minWidth = 0;
-    this.style.minWidth = (this.scrollWidth > min ? this.scrollWidth : min) + "px";
-    this.style.width = 0;
-    this.style.width = (this.scrollWidth > min ? this.scrollWidth : min) + "px";
-  });
-
-  numberInput.on("input", function() {
-    this.style.minWidth = 0;
-    this.style.minWidth = (this.scrollWidth > min ? this.scrollWidth : min) + "px";
-    this.style.width = 0;
-    this.style.width = (this.scrollWidth > min ? this.scrollWidth : min) + "px";
-  });
+  return speaker;
 }
 
-export function clearUserTargets() {
-  for ( let t of game.user.targets ) {
-    t.setTarget(false, {releaseOthers: false, groupSelection: true});
-  }
+export function getAlias({scene, actor, token, alias}={}) {
+  return game.weirdwizard.utils.getSpeaker({ scene, actor, token, alias })?.alias;
 }
 
 /* -------------------------------------------- */

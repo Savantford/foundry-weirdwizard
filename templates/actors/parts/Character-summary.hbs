@@ -12,15 +12,15 @@
                     <a data-tooltip="{{charOptions.ancestry.system.description.enriched}}">{{charOptions.ancestry.name}}</a>{{#if charOptions.ancestry}}<span class="buttons">
                     
                     <a class="item-button" data-action="item-edit" data-item-id="{{charOptions.ancestry._id}}"
-                        title="{{localize "WW.Item.Edit.Ancestry"}}"><i class="fas fa-edit"></i></a>
+                        data-tooltip="WW.Item.Edit.Ancestry"><i class="fas fa-edit"></i></a>
                     
                     <a class="item-button" data-action="item-delete" data-item-id="{{charOptions.ancestry._id}}"
-                        title="{{localize "WW.Item.Delete.Ancestry"}}"><i class="fas fa-trash"></i></a>
+                        data-tooltip="WW.Item.Delete.Ancestry"><i class="fas fa-trash"></i></a>
                     
                     </span>{{/if}}{{#unless charOptions.ancestry}}<span>—</span>
                     
                     {{!-- Create Button --}}
-                    <a class="item-control item-create" title="{{localize "WW.Item.Add.Ancestry"}}" data-type="Ancestry"><i
+                    <a class="item-control item-create" data-tooltip="WW.Item.Add.Ancestry" data-type="Ancestry"><i
                         class="fas fa-circle-plus"></i></a>
                     {{/unless}}
 
@@ -33,10 +33,10 @@
                     {{#if @first}}({{/if}}<a class="array-button" data-action="edit" data-array="details.descriptors" data-entry-id="{{id}}"
                         data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
                         <a class="array-button" data-action="edit" data-array="details.descriptors" data-entry-id="{{id}}"
-                            title="{{localize "WW.Detail.Descriptor.Edit"}}"><i class="fas fa-edit"></i></a>
+                            data-tooltip="WW.Detail.Descriptor.Edit"><i class="fas fa-edit"></i></a>
                 
                         <a class="array-button" data-action="remove" data-array="details.descriptors" data-entry-id="{{id}}"
-                            title="{{localize "WW.Detail.Descriptor.Remove"}}"><i class="fas fa-trash"></i></a>
+                            data-tooltip="WW.Detail.Descriptor.Remove"><i class="fas fa-trash"></i></a>
                     </span>{{#unless @last}},{{/unless}}{{#if @last}}){{/if}}
 
                 </span>
@@ -45,7 +45,7 @@
                 {{#unless system.details.descriptors.length}}<span class="hover-only">({{localize "WW.Detail.Descriptor.Label"}})</span>{{/unless}}
                 
                 <a class="array-button" data-action="add" data-array="details.descriptors" data-loc="Descriptor"
-                    title="{{localize "WW.Detail.Descriptor.Add"}}"><i class="fas fa-circle-plus"></i></a>
+                    data-tooltip="WW.Detail.Descriptor.Add"><i class="fas fa-circle-plus"></i></a>
                 
             </div>
 
@@ -75,23 +75,23 @@
                 {{!-- Speed --}}
                 <label class="ml-1">{{localize "WW.Stats.Speed"}}:</label>
 
-                <a class="mr-1" title="{{localize "WW.Stats.NormalSpeed"}}: {{system.stats.speed.normal}}">{{system.stats.speed.current}}</a>
+                <a class="mr-1" data-tooltip="{{localize "WW.Stats.NormalSpeed"}}: {{system.stats.speed.normal}}">{{system.stats.speed.current}}</a>
                 
                 {{!-- Movement Traits --}}
                 {{#each system.details.movementTraits as |detail id|}}<span class="list-entry">
                     {{#if @first}}({{/if}}<a class="array-button" data-action="edit" data-array="details.movementTraits" data-entry-id="{{id}}"
                         data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
                         <a class="array-button" data-action="edit" data-array="details.movementTraits" data-entry-id="{{id}}"
-                            title="{{localize "WW.Detail.Movement.Edit"}}"><i class="fas fa-edit"></i></a>
+                            data-tooltip="WW.Detail.Movement.Edit"><i class="fas fa-edit"></i></a>
                         
                         <a class="array-button" data-action="remove" data-array="details.movementTraits" data-entry-id="{{id}}"
-                            title="{{localize "WW.Detail.Movement.Remove"}}"><i class="fas fa-trash"></i></a>
+                            data-tooltip="WW.Detail.Movement.Remove"><i class="fas fa-trash"></i></a>
                     </span>{{#unless @last}},{{/unless}}{{#if @last}}){{/if}}
                 </span>
                 {{/each}}
 
                 <a class="array-button" data-action="add" data-array="details.movementTraits" data-loc="Movement"
-                    title="{{localize "WW.Detail.Movement.Add"}}"><i class="fas fa-circle-plus"></i></a>
+                    data-tooltip="WW.Detail.Movement.Add"><i class="fas fa-circle-plus"></i></a>
 
             </div>
         
@@ -109,15 +109,15 @@
                     <a data-tooltip="<p>{{localize "WW.Profession.Category"}}: {{localize item.system.categoryLoc}}</p><br/><p>{{item.system.description.enriched}}</p>">{{item.name}}</a><span class="buttons">
                         {{#if item.system.description.value}}
                         {{!-- Send to Chat Scroll --}}
-                        <a class="item-button" data-action="item-scroll" data-item-id="{{item._id}}" title="{{localize "WW.Item.Send"}}"><i
+                        <a class="item-button" data-action="item-scroll" data-item-id="{{item._id}}" data-tooltip="WW.Item.Send"><i
                             class="far fa-scroll"></i></a>
                         {{/if}}
 
                         {{!-- Edit Button --}}
-                        <a class="item-button" data-action="item-edit" data-item-id="{{item._id}}" title="{{localize (concat "WW.Item.Edit." item.type)}}"><i class="fas fa-edit"></i></a>
+                        <a class="item-button" data-action="item-edit" data-item-id="{{item._id}}" data-tooltip="{{concat "WW.Item.Edit." item.type}}"><i class="fas fa-edit"></i></a>
 
                         {{!-- Delete Button --}}
-                        <a class="item-button" data-action="item-delete" data-item-id="{{item._id}}" title="{{localize (concat "WW.Item.Delete." item.type)}}"><i class="fas fa-trash"></i></a>
+                        <a class="item-button" data-action="item-delete" data-item-id="{{item._id}}" data-tooltip="{{concat "WW.Item.Delete." item.type}}"><i class="fas fa-trash"></i></a>
                         
                     </span>{{#unless @last}},{{/unless}}
                     
@@ -127,7 +127,7 @@
                 {{#unless charOptions.professions.length}}<span>—</span>{{/unless}}
                     
                 {{!-- Create Button --}}
-                <a class="item-control item-create" title="{{localize "WW.Item.Add.Profession"}}" data-type="Profession"><i
+                <a class="item-control item-create" data-tooltip="WW.Item.Add.Profession" data-type="Profession"><i
                     class="fas fa-circle-plus"></i></a>
                 
             </div>
@@ -142,15 +142,15 @@
                     <a data-tooltip="{{charOptions.novice.system.description.enriched}}">{{charOptions.novice.name}}</a>{{#if charOptions.novice}}<span class="buttons">
                         
                         <a class="item-button" data-action="item-edit" data-item-id="{{charOptions.novice._id}}"
-                            title="{{localize "WW.Item.Edit.NovicePath"}}"><i class="fas fa-edit"></i></a>
+                            data-tooltip="WW.Item.Edit.NovicePath"><i class="fas fa-edit"></i></a>
                         
                         <a class="item-button" data-action="item-delete" data-item-id="{{charOptions.novice._id}}"
-                            title="{{localize "WW.Item.Delete.NovicePath"}}"><i class="fas fa-trash"></i></a>
+                            data-tooltip="WW.Item.Delete.NovicePath"><i class="fas fa-trash"></i></a>
                         
                     </span>{{/if}}{{#unless charOptions.novice}}<span>—</span>
                     
                     {{!-- Create Button --}}
-                    <a class="item-control item-create" title="{{localize "WW.Item.Add.NovicePath"}}" data-type="Path" data-tier="novice"><i
+                    <a class="item-control item-create" data-tooltip="WW.Item.Add.NovicePath" data-type="Path" data-tier="novice"><i
                         class="fas fa-circle-plus"></i></a>
                     {{/unless}}{{#if (gte system.stats.level 3)}},{{/if}}
                 </div>
@@ -162,15 +162,15 @@
                     <a data-tooltip="{{charOptions.expert.system.description.enriched}}">{{charOptions.expert.name}}</a>{{#if charOptions.expert}}<span class="buttons">
                         
                         <a class="item-button" data-action="item-edit" data-item-id="{{charOptions.expert._id}}"
-                            title="{{localize "WW.Item.Edit.ExpertPath"}}"><i class="fas fa-edit"></i></a>
+                            data-tooltip="WW.Item.Edit.ExpertPath"><i class="fas fa-edit"></i></a>
                         
                         <a class="item-button" data-action="item-delete" data-item-id="{{charOptions.expert._id}}"
-                            title="{{localize "WW.Item.Delete.ExpertPath"}}"><i class="fas fa-trash"></i></a>
+                            data-tooltip="WW.Item.Delete.ExpertPath"><i class="fas fa-trash"></i></a>
                         
                     </span>{{/if}}{{#unless charOptions.expert}}<span>—</span>
                     
                     {{!-- Create Button --}}
-                    <a class="item-control item-create" title="{{localize "WW.Item.Add.ExpertPath"}}" data-type="Path" data-tier="expert"><i
+                    <a class="item-control item-create" data-tooltip="WW.Item.Add.ExpertPath" data-type="Path" data-tier="expert"><i
                         class="fas fa-circle-plus"></i></a>
                     {{/unless}}{{#if (gte system.stats.level 7)}},{{/if}}
                 </div>
@@ -183,17 +183,17 @@
                     <a data-tooltip="{{charOptions.master.system.description.enriched}}">{{charOptions.master.name}}</a>{{#if charOptions.master}}<span class="buttons">
                         
                         <a class="item-button" data-action="item-edit" data-item-id="{{charOptions.master._id}}"
-                            title="{{localize "WW.Item.Edit.MasterPath"}}"><i class="fas fa-edit"></i></a>
+                            data-tooltip="WW.Item.Edit.MasterPath"><i class="fas fa-edit"></i></a>
                         
                         <a class="item-button" data-action="item-delete" data-item-id="{{charOptions.master._id}}"
-                            title="{{localize "WW.Item.Delete.MasterPath"}}"><i class="fas fa-trash"></i></a>
+                            data-tooltip="WW.Item.Delete.MasterPath"><i class="fas fa-trash"></i></a>
                         
                     </span>{{/if}}
 
                     {{#unless charOptions.master}}<span>—</span>
                     
                     {{!-- Create Button --}}
-                    <a class="item-control item-create" title="{{localize "WW.Item.Add.MasterPath"}}" data-type="Path" data-tier="master"><i
+                    <a class="item-control item-create" data-tooltip="WW.Item.Add.MasterPath" data-type="Path" data-tier="master"><i
                         class="fas fa-circle-plus"></i></a>
                     {{/unless}}
                     
@@ -213,10 +213,10 @@
                     <a class="array-button" data-action="edit" data-array="details.languages" data-entry-id="{{id}}"
                         data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
                         <a class="array-button" data-action="edit" data-array="details.languages" data-entry-id="{{id}}"
-                            title="{{localize "WW.Detail.Language.Edit"}}"><i class="fas fa-edit"></i></a>
+                            data-tooltip="WW.Detail.Language.Edit"><i class="fas fa-edit"></i></a>
                 
                         <a class="array-button" data-action="remove" data-array="details.languages" data-entry-id="{{id}}"
-                            title="{{localize "WW.Detail.Language.Remove"}}"><i class="fas fa-trash"></i></a>
+                            data-tooltip="WW.Detail.Language.Remove"><i class="fas fa-trash"></i></a>
                     </span>{{#unless @last}},{{/unless}}
                 </span>
                 {{/each}}
@@ -224,7 +224,7 @@
                 {{#unless system.details.languages.length}}<span>—</span>{{/unless}}
                 
                 <a class="array-button" data-action="add" data-array="details.languages" data-loc="Language"
-                    title="{{localize "WW.Detail.Language.Add"}}"><i class="fas fa-circle-plus"></i></a>
+                    data-tooltip="WW.Detail.Language.Add"><i class="fas fa-circle-plus"></i></a>
 
             </div>
 
@@ -238,10 +238,10 @@
                     <a class="array-button" data-action="edit" data-array="details.senses" data-entry-id="{{id}}"
                         data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
                         <a class="array-button" data-action="edit" data-array="details.senses" data-entry-id="{{id}}"
-                            title="{{localize "WW.Detail.Sense.Edit"}}"><i class="fas fa-edit"></i></a>
+                            data-tooltip="WW.Detail.Sense.Edit"><i class="fas fa-edit"></i></a>
                 
                         <a class="array-button" data-action="remove" data-array="details.senses" data-entry-id="{{id}}"
-                            title="{{localize "WW.Detail.Sense.Remove"}}"><i class="fas fa-trash"></i></a>
+                            data-tooltip="WW.Detail.Sense.Remove"><i class="fas fa-trash"></i></a>
                     </span>{{#unless @last}},{{/unless}}
 
                 </span>
@@ -250,7 +250,7 @@
                 {{#unless system.details.senses.length}}<span>—</span>{{/unless}}
                 
                 <a class="array-button" data-action="add" data-array="details.senses" data-loc="Sense"
-                    title="{{localize "WW.Detail.Sense.Add"}}"><i class="fas fa-circle-plus"></i></a>
+                    data-tooltip="WW.Detail.Sense.Add"><i class="fas fa-circle-plus"></i></a>
 
             </div>
 
@@ -265,10 +265,10 @@
                     <a class="array-button" data-action="edit" data-array="details.immune" data-entry-id="{{id}}"
                         data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
                         <a class="array-button" data-action="edit" data-array="details.immune" data-entry-id="{{id}}"
-                            title="{{localize "WW.Detail.Immune.Edit"}}"><i class="fas fa-edit"></i></a>
+                            data-tooltip="WW.Detail.Immune.Edit"><i class="fas fa-edit"></i></a>
                             
                         <a class="array-button" data-action="remove" data-array="details.immune" data-entry-id="{{id}}"
-                            title="{{localize "WW.Detail.Immune.Remove"}}"><i class="fas fa-trash"></i></a>
+                            data-tooltip="WW.Detail.Immune.Remove"><i class="fas fa-trash"></i></a>
                     </span>{{#unless @last}},{{/unless}}
 
                 </span>
@@ -277,7 +277,7 @@
                 {{#unless system.details.immune.length}}<span>—</span>{{/unless}}
 
                 <a class="array-button" data-action="add" data-array="details.immune" data-loc="Immune"
-                    title="{{localize "WW.Detail.Immune.Add"}}"><i class="fas fa-circle-plus"></i></a>        
+                    data-tooltip="WW.Detail.Immune.Add"><i class="fas fa-circle-plus"></i></a>        
 
             </div>
         </div>
@@ -358,10 +358,10 @@
                 <a class="array-button" data-action="edit" data-array="details.traditions" data-entry-id="{{id}}"
                     data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
                     <a class="array-button" data-action="edit" data-array="details.traditions" data-entry-id="{{id}}"
-                        title="{{localize "WW.Detail.Tradition.Edit"}}"><i class="fas fa-edit"></i></a>
+                        data-tooltip="WW.Detail.Tradition.Edit"><i class="fas fa-edit"></i></a>
                     
                     <a class="array-button" data-action="remove" data-array="details.traditions" data-entry-id="{{id}}"
-                        title="{{localize "WW.Detail.Tradition.Remove"}}"><i class="fas fa-trash"></i></a>
+                        data-tooltip="WW.Detail.Tradition.Remove"><i class="fas fa-trash"></i></a>
 
                     </span>{{#unless @last}},{{/unless}}
                 </span>
@@ -369,7 +369,7 @@
                     
                 {{#unless system.details.traditions.length}}<span>—</span>{{/unless}}
                 <a class="array-button" data-action="add" data-array="details.traditions" data-loc="Tradition"
-                    title="{{localize "WW.Detail.Tradition.Add"}}"><i class="fas fa-circle-plus"></i></a>            
+                    data-tooltip="WW.Detail.Tradition.Add"><i class="fas fa-circle-plus"></i></a>            
                 
             </div>
 

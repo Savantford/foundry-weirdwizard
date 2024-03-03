@@ -135,7 +135,7 @@ export default class RollDamage extends FormApplication {
     const messageData = {
       type: CONST.CHAT_MESSAGE_TYPES.ROLL,
       rolls: rollArray,
-      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
       flavor: labelHtml,
       content: '',
       sound: CONFIG.sounds.dice,
