@@ -7,7 +7,6 @@ export class Utils {
   static plusify = plusify;
   static formatTime = formatTime;
   static getEffectBoons = getEffectBoons;
-  static clearUserTargets = clearUserTargets;
   static getSpeaker = getSpeaker;
   static getAlias = getAlias;
   static sum = sum;

@@ -87,14 +87,29 @@
                     <div class="stat">
                         <label>{{localize "WW.Defense.Label"}}</label>
 
-                        <div><a data-tooltip="{{localize "WW.Defense.Natural"}}: {{system.stats.defense.natural}}">{{system.stats.defense.total}}</a></div>
+                        <div><a data-tooltip="<p>{{localize "WW.Defense.Armored"}}: {{system.stats.defense.armored}}</p>
+                            <p>{{localize "WW.Defense.Natural"}}: {{system.stats.defense.natural}}</p>">{{system.stats.defense.total}}</a></div>
                     </div>
 
                     {{!-- Health --}}
                     <div class="stat">
                         <label>{{localize "WW.Health.Label"}}</label>
 
-                        <div><a data-tooltip="{{localize "WW.Health.Normal"}}: {{system.stats.health.normal}}. {{localize "WW.Health.Bonus"}}: {{system.stats.health.bonus}}. {{localize "WW.Health.Lost"}}: {{system.stats.health.lost}}">{{system.stats.health.current}}</a></div>
+                        <div><a data-tooltip="<p>{{localize "WW.Health.Normal"}}: {{system.stats.health.normal}}</p>
+                            <p>{{localize "WW.Health.Bonus"}}: {{system.stats.health.bonus}}</p>
+                            <p>{{localize "WW.Health.Lost"}}: {{system.stats.health.lost}}</p>">{{system.stats.health.current}}</a></div>
+
+                        <span class="stat-edit">
+                            <label>{{localize "WW.Stats.Lost"}}:</label>
+                        
+                            <div class="input-wrap">
+                                <input type="number" name="system.stats.health.lost" value="{{system.stats.health.lost}}" min="0" />
+
+                                <div class="input-overlay">{{system.stats.health.lost}}</div>
+                            </div>
+
+                        </span>
+
                     </div>
 
                     {{!-- Damage --}}

@@ -35,9 +35,10 @@
 "WW.Stats.Level": "Level",
 "WW.Stats.Difficulty": "Difficulty",
 "WW.Stats.Size": "Size",
-"WW.Stats.Normal": "Normal",
 "WW.Stats.Speed": "Speed",
 "WW.Stats.NormalSpeed": "Normal Speed",
+"WW.Stats.Normal": "Normal",
+"WW.Stats.Lost": "Lost",
 
 "WW.Defense.Label": "Defense",
 "WW.Defense.Score": "Defense Score",
