@@ -847,6 +847,9 @@
 
 .weirdwizard img {
   border: none;
+}
+
+.weirdwizard :not(.system.badge) img {
   background-color: var(--purple-light);
 }
 
@@ -1417,6 +1420,11 @@ input[type="checkbox"].checkbox-uses {
   border-radius: 5px;
 }
 
+.weirdwizard.character .character-stats .stat-edit {
+  width: fit-content;
+  margin: auto;
+}
+
 .weirdwizard div > .hover-only,
 .weirdwizard .described-list .buttons > a,
 .weirdwizard .described-list .buttons > a,
@@ -1427,6 +1435,7 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard .list-entries .item-create,
 .weirdwizard .statbox h6 .item-create,
 .weirdwizard .npc-sheet .statbox .add-button,
+.weirdwizard .stat .stat-edit,
 .weirdwizard .stat-inline .stat-edit {
   display: none;
 }
@@ -1443,7 +1452,7 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard .npc-sheet .statbox:hover .add-button {
   display: inline-block;
 }
-
+.weirdwizard .stat:hover .stat-edit,
 .weirdwizard .stat-inline:hover .stat-edit {
   display: flex;
   align-items: center;

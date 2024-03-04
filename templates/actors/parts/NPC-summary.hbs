@@ -23,7 +23,7 @@
                 </span>
                 {{/each}}
                 
-                {{#unless system.details.descriptors.length}}{{localize "WW.Detail.Descriptor.None"}}{{/unless}}
+                {{#unless system.details.descriptors.length}}<span>{{localize "WW.Detail.Descriptor.None"}}</span>{{/unless}}
                 
                 <a class="array-button" data-action="add" data-array="details.descriptors" data-loc="Descriptor"
                     data-tooltip="WW.Detail.Descriptor.Add"><i class="fas fa-circle-plus"></i></a>
@@ -65,10 +65,8 @@
                 <div class="nowrap">
                     <label>{{localize "WW.Health.Label"}}:</label>
 
-                    <a data-tooltip="{{localize "WW.Health.Bonus"}}: {{system.stats.health.bonus}}. {{localize "WW.Health.Lost"}}: {{system.stats.health.lost}}">{{system.stats.health.current}}</a>
-                    
-                    {{!-- <input type="number" name="system.stats.health.current" value="{{system.stats.health.current}}" min="0"
-                        data-dtype="Number" data-tooltip="{{localize "WW.Health.Bonus"}}: {{system.stats.health.bonus}}. {{localize "WW.Health.Lost"}}: {{system.stats.health.lost}}"/> --}}
+                    <a data-tooltip="<p>{{localize "WW.Health.Bonus"}}: {{system.stats.health.bonus}}</p>
+                        <p>{{localize "WW.Health.Lost"}}: {{system.stats.health.lost}}</p>">{{system.stats.health.current}}</a>
 
                     <span class="stat-edit">
                         <label>{{localize "WW.Stats.Normal"}}:</label>
@@ -243,7 +241,7 @@
                 </span>
                 {{/each}}
                 
-                {{#unless system.details.languages.length}}—{{/unless}}
+                {{#unless system.details.languages.length}}<span>—</span>{{/unless}}
                 
                 <a class="array-button" data-action="add" data-array="details.languages" data-loc="Language"
                     data-tooltip="WW.Detail.Language.Add"><i class="fas fa-circle-plus"></i></a>
@@ -269,7 +267,7 @@
                 </span>
                 {{/each}}
                 
-                {{#unless system.details.senses.length}}—{{/unless}}
+                {{#unless system.details.senses.length}}<span>—</span>{{/unless}}
                 
                 <a class="array-button" data-action="add" data-array="details.senses" data-loc="Sense"
                     data-tooltip="WW.Detail.Sense.Add"><i class="fas fa-circle-plus"></i></a>
@@ -296,7 +294,7 @@
                 </span>
                 {{/each}}
 
-                {{#unless system.details.immune.length}}—{{/unless}}
+                {{#unless system.details.immune.length}}<span>—</span>{{/unless}}
 
                 <a class="array-button" data-action="add" data-array="details.immune" data-loc="Immune"
                     data-tooltip="WW.Detail.Immune.Add"><i class="fas fa-circle-plus"></i></a>        
