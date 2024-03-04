@@ -509,7 +509,7 @@ export default class WWActorSheet extends ActorSheet {
     if (system.autoFail[obj.attKey]) {
 
       let messageData = {
-        speaker: game.weirdwizard.utils.getSpeaker.getSpeaker({ actor: this.actor }),
+        speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
         flavor: label,
         content: content,
         sound: CONFIG.sounds.dice,
@@ -573,7 +573,7 @@ export default class WWActorSheet extends ActorSheet {
       else if (action === 'untargeted-use') {
   
         let messageData = {
-          speaker: game.weirdwizard.utils.getSpeaker.getSpeaker({ actor: this.actor }),
+          speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
           flavor: label,
           content: content,
           sound: CONFIG.sounds.dice,
@@ -601,7 +601,7 @@ export default class WWActorSheet extends ActorSheet {
       if (system.autoFail[obj.attKey]) {
         
         const messageData = {
-          speaker: game.weirdwizard.utils.getSpeaker.getSpeaker({ actor: this.actor }),
+          speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
           flavor: label,
           content: content,
           sound: CONFIG.sounds.dice,
@@ -643,7 +643,7 @@ export default class WWActorSheet extends ActorSheet {
   // Item Scroll: Send item description to chat when clicked
   _onItemScroll(item) {
     ChatMessage.create({
-      speaker: game.weirdwizard.utils.getSpeaker.getSpeaker({ actor: this.actor }),
+      speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
       flavor: item.name,
       content: item.system.description.value,
       'flags.weirdwizard': {
