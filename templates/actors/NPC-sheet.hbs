@@ -4,10 +4,7 @@
     <header class="sheet-header">
 
         <div class="profile-img-wrapper">
-            
-            {{!-- Profile Image --}}
-            <img class="profile-img" src="{{actor.img}}" data-edit="img" data-tooltip="WW.System.EditImage"/>
-
+            {{> "systems/weirdwizard/templates/actors/parts/portrait.hbs" img=actor.img token=true}}
         </div>
 
         <div class="header-fields">

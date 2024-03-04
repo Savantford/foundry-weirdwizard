@@ -16,7 +16,7 @@
             </div>
 
             <div class="circle" style="--total: 4">
-                <img class="profile-img" src="{{actor.img}}" data-edit="img" data-tooltip="WW.System.EditImage" height="100" width="100"/>
+                {{> "systems/weirdwizard/templates/actors/parts/portrait.hbs" img=actor.img token=true}}
                 
                 <div class="stat" style="--i:1">
                     <label class="resource-label">{{localize "WW.Attributes.StrengthShort"}}</label>
