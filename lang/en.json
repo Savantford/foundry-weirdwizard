@@ -712,7 +712,10 @@
 "WW.System.Dialog.Reset": "Reset",
 "WW.System.Dialog.Cancel": "Cancel",
 
-"WW.System.EditImage": "Click to edit image",
+"WW.System.Image.Edit": "Click to edit image.",
+"WW.System.Image.EditShow": "Click to edit image. Right click to show and share image.",
+"WW.System.Image.Show": "Show Image",
+"WW.System.Image.ShowToken": "Show Token",
 
 "WW.System.Migration.Started": "Outdated data found. Please wait until the data migration is finished.",
 "WW.System.Migration.Forced": "Forced data migration started. Please wait until the data migration is finished.",

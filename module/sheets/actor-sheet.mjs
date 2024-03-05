@@ -375,6 +375,35 @@ export default class WWActorSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
+    let actor = this.actor;
+
+    // Toggle portrait menu on right mouse button
+    let profileImg = html.find(".profile-img");
+    let profileImgMenu = html.find(".profile-menu");
+    let profileImgButton = html.find(".profile-show");
+    profileImg.mousedown(async (e) => {
+      if (e.which === 3) profileImgMenu.toggleClass("hidden");
+    });
+    profileImgButton.mousedown(async (e) => {
+      if (e.which === 3) profileImgMenu.toggleClass("hidden");
+    });
+
+    // Handle portrait menu sharing buttons
+    profileImgButton.click(function (e) {
+      e.preventDefault();
+      profileImgMenu.addClass("hidden");
+      let id = $(this).attr("id");
+      let img = actor.img;
+      if (id == "showToken") {
+        img = actor.prototypeToken.texture.src;
+      }
+      new ImagePopout(img, {
+        title: game.weirdwizard.utils.getAlias({actor: actor}),
+        shareable: true,
+        uuid: actor.uuid,
+      }).render(true);
+    });
+
     // -------------------------------------------------------------
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
