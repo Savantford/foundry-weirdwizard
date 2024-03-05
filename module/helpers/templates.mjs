@@ -5,8 +5,9 @@
  */
  export const preloadHandlebarsTemplates = async function() {
   return loadTemplates([
-
     // Actor partials
+    "systems/weirdwizard/templates/actors/parts/portrait.hbs",
+
     // Character
     "systems/weirdwizard/templates/actors/parts/Character-summary.hbs",
     "systems/weirdwizard/templates/actors/parts/Character-summary-item.hbs",

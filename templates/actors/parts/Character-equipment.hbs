@@ -71,7 +71,7 @@
         {{#each weapons as |item id|}}
         <li class="item flexrow flex-group-left" data-item-id="{{item._id}}">
             {{!-- Icon --}}
-            <div class="item-image"><img src="{{item.img}}" data-tooltip="WW.System.EditImage" width="24" height="24" /></div>
+            <div class="item-image"><img src="{{item.img}}" data-tooltip="{{item.name}}" width="24" height="24" /></div>
 
             <div class="item-name">
                 {{!-- Title --}}
@@ -149,7 +149,7 @@
         {{#each equipment as |item id|}}
         <li class="item flexrow" data-item-id="{{item._id}}">
             {{!-- Icon --}}
-            <div class="item-image"><img src="{{item.img}}" data-tooltip="WW.System.EditImage" width="24" height="24" /></div>
+            <div class="item-image"><img src="{{item.img}}" data-tooltip="{{item.name}}" width="24" height="24" /></div>
 
             {{!-- Quantity --}}
             <div class="item-quantity">{{item.system.quantity}}</div>

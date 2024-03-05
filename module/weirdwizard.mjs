@@ -18,7 +18,8 @@ import WWCharOptionSheet from './sheets/charoption-sheet.mjs';
 import WWActiveEffectConfig from './apps/active-effect-config.mjs';
 import WWCombatTracker from './apps/combat-tracker.mjs';
 import WWRoll from './dice/roll.mjs';
-import { QuestCalendar } from './ui/quest-calendar.mjs'
+import SageTools from './ui/sage-tools.mjs';
+import QuestCalendar from './ui/quest-calendar.mjs';
 
 // Import canvas-related classes
 import WWToken from './canvas/token.mjs';
@@ -42,7 +43,7 @@ import { initChatListeners } from './chat/chat-listeners.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
 import { fullMigration, charOptions } from './helpers/migrations.mjs';
-import { Utils } from './helpers/utils.mjs';
+import { Utils, handleWelcomeMessage } from './helpers/utils.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -137,6 +138,22 @@ Hooks.once('init', function () {
   //WWActiveEffectConfig.initializeChangePriorities(); // No longer needed
 
   // Register system settings
+  game.settings.register('weirdwizard', 'lastMigrationVersion', {
+    scope: 'world',
+    config: false,
+    requiresReload: false,
+    type: String,
+    default: '0.0.0'
+  });
+
+  game.settings.register('weirdwizard', 'welcomeMessageShown', {
+    scope: 'world',
+    config: false,
+    requiresReload: false,
+    type: Boolean,
+    default: false
+  });
+
   game.settings.register('weirdwizard', 'damageBarReverse', {
     name: 'WW.Settings.DamageBarReverse',
     hint: 'WW.Settings.DamageBarReverseHint',
@@ -157,12 +174,13 @@ Hooks.once('init', function () {
     default: true
   });
 
-  game.settings.register('weirdwizard', 'lastMigrationVersion', {
-    scope: 'world',
+  // Register Sage Tools app
+  game.settings.register('sagetools', 'visible', {
+    name: 'Visible',
+    scope: 'client',
     config: false,
-    requiresReload: false,
-    type: String,
-    default: '0.0.0'
+    type: Boolean,
+    default: true,
   });
 
   // Register Quest Calendar integrated module
@@ -253,6 +271,7 @@ Hooks.once('ready', function () {
   // Check and run data migrations if needed
   fullMigration();
 
+  handleWelcomeMessage();
 });
 
 /* -------------------------------------------- */
@@ -320,9 +339,23 @@ Hooks.on('renderChatMessage', (app, html) => {
 /* -------------------------------------------- */
 
 Hooks.on('getSceneControlButtons', (array, html) => {
+
+  // Get button arrays
+  const token = array.find(a => a.name === 'token');
   const notes = array.find(a => a.name === 'notes');
+
+  // Add Sage Tools button
+  token.tools.push({
+    name: 'sage-tools',
+    title: 'Toggle Sage Tools',
+    icon: 'fa-solid fa-wand-sparkles',
+    button: true,
+    visible: game.user.isGM,
+    toggle: true,
+    onClick: () => SageTools.toggleVis('toggle')
+  });
   
-  // Render the class page.
+  // Add Quest Calendar button
   notes.tools.push({
     name: 'quest-calendar',
     title: 'Toggle Quest Calendar',
@@ -347,26 +380,34 @@ Hooks.on('renderSettingsConfig', (app, html, data) => {
   // If so, we check whether the section matches the last section we saw;
   // otherwise, this is a new section and we insert a new section header.
   let lastSectionID = '';
-  const wwSettings = html.find(`.tab[data-tab=system] .form-group`)
+
+  const wwSettings = html.find(`.tab[data-tab=system] .form-group`);
+
   wwSettings.each((i, value) => {
     const setting = (value.getAttribute('data-setting-id') || '').replace(/^(weirdwizard\.)/, '');
     if (!setting || setting.indexOf('.') < 1) {
       return;
     }
+
     const section = setting.split('.')[0];
+
     if (section !== lastSectionID) {
       const key = 'WW.Settings.Section.' + section;
       const hintKey = key + 'Hint';
-      let hint = game.i18n.localize(hintKey)
+      let hint = game.i18n.localize(hintKey);
+
       if (hint !== hintKey) {
         hint = `<p class="notes">${hint}</p>`;
       } else {
         hint = '';
       }
+
       wwSettings.eq(i).before(`<h3>${game.i18n.localize(key)}</h3>${hint}`);
       lastSectionID = section;
     }
+
   });
+
 });
 
 // Pretty up the system version display in the settings sidebar.

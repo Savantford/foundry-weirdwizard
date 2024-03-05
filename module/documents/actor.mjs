@@ -504,7 +504,7 @@ export default class WWActor extends Actor {
         const duration = ae.duration.seconds ? formatTime(ae.duration.seconds) : ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? i18n('WW.Effect.Duration.Rounds') : i18n('WW.Effect.Duration.Round'));
 
         await ChatMessage.create({
-          speaker: game.weirdwizard.utils.getSpeaker.getSpeaker({ actor: this }),
+          speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
           flavor: this.label,
           content: '<div><b>' + ae.name + '</b> ' + i18n("WW.Effect.Duration.ExpiredMsg") + ' ' + duration + '.</div>',
           sound: CONFIG.sounds.notification

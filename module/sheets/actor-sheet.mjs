@@ -375,6 +375,35 @@ export default class WWActorSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
+    let actor = this.actor;
+
+    // Toggle portrait menu on right mouse button
+    let profileImg = html.find(".profile-img");
+    let profileImgMenu = html.find(".profile-menu");
+    let profileImgButton = html.find(".profile-show");
+    profileImg.mousedown(async (e) => {
+      if (e.which === 3) profileImgMenu.toggleClass("hidden");
+    });
+    profileImgButton.mousedown(async (e) => {
+      if (e.which === 3) profileImgMenu.toggleClass("hidden");
+    });
+
+    // Handle portrait menu sharing buttons
+    profileImgButton.click(function (e) {
+      e.preventDefault();
+      profileImgMenu.addClass("hidden");
+      let id = $(this).attr("id");
+      let img = actor.img;
+      if (id == "showToken") {
+        img = actor.prototypeToken.texture.src;
+      }
+      new ImagePopout(img, {
+        title: game.weirdwizard.utils.getAlias({actor: actor}),
+        shareable: true,
+        uuid: actor.uuid,
+      }).render(true);
+    });
+
     // -------------------------------------------------------------
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
@@ -509,7 +538,7 @@ export default class WWActorSheet extends ActorSheet {
     if (system.autoFail[obj.attKey]) {
 
       let messageData = {
-        speaker: game.weirdwizard.utils.getSpeaker.getSpeaker({ actor: this.actor }),
+        speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
         flavor: label,
         content: content,
         sound: CONFIG.sounds.dice,
@@ -573,7 +602,7 @@ export default class WWActorSheet extends ActorSheet {
       else if (action === 'untargeted-use') {
   
         let messageData = {
-          speaker: game.weirdwizard.utils.getSpeaker.getSpeaker({ actor: this.actor }),
+          speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
           flavor: label,
           content: content,
           sound: CONFIG.sounds.dice,
@@ -601,7 +630,7 @@ export default class WWActorSheet extends ActorSheet {
       if (system.autoFail[obj.attKey]) {
         
         const messageData = {
-          speaker: game.weirdwizard.utils.getSpeaker.getSpeaker({ actor: this.actor }),
+          speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
           flavor: label,
           content: content,
           sound: CONFIG.sounds.dice,
@@ -643,7 +672,7 @@ export default class WWActorSheet extends ActorSheet {
   // Item Scroll: Send item description to chat when clicked
   _onItemScroll(item) {
     ChatMessage.create({
-      speaker: game.weirdwizard.utils.getSpeaker.getSpeaker({ actor: this.actor }),
+      speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
       flavor: item.name,
       content: item.system.description.value,
       'flags.weirdwizard': {
@@ -854,32 +883,26 @@ export default class WWActorSheet extends ActorSheet {
     ChatMessage.create(messageData);
   }
 
-  _onDispositionChange() {
+  async _onDispositionChange() {
+    // Toggle disposition between friendly and hostile, updating all linked tokens.
     const dispo = this.actor?.token ? this.actor.token.disposition : this.actor.prototypeToken.disposition;
     const linkedTokens = this.actor.getActiveTokens();
+
+    let newDispo = CONST.TOKEN_DISPOSITIONS.FRIENDLY;
+    if (dispo === CONST.TOKEN_DISPOSITIONS.FRIENDLY) {
+      newDispo = CONST.TOKEN_DISPOSITIONS.HOSTILE;
+    }
     
-    if (dispo === -1) {
-      
-      this.actor.update({
-        'prototypeToken.disposition': 1,
-        'token.disposition': 1
-      })
+    await this.actor.update({
+      'prototypeToken.disposition': newDispo,
+      'token.disposition': newDispo
+    })
 
-      linkedTokens.forEach(t => t.document.disposition = 1)
-
-      this.render();
-    } else {
-      
-      this.actor.update({
-        'prototypeToken.disposition': -1,
-        'token.disposition': -1
-      })
-
-      linkedTokens.forEach(t => t.document.disposition = -1)
-
-      this.render();
+    for await (const t of linkedTokens) {
+      await t.document.update({'disposition': newDispo});
     }
 
+    this.render();
   }
 
   /* -------------------------------------------- */

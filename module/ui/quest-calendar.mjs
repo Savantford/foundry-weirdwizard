@@ -14,7 +14,7 @@ import QuestCalendarConfig from './quest-calendar-config.mjs';
  * @extends {FormApplication}
 */
 
-export class QuestCalendar extends Application {
+export default class QuestCalendar extends Application {
 
   static get defaultOptions() {
 
