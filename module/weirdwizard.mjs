@@ -43,7 +43,7 @@ import { initChatListeners } from './chat/chat-listeners.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
 import { fullMigration, charOptions } from './helpers/migrations.mjs';
-import { Utils } from './helpers/utils.mjs';
+import { Utils, handleWelcomeMessage } from './helpers/utils.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -138,6 +138,22 @@ Hooks.once('init', function () {
   //WWActiveEffectConfig.initializeChangePriorities(); // No longer needed
 
   // Register system settings
+  game.settings.register('weirdwizard', 'lastMigrationVersion', {
+    scope: 'world',
+    config: false,
+    requiresReload: false,
+    type: String,
+    default: '0.0.0'
+  });
+
+  game.settings.register('weirdwizard', 'welcomeMessageShown', {
+    scope: 'world',
+    config: false,
+    requiresReload: false,
+    type: Boolean,
+    default: false
+  });
+
   game.settings.register('weirdwizard', 'damageBarReverse', {
     name: 'WW.Settings.DamageBarReverse',
     hint: 'WW.Settings.DamageBarReverseHint',
@@ -156,14 +172,6 @@ Hooks.once('init', function () {
     requiresReload: false,
     type: Boolean,
     default: true
-  });
-
-  game.settings.register('weirdwizard', 'lastMigrationVersion', {
-    scope: 'world',
-    config: false,
-    requiresReload: false,
-    type: String,
-    default: '0.0.0'
   });
 
   // Register Sage Tools app
@@ -263,6 +271,7 @@ Hooks.once('ready', function () {
   // Check and run data migrations if needed
   fullMigration();
 
+  handleWelcomeMessage();
 });
 
 /* -------------------------------------------- */

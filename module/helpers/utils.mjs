@@ -126,3 +126,26 @@ export function sum(array) {
   return sum;
 }
 
+/* -------------------------------------------- */
+/*  Misc
+/* -------------------------------------------- */
+
+export function handleWelcomeMessage(force = false) {
+  if (!force && game.settings.get('weirdwizard', 'welcomeMessageShown')) {
+    return;
+  }
+
+  if (!game.user.isGM) {
+    return;
+  }
+
+  const intro = `<img style="background: none;" src="systems/weirdwizard/assets/ui/sotww-logo.png">`;
+  const content = i18n('WW.System.Welcome', { intro: intro }) + i18n('WW.System.WelcomeFooter');
+  ChatMessage.create({
+    speaker: game.weirdwizard.utils.getSpeaker({ alias: game.system.title }),
+    content: content,
+    sound: CONFIG.sounds.notification
+  })
+
+  game.settings.set('weirdwizard', 'welcomeMessageShown', true);
+}
