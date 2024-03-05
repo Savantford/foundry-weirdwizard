@@ -2353,7 +2353,8 @@ form.quest-calendar {
 .weirdwizard.chat-message .header-button,
 .weirdwizard.chat-message .adv-button,
 .weirdwizard.chat-message .disadv-button,
-.weirdwizard.chat-message .chat-button {
+.weirdwizard.chat-message .chat-button,
+#sage-tools .button {
   background: rgba(0, 0, 0, 0.1);
   border: 1px solid var(--color-border-light-2);
   border-radius: 3px;
@@ -2404,7 +2405,8 @@ form.quest-calendar {
 }
 
 .weirdwizard.chat-message .chat-button:focus,
-.weirdwizard.chat-message .chat-button:hover {
+.weirdwizard.chat-message .chat-button:hover,
+#sage-tools .button:hover {
   text-shadow: none;
   border-color: var(--purple-dark);
   color: black;
@@ -2751,6 +2753,34 @@ form.quest-calendar {
 .combatant.acted.injured .token-name h4 {
   color: #880000;
 }
+
+/* Sage Tools */
+#sage-tools ol {
+  list-style: none;
+  padding: 0;
+}
+
+#sage-tools ol li,
+#sage-tools li > div {
+  margin: 5px 0;
+}
+
+#sage-tools label {
+  color: var(--purple-dark);
+  font-weight: bold;
+}
+
+#sage-tools .trackers ol > li > label {
+  margin-right: auto;
+}
+
+#sage-tools .button {
+  padding: 0 5px;
+  font-size: inherit;
+  white-space: nowrap;
+}
+
+/* Tokens */
 
 #token-hud .status-effects .effect-control {
   /*width: 24px;

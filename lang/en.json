@@ -687,6 +687,20 @@
 "WW.Combat.Tip.RightClick": "Right click for context options.",
 "WW.Combat.Tip.FinishTurn": "Finish Your Turn",
 
+
+"WW.Sage.Trackers.Label": "Trackers",
+"WW.Sage.Trackers.Time.World": "World Time",
+"WW.Sage.Trackers.Time.Advance": "Advance 1 Minute",
+"WW.Sage.Trackers.Time.AdvanceHint": "<p>Action scenes, including combat, are assumed to last 1 minute.</p><p>Advancing the world time allows for ongoing effects with a duration under 1 minute to expire.",
+"WW.Sage.Trackers.Combat.Label": "Current Combat",
+"WW.Sage.Trackers.Combat.Tab": "Switch to Tab",
+"WW.Sage.Trackers.Combat.Popout": "Pop Out",
+
+"WW.Sage.Users.Label": "Users Control",
+"WW.Sage.Users.Character": "Character",
+"WW.Sage.Users.FolderActors": "Actors in Folder",
+"WW.Sage.Users.SceneActors": "Actors in Scene",
+
 "WW.Settings.Combat.SkipActed": "Skip Acted?",
 "WW.Settings.Combat.SkipActedHint": "Automatically bypass combatants who already acted during this round.",
 "WW.Settings.DamageBarReverse": "Reverse Damage Bars",
