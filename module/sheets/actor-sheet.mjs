@@ -883,32 +883,26 @@ export default class WWActorSheet extends ActorSheet {
     ChatMessage.create(messageData);
   }
 
-  _onDispositionChange() {
+  async _onDispositionChange() {
+    // Toggle disposition between friendly and hostile, updating all linked tokens.
     const dispo = this.actor?.token ? this.actor.token.disposition : this.actor.prototypeToken.disposition;
     const linkedTokens = this.actor.getActiveTokens();
+
+    let newDispo = CONST.TOKEN_DISPOSITIONS.FRIENDLY;
+    if (dispo === CONST.TOKEN_DISPOSITIONS.FRIENDLY) {
+      newDispo = CONST.TOKEN_DISPOSITIONS.HOSTILE;
+    }
     
-    if (dispo === -1) {
-      
-      this.actor.update({
-        'prototypeToken.disposition': 1,
-        'token.disposition': 1
-      })
+    await this.actor.update({
+      'prototypeToken.disposition': newDispo,
+      'token.disposition': newDispo
+    })
 
-      linkedTokens.forEach(t => t.document.disposition = 1)
-
-      this.render();
-    } else {
-      
-      this.actor.update({
-        'prototypeToken.disposition': -1,
-        'token.disposition': -1
-      })
-
-      linkedTokens.forEach(t => t.document.disposition = -1)
-
-      this.render();
+    for await (const t of linkedTokens) {
+      await t.document.update({'disposition': newDispo});
     }
 
+    this.render();
   }
 
   /* -------------------------------------------- */
