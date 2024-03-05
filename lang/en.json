@@ -14,7 +14,10 @@
 
 "WW.Actor.Disposition.Enemy": "Enemy",
 "WW.Actor.Disposition.Ally": "Ally",
-"WW.Actor.Disposition.Tip": "Click to change disposition.",
+"WW.Actor.Disposition.Neutral": "Neutral",
+"WW.Actor.Disposition.Secret": "Secret",
+"WW.Actor.Disposition.Unknown": "Unknown",
+"WW.Actor.Disposition.Tip": "<p>Click to toggle disposition between <b>Ally</b> (<i>friendly</i>) and <b>Enemy</b> (<i>hostile</i>).</p><p>In <i>Shadow of the Weird Wizard</i>, a creature is either an enemy or an ally for the purpose of combat.</p><p>Foundry's <i>neutral</i> disposition should not be used. Use <b>Enemy</b> (<i>hostile</i>) for unaligned creatures or <b>Ally</b> (<i>friendly</i>) if they are actively helping the characters.</p><p>Foundry's <i>secret</i> disposition should be used wisely. You should switch the disposition to <b>Enemy</b> or <b>Ally</b> before combat begins.</p>",
 
 "WW.Attributes.Label": "Attributes",
 "WW.Attributes.Strength": "Strength",

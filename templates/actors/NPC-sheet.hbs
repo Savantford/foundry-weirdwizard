@@ -17,8 +17,13 @@
                 <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.Actor.Name"}}"/></h1>
 
                 {{!-- Disposition Toggle --}}
-                <a class="change-disposition{{#if (eq disposition 1)}} ally{{/if}}" data-tooltip="WW.Actor.Disposition.Tip">
-                    {{#if (eq disposition 1)}}{{localize "WW.Actor.Disposition.Ally"}}{{else}}{{localize "WW.Actor.Disposition.Enemy"}}{{/if}}
+                <a class="change-disposition{{#if (eq disposition 1)}} ally{{else if (eq disposition -1)}} enemy{{/if}}"
+                    data-tooltip="WW.Actor.Disposition.Tip">
+                    {{#if (eq disposition 1)}}{{localize "WW.Actor.Disposition.Ally"}}
+                    {{else if (eq disposition -1)}}{{localize "WW.Actor.Disposition.Enemy"}}
+                    {{else if (eq disposition 0)}}{{localize "WW.Actor.Disposition.Neutral"}} (!)
+                    {{else if (eq disposition -2)}}{{localize "WW.Actor.Disposition.Secret"}} (!)
+                    {{else}}{{localize "WW.Actor.Disposition.Unknown"}} (!){{/if}}
                 </a>
                 
             </div>
