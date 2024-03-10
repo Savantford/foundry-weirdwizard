@@ -575,7 +575,6 @@ export default class WWActorSheet extends ActorSheet {
         origin: origin,
         label: label,
         content: content,
-        attackRider: attackRider,
         attKey: attKey,
         action: action,
         dontRoll: true

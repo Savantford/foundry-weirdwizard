@@ -19,7 +19,8 @@
                 {{> "systems/weirdwizard/templates/actors/parts/portrait.hbs" img=actor.img token=true}}
                 
                 <div class="stat" style="--i:1">
-                    <label class="resource-label">{{localize "WW.Attributes.StrengthShort"}}</label>
+                    <label><a class="item-button" data-action="attribute-roll" data-key="str" data-tooltip="WW.Roll.Strength">{{localize "WW.Attributes.StrengthShort"}}</a></label>
+
                     <div>
                         <input type="number" name="system.attributes.str.value" value="{{system.attributes.str.value}}" min="0" data-dtype="Number"/>
                         <a class="attribute-mod item-button" data-action="attribute-roll" data-key="str" data-tooltip="WW.Roll.Strength">
@@ -31,7 +32,8 @@
                 </div>
 
                 <div class="stat" style="--i:2">
-                    <label class="resource-label">{{localize "WW.Attributes.AgilityShort"}}</label>
+                    <label><a class="item-button" data-action="attribute-roll" data-key="agi" data-tooltip="WW.Roll.Agility">{{localize "WW.Attributes.AgilityShort"}}</a></label>
+
                     <div>
                         <input type="number" name="system.attributes.agi.value" value="{{system.attributes.agi.value}}" min="0" data-dtype="Number"/>
                         <a class="attribute-mod item-button" data-action="attribute-roll" data-key="agi" data-tooltip="WW.Roll.Agility">
@@ -44,7 +46,8 @@
                 </div>
 
                 <div class="stat" style="--i:4">
-                    <label class="resource-label">{{localize "WW.Attributes.IntellectShort"}}</label>
+                    <label><a class="item-button" data-action="attribute-roll" data-key="int" data-tooltip="WW.Roll.Intellect">{{localize "WW.Attributes.IntellectShort"}}</a></label>
+
                     <div>
                         <input type="number" name="system.attributes.int.value" value="{{system.attributes.int.value}}" min="0" data-dtype="Number"/>
                         <a class="attribute-mod item-button" data-action="attribute-roll" data-key="int" data-tooltip="WW.Roll.Intellect">
@@ -56,7 +59,8 @@
                 </div>
 
                 <div class="stat" style="--i:3">
-                    <label class="resource-label">{{localize "WW.Attributes.WillShort"}}</label>
+                    <label><a class="item-button" data-action="attribute-roll" data-key="wil" data-tooltip="WW.Roll.Will">{{localize "WW.Attributes.WillShort"}}</a></label>
+                    
                     <div>
                         <input type="number" name="system.attributes.wil.value" value="{{system.attributes.wil.value}}" min="0" data-dtype="Number"/>
                         <a class="attribute-mod item-button" data-action="attribute-roll" data-key="wil" data-tooltip="WW.Roll.Will">

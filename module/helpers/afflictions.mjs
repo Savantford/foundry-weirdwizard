@@ -102,7 +102,10 @@ export class WWAfflictions {
     ));
 
     // Controlled
-    effectsDataList.push(_buildBaseAffliction('Controlled', 'icons/svg/eye.svg'));
+    effectsDataList.push(_buildBaseAffliction(
+      'Controlled',
+      '/systems/weirdwizard/assets/icons/puppet.svg'
+    ));
     /* You fall under control of the source of this affliction. You take your
     turn when your controller does and it decides what you do on your
     turn. If you have already taken a turn when you gain this affliction,
@@ -111,7 +114,7 @@ export class WWAfflictions {
     // Cursed
     effectsDataList.push(_buildBaseAffliction(
       'Cursed',
-      'icons/svg/ruins.svg',
+      '/systems/weirdwizard/assets/icons/bleeding-eye.svg',
       [addEffect('banes.luck', 1, addPriority)]
     ));
 
@@ -132,7 +135,7 @@ export class WWAfflictions {
     // Held
     effectsDataList.push(_buildBaseAffliction(
       'Held',
-      'icons/svg/padlock.svg',
+      '/systems/weirdwizard/assets/icons/manacles.svg',
       [
         downgradeEffect('speed.override', 0, overridePriority)
       ]
@@ -178,7 +181,7 @@ export class WWAfflictions {
     effectsDataList.push(
       _buildBaseAffliction(
         'ImpairedWil',
-        'icons/svg/invisible.svg',
+        '/systems/weirdwizard/assets/icons/despair.svg',
         [
           addEffect('banes.wil', 1, addPriority),
           addEffect('boonsAgainst.wil', 1, addPriority)
@@ -189,7 +192,7 @@ export class WWAfflictions {
     // On Fire
     effectsDataList.push(_buildBaseAffliction(
       'OnFire',
-      'icons/svg/fire.svg',
+      '/systems/weirdwizard/assets/icons/flaming-claw.svg',
       []/*You catch fire. You take 1d6 damage at the end of each round until
       the fire is extinguished, which is normally accomplished with a
       successful luck roll (see Luck Rolls). You can also use an action to
@@ -201,7 +204,7 @@ export class WWAfflictions {
     // Poisoned
     effectsDataList.push(_buildBaseAffliction(
       'Poisoned',
-      'icons/svg/poison.svg',
+      '/systems/weirdwizard/assets/icons/poison.svg',
       [].concat(baneAllAttributes(1))
         .concat(againstAll(1))
       // 1d6 Health lost each round
@@ -219,8 +222,11 @@ export class WWAfflictions {
 
     // Slowed
     effectsDataList.push(
-      _buildBaseAffliction('Slowed', 'icons/svg/clockwork.svg', [
-        downgradeEffect('speed.override', 2, overridePriority)
+      _buildBaseAffliction(
+        'Slowed',
+        '/systems/weirdwizard/assets/icons/snail.svg',
+        [
+          downgradeEffect('speed.override', 2, overridePriority)
       ]),
     );
 
@@ -277,14 +283,14 @@ export class WWAfflictions {
     // Vulnerable
     effectsDataList.push(_buildBaseAffliction(
       'Vulnerable',
-      'icons/svg/target.svg',
+      '/systems/weirdwizard/assets/icons/broken-shield.svg',
       [].concat(againstAll(1))
     ));
 
     // Weakened
     effectsDataList.push(_buildBaseAffliction(
       'Weakened',
-      'icons/svg/downgrade.svg',
+      '/systems/weirdwizard/assets/icons/back-pain.svg',
       [
         addEffect('banes.str', 1, addPriority),
         addEffect('banes.agi', 1, addPriority),

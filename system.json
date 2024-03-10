@@ -18,6 +18,12 @@
       "discord": "violencia",
       "url": "https://github.com/Savantford",
       "flags": {}
+    },
+    {
+      "name": "mhilbrunner",
+      "discord": "mhilbrunner",
+      "url": "https://github.com/mhilbrunner",
+      "flags": {}
     }
   ],
   "esmodules": ["module/weirdwizard.mjs"],

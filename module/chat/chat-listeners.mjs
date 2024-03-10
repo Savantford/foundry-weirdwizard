@@ -64,7 +64,7 @@ function _onMessageButtonContext(element) {
     
     const obj = {
       origin: target.uuid,
-      label: i18n(CONFIG.WW.rollAttributes[attribute]) + ' Roll',
+      label: i18n(CONFIG.WW.ATTRIBUTES[attribute]),
       content: '',
       attKey: attribute,
       fixedBoons: parseInt(fixedBoons)

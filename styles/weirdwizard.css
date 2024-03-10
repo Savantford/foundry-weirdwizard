@@ -314,7 +314,13 @@
 .weirdwizard .window-content h3,
 .weirdwizard .window-content h4,
 .weirdwizard .window-content h5,
-.weirdwizard .window-content h6 {
+.weirdwizard .window-content h6,
+.journal-page-content h1,
+.journal-page-content h2,
+.journal-page-content h3,
+.journal-page-content h4,
+.journal-page-content h5,
+.journal-page-content h6 {
   font-weight: bold;
   text-transform: uppercase;
   margin: 10px 0 5px 0;
@@ -322,7 +328,10 @@
 
 .weirdwizard .window-content h1,
 .weirdwizard .window-content h2,
-.weirdwizard .window-content h3 {
+.weirdwizard .window-content h3,
+.journal-page-content h1,
+.journal-page-content h2,
+.journal-page-content h3 {
   color: var(--purple-dark);
   font-family: var(--font-serif);
 }
@@ -331,30 +340,39 @@
 .weirdwizard .window-content h2:first-of-type,
 .weirdwizard .window-content h3:first-of-type,
 .weirdwizard .window-content h4:first-of-type,
-.weirdwizard .window-content h5:first-of-type {
+.weirdwizard .window-content h5:first-of-type,
+.journal-page-content h1:first-of-type,
+.journal-page-content h2:first-of-type,
+.journal-page-content h3:first-of-type,
+.journal-page-content h4:first-of-type,
+.journal-page-content h5:first-of-type {
   margin-top: 0px;
 }
 
-.weirdwizard .window-content h1 {
+.weirdwizard .window-content h1,
+.journal-page-content h1 {
   border-bottom: 0px;
   letter-spacing: 0.02em;
 }
 
-.weirdwizard .window-content h2 {
+.weirdwizard .window-content h2,
+.journal-page-content h2 {
   border-bottom: 3px double black;
   padding-bottom: 2px;
   font-size: var(--font-size-24);
   letter-spacing: 0.04em;
 }
 
-.weirdwizard .window-content h3 {
+.weirdwizard .window-content h3,
+.journal-page-content h3 {
   border-bottom: 1px solid black;
   padding-bottom: 2px;
   font-size: var(--font-size-20);
   text-transform: none;
 }
 
-.weirdwizard .window-content h4 {
+.weirdwizard .window-content h4,
+.journal-page-content h4 {
   color: white;
   background-color: var(--purple-medium);
   border-radius: 3px;
@@ -365,7 +383,8 @@
   
 }
 
-.weirdwizard .window-content h5 {
+.weirdwizard .window-content h5,
+.journal-page-content h5 {
   color: var(--purple-dark);
   background-color: var(--purple-light);
   border: 1px solid var(--purple-medium);
@@ -377,12 +396,14 @@
   text-transform: none;
 }
 
-.weirdwizard.npc .window-content h5 {
+.weirdwizard.npc .window-content h5,
+.weirdwizard.npc .journal-page-content h5 {
   border: none;
   margin-bottom: 0;
 }
 
-.weirdwizard .window-content h6 {
+.weirdwizard .window-content h6,
+.journal-page-content h6 {
   color: var(--purple-dark);
   background-color: var(--purple-light);
   border-radius: 3px;
@@ -393,14 +414,6 @@
   text-transform: none;
 }
 
-/*.weirdwizard.npc .left-col {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  flex: 0 150px;
-  margin-right: 5px;
-}*/
-
 .weirdwizard.npc .profile-img-wrapper {
   flex: 0 0 var(--avatar-size-npc);
   height: var(--avatar-size-npc);
@@ -410,6 +423,10 @@
 .weirdwizard.npc header.sheet-header img {
   height: 100%;
   margin: 0;
+}
+
+.sheet.journal-entry .journal-entry-content {
+  background: var(--background);
 }
 
 /* Statboxes */
@@ -487,6 +504,11 @@
   padding: 2px 0 2px 5px;
 }
 
+.weirdwizard .statbox-header .list-entries {
+  display: flex;
+  align-items: center;
+}
+
 .weirdwizard .statbox-header .statbox-level {
   float: right;
   display: flex;
@@ -555,6 +577,11 @@
   /*margin: 0 0 5px;*/
   min-width: 1ch;
   min-height: 1lh;
+}
+
+.weirdwizard .input-wrap .input-overlay {
+  visibility: hidden;
+  border: 1px solid transparent;
 }
 
 .weirdwizard .input-wrap .input-overlay {
@@ -933,7 +960,7 @@
   padding: 0;
 }
 
-.weirdwizard .circle .stat a {
+.weirdwizard .circle .stat .attribute-mod {
   margin-right: 5px;
 }
 
@@ -1358,7 +1385,8 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .weirdwizard .item p,
-.weirdwizard .list-entries > :not(:first-child) {
+.weirdwizard .list-entries > :not(:first-child),
+.weirdwizard .list-entry > :not(:first-child) {
   margin: 0px;
   text-indent: 0;
 }
@@ -1414,7 +1442,6 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard .stat-edit {
   flex-wrap: nowrap;
-  margin-left: 5px;
   padding: 1px;
   background: var(--background-color-shadow);
   border: 1px solid var(--purple-dark);
@@ -1441,6 +1468,15 @@ input[type="checkbox"].checkbox-uses {
   display: none;
 }
 
+.weirdwizard .def-details input:not([value=""]) {
+  display: inline-block;
+}
+
+.weirdwizard .def-details.empty input,
+.weirdwizard .def-details.empty .input-overlay {
+  min-width: 170px;
+}
+
 .weirdwizard div:hover > .hover-only,
 .weirdwizard .described-list:hover .buttons > a,
 .weirdwizard .described-list:hover .buttons > a,
@@ -1453,6 +1489,7 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard .npc-sheet .statbox:hover .add-button {
   display: inline-block;
 }
+
 .weirdwizard .stat:hover .stat-edit,
 .weirdwizard .stat-inline:hover .stat-edit {
   display: flex;
@@ -1826,40 +1863,20 @@ input[type="checkbox"].checkbox-uses {
 
 /* Affliction Tab Icons */
 
-/*i.icon-Blinded, i.icon-Confused, i.icon-Controlled, i.icon-Cursed,
-i.icon-Deafened, i.icon-Frightened, i.icon-Held, i.icon-ImpairedStr,
-i.icon-ImpairedAgi, i.icon-ImpairedInt, i.icon-ImpairedWil, i.icon-OnFire,
-i.icon-Poisoned, i.icon-Prone, i.icon-Stunned, i.icon-Unconscious,
-i.icon-Asleep, i.icon-Weakened {*/
 [class*="icon-"] {
   -webkit-mask-size: cover;
   mask-size: cover;
   display: inline-block;
 }
 
-/*i.icon-Blinded.gray, i.icon-Confused.gray, i.icon-Controlled.gray, i.icon-Cursed.gray,
-i.icon-Deafened.gray, i.icon-Frightened.gray, i.icon-Held.gray, i.icon-ImpairedStr.gray,
-i.icon-ImpairedAgi.gray, i.icon-ImpairedInt.gray, i.icon-ImpairedWil.gray, i.icon-OnFire.gray,
-i.icon-Poisoned.gray, i.icon-Prone.gray, i.icon-Stunned.gray, i.icon-Unconscious.gray,
-i.icon-Asleep.gray, i.icon-Weakened.gray {*/
 [class*="icon-"].gray {
   background-color: gray;
 }
-/*i.icon-Blinded.black, i.icon-Confused.black, i.icon-Controlled.black, i.icon-Cursed.black,
-i.icon-Deafened.black, i.icon-Frightened.black, i.icon-Held.black, i.icon-ImpairedStr.black,
-i.icon-ImpairedAgi.black, i.icon-ImpairedInt.black, i.icon-ImpairedWil.black, i.icon-OnFire.black,
-i.icon-Poisoned.black, i.icon-Prone.black, i.icon-Stunned.black, i.icon-Unconscious.black,
-i.icon-Asleep.black, i.icon-Weakened.black {*/
+
 [class*="icon-"].black {
   background-color: black;
 }
 
-/*i.icon-Blinded.hover-red:hover, i.icon-Confused.hover-red:hover, i.icon-Controlled.hover-red:hover,
-i.icon-Cursed.hover-red:hover, i.icon-Deafened.hover-red:hover, i.icon-Frightened.hover-red:hover,
-i.icon-Held.hover-red:hover, i.icon-ImpairedStr.hover-red:hover, i.icon-ImpairedAgi.hover-red:hover,
-i.icon-ImpairedInt.hover-red:hover, i.icon-ImpairedWil.hover-red:hover, i.icon-OnFire.hover-red:hover,
-i.icon-Poisoned.hover-red:hover, i.icon-Prone.hover-red:hover, i.icon-Stunned.hover-red:hover
-i.icon-Unconscious.hover-red:hover, i.icon-Asleep.hover-red:hover, i.icon-Weakened.hover-red:hover {*/
 [class*="icon-"].hover-red:hover {
   background-color: var(--demonlord-red);
 }
@@ -1875,13 +1892,13 @@ i.icon-Confused {
 }
 
 i.icon-Controlled {
-  -webkit-mask-image: url("/icons/svg/eye.svg");
-  mask-image: url("/icons/svg/eye.svg");
+  -webkit-mask-image: url("../assets/icons/puppet.svg");
+  mask-image: url("../assets/icons/puppet.svg");
 }
 
 i.icon-Cursed {
-  -webkit-mask-image: url("/icons/svg/ruins.svg");
-  mask-image: url("/icons/svg/ruins.svg");
+  -webkit-mask-image: url("../assets/icons/bleeding-eye.svg");
+  mask-image: url("../assets/icons/bleeding-eye.svg");
 }
 
 i.icon-Deafened {
@@ -1895,8 +1912,8 @@ i.icon-Frightened {
 }
 
 i.icon-Held {
-  -webkit-mask-image: url("/icons/svg/padlock.svg");
-  mask-image: url("/icons/svg/padlock.svg");
+  -webkit-mask-image: url("../assets/icons/manacles.svg");
+  mask-image: url("../assets/icons/manacles.svg");
 }
 
 i.icon-ImpairedStr {
@@ -1915,18 +1932,18 @@ i.icon-ImpairedInt {
 }
 
 i.icon-ImpairedWil {
-  -webkit-mask-image: url("/icons/svg/invisible.svg");
-  mask-image: url("/icons/svg/invisible.svg");
+  -webkit-mask-image: url("../assets/icons/despair.svg");
+  mask-image: url("../assets/icons/despair.svg");
 }
 
 i.icon-OnFire {
-  -webkit-mask-image: url("/icons/svg/fire.svg");
-  mask-image: url("/icons/svg/fire.svg");
+  -webkit-mask-image: url("../assets/icons/flaming-claw.svg");
+  mask-image: url("../assets/icons/flaming-claw.svg");
 }
 
 i.icon-Poisoned {
-  -webkit-mask-image: url("/icons/svg/poison.svg");
-  mask-image: url("/icons/svg/poison.svg");
+  -webkit-mask-image: url("../assets/icons/poison.svg");
+  mask-image: url("../assets/icons/poison.svg");
 }
 
 i.icon-Prone {
@@ -1935,8 +1952,8 @@ i.icon-Prone {
 }
 
 i.icon-Slowed {
-  -webkit-mask-image: url("/icons/svg/clockwork.svg");
-  mask-image: url("/icons/svg/clockwork.svg");
+  -webkit-mask-image: url("../assets/icons/snail.svg");
+  mask-image: url("../assets/icons/snail.svg");
 }
 
 i.icon-Stunned {
@@ -1955,13 +1972,13 @@ i.icon-Asleep {
 }
 
 i.icon-Vulnerable {
-  -webkit-mask-image: url("/icons/svg/target.svg");
-  mask-image: url("/icons/svg/target.svg");
+  -webkit-mask-image: url("../assets/icons/broken-shield.svg");
+  mask-image: url("../assets/icons/broken-shield.svg");
 }
 
 i.icon-Weakened {
-  -webkit-mask-image: url("/icons/svg/downgrade.svg");
-  mask-image: url("/icons/svg/downgrade.svg");
+  -webkit-mask-image: url("../assets/icons/back-pain.svg");
+  mask-image: url("../assets/icons/back-pain.svg");
 }
 
 
