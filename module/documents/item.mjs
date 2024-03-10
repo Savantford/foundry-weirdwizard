@@ -326,18 +326,23 @@ export default class WWItem extends Item {
     // Return if no actor exists
     if (!this.actor) return;
     
-    const benefits = this.system.benefits;
-    const level = this.actor.system.stats.level;
-    const aItems = this.actor.items.filter(i => {
+    const benefits = this.system.benefits,
+      level = this.actor.system.stats.level,
+      aItems = this.actor.items.filter(i => {
       return i.flags?.weirdwizard?.grantedBy === this._id;
     })
+
+    console.warn('chegou');
     
     for (const b in benefits) {
 
       const benefit = benefits[b];
+
+      if (!benefit.levelReq) benefit.levelReq = 0;
       
       // If level does not meet the requirement, ignore it
       if (level >= benefit.levelReq) {
+        console.log('passou')
         const bItems = benefit.items;
 
         for (const uuid of bItems) {
@@ -392,8 +397,14 @@ export default class WWItem extends Item {
     const benefits = this.system.benefits;
     const level = this.actor.system.stats.level;
 
-    // Create newDetails to store data
-    const newDetails = {};
+    // Create newDetails to store data, including old data
+    const newDetails = {
+      descriptors: await this.actor.system.details.descriptors,
+      senses: await this.actor.system.details.senses,
+      languages: await this.actor.system.details.languages,
+      immune: await this.actor.system.details.immune,
+      traditions: await this.actor.system.details.traditions
+    };
 
     // Loop through each benefit
     for (const b in benefits) {

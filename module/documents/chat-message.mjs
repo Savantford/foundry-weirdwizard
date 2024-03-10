@@ -70,6 +70,8 @@ export default class WWChatMessage extends ChatMessage {
         })
       })
 
+      item.attackRider = item.system.attackRider ? await TextEditor.enrichHTML(item.system.attackRider?.value, { async: true }) : '';
+
     }
     
     // Construct message data
@@ -86,7 +88,7 @@ export default class WWChatMessage extends ChatMessage {
         tier: item.system.tier ? item.system.tier : null,
         isWeapon: item.system.subtype ?? item.system.subtype,
         traits: item.traits,
-        attackRider: item.system.attackRider
+        attackRider: item.attackRider
       } : null,
       rollHtml: rollHtml,
       emptyContent: emptyContent,

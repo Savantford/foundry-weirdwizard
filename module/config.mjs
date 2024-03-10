@@ -1,6 +1,6 @@
 export const WW = {}
 
-// Define Constants
+/* Attributes */
 WW.ATTRIBUTES = {
   'str': 'WW.Attributes.Strength',
   'agi': 'WW.Attributes.Agility',
@@ -8,7 +8,7 @@ WW.ATTRIBUTES = {
   'wil': 'WW.Attributes.Will'
 }
 
-// Dropdown menus
+/* Dropdown Menus */
 WW.LEVELS = {
   1: '1',
   2: '2',
@@ -313,9 +313,11 @@ WW.AFFLICTIONS = {
   'OnFire': 'WW.Affliction.OnFire',
   'Poisoned': 'WW.Affliction.Poisoned',
   'Prone': 'WW.Affliction.Prone',
+  'Slowed': 'WW.Affliction.Slowed',
   'Stunned': 'WW.Affliction.Stunned',
   'Unconscious': 'WW.Affliction.Unconscious',
   'Asleep': 'WW.Affliction.Asleep',
+  'Vulnerable': 'WW.Affliction.Vulnerable',
   'Weakened': 'WW.Affliction.Weakened',
 }
 

@@ -55,10 +55,21 @@
                         
                         <div class="input-overlay">{{system.stats.defense.total}}</div>
                     </div>
-                
-                    {{#if system.stats.defense.details}}({{/if}}<input class="stat-edit" type="text"
-                        name="system.stats.defense.details" value="{{system.stats.defense.details}}" data-dtype="String"
-                        data-tooltip="WW.Defense.Details" />{{#if system.stats.defense.details}}){{/if}}
+
+                    <div class="flex nogap">
+                        {{#if system.stats.defense.details}}<span>(</span>{{/if}}
+
+                        <div class="input-wrap def-details{{#unless system.stats.defense.details}} empty{{/unless}}">
+                            <input class="stat-edit" type="text"
+                                name="system.stats.defense.details" value="{{system.stats.defense.details}}" data-dtype="String"
+                                placeholder="{{localize "WW.Defense.Details"}}" data-tooltip="WW.Defense.Details" />
+                            
+                            <div class="input-overlay visible-overlay">{{system.stats.defense.details}}</div>
+                        </div>
+
+                        {{#if system.stats.defense.details}}<span>)</span>{{/if}}
+                    </div>
+                    
                 </div>
 
                 {{!-- Health --}}
