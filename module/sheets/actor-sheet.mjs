@@ -426,7 +426,7 @@ export default class WWActorSheet extends ActorSheet {
     html.find('.item-button').click(this._onItemButtonClicked.bind(this))
 
     // Add Inventory Item
-    html.find('.item-create').click(this._onItemCreate.bind(this));
+    html.find('.item-create').click(this._onItemCreateButtonClicked.bind(this));
 
     // Set uses pips to update the value when clicked
     html.find('.item-pip').click(ev => {
@@ -734,7 +734,7 @@ export default class WWActorSheet extends ActorSheet {
    * @param {Event} event   The originating click event
    * @private
   */
-  async _onItemCreate(event) {
+  async _onItemCreateButtonClicked(event) {
     event.preventDefault();
     const header = event.currentTarget;
     const type = header.dataset.type; // Get the type of item to create.

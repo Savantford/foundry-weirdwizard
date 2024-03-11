@@ -64,13 +64,17 @@ export default class WWItem extends Item {
   /* -------------------------------------------- */
 
   /** @inheritdoc */
-  _onCreate(data, options, userId) {
-    super._onCreate(data, options, userId);
+  static async _onCreateDocuments(documents, options, userId) {
+    super._onCreateDocuments(documents, options, userId);
 
-    // If character option
-    if (this.charOption) {
-      this.updateBenefitsOnActor();
+    for (const doc of documents) {
+      
+      // If character option
+      if (await doc.charOption) {
+        await doc.updateBenefitsOnActor();
+      }
     }
+    
   }
 
   /* -------------------------------------------- */
@@ -97,6 +101,7 @@ export default class WWItem extends Item {
     
     // If benefits were changed
     if (data.system?.benefits) {
+      if (! userId === game.user.id) return;
       this.updateBenefitsOnActor();
     }
   }
@@ -104,8 +109,25 @@ export default class WWItem extends Item {
   /* -------------------------------------------- */
 
   /** @inheritdoc */
-  _onDelete(options, userId) {
-    super._onDelete(options, userId);
+  static async _onDeleteDocuments(documents, context) {
+    
+    // Delete granted Items
+    for (const doc of documents) {
+      
+      // If character option
+      if (await doc.charOption) {
+        await doc.deleteGrantedItems();
+        await doc.deleteGrantedEntries();
+      }
+
+    }
+
+    super._onDeleteDocuments(documents, context);
+
+  }
+
+  /** @inheritdoc */
+  /*_onDelete(options, userId) {
     
     // Delete granted Items
     if (this.charOption) {
@@ -113,7 +135,9 @@ export default class WWItem extends Item {
       this.deleteGrantedEntries();
     }
 
-  }
+    super._onDelete(options, userId);
+
+  }*/
 
   /* -------------------------------------------- */
   /*  Methods                                     */
@@ -332,7 +356,7 @@ export default class WWItem extends Item {
       return i.flags?.weirdwizard?.grantedBy === this._id;
     })
 
-    console.warn('chegou');
+    const itemsArr = [];
     
     for (const b in benefits) {
 
@@ -342,7 +366,7 @@ export default class WWItem extends Item {
       
       // If level does not meet the requirement, ignore it
       if (level >= benefit.levelReq) {
-        console.log('passou')
+
         const bItems = benefit.items;
 
         for (const uuid of bItems) {
@@ -358,12 +382,16 @@ export default class WWItem extends Item {
           }
 
           // If item with the same name is not found, create it on the actor
-          if (!aItems.find(i => i.name === itemData.name )) this.actor.createEmbeddedDocuments("Item", [itemData]);
+          if (!aItems.find(i => i.name === itemData.name )) itemsArr.push(itemData);
+          
         }
 
       }
       
     }
+
+    // Create items on actor
+    return await this.actor.createEmbeddedDocuments("Item", itemsArr);
 
   }
 
@@ -374,8 +402,12 @@ export default class WWItem extends Item {
     // Return if no actor exists
     if (!this.actor) return;
 
+    // Shortcuts
+    const benefits = this.system.benefits;
+    const level = this.actor.system.stats.level;
+
     // Get actor list entries granted by the character option
-    const filteredDetails = {
+    const aDetails = {
       descriptors: await this.actor.system.details.descriptors.filter(i => {
         return i.grantedBy === this._id;
       }),
@@ -393,11 +425,7 @@ export default class WWItem extends Item {
       })
     }
 
-    // Shortcuts
-    const benefits = this.system.benefits;
-    const level = this.actor.system.stats.level;
-
-    // Create newDetails to store data, including old data
+    // Create aDetails to store existing actor details
     const newDetails = {
       descriptors: await this.actor.system.details.descriptors,
       senses: await this.actor.system.details.senses,
@@ -410,20 +438,21 @@ export default class WWItem extends Item {
     for (const b in benefits) {
 
       const benefit = benefits[b];
+
       if (!benefit.levelReq) benefit.levelReq = 0;
       
       // If level does not meet the requirement, ignore it
       if (level >= benefit.levelReq) {
 
-        if (benefit.descriptors) this._addEntries(newDetails, filteredDetails, benefit, 'descriptors');
+        if (benefit.descriptors) this._addEntries(aDetails, newDetails, benefit, 'descriptors');
         
-        if (benefit.senses) this._addEntries(newDetails, filteredDetails, benefit, 'senses');
+        if (benefit.senses) this._addEntries(aDetails, newDetails, benefit, 'senses');
         
-        if (benefit.languages) this._addEntries(newDetails, filteredDetails, benefit, 'languages');
+        if (benefit.languages) this._addEntries(aDetails, newDetails, benefit, 'languages');
 
-        if (benefit.immune) this._addEntries(newDetails, filteredDetails, benefit, 'immune');
+        if (benefit.immune) this._addEntries(aDetails, newDetails, benefit, 'immune');
 
-        if (benefit.traditions) this._addEntries(newDetails, filteredDetails, benefit, 'traditions');
+        if (benefit.traditions) this._addEntries(aDetails, newDetails, benefit, 'traditions');
 
       }
       
@@ -434,23 +463,25 @@ export default class WWItem extends Item {
 
   }
 
-  _addEntries(newDetails, filteredDetails, benefit, arrName) {
+  _addEntries(aDetails, newDetails, benefit, arrName) {
+    
     const arr = [...benefit[arrName]];
-
+    
     // For each entry
-    arr.forEach(entry => {
+    arr.forEach((entry,id) => {
+      
+      // Store the char option id on grantedBy
+      entry.grantedBy = this._id;
 
-      if (!filteredDetails[arrName].find(ae => ae.name === entry.name )) {
-        
-        // Store the char option id on grantedBy
-        entry.grantedBy = this._id;
-  
+      // If entry with the same name is found, splice entry from the array
+      if (aDetails[arrName].find(ae => ae.name === entry.name )) {
+        arr.splice(id);
       }
 
     });
 
     // Add entries to newDetails object
-    newDetails[arrName] = newDetails[arrName] ? newDetails[arrName].concat(arr) : arr;
+    if (arr.length) newDetails[arrName] = newDetails[arrName] ? newDetails[arrName].concat(arr) : arr;
 
   }
 

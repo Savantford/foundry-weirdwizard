@@ -184,7 +184,7 @@
 }
 
 .auto-grid-2 {
-  --auto-grid-min-size: 17.8rem;
+  --auto-grid-min-size: 15rem;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(var(--auto-grid-min-size), 1fr));
   grid-gap: 0.5rem;
@@ -315,12 +315,12 @@
 .weirdwizard .window-content h4,
 .weirdwizard .window-content h5,
 .weirdwizard .window-content h6,
-.journal-page-content h1,
-.journal-page-content h2,
-.journal-page-content h3,
-.journal-page-content h4,
-.journal-page-content h5,
-.journal-page-content h6 {
+.journal-entry-content h1,
+.journal-entry-content h2,
+.journal-entry-content h3,
+.journal-entry-content h4,
+.journal-entry-content h5,
+.journal-entry-content h6 {
   font-weight: bold;
   text-transform: uppercase;
   margin: 10px 0 5px 0;
@@ -329,9 +329,9 @@
 .weirdwizard .window-content h1,
 .weirdwizard .window-content h2,
 .weirdwizard .window-content h3,
-.journal-page-content h1,
-.journal-page-content h2,
-.journal-page-content h3 {
+.journal-entry-content h1,
+.journal-entry-content h2,
+.journal-entry-content h3 {
   color: var(--purple-dark);
   font-family: var(--font-serif);
 }
@@ -341,22 +341,22 @@
 .weirdwizard .window-content h3:first-of-type,
 .weirdwizard .window-content h4:first-of-type,
 .weirdwizard .window-content h5:first-of-type,
-.journal-page-content h1:first-of-type,
-.journal-page-content h2:first-of-type,
-.journal-page-content h3:first-of-type,
-.journal-page-content h4:first-of-type,
-.journal-page-content h5:first-of-type {
+.journal-entry-content h1:first-of-type,
+.journal-entry-content h2:first-of-type,
+.journal-entry-content h3:first-of-type,
+.journal-entry-content h4:first-of-type,
+.journal-entry-content h5:first-of-type {
   margin-top: 0px;
 }
 
 .weirdwizard .window-content h1,
-.journal-page-content h1 {
+.journal-entry-content h1 {
   border-bottom: 0px;
   letter-spacing: 0.02em;
 }
 
 .weirdwizard .window-content h2,
-.journal-page-content h2 {
+.journal-entry-content h2 {
   border-bottom: 3px double black;
   padding-bottom: 2px;
   font-size: var(--font-size-24);
@@ -364,7 +364,7 @@
 }
 
 .weirdwizard .window-content h3,
-.journal-page-content h3 {
+.journal-entry-content h3 {
   border-bottom: 1px solid black;
   padding-bottom: 2px;
   font-size: var(--font-size-20);
@@ -372,7 +372,7 @@
 }
 
 .weirdwizard .window-content h4,
-.journal-page-content h4 {
+.journal-entry-content h4 {
   color: white;
   background-color: var(--purple-medium);
   border-radius: 3px;
@@ -384,7 +384,7 @@
 }
 
 .weirdwizard .window-content h5,
-.journal-page-content h5 {
+.journal-entry-content h5 {
   color: var(--purple-dark);
   background-color: var(--purple-light);
   border: 1px solid var(--purple-medium);
@@ -397,13 +397,13 @@
 }
 
 .weirdwizard.npc .window-content h5,
-.weirdwizard.npc .journal-page-content h5 {
+.weirdwizard.npc .journal-entry-content h5 {
   border: none;
   margin-bottom: 0;
 }
 
 .weirdwizard .window-content h6,
-.journal-page-content h6 {
+.journal-entry-content h6 {
   color: var(--purple-dark);
   background-color: var(--purple-light);
   border-radius: 3px;

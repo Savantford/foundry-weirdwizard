@@ -40,15 +40,15 @@ export default class WWItemSheet extends ItemSheet {
     context.system = context.item.system;
 
     // Prepare enriched variables for editor
-    context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true, relativeTo: this.document })
-
+    context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true, relativeTo: this.document });
+    
     // Prepare character options
     if (this.item.charOption) {
       await this._prepareCharOption(context);
 
     } else {
       // Prepare regular items
-      this._prepareRegularItem(context);
+      await this._prepareRegularItem(context);
     }
     
     return context;
@@ -63,7 +63,7 @@ export default class WWItemSheet extends ItemSheet {
   async _prepareRegularItem(context) {
 
     if (context.item.type == 'Equipment' && context.item.system.subtype == 'weapon' && context.system.attackRider.value) {
-      context.system.attackRider.enriched = await TextEditor.enrichHTML(context.system.attackRider.value, { async: true })
+      context.system.attackRider.enriched = await TextEditor.enrichHTML(context.system.attackRider.value, { async: true, relativeTo: this.document });
     }
 
     context.system.attributeLabel = CONFIG.WW.ATTRIBUTES[context.system.attribute];
@@ -348,12 +348,10 @@ export default class WWItemSheet extends ItemSheet {
    * @private
   */
   async _onListEntryButtonAdd(dataset) {
-    console.log(dataset)
+    
     const arrPath = 'system.' + dataset.array,
       oldArray = foundry.utils.getProperty(this.document, arrPath);
-    console.log(this.document.system.benefits)
-    console.log(arrPath)
-    console.log(oldArray)
+    
     const defaultName = (arrPath.includes('languages') && !oldArray.length) ? i18n('WW.Detail.Language.Common') : i18n('WW.Detail.' + dataset.loc + '.New'),
       arr = [...oldArray, { name: defaultName }];
     
