@@ -1917,13 +1917,13 @@ i.icon-Held {
 }
 
 i.icon-ImpairedStr {
-  -webkit-mask-image: url("/icons/svg/bones.svg");
-  mask-image: url("/icons/svg/bones.svg");
+  -webkit-mask-image: url("../assets/icons/biceps-impaired.svg");
+  mask-image: url("../assets/icons/biceps-impaired.svg");
 }
 
 i.icon-ImpairedAgi {
-  -webkit-mask-image: url("/icons/svg/anchor.svg");
-  mask-image: url("/icons/svg/anchor.svg");
+  -webkit-mask-image: url("../assets/icons/agility-impaired.svg");
+  mask-image: url("../assets/icons/agility-impaired.svg");
 }
 
 i.icon-ImpairedInt {
