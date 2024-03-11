@@ -7,7 +7,8 @@
     <div class="header-fields">
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.Item.Name"}}"/></h1>
 
-      <div class="item-type-container">
+      <div class="item-type-container stat">
+
         <div class="item-type">
           <select class="align-center" name="system.subtype">
             {{selectOptions subtypes selected=system.subtype localize=true}}
@@ -16,7 +17,7 @@
 
         {{!-- Armor Type --}}
         {{#if (eq system.subtype 'armor')}}
-        <label>{{localize "WW.Detail.Type.Label"}}</label>
+        <label>{{localize "WW.Equipment.Armor.Type"}}</label>
 
         <select name="system.armorType">
           {{selectOptions armorTypes selected=system.armorType localize=true}}
