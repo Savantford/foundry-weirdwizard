@@ -1,3 +1,5 @@
-2024/03/11-16:20:00.121 3450 Recovering log #588
-2024/03/11-16:20:00.126 3450 Delete type=0 #588
-2024/03/11-16:20:00.126 3450 Delete type=3 #587
+2024/03/12-18:33:49.257 2b68 Log #594: 0 ops saved to Table #595 OK
+2024/03/12-18:33:49.257 2b68 Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\weapons/000594.log: OK
+2024/03/12-18:33:49.258 2b68 Table #556: 16 entries OK
+2024/03/12-18:33:49.261 2b68 Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\weapons/MANIFEST-000593: OK
+2024/03/12-18:33:49.264 2b68 **** Repaired leveldb C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\weapons; recovered 1 files; 9387 bytes. Some data may have been lost. ****

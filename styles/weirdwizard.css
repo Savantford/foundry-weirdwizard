@@ -878,7 +878,7 @@
 }
 
 .weirdwizard :not(.system.badge) img {
-  background-color: var(--purple-light);
+  filter: drop-shadow(0 0 1px black);
 }
 
 .weirdwizard .circle {
@@ -1611,10 +1611,6 @@ input[type="checkbox"].checkbox-uses {
   justify-content: center;
   min-width: 60px;
   flex: 1;
-}
-
-.weirdwizard .effect img {
-  background-color: #606060;
 }
 
 .weirdwizard .path-sheet .left-col {
@@ -2435,7 +2431,7 @@ form.quest-calendar {
 
 .weirdwizard.chat-message .chat-button > img {
   width: 24px;
-  background: none;
+  filter: none;
 }
 
 .weirdwizard.chat-message .chat-button > i {
@@ -2467,7 +2463,7 @@ form.quest-calendar {
 }
 
 .weirdwizard .message-attack-rider:not(:first-child) {
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 .weirdwizard.chat-message div.message-content p:first-of-type,
@@ -2487,6 +2483,10 @@ form.quest-calendar {
   text-align: center;
 }
 
+.weirdwizard span:not(:last-child) .dice-roll {
+  margin-bottom: 5px;
+}
+
 .weirdwizard .dice-comparison {
   display: flex;
   align-items: center;
@@ -2499,11 +2499,6 @@ form.quest-calendar {
 }
 
 .weirdwizard .dice-comparison > div:not(.dice-vs) {
-  /*background: rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--color-border-light-2);
-  border-radius: 3px;
-  box-shadow: 0 0 2px #fff inset;
-  padding: 0 4px;*/
   width: 40px;
   height: 40px;
   font-weight: bold;
@@ -2511,6 +2506,9 @@ form.quest-calendar {
   display: flex;
   align-items: center;
   justify-content: center;
+  color: white;
+  text-shadow: 0px 0px 7px black, 0px 0px 7px black, 0px 0px 7px black, 0px 0px 7px black;
+  filter: drop-shadow(0 0 2px black);
 }
 
 .weirdwizard .dice-comparison > .rolled-number {
@@ -2526,8 +2524,12 @@ form.quest-calendar {
   font-size: var(--font-size-24);
   font-weight: bold;
   text-transform: uppercase;
-  margin-top: 5px;
   letter-spacing: 0.05em;
+  margin: 5px 50px 0;
+  padding: 8px 14px;
+  border-image: url(../assets/ui/sheet-rectangle.svg);
+  border-image-slice: 120 fill;
+  border-image-width: 15px;  
 }
 
 .weirdwizard .chat-failure {
@@ -2619,7 +2621,6 @@ form.quest-calendar {
 .weirdwizard.chat-message .flavor-container img {
   height: 24px;
   border-radius: 50%;
-  border: 1px solid #6f6c66;
 }
 
 .weirdwizard.chat-message .flavor-container img {
