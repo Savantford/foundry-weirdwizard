@@ -145,7 +145,7 @@ export class WWAfflictions {
     effectsDataList.push(
       _buildBaseAffliction(
         'ImpairedStr',
-        'icons/svg/bones.svg',
+        '/systems/weirdwizard/assets/icons/biceps-impaired.svg',
         [
           addEffect('banes.str', 1, addPriority),
           addEffect('boonsAgainst.str', 1, addPriority)
@@ -157,7 +157,7 @@ export class WWAfflictions {
     effectsDataList.push(
       _buildBaseAffliction(
         'ImpairedAgi',
-        'icons/svg/anchor.svg',
+        '/systems/weirdwizard/assets/icons/agility-impaired.svg',
         [
           addEffect('banes.agi', 1, addPriority),
           addEffect('boonsAgainst.agi', 1, addPriority)
