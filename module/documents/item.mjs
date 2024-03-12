@@ -101,7 +101,7 @@ export default class WWItem extends Item {
     
     // If benefits were changed
     if (data.system?.benefits) {
-      if (! userId === game.user.id) return;
+      if (userId !== game.user.id) return;
       this.updateBenefitsOnActor();
     }
   }
