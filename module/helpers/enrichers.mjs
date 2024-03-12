@@ -88,6 +88,10 @@ async function enrichRoll (match, options) {
       container.title = loc('Recovered');
       break;
     }
+    default: {
+      container.title = loc();
+      break;
+    }
 
   }
 

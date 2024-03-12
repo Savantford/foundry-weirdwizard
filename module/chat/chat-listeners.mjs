@@ -43,7 +43,7 @@ function _onMessageButtonRoll(event) {
     case 'roll-healing': _onChatRoll(dataset, 'WW.InstantEffect.HealOf', 'apply-healing'); break;
     case 'roll-health-loss': _onChatRoll(dataset, 'WW.InstantEffect.HealthLoseOf', 'apply-health-loss'); break;
     case 'roll-health-recovery': _onChatRoll(dataset, 'WW.InstantEffect.HealthRecoverOf', 'apply-health-recovery'); break;
-    
+    default: _onChatRoll(dataset); break;
   }
   
 }
@@ -64,7 +64,7 @@ function _onMessageButtonContext(element) {
     
     const obj = {
       origin: target.uuid,
-      label: i18n(CONFIG.WW.ATTRIBUTES[attribute]),
+      label: i18n(CONFIG.WW.ROLL_ATTRIBUTES[attribute]),
       content: '',
       attKey: attribute,
       fixedBoons: parseInt(fixedBoons)
@@ -198,7 +198,7 @@ async function _onChatRoll(dataset, label, nextAction) {
       item: (origin.documentName === 'Item') ? origin : null,
       value: dataset.value
     }
-  const labelHtml = i18n(label) + ' ' + '<span class="owner-only">' + data.item.name + '</span><span class="non-owner-only">? ? ?</span>';
+  const labelHtml = (label ? i18n(label) + ' ' : '') + '<span class="owner-only">' + data.item.name + '</span><span class="non-owner-only">? ? ?</span>';
 
   // Prepare roll
   const r = await new WWRoll(data.value, data.actor.system).evaluate({async:true});
@@ -216,7 +216,7 @@ async function _onChatRoll(dataset, label, nextAction) {
     sound: CONFIG.sounds.dice,
     'flags.weirdwizard': {
       item: data.item?.uuid,
-      rollHtml: rollHtml + chatMessageButton(dataset),
+      rollHtml: rollHtml + (label ? chatMessageButton(dataset) : ''),
       emptyContent: true
     }
   };

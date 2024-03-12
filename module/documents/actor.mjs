@@ -189,7 +189,7 @@ export default class WWActor extends Actor {
     if (changed.system?.stats?.level) {
       
       for (const i of this.items) {
-        if (! user === game.user.id) return;
+        if (user !== game.user.id) return;
         if (i.charOption) i.updateBenefitsOnActor();
       }
       
