@@ -169,7 +169,7 @@ export class WWAfflictions {
     effectsDataList.push(
       _buildBaseAffliction(
         'ImpairedInt',
-        'icons/svg/light-off.svg',
+        '/systems/weirdwizard/assets/icons/open-book-impaired.svg',
         [
           addEffect('banes.int', 1, addPriority),
           addEffect('boonsAgainst.int', 1, addPriority)
@@ -181,7 +181,7 @@ export class WWAfflictions {
     effectsDataList.push(
       _buildBaseAffliction(
         'ImpairedWil',
-        '/systems/weirdwizard/assets/icons/despair.svg',
+        '/systems/weirdwizard/assets/icons/burning-star-impaired.svg',
         [
           addEffect('banes.wil', 1, addPriority),
           addEffect('boonsAgainst.wil', 1, addPriority)
@@ -212,7 +212,7 @@ export class WWAfflictions {
 
     // Prone
     effectsDataList.push(
-      _buildBaseAffliction('Prone', 'icons/svg/falling.svg', [
+      _buildBaseAffliction('Prone', '/systems/weirdwizard/assets/icons/fallen.svg', [
         /*You are lying on the ground. You cannot use reactions. You grant 1
         boon on rolls made to attack you with melee weapons, but impose
         1 bane on rolls made to attack you with ranged weapons. You can
