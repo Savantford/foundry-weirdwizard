@@ -55,7 +55,7 @@ export function chatMessageButton({action, value, effectUuid, originUuid, target
       break;
     }
     case 'apply-damage-half': {
-      img = '/systems/weirdwizard/assets/icons/broken-shield-black.svg';
+      img = '/systems/weirdwizard/assets/icons/slashed-shield-black.svg';
       loc += 'Half';
       showNo = false;
       break;
