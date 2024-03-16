@@ -1923,13 +1923,13 @@ i.icon-ImpairedAgi {
 }
 
 i.icon-ImpairedInt {
-  -webkit-mask-image: url("/icons/svg/light-off.svg");
-  mask-image: url("/icons/svg/light-off.svg");
+  -webkit-mask-image: url("../assets/icons/open-book-impaired.svg");
+  mask-image: url("../assets/icons/open-book-impaired.svg");
 }
 
 i.icon-ImpairedWil {
-  -webkit-mask-image: url("../assets/icons/despair.svg");
-  mask-image: url("../assets/icons/despair.svg");
+  -webkit-mask-image: url("../assets/icons/burning-star-impaired.svg");
+  mask-image: url("../assets/icons/burning-star-impaired.svg");
 }
 
 i.icon-OnFire {
@@ -1943,8 +1943,8 @@ i.icon-Poisoned {
 }
 
 i.icon-Prone {
-  -webkit-mask-image: url("/icons/svg/falling.svg");
-  mask-image: url("/icons/svg/falling.svg");
+  -webkit-mask-image: url("../assets/icons/fallen.svg");
+  mask-image: url("../assets/icons/prone.svg");
 }
 
 i.icon-Slowed {
