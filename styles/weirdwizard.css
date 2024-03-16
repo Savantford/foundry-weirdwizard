@@ -1944,7 +1944,7 @@ i.icon-Poisoned {
 
 i.icon-Prone {
   -webkit-mask-image: url("../assets/icons/fallen.svg");
-  mask-image: url("../assets/icons/prone.svg");
+  mask-image: url("../assets/icons/fallen.svg");
 }
 
 i.icon-Slowed {
