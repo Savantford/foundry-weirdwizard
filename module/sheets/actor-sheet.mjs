@@ -422,6 +422,9 @@ export default class WWActorSheet extends ActorSheet {
 
     /////////////////////// ITEMS ////////////////////////
 
+    // Activate Item Context Menu
+    this._itemContextMenu(html);
+
     // Handle item buttons
     html.find('.item-button').click(this._onItemButtonClicked.bind(this))
 
@@ -489,6 +492,151 @@ export default class WWActorSheet extends ActorSheet {
   /* -------------------------------------------- */
   /*  Item button actions                         */
   /* -------------------------------------------- */
+
+  /** @inheritdoc */
+  _itemContextMenu(html) {
+    ContextMenu.create(this, html, ".item-button", this._getItemContextOptions());
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Get the Item context options
+   * @returns {object[]}   The Item context options
+   * @private
+   */
+  _getItemContextOptions() {
+    
+    return [
+      {
+        name: "WW.Item.Perform.Attack",
+        icon: '<i class="fas fa-bolt"></i>',
+        callback: li => {
+          const dataset = Object.assign({}, li[0].dataset);
+          return this._onItemUse(dataset);
+        },
+        condition: li => {
+          const item = this.actor.items.get(li.data('item-id'));
+          return item.type === 'Equipment' && item.system.subtype === 'weapon';
+        }
+      },
+      {
+        name: "WW.Item.Perform.AttackTarget",
+        icon: '<i class="fas fa-bullseye"></i>',
+        callback: li => {
+          const dataset = Object.assign({}, li[0].dataset);
+          dataset.action = 'targeted-use';
+          return this._onItemUse(dataset);
+        },
+        condition: li => {
+          const item = this.actor.items.get(li.data('item-id'));
+          return item.type === 'Equipment' && item.system.subtype === 'weapon';
+        }
+      },
+      {
+        name: "WW.Item.Perform.Equipment",
+        icon: '<i class="fas fa-bolt"></i>',
+        callback: li => {
+          const dataset = Object.assign({}, li[0].dataset);
+          return this._onItemUse(dataset);
+        },
+        condition: li => {
+          const item = this.actor.items.get(li.data('item-id'));
+          return item.type === 'Equipment' && item.system.subtype !== 'weapon';
+        }
+      },
+      {
+        name: "WW.Item.Perform.EquipmentTarget",
+        icon: '<i class="fas fa-bullseye"></i>',
+        callback: li => {
+          const dataset = Object.assign({}, li[0].dataset);
+          dataset.action = 'targeted-use';
+          return this._onItemUse(dataset);
+        },
+        condition: li => {
+          const item = this.actor.items.get(li.data('item-id'));
+          return item.type === 'Equipment' && item.system.subtype !== 'weapon';
+        }
+      },
+      {
+        name: "WW.Item.Perform.Spell",
+        icon: '<i class="fas fa-bolt"></i>',
+        callback: li => {
+          const dataset = Object.assign({}, li[0].dataset);
+          return this._onItemUse(dataset);
+        },
+        condition: li => {
+          const item = this.actor.items.get(li.data('item-id'));
+          return item.type === 'Spell';
+        }
+      },
+      {
+        name: "WW.Item.Perform.SpellTarget",
+        icon: '<i class="fas fa-bullseye"></i>',
+        callback: li => {
+          const dataset = Object.assign({}, li[0].dataset);
+          dataset.action = 'targeted-use';
+          return this._onItemUse(dataset);
+        },
+        condition: li => {
+          const item = this.actor.items.get(li.data('item-id'));
+          return item.type === 'Spell';
+        }
+      },
+      {
+        name: "WW.Item.Perform.Talent",
+        icon: '<i class="fas fa-bolt"></i>',
+        callback: li => {
+          const dataset = Object.assign({}, li[0].dataset);
+          return this._onItemUse(dataset);
+        },
+        condition: li => {
+          const item = this.actor.items.get(li.data('item-id'));
+          return item.type === 'Trait or Talent';
+        }
+      },
+      {
+        name: "WW.Item.Perform.TalentTarget",
+        icon: '<i class="fas fa-bullseye"></i>',
+        callback: li => {
+          const dataset = Object.assign({}, li[0].dataset);
+          dataset.action = 'targeted-use';
+          return this._onItemUse(dataset);
+        },
+        condition: li => {
+          const item = this.actor.items.get(li.data('item-id'));
+          return item.type === 'Trait or Talent';
+        }
+      },
+      {
+        name: "WW.Item.Send",
+        icon: '<i class="fas fa-scroll"></i>',
+        callback: li => {
+          const item = this.actor.items.get(li.data('item-id'));
+          return this._onItemScroll(item);
+        }
+      },
+      {
+        name: "WW.Item.Edit.Activity",
+        icon: '<i class="fas fa-edit"></i>',
+        callback: li => {
+          const item = this.actor.items.get(li.data('item-id'));
+          return this._onItemEdit(item);
+        }
+      },
+      {
+        name: "WW.Item.Delete.Activity",
+        icon: '<i class="fas fa-trash"></i>',
+        callback: li => {
+          const item = this.actor.items.get(li.data('item-id'));
+          return this._onItemDelete(item, li);
+        }
+      }
+    ]
+
+  }
+
+  /* -------------------------------------------- */
   
   /**
    * Handle clicked sheet buttons
@@ -500,7 +648,13 @@ export default class WWActorSheet extends ActorSheet {
     const button = ev.currentTarget,
       dataset = Object.assign({}, button.dataset),
       item = this.actor.items.get(dataset.itemId);
-
+    
+    // Determine action with modifier keys
+    if (ev.shiftKey) dataset.action = 'targeted-use';
+    if (ev.ctrlKey) dataset.action = 'item-scroll';
+    if (ev.altKey) dataset.action = 'item-edit';
+    
+    // Evaluate action if no keys were clicked
     switch (dataset.action) {
       case 'attribute-roll': this._onAttributeRoll(dataset); break;
       case 'targeted-use': this._onItemUse(dataset); break;
@@ -523,13 +677,14 @@ export default class WWActorSheet extends ActorSheet {
     const system = this.actor.system,
       origin = this.actor.uuid,
       attKey = dataset.key,
-      label = i18n(CONFIG.WW.ROLL_ATTRIBUTES[attKey]) + ' Roll';
+      label = i18n(CONFIG.WW.ATTRIBUTE_ROLLS[attKey]);
 
     let content = '';
 
     const obj = {
       origin: origin,
       label: label,
+      icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey],
       content: content,
       attKey: attKey
     }
@@ -543,12 +698,13 @@ export default class WWActorSheet extends ActorSheet {
         content: content,
         sound: CONFIG.sounds.dice,
         'flags.weirdwizard': {
+          icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey],
           item: item.uuid,
           rollHtml: '<div class="dice-outcome chat-failure">' + i18n('WW.Roll.AutoFail') + '!</div>',
           emptyContent: !content ?? true
         }
       };
-
+      console.log(CONFIG.WW.ATTRIBUTE_ICONS[attKey])
       ChatMessage.create(messageData);
     } else {
       new RollAttribute(obj).render(true);

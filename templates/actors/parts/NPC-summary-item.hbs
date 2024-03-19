@@ -1,35 +1,16 @@
 <li class="item" data-item-id="{{item._id}}">
 
     {{!-- Title --}}
-    {{#if item.needTargets}}<label class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
-        data-tooltip="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Targeting.TalentTargeted"}}
-            {{else if (eq item.type "Equipment")}}{{localize "WW.Targeting.EquipmentTargeted"}}
-            {{else if (eq item.type "Spell")}}{{localize "WW.Targeting.SpellTargeted"}}{{/if}}">{{item.name}}:</label>
-    {{else if item.isActivity}}<label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-        data-tooltip="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Targeting.TalentUntargeted"}}
-            {{else if (eq item.type "Equipment")}}{{localize "WW.Targeting.EquipmentUntargeted"}}
-            {{else if (eq item.type "Spell")}}{{localize "WW.Targeting.SpellUntargeted"}}{{/if}}">{{item.name}}:</label>
-    {{else}}<label>{{item.name}}:</label>{{/if}}
+    <label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
+        data-tooltip='{{#if item.system.description.value}}{{{item.system.description.enriched}}}{{/if}}<hr>
+            <p>{{localize "WW.Item.Perform.Left"}}</p>
+            <p>{{localize "WW.Item.Perform.Shift"}}</p>
+            <p>{{localize "WW.Item.Perform.Ctrl"}}</p>
+            <p>{{localize "WW.Item.Perform.Alt"}}</p>
+            <p>{{localize "WW.Item.Perform.Right"}}</p>'>{{item.name}}</label>
     
+    {{#if (or item.hasPassiveEffects item.uses)}}
     <span class="buttons">
-        {{!-- Use Buttons --}}
-        {{#if item.isActivity}}
-
-            {{#if item.needTargets}}
-            <a class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
-                data-tooltip="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Targeting.TalentTargeted"}}
-                    {{else if (eq item.type "Equipment")}}{{localize "WW.Targeting.EquipmentTargeted"}}
-                    {{else if (eq item.type "Spell")}}{{localize "WW.Targeting.SpellTargeted"}}{{/if}}">
-            <i class="fas fa-bullseye"></i></a>
-            {{/if}}
-
-            <a class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-                data-tooltip="{{#if (eq item.type "Trait or Talent")}}{{localize "WW.Targeting.TalentUntargeted"}}
-                    {{else if (eq item.type "Equipment")}}{{localize "WW.Targeting.EquipmentUntargeted"}}
-                    {{else if (eq item.type "Spell")}}{{localize "WW.Targeting.SpellUntargeted"}}{{/if}}">
-            <i class="fas fa-bolt"></i></a>
-
-        {{/if}}
 
         {{!-- Toggle Effects --}}
         {{#if item.hasPassiveEffects}}
@@ -59,22 +40,7 @@
         </span>
         {{/if}}
 
-        {{!-- Send to Chat Scroll --}}
-        {{#if item.system.description.value}}
-        <a class="item-button" data-action="item-scroll" data-item-id="{{item._id}}" data-tooltip="WW.Item.Send"><i
-            class="far fa-scroll"></i></a>
-        {{/if}}
-
-        {{!-- Edit Button --}}
-        <a class="item-button" data-action="item-edit" data-item-id="{{item._id}}" data-tooltip="{{concat "WW.Item.Edit." item.type}}"><i class="fas fa-edit"></i></a>
-        
-        {{!-- Delete Button --}}
-        <a class="item-button" data-action="item-delete" data-item-id="{{item._id}}" data-tooltip="{{concat "WW.Item.Delete." item.type}}"><i class="fas fa-trash"></i></a>
     </span>
-    
-    {{!-- Description --}}
-    {{#if (eq item.system.subtype "aura")}}({{localize "WW.Talent.Aura"}} {{item.system.range}}){{/if}}
-    <span>{{{item.system.description.enriched}}}</span>
-    
+    {{/if}}
     
 </li>

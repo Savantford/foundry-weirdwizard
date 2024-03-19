@@ -1,59 +1,82 @@
-<form class="weirdwizard boons-details">
-    <h2 class="stat-inline flex-group-left">
-        <label name="total" class="resource-label">{{localize "WW.Boons.Total"}}</label>
-        <span class="boons-display total ml-auto"></span>
-    </h2>
+<form class="weirdwizard roll-details">
 
-    <div class="">
-        <div class="stat-stretch flex-group-left mt-1">
-            <label class="resource-label">{{localize "WW.Boons.Afflictions"}}</label>
-            <span class="boons-display afflictions">{{numberFormat effectBoons decimals=0 sign=true}}</span>
+    <div class="roll-main">
+
+        {{!-- Total Boones/Banes --}}
+        <h3 class="boons-header">
+            <span name="total">{{localize "WW.Boons.Total"}}</span>
+
+            <span class="boons-display total ml-auto"></span>
+        </h3>
+
+        {{!-- Boons Count Box --}}
+        <div class="h3-box">
+
+            {{!-- Affliction Banes --}}
+            <div class="stat-stretch flex-group-left">
+                <label>{{localize "WW.Boons.Afflictions"}}</label>
+                <span class="boons-display afflictions">{{numberFormat effectBoons decimals=0 sign=true}}</span>
+            </div>
+
+            {{!-- Attack Boons --}}
+            {{#if attackBoons}}
+            <div class="stat-stretch flex-group-left mt-1">
+                <label>{{localize "WW.Boons.Attack"}}</label>
+                <input name="attack" class="damage-checkbox attack" type="checkbox" data-tooltip="WW.Boons.Apply">
+                <span class="boons-display attack">{{numberFormat attackBoons decimals=0 sign=true}}</span>
+            </div>
+            {{/if}}
+
+            {{!-- Fixed Boons --}}
+            {{#if fixedBoons}}
+            <div class="stat-stretch flex-group-left mt-1">
+                <label>{{localize "WW.Boons.Fixed"}}</label>
+                <span class="boons-display fixed">{{numberFormat fixedBoons decimals=0 sign=true}}</span>
+            </div>
+            {{/if}}
+
+            {{!-- Situational Boons --}}
+            <div class="boons-situational">
+                <a data-action="down" data-tooltip="WW.Boons.AddBanes"></a>
+                <input class="boons-input situational mx-1" name="situational" type="number" value="0" data-tooltip="WW.Boons.Situational"/>
+                <a data-action="up" data-tooltip="WW.Boons.AddBoons"></a>
+            </div>
+            
         </div>
 
-        {{#if attackBoons}}
-        <div class="stat-stretch flex-group-left mt-1">
-            <label class="resource-label">{{localize "WW.Boons.Attack"}}</label>
-            <input name="attack" class="damage-checkbox attack" type="checkbox" data-tooltip="WW.Boons.Apply">
-            <span class="boons-display attack">{{numberFormat attackBoons decimals=0 sign=true}}</span>
-        </div>
+        
+
+    </div>
+
+    {{!-- Right Column --}}
+    <div class="roll-options">
+
+        {{!-- Targets Box --}}
+        {{#if targeted}}
+        <h3>{{localize "WW.Targeting.Targets"}}</h3>
+        <div class="h3-box boons-targets"></div>
         {{/if}}
 
-        {{#if fixedBoons}}
-        <div class="stat-stretch flex-group-left mt-1">
-            <label class="resource-label">{{localize "WW.Boons.Fixed"}}</label>
-            <span class="boons-display fixed">{{numberFormat fixedBoons decimals=0 sign=true}}</span>
+        {{!-- Custom Target Number --}}
+        <div class="stat-inline align-center targetno-container">
+            <label>{{localize "WW.Roll.TargetNumber"}}:</label>
+            <input name="targetno" type="number" placeholder="—"/>
         </div>
-        {{/if}}
         
     </div>
 
-    {{!-- Situational Boons --}}
-    <h3 class="mt-2">{{localize "WW.Boons.Situational"}}</h3>
-
-    <div class="boons-situational">
-        <a data-action="down"><i class="fas fa-down"></i></a>
-        <input class="boons-input situational mx-1" name="situational" type="number" value="0"/>
-        <a data-action="up"><i class="fas fa-up"></i></a>
-    </div>
-
+    {{!-- Terms Expression --}}
     <div class="boons-expression mb-2 mt-2 flex-group-center"></div>
 
-    <div class="stat-inline align-center targetno-container">
-        <label>{{localize "WW.Roll.TargetNumber"}}</label>
-        <input name="targetno" type="number" placeholder="—"/>
-    </div>
-
-    {{#if targeted}}
-    <h3>{{localize "WW.Targeting.Targets"}}</h3>
-    <div class="boons-targets mb-2 mt-2 flex-group-center"></div>
-    {{/if}}
-
+    {{!-- Form Buttons --}}
     <div class="form-group">
         <button type="submit" id="boons-submit">
             <i class="fas fa-dice"></i> {{localize "WW.Roll.Label"}}
         </button>
+
         <button type="button" id="boons-cancel">
             <i class="fas fa-x"></i> {{localize "WW.System.Dialog.Cancel"}}
         </button>
     </div>
+    
 </form>

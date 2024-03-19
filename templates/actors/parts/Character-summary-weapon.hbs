@@ -1,41 +1,23 @@
 <li class="item" data-item-id="{{item._id}}">
     {{!-- Title --}}
-    {{#if item.needTargets}}<label class="item-button" data-action="targeted-use" data-item-id="{{item._id}}" 
-        data-tooltip="WW.Targeting.AttackTargeted">{{item.name}}</label>
-    {{else if item.isActivity}}<label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-        data-tooltip="WW.Targeting.AttackUntargeted">{{item.name}}</label>
-    {{else}}<label>{{item.name}}</label>{{/if}}
-
+    <label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
+        data-tooltip='{{#if item.system.description.value}}{{{item.system.description.enriched}}}{{/if}}<hr>
+            <p>{{localize "WW.Item.Perform.Left"}}</p>
+            <p>{{localize "WW.Item.Perform.Shift"}}</p>
+            <p>{{localize "WW.Item.Perform.Ctrl"}}</p>
+            <p>{{localize "WW.Item.Perform.Alt"}}</p>
+            <p>{{localize "WW.Item.Perform.Right"}}</p>'>{{item.name}}</label>
+    
+    {{#if (or item.system.traits.reload item.system.traits.firearm)}}
     <span class="buttons">
 
-        {{!-- Use Buttons --}}
-        <a class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
-            data-tooltip="WW.Targeting.AttackTargeted">
-        <i class="fas fa-bullseye"></i></a>
-
-        <a class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-            data-tooltip="WW.Targeting.AttackUntargeted">
-        <i class="fas fa-bolt"></i></a>
-
         {{!-- Toggle Reloaded --}}
-        {{#if item.system.disadvantages.reload}}
         <a class="item-button" data-action="item-toggle-reloaded" data-item-id="{{item._id}}"
             data-tooltip="{{#if item.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
         <i class="fas {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
-        {{/if}}
-        
-        {{!-- Scroll Button --}}
-        {{#if item.system.description.value}}
-        <a class="item-button" data-action="item-scroll" data-item-id="{{item._id}}"
-            data-tooltip="{{item.system.description.value}}">
-        <i class="far fa-scroll"></i></a>
-        {{/if}}
 
-        {{!-- Edit Button --}}
-        <a class="item-button" data-action="item-edit" data-item-id="{{item._id}}"
-            data-tooltip="WW.Item.Edit.Weapon">
-        <i class="fas fa-edit"></i></a>
     </span>
+    {{/if}}
 
     {{!-- Traits --}}
     <span class="traits-line">({{localize (concat 'WW.Weapon.Grip.' item.system.grip 'Short')}}{{#if item.system.traitsList}};

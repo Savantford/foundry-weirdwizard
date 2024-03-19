@@ -5,25 +5,34 @@
 
     <div class="dice-result">
         <div class="dice-comparison">
-            <div class="dice-number rolled-number" data-tooltip='{{> "systems/weirdwizard/templates/chat/dice-tooltip.hbs" formula=formula terms=terms}}'>{{total}}</div>
+            <img class="attribute-icon{{#unless (eq outcome "failure")}} highlight{{/unless}}" src="{{attributeImg}}" data-tooltip="{{attributeLabel}}"></img>
+
+            <div class="dice-number rolled-number{{#unless (eq outcome "failure")}} highlight{{/unless}}"
+                data-tooltip='{{> "systems/weirdwizard/templates/chat/dice-tooltip.hbs" formula=formula terms=terms}}'><span>{{total}}</span></div>
 
             {{#if targetNo}}
             <div class="dice-vs">vs</div>
 
-            <div class="target-number">{{targetNo}}</div>
+            <div class="target-number{{#if (eq outcome "failure")}} highlight{{/if}}"><span>{{targetNo}}</span></div>
+
+            <img class="attribute-icon{{#if (eq outcome "failure")}} highlight{{/if}}" src="{{againstImg}}" data-tooltip="{{againstLabel}}"></img>
             {{/if}}
             
         </div>
+
         {{#if targetNo}}
-        <div class="dice-outcome">
+        <div class="dice-outcome {{#if (eq outcome "failure")}}chat-failure{{else}}chat-success{{/if}}">
             
-            {{#if (eq outcome "critical")}}
-            <div class="chat-success">{{localize "WW.Roll.CriticalSuccess"}}</div>
-            {{else if (eq outcome "success")}}
-            <div class="chat-success">{{localize "WW.Roll.Success"}}</div>
-            {{else}}
-            <div class="chat-failure">{{localize "WW.Roll.Failure"}}</div>
-            {{/if}}
+            <label>
+                {{#if (eq outcome "critical")}}
+                    {{localize "WW.Roll.CriticalSuccess"}}
+                {{else if (eq outcome "success")}}
+                    {{localize "WW.Roll.Success"}}
+                {{else}}
+                    {{localize "WW.Roll.Failure"}}
+                {{/if}}
+            </label>
+            
         </div>
         {{/if}}
         

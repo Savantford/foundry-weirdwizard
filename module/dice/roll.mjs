@@ -1,3 +1,5 @@
+import { i18n } from '../helpers/utils.mjs';
+
 export default class WWRoll extends Roll {
   /**
    * The HTML template path used to render a complete Roll object to the chat log
@@ -18,6 +20,9 @@ export default class WWRoll extends Roll {
   
   async render({flavor, template=this.constructor.CHAT_TEMPLATE, isPrivate=false}={}) {
     if ( !this._evaluated ) await this.evaluate({async: true});
+
+    const attribute = this.data.attribute;
+    const against = this.data.against;
     
     const chatData = {
       formula: isPrivate ? "???" : this._formula,
@@ -26,6 +31,10 @@ export default class WWRoll extends Roll {
       tooltip: isPrivate ? "" : await this.getTooltip(),
       total: isPrivate ? "?" : Math.round(this.total * 100) / 100,
       targetNo: isPrivate ? "?" : this.data.targetNo,
+      attributeLabel: attribute ? i18n(CONFIG.WW.ROLL_ATTRIBUTES[attribute]) : null,
+      attributeImg: attribute ? CONFIG.WW.ATTRIBUTE_ICONS[attribute] : null,
+      againstLabel: against ? i18n(CONFIG.WW.ROLL_AGAINST[against]) : null,
+      againstImg: against ? CONFIG.WW.ATTRIBUTE_ICONS[against] : null,
       terms: await this.terms,
       outcome: this.outcome
     };

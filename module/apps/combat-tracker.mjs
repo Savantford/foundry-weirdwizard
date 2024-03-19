@@ -233,6 +233,9 @@ export default class WWCombatTracker extends CombatTracker {
 
     // Taking button
     html.find('.combatant-taking').click(ev => this._onCombatantTaking(ev));
+
+    // Allow context on right-click for players too
+    if (!game.user.isGM) this._contextMenu(html);
   }
 
   /* -------------------------------------------- */
@@ -306,13 +309,17 @@ export default class WWCombatTracker extends CombatTracker {
   /**
    * Get the Combatant entry context options
    * @returns {object[]}   The Combatant entry context options
+   * @override
    * @private
    */
-  _getEntryContextOptions() {
+  _getEntryContextOptions() {    
     return [
       {
         name: "COMBAT.CombatantUpdate",
         icon: '<i class="fas fa-edit"></i>',
+        condition: li => {
+          return game.user.isGM;
+        },
         callback: this._onConfigureCombatant.bind(this)
       },
       {
@@ -320,7 +327,7 @@ export default class WWCombatTracker extends CombatTracker {
         icon: '<i class="fas fa-hourglass"></i>',
         condition: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
-          return !combatant.flags.weirdwizard?.acted && (combatant === this.viewed.combatant);
+          return combatant.players.filter(c => game.user).length && !combatant.flags.weirdwizard?.acted && (combatant === this.viewed.combatant);
         },
         callback: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
@@ -332,7 +339,7 @@ export default class WWCombatTracker extends CombatTracker {
         icon: '<i class="fas fa-person-running-fast"></i>',
         condition: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
-          return (combatant.actor.type === 'Character') && !combatant.flags.weirdwizard?.takingInit;
+          return combatant.players.filter(c => game.user).length && (combatant.actor.type === 'Character') && !combatant.flags.weirdwizard?.takingInit;
         },
         callback: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
@@ -344,7 +351,7 @@ export default class WWCombatTracker extends CombatTracker {
         icon: '<i class="fas fa-hand-holding-magic"></i>',
         condition: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
-          return (combatant.actor.type === 'Character') && combatant.flags.weirdwizard?.takingInit;
+          return combatant.players.filter(c => game.user).length && (combatant.actor.type === 'Character') && combatant.flags.weirdwizard?.takingInit;
         },
         callback: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
@@ -356,7 +363,7 @@ export default class WWCombatTracker extends CombatTracker {
         icon: '<i class="fas fa-bolt"></i>',
         condition: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
-          return !combatant.flags.weirdwizard?.acted && (combatant !== this.viewed.combatant);
+          return combatant.players.filter(c => game.user).length && !combatant.flags.weirdwizard?.acted && (combatant !== this.viewed.combatant);
         },
         callback: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
@@ -368,7 +375,7 @@ export default class WWCombatTracker extends CombatTracker {
         icon: '<i class="fas fa-redo"></i>',
         condition: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
-          return combatant.flags.weirdwizard?.acted;
+          return combatant.players.filter(c => game.user).length && combatant.flags.weirdwizard?.acted;
         },
         callback: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
@@ -378,6 +385,9 @@ export default class WWCombatTracker extends CombatTracker {
       {
         name: "COMBAT.CombatantRemove",
         icon: '<i class="fas fa-trash"></i>',
+        condition: li => {
+          return game.user.isGM;
+        },
         callback: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
           if ( combatant ) return combatant.delete();
@@ -704,9 +714,7 @@ export default class WWCombatTracker extends CombatTracker {
       // Determine the indices to sort between
       /*let min, max;
       if ( sortBefore ) [min, max] = this._sortBefore(siblings, idx, sortKey);
-      else [min, max] = this._sortAfter(siblings, idx, sortKey);
-      console.log(min)
-      console.log(max)*/
+      else [min, max] = this._sortAfter(siblings, idx, sortKey);*/
       
       // Sort before or after
       if (sortBefore) siblings.splice(idx, 0, source); else siblings.splice(idx+1, 0, source);

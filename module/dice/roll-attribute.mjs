@@ -29,6 +29,7 @@ export default class RollAttribute extends FormApplication {
     // Assign label, name, etc
     this.label = obj.label;
     this.content = obj.content;
+    this.icon = obj.icon ? obj.icon : (this.item ? this.item.img : null);
     this.name = attKey == 'luck' ? i18n('WW.Attributes.Luck') : this.system.attributes[attKey].label;
     this.effectBoonsGlobal = this.system.boons.attributes[attKey].global ?
       this.system.boons.attributes[attKey].global : 0;
@@ -43,6 +44,7 @@ export default class RollAttribute extends FormApplication {
     this.mod = this.system.attributes[attKey]?.mod ?
       plusify(this.system.attributes[attKey].mod) : '+0'; // If undefined, set it to +0
 
+    this.attribute = attKey;
     this.against = this.item?.system?.against;
     this.boonsFinal = 0;
 
@@ -140,7 +142,7 @@ export default class RollAttribute extends FormApplication {
         const targetNo = against == 'def' ? t.defense : t.attributes[against].value;
 
         // Construct the Roll instance and evaluate the roll
-        let r = await new WWRoll(rollFormula, { targetNo: targetNo }, { template: "systems/weirdwizard/templates/chat/roll.hbs" }).evaluate({async:true});
+        let r = await new WWRoll(rollFormula, { targetNo: targetNo, attribute: this.attribute, against: against }, { template: "systems/weirdwizard/templates/chat/roll.hbs" }).evaluate({async:true});
 
         // Save the roll order
         const index = this.targets.findIndex(obj => { return obj.id === t.id; });
@@ -241,7 +243,7 @@ export default class RollAttribute extends FormApplication {
       const targetNo = formData.targetno ? formData.targetno : '';
 
       // Construct the Roll instance and evaluate the roll
-      let r = await new WWRoll(rollFormula, { targetNo: targetNo }, { template: "systems/weirdwizard/templates/chat/roll.hbs" }).evaluate({async:true});
+      let r = await new WWRoll(rollFormula, { targetNo: targetNo, attribute: this.attribute, against: against }, { template: "systems/weirdwizard/templates/chat/roll.hbs" }).evaluate({async:true});
 
       // Set the roll order and color dice for DSN
       for (let i = 0; i < r.dice.length; i++) {
@@ -351,6 +353,7 @@ export default class RollAttribute extends FormApplication {
       content: this.content,
       sound: CONFIG.sounds.dice,
       'flags.weirdwizard': {
+        icon: this.icon,
         item: this.item?.uuid,
         rollHtml: rollHtml,
         emptyContent: !this.content ?? true
@@ -365,7 +368,7 @@ export default class RollAttribute extends FormApplication {
 
   _updateFields(ev, context) { // Update html fields
     
-    const parent = ev.target.closest('.boons-details'),
+    const parent = ev.target.closest('.roll-details'),
       against = context.against,
       fixedBoons = context.fixedBoons,
       applyAttackBoons = parent.querySelector('input[name=attack]:checked'),
@@ -431,23 +434,24 @@ export default class RollAttribute extends FormApplication {
     // Targets display
     if (this.action === 'targeted-use') {
       let targetsDisplay = '';
-
+      
       context.targets.forEach(t => {
-        const boonsNo = t.boonsagainst ? t.boonsAgainst[against] : 0;
+        const boonsNo = t.boonsAgainst ? t.boonsAgainst[against] : 0;
+        const extraBoons = boonsNo > 1 ? i18n('WW.Boons.ExtraBoons') : i18n('WW.Boons.ExtraBoon');
+        const againstIcon = CONFIG.WW.ATTRIBUTE_ICONS[against];
+        
+        targetsDisplay += `<li><label><img class="target-icon" src="${t.icon}" /> ${t.name}</label>`
 
-        targetsDisplay += '<p>' + t.name;
+        if (boonsNo >= 1) targetsDisplay += `<div class="target-boons">(${boonsNo} <img src="/systems/weirdwizard/assets/icons/boons-colored.svg" data-tooltip="${extraBoons}"/>)</div>`;
 
-        if (boonsNo > 1) targetsDisplay += ': ' + boonsNo + ' ' + i18n('WW.Boons.ExtraBoons')
-        else if (boonsNo == 1) targetsDisplay += ': ' + boonsNo + ' ' + i18n('WW.Boons.ExtraBoon');
-
-        targetsDisplay += '</p>';
+        targetsDisplay += `<div class="target-against">${t.againstNo} <img src="${againstIcon}"/></div></li>`;
       });
 
       parent.querySelector('.boons-targets').innerHTML = targetsDisplay;
     }
 
     // Update app position/scaling
-    this.setPosition()
+    this.setPosition();
 
   }
 
@@ -578,13 +582,20 @@ export default class RollAttribute extends FormApplication {
     const targets = [];
 
     game.user.targets.forEach(t => {
+      const tDoc = t.document;
+      const actor = tDoc?.actor;
+      const sys = actor?.system;
+      
       targets.push({
         id: t.id,
-        name: game.weirdwizard.utils.getAlias({ token: t.document, actor: t.document.actor }),
-        attributes: t.document.actor?.system.attributes,
-        defense: t.document.actor?.system.stats.defense.total,
-        boonsAgainst: t.document.actor?.system.boons.against
+        icon: tDoc?.texture?.src,
+        name: game.weirdwizard.utils.getAlias({ token: tDoc, actor: actor }),
+        attributes: actor ? sys.attributes : null,
+        defense: actor ? sys.stats.defense.total : null,
+        againstNo: sys ? (this.against === 'def' ? sys.stats.defense.total : sys.attributes[this.against]?.value) : "—",
+        boonsAgainst: actor ? sys.boons.against : null
       })
+
     });
 
     return targets
