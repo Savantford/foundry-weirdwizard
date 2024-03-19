@@ -8,6 +8,23 @@ WW.ATTRIBUTES = {
   'wil': 'WW.Attributes.Will'
 }
 
+WW.ATTRIBUTE_ROLLS = {
+  'str': 'WW.Attributes.StrengthRoll',
+  'agi': 'WW.Attributes.AgilityRoll',
+  'int': 'WW.Attributes.IntellectRoll',
+  'wil': 'WW.Attributes.WillRoll',
+  'luck': 'WW.Attributes.LuckRoll'
+}
+
+WW.ATTRIBUTE_ICONS = {
+  'str': '/systems/weirdwizard/assets/icons/biceps.svg',
+  'agi': '/systems/weirdwizard/assets/icons/agility.svg',
+  'int': '/systems/weirdwizard/assets/icons/open-book.svg',
+  'wil': '/systems/weirdwizard/assets/icons/burning-star.svg',
+  'luck': '/systems/weirdwizard/assets/icons/clover.svg',
+  'def': 'icons/svg/shield.svg'
+}
+
 /* Dropdown Menus */
 WW.LEVELS = {
   1: '1',

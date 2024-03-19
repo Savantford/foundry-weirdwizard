@@ -19,7 +19,7 @@ export default class WWCharacterSheet extends WWActorSheet {
   }
 
   /** @override */
-  setPosition(pos={}) { // NOT WORKING
+  setPosition(pos={}) {
     super.setPosition(pos);
 
     // Fetch elements and new height

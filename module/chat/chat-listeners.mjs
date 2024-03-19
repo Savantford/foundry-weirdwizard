@@ -231,29 +231,27 @@ async function _onChatRoll(dataset, label, nextAction) {
 function _onMessageCollapse(ev) {
   
   const button = ev.currentTarget,
+    icon = $(button).find('i'),
     msg = $(button).parents('.chat-message'),
-    desc = msg.find('.message-content'),
-    footer = msg.find('.message-footer'),
-    wrapper = msg.find('.message-wrapper'),
     traits = msg.find('.traits-container'),
-    icon = $(button).find('i')
+    wrapper = msg.find('.message-wrapper')
   ;
   
   // Flip states
   if (icon.hasClass('fa-square-plus')) {
     $(button).attr('data-tooltip', 'WW.Item.HideDesc')
     icon.removeClass('fa-square-plus').addClass('fa-square-minus');
-    traits.slideDown(500);
+    traits.slideDown(500);   
     wrapper.slideDown(500);
-    desc.slideDown(500);
-    footer.slideDown(500);
+    wrapper.children().slideDown(500);
+
   } else {
     $(button).attr('data-tooltip', 'WW.Item.ShowDesc')
     icon.removeClass('fa-square-minus').addClass('fa-square-plus');
     traits.slideUp(500);
     wrapper.slideUp(500);
-    desc.slideUp(500);
-    footer.slideUp(500);
+    wrapper.children().slideUp(500);
+
   }
   
 }

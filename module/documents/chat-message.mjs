@@ -42,6 +42,7 @@ export default class WWChatMessage extends ChatMessage {
     const data = this.toObject(false);
     const itemUuid = (data.flags?.weirdwizard?.item && (typeof data.flags?.weirdwizard?.item === 'string')) ? data.flags.weirdwizard.item : null;
     const item = await fromUuid(itemUuid);
+    const icon = (data.flags?.weirdwizard?.icon && (typeof data.flags?.weirdwizard?.icon === 'string')) ? data.flags.weirdwizard.icon : null;
     const isWhisper = this.whisper.length;
 
     // Prepare content
@@ -81,8 +82,8 @@ export default class WWChatMessage extends ChatMessage {
       author: this.user,
       alias: this.alias,
       avatar: this.avatar,
+      icon: icon,
       item: item ? {
-        img: item.img,
         type: item.system.subtype ? this.getTypeLabel(item.system.subtype) : this.getTypeLabel(item.type),
         source: item.system.source ? item.system.source : null,
         tier: item.system.tier ? item.system.tier : null,

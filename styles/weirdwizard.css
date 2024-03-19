@@ -2,6 +2,7 @@
 
 /* Variables */
 :root {
+  /* Colors */
   --purple-dark: #49244F;
   --purple-dark-rgb: 73, 36, 79;
   --purple-medium: #775B7B;
@@ -10,6 +11,8 @@
   --purple-light-rbg: 219, 211, 220;
   --body-text-color: #000000;
   --gray: #BCBEC0;
+  /* Filters */
+  --grey-filter: brightness(0) saturate(100%) invert(53%) sepia(66%) saturate(0%) hue-rotate(194deg) brightness(76%) contrast(71%);
   /* Fonts */
   --font-serif: 'Forum', cursive;
   --font-capitalized: 'Mate SC', serif;
@@ -1138,7 +1141,7 @@
   list-style: none;
   margin: 0;
   /*margin-top: 15px;*/
-  overflow-y: auto;
+  /*overflow-y: auto; < breaking tooltips */
   scrollbar-width: thin;
   color: #444;
   padding: 0px;
@@ -1155,7 +1158,7 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--background-color-shadow);
   border: 1px solid var(--gray);
   font-weight: bold;
 }
@@ -1454,10 +1457,6 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .weirdwizard div > .hover-only,
-.weirdwizard .described-list .buttons > a,
-.weirdwizard .described-list .buttons > a,
-.weirdwizard .compact-list .buttons > a,
-.weirdwizard .compact-list .buttons > a,
 .weirdwizard .list-entries .buttons > a,
 .weirdwizard .list-entries .array-button[data-action="add"],
 .weirdwizard .list-entries .item-create,
@@ -1478,10 +1477,6 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .weirdwizard div:hover > .hover-only,
-.weirdwizard .described-list:hover .buttons > a,
-.weirdwizard .described-list:hover .buttons > a,
-.weirdwizard .compact-list:hover .buttons > a,
-.weirdwizard .compact-list:hover .buttons > a,
 .weirdwizard .list-entries:hover .buttons > a,
 .weirdwizard .list-entries:hover .array-button[data-action="add"],
 .weirdwizard .list-entries:hover .item-create,
@@ -1541,10 +1536,6 @@ input[type="checkbox"].checkbox-uses {
   text-indent: 0;
 }
 
-.attacks-list .buttons {
-  margin-right: 5px;
-}
-
 .buttons i,
 .item-create i,
 .array-button[data-action="add"] i {
@@ -1556,6 +1547,10 @@ input[type="checkbox"].checkbox-uses {
 .item-pip:hover,
 .item-pip:focus {
   text-shadow: 0 0 5px var(--color-shadow-primary);
+}
+
+.item-button:hover > #context-menu {
+  text-shadow: none;
 }
 
 .weirdwizard .details-list {
@@ -1736,7 +1731,8 @@ input[type="checkbox"].checkbox-uses {
 
 /* Tooltips Customization */
 
-#tooltip:not(.tour), .locked-tooltip:not(.tour) {
+#tooltip:not(.tour),
+.locked-tooltip:not(.tour) {
   max-width: 320px;
   padding: 8px;
   background: #292A2D;
@@ -1755,8 +1751,12 @@ input[type="checkbox"].checkbox-uses {
   transition: opacity 10ms;
 }
 
-#tooltip:not(.tour) > p {
-  margin: 0;
+#tooltip:not(.tour) > p:first-child {
+  margin-top: 0;
+}
+
+#tooltip:not(.tour) > p:last-child {
+  margin-bottom: 0;
 }
 
 /* Affliction Tab */
@@ -1986,6 +1986,8 @@ i.icon-Weakened {
   font-weight: bold;
 }
 
+/* Targeting HUD */
+
 .weirdwizard.targeting-hud {
   position: absolute;
   left: calc(50% - 200px);
@@ -2010,10 +2012,6 @@ i.icon-Weakened {
   background: var(--color-border-light-2);
 }
 
-.weirdwizard .health-levels {
-  text-align: center;
-  width: 20px;
-}
 .weirdwizard .health-display {
   text-align: center;
   font-weight: bold;
@@ -2025,7 +2023,7 @@ i.icon-Weakened {
   
 }
 
-.weirdwizard .def-list {
+/*.weirdwizard .def-list {
   list-style: none;
   padding: 0px;
   margin: 0px;
@@ -2039,9 +2037,9 @@ i.icon-Weakened {
   text-align: center;
   width: 30px;
 }
-/*.weirdwizard .def-name {
+.weirdwizard .def-name {
   flex: 1;
-}*/
+}
 .weirdwizard .def-bonus {
   flex: 0 50px;
   text-align: center;
@@ -2049,6 +2047,34 @@ i.icon-Weakened {
 .weirdwizard .def-remove {
   flex: 0 16px;
   text-align: center;
+}*/
+
+/* Roll Apps */
+
+.weirdwizard.roll-details h3 {
+  background: var(--purple-dark);
+  color: white;
+  text-align: center;
+  margin: 10px 0 0;
+  border-radius: 5px 5px 0px 0px;
+  font-family: var(--font-header);
+}
+
+.weirdwizard.roll-details h3.boons-header {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0 5px 0 7px;
+}
+
+.weirdwizard.roll-details .h3-box {
+  text-align: center;
+  border: 1px solid var(--purple-dark);
+  border-top: none;
+  padding: 5px;
+  margin-bottom: 0.5em;
+  border-radius: 0 0 5px 5px;
+  background: var(--background-color-shadow);
 }
 
 .weirdwizard .boons-display,
@@ -2058,19 +2084,87 @@ i.icon-Weakened {
 }
 
 .weirdwizard .boons-situational {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin: 10px auto auto;
+  padding: 8px;
   font-size: x-large;
   text-align: center;
+  border-image: url(../assets/ui/sheet-rectangle.svg);
+  border-image-slice: 120 fill;
+  border-image-width: 15px;
+}
+
+.weirdwizard .boons-situational > a {
+  background: url('/systems/weirdwizard/assets/icons/boons-colored.svg');
+  background-size: contain;
+  width: 1lh;
+  height: 1lh;
+  display: block;
+}
+
+.weirdwizard .boons-situational > a:hover {
+  filter: drop-shadow(0 0 2px var(--color-shadow-primary));
+}
+
+.weirdwizard .boons-situational > a[data-action=down] {
+  background-image: url('/systems/weirdwizard/assets/icons/banes-colored.svg');
 }
 
 .weirdwizard .boons-situational > input {
   width: 1.5em;
 }
 
+.weirdwizard.roll-details .targetno-container input {
+  width: 30px;
+}
+
 .weirdwizard .boons-expression,
 .weirdwizard .damage-expression {
-  font-size: 1.5em;
-  padding-top: 5px;
-  border-top: 3px double black;
+  font-size: 1.4em;
+  border-image: url(../assets/ui/sheet-rectangle.svg);
+  border-image-slice: 120 fill;
+  border-image-width: 15px;
+  padding: 8px;
+  filter: brightness(0) saturate(100%) invert(15%) sepia(25%) saturate(2839%) hue-rotate(258deg) brightness(87%) contrast(88%);
+  text-shadow: 0 0 1px black;
+}
+
+.weirdwizard.roll-details .boons-targets li {
+  display: flex;
+  gap: 5px;
+}
+
+.weirdwizard.roll-details .boons-targets label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
+  margin-right: auto;
+}
+
+.weirdwizard.roll-details img.target-icon {
+  width: 30px;
+  height: auto;
+  border-radius: 50%;
+}
+
+.weirdwizard.roll-details .target-against,
+.weirdwizard.roll-details .target-boons {
+  display: flex;
+  align-items: center;
+}
+
+.weirdwizard.roll-details .target-against img,
+.weirdwizard.roll-details .target-boons img {
+  width: 24px;
+  height: auto;
+  filter: none;
+}
+
+.weirdwizard.roll-details .target-against img {
+  filter: var(--grey-filter);
 }
 
 /* ---------------------------- Quest Calendar App -----------------------------*/
@@ -2384,7 +2478,7 @@ form.quest-calendar {
 
 .weirdwizard.chat-message .chat-buttons:not(:first-child),
 .weirdwizard.chat-message .chat-button-container:not(:first-child) {
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 .weirdwizard.chat-message .header-button,
@@ -2494,6 +2588,16 @@ form.quest-calendar {
   gap: 5px;
 }
 
+.weirdwizard .dice-comparison > img.attribute-icon {
+  width: auto;
+  height: 24px;
+  filter: var(--grey-filter);
+}
+
+.weirdwizard .dice-comparison > img.attribute-icon.highlight {
+  filter: brightness(0) saturate(100%) drop-shadow(0 0 1px var(--color-shadow-primary));
+}
+
 .weirdwizard .dice-comparison > div {
   font-size: var(--font-size-20);
 }
@@ -2509,6 +2613,14 @@ form.quest-calendar {
   color: white;
   text-shadow: 0px 0px 7px black, 0px 0px 7px black, 0px 0px 7px black, 0px 0px 7px black;
   filter: drop-shadow(0 0 2px black);
+}
+
+.weirdwizard .dice-comparison > div:not(.dice-vs).highlight {
+  filter: drop-shadow(0 0 2px var(--color-shadow-primary));
+}
+
+.weirdwizard .dice-comparison > div:not(.dice-vs).highlight > span {
+  text-shadow: 0px 0px 7px var(--color-shadow-primary), 0px 0px 7px var(--color-shadow-primary), 0px 0px 7px var(--purple-dark), 0px 0px 7px var(--purple-dark);
 }
 
 .weirdwizard .dice-comparison > .rolled-number {
@@ -2534,10 +2646,12 @@ form.quest-calendar {
 
 .weirdwizard .chat-failure {
   color: #a51700;
+  filter: brightness(0) saturate(100%) invert(10%) sepia(91%) saturate(6105%) hue-rotate(20deg) brightness(86%) contrast(100%);
 }
 
 .weirdwizard .chat-success {
   color: #006920;
+  filter: brightness(0) saturate(100%) invert(21%) sepia(98%) saturate(1358%) hue-rotate(119deg) brightness(93%) contrast(101%);
 }
 
 .weirdwizard.chat-message .chat-target {
@@ -2559,7 +2673,7 @@ form.quest-calendar {
   border-top: none;
   padding: 5px;
   border-radius: 0 0 5px 5px;
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--background-color-shadow);
 }
 
 /* Dice Tooltip */
@@ -2632,6 +2746,20 @@ form.quest-calendar {
   justify-content: end;
 }
 
+/* Context Menu: Item */
+.weirdwizard.sheet #context-menu {
+  min-width: 200px;
+  font-size: small;
+}
+
+.weirdwizard.sheet #context-menu li.context-item {
+  white-space: pre-wrap;
+  line-height: 1lh;
+  padding: 5px;
+  text-indent: 0;
+}
+
+/* Context Menu: Chat */
 .chat-button #context-menu,
 .enricher-call #context-menu {
   overflow-x: clip;
