@@ -1,12 +1,7 @@
 <li class="item" data-item-id="{{item._id}}">
     {{!-- Title --}}
     <label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-        data-tooltip='{{#if item.system.description.value}}{{{item.system.description.enriched}}}{{/if}}<hr>
-            <p>{{localize "WW.Item.Perform.Left"}}</p>
-            <p>{{localize "WW.Item.Perform.Shift"}}</p>
-            <p>{{localize "WW.Item.Perform.Ctrl"}}</p>
-            <p>{{localize "WW.Item.Perform.Alt"}}</p>
-            <p>{{localize "WW.Item.Perform.Right"}}</p>'>{{item.name}}</label>
+        data-tooltip="{{{item.tooltip}}}">{{item.name}}</label>
     
     {{#if (or item.system.traits.reload item.system.traits.firearm)}}
     <span class="buttons">

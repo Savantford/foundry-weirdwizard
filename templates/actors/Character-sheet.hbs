@@ -15,10 +15,10 @@
                 <div class="character-subtitle">{{localize "WW.Stats.Level"}} {{level}} {{charOptions.ancestry.name}}{{#if charOptions.novice}} {{charOptions.novice.name}}{{/if}}</div>
             </div>
 
-            <div class="circle" style="--total: 4">
+            <div class="circle" style="--total: 8">
                 {{> "systems/weirdwizard/templates/actors/parts/portrait.hbs" img=actor.img token=true}}
                 
-                <div class="stat" style="--i:1">
+                <div class="stat str" style="--i:2">
                     <label><a class="item-button" data-action="attribute-roll" data-key="str" data-tooltip="WW.Roll.Strength">{{localize "WW.Attributes.StrengthShort"}}</a></label>
 
                     <div>
@@ -31,7 +31,7 @@
                     </div>
                 </div>
 
-                <div class="stat" style="--i:2">
+                <div class="stat agi" style="--i:4">
                     <label><a class="item-button" data-action="attribute-roll" data-key="agi" data-tooltip="WW.Roll.Agility">{{localize "WW.Attributes.AgilityShort"}}</a></label>
 
                     <div>
@@ -45,7 +45,7 @@
 
                 </div>
 
-                <div class="stat" style="--i:4">
+                <div class="stat int" style="--i:6">
                     <label><a class="item-button" data-action="attribute-roll" data-key="int" data-tooltip="WW.Roll.Intellect">{{localize "WW.Attributes.IntellectShort"}}</a></label>
 
                     <div>
@@ -58,7 +58,11 @@
                     </div>
                 </div>
 
-                <div class="stat" style="--i:3">
+                <div class="stat luck" style="--i:7">
+                    <label><a class="item-button" data-action="attribute-roll" data-key="luck" data-tooltip="WW.Roll.Luck">{{localize "WW.Attributes.Luck"}}</a></label>
+                </div>
+
+                <div class="stat wil" style="--i:8">
                     <label><a class="item-button" data-action="attribute-roll" data-key="wil" data-tooltip="WW.Roll.Will">{{localize "WW.Attributes.WillShort"}}</a></label>
                     
                     <div>
@@ -156,12 +160,7 @@
                     </div>
 
                     <div class="stat flexrow">
-                        {{!-- Luck Roll --}}
-                        <div class="mr-2 luck">
-                            <label>{{localize "WW.Attributes.Luck"}}</label>
-
-                            <div><a class="item-button resource-label" data-action="attribute-roll" data-key="luck" data-tooltip="WW.Roll.Luck"><i class="large fas fa-dice-d20"></i></a></div>
-                        </div>
+                        
 
                         {{!-- Rest --}}
                         <div class="rest">
@@ -178,21 +177,29 @@
     </header>
 
     <div>
-        {{!-- Sheet Tab Navigation --}}
-        <nav class="sheet-tabs tabs" data-group="primary">
-            <div>
-                <a class="item" data-tab="summary">{{localize "WW.Actor.Summary"}}</a>
-                <a class="item" data-tab="details">{{localize "WW.Actor.Details"}}</a>
-                <a class="item" data-tab="equipment">{{localize "WW.Equipment.Label"}}</a>
-            </div>
+        
+        <div class="sheet-tabs-wrapper">
+
+            {{!-- Sheet Tab Navigation --}}
+            <nav class="sheet-tabs tabs" data-group="primary">
+                <div>
+                    <a class="item" data-tab="summary">{{localize "WW.Actor.Summary"}}</a>
+                    <a class="item" data-tab="details">{{localize "WW.Actor.Details"}}</a>
+                    <a class="item" data-tab="equipment">{{localize "WW.Equipment.Label"}}</a>
+                </div>
+                
+                <div>
+                    <a class="item" data-tab="talents">{{localize "WW.Talents.Label"}}</a>
+                    <a class="item" data-tab="spells">{{localize "WW.Spells.Label"}}</a>
+                    <a class="item" data-tab="effects">{{localize "WW.Effects.Label"}}</a>
+                </div>
+                
+            </nav>
             
-            <div>
-                <a class="item" data-tab="talents">{{localize "WW.Talents.Label"}}</a>
-                <a class="item" data-tab="spells">{{localize "WW.Spells.Label"}}</a>
-                <a class="item" data-tab="effects">{{localize "WW.Effects.Label"}}</a>
-            </div>
-            
-        </nav>
+            {{!-- Sheet Menu --}}
+            <a class="sheet-menu" data-tooltip="COMING SOON!"><i class="fas fa-bars"></i></a>
+        </div>
+        
 
         {{!-- Sheet Body --}}
         <section class="sheet-body">
@@ -226,6 +233,7 @@
             <div class="tab effects flexcol" data-group="primary" data-tab="effects">
                 {{> "systems/weirdwizard/templates/actors/parts/Character-effects.hbs"}}
             </div>
+
         </section>
     </div>
 </form>

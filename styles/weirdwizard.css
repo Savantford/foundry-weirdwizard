@@ -899,6 +899,7 @@
 
   outline: 2px solid var(--purple-dark);
   outline-offset: 5px;
+  filter: drop-shadow(0 0 1px var(--purple-dark));
 }
 
 .weirdwizard .sheet .profile-img {
@@ -929,8 +930,11 @@
   display: grid;
   place-items: center;
 
-  background: var(--background), var(--background-color-shadow);
-  background-blend-mode: color;
+  background: var(--icon), var(--background), var(--background-color-shadow);
+  background-size: 100%;
+  background-position: center;
+  background-blend-mode: overlay;
+
   font-weight: bold;
 
   /* Decimal value, 0-1 based on the child's index. */
@@ -949,8 +953,43 @@
 
 }
 
+.weirdwizard .circle .stat.str {
+  --icon: url(../assets/icons/biceps.svg);
+}
+
+.weirdwizard .circle .stat.agi {
+  --icon: url(../assets/icons/agility.svg);
+  background-size: 90%;
+}
+
+.weirdwizard .circle .stat.int {
+  --icon: url(../assets/icons/open-book.svg);
+  background-size: 90%;
+}
+
+.weirdwizard .circle .stat.wil {
+  --icon: url(../assets/icons/burning-star.svg);
+}
+
+.weirdwizard .circle .stat.luck {
+  --icon: url(../assets/icons/clover.svg);
+  --ele-radius: 22px;
+  background-size: 90%;
+  margin-bottom: 10px;
+  transition: opacity 100ms ease-in-out;
+  opacity: 0;
+}
+
+.weirdwizard .header-fields:hover .circle .stat.luck {
+  opacity: 1;
+}
+
 .weirdwizard .circle .stat > label {
   align-self: flex-end;
+}
+
+.weirdwizard .circle .stat.luck > label {
+  align-self: center;
 }
 
 .weirdwizard .circle .stat > div {
@@ -1014,10 +1053,22 @@
   padding: 8px;
 }
 
-.weirdwizard .sheet-tabs {
-  -webkit-box-flex: 0;
-  -ms-flex: 0;
-  flex: 0;
+.weirdwizard .sheet-tabs-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 3px;
+  border-bottom: 1px solid var(--color-border-light-primary);
+}
+
+.weirdwizard.npc nav.sheet-tabs-wrapper {
+  margin: auto 0 0 0;
+}
+
+.weirdwizard .sheet nav.sheet-tabs {
+  width: 100%;
+  margin: 0;
+  border: none;
   font-family: var(--font-serif);
   font-size: var(--font-size-14);
   font-weight: bold;
@@ -1026,10 +1077,6 @@
   flex-wrap: wrap;
   gap: 2px 2px;
   border-top: none !important;
-}
-
-.weirdwizard.npc nav.sheet-tabs {
-  margin: auto 0 0 0;
 }
 
 .weirdwizard .sheet-tabs > div {
@@ -1044,7 +1091,7 @@
   flex-grow: 1;
   border-radius: 5px 5px 0px 0px;
   background: var(--purple-light);
-  padding: 4px 12px !important;
+  padding: 4px 8px !important;
 }
 
 .weirdwizard .sheet-tabs .item.active {
@@ -1052,6 +1099,10 @@
   color: white;
   font-weight: normal;
   text-shadow: none;
+}
+
+.weirdwizard .sheet-menu {
+  font-size: medium;
 }
 
 .weirdwizard .change-disposition {
@@ -1186,9 +1237,9 @@
 }
 
 .weirdwizard .item-name {
-  -webkit-box-flex: 2;
-  -ms-flex: 2;
-  flex: 2;
+  -webkit-box-flex: 1.2;
+  -ms-flex: 1.2;
+  flex: 1.2;
   margin: 0;
   /*overflow: hidden;*/
   font-size: 13px;
@@ -1244,11 +1295,11 @@
   -webkit-box-pack: end;
   -ms-flex-pack: end;
   justify-content: flex-end;
+  gap: 5px;
 }
 .weirdwizard .item-controls a {
   font-size: var(--font-size-12);
   text-align: center;
-  margin: 0 6px;
 }
 
 .weirdwizard.instant-effect .form-group > * {
@@ -1564,6 +1615,34 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard .detail {
   margin-bottom: 10px;
 }
+
+.weirdwizard .equipment-header {
+  display: flex;
+  align-items: center;
+}
+
+.weirdwizard .equipment-header > div {
+  color: var(--body-text-color);
+  font-family: var(--font-body);
+  font-size: var(--font-size-14);
+  font-weight: normal;
+  text-transform: none;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.weirdwizard .equipment-header > div > label {
+  color: var(--purple-dark);
+  font-weight: bold;
+}
+
+.weirdwizard .equipment-header > .coins {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  gap: 5px;
+}
+
 .weirdwizard .coins-list {
   list-style: none;
   margin: 0;
@@ -1578,11 +1657,11 @@ input[type="checkbox"].checkbox-uses {
   
 }
 
-.weirdwizard .total-weight > label {
+.weirdwizard .carrying-limit > label {
   margin: 0px;
 }
 
-.weirdwizard .total-weight > span {
+.weirdwizard .carrying-limit > span {
   padding: 1px 5px;
 }
 
@@ -2354,6 +2433,10 @@ form.quest-calendar {
 [class*="enricher-"] {
   color: var(--purple-dark);
   font-weight: 900;
+}
+
+#tooltip [class*="enricher-"] {
+  color: var(--purple-medium);
 }
 
 [class*="enricher-"]:focus,

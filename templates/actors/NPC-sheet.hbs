@@ -25,12 +25,19 @@
                 
             </div>
 
-            {{!-- Sheet Tab Navigation --}}
-            <nav class="sheet-tabs tabs npc-tabs" data-group="primary">
-                <a class="item" data-tab="summary">{{localize "WW.Stats.Label"}}</a>
-                <a class="item" data-tab="description">{{localize "WW.Item.Description"}}</a>
-                <a class="item" data-tab="effects">{{localize "WW.Effects.Label"}}</a>
-            </nav>  
+            <div class="sheet-tabs-wrapper">
+
+                {{!-- Sheet Tab Navigation --}}
+                <nav class="sheet-tabs tabs npc-tabs" data-group="primary">
+                    <a class="item" data-tab="summary">{{localize "WW.Stats.Label"}}</a>
+                    <a class="item" data-tab="description">{{localize "WW.Item.Description"}}</a>
+                    <a class="item" data-tab="effects">{{localize "WW.Effects.Label"}}</a>
+                </nav>
+
+                {{!-- Sheet Menu --}}
+                <a class="sheet-menu" data-tooltip="COMING SOON!"><i class="fas fa-bars"></i></a>
+
+            </div>
 
         </div>
 

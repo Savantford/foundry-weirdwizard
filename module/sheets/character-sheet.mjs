@@ -12,7 +12,7 @@ export default class WWCharacterSheet extends WWActorSheet {
 
     return mergeObject(super.defaultOptions, {
       classes: ['weirdwizard', 'sheet', 'actor', 'character'],
-      width: 865, // 860 breaks on Firefox
+      width: 885, // 880 breaks on Firefox
       height: 480, // 480
       tabs: [{ navSelector: '.sheet-tabs', contentSelector: '.sheet-body', initial: 'summary' }]
     });

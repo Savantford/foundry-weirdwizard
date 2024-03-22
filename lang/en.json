@@ -141,6 +141,7 @@
 "WW.Item.DisableEffects": "Disable passive effects",
 "WW.Item.Equip": "Wear equipment",
 "WW.Item.Unequip": "Remove equipment",
+"WW.Item.Scroll": "Send description to chat",
 
 "WW.Item.Perform.Attack": "Attack",
 "WW.Item.Perform.AttackTarget": "Select targets and attack",
@@ -267,7 +268,7 @@
 "WW.Targeting.Dialog.Confirm": "Confirm Targets and Continue",
 "WW.Targeting.Dialog.Replace": "Replace Template",
 
-"WW.Talents.Label": "Traits and Talents",
+"WW.Talents.Label": "Traits & Talents",
 "WW.Talents.Traits": "Traits or Talents",
 "WW.Talents.Actions": "Actions",
 "WW.Talents.SpecialActions": "Special Actions",
@@ -316,8 +317,8 @@
 "WW.Equipment.SP": "sp",
 "WW.Equipment.CP": "cp",
 
+"WW.Equipment.CarryingLimit": "Carrying Limit",
 "WW.Equipment.Weight": "Weight",
-"WW.Equipment.TotalWeight": "Total Weight",
 "WW.Equipment.WeightUnit": "Weight per Unit",
 "WW.Equipment.Quantity": "Quantity",
 "WW.Equipment.Uses": "Uses/Charges",

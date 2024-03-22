@@ -24,6 +24,21 @@ export function plusify(x) {
   return x >= 0 ? '+' + x : x
 }
 
+export function escape(str) {
+  let escapeMap = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+    '/': '&#x2F;',
+    '`': '&#x60;',
+    '=': '&#x3D;'
+  };  
+  
+  return str.replace(/[&<>"'`=\/]/g, (s) => escapeMap[s]);
+}
+
 export function formatTime(seconds, isDate) {
   const hour = 3600,
     day = 86400, // 3600*24
@@ -104,9 +119,13 @@ export function getSpeaker({scene, actor, token, alias}={}) {
       }
     }
   } else if (actor) {
-    // We got an actor; prefer prototypeToken.name > getSpeaker().
-    if (actor.prototypeToken?.name) {
-      speaker.alias = actor.prototypeToken.name;
+    // We got an actor; prefer token.name > prototypeToken.name > getSpeaker().
+    if (actor.token?.name) {
+      speaker.alias = actor.token.name;
+    } else {
+      if (actor.prototypeToken?.name) {
+        speaker.alias = actor.prototypeToken.name;
+      }
     }
   }
 

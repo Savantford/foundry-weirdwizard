@@ -1,4 +1,4 @@
-import { i18n, plusify, capitalize, sum } from '../helpers/utils.mjs';
+import { i18n, plusify, capitalize, sum, escape } from '../helpers/utils.mjs';
 import { chatMessageButton, targetHeader, addInstEffs, actionFromLabel } from '../chat/chat-html-templates.mjs';
 import RollAttribute from '../dice/roll-attribute.mjs';
 import TargetingHUD from '../apps/targeting-hud.mjs';
@@ -104,10 +104,20 @@ export default class WWActorSheet extends ActorSheet {
     // Prepare effect change labels to display
     context.effectChangeLabels = CONFIG.WW.EFFECT_CHANGE_LABELS;
 
-    // Prepare html fields
+    // Prepare item html fields
     for (let i of context.items) {
       i.system.description.enriched = await TextEditor.enrichHTML(i.system.description.value, { async: true })
       if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider?.value, { async: true })
+
+      // Prepare tooltips
+      i.tooltip = await escape(`
+        ${i.system.description.enriched}<hr>
+        <p>${i18n("WW.Item.Perform.Left")}</p>
+        <p>${i18n("WW.Item.Perform.Shift")}</p>
+        <p>${i18n("WW.Item.Perform.Ctrl")}</p>
+        <p>${i18n("WW.Item.Perform.Alt")}</p>
+        <p>${i18n("WW.Item.Perform.Right")}</p>
+      `);
     }
 
     // Prepare Disposition
