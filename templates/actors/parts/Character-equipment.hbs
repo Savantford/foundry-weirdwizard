@@ -1,57 +1,4 @@
 
-{{!-- Header Row --}}
-<div class="flex-row stat-inline mb-2 auto-grid-2">
-
-    {{!-- Coins --}}
-    <div class="flex-row stat-inline nowrap coins mr-auto">
-        <label for="system.currency" class="resource-label">{{localize "WW.Equipment.Coins"}}</label>
-
-        <ol class="coins-list hl flex-children">
-
-            <li>
-                <div class="input-wrap">
-                    <input type="number" name="system.currency.gp" value="{{system.currency.gp}}" min="0"
-                    data-dtype="Number" />
-
-                    <div class="input-overlay">{{system.currency.gp}}</div>
-                </div>
-
-                {{localize "WW.Equipment.GP"}}
-            </li>
-
-            <li>
-                <div class="input-wrap">
-                    <input type="number" name="system.currency.sp" value="{{system.currency.sp}}" min="0"
-                        data-dtype="Number" />
-
-                    <div class="input-overlay">{{system.currency.sp}}</div>
-                </div>
-
-                {{localize "WW.Equipment.SP"}}
-            </li>
-
-            <li>
-                <div class="input-wrap">
-                    <input type="number" name="system.currency.cp" value="{{system.currency.cp}}" min="0"
-                        data-dtype="Number" />
-
-                    <div class="input-overlay">{{system.currency.cp}}</div>
-                </div>
-                    
-                {{localize "WW.Equipment.CP"}}
-            </li>
-
-        </ol>
-    </div>
-
-    {{!-- Weight Total --}}
-    <div class="total-weight nowrap">
-        <label>{{localize "WW.Equipment.TotalWeight"}}</label>
-        <span class="hl" {{#if (gt totalWeight system.attributes.str.value)}}style="color: red; font-weight:bold"
-            {{/if}}>{{totalWeight}} / {{system.attributes.str.value}}</span>
-    </div>
-</div>
-
 {{!-- Weapons --}}
 <h2>{{localize "WW.Equipment.Weapons"}}</h2>
 <div>
@@ -75,27 +22,10 @@
 
             <div class="item-name">
                 {{!-- Title --}}
-                {{#if item.needTargets}}<label class="item-button" data-action="targeted-use" data-item-id="{{item._id}}" 
-                    data-tooltip="WW.Targeting.AttackTargeted">{{item.name}}</label>
-                {{else if item.isActivity}}<label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-                    data-tooltip="WW.Targeting.AttackUntargeted">{{item.name}}</label>
-                {{else}}<label>{{item.name}}</label>{{/if}}
+                <label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
+                    data-tooltip="{{{item.tooltip}}}">{{item.name}}</label>
 
                 <span class="buttons">
-                    {{!-- Use Buttons --}}
-                    {{#if item.isActivity}}
-
-                        {{#if item.needTargets}}
-                        <a class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
-                            data-tooltip="WW.Targeting.AttackTargeted">
-                        <i class="fas fa-bullseye"></i></a>
-                        {{/if}}
-
-                        <a class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-                            data-tooltip="WW.Targeting.AttackUntargeted">
-                        <i class="fas fa-bolt"></i></a>
-
-                    {{/if}}
                     
                     {{!-- Toggle Reloaded --}}
                     {{#if item.system.disadvantages.reload}}
@@ -104,20 +34,22 @@
                     <i class="fas {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
                     {{/if}}
                     
-                    {{!-- Scroll Button --}}
-                    {{#if item.system.description.value}}
-                    <a class="item-button" data-action="item-scroll" data-item-id="{{item._id}}"
-                        data-tooltip="{{item.system.description.value}}">
-                    <i class="far fa-scroll"></i></a>
-                    {{/if}}
                 </span>
+
             </div>
             
             <div class="item-fixed"><a>{{item.system.damage}}</a></div>
             <div class="item-fixed">{{localize (concat 'WW.Weapon.Grip.' item.system.grip 'Short')}}</div>
             <div class="item-traits">{{item.system.traitsList}}</div>
 
-            <div class="item-controls">              
+            <div class="item-controls">
+                {{!-- Scroll Button --}}
+                {{#if item.system.description.value}}
+                    <a class="item-button" data-action="item-scroll" data-item-id="{{item._id}}"
+                        data-tooltip="{{localize "WW.Item.Scroll"}}">
+                    <i class="far fa-scroll"></i></a>
+                {{/if}}
+
                 {{!-- Edit Button --}}
                 <a class="item-button" data-action="item-edit" data-item-id="{{item._id}}"
                     data-tooltip="WW.Item.Edit.Weapon">
@@ -132,7 +64,61 @@
 
 </div>
 
-<h2>{{localize "WW.Equipment.Label"}}</h2>
+{{!-- Equipment Header --}}
+<h2 class="equipment-header">{{localize "WW.Equipment.Label"}}
+    
+    {{!-- Coins --}}
+    <div class="coins">
+        <label for="system.currency">{{localize "WW.Equipment.Coins"}}:</label>
+
+        <ol class="coins-list hl flex-children">
+
+            <li>
+                <div class="input-wrap">
+                    <input type="number" name="system.currency.gp" value="{{system.currency.gp}}" min="0"
+                    data-dtype="Number" />
+
+                    <div class="input-overlay">{{system.currency.gp}}</div>
+                </div>
+
+                {{localize "WW.Equipment.GP"}},
+            </li>
+
+            <li>
+                <div class="input-wrap">
+                    <input type="number" name="system.currency.sp" value="{{system.currency.sp}}" min="0"
+                        data-dtype="Number" />
+
+                    <div class="input-overlay">{{system.currency.sp}}</div>
+                </div>
+
+                {{localize "WW.Equipment.SP"}},
+            </li>
+
+            <li>
+                <div class="input-wrap">
+                    <input type="number" name="system.currency.cp" value="{{system.currency.cp}}" min="0"
+                        data-dtype="Number" />
+
+                    <div class="input-overlay">{{system.currency.cp}}</div>
+                </div>
+                    
+                {{localize "WW.Equipment.CP"}}
+            </li>
+
+        </ol>
+    </div>
+
+    {{!-- Carrying Limit --}}
+    <div class="carrying-limit nowrap">
+        <label>{{localize "WW.Equipment.CarryingLimit"}}:</label>
+        <span class="hl" {{#if (gt totalWeight system.attributes.str.value)}}style="color: red; font-weight:bold"
+            {{/if}}>{{totalWeight}} / {{system.attributes.str.value}}</span>
+    </div>
+
+</h2>
+
+{{!-- Equipment Table --}}
 <div>
     <ol class="item-list equipment-list">
         <li class="item flexrow items-header">
@@ -156,27 +142,10 @@
 
             <div class="item-name">
                 {{!-- Title --}}
-                {{#if item.needTargets}}<label class="item-button" data-action="targeted-use" data-item-id="{{item._id}}" 
-                    data-tooltip="WW.Targeting.EquipmentTargeted">{{item.name}}</label>
-                {{else if item.isActivity}}<label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-                    data-tooltip="WW.Targeting.EquipmentUntargeted">{{item.name}}</label>
-                {{else}}<label>{{item.name}}</label>{{/if}}
+                <label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
+                    data-tooltip="{{{item.tooltip}}}">{{item.name}}</label>
 
                 <span class="buttons">
-                    {{!-- Use Buttons --}}
-                    {{#if item.isActivity}}
-
-                        {{#if item.needTargets}}
-                        <a class="item-button" data-action="targeted-use" data-item-id="{{item._id}}"
-                            data-tooltip="WW.Targeting.EquipmentTargeted">
-                        <i class="fas fa-bullseye"></i></a>
-                        {{/if}}
-
-                        <a class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-                            data-tooltip="WW.Targeting.EquipmentUntargeted">
-                        <i class="fas fa-bolt"></i></a>
-
-                    {{/if}}
 
                     {{!-- Toggle Effects --}}
                     {{#if item.hasPassiveEffects}}
@@ -185,12 +154,6 @@
                             <i class="fas {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
                     {{/if}}
 
-                    {{!-- Scroll Button --}}
-                    {{#if item.system.description.value}}
-                    <a class="item-button" data-action="item-scroll" data-item-id="{{item._id}}"
-                        data-tooltip="{{item.system.description.value}}">
-                    <i class="far fa-scroll"></i></a>
-                    {{/if}}
                 </span>
             </div>
 
@@ -210,7 +173,15 @@
             {{!-- Weight --}}
             <div class="item-weight">{{item.system.weight}}</div>
 
-            <div class="item-controls">              
+            <div class="item-controls">
+
+                {{!-- Scroll Button --}}
+                {{#if item.system.description.value}}
+                    <a class="item-button" data-action="item-scroll" data-item-id="{{item._id}}"
+                        data-tooltip="{{localize "WW.Item.Scroll"}}">
+                    <i class="far fa-scroll"></i></a>
+                {{/if}}
+
                 {{!-- Edit Button --}}
                 <a class="item-button" data-action="item-edit" data-item-id="{{item._id}}"
                     data-tooltip="WW.Item.Edit.Equipment">
@@ -218,6 +189,7 @@
 
                 {{!-- Delete Button --}}
                 <a class="item-button" data-action="item-delete" data-item-id="{{item._id}}" data-tooltip="WW.Item.Delete.Equipment"><i class="fas fa-trash"></i></a>
+                
             </div>
         </li>
         {{/each}}

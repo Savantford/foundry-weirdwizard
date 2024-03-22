@@ -110,7 +110,7 @@ function _onMessageButtonContext(element) {
   // Assign targets if any exist
   if (targets) {
     targets.forEach(actor => {
-    
+      console.log(actor)
       if (actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
         name: game.weirdwizard.utils.getAlias({ actor: actor }),
         icon: iconToHTML(actor.img, actor.uuid),
@@ -137,7 +137,7 @@ function _onMessageButtonContext(element) {
   // Assign combatants from current combat, if there are any
   game.combat?.combatants.forEach(c => {
     const actor = c.actor;
-    
+    console.log(actor)
     if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
       name: game.weirdwizard.utils.getAlias({ actor: actor }),
       icon: iconToHTML(actor.img, actor.uuid),
@@ -199,9 +199,9 @@ async function _onChatRoll(dataset, label, nextAction) {
       value: dataset.value
     }
   const labelHtml = (label ? i18n(label) + ' ' : '') + '<span class="owner-only">' + data.item.name + '</span><span class="non-owner-only">? ? ?</span>';
-
+  
   // Prepare roll
-  const r = await new WWRoll(data.value, data.actor.system).evaluate({async:true});
+  const r = await new WWRoll(data.value, {}).evaluate({async:true});
   dataset.value = await r.total;
   const rollArray= [r];
   const rollHtml = await diceTotalHtml(r);
