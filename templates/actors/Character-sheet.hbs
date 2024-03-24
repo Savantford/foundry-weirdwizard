@@ -89,8 +89,8 @@
             {{!-- Character Stats --}}
             <div class="character-stats">
 
-                {{!-- Defense Row --}}
-                <div class="grid-3">
+                {{!-- Defense, Health, Damage --}}
+                <div>
                     {{!-- Defense --}}
                     <div class="stat">
                         <label>{{localize "WW.Defense.Label"}}</label>
@@ -141,8 +141,29 @@
 
                 </div>
             
-                {{!-- Bonus Damage Row --}}
-                <div class="grid-2 mt-2">
+                {{!-- Size, Speed, Bonus Damage --}}
+                <div class="mt-2">
+
+                    {{!-- Size --}}
+                    <div class="stat">
+                        <label>{{localize "WW.Stats.Size"}}</label>
+
+                        <div class="align-center">
+                            <a>{{system.stats.size}}</a>
+                        </div>
+                        
+                    </div>
+
+                    {{!-- Speed --}}
+                    <div class="stat">
+                        <label>{{localize "WW.Stats.Speed"}}</label>
+
+                        <div class="align-center">
+                            <a data-tooltip="{{localize "WW.Stats.NormalSpeed"}}: {{system.stats.speed.normal}}">{{system.stats.speed.current}}</a>
+                        </div>
+                        
+                    </div>
+
                     {{!-- Bonus Damage --}}
                     <div class="stat">
                         <label>{{localize "WW.Damage.Bonus"}}</label>
@@ -159,16 +180,6 @@
                         
                     </div>
 
-                    <div class="stat flexrow">
-                        
-
-                        {{!-- Rest --}}
-                        <div class="rest">
-                            <label>{{localize "WW.Rest.Label"}}</label>
-
-                            <div><a class="rest-button"><i class="large fas fa-bed"></i></a></div>
-                        </div>
-                    </div>
                 </div>
 
             </div>

@@ -838,22 +838,7 @@
 }
 
 .weirdwizard .sheet-header:not(.character-header) {
-  -webkit-box-flex: 0;
-  -ms-flex: 0 auto;
   flex: 0 auto;
-  overflow: hidden;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-box-pack: start;
-  -ms-flex-pack: start;
-  justify-content: flex-start;
   margin-bottom: 5px;
   min-width: 200px;
 }
@@ -1051,6 +1036,10 @@
   border-image-slice: 120 fill;
   border-image-width: 15px;
   padding: 8px;
+}
+
+.weirdwizard .character-stats {
+  padding: 8px 18px;
 }
 
 .weirdwizard .sheet-tabs-wrapper {
@@ -1502,6 +1491,12 @@ input[type="checkbox"].checkbox-uses {
   border-radius: 5px;
 }
 
+.weirdwizard.character .character-stats > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .weirdwizard.character .character-stats .stat-edit {
   width: fit-content;
   margin: auto;
@@ -1785,27 +1780,29 @@ input[type="checkbox"].checkbox-uses {
   display: inline-block;
 }
 
-.weirdwizard .profile-menu {
+.weirdwizard .profile-img-menu {
   position: absolute;
-  top: 50%;
+  bottom: -3px;
   left: 50%;
-  transform: translate(-50%, -50%);
-  white-space: nowrap;
-  display: none;
-}
-
-.weirdwizard .profile-menu:not(.hidden) {
+  transform: translate(-50%, 0);
   display: flex;
-  flex-direction: column;
+  gap: 7px;
+  padding: 1px 3px;
+  background: var(--background);
+  border: 2px solid var(--purple-dark);
+  border-radius: 5px;
+  font-size: medium;
+  opacity: 0;
+  transition: opacity 100ms ease-in-out;
 }
 
-.weirdwizard .profile-menu .profile-show {
-  background: var(--background);
-  margin: 2px 0;
-  padding: 4px 6px;
-  border: 1px solid var(--purple-dark);
-  border-radius: 5px;
-  text-align: center;
+.weirdwizard.character .profile-img-menu {
+  bottom: auto;
+  top: -14px;
+}
+
+.weirdwizard .sheet-header:hover .profile-img-menu {
+  opacity: 1;
 }
 
 /* Tooltips Customization */
@@ -2827,6 +2824,16 @@ form.quest-calendar {
 .weirdwizard.chat-message .message-metadata {
   flex: 2;
   justify-content: end;
+}
+
+/* Context Menu: Sheet Menu */
+
+.weirdwizard.sheet .sheet-menu #context-menu {
+  left: auto;
+  right: -5px;
+}
+.weirdwizard.character .sheet-menu #context-menu {
+  min-width: 100px;
 }
 
 /* Context Menu: Item */
