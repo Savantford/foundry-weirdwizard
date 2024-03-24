@@ -387,42 +387,12 @@ export default class WWActorSheet extends ActorSheet {
 
     let actor = this.actor;
 
-    // Toggle portrait menu on right mouse button
-    let profileImg = html.find(".profile-img");
-    let profileImgMenu = html.find(".profile-menu");
-    let profileImgButton = html.find(".profile-show");
-    profileImg.mousedown(async (e) => {
-      if (e.which === 3) profileImgMenu.toggleClass("hidden");
-    });
-    profileImgButton.mousedown(async (e) => {
-      if (e.which === 3) profileImgMenu.toggleClass("hidden");
-    });
-
     // Handle portrait menu sharing buttons
-    profileImgButton.click(function (e) {
-      e.preventDefault();
-      profileImgMenu.addClass("hidden");
-      let id = $(this).attr("id");
-      let img = actor.img;
-      if (id == "showToken") {
-        img = actor.prototypeToken.texture.src;
-      }
-      new ImagePopout(img, {
-        title: game.weirdwizard.utils.getAlias({actor: actor}),
-        shareable: true,
-        uuid: actor.uuid,
-      }).render(true);
-    });
+    html.find('.profile-show').click(ev => this._showProfileImg(ev))
 
     // -------------------------------------------------------------
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
-
-    // Input resize
-    //resizeInput(html);
-    
-    // Rest button dialog + function
-    html.find('.rest-button').click(this._onRest.bind(this));
 
     // Change Token Disposition
     html.find('.change-disposition').click(this._onDispositionChange.bind(this));
@@ -430,9 +400,13 @@ export default class WWActorSheet extends ActorSheet {
     // Handle list entries
     html.find('.array-button').click(this._onListEntryButtonClicked.bind(this));
 
+    // Initialize Sheet Menu
+    ContextMenu.create(this, html, '.sheet-menu', this._getSheetMenuOptions());
+    ContextMenu.create(this, html, '.sheet-menu', this._getSheetMenuOptions(), { eventName:'click' });
+
     /////////////////////// ITEMS ////////////////////////
 
-    // Activate Item Context Menu
+    // Initialize Item Context Menu
     this._itemContextMenu(html);
 
     // Handle item buttons
@@ -497,6 +471,171 @@ export default class WWActorSheet extends ActorSheet {
         li.addEventListener('dragstart', handler, false)
       })
     }
+  }
+
+  /* -------------------------------------------- */
+  /*  Context Menus                               */
+  /* -------------------------------------------- */
+
+  /**
+   * Get the Item context options
+   * @returns {object[]}   The Item context options
+   * @private
+   */
+  _getSheetMenuOptions() {
+    
+    return [
+      {
+        name: "WW.Rest.Label",
+        icon: '<i class="fas fa-campground"></i>',
+        callback: li => {
+          return this._onRest();
+        },
+        condition: li => {
+          return this.actor.type === 'Character';
+        }
+      },
+      {
+        name: "WW.Actor.Reset",
+        icon: '<i class="fas fa-rotate-left"></i>',
+        callback: li => {
+          return this._onSheetReset();
+        },
+        condition: li => {
+          return this.actor.type === 'NPC';
+        }
+      },
+      /*{
+        name: "WW.Item.Perform.AttackTarget",
+        icon: '<i class="fas fa-bullseye"></i>',
+        callback: li => {
+          const dataset = Object.assign({}, li[0].dataset);
+          dataset.action = 'targeted-use';
+          return this._onItemUse(dataset);
+        },
+        condition: li => {
+          const item = this.actor.items.get(li.data('item-id'));
+          return item.type === 'Equipment' && item.system.subtype === 'weapon';
+        }
+      },
+      {
+        name: "WW.Item.Perform.Equipment",
+        icon: '<i class="fas fa-bolt"></i>',
+        callback: li => {
+          const dataset = Object.assign({}, li[0].dataset);
+          return this._onItemUse(dataset);
+        },
+        condition: li => {
+          const item = this.actor.items.get(li.data('item-id'));
+          return item.type === 'Equipment' && item.system.subtype !== 'weapon';
+        }
+      },
+      {
+        name: "WW.Item.Perform.EquipmentTarget",
+        icon: '<i class="fas fa-bullseye"></i>',
+        callback: li => {
+          const dataset = Object.assign({}, li[0].dataset);
+          dataset.action = 'targeted-use';
+          return this._onItemUse(dataset);
+        },
+        condition: li => {
+          const item = this.actor.items.get(li.data('item-id'));
+          return item.type === 'Equipment' && item.system.subtype !== 'weapon';
+        }
+      },
+      {
+        name: "WW.Item.Perform.Spell",
+        icon: '<i class="fas fa-bolt"></i>',
+        callback: li => {
+          const dataset = Object.assign({}, li[0].dataset);
+          return this._onItemUse(dataset);
+        },
+        condition: li => {
+          const item = this.actor.items.get(li.data('item-id'));
+          return item.type === 'Spell';
+        }
+      },
+      {
+        name: "WW.Item.Perform.SpellTarget",
+        icon: '<i class="fas fa-bullseye"></i>',
+        callback: li => {
+          const dataset = Object.assign({}, li[0].dataset);
+          dataset.action = 'targeted-use';
+          return this._onItemUse(dataset);
+        },
+        condition: li => {
+          const item = this.actor.items.get(li.data('item-id'));
+          return item.type === 'Spell';
+        }
+      },
+      {
+        name: "WW.Item.Perform.Talent",
+        icon: '<i class="fas fa-bolt"></i>',
+        callback: li => {
+          const dataset = Object.assign({}, li[0].dataset);
+          return this._onItemUse(dataset);
+        },
+        condition: li => {
+          const item = this.actor.items.get(li.data('item-id'));
+          return item.type === 'Trait or Talent';
+        }
+      },
+      {
+        name: "WW.Item.Perform.TalentTarget",
+        icon: '<i class="fas fa-bullseye"></i>',
+        callback: li => {
+          const dataset = Object.assign({}, li[0].dataset);
+          dataset.action = 'targeted-use';
+          return this._onItemUse(dataset);
+        },
+        condition: li => {
+          const item = this.actor.items.get(li.data('item-id'));
+          return item.type === 'Trait or Talent';
+        }
+      },
+      {
+        name: "WW.Item.Send",
+        icon: '<i class="fas fa-scroll"></i>',
+        callback: li => {
+          const item = this.actor.items.get(li.data('item-id'));
+          return this._onItemScroll(item);
+        }
+      },
+      {
+        name: "WW.Item.Edit.Activity",
+        icon: '<i class="fas fa-edit"></i>',
+        callback: li => {
+          const item = this.actor.items.get(li.data('item-id'));
+          return this._onItemEdit(item);
+        }
+      },
+      {
+        name: "WW.Item.Delete.Activity",
+        icon: '<i class="fas fa-trash"></i>',
+        callback: li => {
+          const item = this.actor.items.get(li.data('item-id'));
+          return this._onItemDelete(item, li);
+        }
+      }*/
+    ]
+
+  }
+
+  _showProfileImg(ev) {
+    ev.preventDefault();
+    const a = ev.currentTarget;
+    const action = $(a).data('action');
+    
+    let img = this.actor.img;
+    if (action == "show-token") {
+      img = this.actor.prototypeToken.texture.src;
+    }
+    
+    new ImagePopout(img, {
+      title: game.weirdwizard.utils.getAlias({actor: this.actor}),
+      shareable: true,
+      uuid: this.actor.uuid,
+    }).render(true);
   }
 
   /* -------------------------------------------- */
@@ -1021,6 +1160,7 @@ export default class WWActorSheet extends ActorSheet {
   }
 
   async _onRest() {
+    
     const confirm = await Dialog.confirm({
       title: i18n('WW.Rest.Label'),
       content: i18n('WW.Rest.Msg') + '<p class="dialog-sure">' + i18n('WW.Rest.Confirm') + '</p>'
@@ -1046,6 +1186,28 @@ export default class WWActorSheet extends ActorSheet {
     };
 
     ChatMessage.create(messageData);
+  }
+
+  async _onSheetReset() {
+    
+    const confirm = await Dialog.confirm({
+      title: i18n('WW.Reset.Label'),
+      content: i18n('WW.Reset.Msg') + '<p class="dialog-sure">' + i18n('WW.Reset.Confirm') + '</p>'
+    });
+
+    if (!confirm) return;
+
+    // Reset all Damage and lost Health
+    const health = this.actor.system.stats.health;
+    
+    this.actor.update({
+      "system.stats.damage.value": 0,
+      "system.stats.health.lost": 0
+    });
+
+    // Recover uses/tokens/castings for Talents and Spells
+    this.actor.updateEmbeddedDocuments('Item', this.actor.items.map(i => ({ _id: i.id, 'system.uses.value': 0 })));
+
   }
 
   async _onDispositionChange() {

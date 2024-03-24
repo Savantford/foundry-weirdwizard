@@ -1,8 +1,13 @@
-<img class="profile-img" src="{{img}}" data-edit="img"
-data-tooltip="WW.System.Image.EditShow" />
-<div class="profile-menu hidden">
-  <a class="profile-show" id="showPortrait">{{localize 'WW.System.Image.Show'}}</a>
+<img class="profile-img" src="{{img}}" data-edit="img" />
+
+<div class="profile-img-menu">
+  <a class="profile-show" data-action="show-portrait" data-tooltip="WW.Actor.ShowPortrait"><i class="fas fa-image-portrait"></i></a>
+
   {{#if token}}
-  <a class="profile-show" id="showToken">{{localize 'WW.System.Image.ShowToken'}}</a>
+  <a class="profile-show" data-action="show-token" data-tooltip="WW.Actor.ShowToken"><i class="fas fa-circle-user"></i></a>
+  {{/if}}
+  
+  {{#if (eq actor.type 'NPC')}}
+  <a class="item-button" data-action="attribute-roll" data-key="luck" data-tooltip="WW.Roll.Luck"><i class="fas fa-clover"></i></a>
   {{/if}}
 </div>

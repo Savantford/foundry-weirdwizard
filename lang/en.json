@@ -11,6 +11,9 @@
 "WW.Actor.Personality": "Personality",
 "WW.Actor.Beliefs": "Beliefs",
 "WW.Actor.Notes": "Notes",
+"WW.Actor.Reset": "Reset to original values",
+"WW.Actor.ShowPortrait": "Show portrait image",
+"WW.Actor.ShowToken": "Show token image",
 
 "WW.Actor.Disposition.Enemy": "Enemy",
 "WW.Actor.Disposition.Ally": "Ally",
@@ -89,6 +92,10 @@
 "WW.Rest.Msg": "Resting allows you to heal damage and regain expended resources. If you have uninterrupted rest for 6 consecutive hours, you heal all damage and regain Health equal to one-tenth your normal Health score. Some of your other resources, such as spells or talents, might also be replenished after a rest. If you stop resting to use an action or reaction, the time you spent resting up to that point is wasted and you must start resting again to gain any benefit from doing so.",
 "WW.Rest.Confirm": "Were you able to finish your rest?",
 "WW.Rest.Finished": "finished a rest",
+
+"WW.Reset.Label": "Reset Sheet to Original Values",
+"WW.Reset.Msg": "This action will reset the following parameters to their original values: total Damage, Health, talent/trait uses and spell castings.",
+"WW.Reset.Confirm": "Do you really want to reset the sheet?",
 
 "WW.Detail.Descriptor.Label": "Descriptors",
 "WW.Detail.Descriptor.None": "No Descriptor",
@@ -731,11 +738,6 @@
 "WW.System.Dialog.Save": "Save",
 "WW.System.Dialog.Reset": "Reset",
 "WW.System.Dialog.Cancel": "Cancel",
-
-"WW.System.Image.Edit": "Click to edit image.",
-"WW.System.Image.EditShow": "Click to edit image. Right click to show and share image.",
-"WW.System.Image.Show": "Show Image",
-"WW.System.Image.ShowToken": "Show Token",
 
 "WW.System.Migration.Started": "Outdated data found. Please wait until the data migration is finished.",
 "WW.System.Migration.Forced": "Forced data migration started. Please wait until the data migration is finished.",
