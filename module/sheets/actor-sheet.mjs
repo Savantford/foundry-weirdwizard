@@ -210,7 +210,9 @@ export default class WWActorSheet extends ActorSheet {
             i.system.traitsList = list;
 
             // Prepare name label
-            i.label = (i.system.traits.range ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + i.name + (i.system.traitsList ? ' ● ' + i.system.traitsList : '');
+            if (context.actor.type == 'Character') {
+              i.label = i.name + ' (' + i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip]) + ')' + (i.system.traitsList ? ' ● ' + i.system.traitsList : '');
+            } else i.label = (i.system.traits.range ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + i.name + (i.system.traitsList ? ' ● ' + i.system.traitsList : '');
           }
 
           equipment.push(i);
