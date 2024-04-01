@@ -129,6 +129,12 @@ WW.WEAPON_GRIPS = {
   'Off': 'WW.Weapon.Grip.Off'
 };
 
+WW.WEAPON_GRIPS_SHORT = {
+  'One': 'WW.Weapon.Grip.OneShort',
+  'Two': 'WW.Weapon.Grip.TwoShort',
+  'Off': 'WW.Weapon.Grip.OffShort'
+};
+
 WW.WEAPON_TRAITS = {
   'ammunition': {
     'label': 'WW.Weapon.Traits.Ammunition.Label',

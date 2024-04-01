@@ -1474,6 +1474,7 @@ input[type="checkbox"].checkbox-uses {
   padding: 2px 0;
   margin: 0 5px;
   color: var(--body-text-color);
+  font-size: small;
 }
 
 .weirdwizard .add-button {
@@ -1670,11 +1671,16 @@ input[type="checkbox"].checkbox-uses {
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 5px;
-  margin-top: 5px;
+  margin-top: 10px;
+}
+
+.weirdwizard .weapon-traits > label {
+  font-weight: bold;
+  color: var(--purple-dark);
 }
 
 .weirdwizard .weapon-traits > div {
-  font-size: x-small;
+  font-size: smaller;
   align-items: center;
   white-space: nowrap;
   justify-content: center;

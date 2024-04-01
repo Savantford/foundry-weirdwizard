@@ -2,18 +2,7 @@
     
     {{!-- Title --}}
     <label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
-        data-tooltip="{{{item.tooltip}}}">{{item.name}}</label>
-
-    {{#if (or item.system.traits.reload item.system.traits.firearm)}}
-    <span class="buttons">
-
-        {{!-- Toggle Reloaded --}}
-        <a class="item-button" data-action="item-toggle-reloaded" data-item-id="{{item._id}}"
-            data-tooltip="{{#if item.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
-        <i class="fas {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
-        
-    </span>
-    {{/if}}
+        data-tooltip="{{{item.tooltip}}}">{{item.label}}:</label>
 
     {{!-- Modifier --}}
     <span class="modifier-line">
@@ -31,6 +20,17 @@
     
     {{!-- Damage --}}
     <span class="damage-line">({{#if item.system.damage}}{{item.system.damage}}{{else}}0{{/if}})</span>
+
+    {{#if (or item.system.traits.reload item.system.traits.firearm)}}
+    <span class="buttons">
+
+        {{!-- Toggle Reloaded --}}
+        <a class="item-button" data-action="item-toggle-reloaded" data-item-id="{{item._id}}"
+            data-tooltip="{{#if item.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
+        <i class="fas {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
+        
+    </span>
+    {{/if}}
 
     {{!-- Attack Rider --}}
     {{#if item.system.attackRider.value}}{{{item.system.attackRider.enriched}}}{{/if}}
