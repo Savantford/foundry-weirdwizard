@@ -104,8 +104,8 @@ export default class WWActorSheet extends ActorSheet {
     // Prepare effect change labels to display
     context.effectChangeLabels = CONFIG.WW.EFFECT_CHANGE_LABELS;
 
-    // Setup usage help text for tooltips
-    var usagehelp = escape(`
+    // Setup usage help text for tooltips (so we can reuse it)
+    const usagehelp = escape(`
       <hr>
       <p>${i18n("WW.Item.Perform.Left")}</p>
       <p>${i18n("WW.Item.Perform.Shift")}</p>
@@ -119,16 +119,17 @@ export default class WWActorSheet extends ActorSheet {
       i.system.description.enriched = await TextEditor.enrichHTML(i.system.description.value, { async: true })
       if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider?.value, { async: true })
 
-      var descriptor = '';
+      // empty description, so we can fill it with type specific content
+      let descriptor = '';
 
-      // Prepare tooltips by type
+      // Form description based on type
       switch(i.type) {
 
-        // Formatting for spells
+        // Formatting for Spells
         case 'Spell':
           descriptor = await escape(`
-            <b>${i18n("WW.Spell.Target")}:</b> ${i.system.target}<br>
-            <b>${i18n("WW.Spell.Duration")}:</b> ${i.system.duration}<hr>
+            <p><b>${i18n("WW.Spell.Target")}:</b> ${i.system.target}</p>
+            <p><b>${i18n("WW.Spell.Duration")}:</b> ${i.system.duration}</p>
             ${i.system.description.enriched}
           `);
           break;
@@ -140,7 +141,7 @@ export default class WWActorSheet extends ActorSheet {
           `);
       }
 
-      // Append general usage help text
+      // Create tooltip from concat of description and usage help text
       i.tooltip = descriptor + usagehelp;
     }
 
