@@ -128,8 +128,8 @@ export default class WWActorSheet extends ActorSheet {
         // Formatting for Spells
         case 'Spell':
           descriptor = await escape(`
-            <p><b>${i18n("WW.Spell.Target")}:</b> ${i.system.target}</p>
-            <p><b>${i18n("WW.Spell.Duration")}:</b> ${i.system.duration}</p>
+            <p><b>${i18n("WW.Spell.Target")}:</b> ${i.system.target}<br>
+            <b>${i18n("WW.Spell.Duration")}:</b> ${i.system.duration}</p>
             ${i.system.description.enriched}
           `);
           break;
