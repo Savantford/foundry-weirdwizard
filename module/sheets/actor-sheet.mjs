@@ -104,20 +104,45 @@ export default class WWActorSheet extends ActorSheet {
     // Prepare effect change labels to display
     context.effectChangeLabels = CONFIG.WW.EFFECT_CHANGE_LABELS;
 
+    // Setup usage help text for tooltips (so we can reuse it)
+    const usagehelp = escape(`
+      <hr>
+      <p>${i18n("WW.Item.Perform.Left")}</p>
+      <p>${i18n("WW.Item.Perform.Shift")}</p>
+      <p>${i18n("WW.Item.Perform.Ctrl")}</p>
+      <p>${i18n("WW.Item.Perform.Alt")}</p>
+      <p>${i18n("WW.Item.Perform.Right")}</p>
+    `);
+
     // Prepare item html fields
     for (let i of context.items) {
       i.system.description.enriched = await TextEditor.enrichHTML(i.system.description.value, { async: true })
       if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider?.value, { async: true })
 
-      // Prepare tooltips
-      i.tooltip = await escape(`
-        ${i.system.description.enriched}<hr>
-        <p>${i18n("WW.Item.Perform.Left")}</p>
-        <p>${i18n("WW.Item.Perform.Shift")}</p>
-        <p>${i18n("WW.Item.Perform.Ctrl")}</p>
-        <p>${i18n("WW.Item.Perform.Alt")}</p>
-        <p>${i18n("WW.Item.Perform.Right")}</p>
-      `);
+      // empty description, so we can fill it with type specific content
+      let descriptor = '';
+
+      // Form description based on type
+      switch(i.type) {
+
+        // Formatting for Spells
+        case 'Spell':
+          descriptor = await escape(`
+            <p><b>${i18n("WW.Spell.Target")}:</b> ${i.system.target}<br>
+            <b>${i18n("WW.Spell.Duration")}:</b> ${i.system.duration}</p>
+            ${i.system.description.enriched}
+          `);
+          break;
+
+        // Formatting for everything else
+        default:
+          descriptor = await escape(`
+            ${i.system.description.enriched}
+          `);
+      }
+
+      // Create tooltip from concat of description and usage help text
+      i.tooltip = descriptor + usagehelp;
     }
 
     // Prepare Disposition
