@@ -295,6 +295,26 @@ WW.SPELLS_LEARNED = {
   '1m': 'WW.Spells.Learned.OneMaster'
 }
 
+WW.APPLY_CONTEXT_HEADERS = {
+  'pre-targets': 'WW.System.ApplyContext.PreTargets',
+  'targets': 'WW.System.ApplyContext.Targets',
+  'selected': 'WW.System.ApplyContext.Selected',
+  'character': 'WW.System.ApplyContext.Character',
+  'combatants': 'WW.System.ApplyContext.Combatants',
+  'scene-tokens': 'WW.System.ApplyContext.SceneTokens',
+  'actors-tab': 'WW.System.ApplyContext.ActorsTab'
+}
+
+WW.APPLY_CONTEXT_ICONS = {
+  'pre-targets': 'arrows-down-to-people',
+  'targets': 'users-viewfinder',
+  'selected': 'users-rectangle',
+  'character': 'user-large',
+  'combatants': 'swords',
+  'scene-tokens': 'users',
+  'actors-tab': 'folder-open'
+}
+
 /* Instant Effects */
 
 WW.INSTANT_LABELS = {

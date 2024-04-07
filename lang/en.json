@@ -743,6 +743,14 @@
 "WW.System.Migration.Forced": "Forced data migration started. Please wait until the data migration is finished.",
 "WW.System.Migration.Finished": "Data migration successful. Enjoy your game!",
 
+"WW.System.ApplyContext.PreTargets": "Pre-Selected Targets",
+"WW.System.ApplyContext.Targets": "Current Targets",
+"WW.System.ApplyContext.Selected": "Selected Tokens",
+"WW.System.ApplyContext.Character": "Your Character",
+"WW.System.ApplyContext.Combatants": "Combatants",
+"WW.System.ApplyContext.SceneTokens": "Tokens in Scene",
+"WW.System.ApplyContext.ActorsTab": "Actors Tab",
+
 "WW.Tour.Character.Title": "Character Sheet",
 "WW.Tour.Character.Description": "A Tour for Shadow of the Weird Wizard's Character Sheet.",
 "WW.Tour.Character.Actor": "Tour Character Example",

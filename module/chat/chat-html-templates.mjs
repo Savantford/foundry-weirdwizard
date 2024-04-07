@@ -117,12 +117,12 @@ export function chatMessageButton({action, value, effectUuid, originUuid, target
   return html;
 }
 
-export function chatMessageButtonArray({value, originUuid, targetId}) {
+export function chatMessageButtonArray({value, originUuid, targetIds}) {
   const actions = ['apply-damage', 'apply-damage-half', 'apply-damage-double', 'apply-healing']
   let html = '<div class="chat-button-container">';
 
   actions.forEach(a => {
-    html += chatMessageButton({action: a, value, originUuid, targetId});
+    html += chatMessageButton({action: a, value, originUuid, targetIds});
   })
 
   html += '</div>';

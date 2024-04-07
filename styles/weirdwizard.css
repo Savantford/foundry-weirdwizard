@@ -2905,44 +2905,26 @@ form.quest-calendar {
   border-radius: 50%;
 }
 
-.chat-button .context-group::before,
-.enricher-call .context-group::before {
-  font-family: "Font Awesome 6 Pro";
-  font-weight: 900;
+.chat-button .context-group:not(:first-child),
+.enricher-call .context-group:not(:first-child) {
+  margin-top: 5px;
 }
 
-.chat-button .context-group[data-group-id="targets"]::before,
-.enricher-call .context-group[data-group-id="targets"]::before {
-  content: "\e595";
+.chat-button .context-header,
+.enricher-call .context-header {
+  padding: 3px 5px;
+  margin: 0 2px 5px;
+  border: 1px solid dimgray;
+  border-radius: 5px 5px 0 0;
+  background: rgba(255,255,255,0.05);
+  text-align: left;
+  cursor: default;
 }
 
-.chat-button .context-group[data-group-id="character"]::before,
-.enricher-call .context-group[data-group-id="character"]::before {
-  content: "\f007";
-}
-
-.chat-button .context-group[data-group-id="combatants"]::before,
-.enricher-call .context-group[data-group-id="combatants"]::before {
-  content: "\f71d";
-}
-
-.chat-button .context-group[data-group-id="tokens"]::before,
-.enricher-call .context-group[data-group-id="tokens"]::before {
-  content: "\f0c0";
-}
-
-.chat-button .context-group[data-group-id="actors"]::before,
-.enricher-call .context-group[data-group-id="actors"]::before {
-  content: "\f07c";
-}
-
-.chat-button .context-group:not(:first-child)::before,
-.enricher-call .context-group:not(:first-child)::before {
-  display: inline-block;
-  width: calc(100% - 10px);
-  margin: 5px;
-  padding-top: 3px;
-  border-top: 1px solid dimgray;
+.chat-button .context-header i,
+.enricher-call .context-header i {
+  width: 16px;
+  text-align: center;
 }
 
 /* Combat Tracker */

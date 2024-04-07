@@ -12,7 +12,6 @@ export default class RollDamage extends FormApplication {
     super(); // This is required for the constructor to work
 
     // Assign variables
-    //this.component = obj.target; // Assign HTML component
     this.origin = fromUuidSync(obj.originUuid);
     
     if (this.origin.documentName === 'Item') {
@@ -23,7 +22,8 @@ export default class RollDamage extends FormApplication {
     }
 
     this.baseDamage = obj.value;
-    this.target = obj.targetId ? canvas.tokens.get(obj.targetId) : '';
+    
+    this.targetIds = obj.targetIds ? obj.targetIds : '';
   }
 
   static get defaultOptions() {
@@ -114,8 +114,6 @@ export default class RollDamage extends FormApplication {
 
   // On submit
   async _onButtonSubmit(event) {
-    //const finalExp = event.target.querySelector('.damage-expression').innerHTML;
-
     // Prepare apply button.
     const labelHtml = i18n('WW.Damage.Of', { name: '<span class="owner-only">' + this.item.name + '</span><span class="non-owner-only">? ? ?</span>' });
 
@@ -123,7 +121,7 @@ export default class RollDamage extends FormApplication {
       action: 'apply-damage',
       value: '',
       originUuid: this.origin.uuid,
-      targetId: this.target?.id
+      targetIds: this.targetIds
     }
 
     // Prepare roll
@@ -150,9 +148,6 @@ export default class RollDamage extends FormApplication {
 
     // Send to chat
     await ChatMessage.create(messageData);
-
-    // The resulting equation after it was rolled
-    console.log('Formula = ' + r.formula + '\nResult = ' + r.result + '\nTotal = ' + r.total);   // 16 + 2 + 4; 22
 
   }
 
