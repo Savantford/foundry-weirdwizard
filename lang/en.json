@@ -320,9 +320,9 @@
 
 "WW.Equipment.Price": "Price",
 "WW.Equipment.Coins": "Coins",
-"WW.Equipment.GP": "gp",
-"WW.Equipment.SP": "sp",
-"WW.Equipment.CP": "cp",
+"WW.Equipment.GP": "Gold Pieces (gp)",
+"WW.Equipment.SP": "Silver Pieces (sp)",
+"WW.Equipment.CP": "Copper Pieces (cp)",
 
 "WW.Equipment.CarryingLimit": "Carrying Limit",
 "WW.Equipment.Weight": "Weight",
@@ -742,6 +742,14 @@
 "WW.System.Migration.Started": "Outdated data found. Please wait until the data migration is finished.",
 "WW.System.Migration.Forced": "Forced data migration started. Please wait until the data migration is finished.",
 "WW.System.Migration.Finished": "Data migration successful. Enjoy your game!",
+
+"WW.System.ApplyContext.PreTargets": "Pre-Selected Targets",
+"WW.System.ApplyContext.Targets": "Current Targets",
+"WW.System.ApplyContext.Selected": "Selected Tokens",
+"WW.System.ApplyContext.Character": "Your Character",
+"WW.System.ApplyContext.Combatants": "Combatants",
+"WW.System.ApplyContext.SceneTokens": "Tokens in Scene",
+"WW.System.ApplyContext.ActorsTab": "Actors Tab",
 
 "WW.Tour.Character.Title": "Character Sheet",
 "WW.Tour.Character.Description": "A Tour for Shadow of the Weird Wizard's Character Sheet.",

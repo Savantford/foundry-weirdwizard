@@ -56,12 +56,12 @@ export default class WWChatMessage extends ChatMessage {
 
     // Prepare rollHtml
     const rollHtml = data.flags?.weirdwizard?.rollHtml ? data.flags.weirdwizard.rollHtml : '';
-    
 
-    // Prepare weapon properties list
+    // Prepare item
     if (item) {
       const sys = item?.system;
 
+      // Prepare traits list
       item.traits = [];
 
       if (sys.traits) Object.entries(sys.traits).filter(([, val]) => val === true).map((x) => {
@@ -71,7 +71,19 @@ export default class WWChatMessage extends ChatMessage {
         })
       })
 
+      // Prepare attack Rider
       item.attackRider = item.system.attackRider ? await TextEditor.enrichHTML(item.system.attackRider?.value, { async: true }) : '';
+
+      // Prepare spell header
+      if (item.type == 'Spell') {
+        let header = '';
+
+        header += sys.casting ? `<b>${i18n("WW.Spell.Castings")}:</b> ${sys.uses.max}, ${sys.casting}` : `<b>${i18n("WW.Spell.Castings")}:</b> ${sys.uses.max}`;
+        if (sys.target) header += `<br/><b>${i18n("WW.Spell.Target")}:</b> ${sys.target}`;
+        if (sys.duration) header += `<br/><b>${i18n("WW.Spell.Duration")}:</b> ${sys.duration}`;
+
+        item.spellHeader = header;
+      }
 
     }
     
@@ -89,7 +101,9 @@ export default class WWChatMessage extends ChatMessage {
         tier: item.system.tier ? item.system.tier : null,
         isWeapon: item.system.subtype ?? item.system.subtype,
         traits: item.traits,
-        attackRider: item.attackRider
+        attackRider: item.attackRider,
+        isSpell: item.type === 'Spell',
+        spellHeader: item.spellHeader
       } : null,
       rollHtml: rollHtml,
       emptyContent: emptyContent,

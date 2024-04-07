@@ -3,6 +3,7 @@ import WWRoll from '../dice/roll.mjs';
 import { i18n } from '../helpers/utils.mjs';
 import RollDamage from '../dice/roll-damage.mjs';
 import RollAttribute from '../dice/roll-attribute.mjs';
+import ApplyContext from '../ui/apply-context.mjs';
 
 /* -------------------------------------------- */
 /*  Chat methods                                */
@@ -19,8 +20,8 @@ export function initChatListeners(html, app) {
   html.on('click', '.enricher-roll', _onMessageButtonRoll);
 
   // Handle chat Message Button right click context menu
-  new ContextMenu(html, '.chat-button[data-action*=apply]', [], { onOpen: _onMessageButtonContext.bind('apply'), eventName:'click' });
-  new ContextMenu(html, '.enricher-call', [], { onOpen: _onMessageButtonContext.bind('call'), eventName:'click' });
+  new ApplyContext(html, '.chat-button[data-action*=apply]', [], { onOpen: _onMessageButtonContext.bind('apply'), eventName:'click' });
+  new ApplyContext(html, '.enricher-call', [], { onOpen: _onMessageButtonContext.bind('call'), eventName:'click' });
 
   // Collapse descriptions
   html.find('.chat-message-collapse').click(_onMessageCollapse);
@@ -53,7 +54,7 @@ function _onMessageButtonRoll(event) {
   * @param {HTMLElement} element     The element the menu opens on.
 */
 function _onMessageButtonContext(element) {
-
+  
   // Get Variables
   const user = game.user;
   const character = user.character;
@@ -75,7 +76,6 @@ function _onMessageButtonContext(element) {
   }
 
   function _applyToTarget(dataset, target) {
-    
     const value = dataset.value,
       effect = dataset.effectUuid;
     
@@ -90,7 +90,7 @@ function _onMessageButtonContext(element) {
       case 'apply-effect': target.applyEffect(effect); break;
     }
   }
-
+  
   function iconToHTML(icon, id) { return `<img src="${icon}" data-tooltip="ID: ${id}" />`}
 
   function resolveAction({action, dataset, target}) {
@@ -99,22 +99,55 @@ function _onMessageButtonContext(element) {
 
   const menuItems = [];
   
-  // Get targets
-  const targetIds = element.dataset.targetIds ? element.dataset.targetIds.split(',') : [];
-  const targets = [];
-
-  targetIds.forEach(t => {
-    if(game.actors.tokens[t]) targets.push(game.actors.tokens[t]);
+  // Get pre-selected targets
+  const preTargetIds = element.dataset.targetIds ? element.dataset.targetIds.split(',') : [];
+  const preTargets = [];
+  
+  preTargetIds.forEach(t => {
+    if(game.actors.tokens[t]) preTargets.push(game.actors.tokens[t]);
   })
 
-  // Assign targets if any exist
-  if (targets) {
-    targets.forEach(actor => {
-      console.log(actor)
+  // Assign pre-selected Targets, if any exists
+  if (preTargets) {
+    preTargets.forEach(actor => {
+      
       if (actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
         name: game.weirdwizard.utils.getAlias({ actor: actor }),
         icon: iconToHTML(actor.img, actor.uuid),
+        group: 'pre-targets',
+        uuid: actor.uuid,
+        callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
+      });
+    
+    })
+  }
+
+  // Assign user's targets, if any exists
+  if (game.user.targets.size) {
+    game.user.targets.forEach(token => {
+      const actor = token.document.actor;
+      
+      if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
+        name: game.weirdwizard.utils.getAlias({ actor: actor }),
+        icon: iconToHTML(actor.img, actor.uuid),
         group: 'targets',
+        uuid: actor.uuid,
+        callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
+      });
+    
+    })
+  }
+
+  // Assign user's selected tokens, if any exists
+  if (canvas.tokens.controlled) {
+    
+    canvas.tokens.controlled.forEach(token => {
+      const actor = token.document.actor;
+      
+      if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
+        name: game.weirdwizard.utils.getAlias({ actor: actor }),
+        icon: iconToHTML(actor.img, actor.uuid),
+        group: 'selected',
         uuid: actor.uuid,
         callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
       });
@@ -137,7 +170,7 @@ function _onMessageButtonContext(element) {
   // Assign combatants from current combat, if there are any
   game.combat?.combatants.forEach(c => {
     const actor = c.actor;
-    console.log(actor)
+    
     if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
       name: game.weirdwizard.utils.getAlias({ actor: actor }),
       icon: iconToHTML(actor.img, actor.uuid),
@@ -155,7 +188,7 @@ function _onMessageButtonContext(element) {
     if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
       name: game.weirdwizard.utils.getAlias({ actor: actor }),
       icon: iconToHTML(actor.img, actor.uuid),
-      group: 'tokens',
+      group: 'scene-tokens',
       uuid: actor.uuid,
       callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
     });
@@ -170,7 +203,7 @@ function _onMessageButtonContext(element) {
       menuItems.push({
         name: game.weirdwizard.utils.getAlias({ actor: actor }),
         icon: iconToHTML(actor.img, actor.uuid),
-        group: 'actors',
+        group: 'actors-tab',
         uuid: actor.uuid,
         callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
       })  

@@ -47,6 +47,14 @@
         {{!-- Content (Body) --}}
         {{#unless emptyContent}}
         <div class="message-content">
+
+            {{!-- Spell Header --}}
+            {{#if (and item.isSpell item.spellHeader)}}
+            <div class="message-spell-header">
+                {{{item.spellHeader}}}
+            </div>
+            {{/if}}
+            
             {{{message.content}}}
         </div>
         {{/unless}}
