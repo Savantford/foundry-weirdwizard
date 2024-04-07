@@ -71,7 +71,7 @@
   "gridUnits": "yard",
   "primaryTokenAttribute": "stats.damage",
   "secondaryTokenAttribute": "",
-  "background": "systems/weirdwizard/assets/ui/sotww-background.png",
+  "background": "systems/weirdwizard/assets/ui/sotww-background.webp",
   "hotReload": true,
   "flags": {
     "hotReload": {

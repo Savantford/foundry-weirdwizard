@@ -106,7 +106,6 @@ export default class WWActorSheet extends ActorSheet {
 
     // Setup usage help text for tooltips (so we can reuse it)
     const usagehelp = escape(`
-      <hr>
       <p>${i18n("WW.Item.Perform.Left")}</p>
       <p>${i18n("WW.Item.Perform.Shift")}</p>
       <p>${i18n("WW.Item.Perform.Ctrl")}</p>
@@ -114,35 +113,50 @@ export default class WWActorSheet extends ActorSheet {
       <p>${i18n("WW.Item.Perform.Right")}</p>
     `);
 
-    // Prepare item html fields
+    // Prepare item tooltip
     for (let i of context.items) {
+      // Prepare html fields for the tooltip and chat message
       i.system.description.enriched = await TextEditor.enrichHTML(i.system.description.value, { async: true })
       if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider?.value, { async: true })
 
-      // empty description, so we can fill it with type specific content
-      let descriptor = '';
+      // Tooltip title
+      const title = await escape(`<div class="tooltip-title">${i.name}</div>`);
 
-      // Form description based on type
+      // Empty description, so we can fill it with type specific content
+      let description = '';
+
+      // Form description based on item type
       switch(i.type) {
-
-        // Formatting for Spells
         case 'Spell':
-          descriptor = await escape(`
-            <p><b>${i18n("WW.Spell.Target")}:</b> ${i.system.target}<br>
-            <b>${i18n("WW.Spell.Duration")}:</b> ${i.system.duration}</p>
+          const casting = i.system.casting ? `<b>${i18n("WW.Spell.Castings")}:</b> ${i.system.uses.max}, ${i.system.casting}` : `<b>${i18n("WW.Spell.Castings")}:</b> ${i.system.uses.max}`;
+          const target = i.system.target ? `<br/><b>${i18n("WW.Spell.Target")}:</b> ${i.system.target}` : '';
+          const duration = i.system.duration ? `<br/><b>${i18n("WW.Spell.Duration")}:</b> ${i.system.duration}` : '';
+
+          description = await escape(`
+            <p>${casting}
+            ${target}
+            ${duration}</p>
             ${i.system.description.enriched}
           `);
           break;
 
-        // Formatting for everything else
+        case 'Equipment':
+          const rider = i.system.attackRider.enriched ? i.system.attackRider.enriched : '';
+          
+          description = await escape(`
+            ${i.system.description.enriched}
+            ${rider}
+          `);
+          break;
+        
         default:
-          descriptor = await escape(`
+          description = await escape(`
             ${i.system.description.enriched}
           `);
       }
 
       // Create tooltip from concat of description and usage help text
-      i.tooltip = descriptor + usagehelp;
+      i.tooltip = await escape('<div class="item-tooltip">') + title + description + await escape('</div>') + usagehelp;
     }
 
     // Prepare Disposition
@@ -531,119 +545,7 @@ export default class WWActorSheet extends ActorSheet {
         condition: li => {
           return this.actor.type === 'NPC';
         }
-      },
-      /*{
-        name: "WW.Item.Perform.AttackTarget",
-        icon: '<i class="fas fa-bullseye"></i>',
-        callback: li => {
-          const dataset = Object.assign({}, li[0].dataset);
-          dataset.action = 'targeted-use';
-          return this._onItemUse(dataset);
-        },
-        condition: li => {
-          const item = this.actor.items.get(li.data('item-id'));
-          return item.type === 'Equipment' && item.system.subtype === 'weapon';
-        }
-      },
-      {
-        name: "WW.Item.Perform.Equipment",
-        icon: '<i class="fas fa-bolt"></i>',
-        callback: li => {
-          const dataset = Object.assign({}, li[0].dataset);
-          return this._onItemUse(dataset);
-        },
-        condition: li => {
-          const item = this.actor.items.get(li.data('item-id'));
-          return item.type === 'Equipment' && item.system.subtype !== 'weapon';
-        }
-      },
-      {
-        name: "WW.Item.Perform.EquipmentTarget",
-        icon: '<i class="fas fa-bullseye"></i>',
-        callback: li => {
-          const dataset = Object.assign({}, li[0].dataset);
-          dataset.action = 'targeted-use';
-          return this._onItemUse(dataset);
-        },
-        condition: li => {
-          const item = this.actor.items.get(li.data('item-id'));
-          return item.type === 'Equipment' && item.system.subtype !== 'weapon';
-        }
-      },
-      {
-        name: "WW.Item.Perform.Spell",
-        icon: '<i class="fas fa-bolt"></i>',
-        callback: li => {
-          const dataset = Object.assign({}, li[0].dataset);
-          return this._onItemUse(dataset);
-        },
-        condition: li => {
-          const item = this.actor.items.get(li.data('item-id'));
-          return item.type === 'Spell';
-        }
-      },
-      {
-        name: "WW.Item.Perform.SpellTarget",
-        icon: '<i class="fas fa-bullseye"></i>',
-        callback: li => {
-          const dataset = Object.assign({}, li[0].dataset);
-          dataset.action = 'targeted-use';
-          return this._onItemUse(dataset);
-        },
-        condition: li => {
-          const item = this.actor.items.get(li.data('item-id'));
-          return item.type === 'Spell';
-        }
-      },
-      {
-        name: "WW.Item.Perform.Talent",
-        icon: '<i class="fas fa-bolt"></i>',
-        callback: li => {
-          const dataset = Object.assign({}, li[0].dataset);
-          return this._onItemUse(dataset);
-        },
-        condition: li => {
-          const item = this.actor.items.get(li.data('item-id'));
-          return item.type === 'Trait or Talent';
-        }
-      },
-      {
-        name: "WW.Item.Perform.TalentTarget",
-        icon: '<i class="fas fa-bullseye"></i>',
-        callback: li => {
-          const dataset = Object.assign({}, li[0].dataset);
-          dataset.action = 'targeted-use';
-          return this._onItemUse(dataset);
-        },
-        condition: li => {
-          const item = this.actor.items.get(li.data('item-id'));
-          return item.type === 'Trait or Talent';
-        }
-      },
-      {
-        name: "WW.Item.Send",
-        icon: '<i class="fas fa-scroll"></i>',
-        callback: li => {
-          const item = this.actor.items.get(li.data('item-id'));
-          return this._onItemScroll(item);
-        }
-      },
-      {
-        name: "WW.Item.Edit.Activity",
-        icon: '<i class="fas fa-edit"></i>',
-        callback: li => {
-          const item = this.actor.items.get(li.data('item-id'));
-          return this._onItemEdit(item);
-        }
-      },
-      {
-        name: "WW.Item.Delete.Activity",
-        icon: '<i class="fas fa-trash"></i>',
-        callback: li => {
-          const item = this.actor.items.get(li.data('item-id'));
-          return this._onItemDelete(item, li);
-        }
-      }*/
+      }
     ]
 
   }
@@ -938,6 +840,7 @@ export default class WWActorSheet extends ActorSheet {
           content: content,
           sound: CONFIG.sounds.dice,
           'flags.weirdwizard': {
+            icon: item.img,
             item: item.uuid,
             rollHtml: addInstEffs(instEffs, origin, ''),
             emptyContent: !content ?? true
@@ -1004,9 +907,10 @@ export default class WWActorSheet extends ActorSheet {
   _onItemScroll(item) {
     ChatMessage.create({
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
-      flavor: item.name,
+      flavor: _secretLabel(item.name),
       content: item.system.description.value,
       'flags.weirdwizard': {
+        icon: item.img,
         item: item.uuid
       }
     })

@@ -320,9 +320,9 @@
 
 "WW.Equipment.Price": "Price",
 "WW.Equipment.Coins": "Coins",
-"WW.Equipment.GP": "gp",
-"WW.Equipment.SP": "sp",
-"WW.Equipment.CP": "cp",
+"WW.Equipment.GP": "Gold Pieces (gp)",
+"WW.Equipment.SP": "Silver Pieces (sp)",
+"WW.Equipment.CP": "Copper Pieces (cp)",
 
 "WW.Equipment.CarryingLimit": "Carrying Limit",
 "WW.Equipment.Weight": "Weight",
