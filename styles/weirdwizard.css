@@ -1030,10 +1030,16 @@
 
 /* Plates */
 
-.weirdwizard .character-stats,
-.weirdwizard .character-header-plate {
+.weirdwizard .character-stats{
   border-image: url(../assets/ui/sheet-rectangle.svg);
   border-image-slice: 120 fill;
+  border-image-width: 15px;
+  padding: 8px;
+}
+
+.weirdwizard .character-header-plate {
+  border-image: url(../assets/ui/sheet-double-rectangle.svg);
+  border-image-slice: 160 fill;
   border-image-width: 15px;
   padding: 8px;
 }
