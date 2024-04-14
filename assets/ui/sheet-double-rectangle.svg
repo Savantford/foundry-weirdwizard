@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="420" height="420" viewBox="0 0 420 420" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;">
-    <path d="M10,110C64.858,110 110,64.858 110,10L310,10C310,64.858 355.142,110 410,110L410,310C355.142,310 310,355.142 310,410L110,410C110,355.142 64.858,310 10,310L10,110Z" style="fill-opacity:0.07;fill-rule:nonzero;stroke:rgb(73,36,79);stroke-width:10px;"/>
-    <g transform="matrix(0.926977,0,0,0.926977,15.3348,15.3348)">
-        <path d="M21.214,123.698C76.072,123.698 123.698,76.072 123.698,21.214L296.302,21.214C296.302,76.072 343.928,123.698 398.786,123.698L398.786,296.302C343.928,296.302 296.302,343.928 296.302,398.786L123.698,398.786C123.698,343.928 76.072,296.302 21.214,296.302L21.214,123.698Z" style="fill:none;fill-rule:nonzero;stroke:rgb(73,36,79);stroke-width:10px;"/>
-    </g>
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="420" height="420" style="fill: #000; fill-opacity: 0.07;">
+    <metadata>
+    Created by Friend/Savantford (https://github.com/Savantford/) and ErrantPigeon/Yan-Jie Schnellbach (https://github.com/yschnellbach/) for the Shadow of the Weird Wizard for Foundry VTT
+    </metadata>
+    <path d="M10,110 A100,100 0 0 0 110,10 L310,10 A100,100 0 0 0 410,110 L410,310 A100,100 0 0 0 310,410 L110,410 A100,100 0 0 0 10,310 z" stroke="#49244F" stroke-width="10"/>
+    <path d="M30,130 A112.5,112.5 0 0 0 130,30 L290,30 A112.5,112.5 0 0 0 390,130 L390,290 A112.5,112.5 0 0 0 290,390 L130,390 A112.5,112.5 0 0 0 30,290 z" stroke="#49244F" stroke-width="10" style="fill:none;"/>
 </svg>

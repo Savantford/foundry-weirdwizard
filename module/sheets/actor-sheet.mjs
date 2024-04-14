@@ -5,6 +5,7 @@ import TargetingHUD from '../apps/targeting-hud.mjs';
 import { onManageActiveEffect, prepareActiveEffectCategories } from '../helpers/effects.mjs';
 import { WWAfflictions } from '../helpers/afflictions.mjs';
 import ListEntryConfig from '../apps/list-entry-config.mjs';
+import { mapRange } from '../canvas/canvas-functions.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -67,9 +68,20 @@ export default class WWActorSheet extends ActorSheet {
 
     // Prepare common data
     context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true })
-    context.injured = context.actor.injured;
-    context.incapacitated = context.actor.incapacitated;
-    context.dead = context.actor.dead;
+    context.injured = actorData.injured;
+    context.incapacitated = actorData.incapacitated;
+    context.dead = actorData.dead;
+    const damage = actorData.system.stats.damage.value;
+    const health = actorData.system.stats.health.current;
+    context.damagePct = (damage / health) * 100;
+    const minDegrees = 30;
+    const maxDegrees = 120;
+  
+    // Get the degrees on the HSV wheel, going from 30° (greenish-yellow) to 120° (green)
+    const degrees = mapRange(damage, 0, health, minDegrees, maxDegrees);
+    // Invert the degrees and map them from 0 to a third
+    context.damageHue = mapRange(maxDegrees - degrees, 0, maxDegrees, 0, 1 / 3);
+    // Get a usable color value with 100% saturation and 90% value
 
     // Prepare Sizes
     context.sizes = Object.entries(CONFIG.WW.SIZES).map(([k, v]) => ({key: k, label: v})).sort((a,b) => a.key - b.key);
@@ -95,7 +107,7 @@ export default class WWActorSheet extends ActorSheet {
     }
 
     // Add roll data for TinyMCE editors.
-    context.rollData = context.actor.getRollData();
+    context.rollData = actorData.getRollData();
 
     // Prepare active effects
     context.effects = prepareActiveEffectCategories(await this.actor.appliedEffects);
