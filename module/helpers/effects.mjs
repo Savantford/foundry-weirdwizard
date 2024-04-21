@@ -163,7 +163,7 @@ export function expireFromTokens() {
       
       // Don't do anything for actors without this function (e.g. basic actors)
       if (!t.actor?.expireActiveEffects) continue;
-      console.log('chegou')
+      
       t.actor.expireActiveEffects();
     }
   }

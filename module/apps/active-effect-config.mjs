@@ -166,8 +166,8 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     let ele = parent.querySelector('.value input');
     const valueRef = select.value.split('.').reduce((o, i) => o[i], effChanges);
     const valueType = valueRef ? valueRef.valueType : '';
-
     ele.remove();
+    
     if (valueType === "int") {
       if (isNaN(ele.value) || !ele.value) ele.value = 0;
       ele = '<input type="number" name="' + ele.name + '" value="' + ele.value + '" min="0"/>';
@@ -241,26 +241,6 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
       
     }
 
-    /*this.render(true);*/
-    //
-    /*const div = parent.querySelector('.value');
-    let ele = parent.querySelector('.value input');
-    const valueRef = select.value.split('.').reduce((o, i) => o[i], effChanges);
-    const valueType = valueRef ? valueRef.valueType : '';*/
-
-    /*ele.remove();
-    if (valueType === "int") {
-      if (isNaN(ele.value) || !ele.value) ele.value = 0;
-      ele = '<input type="number" name="' + ele.name + '" value="' + ele.value + '" min="0"/>';
-    } else if (valueType === "str") {
-      ele = '<input type="text" name="' + ele.name + '" value="' + ele.value + '"/>';
-    } else if (valueType === "boo") {
-      ele = '<input type="checkbox" name="' + ele.name + '" checked>'
-    } else {
-      ele = '<input style="display: none;" type="text" name="' + ele.name + '" value="' + ele.value + '"/>';
-    }
-
-    div.insertAdjacentHTML('beforeend', ele);*/
   }
 
   /* Initialization functions */

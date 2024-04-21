@@ -93,7 +93,13 @@
                 <div class="health-header">
                     <label>{{localize "WW.Damage.Label"}}</label>
 
-                    <span class="health-indicator">{{#if incapacitated}}{{localize "WW.Health.Estimation.100"}}{{else if injured}}{{localize "WW.Health.Estimation.50"}}{{/if}}</span>
+                    <span class="{{#if injured}}health-indicator{{/if}} {{#if incapacitated}}incapacitated chat-button"
+                        data-tooltip="{{localize "WW.Health.IncapacitatedHint"}}{{/if}}">
+                        {{~#if dead}}{{localize "WW.Health.Estimation.Dead"}}
+                            {{~else if incapacitated}}{{localize "WW.Health.Estimation.100"}}
+                            {{~else if injured}}{{localize "WW.Health.Estimation.50"}}
+                        {{/if}}
+                    </span>
 
                     <label>{{localize "WW.Health.Label"}}</label>
                 </div>
@@ -106,29 +112,16 @@
                         {{!-- Damage --}}
                         <div class="stat">
                                 
-                            <div class="flex align-center">
-                                <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0" data-dtype="Number"/>
-                            </div>
+                            <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0" data-dtype="Number"/>
+
                         </div>
 
                         {{!-- Health --}}
                         <div class="stat">
-                                
-                            <div><a data-tooltip="<p>{{localize "WW.Health.Normal"}}: {{system.stats.health.normal}}</p>
-                                <p>{{localize "WW.Health.Bonus"}}: {{system.stats.health.bonus}}</p>
-                                <p>{{localize "WW.Health.Lost"}}: {{system.stats.health.lost}}</p>">{{system.stats.health.current}}</a>
-                            </div>
-
-                            {{!--<span class="stat-edit">
-                                <label>{{localize "WW.Stats.Lost"}}:</label>
-                                
-                                <div class="input-wrap">
-                                    <input type="number" name="system.stats.health.lost" value="{{system.stats.health.lost}}" min="0" />
-
-                                    <div class="input-overlay">{{system.stats.health.lost}}</div>
-                                </div>
-
-                            </span>--}}
+                            
+                            <input type="number" name="system.stats.health.current" value="{{system.stats.health.current}}" min="0" data-dtype="Number"
+                                {{~#if system.stats.health.temp}}disabled{{/if}}
+                                data-tooltip="{{{healthTooltip}}}"/>
 
                         </div>
                     </div>
@@ -137,10 +130,11 @@
                     <div class="health-overlay"></div>
                     
                     {{!-- Health Bar: Bottom Layer --}}
-                    <div class="health-bar" style="--health-pct: {{damagePct}}; --health-hue: {{damageHue}};" 
+                    <div class="health-bar {{#if dead}}dead{{/if}}" style="--health-pct: {{healthPct}}; --health-hue: {{healthHue}}; --health-temp: {{tempHealthPct}};" 
                         role="meter" aria-valuemin="0" aria-valuenow="{{system.stats.damage.value}}" aria-valuemax="{{system.stats.health.current}}">
                         
                         <div class="health-progress"></div>
+                        <div class="health-temporary" data-tooltip="WW.Health.TemporaryHint"></div>
                     </div>
 
                 </div>

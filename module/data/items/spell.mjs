@@ -28,7 +28,15 @@ export default class SpellData extends foundry.abstract.DataModel {
    */
   static migrateData(source) {
     
+    // Validate range
     if ('range' in source && isNaN(source.range)) source.range = 0;
+
+    // Convert Health recover to Health regain
+    if (source.instant) {
+      for (const i of source.instant) {
+        if (i.label === 'healthRecover') i.label = 'healthRegain';
+      }
+    }
 
     return super.migrateData(source);
   }

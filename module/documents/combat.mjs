@@ -166,16 +166,37 @@ export default class WWCombat extends Combat {
    * @override
    */
   async endCombat() {
-
-    return Dialog.confirm({
-      title: game.i18n.localize("COMBAT.EndTitle"),
-      content: `<p>${game.i18n.localize("COMBAT.EndConfirmation")}</p>`,
-      yes: () => {
-        this._expireLeftoverEffects(); // Expire leftover effects
-        game.time.advance(60); // Advance 1 minute to end 1 minute durations
-        this.delete();
+    let d = new Dialog({
+      title: i18n("WW.Combat.End.Title"),
+      content: `<p>${i18n("WW.Combat.End.Msg")}</p><p>${i18n("WW.Combat.End.Msg2")}</p>`,
+      buttons: {
+        skip: {
+          icon: '<i class="fas fa-hourglass-end"></i>',
+          label: i18n("WW.Combat.End.Skip"),
+          callback: () => {
+            this._expireLeftoverEffects(); // Expire leftover effects
+            game.time.advance(60); // Advance 1 minute to end 1 minute durations
+            this.delete();
+            
+          }
+        },
+        endOnly: {
+          icon: '<i class="fas fa-pause"></i>',
+          label: i18n("WW.Combat.End.Only"),
+          callback: () => {
+            this.delete();
+          }
+        },
+        cancel: {
+          icon: '<i class="fas fa-times"></i>',
+          label: i18n("WW.Combat.End.Cancel"),
+          callback: () => {}
+        }
       }
     });
+
+    return d.render(true);
+
   }
 
   /* -------------------------------------------- */

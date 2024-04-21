@@ -29,6 +29,13 @@ export default class TalentData extends foundry.abstract.DataModel {
     // Convert Aura and Fury to normal traits
     if (source.subtype === 'aura') source.subtype = 'trait';
     if (source.subtype === 'fury') source.subtype = 'trait';
+
+    // Convert Health recover to Health regain
+    if (source.instant) {
+      for (const i of source.instant) {
+        if (i.label === 'healthRecover') i.label = 'healthRegain';
+      }
+    }
     
     return super.migrateData(source);
   }

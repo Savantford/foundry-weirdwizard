@@ -1,4 +1,4 @@
-import { i18n, formatTime } from '../helpers/utils.mjs';
+import { i18n, formatTime, escape } from '../helpers/utils.mjs';
 
 /**
 * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
@@ -6,80 +6,6 @@ import { i18n, formatTime } from '../helpers/utils.mjs';
 */
 
 export default class WWActor extends Actor {
-
-  /** @override */
-  prepareData() {
-
-    // Prepare data for the actor. Calling the super version of this executes
-    // the following, in order: data reset (to clear active effects),
-    // prepareBaseData(), prepareEmbeddedDocuments(),
-    // prepareDerivedData().
-    super.prepareData();
-    
-  }
-
-  /** @override */
-  prepareBaseData() {
-    // Data modifications in this step occur before processing embedded
-    // documents (including active effects) or derived data.
-    super.prepareBaseData();
-    
-    // Create boons variables
-    this.system.boons = {
-      attributes: {
-        luck: {
-          global: 0,
-          conditional: 0
-        }
-      },
-      attacks: {
-        global: 0,
-        conditional: 0
-      },
-      against: {
-        def: 0
-      }
-    };
-
-    // Create bonus Health
-    this.system.stats.health.bonus = 0;
-
-    // Create objects
-    this.system.autoFail = {};
-    this.system.against = {};
-
-    // Create halved boolean for Speed reductions
-    this.system.stats.speed.halved = false;
-
-    // Create dynamic Defense properties
-    this.system.stats.defense.armored = 0;
-    this.system.stats.defense.bonus = 0;
-
-    // Attributes
-    const attributes = this.system.boons.attributes;
-    const autoFail = this.system.autoFail;
-    const against = this.system.boons.against;
-
-    ['str', 'agi', 'int', 'wil'].forEach(function (attribute) {
-      attributes[attribute] = {
-        global: 0,
-        conditional: 0
-      }
-
-      against[attribute] = 0;
-
-      autoFail[attribute] = false;
-    })
-
-    // Create Extra Damage variables
-    this.system.extraDamage = {
-      attacks: {
-        globalDice: 0,
-        globalMod: 0
-      }
-    }
-
-  }
 
   async _preCreate(data, options, user) {
     const sourceId = this.getFlag("core", "sourceId");
@@ -156,20 +82,21 @@ export default class WWActor extends Actor {
 
   async _preUpdate(changed, options, user) {
     await super._preUpdate(changed, options, user);
+
+    // Record Incapacitated status
+    const cStats = await changed.system?.stats;
+
+    if (cStats?.health || cStats?.damage) {
+      // Get variables
+      const health = await this.system.stats.health.current;
+      const damage = await this.system.stats.damage.value;
+      const cHealth = cStats.health?.current;
+      const cDamage = cStats.damage?.value;
+      
+      // Set incapactated status
+      if (cDamage >= await health || await cHealth >= await damage) this.incapacitated = true; else this.incapacitated = false;
+    }
     
-    // Health Operators
-    const health = this.system.stats.health.current;
-
-    // Limit Damage to not surpass Health
-    if (changed.system?.stats?.damage?.value > health) {
-      changed.system.stats.damage.value = health;
-    }
-
-    // Limit Lost Health to not go below 0
-    if (changed.system?.stats?.health?.lost < 0) {
-      changed.system.stats.health.lost = 0;
-    }
-
     // Update token status icons
     if ((changed.system?.stats?.damage || changed.system?.stats?.health) && this.token) {
       this.token.object.updateStatusIcons();
@@ -177,9 +104,89 @@ export default class WWActor extends Actor {
 
   };
 
+  /** @override */
+  _preUpdateDescendantDocuments(parent, collection, documents, changes, options, userId) {
+    // Record incapacitated status
+    const health = this.system?.stats?.health?.current;
+    const damage = this.system?.stats?.damage?.value;
+    if (damage >= health) this.incapacitated = true; else this.incapacitated = false;
+
+    super._preUpdateDescendantDocuments(parent, collection, documents, changes, options, userId);
+    this._onEmbeddedDocumentChange();
+  }
+
+  /** @override */
+  prepareData() {
+    // Prepare data for the actor. Calling the super version of this executes
+    // the following, in order: data reset (to clear active effects),
+    // prepareBaseData(), prepareEmbeddedDocuments(),
+    // prepareDerivedData().
+    super.prepareData();
+  }
+
+  /** @override */
+  prepareBaseData() {
+    // Data modifications in this step occur before processing embedded
+    // documents (including active effects) or derived data.
+    super.prepareBaseData();
+    
+    // Create boons variables
+    this.system.boons = {
+      attributes: {
+        luck: {
+          global: 0,
+          conditional: 0
+        }
+      },
+      attacks: {
+        global: 0,
+        conditional: 0
+      },
+      against: {
+        def: 0
+      }
+    };
+
+    // Create objects
+    this.system.autoFail = {};
+    this.system.against = {};
+
+    // Create halved boolean for Speed reductions
+    this.system.stats.speed.halved = false;
+
+    // Create dynamic Defense properties
+    this.system.stats.defense.armored = 0;
+    this.system.stats.defense.bonus = 0;
+
+    // Attributes
+    const attributes = this.system.boons.attributes;
+    const autoFail = this.system.autoFail;
+    const against = this.system.boons.against;
+
+    ['str', 'agi', 'int', 'wil'].forEach(function (attribute) {
+      attributes[attribute] = {
+        global: 0,
+        conditional: 0
+      }
+
+      against[attribute] = 0;
+
+      autoFail[attribute] = false;
+    })
+
+    // Create Extra Damage variables
+    this.system.extraDamage = {
+      attacks: {
+        globalDice: 0,
+        globalMod: 0
+      }
+    }
+
+  }
+
   async _onUpdate(changed, options, user) {
     await super._onUpdate(changed, options, user);
-
+    
     // Update token status icons
     if ((changed.system?.stats?.damage || changed.system?.stats?.health) && this.token) {
       this.token.object.updateStatusIcons();
@@ -210,7 +217,18 @@ export default class WWActor extends Actor {
   prepareDerivedData() {
     const system = this.system;
     const flags = this.flags.weirdwizard || {};
-
+    
+    // Set Damage to Health while incapacitated or when Damage is higher than Health   
+    const health = this.system?.stats?.health?.current;
+    const damage = this.system?.stats?.damage?.value;
+    if (this.incapacitated === undefined) this.incapacitated = (damage >= health) ? true : false;
+    
+    if (this.incapacitated || (damage > health)) {
+      this.system.stats.damage.value = this.system?.stats?.health?.current;
+    }
+    
+    if (this.system.stats.damage.value >= health) this.incapacitated = true;
+    
     // Loop through attributes, and add their modifiers calculated with DLE rules to our sheet output.
     for (let [key, attribute] of Object.entries(system.attributes)) {
       if (key != 'luck') attribute.mod = attribute.value - 10;
@@ -225,9 +243,8 @@ export default class WWActor extends Actor {
         return acc;
       }, new Set());
     }
-
     
-    // Calculate and update Path Levels contribution to Health
+    // Calculate Health
     this._calculateHealth(system);
 
     // Calculate Speed
@@ -262,6 +279,10 @@ export default class WWActor extends Actor {
 
   }
 
+  /* -------------------------------------------- */
+  /*  Apply Methods                               */
+  /* -------------------------------------------- */
+
   async applyDamage(damage) {
     // If incapacitated, turn damage into Health loss
     if (this.incapacitated) return this.applyHealthLoss(damage);
@@ -277,11 +298,10 @@ export default class WWActor extends Actor {
       newTotal = health;
     }
 
-    let content = '<span style="display: inline"><span style="font-weight: bold">' + game.weirdwizard.utils.getAlias({ actor: this }) + '</span> ' + 
-    i18n('WW.InstantEffect.Apply.Took') + ' ' + damage + ' ' + i18n('WW.InstantEffect.Apply.DamageLc') + '.</span><div>' + 
-    i18n('WW.InstantEffect.Apply.DamageTotal') +': ' + oldTotal + ' <i class="fas fa-arrow-right"></i> ' + newTotal;
-
-    //if (healthLost) content += ' (' + 'Health Lost' + ': ' +  healthLost + ')</div>'; else content += '</div>'; // no longer carries over
+    const content = `
+      <p style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this })}</b> ${i18n('WW.InstantEffect.Apply.Took')} ${damage} ${i18n('WW.InstantEffect.Apply.DamageLc')}.</p>
+      <p>${i18n('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fas fa-arrow-right"></i> ${newTotal}</p>
+    `;
 
     ChatMessage.create({
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
@@ -298,11 +318,10 @@ export default class WWActor extends Actor {
     const oldTotal = this.system.stats.damage.value;
     const newTotal = ((oldTotal - parseInt(healing)) > 0) ? oldTotal - parseInt(healing) : 0;
 
-    let content = '<span style="display: inline"><span style="font-weight: bold">' + game.weirdwizard.utils.getAlias({ actor: this }) + '</span> ' + 
-    i18n('WW.InstantEffect.Apply.Healed') + ' ' + healing + ' ' + i18n('WW.InstantEffect.Apply.DamageLc') + '.</span><div>' + 
-    i18n('WW.InstantEffect.Apply.DamageTotal') +': ' + oldTotal + ' <i class="fas fa-arrow-right"></i> ' + newTotal;
-
-    //if (healthLost) content += ' (' + 'Health Lost' + ': ' +  healthLost + ')</div>'; else content += '</div>'; // no longer carries over
+    const content = `
+      <p style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this })}</b> ${i18n('WW.InstantEffect.Apply.Healed')} ${healing} ${i18n('WW.InstantEffect.Apply.DamageLc')}.</p>
+      <p>${i18n('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fas fa-arrow-right"></i> ${newTotal}</p>
+    `;
 
     ChatMessage.create({
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
@@ -315,14 +334,14 @@ export default class WWActor extends Actor {
 
   /* Apply loss to Health */
   async applyHealthLoss(loss) {
-    const lost = this.system.stats.health.lost;
     const oldCurrent = this.system.stats.health.current;
     loss = parseInt(loss);
     const current = (oldCurrent - loss) > 0 ? oldCurrent - loss : 0;
 
-    let content = '<span style="display: inline"><span style="font-weight: bold">' + game.weirdwizard.utils.getAlias({ actor: this }) + '</span> ' + 
-    i18n('WW.InstantEffect.Apply.Lost') + ' ' + loss + ' ' + i18n('WW.InstantEffect.Apply.Health') + '.</span><div>' + 
-    i18n('WW.InstantEffect.Apply.CurrentHealth') +': ' + oldCurrent + ' <i class="fas fa-arrow-right"></i> ' + current;
+    const content = `
+      <p style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this })}</b> ${i18n('WW.InstantEffect.Apply.Lost')} ${loss} ${i18n('WW.InstantEffect.Apply.Health')}.</p>
+      <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${oldCurrent} <i class="fas fa-arrow-right"></i> ${current}</p>
+    `;
 
     ChatMessage.create({
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
@@ -330,20 +349,22 @@ export default class WWActor extends Actor {
       sound: CONFIG.sounds.notification
     })
 
-    this.update({ 'system.stats.health.lost': lost + loss });
+    //this.update({ 'system.stats.health.lost': lost + loss });
+    this.update({ 'system.stats.health.current': current });
   }
 
-  /* Apply lost Health recovery */
-  async applyHealthRecovery(recovered) {
+  /* Apply lost Health regain */
+  async applyHealthRegain(max) {
     const lost = this.system.stats.health.lost;
     const oldCurrent = this.system.stats.health.current;
-    recovered = parseInt(recovered);
-    const newLost = (lost - recovered) > 0 ? lost - recovered : 0;
-    const current = oldCurrent + lost - newLost;
-
-    let content = '<span style="display: inline"><span style="font-weight: bold">' + game.weirdwizard.utils.getAlias({ actor: this }) + '</span> ' + 
-    i18n('WW.InstantEffect.Apply.Recovered') + ' ' + (lost - newLost) + ' ' + i18n('WW.InstantEffect.Apply.Health') + '.</span><div>' + 
-    i18n('WW.InstantEffect.Apply.CurrentHealth') +': ' + oldCurrent + ' <i class="fas fa-arrow-right"></i> ' + current;
+    max = parseInt(max);
+    const regained = max > lost ? lost : max;
+    const current = oldCurrent + regained;
+    
+    const content = `
+      <p style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this })}</b> ${i18n('WW.InstantEffect.Apply.Regained')} ${regained} ${i18n('WW.InstantEffect.Apply.Health')}.</p>
+      <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${oldCurrent} <i class="fas fa-arrow-right"></i> ${current}</p>
+    `;
 
     ChatMessage.create({
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
@@ -351,7 +372,7 @@ export default class WWActor extends Actor {
       sound: CONFIG.sounds.notification
     })
 
-    this.update({ 'system.stats.health.lost': lost - recovered });
+    this.update({ 'system.stats.health.current': current });
   }
 
   /* Apply Affliction */
@@ -393,7 +414,7 @@ export default class WWActor extends Actor {
     obj.flags.weirdwizard.trigger = 'passive';
     if (external) obj.flags.weirdwizard.external = true;
 
-    let content = `<span style="display: inline"><span class="info" style="font-weight: bold" data-tooltip="${obj.description}">${obj.name}</span> ${i18n('WW.Effect.AppliedTo')} <span style="font-weight: bold">${game.weirdwizard.utils.getAlias({ actor: this })}</span>.</span><div>`;
+    let content = `<p><b class="info" data-tooltip="${obj.description}">${obj.name}</b> ${i18n('WW.Effect.AppliedTo')} <b>${game.weirdwizard.utils.getAlias({ actor: this })}</b>.</p>`;
 
     ChatMessage.create({
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
@@ -404,6 +425,10 @@ export default class WWActor extends Actor {
     this.createEmbeddedDocuments("ActiveEffect", [obj]);
 
   }
+
+  /* -------------------------------------------- */
+  /*  Calculations                                */
+  /* -------------------------------------------- */
 
   _calculateDefense(system) {
     const defense = system.stats.defense;
@@ -423,15 +448,13 @@ export default class WWActor extends Actor {
     // Health override effect exists
     if (health.override) {
       health.normal = health.override;
-    } else {
-
-      // Assign current health
-      health.current = health.normal + health.bonus - health.lost;
-      
     }
     
-    // Assign Current Health to Max Damage for Token Bars // no longer needed, done on a data models getter
-    system.stats.damage.max = health.current;
+    // Calculate temporary Health and assign it
+    health.temp = health.current - this.toObject().system?.stats.health.current;
+
+    // Calculate lost Health and assign it
+    if (health.normal - health.current >= 0) health.lost = health.normal - health.current; else health.lost = 0;
     
   }
 
@@ -445,6 +468,10 @@ export default class WWActor extends Actor {
     else speed.current = speed.normal;
     
   }
+
+  /* -------------------------------------------- */
+  /*  Active Effects                              */
+  /* -------------------------------------------- */
 
   *allApplicableEffects() {
     for (let effect of super.allApplicableEffects()) {
@@ -550,17 +577,10 @@ export default class WWActor extends Actor {
    * @type {boolean}
    */
   get injured() {
-    const damage = this.system.stats.damage;
-    return (damage.value >= Math.floor(damage.max / 2)) ? true : false;
-  }
+    const damage = this.system.stats.damage.value;
+    const current = this.system.stats.health.current;
 
-  /**
-   * Determine whether the character is incapacitated.
-   * @type {boolean}
-   */
-  get incapacitated() {
-    const damage = this.system.stats.damage;
-    return (damage.value >= damage.max) ? true : false;
+    return (damage >= Math.floor(current / 2)) ? true : false;
   }
 
   /**

@@ -1,5 +1,7 @@
 import { i18n, plusify, capitalize, sum, escape } from '../helpers/utils.mjs';
 import { chatMessageButton, targetHeader, addInstEffs, actionFromLabel } from '../chat/chat-html-templates.mjs';
+import WWRoll from '../dice/roll.mjs';
+import { diceTotalHtml } from '../chat/chat-html-templates.mjs';
 import RollAttribute from '../dice/roll-attribute.mjs';
 import TargetingHUD from '../apps/targeting-hud.mjs';
 import { onManageActiveEffect, prepareActiveEffectCategories } from '../helpers/effects.mjs';
@@ -71,17 +73,21 @@ export default class WWActorSheet extends ActorSheet {
     context.injured = actorData.injured;
     context.incapacitated = actorData.incapacitated;
     context.dead = actorData.dead;
+
+    // Prepare Health data
     const damage = actorData.system.stats.damage.value;
-    const health = actorData.system.stats.health.current;
-    context.damagePct = (damage / health) * 100;
-    const minDegrees = 30;
-    const maxDegrees = 120;
-  
+    const health = actorData.system.stats.health;
+    const current = health.current;
+    const temp = health.temp;
+
+    // Get Health percentages
+    context.healthPct = current > 0 ? (damage / current) * 100 : 100;
+    context.tempHealthPct = current > 0 ? (temp < current ? (temp / current) * 100 : 100) : 0;
+
     // Get the degrees on the HSV wheel, going from 30° (greenish-yellow) to 120° (green)
-    const degrees = mapRange(damage, 0, health, minDegrees, maxDegrees);
+    const degrees = mapRange((current ? damage : 1), 0, (current ? current : 1), 30, 120);
     // Invert the degrees and map them from 0 to a third
-    context.damageHue = mapRange(maxDegrees - degrees, 0, maxDegrees, 0, 1 / 3);
-    // Get a usable color value with 100% saturation and 90% value
+    context.healthHue = mapRange(120 - degrees, 0, 120, 0, 1 / 3);
 
     // Prepare Sizes
     context.sizes = Object.entries(CONFIG.WW.SIZES).map(([k, v]) => ({key: k, label: v})).sort((a,b) => a.key - b.key);
@@ -115,6 +121,17 @@ export default class WWActorSheet extends ActorSheet {
 
     // Prepare effect change labels to display
     context.effectChangeLabels = CONFIG.WW.EFFECT_CHANGE_LABELS;
+
+    /* Tooltips */
+
+    // Health tooltip
+    context.healthTooltip = escape(`
+      <p>${i18n("WW.Health.Normal")}: ${health.normal}</p>
+      <p>${i18n("WW.Health.Temporary")}: ${health.temp}</p>
+      <p>${i18n("WW.Health.Lost")}: ${health.lost}</p>
+    `);
+
+    if (health.temp) context.healthTooltip += escape(`<hr><p>${i18n("WW.Health.CurrentHint")}</p>`)
 
     // Setup usage help text for tooltips (so we can reuse it)
     const usagehelp = escape(`
@@ -262,8 +279,9 @@ export default class WWActorSheet extends ActorSheet {
 
             // Prepare name label
             if (context.actor.type == 'Character') {
-              i.label = i.name + ' (' + i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip]) + ')' + (i.system.traitsList ? ' ● ' + i.system.traitsList : '');
+              i.label = `${i.name} (${i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip])})${(i.system.traitsList ? ' ● ' + i.system.traitsList : '')}`;
             } else i.label = (i.system.traits.range ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + i.name + (i.system.traitsList ? ' ● ' + i.system.traitsList : '');
+
           }
 
           equipment.push(i);
@@ -438,7 +456,7 @@ export default class WWActorSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
-    let actor = this.actor;
+    const actor = this.actor;
 
     // Handle portrait menu sharing buttons
     html.find('.profile-show').click(ev => this._showProfileImg(ev))
@@ -456,6 +474,9 @@ export default class WWActorSheet extends ActorSheet {
     // Initialize Sheet Menu
     ContextMenu.create(this, html, '.sheet-menu', this._getSheetMenuOptions());
     ContextMenu.create(this, html, '.sheet-menu', this._getSheetMenuOptions(), { eventName:'click' });
+
+    // Incapacitated Health Loss
+    html.find('.health-indicator.incapacitated').click(this._onIncapacitatedRoll.bind(this));
 
     /////////////////////// ITEMS ////////////////////////
 
@@ -524,6 +545,45 @@ export default class WWActorSheet extends ActorSheet {
         li.addEventListener('dragstart', handler, false)
       })
     }
+  }
+
+  /* A function called to roll Luck while incapacitated */
+  async _onIncapacitatedRoll() {
+
+    // Prepare roll
+    const r = await new WWRoll('1d6', {}).evaluate({async:true});
+    const rollArray= [r];
+    const rollHtml = await diceTotalHtml(r);
+  
+    // Prepare message data
+    const messageData = {
+      type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+      rolls: rollArray,
+      speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
+      flavor: `<span>${i18n('WW.Health.IncapacitatedLost')}</span>`,
+      content: '<div></div>',
+      sound: CONFIG.sounds.dice,
+      'flags.weirdwizard': {
+        rollHtml: rollHtml,
+        emptyContent: true
+      }
+    };
+    
+    await ChatMessage.applyRollMode(messageData, game.settings.get('core', 'rollMode'));
+    
+    // Send to chat
+    const msg = await ChatMessage.create(messageData);
+
+    // Apply Health Loss (delay if DSN is installed)
+    if (game.dice3d) {
+      game.dice3d.waitFor3DAnimationByMessageID(await msg.id).then(()=> {
+        this.actor.applyHealthLoss(r.total);
+      });  
+    } else {
+      this.actor.applyHealthLoss(r.total);
+    }
+    
+  
   }
 
   /* -------------------------------------------- */
@@ -794,7 +854,7 @@ export default class WWActorSheet extends ActorSheet {
           emptyContent: !content ?? true
         }
       };
-      console.log(CONFIG.WW.ATTRIBUTE_ICONS[attKey])
+      
       ChatMessage.create(messageData);
     } else {
       new RollAttribute(obj).render(true);
@@ -1111,7 +1171,7 @@ export default class WWActorSheet extends ActorSheet {
 
     if (!confirm) return;
 
-    // Heal all Damage and recover lost Health
+    // Heal all Damage and regain lost Health
     const health = this.actor.system.stats.health;
     
     this.actor.update({
@@ -1140,12 +1200,12 @@ export default class WWActorSheet extends ActorSheet {
 
     if (!confirm) return;
 
-    // Reset all Damage and lost Health
+    // Reset Damage and current Health
     const health = this.actor.system.stats.health;
     
     this.actor.update({
       "system.stats.damage.value": 0,
-      "system.stats.health.lost": 0
+      "system.stats.health.current": health.normal
     });
 
     // Recover uses/tokens/castings for Talents and Spells

@@ -76,8 +76,13 @@
                 <div class="nowrap">
                     <label>{{localize "WW.Health.Label"}}:</label>
 
-                    <a data-tooltip="<p>{{localize "WW.Health.Bonus"}}: {{system.stats.health.bonus}}</p>
-                        <p>{{localize "WW.Health.Lost"}}: {{system.stats.health.lost}}</p>">{{system.stats.health.current}}</a>
+                    <div class="input-wrap">
+                        <input type="number" name="system.stats.health.current" value="{{system.stats.health.current}}" min="0" data-dtype="Number"
+                            data-tooltip="{{{healthTooltip}}}"/>
+
+                        <div class="input-overlay">{{system.stats.health.current}}</div>
+
+                    </div>
 
                     <span class="stat-edit">
                         <label>{{localize "WW.Stats.Normal"}}:</label>

@@ -423,11 +423,6 @@
   position: relative;
 }
 
-.weirdwizard.npc header.sheet-header img {
-  height: 100%;
-  margin: 0;
-}
-
 .sheet.journal-entry .journal-entry-content {
   background: var(--background);
 }
@@ -869,6 +864,50 @@
   filter: drop-shadow(0 0 1px black);
 }
 
+.weirdwizard .sheet .profile-img {
+  border-radius: 50%;
+}
+
+/* NPC Sheet Image */
+
+.weirdwizard .npc-sheet .profile-img-wrapper {
+  margin: 0.3em;
+}
+
+.weirdwizard .npc-sheet .profile-img {
+  height: 100%;
+  outline: 2px solid var(--purple-dark);
+  outline-offset: 2px;
+  filter: drop-shadow(0 0 1px var(--purple-dark));
+}
+
+.weirdwizard .profile-img-menu {
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  display: flex;
+  gap: 7px;
+  padding: 1px 3px;
+  background: var(--background);
+  border: 2px solid var(--purple-dark);
+  border-radius: 5px;
+  font-size: medium;
+  opacity: 0;
+  transition: opacity 100ms ease-in-out;
+}
+
+.weirdwizard.character .profile-img-menu {
+  bottom: auto;
+  top: -14px;
+}
+
+.weirdwizard .sheet-header:hover .profile-img-menu {
+  opacity: 1;
+}
+
+/* Character Sheet Image */
+
 .weirdwizard .circle {
   display: grid;
   grid-template-areas: "layer";
@@ -886,14 +925,6 @@
   outline-offset: 5px;
   filter: drop-shadow(0 0 1px var(--purple-dark));
 }
-
-.weirdwizard .sheet .profile-img {
-  border-radius: 50%;
-}
-
-/*.weirdwizard .npc-sheet .sheet-header .profile-img {
-  height: 100px;
-}*/
 
 .weirdwizard .circle img {
   position: absolute;
@@ -1004,7 +1035,7 @@
   flex-flow: column;
 }
 
-.weirdwizard.npc .header-fields > div {
+.weirdwizard.npc .header-fields > div:not(.sheet-tabs-wrapper) {
   height: 100%;
 }
 
@@ -1044,6 +1075,8 @@
   --health-bar-width: 30px;
   --health-cap-width: 10px;
   --health-number-width: 30px;
+  --health-progress-width: 20px;
+  --health-progress-length: 164px;
 }
 
 .weirdwizard .health-header {
@@ -1052,6 +1085,10 @@
   justify-content: space-between;
   font-weight: bold;
   margin: 0 var(--health-cap-width) 0.2em;
+}
+
+.weirdwizard .health-header > * {
+  border: 1px solid transparent;
 }
 
 .weirdwizard .health-header label {
@@ -1064,7 +1101,15 @@
 }
 
 .weirdwizard .health-header .health-indicator {
-  color: red;
+  color: #8B0000;
+  padding: 0 3px;
+  border-radius: 5px;
+  background: rgba(139, 0, 0, 0.1);
+}
+
+.weirdwizard .health-header .health-indicator.incapacitated:hover {
+  border: 1px solid #8B0000;
+  cursor: pointer;
 }
 
 .weirdwizard .health-wrapper {
@@ -1121,8 +1166,28 @@
   height: 100%;
   width: calc(var(--health-pct) * 1%);
   border-radius: 6px;
-  background: hsl(calc(var(--health-hue) * 360deg) 50% 40%);
   box-shadow: inset 0 0 1px 1px var(--purple-dark);
+  background: repeating-linear-gradient(45deg,
+    hsl(calc(var(--health-hue) * 360deg) 50% 40%),
+    hsl(calc(var(--health-hue) * 360deg) 50% 40%) 5px,
+    hsl(calc(var(--health-hue) * 360deg) 50% 60%) 5px,
+    hsl(calc(var(--health-hue) * 360deg) 50% 60%) 10px);
+}
+
+.weirdwizard .health-temporary {
+  position: absolute;
+  z-index: 999;
+  right: calc(var(--health-number-width) + var(--health-cap-width) + 3px);
+  margin: calc(-1 * var(--health-progress-width)) 0;
+  height: var(--health-progress-width);
+  width: calc(var(--health-temp) / 100 * var(--health-progress-length));
+  background: #000;
+  mix-blend-mode: color;
+  opacity: 0.7;
+}
+
+.weirdwizard .health-temporary:hover {
+  background: mediumpurple;
 }
 
 /* Character Stats */
@@ -1146,11 +1211,11 @@
   border-bottom: 1px solid var(--color-border-light-primary);
 }
 
-.weirdwizard.npc nav.sheet-tabs-wrapper {
+.weirdwizard.npc .sheet-tabs-wrapper {
   margin: auto 0 0 0;
 }
 
-.weirdwizard .sheet nav.sheet-tabs {
+.weirdwizard .sheet:not(.active-effect-sheet) nav.sheet-tabs {
   width: 100%;
   margin: 0;
   border: none;
@@ -1164,14 +1229,14 @@
   border-top: none !important;
 }
 
-.weirdwizard .sheet-tabs > div {
+.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs > div {
   display: flex;
   flex-grow: 1;
   min-width: 18rem;
   gap: 2px 2px;
 }
 
-.weirdwizard .sheet-tabs .item {
+.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item {
   white-space: nowrap;
   flex-grow: 1;
   border-radius: 5px 5px 0px 0px;
@@ -1179,7 +1244,7 @@
   padding: 4px 8px !important;
 }
 
-.weirdwizard .sheet-tabs .item.active {
+.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item.active {
   background: var(--purple-dark);
   color: white;
   font-weight: normal;
@@ -1891,31 +1956,6 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard .list-entries > div > span {
   display: inline-block;
-}
-
-.weirdwizard .profile-img-menu {
-  position: absolute;
-  bottom: -3px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  display: flex;
-  gap: 7px;
-  padding: 1px 3px;
-  background: var(--background);
-  border: 2px solid var(--purple-dark);
-  border-radius: 5px;
-  font-size: medium;
-  opacity: 0;
-  transition: opacity 100ms ease-in-out;
-}
-
-.weirdwizard.character .profile-img-menu {
-  bottom: auto;
-  top: -14px;
-}
-
-.weirdwizard .sheet-header:hover .profile-img-menu {
-  opacity: 1;
 }
 
 /* Tooltips Customization */
@@ -2686,6 +2726,7 @@ form.quest-calendar {
 
 .weirdwizard.chat-message .chat-message-collapse {
   font-size: large;
+  display: flex;
 }
 
 .weirdwizard.chat-message .chat-message-collapse:hover,

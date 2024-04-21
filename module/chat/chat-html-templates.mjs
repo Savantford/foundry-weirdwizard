@@ -38,8 +38,8 @@ export function chatMessageButton({action, value, effectUuid, originUuid, target
       loc += 'HealthLoss';
       break;
     }
-    case 'roll-health-recovery': {
-      loc += 'HealthRecovery';
+    case 'roll-health-regain': {
+      loc += 'HealthRegain';
       break;
     }
     case 'apply-affliction': {
@@ -78,9 +78,9 @@ export function chatMessageButton({action, value, effectUuid, originUuid, target
       showNo = false;
       break;
     }
-    case 'apply-health-recovery': {
+    case 'apply-health-regain': {
       img = '/systems/weirdwizard/assets/icons/health-increase-black.svg';
-      loc += 'RecoverHealth';
+      loc += 'RegainHealth';
       showNo = false;
       break;
     }
@@ -139,7 +139,7 @@ export function actionFromLabel(label) {
     case ('damage'): action = 'roll-damage'; break;
     case ('heal'): action = 'roll-healing'; break;
     case ('healthLose'): action = 'roll-health-loss'; break;
-    case ('healthRecover'): action = 'roll-health-recovery'; break;
+    case ('healthRegain'): action = 'roll-health-regain'; break;
     case ('affliction'): action = 'apply-affliction'; break;
   }
   
