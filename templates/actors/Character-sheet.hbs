@@ -86,100 +86,106 @@
                 <div class="stat" style="--i:12">12</div>-->
             </div>
 
-            {{!-- Character Stats --}}
-            <div class="character-stats">
+            {{!-- Damage / Health Block --}}
+            <div class="health-block">
 
-                {{!-- Defense, Health, Damage --}}
-                <div>
-                    {{!-- Defense --}}
-                    <div class="stat">
-                        <label>{{localize "WW.Defense.Label"}}</label>
+                {{!-- Damage / Health Header --}}
+                <div class="health-header">
+                    <label>{{localize "WW.Damage.Label"}}</label>
 
-                        <div><a data-tooltip="<p>{{localize "WW.Defense.Armored"}}: {{system.stats.defense.armored}}</p>
-                            <p>{{localize "WW.Defense.Natural"}}: {{system.stats.defense.natural}}</p>">{{system.stats.defense.total}}</a></div>
-                    </div>
+                    <span class="{{#if injured}}health-indicator{{/if}} {{#if incapacitated}}incapacitated chat-button"
+                        data-tooltip="{{localize "WW.Health.IncapacitatedHint"}}{{/if}}">
+                        {{~#if dead}}{{localize "WW.Health.Estimation.Dead"}}
+                            {{~else if incapacitated}}{{localize "WW.Health.Estimation.100"}}
+                            {{~else if injured}}{{localize "WW.Health.Estimation.50"}}
+                        {{/if}}
+                    </span>
 
-                    {{!-- Health --}}
-                    <div class="stat">
-                        <label>{{localize "WW.Health.Label"}}</label>
+                    <label>{{localize "WW.Health.Label"}}</label>
+                </div>
 
-                        <div><a data-tooltip="<p>{{localize "WW.Health.Normal"}}: {{system.stats.health.normal}}</p>
-                            <p>{{localize "WW.Health.Bonus"}}: {{system.stats.health.bonus}}</p>
-                            <p>{{localize "WW.Health.Lost"}}: {{system.stats.health.lost}}</p>">{{system.stats.health.current}}</a></div>
+                {{!-- Damage / Health Widget --}}
+                <div class="health-wrapper">
+                    
+                    {{!-- Numbers: Top Layer --}}
+                    <div class="health-numbers">
+                        {{!-- Damage --}}
+                        <div class="stat">
+                                
+                            <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0" data-dtype="Number"/>
 
-                        <span class="stat-edit">
-                            <label>{{localize "WW.Stats.Lost"}}:</label>
-                        
-                            <div class="input-wrap">
-                                <input type="number" name="system.stats.health.lost" value="{{system.stats.health.lost}}" min="0" />
-
-                                <div class="input-overlay">{{system.stats.health.lost}}</div>
-                            </div>
-
-                        </span>
-
-                    </div>
-
-                    {{!-- Damage --}}
-                    <div class="stat">
-                        <label>{{localize "WW.Damage.Label"}}</label>
-
-                        <div class="flex align-center">
-                            <div class="input-wrap">
-                                <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0" data-dtype="Number"/>
-
-                                <div class="input-overlay">{{system.stats.damage.value}}</div>
-                            </div>
-                            
-                            <i class="health-indicator fas {{#if incapacitated}}fa-octagon-xmark{{else if injured}}fa-droplet{{/if}}" data-tooltip="
-                                {{#if incapacitated}}{{localize "WW.Health.Incapacitated"}}
-                                {{else}}{{localize "WW.Health.Injured"}}{{/if}}">
-                            </i>
                         </div>
 
+                        {{!-- Health --}}
+                        <div class="stat">
+                            
+                            <input type="number" name="system.stats.health.current" value="{{system.stats.health.current}}" min="0" data-dtype="Number"
+                                {{~#if system.stats.health.temp}}disabled{{/if}}
+                                data-tooltip="{{{healthTooltip}}}"/>
+
+                        </div>
+                    </div>
+
+                    {{!-- Overlay: Mid Layer --}}
+                    <div class="health-overlay"></div>
+                    
+                    {{!-- Health Bar: Bottom Layer --}}
+                    <div class="health-bar {{#if dead}}dead{{/if}}" style="--health-pct: {{healthPct}}; --health-hue: {{healthHue}}; --health-temp: {{tempHealthPct}};" 
+                        role="meter" aria-valuemin="0" aria-valuenow="{{system.stats.damage.value}}" aria-valuemax="{{system.stats.health.current}}">
+                        
+                        <div class="health-progress"></div>
+                        <div class="health-temporary" data-tooltip="WW.Health.TemporaryHint"></div>
                     </div>
 
                 </div>
-            
-                {{!-- Size, Speed, Bonus Damage --}}
-                <div class="mt-2">
 
-                    {{!-- Size --}}
-                    <div class="stat">
-                        <label>{{localize "WW.Stats.Size"}}</label>
+            </div>
 
-                        <div class="align-center">
-                            <a>{{system.stats.size}}</a>
+            {{!-- Character Stats --}}
+            <div class="character-stats">
+                
+                {{!-- Defense --}}
+                <div class="stat">
+                    <label>{{localize "WW.Defense.Label"}}</label>
+
+                    <div><a data-tooltip="<p>{{localize "WW.Defense.Armored"}}: {{system.stats.defense.armored}}</p>
+                        <p>{{localize "WW.Defense.Natural"}}: {{system.stats.defense.natural}}</p>">{{system.stats.defense.total}}</a></div>
+                </div>
+                    
+                {{!-- Bonus Damage --}}
+                <div class="stat">
+                    <label>{{localize "WW.Damage.Bonus"}}</label>
+
+                    <div class="flex nogap align-center">
+                        <div class="input-wrap">
+                            <input type="number" name="system.stats.bonusdamage" value="{{system.stats.bonusdamage}}" data-dtype="Number" min="0" placeholder="#" />
+
+                            <div class="input-overlay">{{system.stats.bonusdamage}}</div>
                         </div>
-                        
-                    </div>
-
-                    {{!-- Speed --}}
-                    <div class="stat">
-                        <label>{{localize "WW.Stats.Speed"}}</label>
-
-                        <div class="align-center">
-                            <a data-tooltip="{{localize "WW.Stats.NormalSpeed"}}: {{system.stats.speed.normal}}">{{system.stats.speed.current}}</a>
-                        </div>
-                        
-                    </div>
-
-                    {{!-- Bonus Damage --}}
-                    <div class="stat">
-                        <label>{{localize "WW.Damage.Bonus"}}</label>
-
-                        <div class="flex nogap align-center">
-                            <div class="input-wrap">
-                                <input type="number" name="system.stats.bonusdamage" value="{{system.stats.bonusdamage}}" data-dtype="Number" min="0" placeholder="#" />
-
-                                <div class="input-overlay">{{system.stats.bonusdamage}}</div>
-                            </div>
                             
-                            <div>d6</div>
-                        </div>
-                        
+                        <div>d6</div>
                     </div>
+                        
+                </div>
+            
+                {{!-- Size --}}
+                <div class="stat">
+                    <label>{{localize "WW.Stats.Size"}}</label>
 
+                    <div class="align-center">
+                        <a>{{system.stats.size}}</a>
+                    </div>
+                        
+                </div>
+
+                {{!-- Speed --}}
+                <div class="stat">
+                    <label>{{localize "WW.Stats.Speed"}}</label>
+
+                    <div class="align-center">
+                        <a data-tooltip="{{localize "WW.Stats.NormalSpeed"}}: {{system.stats.speed.normal}}">{{system.stats.speed.current}}</a>
+                    </div>
+                        
                 </div>
 
             </div>

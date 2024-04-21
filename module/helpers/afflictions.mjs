@@ -137,7 +137,8 @@ export class WWAfflictions {
       'Held',
       '/systems/weirdwizard/assets/icons/manacles.svg',
       [
-        downgradeEffect('speed.override', 0, overridePriority)
+        downgradeEffect('speed.override', 0, overridePriority),
+        overrideEffect('autoSuccessAgainst.agi', true, addPriority),
       ]
     ));
 

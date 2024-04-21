@@ -5,11 +5,6 @@ import { i18n } from "../helpers/utils.mjs";
 */
 
 export default class ApplyContext extends ContextMenu {
-  
-  /*constructor(element, selector, menuItems, {eventName="contextmenu", onOpen, onClose}={}) {
-  }*/
-
-  /* -------------------------------------------- */
 
   /**
    * Render the Context Menu by iterating over the menuItems it contains.
@@ -18,7 +13,6 @@ export default class ApplyContext extends ContextMenu {
    * @param {jQuery} target     The target element to which the context menu is attached
    */
   render(target) {
-    console.log('test');
     const existing = $("#context-menu");
     let html = existing.length ? existing : $('<nav id="context-menu"></nav>');
     let ol = $('<ol class="context-items"></ol>');

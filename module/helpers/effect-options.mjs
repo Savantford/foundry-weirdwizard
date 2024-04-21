@@ -41,6 +41,14 @@ effChanges.banesAgainst = {
   wil: addInt()
 }
 
+effChanges.autoSuccessAgainst = {
+  def: setBoo(),
+  str: setBoo(),
+  agi: setBoo(),
+  Boo: setBoo(),
+  wil: setBoo()
+}
+
 effChanges.extraDamage = {
   dice: addInt(),
   mod: addInt()
@@ -74,7 +82,8 @@ effChanges.speed = {
 
 effChanges.size = {
   increase: addInt(),
-  override: overInt()
+  override: overInt(),
+  normal: overInt(1)
 }
 
 effChanges.upgradeAttribute = {
@@ -129,11 +138,10 @@ function setBoo(priority = null) {
   return makeChangeData(5,'boo',priority)
 }
 
-function makeChangeData(mode,valueType,priority = null/*,labelKey*/) {
+function makeChangeData(mode,valueType,priority = null) {
   return {
     mode: mode,
     priority: priority,
-    valueType: valueType/*,
-    valueLabel: 'WW.EffectKeys.Value.' + labelKey*/
+    valueType: valueType
   };
 }

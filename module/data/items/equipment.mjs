@@ -25,7 +25,7 @@ export default class EquipmentData extends foundry.abstract.DataModel {
       // Weapons
       requirements: makeStrField(),
       damage: makeStrField(),
-      grip: makeStrField('One-Handed'),
+      grip: makeStrField('One'),
 
       traits: new fields.SchemaField({
         ammunition: makeBooField(false),
@@ -133,6 +133,13 @@ export default class EquipmentData extends foundry.abstract.DataModel {
         case 'int10agi12': source.requirements = 'agi12'; break;
       }
 
+    }
+
+    // Convert Health recover to Health regain
+    if (source.instant) {
+      for (const i of source.instant) {
+        if (i.label === 'healthRecover') i.label = 'healthRegain';
+      }
     }
 
     return super.migrateData(source);

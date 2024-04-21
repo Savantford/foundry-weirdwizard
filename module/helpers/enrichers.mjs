@@ -84,8 +84,8 @@ async function enrichRoll (match, options) {
       break;
     }
     case 'hr': {
-      container.dataset.action = 'roll-health-recovery';
-      container.title = loc('Recovered');
+      container.dataset.action = 'roll-health-regain';
+      container.title = loc('Regained');
       break;
     }
     default: {

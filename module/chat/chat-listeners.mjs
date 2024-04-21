@@ -43,7 +43,7 @@ function _onMessageButtonRoll(event) {
     case 'roll-damage': new RollDamage(dataset).render(true); break;
     case 'roll-healing': _onChatRoll(dataset, 'WW.InstantEffect.HealOf', 'apply-healing'); break;
     case 'roll-health-loss': _onChatRoll(dataset, 'WW.InstantEffect.HealthLoseOf', 'apply-health-loss'); break;
-    case 'roll-health-recovery': _onChatRoll(dataset, 'WW.InstantEffect.HealthRecoverOf', 'apply-health-recovery'); break;
+    case 'roll-health-regain': _onChatRoll(dataset, 'WW.InstantEffect.HealthRegainedBy', 'apply-health-regain'); break;
     default: _onChatRoll(dataset); break;
   }
   
@@ -85,7 +85,7 @@ function _onMessageButtonContext(element) {
       case 'apply-damage-double': target.applyDamage(2*value); break;
       case 'apply-healing': target.applyHealing(value); break;
       case 'apply-health-loss': target.applyHealthLoss(value); break;
-      case 'apply-health-recovery': target.applyHealthRecovery(value); break;
+      case 'apply-health-regain': target.applyHealthRegain(value); break;
       case 'apply-affliction': target.applyAffliction(value); break;
       case 'apply-effect': target.applyEffect(effect); break;
     }

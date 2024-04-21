@@ -239,9 +239,6 @@ export default class WWItemSheet extends ItemSheet {
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return;
 
-    // Input resize
-    //resizeInput(html);
-
     const system = this.document.system;
 
     // Effects management

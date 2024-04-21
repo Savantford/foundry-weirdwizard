@@ -40,7 +40,7 @@ export default class WWToken extends Token {
       colorPct = Math.clamped(max-value, 0, max) / max
     }
     const damageColor = WWToken.getDamageColor(value, max);
-
+    
     // Determine the container size (logic borrowed from core)
     const w = this.w;
     let h = Math.max(canvas.dimensions.size / 12, 8);

@@ -321,7 +321,7 @@ WW.INSTANT_LABELS = {
   'damage': 'WW.InstantEffect.Damage',
   'heal': 'WW.InstantEffect.Heal',
   'healthLose': 'WW.InstantEffect.HealthLose',
-  'healthRecover': 'WW.InstantEffect.HealthRecover',
+  'healthRegain': 'WW.InstantEffect.HealthRegain',
   'affliction': 'WW.InstantEffect.Affliction'
 }
 
@@ -329,7 +329,7 @@ WW.INSTANT_ICONS = {
   'damage': 'icons/svg/explosion.svg',
   'heal': 'icons/svg/heal.svg',
   'healthLose': 'icons/svg/degen.svg',
-  'healthRecover': 'icons/svg/regen.svg',
+  'healthRegain': 'icons/svg/regen.svg',
   'affliction': 'icons/svg/skull.svg'
 }
 
@@ -545,6 +545,31 @@ WW.EFFECT_OPTIONS = {
       }
     }
   },
+  autoSuccessAgainst: {
+    header: 'WW.Effect.Keys.AutoSuccessAgainst.Header',
+    options: {
+      'autoSuccessAgainst.def': {
+        key: 'system.autoSuccess.against.def',
+        label: 'WW.Effect.Keys.AutoSuccessAgainst.Defense'
+      },
+      'autoSuccessAgainst.str': {
+        key: 'system.autoSuccess.against.str',
+        label: 'WW.Effect.Keys.AutoSuccessAgainst.Strength'
+      },
+      'autoSuccessAgainst.agi': {
+        key: 'system.autoSuccess.against.agi',
+        label: 'WW.Effect.Keys.AutoSuccessAgainst.Agility'
+      },
+      'autoSuccessAgainst.int': {
+        key: 'system.autoSuccess.against.int',
+        label: 'WW.Effect.Keys.AutoSuccessAgainst.Intellect'
+      },
+      'autoSuccessAgainst.wil': {
+        key: 'system.autoSuccess.against.wil',
+        label: 'WW.Effect.Keys.AutoSuccessAgainst.Will'
+      }
+    }
+  },
   extraDamage: {
     header: 'WW.Effect.Keys.ExtraDamage.Header',
     options: {
@@ -595,11 +620,11 @@ WW.EFFECT_OPTIONS = {
     header: 'WW.Effect.Keys.Health.Header',
     options: {
       'health.tempIncrease': {
-        key: 'system.stats.health.bonus',
+        key: 'system.stats.health.current',
         label: 'WW.Effect.Keys.Health.TempIncrease'
       },
       'health.tempReduce': {
-        key: 'system.stats.health.lost',
+        key: 'system.stats.health.current',
         label: 'WW.Effect.Keys.Health.TempReduce'
       },
       'health.override': {

@@ -22,7 +22,6 @@ export default class WWItem extends Item {
   /* -------------------------------------------- */
 
   async _preCreate(data, options, user) {
-    
     let icon = data.img;
     
     // If no image is provided, set default by category.
@@ -55,10 +54,20 @@ export default class WWItem extends Item {
       }
 
     }
-    
-    await this.updateSource({ img: icon });
 
-    return await super._preCreate(data, options, user);
+    await this.updateSource({ img: icon });
+    
+    return await super._preCreate(await data, options, user);
+  }
+
+  async _onCreate(data, options, user) {
+
+    // Change the sheet to suit the tier
+    if (this.type === 'Path') {
+      await this._onTierChange(data);
+    }
+
+    return await super._onCreate(await data, options, user);
   }
 
   /* -------------------------------------------- */
@@ -82,7 +91,7 @@ export default class WWItem extends Item {
   async _preUpdate(changed, options, user) {
     await super._preUpdate(changed, options, user);
     
-    if(changed.system?.tier) {
+    if (changed.system?.tier) {
       this._onTierChange(changed);
     }
 
@@ -126,29 +135,15 @@ export default class WWItem extends Item {
 
   }
 
-  /** @inheritdoc */
-  /*_onDelete(options, userId) {
-    
-    // Delete granted Items
-    if (this.charOption) {
-      this.deleteGrantedItems();
-      this.deleteGrantedEntries();
-    }
-
-    super._onDelete(options, userId);
-
-  }*/
-
   /* -------------------------------------------- */
   /*  Methods                                     */
   /* -------------------------------------------- */
 
   async _onTierChange(data) {
-    
     const tier = data.system.tier;
     const benefits = {...await this.system.benefits};
-
-    for(const key in benefits) {
+    
+    for (const key in benefits) {
       
       switch (key) {
         case 'benefit1': {
@@ -191,7 +186,7 @@ export default class WWItem extends Item {
     }
 
     data.system.benefits = benefits;
-
+    
   }
 
   /* -------------------------------------------- */
