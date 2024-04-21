@@ -53,9 +53,9 @@ Thank you for all the reports and feedback!
 This project was created and is currently maintained by @Savantford (Friend).
 
 However, contributions were done directly to the project by a few awesome contributors:
-- @mhilbrunner: Lots of stuff. Lots of good stuff! They are too many to list, but many were valuable backend additions.
-- @SolarizedRed: Initial styling and Fonts selection. A founder member!
-- @yschnellbach: Many contributions, mainly visual changes. The system wouldn't look the way it does without them!
+- [@mhilbrunner](https://github.com/mhilbrunner): Lots of stuff. Lots of good stuff! They are too many to list, but many were valuable backend additions.
+- [@SolarizedRed](https://github.com/SolarizedRed): Initial styling and Fonts selection. A founder member!
+- [@yschnellbach](https://github.com/yschnellbach): Many contributions, mainly visual changes. The system wouldn't look the way it does without them!
 
 Please make sure to thank all of them!
 
