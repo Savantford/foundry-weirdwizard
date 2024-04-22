@@ -131,7 +131,9 @@ export default class WWActorSheet extends ActorSheet {
       <p>${i18n("WW.Health.Lost")}: ${health.lost}</p>
     `);
 
-    if (health.temp) context.healthTooltip += escape(`<hr><p>${i18n("WW.Health.CurrentHint")}</p>`)
+    if (!health.normal || health.temp) context.healthTooltip += `<hr/>`;
+    if (!health.normal) context.healthTooltip += escape(`<p>• ${i18n("WW.Health.NormalHint")}</p>`);
+    if (health.temp) context.healthTooltip += escape(`<p>• ${i18n("WW.Health.CurrentHint")}</p>`);
 
     // Setup usage help text for tooltips (so we can reuse it)
     const usagehelp = escape(`
