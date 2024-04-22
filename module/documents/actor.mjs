@@ -218,17 +218,6 @@ export default class WWActor extends Actor {
     const system = this.system;
     const flags = this.flags.weirdwizard || {};
     
-    // Set Damage to Health while incapacitated or when Damage is higher than Health   
-    const health = this.system?.stats?.health?.current;
-    const damage = this.system?.stats?.damage?.value;
-    if (this.incapacitated === undefined) this.incapacitated = (damage >= health) ? true : false;
-    
-    if (this.incapacitated || (damage > health)) {
-      this.system.stats.damage.value = this.system?.stats?.health?.current;
-    }
-    
-    if (this.system.stats.damage.value >= health) this.incapacitated = true;
-    
     // Loop through attributes, and add their modifiers calculated with DLE rules to our sheet output.
     for (let [key, attribute] of Object.entries(system.attributes)) {
       if (key != 'luck') attribute.mod = attribute.value - 10;
@@ -443,7 +432,19 @@ export default class WWActor extends Actor {
   }
 
   _calculateHealth(system) {
+    // Get variables
     const health = system.stats.health;
+    const current = health.current;
+    const damage = system.stats.damage.value;
+
+    // Set Damage to Health while incapacitated or when Damage is higher than Health   
+    if (this.incapacitated === undefined) this.incapacitated = (damage >= current) ? true : false;
+    
+    if (this.incapacitated || (damage > current)) {
+      this.system.stats.damage.value = this.system.stats.health.current;
+    }
+    
+    if (this.system.stats.damage.value >= current) this.incapacitated = true;
     
     // Health override effect exists
     if (health.override) {
@@ -455,6 +456,9 @@ export default class WWActor extends Actor {
 
     // Calculate lost Health and assign it
     if (health.normal - health.current >= 0) health.lost = health.normal - health.current; else health.lost = 0;
+
+    // Assign Current Health to Max Damage for Token Bars
+    system.stats.damage.max = current;
     
   }
 

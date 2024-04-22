@@ -24,6 +24,12 @@
       "discord": "mhilbrunner",
       "url": "https://github.com/mhilbrunner",
       "flags": {}
+    },
+    {
+      "name": "ErrantPigeon",
+      "discord": "errantpigeon",
+      "url": "https://github.com/yschnellbach",
+      "flags": {}
     }
   ],
   "esmodules": ["module/weirdwizard.mjs"],
