@@ -94,7 +94,8 @@ export default class WWActor extends Actor {
       const cDamage = cStats.damage?.value;
       
       // Set incapactated status
-      if (cDamage >= await health || await cHealth >= await damage) this.incapacitated = true; else this.incapacitated = false;
+      if (cDamage >= await health || await cHealth <= await damage || await health == await damage) this.incapacitated = true; else this.incapacitated = false;
+      if (await cDamage < await damage) this.incapacitated = false;
     }
     
     // Update token status icons
