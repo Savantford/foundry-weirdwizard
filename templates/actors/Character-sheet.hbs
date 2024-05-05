@@ -143,30 +143,6 @@
 
             {{!-- Character Stats --}}
             <div class="character-stats">
-                
-                {{!-- Defense --}}
-                <div class="stat">
-                    <label>{{localize "WW.Defense.Label"}}</label>
-
-                    <div><a data-tooltip="<p>{{localize "WW.Defense.Armored"}}: {{system.stats.defense.armored}}</p>
-                        <p>{{localize "WW.Defense.Natural"}}: {{system.stats.defense.natural}}</p>">{{system.stats.defense.total}}</a></div>
-                </div>
-                    
-                {{!-- Bonus Damage --}}
-                <div class="stat">
-                    <label>{{localize "WW.Damage.Bonus"}}</label>
-
-                    <div class="flex nogap align-center">
-                        <div class="input-wrap">
-                            <input type="number" name="system.stats.bonusdamage" value="{{system.stats.bonusdamage}}" data-dtype="Number" min="0" placeholder="#" />
-
-                            <div class="input-overlay">{{system.stats.bonusdamage}}</div>
-                        </div>
-                            
-                        <div>d6</div>
-                    </div>
-                        
-                </div>
             
                 {{!-- Size --}}
                 <div class="stat">
@@ -176,6 +152,37 @@
                         <a>{{system.stats.size}}</a>
                     </div>
                         
+                </div>
+
+                <div class="stat-col">
+                    
+                    {{!-- Defense --}}
+                    <div class="stat defense">
+                        
+                        <div><a data-tooltip="<p>{{localize "WW.Defense.Armored"}}: {{system.stats.defense.armored}}</p>
+                            <p>{{localize "WW.Defense.Natural"}}: {{system.stats.defense.natural}}</p>">{{system.stats.defense.total}}</a></div>
+                        
+                        <label>{{localize "WW.Defense.Label"}}</label>
+
+                    </div>
+                        
+                    {{!-- Bonus Damage --}}
+                    <div class="stat bonus-damage">
+                        
+                        <label>{{localize "WW.Damage.Bonus"}}</label>
+
+                        <div class="flex nogap align-center">
+                            <div class="input-wrap">
+                                <input type="number" name="system.stats.bonusdamage" value="{{system.stats.bonusdamage}}" data-dtype="Number" min="0" placeholder="#" />
+
+                                <div class="input-overlay">{{system.stats.bonusdamage}}</div>
+                            </div>
+                                
+                            <div>d6</div>
+                        </div>
+                            
+                    </div>
+
                 </div>
 
                 {{!-- Speed --}}
@@ -193,64 +200,52 @@
         </div>
     </header>
 
-    <div>
-        
-        <div class="sheet-tabs-wrapper">
+    {{!-- Sheet Menu --}}
+    <a class="item sheet-menu" data-tooltip="WW.System.SheetMenu"><i class="fas fa-bars"></i></a>
 
-            {{!-- Sheet Tab Navigation --}}
-            <nav class="sheet-tabs tabs" data-group="primary">
-                <div>
-                    <a class="item" data-tab="summary">{{localize "WW.Actor.Summary"}}</a>
-                    <a class="item" data-tab="details">{{localize "WW.Actor.Details"}}</a>
-                    <a class="item" data-tab="equipment">{{localize "WW.Equipment.Label"}}</a>
-                </div>
-                
-                <div>
-                    <a class="item" data-tab="talents">{{localize "WW.Talents.Label"}}</a>
-                    <a class="item" data-tab="spells">{{localize "WW.Spells.Label"}}</a>
-                    <a class="item" data-tab="effects">{{localize "WW.Effects.Label"}}</a>
-                </div>
-                
-            </nav>
-            
-            {{!-- Sheet Menu --}}
-            <a class="sheet-menu" data-tooltip="COMING SOON!"><i class="fas fa-bars"></i></a>
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="summary" data-tooltip="WW.Actor.Summary"><span class="tab-icon"></span></a>
+        <a class="item" data-tab="details" data-tooltip="WW.Actor.Details"><span class="tab-icon"></span></a>
+        <a class="item" data-tab="equipment" data-tooltip="WW.Equipment.Label"><span class="tab-icon"></span></a>
+        <a class="item" data-tab="talents" data-tooltip="WW.Talents.Label"><span class="tab-icon"></span></a>
+        <a class="item" data-tab="spells" data-tooltip="WW.Spells.Label"><span class="tab-icon"></span></a>
+        <a class="item" data-tab="effects" data-tooltip="WW.Effects.Label"><span class="tab-icon"></span></a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+
+        {{!-- Summary Tab --}}
+        <div class="tab summary" data-group="primary" data-tab="summary">
+            {{> "systems/weirdwizard/templates/actors/parts/Character-summary.hbs"}}
         </div>
-        
 
-        {{!-- Sheet Body --}}
-        <section class="sheet-body">
+        {{!-- Details Tab --}}
+        <div class="tab details" data-group="primary" data-tab="details">
+            {{> "systems/weirdwizard/templates/actors/parts/Character-details.hbs"}}
+        </div>
 
-            {{!-- Summary Tab --}}
-            <div class="tab summary" data-group="primary" data-tab="summary">
-                {{> "systems/weirdwizard/templates/actors/parts/Character-summary.hbs"}}
-            </div>
+        {{!-- Equipment Tab --}}
+        <div class="tab equipment" data-group="primary" data-tab="equipment">
+            {{> "systems/weirdwizard/templates/actors/parts/Character-equipment.hbs"}}
+        </div>
 
-            {{!-- Details Tab --}}
-            <div class="tab details" data-group="primary" data-tab="details">
-                {{> "systems/weirdwizard/templates/actors/parts/Character-details.hbs"}}
-            </div>
+        {{!-- Traits & Talents Tab --}}
+        <div class="tab talents" data-group="primary" data-tab="talents">
+            {{> "systems/weirdwizard/templates/actors/parts/Character-talents.hbs"}}
+        </div>
 
-            {{!-- Equipment Tab --}}
-            <div class="tab equipment" data-group="primary" data-tab="equipment">
-                {{> "systems/weirdwizard/templates/actors/parts/Character-equipment.hbs"}}
-            </div>
+        {{!-- Spells Tab --}}
+        <div class="tab spells" data-group="primary" data-tab="spells">
+            {{> "systems/weirdwizard/templates/actors/parts/Character-spells.hbs"}}
+        </div>
 
-            {{!-- Traits & Talents Tab --}}
-            <div class="tab talents" data-group="primary" data-tab="talents">
-                {{> "systems/weirdwizard/templates/actors/parts/Character-talents.hbs"}}
-            </div>
+        {{!-- Afflictions and Effects Tab --}}
+        <div class="tab effects flexcol" data-group="primary" data-tab="effects">
+            {{> "systems/weirdwizard/templates/actors/parts/Character-effects.hbs"}}
+        </div>
 
-            {{!-- Spells Tab --}}
-            <div class="tab spells" data-group="primary" data-tab="spells">
-                {{> "systems/weirdwizard/templates/actors/parts/Character-spells.hbs"}}
-            </div>
-
-            {{!-- Afflictions and Effects Tab --}}
-            <div class="tab effects flexcol" data-group="primary" data-tab="effects">
-                {{> "systems/weirdwizard/templates/actors/parts/Character-effects.hbs"}}
-            </div>
-
-        </section>
-    </div>
+    </section>
+    
 </form>

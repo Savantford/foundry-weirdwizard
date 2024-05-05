@@ -1,13 +1,13 @@
-import { i18n, plusify, capitalize, sum, escape } from '../helpers/utils.mjs';
-import { chatMessageButton, targetHeader, addInstEffs, actionFromLabel } from '../chat/chat-html-templates.mjs';
-import WWRoll from '../dice/roll.mjs';
+import { addInstEffs } from '../chat/chat-html-templates.mjs';
+import { capitalize, escape, i18n, plusify, sum } from '../helpers/utils.mjs';
 import { diceTotalHtml } from '../chat/chat-html-templates.mjs';
-import RollAttribute from '../dice/roll-attribute.mjs';
-import TargetingHUD from '../apps/targeting-hud.mjs';
-import { onManageActiveEffect, prepareActiveEffectCategories } from '../helpers/effects.mjs';
-import { WWAfflictions } from '../helpers/afflictions.mjs';
 import ListEntryConfig from '../apps/list-entry-config.mjs';
 import { mapRange } from '../canvas/canvas-functions.mjs';
+import { onManageActiveEffect, prepareActiveEffectCategories } from '../helpers/effects.mjs';
+import RollAttribute from '../dice/roll-attribute.mjs';
+import TargetingHUD from '../apps/targeting-hud.mjs';
+import { WWAfflictions } from '../helpers/afflictions.mjs';
+import WWRoll from '../dice/roll.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications

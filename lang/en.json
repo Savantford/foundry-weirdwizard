@@ -750,6 +750,7 @@
 "WW.System.Welcome": "{intro}<p>Hail!</p><p>Welcome to <b>Shadow of the Weird Wizard</b>.</p><p>To get started, have a look at the <b>System Documentation</b> compendium in the <b>Compendium Packs</b> tab.</p><p>You can also find <b>tours</b> in the <b>Tour Managegement</b> under settings.</p>",
 "WW.System.WelcomeFooter": "<p>Links to the <a href=\"https://github.com/Savantford/foundry-weirdwizard/releases/latest\">Patchnotes</a>, known <a href=\"https://github.com/Savantford/foundry-weirdwizard/issues\">Issues</a> on Github and the <a href=\"https://discord.com/invite/DUMfrUc\">Discord</a> community can also be found in the settings tab. Feedback is always welcome!</p><p>Have fun and stay weird!</p>",
 "WW.System.Help": "Help",
+"WW.System.SheetMenu": "Open the Sheet Menu",
 
 "WW.System.Dialog.Save": "Save",
 "WW.System.Dialog.Reset": "Reset",
