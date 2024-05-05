@@ -126,14 +126,25 @@ export default class WWActorSheet extends ActorSheet {
 
     // Health tooltip
     context.healthTooltip = escape(`
-      <p>${i18n("WW.Health.Normal")}: ${health.normal}</p>
+      <p>${i18n("WW.Health.NormalScore")}: ${health.normal}</p>
       <p>${i18n("WW.Health.Temporary")}: ${health.temp}</p>
       <p>${i18n("WW.Health.Lost")}: ${health.lost}</p>
     `);
 
     if (!health.normal || health.temp) context.healthTooltip += `<hr/>`;
-    if (!health.normal) context.healthTooltip += escape(`<p>• ${i18n("WW.Health.NormalHint")}</p>`);
+    if (!health.normal) context.healthTooltip += escape(`<p>• ${i18n('WW.Health.NormalHint')}</p>`);
     if (health.temp) context.healthTooltip += escape(`<p>• ${i18n("WW.Health.CurrentHint")}</p>`);
+
+    // Speed tooltip
+    context.speedTooltip = escape(`
+      <p>${i18n("WW.Stats.NormalSpeed")}: ${actorData.system.stats.speed.normal}</p>
+      <p>• ${i18n('WW.Stats.AutomationHint', { stat: i18n("WW.Stats.NormalSpeed") })}</p>
+    `);
+
+    // Size tooltip
+    context.sizeTooltip = escape(`
+      <p>${i18n('WW.Stats.AutomationHint', { stat: i18n("WW.Stats.Size") })}</p>
+    `);
 
     // Setup usage help text for tooltips (so we can reuse it)
     const usagehelp = escape(`

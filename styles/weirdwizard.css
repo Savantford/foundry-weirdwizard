@@ -9,6 +9,7 @@
   /*--purple-medium-rbg: 73, 36, 79;*/
   --purple-light: #DBD3DC;
   --purple-light-rbg: 219, 211, 220;
+  --purple-darker: hsla(292, 67%, 23%, 0.5);
   --body-text-color: #000000;
   --gray: #BCBEC0;
   /* Filters */
@@ -295,9 +296,11 @@
   text-align: center;
 }
 
-
-
 /* Styles limited to weirdwizard sheets */
+.app.weirdwizard {
+  background-color: var(--purple-darker);
+  background-blend-mode: hard-light;
+}
 
 .weirdwizard .window-content,
 .window-app .window-content {
@@ -309,6 +312,27 @@
 
 .weirdwizard.sheet.actor .window-content {
   overflow-y: scroll;
+}
+
+/* Grayscale Filter for Actor Sheets */
+.weirdwizard .dead .sheet-tabs,
+.weirdwizard .dead .sheet-body,
+.weirdwizard.npc .dead .sheet-header {
+  filter: grayscale(1);
+}
+
+.weirdwizard.character .dead .sheet-header .header-fields {
+  filter: grayscale(1) drop-shadow(0 0 3px black);
+}
+
+.weirdwizard .incapacitated .sheet-tabs,
+.weirdwizard .incapacitated .sheet-body,
+.weirdwizard.npc .incapacitated .sheet-header {
+  filter: grayscale(0.5);
+}
+
+.weirdwizard.character .incapacitated .sheet-header .header-fields {
+  filter: grayscale(0.5) drop-shadow(0 0 3px black);
 }
 
 /* Headers */
@@ -512,7 +536,7 @@
   float: right;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 3px;
 }
 
 .weirdwizard .statbox-header .statbox-difficulty {
@@ -1200,23 +1224,25 @@
 /* Character Stats */
 
 .weirdwizard .character-stats {
-  --stats-width-offset: 1px;
-  --stats-height-offset: 22px;
+  --stats-height-offset: 5px;
+  --stats-width-offset: 15px;
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  padding: 8px;
+  justify-content: space-evenly;
+  padding: 0 8px;
   padding-bottom: 10px;
   background: url(../assets/ui/sheet-stats-pattern.svg) no-repeat, url(../assets/ui/sheet-stats-banner.svg) no-repeat;
-  background-position: center calc(50% - var(--stats-width-offset)), bottom center;
-  background-size: auto, calc(100% - var(--stats-height-offset)) auto;
+  background-position: center calc(50% - var(--stats-height-offset)), bottom center;
+  background-size: auto, calc(100% - 2* var(--stats-width-offset)) auto;
   font-weight: bold;
+  filter: drop-shadow(0 2px 2px #333);
 }
 
 .weirdwizard .character-stats .stat-col {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 50px;
+  margin-top: 5px;
 }
 
 .weirdwizard .character-stats .stat {
@@ -1224,7 +1250,6 @@
   flex-flow: column;
   align-items: center;
   justify-content: center;
-  padding-bottom: 1lh;
 }
 
 .weirdwizard .character-stats .stat.defense,
@@ -1232,8 +1257,33 @@
   padding-bottom: 0;
 }
 
+.weirdwizard .character-stats .stat.bonus-damage .filler {
+  font-size: x-large;
+  color: var(--purple-medium);
+}
+
+.weirdwizard .character-stats .stat.bonus-damage .hidden,
+.weirdwizard .character-stats:hover .stat.bonus-damage .filler {
+  display: none;
+}
+
+.weirdwizard .character-stats:hover .stat.bonus-damage .hidden {
+  display: flex;
+}
+
 .weirdwizard .character-stats .stat label {
+  position: absolute;
+  margin-bottom: 55px;
   text-shadow: 0 0 5px rgb(216,216,204), 0 0 5px rgb(216,216,204), 0 0 5px rgb(216,216,204);
+}
+
+.weirdwizard .character-stats .stat.defense label {
+  margin-bottom: 0;
+  margin-top: 55px;
+}
+
+.weirdwizard .character-stats .stat.bonus-damage label {
+  margin-bottom: 65px;
 }
 
 .weirdwizard .character-stats .stat > div {
@@ -1255,7 +1305,11 @@
 .weirdwizard .character-stats .stat.bonus-damage > div {
   background-image: url(/systems/weirdwizard/assets/ui/sheet-stats-bonus-damage.svg);
   --stat-size: 55px;
-  padding-right: 2px;
+  padding-right: 1px;
+}
+
+.weirdwizard .character-stats .stat.bonus-damage .input-wrap {
+  margin-right: -1px;
 }
 
 /* Sheet Navigation Tabs */
@@ -2416,32 +2470,6 @@ i.icon-Weakened {
   color: red;
 }
 
-/*.weirdwizard .def-list {
-  list-style: none;
-  padding: 0px;
-  margin: 0px;
-  overflow-y: auto;
-}
-.weirdwizard .def-list li {
-  align-items: center;
-  gap: 5px;
-}
-.weirdwizard .def-list input[type="number"] {
-  text-align: center;
-  width: 30px;
-}
-.weirdwizard .def-name {
-  flex: 1;
-}
-.weirdwizard .def-bonus {
-  flex: 0 50px;
-  text-align: center;
-}
-.weirdwizard .def-remove {
-  flex: 0 16px;
-  text-align: center;
-}*/
-
 /* Roll Apps */
 
 .weirdwizard.roll-details h3 {
@@ -2451,13 +2479,15 @@ i.icon-Weakened {
   margin: 10px 0 0;
   border-radius: 5px 5px 0px 0px;
   font-family: var(--font-header);
+  font-size: var(--font-size-16);
+  border: none;
 }
 
 .weirdwizard.roll-details h3.boons-header {
   display: flex;
   align-items: center;
   margin: 0;
-  padding: 0 5px 0 7px;
+  padding: 2px 5px 2px 7px;
 }
 
 .weirdwizard.roll-details .h3-box {

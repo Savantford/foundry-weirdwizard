@@ -75,19 +75,24 @@ Hooks.once('init', function () {
   Actors.registerSheet('weirdwizard', WWCharacterSheet, {
     types: ['Character'],
     makeDefault: true,
-    label: 'WW.SheetClass.Character'
+    label: 'WW.System.Sheet.Character'
   });
   Actors.registerSheet('weirdwizard', WWNpcSheet, {
     types: ['NPC'],
     makeDefault: true,
-    label: 'WW.SheetClass.NPC'
+    label: 'WW.System.Sheet.NPC'
   });
 
   Items.unregisterSheet('core', ItemSheet);
-  Items.registerSheet('weirdwizard', WWItemSheet, { makeDefault: true });
+  Items.registerSheet('weirdwizard', WWItemSheet, {
+    makeDefault: true,
+    label: 'WW.System.Sheet.Item'
+  });
+
   Items.registerSheet('weirdwizard', WWCharOptionSheet, {
     types: ['Ancestry', 'Profession', 'Path'],
-    makeDefault: true
+    makeDefault: true,
+    label: 'WW.System.Sheet.CharOption'
   });
 
   DocumentSheetConfig.registerSheet(ActiveEffect, 'weirdwizard', WWActiveEffectConfig, {makeDefault: true})

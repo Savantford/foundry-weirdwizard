@@ -50,6 +50,7 @@
 "WW.Stats.NormalSpeed": "Normal Speed",
 "WW.Stats.Normal": "Normal",
 "WW.Stats.Lost": "Lost",
+"WW.Stats.AutomationHint": "{stat} is calculated dynamically. In order to change its value, you need to have an Ancestry, Path or an effect that changes it. Please add one or more of them.",
 
 "WW.Defense.Label": "Defense",
 "WW.Defense.Score": "Defense Score",
@@ -58,8 +59,9 @@
 "WW.Defense.Details": "(armor, if any; shield, if any)",
 
 "WW.Health.Label": "Health",
-"WW.Health.Normal": "Normal Health Score",
-"WW.Health.NormalHint": "Normal Health is set to 0 because no Path, Ancestry or effect is changing it. Please add one of them to change the Normal Health value.",
+"WW.Health.Normal": "Normal Health",
+"WW.Health.NormalScore": "Normal Health Score",
+"WW.Health.NormalHint": "Normal Health is set to 0 because no Path, Ancestry or effect is changing it. Please add one or more of them with an effect that changes the Normal Health value.",
 "WW.Health.Current": "Current Health Score",
 "WW.Health.CurrentHint": "You can only edit your current Health manually if no temporary Health bonuses are active.",
 "WW.Health.Temporary": "Temp. Health Bonus",
@@ -412,6 +414,7 @@
 "WW.Weapon.Traits.Versatile.Tip": "When you wield this weapon with both hands, the weapon’s damage increases by 1d6.",
 
 "WW.CharOptions.Ancestry": "Ancestry",
+"WW.CharOptions.NoAncestry": "No Ancestry",
 "WW.CharOptions.Professions": "Professions",
 "WW.CharOptions.Paths": "Paths",
 "WW.CharOptions.Novice": "Novice",
@@ -424,11 +427,12 @@
 "WW.CharOption.Description": "Description",
 "WW.CharOption.Traits": "Traits",
 "WW.CharOption.Benefits": "Benefits",
-"WW.CharOption.DropHere": "Drop Equipment, Traits, Talents and Spells here to add them to the level benefit.",
+"WW.CharOption.DropHere": "Drop Equipment, Traits, Talents and Spells stored in a <b>Compendium</b> here to add them to the level benefit.",
 "WW.CharOption.Unknown": "Unknown",
 "WW.CharOption.MissingRef": "Missing UUID reference for the equipment, trait, talent or spell. You can either delete this entry or restore it by putting the item back in the original Compendium.",
-"WW.CharOption.TypeWarning": "Item must be an Equipment, a Trait or Talent, or a Spell.",
-"WW.CharOption.CompendiumWarning": "Item must be dragged from a Compendium.",
+"WW.CharOption.TypeWarning": "Dropped item type must be one of the following: Equipment, Trait or Talent or Spell.",
+"WW.CharOption.CompendiumWarning": "Item must be dragged from a <b>Compendium</b>.",
+"WW.CharOption.Help": "Click on the <b>Help</b> buttom at the top right of the {itemType} window for more information.",
 "WW.CharOption.AlreadyWarning": "This character already has a character option of this type. Please remove this option before adding a new one.",
 "WW.CharOption.Reference.EditRef": "Edit the referenced item in the Compendium",
 "WW.CharOption.Reference.RemoveRef": "Remove reference from this list. This won't affect the item in the Compendium.",
@@ -697,6 +701,8 @@
 "WW.Affliction.Weakened": "Weakened",
 "WW.Affliction.WeakenedDesc": "You make Strength and Agility rolls with 1 bane, and you grant 1 boon on rolls against your Strength and Agility. In addition, your Speed is halved and you cannot benefit from increases to your Speed.",
 
+"WW.Combat.RightClickTip": "Right click for context options.",
+
 "WW.Combat.Phase.Initiative": "Initiative Phase",
 "WW.Combat.Phase.Enemies": "Enemies Phase",
 "WW.Combat.Phase.Allies": "Allies Phase",
@@ -704,8 +710,9 @@
 
 "WW.Combat.Turn.Label": "Take a Regular Turn",
 "WW.Combat.Turn.Msg": "{name} is taking a regular turn.",
+"WW.Combat.Turn.End": "End Turn",
 
-"WW.Combat.Initiative.Label": "Take The Initiative",
+"WW.Combat.Initiative.Label": "Take the Initiative",
 "WW.Combat.Initiative.ChatMsg": "{name} is taking the initiative.",
 "WW.Combat.Initiative.Title": "Taking the Initiative",
 "WW.Combat.Initiative.Msg": "<p>A new round started.</p><p>Do you want to use a <b>reaction</b> to take the initiative, instead of making a regular turn?</p>",
@@ -718,9 +725,6 @@
 "WW.Combat.ActNext.Title": "Act Next Turn",
 "WW.Combat.ActNext.Msg": "You are going to take a turn next, once the current turn is over.",
 "WW.Combat.ActNext.Confirm": "Are you sure?",
-
-"WW.Combat.Tip.RightClick": "Right click for context options.",
-"WW.Combat.Tip.FinishTurn": "Finish Your Turn",
 
 "WW.Combat.End.Title": "End of Combat",
 "WW.Combat.End.Msg": "You are about to end the combat encounter. Ending it will empty the turn tracker. <b>Are you sure?</b>",
@@ -750,7 +754,12 @@
 "WW.System.Welcome": "{intro}<p>Hail!</p><p>Welcome to <b>Shadow of the Weird Wizard</b>.</p><p>To get started, have a look at the <b>System Documentation</b> compendium in the <b>Compendium Packs</b> tab.</p><p>You can also find <b>tours</b> in the <b>Tour Managegement</b> under settings.</p>",
 "WW.System.WelcomeFooter": "<p>Links to the <a href=\"https://github.com/Savantford/foundry-weirdwizard/releases/latest\">Patchnotes</a>, known <a href=\"https://github.com/Savantford/foundry-weirdwizard/issues\">Issues</a> on Github and the <a href=\"https://discord.com/invite/DUMfrUc\">Discord</a> community can also be found in the settings tab. Feedback is always welcome!</p><p>Have fun and stay weird!</p>",
 "WW.System.Help": "Help",
-"WW.System.SheetMenu": "Open the Sheet Menu",
+
+"WW.System.Sheet.Menu": "Open the Sheet Menu",
+"WW.System.Sheet.Character": "Character Sheet",
+"WW.System.Sheet.NPC": "NPC Sheet",
+"WW.System.Sheet.Item": "Regular Item Sheet",
+"WW.System.Sheet.CharOption": "Character Option Sheet",
 
 "WW.System.Dialog.Save": "Save",
 "WW.System.Dialog.Reset": "Reset",

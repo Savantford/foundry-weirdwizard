@@ -323,11 +323,12 @@ export default class WWCombatTracker extends CombatTracker {
         callback: this._onConfigureCombatant.bind(this)
       },
       {
-        name: "WW.Combat.FinishTurn",
+        name: "WW.Combat.Turn.End",
         icon: '<i class="fas fa-hourglass"></i>',
         condition: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
-          return combatant.players.filter(c => game.user).length && !combatant.flags.weirdwizard?.acted && (combatant === this.viewed.combatant);
+          const hasPerms = (combatant.permission == 3 || combatant.players.filter(c => game.user).length);
+          return hasPerms && !combatant.flags.weirdwizard?.acted && (combatant === this.viewed.combatant);
         },
         callback: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
@@ -339,7 +340,8 @@ export default class WWCombatTracker extends CombatTracker {
         icon: '<i class="fas fa-person-running-fast"></i>',
         condition: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
-          return combatant.players.filter(c => game.user).length && (combatant.actor.type === 'Character') && !combatant.flags.weirdwizard?.takingInit;
+          const hasPerms = (combatant.permission == 3 || combatant.players.filter(c => game.user).length);
+          return hasPerms && (combatant.actor.type === 'Character') && !combatant.flags.weirdwizard?.takingInit && (combatant !== this.viewed.combatant);
         },
         callback: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
@@ -351,7 +353,8 @@ export default class WWCombatTracker extends CombatTracker {
         icon: '<i class="fas fa-hand-holding-magic"></i>',
         condition: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
-          return combatant.players.filter(c => game.user).length && (combatant.actor.type === 'Character') && combatant.flags.weirdwizard?.takingInit;
+          const hasPerms = (combatant.permission == 3 || combatant.players.filter(c => game.user).length);
+          return hasPerms && (combatant.actor.type === 'Character') && combatant.flags.weirdwizard?.takingInit && (combatant !== this.viewed.combatant);
         },
         callback: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
@@ -363,7 +366,8 @@ export default class WWCombatTracker extends CombatTracker {
         icon: '<i class="fas fa-bolt"></i>',
         condition: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
-          return combatant.players.filter(c => game.user).length && !combatant.flags.weirdwizard?.acted && (combatant !== this.viewed.combatant);
+          const hasPerms = (combatant.permission == 3 || combatant.players.filter(c => game.user).length);
+          return hasPerms && !combatant.flags.weirdwizard?.acted && (combatant !== this.viewed.combatant);
         },
         callback: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
@@ -375,7 +379,8 @@ export default class WWCombatTracker extends CombatTracker {
         icon: '<i class="fas fa-redo"></i>',
         condition: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
-          return combatant.players.filter(c => game.user).length && combatant.flags.weirdwizard?.acted;
+          const hasPerms = (combatant.permission == 3 || combatant.players.filter(c => game.user).length);
+          return hasPerms && combatant.flags.weirdwizard?.acted;
         },
         callback: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));

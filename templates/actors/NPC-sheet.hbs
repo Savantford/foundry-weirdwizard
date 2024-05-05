@@ -1,4 +1,4 @@
-<form class="{{cssClass}} sheet npc-sheet flexcol" autocomplete="off">
+<form class="{{cssClass}} sheet npc-sheet flexcol {{#if dead}}dead{{else if incapacitated}}incapacitated{{else if injured}}injured{{/if}}" autocomplete="off">
 
     {{!-- Sheet Header --}}
     <header class="sheet-header">
@@ -29,7 +29,7 @@
     </header>
 
     {{!-- Sheet Menu --}}
-    <a class="item sheet-menu" data-tooltip="WW.System.SheetMenu"><i class="fas fa-bars"></i></a>
+    <a class="item sheet-menu" data-tooltip="WW.System.Sheet.Menu"><i class="fas fa-bars"></i></a>
 
     {{!-- Sheet Tab Navigation --}}
     <nav class="sheet-tabs tabs" data-group="primary">

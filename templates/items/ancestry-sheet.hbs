@@ -200,14 +200,12 @@
             
           <a class="array-button" data-action="add" data-array="benefits.benefit1.immune" data-loc="Immune"
             data-tooltip="WW.Detail.Immune.Add"><i class="fas fa-circle-plus"></i></a>
-            
-          
 
         </div>
       
         {{!-- Items Area --}}
         <ol class="described-list items-area benefit1">
-          {{#unless benefits.benefit1.itemsInfo}}{{localize "WW.CharOption.DropHere"}}{{/unless}}
+          {{#unless benefits.benefit1.itemsInfo}}{{{itemsAreaHint}}}{{/unless}}
       
           {{#each benefits.benefit1.itemsInfo as |item id|}}
           <li class="path-item item{{#if item.missing}} missing{{/if}}" data-item-uuid="{{item.uuid}}">

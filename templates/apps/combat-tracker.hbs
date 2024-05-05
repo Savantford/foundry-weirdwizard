@@ -23,18 +23,7 @@
         {{/if}}
 
         <div class="encounter-controls flexrow {{#if hasCombat}}combat{{/if}}">
-            {{!--{{#if user.isGM}}
-            <a class="combat-button combat-control" aria-label="{{localize 'COMBAT.RollAll'}}" role="button" data-tooltip="COMBAT.RollAll" data-control="rollAll" {{#unless turns}}disabled{{/unless}}>
-                <i class="fas fa-users"></i>
-            </a>
-            <a class="combat-button combat-control" aria-label="{{localize 'COMBAT.RollNPC'}}" role="button" data-tooltip="COMBAT.RollNPC" data-control="rollNPC" {{#unless turns}}disabled{{/unless}}>
-                <i class="fas fa-users-cog"></i>
-            </a>
-            <a class="combat-button combat-control" aria-label="{{localize 'COMBAT.SetAll'}}" role="button" data-tooltip="COMBAT.SetAll" data-control="setAll" {{#unless turns}}disabled{{/unless}}>
-                <i class="fas fa-users"></i>
-            </a>
-            {{/if}}--}}
-
+            
             {{#if combatCount}}
             {{#if combat.round}}
             <h3 class="encounter-title noborder">{{localize 'COMBAT.Round'}} {{combat.round}}</h3>
@@ -46,10 +35,6 @@
             {{/if}}
 
             {{#if user.isGM}}
-            {{!--<a class="combat-button combat-control" aria-label="{{localize 'COMBAT.InitiativeReset'}}" role="button" data-tooltip="COMBAT.InitiativeReset" data-control="resetAll"
-                {{#unless hasCombat}}disabled{{/unless}}>
-                <i class="fas fa-undo"></i>
-            </a>--}}
             <a class="combat-button combat-control" aria-label="{{localize 'labels.scope'}}" role="button" data-tooltip="{{labels.scope}}"
                 data-control="toggleSceneLink" {{#unless hasCombat}}disabled{{/unless}}>
                 <i class="fas fa-{{#unless linked}}un{{/unless}}link"></i>
@@ -67,7 +52,7 @@
         </li>
         {{#each turns}}
         {{#if (and (eq this.type "Character") this.flags.weirdwizard.takingInit)}}
-        <li class="combatant actor directory-item flexrow{{#if this.flags.weirdwizard.acted}} acted{{/if}}{{#if this.injured}} injured{{/if}} {{this.css}}" data-tooltip="WW.Combat.Tip.RightClick" data-combatant-id="{{this.id}}">
+        <li class="combatant actor directory-item flexrow{{#if this.flags.weirdwizard.acted}} acted{{/if}}{{#if this.injured}} injured{{/if}} {{this.css}}" data-tooltip="WW.Combat.RightClickTip" data-combatant-id="{{this.id}}">
             <img class="token-image" data-src="{{this.img}}" alt="{{this.name}}"/>
             <div class="token-name flexcol">
                 <h4>{{this.name}}</h4>
@@ -102,37 +87,10 @@
             {{#if this.initiative}}
             <div class="token-initiative flexrow">
                 <span class="initiative">#{{this.phaseInit}}</span>
-                {{!--{{#if this.hasRolled}}
-                {{else if this.owner}}
-                <a class="combatant-control roll" aria-label="{{localize 'COMBAT.InitiativeRoll'}}" role="button" data-tooltip="COMBAT.InitiativeRoll" data-control="rollInitiative"></a>
-                {{/if}}--}}
+                
             </div>
             {{/if}}
 
-            {{!--<div class="combatant-acted">
-                
-                <a data-tooltip="{{#if this.active}}{{localize "WW.Combat.ActingTip"}}
-                    {{else if this.flags.weirdwizard.acted}}{{localize "WW.Combat.ActedTip"}}
-                    {{else}}{{localize "WW.Combat.ActTip"}}{{/if}}">
-                    <i class="far {{#if this.active}}fa-stop
-                        {{else if this.flags.weirdwizard.acted}}fa-hourglass-end
-                        {{else}}fa-play{{/if}}"></i>
-                </a>
-                
-            </div>
-
-            {{#unless (or this.active (eq this.type 'NPC'))}}
-            <div class="combatant-taking">
-                
-                {{#if this.owner}}
-                    
-                    <a data-tooltip="{{#if this.flags.weirdwizard.takingInit}}{{localize "WW.Combat.TurnTip"}}{{else}}{{localize "WW.Combat.InitiativeTip"}}{{/if}}">
-                        <i class="fas {{#if this.flags.weirdwizard.takingInit}}fa-hand-holding-magic{{else}}fa-wand-sparkles{{/if}}"></i></a>
-                    
-                {{/if}}
-            </div>
-            {{/unless}}
-            --}}
         </li>
         {{/if}}
         {{/each}}
@@ -141,7 +99,7 @@
         </li>
         {{#each turns}}
         {{#if (eq this.type "NPC")}}
-        <li class="combatant actor directory-item flexrow{{#if this.flags.weirdwizard.acted}} acted{{/if}}{{#if this.injured}} injured{{/if}} {{this.css}}" data-tooltip="WW.Combat.Tip.RightClick" data-combatant-id="{{this.id}}">
+        <li class="combatant actor directory-item flexrow{{#if this.flags.weirdwizard.acted}} acted{{/if}}{{#if this.injured}} injured{{/if}} {{this.css}}" data-tooltip="WW.Combat.RightClickTip" data-combatant-id="{{this.id}}">
             <img class="token-image" data-src="{{this.img}}" alt="{{this.name}}"/>
             <div class="token-name flexcol">
                 <h4>{{this.name}}</h4>
@@ -177,38 +135,10 @@
             <div class="token-initiative flexrow">
                 
                 <span class="initiative">#{{this.phaseInit}}</span>
-                {{!--{{#if this.hasRolled}}
-                {{else if this.owner}}
-                <a class="combatant-control roll" aria-label="{{localize 'COMBAT.InitiativeRoll'}}" role="button" data-tooltip="COMBAT.InitiativeRoll" data-control="rollInitiative"></a>
-                {{/if}}--}}
+
             </div>
             {{/if}}
 
-            
-            {{!--<div class="combatant-acted">
-                
-                <a data-tooltip="{{#if this.active}}{{localize "WW.Combat.ActingTip"}}
-                    {{else if this.flags.weirdwizard.acted}}{{localize "WW.Combat.ActedTip"}}
-                    {{else}}{{localize "WW.Combat.ActTip"}}{{/if}}">
-                    <i class="far {{#if this.active}}fa-stop
-                        {{else if this.flags.weirdwizard.acted}}fa-hourglass-end
-                        {{else}}fa-play{{/if}}"></i>
-                </a>
-                
-            </div>
-            
-
-            {{#unless (or this.active (eq this.type 'NPC'))}}
-            <div class="combatant-taking">
-                
-                {{#if this.owner}}
-                    
-                    <a data-tooltip="{{#if this.flags.weirdwizard.takingInit}}{{localize "WW.Combat.TurnTip"}}{{else}}{{localize "WW.Combat.InitiativeTip"}}{{/if}}">
-                        <i class="fas {{#if this.flags.weirdwizard.takingInit}}fa-hand-holding-magic{{else}}fa-wand-sparkles{{/if}}"></i></a>
-                    
-                {{/if}}
-            </div>
-            {{/unless}}--}}
         </li>
         {{/if}}
         {{/each}}
@@ -217,7 +147,7 @@
         </li>
         {{#each turns}}
         {{#if (and (eq this.type "Character") (not this.flags.weirdwizard.takingInit))}}
-        <li class="combatant actor directory-item flexrow{{#if this.flags.weirdwizard.acted}} acted{{/if}}{{#if this.injured}} injured{{/if}} {{this.css}}" data-tooltip="WW.Combat.Tip.RightClick" data-combatant-id="{{this.id}}">
+        <li class="combatant actor directory-item flexrow{{#if this.flags.weirdwizard.acted}} acted{{/if}}{{#if this.injured}} injured{{/if}} {{this.css}}" data-tooltip="WW.Combat.RightClickTip" data-combatant-id="{{this.id}}">
             <img class="token-image" data-src="{{this.img}}" alt="{{this.name}}"/>
             <div class="token-name flexcol">
                 <h4>{{this.name}}</h4>
@@ -253,36 +183,10 @@
             <div class="token-initiative flexrow">
                 
                 <span class="initiative">#{{this.phaseInit}}</span>
-                {{!--{{#if this.hasRolled}}
-                {{else if this.owner}}
-                <a class="combatant-control roll" aria-label="{{localize 'COMBAT.InitiativeRoll'}}" role="button" data-tooltip="COMBAT.InitiativeRoll" data-control="rollInitiative"></a>
-                {{/if}}--}}
+                
             </div>
             {{/if}}
-
-            {{!--<div class="combatant-acted">
-                
-                <a data-tooltip="{{#if this.active}}{{localize "WW.Combat.ActingTip"}}
-                    {{else if this.flags.weirdwizard.acted}}{{localize "WW.Combat.ActedTip"}}
-                    {{else}}{{localize "WW.Combat.ActTip"}}{{/if}}">
-                    <i class="far {{#if this.active}}fa-stop
-                        {{else if this.flags.weirdwizard.acted}}fa-hourglass-end
-                        {{else}}fa-play{{/if}}"></i>
-                </a>
-                
-            </div>
-
-            {{#unless (or this.active (eq this.type 'NPC'))}}
-            <div class="combatant-taking">
-                
-                {{#if this.owner}}
-                    
-                    <a data-tooltip="{{#if this.flags.weirdwizard.takingInit}}{{localize "WW.Combat.TurnTip"}}{{else}}{{localize "WW.Combat.InitiativeTip"}}{{/if}}">
-                        <i class="fas {{#if this.flags.weirdwizard.takingInit}}fa-hand-holding-magic{{else}}fa-wand-sparkles{{/if}}"></i></a>
-                    
-                {{/if}}
-            </div>
-            {{/unless}}--}}
+            
         </li>
         {{/if}}
         {{/each}}

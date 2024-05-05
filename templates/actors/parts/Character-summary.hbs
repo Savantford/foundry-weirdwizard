@@ -17,7 +17,7 @@
                     <a class="item-button" data-action="item-delete" data-item-id="{{charOptions.ancestry._id}}"
                         data-tooltip="WW.Item.Delete.Ancestry"><i class="fas fa-trash"></i></a>
                     
-                    </span>{{/if}}{{#unless charOptions.ancestry}}<span>—</span>
+                    </span>{{/if}}{{#unless charOptions.ancestry}}<span>{{localize "WW.CharOptions.NoAncestry"}}</span>
                     
                     {{!-- Create Button --}}
                     <a class="item-control item-create" data-tooltip="WW.Item.Add.Ancestry" data-type="Ancestry"><i
@@ -52,7 +52,7 @@
             {{!-- Level --}}
             <div class="statbox-level">
                 
-                <label>{{localize "WW.Stats.Level"}}:</label>
+                <label>{{localize "WW.Stats.Level"}}</label>
 
                 <select name="system.stats.level">
                     {{selectOptions levels selected=system.stats.level}}
@@ -70,12 +70,12 @@
 
                 {{!-- Size --}}
                 <label>{{localize "WW.Stats.Size"}}:</label>
-                <a>{{system.stats.size}}</a>
+                <a data-tooltip="{{{sizeTooltip}}}">{{system.stats.size}}</a>
                 
                 {{!-- Speed --}}
                 <label class="ml-1">{{localize "WW.Stats.Speed"}}:</label>
 
-                <a class="mr-1" data-tooltip="{{localize "WW.Stats.NormalSpeed"}}: {{system.stats.speed.normal}}">{{system.stats.speed.current}}</a>
+                <a class="mr-1" data-tooltip="{{{speedTooltip}}}">{{system.stats.speed.current}}</a>
                 
                 {{!-- Movement Traits --}}
                 {{#each system.details.movementTraits as |detail id|}}<span class="list-entry">

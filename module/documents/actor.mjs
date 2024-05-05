@@ -1,4 +1,4 @@
-import { i18n, formatTime, escape } from '../helpers/utils.mjs';
+import { i18n, formatTime } from '../helpers/utils.mjs';
 
 /**
 * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
