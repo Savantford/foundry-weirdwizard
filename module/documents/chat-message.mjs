@@ -37,7 +37,6 @@ export default class WWChatMessage extends ChatMessage {
    * @returns {Promise<jQuery>}
    */
   async getHTML() {
-
     // Determine some metadata
     const data = this.toObject(false);
     const itemUuid = (data.flags?.weirdwizard?.item && (typeof data.flags?.weirdwizard?.item === 'string')) ? data.flags.weirdwizard.item : null;

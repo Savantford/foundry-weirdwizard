@@ -1,7 +1,6 @@
-import { i18n } from '../helpers/utils.mjs';
-import { targetHeader, addInstEffs } from '../chat/chat-html-templates.mjs';
-import RollAttribute from '../dice/roll-attribute.mjs';
+import { addInstEffs, addActEffs, targetHeader } from '../chat/chat-html-templates.mjs';
 import GridTemplate from '../canvas/grid-template.mjs';
+import RollAttribute from '../dice/roll-attribute.mjs';
 
 /**
  * Extend FormApplication to make a prompt shown by damage rolls
@@ -58,35 +57,45 @@ export default class TargetingHUD extends Application {
         const { action, attKey, content, label, origin } = this.obj,
           item = fromUuidSync(origin),
           instEffs = item.system.instant,
+          actEffs = item.effects,
           baseHtml = {};
         let rollHtml = '';
-
+        
         // Record Instant Effect parameters in baseHtml
         if (instEffs) {
-        
+          
           for (const t of game.user.targets) {
-            console.log(t)
             baseHtml[t.id] = addInstEffs(instEffs, origin, t.id);
           }
           
         }
+        
+        // Record Active Effect parameters in baseHtml
+        if (actEffs) {
+          
+          for (const t of game.user.targets) {
+            baseHtml[t.id] = addActEffs(actEffs, origin, t.id);
+          }
+
+        }
 
         for (const t of game.user.targets) {
           rollHtml += targetHeader(t, baseHtml[t.id]);
-          console.log(rollHtml)
         }
-  
+        
+        // Create message data to sell
         let messageData = {
-          speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
+          speaker: game.weirdwizard.utils.getSpeaker({ actor: item.actor }),
           flavor: label,
           content: content,
           sound: CONFIG.sounds.dice,
           'flags.weirdwizard': {
-            item: origin.uuid,
+            icon: item.img,
+            item: item.uuid,
             rollHtml: rollHtml,
             emptyContent: !content ?? true
           }
-        };
+        }
         
         ChatMessage.create(messageData);
       // Roll

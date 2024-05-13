@@ -576,7 +576,7 @@ export default class RollAttribute extends FormApplication {
     else if ((effTarget === 'enemies') && (dispo === -1)) return true;
     else if (effTarget === 'tokens') return true;
     else return false;
-  }  
+  }
 
   /* -------------------------------------------- */
   /*  Getters                                     */

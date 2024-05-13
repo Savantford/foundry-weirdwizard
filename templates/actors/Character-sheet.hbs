@@ -2,8 +2,8 @@
     {{!-- Sheet Header --}}
     <header class="sheet-header character-header">
         
-        <div class="header-fields">
-            <div class="character-header-plate">
+        <div class="sheet-banner">
+            <div class="header-plate">
 
                 <h1 class="charname textarea-resizeable">                    
                     <textarea name="name" rows="1">{{actor.name}}</textarea>
@@ -159,7 +159,8 @@
                     <div class="stat defense">
                         
                         <div><a data-tooltip="<p>{{localize "WW.Defense.Armored"}}: {{system.stats.defense.armored}}</p>
-                            <p>{{localize "WW.Defense.Natural"}}: {{system.stats.defense.natural}}</p>">{{system.stats.defense.total}}</a></div>
+                            <p>{{localize "WW.Defense.Natural"}}: {{system.stats.defense.natural}}</p>">{{system.stats.defense.total}}</a>
+                        </div>
                         
                         <label>{{localize "WW.Defense.Label"}}</label>
 
@@ -171,13 +172,13 @@
                         <label>{{localize "WW.Damage.Bonus"}}</label>
 
                         <div class="flex nogap align-center {{#unless system.stats.bonusdamage}}hidden{{/unless}}">
-                            <div class="input-wrap">
-                                <input type="number" name="system.stats.bonusdamage" value="{{system.stats.bonusdamage}}" data-dtype="Number" min="0" placeholder="#" />
+                            {{!--<div class="input-wrap">
+                                <input type="number" name="system.stats.bonusdamage" value="{{system.stats.bonusdamage}}" data-dtype="Number" min="0" placeholder="#"/>
 
                                 <div class="input-overlay">{{system.stats.bonusdamage}}</div>
-                            </div>
+                            </div>--}}
                                 
-                            <div>d6</div>
+                            <a data-tooltip="{{{bonusDamageTooltip}}}">{{system.stats.bonusdamage}}d6</a>
                         </div>
 
                         {{#unless system.stats.bonusdamage}}

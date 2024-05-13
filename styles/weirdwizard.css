@@ -183,11 +183,6 @@
 
 /* Responsive Grids */
 
-.weirdwizard.sheet.actor {
-  min-width: 550px;
-  min-height: 350px;
-}
-
 .auto-grid-2 {
   --auto-grid-min-size: 15rem;
   display: grid;
@@ -314,6 +309,17 @@
   overflow-y: scroll;
 }
 
+/* Min Dimensions for Sheets */
+.weirdwizard.sheet.actor {
+  min-width: 550px;
+  min-height: 350px;
+}
+
+.weirdwizard.charoption {
+  min-width: 550px;
+  min-height: 350px;
+}
+
 /* Grayscale Filter for Actor Sheets */
 .weirdwizard .dead .sheet-tabs,
 .weirdwizard .dead .sheet-body,
@@ -321,7 +327,7 @@
   filter: grayscale(1);
 }
 
-.weirdwizard.character .dead .sheet-header .header-fields {
+.weirdwizard.character .dead .sheet-banner {
   filter: grayscale(1) drop-shadow(0 0 3px black);
 }
 
@@ -331,7 +337,7 @@
   filter: grayscale(0.5);
 }
 
-.weirdwizard.character .incapacitated .sheet-header .header-fields {
+.weirdwizard.character .incapacitated .sheet-banner {
   filter: grayscale(0.5) drop-shadow(0 0 3px black);
 }
 
@@ -850,7 +856,8 @@
   font-weight: bold;
 }
 
-.weirdwizard .character-sheet {
+.weirdwizard.character form,
+.weirdwizard.charoption form {
   display: flex;
   flex-direction: row;
   gap: 15px;
@@ -863,14 +870,20 @@
   min-width: 200px;
 }
 
-.weirdwizard .character-header {
+.weirdwizard.character .sheet-header,
+.weirdwizard.charoption .sheet-header {
   flex-direction: column !important;
   text-align: center;
   height: fit-content;
   flex: 0 255px;
 }
 
-.weirdwizard .character-header .header-fields {
+.weirdwizard.charoption .sheet-header {
+  flex: 0 230px;
+}
+
+.weirdwizard.character .sheet-banner,
+.weirdwizard.charoption .sheet-banner {
   position: fixed;
   width: 260px;
   padding: 8px 5px 20px;
@@ -879,6 +892,10 @@
   background-position: center bottom;
   background-size: cover;
   filter: drop-shadow(0 0 3px black);
+}
+
+.weirdwizard.charoption .sheet-banner {
+  width: 235px;
 }
 
 .weirdwizard .character-subtitle {
@@ -897,19 +914,53 @@
 
 .weirdwizard .sheet .profile-img {
   border-radius: 50%;
+  margin: 0;
+}
+
+.weirdwizard.npc .profile-img,
+.weirdwizard.item .profile-img {
+  outline: 2px solid var(--purple-dark);
+  outline-offset: 2px;
+  filter: drop-shadow(0 0 1px var(--purple-dark));
+}
+
+.weirdwizard.item:not(.charoption) .profile-img {
+  margin-right: 10px;
+}
+
+
+/* Char Option Sheet Banner */
+
+.weirdwizard.charoption .sheet-banner .editor {
+  margin-bottom: 25px;
+}
+
+.weirdwizard.charoption .sheet-banner .tox.tox-tinymce {
+  min-height: 115px;
+}
+
+.weirdwizard.charoption .sheet-banner .tox-editor-header {
+  padding: 0;
+}
+
+.weirdwizard.charoption .sheet-banner .tox .tox-toolbar__group {
+  padding: 0 1px 0 2px;
+}
+
+.weirdwizard.charoption .sheet-banner .editor-content {
+  max-height: 200px;
+  text-align: left;
+  color: white;
 }
 
 /* NPC Sheet Image */
 
-.weirdwizard .npc-sheet .profile-img-wrapper {
+.weirdwizard.npc .profile-img-wrapper {
   margin: 0.3em;
 }
 
-.weirdwizard .npc-sheet .profile-img {
+.weirdwizard.npc .profile-img {
   height: 100%;
-  outline: 2px solid var(--purple-dark);
-  outline-offset: 2px;
-  filter: drop-shadow(0 0 1px var(--purple-dark));
 }
 
 .weirdwizard .profile-img-menu {
@@ -1032,7 +1083,7 @@
   opacity: 0;
 }
 
-.weirdwizard .header-fields:hover .circle .stat.luck {
+.weirdwizard .sheet-banner:hover .circle .stat.luck {
   opacity: 1;
 }
 
@@ -1058,17 +1109,23 @@
   margin-right: 5px;
 }
 
-.weirdwizard .sheet-header .header-fields {
+.weirdwizard .sheet-banner {
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
 }
 
-.weirdwizard.npc .header-fields {
+.weirdwizard.npc .sheet-banner {
   margin-left: 10px;
   height: 100%;
   display: flex;
   flex-flow: column;
+}
+
+.weirdwizard.charoption .sheet-banner {
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
 }
 
 .weirdwizard h1.charname {
@@ -1091,8 +1148,7 @@
 }
 
 /* Header Plate */
-
-.weirdwizard .character-header-plate {
+.weirdwizard .sheet-banner .header-plate {
   border-image: url(../assets/ui/sheet-double-rectangle-purple.svg);
   border-image-slice: 160 fill;
   border-image-width: 20px;
@@ -1314,11 +1370,11 @@
 
 /* Sheet Navigation Tabs */
 .weirdwizard .sheet:not(.active-effect-sheet) nav.sheet-tabs {
-  --tab-full-width: 50px;
-  --tab-inactive-width: 15px;
+  --tab-full-width: 44px;
+  --tab-inactive-width: 26px;
   position: absolute;
   left: 100%;
-  top: calc(2em + var(--tab-full-width));
+  top: calc(33px + var(--tab-full-width));
   width: max-content;
   display: flex;
   flex-direction: column;
@@ -1351,10 +1407,9 @@
   display: flex;
   justify-content: end;
   align-items: center;
-  padding-right: 0.75rem;
   background: no-repeat;
-  background-color: var(--purple-dark);
-  background-position: calc(50% - 4px) center;
+  background-color: var(--purple-medium);
+  background-position: center;
   background-size: auto 80%;
   border: 1px solid transparent;
   border-radius: 0 8px 8px 0;
@@ -1362,6 +1417,11 @@
   margin-left: calc((var(--tab-full-width) - var(--tab-inactive-width)) * -1);
   transition: all 250ms ease;
   filter: drop-shadow(3px 0 5px black);
+}
+
+.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item.active,
+.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item:hover {
+  background-color: var(--purple-dark);
 }
 
 .weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item.active {
@@ -1409,7 +1469,7 @@
   position: absolute !important;
   left: 100%;
   top: 1.5em;
-  width: 40px;
+  width: 44px;
   height: 40px;
   display: flex;
   justify-content: center;
@@ -2038,21 +2098,17 @@ input[type="checkbox"].checkbox-uses {
   flex: 1;
 }
 
-.weirdwizard .path-sheet .left-col {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  flex: 0.6;
-  margin-right: 10px;
-}
-
-.weirdwizard .path-sheet .charname > input {
+.weirdwizard.charoption .charname > input {
   font-size: var(--font-size-24);
 }
 
-.weirdwizard .path-sheet h5 {
+.weirdwizard.charoption h5 {
   text-align: center;
-  border-radius: 15px;
+  background: none;
+  border-image: url(/systems/weirdwizard/assets/ui/sheet-double-rectangle-purple.svg);
+  border-image-slice: 134 fill;
+  border-image-width: 16px;
+  padding: 4px 16px;
 }
 
 .weirdwizard.sheet.item .item-type {
@@ -2060,6 +2116,7 @@ input[type="checkbox"].checkbox-uses {
   border: 1px solid var(--color-border-light-2) !important;
   border-radius: 3px;
   box-shadow: 0 0 2px #fff inset;
+  margin: auto;
   padding: 2px 4px !important;
   font-weight: bold;
   letter-spacing: 0.03em;
@@ -2079,30 +2136,30 @@ input[type="checkbox"].checkbox-uses {
   gap: 5px;
 }
 
-.weirdwizard .path-sheet .benefit-block > * {
+.weirdwizard.charoption .benefit-block > * {
   padding: 2px 5px;
   margin: 0;
 }
 
-.weirdwizard .path-sheet .benefit-block > h5 {
+.weirdwizard.charoption .benefit-block > h5 {
   margin: 10px 0 5px 0;
 }
 
-.weirdwizard .path-sheet .benefit-block > h5:first-of-type {
+.weirdwizard.charoption .benefit-block > h5:first-of-type {
   margin-top: 0;
 }
 
-.weirdwizard .path-sheet .benefit-block > .list-entries {
+.weirdwizard.charoption .benefit-block > .list-entries {
   padding: 2px calc(1em + 5px);
   margin: 0;
 }
 
-.weirdwizard .path-sheet .items-area {
+.weirdwizard.charoption .items-area {
   background: var(--background-color-shadow);
   border-radius: 3px;
 }
 
-.weirdwizard .path-sheet .fadeout {
+.weirdwizard.charoption .fadeout {
   box-shadow: rgba(33, 33, 33, 0.8) 0px 0px 1px 2px, rgba(33, 33, 33, 0.6) 0px 0px 0px 5000px;
   /* border-radius: 4px; */
   transition: all 0.3s ease-out;
@@ -2110,11 +2167,11 @@ input[type="checkbox"].checkbox-uses {
   position: relative;
 }
 
-.weirdwizard .path-sheet .missing {
+.weirdwizard.charoption .missing {
   color: #880000;
 }
 
-.weirdwizard .path-sheet .missing label {
+.weirdwizard.charoption .missing label {
   color: var(--color-text-dark-5);
 }
 

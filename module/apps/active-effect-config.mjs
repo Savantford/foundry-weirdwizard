@@ -75,9 +75,10 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     let i = 0;
 
     for (const c of context.data.changes) {
-      
+      console.log(c.key)
+      console.log(effChanges)
       const change = c.key.split('.').reduce((o, i) => o[i], effChanges);
-      
+      console.log(change)
       context.data.changes[i] = {
         ...c,
         ...change
@@ -165,6 +166,7 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     const div = parent.querySelector('.value');
     let ele = parent.querySelector('.value input');
     const valueRef = select.value.split('.').reduce((o, i) => o[i], effChanges);
+    console.log(valueRef)
     const valueType = valueRef ? valueRef.valueType : '';
     ele.remove();
     

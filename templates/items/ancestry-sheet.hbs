@@ -1,231 +1,231 @@
-<form class="{{cssClass}} sheet path-sheet" autocomplete="off">
+<form class="{{cssClass}} sheet ancestry-sheet" autocomplete="off">
 
-  <div class="flexrow">
+  {{!-- Header / Left Column --}}
+  <header class="sheet-header">
+  
+    {{!-- Banner --}}
+    <div class="sheet-banner">
+      
+      {{!-- Profile Image --}}
+      <div class="profile-img-wrapper">
+        <img class="profile-img" src="{{item.img}}" data-edit="img" data-tooltip="WW.System.Image.Edit" />
+      </div>
 
-    {{!-- Left Column --}}
-    <div class="left-col">
-
-      {{!-- Header --}}
-      <header class="sheet-header">
-        <img class="profile-img" src="{{item.img}}" data-edit="img" data-tooltip="WW.System.Image.Edit"/>
-        <div class="header-fields">
-          <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.Item.Name"}}"/></h1>
-
-          <div class="item-type">
-            {{localize "WW.CharOptions.Ancestry"}}
-          </div>
-          
-        </div>
-      </header>
-
+      {{!-- Header Plate --}}
+      <div class="header-plate">
+        <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.Item.Name"}}" /></h1>
+  
+        <div class="item-type">{{localize "WW.CharOptions.Ancestry"}}</div>
+  
+      </div>
+  
       {{!-- Description --}}
       {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
-
+  
     </div>
 
-    {{!-- Right Column --}}
-    <div class="right-col">
-      
-      <div class="benefit-block">
-      
-        {{!-- Header --}}
-        <h5>{{item.name}} {{localize "WW.CharOption.Traits"}}</h5>
-
-        {{!-- Descriptor(s) --}}
-        <div class="stat-inline list-entries">
-
-          <label>{{localize "WW.Detail.Descriptor.Label"}}:</label>  
-
-          {{#each benefits.benefit1.descriptors as |detail id|}}
-          <span class="list-entry">
-            
-            <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-              <a class="array-button" data-action="edit" data-array="benefits.benefit1.descriptors" data-entry-id="{{id}}"
-                data-tooltip="WW.Detail.Descriptor.Edit"><i class="fas fa-edit"></i></a>
-            
-              <a class="array-button" data-action="remove" data-array="benefits.benefit1.descriptors" data-entry-id="{{id}}"
-                data-tooltip="WW.Detail.Descriptor.Remove"><i class="fas fa-trash"></i></a>
-            </span>{{#unless @last}},{{/unless}}
-          </span>
-          {{/each}}{{#unless benefits.benefit1.descriptors.length}}<span>—</span>{{/unless}}
-            
-          <a class="array-button" data-action="add" data-array="benefits.benefit1.descriptors" data-loc="Descriptor"
-            data-tooltip="WW.Detail.Descriptor.Add"><i class="fas fa-circle-plus"></i></a>
-          
-        </div>
-
-        {{!-- Senses --}}
-        <div class="stat-inline list-entries">
-          <label>{{localize "WW.Detail.Sense.Label"}}:</label>       
-
-          {{#each benefits.benefit1.senses as |detail id|}}
-          <span class="list-entry">
-            
-            <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-              <a class="array-button" data-action="edit" data-array="benefits.benefit1.senses" data-entry-id="{{id}}"
-                data-tooltip="WW.Detail.Sense.Edit"><i class="fas fa-edit"></i></a>
-            
-              <a class="array-button" data-action="remove" data-array="benefits.benefit1.senses" data-entry-id="{{id}}"
-                data-tooltip="WW.Detail.Sense.Remove"><i class="fas fa-trash"></i></a>
-            </span>{{#unless @last}},{{/unless}}
-          </span>
-          {{/each}}{{#unless benefits.benefit1.senses.length}}<span>—</span>{{/unless}}
-            
-          <a class="array-button" data-action="add" data-array="benefits.benefit1.senses" data-loc="Sense"
-            data-tooltip="WW.Detail.Sense.Add"><i class="fas fa-circle-plus"></i></a>        
-          
-        </div>
-
-        {{!-- Bonus Languages --}}
-        <div class="stat-inline list-entries">
-          <label>{{localize "WW.Detail.Language.Bonus"}}:</label>        
-
-          {{#each benefits.benefit1.languages as |detail id|}}
-          <span class="list-entry">
-            
-            <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-              <a class="array-button" data-action="edit" data-array="benefits.benefit1.languages" data-entry-id="{{id}}"
-                data-tooltip="WW.Detail.Language.Edit"><i class="fas fa-edit"></i></a>
-            
-              <a class="array-button" data-action="remove" data-array="benefits.benefit1.languages" data-entry-id="{{id}}"
-                data-tooltip="WW.Detail.Language.Remove"><i class="fas fa-trash"></i></a>
-            </span>{{#unless @last}},{{/unless}}
-          </span>
-          {{/each}}{{#unless benefits.benefit1.languages.length}}<span>—</span>{{/unless}}
-            
-          <a class="array-button" data-action="add" data-array="benefits.benefit1.languages" data-loc="Language"
-            data-tooltip="WW.Detail.Language.Add"><i class="fas fa-circle-plus"></i></a>
-
-        </div>
-
-        {{!-- Attributes --}}
-        <div class="stat-inline">
-          <label>{{localize "WW.Attributes.Label"}}:</label>
-          
-          <input name="system.benefits.benefit1.attributes" type="text"
-            value="{{benefits.benefit1.attributes}}" />
-        </div>
-      
-        {{!-- Natural Defense, Health --}}
-        <div class="stat-inline flex-wrap flex-children">
-                
-          <div>
-            <label>{{localize "WW.Defense.Natural"}}:</label>
-
-            <span class="mr-n1">+</span>
-
-            <div class="input-wrap">
-              <input name="system.benefits.benefit1.stats.naturalIncrease" type="number"
-                value="{{benefits.benefit1.stats.naturalIncrease}}" min="0" placeholder="0" />
-
-              <div class="input-overlay">{{benefits.benefit1.stats.naturalIncrease}}</div>
-            </div>
-            
-          </div>
-      
-          <div>
-            <label>{{localize "WW.Health.Label"}}:</label>
-
-            <span class="mr-n1">+</span>
-
-            <div class="input-wrap">
-              <input name="system.benefits.benefit1.stats.healthIncrease" type="number"
-                value="{{benefits.benefit1.stats.healthIncrease}}" min="0" placeholder="0" />
-
-              <div class="input-overlay">{{benefits.benefit1.stats.healthIncrease}}</div>
-            </div>
-            
-          </div>
-          
-        </div>
-
-        {{!-- Size, Speed --}}
-        <div class="stat-inline list-entries flex-children">
-
-          {{!-- Size --}}
-          <label>{{localize "WW.Stats.Size"}}:</label>
-
-          <div class="input-wrap">
-            <input name="system.benefits.benefit1.stats.sizeNormal" type="number"
-              value="{{benefits.benefit1.stats.sizeNormal}}" min="0" placeholder="1" />
-
-            <div class="input-overlay">{{benefits.benefit1.stats.sizeNormal}}</div>
-          </div>
-            
-          {{!-- Speed --}}
-          <label>{{localize "WW.Stats.Speed"}}:</label>
-          
-          <div class="input-wrap">
-            <input name="system.benefits.benefit1.stats.speedNormal" type="number"
-              value="{{benefits.benefit1.stats.speedNormal}}" min="1" placeholder="1" />
-
-            <div class="input-overlay">{{benefits.benefit1.stats.speedNormal}}</div>
-          </div>
-            
-          {{!-- Movement Traits --}}
-          {{#each benefits.benefit1.movementTraits as |detail id|}}<span class="list-entry">
-            {{#if @first}}({{/if}}<a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-              <a class="array-button" data-action="edit" data-array="benefits.benefit1.movementTraits" data-entry-id="{{id}}"
-                data-tooltip="WW.Movement.Edit"><i class="fas fa-edit"></i></a>
-            
-              <a class="array-button" data-action="remove" data-array="benefits.benefit1.movementTraits" data-entry-id="{{id}}"
-                data-tooltip="WW.Movement.Remove"><i class="fas fa-trash"></i></a>
-            </span>{{#unless @last}},{{/unless}}{{#if @last}}){{/if}}
-          </span>
-          {{/each}}
-            
-          <a class="array-button" data-action="add" data-array="benefits.benefit1.movementTraits" data-loc="Movement"
-            data-tooltip="WW.Movement.Add"><i class="fas fa-circle-plus"></i></a>
-          
-        </div>
-
-        {{!-- Immune --}}
-        <div class="stat-inline list-entries">
-          <label>{{localize "WW.Detail.Immune.Label"}}:</label>  
-
-          {{#each benefits.benefit1.immune as |detail id|}}
-          <span class="list-entry">
-            
-            <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-              <a class="array-button" data-action="edit" data-array="benefits.benefit1.immune" data-entry-id="{{id}}"
-                data-tooltip="WW.Detail.Immune.Edit"><i class="fas fa-edit"></i></a>
-            
-              <a class="array-button" data-action="remove" data-array="benefits.benefit1.immune" data-entry-id="{{id}}"
-                data-tooltip="WW.Detail.Immune.Remove"><i class="fas fa-trash"></i></a>
-            </span>{{#unless @last}},{{/unless}}
-          </span>
-          {{/each}}
-            
-          {{#unless benefits.benefit1.immune.length}}<span>—</span>{{/unless}}
-            
-          <a class="array-button" data-action="add" data-array="benefits.benefit1.immune" data-loc="Immune"
-            data-tooltip="WW.Detail.Immune.Add"><i class="fas fa-circle-plus"></i></a>
-
-        </div>
-      
-        {{!-- Items Area --}}
-        <ol class="described-list items-area benefit1">
-          {{#unless benefits.benefit1.itemsInfo}}{{{itemsAreaHint}}}{{/unless}}
-      
-          {{#each benefits.benefit1.itemsInfo as |item id|}}
-          <li class="path-item item{{#if item.missing}} missing{{/if}}" data-item-uuid="{{item.uuid}}">
-            <label>{{item.name}}:</label>
-      
-            <span class="buttons">
-              {{#unless item.missing}}<a class="ref-edit" data-tooltip="WW.CharOption.EditRef"><i
-                  class="fas fa-edit"></i></a>{{/unless}}
-              <a class="ref-remove" data-tooltip="WW.CharOption.RemoveRef"><i class="fas fa-trash"></i></a>
-            </span>
-      
-            <span>{{{item.description}}}</span>
-          </li>
-          {{/each}}
-        </ol>
-
+  </header>
+  
+  {{!-- Right Column --}}
+  <div class="right-col">
+  
+    <div class="benefit-block">
+  
+      {{!-- Header --}}
+      <h5>{{item.name}} {{localize "WW.CharOption.Traits"}}</h5>
+  
+      {{!-- Descriptor(s) --}}
+      <div class="stat-inline list-entries">
+  
+        <label>{{localize "WW.Detail.Descriptor.Label"}}:</label>
+  
+        {{#each benefits.benefit1.descriptors as |detail id|}}
+        <span class="list-entry">
+  
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
+            <a class="array-button" data-action="edit" data-array="benefits.benefit1.descriptors" data-entry-id="{{id}}"
+              data-tooltip="WW.Detail.Descriptor.Edit"><i class="fas fa-edit"></i></a>
+  
+            <a class="array-button" data-action="remove" data-array="benefits.benefit1.descriptors" data-entry-id="{{id}}"
+              data-tooltip="WW.Detail.Descriptor.Remove"><i class="fas fa-trash"></i></a>
+          </span>{{#unless @last}},{{/unless}}
+        </span>
+        {{/each}}{{#unless benefits.benefit1.descriptors.length}}<span>—</span>{{/unless}}
+  
+        <a class="array-button" data-action="add" data-array="benefits.benefit1.descriptors" data-loc="Descriptor"
+          data-tooltip="WW.Detail.Descriptor.Add"><i class="fas fa-circle-plus"></i></a>
+  
       </div>
-    
+  
+      {{!-- Senses --}}
+      <div class="stat-inline list-entries">
+        <label>{{localize "WW.Detail.Sense.Label"}}:</label>
+  
+        {{#each benefits.benefit1.senses as |detail id|}}
+        <span class="list-entry">
+  
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
+            <a class="array-button" data-action="edit" data-array="benefits.benefit1.senses" data-entry-id="{{id}}"
+              data-tooltip="WW.Detail.Sense.Edit"><i class="fas fa-edit"></i></a>
+  
+            <a class="array-button" data-action="remove" data-array="benefits.benefit1.senses" data-entry-id="{{id}}"
+              data-tooltip="WW.Detail.Sense.Remove"><i class="fas fa-trash"></i></a>
+          </span>{{#unless @last}},{{/unless}}
+        </span>
+        {{/each}}{{#unless benefits.benefit1.senses.length}}<span>—</span>{{/unless}}
+  
+        <a class="array-button" data-action="add" data-array="benefits.benefit1.senses" data-loc="Sense"
+          data-tooltip="WW.Detail.Sense.Add"><i class="fas fa-circle-plus"></i></a>
+  
+      </div>
+  
+      {{!-- Bonus Languages --}}
+      <div class="stat-inline list-entries">
+        <label>{{localize "WW.Detail.Language.Bonus"}}:</label>
+  
+        {{#each benefits.benefit1.languages as |detail id|}}
+        <span class="list-entry">
+  
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
+            <a class="array-button" data-action="edit" data-array="benefits.benefit1.languages" data-entry-id="{{id}}"
+              data-tooltip="WW.Detail.Language.Edit"><i class="fas fa-edit"></i></a>
+  
+            <a class="array-button" data-action="remove" data-array="benefits.benefit1.languages" data-entry-id="{{id}}"
+              data-tooltip="WW.Detail.Language.Remove"><i class="fas fa-trash"></i></a>
+          </span>{{#unless @last}},{{/unless}}
+        </span>
+        {{/each}}{{#unless benefits.benefit1.languages.length}}<span>—</span>{{/unless}}
+  
+        <a class="array-button" data-action="add" data-array="benefits.benefit1.languages" data-loc="Language"
+          data-tooltip="WW.Detail.Language.Add"><i class="fas fa-circle-plus"></i></a>
+  
+      </div>
+  
+      {{!-- Attributes --}}
+      <div class="stat-inline">
+        <label>{{localize "WW.Attributes.Label"}}:</label>
+  
+        <input name="system.benefits.benefit1.attributes" type="text" value="{{benefits.benefit1.attributes}}" />
+      </div>
+  
+      {{!-- Natural Defense, Health --}}
+      <div class="stat-inline flex-wrap flex-children">
+  
+        <div>
+          <label>{{localize "WW.Defense.Natural"}}:</label>
+  
+          <span class="mr-n1">+</span>
+  
+          <div class="input-wrap">
+            <input name="system.benefits.benefit1.stats.naturalIncrease" type="number"
+              value="{{benefits.benefit1.stats.naturalIncrease}}" min="0" placeholder="0" />
+  
+            <div class="input-overlay">{{benefits.benefit1.stats.naturalIncrease}}</div>
+          </div>
+  
+        </div>
+  
+        <div>
+          <label>{{localize "WW.Health.Label"}}:</label>
+  
+          <span class="mr-n1">+</span>
+  
+          <div class="input-wrap">
+            <input name="system.benefits.benefit1.stats.healthIncrease" type="number"
+              value="{{benefits.benefit1.stats.healthIncrease}}" min="0" placeholder="0" />
+  
+            <div class="input-overlay">{{benefits.benefit1.stats.healthIncrease}}</div>
+          </div>
+  
+        </div>
+  
+      </div>
+  
+      {{!-- Size, Speed --}}
+      <div class="stat-inline list-entries flex-children">
+  
+        {{!-- Size --}}
+        <label>{{localize "WW.Stats.Size"}}:</label>
+  
+        <div class="input-wrap">
+          <input name="system.benefits.benefit1.stats.sizeNormal" type="number"
+            value="{{benefits.benefit1.stats.sizeNormal}}" min="0" placeholder="1" />
+  
+          <div class="input-overlay">{{benefits.benefit1.stats.sizeNormal}}</div>
+        </div>
+  
+        {{!-- Speed --}}
+        <label>{{localize "WW.Stats.Speed"}}:</label>
+  
+        <div class="input-wrap">
+          <input name="system.benefits.benefit1.stats.speedNormal" type="number"
+            value="{{benefits.benefit1.stats.speedNormal}}" min="1" placeholder="1" />
+  
+          <div class="input-overlay">{{benefits.benefit1.stats.speedNormal}}</div>
+        </div>
+  
+        {{!-- Movement Traits --}}
+        {{#each benefits.benefit1.movementTraits as |detail id|}}<span class="list-entry">
+          {{#if @first}}({{/if}}<a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
+            <a class="array-button" data-action="edit" data-array="benefits.benefit1.movementTraits"
+              data-entry-id="{{id}}" data-tooltip="WW.Movement.Edit"><i class="fas fa-edit"></i></a>
+  
+            <a class="array-button" data-action="remove" data-array="benefits.benefit1.movementTraits"
+              data-entry-id="{{id}}" data-tooltip="WW.Movement.Remove"><i class="fas fa-trash"></i></a>
+          </span>{{#unless @last}},{{/unless}}{{#if @last}}){{/if}}
+        </span>
+        {{/each}}
+  
+        <a class="array-button" data-action="add" data-array="benefits.benefit1.movementTraits" data-loc="Movement"
+          data-tooltip="WW.Movement.Add"><i class="fas fa-circle-plus"></i></a>
+  
+      </div>
+  
+      {{!-- Immune --}}
+      <div class="stat-inline list-entries">
+        <label>{{localize "WW.Detail.Immune.Label"}}:</label>
+  
+        {{#each benefits.benefit1.immune as |detail id|}}
+        <span class="list-entry">
+  
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
+            <a class="array-button" data-action="edit" data-array="benefits.benefit1.immune" data-entry-id="{{id}}"
+              data-tooltip="WW.Detail.Immune.Edit"><i class="fas fa-edit"></i></a>
+  
+            <a class="array-button" data-action="remove" data-array="benefits.benefit1.immune" data-entry-id="{{id}}"
+              data-tooltip="WW.Detail.Immune.Remove"><i class="fas fa-trash"></i></a>
+          </span>{{#unless @last}},{{/unless}}
+        </span>
+        {{/each}}
+  
+        {{#unless benefits.benefit1.immune.length}}<span>—</span>{{/unless}}
+  
+        <a class="array-button" data-action="add" data-array="benefits.benefit1.immune" data-loc="Immune"
+          data-tooltip="WW.Detail.Immune.Add"><i class="fas fa-circle-plus"></i></a>
+  
+      </div>
+  
+      {{!-- Items Area --}}
+      <ol class="described-list items-area benefit1">
+        {{#unless benefits.benefit1.itemsInfo}}{{{itemsAreaHint}}}{{/unless}}
+  
+        {{#each benefits.benefit1.itemsInfo as |item id|}}
+        <li class="path-item item{{#if item.missing}} missing{{/if}}" data-item-uuid="{{item.uuid}}">
+          <label>{{item.name}}:</label>
+  
+          <span class="buttons">
+            {{#unless item.missing}}<a class="ref-edit" data-tooltip="WW.CharOption.EditRef"><i
+                class="fas fa-edit"></i></a>{{/unless}}
+            <a class="ref-remove" data-tooltip="WW.CharOption.RemoveRef"><i class="fas fa-trash"></i></a>
+          </span>
+  
+          <span>{{{item.description}}}</span>
+        </li>
+        {{/each}}
+      </ol>
+  
     </div>
-
+  
   </div>
   
 </form>

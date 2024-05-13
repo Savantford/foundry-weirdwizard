@@ -1,4 +1,4 @@
-import { addInstEffs } from '../chat/chat-html-templates.mjs';
+import { addActEffs, addInstEffs } from '../chat/chat-html-templates.mjs';
 import { capitalize, escape, i18n, plusify, sum } from '../helpers/utils.mjs';
 import { diceTotalHtml } from '../chat/chat-html-templates.mjs';
 import ListEntryConfig from '../apps/list-entry-config.mjs';
@@ -146,6 +146,11 @@ export default class WWActorSheet extends ActorSheet {
       <p>${i18n('WW.Stats.AutomationHint', { stat: i18n("WW.Stats.Size") })}</p>
     `);
 
+    // Bonus Damage Tooltip
+    context.bonusDamageTooltip = escape(`
+      <p>${i18n('WW.Stats.AutomationHint', { stat: i18n("WW.Damage.Bonus") })}</p>
+    `);
+
     // Setup usage help text for tooltips (so we can reuse it)
     const usagehelp = escape(`
       <p>${i18n("WW.Item.Perform.Left")}</p>
@@ -281,7 +286,7 @@ export default class WWActorSheet extends ActorSheet {
               if (x[1]) {
                 let string = i18n('WW.Weapon.Traits.' + capitalize(x[0]) + '.Label');
                 
-                if ((x[0] == 'range') || (x[0] == 'thrown')) {string += ' ' + i.system.range;}
+                if ((x[0] == 'range') || (x[0] == 'reach' && i.system.range) || (x[0] == 'thrown') ) {string += ' ' + i.system.range;}
 
                 list = list.concat(list ? ', ' + string : string);
               }
@@ -883,11 +888,12 @@ export default class WWActorSheet extends ActorSheet {
       label = _secretLabel(item.name),
       content = _secretContent(item.system.description.value),
       instEffs = item.system.instant,
+      effects = item.effects,
       origin = item.uuid ? item.uuid : this.actor.uuid,
       action = dataset.action
 
     const attKey = system.attributes[item.system.attribute] ? item.system.attribute : '';
-
+    
     if (!attKey) { // If an attribute key is not defined, do not roll
       
       const obj = {
@@ -896,12 +902,13 @@ export default class WWActorSheet extends ActorSheet {
         content: content,
         attKey: attKey,
         action: action,
-        dontRoll: true
+        dontRoll: true,
+        instEffs: instEffs,
+        effects: effects
       }
 
       // If targeted-use button was clicked
       if (action === 'targeted-use') {
-
         // If item is a weapon, throw a warning if an against attribute was not selected
         if (item?.system?.subtype === 'weapon' && !item.system.against) ui.notifications.warn(i18n("WW.Roll.AgainstWrn"));
 
@@ -918,7 +925,12 @@ export default class WWActorSheet extends ActorSheet {
 
       // If untargeted-use was clicked
       else if (action === 'untargeted-use') {
-  
+        let rollHtml = '';
+
+        rollHtml += addInstEffs(instEffs, origin, '');
+        rollHtml += addActEffs(effects, origin, '');
+
+        // Create message data to sell
         let messageData = {
           speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
           flavor: label,
@@ -927,10 +939,10 @@ export default class WWActorSheet extends ActorSheet {
           'flags.weirdwizard': {
             icon: item.img,
             item: item.uuid,
-            rollHtml: addInstEffs(instEffs, origin, ''),
+            rollHtml: rollHtml,
             emptyContent: !content ?? true
           }
-        };
+        }
         
         ChatMessage.create(messageData);
       }
