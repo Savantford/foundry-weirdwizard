@@ -249,7 +249,7 @@ export default class WWItem extends Item {
     if (stats.naturalSet) changes.push({
       key: 'defense.natural',
       value: stats.naturalSet,
-      mode: 4,
+      mode: 5,
       priority: 1
     })
 

@@ -1,4 +1,4 @@
-import { i18n, formatTime, escape } from '../helpers/utils.mjs';
+import { i18n, formatTime } from '../helpers/utils.mjs';
 
 /**
 * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
@@ -69,7 +69,7 @@ export default class WWActor extends Actor {
       break;
 
     }
-
+    
     await this.updateSource({
       img: icon,
       'prototypeToken.disposition': dispo,
@@ -80,9 +80,20 @@ export default class WWActor extends Actor {
     return await super._preCreate(data, options, user);
   }
 
+  async _onCreate(data, options, user) {
+    // Fix Health and Incapacitated
+    this.incapacitated = false;
+    await this.updateSource({
+      'system.stats.health.current': data.system.stats.health.normal ? data.system.stats.health.normal : 10,
+      'system.stats.damage.value': 0
+    });
+
+    return await super._onCreate(await data, options, user);
+  }
+
   async _preUpdate(changed, options, user) {
     await super._preUpdate(changed, options, user);
-
+    
     // Record Incapacitated status
     const cStats = await changed.system?.stats;
 
@@ -108,6 +119,7 @@ export default class WWActor extends Actor {
   /** @override */
   _preUpdateDescendantDocuments(parent, collection, documents, changes, options, userId) {
     // Record incapacitated status
+    
     const health = this.system?.stats?.health?.current;
     const damage = this.system?.stats?.damage?.value;
     if (damage >= health) this.incapacitated = true; else this.incapacitated = false;

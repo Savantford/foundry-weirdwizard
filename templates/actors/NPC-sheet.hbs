@@ -1,4 +1,4 @@
-<form class="{{cssClass}} sheet npc-sheet flexcol" autocomplete="off">
+<form class="{{cssClass}} sheet npc-sheet flexcol {{#if dead}}dead{{else if incapacitated}}incapacitated{{else if injured}}injured{{/if}}" autocomplete="off">
 
     {{!-- Sheet Header --}}
     <header class="sheet-header">
@@ -7,13 +7,13 @@
             {{> "systems/weirdwizard/templates/actors/parts/portrait.hbs" img=actor.img token=true}}
         </div>
 
-        <div class="header-fields">
+        <div class="sheet-banner">
 
-            <div>
-                {{!-- Character Name --}}
-                <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.Actor.Name"}}"/></h1>
+            {{!-- Character Name --}}
+            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.Actor.Name"}}"/></h1>
 
-                {{!-- Disposition Toggle --}}
+            {{!-- Disposition Toggle --}}
+            <div class="disposition-wrapper">
                 <a class="change-disposition{{#if (eq disposition 1)}} ally{{else if (eq disposition -1)}} enemy{{/if}}"
                     data-tooltip="WW.Actor.Disposition.Tip">
                     {{#if (eq disposition 1)}}{{localize "WW.Actor.Disposition.Ally"}}
@@ -22,28 +22,24 @@
                     {{else if (eq disposition -2)}}{{localize "WW.Actor.Disposition.Secret"}} (!)
                     {{else}}{{localize "WW.Actor.Disposition.Unknown"}} (!){{/if}}
                 </a>
-                
             </div>
-
-            <div class="sheet-tabs-wrapper">
-
-                {{!-- Sheet Tab Navigation --}}
-                <nav class="sheet-tabs tabs npc-tabs" data-group="primary">
-                    <a class="item" data-tab="summary">{{localize "WW.Stats.Label"}}</a>
-                    <a class="item" data-tab="description">{{localize "WW.Item.Description"}}</a>
-                    <a class="item" data-tab="effects">{{localize "WW.Effects.Label"}}</a>
-                </nav>
-
-                {{!-- Sheet Menu --}}
-                <a class="sheet-menu" data-tooltip="COMING SOON!"><i class="fas fa-bars"></i></a>
-
-            </div>
-
+            
         </div>
 
     </header>
 
-    <section class="sheet-body"> {{!-- Sheet Body --}}
+    {{!-- Sheet Menu --}}
+    <a class="item sheet-menu" data-tooltip="WW.System.Sheet.Menu"><i class="fas fa-bars"></i></a>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="summary" data-tooltip="WW.Actor.Summary"><span class="tab-icon"></span></a>
+        <a class="item" data-tab="description" data-tooltip="WW.Item.Description"><span class="tab-icon"></span></a>
+        <a class="item" data-tab="effects" data-tooltip="WW.Effects.Label"><span class="tab-icon"></span></a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
 
         {{!-- Summary Tab --}}
         <div class="tab summary" data-group="primary" data-tab="summary">

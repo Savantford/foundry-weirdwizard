@@ -9,6 +9,7 @@
   /*--purple-medium-rbg: 73, 36, 79;*/
   --purple-light: #DBD3DC;
   --purple-light-rbg: 219, 211, 220;
+  --purple-darker: hsla(292, 67%, 23%, 0.5);
   --body-text-color: #000000;
   --gray: #BCBEC0;
   /* Filters */
@@ -182,10 +183,6 @@
 
 /* Responsive Grids */
 
-.weirdwizard.sheet.actor {
-  min-width: 600px;
-}
-
 .auto-grid-2 {
   --auto-grid-min-size: 15rem;
   display: grid;
@@ -294,9 +291,11 @@
   text-align: center;
 }
 
-
-
 /* Styles limited to weirdwizard sheets */
+.app.weirdwizard {
+  background-color: var(--purple-darker);
+  background-blend-mode: hard-light;
+}
 
 .weirdwizard .window-content,
 .window-app .window-content {
@@ -308,6 +307,38 @@
 
 .weirdwizard.sheet.actor .window-content {
   overflow-y: scroll;
+}
+
+/* Min Dimensions for Sheets */
+.weirdwizard.sheet.actor {
+  min-width: 550px;
+  min-height: 350px;
+}
+
+.weirdwizard.charoption {
+  min-width: 550px;
+  min-height: 350px;
+}
+
+/* Grayscale Filter for Actor Sheets */
+.weirdwizard .dead .sheet-tabs,
+.weirdwizard .dead .sheet-body,
+.weirdwizard.npc .dead .sheet-header {
+  filter: grayscale(1);
+}
+
+.weirdwizard.character .dead .sheet-banner {
+  filter: grayscale(1) drop-shadow(0 0 3px black);
+}
+
+.weirdwizard .incapacitated .sheet-tabs,
+.weirdwizard .incapacitated .sheet-body,
+.weirdwizard.npc .incapacitated .sheet-header {
+  filter: grayscale(0.5);
+}
+
+.weirdwizard.character .incapacitated .sheet-banner {
+  filter: grayscale(0.5) drop-shadow(0 0 3px black);
 }
 
 /* Headers */
@@ -511,7 +542,7 @@
   float: right;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 3px;
 }
 
 .weirdwizard .statbox-header .statbox-difficulty {
@@ -825,10 +856,11 @@
   font-weight: bold;
 }
 
-.weirdwizard .character-sheet {
+.weirdwizard.character form,
+.weirdwizard.charoption form {
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 15px;
   padding: 0;
 }
 
@@ -838,16 +870,32 @@
   min-width: 200px;
 }
 
-.weirdwizard .character-header {
+.weirdwizard.character .sheet-header,
+.weirdwizard.charoption .sheet-header {
   flex-direction: column !important;
   text-align: center;
   height: fit-content;
-  flex: 0 250px;
+  flex: 0 255px;
 }
 
-.weirdwizard .character-header .header-fields {
-  width: 250px;
+.weirdwizard.charoption .sheet-header {
+  flex: 0 230px;
+}
+
+.weirdwizard.character .sheet-banner,
+.weirdwizard.charoption .sheet-banner {
   position: fixed;
+  width: 260px;
+  padding: 8px 5px 20px;
+  margin-top: -8px;
+  background: url(../assets/ui/sheet-main-banner.svg) no-repeat;
+  background-position: center bottom;
+  background-size: cover;
+  filter: drop-shadow(0 0 3px black);
+}
+
+.weirdwizard.charoption .sheet-banner {
+  width: 235px;
 }
 
 .weirdwizard .character-subtitle {
@@ -866,19 +914,53 @@
 
 .weirdwizard .sheet .profile-img {
   border-radius: 50%;
+  margin: 0;
+}
+
+.weirdwizard.npc .profile-img,
+.weirdwizard.item .profile-img {
+  outline: 2px solid var(--purple-dark);
+  outline-offset: 2px;
+  filter: drop-shadow(0 0 1px var(--purple-dark));
+}
+
+.weirdwizard.item:not(.charoption) .profile-img {
+  margin-right: 10px;
+}
+
+
+/* Char Option Sheet Banner */
+
+.weirdwizard.charoption .sheet-banner .editor {
+  margin-bottom: 25px;
+}
+
+.weirdwizard.charoption .sheet-banner .tox.tox-tinymce {
+  min-height: 115px;
+}
+
+.weirdwizard.charoption .sheet-banner .tox-editor-header {
+  padding: 0;
+}
+
+.weirdwizard.charoption .sheet-banner .tox .tox-toolbar__group {
+  padding: 0 1px 0 2px;
+}
+
+.weirdwizard.charoption .sheet-banner .editor-content {
+  max-height: 200px;
+  text-align: left;
+  color: white;
 }
 
 /* NPC Sheet Image */
 
-.weirdwizard .npc-sheet .profile-img-wrapper {
+.weirdwizard.npc .profile-img-wrapper {
   margin: 0.3em;
 }
 
-.weirdwizard .npc-sheet .profile-img {
+.weirdwizard.npc .profile-img {
   height: 100%;
-  outline: 2px solid var(--purple-dark);
-  outline-offset: 2px;
-  filter: drop-shadow(0 0 1px var(--purple-dark));
 }
 
 .weirdwizard .profile-img-menu {
@@ -914,12 +996,12 @@
   place-items: center;
   border-radius: 50%;
 
-  --radius: 110px;
+  --radius: 114px;
   width: calc(2 * var(--radius));
   height: calc(2 * var(--radius));
 
   position: relative;
-  margin: 20px auto;
+  margin: 15px auto;
 
   outline: 2px solid var(--purple-dark);
   outline-offset: 5px;
@@ -938,6 +1020,7 @@
   grid-area: layer;
   
   --ele-radius: 32px;
+  --radius-offset: 12px;
   width: calc(2 * var(--ele-radius));
   height: calc(2 * var(--ele-radius));
   border: 2px solid var(--purple-dark);
@@ -946,10 +1029,10 @@
   display: grid;
   place-items: center;
 
-  background: var(--icon), var(--background), var(--background-color-shadow);
-  background-size: 100%;
+  background: var(--icon) no-repeat, var(--background), var(--background-color-shadow);
+  background-size: 90%;
   background-position: center;
-  background-blend-mode: overlay;
+  background-blend-mode: multiply;
 
   font-weight: bold;
 
@@ -962,41 +1045,45 @@
   /* Rotation based on the decimal and r modifiers */
   --r: calc((var(--r-amount) * var(--d)) + var(--r-offset));
   /* Rotate, transform out, then negative rotation so the content appears upright */
-  --transform: rotate(var(--r)) translate(var(--radius))
-    rotate(calc(-1 * var(--r)));
-
+  --transform: rotate(var(--r)) translate(calc(var(--radius-offset) + var(--radius))) rotate(calc(-1 * var(--r)));
   transform: var(--transform);
 
 }
 
+.weirdwizard .circle,
+.weirdwizard .circle input {
+  text-shadow: 0 0 1px white, 0 0 2px white, 0 0 3px white, 0 0 4px white
+}
+
 .weirdwizard .circle .stat.str {
-  --icon: url(../assets/icons/biceps.svg);
+  --icon: url(../assets/icons/circle-strength.svg);
+  background-size: 100%;
 }
 
 .weirdwizard .circle .stat.agi {
-  --icon: url(../assets/icons/agility.svg);
-  background-size: 90%;
+  --icon: url(../assets/icons/circle-agility.svg);
+  background-size: 85%;
+  background-position: center calc(50% - 2px);
 }
 
 .weirdwizard .circle .stat.int {
-  --icon: url(../assets/icons/open-book.svg);
-  background-size: 90%;
+  --icon: url(../assets/icons/circle-intellect.svg);
+  background-position: center calc(50% + 1px);
 }
 
 .weirdwizard .circle .stat.wil {
-  --icon: url(../assets/icons/burning-star.svg);
+  --icon: url(../assets/icons/circle-will.svg);
 }
 
 .weirdwizard .circle .stat.luck {
   --icon: url(../assets/icons/clover.svg);
   --ele-radius: 22px;
-  background-size: 90%;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   transition: opacity 100ms ease-in-out;
   opacity: 0;
 }
 
-.weirdwizard .header-fields:hover .circle .stat.luck {
+.weirdwizard .sheet-banner:hover .circle .stat.luck {
   opacity: 1;
 }
 
@@ -1022,21 +1109,23 @@
   margin-right: 5px;
 }
 
-.weirdwizard .sheet-header .header-fields {
+.weirdwizard .sheet-banner {
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
 }
 
-.weirdwizard.npc .header-fields {
+.weirdwizard.npc .sheet-banner {
   margin-left: 10px;
   height: 100%;
   display: flex;
   flex-flow: column;
 }
 
-.weirdwizard.npc .header-fields > div:not(.sheet-tabs-wrapper) {
-  height: 100%;
+.weirdwizard.charoption .sheet-banner {
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
 }
 
 .weirdwizard h1.charname {
@@ -1046,7 +1135,6 @@
 }
 
 .weirdwizard.npc h1.charname {
-  margin: 0 0 5px 0;
   height: 100%;
 }
 
@@ -1060,9 +1148,8 @@
 }
 
 /* Header Plate */
-
-.weirdwizard .character-header-plate {
-  border-image: url(../assets/ui/sheet-double-rectangle.svg);
+.weirdwizard .sheet-banner .header-plate {
+  border-image: url(../assets/ui/sheet-double-rectangle-purple.svg);
   border-image-slice: 160 fill;
   border-image-width: 20px;
   padding: 8px 16px;
@@ -1071,19 +1158,18 @@
 /* Health widget */
 
 .weirdwizard .health-block {
-  margin-bottom: 5px;
   --health-bar-width: 30px;
   --health-cap-width: 10px;
   --health-number-width: 30px;
   --health-progress-width: 20px;
   --health-progress-length: 164px;
+  --health-right-offset: 10px;
 }
 
 .weirdwizard .health-header {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   justify-content: space-between;
-  font-weight: bold;
   margin: 0 var(--health-cap-width) 0.2em;
 }
 
@@ -1092,7 +1178,7 @@
 }
 
 .weirdwizard .health-header label {
-  color: var(--purple-dark);
+  color: white;
   text-align: left;
 }
 
@@ -1102,9 +1188,10 @@
 
 .weirdwizard .health-header .health-indicator {
   color: #8B0000;
+  font-weight: bold;
   padding: 0 3px;
   border-radius: 5px;
-  background: rgba(139, 0, 0, 0.1);
+  background: rgba(var(--purple-light-rbg), 0.7);
 }
 
 .weirdwizard .health-header .health-indicator.incapacitated:hover {
@@ -1125,7 +1212,7 @@
 .weirdwizard .health-overlay {
   position: absolute;
   height: var(--health-bar-width);
-  width: 100%;
+  width: calc(100% - var(--health-right-offset));
   background: url(../assets/ui/healthbar-overlay.svg) no-repeat;
   background-position: bottom center;
   background-size: 100% 100%;
@@ -1134,7 +1221,7 @@
 .weirdwizard .health-numbers {
   position: absolute;
   height: var(--health-number-width);
-  width: 100%;
+  width: calc(100% - var(--health-right-offset));
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1193,30 +1280,105 @@
 /* Character Stats */
 
 .weirdwizard .character-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5px 0;
-  align-items: center;
-  border-image: url(../assets/ui/sheet-rectangle.svg);
-  border-image-slice: 120 fill;
-  border-image-width: 15px;
-  padding: 8px;
-}
-
-.weirdwizard .sheet-tabs-wrapper {
+  --stats-height-offset: 5px;
+  --stats-width-offset: 15px;
   display: flex;
   align-items: center;
-  gap: 5px;
-  margin-bottom: 3px;
-  border-bottom: 1px solid var(--color-border-light-primary);
+  justify-content: space-evenly;
+  padding: 0 8px;
+  padding-bottom: 10px;
+  background: url(../assets/ui/sheet-stats-pattern.svg) no-repeat, url(../assets/ui/sheet-stats-banner.svg) no-repeat;
+  background-position: center calc(50% - var(--stats-height-offset)), bottom center;
+  background-size: auto, calc(100% - 2* var(--stats-width-offset)) auto;
+  font-weight: bold;
+  filter: drop-shadow(0 2px 2px #333);
 }
 
-.weirdwizard.npc .sheet-tabs-wrapper {
-  margin: auto 0 0 0;
+.weirdwizard .character-stats .stat-col {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  margin-top: 5px;
 }
 
+.weirdwizard .character-stats .stat {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.weirdwizard .character-stats .stat.defense,
+.weirdwizard .character-stats .stat.bonus-damage {
+  padding-bottom: 0;
+}
+
+.weirdwizard .character-stats .stat.bonus-damage .filler {
+  font-size: x-large;
+  color: var(--purple-medium);
+}
+
+.weirdwizard .character-stats .stat.bonus-damage .hidden,
+.weirdwizard .character-stats:hover .stat.bonus-damage .filler {
+  display: none;
+}
+
+.weirdwizard .character-stats:hover .stat.bonus-damage .hidden {
+  display: flex;
+}
+
+.weirdwizard .character-stats .stat label {
+  position: absolute;
+  margin-bottom: 55px;
+  text-shadow: 0 0 5px rgb(216,216,204), 0 0 5px rgb(216,216,204), 0 0 5px rgb(216,216,204);
+}
+
+.weirdwizard .character-stats .stat.defense label {
+  margin-bottom: 0;
+  margin-top: 55px;
+}
+
+.weirdwizard .character-stats .stat.bonus-damage label {
+  margin-bottom: 65px;
+}
+
+.weirdwizard .character-stats .stat > div {
+  --stat-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--stat-size);
+  height: var(--stat-size);
+  background: url(/systems/weirdwizard/assets/ui/sheet-stats-generic.svg) no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.weirdwizard .character-stats .stat.defense > div {
+  background-image: url(/systems/weirdwizard/assets/ui/sheet-stats-defense.svg);
+}
+
+.weirdwizard .character-stats .stat.bonus-damage > div {
+  background-image: url(/systems/weirdwizard/assets/ui/sheet-stats-bonus-damage.svg);
+  --stat-size: 55px;
+  padding-right: 1px;
+}
+
+.weirdwizard .character-stats .stat.bonus-damage .input-wrap {
+  margin-right: -1px;
+}
+
+/* Sheet Navigation Tabs */
 .weirdwizard .sheet:not(.active-effect-sheet) nav.sheet-tabs {
-  width: 100%;
+  --tab-full-width: 44px;
+  --tab-inactive-width: 26px;
+  position: absolute;
+  left: 100%;
+  top: calc(33px + var(--tab-full-width));
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
   margin: 0;
   border: none;
   font-family: var(--font-serif);
@@ -1224,9 +1386,11 @@
   font-weight: bold;
   text-transform: uppercase;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 2px 2px;
-  border-top: none !important;
+  z-index: -1;
+}
+
+.weirdwizard.sheet.item nav.sheet-tabs {
+  top: 2.5em;
 }
 
 .weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs > div {
@@ -1237,28 +1401,102 @@
 }
 
 .weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item {
-  white-space: nowrap;
-  flex-grow: 1;
-  border-radius: 5px 5px 0px 0px;
-  background: var(--purple-light);
-  padding: 4px 8px !important;
+  width: var(--tab-full-width);
+  height: 40px;
+  position: relative;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  background: no-repeat;
+  background-color: var(--purple-medium);
+  background-position: center;
+  background-size: auto 80%;
+  border: 1px solid transparent;
+  border-radius: 0 8px 8px 0;
+  font-size: var(--font-size-14);
+  margin-left: calc((var(--tab-full-width) - var(--tab-inactive-width)) * -1);
+  transition: all 250ms ease;
+  filter: drop-shadow(3px 0 5px black);
+}
+
+.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item.active,
+.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item:hover {
+  background-color: var(--purple-dark);
 }
 
 .weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item.active {
-  background: var(--purple-dark);
-  color: white;
-  font-weight: normal;
-  text-shadow: none;
+  margin: 0;
 }
 
+.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item:hover {
+  text-shadow: none;
+  margin: 0;
+  box-shadow: 0 0 5px 0 black;
+  border: 1px solid;
+}
+
+.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="summary"] {
+  background-image: url('../assets/icons/diploma.svg');
+}
+
+.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="details"],
+.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="description"] {
+  background-image: url('../assets/icons/scroll-quill.svg');
+}
+
+.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="equipment"] {
+  background-image: url('../assets/icons/backpack.svg');
+}
+
+.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="talents"] {
+  background-image: url('../assets/icons/skills.svg');
+}
+
+.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="spells"] {
+  background-image: url('../assets/icons/spell-book.svg');
+}
+
+.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="effects"] {
+  background-image: url('/icons/svg/aura.svg');
+}
+
+.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="automation"] {
+  background-image: url('../assets/icons/gear-hammer.svg');
+}
+
+/* Sheet Menu */
 .weirdwizard .sheet-menu {
-  font-size: medium;
+  position: absolute !important;
+  left: 100%;
+  top: 1.5em;
+  width: 44px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  color: white;
+  font-size: 22px;
+  text-align: center;
+  background: no-repeat;
+  background-color: #333;
+  background-position: calc(50% - 3px) center;
+  background-size: auto 80%;
+  border: 1px solid transparent;
+  border-radius: 0 8px 8px 0;
+  filter: drop-shadow(3px 0 3px black);
+}
+
+.weirdwizard .sheet-menu:hover {
+  text-shadow: none;
+  border: 1px solid black;
+}
+
+.weirdwizard .disposition-wrapper {
+  position: absolute;
+  right: 1em;
+  text-align: right;
 }
 
 .weirdwizard .change-disposition {
-  position: relative;
-  float: right;
-  bottom: 105%;
   background: #E6BEBA;
   border: 1px solid var(--color-border-light-2);
   border-radius: 3px;
@@ -1860,21 +2098,17 @@ input[type="checkbox"].checkbox-uses {
   flex: 1;
 }
 
-.weirdwizard .path-sheet .left-col {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  flex: 0.6;
-  margin-right: 10px;
-}
-
-.weirdwizard .path-sheet .charname > input {
+.weirdwizard.charoption .charname > input {
   font-size: var(--font-size-24);
 }
 
-.weirdwizard .path-sheet h5 {
+.weirdwizard.charoption h5 {
   text-align: center;
-  border-radius: 15px;
+  background: none;
+  border-image: url(/systems/weirdwizard/assets/ui/sheet-double-rectangle-purple.svg);
+  border-image-slice: 134 fill;
+  border-image-width: 16px;
+  padding: 4px 16px;
 }
 
 .weirdwizard.sheet.item .item-type {
@@ -1882,6 +2116,7 @@ input[type="checkbox"].checkbox-uses {
   border: 1px solid var(--color-border-light-2) !important;
   border-radius: 3px;
   box-shadow: 0 0 2px #fff inset;
+  margin: auto;
   padding: 2px 4px !important;
   font-weight: bold;
   letter-spacing: 0.03em;
@@ -1901,30 +2136,30 @@ input[type="checkbox"].checkbox-uses {
   gap: 5px;
 }
 
-.weirdwizard .path-sheet .benefit-block > * {
+.weirdwizard.charoption .benefit-block > * {
   padding: 2px 5px;
   margin: 0;
 }
 
-.weirdwizard .path-sheet .benefit-block > h5 {
+.weirdwizard.charoption .benefit-block > h5 {
   margin: 10px 0 5px 0;
 }
 
-.weirdwizard .path-sheet .benefit-block > h5:first-of-type {
+.weirdwizard.charoption .benefit-block > h5:first-of-type {
   margin-top: 0;
 }
 
-.weirdwizard .path-sheet .benefit-block > .list-entries {
+.weirdwizard.charoption .benefit-block > .list-entries {
   padding: 2px calc(1em + 5px);
   margin: 0;
 }
 
-.weirdwizard .path-sheet .items-area {
+.weirdwizard.charoption .items-area {
   background: var(--background-color-shadow);
   border-radius: 3px;
 }
 
-.weirdwizard .path-sheet .fadeout {
+.weirdwizard.charoption .fadeout {
   box-shadow: rgba(33, 33, 33, 0.8) 0px 0px 1px 2px, rgba(33, 33, 33, 0.6) 0px 0px 0px 5000px;
   /* border-radius: 4px; */
   transition: all 0.3s ease-out;
@@ -1932,11 +2167,11 @@ input[type="checkbox"].checkbox-uses {
   position: relative;
 }
 
-.weirdwizard .path-sheet .missing {
+.weirdwizard.charoption .missing {
   color: #880000;
 }
 
-.weirdwizard .path-sheet .missing label {
+.weirdwizard.charoption .missing label {
   color: var(--color-text-dark-5);
 }
 
@@ -2292,32 +2527,6 @@ i.icon-Weakened {
   color: red;
 }
 
-/*.weirdwizard .def-list {
-  list-style: none;
-  padding: 0px;
-  margin: 0px;
-  overflow-y: auto;
-}
-.weirdwizard .def-list li {
-  align-items: center;
-  gap: 5px;
-}
-.weirdwizard .def-list input[type="number"] {
-  text-align: center;
-  width: 30px;
-}
-.weirdwizard .def-name {
-  flex: 1;
-}
-.weirdwizard .def-bonus {
-  flex: 0 50px;
-  text-align: center;
-}
-.weirdwizard .def-remove {
-  flex: 0 16px;
-  text-align: center;
-}*/
-
 /* Roll Apps */
 
 .weirdwizard.roll-details h3 {
@@ -2327,13 +2536,15 @@ i.icon-Weakened {
   margin: 10px 0 0;
   border-radius: 5px 5px 0px 0px;
   font-family: var(--font-header);
+  font-size: var(--font-size-16);
+  border: none;
 }
 
 .weirdwizard.roll-details h3.boons-header {
   display: flex;
   align-items: center;
   margin: 0;
-  padding: 0 5px 0 7px;
+  padding: 2px 5px 2px 7px;
 }
 
 .weirdwizard.roll-details .h3-box {

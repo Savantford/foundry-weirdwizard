@@ -1,6 +1,6 @@
-import { onManageActiveEffect, onManageInstantEffect, prepareActiveEffectCategories } from '../helpers/effects.mjs';
 import { i18n } from '../helpers/utils.mjs';
 import ListEntryConfig from '../apps/list-entry-config.mjs';
+import { onManageActiveEffect, onManageInstantEffect, prepareActiveEffectCategories } from '../helpers/effects.mjs';
 
 /**
  * Extend the basic ItemSheet with some very simple modifications
@@ -147,6 +147,12 @@ export default class WWItemSheet extends ItemSheet {
   async _prepareCharOption(context) {
 
     const item = context.item;
+
+    // Prepare Items Area Hint
+    context.itemsAreaHint = `
+      <p>${i18n("WW.CharOption.DropHere")}</p>
+      <p>${i18n("WW.CharOption.Help", { itemType: item.type })}</p>
+    `;
 
     // Prepare dropdown objects
     context.spellsLearned = CONFIG.WW.SPELLS_LEARNED;
@@ -498,13 +504,13 @@ export default class WWItemSheet extends ItemSheet {
     const item = await fromUuid(data.uuid);
     
     if (!(item.type === 'Equipment' || item.type === 'Trait or Talent' || item.type === 'Spell')) {
-      return ui.notifications.warn(i18n('WW.CharOption.TypeWarning'));
+      return ui.notifications.warn(`${i18n('WW.CharOption.TypeWarning')}<br/>${i18n("WW.CharOption.Help", { itemType: this.document.type })}`);
     }
 
-    if (!item.pack) return ui.notifications.warn(i18n('WW.CharOption.CompendiumWarning'));
+    if (!item.pack) return ui.notifications.warn(`${i18n('WW.CharOption.CompendiumWarning')}<br/>${i18n("WW.CharOption.Help", { itemType: this.document.type })}`);
     
     const benefits = this.document.system.benefits;
-
+    
     benefits[benefit].items.push(data.uuid);
 
     this.document.update({'system.benefits': benefits});

@@ -1,21 +1,31 @@
-<form class="{{cssClass}} sheet path-sheet" autocomplete="off">
+<form class="{{cssClass}} sheet profession-sheet" autocomplete="off">
 
-  {{!-- Header --}}
+  {{!-- Header / Left Column --}}
   <header class="sheet-header">
-    <img class="profile-img" src="{{item.img}}" data-edit="img" data-tooltip="WW.System.Image.Edit" />
-    <div class="header-fields">
-      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.Item.Name"}}" /></h1>
   
-      <div class="item-type">
-        {{localize "WW.Profession.Label"}}
+    {{!-- Banner --}}
+    <div class="sheet-banner">
+      
+      {{!-- Profile Image --}}
+      <div class="profile-img-wrapper">
+        <img class="profile-img" src="{{item.img}}" data-edit="img" data-tooltip="WW.System.Image.Edit" />
       </div>
+
+      {{!-- Header Plate --}}
+      <div class="header-plate">
+        <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.Item.Name"}}" /></h1>
+
+        <div class="item-type">{{localize "WW.Profession.Label"}}</div>
+  
+      </div>
+  
+      {{!-- Description --}}
+      {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
   
     </div>
   </header>
-  
-  {{!-- Description --}}
-  {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
 
+  {{!-- Right Column --}}
   <div class="benefit-block">
     
     {{!-- Category --}}
@@ -54,7 +64,7 @@
   
     {{!-- Items Area --}}
     <ol class="described-list items-area benefit1">
-      {{#unless benefits.benefit1.itemsInfo}}{{localize "WW.CharOption.DropHere"}}{{/unless}}
+      {{#unless benefits.benefit1.itemsInfo}}{{{itemsAreaHint}}}{{/unless}}
   
       {{#each benefits.benefit1.itemsInfo as |item id|}}
       <li class="path-item item{{#if item.missing}} missing{{/if}}" data-item-uuid="{{item.uuid}}">

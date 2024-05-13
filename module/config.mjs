@@ -691,7 +691,7 @@ WW.EFFECT_OPTIONS = {
     header: 'WW.Effect.Keys.BonusDamage.Header',
     options: {
       'bonusDamage.increase': {
-        key: 'system.stats.bonusDamage',
+        key: 'system.stats.bonusdamage',
         label: 'WW.Effect.Keys.BonusDamage.Increase'
       }
     }

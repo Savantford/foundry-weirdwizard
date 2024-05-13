@@ -86,6 +86,10 @@ effChanges.size = {
   normal: overInt(1)
 }
 
+effChanges.bonusDamage = {
+  increase: addInt()
+}
+
 effChanges.upgradeAttribute = {
   str: upInt(),
   agi: upInt(),

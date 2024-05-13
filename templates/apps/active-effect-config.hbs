@@ -127,7 +127,13 @@
 
       <div class="form-group">
         <label>{{ localize "WW.Effect.Duration.InRounds" }}</label>
-        {{ data.duration.rounds }}
+
+        {{#if (eq data.flags.weirdwizard.selectedDuration 'Xrounds')}}
+          <input type="number" name="duration.rounds" value="{{ data.duration.rounds }}"/>
+        {{else}}
+          {{ data.duration.rounds }}
+        {{/if}}
+        
       </div>
 
       <div class="form-group">

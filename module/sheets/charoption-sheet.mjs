@@ -11,9 +11,9 @@ export default class WWCharOptionSheet extends WWItemSheet {
   static get defaultOptions() {
     
     return mergeObject(super.defaultOptions, {
-      classes: ['weirdwizard', 'sheet', 'item'],
+      classes: ['weirdwizard', 'sheet', 'item', 'charoption'],
       width: 600,
-      height: 'auto'
+      height: 420
     });
   }
 

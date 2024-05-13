@@ -180,3 +180,112 @@ export function addInstEffs(effects, origin, target) {
   
   return finalHtml;
 }
+
+// Add Active Effects to chat message html
+export function addActEffs(actEffs, origin, target, singleRoll = false) {
+  //const origin = this.origin.uuid,
+  //const instEffs = this.instEffs[trigger],
+    /*actEffs = this.effects[trigger],
+    /*target = options.target,*/
+  
+  let targets = target// ? this.targets.filter(t => t.id === target) : this.targets;
+  
+  let finalHtml = '',
+    anyHtml = '',
+    enemiesHtml = '',
+    alliesHtml = '',
+    noneHtml = ''
+  ;
+  
+  // Handle instant effects
+  /*instEffs.forEach(e => {
+    let html = '';
+    
+    if (e.target === 'self') targets = this.token.uuid;
+
+    // Get target ids string
+    const targetIds = this._getTargetIds(targets, e.target);
+
+    // Create the chat button
+    if (e.label === 'affliction') html = chatMessageButton({
+      action: actionFromLabel(e.label),
+      value: e.affliction,
+      originUuid: origin,
+      targetIds: targetIds
+    });
+
+    else html = chatMessageButton({
+      action: actionFromLabel(e.label),
+      value: e.value,
+      originUuid: origin,
+      targetIds: targetIds
+    });
+    
+    // Assign to group html
+    switch (e.target) {
+      case 'tokens': anyHtml += html; break;
+      case 'enemies': enemiesHtml += html; break;
+      case 'allies': alliesHtml += html; break;
+    }
+    
+  })*/
+
+  // Handle active effects
+  actEffs.forEach(e => {
+    
+    let html = '';
+    
+    if (e.target === 'none') targets = [fromUuidSync(origin)];
+    
+    // Get target ids string
+    function _getTargetIds(targets, effTarget) {
+      let targetIds = '';
+  
+      targets.forEach(t => {
+        if (targetIds) targetIds += ',';
+  
+        targetIds += t.id;
+      })
+  
+      return targetIds;
+    }
+
+    const targetIds = _getTargetIds(targets, e.target);
+    
+    // Create the chat button
+    html = chatMessageButton({
+      action: 'apply-effect',
+      originUuid: origin,
+      targetIds: targetIds,
+      value: '',
+      effectUuid: e.uuid
+    });
+    
+    // Assign to group html
+    switch (e.target) {
+      case 'tokens': anyHtml += html; break;
+      case 'enemies': enemiesHtml += html; break;
+      case 'allies': alliesHtml += html; break;
+      case 'none': noneHtml += html; break;
+    }
+
+  })
+  
+  // Add htmls to finalHtml
+  if (singleRoll) {
+    if (anyHtml) finalHtml += buttonsHeader(anyHtml, 'Any', !this.item);
+    if (enemiesHtml) finalHtml += buttonsHeader(enemiesHtml, 'Enemies', !this.item);
+    if (alliesHtml) finalHtml += buttonsHeader(alliesHtml, 'Allies', !this.item);
+    if (noneHtml) finalHtml += buttonsHeader(noneHtml, 'None', !this.item);
+    
+  } else {
+    finalHtml += '<div class="chat-buttons">';
+    if (anyHtml) finalHtml += anyHtml;
+    if (enemiesHtml) finalHtml += enemiesHtml;
+    if (alliesHtml) finalHtml += alliesHtml;
+    if (noneHtml) finalHtml += noneHtml;
+    finalHtml += '</div>';
+  }
+  
+  return finalHtml;
+}

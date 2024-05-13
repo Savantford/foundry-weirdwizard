@@ -1,11 +1,11 @@
+import { actionFromLabel, buttonsHeader, chatMessageButton, diceTotalHtml, targetHeader } from '../chat/chat-html-templates.mjs';
+import { i18n, plusify } from '../helpers/utils.mjs';
+import WWRoll from '../dice/roll.mjs';
+
 /**
  * Extend FormApplication to make a prompt shown by attribute and luck rolls
  * @extends {FormApplication}
 */
-
-import { i18n, plusify } from '../helpers/utils.mjs';
-import WWRoll from '../dice/roll.mjs';
-import { diceTotalHtml, targetHeader, buttonsHeader, chatMessageButton, actionFromLabel } from '../chat/chat-html-templates.mjs';
 
 export default class RollAttribute extends FormApplication {
   constructor(obj) {
@@ -51,14 +51,17 @@ export default class RollAttribute extends FormApplication {
   }
 
   static get defaultOptions() {
-    const options = super.defaultOptions;
-    options.id = "roll-attribute";
-    options.template = "systems/weirdwizard/templates/apps/roll-attribute.hbs";
-    options.height = "auto";
-    options.width = 400;
-    options.title = "Roll Details";
+    //const options = super.defaultOptions;
+    return mergeObject(super.defaultOptions, {
+      id: "roll-attribute",
+      title: "Roll Details",
+      classes: ['weirdwizard'],
+      width: 400,
+      height: "auto",
+      template: "systems/weirdwizard/templates/apps/roll-attribute.hbs"
+    });
 
-    return options;
+    //return options;
   }
 
   getData(options = {}) {
@@ -573,7 +576,7 @@ export default class RollAttribute extends FormApplication {
     else if ((effTarget === 'enemies') && (dispo === -1)) return true;
     else if (effTarget === 'tokens') return true;
     else return false;
-  }  
+  }
 
   /* -------------------------------------------- */
   /*  Getters                                     */
