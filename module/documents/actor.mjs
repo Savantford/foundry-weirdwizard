@@ -311,6 +311,7 @@ export default class WWActor extends Actor {
       sound: CONFIG.sounds.notification
     })
 
+    this.incapacitated = (newTotal >= health) ? true : false;
     this.update({ 'system.stats.damage.value': newTotal });
   }
 
@@ -331,6 +332,7 @@ export default class WWActor extends Actor {
       sound: CONFIG.sounds.notification
     })
 
+    this.incapacitated = (newTotal >= this.system.stats.health.current) ? true : false;
     this.update({ 'system.stats.damage.value': newTotal });
   }
 

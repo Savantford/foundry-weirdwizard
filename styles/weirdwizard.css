@@ -2529,25 +2529,32 @@ i.icon-Weakened {
 
 /* Roll Apps */
 
-.weirdwizard.roll-details h3 {
+#roll-attribute h3,
+#roll-damage h3 {
   background: var(--purple-dark);
   color: white;
   text-align: center;
-  margin: 10px 0 0;
+  margin: 0;
   border-radius: 5px 5px 0px 0px;
   font-family: var(--font-header);
   font-size: var(--font-size-16);
   border: none;
 }
 
-.weirdwizard.roll-details h3.boons-header {
+#roll-attribute h3:not(:first-child),
+#roll-damage h3:not(:first-child) {
+  margin: 10px 0 0;
+}
+
+#roll-attribute h3.boons-header {
   display: flex;
   align-items: center;
   margin: 0;
   padding: 2px 5px 2px 7px;
 }
 
-.weirdwizard.roll-details .h3-box {
+#roll-attribute .h3-box,
+#roll-damage .h3-box {
   text-align: center;
   border: 1px solid var(--purple-dark);
   border-top: none;
@@ -2596,7 +2603,7 @@ i.icon-Weakened {
   width: 1.5em;
 }
 
-.weirdwizard.roll-details .targetno-container input {
+#roll-attribute .targetno-container input {
   width: 30px;
 }
 
@@ -2611,12 +2618,12 @@ i.icon-Weakened {
   text-shadow: 0 0 1px black;
 }
 
-.weirdwizard.roll-details .boons-targets li {
+#roll-attribute .boons-targets li {
   display: flex;
   gap: 5px;
 }
 
-.weirdwizard.roll-details .boons-targets label {
+#roll-attribute .boons-targets label {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -2624,27 +2631,42 @@ i.icon-Weakened {
   margin-right: auto;
 }
 
-.weirdwizard.roll-details img.target-icon {
+#roll-attribute img.target-icon {
   width: 30px;
   height: auto;
   border-radius: 50%;
 }
 
-.weirdwizard.roll-details .target-against,
-.weirdwizard.roll-details .target-boons {
+#roll-attribute .target-against,
+#roll-attribute .target-boons {
   display: flex;
   align-items: center;
 }
 
-.weirdwizard.roll-details .target-against img,
-.weirdwizard.roll-details .target-boons img {
+#roll-attribute .target-against img,
+#roll-attribute .target-boons img {
   width: 24px;
   height: auto;
   filter: none;
 }
 
-.weirdwizard.roll-details .target-against img {
+#roll-attribute .target-against img {
   filter: var(--grey-filter);
+}
+
+/* Damage Roll App */
+#roll-damage .damage-input {
+  width: 25px;
+  text-align: center;
+}
+
+#roll-damage .brutal-hint {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  padding: 5px;
+  text-align: center;
+  font-size: smaller;
+  margin: 0 15px 10px;
 }
 
 /* ---------------------------- Quest Calendar App -----------------------------*/
