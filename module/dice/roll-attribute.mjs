@@ -51,7 +51,7 @@ export default class RollAttribute extends FormApplication {
   }
 
   static get defaultOptions() {
-    //const options = super.defaultOptions;
+    
     return mergeObject(super.defaultOptions, {
       id: "roll-attribute",
       title: "Roll Details",
@@ -61,7 +61,6 @@ export default class RollAttribute extends FormApplication {
       template: "systems/weirdwizard/templates/apps/roll-attribute.hbs"
     });
 
-    //return options;
   }
 
   getData(options = {}) {

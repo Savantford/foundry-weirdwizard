@@ -27,24 +27,27 @@ export default class RollDamage extends FormApplication {
   }
 
   static get defaultOptions() {
-    const options = super.defaultOptions;
-    options.id = 'roll-damage';
-    options.template = 'systems/weirdwizard/templates/apps/roll-damage.hbs';
-    options.height = 'auto';
-    options.width = 400;
-    options.title = 'Damage Dice';
+    
+    return mergeObject(super.defaultOptions, {
+      id: 'roll-damage',
+      title: 'Damage Dice',
+      classes: ['weirdwizard'],
+      width: 400,
+      height: 'auto',
+      template: 'systems/weirdwizard/templates/apps/roll-damage.hbs'
+    });
 
-    return options;
   }
 
   getData(options = {}) {
     let context = super.getData()
-
+    
     // Pass data to application template.
     context.label = this.item.name;
     context.system = this.item.system;
     context.baseDamage = this.baseDamage;
-    context.bonusDamage = this.actor.system.stats.bonusDamage;
+    context.bonusDamage = this.actor.system.stats.bonusdamage;
+    context.brutal = this.item.system.traits?.brutal;
     context.versatile = this.item.system.traits?.versatile;
     context.attackDice = this.actor.system.extraDamage.attacks.dice;
     context.attackMod = this.actor.system.extraDamage.attacks.mod;
@@ -73,7 +76,7 @@ export default class RollDamage extends FormApplication {
 
   // Update html fields
   _updateFields(ev) {
-    const parent = ev.target.closest('.damage-details'),
+    const parent = ev.target.closest('#roll-damage'),
       bonusDamage = this.actor.system.stats.bonusDamage;
 
     // Get checkbox values
