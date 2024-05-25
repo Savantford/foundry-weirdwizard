@@ -578,7 +578,7 @@ WW.EFFECT_OPTIONS = {
         label: 'WW.Effect.Keys.ExtraDamage.Dice'
       },
       'extraDamage.mod': {
-        key: 'system.extraDamage.attack.mod',
+        key: 'system.extraDamage.attacks.mod',
         label: 'WW.Effect.Keys.ExtraDamage.Mod'
       }
     }

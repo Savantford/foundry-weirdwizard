@@ -3,7 +3,7 @@
     {{!-- Title --}}
     <label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
         data-tooltip="{{{item.tooltip}}}">{{item.name}}</label>
-    
+    {{log item}}
     {{#if (or item.hasPassiveEffects item.uses)}}
     <span class="buttons">
 
@@ -13,21 +13,17 @@
                 data-tooltip="{{#if item.system.active}}{{localize "WW.Item.DisableEffects"}}{{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
                 <i class="fas {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
         {{/if}}
-
+        
         {{!-- Uses Pips --}}
         {{#if item.uses}}
         <span class="pip-box">
             {{#each item.uses as |pip id|}}
                 <a class="item-pip" data-item-id="{{../item._id}}"
                     data-tooltip="{{#if (eq pip "far fa-circle")}}
-                        {{#if (eq ../item.system.subtype "action")}}{{localize "WW.Item.Uses.ActionSpend"}}
-                        {{else if (eq ../item.system.subtype "reaction")}}{{localize "WW.Item.Uses.ActionSpend"}}
-                        {{else if (eq ../item.system.subtype "fury")}}{{localize "WW.Item.Uses.FurySpend"}}
+                        {{#if (or (eq ../item.system.subtype "action") (eq ../item.system.subtype "reaction"))}}{{localize "WW.Item.Uses.ActionSpend"}}
                         {{else}}{{localize "WW.Item.Uses.TalentSpend"}}{{/if}}
                     {{else}}
-                        {{#if (eq ../item.system.subtype "action")}}{{localize "WW.Item.Uses.ActionRecover"}}
-                        {{else if (eq ../item.system.subtype "reaction")}}{{localize "WW.Item.Uses.ActionRecover"}}
-                        {{else if (eq ../item.system.subtype "fury")}}{{localize "WW.Item.Uses.FuryRecover"}}
+                        {{#if (or (eq ../item.system.subtype "action") (eq ../item.system.subtype "reaction"))}}{{localize "WW.Item.Uses.ActionRecover"}}
                         {{else}}{{localize "WW.Item.Uses.TalentRecover"}}{{/if}}
                     {{/if}}">
                 <i class="{{pip}}"></i></a>

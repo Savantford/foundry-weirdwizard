@@ -412,6 +412,7 @@ export default class WWActorSheet extends ActorSheet {
     reactions.forEach(updateUses)
     equipment.forEach(updateUses)
     spells.forEach(updateUses)
+    end.forEach(updateUses)
 
     // Assign and return
     context.equipment = equipment;

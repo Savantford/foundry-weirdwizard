@@ -7,64 +7,71 @@
 
         <div class="h3-box">
             <div class="stat-stretch flex-group-left">
-                <label class="resource-label">{{localize "WW.Damage.Base"}}</label>
-                <input name="applyBase" class="damage-checkbox applyBase" type="checkbox" data-tooltip="WW.Roll.ApplyBaseDamage" checked="true">
+                <label class="resource-label">{{localize "WW.RollDamage.Base"}}</label>
+                <input name="applyBase" class="damage-checkbox applyBase" type="checkbox" data-tooltip="WW.RollDamage.BaseApply" checked="true">
                 +{{baseDamage}}
             </div>
 
             {{#if versatile}}
-            <div class="stat-stretch flex-group-left mt-1">
-                <label class="resource-label">{{localize "WW.Damage.BothHands"}}</label>
-                <input name="bothHands" class="damage-checkbox bothHands" type="checkbox" data-tooltip="WW.Roll.ApplyExtraDamage">
+            <div class="stat-stretch flex-group-left">
+                <label class="resource-label">{{localize "WW.RollDamage.BothHands"}}</label>
+                <input name="bothHands" class="damage-checkbox bothHands" type="checkbox" data-tooltip="WW.RollDamage.BothHandsApply">
                 +1d6
             </div>
             {{/if}}
 
         </div>
 
-        {{!-- Extra Damage Container --}}
-        <h3>{{localize "WW.Damage.Extra"}}</h3>
+        {{!-- Bonus Damage Container --}}
+        {{#if bonusDamage}}
+        <h3>{{localize "WW.Damage.Bonus"}}</h3>
 
         <div class="h3-box">
 
-            {{!-- Bonus Damage --}}
-            {{#if bonusDamage}}
-            <div class="stat-stretch flex-group-left">
-                <label class="resource-label">{{localize "WW.Damage.Bonus"}}</label>
-                <input name="applyBonus" class="damage-checkbox applyBonus" type="checkbox" data-tooltip="WW.Roll.ApplyBonusDamage">
-                +{{bonusDamage}}d6
+            {{!-- Bonus Damage Widget --}}
+            <div class="adjustment-widget">
+                <a data-action="down" data-tooltip="<p>{{localize "WW.RollDamage.Bonus.Reduce"}}</p><p>{{localize "WW.RollDamage.Bonus.ReduceShift"}}</p>"><i class="fas fa-square-minus"></i></a>
+                <span class="mx-1"><input class="bonus-damage" name="bonusDamage" type="number" value="{{bonusDamage}}" data-tooltip="WW.RollDamage.Bonus.Hint"/>d6</span>
+                <a data-action="up" data-tooltip="<p>{{localize "WW.RollDamage.Bonus.Increase"}}</p><p>{{localize "WW.RollDamage.Bonus.IncreaseShift"}}</p>"><i class="fas fa-square-plus"></i></a>
             </div>
-            {{/if}}
+
+        </div>
+        {{/if}}
+
+        {{!-- Extra Damage Container --}}
+        <h3>{{localize "WW.RollDamage.Extra.Label"}}</h3>
+
+        <div class="h3-box">
 
             {{!-- Attack Dice --}}
             {{#if attackDice}}
-            <div class="stat-stretch flex-group-left mt-1">
-                <label class="resource-label">{{localize "WW.Damage.AttackDice"}}</label>
-                <input name="attackDice" class="damage-checkbox attackDice" type="checkbox" data-tooltip="WW.Roll.ApplyExtraDamageDice">
+            <div class="stat-stretch flex-group-left">
+                <label class="resource-label">{{localize "WW.RollDamage.Extra.AttackDice"}}</label>
+                <input name="attackDice" class="damage-checkbox attackDice" type="checkbox" data-tooltip="WW.RollDamage.Extra.AttackDiceApply" checked="true">
                 +{{attackDice}}d6
             </div>
             {{/if}}
             
             {{!-- Attack Modifier --}}
             {{#if attackMod}}
-            <div class="stat-stretch flex-group-left mt-1">
-                <label class="resource-label">{{localize "WW.Damage.AttackMod"}}</label>
-                <input name="attackMod" class="damage-checkbox attackMod" type="checkbox" data-tooltip="WW.Roll.ApplyExtraDamageMod">
+            <div class="stat-stretch flex-group-left">
+                <label class="resource-label">{{localize "WW.RollDamage.Extra.AttackMod"}}</label>
+                <input name="attackMod" class="damage-checkbox attackMod" type="checkbox" data-tooltip="WW.RollDamage.Extra.AttackModApply" checked="true">
                 +{{attackMod}}
             </div>
             {{/if}}
 
             {{!-- Other Dice --}}
-            <div class="stat-stretch flex-group-left mt-1" data-tooltip="WW.Damage.OtherDiceHint">
-                <label class="resource-label">{{localize "WW.Damage.OtherDice"}}</label>
+            <div class="stat-stretch flex-group-left" data-tooltip="WW.RollDamage.Extra.OtherDiceHint">
+                <label class="resource-label">{{localize "WW.RollDamage.Extra.OtherDice"}}</label>
                 +
                 <input name="otherdice" class="damage-input otherdice" type="number" value="0" min="0"/>
                 d6
             </div>
 
             {{!-- Other Modifier --}}
-            <div class="stat-stretch flex-group-left mt-1" data-tooltip="WW.Damage.OtherModHint">
-                <label class="resource-label">{{localize "WW.Damage.OtherMod"}}</label>
+            <div class="stat-stretch flex-group-left" data-tooltip="WW.RollDamage.Extra.OtherModHint">
+                <label class="resource-label">{{localize "WW.RollDamage.Extra.OtherMod"}}</label>
                 +
                 <input name="othermod" class="damage-input othermod" type="number" value="0" min="0"/>
             </div>
@@ -77,8 +84,9 @@
     <div class="damage-expression mb-2 mt-2 flex-group-center">{{expression}}</div>
 
     {{#if brutal}}
-    <div class="brutal-hint">{{{localize "WW.Damage.BrutalHint"}}}</div>
+    <div class="brutal-hint">{{{localize "WW.RollDamage.BrutalHint"}}}</div>
     {{/if}}
+
     {{!-- Form Buttons --}}
     <div class="form-group">
         <button type="submit" id="damage-submit">
@@ -88,5 +96,6 @@
             <i class="fas fa-x"></i> {{localize "WW.System.Dialog.Cancel"}}
         </button>
     </div>
+
 </form>
 

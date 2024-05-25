@@ -22,6 +22,8 @@ export default class RollDamage extends FormApplication {
     }
 
     this.baseDamage = obj.value;
+    this.bonusDamage = this.actor.system.stats.bonusdamage;
+    this.usedBonusDamage = this.bonusDamage;
     
     this.targetIds = obj.targetIds ? obj.targetIds : '';
   }
@@ -47,6 +49,7 @@ export default class RollDamage extends FormApplication {
     context.system = this.item.system;
     context.baseDamage = this.baseDamage;
     context.bonusDamage = this.actor.system.stats.bonusdamage;
+    context.usedBonusDamage = this.usedBonusDamage;
     context.brutal = this.item.system.traits?.brutal;
     context.versatile = this.item.system.traits?.versatile;
     context.attackDice = this.actor.system.extraDamage.attacks.dice;
@@ -61,11 +64,42 @@ export default class RollDamage extends FormApplication {
     // Handle closing the window without saving
     html.find('#damage-cancel').click(() => this.close({ submit: false }))
 
+    // Handle closing the window without saving
+    html.find('.adjustment-widget > a').click((ev) => this._onBonusDamageAdjusted(ev));
+
     // Handle updated fields
     const el = html.find('input');
     el.change((ev) => this._updateFields(ev));
     el.change();
 
+  }
+
+  _onBonusDamageAdjusted(ev) {
+    const a = ev.currentTarget;
+    const parent = a.closest('.adjustment-widget');
+    const action = a.dataset.action;
+    console.log()
+    this.usedBonusDamage = parseInt(parent.querySelector('input[type=number].bonus-damage').value);
+
+    switch (action) {
+      case 'up': {
+        if (ev.shiftKey) {
+          this.usedBonusDamage = this.bonusDamage; break;
+        } else {
+          this.usedBonusDamage++; break;
+        }
+      }
+
+      case 'down': {
+        if (ev.shiftKey) {
+          this.usedBonusDamage = 0; break;
+        } else {
+          this.usedBonusDamage--; break;
+        }
+      }
+    }
+    console.log(this.usedBonusDamage)
+    this._updateFields(ev, this);
   }
 
   async _updateObject(event, formData) { // Triggers on submit
@@ -77,18 +111,21 @@ export default class RollDamage extends FormApplication {
   // Update html fields
   _updateFields(ev) {
     const parent = ev.target.closest('#roll-damage'),
-      bonusDamage = this.actor.system.stats.bonusDamage;
+      bonusDamage = this.actor.system.stats.bonusdamage;
 
     // Get checkbox values
     let applyBase = parent.querySelector('input[name=applyBase]:checked');
     let applyBothHands = parent.querySelector('input[name=bothHands]:checked');
     let applyAttackDice = parent.querySelector('input[name=attackDice]:checked');
     let applyAttackMod = parent.querySelector('input[name=attackMod]:checked');
-    let applyBonus = parent.querySelector('input[name=applyBonus]:checked');
 
     // Get other field variables
     let otherDice = parseInt(parent.querySelector('input[name=otherdice]').value);
     let otherMod = parseInt(parent.querySelector('input[name=othermod]').value);
+
+    // Update Bonus Damage
+    this.usedBonusDamage = Math.min(Math.max(0, this.usedBonusDamage), this.bonusDamage)
+    parent.querySelector('input[type=number].bonus-damage').value = this.usedBonusDamage;
     
     // Count extra damage dice
     let diceCount = 0;
@@ -106,8 +143,8 @@ export default class RollDamage extends FormApplication {
     // Add all dice and mods to finalExp
     this.finalExp = '';
     if (applyBase && this.baseDamage) this.finalExp += this._addDice(this.baseDamage);
+    if (this.usedBonusDamage) this.finalExp += this._addDice(this.usedBonusDamage);
     if (diceCount) this.finalExp += this._addDice(diceCount);
-    if (applyBonus && bonusDamage) this.finalExp += this._addDice(bonusDamage);
     if (modCount) this.finalExp += ' + ' + modCount;
 
     // Display final expression

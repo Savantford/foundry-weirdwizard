@@ -2555,6 +2555,9 @@ i.icon-Weakened {
 
 #roll-attribute .h3-box,
 #roll-damage .h3-box {
+  display: flex;
+  flex-flow: column;
+  gap: 5px;
   text-align: center;
   border: 1px solid var(--purple-dark);
   border-top: none;
@@ -2570,11 +2573,11 @@ i.icon-Weakened {
   width: 30px;
 }
 
-.weirdwizard .boons-situational {
+.weirdwizard .adjustment-widget {
   display: flex;
   align-items: center;
   width: fit-content;
-  margin: 10px auto auto;
+  margin: auto;
   padding: 8px;
   font-size: x-large;
   text-align: center;
@@ -2583,23 +2586,38 @@ i.icon-Weakened {
   border-image-width: 15px;
 }
 
-.weirdwizard .boons-situational > a {
-  background: url('/systems/weirdwizard/assets/icons/boons-colored.svg');
-  background-size: contain;
+#roll-attribute .adjustment-widget {
+  margin-top: 10px;
+}
+
+.weirdwizard .adjustment-widget > a {
   width: 1lh;
   height: 1lh;
   display: block;
 }
 
-.weirdwizard .boons-situational > a:hover {
+.weirdwizard .adjustment-widget > a:hover {
   filter: drop-shadow(0 0 2px var(--color-shadow-primary));
 }
 
-.weirdwizard .boons-situational > a[data-action=down] {
+#roll-attribute .adjustment-widget > a {
+  background: url('/systems/weirdwizard/assets/icons/boons-colored.svg');
+  background-size: contain;
+}
+
+#roll-attribute .adjustment-widget > a[data-action=down] {
   background-image: url('/systems/weirdwizard/assets/icons/banes-colored.svg');
 }
 
-.weirdwizard .boons-situational > input {
+#roll-damage .adjustment-widget > a {
+  color: #002a9f;
+}
+
+#roll-damage .adjustment-widget > a[data-action=down] {
+  color: #960000;
+}
+
+.weirdwizard .adjustment-widget input {
   width: 1.5em;
 }
 

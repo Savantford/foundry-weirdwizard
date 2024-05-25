@@ -20,23 +20,23 @@
 
             {{!-- Attack Boons --}}
             {{#if attackBoons}}
-            <div class="stat-stretch flex-group-left mt-1">
+            <div class="stat-stretch flex-group-left">
                 <label>{{localize "WW.Boons.Attack"}}</label>
-                <input name="attack" class="damage-checkbox attack" type="checkbox" data-tooltip="WW.Boons.Apply">
+                <input name="attack" class="damage-checkbox attack" type="checkbox" data-tooltip="WW.Boons.Apply" {{#if isWeapon}}checked{{/if}}>
                 <span class="boons-display attack">{{numberFormat attackBoons decimals=0 sign=true}}</span>
             </div>
             {{/if}}
 
             {{!-- Fixed Boons --}}
             {{#if fixedBoons}}
-            <div class="stat-stretch flex-group-left mt-1">
+            <div class="stat-stretch flex-group-left">
                 <label>{{localize "WW.Boons.Fixed"}}</label>
                 <span class="boons-display fixed">{{numberFormat fixedBoons decimals=0 sign=true}}</span>
             </div>
             {{/if}}
 
-            {{!-- Situational Boons --}}
-            <div class="boons-situational">
+            {{!-- Situational Boons Widget --}}
+            <div class="adjustment-widget">
                 <a data-action="down" data-tooltip="WW.Boons.AddBanes"></a>
                 <input class="boons-input situational mx-1" name="situational" type="number" value="0" data-tooltip="WW.Boons.Situational"/>
                 <a data-action="up" data-tooltip="WW.Boons.AddBoons"></a>
