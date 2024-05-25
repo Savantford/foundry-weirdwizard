@@ -71,6 +71,8 @@ export default class RollAttribute extends FormApplication {
     context.mod = this.mod;
     context.fixedBoons = this.fixedBoons;
     context.effectBoons = this.effectBoonsGlobal; // Conditional boons should be added here later
+    console.log(this.item.system)
+    context.isWeapon = this.item.system.subtype === 'weapon' ? true : false;
     context.attackBoons = this.attackBoons;
     context.targeted = this.action === 'targeted-use' ? true : false;
 
@@ -90,7 +92,7 @@ export default class RollAttribute extends FormApplication {
     html.find('#boons-cancel').click(() => this.close({ submit: false }));
 
     // Handle closing the window without saving
-    html.find('.boons-situational > a').click((ev) => this._onSituationalBoons(ev));
+    html.find('.adjustment-widget > a').click((ev) => this._onSituationalBoons(ev));
 
     // Update forms fields dynamically
     const el = html.find('input'); // html.find('input[type=number]')
@@ -101,7 +103,7 @@ export default class RollAttribute extends FormApplication {
 
   _onSituationalBoons(ev) {
     const a = ev.currentTarget;
-    const parent = a.closest('.boons-situational');
+    const parent = a.closest('.adjustment-widget');
     const action = a.dataset.action;
 
     let value = parseInt(parent.querySelector('input[type=number].situational').value);
