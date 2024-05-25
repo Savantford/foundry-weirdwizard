@@ -20,7 +20,7 @@
 
             {{!-- Attack Boons --}}
             {{#if attackBoons}}
-            <div class="stat-stretch flex-group-left mt-1">
+            <div class="stat-stretch flex-group-left">
                 <label>{{localize "WW.Boons.Attack"}}</label>
                 <input name="attack" class="damage-checkbox attack" type="checkbox" data-tooltip="WW.Boons.Apply">
                 <span class="boons-display attack">{{numberFormat attackBoons decimals=0 sign=true}}</span>
@@ -29,7 +29,7 @@
 
             {{!-- Fixed Boons --}}
             {{#if fixedBoons}}
-            <div class="stat-stretch flex-group-left mt-1">
+            <div class="stat-stretch flex-group-left">
                 <label>{{localize "WW.Boons.Fixed"}}</label>
                 <span class="boons-display fixed">{{numberFormat fixedBoons decimals=0 sign=true}}</span>
             </div>

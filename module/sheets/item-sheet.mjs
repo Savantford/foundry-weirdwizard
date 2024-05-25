@@ -38,7 +38,7 @@ export default class WWItemSheet extends ItemSheet {
 
     // Use a safe clone of the item data for further operations.
     context.system = context.item.system;
-
+    
     // Prepare enriched variables for editor
     context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true, relativeTo: this.document });
     

@@ -118,7 +118,6 @@ export default class RollAttribute extends FormApplication {
   }
 
   async _updateObject(event, formData) { // Update actor data.
-    console.log(game.user.targets?.size)
     const against = this.against,
       boonsFinal = this.boonsFinal,
       originUuid = this.origin.uuid,

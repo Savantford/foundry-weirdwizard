@@ -2555,6 +2555,9 @@ i.icon-Weakened {
 
 #roll-attribute .h3-box,
 #roll-damage .h3-box {
+  display: flex;
+  flex-flow: column;
+  gap: 5px;
   text-align: center;
   border: 1px solid var(--purple-dark);
   border-top: none;

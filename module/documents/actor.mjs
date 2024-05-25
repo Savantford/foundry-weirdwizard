@@ -186,15 +186,7 @@ export default class WWActor extends Actor {
 
       autoFail[attribute] = false;
     })
-
-    // Create Extra Damage variables
-    this.system.extraDamage = {
-      attacks: {
-        globalDice: 0,
-        globalMod: 0
-      }
-    }
-
+    
   }
 
   async _onUpdate(changed, options, user) {

@@ -23,7 +23,7 @@ export function physical(type = String) {
     weightUnit: makeIntField(1),
 
     price: new fields.SchemaField({
-      value: makeIntField(),
+      value: makeFloField(),
       coin: makeStrField('sp')
     }),
 
@@ -34,7 +34,7 @@ export function physical(type = String) {
   }
 
   return obj;
-};
+}
 
 export function activity(type = String) {
 
@@ -83,16 +83,6 @@ export function activity(type = String) {
   else if (type === 'Spell') obj.uses.max = makeIntField(1)
 
   return obj;
-};
-
-export function currency() {
-  return {
-    currency: new fields.SchemaField({
-      gp: makeIntField(),
-      sp: makeIntField(),
-      cp: makeIntField(),
-    })
-  }
 }
 
 /****************************************/
@@ -102,6 +92,14 @@ export const makeHtmlField = (init = '') => new fields.SchemaField({
     initial: init,
     textSearch: true // Allow it to be searched in the Search Bar
   })
+})
+
+export const makeFloField = (init = 0) => new fields.NumberField({
+  required: true,
+  initial: init,
+  min: 0,
+  nullable: true,
+  integer: false
 })
 
 export const makeIntField = (init = 0) => new fields.NumberField({

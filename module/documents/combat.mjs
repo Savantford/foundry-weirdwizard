@@ -67,6 +67,7 @@ export default class WWCombat extends Combat {
     const updateData = {round: 1, turn: 0};
     this._expireLeftoverEffects();
     Hooks.callAll("combatStart", this, updateData);
+    
     return this.update(updateData);
   }
 
@@ -218,7 +219,7 @@ export default class WWCombat extends Combat {
    */
   async setAll() {
     const ids = this.combatants.reduce((ids, c) => {
-      /*if ( c.isOwner && (c.initiative === null) )*/ ids.push(c.id);
+      if ( c.isOwner /*&& (c.initiative === null)*/ ) ids.push(c.id);
       return ids;
     }, []);
 
@@ -247,7 +248,6 @@ export default class WWCombat extends Combat {
           break;
         }
       }
-      
       
       return this.setInitiative(c, v);
     })
@@ -402,16 +402,14 @@ export default class WWCombat extends Combat {
 
     // Update Status Icons
     this.combatants.forEach(c => c.token?.object?.updateStatusIcons());
-
+    
     // Show Take The Initiative dialog at the beginning of a new round
-    if (options.direction === 1 && data.round) {
-
+    if (options.direction !== -1 && data.round) {
       if (!game.user.character) {
         if (!game.user.isGM) {
           ui.notifications.warn(i18n('WW.Combat.Initiative.NoCharacter'));
         }
       } else {
-
         const confirm = await Dialog.confirm({
           title: i18n('WW.Combat.Initiative.Title'),
           content: i18n('WW.Combat.Initiative.Msg')
@@ -421,9 +419,8 @@ export default class WWCombat extends Combat {
         game.combat.combatants.forEach(c => {
           if (c.actorId == game.user.character.id) c.takingInit(confirm);
         })
-
+  
       }
-
     }
     
   }

@@ -77,7 +77,7 @@ export default class RollDamage extends FormApplication {
   // Update html fields
   _updateFields(ev) {
     const parent = ev.target.closest('#roll-damage'),
-      bonusDamage = this.actor.system.stats.bonusDamage;
+      bonusDamage = this.actor.system.stats.bonusdamage;
 
     // Get checkbox values
     let applyBase = parent.querySelector('input[name=applyBase]:checked');
