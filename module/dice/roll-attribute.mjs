@@ -71,8 +71,7 @@ export default class RollAttribute extends FormApplication {
     context.mod = this.mod;
     context.fixedBoons = this.fixedBoons;
     context.effectBoons = this.effectBoonsGlobal; // Conditional boons should be added here later
-    console.log(this.item.system)
-    context.isWeapon = this.item.system.subtype === 'weapon' ? true : false;
+    context.isWeapon = this.item?.system?.subtype === 'weapon' ? true : false;
     context.attackBoons = this.attackBoons;
     context.targeted = this.action === 'targeted-use' ? true : false;
 
