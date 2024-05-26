@@ -52,8 +52,8 @@ export default class RollDamage extends FormApplication {
     context.usedBonusDamage = this.usedBonusDamage;
     context.brutal = this.item.system.traits?.brutal;
     context.versatile = this.item.system.traits?.versatile;
-    context.attackDice = this.actor.system.extraDamage.attacks.dice;
-    context.attackMod = this.actor.system.extraDamage.attacks.mod;
+    context.attackDice = this.actor.system.extraDamage?.attacks?.dice;
+    context.attackMod = this.actor.system.extraDamage?.attacks?.mod;
 
     return context;
   }
