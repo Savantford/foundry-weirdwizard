@@ -395,7 +395,14 @@ export default class WWActorSheet extends ActorSheet {
     // Prepare uses pips for talents and spells
     function updateUses(item, id) {
       let spent = item.system.uses.value ? item.system.uses.value : 0;
-      let max = item.system.uses.max;
+      let max = 0;
+      
+      switch (item.system.uses.levelRelative ) {
+        case 'manual': max = item.system.uses.max; break;
+        case 'full': max = context.actor.system.stats.level; break;
+        case 'half': max = Math.floor(context.actor.system.stats.level / 2); break;
+      }
+
       let arr = [];
 
       let i = 0; // fill the Buttons with available traditions

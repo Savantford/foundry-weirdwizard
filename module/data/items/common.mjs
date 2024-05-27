@@ -54,7 +54,8 @@ export function activity(type = String) {
     uses: new fields.SchemaField({
       value: makeIntField(),
       max: makeIntField(),
-      onRest: makeBooField(true)
+      onRest: makeBooField(true),
+      levelRelative: makeStrField('manual',0,1)
     }),
 
     healing: makeStrField(),
