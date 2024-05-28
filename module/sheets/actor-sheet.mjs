@@ -395,12 +395,16 @@ export default class WWActorSheet extends ActorSheet {
     // Prepare uses pips for talents and spells
     function updateUses(item, id) {
       let spent = item.system.uses.value ? item.system.uses.value : 0;
-      let max = 0;
+      let max = item.system.uses.max;
       
-      switch (item.system.uses.levelRelative ) {
-        case 'manual': max = item.system.uses.max; break;
-        case 'full': max = context.actor.system.stats.level; break;
-        case 'half': max = Math.floor(context.actor.system.stats.level / 2); break;
+      //Read the current amount of charges from the set max, or to be relative to the actor's level depending on the setting.
+      //Only do this if it's a player character, as NPCs and non-characters do not have a level value to be relative to.
+      if(context.actor.type === 'Character')
+      {
+        switch (item.system.uses.levelRelative ) {
+          case 'full': max = context.actor.system.stats.level; break;
+          case 'half': max = Math.floor(context.actor.system.stats.level / 2); break;
+        }
       }
 
       let arr = [];
