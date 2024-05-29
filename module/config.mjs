@@ -93,9 +93,9 @@ WW.TALENT_SOURCES = {
 };
 
 WW.USES_LEVEL_RELATIVE = {
-  'manual': 'WW.Talent.Uses.None',
-  'full': 'WW.Talent.Uses.Full',
-  'half': 'WW.Talent.Uses.Half'
+  'manual': 'WW.Item.Uses.None',
+  'full': 'WW.Item.Uses.Full',
+  'half': 'WW.Item.Uses.Half'
 };
 
 WW.TIERS = {
