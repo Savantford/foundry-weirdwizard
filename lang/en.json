@@ -219,8 +219,8 @@
 "WW.Item.Uses.LevelRelative": "Is the uses/charges relative to the owner's level? Only applicable for player characters.",
 
 "WW.Item.Uses.None": "Not Relative",
-"WW.Item.Uses.Half": "Equal to Level",
-"WW.Item.Uses.Full": "Equal to Half Level",
+"WW.Item.Uses.Half": "Equal to Half Level",
+"WW.Item.Uses.Full": "Equal to Level",
 
 "WW.Roll.Label": "Roll",
 "WW.Roll.Settings": "Roll Settings",
