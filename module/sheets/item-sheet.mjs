@@ -44,6 +44,9 @@ export default class WWItemSheet extends ItemSheet {
     
     // Prepare enriched variables for editor
     context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true, relativeTo: this.document });
+
+    // Record if the item has an actor
+    context.hasActor = this.document.actor ? true : false;
     
     // Prepare character options
     if (this.item.charOption) {
@@ -97,7 +100,17 @@ export default class WWItemSheet extends ItemSheet {
       case 'Trait or Talent':
         context.subtypes = CONFIG.WW.TALENT_SUBTYPES;
         context.sources = CONFIG.WW.TALENT_SOURCES;
+
+        // Relative to Level Uses
         context.usesLevelRelative = CONFIG.WW.USES_LEVEL_RELATIVE;
+        context.belongsToNPC = (context.hasActor && this.document?.actor?.type === 'NPC') ? true : false;
+
+        if (context.hasActor && this.document?.actor?.type === 'Character') {
+          switch (context.system.uses.levelRelative) {
+            case 'full': context.system.uses.max = this.document.actor.system.stats.level; break;
+            case 'half': context.system.uses.max = Math.floor(this.document.actor.system.stats.level / 2); break;
+          }
+        }
       break;
 
       case 'Spell':
@@ -163,7 +176,6 @@ export default class WWItemSheet extends ItemSheet {
     
     // Prepare paths
     if (this.document.type === 'Path') {
-      context.hasActor = this.document.actor ? true : false;
       
       if (context.hasActor) {
         context.tierLoc = i18n(CONFIG.WW.PATH_TIERS[this.document.system.tier]);

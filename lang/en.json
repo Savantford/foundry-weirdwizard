@@ -228,9 +228,8 @@
 "WW.Item.Uses.ActionRecover": "Recover use/casting/token",
 
 "WW.Item.Uses.OnRest": "Recover on rest?",
-"WW.Item.Uses.LevelRelative": "Is the uses/charges relative to the owner's level? Only applicable for player characters.",
-
-"WW.Item.Uses.None": "Not Relative",
+"WW.Item.Uses.LevelRelative": "Is the number of uses/charges/tokens/castings relative to the character's level?",
+"WW.Item.Uses.Manual": "Not Relative",
 "WW.Item.Uses.Half": "Equal to Half Level",
 "WW.Item.Uses.Full": "Equal to Level",
 

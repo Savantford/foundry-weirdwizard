@@ -55,7 +55,7 @@ export function activity(type = String) {
       value: makeIntField(),
       max: makeIntField(),
       onRest: makeBooField(true),
-      levelRelative: makeStrField('manual',0,1)
+      levelRelative: makeStrField('manual',0)
     }),
 
     healing: makeStrField(),
