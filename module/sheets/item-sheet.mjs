@@ -94,6 +94,7 @@ export default class WWItemSheet extends ItemSheet {
       case 'Trait or Talent':
         context.subtypes = CONFIG.WW.TALENT_SUBTYPES;
         context.sources = CONFIG.WW.TALENT_SOURCES;
+        context.usesLevelRelative = CONFIG.WW.USES_LEVEL_RELATIVE;
       break;
 
       case 'Spell':
