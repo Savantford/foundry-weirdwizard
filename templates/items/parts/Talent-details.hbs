@@ -25,11 +25,13 @@
         {{/if}}
         
         <input class="checkbox-uses" type="checkbox" name="system.uses.onRest" {{checked system.uses.onRest}} data-tooltip="WW.Item.Uses.OnRest"/>
+
         {{#unless belongsToNPC}}
         <select name="system.uses.levelRelative" data-tooltip="WW.Item.Uses.LevelRelative">
             {{selectOptions usesLevelRelative selected=system.uses.levelRelative localize=true}}
         </select>
         {{/unless}}
+
     </div>
 
 </div>
