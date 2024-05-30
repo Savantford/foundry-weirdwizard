@@ -20,7 +20,7 @@
         {{#each instantEffects as |effect id|}}
         <li class="item effect flexrow" data-effect-id="{{id}}">
             <div class="item-image">
-                <img src="{{effect.icon}}" width="24" height="24" />
+                <img src="{{effect.img}}" width="24" height="24" />
             </div>
             <div class="item-name"><label>{{localize effect.locLabel}}</label></div>
             
@@ -70,7 +70,7 @@
         {{#each section.effects as |effect|}}
         <li class="item effect flexrow" data-effect-id="{{effect.id}}">
             <div class="item-image">
-                <img src="{{effect.icon}}" width="24" height="24" />
+                <img src="{{#if @root.isV12}}{{effect.img}}{{else}}{{effect.icon}}{{/if}}" width="24" height="24" />
             </div>
 
             <div class="item-name">

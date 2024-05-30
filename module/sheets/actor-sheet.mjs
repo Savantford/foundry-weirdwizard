@@ -19,7 +19,7 @@ export default class WWActorSheet extends ActorSheet {
   /** @override */
   static get defaultOptions() {
 
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['weirdwizard', 'sheet', 'actor'],
       width: 860, // 600 for small sheet, 860 for new sheet
       height: 500,
@@ -29,16 +29,15 @@ export default class WWActorSheet extends ActorSheet {
 
   /** @override */
   get template() {
-    const path = 'systems/weirdwizard/templates/actors';
+    const perms = CONST.DOCUMENT_OWNERSHIP_LEVELS,
+    path = 'systems/weirdwizard/templates/actors';
     
     let permission = this.document.getUserLevel(game.user);
+    if (game.user.isGM) permission = perms.OWNER;
+
     if ((permission === CONST.DOCUMENT_OWNERSHIP_LEVELS.LIMITED) | (permission === CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER)) return `${path}/${this.actor.type}-limited.hbs`;
     if (permission === CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) return `${path}/${this.actor.type}-sheet.hbs`;
     
-    // Return a single sheet for all item types.
-    // return `${path}/actor-sheet.html`;
-    // Alternatively, you could use the following return statement to do a
-    // unique actor sheet by type, like `actor-Character-sheet.hbs`
   }
   
   /* -------------------------------------------- */
@@ -58,6 +57,9 @@ export default class WWActorSheet extends ActorSheet {
     context.system = actorData.system;
     context.flags = actorData.flags;
     context.dtypes = ['String', 'Number', 'Boolean'];
+
+    // Add V12 check
+    context.isV12 = CONFIG.WW.IS_V12;
 
     for (let attr of Object.values(context.system.attributes)) {
       attr.isCheckbox = attr.dtype === 'Boolean';

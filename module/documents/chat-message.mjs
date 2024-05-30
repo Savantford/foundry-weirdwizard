@@ -36,7 +36,7 @@ export default class WWChatMessage extends ChatMessage {
    * @override
    * @returns {Promise<jQuery>}
    */
-  async getHTML() {
+  async getHTML() {   
     // Determine some metadata
     const data = this.toObject(false);
     const itemUuid = (data.flags?.weirdwizard?.item && (typeof data.flags?.weirdwizard?.item === 'string')) ? data.flags.weirdwizard.item : null;
@@ -86,11 +86,14 @@ export default class WWChatMessage extends ChatMessage {
 
     }
     
+    // V11 legacy support; delete in V13
+    const styles = game.release.generation >= 12 ? CONST.CHAT_MESSAGE_STYLES : CONST.CHAT_MESSAGE_TYPES;
+
     // Construct message data
     const messageData = {
       message: data,
       user: game.user,
-      author: this.user,
+      author: this.author,
       alias: this.alias,
       avatar: this.avatar,
       icon: icon,
@@ -107,8 +110,8 @@ export default class WWChatMessage extends ChatMessage {
       rollHtml: rollHtml,
       emptyContent: emptyContent,
       cssClass: [
-        this.type === CONST.CHAT_MESSAGE_TYPES.IC ? "ic" : null,
-        this.type === CONST.CHAT_MESSAGE_TYPES.EMOTE ? "emote" : null,
+        this.style === styles.IC ? "ic" : null,
+        this.style === styles.EMOTE ? "emote" : null,
         isWhisper ? "whisper" : null,
         this.blind ? "blind": null
       ].filterJoin(" "),
@@ -121,14 +124,10 @@ export default class WWChatMessage extends ChatMessage {
     };
 
     // Render message data specifically for ROLL type messages
-    if ( this.isRoll ) { // This was making the Roll being rendered twice and thus losing data. No longer true?
-      await this._renderRollContent(messageData);
-    }
+    if ( this.isRoll ) await this._renderRollContent(messageData); // This was making the Roll being rendered twice and thus losing data. No longer true?
 
     // Define a border color
-    if ( this.type === CONST.CHAT_MESSAGE_TYPES.OOC ) {
-      messageData.borderColor = this.user?.color;
-    }
+    if ( this.style === styles.OOC ) messageData.borderColor = this.author?.color.css;
 
     // Render the chat message
     let html = await renderTemplate(CONFIG.ChatMessage.template, messageData);
@@ -137,7 +136,7 @@ export default class WWChatMessage extends ChatMessage {
     // Flag expanded state of dice rolls
     if ( this._rollExpanded ) html.find(".dice-tooltip").addClass("expanded");
     Hooks.call("renderChatMessage", this, html, messageData);
-
+    
     return html;
   }
 

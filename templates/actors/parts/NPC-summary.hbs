@@ -32,7 +32,7 @@
 
             {{!-- Difficulty --}}
             <span class="statbox-difficulty">{{localize "WW.Stats.Difficulty"}}
-
+                
                 <select name="system.stats.difficulty">
                     {{selectOptions difficulties selected=system.stats.difficulty}}
                 </select>
@@ -194,10 +194,17 @@
 
                 {{!-- Size --}}
                 <label>{{localize "WW.Stats.Size"}}:</label>
+
+                {{#if isV12}}
+                <select name="system.stats.size">
+                    {{selectOptions sizes selected=system.stats.size valueAttr="key" labelAttr="label"}}
+                </select>
+                {{else}}
                 <select name="system.stats.size">
                     {{selectOptions sizes selected=system.stats.size nameAttr="key" labelAttr="label"}}
                 </select>
-                
+                {{/if}}
+
                 {{!-- Speed --}}
                 <label class="ml-1">{{localize "WW.Stats.Speed"}}:</label>
 

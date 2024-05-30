@@ -8,7 +8,7 @@ import { i18n, formatTime } from '../helpers/utils.mjs';
 export default class WWActor extends Actor {
 
   async _preCreate(data, options, user) {
-    const sourceId = this.getFlag("core", "sourceId");
+    const sourceId = this._stats.compendiumSource;
     // Don't change actors imported from compendia.
     if (sourceId?.startsWith("Compendium.")) return await super._preCreate(data, options, user);
 

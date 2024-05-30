@@ -11,14 +11,14 @@ export default class WWTour extends Tour {
     await super._preStep();
 
     const currentStep = this.currentStep;
-
-    // First step: If we need an actor, make it and render
+    
+    // Actor step: If we need an actor, make it and render
     if (currentStep.actor) {
       currentStep.actor.name = game.i18n.localize(currentStep.actor.name);
       for (const item of currentStep.actor.items) {
         item.name = game.i18n.localize(item.name);
       }
-      this.actor = (await CONFIG.Actor.documentClass.create(
+      this.actor = (new WWActor(
         currentStep.actor,
       ))
       //@ts-expect-error Calling _render because it's async unlike render
@@ -92,5 +92,26 @@ export default class WWTour extends Tour {
       'actorSheetID',
       this.actor?.sheet?.id,
     );
+
+    // Add/Remove classes from elements to simulate hover
+    const body = await this.targetElement?.closest('body');
+    if (body) {
+      const menu = await $(body).find('.profile-img-menu')[0],
+      luck = await $(body).find('.stat.luck')[0];
+      
+      // Hide elements
+      $(menu).css("opacity", 0);
+      $(luck).css("opacity", 0);
+
+      // Show elements on certain steps
+      if (currentStep.id === 'profile-menu') {
+        $(menu).css("opacity", 1);
+      } else if (currentStep.id === 'luck') {
+        $(luck).css("opacity", 1);
+      }
+
+    }
+    
+    
   }
 }

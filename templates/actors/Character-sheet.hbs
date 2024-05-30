@@ -109,14 +109,14 @@
                     {{!-- Numbers: Top Layer --}}
                     <div class="health-numbers">
                         {{!-- Damage --}}
-                        <div class="stat">
+                        <div class="stat damage">
                                 
                             <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0" data-dtype="Number"/>
 
                         </div>
 
                         {{!-- Health --}}
-                        <div class="stat">
+                        <div class="stat health">
                             
                             <input type="number" name="system.stats.health.current" value="{{system.stats.health.current}}" min="0" data-dtype="Number"
                                 {{~#if system.stats.health.temp}}disabled{{/if}}

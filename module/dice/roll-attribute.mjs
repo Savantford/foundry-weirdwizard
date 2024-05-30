@@ -52,7 +52,7 @@ export default class RollAttribute extends FormApplication {
 
   static get defaultOptions() {
     
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       id: "roll-attribute",
       title: "Roll Details",
       classes: ['weirdwizard'],
@@ -145,7 +145,7 @@ export default class RollAttribute extends FormApplication {
         const targetNo = against == 'def' ? t.defense : t.attributes[against].value;
 
         // Construct the Roll instance and evaluate the roll
-        let r = await new WWRoll(rollFormula, { targetNo: targetNo, attribute: this.attribute, against: against }, { template: "systems/weirdwizard/templates/chat/roll.hbs" }).evaluate({async:true});
+        let r = await new WWRoll(rollFormula, { targetNo: targetNo, attribute: this.attribute, against: against }, { template: "systems/weirdwizard/templates/chat/roll.hbs" }).evaluate();
 
         // Save the roll order
         const index = this.targets.findIndex(obj => { return obj.id === t.id; });
@@ -246,7 +246,7 @@ export default class RollAttribute extends FormApplication {
       const targetNo = formData.targetno ? formData.targetno : '';
 
       // Construct the Roll instance and evaluate the roll
-      let r = await new WWRoll(rollFormula, { targetNo: targetNo, attribute: this.attribute, against: against }, { template: "systems/weirdwizard/templates/chat/roll.hbs" }).evaluate({async:true});
+      let r = await new WWRoll(rollFormula, { targetNo: targetNo, attribute: this.attribute, against: against }, { template: "systems/weirdwizard/templates/chat/roll.hbs" }).evaluate();
 
       // Set the roll order and color dice for DSN
       for (let i = 0; i < r.dice.length; i++) {
@@ -349,7 +349,7 @@ export default class RollAttribute extends FormApplication {
     
     // Create message data
     const messageData = {
-      type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+      /*type: CONST.CHAT_MESSAGE_TYPES.ROLL,*/ // No longer needed
       rolls: rollArray,
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
       flavor: this.label,

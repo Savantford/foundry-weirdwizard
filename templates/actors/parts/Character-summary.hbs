@@ -5,7 +5,7 @@
         <h4 class="statbox-header">
             
             {{!-- Ancestry, Descriptors --}}
-            <div class="list-entries">
+            <div class="list-entries statbox-ancestry">
                 
                 {{!-- Ancestry --}}
                 <div class="list-entry">
@@ -53,7 +53,7 @@
             <div class="statbox-level">
                 
                 <label>{{localize "WW.Stats.Level"}}</label>
-
+                
                 <select name="system.stats.level">
                     {{selectOptions levels selected=system.stats.level}}
                 </select>
@@ -61,9 +61,8 @@
             </div>
 
         </h4>
-        
-        {{!-- Size, Speed, Ancestry, Descriptors --}}
-        <div class="statbox-section">
+
+        <div class="statbox-section stats">
 
             {{!-- Size, Speed --}}
             <div class="stat-inline list-entries">
@@ -94,10 +93,6 @@
                     data-tooltip="WW.Detail.Movement.Add"><i class="fas fa-circle-plus"></i></a>
 
             </div>
-        
-        </div>
-
-        <div class="statbox-section">
 
             {{!-- Professions --}}
             <div class="stat-inline list-entries">
@@ -284,7 +279,7 @@
 
         <h4 class="mt-2">{{localize "WW.Attack.Plural"}}</h4>
         
-        <span class="attacks">
+        <div class="statbox-section attacks">
 
             {{!-- Bonus Damage --}}
             {{#if system.stats.bonusdamage}}
@@ -302,7 +297,8 @@
                     {{/each}}
                 </ol>
             </div>
-        </span>
+        </div>
+
     </div>
 
     {{!-- Right Column --}}
@@ -311,7 +307,7 @@
         {{!-- Talents --}}
         <h4>{{localize "WW.Talents.Label"}}</h4>
 
-        <div class="statbox-section">
+        <div class="statbox-section talents">
             <ol class="compact-list stat">
                 {{#each talents as |item id|}}
                     {{> "systems/weirdwizard/templates/actors/parts/Character-summary-item.hbs" item=item id=id}}
@@ -345,7 +341,7 @@
         {{#if (or system.details.traditions spells.length)}}
         <h4 class="statbox-header">{{localize "WW.Spells.Label"}}</h4>
 
-        <div class="statbox-section">
+        <div class="statbox-section spells">
 
             {{!-- Traditions --}}
             <div class="stat-inline mb-1 list-entries">

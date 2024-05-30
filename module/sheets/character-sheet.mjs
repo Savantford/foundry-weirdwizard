@@ -10,7 +10,7 @@ export default class WWCharacterSheet extends WWActorSheet {
   /** @override */
   static get defaultOptions() {
 
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['weirdwizard', 'sheet', 'actor', 'character'],
       width: 850,
       height: 550,

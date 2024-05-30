@@ -35,9 +35,9 @@ export default class WWToken extends Token {
 
   _drawDamageBar(number, bar, data) {
     const { value, max } = data;
-    let colorPct = Math.clamped(value, 0, max) / max;
+    let colorPct = Math.clamp(value, 0, max) / max;
     if (game.settings.get('weirdwizard', 'damageBarReverse')) {
-      colorPct = Math.clamped(max-value, 0, max) / max
+      colorPct = Math.clamp(max-value, 0, max) / max
     }
     const damageColor = WWToken.getDamageColor(value, max);
     
@@ -47,7 +47,7 @@ export default class WWToken extends Token {
     if (this.document.height >= 2) {
       h *= 1.6;
     }
-    const stroke = Math.clamped(h / 8, 1, 2);
+    const stroke = Math.clamp(h / 8, 1, 2);
 
     // Set up bar container
     this._resetVitalsBar(bar, w, h, stroke);

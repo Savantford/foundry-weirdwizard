@@ -11,7 +11,7 @@ export default class WWItemSheet extends ItemSheet {
 
   /** @override */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["weirdwizard", "sheet", "item"],
       width: 520,
       height: 480,
@@ -35,6 +35,9 @@ export default class WWItemSheet extends ItemSheet {
   /** @override */
   async getData() {
     const context = super.getData();
+
+    // Add V12 check
+    context.isV12 = CONFIG.WW.IS_V12;
 
     // Use a safe clone of the item data for further operations.
     context.system = context.item.system;
@@ -110,7 +113,7 @@ export default class WWItemSheet extends ItemSheet {
       obj.locLabel = CONFIG.WW.INSTANT_LABELS[e.label];
       obj.locTrigger = CONFIG.WW.INSTANT_TRIGGERS[e.trigger];
       obj.locTarget = CONFIG.WW.EFFECT_TARGETS[e.target];
-      obj.icon = CONFIG.WW.INSTANT_ICONS[e.label];
+      obj.img = CONFIG.WW.INSTANT_ICONS[e.label];
       
       instEffs[id] = obj;
     })
