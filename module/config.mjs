@@ -92,6 +92,12 @@ WW.TALENT_SOURCES = {
   'Other': 'WW.Talent.Source.Other'
 };
 
+WW.USES_LEVEL_RELATIVE = {
+  'manual': 'WW.Item.Uses.Manual',
+  'full': 'WW.Item.Uses.Full',
+  'half': 'WW.Item.Uses.Half'
+};
+
 WW.TIERS = {
   'Novice': 'WW.CharOptions.Novice',
   'Expert': 'WW.CharOptions.Expert',
