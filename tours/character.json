@@ -1,26 +1,41 @@
 {
   "title": "WW.Tour.Character.Title",
-  "description": "WW.Tour.Character.Description",
+  "description": "WW.Tour.Character.Content",
   "canBeResumed": false,
   "display": true,
   "steps": [
     {
-      "id": "sheet",
-      "selector": ".weirdwizard .window-content",
-      "title": "WW.Tour.Character.SheetTitle",
-      "content": "WW.Tour.Character.SheetContent",
+      "id": "intro",
+      "selector": "",
+      "title": "WW.Tour.Character.Intro.Title",
+      "content": "WW.Tour.Character.Intro.Content",
       "actor": {
         "name": "WW.Tour.Character.Actor",
         "type": "Character",
         "img": "",
         "system": {
           "attributes": {
+            "str": {
+              "value": 12
+            },
             "agi": {
               "value": 11
+            },
+            "int": {
+              "value": 10
+            },
+            "wil": {
+              "value": 9
             }
           },
           "stats": {
-            "bonusdamage": 1
+            "bonusdamage": 1,
+            "damage": {
+              "value": 6
+            },
+            "health": {
+              "current": 10
+            }
           }
         },
         "items": [
@@ -39,13 +54,13 @@
               "damage": "1d6",
               "grip": "Two",
               "range": 15,
-              "properties": {
+              "traits": {
                 "range": true
               }
             }
           },
           {
-            "name": "WW.Tour.Character.Items.Talent",
+            "name": "WW.Tour.Character.Items.Trait",
             "type": "Trait or Talent",
             "img": "icons/magic/defensive/illusion-evasion-echo-purple.webp",
             "system": {
@@ -53,26 +68,27 @@
                 "value": "<p>Example description.</p>"
               },
               "damage": "1d6",
-              "source": "novice",
+              "source": "Ancestry",
               "uses": {
-                "value": 3,
-                "max": 5
+                "value": 1,
+                "max": 3
               }
             }
           },
           {
-            "name": "WW.Tour.Character.Items.Trait",
+            "name": "WW.Tour.Character.Items.Talent",
             "type": "Trait or Talent",
             "img": "icons/magic/control/buff-strength-muscle-damage-orange.webp",
             "system": {
+              "subtype": "Action",
               "description": {
                 "value": "<p>Example description.</p>"
               },
-              "source": "ancestry"
+              "source": "Novice Path"
             },
             "effects": [
               {
-                "name": "Trait Effect",
+                "name": "Talent Effect",
                 "icon": "icons/magic/control/buff-strength-muscle-damage-orange.webp",
                 "changes": [
                   {
@@ -90,7 +106,7 @@
             "type": "Spell",
             "img": "icons/magic/water/water-drop-swirl-blue.webp",
             "system": {
-              "tier": "novice",
+              "tier": "Novice",
               "tradition": "Hydromancy",
               "uses": {
                 "value": 2,
@@ -133,24 +149,7 @@
                 "value": "<p>Example description.</p>"
               },
               "weightUnit": 1
-            },
-            "effects": [
-              {
-                "name": "Potion Effect",
-                "icon": "icons/consumables/potions/bottle-corked-green.webp",
-                "duration": {
-                  "rounds": 1
-                },
-                "changes": [
-                  {
-                    "key": "system.boons.attacks.global",
-                    "mode": 2,
-                    "priority": null,
-                    "value": 1
-                  }
-                ]
-              }
-            ]
+            }
           }
         ],
         "effects": [
@@ -166,149 +165,194 @@
               }
             ],
             "disabled": true
+          },
+          {
+            "name": "Potion Effect",
+            "icon": "icons/consumables/potions/bottle-corked-green.webp",
+            "duration": {
+              "seconds": 60
+            },
+            "changes": [
+              {
+                "key": "system.boons.attacks.global",
+                "mode": 2,
+                "priority": null,
+                "value": 1
+              }
+            ]
           }
         ]
       }
     },
     {
-      "id": "header",
-      "selector": ".weirdwizard .character-header",
-      "title": "WW.Tour.Character.HeaderTitle",
-      "content": "WW.Tour.Character.HeaderContent"
+      "id": "sheet",
+      "selector": ".weirdwizard.character",
+      "title": "WW.Tour.Character.Sheet.Title",
+      "content": "WW.Tour.Character.Sheet.Content"
+    },
+    {
+      "id": "banner",
+      "selector": ".weirdwizard.character .sheet-banner",
+      "title": "WW.Tour.Character.Banner.Title",
+      "content": "WW.Tour.Character.Banner.Content"
+    },
+    {
+      "id": "circle",
+      "selector": ".weirdwizard.character .circle",
+      "title": "WW.Tour.Character.Circle.Title",
+      "content": "WW.Tour.Character.Circle.Content"
     },
     {
       "id": "attributes",
-      "selector": ".weirdwizard .str",
-      "title": "WW.Tour.Character.AttributesTitle",
-      "content": "WW.Tour.Character.AttributesContent"
+      "selector": ".weirdwizard.character .stat.str",
+      "title": "WW.Tour.Character.Attributes.Title",
+      "content": "WW.Tour.Character.Attributes.Content"
     },
     {
-      "id": "defense",
-      "selector": ".weirdwizard .def",
-      "title": "WW.Tour.Character.DefenseTitle",
-      "content": "WW.Tour.Character.DefenseContent"
-    },
-    {
-      "id": "health",
-      "selector": ".weirdwizard .health",
-      "title": "WW.Tour.Character.HealthTitle",
-      "content": "WW.Tour.Character.HealthContent"
+      "id": "profile-menu",
+      "selector": ".weirdwizard.character .profile-img-menu",
+      "title": "WW.Tour.Character.ProfileMenu.Title",
+      "content": "WW.Tour.Character.ProfileMenu.Content"
     },
     {
       "id": "luck",
-      "selector": ".weirdwizard .luck",
-      "title": "WW.Tour.Character.LuckTitle",
-      "content": "WW.Tour.Character.LuckContent"
+      "selector": ".weirdwizard.character .stat.luck",
+      "title": "WW.Tour.Character.Luck.Title",
+      "content": "WW.Tour.Character.Luck.Content"
     },
     {
-      "id": "rest",
-      "selector": ".weirdwizard .rest",
-      "title": "WW.Tour.Character.RestTitle",
-      "content": "WW.Tour.Character.RestContent"
+      "id": "health-bar",
+      "selector": ".weirdwizard.character .health-block",
+      "title": "WW.Tour.Character.HealthBar.Title",
+      "content": "WW.Tour.Character.HealthBar.Content"
     },
     {
-      "id": "tabs",
-      "selector": ".weirdwizard nav.sheet-tabs.tabs",
-      "title": "WW.Tour.Character.TabsTitle",
-      "content": "WW.Tour.Character.TabsContent"
-    },
-    {
-      "id": "summary",
-      "selector": ".weirdwizard .tab.summary",
-      "title": "WW.Tour.Character.SummaryTitle",
-      "content": "WW.Tour.Character.SummaryContent"
-    },
-    {
-      "id": "attacks",
-      "selector": ".weirdwizard .attacks",
-      "title": "WW.Tour.Character.AttacksTitle",
-      "content": "WW.Tour.Character.AttacksContent"
-    },
-    {
-      "id": "roll",
-      "selector": ".weirdwizard .attacks .item-roll",
-      "title": "WW.Tour.Character.RollTitle",
-      "content": "WW.Tour.Character.RollContent"
-    },
-    {
-      "id": "edit",
-      "selector": ".weirdwizard .attacks .item-edit",
-      "title": "WW.Tour.Character.EditTitle",
-      "content": "WW.Tour.Character.EditContent"
-    },
-    {
-      "id": "scroll",
-      "selector": ".weirdwizard .attacks .item-scroll",
-      "title": "WW.Tour.Character.ScrollTitle",
-      "content": "WW.Tour.Character.ScrollContent"
-    },
-    {
-      "id": "damage-roll",
-      "selector": ".weirdwizard .attacks .damage-roll",
-      "title": "WW.Tour.Character.DamageRollTitle",
-      "content": "WW.Tour.Character.DamageRollContent"
-    },
-    {
-      "id": "properties",
-      "selector": ".weirdwizard .attacks .properties-line",
-      "title": "WW.Tour.Character.PropertiesTitle",
-      "content": "WW.Tour.Character.PropertiesContent"
-    },
-    {
-      "id": "modifier",
-      "selector": ".weirdwizard .attacks .modifier-line",
-      "title": "WW.Tour.Character.ModifierTitle",
-      "content": "WW.Tour.Character.ModifierContent"
+      "id": "health",
+      "selector": ".weirdwizard.character .stat.health",
+      "title": "WW.Tour.Character.Health.Title",
+      "content": "WW.Tour.Character.Health.Content"
     },
     {
       "id": "damage",
-      "selector": ".weirdwizard .attacks .damage-line",
-      "title": "WW.Tour.Character.DamageTitle",
-      "content": "WW.Tour.Character.DamageContent"
+      "selector": ".weirdwizard.character .stat.damage",
+      "title": "WW.Tour.Character.Damage.Title",
+      "content": "WW.Tour.Character.Damage.Content"
     },
     {
-      "id": "talent",
-      "selector": ".weirdwizard .compact-list",
-      "title": "WW.Tour.Character.TalentTitle",
-      "content": "WW.Tour.Character.TalentContent"
+      "id": "health-progress",
+      "selector": ".weirdwizard.character .health-progress",
+      "title": "WW.Tour.Character.HealthProgress.Title",
+      "content": "WW.Tour.Character.HealthProgress.Content"
     },
     {
-      "id": "uses",
-      "selector": ".weirdwizard .pip-box",
-      "title": "WW.Tour.Character.UsesTitle",
-      "content": "WW.Tour.Character.UsesContent"
+      "id": "health-indicator",
+      "selector": ".weirdwizard.character .health",
+      "title": "WW.Tour.Character.Health.Title",
+      "content": "WW.Tour.Character.Health.Content"
     },
     {
-      "id": "effect",
-      "selector": ".weirdwizard .item-toggle-effects",
-      "title": "WW.Tour.Character.EffectTitle",
-      "content": "WW.Tour.Character.EffectContent"
+      "id": "stats",
+      "selector": ".weirdwizard.character .character-stats",
+      "title": "WW.Tour.Character.Stats.Title",
+      "content": "WW.Tour.Character.Stats.Content"
     },
     {
-      "id": "spell",
-      "selector": ".weirdwizard .spells",
-      "title": "WW.Tour.Character.SpellTitle",
-      "content": "WW.Tour.Character.SpellContent",
+      "id": "sheet-menu",
+      "selector": ".weirdwizard.character .sheet-menu",
+      "title": "WW.Tour.Character.SheetMenu.Title",
+      "content": "WW.Tour.Character.SheetMenu.Content"
+    },
+    {
+      "id": "tabs",
+      "selector": ".weirdwizard.character nav.sheet-tabs.tabs",
+      "title": "WW.Tour.Character.Tabs.Title",
+      "content": "WW.Tour.Character.Tabs.Content"
+    },
+    {
+      "id": "summary",
+      "selector": ".weirdwizard.character .tab.summary",
+      "title": "WW.Tour.Character.Summary.Title",
+      "content": "WW.Tour.Character.Summary.Content",
       "tab": {
         "parent": "actor",
         "id": "summary"
       }
     },
     {
-      "id": "stats",
-      "selector": ".weirdwizard .tab.stats",
-      "title": "WW.Tour.Character.StatsTitle",
-      "content": "WW.Tour.Character.StatsContent",
+      "id": "ancestry",
+      "selector": ".weirdwizard.character .statbox-ancestry",
+      "title": "WW.Tour.Character.Ancestry.Title",
+      "content": "WW.Tour.Character.Ancestry.Content"
+    },
+    {
+      "id": "level",
+      "selector": ".weirdwizard.character .statbox-level",
+      "title": "WW.Tour.Character.Level.Title",
+      "content": "WW.Tour.Character.Level.Content"
+    },
+    {
+      "id": "summary-stats",
+      "selector": ".weirdwizard.character .statbox-section.stats",
+      "title": "WW.Tour.Character.SummaryStats.Title",
+      "content": "WW.Tour.Character.SummaryStats.Content"
+    },
+    {
+      "id": "attacks",
+      "selector": ".weirdwizard.character .statbox-section.attacks",
+      "title": "WW.Tour.Character.Attacks.Title",
+      "content": "WW.Tour.Character.Attacks.Content"
+    },
+    {
+      "id": "attack-name",
+      "selector": ".weirdwizard.character .statbox-section.attacks label.item-button",
+      "title": "WW.Tour.Character.AttackName.Title",
+      "content": "WW.Tour.Character.AttackName.Content"
+    },
+    {
+      "id": "attack-modifier",
+      "selector": ".weirdwizard.character .statbox-section.attacks .modifier-line",
+      "title": "WW.Tour.Character.AttackModifier.Title",
+      "content": "WW.Tour.Character.AttackModifier.Content"
+    },
+    {
+      "id": "attack-damage",
+      "selector": ".weirdwizard.character .statbox-section.attacks .damage-line",
+      "title": "WW.Tour.Character.AttackDamage.Title",
+      "content": "WW.Tour.Character.AttackDamage.Content"
+    },
+    {
+      "id": "talents-list",
+      "selector": ".weirdwizard.character .statbox-section.talents",
+      "title": "WW.Tour.Character.TalentsList.Title",
+      "content": "WW.Tour.Character.TalentsList.Content"
+    },
+    {
+      "id": "uses",
+      "selector": ".weirdwizard.character .statbox-section.talents .pip-box",
+      "title": "WW.Tour.Character.Uses.Title",
+      "content": "WW.Tour.Character.Uses.Content"
+    },
+    {
+      "id": "toggle-effects",
+      "selector": ".weirdwizard.character .statbox-section.talents .item-button[data-action=item-toggle-effects]",
+      "title": "WW.Tour.Character.ToggleEffects.Title",
+      "content": "WW.Tour.Character.ToggleEffects.Content"
+    },
+    {
+      "id": "spell",
+      "selector": ".weirdwizard.character .statbox-section.spells",
+      "title": "WW.Tour.Character.Spell.Title",
+      "content": "WW.Tour.Character.Spell.Content",
       "tab": {
         "parent": "actor",
-        "id": "stats"
+        "id": "summary"
       }
     },
     {
       "id": "details",
-      "selector": ".weirdwizard .tab.details",
-      "title": "WW.Tour.Character.DetailsTitle",
-      "content": "WW.Tour.Character.DetailsContent",
+      "selector": ".weirdwizard.character .tab.details",
+      "title": "WW.Tour.Character.Details.Title",
+      "content": "WW.Tour.Character.Details.Content",
       "tab": {
         "parent": "actor",
         "id": "details"
@@ -316,43 +360,43 @@
     },
     {
       "id": "equipment",
-      "selector": ".weirdwizard .tab.equipment",
-      "title": "WW.Tour.Character.EquipmentTitle",
-      "content": "WW.Tour.Character.EquipmentContent",
+      "selector": ".weirdwizard.character .tab.equipment",
+      "title": "WW.Tour.Character.Equipment.Title",
+      "content": "WW.Tour.Character.Equipment.Content",
       "tab": {
         "parent": "actor",
         "id": "equipment"
       }
     },
     {
-      "id": "coins",
-      "selector": ".weirdwizard .coins",
-      "title": "WW.Tour.Character.CoinsTitle",
-      "content": "WW.Tour.Character.CoinsContent"
-    },
-    {
-      "id": "weight",
-      "selector": ".weirdwizard .total-weight",
-      "title": "WW.Tour.Character.WeightTitle",
-      "content": "WW.Tour.Character.WeightContent"
-    },
-    {
       "id": "weapons",
-      "selector": ".weirdwizard .weapons-list",
-      "title": "WW.Tour.Character.WeaponsTitle",
-      "content": "WW.Tour.Character.WeaponsContent"
+      "selector": ".weirdwizard.character .weapons-list",
+      "title": "WW.Tour.Character.Weapons.Title",
+      "content": "WW.Tour.Character.Weapons.Content"
+    },
+    {
+      "id": "coins",
+      "selector": ".weirdwizard.character .coins",
+      "title": "WW.Tour.Character.Coins.Title",
+      "content": "WW.Tour.Character.Coins.Content"
+    },
+    {
+      "id": "carrying-limit",
+      "selector": ".weirdwizard.character .carrying-limit",
+      "title": "WW.Tour.Character.CarryingLimit.Title",
+      "content": "WW.Tour.Character.CarryingLimit.Content"
     },
     {
       "id": "other",
-      "selector": ".weirdwizard .equipment-list",
-      "title": "WW.Tour.Character.OtherTitle",
-      "content": "WW.Tour.Character.OtherContent"
+      "selector": ".weirdwizard.character .equipment-list",
+      "title": "WW.Tour.Character.Other.Title",
+      "content": "WW.Tour.Character.Other.Content"
     },
     {
       "id": "equip",
-      "selector": ".weirdwizard .equipment-list .item-toggle-effects",
-      "title": "WW.Tour.Character.EquipTitle",
-      "content": "WW.Tour.Character.EquipContent",
+      "selector": ".weirdwizard.character .equipment-list .item-button[data-action=item-toggle-effects]",
+      "title": "WW.Tour.Character.Equip.Title",
+      "content": "WW.Tour.Character.Equip.Content",
       "tab": {
         "parent": "actor",
         "id": "equipment"
@@ -360,9 +404,9 @@
     },
     {
       "id": "talents",
-      "selector": ".weirdwizard .tab.talents",
-      "title": "WW.Tour.Character.TalentsTitle",
-      "content": "WW.Tour.Character.TalentsContent",
+      "selector": ".weirdwizard.character .tab.talents",
+      "title": "WW.Tour.Character.Talents.Title",
+      "content": "WW.Tour.Character.Talents.Content",
       "tab": {
         "parent": "actor",
         "id": "talents"
@@ -370,9 +414,9 @@
     },
     {
       "id": "spells",
-      "selector": ".weirdwizard .tab.spells",
-      "title": "WW.Tour.Character.SpellsTitle",
-      "content": "WW.Tour.Character.SpellsContent",
+      "selector": ".weirdwizard.character .tab.spells",
+      "title": "WW.Tour.Character.Spells.Title",
+      "content": "WW.Tour.Character.Spells.Content",
       "tab": {
         "parent": "actor",
         "id": "spells"
@@ -380,9 +424,9 @@
     },
     {
       "id": "effects",
-      "selector": ".weirdwizard .tab.effects",
-      "title": "WW.Tour.Character.EffectsTitle",
-      "content": "WW.Tour.Character.EffectsContent",
+      "selector": ".weirdwizard.character .tab.effects",
+      "title": "WW.Tour.Character.Effects.Title",
+      "content": "WW.Tour.Character.Effects.Content",
       "tab": {
         "parent": "actor",
         "id": "effects"
@@ -390,39 +434,39 @@
     },
     {
       "id": "afflictions",
-      "selector": ".weirdwizard .tab.effects .afflictions",
-      "title": "WW.Tour.Character.AfflictionsTitle",
-      "content": "WW.Tour.Character.AfflictionsContent"
+      "selector": ".weirdwizard.character .tab.effects .afflictions",
+      "title": "WW.Tour.Character.Afflictions.Title",
+      "content": "WW.Tour.Character.Afflictions.Content"
     },
     {
-      "id": "remove",
-      "selector": ".weirdwizard .tab.effects .remove-afflictions",
-      "title": "WW.Tour.Character.RemoveTitle",
-      "content": "WW.Tour.Character.RemoveContent"
+      "id": "remove-afflictions",
+      "selector": ".weirdwizard.character .tab.effects .remove-afflictions",
+      "title": "WW.Tour.Character.AfflictionsRemove.Title",
+      "content": "WW.Tour.Character.AfflictionsRemove.Content"
     },
     {
-      "id": "all",
-      "selector": ".weirdwizard .tab.effects .effects-list",
-      "title": "WW.Tour.Character.AllTitle",
-      "content": "WW.Tour.Character.AllContent"
+      "id": "effects-all",
+      "selector": ".weirdwizard.character .tab.effects .effects-list",
+      "title": "WW.Tour.Character.EffectsAll.Title",
+      "content": "WW.Tour.Character.EffectsAll.Content"
     },
     {
-      "id": "temporary",
-      "selector": ".weirdwizard .tab.effects .temporary-effects",
-      "title": "WW.Tour.Character.TemporaryTitle",
-      "content": "WW.Tour.Character.TemporaryContent"
+      "id": "effects-temporary",
+      "selector": ".weirdwizard.character .tab.effects .temporary-effects",
+      "title": "WW.Tour.Character.EffectsTemporary.Title",
+      "content": "WW.Tour.Character.EffectsTemporary.Content"
     },
     {
-      "id": "permanent",
-      "selector": ".weirdwizard .tab.effects .permanent-effects",
-      "title": "WW.Tour.Character.PermanentTitle",
-      "content": "WW.Tour.Character.PermanentContent"
+      "id": "effects-permanent",
+      "selector": ".weirdwizard.character .tab.effects .permanent-effects",
+      "title": "WW.Tour.Character.EffectsPermanent.Title",
+      "content": "WW.Tour.Character.EffectsPermanent.Content"
     },
     {
-      "id": "inactive",
-      "selector": ".weirdwizard .tab.effects .inactive-effects",
-      "title": "WW.Tour.Character.InactiveTitle",
-      "content": "WW.Tour.Character.InactiveContent"
+      "id": "effects-inactive",
+      "selector": ".weirdwizard.character .tab.effects .inactive-effects",
+      "title": "WW.Tour.Character.EffectsInactive.Title",
+      "content": "WW.Tour.Character.EffectsInactive.Content"
     }
   ],
   "suggestedNextTours": [

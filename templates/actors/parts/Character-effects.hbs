@@ -98,10 +98,10 @@
 
     <ol class="item-list {{section.type}}-effects">
     {{#each section.effects as |effect|}}
-    
+      
       <li class="item effect flexrow" data-effect-id="{{effect.id}}">
         <div class="item-image">
-          <img src="{{effect.icon}}" width="24" height="24"/>
+          <img src="{{#if @root.isV12}}{{effect.img}}{{else}}{{effect.icon}}{{/if}}" width="24" height="24"/>
         </div>
         <div class="item-name"><label>{{effect.name}}</label></div>
 
@@ -164,7 +164,7 @@
     {{#each actorEffects.inactive.effects as |effect|}}
       <li class="item effect flexrow" data-effect-id="{{effect.id}}">
         <div class="item-image">
-          <img src="{{effect.icon}}" width="24" height="24"/>
+          <img src="{{#if @root.isV12}}{{effect.img}}{{else}}{{effect.icon}}{{/if}}" width="24" height="24"/>
         </div>
         <div class="item-name">{{effect.name}}</div>
 

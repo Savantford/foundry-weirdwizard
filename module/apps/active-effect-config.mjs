@@ -21,6 +21,9 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
     let context = await super.getData(options);
 
+    // Add V12 check
+    context.isV12 = CONFIG.WW.IS_V12;
+
     const legacyTransfer = CONFIG.ActiveEffect.legacyTransferral;
 
     const labels = {
@@ -52,7 +55,6 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
     context = foundry.utils.mergeObject(context, data);
 
-
     // Prepare enriched description
     context.descriptionHTML = await TextEditor.enrichHTML(doc.description, {async: true, secrets: doc.isOwner});
 
@@ -63,7 +65,7 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     context.formattedStartTime = formatTime(doc.duration.startTime,1);
 
     // Prepare Effect Options to display on key dropdown menu
-    const optionsObj = deepClone(CONFIG.WW.EFFECT_OPTIONS);
+    const optionsObj = foundry.utils.deepClone(CONFIG.WW.EFFECT_OPTIONS);
     
     for (const [key, value] of Object.entries(optionsObj)) {
       optionsObj[key].options = Object.entries(optionsObj[key].options).reduce((all,[k,data]) => { all[k] = data.label; return all; }, {});
@@ -75,10 +77,8 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     let i = 0;
 
     for (const c of context.data.changes) {
-      console.log(c.key)
-      console.log(effChanges)
       const change = c.key.split('.').reduce((o, i) => o[i], effChanges);
-      console.log(change)
+      
       context.data.changes[i] = {
         ...c,
         ...change
@@ -165,8 +165,8 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     const parent = ev.currentTarget.closest('.effect-change');
     const div = parent.querySelector('.value');
     let ele = parent.querySelector('.value input');
+    
     const valueRef = select.value.split('.').reduce((o, i) => o[i], effChanges);
-    console.log(valueRef)
     const valueType = valueRef ? valueRef.valueType : '';
     ele.remove();
     

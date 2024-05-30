@@ -10,7 +10,7 @@ export default class WWCharOptionSheet extends WWItemSheet {
   /** @override */
   static get defaultOptions() {
     
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['weirdwizard', 'sheet', 'item', 'charoption'],
       width: 600,
       height: 420

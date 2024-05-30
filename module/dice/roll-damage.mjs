@@ -30,7 +30,7 @@ export default class RollDamage extends FormApplication {
 
   static get defaultOptions() {
     
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       id: 'roll-damage',
       title: 'Damage Dice',
       classes: ['weirdwizard'],
@@ -125,7 +125,7 @@ export default class RollDamage extends FormApplication {
 
     // Update Bonus Damage
     this.usedBonusDamage = Math.min(Math.max(0, this.usedBonusDamage), this.bonusDamage)
-    parent.querySelector('input[type=number].bonus-damage').value = this.usedBonusDamage;
+    if (this.bonusDamage) parent.querySelector('input[type=number].bonus-damage').value = this.usedBonusDamage;
     
     // Count extra damage dice
     let diceCount = 0;
@@ -165,7 +165,7 @@ export default class RollDamage extends FormApplication {
     }
 
     // Prepare roll
-    const r = await new WWRoll(this.finalExp, {}, { template: "systems/weirdwizard/templates/chat/roll.hbs" }).evaluate({async:true});
+    const r = await new WWRoll(this.finalExp, {}, { template: "systems/weirdwizard/templates/chat/roll.hbs" }).evaluate();
     dataset.value = await r.total;
     const rollArray= [r];
     const rollHtml = await diceTotalHtml(r);

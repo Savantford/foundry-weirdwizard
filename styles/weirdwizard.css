@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Forum&family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Mate+SC&display=swap');
 
 /* Variables */
-:root {
+body {
   /* Colors */
   --purple-dark: #49244F;
   --purple-dark-rgb: 73, 36, 79;
@@ -20,16 +20,20 @@
   --font-header: 'Lora', serif;
   --font-body: 'PT Sans', sans-serif;
   /* Overrides */
-  --background: url(../../../ui/parchment-white.jpg) repeat;
   --background-color-shadow: rgba(0, 0, 0, 0.07);
   --color-text-dark-secondary: #808080;
   --color-border-highlight: var(--color-shadow-primary);
   --color-border-highlight-alt: var(--color-shadow-primary);
   --color-shadow-primary: #c200ff;
   --color-shadow-highlight: var(--purple-dark);
+  /* Scrollbar Override */
+  --color-scrollbar: var(--purple-medium);
+  scrollbar-color: auto; /* V11 override */
   /* Element Sizes */
   --avatar-size-npc: 100px;
   --sheet-input-height: 100%;
+  /* Other */
+  --parchment-bg: url(../../../ui/parchment-white.jpg) repeat;
 }
 
 .grid, .grid-2, .grid-3, .grid-4, .grid-5, .grid-6, .grid-7, .grid-8, .grid-9, .grid-10, .grid-11, .grid-12 {
@@ -182,7 +186,6 @@
 }
 
 /* Responsive Grids */
-
 .auto-grid-2 {
   --auto-grid-min-size: 15rem;
   display: grid;
@@ -300,7 +303,7 @@
 .weirdwizard .window-content,
 .window-app .window-content {
   color: var(--body-text-color);
-  background: var(--background);
+  background: var(--parchment-bg);
   font-family: var(--font-body);
   font-size: var(--font-size-14);
 }
@@ -455,7 +458,7 @@
 }
 
 .sheet.journal-entry .journal-entry-content {
-  background: var(--background);
+  background: var(--parchment-bg);
 }
 
 /* Statboxes */
@@ -702,7 +705,9 @@
   text-align: center;
   text-overflow: ellipsis;
   overflow-x: hidden;
-
+  border: 1px solid transparent;
+  letter-spacing: 0;
+  
   /* Place on top of each other */
   grid-area: 1 / 1 / 2 / 2;
 }
@@ -971,7 +976,7 @@
   display: flex;
   gap: 7px;
   padding: 1px 3px;
-  background: var(--background);
+  background: var(--parchment-bg);
   border: 2px solid var(--purple-dark);
   border-radius: 5px;
   font-size: medium;
@@ -1029,7 +1034,7 @@
   display: grid;
   place-items: center;
 
-  background: var(--icon) no-repeat, var(--background), var(--background-color-shadow);
+  background: var(--icon) no-repeat, var(--parchment-bg), var(--background-color-shadow);
   background-size: 90%;
   background-position: center;
   background-blend-mode: multiply;
@@ -1076,14 +1081,15 @@
 }
 
 .weirdwizard .circle .stat.luck {
-  --icon: url(../assets/icons/clover.svg);
+  --icon: url(../assets/icons/circle-luck.svg);
   --ele-radius: 22px;
+  background-position: calc(50% + 1px) calc(50% + 1px);
   margin-bottom: 20px;
   transition: opacity 100ms ease-in-out;
   opacity: 0;
 }
 
-.weirdwizard .sheet-banner:hover .circle .stat.luck {
+.weirdwizard .sheet-header:hover .circle .stat.luck {
   opacity: 1;
 }
 
@@ -2724,7 +2730,7 @@ form.quest-calendar {
   margin: auto;
   height: var(--radius);
   width: var(--radius);
-  background: url("../assets/ui/clock-face.png") no-repeat, var(--background);
+  background: url("../assets/ui/clock-face.png") no-repeat, var(--parchment-bg);
   background-size: 100%;
   border-radius: 50%;
   box-shadow: inset 0px 0px 0px 1px black, 0px 0px 0px 1px black;

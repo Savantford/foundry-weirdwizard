@@ -62,6 +62,9 @@ Hooks.once('init', function () {
   // Add custom constants for configuration.
   CONFIG.WW = WW;
 
+  // Add IS_V12
+  CONFIG.WW.IS_V12 = game.release.generation >= 12;
+
   // Define custom Document classes
   CONFIG.Actor.documentClass = WWActor;
   CONFIG.Item.documentClass = WWItem;

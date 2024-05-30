@@ -3,5 +3,5 @@ export function mapRange(num, inMin, inMax, outMin, outMax) {
     if (inMin === inMax || outMin === outMax)
         return 0;
     const mapped = ((num - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
-    return Math.clamped(mapped, outMin, outMax);
+    return CONFIG.WW.IS_V12 ? Math.clamp(mapped, outMin, outMax) : Math.clamped(mapped, outMin, outMax); // Foundry V11 legacy support; remove game.release.generation
 }

@@ -6,7 +6,7 @@ export default class SageTools extends Application {
 
   static get defaultOptions() {
 
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['form'],
       popOut: true,
       submitOnChange: true,
@@ -28,14 +28,14 @@ export default class SageTools extends Application {
 
     // Prepare users
     context.users = [];
-    
+    console.log(CONST)
     for (const user of game.users) {
       if (!user.isGM) context.users.push({
         name: user.name,
         avatar: user.avatar,
         character: user.character ? user.character : null,
-        folderActors: game.actors.filter(a => a.testUserPermission(user, CONST.DOCUMENT_PERMISSION_LEVELS.OWNER)).filter(a => !user.character),
-        sceneActors: game.scenes.viewed.tokens.filter(a => a.testUserPermission(user, CONST.DOCUMENT_PERMISSION_LEVELS.OWNER))
+        folderActors: game.actors.filter(a => a.testUserPermission(user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)).filter(a => !user.character),
+        sceneActors: game.scenes.viewed.tokens.filter(a => a.testUserPermission(user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER))
       });
       
     }

@@ -1,14 +1,14 @@
 {
   "title": "WW.Tour.NPC.Title",
-  "description": "WW.Tour.NPC.Description",
+  "description": "WW.Tour.NPC.Content",
   "canBeResumed": false,
   "display": true,
   "steps": [
     {
       "id": "sheet",
       "selector": ".weirdwizard .window-content",
-      "title": "WW.Tour.NPC.SheetTitle",
-      "content": "WW.Tour.NPC.SheetContent",
+      "title": "WW.Tour.NPC.Sheet.Title",
+      "content": "WW.Tour.NPC.Sheet..Content",
       "actor": {
         "name": "WW.Tour.NPC.Actor",
         "type": "NPC",
@@ -108,51 +108,51 @@
     {
       "id": "summary",
       "selector": ".weirdwizard .tab.summary",
-      "title": "WW.Tour.NPC.SummaryTitle",
-      "content": "WW.Tour.NPC.SummaryContent"
+      "title": "WW.Tour.NPC.Summary.Title",
+      "content": "WW.Tour.NPC.Summary.Content"
     },
     {
       "id": "statbox",
       "selector": ".weirdwizard .statbox",
-      "title": "WW.Tour.NPC.StatboxTitle",
-      "content": "WW.Tour.NPC.StatboxContent"
+      "title": "WW.Tour.NPC.Statbox.Title",
+      "content": "WW.Tour.NPC.Statbox.Content"
     },
     {
       "id": "header",
       "selector": ".weirdwizard .statbox-superheader",
-      "title": "WW.Tour.NPC.HeaderTitle",
-      "content": "WW.Tour.NPC.HeaderContent"
+      "title": "WW.Tour.NPC.Header.Title",
+      "content": "WW.Tour.NPC.Header.Content"
     },
     {
       "id": "talents",
       "selector": ".weirdwizard .talents-section",
-      "title": "WW.Tour.NPC.TalentsTitle",
-      "content": "WW.Tour.NPC.TalentsContent"
+      "title": "WW.Tour.NPC.Talents.Title",
+      "content": "WW.Tour.NPC.Talents.Content"
     },
     {
       "id": "buttons",
       "selector": ".weirdwizard .described-list .buttons",
-      "title": "WW.Tour.NPC.ButtonsTitle",
-      "content": "WW.Tour.NPC.ButtonsContent"
+      "title": "WW.Tour.NPC.Buttons.Title",
+      "content": "WW.Tour.NPC.Buttons.Content"
     },
     {
       "id": "attacks",
       "selector": ".weirdwizard .attacks-list",
-      "title": "WW.Tour.NPC.AttacksTitle",
-      "content": "WW.Tour.NPC.AttacksContent"
+      "title": "WW.Tour.NPC.Attacks.Title",
+      "content": "WW.Tour.NPC.Attacks.Content"
     },
     
     {
       "id": "actions",
       "selector": ".weirdwizard .actions-list",
-      "title": "WW.Tour.NPC.ActionsTitle",
-      "content": "WW.Tour.NPC.ActionsContent"
+      "title": "WW.Tour.NPC.Actions.Title",
+      "content": "WW.Tour.NPC.Actions.Content"
     },
     {
       "id": "fury",
       "selector": ".weirdwizard .fury-list",
-      "title": "WW.Tour.NPC.FuryTitle",
-      "content": "WW.Tour.NPC.FuryContent",
+      "title": "WW.Tour.NPC.Fury.Title",
+      "content": "WW.Tour.NPC.Fury.Content",
       "tab": {
         "parent": "actor",
         "id": "summary"
@@ -161,8 +161,8 @@
     {
       "id": "description",
       "selector": ".weirdwizard .tab.description",
-      "title": "WW.Tour.NPC.DescriptionTitle",
-      "content": "WW.Tour.NPC.DescriptionContent",
+      "title": "WW.Tour.NPC.Description.Title",
+      "content": "WW.Tour.NPC.Description.Content",
       "tab": {
         "parent": "actor",
         "id": "description"
@@ -171,8 +171,8 @@
     {
       "id": "stats",
       "selector": ".weirdwizard .tab.stats",
-      "title": "WW.Tour.NPC.StatsTitle",
-      "content": "WW.Tour.NPC.StatsContent",
+      "title": "WW.Tour.NPC.Stats.Title",
+      "content": "WW.Tour.NPC.Stats.Content",
       "tab": {
         "parent": "actor",
         "id": "stats"
@@ -181,8 +181,8 @@
     {
       "id": "effects",
       "selector": ".weirdwizard .tab.effects",
-      "title": "WW.Tour.NPC.EffectsTitle",
-      "content": "WW.Tour.NPC.EffectsContent",
+      "title": "WW.Tour.NPC.Effects.Title",
+      "content": "WW.Tour.NPC.Effects.Content",
       "tab": {
         "parent": "actor",
         "id": "effects"
