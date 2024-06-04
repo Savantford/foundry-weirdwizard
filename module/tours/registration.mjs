@@ -11,7 +11,7 @@ export default async function registerWWTours() {
   } catch (err) {
     console.log(err);
   }
-
+  
   try {
     game.tours.register(
       'weirdwizard',

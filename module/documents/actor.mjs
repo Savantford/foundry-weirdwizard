@@ -83,10 +83,13 @@ export default class WWActor extends Actor {
   async _onCreate(data, options, user) {
     // Fix Health and Incapacitated
     this.incapacitated = false;
-    await this.updateSource({
-      'system.stats.health.current': data.system.stats.health.normal ? data.system.stats.health.normal : 10,
-      'system.stats.damage.value': 0
-    });
+    
+    if (data.type === 'NPC') {
+      await this.updateSource({
+        'system.stats.health.current': data.system.stats.health.normal ? data.system.stats.health.normal : 10,
+        'system.stats.damage.value': 0
+      });
+    }
 
     return await super._onCreate(await data, options, user);
   }
@@ -99,14 +102,15 @@ export default class WWActor extends Actor {
 
     if (cStats?.health || cStats?.damage) {
       // Get variables
-      const health = await this.system.stats.health.current;
+      const current = await this.system.stats.health.current;
       const damage = await this.system.stats.damage.value;
-      const cHealth = cStats.health?.current;
-      const cDamage = cStats.damage?.value;
+      const chCurrent = cStats.health?.current;
+      const chDamage = cStats.damage?.value;
       
       // Set incapactated status
-      if (cDamage >= await health || await cHealth <= await damage || await health == await damage) this.incapacitated = true; else this.incapacitated = false;
-      if (await cDamage < await damage) this.incapacitated = false;
+      if (chDamage >= await current || await chCurrent <= await damage || await current == await damage) this.incapacitated = true; else this.incapacitated = false;
+      if (await chDamage < await damage) this.incapacitated = false;
+      if (this.type === 'Character' && this.system?.stats?.health?.normal <= 0) this.incapacitated = false;
     }
     
     // Update token status icons
@@ -120,9 +124,10 @@ export default class WWActor extends Actor {
   _preUpdateDescendantDocuments(parent, collection, documents, changes, options, userId) {
     // Record incapacitated status
     
-    const health = this.system?.stats?.health?.current;
+    const current = this.system?.stats?.health?.current;
     const damage = this.system?.stats?.damage?.value;
-    if (damage >= health) this.incapacitated = true; else this.incapacitated = false;
+    if (damage >= current) this.incapacitated = true; else this.incapacitated = false;
+    if (this.type === 'Character' && this.system?.stats?.health?.normal <= 0) this.incapacitated = false;
 
     super._preUpdateDescendantDocuments(parent, collection, documents, changes, options, userId);
     this._onEmbeddedDocumentChange();
@@ -422,6 +427,8 @@ export default class WWActor extends Actor {
 
   }
 
+
+
   /* -------------------------------------------- */
   /*  Calculations                                */
   /* -------------------------------------------- */
@@ -466,6 +473,9 @@ export default class WWActor extends Actor {
 
     // Assign Current Health to Max Damage for Token Bars
     system.stats.damage.max = current;
+
+    // Do not set incapacitated status to true if a Character with normal Health 0
+    if (this.type === 'Character' && health.normal <= 0) this.incapacitated = false;
     
   }
 
@@ -588,10 +598,14 @@ export default class WWActor extends Actor {
    * @type {boolean}
    */
   get injured() {
+    const health = this.system.stats.health;
+    const current = health.current;
     const damage = this.system.stats.damage.value;
-    const current = this.system.stats.health.current;
 
-    return (damage >= Math.floor(current / 2)) ? true : false;
+    let isInjured = damage >= Math.floor(current / 2);
+    if (this.type === 'Character' && health.normal <= 0) isInjured = false;
+
+    return isInjured ? true : false;
   }
 
   /**
@@ -599,7 +613,12 @@ export default class WWActor extends Actor {
    * @type {boolean}
    */
   get dead() {
-    return (this.system.stats.health.current > 0) ? false : true;
+    const health = this.system.stats.health;
+    
+    let isDead = health.current <= 0;
+    if (this.type === 'Character' && health.normal <= 0) isDead = false;
+
+    return isDead ? true : false;
   }
 
 }

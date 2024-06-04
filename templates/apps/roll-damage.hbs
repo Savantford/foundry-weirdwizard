@@ -23,7 +23,7 @@
         </div>
 
         {{!-- Bonus Damage Container --}}
-        {{#if bonusDamage}}
+        {{#if (and isAttack bonusDamage)}}
         <h3>{{localize "WW.Damage.Bonus"}}</h3>
 
         <div class="h3-box">
