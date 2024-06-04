@@ -1209,24 +1209,33 @@ export default class WWActorSheet extends ActorSheet {
 
     if (!confirm) return;
 
-    // Heal all Damage and regain lost Health
+    // Calculate lost Health regained
     const health = this.actor.system.stats.health;
-    
-    this.actor.update({
-      "system.stats.damage.value": 0,
-      "system.stats.health.lost": health.lost - Math.floor(health.normal / 10)
-    });
+    let newCurrent = health.current + Math.floor(health.normal / 10);
+    if (newCurrent > health.normal) newCurrent = health.normal;
 
     // Recover uses/tokens/castings for Talents and Spells
     this.actor.updateEmbeddedDocuments('Item', this.actor.items.filter(i => i.system.uses?.onRest === true).map(i => ({ _id: i.id, 'system.uses.value': 0 })));
 
-    // Send message to chat
-    let messageData = {
-      content: '<span style="display: inline"><span style="font-weight: bold">' + game.weirdwizard.utils.getAlias({ actor: this.actor }) + '</span> ' + i18n('WW.Rest.Finished') + '.</span>',
-      sound: CONFIG.sounds.notification
-    };
+    // Create message content
+    const content = `
+      <p style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this.document })}</b> ${i18n('WW.Rest.Finished')}.</p>
+      <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${health.current} <i class="fas fa-arrow-right"></i> ${newCurrent}</p>
+    `;
 
-    ChatMessage.create(messageData);
+    // Create and send message to chat
+    ChatMessage.create({
+      speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
+      content: content,
+      sound: CONFIG.sounds.notification
+    })
+
+    // Heal all Damage and regain lost Health
+    this.actor.update({
+      "system.stats.damage.value": 0,
+      "system.stats.health.current": newCurrent
+    });
+
   }
 
   async _onSheetReset() {

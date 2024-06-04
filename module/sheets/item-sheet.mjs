@@ -191,10 +191,10 @@ export default class WWItemSheet extends ItemSheet {
 
     // Prepare Benefits list
     context.benefits = item.system.benefits;
-
+    
     for (const b in context.benefits) {
       const benefit = context.benefits[b];
-
+      
       benefit.itemsInfo = [];
 
       for (const i of benefit.items) {

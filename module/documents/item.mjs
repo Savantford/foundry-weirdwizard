@@ -86,6 +86,20 @@ export default class WWItem extends Item {
     
   }
 
+  /** @inheritdoc */
+  /*async _onCreateOperation(documents, options, userId) { // Swap to this when V12 support is removed
+    super._onCreateOperation(documents, options, userId);
+
+    for (const doc of documents) {
+      
+      // If character option
+      if (await doc.charOption) {
+        await doc.updateBenefitsOnActor();
+      }
+    }
+    
+  }*/
+
   /* -------------------------------------------- */
 
   async _preUpdate(changed, options, user) {
