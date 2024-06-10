@@ -190,25 +190,44 @@ export default class WWActiveEffect extends ActiveEffect {
       return false;
   }
 
+  /* -------------------------------------------- */
+
   /**
    * Apply this ActiveEffect to a provided Actor.
    * TODO: This method is poorly conceived. Its functionality is static, applying a provided change to an Actor
    * TODO: When we revisit this in Active Effects V2 this should become an Actor method, or a static method
-   * @override
    * @param {Actor} actor                   The Actor to whom this effect should be applied
    * @param {EffectChangeData} change       The change data being applied
-   * @returns {*}                           The resulting applied value
+   * @returns {Record<string, *>}           An object of property paths and their updated values.
    */
 
   apply(actor, change) {
-    
-    // Save label key and get real change key
+    let field;
+    const changes = {};
+    if ( change.key.startsWith("system.") ) field = actor.system.schema?.getField(change.key.slice(7));
+    else field = actor.schema.getField(change.key);
+    if ( field ) changes[change.key] = this.constructor.applyField(actor, change, field);
+    else this._applyLegacy(actor, change, changes);
+    return changes;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Apply this ActiveEffect to a provided Actor using a heuristic to infer the value types based on the current value
+   * and/or the default value in the template.json.
+   * @param {Actor} actor                The Actor to whom this effect should be applied.
+   * @param {EffectChangeData} change    The change data being applied.
+   * @param {Record<string, *>} changes  The aggregate update paths and their updated values.
+   * @protected
+   */
+  _applyLegacy(actor, change, changes) {
+    // Save label key and get real change key - Weird Wizard only
     const labelKey = '' + change.key;
     change.key = CONFIG.WW.EFFECT_CHANGE_KEYS[change.key];
     
     // Determine the data type of the target field
     const current = foundry.utils.getProperty(actor, change.key) ?? null;
-    
     let target = current;
     if ( current === null ) {
       const model = game.model.Actor[actor.type] || {};
@@ -216,7 +235,7 @@ export default class WWActiveEffect extends ActiveEffect {
     }
     let targetType = foundry.utils.getType(target);
 
-    // Alter Change Values to negative values if they are meant to be
+    // Alter Change Values to negative values if they are meant to be - Weird Wizard only
     if (labelKey.includes('banes') || (labelKey.includes('Reduce') && !labelKey.includes('health'))) change.value = -change.value;
 
     // Cast the effect change value to the correct type
@@ -227,7 +246,6 @@ export default class WWActiveEffect extends ActiveEffect {
         delta = this._castArray(change.value, innerType);
       }
       else delta = this._castDelta(change.value, targetType);
-      
     } catch(err) {
       console.warn(`Actor [${actor.id}] | Unable to parse active effect change for ${change.key}: "${change.value}"`);
       return;
@@ -235,7 +253,6 @@ export default class WWActiveEffect extends ActiveEffect {
 
     // Apply the change depending on the application mode
     const modes = CONST.ACTIVE_EFFECT_MODES;
-    const changes = {};
     switch ( change.mode ) {
       case modes.ADD:
         this._applyAdd(actor, change, current, delta, changes);
@@ -257,7 +274,6 @@ export default class WWActiveEffect extends ActiveEffect {
 
     // Apply all changes to the Actor data
     foundry.utils.mergeObject(actor, changes);
-    return changes;
   }
 
 }

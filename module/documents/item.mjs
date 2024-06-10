@@ -270,7 +270,7 @@ export default class WWItem extends Item {
     if (this.system.tier === 'novice') changes.push({
       key: 'health.starting',
       value: stats.healthStarting,
-      mode: 4,
+      mode: 5,
       priority: 1
     })
 
@@ -298,14 +298,14 @@ export default class WWItem extends Item {
     if (stats.sizeNormal) changes.push({
       key: 'size.normal',
       value: stats.sizeNormal,
-      mode: 4,
+      mode: 5,
       priority: 1
     })
 
     if (stats.speedNormal) changes.push({
       key: 'speed.normal',
       value: stats.speedNormal,
-      mode: 4,
+      mode: 5,
       priority: 1
     })
 

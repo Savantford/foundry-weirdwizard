@@ -1,5 +1,7 @@
-2024/06/04-14:38:54.094 42e0 Log #745: 0 ops saved to Table #746 OK
-2024/06/04-14:38:54.094 42e0 Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\armor/000745.log: OK
-2024/06/04-14:38:54.094 42e0 Table #739: 18 entries OK
-2024/06/04-14:38:54.101 42e0 Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\armor/MANIFEST-000744: OK
-2024/06/04-14:38:54.109 42e0 **** Repaired leveldb C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\armor; recovered 1 files; 7230 bytes. Some data may have been lost. ****
+2024/06/10-15:04:10.653 360c Recovering log #756
+2024/06/10-15:04:10.658 360c Delete type=0 #756
+2024/06/10-15:04:10.658 360c Delete type=3 #754
+2024/06/10-16:05:57.991 1bc8 Level-0 table #761: started
+2024/06/10-16:05:57.991 1bc8 Level-0 table #761: 0 bytes OK
+2024/06/10-16:05:57.999 1bc8 Delete type=0 #759
+2024/06/10-16:05:58.015 1bc8 Manual compaction at level-0 from '!items!8kdTjI16oQxvcKow' @ 72057594037927935 : 1 .. '!items.effects!r7Vjowz8ZGGAbD3n.k1mHXJOIELUhGoM5' @ 0 : 0; will stop at (end)

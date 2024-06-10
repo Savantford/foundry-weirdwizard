@@ -11,7 +11,12 @@
                     <div class="textarea-overlay">{{actor.name}}</div>
                 </h1>
                 
-                <div class="character-subtitle">{{localize "WW.Stats.Level"}} {{level}} {{charOptions.ancestry.name}}{{#if charOptions.novice}} {{charOptions.novice.name}}{{/if}}</div>
+                <div class="character-subtitle">{{localize "WW.Stats.Level"}} {{level}} {{charOptions.ancestry.name}} 
+                    {{#if charOptions.master}}{{charOptions.master.name}}
+                    {{else if charOptions.expert}}{{charOptions.expert.name}}
+                    {{else if charOptions.novice}} {{charOptions.novice.name}}
+                    {{/if}}
+                </div>
             </div>
 
             <div class="circle" style="--total: 8">
