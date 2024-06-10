@@ -113,7 +113,7 @@ function _onMessageButtonContext(element) {
       
       if (actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
         name: game.weirdwizard.utils.getAlias({ actor: actor }),
-        icon: iconToHTML(actor.img, actor.uuid),
+        icon: iconToHTML(actor.token ? actor.token.texture.src : actor.img, actor.uuid),
         group: 'pre-targets',
         uuid: actor.uuid,
         callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
@@ -129,7 +129,7 @@ function _onMessageButtonContext(element) {
       
       if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
         name: game.weirdwizard.utils.getAlias({ actor: actor }),
-        icon: iconToHTML(actor.img, actor.uuid),
+        icon: iconToHTML(actor.token ? actor.token.texture.src : actor.img, actor.uuid),
         group: 'targets',
         uuid: actor.uuid,
         callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
@@ -146,7 +146,7 @@ function _onMessageButtonContext(element) {
       
       if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
         name: game.weirdwizard.utils.getAlias({ actor: actor }),
-        icon: iconToHTML(actor.img, actor.uuid),
+        icon: iconToHTML(actor.token ? actor.token.texture.src : actor.img, actor.uuid),
         group: 'selected',
         uuid: actor.uuid,
         callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
@@ -170,10 +170,10 @@ function _onMessageButtonContext(element) {
   // Assign combatants from current combat, if there are any
   game.combat?.combatants.forEach(c => {
     const actor = c.actor;
-    
+    console.log(actor)
     if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
       name: game.weirdwizard.utils.getAlias({ actor: actor }),
-      icon: iconToHTML(actor.img, actor.uuid),
+      icon: iconToHTML(actor.token ? actor.token.texture.src : actor.img, actor.uuid),
       group: 'combatants',
       uuid: actor.uuid,
       callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
@@ -187,7 +187,7 @@ function _onMessageButtonContext(element) {
     
     if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
       name: game.weirdwizard.utils.getAlias({ actor: actor }),
-      icon: iconToHTML(actor.img, actor.uuid),
+      icon: iconToHTML(actor.token ? actor.token.texture.src : actor.img, actor.uuid),
       group: 'scene-tokens',
       uuid: actor.uuid,
       callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
@@ -202,7 +202,7 @@ function _onMessageButtonContext(element) {
       
       menuItems.push({
         name: game.weirdwizard.utils.getAlias({ actor: actor }),
-        icon: iconToHTML(actor.img, actor.uuid),
+        icon: iconToHTML(actor.token ? actor.token.texture.src : actor.img, actor.uuid),
         group: 'actors-tab',
         uuid: actor.uuid,
         callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })

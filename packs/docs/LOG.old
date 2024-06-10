@@ -1,5 +1,7 @@
-2024/06/04-14:38:54.010 294c Log #372: 0 ops saved to Table #373 OK
-2024/06/04-14:38:54.010 294c Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\docs/000372.log: OK
-2024/06/04-14:38:54.010 294c Table #366: 4 entries OK
-2024/06/04-14:38:54.017 294c Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\docs/MANIFEST-000371: OK
-2024/06/04-14:38:54.028 294c **** Repaired leveldb C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\docs; recovered 1 files; 3855 bytes. Some data may have been lost. ****
+2024/06/10-15:04:10.636 1b50 Recovering log #383
+2024/06/10-15:04:10.642 1b50 Delete type=0 #383
+2024/06/10-15:04:10.642 1b50 Delete type=3 #381
+2024/06/10-16:05:57.999 1bc8 Level-0 table #388: started
+2024/06/10-16:05:57.999 1bc8 Level-0 table #388: 0 bytes OK
+2024/06/10-16:05:58.007 1bc8 Delete type=0 #386
+2024/06/10-16:05:58.015 1bc8 Manual compaction at level-0 from '!journal!0xYsAWtUJS591nz9' @ 72057594037927935 : 1 .. '!journal.pages!Lrr8Rl7mRIIoYeW1.thPe333HcfTJyiLv' @ 0 : 0; will stop at (end)

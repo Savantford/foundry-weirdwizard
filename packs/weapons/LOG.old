@@ -1,5 +1,7 @@
-2024/06/04-14:38:54.054 3e0c Log #737: 0 ops saved to Table #738 OK
-2024/06/04-14:38:54.054 3e0c Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\weapons/000737.log: OK
-2024/06/04-14:38:54.054 3e0c Table #731: 16 entries OK
-2024/06/04-14:38:54.061 3e0c Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\weapons/MANIFEST-000736: OK
-2024/06/04-14:38:54.070 3e0c **** Repaired leveldb C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\weapons; recovered 1 files; 9708 bytes. Some data may have been lost. ****
+2024/06/10-15:04:10.645 3078 Recovering log #748
+2024/06/10-15:04:10.650 3078 Delete type=0 #748
+2024/06/10-15:04:10.650 3078 Delete type=3 #746
+2024/06/10-16:05:58.007 1bc8 Level-0 table #753: started
+2024/06/10-16:05:58.007 1bc8 Level-0 table #753: 0 bytes OK
+2024/06/10-16:05:58.015 1bc8 Delete type=0 #751
+2024/06/10-16:05:58.016 1bc8 Manual compaction at level-0 from '!items!0u3rLO1CFHSf8aJw' @ 72057594037927935 : 1 .. '!items.effects!qVKiDnaFCga0dvi5.VfIbYsXBjELx548J' @ 0 : 0; will stop at (end)

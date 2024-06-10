@@ -302,23 +302,15 @@ Hooks.once('setup', function () {
 
   const effects = WWAfflictions.buildAll();
 
-  // Add the default status icons if the setting is not on
-  /*if (!game.settings.get('weirdwizard', 'statusIcons')) {
-    for (const effect of CONFIG.statusEffects) {
-      effects.push({
-        id: effect.id,
-        name: effect.name,
-        icon: effect.icon,
-      });
-    }
-  }
-  // Regardless of the setting, add the 'invisible' status so that actors can turn invisible
-  else {
-    effects.push(CONFIG.statusEffects.find(e => e.id === 'invisible'));
-  }*/
+  // Add invisible and dead status to the list of effects so that
+  effects.push(CONFIG.statusEffects.find(e => e.id === 'invisible'));
+  effects.push(CONFIG.statusEffects.find(e => e.id === 'dead'));
 
   // Assign Afflictions to token HUD
   CONFIG.statusEffects = effects;
+
+  // Assign blinded as the BLIND special status effect
+  CONFIG.specialStatusEffects.BLIND = 'Blinded';
   
 });
 
