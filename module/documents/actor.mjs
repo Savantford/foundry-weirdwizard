@@ -572,18 +572,18 @@ export default class WWActor extends Actor {
     //context.pf1.reason = "duration";
     const hasActorUpdates = !foundry.utils.isEmpty(actorUpdate);
 
-    const deleteAEContext = mergeObject(
+    const deleteAEContext = foundry.utils.mergeObject(
       { render: !disableBuffs.length && !disableActiveEffects.length && !hasActorUpdates },
       context
     );
     if (deleteActiveEffects.length)
       await this.deleteEmbeddedDocuments("ActiveEffect", deleteActiveEffects, deleteAEContext);
 
-    const disableAEContext = mergeObject({ render: !disableBuffs.length && !hasActorUpdates }, context);
+    const disableAEContext = foundry.utils.mergeObject({ render: !disableBuffs.length && !hasActorUpdates }, context);
     if (disableActiveEffects.length)
       await this.updateEmbeddedDocuments("ActiveEffect", disableActiveEffects, disableAEContext);
 
-    const disableBuffContext = mergeObject({ render: !hasActorUpdates }, context);
+    const disableBuffContext = foundry.utils.mergeObject({ render: !hasActorUpdates }, context);
     if (disableBuffs.length) await this.updateEmbeddedDocuments("Item", disableBuffs, disableBuffContext);
 
     if (hasActorUpdates) await this.update(actorUpdate, context);

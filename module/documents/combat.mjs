@@ -521,7 +521,7 @@ export default class WWCombat extends Combat {
       for (const ae of temporaryEffects) {
 
         const duration = ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? i18n('WW.Effect.Duration.Rounds') : i18n('WW.Effect.Duration.Round'));
-      
+        console.log(duration)
         await ChatMessage.create({
           speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
           flavor: this.label,
@@ -538,7 +538,7 @@ export default class WWCombat extends Combat {
 
       const hasActorUpdates = !foundry.utils.isEmpty(actorUpdate);
 
-      const deleteAEContext = mergeObject(
+      const deleteAEContext = foundry.utils.mergeObject(
         { render: !disableBuffs.length && !disableActiveEffects.length && !hasActorUpdates },
         context
       );
@@ -546,11 +546,11 @@ export default class WWCombat extends Combat {
       if (deleteActiveEffects.length)
         await c.actor.deleteEmbeddedDocuments("ActiveEffect", deleteActiveEffects, deleteAEContext);
 
-      const disableAEContext = mergeObject({ render: !disableBuffs.length && !hasActorUpdates }, context);
+      const disableAEContext = foundry.utils.mergeObject({ render: !disableBuffs.length && !hasActorUpdates }, context);
       if (disableActiveEffects.length)
         await c.actor.updateEmbeddedDocuments("ActiveEffect", disableActiveEffects, disableAEContext);
 
-      const disableBuffContext = mergeObject({ render: !hasActorUpdates }, context);
+      const disableBuffContext = foundry.utils.mergeObject({ render: !hasActorUpdates }, context);
       if (disableBuffs.length) await c.actor.updateEmbeddedDocuments("Item", disableBuffs, disableBuffContext);
 
       if (hasActorUpdates) await c.actor.update(actorUpdate, context);
@@ -570,9 +570,9 @@ export default class WWCombat extends Combat {
         const { seconds, rounds, startTime, startRound } = ae.duration;
         
         const lcSelected = ae.flags.weirdwizard?.selectedDuration?.toLowerCase();
-
+        
         // If selectedDuration does not includes 'turn' or the provided phase, return false
-        if (!lcSelected) return true; // Return true if lcSelected does not exist (old effects)
+        if (!lcSelected) return false; // Return false if lcSelected does not exist
         if (!lcSelected.includes('turn')) return false;
         if (!lcSelected.includes(phase)) return false;
         
@@ -606,7 +606,7 @@ export default class WWCombat extends Combat {
       for (const ae of temporaryEffects) {
 
         const duration = ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? i18n('WW.Effect.Duration.Rounds') : i18n('WW.Effect.Duration.Round'));
-
+        
         await ChatMessage.create({
           speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
           flavor: this.label,
@@ -623,7 +623,7 @@ export default class WWCombat extends Combat {
 
       const hasActorUpdates = !foundry.utils.isEmpty(actorUpdate);
 
-      const deleteAEContext = mergeObject(
+      const deleteAEContext = foundry.utils.mergeObject(
         { render: !disableBuffs.length && !disableActiveEffects.length && !hasActorUpdates },
         context
       );
@@ -631,11 +631,11 @@ export default class WWCombat extends Combat {
       if (deleteActiveEffects.length)
         await c.actor.deleteEmbeddedDocuments("ActiveEffect", deleteActiveEffects, deleteAEContext);
 
-      const disableAEContext = mergeObject({ render: !disableBuffs.length && !hasActorUpdates }, context);
+      const disableAEContext = foundry.utils.mergeObject({ render: !disableBuffs.length && !hasActorUpdates }, context);
       if (disableActiveEffects.length)
         await c.actor.updateEmbeddedDocuments("ActiveEffect", disableActiveEffects, disableAEContext);
 
-      const disableBuffContext = mergeObject({ render: !hasActorUpdates }, context);
+      const disableBuffContext = foundry.utils.mergeObject({ render: !hasActorUpdates }, context);
       if (disableBuffs.length) await c.actor.updateEmbeddedDocuments("Item", disableBuffs, disableBuffContext);
 
       if (hasActorUpdates) await c.actor.update(actorUpdate, context);
@@ -716,7 +716,7 @@ export default class WWCombat extends Combat {
 
       const hasActorUpdates = !foundry.utils.isEmpty(actorUpdate);
 
-      const deleteAEContext = mergeObject(
+      const deleteAEContext = foundry.utils.mergeObject(
         { render: !disableBuffs.length && !disableActiveEffects.length && !hasActorUpdates },
         context
       );
@@ -724,11 +724,11 @@ export default class WWCombat extends Combat {
       if (deleteActiveEffects.length)
         await c.actor.deleteEmbeddedDocuments("ActiveEffect", deleteActiveEffects, deleteAEContext);
 
-      const disableAEContext = mergeObject({ render: !disableBuffs.length && !hasActorUpdates }, context);
+      const disableAEContext = foundry.utils.mergeObject({ render: !disableBuffs.length && !hasActorUpdates }, context);
       if (disableActiveEffects.length)
         await c.actor.updateEmbeddedDocuments("ActiveEffect", disableActiveEffects, disableAEContext);
 
-      const disableBuffContext = mergeObject({ render: !hasActorUpdates }, context);
+      const disableBuffContext = foundry.utils.mergeObject({ render: !hasActorUpdates }, context);
       if (disableBuffs.length) await c.actor.updateEmbeddedDocuments("Item", disableBuffs, disableBuffContext);
 
       if (hasActorUpdates) await c.actor.update(actorUpdate, context);

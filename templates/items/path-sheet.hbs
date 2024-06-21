@@ -35,6 +35,7 @@
   
   {{!-- Right Column --}}
   <div class="right-col">
+    
     {{#each benefits as |benefit id|}}
     {{#if (ne benefit.levelReq 99)}}
     <div class="benefit-block{{#if (ne id 'benefit1')}} mt-2{{/if}}">
@@ -87,7 +88,7 @@
           <label>{{localize "WW.Defense.Natural"}}:</label>
   
           <span class="mr-n1">+</span>
-          
+
           <div class="input-wrap">
             <input name="system.benefits.{{id}}.stats.naturalIncrease" type="number"
               value="{{benefit.stats.naturalIncrease}}" min="0" placeholder="0" />
@@ -95,8 +96,8 @@
             <div class="input-overlay">{{benefit.stats.naturalIncrease}}</div>
           </div>
   
-          <span>=</span>
-  
+          <span class="mr-n1">=</span>
+          
           <div class="input-wrap">
             <input name="system.benefits.{{id}}.stats.naturalSet" type="number" value="{{benefit.stats.naturalSet}}"
               min="0" placeholder="0" />
