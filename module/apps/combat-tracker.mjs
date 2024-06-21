@@ -241,11 +241,11 @@ export default class WWCombatTracker extends CombatTracker {
    * @private
    */
   async _onToggleDefeatedStatus(combatant) {
-    console.log('chegou')
+    
     const isDefeated = !combatant.isDefeated;
     await combatant.update({defeated: isDefeated});
     const defeatedId = CONFIG.specialStatusEffects.DEFEATED;
-    console.log(defeatedId)
+    
     await combatant.actor?.toggleStatusEffect(defeatedId, {overlay: true, active: isDefeated});
   }
 
