@@ -354,7 +354,7 @@ export default class WWItemSheet extends ItemSheet {
   _onListEntryButtonClicked(ev) {
     const button = ev.currentTarget,
       dataset = Object.assign({}, button.dataset);
-
+    
     switch (dataset.action) {
       case 'add': this._onListEntryButtonAdd(dataset); break;
       case 'edit': this._onListEntryButtonEdit(dataset); break;
@@ -371,17 +371,19 @@ export default class WWItemSheet extends ItemSheet {
   async _onListEntryButtonAdd(dataset) {
     
     const arrPath = 'system.' + dataset.array,
-      oldArray = foundry.utils.getProperty(this.document, arrPath);
+      arr = foundry.utils.getProperty(this.document, arrPath);
     
-    const defaultName = (arrPath.includes('languages') && !oldArray.length) ? i18n('WW.Detail.Language.Common') : i18n('WW.Detail.' + dataset.loc + '.New'),
-      arr = [...oldArray, { name: defaultName }];
+    // Push new element with a default name
+    const defaultName = (arrPath.includes('languages') && !arr.length) ? i18n('WW.Detail.Language.Common') : i18n('WW.Detail.' + dataset.loc + '.New');
+    await arr.push({ name: defaultName })
     
     // Update document
     await this.document.update({[arrPath]: arr});
-    
+
     // Add entryId to dataset and render the config window
+    console.log(arr)
     dataset.entryId = arr.length-1;
-    new ListEntryConfig(this.document, dataset).render(true);
+    new ListEntryConfig(await this.document, await dataset).render(true);
     
   }
 
@@ -407,7 +409,7 @@ export default class WWItemSheet extends ItemSheet {
   _onListEntryButtonRemove(dataset) {
     
     const arrPath = 'system.' + dataset.array,
-      arr = [...foundry.utils.getProperty(this.document, arrPath)];
+      arr = foundry.utils.getProperty(this.document, arrPath);
     
     // Delete array element
     arr.splice(dataset.entryId, 1);

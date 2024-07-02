@@ -1138,7 +1138,7 @@ export default class WWActorSheet extends ActorSheet {
   _onListEntryButtonClicked(ev) {
     const button = ev.currentTarget,
       dataset = Object.assign({}, button.dataset);
-
+    
     switch (dataset.action) {
       case 'add': this._onListEntryButtonAdd(dataset); break;
       case 'edit': this._onListEntryButtonEdit(dataset); break;
