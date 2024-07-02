@@ -104,8 +104,14 @@ export default class WWItem extends Item {
 
   async _preUpdate(changed, options, user) {
     
-    if (this.system.tier && (this.system.tier !== changed.system?.tier)) {
-      await this._onTierChange(await changed);
+    if (CONFIG.WW.IS_V12) { // If v12
+      if (this.system.tier && (this.system.tier !== changed.system?.tier)) {
+        await this._onTierChange(await changed);
+      }
+    } else { // if v11
+      if (changed.system?.tier) {
+        await this._onTierChange(await changed);
+      }
     }
 
     await super._preUpdate(await changed, options, user);

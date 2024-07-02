@@ -47,7 +47,7 @@ export default class ListEntryConfig extends FormApplication {
 
   async _updateObject(event, formData) { // Update item data.
     
-    let arr = [...this.arr];
+    let arr = this.arr;
 
     arr[this.entryId] = formData;
     
