@@ -5,7 +5,8 @@ import {
   activity,
   makeStrField,
   makeBooField,
-  makeHtmlField
+  makeHtmlField,
+  makeIntField
 } from './common.mjs'
 
 export default class EquipmentData extends foundry.abstract.DataModel {
@@ -21,6 +22,7 @@ export default class EquipmentData extends foundry.abstract.DataModel {
       subtype: makeStrField('generic',0,1),
       quality: makeStrField('standard'),
       attribute: makeStrField(),
+      heldBy: makeStrField(),
 
       // Weapons
       requirements: makeStrField(),
@@ -52,7 +54,7 @@ export default class EquipmentData extends foundry.abstract.DataModel {
       reloaded: makeBooField(true),
       armorType: makeStrField('light'),
       
-      //capacity: makeIntField(),
+      capacity: makeIntField(1),
       //consumableType: makeStrField('potion')
     }
   }
