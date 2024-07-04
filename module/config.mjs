@@ -107,9 +107,9 @@ WW.TIERS = {
 WW.EQUIPMENT_SUBTYPES = {
   'generic': 'WW.Equipment.Generic',
   'weapon': 'WW.Weapon.Label',
-  'armor': 'WW.Equipment.Armor.Label',
+  'armor': 'WW.Armor.Label',
   'consumable': 'WW.Equipment.Consumable',
-  'container': 'WW.Equipment.Container'
+  'container': 'WW.Container.Label'
 };
 
 WW.EQUIPMENT_QUALITIES = {
@@ -235,9 +235,9 @@ WW.WEAPON_TRAITS = {
 };
 
 WW.ARMOR_TYPES = {
-  'light': 'WW.Equipment.Armor.Light',
-  'medium': 'WW.Equipment.Armor.Medium',
-  'heavy': 'WW.Equipment.Armor.Heavy'
+  'light': 'WW.Armor.Light',
+  'medium': 'WW.Armor.Medium',
+  'heavy': 'WW.Armor.Heavy'
 }
 
 /* Item Automations */

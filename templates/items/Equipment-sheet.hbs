@@ -17,11 +17,22 @@
 
         {{!-- Armor Type --}}
         {{#if (eq system.subtype 'armor')}}
-        <label>{{localize "WW.Equipment.Armor.Type"}}</label>
+        <label>{{localize "WW.Armor.Type"}}:</label>
 
         <select name="system.armorType">
           {{selectOptions armorTypes selected=system.armorType localize=true}}
         </select>
+        {{/if}}
+
+        {{!-- Container Capacity --}}
+        {{#if (eq system.subtype 'container')}}
+        <label>{{localize "WW.Container.Capacity"}}:</label>
+
+        <div class="input-wrap">
+          <input type="number" name="system.capacity" value="{{system.capacity}}" min="1" data-dtype="Number" data-tooltip="WW.Container.CapacityHint" />
+
+          <div class="input-overlay">{{system.capacity}}</div>
+        </div>
         {{/if}}
 
       </div>

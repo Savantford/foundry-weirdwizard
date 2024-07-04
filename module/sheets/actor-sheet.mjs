@@ -223,7 +223,7 @@ export default class WWActorSheet extends ActorSheet {
   */
 
   _prepareItems(context) {
-    // Initialize containers.
+    // Initialize item lists
     const equipment = [];
     const weapons = [];
     const allTalents = [];
@@ -242,7 +242,7 @@ export default class WWActorSheet extends ActorSheet {
       master: null,
     }
 
-    // Iterate through items, allocating to containers
+    // Iterate through items, allocating to lists
     for (let i of context.items) {
 
       const itemDoc = this.document.items.get(i._id);
@@ -304,7 +304,35 @@ export default class WWActorSheet extends ActorSheet {
 
           }
 
-          equipment.push(i);
+          // Prepare filled capacity for containers
+          if (i.system.subtype == 'container') {
+            // Prepare variables
+            let list = '';
+            const held = [];
+            i.filled = 0;
+            
+            // Prepare held items list and count items
+            this.actor.items.filter(x => x.system.heldBy === i._id).map((x) => {
+
+              // Calculate weight and push to held array
+              x.system.weight = x.system.quantity * x.system.weightUnit;
+              held.push(x);
+
+              // Append to list
+              list = list.concat(list ? ', ' + x.name : x.name);
+              
+              // Increase filled count
+              i.filled++;
+            })
+
+            i.heldItems = held.sort((a, b) => a.sort > b.sort ? 1 : -1);
+            i.heldList = list;
+
+            // Prepare tooltip
+            i.containerTooltip = i18n('WW.Container.FilledHint', { filled: i.filled, capacity: i.system.capacity });
+          }
+
+          if (!i.system.heldBy) equipment.push(i);
 
           // If an weapon or NPC sheet, also append to weapons.
           if ((i.system.subtype == 'weapon') || (context.actor.type == 'NPC')) {
@@ -356,6 +384,15 @@ export default class WWActorSheet extends ActorSheet {
         // Append to spells.
         else if (i.type === 'Spell') spells.push(i);
 
+        // Calculate total Equipment weight.
+        function calcWeight(item, id) {
+          item.system.weight = item.system.quantity * item.system.weightUnit;
+        }
+
+        equipment.forEach(calcWeight);
+
+        context.totalWeight = sum(equipment.map(i => i.system.weight));
+
       } else { // Item is a Char Option
         
         switch(i.type) {
@@ -384,15 +421,6 @@ export default class WWActorSheet extends ActorSheet {
 
     // Assign charOption
     context.charOptions = charOptions;
-    
-    // Calculate total Equipment weight.
-    function calcWeight(item, id) {
-      item.system.weight = item.system.quantity * item.system.weightUnit;
-    }
-
-    equipment.forEach(calcWeight)
-
-    context.totalWeight = sum(equipment.map(i => i.system.weight))
 
     // Prepare uses pips for talents and spells
     function updateUses(item, id) {
@@ -483,6 +511,8 @@ export default class WWActorSheet extends ActorSheet {
 
   }
 
+  /* EVENTS */
+
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
@@ -531,6 +561,9 @@ export default class WWActorSheet extends ActorSheet {
         item.system.uses.value >= 0 ? item.update({'system.uses.value': item.system.uses.value - 1}) : item.update({'system.uses.value': 0}) // Subtract 1 from current value.
       }
     });
+
+    // Handle container collapsing
+    html.find('.container').click(this._onContainerCollapse.bind(this));
 
     ////////////////// EFFECTS ////////////////////
 
@@ -826,6 +859,9 @@ export default class WWActorSheet extends ActorSheet {
   */
 
   _onItemButtonClicked(ev) {
+    ev.preventDefault();
+    ev.stopPropagation();
+
     const button = ev.currentTarget,
       dataset = Object.assign({}, button.dataset),
       item = this.actor.items.get(dataset.itemId);
@@ -1075,6 +1111,32 @@ export default class WWActorSheet extends ActorSheet {
     
   }
 
+  // Collapses Container content
+  _onContainerCollapse(ev) {
+    const button = ev.currentTarget,
+    dataset = Object.assign({}, button.dataset);
+
+    let li = $(button).parents('.item');
+    
+    if (!li.length) { // If parent does not have .item class, set li to current target.
+      li = $(button);
+    }
+    
+    const content = li.parent().find(`.container-content[data-container-id=${dataset.itemId}]`);
+    
+    // Flip states
+    if (li.hasClass('collapsed')) {
+      li.removeClass('collapsed');
+      $(button).attr('data-tooltip', 'WW.Container.Collapse');
+      content.slideDown(300);
+    } else {
+      li.addClass('collapsed');
+      $(button).attr('data-tooltip', 'WW.Container.Expand');
+      content.slideUp(300);
+    }
+    
+  }
+
   /**
    * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
    * @param {Event} event   The originating click event
@@ -1286,8 +1348,46 @@ export default class WWActorSheet extends ActorSheet {
   /*  Drop item events                            */
   /* -------------------------------------------- */
 
-   /** @override */
-   async _onDropItemCreate(itemData) {
+  /**
+   * Handle dropping of an item reference or item data onto an Actor Sheet
+   * @param {DragEvent} event            The concluding DragEvent which contains drop data
+   * @param {object} data                The data transfer extracted from the event
+   * @returns {Promise<Item[]|boolean>}  The created or updated Item instances, or false if the drop was not permitted.
+   * @protected
+   * @override
+   */
+  async _onDropItem(event, data) {
+    if ( !this.actor.isOwner ) return false;
+    const item = await Item.implementation.fromDropData(data);
+    const itemData = item.toObject();
+    
+    // Get target item details
+    const target = event.target.closest('.item');
+    const targetId = target ? target.dataset.itemId : '';
+    const targetData = (targetId) ? this.actor.items.get(targetId).toObject() : {};
+    
+    // If within the same Actor
+    if ( this.actor.uuid === item.parent?.uuid ) {
+
+      if (targetData.system?.subtype === 'container') { // Dropped on a container
+        return item.update({'system.heldBy': targetData._id});
+      } else if (item.system.heldBy && (item.system.heldBy !== targetData.system.heldBy)) { // Item is held by a container dropped elsewhere
+        return item.update({'system.heldBy': ''});
+      } else {
+        // Handle sorting
+        return this._onSortItem(event, itemData);
+      }
+
+    }
+    
+    // Create the owned item
+    return this._onDropItemCreate(itemData, event);
+  }
+
+  /* -------------------------------------------- */
+
+  /** @override */
+  async _onDropItemCreate(itemData) {
 
     // Check if item must be unique
     if (itemData.type === 'Ancestry' || itemData.type === 'Path') {

@@ -1779,8 +1779,7 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .weirdwizard .item-list .item {
-  padding: 0 2px;
-  margin-bottom: 5px;
+  padding: 1px 5px;
   border-bottom: 1px solid #c9c7b8;
   font-size: var(--font-size-12);
 }
@@ -2077,9 +2076,57 @@ input[type="checkbox"].checkbox-uses {
   padding: 1px 5px;
 }
 
+.weirdwizard .equipment-list .item-name {
+  flex: 3;
+}
+
+.weirdwizard .over-warning {
+  color: red;
+  font-weight: bold;
+}
+
+/* Equipment Containers */
+
+.weirdwizard .item-list .item.container {
+  background: var(--purple-light);
+  border: none;
+}
+
+.weirdwizard .item-list .item.container.collapsed {
+  border-bottom: 1px solid #c9c7b8;
+}
+
+.weirdwizard .container .item-name {
+  display: block;
+}
+
+.weirdwizard .container .held-list {
+  font-size: smaller;
+  font-style: italic;
+  display: none;
+}
+
+.weirdwizard .container.collapsed .held-list {
+  display: block;
+}
+
+.weirdwizard .container-content {
+  background: rgba(0, 0, 0, 0.03);
+  border-left: 5px solid var(--purple-light);
+  border-bottom: 1px solid #c9c7b8;
+  margin-bottom: 2px;
+  display: none;
+}
+
+.weirdwizard .item-list.container-content .item {
+  padding-left: 0;
+}
+
 .weirdwizard .detail label {
   font-weight: bold;
 }
+
+/* Weapon Traits */
 
 .weirdwizard .weapon-traits {
   display: inline-flex;
@@ -2103,6 +2150,8 @@ input[type="checkbox"].checkbox-uses {
   min-width: 60px;
   flex: 1;
 }
+
+/* Char Options */
 
 .weirdwizard.charoption .charname > input {
   font-size: var(--font-size-24);
