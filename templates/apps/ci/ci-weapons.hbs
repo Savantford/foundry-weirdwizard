@@ -1,0 +1,40 @@
+<section class="tab {{tabs.weapons.cssClass}}" data-group="primary" data-tab="weapons">
+
+    <ol class="item-list weapons-list">
+        
+        <li class="item flexrow items-header">
+            <div class="item-image"></div>
+            <div class="item-name">{{localize "WW.Item.Name"}}</div>
+
+            <div class="item-fixed">{{localize "WW.Equipment.Availability.Label"}}</div>
+            <div class="item-fixed">{{localize "WW.Equipment.Price"}}</div>
+            <div>{{localize "WW.Weapon.Requirement.Label"}}</div>
+
+            <div class="item-fixed">{{localize "WW.Weapon.Type"}}</div>
+            <div class="item-fixed">{{localize "WW.Weapon.Grip.Label"}}</div>
+            <div class="item-fixed">{{localize "WW.Damage.Label"}}</div>
+            <div class="item-traits">{{localize "WW.Weapon.Traits.Label"}}</div>
+        </li>
+
+        {{#each documents as |doc id|}}
+        <li class="item flexrow flex-group-left" data-item-id="{{doc._id}}">
+            {{!-- Icon --}}
+            <div class="item-image"><img src="{{doc.img}}" data-tooltip="{{doc.name}}" width="24" height="24" /></div>
+
+            {{!-- Name --}}
+            <a class="item-name" data-action="openSheet" data-item-uuid="{{doc.uuid}}" data-tooltip="{{{doc.tooltip}}}">{{doc.name}}</a>
+
+            <div class="item-fixed">{{{doc.availabilityLabel}}}</div>
+            <div class="item-fixed">{{{doc.priceLabel}}}</div>
+            <div>{{doc.system.requirementLabel}}</div>
+
+            <div class="item-fixed">{{#if doc.system.traits.range}}{{localize "WW.Weapon.Ranged"}}{{else}}{{localize "WW.Weapon.Melee"}}{{/if}}</div>
+            <div class="item-fixed">{{localize doc.system.grip}}</div>
+            <div class="item-fixed">{{doc.system.damage}}</div>
+            <div class="item-traits">{{doc.system.traitsList}}</div>
+        </li>
+        {{/each}}
+
+    </ol>
+
+</section>

@@ -20,17 +20,20 @@
     
     {{!-- Damage --}}
     <span class="damage-line">({{#if item.system.damage}}{{item.system.damage}}{{else}}0{{/if}})</span>
-
-    {{#if (or item.system.traits.reload item.system.traits.firearm)}}
+    
+    {{!-- Buttons --}}
     <span class="buttons">
-
+        {{#if (or item.system.traits.reload item.system.traits.firearm)}}
         {{!-- Toggle Reloaded --}}
         <a class="item-button" data-action="item-toggle-reloaded" data-item-id="{{item._id}}"
             data-tooltip="{{#if item.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
         <i class="fas {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
+        {{/if}}
+
+        {{!-- Delete Button --}}
+        <a class="item-button" data-action="item-delete" data-item-id="{{item._id}}" data-tooltip="WW.Item.Delete.Activity"><i class="fas fa-trash"></i></a>
         
     </span>
-    {{/if}}
 
     {{!-- Attack Rider --}}
     {{#if item.system.attackRider.value}}{{{item.system.attackRider.enriched}}}{{/if}}

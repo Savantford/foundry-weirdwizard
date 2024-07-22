@@ -76,10 +76,9 @@
 <h2>{{localize "WW.Effects.All"}}</h2>
 
 {{!-- Dynamic Active Effects --}}
-<ol class="item-list effects-list">
-  
   {{#each effects as |section sid|}}
   {{#if (ne section.type 'inactive')}}
+  <ol class="item-list effects-list {{section.type}}-effects">
     <li class="item items-header flexrow" data-effect-type="{{section.type}}">
       <div class="item-image"></div>
       <div class="item-name">{{localize section.name}}</div>
@@ -96,7 +95,6 @@
       </div>
     </li>
 
-    <ol class="item-list {{section.type}}-effects">
     {{#each section.effects as |effect|}}
       
       <li class="item effect flexrow" data-effect-id="{{effect.id}}">
@@ -139,11 +137,13 @@
         </div>
       </li>
     {{/each}}
-    </ol>
+  </ol>
   {{/if}}
   {{/each}}
 
-  {{!-- Inactive Effects --}}
+{{!-- Inactive Effects --}}
+  <ol class="item-list effects-list inactive-effects">
+    
     <li class="item items-header flexrow" data-effect-type="{{actorEffects.inactive.type}}">
       <div class="item-image"></div>
       <div class="item-name">{{localize actorEffects.inactive.name}}</div>
@@ -160,7 +160,6 @@
       </div>
     </li>
 
-    <ol class="item-list inactive-effects">
     {{#each actorEffects.inactive.effects as |effect|}}
       <li class="item effect flexrow" data-effect-id="{{effect.id}}">
         <div class="item-image">
@@ -202,6 +201,4 @@
         
       </li>
     {{/each}}
-    </ol>
-
-</ol>
+  </ol>

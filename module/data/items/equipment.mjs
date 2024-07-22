@@ -21,6 +21,7 @@ export default class EquipmentData extends foundry.abstract.DataModel {
 
       subtype: makeStrField('generic',0,1),
       quality: makeStrField('standard'),
+      availability: makeStrField('common'),
       attribute: makeStrField(),
       heldBy: makeStrField(),
 

@@ -2,24 +2,7 @@
 <div>
     <h2 class="mt-1">{{localize "WW.Weapon.Details"}}</h2>
 
-    {{!-- Requirements --}}
-    <div class="stat-inline flex-group-left">
-        <label>{{localize "WW.Weapon.Requirements.Label"}}:</label>
-
-        <select name="system.requirements">
-            {{selectOptions requirements selected=system.requirements localize=true}}
-        </select>
-    </div>
-
     <div class="mt-1 stat-inline flex-wrap flex-children">
-
-        {{!-- Damage --}}
-        <div>
-            <label>{{localize "WW.Damage.Label"}}:</label>
-
-            <input type="text" name="system.damage" value="{{system.damage}}" placeholder="1d6"
-                style="width: 50px; text-align: center;" data-dtype="String" />
-        </div>
 
         {{!-- Grip --}}
         <div>
@@ -29,8 +12,27 @@
                 {{selectOptions grips selected=system.grip localize=true}}
             </select>
         </div>
+
+        {{!-- Requirement --}}
+        <div>
+            <label>{{localize "WW.Weapon.Requirement.Label"}}:</label>
+
+            <select name="system.requirements">
+                {{selectOptions requirements selected=system.requirements localize=true}}
+            </select>
+        </div>
+
+        {{!-- Damage --}}
+        <div>
+            <label>{{localize "WW.Damage.Label"}}:</label>
+
+            <input type="text" name="system.damage" value="{{system.damage}}" placeholder="1d6"
+                style="width: 50px; text-align: center;" data-dtype="String" />
+        </div>
         
-        {{#if (or system.traits.range system.traits.thrown)}}<div>
+        {{!-- Range --}}
+        {{#if (or system.traits.range system.traits.thrown)}}
+        <div>
             <label>{{localize "WW.Weapon.Traits.Range.Label"}} / {{localize "WW.Weapon.Traits.Thrown.Label"}}:</label>
             
             <div class="input-wrap">
@@ -40,7 +42,8 @@
                 <div class="input-overlay">{{system.range}}</div>
             </div>
             
-        </div>{{/if}}
+        </div>
+        {{/if}}
 
     </div>
 

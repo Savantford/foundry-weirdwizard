@@ -10,11 +10,12 @@ import WWRoll from '../dice/roll.mjs';
 export default class RollDamage extends FormApplication {
   constructor(obj) {
     super(); // This is required for the constructor to work
-
+    
     // Assign variables
     this.origin = fromUuidSync(obj.originUuid);
     
-    if (this.origin.documentName === 'Item') {
+    if (this.origin?.documentName === 'Item') {
+      console.log('chegaste')
       this.item = this.origin;
       this.isAttack = this.item.system.subtype == 'weapon' ? true : false;
       this.actor = this.origin.parent;
@@ -26,7 +27,7 @@ export default class RollDamage extends FormApplication {
     this.baseDamage = obj.value;
 
     // Bonus Damage Variables
-    this.bonusDamage = this.actor.system.stats.bonusdamage;
+    this.bonusDamage = this.actor ? this.actor.system.stats.bonusdamage : '';
     this.usedBonusDamage = this.bonusDamage;
 
   }
@@ -48,17 +49,23 @@ export default class RollDamage extends FormApplication {
     let context = super.getData()
     
     // Pass data to application template.
-    context.label = this.item.name;
-    context.system = this.item.system;
     context.baseDamage = this.baseDamage;
     context.isAttack = this.isAttack;
-    context.bonusDamage = this.actor.system.stats.bonusdamage;
     context.usedBonusDamage = this.usedBonusDamage;
-    context.brutal = this.item.system.traits?.brutal;
-    context.versatile = this.item.system.traits?.versatile;
-    context.attackDice = this.actor.system.extraDamage?.attacks?.dice;
-    context.attackMod = this.actor.system.extraDamage?.attacks?.mod;
 
+    if (this.item) {
+      context.label = this.item.name;
+      context.system = this.item.system;
+      context.brutal = this.item.system.traits?.brutal;
+      context.versatile = this.item.system.traits?.versatile;
+    }
+    
+    if (this.actor) {
+      context.bonusDamage = this.actor.system.stats.bonusdamage;
+      context.attackDice = this.actor.system.extraDamage?.attacks?.dice;
+      context.attackMod = this.actor.system.extraDamage?.attacks?.mod;
+    }
+    
     return context;
   }
 
@@ -134,13 +141,13 @@ export default class RollDamage extends FormApplication {
     let diceCount = 0;
 
     if (applyBothHands) diceCount += 1;
-    if (applyAttackDice) diceCount += this.actor.system.extraDamage.attacks.dice;
+    if (applyAttackDice) diceCount += this.actor ? this.actor.system.extraDamage.attacks.dice : 0;
     if (otherDice) diceCount += otherDice;
     
     // Count extra damage modifier
     let modCount = 0;
 
-    if (applyAttackMod) modCount += this.actor.system.extraDamage.attacks.mod;
+    if (applyAttackMod) modCount += this.actor ? this.actor.system.extraDamage.attacks.mod : 0;
     if (otherMod) modCount += otherMod;
 
     // Add all dice and mods to finalExp
@@ -158,12 +165,12 @@ export default class RollDamage extends FormApplication {
   // On submit
   async _onButtonSubmit(event) {
     // Prepare apply button.
-    const labelHtml = i18n('WW.Damage.Of', { name: '<span class="owner-only">' + this.item.name + '</span><span class="non-owner-only">? ? ?</span>' });
+    const labelHtml = this.item ? i18n('WW.Damage.Of', { name: '<span class="owner-only">' + this.item.name + '</span><span class="non-owner-only">? ? ?</span>' }) : '';
 
     const dataset = {
       action: 'apply-damage',
       value: '',
-      originUuid: this.origin.uuid,
+      originUuid: this.origin?.uuid,
       targetIds: this.targetIds
     }
 
@@ -197,7 +204,7 @@ export default class RollDamage extends FormApplication {
   _addDice(diceExp) {
     if (!diceExp) return '';
     diceExp = '' + diceExp; // Make sure diceExp is a string
-    const brutal = this.item.system.traits?.brutal;
+    const brutal = this.item ? this.item.system.traits?.brutal : false;
     
     let exp = '';
     if (this.finalExp) exp += ' + ';

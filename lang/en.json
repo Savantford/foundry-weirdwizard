@@ -348,6 +348,7 @@
 "WW.Equipment.Weapons": "Weapons",
 "WW.Equipment.Generic": "Generic Item",
 "WW.Equipment.Consumable": "Consumable",
+"WW.Equipment.Hirelings": "Hirelings",
 
 "WW.Equipment.Price": "Price",
 "WW.Equipment.Coins": "Coins",
@@ -360,6 +361,12 @@
 "WW.Equipment.WeightUnit": "Weight per Unit",
 "WW.Equipment.Quantity": "Quantity",
 "WW.Equipment.Uses": "Uses/Charges",
+
+"WW.Equipment.Availability.Label": "Availability",
+"WW.Equipment.Availability.Common": "Common",
+"WW.Equipment.Availability.Uncommon": "Uncommon",
+"WW.Equipment.Availability.Rare": "Rare",
+"WW.Equipment.Availability.Exotic": "Exotic",
 
 "WW.Equipment.Quality.Label": "Quality",
 "WW.Equipment.Quality.Standard": "Standard",
@@ -378,6 +385,7 @@
 "WW.Armor.Light": "Light",
 "WW.Armor.Medium": "Medium",
 "WW.Armor.Heavy": "Heavy",
+"WW.Armor.Shield": "Shield",
 
 "WW.Attack.Plural": "Attacks",
 "WW.Attack.Melee": "Melee Attack",
@@ -387,6 +395,9 @@
 
 "WW.Weapon.Label": "Weapon",
 "WW.Weapon.Details": "Weapon Details",
+"WW.Weapon.Type": "Type",
+"WW.Weapon.Melee": "Melee",
+"WW.Weapon.Ranged": "Ranged",
 "WW.Weapon.Reload": "Click to reload the weapon.",
 "WW.Weapon.Fire": "Click to fire the loaded weapon.",
 
@@ -398,15 +409,16 @@
 "WW.Weapon.Grip.Off": "Off-Hand",
 "WW.Weapon.Grip.OffShort": "Off",
 
-"WW.Weapon.Requirements.Label": "Requires",
-"WW.Weapon.Requirements.None": "—",
-"WW.Weapon.Requirements.Str11": "Strength 11",
-"WW.Weapon.Requirements.Str12": "Strength 12",
-"WW.Weapon.Requirements.Str13": "Strength 13",
-"WW.Weapon.Requirements.Str14": "Strength 14",
-"WW.Weapon.Requirements.Agi11": "Agility 11",
-"WW.Weapon.Requirements.Agi12": "Agility 12",
-"WW.Weapon.Requirements.Agi13": "Agility 13",
+"WW.Weapon.Requirement.Label": "Requirement",
+"WW.Weapon.Requirement.Requires": "Requires",
+"WW.Weapon.Requirement.None": "—",
+"WW.Weapon.Requirement.Str11": "Strength 11",
+"WW.Weapon.Requirement.Str12": "Strength 12",
+"WW.Weapon.Requirement.Str13": "Strength 13",
+"WW.Weapon.Requirement.Str14": "Strength 14",
+"WW.Weapon.Requirement.Agi11": "Agility 11",
+"WW.Weapon.Requirement.Agi12": "Agility 12",
+"WW.Weapon.Requirement.Agi13": "Agility 13",
 
 "WW.Weapon.Traits.Label": "Traits",
 "WW.Weapon.Traits.Ammunition.Label": "Ammunition",
@@ -447,6 +459,7 @@
 "WW.Weapon.Traits.Versatile.Tip": "When you wield this weapon with both hands, the weapon’s damage increases by 1d6.",
 
 "WW.CharOptions.Ancestry": "Ancestry",
+"WW.CharOptions.Ancestries": "Ancestries",
 "WW.CharOptions.NoAncestry": "No Ancestry",
 "WW.CharOptions.Professions": "Professions",
 "WW.CharOptions.Paths": "Paths",
@@ -809,6 +822,13 @@
 "WW.System.ApplyContext.Combatants": "Combatants",
 "WW.System.ApplyContext.SceneTokens": "Tokens in Scene",
 "WW.System.ApplyContext.ActorsTab": "Actors Tab",
+
+"WW.System.Index.Tooltip": "Open the {type} Index.",
+"WW.System.Index.Compendium": "Compendium",
+"WW.System.Index.Prefix.Core": "Core",
+"WW.System.Index.Prefix.World": "World",
+"WW.System.Index.TableType": "Table Type",
+"WW.System.Index.Generic": "Generic",
 
 "WW.Tour.Character.Title": "Character Sheet",
 "WW.Tour.Character.Content": "Learn how to use everything the Player Character Sheet has to offer!",

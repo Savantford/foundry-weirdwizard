@@ -170,7 +170,7 @@ function _onMessageButtonContext(element) {
   // Assign combatants from current combat, if there are any
   game.combat?.combatants.forEach(c => {
     const actor = c.actor;
-    console.log(actor)
+    
     if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
       name: game.weirdwizard.utils.getAlias({ actor: actor }),
       icon: iconToHTML(actor.token ? actor.token.texture.src : actor.img, actor.uuid),
@@ -228,10 +228,10 @@ async function _onChatRoll(dataset, label, nextAction) {
     data = {
       actor: _getActorFromOrigin(origin),
       target: canvas.tokens.get(dataset.targetId),
-      item: (origin.documentName === 'Item') ? origin : null,
+      item: (origin?.documentName === 'Item') ? origin : null,
       value: dataset.value
     }
-  const labelHtml = (label ? i18n(label) + ' ' : '') + '<span class="owner-only">' + data.item.name + '</span><span class="non-owner-only">? ? ?</span>';
+  const labelHtml = data.item?.name ? `${label ? i18n(label) + ' ' : ''}<span class="owner-only">${data.item?.name}</span><span class="non-owner-only">? ? ?</span>` : '';
   
   // Prepare roll
   const r = await new WWRoll(data.value, {}).evaluate({async:true});
@@ -301,7 +301,7 @@ function _onMessageCollapse(ev) {
 */
 function _getActorFromOrigin(origin) {
 
-  if (origin.documentName === 'Item') { // Case 1 - Origin is an Item
+  if (origin?.documentName === 'Item') { // Case 1 - Origin is an Item
     return origin.parent || null;
 
   } else { // Case 2 - Origin is an Actor
