@@ -40,6 +40,7 @@ import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
 import { WWAfflictions } from './helpers/afflictions.mjs';
 import { expireFromTokens } from './helpers/effects.mjs';
 import { initChatListeners } from './chat/chat-listeners.mjs';
+import { initGlobalListeners } from './helpers/global-listeners.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
 import { fullMigration, charOptions } from './helpers/migrations.mjs';
@@ -280,6 +281,9 @@ Hooks.once('ready', function () {
   fullMigration();
 
   handleWelcomeMessage();
+
+  // Initialize global listeners
+  initGlobalListeners();
 });
 
 /* -------------------------------------------- */

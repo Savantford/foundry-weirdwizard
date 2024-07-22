@@ -42,28 +42,6 @@
   
       {{!-- Header --}}
       <h5>{{localize "WW.Stats.Level"}} {{benefit.levelReq}} {{@root.item.name}}</h5>
-  
-      {{!-- Languages --}}
-      <div class="stat-inline list-entries">
-        <label>{{localize "WW.Detail.Language.Label"}}:</label>
-  
-        {{#each benefit.languages as |detail detailId|}}
-        <span class="list-entry">
-  
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-            <a class="array-button" data-action="edit" data-array="benefits.{{id}}.languages" data-entry-id="{{detailId}}"
-              data-tooltip="WW.Detail.Language.Edit"><i class="fas fa-edit"></i></a>
-  
-            <a class="array-button" data-action="remove" data-array="benefits.{{id}}.languages"
-              data-entry-id="{{detailId}}" data-tooltip="WW.Detail.Language.Remove"><i class="fas fa-trash"></i></a>
-          </span>{{#unless @last}},{{/unless}}
-        </span>
-        {{/each}}{{#unless benefit.languages.length}}<span>—</span>{{/unless}}
-  
-        <a class="array-button" data-action="add" data-array="benefits.{{id}}.languages" data-loc="Language"
-          data-tooltip="WW.Detail.Language.Add"><i class="fas fa-circle-plus"></i></a>
-  
-      </div>
       
       {{!-- Stats --}}
       <div class="stat-inline flex-wrap flex-children">
@@ -169,7 +147,29 @@
         </span>
   
       </div>
+
+      {{!-- Languages --}}
+      <div class="stat-inline list-entries">
+        <label>{{localize "WW.Detail.Language.Label"}}:</label>
   
+        {{#each benefit.languages as |detail detailId|}}
+        <span class="list-entry">
+  
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
+            <a class="array-button" data-action="edit" data-array="benefits.{{id}}.languages" data-entry-id="{{detailId}}"
+              data-tooltip="WW.Detail.Language.Edit"><i class="fas fa-edit"></i></a>
+  
+            <a class="array-button" data-action="remove" data-array="benefits.{{id}}.languages"
+              data-entry-id="{{detailId}}" data-tooltip="WW.Detail.Language.Remove"><i class="fas fa-trash"></i></a>
+          </span>{{#unless @last}},{{/unless}}
+        </span>
+        {{/each}}{{#unless benefit.languages.length}}<span>—</span>{{/unless}}
+  
+        <a class="array-button" data-action="add" data-array="benefits.{{id}}.languages" data-loc="Language"
+          data-tooltip="WW.Detail.Language.Add"><i class="fas fa-circle-plus"></i></a>
+  
+      </div>
+      
       {{!-- Magic --}}
       <div class="stat-inline flex-wrap">
   
@@ -217,9 +217,9 @@
           <label>{{item.name}}:</label>
   
           <span class="buttons">
-            {{#unless item.missing}}<a class="ref-edit" data-tooltip="WW.CharOption.EditRef"><i
+            {{#unless item.missing}}<a class="ref-edit" data-tooltip="WW.CharOption.Reference.EditRef"><i
                 class="fas fa-edit"></i></a>{{/unless}}
-            <a class="ref-remove" data-tooltip="WW.CharOption.RemoveRef"><i class="fas fa-trash"></i></a>
+            <a class="ref-remove" data-tooltip="WW.CharOption.Reference.RemoveRef"><i class="fas fa-trash"></i></a>
           </span>
   
           <span>{{{item.description}}}</span>

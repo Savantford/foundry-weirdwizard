@@ -2,6 +2,27 @@
 <div class="stat-inline flex-wrap flex-children">
 
     <div>
+        <label>{{localize "WW.Equipment.Availability.Label"}}:</label>
+        <select name="system.availability">
+            {{selectOptions availabilities selected=system.availability localize=true}}
+        </select>
+    </div>
+
+    <div>
+        <label>{{localize "WW.Equipment.Price"}}:</label>
+
+        <div class="input-wrap">
+            <input type="number" name="system.price.value" value="{{system.price.value}}" min="0" data-dtype="Number" />
+
+            <div class="input-overlay">{{system.price.value}}</div>
+        </div>
+        
+        <select name="system.price.coin">
+            {{selectOptions coins selected=system.price.coin localize=true}}
+        </select>
+    </div>
+
+    <div>
         <label>{{localize "WW.Equipment.Quality.Label"}}:</label>
         <select name="system.quality">
             {{selectOptions qualities selected=system.quality localize=true}}
@@ -18,20 +39,6 @@
         </div>
 
         <input class="checkbox-uses" type="checkbox" name="system.uses.onRest" {{checked system.uses.onRest}} data-tooltip="WW.Item.Uses.OnRest"/>
-    </div>
-
-    <div>
-        <label>{{localize "WW.Equipment.Price"}}:</label>
-
-        <div class="input-wrap">
-            <input type="number" name="system.price.value" value="{{system.price.value}}" min="0" data-dtype="Number" />
-
-            <div class="input-overlay">{{system.price.value}}</div>
-        </div>
-        
-        <select name="system.price.coin">
-            {{selectOptions coins selected=system.price.coin localize=true}}
-        </select>
     </div>
 
     <div>

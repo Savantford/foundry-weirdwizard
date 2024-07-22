@@ -1,0 +1,26 @@
+<section class="tab {{tabs.professions.cssClass}}" data-group="primary" data-tab="professions">
+
+    <ol class="item-list">
+
+        <li class="item flexrow items-header">
+            <div class="item-image"></div>
+            <div class="item-name" data-action="renderItem">{{localize "WW.Item.Name"}}</div>
+            <div class="item-fixed">{{localize "WW.Profession.Category"}}</div>
+        </li>
+
+        {{#each documents as |doc id|}}
+        <li class="item flexrow flex-group-left" data-item-id="{{doc._id}}">
+            {{!-- Icon --}}
+            <div class="item-image"><img src="{{doc.img}}" data-tooltip="{{doc.name}}" width="24" height="24" /></div>
+
+            {{!-- Name --}}
+            <a class="item-name" data-action="openSheet" data-item-uuid="{{doc.uuid}}" data-tooltip="{{{doc.tooltip}}}">{{doc.name}}</a>
+
+            {{!-- Tier --}}
+            <div class="item-fixed">{{doc.professionCategory}}</div>
+        </li>
+        {{/each}}
+
+    </ol>
+
+</section>

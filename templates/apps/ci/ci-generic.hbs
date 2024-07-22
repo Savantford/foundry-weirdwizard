@@ -1,0 +1,23 @@
+<section class="tab {{tabs.generic.cssClass}}" data-group="primary" data-tab="generic">
+
+    <ol class="item-list">
+    
+        <li class="item flexrow items-header">
+            <div class="item-image"></div>
+            <div class="item-name">{{localize "WW.Item.Name"}}</div>
+        </li>
+
+        {{#each documents as |doc id|}}
+        <li class="item flexrow flex-group-left" data-item-id="{{doc._id}}">
+            {{!-- Icon --}}
+            <div class="item-image"><img src="{{doc.img}}" data-tooltip="{{doc.name}}" width="24" height="24" /></div>
+
+            {{!-- Name --}}
+            <a class="item-name" data-action="openSheet" data-item-uuid="{{doc.uuid}}" data-tooltip="{{{doc.tooltip}}}">{{doc.name}}</a>
+
+        </li>
+        {{/each}}
+
+    </ol>
+
+</section>

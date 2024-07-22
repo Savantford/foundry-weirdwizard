@@ -340,6 +340,22 @@
 
             </fieldset>
 
+            {{!-- Equipment --}}
+            <fieldset class="attacks-list">
+
+                <legend>
+                    {{localize "WW.Equipment.Label"}}
+                    <a class="item-create" data-tooltip="WW.Item.Add.Equipment" data-type="Equipment" data-subtype="generic"><i class="fas fa-plus-circle"></i></a>
+                </legend>
+
+                <ol class="item-list described-list">
+                    {{#each equipment as |item id|}}
+                        {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
+                    {{/each}}
+                </ol>
+
+            </fieldset>
+
         </div>
 
     </div>

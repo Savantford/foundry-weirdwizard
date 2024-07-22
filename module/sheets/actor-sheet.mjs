@@ -288,7 +288,7 @@ export default class WWActorSheet extends ActorSheet {
               if (x[1]) {
                 let string = i18n('WW.Weapon.Traits.' + capitalize(x[0]) + '.Label');
                 
-                if ((x[0] == 'range') || (x[0] == 'reach' && i.system.range) || (x[0] == 'thrown') ) {string += ' ' + i.system.range;}
+                if ((x[0] == 'range') || (x[0] == 'reach' && i.system.range) || (x[0] == 'thrown') ) {string += ' ' + i.system.range;}
 
                 list = list.concat(list ? ', ' + string : string);
               }
@@ -311,18 +311,27 @@ export default class WWActorSheet extends ActorSheet {
             const held = [];
             i.filled = 0;
             
-            // Prepare held items list and count items
+            // Prepare held items list and count weight of items
             this.actor.items.filter(x => x.system.heldBy === i._id).map((x) => {
 
+              // Check if item has passive effects
+              x.hasPassiveEffects = false;
+              const effects = this.document.items.get(x._id).effects;
+              
+              for (let e of effects) {
+                if (e.trigger === 'passive') x.hasPassiveEffects = true;
+              }
+
               // Calculate weight and push to held array
-              x.system.weight = x.system.quantity * x.system.weightUnit;
+              const weight = x.system.quantity * x.system.weightUnit;
+              x.system.weight = weight;
               held.push(x);
+
+              // Increase filled count
+              i.filled += weight;
 
               // Append to list
               list = list.concat(list ? ', ' + x.name : x.name);
-              
-              // Increase filled count
-              i.filled++;
             })
 
             i.heldItems = held.sort((a, b) => a.sort > b.sort ? 1 : -1);
@@ -332,12 +341,21 @@ export default class WWActorSheet extends ActorSheet {
             i.containerTooltip = i18n('WW.Container.FilledHint', { filled: i.filled, capacity: i.system.capacity });
           }
 
-          if (!i.system.heldBy) equipment.push(i);
+          if (!i.system.heldBy) {
+            
+            if (i.system.subtype === 'weapon') {
+              weapons.push(i);
 
-          // If an weapon or NPC sheet, also append to weapons.
-          if ((i.system.subtype == 'weapon') || (context.actor.type == 'NPC')) {
-            weapons.push(i);
+              // If Character or if item has a Permanent effect, also append to Equipment
+              if (this.actor.type === 'Character' || i.effects.some(e => e.changes.some(c => c.key === "defense.bonus"))) equipment.push(i);
+
+            } else {
+              equipment.push(i);
+            }
+            
           }
+
+          
         }
 
         // Append to talents.

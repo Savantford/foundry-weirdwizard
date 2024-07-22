@@ -10,7 +10,11 @@ export default function addCustomEnrichers() {
     {
       pattern: /@\[([1-99][^|]*?)(?:\|(d|h|hl|hr))?\]/gim,
       enricher: enrichRoll
-    }
+    },
+    {
+      pattern: /(?:index:(ancestries|paths|professions|armor|weapons|hirelings){1})/gim,
+      enricher: enrichIndex
+    },
   );
 }
 
@@ -94,6 +98,23 @@ async function enrichRoll (match, options) {
     }
 
   }
+
+  return container;
+}
+
+async function enrichIndex (match, options) {
+  const type = match[1];
+  const label = i18n(CONFIG.WW.COMPENDIUM_INDEX_ENRICHER_LABELS[type]);
+
+  // Prepare container
+  const container = document.createElement("a");
+  container.className = 'enricher-index';
+  container.innerHTML = label;
+
+  // Prepare dataset
+  container.dataset.compendium = 'weirdwizard.' + type;
+  container.dataset.type = type;
+  container.dataset.tooltip = i18n('WW.System.Index.Tooltip', {type: label});
 
   return container;
 }

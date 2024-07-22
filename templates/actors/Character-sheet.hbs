@@ -10,13 +10,7 @@
                     
                     <div class="textarea-overlay">{{actor.name}}</div>
                 </h1>
-                
-                <div class="character-subtitle">{{localize "WW.Stats.Level"}} {{level}} {{charOptions.ancestry.name}} 
-                    {{#if charOptions.master}}{{charOptions.master.name}}
-                    {{else if charOptions.expert}}{{charOptions.expert.name}}
-                    {{else if charOptions.novice}} {{charOptions.novice.name}}
-                    {{/if}}
-                </div>
+
             </div>
 
             <div class="circle" style="--total: 8">
@@ -227,36 +221,56 @@
     {{!-- Sheet Body --}}
     <section class="sheet-body">
 
-        {{!-- Summary Tab --}}
-        <div class="tab summary" data-group="primary" data-tab="summary">
-            {{> "systems/weirdwizard/templates/actors/parts/Character-summary.hbs"}}
-        </div>
+        <div class="character-stripe">
 
-        {{!-- Details Tab --}}
-        <div class="tab details" data-group="primary" data-tab="details">
-            {{> "systems/weirdwizard/templates/actors/parts/Character-details.hbs"}}
-        </div>
+            <div>
+                
+                {{#if charOptions.novice}}{{charOptions.novice.name}}{{else}}{{charOptions.ancestry.name}}{{/if}}
+                {{#if charOptions.expert}}• {{charOptions.expert.name}}{{/if}}
+                {{#if charOptions.master}}• {{charOptions.master.name}}{{/if}}
+            </div>
 
-        {{!-- Equipment Tab --}}
-        <div class="tab equipment" data-group="primary" data-tab="equipment">
-            {{> "systems/weirdwizard/templates/actors/parts/Character-equipment.hbs"}}
-        </div>
+            <div>{{localize "WW.Stats.Level"}}</div>
 
-        {{!-- Traits & Talents Tab --}}
-        <div class="tab talents" data-group="primary" data-tab="talents">
-            {{> "systems/weirdwizard/templates/actors/parts/Character-talents.hbs"}}
-        </div>
+            <div class="level-badge">{{level}}</div>
 
-        {{!-- Spells Tab --}}
-        <div class="tab spells" data-group="primary" data-tab="spells">
-            {{> "systems/weirdwizard/templates/actors/parts/Character-spells.hbs"}}
         </div>
+        
+        {{!-- Tabs Area --}}
+        <div class="tabs-container">
 
-        {{!-- Afflictions and Effects Tab --}}
-        <div class="tab effects flexcol" data-group="primary" data-tab="effects">
-            {{> "systems/weirdwizard/templates/actors/parts/Character-effects.hbs"}}
+            {{!-- Summary Tab --}}
+            <div class="tab summary" data-group="primary" data-tab="summary">
+                {{> "systems/weirdwizard/templates/actors/parts/Character-summary.hbs"}}
+            </div>
+
+            {{!-- Details Tab --}}
+            <div class="tab details" data-group="primary" data-tab="details">
+                {{> "systems/weirdwizard/templates/actors/parts/Character-details.hbs"}}
+            </div>
+
+            {{!-- Equipment Tab --}}
+            <div class="tab equipment" data-group="primary" data-tab="equipment">
+                {{> "systems/weirdwizard/templates/actors/parts/Character-equipment.hbs"}}
+            </div>
+
+            {{!-- Traits & Talents Tab --}}
+            <div class="tab talents" data-group="primary" data-tab="talents">
+                {{> "systems/weirdwizard/templates/actors/parts/Character-talents.hbs"}}
+            </div>
+
+            {{!-- Spells Tab --}}
+            <div class="tab spells" data-group="primary" data-tab="spells">
+                {{> "systems/weirdwizard/templates/actors/parts/Character-spells.hbs"}}
+            </div>
+
+            {{!-- Afflictions and Effects Tab --}}
+            <div class="tab effects flexcol" data-group="primary" data-tab="effects">
+                {{> "systems/weirdwizard/templates/actors/parts/Character-effects.hbs"}}
+            </div>
+
         </div>
-
+        
     </section>
     
 </form>

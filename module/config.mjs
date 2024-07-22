@@ -112,21 +112,43 @@ WW.EQUIPMENT_SUBTYPES = {
   'container': 'WW.Container.Label'
 };
 
+WW.EQUIPMENT_AVAILABILITIES = {
+  'common': 'WW.Equipment.Availability.Common',
+  'uncommon': 'WW.Equipment.Availability.Uncommon',
+  'rare': 'WW.Equipment.Availability.Rare',
+  'exotic': 'WW.Equipment.Availability.Exotic',
+};
+
 WW.EQUIPMENT_QUALITIES = {
   'standard': 'WW.Equipment.Quality.Standard',
   'superior': 'WW.Equipment.Quality.Superior',
   'inferior': 'WW.Equipment.Quality.Inferior'
 };
 
+WW.EQUIPMENT_COINS = {
+  'gp': {
+    'tip': 'WW.Equipment.GP',
+    'color': 'gold'
+  },
+  'sp': {
+    'tip': 'WW.Equipment.SP',
+    'color': 'silver'
+  },
+  'cp': {
+    'tip': 'WW.Equipment.CP',
+    'color': 'copper'
+  }
+};
+
 WW.WEAPON_REQUIREMENTS = {
-  '': 'WW.Weapon.Requirements.None',
-  'str11': 'WW.Weapon.Requirements.Str11',
-  'str12': 'WW.Weapon.Requirements.Str12',
-  'str13': 'WW.Weapon.Requirements.Str13',
-  'str14': 'WW.Weapon.Requirements.Str14',
-  'agi11': 'WW.Weapon.Requirements.Agi11',
-  'agi12': 'WW.Weapon.Requirements.Agi12',
-  'agi13': 'WW.Weapon.Requirements.Agi13'
+  '': 'WW.Weapon.Requirement.None',
+  'str11': 'WW.Weapon.Requirement.Str11',
+  'str12': 'WW.Weapon.Requirement.Str12',
+  'str13': 'WW.Weapon.Requirement.Str13',
+  'str14': 'WW.Weapon.Requirement.Str14',
+  'agi11': 'WW.Weapon.Requirement.Agi11',
+  'agi12': 'WW.Weapon.Requirement.Agi12',
+  'agi13': 'WW.Weapon.Requirement.Agi13'
 };
 
 WW.WEAPON_GRIPS = {
@@ -280,9 +302,9 @@ WW.PATH_TIERS = {
 };
 
 WW.PROFESSION_CATEGORIES = {
-  'commoner': 'WW.Profession.Commoner',
   'academic': 'WW.Profession.Academic',
   'aristocratic': 'WW.Profession.Aristocratic',
+  'commoner': 'WW.Profession.Commoner',
   'criminal': 'WW.Profession.Criminal',
   'entertainment': 'WW.Profession.Entertainment',
   'military': 'WW.Profession.Military',
@@ -766,3 +788,20 @@ WW.EFFECT_OPTIONS = {
     }
   },
 }
+
+WW.COMPENDIUM_TYPES = {
+  'generic': 'WW.System.Index.Generic',
+  'paths': 'WW.CharOptions.Paths',
+  'professions': 'WW.CharOptions.Professions',
+  'armor': 'WW.Armor.Label',
+  'weapons': 'WW.Equipment.Weapons'
+};
+
+WW.COMPENDIUM_INDEX_ENRICHER_LABELS = {
+  'ancestries': 'WW.CharOptions.Ancestries',
+  'paths': 'WW.CharOptions.Paths',
+  'professions': 'WW.CharOptions.Professions',
+  'armor': 'WW.Armor.Label',
+  'weapons': 'WW.Equipment.Weapons',
+  'hirelings': 'WW.Equipment.Hirelings'
+};

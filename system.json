@@ -44,33 +44,155 @@
   ],
   "packs": [
     {
-      "name": "docs",
+      "name": "documentation",
       "label": "System Documentation",
+      "banner": "systems/weirdwizard/assets/ui/banners/documentation-banner.webp",
       "system": "weirdwizard",
-      "path": "packs/docs.db",
+      "path": "packs/documentation.db",
       "type": "JournalEntry"
-    },
-    {
-      "name": "weapons",
-      "label": "Weapons",
-      "system": "weirdwizard",
-      "path": "packs/weapons.db",
-      "type": "Item"
     },
     {
       "name": "armor",
       "label": "Armor",
+      "banner": "systems/weirdwizard/assets/ui/banners/armor-banner.webp",
       "system": "weirdwizard",
       "path": "packs/armor.db",
-      "type": "Item"
+      "type": "Item",
+      "flags": {
+        "weirdwizard": {
+          "compendiumType": "armor"
+        }
+      }
+    },
+    {
+      "name": "weapons",
+      "label": "Weapons",
+      "banner": "systems/weirdwizard/assets/ui/banners/weapons-banner.webp",
+      "system": "weirdwizard",
+      "path": "packs/weapons.db",
+      "type": "Item",
+      "flags": {
+        "weirdwizard": {
+          "compendiumType": "weapons"
+        }
+      }
+    },
+    {
+      "name": "hirelings",
+      "label": "Hirelings",
+      "banner": "systems/weirdwizard/assets/ui/banners/hirelings-banner.webp",
+      "system": "weirdwizard",
+      "path": "packs/hirelings.db",
+      "type": "Actor"
+    },
+    {
+      "name": "ancestries",
+      "label": "Ancestries",
+      "banner": "systems/weirdwizard/assets/ui/banners/ancestries-banner.webp",
+      "system": "weirdwizard",
+      "path": "packs/ancestries.db",
+      "type": "Item",
+      "flags": {
+        "weirdwizard": {
+          "compendiumType": "generic"
+        }
+      }
+    },
+    {
+      "name": "paths",
+      "label": "Paths",
+      "banner": "systems/weirdwizard/assets/ui/banners/paths-banner.webp",
+      "system": "weirdwizard",
+      "path": "packs/paths.db",
+      "type": "Item",
+      "flags": {
+        "weirdwizard": {
+          "compendiumType": "paths"
+        }
+      }
+    },
+    {
+      "name": "professions",
+      "label": "Professions",
+      "banner": "systems/weirdwizard/assets/ui/banners/professions-banner.webp",
+      "system": "weirdwizard",
+      "path": "packs/professions.db",
+      "type": "Item",
+      "flags": {
+        "weirdwizard": {
+          "compendiumType": "professions"
+        }
+      }
+    },
+    {
+      "name": "traits",
+      "label": "Ancestry Traits",
+      "banner": "systems/weirdwizard/assets/ui/banners/traits-banner.webp",
+      "system": "weirdwizard",
+      "path": "packs/traits.db",
+      "type": "Item",
+      "flags": {
+        "weirdwizard": {
+          "compendiumType": "talents"
+        }
+      }
+    },
+    {
+      "name": "talents",
+      "label": "Talents",
+      "banner": "systems/weirdwizard/assets/ui/banners/talents-banner.webp",
+      "system": "weirdwizard",
+      "path": "packs/talents.db",
+      "type": "Item",
+      "flags": {
+        "weirdwizard": {
+          "compendiumType": "talents"
+        }
+      }
+    },
+    {
+      "name": "spells",
+      "label": "Spells",
+      "banner": "systems/weirdwizard/assets/ui/banners/spells-banner.webp",
+      "system": "weirdwizard",
+      "path": "packs/spells.db",
+      "type": "Item",
+      "flags": {
+        "weirdwizard": {
+          "compendiumType": "spells"
+        }
+      }
     }
   ],
   "packFolders": [
     {
-      "name": "Core: Equipment",
+      "name": "Shadow of Weird Wizard",
       "sorting": "m",
-      "packs": ["weapons", "armor"],
-      "folders": []
+      "color": "#775B7B",
+      "packs": ["documentation"],
+      "folders": [
+        {
+          "name": "Equipment",
+          "sorting": "m",
+          "color": "#775B7B",
+          "packs": ["armor", "weapons", "hirelings"],
+          "folders": []
+        },
+        {
+          "name": "Character Options",
+          "sorting": "m",
+          "color": "#775B7B",
+          "packs": ["ancestries", "paths", "professions"],
+          "folders": []
+        },
+        {
+          "name": "Option Benefits",
+          "sorting": "m",
+          "color": "#775B7B",
+          "packs": ["traits", "talents", "spells"],
+          "folders": []
+        }
+      ]
     }
   ],
   "gridDistance": 1,

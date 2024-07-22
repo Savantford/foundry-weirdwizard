@@ -87,6 +87,7 @@ export default class WWItemSheet extends ItemSheet {
         context.subtypes = CONFIG.WW.EQUIPMENT_SUBTYPES;
         context.coins = CONFIG.WW.COINS;
         context.qualities = CONFIG.WW.EQUIPMENT_QUALITIES;
+        context.availabilities = CONFIG.WW.EQUIPMENT_AVAILABILITIES;
         context.armorTypes = CONFIG.WW.ARMOR_TYPES;
 
         if (context.system.subtype == 'weapon') {
@@ -170,7 +171,7 @@ export default class WWItemSheet extends ItemSheet {
       <p>${i18n("WW.CharOption.DropHere")}</p>
       <p>${i18n("WW.CharOption.Help", { itemType: item.type })}</p>
     `;
-
+    
     // Prepare dropdown objects
     context.spellsLearned = CONFIG.WW.SPELLS_LEARNED;
     
@@ -381,12 +382,11 @@ export default class WWItemSheet extends ItemSheet {
     await this.document.update({[arrPath]: arr});
 
     // Add entryId to dataset and render the config window
-    console.log(arr)
     dataset.entryId = arr.length-1;
     new ListEntryConfig(await this.document, await dataset).render(true);
     
   }
-
+  
   /**
    * Handle edditing a list entry
    * @param {Event} ev   The originating click event
@@ -665,9 +665,9 @@ export default class WWItemSheet extends ItemSheet {
   /** @override */
   async _onDropItemCreate(itemData) {
     
-    const isAllowed = await this.checkDroppedItem(itemData)
-    if (isAllowed) return await super._onDropItemCreate(itemData)
-    console.warn('Wrong item type dragged', this.actor, itemData)
+    const isAllowed = await this.checkDroppedItem(itemData);
+    if (isAllowed) return await super._onDropItemCreate(itemData);
+    console.warn('Wrong item type dragged', this.actor, itemData);
   }
 
   /* -------------------------------------------- */

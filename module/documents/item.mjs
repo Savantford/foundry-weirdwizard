@@ -103,7 +103,10 @@ export default class WWItem extends Item {
   /* -------------------------------------------- */
 
   async _preUpdate(changed, options, user) {
-    
+
+    // If Path, ensure changed.system.tier is defined
+    if (this.type === 'Path' && !changed.system?.tier) changed.system.tier = this.system.tier;
+
     if (CONFIG.WW.IS_V12) { // If v12
       if (this.system.tier && (this.system.tier !== changed.system?.tier)) {
         await this._onTierChange(await changed);
@@ -113,7 +116,7 @@ export default class WWItem extends Item {
         await this._onTierChange(await changed);
       }
     }
-
+    
     await super._preUpdate(await changed, options, user);
 
   };
@@ -161,7 +164,7 @@ export default class WWItem extends Item {
   /* -------------------------------------------- */
 
   async _onTierChange(data) {
-    const tier = data.system.tier;
+    const tier = await data.system?.tier ? data.system.tier : await this.system.tier;
     const benefits = {...await this.system.benefits};
     
     for (const key in benefits) {
@@ -206,7 +209,7 @@ export default class WWItem extends Item {
       }
     }
 
-    data.system.benefits = benefits;
+    if (data.system?.benefits) data.system.benefits = benefits;
     
   }
 
@@ -266,7 +269,7 @@ export default class WWItem extends Item {
 
     // Prepare changes for effect data
     const changes = [];
-
+    
     if (stats.naturalSet) changes.push({
       key: 'defense.natural',
       value: stats.naturalSet,

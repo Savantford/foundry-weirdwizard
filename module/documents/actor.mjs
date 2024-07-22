@@ -91,6 +91,13 @@ export default class WWActor extends Actor {
       });
     }
 
+    if (data.type === 'Character') {
+      await this.updateSource({
+        'system.stats.health.current': data.system.stats.health.normal ? data.system.stats.health.normal : 5,
+        'system.stats.damage.value': 0
+      });
+    }
+
     return await super._onCreate(await data, options, user);
   }
 
