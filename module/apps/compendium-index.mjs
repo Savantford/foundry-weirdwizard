@@ -2,9 +2,8 @@ import { capitalize, i18n } from '../helpers/utils.mjs';
 
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
-const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
-
-
+const ApplicationV2 = foundry.applications?.api?.ApplicationV2 ?? (class {});
+const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicationMixin ?? (cls => cls);
 
 /**
  * Extend FormApplication to make windows to display a compendium more neatly
