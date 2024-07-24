@@ -15,6 +15,10 @@ function _onClickIndex(event) {
     dataset = Object.assign({}, button.dataset)
   ;
   
-  new CompendiumIndex({ compendium: dataset.compendium, type: dataset.type === 'ancestries' ? 'generic' : dataset.type }).render(true);
+  if (CONFIG.WW.IS_V12) {
+    new CompendiumIndex({ compendium: dataset.compendium, type: dataset.type === 'ancestries' ? 'generic' : dataset.type }).render(true);
+  } else {
+    ui.notifications.warn('Foundry V12 or above is needed for the Compendium Index app to run. Please consider updating it!');
+  };
   
 }
