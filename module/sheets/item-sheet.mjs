@@ -247,13 +247,13 @@ export default class WWItemSheet extends ItemSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  setPosition(options = {}) {
+  /*setPosition(options = {}) { // No longer needed
     const position = super.setPosition(options);
     const sheetBody = this.element.find(".sheet-body");
     const bodyHeight = position.height - 192;
     sheetBody.css("height", bodyHeight);
     return position;
-  }
+  }*/
 
   /* -------------------------------------------- */
 

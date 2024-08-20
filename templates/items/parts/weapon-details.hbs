@@ -1,33 +1,13 @@
 {{#if (eq system.subtype 'weapon')}}
-<div>
-    <h2 class="mt-1">{{localize "WW.Weapon.Details"}}</h2>
-
-    <div class="mt-1 stat-inline flex-wrap flex-children">
-
-        {{!-- Grip --}}
-        <div>
-            <label>{{localize "WW.Weapon.Grip.Label"}}:</label>
-
-            <select name="system.grip">
-                {{selectOptions grips selected=system.grip localize=true}}
-            </select>
-        </div>
-
-        {{!-- Requirement --}}
-        <div>
-            <label>{{localize "WW.Weapon.Requirement.Label"}}:</label>
-
-            <select name="system.requirements">
-                {{selectOptions requirements selected=system.requirements localize=true}}
-            </select>
-        </div>
+<div class="weapon-fields">
+    <div class="stat-inline flex-wrap flex-children">
 
         {{!-- Damage --}}
         <div>
             <label>{{localize "WW.Damage.Label"}}:</label>
 
             <input type="text" name="system.damage" value="{{system.damage}}" placeholder="1d6"
-                style="width: 50px; text-align: center;" data-dtype="String" />
+                style="width: 50px; text-align: left;" data-dtype="String" />
         </div>
         
         {{!-- Range --}}
@@ -45,6 +25,15 @@
         </div>
         {{/if}}
 
+        {{!-- Requirement --}}
+        <div>
+            <label>{{localize "WW.Weapon.Requirement.Label"}}:</label>
+
+            <select name="system.requirements">
+                {{selectOptions requirements selected=system.requirements localize=true}}
+            </select>
+        </div>
+
     </div>
 
     {{!-- Weapon Traits --}}
@@ -61,7 +50,8 @@
         {{/each}}
     </div>
 
-    <div class="mt-2 stat">
+    {{!-- Attack Rider --}}
+    <div class="attack-rider">
         <label>{{localize "WW.Attack.Rider"}}</label>
         
         {{editor system.attackRider.enriched target="system.attackRider.value" button=true owner=owner editable=editable}}

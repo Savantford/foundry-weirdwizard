@@ -267,7 +267,8 @@ function _onMessageCollapse(ev) {
     icon = $(button).find('i'),
     msg = $(button).parents('.chat-message'),
     traits = msg.find('.traits-container'),
-    wrapper = msg.find('.message-wrapper')
+    wrapper = msg.find('.message-wrapper'),
+    footer = msg.find('.message-footer > *')
   ;
   
   // Flip states
@@ -277,14 +278,14 @@ function _onMessageCollapse(ev) {
     traits.slideDown(500);   
     wrapper.slideDown(500);
     wrapper.children().slideDown(500);
-
+    footer.slideDown(500);
   } else {
     $(button).attr('data-tooltip', 'WW.Item.ShowDesc')
     icon.removeClass('fa-square-minus').addClass('fa-square-plus');
     traits.slideUp(500);
     wrapper.slideUp(500);
     wrapper.children().slideUp(500);
-
+    footer.slideUp(500);
   }
   
 }

@@ -39,6 +39,7 @@ export function physical(type = String) {
 export function activity(type = String) {
 
   let obj = {
+    magical: makeBooField(type === 'Spell' ? true : false),
     attribute: makeStrField(),
     against: makeStrField(),
 

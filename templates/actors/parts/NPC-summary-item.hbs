@@ -4,7 +4,6 @@
     <label class="item-button" data-action="untargeted-use" data-item-id="{{item._id}}"
         data-tooltip="{{{item.tooltip}}}">{{item.name}}</label>
     
-    {{#if (or item.hasPassiveEffects item.uses)}}
     <span class="buttons">
 
         {{!-- Toggle Effects --}}
@@ -31,15 +30,9 @@
         </span>
         {{/if}}
 
-        {{!-- Buttons --}}
-        <span class="buttons">
-
-            {{!-- Delete Button --}}
-            <a class="item-button" data-action="item-delete" data-item-id="{{item._id}}" data-tooltip="WW.Item.Delete.Activity"><i class="fas fa-trash"></i></a>
-            
-        </span>
+        {{!-- Delete Button --}}
+        <a class="item-button" data-action="item-delete" data-item-id="{{item._id}}" data-tooltip="WW.Item.Delete.Activity"><i class="fas fa-trash"></i></a>
 
     </span>
-    {{/if}}
     
 </li>

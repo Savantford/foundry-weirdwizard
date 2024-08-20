@@ -8,10 +8,10 @@
                 
     <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
         <a class="array-button" data-action="edit" data-array="details.traditions" data-entry-id="{{id}}"
-            data-tooltip="WW.Traditions.Edit"><i class="fas fa-edit"></i></a>
+            data-tooltip="WW.Detail.Tradition.Edit"><i class="fas fa-edit"></i></a>
                 
         <a class="array-button" data-action="remove" data-array="details.traditions" data-entry-id="{{id}}"
-            data-tooltip="WW.Traditions.Remove"><i class="fas fa-trash"></i></a>
+            data-tooltip="WW.Detail.Tradition.Remove"><i class="fas fa-trash"></i></a>
 
         </span>{{#unless @last}},{{/unless}}
     </span>
@@ -19,7 +19,7 @@
                 
     {{#unless system.details.traditions.length}}<span>—</span>{{/unless}}
     <a class="array-button" data-action="add" data-array="details.traditions" data-loc="Traditions"
-        data-tooltip="WW.Traditions.Add"><i class="fas fa-circle-plus"></i></a>            
+        data-tooltip="WW.Detail.Tradition.Add"><i class="fas fa-circle-plus"></i></a>            
             
 </div>
 

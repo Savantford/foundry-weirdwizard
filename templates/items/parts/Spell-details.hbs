@@ -1,32 +1,94 @@
-{{!-- Castings --}}
-<div class="flex-row stat-inline">
-    <label class="">{{localize "WW.Spell.Castings"}}:</label>
+{{!-- Sheet Header --}}
+<header class="sheet-header">
 
-    <div class="input-wrap">
+  {{!-- Name Stripe --}}
+  <div class="name-stripe">
+
+    {{!-- Item Name --}}
+    <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.Item.Name"}}" /></h1>
+
+  </div>
+
+  {{!-- Details Area --}}
+  <div class="header-fields stat-inline flex-wrap flex-children">
+  
+    {{!-- Castings --}}
+    <div>
+      <label class="">{{localize "WW.Spell.Castings"}}:</label>
+  
+      <div class="input-wrap">
         <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="1" data-dtype="Number" />
-
+  
         <div class="input-overlay">{{system.uses.max}}</div>
+      </div>
+      
+      {{#if system.casting}}<div class="ml-n1">, </div>{{/if}}
+
+      <div class="textarea-resizeable">                    
+        <textarea name="system.casting" rows="1">{{system.casting}}</textarea>
+                    
+        <div class="textarea-overlay">{{system.casting}}</div>
+      </div>
+
     </div>
-    
-    <input class="ml-2" type="text" name="system.casting" value="{{system.casting}}" data-dtype="String" />
-</div>
+  
+    {{!-- Target --}}
+    <div>
+      <label class="resource-label">{{localize "WW.Spell.Target"}}:</label>
 
-{{!-- Target --}}
-<div class="flex-row stat-inline">
-    <label class="resource-label">{{localize "WW.Spell.Target"}}:</label>
-    
-    <input type="text" name="system.target" value="{{system.target}}" data-dtype="String" />
-</div>
+      <div class="textarea-resizeable">                    
+        <textarea name="system.target" rows="1">{{system.target}}</textarea>
+                    
+        <div class="textarea-overlay">{{system.target}}</div>
+      </div>
+    </div>
+  
+    {{!-- Duration --}}
+    <div>
+      <label class="resource-label">{{localize "WW.Spell.Duration"}}:</label>
 
-{{!-- Duration --}}
-<div class="flex-row stat-inline">
-    <label class="resource-label">{{localize "WW.Spell.Duration"}}:</label>
+      <div class="textarea-resizeable">                    
+        <textarea name="system.duration" rows="1">{{system.duration}}</textarea>
+                    
+        <div class="textarea-overlay">{{system.duration}}</div>
+      </div>
+    </div>
+  
+  </div>
 
-    <input type="text" name="system.duration" value="{{system.duration}}" data-dtype="String" />
-</div>
+  {{!-- Right Ribbon --}}
+  <div class="sheet-ribbon">
+
+    {{!-- Item Type --}}
+    <div class="item-type">
+      {{localize "WW.Spell.Label"}}
+    </div>
+
+    {{!-- Profile Image --}}
+    <img class="profile-img" src="{{item.img}}" data-edit="img" data-tooltip="WW.System.EditImage" />
+
+    {{!-- Additional Info --}}
+    <div>
+
+      {{!-- Tradition --}}
+      <div>
+        <input type="text" name="system.tradition" value="{{system.tradition}}" placeholder="{{localize "WW.Spell.Tradition"}}" data-dtype="String" />
+      </div>
+
+      {{!-- Tier --}}
+      <div>
+        <select name="system.tier">
+          {{selectOptions tiers selected=system.tier localize=true}}
+        </select>
+      </div>
+
+    </div>
+
+  </div>
+
+</header>
 
 {{!-- Description --}}
-<h2 class="mt-1">{{localize "WW.Item.Description"}}</h2>
 {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
 
 {{#if grantedBy}}

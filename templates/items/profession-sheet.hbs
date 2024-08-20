@@ -5,82 +5,87 @@
   
     {{!-- Banner --}}
     <div class="sheet-banner">
+
+      {{!-- Item Type --}}
+      <div class="item-type">{{localize "WW.Profession.Label"}}</div>
       
       {{!-- Profile Image --}}
       <div class="profile-img-wrapper">
-        <img class="profile-img" src="{{item.img}}" data-edit="img" data-tooltip="WW.System.Image.Edit" />
-      </div>
-
-      {{!-- Header Plate --}}
-      <div class="header-plate">
-        <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.Item.Name"}}" /></h1>
-
-        <div class="item-type">{{localize "WW.Profession.Label"}}</div>
-  
+        <img class="profile-img" src="{{item.img}}" data-edit="img" data-tooltip="WW.System.EditImage" />
       </div>
   
       {{!-- Description --}}
       {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
   
     </div>
+    
   </header>
 
+  {{!-- Name Stripe --}}
+  <div class="name-stripe">
+  
+    <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.Item.Name"}}" /></h1>
+
+  </div>
+
   {{!-- Right Column --}}
-  <div class="benefit-block">
+  <div class="sheet-body">
+
+    <div class="benefit-block">
     
-    {{!-- Category --}}
-    <div class="stat-inline">
-      <label>{{localize "WW.Profession.Category"}}:</label>
+      {{!-- Category --}}
+      <div class="stat-inline">
+        <label>{{localize "WW.Profession.Category"}}:</label>
+        
+        <select name="system.category">
+          {{selectOptions professionCategories selected=system.category localize=true}}
+        </select>
       
-      <select name="system.category">
-        {{selectOptions professionCategories selected=system.category localize=true}}
-      </select>
+      </div>
+
+      {{!-- Bonus Language --}}
+      <div class="stat-inline list-entries">
+        <label>{{localize "WW.Detail.Language.Bonus"}}:</label>
+        
+        {{#each benefits.benefit1.languages as |detail id|}}
+        <span class="list-entry">
+        
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
+            <a class="array-button" data-action="edit" data-array="benefits.benefit1.languages" data-entry-id="{{id}}"
+              data-tooltip="WW.Detail.Language.Edit"><i class="fas fa-edit"></i></a>
+        
+            <a class="array-button" data-action="remove" data-array="benefits.benefit1.languages" data-entry-id="{{id}}"
+              data-tooltip="WW.Detail.Language.Remove"><i class="fas fa-trash"></i></a>
+          </span>{{#unless @last}},{{/unless}}
+        </span>
+        {{/each}}{{#unless benefits.benefit1.languages.length}}<span>—</span>{{/unless}}
+        
+        <a class="array-button" data-action="add" data-array="benefits.benefit1.languages" data-loc="Language"
+          data-tooltip="WW.Detail.Language.Add"><i class="fas fa-circle-plus"></i></a>
+    
+      </div>
+    
+      {{!-- Items Area --}}
+      <ol class="described-list items-area benefit1">
+        {{#unless benefits.benefit1.itemsInfo}}{{{itemsAreaHint}}}{{/unless}}
+    
+        {{#each benefits.benefit1.itemsInfo as |item id|}}
+        <li class="path-item item{{#if item.missing}} missing{{/if}}" data-item-uuid="{{item.uuid}}">
+          <label>{{item.name}}:</label>
+    
+          <span class="buttons">
+            {{#unless item.missing}}<a class="ref-edit" data-tooltip="WW.CharOption.EditRef"><i
+                class="fas fa-edit"></i></a>{{/unless}}
+            <a class="ref-remove" data-tooltip="WW.CharOption.RemoveRef"><i class="fas fa-trash"></i></a>
+          </span>
+    
+          <span>{{{item.description}}}</span>
+        </li>
+        {{/each}}
+      </ol>
     
     </div>
 
-    {{!-- Bonus Detail.Language. --}}
-    <div class="stat-inline list-entries">
-      <label>{{localize "WW.Detail.Language.Bonus"}}:</label>
-  
-      
-      
-      {{#each benefits.benefit1.languages as |detail id|}}
-      <span class="list-entry">
-      
-        <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-          <a class="array-button" data-action="edit" data-array="benefits.benefit1.languages" data-entry-id="{{id}}"
-            data-tooltip="WW.Detail.Language.Edit"><i class="fas fa-edit"></i></a>
-      
-          <a class="array-button" data-action="remove" data-array="benefits.benefit1.languages" data-entry-id="{{id}}"
-            data-tooltip="WW.Detail.Language.Remove"><i class="fas fa-trash"></i></a>
-        </span>{{#unless @last}},{{/unless}}
-      </span>
-      {{/each}}{{#unless benefits.benefit1.languages.length}}<span>—</span>{{/unless}}
-      
-      <a class="array-button" data-action="add" data-array="benefits.benefit1.languages" data-loc="Language"
-        data-tooltip="WW.Detail.Language.Add"><i class="fas fa-circle-plus"></i></a>
-  
-    </div>
-  
-    {{!-- Items Area --}}
-    <ol class="described-list items-area benefit1">
-      {{#unless benefits.benefit1.itemsInfo}}{{{itemsAreaHint}}}{{/unless}}
-  
-      {{#each benefits.benefit1.itemsInfo as |item id|}}
-      <li class="path-item item{{#if item.missing}} missing{{/if}}" data-item-uuid="{{item.uuid}}">
-        <label>{{item.name}}:</label>
-  
-        <span class="buttons">
-          {{#unless item.missing}}<a class="ref-edit" data-tooltip="WW.CharOption.EditRef"><i
-              class="fas fa-edit"></i></a>{{/unless}}
-          <a class="ref-remove" data-tooltip="WW.CharOption.RemoveRef"><i class="fas fa-trash"></i></a>
-        </span>
-  
-        <span>{{{item.description}}}</span>
-      </li>
-      {{/each}}
-    </ol>
-  
   </div>
   
 </form>

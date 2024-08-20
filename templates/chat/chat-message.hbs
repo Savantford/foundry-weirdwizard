@@ -1,5 +1,21 @@
-<li class="weirdwizard chat-message message flexcol {{cssClass}}" data-message-id="{{message._id}}" {{#if borderColor}}style="border-color:{{borderColor}}"{{/if}}>
+<li class="weirdwizard chat-message message flexcol {{item.type}} {{cssClass}}" data-message-id="{{message._id}}" {{#if borderColor}}style="border-color:{{borderColor}}"{{/if}}>
 
+    {{!-- Footer --}}
+        <footer class="message-footer">
+            
+            {{!-- Sender / Timestamp --}}
+            <div class="footer-sender flexrow">
+                <h4 class="message-sender">{{#if avatar}}<img src="{{avatar}}">{{/if}}{{alias}}</h4>
+                <span class="message-metadata">
+                    <time class="message-timestamp">{{timeSince message.timestamp}}</time>
+                    {{#if canDelete}}
+                    <a aria-label="{{localize 'Delete'}}" class="message-delete"><i class="fas fa-trash"></i></a>
+                    {{/if}}
+                </span>
+            </div>
+
+        </footer>
+        
     {{!-- Header --}}
     <header class="message-header flexcolumn">
         {{#if isWhisper}}
@@ -72,22 +88,6 @@
                 {{{item.attackRider}}}
             </div>
         {{/if}}
-        
-        {{!-- Footer --}}
-        <footer class="message-footer">
-            
-            {{!-- Sender / Timestamp --}}
-            <div class="footer-sender flexrow">
-                <h4 class="message-sender">{{#if avatar}}<img src="{{avatar}}">{{/if}}{{alias}}</h4>
-                <span class="message-metadata">
-                    <time class="message-timestamp">{{timeSince message.timestamp}}</time>
-                    {{#if canDelete}}
-                    <a aria-label="{{localize 'Delete'}}" class="message-delete"><i class="fas fa-trash"></i></a>
-                    {{/if}}
-                </span>
-            </div>
-
-        </footer>
         
     </div>
     

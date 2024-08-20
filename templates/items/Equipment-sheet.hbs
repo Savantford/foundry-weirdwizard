@@ -1,44 +1,4 @@
-<form class="{{cssClass}} sheet equipment-sheet" autocomplete="off">
-
-  {{!-- Header --}}
-  <header class="sheet-header">
-    <img class="profile-img" src="{{item.img}}" data-edit="img" data-tooltip="WW.System.Image.Edit"/>
-
-    <div class="header-fields">
-      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.Item.Name"}}"/></h1>
-
-      <div class="item-type-container stat">
-
-        <div class="item-type">
-          <select class="align-center" name="system.subtype">
-            {{selectOptions subtypes selected=system.subtype localize=true}}
-          </select>
-        </div>
-
-        {{!-- Armor Type --}}
-        {{#if (eq system.subtype 'armor')}}
-        <label>{{localize "WW.Armor.Type"}}:</label>
-
-        <select name="system.armorType">
-          {{selectOptions armorTypes selected=system.armorType localize=true}}
-        </select>
-        {{/if}}
-
-        {{!-- Container Capacity --}}
-        {{#if (eq system.subtype 'container')}}
-        <label>{{localize "WW.Container.Capacity"}}:</label>
-
-        <div class="input-wrap">
-          <input type="number" name="system.capacity" value="{{system.capacity}}" min="1" data-dtype="Number" data-tooltip="WW.Container.CapacityHint" />
-
-          <div class="input-overlay">{{system.capacity}}</div>
-        </div>
-        {{/if}}
-
-      </div>
-      
-    </div>
-  </header>
+<form class="{{cssClass}} sheet equipment-sheet {{system.subtype}}" autocomplete="off">
 
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
@@ -48,12 +8,12 @@
 
   {{!-- Sheet Body --}}
   <section class="sheet-body">
-  
+    
     {{!-- Details Tab --}}
     <div class="tab details" data-group="primary" data-tab="details">
       {{> "systems/weirdwizard/templates/items/parts/Equipment-details.hbs"}}
     </div>
-  
+    
     {{!-- Automation Tab --}}
     <div class="tab automation" data-group="primary" data-tab="automation">
       {{> "systems/weirdwizard/templates/items/parts/item-settings.hbs"}}

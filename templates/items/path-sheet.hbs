@@ -5,26 +5,21 @@
   
     {{!-- Banner --}}
     <div class="sheet-banner">
+
+      {{!-- Item Type --}}
+      {{#if hasActor}}
+      <div class="item-type">{{tierLoc}}</div>
+      {{else}}
+      <div class="item-type">
+        <select name="system.tier">
+          {{selectOptions tiers selected=system.tier localize=true}}
+        </select>
+      </div>
+      {{/if}}
       
       {{!-- Profile Image --}}
       <div class="profile-img-wrapper">
-        <img class="profile-img" src="{{item.img}}" data-edit="img" data-tooltip="WW.System.Image.Edit" />
-      </div>
-
-      {{!-- Header Plate --}}
-      <div class="header-plate">
-        <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.Item.Name"}}" /></h1>
-  
-        {{#if hasActor}}
-        <div class="item-type">{{tierLoc}}</div>
-        {{else}}
-        <div>
-          <select class="item-type" name="system.tier">
-            {{selectOptions tiers selected=system.tier localize=true}}
-          </select>
-        </div>
-        {{/if}}
-  
+        <img class="profile-img" src="{{item.img}}" data-edit="img" data-tooltip="WW.System.EditImage" />
       </div>
   
       {{!-- Description --}}
@@ -32,9 +27,16 @@
   
     </div>
   </header>
+
+  {{!-- Name Stripe --}}
+  <div class="name-stripe">
   
-  {{!-- Right Column --}}
-  <div class="right-col">
+    <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.Item.Name"}}" /></h1>
+  
+  </div>
+  
+  {{!-- Sheet Body / Right Column --}}
+  <div class="sheet-body">
     
     {{#each benefits as |benefit id|}}
     {{#if (ne benefit.levelReq 99)}}

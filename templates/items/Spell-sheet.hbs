@@ -1,34 +1,5 @@
 <form class="{{cssClass}} sheet spell-sheet" autocomplete="off">
 
-  {{!-- Header --}}
-  <header class="sheet-header">
-    <img class="profile-img" src="{{item.img}}" data-edit="img" data-tooltip="WW.System.Image.Edit" />
-    <div class="header-fields">
-      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.Item.Name"}}" /></h1>
-
-      <div class="item-type-container">
-        <div class="item-type">
-
-          <select name="system.tier">
-            {{selectOptions tiers selected=system.tier localize=true}}
-          </select>
-
-          {{localize "WW.Spell.Label"}}
-
-        </div>
-
-        {{!-- Tradition --}}
-        <div class="stat-inline">
-          <label class="ml-1">{{localize "WW.Spell.Tradition"}}:</label>
-
-          <input type="text" name="system.tradition" value="{{system.tradition}}" data-dtype="String" />
-        </div>
-
-      </div>
-
-    </div>
-  </header>
-
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
     <a class="item" data-tab="details" data-tooltip="WW.Actor.Details"><span class="tab-icon"></span></a>
@@ -50,4 +21,5 @@
     </div>
 
   </section>
+  
 </form>

@@ -3,38 +3,44 @@
 /* Variables */
 body {
   /* Colors */
+  --body-text-color: #000000;
+  --gray: #BCBEC0;
+  --pink: #DBD3DC;
+  --pink-rbg: 219, 211, 220;
+
   --purple-dark: #49244F;
   --purple-dark-rgb: 73, 36, 79;
   --purple-medium: #775B7B;
-  /*--purple-medium-rbg: 73, 36, 79;*/
-  --purple-light: #DBD3DC;
-  --purple-light-rbg: 219, 211, 220;
   --purple-darker: #2A142E;
   --purple-darker-hsla: hsla(292, 67%, 23%, 0.5);
-  --body-text-color: #000000;
-  --gray: #BCBEC0;
+
   /* Filters */
   --grey-filter: brightness(0) saturate(100%) invert(53%) sepia(66%) saturate(0%) hue-rotate(194deg) brightness(76%) contrast(71%);
+
   /* Fonts */
   --font-serif: 'Forum', cursive;
   --font-capitalized: 'Mate SC', serif;
   --font-header: 'Lora', serif;
   --font-body: 'PT Sans', sans-serif;
+
   /* Overrides */
-  --background-color-shadow: rgba(0, 0, 0, 0.07);
+  --background-color-shadow: rgba(0, 0, 0, 0.05);
   --color-text-dark-secondary: #808080;
   --color-border-highlight: var(--color-shadow-primary);
   --color-border-highlight-alt: var(--color-shadow-primary);
   --color-shadow-primary: #c200ff;
   --color-shadow-highlight: var(--purple-dark);
+
   /* Scrollbar Override */
   --color-scrollbar: var(--purple-medium);
   scrollbar-color: auto; /* V11 override */
+
   /* Element Sizes */
   --avatar-size-npc: 100px;
   --sheet-input-height: 100%;
+
   /* Other */
-  --parchment-bg: url(../../../ui/parchment-white.jpg) repeat;
+  --paper-bg: url(../assets/ui/paper-bg.webp);
 }
 
 .grid, .grid-2, .grid-3, .grid-4, .grid-5, .grid-6, .grid-7, .grid-8, .grid-9, .grid-10, .grid-11, .grid-12 {
@@ -304,35 +310,37 @@ body {
 .weirdwizard .window-content,
 .window-app .window-content {
   color: var(--body-text-color);
-  background: var(--parchment-bg);
+  background: var(--paper-bg);
   font-family: var(--font-body);
   font-size: var(--font-size-14);
 }
 
-.weirdwizard.sheet.actor .window-content {
+.weirdwizard.sheet.actor .window-content,
+.weirdwizard.sheet.charoption .window-content {
   overflow-y: scroll;
   margin-top: 40px;
 }
 
-.weirdwizard.sheet.actor.npc .window-content {
-  margin-top: 0;
-}
-
 /* Min Dimensions for Sheets */
 .weirdwizard.sheet.actor {
-  min-width: 550px;
+  min-width: 560px;
+  min-height: 350px;
+}
+
+.weirdwizard.item:not(.charoption) {
+  min-width: 440px;
   min-height: 350px;
 }
 
 .weirdwizard.charoption {
-  min-width: 550px;
-  min-height: 350px;
+  min-width: 500px;
+  min-height: 300px;
 }
 
 /* Grayscale Filter for Actor Sheets */
 .weirdwizard .dead .sheet-tabs,
 .weirdwizard .dead .tabs-container,
-.weirdwizard .dead .character-stripe,
+.weirdwizard .dead .name-stripe,
 .weirdwizard .dead .sheet-menu,
 .weirdwizard.npc .dead .sheet-header {
   filter: grayscale(1);
@@ -344,7 +352,7 @@ body {
 
 .weirdwizard .incapacitated .sheet-tabs,
 .weirdwizard .incapacitated .tabs-container,
-.weirdwizard .incapacitated .character-stripe,
+.weirdwizard .incapacitated .name-stripe,
 .weirdwizard .incapacitated .sheet-menu,
 .weirdwizard.npc .incapacitated .sheet-header {
   filter: grayscale(0.5);
@@ -433,7 +441,7 @@ body {
 .weirdwizard .window-content h5,
 .journal-entry-content h5 {
   color: var(--purple-dark);
-  background-color: var(--purple-light);
+  background-color: var(--pink);
   border: 1px solid var(--purple-medium);
   border-radius: 3px;
   padding: 2px 5px;
@@ -452,7 +460,7 @@ body {
 .weirdwizard .window-content h6,
 .journal-entry-content h6 {
   color: var(--purple-dark);
-  background-color: var(--purple-light);
+  background-color: var(--pink);
   border-radius: 3px;
   padding: 2px 5px;
   margin: 0;
@@ -468,10 +476,100 @@ body {
 }
 
 .sheet.journal-entry .journal-entry-content {
-  background: var(--parchment-bg);
+  background: var(--paper-bg);
 }
 
-/* Statboxes */
+/* Actor: Section Headers */
+
+.weirdwizard .window-content h5.list-entries,
+.weirdwizard.npc .window-content h6 {
+  text-indent: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0 5px;
+  background: none;
+  border-image-slice: 11 fill;
+  border-image-width: 40px;
+  border-image-outset: 0 8px 0 0;
+  font-family: var(--font-capitalized);
+}
+
+.weirdwizard .window-content h5.list-entries {
+  border-image-source: url(../assets/ui/headers/pointed-right-pink.svg);
+}
+
+.weirdwizard.npc .window-content h5.list-entries {
+  justify-content: space-between;
+}
+
+.weirdwizard.npc .window-content h6 {
+  border-image-source: url(../assets/ui/headers/pointed-right-grey.svg);
+  color: black;
+  font-weight: normal;
+  white-space: nowrap;
+}
+
+.weirdwizard.npc .window-content h6 > img {
+  height: 26px;
+  margin: -2px 0;
+  filter: brightness(0);
+}
+
+.weirdwizard.npc .window-content h6 .add-buttons {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 10px;
+  margin-left: auto;
+  font-size: var(--font-size-12);
+}
+
+/* NPC: Attributes */
+
+.weirdwizard.npc .attributes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 5px 0;
+}
+
+.weirdwizard.npc .attributes .stat {
+  --stat-size: 55px;
+  flex: 1;
+  height: var(--stat-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--purple-dark);
+  font-weight: bold;
+  background: url(/systems/weirdwizard/assets/ui/badges/npc-attribute.svg) no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.weirdwizard.npc .attributes .stat > div {
+  display: flex;
+  flex-flow: column;
+  width: var(--stat-size);
+  padding-left: 2px;
+}
+
+.weirdwizard.npc .attributes .stat > a {
+  width: calc(var(--stat-size) / 2 + 5px);
+  padding-right: 7px;
+}
+
+.weirdwizard.npc .attributes .stat > div > *:first-child {
+  font-size: var(--font-size-12);
+}
+
+.weirdwizard.npc .attributes .stat > div > *:last-child {
+  font-size: var(--font-size-16);
+}
+
+/* Actor Statbox */
 
 .weirdwizard .statbox {
   display: flex;
@@ -481,52 +579,25 @@ body {
   border-radius: 2px;
 }
 
-.weirdwizard .statbox > * {
-  background-color: var(--purple-light);
-  /*max-width: 35%;*/
+.weirdwizard.npc .window-content .statbox-sections {
+  gap: 5px 15px;
+}
+
+.weirdwizard.npc .statbox {
+  min-width: 275px;
 }
 
 .weirdwizard .statbox > :last-child {
   flex: 1;
 }
 
-.weirdwizard .statbox > h1.charname {
+.weirdwizard .statbox > h1.charname,
+.weirdwizard .statbox .item-list .item:nth-of-type(odd) {
   background: none;
 }
 
 .weirdwizard.npc .statbox-section:not(:first-of-type) {
   padding-top: 8px;
-}
-
-.weirdwizard .statbox-section fieldset {
-  margin: 0;
-  padding: 0;
-  border: none;
-}
-
-.weirdwizard .statbox-section fieldset:not(:first-of-type) {
-  margin-top: 5px;
-}
-
-.weirdwizard .statbox-section fieldset > legend {
-  display: none;
-  margin-left: 0.5em;
-  padding: 0 2px;
-  font-family: var(--font-capitalized);
-  font-weight: bold;
-}
-
-.weirdwizard .statbox-section:hover fieldset {
-  padding-block-end: 0.3em;
-  border: 1px solid var(--purple-medium);
-}
-
-.weirdwizard .statbox-section:hover fieldset > ol {
-  margin: 2px 4px;
-}
-
-.weirdwizard .statbox-section:hover fieldset > legend {
-  display: inherit;
 }
 
 .weirdwizard .statbox .stat {
@@ -537,13 +608,31 @@ body {
   margin: 2px 5px;
 }
 
-.weirdwizard .statbox-header {
-  margin: 0px 0px 3px;
-  background-color: var(--purple-medium);
-  border-radius: 3px;
+.weirdwizard.npc .statbox .defense-line {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.weirdwizard.npc .statbox .equipment-list {
+  display: inline-flex;
+}
+
+.weirdwizard.npc .statbox .equipment-list > ol {
+  margin: 0;
+}
+
+.weirdwizard .window-content .statbox > h4 {
   display: flex;
   justify-content: space-between;
+  background-color: var(--purple-medium);
+  border-radius: 3px;
+  margin: 3px 0 0;
   padding: 2px 0 2px 5px;
+}
+
+.weirdwizard .window-content .statbox > h4:first-of-type {
+  margin-top: 0;
 }
 
 .weirdwizard .statbox-header .list-entries {
@@ -684,13 +773,13 @@ body {
   min-height: 1lh;
 }
 
-.weirdwizard .character-header h1.charname {
+/* Resizeable Text Areas */
+.weirdwizard .textarea-resizeable {
   height: 100%;
   display: grid;
 }
 
-/* Resizeable Text Areas */
-.weirdwizard .character-header h1.charname .textarea-overlay {
+.weirdwizard .textarea-resizeable .textarea-overlay {
   /*content: attr(data-replicated-value) " ";*/
   white-space: pre-wrap;
   visibility: hidden;
@@ -698,20 +787,19 @@ body {
   text-transform: none;
 }
 
-.weirdwizard .character-header h1.charname > textarea {
+.weirdwizard .textarea-resizeable > textarea {
   resize: none;
   overflow: hidden;
 }
 
-.weirdwizard .character-header h1.charname > textarea,
-.weirdwizard .character-header h1.charname .textarea-overlay {
+.weirdwizard .textarea-resizeable > textarea,
+.weirdwizard .textarea-resizeable .textarea-overlay {
   /* Identical styling required!! */
   font: inherit;
   width: 100%;
   height: 100%;
   margin: 0;
-  font-weight: bold;
-  text-align: center;
+  text-align: left;
   text-overflow: ellipsis;
   overflow-x: hidden;
   border: 1px solid transparent;
@@ -721,10 +809,10 @@ body {
   grid-area: 1 / 1 / 2 / 2;
 }
 
-.weirdwizard .character-header h1.charname > textarea,
-.weirdwizard .character-header h1.charname .textarea-overlay,
-.weirdwizard .character-header h1.charname > textarea:not(:hover):not(:focus),
-.weirdwizard .character-header h1.charname:not(:hover):not(:focus) .textarea-overlay {
+.weirdwizard .textarea-resizeable > textarea,
+.weirdwizard .textarea-resizeable .textarea-overlay,
+.weirdwizard .textarea-resizeable > textarea:not(:hover):not(:focus),
+.weirdwizard .textarea-resizeable:not(:hover):not(:focus) .textarea-overlay {
   padding: 0;
 }
 
@@ -853,7 +941,7 @@ body {
   float: right;
 }
 .weirdwizard .hl {
-  background-color: var(--purple-light);
+  background-color: var(--pink);
   padding: 1px 0px;
   margin: 4px 0px;
   border-radius: 2px;
@@ -878,49 +966,247 @@ body {
   padding: 0;
 }
 
-.weirdwizard .sheet-header:not(.character-header) {
+/* Sheet Headers */
+
+.weirdwizard header.sheet-header {
+  position: absolute;
+  z-index: 1;
+  display: block;
   flex: 0 auto;
   margin-bottom: 5px;
-  min-width: 200px;
-}
-
-.weirdwizard.character .sheet-header {
-  position: absolute;
-  flex-direction: column !important;
   text-align: center;
   height: fit-content;
-  display: block;
 }
 
-.weirdwizard.charoption .sheet-header {
-  flex-direction: column !important;
+.weirdwizard.item:not(.charoption) header.sheet-header {
+  position: relative;
+  top: -8px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr auto;
+  align-items: start;
+  gap: 5px;
+}
+
+.weirdwizard.charoption header.sheet-header {
+  flex-direction: column;
   text-align: center;
   height: fit-content;
-  flex: 0 255px;
-}
-
-.weirdwizard.charoption .sheet-header {
   flex: 0 230px;
+  height: 100%;
 }
 
-.weirdwizard.character .sheet-banner,
-.weirdwizard.charoption .sheet-banner {
-  position: fixed;
+/* Descriptor / Paths Header */
+.weirdwizard .descriptors .buttons {
+  display: none;
+}
+
+.weirdwizard .descriptors:hover .buttons,
+.weirdwizard .descriptors:hover .item-create,
+.weirdwizard .descriptors:hover .array-button[data-action=add] {
+  display: inline;
+}
+
+.weirdwizard .descriptors .buttons i {
+  font-size: var(--font-size-12);
+}
+
+/* Sheet Header Fields */
+.weirdwizard.item:not(.charoption) .header-fields {
+  height: 100%;
+  padding: 48px 5px 15px;
+  border-image-source: url(../assets/ui/spear-separator.svg);
+  border-image-slice: 0 51 25 51;
+  border-image-width: 0px 30px 14px 30px;
+  border-image-repeat: repeat stretch;
+}
+
+.weirdwizard.item .spell-sheet .header-fields {
+  flex-flow: column;
+  align-items: flex-start;
+  justify-content: space-around;
+  gap: 5px
+}
+
+.weirdwizard.item .spell-sheet .header-fields > * {
+  align-items: flex-start;
+}
+
+.weirdwizard.item .common-fields {
+  flex-wrap: wrap;
+}
+
+.weirdwizard.item .equipment-sheet:not(.weapon) .common-fields {
+  height: 100%;
+}
+
+.weirdwizard.item .weapon-fields {
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+  gap: 5px;
+  border-bottom: 1px solid var(--purple-dark);
+  padding-bottom: 8px;
+  margin-bottom: 3px;
+}
+
+.weirdwizard .weapon-traits {
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.weirdwizard .weapon-traits > label {
+  font-weight: bold;
+  color: var(--purple-dark);
+}
+
+.weirdwizard .weapon-traits > div {
+  font-size: smaller;
+  align-items: center;
+  white-space: nowrap;
+  justify-content: center;
+  min-width: 60px;
+  flex: 1;
+}
+
+.weirdwizard.item .weapon-fields .attack-rider {
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+/* Sheet Background and Bug */
+
+.weirdwizard.item .sheet-body {
+  --bug: url(../assets/bugs/talent.webp);
+  background: url(../assets/ui/background-star.svg), var(--bug);
+  background-repeat: no-repeat;
+  background-position: center calc(50% - 10px), bottom;
+  background-size: auto 50%, 390px;
+  padding-bottom: 50px;
+}
+
+.weirdwizard.charoption .sheet-body {
+  margin-left: 245px;
+  background-size: auto 50%, 270px;
+  padding-bottom: 35px;
+}
+
+.weirdwizard.charoption .profession-sheet .sheet-body {
+  margin-left: 175px;
+}
+
+.weirdwizard .equipment-sheet .sheet-body,
+.weirdwizard.chat-message.Equipment {
+  --bug: url(../assets/bugs/equipment.webp);
+}
+
+.weirdwizard .equipment-sheet.weapon .sheet-body,
+.weirdwizard.chat-message.Weapon {
+  --bug: url(../assets/bugs/weapon.webp);
+}
+
+.weirdwizard .spell-sheet .sheet-body,
+.weirdwizard.chat-message.Spell {
+  --bug: url(../assets/bugs/spell.webp);
+}
+
+/* Sheet Banner */
+
+.weirdwizard .sheet-banner {
   width: 260px;
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
   padding: 8px 5px 20px;
   margin-top: -48px;
-  background: url(../assets/ui/sheet-main-banner.svg) no-repeat;
+  background: url(../assets/ui/straps/simple-banner.svg) no-repeat;
   background-position: center bottom;
   background-size: cover;
   filter: drop-shadow(0 0 3px black);
-  z-index: 1;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.weirdwizard.npc .sheet-banner {
+  width: 160px;
+  padding: 8px 5px 10px;
 }
 
 .weirdwizard.charoption .sheet-banner {
   width: 235px;
+  height: calc(100% - 10px);
+  padding: 8px 5px 50px;
+  background-image: url(../assets/ui/straps/zigzag-banner.svg);
 }
 
-.weirdwizard .character-stripe {
+.weirdwizard.charoption .profession-sheet .sheet-banner {
+  width: 170px;
+}
+
+/* Sheet Ribbon */
+.weirdwizard .sheet-ribbon {
+  width: 140px;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 5px 30px;
+  background: url(../assets/ui/straps/triangle-ribbon.svg) no-repeat;
+  background-position: center bottom;
+  background-size: 100% 100%;
+  filter: drop-shadow(0 0 3px black);
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  color: white;
+  font-family: var(--font-capitalized);
+  font-size: var(--font-size-16);
+}
+
+.weirdwizard .talent-sheet .sheet-ribbon {
+  width: 180px;
+}
+
+.weirdwizard .sheet-ribbon select,
+.weirdwizard .sheet-ribbon input {
+  color: white;
+  text-align: center;
+}
+
+.weirdwizard .sheet-ribbon select > * {
+  color: black;
+  font-family: var(--font-body);
+  font-size: var(--font-size-14);
+}
+
+.weirdwizard .sheet-ribbon .item-type {
+  border-image: url(../assets/ui/headers/pointed-double-purple-dark.svg);
+  border-image-slice: 15 15 fill;
+  border-image-width: 20px;
+  filter: drop-shadow(0 0 2px black);
+  padding: 0 10px;
+  width: 100%;
+  font-size: var(--font-size-18);
+}
+
+.weirdwizard .sheet-ribbon .capacity {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.weirdwizard .sheet-ribbon .capacity input {
+  color: white;
+}
+
+/* Sheet Name Stripe */
+.weirdwizard .name-stripe {
   position: absolute;
   margin: -48px 0 0 -8px;
   width: 100%;
@@ -931,19 +1217,57 @@ body {
   justify-content: space-between;
   align-items: center;
   background: var(--purple-darker);
-  color: var(--purple-light);
+  color: var(--pink);
   font-size: var(--font-size-20);
   font-family: var(--font-capitalized);
 }
 
-.weirdwizard .character-stripe > *:first-child {
+.weirdwizard.npc .name-stripe {
+  padding-left: 180px;
+}
+
+.weirdwizard.item:not(.charoption) .name-stripe {
+  margin: 0 0 0 -8px;
+  width: calc(100% + 16px);
+  padding-left: 8px;
+  padding-right: 145px;
+}
+
+.weirdwizard.item .talent-sheet .name-stripe {
+  padding-right: 190px;
+}
+
+.weirdwizard.charoption .name-stripe {
+  padding-left: 250px;
+  padding-right: 10px;
+}
+
+.weirdwizard.charoption .profession-sheet .name-stripe {
+  padding-left: 185px;
+}
+
+.weirdwizard .name-stripe > *:first-child {
   flex: 1;
 }
 
-.weirdwizard .character-stripe .level-badge {
+.weirdwizard .name-stripe > .charname {
+  display: inline-flex;
+}
+
+.weirdwizard .name-stripe > .charname > input {
+  color: var(--pink);
+  font-size: var(--font-size-32);
+  text-align: left;
+}
+
+.weirdwizard .name-stripe .difficulty-label {
+  font-size: var(--font-size-16);
+}
+
+.weirdwizard .name-stripe .level-badge {
   flex: 0 50px;
   display: inline-flex;
-  background: url(../assets/ui/badge-level.svg);
+  background: url(../assets/ui/badges/round.svg);
   background-size: cover;
   background-position: center;
   width: 50px;
@@ -955,8 +1279,38 @@ body {
   font-weight: bold;
 }
 
-.weirdwizard .tabs-container {
+.weirdwizard .name-stripe .level-badge > select,
+.weirdwizard .name-stripe .level-badge > select:focus {
+  text-align: center;
+}
+
+.weirdwizard .name-stripe .level-badge > select:hover,
+.weirdwizard .name-stripe .level-badge > select:focus {
+  appearance: none;
+  border: none;
+  box-shadow: none;
+  filter: drop-shadow(0px 0px 2px var(--color-shadow-primary));
+  cursor: pointer;
+}
+
+/* Character/NPC Tabs Container */
+.weirdwizard.character .tabs-container,
+.weirdwizard.npc .tabs-container {
+  --bug: url(../assets/bugs/talent.webp);
+  height: 100%;
+  background: url(../assets/ui/background-star.svg), var(--bug);
+  background-repeat: no-repeat;
+  background-position: center calc(50% - 10px), bottom;
+  background-size: auto 50%, 390px;
+  padding-bottom: 50px;
+}
+
+.weirdwizard.character .tabs-container {
   margin-left: 270px;
+}
+
+.weirdwizard.npc .tabs-container {
+  margin-left: 170px;
 }
 
 .weirdwizard img {
@@ -979,16 +1333,13 @@ body {
   filter: drop-shadow(0 0 1px var(--purple-dark));
 }
 
-.weirdwizard.item:not(.charoption) .profile-img {
-  margin-right: 10px;
+.weirdwizard.item .profile-img {
+  margin: 10px 0;
+  height: 80px;
 }
-
 
 /* Char Option Sheet Banner */
-
-.weirdwizard.charoption .sheet-banner .editor {
-  margin-bottom: 25px;
-}
+/*
 
 .weirdwizard.charoption .sheet-banner .tox.tox-tinymce {
   min-height: 115px;
@@ -1000,10 +1351,9 @@ body {
 
 .weirdwizard.charoption .sheet-banner .tox .tox-toolbar__group {
   padding: 0 1px 0 2px;
-}
+}*/
 
 .weirdwizard.charoption .sheet-banner .editor-content {
-  max-height: 200px;
   text-align: left;
   color: white;
 }
@@ -1020,13 +1370,13 @@ body {
 
 .weirdwizard .profile-img-menu {
   position: absolute;
-  bottom: -5px;
+  top: -10px;
   left: 50%;
   transform: translate(-50%, 0);
   display: flex;
   gap: 7px;
   padding: 1px 3px;
-  background: var(--parchment-bg);
+  background: var(--paper-bg);
   border: 2px solid var(--purple-dark);
   border-radius: 5px;
   font-size: medium;
@@ -1056,19 +1406,18 @@ body {
   height: calc(2 * var(--radius));
 
   position: relative;
-  margin: 15px auto;
+  margin: 10px auto;
 
   outline: 2px solid var(--purple-dark);
   outline-offset: 5px;
   filter: drop-shadow(0 0 1px var(--purple-dark));
 }
 
-.weirdwizard .circle img {
+.weirdwizard header.sheet-header .circle img {
   position: absolute;
-  width: 100% !important;
-  height: 100% !important;
+  height: 100%;
   border-radius: 50%;
-  margin: 0 !important;
+  margin: 0;
 }
 
 .weirdwizard .circle .stat {
@@ -1084,7 +1433,7 @@ body {
   display: grid;
   place-items: center;
 
-  background: var(--icon) no-repeat, var(--parchment-bg), var(--background-color-shadow);
+  background: var(--icon) no-repeat, var(--paper-bg), var(--background-color-shadow);
   background-size: 90%;
   background-position: center;
   background-blend-mode: multiply;
@@ -1165,33 +1514,14 @@ body {
   margin-right: 5px;
 }
 
-.weirdwizard .sheet-banner {
-  -webkit-box-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-}
-
-.weirdwizard.npc .sheet-banner {
-  margin-left: 10px;
-  height: 100%;
-  display: flex;
-  flex-flow: column;
-}
-
-.weirdwizard.charoption .sheet-banner {
-  display: flex;
-  flex-flow: column;
-  gap: 10px;
-  margin-top: -8px;
-}
-
 .weirdwizard h1.charname {
   padding: 0px;
-  margin: 5px 0;
+  margin: 0;
   border-bottom: 0;
 }
 
 .weirdwizard.npc h1.charname {
+  display: inline-flex;
   height: 100%;
 }
 
@@ -1204,12 +1534,23 @@ body {
   width: 100%;
 }
 
+.weirdwizard .sheet header.sheet-header img {
+  margin: 0;
+}
+
 /* Header Plate */
 .weirdwizard .sheet-banner .header-plate {
-  border-image: url(../assets/ui/sheet-double-rectangle-purple.svg);
-  border-image-slice: 160 fill;
-  border-image-width: 20px;
-  padding: 8px 16px;
+  border-image: url(../assets/ui/headers/pointed-double-purple-dark.svg);
+  border-image-slice: 15 15 fill;
+  border-image-width: 30px;
+  filter: drop-shadow(0 0 2px black);
+  color: white;
+  font-family: var(--font-capitalized);
+  font-size: var(--font-size-20);
+  font-weight: normal;
+  letter-spacing: 0.03em;
+  margin-bottom: 5px;
+  padding: 3px 10px;
 }
 
 /* Health widget */
@@ -1221,6 +1562,9 @@ body {
   --health-progress-width: 20px;
   --health-progress-length: 164px;
   --health-right-offset: 10px;
+}
+.weirdwizard.npc .health-block {
+  margin-top: 3px;
 }
 
 .weirdwizard .health-header {
@@ -1243,17 +1587,29 @@ body {
   text-align: right;
 }
 
-.weirdwizard .health-header .health-indicator {
+.weirdwizard .health-indicator {
   color: #8B0000;
   font-weight: bold;
   padding: 0 3px;
   border-radius: 5px;
-  background: rgba(var(--purple-light-rbg), 0.7);
+  background: rgba(var(--pink-rbg), 0.7);
 }
 
-.weirdwizard .health-header .health-indicator.incapacitated:hover {
+.weirdwizard.npc .health-indicator {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translate(-50%, 0);  
+}
+
+.weirdwizard .health-indicator.incapacitated:hover {
   border: 1px solid #8B0000;
   cursor: pointer;
+}
+
+.weirdwizard.npc .health-indicator.incapacitated:hover {
+  border: none;
+  cursor: inherit;
 }
 
 .weirdwizard .health-wrapper {
@@ -1275,6 +1631,12 @@ body {
   background-size: 100% 100%;
 }
 
+.weirdwizard.npc .health-overlay {
+  margin-left: -5px;
+  width: 100%;
+  background-image: url(../assets/ui/NPC-healthbar.svg);
+}
+
 .weirdwizard .health-numbers {
   position: absolute;
   height: var(--health-number-width);
@@ -1286,8 +1648,48 @@ body {
   z-index: 2;
 }
 
+.weirdwizard.npc .health-numbers {
+  padding: 0;
+}
+
 .weirdwizard .health-wrapper .stat {
   width: var(--health-number-width);
+}
+
+.weirdwizard.npc .health-wrapper .stat {
+  display: flex;
+  width: min-content;
+  margin: auto;
+  font-weight: bold;
+}
+
+.weirdwizard.npc .health-wrapper .health,
+.weirdwizard.npc .health-wrapper .health input {
+  color: var(--purple-dark);
+  font-weight: bold;
+  text-shadow:
+    0 0 3px rgb(216,216,204),
+    0 0 3px rgb(216,216,204),
+    0 0 3px rgb(216,216,204),
+    0 0 3px rgb(216,216,204),
+    0 0 3px rgb(216,216,204),
+    0 0 3px rgb(216,216,204),
+    0 0 3px rgb(216,216,204);
+}
+
+.weirdwizard.npc .health-wrapper .defense {
+  --stat-size: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--stat-size);
+  height: var(--stat-size);
+  background: url(/systems/weirdwizard/assets/ui/badges/shield.svg) no-repeat;
+  background-position: center;
+  background-size: contain;
+  margin: 0;
+  color: var(--body-text-color);
+  font-size: var(--font-size-20);
 }
 
 .weirdwizard .health-wrapper .stat > div {
@@ -1304,6 +1706,10 @@ body {
   background-size: 95% 80%, 100% 100%;
   margin: 2px calc(var(--health-number-width) + var(--health-cap-width));
   padding: 3px;
+}
+
+.weirdwizard.npc .health-bar {
+  margin: 2px 3px 2px 46px;
 }
 
 .weirdwizard .health-progress {
@@ -1342,9 +1748,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  padding: 0 8px;
-  padding-bottom: 10px;
-  background: url(../assets/ui/sheet-stats-pattern.svg) no-repeat, url(../assets/ui/sheet-stats-banner.svg) no-repeat;
+  margin-top: -10px;
+  padding: 0 8px 10px;
+  background: url(../assets/ui/sheet-stats-pattern.svg), url(../assets/ui/straps/pink-banner.svg);
+  background-repeat: no-repeat;
   background-position: center calc(50% - var(--stats-height-offset)), bottom center;
   background-size: auto, calc(100% - 2* var(--stats-width-offset)) auto;
   font-weight: bold;
@@ -1406,23 +1813,74 @@ body {
   justify-content: center;
   width: var(--stat-size);
   height: var(--stat-size);
-  background: url(/systems/weirdwizard/assets/ui/sheet-stats-generic.svg) no-repeat;
+  background: url(/systems/weirdwizard/assets/ui/badges/octagonal.svg) no-repeat;
   background-position: center;
   background-size: contain;
 }
 
 .weirdwizard .character-stats .stat.defense > div {
-  background-image: url(/systems/weirdwizard/assets/ui/sheet-stats-defense.svg);
+  background-image: url(/systems/weirdwizard/assets/ui/badges/shield.svg);
 }
 
 .weirdwizard .character-stats .stat.bonus-damage > div {
-  background-image: url(/systems/weirdwizard/assets/ui/sheet-stats-bonus-damage.svg);
+  background-image: url(/systems/weirdwizard/assets/ui/badges/spiked.svg);
   --stat-size: 55px;
-  padding-right: 1px;
 }
 
-.weirdwizard .character-stats .stat.bonus-damage .input-wrap {
-  margin-right: -1px;
+/* NPC Stats */
+
+.weirdwizard .npc-stats {
+  display: flex;
+  flex-flow: column;
+  gap: 18px;
+}
+
+.weirdwizard .npc-stats .stat .stat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 20px;
+  padding: 0 10px;
+  border-image: url(../assets/ui/headers/pointed-double-purple-dark.svg);
+  border-image-slice: 15 15 fill;
+  border-image-width: 20px;
+  border-image-outset: 0 3px;
+  color: white;
+  font-family: var(--font-capitalized);
+  font-weight: bold;
+}
+
+.weirdwizard .npc-stats .stat .stat-badge {
+  --stat-size: 35px;
+  margin-right: -13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--stat-size);
+  height: var(--stat-size);
+  background: url(/systems/weirdwizard/assets/ui/badges/octagonal.svg) no-repeat;
+  background-position: center;
+  background-size: contain;
+  color: var(--body-text-color);
+  font-family: var(--font-body);
+  font-weight: bold;
+}
+
+.weirdwizard .npc-stats .stat .stat-content {
+  background-color: var(--pink);
+  border: 2px solid var(--purple-dark);
+  margin: 0 4px;
+  border-top: none;
+  text-align: left;
+  padding: 5px;
+  box-shadow: inset 0px 2px 2px -1px black;
+  color: var(--purple-dark);
+  font-weight: bold;
+}
+
+.weirdwizard .npc-stats .stat .stat-content > *:hover {
+  filter: drop-shadow(0px 0px 2px var(--color-shadow-primary));
+  cursor: pointer;
 }
 
 /* Sheet Navigation Tabs */
@@ -1447,7 +1905,7 @@ body {
 }
 
 .weirdwizard.sheet.item nav.sheet-tabs {
-  top: 2.5em;
+  top: calc(2.5em - 6px);
 }
 
 .weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs > div {
@@ -1547,25 +2005,50 @@ body {
   border: 1px solid black;
 }
 
-.weirdwizard .disposition-wrapper {
+.weirdwizard .sheet-menu .editable-icon {
   position: absolute;
-  right: 1em;
-  text-align: right;
+  right: 5px;
+  bottom: 6px;
+  font-size: var(--font-size-12);
+  color: var(--pink);
+  text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black;
 }
 
-.weirdwizard .change-disposition {
-  background: #E6BEBA;
-  border: 1px solid var(--color-border-light-2);
-  border-radius: 3px;
-  box-shadow: 0 0 2px #fff inset;
-  padding: 2px 4px;
-  font-weight: bold;
+.weirdwizard .sheet-menu .editable-icon.fa-lock-open {
+  color: goldenrod;
+}
+
+/* Change Disposition Buttons */
+.weirdwizard .change-disposition.label {
+  border-image: url(../assets/ui/headers/pointed-double-purple-dark.svg);
+  border-image-slice: 15 15 fill;
+  border-image-width: 20px;
+  filter: drop-shadow(0 0 2px black);
+  padding: 0 10px;
+  color: white;
+  font-family: var(--font-capitalized);
+  font-size: var(--font-size-20);
+  font-weight: normal;
   letter-spacing: 0.03em;
 }
 
-.weirdwizard .change-disposition.ally {
-  background: #BFDCBB;
+.weirdwizard .change-disposition:hover {
+  filter: drop-shadow(0px 0px 2px var(--color-shadow-primary));
+  cursor: pointer;
 }
+
+/* Sheet Automation Tab */
+.weirdwizard.item .item-settings {
+  height: 100%;
+  padding: 0 5px 25px;
+  margin-bottom: 10px;
+  border-image-source: url(../assets/ui/spear-separator.svg);
+  border-image-slice: 0 51 25 51;
+  border-image-width: 0px 30px 14px 30px;
+  border-image-repeat: repeat stretch;
+}
+
+/* Sheet Text Editor */
 
 .weirdwizard .sheet .editor {
   flex: 1;
@@ -1648,12 +2131,12 @@ body {
 }
 
 .weirdwizard .item-list .item:nth-of-type(odd) {
-  background-color: var(--purple-light);
+  background-color: var(--pink);
 }
 
 .weirdwizard .items-header {
   font-weight: bold;
-  border-image: url(../assets/ui/table-header.svg);
+  border-image: url(../assets/ui/headers/pointed-double-purple-dark.svg);
   border-image-slice: 15 15 fill;
   border-image-width: 20px;
   border-image-outset: 0 9px;
@@ -1784,16 +2267,21 @@ body {
   flex: 0.3;
 }
 
+/* Uses Pip Box */
 .weirdwizard .pip-box {
-  background-color: var(--purple-light);
-  padding: 0 3px;
-  border-radius: 15px;
   display: inline-flex;
   gap: 0.2em;
 }
+
 .weirdwizard .pip-box > a {
   padding: 0;
 }
+
+.weirdwizard .pip-box .fas,
+.weirdwizard .pip-box .far {
+  display: inline !important;
+}
+
 .weirdwizard .item {
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -1830,7 +2318,7 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .weirdwizard .item-desc {
-  background-color: var(--purple-light);
+  background-color: var(--pink);
   padding: 2px 6px;
   margin-top: 0;
   margin-bottom: 5px;
@@ -1907,6 +2395,15 @@ input[type="checkbox"].checkbox-uses {
   text-indent: 0;
 }
 
+.weirdwizard .statbox:hover .list-entry > .buttons {
+  background: var(--pink);
+  border: 1px solid var(--purple-medium);
+  border-radius: 15px;
+  color: black;
+  margin-left: 2px;
+  padding: 0 3px;
+} 
+
 .weirdwizard .item p:nth-child(-n+1),
 .weirdwizard .list-entries > :not(:first-child) {
   display: inline;
@@ -1957,42 +2454,22 @@ input[type="checkbox"].checkbox-uses {
   border-radius: 5px;
 }
 
-.weirdwizard .stat-edit {
-  flex-wrap: nowrap;
-  padding: 1px;
-  background: var(--background-color-shadow);
-  border: 1px solid var(--purple-dark);
-  border-radius: 5px;
-}
-
-.weirdwizard div > .hover-only,
-.weirdwizard .list-entries .buttons > a,
-.weirdwizard .list-entries .array-button[data-action="add"],
+.weirdwizard .benefit-block .buttons > a,
+.weirdwizard .statbox .buttons > a,
+.weirdwizard .list-entries .array-button[data-action=add],
 .weirdwizard .list-entries .item-create,
 .weirdwizard .statbox h6 .item-create,
-.weirdwizard .npc-sheet .statbox .add-button,
-.weirdwizard .npc-sheet .statbox .buttons > a[data-action="item-delete"],
-.weirdwizard .stat .stat-edit,
-.weirdwizard .stat-inline .stat-edit {
+.weirdwizard .hover-only {
   display: none;
 }
 
-.weirdwizard .def-details input:not([value=""]) {
-  display: inline-block;
-}
-
-.weirdwizard .def-details.empty input,
-.weirdwizard .def-details.empty .input-overlay {
-  min-width: 170px;
-}
-
-.weirdwizard div:hover > .hover-only,
-.weirdwizard .list-entries:hover .buttons > a,
-.weirdwizard .list-entries:hover .array-button[data-action="add"],
-.weirdwizard .list-entries:hover .item-create,
+.weirdwizard .benefit-block:hover .buttons > a,
+.weirdwizard .statbox:hover .buttons > a,
+.weirdwizard .statbox:hover .array-button,
+.weirdwizard .list-entries:hover .array-button,
+.weirdwizard .statbox:hover .list-entries .item-create,
 .weirdwizard .statbox:hover h6 .item-create,
-.weirdwizard .npc-sheet .statbox:hover .add-button,
-.weirdwizard .npc-sheet .statbox:hover .buttons > a[data-action="item-delete"] {
+.weirdwizard .statbox:hover .hover-only {
   display: inline-block;
 }
 
@@ -2007,30 +2484,9 @@ input[type="checkbox"].checkbox-uses {
   border: 1px solid var(--color-border-light-tertiary);
 }
 
-.weirdwizard .list-entries:hover .buttons {
-  margin: 0 5px;
-}
-
-.weirdwizard .pip-box .fas,
-.weirdwizard .pip-box .far {
-  display: inline !important;
-}
-
-.weirdwizard .described-list:not(:hover) .pip-box,
-.weirdwizard .described-list:not(:hover) .pip-box,
-.weirdwizard .compact-list:not(:hover) .pip-box,
-.weirdwizard .compact-list:not(:hover) .pip-box {
-  background: none;
-  padding: 0;
-}
-
 .weirdwizard h6 .item-create {
   float: right;
   color: var(--body-text-color);
-}
-
-.weirdwizard .described-list .fury-header {
-  margin: 10px -5px 5px -5px; 
 }
 
 .weirdwizard .described-list .item-roll,
@@ -2040,11 +2496,13 @@ input[type="checkbox"].checkbox-uses {
   color: var(--purple-dark);
 }
 
+/* Buttons */
 .buttons {
   display: inline-flex;
   flex-wrap: nowrap;
   gap: 3px;
   text-indent: 0;
+  /*margin: 0 5px;*/
 }
 
 .buttons i,
@@ -2207,66 +2665,44 @@ input[type="checkbox"].checkbox-uses {
   background: none;
 }
 
-/* Weapon Traits */
-
-.weirdwizard .weapon-traits {
-  display: inline-flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 5px;
-  margin-top: 10px;
-}
-
-.weirdwizard .weapon-traits > label {
-  font-weight: bold;
-  color: var(--purple-dark);
-}
-
-.weirdwizard .weapon-traits > div {
-  font-size: smaller;
-  align-items: center;
-  white-space: nowrap;
-  justify-content: center;
-  min-width: 60px;
-  flex: 1;
-}
-
 /* Char Options */
-
-.weirdwizard.charoption .charname > input {
-  font-size: var(--font-size-24);
-}
 
 .weirdwizard.charoption h5 {
   text-align: center;
   background: none;
-  border-image: url(/systems/weirdwizard/assets/ui/sheet-double-rectangle-purple.svg);
+  border-image: url(../assets/ui/plates/double-purple.svg);
   border-image-slice: 134 fill;
   border-image-width: 16px;
   padding: 4px 16px;
 }
 
-.weirdwizard.sheet.item .item-type {
-  background: rgba(0, 0, 0, 0.1) !important;
-  border: 1px solid var(--color-border-light-2) !important;
-  border-radius: 3px;
-  box-shadow: 0 0 2px #fff inset;
-  margin: auto;
-  padding: 2px 4px !important;
-  font-weight: bold;
-  letter-spacing: 0.03em;
-  width: fit-content;
-  white-space: nowrap;
+.weirdwizard h5 .item-create {
+  font-size: var(--font-size-14);
 }
 
-.weirdwizard.sheet.item .item-type > * {
-  font-weight: bold;
-  letter-spacing: 0.03em;
-  width: fit-content;
+.weirdwizard.charoption .item-type {
+  border-image: url(../assets/ui/headers/pointed-double-purple-dark.svg);
+  border-image-slice: 15 15 fill;
+  border-image-width: 20px;
+  border-image-outset: 0 3px;
+  filter: drop-shadow(0 0 2px black);
+  color: white;
+  font-size: var(--font-size-24);
+  font-family: var(--font-capitalized);
+  margin: 0 5px 5px;
+  padding: 0 10px;
 }
 
-.weirdwizard.sheet.item .item-type-container {
+.weirdwizard.charoption .item-type > select {
+  color: white;
+}
+
+.weirdwizard.charoption .item-type > select > * {
+  color: black;
+  font-family: var(--font-body);
+}
+
+.weirdwizard.charoption .item-type-container {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -2323,10 +2759,6 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard .list-entries label {
   margin-right: 0;
-}
-
-.weirdwizard .list-entries > div > span {
-  display: inline-block;
 }
 
 /* Tooltips Customization */
@@ -2477,7 +2909,7 @@ input[type="checkbox"].checkbox-uses {
 }
 /*.affliction*/.selectable.selected, /*.affliction*/.selectable.selected .sep {
   border-color: var(--purple-dark);
-  background-color: var(--purple-light);
+  background-color: var(--pink);
 }
 .selectable input {
   text-align: center !important;
@@ -2665,10 +3097,6 @@ i.icon-Weakened {
   width: 30px;
 }
 
-.weirdwizard .health-indicator.fas.fa-droplet {
-  color: red;
-}
-
 /* Roll Apps */
 
 #roll-attribute h3,
@@ -2723,7 +3151,7 @@ i.icon-Weakened {
   padding: 8px;
   font-size: x-large;
   text-align: center;
-  border-image: url(../assets/ui/sheet-rectangle.svg);
+  border-image: url(../assets/ui/plates/single-transparent.svg);
   border-image-slice: 120 fill;
   border-image-width: 15px;
 }
@@ -2743,12 +3171,12 @@ i.icon-Weakened {
 }
 
 #roll-attribute .adjustment-widget > a {
-  background: url('/systems/weirdwizard/assets/icons/boons-colored.svg');
+  background: url(../assets/icons/boons-colored.svg);
   background-size: contain;
 }
 
 #roll-attribute .adjustment-widget > a[data-action=down] {
-  background-image: url('/systems/weirdwizard/assets/icons/banes-colored.svg');
+  background-image: url(../assets/icons/banes-colored.svg);
 }
 
 #roll-damage .adjustment-widget > a {
@@ -2770,7 +3198,7 @@ i.icon-Weakened {
 .weirdwizard .boons-expression,
 .weirdwizard .damage-expression {
   font-size: 1.4em;
-  border-image: url(../assets/ui/sheet-rectangle.svg);
+  border-image: url(../assets/ui/plates/single-transparent.svg);
   border-image-slice: 120 fill;
   border-image-width: 15px;
   padding: 8px;
@@ -2866,7 +3294,7 @@ form.quest-calendar {
   margin: auto;
   height: var(--radius);
   width: var(--radius);
-  background: url("../assets/ui/clock-face.png") no-repeat, var(--parchment-bg);
+  background: url("../assets/ui/clock-face.png") no-repeat, var(--paper-bg);
   background-size: 100%;
   border-radius: 50%;
   box-shadow: inset 0px 0px 0px 1px black, 0px 0px 0px 1px black;
@@ -3076,14 +3504,29 @@ form.quest-calendar {
   text-shadow: 0 2px 4px black;
   font-family: var(--font-serif);
   text-transform: uppercase;
-  background-image: url("../assets/ui/pause-scroll.webp");
+  background-image: url(../assets/ui/straps/pause-scroll.webp);
   background-repeat: no-repeat;
   background-position-x: center;
 }
 
 /* Chat Messages */
 .weirdwizard.chat-message {
+  --bug: url(../assets/bugs/talent.webp);
   font-family: var(--font-body) !important;
+  background: var(--paper-bg) repeat;
+  background-position: center;
+}
+
+/* Chat Message Separators */
+.weirdwizard.chat-message .footer-sender::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 40px;
+  background: var(--bug) no-repeat;
+  background-position: center;
+  background-size: 100%;
+  opacity: 0.5;
 }
 
 /* Chat Message Header */
@@ -3135,14 +3578,18 @@ form.quest-calendar {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 3px;
+  gap: 5px;
 }
 
 .weirdwizard.chat-message .chat-button-container {
-  width: 100%;
+  width: 90%;
   display: inline-flex;
   flex-direction: row;
-  gap: 5px;
+  border-image: url(../assets/ui/plates/single-transparent.svg);
+  border-image-slice: 120 fill;
+  border-image-width: 8px;
+  padding: 2px 9px;
+  gap: 3px;
 }
 
 .weirdwizard.chat-message .chat-buttons:not(:first-child),
@@ -3150,10 +3597,8 @@ form.quest-calendar {
   margin-top: 5px;
 }
 
-.weirdwizard.chat-message .header-button,
 .weirdwizard.chat-message .adv-button,
 .weirdwizard.chat-message .disadv-button,
-.weirdwizard.chat-message .chat-button,
 #sage-tools .button {
   background: rgba(0, 0, 0, 0.1);
   border: 1px solid var(--color-border-light-2);
@@ -3171,17 +3616,45 @@ form.quest-calendar {
   background: rgba(200, 0, 0, 0.2);
 }
 
-.weirdwizard.chat-message .chat-button {
-  color: gray;
-  border-radius: 5px;
+.weirdwizard.chat-message .chat-button,
+.weirdwizard.chat-message .header-button {
   display: inline-flex;
   align-items: center;
-  cursor: pointer;
-  padding: 3px 5px;
   min-width: 45px;
+  border-image: url(../assets/ui/headers/pointed-double-purple-medium.svg);
+  border-image-slice: 15 15 fill;
+  border-image-width: 20px;
+  filter: drop-shadow(0 0 1px black);
+  padding: 2px 10px; 
+  color: white;
+  font-size: var(--font-size-12);
+  line-height: initial;
 }
+
+.weirdwizard.chat-message .header-button {
+  border-image-source: url(../assets/ui/headers/pointed-double-grey.svg);
+  color: #444;
+  filter: none;
+}
+
 .weirdwizard.chat-message .chat-button-container .chat-button {
   width: 100%;
+  border-image: none;
+  color: black;
+  filter: none;
+}
+
+.weirdwizard.chat-message .chat-button:focus,
+.weirdwizard.chat-message .chat-button:hover,
+.weirdwizard.chat-message .header-button:hover,
+.weirdwizard.chat-message .chat-button-container .chat-button:hover,
+#sage-tools .button:hover {
+  filter: drop-shadow(0px 0px 2px var(--color-shadow-primary));
+  cursor: pointer;
+}
+
+.weirdwizard.chat-message .header-button:hover {
+  cursor: help;
 }
 
 .weirdwizard.chat-message .roll-wrapper > .chat-button {
@@ -3204,23 +3677,20 @@ form.quest-calendar {
   flex: 0;
 }
 
-.weirdwizard.chat-message .chat-button:focus,
-.weirdwizard.chat-message .chat-button:hover,
-#sage-tools .button:hover {
-  text-shadow: none;
-  border-color: var(--purple-dark);
-  color: black;
-}
-
 /* Other Chat Message Styles */
 
 .weirdwizard .message-wrapper {
+  border-image-source: url(../assets/ui/spear-separator.svg);
+  border-image-slice: 25 51 25 51;
+  border-image-width: 0 25px 11px 25px;
+  border-image-repeat: repeat stretch;
+  padding-bottom: 15px;
   margin-top: 5px;
 }
 
 .weirdwizard .message-content,
 .weirdwizard .message-attack-rider {
-  background: rgba(0, 0, 0, 0.1);
+  background: var(--background-color-shadow);
   border-radius: 3px;
   padding: 5px;
 }
@@ -3258,7 +3728,7 @@ form.quest-calendar {
 }
 
 .weirdwizard span:not(:last-child) .dice-roll {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .weirdwizard .dice-comparison {
@@ -3300,7 +3770,10 @@ form.quest-calendar {
 }
 
 .weirdwizard .dice-comparison > div:not(.dice-vs).highlight > span {
-  text-shadow: 0px 0px 7px var(--color-shadow-primary), 0px 0px 7px var(--color-shadow-primary), 0px 0px 7px var(--purple-dark), 0px 0px 7px var(--purple-dark);
+  text-shadow: 0 0 7px var(--purple-medium),
+    0 0 7px var(--purple-dark),
+    0 0 7px var(--purple-dark),
+    0 0 7px var(--purple-dark);
 }
 
 .weirdwizard .dice-comparison > .rolled-number {
@@ -3319,7 +3792,7 @@ form.quest-calendar {
   letter-spacing: 0.05em;
   margin: 5px 50px 0;
   padding: 8px 14px;
-  border-image: url(../assets/ui/sheet-rectangle.svg);
+  border-image: url(../assets/ui/plates/single-transparent.svg);
   border-image-slice: 120 fill;
   border-image-width: 15px;  
 }
@@ -3384,9 +3857,6 @@ form.quest-calendar {
   line-height: 20px;
   color: var(--color-text-dark-secondary);
   font-size: var(--font-size-12);
-  margin-top: 5px;
-  padding-top: 5px;
-  border-top: 1px solid gray;
 }
 
 .weirdwizard.chat-message .message-sender,
@@ -3398,7 +3868,7 @@ form.quest-calendar {
 }
 
 .weirdwizard.chat-message .flavor-container {
-  border-image: url(../assets/ui/sheet-rectangle.svg);
+  border-image: url(../assets/ui/plates/single-transparent.svg);
   border-image-slice: 120 fill;
   border-image-width: 15px;
   padding: 8px 14px;
@@ -3409,6 +3879,8 @@ form.quest-calendar {
   flex: 3;
   margin: 0;
   white-space: nowrap;
+  color: var(--purple-medium);
+  font-weight: bold;
 }
 
 .weirdwizard.chat-message .message-sender img,

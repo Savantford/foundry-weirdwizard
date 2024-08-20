@@ -12,7 +12,7 @@ export default class WWCharOptionSheet extends WWItemSheet {
     
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['weirdwizard', 'sheet', 'item', 'charoption'],
-      width: 600,
+      width: 560,
       height: 420
     });
   }
@@ -32,6 +32,10 @@ export default class WWCharOptionSheet extends WWItemSheet {
   constructor(object, options = {}) {
     super(object, options);
     
-    this.position.width = this.document.type === 'Profession' ? 350 : 600;
+    if (this.document.type === 'Profession' ) {
+      this.position.width = 500;
+      this.position.height = 300;
+    }
+    
   }
 }
