@@ -1,35 +1,170 @@
-<form class="{{cssClass}} sheet npc-sheet flexcol {{#if dead}}dead{{else if incapacitated}}incapacitated{{else if injured}}injured{{/if}}" autocomplete="off">
+<form class="{{cssClass}} sheet npc-sheet {{#if dead}}dead{{else if incapacitated}}incapacitated{{else if injured}}injured{{/if}}" autocomplete="off">
 
     {{!-- Sheet Header --}}
-    <header class="sheet-header">
-
-        <div class="profile-img-wrapper">
-            {{> "systems/weirdwizard/templates/actors/parts/portrait.hbs" img=actor.img token=true}}
-        </div>
+    <header class="sheet-header npc-header">
 
         <div class="sheet-banner">
 
-            {{!-- Character Name --}}
-            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.Actor.Name"}}"/></h1>
-
             {{!-- Disposition Toggle --}}
-            <div class="disposition-wrapper">
-                <a class="change-disposition{{#if (eq disposition 1)}} ally{{else if (eq disposition -1)}} enemy{{/if}}"
+            <div class="change-disposition label {{#if (eq disposition 1)}}ally{{else if (eq disposition -1)}}enemy{{/if}}"
                     data-tooltip="WW.Actor.Disposition.Tip">
+
+                <div>
                     {{#if (eq disposition 1)}}{{localize "WW.Actor.Disposition.Ally"}}
                     {{else if (eq disposition -1)}}{{localize "WW.Actor.Disposition.Enemy"}}
                     {{else if (eq disposition 0)}}{{localize "WW.Actor.Disposition.Neutral"}} (!)
                     {{else if (eq disposition -2)}}{{localize "WW.Actor.Disposition.Secret"}} (!)
                     {{else}}{{localize "WW.Actor.Disposition.Unknown"}} (!){{/if}}
-                </a>
+                </div>
+
             </div>
+
+            {{!-- Profile Image --}}
+            <div class="profile-img-wrapper">
+                {{> "systems/weirdwizard/templates/actors/parts/portrait.hbs" img=actor.img token=true}}
+
+                {{!-- Health Indicator --}}
+                <span class="{{#if injured}}health-indicator{{/if}} {{#if incapacitated}}incapacitated{{/if}}">
+                        {{~#if dead}}{{localize "WW.Health.Estimation.Dead"}}
+                            {{~else if incapacitated}}{{localize "WW.Health.Estimation.100"}}
+                            {{~else if injured}}{{localize "WW.Health.Estimation.50"}}
+                        {{/if}}
+                </span>
+            </div>
+
+            {{!-- Damage / Health Block --}}
+            <div class="health-block">
+
+                {{!-- Damage / Health Widget --}}
+                <div class="health-wrapper">
+                    
+                    {{!-- Numbers: Top Layer --}}
+                    <div class="health-numbers">
+
+                        {{!-- Defense Badge --}}
+                        <div class="stat defense">
+                            
+                            <div><a data-tooltip="<p><b>{{localize "WW.Defense.Label"}}</b></p><p>{{localize "WW.Defense.Armored"}}: {{system.stats.defense.armored}}</p>
+                                <p>{{localize "WW.Defense.Natural"}}: {{system.stats.defense.natural}}</p>">{{system.stats.defense.total}}</a>
+                            </div>
+
+                        </div>
+
+                        {{!-- Damage / Health --}}
+                        <div class="stat health">
+                                
+                            <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0" data-dtype="Number"/>
+
+                            <span>/</span>
+                            
+                            <input type="number" name="system.stats.health.current" value="{{system.stats.health.current}}" min="0" data-dtype="Number"
+                                {{~#if system.stats.health.temp}}disabled{{/if}}
+                                data-tooltip="{{{healthTooltip}}}"/>
+
+                        </div>
+                    </div>
+
+                    {{!-- Overlay: Mid Layer --}}
+                    <div class="health-overlay"></div>
+                    
+                    {{!-- Health Bar: Bottom Layer --}}
+                    <div class="health-bar {{#if dead}}dead{{/if}}" style="--health-pct: {{healthPct}}; --health-hue: {{healthHue}}; --health-temp: {{tempHealthPct}};" 
+                        role="meter" aria-valuemin="0" aria-valuenow="{{system.stats.damage.value}}" aria-valuemax="{{system.stats.health.current}}">
+                        
+                        <div class="health-progress"></div>
+                        <div class="health-temporary" data-tooltip="WW.Health.TemporaryHint"></div>
+                    </div>
+
+                </div>
+                
+            </div>
+
+            {{!-- NPC Stats --}}
+            <div class="npc-stats">
             
+                {{!-- Size --}}
+                <div class="stat">
+
+                    <div class="stat-header">
+                        <span>{{localize "WW.Stats.Size"}}</span>
+
+                        <div class="stat-badge">
+                            <a data-tooltip="{{{sizeTooltip}}}">{{system.stats.size}}</a>
+                        </div>
+                    </div>
+                        
+                </div>
+
+                {{!-- Speed --}}
+                <div class="stat">
+
+                    <div class="stat-header">
+                        <span>{{localize "WW.Stats.Speed"}}</span>
+
+                        <div class="stat-badge">
+                            <a data-tooltip="{{{speedTooltip}}}">{{system.stats.speed.current}}</a>
+                        </div>
+                    </div>
+
+                    {{!-- Movement Traits --}}
+                    {{#if system.details.movementTraits.length}}
+                    <div class="stat-content">
+                        {{#each system.details.movementTraits as |detail id|}}
+                        <div data-tooltip="{{detail.desc}}">{{detail.name}}</div>
+                        {{/each}}
+                    </div>
+                    {{/if}}
+
+                </div>
+
+                {{!-- Languages --}}
+                {{#if system.details.languages.length}}
+                <div class="stat">
+
+                    <div class="stat-header">{{localize "WW.Detail.Language.Label"}}</div>
+
+                    <div class="stat-content">
+                        {{#each system.details.languages as |detail id|}}
+                        <div data-tooltip="{{detail.desc}}">{{detail.name}}</div>
+                        {{/each}}
+                    </div>
+                    
+                </div>
+                {{/if}}
+
+                {{!-- Senses --}}
+                {{#if system.details.senses.length}}
+                <div class="stat">
+
+                    <div class="stat-header">{{localize "WW.Detail.Sense.Label"}}</div>
+
+                    <div class="stat-content">
+                        {{#each system.details.senses as |detail id|}}
+                        <div data-tooltip="{{detail.desc}}">{{detail.name}}</div>
+                        {{/each}}
+                    </div>
+                    
+                </div>
+                {{/if}}
+
+            </div>
+
+            {{!-- Disposition Toggle --}}
+            <div class="change-disposition{{#if (eq disposition 1)}} ally{{else if (eq disposition -1)}} enemy{{/if}}"
+                    data-tooltip="WW.Actor.Disposition.Tip">
+
+                <img class="crest" src="{{#if (eq disposition 1)}}systems/weirdwizard/assets/icons/heart-shield.svg{{else if (eq disposition -1)}}systems/weirdwizard/assets/icons/skull-shield.svg{{/if}}">
+            </div>
+
         </div>
 
     </header>
 
     {{!-- Sheet Menu --}}
-    <a class="item sheet-menu" data-tooltip="WW.System.Sheet.Menu"><i class="fas fa-bars"></i></a>
+    <a class="item sheet-menu" data-tooltip="WW.System.Sheet.Menu">
+        <i class="fas fa-bars"></i>
+        <i class="editable-icon fas {{#if editable}}fa-lock-open{{else}}fa-lock{{/if}}"></i>
+    </a>
 
     {{!-- Sheet Tab Navigation --}}
     <nav class="sheet-tabs tabs" data-group="primary">
@@ -41,22 +176,44 @@
     {{!-- Sheet Body --}}
     <section class="sheet-body">
 
-        {{!-- Summary Tab --}}
-        <div class="tab summary" data-group="primary" data-tab="summary">
-            {{> "systems/weirdwizard/templates/actors/parts/NPC-summary.hbs"}}
+        <div class="name-stripe">
+
+            {{!-- Character Name --}}
+            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.Actor.Name"}}"/></h1>
+
+            {{!-- Difficulty --}}
+            <div class="difficulty-label">{{localize "WW.Stats.Difficulty"}}</div>
+
+            <div class="level-badge">
+                <select class="level-badge" name="system.stats.difficulty">
+                    {{selectOptions difficulties selected=system.stats.difficulty}}
+                </select>
+            </div>
+
         </div>
 
-        {{!-- Description Tab --}}
-        <div class="tab description" data-group="primary" data-tab="description">
+        {{!-- Tabs Area --}}
+        <div class="tabs-container">
 
-            {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
+            {{!-- Summary Tab --}}
+            <div class="tab summary" data-group="primary" data-tab="summary">
+                {{> "systems/weirdwizard/templates/actors/parts/NPC-summary.hbs"}}
+            </div>
 
-        </div>
+            {{!-- Description Tab --}}
+            <div class="tab description" data-group="primary" data-tab="description">
 
-        {{!-- Active Effects Tab --}}
-        <div class="tab effects flexcol" data-group="primary" data-tab="effects">
-            {{> "systems/weirdwizard/templates/actors/parts/Character-effects.hbs"}}
+                {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
+
+            </div>
+
+            {{!-- Active Effects Tab --}}
+            <div class="tab effects flexcol" data-group="primary" data-tab="effects">
+                {{> "systems/weirdwizard/templates/actors/parts/Character-effects.hbs"}}
+            </div>
+
         </div>
 
     </section>
+
 </form>

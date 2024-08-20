@@ -5,8 +5,7 @@ effChanges.boons = {
   agi: addInt(),
   int: addInt(),
   wil: addInt(),
-  luck: addInt(),
-  attack: addInt()
+  luck: addInt()
 }
 
 effChanges.banes = {
@@ -14,8 +13,7 @@ effChanges.banes = {
   agi: addInt(),
   int: addInt(),
   wil: addInt(),
-  luck: addInt(),
-  attack: addInt()
+  luck: addInt()
 }
 
 effChanges.autoFail = {
@@ -30,7 +28,9 @@ effChanges.boonsAgainst = {
   str: addInt(),
   agi: addInt(),
   int: addInt(),
-  wil: addInt()
+  wil: addInt(),
+  attack: addInt(),
+  magical: addInt()
 }
 
 effChanges.banesAgainst = {
@@ -38,7 +38,9 @@ effChanges.banesAgainst = {
   str: addInt(),
   agi: addInt(),
   int: addInt(),
-  wil: addInt()
+  wil: addInt(),
+  attack: addInt(),
+  magical: addInt()
 }
 
 effChanges.autoSuccessAgainst = {
@@ -111,6 +113,20 @@ effChanges.overrideAttribute = {
   wil: overInt()
 }
 
+effChanges.increaseAttribute = {
+  str: addInt(),
+  agi: addInt(),
+  int: addInt(),
+  wil: addInt()
+}
+
+effChanges.reduceAttribute = {
+  str: addInt(),
+  agi: addInt(),
+  int: addInt(),
+  wil: addInt()
+}
+
 /* Make functions */
 
 /* Mode Number:
@@ -123,23 +139,23 @@ effChanges.overrideAttribute = {
 */
 
 function addInt(priority = null) {
-  return makeChangeData(2,'int',priority)
+  return makeChangeData(2,'int',priority);
 }
 
 function overInt(priority = null) {
-  return makeChangeData(5,'int',priority)
+  return makeChangeData(5,'int',priority);
 }
 
 function upInt(priority = null) {
-  return makeChangeData(4,'int',priority)
+  return makeChangeData(4,'int',priority);
 }
 
 function downInt(priority = null) {
-  return makeChangeData(3,'int',priority)
+  return makeChangeData(3,'int',priority);
 }
 
 function setBoo(priority = null) {
-  return makeChangeData(5,'boo',priority)
+  return makeChangeData(5,'boo',priority);
 }
 
 function makeChangeData(mode,valueType,priority = null) {

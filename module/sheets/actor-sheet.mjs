@@ -58,6 +58,9 @@ export default class WWActorSheet extends ActorSheet {
     context.flags = actorData.flags;
     context.dtypes = ['String', 'Number', 'Boolean'];
 
+    // Pass editable state
+    context.editable = this.editable ?? false;
+
     // Add V12 check
     context.isV12 = CONFIG.WW.IS_V12;
 
@@ -538,7 +541,7 @@ export default class WWActorSheet extends ActorSheet {
     const actor = this.actor;
 
     // Handle portrait menu sharing buttons
-    html.find('.profile-show').click(ev => this._showProfileImg(ev))
+    html.find('.profile-show').click(ev => this._showProfileImg(ev));
 
     // -------------------------------------------------------------
     // Everything below here is only needed if the sheet is editable
@@ -555,7 +558,7 @@ export default class WWActorSheet extends ActorSheet {
     ContextMenu.create(this, html, '.sheet-menu', this._getSheetMenuOptions(), { eventName:'click' });
 
     // Incapacitated Health Loss
-    html.find('.health-indicator.incapacitated').click(this._onIncapacitatedRoll.bind(this));
+    if (this.actor.type === 'Character') html.find('.health-indicator.incapacitated').click(this._onIncapacitatedRoll.bind(this));
 
     /////////////////////// ITEMS ////////////////////////
 
@@ -680,6 +683,16 @@ export default class WWActorSheet extends ActorSheet {
   _getSheetMenuOptions() {
     
     return [
+      {
+        name: "WW.System.Sheet.Editable",
+        icon: '<i class="fas fa-edit"></i>',
+        callback: li => {
+          return this._onToggleEditable();
+        },
+        condition: li => {
+          return this.actor.type === 'NPC';
+        }
+      },
       {
         name: "WW.Rest.Label",
         icon: '<i class="fas fa-campground"></i>',
@@ -1278,6 +1291,12 @@ export default class WWActorSheet extends ActorSheet {
     // Update document
     this.document.update({[arrPath]: arr});
     
+  }
+
+  _onToggleEditable() {
+    this.editable = !this.editable;
+    
+    this.render(true);
   }
 
   async _onRest() {

@@ -179,11 +179,12 @@ function makeDefense(type) {
 
   if (type == 'Character') { return new fields.SchemaField({
     total: makeIntField(),
-    natural: makeIntField(10)
+    natural: makeIntField(8)
   })}
 
   else if (type == 'NPC') return new fields.SchemaField({
-    total: makeIntField(10),
+    total: makeIntField(),
+    natural: makeIntField(10),
     details: makeStrField()
   })
   

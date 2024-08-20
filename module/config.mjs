@@ -466,10 +466,6 @@ WW.EFFECT_OPTIONS = {
       'boons.luck': {
         key: 'system.boons.attributes.luck.global',
         label: 'WW.Effect.Keys.Boons.Luck'
-      },
-      'boons.attack': {
-        key: 'system.boons.attacks.global',
-        label: 'WW.Effect.Keys.Boons.Attack'
       }
     }
   },
@@ -495,10 +491,6 @@ WW.EFFECT_OPTIONS = {
       'banes.luck': {
         key: 'system.boons.attributes.luck.global',
         label: 'WW.Effect.Keys.Banes.Luck'
-      },
-      'banes.attack': {
-        key: 'system.boons.attacks.global',
-        label: 'WW.Effect.Keys.Banes.Attack'
       }
     }
   },
@@ -545,6 +537,14 @@ WW.EFFECT_OPTIONS = {
       'boonsAgainst.wil': {
         key: 'system.boons.against.wil',
         label: 'WW.Effect.Keys.BoonsAgainst.Will'
+      },
+      'boonsAgainst.attack': {
+        key: 'system.boons.against.attack',
+        label: 'WW.Effect.Keys.BoonsAgainst.Attack'
+      },
+      'boonsAgainst.magical': {
+        key: 'system.boons.against.magical',
+        label: 'WW.Effect.Keys.BoonsAgainst.Magical'
       }
     }
   },
@@ -570,6 +570,14 @@ WW.EFFECT_OPTIONS = {
       'banesAgainst.wil': {
         key: 'system.boons.against.wil',
         label: 'WW.Effect.Keys.BanesAgainst.Will'
+      },
+      'banesAgainst.attack': {
+        key: 'system.banes.against.attack',
+        label: 'WW.Effect.Keys.BanesAgainst.Attack'
+      },
+      'banesAgainst.magical': {
+        key: 'system.banes.against.magical',
+        label: 'WW.Effect.Keys.BanesAgainst.Magical'
       }
     }
   },
@@ -784,6 +792,48 @@ WW.EFFECT_OPTIONS = {
       'overrideAttribute.wil': {
         key: 'system.attributes.wil.value',
         label: 'WW.Effect.Keys.OverrideAttribute.Will'
+      }
+    }
+  },
+  increaseAttribute: {
+    header: 'WW.Effect.Keys.IncreaseAttribute.Header',
+    options: {
+      'increaseAttribute.str': {
+        key: 'system.attributes.str.value',
+        label: 'WW.Effect.Keys.IncreaseAttribute.Strength'
+      },
+      'increaseAttribute.agi': {
+        key: 'system.attributes.agi.value',
+        label: 'WW.Effect.Keys.IncreaseAttribute.Agility'
+      },
+      'increaseAttribute.int': {
+        key: 'system.attributes.int.value',
+        label: 'WW.Effect.Keys.IncreaseAttribute.Intellect'
+      },
+      'increaseAttribute.wil': {
+        key: 'system.attributes.wil.value',
+        label: 'WW.Effect.Keys.IncreaseAttribute.Will'
+      }
+    }
+  },
+  reduceAttribute: {
+    header: 'WW.Effect.Keys.ReduceAttribute.Header',
+    options: {
+      'reduceAttribute.str': {
+        key: 'system.attributes.str.value',
+        label: 'WW.Effect.Keys.ReduceAttribute.Strength'
+      },
+      'reduceAttribute.agi': {
+        key: 'system.attributes.agi.value',
+        label: 'WW.Effect.Keys.ReduceAttribute.Agility'
+      },
+      'reduceAttribute.int': {
+        key: 'system.attributes.int.value',
+        label: 'WW.Effect.Keys.ReduceAttribute.Intellect'
+      },
+      'reduceAttribute.wil': {
+        key: 'system.attributes.wil.value',
+        label: 'WW.Effect.Keys.ReduceAttribute.Will'
       }
     }
   },

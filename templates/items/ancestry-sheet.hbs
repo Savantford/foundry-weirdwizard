@@ -5,18 +5,13 @@
   
     {{!-- Banner --}}
     <div class="sheet-banner">
+
+      {{!-- Item Type --}}
+      <div class="item-type">{{localize "WW.CharOptions.Ancestry"}}</div>
       
       {{!-- Profile Image --}}
       <div class="profile-img-wrapper">
-        <img class="profile-img" src="{{item.img}}" data-edit="img" data-tooltip="WW.System.Image.Edit" />
-      </div>
-
-      {{!-- Header Plate --}}
-      <div class="header-plate">
-        <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.Item.Name"}}" /></h1>
-  
-        <div class="item-type">{{localize "WW.CharOptions.Ancestry"}}</div>
-  
+        <img class="profile-img" src="{{item.img}}" data-edit="img" data-tooltip="WW.System.EditImage" />
       </div>
   
       {{!-- Description --}}
@@ -25,9 +20,16 @@
     </div>
 
   </header>
+
+  {{!-- Name Stripe --}}
+  <div class="name-stripe">
+  
+    <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.Item.Name"}}" /></h1>
+
+  </div>
   
   {{!-- Right Column --}}
-  <div class="right-col">
+  <div class="sheet-body">
   
     <div class="benefit-block">
   

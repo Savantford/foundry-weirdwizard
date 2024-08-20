@@ -1,18 +1,11 @@
 <form class="{{cssClass}} sheet character-sheet {{#if dead}}dead{{else if incapacitated}}incapacitated{{else if injured}}injured{{/if}}" autocomplete="off" spellcheck="false">
+
     {{!-- Sheet Header --}}
     <header class="sheet-header character-header">
         
         <div class="sheet-banner">
-            <div class="header-plate">
 
-                <h1 class="charname textarea-resizeable">                    
-                    <textarea name="name" rows="1">{{actor.name}}</textarea>
-                    
-                    <div class="textarea-overlay">{{actor.name}}</div>
-                </h1>
-
-            </div>
-
+            {{!-- Portrait/Attributes Circle --}}
             <div class="circle" style="--total: 8">
                 {{> "systems/weirdwizard/templates/actors/parts/portrait.hbs" img=actor.img token=true}}
                 
@@ -171,12 +164,6 @@
                         <label>{{localize "WW.Damage.Bonus"}}</label>
 
                         <div class="flex nogap align-center {{#unless system.stats.bonusdamage}}hidden{{/unless}}">
-                            {{!--<div class="input-wrap">
-                                <input type="number" name="system.stats.bonusdamage" value="{{system.stats.bonusdamage}}" data-dtype="Number" min="0" placeholder="#"/>
-
-                                <div class="input-overlay">{{system.stats.bonusdamage}}</div>
-                            </div>--}}
-                                
                             <a data-tooltip="{{{bonusDamageTooltip}}}">{{system.stats.bonusdamage}}d6</a>
                         </div>
 
@@ -203,6 +190,7 @@
             </div>
 
         </div>
+
     </header>
 
     {{!-- Sheet Menu --}}
@@ -218,23 +206,27 @@
         <a class="item" data-tab="effects" data-tooltip="WW.Effects.Label"><span class="tab-icon"></span></a>
     </nav>
 
+    {{!-- Name Stripe --}}
+    <div class="name-stripe">
+        
+        {{!-- Character Name --}}
+        <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.Actor.Name"}}"/></h1>
+
+        {{!-- Level --}}
+        <div>
+            {{localize "WW.Stats.Level"}}
+    
+            <div class="level-badge">
+                <select class="level-badge" name="system.stats.level">
+                    {{selectOptions levels selected=system.stats.level}}
+                </select>
+            </div>
+        </div>
+    
+    </div>
+
     {{!-- Sheet Body --}}
     <section class="sheet-body">
-
-        <div class="character-stripe">
-
-            <div>
-                
-                {{#if charOptions.novice}}{{charOptions.novice.name}}{{else}}{{charOptions.ancestry.name}}{{/if}}
-                {{#if charOptions.expert}}• {{charOptions.expert.name}}{{/if}}
-                {{#if charOptions.master}}• {{charOptions.master.name}}{{/if}}
-            </div>
-
-            <div>{{localize "WW.Stats.Level"}}</div>
-
-            <div class="level-badge">{{level}}</div>
-
-        </div>
         
         {{!-- Tabs Area --}}
         <div class="tabs-container">
