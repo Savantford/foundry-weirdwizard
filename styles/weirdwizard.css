@@ -3517,6 +3517,16 @@ form.quest-calendar {
   background-position: center;
 }
 
+/* Chat Message Tint (Whisper/Blind) */
+.weirdwizard.chat-message.whisper {
+  background-color: #e9ebf8;
+  background-blend-mode: multiply;
+}
+.weirdwizard.chat-message.blind {
+  background-color: #f8eaf8;
+  background-blend-mode: multiply;
+}
+
 /* Chat Message Separators */
 .weirdwizard.chat-message .footer-sender::after {
   content: "";
