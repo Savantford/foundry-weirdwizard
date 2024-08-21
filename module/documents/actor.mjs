@@ -444,12 +444,15 @@ export default class WWActor extends Actor {
 
   _calculateDefense(system) {
     const defense = system.stats.defense;
-    
+
+    // One time Total Defense to Natural Defense migration for NPCs (4.3.1)
+    if (this.type === 'NPC' && defense.total && !defense.natural) defense.natural = defense.total;
+
     // Defense override effect exists
     if (defense.override) defense.total = defense.override;
-    
-    // Natural or Armored Defense is defined
-    else if (defense.natural || defense.armored) {
+
+    // Regular Defense calculation
+    else {
       (defense.natural > defense.armored) ? defense.total = defense.natural : defense.total = defense.armored;
       defense.total += defense.bonus;
     }
