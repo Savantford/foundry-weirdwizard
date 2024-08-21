@@ -88,7 +88,7 @@ export default class WWChatMessage extends ChatMessage {
     
     // V11 legacy support; delete in V13
     const styles = game.release.generation >= 12 ? CONST.CHAT_MESSAGE_STYLES : CONST.CHAT_MESSAGE_TYPES;
-
+    
     // Construct message data
     const messageData = {
       message: data,

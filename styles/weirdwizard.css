@@ -333,7 +333,7 @@ body {
 }
 
 .weirdwizard.charoption {
-  min-width: 500px;
+  min-width: 540px;
   min-height: 300px;
 }
 
@@ -1082,7 +1082,7 @@ body {
 
 .weirdwizard.item .sheet-body {
   --bug: url(../assets/bugs/talent.webp);
-  background: url(../assets/ui/background-star.svg), var(--bug);
+  background: url(../assets/drawings/star-sheet.svg), var(--bug);
   background-repeat: no-repeat;
   background-position: center calc(50% - 10px), bottom;
   background-size: auto 50%, 390px;
@@ -1091,7 +1091,9 @@ body {
 
 .weirdwizard.charoption .sheet-body {
   margin-left: 245px;
-  background-size: auto 50%, 270px;
+  background-position: center calc(50% - 10px), bottom;
+  background-origin: padding-box;
+  background-size: 50% auto, 270px;
   padding-bottom: 35px;
 }
 
@@ -1289,7 +1291,7 @@ body {
   appearance: none;
   border: none;
   box-shadow: none;
-  filter: drop-shadow(0px 0px 2px var(--color-shadow-primary));
+  filter: drop-shadow(0 0 2px var(--color-shadow-primary));
   cursor: pointer;
 }
 
@@ -1298,7 +1300,7 @@ body {
 .weirdwizard.npc .tabs-container {
   --bug: url(../assets/bugs/talent.webp);
   height: 100%;
-  background: url(../assets/ui/background-star.svg), var(--bug);
+  background: url(../assets/drawings/star-sheet.svg), var(--bug);
   background-repeat: no-repeat;
   background-position: center calc(50% - 10px), bottom;
   background-size: auto 50%, 390px;
@@ -1626,7 +1628,7 @@ body {
   position: absolute;
   height: var(--health-bar-width);
   width: calc(100% - var(--health-right-offset));
-  background: url(../assets/ui/healthbar-overlay.svg) no-repeat;
+  background: url(../assets/ui/healthbar/character-overlay.svg) no-repeat;
   background-position: bottom center;
   background-size: 100% 100%;
 }
@@ -1634,7 +1636,7 @@ body {
 .weirdwizard.npc .health-overlay {
   margin-left: -5px;
   width: 100%;
-  background-image: url(../assets/ui/NPC-healthbar.svg);
+  background-image: url(../assets/ui/healthbar/npc-overlay.svg);
 }
 
 .weirdwizard .health-numbers {
@@ -1677,6 +1679,10 @@ body {
     0 0 3px rgb(216,216,204);
 }
 
+.weirdwizard.npc .health-wrapper .health input {
+  min-width: 30px;
+}
+
 .weirdwizard.npc .health-wrapper .defense {
   --stat-size: 44px;
   display: flex;
@@ -1701,7 +1707,7 @@ body {
 
 .weirdwizard .health-bar {
   width: 100%;
-  background: url(../assets/ui/floral-pattern.svg) no-repeat, url(../assets/ui/healthbar-fillable.svg) no-repeat;
+  background: url(../assets/drawings/floral-pattern.svg) no-repeat, url(../assets/ui/healthbar/filler.svg) no-repeat;
   background-position: center;
   background-size: 95% 80%, 100% 100%;
   margin: 2px calc(var(--health-number-width) + var(--health-cap-width));
@@ -1879,7 +1885,7 @@ body {
 }
 
 .weirdwizard .npc-stats .stat .stat-content > *:hover {
-  filter: drop-shadow(0px 0px 2px var(--color-shadow-primary));
+  filter: drop-shadow(0 0 2px var(--color-shadow-primary));
   cursor: pointer;
 }
 
@@ -2033,7 +2039,7 @@ body {
 }
 
 .weirdwizard .change-disposition:hover {
-  filter: drop-shadow(0px 0px 2px var(--color-shadow-primary));
+  filter: drop-shadow(0 0 2px var(--color-shadow-primary));
   cursor: pointer;
 }
 
@@ -2797,7 +2803,7 @@ input[type="checkbox"].checkbox-uses {
   font-family: var(--font-body);
   font-size: var(--font-size-13);
   padding: 5px;
-  border-image: url(../assets/ui/sheet-rectangle-parchment.svg);
+  border-image: url(../assets/ui/plates/single-parchment.svg);
   border-image-slice: 120 fill;
   border-image-width: 15px;
   padding: 12px 18px;
@@ -3462,7 +3468,7 @@ form.quest-calendar {
 }
 
 #logo {
-  content: url("../assets/ui/sotww-logo.png");
+  content: url(../assets/ui/sotww-logo.png);
   margin: 12px 0 0 10px;
   height: fit-content;
   width: 150px;
@@ -3472,41 +3478,37 @@ form.quest-calendar {
   margin-left: -50px;
 }
 
-/* Right Sidebar */
+/* Pause Menu */
 
-#pause > img {
-  content: url("../assets/ui/pause-star.webp");
-  /*-webkit-mask-size: cover;
-  mask-size: cover;*/
-  display: inline-block;
-  /*-webkit-mask-image: url("/icons/svg/sun.svg");
-  mask-image: url("/icons/svg/sun.svg");
-  background-color: var(--purple-dark);*/
-  /*-webkit-filter: invert(86%) sepia(14%) saturate(4864%) hue-rotate(258deg) brightness(93%) contrast(88%);
-  filter: invert(86%) sepia(14%) saturate(4864%) hue-rotate(258deg) brightness(93%) contrast(88%);*/
+#pause {
+  background: none;
+}
+
+#pause img {
+  content: url(../assets/drawings/pause-star.webp);
   width: 250px;
   height: 250px;
   top: calc(50% - 125px);
   left: calc(50% - 125px);
   opacity: 0.7;
-  animation-duration: 8s;
+  animation-duration: 10s;
 }
 
-#pause > figcaption {
-  /*margin: 0;
-  text-align: center;
-  position: relative;
-  z-index: calc(var(--z-index-window) - 1);*/
-  font-size: 2em;
-  font-weight: normal;
-  line-height: 100px;
+#pause figcaption {
   color: var(--body-text-color);
-  text-shadow: 0 2px 4px black;
+  font-weight: bold;
   font-family: var(--font-serif);
   text-transform: uppercase;
-  background-image: url(../assets/ui/straps/pause-scroll.webp);
-  background-repeat: no-repeat;
-  background-position-x: center;
+  text-shadow: none;
+  background: url(../assets/drawings/pause-ribbon.webp) no-repeat center;
+}
+
+/* Chat Elements */
+#chat-form textarea {
+  background: url(../assets/drawings/star-chat.svg), var(--paper-bg);
+  background-repeat: no-repeat, repeat;
+  background-position: center;
+  background-size: 30%, auto;
 }
 
 /* Chat Messages */
@@ -3515,18 +3517,15 @@ form.quest-calendar {
   font-family: var(--font-body) !important;
   background: var(--paper-bg) repeat;
   background-position: center;
+  background-blend-mode: multiply;
 }
 
-/* Chat Message Separators */
-.weirdwizard.chat-message .footer-sender::after {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 40px;
-  background: var(--bug) no-repeat;
-  background-position: center;
-  background-size: 100%;
-  opacity: 0.5;
+.weirdwizard.chat-message.whisper {
+  background-color: #e9ebf8;
+}
+
+.weirdwizard.chat-message.blind {
+  background-color: #f1e0de;
 }
 
 /* Chat Message Header */
@@ -3649,7 +3648,7 @@ form.quest-calendar {
 .weirdwizard.chat-message .header-button:hover,
 .weirdwizard.chat-message .chat-button-container .chat-button:hover,
 #sage-tools .button:hover {
-  filter: drop-shadow(0px 0px 2px var(--color-shadow-primary));
+  filter: drop-shadow(0 0 2px var(--color-shadow-primary));
   cursor: pointer;
 }
 
@@ -3680,12 +3679,31 @@ form.quest-calendar {
 /* Other Chat Message Styles */
 
 .weirdwizard .message-wrapper {
+  display: flex;
+  flex-flow: column;
   border-image-source: url(../assets/ui/spear-separator.svg);
   border-image-slice: 25 51 25 51;
   border-image-width: 0 25px 11px 25px;
   border-image-repeat: repeat stretch;
   padding-bottom: 15px;
   margin-top: 5px;
+}
+
+.weirdwizard.whisper .message-wrapper {
+  border-image-source: url(../assets/ui/spear-separator-cutout.svg);
+  padding-bottom: 0;
+  gap: 5px;
+}
+
+.weirdwizard.chat-message img.private-icon {
+  height: 25px;
+  margin: -4px 0 -7px;
+  filter: brightness(0) drop-shadow(0 0 1px grey);
+}
+
+.weirdwizard.chat-message img.private-icon:hover {
+  cursor: help;
+  filter: brightness(0) drop-shadow(0 0 2px var(--color-shadow-primary));
 }
 
 .weirdwizard .message-content,
@@ -3721,6 +3739,16 @@ form.quest-calendar {
 }
 
 /* Chat Footer */
+
+.weirdwizard.chat-message .message-footer .bug {
+  display: block;
+  width: 100%;
+  height: 40px;
+  background: var(--bug) no-repeat;
+  background-position: center;
+  background-size: 100%;
+  opacity: 0.5;
+}
 
 .weirdwizard.chat-message .roll-wrapper {
   margin-top: 5px;
@@ -3781,7 +3809,7 @@ form.quest-calendar {
 }
 
 .weirdwizard .dice-comparison > .target-number {
-  background: url(../assets/ui/cross-grey.svg);
+  background: url(../assets/ui/badges/cross-grey.svg);
 }
 
 .weirdwizard .dice-outcome {
