@@ -1,48 +1,57 @@
 <div class="details auto-grid-2">
 
     {{!-- Left Column --}}
-    <div>
-
-        <div>
-            <h1>{{localize "WW.Actor.Appearance"}}</h1>
-            
-            {{editor system.details.appearance.enriched target="system.details.appearance.value" button=true
-                owner=owner editable=editable}}
-            
-        </div>
+    <div class="flexcol">
         
+        {{!-- Appearance --}}
+        {{#if (or editable system.details.appearance.value)}}
         <div>
-            <h1 class="mt-2">{{localize "WW.Actor.Background"}}</h1>
-
-            {{editor system.details.background.enriched target="system.details.background.value" button=true
-                owner=owner editable=editable}}
+            <h2>{{localize "WW.Actor.Appearance"}}</h2>
             
+            {{editor system.details.appearance.enriched target="system.details.appearance.value" button=true owner=owner editable=editable}}            
         </div>
+        {{/if}}
+        
+        {{!-- Background --}}
+        {{#if (or editable system.details.background.value)}}
+        <div>
+            <h2>{{localize "WW.Actor.Background"}}</h2>
+
+            {{editor system.details.background.enriched target="system.details.background.value" button=true owner=owner editable=editable}}
+        </div>
+        {{/if}}
         
     </div>
 
     {{!-- Right Column --}}
-    <div>
+    <div class="flexcol">
 
+        {{!-- Identity --}}
+        {{#if (or editable system.details.personality.value system.details.beliefs.value)}}
         <div>
-            <h1>{{localize "WW.Actor.Identity"}}</h1>
+            <h2>{{localize "WW.Actor.Identity"}}</h2>
 
-            <h2 class="detail-label">{{localize "WW.Actor.Personality"}}</h2>
-            {{editor system.details.personality.enriched target="system.details.personality.value" button=true
-                owner=owner editable=editable}}
+            {{!-- Personality --}}
+            {{#if (or editable system.details.personality.value)}}<h3 class="detail-label">{{localize "WW.Actor.Personality"}}</h3>{{/if}}
+            
+            {{editor system.details.personality.enriched target="system.details.personality.value" button=true owner=owner editable=editable}}
 
-            <h2 class="detail-label">{{localize "WW.Actor.Beliefs"}}</h2>
-            {{editor system.details.beliefs.enriched target="system.details.beliefs.value" button=true
-                owner=owner editable=editable}}
+            {{!-- Beliefs --}}
+            {{#if (or editable system.details.beliefs.value)}}<h3 class="detail-label">{{localize "WW.Actor.Beliefs"}}</h3>{{/if}}
+
+            {{editor system.details.beliefs.enriched target="system.details.beliefs.value" button=true owner=owner editable=editable}}
             
         </div>
+        {{/if}}
+        
+        {{!-- Notes --}}
+        {{#if (or editable system.details.notes.value)}}
+        <div>
+            <h2>{{localize "WW.Actor.Notes"}}</h2>
 
-        <div class="mt-2">
-            <h1>{{localize "WW.Actor.Notes"}}</h1>
-
-            {{editor system.details.notes.enriched target="system.details.notes.value" button=true owner=owner
-                editable=editable}}
+            {{editor system.details.notes.enriched target="system.details.notes.value" button=true owner=owner editable=editable}}
         </div>
+        {{/if}}
         
     </div>
     

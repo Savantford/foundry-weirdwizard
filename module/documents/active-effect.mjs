@@ -12,7 +12,8 @@ export default class WWActiveEffect extends ActiveEffect {
     const obj = {
       selectedDuration: wwflags?.selectedDuration ? wwflags.selectedDuration : '',
       autoDelete: wwflags?.autoDelete ? this.autoDelete : true,
-      external: wwflags?.external ? wwflags.external : false
+      external: wwflags?.external ? wwflags.external : false,
+      uuid: await this.uuid
     };
 
     // Set external flag if it does not exist. Must have a non-passive trigger flag set and a different parent UUID

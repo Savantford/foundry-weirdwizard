@@ -1,3 +1,4 @@
+import QuestCalendar from "./quest-calendar.mjs";
 /**
  * Extend Application to make a Sage Tools app
  * @extends {Application}
@@ -7,7 +8,7 @@ export default class SageTools extends Application {
   static get defaultOptions() {
 
     return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ['form'],
+      classes: ['weirdwizard form'],
       popOut: true,
       submitOnChange: true,
       closeOnSubmit: false,
@@ -15,7 +16,8 @@ export default class SageTools extends Application {
       template: 'systems/weirdwizard/templates/apps/sage-tools.hbs',
       id: 'sage-tools',
       title: 'Sage Tools',
-      height: 500,
+      width: 'auto',
+      height: 'auto',
       top: 70,
       left: 120,
       tabs: [{ navSelector: '.sheet-tabs', contentSelector: '.sheet-body', initial: 'scene' }]
@@ -23,12 +25,12 @@ export default class SageTools extends Application {
 
   }
 
-  getData(options = {}) {
+  async getData(options = {}) {
     const context = super.getData();
 
     // Prepare users
     context.users = [];
-    console.log(CONST)
+    
     for (const user of game.users) {
       if (!user.isGM) context.users.push({
         name: user.name,
@@ -43,7 +45,20 @@ export default class SageTools extends Application {
     context.combat = game.combat;
     context.worldTime = game.weirdwizard.utils.formatTime(game.time.worldTime);
 
-    return context;
+    context.index = {
+      charOptions: await TextEditor.enrichHTML(`
+        index:ancestries
+        index:paths
+        index:professions
+      `),
+      equipment: await TextEditor.enrichHTML(`
+        index:armor
+        index:weapons
+        index:hirelings
+      `),
+    }
+
+    return await context;
   }
 
   /** @inheritdoc */
@@ -81,6 +96,8 @@ export default class SageTools extends Application {
     // Handle buttons
     html.find('.button').click(ev => this._onButtonClick(ev));
 
+    // Quest Calendar
+    html.find('.quest-calendar').click(ev => QuestCalendar.toggleVis('toggle'));
   }
 
   /**

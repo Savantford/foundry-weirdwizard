@@ -13,6 +13,7 @@
         "name": "WW.Tour.Character.Actor",
         "type": "Character",
         "img": "",
+        "injured": true,
         "system": {
           "attributes": {
             "str": {
@@ -246,9 +247,9 @@
     },
     {
       "id": "health-indicator",
-      "selector": ".weirdwizard.character .health",
-      "title": "WW.Tour.Character.Health.Title",
-      "content": "WW.Tour.Character.Health.Content"
+      "selector": ".weirdwizard.character .health-indicator",
+      "title": "WW.Tour.Character.HealthIndicator.Title",
+      "content": "WW.Tour.Character.HealthIndicator.Content"
     },
     {
       "id": "stats",
@@ -261,6 +262,12 @@
       "selector": ".weirdwizard.character .sheet-menu",
       "title": "WW.Tour.Character.SheetMenu.Title",
       "content": "WW.Tour.Character.SheetMenu.Content"
+    },
+    {
+      "id": "editable-mode",
+      "selector": ".weirdwizard.character .editable-icon",
+      "title": "WW.Tour.Character.EditableMode.Title",
+      "content": "WW.Tour.Character.EditableMode.Content"
     },
     {
       "id": "tabs",
@@ -285,8 +292,14 @@
       "content": "WW.Tour.Character.Ancestry.Content"
     },
     {
+      "id": "paths",
+      "selector": ".weirdwizard.character .descriptors",
+      "title": "WW.Tour.Character.Paths.Title",
+      "content": "WW.Tour.Character.Paths.Content"
+    },
+    {
       "id": "level",
-      "selector": ".weirdwizard.character .statbox-level",
+      "selector": ".weirdwizard.character .level-badge",
       "title": "WW.Tour.Character.Level.Title",
       "content": "WW.Tour.Character.Level.Content"
     },
@@ -446,7 +459,7 @@
     },
     {
       "id": "effects-all",
-      "selector": ".weirdwizard.character .tab.effects .effects-list",
+      "selector": ".weirdwizard.character .tab.effects .effects-wrapper",
       "title": "WW.Tour.Character.EffectsAll.Title",
       "content": "WW.Tour.Character.EffectsAll.Content"
     },

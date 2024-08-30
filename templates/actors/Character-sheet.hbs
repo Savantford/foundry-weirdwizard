@@ -1,5 +1,7 @@
-<form class="{{cssClass}} sheet character-sheet {{#if dead}}dead{{else if incapacitated}}incapacitated{{else if injured}}injured{{/if}}" autocomplete="off" spellcheck="false">
-
+<form class="{{cssClass}} sheet character-sheet 
+    {{#if (gte system.stats.level 7)}}master{{else if (gte system.stats.level 3)}}expert{{/if}}
+    {{#if dead}}dead{{else if incapacitated}}incapacitated{{else if injured}}injured{{/if}}" autocomplete="off" spellcheck="false">
+    
     {{!-- Sheet Header --}}
     <header class="sheet-header character-header">
         
@@ -84,7 +86,7 @@
                 <div class="health-header">
                     <label>{{localize "WW.Damage.Label"}}</label>
 
-                    <span class="{{#if injured}}health-indicator{{/if}} {{#if incapacitated}}incapacitated chat-button"
+                    <span class="health-indicator {{#if injured}}injured{{/if}} {{#if incapacitated}}incapacitated chat-button"
                         data-tooltip="{{localize "WW.Health.IncapacitatedHint"}}{{/if}}">
                         {{~#if dead}}{{localize "WW.Health.Estimation.Dead"}}
                             {{~else if incapacitated}}{{localize "WW.Health.Estimation.100"}}
@@ -194,7 +196,10 @@
     </header>
 
     {{!-- Sheet Menu --}}
-    <a class="item sheet-menu" data-tooltip="WW.System.Sheet.Menu"><i class="fas fa-bars"></i></a>
+    <a class="item sheet-menu" data-tooltip="WW.System.Sheet.Menu">
+        <i class="fas fa-bars"></i>
+        <i class="editable-icon fas {{#if editable}}fa-lock-open{{else}}fa-lock{{/if}}"></i>
+    </a>
 
     {{!-- Sheet Tab Navigation --}}
     <nav class="sheet-tabs tabs" data-group="primary">

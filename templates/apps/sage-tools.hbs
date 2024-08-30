@@ -4,10 +4,9 @@
     <div>
         {{!-- Sheet Tab Navigation --}}
         <nav class="sheet-tabs tabs" data-group="primary">
-            <div>
-                <a class="item" data-tab="trackers">{{localize "WW.Sage.Trackers.Label"}}</a>
-                <a class="item" data-tab="users">{{localize "WW.Sage.Users.Label"}}</a>
-            </div>
+            <a class="item" data-tab="trackers">{{localize "WW.Sage.Trackers.Label"}}</a>
+            <a class="item" data-tab="users">{{localize "WW.Sage.Users.Label"}}</a>
+            <a class="item" data-tab="index">{{localize "WW.Sage.Index.Label"}}</a>
         </nav>
 
         <section class="sheet-body">
@@ -22,8 +21,10 @@
 
                         <div>{{worldTime}}</div>
 
-                        <div>
-                            <a class="button" data-action="advance-time" data-tooltip="WW.Sage.Trackers.Time.AdvanceHint">{{localize "WW.Sage.Trackers.Time.Advance"}}</a>
+                        <div class="nowrap">
+                            <a class="button quest-calendar"><i class="far fa-calendar"></i> {{localize "WW.Sage.Trackers.QuestCalendar"}}</a>
+                            
+                            <a class="button" data-action="advance-time" data-tooltip="WW.Sage.Trackers.Time.AdvanceHint"><i class="fas fa-fast-forward"></i> {{localize "WW.Sage.Trackers.Time.Advance"}}</a>
                         </div>
                         
                     </li>
@@ -34,9 +35,9 @@
                         <h2>{{localize "WW.Sage.Trackers.Combat.Label"}}</h2>
                         
                         <div>
-                            <a class="button" data-action="combat-tab">{{localize "WW.Sage.Trackers.Combat.Tab"}}</a>
+                            <a class="button" data-action="combat-tab"><i class="fas fa-right-left"></i> {{localize "WW.Sage.Trackers.Combat.Tab"}}</a>
 
-                            <a class="button" data-action="combat-popout">{{localize "WW.Sage.Trackers.Combat.Popout"}}</a>
+                            <a class="button" data-action="combat-popout"><i class="fas fa-arrow-up-right-from-square"></i> {{localize "WW.Sage.Trackers.Combat.Popout"}}</a>
                         </div>
                     </li>
                     {{/if}}
@@ -48,31 +49,35 @@
             <div class="tab users" data-group="primary" data-tab="users">
                 <ol>
                     {{#each users as |user id|}}
-                    <li>
-                        <h2>{{user.name}}</h2>
+                    <li class="user-actors">
+                        {{!-- User Name --}}
+                        <h3>{{user.name}}</h3>
 
+                        {{!-- User Character --}}
                         <div>
                             <label>{{localize "WW.Sage.Users.Character"}}:</label>
 
-                            <a class="button" data-action="open-sheet" data-uuid="{{user.character.uuid}}">{{user.character.name}}</a>
+                            {{#if user.character}}<a class="button" data-action="open-sheet" data-uuid="{{user.character.uuid}}"><img src="{{user.character.img}}" /> {{user.character.name}}</a>{{else}}{{localize "WW.Sage.Users.NoneAssigned"}}{{/if}}
                         </div>
 
+                        {{!-- User's Actors in Folder --}}
                         {{#if user.folderActors}}
                         <div>
                             <label>{{localize "WW.Sage.Users.FolderActors"}}:</label>
 
                             {{#each user.folderActors as |actor id|}}
-                            <a class="button" data-action="open-sheet" data-uuid="{{actor.uuid}}">{{actor.name}}</a>
+                            <a class="button" data-action="open-sheet" data-uuid="{{actor.uuid}}"><img src="{{actor.texture.src}}" /> {{actor.name}}</a>
                             {{/each}}
                         </div>
                         {{/if}}
 
+                        {{!-- User's Actors in Scene --}}
                         {{#if user.sceneActors}}
                         <div>
                             <label>{{localize "WW.Sage.Users.SceneActors"}}:</label>
 
                             {{#each user.sceneActors as |actor id|}}
-                            <a class="button" data-action="open-sheet" data-uuid="{{actor.uuid}}">{{actor.name}}</a>
+                            <a class="button" data-action="open-sheet" data-uuid="{{actor.uuid}}"><img src="{{actor.texture.src}}" /> {{actor.name}}</a>
                             {{/each}}
                         </div>
                         {{/if}}
@@ -80,6 +85,28 @@
                     {{/each}}
                 </ol>
             </div>
+
+            {{!-- Compendium Index Tab --}}
+            <div class="tab index" data-group="primary" data-tab="index">
+
+                {{!-- Character Options --}}
+                <h2 class="mt-2">{{localize "WW.Sage.Index.CharOptions"}}</h2>
+
+                <div>
+                    {{{index.charOptions}}}
+                </div>
+                
+                {{!-- Equipment --}}
+                <h2>{{localize "WW.Sage.Index.Equipment"}}</h2>
+
+                <div>
+                    {{{index.equipment}}}
+                </div>
+                
+            </div>
+
+            {{!-- Bug --}}
+            <div class="bug"></div>
 
         </section>
     </div>

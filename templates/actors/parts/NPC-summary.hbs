@@ -112,7 +112,7 @@
 
                 {{!-- Defense --}}
                 <div class="defense-line">
-                    <label>{{localize "WW.Defense.Natural"}}:</label>
+                    <label>{{localize "WW.Defense.NaturalNPC"}}:</label>
                     
                     {{!-- Natural Defense --}}
                     <div class="input-wrap">
@@ -121,22 +121,13 @@
                         
                         <div class="input-overlay">{{system.stats.defense.natural}}</div>
                     </div>
-
-                    {{!-- Equipment --}}
-                    {{#if equipment}}
-                    <span class="equipment-list">(<ol class="item-list described-list">
-                        {{#each equipment as |item id|}}
-                            {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
-                        {{/each}}
-                    </ol>)</span>
-                    {{/if}}
                     
                 </div>
 
                 {{!-- Health --}}
                 <div class="nowrap">
                     
-                    <label>{{localize "WW.Health.Normal"}}:</label>
+                    <label>{{localize "WW.Health.NormalNPC"}}:</label>
                     
                     <div class="input-wrap">
                         <input type="number" name="system.stats.health.normal" value="{{system.stats.health.normal}}" min="0" />
@@ -146,6 +137,22 @@
                     
                 </div>
                 
+            </div>
+
+            {{!-- Equipment --}}
+            <div class="stat-inline list-entries equipment-list">
+                    
+                <label>{{localize "WW.Equipment.Label"}}:</label>
+
+                <ol class="item-list described-list">
+                    {{#each equipment as |item id|}}
+                        {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
+                    {{/each}}
+                    {{#unless equipment.length}}<span>—</span>{{/unless}}
+                </ol>
+
+                <a class="item-create" data-tooltip="WW.Item.Add.Equipment" data-type="Equipment" data-subtype="generic"><i class="fas fa-plus-circle"></i></a>
+
             </div>
 
             {{!-- Attributes 1 --}}
@@ -376,27 +383,29 @@
             {{/if}}
 
             {{!-- Traits or Talents --}}
-            <ol class="item-list described-list attacks-list">
+            <ol class="item-list described-list">
                 {{#each talents as |item id|}}
                     {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
                 {{/each}}
             </ol>
 
-        </div>
+            {{!-- Equipment --}}
+            {{#unless editable}}
+            <div class="stat-inline list-entries equipment-list">
+                    
+                <label>{{localize "WW.Equipment.Label"}}:</label>
 
-        {{!-- Equipment --}}
-        <div class="stat-inline list-entries">
-                
-            <label>{{localize "WW.Equipment.Label"}}:</label>
+                <ol class="item-list described-list">
+                    {{#each equipment as |item id|}}
+                        {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
+                    {{/each}}
+                    {{#unless equipment.length}}<span>—</span>{{/unless}}
+                </ol>
 
-            <ol class="item-list described-list">
-                {{#each equipment as |item id|}}
-                    {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
-                {{/each}}
-                {{#unless equipment.length}}<span>—</span>{{/unless}}
-            </ol>
+                <a class="item-create" data-tooltip="WW.Item.Add.Equipment" data-type="Equipment" data-subtype="generic"><i class="fas fa-plus-circle"></i></a>
 
-            <a class="item-create" data-tooltip="WW.Item.Add.Equipment" data-type="Equipment" data-subtype="generic"><i class="fas fa-plus-circle"></i></a>
+            </div>
+            {{/unless}}
 
         </div>
 
@@ -405,9 +414,9 @@
     {{!-- Statbox: Right Column --}}
     <div class="statbox">
         
-        {{!-- Actions / Reactions Section --}}
+        {{!-- Actions Section --}}
         {{#if (or editable weapons.length actions.length)}}
-        <div class="statbox-section">
+        <div class="statbox-section actions">
             
             <h6>
                 <img src="systems/weirdwizard/assets/icons/actions.svg"/>
@@ -450,7 +459,7 @@
         
         {{!-- Reactions Section --}}
         {{#if (or editable reactions.length)}}
-        <div class="statbox-section">
+        <div class="statbox-section reactions">
 
             <h6>
                 <img src="systems/weirdwizard/assets/icons/reactions.svg"/>
@@ -469,7 +478,7 @@
         
         {{!-- End of Round Section --}}
         {{#if (or editable end.length)}}
-        <div class="statbox-section">
+        <div class="statbox-section ends">
 
             <h6>
                 <img src="systems/weirdwizard/assets/icons/duration.svg"/>

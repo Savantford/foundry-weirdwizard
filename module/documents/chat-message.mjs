@@ -1,7 +1,7 @@
 import { i18n, capitalize } from '../helpers/utils.mjs';
 
 /**
- * The client-side ChatMessage document which extends the common BaseChatMessage model.
+ * A custom chat message that extends the client-side ChatMessage document.
  *
  * @extends ChatMessage
  *
@@ -25,25 +25,20 @@ export default class WWChatMessage extends ChatMessage {
   /*  Methods                                     */
   /* -------------------------------------------- */
 
-  /** @inheritdoc */
-  prepareDerivedData() {
-    super.prepareDerivedData();
-    
-  }
-
   /**
    * Render the HTML for the ChatMessage which should be added to the log
    * @override
    * @returns {Promise<jQuery>}
    */
   async getHTML() {   
+    
     // Determine some metadata
     const data = this.toObject(false);
     const itemUuid = (data.flags?.weirdwizard?.item && (typeof data.flags?.weirdwizard?.item === 'string')) ? data.flags.weirdwizard.item : null;
     const item = await fromUuid(itemUuid);
     const icon = (data.flags?.weirdwizard?.icon && (typeof data.flags?.weirdwizard?.icon === 'string')) ? data.flags.weirdwizard.icon : null;
     const isWhisper = this.whisper.length;
-
+    
     // Prepare content
     const emptyContent = data.flags?.weirdwizard?.emptyContent ?? data.flags?.weirdwizard?.emptyContent;
     
@@ -54,7 +49,7 @@ export default class WWChatMessage extends ChatMessage {
     });
 
     // Prepare rollHtml
-    const rollHtml = data.flags?.weirdwizard?.rollHtml ? data.flags.weirdwizard.rollHtml : '';
+    //const rollHtml = data.flags?.weirdwizard?.rollHtml ? data.flags.weirdwizard.rollHtml : '';
 
     // Prepare item
     if (item) {
@@ -98,7 +93,9 @@ export default class WWChatMessage extends ChatMessage {
       avatar: this.avatar,
       icon: icon,
       item: item ? {
-        type: item.system.subtype ? this.getTypeLabel(item.system.subtype) : this.getTypeLabel(item.type),
+        type: this.getTypeLabel(item.type),
+        subtype: item.system.subtype ? this.getTypeLabel(item.system.subtype) : '',
+        magical: item.system.magical ? 'magical' : '',
         source: item.system.source ? item.system.source : null,
         tier: item.system.tier ? item.system.tier : null,
         isWeapon: item.system.subtype ?? item.system.subtype,
@@ -107,7 +104,7 @@ export default class WWChatMessage extends ChatMessage {
         isSpell: item.type === 'Spell',
         spellHeader: item.spellHeader
       } : null,
-      rollHtml: rollHtml,
+      rollHtml: await this._renderRollHTML(false),//rollHtml, -- rollHtml no longer needed
       emptyContent: emptyContent,
       cssClass: [
         this.style === styles.IC ? "ic" : null,
@@ -116,6 +113,7 @@ export default class WWChatMessage extends ChatMessage {
         this.blind ? "blind": null
       ].filterJoin(" "),
       isWhisper: this.whisper.length,
+      showPrivate: this.isContentVisible,
       canDelete: game.user.isGM,  // Only GM users are allowed to have the trash-bin icon in the chat log itself
       whisperTo: this.whisper.map(u => {
         let user = game.users.get(u);
@@ -124,8 +122,8 @@ export default class WWChatMessage extends ChatMessage {
     };
 
     // Render message data specifically for ROLL type messages
-    if ( this.isRoll ) await this._renderRollContent(messageData); // This was making the Roll being rendered twice and thus losing data. No longer true?
-
+    if ( this.isRoll ) await this._renderRollContent(messageData);
+    
     // Define a border color
     if ( this.style === styles.OOC ) messageData.borderColor = this.author?.color.css;
 
@@ -139,6 +137,57 @@ export default class WWChatMessage extends ChatMessage {
     
     return html;
   }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Render the inner HTML content for ROLL type messages.
+   * @param {object} messageData      The chat message data used to render the message HTML
+   * @returns {Promise}
+   * @private
+   */
+  async _renderRollContent(messageData) {
+    const data = messageData.message;
+
+    // Suppress the "to:" whisper flavor for private rolls
+    if ( this.blind || this.whisper.length ) messageData.isWhisper = false;
+    
+    // Display standard Roll HTML content
+    if ( this.isContentVisible ) {
+      const el = document.createElement("div");
+      el.innerHTML = data.content;  // Ensure the content does not already contain custom HTML
+      //if ( !el.childElementCount && this.rolls.length ) data.content = await this._renderRollHTML(false); // Render Public Rolls
+    }
+    
+    // Otherwise, show "rolled privately" messages for Roll content
+    else {
+      const name = this.author?.name ?? game.i18n.localize("CHAT.UnknownUser");
+      data.flavor = game.i18n.format("CHAT.PrivateRollContent", {user: name});
+      //data.content += await this._renderRollHTML(true); // Render Private Rolls
+      messageData.alias = name;
+      messageData.icon = null;
+    }
+
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Render HTML for the array of Roll objects included in this message.
+   * @param {boolean} isPrivate   Is the chat message private?
+   * @returns {Promise<string>}   The rendered HTML string
+   * @private
+   */
+  async _renderRollHTML(isPrivate) {
+    let html = "";
+    
+    for ( const roll of this.rolls ) {
+      html += await roll.render({isPrivate});
+    }
+    return html;
+  }
+
+  /* -------------------------------------------- */
 
   getTypeLabel(type) {
     const i18n = (s,d={}) => game.i18n.format(s,d);

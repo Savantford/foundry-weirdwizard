@@ -466,6 +466,10 @@ WW.EFFECT_OPTIONS = {
       'boons.luck': {
         key: 'system.boons.attributes.luck.global',
         label: 'WW.Effect.Keys.Boons.Luck'
+      },
+      'boons.attack': {
+        key: 'system.boons.attacks.global',
+        label: 'WW.Effect.Keys.Boons.Attack'
       }
     }
   },
@@ -491,6 +495,10 @@ WW.EFFECT_OPTIONS = {
       'banes.luck': {
         key: 'system.boons.attributes.luck.global',
         label: 'WW.Effect.Keys.Banes.Luck'
+      },
+      'banes.attack': {
+        key: 'system.boons.attacks.global',
+        label: 'WW.Effect.Keys.Banes.Attack'
       }
     }
   },

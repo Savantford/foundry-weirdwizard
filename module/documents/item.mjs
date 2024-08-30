@@ -45,7 +45,7 @@ export default class WWItem extends Item {
         break;
 
         case 'Profession':
-          icon = 'icons/svg/book.svg';
+          icon = 'systems/weirdwizard/assets/icons/professions/dig-dug.svg';
         break;
   
         case 'Path':
@@ -115,6 +115,11 @@ export default class WWItem extends Item {
       if (changed.system?.tier) {
         await this._onTierChange(await changed);
       }
+    }
+
+    // If Profession category is changed and the icon is one of the default ones, change base icon
+    if (this.type === 'Profession' && changed.system?.category !== this.system.category && (this.img === 'icons/svg/book.svg' || this.img.includes('systems/weirdwizard/assets/icons/professions'))) {
+      await this._onProfessionCategoryChange(await changed);
     }
     
     await super._preUpdate(await changed, options, user);
@@ -210,6 +215,25 @@ export default class WWItem extends Item {
     }
 
     if (data.system?.benefits) data.system.benefits = benefits;
+    
+  }
+
+  /* -------------------------------------------- */
+
+  async _onProfessionCategoryChange(data) {
+    const category = await data.system?.category ? data.system.category : await this.system.category;
+    const path = 'systems/weirdwizard/assets/icons/professions/';
+    
+    switch (category) {
+      case 'academic': data.img = 'icons/svg/book.svg'; break;
+      case 'aristocratic': data.img = path + 'wax-seal.svg'; break;
+      case 'commoner': data.img = path + 'dig-dug.svg'; break;
+      case 'criminal': data.img = path + 'manacles.svg'; break;
+      case 'entertainment': data.img = path + 'banjo.svg'; break;
+      case 'religious': data.img = path + 'fire-shrine.svg'; break;
+      case 'military': data.img = path + 'saber-and-pistol.svg'; break;
+      case 'wilderness': data.img = path + 'compass.svg'; break;
+    }
     
   }
 

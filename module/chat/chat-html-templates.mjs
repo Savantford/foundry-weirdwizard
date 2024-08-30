@@ -1,11 +1,11 @@
 import { i18n } from '../helpers/utils.mjs';
 
-// Prepare Dice Total html template
+// Prepare Dice Total html template - obsolete?
 export async function diceTotalHtml(roll) {
   return '<span class="owner-only">' + await roll.render() + '</span><h4 class="secret-dice-total non-owner-only">' + await roll.total + '</h4>';
 }
 
-// Prepare html header for a target
+// Prepare html header for a target - obsolete?
 export function targetHeader(target, html, noItem) {
   if ((target.id === undefined) || noItem) return (html ? html : '');
 
@@ -144,6 +144,92 @@ export function actionFromLabel(label) {
   }
   
   return action;
+}
+
+/* Prepare a complementary object from a label string */
+export function dataFromLabel(label) {
+  
+  const data = {
+    action: label.includes('apply') ? label : actionFromLabel(label),
+    icon: 'dice',
+    img: '',
+    loc: 'WW.InstantEffect.Button.',
+    showNo: true
+  }
+
+  switch (data.action) {
+    /* Roll Actions */
+    case 'roll-damage': {
+      data.loc += 'Damage';
+      break;
+    }
+    case 'roll-healing': {
+      data.loc += 'Healing';
+      break;
+    }
+    case 'roll-health-loss': {
+      data.loc += 'HealthLoss';
+      break;
+    }
+    case 'roll-health-regain': {
+      data.loc += 'HealthRegain';
+      break;
+    }
+    case 'apply-affliction': {
+      data.icon = 'skull-crossbones';
+      data.loc = 'WW.InstantEffect.Affliction';
+      break;
+    }
+    /* Apply Actions */
+    case 'apply-damage': {
+      data.img = '/systems/weirdwizard/assets/icons/rough-wound-black.svg';
+      data.loc += 'Damage';
+      data.showNo = false;
+      break;
+    }
+    case 'apply-damage-half': {
+      data.img = '/systems/weirdwizard/assets/icons/slashed-shield-black.svg';
+      data.loc += 'Half';
+      data.showNo = false;
+      break;
+    }
+    case 'apply-damage-double': {
+      data.img = '/systems/weirdwizard/assets/icons/cross-mark-black.svg';
+      data.loc += 'Double';
+      data.showNo = false;
+      break;
+    }
+    case 'apply-healing': {
+      data.img = '/systems/weirdwizard/assets/icons/caduceus-black.svg';
+      data.loc += 'Healing';
+      data.showNo = false;
+      break;
+    }
+    case 'apply-health-loss': {
+      data.img = '/systems/weirdwizard/assets/icons/health-decrease-black.svg';
+      data.loc += 'LoseHealth';
+      data.showNo = false;
+      break;
+    }
+    case 'apply-health-regain': {
+      data.img = '/systems/weirdwizard/assets/icons/health-increase-black.svg';
+      data.loc += 'RegainHealth';
+      data.showNo = false;
+      break;
+    }
+    case 'apply-effect': {
+      data.icon = 'hand-holding-magic';
+      data.loc = 'WW.Effect.Apply';
+      data.showNo = false;
+      break;
+    }
+  }
+
+  return data;
+}
+
+/* Prepare a complementary object from a label string */
+export function actDataFromLabel(label) {
 }
 
 // Add intant effects to chat message html
