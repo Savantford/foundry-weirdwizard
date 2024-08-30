@@ -6,9 +6,9 @@
   "steps": [
     {
       "id": "sheet",
-      "selector": ".weirdwizard .window-content",
+      "selector": ".weirdwizard.npc",
       "title": "WW.Tour.NPC.Sheet.Title",
-      "content": "WW.Tour.NPC.Sheet..Content",
+      "content": "WW.Tour.NPC.Sheet.Content",
       "actor": {
         "name": "WW.Tour.NPC.Actor",
         "type": "NPC",
@@ -24,6 +24,11 @@
             "health": {
               "current": 10
             }
+          },
+          "details": {
+            "senses": [
+              { "name": "Keen Vision" }
+            ]
           }
         },
         "items": [
@@ -48,7 +53,7 @@
             }
           },
           {
-            "name": "WW.Tour.NPC.Items.Talent",
+            "name": "WW.Tour.NPC.Items.Trait",
             "type": "Trait or Talent",
             "img": "icons/magic/defensive/illusion-evasion-echo-purple.webp",
             "system": {
@@ -88,79 +93,145 @@
             }
           },
           {
-            "name": "WW.Tour.NPC.Items.Fury",
+            "name": "WW.Tour.NPC.Items.Reaction",
             "type": "Trait or Talent",
             "img": "icons/magic/control/silhouette-aura-energy.webp",
             "system": {
               "description": {
                 "value": "<p>Example description.</p>"
               },
-              "subtype": "fury",
+              "subtype": "reaction",
               "uses": {
-                "value": 2,
-                "max": 3
+                "value": 0,
+                "max": 1
               }
+            }
+          },
+          {
+            "name": "WW.Tour.NPC.Items.End",
+            "type": "Trait or Talent",
+            "img": "icons/magic/control/silhouette-aura-energy.webp",
+            "system": {
+              "description": {
+                "value": "<p>Example description.</p>"
+              },
+              "subtype": "end"
             }
           }
         ]
       }
     },
     {
+      "id": "difficulty",
+      "selector": ".weirdwizard.npc .level-badge",
+      "title": "WW.Tour.NPC.Difficulty.Title",
+      "content": "WW.Tour.NPC.Difficulty.Content"
+    },
+    {
+      "id": "banner",
+      "selector": ".weirdwizard.npc .sheet-banner",
+      "title": "WW.Tour.NPC.Banner.Title",
+      "content": "WW.Tour.NPC.Banner.Content"
+    },
+    {
+      "id": "disposition",
+      "selector": ".weirdwizard.npc .change-disposition",
+      "title": "WW.Tour.NPC.Disposition.Title",
+      "content": "WW.Tour.NPC.Disposition.Content"
+    },
+    {
+      "id": "profile-menu",
+      "selector": ".weirdwizard.npc .profile-img-menu",
+      "title": "WW.Tour.NPC.ProfileMenu.Title",
+      "content": "WW.Tour.NPC.ProfileMenu.Content"
+    },
+    {
+      "id": "defense",
+      "selector": ".weirdwizard.npc .health-block .defense",
+      "title": "WW.Tour.NPC.Defense.Title",
+      "content": "WW.Tour.NPC.Defense.Content"
+    },
+    {
+      "id": "health",
+      "selector": ".weirdwizard.npc .health-block .health",
+      "title": "WW.Tour.NPC.Health.Title",
+      "content": "WW.Tour.NPC.Health.Content"
+    },
+    {
+      "id": "npc-stats",
+      "selector": ".weirdwizard.npc .npc-stats",
+      "title": "WW.Tour.NPC.Stats.Title",
+      "content": "WW.Tour.NPC.Stats.Content"
+    },
+    {
       "id": "summary",
-      "selector": ".weirdwizard .tab.summary",
+      "selector": ".weirdwizard.npc .tab.summary",
       "title": "WW.Tour.NPC.Summary.Title",
       "content": "WW.Tour.NPC.Summary.Content"
     },
     {
+      "id": "descriptors",
+      "selector": ".weirdwizard.npc .descriptors",
+      "title": "WW.Tour.NPC.Descriptors.Title",
+      "content": "WW.Tour.NPC.Descriptors.Content"
+    },
+    {
+      "id": "attributes",
+      "selector": ".weirdwizard.npc .attributes",
+      "title": "WW.Tour.NPC.Attributes.Title",
+      "content": "WW.Tour.NPC.Attributes.Content"
+    },
+    {
       "id": "statbox",
-      "selector": ".weirdwizard .statbox",
+      "selector": ".weirdwizard.npc .statbox-sections",
       "title": "WW.Tour.NPC.Statbox.Title",
       "content": "WW.Tour.NPC.Statbox.Content"
     },
     {
-      "id": "header",
-      "selector": ".weirdwizard .statbox-superheader",
-      "title": "WW.Tour.NPC.Header.Title",
-      "content": "WW.Tour.NPC.Header.Content"
-    },
-    {
       "id": "talents",
-      "selector": ".weirdwizard .talents-section",
+      "selector": ".weirdwizard.npc .talents-section",
       "title": "WW.Tour.NPC.Talents.Title",
       "content": "WW.Tour.NPC.Talents.Content"
     },
     {
       "id": "buttons",
-      "selector": ".weirdwizard .described-list .buttons",
+      "selector": ".weirdwizard.npc .described-list .buttons",
       "title": "WW.Tour.NPC.Buttons.Title",
       "content": "WW.Tour.NPC.Buttons.Content"
     },
     {
-      "id": "attacks",
-      "selector": ".weirdwizard .attacks-list",
-      "title": "WW.Tour.NPC.Attacks.Title",
-      "content": "WW.Tour.NPC.Attacks.Content"
+      "id": "equipment",
+      "selector": ".weirdwizard.npc .talents-section .equipment-list",
+      "title": "WW.Tour.NPC.Equipment.Title",
+      "content": "WW.Tour.NPC.Equipment.Content"
     },
-    
     {
       "id": "actions",
-      "selector": ".weirdwizard .actions-list",
+      "selector": ".weirdwizard.npc .statbox-section.actions",
       "title": "WW.Tour.NPC.Actions.Title",
       "content": "WW.Tour.NPC.Actions.Content"
     },
     {
-      "id": "fury",
-      "selector": ".weirdwizard .fury-list",
-      "title": "WW.Tour.NPC.Fury.Title",
-      "content": "WW.Tour.NPC.Fury.Content",
-      "tab": {
-        "parent": "actor",
-        "id": "summary"
-      }
+      "id": "attacks",
+      "selector": ".weirdwizard.npc .statbox-section.actions .attacks-list",
+      "title": "WW.Tour.NPC.Attacks.Title",
+      "content": "WW.Tour.NPC.Attacks.Content"
+    },
+    {
+      "id": "reactions",
+      "selector": ".weirdwizard.npc .statbox-section.reactions",
+      "title": "WW.Tour.NPC.Reactions.Title",
+      "content": "WW.Tour.NPC.Reactions.Content"
+    },
+    {
+      "id": "end",
+      "selector": ".weirdwizard.npc .statbox-section.ends",
+      "title": "WW.Tour.NPC.End.Title",
+      "content": "WW.Tour.NPC.End.Content"
     },
     {
       "id": "description",
-      "selector": ".weirdwizard .tab.description",
+      "selector": ".weirdwizard.npc .tab.description",
       "title": "WW.Tour.NPC.Description.Title",
       "content": "WW.Tour.NPC.Description.Content",
       "tab": {
@@ -169,18 +240,8 @@
       }
     },
     {
-      "id": "stats",
-      "selector": ".weirdwizard .tab.stats",
-      "title": "WW.Tour.NPC.Stats.Title",
-      "content": "WW.Tour.NPC.Stats.Content",
-      "tab": {
-        "parent": "actor",
-        "id": "stats"
-      }
-    },
-    {
       "id": "effects",
-      "selector": ".weirdwizard .tab.effects",
+      "selector": ".weirdwizard.npc .tab.effects",
       "title": "WW.Tour.NPC.Effects.Title",
       "content": "WW.Tour.NPC.Effects.Content",
       "tab": {

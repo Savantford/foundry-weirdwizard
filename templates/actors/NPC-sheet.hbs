@@ -1,4 +1,4 @@
-<form class="{{cssClass}} sheet npc-sheet {{#if dead}}dead{{else if incapacitated}}incapacitated{{else if injured}}injured{{/if}}" autocomplete="off">
+<form class="{{cssClass}} sheet npc-sheet {{#if (eq disposition 1)}}ally{{/if}} {{#if dead}}dead{{else if incapacitated}}incapacitated{{else if injured}}injured{{/if}}" autocomplete="off">
 
     {{!-- Sheet Header --}}
     <header class="sheet-header npc-header">
@@ -24,7 +24,7 @@
                 {{> "systems/weirdwizard/templates/actors/parts/portrait.hbs" img=actor.img token=true}}
 
                 {{!-- Health Indicator --}}
-                <span class="{{#if injured}}health-indicator{{/if}} {{#if incapacitated}}incapacitated{{/if}}">
+                <span class="health-indicator {{#if injured}}injured{{/if}} {{#if incapacitated}}incapacitated{{/if}}">
                         {{~#if dead}}{{localize "WW.Health.Estimation.Dead"}}
                             {{~else if incapacitated}}{{localize "WW.Health.Estimation.100"}}
                             {{~else if injured}}{{localize "WW.Health.Estimation.50"}}

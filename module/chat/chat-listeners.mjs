@@ -264,28 +264,35 @@ async function _onChatRoll(dataset, label, nextAction) {
 function _onMessageCollapse(ev) {
   
   const button = ev.currentTarget,
-    icon = $(button).find('i'),
-    msg = $(button).parents('.chat-message'),
-    traits = msg.find('.traits-container'),
-    wrapper = msg.find('.message-wrapper'),
-    footer = msg.find('.message-footer > *')
-  ;
+  icon = $(button).find('i'),
+  msg = $(button).parents('.chat-message');
+  
+  const elements = {
+    traits: msg.find('.traits-container'),
+    wrapper: msg.find('.message-wrapper'),
+    wrapperChildren: msg.find('.message-wrapper > *'),
+    footer: msg.find('.message-footer > *'),
+    bug: msg.find('.bug'),
+    subheader: msg.find('.message-subheader-details')
+  }
   
   // Flip states
   if (icon.hasClass('fa-square-plus')) {
     $(button).attr('data-tooltip', 'WW.Item.HideDesc')
     icon.removeClass('fa-square-plus').addClass('fa-square-minus');
-    traits.slideDown(500);   
-    wrapper.slideDown(500);
-    wrapper.children().slideDown(500);
-    footer.slideDown(500);
+
+    for (const el in elements) {
+      elements[el].slideDown(500);
+    };
+    
   } else {
     $(button).attr('data-tooltip', 'WW.Item.ShowDesc')
     icon.removeClass('fa-square-minus').addClass('fa-square-plus');
-    traits.slideUp(500);
-    wrapper.slideUp(500);
-    wrapper.children().slideUp(500);
-    footer.slideUp(500);
+
+    for (const el in elements) {
+      elements[el].slideUp(500);
+    };
+    
   }
   
 }

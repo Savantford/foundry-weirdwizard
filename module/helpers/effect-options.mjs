@@ -5,7 +5,8 @@ effChanges.boons = {
   agi: addInt(),
   int: addInt(),
   wil: addInt(),
-  luck: addInt()
+  luck: addInt(),
+  attack: addInt()
 }
 
 effChanges.banes = {
@@ -13,7 +14,8 @@ effChanges.banes = {
   agi: addInt(),
   int: addInt(),
   wil: addInt(),
-  luck: addInt()
+  luck: addInt(),
+  attack: addInt()
 }
 
 effChanges.autoFail = {

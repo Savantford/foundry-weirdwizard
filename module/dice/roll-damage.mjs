@@ -1,5 +1,5 @@
 import { i18n } from '../helpers/utils.mjs'
-import { chatMessageButtonArray, diceTotalHtml } from '../chat/chat-html-templates.mjs';
+//import { chatMessageButtonArray, diceTotalHtml } from '../chat/chat-html-templates.mjs';
 import WWRoll from '../dice/roll.mjs';
 
 /**
@@ -8,6 +8,7 @@ import WWRoll from '../dice/roll.mjs';
 */
 
 export default class RollDamage extends FormApplication {
+
   constructor(obj) {
     super(); // This is required for the constructor to work
     
@@ -15,7 +16,6 @@ export default class RollDamage extends FormApplication {
     this.origin = fromUuidSync(obj.originUuid);
     
     if (this.origin?.documentName === 'Item') {
-      console.log('chegaste')
       this.item = this.origin;
       this.isAttack = this.item.system.subtype == 'weapon' ? true : false;
       this.actor = this.origin.parent;
@@ -175,11 +175,13 @@ export default class RollDamage extends FormApplication {
     }
 
     // Prepare roll
-    const r = await new WWRoll(this.finalExp, {}, { template: "systems/weirdwizard/templates/chat/roll.hbs" }).evaluate();
+    const r = await new WWRoll(this.finalExp, {}, {
+      template: "systems/weirdwizard/templates/chat/roll.hbs",
+      dataset: dataset
+    }).evaluate();
     dataset.value = await r.total;
     const rollArray= [r];
-    const rollHtml = await diceTotalHtml(r);
-
+    
     const messageData = {
       type: CONST.CHAT_MESSAGE_TYPES.ROLL,
       rolls: rollArray,
@@ -188,8 +190,8 @@ export default class RollDamage extends FormApplication {
       content: '',
       sound: CONFIG.sounds.dice,
       'flags.weirdwizard': {
+        icon: this.item?.img,
         item: this.item?.uuid,
-        rollHtml: rollHtml + chatMessageButtonArray(dataset),
         emptyContent: true
       }
     };

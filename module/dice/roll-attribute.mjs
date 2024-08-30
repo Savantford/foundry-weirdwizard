@@ -1,4 +1,4 @@
-import { actionFromLabel, buttonsHeader, chatMessageButton, diceTotalHtml, targetHeader } from '../chat/chat-html-templates.mjs';
+//import { actionFromLabel, buttonsHeader, chatMessageButton, diceTotalHtml, targetHeader } from '../chat/chat-html-templates.mjs';
 import { i18n, plusify } from '../helpers/utils.mjs';
 import WWRoll from '../dice/roll.mjs';
 
@@ -8,6 +8,7 @@ import WWRoll from '../dice/roll.mjs';
 */
 
 export default class RollAttribute extends FormApplication {
+
   constructor(obj) {
     super(); // This is required for the constructor to work
     
@@ -75,12 +76,6 @@ export default class RollAttribute extends FormApplication {
     context.attackBoons = this.attackBoons;
     context.targeted = this.action === 'targeted-use' ? true : false;
 
-    /*if (this.item?.effects) {
-      for (const e of this.item.effects) {
-        if (e.target == 'tokens') context.needTargets = true;
-      }
-    }*/
-
     return context
   }
 
@@ -121,19 +116,18 @@ export default class RollAttribute extends FormApplication {
   async _updateObject(event, formData) { // Update actor data.
     const against = this.against,
       boonsFinal = this.boonsFinal,
-      originUuid = this.origin.uuid,
       targeted = (this.action === 'targeted-use' || game.user.targets?.size) ? true : false;
     ;
 
     let rollHtml = '',
       boons = "0",
-      rollArray = []
+      rollsArray = []
     ;
     
     if (targeted && against) { // If Action is Targeted and Against is filled; perform one separate roll for each target
 
       for (const t of this.targets) {
-
+        
         // Set boons text
         const boonsNo = parseInt(boonsFinal) + (t.boonsAgainst ? t.boonsAgainst[against] : 0);
         if (boonsNo != 0) { boons = (boonsNo < 0 ? "" : "+") + boonsNo + "d6kh" } else { boons = ""; };
@@ -143,10 +137,19 @@ export default class RollAttribute extends FormApplication {
 
         // Get and set target number
         const targetNo = against == 'def' ? t.defense : t.attributes[against].value;
-
+        
         // Construct the Roll instance and evaluate the roll
-        let r = await new WWRoll(rollFormula, { targetNo: targetNo, attribute: this.attribute, against: against }, { template: "systems/weirdwizard/templates/chat/roll.hbs" }).evaluate();
-
+        const r = await new WWRoll(rollFormula, {}, {
+          template: "systems/weirdwizard/templates/chat/roll.hbs",
+          originUuid: this.origin.uuid,
+          target: t,
+          attribute: this.attribute,
+          against: against,
+          targetNo: targetNo,
+          instEffs: this.instEffs,
+          actEffs: this.actEffs
+        }).evaluate();
+        
         // Save the roll order
         const index = this.targets.findIndex(obj => { return obj.id === t.id; });
 
@@ -208,13 +211,13 @@ export default class RollAttribute extends FormApplication {
         }
 
         // Push roll to roll array
-        rollArray.push(r);
+        rollsArray.push(r);
 
         // Add the target name, the roll result and the onUse instant effects to the chat message
-        let targetHtml = await diceTotalHtml(r);
+        //let targetHtml = ''; //await diceTotalHtml(r); - handled by WWRoll
         
         // Evaluate target number
-        const success = await r.total >= targetNo;
+        /*const success = await r.total >= targetNo;
         const critical = await r.total >= 20 && await r.total >= targetNo + 5;
         
         if (critical) {
@@ -227,10 +230,10 @@ export default class RollAttribute extends FormApplication {
 
         } else {
           targetHtml += this._addEffectButtons('onFailure', { target: t.id });
-        }
+        }*/
 
-        // Add targetHtml to rollHtml
-        rollHtml += targetHeader(t, targetHtml, !this.item);
+        // Add targetHtml to rollHtml - handled by WWRoll now
+        //rollHtml += targetHeader(t, targetHtml, !this.item);
 
       };
 
@@ -246,7 +249,16 @@ export default class RollAttribute extends FormApplication {
       const targetNo = formData.targetno ? formData.targetno : '';
 
       // Construct the Roll instance and evaluate the roll
-      let r = await new WWRoll(rollFormula, { targetNo: targetNo, attribute: this.attribute, against: against }, { template: "systems/weirdwizard/templates/chat/roll.hbs" }).evaluate();
+      
+      const r = await new WWRoll(rollFormula, {}, {
+        template: "systems/weirdwizard/templates/chat/roll.hbs",
+        originUuid: this.origin.uuid,
+        attribute: this.attribute,
+        against: against,
+        targetNo: targetNo,
+        instEffs: this.instEffs,
+        actEffs: this.actEffs
+      }).evaluate();
 
       // Set the roll order and color dice for DSN
       for (let i = 0; i < r.dice.length; i++) {
@@ -306,13 +318,13 @@ export default class RollAttribute extends FormApplication {
       }
 
       // Push roll to roll array
-      rollArray.push(r);
+      rollsArray.push(r);
 
-      // Add the target name, the roll result and the onUse instant effects to the chat message
-      rollHtml += await diceTotalHtml(r);
+      // Add the target name, the roll result to the chat message - handled by WWRoll
+      //rollHtml += await diceTotalHtml(r);
 
       // Evaluate target number
-      const success = await r.total >= targetNo;
+      /*const success = await r.total >= targetNo;
       const critical = await r.total >= 20 && await r.total >= targetNo + 5;
       
       if (targeted) { // Roll is targeted
@@ -343,14 +355,13 @@ export default class RollAttribute extends FormApplication {
           rollHtml += this._addEffectButtons('onFailure');
         }
 
-      }
+      }*/
 
     }
-    
     // Create message data
     const messageData = {
       /*type: CONST.CHAT_MESSAGE_TYPES.ROLL,*/ // No longer needed
-      rolls: rollArray,
+      rolls: rollsArray,
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
       flavor: this.label,
       content: this.content,
@@ -361,7 +372,7 @@ export default class RollAttribute extends FormApplication {
         rollHtml: rollHtml,
         emptyContent: !this.content ?? true
       }
-    };
+    }
     
     await ChatMessage.applyRollMode(messageData, game.settings.get('core', 'rollMode'));
     
@@ -458,7 +469,7 @@ export default class RollAttribute extends FormApplication {
 
   }
 
-  _addWeaponDamage(target) {
+  /*_addWeaponDamage(target) {
     let finalHtml = '';
 
     // Get Variables
@@ -475,12 +486,12 @@ export default class RollAttribute extends FormApplication {
     }
 
     return finalHtml;
-  }
+  }*/
 
-  _addEffectButtons(trigger, options = { target: null, singleRoll: false }) {
+  /*_addEffectButtons(trigger, options = { target: null, singleRoll: false }) {
     const origin = this.origin.uuid,
       instEffs = this.instEffs[trigger],
-      actEffs = this.effects[trigger],
+      actEffs = this.actEffs[trigger],
       target = options.target,
       targets = target ? this.targets.filter(t => t.id === target) : this.targets;
     
@@ -566,7 +577,7 @@ export default class RollAttribute extends FormApplication {
     }
     
     return finalHtml;
-  }
+  }*/
 
   _compareDispo(effTarget, compared) {
     const dispo = canvas.tokens.get(compared)?.document?.disposition;
@@ -604,8 +615,8 @@ export default class RollAttribute extends FormApplication {
     return targets
   }
 
-  get effects() {
-    let effs = {
+  get actEffs() {
+    const effs = {
       onUse: [],
       onSuccess: [],
       onCritical: [],
@@ -613,6 +624,7 @@ export default class RollAttribute extends FormApplication {
     }
     
     this.item?.effects?.forEach(e => {
+      if (!e.flags.weirdwizard.uuid) e.setFlag('weirdwizard', 'uuid', e.uuid);
       switch (e.trigger) {
         case 'onUse': {
           effs.onUse.push(e);
@@ -626,18 +638,34 @@ export default class RollAttribute extends FormApplication {
       }
 
     })
-
+    
     return effs;
   }
 
   get instEffs() {
-    let effs = {
+    const effs = {
       onUse: [],
       onSuccess: [],
       onCritical: [],
       onFailure: []
     }
+
+    // Add Weapon Damage
+    const itemSystem = this.origin.system;
+    const weaponDamage = (itemSystem.subtype == 'weapon' && itemSystem.damage) ? itemSystem.damage : 0;
     
+    if (weaponDamage) {
+      const eff = {
+        label: 'damage',
+        originUuid: this.item?.uuid,
+        value: weaponDamage
+      };
+
+      effs.onSuccess.push(eff);
+      effs.onCritical.push(eff);
+    }
+    
+    // Add Instant Effects
     this.item?.system?.instant?.forEach(e => {
       
       switch (e.trigger) {
@@ -653,7 +681,7 @@ export default class RollAttribute extends FormApplication {
       }
 
     })
-
+    
     return effs;
   }
 
@@ -672,8 +700,4 @@ export default class RollAttribute extends FormApplication {
 
     return targetIds;
   }
-}
-
-function _secretLabel(label) {
-  return '<span class="owner-only">' + label + '</span><span class="non-owner-only">? ? ?</span>'
 }

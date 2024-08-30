@@ -81,6 +81,7 @@ export default class WWActor extends Actor {
   }
 
   async _onCreate(data, options, user) {
+
     // Fix Health and Incapacitated
     this.incapacitated = false;
     
@@ -288,6 +289,90 @@ export default class WWActor extends Actor {
   }
 
   /* -------------------------------------------- */
+  /*  Calculations                                */
+  /* -------------------------------------------- */
+
+  _calculateDefense(system) {
+    const defense = system.stats.defense;
+
+    // One time Total Defense to Natural Defense migration for NPCs (4.3.1)
+    if (this.type === 'NPC') {
+      const source = this._source.system.stats.defense.natural;
+      
+      /*if (defense.total < defense.natural || defense.total < defense.armored) {
+        console.log(this.name,'total defense is lower')
+        console.log(defense.total)
+        console.log(defense.natural)
+        console.log(defense.armored)
+      }*/
+
+      /*if (defense.total > defense.natural && defense.natural > defense.armored) {
+        console.log(this.name,'total defense is higher')
+        defense.natural = defense.total;
+        console.log(defense.total)
+        console.log('source =',source)
+        console.log('natural =',defense.natural)
+        console.log(defense.armored)
+      }*/
+    }
+    
+    // Defense override effect exists
+    if (defense.override) defense.total = defense.override;
+
+    // Regular Defense calculation
+    else {
+      (defense.natural > defense.armored) ? defense.total = defense.natural : defense.total = defense.armored;
+      defense.total += defense.bonus;
+    }
+    
+  }
+
+  _calculateHealth(system) {
+    // Get variables
+    const health = system.stats.health;
+    const current = health.current;
+    const damage = system.stats.damage.value;
+
+    // Set Damage to Health while incapacitated or when Damage is higher than Health   
+    if (this.incapacitated === undefined) this.incapacitated = (damage >= current) ? true : false;
+    
+    if (this.incapacitated || (damage > current)) {
+      this.system.stats.damage.value = this.system.stats.health.current;
+    }
+    
+    if (this.system.stats.damage.value >= current) this.incapacitated = true;
+    
+    // Health override effect exists
+    if (health.override) {
+      health.normal = health.override;
+    }
+    
+    // Calculate temporary Health and assign it
+    health.temp = health.current - this.toObject().system?.stats.health.current;
+
+    // Calculate lost Health and assign it
+    if (health.normal - health.current >= 0) health.lost = health.normal - health.current; else health.lost = 0;
+
+    // Assign Current Health to Max Damage for Token Bars
+    system.stats.damage.max = current;
+
+    // Do not set incapacitated status to true if a Character with normal Health 0
+    if (this.type === 'Character' && health.normal <= 0) this.incapacitated = false;
+    
+  }
+
+  _calculateSpeed(system) {
+    const speed = system.stats.speed;
+    
+    // Halve Speed
+    if (speed.halved) speed.current = Math.floor(speed.normal / 2)
+
+    // Assign normal Speed
+    else speed.current = speed.normal;
+    
+  }
+
+  /* -------------------------------------------- */
   /*  Apply Methods                               */
   /* -------------------------------------------- */
 
@@ -434,74 +519,6 @@ export default class WWActor extends Actor {
 
     this.createEmbeddedDocuments("ActiveEffect", [obj]);
 
-  }
-
-
-
-  /* -------------------------------------------- */
-  /*  Calculations                                */
-  /* -------------------------------------------- */
-
-  _calculateDefense(system) {
-    const defense = system.stats.defense;
-
-    // One time Total Defense to Natural Defense migration for NPCs (4.3.1)
-    if (this.type === 'NPC' && defense.total && !defense.natural) defense.natural = defense.total;
-
-    // Defense override effect exists
-    if (defense.override) defense.total = defense.override;
-
-    // Regular Defense calculation
-    else {
-      (defense.natural > defense.armored) ? defense.total = defense.natural : defense.total = defense.armored;
-      defense.total += defense.bonus;
-    }
-    
-  }
-
-  _calculateHealth(system) {
-    // Get variables
-    const health = system.stats.health;
-    const current = health.current;
-    const damage = system.stats.damage.value;
-
-    // Set Damage to Health while incapacitated or when Damage is higher than Health   
-    if (this.incapacitated === undefined) this.incapacitated = (damage >= current) ? true : false;
-    
-    if (this.incapacitated || (damage > current)) {
-      this.system.stats.damage.value = this.system.stats.health.current;
-    }
-    
-    if (this.system.stats.damage.value >= current) this.incapacitated = true;
-    
-    // Health override effect exists
-    if (health.override) {
-      health.normal = health.override;
-    }
-    
-    // Calculate temporary Health and assign it
-    health.temp = health.current - this.toObject().system?.stats.health.current;
-
-    // Calculate lost Health and assign it
-    if (health.normal - health.current >= 0) health.lost = health.normal - health.current; else health.lost = 0;
-
-    // Assign Current Health to Max Damage for Token Bars
-    system.stats.damage.max = current;
-
-    // Do not set incapacitated status to true if a Character with normal Health 0
-    if (this.type === 'Character' && health.normal <= 0) this.incapacitated = false;
-    
-  }
-
-  _calculateSpeed(system) {
-    const speed = system.stats.speed;
-    
-    // Halve Speed
-    if (speed.halved) speed.current = Math.floor(speed.normal / 2)
-
-    // Assign normal Speed
-    else speed.current = speed.normal;
-    
   }
 
   /* -------------------------------------------- */

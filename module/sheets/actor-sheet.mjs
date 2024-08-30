@@ -688,9 +688,6 @@ export default class WWActorSheet extends ActorSheet {
         icon: '<i class="fas fa-edit"></i>',
         callback: li => {
           return this._onToggleEditable();
-        },
-        condition: li => {
-          return this.actor.type === 'NPC';
         }
       },
       {
