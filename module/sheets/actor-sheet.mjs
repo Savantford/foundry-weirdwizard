@@ -18,7 +18,7 @@ export default class WWActorSheet extends ActorSheet {
   
   /** @override */
   static get defaultOptions() {
-
+    
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['weirdwizard', 'sheet', 'actor'],
       width: 860, // 600 for small sheet, 860 for new sheet
@@ -61,9 +61,6 @@ export default class WWActorSheet extends ActorSheet {
     // Pass editable state
     context.editable = this.editable ?? false;
 
-    // Add V12 check
-    context.isV12 = CONFIG.WW.IS_V12;
-
     for (let attr of Object.values(context.system.attributes)) {
       attr.isCheckbox = attr.dtype === 'Boolean';
     }
@@ -105,17 +102,14 @@ export default class WWActorSheet extends ActorSheet {
       context.hasEffect[e.id] = actorData.statuses.has(e.id);
     })
 
-    // Prepare character data and items.
-    if (actorData.type == 'Character') {
-      this._prepareItems(context);
-      this._prepareCharacterData(context);  
-    }
+    // Prepare Items
+    this._prepareItems(context);
 
-    // Prepare NPC data and items.
-    if (actorData.type == 'NPC') {
-      this._prepareItems(context);
-      this._prepareNPCData(context);
-    }
+    // Prepare character data
+    if (actorData.type == 'Character') this._prepareCharacterData(context);
+
+    // Prepare NPC data
+    if (actorData.type == 'NPC') this._prepareNPCData(context);
 
     // Add roll data for TinyMCE editors.
     context.rollData = actorData.getRollData();
@@ -131,6 +125,7 @@ export default class WWActorSheet extends ActorSheet {
 
     // Health tooltip
     context.healthTooltip = escape(`
+      <p>${i18n("WW.Health.Current")}: ${health.current}</p>
       <p>${i18n("WW.Health.NormalScore")}: ${health.normal}</p>
       <p>${i18n("WW.Health.Temporary")}: ${health.temp}</p>
       <p>${i18n("WW.Health.Lost")}: ${health.lost}</p>
@@ -251,7 +246,6 @@ export default class WWActorSheet extends ActorSheet {
       const itemDoc = this.document.items.get(i._id);
 
       if (!itemDoc.charOption) { // Item is a regular item
-        
         i.img = i.img || DEFAULT_TOKEN;
         
         // Assign attributeLabel for template use
@@ -279,7 +273,7 @@ export default class WWActorSheet extends ActorSheet {
         
         // Append to equipment.
         if (i.type === 'Equipment') {
-
+          
           // Prepare traits list for weapons
           if (i.system.subtype == 'weapon') {
 
@@ -353,6 +347,13 @@ export default class WWActorSheet extends ActorSheet {
               if (this.actor.type === 'Character' || i.effects.some(e => e.changes.some(c => c.key === "defense.bonus"))) equipment.push(i);
 
             } else {
+              equipment.push(i);
+            }
+            
+          } else {
+            
+            if (!this.actor.items.get(i.system.heldBy)) {
+              i.system.heldBy = null;
               equipment.push(i);
             }
             
@@ -530,6 +531,9 @@ export default class WWActorSheet extends ActorSheet {
     // Prepare dropdown lists
     context.difficulties = CONFIG.WW.BESTIARY_DIFFICULTIES;
 
+    // Prepare editable Natural Defense check
+    if (this.actor._source.system.stats.defense.natural !== this.actor.system.stats.defense.natural) context.defenseDisabled = true;
+
   }
 
   /* EVENTS */
@@ -539,6 +543,11 @@ export default class WWActorSheet extends ActorSheet {
     super.activateListeners(html);
 
     const actor = this.actor;
+
+    // Add dead or incapacitated filter
+    const window = this.element[0];
+    if (actor.dead) window.classList.add('dead');
+    else if (actor.incapacitated) window.classList.add('incapacitated');
 
     // Handle portrait menu sharing buttons
     html.find('.profile-show').click(ev => this._showProfileImg(ev));
@@ -705,9 +714,6 @@ export default class WWActorSheet extends ActorSheet {
         icon: '<i class="fas fa-rotate-left"></i>',
         callback: li => {
           return this._onSheetReset();
-        },
-        condition: li => {
-          return this.actor.type === 'NPC';
         }
       }
     ]
@@ -1002,10 +1008,6 @@ export default class WWActorSheet extends ActorSheet {
 
       // If untargeted-use was clicked
       else if (action === 'untargeted-use') {
-        let rollHtml = '';
-
-        rollHtml += addInstEffs(instEffs, origin, '');
-        rollHtml += addActEffs(effects, origin, '');
 
         // Create message data to sell
         let messageData = {
@@ -1016,7 +1018,6 @@ export default class WWActorSheet extends ActorSheet {
           'flags.weirdwizard': {
             icon: item.img,
             item: item.uuid,
-            rollHtml: rollHtml,
             emptyContent: !content ?? true
           }
         }
@@ -1024,7 +1025,7 @@ export default class WWActorSheet extends ActorSheet {
         ChatMessage.create(messageData);
       }
       
-    } else { // Attempt to Roll
+    } else { // Attempt to use RollAttribute app
 
       const obj = {
         origin: origin,
@@ -1051,7 +1052,7 @@ export default class WWActorSheet extends ActorSheet {
   
         ChatMessage.create(messageData);
       } else { // Roll
-
+        
         // If targeted-use button was clicked
         if (action === 'targeted-use') {
 
@@ -1224,7 +1225,6 @@ export default class WWActorSheet extends ActorSheet {
    * @param {Event} ev   The originating click event
    * @private
   */
-
   _onListEntryButtonClicked(ev) {
     const button = ev.currentTarget,
       dataset = Object.assign({}, button.dataset);
@@ -1263,7 +1263,6 @@ export default class WWActorSheet extends ActorSheet {
    * @param {Event} ev   The originating click event
    * @private
   */
-
   _onListEntryButtonEdit(dataset) {
     
     // Render ListEntryConfig
@@ -1276,7 +1275,6 @@ export default class WWActorSheet extends ActorSheet {
    * @param {Event} ev   The originating click event
    * @private
   */
-
   _onListEntryButtonRemove(dataset) {
     
     const arrPath = 'system.' + dataset.array,
@@ -1421,7 +1419,7 @@ export default class WWActorSheet extends ActorSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  async _onDropItemCreate(itemData) {
+  async _onDropItemCreate(itemData, event) {
 
     // Check if item must be unique
     if (itemData.type === 'Ancestry' || itemData.type === 'Path') {

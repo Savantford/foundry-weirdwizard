@@ -40,23 +40,17 @@
     <div class="weapon-traits">
         <label>{{localize "WW.Weapon.Traits.Label"}}:</label>
         {{#each traits as |trait id|}}
-        <div class="selectable {{#if (lookup @root.system.traits id)}}selected{{/if}}"
-            style="width: 100%" data-tooltip="{{trait.tip}}">
-
-            <input type="checkbox" name="system.traits.{{id}}" {{checked (lookup @root.system.traits id)}} />
-
-            {{localize trait.label}}
-        </div>
+        {{#if (lookup @root.system.traits id)}}<span data-tooltip="{{trait.tip}}">{{localize trait.label}}</span>{{/if}}
         {{/each}}
+
+        <a class="edit-traits"><i class="fas {{#if hasTraits}}fa-edit{{else}}fa-circle-plus{{/if}}"></i></a>
+
     </div>
 
     {{!-- Attack Rider --}}
-    <div class="attack-rider">
-        <label>{{localize "WW.Attack.Rider"}}</label>
-        
-        {{editor system.attackRider.enriched target="system.attackRider.value" button=true owner=owner editable=editable}}
-
-    </div>
+    {{#if system.attackRider.value}}
+    <div class="attack-rider">{{{system.attackRider.enriched}}}</div>
+    {{/if}}
 
 </div>
 {{/if}}

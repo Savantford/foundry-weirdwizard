@@ -245,8 +245,8 @@ export default class RollAttribute extends FormApplication {
       // Determine the rollFormula
       const rollFormula = "1d20" + (this.mod != "+0" ? this.mod : "") + boons;
 
-      // Set targetNo to the custom
-      const targetNo = formData.targetno ? formData.targetno : '';
+      // Set targetNo to the custom; 10 is used otherwise
+      const targetNo = formData.targetno ? formData.targetno : 10;
 
       // Construct the Roll instance and evaluate the roll
       

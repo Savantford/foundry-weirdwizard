@@ -72,9 +72,9 @@ export default class WWItem extends Item {
 
   /* -------------------------------------------- */
 
-  /** @inheritdoc */
-  static async _onCreateDocuments(documents, options, userId) {
-    super._onCreateDocuments(documents, options, userId);
+  /** @override */
+  static async _onCreateOperation(documents, operation, user) {
+    super._onCreateOperation(documents, operation, user);
 
     for (const doc of documents) {
       
@@ -83,22 +83,7 @@ export default class WWItem extends Item {
         await doc.updateBenefitsOnActor();
       }
     }
-    
   }
-
-  /** @inheritdoc */
-  /*async _onCreateOperation(documents, options, userId) { // Swap to this when V12 support is removed
-    super._onCreateOperation(documents, options, userId);
-
-    for (const doc of documents) {
-      
-      // If character option
-      if (await doc.charOption) {
-        await doc.updateBenefitsOnActor();
-      }
-    }
-    
-  }*/
 
   /* -------------------------------------------- */
 
@@ -121,6 +106,8 @@ export default class WWItem extends Item {
     if (this.type === 'Profession' && changed.system?.category !== this.system.category && (this.img === 'icons/svg/book.svg' || this.img.includes('systems/weirdwizard/assets/icons/professions'))) {
       await this._onProfessionCategoryChange(await changed);
     }
+    
+    if (!this.actor && this.system.heldBy) this.system.heldBy = null;
     
     await super._preUpdate(await changed, options, user);
 
@@ -147,8 +134,8 @@ export default class WWItem extends Item {
   /* -------------------------------------------- */
 
   /** @inheritdoc */
-  static async _onDeleteDocuments(documents, context) {
-    
+  static async _onDeleteOperation(documents, operation, user) {
+
     // Delete granted Items
     for (const doc of documents) {
       
@@ -160,7 +147,7 @@ export default class WWItem extends Item {
 
     }
 
-    super._onDeleteDocuments(documents, context);
+    super._onDeleteOperation(documents, operation, user);
 
   }
 

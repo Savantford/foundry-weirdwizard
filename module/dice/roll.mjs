@@ -112,7 +112,7 @@ export default class WWRoll extends Roll {
 
   get applyButtons() {
     const dataset = this.options.dataset;
-
+    
     if (!dataset) return null;
 
     const actions = ['apply-damage', 'apply-damage-half', 'apply-damage-double', 'apply-healing'];

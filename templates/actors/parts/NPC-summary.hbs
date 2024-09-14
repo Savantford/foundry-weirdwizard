@@ -23,20 +23,19 @@
 
 </h5>
 
-{{!-- Attributes --}}
+{{!-- Attribute Badges --}}
 {{#unless editable}}
 <div class="attributes">
 
     {{!-- Strength --}}
-    <div class="stat str item-button" data-action="attribute-roll" data-key="str" data-tooltip="WW.Roll.Strength">
+    <div class="badge stat str item-button" data-action="attribute-roll" data-key="str" data-tooltip="WW.Roll.Strength">
     
         <div>
             <a>{{localize "WW.Attributes.StrengthShort"}}</a>
             <a>{{system.attributes.str.value}}</a>
         </div>
 
-        <a class="attribute-mod item-button" data-action="attribute-roll" data-key="str"
-            data-tooltip="WW.Roll.Strength">
+        <a class="attribute-mod">
             {{#if system.attributes.str.value}}
             {{numberFormat system.attributes.str.mod decimals=0 sign=true}}
             {{else}}—{{/if}}
@@ -45,14 +44,14 @@
     </div>
     
     {{!-- Agility --}}
-    <div class="stat agi item-button" data-action="attribute-roll" data-key="agi" data-tooltip="WW.Roll.Agility">
+    <div class="badge stat agi item-button" data-action="attribute-roll" data-key="agi" data-tooltip="WW.Roll.Agility">
 
         <div>
             <a>{{localize "WW.Attributes.AgilityShort"}}</a>
             <a>{{system.attributes.agi.value}}</a>
         </div>
         
-        <a class="attribute-mod item-button" data-action="attribute-roll" data-key="agi" data-tooltip="WW.Roll.Agility">
+        <a class="attribute-mod">
             {{#if system.attributes.agi.value}}
             {{numberFormat system.attributes.agi.mod decimals=0 sign=true}}
             {{else}}—{{/if}}
@@ -61,7 +60,7 @@
     </div>
     
     {{!-- Intellect --}}
-    <div class="stat int item-button" data-action="attribute-roll" data-key="int" data-tooltip="WW.Roll.Intellect">
+    <div class="badge stat int item-button" data-action="attribute-roll" data-key="int" data-tooltip="WW.Roll.Intellect">
 
         <div>
             <a>{{localize "WW.Attributes.IntellectShort"}}</a>
@@ -69,8 +68,7 @@
         </div>
     
         
-        <a class="attribute-mod item-button" data-action="attribute-roll" data-key="int"
-            data-tooltip="WW.Roll.Intellect">
+        <a class="attribute-mod">
             {{#if system.attributes.int.value}}
             {{numberFormat system.attributes.int.mod decimals=0 sign=true}}
             {{else}}—{{/if}}
@@ -79,14 +77,14 @@
     </div>
 
     {{!-- Will --}}
-    <div class="stat wil item-button" data-action="attribute-roll" data-key="wil" data-tooltip="WW.Roll.Will">
+    <div class="badge stat wil item-button" data-action="attribute-roll" data-key="wil" data-tooltip="WW.Roll.Will">
 
         <div>
             <a>{{localize "WW.Attributes.WillShort"}}</a>
             <a>{{system.attributes.wil.value}}</a>
         </div>
 
-        <a class="attribute-mod item-button" data-action="attribute-roll" data-key="wil" data-tooltip="WW.Roll.Will">
+        <a class="attribute-mod">
             {{#if system.attributes.wil.value}}
             {{numberFormat system.attributes.wil.mod decimals=0 sign=true}}
             {{else}}—{{/if}}
@@ -107,7 +105,7 @@
         {{#if editable}}
         <div class="statbox-section">
 
-            {{!-- Defense, Health, Damage --}}
+            {{!-- Defense, Health --}}
             <div class="stat-inline flex-wrap flex-children">
 
                 {{!-- Defense --}}
@@ -117,7 +115,7 @@
                     {{!-- Natural Defense --}}
                     <div class="input-wrap">
                         <input type="number" name="system.stats.defense.natural" value="{{system.stats.defense.natural}}" min="0"
-                            data-dtype="Number" />
+                            data-dtype="Number" {{~#if defenseDisabled}}data-tooltip="WW.Defense.NaturalDisabled" disabled{{/if}} />
                         
                         <div class="input-overlay">{{system.stats.defense.natural}}</div>
                     </div>

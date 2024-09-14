@@ -8,7 +8,7 @@
   "download": "#{DOWNLOAD}#",
   "readme": "https://github.com/Savantford/foundry-weirdwizard#readme",
   "compatibility": {
-    "minimum": "11",
+    "minimum": "12",
     "verified": "12",
     "maximum": ""
   },

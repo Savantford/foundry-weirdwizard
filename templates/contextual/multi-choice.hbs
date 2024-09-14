@@ -1,0 +1,50 @@
+<div>
+
+    {{!-- Bug --}}
+    <div class="bug"></div>
+
+    {{!-- Sections --}}
+    <div class="mc-sections">
+
+        {{#each sections as |section|}}
+        <div class="mc-section {{#if collapsed}}collapsed{{/if}}">
+
+            {{!-- Section Title --}}
+            <h3>{{#if icon}}<i class="fas fa-{{{icon}}}"></i> {{/if}}{{localize title}}</h3>
+
+            {{!-- Attack Rider --}}
+            {{#if (eq type "attackRider")}}
+            
+            {{formInput attackRider.field value=attackRider.value enriched=attackRider.enriched height=100 toggled=true}}
+
+            {{else}}
+
+            {{!-- Choices Grid --}}
+            <div class="choices-grid" style="--cols: {{cols}};">
+
+                {{#each choices as |choice|}}
+                <label data-tooltip="{{tip}}">
+                    <input type="checkbox" name="{{#if uuid}}{{uuid}}{{else}}{{path}}{{/if}}" {{checked value}}>
+                    {{#if icon}}<img src={{icon}}> {{/if}}{{localize label}}
+                </label>
+                {{/each}}
+
+            </div>
+            
+            {{/if}}
+
+        </div>
+        {{/each}}
+
+    </div>{{!-- END Sections --}}
+
+    {{!-- Spear Divider --}}
+    <div class="spear-divider"></div>
+
+    {{!-- Form Buttons ---}}
+    <div class="mc-buttons">
+        <button>{{submitLabel}}</button>
+        <button value="cancel">{{localize "WW.System.Dialog.Cancel"}}</button>
+    </div>
+
+</div>
