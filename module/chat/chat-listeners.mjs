@@ -1,9 +1,9 @@
-import { chatMessageButton, diceTotalHtml } from './chat-html-templates.mjs';
-import WWRoll from '../dice/roll.mjs';
-import { i18n } from '../helpers/utils.mjs';
-import RollDamage from '../dice/roll-damage.mjs';
-import RollAttribute from '../dice/roll-attribute.mjs';
 import ApplyContext from '../ui/apply-context.mjs';
+import { i18n } from '../helpers/utils.mjs';
+import MultiChoice from '../apps/multi-choice.mjs';
+import RollAttribute from '../dice/roll-attribute.mjs';
+import RollDamage from '../dice/roll-damage.mjs';
+import WWRoll from '../dice/roll.mjs';
 
 /* -------------------------------------------- */
 /*  Chat methods                                */
@@ -20,7 +20,9 @@ export function initChatListeners(html, app) {
   html.on('click', '.enricher-roll', _onMessageButtonRoll);
 
   // Handle chat Message Button right click context menu
-  new ApplyContext(html, '.chat-button[data-action*=apply]', [], { onOpen: _onMessageButtonContext.bind('apply'), eventName:'click' });
+  html.find('.chat-button[data-action*=apply]').click(ev => _onOpenMultiChoice(ev, 'applyEffect') );
+  //html.find('.enricher-call').click(ev => _onOpenMultiChoice(ev, 'callAttributeRoll') );
+  //new ApplyContext(html, '.chat-button[data-action*=apply]', [], { onOpen: _onMessageButtonContext.bind('apply'), eventName:'click' });
   new ApplyContext(html, '.enricher-call', [], { onOpen: _onMessageButtonContext.bind('call'), eventName:'click' });
 
   // Collapse descriptions
@@ -47,6 +49,166 @@ function _onMessageButtonRoll(event) {
     default: _onChatRoll(dataset); break;
   }
   
+}
+
+/**
+  * Handle opening of a context menu from a chat button.
+  * @param {HTMLElement} element     The element the menu opens on.
+*/
+function _onOpenMultiChoice(ev, purpose) {
+  
+  const element = ev.currentTarget;
+  const user = game.user;
+  const menuItems = [];
+  
+  // Get pre-selected targets
+  const preTargetIds = element.dataset.targetIds ? element.dataset.targetIds.split(',') : [];
+  const preTargets = [];
+  
+  preTargetIds.forEach(t => {
+    if(game.actors.tokens[t]) preTargets.push(game.actors.tokens[t]);
+  })
+
+  // Assign pre-selected Targets, if any exists
+  if (preTargets) {
+    preTargets.forEach(actor => {
+      
+      if (actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
+        label: game.weirdwizard.utils.getAlias({ actor: actor }),
+        icon: actor.token ? actor.token.texture.src : actor.img,
+        tip: `ID: ${actor.uuid}`,
+        group: 'pre-targets',
+        uuid: actor.uuid
+      });
+    
+    })
+  }
+
+  // Assign user's targets, if any exists
+  if (game.user.targets.size) {
+    game.user.targets.forEach(token => {
+      const actor = token.document.actor;
+      
+      if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
+        label: game.weirdwizard.utils.getAlias({ actor: actor }),
+        icon: actor.token ? actor.token.texture.src : actor.img,
+        tip: `ID: ${actor.uuid}`,
+        group: 'targets',
+        uuid: actor.uuid
+      });
+    
+    })
+  }
+
+  // Assign user's selected tokens, if any exists
+  if (canvas.tokens.controlled) {
+    
+    canvas.tokens.controlled.forEach(token => {
+      const actor = token.document.actor;
+      
+      if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
+        label: game.weirdwizard.utils.getAlias({ actor: actor }),
+        icon: actor.token ? actor.token.texture.src : actor.img,
+        tip: `ID: ${actor.uuid}`,
+        group: 'selected',
+        uuid: actor.uuid
+      });
+    
+    })
+  }
+
+  // Assign a character if it exists
+  const character = user.character;
+
+  if (character && (!menuItems.find(o => o.uuid === character.uuid))) {
+    
+    menuItems.push({
+      label: game.weirdwizard.utils.getAlias({ actor: character }),
+      icon: character.img,
+      tip: `ID: ${character.uuid}`,
+      group: 'character',
+      uuid: character.uuid
+    })
+  }
+
+  // Assign combatants from current combat, if there are any
+  game.combat?.combatants.forEach(c => {
+    const actor = c.actor;
+    
+    if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
+      label: game.weirdwizard.utils.getAlias({ actor: actor }),
+      icon: actor.token ? actor.token.texture.src : actor.img,
+      tip: `ID: ${actor.uuid}`,
+      group: 'combatants',
+      uuid: actor.uuid
+    });
+  
+  })
+  
+  // Add synthetic Token actors in the current scene
+  for (const id in game.actors.tokens) {
+    const actor = game.actors.tokens[id];
+    
+    if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
+      label: game.weirdwizard.utils.getAlias({ actor: actor }),
+      icon: actor.token ? actor.token.texture.src : actor.img,
+      tip: `ID: ${actor.uuid}`,
+      group: 'scene-tokens',
+      uuid: actor.uuid
+    });
+  
+  }
+
+  // Add actors in the actor tab
+  for (const actor of game.actors) {
+
+    if (actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) {
+      
+      menuItems.push({
+        label: game.weirdwizard.utils.getAlias({ actor: actor }),
+        icon: actor.token ? actor.token.texture.src : actor.img,
+        tip: `ID: ${actor.uuid}`,
+        group: 'actors-tab',
+        uuid: actor.uuid
+      })  
+      
+    }
+  }
+
+  // Convert ContextMenu data to MultiChoice data
+  const groups = menuItems.reduce((acc, entry) => {
+    acc[entry.group] ??= [];
+    acc[entry.group].push(entry);
+    return acc;
+  }, {}) 
+
+  // Create sections
+  const sections = [];
+
+  for (const group in groups) {
+    
+    sections.push({
+      title: i18n(CONFIG.WW.APPLY_CONTEXT_HEADERS[group]),
+      icon: CONFIG.WW.APPLY_CONTEXT_ICONS[group],
+      choices: groups[group],
+      collapsed: group === 'actors-tab' ? true : false
+    })
+
+  }
+
+  // Create MultiChoice instance
+  const rect = element.getBoundingClientRect();
+  
+  new MultiChoice({
+    purpose: purpose,
+    dataset: element.dataset,
+    position: {
+      left: rect.left - 410,
+      top: rect.top
+    },
+    sections: sections
+  }).render(true);
+
 }
 
 /**
@@ -234,10 +396,16 @@ async function _onChatRoll(dataset, label, nextAction) {
   const labelHtml = data.item?.name ? `${label ? i18n(label) + ' ' : ''}<span class="owner-only">${data.item?.name}</span><span class="non-owner-only">? ? ?</span>` : '';
   
   // Prepare roll
-  const r = await new WWRoll(data.value, {}).evaluate({async:true});
-  dataset.value = await r.total;
+  const r = await new WWRoll(data.value, {},
+    {
+      template: "systems/weirdwizard/templates/chat/roll.hbs",
+      originUuid: origin,
+      target: data.target,
+      dataset: data
+    }
+  ).evaluate();
+  data.value = await r.total;
   const rollArray= [r];
-  const rollHtml = await diceTotalHtml(r);
 
   // Prepare message data
   const messageData = {
@@ -245,11 +413,11 @@ async function _onChatRoll(dataset, label, nextAction) {
     rolls: rollArray,
     speaker: game.weirdwizard.utils.getSpeaker({ actor: data.actor }),
     flavor: labelHtml,
-    content: '<div></div>',
+    content: '',
     sound: CONFIG.sounds.dice,
     'flags.weirdwizard': {
+      icon: data.item?.img,
       item: data.item?.uuid,
-      rollHtml: rollHtml + (label ? chatMessageButton(dataset) : ''),
       emptyContent: true
     }
   };

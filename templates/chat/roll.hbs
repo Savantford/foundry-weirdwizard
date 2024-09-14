@@ -78,7 +78,8 @@
             {{!-- On Critical --}}
             {{#if (eq outcome "critical")}}
             {{#each (lookup instEffs "onCritical") as |effect id|}}
-            <div class="chat-button" data-action="{{action}}" data-value="{{value}}" data-origin-uuid="{{@root.originUuid}}" data-target-ids="{{targetIds}}">
+            <div class="chat-button" data-action="{{action}}" data-value="{{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}"
+                data-origin-uuid="{{@root.originUuid}}" data-target-ids="{{targetIds}}">
                 <i class="fas fa-{{icon}}"></i>{{localize loc}}: {{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}
             </div>
             {{/each}}
@@ -86,7 +87,8 @@
             {{!-- On Success --}}
             {{else if (eq outcome "success")}}
             {{#each (lookup instEffs "onSuccess") as |effect id|}}
-            <div class="chat-button" data-action="{{action}}" data-value="{{value}}" data-origin-uuid="{{@root.originUuid}}" data-target-ids="{{targetIds}}">
+            <div class="chat-button" data-action="{{action}}" data-value="{{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}"
+                data-origin-uuid="{{@root.originUuid}}" data-target-ids="{{targetIds}}">
                 <i class="fas fa-{{icon}}"></i>{{localize loc}}: {{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}
             </div>
             {{/each}}
@@ -94,7 +96,8 @@
             {{!-- On Failure --}}
             {{else if (eq outcome "failure")}}
             {{#each (lookup instEffs "onFailure") as |effect id|}}
-            <div class="chat-button" data-action="{{action}}" data-value="{{value}}" data-origin-uuid="{{@root.originUuid}}" data-target-ids="{{targetIds}}">
+            <div class="chat-button" data-action="{{action}}" data-value="{{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}"
+                data-origin-uuid="{{@root.originUuid}}" data-target-ids="{{targetIds}}">
                 <i class="fas fa-{{icon}}"></i>{{localize loc}}: {{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}
             </div>
             {{/each}}
@@ -102,7 +105,8 @@
             {{!-- On Use --}}
             {{else}}
             {{#each (lookup instEffs "onUse") as |effect id|}}
-            <div class="chat-button" data-action="{{action}}" data-value="{{value}}" data-origin-uuid="{{@root.originUuid}}" data-target-ids="{{targetIds}}">
+            <div class="chat-button" data-action="{{action}}" data-value="{{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}"
+                data-origin-uuid="{{@root.originUuid}}" data-target-ids="{{targetIds}}">
                 <i class="fas fa-{{icon}}"></i>{{localize loc}}: {{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}
             </div>
             {{/each}}
@@ -150,7 +154,7 @@
             {{/if}}
 
         </div>
-
+        
         {{!-- Apply Buttons --}}        
         {{#if applyButtons}}
         <div class="chat-button-container">

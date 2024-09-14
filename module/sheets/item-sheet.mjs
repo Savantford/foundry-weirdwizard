@@ -1,5 +1,6 @@
 import { i18n } from '../helpers/utils.mjs';
 import ListEntryConfig from '../apps/list-entry-config.mjs';
+import MultiChoice from '../apps/multi-choice.mjs';
 import { onManageActiveEffect, onManageInstantEffect, prepareActiveEffectCategories } from '../helpers/effects.mjs';
 
 /**
@@ -35,9 +36,6 @@ export default class WWItemSheet extends ItemSheet {
   /** @override */
   async getData() {
     const context = super.getData();
-
-    // Add V12 check
-    context.isV12 = CONFIG.WW.IS_V12;
 
     // Use a safe clone of the item data for further operations.
     context.system = context.item.system;
@@ -94,6 +92,8 @@ export default class WWItemSheet extends ItemSheet {
           context.requirements = CONFIG.WW.WEAPON_REQUIREMENTS;
           context.grips = CONFIG.WW.WEAPON_GRIPS;
           context.traits = CONFIG.WW.WEAPON_TRAITS;
+          console.log()
+          context.hasTraits = Object.values(context.system.traits).filter(v => !!v).length ? true : false;
         }
 
       break;
@@ -284,6 +284,33 @@ export default class WWItemSheet extends ItemSheet {
       html.find('.array-button').click(this._onListEntryButtonClicked.bind(this));
 
     }
+    
+    html.find('.edit-traits').click((ev) => {
+      
+      const rect = ev.currentTarget.getBoundingClientRect();
+      
+      new MultiChoice({
+        purpose: 'editWeaponTraits',
+        item: this.document,
+        position: {
+          left: rect.right,
+          top: rect.top
+        },
+        sections: [
+          {
+            title: 'WW.Weapon.Traits.Title',
+            choices: CONFIG.WW.WEAPON_TRAITS,
+            
+          },
+          {
+            type: 'attackRider',
+            title: 'WW.Attack.Rider',
+            attackRider: this.document.system.attackRider?.value
+          }
+          
+        ]
+      }).render(true);
+    });
 
   }
 

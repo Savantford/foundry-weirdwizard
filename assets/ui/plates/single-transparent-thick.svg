@@ -1,0 +1,6 @@
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="420" height="420" style="fill: #000; fill-opacity: 0.07;">
+    <metadata>
+    Created by Friend/Savantford (https://github.com/Savantford/) for the Shadow of the Weird Wizard for Foundry VTT
+    </metadata>
+    <path d="M10,110 A100,100 0 0 0 110,10 L310,10 A100,100 0 0 0 410,110 L410,310 A100,100 0 0 0 310,410 L110,410 A100,100 0 0 0 10,310 z" stroke="#49244F" stroke-width="15"/>
+</svg>

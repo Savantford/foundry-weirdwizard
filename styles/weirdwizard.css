@@ -17,6 +17,12 @@ body {
   /* Filters */
   --grey-filter: brightness(0) saturate(100%) invert(53%) sepia(66%) saturate(0%) hue-rotate(194deg) brightness(76%) contrast(71%);
 
+  /* Shadows */
+  --text-shadow-bold-black: 0 0 1px #333;
+  --text-shadow-bold-purple: 0 0 1px #c200ff;
+  --text-shadow-icon-purple: 0 0 4px #c200ff;
+  --filter-shadow-purple: 0 0 2px #c200ff;
+
   /* Fonts */
   --font-serif: 'Forum', cursive;
   --font-capitalized: 'Mate SC', serif;
@@ -338,28 +344,17 @@ body {
 }
 
 /* Grayscale Filter for Actor Sheets */
-.weirdwizard .dead .sheet-tabs,
-.weirdwizard .dead .tabs-container,
-.weirdwizard .dead .name-stripe,
-.weirdwizard .dead .sheet-menu,
-.weirdwizard.npc .dead .sheet-header {
+.weirdwizard.actor.dead {
   filter: grayscale(1);
 }
 
-.weirdwizard.character .dead .sheet-banner {
-  filter: grayscale(1) drop-shadow(0 0 3px black);
-}
-
-.weirdwizard .incapacitated .sheet-tabs,
-.weirdwizard .incapacitated .tabs-container,
-.weirdwizard .incapacitated .name-stripe,
-.weirdwizard .incapacitated .sheet-menu,
-.weirdwizard.npc .incapacitated .sheet-header {
+.weirdwizard.actor.incapacitated {
   filter: grayscale(0.5);
 }
 
-.weirdwizard.character .incapacitated .sheet-banner {
-  filter: grayscale(0.5) drop-shadow(0 0 3px black);
+/* Regular Text */
+.weirdwizard.sheet a:hover {
+  text-shadow: var(--text-shadow-bold-black);
 }
 
 /* Headers */
@@ -379,6 +374,7 @@ body {
   font-weight: bold;
   text-transform: uppercase;
   margin: 10px 0 5px 0;
+  text-shadow: none;
 }
 
 .weirdwizard .window-content h1,
@@ -524,6 +520,18 @@ body {
   gap: 0 10px;
   margin-left: auto;
   font-size: var(--font-size-12);
+}
+
+/* Actor: Badges */
+.weirdwizard.sheet .badge:hover {
+  filter: drop-shadow(var(--filter-shadow-purple));
+}
+
+.weirdwizard.sheet .badge.item-button:hover,
+.weirdwizard.sheet .badge.item-button:focus,
+.weirdwizard.sheet .badge.item-button a:hover,
+.weirdwizard.sheet .badge.stat-badge a:hover {
+  text-shadow: none;
 }
 
 /* NPC: Attributes */
@@ -1015,7 +1023,7 @@ body {
 /* Sheet Header Fields */
 .weirdwizard.item:not(.charoption) .header-fields {
   height: 100%;
-  padding: 48px 5px 15px;
+  padding: 48px 5px 20px;
   border-image-source: url(../assets/ui/spear-separator.svg);
   border-image-slice: 0 51 25 51;
   border-image-width: 0px 30px 14px 30px;
@@ -1046,31 +1054,18 @@ body {
   flex-flow: column;
   align-items: flex-start;
   gap: 5px;
+  width: 100%;
   border-bottom: 1px solid var(--purple-dark);
   padding-bottom: 8px;
   margin-bottom: 3px;
 }
 
-.weirdwizard .weapon-traits {
-  display: inline-flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 5px;
+.weirdwizard .weapon-traits > span:not(:last-of-type)::after {
+  content: ", ";
 }
 
-.weirdwizard .weapon-traits > label {
-  font-weight: bold;
-  color: var(--purple-dark);
-}
-
-.weirdwizard .weapon-traits > div {
+.weirdwizard .weapon-traits .edit-traits {
   font-size: smaller;
-  align-items: center;
-  white-space: nowrap;
-  justify-content: center;
-  min-width: 60px;
-  flex: 1;
 }
 
 .weirdwizard.item .weapon-fields .attack-rider {
@@ -1107,7 +1102,6 @@ body {
   --bug: url(../assets/bugs/talent-magical.webp);
 }
 
-.weirdwizard .talent-sheet.npc .sheet-body,
 .weirdwizard.chat-message.npc {
   --bug: url(../assets/bugs/talent-npc.webp);
 }
@@ -1274,7 +1268,7 @@ body {
   margin: 0 0 0 -8px;
   width: calc(100% + 16px);
   padding-left: 8px;
-  padding-right: 145px;
+  padding-right: 150px;
 }
 
 .weirdwizard.item .talent-sheet .name-stripe {
@@ -1333,7 +1327,7 @@ body {
   appearance: none;
   border: none;
   box-shadow: none;
-  filter: drop-shadow(0 0 2px var(--color-shadow-primary));
+  filter: drop-shadow(var(--filter-shadow-purple));
   cursor: pointer;
 }
 
@@ -1926,7 +1920,7 @@ body {
 }
 
 .weirdwizard .npc-stats .stat .stat-content > *:hover {
-  filter: drop-shadow(0 0 2px var(--color-shadow-primary));
+  filter: drop-shadow(var(--text-shadow-bold-purple));
   cursor: pointer;
 }
 
@@ -2080,7 +2074,7 @@ body {
 }
 
 .weirdwizard .change-disposition:hover {
-  filter: drop-shadow(0 0 2px var(--color-shadow-primary));
+  filter: drop-shadow(var(--filter-shadow-purple));
   cursor: pointer;
 }
 
@@ -2556,6 +2550,10 @@ input[type="checkbox"].checkbox-uses {
   color: var(--body-text-color);
 }
 
+.weirdwizard h6 .item-create:hover {
+  text-shadow: var(--text-shadow-icon-purple);
+}
+
 .weirdwizard .described-list .item-roll,
 .weirdwizard .summary-list .item-roll,
 .weirdwizard .compact-list .item-roll {
@@ -2572,17 +2570,22 @@ input[type="checkbox"].checkbox-uses {
   /*margin: 0 5px;*/
 }
 
+.weirdwizard.sheet .buttons > a:hover,
+.weirdwizard.sheet .item-pip:hover,
+.weirdwizard.sheet .array-button:hover {
+  text-shadow: var(--text-shadow-icon-purple);
+}
+
 .buttons i,
 .item-create i,
 .array-button[data-action="add"] i {
   font-size: smaller;
 }
 
-.item-button:hover,
-.item-button:focus,
-.item-pip:hover,
-.item-pip:focus {
-  text-shadow: 0 0 5px var(--color-shadow-primary);
+.weirdwizard .item-button:hover,
+.weirdwizard .item-button:focus {
+  color: black;
+  text-shadow: var(--text-shadow-icon-purple);
 }
 
 .item-button:hover > #context-menu {
@@ -2917,7 +2920,7 @@ input[type="checkbox"].checkbox-uses {
   box-sizing: content-box;
   padding: 2px;
   height: 16px;
-  position: relative;
+  /*position: relative;*/
   display: inline-flex !important;
   width: fit-content;
 }
@@ -2993,6 +2996,7 @@ input[type="checkbox"].checkbox-uses {
   padding: 0 !important;
   border: 1px solid transparent !important;
 }
+
 .selectable.nohover:hover {
   cursor: default;
 }
@@ -3118,7 +3122,22 @@ i.icon-Weakened {
 }
 
 
-/* ---------------------------- Applications & Dialogs -----------------------------*/
+/* ---------------------------- Applications -----------------------------*/
+
+.application.weirdwizard input[type="checkbox"]::before {
+  content: "";
+  background: url(../assets/ui/checkbox/blank.svg);
+  background-size: contain;
+}
+
+.application.weirdwizard input[type="checkbox"]:checked::before {
+  content: "";
+  background-image: url(../assets/ui/checkbox/tick.svg);
+}
+
+.application.weirdwizard input[type="checkbox"]:checked::after {
+  content: "";
+}
 
 .application.weirdwizard .scrollable {
   --scroll-margin: 0.75rem;
@@ -3130,6 +3149,139 @@ i.icon-Weakened {
   text-align: center;
   font-size: var(--font-size-18);
   font-weight: bold;
+}
+
+/* Dialog Buttons */
+
+.dialog .dialog-buttons button,
+.dialog .dialog-buttons button.default,
+#multi-choice .mc-buttons button {
+  border: none;
+  background: none;
+  border-image-source: url(../assets/ui/plates/single-transparent-thick.svg);  
+  border-image-slice: 118 fill;
+  border-image-width: 5px;
+  padding: 0 5px;
+  color: black;
+  font-family: var(--font-capitalized);
+  font-size: var(--font-size-16);
+}
+
+.dialog .dialog-buttons button.default {
+  filter: drop-shadow(0 0 0px var(--purple-dark));
+}
+
+.dialog .dialog-buttons button:hover,
+.dialog .dialog-buttons button:focus,
+#multi-choice .mc-buttons button:hover,
+#multi-choice .mc-buttons button:focus {
+  border-image-source: url(../assets/ui/plates/single-transparent-thicker.svg);
+  border-image-slice: 128 fill;
+  border-image-width: 6px;
+  box-shadow: none;
+}
+
+/* Contextual Multi Choice */
+#multi-choice {
+  max-width: 400px;
+}
+
+#multi-choice .window-header {
+  display: none;
+}
+
+#multi-choice .window-content {
+  padding: 0.75rem;
+}
+
+#multi-choice .window-content > div {
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
+}
+
+#multi-choice .window-content > div > *:not(.bug):not(.spear-divider) {
+  margin: 0 20px;
+}
+
+#multi-choice .bug {
+  --bug: url(../assets/bugs/talent.webp);
+  display: block;
+  width: 100%;
+  height: 40px;
+  background: var(--bug) no-repeat;
+  background-position: center;
+  background-size: calc(100% + 10px);
+  opacity: 0.5;
+}
+
+#multi-choice .mc-sections {
+  display: flex;
+  flex-flow: column;
+  gap: 20px;
+}
+
+#multi-choice h3 {
+  text-align: center;
+  border: none;
+}
+
+#multi-choice .choices-grid {
+  --cols: auto auto auto;
+  display: grid;
+  grid-template-columns: var(--cols);
+  grid-gap: 5px;
+}
+
+#multi-choice .choices-grid label,
+#multi-choice .choices-grid label > input[type="checkbox"] {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+#multi-choice .choices-grid label {
+  gap: 5px;
+}
+
+#multi-choice .choices-grid label:hover {
+  text-shadow: var(--text-shadow-bold-black);
+}
+
+#multi-choice .choices-grid input[type="checkbox"] {
+  --checkbox-size: 14px;
+  height: var(--checkbox-size);
+  flex: 0;
+  margin: 0;
+}
+
+#multi-choice .choices-grid input[type="checkbox"]:hover::before {
+  background-image: url(../assets/ui/checkbox/tick.svg);
+}
+
+#multi-choice .choices-grid label > img {
+  width: 1lh;
+}
+
+#multi-choice .spear-divider {
+  margin: 0 25px;
+  border-image-source: url(../assets/ui/spear-separator.svg);
+  border-image-repeat: repeat stretch;
+  border-image-slice: 0 51 25 51;
+  border-image-width: 0px 17px 8px 17px;
+  height: 11px;
+}
+
+#multi-choice .mc-buttons {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 5px;
+  justify-content: flex-start;
+  justify-content: space-around;
+}
+
+#multi-choice .mc-buttons > * {
+  flex: 1;
 }
 
 /* Targeting HUD */
@@ -3234,7 +3386,7 @@ i.icon-Weakened {
 }
 
 .weirdwizard .adjustment-widget > a:hover {
-  filter: drop-shadow(0 0 2px var(--color-shadow-primary));
+  filter: drop-shadow(var(--filter-shadow-purple));
 }
 
 #roll-attribute .adjustment-widget > a {
@@ -3502,6 +3654,14 @@ form.quest-calendar {
 
 /* ---------------------------- Foundry UI Overrides -----------------------------*/
 
+/* Journal Entry Codes */
+.journal-entry-content code {
+  background: var(--background-color-shadow);
+  padding: 0 2px;
+  border-radius: 3px;
+  border: 1px solid var(--purple-medium);
+}
+
 /* Enrichers */
 
 .inline-roll > i {
@@ -3520,6 +3680,51 @@ form.quest-calendar {
 [class*="enricher-"]:focus,
 [class*="enricher-"]:hover {
   color: black;
+}
+
+.enricher-index {
+  background: var(--banner);
+  background-position: center;
+  background-size: cover;
+  color: white;
+  text-shadow: 0 0 5px black, 0 0 10px black;
+  font-family: var(--font-capitalized);
+  font-weight: normal;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+  display: inline-block;
+  font-size: x-large;
+  box-shadow: 0 0 1px black;
+}
+
+.enricher-index:focus,
+.enricher-index:hover  {
+  color: white;
+}
+
+.enricher-index[data-type=ancestries] {
+  --banner: url(../assets/ui/banners/ancestries-banner.webp);
+}
+
+.enricher-index[data-type=paths] {
+  --banner: url(../assets/ui/banners/paths-banner.webp);
+}
+
+.enricher-index[data-type=professions] {
+  --banner: url(../assets/ui/banners/professions-banner.webp);
+}
+
+.enricher-index[data-type=armor] {
+  --banner: url(../assets/ui/banners/armor-banner.webp);
+}
+
+.enricher-index[data-type=weapons] {
+  --banner: url(../assets/ui/banners/weapons-banner.webp);
+}
+
+.enricher-index[data-type=hirelings] {
+  --banner: url(../assets/ui/banners/hirelings-banner.webp);
 }
 
 /* Top Left Bars */
@@ -3707,7 +3912,7 @@ form.quest-calendar {
 .weirdwizard.chat-message .chat-button:hover,
 .weirdwizard.chat-message .header-button:hover,
 .weirdwizard.chat-message .chat-button-container .chat-button:hover {
-  filter: drop-shadow(0 0 2px var(--color-shadow-primary));
+  filter: drop-shadow(var(--filter-shadow-purple));
   cursor: pointer;
 }
 
@@ -3768,7 +3973,7 @@ form.quest-calendar {
 
 .weirdwizard.chat-message img.private-icon:hover {
   cursor: help;
-  filter: brightness(0) drop-shadow(0 0 2px var(--color-shadow-primary));
+  filter: brightness(0) drop-shadow(var(--filter-shadow-purple));
 }
 
 .weirdwizard .message-content {
@@ -3841,7 +4046,7 @@ form.quest-calendar {
 }
 
 .weirdwizard .dice-comparison > img.attribute-icon.highlight {
-  filter: brightness(0) saturate(100%) drop-shadow(0 0 1px var(--color-shadow-primary));
+  filter: brightness(0) saturate(100%) drop-shadow(var(--text-shadow-bold-purple));
 }
 
 .weirdwizard .dice-comparison > div {
@@ -3862,7 +4067,7 @@ form.quest-calendar {
 }
 
 .weirdwizard .dice-comparison > div:not(.dice-vs).highlight {
-  filter: drop-shadow(0 0 2px var(--color-shadow-primary));
+  filter: drop-shadow(var(--filter-shadow-purple));
 }
 
 .weirdwizard .dice-comparison > div:not(.dice-vs).highlight > span {
@@ -4241,7 +4446,7 @@ form.quest-calendar {
 
 #sage-tools .button:hover,
 #sage-tools .index > div > a:hover {
-  filter: drop-shadow(0 0 2px var(--color-shadow-primary));
+  filter: drop-shadow(var(--filter-shadow-purple));
   cursor: pointer;
 }
 

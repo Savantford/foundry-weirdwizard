@@ -73,36 +73,4 @@ export default class ApplyContext extends ContextMenu {
 
   /* -------------------------------------------- */
 
-  /**
-   * Set the position of the context menu, taking into consideration whether the menu should expand upward or downward
-   * @private
-   */
-  /*_setPosition(html, target) {
-    const container = target[0].parentElement;
-
-    // Append to target and get the context bounds
-    target.css("position", "relative");
-    html.css("visibility", "hidden");
-    target.append(html);
-    const contextRect = html[0].getBoundingClientRect();
-    const parentRect = target[0].getBoundingClientRect();
-    const containerRect = container.getBoundingClientRect();
-
-    // Determine whether to expand upwards
-    const contextTop = parentRect.top - contextRect.height;
-    const contextBottom = parentRect.bottom + contextRect.height;
-    const canOverflowUp = (contextTop > containerRect.top) || (getComputedStyle(container).overflowY === "visible");
-
-    // If it overflows the container bottom, but not the container top
-    const containerUp = ( contextBottom > containerRect.bottom ) && ( contextTop >= containerRect.top );
-    const windowUp = ( contextBottom > window.innerHeight ) && ( contextTop > 0 ) && canOverflowUp;
-    this._expandUp = containerUp || windowUp;
-
-    // Display the menu
-    html.toggleClass("expand-up", this._expandUp);
-    html.toggleClass("expand-down", !this._expandUp);
-    html.css("visibility", "");
-    target.addClass("context");
-  }*/
-
 }

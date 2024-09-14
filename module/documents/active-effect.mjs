@@ -237,7 +237,7 @@ export default class WWActiveEffect extends ActiveEffect {
     let targetType = foundry.utils.getType(target);
 
     // Alter Change Values to negative values if they are meant to be - Weird Wizard only
-    if (labelKey.includes('banes') || (labelKey.includes('Reduce') && !labelKey.includes('health'))) change.value = -change.value;
+    if (labelKey.includes('banes') || (labelKey.toLowerCase().includes('reduce') && !labelKey.includes('health'))) change.value = -change.value;
 
     // Cast the effect change value to the correct type
     let delta;

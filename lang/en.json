@@ -61,6 +61,7 @@
 "WW.Defense.Score": "Defense Score",
 "WW.Defense.Natural": "Natural Defense",
 "WW.Defense.NaturalNPC": "Defense (Natural)",
+"WW.Defense.NaturalDisabled": "<p>To edit the base Natural Defense manually, please toggle off any effects that increase or reduce it, such armor or a shield.</p><p>You can reenable the effects once you're done editing.</p>",
 "WW.Defense.Armored": "Armored Defense",
 "WW.Defense.Details": "(armor, if any; shield, if any)",
 
@@ -240,8 +241,9 @@
 "WW.Roll.Always": "Always roll",
 "WW.Roll.Dont": "Don't roll",
 "WW.Roll.Against": "Against",
-"WW.Roll.AgainstDefault": "Nothing (10)",
+"WW.Roll.AgainstDefault": "10 (Default)",
 "WW.Roll.TargetNumber": "Custom Target Number",
+"WW.Roll.TargetNumberHint": "<p>If a custom target number is set, the attribute or luck will be rolled against it.</p><p>If unset, it will try to roll against the target number from targeted tokens.</p><p>If unable to, it will instead roll against the default target number for the game, 10.</p>",
 "WW.Roll.ForEach": "Roll separately for each target",
 "WW.Roll.AgainstWrn": "Nothing selected to roll against. Please select Defense or an attribute to roll against in the Weapon's Automation & Effects tab.",
 "WW.Roll.Success": "Success",
@@ -425,6 +427,7 @@
 "WW.Weapon.Requirement.Agi13": "Agility 13",
 
 "WW.Weapon.Traits.Label": "Traits",
+"WW.Weapon.Traits.Title": "Weapon Traits",
 "WW.Weapon.Traits.Ammunition.Label": "Ammunition",
 "WW.Weapon.Traits.Ammunition.Tip": "You must have at least one piece of ammunition of the indicated kind to attack with this weapon. Ammunition, and a container to hold it (such as a quiver, case, or bag), is included in the weapon’s price. You can recover spent ammunition after combat and make replacements while you rest.",
 "WW.Weapon.Traits.Bludgeoning.Label": "Bludgeoning",
@@ -835,6 +838,7 @@
 "WW.System.Sheet.Item": "Regular Item Sheet",
 "WW.System.Sheet.CharOption": "Character Option Sheet",
 
+"WW.System.Dialog.Confirm": "Confirm",
 "WW.System.Dialog.Save": "Save",
 "WW.System.Dialog.Reset": "Reset",
 "WW.System.Dialog.Cancel": "Cancel",

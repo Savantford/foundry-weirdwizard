@@ -272,8 +272,6 @@ export default class WWActor extends Actor {
 
   _prepareCharacterData(system) {
     if (this.type !== 'Character') return;
-
-    
   }
 
   /**
@@ -294,27 +292,6 @@ export default class WWActor extends Actor {
 
   _calculateDefense(system) {
     const defense = system.stats.defense;
-
-    // One time Total Defense to Natural Defense migration for NPCs (4.3.1)
-    if (this.type === 'NPC') {
-      const source = this._source.system.stats.defense.natural;
-      
-      /*if (defense.total < defense.natural || defense.total < defense.armored) {
-        console.log(this.name,'total defense is lower')
-        console.log(defense.total)
-        console.log(defense.natural)
-        console.log(defense.armored)
-      }*/
-
-      /*if (defense.total > defense.natural && defense.natural > defense.armored) {
-        console.log(this.name,'total defense is higher')
-        defense.natural = defense.total;
-        console.log(defense.total)
-        console.log('source =',source)
-        console.log('natural =',defense.natural)
-        console.log(defense.armored)
-      }*/
-    }
     
     // Defense override effect exists
     if (defense.override) defense.total = defense.override;
@@ -472,7 +449,7 @@ export default class WWActor extends Actor {
 
   /* Apply Affliction */
   async applyAffliction(key) {
-  
+    
     // Get affliction
     const effect = CONFIG.statusEffects.find(a => a.id === key);
     effect['statuses'] = [effect.id];
@@ -671,7 +648,7 @@ export default class WWActor extends Actor {
   static async createDialog(data={}, {parent=null, pack=null, types, ...options}={}) {
     data.type ??= "NPC";
 
-    if (CONFIG.WW.IS_V12) { // Is V12+
+    //if (CONFIG.WW.IS_V12) { // Is V12+ // kept for backup
 
       const cls = this.implementation;
       
@@ -749,7 +726,7 @@ export default class WWActor extends Actor {
         options
       });
 
-    } else { // Not V12
+    /*} else { // Not V12
 
       // Collect data
       const documentName = this.metadata.name;
@@ -795,7 +772,8 @@ export default class WWActor extends Actor {
         options
       });
 
-    }
+    }*/
+
   }
 
 }

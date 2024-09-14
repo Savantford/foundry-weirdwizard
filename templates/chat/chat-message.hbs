@@ -1,5 +1,5 @@
 <li class="weirdwizard chat-message message flexcol {{item.type}} {{item.subtype}} {{item.magical}} {{cssClass}}" data-message-id="{{message._id}}" {{#if borderColor}}style="border-color:{{borderColor}}"{{/if}}>
-
+    
     {{!-- Footer --}}
     <footer class="message-footer">
             
@@ -78,7 +78,41 @@
         
         {{!-- Rolls --}}
         {{#if rollHtml}}
-        {{{rollHtml}}}        
+        {{{rollHtml}}}
+
+        {{!-- Unrolled Chat Apply Buttons --}}
+
+        {{else if (or instEffs actEffs)}}
+        <div class="chat-buttons">
+            
+            {{!-- Instant Effect Buttons --}}
+            {{#if instEffs}}
+            {{#each instEffs as |effect id|}}
+            
+            {{#if (eq effect.trigger "onUse")}}
+            <div class="chat-button" data-action="{{action}}" data-value="{{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}"
+                data-origin-uuid="{{@root.item.uuid}}" data-target-ids="{{targetIds}}">
+                <i class="fas fa-{{icon}}"></i>{{localize loc}}: {{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}
+            </div>
+            {{/if}}
+
+            {{/each}}
+            {{/if}}
+
+            {{!-- Active Effect Buttons --}}
+            {{#if actEffs}}
+            {{#each actEffs as |effect id|}}
+            
+            {{#if (eq effect.trigger "onUse")}}
+            <div class="chat-button" data-action="{{action}}" data-effect-uuid="{{uuid}}" data-origin-uuid="{{@root.item.uuid}}" data-target-ids="{{targetIds}}">
+                {{#if img}}<img src="{{img}}" />{{/if}}{{name}}
+            </div>
+            {{/if}}
+
+            {{/each}}
+            {{/if}}
+
+        </div>
         {{/if}}
         
         {{#if (eq cssClass "whisper blind")}}<img class="private-icon" src="icons/svg/blind.svg" data-tooltip="CHAT.RollBlind"/>

@@ -1,4 +1,5 @@
 import { i18n, capitalize } from '../helpers/utils.mjs';
+import { dataFromLabel } from '../chat/chat-html-templates.mjs';
 
 /**
  * A custom chat message that extends the client-side ChatMessage document.
@@ -38,6 +39,9 @@ export default class WWChatMessage extends ChatMessage {
     const item = await fromUuid(itemUuid);
     const icon = (data.flags?.weirdwizard?.icon && (typeof data.flags?.weirdwizard?.icon === 'string')) ? data.flags.weirdwizard.icon : null;
     const isWhisper = this.whisper.length;
+
+    const instEffs = item ? item.system.instant.filter(e => e.trigger === 'onUse') : null; 
+    const actEffs = item ? item.effects.filter(e => e.trigger === 'onUse') : null; 
     
     // Prepare content
     const emptyContent = data.flags?.weirdwizard?.emptyContent ?? data.flags?.weirdwizard?.emptyContent;
@@ -47,9 +51,6 @@ export default class WWChatMessage extends ChatMessage {
       rollData: this.getRollData(),
       relativeTo: item ? item : undefined
     });
-
-    // Prepare rollHtml
-    //const rollHtml = data.flags?.weirdwizard?.rollHtml ? data.flags.weirdwizard.rollHtml : '';
 
     // Prepare item
     if (item) {
@@ -79,6 +80,21 @@ export default class WWChatMessage extends ChatMessage {
         item.spellHeader = header;
       }
 
+      // Prepare instEffs
+      for (const e in instEffs) {
+        instEffs[e] = {
+          ...instEffs[e],
+          ...dataFromLabel(instEffs[e].label)
+        };
+      }
+
+      // Prepare actEffs
+      for (const e in actEffs) {
+        actEffs[e] = {
+          ...actEffs[e],
+          ...dataFromLabel(actEffs[e].name)
+        };
+      }
     }
     
     // V11 legacy support; delete in V13
@@ -102,15 +118,20 @@ export default class WWChatMessage extends ChatMessage {
         traits: item.traits,
         attackRider: item.attackRider,
         isSpell: item.type === 'Spell',
-        spellHeader: item.spellHeader
+        spellHeader: item.spellHeader,
+        uuid: item.uuid,
+        img: item.img
       } : null,
       rollHtml: await this._renderRollHTML(false),//rollHtml, -- rollHtml no longer needed
+      instEffs: item ? instEffs : null,
+      actEffs: item ? actEffs : null,
       emptyContent: emptyContent,
       cssClass: [
         this.style === styles.IC ? "ic" : null,
         this.style === styles.EMOTE ? "emote" : null,
         isWhisper ? "whisper" : null,
-        this.blind ? "blind": null
+        this.blind ? "blind": null,
+        item?.actor?.type === 'NPC' ? "npc" : null,
       ].filterJoin(" "),
       isWhisper: this.whisper.length,
       showPrivate: this.isContentVisible,
