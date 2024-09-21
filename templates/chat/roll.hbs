@@ -2,7 +2,8 @@
 
     {{#if target}}
     {{!-- Target Container: Header --}}
-    <div class="chat-target">Target: {{#if isPrivate}}???{{else}}{{target.name}}{{/if}}</div>
+    {{log target}}
+    <div class="chat-target">Target: {{#if isPrivate}}???{{else}}<a class="button" data-action="open-sheet" data-uuid="{{target.uuid}}"><img src="{{target.img}}" /> {{target.name}}</a>{{/if}}</div>
 
     {{!-- Target Container: Content --}}
     <div class="chat-target-content">

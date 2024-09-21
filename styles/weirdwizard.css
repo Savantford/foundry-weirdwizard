@@ -1024,7 +1024,7 @@ body {
 .weirdwizard.item:not(.charoption) .header-fields {
   height: 100%;
   padding: 48px 5px 20px;
-  border-image-source: url(../assets/ui/spear-separator.svg);
+  border-image-source: url(../assets/ui/spear-divider.svg);
   border-image-slice: 0 51 25 51;
   border-image-width: 0px 30px 14px 30px;
   border-image-repeat: repeat stretch;
@@ -2083,7 +2083,7 @@ body {
   height: 100%;
   padding: 0 5px 25px;
   margin-bottom: 10px;
-  border-image-source: url(../assets/ui/spear-separator.svg);
+  border-image-source: url(../assets/ui/spear-divider.svg);
   border-image-slice: 0 51 25 51;
   border-image-width: 0px 30px 14px 30px;
   border-image-repeat: repeat stretch;
@@ -2920,7 +2920,7 @@ input[type="checkbox"].checkbox-uses {
   box-sizing: content-box;
   padding: 2px;
   height: 16px;
-  /*position: relative;*/
+  position: relative;
   display: inline-flex !important;
   width: fit-content;
 }
@@ -3233,6 +3233,10 @@ i.icon-Weakened {
   grid-gap: 5px;
 }
 
+#multi-choice .mc-section.collapsed .choices-grid {
+  display: none;
+}
+
 #multi-choice .choices-grid label,
 #multi-choice .choices-grid label > input[type="checkbox"] {
   display: inline-flex;
@@ -3265,7 +3269,7 @@ i.icon-Weakened {
 
 #multi-choice .spear-divider {
   margin: 0 25px;
-  border-image-source: url(../assets/ui/spear-separator.svg);
+  border-image-source: url(../assets/ui/spear-divider.svg);
   border-image-repeat: repeat stretch;
   border-image-slice: 0 51 25 51;
   border-image-width: 0px 17px 8px 17px;
@@ -3952,28 +3956,40 @@ form.quest-calendar {
   display: flex;
   flex-flow: column;
   gap: 5px;
-  border-image-source: url(../assets/ui/spear-separator.svg);
-  border-image-slice: 25 51 25 51;
-  border-image-width: 0 25px 11px 25px;
-  border-image-repeat: repeat stretch;
-  padding-bottom: 15px;
   margin-top: 5px;
 }
 
-.weirdwizard.whisper .message-wrapper {
-  border-image-source: url(../assets/ui/spear-separator-cutout.svg);
-  padding-bottom: 0; 
+.weirdwizard .spear-divider {
+  display: grid;
+  justify-content: center;
+  border-image-source: url(../assets/ui/spear-divider.svg);
+  border-image-repeat: repeat stretch;
+  border-image-slice: 25 51 25 51;
+  border-image-width: 0 25px 11px 25px;
+  padding-bottom: 11px;
+  margin-top: 5px;
+}
+
+.weirdwizard.whisper .spear-divider {
+  border-image-source: url(../assets/ui/spear-divider-cutout.svg);
 }
 
 .weirdwizard.chat-message img.private-icon {
+  grid-area: 1 / 1;
+  display: none;
   height: 25px;
-  margin: -4px 0 -7px;
+  margin: 0 0 -17px;
   filter: brightness(0) drop-shadow(0 0 1px grey);
 }
 
 .weirdwizard.chat-message img.private-icon:hover {
   cursor: help;
   filter: brightness(0) drop-shadow(var(--filter-shadow-purple));
+}
+
+.weirdwizard.blind img.private-icon.blind,
+.weirdwizard.whisper:not(.blind) img.private-icon.whisper {
+  display: inline;
 }
 
 .weirdwizard .message-content {
@@ -4109,9 +4125,13 @@ form.quest-calendar {
 }
 
 .weirdwizard.chat-message .chat-target {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
   background: var(--purple-dark);
   color: white;
-  padding: 2px;
+  padding: 4px;
   margin: 0px;
   border-radius: 5px 5px 0px 0px;
   font-family: var(--font-header);
@@ -4120,6 +4140,16 @@ form.quest-calendar {
 
 .weirdwizard.chat-message .chat-target:not(:first-child) {
   margin-top: 5px;
+}
+
+.weirdwizard.chat-message .chat-target a.button {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.weirdwizard.chat-message .chat-target img {
+  height: 1lh;
+  width: auto;
 }
 
 .weirdwizard.chat-message .chat-target-content {

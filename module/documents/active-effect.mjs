@@ -2,7 +2,7 @@ import { i18n, formatTime } from '../helpers/utils.mjs';
 
 export default class WWActiveEffect extends ActiveEffect {
 
-  async _preCreate(data, options, user) {
+  async _onCreate(data, options, user) {
     
     if (!data.flags?.weirdwizard) data.flags = { weirdwizard: {} };
 
@@ -23,12 +23,11 @@ export default class WWActiveEffect extends ActiveEffect {
     
     await this.updateSource({ 'flags.weirdwizard': obj });
 
-    return await super._preCreate(data, options, user);
+    return await super._onCreate(data, options, user);
   }
 
   prepareData() {
     super.prepareData();
-
   }
 
   async _onUpdate(data, options, userId) {
@@ -154,7 +153,7 @@ export default class WWActiveEffect extends ActiveEffect {
 
     // If the effect has a duration, do not allow it to be passive
     if ((this.parent instanceof Item) && (this.duration.rounds || this.duration.seconds) && trigger === 'passive') trigger = 'onUse';
-
+    
     return typeof trigger === 'string' ? trigger : 'passive';
   }
 

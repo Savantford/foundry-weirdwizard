@@ -1,5 +1,5 @@
 import { i18n, capitalize } from '../helpers/utils.mjs';
-import { dataFromLabel } from '../chat/chat-html-templates.mjs';
+import { actDataFromEffect, dataFromLabel } from '../chat/chat-html-templates.mjs';
 
 /**
  * A custom chat message that extends the client-side ChatMessage document.
@@ -39,9 +39,10 @@ export default class WWChatMessage extends ChatMessage {
     const item = await fromUuid(itemUuid);
     const icon = (data.flags?.weirdwizard?.icon && (typeof data.flags?.weirdwizard?.icon === 'string')) ? data.flags.weirdwizard.icon : null;
     const isWhisper = this.whisper.length;
-
+    
     const instEffs = item ? item.system.instant.filter(e => e.trigger === 'onUse') : null; 
     const actEffs = item ? item.effects.filter(e => e.trigger === 'onUse') : null; 
+    
     
     // Prepare content
     const emptyContent = data.flags?.weirdwizard?.emptyContent ?? data.flags?.weirdwizard?.emptyContent;
@@ -92,7 +93,7 @@ export default class WWChatMessage extends ChatMessage {
       for (const e in actEffs) {
         actEffs[e] = {
           ...actEffs[e],
-          ...dataFromLabel(actEffs[e].name)
+          ...actDataFromEffect(actEffs[e])
         };
       }
     }
@@ -123,8 +124,8 @@ export default class WWChatMessage extends ChatMessage {
         img: item.img
       } : null,
       rollHtml: await this._renderRollHTML(false),//rollHtml, -- rollHtml no longer needed
-      instEffs: item ? instEffs : null,
-      actEffs: item ? actEffs : null,
+      instEffs: item ? await instEffs : null,
+      actEffs: item ? await actEffs : null,
       emptyContent: emptyContent,
       cssClass: [
         this.style === styles.IC ? "ic" : null,

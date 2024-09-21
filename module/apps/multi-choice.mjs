@@ -14,10 +14,7 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
 
   constructor(options = {}) {
     super(options); // This is required for the constructor to work
-
   }
-
-  //#onClickElsewhere;
 
   static DEFAULT_OPTIONS = {
     id: 'multi-choice',
@@ -28,7 +25,8 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
       contentClasses: ['scrollable']
     },
     actions: {
-      openSheet: MultiChoice.openSheet
+      openSheet: MultiChoice.openSheet,
+      collapseSection: MultiChoice.collapseSection
     },
     form: {
       handler: MultiChoice.formHandler,
@@ -215,6 +213,31 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
   /*static openSheet(event, target) {
     fromUuidSync(target.dataset.itemUuid)?.sheet.render(true);
   }*/
+
+  /**
+   * @param {PointerEvent} event - The originating click event
+   * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
+  */
+  static collapseSection(event, target) {
+    console.log(event)
+    console.log(target)
+    const section = target.closest('.mc-section');
+    const grid = section.querySelector('.choices-grid');
+    
+    // Flip states
+    if (target.classList.contains('fa-circle-chevron-up')) {
+      target.classList.replace('fa-circle-chevron-up', 'fa-circle-chevron-down');
+
+      $(grid).slideDown(500);
+      
+    } else {
+      target.classList.replace('fa-circle-chevron-down', 'fa-circle-chevron-up');
+
+      $(grid).slideUp(500);
+      
+    }
+    
+  }
 
   /*static changeType(event, app, nav) {
     event.preventDefault();

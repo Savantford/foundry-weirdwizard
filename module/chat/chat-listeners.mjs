@@ -9,8 +9,6 @@ import WWRoll from '../dice/roll.mjs';
 /*  Chat methods                                */
 /* -------------------------------------------- */
 
-
-
 //const tokenManager = new TokenManager()
 
 export function initChatListeners(html, app) {
@@ -24,6 +22,9 @@ export function initChatListeners(html, app) {
   //html.find('.enricher-call').click(ev => _onOpenMultiChoice(ev, 'callAttributeRoll') );
   //new ApplyContext(html, '.chat-button[data-action*=apply]', [], { onOpen: _onMessageButtonContext.bind('apply'), eventName:'click' });
   new ApplyContext(html, '.enricher-call', [], { onOpen: _onMessageButtonContext.bind('call'), eventName:'click' });
+
+  // Open Sheet from chat
+  html.on('click', '[data-action=open-sheet]', _onOpenSheet);
 
   // Collapse descriptions
   html.find('.chat-message-collapse').click(_onMessageCollapse);
@@ -184,14 +185,14 @@ function _onOpenMultiChoice(ev, purpose) {
 
   // Create sections
   const sections = [];
-
+  
   for (const group in groups) {
     
     sections.push({
       title: i18n(CONFIG.WW.APPLY_CONTEXT_HEADERS[group]),
       icon: CONFIG.WW.APPLY_CONTEXT_ICONS[group],
       choices: groups[group],
-      collapsed: group === 'actors-tab' ? true : false
+      collapsed: (group === 'actors-tab' && Object.keys(groups).length > 1) ? true : false
     })
 
   }
@@ -204,7 +205,7 @@ function _onOpenMultiChoice(ev, purpose) {
     dataset: element.dataset,
     position: {
       left: rect.left - 410,
-      top: rect.top
+      top: rect.top - 300
     },
     sections: sections
   }).render(true);
@@ -377,6 +378,22 @@ function _onMessageButtonContext(element) {
 
 }
 
+/**
+   * Handle opening of a related sheet
+   * @param {PointerEvent} event      The originating click event
+   * @private
+   */
+function _onOpenSheet(event) {
+  console.log(event)
+  const el = event.currentTarget,
+    dataset = el.dataset;
+
+  // Fetch document and try to open it
+  const doc = fromUuidSync(dataset.uuid);
+  if (doc instanceof TokenDocument) { doc.actor.sheet.render(true) } else doc.sheet.render(true);
+  
+}
+
 /* -------------------------------------------- */
 /*  Chat Roll function                          */
 /* -------------------------------------------- */
@@ -409,7 +426,7 @@ async function _onChatRoll(dataset, label, nextAction) {
 
   // Prepare message data
   const messageData = {
-    type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+    //type: CONST.CHAT_MESSAGE_STYLES.ROLL, - no longer needed in V12
     rolls: rollArray,
     speaker: game.weirdwizard.utils.getSpeaker({ actor: data.actor }),
     flavor: labelHtml,

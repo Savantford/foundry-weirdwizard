@@ -81,7 +81,6 @@
         {{{rollHtml}}}
 
         {{!-- Unrolled Chat Apply Buttons --}}
-
         {{else if (or instEffs actEffs)}}
         <div class="chat-buttons">
             
@@ -101,8 +100,9 @@
 
             {{!-- Active Effect Buttons --}}
             {{#if actEffs}}
-            {{#each actEffs as |effect id|}}
             
+            {{#each actEffs as |effect id|}}
+            {{log effect}}
             {{#if (eq effect.trigger "onUse")}}
             <div class="chat-button" data-action="{{action}}" data-effect-uuid="{{uuid}}" data-origin-uuid="{{@root.item.uuid}}" data-target-ids="{{targetIds}}">
                 {{#if img}}<img src="{{img}}" />{{/if}}{{name}}
@@ -115,9 +115,12 @@
         </div>
         {{/if}}
         
-        {{#if (eq cssClass "whisper blind")}}<img class="private-icon" src="icons/svg/blind.svg" data-tooltip="CHAT.RollBlind"/>
-        {{else if (eq cssClass "whisper")}}<img class="private-icon" src="systems/weirdwizard/assets/icons/hood.svg" data-tooltip='{{localize "CHAT.RollPrivate"}} / {{localize "CHAT.RollSelf"}}' />
-        {{/if}}
+    </div>
+
+    <div class="spear-divider">
+        
+        <img class="private-icon blind" src="icons/svg/blind.svg" data-tooltip="CHAT.RollBlind"/>
+        <img class="private-icon whisper" src="systems/weirdwizard/assets/icons/hood.svg" data-tooltip='{{localize "CHAT.RollPrivate"}} / {{localize "CHAT.RollSelf"}}' />
         
     </div>
     

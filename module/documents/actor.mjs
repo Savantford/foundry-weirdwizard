@@ -480,13 +480,13 @@ export default class WWActor extends Actor {
 
   /* Apply Active Effect */
   async applyEffect(effectUuid, external) {
-
-    let obj = fromUuidSync(effectUuid).toObject()
+    
+    let obj = fromUuidSync(effectUuid).toObject();
 
     obj.flags.weirdwizard.trigger = 'passive';
     if (external) obj.flags.weirdwizard.external = true;
 
-    let content = `<p><b class="info" data-tooltip="${obj.description}">${obj.name}</b> ${i18n('WW.Effect.AppliedTo')} <b>${game.weirdwizard.utils.getAlias({ actor: this })}</b>.</p>`;
+    const content = `<p><b class="info" data-tooltip="${obj.description}">${obj.name}</b> ${i18n('WW.Effect.AppliedTo')} <b>${game.weirdwizard.utils.getAlias({ actor: this })}</b>.</p>`;
 
     ChatMessage.create({
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
@@ -647,132 +647,83 @@ export default class WWActor extends Actor {
      */
   static async createDialog(data={}, {parent=null, pack=null, types, ...options}={}) {
     data.type ??= "NPC";
+    
+    const cls = this.implementation;
 
-    //if (CONFIG.WW.IS_V12) { // Is V12+ // kept for backup
+    // Identify allowed types
+    let documentTypes = [];
+    let defaultType = CONFIG[this.documentName]?.defaultType;
+    let defaultTypeAllowed = false;
+    let hasTypes = false;
+    if (this.TYPES.length > 1) {
+      if (types?.length === 0) throw new Error("The array of sub-types to restrict to must not be empty");
 
-      const cls = this.implementation;
-      
-      // Identify allowed types
-      let documentTypes = [];
-      let defaultType = CONFIG[this.documentName]?.defaultType;
-      let defaultTypeAllowed = false;
-      let hasTypes = false;
-      if ( this.TYPES.length > 1 ) {
-        if ( types?.length === 0 ) throw new Error("The array of sub-types to restrict to must not be empty");
-
-        // Register supported types
-        for ( const type of this.TYPES ) {
-          if ( type === CONST.BASE_DOCUMENT_TYPE ) continue;
-          if ( types && !types.includes(type) ) continue;
-          let label = CONFIG[this.documentName]?.typeLabels?.[type];
-          label = label && game.i18n.has(label) ? game.i18n.localize(label) : type;
-          documentTypes.push({value: type, label});
-          if ( type === defaultType ) defaultTypeAllowed = true;
-        }
-        if ( !documentTypes.length ) throw new Error("No document types were permitted to be created");
-
-        if ( !defaultTypeAllowed ) defaultType = documentTypes[0].value;
-        // Sort alphabetically
-        /*documentTypes.sort((a, b) => a.label.localeCompare(b.label, game.i18n.lang));*/
-        hasTypes = true;
+      // Register supported types
+      for (const type of this.TYPES) {
+        if (type === CONST.BASE_DOCUMENT_TYPE) continue;
+        if (types && !types.includes(type)) continue;
+        let label = CONFIG[this.documentName]?.typeLabels?.[type];
+        label = label && game.i18n.has(label) ? game.i18n.localize(label) : type;
+        documentTypes.push({ value: type, label });
+        if (type === defaultType) defaultTypeAllowed = true;
       }
+      if (!documentTypes.length) throw new Error("No document types were permitted to be created");
 
-      // Identify destination collection
-      let collection;
-      if ( !parent ) {
-        if ( pack ) collection = game.packs.get(pack);
-        else collection = game.collections.get(this.documentName);
-      }
+      if (!defaultTypeAllowed) defaultType = documentTypes[0].value;
+      // Sort alphabetically
+      /*documentTypes.sort((a, b) => a.label.localeCompare(b.label, game.i18n.lang));*/
+      hasTypes = true;
+    }
 
-      // Collect data
-      const folders = collection?._formatFolderSelectOptions() ?? [];
-      const label = game.i18n.localize(this.metadata.label);
-      const title = game.i18n.format("DOCUMENT.Create", {type: label});
-      const type = data.type || defaultType;
+    // Identify destination collection
+    let collection;
+    if (!parent) {
+      if (pack) collection = game.packs.get(pack);
+      else collection = game.collections.get(this.documentName);
+    }
 
-      // Render the document creation form
-      const html = await renderTemplate("templates/sidebar/document-create.html", {
-        folders,
-        name: data.name || "",
-        defaultName: cls.defaultName({type, parent, pack}),
-        folder: data.folder,
-        hasFolders: folders.length >= 1,
-        hasTypes,
-        type,
-        types: documentTypes
-      });
+    // Collect data
+    const folders = collection?._formatFolderSelectOptions() ?? [];
+    const label = game.i18n.localize(this.metadata.label);
+    const title = game.i18n.format("DOCUMENT.Create", { type: label });
+    const type = data.type || defaultType;
 
-      // Render the confirmation dialog window
-      return Dialog.prompt({
-        title,
-        content: html,
-        label: title,
-        render: html => {
-          if ( !hasTypes ) return;
-          html[0].querySelector('[name="type"]').addEventListener("change", e => {
-            const nameInput = html[0].querySelector('[name="name"]');
-            nameInput.placeholder = cls.defaultName({type: e.target.value, parent, pack});
-          });
-        },
-        callback: html => {
-          const form = html[0].querySelector("form");
-          const fd = new FormDataExtended(form);
-          foundry.utils.mergeObject(data, fd.object, {inplace: true});
-          if ( !data.folder ) delete data.folder;
-          if ( !data.name?.trim() ) data.name = cls.defaultName({type: data.type, parent, pack});
-          return cls.create(data, {parent, pack, renderSheet: true});
-        },
-        rejectClose: false,
-        options
-      });
+    // Render the document creation form
+    const html = await renderTemplate("templates/sidebar/document-create.html", {
+      folders,
+      name: data.name || "",
+      defaultName: cls.defaultName({ type, parent, pack }),
+      folder: data.folder,
+      hasFolders: folders.length >= 1,
+      hasTypes,
+      type,
+      types: documentTypes
+    });
 
-    /*} else { // Not V12
+    // Render the confirmation dialog window
+    return Dialog.prompt({
+      title,
+      content: html,
+      label: title,
+      render: html => {
+        if (!hasTypes) return;
+        html[0].querySelector('[name="type"]').addEventListener("change", e => {
+          const nameInput = html[0].querySelector('[name="name"]');
+          nameInput.placeholder = cls.defaultName({ type: e.target.value, parent, pack });
+        });
+      },
+      callback: html => {
+        const form = html[0].querySelector("form");
+        const fd = new FormDataExtended(form);
+        foundry.utils.mergeObject(data, fd.object, { inplace: true });
+        if (!data.folder) delete data.folder;
+        if (!data.name?.trim()) data.name = cls.defaultName({ type: data.type, parent, pack });
+        return cls.create(data, { parent, pack, renderSheet: true });
+      },
+      rejectClose: false,
+      options
+    });
 
-      // Collect data
-      const documentName = this.metadata.name;
-      const types = game.documentTypes[documentName].filter(t => t !== CONST.BASE_DOCUMENT_TYPE);
-      let collection;
-      if ( !parent ) {
-        if ( pack ) collection = game.packs.get(pack);
-        else collection = game.collections.get(documentName);
-      }
-      const folders = collection?._formatFolderSelectOptions() ?? [];
-      const label = game.i18n.localize(this.metadata.label);
-      const title = game.i18n.format("DOCUMENT.Create", {type: label});
-      // Render the document creation form
-      const html = await renderTemplate("templates/sidebar/document-create.html", {
-        folders,
-        name: data.name || game.i18n.format("DOCUMENT.New", {type: label}),
-        folder: data.folder,
-        hasFolders: folders.length >= 1,
-        type: data.type || CONFIG[documentName]?.defaultType || types[0],
-        types: types.reduce((obj, t) => {
-          const label = CONFIG[documentName]?.typeLabels?.[t] ?? t;
-          obj[t] = game.i18n.has(label) ? game.i18n.localize(label) : t;
-          return obj;
-        }, {}),
-        hasTypes: types.length > 1
-      });
-
-      // Render the confirmation dialog window
-      return Dialog.prompt({
-        title: title,
-        content: html,
-        label: title,
-        callback: html => {
-          const form = html[0].querySelector("form");
-          const fd = new FormDataExtended(form);
-          foundry.utils.mergeObject(data, fd.object, {inplace: true});
-          if ( !data.folder ) delete data.folder;
-          if ( types.length === 1 ) data.type = types[0];
-          if ( !data.name?.trim() ) data.name = this.defaultName();
-          return this.create(data, {parent, pack, renderSheet: true});
-        },
-        rejectClose: false,
-        options
-      });
-
-    }*/
 
   }
 

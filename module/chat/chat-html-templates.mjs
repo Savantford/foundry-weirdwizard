@@ -134,7 +134,7 @@ export function chatMessageButtonArray({value, originUuid, targetIds}) {
 /* Prepare action string from label string */
 export function actionFromLabel(label) {
   let action = '';
-
+  
   switch (label) {
     case ('damage'): action = 'roll-damage'; break;
     case ('heal'): action = 'roll-healing'; break;
@@ -229,7 +229,20 @@ export function dataFromLabel(label) {
 }
 
 /* Prepare a complementary object from a label string */
-export function actDataFromLabel(label) {
+export function actDataFromEffect(effect) {
+  
+  const flags = effect.flags.weirdwizard;
+  const data = {
+    action: 'apply-effect',
+    uuid: effect.uuid,
+    trigger: flags.trigger,
+    //icon: 'dice',
+    //img: '',
+    //loc: 'WW.InstantEffect.Button.',
+    //showNo: true
+  }
+
+  return data;
 }
 
 // Add intant effects to chat message html

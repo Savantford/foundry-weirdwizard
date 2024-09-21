@@ -21,22 +21,10 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
     let context = await super.getData(options);
 
-    // Add V12 check
-    context.isV12 = CONFIG.WW.IS_V12;
-
-    const legacyTransfer = CONFIG.ActiveEffect.legacyTransferral;
-
-    const labels = {
-      transfer: {
-        name: game.i18n.localize(`EFFECT.Transfer${legacyTransfer ? 'Legacy' : ''}`),
-        hint: game.i18n.localize(`EFFECT.TransferHint${legacyTransfer ? 'Legacy' : ''}`)
-      }
-    };
-
     const doc = this.document;
 
     const data = {
-      labels,
+      //labels,
       effect: doc, // Backwards compatibility
       data: doc,
       trigger: doc.trigger,
@@ -54,9 +42,6 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     };
 
     context = foundry.utils.mergeObject(context, data);
-
-    // Prepare enriched description
-    context.descriptionHTML = await TextEditor.enrichHTML(doc.description, {async: true, secrets: doc.isOwner});
 
     // Prepare durationSelect dropdown
     context.durationOptions = CONFIG.WW.EFFECT_DURATIONS;
@@ -86,7 +71,7 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
       i++;
     }
-
+    
     return context;
   }
 
