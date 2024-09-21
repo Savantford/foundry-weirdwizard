@@ -69,7 +69,7 @@
     {{#each section.effects as |effect|}}
     <li class="item effect flexrow" data-effect-id="{{effect.id}}">
         <div class="item-image">
-            <img src="{{#if @root.isV12}}{{effect.img}}{{else}}{{effect.icon}}{{/if}}" width="24" height="24" />
+            <img src="{{effect.img}}" width="24" height="24" />
         </div>
 
         <div class="item-name">
@@ -77,16 +77,15 @@
 
             <span class="buttons">
 
-                <i class="fas fa-{{#if (eq effect.trigger " onCritical")}}check-double {{else if (eq
+                <i class="fas fa-{{#if (eq effect.trigger "onCritical")}}check-double {{else if (eq
                     effect.trigger "onSuccess" )}}check {{else if (eq effect.trigger "onFailure" )}}x {{else if (eq
-                    effect.trigger "onUse" )}}bolt {{else}}gears {{/if}}" data-tooltip="{{localize "
-                    WW.Effect.TriggerShort"}}: {{#if effect.locTrigger}}{{localize
-                    effect.locTrigger}}{{else}}{{localize "WW.Effect.Passive" }}{{/if}}"></i>
+                    effect.trigger "onUse" )}}bolt {{else}}gears {{/if}}"
+                    data-tooltip="{{localize "WW.Effect.TriggerShort"}}: {{#if effect.locTrigger}}{{localize effect.locTrigger}}{{else}}{{localize "WW.Effect.Passive" }}{{/if}}"></i>
 
                 <i class="fas fa-{{#if (eq effect.target " tokens")}}users {{else if (eq effect.target "area"
                     )}}users-rectangle {{else if (eq effect.target "areaAlly" )}}users-rectangle color-green {{else if
                     (eq effect.target "areaEnemy" )}}users-rectangle color-red {{else}}user {{/if}}"
-                    data-tooltip="{{localize " WW.Effect.Target"}}: {{#if effect.locTarget}}{{localize
+                    data-tooltip="{{localize "WW.Effect.Target"}}: {{#if effect.locTarget}}{{localize
                     effect.locTarget}}{{else}}{{localize "WW.Effect.Passive" }}{{/if}}"></i>
 
             </span>

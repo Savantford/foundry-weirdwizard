@@ -7,10 +7,15 @@
     <div class="mc-sections">
 
         {{#each sections as |section|}}
+        {{log section}}
         <div class="mc-section {{#if collapsed}}collapsed{{/if}}">
 
             {{!-- Section Title --}}
-            <h3>{{#if icon}}<i class="fas fa-{{{icon}}}"></i> {{/if}}{{localize title}}</h3>
+            <h3>
+                {{#if icon}}<i class="fas fa-{{{icon}}}"></i> {{/if}}
+                {{localize title}}
+                <i class="fas {{#if collapsed}}fa-circle-chevron-up{{else}}fa-circle-chevron-down{{/if}}" data-action="collapseSection"></i>
+            </h3>
 
             {{!-- Attack Rider --}}
             {{#if (eq type "attackRider")}}

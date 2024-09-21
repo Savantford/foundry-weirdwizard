@@ -975,7 +975,7 @@ export default class WWActorSheet extends ActorSheet {
       origin = item.uuid ? item.uuid : this.actor.uuid,
       action = dataset.action
 
-    const attKey = system.attributes[item.system.attribute] ? item.system.attribute : '';
+    const attKey = CONFIG.WW.ATTRIBUTE_ROLLS[item.system.attribute] ? item.system.attribute : '';
     
     if (!attKey) { // If an attribute key is not defined, do not roll
       
@@ -987,7 +987,7 @@ export default class WWActorSheet extends ActorSheet {
         action: action,
         dontRoll: true,
         instEffs: instEffs,
-        effects: effects
+        actEffs: effects
       }
 
       // If targeted-use button was clicked
@@ -1009,8 +1009,83 @@ export default class WWActorSheet extends ActorSheet {
       // If untargeted-use was clicked
       else if (action === 'untargeted-use') {
 
-        // Create message data to sell
-        let messageData = {
+        function actEffs() {
+          const effs = {
+            onUse: [],
+            onSuccess: [],
+            onCritical: [],
+            onFailure: []
+          }
+          
+          item.effects?.forEach(e => {
+            
+            if (!e.flags.weirdwizard.uuid) e.setFlag('weirdwizard', 'uuid', e.uuid);
+            if (!e.trigger) e.trigger = e.flags.weirdwizard.trigger;
+            
+            switch (e.trigger) {
+              case 'onUse': {
+                effs.onUse.push(e);
+                effs.onSuccess.push(e);
+                effs.onCritical.push(e);
+                effs.onFailure.push(e);
+              }; break;
+              case 'onSuccess': effs.onSuccess.push(e); effs.onCritical.push(e); break;
+              case 'onCritical': effs.onCritical.push(e); break;
+              case 'onFailure': effs.onFailure.push(e); break;
+            }
+      
+          })
+          
+          return effs;
+        }
+      
+        function instEffs() {
+          const effs = {
+            onUse: [],
+            onSuccess: [],
+            onCritical: [],
+            onFailure: []
+          }
+      
+          // Add Weapon Damage
+          const itemSystem = item.system;
+          const weaponDamage = (itemSystem.subtype == 'weapon' && itemSystem.damage) ? itemSystem.damage : 0;
+          
+          if (weaponDamage) {
+            const eff = {
+              label: 'damage',
+              originUuid: item.uuid,
+              value: weaponDamage
+            };
+      
+            effs.onSuccess.push(eff);
+            effs.onCritical.push(eff);
+          }
+          
+          // Add Instant Effects
+          item.system?.instant?.forEach(e => {
+
+            if (!e.trigger) e.trigger = e.flags.weirdwizard.trigger;
+            
+            switch (e.trigger) {
+              case 'onUse': {
+                effs.onUse.push(e);
+                effs.onSuccess.push(e);
+                effs.onCritical.push(e);
+                effs.onFailure.push(e);
+              }; break;
+              case 'onSuccess': effs.onSuccess.push(e); effs.onCritical.push(e); break;
+              case 'onCritical': effs.onCritical.push(e); break;
+              case 'onFailure': effs.onFailure.push(e); break;
+            }
+      
+          })
+          
+          return effs;
+        }
+        
+        // Create message data to chat
+        const messageData = {
           speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
           flavor: label,
           content: content,
@@ -1018,7 +1093,9 @@ export default class WWActorSheet extends ActorSheet {
           'flags.weirdwizard': {
             icon: item.img,
             item: item.uuid,
-            emptyContent: !content ?? true
+            emptyContent: !content ?? true,
+            instEffs: instEffs(),
+            actEffs: actEffs()
           }
         }
         

@@ -453,12 +453,13 @@ export default class RollAttribute extends FormApplication {
         const boonsNo = t.boonsAgainst ? t.boonsAgainst[against] : 0;
         const extraBoons = boonsNo > 1 ? i18n('WW.Boons.ExtraBoons') : i18n('WW.Boons.ExtraBoon');
         const againstIcon = CONFIG.WW.ATTRIBUTE_ICONS[against];
+        const againstLabel = CONFIG.WW.ROLL_AGAINST[against];
         
-        targetsDisplay += `<li><label><img class="target-icon" src="${t.icon}" /> ${t.name}</label>`
+        targetsDisplay += `<li><label><img class="target-icon" src="${t.img}" /> ${t.name}</label>`
 
         if (boonsNo >= 1) targetsDisplay += `<div class="target-boons">(${boonsNo} <img src="/systems/weirdwizard/assets/icons/boons-colored.svg" data-tooltip="${extraBoons}"/>)</div>`;
 
-        targetsDisplay += `<div class="target-against">${t.againstNo} <img src="${againstIcon}"/></div></li>`;
+        targetsDisplay += `<div class="target-against" data-tooltip="${againstLabel}">${t.againstNo} <img src="${againstIcon}" /></div></li>`;
       });
 
       parent.querySelector('.boons-targets').innerHTML = targetsDisplay;
@@ -602,7 +603,8 @@ export default class RollAttribute extends FormApplication {
       
       targets.push({
         id: t.id,
-        icon: tDoc?.texture?.src,
+        uuid: tDoc.uuid,
+        img: tDoc?.texture?.src,
         name: game.weirdwizard.utils.getAlias({ token: tDoc, actor: actor }),
         attributes: actor ? sys.attributes : null,
         defense: actor ? sys.stats.defense.total : null,
@@ -625,6 +627,8 @@ export default class RollAttribute extends FormApplication {
     
     this.item?.effects?.forEach(e => {
       if (!e.flags.weirdwizard.uuid) e.setFlag('weirdwizard', 'uuid', e.uuid);
+      if (!e.trigger) e.trigger = e.flags.weirdwizard.trigger;
+      
       switch (e.trigger) {
         case 'onUse': {
           effs.onUse.push(e);
@@ -668,6 +672,8 @@ export default class RollAttribute extends FormApplication {
     // Add Instant Effects
     this.item?.system?.instant?.forEach(e => {
       
+      if (!e.trigger) e.trigger = e.flags.weirdwizard.trigger;
+
       switch (e.trigger) {
         case 'onUse': {
           effs.onUse.push(e);

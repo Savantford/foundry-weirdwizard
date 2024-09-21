@@ -2,7 +2,7 @@
 
   <!-- Effect Header -->
   <header class="sheet-header">
-    <img {{#if isV12}}class="effect-img" src="{{data.img}}" data-edit="img"{{else}}class="effect-icon" src="{{data.icon}}" data-edit="icon"{{/if}}>
+    <img class="effect-img" src="{{ data.img }}" data-edit="img">
     <h1 class="effect-title">
       <input name="name" type="text" value="{{data.name}}" placeholder="{{ localize 'Name' }}" />
     </h1>
@@ -18,22 +18,12 @@
   <!-- Details Tab -->
   <section class="tab" data-tab="details">
 
-    {{#if isV12}}
     <div class="form-group">
       <label>{{ localize "EFFECT.Tint" }}</label>
       <div class="form-fields">
         <color-picker name="tint" value="{{data.tint}}"></color-picker>
       </div>
     </div>
-    {{else}}
-    <div class="form-group">
-      <label>{{ localize "EFFECT.IconTint" }}</label>
-      <div class="form-fields">
-        <input class="color" type="text" name="tint" value="{{data.tint}}" />
-        <input type="color" value="{{#if data.tint}}{{data.tint}}{{else}}#000000{{/if}}" data-edit="tint" />
-      </div>
-    </div>
-    {{/if}}
     
     {{#if isItemEffect}}
       <div class="form-group">
@@ -81,7 +71,6 @@
     </div>
     {{/if}}
     
-    {{#if isV12}}
     <div class="form-group">
       <label>Status Conditions</label>
       <div class="form-fields">
@@ -92,7 +81,6 @@
         </multi-select>
       </div>
     </div>
-    {{/if}}
 
   </section>
 
