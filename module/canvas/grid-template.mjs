@@ -128,7 +128,7 @@ export default class GridTemplate extends MeasuredTemplate {
     this.ruler = this.addChild(this.#drawRulerText());
 
     // Enable highlighting for this template
-    canvas.grid.addHighlightLayer(this.highlightId);
+    canvas.interface.grid.addHighlightLayer(this.highlightId);
   }
 
   /* -------------------------------------------- */
@@ -212,11 +212,12 @@ export default class GridTemplate extends MeasuredTemplate {
     if ( now - this.#moveTime <= 20 ) return;
     const center = event.data.getLocalPosition(this.layer);
     const interval = canvas.grid.type === CONST.GRID_TYPES.GRIDLESS ? 0 : 1; // was 2
-    const snapped = canvas.grid.getSnappedPosition(center.x, center.y, interval);
+    const snapped = canvas.grid.getSnappedPoint({x: center.x, y: center.y}, interval);
     this.document.updateSource({x: snapped.x, y: snapped.y});
     this.refresh();
     this.#moveTime = now;
   }
+
 
   /* -------------------------------------------- */
 
@@ -243,7 +244,7 @@ export default class GridTemplate extends MeasuredTemplate {
   async _onConfirmPlacement(event) {
     await this._finishPlacement(event);
     const interval = canvas.grid.type === CONST.GRID_TYPES.GRIDLESS ? 0 : 1;
-    const destination = canvas.grid.getSnappedPosition(this.document.x, this.document.y, interval);
+    const destination = canvas.grid.getSnappedPoint({x: this.document.x, y: this.document.y}, interval);
     const user = game.user;
     this.document.updateSource(destination);
 

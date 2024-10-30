@@ -115,15 +115,58 @@ export default class WWRoll extends Roll {
     
     if (!dataset) return null;
 
-    const actions = ['apply-damage', 'apply-damage-half', 'apply-damage-double', 'apply-healing'];
     const buttons = [];
     
-    actions.forEach(a => {
-      buttons.push({
-        ...dataset,
-        ...dataFromLabel(a)
-      });
-    })
+    switch (dataset.action) {
+
+      case 'apply-health-loss': {
+        const actions = ['apply-health-loss', 'apply-health-regain'];
+
+        actions.forEach(a => {
+          buttons.push({
+            ...dataset,
+            ...dataFromLabel(a)
+          });
+        })
+        
+      }; break;
+
+      case 'apply-health-regain': {
+        const actions = ['apply-health-regain'];
+
+        actions.forEach(a => {
+          buttons.push({
+            ...dataset,
+            ...dataFromLabel(a)
+          });
+        })
+        
+      }; break;
+
+      case 'apply-healing': {
+        const actions = ['apply-healing'];
+
+        actions.forEach(a => {
+          buttons.push({
+            ...dataset,
+            ...dataFromLabel(a)
+          });
+        })
+        
+      }; break;
+
+      default: {
+        const actions = ['apply-damage', 'apply-damage-half', 'apply-damage-double', 'apply-healing'];
+        
+        actions.forEach(a => {
+          buttons.push({
+            ...dataset,
+            ...dataFromLabel(a)
+          });
+        })
+      }; break;
+        
+    }
     
     return buttons;
   }

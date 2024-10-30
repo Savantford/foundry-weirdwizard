@@ -408,7 +408,8 @@ async function _onChatRoll(dataset, label, nextAction) {
       actor: _getActorFromOrigin(origin),
       target: canvas.tokens.get(dataset.targetId),
       item: (origin?.documentName === 'Item') ? origin : null,
-      value: dataset.value
+      value: dataset.value,
+      action: dataset.action
     }
   const labelHtml = data.item?.name ? `${label ? i18n(label) + ' ' : ''}<span class="owner-only">${data.item?.name}</span><span class="non-owner-only">? ? ?</span>` : '';
   
@@ -418,7 +419,8 @@ async function _onChatRoll(dataset, label, nextAction) {
       template: "systems/weirdwizard/templates/chat/roll.hbs",
       originUuid: origin,
       target: data.target,
-      dataset: data
+      dataset: data,
+      action: data.action
     }
   ).evaluate();
   data.value = await r.total;

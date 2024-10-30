@@ -163,8 +163,8 @@ export default class WWActorSheet extends ActorSheet {
     // Prepare item tooltip
     for (let i of context.items) {
       // Prepare html fields for the tooltip and chat message
-      i.system.description.enriched = await TextEditor.enrichHTML(i.system.description.value, { async: true })
-      if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider?.value, { async: true })
+      i.system.description.enriched = await TextEditor.enrichHTML(i.system.description.value, { async: true });
+      if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider?.value, { async: true });
 
       // Tooltip title
       const title = await escape(`<div class="tooltip-title">${i.name}</div>`);
@@ -173,7 +173,7 @@ export default class WWActorSheet extends ActorSheet {
       let description = '';
 
       // Form description based on item type
-      switch(i.type) {
+      switch (i.type) {
         case 'Spell':
           const casting = i.system.casting ? `<b>${i18n("WW.Spell.Castings")}:</b> ${i.system.uses.max}, ${i.system.casting}` : `<b>${i18n("WW.Spell.Castings")}:</b> ${i.system.uses.max}`;
           const target = i.system.target ? `<br/><b>${i18n("WW.Spell.Target")}:</b> ${i.system.target}` : '';
@@ -452,9 +452,12 @@ export default class WWActorSheet extends ActorSheet {
       // Read the current amount of charges from the set max, or to be relative to the actor's level depending on the setting.
       // Only do this if it's a player character, as NPCs and non-characters do not have a level value to be relative to.
       if (context.actor.type === 'Character') {
+        const level = context.actor.system.stats.level;
+        const half = Math.floor(level / 2) > 0 ? Math.floor(level / 2) : 1;
+        
         switch (item.system.uses.levelRelative) {
-          case 'full': max = context.actor.system.stats.level; break;
-          case 'half': max = Math.floor(context.actor.system.stats.level / 2); break;
+          case 'full': max = level; break;
+          case 'half': max = half; break;
         }
       }
 

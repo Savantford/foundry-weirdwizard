@@ -78,8 +78,8 @@ export default class WWItem extends Item {
 
     for (const doc of documents) {
       
-      // If character option
-      if (await doc.charOption) {
+      // If character option and user did the operation
+      if (await doc.charOption && game.user === user) {
         await doc.updateBenefitsOnActor();
       }
     }

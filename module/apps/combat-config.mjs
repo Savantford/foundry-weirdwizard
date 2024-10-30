@@ -24,6 +24,7 @@ export default class WWCombatTrackerConfig extends CombatTrackerConfig {
     const combatThemeSetting = game.settings.settings.get("core.combatTheme");
     
     return {
+      canConfigure: game.user.can("SETTINGS_MODIFY"),
       settings: game.settings.get("core", Combat.CONFIG_SETTING),
       attributeChoices: TokenDocument.implementation.getTrackedAttributeChoices(attributes),
       combatTheme: combatThemeSetting,
@@ -35,52 +36,14 @@ export default class WWCombatTrackerConfig extends CombatTrackerConfig {
 
   /* -------------------------------------------- */
 
-  /** @override */
+  /** @override */  
   async _updateObject(event, formData) {
-    game.settings.set("core", "combatTheme", formData.combatTheme);
-    if ( !game.user.isGM ) return;
-    
+    game.settings.set("core", "combatTheme", formData["core.combatTheme"]);
+
     return game.settings.set("core", Combat.CONFIG_SETTING, {
-        resource: formData.resource,
-        skipDefeated: formData.skipDefeated
-      }), game.settings.set('weirdwizard', 'skipActed', formData.skipActed);
+      resource: formData.resource,
+      skipDefeated: formData.skipDefeated
+    }), game.settings.set('weirdwizard', 'skipActed', formData.skipActed);
   }
-
-  /* -------------------------------------------- */
-
-  /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-    html.find(".audio-preview").click(this.#onAudioPreview.bind(this));
-  }
-
-  /* -------------------------------------------- */
-
-  #audioPreviewState = 0;
-
-  /**
-   * Handle previewing a sound file for a Combat Tracker setting
-   * @param {Event} event   The initial button click event
-   * @private
-   */
-  #onAudioPreview(event) {
-    const themeName = this.form.combatTheme.value;
-    const theme = CONFIG.Combat.sounds[themeName];
-    if ( !theme || theme === "none" ) return;
-    const announcements = CONST.COMBAT_ANNOUNCEMENTS;
-    const announcement = announcements[this.#audioPreviewState++ % announcements.length];
-    const sounds = theme[announcement];
-    if ( !sounds ) return;
-    const src = sounds[Math.floor(Math.random() * sounds.length)];
-    const volume = game.settings.get("core", "globalInterfaceVolume");
-    game.audio.play(src, {volume});
-  }
-
-  /* -------------------------------------------- */
-
-  /** @override */
-  async _onChangeInput(event) {
-    if ( event.currentTarget.name === "combatTheme" ) this.#audioPreviewState = 0;
-    return super._onChangeInput(event);
-  }
+  
 }

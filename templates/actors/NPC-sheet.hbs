@@ -147,6 +147,21 @@
                 </div>
                 {{/if}}
 
+                {{!-- Immunities --}}
+                {{#if system.details.immune.length}}
+                <div class="stat">
+
+                    <div class="stat-header">{{localize "WW.Detail.Immune.Label"}}</div>
+
+                    <div class="stat-content">
+                        {{#each system.details.immune as |detail id|}}
+                        <div data-tooltip="{{detail.desc}}">{{detail.name}}</div>
+                        {{/each}}
+                    </div>
+                    
+                </div>
+                {{/if}}
+
             </div>
 
             {{!-- Disposition Toggle --}}
