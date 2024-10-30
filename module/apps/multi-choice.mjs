@@ -171,7 +171,7 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
         for (const uuid in selected) {
           
           const target = await fromUuid(uuid);
-
+          
           switch (opt.dataset.action) {
             case 'apply-damage': target.applyDamage(value); break;
             case 'apply-damage-half': target.applyDamage(Math.floor(value/2)); break;
@@ -219,8 +219,7 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
    * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
   */
   static collapseSection(event, target) {
-    console.log(event)
-    console.log(target)
+    
     const section = target.closest('.mc-section');
     const grid = section.querySelector('.choices-grid');
     

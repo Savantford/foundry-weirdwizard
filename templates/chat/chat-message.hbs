@@ -102,7 +102,6 @@
             {{#if actEffs}}
             
             {{#each actEffs as |effect id|}}
-            {{log effect}}
             {{#if (eq effect.trigger "onUse")}}
             <div class="chat-button" data-action="{{action}}" data-effect-uuid="{{uuid}}" data-origin-uuid="{{@root.item.uuid}}" data-target-ids="{{targetIds}}">
                 {{#if img}}<img src="{{img}}" />{{/if}}{{name}}

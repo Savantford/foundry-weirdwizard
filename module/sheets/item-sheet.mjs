@@ -92,7 +92,6 @@ export default class WWItemSheet extends ItemSheet {
           context.requirements = CONFIG.WW.WEAPON_REQUIREMENTS;
           context.grips = CONFIG.WW.WEAPON_GRIPS;
           context.traits = CONFIG.WW.WEAPON_TRAITS;
-          console.log()
           context.hasTraits = Object.values(context.system.traits).filter(v => !!v).length ? true : false;
         }
 
@@ -105,11 +104,14 @@ export default class WWItemSheet extends ItemSheet {
         // Relative to Level Uses
         context.usesLevelRelative = CONFIG.WW.USES_LEVEL_RELATIVE;
         context.belongsToNPC = (context.hasActor && this.document?.actor?.type === 'NPC') ? true : false;
-
+        
         if (context.hasActor && this.document?.actor?.type === 'Character') {
+          const level = this.document.actor.system.stats.level;
+          const half = Math.floor(level / 2) > 0 ? Math.floor(level / 2) : 1;
+
           switch (context.system.uses.levelRelative) {
-            case 'full': context.system.uses.max = this.document.actor.system.stats.level; break;
-            case 'half': context.system.uses.max = Math.floor(this.document.actor.system.stats.level / 2); break;
+            case 'full': context.system.uses.max = level; break;
+            case 'half': context.system.uses.max = half; break;
           }
         }
       break;

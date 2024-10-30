@@ -5,9 +5,8 @@
 
     {{!-- Sections --}}
     <div class="mc-sections">
-
+        
         {{#each sections as |section|}}
-        {{log section}}
         <div class="mc-section {{#if collapsed}}collapsed{{/if}}">
 
             {{!-- Section Title --}}
@@ -19,9 +18,10 @@
 
             {{!-- Attack Rider --}}
             {{#if (eq type "attackRider")}}
+            <prose-mirror name="system.attackRider.value" data-document-u-u-i-d="{{@root.item.uuid}}" value="{{@root.item.system.attackRider.value}}" collaborate="true">
+                {{{attackRider.enriched}}}
+            </prose-mirror>
             
-            {{formInput attackRider.field value=attackRider.value enriched=attackRider.enriched height=100 toggled=true}}
-
             {{else}}
 
             {{!-- Choices Grid --}}

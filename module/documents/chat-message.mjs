@@ -31,8 +31,8 @@ export default class WWChatMessage extends ChatMessage {
    * @override
    * @returns {Promise<jQuery>}
    */
-  async getHTML() {   
-    
+  async getHTML() {
+
     // Determine some metadata
     const data = this.toObject(false);
     const itemUuid = (data.flags?.weirdwizard?.item && (typeof data.flags?.weirdwizard?.item === 'string')) ? data.flags.weirdwizard.item : null;
@@ -43,11 +43,11 @@ export default class WWChatMessage extends ChatMessage {
     const instEffs = item ? item.system.instant.filter(e => e.trigger === 'onUse') : null; 
     const actEffs = item ? item.effects.filter(e => e.trigger === 'onUse') : null; 
     
-    
     // Prepare content
     const emptyContent = data.flags?.weirdwizard?.emptyContent ?? data.flags?.weirdwizard?.emptyContent;
-    
-    data.content = await TextEditor.enrichHTML(this.content, {
+    const content = isNaN(this.content) ? this.content : '';
+
+    data.content = await TextEditor.enrichHTML(content, {
       async: true,
       rollData: this.getRollData(),
       relativeTo: item ? item : undefined
@@ -98,9 +98,6 @@ export default class WWChatMessage extends ChatMessage {
       }
     }
     
-    // V11 legacy support; delete in V13
-    const styles = game.release.generation >= 12 ? CONST.CHAT_MESSAGE_STYLES : CONST.CHAT_MESSAGE_TYPES;
-    
     // Construct message data
     const messageData = {
       message: data,
@@ -128,8 +125,8 @@ export default class WWChatMessage extends ChatMessage {
       actEffs: item ? await actEffs : null,
       emptyContent: emptyContent,
       cssClass: [
-        this.style === styles.IC ? "ic" : null,
-        this.style === styles.EMOTE ? "emote" : null,
+        this.style === CONST.CHAT_MESSAGE_STYLES.IC ? "ic" : null,
+        this.style === CONST.CHAT_MESSAGE_STYLES.EMOTE ? "emote" : null,
         isWhisper ? "whisper" : null,
         this.blind ? "blind": null,
         item?.actor?.type === 'NPC' ? "npc" : null,
@@ -147,7 +144,7 @@ export default class WWChatMessage extends ChatMessage {
     if ( this.isRoll ) await this._renderRollContent(messageData);
     
     // Define a border color
-    if ( this.style === styles.OOC ) messageData.borderColor = this.author?.color.css;
+    if ( this.style === CONST.CHAT_MESSAGE_STYLES.OOC ) messageData.borderColor = this.author?.color.css;
 
     // Render the chat message
     let html = await renderTemplate(CONFIG.ChatMessage.template, messageData);
@@ -157,7 +154,9 @@ export default class WWChatMessage extends ChatMessage {
     if ( this._rollExpanded ) html.find(".dice-tooltip").addClass("expanded");
     Hooks.call("renderChatMessage", this, html, messageData);
     
-    return html;
+    // Return html only if content is visible
+    return this.isContentVisible ? html : '';
+    
   }
 
   /* -------------------------------------------- */

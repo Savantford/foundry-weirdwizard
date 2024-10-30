@@ -1,29 +1,22 @@
 <form autocomplete="off">
-    
-    {{#if user.isGM}}
+    {{#if canConfigure}}
+    {{!-- Tracked Resource --}}
     <div class="form-group">
         <label>{{localize 'COMBAT.Resource'}}</label>
         <select name="resource">
-            {{#select settings.resource}}
-            <option value="">{{ localize "None" }}</option>
-            {{#each attributeChoices as |attrs label|}}
-            <optgroup label="{{ label }}">
-                {{#each attrs}}
-                <option value="{{this}}">{{this}}</option>
-                {{/each}}
-            </optgroup>
-            {{/each}}
-            {{/select}}
+            {{selectOptions attributeChoices selected=settings.resource blank=(localize "None")}}
         </select>
         <p class="notes">{{localize 'COMBAT.ResourceHint'}}</p>
     </div>
-    
+
+    {{!-- Skip Defeated --}}
     <div class="form-group">
         <label>{{localize 'COMBAT.SkipDefeated'}}</label>
         <input type="checkbox" name="skipDefeated" {{checked settings.skipDefeated}} data-dtype="Boolean"/>
         <p class="notes">{{localize 'COMBAT.SkipDefeatedHint'}}</p>
     </div>
 
+    {{!-- Skip Acted --}}
     <div class="form-group">
         <label>{{localize 'WW.Settings.Combat.SkipActed'}}</label>
         <input type="checkbox" name="skipActed" {{checked skipActed}} data-dtype="Boolean"/>
@@ -34,13 +27,7 @@
     <div class="form-group" data-setting-id="core.combatTheme">
         <label>{{ localize combatTheme.name }}</label>
         <div class="form-fields">
-            <select name="combatTheme">
-                {{#select selectedTheme}}
-                {{#each combatTheme.choices as |name k|}}
-                <option value="{{k}}">{{localize name}}</option>
-                {{/each}}
-                {{/select}}
-            </select>
+            {{formInput combatTheme.type value=selectedTheme localize=true}}
             <i data-tooltip="{{localize 'Preview'}}" class="fas fa-play audio-preview"></i>
         </div>
         <p class="notes">{{ localize combatTheme.hint }}</p>

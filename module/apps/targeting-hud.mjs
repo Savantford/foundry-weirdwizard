@@ -137,7 +137,4 @@ export default class TargetingHUD extends Application {
     GridTemplate.fromItem(item)?.drawPreview(this.obj);
   }
 
-  
-  
-
 }
