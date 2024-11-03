@@ -191,16 +191,30 @@ export default class WWCombatTracker extends CombatTracker {
 
       // Prepare Turn Control tooltip
       turn.hasPerms = combatant.permission == 3 || combatant.players.filter(c => game.user).length;
-      const takingInit = combatant.takingInit;
 
       if (turn.hasPerms) { // Check if user has permission
+
+        // Default
+        turn.controlTooltip = 'WW.Combat.Standby';
         
-        if (!acted && (combatant === this.viewed.combatant)) turn.controlTooltip = 'WW.Combat.Turn.End';
-        else if ((combatant.actor.type === 'Character') && !takingInit && (combatant !== this.viewed.combatant)) turn.controlTooltip = 'WW.Combat.Initiative.Label';
-        else if ((combatant.actor.type === 'Character') && takingInit && (combatant !== this.viewed.combatant)) turn.controlTooltip = 'WW.Combat.Turn.Label';
-        else if (!acted && (combatant !== this.viewed.combatant)) turn.controlTooltip = 'WW.Combat.ActNext.Title';
-        else if (acted) turn.controlTooltip = 'WW.Combat.ActAgain.Title'; // Already acted
-      } else turn.controlTooltip = 'WW.Combat.Turn.NoPermission'; // No Permission
+        // Combat NOT in standby; NOT acted; is current turn: End turn
+        if (!combat.standby && !acted && combatant === combat.combatant) turn.controlTooltip = 'WW.Combat.EndTurn';
+
+        // Combat in standby; Combatant has not acted; NOT current turn: Take a turn
+        else if (combat.standby && !acted && combatant !== combat.combatant) turn.controlTooltip = 'WW.Combat.ResetTurn.Title';
+        
+        // Already acted; is a Character: Toggle between regular turn and taking the initiative
+        else if (acted && combatant.actor.type === 'Character') {
+          if (await combatant.takingInit) turn.controlTooltip = 'WW.Combat.Initiative.ClickTip'
+          else turn.controlTooltip = 'WW.Combat.RegularTurn.ClickTip';
+        }
+
+        // Combatant already acted
+        else if (acted) turn.controlTooltip = 'WW.Combat.ResetTurn.Title';
+
+        // User has no permission over the combatant
+      } else turn.controlTooltip = 'WW.Combat.NoPermission';
+      
 
       // Push to to turns and respective phase
       turns.push(turn);
@@ -303,7 +317,7 @@ export default class WWCombatTracker extends CombatTracker {
       if (!combat.standby && !acted && combatant === combat.combatant) this._endTurn(li);
 
       // Combat in standby; Combatant has not acted; NOT current turn: Take a turn
-      else if (combat.standby && !acted && combatant !== combat.combatant) combat.takeNextTurn(li, combatant);
+      else if (combat.standby && !acted && combatant !== combat.combatant) combat.startTurn(li, combatant);
       
       // Already acted; is a Character: Toggle between regular turn and taking the initiative
       else if (acted && combatant.actor.type === 'Character') {
@@ -337,10 +351,6 @@ export default class WWCombatTracker extends CombatTracker {
     const li = isHtml ? $(event)[0] : event.currentTarget.closest('.combatant');
     const combat = this.viewed;
     const combatant = combat.combatants.get(li.dataset.combatantId);
-
-    // Put Combat in Standby Mode    
-    //combat.setFlag('weirdwizard', 'standby', true);
-    if (combat.turn === null) console.log('turn is null'); else console.log('turn is NOT null');
     
     // Combatant is the current turn
     if (combat.current.combatantId == li.dataset.combatantId) {
@@ -349,16 +359,6 @@ export default class WWCombatTracker extends CombatTracker {
       combatant.setFlag('weirdwizard', 'acted', true);
       combat.nextTurn();
     }
-
-    // Push the acted status to the token
-    /*const token = c.token;
-    if ( !token ) return;
-
-    const status = CONFIG.statusEffects.find(e => e.id === CONFIG.specialStatusEffects.ACTED);
-    if ( !status && !token.object ) return;
-    const effect = token.actor && status ? status : CONFIG.controlIcons.acted;*/
-    /*if ( token.object ) await token.object.toggleEffect(effect, {overlay: true, active: acted});
-    else await token.toggleActiveEffect(effect, {overlay: true, active: acted});*/
 
   }
 
@@ -386,8 +386,8 @@ export default class WWCombatTracker extends CombatTracker {
         callback: this._onConfigureCombatant.bind(this)
       },
       {
-        name: "WW.Combat.Turn.End",
-        icon: '<i class="fas fa-hourglass"></i>',
+        name: "WW.Combat.EndTurn",
+        icon: '<i><img src="systems/weirdwizard/assets/icons/check-mark.svg"></i>',
         condition: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
           const hasPerms = (combatant?.permission == 3 || combatant?.players.filter(c => game.user).length);
@@ -400,7 +400,7 @@ export default class WWCombatTracker extends CombatTracker {
       },
       {
         name: "WW.Combat.Initiative.Label",
-        icon: '<i class="fas fa-person-running-fast"></i>',
+        icon: '<i><img src="systems/weirdwizard/assets/icons/reactions.svg"></i>',
         condition: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
           const hasPerms = (combatant?.permission == 3 || combatant?.players.filter(c => game.user).length);
@@ -412,8 +412,8 @@ export default class WWCombatTracker extends CombatTracker {
         }
       },
       {
-        name: "WW.Combat.Turn.Label",
-        icon: '<i class="fas fa-hand-holding-magic"></i>',
+        name: "WW.Combat.RegularTurn.Label",
+        icon: '<i><img src="systems/weirdwizard/assets/icons/actions.svg"></i>',
         condition: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
           const hasPerms = (combatant?.permission == 3 || combatant?.players.filter(c => game.user).length);
@@ -425,8 +425,8 @@ export default class WWCombatTracker extends CombatTracker {
         }
       },
       {
-        name: "WW.Combat.ActNext.Title",
-        icon: '<i class="fas fa-bolt"></i>',
+        name: "WW.Combat.StartTurn.Title",
+        icon: '<i><img src="systems/weirdwizard/assets/icons/pointy-sword.svg"></i>',
         condition: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
           const hasPerms = (combatant?.permission == 3 || combatant?.players.filter(c => game.user).length);
@@ -434,12 +434,12 @@ export default class WWCombatTracker extends CombatTracker {
         },
         callback: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
-          if ( combatant ) return this.takeNextTurn(li, combatant?.toObject());
+          if ( combatant ) return this.viewed.startTurn(li, combatant);
         }
       },
       {
-        name: "WW.Combat.ActAgain.Title",
-        icon: '<i class="fas fa-redo"></i>',
+        name: "WW.Combat.ResetTurn.Title",
+        icon: '<i><img src="systems/weirdwizard/assets/icons/anticlockwise-rotation.svg"></i>',
         condition: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
           const hasPerms = (combatant?.permission == 3 || combatant?.players.filter(c => game.user).length);
@@ -467,7 +467,7 @@ export default class WWCombatTracker extends CombatTracker {
   /* -------------------------------------------- */
 
   /**
-   * Handle a Act Again event.
+   * Handle a Reset Turn event.
    * @param {Event} li
    * @param {Object} combatantData
    * @private
@@ -476,8 +476,8 @@ export default class WWCombatTracker extends CombatTracker {
     
     // Confirmation dialog
     const confirm = await Dialog.confirm({
-      title: i18n('WW.Combat.ActAgain.Title'),
-      content: i18n('WW.Combat.ActAgain.Msg') + '<p class="dialog-sure">' + i18n('WW.Combat.ActAgain.Confirm') + '</p>'
+      title: i18n('WW.Combat.ResetTurn.Title'),
+      content: i18n('WW.Combat.ResetTurn.Msg') + '<p class="dialog-sure">' + i18n('WW.Combat.ResetTurn.Confirm') + '</p>'
     });
 
     if (!confirm) return;
@@ -488,15 +488,12 @@ export default class WWCombatTracker extends CombatTracker {
     const bracket = combatants.filter(c => c.initiativeBracket === source.initiativeBracket);
     const target = combatants.find(c => c.initiative === Math.max(...bracket.map(c => c.initiative)));
     const tracker = await li.closest(`#combat-tracker`);
-    console.log(bracket)
-    console.log(target)
-    console.log(tracker)
+    
     // Set source's Acted flag to false
     await source.setFlag('weirdwizard', 'acted', false);
 
     // Get dropTarget
     const dropTarget = await tracker.querySelector(`li[data-combatant-id=${target.id}]`);
-    console.log(await dropTarget)
     if ( !dropTarget ) return;
     
     // Don't sort on yourself
@@ -653,10 +650,7 @@ export default class WWCombatTracker extends CombatTracker {
     
     // Perform the sort
     const sortUpdates = this.performIntegerSort(source, {target, siblings});
-    console.log('source = ', source)
-    console.log('target = ', target)
-    console.log('siblings = ', siblings)
-    console.log('sortUpdates = ', sortUpdates)
+    
     const updateData = sortUpdates.map(u => {
       const update = u.update;
       update._id = u.target._id;

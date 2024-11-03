@@ -28,9 +28,7 @@ export default class WWCombatant extends Combatant {
   /* -------------------------------------------- */
 
   async takeInit(taking) {
-    console.log('takeInit initialized')
-    console.log('taking =', taking)
-
+    
     // Set takingInit flag
     await this.setFlag('weirdwizard', 'takingInit', taking)
 
@@ -41,7 +39,7 @@ export default class WWCombatant extends Combatant {
     //if ( !status && !token.object ) return;
     
     // Prepare message
-    let msg = i18n('WW.Combat.Turn.Msg', {name: '<b>' + game.weirdwizard.utils.getAlias({ token: token }) + '</b>'});
+    let msg = i18n('WW.Combat.RegularTurn.ChatMsg', {name: '<b>' + game.weirdwizard.utils.getAlias({ token: token }) + '</b>'});
     if (taking) {
       msg = i18n('WW.Combat.Initiative.ChatMsg', {name: '<b>' + game.weirdwizard.utils.getAlias({ token: token }) + '</b>'});
     }

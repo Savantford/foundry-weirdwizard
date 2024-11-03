@@ -648,7 +648,7 @@ export default class WWActorSheet extends ActorSheet {
   async _onIncapacitatedRoll() {
 
     // Prepare roll
-    const r = await new WWRoll('1d6', {}).evaluate({async:true});
+    const r = await new WWRoll('1d6', this.actor.getRollData).evaluate({async:true});
     const rollArray= [r];
     const rollHtml = await diceTotalHtml(r);
   

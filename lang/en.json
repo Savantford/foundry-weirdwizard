@@ -91,6 +91,7 @@
 "WW.Health.Estimation.Dead": "Dead",
 
 "WW.Damage.Label": "Damage",
+"WW.Damage.Details": "Damage Details",
 "WW.Damage.Of": "Damage of {name}",
 "WW.Damage.Bonus": "Bonus Damage",
 
@@ -237,6 +238,7 @@
 "WW.Item.Uses.Full": "Equal to Level",
 
 "WW.Roll.Label": "Roll",
+"WW.Roll.Details": "Roll Details",
 "WW.Roll.Settings": "Roll Settings",
 "WW.Roll.Always": "Always roll",
 "WW.Roll.Dont": "Don't roll",
@@ -255,6 +257,8 @@
 "WW.Roll.Intellect": "Roll Intellect",
 "WW.Roll.Will": "Roll Will",
 "WW.Roll.Luck": "Roll Luck",
+"WW.Roll.Flat": "Custom Modifier",
+"WW.Roll.FlatHint": "This number will be added to the total roll sum, regardless if there an attribute modifier exists or not.",
 
 "WW.Boons.Apply": "Apply boons/banes",
 "WW.Boons.Total": "Total Boons or Banes",
@@ -770,31 +774,34 @@
 "WW.Affliction.Weakened": "Weakened",
 "WW.Affliction.WeakenedDesc": "You make Strength and Agility rolls with 1 bane, and you grant 1 boon on rolls against your Strength and Agility. In addition, your Speed is halved and you cannot benefit from increases to your Speed.",
 
-"WW.Combat.RightClickTip": "Right click for context options.",
+"WW.Combat.RightClickTip": "<p>Right click for context options.</p><p>Drag and drop a combatant within its phase to reorder them.</p>",
+"WW.Combat.Standby": "<p>Combat is on standby because someone is taking their turn.</p><p>Please wait until the turn is finished.</p>",
+"WW.Combat.NoPermission": "<p>You lack permission to take turns with this combatant.</p><p>If you think you should have control over this creature, please ask your Sage for the Owner permission.</p>",
+"WW.Combat.EndTurn": "End Turn",
 
 "WW.Combat.Phase.Initiative": "Taking the Initiative",
 "WW.Combat.Phase.Enemies": "Enemies",
 "WW.Combat.Phase.Allies": "Allies",
 "WW.Combat.Phase.End": "End of the Round",
 
-"WW.Combat.Turn.Label": "Take a Regular Turn",
-"WW.Combat.Turn.Msg": "{name} is taking a regular turn.",
-"WW.Combat.Turn.End": "End Turn",
-"WW.Combat.Turn.NoPermission": "You lack permission to take turns with this creature.",
+"WW.Combat.RegularTurn.Label": "Make a Regular Turn",
+"WW.Combat.RegularTurn.ChatMsg": "{name} is taking a regular turn.",
+"WW.Combat.RegularTurn.ClickTip": "<p>Character is going to take a regular turn next round.</p><p>Click to take the initiative instead.</p>",
 
 "WW.Combat.Initiative.Label": "Take the Initiative",
 "WW.Combat.Initiative.ChatMsg": "{name} is taking the initiative.",
+"WW.Combat.Initiative.ClickTip": "<p>Character is going to take the initiative next round.</p><p>Click to take a regular turn instead.</p>",
 "WW.Combat.Initiative.Title": "Taking the Initiative",
 "WW.Combat.Initiative.Msg": "<p>A new round started.</p><p>Do you want to use a <b>reaction</b> to <b>take the initiative</b>, instead of making a regular turn?</p>",
 "WW.Combat.Initiative.NoCharacter": "A new round started, but you don't have a character assigned to you.",
 
-"WW.Combat.ActAgain.Title": "Take Another Turn",
-"WW.Combat.ActAgain.Msg": "You already took a turn during this round. Normally, each combatant can take one turn per round ONCE.",
-"WW.Combat.ActAgain.Confirm": "Are you sure you can act again during this round?",
+"WW.Combat.ResetTurn.Title": "Reset Turn Count & Take Another Turn",
+"WW.Combat.ResetTurn.Msg": "<p>You already took a turn during this round.</p><p>Normally, each combatant can take one turn per round <b>once</b>.</p>",
+"WW.Combat.ResetTurn.Confirm": "Are you sure you want to reset this count and take another turn this round?",
 
-"WW.Combat.ActNext.Title": "Take a Turn",
-"WW.Combat.ActNext.Msg": "You are going to take a turn next, once the current turn is over.",
-"WW.Combat.ActNext.Confirm": "Are you sure?",
+"WW.Combat.StartTurn.Title": "Start a Turn",
+"WW.Combat.StartTurn.Msg": "You are going to make the combatant you selected take the the next turn.",
+"WW.Combat.StartTurn.Confirm": "Are you sure?",
 
 "WW.Combat.End.Title": "End of Combat",
 "WW.Combat.End.Msg": "You are about to end the combat encounter. Ending it will empty the turn tracker. <b>Are you sure?</b>",

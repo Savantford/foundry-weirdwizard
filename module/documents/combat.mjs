@@ -349,12 +349,12 @@ export default class WWCombat extends Combat {
    * @param {Object} combatant
    * @private
    */
-  async takeNextTurn(li, combatant) {
+  async startTurn(li, combatant) {
     
     // Confirmation dialog
     const confirm = await Dialog.confirm({
-      title: i18n('WW.Combat.ActNext.Title'),
-      content: i18n('WW.Combat.ActNext.Msg') + '<p class="dialog-sure">' + i18n('WW.Combat.ActNext.Confirm') + '</p>'
+      title: i18n('WW.Combat.StartTurn.Title'),
+      content: i18n('WW.Combat.StartTurn.Msg') + '<p class="dialog-sure">' + i18n('WW.Combat.StartTurn.Confirm') + '</p>'
     });
 
     if (!confirm) return;
@@ -376,7 +376,6 @@ export default class WWCombat extends Combat {
     const dropTarget = li.closest(`[data-combatant-id]`) ? li.closest(`[data-combatant-id]`) : li[0].closest(`[data-combatant-id]`);
     if ( !dropTarget ) return;
     const target = this.combatant;
-    console.log(target)
     
     // Don't sort on yourself
     if ( source.id === target.id ) return;
@@ -418,7 +417,6 @@ export default class WWCombat extends Combat {
    * @protected
    */
   async _onStartTurn(combatant) {
-    console.log('turn started')
     super._onStartTurn(combatant);
 
     this._expireEffectsOnTurn(combatant, 'start');

@@ -3155,12 +3155,15 @@ i.icon-Weakened {
 
 .dialog .dialog-buttons button,
 .dialog .dialog-buttons button.default,
-#multi-choice .mc-buttons button {
+#multi-choice .mc-buttons button,
+#roll-attribute .form-group button,
+#roll-damage .form-group button {
   border: none;
   background: none;
   border-image-source: url(../assets/ui/plates/single-transparent-thick.svg);  
   border-image-slice: 118 fill;
   border-image-width: 5px;
+  margin: 0 5px 0 0;
   padding: 0 5px;
   color: black;
   font-family: var(--font-capitalized);
@@ -3174,7 +3177,11 @@ i.icon-Weakened {
 .dialog .dialog-buttons button:hover,
 .dialog .dialog-buttons button:focus,
 #multi-choice .mc-buttons button:hover,
-#multi-choice .mc-buttons button:focus {
+#multi-choice .mc-buttons button:focus,
+#roll-attribute .form-group button:hover,
+#roll-attribute .form-group button:focus,
+#roll-damage .form-group button:hover,
+#roll-damage .form-group button:focus {
   border-image-source: url(../assets/ui/plates/single-transparent-thicker.svg);
   border-image-slice: 128 fill;
   border-image-width: 6px;
@@ -3380,7 +3387,7 @@ i.icon-Weakened {
 }
 
 #roll-attribute .adjustment-widget {
-  margin-top: 10px;
+  margin-top: 7px;
 }
 
 .weirdwizard .adjustment-widget > a {
@@ -3414,7 +3421,13 @@ i.icon-Weakened {
   width: 1.5em;
 }
 
-#roll-attribute .targetno-container input {
+#roll-attribute .roll-options {
+  display: flex;
+  flex-flow: column;
+  gap: 5px;
+}
+
+#roll-attribute .override input {
   width: 30px;
 }
 
@@ -4229,6 +4242,23 @@ form.quest-calendar {
   justify-content: end;
 }
 
+/* Context Menu: All */
+#context-menu li.context-item {
+  display: flex;
+  align-items: center;
+}
+
+#context-menu li.context-item > i {
+  line-height: 1;
+  display: inline-flex;
+  justify-content: center;
+}
+
+#context-menu li.context-item > i > img {
+  height: auto;
+  flex: 0;
+}
+
 /* Context Menu: Sheet Menu */
 
 .weirdwizard.sheet .sheet-menu #context-menu {
@@ -4337,6 +4367,10 @@ form.quest-calendar {
   gap: 5px;
 }
 
+.combat-phase.highlight {
+  filter: drop-shadow(0 0 2px white);
+}
+
 .combat-phase > * {
   filter: drop-shadow(0 0 3px black);
 }
@@ -4425,8 +4459,12 @@ form.quest-calendar {
   background-image: url(../assets/icons/anticlockwise-rotation.svg);
 }
 
-.combat-sidebar.idle li.combatant .turn-control {
-  background-image: url(../assets/icons/player-next.svg);
+.combat-sidebar li.combatant.has-perms.character.acted.taking-init .turn-control:hover {
+  background-image: url(../assets/icons/actions.svg);
+}
+
+.combat-sidebar li.combatant.has-perms.character.acted .turn-control:hover {
+  background-image: url(../assets/icons/reactions.svg);
 }
 
 /* Combat Tracker: Token Resource */
@@ -4437,6 +4475,7 @@ form.quest-calendar {
   justify-content: center;
   padding-right: 5px;
   border: none;
+  text-shadow: 1px 0 2px var(--color-shadow-dark);
 }
 
 .combatant.injured .resource,

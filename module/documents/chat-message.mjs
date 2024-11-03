@@ -205,6 +205,7 @@ export default class WWChatMessage extends ChatMessage {
     for ( const roll of this.rolls ) {
       html += await roll.render({isPrivate});
     }
+    
     return html;
   }
 

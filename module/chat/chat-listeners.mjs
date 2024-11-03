@@ -384,7 +384,7 @@ function _onMessageButtonContext(element) {
    * @private
    */
 function _onOpenSheet(event) {
-  console.log(event)
+  
   const el = event.currentTarget,
     dataset = el.dataset;
 
@@ -414,7 +414,7 @@ async function _onChatRoll(dataset, label, nextAction) {
   const labelHtml = data.item?.name ? `${label ? i18n(label) + ' ' : ''}<span class="owner-only">${data.item?.name}</span><span class="non-owner-only">? ? ?</span>` : '';
   
   // Prepare roll
-  const r = await new WWRoll(data.value, {},
+  const r = await new WWRoll(data.value, data.actor.getRollData(),
     {
       template: "systems/weirdwizard/templates/chat/roll.hbs",
       originUuid: origin,
@@ -425,7 +425,7 @@ async function _onChatRoll(dataset, label, nextAction) {
   ).evaluate();
   data.value = await r.total;
   const rollArray= [r];
-
+  
   // Prepare message data
   const messageData = {
     //type: CONST.CHAT_MESSAGE_STYLES.ROLL, - no longer needed in V12

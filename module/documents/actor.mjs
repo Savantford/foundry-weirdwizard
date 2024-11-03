@@ -299,14 +299,61 @@ export default class WWActor extends Actor {
     const atts = this.system.attributes;
     const data = {...sys};
     
-    // Add Attribute Modifiers
-    data.str = atts.str.mod;
-    data.agi = atts.agi.mod;
-    data.int = atts.int.mod;
-    data.wil = atts.wil.mod;
+    // Attribute Modifiers and Scores
+    data.str = {
+      mod: atts.str.mod,
+      scr: atts.str.value
+    }
+
+    data.agi = {
+      mod: atts.agi.mod,
+      scr: atts.agi.value
+    }
+    
+    data.int = {
+      mod: atts.int.mod,
+      scr: atts.int.value
+    }
+    
+    data.wil = {
+      mod: atts.wil.mod,
+      scr: atts.wil.value
+    }
+
+    // Defense
+    data.def = {
+      nat: sys.stats.defense.natural,
+      arm: sys.stats.defense.armored,
+      total: sys.stats.defense.total,
+    }
+
+    // Health
+    data.hth = {
+      cur: sys.stats.defense.current,
+      nrm: sys.stats.defense.normal,
+      lost: sys.stats.defense.lost,
+    }
+
+    // Damage Total
+    data.dmg = {
+      total: sys.stats.damage.value,
+      half: Math.floor(sys.stats.damage.value / 2)
+    }
+
+    // Speed
+    data.spd = {
+      cur: sys.stats.speed.current,
+      nrm: sys.stats.speed.normal,
+    }
+
+    // Other stats
+    data.lvl = sys.stats.level;
+    data.size = sys.stats.size;
+    data.bd = sys.stats.bonusdamage;
 
     // Clean unused data
     delete data.attributes;
+    delete data.stats;
     delete data.currency;
     delete data.details;
     delete data.description;

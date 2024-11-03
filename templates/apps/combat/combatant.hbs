@@ -1,4 +1,6 @@
-<li class="combatant actor directory-item flexrow {{this.css}} {{#if this.hasPerms}}has-perms{{/if}} {{#if this.acted}}acted{{/if}} {{#if this.injured}}injured{{/if}}"
+<li class="combatant actor directory-item flexrow {{this.css}}
+    {{#if this.hasPerms}}has-perms{{/if}} {{#if (eq this.type 'Character')}}character{{/if}} {{#if this.acted}}acted{{/if}} {{#if this.takingInit}}taking-init{{/if}} {{#if this.injured}}injured{{/if}}"
+    
     data-tooltip="WW.Combat.RightClickTip" data-combatant-id="{{this.id}}">
 
     {{!-- Token Image --}}

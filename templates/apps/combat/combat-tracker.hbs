@@ -54,7 +54,7 @@
 
         {{!-- Taking the Initiative Phase --}}
         {{#if init.length}}
-        <li class="combat-phase init {{#if (gte acted.init init.length)}}grayed{{/if}}">
+        <li class="combat-phase init {{#if (gte acted.init init.length)}}grayed{{else if (lt acted.init init.length)}}highlight{{/if}}">
             <div><img src="systems/weirdwizard/assets/icons/reactions.svg"/></div>
             
             <h4>{{localize "WW.Combat.Phase.Initiative"}}</h4>
@@ -70,7 +70,7 @@
 
         {{!-- Enemies Phase --}}
         {{#if enemies.length}}
-        <li class="combat-phase enemies {{#if (gte acted.enemies enemies.length)}}grayed{{/if}}">
+        <li class="combat-phase enemies {{#if (gte acted.enemies enemies.length)}}grayed{{else if (gte acted.init init.length)}}highlight{{/if}}">
             <div><img src="systems/weirdwizard/assets/icons/skull-shield.svg"/></div>
 
             <h4>{{localize "WW.Combat.Phase.Enemies"}}</h4>
@@ -86,7 +86,7 @@
 
         {{!-- Allies Phase --}}
         {{#if allies.length}}
-        <li class="combat-phase allies {{#if (gte acted.allies allies.length)}}grayed{{/if}}">
+        <li class="combat-phase allies {{#if (gte acted.allies allies.length)}}grayed{{else if (gte acted.enemies enemies.length)}}highlight{{/if}}">
             <div><img src="systems/weirdwizard/assets/icons/heart-shield.svg"/></div>
 
             <h4>{{localize "WW.Combat.Phase.Allies"}}</h4>
@@ -101,7 +101,7 @@
         {{/if}}
 
         {{!-- End of the Round --}}
-        <li class="combat-phase end">
+        <li class="combat-phase end {{#if (gte acted.allies allies.length)}}highlight{{/if}}">
             <div><img src="systems/weirdwizard/assets/icons/duration.svg"/></div>
             
             <h4>{{localize "WW.Combat.Phase.End"}}</h4>
@@ -127,7 +127,7 @@
         {{/if}}
     {{/if}}
     </nav>
-    
+
     {{/if}}
 
 </section>
