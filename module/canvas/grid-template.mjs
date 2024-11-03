@@ -211,8 +211,9 @@ export default class GridTemplate extends MeasuredTemplate {
     const now = Date.now(); // Apply a 20ms throttle
     if ( now - this.#moveTime <= 20 ) return;
     const center = event.data.getLocalPosition(this.layer);
-    const interval = canvas.grid.type === CONST.GRID_TYPES.GRIDLESS ? 0 : 1; // was 2
-    const snapped = canvas.grid.getSnappedPoint({x: center.x, y: center.y}, interval);
+    const interval = canvas.grid.type === CONST.GRID_TYPES.GRIDLESS ? 0 : 1;
+    const snapped = canvas.grid.getSnappedPoint({x: center.x, y: center.y}, {mode:CONST.GRID_SNAPPING_MODES.TOP_LEFT_CORNER, resolution: interval} )
+    
     this.document.updateSource({x: snapped.x, y: snapped.y});
     this.refresh();
     this.#moveTime = now;

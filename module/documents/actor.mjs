@@ -286,6 +286,34 @@ export default class WWActor extends Actor {
 
   }
 
+  /**
+   * @override
+   * Return a data object which defines the data schema against which dice rolls
+   * can be evaluated. By default, this is directly the Actor's system data, but
+   * systems may extend this to include additional properties. If overriding or
+   * extending this method to add additional properties, care must be taken not
+   * to mutate the original object.
+  */
+  getRollData() {
+    const sys = this.system;
+    const atts = this.system.attributes;
+    const data = {...sys};
+    
+    // Add Attribute Modifiers
+    data.str = atts.str.mod;
+    data.agi = atts.agi.mod;
+    data.int = atts.int.mod;
+    data.wil = atts.wil.mod;
+
+    // Clean unused data
+    delete data.attributes;
+    delete data.currency;
+    delete data.details;
+    delete data.description;
+    
+    return data;
+  }
+
   /* -------------------------------------------- */
   /*  Calculations                                */
   /* -------------------------------------------- */

@@ -10,7 +10,7 @@ export default class WWCombatTrackerConfig extends CombatTrackerConfig {
       id: "combat-config",
       title: game.i18n.localize("COMBAT.Settings"),
       classes: ["sheet", "combat-sheet"],
-      template: "systems/weirdwizard/templates/apps/combat-config.hbs",
+      template: "systems/weirdwizard/templates/apps/combat/combat-config.hbs",
       width: 420
     });
   }

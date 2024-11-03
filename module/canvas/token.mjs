@@ -3,7 +3,7 @@ import { mapRange } from './canvas-functions.mjs';
 // Code base borrowed from SWADE game system. Thank you!
 export default class WWToken extends Token {
 
-  /* Flip Damage Bar Gradiant */
+  /* Color macros */
   #blk = 0x000000;
   #wht = 0xFFFFFF;
   #red = 0xDD0000;
@@ -12,6 +12,7 @@ export default class WWToken extends Token {
   #ylw = 0xDDDD00;
   #gry = 0x999999;
 
+  /* Flip Damage Bar Gradiant */
   static getDamageColor(current, max) {
     const minDegrees = 30;
     const maxDegrees = 120;
@@ -160,30 +161,30 @@ export default class WWToken extends Token {
   */
   displayTurnIcon(container) {
     
-    const acted = this.combatant.flags.weirdwizard?.acted,
-      takingInit = this.combatant.flags.weirdwizard?.takingInit,
-      current = this.combatant == this.combatant.combat.combatant,
-      enemy = this.combatant.actor?.type == 'NPC'
+    const combatant = this.combatant, acted = combatant.acted, takingInit = combatant.takingInit,
+      current = combatant == combatant.combat.combatant,
+      dispo = combatant.token.disposition
     ;
 
     const index = container.children.length;
     const tokenSize = canvas.grid.size * this.document.width;
     const iconSize = tokenSize / 5;
 
-    let texture = PIXI.Texture.from('/icons/svg/combat.svg');
-    let tint = this.#wht;
+    let texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/skull-shield.svg');
+    let tint = this.#red;
 
     if (current) {
-      texture = PIXI.Texture.from('/icons/svg/aura.svg');
+      texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/pointy-sword.svg');
       tint = this.#grn;
     } else if (acted) {
       texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/hourglass.svg');
       tint = this.#gry;
     } else if (takingInit) {
-      texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/sprint.svg');
+      texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/reactions.svg');
       tint = this.#ylw;
-    } else if (enemy) {
-      tint = this.#red;
+    } else if (combatant.actor?.type === 'Character' || (combatant.actor?.type == 'NPC' && dispo === 1)) {
+      texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/heart-shield.svg');
+      tint = this.#wht;
     }
     
     // Set icon parameters
@@ -195,17 +196,25 @@ export default class WWToken extends Token {
     turnIcon.tint = tint;
 
     // Set icon background parameters
-    const turnBg = container.addChild(new PIXI.Sprite(texture));
+    const turnBg = container.addChild(new PIXI.Sprite(texture)); // Delete if drop shadow is supported
     turnBg.y = iconSize - iconSize * Math.floor(index/2);
     turnBg.height = iconSize;
     turnBg.width = iconSize;
     turnBg.name = "turnBg";
     turnBg.tint = this.#blk;
     
+    /*const shadow = new PIXI.filters.DropShadowFilter(); // Does not work :(
+      shadow.alpha    = .5;
+      shadow.angle    = 0;
+      shadow.blur     = 8;
+      shadow.distance = 10;
+      shadow.color    = 0x000000;
+    turnIcon.filters     = [shadow];*/
+    
     // Reorder overlays
     const newIndex = container.children.length-1;
     container.setChildIndex(turnIcon, newIndex);
-    container.setChildIndex(turnBg, newIndex-1);
+    container.setChildIndex(turnBg, newIndex-1); // Delete if drop shadow is supported
   }
 
   /** @inheritdoc */
