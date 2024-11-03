@@ -31,7 +31,8 @@
     "systems/weirdwizard/templates/items/parts/item-settings.hbs",
     "systems/weirdwizard/templates/items/parts/item-effects.hbs",
 
-    // Chat
-    "systems/weirdwizard/templates/chat/dice-tooltip.hbs"
+    // Tabs
+    "systems/weirdwizard/templates/chat/dice-tooltip.hbs",
+    "systems/weirdwizard/templates/apps/combat/combatant.hbs"
   ]);
 };

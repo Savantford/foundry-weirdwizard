@@ -286,6 +286,81 @@ export default class WWActor extends Actor {
 
   }
 
+  /**
+   * @override
+   * Return a data object which defines the data schema against which dice rolls
+   * can be evaluated. By default, this is directly the Actor's system data, but
+   * systems may extend this to include additional properties. If overriding or
+   * extending this method to add additional properties, care must be taken not
+   * to mutate the original object.
+  */
+  getRollData() {
+    const sys = this.system;
+    const atts = this.system.attributes;
+    const data = {...sys};
+    
+    // Attribute Modifiers and Scores
+    data.str = {
+      mod: atts.str.mod,
+      scr: atts.str.value
+    }
+
+    data.agi = {
+      mod: atts.agi.mod,
+      scr: atts.agi.value
+    }
+    
+    data.int = {
+      mod: atts.int.mod,
+      scr: atts.int.value
+    }
+    
+    data.wil = {
+      mod: atts.wil.mod,
+      scr: atts.wil.value
+    }
+
+    // Defense
+    data.def = {
+      nat: sys.stats.defense.natural,
+      arm: sys.stats.defense.armored,
+      total: sys.stats.defense.total,
+    }
+
+    // Health
+    data.hth = {
+      cur: sys.stats.defense.current,
+      nrm: sys.stats.defense.normal,
+      lost: sys.stats.defense.lost,
+    }
+
+    // Damage Total
+    data.dmg = {
+      total: sys.stats.damage.value,
+      half: Math.floor(sys.stats.damage.value / 2)
+    }
+
+    // Speed
+    data.spd = {
+      cur: sys.stats.speed.current,
+      nrm: sys.stats.speed.normal,
+    }
+
+    // Other stats
+    data.lvl = sys.stats.level;
+    data.size = sys.stats.size;
+    data.bd = sys.stats.bonusdamage;
+
+    // Clean unused data
+    delete data.attributes;
+    delete data.stats;
+    delete data.currency;
+    delete data.details;
+    delete data.description;
+    
+    return data;
+  }
+
   /* -------------------------------------------- */
   /*  Calculations                                */
   /* -------------------------------------------- */

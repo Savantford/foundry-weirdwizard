@@ -27,25 +27,23 @@ export default class WWCombatant extends Combatant {
   /*  Properties                                  */
   /* -------------------------------------------- */
 
-  async takingInit(taking) {
-
-    // Set takingInit
+  async takeInit(taking) {
+    
+    // Set takingInit flag
     await this.setFlag('weirdwizard', 'takingInit', taking)
 
     // Push the taking initiative status to the token
     const token = this.token;
     if ( !token ) return;
+    //const status = CONFIG.statusEffects.find(e => e.id === CONFIG.specialStatusEffects.TAKING_INITIATIVE);
+    //if ( !status && !token.object ) return;
     
-    const status = CONFIG.statusEffects.find(e => e.id === CONFIG.specialStatusEffects.TAKINGINITIATIVE);
-    if ( !status && !token.object ) return;
-    const effect = token.actor && status ? status : CONFIG.controlIcons.takingInit;
-    /*if ( token.object ) await token.object.toggleEffect(effect, {overlay: true, active: taking});
-    else await token.toggleActiveEffect(effect, {overlay: true, active: taking});*/
-    
-    let msg = i18n('WW.Combat.Turn.Msg', {name: '<b>' + game.weirdwizard.utils.getAlias({ token: token }) + '</b>'});
+    // Prepare message
+    let msg = i18n('WW.Combat.RegularTurn.ChatMsg', {name: '<b>' + game.weirdwizard.utils.getAlias({ token: token }) + '</b>'});
     if (taking) {
       msg = i18n('WW.Combat.Initiative.ChatMsg', {name: '<b>' + game.weirdwizard.utils.getAlias({ token: token }) + '</b>'});
     }
+
     // Send to chat
     ChatMessage.create({
       content: '<div>' + msg + '</div>',
@@ -59,14 +57,22 @@ export default class WWCombatant extends Combatant {
   /* -------------------------------------------- */
   /*  Getters                                     */
   /* -------------------------------------------- */
+
+  get acted() {
+    return this.flags.weirdwizard?.acted ?? false;
+  }
+
+  get takingInit() {
+    return this.flags.weirdwizard?.takingInit ?? false;
+  }
   
   get initiativeBracket() {
-    if ((this.actor?.type == 'Character') && this.flags.weirdwizard?.takingInit) {
-      return 1000; // Allies Taking the Initiative
-    } else if (this.actor?.type == 'Character') {
-      return 3000; // Allies regular turn
-    } else {
-      return 2000; // Enemies Taking the Initiative
+    if ((this.actor?.type == 'Character')) {
+      if (this.takingInit) return 1000; // Taking the Initiative
+      else return 3000; // Allies' regular turn
+    } else { // NPCs
+      if (this.token.disposition === 1) return 3000; // Allies' regular turn
+      else return 2000; // Enemies' Taking the Initiative
     }
   }
 

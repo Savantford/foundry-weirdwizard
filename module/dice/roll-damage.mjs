@@ -36,7 +36,7 @@ export default class RollDamage extends FormApplication {
     
     return foundry.utils.mergeObject(super.defaultOptions, {
       id: 'roll-damage',
-      title: 'Damage Dice',
+      title: 'WW.Damage.Details',
       classes: ['weirdwizard'],
       width: 400,
       height: 'auto',
@@ -175,7 +175,9 @@ export default class RollDamage extends FormApplication {
     }
 
     // Prepare roll
-    const r = await new WWRoll(this.finalExp, {}, {
+    const rollData = this.origin.getRollData();
+
+    const r = await new WWRoll(this.finalExp, rollData, {
       template: "systems/weirdwizard/templates/chat/roll.hbs",
       dataset: dataset
     }).evaluate();

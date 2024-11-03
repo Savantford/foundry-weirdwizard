@@ -44,8 +44,6 @@
             
         </div>
 
-        
-
     </div>
 
     {{!-- Right Column --}}
@@ -58,7 +56,13 @@
         {{/if}}
 
         {{!-- Custom Target Number --}}
-        <div class="stat-inline align-center targetno-container">
+        <div class="override stat-inline align-center">
+            <label>{{localize "WW.Roll.Flat"}}:</label>
+            <input name="flat" type="number" placeholder="—" data-tooltip="WW.Roll.FlatHint"/>
+        </div>
+
+        {{!-- Custom Target Number --}}
+        <div class="override stat-inline align-center">
             <label>{{localize "WW.Roll.TargetNumber"}}:</label>
             <input name="targetno" type="number" placeholder="—" data-tooltip="WW.Roll.TargetNumberHint"/>
         </div>

@@ -3,7 +3,7 @@ import { mapRange } from './canvas-functions.mjs';
 // Code base borrowed from SWADE game system. Thank you!
 export default class WWToken extends Token {
 
-  /* Flip Damage Bar Gradiant */
+  /* Color macros */
   #blk = 0x000000;
   #wht = 0xFFFFFF;
   #red = 0xDD0000;
@@ -12,6 +12,7 @@ export default class WWToken extends Token {
   #ylw = 0xDDDD00;
   #gry = 0x999999;
 
+  /* Flip Damage Bar Gradiant */
   static getDamageColor(current, max) {
     const minDegrees = 30;
     const maxDegrees = 120;
@@ -79,26 +80,37 @@ export default class WWToken extends Token {
   /* Update Status Icons Display */
 
   updateStatusIcons() {
-    const container = this.createIconContainer(); // Create container
-    this.displayHealthIcon(container); // Add health icon
-    if (this.combatant) this.displayTurnIcon(container); // Add turn icon
+    // Create containers
+    const TopContainer = this.createIconContainer('Top'), BottomContainer = this.createIconContainer('Bottom');
+
+    // Add Health status icon
+    this.displayHealthIcon(TopContainer);
+    
+    // Add turn status icon to bottom container
+    if (this.combatant) this.displayTurnIcon(BottomContainer);
   }
 
   /**
    * Create an icon container for status icons.
   */
-  createIconContainer() {
-    this.children.find(c => c.name === "iconContainer")?.destroy();
+  createIconContainer(anchor) {
+    this.children.find(c => c.name === `iconContainer${anchor}`)?.destroy();
 
     const tokenSize = canvas.grid.size * this.document.width;
     const iconSize = tokenSize / 5;
+    const offset = iconSize / 10;
 
     // Set parameters
     const container = this.addChild(new PIXI.Container());
-    container.name = "iconContainer";
-    container.x = tokenSize - iconSize - iconSize/10;
-    container.y = tokenSize - 2*iconSize - iconSize/2;
-    container.height = iconSize * 2;
+    container.name = `iconContainer${anchor}`;
+    container.x = tokenSize - iconSize - offset;
+
+    switch (anchor) {
+      case 'Top': container.y = - iconSize + offset; break;
+      case 'Bottom': container.y = 3*iconSize - offset; break;
+    }
+    
+    container.height = iconSize;
     container.width = iconSize;
     
     // Reorder overlays
@@ -122,22 +134,21 @@ export default class WWToken extends Token {
     const tokenSize = canvas.grid.size * this.document.width;
     const iconSize = tokenSize / 5;
 
-    let texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/bleeding-wound.svg');
+    let texture = PIXI.Texture.from('/icons/svg/blood.svg');
     let tint = this.#red;
 
     if (dead) {
       texture = PIXI.Texture.from('/icons/svg/skull.svg');
-      tint = this.#blk;
+      tint = this.#wht;
     } else if (incapacitated) {
-      texture = PIXI.Texture.from('/icons/svg/daze.svg');
-      tint = this.#drd;
+      texture = PIXI.Texture.from('/icons/svg/unconscious.svg');
     }
     
     // Set icon parameters
     const healthIcon = container.addChild(new PIXI.Sprite(texture));
     healthIcon.y = iconSize - iconSize * Math.floor(index/2);
-    healthIcon.height = iconSize -1;
-    healthIcon.width = iconSize -1;
+    healthIcon.height = iconSize;
+    healthIcon.width = iconSize;
     healthIcon.name = "healthIcon";
     healthIcon.tint = tint;
 
@@ -147,7 +158,13 @@ export default class WWToken extends Token {
     healthBg.height = iconSize;
     healthBg.width = iconSize;
     healthBg.name = "healthBg";
-    healthBg.tint = tint == this.#red ? this.#blk : this.#gry;
+    healthBg.tint = tint === this.#red ? this.#wht : this.#blk;
+
+    // Background blur
+    const blur = new PIXI.BlurFilter();
+    blur.blur = 10;
+    blur.quality = 20;
+    healthBg.filters = [blur, blur];
     
     // Reorder overlays
     const newIndex = container.children.length-1;
@@ -160,37 +177,37 @@ export default class WWToken extends Token {
   */
   displayTurnIcon(container) {
     
-    const acted = this.combatant.flags.weirdwizard?.acted,
-      takingInit = this.combatant.flags.weirdwizard?.takingInit,
-      current = this.combatant == this.combatant.combat.combatant,
-      enemy = this.combatant.actor?.type == 'NPC'
+    const combatant = this.combatant, acted = combatant.acted, takingInit = combatant.takingInit,
+      current = combatant == combatant.combat.combatant,
+      dispo = combatant.token.disposition
     ;
 
     const index = container.children.length;
     const tokenSize = canvas.grid.size * this.document.width;
     const iconSize = tokenSize / 5;
 
-    let texture = PIXI.Texture.from('/icons/svg/combat.svg');
-    let tint = this.#wht;
+    let texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/skull-shield.svg');
+    let tint = this.#red;
 
     if (current) {
-      texture = PIXI.Texture.from('/icons/svg/aura.svg');
+      texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/pointy-sword.svg');
       tint = this.#grn;
     } else if (acted) {
       texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/hourglass.svg');
       tint = this.#gry;
     } else if (takingInit) {
-      texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/sprint.svg');
+      texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/reactions.svg');
       tint = this.#ylw;
-    } else if (enemy) {
-      tint = this.#red;
+    } else if (combatant.actor?.type === 'Character' || (combatant.actor?.type == 'NPC' && dispo === 1)) {
+      texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/heart-shield.svg');
+      tint = this.#wht;
     }
     
     // Set icon parameters
     const turnIcon = container.addChild(new PIXI.Sprite(texture));
     turnIcon.y = iconSize - iconSize * Math.floor(index/2);
-    turnIcon.height = iconSize -1;
-    turnIcon.width = iconSize -1;
+    turnIcon.height = iconSize;
+    turnIcon.width = iconSize;
     turnIcon.name = "turnIcon";
     turnIcon.tint = tint;
 
@@ -200,7 +217,13 @@ export default class WWToken extends Token {
     turnBg.height = iconSize;
     turnBg.width = iconSize;
     turnBg.name = "turnBg";
-    turnBg.tint = this.#blk;
+    turnBg.tint = combatant.actor?.type == 'NPC' && dispo !== 1 ? this.#wht : this.#blk;
+    
+    // Background blur
+    const blur = new PIXI.BlurFilter();
+    blur.blur = 10;
+    blur.quality = 20;
+    turnBg.filters = [blur];
     
     // Reorder overlays
     const newIndex = container.children.length-1;
