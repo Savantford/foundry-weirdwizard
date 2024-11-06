@@ -414,7 +414,7 @@ async function _onChatRoll(dataset, label, nextAction) {
   const labelHtml = data.item?.name ? `${label ? i18n(label) + ' ' : ''}<span class="owner-only">${data.item?.name}</span><span class="non-owner-only">? ? ?</span>` : '';
   
   // Prepare roll
-  const r = await new WWRoll(data.value, data.actor.getRollData(),
+  const r = await new WWRoll(data.value, data.actor?.getRollData(),
     {
       template: "systems/weirdwizard/templates/chat/roll.hbs",
       originUuid: origin,
