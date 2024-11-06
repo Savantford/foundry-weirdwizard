@@ -352,7 +352,7 @@ export default class WWCombat extends Combat {
   async startTurn(li, combatant) {
     
     // Confirmation dialog
-    const confirm = await Dialog.confirm({
+    const confirm = game.user.isGM ? true : await Dialog.confirm({
       title: i18n('WW.Combat.StartTurn.Title'),
       content: i18n('WW.Combat.StartTurn.Msg') + '<p class="dialog-sure">' + i18n('WW.Combat.StartTurn.Confirm') + '</p>'
     });
@@ -460,21 +460,22 @@ export default class WWCombat extends Combat {
     // Update Status Icons
     this.combatants.forEach(c => c.token?.object?.updateStatusIcons());
     
-    // Show Take The Initiative dialog at the beginning of a new round
-    if (options.direction !== -1 && data.round) {
+    // If not a GM, show a Take The Initiative prompt at the beginning of a new round
+    if (options.direction !== -1 && data.round && !game.user.isGM) {
+      console.log(game.user.character)
       if (!game.user.character) {
-        if (!game.user.isGM) {
-          ui.notifications.warn(i18n('WW.Combat.Initiative.NoCharacter'));
-        }
+        ui.notifications.warn(i18n('WW.Combat.Initiative.NoCharacter'));
       } else {
-        const confirm = await Dialog.confirm({
-          title: i18n('WW.Combat.Initiative.Title'),
-          content: i18n('WW.Combat.Initiative.Msg')
-        })
-  
         // Check if the users's character is present as a combatant in the current combat
         game.combat.combatants.forEach(c => {
-          if (c.actorId == game.user.character.id) c.takeInit(confirm);
+          if (c.actorId == game.user.character.id) {
+            const confirm = Dialog.confirm({
+              title: i18n('WW.Combat.Initiative.Title'),
+              content: i18n('WW.Combat.Initiative.Msg')
+            })
+            
+            c.takeInit(confirm);
+          }
         })
   
       }

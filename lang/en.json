@@ -795,9 +795,9 @@
 "WW.Combat.Initiative.Msg": "<p>A new round started.</p><p>Do you want to use a <b>reaction</b> to <b>take the initiative</b>, instead of making a regular turn?</p>",
 "WW.Combat.Initiative.NoCharacter": "A new round started, but you don't have a character assigned to you.",
 
-"WW.Combat.ResetTurn.Title": "Reset Turn Count & Take Another Turn",
+"WW.Combat.ResetTurn.Title": "Reset Turn Count",
 "WW.Combat.ResetTurn.Msg": "<p>You already took a turn during this round.</p><p>Normally, each combatant can take one turn per round <b>once</b>.</p>",
-"WW.Combat.ResetTurn.Confirm": "Are you sure you want to reset this count and take another turn this round?",
+"WW.Combat.ResetTurn.Confirm": "Are you sure you want to reset the count?",
 
 "WW.Combat.StartTurn.Title": "Start a Turn",
 "WW.Combat.StartTurn.Msg": "You are going to make the combatant you selected take the the next turn.",

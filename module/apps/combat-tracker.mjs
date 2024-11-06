@@ -173,7 +173,8 @@ export default class WWCombatTracker extends CombatTracker {
         flags: combatant.flags,
         disposition: combatant.token.disposition,
         acted: acted,
-        takingInit: combatant.takingInit
+        takingInit: combatant.takingInit,
+        hasPerms: combatant.permission >= 2 ?? false
       };
       if ( (turn.initiative !== null) && !Number.isInteger(turn.initiative) ) hasDecimals = true;
       turn.css = [
@@ -190,9 +191,7 @@ export default class WWCombatTracker extends CombatTracker {
       }
 
       // Prepare Turn Control tooltip
-      turn.hasPerms = combatant.permission == 3 || combatant.players.filter(c => game.user).length;
-
-      if (turn.hasPerms) { // Check if user has permission
+      if (combatant.permission >= 2) { // Check if user has permission
 
         // Default
         turn.controlTooltip = 'WW.Combat.Standby';
@@ -309,9 +308,8 @@ export default class WWCombatTracker extends CombatTracker {
     const li = isHtml ? $(event)[0] : event.currentTarget.closest('.combatant');
     const combat = this.viewed;
     const combatant = combat.combatants.get(li.dataset.combatantId), acted = combatant.acted, takingInit = combatant.takingInit;
-    const hasPerms = combatant.permission == 3 || combatant.players.filter(c => game.user).length;
     
-    if (hasPerms) { // Check if user has permission
+    if (combatant.permission) { // Check if user has permission
 
       // Combat NOT in standby; NOT acted; is current turn: End turn
       if (!combat.standby && !acted && combatant === combat.combatant) this._endTurn(li);
@@ -390,8 +388,7 @@ export default class WWCombatTracker extends CombatTracker {
         icon: '<i><img src="systems/weirdwizard/assets/icons/check-mark.svg"></i>',
         condition: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
-          const hasPerms = (combatant?.permission == 3 || combatant?.players.filter(c => game.user).length);
-          return hasPerms && !combatant?.acted && (combatant === this.viewed.combatant);
+          return (combatant?.permission >= 2) && !combatant?.acted && (combatant === this.viewed.combatant);
         },
         callback: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
@@ -399,12 +396,23 @@ export default class WWCombatTracker extends CombatTracker {
         }
       },
       {
+        name: "WW.Combat.StartTurn.Title",
+        icon: '<i><img src="systems/weirdwizard/assets/icons/pointy-sword.svg"></i>',
+        condition: li => {
+          const combatant = this.viewed.combatants.get(li.data("combatant-id"));
+          return (combatant?.permission >= 2) && !combatant?.acted && (combatant !== this.viewed.combatant);
+        },
+        callback: li => {
+          const combatant = this.viewed.combatants.get(li.data("combatant-id"));
+          if ( combatant ) return this.viewed.startTurn(li, combatant);
+        }
+      },
+      {
         name: "WW.Combat.Initiative.Label",
         icon: '<i><img src="systems/weirdwizard/assets/icons/reactions.svg"></i>',
         condition: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
-          const hasPerms = (combatant?.permission == 3 || combatant?.players.filter(c => game.user).length);
-          return hasPerms && (combatant?.actor.type === 'Character') && !combatant?.takingInit && (combatant !== this.viewed.combatant);
+          return (combatant?.permission >= 2) && (combatant?.actor.type === 'Character') && !combatant?.takingInit && (combatant !== this.viewed.combatant);
         },
         callback: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
@@ -416,8 +424,7 @@ export default class WWCombatTracker extends CombatTracker {
         icon: '<i><img src="systems/weirdwizard/assets/icons/actions.svg"></i>',
         condition: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
-          const hasPerms = (combatant?.permission == 3 || combatant?.players.filter(c => game.user).length);
-          return hasPerms && (combatant?.actor.type === 'Character') && combatant?.takingInit && (combatant !== this.viewed.combatant);
+          return (combatant?.permission >= 2) && (combatant?.actor.type === 'Character') && combatant?.takingInit && (combatant !== this.viewed.combatant);
         },
         callback: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
@@ -425,25 +432,11 @@ export default class WWCombatTracker extends CombatTracker {
         }
       },
       {
-        name: "WW.Combat.StartTurn.Title",
-        icon: '<i><img src="systems/weirdwizard/assets/icons/pointy-sword.svg"></i>',
-        condition: li => {
-          const combatant = this.viewed.combatants.get(li.data("combatant-id"));
-          const hasPerms = (combatant?.permission == 3 || combatant?.players.filter(c => game.user).length);
-          return hasPerms && !combatant?.acted && (combatant !== this.viewed.combatant);
-        },
-        callback: li => {
-          const combatant = this.viewed.combatants.get(li.data("combatant-id"));
-          if ( combatant ) return this.viewed.startTurn(li, combatant);
-        }
-      },
-      {
         name: "WW.Combat.ResetTurn.Title",
         icon: '<i><img src="systems/weirdwizard/assets/icons/anticlockwise-rotation.svg"></i>',
         condition: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
-          const hasPerms = (combatant?.permission == 3 || combatant?.players.filter(c => game.user).length);
-          return hasPerms && combatant?.acted;
+          return (combatant?.permission >= 2) && combatant?.acted;
         },
         callback: li => {
           const combatant = this.viewed.combatants.get(li.data("combatant-id"));
@@ -474,8 +467,13 @@ export default class WWCombatTracker extends CombatTracker {
    */
   async _resetTurn(li, combatantData) {
     
+    // Get combatant
+    const combatants = this.combat.combatants;
+    const source = await combatants.get(combatantData._id);
+    console.log(source.permission)
+
     // Confirmation dialog
-    const confirm = await Dialog.confirm({
+    const confirm = !source.permission ? false : await Dialog.confirm({
       title: i18n('WW.Combat.ResetTurn.Title'),
       content: i18n('WW.Combat.ResetTurn.Msg') + '<p class="dialog-sure">' + i18n('WW.Combat.ResetTurn.Confirm') + '</p>'
     });
@@ -483,11 +481,9 @@ export default class WWCombatTracker extends CombatTracker {
     if (!confirm) return;
     
     // Get the drag source and drop target
-    const combatants = this.combat.combatants;
-    const source = combatants.get(combatantData._id);
     const bracket = combatants.filter(c => c.initiativeBracket === source.initiativeBracket);
     const target = combatants.find(c => c.initiative === Math.max(...bracket.map(c => c.initiative)));
-    const tracker = await li.closest(`#combat-tracker`);
+    const tracker = await li[0].closest(`#combat-tracker`) ? await li[0].closest(`#combat-tracker`) : await li.closest(`#combat-tracker`);
     
     // Set source's Acted flag to false
     await source.setFlag('weirdwizard', 'acted', false);
