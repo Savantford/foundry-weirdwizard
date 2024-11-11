@@ -199,8 +199,8 @@ export default class WWCombatTracker extends CombatTracker {
         // Combat NOT in standby; NOT acted; is current turn: End turn
         if (!combat.standby && !acted && combatant === combat.combatant) turn.controlTooltip = 'WW.Combat.EndTurn';
 
-        // Combat in standby; Combatant has not acted; NOT current turn: Take a turn
-        else if (combat.standby && !acted && combatant !== combat.combatant) turn.controlTooltip = 'WW.Combat.ResetTurn.Title';
+        // Combat in standby; Combatant has not acted; NOT current turn: Start a turn
+        else if (combat.standby && !acted && combatant !== combat.combatant) turn.controlTooltip = 'WW.Combat.StartTurn.Title';
         
         // Already acted; is a Character: Toggle between regular turn and taking the initiative
         else if (acted && combatant.actor.type === 'Character') {
@@ -470,7 +470,6 @@ export default class WWCombatTracker extends CombatTracker {
     // Get combatant
     const combatants = this.combat.combatants;
     const source = await combatants.get(combatantData._id);
-    console.log(source.permission)
 
     // Confirmation dialog
     const confirm = !source.permission ? false : await Dialog.confirm({
@@ -479,11 +478,11 @@ export default class WWCombatTracker extends CombatTracker {
     });
 
     if (!confirm) return;
-    
+
     // Get the drag source and drop target
     const bracket = combatants.filter(c => c.initiativeBracket === source.initiativeBracket);
     const target = combatants.find(c => c.initiative === Math.max(...bracket.map(c => c.initiative)));
-    const tracker = await li[0].closest(`#combat-tracker`) ? await li[0].closest(`#combat-tracker`) : await li.closest(`#combat-tracker`);
+    const tracker = li[0] ? await li[0].closest(`#combat-tracker`) : await li.closest(`#combat-tracker`);
     
     // Set source's Acted flag to false
     await source.setFlag('weirdwizard', 'acted', false);

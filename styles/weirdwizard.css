@@ -1624,11 +1624,20 @@ body {
   text-align: right;
 }
 
-.weirdwizard .health-indicator.injured {
+/* Health Indicator: */
+.weirdwizard .health-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 1px 3px;
   color: #8B0000;
   font-weight: bold;
-  padding: 0 3px;
   border-radius: 5px;
+}
+
+/* Health Indicator: Injured */
+.weirdwizard .health-indicator.injured {
   background: rgba(var(--pink-rbg), 0.7);
 }
 
@@ -1639,14 +1648,35 @@ body {
   transform: translate(-50%, 0);  
 }
 
-.weirdwizard .health-indicator.incapacitated:hover {
+.weirdwizard .health-indicator.injured::before {
+  content: '';
+  display: inline-block;
+  width: 1lh;
+  height: 1lh;
+  background: url(../assets/icons/shattered-heart.svg);
+  filter: brightness(0) saturate(100%) invert(8%) sepia(76%) saturate(5232%) hue-rotate(360deg) brightness(104%) contrast(114%);
+}
+
+/* Health Indicator: Incapacitated */
+.weirdwizard.incapacitated .health-indicator:hover {
   border: 1px solid #8B0000;
   cursor: pointer;
 }
 
-.weirdwizard.npc .health-indicator.incapacitated:hover {
+.weirdwizard.npc.incapacitated .health-indicator:hover {
   border: none;
   cursor: inherit;
+}
+
+.weirdwizard.incapacitated .health-indicator::before {
+  background: url(../assets/icons/cross-mark.svg);
+  filter: brightness(0) saturate(100%) invert(8%) sepia(76%) saturate(5232%) hue-rotate(360deg) brightness(104%) contrast(114%);
+}
+
+.weirdwizard.dead .health-indicator::before {
+  background: url(/icons/svg/skull.svg);
+  background-size: contain;
+  filter: brightness(0);
 }
 
 .weirdwizard .health-wrapper {
