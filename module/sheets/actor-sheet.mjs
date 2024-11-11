@@ -654,7 +654,7 @@ export default class WWActorSheet extends ActorSheet {
   
     // Prepare message data
     const messageData = {
-      type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+      /*type: CONST.CHAT_MESSAGE_TYPES.ROLL,*/
       rolls: rollArray,
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
       flavor: `<span>${i18n('WW.Health.IncapacitatedLost')}</span>`,

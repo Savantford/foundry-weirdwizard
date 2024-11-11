@@ -8,6 +8,7 @@ export default class WWToken extends Token {
   #wht = 0xFFFFFF;
   #red = 0xDD0000;
   #drd = 0x880000;
+  #ddr = 0x440000;
   #grn = 0x00FF33;
   #ylw = 0xDDDD00;
   #gry = 0x999999;
@@ -97,17 +98,17 @@ export default class WWToken extends Token {
     this.children.find(c => c.name === `iconContainer${anchor}`)?.destroy();
 
     const tokenSize = canvas.grid.size * this.document.width;
-    const iconSize = tokenSize / 5;
-    const offset = iconSize / 10;
+    const iconSize = tokenSize / 4;
+    const offset = 4;
 
     // Set parameters
     const container = this.addChild(new PIXI.Container());
     container.name = `iconContainer${anchor}`;
-    container.x = tokenSize - iconSize - offset;
+    container.x = tokenSize - iconSize + offset;
 
     switch (anchor) {
-      case 'Top': container.y = - iconSize + offset; break;
-      case 'Bottom': container.y = 3*iconSize - offset; break;
+      case 'Top': container.y = - iconSize + 2 * offset; break;
+      case 'Bottom': container.y = 2 * iconSize + 2 * offset; break;
     }
     
     container.height = iconSize;
@@ -134,14 +135,15 @@ export default class WWToken extends Token {
     const tokenSize = canvas.grid.size * this.document.width;
     const iconSize = tokenSize / 5;
 
-    let texture = PIXI.Texture.from('/icons/svg/blood.svg');
-    let tint = this.#red;
+    let texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/shattered-heart.svg');
+    let tint = this.#drd;
 
     if (dead) {
       texture = PIXI.Texture.from('/icons/svg/skull.svg');
-      tint = this.#wht;
+      tint = this.#blk;
     } else if (incapacitated) {
-      texture = PIXI.Texture.from('/icons/svg/unconscious.svg');
+      texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/cross-mark.svg');
+      tint = this.#ddr;
     }
     
     // Set icon parameters
@@ -158,7 +160,7 @@ export default class WWToken extends Token {
     healthBg.height = iconSize;
     healthBg.width = iconSize;
     healthBg.name = "healthBg";
-    healthBg.tint = tint === this.#red ? this.#wht : this.#blk;
+    healthBg.tint = this.#wht;
 
     // Background blur
     const blur = new PIXI.BlurFilter();
@@ -187,7 +189,7 @@ export default class WWToken extends Token {
     const iconSize = tokenSize / 5;
 
     let texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/skull-shield.svg');
-    let tint = this.#red;
+    let tint = this.#drd;
 
     if (current) {
       texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/pointy-sword.svg');
