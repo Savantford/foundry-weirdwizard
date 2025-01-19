@@ -32,7 +32,7 @@
     "systems/weirdwizard/templates/items/parts/item-effects.hbs",
 
     // Tabs
-    "systems/weirdwizard/templates/chat/dice-tooltip.hbs",
-    "systems/weirdwizard/templates/apps/combat/combatant.hbs"
+    "systems/weirdwizard/templates/sidebar/dice-tooltip.hbs",
+    "systems/weirdwizard/templates/sidebar/combatant.hbs"
   ]);
 };

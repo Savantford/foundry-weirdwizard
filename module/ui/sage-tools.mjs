@@ -16,9 +16,9 @@ export default class SageTools extends Application {
       template: 'systems/weirdwizard/templates/apps/sage-tools.hbs',
       id: 'sage-tools',
       title: 'Sage Tools',
-      width: 'auto',
+      width: 320,
       height: 'auto',
-      top: 70,
+      top: 220,
       left: 120,
       tabs: [{ navSelector: '.sheet-tabs', contentSelector: '.sheet-body', initial: 'scene' }]
     });

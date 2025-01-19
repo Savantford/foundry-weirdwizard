@@ -158,24 +158,25 @@ export default class WWActor extends Actor {
     
     // Create boons variables
     this.system.boons = {
-      attributes: {
-        luck: {
-          global: 0,
-          conditional: 0
-        }
+      selfRoll: {
+        luck: 0,
+        attacks: 0,
+        spells: 0,
+        resistMagical: 0
       },
-      attacks: {
-        global: 0,
-        conditional: 0
-      },
+
       against: {
-        def: 0
+        def: 0,
+        fromAttacks: 0,
+        fromSpells: 0,
+        fromMagical: 0
       }
+
     };
 
     // Create objects
     this.system.autoFail = {};
-    this.system.against = {};
+    //this.system.against = {}; - no longer needed
 
     // Create halved boolean for Speed reductions
     this.system.stats.speed.halved = false;
@@ -185,19 +186,13 @@ export default class WWActor extends Actor {
     this.system.stats.defense.bonus = 0;
 
     // Attributes
-    const attributes = this.system.boons.attributes;
-    const autoFail = this.system.autoFail;
-    const against = this.system.boons.against;
+    ['str', 'agi', 'int', 'wil'].forEach(attribute => {
+      this.system.boons.selfRoll[attribute] = 0;
 
-    ['str', 'agi', 'int', 'wil'].forEach(function (attribute) {
-      attributes[attribute] = {
-        global: 0,
-        conditional: 0
-      }
+      this.system.boons.against[attribute] = 0;
 
-      against[attribute] = 0;
-
-      autoFail[attribute] = false;
+      this.system.autoFail[attribute] = false;
+      
     })
     
   }

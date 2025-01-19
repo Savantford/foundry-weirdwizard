@@ -1,5 +1,5 @@
 import { i18n } from '../helpers/utils.mjs';
-import ListEntryConfig from '../apps/list-entry-config.mjs';
+import ListEntryConfig from '../sheets/list-entry-config.mjs';
 import MultiChoice from '../apps/multi-choice.mjs';
 import { onManageActiveEffect, onManageInstantEffect, prepareActiveEffectCategories } from '../helpers/effects.mjs';
 
@@ -38,7 +38,7 @@ export default class WWItemSheet extends ItemSheet {
     const context = super.getData();
 
     // Use a safe clone of the item data for further operations.
-    context.system = context.item.system;
+    context.system = await context.item.system;
     
     // Prepare enriched variables for editor
     context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true, relativeTo: this.document });
@@ -307,7 +307,10 @@ export default class WWItemSheet extends ItemSheet {
           {
             type: 'attackRider',
             title: 'WW.Attack.Rider',
-            attackRider: this.document.system.attackRider?.value
+            attackRider: {
+              value: this.document.system.attackRider?.value,
+              name: this.document.system.attackRider?.name
+            }
           }
           
         ]

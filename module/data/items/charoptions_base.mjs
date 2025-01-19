@@ -2,12 +2,10 @@
 export const fields = foundry.data.fields;
 
 export function base(type = String) {
-  let desc = 'No description.';
-  let active = true;
-
-  let obj = {
-    description: makeHtmlField(desc),
-    active: makeBooField(active)
+  const obj = {
+    description: makeHtmlField('No description.'),
+    group: makeStrField(),
+    active: makeBooField(true)
   }
 
   return obj;
@@ -15,7 +13,7 @@ export function base(type = String) {
 
 export function grants() {
 
-  let obj = {
+  const obj = {
     quantity: makeIntField(1),
     weightUnit: makeIntField(1),
 

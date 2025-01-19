@@ -7,12 +7,12 @@ export default class QuestCalendarConfig extends FormApplication {
 
   static get defaultOptions() {
 
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['form'],
       popOut: true,
       closeOnSubmit: true,
       minimizable: false,
-      template: 'systems/weirdwizard/templates/apps/quest-calendar-config.hbs',
+      template: 'systems/weirdwizard/templates/config/quest-calendar-config.hbs',
       id: 'quest-calendar-config',
       title: 'QC.Settings.WindowTitle',
       width: 300

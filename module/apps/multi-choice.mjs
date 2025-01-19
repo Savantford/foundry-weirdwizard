@@ -85,8 +85,9 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
         
         section.attackRider = {
           field: opt.item.system.schema.getField("attackRider.value"),
-          value: section.attackRider,
-          enriched: await TextEditor.enrichHTML(section.attackRider, {rollData: opt.item.getRollData(), relativeTo: opt.item})
+          name: await section.attackRider.name,
+          value: await section.attackRider.value,
+          enriched: await TextEditor.enrichHTML(section.attackRider.value, {rollData: opt.item.getRollData(), relativeTo: opt.item})
         }
         
       } else {
@@ -97,9 +98,7 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
         // Prepare choices
         for (const c in section.choices) {
           const choice = section.choices[c];
-          
           if (choice.path) choice.value = foundry.utils.getProperty(context.item, choice.path);
-          
         }
         
       }
@@ -152,11 +151,15 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
     const obj = await formData.object;
     
     // Handle Items
-    if (obj['attackRider.value']) {
+    if (obj['attackRider.name'] || obj['attackRider.value']) {
       obj['system.attackRider.value'] = obj['attackRider.value'];
       delete obj['attackRider.value'];
+
+      obj['system.attackRider.name'] = obj['attackRider.name'];
+      delete obj['attackRider.name'];
     }
     
+    // Handle Items
     if (opt.item) return opt.item.update(obj);
 
     // Handle Chat Application Operations

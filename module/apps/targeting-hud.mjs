@@ -1,4 +1,4 @@
-import { addInstEffs, addActEffs, targetHeader } from '../chat/chat-html-templates.mjs';
+import { addInstEffs, addActEffs, targetHeader } from '../sidebar/chat-html-templates.mjs';
 import GridTemplate from '../canvas/grid-template.mjs';
 import RollAttribute from '../dice/roll-attribute.mjs';
 

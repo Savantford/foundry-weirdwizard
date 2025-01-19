@@ -239,7 +239,7 @@
                 </select>
                 {{else}}
                 <select name="system.stats.size">
-                    {{selectOptions sizes selected=system.stats.size nameAttr="key" labelAttr="label"}}
+                    {{selectOptions sizes selected=system.stats.size valueAttr="key" labelAttr="label"}}
                 </select>
                 {{/if}}
 
@@ -416,6 +416,7 @@
         {{#if (or editable weapons.length actions.length)}}
         <div class="statbox-section actions">
             
+            {{!-- Actions Header --}}
             <h6>
                 <img src="systems/weirdwizard/assets/icons/actions.svg"/>
 
@@ -448,6 +449,13 @@
             {{!-- Special Actions --}}
             <ol class="item-list described-list actions-list">
                 {{#each actions as |item id|}}
+                    {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
+                {{/each}}
+            </ol>
+
+            {{!-- Spells --}}
+            <ol class="item-list described-list spells-list">
+                {{#each spells as |item id|}}
                     {{> "systems/weirdwizard/templates/actors/parts/NPC-summary-item.hbs" item=item id=id}}
                 {{/each}}
             </ol>

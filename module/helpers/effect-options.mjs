@@ -1,12 +1,15 @@
 export const effChanges = {};
 
+/* Self Attribute Rolls */
 effChanges.boons = {
   str: addInt(),
   agi: addInt(),
   int: addInt(),
   wil: addInt(),
   luck: addInt(),
-  attack: addInt()
+  attacks: addInt(),
+  spells: addInt(),
+  resistMagical: addInt()
 }
 
 effChanges.banes = {
@@ -15,24 +18,32 @@ effChanges.banes = {
   int: addInt(),
   wil: addInt(),
   luck: addInt(),
-  attack: addInt()
+  attacks: addInt(),
+  spells: addInt(),
+  resistMagical: addInt()
 }
 
 effChanges.autoFail = {
   str: setBoo(),
   agi: setBoo(),
   int: setBoo(),
-  wil: setBoo()
+  wil: setBoo(),
+  luck: setBoo(),
+  attacks: addInt(),
+  spells: addInt(),
+  resistMagical: addInt()
 }
 
+/* Rolls Against Self */
 effChanges.boonsAgainst = {
   def: addInt(),
   str: addInt(),
   agi: addInt(),
   int: addInt(),
   wil: addInt(),
-  attack: addInt(),
-  magical: addInt()
+  fromAttacks: addInt(),
+  fromSpells: addInt(),
+  fromMagical: addInt()
 }
 
 effChanges.banesAgainst = {
@@ -41,18 +52,23 @@ effChanges.banesAgainst = {
   agi: addInt(),
   int: addInt(),
   wil: addInt(),
-  attack: addInt(),
-  magical: addInt()
+  fromAttacks: addInt(),
+  fromSpells: addInt(),
+  fromMagical: addInt()
 }
 
 effChanges.autoSuccessAgainst = {
   def: setBoo(),
   str: setBoo(),
   agi: setBoo(),
-  Boo: setBoo(),
-  wil: setBoo()
+  int: setBoo(),
+  wil: setBoo(),
+  fromAttacks: addInt(),
+  fromSpells: addInt(),
+  fromMagical: addInt()
 }
 
+/* Other Stats */
 effChanges.extraDamage = {
   dice: addInt(),
   mod: addInt()
@@ -94,6 +110,7 @@ effChanges.bonusDamage = {
   increase: addInt()
 }
 
+/* Attribute Changes */
 effChanges.upgradeAttribute = {
   str: upInt(),
   agi: upInt(),

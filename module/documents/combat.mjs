@@ -462,21 +462,21 @@ export default class WWCombat extends Combat {
     
     // If not a GM, show a Take The Initiative prompt at the beginning of a new round
     if (options.direction !== -1 && data.round && !game.user.isGM) {
-      console.log(game.user.character)
+      
       if (!game.user.character) {
         ui.notifications.warn(i18n('WW.Combat.Initiative.NoCharacter'));
       } else {
         // Check if the users's character is present as a combatant in the current combat
-        game.combat.combatants.forEach(c => {
+        for (const c of game.combat.combatants) {
           if (c.actorId == game.user.character.id) {
-            const confirm = Dialog.confirm({
+            const confirm = await Dialog.confirm({
               title: i18n('WW.Combat.Initiative.Title'),
               content: i18n('WW.Combat.Initiative.Msg')
             })
             
             c.takeInit(confirm);
           }
-        })
+        }
   
       }
     }

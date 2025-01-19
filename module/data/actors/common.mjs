@@ -2,13 +2,13 @@
 export const fields = foundry.data.fields;
 
 export function description (type = String) {
-  let init = 'No creature description.';
-
-  if (type === 'Character') init = "Unknown biography.";
+  const init = (type === 'Character') ? 'Unknown biography.' : 'No creature description.';
 
   return {
-    description: makeHtmlField(init)
+    description: makeHtmlField(init),
+    group: makeStrField()
   }
+
 };
 
 export const attributes = () => ({
@@ -22,7 +22,7 @@ export const attributes = () => ({
 
 export function stats(type = String) {
 
-  let obj = {
+  const obj = {
 
     defense: makeDefense(type),
     health: makeHealth(type),
@@ -52,6 +52,8 @@ export function stats(type = String) {
 
 export function details(type = String) {
   const obj = {
+    group: makeStrField(),
+    
     descriptors: new fields.ArrayField(
       new fields.ObjectField({ initial: {
         name: "",

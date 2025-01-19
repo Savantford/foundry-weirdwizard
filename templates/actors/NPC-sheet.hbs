@@ -217,9 +217,26 @@
 
             {{!-- Description Tab --}}
             <div class="tab description" data-group="primary" data-tab="description">
+                {{#if folder}}
+                {{!-- Folder Name / Creature Group --}}
+                <div class="folder-info">
+                    <h2>{{folder.name}}</h2>
+                
+                    {{!-- Folder / Creature Group Description --}}
+                    <div>{{{folder.flags.weirdwizard.description}}}</div>
 
-                {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
+                    <button class="edit-folder"><i class="fas fa-edit"></i></button>
+                </div>
 
+                <h4 class="pointed-right">{{actor.name}}</h4>
+                {{/if}}
+
+                {{!--{{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}--}}
+                <prose-mirror name="system.description.value" data-document-u-u-i-d="{{actor.uuid}}" value="{{actor.system.description.value}}"
+                    toggled=true collaborate=true compact=true owner={{owner}} editable={{editable}}>
+                    {{{actor.system.description.enriched}}}
+                </prose-mirror>
+                
             </div>
 
             {{!-- Active Effects Tab --}}

@@ -435,6 +435,16 @@ body {
   
 }
 
+.weirdwizard .window-content h4.pointed-right {
+  background: none;
+  border-image-source: url(../assets/ui/headers/pointed-right-purple-medium.svg);
+  border-image-slice: 11 fill;
+  border-image-width: 40px;
+  border-image-outset: 0 7px 0 0;
+  font-family: var(--font-capitalized);
+  font-family: var(--font-body);
+}
+
 .weirdwizard .window-content h5,
 .journal-entry-content h5 {
   color: var(--purple-dark);
@@ -685,6 +695,20 @@ body {
   padding: 0px;
 }
 
+/* Style App V2 Inputs */
+.weirdwizard.application input[type="text"] {
+  --input-placeholder-color: #666666;
+  background: var(--background-color-shadow);
+  border-radius: 1px;
+  padding: 0;
+  line-height: normal;
+  height: auto;
+  min-height: 1lh;
+  font-size: inherit;
+  color: inherit;
+  font-weight: inherit;
+}
+
 /* Remove border and background from inputs/selects/textareas not hovered */
 .weirdwizard .sheet input:not(:hover):not(:focus),
 .weirdwizard .sheet select:not(:hover):not(:focus),
@@ -694,7 +718,8 @@ body {
 }
 
 /* Inputs */
-.weirdwizard input {
+.weirdwizard.sheet.actor input,
+.weirdwizard.sheet.item input {
   height: var(--sheet-input-height);
 }
 
@@ -1068,10 +1093,34 @@ body {
   font-size: smaller;
 }
 
-.weirdwizard.item .weapon-fields .attack-rider {
+/* Attack Rider */
+.weirdwizard .attack-rider {
+  text-align: left;
+}
+
+.weirdwizard.item .attack-rider {
   display: block;
   width: 100%;
-  text-align: left;
+  border-top: 1px solid var(--purple-dark);
+  padding-top: 8px;
+  margin-top: 3px;
+}
+
+.weirdwizard.actor .attack-rider {
+  margin-left: 5px;
+}
+
+.weirdwizard .attack-rider > label {
+  font-weight: bold;
+  color: var(--purple-dark);
+}
+
+.weirdwizard .attack-rider > p:first-of-type {
+  display: inline;
+}
+
+.weirdwizard .attack-rider > p:last-of-type {
+  margin-bottom: 0;
 }
 
 /* Sheet Background and Bug */
@@ -1354,7 +1403,7 @@ body {
   border: none;
 }
 
-.weirdwizard :not(.system.badge) img {
+.weirdwizard :not(.system-badge) img {
   filter: drop-shadow(0 0 1px black);
 }
 
@@ -1373,26 +1422,6 @@ body {
 .weirdwizard.item .profile-img {
   margin: 10px 0;
   height: 80px;
-}
-
-/* Char Option Sheet Banner */
-/*
-
-.weirdwizard.charoption .sheet-banner .tox.tox-tinymce {
-  min-height: 115px;
-}
-
-.weirdwizard.charoption .sheet-banner .tox-editor-header {
-  padding: 0;
-}
-
-.weirdwizard.charoption .sheet-banner .tox .tox-toolbar__group {
-  padding: 0 1px 0 2px;
-}*/
-
-.weirdwizard.charoption .sheet-banner .editor-content {
-  text-align: left;
-  color: white;
 }
 
 /* NPC Sheet Image */
@@ -2119,7 +2148,19 @@ body {
   border-image-repeat: repeat stretch;
 }
 
-/* Sheet Text Editor */
+/* Prose Mirror Text Editor */
+
+.theme-dark .weirdwizard prose-mirror {
+  --menu-background: var(--purple-medium);
+}
+
+.weirdwizard .prosemirror menu .pm-dropdown i.fa-chevron-down {
+  color: var(--body-text-color);
+}
+
+.weirdwizard .prosemirror .toggle > i {
+  margin-right: 0;
+}
 
 .weirdwizard .sheet .editor {
   flex: 1;
@@ -2159,6 +2200,31 @@ body {
 .weirdwizard .tox.tox-tinymce {
   min-height: 150px;
 }
+
+/* Folder Text Editor Shortcut */
+.weirdwizard .folder-info {
+  position: relative;
+}
+
+.weirdwizard .folder-info button {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 26px;
+  height: 26px;
+  line-height: 24px;
+  padding: 0;
+}
+
+.weirdwizard .folder-info:hover button {
+  display: block;
+}
+
+.weirdwizard .folder-info button > i {
+  margin: 0;
+}
+
 .weirdwizard .attribute label {
   font-weight: bold;
 }
@@ -2426,7 +2492,8 @@ input[type="checkbox"].checkbox-uses {
   border-bottom: 1px solid #c9c7b8;
   font-size: var(--font-size-12);
 }
-.weirdwizard .item-list .item > div:not(:first-child):not(.effect-controls) {
+
+.weirdwizard .item-list .item > div:not(:first-child):not(.effect-controls):not(.attack-rider) {
   text-align: center;
 }
 
@@ -2492,6 +2559,7 @@ input[type="checkbox"].checkbox-uses {
   color: black;
   margin-left: 2px;
   padding: 0 3px;
+  width: auto;
 } 
 
 .weirdwizard .item p:nth-child(-n+1),
@@ -3187,7 +3255,7 @@ i.icon-Weakened {
 .dialog .dialog-buttons button.default,
 #multi-choice .mc-buttons button,
 #roll-attribute .form-group button,
-#roll-damage .form-group button {
+.folder-edit button[type=submit] {
   border: none;
   background: none;
   border-image-source: url(../assets/ui/plates/single-transparent-thick.svg);  
@@ -3198,6 +3266,10 @@ i.icon-Weakened {
   color: black;
   font-family: var(--font-capitalized);
   font-size: var(--font-size-16);
+}
+
+.folder-edit button[type=submit] {
+  margin-top: 5px;
 }
 
 .dialog .dialog-buttons button.default {
@@ -3359,6 +3431,10 @@ i.icon-Weakened {
 
 /* Roll Apps */
 
+#roll-attribute .roll-main {
+  margin-bottom: 0.5em;
+}
+
 #roll-attribute h3,
 #roll-damage h3 {
   background: var(--purple-dark);
@@ -3371,7 +3447,6 @@ i.icon-Weakened {
   border: none;
 }
 
-#roll-attribute h3:not(:first-child),
 #roll-damage h3:not(:first-child) {
   margin: 10px 0 0;
 }
@@ -3392,7 +3467,6 @@ i.icon-Weakened {
   border: 1px solid var(--purple-dark);
   border-top: none;
   padding: 5px;
-  margin-bottom: 0.5em;
   border-radius: 0 0 5px 5px;
   background: var(--background-color-shadow);
 }
@@ -3671,14 +3745,20 @@ form.quest-calendar {
   cursor: pointer;
 }
 
-/* Settings */
+/* Config/Settings */
 #quest-calendar-config form {
   display: flex;
   flex-direction: column;
+  font-family: var(--font-body);
 }
 
 #quest-calendar-config input[type="checkbox"] {
   margin: 0;
+}
+
+#quest-calendar-config input[type="number"] {
+  width: 30px;
+  text-align: center;
 }
 
 #quest-calendar-config select {
@@ -3742,12 +3822,15 @@ form.quest-calendar {
   text-align: center;
   display: inline-block;
   font-size: x-large;
-  box-shadow: 0 0 1px black;
+  box-shadow: 0 0 2px 0px black;
+  border-radius: 3px;
 }
 
 .enricher-index:focus,
 .enricher-index:hover  {
+  box-shadow: 0 0 3px 1px var(--color-shadow-primary);
   color: white;
+  text-shadow: 0 0 5px black, 0 0 10px black;
 }
 
 .enricher-index[data-type=ancestries] {
@@ -4559,7 +4642,6 @@ form.quest-calendar {
   padding: 0;
 }
 
-#sage-tools ol li,
 #sage-tools li > div {
   margin: 5px 0;
 }
@@ -4573,11 +4655,10 @@ form.quest-calendar {
   margin-right: auto;
 }
 
-#sage-tools .button,
-#sage-tools .index > div > a {
-  padding: 0 5px;
-  font-size: inherit;
-  white-space: nowrap;
+#sage-tools .ci-list {
+  display: flex;
+  flex-flow: column;
+  gap: 5px;
 }
 
 #sage-tools .user-actors > div {
@@ -4589,6 +4670,9 @@ form.quest-calendar {
 
 #sage-tools .button,
 #sage-tools .index > div > a {
+  padding: 0 5px;
+  font-size: inherit;
+  white-space: nowrap;
   background: rgba(0, 0, 0, 0.1);
   border: 1px solid var(--color-border-light-2);
   border-radius: 3px;
@@ -4600,6 +4684,14 @@ form.quest-calendar {
 #sage-tools .index > div > a:hover {
   filter: drop-shadow(var(--filter-shadow-purple));
   cursor: pointer;
+}
+
+#sage-tools .index > div > .enricher-index {
+  background-image: var(--banner);
+  background-size: cover;
+  font-size: var(--font-size-20);
+  box-shadow: 0 0 2px 0px black;
+  border: none;
 }
 
 #sage-tools .users .button {

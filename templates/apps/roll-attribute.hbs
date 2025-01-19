@@ -22,7 +22,7 @@
             {{#if attackBoons}}
             <div class="stat-stretch flex-group-left">
                 <label>{{localize "WW.Boons.Attack"}}</label>
-                <input name="attack" class="damage-checkbox attack" type="checkbox" data-tooltip="WW.Boons.Apply" {{#if isWeapon}}checked{{/if}}>
+                <input name="attack" class="damage-checkbox attack" type="checkbox" data-tooltip="WW.Boons.Apply" {{#if tags.isWeapon}}checked{{/if}}>
                 <span class="boons-display attack">{{numberFormat attackBoons decimals=0 sign=true}}</span>
             </div>
             {{/if}}
@@ -51,8 +51,10 @@
 
         {{!-- Targets Box --}}
         {{#if targeted}}
-        <h3>{{localize "WW.Targeting.Targets"}}</h3>
-        <div class="h3-box boons-targets"></div>
+        <div class="targets-box">
+            <h3>{{localize "WW.Targeting.Targets"}}</h3>
+            <div class="h3-box boons-targets"></div>
+        </div>
         {{/if}}
 
         {{!-- Custom Target Number --}}
