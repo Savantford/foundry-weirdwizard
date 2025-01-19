@@ -168,3 +168,46 @@ export function handleWelcomeMessage(force = false) {
 
   game.settings.set('weirdwizard', 'welcomeMessageShown', true);
 }
+
+/* Return a list of Compendia with a prefix included */
+export function getCompendiumList () {
+  const compendiumList = {};
+
+  for (const pack of game.packs) {
+    const data = pack.metadata;
+    
+    if (!(data.type === "Item" || data.type === "Actor")) continue; // Skip non-wanted document types
+
+    // Package Name exists in the system's group list
+    const compGroups = CONFIG.WW.COMPENDIUM_GROUPS;
+    const group = Object.hasOwn(compGroups, data.packageName) ? compGroups[data.packageName] : compGroups[data.packageType];
+    
+    compendiumList[data.id] = {
+      value: data.id,
+      label: data.label,
+      group: i18n(group)
+    }
+
+  }
+
+  return compendiumList;
+};
+
+/* Return a list of Folders */
+export function getFolderList(compendium) {
+  const folderList = {};
+  
+  const folders = compendium ? compendium.folders : game.folders;
+
+  for (const folder of folders) {
+    
+    folderList[folder.id] = {
+      value: folder.id,
+      label: folder.name,
+      group: i18n('Existing folders')
+    }
+
+  }
+
+  return folderList;
+};

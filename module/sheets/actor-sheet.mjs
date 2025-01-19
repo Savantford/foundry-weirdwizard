@@ -1,7 +1,6 @@
-import { addActEffs, addInstEffs } from '../chat/chat-html-templates.mjs';
 import { capitalize, escape, i18n, plusify, sum } from '../helpers/utils.mjs';
-import { diceTotalHtml } from '../chat/chat-html-templates.mjs';
-import ListEntryConfig from '../apps/list-entry-config.mjs';
+import { addActEffs, addInstEffs, diceTotalHtml } from '../sidebar/chat-html-templates.mjs';
+import ListEntryConfig from '../sheets/list-entry-config.mjs';
 import { mapRange } from '../canvas/canvas-functions.mjs';
 import { onManageActiveEffect, prepareActiveEffectCategories } from '../helpers/effects.mjs';
 import RollAttribute from '../dice/roll-attribute.mjs';
@@ -52,9 +51,10 @@ export default class WWActorSheet extends ActorSheet {
     
     // Use a safe clone of the actor data for further operations.
     const actorData = context.actor;
-
+    
     // Add the actor's data to context.system for easier access, as well as flags.
     context.system = actorData.system;
+    context.folder = await actorData.folder;
     context.flags = actorData.flags;
     context.dtypes = ['String', 'Number', 'Boolean'];
 
@@ -164,7 +164,7 @@ export default class WWActorSheet extends ActorSheet {
     for (let i of context.items) {
       // Prepare html fields for the tooltip and chat message
       i.system.description.enriched = await TextEditor.enrichHTML(i.system.description.value, { async: true });
-      if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider?.value, { async: true });
+      if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider.value, { async: true });
 
       // Tooltip title
       const title = await escape(`<div class="tooltip-title">${i.name}</div>`);
@@ -561,6 +561,9 @@ export default class WWActorSheet extends ActorSheet {
 
     // Change Token Disposition
     html.find('.change-disposition').click(this._onDispositionChange.bind(this));
+
+    // Change Token Disposition
+    html.find('.edit-folder').click(this._onFolderEdit.bind(this));
 
     // Handle list entries
     html.find('.array-button').click(this._onListEntryButtonClicked.bind(this));
@@ -1454,6 +1457,10 @@ export default class WWActorSheet extends ActorSheet {
     }
 
     this.render();
+  }
+
+  _onFolderEdit() {
+    this.actor.folder.sheet.render(true);
   }
 
   /* -------------------------------------------- */

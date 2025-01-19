@@ -3,7 +3,7 @@
  * @extends {Item}
 */
 
-import { capitalize, i18n } from '../helpers/utils.mjs';
+//import { capitalize, i18n } from '../helpers/utils.mjs';
 
 export default class WWItem extends Item {
   /**

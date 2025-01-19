@@ -1,4 +1,4 @@
-console.log('Initializing weirdwizard.mjs...')
+console.log('SotWW | Initializing weirdwizard.mjs...')
 
 // Import document classes.
 import WWActor from './documents/actor.mjs';
@@ -13,10 +13,13 @@ import WWCharacterSheet from './sheets/character-sheet.mjs';
 import WWNpcSheet from './sheets/npc-sheet.mjs';
 import WWItemSheet from './sheets/item-sheet.mjs';
 import WWCharOptionSheet from './sheets/charoption-sheet.mjs';
+import WWActiveEffectConfig from './sheets/active-effect-config.mjs';
 
-// Import apps
-import WWActiveEffectConfig from './apps/active-effect-config.mjs';
-import WWCombatTracker from './apps/combat-tracker.mjs';
+// Import sidebar related classes.
+import WWCombatTracker from './sidebar/combat-tracker.mjs';
+import { initChatListeners } from './sidebar/chat-listeners.mjs';
+
+// Import UI apps.
 import WWRoll from './dice/roll.mjs';
 import SageTools from './ui/sage-tools.mjs';
 import QuestCalendar from './ui/quest-calendar.mjs';
@@ -39,7 +42,6 @@ import { WW } from './config.mjs';
 import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
 import { WWAfflictions } from './helpers/afflictions.mjs';
 import { expireFromTokens } from './helpers/effects.mjs';
-import { initChatListeners } from './chat/chat-listeners.mjs';
 import { initGlobalListeners } from './helpers/global-listeners.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
@@ -53,16 +55,15 @@ import { Utils, handleWelcomeMessage } from './helpers/utils.mjs';
 Hooks.once('init', function () {
   // Add utility classes to the global game object so that they're more easily
   // accessible in global contexts.
-  
   game.weirdwizard = {
     WWActor,
     WWItem,
     utils: Utils
   };
-
+  
   // Add custom constants for configuration.
   CONFIG.WW = WW;
-
+  
   // Define custom Document classes
   CONFIG.Actor.documentClass = WWActor;
   CONFIG.Item.documentClass = WWItem;
@@ -95,8 +96,10 @@ Hooks.once('init', function () {
     makeDefault: true,
     label: 'WW.System.Sheet.CharOption'
   });
-
+  
+  // Register custom document config sheets
   DocumentSheetConfig.registerSheet(ActiveEffect, 'weirdwizard', WWActiveEffectConfig, {makeDefault: true})
+  //DocumentSheetConfig.registerSheet(Folder, 'weirdwizard', WWFolderConfig, {makeDefault: true}) - does not work, maybe in v13. see renderFolderConfig hook
 
   // Register data models
   CONFIG.Actor.dataModels.Character = CharacterData;
@@ -110,9 +113,6 @@ Hooks.once('init', function () {
 
   // Register custom Combat Tracker
   CONFIG.ui.combat = WWCombatTracker;
-
-  // Register custom templates
-  CONFIG.ChatMessage.template = 'systems/weirdwizard/templates/chat/chat-message.hbs';
   
   // Disable legacy pre-V11 behavior of item effects being stored on actor.effects. Use actor.appliedEffects instead for all effects
   CONFIG.ActiveEffect.legacyTransferral = false;
@@ -133,7 +133,7 @@ Hooks.once('init', function () {
   };
 
   // Register Primary Token Attribute
-  //game.system.primaryTokenAttribute = 'system.stats.damage';
+  //game.system.primaryTokenAttribute = 'system.stats.damage'; - no longer needed?
 
   // Register custom Roll subclass
   CONFIG.Dice.rolls.unshift(WWRoll);
@@ -141,7 +141,6 @@ Hooks.once('init', function () {
   // Set active effect keys-labels to be used in Active Effects Config app
   WWActiveEffectConfig.initializeChangeKeys();
   WWActiveEffectConfig.initializeChangeLabels();
-  //WWActiveEffectConfig.initializeChangePriorities(); // No longer needed
 
   // Register system settings
   game.settings.register('weirdwizard', 'lastMigrationVersion', {
@@ -336,44 +335,9 @@ Hooks.on('renderChatMessage', (app, html) => {
 });
 
 /* -------------------------------------------- */
-/*  Misc Hooks                                  */
+/*  Rendering Hooks                             */
 /* -------------------------------------------- */
 
-Hooks.on('getSceneControlButtons', (array, html) => {
-
-  // Get button arrays
-  const token = array.find(a => a.name === 'token');
-  const notes = array.find(a => a.name === 'notes');
-
-  // Add Sage Tools button
-  token.tools.push({
-    name: 'sage-tools',
-    title: 'Toggle Sage Tools',
-    icon: 'fa-solid fa-wand-sparkles',
-    button: true,
-    visible: game.user.isGM,
-    toggle: true,
-    onClick: () => SageTools.toggleVis('toggle')
-  });
-  
-  // Add Quest Calendar button
-  notes.tools.push({
-    name: 'quest-calendar',
-    title: 'Toggle Quest Calendar',
-    icon: 'fa-solid fa-calendar-clock',
-    button: true,
-    visible: true,
-    toggle: true,
-    onClick: () => QuestCalendar.toggleVis('toggle')
-  });
-});
-
-// On game world time change
-Hooks.on('updateWorldTime', (worldTime, dt, options, userId) => {
-  expireFromTokens();
-
-  if (ui.questcalendar?.rendered) ui.questcalendar.render();
-});
 
 Hooks.on('renderSettingsConfig', (app, html, data) => {
   // Add sections to settings dialog by iterating all *our* settings, stripping the module/system ID,
@@ -436,6 +400,70 @@ Hooks.on("renderSettings", (app, [html]) => {
   heading.insertAdjacentElement("afterend", badge);
 });
 
+/**
+ * A hook event that fires when the ActiveEffectConfig application is rendered
+ * @param {ActiveEffectConfig} app      The Application instance being rendered
+ * @param {JQuery<HTMLElement>} jquery  The inner HTML of the document that will be displayed and may be modified
+ * @param {Record<string, any>} context The object of data used when rendering the application
+ */
+Hooks.on("renderFolderConfig", (app, [html], context) => {
+  const folder = app.document;
+
+  const description = folder.getFlag('weirdwizard', 'description');
+
+  // Create HTML string, inject it, then set app's position
+  const htmlStr = `<prose-mirror class="editor prosemirror"
+    name="flags.weirdwizard.description" data-document-UUID="${folder.uuid}" value="${description}"
+    toggled=true compact=true>${description}</prose-mirror>`;
+  
+  html.querySelector('button[type="submit"]').insertAdjacentHTML('beforeBegin', htmlStr);
+  
+  // Add weirdwizar class to html and resize app's height
+  html.classList.add('weirdwizard');
+  app.setPosition({ width: 435, height: 'auto' });
+
+});
+
+/* -------------------------------------------- */
+/*  Misc Hooks                                  */
+/* -------------------------------------------- */
+
+Hooks.on('getSceneControlButtons', (array, html) => {
+
+  // Get button arrays
+  const token = array.find(a => a.name === 'token');
+  const notes = array.find(a => a.name === 'notes');
+
+  // Add Sage Tools button
+  token.tools.push({
+    name: 'sage-tools',
+    title: 'Toggle Sage Tools',
+    icon: 'fa-solid fa-wand-sparkles',
+    button: true,
+    visible: game.user.isGM,
+    toggle: true,
+    onClick: () => SageTools.toggleVis('toggle')
+  });
+  
+  // Add Quest Calendar button
+  notes.tools.push({
+    name: 'quest-calendar',
+    title: 'Toggle Quest Calendar',
+    icon: 'fa-solid fa-calendar-clock',
+    button: true,
+    visible: true,
+    toggle: true,
+    onClick: () => QuestCalendar.toggleVis('toggle')
+  });
+});
+
+// On game world time change
+Hooks.on('updateWorldTime', (worldTime, dt, options, userId) => {
+  expireFromTokens();
+
+  if (ui.questcalendar?.rendered) ui.questcalendar.render();
+});
+
 /* -------------------------------------------- */
 /*  External Module Hooks                       */
 /* -------------------------------------------- */
@@ -454,4 +482,4 @@ Hooks.on('diceSoNiceReady', (dice3d) => {
 
 });
 
-console.log('weirdwizard.mjs loaded.')
+console.log('SotWW | Done initializating weirdwizard.mjs.')

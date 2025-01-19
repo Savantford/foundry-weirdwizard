@@ -26,7 +26,7 @@ export default class NpcData extends foundry.abstract.DataModel {
   static migrateData(source) {
 
     // Migrate total Defense to Natural Defense (4.3.0)
-    if (source.stats.defense?.total && !source.stats.defense?.natural && source.stats.defense?.total !== 10 && source.stats.defense?.total !== source.stats.defense?.natural) {
+    if (source.stats?.defense?.total && !source.stats?.defense?.natural && source.stats?.defense?.total !== 10 && source.stats?.defense?.total !== source.stats?.defense?.natural) {
       source.stats.defense.natural = source.stats.defense.total;
     }
 

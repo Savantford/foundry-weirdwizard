@@ -1,4 +1,4 @@
-import { capitalize, i18n } from '../helpers/utils.mjs';
+import { capitalize, getCompendiumList, i18n } from '../helpers/utils.mjs';
 
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
@@ -78,22 +78,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
     context.types = CONFIG.WW.COMPENDIUM_TYPES;
 
-    context.compendiumList = {};
-
-    for (const pack of game.packs) {
-      const data = pack.metadata;
-      
-      if (!(data.type === "Item" || data.type === "Actor")) continue; // Skip non-wanted document types
-      
-      let prefix = '';
-
-      switch (data.packageType) {
-        case 'world': prefix = i18n('WW.System.Index.Prefix.World');
-        case 'system': prefix = i18n('WW.System.Index.Prefix.Core');
-      }
-      
-      context.compendiumList[data.id] = prefix ? `${prefix}: ${data.label}` : data.label;
-    }
+    context.compendiumList = getCompendiumList();
 
     context.tabs = [
       {

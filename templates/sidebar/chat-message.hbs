@@ -1,0 +1,132 @@
+<li class="weirdwizard chat-message message flexcol {{item.type}} {{item.subtype}} {{item.magical}} {{cssClass}}" data-message-id="{{message._id}}" {{#if borderColor}}style="border-color:{{borderColor}}"{{/if}}>
+    
+    {{!-- Footer --}}
+    <footer class="message-footer">
+            
+        {{!-- Sender / Timestamp --}}
+        <div class="footer-sender flexrow">
+            <h4 class="message-sender">{{#if avatar}}<img src="{{avatar}}">{{/if}}{{alias}}</h4>
+            <span class="message-metadata">
+                <time class="message-timestamp">{{timeSince message.timestamp}}</time>
+                {{#if canDelete}}
+                <a aria-label="{{localize 'Delete'}}" class="message-delete"><i class="fas fa-trash"></i></a>
+                {{/if}}
+            </span>
+        </div>
+    
+    </footer>
+    
+    {{!-- Header --}}
+    <header class="message-header flexcolumn">
+
+        {{!-- Whisper To --}}
+        {{#if isWhisper}}
+        <span class="whisper-to">{{localize 'CHAT.To'}}: {{whisperTo}}</span>
+        {{/if}}
+
+        {{!-- Flavor (Icon, Name, Categories, etc) --}}
+        {{#if message.flavor}}
+        <div class="bug"></div>
+
+        <div class="flavor-container">
+            {{#if icon}}<img src="{{icon}}">{{/if}}
+            <div class="flavor-title">
+
+                {{!-- Title (Item Name) --}}
+                <span class="flavor-text">{{{message.flavor}}}</span>
+
+                {{!-- Subtitle --}}
+                {{#if (and showPrivate item)}}<span class="flavor-type">{{item.type}}{{#if item.source}} • {{item.source}}{{/if}}{{#if item.tier}} • {{item.tier}}{{/if}}</span>{{/if}}
+
+            </div>
+
+            {{!-- Collapse/Expand Icon --}}
+            <div><a class="chat-message-collapse"><i class="fas fa-square-minus"></i></a></div>
+            
+        </div>
+
+        {{!-- Weapon Details --}}
+        {{#if (and showPrivate item.isWeapon)}}
+
+        {{!-- Weapon Traits --}}
+        <div class="traits-container">
+            {{#each item.traits as |trait id|}}
+            <span class="header-button" data-tooltip="{{trait.tip}}">{{trait.label}}</span>
+            {{/each}}
+        </div>
+
+        {{!-- Attack Rider --}}
+        {{#if (or item.attackRider.value item.attackRider.name)}}
+        <div class="message-subheader-details attack-rider">
+            <label>{{item.attackRider.name}}:</label>
+            {{{item.attackRider.enriched}}}
+        </div>
+        {{/if}}
+
+        {{/if}}
+
+        {{!-- Spell Header --}}
+        {{#if (and item.isSpell item.spellHeader)}}
+        <div class="message-subheader-details">
+            {{{item.spellHeader}}}
+        </div>
+        {{/if}}
+
+        {{/if}}
+
+    </header>
+    
+    {{!-- Message Wrapper --}}
+    <div class="message-wrapper">
+
+        {{!-- Message Content (Body) --}}
+        <div class="message-content">{{{message.content}}}</div>
+        
+        {{!-- Rolls --}}
+        {{#if rollHtml}}
+        {{{rollHtml}}}
+
+        {{!-- Unrolled Chat Apply Buttons --}}
+        {{else if (or instEffs actEffs)}}
+        <div class="chat-buttons">
+            
+            {{!-- Instant Effect Buttons --}}
+            {{#if instEffs}}
+            {{#each instEffs as |effect id|}}
+            
+            {{#if (eq effect.trigger "onUse")}}
+            <div class="chat-button" data-action="{{action}}" data-value="{{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}"
+                data-origin-uuid="{{@root.item.uuid}}" data-target-ids="{{targetIds}}">
+                <i class="fas fa-{{icon}}"></i>{{localize loc}}: {{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}
+            </div>
+            {{/if}}
+
+            {{/each}}
+            {{/if}}
+
+            {{!-- Active Effect Buttons --}}
+            {{#if actEffs}}
+            
+            {{#each actEffs as |effect id|}}
+            {{#if (eq effect.trigger "onUse")}}
+            <div class="chat-button" data-action="{{action}}" data-effect-uuid="{{uuid}}" data-origin-uuid="{{@root.item.uuid}}" data-target-ids="{{targetIds}}">
+                {{#if img}}<img src="{{img}}" />{{/if}}{{name}}
+            </div>
+            {{/if}}
+
+            {{/each}}
+            {{/if}}
+
+        </div>
+        {{/if}}
+        
+    </div>
+
+    <div class="spear-divider">
+        
+        <img class="private-icon blind" src="icons/svg/blind.svg" data-tooltip="CHAT.RollBlind"/>
+        <img class="private-icon whisper" src="systems/weirdwizard/assets/icons/hood.svg" data-tooltip='{{localize "CHAT.RollPrivate"}} / {{localize "CHAT.RollSelf"}}' />
+        
+    </div>
+    
+</li>

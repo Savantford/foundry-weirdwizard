@@ -1,6 +1,6 @@
 //import { actionFromLabel, buttonsHeader, chatMessageButton, diceTotalHtml, targetHeader } from '../chat/chat-html-templates.mjs';
 import { i18n, plusify } from '../helpers/utils.mjs';
-import WWRoll from '../dice/roll.mjs';
+import WWRoll from './roll.mjs';
 
 /**
  * Extend FormApplication to make a prompt shown by attribute and luck rolls
@@ -32,9 +32,9 @@ export default class RollAttribute extends FormApplication {
     this.content = obj.content;
     this.icon = obj.icon ? obj.icon : (this.item ? this.item.img : null);
     this.name = attKey == 'luck' ? i18n('WW.Attributes.Luck') : this.system.attributes[attKey].label;
-    this.effectBoonsGlobal = this.system.boons.attributes[attKey].global ?
-      this.system.boons.attributes[attKey].global : 0;
-    this.attackBoons = this.system.boons.attacks.global;
+    this.effectBoons = this.system.boons.selfRoll[attKey] ?
+      this.system.boons.selfRoll[attKey] : 0;
+    this.actorBoons = this.system.boons;
 
     // Get fixed boons
     if (obj.fixedBoons) this.fixedBoons = obj.fixedBoons;
@@ -48,6 +48,14 @@ export default class RollAttribute extends FormApplication {
     this.attribute = attKey;
     this.against = this.item?.system?.against;
     this.boonsFinal = 0;
+
+    // Tags
+    this.tags = {
+      isWeapon: this.item?.system?.subtype === 'weapon' ?? false,
+      isAttack: (this.item?.system?.subtype === 'weapon' || this.against === 'def') ?? false,
+      isMagical: this.item?.system?.magical,
+      isSpell: this.item?.type === 'Spell' ?? false
+    }
 
   }
 
@@ -66,15 +74,18 @@ export default class RollAttribute extends FormApplication {
 
   getData(options = {}) {
     const context = super.getData()
-
-    // Pass data to application template.
+    
+    // General data
     context.system = this.system;
     context.mod = this.mod;
+    context.targeted = this.action === 'targeted-use' ?? false;
+    context.tags = this.tags;
+
+    // Boons
     context.fixedBoons = this.fixedBoons;
-    context.effectBoons = this.effectBoonsGlobal; // Conditional boons should be added here later
-    context.isWeapon = this.item?.system?.subtype === 'weapon' ? true : false;
-    context.attackBoons = this.attackBoons;
-    context.targeted = this.action === 'targeted-use' ? true : false;
+    context.effectBoons = this.effectBoons; // Conditional boons should be added here later
+    context.attackBoons = this.actorBoons.selfRoll.attacks;
+    context.spellBoons = this.actorBoons.selfRoll.spells;
 
     return context;
   }
@@ -131,11 +142,18 @@ export default class RollAttribute extends FormApplication {
     ;
     
     if (targeted && against) { // If Action is Targeted and Against is filled; perform one separate roll for each target
-
+      
       for (const t of this.targets) {
         
         // Set boons text
-        const boonsNo = parseInt(boonsFinal) + (t.boonsAgainst ? t.boonsAgainst[against] : 0);
+        let boonsAgainst = parseInt(boonsFinal)
+        if (t.boonsAgainst) boonsAgainst += t.boonsAgainst[against];
+        if (this.tags.isAttack) boonsAgainst += t.boonsAgainst.fromAttacks;
+        if (this.tags.isSpell) boonsAgainst += t.boonsAgainst.fromSpells;
+        if (this.tags.isMagical) boonsAgainst += t.boonsAgainst.fromMagical;
+
+        const boonsNo = parseInt(boonsFinal) + boonsAgainst;
+
         if (boonsNo != 0) { boons = (boonsNo < 0 ? "" : "+") + boonsNo + "d6kh" } else { boons = ""; };
 
         // Determine the rollFormula
@@ -146,7 +164,7 @@ export default class RollAttribute extends FormApplication {
         
         // Construct the Roll instance and evaluate the roll
         const r = await new WWRoll(rollFormula, rollData, {
-          template: "systems/weirdwizard/templates/chat/roll.hbs",
+          template: "systems/weirdwizard/templates/sidebar/roll.hbs",
           originUuid: this.origin.uuid,
           target: t,
           attribute: this.attribute,
@@ -235,7 +253,7 @@ export default class RollAttribute extends FormApplication {
       // Construct the Roll instance and evaluate the roll
       
       const r = await new WWRoll(rollFormula, rollData, {
-        template: "systems/weirdwizard/templates/chat/roll.hbs",
+        template: "systems/weirdwizard/templates/sidebar/roll.hbs",
         originUuid: this.origin.uuid,
         attribute: this.attribute,
         against: against,
@@ -336,7 +354,9 @@ export default class RollAttribute extends FormApplication {
       fixedBoons = context.fixedBoons,
       applyAttackBoons = parent.querySelector('input[name=attack]:checked'),
       attackBoons = context.attackBoons,
-      effectBoons = context.effectBoonsGlobal, // Conditional boons should be added here later,
+      //spellBoons = parent.querySelector('input[name=spell]:checked'),
+      spellBoons = context.spellBoons,
+      effectBoons = context.effectBoons, // Conditional boons should be added here later,
       flat = parent.querySelector('input[name=flat]').value ?? null;
 
     let boonsFinal = context.boonsFinal;
@@ -400,14 +420,25 @@ export default class RollAttribute extends FormApplication {
       let targetsDisplay = '';
       
       context.targets.forEach(t => {
-        const boonsNo = t.boonsAgainst ? t.boonsAgainst[against] : 0;
-        const extraBoons = boonsNo > 1 ? i18n('WW.Boons.ExtraBoons') : i18n('WW.Boons.ExtraBoon');
+        
+        // Boons against count
+        let boonsAgainst = parseInt(boonsFinal)
+        if (t.boonsAgainst) boonsAgainst += t.boonsAgainst[against];
+        if (this.tags.isAttack) boonsAgainst += t.boonsAgainst.fromAttacks;
+        if (this.tags.isSpell) boonsAgainst += t.boonsAgainst.fromSpells;
+        if (this.tags.isMagical) boonsAgainst += t.boonsAgainst.fromMagical + t.boons.resistMagical;
+        
+        // Boons display
+        const boonsNo = boonsAgainst;
+        const boonsTip = boonsNo > 0 ? i18n('WW.Boons.ExtraBoons') : i18n('WW.Boons.ExtraBanes');
+        const boonsIcon = boonsNo > 0 ? 'boons-colored' : 'banes-colored';
+        
         const againstIcon = CONFIG.WW.ATTRIBUTE_ICONS[against];
         const againstLabel = CONFIG.WW.ROLL_AGAINST[against];
         
         targetsDisplay += `<li><label><img class="target-icon" src="${t.img}" /> ${t.name}</label>`
 
-        if (boonsNo >= 1) targetsDisplay += `<div class="target-boons">(${boonsNo} <img src="/systems/weirdwizard/assets/icons/boons-colored.svg" data-tooltip="${extraBoons}"/>)</div>`;
+        if (boonsNo != 0) targetsDisplay += `<div class="target-boons">(${boonsNo} <img src="/systems/weirdwizard/assets/icons/${boonsIcon}.svg" data-tooltip="${boonsTip}"/>)</div>`;
 
         targetsDisplay += `<div class="target-against" data-tooltip="${againstLabel}">${t.againstNo} <img src="${againstIcon}" /></div></li>`;
       });

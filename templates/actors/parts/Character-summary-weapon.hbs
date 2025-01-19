@@ -31,5 +31,11 @@
     {{/if}}
 
     {{!-- Attack Rider --}}
-    {{#if item.system.attackRider.value}}{{{item.system.attackRider.enriched}}}{{/if}}
+    {{#if (or item.system.attackRider.value item.system.attackRider.name)}}
+    <div class="attack-rider">
+        <label>{{item.system.attackRider.name}}:</label>
+        {{{item.system.attackRider.enriched}}}
+    </div>
+    {{/if}}
+
 </li>

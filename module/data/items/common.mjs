@@ -2,13 +2,10 @@
 export const fields = foundry.data.fields;
 
 export function base(type = String) {
-  let desc = 'No description.';
-  let active = true;
+  const desc = (type === 'Equipment') ? '' : 'No description.';
+  const active = (type === 'Spell') ? false : true;
 
-  if (type === 'Equipment') desc = '';
-  if (type === 'Spell') active = false;
-
-  let obj = {
+  const obj = {
     description: makeHtmlField(desc),
     active: makeBooField(active)
   }
@@ -18,7 +15,7 @@ export function base(type = String) {
 
 export function physical(type = String) {
 
-  let obj = {
+  const obj = {
     quantity: makeIntField(1),
     weightUnit: makeIntField(1),
 
@@ -27,10 +24,7 @@ export function physical(type = String) {
       coin: makeStrField('sp')
     }),
 
-    availability: makeStrField()/*,
-    equipped: makeBooField(false),
-    identified: makeBooField(true)*/
-    
+    availability: makeStrField()
   }
 
   return obj;
@@ -38,7 +32,7 @@ export function physical(type = String) {
 
 export function activity(type = String) {
 
-  let obj = {
+  const obj = {
     magical: makeBooField(type === 'Spell' ? true : false),
     attribute: makeStrField(),
     against: makeStrField(),
@@ -93,6 +87,11 @@ export const makeHtmlField = (init = '') => new fields.SchemaField({
   value: new fields.HTMLField({
     initial: init,
     textSearch: true // Allow it to be searched in the Search Bar
+  }),
+
+  name: new fields.StringField({
+    initial: '',
+    textSearch: true
   })
 })
 

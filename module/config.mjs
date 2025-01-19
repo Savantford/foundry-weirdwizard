@@ -448,28 +448,36 @@ WW.EFFECT_OPTIONS = {
     header: 'WW.Effect.Keys.Boons.Header',
     options: {
       'boons.str': {
-        key: 'system.boons.attributes.str.global',
+        key: 'system.boons.selfRoll.str',
         label: 'WW.Effect.Keys.Boons.Strength'
       },
       'boons.agi': {
-        key: 'system.boons.attributes.agi.global',
+        key: 'system.boons.selfRoll.agi',
         label: 'WW.Effect.Keys.Boons.Agility'
       },
       'boons.int': {
-        key: 'system.boons.attributes.int.global',
+        key: 'system.boons.selfRoll.int',
         label: 'WW.Effect.Keys.Boons.Intellect'
       },
       'boons.wil': {
-        key: 'system.boons.attributes.wil.global',
+        key: 'system.boons.selfRoll.wil',
         label: 'WW.Effect.Keys.Boons.Will'
       },
       'boons.luck': {
-        key: 'system.boons.attributes.luck.global',
+        key: 'system.boons.selfRoll.luck',
         label: 'WW.Effect.Keys.Boons.Luck'
       },
-      'boons.attack': {
-        key: 'system.boons.attacks.global',
-        label: 'WW.Effect.Keys.Boons.Attack'
+      'boons.attacks': {
+        key: 'system.boons.selfRoll.attacks',
+        label: 'WW.Effect.Keys.Boons.Attacks'
+      },
+      'boons.spells': {
+        key: 'system.boons.selfRoll.spells',
+        label: 'WW.Effect.Keys.Boons.Spells'
+      },
+      'boons.magical': {
+        key: 'system.boons.selfRoll.resistMagical',
+        label: 'WW.Effect.Keys.Boons.ResistMagical'
       }
     }
   },
@@ -477,28 +485,36 @@ WW.EFFECT_OPTIONS = {
     header: 'WW.Effect.Keys.Banes.Header',
     options: {
       'banes.str': {
-        key: 'system.boons.attributes.str.global',
+        key: 'system.boons.selfRoll.str',
         label: 'WW.Effect.Keys.Banes.Strength'
       },
       'banes.agi': {
-        key: 'system.boons.attributes.agi.global',
+        key: 'system.boons.selfRoll.agi',
         label: 'WW.Effect.Keys.Banes.Agility'
       },
       'banes.int': {
-        key: 'system.boons.attributes.int.global',
+        key: 'system.boons.selfRoll.int',
         label: 'WW.Effect.Keys.Banes.Intellect'
       },
       'banes.wil': {
-        key: 'system.boons.attributes.wil.global',
+        key: 'system.boons.selfRoll.wil',
         label: 'WW.Effect.Keys.Banes.Will'
       },
       'banes.luck': {
-        key: 'system.boons.attributes.luck.global',
+        key: 'system.boons.selfRoll.luck',
         label: 'WW.Effect.Keys.Banes.Luck'
       },
-      'banes.attack': {
-        key: 'system.boons.attacks.global',
-        label: 'WW.Effect.Keys.Banes.Attack'
+      'banes.attacks': {
+        key: 'system.boons.selfRoll.attacks',
+        label: 'WW.Effect.Keys.Banes.Attacks'
+      },
+      'banes.spells': {
+        key: 'system.boons.selfRoll.spells',
+        label: 'WW.Effect.Keys.Banes.Spells'
+      },
+      'banes.magical': {
+        key: 'system.boons.selfRoll.resistMagical',
+        label: 'WW.Effect.Keys.Banes.ResistMagical'
       }
     }
   },
@@ -546,13 +562,17 @@ WW.EFFECT_OPTIONS = {
         key: 'system.boons.against.wil',
         label: 'WW.Effect.Keys.BoonsAgainst.Will'
       },
-      'boonsAgainst.attack': {
-        key: 'system.boons.against.attack',
-        label: 'WW.Effect.Keys.BoonsAgainst.Attack'
+      'boonsAgainst.fromAttacks': {
+        key: 'system.boons.against.fromAttacks',
+        label: 'WW.Effect.Keys.BoonsAgainst.FromAttacks'
       },
-      'boonsAgainst.magical': {
-        key: 'system.boons.against.magical',
-        label: 'WW.Effect.Keys.BoonsAgainst.Magical'
+      'boonsAgainst.fromSpells': {
+        key: 'system.boons.against.fromSpells',
+        label: 'WW.Effect.Keys.BoonsAgainst.FromSpells'
+      },
+      'boonsAgainst.fromMagical': {
+        key: 'system.boons.against.fromMagical',
+        label: 'WW.Effect.Keys.BoonsAgainst.FromMagical'
       }
     }
   },
@@ -579,13 +599,17 @@ WW.EFFECT_OPTIONS = {
         key: 'system.boons.against.wil',
         label: 'WW.Effect.Keys.BanesAgainst.Will'
       },
-      'banesAgainst.attack': {
-        key: 'system.banes.against.attack',
-        label: 'WW.Effect.Keys.BanesAgainst.Attack'
+      'banesAgainst.fromAttacks': {
+        key: 'system.boons.against.fromAttacks',
+        label: 'WW.Effect.Keys.BanesAgainst.FromAttacks'
       },
-      'banesAgainst.magical': {
-        key: 'system.banes.against.magical',
-        label: 'WW.Effect.Keys.BanesAgainst.Magical'
+      'banesAgainst.fromSpells': {
+        key: 'system.boons.against.fromSpells',
+        label: 'WW.Effect.Keys.BanesAgainst.FromSpells'
+      },
+      'banesAgainst.fromMagical': {
+        key: 'system.boons.against.fromMagical',
+        label: 'WW.Effect.Keys.BanesAgainst.FromMagical'
       }
     }
   },
@@ -863,3 +887,12 @@ WW.COMPENDIUM_INDEX_ENRICHER_LABELS = {
   'weapons': 'WW.Equipment.Weapons',
   'hirelings': 'WW.Equipment.Hirelings'
 };
+
+WW.COMPENDIUM_GROUPS = {
+  'system': 'WW.System.Compendium.Group.Core',
+  'world': 'WW.System.Compendium.Group.World',
+  'module': 'WW.System.Compendium.Group.Modules',
+  'sotww-secrets': 'WW.System.Compendium.Group.Secrets',
+  'sotww-heroes': 'WW.System.Compendium.Group.Heroes',
+  'sotww-wa': 'WW.System.Compendium.Group.WeirdAncestries'
+}

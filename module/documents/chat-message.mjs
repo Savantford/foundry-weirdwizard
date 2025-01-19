@@ -1,5 +1,5 @@
 import { i18n, capitalize } from '../helpers/utils.mjs';
-import { actDataFromEffect, dataFromLabel } from '../chat/chat-html-templates.mjs';
+import { actDataFromEffect, dataFromLabel } from '../sidebar/chat-html-templates.mjs';
 
 /**
  * A custom chat message that extends the client-side ChatMessage document.
@@ -12,7 +12,7 @@ export default class WWChatMessage extends ChatMessage {
   /* -------------------------------------------- */
   /*  Properties                                  */
   /* -------------------------------------------- */
-
+  
   /**
    * Return the speaker's actor avatar image.
    * @type {string}
@@ -32,7 +32,7 @@ export default class WWChatMessage extends ChatMessage {
    * @returns {Promise<jQuery>}
    */
   async getHTML() {
-
+    
     // Determine some metadata
     const data = this.toObject(false);
     const itemUuid = (data.flags?.weirdwizard?.item && (typeof data.flags?.weirdwizard?.item === 'string')) ? data.flags.weirdwizard.item : null;
@@ -68,7 +68,11 @@ export default class WWChatMessage extends ChatMessage {
       })
 
       // Prepare attack Rider
-      item.attackRider = item.system.attackRider ? await TextEditor.enrichHTML(item.system.attackRider?.value, { async: true }) : '';
+      item.attackRider = {
+        value: item.system.attackRider?.value ?? '',
+        enriched: item.system.attackRider?.value ? await TextEditor.enrichHTML(item.system.attackRider.value, { async: true }) : '',
+        name: item.system.attackRider?.name ?? ''
+      }
 
       // Prepare spell header
       if (item.type == 'Spell') {
@@ -147,7 +151,7 @@ export default class WWChatMessage extends ChatMessage {
     if ( this.style === CONST.CHAT_MESSAGE_STYLES.OOC ) messageData.borderColor = this.author?.color.css;
 
     // Render the chat message
-    let html = await renderTemplate(CONFIG.ChatMessage.template, messageData);
+    let html = await renderTemplate('systems/weirdwizard/templates/sidebar/chat-message.hbs', messageData);
     html = $(html);
 
     // Flag expanded state of dice rolls

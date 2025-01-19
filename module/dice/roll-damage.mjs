@@ -1,6 +1,6 @@
 import { i18n } from '../helpers/utils.mjs'
 //import { chatMessageButtonArray, diceTotalHtml } from '../chat/chat-html-templates.mjs';
-import WWRoll from '../dice/roll.mjs';
+import WWRoll from './roll.mjs';
 
 /**
  * Extend FormApplication to make a prompt shown by damage rolls
@@ -47,7 +47,7 @@ export default class RollDamage extends FormApplication {
 
   getData(options = {}) {
     let context = super.getData()
-    
+    console.warn('chegou no roll damage')
     // Pass data to application template.
     context.baseDamage = this.baseDamage;
     context.isAttack = this.isAttack;

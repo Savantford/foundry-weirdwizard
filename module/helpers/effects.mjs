@@ -1,6 +1,6 @@
 //import {calcEffectRemainingRounds, calcEffectRemainingSeconds, calcEffectRemainingTurn} from "../combat/combat.mjs";
-import { i18n } from "./utils.mjs";
-import InstantEffectConfig from '../apps/instant-effect-config.mjs'
+import { i18n } from './utils.mjs';
+import InstantEffectConfig from '../sheets/instant-effect-config.mjs'
 
 /**
  * Manage Active Effect instances through the Actor Sheet via effect control buttons.

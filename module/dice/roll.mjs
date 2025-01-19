@@ -1,13 +1,7 @@
 import { i18n } from '../helpers/utils.mjs';
-import { dataFromLabel } from '../chat/chat-html-templates.mjs';
+import { dataFromLabel } from '../sidebar/chat-html-templates.mjs';
 
 export default class WWRoll extends Roll {
-  /**
-   * The HTML template path used to render a complete Roll object to the chat log
-   * @override
-   * @type {string}
-   */
-  //static CHAT_TEMPLATE = "systems/weirdwizard/templates/chat/roll.hbs";
   
   /**
    * Render a Roll instance to HTML
@@ -20,6 +14,7 @@ export default class WWRoll extends Roll {
    */
   
   async render({flavor, template=this.constructor.CHAT_TEMPLATE, isPrivate=false}={}) {
+    
     if ( !this._evaluated ) await this.evaluate();
     
     const attribute = this.options.attribute;
