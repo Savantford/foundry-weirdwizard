@@ -86,6 +86,9 @@ export default class NpcData extends foundry.abstract.DataModel {
       }
     }
 
+    // Migrate other stuff
+    if ('stats' in source && !source.stats?.damage?.raw && source.stats?.damage?.value) source.stats.damage.raw = source.stats?.damage?.value;
+
     return super.migrateData(source);
   }
 

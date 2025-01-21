@@ -24,7 +24,7 @@
                 {{> "systems/weirdwizard/templates/actors/parts/portrait.hbs" img=actor.img token=true}}
 
                 {{!-- Health Indicator --}}
-                <span class="health-indicator {{#if injured}}injured{{/if}} {{#if incapacitated}}incapacitated{{/if}}">
+                <span class="health-indicator">
                         {{~#if dead}}{{localize "WW.Health.Estimation.Dead"}}
                             {{~else if incapacitated}}{{localize "WW.Health.Estimation.100"}}
                             {{~else if injured}}{{localize "WW.Health.Estimation.50"}}
@@ -53,7 +53,7 @@
                         {{!-- Damage / Health --}}
                         <div class="stat health">
                                 
-                            <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0" data-dtype="Number"/>
+                            <input type="number" name="system.stats.damage.raw" value="{{system.stats.damage.value}}" min="0" data-dtype="Number"/>
 
                             <span>/</span>
                             

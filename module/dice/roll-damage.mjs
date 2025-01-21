@@ -47,7 +47,7 @@ export default class RollDamage extends FormApplication {
 
   getData(options = {}) {
     let context = super.getData()
-    console.warn('chegou no roll damage')
+    
     // Pass data to application template.
     context.baseDamage = this.baseDamage;
     context.isAttack = this.isAttack;
@@ -178,7 +178,7 @@ export default class RollDamage extends FormApplication {
     const rollData = this.origin.getRollData();
 
     const r = await new WWRoll(this.finalExp, rollData, {
-      template: "systems/weirdwizard/templates/chat/roll.hbs",
+      template: "systems/weirdwizard/templates/sidebar/roll.hbs",
       dataset: dataset
     }).evaluate();
     dataset.value = await r.total;

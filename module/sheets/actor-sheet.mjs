@@ -547,10 +547,11 @@ export default class WWActorSheet extends ActorSheet {
 
     const actor = this.actor;
 
-    // Add dead or incapacitated filter
+    // Add dead or incapacitated class to main window
     const window = this.element[0];
-    if (actor.dead) window.classList.add('dead');
-    else if (actor.incapacitated) window.classList.add('incapacitated');
+    window.classList.toggle('injured', actor.injured);
+    window.classList.toggle('incapacitated', actor.incapacitated && !actor.dead);
+    window.classList.toggle('dead', actor.dead);
 
     // Handle portrait menu sharing buttons
     html.find('.profile-show').click(ev => this._showProfileImg(ev));
@@ -573,7 +574,7 @@ export default class WWActorSheet extends ActorSheet {
     ContextMenu.create(this, html, '.sheet-menu', this._getSheetMenuOptions(), { eventName:'click' });
 
     // Incapacitated Health Loss
-    if (this.actor.type === 'Character') html.find('.health-indicator.incapacitated').click(this._onIncapacitatedRoll.bind(this));
+    if (this.actor.type === 'Character') html.find('.health-indicator').click(this._onIncapacitatedRoll.bind(this));
 
     /////////////////////// ITEMS ////////////////////////
 
@@ -649,9 +650,10 @@ export default class WWActorSheet extends ActorSheet {
 
   /* A function called to roll Luck while incapacitated */
   async _onIncapacitatedRoll() {
+    if (!this.actor.incapacitated || await this.actor.dead) return;
 
     // Prepare roll
-    const r = await new WWRoll('1d6', this.actor.getRollData).evaluate({async:true});
+    const r = await new WWRoll('1d6', this.actor.getRollData).evaluate();
     const rollArray= [r];
     const rollHtml = await diceTotalHtml(r);
   
