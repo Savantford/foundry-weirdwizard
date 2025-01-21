@@ -102,6 +102,7 @@ export default class CharacterData extends foundry.abstract.DataModel {
     // Migrate other stuff
     if ('stats' in source && isNaN(source.stats?.bonusdamage)) source.stats.bonusdamage = 0;
     if ('details' in source && isNaN(source.details?.reputation)) source.details.reputation = 0;
+    if ('stats' in source && !source.stats?.damage?.raw && source.stats?.damage?.value) source.stats.damage.raw = source.stats?.damage?.value;
 
     return super.migrateData(source);
   }

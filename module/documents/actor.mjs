@@ -88,67 +88,50 @@ export default class WWActor extends Actor {
     if (data.type === 'NPC') {
       await this.updateSource({
         'system.stats.health.current': data.system.stats.health.normal ? data.system.stats.health.normal : 10,
-        'system.stats.damage.value': 0
+        'system.stats.damage.raw': 0
       });
     }
 
     if (data.type === 'Character') {
       await this.updateSource({
         'system.stats.health.current': data.system.stats.health.normal ? data.system.stats.health.normal : 5,
-        'system.stats.damage.value': 0
+        'system.stats.damage.raw': 0
       });
     }
 
     return await super._onCreate(await data, options, user);
   }
 
-  async _preUpdate(changed, options, user) {
-    await super._preUpdate(changed, options, user);
+  async _preUpdate(changes, options, user) {
+    await super._preUpdate(changes, options, user);
     
     // Record Incapacitated status
-    const cStats = await changed.system?.stats;
-
-    if (cStats?.health || cStats?.damage) {
+    /*const cStats = await changes.system?.stats;
+    const damage = await this.system.stats.damage.value;
+    const raw = await this.system.stats.damage.value;
+    
+    if (cStats?.damage?.value < damage) {
       // Get variables
       const current = await this.system.stats.health.current;
-      const damage = await this.system.stats.damage.value;
-      const chCurrent = cStats.health?.current;
       const chDamage = cStats.damage?.value;
-      
-      // Set incapactated status
-      if (chDamage >= await current || await chCurrent <= await damage || await current == await damage) this.incapacitated = true; else this.incapacitated = false;
-      if (await chDamage < await damage) this.incapacitated = false;
-      if (this.type === 'Character' && this.system?.stats?.health?.normal <= 0) this.incapacitated = false;
-    }
+      this.incapacitated = chDamage > await current;
+    }*/
     
     // Update token status icons
-    if ((changed.system?.stats?.damage || changed.system?.stats?.health) && this.token) {
+    if ((changes.system?.stats?.damage || changes.system?.stats?.health) && this.token) {
       this.token.object.updateStatusIcons();
     }
 
   };
 
   /** @override */
-  _preUpdateDescendantDocuments(parent, collection, documents, changes, options, userId) {
-    // Record incapacitated status
-    
-    const current = this.system?.stats?.health?.current;
-    const damage = this.system?.stats?.damage?.value;
-    if (damage >= current) this.incapacitated = true; else this.incapacitated = false;
-    if (this.type === 'Character' && this.system?.stats?.health?.normal <= 0) this.incapacitated = false;
-
-    super._preUpdateDescendantDocuments(parent, collection, documents, changes, options, userId);
-    this._onEmbeddedDocumentChange();
-  }
-
-  /** @override */
-  prepareData() {
+  /*prepareData() {
     // Prepare data for the actor. Calling the super version of this executes
     // the following, in order: data reset (to clear active effects),
     // prepareBaseData(), prepareEmbeddedDocuments(),
     // prepareDerivedData().
     super.prepareData();
-  }
+  }*/
 
   /** @override */
   prepareBaseData() {
@@ -245,6 +228,8 @@ export default class WWActor extends Actor {
         return acc;
       }, new Set());
     }
+
+    if (this.incapacitated === undefined) this.incapacitated = false;
     
     // Calculate Health
     this._calculateHealth(system);
@@ -378,16 +363,12 @@ export default class WWActor extends Actor {
     // Get variables
     const health = system.stats.health;
     const current = health.current;
-    const damage = system.stats.damage.value;
-
-    // Set Damage to Health while incapacitated or when Damage is higher than Health   
-    if (this.incapacitated === undefined) this.incapacitated = (damage >= current) ? true : false;
+    const damageRaw = this.system.stats.damage.raw;
     
-    if (this.incapacitated || (damage > current)) {
-      this.system.stats.damage.value = this.system.stats.health.current;
-    }
-    
-    if (this.system.stats.damage.value >= current) this.incapacitated = true;
+    // Set corrected damage value to stay incapacitated or
+    // to not allow raw input value to surprass current Health
+    this.system.stats.damage.value = (this.incapacitated && damageRaw > this.system.stats.damage.value || damageRaw > current) ? current : damageRaw;
+    const damage = this.system.stats.damage.value;
     
     // Health override effect exists
     if (health.override) {
@@ -401,10 +382,10 @@ export default class WWActor extends Actor {
     if (health.normal - health.current >= 0) health.lost = health.normal - health.current; else health.lost = 0;
 
     // Assign Current Health to Max Damage for Token Bars
-    system.stats.damage.max = current;
+    this.system.stats.damage.max = current;
 
-    // Do not set incapacitated status to true if a Character with normal Health 0
-    if (this.type === 'Character' && health.normal <= 0) this.incapacitated = false;
+    // Set Damage to Health while incapacitated or when Damage is higher than Health   
+    this.incapacitated = damage >= current;
     
   }
 
@@ -449,8 +430,9 @@ export default class WWActor extends Actor {
       sound: CONFIG.sounds.notification
     })
 
-    this.incapacitated = (newTotal >= health) ? true : false;
-    this.update({ 'system.stats.damage.value': newTotal });
+    //this.incapacitated = await newTotal >= health; // probably overwritten by the document update
+    
+    this.update({ 'system.stats.damage.value': await newTotal });
   }
 
   async applyHealing(healing) {
@@ -470,7 +452,7 @@ export default class WWActor extends Actor {
       sound: CONFIG.sounds.notification
     })
 
-    this.incapacitated = (newTotal >= this.system.stats.health.current) ? true : false;
+    this.incapacitated = newTotal >= this.system.stats.health.current;
     this.update({ 'system.stats.damage.value': newTotal });
   }
 
@@ -491,7 +473,6 @@ export default class WWActor extends Actor {
       sound: CONFIG.sounds.notification
     })
 
-    //this.update({ 'system.stats.health.lost': lost + loss });
     this.update({ 'system.stats.health.current': current });
   }
 
@@ -526,7 +507,7 @@ export default class WWActor extends Actor {
   
     if (!effect) {
       console.warn('Weird Wizard | applyAffliction | Affliction not found!')
-      return
+      return;
     }
 
     let content = '';

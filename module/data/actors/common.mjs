@@ -28,6 +28,7 @@ export function stats(type = String) {
     health: makeHealth(type),
 
     damage: new fields.SchemaField({
+      raw: makeIntField(),
       value: makeIntField(),
       max: makeIntField()
     }),

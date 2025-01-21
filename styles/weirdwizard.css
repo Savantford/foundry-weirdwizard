@@ -1659,25 +1659,25 @@ body {
   align-items: center;
   justify-content: center;
   gap: 3px;
-  padding: 1px 3px;
+  padding: 0 3px;
   color: #8B0000;
   font-weight: bold;
   border-radius: 5px;
 }
 
-/* Health Indicator: Injured */
-.weirdwizard .health-indicator.injured {
-  background: rgba(var(--pink-rbg), 0.7);
-}
-
-.weirdwizard.npc .health-indicator.injured {
+.weirdwizard.npc .health-indicator {
   position: absolute;
   bottom: -10px;
   left: 50%;
   transform: translate(-50%, 0);  
 }
 
-.weirdwizard .health-indicator.injured::before {
+/* Health Indicator: Injured */
+.weirdwizard.injured .health-indicator {
+  background: rgba(var(--pink-rbg), 0.7);
+}
+
+.weirdwizard.injured .health-indicator::before {
   content: '';
   display: inline-block;
   width: 1lh;

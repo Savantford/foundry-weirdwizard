@@ -1,6 +1,6 @@
 <form class="{{cssClass}} sheet character-sheet 
     {{#if (gte system.stats.level 7)}}master{{else if (gte system.stats.level 3)}}expert{{/if}}
-    {{#if dead}}dead{{else if incapacitated}}incapacitated{{else if injured}}injured{{/if}}" autocomplete="off" spellcheck="false">
+    {{#if dead}}dead{{/if}} {{#if incapacitated}}incapacitated{{/if}} {{#if injured}}injured{{/if}}" autocomplete="off" spellcheck="false">
     
     {{!-- Sheet Header --}}
     <header class="sheet-header character-header">
@@ -86,7 +86,7 @@
                 <div class="health-header">
                     <label>{{localize "WW.Damage.Label"}}</label>
 
-                    <span class="health-indicator {{#if injured}}injured{{/if}} {{#if incapacitated}}incapacitated chat-button"
+                    <span class="health-indicator {{#if (and incapacitated (not dead))}}chat-button"
                         data-tooltip="{{localize "WW.Health.IncapacitatedHint"}}{{/if}}">
                         {{~#if dead}}{{localize "WW.Health.Estimation.Dead"}}
                             {{~else if incapacitated}}{{localize "WW.Health.Estimation.100"}}
@@ -105,7 +105,7 @@
                         {{!-- Damage --}}
                         <div class="stat damage">
                                 
-                            <input type="number" name="system.stats.damage.value" value="{{system.stats.damage.value}}" min="0" data-dtype="Number"/>
+                            <input type="number" name="system.stats.damage.raw" value="{{system.stats.damage.value}}" min="0" data-dtype="Number"/>
 
                         </div>
 
