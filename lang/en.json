@@ -848,7 +848,7 @@
 "WW.System.EditImage": "Edit Image",
 
 "WW.System.Sheet.Menu": "Open the Sheet Menu",
-"WW.System.Sheet.Editable": "Toggle Editable Mode",
+"WW.System.Sheet.EditMode": "Toggle Edit Mode",
 "WW.System.Sheet.Character": "Character Sheet",
 "WW.System.Sheet.NPC": "NPC Sheet",
 "WW.System.Sheet.Item": "Regular Item Sheet",
@@ -925,8 +925,8 @@
 
 "WW.Tour.Character.SheetMenu.Title": "Sheet Menu",
 "WW.Tour.Character.SheetMenu.Content": "Besides the sheet banner, another element always visible is the sheet menu.\nYou can click on the sheet menu button to see the list of available functionalities, such as the Rest button.",
-"WW.Tour.Character.EditableMode.Title": "Editable Mode",
-"WW.Tour.Character.EditableMode.Content": "Sheets are always rendered in the <b>read-only mode</b>, as hinted by the padlock icon here.\nYou can click on the Sheet Menu to toggle the <b>editable mode</b> on or off.\nA yellow unlocked padlock will be displayed when the sheet is in editable mode.",
+"WW.Tour.Character.EditMode.Title": "Edit Mode",
+"WW.Tour.Character.EditMode.Content": "Sheets are always rendered in the <b>read-only mode</b>, as hinted by the padlock icon here.\nYou can click on the Sheet Menu to toggle the <b>edit mode</b> on or off.\nA yellow unlocked padlock will be displayed when the sheet is in edit mode.",
 "WW.Tour.Character.Tabs.Title": "Sheet Tabs",
 "WW.Tour.Character.Tabs.Content": "Right under the sheet menu is the tab navigation section.\nHere you can toggle between the Summary, Details, Equipment, Traits & Talents, Spells and Effects tabs by clicking on them.",
 
@@ -961,7 +961,7 @@
 "WW.Tour.Character.Spell.Content": "This list shows your discovered Traditions as well as the Spells you learned.\nLike attacks, traits and talents, they have functionalities when their names are clicked.\nIn addition, each spell's castings are also tracked by circles.",
 
 "WW.Tour.Character.Details.Title": "Details Tab",
-"WW.Tour.Character.Details.Content": "This tab is dedicated for detailed information about the character, such as appearance, background, identity or other relevant notes.\nTo edit a section, first toggle the Editable Mode, then on the icon that shows on the text area to enable the text editor.\nOnce you finish editing, remember to click on the save button to apply the changes.",
+"WW.Tour.Character.Details.Content": "This tab is dedicated for detailed information about the character, such as appearance, background, identity or other relevant notes.\nTo edit a section, first toggle the Edit Mode, then on the icon that shows on the text area to enable the text editor.\nOnce you finish editing, remember to click on the save button to apply the changes.",
 
 "WW.Tour.Character.Equipment.Title": "Equipment Tab",
 "WW.Tour.Character.Equipment.Content": "The Equipment tab displays all the character's possessions, including coins, armor, weapons and other equipment.",
@@ -1023,7 +1023,7 @@
 "WW.Tour.NPC.Health.Title": "Damage and Health",
 "WW.Tour.NPC.Health.Content": "The NPC's Damage total and current Health are displayed here, along with a progress bar.\nFor more information about Health or Damage or to edit them, hover them with your cursor.",
 "WW.Tour.NPC.Stats.Title": "Statistics and Common Traits",
-"WW.Tour.NPC.Stats.Content": "The NPC stats like Size and Speed, as well as any Special Movement Traits, Languages, Senses or Immunities are shown here.\nTo edit these stats, you have to enable the <b>editable mode</b> and then edit it in the <b>Summary Tab</b>.",
+"WW.Tour.NPC.Stats.Content": "The NPC stats like Size and Speed, as well as any Special Movement Traits, Languages, Senses or Immunities are shown here.\nTo edit these stats, you have to enable the <b>edit mode</b> and then edit it in the <b>Summary Tab</b>.",
 
 "WW.Tour.NPC.Summary.Title": "Summary Tab",
 "WW.Tour.NPC.Summary.Content": "Along with the banner, most of the information needed to use a NPC is found in the Summary Tab.",
@@ -1032,7 +1032,7 @@
 "WW.Tour.NPC.Attributes.Title": "Attributes",
 "WW.Tour.NPC.Attributes.Content": "Each attribute name, score and modifier is found here in the header.\nYou can click on an attribute to roll it!",
 "WW.Tour.NPC.Statbox.Title": "Statbox Section",
-"WW.Tour.NPC.Statbox.Content": "The statbox section is where you can find all the remaining information you need to use NPCs during most of your games.\nIn the <b>editable mode</b>, this is where you'll fill most of the NPC information as well.",
+"WW.Tour.NPC.Statbox.Content": "The statbox section is where you can find all the remaining information you need to use NPCs during most of your games.\nIn the <b>edit mode</b>, this is where you'll fill most of the NPC information as well.",
 "WW.Tour.NPC.Talents.Title": "Traits and Talents",
 "WW.Tour.NPC.Talents.Content": "This section lists all passive traits and talents the creature has.",
 "WW.Tour.NPC.Buttons.Title": "Functionality Buttons",

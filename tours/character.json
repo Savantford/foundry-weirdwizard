@@ -264,10 +264,10 @@
       "content": "WW.Tour.Character.SheetMenu.Content"
     },
     {
-      "id": "editable-mode",
-      "selector": ".weirdwizard.character .editable-icon",
-      "title": "WW.Tour.Character.EditableMode.Title",
-      "content": "WW.Tour.Character.EditableMode.Content"
+      "id": "edit-mode",
+      "selector": ".weirdwizard.character .edit-mode-icon",
+      "title": "WW.Tour.Character.EditMode.Title",
+      "content": "WW.Tour.Character.EditMode.Content"
     },
     {
       "id": "tabs",

@@ -1,4 +1,4 @@
-<form class="{{cssClass}} sheet character-sheet 
+<form class="{{cssClass}} {{#if editMode}}edit-mode{{/if}} 
     {{#if (gte system.stats.level 7)}}master{{else if (gte system.stats.level 3)}}expert{{/if}}
     {{#if dead}}dead{{/if}} {{#if incapacitated}}incapacitated{{/if}} {{#if injured}}injured{{/if}}" autocomplete="off" spellcheck="false">
     
@@ -198,7 +198,7 @@
     {{!-- Sheet Menu --}}
     <a class="item sheet-menu" data-tooltip="WW.System.Sheet.Menu">
         <i class="fas fa-bars"></i>
-        <i class="editable-icon fas {{#if editable}}fa-lock-open{{else}}fa-lock{{/if}}"></i>
+        <i class="edit-mode-icon fas {{#if editMode}}fa-lock-open{{else}}fa-lock{{/if}}"></i>
     </a>
 
     {{!-- Sheet Tab Navigation --}}

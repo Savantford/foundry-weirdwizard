@@ -22,7 +22,7 @@
             {{#if attackBoons}}
             <div class="stat-stretch flex-group-left">
                 <label>{{localize "WW.Boons.Attack"}}</label>
-                <input name="attack" class="damage-checkbox attack" type="checkbox" data-tooltip="WW.Boons.Apply" {{#if tags.isWeapon}}checked{{/if}}>
+                <input name="apply-attack-boons" class="damage-checkbox attack" type="checkbox" data-tooltip="WW.Boons.Apply" {{#if tags.isWeapon}}checked{{/if}}>
                 <span class="boons-display attack">{{numberFormat attackBoons decimals=0 sign=true}}</span>
             </div>
             {{/if}}
@@ -49,14 +49,6 @@
     {{!-- Right Column --}}
     <div class="roll-options">
 
-        {{!-- Targets Box --}}
-        {{#if targeted}}
-        <div class="targets-box">
-            <h3>{{localize "WW.Targeting.Targets"}}</h3>
-            <div class="h3-box boons-targets"></div>
-        </div>
-        {{/if}}
-
         {{!-- Custom Target Number --}}
         <div class="override stat-inline align-center">
             <label>{{localize "WW.Roll.Flat"}}:</label>
@@ -72,7 +64,15 @@
     </div>
 
     {{!-- Terms Expression --}}
-    <div class="boons-expression mb-2 mt-2 flex-group-center"></div>
+    <div class="boons-expression flex-group-center"></div>
+
+    {{!-- Targets Box --}}
+    {{#if targets}}
+    <div class="targets-box">
+        <h3>{{localize "WW.Targeting.Targets"}}</h3>
+        <div class="h3-box boons-targets"></div>
+    </div>
+    {{/if}}
 
     {{!-- Form Buttons --}}
     <div class="form-group">

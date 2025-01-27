@@ -689,9 +689,9 @@ body {
 /* FORM FIELDS */
 
 /* Remove padding */
-.weirdwizard .sheet input,
-.weirdwizard .sheet select,
-.weirdwizard .sheet textarea {
+.weirdwizard.sheet input,
+.weirdwizard.sheet select,
+.weirdwizard.sheet textarea {
   padding: 0px;
 }
 
@@ -710,9 +710,9 @@ body {
 }
 
 /* Remove border and background from inputs/selects/textareas not hovered */
-.weirdwizard .sheet input:not(:hover):not(:focus),
-.weirdwizard .sheet select:not(:hover):not(:focus),
-.weirdwizard .sheet textarea:not(:hover):not(:focus) {
+.weirdwizard.sheet input:not(:hover):not(:focus),
+.weirdwizard.sheet select:not(:hover):not(:focus),
+.weirdwizard.sheet textarea:not(:hover):not(:focus) {
   background: none;
   border: 1px solid transparent;
 }
@@ -754,54 +754,28 @@ body {
   border: 1px solid transparent;
 }
 
-/*.weirdwizard .input-wrap > input,
-.weirdwizard .input-wrap .input-overlay,
-.weirdwizard .input-wrap > input:not(:hover):not(:focus),
-.weirdwizard .input-wrap:not(:hover):not(:focus) .input-overlay {
-  padding: 0;
-}*/
-
-/* Extra Input Styling */
-
-/*.weirdwizard input[type="text"],
-.weirdwizard select {
-  height: auto;
-  padding: 0;
-}
-
-.weirdwizard .sheet .stat-inline input[type="number"] {
-  text-align: left;
-}
-
-.weirdwizard .sheet .stat input[type="number"]:not(:hover),
-.weirdwizard .sheet .stat-inline input[type="number"]:not(:hover),
-.weirdwizard .sheet .stat-stretch input[type="number"]:not(:hover) {
-  border: none;
-  background: none;
-}*/
-
 /* Selects dropdown */
 .weirdwizard select {
   height: auto;
   padding: 0;
 }
 
-.weirdwizard .sheet select {
+.weirdwizard.sheet select {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   text-overflow: '';
 }
 
-.weirdwizard .sheet select:hover,
-.weirdwizard .sheet select:focus {
+.weirdwizard.sheet select:hover,
+.weirdwizard.sheet select:focus {
   appearance: auto;
   -webkit-appearance: auto;
   -moz-appearance: auto;
 }
 
 /* Text Areas */
-.weirdwizard .sheet textarea {
+.weirdwizard.sheet textarea {
   font-family: inherit;
   font-size: inherit;
   min-height: 1lh;
@@ -1035,9 +1009,9 @@ body {
   display: none;
 }
 
-.weirdwizard .descriptors:hover .buttons,
-.weirdwizard .descriptors:hover .item-create,
-.weirdwizard .descriptors:hover .array-button[data-action=add] {
+.weirdwizard .edit-mode .descriptors:hover .buttons,
+.weirdwizard .edit-mode .descriptors:hover .item-create,
+.weirdwizard .edit-mode .descriptors:hover .array-button[data-action=add] {
   display: inline;
 }
 
@@ -1124,6 +1098,10 @@ body {
 }
 
 /* Sheet Background and Bug */
+
+.weirdwizard.actor .sheet-body {
+  width: 100%;
+}
 
 .weirdwizard.item .sheet-body {
   --bug: url(../assets/bugs/talent.webp);
@@ -1381,8 +1359,7 @@ body {
 }
 
 /* Character/NPC Tabs Container */
-.weirdwizard.character .tabs-container,
-.weirdwizard.npc .tabs-container {
+.weirdwizard.actor .tabs-container {
   height: 100%;
   background: url(../assets/drawings/star-sheet.svg), var(--bug);
   background-repeat: no-repeat;
@@ -1407,7 +1384,7 @@ body {
   filter: drop-shadow(0 0 1px black);
 }
 
-.weirdwizard .sheet .profile-img {
+.weirdwizard.sheet .profile-img {
   border-radius: 50%;
   margin: 0;
 }
@@ -1591,7 +1568,7 @@ body {
   height: 100%;
 }
 
-.weirdwizard .sheet header.sheet-header h1 input {
+.weirdwizard.sheet header.sheet-header h1 input {
   padding: 0;
   margin: 0;
   font-family: var(--font-serif);
@@ -1600,7 +1577,7 @@ body {
   width: 100%;
 }
 
-.weirdwizard .sheet header.sheet-header img {
+.weirdwizard.sheet header.sheet-header img {
   margin: 0;
 }
 
@@ -1984,7 +1961,7 @@ body {
 }
 
 /* Sheet Navigation Tabs */
-.weirdwizard .sheet:not(.active-effect-sheet) nav.sheet-tabs {
+.weirdwizard.sheet:not(.active-effect-sheet) nav.sheet-tabs {
   --tab-full-width: 44px;
   --tab-inactive-width: 26px;
   position: absolute;
@@ -2008,14 +1985,14 @@ body {
   top: calc(2.5em - 6px);
 }
 
-.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs > div {
+.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs > div {
   display: flex;
   flex-grow: 1;
   min-width: 18rem;
   gap: 2px 2px;
 }
 
-.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item {
+.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item {
   width: var(--tab-full-width);
   height: 40px;
   position: relative;
@@ -2034,48 +2011,48 @@ body {
   filter: drop-shadow(3px 0 5px black);
 }
 
-.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item.active,
-.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item:hover {
+.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item.active,
+.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item:hover {
   background-color: var(--purple-dark);
 }
 
-.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item.active {
+.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item.active {
   margin: 0;
 }
 
-.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item:hover {
+.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item:hover {
   text-shadow: none;
   margin: 0;
   box-shadow: 0 0 5px 0 black;
   border: 1px solid;
 }
 
-.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="summary"] {
+.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="summary"] {
   background-image: url('../assets/icons/diploma.svg');
 }
 
-.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="details"],
-.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="description"] {
+.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="details"],
+.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="description"] {
   background-image: url('../assets/icons/scroll-quill.svg');
 }
 
-.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="equipment"] {
+.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="equipment"] {
   background-image: url('../assets/icons/backpack.svg');
 }
 
-.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="talents"] {
+.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="talents"] {
   background-image: url('../assets/icons/skills.svg');
 }
 
-.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="spells"] {
+.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="spells"] {
   background-image: url('../assets/icons/spell-book.svg');
 }
 
-.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="effects"] {
+.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="effects"] {
   background-image: url('/icons/svg/aura.svg');
 }
 
-.weirdwizard .sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="automation"] {
+.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="automation"] {
   background-image: url('../assets/icons/gear-hammer.svg');
 }
 
@@ -2105,7 +2082,7 @@ body {
   border: 1px solid black;
 }
 
-.weirdwizard .sheet-menu .editable-icon {
+.weirdwizard .sheet-menu .edit-mode-icon {
   position: absolute;
   right: 5px;
   bottom: 6px;
@@ -2114,7 +2091,7 @@ body {
   text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black;
 }
 
-.weirdwizard .sheet-menu .editable-icon.fa-lock-open {
+.weirdwizard .sheet-menu .edit-mode-icon.fa-lock-open {
   color: goldenrod;
 }
 
@@ -2162,7 +2139,7 @@ body {
   margin-right: 0;
 }
 
-.weirdwizard .sheet .editor {
+.weirdwizard.sheet .editor {
   flex: 1;
 }
 
@@ -2282,7 +2259,7 @@ body {
   border-top: none;
 }
 
-.weirdwizard .npc-sheet .summary .item-list {
+.weirdwizard.npc .summary .item-list {
   border: none;
 }
 
@@ -2552,7 +2529,7 @@ input[type="checkbox"].checkbox-uses {
   text-indent: 0;
 }
 
-.weirdwizard .statbox:hover .list-entry > .buttons {
+.weirdwizard .edit-mode .statbox:hover .list-entry > .buttons {
   background: var(--pink);
   border: 1px solid var(--purple-medium);
   border-radius: 15px;
@@ -2622,13 +2599,13 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .weirdwizard .benefit-block:hover .buttons > a,
-.weirdwizard .statbox:hover .buttons > a,
+.weirdwizard .edit-mode .statbox:hover .buttons > a,
 .weirdwizard .statbox .buttons > a[data-action="item-toggle-effects"],
-.weirdwizard .statbox:hover .array-button,
-.weirdwizard .list-entries:hover .array-button,
-.weirdwizard .statbox:hover .list-entries .item-create,
-.weirdwizard .statbox:hover h6 .item-create,
-.weirdwizard .statbox:hover .hover-only {
+.weirdwizard .edit-mode .statbox:hover .array-button,
+.weirdwizard .edit-mode .list-entries:hover .array-button,
+.weirdwizard .edit-mode .statbox:hover .list-entries .item-create,
+.weirdwizard .edit-mode .statbox:hover h6 .item-create,
+.weirdwizard .edit-mode .statbox:hover .hover-only {
   display: inline-block;
 }
 
@@ -3255,6 +3232,7 @@ i.icon-Weakened {
 .dialog .dialog-buttons button.default,
 #multi-choice .mc-buttons button,
 #roll-attribute .form-group button,
+#roll-damage .form-group button,
 .folder-edit button[type=submit] {
   border: none;
   background: none;
@@ -3431,8 +3409,11 @@ i.icon-Weakened {
 
 /* Roll Apps */
 
-#roll-attribute .roll-main {
-  margin-bottom: 0.5em;
+#roll-attribute form,
+#roll-damage form {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.5rem;
 }
 
 #roll-attribute h3,
@@ -3541,7 +3522,7 @@ i.icon-Weakened {
   border-image: url(../assets/ui/plates/single-transparent.svg);
   border-image-slice: 120 fill;
   border-image-width: 15px;
-  padding: 8px;
+  padding: 6px 16px;
   filter: brightness(0) saturate(100%) invert(15%) sepia(25%) saturate(2839%) hue-rotate(258deg) brightness(87%) contrast(88%);
   text-shadow: 0 0 1px black;
 }
