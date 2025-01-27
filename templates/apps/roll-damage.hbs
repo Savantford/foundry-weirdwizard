@@ -1,8 +1,7 @@
-<form class="">
+<form>
    
-    <div class="">
-
-        {{!-- Weapon/Attack Header --}}
+   {{!-- Weapon/Attack Header --}}
+    <div>
         <h3>{{label}}</h3>
 
         <div class="h3-box">
@@ -21,7 +20,9 @@
             {{/if}}
 
         </div>
+    </div>
 
+    <div>
         {{!-- Bonus Damage Container --}}
         {{#if (and isAttack bonusDamage)}}
         <h3>{{localize "WW.Damage.Bonus"}}</h3>
@@ -37,8 +38,11 @@
 
         </div>
         {{/if}}
+    </div>
 
-        {{!-- Extra Damage Container --}}
+    {{!-- Extra Damage --}}
+    <div>
+        
         <h3>{{localize "WW.RollDamage.Extra.Label"}}</h3>
 
         <div class="h3-box">
@@ -81,7 +85,7 @@
     </div>
 
     {{!-- Damage Expression --}}
-    <div class="damage-expression mb-2 mt-2 flex-group-center">{{expression}}</div>
+    <div class="damage-expression flex-group-center">{{expression}}</div>
 
     {{#if brutal}}
     <div class="brutal-hint">{{{localize "WW.RollDamage.BrutalHint"}}}</div>

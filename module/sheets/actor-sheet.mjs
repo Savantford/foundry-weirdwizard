@@ -58,8 +58,8 @@ export default class WWActorSheet extends ActorSheet {
     context.flags = actorData.flags;
     context.dtypes = ['String', 'Number', 'Boolean'];
 
-    // Pass editable state
-    context.editable = this.editable ?? false;
+    // Pass editMode state
+    context.editMode = this.editMode ?? false;
 
     for (let attr of Object.values(context.system.attributes)) {
       attr.isCheckbox = attr.dtype === 'Boolean';
@@ -701,10 +701,10 @@ export default class WWActorSheet extends ActorSheet {
     
     return [
       {
-        name: "WW.System.Sheet.Editable",
+        name: "WW.System.Sheet.EditMode",
         icon: '<i class="fas fa-edit"></i>',
         callback: li => {
-          return this._onToggleEditable();
+          return this._onToggleEditMode();
         }
       },
       {
@@ -1373,8 +1373,8 @@ export default class WWActorSheet extends ActorSheet {
     
   }
 
-  _onToggleEditable() {
-    this.editable = !this.editable;
+  _onToggleEditMode() {
+    this.editMode = !this.editMode;
     
     this.render(true);
   }

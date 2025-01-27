@@ -1,4 +1,4 @@
-<form class="{{cssClass}} sheet npc-sheet {{#if (eq disposition 1)}}ally{{/if}} {{#if dead}}dead{{else if incapacitated}}incapacitated{{else if injured}}injured{{/if}}" autocomplete="off">
+<form class="{{cssClass}} {{#if editMode}}edit-mode{{/if}} {{#if (eq disposition 1)}}ally{{/if}} {{#if dead}}dead{{else if incapacitated}}incapacitated{{else if injured}}injured{{/if}}" autocomplete="off">
 
     {{!-- Sheet Header --}}
     <header class="sheet-header npc-header">
@@ -178,7 +178,7 @@
     {{!-- Sheet Menu --}}
     <a class="item sheet-menu" data-tooltip="WW.System.Sheet.Menu">
         <i class="fas fa-bars"></i>
-        <i class="editable-icon fas {{#if editable}}fa-lock-open{{else}}fa-lock{{/if}}"></i>
+        <i class="edit-mode-icon fas {{#if editMode}}fa-lock-open{{else}}fa-lock{{/if}}"></i>
     </a>
 
     {{!-- Sheet Tab Navigation --}}

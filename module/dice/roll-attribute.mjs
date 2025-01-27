@@ -79,6 +79,8 @@ export default class RollAttribute extends FormApplication {
     context.system = this.system;
     context.mod = this.mod;
     context.targeted = this.action === 'targeted-use' ?? false;
+    console.log(this.targets)
+    context.targets = this.targets;
     context.tags = this.tags;
 
     // Boons
@@ -86,7 +88,7 @@ export default class RollAttribute extends FormApplication {
     context.effectBoons = this.effectBoons; // Conditional boons should be added here later
     context.attackBoons = this.actorBoons.selfRoll.attacks;
     context.spellBoons = this.actorBoons.selfRoll.spells;
-
+    
     return context;
   }
 
@@ -100,8 +102,8 @@ export default class RollAttribute extends FormApplication {
     html.find('.adjustment-widget > a').click((ev) => this._onSituationalBoons(ev));
 
     // Update forms fields dynamically
-    const el = html.find('input'); // html.find('input[type=number]')
-    el.change((ev) => this._updateFields(ev, this));
+    const el = html.find('input');
+    el.change((ev) => this._updateFields(ev));
     el.change();
 
   }
@@ -122,8 +124,8 @@ export default class RollAttribute extends FormApplication {
     }
     
     parent.querySelector('input[type=number].situational').value = value;
-
-    this._updateFields(ev, this);
+    
+    this._updateFields(ev);
   }
 
   /* -------------------------------------------- */
@@ -146,7 +148,7 @@ export default class RollAttribute extends FormApplication {
       for (const t of this.targets) {
         
         // Set boons text
-        let boonsAgainst = parseInt(boonsFinal)
+        let boonsAgainst = 0;
         if (t.boonsAgainst) boonsAgainst += t.boonsAgainst[against];
         if (this.tags.isAttack) boonsAgainst += t.boonsAgainst.fromAttacks;
         if (this.tags.isSpell) boonsAgainst += t.boonsAgainst.fromSpells;
@@ -347,22 +349,22 @@ export default class RollAttribute extends FormApplication {
 
   /* -------------------------------------------- */
 
-  _updateFields(ev, context) { // Update html fields
+  _updateFields(ev) { // Update html fields
     
     const parent = ev.target.closest('.roll-details'),
-      against = context.against,
-      fixedBoons = context.fixedBoons,
-      applyAttackBoons = parent.querySelector('input[name=attack]:checked'),
-      attackBoons = context.attackBoons,
-      //spellBoons = parent.querySelector('input[name=spell]:checked'),
-      spellBoons = context.spellBoons,
-      effectBoons = context.effectBoons, // Conditional boons should be added here later,
+      against = this.against,
+      fixedBoons = this.fixedBoons,
+      applyAttackBoons = parent.querySelector('input[name=apply-attack-boons]:checked'),
+      attackBoons = this.actorBoons.selfRoll.attacks,
+      //applySpellBoons = parent.querySelector('input[name=apply-spell-boons]:checked'),
+      spellBoons = this.actorBoons.selfRoll.spells,
+      effectBoons = this.effectBoons, // Conditional boons should be added here later,
       flat = parent.querySelector('input[name=flat]').value ?? null;
 
-    let boonsFinal = context.boonsFinal;
+    let boonsFinal = this.boonsFinal;
 
     // Set attribute display
-    const attDisplay = (context.name ? `${context.name} (${context.mod})` : '1d20 + 0') + (flat ? ` + ${flat}` : '');
+    const attDisplay = (this.name ? `${this.name} (${this.mod})` : '1d20 + 0') + (flat ? ` + ${flat}` : '');
 
     // Calculate and display final boons
     boonsFinal = parseInt(parent.querySelector('input[type=number].situational').value); // Set boonsFinal to the situational input value
@@ -416,13 +418,13 @@ export default class RollAttribute extends FormApplication {
     parent.querySelector('.boons-expression').innerHTML = attDisplay + boonsDisplay + (against ? againstDisplay : '');
 
     // Targets display
-    if (this.action === 'targeted-use') {
+    if (this.targets.length) {
       let targetsDisplay = '';
       
-      context.targets.forEach(t => {
+      this.targets.forEach(t => {
         
         // Boons against count
-        let boonsAgainst = parseInt(boonsFinal)
+        let boonsAgainst = 0;
         if (t.boonsAgainst) boonsAgainst += t.boonsAgainst[against];
         if (this.tags.isAttack) boonsAgainst += t.boonsAgainst.fromAttacks;
         if (this.tags.isSpell) boonsAgainst += t.boonsAgainst.fromSpells;
@@ -487,7 +489,7 @@ export default class RollAttribute extends FormApplication {
 
     });
 
-    return targets
+    return targets;
   }
 
   get actEffs() {
