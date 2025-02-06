@@ -104,25 +104,14 @@ export default class WWActor extends Actor {
 
   async _preUpdate(changes, options, user) {
     await super._preUpdate(changes, options, user);
-    
-    // Record Incapacitated status
-    /*const cStats = await changes.system?.stats;
-    const damage = await this.system.stats.damage.value;
-    const raw = await this.system.stats.damage.value;
-    
-    if (cStats?.damage?.value < damage) {
-      // Get variables
-      const current = await this.system.stats.health.current;
-      const chDamage = cStats.damage?.value;
-      this.incapacitated = chDamage > await current;
-    }*/
-    
+
+    const damage = foundry.utils.getProperty(this, 'system.stats.damage.value');
+
     // Update token status icons
-    if ((changes.system?.stats?.damage || changes.system?.stats?.health) && this.token) {
+    if ((damage || foundry.utils.getProperty(changes, 'system.stats.health')) && this.token) {
       this.token.object.updateStatusIcons();
     }
-
-  };
+  }
 
   /** @override */
   /*prepareData() {
@@ -182,14 +171,21 @@ export default class WWActor extends Actor {
 
   async _onUpdate(changed, options, user) {
     await super._onUpdate(changed, options, user);
+
+    // Check for changed variables
+    const health = foundry.utils.getProperty(changed, 'system.stats.health');
+    const damage = foundry.utils.getProperty(changed, 'system.stats.damage');
+
+    // Calculate Damage and Health
+    this._calculateDamageHealth(this.system, foundry.utils.getProperty(changed, 'system.stats.health.current') ? true : false);
     
     // Update token status icons
-    if ((changed.system?.stats?.damage || changed.system?.stats?.health) && this.token) {
+    if ((damage || health) && this.token) {
       this.token.object.updateStatusIcons();
     }
     
     // Update Character Options if Level updates
-    if (changed.system?.stats?.level) {
+    if (foundry.utils.getProperty(changed, 'system.stats.level')) {
       
       for (const i of this.items) {
         if (user !== game.user.id) return;
@@ -229,10 +225,8 @@ export default class WWActor extends Actor {
       }, new Set());
     }
 
-    if (this.incapacitated === undefined) this.incapacitated = false;
-    
-    // Calculate Health
-    this._calculateHealth(system);
+    // Calculate derived Health variables
+    this._calculateHealthVariables(system);
 
     // Calculate total Defense
     this._calculateDefense(system);
@@ -359,17 +353,17 @@ export default class WWActor extends Actor {
     
   }
 
-  _calculateHealth(system) {
+  _calculateHealthVariables(system) {
     // Get variables
     const health = system.stats.health;
     const current = health.current;
-    const damageRaw = this.system.stats.damage.raw;
-    
-    // Set corrected damage value to stay incapacitated or
-    // to not allow raw input value to surprass current Health
-    this.system.stats.damage.value = (this.incapacitated && damageRaw > this.system.stats.damage.value || damageRaw > current) ? current : damageRaw;
-    const damage = this.system.stats.damage.value;
-    
+    const damage = system.stats.damage.value;
+
+    if (damage > current) {
+      this.system.stats.damage.value = current;
+      system.stats.damage.value = current;
+    };
+
     // Health override effect exists
     if (health.override) {
       health.normal = health.override;
@@ -384,9 +378,27 @@ export default class WWActor extends Actor {
     // Assign Current Health to Max Damage for Token Bars
     this.system.stats.damage.max = current;
 
-    // Set Damage to Health while incapacitated or when Damage is higher than Health   
-    this.incapacitated = damage >= current;
+    // Update incapacitated status
+    if (this.incapacitated === undefined) this.incapcitated = false;
+    if (!this.incapacitated) this.incapacitated = damage >= current;
+
+  }
+
+  _calculateDamageHealth(system, healthChanged) {
+    // Get variables
+    const health = system.stats.health;
+    const current = health.current;
+    const damage = /*this.*/system.stats.damage.value;
+
+    // Set corrected damage value to stay incapacitated or
+    // to not allow raw input value to surpass current Health
+    // Stay incapacitated if Health went up while incapacitated
     
+    const damageNew = (damage > current || this.incapacitated && healthChanged) ? current : damage;
+
+    // Set Damage to Health while incapacitated or when Damage is higher than Health   
+    this.system.stats.damage.value = damageNew;
+    this.incapacitated = damageNew >= current;
   }
 
   _calculateSpeed(system) {
@@ -429,8 +441,6 @@ export default class WWActor extends Actor {
       content: content,
       sound: CONFIG.sounds.notification
     })
-
-    //this.incapacitated = await newTotal >= health; // probably overwritten by the document update
     
     this.update({ 'system.stats.damage.value': await newTotal });
   }
@@ -452,7 +462,7 @@ export default class WWActor extends Actor {
       sound: CONFIG.sounds.notification
     })
 
-    this.incapacitated = newTotal >= this.system.stats.health.current;
+    //this.incapacitated = newTotal >= this.system.stats.health.current; - probably overwritten
     this.update({ 'system.stats.damage.value': newTotal });
   }
 

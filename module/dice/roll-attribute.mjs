@@ -79,7 +79,6 @@ export default class RollAttribute extends FormApplication {
     context.system = this.system;
     context.mod = this.mod;
     context.targeted = this.action === 'targeted-use' ?? false;
-    console.log(this.targets)
     context.targets = this.targets;
     context.tags = this.tags;
 

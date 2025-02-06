@@ -15,7 +15,10 @@
       </div>
   
       {{!-- Description --}}
-      {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
+      <prose-mirror name="system.description.value" data-document-u-u-i-d="{{item.uuid}}" value="{{system.description.value}}"
+        toggled=true collaborate=true compact=true owner={{owner}} editable={{editable}}>
+        {{{system.description.enriched}}}
+      </prose-mirror>
   
     </div>
     
@@ -61,7 +64,7 @@
         {{/each}}{{#unless benefits.benefit1.languages.length}}<span>—</span>{{/unless}}
         
         <a class="array-button" data-action="add" data-array="benefits.benefit1.languages" data-loc="Language"
-          data-tooltip="WW.Detail.Language.Add"><i class="fas fa-circle-plus"></i></a>
+          data-tooltip="WW.Detail.Language.Create"><i class="fas fa-circle-plus"></i></a>
     
       </div>
     

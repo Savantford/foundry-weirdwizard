@@ -1,0 +1,169 @@
+{{!-- Sheet Header --}}
+<header class="sheet-header npc-header sheet-banner">
+    
+    {{!-- Disposition Toggle --}}
+    <div class="change-disposition label {{#if (eq disposition 1)}}ally{{else if (eq disposition -1)}}enemy{{/if}}"
+        data-action="dispositionToggle" data-tooltip="WW.Actor.Disposition.Tip">
+    
+        <div>
+            {{#if (eq disposition 1)}}{{localize "WW.Actor.Disposition.Ally"}}
+            {{else if (eq disposition -1)}}{{localize "WW.Actor.Disposition.Enemy"}}
+            {{else if (eq disposition 0)}}{{localize "WW.Actor.Disposition.Neutral"}} (!)
+            {{else if (eq disposition -2)}}{{localize "WW.Actor.Disposition.Secret"}} (!)
+            {{else}}{{localize "WW.Actor.Disposition.Unknown"}} (!){{/if}}
+        </div>
+    
+    </div>
+
+    {{!-- Portrait --}}
+    <div class="profile-img-wrapper">
+        {{> "systems/weirdwizard/templates/actors/header/portrait.hbs" img=actor.img token=true}}
+    </div>
+    
+    {{!-- Damage / Health Block --}}
+    <div class="health-block">
+    
+        {{!-- Damage / Health Widget --}}
+        <div class="health-wrapper">
+    
+            {{!-- Numbers: Top Layer --}}
+            <div class="health-numbers">
+    
+                {{!-- Defense Badge --}}
+                <div class="badge stat defense">
+    
+                    <div><a data-tooltip="<p><b>{{localize "WW.Defense.Label"}}</b></p>
+                            <p>{{localize "WW.Defense.Armored"}}: {{system.stats.defense.armored}}</p>
+                            <p>{{localize "WW.Defense.Natural"}}: {{system.stats.defense.natural}}</p>
+                            ">{{system.stats.defense.total}}
+                        </a>
+                    </div>
+    
+                </div>
+    
+                {{!-- Damage / Health --}}
+                <div class="stat health">
+    
+                    <input type="number" name="damage" value="{{system.stats.damage.value}}" min="0" max="{{system.stats.health.current}}"
+                        data-dtype="Number" />
+    
+                    <span>/</span>
+    
+                    <input type="number" name="system.stats.health.current" value="{{system.stats.health.current}}" min="0"
+                        data-dtype="Number" {{~#if system.stats.health.temp}}disabled{{/if}}
+                        data-tooltip="{{{healthTooltip}}}" />
+    
+                </div>
+            </div>
+    
+            {{!-- Overlay: Mid Layer --}}
+            <div class="health-overlay"></div>
+    
+            {{!-- Health Bar: Bottom Layer --}}
+            <div class="health-bar {{#if dead}}dead{{/if}}"
+                style="--health-pct: {{healthPct}}; --health-hue: {{healthHue}}; --health-temp: {{tempHealthPct}};"
+                role="meter" aria-valuemin="0" aria-valuenow="{{system.stats.damage.value}}"
+                aria-valuemax="{{system.stats.health.current}}">
+    
+                <div class="health-progress"></div>
+                <div class="health-temporary" data-tooltip="WW.Health.TemporaryHint"></div>
+            </div>
+    
+        </div>
+    
+    </div>
+    
+    {{!-- NPC Stats --}}
+    <div class="npc-stats">
+    
+        {{!-- Size --}}
+        <div class="stat">
+    
+            <div class="stat-header">
+                <span>{{localize "WW.Stats.Size"}}</span>
+    
+                <div class="badge stat-badge">
+                    <a data-tooltip="{{{sizeTooltip}}}">{{system.stats.size}}</a>
+                </div>
+            </div>
+    
+        </div>
+    
+        {{!-- Speed --}}
+        <div class="stat">
+    
+            <div class="stat-header">
+                <span>{{localize "WW.Stats.Speed"}}</span>
+    
+                <div class="badge stat-badge">
+                    <a data-tooltip="{{{speedTooltip}}}">{{system.stats.speed.current}}</a>
+                </div>
+            </div>
+    
+            {{!-- Movement Traits --}}
+            {{#if system.details.movementTraits.length}}
+            <div class="stat-content">
+                {{#each system.details.movementTraits as |detail id|}}
+                <div data-tooltip="{{detail.desc}}">{{detail.name}}</div>
+                {{/each}}
+            </div>
+            {{/if}}
+    
+        </div>
+    
+        {{!-- Languages --}}
+        {{#if system.details.languages.length}}
+        <div class="stat">
+    
+            <div class="stat-header">{{localize "WW.Detail.Language.Label"}}</div>
+    
+            <div class="stat-content">
+                {{#each system.details.languages as |detail id|}}
+                <div data-tooltip="{{detail.desc}}">{{detail.name}}</div>
+                {{/each}}
+            </div>
+    
+        </div>
+        {{/if}}
+    
+        {{!-- Senses --}}
+        {{#if system.details.senses.length}}
+        <div class="stat">
+    
+            <div class="stat-header">{{localize "WW.Detail.Sense.Label"}}</div>
+    
+            <div class="stat-content">
+                {{#each system.details.senses as |detail id|}}
+                <div data-tooltip="{{detail.desc}}">{{detail.name}}</div>
+                {{/each}}
+            </div>
+    
+        </div>
+        {{/if}}
+    
+        {{!-- Immunities --}}
+        {{#if system.details.immune.length}}
+        <div class="stat">
+    
+            <div class="stat-header">{{localize "WW.Detail.Immune.Label"}}</div>
+    
+            <div class="stat-content">
+                {{#each system.details.immune as |detail id|}}
+                <div data-tooltip="{{detail.desc}}">{{detail.name}}</div>
+                {{/each}}
+            </div>
+    
+        </div>
+        {{/if}}
+    
+    </div>
+
+    {{!-- Disposition Toggle --}}
+    <div class="change-disposition{{#if (eq disposition 1)}} ally{{else if (eq disposition -1)}} enemy{{/if}}"
+        data-action="dispositionToggle" data-tooltip="WW.Actor.Disposition.Tip">
+    
+        <img class="crest"
+            src="{{#if (eq disposition 1)}}systems/weirdwizard/assets/icons/heart-shield.svg{{else if (eq disposition -1)}}systems/weirdwizard/assets/icons/skull-shield.svg{{/if}}">
+    </div>
+
+</header>

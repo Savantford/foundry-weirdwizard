@@ -1,0 +1,23 @@
+<img class="profile-img" src="{{actor.img}}" data-action="editImage" data-edit="img"/>
+
+<div class="profile-img-menu">
+  <a data-action="showPortraitArtwork" data-tooltip="WW.Actor.ShowPortrait"><i class="fas fa-image-portrait"></i></a>
+
+  {{#if token}}
+  <a data-action="showTokenArtwork" data-tooltip="WW.Actor.ShowToken"><i class="fas fa-circle-user"></i></a>
+  {{/if}}
+  
+  {{#if (eq actor.type 'NPC')}}
+  <a class="item-button" data-action="attributeRoll" data-key="luck" data-tooltip="WW.Roll.Luck"><i class="fas fa-clover"></i></a>
+  {{/if}}
+</div>
+
+{{#if (eq actor.type 'NPC')}}
+{{!-- Health Indicator --}}
+<span class="health-indicator">
+  {{~#if dead}}{{localize "WW.Health.Estimation.Dead"}}
+  {{~else if incapacitated}}{{localize "WW.Health.Estimation.100"}}
+  {{~else if injured}}{{localize "WW.Health.Estimation.50"}}
+  {{/if}}
+</span>
+{{/if}}

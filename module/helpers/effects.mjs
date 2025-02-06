@@ -92,7 +92,7 @@ export async function onManageInstantEffect(event, owner) {
 export function prepareActiveEffectCategories(effects, showDuration = false, showSource = true, showControls = true, showCreate = true) {
 
   // Define effect header categories
-  let categories = {
+  const categories = {
     temporary: {
       type: 'temporary',
       name: 'WW.Effects.Temporary',
@@ -122,30 +122,23 @@ export function prepareActiveEffectCategories(effects, showDuration = false, sho
     },
   }
 
-  // Iterate over active effects, classifying them into categories.
-  for (let e of effects) {
-    // Also set the 'remaining time' in seconds or rounds depending on if in combat
-    /*if (e.isTemporary && (e.duration.seconds || e.duration.rounds || e.duration.turns)) {
-      if (game.combat) {
-        if (e.duration.turns > 0) {
-          const rr = calcEffectRemainingRounds(e, game.combat.round)
-          const rt = calcEffectRemainingTurn(e, game.combat.turn)
-          const sr = `${rr} ${Math.abs(rr) > 1 ? i18n('COMBAT.Rounds') : i18n('COMBAT.Round')}`
-          const st = `${rt} ${Math.abs(rt) > 1 ? i18n('COMBAT.Turns') : i18n('COMBAT.Turn')}`
-          e.dlRemaining = sr + ' ' + st
-        }
-        else {
-          const r = calcEffectRemainingRounds(e, game.combat.round)
-          e.dlRemaining = `${r} ${Math.abs(r) > 1 ? i18n('COMBAT.Rounds') : i18n('COMBAT.Round')}`
-        }
-      } else {
-        const r = calcEffectRemainingSeconds(e, game.time.worldTime)
-        e.dlRemaining = `${r} ${i18n('TIME.Seconds')}`
-      }
-    } else {
-      e.dlRemaining = e.duration.label
-    }*/
+  // Iterate over active effects
+  for (const e of effects) {
+    // Prepare tooltips
+    let tooltip = `<h2>${i18n(e.name)}</h2>
+      <div>${i18n(e.description)}</div>
+      <ul>`;
 
+    for (const c of e.changes) {
+      const label = CONFIG.WW.EFFECT_CHANGE_LABELS[c.key] ? i18n(CONFIG.WW.EFFECT_CHANGE_LABELS[c.key]) : 'BROKEN EFFECT CHANGE, FIX IT!';
+      tooltip += `<li>${label} ${(c.value !== true) ? `${c.value}.` : ''}</li>`;
+    }
+
+    tooltip += `</ul>`;
+    
+    e.tooltip = tooltip;
+
+    // Push them into categories
     if (e.disabled) categories.inactive.effects.push(e)
     else if (e.isTemporary) categories.temporary.effects.push(e)
     //else if (e.parent instanceof Item) categories.item.effects.push(e)
@@ -158,8 +151,6 @@ export function prepareActiveEffectCategories(effects, showDuration = false, sho
 export function expireFromTokens() {
   if (game.users.activeGM?.isSelf) {
     for (const t of canvas.tokens.placeables) {
-      // Skip tokens in combat to avoid too early expiration
-      //if (t.combatant?.combat?.started) continue;
       
       // Don't do anything for actors without this function (e.g. basic actors)
       if (!t.actor?.expireActiveEffects) continue;

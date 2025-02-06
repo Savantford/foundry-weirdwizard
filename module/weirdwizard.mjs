@@ -201,7 +201,7 @@ Hooks.once('init', function () {
     name: 'QC.Settings.PreciseSkip',
     hint: 'QC.Settings.PreciseSkipHint',
     scope: 'world',
-    config: true,
+    config: false,
     type: Boolean,
     default: false
   });
@@ -210,7 +210,7 @@ Hooks.once('init', function () {
     name: 'QC.Settings.SkipRef',
     hint: 'QC.Settings.SkipRefHint',
     scope: 'world',
-    config: true,
+    config: false,
     type: String,
     default: 'sunrise'
   });
@@ -219,7 +219,7 @@ Hooks.once('init', function () {
     name: 'QC.Settings.Sunrise',
     hint: 'QC.Settings.SunriseHint',
     scope: 'world',
-    config: true,
+    config: false,
     type: Number,
     default: '6'
   });
@@ -228,7 +228,7 @@ Hooks.once('init', function () {
     name: 'QC.Settings.Midday',
     hint: 'QC.Settings.MiddayHint',
     scope: 'world',
-    config: true,
+    config: false,
     type: Number,
     default: '12'
   });
@@ -237,7 +237,7 @@ Hooks.once('init', function () {
     name: 'QC.Settings.Sunset',
     hint: 'QC.Settings.SunsetHint',
     scope: 'world',
-    config: true,
+    config: false,
     type: Number,
     default: '18'
   });
@@ -246,7 +246,7 @@ Hooks.once('init', function () {
     name: 'QC.Settings.Midnight',
     hint: 'QC.Settings.MidnightHint',
     scope: 'world',
-    config: true,
+    config: false,
     type: Number,
     default: '0'
   });
@@ -409,7 +409,7 @@ Hooks.on("renderSettings", (app, [html]) => {
 Hooks.on("renderFolderConfig", (app, [html], context) => {
   const folder = app.document;
 
-  const description = folder.getFlag('weirdwizard', 'description');
+  const description = folder.getFlag('weirdwizard', 'description') ?? '';
 
   // Create HTML string, inject it, then set app's position
   const htmlStr = `<prose-mirror class="editor prosemirror"
@@ -418,7 +418,7 @@ Hooks.on("renderFolderConfig", (app, [html], context) => {
   
   html.querySelector('button[type="submit"]').insertAdjacentHTML('beforeBegin', htmlStr);
   
-  // Add weirdwizar class to html and resize app's height
+  // Add weirdwizard class to html and resize app's height
   html.classList.add('weirdwizard');
   app.setPosition({ width: 435, height: 'auto' });
 

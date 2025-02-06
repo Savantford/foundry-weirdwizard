@@ -148,7 +148,10 @@
 </header>
 
 {{!-- Description --}}
-{{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
+<prose-mirror name="system.description.value" data-document-u-u-i-d="{{item.uuid}}" value="{{system.description.value}}"
+  toggled=true collaborate=true compact=true owner={{owner}} editable={{editable}}>
+  {{{system.description.enriched}}}
+</prose-mirror>
 
 {{!-- Granted By --}}
 {{#if grantedBy}}

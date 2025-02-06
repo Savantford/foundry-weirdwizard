@@ -1,0 +1,47 @@
+<li class="item" data-item-id="{{item._id}}">
+
+    <div class="item-header">
+        
+        {{!-- Left Part --}}
+        <span class="compact-left">
+            {{!-- Title --}}
+            <label class="item-button" data-action="itemLabelClick" data-item-id="{{item._id}}"
+                data-tooltip="{{{item.tooltip}}}">{{item.name}}</label>
+
+            {{#if (or item.hasPassiveEffects item.uses)}}
+            <span class="buttons">
+
+                {{!-- Toggle Effects --}}
+                {{#if item.hasPassiveEffects}}
+                    <a class="item-button" data-action="itemToggleEffects" data-item-id="{{item._id}}"
+                        data-tooltip="{{#if item.system.active}}{{localize "WW.Item.DisableEffects"}}{{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
+                        <i class="fas {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
+                {{/if}}
+
+                {{!-- Uses Pips --}}
+                {{#if item.uses}}
+                <span class="pip-box">
+                    {{#each item.uses as |pip id|}}
+                    <a class="item-pip" data-action="itemUpdateUses" data-item-id="{{../item._id}}"
+                        data-tooltip="{{#if (eq pip "far fa-circle")}}
+                            {{#if (eq ../item.type "Equipment")}}{{localize "WW.Item.Uses.EquipmentSpend"}}
+                            {{else if (eq ../item.type "Spell")}}{{localize "WW.Item.Uses.SpellSpend"}}
+                            {{else}}{{localize "WW.Item.Uses.TalentSpend"}}{{/if}}
+                        {{else}}
+                            {{#if (eq ../item.type "Equipment")}}{{localize "WW.Item.Uses.EquipmentRecover"}}
+                            {{else if (eq ../item.type "Spell")}}{{localize "WW.Item.Uses.SpellRecover"}}
+                            {{else}}{{localize "WW.Item.Uses.TalentRecover"}}{{/if}}
+                        {{/if}}">
+                        <i class="{{pip}}"></i></a>
+                    {{/each}}
+                </span>
+                {{/if}}
+                
+            </span>
+            {{/if}}
+
+        </span>
+        
+    </div>
+
+</li>

@@ -19,8 +19,6 @@ export function initChatListeners(html, app) {
 
   // Handle chat Message Button right click context menu
   html.find('.chat-button[data-action*=apply]').click(ev => _onOpenMultiChoice(ev, 'applyEffect') );
-  //html.find('.enricher-call').click(ev => _onOpenMultiChoice(ev, 'callAttributeRoll') );
-  //new ApplyContext(html, '.chat-button[data-action*=apply]', [], { onOpen: _onMessageButtonContext.bind('apply'), eventName:'click' });
   new ApplyContext(html, '.enricher-call', [], { onOpen: _onMessageButtonContext.bind('call'), eventName:'click' });
 
   // Open Sheet from chat

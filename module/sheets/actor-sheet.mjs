@@ -2,65 +2,127 @@ import { capitalize, escape, i18n, plusify, sum } from '../helpers/utils.mjs';
 import { addActEffs, addInstEffs, diceTotalHtml } from '../sidebar/chat-html-templates.mjs';
 import ListEntryConfig from '../sheets/list-entry-config.mjs';
 import { mapRange } from '../canvas/canvas-functions.mjs';
+import MultiChoice from '../apps/multi-choice.mjs';
 import { onManageActiveEffect, prepareActiveEffectCategories } from '../helpers/effects.mjs';
 import RollAttribute from '../dice/roll-attribute.mjs';
 import TargetingHUD from '../apps/targeting-hud.mjs';
 import { WWAfflictions } from '../helpers/afflictions.mjs';
 import WWRoll from '../dice/roll.mjs';
 
+// Similar syntax to importing, but note that
+// this is object destructuring rather than an actual import
+const ActorSheetV2 = foundry.applications?.sheets?.ActorSheetV2 ?? (class {});
+const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicationMixin ?? (cls => cls);
+
 /**
- * Extend the basic ActorSheet with some very simple modifications
- * @extends {ActorSheet}
+ * Extend the basic ActorSheetV2 with modifications tailored for SotWW
+ * @extends {ActorSheetV2}
 */
 
-export default class WWActorSheet extends ActorSheet {
+export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
+
+  constructor(options = {}) {
+    super(options); // Required for the constructor to work 
+  }
   
   /** @override */
-  static get defaultOptions() {
-    
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ['weirdwizard', 'sheet', 'actor'],
-      width: 860, // 600 for small sheet, 860 for new sheet
-      height: 500,
-      tabs: [{ navSelector: '.sheet-tabs', contentSelector: '.sheet-body', initial: 'features' }]
-    });
+  static DEFAULT_OPTIONS = {
+    classes: ['weirdwizard', 'sheet', 'actor'],
+    tag: 'form',
+    window: {
+      title: this.title, // Custom title display
+      icon: 'far fa-scroll',
+      resizable: true,
+      contentClasses: ['scrollable']
+    },
+    actions: {
+      editImage: this.#onEditImage, // delete in V13; core functionality
+      dispositionToggle: this.#onDispositionToggle, // delete in V13; core functionality
+      incapacitatedRoll: this.#onIncapacitatedRoll,
+      attributeRoll: this.#onAttributeRoll,
+      afflictionsMenu: this.#onAfflictionsMenuOpen,
+      folderEdit: this.#onFolderEdit,
+
+      entryCreate: this.#onEntryCreate,
+      entryEdit: this.#onEntryEdit,
+      entryRemove: this.#onEntryRemove,
+
+      itemCreate: this.#onItemCreate,
+      itemEdit: this.#onItemEdit,
+      itemRemove: this.#onItemRemove,
+
+      itemLabelClick: this.#onItemLabelClick,
+      itemScroll: this.#onItemScroll,
+      itemToggleEffects: this.#onItemToggleEffects,
+      itemToggleReloaded: this.#onItemToggleReloaded,
+      itemUpdateUses: this.#onItemUpdateUses,
+      containerCollapse: this.#onContainerCollapse,
+
+      effectCreate: this.#onEffectCreate,
+      effectEdit: this.#onEffectEdit,
+      effectRemove: this.#onEffectRemove,
+      
+    },
+    form: {
+      handler: this.#onSubmitDocumentForm, // delete in v13, core functionality
+      submitOnChange: true,
+      closeOnSubmit: false
+    },
+    position: {
+      width: 860,
+      height: 500
+    }
+  }
+
+  /* -------------------------------------------- */
+
+  /** @override */
+  get title() {
+    const {constructor: cls, id, name, type} = this.document;
+    const prefix = cls.hasTypeData && type !== "base" ? CONFIG[cls.documentName].typeLabels[type] : cls.metadata.label;
+    return `${name ?? id} - ${game.i18n.localize(prefix)}`;
+  }
+
+  /* -------------------------------------------- */
+  static PARTS = {
+    // Handled by the subclasses
   }
 
   /** @override */
-  get template() {
-    const perms = CONST.DOCUMENT_OWNERSHIP_LEVELS,
-    path = 'systems/weirdwizard/templates/actors';
-    
-    let permission = this.document.getUserLevel(game.user);
-    if (game.user.isGM) permission = perms.OWNER;
+  _configureRenderOptions(options) {
+    super._configureRenderOptions(options);
 
-    if ((permission === CONST.DOCUMENT_OWNERSHIP_LEVELS.LIMITED) | (permission === CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER)) return `${path}/${this.actor.type}-limited.hbs`;
-    if (permission === CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) return `${path}/${this.actor.type}-sheet.hbs`;
+    // Handled by the subclass
     
+    return options;
   }
   
   /* -------------------------------------------- */
 
-  /** @override */
-  async getData() {
-    // Retrieve the data structure from the base sheet. You can inspect or log
-    // the context variable to see the structure, but some key properties for
-    // sheets are the actor object, the data object, whether or not it's
-    // editable, the items array, and the effects array.
-    const context = super.getData();
-    
-    // Use a safe clone of the actor data for further operations.
-    const actorData = context.actor;
-    
-    // Add the actor's data to context.system for easier access, as well as flags.
-    context.system = actorData.system;
-    context.folder = await actorData.folder;
-    context.flags = actorData.flags;
-    context.dtypes = ['String', 'Number', 'Boolean'];
+  /**
+   * Prepare application rendering context data for a given render request.
+   * @param {RenderOptions} options                 Options which configure application rendering behavior
+   * @returns {Promise<ApplicationRenderContext>}   Context data for the render operation
+   */
+  async _prepareContext(options = {}) {
+    const actorData = this.actor;
 
-    // Pass editMode state
-    context.editMode = this.editMode ?? false;
+    // Ensure editMode has a value
+    if (this.editMode === undefined) this.editMode = false;
 
+    const context = {
+      actor: actorData, // Use a safe clone of the actor data for further operations.
+    
+      system: actorData.system, // Add the actor's data to context.system for easier access, as well as flags.
+      folder: await actorData.folder,
+      flags: actorData.flags,
+      dtypes: ['String', 'Number', 'Boolean'],
+      editMode: await this.editMode, // Pass editMode state
+      tabs: this._getTabs(options.parts),
+      afflictions: this.appliedAfflictions
+    }
+    
+    // Prepare attributes
     for (let attr of Object.values(context.system.attributes)) {
       attr.isCheckbox = attr.dtype === 'Boolean';
     }
@@ -71,10 +133,12 @@ export default class WWActorSheet extends ActorSheet {
     }
 
     // Prepare common data
-    context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true })
     context.injured = actorData.injured;
     context.incapacitated = actorData.incapacitated;
     context.dead = actorData.dead;
+
+    // Prepare Disposition
+    context.disposition = await this.actor?.token ? await this.actor.token.disposition : await this.actor.prototypeToken.disposition;
 
     // Prepare Health data
     const damage = actorData.system.stats.damage.value;
@@ -101,25 +165,6 @@ export default class WWActorSheet extends ActorSheet {
     CONFIG.statusEffects.forEach(function (e) {
       context.hasEffect[e.id] = actorData.statuses.has(e.id);
     })
-
-    // Prepare Items
-    this._prepareItems(context);
-
-    // Prepare character data
-    if (actorData.type == 'Character') this._prepareCharacterData(context);
-
-    // Prepare NPC data
-    if (actorData.type == 'NPC') this._prepareNPCData(context);
-
-    // Add roll data for TinyMCE editors.
-    context.rollData = actorData.getRollData();
-
-    // Prepare active effects
-    context.effects = prepareActiveEffectCategories(await this.actor.appliedEffects);
-    context.actorEffects = prepareActiveEffectCategories(await this.actor.effects);
-
-    // Prepare effect change labels to display
-    context.effectChangeLabels = CONFIG.WW.EFFECT_CHANGE_LABELS;
 
     /* Tooltips */
 
@@ -151,65 +196,222 @@ export default class WWActorSheet extends ActorSheet {
       <p>${i18n('WW.Stats.AutomationHint', { stat: i18n("WW.Damage.Bonus") })}</p>
     `);
 
-    // Setup usage help text for tooltips (so we can reuse it)
-    const usagehelp = escape(`
-      <p>${i18n("WW.Item.Perform.Left")}</p>
-      <p>${i18n("WW.Item.Perform.Shift")}</p>
-      <p>${i18n("WW.Item.Perform.Ctrl")}</p>
-      <p>${i18n("WW.Item.Perform.Alt")}</p>
-      <p>${i18n("WW.Item.Perform.Right")}</p>
-    `);
+    // Prepare Items
+    context.items = this.actor.items.contents.toSorted((a, b) => a.sort - b.sort);
+    this._prepareItems(context);
 
-    // Prepare item tooltip
-    for (let i of context.items) {
-      // Prepare html fields for the tooltip and chat message
-      i.system.description.enriched = await TextEditor.enrichHTML(i.system.description.value, { async: true });
-      if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider.value, { async: true });
+    // Prepare character data
+    if (actorData.type == 'Character') this._prepareCharacterData(context);
 
-      // Tooltip title
-      const title = await escape(`<div class="tooltip-title">${i.name}</div>`);
+    // Prepare NPC data
+    if (actorData.type == 'NPC') this._prepareNPCData(context);
 
-      // Empty description, so we can fill it with type specific content
-      let description = '';
-
-      // Form description based on item type
-      switch (i.type) {
-        case 'Spell':
-          const casting = i.system.casting ? `<b>${i18n("WW.Spell.Castings")}:</b> ${i.system.uses.max}, ${i.system.casting}` : `<b>${i18n("WW.Spell.Castings")}:</b> ${i.system.uses.max}`;
-          const target = i.system.target ? `<br/><b>${i18n("WW.Spell.Target")}:</b> ${i.system.target}` : '';
-          const duration = i.system.duration ? `<br/><b>${i18n("WW.Spell.Duration")}:</b> ${i.system.duration}` : '';
-
-          description = await escape(`
-            <p>${casting}
-            ${target}
-            ${duration}</p>
-            ${i.system.description.enriched}
-          `);
-          break;
-
-        case 'Equipment':
-          const rider = i.system.attackRider.enriched ? i.system.attackRider.enriched : '';
-          
-          description = await escape(`
-            ${i.system.description.enriched}
-            ${rider}
-          `);
-          break;
-        
-        default:
-          description = await escape(`
-            ${i.system.description.enriched}
-          `);
-      }
-
-      // Create tooltip from concat of description and usage help text
-      i.tooltip = await escape('<div class="item-tooltip">') + title + description + await escape('</div>') + usagehelp;
-    }
-
-    // Prepare Disposition
-    context.disposition = await this.actor?.token ? await this.actor.token.disposition : await this.actor.prototypeToken.disposition;
+    // Add roll data for TinyMCE editors.
+    context.rollData = actorData.getRollData();
     
     return context;
+  }
+
+  /** @override */
+  async _preparePartContext(partId, context, options) {
+    await super._preparePartContext(partId, context, options);
+
+    switch (partId) {
+      // Summmary tab
+      case 'summary':
+        context.tab = context.tabs[partId];
+
+        // Setup usage help text for tooltips (so we can reuse it)
+        const usagehelp = escape(`
+          <p>${i18n("WW.Item.Perform.Left")}</p>
+          <p>${i18n("WW.Item.Perform.Shift")}</p>
+          <p>${i18n("WW.Item.Perform.Ctrl")}</p>
+          <p>${i18n("WW.Item.Perform.Alt")}</p>
+          <p>${i18n("WW.Item.Perform.Right")}</p>
+        `);
+
+        // Prepare item tooltip
+        for (let i of context.items) {
+          // Prepare html fields for the tooltip and chat message
+          i.system.description.enriched = await TextEditor.enrichHTML(i.system.description.value, { async: true });
+          if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider.value, { async: true });
+
+          // Tooltip title
+          const title = await escape(`<div class="tooltip-title">${i.name}</div>`);
+
+          // Empty description, so we can fill it with type specific content
+          let description = '';
+
+          // Form description based on item type
+          switch (i.type) {
+            case 'Spell':
+              const casting = i.system.casting ? `<b>${i18n("WW.Spell.Castings")}:</b> ${i.system.uses.max}, ${i.system.casting}` : `<b>${i18n("WW.Spell.Castings")}:</b> ${i.system.uses.max}`;
+              const target = i.system.target ? `<br/><b>${i18n("WW.Spell.Target")}:</b> ${i.system.target}` : '';
+              const duration = i.system.duration ? `<br/><b>${i18n("WW.Spell.Duration")}:</b> ${i.system.duration}` : '';
+
+              description = await escape(`
+                <p>${casting}
+                ${target}
+                ${duration}</p>
+                ${i.system.description.enriched}
+              `);
+              break;
+
+            case 'Equipment':
+              const rider = i.system.attackRider.enriched ? i.system.attackRider.enriched : '';
+              
+              description = await escape(`
+                ${i.system.description.enriched}
+                ${rider}
+              `);
+              break;
+            
+            default:
+              description = await escape(`
+                ${i.system.description.enriched}
+              `);
+          }
+
+          // Create tooltip from concat of description and usage help text
+          i.tooltip = await escape('<div class="item-tooltip">') + title + description + await escape('</div>') + usagehelp;
+        }
+
+      break;
+      
+      // Details tab
+      case 'details':
+        context.tab = context.tabs[partId];
+      break;
+      
+      // Equipment tab
+      case 'equipment':
+        context.tab = context.tabs[partId];
+      break;
+      
+      // Talents tab
+      case 'talents':
+        context.tab = context.tabs[partId];
+      break;
+      
+      // Spells tab
+      case 'spells':
+        context.tab = context.tabs[partId];
+      break;
+      
+      // Description tab
+      case 'description':
+        context.tab = context.tabs[partId];
+        context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true });
+      break;
+      
+      // Effects tab
+      case 'effects':
+        context.tab = context.tabs[partId];
+
+        // Prepare active effects
+        context.appliedEffects = prepareActiveEffectCategories(await this.actor.appliedEffects);
+        
+        for (const c in context.appliedEffects) {
+          context.appliedEffects[c].effects = context.appliedEffects[c].effects.toSorted((a, b) => a.sort - b.sort)
+        }
+
+        context.effects = prepareActiveEffectCategories(await this.actor.effects);
+
+        for (const c in context.effects) {
+          context.effects[c].effects = context.effects[c].effects.toSorted((a, b) => a.sort - b.sort)
+        };
+        
+      break;
+    }
+
+    return context;
+  }
+
+  /**
+   * Generates the data for the generic tab navigation template
+   * @param {string[]} parts An array of named template parts to render
+   * @returns {Record<string, Partial<ApplicationTab>>}
+   * @protected
+   */
+  _getTabs(parts) {
+    // If you have sub-tabs this is necessary to change
+    const tabGroup = 'primary';
+    const type = this.document.type;
+
+    // Default tab for first time it's rendered this session
+    if (!this.tabGroups[tabGroup]) this.tabGroups[tabGroup] = this.document.limited ? 'details' : 'summary';
+    
+    // Assign tab properties
+    return parts.reduce((tabs, partId) => {
+      
+      const tab = {
+        cssClass: "",
+        group: tabGroup,
+        // Matches tab property to
+        id: '',
+        // Icon svg
+        icon: '',
+        // Run through localization
+        label: ''
+      };
+
+      switch (partId) {
+        case 'sidetabs':
+          return tabs;
+        case 'summary':
+          tab.id = 'summary';
+          tab.label = 'WW.Actor.Summary';
+          tab.icon = 'systems/weirdwizard/assets/icons/diploma.svg';
+          break;
+        case 'details':
+          if (type === 'Character') {
+            tab.id = 'details';
+            tab.label = 'WW.Actor.Details';
+            tab.icon = 'systems/weirdwizard/assets/icons/scroll-quill.svg';
+          }
+          break;
+        case 'equipment':
+          if (type === 'Character') {
+            tab.id = 'equipment';
+            tab.label = 'WW.Equipment.Label';
+            tab.icon = 'systems/weirdwizard/assets/icons/backpack.svg';
+          }
+          break;
+        case 'talents':
+          if (type === 'Character') {
+            tab.id = 'talents';
+            tab.label = 'WW.Talents.Label';
+            tab.icon = 'systems/weirdwizard/assets/icons/skills.svg';
+          }
+          break;
+        case 'spells':
+          if (type === 'Character') {
+            tab.id = 'spells';
+            tab.label = 'WW.Spells.Label';
+            tab.icon = 'systems/weirdwizard/assets/icons/spell-book.svg';
+          }
+          break;
+        case 'description':
+          if (type === 'NPC') {
+            tab.id = 'description';
+            tab.label = 'WW.Item.Description';
+            tab.icon = 'systems/weirdwizard/assets/icons/scroll-quill.svg';
+          }
+          break;
+        case 'effects':
+          tab.id = 'effects';
+          tab.label = 'WW.Effects.Label';
+          tab.icon = '/icons/svg/aura.svg';
+          break;
+        default: break;
+      }
+
+      // Activate tab
+      if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = "active";
+      if (tab.id) tabs[partId] = tab;
+
+      return tabs;
+    }, {});
   }
 
   /**
@@ -269,11 +471,10 @@ export default class WWActorSheet extends ActorSheet {
         }
 
         // Pass down whether the item need targets or not
-        i.needTargets = this.document.items.get(i._id).needTargets;
+        //i.needTargets = this.document.items.get(i._id).needTargets; - no longer needed?
         
         // Append to equipment.
         if (i.type === 'Equipment') {
-          
           // Prepare traits list for weapons
           if (i.system.subtype == 'weapon') {
 
@@ -285,7 +486,7 @@ export default class WWActorSheet extends ActorSheet {
               if (x[1]) {
                 let string = i18n('WW.Weapon.Traits.' + capitalize(x[0]) + '.Label');
                 
-                if ((x[0] == 'range') || (x[0] == 'reach' && i.system.range) || (x[0] == 'thrown') ) {string += ' ' + i.system.range;}
+                if ((x[0] == 'range') || (x[0] == 'reach' && i.system.range) || (x[0] == 'thrown') ) string += ' ' + i.system.range;
 
                 list = list.concat(list ? ', ' + string : string);
               }
@@ -302,7 +503,8 @@ export default class WWActorSheet extends ActorSheet {
           }
 
           // Prepare filled capacity for containers
-          if (i.system.subtype == 'container') {
+          else if (i.system.subtype == 'container') {
+            if (i.system.heldBy) i.system.heldBy = null;
             // Prepare variables
             let list = '';
             const held = [];
@@ -478,7 +680,7 @@ export default class WWActorSheet extends ActorSheet {
     equipment.forEach(updateUses)
     spells.forEach(updateUses)
     end.forEach(updateUses)
-
+    
     // Assign and return
     context.equipment = equipment;
     context.weapons = weapons;
@@ -539,104 +741,47 @@ export default class WWActorSheet extends ActorSheet {
 
   }
 
-  /* EVENTS */
+  /* -------------------------------------------- */
 
-  /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
+  /**
+   * Actions performed after any render of the Application.
+   * Post-render steps are not awaited by the render process.
+   * @param {ApplicationRenderContext} context      Prepared context data
+   * @param {RenderOptions} options                 Provided render options
+   * @protected
+   */
+  async _onRender(context, options) {
+    await super._onRender(context, options);
 
-    const actor = this.actor;
-
-    // Add dead or incapacitated class to main window
-    const window = this.element[0];
-    window.classList.toggle('injured', actor.injured);
-    window.classList.toggle('incapacitated', actor.incapacitated && !actor.dead);
-    window.classList.toggle('dead', actor.dead);
-
-    // Handle portrait menu sharing buttons
-    html.find('.profile-show').click(ev => this._showProfileImg(ev));
-
-    // -------------------------------------------------------------
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
 
-    // Change Token Disposition
-    html.find('.change-disposition').click(this._onDispositionChange.bind(this));
+    // Add dynamic classes to app window
+    const actor = this.actor;
+    const window = this.element;
 
-    // Change Token Disposition
-    html.find('.edit-folder').click(this._onFolderEdit.bind(this));
+    window.classList.toggle('edit-mode', this.editMode); // Toggle edit mode
+    window.classList.toggle('master', actor.system.stats.level >= 7); // Toggle Tier classes
+    window.classList.toggle('expert', actor.system.stats.level >= 3);
+    window.classList.toggle('injured', actor.injured); // Add Health status classes
+    window.classList.toggle('incapacitated', actor.incapacitated && !actor.dead);
+    window.classList.toggle('dead', actor.dead);
 
-    // Handle list entries
-    html.find('.array-button').click(this._onListEntryButtonClicked.bind(this));
+    if ( !game.user.isGM ) return;
 
-    // Initialize Sheet Menu
-    ContextMenu.create(this, html, '.sheet-menu', this._getSheetMenuOptions());
-    ContextMenu.create(this, html, '.sheet-menu', this._getSheetMenuOptions(), { eventName:'click' });
-
-    // Incapacitated Health Loss
-    if (this.actor.type === 'Character') html.find('.health-indicator').click(this._onIncapacitatedRoll.bind(this));
-
-    /////////////////////// ITEMS ////////////////////////
-
-    // Initialize Item Context Menu
-    this._itemContextMenu(html);
-
-    // Handle item buttons
-    html.find('.item-button').click(this._onItemButtonClicked.bind(this))
-
-    // Add Inventory Item
-    html.find('.item-create').click(this._onItemCreateButtonClicked.bind(this));
-
-    // Set uses pips to update the value when clicked
-    html.find('.item-pip').click(ev => {
-      const button = ev.currentTarget,
-        item = this.actor.items.get(button.dataset.itemId);
-      
-      if ($(ev.target).hasClass('far')) { // If the pip is regular (unchecked)
-        item.update({'system.uses.value': item.system.uses.value + 1}) // Add 1 to the current value.
-      } else {
-        item.system.uses.value >= 0 ? item.update({'system.uses.value': item.system.uses.value - 1}) : item.update({'system.uses.value': 0}) // Subtract 1 from current value.
+    // Create dragDrop listener
+    new DragDrop({ // Remove in v13; core implementation
+      dragSelector: ".draggable",
+      dropSelector: null,
+      callbacks: {
+        dragstart: this._onDragStart.bind(this),
+        dragover: this._onDragOver.bind(this),
+        drop: this._onDrop.bind(this)
       }
-    });
-
-    // Handle container collapsing
-    html.find('.container').click(this._onContainerCollapse.bind(this));
-
-    ////////////////// EFFECTS ////////////////////
-
-    // Active Effect management
-    html.find('.effect-control').click(ev => onManageActiveEffect(ev, this.actor));
-
-    // Disable Afflictions
-    html.find('.remove-afflictions').click(async () => { await WWAfflictions.clearAfflictions(this.actor) });
-
-    // Afflictions tab checkboxes
-    html.find('.afflictions input').click(async ev => {
-      const input = ev.currentTarget;
-      const checked = input.checked;
-      const afflictionId = $(ev.currentTarget).data('name');
-
-      if (checked) {
-        const affliction = CONFIG.statusEffects.find(a => a.id === afflictionId);
-        
-        if (!affliction) return false
-        affliction['statuses'] = [affliction.id];
-        
-        await ActiveEffect.create(affliction, {parent: this.actor});
-
-      } else {
-        const affliction = this.actor.effects.find(e => e?.statuses?.has(afflictionId));
-
-        if (!affliction) return false
-
-        await affliction.delete();
-      }
-
-      return true
-    });
+    }).bind(this.element);
 
     // Drag events for macros.
-    if (this.actor.isOwner) {
+    /*if (this.actor.isOwner) {
       
       const handler = ev => this._onDragStart(ev)
 
@@ -645,47 +790,17 @@ export default class WWActorSheet extends ActorSheet {
         li.setAttribute('draggable', true)
         li.addEventListener('dragstart', handler, false)
       })
-    }
+    }*/
+
   }
 
-  /* A function called to roll Luck while incapacitated */
-  async _onIncapacitatedRoll() {
-    if (!this.actor.incapacitated || await this.actor.dead) return;
+  async _onFirstRender(context, options) {
+    await super._onFirstRender(context, options);
 
-    // Prepare roll
-    const r = await new WWRoll('1d6', this.actor.getRollData).evaluate();
-    const rollArray= [r];
-    const rollHtml = await diceTotalHtml(r);
-  
-    // Prepare message data
-    const messageData = {
-      /*type: CONST.CHAT_MESSAGE_TYPES.ROLL,*/
-      rolls: rollArray,
-      speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
-      flavor: `<span>${i18n('WW.Health.IncapacitatedLost')}</span>`,
-      content: '<div></div>',
-      sound: CONFIG.sounds.dice,
-      'flags.weirdwizard': {
-        rollHtml: rollHtml,
-        emptyContent: true
-      }
-    };
-    
-    await ChatMessage.applyRollMode(messageData, game.settings.get('core', 'rollMode'));
-    
-    // Send to chat
-    const msg = await ChatMessage.create(messageData);
+    // Initialize context menus
+    ContextMenu.create(this, this.element, '.sheet-menu', this._getSheetMenuOptions(), { eventName:'click' });
+    ContextMenu.create(this, this.element, '.item-button', this._getItemContextOptions());
 
-    // Apply Health Loss (delay if DSN is installed)
-    if (game.dice3d) {
-      game.dice3d.waitFor3DAnimationByMessageID(await msg.id).then(()=> {
-        this.actor.applyHealthLoss(r.total);
-      });  
-    } else {
-      this.actor.applyHealthLoss(r.total);
-    }
-    
-  
   }
 
   /* -------------------------------------------- */
@@ -704,14 +819,14 @@ export default class WWActorSheet extends ActorSheet {
         name: "WW.System.Sheet.EditMode",
         icon: '<i class="fas fa-edit"></i>',
         callback: li => {
-          return this._onToggleEditMode();
+          return this.#onToggleEditMode();
         }
       },
       {
         name: "WW.Rest.Label",
         icon: '<i class="fas fa-campground"></i>',
         callback: li => {
-          return this._onRest();
+          return this.#onRest();
         },
         condition: li => {
           return this.actor.type === 'Character';
@@ -721,37 +836,11 @@ export default class WWActorSheet extends ActorSheet {
         name: "WW.Actor.Reset",
         icon: '<i class="fas fa-rotate-left"></i>',
         callback: li => {
-          return this._onSheetReset();
+          return this.#onSheetReset();
         }
       }
     ]
 
-  }
-
-  _showProfileImg(ev) {
-    ev.preventDefault();
-    const a = ev.currentTarget;
-    const action = $(a).data('action');
-    
-    let img = this.actor.img;
-    if (action == "show-token") {
-      img = this.actor.prototypeToken.texture.src;
-    }
-    
-    new ImagePopout(img, {
-      title: game.weirdwizard.utils.getAlias({actor: this.actor}),
-      shareable: true,
-      uuid: this.actor.uuid,
-    }).render(true);
-  }
-
-  /* -------------------------------------------- */
-  /*  Item button actions                         */
-  /* -------------------------------------------- */
-
-  /** @inheritdoc */
-  _itemContextMenu(html) {
-    ContextMenu.create(this, html, ".item-button", this._getItemContextOptions());
   }
 
   /* -------------------------------------------- */
@@ -781,8 +870,7 @@ export default class WWActorSheet extends ActorSheet {
         icon: '<i class="fas fa-bullseye"></i>',
         callback: li => {
           const dataset = Object.assign({}, li[0].dataset);
-          dataset.action = 'targeted-use';
-          return this._onItemUse(dataset);
+          return this._onItemUse(dataset, 'targeted-use');
         },
         condition: li => {
           const item = this.actor.items.get(li.data('item-id'));
@@ -806,8 +894,7 @@ export default class WWActorSheet extends ActorSheet {
         icon: '<i class="fas fa-bullseye"></i>',
         callback: li => {
           const dataset = Object.assign({}, li[0].dataset);
-          dataset.action = 'targeted-use';
-          return this._onItemUse(dataset);
+          return this._onItemUse(dataset, 'targeted-use');
         },
         condition: li => {
           const item = this.actor.items.get(li.data('item-id'));
@@ -831,8 +918,7 @@ export default class WWActorSheet extends ActorSheet {
         icon: '<i class="fas fa-bullseye"></i>',
         callback: li => {
           const dataset = Object.assign({}, li[0].dataset);
-          dataset.action = 'targeted-use';
-          return this._onItemUse(dataset);
+          return this._onItemUse(dataset, 'targeted-use');
         },
         condition: li => {
           const item = this.actor.items.get(li.data('item-id'));
@@ -856,8 +942,7 @@ export default class WWActorSheet extends ActorSheet {
         icon: '<i class="fas fa-bullseye"></i>',
         callback: li => {
           const dataset = Object.assign({}, li[0].dataset);
-          dataset.action = 'targeted-use';
-          return this._onItemUse(dataset);
+          return this._onItemUse(dataset, 'targeted-use');
         },
         condition: li => {
           const item = this.actor.items.get(li.data('item-id'));
@@ -885,7 +970,7 @@ export default class WWActorSheet extends ActorSheet {
         icon: '<i class="fas fa-trash"></i>',
         callback: li => {
           const item = this.actor.items.get(li.data('item-id'));
-          return this._onItemDelete(item, li);
+          return this._onItemRemove(item, li);
         }
       }
     ]
@@ -893,45 +978,44 @@ export default class WWActorSheet extends ActorSheet {
   }
 
   /* -------------------------------------------- */
-  
+  /*  General Event Listeners and Handlers        */
+  /* -------------------------------------------- */
+
   /**
-   * Handle clicked sheet buttons
-   * @param {Event} ev   The originating click event
-   * @private
-  */
-
-  _onItemButtonClicked(ev) {
-    ev.preventDefault();
-    ev.stopPropagation();
-
-    const button = ev.currentTarget,
-      dataset = Object.assign({}, button.dataset),
-      item = this.actor.items.get(dataset.itemId);
-    
-    // Determine action with modifier keys
-    if (ev.shiftKey) dataset.action = 'targeted-use';
-    if (ev.ctrlKey) dataset.action = 'item-scroll';
-    if (ev.altKey) dataset.action = 'item-edit';
-    
-    // Evaluate action if no keys were clicked
-    switch (dataset.action) {
-      case 'attribute-roll': this._onAttributeRoll(dataset); break;
-      case 'targeted-use': this._onItemUse(dataset); break;
-      case 'untargeted-use': this._onItemUse(dataset); break;
-      case 'item-scroll': this._onItemScroll(item); break;
-      case 'item-toggle-effects': this._onItemToggleEffects(item); break;
-      case 'item-toggle-reloaded': this._onItemToggleReloaded(item); break;
-      case 'item-edit': this._onItemEdit(item); break;
-      case 'item-delete': this._onItemDelete(item, button); break;
-      case 'item-collapse': this._onItemCollapse(button); break;
+   * Edit a Document image. - delete in V13; core functionality
+   * @this {DocumentSheetV2}
+   * @type {ApplicationClickAction}
+   */
+  static async #onEditImage(_event, target) {
+    if ( target.nodeName !== "IMG" ) {
+      throw new Error("The editImage action is available only for IMG elements.");
     }
-    
+    const attr = target.dataset.edit;
+    const current = foundry.utils.getProperty(this.document._source, attr);
+    const defaultArtwork = this.document.constructor.getDefaultArtwork?.(this.document._source) ?? {};
+    const defaultImage = foundry.utils.getProperty(defaultArtwork, attr);
+    const fp = new FilePicker({
+      current,
+      type: "image",
+      redirectToRoot: defaultImage ? [defaultImage] : [],
+      callback: path => {
+        target.src = path;
+        if ( this.options.form.submitOnChange ) {
+          const submit = new Event("submit");
+          this.element.dispatchEvent(submit);
+        }
+      },
+      top: this.position.top + 40,
+      left: this.position.left + 10
+    });
+    await fp.browse();
   }
 
   /* -------------------------------------------- */
 
-  _onAttributeRoll(dataset) {
-    
+  static #onAttributeRoll(event, button) {
+    const dataset = Object.assign({}, button.dataset);
+
     // Define variables to be used
     const system = this.actor.system,
       origin = this.actor.uuid,
@@ -971,7 +1055,384 @@ export default class WWActorSheet extends ActorSheet {
     
   }
 
-  _onItemUse(dataset) {
+  /* -------------------------------------------- */
+
+  /* A function called to roll Luck while incapacitated */
+  static async #onIncapacitatedRoll() {
+    if (!this.actor.incapacitated || await this.actor.dead) return;
+
+    // Prepare roll
+    const r = await new WWRoll('1d6', this.actor.getRollData).evaluate();
+    const rollArray= [r];
+    const rollHtml = await diceTotalHtml(r);
+  
+    // Prepare message data
+    const messageData = {
+      /*type: CONST.CHAT_MESSAGE_TYPES.ROLL,*/
+      rolls: rollArray,
+      speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
+      flavor: `<span>${i18n('WW.Health.IncapacitatedLost')}</span>`,
+      content: '<div></div>',
+      sound: CONFIG.sounds.dice,
+      'flags.weirdwizard': {
+        rollHtml: rollHtml,
+        emptyContent: true
+      }
+    };
+    
+    await ChatMessage.applyRollMode(messageData, game.settings.get('core', 'rollMode'));
+    
+    // Send to chat
+    const msg = await ChatMessage.create(messageData);
+
+    // Apply Health Loss (delay if DSN is installed)
+    if (game.dice3d) {
+      game.dice3d.waitFor3DAnimationByMessageID(await msg.id).then(()=> {
+        this.actor.applyHealthLoss(r.total);
+      });  
+    } else {
+      this.actor.applyHealthLoss(r.total);
+    }
+    
+  
+  }
+
+  /**
+    * Handle opening of a context menu from a chat button.
+    * @param {HTMLElement} element     The element the menu opens on.
+  */
+  static #onAfflictionsMenuOpen(event, button) {
+    const user = game.user;
+    const afflictions = [];
+    
+    // Convert ContextMenu data to MultiChoice data
+    CONFIG.statusEffects.forEach(a => {
+      if (a.id in CONFIG.WW.AFFLICTIONS)
+      afflictions.push({
+        id: a.id,
+        label: a.name,
+        icon: a.icon,
+        tip: a.description,
+        group: 'afflictions',
+        value: this.appliedAfflictions.find(x => x.name === a.name)
+      })
+    }, {})
+  
+    // Create MultiChoice instance
+    const rect = button.getBoundingClientRect();
+    
+    new MultiChoice({
+      purpose: 'updateAfflictions',
+      document: this.document,
+      dataset: button.dataset,
+      position: {
+        left: rect.right,
+        top: rect.top
+      },
+      sections: [
+        {
+          choices: afflictions,
+          noCollapse: true,
+          cols: 'auto auto'
+        }
+      ]
+    }).render(true);
+  
+  }
+
+  /* -------------------------------------------- */
+  /*  List entry handling actions                 */
+  /* -------------------------------------------- */
+
+  /**
+   * Handle adding an array entry
+   * @param {Event} event          The originating click event
+   * @param {HTMLElement} button   The button element originating the click event
+   * @private
+  */
+  static async #onEntryCreate(event, button) {
+    const dataset = Object.assign({}, button.dataset);
+    
+    const arrPath = 'system.' + dataset.array,
+      oldArray = foundry.utils.getProperty(await this.document, arrPath),
+      defaultName = (arrPath.includes('languages') && !oldArray.length) ? i18n('WW.Detail.Language.Common') : i18n('WW.Detail.' + dataset.loc + '.New'),
+      arr = [...oldArray, { name: defaultName }];
+    
+    // Update document
+    await this.document.update({[arrPath]: arr});
+    
+    // Add entryId to dataset and render the config window
+    dataset.entryId = arr.length-1;
+    new ListEntryConfig(this.document, dataset).render(true);
+    
+  }
+
+  /**
+   * Handle edditing a list entry
+   * @param {Event} event          The originating click event
+   * @param {HTMLElement} button   The button element originating the click event
+   * @private
+  */
+  static #onEntryEdit(event, button) {
+    
+    // Render ListEntryConfig
+    new ListEntryConfig(this.document, button.dataset).render(true);
+    
+  }
+
+  /**
+   * Handle removing an element from an array
+   * @param {Event} event          The originating click event
+   * @param {HTMLElement} button   The button element originating the click event
+   * @private
+  */
+  static #onEntryRemove(event, button) {
+    const dataset = Object.assign({}, button.dataset);
+    
+    const arrPath = 'system.' + dataset.array,
+      arr = [...foundry.utils.getProperty(this.document, arrPath)];
+    
+    // Delete array element
+    arr.splice(dataset.entryId, 1);
+    
+    // Update document
+    this.document.update({[arrPath]: arr});
+    
+  }
+
+  /* -------------------------------------------- */
+  /*  Item handling actions                       */
+  /* -------------------------------------------- */
+
+  /**
+   * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
+   * @param {Event} event          The originating click event
+   * @param {HTMLElement} button   The button element originating the click event
+   * @private
+  */
+  static async #onItemCreate(event, button) {
+    const dataset = Object.assign({}, button.dataset);
+
+    const type = dataset.type; // Get the type of item to create.
+    
+    let name = i18n('WW.Item.New', { itemType: type.capitalize() }) // Initialize a default name.
+
+    const system = {
+      subtype: '',
+      source: type === 'Trait or Talent' ? dataset.source : '', // If Character's Talent, set source,
+      attribute: '',
+      damage: '',
+      against: '',
+      tier: type === 'Path' ? dataset.tier : '' // If a path, set tier
+    };
+    
+    // If Talent or Equipment, set subtype and name to the subtype
+    if ((type === 'Trait or Talent') || (type === 'Equipment')) {
+      system.subtype = dataset.subtype;
+      name = i18n('WW.Item.New', { itemType: system.subtype.capitalize() });
+    }
+
+    // If weapon, set default automated roll
+    if (system.subtype == 'weapon') {
+      system.attribute = 'str';
+      system.against = 'def';
+      system.damage = '1d6';
+    }
+
+    // Prepare the item object.
+    const itemData = {
+      name: name,
+      type: type,
+      system: system
+    };
+
+    // Create the item
+    const items = Array.from(await this.document.items);
+    items.push(itemData);
+    const createdItem = await Item.create(itemData, { parent: this.document });
+    
+    //await this.document.createEmbeddedDocuments({ itemData });
+    //const createdItem = this.document.items.get(itemData._id);
+
+    // Render the created item's template
+    createdItem.sheet.render(true);
+
+    return;
+  }
+
+  /**
+   * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
+   * @param {Event} event          The originating click event
+   * @param {HTMLElement} button   The button element originating the click event
+   * @private
+  */
+  static #onItemEdit(event, button) {
+    const item = this.document.items.get(button.dataset.itemId);
+    
+    item.sheet.render(true);
+  }
+
+  _onItemEdit(item) {
+    item.sheet.render(true);
+  }
+
+  /**
+   * Handle delete of an Owned Item for the actor using initial data defined in the HTML dataset
+   * @param {Event} event          The originating click event
+   * @param {HTMLElement} button   The button element originating the click event
+   * @private
+  */
+  static #onItemRemove(event, button) {
+    const item = this.document.items.get(button.dataset.itemId);
+
+    this._onItemRemove(item, button);
+  }
+
+  async _onItemRemove(item, button) {
+    
+    // Confirm Dialog
+    const confirm = await Dialog.confirm({
+      title: i18n('WW.Item.Delete.Dialog.Title'),
+      content: i18n('WW.Item.Delete.Dialog.Msg', {name: '<b>' + item.name + '</b>'}) + '<p class="dialog-sure">' + i18n('WW.Item.Delete.Dialog.Confirm', {name: item.name}) + '</p>'
+    });
+
+    if (!confirm) return;
+
+    // Delete item
+    //await $(button).slideUp(200, () => this.render(false));
+    item.delete();
+    
+  }
+
+  /* -------------------------------------------- */
+  /*  Effect handling actions                     */
+  /* -------------------------------------------- */
+
+  /**
+   * Handle creating a new Owned Effect for the actor using initial data defined in the HTML dataset
+   * @param {Event} event          The originating click event
+   * @param {HTMLElement} button   The button element originating the click event
+   * @private
+  */
+  static async #onEffectCreate(event, button) {
+    const dataset = Object.assign({}, button.dataset);
+    
+    const name = i18n('WW.Effect.New') // Initialize a default name.
+
+    const type = dataset.type;
+
+    // Prepare the effect object.
+    const effectData = {
+      name: name,
+      img: this.actor.img,
+      duration: {
+        type: type === 'temporary' ? 'seconds' : 'none',
+        seconds: type === 'temporary' ? 3600 : null
+      }
+    }
+
+    // Create the effect
+    const effects = Array.from(await this.document.effects);
+    effects.push(effectData);
+    const createdEffect = await ActiveEffect.create(effectData, { parent: this.document });
+    
+    //await this.document.createEmbeddedDocuments({ effectData });
+    //const createdEffect = this.document.effects.get(effectData._id);
+
+    // Render the created effect's template
+    createdEffect.sheet.render(true);
+
+    return;
+  }
+
+  /**
+   * Handle creating a new Owned Effect for the actor using initial data defined in the HTML dataset
+   * @param {Event} event          The originating click event
+   * @param {HTMLElement} button   The button element originating the click event
+   * @private
+  */
+  static #onEffectEdit(event, button) {
+    const effect = this.document.effects.get(button.dataset.effectId);
+    
+    effect.sheet.render(true);
+  }
+
+  /**
+   * Handle delete of an Owned Effect for the actor using initial data defined in the HTML dataset
+   * @param {Event} event          The originating click event
+   * @param {HTMLElement} button   The button element originating the click event
+   * @private
+  */
+  static async #onEffectRemove(event, button) {
+    const effect = await this.document.effects.get(button.dataset.effectId);
+
+    // Confirm Dialog
+    const confirm = await Dialog.confirm({
+      title: i18n('WW.Item.Delete.Dialog.Title'),
+      content: i18n('WW.Item.Delete.Dialog.Msg', {name: '<b>' + effect.name + '</b>'}) + '<p class="dialog-sure">' + i18n('WW.Item.Delete.Dialog.Confirm', {name: effect.name}) + '</p>'
+    });
+
+    if (!confirm) return;
+
+    effect.delete();
+  }
+
+  /* -------------------------------------------- */
+  /*  Form Submission                             */
+  /* -------------------------------------------- */
+
+  /**
+   * Process form submission for the sheet
+   * @this {DocumentSheetV2}                      The handler is called with the application as its bound scope
+   * @param {SubmitEvent} event                   The originating form submission event
+   * @param {HTMLFormElement} form                The form element that was submitted
+   * @param {FormDataExtended} formData           Processed data for the submitted form
+   * @returns {Promise<void>}
+   */
+  static async #onSubmitDocumentForm(event, form, formData) {
+    if ( !this.isEditable ) return;
+    
+    formData.object['system.stats.damage.value'] = formData.object.damage;
+    
+    const submitData = this._prepareSubmitData(event, form, formData);
+    await this._processSubmitData(event, form, submitData);
+  }
+
+  /* -------------------------------------------- */
+  /*  Item button actions                         */
+  /* -------------------------------------------- */
+  
+  /**
+   * Handle clicked sheet buttons
+   * @param {Event} event   The originating click event
+   * @private
+  */
+  static #onItemLabelClick(event, button) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const dataset = Object.assign({}, button.dataset);
+    const item = this.actor.items.get(dataset.itemId);
+
+    // Determine operation with modifier keys
+    dataset.operation = 'untargeted-use';
+    if (event.shiftKey) dataset.operation = 'targeted-use';
+    if (event.ctrlKey) dataset.operation = 'item-scroll';
+    if (event.altKey) dataset.operation = 'item-edit';
+    
+    // Evaluate action if no keys were clicked
+    switch (dataset.operation) {
+      case 'targeted-use': this._onItemUse(dataset); break;
+      case 'untargeted-use': this._onItemUse(dataset); break;
+      case 'item-scroll': this._onItemScroll(item); break;
+      case 'item-edit': this._onItemEdit(item); break;
+    }
+    
+  }
+
+  /* -------------------------------------------- */
+
+  _onItemUse(dataset, operation='untargeted-use') {
     
     // Define variables to be used
     const system = this.actor.system,
@@ -980,8 +1441,7 @@ export default class WWActorSheet extends ActorSheet {
       content = _secretContent(item.system.description.value),
       instEffs = item.system.instant,
       effects = item.effects,
-      origin = item.uuid ? item.uuid : this.actor.uuid,
-      action = dataset.action
+      origin = item.uuid ? item.uuid : this.actor.uuid;
 
     const attKey = CONFIG.WW.ATTRIBUTE_ROLLS[item.system.attribute] ? item.system.attribute : '';
     
@@ -992,14 +1452,14 @@ export default class WWActorSheet extends ActorSheet {
         label: label,
         content: content,
         attKey: attKey,
-        action: action,
+        operation: operation,
         dontRoll: true,
         instEffs: instEffs,
         actEffs: effects
       }
 
       // If targeted-use button was clicked
-      if (action === 'targeted-use') {
+      if (operation === 'targeted-use') {
         // If item is a weapon, throw a warning if an against attribute was not selected
         if (item?.system?.subtype === 'weapon' && !item.system.against) ui.notifications.warn(i18n("WW.Roll.AgainstWrn"));
 
@@ -1015,7 +1475,7 @@ export default class WWActorSheet extends ActorSheet {
       } 
 
       // If untargeted-use was clicked
-      else if (action === 'untargeted-use') {
+      else if (operation === 'untargeted-use') {
 
         function actEffs() {
           const effs = {
@@ -1117,7 +1577,7 @@ export default class WWActorSheet extends ActorSheet {
         label: label,
         content: content,
         attKey: attKey,
-        action: action
+        operation: operation
       }
   
       // Check for Automatic Failure
@@ -1139,7 +1599,7 @@ export default class WWActorSheet extends ActorSheet {
       } else { // Roll
         
         // If targeted-use button was clicked
-        if (action === 'targeted-use') {
+        if (operation === 'targeted-use') {
 
           // If item is a weapon, throw a warning if an against attribute was not selected
           if (item?.system?.subtype === 'weapon' && !item.system.against) ui.notifications.warn(i18n("WW.Roll.AgainstWrn"));
@@ -1156,7 +1616,7 @@ export default class WWActorSheet extends ActorSheet {
         } 
 
         // If untargeted-use was clicked
-        else if (action === 'untargeted-use') new RollAttribute(obj).render(true);
+        else if (operation === 'untargeted-use') new RollAttribute(obj).render(true);
         
       }
     }
@@ -1164,6 +1624,13 @@ export default class WWActorSheet extends ActorSheet {
   }
 
   // Item Scroll: Send item description to chat when clicked
+  static #onItemScroll(event, button) {
+    const dataset = Object.assign({}, button.dataset);
+    const item = this.actor.items.get(dataset.itemId);
+
+    this._onItemScroll(item)
+  }
+  
   _onItemScroll(item) {
     ChatMessage.create({
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
@@ -1176,33 +1643,33 @@ export default class WWActorSheet extends ActorSheet {
     })
   }
 
-  _onItemToggleEffects(item) {
+  // Set uses pips to update the value when clicked
+  static #onItemUpdateUses(event, button) {
+    
+    const item = this.actor.items.get(button.dataset.itemId);
+      
+    if ($(event.target).hasClass('far')) { // If the pip is regular (unchecked)
+      item.update({'system.uses.value': item.system.uses.value + 1}) // Add 1 to the current value.
+    } else {
+      item.system.uses.value >= 0 ? item.update({'system.uses.value': item.system.uses.value - 1}) : item.update({'system.uses.value': 0}) // Subtract 1 from current value.
+    }
+  }
+
+  static #onItemToggleEffects(event, button) {
+    const dataset = Object.assign({}, button.dataset),
+    item = this.actor.items.get(dataset.itemId);
+
     item.update({ "system.active": !item.system.active });
   }
 
-  _onItemToggleReloaded(item) {
+  static #onItemToggleReloaded(event, button) {
+    const dataset = Object.assign({}, button.dataset),
+    item = this.actor.items.get(dataset.itemId);
     item.update({ "system.reloaded": !item.system.reloaded });
   }
 
-  // Render the item sheet for viewing/editing prior to the editable check.
-  _onItemEdit(item) {
-    item.sheet.render(true);
-  }
-
-  async _onItemDelete(item, button) {
-    const confirm = await Dialog.confirm({
-      title: i18n('WW.Item.Delete.Dialog.Title'),
-      content: i18n('WW.Item.Delete.Dialog.Msg', {name: '<b>' + item.name + '</b>'}) + '<p class="dialog-sure">' + i18n('WW.Item.Delete.Dialog.Confirm', {name: item.name}) + '</p>'
-    });
-
-    if (!confirm) return;
-
-    item.delete();
-    $(button).slideUp(200, () => this.render(false));
-  }
-
-  // Collapses description
-  _onItemCollapse(button) {
+  // Collapses description - not used anymore
+  /*static #onItemCollapse(button) {
     let li = $(button).parents('.item');
     
     if (!li.length) { // If parent does not have .item class, set li to current target.
@@ -1223,163 +1690,50 @@ export default class WWActorSheet extends ActorSheet {
       desc.slideUp(500);
     }
     
-  }
+  }*/
 
   // Collapses Container content
-  _onContainerCollapse(ev) {
-    const button = ev.currentTarget,
-    dataset = Object.assign({}, button.dataset);
+  static #onContainerCollapse(event, button) {
+    event.preventDefault();
+    const dataset = Object.assign({}, button.dataset);
 
     let li = $(button).parents('.item');
     
     if (!li.length) { // If parent does not have .item class, set li to current target.
       li = $(button);
     }
-    
+
     const content = li.parent().find(`.container-content[data-container-id=${dataset.itemId}]`);
-    
-    // Flip states
-    if (li.hasClass('collapsed')) {
-      li.removeClass('collapsed');
-      $(button).attr('data-tooltip', 'WW.Container.Collapse');
+
+    // Toggle states
+    const collapsed = li.hasClass('collapsed');
+    li[0].classList.toggle('collapsed');
+
+    const icon = button.querySelector('i');
+    icon.classList.toggle('fa-square-caret-up');
+    icon.classList.toggle('fa-square-caret-down');
+
+    if (collapsed) {
+      button.setAttribute('data-tooltip', 'WW.Container.Collapse');      
       content.slideDown(300);
     } else {
-      li.addClass('collapsed');
-      $(button).attr('data-tooltip', 'WW.Container.Expand');
+      button.setAttribute('data-tooltip', 'WW.Container.Expand');
       content.slideUp(300);
     }
     
   }
 
-  /**
-   * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
-   * @param {Event} event   The originating click event
-   * @private
-  */
-  async _onItemCreateButtonClicked(event) {
-    event.preventDefault();
-    const header = event.currentTarget;
-    const type = header.dataset.type; // Get the type of item to create.
-    
-    let name = i18n('WW.Item.New', { itemType: type.capitalize() }) // Initialize a default name.
-
-    const system = {
-      subtype: '',
-      source: type === 'Trait or Talent' ? header.dataset.source : '', // If Character's Talent, set source,
-      attribute: '',
-      damage: '',
-      against: '',
-      tier: type === 'Path' ? header.dataset.tier : '' // If a path, set tier
-    };
-    
-    // If Talent or Equipment, set subtype and name to the subtype
-    if ((type === 'Trait or Talent') || (type === 'Equipment')) {
-      system.subtype = header.dataset.subtype;
-      name = i18n('WW.Item.New', { itemType: system.subtype.capitalize() });
-    }
-
-    // If weapon, set default automated roll
-    if (system.subtype == 'weapon') {
-      system.attribute = 'str';
-      system.against = 'def';
-      system.damage = '1d6';
-    }
-
-    // Prepare the item object.
-    const itemData = {
-      name: name,
-      type: type,
-      system: system
-    };
-
-    // Create the item
-    const [createdItem] = await this.actor.createEmbeddedDocuments('Item', [itemData]);
-
-    // Render the created item's template
-    createdItem.sheet.render(true);
-
-    return;
-  }
-
   /* -------------------------------------------- */
-  /*  Array button actions                        */
+  /*  Sheet menu actions                          */
   /* -------------------------------------------- */
 
-  /**
-   * Handle clicked array buttons
-   * @param {Event} ev   The originating click event
-   * @private
-  */
-  _onListEntryButtonClicked(ev) {
-    const button = ev.currentTarget,
-      dataset = Object.assign({}, button.dataset);
-    
-    switch (dataset.action) {
-      case 'add': this._onListEntryButtonAdd(dataset); break;
-      case 'edit': this._onListEntryButtonEdit(dataset); break;
-      case 'remove': this._onListEntryButtonRemove(dataset); break;
-    }
-    
-  }
-
-  /**
-   * Handle adding an array entry
-   * @param dataset   The dataset
-   * @private
-  */
-  async _onListEntryButtonAdd(dataset) {
-
-    const arrPath = 'system.' + dataset.array,
-      oldArray = foundry.utils.getProperty(this.document, arrPath),
-      defaultName = (arrPath.includes('languages') && !oldArray.length) ? i18n('WW.Detail.Language.Common') : i18n('WW.Detail.' + dataset.loc + '.New'),
-      arr = [...oldArray, { name: defaultName }];
-    
-    // Update document
-    await this.document.update({[arrPath]: arr});
-    
-    // Add entryId to dataset and render the config window
-    dataset.entryId = arr.length-1;
-    new ListEntryConfig(this.document, dataset).render(true);
-    
-  }
-
-  /**
-   * Handle edditing a list entry
-   * @param {Event} ev   The originating click event
-   * @private
-  */
-  _onListEntryButtonEdit(dataset) {
-    
-    // Render ListEntryConfig
-    new ListEntryConfig(this.document, dataset).render(true);
-    
-  }
-
-  /**
-   * Handle removing an element from an array
-   * @param {Event} ev   The originating click event
-   * @private
-  */
-  _onListEntryButtonRemove(dataset) {
-    
-    const arrPath = 'system.' + dataset.array,
-      arr = [...foundry.utils.getProperty(this.document, arrPath)];
-    
-    // Delete array element
-    arr.splice(dataset.entryId, 1);
-    
-    // Update document
-    this.document.update({[arrPath]: arr});
-    
-  }
-
-  _onToggleEditMode() {
+  #onToggleEditMode() {
     this.editMode = !this.editMode;
     
     this.render(true);
   }
 
-  async _onRest() {
+  async #onRest() {
     
     const confirm = await Dialog.confirm({
       title: i18n('WW.Rest.Label'),
@@ -1417,7 +1771,7 @@ export default class WWActorSheet extends ActorSheet {
 
   }
 
-  async _onSheetReset() {
+  async #onSheetReset() {
     
     const confirm = await Dialog.confirm({
       title: i18n('WW.Reset.Label'),
@@ -1439,7 +1793,7 @@ export default class WWActorSheet extends ActorSheet {
 
   }
 
-  async _onDispositionChange() {
+  static async #onDispositionToggle() {
     // Toggle disposition between friendly and hostile, updating all linked tokens.
     const dispo = this.actor?.token ? this.actor.token.disposition : this.actor.prototypeToken.disposition;
     const linkedTokens = this.actor.getActiveTokens();
@@ -1461,88 +1815,8 @@ export default class WWActorSheet extends ActorSheet {
     this.render();
   }
 
-  _onFolderEdit() {
+  static #onFolderEdit() {
     this.actor.folder.sheet.render(true);
-  }
-
-  /* -------------------------------------------- */
-  /*  Drop item events                            */
-  /* -------------------------------------------- */
-
-  /**
-   * Handle dropping of an item reference or item data onto an Actor Sheet
-   * @param {DragEvent} event            The concluding DragEvent which contains drop data
-   * @param {object} data                The data transfer extracted from the event
-   * @returns {Promise<Item[]|boolean>}  The created or updated Item instances, or false if the drop was not permitted.
-   * @protected
-   * @override
-   */
-  async _onDropItem(event, data) {
-    if ( !this.actor.isOwner ) return false;
-    const item = await Item.implementation.fromDropData(data);
-    const itemData = item.toObject();
-    
-    // Get target item details
-    const target = event.target.closest('.item');
-    const targetId = target ? target.dataset.itemId : '';
-    const targetData = (targetId) ? this.actor.items.get(targetId).toObject() : {};
-    
-    // If within the same Actor
-    if ( this.actor.uuid === item.parent?.uuid ) {
-
-      if (targetData.system?.subtype === 'container') { // Dropped on a container
-        return item.update({'system.heldBy': targetData._id});
-      } else if (item.system.heldBy && (item.system.heldBy !== targetData.system.heldBy)) { // Item is held by a container dropped elsewhere
-        return item.update({'system.heldBy': ''});
-      } else {
-        // Handle sorting
-        return this._onSortItem(event, itemData);
-      }
-
-    }
-    
-    // Create the owned item
-    return this._onDropItemCreate(itemData, event);
-  }
-
-  /* -------------------------------------------- */
-
-  /** @override */
-  async _onDropItemCreate(itemData, event) {
-
-    // Check if item must be unique
-    if (itemData.type === 'Ancestry' || itemData.type === 'Path') {
-
-      const hasOption = this.actor.items.find(i => {
-      
-        if (itemData.type === 'Path') return i.system.tier === itemData.system.tier;
-        else return i.type === itemData.type;
-  
-      })
-      
-      // If actor already has this character option, return a warning
-      if (hasOption) return ui.notifications.warn(i18n("WW.CharOption.AlreadyWarning"));
-    }
-    
-    const isAllowed = await this.checkDroppedItem(itemData)
-    if (isAllowed) return await super._onDropItemCreate(itemData)
-    console.warn('Wrong item type dragged', this.actor, itemData)
-  }
-
-  /* -------------------------------------------- */
-  
-  /** @override */
-  async checkDroppedItem(itemData) {
-    const type = itemData.type
-    if (['specialaction', 'endoftheround'].includes(type)) return false
-
-    if (type === 'ancestry') {
-      const currentAncestriesIds = this.actor.items.filter(i => i.type === 'ancestry').map(i => i._id)
-      if (currentAncestriesIds?.length > 0) await this.actor.deleteEmbeddedDocuments('Item', currentAncestriesIds)
-      return true
-    } else if (type === 'path' && this.actor.system.paths?.length >= 3) return false
-
-    return true
   }
 
   /* -------------------------------------------- */
@@ -1579,7 +1853,15 @@ export default class WWActorSheet extends ActorSheet {
   /* -------------------------------------------- */
   /*  Getters                                     */
   /* -------------------------------------------- */
-  
+
+  // Prepare hasEffect list
+  get appliedAfflictions() {  
+    const arr = Array.from(this.actor.statuses);
+    const appliedAffs = CONFIG.statusEffects.filter(s => arr.includes(s.id));
+    
+    return appliedAffs;
+  }
+
   get targets() {
     let targets = [];
     
@@ -1610,6 +1892,307 @@ export default class WWActorSheet extends ActorSheet {
 
     return targets
   }
+
+  /* -------------------------------------------- */
+  /*  Drag and Drop                               */
+  /* -------------------------------------------- */
+
+  /**
+   * An event that occurs when a drag workflow begins for a draggable item on the sheet.
+   * @param {DragEvent} event       The initiating drag start event
+   * @returns {Promise<void>}
+   * @protected
+   * @override
+   */
+  async _onDragStart(event) {
+    const li = event.currentTarget;
+    if ( "link" in event.target.dataset ) return;
+    let dragData;
+
+    // Owned Items
+    if ( li.dataset.itemId ) {
+      const item = this.actor.items.get(li.dataset.itemId);
+      dragData = item.toDragData();
+    }
+
+    // Active Effect
+    if ( li.dataset.effectId ) {
+      //const effect = this.actor.effects.get(li.dataset.effectId);
+      const effect = await this.actor.appliedEffects.find(e => e.id === li.dataset.effectId);
+      dragData = effect.toDragData();
+    }
+
+    // Set data transfer
+    if ( !dragData ) return;
+    event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * An event that occurs when a drag workflow moves over a drop target.
+   * @param {DragEvent} event
+   * @protected
+   */
+  _onDragOver(event) {} // Delete in v13; core behavior
+
+  /* -------------------------------------------- */
+
+  /**
+   * An event that occurs when data is dropped into a drop target.
+   * @param {DragEvent} event
+   * @returns {Promise<void>}
+   * @protected
+   */
+  async _onDrop(event) { // Delete in v13; core behavior
+    if ( !this.isEditable ) return;
+    const data = TextEditor.getDragEventData(event);
+    const actor = this.actor;
+    const allowed = Hooks.call("dropActorSheetData", actor, this, data);
+    if ( allowed === false ) return;
+
+    // Dropped Documents
+    const documentClass = getDocumentClass(data.type);
+    if ( documentClass ) {
+      const document = await documentClass.fromDropData(data);
+      await this._onDropDocument(event, document);
+    }
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle a dropped document on the ActorSheet
+   * @param {DragEvent} event         The initiating drop event
+   * @param {Document} document       The resolved Document class
+   * @returns {Promise<void>}
+   * @protected
+   */
+  async _onDropDocument(event, document) { // Delete in v13; core behavior
+    switch ( document.documentName ) {
+      case "ActiveEffect":
+        return this._onDropActiveEffect(event, /** @type ActiveEffect */ document);
+      case "Actor":
+        return this._onDropActor(event, /** @type Actor */ document);
+      case "Item":
+        return this._onDropItem(event, /** @type Item */ document);
+      case "Folder":
+        return this._onDropFolder(event, /** @type Folder */ document);
+    }
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle a dropped Active Effect on the Actor Sheet.
+   * The default implementation creates an Active Effect embedded document on the Actor.
+   * @param {DragEvent} event       The initiating drop event
+   * @param {ActiveEffect} effect   The dropped ActiveEffect document
+   * @returns {Promise<void>}
+   * @protected
+   */
+  async _onDropActiveEffect(event, effect) { // Delete in v13; core behavior
+    if ( !this.actor.isOwner ) return;
+    if ( !effect || (effect.target === this.actor) ) return;
+    
+    const effectData = effect.toObject();
+    
+    // Get target effect details
+    const target = event.target.closest('.item');
+    const targetId = target ? target.dataset.effectId : '';
+    //const targetData = (targetId) ? this.actor.effects.get(targetId).toObject() : {};
+    
+    // If within the same Actor
+    if ( effect.parent?.uuid?.includes(this.actor.uuid) ) {
+      // Handle sorting
+      return this._onSortEffect(event, effectData);
+    }
+
+    // Create owned effect
+    const keepId = !this.actor.effects.has(effect.id);
+    await ActiveEffect.create(effect.toObject(), {parent: this.actor, keepId});
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle a dropped Actor on the Actor Sheet.
+   * @param {DragEvent} event     The initiating drop event
+   * @param {Actor} actor         The dropped Actor document
+   * @returns {Promise<void>}
+   * @protected
+   */
+  async _onDropActor(event, actor) {}
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle dropping of an item reference or item data onto an Actor Sheet
+   * @param {DragEvent} event            The concluding DragEvent which contains drop data
+   * @param {Item} item                  The dropped Item document
+   * @returns {Promise<Item[]|boolean>}  The created or updated Item instances, or false if the drop was not permitted.
+   * @protected
+   * @override
+   */
+  async _onDropItem(event, item) {
+    if ( !this.actor.isOwner ) return;
+    
+    const itemData = item.toObject();
+    
+    // Get target item details
+    const target = event.target.closest('.item');
+    const targetId = target ? target.dataset.itemId : '';
+    const targetData = (targetId) ? this.actor.items.get(targetId).toObject() : {};
+    
+    // If within the same Actor
+    if ( this.actor.uuid === item.parent?.uuid ) {
+
+      if ((targetData.system?.subtype === 'container') && (item.system.subtype !== 'container')) { // Dropped on a container, but not a container
+        return item.update({'system.heldBy': targetData._id});
+      } else if (item.system.heldBy && (item.system.heldBy !== targetData.system.heldBy)) { // Item is held by a container dropped elsewhere
+        return item.update({'system.heldBy': ''});
+      } else {
+        if (item.system.subtype === 'container' && item.system.heldBy) item.update({'system.heldBy': null});
+        // Handle sorting
+        return this._onSortItem(event, itemData);
+      }
+
+    }
+    
+    // Create the owned item
+    return this._onDropItemCreate(itemData, event);
+  }
+
+  /* -------------------------------------------- */
+
+  /** @override */
+  async _onDropItemCreate(itemData, event) {
+    
+    // Check if item must be unique
+    if (itemData.type === 'Ancestry' || itemData.type === 'Path') {
+
+      const hasOption = this.actor.items.find(i => {
+      
+        if (itemData.type === 'Path') return i.system.tier === itemData.system.tier;
+        else return i.type === itemData.type;
+  
+      })
+      
+      // If actor already has this character option, return a warning
+      if (hasOption) return ui.notifications.warn(i18n("WW.CharOption.AlreadyWarning"));
+    }
+    
+    const isAllowed = await this.checkDroppedItem(itemData);
+
+    if (isAllowed) {
+      const keepId = !this.actor.items.has(itemData.id);
+      return await Item.create(itemData, {parent: this.actor, keepId});
+    }
+    
+    console.warn('Wrong item type dragged', this.actor, itemData);
+  }
+
+  /* -------------------------------------------- */
+  
+  /** @override */
+  async checkDroppedItem(itemData) {
+    const type = itemData.type;
+    if (['specialaction', 'endoftheround'].includes(type)) return false;
+
+    if (type === 'ancestry') {
+      const currentAncestriesIds = this.actor.items.filter(i => i.type === 'ancestry').map(i => i._id)
+      if (currentAncestriesIds?.length > 0) await this.actor.deleteEmbeddedDocuments('Item', currentAncestriesIds)
+      return true
+    } else if (type === 'path' && this.actor.system.paths?.length >= 3) return false
+    
+    return true;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle a dropped Folder on the Actor Sheet.
+   * @param {DragEvent} event     The initiating drop event
+   * @param {object} data         Extracted drag transfer data
+   * @returns {Promise<void>}
+   * @protected
+   */
+  async _onDropFolder(event, data) {}
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle a drop event for an existing embedded Item to sort that Item relative to its siblings.
+   * @param {DragEvent} event     The initiating drop event
+   * @param {Item} item           The dropped Item document
+   * @protected
+   */
+  _onSortItem(event, item) {
+    const items = this.actor.items;
+    const source = items.get(item._id); // is `id` in v13
+
+    // Confirm the drop target
+    const dropTarget = event.target.closest("[data-item-id]");
+    if ( !dropTarget ) return;
+    const target = items.get(dropTarget.dataset.itemId);
+    if ( source.id === target.id ) return;
+
+    // Identify sibling items based on adjacent HTML elements
+    const siblings = [];
+    for ( const element of dropTarget.parentElement.children ) {
+      const siblingId = element.dataset.itemId;
+      if ( siblingId && (siblingId !== source.id) ) siblings.push(items.get(element.dataset.itemId));
+    }
+
+    // Perform the sort
+    const sortUpdates = SortingHelpers.performIntegerSort(source, {target, siblings});
+    const updateData = sortUpdates.map(u => {
+      const update = u.update;
+      update._id = u.target._id;
+      return update;
+    });
+    
+    // Perform the update
+    return this.actor.updateEmbeddedDocuments("Item", updateData);
+  }
+
+  /**
+   * Handle a drop event for an existing embedded Item to sort that Item relative to its siblings.
+   * @param {DragEvent} event     The initiating drop event
+   * @param {Item} item           The dropped Item document
+   * @protected
+   */
+  _onSortEffect(event, effect) {
+    const effects = this.actor.appliedEffects;
+    const source = effects.find(e => e._id === effect._id); // is `id` in v13
+
+    // Confirm the drop target
+    const dropTarget = event.target.closest("[data-effect-id]");
+    if ( !dropTarget ) return;
+    const target = effects.find(e => e._id === dropTarget.dataset.effectId);
+    if ( source.id === target.id ) return;
+    
+    if (source.parent !== target.parent) return;
+
+    // Identify sibling effects based on adjacent HTML elements
+    const siblings = [];
+    for ( const element of dropTarget.parentElement.children ) {
+      const siblingId = element.dataset.effectId;
+      if ( siblingId && (siblingId !== source.id) ) siblings.push(effects.find(e => e._id === element.dataset.effectId));
+    }
+
+    // Perform the sort only if 
+    const sortUpdates = SortingHelpers.performIntegerSort(source, {target, siblings});
+    
+    const updateData = sortUpdates.map(u => {
+      const update = u.update;
+      update._id = u.target._id;
+      return update;
+    });
+    
+    // Perform the update
+    return target.parent.updateEmbeddedDocuments("ActiveEffect", updateData);
+  }
   
 }
 
@@ -1627,3 +2210,4 @@ function _secretContent(content) {
 function _secretLabel(label) {
   return '<span class="owner-only">' + label + '</span><span class="non-owner-only">? ? ?</span>'
 }
+

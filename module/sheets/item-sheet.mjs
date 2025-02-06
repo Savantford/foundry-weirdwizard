@@ -37,6 +37,9 @@ export default class WWItemSheet extends ItemSheet {
   async getData() {
     const context = super.getData();
 
+    // Prepare tabs
+    //context.tabs = this._getTabs(['details', 'effects']);
+
     // Use a safe clone of the item data for further operations.
     context.system = await context.item.system;
     
@@ -248,14 +251,57 @@ export default class WWItemSheet extends ItemSheet {
 
   /* -------------------------------------------- */
 
-  /** @override */
-  /*setPosition(options = {}) { // No longer needed
-    const position = super.setPosition(options);
-    const sheetBody = this.element.find(".sheet-body");
-    const bodyHeight = position.height - 192;
-    sheetBody.css("height", bodyHeight);
-    return position;
-  }*/
+  /**
+   * Generates the data for the generic tab navigation template
+   * @param {string[]} parts An array of named template parts to render
+   * @returns {Record<string, Partial<ApplicationTab>>}
+   * @protected
+   */
+  _getTabs(parts) {
+    // If you have sub-tabs this is necessary to change
+    const tabGroup = 'primary';
+    const type = this.document.type;
+
+    // Default tab for first time it's rendered this session
+    if (!this.tabGroups[tabGroup]) this.tabGroups[tabGroup] = 'details';
+    
+    // Assign tab properties
+    return parts.reduce((tabs, partId) => {
+      
+      const tab = {
+        cssClass: "",
+        group: tabGroup,
+        // Matches tab property to
+        id: '',
+        // Icon svg
+        icon: '',
+        // Run through localization
+        label: ''
+      };
+
+      switch (partId) {
+        case 'sidetabs':
+          return tabs;
+        case 'details':
+          tab.id = 'details';
+          tab.label = 'WW.Actor.Details';
+          tab.icon = 'systems/weirdwizard/assets/icons/diploma.svg';
+          break;
+        case 'effects':
+          tab.id = 'effects';
+          tab.label = 'WW.Effects.TabLabel';
+          tab.icon = 'systems/weirdwizard/assets/icons/gear-hammer.svg';
+        break;
+        default: break;
+      }
+
+      // Activate tab
+      if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = "active";
+      if (tab.id) tabs[partId] = tab;
+
+      return tabs;
+    }, {});
+  }
 
   /* -------------------------------------------- */
 
@@ -293,7 +339,7 @@ export default class WWItemSheet extends ItemSheet {
       
       new MultiChoice({
         purpose: 'editWeaponTraits',
-        item: this.document,
+        document: this.document,
         position: {
           left: rect.right,
           top: rect.top
@@ -302,7 +348,7 @@ export default class WWItemSheet extends ItemSheet {
           {
             title: 'WW.Weapon.Traits.Title',
             choices: CONFIG.WW.WEAPON_TRAITS,
-            
+            noCollapse: true
           },
           {
             type: 'attackRider',
@@ -310,7 +356,8 @@ export default class WWItemSheet extends ItemSheet {
             attackRider: {
               value: this.document.system.attackRider?.value,
               name: this.document.system.attackRider?.name
-            }
+            },
+            noCollapse: true
           }
           
         ]

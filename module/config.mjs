@@ -369,7 +369,6 @@ WW.INSTANT_TRIGGERS = {
 }
 
 WW.AFFLICTIONS = {
-  /*'': 'WW.InstantEffect.DontBestow',*/
   'Blinded': 'WW.Affliction.Blinded',
   'Confused': 'WW.Affliction.Confused',
   'Controlled': 'WW.Affliction.Controlled',

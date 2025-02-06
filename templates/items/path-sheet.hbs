@@ -23,7 +23,10 @@
       </div>
   
       {{!-- Description --}}
-      {{editor system.description.enriched target="system.description.value" button=true owner=owner editable=editable}}
+      <prose-mirror name="system.description.value" data-document-u-u-i-d="{{item.uuid}}" value="{{system.description.value}}"
+        toggled=true collaborate=true compact=true owner={{owner}} editable={{editable}}>
+        {{{system.description.enriched}}}
+      </prose-mirror>
   
     </div>
   </header>
@@ -168,7 +171,7 @@
         {{/each}}{{#unless benefit.languages.length}}<span>—</span>{{/unless}}
   
         <a class="array-button" data-action="add" data-array="benefits.{{id}}.languages" data-loc="Language"
-          data-tooltip="WW.Detail.Language.Add"><i class="fas fa-circle-plus"></i></a>
+          data-tooltip="WW.Detail.Language.Create"><i class="fas fa-circle-plus"></i></a>
   
       </div>
       
@@ -193,7 +196,7 @@
           {{/each}}{{#unless benefit.traditions.length}}<span>—</span>{{/unless}}
   
           <a class="array-button" data-action="add" data-array="benefits.{{id}}.traditions" data-loc="Tradition"
-            data-tooltip="WW.Detail.Tradition.Add"><i class="fas fa-circle-plus"></i></a>
+            data-tooltip="WW.Detail.Tradition.Create"><i class="fas fa-circle-plus"></i></a>
   
           {{!-- Spells --}}
           <label>{{localize "WW.Spells.Label"}}:</label>

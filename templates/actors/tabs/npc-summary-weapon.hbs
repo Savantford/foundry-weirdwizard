@@ -1,0 +1,49 @@
+<li class="item draggable" data-item-id="{{item._id}}">
+    
+    {{!-- Title --}}
+    <label class="item-button" data-action="itemLabelClick" data-item-id="{{item._id}}"
+        data-tooltip="{{{item.tooltip}}}">{{item.label}}:</label>
+
+    {{!-- Modifier --}}
+    <span class="modifier-line">
+        {{item.system.attributeLabel}}
+
+        {{!-- Boons --}}
+        {{#if item.system.boons}} {{localize "WW.Boons.With"}} {{item.system.boons}}
+            {{#if (lt item.system.boons -1)}}{{localize "WW.Boons.Banes"}}
+                {{else if (lt item.system.boons 0)}}{{localize "WW.Boons.Bane"}}
+                {{else if (gt item.system.boons 1)}}{{localize "WW.Boons.Boons"}}
+                {{else}}{{localize "WW.Boons.Boon"}}
+            {{/if}}
+        {{/if}}
+    </span>
+    
+    {{!-- Damage --}}
+    <span class="damage-line">({{#if item.system.damage}}{{item.system.damage}}{{else}}0{{/if}})</span>
+    
+    {{!-- Buttons --}}
+    <span class="buttons">
+        {{#if (or item.system.traits.reload item.system.traits.firearm)}}
+        {{!-- Toggle Reloaded --}}
+        <a class="item-button" data-action="item-toggle-reloaded" data-item-id="{{item._id}}"
+            data-tooltip="{{#if item.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
+        <i class="fas {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
+        {{/if}}
+
+        {{!-- Edit Button --}}
+        <a class="item-button" data-action="itemEdit" data-item-id="{{item._id}}" data-tooltip="WW.Item.Edit.Activity"><i class="fas fa-edit"></i></a>
+        
+        {{!-- Delete Button --}}
+        <a class="item-button" data-action="itemRemove" data-item-id="{{item._id}}" data-tooltip="WW.Item.Delete.Activity"><i class="fas fa-trash"></i></a>
+        
+    </span>
+
+    {{!-- Attack Rider --}}
+    {{#if (or item.system.attackRider.value item.system.attackRider.name)}}
+    <div class="attack-rider">
+        <label>{{item.system.attackRider.name}}:</label>
+        {{{item.system.attackRider.enriched}}}
+    </div>
+    {{/if}}
+
+</li>
