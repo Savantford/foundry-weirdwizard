@@ -1,0 +1,204 @@
+{{!-- Sheet Header --}}
+<header class="sheet-header character-header sheet-banner">
+
+    {{!-- Portrait/Attributes Circle --}}
+    <div class="circle" style="--total: 8">
+        {{> "systems/weirdwizard/templates/actors/header/portrait.hbs" img=actor.img token=true}}
+    
+        <div class="stat str" style="--i:2">
+            <label><a class="item-button" data-action="attributeRoll" data-key="str"
+                    data-tooltip="WW.Roll.Strength">{{localize "WW.Attributes.StrengthShort"}}</a></label>
+    
+            <div>
+                <input type="number" name="system.attributes.str.value" value="{{system.attributes.str.value}}" min="0"
+                    data-dtype="Number" />
+                <a class="attribute-mod item-button" data-action="attributeRoll" data-key="str"
+                    data-tooltip="WW.Roll.Strength">
+                    {{#if system.attributes.str.value}}
+                    {{numberFormat system.attributes.str.mod decimals=0 sign=true}}
+                    {{else}}—{{/if}}
+                </a>
+            </div>
+        </div>
+    
+        <div class="stat agi" style="--i:4">
+            <label><a class="item-button" data-action="attributeRoll" data-key="agi"
+                    data-tooltip="WW.Roll.Agility">{{localize "WW.Attributes.AgilityShort"}}</a></label>
+    
+            <div>
+                <input type="number" name="system.attributes.agi.value" value="{{system.attributes.agi.value}}" min="0"
+                    data-dtype="Number" />
+                <a class="attribute-mod item-button" data-action="attributeRoll" data-key="agi"
+                    data-tooltip="WW.Roll.Agility">
+                    {{#if system.attributes.agi.value}}
+                    {{numberFormat system.attributes.agi.mod decimals=0 sign=true}}
+                    {{else}}—{{/if}}
+                </a>
+            </div>
+    
+        </div>
+    
+        <div class="stat wil" style="--i:6">
+            <label><a class="item-button" data-action="attributeRoll" data-key="wil" data-tooltip="WW.Roll.Will">{{localize "WW.Attributes.WillShort"}}</a></label>
+    
+            <div>
+                <input type="number" name="system.attributes.wil.value" value="{{system.attributes.wil.value}}" min="0"
+                    data-dtype="Number" />
+                <a class="attribute-mod item-button" data-action="attributeRoll" data-key="wil"
+                    data-tooltip="WW.Roll.Will">
+                    {{#if system.attributes.wil.value}}
+                    {{numberFormat system.attributes.wil.mod decimals=0 sign=true}}
+                    {{else}}—{{/if}}
+                </a>
+            </div>
+        </div>
+    
+        <div class="stat luck" style="--i:7">
+            <label><a class="item-button" data-action="attributeRoll" data-key="luck"
+                    data-tooltip="WW.Roll.Luck">{{localize "WW.Attributes.Luck"}}</a></label>
+        </div>
+    
+        <div class="stat int" style="--i:8">
+            <label><a class="item-button" data-action="attributeRoll" data-key="int"
+                    data-tooltip="WW.Roll.Intellect">{{localize "WW.Attributes.IntellectShort"}}</a></label>
+    
+            <div>
+                <input type="number" name="system.attributes.int.value" value="{{system.attributes.int.value}}" min="0"
+                    data-dtype="Number" />
+                <a class="attribute-mod item-button" data-action="attributeRoll" data-key="int"
+                    data-tooltip="WW.Roll.Intellect">
+                    {{#if system.attributes.int.value}}
+                    {{numberFormat system.attributes.int.mod decimals=0 sign=true}}
+                    {{else}}—{{/if}}
+                </a>
+            </div>
+        </div>
+    
+        <!--
+                    <div class="stat" style="--i:5">5</div>
+                    <div class="stat" style="--i:6">6</div>
+                    <div class="stat" style="--i:7">7</div>
+                    <div class="stat" style="--i:8">8</div>
+                    <div class="stat" style="--i:9">9</div>
+                    <div class="stat" style="--i:10">10</div>
+                    <div class="stat" style="--i:11">11</div>
+                    <div class="stat" style="--i:12">12</div>-->
+    </div>
+    
+    {{!-- Damage / Health Block --}}
+    <div class="health-block">
+    
+        {{!-- Damage / Health Header --}}
+        <div class="health-header">
+            <label>{{localize "WW.Damage.Label"}}</label>
+    
+            <span class="health-indicator {{#if (and incapacitated (not dead))}}chat-button" data-action="incapacitatedRoll"
+                data-tooltip="{{localize "WW.Health.IncapacitatedHint"}}{{/if}}">
+                {{~#if dead}}{{localize "WW.Health.Estimation.Dead"}}
+                {{~else if incapacitated}}{{localize "WW.Health.Estimation.100"}}
+                {{~else if injured}}{{localize "WW.Health.Estimation.50"}}
+                {{/if}}
+            </span>
+    
+            <label>{{localize "WW.Health.Label"}}</label>
+        </div>
+    
+        {{!-- Damage / Health Widget --}}
+        <div class="health-wrapper">
+    
+            {{!-- Numbers: Top Layer --}}
+            <div class="health-numbers">
+                {{!-- Damage --}}
+                <div class="stat damage">
+    
+                    <input type="number" name="damage" value="{{system.stats.damage.value}}" min="0" max="{{system.stats.health.current}}"
+                        data-dtype="Number" />
+    
+                </div>
+    
+                {{!-- Health --}}
+                <div class="stat health" data-tooltip="{{{healthTooltip}}}">
+    
+                    <input type="number" name="system.stats.health.current" value="{{system.stats.health.current}}" min="0"
+                        data-dtype="Number" {{~#if system.stats.health.temp}}disabled{{/if}}/>
+    
+                </div>
+            </div>
+    
+            {{!-- Overlay: Mid Layer --}}
+            <div class="health-overlay"></div>
+    
+            {{!-- Health Bar: Bottom Layer --}}
+            <div class="health-bar {{#if dead}}dead{{/if}}"
+                style="--health-pct: {{healthPct}}; --health-hue: {{healthHue}}; --health-temp: {{tempHealthPct}};"
+                role="meter" aria-valuemin="0" aria-valuenow="{{system.stats.damage.value}}"
+                aria-valuemax="{{system.stats.health.current}}">
+    
+                <div class="health-progress"></div>
+                <div class="health-temporary" data-tooltip="WW.Health.TemporaryHint"></div>
+            </div>
+    
+        </div>
+    
+    </div>
+    
+    {{!-- Character Stats --}}
+    <div class="character-stats">
+    
+        {{!-- Size --}}
+        <div class="stat">
+            <label>{{localize "WW.Stats.Size"}}</label>
+    
+            <div class="align-center">
+                <a data-tooltip="{{{sizeTooltip}}}">{{system.stats.size}}</a>
+            </div>
+    
+        </div>
+    
+        <div class="stat-col">
+    
+            {{!-- Defense --}}
+            <div class="stat defense">
+    
+                <div><a data-tooltip="<p>{{localize " WW.Defense.Armored"}}: {{system.stats.defense.armored}}</p>
+                        <p>{{localize "WW.Defense.Natural"}}: {{system.stats.defense.natural}}</p>
+                        ">{{system.stats.defense.total}}
+                    </a>
+                </div>
+    
+                <label>{{localize "WW.Defense.Label"}}</label>
+    
+            </div>
+    
+            {{!-- Bonus Damage --}}
+            <div class="stat bonus-damage">
+    
+                <label>{{localize "WW.Damage.Bonus"}}</label>
+    
+                <div class="flex nogap align-center {{#unless system.stats.bonusdamage}}hidden{{/unless}}">
+                    <a data-tooltip="{{{bonusDamageTooltip}}}">{{system.stats.bonusdamage}}d6</a>
+                </div>
+    
+                {{#unless system.stats.bonusdamage}}
+                <div class="align-center filler">
+                    <div>◆</div>
+                </div>
+                {{/unless}}
+    
+            </div>
+    
+        </div>
+    
+        {{!-- Speed --}}
+        <div class="stat">
+            <label>{{localize "WW.Stats.Speed"}}</label>
+    
+            <div class="align-center">
+                <a data-tooltip="{{{speedTooltip}}}">{{system.stats.speed.current}}</a>
+            </div>
+    
+        </div>
+    
+    </div>
+
+</header>

@@ -11,7 +11,7 @@ const _buildBaseAffliction = (label, icon, changes = [], flags = {}) => ({
   description: label.includes('Impaired') ? i18n('WW.Affliction.ImpairedDesc') : i18n('WW.Affliction.' + label + 'Desc'),
   disabled: false,
   transfer: true,
-  duration: { rounds: 1337 },
+  duration: { seconds: 3600 },
   tint: '#FF0900',
   flags: {
     sourceType: 'affliction',

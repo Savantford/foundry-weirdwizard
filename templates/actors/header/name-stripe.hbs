@@ -1,0 +1,29 @@
+{{!-- Name Stripe --}}
+<div class="name-stripe">
+
+    {{!-- Character Name --}}
+    <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.Actor.Name"}}" /></h1>
+
+    {{!-- Level / Difficulty --}}
+    <div>
+        {{#if levels}}
+        {{localize "WW.Stats.Level"}}
+        {{else}}
+        {{localize "WW.Stats.Difficulty"}}
+        {{/if}}
+
+        <div class="level-badge">
+            {{#if levels}}
+            <select class="level-badge" name="system.stats.level">
+                {{selectOptions levels selected=system.stats.level}}
+            </select>
+            {{else if difficulties}}
+            <select class="level-badge" name="system.stats.difficulty">
+                {{selectOptions difficulties selected=system.stats.difficulty}}
+            </select>
+            {{/if}}
+        </div>
+
+    </div>
+
+</div>

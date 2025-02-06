@@ -347,7 +347,7 @@
     },
     {
       "id": "toggle-effects",
-      "selector": ".weirdwizard.character .statbox-section.talents .item-button[data-action=item-toggle-effects]",
+      "selector": ".weirdwizard.character .statbox-section.talents .item-button[data-action=itemToggleEffects]",
       "title": "WW.Tour.Character.ToggleEffects.Title",
       "content": "WW.Tour.Character.ToggleEffects.Content"
     },
@@ -407,7 +407,7 @@
     },
     {
       "id": "equip",
-      "selector": ".weirdwizard.character .equipment-list .item-button[data-action=item-toggle-effects]",
+      "selector": ".weirdwizard.character .equipment-list .item-button[data-action=itemToggleEffects]",
       "title": "WW.Tour.Character.Equip.Title",
       "content": "WW.Tour.Character.Equip.Content",
       "tab": {

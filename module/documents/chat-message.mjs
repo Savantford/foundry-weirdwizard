@@ -61,8 +61,12 @@ export default class WWChatMessage extends ChatMessage {
       item.traits = [];
 
       if (sys.traits) Object.entries(sys.traits).filter(([, val]) => val === true).map((x) => {
+        let label = i18n('WW.Weapon.Traits.' + capitalize(x[0]) + '.Label');
+
+        if ((x[0] == 'range') || (x[0] == 'reach' && sys.range) || (x[0] == 'thrown') ) label += ' ' + sys.range;
+
         item.traits.push({
-          label: i18n('WW.Weapon.Traits.' + capitalize(x[0]) + '.Label'),
+          label: label,
           tip: i18n('WW.Weapon.Traits.' + capitalize(x[0]) + '.Tip'),
         })
       })

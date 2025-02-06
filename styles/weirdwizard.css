@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Forum&family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Mate+SC&display=swap');
 
-/* Variables */
+/* -------------------------------------------- */
+/*  Style Variables                             */
+/* -------------------------------------------- */
+
 body {
   /* Colors */
   --body-text-color: #000000;
@@ -12,7 +15,7 @@ body {
   --purple-dark-rgb: 73, 36, 79;
   --purple-medium: #775B7B;
   --purple-darker: #2A142E;
-  --purple-darker-hsla: hsla(292, 67%, 23%, 0.5);
+  --purple-darker-hsla: hsl(291deg 39% 13% / 90%);
 
   /* Filters */
   --grey-filter: brightness(0) saturate(100%) invert(53%) sepia(66%) saturate(0%) hue-rotate(194deg) brightness(76%) contrast(71%);
@@ -42,12 +45,21 @@ body {
   scrollbar-color: auto; /* V11 override */
 
   /* Element Sizes */
-  --avatar-size-npc: 100px;
+  --avatar-size-npc: 110px;
   --sheet-input-height: 100%;
 
   /* Other */
   --paper-bg: url(../assets/ui/paper-bg.webp);
+
+  /* Sidebar */
+  --sheet-tabs-icon-height: 30px;
+  --sheet-banner-width: 260px;
+  --sheet-name-stripe-height: 40px;
 }
+
+/* -------------------------------------------- */
+/*  Quick Formatting Classes                    */
+/* -------------------------------------------- */
 
 .grid, .grid-2, .grid-3, .grid-4, .grid-5, .grid-6, .grid-7, .grid-8, .grid-9, .grid-10, .grid-11, .grid-12 {
   display: grid;
@@ -307,10 +319,166 @@ body {
   text-align: center;
 }
 
+/* Quick Weird Wizard Formatting */
+
+.weirdwizard .ml-1 {
+  margin-left: 5px !important;
+}
+.weirdwizard .ml-n1 {
+  margin-left: -5px !important;
+}
+.weirdwizard .ml-2 {
+  margin-left: 10px !important;
+}
+.weirdwizard .ml-auto {
+  margin-left: auto !important;
+}
+.weirdwizard .mr-0 {
+  margin-right: 0 !important;
+}
+.weirdwizard .mr-1 {
+  margin-right: 5px !important;
+}
+.weirdwizard .mr-n1 {
+  margin-right: -5px !important;
+}
+.weirdwizard .mr-2 {
+  margin-right: 10px !important;
+}
+.weirdwizard .mr-auto {
+  margin-right: auto !important;
+}
+.weirdwizard .mx-1 {
+  margin-left: 5px !important;
+  margin-right: 5px !important;
+}
+.weirdwizard .mx-2 {
+  margin-left: 10px !important;
+  margin-right: 10px !important;
+}
+.weirdwizard .mx-auto {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.weirdwizard .mt-0 {
+  margin-top: 0px !important;
+}
+.weirdwizard .mt-1 {
+  margin-top: 5px !important;
+}
+.weirdwizard .mt-2 {
+  margin-top: 10px !important;
+}
+.weirdwizard .mt-auto {
+  margin-top: auto !important;
+}
+.weirdwizard .mb-0 {
+  margin-bottom: 0px !important;
+}
+.weirdwizard .mb-1 {
+  margin-bottom: 5px !important;
+}
+.weirdwizard .mb-2 {
+  margin-bottom: 10px !important;
+}
+.weirdwizard .mb-auto {
+  margin-bottom: auto !important;
+}
+.weirdwizard .my-1 {
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
+}
+.weirdwizard .my-2 {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+.weirdwizard .my-auto {
+  margin-top: auto !important;
+  margin-bottom: auto !important;
+}
+
+.weirdwizard .smaller {
+  font-size: smaller !important;
+}
+.weirdwizard .small {
+  font-size: small !important;
+}
+.weirdwizard .medium {
+  font-size: medium !important;
+}
+.weirdwizard .large {
+  font-size: large !important;
+}
+.weirdwizard .bold {
+  font-weight: bold !important;
+}
+.weirdwizard .italic {
+  font-style: italic !important;
+}
+.weirdwizard .width-50 {
+  width: 50px !important;
+}
+
+.weirdwizard .width-auto {
+  width: auto !important;
+}
+
+.weirdwizard .color-green {
+  color: green;
+}
+.weirdwizard .color-red {
+  color: red;
+}
+
+.weirdwizard .float-left {
+  float: left;
+}
+.weirdwizard .float-right {
+  float: right;
+}
+
+.weirdwizard .hl {
+  background-color: var(--pink);
+  padding: 1px 0px;
+  margin: 4px 0px;
+  border-radius: 3px;
+}
+.weirdwizard .hl2 {
+  background-color: var(--gray);
+  padding: 2px 5px;
+  text-transform: uppercase;
+}
+.weirdwizard .hl2 label {
+  color: var(--purple-dark);
+  font-weight: bold;
+}
+
+/* -------------------------------------------- */
+/*  General Sheet / App Style                   */
+/* -------------------------------------------- */
+
 /* Styles limited to weirdwizard sheets */
-.app.weirdwizard {
+.app.weirdwizard,
+.application.weirdwizard {
   background-color: var(--purple-darker-hsla);
   background-blend-mode: hard-light;
+}
+
+.application.weirdwizard .window-header {
+  background: none;
+}
+
+.application.weirdwizard .controls-dropdown {
+  z-index: 2; /* Readjust on some sheets */
+}
+
+.application.weirdwizard .window-resize-handle {
+  inset: auto 2px 2px auto;
+}
+
+.theme-dark .application.weirdwizard .window-resize-handle {
+  filter: none;
 }
 
 .weirdwizard .window-content,
@@ -321,24 +489,30 @@ body {
   font-size: var(--font-size-14);
 }
 
+.theme-dark .application.weirdwizard.actor .window-content {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
 .weirdwizard.sheet.actor .window-content,
 .weirdwizard.sheet.charoption .window-content {
   overflow-y: scroll;
-  margin-top: 40px;
+  margin-top: var(--sheet-name-stripe-height);
 }
 
-/* Min Dimensions for Sheets */
-.weirdwizard.sheet.actor {
+/* Min Dimensions and Overflow for Sheets */
+.weirdwizard.sheet.actor:not(.minimized) {
+  overflow: visible;
   min-width: 560px;
   min-height: 350px;
 }
 
-.weirdwizard.item:not(.charoption) {
+.weirdwizard.item:not(.charoption):not(.minimized) {
   min-width: 440px;
   min-height: 350px;
 }
 
-.weirdwizard.charoption {
+.weirdwizard.charoption:not(.minimized) {
   min-width: 540px;
   min-height: 300px;
 }
@@ -476,12 +650,6 @@ body {
   text-transform: none;
 }
 
-.weirdwizard.npc .profile-img-wrapper {
-  flex: 0 0 var(--avatar-size-npc);
-  height: var(--avatar-size-npc);
-  position: relative;
-}
-
 .sheet.journal-entry .journal-entry-content {
   background: var(--paper-bg);
 }
@@ -506,10 +674,6 @@ body {
   border-image-source: url(../assets/ui/headers/pointed-right-pink.svg);
 }
 
-.weirdwizard.npc .window-content h5.list-entries {
-  justify-content: space-between;
-}
-
 .weirdwizard.npc .window-content h6 {
   border-image-source: url(../assets/ui/headers/pointed-right-grey.svg);
   color: black;
@@ -530,160 +694,6 @@ body {
   gap: 0 10px;
   margin-left: auto;
   font-size: var(--font-size-12);
-}
-
-/* Actor: Badges */
-.weirdwizard.sheet .badge:hover {
-  filter: drop-shadow(var(--filter-shadow-purple));
-}
-
-.weirdwizard.sheet .badge.item-button:hover,
-.weirdwizard.sheet .badge.item-button:focus,
-.weirdwizard.sheet .badge.item-button a:hover,
-.weirdwizard.sheet .badge.stat-badge a:hover {
-  text-shadow: none;
-}
-
-/* NPC: Attributes */
-
-.weirdwizard.npc .attributes {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 5px 0;
-}
-
-.weirdwizard.npc .attributes .stat {
-  --stat-size: 55px;
-  flex: 1;
-  height: var(--stat-size);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: var(--purple-dark);
-  font-weight: bold;
-  background: url(/systems/weirdwizard/assets/ui/badges/npc-attribute.svg) no-repeat;
-  background-position: center;
-  background-size: contain;
-}
-
-.weirdwizard.npc .attributes .stat > div {
-  display: flex;
-  flex-flow: column;
-  width: var(--stat-size);
-  padding-left: 2px;
-}
-
-.weirdwizard.npc .attributes .stat > a {
-  width: calc(var(--stat-size) / 2 + 5px);
-  padding-right: 7px;
-}
-
-.weirdwizard.npc .attributes .stat > div > *:first-child {
-  font-size: var(--font-size-12);
-}
-
-.weirdwizard.npc .attributes .stat > div > *:last-child {
-  font-size: var(--font-size-16);
-}
-
-/* Actor Statbox */
-
-.weirdwizard .statbox {
-  display: flex;
-  flex-flow: column wrap;
-  text-align: left;
-  padding: 1px 0px;
-  border-radius: 2px;
-}
-
-.weirdwizard.npc .window-content .statbox-sections {
-  gap: 5px 15px;
-}
-
-.weirdwizard.npc .statbox {
-  min-width: 275px;
-}
-
-.weirdwizard .statbox > :last-child {
-  flex: 1;
-}
-
-.weirdwizard .statbox > h1.charname,
-.weirdwizard .statbox .item-list .item:nth-of-type(odd) {
-  background: none;
-}
-
-.weirdwizard.npc .statbox-section:not(:first-of-type) {
-  padding-top: 8px;
-}
-
-.weirdwizard .statbox .stat {
-  margin: 2px 5px;
-}
-
-.weirdwizard .statbox .stat-inline {
-  margin: 2px 5px;
-}
-
-.weirdwizard.npc .statbox .defense-line {
-  display: inline-flex;
-  align-items: center;
-  white-space: nowrap;
-}
-
-.weirdwizard.npc .statbox .equipment-list {
-  display: inline-flex;
-}
-
-.weirdwizard.npc .statbox .equipment-list > ol {
-  margin: 0;
-}
-
-.weirdwizard .window-content .statbox > h4 {
-  display: flex;
-  justify-content: space-between;
-  background-color: var(--purple-medium);
-  border-radius: 3px;
-  margin: 3px 0 0;
-  padding: 2px 0 2px 5px;
-}
-
-.weirdwizard .window-content .statbox > h4:first-of-type {
-  margin-top: 0;
-}
-
-.weirdwizard .statbox-header .list-entries {
-  display: flex;
-  align-items: center;
-}
-
-.weirdwizard .statbox-header .statbox-level {
-  float: right;
-  display: flex;
-  align-items: center;
-  gap: 3px;
-}
-
-.weirdwizard .statbox-header .statbox-difficulty {
-  font-size: 0.7rem;
-  font-weight: bold;
-  float: right;
-  padding-top: 1px;
-}
-
-.weirdwizard .statbox-header .statbox-level > select,
-.weirdwizard .statbox-header .statbox-difficulty > select {
-  color: white;
-  font-weight: bold;
-}
-
-.weirdwizard .statbox-header .statbox-level > select > option,
-.weirdwizard .statbox-header .statbox-difficulty > select > option {
-  color: var(--body-text-color);
-  font-family: var(--font-body);
-  font-size: var(--font-size-14);
 }
 
 /* FORM FIELDS */
@@ -718,6 +728,15 @@ body {
 }
 
 /* Inputs */
+.weirdwizard.sheet input {
+  --input-text-color: var(--body-text-color);
+}
+
+.weirdwizard.sheet input:hover,
+.weirdwizard.sheet input:focus {
+  background: none;
+}
+
 .weirdwizard.sheet.actor input,
 .weirdwizard.sheet.item input {
   height: var(--sheet-input-height);
@@ -756,8 +775,28 @@ body {
 
 /* Selects dropdown */
 .weirdwizard select {
+  --input-background-color: transparent;
+  --input-placeholder-color: #666666;
   height: auto;
+  width: max-content;
+  min-height: 1lh;
+  line-height: normal;
   padding: 0;
+  color: var(--body-text-color);
+}
+
+.application.wwsl input,
+#wwsl-entry-form select {
+  --input-placeholder-color: #666666;
+  background: none;
+  border-radius: 1px;
+  padding: 0;
+  line-height: normal;
+  height: auto;
+  min-height: 1lh;
+  font-size: inherit;
+  color: inherit;
+  font-weight: inherit;
 }
 
 .weirdwizard.sheet select {
@@ -824,146 +863,9 @@ body {
   padding: 0;
 }
 
-/* Quick Styles */
-
-.weirdwizard .ml-1 {
-  margin-left: 5px !important;
-}
-.weirdwizard .ml-n1 {
-  margin-left: -5px !important;
-}
-.weirdwizard .ml-2 {
-  margin-left: 10px !important;
-}
-.weirdwizard .ml-auto {
-  margin-left: auto !important;
-}
-.weirdwizard .mr-0 {
-  margin-right: 0 !important;
-}
-.weirdwizard .mr-1 {
-  margin-right: 5px !important;
-}
-.weirdwizard .mr-n1 {
-  margin-right: -5px !important;
-}
-.weirdwizard .mr-2 {
-  margin-right: 10px !important;
-}
-.weirdwizard .mr-auto {
-  margin-right: auto !important;
-}
-.weirdwizard .mx-1 {
-  margin-left: 5px !important;
-  margin-right: 5px !important;
-}
-.weirdwizard .mx-2 {
-  margin-left: 10px !important;
-  margin-right: 10px !important;
-}
-.weirdwizard .mx-auto {
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
-
-.weirdwizard .mt-0 {
-  margin-top: 0px !important;
-}
-.weirdwizard .mt-1 {
-  margin-top: 5px !important;
-}
-.weirdwizard .mt-2 {
-  margin-top: 10px !important;
-}
-.weirdwizard .mt-auto {
-  margin-top: auto !important;
-}
-.weirdwizard .mb-0 {
-  margin-bottom: 0px !important;
-}
-.weirdwizard .mb-1 {
-  margin-bottom: 5px !important;
-}
-.weirdwizard .mb-2 {
-  margin-bottom: 10px !important;
-}
-.weirdwizard .mb-auto {
-  margin-bottom: auto !important;
-}
-.weirdwizard .my-1 {
-  margin-top: 5px !important;
-  margin-bottom: 5px !important;
-}
-.weirdwizard .my-2 {
-  margin-top: 10px !important;
-  margin-bottom: 10px !important;
-}
-.weirdwizard .my-auto {
-  margin-top: auto !important;
-  margin-bottom: auto !important;
-}
-
-.weirdwizard .smaller {
-  font-size: smaller !important;
-}
-.weirdwizard .small {
-  font-size: small !important;
-}
-.weirdwizard .medium {
-  font-size: medium !important;
-}
-.weirdwizard .large {
-  font-size: large !important;
-}
-.weirdwizard .bold {
-  font-weight: bold !important;
-}
-.weirdwizard .italic {
-  font-style: italic !important;
-}
-.weirdwizard .width-50 {
-  width: 50px !important;
-}
-
-.weirdwizard .width-auto {
-  width: auto !important;
-}
-
-.weirdwizard .color-green {
-  color: green;
-}
-
-.weirdwizard .color-red {
-  color: red;
-}
-
 .weirdwizard .box-input {
   text-align: center;
   width: 50px;
-}
-
-.weirdwizard .float-left {
-  float: left;
-}
-.weirdwizard .float-right {
-  float: right;
-}
-.weirdwizard .hl {
-  background-color: var(--pink);
-  padding: 1px 0px;
-  margin: 4px 0px;
-  border-radius: 2px;
-}
-
-.weirdwizard .hl2 {
-  background-color: var(--gray);
-  padding: 2px 5px;
-  text-transform: uppercase;
-}
-
-.weirdwizard .hl2 label {
-  color: var(--purple-dark);
-  font-weight: bold;
 }
 
 .weirdwizard.character form,
@@ -974,10 +876,142 @@ body {
   padding: 0;
 }
 
-/* Sheet Headers */
+.weirdwizard.charoption form {
+  margin-left: 245px;
+}
 
+/* Images */
+.weirdwizard img {
+  border: none;
+}
+
+.weirdwizard :not(.system-badge) img {
+  filter: drop-shadow(0 0 1px black);
+}
+
+/* -------------------------------------------- */
+/*  Sheet Navigation Tabs                       */
+/* -------------------------------------------- */
+
+.weirdwizard.sheet:not(.active-effect-sheet) nav.sheet-tabs {
+  --tab-full-width: 44px;
+  --tab-inactive-width: 26px;
+  position: absolute;
+  left: 100%;
+  top: calc(var(--header-height) + var(--tab-full-width));
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0;
+  border: none;
+  font-family: var(--font-serif);
+  font-size: var(--font-size-14);
+  font-weight: bold;
+  text-transform: uppercase;
+  justify-content: space-between;
+  z-index: -1;
+}
+
+.weirdwizard.sheet.item nav.sheet-tabs {
+  top: calc(2.5em - 6px);
+}
+
+.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs > div {
+  display: flex;
+  flex-grow: 1;
+  min-width: 18rem;
+  gap: 2px 2px;
+}
+
+.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item {
+  width: var(--tab-full-width);
+  height: 40px;
+  position: relative;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  background: no-repeat;
+  background-color: var(--purple-medium);
+  background-position: center;
+  background-size: auto 80%;
+  border: 1px solid transparent;
+  border-radius: 0 8px 8px 0;
+  font-size: var(--font-size-14);
+  margin-left: calc((var(--tab-full-width) - var(--tab-inactive-width)) * -1);
+  padding: 4px 6px;
+  transition: all 250ms ease;
+  filter: drop-shadow(3px 0 5px black);
+}
+
+.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item.active,
+.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item:hover {
+  background-color: var(--purple-dark);
+}
+
+.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item.active {
+  margin: 0;
+}
+
+.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item:hover {
+  text-shadow: none;
+  margin: 0;
+  box-shadow: 0 0 5px 0 black;
+  border: 1px solid;
+}
+
+.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item > img {
+  width: var(--sheet-tabs-icon-height);
+}
+
+/* Sheet Menu */
+.weirdwizard .sheet-menu {
+  position: absolute !important;
+  left: 100%;
+  top: var(--header-height);
+  width: 44px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  color: white;
+  font-size: 22px;
+  text-align: center;
+  background: no-repeat;
+  background-color: var(--purple-darker);
+  background-position: calc(50% - 3px) center;
+  background-size: auto 80%;
+  border: 1px solid transparent;
+  border-radius: 0 8px 8px 0;
+  filter: drop-shadow(3px 0 3px black);
+}
+
+.weirdwizard .sheet-menu:hover {
+  text-shadow: none;
+  border: 1px solid black;
+}
+
+.weirdwizard .sheet-menu .edit-mode-icon {
+  position: absolute;
+  right: 5px;
+  bottom: 6px;
+  font-size: var(--font-size-12);
+  color: var(--pink);
+  text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black;
+}
+
+.weirdwizard .sheet-menu .edit-mode-icon.fa-lock-open {
+  color: goldenrod;
+}
+
+/* -------------------------------------------- */
+/*  Sheet Header/Name Stripe/Banner             */
+/* -------------------------------------------- */
+
+/* Sheet Headers */
 .weirdwizard header.sheet-header {
   position: absolute;
+  top: var(--header-height);
+  left: 0.5rem;
   z-index: 1;
   display: block;
   flex: 0 auto;
@@ -1009,9 +1043,9 @@ body {
   display: none;
 }
 
-.weirdwizard .edit-mode .descriptors:hover .buttons,
-.weirdwizard .edit-mode .descriptors:hover .item-create,
-.weirdwizard .edit-mode .descriptors:hover .array-button[data-action=add] {
+.weirdwizard.edit-mode .descriptors:hover .buttons,
+.weirdwizard.edit-mode .descriptors:hover .item-create,
+.weirdwizard.edit-mode .descriptors:hover .array-button[data-action=entryCreate] {
   display: inline;
 }
 
@@ -1019,175 +1053,131 @@ body {
   font-size: var(--font-size-12);
 }
 
-/* Sheet Header Fields */
-.weirdwizard.item:not(.charoption) .header-fields {
-  height: 100%;
-  padding: 48px 5px 20px;
-  border-image-source: url(../assets/ui/spear-divider.svg);
-  border-image-slice: 0 51 25 51;
-  border-image-width: 0px 30px 14px 30px;
-  border-image-repeat: repeat stretch;
-}
-
-.weirdwizard.item .spell-sheet .header-fields {
-  flex-flow: column;
-  align-items: flex-start;
-  justify-content: space-around;
-  gap: 5px
-}
-
-.weirdwizard.item .spell-sheet .header-fields > * {
-  align-items: flex-start;
-}
-
-.weirdwizard.item .common-fields {
-  flex-wrap: wrap;
-}
-
-.weirdwizard.item .equipment-sheet:not(.weapon) .common-fields {
-  height: 100%;
-}
-
-.weirdwizard.item .weapon-fields {
+/* Sheet Name Stripe */
+.weirdwizard .name-stripe {
+  position: absolute;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  height: var(--sheet-name-stripe-height);
+  padding-left: calc(var(--sheet-banner-width) + 1em);
   display: flex;
-  flex-flow: column;
-  align-items: flex-start;
   gap: 5px;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--purple-darker);
+  color: var(--pink);
+  font-size: var(--font-size-20);
+  font-family: var(--font-capitalized);
+  z-index: 1;
+}
+
+/* Name Stripe */
+
+.weirdwizard h1.charname {
+  padding: 0px;
+  margin: 0;
+  border-bottom: 0;
+}
+
+.weirdwizard.npc h1.charname {
+  display: inline-flex;
+  height: 100%;
+}
+
+.weirdwizard.sheet header.sheet-header h1 input {
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: bold;
+  height: 100%;
   width: 100%;
-  border-bottom: 1px solid var(--purple-dark);
-  padding-bottom: 8px;
-  margin-bottom: 3px;
 }
 
-.weirdwizard .weapon-traits > span:not(:last-of-type)::after {
-  content: ", ";
+.weirdwizard.npc .name-stripe {
+  padding-left: 180px;
 }
 
-.weirdwizard .weapon-traits .edit-traits {
-  font-size: smaller;
+.weirdwizard.item .name-stripe {
+  z-index: 0;
 }
 
-/* Attack Rider */
-.weirdwizard .attack-rider {
+.weirdwizard.item:not(.charoption) .name-stripe {
+  margin: calc(-1 * var(--header-height)) 0 0 -1rem;
+  width: calc(100% + 1rem);
+  padding-left: 1rem;
+  padding-right: 160px;
+}
+
+.weirdwizard.item .talent-sheet .name-stripe {
+  padding-right: 200px;
+}
+
+.weirdwizard.charoption .name-stripe {
+  padding-left: 250px;
+  padding-right: 10px;
+}
+
+.weirdwizard.charoption .profession-sheet .name-stripe {
+  padding-left: 185px;
+}
+
+.weirdwizard .name-stripe > *:first-child {
+  flex: 1;
+}
+
+.weirdwizard .name-stripe > .charname {
+  display: inline-flex;
+}
+
+.weirdwizard .name-stripe > .charname > input {
+  color: var(--pink);
+  font-size: var(--font-size-32);
   text-align: left;
 }
 
-.weirdwizard.item .attack-rider {
-  display: block;
-  width: 100%;
-  border-top: 1px solid var(--purple-dark);
-  padding-top: 8px;
-  margin-top: 3px;
+.weirdwizard .name-stripe .difficulty-label {
+  font-size: var(--font-size-16);
 }
 
-.weirdwizard.actor .attack-rider {
-  margin-left: 5px;
-}
-
-.weirdwizard .attack-rider > label {
+.weirdwizard .name-stripe .level-badge {
+  flex: 0 50px;
+  display: inline-flex;
+  background: url(../assets/ui/badges/round.svg);
+  background-size: cover;
+  background-position: center;
+  width: 50px;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  color: var(--body-text-color);
+  font-family: var(--font-body);
   font-weight: bold;
-  color: var(--purple-dark);
 }
 
-.weirdwizard .attack-rider > p:first-of-type {
-  display: inline;
+.weirdwizard .name-stripe .level-badge > select,
+.weirdwizard .name-stripe .level-badge > select:focus {
+  font-size: inherit;
+  text-align: center;
 }
 
-.weirdwizard .attack-rider > p:last-of-type {
-  margin-bottom: 0;
-}
-
-/* Sheet Background and Bug */
-
-.weirdwizard.actor .sheet-body {
-  width: 100%;
-}
-
-.weirdwizard.item .sheet-body {
-  --bug: url(../assets/bugs/talent.webp);
-  background: url(../assets/drawings/star-sheet.svg), var(--bug);
-  background-repeat: no-repeat;
-  background-position: center calc(50% - 10px), bottom;
-  background-size: auto 50%, 390px;
-  padding-bottom: 50px;
-}
-
-.weirdwizard.charoption .sheet-body {
-  margin-left: 245px;
-  background-position: center calc(50% - 10px), bottom;
-  background-origin: padding-box;
-  background-size: 50% auto, 270px;
-  padding-bottom: 35px;
-}
-
-.weirdwizard.charoption .profession-sheet .sheet-body {
-  margin-left: 175px;
-}
-
-.weirdwizard .talent-sheet.magical .sheet-body,
-.weirdwizard.chat-message.magical {
-  --bug: url(../assets/bugs/talent-magical.webp);
-}
-
-.weirdwizard.chat-message.npc {
-  --bug: url(../assets/bugs/talent-npc.webp);
-}
-
-.weirdwizard .equipment-sheet .sheet-body,
-.weirdwizard.chat-message.Equipment {
-  --bug: url(../assets/bugs/equipment.webp);
-}
-
-.weirdwizard .equipment-sheet.weapon .sheet-body,
-.weirdwizard.chat-message.Weapon {
-  --bug: url(../assets/bugs/weapon.webp);
-}
-
-.weirdwizard .spell-sheet .sheet-body,
-.weirdwizard.chat-message.Spell {
-  --bug: url(../assets/bugs/spell.webp);
-}
-
-.weirdwizard .ancestry-sheet .sheet-body {
-  --bug: url(../assets/bugs/ancestry.webp);
-}
-
-.weirdwizard .profession-sheet .sheet-body {
-  --bug: url(../assets/bugs/profession.webp);
-}
-
-.weirdwizard .path-sheet .sheet-body,
-.weirdwizard.character .tabs-container {
-  --bug: url(../assets/bugs/path-novice.webp);
-}
-
-.weirdwizard .path-sheet.expert .sheet-body,
-.weirdwizard.character .expert .tabs-container {
-  --bug: url(../assets/bugs/path-expert.webp);
-}
-
-.weirdwizard .path-sheet.master .sheet-body,
-.weirdwizard.character .master .tabs-container {
-  --bug: url(../assets/bugs/path-master.webp);
-}
-
-.weirdwizard.npc .tabs-container {
-  --bug: url(../assets/bugs/npc-enemy.webp);
-}
-
-.weirdwizard.npc .ally .tabs-container {
-  --bug: url(../assets/bugs/npc-ally.webp);
+.weirdwizard .name-stripe .level-badge > select:hover,
+.weirdwizard .name-stripe .level-badge > select:focus {
+  appearance: none;
+  border: none;
+  box-shadow: none;
+  filter: drop-shadow(var(--filter-shadow-purple));
+  cursor: pointer;
 }
 
 /* Sheet Banner */
 
 .weirdwizard .sheet-banner {
-  width: 260px;
+  width: var(--sheet-banner-width);
   display: flex;
   flex-flow: column;
   gap: 10px;
   padding: 8px 5px 20px;
-  margin-top: -48px;
   background: url(../assets/ui/straps/simple-banner.svg) no-repeat;
   background-position: center bottom;
   background-size: cover;
@@ -1195,6 +1185,10 @@ body {
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
+}
+
+.weirdwizard.item {
+  --header-height: 30px;
 }
 
 .weirdwizard.npc .sheet-banner {
@@ -1221,6 +1215,7 @@ body {
   flex-flow: column;
   gap: 10px;
   align-items: center;
+  margin-right: 1rem;
   padding: 8px 5px 30px;
   background: url(../assets/ui/straps/triangle-ribbon.svg) no-repeat;
   background-position: center bottom;
@@ -1270,118 +1265,43 @@ body {
   color: white;
 }
 
-/* Sheet Name Stripe */
-.weirdwizard .name-stripe {
-  position: absolute;
-  margin: -48px 0 0 -8px;
-  width: 100%;
-  height: 40px;
-  padding-left: 280px;
-  display: flex;
-  gap: 5px;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--purple-darker);
-  color: var(--pink);
-  font-size: var(--font-size-20);
+/* Header Plate */
+.weirdwizard .sheet-banner .header-plate {
+  border-image: url(../assets/ui/headers/pointed-double-purple-dark.svg);
+  border-image-slice: 15 15 fill;
+  border-image-width: 30px;
+  filter: drop-shadow(0 0 2px black);
+  color: white;
   font-family: var(--font-capitalized);
+  font-size: var(--font-size-20);
+  font-weight: normal;
+  letter-spacing: 0.03em;
+  margin-bottom: 5px;
+  padding: 3px 10px;
 }
 
-.weirdwizard.npc .name-stripe {
-  padding-left: 180px;
+/* Change Disposition Buttons */
+.weirdwizard .change-disposition.label {
+  border-image: url(../assets/ui/headers/pointed-double-purple-dark.svg);
+  border-image-slice: 15 15 fill;
+  border-image-width: 20px;
+  filter: drop-shadow(0 0 2px black);
+  padding: 0 10px;
+  color: white;
+  font-family: var(--font-capitalized);
+  font-size: var(--font-size-20);
+  font-weight: normal;
+  letter-spacing: 0.03em;  
 }
 
-.weirdwizard.item:not(.charoption) .name-stripe {
-  margin: 0 0 0 -8px;
-  width: calc(100% + 16px);
-  padding-left: 8px;
-  padding-right: 150px;
-}
-
-.weirdwizard.item .talent-sheet .name-stripe {
-  padding-right: 190px;
-}
-
-.weirdwizard.charoption .name-stripe {
-  padding-left: 250px;
-  padding-right: 10px;
-}
-
-.weirdwizard.charoption .profession-sheet .name-stripe {
-  padding-left: 185px;
-}
-
-.weirdwizard .name-stripe > *:first-child {
-  flex: 1;
-}
-
-.weirdwizard .name-stripe > .charname {
-  display: inline-flex;
-}
-
-.weirdwizard .name-stripe > .charname > input {
-  color: var(--pink);
-  font-size: var(--font-size-32);
-  text-align: left;
-}
-
-.weirdwizard .name-stripe .difficulty-label {
-  font-size: var(--font-size-16);
-}
-
-.weirdwizard .name-stripe .level-badge {
-  flex: 0 50px;
-  display: inline-flex;
-  background: url(../assets/ui/badges/round.svg);
-  background-size: cover;
-  background-position: center;
-  width: 50px;
-  height: 50px;
-  align-items: center;
-  justify-content: center;
-  color: var(--body-text-color);
-  font-family: var(--font-body);
-  font-weight: bold;
-}
-
-.weirdwizard .name-stripe .level-badge > select,
-.weirdwizard .name-stripe .level-badge > select:focus {
-  text-align: center;
-}
-
-.weirdwizard .name-stripe .level-badge > select:hover,
-.weirdwizard .name-stripe .level-badge > select:focus {
-  appearance: none;
-  border: none;
-  box-shadow: none;
+.weirdwizard .change-disposition:hover {
   filter: drop-shadow(var(--filter-shadow-purple));
   cursor: pointer;
 }
 
-/* Character/NPC Tabs Container */
-.weirdwizard.actor .tabs-container {
-  height: 100%;
-  background: url(../assets/drawings/star-sheet.svg), var(--bug);
-  background-repeat: no-repeat;
-  background-position: center calc(50% - 10px), bottom;
-  background-size: auto 50%, 390px;
-  padding-bottom: 50px;
-}
-
-.weirdwizard.character .tabs-container {
-  margin-left: 270px;
-}
-
-.weirdwizard.npc .tabs-container {
-  margin-left: 170px;
-}
-
-.weirdwizard img {
-  border: none;
-}
-
-.weirdwizard :not(.system-badge) img {
-  filter: drop-shadow(0 0 1px black);
+/* Profile Image */
+.weirdwizard.sheet header.sheet-header img {
+  margin: 0;
 }
 
 .weirdwizard.sheet .profile-img {
@@ -1396,24 +1316,29 @@ body {
   filter: drop-shadow(0 0 1px var(--purple-dark));
 }
 
+/* Profile Image: Item */
+
 .weirdwizard.item .profile-img {
   margin: 10px 0;
   height: 80px;
 }
 
-/* NPC Sheet Image */
+/* Profile Image: NPC */
 
 .weirdwizard.npc .profile-img-wrapper {
-  margin: 0.3em;
+  position: relative;
+  margin: 5px 0 8px;
 }
 
-.weirdwizard.npc .profile-img {
-  height: 100%;
+.weirdwizard.npc header.sheet-header .profile-img {
+  flex: 0 0 var(--avatar-size-npc);
+  height: var(--avatar-size-npc);
+  margin: 5px;
 }
 
 .weirdwizard .profile-img-menu {
   position: absolute;
-  top: -10px;
+  top: -5px;
   left: 50%;
   transform: translate(-50%, 0);
   display: flex;
@@ -1436,7 +1361,7 @@ body {
   opacity: 1;
 }
 
-/* Character Sheet Image */
+/* Profile Image: Character */
 
 .weirdwizard .circle {
   display: grid;
@@ -1557,43 +1482,16 @@ body {
   margin-right: 5px;
 }
 
-.weirdwizard h1.charname {
-  padding: 0px;
-  margin: 0;
-  border-bottom: 0;
+/* Actor: Badges */
+.weirdwizard.sheet .badge:hover {
+  filter: drop-shadow(var(--filter-shadow-purple));
 }
 
-.weirdwizard.npc h1.charname {
-  display: inline-flex;
-  height: 100%;
-}
-
-.weirdwizard.sheet header.sheet-header h1 input {
-  padding: 0;
-  margin: 0;
-  font-family: var(--font-serif);
-  font-weight: bold;
-  height: 100%;
-  width: 100%;
-}
-
-.weirdwizard.sheet header.sheet-header img {
-  margin: 0;
-}
-
-/* Header Plate */
-.weirdwizard .sheet-banner .header-plate {
-  border-image: url(../assets/ui/headers/pointed-double-purple-dark.svg);
-  border-image-slice: 15 15 fill;
-  border-image-width: 30px;
-  filter: drop-shadow(0 0 2px black);
-  color: white;
-  font-family: var(--font-capitalized);
-  font-size: var(--font-size-20);
-  font-weight: normal;
-  letter-spacing: 0.03em;
-  margin-bottom: 5px;
-  padding: 3px 10px;
+.weirdwizard.sheet .badge.item-button:hover,
+.weirdwizard.sheet .badge.item-button:focus,
+.weirdwizard.sheet .badge.item-button a:hover,
+.weirdwizard.sheet .badge.stat-badge a:hover {
+  text-shadow: none;
 }
 
 /* Health widget */
@@ -1605,9 +1503,6 @@ body {
   --health-progress-width: 20px;
   --health-progress-length: 164px;
   --health-right-offset: 10px;
-}
-.weirdwizard.npc .health-block {
-  margin-top: 3px;
 }
 
 .weirdwizard .health-header {
@@ -1644,7 +1539,7 @@ body {
 
 .weirdwizard.npc .health-indicator {
   position: absolute;
-  bottom: -10px;
+  bottom: 0;
   left: 50%;
   transform: translate(-50%, 0);  
 }
@@ -1825,7 +1720,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  margin-top: -10px;
+  /*margin-top: -10px; - no longer needed*/
   padding: 0 8px 10px;
   background: url(../assets/ui/sheet-stats-pattern.svg), url(../assets/ui/straps/pink-banner.svg);
   background-repeat: no-repeat;
@@ -1909,7 +1804,12 @@ body {
 .weirdwizard .npc-stats {
   display: flex;
   flex-flow: column;
-  gap: 18px;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.weirdwizard .npc-stats .stat:first-of-type {
+  margin-bottom: 7px;
 }
 
 .weirdwizard .npc-stats .stat .stat-header {
@@ -1960,158 +1860,192 @@ body {
   cursor: pointer;
 }
 
-/* Sheet Navigation Tabs */
-.weirdwizard.sheet:not(.active-effect-sheet) nav.sheet-tabs {
-  --tab-full-width: 44px;
-  --tab-inactive-width: 26px;
-  position: absolute;
-  left: 100%;
-  top: calc(30px + var(--tab-full-width));
-  width: max-content;
+/* Sheet Header Fields */
+.weirdwizard.item:not(.charoption) .header-fields {
+  height: 100%;
+  padding: 48px 5px 20px 0;
+  border-image-source: url(../assets/ui/spear-divider.svg);
+  border-image-slice: 0 51 25 51;
+  border-image-width: 0px 30px 14px 30px;
+  border-image-repeat: repeat stretch;
+}
+
+.weirdwizard.item .spell-sheet .header-fields {
+  flex-flow: column;
+  align-items: flex-start;
+  justify-content: space-around;
+  gap: 5px
+}
+
+.weirdwizard.item .spell-sheet .header-fields > * {
+  align-items: flex-start;
+}
+
+.weirdwizard.item .common-fields {
+  flex-wrap: wrap;
+}
+
+.weirdwizard.item .equipment-sheet:not(.weapon) .common-fields {
+  height: 100%;
+}
+
+.weirdwizard.item .weapon-fields {
   display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  margin: 0;
-  border: none;
-  font-family: var(--font-serif);
-  font-size: var(--font-size-14);
+  flex-flow: column;
+  align-items: flex-start;
+  gap: 5px;
+  width: 100%;
+  border-bottom: 1px solid var(--purple-dark);
+  padding-bottom: 8px;
+  margin-bottom: 3px;
+}
+
+.weirdwizard .weapon-traits > span:not(:last-of-type)::after {
+  content: ", ";
+}
+
+.weirdwizard .weapon-traits .edit-traits {
+  font-size: smaller;
+}
+
+/* Attack Rider */
+.weirdwizard .attack-rider {
+  text-align: left;
+}
+
+.weirdwizard.item .attack-rider {
+  display: block;
+  width: 100%;
+  border-top: 1px solid var(--purple-dark);
+  padding-top: 8px;
+  margin-top: 3px;
+}
+
+.weirdwizard.actor .attack-rider {
+  margin-left: 5px;
+}
+
+.weirdwizard .attack-rider > label {
   font-weight: bold;
-  text-transform: uppercase;
-  justify-content: space-between;
-  z-index: -1;
+  color: var(--purple-dark);
 }
 
-.weirdwizard.sheet.item nav.sheet-tabs {
-  top: calc(2.5em - 6px);
+.weirdwizard .attack-rider > p:first-of-type {
+  display: inline;
 }
 
-.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs > div {
-  display: flex;
-  flex-grow: 1;
-  min-width: 18rem;
-  gap: 2px 2px;
+.weirdwizard .attack-rider > p:last-of-type {
+  margin-bottom: 0;
 }
 
-.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item {
-  width: var(--tab-full-width);
-  height: 40px;
-  position: relative;
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  background: no-repeat;
-  background-color: var(--purple-medium);
+/* -------------------------------------------- */
+/*  Main Sheet Body/Tabs                        */
+/* -------------------------------------------- */
+
+/* Character/NPC Tabs Container */
+.weirdwizard.actor .tab[data-tab] {
+  height: fit-content;
+  background: url(../assets/drawings/star-sheet.svg) no-repeat;
   background-position: center;
-  background-size: auto 80%;
-  border: 1px solid transparent;
-  border-radius: 0 8px 8px 0;
-  font-size: var(--font-size-14);
-  margin-left: calc((var(--tab-full-width) - var(--tab-inactive-width)) * -1);
-  transition: all 250ms ease;
-  filter: drop-shadow(3px 0 5px black);
+  background-size: auto 50%;
+  margin-left: calc(var(--sheet-banner-width) + 5px);
 }
 
-.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item.active,
-.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item:hover {
-  background-color: var(--purple-dark);
+.weirdwizard.actor .tab[data-tab]::after {
+  content: "";
+  display: block;
+  height: 50px;
+  width: 100%;
+  background: var(--bug) no-repeat;
+  background-position: bottom;
+  background-size: contain;
 }
 
-.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item.active {
-  margin: 0;
+.weirdwizard.npc .tab[data-tab] {
+  margin-left: 165px;
 }
 
-.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item:hover {
-  text-shadow: none;
-  margin: 0;
-  box-shadow: 0 0 5px 0 black;
-  border: 1px solid;
+/* Sheet Background and Bug */
+
+.weirdwizard.item .tab[data-tab] {
+  --bug: url(../assets/bugs/talent.webp);
+  background: url(../assets/drawings/star-sheet.svg), var(--bug);
+  background-repeat: no-repeat;
+  background-position: center calc(50% - 10px), bottom;
+  background-size: auto 50%, 390px;
+  padding-bottom: 50px;
 }
 
-.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="summary"] {
-  background-image: url('../assets/icons/diploma.svg');
+.weirdwizard.charoption .tab[data-tab] {
+  margin-left: 245px;
+  background-position: center calc(50% - 10px), bottom;
+  background-origin: padding-box;
+  background-size: 50% auto, 270px;
+  padding-bottom: 35px;
 }
 
-.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="details"],
-.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="description"] {
-  background-image: url('../assets/icons/scroll-quill.svg');
+.weirdwizard.charoption .profession-sheet .tab[data-tab] {
+  margin-left: 175px;
 }
 
-.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="equipment"] {
-  background-image: url('../assets/icons/backpack.svg');
+.weirdwizard .talent-sheet.magical .tab[data-tab],
+.weirdwizard.chat-message.magical {
+  --bug: url(../assets/bugs/talent-magical.webp);
 }
 
-.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="talents"] {
-  background-image: url('../assets/icons/skills.svg');
+.weirdwizard.chat-message.npc {
+  --bug: url(../assets/bugs/talent-npc.webp);
 }
 
-.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="spells"] {
-  background-image: url('../assets/icons/spell-book.svg');
+.weirdwizard .equipment-sheet .tab[data-tab],
+.weirdwizard.chat-message.Equipment {
+  --bug: url(../assets/bugs/equipment.webp);
 }
 
-.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="effects"] {
-  background-image: url('/icons/svg/aura.svg');
+.weirdwizard .equipment-sheet.weapon .tab[data-tab],
+.weirdwizard.chat-message.Weapon {
+  --bug: url(../assets/bugs/weapon.webp);
 }
 
-.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item[data-tab="automation"] {
-  background-image: url('../assets/icons/gear-hammer.svg');
+.weirdwizard .spell-sheet .tab[data-tab],
+.weirdwizard.chat-message.Spell {
+  --bug: url(../assets/bugs/spell.webp);
 }
 
-/* Sheet Menu */
-.weirdwizard .sheet-menu {
-  position: absolute !important;
-  left: 100%;
-  top: calc(1.5em - 3px);
-  width: 44px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  color: white;
-  font-size: 22px;
-  text-align: center;
-  background: no-repeat;
-  background-color: var(--purple-darker);
-  background-position: calc(50% - 3px) center;
-  background-size: auto 80%;
-  border: 1px solid transparent;
-  border-radius: 0 8px 8px 0;
-  filter: drop-shadow(3px 0 3px black);
+.weirdwizard .ancestry-sheet .tab[data-tab] {
+  --bug: url(../assets/bugs/ancestry.webp);
 }
 
-.weirdwizard .sheet-menu:hover {
-  text-shadow: none;
-  border: 1px solid black;
+.weirdwizard .profession-sheet .tab[data-tab] {
+  --bug: url(../assets/bugs/profession.webp);
 }
 
-.weirdwizard .sheet-menu .edit-mode-icon {
-  position: absolute;
-  right: 5px;
-  bottom: 6px;
-  font-size: var(--font-size-12);
-  color: var(--pink);
-  text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black;
+.weirdwizard .path-sheet .tab[data-tab],
+.weirdwizard.character .tab[data-tab] {
+  --bug: url(../assets/bugs/path-novice.webp);
 }
 
-.weirdwizard .sheet-menu .edit-mode-icon.fa-lock-open {
-  color: goldenrod;
+.weirdwizard .path-sheet.expert .tab[data-tab],
+.weirdwizard.character.expert .tab[data-tab] {
+  --bug: url(../assets/bugs/path-expert.webp);
 }
 
-/* Change Disposition Buttons */
-.weirdwizard .change-disposition.label {
-  border-image: url(../assets/ui/headers/pointed-double-purple-dark.svg);
-  border-image-slice: 15 15 fill;
-  border-image-width: 20px;
-  filter: drop-shadow(0 0 2px black);
-  padding: 0 10px;
-  color: white;
-  font-family: var(--font-capitalized);
-  font-size: var(--font-size-20);
-  font-weight: normal;
-  letter-spacing: 0.03em;
+.weirdwizard .path-sheet.master .tab[data-tab],
+.weirdwizard.character.master .tab[data-tab] {
+  --bug: url(../assets/bugs/path-master.webp);
 }
 
-.weirdwizard .change-disposition:hover {
-  filter: drop-shadow(var(--filter-shadow-purple));
-  cursor: pointer;
+.weirdwizard.npc .tab[data-tab] {
+  --bug: url(../assets/bugs/npc-enemy.webp);
+}
+
+.weirdwizard.npc .ally .tab[data-tab] {
+  --bug: url(../assets/bugs/npc-ally.webp);
+}
+
+/* Sheet Details Tab */
+.weirdwizard.application .tab.details prose-mirror {
+  min-height: 100px;
 }
 
 /* Sheet Automation Tab */
@@ -2124,6 +2058,167 @@ body {
   border-image-width: 0px 30px 14px 30px;
   border-image-repeat: repeat stretch;
 }
+
+/* Effects Tab */
+
+.weirdwizard .afflictions {
+  display: inline-flex;
+  align-items: center;
+  flex-flow: wrap;
+  gap: 5px;
+}
+
+.weirdwizard .affliction {
+  display: inline-flex;
+  cursor: help;
+}
+
+.weirdwizard .afflictions img {
+  width: 14px;
+  height: 14px;
+  align-self: center;
+  border: none;
+  margin-right: 2px;
+  filter: invert(1);
+}
+
+.weirdwizard .affliction:not(:last-of-type)::after {
+  content: ", ";
+}
+
+.weirdwizard .effects-wrapper {
+  display: flex;
+  flex-flow: column;
+  gap: 5px;
+}
+
+.weirdwizard .temporary-effects .item-name {
+  flex: 0.9;
+}
+
+.weirdwizard .temporary-effects .effect-duration {
+  flex: 0.3;
+}
+
+/* Actor Statbox */
+
+.weirdwizard .statbox {
+  display: flex;
+  flex-flow: column wrap;
+  text-align: left;
+  padding: 1px 0px;
+  border-radius: 2px;
+}
+
+.weirdwizard.npc .window-content .statbox-sections {
+  gap: 5px 15px;
+}
+
+.weirdwizard.npc .statbox {
+  min-width: 275px;
+}
+
+.weirdwizard .statbox > :last-child {
+  flex: 1;
+}
+
+.weirdwizard .statbox > h1.charname,
+.weirdwizard .statbox .item-list .item:nth-of-type(odd) {
+  background: none;
+}
+
+.weirdwizard.npc .statbox-section:not(:first-of-type) {
+  padding-top: 8px;
+}
+
+.weirdwizard .statbox .stat {
+  margin: 2px 5px;
+}
+
+.weirdwizard .statbox .stat-inline {
+  margin: 2px 5px;
+}
+
+.weirdwizard.npc .statbox .defense-line {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.weirdwizard.npc .statbox .equipment-list {
+  display: inline-flex;
+  flex-flow: wrap;
+  gap: 0 5px;
+  list-style: none;
+  font-size: small;
+}
+
+.weirdwizard.npc .statbox .equipment-list .item {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.weirdwizard.npc .statbox .equipment-list .item:not(:last-of-type)::after {
+  content: ", ";
+}
+
+.weirdwizard.npc .statbox .equipment-list .item-button[data-action=itemToggleEffects] {
+  margin-left: 5px;
+}
+
+.weirdwizard.npc .statbox .equipment-list .item label {
+  color: var(--body-text-color);
+  font-weight: normal;
+}
+
+.weirdwizard .window-content .statbox > h4 {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--purple-medium);
+  border-radius: 3px;
+  margin: 3px 0 0;
+  padding: 2px 0 2px 5px;
+}
+
+.weirdwizard .window-content .statbox > h4:first-of-type {
+  margin-top: 0;
+}
+
+.weirdwizard .statbox-header .list-entries {
+  display: flex;
+  align-items: center;
+}
+
+.weirdwizard .statbox-header .statbox-level {
+  float: right;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.weirdwizard .statbox-header .statbox-difficulty {
+  font-size: 0.7rem;
+  font-weight: bold;
+  float: right;
+  padding-top: 1px;
+}
+
+.weirdwizard .statbox-header .statbox-level > select,
+.weirdwizard .statbox-header .statbox-difficulty > select {
+  color: white;
+  font-weight: bold;
+}
+
+.weirdwizard .statbox-header .statbox-level > select > option,
+.weirdwizard .statbox-header .statbox-difficulty > select > option {
+  color: var(--body-text-color);
+  font-family: var(--font-body);
+  font-size: var(--font-size-14);
+}
+
+/* -------------------------------------------- */
+/*  Internal Sheet Elements                     */
+/* -------------------------------------------- */
 
 /* Prose Mirror Text Editor */
 
@@ -2144,16 +2239,9 @@ body {
 }
 
 .weirdwizard .editor-content {
-  min-height: 2.5em;
   background: var(--background-color-shadow);
   padding: 1px 5px;
   border-radius: 5px;
-}
-
-.weirdwizard.actor .editor-content:first-child {
-  background: none;
-  padding: 0;
-  min-height: auto;
 }
 
 .weirdwizard.actor .editor-content p:not(:first-child) {
@@ -2202,10 +2290,55 @@ body {
   margin: 0;
 }
 
+/* NPC: Attributes */
+
+.weirdwizard.npc .attributes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 5px 0;
+}
+
+.weirdwizard.npc .attributes .stat {
+  --stat-size: 55px;
+  flex: 1;
+  height: var(--stat-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--purple-dark);
+  font-weight: bold;
+  background: url(/systems/weirdwizard/assets/ui/badges/npc-attribute.svg) no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.weirdwizard.npc .attributes .stat > div {
+  display: flex;
+  flex-flow: column;
+  width: var(--stat-size);
+  padding-left: 2px;
+}
+
+.weirdwizard.npc .attributes .stat > a {
+  width: calc(var(--stat-size) / 2 + 5px);
+  padding-right: 7px;
+}
+
+.weirdwizard.npc .attributes .stat > div > *:first-child {
+  font-size: var(--font-size-12);
+}
+
+.weirdwizard.npc .attributes .stat > div > *:last-child {
+  font-size: var(--font-size-16);
+}
+
 .weirdwizard .attribute label {
   font-weight: bold;
 }
 
+/* Internal Element Formatting */
 .weirdwizard .window-content .flexrow {
   gap: 5px;
 }
@@ -2284,11 +2417,14 @@ body {
 .weirdwizard .items-header > * {
   font-size: var(--font-size-12);
 }
+
 .weirdwizard .item-fixed {
   flex: 0 0 60px;
 }
+
 .weirdwizard .item-traits {
   flex: 2.5;
+  text-align: left;
 }
 
 .weirdwizard .item-shrink {
@@ -2341,15 +2477,6 @@ body {
   text-shadow: 0 0 5px var(--color-shadow-primary);
 }
 
-/*.weirdwizard .item .item-name .item-image {
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 30px;
-  flex: 0 0 30px;
-  height: 30px;
-  background-size: 30px;
-  border: none;
-  margin-right: 5px;
-}*/
 .weirdwizard .items-header .item-name {
   display: flex;
   font-weight: bold;
@@ -2389,8 +2516,10 @@ body {
 }
 
 .weirdwizard .effect-changes {
-  flex: 3;
+  display: flex;
+  gap: 5px;
 }
+
 .weirdwizard .effect-controls a {
   margin: 0;
 }
@@ -2469,8 +2598,7 @@ input[type="checkbox"].checkbox-uses {
   border-bottom: 1px solid #c9c7b8;
   font-size: var(--font-size-12);
 }
-
-.weirdwizard .item-list .item > div:not(:first-child):not(.effect-controls):not(.attack-rider) {
+.weirdwizard .item-list .item > div:not(:first-child):not(.effect-controls):not(.attack-rider):not(.item-traits) {
   text-align: center;
 }
 
@@ -2529,7 +2657,7 @@ input[type="checkbox"].checkbox-uses {
   text-indent: 0;
 }
 
-.weirdwizard .edit-mode .statbox:hover .list-entry > .buttons {
+.weirdwizard.edit-mode .statbox:hover .list-entry > .buttons {
   background: var(--pink);
   border: 1px solid var(--purple-medium);
   border-radius: 15px;
@@ -2540,7 +2668,7 @@ input[type="checkbox"].checkbox-uses {
 } 
 
 .weirdwizard .item p:nth-child(-n+1),
-.weirdwizard .list-entries > :not(:first-child) {
+.weirdwizard.edit-mode .list-entries > :not(:first-child):hover {
   display: inline;
 }
 
@@ -2591,7 +2719,9 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard .benefit-block .buttons > a,
 .weirdwizard .statbox .buttons > a,
-.weirdwizard .list-entries .array-button[data-action=add],
+.weirdwizard .list-entries .buttons > .array-button,
+.weirdwizard .list-entries .array-button[data-action=entryCreate],
+.weirdwizard:not(.charoption) .list-entries .array-button[data-action="add"],
 .weirdwizard .list-entries .item-create,
 .weirdwizard .statbox h6 .item-create,
 .weirdwizard .hover-only {
@@ -2599,13 +2729,14 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .weirdwizard .benefit-block:hover .buttons > a,
-.weirdwizard .edit-mode .statbox:hover .buttons > a,
-.weirdwizard .statbox .buttons > a[data-action="item-toggle-effects"],
-.weirdwizard .edit-mode .statbox:hover .array-button,
-.weirdwizard .edit-mode .list-entries:hover .array-button,
-.weirdwizard .edit-mode .statbox:hover .list-entries .item-create,
-.weirdwizard .edit-mode .statbox:hover h6 .item-create,
-.weirdwizard .edit-mode .statbox:hover .hover-only {
+.weirdwizard.edit-mode .statbox:hover .buttons > a,
+.weirdwizard .statbox .buttons > a[data-action="itemToggleEffects"],
+.weirdwizard .statbox .buttons > a[data-action="itemToggleReloaded"],
+.weirdwizard.edit-mode .statbox:hover .array-button,
+.weirdwizard.edit-mode .list-entries:hover .array-button,
+.weirdwizard.edit-mode .statbox:hover .list-entries .item-create,
+.weirdwizard.edit-mode .statbox:hover h6 .item-create,
+.weirdwizard.edit-mode .statbox:hover .hover-only {
   display: inline-block;
 }
 
@@ -2642,6 +2773,7 @@ input[type="checkbox"].checkbox-uses {
   flex-wrap: nowrap;
   gap: 3px;
   text-indent: 0;
+  color: var(--body-text-color);
   /*margin: 0 5px;*/
 }
 
@@ -2653,13 +2785,21 @@ input[type="checkbox"].checkbox-uses {
 
 .buttons i,
 .item-create i,
-.array-button[data-action="add"] i {
+.array-button i {
   font-size: smaller;
+}
+
+.weirdwizard .item-button[data-action=itemToggleEffects] i,
+.weirdwizard .item-collapse i {
+  font-size: inherit;
+}
+
+.item-button i.fa-toggle-off {
+  color: #999999;
 }
 
 .weirdwizard .item-button:hover,
 .weirdwizard .item-button:focus {
-  color: black;
   text-shadow: var(--text-shadow-icon-purple);
 }
 
@@ -2670,11 +2810,8 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard .details-list {
   list-style: none;
   padding: 0;
-  /*margin: 0;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  color: #444;*/
 }
+
 .weirdwizard .detail {
   margin-bottom: 10px;
 }
@@ -2714,12 +2851,11 @@ input[type="checkbox"].checkbox-uses {
   padding: 1px 5px;
   display: flex;
   flex-wrap: nowrap;
+  gap: 7px;
 }
 
-.weirdwizard .coins-list li:not(:last-child) {
-  float: left;
-  margin-right: 7px;
-  
+.weirdwizard .coins-list li {
+  margin-bottom: 0;
 }
 
 .weirdwizard .coins-list .input-wrap > * {
@@ -2731,6 +2867,7 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard .fa-coins.silver,
 .weirdwizard .fa-coins.copper {
   font-size: small;
+  line-height: 1lh;
   filter: drop-shadow(0 0 1px black);
 }
 
@@ -2794,7 +2931,7 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .weirdwizard .container-content {
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.05);
   border: 2px solid var(--purple-dark);
   border-top: none;
   display: none;
@@ -2806,8 +2943,17 @@ input[type="checkbox"].checkbox-uses {
   padding: 0;
 }
 
-.weirdwizard .item-list.container-content .item:nth-of-type(odd) {
-  background: none;
+.weirdwizard .container .item-holding {
+  cursor: pointer;
+}
+
+.weirdwizard .container .item-collapse {
+  display: none;
+  cursor: pointer;
+}
+
+.weirdwizard .container:hover .item-collapse {
+  display: block;
 }
 
 /* Char Options */
@@ -2906,7 +3052,84 @@ input[type="checkbox"].checkbox-uses {
   margin-right: 0;
 }
 
-/* Tooltips Customization */
+/* ---------------------------- Non-Sheet Applications -----------------------------*/
+
+.application.weirdwizard input[type="checkbox"]::before {
+  content: "";
+  background: url(../assets/ui/checkbox/blank.svg);
+  background-size: contain;
+}
+
+.application.weirdwizard input[type="checkbox"]:checked::before {
+  content: "";
+  background-image: url(../assets/ui/checkbox/tick.svg);
+}
+
+.application.weirdwizard input[type="checkbox"]:checked::after {
+  content: "";
+}
+
+.application.weirdwizard .scrollable {
+  --scroll-margin: 0.75rem;
+  margin-right: 0 !important;
+  overflow: hidden auto;
+}
+
+/* -------------------------------------------- */
+/*  Dialogs                                     */
+/* -------------------------------------------- */
+
+.dialog-sure {
+  text-align: center;
+  font-size: var(--font-size-18);
+  font-weight: bold;
+}
+
+/* Dialog Buttons */
+
+.dialog .dialog-buttons button,
+.dialog .dialog-buttons button.default,
+#multi-choice .mc-buttons button,
+#roll-attribute .form-group button,
+#roll-damage .form-group button,
+.folder-edit button[type=submit] {
+  border: none;
+  background: none;
+  border-image-source: url(../assets/ui/plates/single-transparent-thick.svg);  
+  border-image-slice: 118 fill;
+  border-image-width: 5px;
+  margin: 0 5px 0 0;
+  padding: 0 5px;
+  color: black;
+  font-family: var(--font-capitalized);
+  font-size: var(--font-size-16);
+}
+
+.folder-edit button[type=submit] {
+  margin-top: 5px;
+}
+
+.dialog .dialog-buttons button.default {
+  filter: drop-shadow(0 0 0px var(--purple-dark));
+}
+
+.dialog .dialog-buttons button:hover,
+.dialog .dialog-buttons button:focus,
+#multi-choice .mc-buttons button:hover,
+#multi-choice .mc-buttons button:focus,
+#roll-attribute .form-group button:hover,
+#roll-attribute .form-group button:focus,
+#roll-damage .form-group button:hover,
+#roll-damage .form-group button:focus {
+  border-image-source: url(../assets/ui/plates/single-transparent-thicker.svg);
+  border-image-slice: 128 fill;
+  border-image-width: 6px;
+  box-shadow: none;
+}
+
+/* -------------------------------------------- */
+/*  Tooltips                                    */
+/* -------------------------------------------- */
 
 #tooltip:not(.tour),
 .locked-tooltip:not(.tour) {
@@ -2977,298 +3200,10 @@ input[type="checkbox"].checkbox-uses {
   display: none;
 }
 
-/* Affliction Tab */
+/* -------------------------------------------- */
+/*  Multi-Choice App                            */
+/* -------------------------------------------- */
 
-.afflictions {
-  display: flex;
-  flex-direction: column;
-}
-
-.dl-item-row-header, .selectable {
-  background: #00000005;
-  border-radius: 2px;
-  border: 1px solid #0000001a;
-}
-
-.selectable {
-  border-radius: 4px;
-  box-sizing: content-box;
-  padding: 2px;
-  height: 16px;
-  position: relative;
-  display: inline-flex !important;
-  width: fit-content;
-}
-
-.remove-afflictions {
-  align-self: center;
-  margin-top: 5px;
-  padding: 2px 5px;
-}
-
-.affliction.selectable {
-  padding-right: 6px;
-}
-.selectable input[type=number] {
-  pointer-events: none !important;
-  margin-left: 5px !important;
-  cursor: default !important;
-}
-.affliction i {
-  width: 16px;
-  height: 16px;
-  background-color: #303030;
-  flex-shrink: 0;
-}
-.affliction img {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  align-self: center;
-  border: none;
-  margin-left: 2px;
-}
-.affliction .sep {
-  border-left: 1px solid #0000001a;
-  padding-left: 2px;
-  margin-left: 2px;
-}
-.selectable:not(.nohover):hover, .selectable:not(.nohover):hover span {
-  border-color: dimgray;
-  cursor: pointer;
-}
-/*.affliction*/.selectable input[type=checkbox] {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  opacity: 0; /* Hide the checkbox */
-}
-/*.affliction*/.selectable input[type=checkbox]:hover {
-  cursor: pointer;
-}
-/*.affliction*/.selectable:not(.selected) {
-  color: gray;
-}
-/*.affliction*/.selectable:not(.selected) i {
-  background-color: gray;
-}
-/*.affliction*/.selectable.selected, /*.affliction*/.selectable.selected .sep {
-  border-color: var(--purple-dark);
-  background-color: var(--pink);
-}
-.selectable input {
-  text-align: center !important;
-  margin: 0 !important;
-  height: 100% !important;
-  min-width: 24px;
-  color: black !important;
-}
-
-.selectable input:hover, .selectable input:focus {
-  cursor: text;
-  box-shadow: 0 0 2px 1px var(--color-shadow-primary) !important;
-  background-color: transparent !important;
-  padding: 0 !important;
-  border: 1px solid transparent !important;
-}
-
-.selectable.nohover:hover {
-  cursor: default;
-}
-
-/* Affliction Tab Icons */
-
-[class*="icon-"] {
-  -webkit-mask-size: cover;
-  mask-size: cover;
-  display: inline-block;
-}
-
-[class*="icon-"].gray {
-  background-color: gray;
-}
-
-[class*="icon-"].black {
-  background-color: black;
-}
-
-[class*="icon-"].hover-red:hover {
-  background-color: var(--demonlord-red);
-}
-
-i.icon-Blinded {
-  -webkit-mask-image: url("/icons/svg/blind.svg");
-  mask-image: url("/icons/svg/blind.svg");
-}
-
-i.icon-Confused {
-  -webkit-mask-image: url("/icons/svg/stoned.svg");
-  mask-image: url("/icons/svg/stoned.svg");
-}
-
-i.icon-Controlled {
-  -webkit-mask-image: url("../assets/icons/puppet.svg");
-  mask-image: url("../assets/icons/puppet.svg");
-}
-
-i.icon-Cursed {
-  -webkit-mask-image: url("../assets/icons/bleeding-eye.svg");
-  mask-image: url("../assets/icons/bleeding-eye.svg");
-}
-
-i.icon-Deafened {
-  -webkit-mask-image: url("/icons/svg/deaf.svg");
-  mask-image: url("/icons/svg/deaf.svg");
-}
-
-i.icon-Frightened {
-  -webkit-mask-image: url("/icons/svg/terror.svg");
-  mask-image: url("/icons/svg/terror.svg");
-}
-
-i.icon-Held {
-  -webkit-mask-image: url("../assets/icons/manacles.svg");
-  mask-image: url("../assets/icons/manacles.svg");
-}
-
-i.icon-ImpairedStr {
-  -webkit-mask-image: url("../assets/icons/biceps-impaired.svg");
-  mask-image: url("../assets/icons/biceps-impaired.svg");
-}
-
-i.icon-ImpairedAgi {
-  -webkit-mask-image: url("../assets/icons/agility-impaired.svg");
-  mask-image: url("../assets/icons/agility-impaired.svg");
-}
-
-i.icon-ImpairedInt {
-  -webkit-mask-image: url("../assets/icons/open-book-impaired.svg");
-  mask-image: url("../assets/icons/open-book-impaired.svg");
-}
-
-i.icon-ImpairedWil {
-  -webkit-mask-image: url("../assets/icons/burning-star-impaired.svg");
-  mask-image: url("../assets/icons/burning-star-impaired.svg");
-}
-
-i.icon-OnFire {
-  -webkit-mask-image: url("../assets/icons/flaming-claw.svg");
-  mask-image: url("../assets/icons/flaming-claw.svg");
-}
-
-i.icon-Poisoned {
-  -webkit-mask-image: url("../assets/icons/poison.svg");
-  mask-image: url("../assets/icons/poison.svg");
-}
-
-i.icon-Prone {
-  -webkit-mask-image: url("../assets/icons/fallen.svg");
-  mask-image: url("../assets/icons/fallen.svg");
-}
-
-i.icon-Slowed {
-  -webkit-mask-image: url("../assets/icons/snail.svg");
-  mask-image: url("../assets/icons/snail.svg");
-}
-
-i.icon-Stunned {
-  -webkit-mask-image: url("/icons/svg/daze.svg");
-  mask-image: url("/icons/svg/daze.svg");
-}
-
-i.icon-Unconscious {
-  -webkit-mask-image: url("/icons/svg/unconscious.svg");
-  mask-image: url("/icons/svg/unconscious.svg");
-}
-
-i.icon-Asleep {
-  -webkit-mask-image: url("/icons/svg/sleep.svg");
-  mask-image: url("/icons/svg/sleep.svg");
-}
-
-i.icon-Vulnerable {
-  -webkit-mask-image: url("../assets/icons/broken-shield.svg");
-  mask-image: url("../assets/icons/broken-shield.svg");
-}
-
-i.icon-Weakened {
-  -webkit-mask-image: url("../assets/icons/back-pain.svg");
-  mask-image: url("../assets/icons/back-pain.svg");
-}
-
-
-/* ---------------------------- Applications -----------------------------*/
-
-.application.weirdwizard input[type="checkbox"]::before {
-  content: "";
-  background: url(../assets/ui/checkbox/blank.svg);
-  background-size: contain;
-}
-
-.application.weirdwizard input[type="checkbox"]:checked::before {
-  content: "";
-  background-image: url(../assets/ui/checkbox/tick.svg);
-}
-
-.application.weirdwizard input[type="checkbox"]:checked::after {
-  content: "";
-}
-
-.application.weirdwizard .scrollable {
-  --scroll-margin: 0.75rem;
-  margin-right: 0 !important;
-  overflow: hidden auto;
-}
-
-.dialog-sure {
-  text-align: center;
-  font-size: var(--font-size-18);
-  font-weight: bold;
-}
-
-/* Dialog Buttons */
-
-.dialog .dialog-buttons button,
-.dialog .dialog-buttons button.default,
-#multi-choice .mc-buttons button,
-#roll-attribute .form-group button,
-#roll-damage .form-group button,
-.folder-edit button[type=submit] {
-  border: none;
-  background: none;
-  border-image-source: url(../assets/ui/plates/single-transparent-thick.svg);  
-  border-image-slice: 118 fill;
-  border-image-width: 5px;
-  margin: 0 5px 0 0;
-  padding: 0 5px;
-  color: black;
-  font-family: var(--font-capitalized);
-  font-size: var(--font-size-16);
-}
-
-.folder-edit button[type=submit] {
-  margin-top: 5px;
-}
-
-.dialog .dialog-buttons button.default {
-  filter: drop-shadow(0 0 0px var(--purple-dark));
-}
-
-.dialog .dialog-buttons button:hover,
-.dialog .dialog-buttons button:focus,
-#multi-choice .mc-buttons button:hover,
-#multi-choice .mc-buttons button:focus,
-#roll-attribute .form-group button:hover,
-#roll-attribute .form-group button:focus,
-#roll-damage .form-group button:hover,
-#roll-damage .form-group button:focus {
-  border-image-source: url(../assets/ui/plates/single-transparent-thicker.svg);
-  border-image-slice: 128 fill;
-  border-image-width: 6px;
-  box-shadow: none;
-}
-
-/* Contextual Multi Choice */
 #multi-choice {
   max-width: 400px;
 }
@@ -3335,6 +3270,10 @@ i.icon-Weakened {
   gap: 5px;
 }
 
+#multi-choice .updateAfflictions .choices-grid label {
+  white-space: nowrap;
+}
+
 #multi-choice .choices-grid label:hover {
   text-shadow: var(--text-shadow-bold-black);
 }
@@ -3375,39 +3314,123 @@ i.icon-Weakened {
   flex: 1;
 }
 
-/* Targeting HUD */
+/* -------------------------------------------- */
+/*  Context Menus                               */
+/* -------------------------------------------- */
 
-.weirdwizard.targeting-hud {
-  position: absolute;
-  left: calc(50% - 200px);
-  top: 6%;
+/* Context Menu: All */
+#context-menu li.context-item {
   display: flex;
-  flex-direction: column;
-  gap: 5px;
-  border: 1px solid var(--purple-dark);
+  align-items: center;
+}
+
+#context-menu li.context-item > i {
+  line-height: 1;
+  display: inline-flex;
+  justify-content: center;
+}
+
+#context-menu li.context-item > i > img {
+  height: auto;
+  flex: 0;
+}
+
+/* Context Menu: Sheet Menu */
+
+.weirdwizard.sheet .sheet-menu #context-menu {
+  left: auto;
+  right: -5px;
+  text-align: left;
+}
+
+/* Context Menu: Item */
+.weirdwizard.sheet #context-menu {
+  min-width: 200px;
+  font-size: small;
+}
+
+.weirdwizard.sheet #context-menu li.context-item {
+  white-space: pre-wrap;
+  line-height: 1lh;
   padding: 5px;
+  text-indent: 0;
+}
+
+/* Context Menu: Chat */
+.chat-button #context-menu,
+.enricher-call #context-menu {
+  overflow-x: clip;
+  overflow-y: auto;
+  max-height: 50vh;
+  padding: 5px 0;
   border-radius: 5px;
-  background: rgba(var(--purple-dark-rgb), 0.3);
-  color: white;
-}
-
-.weirdwizard.targeting-hud .buttons {
-  display: flex;
-  gap: 5px;
-}
-
-.weirdwizard.targeting-hud button {
-  white-space: nowrap;
-  background: var(--color-border-light-2);
-}
-
-.weirdwizard .health-display {
+  text-shadow: none;
+  font-weight: normal;
   text-align: center;
-  font-weight: bold;
-  width: 30px;
+  font-size: var(--font-size-12);
 }
 
-/* Roll Apps */
+.chat-button[data-action="apply-damage-double"] #context-menu,
+.chat-button[data-action="apply-healing"] #context-menu {
+  left: auto;
+  right: 0;
+}
+
+.chat-button #context-menu li.context-group > ol > li:not(:first-child),
+.enricher-call #context-menu li.context-group > ol > li:not(:first-child) {
+  margin-top: 5px;
+}
+
+.chat-button #context-menu .context-items,
+.enricher-call #context-menu .context-items {
+  white-space: nowrap;
+}
+
+.chat-button #context-menu li.context-item,
+.enricher-call #context-menu li.context-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 5px;
+  line-height: normal;
+}
+
+.chat-button #context-menu li.context-item:hover,
+.enricher-call #context-menu li.context-item:hover {
+  background: rgba(var(--purple-dark-rgb), 0.5);
+}
+
+.chat-button #context-menu img,
+.enricher-call #context-menu img {
+  height: 20px;
+  border-radius: 50%;
+}
+
+.chat-button .context-group:not(:first-child),
+.enricher-call .context-group:not(:first-child) {
+  margin-top: 5px;
+}
+
+.chat-button .context-header,
+.enricher-call .context-header {
+  padding: 3px 5px;
+  margin: 0 2px 5px;
+  border: 1px solid dimgray;
+  border-radius: 5px 5px 0 0;
+  background: rgba(255,255,255,0.05);
+  text-align: left;
+  cursor: default;
+}
+
+.chat-button .context-header i,
+.enricher-call .context-header i {
+  width: 16px;
+  text-align: center;
+}
+
+/* -------------------------------------------- */
+/*  Roll Apps                                   */
+/* -------------------------------------------- */
 
 #roll-attribute form,
 #roll-damage form {
@@ -3578,7 +3601,161 @@ i.icon-Weakened {
   margin: 0 15px 10px;
 }
 
-/* ---------------------------- Quest Calendar App -----------------------------*/
+/* -------------------------------------------- */
+/*  Targeting HUD                               */
+/* -------------------------------------------- */
+
+.weirdwizard.targeting-hud {
+  position: absolute;
+  left: calc(50% - 200px);
+  top: 6%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border: 1px solid var(--purple-dark);
+  padding: 5px;
+  border-radius: 5px;
+  background: rgba(var(--purple-dark-rgb), 0.3);
+  color: white;
+}
+
+.weirdwizard.targeting-hud .buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.weirdwizard.targeting-hud button {
+  white-space: nowrap;
+  background: var(--color-border-light-2);
+}
+
+.weirdwizard .health-display {
+  text-align: center;
+  font-weight: bold;
+  width: 30px;
+}
+
+/* -------------------------------------------- */
+/*  Sage Tools App                              */
+/* -------------------------------------------- */
+
+#sage-tools .sheet-tabs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-image: url(../assets/ui/headers/pointed-double-purple-dark.svg);
+  border-image-slice: 15 15 fill;
+  border-image-width: 20px;
+  border-image-outset: 0 5px;
+  filter: drop-shadow(0 0 2px black);
+  padding: 5px 10px;
+  font-family: var(--font-capitalized);
+  color: white;
+  white-space: nowrap;
+}
+
+#sage-tools .sheet-tabs > * { 
+  line-height: 1;
+}
+
+#sage-tools .sheet-tabs > .active {
+  font-weight: bold;
+  text-shadow: 0 0 5px black;
+}
+
+#sage-tools .tab {
+  background: url(../assets/drawings/star-sheet.svg) no-repeat;
+  background-position: center;
+  background-size: 50%;
+  padding: 0 5px;
+}
+
+#sage-tools ol {
+  display: flex;
+  flex-flow: column;
+  gap: 5px;
+  list-style: none;
+  padding: 0;
+}
+
+#sage-tools li > div {
+  margin: 5px 0;
+}
+
+#sage-tools label {
+  color: var(--purple-dark);
+  font-weight: bold;
+}
+
+#sage-tools .trackers ol > li > label {
+  margin-right: auto;
+}
+
+#sage-tools .ci-list {
+  display: flex;
+  flex-flow: column;
+  gap: 5px;
+}
+
+#sage-tools .user-actors > div {
+  display: flex;
+  align-items: center;
+  gap: 3px 5px;
+  flex-wrap: wrap;
+}
+
+#sage-tools .button,
+#sage-tools .index > div > a {
+  padding: 0 5px;
+  font-size: inherit;
+  white-space: nowrap;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border-light-2);
+  border-radius: 3px;
+  box-shadow: 0 0 2px #fff inset;
+  padding: 0 4px;
+}
+
+#sage-tools .button:hover,
+#sage-tools .index > div > a:hover {
+  filter: drop-shadow(var(--filter-shadow-purple));
+  cursor: pointer;
+}
+
+#sage-tools .index > div > .enricher-index {
+  background-image: var(--banner);
+  background-size: cover;
+  font-size: var(--font-size-20);
+  box-shadow: 0 0 2px 0px black;
+  border: none;
+}
+
+#sage-tools .users .button {
+  padding: 3px 5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#sage-tools .button img {
+  height: 1lh;
+  width: auto;
+  margin-left: -2px;
+}
+
+#sage-tools .bug {
+  display: block;
+  width: 100%;
+  height: 40px;
+  background: url(../assets/bugs/spell.webp) no-repeat;
+  background-position: center;
+  background-size: 100%;
+  opacity: 0.5;
+}
+
+/* -------------------------------------------- */
+/*  Quest Calendar                              */
+/* -------------------------------------------- */
 
 #quest-calendar .window-content {
   background: none;
@@ -3760,7 +3937,51 @@ form.quest-calendar {
   margin-bottom: 10px;
 }
 
-/* ---------------------------- Foundry UI Overrides -----------------------------*/
+/* -------------------------------------------- */
+/*  Foundry UI Overrides                        */
+/* -------------------------------------------- */
+
+/* Top Left HUD */
+
+#controls {
+  padding: 10px 15px 0px;
+}
+
+#logo {
+  content: url(../assets/ui/sotww-logo.png);
+  margin: 12px 0 0 10px;
+  height: fit-content;
+  width: 150px;
+}
+
+#ui-top.offset {
+  margin-left: -50px;
+}
+
+/* Pause Menu */
+
+#pause {
+  background: none;
+}
+
+#pause img {
+  content: url(../assets/drawings/pause-star.webp);
+  width: 250px;
+  height: 250px;
+  top: calc(50% - 125px);
+  left: calc(50% - 125px);
+  opacity: 0.7;
+  animation-duration: 10s;
+}
+
+#pause figcaption {
+  color: var(--body-text-color);
+  font-weight: bold;
+  font-family: var(--font-serif);
+  text-transform: uppercase;
+  text-shadow: none;
+  background: url(../assets/drawings/pause-ribbon.webp) no-repeat center;
+}
 
 /* Journal Entry Codes */
 .journal-entry-content code {
@@ -3838,47 +4059,9 @@ form.quest-calendar {
   --banner: url(../assets/ui/banners/hirelings-banner.webp);
 }
 
-/* Top Left Bars */
-
-#controls {
-  padding: 10px 15px 0px;
-}
-
-#logo {
-  content: url(../assets/ui/sotww-logo.png);
-  margin: 12px 0 0 10px;
-  height: fit-content;
-  width: 150px;
-}
-
-#ui-top.offset {
-  margin-left: -50px;
-}
-
-/* Pause Menu */
-
-#pause {
-  background: none;
-}
-
-#pause img {
-  content: url(../assets/drawings/pause-star.webp);
-  width: 250px;
-  height: 250px;
-  top: calc(50% - 125px);
-  left: calc(50% - 125px);
-  opacity: 0.7;
-  animation-duration: 10s;
-}
-
-#pause figcaption {
-  color: var(--body-text-color);
-  font-weight: bold;
-  font-family: var(--font-serif);
-  text-transform: uppercase;
-  text-shadow: none;
-  background: url(../assets/drawings/pause-ribbon.webp) no-repeat center;
-}
+/* -------------------------------------------- */
+/*  Chat Messages                               */
+/* -------------------------------------------- */
 
 /* Chat Elements */
 #chat-form textarea {
@@ -4100,7 +4283,6 @@ form.quest-calendar {
 }
 
 .weirdwizard .message-content {
-  /*display: flex; not working, needs to be applied to generated messages only*/
   flex-flow: column;
   align-items: stretch;
   gap: 5px;
@@ -4336,115 +4518,9 @@ form.quest-calendar {
   justify-content: end;
 }
 
-/* Context Menu: All */
-#context-menu li.context-item {
-  display: flex;
-  align-items: center;
-}
-
-#context-menu li.context-item > i {
-  line-height: 1;
-  display: inline-flex;
-  justify-content: center;
-}
-
-#context-menu li.context-item > i > img {
-  height: auto;
-  flex: 0;
-}
-
-/* Context Menu: Sheet Menu */
-
-.weirdwizard.sheet .sheet-menu #context-menu {
-  left: auto;
-  right: -5px;
-  text-align: left;
-}
-
-/* Context Menu: Item */
-.weirdwizard.sheet #context-menu {
-  min-width: 200px;
-  font-size: small;
-}
-
-.weirdwizard.sheet #context-menu li.context-item {
-  white-space: pre-wrap;
-  line-height: 1lh;
-  padding: 5px;
-  text-indent: 0;
-}
-
-/* Context Menu: Chat */
-.chat-button #context-menu,
-.enricher-call #context-menu {
-  overflow-x: clip;
-  overflow-y: auto;
-  max-height: 50vh;
-  padding: 5px 0;
-  border-radius: 5px;
-  text-shadow: none;
-  font-weight: normal;
-  text-align: center;
-  font-size: var(--font-size-12);
-}
-
-.chat-button[data-action="apply-damage-double"] #context-menu,
-.chat-button[data-action="apply-healing"] #context-menu {
-  left: auto;
-  right: 0;
-}
-
-.chat-button #context-menu li.context-group > ol > li:not(:first-child),
-.enricher-call #context-menu li.context-group > ol > li:not(:first-child) {
-  margin-top: 5px;
-}
-
-.chat-button #context-menu .context-items,
-.enricher-call #context-menu .context-items {
-  white-space: nowrap;
-}
-
-.chat-button #context-menu li.context-item,
-.enricher-call #context-menu li.context-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 0 5px;
-  line-height: normal;
-}
-
-.chat-button #context-menu li.context-item:hover,
-.enricher-call #context-menu li.context-item:hover {
-  background: rgba(var(--purple-dark-rgb), 0.5);
-}
-
-.chat-button #context-menu img,
-.enricher-call #context-menu img {
-  height: 20px;
-  border-radius: 50%;
-}
-
-.chat-button .context-group:not(:first-child),
-.enricher-call .context-group:not(:first-child) {
-  margin-top: 5px;
-}
-
-.chat-button .context-header,
-.enricher-call .context-header {
-  padding: 3px 5px;
-  margin: 0 2px 5px;
-  border: 1px solid dimgray;
-  border-radius: 5px 5px 0 0;
-  background: rgba(255,255,255,0.05);
-  text-align: left;
-  cursor: default;
-}
-
-.chat-button .context-header i,
-.enricher-call .context-header i {
-  width: 16px;
-  text-align: center;
-}
+/* -------------------------------------------- */
+/*  Combat Tracker                              */
+/* -------------------------------------------- */
 
 /* Combat Tracker: Phase Headers */
 .combat-phase {
@@ -4583,121 +4659,6 @@ form.quest-calendar {
   color: #880000;
 }
 
-/* Sage Tools */
-#sage-tools .sheet-tabs {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-image: url(../assets/ui/headers/pointed-double-purple-dark.svg);
-  border-image-slice: 15 15 fill;
-  border-image-width: 20px;
-  border-image-outset: 0 5px;
-  filter: drop-shadow(0 0 2px black);
-  padding: 5px 10px;
-  font-family: var(--font-capitalized);
-  color: white;
-  white-space: nowrap;
-}
-
-#sage-tools .sheet-tabs > * { 
-  line-height: 1;
-}
-
-#sage-tools .sheet-tabs > .active {
-  font-weight: bold;
-  text-shadow: 0 0 5px black;
-}
-
-#sage-tools .tab {
-  background: url(../assets/drawings/star-sheet.svg) no-repeat;
-  background-position: center;
-  background-size: 50%;
-  padding: 0 5px;
-}
-
-#sage-tools ol {
-  display: flex;
-  flex-flow: column;
-  gap: 5px;
-  list-style: none;
-  padding: 0;
-}
-
-#sage-tools li > div {
-  margin: 5px 0;
-}
-
-#sage-tools label {
-  color: var(--purple-dark);
-  font-weight: bold;
-}
-
-#sage-tools .trackers ol > li > label {
-  margin-right: auto;
-}
-
-#sage-tools .ci-list {
-  display: flex;
-  flex-flow: column;
-  gap: 5px;
-}
-
-#sage-tools .user-actors > div {
-  display: flex;
-  align-items: center;
-  gap: 3px 5px;
-  flex-wrap: wrap;
-}
-
-#sage-tools .button,
-#sage-tools .index > div > a {
-  padding: 0 5px;
-  font-size: inherit;
-  white-space: nowrap;
-  background: rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--color-border-light-2);
-  border-radius: 3px;
-  box-shadow: 0 0 2px #fff inset;
-  padding: 0 4px;
-}
-
-#sage-tools .button:hover,
-#sage-tools .index > div > a:hover {
-  filter: drop-shadow(var(--filter-shadow-purple));
-  cursor: pointer;
-}
-
-#sage-tools .index > div > .enricher-index {
-  background-image: var(--banner);
-  background-size: cover;
-  font-size: var(--font-size-20);
-  box-shadow: 0 0 2px 0px black;
-  border: none;
-}
-
-#sage-tools .users .button {
-  padding: 3px 5px;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-
-#sage-tools .button img {
-  height: 1lh;
-  width: auto;
-  margin-left: -2px;
-}
-
-#sage-tools .bug {
-  display: block;
-  width: 100%;
-  height: 40px;
-  background: url(../assets/bugs/spell.webp) no-repeat;
-  background-position: center;
-  background-size: 100%;
-  opacity: 0.5;
-}
-
 /* Tokens */
 
 #token-hud .status-effects .effect-control {
@@ -4719,15 +4680,5 @@ html {
 body {
   margin: auto;
 }
-
-html {
-  height: 100%;
-  display: flex;
-  background: #0a1931;
-}
-body {
-  margin: auto;
-}
-
 
 /*# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImJvaWxlcnBsYXRlLnNjc3MiLCJnbG9iYWwvX3dpbmRvdy5zY3NzIiwidXRpbHMvX3R5cG9ncmFwaHkuc2NzcyIsImJvaWxlcnBsYXRlLmNzcyIsImdsb2JhbC9fZ3JpZC5zY3NzIiwiZ2xvYmFsL19mbGV4LnNjc3MiLCJjb21wb25lbnRzL19pdGVtcy5zY3NzIiwiY29tcG9uZW50cy9fZm9ybXMuc2NzcyIsInV0aWxzL19jb2xvcnMuc2NzcyIsImNvbXBvbmVudHMvX3Jlc291cmNlLnNjc3MiLCJ1dGlscy9fdmFyaWFibGVzLnNjc3MiLCJjb21wb25lbnRzL19lZmZlY3RzLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQ1Esd0ZBQUE7QUFRUixrQkFBQTtBQ1RBO0VBQ0UsaUNDRGE7QUNJZjs7QUZDRTtFQUVFLFdBQUE7RUFDQSx5QkFBQTtFQUNBLGVBQUE7QUVDSjs7QUNUQTs7RUFFRSxhQUFBO0VBQ0EsMEJBQUE7RUFDQSxnREFBQTtFQUNBLFNBQUE7RUFDQSxjQUFBO0VBQ0EsVUFBQTtBRFlGOztBQ1RBO0VBQ0UsMEJBQUE7RUFDQSxnREFBQTtBRFlGOztBQ1RBO0VBQ0UsMEJBQUE7RUFDQSxnREFBQTtBRFlGOztBQ1RBO0VBQ0UsMEJBQUE7RUFDQSxnREFBQTtBRFlGOztBQ1RBO0VBQ0UsMEJBQUE7RUFDQSxnREFBQTtBRFlGOztBQ1RBO0VBQ0UsMEJBQUE7RUFDQSxnREFBQTtBRFlGOztBQ1RBO0VBQ0UsMEJBQUE7RUFDQSxnREFBQTtBRFlGOztBQ1RBO0VBQ0UsMEJBQUE7RUFDQSxnREFBQTtBRFlGOztBQ1RBO0VBQ0UsNEJBQUE7RUFDQSxpREFBQTtBRFlGOztBQ1RBO0VBQ0UsNEJBQUE7RUFDQSxpREFBQTtBRFlGOztBQ1RBO0VBQ0UsNEJBQUE7RUFDQSxpREFBQTtBRFlGOztBQ1JBO0VBQWdCLG9CQUFBO0FEWWhCOztBQ1hBO0VBQWdCLG9CQUFBO0FEZWhCOztBQ2RBO0VBQWdCLG9CQUFBO0FEa0JoQjs7QUNqQkE7RUFBZ0Isb0JBQUE7QURxQmhCOztBQ3BCQTtFQUFnQixvQkFBQTtBRHdCaEI7O0FDdkJBO0VBQWdCLG9CQUFBO0FEMkJoQjs7QUMxQkE7RUFBZ0Isb0JBQUE7QUQ4QmhCOztBQzdCQTtFQUFnQixvQkFBQTtBRGlDaEI7O0FDaENBO0VBQWlCLHFCQUFBO0FEb0NqQjs7QUNuQ0E7RUFBaUIscUJBQUE7QUR1Q2pCOztBQ3RDQTtFQUFpQixxQkFBQTtBRDBDakI7O0FDeENBO0VBQWUsdUJBQUE7QUQ0Q2Y7O0FDM0NBO0VBQWUsdUJBQUE7QUQrQ2Y7O0FDOUNBO0VBQWUsdUJBQUE7QURrRGY7O0FDakRBO0VBQWUsdUJBQUE7QURxRGY7O0FDcERBO0VBQWUsdUJBQUE7QUR3RGY7O0FDdkRBO0VBQWUsdUJBQUE7QUQyRGY7O0FDMURBO0VBQWUsdUJBQUE7QUQ4RGY7O0FDN0RBO0VBQWUsdUJBQUE7QURpRWY7O0FDaEVBO0VBQWdCLHdCQUFBO0FEb0VoQjs7QUNuRUE7RUFBZ0Isd0JBQUE7QUR1RWhCOztBQ3RFQTtFQUFnQix3QkFBQTtBRDBFaEI7O0FFN0pBOzs7RUFHRSx3QkFBQTtFQUFBLHFCQUFBO0VBQUEsdUJBQUE7RUFDQSx5QkFBQTtFQUFBLHNCQUFBO0VBQUEsbUJBQUE7RUFDQSxrQkFBQTtBRmdLRjs7QUU3SkE7RUFDRSx1QkFBQTtFQUFBLG9CQUFBO0VBQUEsMkJBQUE7RUFDQSxnQkFBQTtBRmdLRjs7QUU3SkE7RUFDRSxxQkFBQTtFQUFBLGtCQUFBO0VBQUEseUJBQUE7RUFDQSxpQkFBQTtBRmdLRjs7QUU3SkE7RUFDRSxtQkFBQTtFQUFBLFdBQUE7RUFBQSxPQUFBO0FGZ0tGOztBRTdKQTtFQUNFLHlCQUFBO0VBQUEsc0JBQUE7RUFBQSw4QkFBQTtBRmdLRjs7QUU3SkE7RUFDRSxtQkFBQTtFQUFBLFdBQUE7RUFBQSxPQUFBO0FGZ0tGOztBRTVKQTtFQUNFLHVCQUFBO0VBQUEsb0JBQUE7RUFBQSwyQkFBQTtFQUNBLGdCQUFBO0FGK0pGOztBRTVKQTtFQUNFLHFCQUFBO0VBQUEsa0JBQUE7RUFBQSx5QkFBQTtFQUNBLGlCQUFBO0FGK0pGOztBRTVKQTtFQUNFLHdCQUFBO0VBQUEscUJBQUE7RUFBQSx1QkFBQTtFQUNBLGtCQUFBO0FGK0pGOztBSDdMQSx5Q0FBQTtBQUNBO0VNT0EsOENBQUE7RUFDQSw4Q0FBQTtFQUNBLDhDQUFBO0VBMkZBLGlFQUFBO0FIZ0dBO0FJbk5BO0VBQ0UsaUNMRGE7QUNzTmY7QUlsTkE7RUFDRSxtQkFBQTtFQUFBLGdCQUFBO0VBQUEsWUFBQTtFQUNBLGdCQUFBO0VBQ0Esb0JBQUE7RUFBQSxvQkFBQTtFQUFBLGFBQUE7RUFDQSw4QkFBQTtFQUFBLDZCQUFBO0VBQUEsdUJBQUE7RUFBQSxtQkFBQTtFQUNBLG1CQUFBO0VBQUEsZUFBQTtFQUNBLHVCQUFBO0VBQUEsb0JBQUE7RUFBQSwyQkFBQTtFQUNBLG1CQUFBO0FKb05GO0FJbE5FO0VBQ0UsbUJBQUE7RUFBQSxtQkFBQTtFQUFBLGVBQUE7RUFDQSxhQUFBO0VBQ0Esa0JBQUE7QUpvTko7QUlqTkU7RUFDRSxtQkFBQTtFQUFBLFdBQUE7RUFBQSxPQUFBO0FKbU5KO0FJaE5FO0VBQ0UsWUFBQTtFQUNBLFlBQUE7RUFDQSxhQUFBO0VBQ0EsZ0JBQUE7QUprTko7QUlqTkk7RUFDRSxXQUFBO0VBQ0EsWUFBQTtFQUNBLFNBQUE7QUptTk47QUk5TUE7RUFDRSxtQkFBQTtFQUFBLFdBQUE7RUFBQSxPQUFBO0FKZ05GO0FJN01BOzs7RUFHRSxZQUFBO0FKK01GO0FJM01FO0VBQ0UsZ0JDaERNO0FMNlBWO0FJMU1FO0VBQ0UsY0FBQTtBSjRNSjtBTWhRQTtFQUNFLGlCQUFBO0FOa1FGO0FHbFFBO0VBQ0UsWUFBQTtFQUNBLGFBQUE7RUFDQSxVQUFBO0VBQ0EseUJBQUE7RUFBQSxzQkFBQTtFQUFBLG1CQUFBO0VBQ0EsK0JBQUE7RUFDQSwwQklIYztFSklkLGlCQUFBO0FIb1FGO0FHblFFO0VBQ0UsZUFBQTtFQUNBLGtCQUFBO0FIcVFKO0FHblFFO0VBQ0UsaUJBQUE7RUFDQSxpQkFBQTtFQUNBLGdCQUFBO0VBQ0Esb0JBQUE7RUFBQSxvQkFBQTtFQUFBLGFBQUE7QUhxUUo7QUc1UEE7RUFDRSxnQkFBQTtFQUNBLFNBQUE7RUFDQSxVQUFBO0VBQ0EsZ0JBQUE7RUFDQSxxQkFBQTtFQUNBLFdFMUJNO0FMd1JSO0FHM1BFO0VBQ0UsZ0JBQUE7RUFDQSxTQUFBO0VBQ0EsVUFBQTtBSDZQSjtBR3pQRTtFQUNFLG1CQUFBO0VBQUEsV0FBQTtFQUFBLE9BQUE7RUFDQSxTQUFBO0VBQ0EsZ0JBQUE7RUFDQSxlQUFBO0VBQ0EsZ0JBQUE7RUFDQSx5QkFBQTtFQUFBLHNCQUFBO0VBQUEsbUJBQUE7RUFDQSxvQkFBQTtFQUFBLG9CQUFBO0VBQUEsYUFBQTtBSDJQSjtBRzFQSTtFQUNFLFNBQUE7RUFDQSxtQkFBQTtFQUNBLGtCQUFBO0FINFBOO0FHdlBFO0VBQ0Usb0JBQUE7RUFBQSxvQkFBQTtFQUFBLGFBQUE7RUFDQSxtQkFBQTtFQUFBLG1CQUFBO0VBQUEsZUFBQTtFQUNBLHFCQUFBO0VBQUEsa0JBQUE7RUFBQSx5QkFBQTtBSHlQSjtBR3hQSTtFQUNFLGVBQUE7RUFDQSxrQkFBQTtFQUNBLGFBQUE7QUgwUE47QUdyUEU7RUFDRSx5QkFBQTtFQUFBLHNCQUFBO0VBQUEsbUJBQUE7RUFDQSxjQUFBO0VBQ0EsZ0NBQUE7QUh1UEo7QUd0UEk7RUFBZSxtQkFBQTtBSHlQbkI7QUd4UEk7RUFDRSxjRXpFRztBTG1VVDtBR3pQTTtFQUNFLG1CQUFBO0VBQUEsa0JBQUE7RUFBQSxjQUFBO0VBQ0EsWUFBQTtFQUNBLHFCQUFBO0VBQ0EsWUFBQTtFQUNBLGlCQUFBO0FIMlBSO0FHdFBFO0VBQ0Usa0JBQUE7RUFDQSw4QkFBQTtFQUNBLCtCQUFBO0VBQ0EsZUFBQTtBSHdQSjtBR3BQRTtFQUNFLFlBQUE7RUFDQSxhQUFBO0VBQ0EsVUFBQTtFQUNBLHlCQUFBO0VBQUEsc0JBQUE7RUFBQSxtQkFBQTtFQUNBLCtCQUFBO0VBQ0EsMEJJakdZO0VKa0daLGlCQUFBO0FIc1BKO0FHclBJO0VBQ0UsZUFBQTtFQUNBLGtCQUFBO0FIdVBOO0FHclBJO0VBQ0UsaUJBQUE7RUFDQSxnQkFBQTtBSHVQTjtBR2hQQTtFQUNFLG1CQUFBO0VBQUEsbUJBQUE7RUFBQSxlQUFBO0VBQ0EsY0FBQTtBSGtQRjtBUXZXRTs7O0VBR0Usa0JBQUE7RUFDQSw4QkFBQTtFQUNBLCtCQUFBO0VBQ0EsZUFBQTtBUnlXSjtBUXRXRTtFQUNFLFlBQUE7QVJ3V0oiLCJmaWxlIjoiYm9pbGVycGxhdGUuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLy8gQWRkIGN1c3RvbSBmb250cyBieSB2aXNpdGluZyBhbmQgc2VhcmNoIGh0dHBzOi8vZm9udHMuZ29vZ2xlLmNvbVxuQGltcG9ydCB1cmwoJ2h0dHBzOi8vZm9udHMuZ29vZ2xlYXBpcy5jb20vY3NzMj9mYW1pbHk9Um9ib3RvOndnaHRANDAwOzcwMCZkaXNwbGF5PXN3YXAnKTtcblxuLy8gSW1wb3J0IHV0aWxpdGllcy5cbkBpbXBvcnQgJ3V0aWxzL3R5cG9ncmFwaHknO1xuQGltcG9ydCAndXRpbHMvY29sb3JzJztcbkBpbXBvcnQgJ3V0aWxzL21peGlucyc7XG5AaW1wb3J0ICd1dGlscy92YXJpYWJsZXMnO1xuXG4vKiBHbG9iYWwgc3R5bGVzICovXG5AaW1wb3J0ICdnbG9iYWwvd2luZG93JztcbkBpbXBvcnQgJ2dsb2JhbC9ncmlkJztcbkBpbXBvcnQgJ2dsb2JhbC9mbGV4JztcblxuLyogU3R5bGVzIGxpbWl0ZWQgdG8gYm9pbGVycGxhdGUgc2hlZXRzICovXG4uYm9pbGVycGxhdGUge1xuICBAaW1wb3J0ICdjb21wb25lbnRzL2Zvcm1zJztcbiAgQGltcG9ydCAnY29tcG9uZW50cy9yZXNvdXJjZSc7XG4gIEBpbXBvcnQgJ2NvbXBvbmVudHMvaXRlbXMnO1xuICBAaW1wb3J0ICdjb21wb25lbnRzL2VmZmVjdHMnO1xufVxuIiwiLndpbmRvdy1hcHAge1xuICBmb250LWZhbWlseTogJGZvbnQtcHJpbWFyeTtcbn1cblxuLnJvbGxhYmxlIHtcbiAgJjpob3ZlcixcbiAgJjpmb2N1cyB7XG4gICAgY29sb3I6ICMwMDA7XG4gICAgdGV4dC1zaGFkb3c6IDAgMCAxMHB4IHJlZDtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gIH1cbn0iLCIkZm9udC1wcmltYXJ5OiAnUm9ib3RvJywgc2Fucy1zZXJpZjtcbiRmb250LXNlY29uZGFyeTogJ1JvYm90bycsIHNhbnMtc2VyaWY7IiwiQGltcG9ydCB1cmwoXCJodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PVJvYm90bzp3Z2h0QDQwMDs3MDAmZGlzcGxheT1zd2FwXCIpO1xuLyogR2xvYmFsIHN0eWxlcyAqL1xuLndpbmRvdy1hcHAge1xuICBmb250LWZhbWlseTogXCJSb2JvdG9cIiwgc2Fucy1zZXJpZjtcbn1cblxuLnJvbGxhYmxlOmhvdmVyLCAucm9sbGFibGU6Zm9jdXMge1xuICBjb2xvcjogIzAwMDtcbiAgdGV4dC1zaGFkb3c6IDAgMCAxMHB4IHJlZDtcbiAgY3Vyc29yOiBwb2ludGVyO1xufVxuXG4uZ3JpZCxcbi5ncmlkLTJjb2wge1xuICBkaXNwbGF5OiBncmlkO1xuICBncmlkLWNvbHVtbjogc3BhbiAyL3NwYW4gMjtcbiAgZ3JpZC10ZW1wbGF0ZS1jb2x1bW5zOiByZXBlYXQoMiwgbWlubWF4KDAsIDFmcikpO1xuICBnYXA6IDEwcHg7XG4gIG1hcmdpbjogMTBweCAwO1xuICBwYWRkaW5nOiAwO1xufVxuXG4uZ3JpZC0zY29sIHtcbiAgZ3JpZC1jb2x1bW46IHNwYW4gMy9zcGFuIDM7XG4gIGdyaWQtdGVtcGxhdGUtY29sdW1uczogcmVwZWF0KDMsIG1pbm1heCgwLCAxZnIpKTtcbn1cblxuLmdyaWQtNGNvbCB7XG4gIGdyaWQtY29sdW1uOiBzcGFuIDQvc3BhbiA0O1xuICBncmlkLXRlbXBsYXRlLWNvbHVtbnM6IHJlcGVhdCg0LCBtaW5tYXgoMCwgMWZyKSk7XG59XG5cbi5ncmlkLTVjb2wge1xuICBncmlkLWNvbHVtbjogc3BhbiA1L3NwYW4gNTtcbiAgZ3JpZC10ZW1wbGF0ZS1jb2x1bW5zOiByZXBlYXQoNSwgbWlubWF4KDAsIDFmcikpO1xufVxuXG4uZ3JpZC02Y29sIHtcbiAgZ3JpZC1jb2x1bW46IHNwYW4gNi9zcGFuIDY7XG4gIGdyaWQtdGVtcGxhdGUtY29sdW1uczogcmVwZWF0KDYsIG1pbm1heCgwLCAxZnIpKTtcbn1cblxuLmdyaWQtN2NvbCB7XG4gIGdyaWQtY29sdW1uOiBzcGFuIDcvc3BhbiA3O1xuICBncmlkLXRlbXBsYXRlLWNvbHVtbnM6IHJlcGVhdCg3LCBtaW5tYXgoMCwgMWZyKSk7XG59XG5cbi5ncmlkLThjb2wge1xuICBncmlkLWNvbHVtbjogc3BhbiA4L3NwYW4gODtcbiAgZ3JpZC10ZW1wbGF0ZS1jb2x1bW5zOiByZXBlYXQoOCwgbWlubWF4KDAsIDFmcikpO1xufVxuXG4uZ3JpZC05Y29sIHtcbiAgZ3JpZC1jb2x1bW46IHNwYW4gOS9zcGFuIDk7XG4gIGdyaWQtdGVtcGxhdGUtY29sdW1uczogcmVwZWF0KDksIG1pbm1heCgwLCAxZnIpKTtcbn1cblxuLmdyaWQtMTBjb2wge1xuICBncmlkLWNvbHVtbjogc3BhbiAxMC9zcGFuIDEwO1xuICBncmlkLXRlbXBsYXRlLWNvbHVtbnM6IHJlcGVhdCgxMCwgbWlubWF4KDAsIDFmcikpO1xufVxuXG4uZ3JpZC0xMWNvbCB7XG4gIGdyaWQtY29sdW1uOiBzcGFuIDExL3NwYW4gMTE7XG4gIGdyaWQtdGVtcGxhdGUtY29sdW1uczogcmVwZWF0KDExLCBtaW5tYXgoMCwgMWZyKSk7XG59XG5cbi5ncmlkLTEyY29sIHtcbiAgZ3JpZC1jb2x1bW46IHNwYW4gMTIvc3BhbiAxMjtcbiAgZ3JpZC10ZW1wbGF0ZS1jb2x1bW5zOiByZXBlYXQoMTIsIG1pbm1heCgwLCAxZnIpKTtcbn1cblxuLmdyaWQtc3RhcnQtMiB7XG4gIGdyaWQtY29sdW1uLXN0YXJ0OiAyO1xufVxuXG4uZ3JpZC1zdGFydC0zIHtcbiAgZ3JpZC1jb2x1bW4tc3RhcnQ6IDM7XG59XG5cbi5ncmlkLXN0YXJ0LTQge1xuICBncmlkLWNvbHVtbi1zdGFydDogNDtcbn1cblxuLmdyaWQtc3RhcnQtNSB7XG4gIGdyaWQtY29sdW1uLXN0YXJ0OiA1O1xufVxuXG4uZ3JpZC1zdGFydC02IHtcbiAgZ3JpZC1jb2x1bW4tc3RhcnQ6IDY7XG59XG5cbi5ncmlkLXN0YXJ0LTcge1xuICBncmlkLWNvbHVtbi1zdGFydDogNztcbn1cblxuLmdyaWQtc3RhcnQtOCB7XG4gIGdyaWQtY29sdW1uLXN0YXJ0OiA4O1xufVxuXG4uZ3JpZC1zdGFydC05IHtcbiAgZ3JpZC1jb2x1bW4tc3RhcnQ6IDk7XG59XG5cbi5ncmlkLXN0YXJ0LTEwIHtcbiAgZ3JpZC1jb2x1bW4tc3RhcnQ6IDEwO1xufVxuXG4uZ3JpZC1zdGFydC0xMSB7XG4gIGdyaWQtY29sdW1uLXN0YXJ0OiAxMTtcbn1cblxuLmdyaWQtc3RhcnQtMTIge1xuICBncmlkLWNvbHVtbi1zdGFydDogMTI7XG59XG5cbi5ncmlkLXNwYW4tMiB7XG4gIGdyaWQtY29sdW1uLWVuZDogc3BhbiAyO1xufVxuXG4uZ3JpZC1zcGFuLTMge1xuICBncmlkLWNvbHVtbi1lbmQ6IHNwYW4gMztcbn1cblxuLmdyaWQtc3Bhbi00IHtcbiAgZ3JpZC1jb2x1bW4tZW5kOiBzcGFuIDQ7XG59XG5cbi5ncmlkLXNwYW4tNSB7XG4gIGdyaWQtY29sdW1uLWVuZDogc3BhbiA1O1xufVxuXG4uZ3JpZC1zcGFuLTYge1xuICBncmlkLWNvbHVtbi1lbmQ6IHNwYW4gNjtcbn1cblxuLmdyaWQtc3Bhbi03IHtcbiAgZ3JpZC1jb2x1bW4tZW5kOiBzcGFuIDc7XG59XG5cbi5ncmlkLXNwYW4tOCB7XG4gIGdyaWQtY29sdW1uLWVuZDogc3BhbiA4O1xufVxuXG4uZ3JpZC1zcGFuLTkge1xuICBncmlkLWNvbHVtbi1lbmQ6IHNwYW4gOTtcbn1cblxuLmdyaWQtc3Bhbi0xMCB7XG4gIGdyaWQtY29sdW1uLWVuZDogc3BhbiAxMDtcbn1cblxuLmdyaWQtc3Bhbi0xMSB7XG4gIGdyaWQtY29sdW1uLWVuZDogc3BhbiAxMTtcbn1cblxuLmdyaWQtc3Bhbi0xMiB7XG4gIGdyaWQtY29sdW1uLWVuZDogc3BhbiAxMjtcbn1cblxuLmZsZXgtZ3JvdXAtY2VudGVyLFxuLmZsZXgtZ3JvdXAtbGVmdCxcbi5mbGV4LWdyb3VwLXJpZ2h0IHtcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbn1cblxuLmZsZXgtZ3JvdXAtbGVmdCB7XG4gIGp1c3RpZnktY29udGVudDogZmxleC1zdGFydDtcbiAgdGV4dC1hbGlnbjogbGVmdDtcbn1cblxuLmZsZXgtZ3JvdXAtcmlnaHQge1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGZsZXgtZW5kO1xuICB0ZXh0LWFsaWduOiByaWdodDtcbn1cblxuLmZsZXhzaHJpbmsge1xuICBmbGV4OiAwO1xufVxuXG4uZmxleC1iZXR3ZWVuIHtcbiAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO1xufVxuXG4uZmxleGxhcmdlIHtcbiAgZmxleDogMjtcbn1cblxuLmFsaWduLWxlZnQge1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGZsZXgtc3RhcnQ7XG4gIHRleHQtYWxpZ246IGxlZnQ7XG59XG5cbi5hbGlnbi1yaWdodCB7XG4gIGp1c3RpZnktY29udGVudDogZmxleC1lbmQ7XG4gIHRleHQtYWxpZ246IHJpZ2h0O1xufVxuXG4uYWxpZ24tY2VudGVyIHtcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbn1cblxuLyogU3R5bGVzIGxpbWl0ZWQgdG8gYm9pbGVycGxhdGUgc2hlZXRzICovXG4uYm9pbGVycGxhdGUge1xuICAvKiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSAqL1xuICAvKiAgSXRlbXMgTGlzdHMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAqL1xuICAvKiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSAqL1xuICAvKiBFeGFtcGxlIHN0eWxlIGZvciBCb2lsZXJwbGF0ZSAoY2FuIGJlIHJlbW92ZWQgaWYgbm90IG5lZWRlZCkgKi9cbn1cbi5ib2lsZXJwbGF0ZSAuaXRlbS1mb3JtIHtcbiAgZm9udC1mYW1pbHk6IFwiUm9ib3RvXCIsIHNhbnMtc2VyaWY7XG59XG4uYm9pbGVycGxhdGUgLnNoZWV0LWhlYWRlciB7XG4gIGZsZXg6IDAgYXV0bztcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogZmxleDtcbiAgZmxleC1kaXJlY3Rpb246IHJvdztcbiAgZmxleC13cmFwOiB3cmFwO1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGZsZXgtc3RhcnQ7XG4gIG1hcmdpbi1ib3R0b206IDEwcHg7XG59XG4uYm9pbGVycGxhdGUgLnNoZWV0LWhlYWRlciAucHJvZmlsZS1pbWcge1xuICBmbGV4OiAwIDAgMTAwcHg7XG4gIGhlaWdodDogMTAwcHg7XG4gIG1hcmdpbi1yaWdodDogMTBweDtcbn1cbi5ib2lsZXJwbGF0ZSAuc2hlZXQtaGVhZGVyIC5oZWFkZXItZmllbGRzIHtcbiAgZmxleDogMTtcbn1cbi5ib2lsZXJwbGF0ZSAuc2hlZXQtaGVhZGVyIGgxLmNoYXJuYW1lIHtcbiAgaGVpZ2h0OiA1MHB4O1xuICBwYWRkaW5nOiAwcHg7XG4gIG1hcmdpbjogNXB4IDA7XG4gIGJvcmRlci1ib3R0b206IDA7XG59XG4uYm9pbGVycGxhdGUgLnNoZWV0LWhlYWRlciBoMS5jaGFybmFtZSBpbnB1dCB7XG4gIHdpZHRoOiAxMDAlO1xuICBoZWlnaHQ6IDEwMCU7XG4gIG1hcmdpbjogMDtcbn1cbi5ib2lsZXJwbGF0ZSAuc2hlZXQtdGFicyB7XG4gIGZsZXg6IDA7XG59XG4uYm9pbGVycGxhdGUgLnNoZWV0LWJvZHksXG4uYm9pbGVycGxhdGUgLnNoZWV0LWJvZHkgLnRhYixcbi5ib2lsZXJwbGF0ZSAuc2hlZXQtYm9keSAudGFiIC5lZGl0b3Ige1xuICBoZWlnaHQ6IDEwMCU7XG59XG4uYm9pbGVycGxhdGUgLnRveCAudG94LWVkaXRvci1jb250YWluZXIge1xuICBiYWNrZ3JvdW5kOiAjZmZmO1xufVxuLmJvaWxlcnBsYXRlIC50b3ggLnRveC1lZGl0LWFyZWEge1xuICBwYWRkaW5nOiAwIDhweDtcbn1cbi5ib2lsZXJwbGF0ZSAucmVzb3VyY2UtbGFiZWwge1xuICBmb250LXdlaWdodDogYm9sZDtcbn1cbi5ib2lsZXJwbGF0ZSAuaXRlbXMtaGVhZGVyIHtcbiAgaGVpZ2h0OiAyOHB4O1xuICBtYXJnaW46IDJweCAwO1xuICBwYWRkaW5nOiAwO1xuICBhbGlnbi1pdGVtczogY2VudGVyO1xuICBiYWNrZ3JvdW5kOiByZ2JhKDAsIDAsIDAsIDAuMDUpO1xuICBib3JkZXI6IDJweCBncm9vdmUgI2VlZWRlMDtcbiAgZm9udC13ZWlnaHQ6IGJvbGQ7XG59XG4uYm9pbGVycGxhdGUgLml0ZW1zLWhlYWRlciA+ICoge1xuICBmb250LXNpemU6IDE0cHg7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbn1cbi5ib2lsZXJwbGF0ZSAuaXRlbXMtaGVhZGVyIC5pdGVtLW5hbWUge1xuICBmb250LXdlaWdodDogYm9sZDtcbiAgcGFkZGluZy1sZWZ0OiA1cHg7XG4gIHRleHQtYWxpZ246IGxlZnQ7XG4gIGRpc3BsYXk6IGZsZXg7XG59XG4uYm9pbGVycGxhdGUgLml0ZW1zLWxpc3Qge1xuICBsaXN0LXN0eWxlOiBub25lO1xuICBtYXJnaW46IDA7XG4gIHBhZGRpbmc6IDA7XG4gIG92ZXJmbG93LXk6IGF1dG87XG4gIHNjcm9sbGJhci13aWR0aDogdGhpbjtcbiAgY29sb3I6ICM0NDQ7XG59XG4uYm9pbGVycGxhdGUgLml0ZW1zLWxpc3QgLml0ZW0tbGlzdCB7XG4gIGxpc3Qtc3R5bGU6IG5vbmU7XG4gIG1hcmdpbjogMDtcbiAgcGFkZGluZzogMDtcbn1cbi5ib2lsZXJwbGF0ZSAuaXRlbXMtbGlzdCAuaXRlbS1uYW1lIHtcbiAgZmxleDogMjtcbiAgbWFyZ2luOiAwO1xuICBvdmVyZmxvdzogaGlkZGVuO1xuICBmb250LXNpemU6IDEzcHg7XG4gIHRleHQtYWxpZ246IGxlZnQ7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gIGRpc3BsYXk6IGZsZXg7XG59XG4uYm9pbGVycGxhdGUgLml0ZW1zLWxpc3QgLml0ZW0tbmFtZSBoMywgLmJvaWxlcnBsYXRlIC5pdGVtcy1saXN0IC5pdGVtLW5hbWUgaDQge1xuICBtYXJnaW46IDA7XG4gIHdoaXRlLXNwYWNlOiBub3dyYXA7XG4gIG92ZXJmbG93LXg6IGhpZGRlbjtcbn1cbi5ib2lsZXJwbGF0ZSAuaXRlbXMtbGlzdCAuaXRlbS1jb250cm9scyB7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsZXg6IDAgMCAxMDBweDtcbiAganVzdGlmeS1jb250ZW50OiBmbGV4LWVuZDtcbn1cbi5ib2lsZXJwbGF0ZSAuaXRlbXMtbGlzdCAuaXRlbS1jb250cm9scyBhIHtcbiAgZm9udC1zaXplOiAxMnB4O1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gIG1hcmdpbjogMCA2cHg7XG59XG4uYm9pbGVycGxhdGUgLml0ZW1zLWxpc3QgLml0ZW0ge1xuICBhbGlnbi1pdGVtczogY2VudGVyO1xuICBwYWRkaW5nOiAwIDJweDtcbiAgYm9yZGVyLWJvdHRvbTogMXB4IHNvbGlkICNjOWM3Yjg7XG59XG4uYm9pbGVycGxhdGUgLml0ZW1zLWxpc3QgLml0ZW06bGFzdC1jaGlsZCB7XG4gIGJvcmRlci1ib3R0b206IG5vbmU7XG59XG4uYm9pbGVycGxhdGUgLml0ZW1zLWxpc3QgLml0ZW0gLml0ZW0tbmFtZSB7XG4gIGNvbG9yOiAjMTkxODEzO1xufVxuLmJvaWxlcnBsYXRlIC5pdGVtcy1saXN0IC5pdGVtIC5pdGVtLW5hbWUgLml0ZW0taW1hZ2Uge1xuICBmbGV4OiAwIDAgMzBweDtcbiAgaGVpZ2h0OiAzMHB4O1xuICBiYWNrZ3JvdW5kLXNpemU6IDMwcHg7XG4gIGJvcmRlcjogbm9uZTtcbiAgbWFyZ2luLXJpZ2h0OiA1cHg7XG59XG4uYm9pbGVycGxhdGUgLml0ZW1zLWxpc3QgLml0ZW0tcHJvcCB7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgYm9yZGVyLWxlZnQ6IDFweCBzb2xpZCAjYzljN2I4O1xuICBib3JkZXItcmlnaHQ6IDFweCBzb2xpZCAjYzljN2I4O1xuICBmb250LXNpemU6IDEycHg7XG59XG4uYm9pbGVycGxhdGUgLml0ZW1zLWxpc3QgLml0ZW1zLWhlYWRlciB7XG4gIGhlaWdodDogMjhweDtcbiAgbWFyZ2luOiAycHggMDtcbiAgcGFkZGluZzogMDtcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgYmFja2dyb3VuZDogcmdiYSgwLCAwLCAwLCAwLjA1KTtcbiAgYm9yZGVyOiAycHggZ3Jvb3ZlICNlZWVkZTA7XG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xufVxuLmJvaWxlcnBsYXRlIC5pdGVtcy1saXN0IC5pdGVtcy1oZWFkZXIgPiAqIHtcbiAgZm9udC1zaXplOiAxMnB4O1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG59XG4uYm9pbGVycGxhdGUgLml0ZW1zLWxpc3QgLml0ZW1zLWhlYWRlciAuaXRlbS1uYW1lIHtcbiAgcGFkZGluZy1sZWZ0OiA1cHg7XG4gIHRleHQtYWxpZ246IGxlZnQ7XG59XG4uYm9pbGVycGxhdGUgLml0ZW0tZm9ybXVsYSB7XG4gIGZsZXg6IDAgMCAyMDBweDtcbiAgcGFkZGluZzogMCA4cHg7XG59XG4uYm9pbGVycGxhdGUgLmVmZmVjdHMgLml0ZW0gLmVmZmVjdC1zb3VyY2UsXG4uYm9pbGVycGxhdGUgLmVmZmVjdHMgLml0ZW0gLmVmZmVjdC1kdXJhdGlvbixcbi5ib2lsZXJwbGF0ZSAuZWZmZWN0cyAuaXRlbSAuZWZmZWN0LWNvbnRyb2xzIHtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xuICBib3JkZXItbGVmdDogMXB4IHNvbGlkICNjOWM3Yjg7XG4gIGJvcmRlci1yaWdodDogMXB4IHNvbGlkICNjOWM3Yjg7XG4gIGZvbnQtc2l6ZTogMTJweDtcbn1cbi5ib2lsZXJwbGF0ZSAuZWZmZWN0cyAuaXRlbSAuZWZmZWN0LWNvbnRyb2xzIHtcbiAgYm9yZGVyOiBub25lO1xufSIsIi8vIEdyaWQuXG4uZ3JpZCxcbi5ncmlkLTJjb2wge1xuICBkaXNwbGF5OiBncmlkO1xuICBncmlkLWNvbHVtbjogc3BhbiAyIC8gc3BhbiAyO1xuICBncmlkLXRlbXBsYXRlLWNvbHVtbnM6IHJlcGVhdCgyLCBtaW5tYXgoMCwgMWZyKSk7XG4gIGdhcDogMTBweDtcbiAgbWFyZ2luOiAxMHB4IDA7XG4gIHBhZGRpbmc6IDA7XG59XG5cbi5ncmlkLTNjb2wge1xuICBncmlkLWNvbHVtbjogc3BhbiAzIC8gc3BhbiAzO1xuICBncmlkLXRlbXBsYXRlLWNvbHVtbnM6IHJlcGVhdCgzLCBtaW5tYXgoMCwgMWZyKSk7XG59XG5cbi5ncmlkLTRjb2wge1xuICBncmlkLWNvbHVtbjogc3BhbiA0IC8gc3BhbiA0O1xuICBncmlkLXRlbXBsYXRlLWNvbHVtbnM6IHJlcGVhdCg0LCBtaW5tYXgoMCwgMWZyKSk7XG59XG5cbi5ncmlkLTVjb2wge1xuICBncmlkLWNvbHVtbjogc3BhbiA1IC8gc3BhbiA1O1xuICBncmlkLXRlbXBsYXRlLWNvbHVtbnM6IHJlcGVhdCg1LCBtaW5tYXgoMCwgMWZyKSk7XG59XG5cbi5ncmlkLTZjb2wge1xuICBncmlkLWNvbHVtbjogc3BhbiA2IC8gc3BhbiA2O1xuICBncmlkLXRlbXBsYXRlLWNvbHVtbnM6IHJlcGVhdCg2LCBtaW5tYXgoMCwgMWZyKSk7XG59XG5cbi5ncmlkLTdjb2wge1xuICBncmlkLWNvbHVtbjogc3BhbiA3IC8gc3BhbiA3O1xuICBncmlkLXRlbXBsYXRlLWNvbHVtbnM6IHJlcGVhdCg3LCBtaW5tYXgoMCwgMWZyKSk7XG59XG5cbi5ncmlkLThjb2wge1xuICBncmlkLWNvbHVtbjogc3BhbiA4IC8gc3BhbiA4O1xuICBncmlkLXRlbXBsYXRlLWNvbHVtbnM6IHJlcGVhdCg4LCBtaW5tYXgoMCwgMWZyKSk7XG59XG5cbi5ncmlkLTljb2wge1xuICBncmlkLWNvbHVtbjogc3BhbiA5IC8gc3BhbiA5O1xuICBncmlkLXRlbXBsYXRlLWNvbHVtbnM6IHJlcGVhdCg5LCBtaW5tYXgoMCwgMWZyKSk7XG59XG5cbi5ncmlkLTEwY29sIHtcbiAgZ3JpZC1jb2x1bW46IHNwYW4gMTAgLyBzcGFuIDEwO1xuICBncmlkLXRlbXBsYXRlLWNvbHVtbnM6IHJlcGVhdCgxMCwgbWlubWF4KDAsIDFmcikpO1xufVxuXG4uZ3JpZC0xMWNvbCB7XG4gIGdyaWQtY29sdW1uOiBzcGFuIDExIC8gc3BhbiAxMTtcbiAgZ3JpZC10ZW1wbGF0ZS1jb2x1bW5zOiByZXBlYXQoMTEsIG1pbm1heCgwLCAxZnIpKTtcbn1cblxuLmdyaWQtMTJjb2wge1xuICBncmlkLWNvbHVtbjogc3BhbiAxMiAvIHNwYW4gMTI7XG4gIGdyaWQtdGVtcGxhdGUtY29sdW1uczogcmVwZWF0KDEyLCBtaW5tYXgoMCwgMWZyKSk7XG59XG5cbi8vIEdyaWQgb2Zmc2V0LlxuLmdyaWQtc3RhcnQtMiB7IGdyaWQtY29sdW1uLXN0YXJ0OiAyIH1cbi5ncmlkLXN0YXJ0LTMgeyBncmlkLWNvbHVtbi1zdGFydDogMyB9XG4uZ3JpZC1zdGFydC00IHsgZ3JpZC1jb2x1bW4tc3RhcnQ6IDQgfVxuLmdyaWQtc3RhcnQtNSB7IGdyaWQtY29sdW1uLXN0YXJ0OiA1IH1cbi5ncmlkLXN0YXJ0LTYgeyBncmlkLWNvbHVtbi1zdGFydDogNiB9XG4uZ3JpZC1zdGFydC03IHsgZ3JpZC1jb2x1bW4tc3RhcnQ6IDcgfVxuLmdyaWQtc3RhcnQtOCB7IGdyaWQtY29sdW1uLXN0YXJ0OiA4IH1cbi5ncmlkLXN0YXJ0LTkgeyBncmlkLWNvbHVtbi1zdGFydDogOSB9XG4uZ3JpZC1zdGFydC0xMCB7IGdyaWQtY29sdW1uLXN0YXJ0OiAxMCB9XG4uZ3JpZC1zdGFydC0xMSB7IGdyaWQtY29sdW1uLXN0YXJ0OiAxMSB9XG4uZ3JpZC1zdGFydC0xMiB7IGdyaWQtY29sdW1uLXN0YXJ0OiAxMiB9XG5cbi5ncmlkLXNwYW4tMiB7IGdyaWQtY29sdW1uLWVuZDogc3BhbiAyIH1cbi5ncmlkLXNwYW4tMyB7IGdyaWQtY29sdW1uLWVuZDogc3BhbiAzIH1cbi5ncmlkLXNwYW4tNCB7IGdyaWQtY29sdW1uLWVuZDogc3BhbiA0IH1cbi5ncmlkLXNwYW4tNSB7IGdyaWQtY29sdW1uLWVuZDogc3BhbiA1IH1cbi5ncmlkLXNwYW4tNiB7IGdyaWQtY29sdW1uLWVuZDogc3BhbiA2IH1cbi5ncmlkLXNwYW4tNyB7IGdyaWQtY29sdW1uLWVuZDogc3BhbiA3IH1cbi5ncmlkLXNwYW4tOCB7IGdyaWQtY29sdW1uLWVuZDogc3BhbiA4IH1cbi5ncmlkLXNwYW4tOSB7IGdyaWQtY29sdW1uLWVuZDogc3BhbiA5IH1cbi5ncmlkLXNwYW4tMTAgeyBncmlkLWNvbHVtbi1lbmQ6IHNwYW4gMTAgfVxuLmdyaWQtc3Bhbi0xMSB7IGdyaWQtY29sdW1uLWVuZDogc3BhbiAxMSB9XG4uZ3JpZC1zcGFuLTEyIHsgZ3JpZC1jb2x1bW4tZW5kOiBzcGFuIDEyIH1cbiIsIi8vIEZsZXhib3guXG4uZmxleC1ncm91cC1jZW50ZXIsXG4uZmxleC1ncm91cC1sZWZ0LFxuLmZsZXgtZ3JvdXAtcmlnaHQge1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG4uZmxleC1ncm91cC1sZWZ0IHtcbiAganVzdGlmeS1jb250ZW50OiBmbGV4LXN0YXJ0O1xuICB0ZXh0LWFsaWduOiBsZWZ0O1xufVxuXG4uZmxleC1ncm91cC1yaWdodCB7XG4gIGp1c3RpZnktY29udGVudDogZmxleC1lbmQ7XG4gIHRleHQtYWxpZ246IHJpZ2h0O1xufVxuXG4uZmxleHNocmluayB7XG4gIGZsZXg6IDA7XG59XG5cbi5mbGV4LWJldHdlZW4ge1xuICBqdXN0aWZ5LWNvbnRlbnQ6IHNwYWNlLWJldHdlZW47XG59XG5cbi5mbGV4bGFyZ2Uge1xuICBmbGV4OiAyO1xufVxuXG4vLyBBbGlnbm1lbnQgc3R5bGVzLlxuLmFsaWduLWxlZnQge1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGZsZXgtc3RhcnQ7XG4gIHRleHQtYWxpZ246IGxlZnQ7XG59XG5cbi5hbGlnbi1yaWdodCB7XG4gIGp1c3RpZnktY29udGVudDogZmxleC1lbmQ7XG4gIHRleHQtYWxpZ246IHJpZ2h0O1xufVxuXG4uYWxpZ24tY2VudGVyIHtcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbn0iLCIvLyBTZWN0aW9uIEhlYWRlclxuLml0ZW1zLWhlYWRlciB7XG4gIGhlaWdodDogMjhweDtcbiAgbWFyZ2luOiAycHggMDtcbiAgcGFkZGluZzogMDtcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgYmFja2dyb3VuZDogcmdiYSgwLCAwLCAwLCAwLjA1KTtcbiAgYm9yZGVyOiAkYm9yZGVyLWdyb292ZTtcbiAgZm9udC13ZWlnaHQ6IGJvbGQ7XG4gID4gKiB7XG4gICAgZm9udC1zaXplOiAxNHB4O1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgfVxuICAuaXRlbS1uYW1lIHtcbiAgICBmb250LXdlaWdodDogYm9sZDtcbiAgICBwYWRkaW5nLWxlZnQ6IDVweDtcbiAgICB0ZXh0LWFsaWduOiBsZWZ0O1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgLy8gZm9udC1zaXplOiAxNnB4O1xuICB9XG59XG5cbi8qIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tICovXG4vKiAgSXRlbXMgTGlzdHMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAqL1xuLyogLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gKi9cblxuLml0ZW1zLWxpc3Qge1xuICBsaXN0LXN0eWxlOiBub25lO1xuICBtYXJnaW46IDA7XG4gIHBhZGRpbmc6IDA7XG4gIG92ZXJmbG93LXk6IGF1dG87XG4gIHNjcm9sbGJhci13aWR0aDogdGhpbjtcbiAgY29sb3I6ICRjLXRhbjtcblxuICAvLyBDaGlsZCBsaXN0c1xuICAuaXRlbS1saXN0IHtcbiAgICBsaXN0LXN0eWxlOiBub25lO1xuICAgIG1hcmdpbjogMDtcbiAgICBwYWRkaW5nOiAwO1xuICB9XG5cbiAgLy8gSXRlbSBOYW1lXG4gIC5pdGVtLW5hbWUge1xuICAgIGZsZXg6IDI7XG4gICAgbWFyZ2luOiAwO1xuICAgIG92ZXJmbG93OiBoaWRkZW47XG4gICAgZm9udC1zaXplOiAxM3B4O1xuICAgIHRleHQtYWxpZ246IGxlZnQ7XG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGgzLCBoNCB7XG4gICAgICBtYXJnaW46IDA7XG4gICAgICB3aGl0ZS1zcGFjZTogbm93cmFwO1xuICAgICAgb3ZlcmZsb3cteDogaGlkZGVuO1xuICAgIH1cbiAgfVxuXG4gIC8vIENvbnRyb2wgQnV0dG9uc1xuICAuaXRlbS1jb250cm9scyB7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBmbGV4OiAwIDAgMTAwcHg7XG4gICAganVzdGlmeS1jb250ZW50OiBmbGV4LWVuZDtcbiAgICBhIHtcbiAgICAgIGZvbnQtc2l6ZTogMTJweDtcbiAgICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICAgIG1hcmdpbjogMCA2cHg7XG4gICAgfVxuICB9XG5cbiAgLy8gSW5kaXZpZHVhbCBJdGVtXG4gIC5pdGVtIHtcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgIHBhZGRpbmc6IDAgMnB4OyAvLyB0byBhbGlnbiB3aXRoIHRoZSBoZWFkZXIgYm9yZGVyXG4gICAgYm9yZGVyLWJvdHRvbTogMXB4IHNvbGlkICRjLWZhaW50O1xuICAgICY6bGFzdC1jaGlsZCB7IGJvcmRlci1ib3R0b206IG5vbmU7IH1cbiAgICAuaXRlbS1uYW1lIHtcbiAgICAgIGNvbG9yOiAkYy1kYXJrO1xuICAgICAgLml0ZW0taW1hZ2Uge1xuICAgICAgICBmbGV4OiAwIDAgMzBweDtcbiAgICAgICAgaGVpZ2h0OiAzMHB4O1xuICAgICAgICBiYWNrZ3JvdW5kLXNpemU6IDMwcHg7XG4gICAgICAgIGJvcmRlcjogbm9uZTtcbiAgICAgICAgbWFyZ2luLXJpZ2h0OiA1cHg7XG4gICAgICB9XG4gICAgfVxuICB9XG5cbiAgLml0ZW0tcHJvcCB7XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xuICAgIGJvcmRlci1sZWZ0OiAxcHggc29saWQgI2M5YzdiODtcbiAgICBib3JkZXItcmlnaHQ6IDFweCBzb2xpZCAjYzljN2I4O1xuICAgIGZvbnQtc2l6ZTogMTJweDtcbiAgfVxuXG4gIC8vIFNlY3Rpb24gSGVhZGVyXG4gIC5pdGVtcy1oZWFkZXIge1xuICAgIGhlaWdodDogMjhweDtcbiAgICBtYXJnaW46IDJweCAwO1xuICAgIHBhZGRpbmc6IDA7XG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICBiYWNrZ3JvdW5kOiByZ2JhKDAsIDAsIDAsIDAuMDUpO1xuICAgIGJvcmRlcjogJGJvcmRlci1ncm9vdmU7XG4gICAgZm9udC13ZWlnaHQ6IGJvbGQ7XG4gICAgPiAqIHtcbiAgICAgIGZvbnQtc2l6ZTogMTJweDtcbiAgICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICB9XG4gICAgLml0ZW0tbmFtZSB7XG4gICAgICBwYWRkaW5nLWxlZnQ6IDVweDtcbiAgICAgIHRleHQtYWxpZ246IGxlZnQ7XG4gICAgICAvLyBmb250LXNpemU6IDE2cHg7XG4gICAgfVxuICB9XG59XG5cbi8qIEV4YW1wbGUgc3R5bGUgZm9yIEJvaWxlcnBsYXRlIChjYW4gYmUgcmVtb3ZlZCBpZiBub3QgbmVlZGVkKSAqL1xuLml0ZW0tZm9ybXVsYSB7XG4gIGZsZXg6IDAgMCAyMDBweDtcbiAgcGFkZGluZzogMCA4cHg7XG59IiwiLml0ZW0tZm9ybSB7XG4gIGZvbnQtZmFtaWx5OiAkZm9udC1wcmltYXJ5O1xufVxuXG4uc2hlZXQtaGVhZGVyIHtcbiAgZmxleDogMCBhdXRvO1xuICBvdmVyZmxvdzogaGlkZGVuO1xuICBkaXNwbGF5OiBmbGV4O1xuICBmbGV4LWRpcmVjdGlvbjogcm93O1xuICBmbGV4LXdyYXA6IHdyYXA7XG4gIGp1c3RpZnktY29udGVudDogZmxleC1zdGFydDtcbiAgbWFyZ2luLWJvdHRvbTogMTBweDtcblxuICAucHJvZmlsZS1pbWcge1xuICAgIGZsZXg6IDAgMCAxMDBweDtcbiAgICBoZWlnaHQ6IDEwMHB4O1xuICAgIG1hcmdpbi1yaWdodDogMTBweDtcbiAgfVxuXG4gIC5oZWFkZXItZmllbGRzIHtcbiAgICBmbGV4OiAxO1xuICB9XG5cbiAgaDEuY2hhcm5hbWUge1xuICAgIGhlaWdodDogNTBweDtcbiAgICBwYWRkaW5nOiAwcHg7XG4gICAgbWFyZ2luOiA1cHggMDtcbiAgICBib3JkZXItYm90dG9tOiAwO1xuICAgIGlucHV0IHtcbiAgICAgIHdpZHRoOiAxMDAlO1xuICAgICAgaGVpZ2h0OiAxMDAlO1xuICAgICAgbWFyZ2luOiAwO1xuICAgIH1cbiAgfVxufVxuXG4uc2hlZXQtdGFicyB7XG4gIGZsZXg6IDA7XG59XG5cbi5zaGVldC1ib2R5LFxuLnNoZWV0LWJvZHkgLnRhYixcbi5zaGVldC1ib2R5IC50YWIgLmVkaXRvciB7XG4gIGhlaWdodDogMTAwJTtcbn1cblxuLnRveCB7XG4gIC50b3gtZWRpdG9yLWNvbnRhaW5lciB7XG4gICAgYmFja2dyb3VuZDogJGMtd2hpdGU7XG4gIH1cblxuICAudG94LWVkaXQtYXJlYSB7XG4gICAgcGFkZGluZzogMCA4cHg7XG4gIH1cbn0iLCIkYy13aGl0ZTogI2ZmZjtcbiRjLWJsYWNrOiAjMDAwO1xuXG4kYy1kYXJrOiAjMTkxODEzO1xuJGMtZmFpbnQ6ICNjOWM3Yjg7XG4kYy1iZWlnZTogI2I1YjNhNDtcbiRjLXRhbjogIzQ0NDsiLCIucmVzb3VyY2UtbGFiZWwge1xuICBmb250LXdlaWdodDogYm9sZDtcbn0iLCIkcGFkZGluZy1zbTogNXB4O1xuJHBhZGRpbmctbWQ6IDEwcHg7XG4kcGFkZGluZy1sZzogMjBweDtcblxuJGJvcmRlci1ncm9vdmU6IDJweCBncm9vdmUgI2VlZWRlMDsiLCIuZWZmZWN0cyAuaXRlbSB7XG4gIC5lZmZlY3Qtc291cmNlLFxuICAuZWZmZWN0LWR1cmF0aW9uLFxuICAuZWZmZWN0LWNvbnRyb2xzIHtcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gICAgYm9yZGVyLWxlZnQ6IDFweCBzb2xpZCAjYzljN2I4O1xuICAgIGJvcmRlci1yaWdodDogMXB4IHNvbGlkICNjOWM3Yjg7XG4gICAgZm9udC1zaXplOiAxMnB4O1xuICB9XG5cbiAgLmVmZmVjdC1jb250cm9scyB7XG4gICAgYm9yZGVyOiBub25lO1xuICB9XG59XG4iXX0= */

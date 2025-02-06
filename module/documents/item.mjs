@@ -90,7 +90,7 @@ export default class WWItem extends Item {
   async _preUpdate(changed, options, user) {
 
     // If Path, ensure changed.system.tier is defined
-    if (this.type === 'Path' && !changed.system?.tier) changed.system.tier = this.system.tier;
+    if (this.type === 'Path' && changed.system && !changed.system?.tier) changed.system.tier = this.system.tier;
 
     if (this.system.tier && (this.system.tier !== changed.system?.tier)) {
       await this._onTierChange(await changed);
