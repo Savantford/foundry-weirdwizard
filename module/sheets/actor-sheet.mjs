@@ -656,10 +656,19 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       if (context.actor.type === 'Character') {
         const level = context.actor.system.stats.level;
         const half = Math.floor(level / 2) > 0 ? Math.floor(level / 2) : 1;
+        let third = 2; 
+          
+        if ( level < 3 ) {
+          third = 1;
+          }
+        else if ( level > 6 ) {
+          third = 3;
+          }
         
         switch (item.system.uses.levelRelative) {
           case 'full': max = level; break;
           case 'half': max = half; break;
+          case 'third': max = third; break;
         }
       }
 

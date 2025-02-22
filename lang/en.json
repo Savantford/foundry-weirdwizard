@@ -240,6 +240,7 @@
 "WW.Item.Uses.Manual": "Not Relative",
 "WW.Item.Uses.Half": "Equal to Half Level",
 "WW.Item.Uses.Full": "Equal to Level",
+"WW.Item.Uses.Third": "Increases at 3rd and 7th level",
 
 "WW.Roll.Label": "Roll",
 "WW.Roll.Details": "Roll Details",
