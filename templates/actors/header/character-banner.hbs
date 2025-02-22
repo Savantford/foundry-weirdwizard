@@ -53,11 +53,6 @@
             </div>
         </div>
     
-        <div class="stat luck" style="--i:7">
-            <label><a class="item-button" data-action="attributeRoll" data-key="luck"
-                    data-tooltip="WW.Roll.Luck">{{localize "WW.Attributes.Luck"}}</a></label>
-        </div>
-    
         <div class="stat int" style="--i:8">
             <label><a class="item-button" data-action="attributeRoll" data-key="int"
                     data-tooltip="WW.Roll.Intellect">{{localize "WW.Attributes.IntellectShort"}}</a></label>
@@ -73,16 +68,21 @@
                 </a>
             </div>
         </div>
+
+        <div class="stat luck" style="--i:3">
+            <label><a class="item-button" data-action="attributeRoll" data-key="luck" data-tooltip="WW.Roll.Luck">
+                {{localize "WW.Attributes.Luck"}}
+            </a></label>
+        </div>
     
-        <!--
-                    <div class="stat" style="--i:5">5</div>
-                    <div class="stat" style="--i:6">6</div>
-                    <div class="stat" style="--i:7">7</div>
-                    <div class="stat" style="--i:8">8</div>
-                    <div class="stat" style="--i:9">9</div>
-                    <div class="stat" style="--i:10">10</div>
-                    <div class="stat" style="--i:11">11</div>
-                    <div class="stat" style="--i:12">12</div>-->
+        <div class="stat rest" style="--i:7">
+            <label><a data-action="startRest">{{localize "WW.Rest.Label"}}</a></label>
+        </div>
+
+        {{!--<div class="stat" style="--i:9">9</div>
+        <div class="stat" style="--i:10">10</div>
+        <div class="stat" style="--i:11">11</div>
+        <div class="stat" style="--i:12">12</div>--}}
     </div>
     
     {{!-- Damage / Health Block --}}
@@ -174,16 +174,10 @@
             <div class="stat bonus-damage">
     
                 <label>{{localize "WW.Damage.Bonus"}}</label>
-    
-                <div class="flex nogap align-center {{#unless system.stats.bonusdamage}}hidden{{/unless}}">
-                    <a data-tooltip="{{{bonusDamageTooltip}}}">{{system.stats.bonusdamage}}d6</a>
+                
+                <div class="flex nogap align-center {{#unless system.stats.bonusdamage}}filler{{/unless}}">
+                    <a data-tooltip="{{{bonusDamageTooltip}}}">{{#if system.stats.bonusdamage}}{{system.stats.bonusdamage}}d6{{else}}◆{{/if}}</a>
                 </div>
-    
-                {{#unless system.stats.bonusdamage}}
-                <div class="align-center filler">
-                    <div>◆</div>
-                </div>
-                {{/unless}}
     
             </div>
     

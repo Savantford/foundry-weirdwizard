@@ -154,7 +154,8 @@ WW.WEAPON_REQUIREMENTS = {
 WW.WEAPON_GRIPS = {
   'One': 'WW.Weapon.Grip.One',
   'Two': 'WW.Weapon.Grip.Two',
-  'Off': 'WW.Weapon.Grip.Off'
+  'Off': 'WW.Weapon.Grip.Off',
+  'Natural': 'WW.Weapon.Grip.Natural'
 };
 
 WW.WEAPON_GRIPS_SHORT = {

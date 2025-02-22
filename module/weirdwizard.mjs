@@ -4,16 +4,34 @@ console.log('SotWW | Initializing weirdwizard.mjs...')
 import WWActor from './documents/actor.mjs';
 import WWItem from './documents/item.mjs';
 import WWActiveEffect from './documents/active-effect.mjs';
+import WWJournalPage from './documents/journal-page.mjs';
 import WWCombat from './documents/combat.mjs';
 import WWCombatant from './documents/combatant.mjs';
 import WWChatMessage from './documents/chat-message.mjs';
 
+// Import data models
+import CharacterData from './data/actors/character.mjs';
+import NpcData from './data/actors/npc.mjs';
+import EquipmentData from './data/items/equipment.mjs';
+import TalentData from './data/items/talent.mjs';
+import SpellData from './data/items/spell.mjs';
+import AncestryData from './data/items/ancestry.mjs';
+import ProfessionData from './data/items/profession.mjs';
+import PathData from './data/items/path.mjs';
+import TraditionData from './data/journal/tradition.mjs';
+import ActiveEffectData from './data/active-effect.mjs';
+
 // Import sheet classes.
-import WWCharacterSheet from './sheets/character-sheet.mjs';
-import WWNpcSheet from './sheets/npc-sheet.mjs';
-import WWItemSheet from './sheets/item-sheet.mjs';
-import WWCharOptionSheet from './sheets/charoption-sheet.mjs';
-import WWActiveEffectConfig from './sheets/active-effect-config.mjs';
+import WWCharacterSheet from './sheets/actors/character-sheet.mjs';
+import WWNpcSheet from './sheets/actors/npc-sheet.mjs';
+import WWEquipmentSheet from './sheets/items/equipment-sheet.mjs';
+import WWTalentSheet from './sheets/items/talent-sheet.mjs';
+import WWSpellSheet from './sheets/items/spell-sheet.mjs';
+import WWAncestrySheet from './sheets/items/ancestry-sheet.mjs';
+import WWPathSheet from './sheets/items/path-sheet.mjs';
+import WWProfessionSheet from './sheets/items/profession-sheet.mjs';
+import WWTraditionSheet from './sheets/journal/tradition-sheet.mjs';
+import WWActiveEffectConfig from './sheets/configs/active-effect-config.mjs';
 
 // Import sidebar related classes.
 import WWCombatTracker from './sidebar/combat-tracker.mjs';
@@ -27,21 +45,11 @@ import QuestCalendar from './ui/quest-calendar.mjs';
 // Import canvas-related classes
 import WWToken from './canvas/token.mjs';
 
-// Import data models
-import CharacterData from './data/actors/character.mjs';
-import NpcData from './data/actors/npc.mjs';
-import EquipmentData from './data/items/equipment.mjs';
-import TalentData from './data/items/talent.mjs';
-import SpellData from './data/items/spell.mjs';
-import AncestryData from './data/items/ancestry.mjs';
-import ProfessionData from './data/items/profession.mjs';
-import PathData from './data/items/path.mjs';
-
 // Import helper/utility classes and constants.
 import { WW } from './config.mjs';
 import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
 import { WWAfflictions } from './helpers/afflictions.mjs';
-import { expireFromTokens } from './helpers/effects.mjs';
+import { expireFromTokens } from './helpers/effect-actions.mjs';
 import { initGlobalListeners } from './helpers/global-listeners.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
@@ -67,13 +75,30 @@ Hooks.once('init', function () {
   // Define custom Document classes
   CONFIG.Actor.documentClass = WWActor;
   CONFIG.Item.documentClass = WWItem;
+  CONFIG.JournalEntryPage.documentClass = WWJournalPage;
   CONFIG.ActiveEffect.documentClass = WWActiveEffect;
   CONFIG.Combat.documentClass = WWCombat;
   CONFIG.Combatant.documentClass = WWCombatant;
   CONFIG.ChatMessage.documentClass = WWChatMessage;
 
-  // Register sheet application classes
+  // Register Actor and Item data models
+  CONFIG.Actor.dataModels.Character = CharacterData;
+  CONFIG.Actor.dataModels.NPC = NpcData;
+  CONFIG.Item.dataModels.Equipment = EquipmentData;
+  CONFIG.Item.dataModels['Trait or Talent'] = TalentData;
+  CONFIG.Item.dataModels.Spell = SpellData;
+
+  // Journal Entry Page data models
+  CONFIG.Item.dataModels.Ancestry = AncestryData;
+  CONFIG.Item.dataModels.Path = PathData;
+  CONFIG.Item.dataModels.Profession = ProfessionData;
+  CONFIG.JournalEntryPage.dataModels.tradition = TraditionData;
+
+  CONFIG.ActiveEffect.dataModels.base = ActiveEffectData;
+
+  // Register actor Sheet classes
   Actors.unregisterSheet('core', ActorSheet);
+
   Actors.registerSheet('weirdwizard', WWCharacterSheet, {
     types: ['Character'],
     makeDefault: true,
@@ -85,31 +110,50 @@ Hooks.once('init', function () {
     label: 'WW.System.Sheet.NPC'
   });
 
+  // Register item Sheet classes
   Items.unregisterSheet('core', ItemSheet);
-  Items.registerSheet('weirdwizard', WWItemSheet, {
+
+  Items.registerSheet('weirdwizard', WWEquipmentSheet, {
+    types: ['Equipment'],
     makeDefault: true,
-    label: 'WW.System.Sheet.Item'
+    label: 'WW.System.Sheet.Equipment'
+  });
+  Items.registerSheet('weirdwizard', WWTalentSheet, {
+    types: ['Trait or Talent'],
+    makeDefault: true,
+    label: 'WW.System.Sheet.Talent'
+  });
+  Items.registerSheet('weirdwizard', WWSpellSheet, {
+    types: ['Spell'],
+    makeDefault: true,
+    label: 'WW.System.Sheet.Spell'
   });
 
-  Items.registerSheet('weirdwizard', WWCharOptionSheet, {
-    types: ['Ancestry', 'Profession', 'Path'],
+  // Register Journal Page Sheet classes
+  Items.registerSheet('weirdwizard', WWAncestrySheet, {
+    types: ['Ancestry'],
     makeDefault: true,
-    label: 'WW.System.Sheet.CharOption'
+    label: 'WW.System.Sheet.Ancestry'
+  });
+  Items.registerSheet('weirdwizard', WWPathSheet, {
+    types: ['Path'],
+    makeDefault: true,
+    label: 'WW.System.Sheet.Path'
+  });
+  Items.registerSheet('weirdwizard', WWProfessionSheet, {
+    types: ['Profession'],
+    makeDefault: true,
+    label: 'WW.System.Sheet.Profession'
+  });
+  DocumentSheetConfig.registerSheet(JournalEntryPage, 'weirdwizard', WWTraditionSheet, {
+    types: ['tradition'],
+    makeDefault: true,
+    label: 'WW.System.Sheet.Tradition'
   });
   
   // Register custom document config sheets
-  DocumentSheetConfig.registerSheet(ActiveEffect, 'weirdwizard', WWActiveEffectConfig, {makeDefault: true})
-  //DocumentSheetConfig.registerSheet(Folder, 'weirdwizard', WWFolderConfig, {makeDefault: true}) - does not work, maybe in v13. see renderFolderConfig hook
-
-  // Register data models
-  CONFIG.Actor.dataModels.Character = CharacterData;
-  CONFIG.Actor.dataModels.NPC = NpcData;
-  CONFIG.Item.dataModels.Equipment = EquipmentData;
-  CONFIG.Item.dataModels['Trait or Talent'] = TalentData;
-  CONFIG.Item.dataModels.Spell = SpellData;
-  CONFIG.Item.dataModels.Ancestry = AncestryData;
-  CONFIG.Item.dataModels.Profession = ProfessionData;
-  CONFIG.Item.dataModels.Path = PathData;
+  DocumentSheetConfig.registerSheet(ActiveEffect, 'weirdwizard', WWActiveEffectConfig, {makeDefault: true});
+  //DocumentSheetConfig.registerSheet(Folder, 'weirdwizard', WWFolderConfig, {makeDefault: true}); - does not work, maybe in v13. see renderFolderConfig hook
 
   // Register custom Combat Tracker
   CONFIG.ui.combat = WWCombatTracker;
@@ -291,15 +335,8 @@ Hooks.once('ready', function () {
 */
 
 Hooks.once('setup', function () {
-  // Localize CONFIG objects once up-front
-  /*const toLocalize = ['attributes'];
-  for (const o of toLocalize) {
-    CONFIG.WW[o] = Object.entries(CONFIG.WW[o]).reduce((obj, e) => {
-      obj[e[0]] = game.i18n.localize(e[1]);
-      return obj
-    }, {});
-  }*/
 
+  // Get afflictions
   const effects = WWAfflictions.buildAll();
 
   // Add invisible and dead status to the list of effects so that

@@ -1,0 +1,240 @@
+import { i18n } from './utils.mjs';
+import InstantEffectConfig from '../sheets/configs/instant-effect-config.mjs';
+
+/* -------------------------------------------- */
+/*  Instant Effect handling actions             */
+/* -------------------------------------------- */
+
+/**
+ * Manage Instant Effect instances through the Actor Sheet via instant control buttons.
+ * @param {MouseEvent} event      The left-click event on the instant control
+ * @param {Item} owner      The owning item document which manages this effect
+*/
+export async function onManageInstantEffect(event, owner) {
+  event.preventDefault();
+  const a = event.currentTarget;
+  const li = a.closest('li');
+  const effectId = li.dataset.effectId;
+  //const effect = effectId ? owner.system.instant[effectId] : null;
+  
+  switch ( a.dataset.action ) {
+    case 'create': {
+      
+    }
+      
+    case 'edit':
+      return 
+      
+    case 'delete': {
+      let arr = owner.system.instant;
+      arr.splice(effectId, 1);
+
+      return owner.update({ 'system.instant': arr });
+    }
+      
+  }
+}
+
+/**
+  * Handle creating a new Owned Effect for the actor using initial data defined in the HTML dataset
+  * @param {Object}      dataset  The dataset provided for the new effect
+  * @param {Actor|Item}  owner    The owning entity which manages this effect
+*/
+export async function createInstantEffect(dataset, owner) {
+  const arr = owner.system.instant;
+
+  const effectData = {
+    label: 'damage',
+    trigger: 'onUse',
+    target: 'tokens',
+    value: '1d6',
+    affliction: 'Blinded'
+  }
+    
+  arr.push(effectData);
+
+  owner.update({ 'system.instant': arr });
+      
+  return new InstantEffectConfig(owner, arr.length-1).render(true);
+}
+
+/**
+ * Handle editing an Owned Effect for the actor using initial data defined in the HTML dataset
+  * @param {InstantEffect} effect    The effect being edited
+  * @param {Actor|Item}   owner     The owning entity which manages this effect
+*/
+export function editInstantEffect(effect, owner) {
+  console.log(effect)
+  effect.id;
+  new InstantEffectConfig(owner, effect.id).render(true);
+}
+
+/**
+  * Handle delete of an Owned Effect for the actor using initial data defined in the HTML dataset
+  * @param {InstantEffect} effect    The effect being editedt
+  * @param {Actor|Item}   owner     The owning entity which manages this effect
+*/
+export async function deleteInstantEffect(effect, owner) {
+
+  // Confirm Dialog
+  const confirm = await Dialog.confirm({
+    title: i18n('WW.Item.Delete.Dialog.Title'),
+    content: `
+      ${i18n('WW.Item.Delete.Dialog.Msg', { name: '<b>' + effect.name + '</b>' })}
+      <p class="dialog-sure">${i18n('WW.Item.Delete.Dialog.Confirm', { name: effect.name })}</p>
+    `
+  });
+
+  if (!confirm) return;
+
+  effect.delete();
+}
+
+/* -------------------------------------------- */
+/*  Active Effect handling actions              */
+/* -------------------------------------------- */
+
+/**
+  * Handle creating a new Owned Effect for the actor using initial data defined in the HTML dataset
+  * @param {Object}      dataset  The dataset provided for the new effect
+  * @param {Actor|Item}  owner    The owning entity which manages this effect
+*/
+export async function createActiveEffect(dataset, owner) {
+  
+  const name = i18n('WW.Effect.New') // Initialize a default name.
+
+  const type = dataset.type;
+
+  // Prepare the effect object.
+  const effectData = {
+    name: name,
+    img: owner.img,
+    origin: owner.uuid,
+    disabled: type === 'inactive',
+    'duration.type': type === 'temporary' ? 'seconds' : 'none',
+    'duration.seconds': type === 'temporary' ? 3600 : null,
+    'duration.rounds': type === 'temporary' ? 1 : undefined,
+    'flags.weirdwizard.selectedDuration': type === 'temporary' ? '1round' : '',
+    'flags.weirdwizard.autoDelete': true,
+  }
+
+  // Create the effect
+  const effects = Array.from(await owner.effects);
+  effects.push(effectData);
+  const createdEffect = await ActiveEffect.create(effectData, { parent: owner });
+
+  // Render the created effect's template
+  createdEffect.sheet.render(true);
+
+  return;
+}
+
+/**
+ * Handle editing an Owned Effect for the actor using initial data defined in the HTML dataset
+  * @param {ActiveEffect} effect    The effect being edited
+  * @param {Actor|Item}   owner     The owning entity which manages this effect
+*/
+export function editActiveEffect(effect, owner) {
+  effect.sheet.render(true);
+}
+
+/**
+  * Handle delete of an Owned Effect for the actor using initial data defined in the HTML dataset
+  * @param {ActiveEffect} effect    The effect being editedt
+  * @param {Actor|Item}   owner     The owning entity which manages this effect
+*/
+export async function deleteActiveEffect(effect, owner) {
+
+  // Confirm Dialog
+  const confirm = await Dialog.confirm({
+    title: i18n('WW.Item.Delete.Dialog.Title'),
+    content: `
+      ${i18n('WW.Item.Delete.Dialog.Msg', { name: '<b>' + effect.name + '</b>' })}
+      <p class="dialog-sure">${i18n('WW.Item.Delete.Dialog.Confirm', { name: effect.name })}</p>
+    `
+  });
+
+  if (!confirm) return;
+
+  effect.delete();
+}
+
+/**
+ * Prepare the data structure for Active Effects which are currently applied to an Actor or Item.
+ * @param {ActiveEffect[]} effects    The array of Active Effect instances to prepare sheet data for
+ * @param {Boolean} showDuration      Show effect duration on page
+ * @param {Boolean} showSource        Show effect source on page
+ * @param {Boolean} showControls      Show control buttons on page
+ * @param {Boolean} showCreate        Show create buttons on page
+ * @return {Object}                   Data for rendering
+*/
+export function prepareActiveEffectCategories(effects, showDuration = false, showSource = true, showControls = true, showCreate = true) {
+
+  // Define effect header categories
+  const categories = {
+    temporary: {
+      type: 'temporary',
+      name: 'WW.Effects.Temporary',
+      showDuration: true,
+      showSource: showSource,
+      showControls: showControls,
+      showCreate: showCreate,
+      effects: [],
+    },
+    permanent: {
+      type: 'permanent',
+      name: 'WW.Effects.Permanent',
+      showDuration: showDuration,
+      showSource: showSource,
+      showControls: showControls,
+      showCreate: showCreate,
+      effects: [],
+    },
+    inactive: {
+      type: 'inactive',
+      name: 'WW.Effects.Inactive',
+      showDuration: showDuration,
+      showSource: showSource,
+      showControls: showControls,
+      showCreate: false,
+      effects: [],
+    },
+  }
+
+  // Iterate over active effects
+  for (const e of effects) {
+    // Prepare tooltips
+    let tooltip = `<h2>${i18n(e.name)}</h2>
+      <div>${i18n(e.description)}</div>
+      <ul>`;
+
+    for (const c of e.changes) {
+      const label = CONFIG.WW.EFFECT_CHANGE_LABELS[c.key] ? i18n(CONFIG.WW.EFFECT_CHANGE_LABELS[c.key]) : 'BROKEN EFFECT CHANGE, FIX IT!';
+      tooltip += `<li>${label} ${(c.value !== true) ? `${c.value}.` : ''}</li>`;
+    }
+
+    tooltip += `</ul>`;
+    
+    e.tooltip = tooltip;
+
+    // Push them into categories
+    if (e.disabled) categories.inactive.effects.push(e)
+    else if (e.isTemporary) categories.temporary.effects.push(e)
+    //else if (e.parent instanceof Item) categories.item.effects.push(e)
+    else categories.permanent.effects.push(e)
+  }
+
+  return categories
+}
+
+export function expireFromTokens() {
+  if (game.users.activeGM?.isSelf) {
+    for (const t of canvas.tokens.placeables) {
+      
+      // Don't do anything for actors without this function (e.g. basic actors)
+      if (!t.actor?.expireActiveEffects) continue;
+      
+      t.actor.expireActiveEffects();
+    }
+  }
+}

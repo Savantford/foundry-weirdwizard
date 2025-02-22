@@ -154,6 +154,8 @@
 "TYPES.Item.Profession": "Profession",
 "TYPES.Item.Path": "Path",
 
+"TYPES.JournalEntryPage.tradition": "Tradition",
+
 "WW.Item.Name": "Name",
 "WW.Item.NamePH": "Item's Name",
 "WW.Item.Tier": "Tier",
@@ -166,7 +168,6 @@
 "WW.Item.DisableEffects": "Disable passive effects",
 "WW.Item.Equip": "Wear equipment",
 "WW.Item.Unequip": "Remove equipment",
-"WW.Item.Scroll": "Send description to chat",
 
 "WW.Item.Perform.Attack": "Attack",
 "WW.Item.Perform.AttackTarget": "Select targets and attack",
@@ -422,6 +423,8 @@
 "WW.Weapon.Grip.TwoShort": "Two",
 "WW.Weapon.Grip.Off": "Off Hand",
 "WW.Weapon.Grip.OffShort": "Off",
+"WW.Weapon.Grip.Natural": "Natural Weapon",
+"WW.Weapon.Grip.NaturalShort": "Natural",
 
 "WW.Weapon.Requirement.Label": "Requirement",
 "WW.Weapon.Requirement.Requires": "Requires",
@@ -484,6 +487,7 @@
 "WW.CharOptions.ExpertPath": "Expert Path",
 "WW.CharOptions.Master": "Master",
 "WW.CharOptions.MasterPath": "Master Path",
+"WW.CharOptions.JournalEntryWarning": "You are trying to drag and drop a Journal Entry. If you wanted to drag a Character Option, make sure to drag a PAGE from the Journal Entry's hierarchy!",
 
 "WW.CharOption.Description": "Description",
 "WW.CharOption.Traits": "Traits",
@@ -559,6 +563,7 @@
 "WW.Effect.Duration.No": "No duration",
 "WW.Effect.Duration.Round": "round",
 "WW.Effect.Duration.Rounds": "rounds",
+"WW.Effect.Duration.LuckEnds": "(Luck ends)",
 "WW.Effect.Duration.Minute": "minute",
 "WW.Effect.Duration.Minutes": "minutes",
 "WW.Effect.Duration.Hour": "hour",
@@ -848,10 +853,11 @@
 
 "WW.System.Welcome": "{intro}<p>Hail!</p><p>Welcome to <b>Shadow of the Weird Wizard</b>.</p><p>To get started, have a look at the <b>System Documentation</b> compendium in the <b>Compendium Packs</b> tab.</p><p>You can also find <b>tours</b> in the <b>Tour Managegement</b> under settings.</p>",
 "WW.System.WelcomeFooter": "<p>Links to the <a href=\"https://github.com/Savantford/foundry-weirdwizard/releases/latest\">Patchnotes</a>, known <a href=\"https://github.com/Savantford/foundry-weirdwizard/issues\">Issues</a> on Github and the <a href=\"https://discord.com/invite/DUMfrUc\">Discord</a> community can also be found in the settings tab. Feedback is always welcome!</p><p>Have fun and stay weird!</p>",
-"WW.System.Help": "Help",
 "WW.System.EditImage": "Edit Image",
+"WW.System.Embed": "Embed in chat",
+"WW.System.Tour": "Start tour",
+"WW.System.Documentation": "Show documentation",
 
-"WW.System.Sheet.Menu": "Open the Sheet Menu",
 "WW.System.Sheet.EditMode": "Toggle Edit Mode",
 "WW.System.Sheet.Character": "Character Sheet",
 "WW.System.Sheet.NPC": "NPC Sheet",
@@ -927,12 +933,10 @@
 "WW.Tour.Character.Stats.Title": "Other Statistics",
 "WW.Tour.Character.Stats.Content": "This section has the remaining main stats used by the game: Defense, Size, Speed and Bonus Damage.\nMost of them are calculated automatically, so you cannot edit them here.\nYou can, however, hover them with your cursor to see more information about each individual stat.",
 
-"WW.Tour.Character.SheetMenu.Title": "Sheet Menu",
-"WW.Tour.Character.SheetMenu.Content": "Besides the sheet banner, another element always visible is the sheet menu.\nYou can click on the sheet menu button to see the list of available functionalities, such as the Rest button.",
 "WW.Tour.Character.EditMode.Title": "Edit Mode",
 "WW.Tour.Character.EditMode.Content": "Sheets are always rendered in the <b>read-only mode</b>, as hinted by the padlock icon here.\nYou can click on the Sheet Menu to toggle the <b>edit mode</b> on or off.\nA yellow unlocked padlock will be displayed when the sheet is in edit mode.",
 "WW.Tour.Character.Tabs.Title": "Sheet Tabs",
-"WW.Tour.Character.Tabs.Content": "Right under the sheet menu is the tab navigation section.\nHere you can toggle between the Summary, Details, Equipment, Traits & Talents, Spells and Effects tabs by clicking on them.",
+"WW.Tour.Character.Tabs.Content": "Right under the edit mode toggle button is the tab navigation section.\nHere you can toggle between the Summary, Details, Equipment, Traits & Talents, Spells and Effects tabs by clicking on them.",
 
 "WW.Tour.Character.Summary.Title": "Summary Tab",
 "WW.Tour.Character.Summary.Content": "The first and default opened tab is the Summary.\nHere, you can find most information about a character condensed in a single space, similar to the statboxes used by the game.\nThe Summary was built with combat encounters in mind, so you'll rarely need to go to another tab while in combat.\nHowever, many things that are displayed in the Summary are edited in another tab, as shown later in this tour.\nThe main purpose of the Summary tab is to display useful information, and not to edit them.",

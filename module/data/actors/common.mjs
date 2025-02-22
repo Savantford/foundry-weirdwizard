@@ -5,8 +5,7 @@ export function description (type = String) {
   const init = (type === 'Character') ? 'Unknown biography.' : 'No creature description.';
 
   return {
-    description: makeHtmlField(init),
-    group: makeStrField()
+    description: makeHtmlField(init)
   }
 
 };
@@ -53,7 +52,6 @@ export function stats(type = String) {
 
 export function details(type = String) {
   const obj = {
-    group: makeStrField(),
     
     descriptors: new fields.ArrayField(
       new fields.ObjectField({ initial: {

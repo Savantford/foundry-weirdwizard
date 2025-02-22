@@ -79,7 +79,7 @@ export default class WWItem extends Item {
     for (const doc of documents) {
       
       // If character option and user did the operation
-      if (await doc.charOption && game.user === user) {
+      if (await doc.isCharOption && game.user === user) {
         await doc.updateBenefitsOnActor();
       }
     }
@@ -134,7 +134,7 @@ export default class WWItem extends Item {
     for (const doc of documents) {
       
       // If character option
-      if (await doc.charOption) {
+      if (await doc.isCharOption) {
         await doc.deleteGrantedItems();
         await doc.deleteGrantedEntries();
       }

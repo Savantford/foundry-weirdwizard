@@ -2,7 +2,7 @@
   "Actor": {
     "types": ["Character", "NPC", "Vehicle", "Group"],
     "templates": {},
-    "htmlFields": ["details.biography.value", "details.biography.public", "description.full", "description.summary"],
+    "htmlFields": [],
     "Group": {
       "description": {
         "full": "",
@@ -24,7 +24,15 @@
     }
   },
   "Item": {
-    "types": ["Equipment", "Trait or Talent", "Spell", "Ancestry", "Profession", "Path"],
-    "htmlFields": ["description.value", "description.chat", "description.unidentified"]
+    "types": ["Equipment", "Trait or Talent", "Spell", "Ancestry", "Profession", "Path", "Tradition"],
+    "htmlFields": []
+  },
+  "JournalEntryPage": {
+    "types": ["ancestry", "path", "profession", "tradition"],
+    "htmlFields": []
+  },
+  "ChatMessage": {
+    "types": ["d20-roll", "d6-roll", "embed-card"],
+    "htmlFields": []
   }
 }
