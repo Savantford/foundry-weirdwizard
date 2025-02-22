@@ -1,0 +1,25 @@
+<div class="weirdwizard charoption">
+
+  {{!-- Right Banner --}}
+  <header class="sheet-banner-wrapper">
+    <hr class="spear" />
+
+    <div class="sheet-banner">
+      {{!-- Image --}}
+      <img class="banner-img" src="{{document.src}}" data-edit="src" data-tooltip="WW.System.EditImage" />
+    </div>
+
+  </header>
+
+  {{#if data.title.show}}
+  <header class="journal-page-header">
+    <h{{data.title.level}}>{{data.name}}</h{{data.title.level}}>
+  </header>
+  {{/if}}
+
+  {{!-- Page Content --}}
+  <section class="journal-page-content">
+    {{{editor.content}}}
+  </section>
+
+</div>

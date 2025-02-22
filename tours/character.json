@@ -258,14 +258,8 @@
       "content": "WW.Tour.Character.Stats.Content"
     },
     {
-      "id": "sheet-menu",
-      "selector": ".weirdwizard.character .sheet-menu",
-      "title": "WW.Tour.Character.SheetMenu.Title",
-      "content": "WW.Tour.Character.SheetMenu.Content"
-    },
-    {
       "id": "edit-mode",
-      "selector": ".weirdwizard.character .edit-mode-icon",
+      "selector": ".weirdwizard.character .edit-mode",
       "title": "WW.Tour.Character.EditMode.Title",
       "content": "WW.Tour.Character.EditMode.Content"
     },

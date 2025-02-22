@@ -1,0 +1,164 @@
+<div class="effects-wrapper">
+
+    {{!-- Instant Effects List --}}
+    <ol class="item-list effects-list instant-effects">
+
+        {{!-- Header Row --}}
+        <li class="item items-header flexrow">
+            <div class="item-image"></div>
+            <div class="item-name">{{localize "WW.Effects.Instant"}}</div>
+            <div class="instant-effect-trigger">Trigger</div>
+            <div class="instant-effect-target">Target</div>
+            <div class="instant-effect-value">Value</div>
+            <div class="item-controls itemeffect-controls flexrow">
+                <a class="instant-control" data-action="create" data-tooltip="WW.Effect.Create">
+                    <i class="fas fa-plus"></i> {{localize "WW.Item.Create.Label"}}
+                </a>
+            </div>
+        </li>
+        
+        {{!-- Table Rows --}}
+        {{#each instantEffects as |effect id|}}
+        <li class="item effect flexrow" data-effect-id="{{id}}">
+            <div class="item-image">
+                <img src="{{effect.img}}" width="24" height="24" />
+            </div>
+            <div class="item-name">
+                <label>{{localize effect.locLabel}}</label>
+
+                <span class="buttons">
+
+                    <i class="fas fa-{{#if (eq system.trigger "onCritical")}}check-double
+                        {{else if (eq system.trigger "onSuccess")}}check
+                        {{else if (eq system.trigger "onFailure")}}x
+                        {{else if (eq system.trigger "onUse")}}bolt
+                        {{else}}gears{{/if}}"
+                        data-tooltip="{{localize "WW.Effect.TriggerShort"}}:
+                            {{#if effect.locTrigger}}{{localize effect.locTrigger}}
+                            {{else}}{{localize "WW.Effect.Passive" }}{{/if}}">
+                    </i>
+                    
+                    <i class="fas {{#if (eq system.target "none")}}fa-user{{else}}fa-users-viewfinder{{/if}}
+                        {{#if (eq system.target "allies")}}color-green
+                        {{else if (eq system.target "enemies")}}color-red{{/if}}"
+                        data-tooltip="{{localize "WW.Effect.Target"}}:
+                            {{#if effect.locTarget}}{{localize effect.locTarget}}
+                            {{else}}{{localize "WW.Effect.None" }}{{/if}}">
+                    </i>
+
+                </span>
+
+            </div>
+        
+            <div class="instant-effect-trigger">
+                {{localize effect.locTrigger}}
+            </div>
+
+            <div class="instant-effect-target">
+                {{localize effect.locTarget}}
+            </div>
+
+            <div class="instant-effect-value">
+                {{#if (eq effect.label "affliction")}}{{effect.affliction}}
+                {{else}}{{effect.value}}
+                {{/if}}
+            </div>
+
+            <div class="item-controls itemeffect-controls flexrow">
+                <a class="instant-control" data-action="instantEdit" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Edit">
+                    <i class="fas fa-edit"></i>
+                </a>
+
+                <a class="instant-control" data-action="instantRemove" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Delete">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </div>
+
+        </li>
+        {{/each}}
+        
+    </ol>
+
+    {{!-- Dynamic Active Effects Lists --}}
+    {{#each effects as |section sid|}}
+    {{#if (ne section.type 'inactive')}}
+    <ol class="item-list effects-list {{section.type}}-effects">
+
+        {{!-- Header Row --}}
+        <li class="item items-header flexrow" data-effect-type="{{section.type}}">
+            <div class="item-image"></div>
+            <div class="item-name">{{localize section.name}}</div>
+            {{#if section.showDuration}}<div class="effect-duration">Duration</div>{{/if}}
+            
+            <div class="item-controls effect-controls flexrow">
+            {{#if section.showCreate}}
+            <a class="effect-control" data-action="effectCreate" data-type="{{section.type}}" data-tooltip="WW.Effect.Create">
+                <i class="fas fa-plus"></i> {{localize "WW.Item.Create.Label"}}
+            </a>
+            {{/if}}
+            </div>
+        </li>
+
+        {{!-- Table Rows --}}
+        {{#each section.effects as |effect|}}
+        {{log effect}}
+        <li class="item effect flexrow {{#if (eq effect.parent.id @root.actor.id)}}draggable{{/if}}"
+            data-effect-id="{{effect.id}}">
+            <div class="item-image">
+                <img src="{{effect.img}}" width="24" height="24" />
+            </div>
+            
+            <div class="item-name" data-tooltip="{{{effect.tooltip}}}">
+                <label>{{effect.name}}</label>
+
+                <span class="buttons">
+
+                    <i class="fas fa-{{#if (eq system.trigger "onCritical")}}check-double
+                        {{else if (eq system.trigger "onSuccess")}}check
+                        {{else if (eq system.trigger "onFailure")}}x
+                        {{else if (eq system.trigger "onUse")}}bolt
+                        {{else}}gears{{/if}}"
+                        data-tooltip="{{localize "WW.Effect.TriggerShort"}}:
+                            {{#if effect.locTrigger}}{{localize effect.locTrigger}}
+                            {{else}}{{localize "WW.Effect.Passive" }}{{/if}}">
+                    </i>
+                    
+                    <i class="fas {{#if (eq system.target "none")}}fa-user{{else}}fa-users-viewfinder{{/if}}
+                        {{#if (eq system.target "allies")}}color-green
+                        {{else if (eq system.target "enemies")}}color-red{{/if}}"
+                        data-tooltip="{{localize "WW.Effect.Target"}}:
+                            {{#if effect.locTarget}}{{localize effect.locTarget}}
+                            {{else}}{{localize "WW.Effect.None" }}{{/if}}">
+                    </i>
+
+                </span>
+
+            </div>
+        
+            {{#if section.showDuration}}<div class="effect-duration">{{system.duration.formatted}}</div>{{/if}}
+        
+            <div class="item-controls effect-controls flexrow">
+
+                {{#if (ne section.type 'temporary')}}
+                <a class="effect-control" data-action="toggle" data-tooltip="WW.Effect.Toggle">
+                    <i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
+                </a>
+                {{/if}}
+        
+                <a class="effect-control" data-action="effectEdit" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Edit">
+                    <i class="fas fa-edit"></i>
+                </a>
+
+                <a class="effect-control" data-action="effectRemove" data-effect-id="{{effect.id}}"
+                    data-tooltip="WW.Effect.Delete">
+                    <i class="fas fa-trash"></i>
+                </a>
+                
+            </div>
+        </li>
+        {{/each}}
+
+    </ol>
+    {{/if}}
+    {{/each}}
+</div>

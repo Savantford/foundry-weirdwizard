@@ -4,7 +4,8 @@
         data-tooltip="{{{item.tooltip}}}">{{item.label}}:</label>
 
     {{!-- Modifier --}}
-    <span class="modifier-line">{{localize item.system.attributeLabel}}
+    <span class="modifier-line">
+        {{localize item.system.attributeLabel}}
 
         {{!-- Boons --}}
         {{#if item.system.boons}} {{localize "WW.Boons.With"}} {{item.system.boons}}

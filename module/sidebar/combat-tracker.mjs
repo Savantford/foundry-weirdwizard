@@ -1,5 +1,5 @@
-import { i18n } from '../helpers/utils.mjs'
-import WWCombatTrackerConfig from '../sheets/combat-config.mjs'
+import { i18n } from '../helpers/utils.mjs';
+import WWCombatTrackerConfig from '../sheets/configs/combat-config.mjs';
 
 /**
  * The sidebar directory which organizes and displays world-level Combat documents.

@@ -1,5 +1,5 @@
 import { i18n } from '../helpers/utils.mjs'
-//import { chatMessageButtonArray, diceTotalHtml } from '../chat/chat-html-templates.mjs';
+//import { chatMessageButtonArray, diceTotalHtml } from '../sidebar/chat-html-templates.mjs';
 import WWRoll from './roll.mjs';
 
 /**
@@ -150,14 +150,22 @@ export default class RollDamage extends FormApplication {
     if (applyAttackMod) modCount += this.actor ? this.actor.system.extraDamage.attacks.mod : 0;
     if (otherMod) modCount += otherMod;
 
-    // Add all dice and mods to finalExp
-    this.finalExp = '';
-    if (applyBase && this.baseDamage) this.finalExp += this._addDice(this.baseDamage);
-    if (this.isAttack && this.usedBonusDamage) this.finalExp += this._addDice(this.usedBonusDamage);
-    if (diceCount) this.finalExp += this._addDice(diceCount);
-    if (modCount) this.finalExp += ' + ' + modCount;
+    // Create final dice expression
 
+    const addDice = function(value, exp) {
+      const prefix = exp ? ' + ' : '';
+      return prefix + value + 'd6';
+    }
+
+    let exp = ''
+    if (applyBase && this.baseDamage) exp += this.baseDamage;
+    if (this.isAttack && this.usedBonusDamage) exp += addDice(this.usedBonusDamage, exp);
+    if (diceCount) exp += addDice(diceCount, exp);
+    if (modCount) exp += (exp ? ' + ' : '') + modCount;
+    if (this.item?.system?.traits?.brutal) exp.replace('d6', 'd6r1');
+    
     // Display final expression
+    this.finalExp = exp;
     parent.querySelector('.damage-expression').innerHTML = this.finalExp;
     
   }
@@ -178,13 +186,14 @@ export default class RollDamage extends FormApplication {
     const rollData = this.origin.getRollData();
 
     const r = await new WWRoll(this.finalExp, rollData, {
-      template: "systems/weirdwizard/templates/sidebar/roll.hbs",
+      template: "systems/weirdwizard/templates/chat/roll.hbs",
       dataset: dataset
     }).evaluate();
     dataset.value = await r.total;
     const rollArray= [r];
     
     const messageData = {
+      type: 'd6-roll',
       rolls: rollArray,
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
       flavor: labelHtml,
@@ -204,16 +213,5 @@ export default class RollDamage extends FormApplication {
 
   }
 
-  _addDice(diceExp) {
-    if (!diceExp) return '';
-    diceExp = '' + diceExp; // Make sure diceExp is a string
-    const brutal = this.item ? this.item.system.traits?.brutal : false;
-    
-    let exp = '';
-    if (this.finalExp) exp += ' + ';
-    diceExp.includes('d6') ? exp += diceExp + (brutal ? 'r1' : '') : exp += diceExp + (brutal ? 'd6r1' : 'd6');
-
-    return exp;
-  }
 }
 

@@ -2,137 +2,34 @@ import { i18n, formatTime } from '../helpers/utils.mjs';
 
 export default class WWActiveEffect extends ActiveEffect {
 
-  async _onCreate(data, options, user) {
-    
-    if (!data.flags?.weirdwizard) data.flags = { weirdwizard: {} };
-
-    const wwflags = data.flags.weirdwizard;
-    
-    // Create basic flags if they aren't set already
-    const obj = {
-      selectedDuration: wwflags?.selectedDuration ? wwflags.selectedDuration : '',
-      autoDelete: wwflags?.autoDelete ? this.autoDelete : true,
-      external: wwflags?.external ? wwflags.external : false,
-      uuid: await this.uuid
-    };
-
-    // Set external flag if it does not exist. Must have a non-passive trigger flag set and a different parent UUID
-    if (!wwflags?.external && wwflags?.trigger != 'passive' && this.origin && !this.origin.includes(this.parent.uuid)) {
-      obj.external = true;
-    }
-    
-    await this.updateSource({ 'flags.weirdwizard': obj });
-
-    return await super._onCreate(data, options, user);
-  }
-
-  prepareData() {
-    super.prepareData();
-  }
-
-  async _onUpdate(data, options, userId) {
-    super._onUpdate(data, options, userId);
-    
-  }
-
   /* -------------------------------------------- */
-  /*  Properties                                  */
+  /*  Data Preparation                            */
   /* -------------------------------------------- */
-  
-  /** @override */
-  get isSuppressed() {
-    const originatingItem = this.originatingItem;
-
-    if (!originatingItem) {
-      return false;
-    }
-
-    return !originatingItem.system.active;
-  }
 
   /**
-   * The item which this effect originates from if it has been transferred from an item to an actor.
-   * @return {import('./item/item').WWItem | undefined}
+   * @override
+   * Augment the basic actor data with additional dynamic data. Typically,
+   * you'll want to handle most of your calculated/derived data in this step.
+   * Data calculated in this step should generally not exist in template.json
+   * (such as ability modifiers rather than ability scores) and should be
+   * available both inside and outside of character sheets (such as if an actor
+   * is queried and has a roll executed directly from it).
   */
-  get originatingItem() {
-    
-    if (this.parent instanceof Item) {
-      return this.parent;
-    }
-    
-    return undefined;
-  }
+  prepareDerivedData() {
+    const system = this.system;
+    const flags = this.flags.weirdwizard || {};
 
-  /**
-   * The combatant from which the effect originated
-  */
-  get originCombatant() {
+    // The item which this effect originates from if it has been transferred from an item to an actor
+    this.originalItem = (this.parent instanceof Item) ? this.parent : null;
 
-    if (this.origin.includes('Item')) {
-      const item = fromUuidSync(this.origin);
-      const combatant = item.parent.token?.combatant;
-      return combatant ?? combatant;
-    } else {
-      const actor = fromUuidSync(this.origin);
-      const combatant = actor.token?.combatant;
-      return combatant ?? combatant;
-    }
+    // Get derived duration variables
+    const key = 'WW.Effect.Duration.';
+    const rounds = this.duration.rounds;
 
-  }
+    if (rounds === 777) this.system.duration.formatted = 'Luck ends';
+    else if (rounds) this.system.duration.formatted = `${rounds} ${(rounds > 1 ? i18n(key + 'Rounds') : i18n(key + 'Round'))}`;
+    else this.system.duration.formatted = formatTime(this.duration.seconds);
 
-  /**
-   * Get the selectedDuration flag.
-   * @type {string}
-  */
-  get selectedDuration() {
-    return this.flags.weirdwizard?.selectedDuration;
-  }
-
-  /**
-   * Get the autoDelete flag.
-   * @type {string}
-  */
-  get autoDelete() {
-    return this.flags.weirdwizard?.autoDelete;
-  }
-
-  /**
-   * Get the durationInMinutes flag.
-   * @type {string}
-  */
-  get durationInMinutes() {
-    return this.flags.weirdwizard?.durationInMinutes;
-  }
-
-  /**
-   * Get the durationInHours flag.
-   * @type {string}
-  */
-  get durationInHours() {
-    return this.flags.weirdwizard?.durationInHours;
-  }
-
-  /**
-   * Get the durationInDays flag.
-   * @type {string}
-  */
-  get durationInDays() {
-    return this.flags.weirdwizard?.durationInDays;
-  }
-
-  /**
-   * Get the formatted duration.
-   * @type {string}
-  */
-  get formattedDuration() {
-    if (this.duration.seconds)
-      return formatTime(this.duration.seconds);
-    else {
-      const rounds = this.duration.rounds;
-      const key = 'WW.Effect.Duration.';
-      
-      return rounds + ' ' + (rounds > 1 ? i18n(key + 'Rounds') : i18n(key + 'Round'));
-    }
   }
 
   /**
@@ -140,7 +37,7 @@ export default class WWActiveEffect extends ActiveEffect {
    * @type {number}
   */
   get factor() {
-    return this.originatingItem?.activeEffectFactor ?? 1;
+    return this.system.original?.item?.activeEffectFactor ?? 1;
   }
 
   /**
@@ -157,26 +54,36 @@ export default class WWActiveEffect extends ActiveEffect {
     return typeof trigger === 'string' ? trigger : 'passive';
   }
 
-  /**
-   * Get the Target flag.
-   * Returns the default value the flag is not set.
-   * @type {string}
-  */
-  get target() {
-    const target = this.flags.weirdwizard?.target ?? 'none';
-    return typeof target === 'string' ? target : 'none';
+  /* -------------------------------------------- */
+  /*  Data Update                                 */
+  /* -------------------------------------------- */
+
+  async _onUpdate(data, options, userId) {
+    super._onUpdate(data, options, userId);
+    
+  }
+
+  /* -------------------------------------------- */
+  /*  Properties                                  */
+  /* -------------------------------------------- */
+  
+  /** @override */
+  get isSuppressed() {
+    return foundry.utils.getProperty(this, 'system.original.item.system.active') ?? false;
   }
 
   /**
-   * Check if the external flag exists.
-   * Returns the default value the flag is not set.
-   * @type {string}
+   * The combatant from which the effect originated
   */
-  get isExternal() {
-    if (this.flags.weirdwizard?.external)
-      return true;
-    else
-      return false;
+  get originalCombatant() {
+    const document = fromUuidSync(this.origin);
+
+    if (document.documetName === 'Item') {
+      return document.parent.token?.combatant ?? null;
+    } else {
+      return document.token?.combatant ?? null;
+    }
+
   }
 
   /* -------------------------------------------- */

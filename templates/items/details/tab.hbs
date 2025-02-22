@@ -1,0 +1,34 @@
+<section class="tab details {{tab.cssClass}}" data-group="primary" data-tab="details">
+
+    {{!-- Name Stripe --}}
+    {{> "systems/weirdwizard/templates/items/common/name-stripe.hbs" }}
+    
+    {{!-- Sheet Header --}}
+    <header class="sheet-header">
+
+        
+
+        {{!-- Details Area --}}
+        {{#each detailsPartial as |part|}}
+            {{> (part) @root}}
+        {{/each}}
+
+        {{!-- Right Ribbon --}}
+        {{> "systems/weirdwizard/templates/items/common/item-ribbon.hbs" }}
+
+    </header>
+
+    {{!-- Description --}}
+    <prose-mirror name="system.description.value" data-document-u-u-i-d="{{item.uuid}}" value="{{system.description.value}}"
+        toggled=true collaborate=true compact=true owner={{owner}} editable={{editable}}>
+        {{{system.description.enriched}}}
+    </prose-mirror>
+
+    {{#if grantedBy}}
+    <div class="stat-inline mt-1">
+        <label>{{localize "WW.CharOption.GrantedBy"}}:</label>
+        {{grantedBy}}
+    </div>
+    {{/if}}
+
+</section>

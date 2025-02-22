@@ -1,4 +1,4 @@
-import { i18n, formatTime } from '../helpers/utils.mjs';
+import { i18n, formatTime, sysPath } from '../helpers/utils.mjs';
 
 /**
 * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
@@ -189,12 +189,12 @@ export default class WWActor extends Actor {
       
       for (const i of this.items) {
         if (user !== game.user.id) return;
-        if (i.charOption) i.updateBenefitsOnActor();
+        if (i.isCharOption) i.updateBenefitsOnActor();
       }
       
     }
 
-  };
+  }
 
   /**
    * @override
@@ -238,6 +238,68 @@ export default class WWActor extends Actor {
     // things organized.
     this._prepareCharacterData(system);
     this._prepareNpcData(system);
+  }
+
+  async toEmbed(config, options) {
+    console.warn('config', config)
+    console.log('options', options)
+
+    // Fix config 
+    config.label = this.name
+
+    // Fix options
+    options.relativeTo = this;
+    
+    // Prepare variables
+    const context = {
+      ...config,
+      system: this.system,
+      img: this.img,
+      type: this.type,
+      
+      subtitle: '',
+      text: this.system.description ? await TextEditor.enrichHTML(this.system.description.value, { async: true, secrets: this.isOwner }) : 'No description.'
+    }
+
+    const details = this.system.details;
+
+    // Prepare contextual variables
+    if (this.type === 'Character') {
+      // Prepare subtitle
+      if (details.ancestry) context.subtitle = details.ancestry;
+
+      const sep = context.subtitle ? ' • ' : '';
+
+      if (details.master) context.subtitle += sep + details.master;
+      else if (details.expert) context.subtitle += sep + details.expert;
+      else if (details.novice) context.subtitle += sep + details.novice;
+
+      // Prepare main text
+      context.text = await TextEditor.enrichHTML(details.appearance.value, { async: true, secrets: this.isOwner });
+      
+    } else {
+      // Prepare subtitle
+      details.descriptors.forEach(d => {
+        context.subtitle += (context.subtitle ? ', ' : '') + d.name;
+      })
+    }
+
+    // Prepare wrapper
+    const wrapper = config.inline ? document.createElement('div') : document.createElement('a');
+
+    // Prepare document card
+    const card = await renderTemplate(sysPath('templates/apps/document-card.hbs'), context);
+    
+    if (config.inline) {
+      wrapper.classList.add('document-card-inline');
+      wrapper.innerHTML = card;
+    } else {
+      wrapper.classList.add('document-card-link');
+      wrapper.setAttribute('data-tooltip', card);
+      wrapper.innerHTML = context.label;
+    }
+    
+    return wrapper;
   }
 
   /**
@@ -303,9 +365,9 @@ export default class WWActor extends Actor {
 
     // Health
     data.hth = {
-      cur: sys.stats.defense.current,
-      nrm: sys.stats.defense.normal,
-      lost: sys.stats.defense.lost,
+      cur: sys.stats.health.current,
+      nrm: sys.stats.health.normal,
+      lost: sys.stats.health.lost,
     }
 
     // Damage Total

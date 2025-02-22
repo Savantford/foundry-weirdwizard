@@ -10,6 +10,7 @@ export class Utils {
   static getSpeaker = getSpeaker;
   static getAlias = getAlias;
   static sum = sum;
+  static sysPath = sysPath;
 }
 
 /* Formatting Functions */
@@ -210,4 +211,8 @@ export function getFolderList(compendium) {
   }
 
   return folderList;
-};
+}
+
+export function sysPath(string) {
+  return 'systems/weirdwizard/' + string;
+}
