@@ -145,6 +145,8 @@
 "TYPES.Item.Trait or Talent": "Trait or Talent",
 "TYPES.Item.Spell": "Spell",
 
+"TYPES.JournalEntryPage.tradition": "Tradition",
+
 "WW.Item.Name": "Name",
 "WW.Item.NamePH": "Item's Name",
 "WW.Item.Tier": "Tier",

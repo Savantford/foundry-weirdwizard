@@ -105,7 +105,7 @@ export default class WWChatMessage extends ChatMessage {
         };
       }
     }
-    
+    console.log(this)
     // Construct message data
     const messageData = {
       message: data,

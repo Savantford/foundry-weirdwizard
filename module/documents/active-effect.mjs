@@ -48,7 +48,9 @@ export default class WWActiveEffect extends ActiveEffect {
       
     }
 
-  }
+    if (rounds === 777) this.system.duration.formatted = 'Luck ends';
+    else if (rounds) this.system.duration.formatted = `${rounds} ${(rounds > 1 ? i18n(key + 'Rounds') : i18n(key + 'Round'))}`;
+    else this.system.duration.formatted = formatTime(this.duration.seconds);
 
   /**
    * @override
@@ -126,6 +128,15 @@ export default class WWActiveEffect extends ActiveEffect {
     //console.log(this.name)
     //console.log(foundry.utils.getProperty(this.parent, 'system.active'))
     return this.parent ? !foundry.utils.getProperty(this.parent, 'system.active') : false;
+  }
+
+  /* -------------------------------------------- */
+  /*  Properties                                  */
+  /* -------------------------------------------- */
+  
+  /** @override */
+  get isSuppressed() {
+    return foundry.utils.getProperty(this, 'system.original.item.system.active') ?? false;
   }
 
   /**
