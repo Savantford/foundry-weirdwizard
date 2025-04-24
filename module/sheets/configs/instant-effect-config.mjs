@@ -11,7 +11,7 @@ export default class InstantEffectConfig extends FormApplication {
     return options;
   }
 
-  constructor(item, effectId, options={}) {
+  constructor(effectId, item, options={}) {
     const effect = effectId ? item.system.instant[effectId] : null;
     super(effect, options);
 

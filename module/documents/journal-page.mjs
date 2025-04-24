@@ -1,5 +1,5 @@
 /**
- * Extend the basic Item with some very simple modifications.
+ * Extend the basic JournalEntryPage with some modifications.
  * @extends {JournalEntryPage}
 */
 
@@ -20,7 +20,7 @@ export default class WWJournalPage extends JournalEntryPage {
   }
 
   /* -------------------------------------------- */
-
+  
   async _preCreate(data, options, user) {
     let icon = data.image;
     
@@ -28,15 +28,15 @@ export default class WWJournalPage extends JournalEntryPage {
     if (!icon) {
 
       switch (this.type) {
-        case 'Ancestry':
+        case 'ancestry':
           icon = 'icons/svg/oak.svg';
         break;
 
-        case 'Path':
+        case 'path':
           icon = 'icons/svg/stone-path.svg';
         break;
 
-        case 'Profession':
+        case 'profession':
           icon = 'systems/weirdwizard/assets/icons/professions/dig-dug.svg';
         break;
 
@@ -48,73 +48,27 @@ export default class WWJournalPage extends JournalEntryPage {
     }
 
     await this.updateSource({ 'src': icon });
+
+    if (this.type === 'profession') await this.updateSource({ 'title.level': 3 });
     
     return await super._preCreate(await data, options, user);
   }
 
-  async _onCreate(data, options, user) {
-
-    // Change the sheet to suit the tier
-    if (this.type === 'Path') {
-      await this._onTierChange(data);
-    }
-
-    return await super._onCreate(await data, options, user);
-  }
-
   /* -------------------------------------------- */
 
-  /** @override */
-  static async _onCreateOperation(documents, operation, user) {
-    super._onCreateOperation(documents, operation, user);
+  async _preUpdate(changes, options, user) {
+    await super._preUpdate(changes, options, user);
 
-    for (const doc of documents) {
-      
-      // If character option and user did the operation
-      if (await doc.isCharOption && game.user === user) {
-        await doc.updateBenefitsOnActor();
-      }
+    // If Path, apply on tier change flow
+    if (this.system.tier && (this.system.tier !== changes.system?.tier)) {
+      await this._onTierChange(await changes);
     }
-  }
-
-  /* -------------------------------------------- */
-
-  async _preUpdate(changed, options, user) {
-
-    // If Path, ensure changed.system.tier is defined
-    if (this.type === 'Path' && changed.system && !changed.system?.tier) changed.system.tier = this.system.tier;
-
-    if (this.system.tier && (this.system.tier !== changed.system?.tier)) {
-      await this._onTierChange(await changed);
+    console.log('preUpdate')
+    // If Profession category is changes and the icon is one of the default ones, change base icon
+    if (this.type === 'profession' && changes.system?.category !== this.system.category && (this.src === 'icons/svg/book.svg' || this.src.includes('systems/weirdwizard/assets/icons/professions'))) {
+      await this._onProfessionCategoryChange(await changes);
     }
-    
-    // If Profession category is changed and the icon is one of the default ones, change base icon
-    if (this.type === 'Profession' && changed.system?.category !== this.system.category && (this.img === 'icons/svg/book.svg' || this.img.includes('systems/weirdwizard/assets/icons/professions'))) {
-      await this._onProfessionCategoryChange(await changed);
-    }
-    
-    if (!this.actor && this.system.heldBy) this.system.heldBy = null;
-    
-    await super._preUpdate(await changed, options, user);
 
-  };
-
-  /* -------------------------------------------- */
-
-  /**
-   * @override
-   * @param {object} data Update data
-   * @param {options} options Context options
-   * @param {string} userId Triggering user ID
-   */
-  async _onUpdate(data, options, userId) {
-    super._onUpdate(data, options, userId);
-    
-    // If benefits were changed
-    if (data.system?.benefits) {
-      if (userId !== game.user.id) return;
-      this.updateBenefitsOnActor();
-    }
   }
 
   /* -------------------------------------------- */
@@ -198,353 +152,17 @@ export default class WWJournalPage extends JournalEntryPage {
     const path = 'systems/weirdwizard/assets/icons/professions/';
     
     switch (category) {
-      case 'academic': data.img = 'icons/svg/book.svg'; break;
-      case 'aristocratic': data.img = path + 'wax-seal.svg'; break;
-      case 'commoner': data.img = path + 'dig-dug.svg'; break;
-      case 'criminal': data.img = path + 'manacles.svg'; break;
-      case 'entertainment': data.img = path + 'banjo.svg'; break;
-      case 'religious': data.img = path + 'fire-shrine.svg'; break;
-      case 'military': data.img = path + 'saber-and-pistol.svg'; break;
-      case 'wilderness': data.img = path + 'compass.svg'; break;
+      case 'academic': data.src = 'icons/svg/book.svg'; break;
+      case 'aristocratic': data.src = path + 'wax-seal.svg'; break;
+      case 'commoner': data.src = path + 'dig-dug.svg'; break;
+      case 'criminal': data.src = path + 'manacles.svg'; break;
+      case 'entertainment': data.src = path + 'banjo.svg'; break;
+      case 'military': data.src = path + 'saber-and-pistol.svg'; break;
+      case 'religious': data.src = path + 'fire-shrine.svg'; break;
+      case 'wilderness': data.src = path + 'compass.svg'; break;
     }
     
   }
-
-  /* -------------------------------------------- */
-
-  updateBenefitsOnActor() {
-    this.updateGrantedItems();
-    this.updateGrantedEntries();
-    if (this.type !== 'Profession') this.updateMainEffect();
-  }
-
-  /* -------------------------------------------- */
-
-  updateMainEffect() {
-    
-    // Return if no actor exists
-    if (!this.actor) return;
-
-    const benefits = this.system.benefits;
-    const level = this.actor.system.stats.level;
-
-    const stats = {
-      naturalSet: 0,
-      naturalIncrease: 0,
-      armoredIncrease: 0,
-      healthStarting: 0,
-      healthIncrease: 0,
-      sizeNormal: 0,
-      speedNormal: 0,
-      speedIncrease: 0,
-      bonusDamage: 0
-    };
-    
-    
-    for (const b in benefits) {
-
-      const benefit = benefits[b];
-      
-      // If level does not meet the requirement, ignore it
-      if (level >= benefit.levelReq) {
-        const bStats = benefit.stats;
-
-        if (bStats.naturalSet) stats.naturalSet = bStats.naturalSet;
-        stats.naturalIncrease += bStats.naturalIncrease;
-        stats.armoredIncrease += bStats.armoredIncrease;
-
-        if (this.system.tier === 'novice' && benefit.levelReq === 1) stats.healthStarting = bStats.healthStarting;
-        stats.healthIncrease += bStats.healthIncrease;
-
-        if (bStats.sizeNormal) stats.sizeNormal = bStats.sizeNormal;
-        if (bStats.speedNormal) stats.speedNormal = bStats.speedNormal;
-        stats.speedIncrease += bStats.speedIncrease;
-        stats.bonusDamage += bStats.bonusDamage;
-      }
-      
-    }
-
-    // Prepare changes for effect data
-    const changes = [];
-    
-    if (stats.naturalSet) changes.push({
-      key: 'defense.natural',
-      value: stats.naturalSet,
-      mode: 5,
-      priority: 1
-    })
-
-    if (this.system.tier === 'novice') changes.push({
-      key: 'health.starting',
-      value: stats.healthStarting,
-      mode: 5,
-      priority: 1
-    })
-
-    if (stats.naturalIncrease) changes.push({
-      key: 'defense.naturalIncrease',
-      value: stats.naturalIncrease,
-      mode: 2,
-      priority: null
-    })
-
-    if (stats.armoredIncrease) changes.push({
-      key: 'defense.armoredIncrease',
-      value: stats.armoredIncrease,
-      mode: 2,
-      priority: null
-    })
-    
-    if (stats.healthIncrease) changes.push({
-      key: 'health.increase',
-      value: stats.healthIncrease,
-      mode: 2,
-      priority: null
-    })
-
-    if (stats.sizeNormal) changes.push({
-      key: 'size.normal',
-      value: stats.sizeNormal,
-      mode: 5,
-      priority: 1
-    })
-
-    if (stats.speedNormal) changes.push({
-      key: 'speed.normal',
-      value: stats.speedNormal,
-      mode: 5,
-      priority: 1
-    })
-
-    if (stats.speedIncrease) changes.push({
-      key: 'speed.increase',
-      value: stats.speedIncrease,
-      mode: 2,
-      priority: null
-    })
-
-    if (stats.bonusDamage) changes.push({
-      key: 'bonusDamage.increase',
-      value: stats.bonusDamage,
-      mode: 2,
-      priority: null
-    })
-    
-    // Create effect data object
-    const effectData = {
-      name: this.name,
-      icon: this.img,
-      description: this.system.description.value,
-      origin: this.uuid,
-
-      changes: changes,
-
-      flags: {
-        weirdwizard: {
-          trigger: 'passive'
-        }
-      }
-      
-    };
-
-    // Create or Update Effect
-    if (this.effects.size) {
-
-      for (const e of this.effects) {
-        this.updateEmbeddedDocuments("ActiveEffect", [{ _id: e._id, ...effectData }]);
-      }
-      
-    }
-    else this.createEmbeddedDocuments("ActiveEffect", [effectData]);
-
-  }
-
-  /* -------------------------------------------- */
-
-  async updateGrantedItems() {
-    
-    // Return if no actor exists
-    if (!this.actor) return;
-    
-    const benefits = this.system.benefits,
-      level = this.actor.system.stats.level,
-      aItems = this.actor.items.filter(i => {
-      return i.flags?.weirdwizard?.grantedBy === this._id;
-    })
-
-    const itemsArr = [];
-    
-    for (const b in benefits) {
-
-      const benefit = benefits[b];
-
-      if (!benefit.levelReq) benefit.levelReq = 0;
-      
-      // If level does not meet the requirement, ignore it
-      if (level >= benefit.levelReq) {
-
-        const bItems = benefit.items;
-
-        for (const uuid of bItems) {
-          
-          const item = await fromUuid(uuid);
-          const itemData = await game.items.fromCompendium(item);
-          
-          // Store the char option id on a flag
-          itemData.flags = {
-            weirdwizard: {
-              grantedBy: this._id
-            }
-          }
-
-          // If item with the same name is not found, create it on the actor
-          if (!aItems.find(i => i.name === itemData.name )) itemsArr.push(itemData);
-          
-        }
-
-      }
-      
-    }
-
-    // Create items on actor
-    return await this.actor.createEmbeddedDocuments("Item", itemsArr);
-
-  }
-
-  /* -------------------------------------------- */
-
-  async updateGrantedEntries() {
-    
-    // Return if no actor exists
-    if (!this.actor) return;
-
-    // Shortcuts
-    const benefits = this.system.benefits;
-    const level = this.actor.system.stats.level;
-
-    // Get actor list entries granted by the character option
-    const aDetails = {
-      descriptors: await this.actor.system.details.descriptors.filter(i => {
-        return i.grantedBy === this._id;
-      }),
-      senses: await this.actor.system.details.senses.filter(i => {
-        return i.grantedBy === this._id;
-      }),
-      languages: await this.actor.system.details.languages.filter(i => {
-        return i.grantedBy === this._id;
-      }),
-      immune: await this.actor.system.details.immune.filter(i => {
-        return i.grantedBy === this._id;
-      }),
-      traditions: await this.actor.system.details.traditions.filter(i => {
-        return i.grantedBy === this._id;
-      })
-    }
-
-    // Create aDetails to store existing actor details
-    const newDetails = {
-      descriptors: await this.actor.system.details.descriptors,
-      senses: await this.actor.system.details.senses,
-      languages: await this.actor.system.details.languages,
-      immune: await this.actor.system.details.immune,
-      traditions: await this.actor.system.details.traditions
-    };
-
-    // Loop through each benefit
-    for (const b in benefits) {
-
-      const benefit = benefits[b];
-
-      if (!benefit.levelReq) benefit.levelReq = 0;
-      
-      // If level does not meet the requirement, ignore it
-      if (level >= benefit.levelReq) {
-
-        if (benefit.descriptors) this._addEntries(aDetails, newDetails, benefit, 'descriptors');
-        
-        if (benefit.senses) this._addEntries(aDetails, newDetails, benefit, 'senses');
-        
-        if (benefit.languages) this._addEntries(aDetails, newDetails, benefit, 'languages');
-
-        if (benefit.immune) this._addEntries(aDetails, newDetails, benefit, 'immune');
-
-        if (benefit.traditions) this._addEntries(aDetails, newDetails, benefit, 'traditions');
-
-      }
-      
-    }
-
-    // Update actor with new details object
-    await this.actor.update({['system.details']: {...this.actor.system.details, ...newDetails} });
-
-  }
-
-  _addEntries(aDetails, newDetails, benefit, arrName) {
-    
-    const arr = [...benefit[arrName]];
-    
-    // For each entry
-    arr.forEach((entry,id) => {
-      
-      // Store the char option id on grantedBy
-      entry.grantedBy = this._id;
-
-      // If entry with the same name is found, splice entry from the array
-      if (aDetails[arrName].find(ae => ae.name === entry.name )) {
-        arr.splice(id);
-      }
-
-    });
-
-    // Add entries to newDetails object
-    if (arr.length) newDetails[arrName] = newDetails[arrName] ? newDetails[arrName].concat(arr) : arr;
-
-  }
-
-  /* -------------------------------------------- */
-
-  async deleteGrantedItems() {
-    
-    // Return if no actor exists
-    if (!this.actor) return;
-
-    const aItems = this.actor.items.filter(i => i.flags?.weirdwizard?.grantedBy === this._id );
-    const ids = aItems.map(i => i._id);
-    
-    // Delete items granted by the Character Option
-    this.actor.deleteEmbeddedDocuments('Item', ids);
-
-  }
-
-  async deleteGrantedEntries() {
-    
-    // Return if no actor exists
-    if (!this.actor) return;
-
-    // Get actor list entries granted by the character option
-    const newDetails = { ...this.actor.system.details,
-      senses: this.actor.system.details.senses.filter(i => {
-        return i.grantedBy !== this._id;
-      }),
-      languages: this.actor.system.details.languages.filter(i => {
-        return i.grantedBy !== this._id;
-      }),
-      immune: this.actor.system.details.immune.filter(i => {
-        return i.grantedBy !== this._id;
-      }),
-      traditions: this.actor.system.details.traditions.filter(i => {
-        return i.grantedBy !== this._id;
-      })
-    }
-
-    // Update actor with new details
-    this.actor.update({['system.details']: newDetails});
-
-  }
-
-  /* -------------------------------------------- */
-  /*  Properties (Getters)                        */
-  /* -------------------------------------------- */
 
   /* -------------------------------------------- */
   /*  Static Methods                              */

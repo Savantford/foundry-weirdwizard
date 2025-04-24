@@ -126,7 +126,31 @@ export function details(type = String) {
   }
   
 
-  return {details: new fields.SchemaField(obj)}
+  return {details: new fields.SchemaField(obj)};
+}
+
+export function charOptions(type = String) {
+  const obj = {
+    ancestry: makeStrField("Human",1,1) // Use Human Ancestry UUID instead
+  };
+
+  if (type === 'Character') {
+
+    obj.professions = new fields.ArrayField(
+      makeStrField()
+    );
+    
+    // Paths
+    obj.novice = makeStrField();
+    obj.expert = makeStrField();
+    obj.master = makeStrField();
+
+    obj.traditions = new fields.ArrayField(
+      makeStrField()
+    );
+  }
+
+  return {charOptions: new fields.SchemaField(obj)};
 }
 
 /****************************************/

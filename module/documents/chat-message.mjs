@@ -105,7 +105,7 @@ export default class WWChatMessage extends ChatMessage {
         };
       }
     }
-    console.log(this)
+    
     // Construct message data
     const messageData = {
       message: data,
@@ -156,7 +156,6 @@ export default class WWChatMessage extends ChatMessage {
     if ( this.style === CONST.CHAT_MESSAGE_STYLES.OOC ) messageData.borderColor = this.author?.color.css;
 
     // Render the chat message
-    console.log(this.type)
     let html = await renderTemplate(`systems/weirdwizard/templates/chat/${this.type}-message.hbs`, messageData);
     html = $(html);
 
@@ -215,7 +214,6 @@ export default class WWChatMessage extends ChatMessage {
     if ( this.blind || this.whisper.length ) messageData.isWhisper = false;
 
     // Display standard Roll HTML content
-    console.log(this.isContentVisible)
     if ( this.isContentVisible ) {
       const el = document.createElement("div");
       el.innerHTML = data.content;  // Ensure the content does not already contain custom HTML

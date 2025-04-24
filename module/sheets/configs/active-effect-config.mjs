@@ -24,7 +24,7 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     const data = {
       effect: doc,
       system: doc.system,
-      triggers: (doc.duration.rounds || doc.duration.seconds) ? CONFIG.WW.INSTANT_TRIGGERS : CONFIG.WW.EFFECT_TRIGGERS, // Use instant triggers if effect has a duration
+      triggers: doc.isTemporary ? CONFIG.WW.INSTANT_TRIGGERS : CONFIG.WW.EFFECT_TRIGGERS, // Use instant triggers if effect has a duration
       targets: CONFIG.WW.EFFECT_TARGETS,
       isActorEffect: doc.parent.documentName === 'Actor',
       isItemEffect: doc.parent.documentName === 'Item',
@@ -79,7 +79,8 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     // inputRounds.change(_ => inputSeconds.val(inputRounds.val() * 10))
     
     html.find('.key > select').change((ev) => this._updateValueInput(ev, this.document));
-    html.find('select.duration-selection').change((ev) => this._updateDurationProperties(ev, this.document));
+    //html.find('select.duration-selection').change((ev) => this._updateDurationProperties(ev, this.document));
+    html.find('select.duration-selection').change((ev) => this.submit({preventClose: true}).then(() => this.render()));
 
     // Close window when Submit is clicked
     html.find('button[type=submit]').click((ev) => this.close());
@@ -87,7 +88,6 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
   }
 
   async _updateObject(event, formData) { // Update actor data.
-    super._updateObject(event, formData); // Triggering an infinite loop
 
     /*const wwflags = this.flags.weirdwizard;
 
@@ -108,11 +108,11 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
         'durationInDays': formData.durationInDays
       }
     }*/
-
-    switch (formData['system.duration.selected']) {
-      case 'minutes': formData.duration = { seconds: formData['duration.inMinutes'] * 3600 }; break;
-      case 'hours': formData.duration = { seconds: formData['duration.inHours'] * 3600 }; break;
-      case 'days': formData.duration = { seconds: formData['duration.inDays'] * 3600*24 }; break;
+    console.log(formData.system.duration.selected)
+    switch (formData.system.duration.selected) {
+      case 'minutes': formData.duration = { seconds: formData.system.duration.inMinutes * 3600 }; break;
+      case 'hours': formData.duration = { seconds: formData.system.duration.inHours * 3600 }; break;
+      case 'days': formData.duration = { seconds: formData.system.duration.inDays * 3600*24 }; break;
       case 'none': formData.duration = { seconds: 0 }; break;
     }
 
@@ -138,6 +138,8 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
     // Assign to formData
     formData.changes = altChanges;
+
+    return super._updateObject(event, formData); // Triggering an infinite loop
   }
 
   // Update change.value input to reflect the corresponding change.key
@@ -146,9 +148,10 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     const parent = ev.currentTarget.closest('.effect-change');
     const div = parent.querySelector('.value');
     let ele = parent.querySelector('.value input');
-    
+    console.log(select.value)
     const valueRef = select.value.split('.').reduce((o, i) => o[i], effChanges);
-    const valueType = valueRef ? valueRef.valueType : '';
+    const valueType = valueRef?.valueType ?? '';
+    console.log(valueRef)
     ele.remove();
     
     if (valueType === "int") {
@@ -165,42 +168,14 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     div.insertAdjacentHTML('beforeend', ele);
   }
 
-  // Update duration properties according to the selectedDuration dropdown value
-  _updateDurationProperties(ev, doc) {
-    console.log('updating duration properties')
-    const select = ev.currentTarget;
-    const parent = ev.currentTarget.closest('section [data-tab=duration]');
-
-    // Set Flag
-    //doc.update('system.duration.selected', select.value);
-
-    // Check the selected value and set duration values
-    switch (select.value) {
-      // No duration
-      case '': doc.update({ 'duration.rounds': null, 'duration.seconds': null }); break;
-
-      // Rounds duration
-      case 'luckEnds': doc.update({ 'duration.rounds': 777, 'duration.seconds': null }); break;
-
-      case '1round': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
-      case '2rounds': doc.update({ 'duration.rounds': 2, 'duration.seconds': null }); break;
-
-      case 'Xrounds': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
-
-      case 'turnEnd': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
-      case 'nextTriggerTurnStart': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
-      case 'nextTargetTurnStart': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
-      case 'nextTriggerTurnEnd': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
-      case 'nextTargetTurnEnd': doc.update({ 'duration.rounds': 1, 'duration.seconds': null }); break;
-
-      // Real World duration
-      case '1minute': doc.update({ 'duration.seconds': 60, 'duration.rounds': null }); break;
-      case 'minutes': doc.update({ 'duration.seconds': 60, 'duration.rounds': null }); break;
-      case 'hours': doc.update({ 'duration.seconds': 60*60, 'duration.rounds': null }); break;
-      case 'days': doc.update({ 'duration.seconds': 60*60*24, 'duration.rounds': null }); break;
-      
-    }
-
+  /**
+   * Handle adding a new change to the changes array.
+   * @private
+   */
+  async _updateDurationSelect() {
+    return this.submit({preventClose: true, updateData: {
+      ['systemm.duration.selected']: {key: "", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: ""}
+    }});
   }
 
   /* Initialization functions */
@@ -219,7 +194,6 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
     CONFIG.WW.EFFECT_CHANGE_KEYS = obj;
   }
-
   
   static initializeRealChangeKeys() {
     const refObj = CONFIG.WW.EFFECT_OPTIONS;
@@ -250,26 +224,6 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
     CONFIG.WW.EFFECT_CHANGE_LABELS = obj;
   }
-
-  /*static initializeChangePriorities() { // No longer needed
-    WWActiveEffectConfig._availableChangePriorities = {
-      // value : <name>
-      // Default
-      null: i18n('WW.Effect.Priority.Auto'),
-
-      // Constant Priorities
-      0: '0: ' + i18n('WW.Effect.Priority.0'),
-      1: '1: ' + i18n('WW.Effect.Priority.1'),
-      10: '10: ' + i18n('WW.Effect.Priority.10'),
-      20: '20: ' + i18n('WW.Effect.Priority.20'),
-      30: '30: ' + i18n('WW.Effect.Priority.30'),
-      40: '40: ' + i18n('WW.Effect.Priority.40'),
-      50: '50: ' + i18n('WW.Effect.Priority.50')
-    }
-
-    // Save the keys-labels object in the CONFIG constant
-    CONFIG.WW.effectChangePriorities = WWActiveEffectConfig._availableChangePriorities;
-  }*/
 
 }
 

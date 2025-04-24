@@ -1,0 +1,99 @@
+<form class="{{cssClass}} flexcol weirdwizard charoption profession" autocomplete="off">
+
+  {{> journalEntryPageHeader}}
+  
+  <div class="image-wrapper">
+    <figure class="image-preview">
+      <img src="{{document.src}}" title="{{title}}" alt="{{title}}" />
+      <figcaption>{{document.image.caption}}</figcaption>
+    </figure>
+  
+    <div>
+      <div class="form-group picker">
+        <label>{{localize "JOURNALENTRYPAGE.ImageSource"}}</label>
+        <div class="form-fields">
+          <file-picker name="src" type="image" value="{{document.src}}"></file-picker>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label>{{localize "JOURNALENTRYPAGE.ImageCaption"}}</label>
+        <div class="form-fields">
+          <input type="text" name="image.caption" value="{{document.image.caption}}">
+        </div>
+      </div>
+    </div>
+  
+  </div>
+
+  {{!-- Editor --}}
+  {{editor editor.content target="text.content" class="journal-page-content" button=false editable=true
+    engine=editor.engine collaborate=editor.collaborate}}
+  
+  {{!-- Benefits Section --}}
+  <section class="benefits-section">
+
+    {{!-- Category --}}
+    <div class="stat-inline mb-1">
+      <label>{{localize "WW.Profession.Category"}}:</label>
+        
+      <select name="system.category">
+        {{selectOptions professionCategories selected=system.category localize=true}}
+      </select>
+      
+    </div>
+
+    {{!-- Benefit Block --}}
+    <div class="benefit-block">
+  
+      {{!-- Bonus Language --}}
+      <div class="stat-inline list-entries">
+        <label>{{localize "WW.Detail.Language.Bonus"}}:</label>
+        
+        {{#each benefits.benefit1.languages as |detail id|}}
+        <span class="list-entry">
+        
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
+            <a class="array-button" data-action="edit" data-array="benefits.benefit1.languages" data-entry-id="{{id}}"
+              data-tooltip="WW.Detail.Language.Edit"><i class="fas fa-edit"></i></a>
+        
+            <a class="array-button" data-action="remove" data-array="benefits.benefit1.languages" data-entry-id="{{id}}"
+              data-tooltip="WW.Detail.Language.Remove"><i class="fas fa-trash"></i></a>
+          </span>{{#unless @last}},{{/unless}}
+        </span>
+        {{/each}}{{#unless benefits.benefit1.languages.length}}<span>—</span>{{/unless}}
+        
+        <a class="array-button" data-action="add" data-array="benefits.benefit1.languages" data-loc="Language"
+          data-tooltip="WW.Detail.Language.Create"><i class="fas fa-circle-plus"></i></a>
+    
+      </div>
+  
+      {{!-- Item List Area --}}
+      <ol class="described-list items-area {{id}}">
+        {{#unless benefits.benefit1.itemsInfo}}{{{itemsAreaHint}}}{{/unless}}
+
+        {{!-- Populate Items --}}
+        {{#each benefits.benefit1.itemsInfo as |item id|}}
+        <li class="item-reference item {{#if item.missing}}missing{{/if}}" data-item-uuid="{{item.uuid}}">
+          
+          <label><img src="{{item.img}}"> {{item.name}}</label>
+  
+          <span class="buttons">
+            {{#unless item.missing}}<a class="ref-edit" data-tooltip="WW.CharOption.Reference.EditRef"><i
+                class="fas fa-edit"></i></a>{{/unless}}
+            <a class="ref-remove" data-tooltip="WW.CharOption.Reference.RemoveRef"><i class="fas fa-trash"></i></a>
+          </span>
+
+        </li>
+        {{/each}}
+
+      </ol>
+  
+    </div>
+
+  </section>
+
+  {{!-- Journal Page Footer --}}
+  {{!--{{> journalEntryPageFooter}}--}}
+
+</form>

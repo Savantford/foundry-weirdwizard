@@ -36,6 +36,7 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
     actions: {
       editImage: this.#onEditImage, // delete in V13; core functionality
       showItemArtwork: this.#onShowItemArtwork,
+      traitsMenu: this.#onTraitsMenuOpen,
 
       instantCreate: this.#onInstantEffectCreate,
       instantEdit: this.#onInstantEffectEdit,
@@ -54,9 +55,6 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
       width: 520,
       height: 480
     }
-    /*tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }],
-      dragDrop: [{ dragSelector: null, dropSelector: ".items-area" }] // ".items-area"
-    */
   }
 
   /* -------------------------------------------- */
@@ -219,7 +217,7 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
     // Pass down whether the item needs targets or not
     context.needTargets = this.document.needTargets;
     const grantedById = this.document.flags.weirdwizard?.grantedBy;
-    if (grantedById) context.grantedBy = this.document.actor.items.get(grantedById).name;
+    if (grantedById) context.grantedBy = await fromUuid(grantedById).name;
     
     return context;
   }
@@ -232,7 +230,16 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
       // Details tab
       case 'details':
         context.tab = context.tabs[partId];
-        context.detailsPartial = [`systems/weirdwizard/templates/items/details/${await this.item.type.toLowerCase()}.hbs`];
+
+        let file = '';
+        switch (this.item.type) {
+          case 'Equipment': file = 'equipment'; break;
+          case 'Spell': file = 'spell'; break;
+          case 'Trait or Talent': file = 'talent'; break;
+          default: file = 'talent'; break;
+        }
+
+        context.detailsPartial = [`systems/weirdwizard/templates/items/details/${file}.hbs`];
       break;
       
       // Effects tab
@@ -393,24 +400,63 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
     ip.render(true);
   }
 
+  /**
+      * Handle opening of a context menu from a chat button.
+      * @param {HTMLElement} element     The element the menu opens on.
+    */
+  static #onTraitsMenuOpen(event, button) {
+    
+    // Create MultiChoice instance
+    const rect = button.getBoundingClientRect();
+
+    new MultiChoice({
+      purpose: 'editWeaponTraits',
+      document: this.document,
+      position: {
+        left: rect.right,
+        top: rect.top
+      },
+      sections: [
+        {
+          title: 'WW.Weapon.Traits.Title',
+          choices: CONFIG.WW.WEAPON_TRAITS,
+          noCollapse: true
+        },
+        {
+          type: 'attackRider',
+          title: 'WW.Attack.Rider',
+          attackRider: {
+            value: this.document.system.attackRider?.value,
+            name: this.document.system.attackRider?.name
+          },
+          noCollapse: true
+        }
+
+      ]
+    }).render(true);
+
+  }
+
   /* -------------------------------------------- */
   /*  Instant Effect handling actions             */
   /* -------------------------------------------- */
 
   static #onInstantEffectCreate(event, button) {
-    const dataset = Object.assign({}, button.dataset);
-
-    createInstantEffect(dataset, this.document);
+    createInstantEffect(this.document);
   }
 
   static #onInstantEffectEdit(event, button) {
-    const effect = this.document.effects.get(button.dataset.effectId);
+    const id = button.dataset.effectId;
+    const effect = this.document.system.instant[id];
+    effect.id = id;
 
     editInstantEffect(effect, this.document);
   }
 
   static #onInstantEffectRemove(event, button) {
-    const effect = this.document.effects.get(button.dataset.effectId);
+    const id = button.dataset.effectId;
+    const effect = this.document.system.instant[id];
+    effect.id = id;
 
     deleteInstantEffect(effect, this.document);
   }
@@ -435,221 +481,6 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
     const effect = this.document.effects.get(button.dataset.effectId);
 
     deleteActiveEffect(effect, this.document);
-  }
-
-  /* -------------------------------------------- */
-  /*  Miscellaneous actions                       */
-  /* -------------------------------------------- */
-
-  /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-
-    // Everything below here is only needed if the sheet is editable
-    if (!this.options.editable) return;
-
-    const system = this.document.system;
-
-    // If it's a character option
-    if (this.item.isCharOption) {
-      
-      // Reference handling
-      html.find('.ref-edit').click(ev => this._onRefEdit(ev));
-      html.find('.ref-remove').click(ev => this._onRefRemove(ev));
-      
-      // Handle help
-      html.find('.help').click(ev => this._onHelp(ev));
-
-      // Handle array elements
-      html.find('.array-button').click(this._onListEntryButtonClicked.bind(this)); // Character Option only
-
-    }
-    
-    html.find('.edit-traits').click((ev) => {
-      
-      const rect = ev.currentTarget.getBoundingClientRect();
-      
-      new MultiChoice({
-        purpose: 'editWeaponTraits',
-        document: this.document,
-        position: {
-          left: rect.right,
-          top: rect.top
-        },
-        sections: [
-          {
-            title: 'WW.Weapon.Traits.Title',
-            choices: CONFIG.WW.WEAPON_TRAITS,
-            noCollapse: true
-          },
-          {
-            type: 'attackRider',
-            title: 'WW.Attack.Rider',
-            attackRider: {
-              value: this.document.system.attackRider?.value,
-              name: this.document.system.attackRider?.name
-            },
-            noCollapse: true
-          }
-          
-        ]
-      }).render(true);
-    });
-
-  }
-
-  /* -------------------------------------------- */
-
-  async _onRefEdit(event) {
-    
-    const li = event.currentTarget.closest('.path-item');
-    const item = await fromUuid(li.dataset.itemUuid);
-    
-    await item.compendium.apps[0]._render(true);
-    await item.sheet._render(true);
-    
-  }
-
-  /* -------------------------------------------- */
-
-  async _onRefRemove(event) {
-    
-    const li = event.currentTarget.closest('.path-item');
-    const uuid = li.dataset.itemUuid;
-    const ol = event.currentTarget.closest('.items-area');
-    const benefit = ol.classList[2];
-
-    // Remove the UUID from the benefit's items
-    let benefits = this.item.system.benefits;
-    const arr = benefits[benefit].items.filter(v => { return v !== uuid; });
-    benefits[benefit].items = arr;
-
-    // Open a dialog to confirm
-    const confirm = await Dialog.confirm({
-      title: i18n('WW.CharOption.Reference.RemoveDialog.Title'),
-      content: `<p>${i18n('WW.CharOption.Reference.RemoveDialog.Msg')}</p><p class="dialog-sure">${i18n('WW.CharOption.Reference.RemoveDialog.Confirm')}</p>`
-    });
-
-    if (!confirm) return;
-
-    // Update the item
-    this.item.update({ 'system.benefits': benefits });
-  }
-
-  async _onHelp(event) {
-    let uuid = '';
-
-    // Help is for a Character Option
-    if (this.item.isCharOption) {
-      uuid = 'Compendium.weirdwizard.docs.JournalEntry.Lrr8Rl7mRIIoYeW1';
-    
-    // Help is for Atributte Calls and Inline Rolls
-    } else {
-      uuid = 'Compendium.weirdwizard.docs.JournalEntry.0xYsAWtUJS591nz9';
-    }
-
-    const entry = await fromUuid(uuid);
-
-    entry.sheet.render(true);
-  }
-
-  /* -------------------------------------------- */
-  /*  Array button actions                        */
-  /* -------------------------------------------- */
-
-  /**
-   * Handle clicked array buttons
-   * @param {Event} ev   The originating click event
-   * @private
-  */
-
-  _onListEntryButtonClicked(ev) {
-    const button = ev.currentTarget,
-      dataset = Object.assign({}, button.dataset);
-    
-    switch (dataset.action) {
-      case 'add': this._onListEntryButtonAdd(dataset); break;
-      case 'edit': this._onListEntryButtonEdit(dataset); break;
-      case 'remove': this._onListEntryButtonRemove(dataset); break;
-    }
-    
-  }
-
-  /**
-   * Handle adding an array entry
-   * @param dataset   The dataset
-   * @private
-  */
-  async _onListEntryButtonAdd(dataset) {
-    
-    const arrPath = 'system.' + dataset.array,
-      arr = foundry.utils.getProperty(this.document, arrPath);
-    
-    // Push new element with a default name
-    const defaultName = (arrPath.includes('languages') && !arr.length) ? i18n('WW.Detail.Language.Common') : i18n('WW.Detail.' + dataset.loc + '.New');
-    await arr.push({ name: defaultName })
-    
-    // Update document
-    await this.document.update({[arrPath]: arr});
-
-    // Add entryId to dataset and render the config window
-    dataset.entryId = arr.length-1;
-    new ListEntryConfig(await this.document, await dataset).render(true);
-    
-  }
-  
-  /**
-   * Handle edditing a list entry
-   * @param {Event} ev   The originating click event
-   * @private
-  */
-
-  _onListEntryButtonEdit(dataset) {
-    
-    // Render ListEntryConfig
-    new ListEntryConfig(this.document, dataset).render(true);
-    
-  }
-
-  /**
-   * Handle removing an element from an array
-   * @param {Event} ev   The originating click event
-   * @private
-  */
-
-  _onListEntryButtonRemove(dataset) {
-    
-    const arrPath = 'system.' + dataset.array,
-      arr = foundry.utils.getProperty(this.document, arrPath);
-    
-    // Delete array element
-    arr.splice(dataset.entryId, 1);
-    
-    // Update document
-    this.document.update({[arrPath]: arr});
-    
-  }
-
-  /* -------------------------------------------- */
-  /*  Array button actions                        */
-  /* -------------------------------------------- */
-  
-  /**
-   * Handle clicked array buttons
-   * @param {Event} ev   The originating click event
-   * @private
-  */
-
-  _onArrayButtonClicked(ev) {
-    const button = ev.currentTarget,
-      dataset = Object.assign({}, button.dataset);
-
-    
-    switch (dataset.action) {
-      case 'add': this._onArrayButtonAdd(dataset); break;
-      case 'remove': this._onArrayButtonRemove(dataset); break;
-    }
-    
   }
 
   /* -------------------------------------------- */
@@ -735,7 +566,6 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
 
   /** @inheritdoc */
   async _onDrop(event) {
-
     //const rightCol = event.target.closest('.right-col');
     //const areas = rightCol.querySelectorAll(".example");
     

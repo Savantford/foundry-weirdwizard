@@ -86,10 +86,14 @@
 
   <!-- Duration Tab -->
   <section class="tab" data-tab="duration">
-
+    
     <div class="form-group">
       <label>{{ localize "WW.Effect.Duration.Label"}}</label>
+
       <div class="form-fields">
+
+        {{!-- Selected Duration --}}
+        {{log system.duration.selected}}
         <select name="system.duration.selected" class="duration-selection">
           <option label="{{localize "WW.Effect.Duration.No"}}"></option>
           {{#each durationOptions as |category i|}}
@@ -98,6 +102,7 @@
           </optgroup>
           {{/each}}
         </select>
+
       </div>
       
     </div>
@@ -165,7 +170,7 @@
     <div class="form-group">
       <label>{{ localize "WW.Effect.Duration.AutoDelete" }}</label>
       <div class="form-fields">
-        <input type="checkbox" name="autoDelete" {{checked system.duration.autoExpire}}>
+        <input type="checkbox" name="system.duration.autoExpire" {{checked system.duration.autoExpire}}>
       </div>
     </div>
 

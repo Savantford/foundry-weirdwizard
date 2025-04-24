@@ -7,11 +7,9 @@
         <li class="item items-header flexrow">
             <div class="item-image"></div>
             <div class="item-name">{{localize "WW.Effects.Instant"}}</div>
-            <div class="instant-effect-trigger">Trigger</div>
-            <div class="instant-effect-target">Target</div>
             <div class="instant-effect-value">Value</div>
             <div class="item-controls itemeffect-controls flexrow">
-                <a class="instant-control" data-action="create" data-tooltip="WW.Effect.Create">
+                <a class="instant-control" data-action="instantCreate" data-tooltip="WW.Effect.Create">
                     <i class="fas fa-plus"></i> {{localize "WW.Item.Create.Label"}}
                 </a>
             </div>
@@ -19,10 +17,14 @@
         
         {{!-- Table Rows --}}
         {{#each instantEffects as |effect id|}}
+        {{log id}}
+        {{log effect}}
         <li class="item effect flexrow" data-effect-id="{{id}}">
             <div class="item-image">
                 <img src="{{effect.img}}" width="24" height="24" />
             </div>
+
+            {{!-- Instant Effect Name --}}
             <div class="item-name">
                 <label>{{localize effect.locLabel}}</label>
 
@@ -31,8 +33,7 @@
                     <i class="fas fa-{{#if (eq system.trigger "onCritical")}}check-double
                         {{else if (eq system.trigger "onSuccess")}}check
                         {{else if (eq system.trigger "onFailure")}}x
-                        {{else if (eq system.trigger "onUse")}}bolt
-                        {{else}}gears{{/if}}"
+                        {{else}}bolt{{/if}}"
                         data-tooltip="{{localize "WW.Effect.TriggerShort"}}:
                             {{#if effect.locTrigger}}{{localize effect.locTrigger}}
                             {{else}}{{localize "WW.Effect.Passive" }}{{/if}}">
@@ -49,14 +50,6 @@
                 </span>
 
             </div>
-        
-            <div class="instant-effect-trigger">
-                {{localize effect.locTrigger}}
-            </div>
-
-            <div class="instant-effect-target">
-                {{localize effect.locTarget}}
-            </div>
 
             <div class="instant-effect-value">
                 {{#if (eq effect.label "affliction")}}{{effect.affliction}}
@@ -65,11 +58,11 @@
             </div>
 
             <div class="item-controls itemeffect-controls flexrow">
-                <a class="instant-control" data-action="instantEdit" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Edit">
+                <a class="instant-control" data-action="instantEdit" data-effect-id="{{id}}" data-tooltip="WW.Effect.Edit">
                     <i class="fas fa-edit"></i>
                 </a>
 
-                <a class="instant-control" data-action="instantRemove" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Delete">
+                <a class="instant-control" data-action="instantRemove" data-effect-id="{{id}}" data-tooltip="WW.Effect.Delete">
                     <i class="fas fa-trash"></i>
                 </a>
             </div>

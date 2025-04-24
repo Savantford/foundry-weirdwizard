@@ -5,7 +5,7 @@ export default class ActiveEffectData extends foundry.abstract.DataModel {
     
     return {
       target: makeStrField('none'),
-      trigger: makeStrField('onUse'),
+      trigger: makeStrField('passive'),
 
       duration: new fields.SchemaField({
         selected: makeStrField(),
@@ -13,20 +13,11 @@ export default class ActiveEffectData extends foundry.abstract.DataModel {
         inHours: makeIntField(),
         inDays: makeIntField(),
         autoExpire: makeBooField(true)
-      })
+      }),
       
+      grantedBy: makeStrField()
     }
 
-  }
-
-  /**
-   * Migrate source data from some prior format into a new specification.
-   * The source parameter is either original data retrieved from disk or provided by an update operation.
-   * @inheritDoc
-   */
-  static migrateData(source) {
-
-    return super.migrateData(source);
   }
 
   /**

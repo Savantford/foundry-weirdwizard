@@ -6,18 +6,61 @@ export default class WWActiveEffect extends ActiveEffect {
   /*  Data Preparation                            */
   /* -------------------------------------------- */
 
+  async _preCreate(data, options, user) {
+    this._validateDuration(data);
+
+    return await super._preCreate(data, options, user);
+  }
+  
+  async _preUpdate(changes, options, user) {
+    this._validateDuration(changes);
+
+    return await super._preUpdate(changes, options, user);
+  }
+
+  _validateDuration(changes) {
+    const selected = changes.system?.duration?.selected ?? this.system.duration.selected;
+
+    // Check the selected value and set duration values
+    switch (selected) {
+      // No duration
+      case '': this.updateSource({ 'duration.rounds': null, 'duration.seconds': null }); break;
+
+      // Rounds duration
+      case 'luckEnds': this.updateSource({ 'duration.rounds': 777, 'duration.seconds': null }); break;
+
+      case '1round': this.updateSource({ 'duration.rounds': 1, 'duration.seconds': null }); break;
+      case '2rounds': this.updateSource({ 'duration.rounds': 2, 'duration.seconds': null }); break;
+
+      case 'Xrounds': this.updateSource({ 'duration.rounds': 1, 'duration.seconds': null }); break;
+
+      case 'turnEnd': this.updateSource({ 'duration.rounds': 1, 'duration.seconds': null }); break;
+      case 'nextTriggerTurnStart': this.updateSource({ 'duration.rounds': 1, 'duration.seconds': null }); break;
+      case 'nextTargetTurnStart': this.updateSource({ 'duration.rounds': 1, 'duration.seconds': null }); break;
+      case 'nextTriggerTurnEnd': this.updateSource({ 'duration.rounds': 1, 'duration.seconds': null }); break;
+      case 'nextTargetTurnEnd': this.updateSource({ 'duration.rounds': 1, 'duration.seconds': null }); break;
+
+      // Real World duration
+      case '1minute': this.updateSource({ 'duration.seconds': 60, 'duration.rounds': null }); break;
+      case 'minutes': this.updateSource({ 'duration.seconds': 60, 'duration.rounds': null }); break;
+      case 'hours': this.updateSource({ 'duration.seconds': 60*60, 'duration.rounds': null }); break;
+      case 'days': this.updateSource({ 'duration.seconds': 60*60*24, 'duration.rounds': null }); break;
+      
+    }
+
+  }
+
   /**
    * @override
-   * Augment the basic actor data with additional dynamic data. Typically,
+   * Augment the basic active effect data with additional dynamic data. Typically,
    * you'll want to handle most of your calculated/derived data in this step.
    * Data calculated in this step should generally not exist in template.json
    * (such as ability modifiers rather than ability scores) and should be
-   * available both inside and outside of character sheets (such as if an actor
+   * available both inside and outside of actife effect config sheets (such as if an active effect
    * is queried and has a roll executed directly from it).
   */
   prepareDerivedData() {
     const system = this.system;
-    const flags = this.flags.weirdwizard || {};
 
     // The item which this effect originates from if it has been transferred from an item to an actor
     this.originalItem = (this.parent instanceof Item) ? this.parent : null;
@@ -26,9 +69,20 @@ export default class WWActiveEffect extends ActiveEffect {
     const key = 'WW.Effect.Duration.';
     const rounds = this.duration.rounds;
 
-    if (rounds === 777) this.system.duration.formatted = 'Luck ends';
-    else if (rounds) this.system.duration.formatted = `${rounds} ${(rounds > 1 ? i18n(key + 'Rounds') : i18n(key + 'Round'))}`;
-    else this.system.duration.formatted = formatTime(this.duration.seconds);
+    if (rounds) {
+      const selected = this.system.duration.selected;
+      
+      // Prepare formatted selected label
+      let str = '';
+      if (selected) {
+        str += i18n(CONFIG.WW.EFFECT_DURATIONS.combat.options[selected]);
+        if (selected !== 'luckEnds') str += ` (${rounds} ${(rounds > 1 ? i18n(key + 'Rounds') : i18n(key + 'Round'))})`;
+        if (selected === 'Xrounds') str = `${rounds} ${(rounds > 1 ? i18n(key + 'Rounds') : i18n(key + 'Round'))}`; // Override if X rounds
+      }
+      
+      this.system.duration.formatted = str;
+
+    } else this.system.duration.formatted = formatTime(this.duration.seconds);
 
   }
 
@@ -45,14 +99,14 @@ export default class WWActiveEffect extends ActiveEffect {
    * Returns the default value the flag is not set.
    * @type {string}
   */
-  get trigger() {
+  /*get trigger() { // No longer used with data models
     let trigger = this.flags.weirdwizard?.trigger ?? 'passive';
 
     // If the effect has a duration, do not allow it to be passive
     if ((this.parent instanceof Item) && (this.duration.rounds || this.duration.seconds) && trigger === 'passive') trigger = 'onUse';
     
     return typeof trigger === 'string' ? trigger : 'passive';
-  }
+  }*/
 
   /* -------------------------------------------- */
   /*  Data Update                                 */
@@ -69,7 +123,9 @@ export default class WWActiveEffect extends ActiveEffect {
   
   /** @override */
   get isSuppressed() {
-    return foundry.utils.getProperty(this, 'system.original.item.system.active') ?? false;
+    //console.log(this.name)
+    //console.log(foundry.utils.getProperty(this.parent, 'system.active'))
+    return this.parent ? !foundry.utils.getProperty(this.parent, 'system.active') : false;
   }
 
   /**

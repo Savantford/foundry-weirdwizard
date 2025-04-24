@@ -1,7 +1,8 @@
 import WWCharOptionSheet from './charoption-sheet.mjs';
+
 /**
- * Extend the basic ItemSheet with some very simple modifications
- * @extends {WWItemSheet}
+ * Extend the WWCharOptionSheet with some very simple modifications
+ * @extends {WWCharOptionSheet}
 */
 
 export default class WWTraditionSheet extends WWCharOptionSheet {
@@ -10,7 +11,7 @@ export default class WWTraditionSheet extends WWCharOptionSheet {
   static DEFAULT_OPTIONS = {
     classes: ['weirdwizard', 'sheet', 'charoption', 'tradition'],
     window: {
-      icon: 'fas fa-user'
+      icon: 'fas fa-hand-holding-magic'
     }
   }
 

@@ -73,7 +73,7 @@
         {{#unless benefits.benefit1.itemsInfo}}{{{itemsAreaHint}}}{{/unless}}
     
         {{#each benefits.benefit1.itemsInfo as |item id|}}
-        <li class="path-item item{{#if item.missing}} missing{{/if}}" data-item-uuid="{{item.uuid}}">
+        <li class="item-reference item{{#if item.missing}} missing{{/if}}" data-item-uuid="{{item.uuid}}">
           <label>{{item.name}}:</label>
     
           <span class="buttons">

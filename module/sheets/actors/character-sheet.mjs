@@ -1,7 +1,7 @@
 import WWActorSheet from './actor-sheet.mjs';
 
 /**
- * Extend the basic ActorSheet with some very simple modifications
+ * Extend the WWActorSheet with some modifications
  * @extends {WWActorSheet}
 */
 

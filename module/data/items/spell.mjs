@@ -1,6 +1,9 @@
 import {
+  fields,
   base,
   activity,
+  makeBooField,
+  makeIntField,
   makeStrField
 } from './common.mjs'
 
@@ -13,11 +16,19 @@ export default class SpellData extends foundry.abstract.DataModel {
       ...base(type),
       ...activity(type),
       
-      tier: makeStrField('Novice',1,1),
+      tier: makeStrField('novice',1,1),
       tradition: makeStrField('',1,1),
       casting: makeStrField('',1,1),
       target: makeStrField('',1,1),
-      duration: makeStrField('',1,1)
+      duration: makeStrField('Instantaneous',1,1),
+
+      uses: new fields.SchemaField({
+        value: makeIntField(),
+        max: makeIntField(1),
+        onRest: makeBooField(true),
+        levelRelative: makeStrField('manual',0)
+      })
+
     }
   }
 
@@ -37,6 +48,9 @@ export default class SpellData extends foundry.abstract.DataModel {
         if (i.label === 'healthRecover') i.label = 'healthRegain';
       }
     }
+
+    // Apply lowercase to tier field
+    if (source.tier !== source.tier.toLowerCase()) source.tier = source.tier.toLowerCase();
 
     return super.migrateData(source);
   }

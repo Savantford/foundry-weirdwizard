@@ -83,13 +83,13 @@ WW.TALENT_SUBTYPES = {
 };
 
 WW.TALENT_SOURCES = {
-  'None': 'WW.Talent.Source.None',
-  'Ancestry': 'WW.Talent.Source.Ancestry',
-  'Novice': 'WW.Talent.Source.Novice',
-  'Expert': 'WW.Talent.Source.Expert',
-  'Master': 'WW.Talent.Source.Master',
-  'Magical': 'WW.Talent.Source.Magical',
-  'Other': 'WW.Talent.Source.Other'
+  'none': 'WW.Talent.Source.None',
+  'ancestry': 'WW.Talent.Source.Ancestry',
+  'novice': 'WW.Talent.Source.Novice',
+  'expert': 'WW.Talent.Source.Expert',
+  'master': 'WW.Talent.Source.Master',
+  'tradition': 'WW.Talent.Source.Tradition',
+  'other': 'WW.Talent.Source.Other'
 };
 
 WW.USES_LEVEL_RELATIVE = {
@@ -99,9 +99,9 @@ WW.USES_LEVEL_RELATIVE = {
 };
 
 WW.TIERS = {
-  'Novice': 'WW.CharOptions.Novice',
-  'Expert': 'WW.CharOptions.Expert',
-  'Master': 'WW.CharOptions.Master'
+  'novice': 'WW.CharOptions.Novice',
+  'expert': 'WW.CharOptions.Expert',
+  'master': 'WW.CharOptions.Master'
 };
 
 WW.EQUIPMENT_SUBTYPES = {
@@ -475,7 +475,7 @@ WW.EFFECT_OPTIONS = {
         key: 'system.boons.selfRoll.spells',
         label: 'WW.Effect.Keys.Boons.Spells'
       },
-      'boons.magical': {
+      'boons.resistMagical': {
         key: 'system.boons.selfRoll.resistMagical',
         label: 'WW.Effect.Keys.Boons.ResistMagical'
       }
@@ -512,7 +512,7 @@ WW.EFFECT_OPTIONS = {
         key: 'system.boons.selfRoll.spells',
         label: 'WW.Effect.Keys.Banes.Spells'
       },
-      'banes.magical': {
+      'banes.resistMagical': {
         key: 'system.boons.selfRoll.resistMagical',
         label: 'WW.Effect.Keys.Banes.ResistMagical'
       }

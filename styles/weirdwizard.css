@@ -278,6 +278,10 @@ body {
   align-items: center;
 }
 
+.flex-children.baseline > * {
+  align-items: baseline;
+}
+
 .flex-wrap {
   flex-wrap: wrap;
   gap: 0 5px;
@@ -432,10 +436,10 @@ body {
   color: red;
 }
 
-.weirdwizard .float-left {
+.float-left {
   float: left;
 }
-.weirdwizard .float-right {
+.float-right {
   float: right;
 }
 
@@ -482,11 +486,11 @@ body {
   font-size: var(--font-size-14);
 }
 
-.weirdwizard.sheet .window-content {
+.weirdwizard.actor .window-content {
   margin-top: var(--sheet-name-stripe-height);
 }
 
-.weirdwizard.item:not(.charoption) .window-content {
+.weirdwizard.item .window-content {
   padding-top: var(--sheet-name-stripe-height);
   margin-top: 0;
 }
@@ -511,15 +515,10 @@ body {
   min-height: 350px;
 }
 
-.weirdwizard.item:not(.charoption):not(.minimized) {
+.weirdwizard.item:not(.minimized) {
   overflow: visible;
   min-width: 440px;
   min-height: 350px;
-}
-
-.weirdwizard.charoption:not(.minimized) {
-  min-width: 540px;
-  min-height: 300px;
 }
 
 /* Grayscale Filter for Actor Sheets */
@@ -585,12 +584,25 @@ body {
   letter-spacing: 0.02em;
 }
 
+.weirdwizard .journal-entry-content h1 {
+  font-size: 2em;
+}
+
 .weirdwizard .window-content h2,
 .journal-entry-content h2 {
   border-bottom: 3px double black;
   padding-bottom: 2px;
   font-size: var(--font-size-24);
   letter-spacing: 0.04em;
+}
+
+.weirdwizard .window-content h2.centered-style,
+.journal-entry-content h2.centered-style {
+  color: var(--body-text-color);
+  font-size: var(--font-size-16);
+  font-family: var(--font-capitalized);
+  text-align: center;
+  border-bottom: 3px double var(--purple-medium);
 }
 
 .weirdwizard .window-content h3,
@@ -742,8 +754,13 @@ body {
   background: none;
 }
 
+.weirdwizard input:hover {
+  outline: 2px solid var(--input-focus-outline-color);
+}
+
 .weirdwizard.sheet.actor input,
-.weirdwizard.sheet.item input {
+.weirdwizard.sheet.item input,
+.weirdwizard.charoption input {
   height: var(--sheet-input-height);
 }
 
@@ -764,7 +781,7 @@ body {
   margin: 0;
   padding: 0;
   /*margin: 0 0 5px;*/
-  min-width: 1ch;
+  min-width: 2ch;
   min-height: 1lh;
 }
 
@@ -790,6 +807,10 @@ body {
   color: var(--body-text-color);
 }
 
+.weirdwizard select:hover {
+  outline: 2px solid var(--input-focus-outline-color);
+}
+
 .application.wwsl input,
 #wwsl-entry-form select {
   --input-placeholder-color: #666666;
@@ -808,14 +829,8 @@ body {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  text-overflow: '';
-}
-
-.weirdwizard.sheet select:hover,
-.weirdwizard.sheet select:focus {
-  appearance: auto;
-  -webkit-appearance: auto;
-  -moz-appearance: auto;
+  text-overflow: unset;
+  border: 1px solid transparent;
 }
 
 /* Text Areas */
@@ -1016,7 +1031,7 @@ body {
   height: fit-content;
 }
 
-.weirdwizard.item:not(.charoption) header.sheet-header {
+.weirdwizard.item header.sheet-header {
   position: relative;
   top: 0;
   left: 0;
@@ -1073,7 +1088,7 @@ body {
   padding-left: 180px;
 }
 
-.weirdwizard.item:not(.charoption) .name-stripe {
+.weirdwizard.item .name-stripe {
   position: relative;
   top: 0;
   width: calc(100% + 1rem + var(--scroll-margin));
@@ -1185,14 +1200,17 @@ body {
   width: var(--sheet-ribbon-width);
   height: calc(100% + var(--sheet-name-stripe-height));
   margin-top: calc(-1 * var(--sheet-name-stripe-height));
-  padding: 8px 5px 30px;
+  padding: 8px 5px 24px;
   display: flex;
   flex-flow: column;
   gap: 10px;
   align-items: center;
-  background: url(../assets/ui/straps/triangle-ribbon.svg) no-repeat;
-  background-position: center bottom;
-  background-size: 100% 100%;
+  /* background: url(../assets/ui/straps/triangle-ribbon.svg) no-repeat; */
+  /* background-position: center bottom; */
+  /* background-size: 100% 100%; */
+  border-image: url(../assets/ui/straps/triangle-ribbon.svg);
+  border-image-slice: 3 3 21 fill;
+  border-image-width: 3px 3px 21px;
   filter: drop-shadow(0 1px 3px black);
   -webkit-box-flex: 1;
   -ms-flex: 1;
@@ -1208,6 +1226,7 @@ body {
 
 .weirdwizard .sheet-ribbon select,
 .weirdwizard .sheet-ribbon input {
+  width: 100%;
   color: white;
   text-align: center;
 }
@@ -1283,6 +1302,9 @@ body {
 }
 
 /* Profile Image: Item */
+.weirdwizard.item .profile-img-wrapper {
+  position: relative;
+}
 
 .weirdwizard.item .profile-img {
   margin: 10px 0;
@@ -1321,6 +1343,12 @@ body {
   bottom: auto;
   top: -20px;
   left: calc(50% - 45px);
+}
+
+.weirdwizard.item .profile-img-menu {
+  top: -10px;
+  left: 0;
+  color: black;
 }
 
 /* Profile Image: Circle */
@@ -1537,8 +1565,7 @@ body {
   display: inline-block;
   width: 1lh;
   height: 1lh;
-  background: url(../assets/icons/shattered-heart.svg);
-  filter: brightness(0) saturate(100%) invert(8%) sepia(76%) saturate(5232%) hue-rotate(360deg) brightness(104%) contrast(114%);
+  background: url(../assets/icons/red/shattered-heart.svg);
 }
 
 /* Health Indicator: Incapacitated */
@@ -1553,14 +1580,12 @@ body {
 }
 
 .weirdwizard.incapacitated .health-indicator::before {
-  background: url(../assets/icons/cross-mark.svg);
-  filter: brightness(0) saturate(100%) invert(8%) sepia(76%) saturate(5232%) hue-rotate(360deg) brightness(104%) contrast(114%);
+  background: url(../assets/icons/red/cross-mark.svg);
 }
 
 .weirdwizard.dead .health-indicator::before {
-  background: url(/icons/svg/skull.svg);
+  background: url(../assets/icons/black/death-skull.svg);
   background-size: contain;
-  filter: brightness(0);
 }
 
 .weirdwizard .health-wrapper {
@@ -1849,8 +1874,9 @@ body {
 }
 
 .weirdwizard.item .common-fields {
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   gap: 3px 5px;
+  justify-content: flex-start;
 }
 
 .weirdwizard.item .equipment-sheet:not(.weapon) .common-fields {
@@ -2049,11 +2075,6 @@ hr.bug {
   --bug: url(../assets/bugs/path-master.webp);
 }
 
-/* Sheet Details Tab */
-.weirdwizard.application .tab.details prose-mirror {
-  min-height: 100px;
-}
-
 /* Effects Tab */
 
 .weirdwizard .afflictions {
@@ -2087,12 +2108,8 @@ hr.bug {
   gap: 5px;
 }
 
-.weirdwizard .temporary-effects .item-name {
-  flex: 0.9;
-}
-
-.weirdwizard .temporary-effects .effect-duration {
-  flex: 0.3;
+.weirdwizard.actor .temporary-effects .effect-source {
+  flex: 0.7;
 }
 
 /* Actor Statbox */
@@ -2373,6 +2390,12 @@ hr.bug {
 }
 
 /* Lists */
+.weirdwizard [data-action=journalView] > img {
+  height: 1lh;
+  margin-right: 5px;
+  vertical-align: text-bottom;
+}
+
 .weirdwizard .item-button:hover {
   cursor: pointer;
 }
@@ -2574,6 +2597,12 @@ input[type="checkbox"].checkbox-uses {
   width: auto;
 }
 
+.weirdwizard.equipment input[type="checkbox"].checkbox-uses {
+  --checkbox-size: 16px;
+  height: var(--checkbox-size) + 2px;
+  border: 1px solid transparent;
+}
+
 .weirdwizard .item-desc {
   background-color: var(--pink);
   padding: 2px 6px;
@@ -2606,6 +2635,18 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard .described-list li > * {
   padding: 0;
+}
+
+.weirdwizard .described-list li > label {
+  display: inline-flex;
+  gap: 1lh;
+  vertical-align: text-bottom;
+  padding-left: 1em;
+}
+
+.weirdwizard .described-list li > label > img {
+  height: 1lh;
+  margin-left: -1em;
 }
 
 .weirdwizard .described-list .item:not(:last-child) {
@@ -2780,7 +2821,8 @@ input[type="checkbox"].checkbox-uses {
 
 .buttons i,
 .item-create i,
-.array-button i {
+.array-button i,
+.help-button i {
   font-size: smaller;
 }
 
@@ -2969,12 +3011,16 @@ input[type="checkbox"].checkbox-uses {
 /*  Character Optionss                          */
 /* -------------------------------------------- */
 
-.sheet.journal-entry .journal-entry-page .editor-edit {
-  z-index: 2;
+.weirdwizard.charoption .header-section {
+  margin-bottom: 0.5rem;
 }
 
-.weirdwizard.charoption {
-  display: block;
+.weirdwizard.charoption.path .header-section {
+  min-height: 130px;
+}
+
+.weirdwizard.charoption.tradition .header-section {
+  min-height: 170px;
 }
 
 /* Character Option: Banner */
@@ -2982,6 +3028,7 @@ input[type="checkbox"].checkbox-uses {
   --spear-offset: 30px;
   --spear-height: 14px;
   float: right;
+  margin-left: -1rem;
 }
 
 .weirdwizard.charoption .sheet-banner-wrapper hr.spear {
@@ -2999,14 +3046,14 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard.charoption .sheet-banner {
   width: auto;
   margin: 0 var(--spear-offset) 1rem;
-  padding: 0.5rem 0.5rem 2rem;
+  padding: 1rem 1rem 2.5rem;
   background-image: url(../assets/ui/straps/zigzag-banner.svg);
   filter: drop-shadow(0 2px 2px black);
 }
 
-/* Character Option: Image Editor */
 .weirdwizard.charoption .image-wrapper {
   display: flex;
+  flex: 0;
   margin-left: 1rem;
 }
 
@@ -3018,17 +3065,59 @@ input[type="checkbox"].checkbox-uses {
   flex: 1;
 }
 
-.weirdwizard.charoption .banner-img,
+.weirdwizard.charoption .banner-img {
+  width: 90px;
+}
+
 .weirdwizard.charoption .image-preview img {
   width: 100px;
-  border-radius: 50%;
-  border: 2px solid var(--purple-dark);
-  filter: drop-shadow(0 0 1px var(--purple-dark));
+}
+
+/* Character Option: Framed Icon */
+.weirdwizard.charoption:not(.tradition) .sheet-banner-wrapper {
+  padding: 0 5px;
+  margin-left: 0.5rem;
+}
+
+.journal-entry-page .icon-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  filter: drop-shadow(0 0px 1px var(--purple-medium))
+    drop-shadow(0 0px 1px var(--purple-medium))
+    drop-shadow(0 0px 1px var(--purple-medium))
+    drop-shadow(0 0px 0 var(--purple-medium))
+    drop-shadow(0 0px 0 var(--purple-medium))
+    drop-shadow(0 0px 0 var(--purple-medium));
+}
+
+.journal-entry-page .icon-frame img {
+  --border-width: 18px;
+  --clip-radius: calc(var(--border-width) - 5px);
+  --clip-radius-neg: calc(-1* var(--clip-radius));
+  background: var(--purple-medium);
+
+  --mask: radial-gradient(var(--clip-radius) at var(--clip-radius) var(--clip-radius), #0000 90%, #000) var(--clip-radius-neg) var(--clip-radius-neg);
+  -webkit-mask: var(--mask);
+  mask: var(--mask);
+  padding: 0;
+  border: none;
+  width: 90px;
+}
+
+.journal-entry-page .icon-frame.w-50 img {
+  --border-width: 13px;
+  width: 50px;
 }
 
 /* Character Option: Text Editor */
 .weirdwizard.charoption .editor {
-  height: 100%;
+  min-height: 200px;
+}
+
+.sheet.journal-entry .journal-entry-page .editor-edit {
+  z-index: 2;
 }
 
 .weirdwizard.charoption .prosemirror .editor-container {
@@ -3036,13 +3125,12 @@ input[type="checkbox"].checkbox-uses {
 }
 
 /* Character Option: Text Formatting */
-
 .weirdwizard.charoption h5 {
   text-align: center;
   background: none;
   border-image: url(../assets/ui/plates/double-purple.svg);
-  border-image-slice: 134 fill;
-  border-image-width: 16px;
+  border-image-slice: 120 134 fill;
+  border-image-width: 15px 16px;
   padding: 4px 16px;
 }
 
@@ -3050,17 +3138,19 @@ input[type="checkbox"].checkbox-uses {
   font-size: var(--font-size-14);
 }
 
-.weirdwizard.charoption .item-type {
-  border-image: url(../assets/ui/headers/pointed-double-purple-dark.svg);
+.weirdwizard.charoption .type {
+  border-image: url(../assets/ui/headers/pointed-double-grey.svg);
   border-image-slice: 15 15 fill;
   border-image-width: 20px;
-  border-image-outset: 0 3px;
-  filter: drop-shadow(0 0 2px black);
-  color: white;
-  font-size: var(--font-size-24);
+  padding: 2px 10px;
+  vertical-align: text-bottom;
+  font-size: var(--font-size-12);
   font-family: var(--font-capitalized);
-  margin: 0 5px 5px;
-  padding: 0 10px;
+  font-weight: bold;
+  text-transform: none;
+  text-align: center;
+  color: #444;
+  line-height: 1lh;
 }
 
 .weirdwizard.charoption .item-type > select {
@@ -3078,9 +3168,21 @@ input[type="checkbox"].checkbox-uses {
   gap: 5px;
 }
 
-.weirdwizard.charoption .benefit-block > * {
-  padding: 2px 5px;
+.weirdwizard.charoption .benefits-section {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+article .weirdwizard.charoption .benefits-section {
   margin: 0;
+}
+
+.weirdwizard.charoption .benefit-block > *:not {
+  margin: 0;
+}
+
+article .weirdwizard.charoption .benefit-block > *:not(h5) {
+  padding: 0;
 }
 
 .weirdwizard.charoption .benefit-block > h5 {
@@ -3092,13 +3194,76 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .weirdwizard.charoption .benefit-block > .list-entries {
-  padding: 2px calc(1em + 5px);
+  padding: 2px 1em;
   margin: 0;
+}
+
+.weirdwizard .benefit-block:hover > .list-entries .buttons {
+  margin-left: 5px;
+}
+
+.weirdwizard.charoption .benefit-block input {
+  text-align: center;
 }
 
 .weirdwizard.charoption .items-area {
   background: var(--background-color-shadow);
   border-radius: 3px;
+  margin: 0;
+  padding: 2px 5px;
+}
+
+article .weirdwizard.charoption .items-area {
+  background: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+.weirdwizard.charoption .items-area:not(:first-child) {
+  margin-top: 5px;
+}
+
+.weirdwizard .described-list li > label {
+  display: inline-flex;
+  gap: 1lh;
+  vertical-align: text-bottom;
+  padding-left: 1em;
+}
+
+.weirdwizard.charoption .formatted-spell-list {
+  list-style: none;
+  font-size: small;
+  display: flex;
+  flex-flow: wrap;
+  justify-content: center;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+}
+
+.weirdwizard.charoption .formatted-spell-list li {
+  flex: 250px;
+  max-width: 400px;
+  background: var(--background-color-shadow);
+  border-radius: 3px;
+  margin: 0;
+  padding: 3px 5px;
+}
+
+.weirdwizard.charoption .formatted-spell-list li .spell-title {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  justify-content: space-between;
+}
+
+.weirdwizard.charoption .formatted-spell-list .spell-title > h3 {
+  flex: 1;
+}
+
+.weirdwizard.charoption .formatted-spell-list .spell-title > img {
+  height: 30px;
+  border-radius: 50%;
 }
 
 .weirdwizard.charoption .fadeout {
@@ -3118,20 +3283,19 @@ input[type="checkbox"].checkbox-uses {
 }
 
 /* ---------------------------- Non-Sheet Applications -----------------------------*/
+.application.weirdwizard input[type="checkbox"]::before,
+.application.weirdwizard input[type="checkbox"]:checked::after {
+  content: "";
+  display: inline-block;
+}
 
 .application.weirdwizard input[type="checkbox"]::before {
-  content: "";
   background: url(../assets/ui/checkbox/blank.svg);
   background-size: contain;
 }
 
 .application.weirdwizard input[type="checkbox"]:checked::before {
-  content: "";
   background-image: url(../assets/ui/checkbox/tick.svg);
-}
-
-.application.weirdwizard input[type="checkbox"]:checked::after {
-  content: "";
 }
 
 .application.weirdwizard .scrollable {
@@ -3237,6 +3401,17 @@ input[type="checkbox"].checkbox-uses {
 #tooltip .document-card {
   --tooltip-banner-width: 70px;
   --tooltip-banner-height: 80px;
+}
+
+/* Document Card: Link */
+.document-card-link {
+  color: var(--purple-dark);
+  font-weight: bold;
+}
+
+.document-card-link > img {
+  height: 1lh;
+  vertical-align: bottom;
 }
 
 /* Document Card: Banner */
@@ -4471,10 +4646,10 @@ form.quest-calendar {
 }
 
 .weirdwizard .message-content {
-  display: flex;
+  /*display: flex;
   flex-flow: column;
   align-items: stretch;
-  gap: 0.5rem;
+  gap: 0.5rem;*/
   padding: 0 5px;
 }
 

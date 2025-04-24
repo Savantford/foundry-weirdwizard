@@ -6,6 +6,7 @@ import MultiChoice from '../../apps/multi-choice.mjs';
 import { createActiveEffect, deleteActiveEffect, editActiveEffect, prepareActiveEffectCategories } from '../../helpers/effect-actions.mjs';
 import RollAttribute from '../../dice/roll-attribute.mjs';
 import TargetingHUD from '../../apps/targeting-hud.mjs';
+import WWPageView from '../journal/page-view.mjs';
 import WWRoll from '../../dice/roll.mjs';
 
 // Similar syntax to importing, but note that
@@ -65,6 +66,10 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       entryEdit: this.#onEntryEdit,
       entryRemove: this.#onEntryRemove,
 
+      journalView: this.#onJournalView,
+      journalRemove: this.#onJournalRemove,
+      journalHelp: this.#onJournalHelp,
+
       itemCreate: this.#onItemCreate,
       itemEdit: this.#onItemEdit,
       itemRemove: this.#onItemRemove,
@@ -78,8 +83,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
 
       effectCreate: this.#onEffectCreate,
       effectEdit: this.#onEffectEdit,
-      effectRemove: this.#onEffectRemove,
-      
+      effectToggle: this.#onEffectToggle,
+      effectRemove: this.#onEffectRemove
     },
     form: {
       handler: this.#onSubmitDocumentForm, // delete in v13, core functionality
@@ -96,7 +101,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
 
   /** @override */
   get title() {
-    const {constructor: cls, id, name, type} = this.document;
+    const {constructor: cls, id, name, type} = this.actor;
     const prefix = cls.hasTypeData && type !== "base" ? CONFIG[cls.documentName].typeLabels[type] : cls.metadata.label;
     return `${name ?? id} - ${game.i18n.localize(prefix)}`;
   }
@@ -127,15 +132,16 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
 
     // Ensure editMode has a value
     if (this.editMode === undefined) this.editMode = false;
-
+    
     const context = {
       actor: actorData, // Use a safe clone of the actor data for further operations.
     
       system: actorData.system, // Add the actor's data to context.system for easier access, as well as flags.
+      charOptions: actorData.charOptions,
       folder: await actorData.folder,
       flags: actorData.flags,
       dtypes: ['String', 'Number', 'Boolean'],
-      editMode: await this.editMode, // Pass editMode state
+      editMode: this.editMode, // Pass editMode state
       tabs: this._getTabs(options.parts),
       afflictions: this.appliedAfflictions
     }
@@ -356,10 +362,10 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   _getTabs(parts) {
     // If you have sub-tabs this is necessary to change
     const tabGroup = 'primary';
-    const type = this.document.type;
+    const type = this.actor.type;
 
     // Default tab for first time it's rendered this session
-    if (!this.tabGroups[tabGroup]) this.tabGroups[tabGroup] = this.document.limited ? 'details' : 'summary';
+    if (!this.tabGroups[tabGroup]) this.tabGroups[tabGroup] = this.actor.limited ? 'details' : 'summary';
     
     // Assign tab properties
     return parts.reduce((tabs, partId) => {
@@ -452,218 +458,188 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     const reactions = [];
     const end = [];
     const spells = [];
-
-    // Initialize charOptions
-    const charOptions = {
-      ancestry: null,
-      professions: [],
-      novice: null,
-      expert: null,
-      master: null,
-    }
+    const legacy = []; // Delete when char options legacy support is removed
 
     // Iterate through items, allocating to lists
     for (let i of context.items) {
 
-      const itemDoc = this.document.items.get(i._id);
+      const itemDoc = this.actor.items.get(i._id);
 
-      if (!itemDoc.isCharOption) { // Item is a regular item
-        i.img = i.img || DEFAULT_TOKEN;
-        
-        // Assign attributeLabel for template use
-        if (i.system.attribute == 'luck') {
-          i.system.attributeLabel = `${i18n('WW.Attributes.Luck')} (+0)`;
-        } else if (i.system.attribute) {
-          const attribute = context.system.attributes[i.system.attribute];
-          const name = i18n(CONFIG.WW.ATTRIBUTES[i.system.attribute]);
-          i.system.attributeLabel = `${name} (${plusify(attribute.mod)})`
-        }
+      i.img = i.img || DEFAULT_TOKEN;
 
-        // Is the item an activity?
-        i.isActivity = i.system.attribute || i.effects.size || i.system.instant.length;
-
-        // Check if item has passive effects
-        i.hasPassiveEffects = false;
-        const effects = this.document.items.get(i._id).effects;
-        
-        for (let e of effects) {
-          if (e.trigger === 'passive') i.hasPassiveEffects = true;
-        }
-
-        // Pass down whether the item need targets or not
-        //i.needTargets = this.document.items.get(i._id).needTargets; - no longer needed?
-        
-        // Append to equipment.
-        if (i.type === 'Equipment') {
-          // Prepare traits list for weapons
-          if (i.system.subtype == 'weapon') {
-
-            // Prepare traits list
-            let list = '';
-
-            Object.entries(i.system.traits).map((x) => {
-              
-              if (x[1]) {
-                let string = i18n('WW.Weapon.Traits.' + capitalize(x[0]) + '.Label');
-                
-                if ((x[0] == 'range') || (x[0] == 'reach' && i.system.range) || (x[0] == 'thrown') ) string += ' ' + i.system.range;
-
-                list = list.concat(list ? ', ' + string : string);
-              }
-              
-            })
-
-            i.system.traitsList = list;
-
-            // Prepare name label
-            if (context.actor.type == 'Character') {
-              i.label = `${i.name} (${i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip])})${(i.system.traitsList ? ' ● ' + i.system.traitsList : '')}`;
-            } else i.label = (i.system.traits.range ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + i.name + (i.system.traitsList ? ' ● ' + i.system.traitsList : '');
-
-          }
-
-          // Prepare filled capacity for containers
-          else if (i.system.subtype == 'container') {
-            if (i.system.heldBy) i.system.heldBy = null;
-            // Prepare variables
-            let list = '';
-            const held = [];
-            i.filled = 0;
-            
-            // Prepare held items list and count weight of items
-            this.actor.items.filter(x => x.system.heldBy === i._id).map((x) => {
-
-              // Check if item has passive effects
-              x.hasPassiveEffects = false;
-              const effects = this.document.items.get(x._id).effects;
-              
-              for (let e of effects) {
-                if (e.trigger === 'passive') x.hasPassiveEffects = true;
-              }
-
-              // Calculate weight and push to held array
-              const weight = x.system.quantity * x.system.weightUnit;
-              x.system.weight = weight;
-              held.push(x);
-
-              // Increase filled count
-              i.filled += weight;
-
-              // Append to list
-              list = list.concat(list ? ', ' + x.name : x.name);
-            })
-
-            i.heldItems = held.sort((a, b) => a.sort > b.sort ? 1 : -1);
-            i.heldList = list;
-
-            // Prepare tooltip
-            i.containerTooltip = i18n('WW.Container.FilledHint', { filled: i.filled, capacity: i.system.capacity });
-          }
-
-          if (!i.system.heldBy) {
-            
-            if (i.system.subtype === 'weapon') {
-              weapons.push(i);
-
-              // If Character or if item has a Permanent effect, also append to Equipment
-              if (this.actor.type === 'Character' || i.effects.some(e => e.changes.some(c => c.key === "defense.bonus"))) equipment.push(i);
-
-            } else {
-              equipment.push(i);
-            }
-            
-          } else {
-            
-            if (!this.actor.items.get(i.system.heldBy)) {
-              i.system.heldBy = null;
-              equipment.push(i);
-            }
-            
-          }
-          
-        }
-
-        // Append to talents.
-        else if (i.type === 'Trait or Talent') {
-
-          if (context.actor.type == 'NPC') {
-            switch (i.system.subtype) {
-              case 'trait': {
-                talents.push(i);
-                break;
-              }
-              case 'action': {
-                actions.push(i);
-                break;
-              }
-              case 'reaction': {
-                reactions.push(i);
-                break;
-              }
-              case 'end': {
-                end.push(i);
-                break;
-              }
-            }
-          } else {
-            allTalents.push(i);
-            switch (i.system.subtype) {
-              case 'action': {
-                actions.push(i);
-                break;
-              }
-              case 'reaction': {
-                reactions.push(i);
-                break;
-              }
-              default: {
-                talents.push(i);
-              }
-            }
-          }
-
-        }
-
-        // Append to spells.
-        else if (i.type === 'Spell') spells.push(i);
-
-        // Calculate total Equipment weight.
-        function calcWeight(item, id) {
-          item.system.weight = item.system.quantity * item.system.weightUnit;
-        }
-
-        equipment.forEach(calcWeight);
-
-        context.totalWeight = sum(equipment.map(i => i.system.weight));
-
-      } else { // Item is a Char Option
-        
-        switch(i.type) {
-
-          case 'Ancestry': charOptions.ancestry = i; break;
-
-          case 'Profession': charOptions.professions.push(i); break;
-
-          case 'Path': {
-            if (i.system.tier === 'master') charOptions.master = i;
-            else if (i.system.tier === 'expert') charOptions.expert = i;
-            else charOptions.novice = i;
-            break;
-          };
-
-        }
-
-        // Prepare Profession Category Localization
-        if (i.type === 'Profession') {
-          i.system.categoryLoc = CONFIG.WW.PROFESSION_CATEGORIES[i.system.category];
-        }
-        
+      // Assign attributeLabel for template use
+      if (i.system.attribute == 'luck') {
+        i.system.attributeLabel = `${i18n('WW.Attributes.Luck')} (+0)`;
+      } else if (i.system.attribute) {
+        const attribute = context.system.attributes[i.system.attribute];
+        const name = i18n(CONFIG.WW.ATTRIBUTES[i.system.attribute]);
+        i.system.attributeLabel = `${name} (${plusify(attribute.mod)})`
       }
 
-    }
+      // Is the item an activity?
+      i.isActivity = i.system.attribute || i.effects.size || i.system.instant?.length;
 
-    // Assign charOption
-    context.charOptions = charOptions;
+      // Check if item has passive effects
+      i.hasPassiveEffects = false;
+      
+      const effects = this.actor.items.get(i._id).effects;
+
+      for (let e of effects) {
+        if (e.system.trigger === 'passive') i.hasPassiveEffects = true;
+      }
+
+      // Pass down whether the item need targets or not
+      //i.needTargets = this.actor.items.get(i._id).needTargets; - no longer needed?
+
+      // Append to equipment.
+      if (i.type === 'Equipment') {
+        // Prepare traits list for weapons
+        if (i.system.subtype == 'weapon') {
+
+          // Prepare traits list
+          let list = '';
+
+          Object.entries(i.system.traits).map((x) => {
+
+            if (x[1]) {
+              let string = i18n('WW.Weapon.Traits.' + capitalize(x[0]) + '.Label');
+
+              if ((x[0] == 'range') || (x[0] == 'reach' && i.system.range) || (x[0] == 'thrown')) string += ' ' + i.system.range;
+
+              list = list.concat(list ? ', ' + string : string);
+            }
+
+          })
+
+          i.system.traitsList = list;
+
+          // Prepare name label
+          if (context.actor.type == 'Character') {
+            i.label = `${i.name} (${i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip])})${(i.system.traitsList ? ' ● ' + i.system.traitsList : '')}`;
+          } else i.label = (i.system.traits.range ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + i.name + (i.system.traitsList ? ' ● ' + i.system.traitsList : '');
+
+        }
+
+        // Prepare filled capacity for containers
+        else if (i.system.subtype == 'container') {
+          if (i.system.heldBy) i.system.heldBy = null;
+          // Prepare variables
+          let list = '';
+          const held = [];
+          i.filled = 0;
+
+          // Prepare held items list and count weight of items
+          this.actor.items.filter(x => x.system.heldBy === i._id).map((x) => {
+
+            // Check if item has passive effects
+            x.hasPassiveEffects = false;
+            const effects = this.actor.items.get(x._id).effects;
+
+            for (let e of effects) {
+              if (e.system.trigger === 'passive') x.hasPassiveEffects = true;
+            }
+
+            // Calculate weight and push to held array
+            const weight = x.system.quantity * x.system.weightUnit;
+            x.system.weight = weight;
+            held.push(x);
+
+            // Increase filled count
+            i.filled += weight;
+
+            // Append to list
+            list = list.concat(list ? ', ' + x.name : x.name);
+          })
+
+          i.heldItems = held.sort((a, b) => a.sort > b.sort ? 1 : -1);
+          i.heldList = list;
+
+          // Prepare tooltip
+          i.containerTooltip = i18n('WW.Container.FilledHint', { filled: i.filled, capacity: i.system.capacity });
+        }
+
+        if (!i.system.heldBy) {
+
+          if (i.system.subtype === 'weapon') {
+            weapons.push(i);
+
+            // If Character or if item has a Permanent effect, also append to Equipment
+            if (this.actor.type === 'Character' || i.effects.some(e => e.changes.some(c => c.key === "defense.bonus"))) equipment.push(i);
+
+          } else {
+            equipment.push(i);
+          }
+
+        } else {
+
+          if (!this.actor.items.get(i.system.heldBy)) {
+            i.system.heldBy = null;
+            equipment.push(i);
+          }
+
+        }
+
+      }
+
+      // Append to talents.
+      else if (i.type === 'Trait or Talent') {
+
+        if (context.actor.type == 'NPC') {
+          switch (i.system.subtype) {
+            case 'trait': {
+              talents.push(i);
+              break;
+            }
+            case 'action': {
+              actions.push(i);
+              break;
+            }
+            case 'reaction': {
+              reactions.push(i);
+              break;
+            }
+            case 'end': {
+              end.push(i);
+              break;
+            }
+          }
+        } else {
+          allTalents.push(i);
+          switch (i.system.subtype) {
+            case 'action': {
+              actions.push(i);
+              break;
+            }
+            case 'reaction': {
+              reactions.push(i);
+              break;
+            }
+            default: {
+              talents.push(i);
+            }
+          }
+        }
+
+      }
+
+      // Append to spells.
+      else if (i.type === 'Spell') spells.push(i);
+
+      // Appegend to legacy items array.
+      else {
+        legacy.push(i);
+      }
+
+      // Calculate total Equipment weight.
+      function calcWeight(item, id) {
+        item.system.weight = item.system.quantity * item.system.weightUnit;
+      }
+
+      equipment.forEach(calcWeight);
+
+      context.totalWeight = sum(equipment.map(i => i.system.weight));
+
+    }
 
     // Prepare uses pips for talents and spells
     function updateUses(item, id) {
@@ -709,7 +685,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     context.reactions = reactions;
     context.end = end;
     context.spells = spells;
-
+    context.legacy = legacy;
+    console.log(legacy)
   }
 
   /**
@@ -957,7 +934,6 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   /* -------------------------------------------- */
 
   static async #embedInChat(_event, target) {
-    console.log('triggered')
     ChatMessage.create({
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
       content: `@Embed[${this.actor.uuid} inline]`
@@ -974,8 +950,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       throw new Error("The editImage action is available only for IMG elements.");
     }
     const attr = target.dataset.edit;
-    const current = foundry.utils.getProperty(this.document._source, attr);
-    const defaultArtwork = this.document.constructor.getDefaultArtwork?.(this.document._source) ?? {};
+    const current = foundry.utils.getProperty(this.actor._source, attr);
+    const defaultArtwork = this.actor.constructor.getDefaultArtwork?.(this.actor._source) ?? {};
     const defaultImage = foundry.utils.getProperty(defaultArtwork, attr);
     const fp = new FilePicker({
       current,
@@ -1107,7 +1083,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     
     new MultiChoice({
       purpose: 'updateAfflictions',
-      document: this.document,
+      document: this.actor,
       dataset: button.dataset,
       position: {
         left: rect.right,
@@ -1138,16 +1114,16 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     const dataset = Object.assign({}, button.dataset);
     
     const arrPath = 'system.' + dataset.array,
-      oldArray = foundry.utils.getProperty(await this.document, arrPath),
+      oldArray = foundry.utils.getProperty(await this.actor, arrPath),
       defaultName = (arrPath.includes('languages') && !oldArray.length) ? i18n('WW.Detail.Language.Common') : i18n('WW.Detail.' + dataset.loc + '.New'),
       arr = [...oldArray, { name: defaultName }];
     
     // Update document
-    await this.document.update({[arrPath]: arr});
+    await this.actor.update({[arrPath]: arr});
     
     // Add entryId to dataset and render the config window
     dataset.entryId = arr.length-1;
-    new ListEntryConfig(this.document, dataset).render(true);
+    new ListEntryConfig(this.actor, dataset).render(true);
     
   }
 
@@ -1160,7 +1136,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   static #onEntryEdit(event, button) {
     
     // Render ListEntryConfig
-    new ListEntryConfig(this.document, button.dataset).render(true);
+    new ListEntryConfig(this.actor, button.dataset).render(true);
     
   }
 
@@ -1174,14 +1150,63 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     const dataset = Object.assign({}, button.dataset);
     
     const arrPath = 'system.' + dataset.array,
-      arr = [...foundry.utils.getProperty(this.document, arrPath)];
+      arr = [...foundry.utils.getProperty(this.actor, arrPath)];
     
     // Delete array element
     arr.splice(dataset.entryId, 1);
     
     // Update document
-    this.document.update({[arrPath]: arr});
+    this.actor.update({[arrPath]: arr});
     
+  }
+
+  /* -------------------------------------------- */
+  /*  Journal page (Char Options) handling        */
+  /* -------------------------------------------- */
+
+  static async #onJournalView(event, button) {
+    const page = await fromUuid(button.dataset.pageUuid);
+    await new WWPageView({ document: page }).render(true);
+  }
+
+  /* -------------------------------------------- */
+
+  static async #onJournalRemove(event, button) {
+    const page = await fromUuid(button.dataset.pageUuid);
+    const type = button.dataset.optionType;
+    
+    const charOptions = this.actor.system.charOptions;
+
+    // Open a dialog to confirm
+    const confirm = await Dialog.confirm({
+      title: i18n('WW.CharOption.Reference.RemoveDialog.Title'),
+      content: `<p>${i18n('WW.CharOption.Reference.RemoveDialog.Msg')}</p><p class="dialog-sure">${i18n('WW.CharOption.Reference.RemoveDialog.Confirm')}</p>`
+    });
+
+    if (!confirm) return;
+    
+    // Remove the UUID from the benefit's pages
+    const str = 'system.charOptions.' + type;
+
+    if (type === 'professions' || type === 'traditions') {
+      const arr = charOptions[type].filter(v => { return v !== button.dataset.pageUuid; });
+
+      if (page) await this.actor.update({ [str]: arr });
+
+    } else if (type) {
+      
+      await this.actor.update({ [str]: null });
+      if (page) await this.actor.clearCharOptionBenefits(page.uuid);
+    }
+    
+    this.render();
+  }
+
+  /* -------------------------------------------- */
+
+  static async #onJournalHelp(event, button) {
+    const entry = await fromUuid('Compendium.weirdwizard.documentation.JournalEntry.R3pFihgoMAB2Uab5');
+    entry.sheet.render(true);
   }
 
   /* -------------------------------------------- */
@@ -1224,9 +1249,9 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     };
 
     // Create the item
-    const items = Array.from(await this.document.items);
+    const items = Array.from(await this.actor.items);
     items.push(itemData);
-    const createdItem = await Item.create(itemData, { parent: this.document });
+    const createdItem = await Item.create(itemData, { parent: this.actor });
 
     // Render the created item's template
     createdItem.sheet.render(true);
@@ -1241,7 +1266,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    * @private
   */
   static #onItemEdit(event, button) {
-    const item = this.document.items.get(button.dataset.itemId);
+    const item = this.actor.items.get(button.dataset.itemId);
     
     item.sheet.render(true);
   }
@@ -1257,7 +1282,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    * @private
   */
   static #onItemRemove(event, button) {
-    const item = this.document.items.get(button.dataset.itemId);
+    const item = this.actor.items.get(button.dataset.itemId);
 
     this._onItemRemove(item, button);
   }
@@ -1285,19 +1310,25 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   static #onEffectCreate(event, button) {
     const dataset = Object.assign({}, button.dataset);
 
-    createActiveEffect(dataset, this.document)
+    createActiveEffect(dataset, this.actor)
   }
 
   static #onEffectEdit(event, button) {
-    const effect = this.document.effects.get(button.dataset.effectId);
+    const effect = this.actor.effects.get(button.dataset.effectId);
 
-    editActiveEffect(effect, this.document);
+    editActiveEffect(effect, this.actor);
+  }
+
+  static #onEffectToggle(event, button) {
+    const effect = this.actor.effects.get(button.dataset.effectId);
+
+    effect.update({ disabled: effect.disabled ? false : true });
   }
 
   static #onEffectRemove(event, button) {
-    const effect = this.document.effects.get(button.dataset.effectId);
+    const effect = this.actor.effects.get(button.dataset.effectId);
 
-    deleteActiveEffect(effect, this.document);
+    deleteActiveEffect(effect, this.actor);
   }
 
   /* -------------------------------------------- */
@@ -1410,10 +1441,10 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
           
           item.effects?.forEach(e => {
             
-            if (!e.flags.weirdwizard.uuid) e.setFlag('weirdwizard', 'uuid', e.uuid);
-            if (!e.trigger) e.trigger = e.flags.weirdwizard.trigger;
+            //if (!e.flags.weirdwizard.uuid) e.setFlag('weirdwizard', 'uuid', e.uuid);
+            //if (!e.trigger) e.trigger = e.flags.weirdwizard.trigger;
             
-            switch (e.trigger) {
+            switch (e.system.trigger) {
               case 'onUse': {
                 effs.onUse.push(e);
                 effs.onSuccess.push(e);
@@ -1456,9 +1487,9 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
           // Add Instant Effects
           item.system?.instant?.forEach(e => {
 
-            if (!e.trigger) e.trigger = e.flags.weirdwizard.trigger;
+            //if (!e.trigger) e.trigger = e.flags.weirdwizard.trigger;
             
-            switch (e.trigger) {
+            switch (e.system.trigger) {
               case 'onUse': {
                 effs.onUse.push(e);
                 effs.onSuccess.push(e);
@@ -1676,7 +1707,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
 
     // Create message content
     const content = `
-      <p style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this.document })}</b> ${i18n('WW.Rest.Finished')}.</p>
+      <p style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this.actor })}</b> ${i18n('WW.Rest.Finished')}.</p>
       <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${health.current} <i class="fas fa-arrow-right"></i> ${newCurrent}</p>
     `;
 
@@ -1905,7 +1936,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       case "JournalEntry":
         return ui.notifications.warn(i18n("WW.CharOptions.JournalEntryWarning"));
       case "JournalEntryPage":
-          return this._onDropJournalEntryPage(event, /** @type JournalEntryPage */ document);
+        return this._onDropJournalEntryPage(event, /** @type JournalEntryPage */ document);
     }
   }
 
@@ -1998,20 +2029,6 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   /** @override */
   async _onDropItemCreate(itemData, event) {
     
-    // Check if item must be unique
-    if (itemData.type === 'Ancestry' || itemData.type === 'Path') {
-
-      const hasOption = this.actor.items.find(i => {
-      
-        if (itemData.type === 'Path') return i.system.tier === itemData.system.tier;
-        else return i.type === itemData.type;
-  
-      })
-      
-      // If actor already has this character option, return a warning
-      if (hasOption) return ui.notifications.warn(i18n("WW.CharOption.AlreadyWarning"));
-    }
-    
     const isAllowed = await this.checkDroppedItem(itemData);
 
     if (isAllowed) {
@@ -2031,11 +2048,30 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    * @override
    */
   async _onDropJournalEntryPage(event, page) {
-    const pageData = page.toObject();
-    console.log(pageData)
+    const actor = this.actor;
+    const cOpts = actor.system.charOptions;
 
-    // Create the owned item
-    //return this._onDropItemCreate(itemData, event);
+    // Record Character Option's UUID in the correct field
+    if (page.type === 'tradition') {
+      const arr = [...new Set([...actor.system.charOptions.traditions, await page.uuid])];
+        
+      await actor.update({ 'system.charOptions.traditions': arr });
+    } else {
+      let str = 'system.charOptions.';
+      
+      if (page.type === 'path') str += page.system.tier;
+      else str += page.type;
+      
+      // Store UUID reference and update benefits
+      if (foundry.utils.getProperty(actor, str)) ui.notifications.warn(i18n("WW.CharOption.AlreadyWarning"));
+      else {
+        await actor.update({ [str]: page.uuid });
+        await actor.updateCharOptionBenefits(page.uuid);
+      }
+      
+    }
+
+    this.render(); // Force re-rendering because it's not being triggered
   }
 
   /* -------------------------------------------- */

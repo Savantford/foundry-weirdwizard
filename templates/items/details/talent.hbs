@@ -1,132 +1,46 @@
-{{!-- Sheet Header --}}
-<header class="sheet-header">
+{{!-- Details Area --}}
+<div class="header-fields common-fields stat-inline flex-wrap flex-children">
 
-  {{!-- Name Stripe --}}
-  <div class="name-stripe">
-
-    {{!-- Item Name --}}
-    <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.Item.Name"}}" /></h1>
-
-  </div>
-
-  {{!-- Details Area --}}
-  <div class="header-fields stat-inline flex-wrap flex-children">
+  {{!-- Source --}}
+  <div>
+    <label>{{localize "WW.Talent.Source.Label"}}:</label>
   
-    {{!-- Source --}}
-    <div>
-      <label>{{localize "WW.Talent.Source.Label"}}:</label>
-    
-      <select name="system.source">
-        {{selectOptions sources selected=system.source localize=true}}
-      </select>
+    <select name="system.source">
+      {{selectOptions sources selected=system.source localize=true}}
+    </select>
+  </div>
+  
+  {{!-- Magical --}}
+  <div>
+    <label>{{localize "WW.Talent.Magical"}}:</label>
+  
+    <input type="checkbox" class="checkbox-uses" name="system.magical" data-tooltip="WW.Talent.MagicalHint" {{checked system.magical}} />
+  
+  </div>
+  
+  {{!-- Uses/Tokens --}}
+  <div>
+    <label>{{localize "WW.Talent.Uses"}}:</label>
+  
+    {{#if (eq system.uses.levelRelative 'manual')}}
+    <div class="input-wrap">
+      <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="0" data-dtype="Number" />
+  
+      <div class="input-overlay">{{system.uses.max}}</div>
     </div>
-
-    {{!-- Magical --}}
-    <div>
-      <label>{{localize "WW.Talent.Magical"}}:</label>
-
-      <input type="checkbox" class="checkbox-uses" name="system.magical" data-tooltip="WW.Talent.MagicalHint" {{checked system.magical}} />
-    
-    </div>
-    
-    {{!-- Uses/Tokens --}}
-    <div>
-      <label>{{localize "WW.Talent.Uses"}}:</label>
-    
-      {{#if (eq system.uses.levelRelative 'manual')}}
-      <div class="input-wrap">
-        <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="0" data-dtype="Number" />
-    
-        <div class="input-overlay">{{system.uses.max}}</div>
-      </div>
-      {{else}}
-      <span>{{system.uses.max}}</span>
-      {{/if}}
-    
-      <input class="checkbox-uses" type="checkbox" name="system.uses.onRest" {{checked system.uses.onRest}}
-        data-tooltip="WW.Item.Uses.OnRest" />
-    
-      {{#unless belongsToNPC}}
-      <select name="system.uses.levelRelative" data-tooltip="WW.Item.Uses.LevelRelative">
-        {{selectOptions usesLevelRelative selected=system.uses.levelRelative localize=true}}
-      </select>
-      {{/unless}}
-    
-    </div>
+    {{else}}
+    <span>{{system.uses.max}}</span>
+    {{/if}}
+  
+    <input class="checkbox-uses" type="checkbox" name="system.uses.onRest" {{checked system.uses.onRest}}
+      data-tooltip="WW.Item.Uses.OnRest" />
+  
+    {{#unless belongsToNPC}}
+    <select name="system.uses.levelRelative" data-tooltip="WW.Item.Uses.LevelRelative">
+      {{selectOptions usesLevelRelative selected=system.uses.levelRelative localize=true}}
+    </select>
+    {{/unless}}
   
   </div>
 
-  {{!-- Right Ribbon --}}
-  <div class="sheet-ribbon">
-
-    {{!-- Item Type --}}
-    <div class="item-type">
-      <select class="align-center" name="system.subtype">
-        {{selectOptions subtypes selected=system.subtype localize=true}}
-      </select>
-    </div>
-
-    {{!-- Profile Image --}}
-    <img class="profile-img" src="{{item.img}}" data-edit="img" data-tooltip="WW.System.EditImage" />
-
-    {{!-- Additional Info --}}
-    <div>
-
-      {{!-- Armor Type --}}
-      {{#if (eq system.subtype 'armor')}}
-      <select name="system.armorType">
-        {{selectOptions armorTypes selected=system.armorType localize=true}}
-      </select>
-      {{/if}}
-
-      {{!-- Weapon Info --}}
-      {{#if (eq system.subtype 'weapon')}}
-
-      {{!-- Grip --}}
-      <div>
-        <select name="system.grip" data-tooltip="WW.Weapon.Grip.Label">
-          {{selectOptions grips selected=system.grip localize=true}}
-        </select>
-      </div>
-
-      {{!-- Melee / Ranged --}}
-      <div>
-        {{#if system.traits.range}}{{localize "WW.Weapon.Ranged"}}{{else}}{{localize "WW.Weapon.Melee"}}{{/if}}
-      </div>
-
-      {{/if}}
-
-      {{!-- Container Capacity --}}
-      {{#if (eq system.subtype 'container')}}
-      <div class="capacity">
-        <label>{{localize "WW.Container.Capacity"}}:</label>
-
-        <div class="input-wrap">
-          <input type="number" name="system.capacity" value="{{system.capacity}}" min="1" data-dtype="Number"
-            data-tooltip="WW.Container.CapacityHint" />
-
-          <div class="input-overlay">{{system.capacity}}</div>
-        </div>
-
-      </div>
-      {{/if}}
-
-    </div>
-
-  </div>
-
-</header>
-
-{{!-- Description --}}
-<prose-mirror name="system.description.value" data-document-u-u-i-d="{{item.uuid}}" value="{{system.description.value}}"
-  toggled=true collaborate=true compact=true owner={{owner}} editable={{editable}}>
-  {{{system.description.enriched}}}
-</prose-mirror>
-
-{{!-- Granted By --}}
-{{#if grantedBy}}
-<div class="stat-inline mt-1">
-    <label>{{localize "WW.CharOption.GrantedBy"}}:</label>
-    {{grantedBy}}
 </div>
-{{/if}}

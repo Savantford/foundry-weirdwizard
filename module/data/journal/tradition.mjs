@@ -13,9 +13,11 @@ export default class TraditionData extends foundry.abstract.DataModel {
       ...base(type),
 
       talents: new fields.ArrayField(makeStrField()),
-      novice: new fields.ArrayField(makeStrField()),
-      expert: new fields.ArrayField(makeStrField()),
-      master: new fields.ArrayField(makeStrField())
+      spells: new fields.SchemaField({
+        novice: new fields.ArrayField(makeStrField()),
+        expert: new fields.ArrayField(makeStrField()),
+        master: new fields.ArrayField(makeStrField())
+      })
 
     }
 

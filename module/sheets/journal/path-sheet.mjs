@@ -1,38 +1,22 @@
-import WWItemSheet from './item-sheet.mjs';
+import WWCharOptionSheet from './charoption-sheet.mjs';
 
 /**
- * Extend the basic ItemSheet with some very simple modifications
- * @extends {WWItemSheet}
+ * Extend the WWCharOptionSheet with some very simple modifications
+ * @extends {WWCharOptionSheet}
 */
 
-export default class WWCharOptionSheet extends WWItemSheet {
-  
+export default class WWPathSheet extends WWCharOptionSheet {
+
   /** @override */
   static DEFAULT_OPTIONS = {
-    classes: ['weirdwizard', 'sheet', 'item', 'charOption'],
+    classes: ['weirdwizard', 'sheet', 'charoption', 'path'],
     window: {
-      icon: 'fas fa-user'
-    },
-    position: {
-      width: 560,
-      height: 420
+      icon: 'fas fa-route'
     }
   }
 
   /** @override */
-  /*get template() {
-    const path = "systems/weirdwizard/templates/items";
-    
-    switch (this.document.type) {
-      case 'Ancestry': return `${path}/ancestry-sheet.hbs`;
-      case 'Profession': return `${path}/profession-sheet.hbs`;
-      case 'Path': return `${path}/path-sheet.hbs`;
-    }
-    
-  }*/
-
-  /** @override */
-  static PARTS = {
+  /*static PARTS = { // V2 only
     menu: { template: 'systems/weirdwizard/templates/actors/header/edit-mode.hbs' },
     sidetabs: { template: 'systems/weirdwizard/templates/actors/header/side-tabs.hbs' },
     namestripe: { template: 'systems/weirdwizard/templates/actors/header/name-stripe.hbs' },
@@ -56,16 +40,16 @@ export default class WWCharOptionSheet extends WWItemSheet {
     spells: { template: 'systems/weirdwizard/templates/actors/tabs/character-spells.hbs' },
     effects: { template: 'systems/weirdwizard/templates/actors/tabs/effects.hbs' },
     
-  }
+  }*/
 
   /** @override */
-  _configureRenderOptions(options) {
+  /*_configureRenderOptions(options) { // V2 only
     super._configureRenderOptions(options);
-
+    console.log('check')
     // Completely overriding the parts
     options.parts = ['menu', 'sidetabs', 'namestripe', 'banner', 'summary', 'details', 'equipment', 'talents', 'spells', 'effects'];
     
     return options;
-  }
+  }*/
 
 }

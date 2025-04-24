@@ -1,30 +1,48 @@
 <section class="tab spells {{tab.cssClass}}" data-group="primary" data-tab="spells">
-    
+
     {{!-- Traditions --}}
     <div class="stat-inline mb-2 list-entries">
 
-        <label>{{localize "WW.Detail.Tradition.Label"}}:</label>
-
-        {{#each system.details.traditions as |detail id|}}
+        <label>{{localize "WW.Tradition.Label"}}:</label>
+        
+        {{#each charOptions.traditions as |tradition id|}}
         <span class="list-entry draggable">
-                    
-        <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-            <a class="array-button" data-action="entryEdit" data-array="details.traditions" data-entry-id="{{id}}"
-                data-tooltip="WW.Detail.Tradition.Edit"><i class="fas fa-edit"></i></a>
-                    
-            <a class="array-button" data-action="entryRemove" data-array="details.traditions" data-entry-id="{{id}}"
-                data-tooltip="WW.Detail.Tradition.Remove"><i class="fas fa-trash"></i></a>
-
+            <a data-action="journalView" data-page-uuid="{{tradition.uuid}}" data-tooltip="{{tradition.desc}}"><img src="{{tradition.src}}" />{{tradition.name}}</a>
+            
+            <span class="buttons">
+                <a class="array-button" data-action="journalRemove" data-page-uuid="{{tradition.uuid}}" data-option-type="traditions"
+                    data-tooltip="WW.Tradition.Remove"><i class="fas fa-trash"></i>
+                </a>
             </span>{{#unless @last}},{{/unless}}
+
         </span>
         {{/each}}
                     
-        {{#unless system.details.traditions.length}}<span>—</span>{{/unless}}
-        <a class="array-button" data-action="entryCreate" data-array="details.traditions" data-loc="Traditions"
-            data-tooltip="WW.Detail.Tradition.Create"><i class="fas fa-circle-plus"></i></a>            
-                
+        {{#unless charOptions.traditions.length}}<span>—</span>{{/unless}}
+
+        {{!-- Legacy Traditions --}}
+        {{#if system.details.traditions}}
+        <span class="stat-inline list-entries">(
+            <label>Legacy, Delete:</label>
+
+            {{#each system.details.traditions as |detail id|}}
+            <span class="list-entry draggable">
+                        
+            <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
+                <a class="array-button" data-action="entryEdit" data-array="details.traditions" data-entry-id="{{id}}"
+                    data-tooltip="WW.Tradition.Edit"><i class="fas fa-edit"></i></a>
+                        
+                <a class="array-button" data-action="entryRemove" data-array="details.traditions" data-entry-id="{{id}}"
+                    data-tooltip="WW.Tradition.Remove"><i class="fas fa-trash"></i></a>
+
+                </span>{{#unless @last}},{{/unless}}
+            </span>
+            {{/each}}
+        )</span>
+        {{/if}}
     </div>
 
+    {{!-- Spells Table --}}
     <ol class="item-list">
 
         {{!-- Header --}}
@@ -85,7 +103,7 @@
                 {{!-- Scroll Button --}}
                 {{#if item.system.description.value}}
                     <a class="item-button" data-action="itemScroll" data-item-id="{{item._id}}"
-                        data-tooltip="{{localize "WW.Item.Scroll"}}">
+                        data-tooltip="{{localize "WW.Item.Send"}}">
                     <i class="far fa-scroll"></i></a>
                 {{/if}}
 

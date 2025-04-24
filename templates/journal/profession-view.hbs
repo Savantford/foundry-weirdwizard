@@ -1,0 +1,75 @@
+<div class="weirdwizard charoption profession">
+
+  <section class="header-section">
+
+    {{!-- Right Banner --}}
+    {{#if singlePage}}
+    <header class="sheet-banner-wrapper">
+
+      {{!-- Category --}}
+      <div class="type">{{localize (lookup @root.professionCategories system.category)}}</div>
+
+      <div class="icon-frame">
+        <img src="{{document.src}}" data-edit="src" data-tooltip="WW.System.ViewImage" />
+      </div>
+
+    </header>
+    {{/if}}
+
+    {{#if data.title.show}}
+    <header class="journal-page-header">
+      <h{{data.title.level}} class="draggable" data-journal-page-uuid="{{document.uuid}}">
+        {{data.name}}
+      </h{{data.title.level}}>
+    </header>
+    {{/if}}
+
+    {{!-- Page Content (Editor/Description) --}}
+    <section class="journal-page-content">
+      {{{editor.content}}}
+    </section>
+
+  </section>
+  
+  {{!-- Benefits Section --}}
+  <section class="benefits-section">
+
+    {{!-- Benefit Block --}}
+    <div class="benefit-block">
+  
+      {{!-- Bonus Language --}}
+      {{#if benefits.benefit1.languages.length}}
+      <div class="stat-inline list-entries">
+        <label>{{localize "WW.Detail.Language.Bonus"}}:</label>
+        
+        {{#each benefits.benefit1.languages as |detail id|}}
+        <span class="list-entry">
+        
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>{{#unless @last}},{{/unless}}
+        </span>
+        {{/each}}
+    
+      </div>
+      {{/if}}
+  
+      {{!-- Item List Area --}}
+      {{#if benefits.benefit1.itemsInfo}}
+      <ol class="described-list items-area {{id}}">
+
+        {{!-- Populate Items --}}
+        {{#each benefits.benefit1.itemsInfo as |item id|}}
+        <li class="item-reference item {{#if item.missing}}missing{{/if}}" data-item-uuid="{{item.uuid}}">
+          <label><img src="{{item.img}}"> {{item.name}}:</label>
+  
+          <span>{{{item.description}}}</span>
+        </li>
+        {{/each}}
+
+      </ol>
+      {{/if}}
+  
+    </div>
+
+  </section>
+
+</div>

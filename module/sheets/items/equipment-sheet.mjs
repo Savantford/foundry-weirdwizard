@@ -1,7 +1,7 @@
 import WWItemSheet from './item-sheet.mjs';
 
 /**
- * Extend the basic ItemSheet with some very simple modifications
+ * Extend the WWItemSheet with some very simple modifications
  * @extends {WWItemSheet}
 */
 

@@ -15,7 +15,7 @@ export default class TalentData extends foundry.abstract.DataModel {
       ...activity(type),
 
       subtype: makeStrField('trait',0,1),
-      source: makeStrField('None',0,1)
+      source: makeStrField('none',0,1)
     }
   }
 
@@ -29,6 +29,10 @@ export default class TalentData extends foundry.abstract.DataModel {
     // Convert Aura and Fury to normal traits
     if (source.subtype === 'aura') source.subtype = 'trait';
     if (source.subtype === 'fury') source.subtype = 'trait';
+
+    // Apply lowercase to source field & change 'magical' to 'tradition'
+    if (source.source !== source.source?.toLowerCase()) source.source = source.source.toLowerCase();
+    if (source.source === 'magical') source.source = 'tradition';
 
     // Convert Health recover to Health regain
     if (source.instant) {

@@ -141,20 +141,9 @@
 "WW.Detail.Movement.Edit": "Edit special movement trait",
 "WW.Detail.Movement.Remove": "Remove special movement trait",
 
-"WW.Detail.Tradition.Label": "Traditions",
-"WW.Detail.Tradition.New": "New Tradition",
-"WW.Detail.Tradition.Create": "Add new tradition",
-"WW.Detail.Tradition.Edit": "Edit tradition",
-"WW.Detail.Tradition.Remove": "Remove tradition",
-
 "TYPES.Item.Equipment": "Equipment",
 "TYPES.Item.Trait or Talent": "Trait or Talent",
 "TYPES.Item.Spell": "Spell",
-"TYPES.Item.Ancestry": "Ancestry",
-"TYPES.Item.Profession": "Profession",
-"TYPES.Item.Path": "Path",
-
-"TYPES.JournalEntryPage.tradition": "Tradition",
 
 "WW.Item.Name": "Name",
 "WW.Item.NamePH": "Item's Name",
@@ -341,10 +330,13 @@
 "WW.Talent.Source.Novice": "Novice Path",
 "WW.Talent.Source.Expert": "Expert Path",
 "WW.Talent.Source.Master": "Master Path",
-"WW.Talent.Source.Magical": "Magical Talent",
+"WW.Talent.Source.Tradition": "Tradition",
 "WW.Talent.Source.Other": "Other",
 
 "WW.Spells.Label": "Spells",
+"WW.Spells.Novice": "Novice Spells",
+"WW.Spells.Expert": "Expert Spells",
+"WW.Spells.Master": "Master Spells",
 "WW.Spells.Learned.OneNovice": "One novice",
 "WW.Spells.Learned.TwoNovice": "Two novice",
 "WW.Spells.Learned.ThreeNovice": "Three novice",
@@ -476,9 +468,15 @@
 "WW.Weapon.Traits.Versatile.Label": "Versatile",
 "WW.Weapon.Traits.Versatile.Tip": "When you wield this weapon with both hands, the weapon’s damage increases by 1d6.",
 
+"TYPES.JournalEntryPage.ancestry": "Ancestry",
+"TYPES.JournalEntryPage.path": "Path",
+"TYPES.JournalEntryPage.profession": "Profession",
+"TYPES.JournalEntryPage.tradition": "Tradition",
+
 "WW.CharOptions.Ancestry": "Ancestry",
 "WW.CharOptions.Ancestries": "Ancestries",
 "WW.CharOptions.NoAncestry": "No Ancestry",
+"WW.CharOptions.AncestryBenefits": "Ancestry Benefits",
 "WW.CharOptions.Professions": "Professions",
 "WW.CharOptions.Paths": "Paths",
 "WW.CharOptions.Novice": "Novice",
@@ -516,6 +514,14 @@
 "WW.Profession.Military": "Military",
 "WW.Profession.Religious": "Religious",
 "WW.Profession.Wilderness": "Wilderness",
+
+"WW.Tradition.Label": "Traditions",
+"WW.Tradition.New": "New Tradition",
+"WW.Tradition.Create": "Add new tradition",
+"WW.Tradition.Edit": "Edit tradition",
+"WW.Tradition.Remove": "Remove tradition",
+"WW.Tradition.Talents": "Tradition Talents",
+"WW.Tradition.EquipmentWarning": "Traditions cannot record Equipment items.<br>Please drag and drop a Talent or Spell.",
 
 "WW.Effects.Label": "Effects",
 "WW.Effects.TabLabel": "Automations & Effects",
@@ -853,7 +859,8 @@
 
 "WW.System.Welcome": "{intro}<p>Hail!</p><p>Welcome to <b>Shadow of the Weird Wizard</b>.</p><p>To get started, have a look at the <b>System Documentation</b> compendium in the <b>Compendium Packs</b> tab.</p><p>You can also find <b>tours</b> in the <b>Tour Managegement</b> under settings.</p>",
 "WW.System.WelcomeFooter": "<p>Links to the <a href=\"https://github.com/Savantford/foundry-weirdwizard/releases/latest\">Patchnotes</a>, known <a href=\"https://github.com/Savantford/foundry-weirdwizard/issues\">Issues</a> on Github and the <a href=\"https://discord.com/invite/DUMfrUc\">Discord</a> community can also be found in the settings tab. Feedback is always welcome!</p><p>Have fun and stay weird!</p>",
-"WW.System.EditImage": "Edit Image",
+"WW.System.ViewImage": "Click to enlarge image",
+"WW.System.EditImage": "Click to edit image",
 "WW.System.Embed": "Embed in chat",
 "WW.System.Tour": "Start tour",
 "WW.System.Documentation": "Show documentation",

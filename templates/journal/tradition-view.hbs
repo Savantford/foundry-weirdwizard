@@ -1,25 +1,108 @@
-<div class="weirdwizard charoption">
+<div class="weirdwizard charoption tradition">
 
-  {{!-- Right Banner --}}
-  <header class="sheet-banner-wrapper">
-    <hr class="spear" />
+  <section class="journal-page-content header-section">
 
-    <div class="sheet-banner">
-      {{!-- Image --}}
-      <img class="banner-img" src="{{document.src}}" data-edit="src" data-tooltip="WW.System.EditImage" />
+    {{!-- Right Banner --}}
+    <header class="sheet-banner-wrapper">
+      <hr class="spear" />
+    
+      <div class="sheet-banner">
+        {{!-- Image --}}
+        <img class="banner-img" src="{{document.src}}" data-edit="src" data-tooltip="WW.System.EditImage" />
+      </div>
+    
+    </header>
+
+    <div>
+      {{#if data.title.show}}
+      <header class="journal-page-header">
+        <h{{data.title.level}} class="draggable" data-journal-page-uuid="{{document.uuid}}">{{data.name}}</h{{data.title.level}}>
+      </header>
+      {{/if}}
+
+      {{!-- Editor Content / Description --}}
+      {{{editor.content}}}
     </div>
 
-  </header>
-
-  {{#if data.title.show}}
-  <header class="journal-page-header">
-    <h{{data.title.level}}>{{data.name}}</h{{data.title.level}}>
-  </header>
-  {{/if}}
+  </section>
 
   {{!-- Page Content --}}
   <section class="journal-page-content">
-    {{{editor.content}}}
+
+    {{!-- Talents --}}
+    {{#if talents.length}}
+    <h2 class="centered-style">{{localize "WW.Tradition.Talents"}}</h2>
+    
+    <ol class="described-list items-area talents">
+    
+      {{!-- Populate Talents --}}
+      {{#each talents as |item id|}}
+      <li class="item-reference item {{#if item.missing}}missing{{/if}} draggable" data-item-uuid="{{item.uuid}}">
+        <label><img src="{{item.img}}"> {{item.name}}:</label>
+    
+        <span>{{{item.system.description.enriched}}}</span>
+      </li>
+      {{/each}}
+    
+    </ol>
+    {{/if}}
+  
+    {{!-- Spells --}}
+    {{#each spells as |tier tierKey|}}
+    {{#if tier.length}}
+    <h2>
+      {{#if (eq tierKey 'master')}}{{localize "WW.Spells.Master"}}
+      {{else if (eq tierKey 'expert')}}{{localize "WW.Spells.Expert"}}
+      {{else}}{{localize "WW.Spells.Novice"}}
+      {{/if}}
+    </h2>
+    
+    <ol class="formatted-spell-list items-area spells {{tierKey}}">
+    
+      {{!-- Populate Spells --}}
+      {{#each tier as |item id|}}
+      <li class="item-reference item {{#if item.missing}}missing{{/if}} draggable" data-item-uuid="{{item.uuid}}">
+        <div class="spell-title">
+          <h3>{{item.name}}</h3>
+          <img src="{{item.img}}" />
+        </div>
+    
+        {{!-- Castings --}}
+        <div>
+          <label>{{localize "WW.Spell.Castings"}}:</label>
+    
+          {{system.uses.max}}
+    
+          {{#if system.casting}}<span class="ml-n1">, </span>{{/if}}
+    
+          {{system.casting}}
+        </div>
+    
+        {{!-- Target --}}
+        <div>
+          <label class="resource-label">{{localize "WW.Spell.Target"}}:</label>
+    
+          {{system.target}}
+    
+        </div>
+    
+        {{!-- Duration --}}
+        <div>
+          <label class="resource-label">{{localize "WW.Spell.Duration"}}:</label>
+    
+          {{system.duration}}
+    
+        </div>
+    
+        <div>{{{item.system.description.enriched}}}</div>
+    
+      </li>
+      {{/each}}
+    
+    </ol>
+    {{/if}}
+    {{/each}}
+
   </section>
 
 </div>

@@ -15,9 +15,9 @@ import NpcData from './data/actors/npc.mjs';
 import EquipmentData from './data/items/equipment.mjs';
 import TalentData from './data/items/talent.mjs';
 import SpellData from './data/items/spell.mjs';
-import AncestryData from './data/items/ancestry.mjs';
-import ProfessionData from './data/items/profession.mjs';
-import PathData from './data/items/path.mjs';
+import AncestryData from './data/journal/ancestry.mjs';
+import ProfessionData from './data/journal/profession.mjs';
+import PathData from './data/journal/path.mjs';
 import TraditionData from './data/journal/tradition.mjs';
 import ActiveEffectData from './data/active-effect.mjs';
 
@@ -27,9 +27,9 @@ import WWNpcSheet from './sheets/actors/npc-sheet.mjs';
 import WWEquipmentSheet from './sheets/items/equipment-sheet.mjs';
 import WWTalentSheet from './sheets/items/talent-sheet.mjs';
 import WWSpellSheet from './sheets/items/spell-sheet.mjs';
-import WWAncestrySheet from './sheets/items/ancestry-sheet.mjs';
-import WWPathSheet from './sheets/items/path-sheet.mjs';
-import WWProfessionSheet from './sheets/items/profession-sheet.mjs';
+import WWAncestrySheet from './sheets/journal/ancestry-sheet.mjs';
+import WWPathSheet from './sheets/journal/path-sheet.mjs';
+import WWProfessionSheet from './sheets/journal/profession-sheet.mjs';
 import WWTraditionSheet from './sheets/journal/tradition-sheet.mjs';
 import WWActiveEffectConfig from './sheets/configs/active-effect-config.mjs';
 
@@ -53,7 +53,7 @@ import { expireFromTokens } from './helpers/effect-actions.mjs';
 import { initGlobalListeners } from './helpers/global-listeners.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
-import { fullMigration, charOptions } from './helpers/migrations.mjs';
+import { fullMigration, effectOverhaul, strToCharOptions } from './helpers/migrations.mjs';
 import { Utils, handleWelcomeMessage } from './helpers/utils.mjs';
 
 /* -------------------------------------------- */
@@ -89,9 +89,9 @@ Hooks.once('init', function () {
   CONFIG.Item.dataModels.Spell = SpellData;
 
   // Journal Entry Page data models
-  CONFIG.Item.dataModels.Ancestry = AncestryData;
-  CONFIG.Item.dataModels.Path = PathData;
-  CONFIG.Item.dataModels.Profession = ProfessionData;
+  CONFIG.JournalEntryPage.dataModels.ancestry = AncestryData;
+  CONFIG.JournalEntryPage.dataModels.path = PathData;
+  CONFIG.JournalEntryPage.dataModels.profession = ProfessionData;
   CONFIG.JournalEntryPage.dataModels.tradition = TraditionData;
 
   CONFIG.ActiveEffect.dataModels.base = ActiveEffectData;
@@ -130,18 +130,18 @@ Hooks.once('init', function () {
   });
 
   // Register Journal Page Sheet classes
-  Items.registerSheet('weirdwizard', WWAncestrySheet, {
-    types: ['Ancestry'],
+  DocumentSheetConfig.registerSheet(JournalEntryPage, 'weirdwizard', WWAncestrySheet, {
+    types: ['ancestry'],
     makeDefault: true,
     label: 'WW.System.Sheet.Ancestry'
   });
-  Items.registerSheet('weirdwizard', WWPathSheet, {
-    types: ['Path'],
+  DocumentSheetConfig.registerSheet(JournalEntryPage, 'weirdwizard', WWPathSheet, {
+    types: ['path'],
     makeDefault: true,
     label: 'WW.System.Sheet.Path'
   });
-  Items.registerSheet('weirdwizard', WWProfessionSheet, {
-    types: ['Profession'],
+  DocumentSheetConfig.registerSheet(JournalEntryPage, 'weirdwizard', WWProfessionSheet, {
+    types: ['profession'],
     makeDefault: true,
     label: 'WW.System.Sheet.Profession'
   });
@@ -312,7 +312,8 @@ Hooks.once('ready', function () {
   // Append data migration function to game.system.migrations so it can be used for manual migrations
   game.system.migrations = {
     fullMigration: fullMigration,
-    migrateCharOptions: charOptions
+    effectOverhaul: effectOverhaul,
+    strToCharOptions: strToCharOptions
     //migratePack // Specific pack as input
     //migratePacks // All packs
   }

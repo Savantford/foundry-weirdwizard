@@ -22,6 +22,11 @@ const _buildBaseAffliction = (label, icon, changes = [], flags = {}) => ({
     ...flags
   },
   changes: changes,
+  system: {
+    duration: {
+      selected: '1minute'
+    }
+  }
 });
 
 export class WWAfflictions {
