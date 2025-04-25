@@ -4565,6 +4565,8 @@ form.quest-calendar {
   border-image: none;
   color: black;
   filter: none;
+  padding: 2px 5px;
+  white-space: nowrap;
 }
 
 .weirdwizard.chat-message .chat-button:focus,

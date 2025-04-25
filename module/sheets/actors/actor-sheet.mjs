@@ -1580,6 +1580,9 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
 
   // Item Scroll: Send item description to chat when clicked
   static #onItemScroll(event, button) {
+    event.preventDefault();
+    event.stopPropagation();
+
     const dataset = Object.assign({}, button.dataset);
     const item = this.actor.items.get(dataset.itemId);
 
@@ -1600,7 +1603,9 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
 
   // Set uses pips to update the value when clicked
   static #onItemUpdateUses(event, button) {
-    
+    event.preventDefault();
+    event.stopPropagation();
+    console.log('clicked')
     const item = this.actor.items.get(button.dataset.itemId);
       
     if ($(event.target).hasClass('far')) { // If the pip is regular (unchecked)
@@ -1611,6 +1616,9 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   }
 
   static #onItemToggleEffects(event, button) {
+    event.preventDefault();
+    event.stopPropagation();
+
     const dataset = Object.assign({}, button.dataset),
     item = this.actor.items.get(dataset.itemId);
 
@@ -1618,6 +1626,9 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   }
 
   static #onItemToggleReloaded(event, button) {
+    event.preventDefault();
+    event.stopPropagation();
+
     const dataset = Object.assign({}, button.dataset),
     item = this.actor.items.get(dataset.itemId);
     item.update({ "system.reloaded": !item.system.reloaded });
@@ -1650,6 +1661,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   // Collapses Container content
   static #onContainerCollapse(event, button) {
     event.preventDefault();
+    event.stopPropagation();
+    
     const dataset = Object.assign({}, button.dataset);
 
     let li = $(button).parents('.item');

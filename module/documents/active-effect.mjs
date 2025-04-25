@@ -20,6 +20,7 @@ export default class WWActiveEffect extends ActiveEffect {
 
   _validateDuration(changes) {
     const selected = changes.system?.duration?.selected ?? this.system.duration.selected;
+    const rounds = this.duration.rounds;
 
     // Check the selected value and set duration values
     switch (selected) {
@@ -51,6 +52,7 @@ export default class WWActiveEffect extends ActiveEffect {
     if (rounds === 777) this.system.duration.formatted = 'Luck ends';
     else if (rounds) this.system.duration.formatted = `${rounds} ${(rounds > 1 ? i18n(key + 'Rounds') : i18n(key + 'Round'))}`;
     else this.system.duration.formatted = formatTime(this.duration.seconds);
+  }
 
   /**
    * @override

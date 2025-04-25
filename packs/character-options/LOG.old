@@ -1,3 +1,6 @@
-2025/04/23-19:54:09.461 2e88 Recovering log #44
-2025/04/23-19:54:09.465 2e88 Delete type=0 #44
-2025/04/23-19:54:09.466 2e88 Delete type=3 #43
+2025/04/25-15:39:02.420 4d7c Log #51: 0 ops saved to Table #52 OK
+2025/04/25-15:39:02.420 4d7c Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\character-options/000051.log: OK
+2025/04/25-15:39:02.420 4d7c Table #35: 53 entries OK
+2025/04/25-15:39:02.421 4d7c Table #37: 744 entries OK
+2025/04/25-15:39:02.428 4d7c Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\character-options/MANIFEST-000050: OK
+2025/04/25-15:39:02.440 4d7c **** Repaired leveldb C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\character-options; recovered 2 files; 186306 bytes. Some data may have been lost. ****

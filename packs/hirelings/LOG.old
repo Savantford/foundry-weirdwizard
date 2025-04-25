@@ -1,3 +1,5 @@
-2025/04/23-19:54:09.452 898 Recovering log #396
-2025/04/23-19:54:09.456 898 Delete type=0 #396
-2025/04/23-19:54:09.456 898 Delete type=3 #395
+2025/04/25-15:39:02.378 4be8 Log #404: 0 ops saved to Table #405 OK
+2025/04/25-15:39:02.378 4be8 Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\hirelings/000404.log: OK
+2025/04/25-15:39:02.379 4be8 Table #71: 18 entries OK
+2025/04/25-15:39:02.384 4be8 Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\hirelings/MANIFEST-000403: OK
+2025/04/25-15:39:02.395 4be8 **** Repaired leveldb C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\hirelings; recovered 1 files; 13833 bytes. Some data may have been lost. ****

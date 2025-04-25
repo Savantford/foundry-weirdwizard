@@ -1,3 +1,6 @@
-2025/04/23-19:54:09.488 898 Recovering log #386
-2025/04/23-19:54:09.494 898 Delete type=0 #386
-2025/04/23-19:54:09.494 898 Delete type=3 #385
+2025/04/25-15:39:02.580 4be8 Log #394: 0 ops saved to Table #395 OK
+2025/04/25-15:39:02.580 4be8 Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\spells/000394.log: OK
+2025/04/25-15:39:02.581 4be8 Table #369: 104 entries OK
+2025/04/25-15:39:02.581 4be8 Table #371: 41 entries OK
+2025/04/25-15:39:02.587 4be8 Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\spells/MANIFEST-000393: OK
+2025/04/25-15:39:02.595 4be8 **** Repaired leveldb C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\spells; recovered 2 files; 75948 bytes. Some data may have been lost. ****

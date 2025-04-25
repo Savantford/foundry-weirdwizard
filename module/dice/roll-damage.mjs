@@ -124,14 +124,14 @@ export default class RollDamage extends FormApplication {
     const parent = ev.target.closest('#roll-damage');
 
     // Get checkbox values
-    let applyBase = parent.querySelector('input[name=applyBase]:checked');
-    let applyBothHands = parent.querySelector('input[name=bothHands]:checked');
-    let applyAttackDice = parent.querySelector('input[name=attackDice]:checked');
-    let applyAttackMod = parent.querySelector('input[name=attackMod]:checked');
+    const applyBase = parent.querySelector('input[name=applyBase]:checked'),
+      applyBothHands = parent.querySelector('input[name=bothHands]:checked'),
+      applyAttackDice = parent.querySelector('input[name=attackDice]:checked'),
+      applyAttackMod = parent.querySelector('input[name=attackMod]:checked'),
 
     // Get other field variables
-    let otherDice = parseInt(parent.querySelector('input[name=otherdice]').value);
-    let otherMod = parseInt(parent.querySelector('input[name=othermod]').value);
+      otherDice = parseInt(parent.querySelector('input[name=otherdice]').value),
+      otherMod = parseInt(parent.querySelector('input[name=othermod]').value);
 
     // Update Bonus Damage
     this.usedBonusDamage = Math.min(Math.max(0, this.usedBonusDamage), this.bonusDamage)
@@ -162,7 +162,8 @@ export default class RollDamage extends FormApplication {
     if (this.isAttack && this.usedBonusDamage) exp += addDice(this.usedBonusDamage, exp);
     if (diceCount) exp += addDice(diceCount, exp);
     if (modCount) exp += (exp ? ' + ' : '') + modCount;
-    if (this.item?.system?.traits?.brutal) exp.replace('d6', 'd6r1');
+    if (this.item?.system?.traits?.brutal) exp = exp.replace('d6', 'd6r1');
+    console.log(this.item?.system?.traits?.brutal)
     
     // Display final expression
     this.finalExp = exp;
