@@ -143,7 +143,14 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       dtypes: ['String', 'Number', 'Boolean'],
       editMode: this.editMode, // Pass editMode state
       tabs: this._getTabs(options.parts),
-      afflictions: this.appliedAfflictions
+      afflictions: this.appliedAfflictions,
+
+      itemSources: CONFIG.WW.TALENT_SOURCES,
+      tiers: CONFIG.WW.TIERS,
+
+      injured: actorData.injured,
+      incapacitated: actorData.incapacitated,
+      dead: actorData.dead
     }
     
     // Prepare attributes
@@ -155,11 +162,6 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     for (let [k, v] of Object.entries(context.system.attributes)) {
       v.label = i18n(CONFIG.WW.ATTRIBUTES[k] ?? k);
     }
-
-    // Prepare common data
-    context.injured = actorData.injured;
-    context.incapacitated = actorData.incapacitated;
-    context.dead = actorData.dead;
 
     // Prepare Disposition
     context.disposition = await this.actor?.token ? await this.actor.token.disposition : await this.actor.prototypeToken.disposition;
@@ -686,7 +688,6 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     context.end = end;
     context.spells = spells;
     context.legacy = legacy;
-    console.log(legacy)
   }
 
   /**
@@ -1441,9 +1442,6 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
           
           item.effects?.forEach(e => {
             
-            //if (!e.flags.weirdwizard.uuid) e.setFlag('weirdwizard', 'uuid', e.uuid);
-            //if (!e.trigger) e.trigger = e.flags.weirdwizard.trigger;
-            
             switch (e.system.trigger) {
               case 'onUse': {
                 effs.onUse.push(e);
@@ -1487,9 +1485,9 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
           // Add Instant Effects
           item.system?.instant?.forEach(e => {
 
-            //if (!e.trigger) e.trigger = e.flags.weirdwizard.trigger;
+            if (!e.trigger) e.trigger = 'onUse';
             
-            switch (e.system.trigger) {
+            switch (e.trigger) {
               case 'onUse': {
                 effs.onUse.push(e);
                 effs.onSuccess.push(e);
@@ -1605,7 +1603,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   static #onItemUpdateUses(event, button) {
     event.preventDefault();
     event.stopPropagation();
-    console.log('clicked')
+    
     const item = this.actor.items.get(button.dataset.itemId);
       
     if ($(event.target).hasClass('far')) { // If the pip is regular (unchecked)
@@ -2065,10 +2063,13 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     const cOpts = actor.system.charOptions;
 
     // Record Character Option's UUID in the correct field
-    if (page.type === 'tradition') {
-      const arr = [...new Set([...actor.system.charOptions.traditions, await page.uuid])];
+    if (page.type === 'profession' || page.type === 'tradition') {
+      const str = page.type + 's';
+
+      const arr = [...new Set([...actor.system.charOptions[str], await page.uuid])];
         
-      await actor.update({ 'system.charOptions.traditions': arr });
+      await actor.update({ ['system.charOptions.' + str]: arr });
+    
     } else {
       let str = 'system.charOptions.';
       
@@ -2076,8 +2077,20 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       else str += page.type;
       
       // Store UUID reference and update benefits
-      if (foundry.utils.getProperty(actor, str)) ui.notifications.warn(i18n("WW.CharOption.AlreadyWarning"));
-      else {
+      const old = foundry.utils.getProperty(actor, str);
+
+      if (old) {
+        
+        const confirm = await Dialog.confirm({
+          title: i18n('WW.CharOption.Reference.ReplaceDialog.Title'),
+          content: i18n('WW.CharOption.Reference.ReplaceDialog.Msg', { old: old.name, new: page.name, type: page.type })
+        });
+
+        if (!confirm) return;
+        
+        await actor.update({ [str]: page.uuid });
+        await actor.updateCharOptionBenefits(page.uuid);
+      } else {
         await actor.update({ [str]: page.uuid });
         await actor.updateCharOptionBenefits(page.uuid);
       }

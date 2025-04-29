@@ -63,7 +63,7 @@ export default class WWJournalPage extends JournalEntryPage {
     if (this.system.tier && (this.system.tier !== changes.system?.tier)) {
       await this._onTierChange(await changes);
     }
-    console.log('preUpdate')
+    
     // If Profession category is changes and the icon is one of the default ones, change base icon
     if (this.type === 'profession' && changes.system?.category !== this.system.category && (this.src === 'icons/svg/book.svg' || this.src.includes('systems/weirdwizard/assets/icons/professions'))) {
       await this._onProfessionCategoryChange(await changes);

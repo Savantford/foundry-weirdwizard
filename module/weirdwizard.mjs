@@ -53,7 +53,7 @@ import { expireFromTokens } from './helpers/effect-actions.mjs';
 import { initGlobalListeners } from './helpers/global-listeners.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
-import { fullMigration, effectOverhaul, strToCharOptions } from './helpers/migrations.mjs';
+import { fullMigration, effectOverhaul, strToCharOptions, pathsOfJournaling } from './helpers/migrations.mjs';
 import { Utils, handleWelcomeMessage } from './helpers/utils.mjs';
 
 /* -------------------------------------------- */
@@ -312,10 +312,9 @@ Hooks.once('ready', function () {
   // Append data migration function to game.system.migrations so it can be used for manual migrations
   game.system.migrations = {
     fullMigration: fullMigration,
+    pathsOfJournaling: pathsOfJournaling,
+    strToCharOptions: strToCharOptions,
     effectOverhaul: effectOverhaul,
-    strToCharOptions: strToCharOptions
-    //migratePack // Specific pack as input
-    //migratePacks // All packs
   }
 
   // Check and run data migrations if needed

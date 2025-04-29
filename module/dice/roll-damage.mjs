@@ -163,7 +163,6 @@ export default class RollDamage extends FormApplication {
     if (diceCount) exp += addDice(diceCount, exp);
     if (modCount) exp += (exp ? ' + ' : '') + modCount;
     if (this.item?.system?.traits?.brutal) exp = exp.replace('d6', 'd6r1');
-    console.log(this.item?.system?.traits?.brutal)
     
     // Display final expression
     this.finalExp = exp;

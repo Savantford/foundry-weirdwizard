@@ -65,18 +65,15 @@
                     
                     {{!-- Ancestry --}}
                     <div class="list-entry">
-                        <a data-tooltip="{{charOptions.ancestry.system.description.enriched}}">{{charOptions.ancestry.name}}</a>{{#if charOptions.ancestry}}<span class="buttons">
-                        
-                        <a class="item-button" data-action="journalRemove" data-page-uuid="{{charOptions.ancestry.uuid}}" data-option-type="ancestry"
-                            data-tooltip="WW.Item.Delete.Ancestry"><i class="fas fa-trash"></i></a>
-                        
-                        </span>{{/if}}
-                        
-                        {{#unless charOptions.ancestry}}<span>{{localize "WW.CharOptions.NoAncestry"}}</span>{{/unless}}
+                        <a data-action="journalView" data-page-uuid="{{charOptions.ancestry.uuid}}">{{charOptions.ancestry.name}}</a>
 
-                        {{#if editMode}}
-                        <a class="help-button" data-action="journalHelp" data-tooltip="WW.System.Documentation"><i class="fas fa-circle-question"></i></a>
-                        {{/if}}
+                        {{#if charOptions.ancestry}}
+                        <span class="buttons">
+                            <a class="item-button" data-action="journalRemove" data-page-uuid="{{charOptions.ancestry.uuid}}" data-option-type="ancestry"
+                                data-tooltip="WW.Item.Delete.NovicePath"><i class="fas fa-trash"></i>
+                            </a>
+                        </span>
+                        {{/if}}{{#unless charOptions.ancestry}}<span>—</span>{{/unless}}{{#if (gte system.stats.level 3)}} ● {{/if}}
 
                     </div>
 
@@ -220,27 +217,22 @@
                 <div class="stat-inline list-entries">
 
                     <label>{{localize "WW.CharOptions.Professions"}}:</label>    
-
-                    {{#each charOptions.professions as |prof id|}}
-                    <span class="list-entry">
+                    
+                    {{#each charOptions.professions as |profession id|}}
+                    <span class="list-entry draggable">
+                        <a data-action="journalView" data-page-uuid="{{profession.uuid}}" data-option-type="professions"
+                            data-tooltip="{{profession.desc}}">{{profession.name}}
+                        </a>
                         
-                        <a data-tooltip="<p>{{localize "WW.Profession.Category"}}: {{localize prof.system.categoryLoc}}</p><br/><p>{{prof.system.description.enriched}}</p>">{{prof.name}}</a><span class="buttons">
-                            {{#if prof.system.description.value}}
-                            {{!-- Send to Chat Scroll --}}
-                            <a class="item-button" data-action="journalSend" data-page-uuid="{{prof.uuid}}" data-tooltip="WW.Item.Send"><i
-                                class="far fa-scroll"></i></a>
-                            {{/if}}
-
-                            {{!-- Delete Button --}}
-                            <a class="item-button" data-action="journalRemove" data-page-uuid="{{prof.uuid}}" data-option-type="professions"
-                                data-tooltip="{{concat "WW.Item.Delete." prof.type}}"><i class="fas fa-trash"></i>
+                        <span class="buttons">
+                            <a class="array-button" data-action="journalRemove" data-page-uuid="{{profession.uuid}}" data-option-type="professions"
+                                data-tooltip="WW.Profession.Remove"><i class="fas fa-trash"></i>
                             </a>
-                            
                         </span>{{#unless @last}},{{/unless}}
-                        
+
                     </span>
                     {{/each}}
-
+                        
                     {{#unless charOptions.professions.length}}<span>—</span>{{/unless}}
                         
                     {{#if editMode}}
@@ -326,11 +318,11 @@
                     {{#each charOptions.traditions as |tradition id|}}
                     <span class="list-entry draggable">
                         <a data-action="journalView" data-page-uuid="{{tradition.uuid}}" data-option-type="traditions"
-                            data-tooltip="{{tradition.desc}}"><img src="{{tradition.src}}" />{{tradition.name}}
+                            data-tooltip="{{tradition.desc}}">{{tradition.name}}
                         </a>
                         
                         <span class="buttons">
-                            <a class="array-button" data-action="journalRemove" data-page-uuid="{{tradition.uuid}}" data-page-uuid="{{tradition.uuid}}"
+                            <a class="array-button" data-action="journalRemove" data-page-uuid="{{tradition.uuid}}" data-option-type="traditions"
                                 data-tooltip="WW.Tradition.Remove"><i class="fas fa-trash"></i>
                             </a>
                         </span>{{#unless @last}},{{/unless}}

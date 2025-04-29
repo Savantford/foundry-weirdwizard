@@ -191,8 +191,6 @@ export default class WWPageView extends HandlebarsApplicationMixin(DocumentSheet
       }
     }
     
-    console.log(context)
-    
     return context;
   }
 

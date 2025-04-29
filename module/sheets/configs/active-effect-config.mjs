@@ -108,7 +108,7 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
         'durationInDays': formData.durationInDays
       }
     }*/
-    console.log(formData.system.duration.selected)
+    
     switch (formData.system.duration.selected) {
       case 'minutes': formData.duration = { seconds: formData.system.duration.inMinutes * 3600 }; break;
       case 'hours': formData.duration = { seconds: formData.system.duration.inHours * 3600 }; break;
@@ -148,10 +148,9 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     const parent = ev.currentTarget.closest('.effect-change');
     const div = parent.querySelector('.value');
     let ele = parent.querySelector('.value input');
-    console.log(select.value)
+    
     const valueRef = select.value.split('.').reduce((o, i) => o[i], effChanges);
     const valueType = valueRef?.valueType ?? '';
-    console.log(valueRef)
     ele.remove();
     
     if (valueType === "int") {

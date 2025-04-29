@@ -17,8 +17,6 @@
         
         {{!-- Table Rows --}}
         {{#each instantEffects as |effect id|}}
-        {{log id}}
-        {{log effect}}
         <li class="item effect flexrow" data-effect-id="{{id}}">
             <div class="item-image">
                 <img src="{{effect.img}}" width="24" height="24" />
@@ -94,7 +92,6 @@
 
         {{!-- Table Rows --}}
         {{#each section.effects as |effect|}}
-        {{log effect}}
         <li class="item effect flexrow {{#if (eq effect.parent.id @root.actor.id)}}draggable{{/if}}"
             data-effect-id="{{effect.id}}">
             <div class="item-image">

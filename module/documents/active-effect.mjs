@@ -50,7 +50,7 @@ export default class WWActiveEffect extends ActiveEffect {
     }
 
     if (rounds === 777) this.system.duration.formatted = 'Luck ends';
-    else if (rounds) this.system.duration.formatted = `${rounds} ${(rounds > 1 ? i18n(key + 'Rounds') : i18n(key + 'Round'))}`;
+    else if (rounds) this.system.duration.formatted = `${rounds} ${(rounds > 1 ? i18n(rounds + 'Rounds') : i18n(rounds + 'Round'))}`;
     else this.system.duration.formatted = formatTime(this.duration.seconds);
   }
 

@@ -505,16 +505,16 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     if (this.document.type === 'tradition') {
       const spells = this.document.system.spells;
       const talents = this.document.system.talents;
-      
-      if (item.type === 'Spell') {
+
+      if (item.type === 'Spell' && !spells[item.system.tier].filter(x => x === item.uuid).length) {
         spells[item.system.tier].push(item.uuid);
         await this.document.update({ 'system.spells': spells });
 
-      } else if (item.type === 'Trait or Talent') {
+      } else if (item.type === 'Trait or Talent' && !talents.filter(x => x === item.uuid).length) {
         talents.push(item.uuid);
         await this.document.update({ 'system.talents': talents });
 
-      } else {
+      } else if (item.type === 'Equipment') {
         return ui.notifications.warn(i18n('WW.Tradition.EquipmentWarning'));
       }
     

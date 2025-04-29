@@ -5,8 +5,8 @@
         <li class="item flexrow items-header">
             <div class="item-image"></div>
             <div class="item-name">{{localize "WW.Item.Name"}}</div>
-            <div>{{localize "WW.Talent.Uses"}}</div>
-            <div>{{localize "WW.Talent.Source.Label"}}</div>
+            <div class="item-uses">{{localize "WW.Talent.Uses"}}</div>
+            <div class="item-source">{{localize "WW.Talent.Source.Label"}}</div>
             <div class="item-controls">
                 <a class="item-control item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Trait" data-type="Trait or Talent" data-subtype="trait" data-source="Ancestry"><i class="fas fa-plus"></i> {{localize "WW.Item.Create.Label"}}</a>
             </div>
@@ -37,7 +37,7 @@
             </div>
 
             {{!-- Uses Pips --}}
-            <div>
+            <div class="item-uses">
                 {{#if item.uses}}
                 <span class="pip-box">
                     {{#each item.uses as |pip id|}}
@@ -50,7 +50,7 @@
             </div>
 
             {{!-- Source --}}
-            <div>{{item.system.source}}</div>
+            <div class="item-source">{{localize (lookup @root.itemSources item.system.source)}}</div>
             
             <div class="item-controls">
 
@@ -73,7 +73,7 @@
         </li>
         {{/each}}
     </ol>
-    {{log legacy}}
+    
     {{#if legacy.length}}
     <h2>Legacy Items: DELETE</h2>
 
@@ -83,8 +83,8 @@
         <li class="item flexrow items-header">
             <div class="item-image"></div>
             <div class="item-name">{{localize "WW.Item.Name"}}</div>
-            <div>{{localize "WW.Talent.Uses"}}</div>
-            <div>{{localize "WW.Talent.Source.Label"}}</div>
+            <div class="item-uses">{{localize "WW.Talent.Uses"}}</div>
+            <div class="item-source">{{localize "WW.Talent.Source.Label"}}</div>
             <div class="item-controls">
                 <a class="item-control item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Trait" data-type="Trait or Talent" data-subtype="trait" data-source="Ancestry"><i class="fas fa-plus"></i> {{localize "WW.Item.Create.Label"}}</a>
             </div>
@@ -115,7 +115,7 @@
             </div>
 
             {{!-- Uses Pips --}}
-            <div>
+            <div class="item-uses">
                 {{#if item.uses}}
                 <span class="pip-box">
                     {{#each item.uses as |pip id|}}
@@ -128,7 +128,7 @@
             </div>
 
             {{!-- Source --}}
-            <div>{{item.system.source}}</div>
+            <div class="item-source">aaaa {{localize (lookup @root.itemSources item.system.source)}}</div>
             
             <div class="item-controls">
 

@@ -8,7 +8,6 @@ import { i18n, formatTime, sysPath } from '../helpers/utils.mjs';
 export default class WWActor extends Actor {
   
   async _preCreate(data, options, user) {
-    console.log('preCreate')
     const sourceId = this._stats.compendiumSource;
     // Don't change actors imported from compendia.
     if (sourceId?.startsWith("Compendium.")) return await super._preCreate(data, options, user);
@@ -82,7 +81,7 @@ export default class WWActor extends Actor {
   }
 
   async _onCreate(data, options, user) {
-    console.log('onCreate')
+    
     // Fix Health and Incapacitated
     this.incapacitated = false;
     
@@ -107,7 +106,7 @@ export default class WWActor extends Actor {
 
   async _preUpdate(changes, options, user) {
     await super._preUpdate(changes, options, user);
-    console.log('preUpdate')
+    
     const damage = foundry.utils.getProperty(this, 'system.stats.damage.value');
 
     // Update token status icons
@@ -121,7 +120,7 @@ export default class WWActor extends Actor {
 
   async _onUpdate(changed, options, user) {
     await super._onUpdate(changed, options, user);
-    console.log('onUpdate')
+    
     // Check for changed variables
     const health = foundry.utils.getProperty(changed, 'system.stats.health');
     const damage = foundry.utils.getProperty(changed, 'system.stats.damage');
@@ -137,7 +136,6 @@ export default class WWActor extends Actor {
     // Update Character Options if Level updates ////////////////////////////////////
     if (foundry.utils.getProperty(changed, 'system.stats.level')) {
       
-      console.log('level changed, updating char options')
       if (user !== game.user.id) return;
       const cOpts = this.system.charOptions;
 
@@ -796,7 +794,7 @@ export default class WWActor extends Actor {
     // Get granted items
     const aItems = this.items.filter(i => i.flags?.weirdwizard?.grantedBy === uuid );
     const ids = aItems.map(i => i._id);
-    console.log(this.items)
+    
     // Delete items granted by the Character Option
     this.deleteEmbeddedDocuments('Item', ids);
 

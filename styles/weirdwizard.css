@@ -1877,6 +1877,7 @@ body {
   flex-flow: row wrap;
   gap: 3px 5px;
   justify-content: flex-start;
+  align-items: center;
 }
 
 .weirdwizard.item .equipment-sheet:not(.weapon) .common-fields {
@@ -2598,8 +2599,8 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .weirdwizard.equipment input[type="checkbox"].checkbox-uses {
-  --checkbox-size: 16px;
-  height: var(--checkbox-size) + 2px;
+  --checkbox-size: 1lh;
+  height: calc(var(--checkbox-size) + 2px);
   border: 1px solid transparent;
 }
 
@@ -3283,6 +3284,7 @@ article .weirdwizard.charoption .items-area {
 }
 
 /* ---------------------------- Non-Sheet Applications -----------------------------*/
+
 .application.weirdwizard input[type="checkbox"]::before,
 .application.weirdwizard input[type="checkbox"]:checked::after {
   content: "";

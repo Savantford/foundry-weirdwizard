@@ -50,7 +50,7 @@ export default class SpellData extends foundry.abstract.DataModel {
     }
 
     // Apply lowercase to tier field
-    if (source.tier !== source.tier.toLowerCase()) source.tier = source.tier.toLowerCase();
+    if (source.tier !== source.tier?.toLowerCase()) source.tier = source.tier.toLowerCase();
 
     return super.migrateData(source);
   }

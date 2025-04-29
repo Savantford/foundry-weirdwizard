@@ -168,7 +168,7 @@ async function _cOptItemToPage({ item, actor, folders }) {
     if (!page) {
       const pageData = {
         ...item,
-        name: `${item.name} (Legacy)`,
+        name: `${item.name} (Converted)`,
         src: item.img,
         _id: item.id,
         type: item.type.toLowerCase(),
@@ -187,18 +187,19 @@ async function _cOptItemToPage({ item, actor, folders }) {
           await actor.update({ ['system.charOptions.' + newPage.system.tier]: newPage.uuid });
         }; break;
 
-        // Array of Char Options
-        case 'default': {
-          const arr = actor.system.charOptions[newPage.type].filter(v => { return v !== newPage.uuid; });
+        case 'profession': {
+          const arr = [...actor.system.charOptions.professions];
+          arr.push(newPage.uuid);
+          console.log(arr)
 
-          await actor.update({ ['system.charOptions.' + newPage.type + 's']: arr });
+          await actor.update({ ['system.charOptions.professions']: arr });
         }; break;
       }
 
       // Create a legacy copy of the item
       const legacyCopy = await Item.create({
         ...item,
-        name: `${item.name} (Legacy)`,
+        name: `${item.name} (Legacy/Unusable)`,
         _id: item.id,
         folder: folder
       }, { keepId: true, parent: null });
