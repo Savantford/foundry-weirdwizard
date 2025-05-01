@@ -256,8 +256,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         const str = compendiumDropdown.value.replace('weirdwizard.', '');
         
         switch (str) {
-          case 'paths': this.type = 'paths'; break;
-          case 'professions': this.type = 'professions'; break;
           case 'armor': this.type = 'armor'; break;
           case 'weapons': this.type = 'weapons'; break;
         }
@@ -310,8 +308,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     
     // Set the type automatically for core Compendia
     switch (value) {
-      case 'paths': this.type = 'paths'; break;
-      case 'professions': this.type = 'professions'; break;
       case 'armor': this.type = 'armor'; break;
       case 'weapons': this.type = 'weapons'; break;
       default: this.type = 'generic'; break;

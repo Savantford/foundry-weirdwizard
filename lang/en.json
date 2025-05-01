@@ -473,18 +473,23 @@
 "TYPES.JournalEntryPage.profession": "Profession",
 "TYPES.JournalEntryPage.tradition": "Tradition",
 
+"WW.CharOptions.Label": "Character Options (BROKEN)",
 "WW.CharOptions.Ancestry": "Ancestry",
 "WW.CharOptions.Ancestries": "Ancestries",
 "WW.CharOptions.NoAncestry": "No Ancestry",
 "WW.CharOptions.AncestryBenefits": "Ancestry Benefits",
+"WW.CharOptions.AncestryTraits": "Ancestry Traits",
 "WW.CharOptions.Professions": "Professions",
 "WW.CharOptions.Paths": "Paths",
+"WW.CharOptions.PathTalents": "Path Talents",
 "WW.CharOptions.Novice": "Novice",
 "WW.CharOptions.NovicePath": "Novice Path",
 "WW.CharOptions.Expert": "Expert",
 "WW.CharOptions.ExpertPath": "Expert Path",
 "WW.CharOptions.Master": "Master",
 "WW.CharOptions.MasterPath": "Master Path",
+"WW.CharOptions.TraditionSpells": "Tradition Talents & Spells",
+
 "WW.CharOptions.JournalEntryWarning": "You are trying to drag and drop a Journal Entry. If you wanted to drag a Character Option, make sure to drag a PAGE from the Journal Entry's hierarchy!",
 
 "WW.CharOption.Description": "Description",

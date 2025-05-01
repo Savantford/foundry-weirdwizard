@@ -758,7 +758,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     window.classList.toggle('dead', actor.dead);
     window.classList.toggle('ally', (this.actor?.token ? this.actor.token.disposition : this.actor.prototypeToken.disposition) === 1);
 
-    if ( !game.user.isGM ) return;
+    if ( !game.user.isOwner ) return;
 
     // Create dragDrop listener
     new DragDrop({ // Remove in v13; core implementation
@@ -961,7 +961,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       callback: path => {
         target.src = path;
         if ( this.options.form.submitOnChange ) {
-          const submit = new Event("submit");
+          const submit = new Event("submit", {cancelable: true});
           this.element.dispatchEvent(submit);
         }
       },
@@ -1871,6 +1871,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    * @override
    */
   async _onDragStart(event) {
+    console.log('drag start')
     const li = event.currentTarget;
     if ( "link" in event.target.dataset ) return;
     let dragData;
@@ -1911,12 +1912,13 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    * @protected
    */
   async _onDrop(event) { // Delete in v13; core behavior
+    console.log('dropped')
     if ( !this.isEditable ) return;
     const data = TextEditor.getDragEventData(event);
     const actor = this.actor;
     const allowed = Hooks.call("dropActorSheetData", actor, this, data);
     if ( allowed === false ) return;
-
+    console.log('allowed')
     // Dropped Documents
     const documentClass = getDocumentClass(data.type);
     if ( documentClass ) {
@@ -2077,19 +2079,23 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       else str += page.type;
       
       // Store UUID reference and update benefits
-      const old = foundry.utils.getProperty(actor, str);
+      const oldUuid = foundry.utils.getProperty(actor, str);
+      const oldPage = await fromUuid(oldUuid);
+      
+      const oldName = oldPage ? oldPage.name : 'Unknown';
 
-      if (old) {
-        
+      if (oldUuid) {
         const confirm = await Dialog.confirm({
           title: i18n('WW.CharOption.Reference.ReplaceDialog.Title'),
-          content: i18n('WW.CharOption.Reference.ReplaceDialog.Msg', { old: old.name, new: page.name, type: page.type })
+          content: i18n('WW.CharOption.Reference.ReplaceDialog.Msg', { old: oldName, new: page.name, type: page.type })
         });
 
         if (!confirm) return;
         
+        if (oldPage) await actor.clearCharOptionBenefits(oldPage.uuid);
         await actor.update({ [str]: page.uuid });
         await actor.updateCharOptionBenefits(page.uuid);
+
       } else {
         await actor.update({ [str]: page.uuid });
         await actor.updateCharOptionBenefits(page.uuid);

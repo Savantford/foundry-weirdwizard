@@ -3047,7 +3047,7 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard.charoption .sheet-banner {
   width: auto;
   margin: 0 var(--spear-offset) 1rem;
-  padding: 1rem 1rem 2.5rem;
+  padding: 1rem 1rem 2rem;
   background-image: url(../assets/ui/straps/zigzag-banner.svg);
   filter: drop-shadow(0 2px 2px black);
 }
@@ -3080,7 +3080,7 @@ input[type="checkbox"].checkbox-uses {
   margin-left: 0.5rem;
 }
 
-.journal-entry-page .icon-frame {
+.journal-entry-content .icon-frame {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3093,7 +3093,7 @@ input[type="checkbox"].checkbox-uses {
     drop-shadow(0 0px 0 var(--purple-medium));
 }
 
-.journal-entry-page .icon-frame img {
+.journal-entry-content .icon-frame img {
   --border-width: 18px;
   --clip-radius: calc(var(--border-width) - 5px);
   --clip-radius-neg: calc(-1* var(--clip-radius));
@@ -3107,7 +3107,7 @@ input[type="checkbox"].checkbox-uses {
   width: 90px;
 }
 
-.journal-entry-page .icon-frame.w-50 img {
+.journal-entry-content .icon-frame.w-50 img {
   --border-width: 13px;
   width: 50px;
 }
@@ -4402,28 +4402,36 @@ form.quest-calendar {
   text-shadow: 0 0 5px black, 0 0 10px black;
 }
 
-.enricher-index[data-type=ancestries] {
-  --banner: url(../assets/ui/banners/ancestries-banner.webp);
-}
-
-.enricher-index[data-type=paths] {
-  --banner: url(../assets/ui/banners/paths-banner.webp);
-}
-
-.enricher-index[data-type=professions] {
-  --banner: url(../assets/ui/banners/professions-banner.webp);
-}
-
 .enricher-index[data-type=armor] {
   --banner: url(../assets/ui/banners/armor-banner.webp);
 }
 
-.enricher-index[data-type=weapons] {
-  --banner: url(../assets/ui/banners/weapons-banner.webp);
+.enricher-index[data-type=character-options] {
+  --banner: url(../assets/ui/banners/character-options-banner.webp);
+}
+
+.enricher-index[data-type=documentation] {
+  --banner: url(../assets/ui/banners/documentation-banner.webp);
 }
 
 .enricher-index[data-type=hirelings] {
   --banner: url(../assets/ui/banners/hirelings-banner.webp);
+}
+
+.enricher-index[data-type=talents] {
+  --banner: url(../assets/ui/banners/path-talents-banner.webp);
+}
+
+.enricher-index[data-type=spells] {
+  --banner: url(../assets/ui/banners/spells-banner.webp);
+}
+
+.enricher-index[data-type=traits] {
+  --banner: url(../assets/ui/banners/traits-banner.webp);
+}
+
+.enricher-index[data-type=weapons] {
+  --banner: url(../assets/ui/banners/weapons-banner.webp);
 }
 
 /* -------------------------------------------- */

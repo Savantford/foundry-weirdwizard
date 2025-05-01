@@ -12,7 +12,7 @@ export default function addCustomEnrichers() {
       enricher: enrichRoll
     },
     {
-      pattern: /(?:index:(ancestries|paths|professions|armor|weapons|hirelings){1})/gim,
+      pattern: /(?:index:(armor|weapons|hirelings|charopts|traits|talents|spells){1})/gim,
       enricher: enrichIndex
     },
   );
@@ -103,7 +103,7 @@ async function enrichRoll (match, options) {
 }
 
 async function enrichIndex (match, options) {
-  const type = match[1];
+  const type = match[1] === 'charopts' ? 'character-options' : match[1];
   const label = i18n(CONFIG.WW.COMPENDIUM_INDEX_ENRICHER_LABELS[type]);
 
   // Prepare container

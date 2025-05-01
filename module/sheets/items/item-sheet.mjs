@@ -335,7 +335,7 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
     window.classList.toggle('magical', item.system.magical);
     window.classList.toggle('weapon', item.system.subtype === 'weapon');
 
-    if ( !game.user.isGM ) return;
+    if ( !game.user.isOwner ) return;
 
     // Create dragDrop listener
     new DragDrop({ // Remove in v13; core implementation

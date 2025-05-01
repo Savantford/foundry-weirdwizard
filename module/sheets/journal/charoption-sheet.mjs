@@ -238,7 +238,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
   /*async _onRender(context, options) {
     await super._onRender(context, options);
 
-    if ( !game.user.isGM ) return;
+    if ( !game.user.isOwner ) return;
 
     // Create dragDrop listener
     this.#dragDrop.forEach((d) => d.bind(this.element));

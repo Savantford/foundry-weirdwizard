@@ -880,12 +880,13 @@ WW.COMPENDIUM_TYPES = {
 };
 
 WW.COMPENDIUM_INDEX_ENRICHER_LABELS = {
-  'ancestries': 'WW.CharOptions.Ancestries',
-  'paths': 'WW.CharOptions.Paths',
-  'professions': 'WW.CharOptions.Professions',
   'armor': 'WW.Armor.Label',
   'weapons': 'WW.Equipment.Weapons',
-  'hirelings': 'WW.Equipment.Hirelings'
+  'hirelings': 'WW.Equipment.Hirelings',
+  'character-options': 'WW.CharOptions.Label',
+  'traits': 'WW.CharOptions.AncestryTraits',
+  'talents': 'WW.CharOptions.PathTalents',
+  'spells': 'WW.CharOptions.TraditionSpells'
 };
 
 WW.COMPENDIUM_GROUPS = {
@@ -895,4 +896,4 @@ WW.COMPENDIUM_GROUPS = {
   'sotww-secrets': 'WW.System.Compendium.Group.Secrets',
   'sotww-heroes': 'WW.System.Compendium.Group.Heroes',
   'sotww-wa': 'WW.System.Compendium.Group.WeirdAncestries'
-}
+};

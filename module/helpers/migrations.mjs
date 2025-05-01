@@ -190,7 +190,6 @@ async function _cOptItemToPage({ item, actor, folders }) {
         case 'profession': {
           const arr = [...actor.system.charOptions.professions];
           arr.push(newPage.uuid);
-          console.log(arr)
 
           await actor.update({ ['system.charOptions.professions']: arr });
         }; break;
