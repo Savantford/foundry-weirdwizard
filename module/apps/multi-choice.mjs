@@ -15,7 +15,7 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
 
   constructor(options = {}) {
     super(options); // This is required for the constructor to work
-
+    
     this.document = options.document;
   }
 
@@ -188,14 +188,14 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
           if (checkedAffs[aff]) {
             const affliction = CONFIG.statusEffects.find(a => a.id === aff);
             
-            if (affliction && !await opt.document.statuses.has(affliction.id)) {
+            if (affliction && !opt.document.effects.find(e => e.statuses.has(aff))) {
               affliction['statuses'] = [affliction.id];
               
-              await ActiveEffect.create(affliction, {parent: opt.document});  
+              await ActiveEffect.create(affliction, {parent: opt.document});
             }
 
           } else {
-            const affliction = await opt.document.effects.find(e => e?.statuses?.has(aff));
+            const affliction = opt.document.effects.find(e => e.statuses.has(aff));
             
             if (affliction) await affliction.delete();
           }

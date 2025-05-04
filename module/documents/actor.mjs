@@ -138,18 +138,17 @@ export default class WWActor extends Actor {
       
       if (user !== game.user.id) return;
       const cOpts = this.system.charOptions;
-
+      
       for (const o in cOpts) {
         const cOpt = cOpts[o];
         
         if (typeof cOpt !== 'string') {
           for (const e in cOpt) {
-            this.updateCharOptionBenefits(e);
+            this.updateCharOptionBenefits(cOpt[e]);
           }
 
         } else this.updateCharOptionBenefits(cOpt);
       }
-      
       
     }
 
@@ -503,18 +502,19 @@ export default class WWActor extends Actor {
   /* -------------------------------------------- */
 
   async updateCharOptionBenefits(uuid) {
+    if (!uuid) return;
     const cOption = await fromUuid(uuid);
     
-    // Return if character option does not exist
-    if (cOption) {
-      // Handle char option's granted items, granted list entries and main effect
-      this._updateGrantedItems(uuid);
-      this._updateGrantedEntries(uuid);
-      if (cOption?.type !== 'profession') this._updateMainEffect(uuid);
+    // Return if invalid uuid or a tradition
+    if (!cOption) return ui.notifications.error(`"${uuid}" is not a valid Character Option UUID. Please remove it from the sheet!`);
+    if (cOption.type === 'tradition') return;
 
-      ui.notifications.info(`${cOption.name}'s benefits updated.`);
-      
-    } else if (uuid) return ui.notifications.error(`"${uuid}" is not a valid Character Option UUID. Please remove it from the sheet!`);
+    // Handle char option's granted items, granted list entries and main effect
+    this._updateGrantedItems(uuid);
+    this._updateGrantedEntries(uuid);
+    if (cOption?.type !== 'profession') this._updateMainEffect(uuid);
+
+    ui.notifications.info(`${cOption.name}'s benefits updated.`);
 
   }
 

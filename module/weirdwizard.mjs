@@ -347,7 +347,7 @@ Hooks.once('setup', function () {
   CONFIG.statusEffects = effects;
 
   // Assign blinded as the BLIND special status effect
-  CONFIG.specialStatusEffects.BLIND = 'Blinded';
+  CONFIG.specialStatusEffects.BLIND = 'blinded';
   
 });
 

@@ -12,7 +12,7 @@
             {{!-- Section Title --}}
             {{#if title}}
             <h3>
-                {{#if icon}}<i class="fas fa-{{{icon}}}"></i> {{/if}}
+                {{#if img}}<i class="fas fa-{{{img}}}"></i> {{/if}}
                 {{localize title}}
                 {{#unless noCollapse}}
                 <i class="fas {{#if collapsed}}fa-circle-chevron-up{{else}}fa-circle-chevron-down{{/if}}" data-action="collapseSection"></i>
@@ -45,7 +45,7 @@
                 {{#each choices as |choice|}}
                 <label data-tooltip="{{tip}}">
                     <input type="checkbox" name="{{#if uuid}}{{uuid}}{{else if id}}{{id}}{{else}}{{path}}{{/if}}" {{checked value}}>
-                    {{#if icon}}<img src={{icon}}> {{/if}}{{localize label}}
+                    {{#if img}}<img src={{img}}> {{/if}}{{localize label}}
                 </label>
                 {{/each}}
 

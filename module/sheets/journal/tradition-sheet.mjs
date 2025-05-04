@@ -45,7 +45,7 @@ export default class WWTraditionSheet extends WWCharOptionSheet {
   /** @override */
   /*_configureRenderOptions(options) { // V2 only
     super._configureRenderOptions(options);
-    console.log('check')
+    
     // Completely overriding the parts
     options.parts = ['menu', 'sidetabs', 'namestripe', 'banner', 'summary', 'details', 'equipment', 'talents', 'spells', 'effects'];
     

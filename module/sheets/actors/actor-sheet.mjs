@@ -129,7 +129,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    */
   async _prepareContext(options = {}) {
     const actorData = this.actor;
-
+    
     // Ensure editMode has a value
     if (this.editMode === undefined) this.editMode = false;
     
@@ -758,8 +758,6 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     window.classList.toggle('dead', actor.dead);
     window.classList.toggle('ally', (this.actor?.token ? this.actor.token.disposition : this.actor.prototypeToken.disposition) === 1);
 
-    if ( !game.user.isOwner ) return;
-
     // Create dragDrop listener
     new DragDrop({ // Remove in v13; core implementation
       dragSelector: ".draggable",
@@ -1068,14 +1066,13 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     
     // Convert ContextMenu data to MultiChoice data
     CONFIG.statusEffects.forEach(a => {
-      if (a.id in CONFIG.WW.AFFLICTIONS)
-      afflictions.push({
+      if (a.id in CONFIG.WW.AFFLICTIONS) afflictions.push({
         id: a.id,
         label: a.name,
-        icon: a.icon,
+        img: a.img,
         tip: a.description,
         group: 'afflictions',
-        value: this.appliedAfflictions.find(x => x.name === a.name)
+        value: this.appliedAfflictions.find(x => x.id === a.id) ? true : false
       })
     }, {})
   
@@ -1820,9 +1817,15 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   /*  Getters                                     */
   /* -------------------------------------------- */
 
-  // Prepare hasEffect list
-  get appliedAfflictions() {  
-    const arr = Array.from(this.actor.statuses);
+  // Prepare affliction list
+  /*get appliedAfflictions() {
+    console.log()
+    return this.actor.effects.filter(e => e.statuses.size > 0).filter(e => e.flags.sourceType = 'affliction');
+  }*/
+
+  get appliedAfflictions() {
+    const arr = [...this.actor.effects].map(x => Array.from(x.statuses)[0]).filter(x => x);
+    
     const appliedAffs = CONFIG.statusEffects.filter(s => arr.includes(s.id));
     
     return appliedAffs;
@@ -1871,7 +1874,6 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    * @override
    */
   async _onDragStart(event) {
-    console.log('drag start')
     const li = event.currentTarget;
     if ( "link" in event.target.dataset ) return;
     let dragData;
@@ -1884,8 +1886,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
 
     // Active Effect
     if ( li.dataset.effectId ) {
-      //const effect = this.actor.effects.get(li.dataset.effectId);
-      const effect = await this.actor.appliedEffects.find(e => e.id === li.dataset.effectId);
+      const effect = this.actor.effects.get(li.dataset.effectId);
+      //const effect = await this.actor.appliedEffects.find(e => e.id === li.dataset.effectId);
       dragData = effect.toDragData();
     }
 
@@ -1912,13 +1914,12 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    * @protected
    */
   async _onDrop(event) { // Delete in v13; core behavior
-    console.log('dropped')
     if ( !this.isEditable ) return;
     const data = TextEditor.getDragEventData(event);
     const actor = this.actor;
     const allowed = Hooks.call("dropActorSheetData", actor, this, data);
     if ( allowed === false ) return;
-    console.log('allowed')
+    
     // Dropped Documents
     const documentClass = getDocumentClass(data.type);
     if ( documentClass ) {

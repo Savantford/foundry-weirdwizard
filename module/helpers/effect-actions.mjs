@@ -74,8 +74,8 @@ export async function deleteInstantEffect(effect, owner) {
 export async function createActiveEffect(dataset, owner) {
   
   const name = i18n('WW.Effect.New') // Initialize a default name.
-
   const type = dataset.type;
+  const isTemp = type === 'temporary';
 
   // Prepare the effect object.
   const effectData = {
@@ -84,12 +84,13 @@ export async function createActiveEffect(dataset, owner) {
     origin: owner.uuid,
     disabled: type === 'inactive',
     'duration.type': type === 'temporary' ? 'seconds' : 'none',
-    'duration.seconds': type === 'temporary' ? 3600 : null,
-    'duration.rounds': type === 'temporary' ? 1 : undefined,
-    'system.duration.selected': type === 'temporary' ? '1round' : '',
+    'duration.seconds': isTemp ? 3600 : null,
+    'duration.rounds': isTemp ? 1 : undefined,
+    'system.duration.selected': isTemp ? '1round' : '',
     'system.duration.autoExpire': true,
-  }
-
+    'system.trigger': isTemp ? 'onUse' : 'passive'
+  };
+  
   // Create the effect
   const effects = Array.from(await owner.effects);
   effects.push(effectData);

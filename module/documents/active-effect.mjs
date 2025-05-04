@@ -65,7 +65,7 @@ export default class WWActiveEffect extends ActiveEffect {
   */
   prepareDerivedData() {
     const system = this.system;
-
+    
     // The item which this effect originates from if it has been transferred from an item to an actor
     this.originalItem = (this.parent instanceof Item) ? this.parent : null;
 
@@ -98,27 +98,12 @@ export default class WWActiveEffect extends ActiveEffect {
     return this.system.original?.item?.activeEffectFactor ?? 1;
   }
 
-  /**
-   * Get the Trigger flag.
-   * Returns the default value the flag is not set.
-   * @type {string}
-  */
-  /*get trigger() { // No longer used with data models
-    let trigger = this.flags.weirdwizard?.trigger ?? 'passive';
-
-    // If the effect has a duration, do not allow it to be passive
-    if ((this.parent instanceof Item) && (this.duration.rounds || this.duration.seconds) && trigger === 'passive') trigger = 'onUse';
-    
-    return typeof trigger === 'string' ? trigger : 'passive';
-  }*/
-
   /* -------------------------------------------- */
   /*  Data Update                                 */
   /* -------------------------------------------- */
 
   async _onUpdate(data, options, userId) {
-    super._onUpdate(data, options, userId);
-    
+    super._onUpdate(data, options, userId); 
   }
 
   /* -------------------------------------------- */
@@ -127,18 +112,7 @@ export default class WWActiveEffect extends ActiveEffect {
   
   /** @override */
   get isSuppressed() {
-    //console.log(this.name)
-    //console.log(foundry.utils.getProperty(this.parent, 'system.active'))
     return this.parent ? !foundry.utils.getProperty(this.parent, 'system.active') : false;
-  }
-
-  /* -------------------------------------------- */
-  /*  Properties                                  */
-  /* -------------------------------------------- */
-  
-  /** @override */
-  get isSuppressed() {
-    return foundry.utils.getProperty(this, 'system.original.item.system.active') ?? false;
   }
 
   /**

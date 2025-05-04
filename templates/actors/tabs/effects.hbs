@@ -7,7 +7,7 @@
     <label>{{localize "WW.Affliction.Label"}}:</label>
 
     {{#each afflictions as |affliction id|}}
-    <span class="affliction" data-tooltip="{{affliction.description}}"><img class="icon" src="{{affliction.icon}}"> {{localize affliction.name}}</span>
+    <span class="affliction" data-tooltip="{{affliction.description}}"><img class="icon" src="{{affliction.img}}"> {{localize affliction.name}}</span>
     {{/each}}
 
     <a data-action="afflictionsMenu"><i class="fas {{#if afflictions.length}}fa-edit{{else}}fa-circle-plus{{/if}}"></i></a>

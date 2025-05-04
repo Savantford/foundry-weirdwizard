@@ -238,8 +238,6 @@ export default class WWCharOptionSheet extends JournalPageSheet {
   /*async _onRender(context, options) {
     await super._onRender(context, options);
 
-    if ( !game.user.isOwner ) return;
-
     // Create dragDrop listener
     this.#dragDrop.forEach((d) => d.bind(this.element));
 
@@ -434,6 +432,21 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     entry.sheet.render(true);
   }
 
+  /* -------------------------------------------- */
+  /*  Drag and Drop                               */
+  /* -------------------------------------------- */
+
+  /**
+   * Define whether a user is able to conclude a drag-and-drop workflow for a given drop selector
+   * @param {string} selector       The candidate HTML selector for the drop target
+   * @returns {boolean}             Can the current user drop on this selector?
+   * @protected
+   */
+  _canDragDrop(selector) {
+    // game.user fetches the current user
+    return this.isEditable;
+  }
+
   /**
    * An event that occurs when a drag workflow begins for a draggable item on the sheet.
    * @param {DragEvent} event       The initiating drag start event
@@ -444,7 +457,6 @@ export default class WWCharOptionSheet extends JournalPageSheet {
   async _onDragStart(event) {
     const li = event.currentTarget;
     
-    if ( "link" in event.target.dataset ) return;
     let dragData;
 
     // Items
@@ -521,7 +533,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     // Handle drop on non-Tradition
     } else {
       const benefits = this.document.system.benefits;
-
+      
       benefits[benefit].items.push(item.uuid);
 
       await this.document.update({'system.benefits': benefits});

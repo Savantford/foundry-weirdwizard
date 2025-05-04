@@ -510,7 +510,6 @@ export default class WWCombat extends Combat {
       actorUpdate = {};
 
       for (const ae of temporaryEffects) {
-
         const duration = ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? i18n('WW.Effect.Duration.Rounds') : i18n('WW.Effect.Duration.Round'));
       
         await ChatMessage.create({
@@ -534,14 +533,14 @@ export default class WWCombat extends Combat {
         context
       );
       
-      if (deleteActiveEffects.length)
-        await c.actor.deleteEmbeddedDocuments("ActiveEffect", deleteActiveEffects, deleteAEContext);
+      if (deleteActiveEffects.length) await c.actor.deleteEmbeddedDocuments("ActiveEffect", deleteActiveEffects, deleteAEContext);
 
       const disableAEContext = foundry.utils.mergeObject({ render: !disableBuffs.length && !hasActorUpdates }, context);
-      if (disableActiveEffects.length)
-        await c.actor.updateEmbeddedDocuments("ActiveEffect", disableActiveEffects, disableAEContext);
+
+      if (disableActiveEffects.length) await c.actor.updateEmbeddedDocuments("ActiveEffect", disableActiveEffects, disableAEContext);
 
       const disableBuffContext = foundry.utils.mergeObject({ render: !hasActorUpdates }, context);
+
       if (disableBuffs.length) await c.actor.updateEmbeddedDocuments("Item", disableBuffs, disableBuffContext);
 
       if (hasActorUpdates) await c.actor.update(actorUpdate, context);
@@ -601,12 +600,10 @@ export default class WWCombat extends Combat {
         context
       );
       
-      if (deleteActiveEffects.length)
-        await c.actor.deleteEmbeddedDocuments("ActiveEffect", deleteActiveEffects, deleteAEContext);
+      if (deleteActiveEffects.length) await c.actor.deleteEmbeddedDocuments("ActiveEffect", deleteActiveEffects, deleteAEContext);
 
       const disableAEContext = foundry.utils.mergeObject({ render: !disableBuffs.length && !hasActorUpdates }, context);
-      if (disableActiveEffects.length)
-        await c.actor.updateEmbeddedDocuments("ActiveEffect", disableActiveEffects, disableAEContext);
+      if (disableActiveEffects.length) await c.actor.updateEmbeddedDocuments("ActiveEffect", disableActiveEffects, disableAEContext);
 
       const disableBuffContext = foundry.utils.mergeObject({ render: !hasActorUpdates }, context);
       if (disableBuffs.length) await c.actor.updateEmbeddedDocuments("Item", disableBuffs, disableBuffContext);

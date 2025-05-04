@@ -12,6 +12,13 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
 
 export default class WWPageView extends HandlebarsApplicationMixin(DocumentSheetV2) {
 
+  constructor(options = {}) {
+    super(options); // This is required for the constructor to work
+    
+    // Enable drag n drop operations
+    this.#dragDrop = this.#createDragDropHandlers();
+  }
+
   /** @override */
   static DEFAULT_OPTIONS = {
     classes: ['weirdwizard', 'sheet', 'charoption'],
@@ -25,7 +32,8 @@ export default class WWPageView extends HandlebarsApplicationMixin(DocumentSheet
     position: {
       width: 570,
       height: 600
-    }
+    },
+    dragDrop: [{ dragSelector: '.draggable', dropSelector: null }],
   }
 
   /** @override */
@@ -94,8 +102,6 @@ export default class WWPageView extends HandlebarsApplicationMixin(DocumentSheet
         level: 1
       }
     }
-
-    //this._convertFormats(context);
     
     context.editor = {
       engine: "prosemirror",
@@ -197,18 +203,125 @@ export default class WWPageView extends HandlebarsApplicationMixin(DocumentSheet
   /* -------------------------------------------- */
 
   /**
-   * Lazily convert text formats if we detect the document being saved in a different format.
-   * @param {object} renderData  Render data.
+   * Actions performed after any render of the Application.
+   * Post-render steps are not awaited by the render process.
+   * @param {ApplicationRenderContext} context      Prepared context data
+   * @param {RenderOptions} options                 Provided render options
    * @protected
    */
-  /*_convertFormats(renderData) {
-    const formats = CONST.JOURNAL_ENTRY_PAGE_FORMATS;
-    const text = this.document.text;
-    if ( (this.constructor.format === formats.MARKDOWN) && text.content?.length && !text.markdown?.length ) {
-      // We've opened an HTML document in a markdown editor, so we need to convert the HTML to markdown for editing.
-      renderData.data.text.markdown = this.constructor._converter.makeMarkdown(text.content.trim());
+  async _onRender(context, options) {
+    await super._onRender(context, options);
+
+    // Bind dragDrop listeners
+    this.#dragDrop.forEach((d) => d.bind(this.element));
+
+  }
+
+  /* -------------------------------------------- */
+  /*  Drag and Drop                               */
+  /* -------------------------------------------- */
+
+  /**
+   * Create drag-and-drop workflow handlers for this Application
+   * @returns {DragDrop[]}     An array of DragDrop handlers
+   * @private
+   */
+  #createDragDropHandlers() {
+    return this.options.dragDrop.map((d) => {
+      d.permissions = {
+        dragstart: this._canDragStart.bind(this),
+        drop: this._canDragDrop.bind(this),
+      };
+      d.callbacks = {
+        dragstart: this._onDragStart.bind(this),
+        dragover: this._onDragOver.bind(this),
+        drop: this._onDrop.bind(this),
+      };
+      return new DragDrop(d);
+    });
+  }
+
+  #dragDrop;
+
+  /**
+   * Returns an array of DragDrop instances
+   * @type {DragDrop[]}
+   */
+  get dragDrop() {
+    return this.#dragDrop;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Define whether a user is able to begin a dragstart workflow for a given drag selector
+   * @param {string} selector       The candidate HTML selector for dragging
+   * @returns {boolean}             Can the current user drag this selector?
+   * @protected
+   */
+  _canDragStart(selector) {
+    // game.user fetches the current user
+    return true; //this.isEditable;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Define whether a user is able to conclude a drag-and-drop workflow for a given drop selector
+   * @param {string} selector       The candidate HTML selector for the drop target
+   * @returns {boolean}             Can the current user drop on this selector?
+   * @protected
+   */
+  _canDragDrop(selector) {
+    // game.user fetches the current user
+    return this.isEditable;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * An event that occurs when a drag workflow begins for a draggable item on the sheet.
+   * @param {DragEvent} event       The initiating drag start event
+   * @returns {Promise<void>}
+   * @protected
+   * @override
+   */
+  async _onDragStart(event) {
+    const li = event.currentTarget;
+    
+    let dragData;
+
+    // Owned Items
+    if ( li.dataset.itemUuid ) {
+      const item = await fromUuid(li.dataset.itemUuid);
+      dragData = item.toDragData();
     }
-  }*/
+
+    // Set data transfer
+    if ( !dragData ) return;
+    event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * An event that occurs when a drag workflow moves over a drop target.
+   * @param {DragEvent} event
+   * @protected
+   */
+  _onDragOver(event) {} // Delete in v13; core behavior
+
+  /* -------------------------------------------- */
+
+  /**
+   * An event that occurs when data is dropped into a drop target.
+   * @param {DragEvent} event
+   * @returns {Promise<void>}
+   * @protected
+   */
+  async _onDrop(event) { // Delete in v13; core behavior
+    // No drop effects
+  }
 
   /* -------------------------------------------- */
 
