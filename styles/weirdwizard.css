@@ -1566,6 +1566,7 @@ body {
   width: 1lh;
   height: 1lh;
   background: url(../assets/icons/red/shattered-heart.svg);
+  background-size: contain;
 }
 
 /* Health Indicator: Incapacitated */
@@ -1580,12 +1581,11 @@ body {
 }
 
 .weirdwizard.incapacitated .health-indicator::before {
-  background: url(../assets/icons/red/cross-mark.svg);
+  background-image: url(../assets/icons/red/cross-mark.svg);
 }
 
 .weirdwizard.dead .health-indicator::before {
-  background: url(../assets/icons/black/death-skull.svg);
-  background-size: contain;
+  background-image: url(../assets/icons/black/death-skull.svg);
 }
 
 .weirdwizard .health-wrapper {

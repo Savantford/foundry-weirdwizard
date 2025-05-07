@@ -262,7 +262,7 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
       case 'automation':
         context.tab = context.tabs[partId];
 
-        context.effects = prepareActiveEffectCategories(await this.item.effects);
+        context.effects = await prepareActiveEffectCategories(this.item.effects);
 
         for (const c in context.effects) {
           context.effects[c].effects = context.effects[c].effects.toSorted((a, b) => a.sort - b.sort);

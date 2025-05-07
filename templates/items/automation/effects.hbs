@@ -69,7 +69,7 @@
         {{/each}}
         
     </ol>
-
+    {{log effects}}
     {{!-- Dynamic Active Effects Lists --}}
     {{#each effects as |section sid|}}
     {{#if (ne section.type 'inactive')}}
@@ -98,7 +98,7 @@
                 <img src="{{effect.img}}" width="24" height="24" />
             </div>
             
-            <div class="item-name" data-tooltip="{{{effect.tooltip}}}">
+            <div class="item-name" data-tooltip="{{effect.tooltip}}">
                 <label>{{effect.name}}</label>
 
                 <span class="buttons">

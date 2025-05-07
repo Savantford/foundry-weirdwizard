@@ -23,7 +23,7 @@
                 <div class="item-name">
                     {{!-- Title --}}
                     <label class="item-button" data-action="itemLabelClick" data-item-id="{{item._id}}"
-                        data-tooltip="{{{item.tooltip}}}">{{item.name}}</label>
+                        data-tooltip="{{item.tooltip}}">{{item.name}}</label>
 
                     <span class="buttons">
                         
@@ -140,7 +140,7 @@
                     {{!-- Title --}}
                     <div>
                         <label class="item-button" data-action="itemLabelClick" data-item-id="{{item._id}}"
-                            data-tooltip="{{{item.tooltip}}}">{{#if (gt item.system.quantity 1)}}{{item.system.quantity}} {{/if}}{{item.name}}</label>
+                            data-tooltip="{{item.tooltip}}">{{#if (gt item.system.quantity 1)}}{{item.system.quantity}} {{/if}}{{item.name}}</label>
 
                         <span class="buttons">
 
@@ -181,7 +181,7 @@
 
                     {{!-- Container Capacity --}}
                     {{#if (eq item.system.subtype 'container')}}
-                    <div class="item-holding" data-action="containerCollapse" data-tooltip="{{item.containerTooltip}}">
+                    <div class="item-holding" data-action="containerCollapse" data-item-id="{{item._id}}" data-tooltip="{{item.containerTooltip}}">
                         <span {{#if (gt item.filled item.system.capacity)}}class="over-warning"{{/if}}>{{item.filled}}/{{item.system.capacity}}</span>
                         <i class="far fa-toolbox"></i>
                     </div>
@@ -226,7 +226,7 @@
                         {{!-- Title --}}
                         <div>
                             <label class="item-button" data-action="itemLabelClick" data-item-id="{{heldItem._id}}"
-                                data-tooltip="{{{heldItem.tooltip}}}">{{#if (gt heldItem.system.quantity 1)}}{{heldItem.system.quantity}} {{/if}}{{heldItem.name}}</label>
+                                data-tooltip="{{heldItem.tooltip}}">{{#if (gt heldItem.system.quantity 1)}}{{heldItem.system.quantity}} {{/if}}{{heldItem.name}}</label>
                             
                             <span class="buttons">
 

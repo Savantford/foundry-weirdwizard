@@ -1,4 +1,4 @@
-import { capitalize, escape, i18n, plusify, sum } from '../../helpers/utils.mjs';
+import { capitalize, escape, i18n, plusify, sum, sysPath } from '../../helpers/utils.mjs';
 import { diceTotalHtml } from '../../sidebar/chat-html-templates.mjs';
 import ListEntryConfig from '../configs/list-entry-config.mjs';
 import { mapRange } from '../../canvas/canvas-functions.mjs';
@@ -256,59 +256,41 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       case 'summary':
         context.tab = context.tabs[partId];
 
-        // Setup usage help text for tooltips (so we can reuse it)
-        const usagehelp = escape(`
-          <p>${i18n("WW.Item.Perform.Left")}</p>
-          <p>${i18n("WW.Item.Perform.Shift")}</p>
-          <p>${i18n("WW.Item.Perform.Ctrl")}</p>
-          <p>${i18n("WW.Item.Perform.Alt")}</p>
-          <p>${i18n("WW.Item.Perform.Right")}</p>
-        `);
-
-        // Prepare item tooltip
+        // Prepare item tooltips
         for (let i of context.items) {
+
           // Prepare html fields for the tooltip and chat message
           i.system.description.enriched = await TextEditor.enrichHTML(i.system.description.value, { async: true, secrets: isOwner });
           if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider.value, { async: true, secrets: isOwner });
 
-          // Tooltip title
-          const title = await escape(`<div class="tooltip-title">${i.name}</div>`);
+          const tooltipContext = {
+            label: i.name,
+            system: i.system,
+            img: i.img,
+            type: i.type,
+            inSheet: true,
 
-          // Empty description, so we can fill it with type specific content
-          let description = '';
+            subtitle: i.type,
+            text: i.system.description.enriched ?? null,
+            attackRider: i.system.attackRider?.enriched ?? null
+          }
+          
+          // Prepare tooltip subtitle
+          if (i.type === 'Spell') {
+            tooltipContext.subtitle += ` • ${i18n(CONFIG.WW.TIERS[i.system.tier])}`
+            if (i.system.tradition) tooltipContext.subtitle += ` • ${i.system.tradition}`;
 
-          // Form description based on item type
-          switch (i.type) {
-            case 'Spell':
-              const casting = i.system.casting ? `<b>${i18n("WW.Spell.Castings")}:</b> ${i.system.uses.max}, ${i.system.casting}` : `<b>${i18n("WW.Spell.Castings")}:</b> ${i.system.uses.max}`;
-              const target = i.system.target ? `<br/><b>${i18n("WW.Spell.Target")}:</b> ${i.system.target}` : '';
-              const duration = i.system.duration ? `<br/><b>${i18n("WW.Spell.Duration")}:</b> ${i.system.duration}` : '';
+          } else if (i.type === 'Equipment') {
+            tooltipContext.subtitle = i18n(CONFIG.WW.EQUIPMENT_SUBTYPES[i.system.subtype]);
 
-              description = await escape(`
-                <p>${casting}
-                ${target}
-                ${duration}</p>
-                ${i.system.description.enriched}
-              `);
-              break;
+            if (i.system.subtype === 'weapon') tooltipContext.subtitle += ` • ${i.system.traits.range ? i18n("WW.Weapon.Ranged") : i18n("WW.Weapon.Melee")}`;
 
-            case 'Equipment':
-              const rider = i.system.attackRider.enriched ? i.system.attackRider.enriched : '';
-              
-              description = await escape(`
-                ${i.system.description.enriched}
-                ${rider}
-              `);
-              break;
-            
-            default:
-              description = await escape(`
-                ${i.system.description.enriched}
-              `);
+          } else if (i.type === 'Trait or Talent') {
+            tooltipContext.subtitle = i18n(CONFIG.WW.TALENT_SUBTYPES[i.system.subtype]);
+            tooltipContext.subtitle += ` • ${i18n(CONFIG.WW.TALENT_SOURCES[i.system.source])}`;
           }
 
-          // Create tooltip from concat of description and usage help text
-          i.tooltip = await escape('<div class="item-tooltip">') + title + description + await escape('</div>') + usagehelp;
+          i.tooltip = await renderTemplate(sysPath(`templates/apps/tooltips/item.hbs`), tooltipContext);
         }
 
       break;
@@ -1681,21 +1663,22 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       li = $(button);
     }
 
-    const content = li.parent().find(`.container-content[data-container-id=${dataset.itemId}]`);
-
+    const content = li.parent().find(`[data-container-id=${dataset.itemId}]`);
+    const collapseButton = li.parent().find(`.item-collapse[data-item-id=${dataset.itemId}]`)[0];
+    
     // Toggle states
     const collapsed = li.hasClass('collapsed');
     li[0].classList.toggle('collapsed');
 
-    const icon = button.querySelector('i');
+    const icon = collapseButton.querySelector('i');
     icon.classList.toggle('fa-square-caret-up');
     icon.classList.toggle('fa-square-caret-down');
 
     if (collapsed) {
-      button.setAttribute('data-tooltip', 'WW.Container.Collapse');      
+      collapseButton.setAttribute('data-tooltip', 'WW.Container.Collapse');      
       content.slideDown(300);
     } else {
-      button.setAttribute('data-tooltip', 'WW.Container.Expand');
+      collapseButton.setAttribute('data-tooltip', 'WW.Container.Expand');
       content.slideUp(300);
     }
     
@@ -1832,12 +1815,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   /*  Getters                                     */
   /* -------------------------------------------- */
 
-  // Prepare affliction list
-  /*get appliedAfflictions() {
-    console.log()
-    return this.actor.effects.filter(e => e.statuses.size > 0).filter(e => e.flags.sourceType = 'affliction');
-  }*/
-
+  // Prepare applied afflictions list
   get appliedAfflictions() {
     const arr = [...this.actor.effects].map(x => Array.from(x.statuses)[0]).filter(x => x);
     

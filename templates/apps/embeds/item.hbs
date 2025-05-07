@@ -1,4 +1,4 @@
-<details class="document-card">
+<details class="weirdwizard document-card">
 
     {{!-- Card Header --}}
     <summary class="card-header">
@@ -19,12 +19,24 @@
 
         <hr class="spear" />
 
-        {{!-- Spell Subheader --}}
         {{#if (eq type 'Spell')}}
         <header class="card-subheader">
-            <div><b>{{localize "WW.Spell.Castings"}}:</b> {{system.uses.max}}{{#if system.casting}}, {{system.casting}}{{/if}}</div>
-            <div><b>{{localize "WW.Spell.Target"}}:</b> {{system.target}}</div>
-            <div><b>{{localize "WW.Spell.Duration"}}:</b> {{system.duration}}</div>
+            
+            <div class="stat">
+                <label>{{localize "WW.Spell.Castings"}}:</label>
+                {{system.uses.max}}{{#if system.casting}}, {{system.casting}}{{/if}}
+            </div>
+
+            <div class="stat">
+                <label>{{localize "WW.Spell.Target"}}:</label>
+                {{system.target}}
+            </div>
+
+            <div class="stat">
+                <label>{{localize "WW.Spell.Duration"}}:</label>
+                {{system.duration}}
+            </div>
+
         </header>
         {{/if}}
 
