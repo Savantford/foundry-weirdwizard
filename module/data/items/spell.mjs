@@ -1,13 +1,14 @@
 import {
+  BaseItemModel,
   fields,
   base,
   activity,
   makeBooField,
   makeIntField,
   makeStrField
-} from './common.mjs'
+} from './base-item.mjs'
 
-export default class SpellData extends foundry.abstract.DataModel {
+export default class SpellData extends BaseItemModel {
 
   static defineSchema() {
     const type = 'Spell';

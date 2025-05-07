@@ -538,6 +538,8 @@
 "WW.Effects.Permanent": "Permanent Effects",
 "WW.Effects.Inactive": "Inactive Effects",
 
+"WW.Effect.Temporary": "Temporary Effect",
+"WW.Effect.Permanent": "Permanent Effect",
 "WW.Effect.Create": "Create Effect",
 "WW.Effect.Toggle": "Enable/Disable Effect",
 "WW.Effect.Edit": "Edit Effect",
@@ -869,6 +871,7 @@
 "WW.System.ViewImage": "Click to enlarge image",
 "WW.System.EditImage": "Click to edit image",
 "WW.System.Embed": "Embed in chat",
+"WW.System.Link": "Link in chat",
 "WW.System.Tour": "Start tour",
 "WW.System.Documentation": "Show documentation",
 

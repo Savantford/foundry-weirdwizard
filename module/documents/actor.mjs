@@ -1,4 +1,4 @@
-import { i18n, formatTime, sysPath } from '../helpers/utils.mjs';
+import { i18n, formatTime } from '../helpers/utils.mjs';
 
 /**
 * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
@@ -6,6 +6,10 @@ import { i18n, formatTime, sysPath } from '../helpers/utils.mjs';
 */
 
 export default class WWActor extends Actor {
+
+  /* -------------------------------------------- */
+  /*  Document Creation                           */
+  /* -------------------------------------------- */
   
   async _preCreate(data, options, user) {
     const sourceId = this._stats.compendiumSource;
@@ -103,6 +107,8 @@ export default class WWActor extends Actor {
   }
 
   /* -------------------------------------------- */
+  /*  Document Update                             */
+  /* -------------------------------------------- */
 
   async _preUpdate(changes, options, user) {
     await super._preUpdate(changes, options, user);
@@ -133,7 +139,7 @@ export default class WWActor extends Actor {
       this.token.object.updateStatusIcons();
     }
     
-    // Update Character Options if Level updates ////////////////////////////////////
+    // Update Character Options if Level updates
     if (foundry.utils.getProperty(changed, 'system.stats.level')) {
       
       if (user !== game.user.id) return;
@@ -222,7 +228,7 @@ export default class WWActor extends Actor {
     for (let [key, attribute] of Object.entries(system.attributes)) {
       if (key != 'luck') attribute.mod = attribute.value - 10;
     }
-
+    
     // Calculate derived Health variables
     this._calculateHealthVariables(system);
 
@@ -239,65 +245,7 @@ export default class WWActor extends Actor {
     // things organized.
     this._prepareCharacterData(system);
     this._prepareNpcData(system);
-  }
 
-  async toEmbed(config, options) {
-    // Fix config 
-    config.label = this.name
-
-    // Fix options
-    options.relativeTo = this;
-    
-    // Prepare variables
-    const context = {
-      ...config,
-      system: this.system,
-      img: this.img,
-      type: this.type,
-      
-      subtitle: '',
-      text: this.system.description ? await TextEditor.enrichHTML(this.system.description.value, { async: true, secrets: this.isOwner }) : 'No description.'
-    }
-
-    const details = this.system.details;
-
-    // Prepare contextual variables
-    if (this.type === 'Character') {
-      // Prepare subtitle
-      if (details.ancestry) context.subtitle = details.ancestry;
-
-      const sep = context.subtitle ? ' • ' : '';
-
-      if (details.master) context.subtitle += sep + details.master;
-      else if (details.expert) context.subtitle += sep + details.expert;
-      else if (details.novice) context.subtitle += sep + details.novice;
-
-      // Prepare main text
-      context.text = await TextEditor.enrichHTML(details.appearance.value, { async: true, secrets: this.isOwner });
-      
-    } else {
-      // Prepare subtitle
-      details.descriptors.forEach(d => {
-        context.subtitle += (context.subtitle ? ', ' : '') + d.name;
-      })
-    }
-
-    // Prepare wrapper
-    const wrapper = config.inline ? document.createElement('div') : document.createElement('a');
-
-    // Prepare document card
-    const card = await renderTemplate(sysPath('templates/apps/document-card.hbs'), context);
-    
-    if (config.inline) {
-      wrapper.classList.add('document-card-inline');
-      wrapper.innerHTML = card;
-    } else {
-      wrapper.classList.add('document-card-link');
-      wrapper.setAttribute('data-tooltip', card);
-      wrapper.innerHTML = `<img src=${context.img} /> ${context.label}`;
-    }
-    
-    return wrapper;
   }
 
   /* Prepare Char Options */
@@ -328,7 +276,6 @@ export default class WWActor extends Actor {
   /**
   * Prepare Character type specific data
   */
-
   _prepareCharacterData(system) {
     if (this.type !== 'Character') return;
   }
@@ -336,7 +283,6 @@ export default class WWActor extends Actor {
   /**
   * Prepare NPC type specific data.
   */
-
   _prepareNpcData(system) {
     if (this.type !== 'NPC') return;
 
@@ -418,6 +364,47 @@ export default class WWActor extends Actor {
     delete data.description;
     
     return data;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+    * A method that can be overridden by subclasses to customize inline embedded HTML generation.
+    * @param {HTMLElement|HTMLCollection} content  The embedded content.
+    * @param {DocumentHTMLEmbedConfig} config      Configuration for embedding behavior.
+    * @param {EnrichmentOptions} [options]         The original enrichment options for cases where the Document embed
+    *                                              content also contains text that must be enriched.
+    * @returns {Promise<HTMLElement|null>}
+    * @protected
+    * @override
+  */
+  async _createInlineEmbed(content, config, options) {
+    const anchor = this.toAnchor();
+    
+    anchor.setAttribute("data-tooltip", content.outerHTML);
+
+    return anchor;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * A method that can be overridden by subclasses to customize the generation of the embed figure.
+   * @param {HTMLElement|HTMLCollection} content  The embedded content.
+   * @param {DocumentHTMLEmbedConfig} config      Configuration for embedding behavior.
+   * @param {EnrichmentOptions} [options]         The original enrichment options for cases where the Document embed
+   *                                              content also contains text that must be enriched.
+   * @returns {Promise<HTMLElement|null>}
+   * @protected
+   * @override
+   */
+  async _createFigureEmbed(content, config, options) {
+    const section = document.createElement("section");
+    
+    if ( content instanceof HTMLCollection ) section.append(...content);
+    else section.append(content);
+    
+    return section;
   }
 
   /* -------------------------------------------- */
@@ -512,7 +499,7 @@ export default class WWActor extends Actor {
     // Handle char option's granted items, granted list entries and main effect
     this._updateGrantedItems(uuid);
     this._updateGrantedEntries(uuid);
-    if (cOption?.type !== 'profession') this._updateMainEffect(uuid);
+    if (cOption?.type !== 'profession' || cOption?.type !== 'tradition') this._updateMainEffect(uuid);
 
     ui.notifications.info(`${cOption.name}'s benefits updated.`);
 
@@ -640,7 +627,7 @@ export default class WWActor extends Actor {
       'system.grantedBy': cOpt.uuid
     };
 
-    // Create or Update Effect
+    // Create or update main effect
     if (eff) this.updateEmbeddedDocuments("ActiveEffect", [{ _id: eff.id, ...effectData }]);
     else this.createEmbeddedDocuments("ActiveEffect", [effectData]);
 
@@ -977,7 +964,7 @@ export default class WWActor extends Actor {
   /*  Active Effects                              */
   /* -------------------------------------------- */
 
-  /**allApplicableEffects() {
+  /*allApplicableEffects() {
     for (let effect of super.allApplicableEffects()) {
       if (!effect.determineTransfer(this)) continue;
       yield effect;
@@ -1006,13 +993,7 @@ export default class WWActor extends Actor {
         const elapsed = worldTime - (startTime ?? 0),
           remaining = seconds - elapsed;
         return remaining <= 0;
-      }/* else if (rounds > 0 && combat) {
-        
-        const elapsed = combat.round - (startRound ?? 0),
-          remaining = rounds - elapsed;
-        
-        return remaining <= 0;
-      }*/
+      }
       else return false;
     });
 
@@ -1024,9 +1005,6 @@ export default class WWActor extends Actor {
     const v11 = game.release.generation >= 11;
     
     for (const ae of temporaryEffects) {
-
-      //const re = ae.origin?.match(/Item\.(?<itemId>\w+)/);
-      //const item = this.items.get(re?.groups.itemId);
       const conditionId = v11 ? ae.statuses.first() : ae.getFlag("core", "statusId");
 
       if (conditionId) {

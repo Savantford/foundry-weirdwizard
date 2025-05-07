@@ -1,4 +1,5 @@
 import {
+  BaseActorModel,
   fields,
   description,
   attributes,
@@ -6,9 +7,9 @@ import {
   details,
   charOptions,
   makeIntField
-} from './common.mjs'
+} from './base-actor.mjs'
 
-export default class CharacterData extends foundry.abstract.DataModel {
+export default class CharacterData extends BaseActorModel {
 
   static defineSchema() {
     const type = 'Character';

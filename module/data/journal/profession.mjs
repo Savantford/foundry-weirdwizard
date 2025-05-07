@@ -1,13 +1,14 @@
 import {
+  BaseCharOptionModel,
   fields,
   base,
   makeStrField,
   makeIntField,
   /*makeBooField,
   makeHtmlField*/
-} from './charoptions_base.mjs'
+} from './base-charoption.mjs'
 
-export default class ProfessionData extends foundry.abstract.DataModel {
+export default class ProfessionData extends BaseCharOptionModel {
 
   static defineSchema() {
     const type = 'Profession';

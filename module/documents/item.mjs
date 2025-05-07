@@ -1,24 +1,13 @@
+
+
 /**
  * Extend the basic Item with some modifications.
  * @extends {Item}
 */
-
-//import { capitalize, i18n } from '../helpers/utils.mjs';
-
 export default class WWItem extends Item {
-  /**
-  * Augment the basic Item data model with additional dynamic data.
-  */
 
-  prepareData() {
-    super.prepareData();
-
-    // Get the Item's data
-    const system = this.system;
-    const actorData = this.actor ? this.actor.system : {};
-
-  }
-
+  /* -------------------------------------------- */
+  /*  Document Creation                           */
   /* -------------------------------------------- */
 
   async _preCreate(data, options, user) {
@@ -60,12 +49,73 @@ export default class WWItem extends Item {
     return await super._preCreate(await data, options, user);
   }
 
+  /* -------------------------------------------- */
+  /*  Document Update                             */
+  /* -------------------------------------------- */
+
   async _preUpdate(changes, options, user) {
     await super._preUpdate(changes, options, user);
     
     // Null heldBy if item has no actor
     if (!this.actor && this.system.heldBy) this.system.heldBy = null;
 
+  }
+
+  /* -------------------------------------------- */
+  /*  Data Preparation                            */
+  /* -------------------------------------------- */
+
+  /**
+  * Augment the basic Item data model with additional dynamic data.
+  */
+  prepareData() {
+    super.prepareData();
+
+    // Get the Item's data
+    const system = this.system;
+    const actorData = this.actor ? this.actor.system : {};
+
+  }
+  
+  /* -------------------------------------------- */
+
+  /**
+    * A method that can be overridden by subclasses to customize inline embedded HTML generation.
+    * @param {HTMLElement|HTMLCollection} content  The embedded content.
+    * @param {DocumentHTMLEmbedConfig} config      Configuration for embedding behavior.
+    * @param {EnrichmentOptions} [options]         The original enrichment options for cases where the Document embed
+    *                                              content also contains text that must be enriched.
+    * @returns {Promise<HTMLElement|null>}
+    * @protected
+    * @override
+  */
+  async _createInlineEmbed(content, config, options) {
+    const anchor = this.toAnchor();
+    
+    anchor.setAttribute("data-tooltip", content.outerHTML);
+
+    return anchor;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * A method that can be overridden by subclasses to customize the generation of the embed figure.
+   * @param {HTMLElement|HTMLCollection} content  The embedded content.
+   * @param {DocumentHTMLEmbedConfig} config      Configuration for embedding behavior.
+   * @param {EnrichmentOptions} [options]         The original enrichment options for cases where the Document embed
+   *                                              content also contains text that must be enriched.
+   * @returns {Promise<HTMLElement|null>}
+   * @protected
+   * @override
+   */
+  async _createFigureEmbed(content, config, options) {
+    const section = document.createElement("section");
+
+    if ( content instanceof HTMLCollection ) section.append(...content);
+    else section.append(content);
+    
+    return section;
   }
 
   /* -------------------------------------------- */

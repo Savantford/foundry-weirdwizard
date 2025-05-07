@@ -1,11 +1,12 @@
 import {
+  BaseActorModel,
   description,
   attributes,
   stats,
   details
-} from './common.mjs'
+} from './base-actor.mjs'
 
-export default class NpcData extends foundry.abstract.DataModel {
+export default class NpcData extends BaseActorModel {
 
   static defineSchema() {
     const type = 'NPC';

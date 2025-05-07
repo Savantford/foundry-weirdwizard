@@ -31,11 +31,27 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
       title: this.title, // Custom title display
       icon: 'far fa-scroll',
       resizable: true,
-      contentClasses: ['scrollable']
+      contentClasses: ['scrollable'],
+      controls: [ // Remove concat in V13
+        {
+          action: "embedInChat",
+          icon: "fa-solid fa-scroll",
+          label: "WW.System.Embed",
+          ownership: "OWNER"
+        },
+        {
+          action: "linkInChat",
+          icon: "fa-solid fa-link",
+          label: "WW.System.Link",
+          ownership: "OWNER"
+        }
+      ]
     },
     actions: {
       editImage: this.#onEditImage, // delete in V13; core functionality
       showItemArtwork: this.#onShowItemArtwork,
+      embedInChat: this.#embedInChat,
+      linkInChat: this.#linkInChat,
       traitsMenu: this.#onTraitsMenuOpen,
 
       instantCreate: this.#onInstantEffectCreate,
@@ -396,6 +412,20 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
 
     // Display the image popout
     ip.render(true);
+  }
+
+  static async #embedInChat(_event, target) {
+    ChatMessage.create({
+      speaker: game.weirdwizard.utils.getSpeaker({ actor: this.item.parent }),
+      content: `@Embed[${this.item.uuid}]`
+    })
+  }
+
+  static async #linkInChat(_event, target) {
+    ChatMessage.create({
+      speaker: game.weirdwizard.utils.getSpeaker({ actor: this.item.parent }),
+      content: `@Embed[${this.item.uuid} inline]`
+    })
   }
 
   /**

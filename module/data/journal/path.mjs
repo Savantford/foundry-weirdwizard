@@ -1,11 +1,12 @@
 import {
+  BaseCharOptionModel,
   fields,
   base,
   makeIntField,
   makeStrField
-} from './charoptions_base.mjs'
+} from './base-charoption.mjs'
 
-export default class PathData extends foundry.abstract.DataModel {
+export default class PathData extends BaseCharOptionModel {
 
   static defineSchema() {
     const type = 'Path';

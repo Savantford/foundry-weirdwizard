@@ -296,6 +296,13 @@ WW.TEMPLATE_TYPES = {
 
 /* Character Options */
 
+WW.CHARACTER_OPTIONS = {
+  'ancestry': "TYPES.JournalEntryPage.ancestry",
+  'path': "TYPES.JournalEntryPage.path",
+  'profession': "TYPES.JournalEntryPage.profession",
+  'tradition': "TYPES.JournalEntryPage.tradition"
+}
+
 WW.PATH_TIERS = {
   'novice': 'WW.CharOptions.NovicePath',
   'expert': 'WW.CharOptions.ExpertPath',

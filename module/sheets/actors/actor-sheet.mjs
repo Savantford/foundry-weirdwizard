@@ -42,6 +42,12 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
           ownership: "OWNER"
         },
         {
+          action: "linkInChat",
+          icon: "fa-solid fa-link",
+          label: "WW.System.Link",
+          ownership: "OWNER"
+        },
+        {
           action: "openTour",
           icon: "fa-solid fa-person-hiking",
           label: "WW.System.Tour",
@@ -52,6 +58,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     actions: {
       editImage: this.#onEditImage, // delete in V13; core functionality
       embedInChat: this.#embedInChat,
+      linkInChat: this.#linkInChat,
       startRest: this.#onRest,
       resetSheet: this.#onSheetReset,
 
@@ -336,14 +343,15 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       case 'effects':
         context.tab = context.tabs[partId];
 
-        // Prepare active effects
-        context.appliedEffects = prepareActiveEffectCategories(await this.actor.appliedEffects);
+        // Prepare all applied active effects
+        context.appliedEffects = await prepareActiveEffectCategories(await this.actor.appliedEffects);
         
         for (const c in context.appliedEffects) {
           context.appliedEffects[c].effects = context.appliedEffects[c].effects.toSorted((a, b) => a.sort - b.sort)
         }
 
-        context.effects = prepareActiveEffectCategories(await this.actor.effects);
+        // Prepare all embedded active effects
+        context.effects = await prepareActiveEffectCategories(await this.actor.effects);
 
         for (const c in context.effects) {
           context.effects[c].effects = context.effects[c].effects.toSorted((a, b) => a.sort - b.sort)
@@ -933,6 +941,13 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   /* -------------------------------------------- */
 
   static async #embedInChat(_event, target) {
+    ChatMessage.create({
+      speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
+      content: `@Embed[${this.actor.uuid}]`
+    })
+  }
+
+  static async #linkInChat(_event, target) {
     ChatMessage.create({
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
       content: `@Embed[${this.actor.uuid} inline]`

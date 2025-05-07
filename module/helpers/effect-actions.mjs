@@ -1,4 +1,4 @@
-import { i18n } from './utils.mjs';
+import { i18n, sysPath } from './utils.mjs';
 import InstantEffectConfig from '../sheets/configs/instant-effect-config.mjs';
 
 /* -------------------------------------------- */
@@ -145,7 +145,7 @@ export async function deleteActiveEffect(effect, owner) {
  * @param {Boolean} showCreate        Show create buttons on page
  * @return {Object}                   Data for rendering
 */
-export function prepareActiveEffectCategories(effects, showDuration = false, showSource = true, showControls = true, showCreate = true) {
+export async function prepareActiveEffectCategories(effects, showDuration = false, showSource = true, showControls = true, showCreate = true) {
 
   // Define effect header categories
   const categories = {
@@ -177,28 +177,37 @@ export function prepareActiveEffectCategories(effects, showDuration = false, sho
       effects: [],
     },
   }
-
+  
   // Iterate over active effects
   for (const e of effects) {
-    // Prepare tooltips
-    let tooltip = `<h2>${i18n(e.name)}</h2>
-      <div>${i18n(e.description)}</div>
-      <ul>`;
+    const context = {
+      label: e.name,
+      system: e.system,
+      img: e.img,
+      type: e.type,
 
-    for (const c of e.changes) {
-      const label = CONFIG.WW.EFFECT_CHANGE_LABELS[c.key] ? i18n(CONFIG.WW.EFFECT_CHANGE_LABELS[c.key]) : 'BROKEN EFFECT CHANGE, FIX IT!';
-      tooltip += `<li>${label} ${(c.value !== true) ? `${c.value}.` : ''}</li>`;
+      subtitle: i18n((e.duration.rounds || e.duration.seconds) ? "WW.Effect.Temporary" : "WW.Effect.Permanent"),
+      text: await TextEditor.enrichHTML(e.description, { async: true, secrets: e.isOwner }),
+      changes: ''
     }
 
-    tooltip += `</ul>`;
+    // Prepare changes
+    for (const c of e.changes) {
+      const label = CONFIG.WW.EFFECT_CHANGE_LABELS[c.key] ? i18n(CONFIG.WW.EFFECT_CHANGE_LABELS[c.key]) : 'BROKEN EFFECT CHANGE, FIX IT!';
+      context.changes += `<li>${label} ${(c.value !== true) ? `${c.value}.` : ''}</li>`;
+    }
+
+    e.tooltip = await renderTemplate(sysPath(`templates/apps/tooltips/effect.hbs`), context);
+
+    // Prepare source document cards
+    const source = `@Embed[${e.origin} inline]`;
     
-    e.tooltip = tooltip;
+    e.sourceCard = await TextEditor.enrichHTML(source, { async: true, secrets: e.isOwner });
     
     // Push them into categories
-    if (e.disabled) categories.inactive.effects.push(e)
-    else if (e.isTemporary) categories.temporary.effects.push(e)
-    //else if (e.parent instanceof Item) categories.item.effects.push(e)
-    else categories.permanent.effects.push(e)
+    if (await e.disabled) categories.inactive.effects.push(e);
+    else if (await e.isTemporary) categories.temporary.effects.push(e);
+    else categories.permanent.effects.push(e);
   }
   
   return categories;

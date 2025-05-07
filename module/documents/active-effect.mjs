@@ -3,7 +3,7 @@ import { i18n, formatTime } from '../helpers/utils.mjs';
 export default class WWActiveEffect extends ActiveEffect {
 
   /* -------------------------------------------- */
-  /*  Data Preparation                            */
+  /*  Document Creation                           */
   /* -------------------------------------------- */
 
   async _preCreate(data, options, user) {
@@ -11,7 +11,11 @@ export default class WWActiveEffect extends ActiveEffect {
 
     return await super._preCreate(data, options, user);
   }
-  
+
+  /* -------------------------------------------- */
+  /*  Document Update                             */
+  /* -------------------------------------------- */
+
   async _preUpdate(changes, options, user) {
     this._validateDuration(changes);
 
@@ -54,6 +58,14 @@ export default class WWActiveEffect extends ActiveEffect {
     else this.system.duration.formatted = formatTime(this.duration.seconds);
   }
 
+  async _onUpdate(data, options, userId) {
+    super._onUpdate(data, options, userId); 
+  }
+
+  /* -------------------------------------------- */
+  /*  Data Preparation                            */
+  /* -------------------------------------------- */
+
   /**
    * @override
    * Augment the basic active effect data with additional dynamic data. Typically,
@@ -90,6 +102,51 @@ export default class WWActiveEffect extends ActiveEffect {
 
   }
 
+  /* -------------------------------------------- */
+
+  /**
+    * A method that can be overridden by subclasses to customize inline embedded HTML generation.
+    * @param {HTMLElement|HTMLCollection} content  The embedded content.
+    * @param {DocumentHTMLEmbedConfig} config      Configuration for embedding behavior.
+    * @param {EnrichmentOptions} [options]         The original enrichment options for cases where the Document embed
+    *                                              content also contains text that must be enriched.
+    * @returns {Promise<HTMLElement|null>}
+    * @protected
+    * @override
+  */
+  async _createInlineEmbed(content, config, options) {
+    const anchor = this.toAnchor();
+    
+    anchor.setAttribute("data-tooltip", content.outerHTML);
+
+    return anchor;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * A method that can be overridden by subclasses to customize the generation of the embed figure.
+   * @param {HTMLElement|HTMLCollection} content  The embedded content.
+   * @param {DocumentHTMLEmbedConfig} config      Configuration for embedding behavior.
+   * @param {EnrichmentOptions} [options]         The original enrichment options for cases where the Document embed
+   *                                              content also contains text that must be enriched.
+   * @returns {Promise<HTMLElement|null>}
+   * @protected
+   * @override
+   */
+  async _createFigureEmbed(content, config, options) {
+    const section = document.createElement("section");
+
+    if ( content instanceof HTMLCollection ) section.append(...content);
+    else section.append(content);
+    
+    return section;
+  }
+
+  /* -------------------------------------------- */
+  /*  Properties/Getters                          */
+  /* -------------------------------------------- */
+
   /**
    * The number of times this effect should be applied.
    * @type {number}
@@ -97,22 +154,10 @@ export default class WWActiveEffect extends ActiveEffect {
   get factor() {
     return this.system.original?.item?.activeEffectFactor ?? 1;
   }
-
-  /* -------------------------------------------- */
-  /*  Data Update                                 */
-  /* -------------------------------------------- */
-
-  async _onUpdate(data, options, userId) {
-    super._onUpdate(data, options, userId); 
-  }
-
-  /* -------------------------------------------- */
-  /*  Properties                                  */
-  /* -------------------------------------------- */
   
   /** @override */
   get isSuppressed() {
-    return this.parent ? !foundry.utils.getProperty(this.parent, 'system.active') : false;
+    return foundry.utils.getProperty(this.originalItem, 'system.active') ?? false;
   }
 
   /**
@@ -130,11 +175,11 @@ export default class WWActiveEffect extends ActiveEffect {
   }
 
   /* -------------------------------------------- */
-  /*  Methods                                     */
+  /*  Actions                                     */
   /* -------------------------------------------- */
 
   determineTransfer(){
-    if (this.trigger == 'passive') // Transfer 
+    if (this.system.trigger == 'passive') // Transfer 
       return true;
     else 
       return false;

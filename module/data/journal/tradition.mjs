@@ -1,10 +1,11 @@
 import {
+  BaseCharOptionModel,
   fields,
   base,
   makeStrField
-} from './charoptions_base.mjs'
+} from './base-charoption.mjs'
 
-export default class TraditionData extends foundry.abstract.DataModel {
+export default class TraditionData extends BaseCharOptionModel {
 
   static defineSchema() {
     const type = 'Tradition';

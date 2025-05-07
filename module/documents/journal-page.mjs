@@ -6,21 +6,11 @@
 //import { capitalize, i18n } from '../helpers/utils.mjs';
 
 export default class WWJournalPage extends JournalEntryPage {
-  /**
-  * Augment the basic Item data model with additional dynamic data.
-  */
-
-  prepareData() {
-    super.prepareData();
-
-    // Get the Item's data
-    const system = this.system;
-    //const actorData = this.actor ? this.actor.system : {};
-
-  }
 
   /* -------------------------------------------- */
-  
+  /*  Document Creation                           */
+  /* -------------------------------------------- */
+
   async _preCreate(data, options, user) {
     let icon = data.image;
     
@@ -55,6 +45,8 @@ export default class WWJournalPage extends JournalEntryPage {
   }
 
   /* -------------------------------------------- */
+  /*  Document Update                             */
+  /* -------------------------------------------- */
 
   async _preUpdate(changes, options, user) {
     await super._preUpdate(changes, options, user);
@@ -72,23 +64,61 @@ export default class WWJournalPage extends JournalEntryPage {
   }
 
   /* -------------------------------------------- */
+  /*  Data Preparation                            */
+  /* -------------------------------------------- */
 
-  /** @inheritdoc */
-  static async _onDeleteOperation(documents, operation, user) {
+  /**
+  * Augment the basic Item data model with additional dynamic data.
+  */
 
-    // Delete granted Items
-    for (const doc of documents) {
-      
-      // If character option
-      if (await doc.isCharOption) {
-        await doc.deleteGrantedItems();
-        await doc.deleteGrantedEntries();
-      }
+  prepareData() {
+    super.prepareData();
 
-    }
+    // Get the Item's data
+    const system = this.system;
+    //const actorData = this.actor ? this.actor.system : {};
 
-    super._onDeleteOperation(documents, operation, user);
+  }
 
+  /* -------------------------------------------- */
+
+  /**
+    * A method that can be overridden by subclasses to customize inline embedded HTML generation.
+    * @param {HTMLElement|HTMLCollection} content  The embedded content.
+    * @param {DocumentHTMLEmbedConfig} config      Configuration for embedding behavior.
+    * @param {EnrichmentOptions} [options]         The original enrichment options for cases where the Document embed
+    *                                              content also contains text that must be enriched.
+    * @returns {Promise<HTMLElement|null>}
+    * @protected
+    * @override
+  */
+  async _createInlineEmbed(content, config, options) {
+    const anchor = this.toAnchor();
+    
+    anchor.setAttribute("data-tooltip", content.outerHTML);
+
+    return anchor;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * A method that can be overridden by subclasses to customize the generation of the embed figure.
+   * @param {HTMLElement|HTMLCollection} content  The embedded content.
+   * @param {DocumentHTMLEmbedConfig} config      Configuration for embedding behavior.
+   * @param {EnrichmentOptions} [options]         The original enrichment options for cases where the Document embed
+   *                                              content also contains text that must be enriched.
+   * @returns {Promise<HTMLElement|null>}
+   * @protected
+   * @override
+   */
+  async _createFigureEmbed(content, config, options) {
+    const section = document.createElement("section");
+
+    if ( content instanceof HTMLCollection ) section.append(...content);
+    else section.append(content);
+    
+    return section;
   }
 
   /* -------------------------------------------- */

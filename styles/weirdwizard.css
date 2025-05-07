@@ -3420,6 +3420,7 @@ article .weirdwizard.charoption .items-area {
 .document-card .card-banner {
   position: absolute;
   top: 0;
+  right: 0;
   width: var(--tooltip-banner-width);
   height: var(--tooltip-banner-height);
   display: flex;
@@ -3430,6 +3431,7 @@ article .weirdwizard.charoption .items-area {
 }
 
 #tooltip .document-card .card-banner {
+  right: unset;
   left: 1rem;
   background: url(../assets/ui/straps/simple-banner.svg) no-repeat;
   background-position: center bottom;
@@ -3456,17 +3458,21 @@ details.document-card .card-header {
   margin-bottom: 0.5rem;
 }
 
-.document-card .card-header .title-wrapper {
-  gap: 0.25rem;
+details.document-card .card-header:hover {
+  background: rgba(0, 0, 0, 0.05);
+  cursor: pointer;
 }
 
 .document-card .card-header .title-wrapper {
+  gap: 0.25rem;
   min-height: var(--tooltip-banner-height);
-  margin-left: calc(var(--tooltip-banner-width) + 0.5rem);
+  margin-right: calc(var(--tooltip-banner-width) + 0.5rem);
 }
 
 #tooltip .document-card .card-header .title-wrapper {
   min-height: calc(var(--tooltip-banner-height) - 1rem);
+  margin-right: 0;
+  margin-left: calc(var(--tooltip-banner-width) + 0.5rem);
 }
 
 .document-card .card-title {

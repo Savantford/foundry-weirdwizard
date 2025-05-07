@@ -1,11 +1,12 @@
 import {
+  BaseCharOptionModel,
   fields,
   base,
   makeStrField,
   makeIntField
-} from './charoptions_base.mjs'
+} from './base-charoption.mjs'
 
-export default class AncestryData extends foundry.abstract.DataModel {
+export default class AncestryData extends BaseCharOptionModel {
 
   static defineSchema() {
     const type = 'Ancestry';

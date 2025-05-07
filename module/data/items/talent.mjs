@@ -1,11 +1,12 @@
 import {
+  BaseItemModel,
   fields,
   base,
   activity,
   makeStrField
-} from './common.mjs'
+} from './base-item.mjs'
 
-export default class TalentData extends foundry.abstract.DataModel {
+export default class TalentData extends BaseItemModel {
 
   static defineSchema() {
     const type = 'Talent';
