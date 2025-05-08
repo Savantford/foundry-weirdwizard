@@ -27,7 +27,14 @@
         {{#if section.showDuration}}<div class="effect-duration">Duration</div>{{/if}}
         {{#if section.showSource}}<div class="effect-source">Source</div>{{/if}}
         
-        <div class="item-controls effect-controls flexrow"></div>
+        <div class="item-controls effect-controls flexrow">
+          {{#if section.showCreate}}
+          <a class="effect-control" data-action="effectCreate" data-type="{{section.type}}" data-tooltip="WW.Effect.Create">
+            <i class="fas fa-plus"></i> {{localize "WW.Item.Create.Label"}}
+          </a>
+          {{/if}}
+        </div>
+        
       </li>
       
       {{!-- Effect Rows --}}

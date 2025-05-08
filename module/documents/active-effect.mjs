@@ -99,7 +99,7 @@ export default class WWActiveEffect extends ActiveEffect {
       this.system.duration.formatted = str;
 
     } else this.system.duration.formatted = formatTime(this.duration.seconds);
-
+    
   }
 
   /* -------------------------------------------- */
@@ -152,12 +152,12 @@ export default class WWActiveEffect extends ActiveEffect {
    * @type {number}
   */
   get factor() {
-    return this.system.original?.item?.activeEffectFactor ?? 1;
+    return this.system.originalItem?.activeEffectFactor ?? 1;
   }
   
   /** @override */
   get isSuppressed() {
-    return foundry.utils.getProperty(this.originalItem, 'system.active') ?? false;
+    return foundry.utils.getProperty(this.originalItem, 'system.active') ? false : true;
   }
 
   /**
@@ -178,11 +178,10 @@ export default class WWActiveEffect extends ActiveEffect {
   /*  Actions                                     */
   /* -------------------------------------------- */
 
+  // Transfer to actor only if the item is passive
   determineTransfer(){
-    if (this.system.trigger == 'passive') // Transfer 
-      return true;
-    else 
-      return false;
+    if (this.system.trigger === 'passive') return true;
+    else return false;
   }
 
   /* -------------------------------------------- */

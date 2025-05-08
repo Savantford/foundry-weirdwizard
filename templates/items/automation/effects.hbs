@@ -69,7 +69,7 @@
         {{/each}}
         
     </ol>
-    {{log effects}}
+    
     {{!-- Dynamic Active Effects Lists --}}
     {{#each effects as |section sid|}}
     {{#if (ne section.type 'inactive')}}
@@ -82,11 +82,11 @@
             {{#if section.showDuration}}<div class="effect-duration">Duration</div>{{/if}}
             
             <div class="item-controls effect-controls flexrow">
-            {{#if section.showCreate}}
-            <a class="effect-control" data-action="effectCreate" data-type="{{section.type}}" data-tooltip="WW.Effect.Create">
-                <i class="fas fa-plus"></i> {{localize "WW.Item.Create.Label"}}
-            </a>
-            {{/if}}
+                {{#if section.showCreate}}
+                <a class="effect-control" data-action="effectCreate" data-type="{{section.type}}" data-tooltip="WW.Effect.Create">
+                    <i class="fas fa-plus"></i> {{localize "WW.Item.Create.Label"}}
+                </a>
+                {{/if}}
             </div>
         </li>
 

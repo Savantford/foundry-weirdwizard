@@ -964,12 +964,26 @@ export default class WWActor extends Actor {
   /*  Active Effects                              */
   /* -------------------------------------------- */
 
-  /*allApplicableEffects() {
-    for (let effect of super.allApplicableEffects()) {
-      if (!effect.determineTransfer(this)) continue;
+  /**
+   * Get all ActiveEffects that may apply to this Actor.
+   * If CONFIG.ActiveEffect.legacyTransferral is true, this is equivalent to actor.effects.contents.
+   * If CONFIG.ActiveEffect.legacyTransferral is false, this will also return all the transferred ActiveEffects on any
+   * of the Actor's owned Items.
+   * @yields {ActiveEffect}
+   * @returns {Generator<ActiveEffect, void, void>}
+   */
+  *allApplicableEffects() {
+    for ( const effect of this.effects ) {
       yield effect;
     }
-  }*/
+    if ( CONFIG.ActiveEffect.legacyTransferral ) return;
+    for ( const item of this.items ) {
+      for ( const effect of item.effects ) {
+        if (!effect.determineTransfer(this)) continue;
+        yield effect;
+      }
+    }
+  }
 
   /**
    * Deletes expired temporary active effects and disables linked expired buffs.
