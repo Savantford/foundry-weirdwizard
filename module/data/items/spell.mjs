@@ -17,7 +17,7 @@ export default class SpellData extends BaseItemModel {
       ...base(type),
       ...activity(type),
       
-      tier: makeStrField('novice',1,1),
+      tier: makeStrField('novice',0),
       tradition: makeStrField('',1,1),
       casting: makeStrField('',1,1),
       target: makeStrField('',1,1),

@@ -122,6 +122,10 @@ export default class WWItem extends Item {
   /*  Properties (Getters)                        */
   /* -------------------------------------------- */
 
+  get isActivity() {
+    return (i.system.attribute || i.effects.size || i.system.instant.length);
+  }
+
   /**
    * Check if item needs targets
    * @returns needTargets

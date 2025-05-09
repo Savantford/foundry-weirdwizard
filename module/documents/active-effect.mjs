@@ -157,7 +157,11 @@ export default class WWActiveEffect extends ActiveEffect {
   
   /** @override */
   get isSuppressed() {
-    return foundry.utils.getProperty(this.originalItem, 'system.active') ? false : true;
+    // Suppress if parent is an inactive item
+    if (this.parent instanceof Item && !foundry.utils.getProperty(this.parent, 'system.active')) return true;
+
+    // False otherwise
+    return false;
   }
 
   /**

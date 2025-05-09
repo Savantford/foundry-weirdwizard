@@ -130,6 +130,93 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   /* -------------------------------------------- */
 
   /**
+   * Generates the data for the generic tab navigation template
+   * @param {string[]} parts An array of named template parts to render
+   * @returns {Record<string, Partial<ApplicationTab>>}
+   * @protected
+   */
+  _getTabs(parts) {
+    // If you have sub-tabs this is necessary to change
+    const tabGroup = 'primary';
+    const type = this.actor.type;
+
+    // Default tab for first time it's rendered this session
+    if (!this.tabGroups[tabGroup]) this.tabGroups[tabGroup] = this.actor.limited ? 'details' : 'summary';
+    
+    // Assign tab properties
+    return parts.reduce((tabs, partId) => {
+      
+      const tab = {
+        cssClass: "",
+        group: tabGroup,
+        // Matches tab property to
+        id: '',
+        // Icon svg
+        icon: '',
+        // Run through localization
+        label: ''
+      };
+
+      switch (partId) {
+        case 'sidetabs':
+          return tabs;
+        case 'summary':
+          tab.id = 'summary';
+          tab.label = 'WW.Actor.Summary';
+          tab.icon = 'systems/weirdwizard/assets/icons/diploma.svg';
+          break;
+        case 'details':
+          if (type === 'Character') {
+            tab.id = 'details';
+            tab.label = 'WW.Actor.Details';
+            tab.icon = 'systems/weirdwizard/assets/icons/scroll-quill.svg';
+          }
+          break;
+        case 'equipment':
+          if (type === 'Character') {
+            tab.id = 'equipment';
+            tab.label = 'WW.Equipment.Label';
+            tab.icon = 'systems/weirdwizard/assets/icons/backpack.svg';
+          }
+          break;
+        case 'talents':
+          if (type === 'Character') {
+            tab.id = 'talents';
+            tab.label = 'WW.Talents.Label';
+            tab.icon = 'systems/weirdwizard/assets/icons/skills.svg';
+          }
+          break;
+        case 'spells':
+          if (type === 'Character') {
+            tab.id = 'spells';
+            tab.label = 'WW.Spells.Label';
+            tab.icon = 'systems/weirdwizard/assets/icons/spell-book.svg';
+          }
+          break;
+        case 'description':
+          if (type === 'NPC') {
+            tab.id = 'description';
+            tab.label = 'WW.Item.Description';
+            tab.icon = 'systems/weirdwizard/assets/icons/scroll-quill.svg';
+          }
+          break;
+        case 'effects':
+          tab.id = 'effects';
+          tab.label = 'WW.Effects.Label';
+          tab.icon = '/icons/svg/aura.svg';
+          break;
+        default: break;
+      }
+
+      // Activate tab
+      if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = "active";
+      if (tab.id) tabs[partId] = tab;
+
+      return tabs;
+    }, {});
+  }
+
+  /**
    * Prepare application rendering context data for a given render request.
    * @param {RenderOptions} options                 Options which configure application rendering behavior
    * @returns {Promise<ApplicationRenderContext>}   Context data for the render operation
@@ -231,7 +318,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
 
     // Prepare Items
     context.items = this.actor.items.contents.toSorted((a, b) => a.sort - b.sort);
-    this._prepareItems(context);
+    await this._prepareItems(context);
 
     // Prepare character data
     if (actorData.type == 'Character') this._prepareCharacterData(context);
@@ -249,50 +336,10 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   async _preparePartContext(partId, context, options) {
     await super._preparePartContext(partId, context, options);
 
-    const isOwner = this.actor.isOwner;
-
     switch (partId) {
       // Summmary tab
       case 'summary':
         context.tab = context.tabs[partId];
-
-        // Prepare item tooltips
-        for (let i of context.items) {
-
-          // Prepare html fields for the tooltip and chat message
-          i.system.description.enriched = await TextEditor.enrichHTML(i.system.description.value, { async: true, secrets: isOwner });
-          if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider.value, { async: true, secrets: isOwner });
-
-          const tooltipContext = {
-            label: i.name,
-            system: i.system,
-            img: i.img,
-            type: i.type,
-            inSheet: true,
-
-            subtitle: i.type,
-            text: i.system.description.enriched ?? null,
-            attackRider: i.system.attackRider?.enriched ?? null
-          }
-          
-          // Prepare tooltip subtitle
-          if (i.type === 'Spell') {
-            tooltipContext.subtitle += ` • ${i18n(CONFIG.WW.TIERS[i.system.tier])}`
-            if (i.system.tradition) tooltipContext.subtitle += ` • ${i.system.tradition}`;
-
-          } else if (i.type === 'Equipment') {
-            tooltipContext.subtitle = i18n(CONFIG.WW.EQUIPMENT_SUBTYPES[i.system.subtype]);
-
-            if (i.system.subtype === 'weapon') tooltipContext.subtitle += ` • ${i.system.traits.range ? i18n("WW.Weapon.Ranged") : i18n("WW.Weapon.Melee")}`;
-
-          } else if (i.type === 'Trait or Talent') {
-            tooltipContext.subtitle = i18n(CONFIG.WW.TALENT_SUBTYPES[i.system.subtype]);
-            tooltipContext.subtitle += ` • ${i18n(CONFIG.WW.TALENT_SOURCES[i.system.source])}`;
-          }
-
-          i.tooltip = await renderTemplate(sysPath(`templates/apps/tooltips/item.hbs`), tooltipContext);
-        }
-
       break;
       
       // Details tab
@@ -346,101 +393,14 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   }
 
   /**
-   * Generates the data for the generic tab navigation template
-   * @param {string[]} parts An array of named template parts to render
-   * @returns {Record<string, Partial<ApplicationTab>>}
-   * @protected
-   */
-  _getTabs(parts) {
-    // If you have sub-tabs this is necessary to change
-    const tabGroup = 'primary';
-    const type = this.actor.type;
-
-    // Default tab for first time it's rendered this session
-    if (!this.tabGroups[tabGroup]) this.tabGroups[tabGroup] = this.actor.limited ? 'details' : 'summary';
-    
-    // Assign tab properties
-    return parts.reduce((tabs, partId) => {
-      
-      const tab = {
-        cssClass: "",
-        group: tabGroup,
-        // Matches tab property to
-        id: '',
-        // Icon svg
-        icon: '',
-        // Run through localization
-        label: ''
-      };
-
-      switch (partId) {
-        case 'sidetabs':
-          return tabs;
-        case 'summary':
-          tab.id = 'summary';
-          tab.label = 'WW.Actor.Summary';
-          tab.icon = 'systems/weirdwizard/assets/icons/diploma.svg';
-          break;
-        case 'details':
-          if (type === 'Character') {
-            tab.id = 'details';
-            tab.label = 'WW.Actor.Details';
-            tab.icon = 'systems/weirdwizard/assets/icons/scroll-quill.svg';
-          }
-          break;
-        case 'equipment':
-          if (type === 'Character') {
-            tab.id = 'equipment';
-            tab.label = 'WW.Equipment.Label';
-            tab.icon = 'systems/weirdwizard/assets/icons/backpack.svg';
-          }
-          break;
-        case 'talents':
-          if (type === 'Character') {
-            tab.id = 'talents';
-            tab.label = 'WW.Talents.Label';
-            tab.icon = 'systems/weirdwizard/assets/icons/skills.svg';
-          }
-          break;
-        case 'spells':
-          if (type === 'Character') {
-            tab.id = 'spells';
-            tab.label = 'WW.Spells.Label';
-            tab.icon = 'systems/weirdwizard/assets/icons/spell-book.svg';
-          }
-          break;
-        case 'description':
-          if (type === 'NPC') {
-            tab.id = 'description';
-            tab.label = 'WW.Item.Description';
-            tab.icon = 'systems/weirdwizard/assets/icons/scroll-quill.svg';
-          }
-          break;
-        case 'effects':
-          tab.id = 'effects';
-          tab.label = 'WW.Effects.Label';
-          tab.icon = '/icons/svg/aura.svg';
-          break;
-        default: break;
-      }
-
-      // Activate tab
-      if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = "active";
-      if (tab.id) tabs[partId] = tab;
-
-      return tabs;
-    }, {});
-  }
-
-  /**
    * Organize and classify Items for actor sheets.
    *
    * @param {Object} actorData The actor to prepare.
    *
-   * @return {undefined}
+   * @return {Promise<void>}
   */
+  async _prepareItems(context) {
 
-  _prepareItems(context) {
     // Initialize item lists
     const equipment = [];
     const weapons = [];
@@ -452,12 +412,10 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     const spells = [];
     const legacy = []; // Delete when char options legacy support is removed
 
-    // Iterate through items, allocating to lists
-    for (let i of context.items) {
+    // Iterate through items, then allocate it to lists
+    for (const i of context.items) {
 
-      const itemDoc = this.actor.items.get(i._id);
-
-      i.img = i.img || DEFAULT_TOKEN;
+      //i.img = i.img || DEFAULT_TOKEN; - not needed anymore?
 
       // Assign attributeLabel for template use
       if (i.system.attribute == 'luck') {
@@ -468,20 +426,46 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
         i.system.attributeLabel = `${name} (${plusify(attribute.mod)})`
       }
 
-      // Is the item an activity?
-      i.isActivity = i.system.attribute || i.effects.size || i.system.instant?.length;
-
       // Check if item has passive effects
-      i.hasPassiveEffects = false;
-      
-      const effects = this.actor.items.get(i._id).effects;
-
-      for (let e of effects) {
-        if (e.system.trigger === 'passive') i.hasPassiveEffects = true;
-      }
+      i.hasPassiveEffects = i.effects.some((ef => ef.system.trigger === 'passive'));
 
       // Pass down whether the item need targets or not
       //i.needTargets = this.actor.items.get(i._id).needTargets; - no longer needed?
+
+      // Prepare html fields for the tooltip and chat message
+      const isOwner = this.actor.isOwner;
+      i.system.description.enriched = await TextEditor.enrichHTML(i.system.description.value, { async: true, secrets: isOwner });
+      if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider.value, { async: true, secrets: isOwner });
+
+      // Prepare tooltip context
+      const tooltipContext = {
+        label: i.name,
+        system: i.system,
+        img: i.img,
+        type: i.type,
+        inSheet: true,
+
+        subtitle: i.type,
+        text: i.system.description.enriched ?? null,
+        attackRider: i.system.attackRider?.enriched ?? null
+      }
+
+      // Prepare tooltip subtitle
+      if (i.type === 'Spell') {
+        tooltipContext.subtitle += ` • ${i18n(CONFIG.WW.TIERS[i.system.tier])}`
+        if (i.system.tradition) tooltipContext.subtitle += ` • ${i.system.tradition}`;
+
+      } else if (i.type === 'Equipment') {
+        tooltipContext.subtitle = i18n(CONFIG.WW.EQUIPMENT_SUBTYPES[i.system.subtype]);
+
+        if (i.system.subtype === 'weapon') tooltipContext.subtitle += ` • ${i.system.traits.range ? i18n("WW.Weapon.Ranged") : i18n("WW.Weapon.Melee")}`;
+
+      } else if (i.type === 'Trait or Talent') {
+        tooltipContext.subtitle = i18n(CONFIG.WW.TALENT_SUBTYPES[i.system.subtype]);
+        tooltipContext.subtitle += ` • ${i18n(CONFIG.WW.TALENT_SOURCES[i.system.source])}`;
+      }
+
+      i.tooltip = await renderTemplate(sysPath(`templates/apps/tooltips/item.hbs`), tooltipContext);
 
       // Append to equipment.
       if (i.type === 'Equipment') {
@@ -661,12 +645,12 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       item.uses = arr;
     }
 
-    talents.forEach(updateUses)
-    actions.forEach(updateUses)
-    reactions.forEach(updateUses)
-    equipment.forEach(updateUses)
-    spells.forEach(updateUses)
-    end.forEach(updateUses)
+    talents.forEach(updateUses);
+    actions.forEach(updateUses);
+    reactions.forEach(updateUses);
+    equipment.forEach(updateUses);
+    spells.forEach(updateUses);
+    end.forEach(updateUses);
     
     // Assign and return
     context.equipment = equipment;

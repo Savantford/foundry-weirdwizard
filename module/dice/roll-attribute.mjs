@@ -500,10 +500,9 @@ export default class RollAttribute extends FormApplication {
     }
     
     this.item?.effects?.forEach(e => {
-      if (!e.flags.weirdwizard.uuid) e.setFlag('weirdwizard', 'uuid', e.uuid);
-      if (!e.trigger) e.trigger = e.flags.weirdwizard.trigger;
+      if (!e.flags.weirdwizard?.uuid) e.setFlag('weirdwizard', 'uuid', e.uuid);
       
-      switch (e.trigger) {
+      switch (e.system.trigger) {
         case 'onUse': {
           effs.onUse.push(e);
           effs.onSuccess.push(e);
