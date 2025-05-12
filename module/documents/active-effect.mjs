@@ -7,7 +7,7 @@ export default class WWActiveEffect extends ActiveEffect {
   /* -------------------------------------------- */
 
   async _preCreate(data, options, user) {
-    this._validateDuration(data);
+    this._validateDuration(data, 'preCreate');
 
     return await super._preCreate(data, options, user);
   }
@@ -17,42 +17,48 @@ export default class WWActiveEffect extends ActiveEffect {
   /* -------------------------------------------- */
 
   async _preUpdate(changes, options, user) {
-    this._validateDuration(changes);
+    this._validateDuration(changes, 'preUpdate');
 
     return await super._preUpdate(changes, options, user);
   }
 
-  _validateDuration(changes) {
+  _validateDuration(changes, stage) {
     const selected = changes.system?.duration?.selected ?? this.system.duration.selected;
     const rounds = this.duration.rounds;
+    const effect = this;
 
+    const updateData = function(rounds, seconds) {
+      if (stage === 'preCreate') effect.updateSource({ 'duration.rounds': rounds, 'duration.seconds': seconds });
+      else if (stage = 'preUpdate') changes = foundry.utils.mergeObject(changes, { 'duration.rounds': rounds, 'duration.seconds': seconds });
+    };
+    
     // Check the selected value and set duration values
     switch (selected) {
       // No duration
-      case '': this.updateSource({ 'duration.rounds': null, 'duration.seconds': null }); break;
+      case 'none': updateData(null, null); break;
 
       // Rounds duration
-      case 'luckEnds': this.updateSource({ 'duration.rounds': 777, 'duration.seconds': null }); break;
+      case 'luckEnds': updateData(777, null); break;
 
-      case '1round': this.updateSource({ 'duration.rounds': 1, 'duration.seconds': null }); break;
-      case '2rounds': this.updateSource({ 'duration.rounds': 2, 'duration.seconds': null }); break;
+      case '1round': updateData(1, null); break;
+      case '2rounds': updateData(2, null); break;
+      case 'Xrounds': updateData(1, null); break;
 
-      case 'Xrounds': this.updateSource({ 'duration.rounds': 1, 'duration.seconds': null }); break;
-
-      case 'turnEnd': this.updateSource({ 'duration.rounds': 1, 'duration.seconds': null }); break;
-      case 'nextTriggerTurnStart': this.updateSource({ 'duration.rounds': 1, 'duration.seconds': null }); break;
-      case 'nextTargetTurnStart': this.updateSource({ 'duration.rounds': 1, 'duration.seconds': null }); break;
-      case 'nextTriggerTurnEnd': this.updateSource({ 'duration.rounds': 1, 'duration.seconds': null }); break;
-      case 'nextTargetTurnEnd': this.updateSource({ 'duration.rounds': 1, 'duration.seconds': null }); break;
+      case 'turnEnd': updateData(1, null); break;
+      case 'nextTriggerTurnStart': updateData(1, null); break;
+      case 'nextTargetTurnStart': updateData(1, null); break;
+      case 'nextTriggerTurnEnd': updateData(1, null); break;
+      case 'nextTargetTurnEnd': updateData(1, null); break;
 
       // Real World duration
-      case '1minute': this.updateSource({ 'duration.seconds': 60, 'duration.rounds': null }); break;
-      case 'minutes': this.updateSource({ 'duration.seconds': 60, 'duration.rounds': null }); break;
-      case 'hours': this.updateSource({ 'duration.seconds': 60*60, 'duration.rounds': null }); break;
-      case 'days': this.updateSource({ 'duration.seconds': 60*60*24, 'duration.rounds': null }); break;
+      case '1minute': updateData(null, 60); break;
+      case 'minutes': updateData(null, 60); break;
+      case 'hours': updateData(null, 60*60); break;
+      case 'days': updateData(null, 60*60*24); break;
       
     }
 
+    // Format duration
     if (rounds === 777) this.system.duration.formatted = 'Luck ends';
     else if (rounds) this.system.duration.formatted = `${rounds} ${(rounds > 1 ? i18n(rounds + 'Rounds') : i18n(rounds + 'Round'))}`;
     else this.system.duration.formatted = formatTime(this.duration.seconds);
@@ -84,10 +90,9 @@ export default class WWActiveEffect extends ActiveEffect {
     // Get derived duration variables
     const key = 'WW.Effect.Duration.';
     const rounds = this.duration.rounds;
+    const selected = this.system.duration.selected;
 
     if (rounds) {
-      const selected = this.system.duration.selected;
-      
       // Prepare formatted selected label
       let str = '';
       if (selected) {

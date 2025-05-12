@@ -35,12 +35,12 @@ export async function pathsOfJournaling (forced) {
 
 }
 
-/* Convert Active Effect flags to system */
-function _convertEffectFlagsToSystem() {
+/* Convert Active Effect flags to system and fix duration */
+async function _convertEffectFlagsToSystem() {
+  
+  function _fixEffects(doc) {
 
-  function _aeFlagsToSystem(actor) {
-
-    for (const ae of actor.effects) {
+    for (const ae of doc.effects) {
       
       const flags = ae.flags.weirdwizard ?? {};
   
@@ -58,7 +58,15 @@ function _convertEffectFlagsToSystem() {
       };
       
       // Change Luck Ends duration from  1337 to 777
-      const rounds = ae.duration.rounds === 1337 ? 777 : ae.duration.rounds;
+      let rounds = ae.duration.rounds;
+      if (rounds === 1337) rounds = 777;
+
+      // Fix rounds if a minute is selected
+      const selected = ae.system.duration.selected;
+
+      if (rounds && (selected === 'none' || selected === '1minute' || selected === 'minutes' || selected === 'hours' || selected === 'days')) {
+        rounds = null;
+      }
   
       // Update document
       ae.update({
@@ -69,13 +77,19 @@ function _convertEffectFlagsToSystem() {
     }
   }
 
+  // Items Tab
+  for (const i of game.items) {
+    if (i.effects.size) _fixEffects(i);
+  }
+
   // Actors Tab
   for (const a of game.actors) {
-    
-    if (a.effects.size) {
-      _aeFlagsToSystem(a)
-    }
+    if (a.effects.size) _fixEffects(a);
 
+    // Items embedded
+    for (const i of a.items) {
+      if (i.effects.size) _fixEffects(i);
+    }
   }
 
   // Scene Unlinked Tokens
@@ -85,14 +99,43 @@ function _convertEffectFlagsToSystem() {
       const a = t.actor;
 
       if (a) {
-        
-        if (a.effects.size) {
-          _aeFlagsToSystem(a)
+        if (a?.effects?.size) _fixEffects(a);
+
+        // Items embedded
+        for (const i of a.items) {
+          if (i.effects.size) _fixEffects(i);
         }
       }
     }
   }
 
+  // Packs
+  for (const p of game.packs) {
+    if (p.metadata.packageType !== 'world') return; // Ensure only world packs are affected
+
+    // Item Packs
+    if (p.metadata.type === 'Item') {
+      const documents = await p.getDocuments();
+
+      for (const i of documents) {
+        if (i.effects.size) _fixEffects(i);
+      }
+    
+    // Actor Packs
+    } else if (p.metadata.type === 'Actor') {
+      const documents = await p.getDocuments();
+
+      for (const a of documents) {
+        if (a.effects.size) _fixEffects(a);
+
+        // Items embedded
+        for (const i of a.items) {
+          if (i.effects.size) _fixEffects(i);
+        }
+      }
+    }
+  }
+  
 }
 
 /* Convert Character Options Items to Journal Pages */
@@ -134,6 +177,8 @@ async function _cOptsItemsToPages() {
 
   // Items in Packs
   for (const p of game.packs) {
+    if (p.metadata.packageType !== 'world') return; // Ensure only world packs are affected
+
     const cOpts = await p.getDocuments({ type__in: ['Ancestry', 'Path', 'Profession'] });
     
     // Item in a pack

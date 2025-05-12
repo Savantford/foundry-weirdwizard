@@ -566,6 +566,8 @@
 "WW.Effect.AlliesTargeted": "Ally Tokens Only",
 "WW.Effect.Apply": "Apply Effect",
 "WW.Effect.AppliedTo": "applied to",
+"WW.Effect.HandledByItem": "This effect is handled by the item indicated in the Source column. If you want to edit it, please check the item sheet instead.",
+"WW.Effect.HandledByCharOption": "This effect is a benefit handled by a character option. If you want to edit it, please edit the character option instead of the effect itself.",
 
 "WW.Effect.Duration.Label": "Effect Duration",
 "WW.Effect.Duration.StartRound": "Effect Start Round",
@@ -575,7 +577,7 @@
 "WW.Effect.Duration.InDays": "Duration in Days",
 "WW.Effect.Duration.AutoDelete": "Delete automatically when expired?",
 "WW.Effect.Duration.ExpiredMsg": "expired after",
-"WW.Effect.Duration.No": "No duration",
+"WW.Effect.Duration.None": "No duration",
 "WW.Effect.Duration.Round": "round",
 "WW.Effect.Duration.Rounds": "rounds",
 "WW.Effect.Duration.LuckEnds": "(Luck ends)",

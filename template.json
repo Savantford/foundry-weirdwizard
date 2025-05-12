@@ -27,6 +27,10 @@
     "types": ["Equipment", "Trait or Talent", "Spell", "Ancestry", "Profession", "Path", "Tradition"],
     "htmlFields": []
   },
+  "ActiveEffect": {
+    "types": ["base", "benefit"],
+    "htmlFields": []
+  },
   "JournalEntryPage": {
     "types": ["ancestry", "path", "profession", "tradition"],
     "htmlFields": []

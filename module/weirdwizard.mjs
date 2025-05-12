@@ -19,7 +19,8 @@ import AncestryData from './data/journal/ancestry.mjs';
 import ProfessionData from './data/journal/profession.mjs';
 import PathData from './data/journal/path.mjs';
 import TraditionData from './data/journal/tradition.mjs';
-import ActiveEffectData from './data/active-effect.mjs';
+import { BaseEffectModel } from './data/effects/base-effect.mjs';
+import BenefitEffectModel from './data/effects/benefit-effect.mjs';
 
 // Import sheet classes.
 import WWCharacterSheet from './sheets/actors/character-sheet.mjs';
@@ -88,14 +89,16 @@ Hooks.once('init', function () {
   CONFIG.Item.dataModels['Trait or Talent'] = TalentData;
   CONFIG.Item.dataModels.Spell = SpellData;
 
+  // Active Effect data models
+  CONFIG.ActiveEffect.dataModels.base = BaseEffectModel;
+  CONFIG.ActiveEffect.dataModels.benefit = BenefitEffectModel;
+
   // Journal Entry Page data models
   CONFIG.JournalEntryPage.dataModels.ancestry = AncestryData;
   CONFIG.JournalEntryPage.dataModels.path = PathData;
   CONFIG.JournalEntryPage.dataModels.profession = ProfessionData;
   CONFIG.JournalEntryPage.dataModels.tradition = TraditionData;
-
-  CONFIG.ActiveEffect.dataModels.base = ActiveEffectData;
-
+  
   // Register actor Sheet classes
   Actors.unregisterSheet('core', ActorSheet);
 

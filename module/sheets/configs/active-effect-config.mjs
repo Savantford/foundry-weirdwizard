@@ -72,14 +72,9 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
   activateListeners(html) {
     super.activateListeners(html);
-    // Change the duration in rounds based on seconds and vice-versa
-    // const inputSeconds = html.find('input[name='duration.seconds']')
-    // const inputRounds = html.find('input[name='duration.rounds']')
-    // inputSeconds.change(_ => inputRounds.val(Math.floor(inputSeconds.val() / 10)))
-    // inputRounds.change(_ => inputSeconds.val(inputRounds.val() * 10))
-    
+
+    // Update dropdown selections
     html.find('.key > select').change((ev) => this._updateValueInput(ev, this.document));
-    //html.find('select.duration-selection').change((ev) => this._updateDurationProperties(ev, this.document));
     html.find('select.duration-selection').change((ev) => this.submit({preventClose: true}).then(() => this.render()));
 
     // Close window when Submit is clicked
@@ -88,33 +83,16 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
   }
 
   async _updateObject(event, formData) { // Update actor data.
-
-    /*const wwflags = this.flags.weirdwizard;
-
-    // Set external flag if it does not exist. Must have a non-passive trigger flag set and a different parent UUID
-    if (!wwflags?.external && wwflags?.trigger != 'passive' && this.origin && !this.origin.includes(this.parent.uuid)) {
-      this.setFlag('weirdwizard', 'external', true)
-    }*/
-
-    // Set needed flags
-    /*formData.flags = {
-      weirdwizard: {
-        'trigger': formData.trigger,
-        'target': formData.target,
-        'selectedDuration': formData.selectedDuration ? formData.selectedDuration : '',
-        'autoDelete': formData.autoDelete ? formData.autoDelete : true,
-        'durationInMinutes': formData.durationInMinutes,
-        'durationInHours': formData.durationInHours,
-        'durationInDays': formData.durationInDays
-      }
-    }*/
-    
+    console.log(formData.system.duration)
+    const sysDur = formData.system.duration;
     switch (formData.system.duration.selected) {
-      case 'minutes': formData.duration = { seconds: formData.system.duration.inMinutes * 3600 }; break;
-      case 'hours': formData.duration = { seconds: formData.system.duration.inHours * 3600 }; break;
-      case 'days': formData.duration = { seconds: formData.system.duration.inDays * 3600*24 }; break;
-      case 'none': formData.duration = { seconds: 0 }; break;
+      case 'minutes': formData.duration = { seconds: sysDur.inMinutes ? sysDur.inMinutes * 60 : 60, rounds: null }; break;
+      case 'hours': formData.duration = { seconds: sysDur.inHours ? sysDur.inHours * 3600 : 3600, rounds: null }; break;
+      case 'days': formData.duration = { seconds: sysDur.inDays ? sysDur.inDays * 3600*24 : 3600*24, rounds: null }; break;
+      case 'none': formData.duration = { seconds: null, rounds: null }; break;
     }
+
+    await console.log(formData.duration)
 
     // Prepare custom mode change data
     const changes = formData.changes;
@@ -139,7 +117,7 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     // Assign to formData
     formData.changes = altChanges;
 
-    return super._updateObject(event, formData); // Triggering an infinite loop
+    return super._updateObject(event, formData);
   }
 
   // Update change.value input to reflect the corresponding change.key

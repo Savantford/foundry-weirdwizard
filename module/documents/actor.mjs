@@ -621,7 +621,9 @@ export default class WWActor extends Actor {
     const effectData = {
       name: cOpt.name,
       icon: cOpt.src,
+      type: 'benefit',
       description: cOpt.text.content,
+
       origin: this.uuid,
       changes: changes,
       'system.grantedBy': cOpt.uuid

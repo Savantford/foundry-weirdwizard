@@ -19,6 +19,7 @@ export default class WWRoll extends Roll {
     
     const attribute = this.options.attribute;
     const against = this.options.against;
+    console.log(this.actEffs)
     
     const chatData = {
       isPrivate: isPrivate,
@@ -83,6 +84,7 @@ export default class WWRoll extends Roll {
 
   get actEffs() {
     const effCats = this.options.actEffs;
+    console.log(effCats)
     
     if (!effCats || Object.values(effCats).flat().every(el => el.length === 0)) return null;
 
@@ -95,8 +97,7 @@ export default class WWRoll extends Roll {
         effects[e] = {
           ...effects[e],
           ...{
-            action: 'apply-effect',
-            uuid: effects[e].flags.weirdwizard.uuid
+            action: 'apply-effect'
             /*targetIds: targetIds*/
           }
         };

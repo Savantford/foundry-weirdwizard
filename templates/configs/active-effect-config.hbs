@@ -94,7 +94,7 @@
 
         {{!-- Selected Duration --}}
         <select name="system.duration.selected" class="duration-selection">
-          <option label="{{localize "WW.Effect.Duration.No"}}"></option>
+          <option label="{{localize "WW.Effect.Duration.None"}}" value="none"></option>
           {{#each durationOptions as |category i|}}
           <optgroup label="{{localize category.header}}">
             {{selectOptions category.options selected=@root.system.duration.selected localize=true}}
@@ -111,7 +111,7 @@
       <div class="form-group">
         <label>{{ localize "WW.Effect.Duration.InMinutes" }}</label>
         <div class="form-fields">
-          <input type="number" name="durationInMinutes" value="{{ system.duration.inMinutes }}" min="1" />
+          <input type="number" name="system.duration.inMinutes" value="{{ system.duration.inMinutes }}" min="1" />
         </div>
       </div>
       {{/if}}
@@ -120,7 +120,7 @@
       <div class="form-group">
         <label>{{ localize "WW.Effect.Duration.InHours" }}</label>
         <div class="form-fields">
-          <input type="number" name="durationInHours" value="{{ system.duration.inHours }}" min="1" />
+          <input type="number" name="system.duration.inHours" value="{{ system.duration.inHours }}" min="1" />
         </div>
       </div>
       {{/if}}
@@ -129,7 +129,7 @@
       <div class="form-group">
         <label>{{ localize "WW.Effect.Duration.InDays" }}</label>
         <div class="form-fields">
-          <input type="number" name="durationInDays" value="{{ system.duration.inDays }}" min="1" />
+          <input type="number" name="system.duration.inDays" value="{{ system.duration.inDays }}" min="1" />
         </div>
       </div>
       {{/if}}
@@ -139,7 +139,7 @@
         {{ formattedStartTime }}
       </div>
 
-    {{else}}
+    {{else if data.duration.rounds}}
 
       <div class="form-group">
         <label>{{ localize "WW.Effect.Duration.InRounds" }}</label>

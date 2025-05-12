@@ -447,7 +447,6 @@ WW.EFFECT_DURATIONS = {
       'days': 'WW.Effect.Duration.OutOfCombat.Days'
     }
   }
-  
 }
 
 WW.EFFECT_OPTIONS = {

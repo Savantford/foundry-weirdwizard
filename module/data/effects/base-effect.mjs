@@ -1,6 +1,6 @@
-import embedCard from "../helpers/embed-card.mjs";
+import embedCard from "../../helpers/embed-card.mjs";
 
-export default class ActiveEffectData extends foundry.abstract.TypeDataModel {
+export class BaseEffectModel extends foundry.abstract.TypeDataModel {
 
   /**
    * Convert this Document to some HTML display for embedding purposes.
@@ -17,30 +17,20 @@ export default class ActiveEffectData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     
     return {
-      target: makeStrField('none'),
-      trigger: makeStrField('passive'),
+      target: makeStrField('none',0),
+      trigger: makeStrField('passive',0),
 
       duration: new fields.SchemaField({
-        selected: makeStrField(),
-        inMinutes: makeIntField(),
-        inHours: makeIntField(),
-        inDays: makeIntField(),
+        selected: makeStrField('none',0),
+        inMinutes: makeIntField(null,1),
+        inHours: makeIntField(null,1),
+        inDays: makeIntField(null,1),
         autoExpire: makeBooField(true)
       }),
       
       grantedBy: makeStrField()
     }
 
-  }
-
-  /**
-   * Determine whether the item is destroyed.
-   * @type {boolean}
-   */
-  get destroyed() {
-    const invulnerable = CONFIG.specialStatusEffects.INVULNERABLE;
-    if ( this.parent.effects.some(e => e.statuses.has('invulnerable') )) return false;
-    return this.health.value <= this.health.min;
   }
 
 }
@@ -69,10 +59,10 @@ export const makeFloField = (init = 0) => new fields.NumberField({
   integer: false
 })
 
-export const makeIntField = (init = 0) => new fields.NumberField({
+export const makeIntField = (init = 0, min = 0) => new fields.NumberField({
   required: true,
   initial: init,
-  min: 0,
+  min: min,
   nullable: true,
   integer: true
 })
