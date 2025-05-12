@@ -23,9 +23,13 @@ export default class WWActiveEffect extends ActiveEffect {
   }
 
   _validateDuration(changes, stage) {
-    const selected = changes.system?.duration?.selected ?? this.system.duration.selected;
-    const rounds = this.duration.rounds;
     const effect = this;
+    const selected = changes.system?.duration?.selected ?? this.system.duration.selected;
+
+    const rounds = changes.duration.rounds ?? this.duration.rounds,
+    minutes = changes.system.duration.inMinutes ?? this.system.duration.inMinutes,
+    hours = changes.system.duration.inHours ?? this.system.duration.inHours,
+    days = changes.system.duration.inDays ?? this.system.duration.inDays;
 
     const updateData = function(rounds, seconds) {
       if (stage === 'preCreate') effect.updateSource({ 'duration.rounds': rounds, 'duration.seconds': seconds });
@@ -42,7 +46,7 @@ export default class WWActiveEffect extends ActiveEffect {
 
       case '1round': updateData(1, null); break;
       case '2rounds': updateData(2, null); break;
-      case 'Xrounds': updateData(1, null); break;
+      case 'Xrounds': updateData(rounds, null); break;
 
       case 'turnEnd': updateData(1, null); break;
       case 'nextTriggerTurnStart': updateData(1, null); break;
@@ -52,9 +56,9 @@ export default class WWActiveEffect extends ActiveEffect {
 
       // Real World duration
       case '1minute': updateData(null, 60); break;
-      case 'minutes': updateData(null, 60); break;
-      case 'hours': updateData(null, 60*60); break;
-      case 'days': updateData(null, 60*60*24); break;
+      case 'minutes': updateData(null, minutes * 60); break;
+      case 'hours': updateData(null, hours * 60*60); break;
+      case 'days': updateData(null, days * 60*60*24); break;
       
     }
 

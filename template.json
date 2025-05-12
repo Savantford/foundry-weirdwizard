@@ -28,7 +28,7 @@
     "htmlFields": []
   },
   "ActiveEffect": {
-    "types": ["base", "benefit"],
+    "types": ["benefit"],
     "htmlFields": []
   },
   "JournalEntryPage": {
@@ -36,7 +36,7 @@
     "htmlFields": []
   },
   "ChatMessage": {
-    "types": ["d20-roll", "d6-roll", "embed-card"],
+    "types": ["d20-roll", "d6-roll", "unrolled-use", "embed-card"],
     "htmlFields": []
   }
 }

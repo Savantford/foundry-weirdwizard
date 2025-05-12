@@ -39,8 +39,8 @@ export default class WWChatMessage extends ChatMessage {
     const icon = (data.flags?.weirdwizard?.icon && (typeof data.flags?.weirdwizard?.icon === 'string')) ? data.flags.weirdwizard.icon : null;
     const isWhisper = this.whisper.length;
     
-    const instEffs = item ? item.system.instant.filter(e => e.trigger === 'onUse') : null; 
-    const actEffs = item ? item.effects.filter(e => e.system.trigger === 'onUse') : null; 
+    const instEffs = item ? item.system.instant.filter(e => e.trigger === 'onUse') : null;
+    const actEffs = item ? item.effects.filter(e => e.system.trigger === 'onUse') : null;
     
     // Prepare content
     const emptyContent = data.flags?.weirdwizard?.emptyContent ?? data.flags?.weirdwizard?.emptyContent;

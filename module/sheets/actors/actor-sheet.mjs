@@ -1418,8 +1418,10 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
             onFailure: []
           }
           
-          item.effects?.forEach(e => {
-            
+          item.effects?.forEach(effect => {
+            const e = {...effect};
+            e.uuid = effect.uuid;
+
             switch (e.system.trigger) {
               case 'onUse': {
                 effs.onUse.push(e);
@@ -1484,6 +1486,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
         
         // Create message data to chat
         const messageData = {
+          type: 'unrolled-use',
           speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
           flavor: label,
           content: content,
