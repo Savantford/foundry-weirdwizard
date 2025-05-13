@@ -26,10 +26,10 @@ export default class WWActiveEffect extends ActiveEffect {
     const effect = this;
     const selected = changes.system?.duration?.selected ?? this.system.duration.selected;
 
-    const rounds = changes.duration.rounds ?? this.duration.rounds,
-    minutes = changes.system.duration.inMinutes ?? this.system.duration.inMinutes,
-    hours = changes.system.duration.inHours ?? this.system.duration.inHours,
-    days = changes.system.duration.inDays ?? this.system.duration.inDays;
+    const rounds = changes.duration?.rounds ?? this.duration.rounds,
+    minutes = changes.system?.duration?.inMinutes ?? this.system.duration.inMinutes,
+    hours = changes.system?.duration?.inHours ?? this.system.duration.inHours,
+    days = changes.system?.duration?.inDays ?? this.system.duration.inDays;
 
     const updateData = function(rounds, seconds) {
       if (stage === 'preCreate') effect.updateSource({ 'duration.rounds': rounds, 'duration.seconds': seconds });
