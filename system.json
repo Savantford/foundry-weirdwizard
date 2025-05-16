@@ -86,41 +86,15 @@
       "type": "Actor"
     },
     {
-      "name": "ancestries",
-      "label": "Ancestries",
-      "banner": "systems/weirdwizard/assets/ui/banners/ancestries-banner.webp",
+      "name": "character-options",
+      "label": "Character Options",
+      "banner": "systems/weirdwizard/assets/ui/banners/character-options-banner.webp",
       "system": "weirdwizard",
-      "path": "packs/ancestries.db",
-      "type": "Item",
+      "path": "packs/character-options.db",
+      "type": "JournalEntry",
       "flags": {
         "weirdwizard": {
-          "compendiumType": "generic"
-        }
-      }
-    },
-    {
-      "name": "paths",
-      "label": "Paths",
-      "banner": "systems/weirdwizard/assets/ui/banners/paths-banner.webp",
-      "system": "weirdwizard",
-      "path": "packs/paths.db",
-      "type": "Item",
-      "flags": {
-        "weirdwizard": {
-          "compendiumType": "paths"
-        }
-      }
-    },
-    {
-      "name": "professions",
-      "label": "Professions",
-      "banner": "systems/weirdwizard/assets/ui/banners/professions-banner.webp",
-      "system": "weirdwizard",
-      "path": "packs/professions.db",
-      "type": "Item",
-      "flags": {
-        "weirdwizard": {
-          "compendiumType": "professions"
+          "compendiumType": "charoptions"
         }
       }
     },
@@ -139,8 +113,8 @@
     },
     {
       "name": "talents",
-      "label": "Talents",
-      "banner": "systems/weirdwizard/assets/ui/banners/talents-banner.webp",
+      "label": "Path Talents",
+      "banner": "systems/weirdwizard/assets/ui/banners/path-talents-banner.webp",
       "system": "weirdwizard",
       "path": "packs/talents.db",
       "type": "Item",
@@ -152,7 +126,7 @@
     },
     {
       "name": "spells",
-      "label": "Spells",
+      "label": "Tradition Talents & Spells",
       "banner": "systems/weirdwizard/assets/ui/banners/spells-banner.webp",
       "system": "weirdwizard",
       "path": "packs/spells.db",
@@ -182,16 +156,9 @@
           "name": "Character Options",
           "sorting": "m",
           "color": "#775B7B",
-          "packs": ["ancestries", "paths", "professions"],
-          "folders": []
-        },
-        {
-          "name": "Option Benefits",
-          "sorting": "m",
-          "color": "#775B7B",
-          "packs": ["traits", "talents", "spells"],
-          "folders": []
+          "packs": ["character-options", "traits", "talents", "spells"]
         }
+        
       ]
     }
   ],

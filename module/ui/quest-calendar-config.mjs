@@ -12,7 +12,7 @@ export default class QuestCalendarConfig extends FormApplication {
       popOut: true,
       closeOnSubmit: true,
       minimizable: false,
-      template: 'systems/weirdwizard/templates/config/quest-calendar-config.hbs',
+      template: 'systems/weirdwizard/templates/configs/quest-calendar-config.hbs',
       id: 'quest-calendar-config',
       title: 'QC.Settings.WindowTitle',
       width: 300

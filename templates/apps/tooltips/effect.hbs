@@ -1,0 +1,47 @@
+<div class="document-card">
+
+    {{!-- Image Banner --}}
+    <div class="card-banner">
+        <img src="{{img}}">
+    </div>
+
+    {{!-- Main Card Body --}}
+    <div class="card-body">
+
+        {{!-- Tooltip Card Header --}}
+        <header class="card-header">
+
+            <div class="title-wrapper">
+                <div class="card-title">{{label}}</div>
+                <div class="card-subtitle">{{subtitle}}</div>
+            </div>
+
+        </header>
+
+        {{!-- Description --}}
+        <div class="card-text">
+            {{{text}}}
+        </div>
+
+        {{!-- Changes --}}
+        <ul class="card-changes">
+            {{{changes}}}
+        </ul>
+
+        {{!-- Bug Separator --}}
+        <hr class="bug">
+
+    </div>
+
+    {{!-- Outer Footer ---}}
+    {{#if inSheet}}
+    <footer class="tooltip-footer">
+        <p>{{{localize "WW.Item.Perform.Left"}}}</p>
+        <p>{{{localize "WW.Item.Perform.Shift"}}}</p>
+        <p>{{{localize "WW.Item.Perform.Ctrl"}}}</p>
+        <p>{{{localize "WW.Item.Perform.Alt"}}}</p>
+        <p>{{{localize "WW.Item.Perform.Right"}}}</p>
+    </footer>
+    {{/if}}
+
+</div>

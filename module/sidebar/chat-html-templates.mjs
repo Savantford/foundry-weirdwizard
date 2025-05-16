@@ -230,16 +230,10 @@ export function dataFromLabel(label) {
 
 /* Prepare a complementary object from a label string */
 export function actDataFromEffect(effect) {
-  
-  const flags = effect.flags.weirdwizard;
   const data = {
     action: 'apply-effect',
     uuid: effect.uuid,
-    trigger: flags.trigger,
-    //icon: 'dice',
-    //img: '',
-    //loc: 'WW.InstantEffect.Button.',
-    //showNo: true
+    trigger: effect.system.trigger
   }
 
   return data;

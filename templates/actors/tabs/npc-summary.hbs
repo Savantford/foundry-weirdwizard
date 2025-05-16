@@ -421,7 +421,7 @@
                         
                     <span class="add-buttons">
                             
-                        <a class="item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Weapon" data-type="Equipment" data-subtype="weapon">
+                        <a class="item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Weapon" data-type="Equipment" data-subtype="weapon" data-grip="Natural">
                             {{localize "WW.Attack.Plural"}}
                             <i class="fas fa-plus-circle"></i>
                         </a>
@@ -437,7 +437,6 @@
 
                 {{!-- Attacks --}}
                 <ol class="described-list attacks-list">
-                        
                     {{#each weapons as |item id|}}
                         {{> "systems/weirdwizard/templates/actors/tabs/npc-summary-weapon.hbs" item=item id=id}}
                     {{/each}}

@@ -1,0 +1,64 @@
+<div class="weirdwizard document-card">
+
+    {{!-- Image Banner --}}
+    <div class="card-banner">
+        <img src="{{img}}">
+    </div>
+
+    {{!-- Main Card Body --}}
+    <div class="card-body">
+
+        {{!-- Tooltip Card Header --}}
+        <header class="card-header">
+
+            <div class="title-wrapper">
+                <div class="card-title">{{label}}</div>
+                <div class="card-subtitle">{{subtitle}}</div>
+            </div>
+
+        </header>
+        
+        {{!-- Spell Subheader --}}
+        {{#if (eq type 'Spell')}}
+        <header class="card-subheader">
+            
+            <div class="stat">
+                <label>{{localize "WW.Spell.Castings"}}:</label>
+                {{system.uses.max}}{{#if system.casting}}, {{system.casting}}{{/if}}
+            </div>
+
+            <div class="stat">
+                <label>{{localize "WW.Spell.Target"}}:</label>
+                {{system.target}}
+            </div>
+
+            <div class="stat">
+                <label>{{localize "WW.Spell.Duration"}}:</label>
+                {{system.duration}}
+            </div>
+
+        </header>
+        {{/if}}
+
+        {{!-- Description --}}
+        <div class="card-text">
+            {{{text}}}
+        </div>
+
+        {{!-- Bug Separator --}}
+        <hr class="bug">
+
+    </div>
+
+    {{!-- Outer Footer ---}}
+    {{#if inSheet}}
+    <footer class="tooltip-footer">
+        <p>{{{localize "WW.Item.Perform.Left"}}}</p>
+        <p>{{{localize "WW.Item.Perform.Shift"}}}</p>
+        <p>{{{localize "WW.Item.Perform.Ctrl"}}}</p>
+        <p>{{{localize "WW.Item.Perform.Alt"}}}</p>
+        <p>{{{localize "WW.Item.Perform.Right"}}}</p>
+    </footer>
+    {{/if}}
+
+</div>

@@ -47,9 +47,10 @@ export default class SageTools extends Application {
 
     context.index = {
       charOptions: await TextEditor.enrichHTML(`
-        index:ancestries
-        index:paths
-        index:professions
+        index:charopts
+        index:traits
+        index:talents
+        index:spells
       `),
       equipment: await TextEditor.enrichHTML(`
         index:armor

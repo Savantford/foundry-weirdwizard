@@ -23,7 +23,7 @@
                 <div class="item-name">
                     {{!-- Title --}}
                     <label class="item-button" data-action="itemLabelClick" data-item-id="{{item._id}}"
-                        data-tooltip="{{{item.tooltip}}}">{{item.name}}</label>
+                        data-tooltip="{{item.tooltip}}">{{item.name}}</label>
 
                     <span class="buttons">
                         
@@ -46,7 +46,7 @@
                     {{!-- Scroll Button --}}
                     {{#if item.system.description.value}}
                         <a class="item-button" data-action="itemScroll" data-item-id="{{item._id}}"
-                            data-tooltip="{{localize "WW.Item.Scroll"}}">
+                            data-tooltip="{{localize "WW.Item.Send"}}">
                         <i class="far fa-scroll"></i></a>
                     {{/if}}
 
@@ -140,7 +140,7 @@
                     {{!-- Title --}}
                     <div>
                         <label class="item-button" data-action="itemLabelClick" data-item-id="{{item._id}}"
-                            data-tooltip="{{{item.tooltip}}}">{{#if (gt item.system.quantity 1)}}{{item.system.quantity}} {{/if}}{{item.name}}</label>
+                            data-tooltip="{{item.tooltip}}">{{#if (gt item.system.quantity 1)}}{{item.system.quantity}} {{/if}}{{item.name}}</label>
 
                         <span class="buttons">
 
@@ -172,7 +172,7 @@
                     {{#if item.uses}}
                     <div class="pip-box">
                         {{#each item.uses as |pip id|}}
-                        <a class="item-pip" data-item-id="{{item._id}}"
+                        <a class="item-pip" data-action="itemUpdateUses" data-item-id="{{item._id}}"
                             data-tooltip="{{#if (eq pip "far fa-circle")}}{{localize "WW.Item.Uses.EquipmentSpend"}}{{else}}{{localize "WW.Item.Uses.EquipmentRecover"}}{{/if}}">
                         <i class="{{pip}}"></i></a>
                         {{/each}}
@@ -181,7 +181,7 @@
 
                     {{!-- Container Capacity --}}
                     {{#if (eq item.system.subtype 'container')}}
-                    <div class="item-holding" data-action="containerCollapse" data-tooltip="{{item.containerTooltip}}">
+                    <div class="item-holding" data-action="containerCollapse" data-item-id="{{item._id}}" data-tooltip="{{item.containerTooltip}}">
                         <span {{#if (gt item.filled item.system.capacity)}}class="over-warning"{{/if}}>{{item.filled}}/{{item.system.capacity}}</span>
                         <i class="far fa-toolbox"></i>
                     </div>
@@ -197,7 +197,7 @@
                     {{!-- Scroll Button --}}
                     {{#if item.system.description.value}}
                         <a class="item-button" data-action="itemScroll" data-item-id="{{item._id}}"
-                            data-tooltip="{{localize "WW.Item.Scroll"}}">
+                            data-tooltip="{{localize "WW.Item.Send"}}">
                         <i class="far fa-scroll"></i></a>
                     {{/if}}
 
@@ -226,7 +226,7 @@
                         {{!-- Title --}}
                         <div>
                             <label class="item-button" data-action="itemLabelClick" data-item-id="{{heldItem._id}}"
-                                data-tooltip="{{{heldItem.tooltip}}}">{{#if (gt heldItem.system.quantity 1)}}{{heldItem.system.quantity}} {{/if}}{{heldItem.name}}</label>
+                                data-tooltip="{{heldItem.tooltip}}">{{#if (gt heldItem.system.quantity 1)}}{{heldItem.system.quantity}} {{/if}}{{heldItem.name}}</label>
                             
                             <span class="buttons">
 
@@ -263,7 +263,7 @@
                         {{!-- Scroll Button --}}
                         {{#if heldItem.system.description.value}}
                             <a class="item-button" data-action="itemScroll" data-item-id="{{heldItem._id}}"
-                                data-tooltip="{{localize "WW.Item.Scroll"}}">
+                                data-tooltip="{{localize "WW.Item.Send"}}">
                             <i class="far fa-scroll"></i></a>
                         {{/if}}
 

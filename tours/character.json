@@ -81,11 +81,11 @@
             "type": "Trait or Talent",
             "img": "icons/magic/control/buff-strength-muscle-damage-orange.webp",
             "system": {
-              "subtype": "Action",
+              "subtype": "action",
               "description": {
                 "value": "<p>Example description.</p>"
               },
-              "source": "Novice Path"
+              "source": "novice"
             },
             "effects": [
               {
@@ -107,7 +107,7 @@
             "type": "Spell",
             "img": "icons/magic/water/water-drop-swirl-blue.webp",
             "system": {
-              "tier": "Novice",
+              "tier": "novice",
               "tradition": "Hydromancy",
               "uses": {
                 "value": 2,
@@ -258,14 +258,8 @@
       "content": "WW.Tour.Character.Stats.Content"
     },
     {
-      "id": "sheet-menu",
-      "selector": ".weirdwizard.character .sheet-menu",
-      "title": "WW.Tour.Character.SheetMenu.Title",
-      "content": "WW.Tour.Character.SheetMenu.Content"
-    },
-    {
       "id": "edit-mode",
-      "selector": ".weirdwizard.character .edit-mode-icon",
+      "selector": ".weirdwizard.character .edit-mode",
       "title": "WW.Tour.Character.EditMode.Title",
       "content": "WW.Tour.Character.EditMode.Content"
     },

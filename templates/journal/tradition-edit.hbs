@@ -1,0 +1,98 @@
+<form class="{{cssClass}} flexcol weirdwizard charoption tradition" autocomplete="off">
+
+  {{> journalEntryPageHeader}}
+  
+  <div class="image-wrapper">
+    <figure class="image-preview">
+      <img src="{{document.src}}" title="{{title}}" alt="{{title}}" />
+      <figcaption>{{document.image.caption}}</figcaption>
+    </figure>
+  
+    <div>
+      <div class="form-group picker">
+        <label>{{localize "JOURNALENTRYPAGE.ImageSource"}}</label>
+        <div class="form-fields">
+          <file-picker name="src" type="image" value="{{document.src}}"></file-picker>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label>{{localize "JOURNALENTRYPAGE.ImageCaption"}}</label>
+        <div class="form-fields">
+          <input type="text" name="image.caption" value="{{document.image.caption}}">
+        </div>
+      </div>
+    </div>
+  
+  </div>
+
+  {{!-- Editor --}}
+  {{editor editor.content target="text.content" class="journal-page-content" button=false editable=true
+    engine=editor.engine collaborate=editor.collaborate}}
+  
+  {{!-- Benefits Section --}}
+  <section class="benefits-section">
+
+    {{!-- Talents --}}
+    <div class="benefit-block">
+      <h2>{{localize "WW.Tradition.Talents"}}</h2>
+      
+      <ol class="described-list items-area talents">
+        {{#unless talents.length}}{{{itemsAreaHint}}}{{/unless}}
+        
+        {{!-- Populate Spells --}}
+        {{#each talents as |item id|}}
+        <li class="item-reference item {{#if item.missing}}missing{{/if}}" data-item-uuid="{{item.uuid}}">
+          <label><img src="{{item.img}}"> {{item.name}}</label>
+          
+          <span class="buttons">
+            {{#unless item.missing}}<a class="ref-edit" data-tooltip="WW.CharOption.Reference.EditRef"><i
+                class="fas fa-edit"></i></a>{{/unless}}
+            <a class="ref-remove" data-tooltip="WW.CharOption.Reference.RemoveRef"><i class="fas fa-trash"></i></a>
+          </span>
+
+        </li>
+        {{/each}}
+
+      </ol>
+
+    </div>
+  
+    {{!-- Spells --}}
+    {{#each spells as |tier tierKey|}}
+    <div class="benefit-block">
+      <h2>
+      {{#if (eq tierKey 'master')}}{{localize "WW.Spells.Master"}}
+      {{else if (eq tierKey 'expert')}}{{localize "WW.Spells.Expert"}}
+      {{else}}{{localize "WW.Spells.Novice"}}
+      {{/if}}
+      </h2>
+      
+      <ol class="described-list items-area spells {{tierKey}}">
+        {{#unless tier.length}}{{{../itemsAreaHint}}}{{/unless}}
+        
+        {{!-- Populate Spells --}}
+        {{#each tier as |item id|}}
+        <li class="item-reference item {{#if item.missing}}missing{{/if}}" data-item-uuid="{{item.uuid}}">
+          <label><img src="{{item.img}}"> {{item.name}}</label>
+
+          <span class="buttons">
+            {{#unless item.missing}}<a class="ref-edit" data-tooltip="WW.CharOption.Reference.EditRef"><i
+                class="fas fa-edit"></i></a>{{/unless}}
+            <a class="ref-remove" data-tooltip="WW.CharOption.Reference.RemoveRef"><i class="fas fa-trash"></i></a>
+          </span>
+
+        </li>
+        {{/each}}
+
+      </ol>
+
+    </div>
+    {{/each}}
+
+  </section>
+
+  {{!-- Journal Page Footer --}}
+  {{!--{{> journalEntryPageFooter}}--}}
+
+</form>

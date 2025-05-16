@@ -1,0 +1,81 @@
+{{!-- Details Area --}}
+<div class="header-fields stat-inline flex-wrap flex-children">
+
+  {{!-- Weapon Fields --}}
+  {{> "systems/weirdwizard/templates/items/details/weapon.hbs"}}
+
+  {{!-- Common Fields --}}
+  {{#unless (and (eq system.subtype 'weapon') (eq system.grip 'Natural'))}}
+  <div class="common-fields flex-children">
+    <div>
+      <label>{{localize "WW.Equipment.Availability.Label"}}:</label>
+      <select name="system.availability">
+        {{selectOptions availabilities selected=system.availability localize=true}}
+      </select>
+    </div>
+
+    <div>
+      <label>{{localize "WW.Equipment.Price"}}:</label>
+
+      <div class="input-wrap">
+        <input type="number" name="system.price.value" value="{{system.price.value}}" min="0" data-dtype="Number" />
+
+        <div class="input-overlay">{{system.price.value}}</div>
+      </div>
+
+      <select name="system.price.coin">
+        {{selectOptions coins selected=system.price.coin localize=true}}
+      </select>
+    </div>
+
+    <div>
+      <label>{{localize "WW.Equipment.Quality.Label"}}:</label>
+      <select name="system.quality">
+        {{selectOptions qualities selected=system.quality localize=true}}
+      </select>
+    </div>
+
+    <div>
+      <label>{{localize "WW.Equipment.Uses"}}:</label>
+
+      <div class="input-wrap">
+        <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="0" data-dtype="Number" />
+
+        <div class="input-overlay">{{system.uses.max}}</div>
+      </div>
+
+      <input class="checkbox-uses" type="checkbox" name="system.uses.onRest" {{checked system.uses.onRest}}
+        data-tooltip="WW.Item.Uses.OnRest" />
+    </div>
+
+    {{!-- Quantity / Weight Row --}}
+    <div>
+      <div class="stat-inline">
+        <label>{{localize "WW.Equipment.Quantity"}}:</label>
+
+        <div class="input-wrap">
+          <input type="number" name="system.quantity" value="{{system.quantity}}" min="0" data-dtype="Number" />
+
+          <div class="input-overlay">{{system.quantity}}</div>
+        </div>
+
+      </div>
+
+      <div class="stat-inline">
+        <label>{{localize "WW.Equipment.WeightUnit"}}:</label>
+
+        <div class="input-wrap">
+          <input type="number" name="system.weightUnit" value="{{system.weightUnit}}" min="0" data-dtype="Number" />
+
+          <div class="input-overlay">{{system.weightUnit}}</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  {{/unless}}
+
+  {{!-- Spear Separator --}}
+  <hr class="spear" />
+
+</div>

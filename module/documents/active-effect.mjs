@@ -2,192 +2,199 @@ import { i18n, formatTime } from '../helpers/utils.mjs';
 
 export default class WWActiveEffect extends ActiveEffect {
 
-  async _onCreate(data, options, user) {
-    
-    if (!data.flags?.weirdwizard) data.flags = { weirdwizard: {} };
+  /* -------------------------------------------- */
+  /*  Document Creation                           */
+  /* -------------------------------------------- */
 
-    const wwflags = data.flags.weirdwizard;
-    
-    // Create basic flags if they aren't set already
-    const obj = {
-      selectedDuration: wwflags?.selectedDuration ? wwflags.selectedDuration : '',
-      autoDelete: wwflags?.autoDelete ? this.autoDelete : true,
-      external: wwflags?.external ? wwflags.external : false,
-      uuid: await this.uuid
-    };
+  async _preCreate(data, options, user) {
+    this._validateDuration(data, 'preCreate');
 
-    // Set external flag if it does not exist. Must have a non-passive trigger flag set and a different parent UUID
-    if (!wwflags?.external && wwflags?.trigger != 'passive' && this.origin && !this.origin.includes(this.parent.uuid)) {
-      obj.external = true;
-    }
-    
-    await this.updateSource({ 'flags.weirdwizard': obj });
-
-    return await super._onCreate(data, options, user);
+    return await super._preCreate(data, options, user);
   }
 
-  prepareData() {
-    super.prepareData();
+  /* -------------------------------------------- */
+  /*  Document Update                             */
+  /* -------------------------------------------- */
+
+  async _preUpdate(changes, options, user) {
+    this._validateDuration(changes, 'preUpdate');
+
+    return await super._preUpdate(changes, options, user);
+  }
+
+  _validateDuration(changes, stage) {
+    const effect = this;
+    const selected = changes.system?.duration?.selected ?? this.system.duration.selected;
+
+    const rounds = changes.duration?.rounds ?? this.duration.rounds,
+    minutes = changes.system?.duration?.inMinutes ?? this.system.duration.inMinutes,
+    hours = changes.system?.duration?.inHours ?? this.system.duration.inHours,
+    days = changes.system?.duration?.inDays ?? this.system.duration.inDays;
+
+    const updateData = function(rounds, seconds) {
+      if (stage === 'preCreate') effect.updateSource({ 'duration.rounds': rounds, 'duration.seconds': seconds });
+      else if (stage = 'preUpdate') changes = foundry.utils.mergeObject(changes, { 'duration.rounds': rounds, 'duration.seconds': seconds });
+    };
+    
+    // Check the selected value and set duration values
+    switch (selected) {
+      // No duration
+      case 'none': updateData(null, null); break;
+
+      // Rounds duration
+      case 'luckEnds': updateData(777, null); break;
+
+      case '1round': updateData(1, null); break;
+      case '2rounds': updateData(2, null); break;
+      case 'Xrounds': updateData(rounds, null); break;
+
+      case 'turnEnd': updateData(1, null); break;
+      case 'nextTriggerTurnStart': updateData(1, null); break;
+      case 'nextTargetTurnStart': updateData(1, null); break;
+      case 'nextTriggerTurnEnd': updateData(1, null); break;
+      case 'nextTargetTurnEnd': updateData(1, null); break;
+
+      // Real World duration
+      case '1minute': updateData(null, 60); break;
+      case 'minutes': updateData(null, minutes * 60); break;
+      case 'hours': updateData(null, hours * 60*60); break;
+      case 'days': updateData(null, days * 60*60*24); break;
+      
+    }
+
+    // Format duration
+    if (rounds === 777) this.system.duration.formatted = 'Luck ends';
+    else if (rounds) this.system.duration.formatted = `${rounds} ${(rounds > 1 ? i18n(rounds + 'Rounds') : i18n(rounds + 'Round'))}`;
+    else this.system.duration.formatted = formatTime(this.duration.seconds);
   }
 
   async _onUpdate(data, options, userId) {
-    super._onUpdate(data, options, userId);
-    
+    super._onUpdate(data, options, userId); 
   }
 
   /* -------------------------------------------- */
-  /*  Properties                                  */
+  /*  Data Preparation                            */
   /* -------------------------------------------- */
-  
-  /** @override */
-  get isSuppressed() {
-    const originatingItem = this.originatingItem;
-
-    if (!originatingItem) {
-      return false;
-    }
-
-    return !originatingItem.system.active;
-  }
 
   /**
-   * The item which this effect originates from if it has been transferred from an item to an actor.
-   * @return {import('./item/item').WWItem | undefined}
+   * @override
+   * Augment the basic active effect data with additional dynamic data. Typically,
+   * you'll want to handle most of your calculated/derived data in this step.
+   * Data calculated in this step should generally not exist in template.json
+   * (such as ability modifiers rather than ability scores) and should be
+   * available both inside and outside of actife effect config sheets (such as if an active effect
+   * is queried and has a roll executed directly from it).
   */
-  get originatingItem() {
+  prepareDerivedData() {
+    const system = this.system;
     
-    if (this.parent instanceof Item) {
-      return this.parent;
-    }
-    
-    return undefined;
-  }
+    // The item which this effect originates from if it has been transferred from an item to an actor
+    this.originalItem = (this.parent instanceof Item) ? this.parent : null;
 
-  /**
-   * The combatant from which the effect originated
-  */
-  get originCombatant() {
+    // Get derived duration variables
+    const key = 'WW.Effect.Duration.';
+    const rounds = this.duration.rounds;
+    const selected = this.system.duration.selected;
 
-    if (this.origin.includes('Item')) {
-      const item = fromUuidSync(this.origin);
-      const combatant = item.parent.token?.combatant;
-      return combatant ?? combatant;
-    } else {
-      const actor = fromUuidSync(this.origin);
-      const combatant = actor.token?.combatant;
-      return combatant ?? combatant;
-    }
-
-  }
-
-  /**
-   * Get the selectedDuration flag.
-   * @type {string}
-  */
-  get selectedDuration() {
-    return this.flags.weirdwizard?.selectedDuration;
-  }
-
-  /**
-   * Get the autoDelete flag.
-   * @type {string}
-  */
-  get autoDelete() {
-    return this.flags.weirdwizard?.autoDelete;
-  }
-
-  /**
-   * Get the durationInMinutes flag.
-   * @type {string}
-  */
-  get durationInMinutes() {
-    return this.flags.weirdwizard?.durationInMinutes;
-  }
-
-  /**
-   * Get the durationInHours flag.
-   * @type {string}
-  */
-  get durationInHours() {
-    return this.flags.weirdwizard?.durationInHours;
-  }
-
-  /**
-   * Get the durationInDays flag.
-   * @type {string}
-  */
-  get durationInDays() {
-    return this.flags.weirdwizard?.durationInDays;
-  }
-
-  /**
-   * Get the formatted duration.
-   * @type {string}
-  */
-  get formattedDuration() {
-    if (this.duration.seconds)
-      return formatTime(this.duration.seconds);
-    else {
-      const rounds = this.duration.rounds;
-      const key = 'WW.Effect.Duration.';
+    if (rounds) {
+      // Prepare formatted selected label
+      let str = '';
+      if (selected) {
+        str += i18n(CONFIG.WW.EFFECT_DURATIONS.combat.options[selected]);
+        if (selected !== 'luckEnds') str += ` (${rounds} ${(rounds > 1 ? i18n(key + 'Rounds') : i18n(key + 'Round'))})`;
+        if (selected === 'Xrounds') str = `${rounds} ${(rounds > 1 ? i18n(key + 'Rounds') : i18n(key + 'Round'))}`; // Override if X rounds
+      }
       
-      return rounds + ' ' + (rounds > 1 ? i18n(key + 'Rounds') : i18n(key + 'Round'));
-    }
+      this.system.duration.formatted = str;
+
+    } else this.system.duration.formatted = formatTime(this.duration.seconds);
+    
   }
+
+  /* -------------------------------------------- */
+
+  /**
+    * A method that can be overridden by subclasses to customize inline embedded HTML generation.
+    * @param {HTMLElement|HTMLCollection} content  The embedded content.
+    * @param {DocumentHTMLEmbedConfig} config      Configuration for embedding behavior.
+    * @param {EnrichmentOptions} [options]         The original enrichment options for cases where the Document embed
+    *                                              content also contains text that must be enriched.
+    * @returns {Promise<HTMLElement|null>}
+    * @protected
+    * @override
+  */
+  async _createInlineEmbed(content, config, options) {
+    const anchor = this.toAnchor();
+    
+    anchor.setAttribute("data-tooltip", content.outerHTML);
+
+    return anchor;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * A method that can be overridden by subclasses to customize the generation of the embed figure.
+   * @param {HTMLElement|HTMLCollection} content  The embedded content.
+   * @param {DocumentHTMLEmbedConfig} config      Configuration for embedding behavior.
+   * @param {EnrichmentOptions} [options]         The original enrichment options for cases where the Document embed
+   *                                              content also contains text that must be enriched.
+   * @returns {Promise<HTMLElement|null>}
+   * @protected
+   * @override
+   */
+  async _createFigureEmbed(content, config, options) {
+    const section = document.createElement("section");
+
+    if ( content instanceof HTMLCollection ) section.append(...content);
+    else section.append(content);
+    
+    return section;
+  }
+
+  /* -------------------------------------------- */
+  /*  Properties/Getters                          */
+  /* -------------------------------------------- */
 
   /**
    * The number of times this effect should be applied.
    * @type {number}
   */
   get factor() {
-    return this.originatingItem?.activeEffectFactor ?? 1;
+    return this.system.originalItem?.activeEffectFactor ?? 1;
+  }
+  
+  /** @override */
+  get isSuppressed() {
+    // Suppress if parent is an inactive item
+    if (this.parent instanceof Item && !foundry.utils.getProperty(this.parent, 'system.active')) return true;
+
+    // False otherwise
+    return false;
   }
 
   /**
-   * Get the Trigger flag.
-   * Returns the default value the flag is not set.
-   * @type {string}
+   * The combatant from which the effect originated
   */
-  get trigger() {
-    let trigger = this.flags.weirdwizard?.trigger ?? 'passive';
+  get originalCombatant() {
+    const document = fromUuidSync(this.origin);
 
-    // If the effect has a duration, do not allow it to be passive
-    if ((this.parent instanceof Item) && (this.duration.rounds || this.duration.seconds) && trigger === 'passive') trigger = 'onUse';
-    
-    return typeof trigger === 'string' ? trigger : 'passive';
-  }
+    if (document.documetName === 'Item') {
+      return document.parent.token?.combatant ?? null;
+    } else {
+      return document.token?.combatant ?? null;
+    }
 
-  /**
-   * Get the Target flag.
-   * Returns the default value the flag is not set.
-   * @type {string}
-  */
-  get target() {
-    const target = this.flags.weirdwizard?.target ?? 'none';
-    return typeof target === 'string' ? target : 'none';
-  }
-
-  /**
-   * Check if the external flag exists.
-   * Returns the default value the flag is not set.
-   * @type {string}
-  */
-  get isExternal() {
-    if (this.flags.weirdwizard?.external)
-      return true;
-    else
-      return false;
   }
 
   /* -------------------------------------------- */
-  /*  Methods                                     */
+  /*  Actions                                     */
   /* -------------------------------------------- */
 
+  // Transfer to actor only if the item is passive
   determineTransfer(){
-    if (this.trigger == 'passive') // Transfer 
-      return true;
-    else 
-      return false;
+    if (this.system.trigger === 'passive') return true;
+    else return false;
   }
 
   /* -------------------------------------------- */

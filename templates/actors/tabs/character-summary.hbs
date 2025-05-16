@@ -5,43 +5,29 @@
 
         {{!-- Novice Path --}}
         <div class="list-entry">
+            <a data-action="journalView" data-page-uuid="{{charOptions.novice.uuid}}">{{charOptions.novice.name}}</a>
 
-            <a data-tooltip="{{charOptions.novice.system.description.enriched}}">{{charOptions.novice.name}}</a>{{#if
-            charOptions.novice}}<span class="buttons">
+            {{#if charOptions.novice}}
+            <span class="buttons">
+                <a class="item-button" data-action="journalRemove" data-page-uuid="{{charOptions.novice.uuid}}" data-option-type="novice"
+                    data-tooltip="WW.Item.Delete.NovicePath"><i class="fas fa-trash"></i>
+                </a>
+            </span>
+            {{/if}}{{#unless charOptions.novice}}<span>—</span>{{/unless}}{{#if (gte system.stats.level 3)}} ● {{/if}}
 
-                <a class="item-button" data-action="itemEdit" data-item-id="{{charOptions.novice._id}}"
-                    data-tooltip="WW.Item.Edit.NovicePath"><i class="fas fa-edit"></i></a>
-
-                <a class="item-button" data-action="itemRemove" data-item-id="{{charOptions.novice._id}}"
-                    data-tooltip="WW.Item.Delete.NovicePath"><i class="fas fa-trash"></i></a>
-
-            </span>{{/if}}{{#unless charOptions.novice}}<span>—</span>
-
-            {{!-- Create Button --}}
-            <a class="item-control item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.NovicePath" data-type="Path" data-tier="novice">{{localize "WW.CharOptions.NovicePath"}}
-                <i class="fas fa-circle-plus"></i></a>
-            {{/unless}}{{#if (gte system.stats.level 3)}} ● {{/if}}
         </div>
 
         {{!-- Expert Path --}}
         {{#if (gte system.stats.level 3)}}
         <div class="list-entry">
 
-            <a data-tooltip="{{charOptions.expert.system.description.enriched}}">{{charOptions.expert.name}}</a>{{#if
-            charOptions.expert}}<span class="buttons">
-
-                <a class="item-button" data-action="itemEdit" data-item-id="{{charOptions.expert._id}}"
-                    data-tooltip="WW.Item.Edit.ExpertPath"><i class="fas fa-edit"></i></a>
-
-                <a class="item-button" data-action="itemRemove" data-item-id="{{charOptions.expert._id}}"
-                    data-tooltip="WW.Item.Delete.ExpertPath"><i class="fas fa-trash"></i></a>
-
-            </span>{{/if}}{{#unless charOptions.expert}}<span>—</span>
-
-            {{!-- Create Button --}}
-            <a class="item-control item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.ExpertPath" data-type="Path" data-tier="expert">{{localize "WW.CharOptions.ExpertPath"}}
-                <i class="fas fa-circle-plus"></i></a>
-            {{/unless}}{{#if (gte system.stats.level 7)}} ● {{/if}}
+            <a data-tooltip="{{charOptions.expert.system.description.enriched}}">{{charOptions.expert.name}}</a>
+            {{#if charOptions.expert}}<span class="buttons">
+                <a class="item-button" data-action="journalRemove" data-page-uuid="{{charOptions.expert.uuid}}" data-option-type="expert"
+                    data-tooltip="WW.Item.Delete.ExpertPath"><i class="fas fa-trash"></i>
+                </a>
+            </span>{{/if}}{{#unless charOptions.expert}}<span>—</span>{{/unless}}{{#if (gte system.stats.level 7)}} ● {{/if}}
+            
         </div>
         {{/if}}
 
@@ -49,25 +35,19 @@
         {{#if (gte system.stats.level 7)}}
         <div class="list-entry">
 
-            <a data-tooltip="{{charOptions.master.system.description.enriched}}">{{charOptions.master.name}}</a>{{#if
-            charOptions.master}}<span class="buttons">
-
-                <a class="item-button" data-action="itemEdit" data-item-id="{{charOptions.master._id}}"
-                    data-tooltip="WW.Item.Edit.MasterPath"><i class="fas fa-edit"></i></a>
-
-                <a class="item-button" data-action="itemRemove" data-item-id="{{charOptions.master._id}}"
-                    data-tooltip="WW.Item.Delete.MasterPath"><i class="fas fa-trash"></i></a>
-
-            </span>{{/if}}
-
-            {{#unless charOptions.master}}<span>—</span>
-
-            {{!-- Create Button --}}
-            <a class="item-control item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.MasterPath" data-type="Path" data-tier="master">{{localize "WW.CharOptions.MasterPath"}}
-                <i class="fas fa-circle-plus"></i></a>
-            {{/unless}}
+            <a data-tooltip="{{charOptions.master.system.description.enriched}}">{{charOptions.master.name}}</a>
+            {{#if charOptions.master}}<span class="buttons">
+                <a class="item-button" data-action="journalRemove" data-page-uuid="{{charOptions.master.uuid}}" data-option-type="master"
+                    data-tooltip="WW.Item.Delete.MasterPath"><i class="fas fa-trash"></i>
+                </a>
+            </span>{{/if}}{{#unless charOptions.master}}<span>—</span>{{/unless}}
 
         </div>
+        {{/if}}
+
+        {{!-- Help Button --}}
+        {{#if editMode}}
+        <a class="help-button" data-action="journalHelp" data-tooltip="WW.System.Documentation"><i class="fas fa-circle-question"></i></a>
         {{/if}}
 
     </h5>
@@ -85,20 +65,15 @@
                     
                     {{!-- Ancestry --}}
                     <div class="list-entry">
-                        <a data-tooltip="{{charOptions.ancestry.system.description.enriched}}">{{charOptions.ancestry.name}}</a>{{#if charOptions.ancestry}}<span class="buttons">
-                        
-                        <a class="item-button" data-action="itemEdit" data-item-id="{{charOptions.ancestry._id}}"
-                            data-tooltip="WW.Item.Edit.Ancestry"><i class="fas fa-edit"></i></a>
-                        
-                        <a class="item-button" data-action="itemRemove" data-item-id="{{charOptions.ancestry._id}}"
-                            data-tooltip="WW.Item.Delete.Ancestry"><i class="fas fa-trash"></i></a>
-                        
-                        </span>{{/if}}{{#unless charOptions.ancestry}}<span>{{localize "WW.CharOptions.NoAncestry"}}</span>
-                        
-                        {{!-- Create Button --}}
-                        <a class="item-control item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Ancestry" data-type="Ancestry"><i
-                            class="fas fa-circle-plus"></i></a>
-                        {{/unless}}
+                        <a data-action="journalView" data-page-uuid="{{charOptions.ancestry.uuid}}">{{charOptions.ancestry.name}}</a>
+
+                        {{#if charOptions.ancestry}}
+                        <span class="buttons">
+                            <a class="item-button" data-action="journalRemove" data-page-uuid="{{charOptions.ancestry.uuid}}" data-option-type="ancestry"
+                                data-tooltip="WW.Item.Delete.NovicePath"><i class="fas fa-trash"></i>
+                            </a>
+                        </span>
+                        {{/if}}{{#unless charOptions.ancestry}}<span>—</span>{{/unless}}{{#if (gte system.stats.level 3)}} ● {{/if}}
 
                     </div>
 
@@ -240,34 +215,29 @@
 
                 {{!-- Professions --}}
                 <div class="stat-inline list-entries">
+
                     <label>{{localize "WW.CharOptions.Professions"}}:</label>    
-
-                    {{#each charOptions.professions as |item id|}}
-                    <span class="list-entry">
+                    
+                    {{#each charOptions.professions as |profession id|}}
+                    <span class="list-entry draggable">
+                        <a data-action="journalView" data-page-uuid="{{profession.uuid}}" data-option-type="professions"
+                            data-tooltip="{{profession.desc}}">{{profession.name}}
+                        </a>
                         
-                        <a data-tooltip="<p>{{localize "WW.Profession.Category"}}: {{localize item.system.categoryLoc}}</p><br/><p>{{item.system.description.enriched}}</p>">{{item.name}}</a><span class="buttons">
-                            {{#if item.system.description.value}}
-                            {{!-- Send to Chat Scroll --}}
-                            <a class="item-button" data-action="itemSend" data-item-id="{{item._id}}" data-tooltip="WW.Item.Send"><i
-                                class="far fa-scroll"></i></a>
-                            {{/if}}
-
-                            {{!-- Edit Button --}}
-                            <a class="item-button" data-action="itemEdit" data-item-id="{{item._id}}" data-tooltip="{{concat "WW.Item.Edit." item.type}}"><i class="fas fa-edit"></i></a>
-
-                            {{!-- Delete Button --}}
-                            <a class="item-button" data-action="itemRemove" data-item-id="{{item._id}}" data-tooltip="{{concat "WW.Item.Delete." item.type}}"><i class="fas fa-trash"></i></a>
-                            
+                        <span class="buttons">
+                            <a class="array-button" data-action="journalRemove" data-page-uuid="{{profession.uuid}}" data-option-type="professions"
+                                data-tooltip="WW.Profession.Remove"><i class="fas fa-trash"></i>
+                            </a>
                         </span>{{#unless @last}},{{/unless}}
-                        
+
                     </span>
                     {{/each}}
-
+                        
                     {{#unless charOptions.professions.length}}<span>—</span>{{/unless}}
                         
-                    {{!-- Create Button --}}
-                    <a class="item-control item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Profession" data-type="Profession"><i
-                        class="fas fa-circle-plus"></i></a>
+                    {{#if editMode}}
+                    <a class="help-button" data-action="journalHelp" data-tooltip="WW.System.Documentation"><i class="fas fa-circle-question"></i></a>
+                    {{/if}}
                     
                 </div>
                 
@@ -343,26 +313,24 @@
                 {{!-- Traditions --}}
                 <div class="stat-inline mb-1 list-entries">
 
-                    <label>{{localize "WW.Detail.Tradition.Label"}}:</label>
+                    <label>{{localize "WW.Tradition.Label"}}:</label>
 
-                    {{#each system.details.traditions as |detail id|}}
-                    <span class="list-entry">
+                    {{#each charOptions.traditions as |tradition id|}}
+                    <span class="list-entry draggable">
+                        <a data-action="journalView" data-page-uuid="{{tradition.uuid}}" data-option-type="traditions"
+                            data-tooltip="{{tradition.desc}}">{{tradition.name}}
+                        </a>
                         
-                    <a class="array-button" data-action="entryEdit" data-array="details.traditions" data-entry-id="{{id}}"
-                        data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-                        <a class="array-button" data-action="entryEdit" data-array="details.traditions" data-entry-id="{{id}}"
-                            data-tooltip="WW.Detail.Tradition.Edit"><i class="fas fa-edit"></i></a>
-                        
-                        <a class="array-button" data-action="entryRemove" data-array="details.traditions" data-entry-id="{{id}}"
-                            data-tooltip="WW.Detail.Tradition.Remove"><i class="fas fa-trash"></i></a>
-
+                        <span class="buttons">
+                            <a class="array-button" data-action="journalRemove" data-page-uuid="{{tradition.uuid}}" data-option-type="traditions"
+                                data-tooltip="WW.Tradition.Remove"><i class="fas fa-trash"></i>
+                            </a>
                         </span>{{#unless @last}},{{/unless}}
+
                     </span>
                     {{/each}}
                         
-                    {{#unless system.details.traditions.length}}<span>—</span>{{/unless}}
-                    <a class="array-button" data-action="entryCreate" data-array="details.traditions" data-loc="Tradition"
-                        data-tooltip="WW.Detail.Tradition.Create"><i class="fas fa-circle-plus"></i></a>            
+                    {{#unless charOptions.traditions.length}}<span>—</span>{{/unless}}
                     
                 </div>
 

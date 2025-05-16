@@ -40,8 +40,9 @@ export default class WWRoll extends Roll {
       actEffs: isPrivate ? null : await this.actEffs,
       applyButtons: isPrivate ? null : this.applyButtons
     }
-    
+
     if (this.options?.template) template = this.options.template;
+    template = template.replace('sidebar', 'chat');
 
     return renderTemplate(template, chatData);
   }
@@ -94,8 +95,7 @@ export default class WWRoll extends Roll {
         effects[e] = {
           ...effects[e],
           ...{
-            action: 'apply-effect',
-            uuid: effects[e].flags.weirdwizard.uuid
+            action: 'apply-effect'
             /*targetIds: targetIds*/
           }
         };

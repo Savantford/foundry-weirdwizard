@@ -32,7 +32,6 @@ export default class WWChatMessage extends ChatMessage {
    * @returns {Promise<jQuery>}
    */
   async getHTML() {
-    
     // Determine some metadata
     const data = this.toObject(false);
     const itemUuid = (data.flags?.weirdwizard?.item && (typeof data.flags?.weirdwizard?.item === 'string')) ? data.flags.weirdwizard.item : null;
@@ -40,8 +39,8 @@ export default class WWChatMessage extends ChatMessage {
     const icon = (data.flags?.weirdwizard?.icon && (typeof data.flags?.weirdwizard?.icon === 'string')) ? data.flags.weirdwizard.icon : null;
     const isWhisper = this.whisper.length;
     
-    const instEffs = item ? item.system.instant.filter(e => e.trigger === 'onUse') : null; 
-    const actEffs = item ? item.effects.filter(e => e.trigger === 'onUse') : null; 
+    const instEffs = item ? item.system.instant.filter(e => e.trigger === 'onUse') : null;
+    const actEffs = item ? item.effects.filter(e => e.system.trigger === 'onUse') : null;
     
     // Prepare content
     const emptyContent = data.flags?.weirdwizard?.emptyContent ?? data.flags?.weirdwizard?.emptyContent;
@@ -49,6 +48,7 @@ export default class WWChatMessage extends ChatMessage {
 
     data.content = await TextEditor.enrichHTML(content, {
       async: true,
+      secrets: true,
       rollData: this.getRollData(),
       relativeTo: item ? item : undefined
     });
@@ -74,7 +74,7 @@ export default class WWChatMessage extends ChatMessage {
       // Prepare attack Rider
       item.attackRider = {
         value: item.system.attackRider?.value ?? '',
-        enriched: item.system.attackRider?.value ? await TextEditor.enrichHTML(item.system.attackRider.value, { async: true }) : '',
+        enriched: item.system.attackRider?.value ? await TextEditor.enrichHTML(item.system.attackRider.value, { async: true, secrets: true }) : '',
         name: item.system.attackRider?.name ?? ''
       }
 
@@ -109,6 +109,7 @@ export default class WWChatMessage extends ChatMessage {
     // Construct message data
     const messageData = {
       message: data,
+      type: this.type,
       user: game.user,
       author: this.author,
       alias: this.alias,
@@ -128,7 +129,7 @@ export default class WWChatMessage extends ChatMessage {
         uuid: item.uuid,
         img: item.img
       } : null,
-      rollHtml: await this._renderRollHTML(false),//rollHtml, -- rollHtml no longer needed
+      //rollHtml: await this._renderRollHTML(false),// no longer used
       instEffs: item ? await instEffs : null,
       actEffs: item ? await actEffs : null,
       emptyContent: emptyContent,
@@ -147,7 +148,7 @@ export default class WWChatMessage extends ChatMessage {
         return user ? user.name : null;
       }).filterJoin(", ")
     };
-
+    
     // Render message data specifically for ROLL type messages
     if ( this.isRoll ) await this._renderRollContent(messageData);
     
@@ -155,7 +156,7 @@ export default class WWChatMessage extends ChatMessage {
     if ( this.style === CONST.CHAT_MESSAGE_STYLES.OOC ) messageData.borderColor = this.author?.color.css;
 
     // Render the chat message
-    let html = await renderTemplate('systems/weirdwizard/templates/sidebar/chat-message.hbs', messageData);
+    let html = await renderTemplate(`systems/weirdwizard/templates/chat/${this.type}-message.hbs`, messageData);
     html = $(html);
 
     // Flag expanded state of dice rolls
@@ -175,7 +176,7 @@ export default class WWChatMessage extends ChatMessage {
    * @returns {Promise}
    * @private
    */
-  async _renderRollContent(messageData) {
+  /*async _renderRollContent(messageData) {
     const data = messageData.message;
 
     // Suppress the "to:" whisper flavor for private rolls
@@ -185,18 +186,47 @@ export default class WWChatMessage extends ChatMessage {
     if ( this.isContentVisible ) {
       const el = document.createElement("div");
       el.innerHTML = data.content;  // Ensure the content does not already contain custom HTML
-      //if ( !el.childElementCount && this.rolls.length ) data.content = await this._renderRollHTML(false); // Render Public Rolls
+      if ( !el.childElementCount && this.rolls.length ) data.content = await this._renderRollHTML(false); // Render Public Rolls
     }
     
     // Otherwise, show "rolled privately" messages for Roll content
     else {
       const name = this.author?.name ?? game.i18n.localize("CHAT.UnknownUser");
       data.flavor = game.i18n.format("CHAT.PrivateRollContent", {user: name});
-      //data.content += await this._renderRollHTML(true); // Render Private Rolls
+      data.content += await this._renderRollHTML(true); // Render Private Rolls
       messageData.alias = name;
       messageData.icon = null;
     }
 
+  }*/
+
+  async _renderRollContent(messageData) {
+    const data = messageData.message;
+    const renderRolls = async isPrivate => {
+      let html = "";
+      for ( const r of this.rolls ) {
+        html += await r.render({isPrivate});
+      }
+      return html;
+    };
+
+    // Suppress the "to:" whisper flavor for private rolls
+    if ( this.blind || this.whisper.length ) messageData.isWhisper = false;
+
+    // Display standard Roll HTML content
+    if ( this.isContentVisible ) {
+      const el = document.createElement("div");
+      el.innerHTML = data.content;  // Ensure the content does not already contain custom HTML
+      /*if ( !el.childElementCount && this.rolls.length )*/ data.content += await this._renderRollHTML(false);
+    }
+
+    // Otherwise, show "rolled privately" messages for Roll content
+    else {
+      const name = this.author?.name ?? game.i18n.localize("CHAT.UnknownUser");
+      data.flavor = game.i18n.format("CHAT.PrivateRollContent", {user: name});
+      data.content = await renderRolls(true);
+      messageData.alias = name;
+    }
   }
 
   /* -------------------------------------------- */

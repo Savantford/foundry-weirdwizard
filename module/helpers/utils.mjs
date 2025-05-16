@@ -1,6 +1,6 @@
-/* ------------------------------------------------------- */
-/*  Utility Functions (available as game.weirdwizard.utils.*)
-/* ------------------------------------------------------- */
+/* -------------------------------------------------------- */
+/*  Utility Functions (available as game.weirdwizard.utils) */
+/* -------------------------------------------------------- */
 
 export class Utils {
   static capitalize = capitalize;
@@ -10,18 +10,12 @@ export class Utils {
   static getSpeaker = getSpeaker;
   static getAlias = getAlias;
   static sum = sum;
+  static sysPath = sysPath;
 }
 
 /* Formatting Functions */
-
-export const i18n = (s,d={}) => game.i18n.format(s,d);
-
 export function capitalize(string, noLowerCase) {
   return noLowerCase ? string?.charAt(0).toUpperCase() + string?.slice(1) : string?.charAt(0).toUpperCase() + string?.toLowerCase().slice(1)
-}
-
-export function plusify(x) {
-  return x >= 0 ? '+' + x : x
 }
 
 export function escape(str) {
@@ -94,7 +88,29 @@ export function formatTime(seconds, isDate) {
   }
 }
 
-/* Misc Utility Functions */
+export const i18n = (s,d={}) => game.i18n.format(s,d);
+
+export function plusify(x) {
+  return x >= 0 ? '+' + x : x
+}
+
+export function sysPath(string) {
+  return 'systems/weirdwizard/' + string;
+}
+
+/* -------------------------------------------- */
+/*  Math Functions                              */
+/* -------------------------------------------- */
+
+export function sum(array) {
+  let sum = array.reduce((partialSum, a) => partialSum + a, 0);
+  return sum;
+}
+
+/* -------------------------------------------- */
+/*  Getters                                     */
+/* -------------------------------------------- */
+
 export function getEffectBoons(attribute) {
   return attribute.boons.global ?? 0;
 }
@@ -134,39 +150,6 @@ export function getSpeaker({scene, actor, token, alias}={}) {
 
 export function getAlias({scene, actor, token, alias}={}) {
   return game.weirdwizard.utils.getSpeaker({ scene, actor, token, alias })?.alias;
-}
-
-/* -------------------------------------------- */
-/*  Math Functions
-/* -------------------------------------------- */
-
-export function sum(array) {
-  let sum = array.reduce((partialSum, a) => partialSum + a, 0);
-  return sum;
-}
-
-/* -------------------------------------------- */
-/*  Misc
-/* -------------------------------------------- */
-
-export function handleWelcomeMessage(force = false) {
-  if (!force && game.settings.get('weirdwizard', 'welcomeMessageShown')) {
-    return;
-  }
-
-  if (!game.user.isGM) {
-    return;
-  }
-
-  const intro = `<img style="background: none;" src="systems/weirdwizard/assets/ui/sotww-logo.png">`;
-  const content = i18n('WW.System.Welcome', { intro: intro }) + i18n('WW.System.WelcomeFooter');
-  ChatMessage.create({
-    speaker: game.weirdwizard.utils.getSpeaker({ alias: game.system.title }),
-    content: content,
-    sound: CONFIG.sounds.notification
-  })
-
-  game.settings.set('weirdwizard', 'welcomeMessageShown', true);
 }
 
 /* Return a list of Compendia with a prefix included */
@@ -210,4 +193,28 @@ export function getFolderList(compendium) {
   }
 
   return folderList;
-};
+}
+
+/* -------------------------------------------- */
+/*  Misc                                        */
+/* -------------------------------------------- */
+
+export function handleWelcomeMessage(force = false) {
+  if (!force && game.settings.get('weirdwizard', 'welcomeMessageShown')) {
+    return;
+  }
+
+  if (!game.user.isGM) {
+    return;
+  }
+
+  const intro = `<img style="background: none;" src="systems/weirdwizard/assets/ui/sotww-logo.png">`;
+  const content = i18n('WW.System.Welcome', { intro: intro }) + i18n('WW.System.WelcomeFooter');
+  ChatMessage.create({
+    speaker: game.weirdwizard.utils.getSpeaker({ alias: game.system.title }),
+    content: content,
+    sound: CONFIG.sounds.notification
+  })
+
+  game.settings.set('weirdwizard', 'welcomeMessageShown', true);
+}

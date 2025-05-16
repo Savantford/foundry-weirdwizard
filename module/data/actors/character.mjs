@@ -1,13 +1,15 @@
 import {
+  BaseActorModel,
   fields,
   description,
   attributes,
   stats,
   details,
+  charOptions,
   makeIntField
-} from './common.mjs'
+} from './base-actor.mjs'
 
-export default class CharacterData extends foundry.abstract.DataModel {
+export default class CharacterData extends BaseActorModel {
 
   static defineSchema() {
     const type = 'Character';
@@ -17,6 +19,7 @@ export default class CharacterData extends foundry.abstract.DataModel {
       ...attributes(),
       ...stats(type),
       ...details(type),
+      ...charOptions(type),
 
       currency: new fields.SchemaField({
         gp: makeIntField(),
@@ -103,6 +106,9 @@ export default class CharacterData extends foundry.abstract.DataModel {
     if ('stats' in source && isNaN(source.stats?.bonusdamage)) source.stats.bonusdamage = 0;
     if ('details' in source && isNaN(source.details?.reputation)) source.details.reputation = 0;
     if ('stats' in source && !source.stats?.damage?.raw && source.stats?.damage?.value) source.stats.damage.raw = source.stats?.damage?.value;
+
+    // Migrate legacy charOptions
+    //if (typeof x === 'object') source.details.noviceLegacy
 
     return super.migrateData(source);
   }

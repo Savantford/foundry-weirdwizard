@@ -1,4 +1,5 @@
 import {
+  BaseItemModel,
   fields,
   base,
   physical,
@@ -7,9 +8,9 @@ import {
   makeBooField,
   makeHtmlField,
   makeIntField
-} from './common.mjs'
+} from './base-item.mjs'
 
-export default class EquipmentData extends foundry.abstract.DataModel {
+export default class EquipmentData extends BaseItemModel {
 
   static defineSchema() {
     const type = 'Equipment';

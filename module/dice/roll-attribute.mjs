@@ -1,4 +1,3 @@
-//import { actionFromLabel, buttonsHeader, chatMessageButton, diceTotalHtml, targetHeader } from '../chat/chat-html-templates.mjs';
 import { i18n, plusify } from '../helpers/utils.mjs';
 import WWRoll from './roll.mjs';
 
@@ -165,7 +164,7 @@ export default class RollAttribute extends FormApplication {
         
         // Construct the Roll instance and evaluate the roll
         const r = await new WWRoll(rollFormula, rollData, {
-          template: "systems/weirdwizard/templates/sidebar/roll.hbs",
+          template: "systems/weirdwizard/templates/chat/roll.hbs",
           originUuid: this.origin.uuid,
           target: t,
           attribute: this.attribute,
@@ -238,7 +237,7 @@ export default class RollAttribute extends FormApplication {
         // Push roll to roll array
         rollsArray.push(r);
 
-      };
+      }
 
     } else { // against is false; perform a SINGLE ROLL for all targets
       
@@ -254,7 +253,7 @@ export default class RollAttribute extends FormApplication {
       // Construct the Roll instance and evaluate the roll
       
       const r = await new WWRoll(rollFormula, rollData, {
-        template: "systems/weirdwizard/templates/sidebar/roll.hbs",
+        template: "systems/weirdwizard/templates/chat/roll.hbs",
         originUuid: this.origin.uuid,
         attribute: this.attribute,
         against: against,
@@ -327,6 +326,7 @@ export default class RollAttribute extends FormApplication {
 
     // Create message data
     const messageData = {
+      type: 'd20-roll',
       rolls: rollsArray,
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
       flavor: this.label,
@@ -499,11 +499,11 @@ export default class RollAttribute extends FormApplication {
       onFailure: []
     }
     
-    this.item?.effects?.forEach(e => {
-      if (!e.flags.weirdwizard.uuid) e.setFlag('weirdwizard', 'uuid', e.uuid);
-      if (!e.trigger) e.trigger = e.flags.weirdwizard.trigger;
-      
-      switch (e.trigger) {
+    this.item?.effects?.forEach(effect => {
+      const e = {...effect};
+      e.uuid = effect.uuid;
+
+      switch (e.system.trigger) {
         case 'onUse': {
           effs.onUse.push(e);
           effs.onSuccess.push(e);
@@ -538,7 +538,7 @@ export default class RollAttribute extends FormApplication {
         originUuid: this.item?.uuid,
         value: weaponDamage
       };
-
+      
       effs.onSuccess.push(eff);
       effs.onCritical.push(eff);
     }

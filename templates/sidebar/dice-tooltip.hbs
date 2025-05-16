@@ -3,7 +3,7 @@
         {{#each terms as |term id|}}
             {{#if term.faces}}
                 {{#each term.results as |result id|}}
-                    <li class="roll die d{{term.faces}}{{#if discarded}} discarded{{/if}}">{{result.result}}</li>
+                    <li class="roll die d{{term.faces}} {{#if discarded}}discarded{{/if}} {{#if rerolled}} discarded{{/if}}">{{result.result}}</li>
                 {{/each}}
             {{else if term.operator}}
                 <li>{{term.operator}}</li>

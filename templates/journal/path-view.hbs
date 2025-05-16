@@ -1,0 +1,163 @@
+<div class="weirdwizard charoption path">
+
+  <section class="header-section">
+
+    {{!-- Right Banner --}}
+    <header class="sheet-banner-wrapper">
+      <div class="type">{{localize (lookup @root.tiers document.system.tier)}}</div>
+
+      <div class="icon-frame">
+        <img src="{{document.src}}" data-edit="src" data-tooltip="WW.System.ViewImage" />
+      </div>
+    </header>
+    
+    {{#if data.title.show}}
+    <header class="journal-page-header">
+      <h{{data.title.level}} class="draggable" data-journal-page-uuid="{{document.uuid}}">
+        {{data.name}}
+      </h{{data.title.level}}>
+    </header>
+    {{/if}}
+
+    {{!-- Page Content (Editor/Description) --}}
+    <section class="journal-page-content">
+      {{{editor.content}}}
+    </section>
+
+  </section>
+  
+  {{!-- Benefits Section --}}
+  <section class="benefits-section">
+    {{!-- Benefit Blocks --}}
+    {{#each benefits as |benefit id|}}
+    {{#if (ne benefit.levelReq 99)}}
+    <div class="benefit-block{{#if (ne id 'benefit1')}} mt-2{{/if}}">
+
+      {{!-- Header --}}
+      <h5>{{localize "WW.Stats.Level"}} {{benefit.levelReq}} {{@root.document.name}}</h5>
+      
+      {{!-- Stats --}}
+      <div class="stat-inline flex-wrap flex-children">
+  
+        {{!-- Armored Defense --}}
+        {{#if benefit.stats.armoredIncrease}}
+        <span>
+          <label>{{localize "WW.Defense.Armored"}}:</label>
+  
+          +{{benefit.stats.armoredIncrease}}
+        </span>
+        {{/if}}
+  
+        {{!-- Natural Defense --}}
+        {{#if benefit.stats.naturalIncrease}}
+        <span>
+          <label>{{localize "WW.Defense.Natural"}}:</label>
+
+          +{{benefit.stats.naturalIncrease}}
+        </span>
+        {{else if benefit.stats.naturalSet}}
+        <span>
+          <label>{{localize "WW.Defense.Natural"}}:</label>
+
+          {{benefit.stats.naturalSet}}
+        </span>
+        {{/if}}
+
+        {{!-- Health --}}
+        {{#if (and (eq @root.system.tier 'novice') (eq benefit.levelReq 1))}}
+        <span>
+          <label>{{localize "WW.Health.Starting"}}:</label>
+  
+          {{benefit.stats.healthStarting}}
+        </span>
+        {{else}}
+        <span>
+          <label>{{localize "WW.Health.Label"}}:</label>
+  
+          +{{benefit.stats.healthIncrease}}
+        </span>
+        {{/if}}
+  
+        {{!-- Bonus Damage --}}
+        {{#if benefit.stats.bonusDamage}}
+        <span>
+          <label>{{localize "WW.Damage.Bonus"}}:</label>
+  
+          +{{benefit.stats.bonusDamage}}d6
+        </span>
+        {{/if}}
+  
+        {{!-- Speed --}}
+        {{#if benefit.stats.speedIncrease}}
+        <span>
+          <label>{{localize "WW.Stats.Speed"}}:</label>
+  
+          +{{benefit.stats.speedIncrease}}
+        </span>
+        {{/if}}
+  
+      </div>
+
+      {{!-- Languages --}}
+      {{#if benefit.languages.length}}
+      <div class="stat-inline list-entries">
+        <label>{{localize "WW.Detail.Language.Label"}}:</label>
+  
+        {{#each benefit.languages as |detail detailId|}}
+        <span class="list-entry">
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>{{#unless @last}},{{/unless}}
+        </span>
+        {{/each}}
+  
+      </div>
+      {{/if}}
+      
+      {{!-- Magic --}}
+      <div class="stat-inline flex-wrap">
+  
+        {{!-- Traditions --}}
+        {{#if benefit.traditions.length}}
+        <label>{{localize "WW.Tradition.Label"}}:</label>
+
+        <span class="list-entries">
+          {{#each benefit.traditions as |detail detailId|}}
+          <span class="list-entry">
+            <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>{{#unless @last}},{{/unless}}
+          </span>
+          {{/each}}
+        </span>
+        {{/if}}
+
+        {{!-- Spells --}}
+        {{#if (gt benefit.spells 0)}}
+        {{benefit.spells}}
+        <label>{{localize "WW.Spells.Label"}}:</label>
+
+        {{localize (lookup @root.spellsLearned benefit.spells)}}
+        {{/if}}
+  
+      </div>
+
+      {{!-- Item List Area --}}
+      {{#if benefit.itemsInfo}}
+      <ol class="described-list items-area {{id}}">
+
+        {{!-- Populate Items --}}
+        {{#each benefit.itemsInfo as |item id|}}
+        <li class="item-reference item {{#if item.missing}}missing{{/if}}" data-item-uuid="{{item.uuid}}">
+          <label><img src="{{item.img}}"> {{item.name}}:</label>
+  
+          <span>{{{item.description}}}</span>
+        </li>
+        {{/each}}
+
+      </ol>
+      {{/if}}
+  
+    </div>
+    {{/if}}
+    {{/each}}
+
+  </section>
+
+</div>

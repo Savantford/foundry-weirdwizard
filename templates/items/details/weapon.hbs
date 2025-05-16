@@ -1,0 +1,61 @@
+{{#if (eq system.subtype 'weapon')}}
+<div class="weapon-fields">
+    <div class="stat-inline flex-wrap flex-children">
+
+        {{!-- Damage --}}
+        <div>
+            <label>{{localize "WW.Damage.Label"}}:</label>
+
+            <input type="text" name="system.damage" value="{{system.damage}}" placeholder="1d6"
+                style="width: 50px; text-align: left;" data-dtype="String" />
+        </div>
+        
+        {{!-- Range --}}
+        {{#if (or system.traits.range system.traits.thrown)}}
+        <div>
+            <label>{{localize "WW.Weapon.Traits.Range.Label"}} / {{localize "WW.Weapon.Traits.Thrown.Label"}}:</label>
+            
+            <div class="input-wrap">
+                <input type="number" name="system.range" value="{{system.range}}" min="0" placeholder="0"
+                    data-dtype="Number" />
+
+                <div class="input-overlay">{{system.range}}</div>
+            </div>
+            
+        </div>
+        {{/if}}
+
+        {{!-- Requirement --}}
+        <div>
+            <label>{{localize "WW.Weapon.Requirement.Label"}}:</label>
+
+            <select name="system.requirements">
+                {{selectOptions requirements selected=system.requirements localize=true}}
+            </select>
+        </div>
+
+    </div>
+
+    {{!-- Weapon Traits --}}
+    <div class="weapon-traits">
+        <label>{{localize "WW.Weapon.Traits.Label"}}:</label>
+        {{#each traits as |trait id|}}
+        {{#if (lookup @root.system.traits id)}}<span data-tooltip="{{trait.tip}}">{{localize trait.label}}</span>{{/if}}
+        {{/each}}
+
+        <a class="edit-traits" data-action="traitsMenu"><i class="fas {{#if hasTraits}}fa-edit{{else}}fa-circle-plus{{/if}}"></i></a>
+
+    </div>
+
+    {{!-- Attack Rider --}}
+    {{#if (or system.attackRider.value system.attackRider.name)}}
+    <div class="attack-rider">
+        <label>{{system.attackRider.name}}:</label>
+        {{{system.attackRider.enriched}}}
+    </div>
+    {{/if}}
+
+</div>
+
+{{#unless (eq system.grip 'Natural')}}<hr>{{/unless}}
+{{/if}}

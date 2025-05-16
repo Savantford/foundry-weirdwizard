@@ -1,0 +1,81 @@
+{{!-- Right Ribbon --}}
+<div class="sheet-ribbon">
+
+    {{!-- Item Type --}}
+    <div class="item-type">
+        {{#if (eq item.type "Spell")}}
+        {{localize "WW.Spell.Label"}}
+        {{else}}
+        <select class="align-center" name="system.subtype">
+            {{selectOptions subtypes selected=system.subtype localize=true}}
+        </select>
+        {{/if}}
+    </div>
+
+    {{!-- Profile Image --}}
+    <div class="profile-img-wrapper">
+        {{> "systems/weirdwizard/templates/items/common/portrait.hbs"}}
+    </div>
+
+    {{!-- Armor Type --}}
+    {{#if (eq system.subtype 'armor')}}
+    <select name="system.armorType">
+        {{selectOptions armorTypes selected=system.armorType localize=true}}
+    </select>
+    {{/if}}
+
+    {{!-- Weapon Info --}}
+    {{#if (eq system.subtype 'weapon')}}
+    <div>
+        
+        {{!-- Grip --}}
+        <div>
+            <select name="system.grip" data-tooltip="WW.Weapon.Grip.Label">
+                {{selectOptions grips selected=system.grip localize=true}}
+            </select>
+        </div>
+        
+        {{!-- Melee / Ranged --}}
+        {{#unless (eq system.grip 'Natural')}}
+        <div>
+            {{#if system.traits.range}}{{localize "WW.Weapon.Ranged"}}{{else}}{{localize "WW.Weapon.Melee"}}{{/if}}
+        </div>
+        {{/unless}}
+
+    </div>
+    {{/if}}
+
+    {{!-- Container Capacity --}}
+    {{#if (eq system.subtype 'container')}}
+    <div class="capacity">
+        <label>{{localize "WW.Container.Capacity"}}:</label>
+    
+        <div class="input-wrap">
+            <input type="number" name="system.capacity" value="{{system.capacity}}" min="1" data-dtype="Number"
+                data-tooltip="WW.Container.CapacityHint" />
+    
+            <div class="input-overlay">{{system.capacity}}</div>
+        </div>
+    
+    </div>
+    {{/if}}
+
+    {{!-- Spell Info --}}
+    {{#if (eq item.type 'Spell')}}
+    <div>
+
+        {{!-- Tradition --}}
+        <div>
+            <input type="text" name="system.tradition" value="{{system.tradition}}"
+                placeholder="{{localize "WW.Spell.Tradition"}}" data-dtype="String" />
+        </div>
+
+        {{!-- Tier --}}
+        <select name="system.tier">
+            {{selectOptions tiers selected=system.tier localize=true}}
+        </select>
+
+    </div>
+    {{/if}}
+
+</div>

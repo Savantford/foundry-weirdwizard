@@ -83,13 +83,13 @@ WW.TALENT_SUBTYPES = {
 };
 
 WW.TALENT_SOURCES = {
-  'None': 'WW.Talent.Source.None',
-  'Ancestry': 'WW.Talent.Source.Ancestry',
-  'Novice': 'WW.Talent.Source.Novice',
-  'Expert': 'WW.Talent.Source.Expert',
-  'Master': 'WW.Talent.Source.Master',
-  'Magical': 'WW.Talent.Source.Magical',
-  'Other': 'WW.Talent.Source.Other'
+  'none': 'WW.Talent.Source.None',
+  'ancestry': 'WW.Talent.Source.Ancestry',
+  'novice': 'WW.Talent.Source.Novice',
+  'expert': 'WW.Talent.Source.Expert',
+  'master': 'WW.Talent.Source.Master',
+  'tradition': 'WW.Talent.Source.Tradition',
+  'other': 'WW.Talent.Source.Other'
 };
 
 WW.USES_LEVEL_RELATIVE = {
@@ -99,9 +99,9 @@ WW.USES_LEVEL_RELATIVE = {
 };
 
 WW.TIERS = {
-  'Novice': 'WW.CharOptions.Novice',
-  'Expert': 'WW.CharOptions.Expert',
-  'Master': 'WW.CharOptions.Master'
+  'novice': 'WW.CharOptions.Novice',
+  'expert': 'WW.CharOptions.Expert',
+  'master': 'WW.CharOptions.Master'
 };
 
 WW.EQUIPMENT_SUBTYPES = {
@@ -154,7 +154,8 @@ WW.WEAPON_REQUIREMENTS = {
 WW.WEAPON_GRIPS = {
   'One': 'WW.Weapon.Grip.One',
   'Two': 'WW.Weapon.Grip.Two',
-  'Off': 'WW.Weapon.Grip.Off'
+  'Off': 'WW.Weapon.Grip.Off',
+  'Natural': 'WW.Weapon.Grip.Natural'
 };
 
 WW.WEAPON_GRIPS_SHORT = {
@@ -295,6 +296,13 @@ WW.TEMPLATE_TYPES = {
 
 /* Character Options */
 
+WW.CHARACTER_OPTIONS = {
+  'ancestry': "TYPES.JournalEntryPage.ancestry",
+  'path': "TYPES.JournalEntryPage.path",
+  'profession': "TYPES.JournalEntryPage.profession",
+  'tradition': "TYPES.JournalEntryPage.tradition"
+}
+
 WW.PATH_TIERS = {
   'novice': 'WW.CharOptions.NovicePath',
   'expert': 'WW.CharOptions.ExpertPath',
@@ -369,26 +377,26 @@ WW.INSTANT_TRIGGERS = {
 }
 
 WW.AFFLICTIONS = {
-  'Blinded': 'WW.Affliction.Blinded',
-  'Confused': 'WW.Affliction.Confused',
-  'Controlled': 'WW.Affliction.Controlled',
-  'Cursed': 'WW.Affliction.Cursed',
-  'Deafened': 'WW.Affliction.Deafened',
-  'Frightened': 'WW.Affliction.Frightened',
-  'Held': 'WW.Affliction.Held',
-  'ImpairedStr': 'WW.Affliction.ImpairedStr',
-  'ImpairedAgi': 'WW.Affliction.ImpairedAgi',
-  'ImpairedInt': 'WW.Affliction.ImpairedInt',
-  'ImpairedWil': 'WW.Affliction.ImpairedWil',
-  'OnFire': 'WW.Affliction.OnFire',
-  'Poisoned': 'WW.Affliction.Poisoned',
-  'Prone': 'WW.Affliction.Prone',
-  'Slowed': 'WW.Affliction.Slowed',
-  'Stunned': 'WW.Affliction.Stunned',
-  'Unconscious': 'WW.Affliction.Unconscious',
-  'Asleep': 'WW.Affliction.Asleep',
-  'Vulnerable': 'WW.Affliction.Vulnerable',
-  'Weakened': 'WW.Affliction.Weakened',
+  'blinded': 'WW.Affliction.Blinded',
+  'confused': 'WW.Affliction.Confused',
+  'controlled': 'WW.Affliction.Controlled',
+  'cursed': 'WW.Affliction.Cursed',
+  'deafened': 'WW.Affliction.Deafened',
+  'frightened': 'WW.Affliction.Frightened',
+  'held': 'WW.Affliction.Held',
+  'impairedStr': 'WW.Affliction.ImpairedStr',
+  'impairedAgi': 'WW.Affliction.ImpairedAgi',
+  'impairedInt': 'WW.Affliction.ImpairedInt',
+  'impairedWil': 'WW.Affliction.ImpairedWil',
+  'onFire': 'WW.Affliction.OnFire',
+  'poisoned': 'WW.Affliction.Poisoned',
+  'prone': 'WW.Affliction.Prone',
+  'slowed': 'WW.Affliction.Slowed',
+  'stunned': 'WW.Affliction.Stunned',
+  'unconscious': 'WW.Affliction.Unconscious',
+  'asleep': 'WW.Affliction.Asleep',
+  'vulnerable': 'WW.Affliction.Vulnerable',
+  'weakened': 'WW.Affliction.Weakened',
 }
 
 /* Active Effects */
@@ -439,7 +447,6 @@ WW.EFFECT_DURATIONS = {
       'days': 'WW.Effect.Duration.OutOfCombat.Days'
     }
   }
-  
 }
 
 WW.EFFECT_OPTIONS = {
@@ -474,7 +481,7 @@ WW.EFFECT_OPTIONS = {
         key: 'system.boons.selfRoll.spells',
         label: 'WW.Effect.Keys.Boons.Spells'
       },
-      'boons.magical': {
+      'boons.resistMagical': {
         key: 'system.boons.selfRoll.resistMagical',
         label: 'WW.Effect.Keys.Boons.ResistMagical'
       }
@@ -511,7 +518,7 @@ WW.EFFECT_OPTIONS = {
         key: 'system.boons.selfRoll.spells',
         label: 'WW.Effect.Keys.Banes.Spells'
       },
-      'banes.magical': {
+      'banes.resistMagical': {
         key: 'system.boons.selfRoll.resistMagical',
         label: 'WW.Effect.Keys.Banes.ResistMagical'
       }
@@ -879,12 +886,13 @@ WW.COMPENDIUM_TYPES = {
 };
 
 WW.COMPENDIUM_INDEX_ENRICHER_LABELS = {
-  'ancestries': 'WW.CharOptions.Ancestries',
-  'paths': 'WW.CharOptions.Paths',
-  'professions': 'WW.CharOptions.Professions',
   'armor': 'WW.Armor.Label',
   'weapons': 'WW.Equipment.Weapons',
-  'hirelings': 'WW.Equipment.Hirelings'
+  'hirelings': 'WW.Equipment.Hirelings',
+  'character-options': 'WW.CharOptions.Label',
+  'traits': 'WW.CharOptions.AncestryTraits',
+  'talents': 'WW.CharOptions.PathTalents',
+  'spells': 'WW.CharOptions.TraditionSpells'
 };
 
 WW.COMPENDIUM_GROUPS = {
@@ -894,4 +902,4 @@ WW.COMPENDIUM_GROUPS = {
   'sotww-secrets': 'WW.System.Compendium.Group.Secrets',
   'sotww-heroes': 'WW.System.Compendium.Group.Heroes',
   'sotww-wa': 'WW.System.Compendium.Group.WeirdAncestries'
-}
+};

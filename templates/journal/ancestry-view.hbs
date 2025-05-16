@@ -1,0 +1,174 @@
+<div class="weirdwizard charoption ancestry">
+  <section class="header-section">
+
+    {{!-- Right Banner --}}
+    <header class="sheet-banner-wrapper">
+      <div class="type">{{localize "WW.CharOptions.Ancestry"}}</div>
+
+      <div class="icon-frame">
+        <img src="{{document.src}}" data-edit="src" data-tooltip="WW.System.ViewImage" />
+      </div>
+    </header>
+
+    {{#if data.title.show}}
+    <header class="journal-page-header">
+      <h{{data.title.level}} class="draggable" data-journal-page-uuid="{{document.uuid}}">
+        {{data.name}}
+      </h{{data.title.level}}>
+    </header>
+    {{/if}}
+
+    {{!-- Page Content (Editor/Description) --}}
+    <section class="journal-page-content">
+      {{{editor.content}}}
+    </section>
+
+  </section>
+  
+  {{!-- Benefits Section --}}
+  <section class="benefits-section">
+
+    {{!-- Benefit Block --}}
+
+    <div class="benefit-block">
+  
+      {{!-- Header --}}
+      <h3>{{document.name}} {{localize "WW.CharOption.Traits"}}</h3>
+  
+      {{!-- Descriptor(s) --}}
+      {{#if benefits.benefit1.descriptors.length}}
+      <div class="stat-inline list-entries">
+  
+        <label>{{localize "WW.Detail.Descriptor.Label"}}:</label>
+  
+        {{#each benefits.benefit1.descriptors as |detail id|}}
+        <span class="list-entry">
+  
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>{{#unless @last}},{{/unless}}
+        </span>
+        {{/each}}
+  
+      </div>
+      {{/if}}
+  
+      {{!-- Senses --}}
+      {{#if benefits.benefit1.senses.length}}
+      <div class="stat-inline list-entries">
+        <label>{{localize "WW.Detail.Sense.Label"}}:</label>
+  
+        {{#each benefits.benefit1.senses as |detail id|}}
+        <span class="list-entry">
+  
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>{{#unless @last}},{{/unless}}
+        </span>
+        {{/each}}
+  
+      </div>
+      {{/if}}
+  
+      {{!-- Bonus Languages --}}
+      {{#if benefits.benefit1.languages.length}}
+      <div class="stat-inline list-entries">
+        <label>{{localize "WW.Detail.Language.Bonus"}}:</label>
+  
+        {{#each benefits.benefit1.languages as |detail id|}}
+        <span class="list-entry">
+  
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>{{#unless @last}},{{/unless}}
+        </span>
+        {{/each}}
+  
+      </div>
+      {{/if}}
+  
+      {{!-- Attributes --}}
+      {{#if benefits.benefit1.attributes}}
+      <div class="stat-inline">
+        <label>{{localize "WW.Attributes.Label"}}:</label>
+  
+        {{benefits.benefit1.attributes}}
+      </div>
+      {{/if}}
+  
+      {{!-- Natural Defense, Health --}}
+      {{#if (or benefits.benefit1.stats.naturalIncrease benefits.benefit1.stats.healthIncrease)}}
+      <div class="stat-inline flex-wrap flex-children">
+        
+        {{#if benefits.benefit1.stats.naturalIncrease}}
+        <div>
+          <label>{{localize "WW.Defense.Natural"}}:</label>
+
+          +{{benefits.benefit1.stats.naturalIncrease}}
+  
+        </div>
+        {{/if}}
+
+        {{#if benefits.benefit1.stats.healthIncrease}}
+        <div>
+          <label>{{localize "WW.Health.Label"}}:</label>
+  
+          +{{benefits.benefit1.stats.healthIncrease}}
+  
+        </div>
+        {{/if}}
+  
+      </div>
+      {{/if}}
+  
+      {{!-- Size, Speed --}}
+      <div class="stat-inline list-entries flex-children">
+  
+        {{!-- Size --}}
+        <label>{{localize "WW.Stats.Size"}}:</label>
+  
+        <span>{{benefits.benefit1.stats.sizeNormal}}</span>
+  
+        {{!-- Speed --}}
+        <label>{{localize "WW.Stats.Speed"}}:</label>
+  
+        <span>{{benefits.benefit1.stats.speedNormal}}</span>
+  
+        {{!-- Movement Traits --}}
+        {{#each benefits.benefit1.movementTraits as |detail id|}}<span class="list-entry">
+          {{#if @first}}({{/if}}<a data-tooltip="{{detail.desc}}">{{detail.name}}</a>{{#unless @last}},{{/unless}}{{#if @last}}){{/if}}
+        </span>
+        {{/each}}
+  
+      </div>
+  
+      {{!-- Immune --}}
+      {{#if benefits.benefit1.immune.length}}
+      <div class="stat-inline list-entries">
+        <label>{{localize "WW.Detail.Immune.Label"}}:</label>
+  
+        {{#each benefits.benefit1.immune as |detail id|}}
+        <span class="list-entry">
+  
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>{{#unless @last}},{{/unless}}
+        </span>
+        {{/each}}
+  
+      </div>
+      {{/if}}
+  
+      {{!-- Item List Area --}}
+      {{#if benefits.benefit1.itemsInfo}}
+      <ol class="described-list items-area benefit1">
+
+        {{!-- Populate Items --}}
+        {{#each benefits.benefit1.itemsInfo as |item id|}}
+        <li class="item-reference item {{#if item.missing}}missing{{/if}}" data-item-uuid="{{item.uuid}}">
+          <label><img src="{{item.img}}"> {{item.name}}:</label>
+  
+          <span>{{{item.description}}}</span>
+        </li>
+        {{/each}}
+
+      </ol>
+      {{/if}}
+  
+    </div>
+
+  </section>
+
+</div>

@@ -1,10 +1,12 @@
 <li class="item" data-item-id="{{item._id}}">
+    
     {{!-- Title --}}
     <label class="item-button" data-action="itemLabelClick" data-item-id="{{item._id}}"
-        data-tooltip="{{{item.tooltip}}}">{{item.label}}:</label>
+        data-tooltip="{{item.tooltip}}">{{item.label}}:</label>
 
     {{!-- Modifier --}}
-    <span class="modifier-line">{{localize item.system.attributeLabel}}
+    <span class="modifier-line">
+        {{localize item.system.attributeLabel}}
 
         {{!-- Boons --}}
         {{#if item.system.boons}} {{localize "WW.Boons.With"}} {{item.system.boons}}

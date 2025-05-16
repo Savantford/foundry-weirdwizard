@@ -1,0 +1,249 @@
+<form class="{{cssClass}} flexcol weirdwizard charoption path" autocomplete="off">
+
+  {{> journalEntryPageHeader}}
+  
+  <div class="image-wrapper">
+    <figure class="image-preview">
+      <img src="{{document.src}}" title="{{title}}" alt="{{title}}" />
+      <figcaption>{{document.image.caption}}</figcaption>
+    </figure>
+  
+    <div>
+      <div class="form-group picker">
+        <label>{{localize "JOURNALENTRYPAGE.ImageSource"}}</label>
+        <div class="form-fields">
+          <file-picker name="src" type="image" value="{{document.src}}"></file-picker>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label>{{localize "JOURNALENTRYPAGE.ImageCaption"}}</label>
+        <div class="form-fields">
+          <input type="text" name="image.caption" value="{{document.image.caption}}">
+        </div>
+      </div>
+    </div>
+  
+  </div>
+
+  {{!-- Editor --}}
+  {{editor editor.content target="text.content" class="journal-page-content" button=false editable=true
+    engine=editor.engine collaborate=editor.collaborate}}
+
+  {{!-- Benefits Section --}}
+  <section class="benefits-section">
+
+    {{!-- Tier Select --}}
+    <div class="stat mb-2">
+      <label>{{localize "WW.Item.Tier"}}</label>
+
+      <select name="system.tier">
+        {{selectOptions tiers selected=document.system.tier localize=true}}
+      </select>
+    </div>
+    
+    {{!-- Benefit Blocks --}}
+    {{#each benefits as |benefit id|}}
+    {{#if (ne benefit.levelReq 99)}}
+    <div class="benefit-block{{#if (ne id 'benefit1')}} mt-2{{/if}}">
+
+      {{!-- Header --}}
+      <h5>{{localize "WW.Stats.Level"}} {{benefit.levelReq}} {{@root.document.name}}</h5>
+      
+      {{!-- Stats --}}
+      <div class="stat-inline flex-wrap flex-children">
+  
+        {{!-- Armored Defense --}}
+        <span>
+          <label>{{localize "WW.Defense.Armored"}}:</label>
+  
+          <span class="mr-n1">+</span>
+          
+          <div class="input-wrap">
+            <input name="system.benefits.{{id}}.stats.armoredIncrease" type="number"
+              value="{{benefit.stats.armoredIncrease}}" min="0" placeholder="0" />
+  
+            <div class="input-overlay">{{benefit.stats.armoredIncrease}}</div>
+          </div>
+  
+        </span>
+  
+        {{!-- Natural Defense --}}
+        <span>
+          <label>{{localize "WW.Defense.Natural"}}:</label>
+  
+          <span class="mr-n1">+</span>
+
+          <div class="input-wrap">
+            <input name="system.benefits.{{id}}.stats.naturalIncrease" type="number"
+              value="{{benefit.stats.naturalIncrease}}" min="0" placeholder="0" />
+  
+            <div class="input-overlay">{{benefit.stats.naturalIncrease}}</div>
+          </div>
+  
+          <span class="mr-n1">=</span>
+          
+          <div class="input-wrap">
+            <input name="system.benefits.{{id}}.stats.naturalSet" type="number" value="{{benefit.stats.naturalSet}}"
+              min="0" placeholder="0" />
+  
+            <div class="input-overlay">{{benefit.stats.naturalSet}}</div>
+          </div>
+  
+        </span>
+  
+      </div>
+
+      {{!-- Stats 2 --}}
+      <div class="stat-inline flex-wrap flex-children">
+
+        {{!-- Health --}}
+        {{#if (and (eq @root.system.tier 'novice') (eq benefit.levelReq 1))}}
+        <span>
+          <label>{{localize "WW.Health.Starting"}}:</label>
+  
+          <div class="input-wrap">
+            <input name="system.benefits.{{id}}.stats.healthStarting" type="number"
+              value="{{benefit.stats.healthStarting}}" min="1" placeholder="1" />
+  
+            <div class="input-overlay">{{benefit.stats.healthStarting}}</div>
+          </div>
+  
+        </span>
+        {{else}}
+        <span>
+          <label>{{localize "WW.Health.Label"}}:</label>
+  
+          <span class="mr-n1">+</span>
+  
+          <div class="input-wrap">
+            <input name="system.benefits.{{id}}.stats.healthIncrease" type="number"
+              value="{{benefit.stats.healthIncrease}}" min="0" placeholder="0" />
+  
+            <div class="input-overlay">{{benefit.stats.healthIncrease}}</div>
+          </div>
+  
+        </span>
+        {{/if}}
+  
+        {{!-- Bonus Damage --}}
+        <span>
+          <label>{{localize "WW.Damage.Bonus"}}:</label>
+  
+          <span class="mr-n1">+</span>
+  
+          <div class="input-wrap">
+            <input style="text-align: center;" name="system.benefits.{{id}}.stats.bonusDamage" type="number"
+              value="{{benefit.stats.bonusDamage}}" min="0" placeholder="0" />
+  
+            <div class="input-overlay">{{benefit.stats.bonusDamage}}</div>
+          </div>
+  
+          <span class="ml-n1">d6</span>
+  
+        </span>
+  
+        {{!-- Speed --}}
+        <span>
+          <label>{{localize "WW.Stats.Speed"}}:</label>
+  
+          <span class="mr-n1">+</span>
+  
+          <div class="input-wrap">
+            <input name="system.benefits.{{id}}.stats.speedIncrease" type="number" value="{{benefit.stats.speedIncrease}}"
+              min="0" placeholder="0" />
+  
+            <div class="input-overlay">{{benefit.stats.speedIncrease}}</div>
+          </div>
+  
+        </span>
+  
+      </div>
+
+      {{!-- Languages --}}
+      <div class="stat-inline list-entries">
+        <label>{{localize "WW.Detail.Language.Label"}}:</label>
+  
+        {{#each benefit.languages as |detail detailId|}}
+        <span class="list-entry">
+  
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
+            <a class="array-button" data-action="edit" data-array="benefits.{{id}}.languages" data-entry-id="{{detailId}}"
+              data-tooltip="WW.Detail.Language.Edit"><i class="fas fa-edit"></i></a>
+  
+            <a class="array-button" data-action="remove" data-array="benefits.{{id}}.languages"
+              data-entry-id="{{detailId}}" data-tooltip="WW.Detail.Language.Remove"><i class="fas fa-trash"></i></a>
+          </span>{{#unless @last}},{{/unless}}
+        </span>
+        {{/each}}{{#unless benefit.languages.length}}<span>—</span>{{/unless}}
+  
+        <a class="array-button" data-action="add" data-array="benefits.{{id}}.languages" data-loc="Language"
+          data-tooltip="WW.Detail.Language.Create"><i class="fas fa-circle-plus"></i></a>
+  
+      </div>
+      
+      {{!-- Magic --}}
+      <div class="stat-inline flex-wrap">
+  
+        {{!-- Traditions --}}
+        <div class="list-entries">
+          <label>{{localize "WW.Tradition.Label"}}:</label>
+
+          {{#each benefit.traditions as |detail detailId|}}
+          <span class="list-entry">
+  
+            <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
+              <a class="array-button" data-action="edit" data-array="benefits.{{id}}.traditions"
+                data-entry-id="{{detailId}}" data-tooltip="WW.Tradition.Edit"><i class="fas fa-edit"></i></a>
+  
+              <a class="array-button" data-action="remove" data-array="benefits.{{id}}.traditions"
+                data-entry-id="{{detailId}}" data-tooltip="WW.Tradition.Remove"><i class="fas fa-trash"></i></a>
+            </span>{{#unless @last}},{{/unless}}
+          </span>
+          {{/each}}{{#unless benefit.traditions.length}}<span>—</span>{{/unless}}
+
+          <a class="array-button" data-action="add" data-array="benefits.{{id}}.traditions" data-loc="Tradition"
+            data-tooltip="WW.Tradition.Create"><i class="fas fa-circle-plus"></i></a>
+  
+          {{!-- Spells --}}
+          <label>{{localize "WW.Spells.Label"}}:</label>
+
+          <select name="system.benefits.{{id}}.spells">
+            {{selectOptions @root.spellsLearned selected=benefit.spells localize=true}}
+          </select>
+
+        </div>
+  
+      </div>
+
+      {{!-- Item List Area --}}
+      <ol class="described-list items-area {{id}}">
+        {{#unless benefit.itemsInfo}}{{{../itemsAreaHint}}}{{/unless}}
+
+        {{!-- Populate Items --}}
+        {{#each benefit.itemsInfo as |item id|}}
+        <li class="item-reference item {{#if item.missing}}missing{{/if}}" data-item-uuid="{{item.uuid}}">
+          
+          <label><img src="{{item.img}}"> {{item.name}}</label>
+  
+          <span class="buttons">
+            {{#unless item.missing}}<a class="ref-edit" data-tooltip="WW.CharOption.Reference.EditRef"><i
+                class="fas fa-edit"></i></a>{{/unless}}
+            <a class="ref-remove" data-tooltip="WW.CharOption.Reference.RemoveRef"><i class="fas fa-trash"></i></a>
+          </span>
+
+        </li>
+        {{/each}}
+
+      </ol>
+  
+    </div>
+    {{/if}}
+    {{/each}}
+
+  </section>
+
+  {{!-- Journal Page Footer --}}
+  {{!--{{> journalEntryPageFooter}}--}}
+
+</form>

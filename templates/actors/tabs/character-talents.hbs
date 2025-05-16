@@ -5,8 +5,8 @@
         <li class="item flexrow items-header">
             <div class="item-image"></div>
             <div class="item-name">{{localize "WW.Item.Name"}}</div>
-            <div>{{localize "WW.Talent.Uses"}}</div>
-            <div>{{localize "WW.Talent.Source.Label"}}</div>
+            <div class="item-uses">{{localize "WW.Talent.Uses"}}</div>
+            <div class="item-source">{{localize "WW.Talent.Source.Label"}}</div>
             <div class="item-controls">
                 <a class="item-control item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Trait" data-type="Trait or Talent" data-subtype="trait" data-source="Ancestry"><i class="fas fa-plus"></i> {{localize "WW.Item.Create.Label"}}</a>
             </div>
@@ -21,7 +21,7 @@
             <div class="item-name">
                 {{!-- Title --}}
                 <label class="item-button" data-action="itemLabelClick" data-item-id="{{item._id}}"
-                    data-tooltip="{{{item.tooltip}}}">{{item.name}}</label>
+                    data-tooltip="{{item.tooltip}}">{{item.name}}</label>
 
                 <span class="buttons">
 
@@ -37,7 +37,7 @@
             </div>
 
             {{!-- Uses Pips --}}
-            <div>
+            <div class="item-uses">
                 {{#if item.uses}}
                 <span class="pip-box">
                     {{#each item.uses as |pip id|}}
@@ -50,14 +50,14 @@
             </div>
 
             {{!-- Source --}}
-            <div>{{item.system.source}}</div>
+            <div class="item-source">{{localize (lookup @root.itemSources item.system.source)}}</div>
             
             <div class="item-controls">
 
                 {{!-- Scroll Button --}}
                 {{#if item.system.description.value}}
                     <a class="item-button" data-action="itemScroll" data-item-id="{{item._id}}"
-                        data-tooltip="{{localize "WW.Item.Scroll"}}">
+                        data-tooltip="{{localize "WW.Item.Send"}}">
                     <i class="far fa-scroll"></i></a>
                 {{/if}}
 
@@ -73,4 +73,84 @@
         </li>
         {{/each}}
     </ol>
+    
+    {{#if legacy.length}}
+    <h2>Legacy Items: DELETE</h2>
+
+    <ol class="item-list">
+
+        {{!-- Header --}}
+        <li class="item flexrow items-header">
+            <div class="item-image"></div>
+            <div class="item-name">{{localize "WW.Item.Name"}}</div>
+            <div class="item-uses">{{localize "WW.Talent.Uses"}}</div>
+            <div class="item-source">{{localize "WW.Talent.Source.Label"}}</div>
+            <div class="item-controls">
+                <a class="item-control item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Trait" data-type="Trait or Talent" data-subtype="trait" data-source="Ancestry"><i class="fas fa-plus"></i> {{localize "WW.Item.Create.Label"}}</a>
+            </div>
+        </li>
+
+        {{#each legacy as |item id|}}
+        <li class="item flexrow" data-item-id="{{item._id}}">
+
+            {{!-- Icon --}}
+            <div class="item-image"><img src="{{item.img}}" data-tooltip="{{item.name}}" width="24" height="24" /></div>
+            
+            <div class="item-name">
+                {{!-- Title --}}
+                <label class="item-button" data-action="itemLabelClick" data-item-id="{{item._id}}"
+                    data-tooltip="{{item.tooltip}}">{{item.name}}</label>
+
+                <span class="buttons">
+
+                    {{!-- Toggle Effects --}}
+                    {{#if item.hasPassiveEffects}}
+                        <a class="item-button" data-action="itemToggleEffects" data-item-id="{{item._id}}"
+                            data-tooltip="{{#if item.system.active}}{{localize "WW.Item.DisableEffects"}}{{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
+                            <i class="fas {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
+                    {{/if}}
+
+                </span>
+
+            </div>
+
+            {{!-- Uses Pips --}}
+            <div class="item-uses">
+                {{#if item.uses}}
+                <span class="pip-box">
+                    {{#each item.uses as |pip id|}}
+                    <a class="item-pip" data-item-id="{{item._id}}"
+                        data-tooltip="{{#if (eq pip "far fa-circle")}}{{localize "WW.Item.Uses.TalentSpend"}}{{else}}{{localize "WW.Item.Uses.TalentRecover"}}{{/if}}">
+                    <i class="{{pip}}"></i></a>
+                    {{/each}}
+                </span>
+                {{/if}}
+            </div>
+
+            {{!-- Source --}}
+            <div class="item-source">aaaa {{localize (lookup @root.itemSources item.system.source)}}</div>
+            
+            <div class="item-controls">
+
+                {{!-- Scroll Button --}}
+                {{#if item.system.description.value}}
+                    <a class="item-button" data-action="itemScroll" data-item-id="{{item._id}}"
+                        data-tooltip="{{localize "WW.Item.Send"}}">
+                    <i class="far fa-scroll"></i></a>
+                {{/if}}
+
+                {{!-- Edit Button --}}
+                <a class="item-button" data-action="itemEdit" data-item-id="{{item._id}}"
+                    data-tooltip="WW.Item.Edit.Trait">
+                <i class="fas fa-edit"></i></a>
+
+                {{!-- Delete Button --}}
+                <a class="item-button" data-action="itemRemove" data-item-id="{{item._id}}" data-tooltip="WW.Item.Delete.Trait"><i class="fas fa-trash"></i></a>
+
+            </div>
+        </li>
+        {{/each}}
+    </ol>
+    {{/if}}
+
 </section>
