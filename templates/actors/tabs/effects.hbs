@@ -52,7 +52,7 @@
         {{#if section.showSource}}<div class="effect-source">{{{effect.sourceCard}}}</div>{{/if}}
         
         <div class="item-controls effect-controls flexrow">
-          {{#if (and (ne effect.parent.documentName 'Item') (ne effect.type "benefit"))}}
+          {{#if effect.showDeleteButton}}
 
           {{#if (ne section.type 'temporary')}}
           <a class="effect-control" data-action="effectToggle" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Toggle">
@@ -68,7 +68,7 @@
             <i class="fas fa-trash"></i>
           </a>
           {{else}}
-          <a data-tooltip="{{#if (eq effect.type "benefit")}}WW.Effect.HandledByCharOption{{else}}WW.Effect.HandledByItem{{/if}}"><i class="fas fa-circle-question"></i></a>
+          <a data-tooltip="{{#if effect.isBenefit}}WW.Effect.HandledByCharOption{{else}}WW.Effect.HandledByItem{{/if}}"><i class="fas fa-circle-question"></i></a>
           {{/if}}
         </div>
         

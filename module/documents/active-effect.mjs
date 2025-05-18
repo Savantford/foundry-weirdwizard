@@ -173,6 +173,27 @@ export default class WWActiveEffect extends ActiveEffect {
     return false;
   }
 
+  get isBenefit() {
+    return this.type === 'benefit';
+  }
+
+  get hasValidCharOption() {
+    const actor = this.parent.documentName === 'Actor' ? this.parent : null;
+    const cOptUuid = this.system.grantedBy;
+
+    if (!actor || !cOptUuid) return false;
+
+    const uuidFound = Object.values(actor.system.charOptions).includes(cOptUuid);
+    
+    return uuidFound;
+  }
+
+  get showDeleteButton() {
+    if (this.parent.documentName === 'Item') return false;
+    if (this.isBenefit && this.hasValidCharOption) return false;
+    return true;
+  }
+
   /**
    * The combatant from which the effect originated
   */

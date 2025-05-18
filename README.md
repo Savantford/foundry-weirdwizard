@@ -11,7 +11,7 @@ listed on the [official package registry](https://foundryvtt.com/packages/weirdw
 If you instead want to install it manually, please read the instructions below.
 
 If you want to talk to us, contribute or give feedback,
-please join the [Discord](https://discord.com/invite/DUMfrUc).
+please join the [Discord](https://discord.gg/X5XustKpe4).
 
 ## Installing the Module
 
@@ -39,7 +39,7 @@ Follow the steps below to get the Manifest URL.
 ## Bugs & Feedback
 
 If you want to report a bug or share feedback about the system,
-please join the [SotDL for Foundry VTT Discord](https://discord.com/invite/DUMfrUc)
+please join the [Weird Wizard for Foundry Discord](https://discord.gg/X5XustKpe4)
 server and talk to us in the `#ww-feedback-requests` channel.
 Feel free to talk to `Friend / Savantford` there, if you wish!
 
@@ -53,8 +53,8 @@ Thank you for all the reports and feedback!
 This project was created and is currently maintained by @Savantford (Friend).
 
 However, contributions were done directly to the project by a few awesome contributors:
-- [@mhilbrunner](https://github.com/mhilbrunner): Lots of stuff. Lots of good stuff! They are too many to list, but many were valuable backend additions.
 - [@SolarizedRed](https://github.com/SolarizedRed): Initial styling and Fonts selection. A founder member!
+- [@mhilbrunner](https://github.com/mhilbrunner): Lots of stuff. Lots of good stuff! They are too many to list, but many were valuable backend additions.
 - [@yschnellbach](https://github.com/yschnellbach): Many contributions, mainly visual changes. The system wouldn't look the way it does without them!
 
 Please make sure to thank all of them!
@@ -66,7 +66,7 @@ A big thanks to the `Shadow of the Demon Lord`, `Shadow of the Weird Wizard` and
 I also wanted to personally mention these folks for their patience and effort towards helping me out to get this done.
 In alphabetical order: ChaosOS, Mana, Mezryss 💖, mxzf and Zhell. Thank you humbly!
 
-Finally, thanks to ferrer (jeferrer) and Zaxim (zaxim) from the `SotDL for Foundry VTT` server for helping me out often. You guys rock!
+Finally, thanks to ferrer (jeferrer) and Zaxim (zaxim) from the `SotDL for Foundry VTT` server for helping me so much in the beginning. You guys rock!
 
 ## Credits
 

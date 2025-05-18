@@ -385,6 +385,7 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
     const current = foundry.utils.getProperty(this.document._source, attr);
     const defaultArtwork = this.document.constructor.getDefaultArtwork?.(this.document._source) ?? {};
     const defaultImage = foundry.utils.getProperty(defaultArtwork, attr);
+    
     const fp = new FilePicker({
       current,
       type: "image",
@@ -392,7 +393,7 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
       callback: path => {
         target.src = path;
         if ( this.options.form.submitOnChange ) {
-          const submit = new Event("submit");
+          const submit = new Event("submit", {cancelable: true});
           this.element.dispatchEvent(submit);
         }
       },

@@ -83,7 +83,6 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
   }
 
   async _updateObject(event, formData) { // Update actor data.
-    console.log(formData.system.duration)
     const sysDur = formData.system.duration;
     switch (formData.system.duration.selected) {
       case 'minutes': formData.duration = { seconds: sysDur.inMinutes ? sysDur.inMinutes * 60 : 60, rounds: null }; break;
@@ -91,8 +90,6 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
       case 'days': formData.duration = { seconds: sysDur.inDays ? sysDur.inDays * 3600*24 : 3600*24, rounds: null }; break;
       case 'none': formData.duration = { seconds: null, rounds: null }; break;
     }
-
-    await console.log(formData.duration)
 
     // Prepare custom mode change data
     const changes = formData.changes;
