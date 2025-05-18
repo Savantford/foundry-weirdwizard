@@ -933,6 +933,9 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     const current = foundry.utils.getProperty(this.actor._source, attr);
     const defaultArtwork = this.actor.constructor.getDefaultArtwork?.(this.actor._source) ?? {};
     const defaultImage = foundry.utils.getProperty(defaultArtwork, attr);
+    console.log(current)
+    console.log(defaultArtwork)
+    console.log(defaultImage)
     const fp = new FilePicker({
       current,
       type: "image",

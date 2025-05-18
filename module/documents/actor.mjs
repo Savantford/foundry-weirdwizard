@@ -13,6 +13,7 @@ export default class WWActor extends Actor {
   
   async _preCreate(data, options, user) {
     const sourceId = this._stats.compendiumSource;
+
     // Don't change actors imported from compendia.
     if (sourceId?.startsWith("Compendium.")) return await super._preCreate(data, options, user);
 
@@ -35,50 +36,12 @@ export default class WWActor extends Actor {
 
     }
 
-    // Assign default Prototype Token Dispositions.
-    let dispo = 1;
-
-    switch (this.type) {
-
-      case 'Character':
-        dispo = 1;
-      break;
-
-      case 'NPC':
-        dispo = -1;
-      break;
-
-    }
-
-    // Set Protoype Token Sight by actor type.
-    let sight;
-
-    switch (this.type) {
-
-      case 'Character':
-        sight = {
-          enabled: true
-        };
-      break;
-
-    }
-
-    // Set Protoype Token Actor Link by actor type.
-    let actorLink = false;
-
-    switch (this.type) {
-
-      case 'Character':
-        actorLink = true;
-      break;
-
-    }
-    
+    // Assign default Actor and Prototype Token values
     await this.updateSource({
       img: icon,
-      'prototypeToken.disposition': dispo,
-      'prototypeToken.sight': sight,
-      'prototypeToken.actorLink': actorLink
+      'prototypeToken.disposition': this.type === 'Character' ? 1 : -1,
+      'prototypeToken.sight.enabled': this.type === 'Character' ? true : false,
+      'prototypeToken.actorLink': this.type === 'Character' ? true : false
     });
 
     return await super._preCreate(data, options, user);
@@ -688,40 +651,42 @@ export default class WWActor extends Actor {
   /* -------------------------------------------- */
 
   async _updateGrantedEntries(uuid) {
-    
-    // Return if no actor exists
-    if (!this) return;
+    const cOption = await fromUuid(uuid);
 
-    // Shortcuts
-    const benefits = this.system.benefits;
-    const level = this.system.stats.level;
+    if (!cOption) return ;
 
-    // Get actor list entries granted by the character option
+    const benefits = cOption.system.benefits,
+    details = this.system.details,
+    level = this.system.stats.level;
+
+    // Get list entries granted by the character option existing on the actor
     const aDetails = {
-      descriptors: await this.system.details.descriptors.filter(i => {
+      descriptors: details.descriptors.filter(i => {
         return i.grantedBy === uuid;
       }),
-      senses: await this.system.details.senses.filter(i => {
+      senses: details.senses.filter(i => {
         return i.grantedBy === uuid;
       }),
-      languages: await this.system.details.languages.filter(i => {
+      languages: details.languages.filter(i => {
         return i.grantedBy === uuid;
       }),
-      immune: await this.system.details.immune.filter(i => {
+      immune: details.immune.filter(i => {
         return i.grantedBy === uuid;
       }),
-      traditions: await this.system.details.traditions.filter(i => {
+      traditions: details.traditions.filter(i => {
         return i.grantedBy === uuid;
       })
     }
+    
+    console.log(aDetails)
 
     // Create aDetails to store existing actor details
     const newDetails = {
-      descriptors: await this.system.details.descriptors,
-      senses: await this.system.details.senses,
-      languages: await this.system.details.languages,
-      immune: await this.system.details.immune,
-      traditions: await this.system.details.traditions
+      descriptors: details.descriptors,
+      senses: details.senses,
+      languages: details.languages,
+      immune: details.immune,
+      traditions: details.traditions
     };
 
     // Loop through each benefit
@@ -747,14 +712,16 @@ export default class WWActor extends Actor {
       }
       
     }
-
+    console.log(details)
+    console.log(newDetails)
     // Update actor with new details object
-    await this.update({['system.details']: {...this.system.details, ...newDetails} });
+    await this.update({['system.details']: {...details, ...newDetails} });
 
   }
 
   _addEntries(uuid, aDetails, newDetails, benefit, arrName) {
-    
+    console.log('adding entry')
+    console.log('adding entry')
     const arr = [...benefit[arrName]];
     
     // For each entry
