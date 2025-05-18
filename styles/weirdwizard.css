@@ -535,6 +535,11 @@ body {
   text-shadow: var(--text-shadow-bold-black);
 }
 
+.weirdwizard .invalid {
+  text-decoration: line-through;
+  color: red;
+}
+
 /* Headers */
 
 .weirdwizard .window-content h1,

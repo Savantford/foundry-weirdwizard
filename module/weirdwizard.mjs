@@ -421,19 +421,20 @@ Hooks.on("renderSettings", (app, [html]) => {
   const pip = details.querySelector(".system-info .update");
   details.querySelector(".system").remove();
 
-  const heading = document.createElement("div");
+  const heading = document.createElement("h2");
   heading.classList.add("weirdwizard", "sidebar-heading");
-  heading.innerHTML = `<h2>${game.i18n.localize("WORLD.GameSystem")}</h2>`;
+  heading.innerHTML = `${game.i18n.localize("WORLD.GameSystem")}`;
   details.insertAdjacentElement("afterend", heading);
 
   const badge = document.createElement("div");
   badge.classList.add("weirdwizard", "system-badge");
   badge.innerHTML = `
     <img src="systems/weirdwizard/assets/ui/sotww-logo.png" data-tooltip="${game.system.title}" alt="${game.system.title}">
-    <p class="system-info" style="text-align: center;">${game.system.title} Version ${game.system.version}<br>
-        <a href="https://github.com/Savantford/foundry-weirdwizard/releases/latest" target="_blank">Patchnotes</a> •
+    
+    <p class="system-info" style="text-align: center;">Version ${game.system.version}<br>
+        <a href="https://github.com/Savantford/foundry-weirdwizard/releases/${game.system.version}" target="_blank">Patch Notes</a> •
         <a href="https://github.com/Savantford/foundry-weirdwizard/issues" target="_blank">Issues</a> •
-        <a href="https://discord.com/invite/DUMfrUc" target="_blank">Discord</a>
+        <a href="https://discord.gg/X5XustKpe4" target="_blank">Discord</a>
     </p>
   `;
   if (pip) badge.querySelector(".system-info").insertAdjacentElement("beforeend", pip);

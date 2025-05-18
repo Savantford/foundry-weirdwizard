@@ -126,7 +126,7 @@ export function details(type = String) {
 
     // Will be deleted in a later date
     obj.professions = makeStrField("", 1, 1);
-    obj.ancestry = makeStrField("Human", 1, 1);
+    obj.ancestry = makeStrField("", 1, 1);
     obj.novice = makeStrField("", 1, 1);
     obj.expert = makeStrField("", 1, 1);
     obj.master = makeStrField("", 1, 1);
@@ -161,7 +161,7 @@ export function details(type = String) {
 
 export function charOptions(type = String) {
   const obj = {
-    ancestry: makeStrField("Human", 1, 1) // Use Human Ancestry UUID instead
+    ancestry: makeStrField('', 1) // Use Human Ancestry UUID instead
   };
 
   if (type === 'Character') {

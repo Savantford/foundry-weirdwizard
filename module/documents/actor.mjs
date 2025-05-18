@@ -10,6 +10,21 @@ export default class WWActor extends Actor {
   /* -------------------------------------------- */
   /*  Document Creation                           */
   /* -------------------------------------------- */
+
+  /**
+   * @override
+   * Determine default artwork based on the provided actor data.
+   * @param {ActorData} actorData                      The source actor data.
+   * @returns {{img: string, texture: {src: string}}}  Candidate actor image and prototype token artwork.
+   */
+  static getDefaultArtwork(actorData) {
+    const icon = {
+      Character: 'icons/svg/mystery-man.svg',
+      NPC: 'icons/svg/mystery-man-black.svg',
+    }[actorData.type] ?? this.DEFAULT_ICON;
+
+    return { img: icon, texture: { src: icon } };
+  };
   
   async _preCreate(data, options, user) {
     const sourceId = this._stats.compendiumSource;
@@ -17,28 +32,8 @@ export default class WWActor extends Actor {
     // Don't change actors imported from compendia.
     if (sourceId?.startsWith("Compendium.")) return await super._preCreate(data, options, user);
 
-    let icon = data.img;
-
-    // If no image is provided, set default by category.
-    if (!icon) {
-
-      switch (this.type) {
-
-        case 'Character':
-          icon = 'icons/svg/mystery-man.svg';
-        break;
-
-        case 'NPC':
-          icon = 'icons/svg/mystery-man-black.svg';
-        break;
-
-      }
-
-    }
-
-    // Assign default Actor and Prototype Token values
+    // Assign default Prototype Token values
     await this.updateSource({
-      img: icon,
       'prototypeToken.disposition': this.type === 'Character' ? 1 : -1,
       'prototypeToken.sight.enabled': this.type === 'Character' ? true : false,
       'prototypeToken.actorLink': this.type === 'Character' ? true : false
@@ -116,7 +111,9 @@ export default class WWActor extends Actor {
             this.updateCharOptionBenefits(cOpt[e]);
           }
 
-        } else this.updateCharOptionBenefits(cOpt);
+        } else {
+          this.updateCharOptionBenefits(cOpt);
+        }
       }
       
     }
@@ -462,7 +459,7 @@ export default class WWActor extends Actor {
     // Handle char option's granted items, granted list entries and main effect
     this._updateGrantedItems(uuid);
     this._updateGrantedEntries(uuid);
-    if (cOption?.type !== 'profession' || cOption?.type !== 'tradition') this._updateMainEffect(uuid);
+    this._updateMainEffect(uuid);
 
     ui.notifications.info(`${cOption.name}'s benefits updated.`);
 
@@ -472,6 +469,9 @@ export default class WWActor extends Actor {
 
   async _updateMainEffect(uuid) {
     const cOpt = await fromUuid(uuid);
+
+    if (cOpt.type === 'profession' || cOpt.type === 'tradition') return;
+
     const benefits = cOpt.system.benefits;
     const level = this.system.stats.level;
 
@@ -486,8 +486,7 @@ export default class WWActor extends Actor {
       speedIncrease: 0,
       bonusDamage: 0
     };
-    
-    
+
     for (const b in benefits) {
 
       const benefit = benefits[b];
@@ -495,16 +494,16 @@ export default class WWActor extends Actor {
       // If level does not meet the requirement, ignore it
       if (level >= benefit.levelReq) {
         const bStats = benefit.stats;
-
-        if (bStats.naturalSet) stats.naturalSet = bStats.naturalSet;
+        
+        if (bStats.naturalSet !== undefined) stats.naturalSet = bStats.naturalSet;
         stats.naturalIncrease += bStats.naturalIncrease;
         stats.armoredIncrease += bStats.armoredIncrease;
 
         if (cOpt.system.tier === 'novice' && benefit.levelReq === 1) stats.healthStarting = bStats.healthStarting;
         stats.healthIncrease += bStats.healthIncrease;
 
-        if (bStats.sizeNormal) stats.sizeNormal = bStats.sizeNormal;
-        if (bStats.speedNormal) stats.speedNormal = bStats.speedNormal;
+        if (bStats.sizeNormal !== undefined) stats.sizeNormal = bStats.sizeNormal;
+        if (bStats.speedNormal !== undefined) stats.speedNormal = bStats.speedNormal;
         stats.speedIncrease += bStats.speedIncrease;
         stats.bonusDamage += bStats.bonusDamage;
       }
@@ -578,8 +577,7 @@ export default class WWActor extends Actor {
     })
     
     // Create effect data object
-    const effs = this.effects.filter(e => { return e.system.grantedBy === cOpt.uuid });
-    const eff = effs[0];
+    const eff = this.effects.find(e => { return e.system.grantedBy === cOpt.uuid });
 
     const effectData = {
       name: cOpt.name,
@@ -677,8 +675,6 @@ export default class WWActor extends Actor {
         return i.grantedBy === uuid;
       })
     }
-    
-    console.log(aDetails)
 
     // Create aDetails to store existing actor details
     const newDetails = {
@@ -712,16 +708,13 @@ export default class WWActor extends Actor {
       }
       
     }
-    console.log(details)
-    console.log(newDetails)
+    
     // Update actor with new details object
     await this.update({['system.details']: {...details, ...newDetails} });
 
   }
 
   _addEntries(uuid, aDetails, newDetails, benefit, arrName) {
-    console.log('adding entry')
-    console.log('adding entry')
     const arr = [...benefit[arrName]];
     
     // For each entry
@@ -746,6 +739,12 @@ export default class WWActor extends Actor {
   
   async clearCharOptionBenefits(uuid) {
     const cOption = await fromUuid(uuid);
+
+    // Delete main effect
+    const eff = this.effects.find(e => { return e.system.grantedBy === cOption.uuid });
+
+    // Create or update main effect
+    if (eff) this.deleteEmbeddedDocuments("ActiveEffect", [eff.id]);
 
     // Get granted items
     const aItems = this.items.filter(i => i.flags?.weirdwizard?.grantedBy === uuid );

@@ -76,6 +76,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       journalView: this.#onJournalView,
       journalRemove: this.#onJournalRemove,
       journalHelp: this.#onJournalHelp,
+      journalInvalid: this.#onJournalInvalid,
 
       itemCreate: this.#onItemCreate,
       itemEdit: this.#onItemEdit,
@@ -926,6 +927,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    * @type {ApplicationClickAction}
    */
   static async #onEditImage(_event, target) {
+    console.log('editing image')
     if ( target.nodeName !== "IMG" ) {
       throw new Error("The editImage action is available only for IMG elements.");
     }
@@ -933,9 +935,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     const current = foundry.utils.getProperty(this.actor._source, attr);
     const defaultArtwork = this.actor.constructor.getDefaultArtwork?.(this.actor._source) ?? {};
     const defaultImage = foundry.utils.getProperty(defaultArtwork, attr);
-    console.log(current)
-    console.log(defaultArtwork)
-    console.log(defaultImage)
+    
     const fp = new FilePicker({
       current,
       type: "image",
@@ -1189,6 +1189,17 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   static async #onJournalHelp(event, button) {
     const entry = await fromUuid('Compendium.weirdwizard.documentation.JournalEntry.R3pFihgoMAB2Uab5');
     entry.sheet.render(true);
+  }
+
+  /* -------------------------------------------- */
+
+  static #onJournalInvalid(event, button) {
+    const dataset = Object.assign({}, button.dataset);
+    const type = dataset.charoptionType;
+    
+    // Update document
+    this.actor.update({['system.charOptions.' + type]: ''});
+    
   }
 
   /* -------------------------------------------- */
