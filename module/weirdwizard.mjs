@@ -226,6 +226,47 @@ Hooks.once('init', function () {
     default: true
   });
 
+  // Register List Entries menu and settings
+  game.settings.register('weirdwizard', 'availableLanguages', {
+    scope: 'world',
+    config: false,
+    requiresReload: false,
+    type: Object,
+    default: CONFIG.WW.DEFAULT_LANGUAGES
+  });
+
+  game.settings.register('weirdwizard', 'availableSenses', {
+    scope: 'world',
+    config: false,
+    requiresReload: false,
+    type: Object,
+    default: CONFIG.WW.DEFAULT_SENSES
+  });
+
+  game.settings.register('weirdwizard', 'availableImmunities', {
+    scope: 'world',
+    config: false,
+    requiresReload: false,
+    type: Object,
+    default: CONFIG.WW.DEFAULT_IMMUNITIES
+  });
+
+  game.settings.register('weirdwizard', 'availableMovementTraits', {
+    scope: 'world',
+    config: false,
+    requiresReload: false,
+    type: Object,
+    default: CONFIG.WW.DEFAULT_MOVEMENT_TRAITS
+  });
+
+  game.settings.register('weirdwizard', 'availableDescriptors', {
+    scope: 'world',
+    config: false,
+    requiresReload: false,
+    type: Object,
+    default: CONFIG.WW.DEFAULT_DESCRIPTORS
+  });
+
   // Register Sage Tools app
   game.settings.register('sagetools', 'visible', {
     name: 'Visible',
@@ -377,7 +418,6 @@ Hooks.on('renderChatMessage', (app, html) => {
 /* -------------------------------------------- */
 /*  Rendering Hooks                             */
 /* -------------------------------------------- */
-
 
 Hooks.on('renderSettingsConfig', (app, html, data) => {
   // Add sections to settings dialog by iterating all *our* settings, stripping the module/system ID,

@@ -1,7 +1,5 @@
-2025/05/18-13:54:00.201 18dc Recovering log #181
-2025/05/18-13:54:00.220 18dc Delete type=0 #181
-2025/05/18-13:54:00.220 18dc Delete type=3 #180
-2025/05/18-16:51:17.928 55d0 Level-0 table #185: started
-2025/05/18-16:51:17.928 55d0 Level-0 table #185: 0 bytes OK
-2025/05/18-16:51:17.936 55d0 Delete type=0 #183
-2025/05/18-16:51:17.944 55d0 Manual compaction at level-0 from '!folders!BhkcEOlF89jPWTpP' @ 72057594037927935 : 1 .. '!journal.pages!pAAZKv2vrilITojZ.GI4b6WkOLlTszbRe' @ 0 : 0; will stop at (end)
+2025/05/20-14:02:18.238 2084 Log #187: 0 ops saved to Table #188 OK
+2025/05/20-14:02:18.239 2084 Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\character-options/000187.log: OK
+2025/05/20-14:02:18.240 2084 Table #119: 146 entries OK
+2025/05/20-14:02:18.243 2084 Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\character-options/MANIFEST-000186: OK
+2025/05/20-14:02:18.247 2084 **** Repaired leveldb C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\character-options; recovered 1 files; 65577 bytes. Some data may have been lost. ****

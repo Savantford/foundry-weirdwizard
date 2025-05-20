@@ -1,7 +1,5 @@
-2025/05/18-13:54:00.177 28f0 Recovering log #528
-2025/05/18-13:54:00.197 28f0 Delete type=0 #528
-2025/05/18-13:54:00.197 28f0 Delete type=3 #527
-2025/05/18-16:51:17.919 55d0 Level-0 table #532: started
-2025/05/18-16:51:17.919 55d0 Level-0 table #532: 0 bytes OK
-2025/05/18-16:51:17.927 55d0 Delete type=0 #530
-2025/05/18-16:51:17.944 55d0 Manual compaction at level-0 from '!actors!SFrHJkXef553V1pb' @ 72057594037927935 : 1 .. '!actors.items.effects!as1taLMKFKTq59IW.wmlROsXEUKn64LB0.6CApAcAOoxllfLyA' @ 0 : 0; will stop at (end)
+2025/05/20-14:02:18.212 218c Log #534: 0 ops saved to Table #535 OK
+2025/05/20-14:02:18.214 218c Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\hirelings/000534.log: OK
+2025/05/20-14:02:18.215 218c Table #412: 18 entries OK
+2025/05/20-14:02:18.218 218c Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\hirelings/MANIFEST-000533: OK
+2025/05/20-14:02:18.222 218c **** Repaired leveldb C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\hirelings; recovered 1 files; 13833 bytes. Some data may have been lost. ****

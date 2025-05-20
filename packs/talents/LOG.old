@@ -1,7 +1,5 @@
-2025/05/18-13:54:00.247 509c Recovering log #517
-2025/05/18-13:54:00.266 509c Delete type=0 #517
-2025/05/18-13:54:00.267 509c Delete type=3 #516
-2025/05/18-16:51:17.959 55d0 Level-0 table #521: started
-2025/05/18-16:51:17.959 55d0 Level-0 table #521: 0 bytes OK
-2025/05/18-16:51:17.968 55d0 Delete type=0 #519
-2025/05/18-16:51:17.990 55d0 Manual compaction at level-0 from '!folders!AR1igPLlcOaaNUUW' @ 72057594037927935 : 1 .. '!items.effects!N2cAax0wL8WZxthe.l7ege9iTxbfQIT0H' @ 0 : 0; will stop at (end)
+2025/05/20-14:02:18.299 218c Log #523: 0 ops saved to Table #524 OK
+2025/05/20-14:02:18.299 218c Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\talents/000523.log: OK
+2025/05/20-14:02:18.301 218c Table #401: 24 entries OK
+2025/05/20-14:02:18.303 218c Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\talents/MANIFEST-000522: OK
+2025/05/20-14:02:18.308 218c **** Repaired leveldb C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\talents; recovered 1 files; 14092 bytes. Some data may have been lost. ****
