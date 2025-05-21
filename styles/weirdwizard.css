@@ -4014,6 +4014,70 @@ details.document-card .card-header:hover::after {
 }
 
 /* -------------------------------------------- */
+/*  List Entry Sub-Settings Menu                */
+/* -------------------------------------------- */
+
+.theme-dark #entry-settings-menu header.table-header {
+  background-color: var(--color-cool-4);
+  border-color: var(--color-cool-4);
+}
+
+#entry-settings-menu ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 400px;
+  overflow: hidden auto;
+}
+
+#entry-settings-menu header.table-header {
+  background-color: var(--color-cool-4);
+  border-color: var(--color-cool-4);
+  background: var(--color-text-dark-inactive);
+  padding: 0.5rem;
+  color: var(--color-text-light-highlight);
+  border: 1px solid var(--color-border-dark-4);
+  text-align: center;
+  font-weight: bold;
+  text-shadow: 1px 1px var(--color-shadow-dark);
+}
+
+#entry-settings-menu header .control {
+  display: flex;
+  flex-flow: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1em;
+  text-align: right;
+  font-size: smaller;
+}
+
+#entry-settings-menu li {
+  justify-content: space-between;
+  padding: 0.25rem 0.5rem;
+  border-bottom: 1px solid var(--color-border-dark-4);
+}
+
+#entry-settings-menu ol .index {
+  flex: 0 0 200px;
+  text-align: left;
+  font-weight: bold;
+}
+
+#entry-settings-menu ol .control.form-fields {
+  flex: 0 0 40px;
+  text-align: center;
+}
+
+#entry-settings-menu li > .form-fields {
+  justify-content: space-around;
+}
+
+#entry-settings-menu li > .form-fields > a {
+  flex: 0 0 20px;
+}
+
+/* -------------------------------------------- */
 /*  Sage Tools App                              */
 /* -------------------------------------------- */
 

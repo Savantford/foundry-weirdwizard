@@ -1,12 +1,12 @@
 import {
-  AfflictionsSubmenu,
-  DescriptorsSubmenu,
-  ImmunitiesSubmenu,
-  LanguagesSubmenu, 
-  MovementTraitsSubmenu, 
-  SensesSubmenu,
-  WeaponTraitsSubmenu
-} from "../apps/entry-settings-submenu.mjs";
+  AfflictionsMenu,
+  DescriptorsMenu,
+  ImmunitiesMenu,
+  LanguagesMenu, 
+  MovementTraitsMenu, 
+  SensesMenu,
+  WeaponTraitsMenu
+} from "../apps/entry-settings-menu.mjs";
 
 export default function registerSystemSettings() {
   
@@ -68,9 +68,9 @@ export default function registerSystemSettings() {
     name: 'WW.Settings.Languages.Name',
     hint: 'WW.Settings.Languages.Hint',
     label: 'WW.Settings.Languages.Label', // The text label used in the button
-    icon: "fa-solid fa-feather-pointed",  // A Font Awesome icon used in the submenu button
-    type: LanguagesSubmenu,  // A FormApplication subclass which should be created
-    restricted: true                      // Restrict this submenu to gamemaster only?
+    icon: "fa-solid fa-feather-pointed",  // A Font Awesome icon used in the menu button
+    type: LanguagesMenu,  // A FormApplication subclass which should be created
+    restricted: true                      // Restrict this menu to gamemaster only?
   });
 
   // Senses
@@ -86,9 +86,9 @@ export default function registerSystemSettings() {
     name: 'WW.Settings.Senses.Name',
     hint: 'WW.Settings.Senses.Hint',
     label: 'WW.Settings.Senses.Label', // The text label used in the button
-    icon: "fa-solid fa-eye",  // A Font Awesome icon used in the submenu button
-    type: SensesSubmenu,  // A FormApplication subclass which should be created
-    restricted: true                      // Restrict this submenu to gamemaster only?
+    icon: "fa-solid fa-eye",  // A Font Awesome icon used in the menu button
+    type: SensesMenu,  // A FormApplication subclass which should be created
+    restricted: true                      // Restrict this menu to gamemaster only?
   });
 
   // Immunities
@@ -104,9 +104,9 @@ export default function registerSystemSettings() {
     name: 'WW.Settings.Immunities.Name',
     hint: 'WW.Settings.Immunities.Hint',
     label: 'WW.Settings.Immunities.Label', // The text label used in the button
-    icon: "fa-solid fa-ban",  // A Font Awesome icon used in the submenu button
-    type: ImmunitiesSubmenu,  // A FormApplication subclass which should be created
-    restricted: true                      // Restrict this submenu to gamemaster only?
+    icon: "fa-solid fa-ban",  // A Font Awesome icon used in the menu button
+    type: ImmunitiesMenu,  // A FormApplication subclass which should be created
+    restricted: true                      // Restrict this menu to gamemaster only?
   });
 
   // Movement Traits
@@ -122,9 +122,9 @@ export default function registerSystemSettings() {
     name: 'WW.Settings.MovementTraits.Name',
     hint: 'WW.Settings.MovementTraits.Hint',
     label: 'WW.Settings.MovementTraits.Label', // The text label used in the button
-    icon: "fa-solid fa-arrow-trend-up",  // A Font Awesome icon used in the submenu button
-    type: MovementTraitsSubmenu,  // A FormApplication subclass which should be created
-    restricted: true                      // Restrict this submenu to gamemaster only?
+    icon: "fa-solid fa-arrow-trend-up",  // A Font Awesome icon used in the menu button
+    type: MovementTraitsMenu,  // A FormApplication subclass which should be created
+    restricted: true                      // Restrict this menu to gamemaster only?
   });
 
   // Descriptors
@@ -140,9 +140,9 @@ export default function registerSystemSettings() {
     name: 'WW.Settings.Descriptors.Name',
     hint: 'WW.Settings.Descriptors.Hint',
     label: 'WW.Settings.Descriptors.Label', // The text label used in the button
-    icon: "fa-solid fa-ghost",  // A Font Awesome icon used in the submenu button
-    type: DescriptorsSubmenu,  // A FormApplication subclass which should be created
-    restricted: true                      // Restrict this submenu to gamemaster only?
+    icon: "fa-solid fa-ghost",  // A Font Awesome icon used in the menu button
+    type: DescriptorsMenu,  // A FormApplication subclass which should be created
+    restricted: true                      // Restrict this menu to gamemaster only?
   });
 
   // Weapon Traits
@@ -158,9 +158,9 @@ export default function registerSystemSettings() {
     name: 'WW.Settings.WeaponTraits.Name',
     hint: 'WW.Settings.WeaponTraits.Hint',
     label: 'WW.Settings.WeaponTraits.Label', // The text label used in the button
-    icon: "fa-solid fa-wand-sparkles",  // A Font Awesome icon used in the submenu button
-    type: WeaponTraitsSubmenu,  // A FormApplication subclass which should be created
-    restricted: true                      // Restrict this submenu to gamemaster only?
+    icon: "fa-solid fa-wand-sparkles",  // A Font Awesome icon used in the menu button
+    type: WeaponTraitsMenu,  // A FormApplication subclass which should be created
+    restricted: true                      // Restrict this menu to gamemaster only?
   });
 
   // Afflictions
@@ -176,9 +176,9 @@ export default function registerSystemSettings() {
     name: 'WW.Settings.Afflictions.Name',
     hint: 'WW.Settings.Afflictions.Hint',
     label: 'WW.Settings.Afflictions.Label', // The text label used in the button
-    icon: "fa-solid fa-skull-crossbones",  // A Font Awesome icon used in the submenu button
-    type: AfflictionsSubmenu,  // A FormApplication subclass which should be created
-    restricted: true                      // Restrict this submenu to gamemaster only?
+    icon: "fa-solid fa-skull-crossbones",  // A Font Awesome icon used in the menu button
+    type: AfflictionsMenu,  // A FormApplication subclass which should be created
+    restricted: true                      // Restrict this menu to gamemaster only?
   });
 
   /* -------------------------------------------- */

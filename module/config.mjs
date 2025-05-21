@@ -1082,7 +1082,7 @@ WW.DEFAULT_MOVEMENT_TRAITS = {
     desc: 'The creature burrows 1 yard into a solid surface of earth or stone for every 2 yards of movement it expends. It leaves behind a tunnel with a diameter equal to its Size – 1'
   }, 
   'climber': {
-    name: '',
+    name: 'Climber',
     desc: 'The creature climbs 1 yard for each yard of movement it expends; it can climb across ceilings and overhangs; it grants no boons on rolls to attack it due to climbing; and it rolls to climb with 1 boon.'
   }, 
   'fly': {

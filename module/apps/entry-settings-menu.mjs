@@ -11,36 +11,41 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
  * @extends {ApplicationV2}
 */
 
-class EntrySettingsSubmenu extends HandlebarsApplicationMixin(ApplicationV2) {
+class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2) {
 
   static DEFAULT_OPTIONS = {
-    id: 'entry-settings-submenu',
+    id: 'entry-settings-menu',
     tag: 'form',
+    window: {
+      contentClasses: ['standard-form'],
+      icon: 'far fa-scroll'
+    },
     actions: {
       collapseSection: this.#collapseSection,
       clearAfflictions: this.#clearAfflictions
     },
     form: {
-      submitOnChange: false,
       closeOnSubmit: true
+    },
+    position: {
+      width: 600
     }
   }
 
   /* -------------------------------------------- */
 
-  static PARTS = {
-    form: { template: 'systems/weirdwizard/templates/apps/multi-choice.hbs' }
+  /** @override */
+  get title() {
+    const type = this.options.entryType;
+    
+    return i18n(`WW.Settings.${capitalize(type, 1)}.Name`);
   }
 
-  /** @override */
-  _configureRenderOptions(options) {
-    super._configureRenderOptions(options);
+  /* -------------------------------------------- */
 
-    // Completely overriding the parts
-    //options.parts = ['header', 'generic', 'weapons', 'armor', 'paths', 'professions' ];
-    console.log(this.options.entryType)
-    
-    return options;
+  static PARTS = {
+    form: { template: 'systems/weirdwizard/templates/apps/entry-settings-menu.hbs' },
+    buttons: { template: 'templates/generic/form-footer.hbs' }
   }
 
   /* -------------------------------------------- */
@@ -51,48 +56,20 @@ class EntrySettingsSubmenu extends HandlebarsApplicationMixin(ApplicationV2) {
    * @returns {Promise<ApplicationRenderContext>}   Context data for the render operation
    */
   async _prepareContext(options = {}) {
-    const opt = this.options;
+    const opt = this.options,
+      type = opt.entryType,
+      setting = 'available' + capitalize(type, 1),
+      listTitle = i18n(`WW.Settings.${capitalize(type, 1)}.EntryType`),
+    list = game.settings.get('weirdwizard', setting);
     
     const context = {
-      purpose: opt.purpose,
-      document: opt.document,
-      sections: {...opt.sections}
+      listTitle: listTitle,
+      list: list,
+      buttons: [
+        {type: "reset", action: "reset", icon: "fa-solid fa-sync", label: "PERMISSION.Reset"},
+        {type: "submit", icon: "fa-solid fa-save", label: "PERMISSION.Submit"}
+      ]
     }
-    
-    // Prepare sections
-    for (const s in context.sections) {
-      const section = context.sections[s];
-
-      // Prepare Attack Rider
-      if (section.type === 'attackRider') {
-        
-        section.attackRider = {
-          field: opt.document.system.schema.getField("attackRider.value"),
-          name: await section.attackRider.name,
-          value: await section.attackRider.value,
-          enriched: await TextEditor.enrichHTML(section.attackRider.value, {
-            rollData: opt.document.getRollData(), relativeTo: opt.document, secrets: opt.document.isOwner
-          })
-        }
-        
-      } else {
-
-        // Prepare cols
-        if (!section.cols) section.cols = 'auto auto auto';
-
-        // Prepare choices
-        for (const c in section.choices) {
-          const choice = section.choices[c];
-          if (choice.path) choice.value = foundry.utils.getProperty(this.document, choice.path);
-        }
-        
-      }
-
-    }
-    
-    // Define submit button label
-    context.submitLabel = opt.purpose === 'editWeaponTraits' ? i18n('WW.System.Dialog.Save') : i18n('WW.System.Dialog.Confirm');
-    if (opt.purpose === 'updateAfflictions') context.clearAfflictionsLabel =  i18n('WW.Affliction.Clear');
 
     return context;
   }
@@ -239,31 +216,31 @@ class EntrySettingsSubmenu extends HandlebarsApplicationMixin(ApplicationV2) {
 }
 
 /* Other Subclasses */
-export class LanguagesSubmenu extends EntrySettingsSubmenu {
+export class LanguagesMenu extends EntrySettingsMenu {
   static DEFAULT_OPTIONS = { entryType: 'languages' };
 }
 
-export class SensesSubmenu extends EntrySettingsSubmenu {
+export class SensesMenu extends EntrySettingsMenu {
   static DEFAULT_OPTIONS = { entryType: 'senses' };
 }
 
-export class ImmunitiesSubmenu extends EntrySettingsSubmenu {
+export class ImmunitiesMenu extends EntrySettingsMenu {
   static DEFAULT_OPTIONS = { entryType: 'immunities' };
 }
 
-export class MovementTraitsSubmenu extends EntrySettingsSubmenu {
+export class MovementTraitsMenu extends EntrySettingsMenu {
   static DEFAULT_OPTIONS = { entryType: 'movementTraits' };
 }
 
-export class DescriptorsSubmenu extends EntrySettingsSubmenu {
+export class DescriptorsMenu extends EntrySettingsMenu {
   static DEFAULT_OPTIONS = { entryType: 'descriptors' };
 }
 
-export class WeaponTraitsSubmenu extends EntrySettingsSubmenu {
+export class WeaponTraitsMenu extends EntrySettingsMenu {
   static DEFAULT_OPTIONS = { entryType: 'weaponTraits' };
 }
 
-export class AfflictionsSubmenu extends EntrySettingsSubmenu {
+export class AfflictionsMenu extends EntrySettingsMenu {
   static DEFAULT_OPTIONS = { entryType: 'afflictions' };
 }
 

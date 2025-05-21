@@ -15,7 +15,7 @@ export class Utils {
 
 /* Formatting Functions */
 export function capitalize(string, noLowerCase) {
-  return noLowerCase ? string?.charAt(0).toUpperCase() + string?.slice(1) : string?.charAt(0).toUpperCase() + string?.toLowerCase().slice(1)
+  return noLowerCase ? string?.charAt(0).toUpperCase() + string?.slice(1) : string?.charAt(0).toUpperCase() + string?.toLowerCase().slice(1);
 }
 
 export function escape(str) {

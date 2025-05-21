@@ -1,0 +1,30 @@
+<div>
+
+    {{!-- List --}}
+    <ol class="permissions-list">
+        <header class="table-header flexrow">
+            <label class="index">{{listTitle}}</label>
+            
+            <div class="control">
+                <div data-action="addSet"><i class="fa-solid fa-plus-circle"></i> {{localize "WW.Settings.Entry.AddSet"}}</div>
+
+                <div data-action="addEntry"><i class="fa-solid fa-plus-circle"></i> {{localize "WW.Settings.Entry.Add"}}</div>
+            </div>
+            
+        </header>
+    {{#each list as |entry|}}
+        <li class="draggable form-group" data-entry-data="{{entry}}">
+            <label class="index">{{localize entry.name}}</label>
+
+            <div class="control form-fields">
+                <a data-action="editEntry" data-tooltip="WW.Settings.Entry.Edit"><i class="fa-solid fa-edit"></i></a>
+
+                <a data-action="removeEntry" data-tooltip="WW.Settings.Entry.Remove"><i class="fa-solid fa-trash"></i></a>
+            </div>
+
+            <p class="hint">{{entry.desc}}</p>
+        </li>
+    {{/each}}
+    </ol>
+
+</div>

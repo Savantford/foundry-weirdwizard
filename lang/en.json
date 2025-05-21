@@ -868,25 +868,43 @@
 "WW.Settings.DamageBarReverse": "Reverse Damage Bars",
 "WW.Settings.DamageBarReverseHint": "If disabled, damage/health bars start at 0 and fill up as damage increases. If enabled, bars start full and decrease when taking damage.",
 
-"WW.Settings.Languages.Name": "Available Languages",
+"WW.Settings.Entry.Add": "Add entry",
+"WW.Settings.Entry.AddSet": "Add set of default entries",
+"WW.Settings.Entry.Edit": "Edit entry",
+"WW.Settings.Entry.Remove": "Remove entry",
+
+"WW.Settings.Languages.EntryType": "Language",
+"WW.Settings.Languages.Name": "Languages Available to Creatures",
 "WW.Settings.Languages.Hint": "Here you can edit the Languages available to creatures in your world.",
 "WW.Settings.Languages.Label": "Edit Languages",
-"WW.Settings.Senses.Name": "Available Senses to Creatures",
+
+"WW.Settings.Senses.EntryType": "Sense",
+"WW.Settings.Senses.Name": "Senses Available to Creatures",
 "WW.Settings.Senses.Hint": "Here you can edit the Senses available to creatures in your world.",
 "WW.Settings.Senses.Label": "Edit Senses",
-"WW.Settings.Immunities.Name": "Available Immunities to Creatures",
+
+"WW.Settings.Immunities.EntryType": "Immunity",
+"WW.Settings.Immunities.Name": "Immunities Available to Creatures",
 "WW.Settings.Immunities.Hint": "Here you can edit the Immunities available to creatures in your world.",
 "WW.Settings.Immunities.Label": "Edit Immunities",
-"WW.Settings.MovementTraits.Name": "Available Special Movement Traits to Creatures",
+
+"WW.Settings.MovementTraits.EntryType": "Special Movement Trait",
+"WW.Settings.MovementTraits.Name": "Special Movement Traits Available to Creatures",
 "WW.Settings.MovementTraits.Hint": "Here you can edit the Special Movement Traits available to creatures in your world.",
 "WW.Settings.MovementTraits.Label": "Edit Movement Traits",
-"WW.Settings.Descriptors.Name": "Available Creature Descriptors to Creatures",
+
+"WW.Settings.Descriptors.EntryType": "Descriptor",
+"WW.Settings.Descriptors.Name": "Creature Descriptors Available to Creatures",
 "WW.Settings.Descriptors.Hint": "Here you can edit the Descriptors available to creatures in your world.",
 "WW.Settings.Descriptors.Label": "Edit Descriptors",
-"WW.Settings.WeaponTraits.Name": "Available Weapon Traits",
+
+"WW.Settings.WeaponTraits.EntryType": "Weapon Trait",
+"WW.Settings.WeaponTraits.Name": "Weapon Traits Available",
 "WW.Settings.WeaponTraits.Hint": "Here you can edit the Weapon Traits available in your world.",
 "WW.Settings.WeaponTraits.Label": "Edit Weapon Traits",
-"WW.Settings.Afflictions.Name": "Available Afflictions to Creatures",
+
+"WW.Settings.Afflictions.EntryType": "Affliction",
+"WW.Settings.Afflictions.Name": "Afflictions Available to Creatures",
 "WW.Settings.Afflictions.Hint": "Here you can edit the Afflictions available to creatures in your world.",
 "WW.Settings.Afflictions.Label": "Edit Afflictions",
 
