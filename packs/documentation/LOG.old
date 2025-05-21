@@ -1,5 +1,3 @@
-2025/05/20-14:02:18.137 5758 Log #540: 0 ops saved to Table #541 OK
-2025/05/20-14:02:18.138 5758 Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\documentation/000540.log: OK
-2025/05/20-14:02:18.139 5758 Table #486: 6 entries OK
-2025/05/20-14:02:18.141 5758 Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\documentation/MANIFEST-000539: OK
-2025/05/20-14:02:18.144 5758 **** Repaired leveldb C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\documentation; recovered 1 files; 5581 bytes. Some data may have been lost. ****
+2025/05/21-15:14:39.383 46e0 Recovering log #543
+2025/05/21-15:14:39.389 46e0 Delete type=0 #543
+2025/05/21-15:14:39.389 46e0 Delete type=3 #542

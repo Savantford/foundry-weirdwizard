@@ -1,5 +1,3 @@
-2025/05/20-14:02:18.299 218c Log #523: 0 ops saved to Table #524 OK
-2025/05/20-14:02:18.299 218c Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\talents/000523.log: OK
-2025/05/20-14:02:18.301 218c Table #401: 24 entries OK
-2025/05/20-14:02:18.303 218c Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\talents/MANIFEST-000522: OK
-2025/05/20-14:02:18.308 218c **** Repaired leveldb C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\talents; recovered 1 files; 14092 bytes. Some data may have been lost. ****
+2025/05/21-15:14:39.522 261c Recovering log #526
+2025/05/21-15:14:39.528 261c Delete type=0 #526
+2025/05/21-15:14:39.529 261c Delete type=3 #525

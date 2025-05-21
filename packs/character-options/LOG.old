@@ -1,5 +1,3 @@
-2025/05/20-14:02:18.238 2084 Log #187: 0 ops saved to Table #188 OK
-2025/05/20-14:02:18.239 2084 Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\character-options/000187.log: OK
-2025/05/20-14:02:18.240 2084 Table #119: 146 entries OK
-2025/05/20-14:02:18.243 2084 Archiving C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\character-options/MANIFEST-000186: OK
-2025/05/20-14:02:18.247 2084 **** Repaired leveldb C:\Users\grisa\AppData\Local\FoundryVTT\Data\systems\weirdwizard\packs\character-options; recovered 1 files; 65577 bytes. Some data may have been lost. ****
+2025/05/21-15:14:39.474 46e0 Recovering log #190
+2025/05/21-15:14:39.479 46e0 Delete type=0 #190
+2025/05/21-15:14:39.479 46e0 Delete type=3 #189
