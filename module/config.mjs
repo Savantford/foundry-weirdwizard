@@ -904,6 +904,7 @@ WW.COMPENDIUM_GROUPS = {
   'sotww-wa': 'WW.System.Compendium.Group.WeirdAncestries'
 };
 
+/* Default Entries */
 WW.DEFAULT_LANGUAGES = {
   'common': {
     name: 'Common',

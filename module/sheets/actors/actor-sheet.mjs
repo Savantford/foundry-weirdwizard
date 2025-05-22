@@ -6,6 +6,7 @@ import MultiChoice from '../../apps/multi-choice.mjs';
 import { createActiveEffect, deleteActiveEffect, editActiveEffect, prepareActiveEffectCategories } from '../../helpers/effect-actions.mjs';
 import RollAttribute from '../../dice/roll-attribute.mjs';
 import TargetingHUD from '../../apps/targeting-hud.mjs';
+import WWDialog from '../../apps/dialog.mjs';
 import WWPageView from '../journal/page-view.mjs';
 import WWRoll from '../../dice/roll.mjs';
 
@@ -1160,7 +1161,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     const charOptions = this.actor.system.charOptions;
 
     // Open a dialog to confirm
-    const confirm = await Dialog.confirm({
+    const confirm = await WWDialog.confirm({
       title: i18n('WW.CharOption.Reference.RemoveDialog.Title'),
       content: `<p>${i18n('WW.CharOption.Reference.RemoveDialog.Msg')}</p><p class="dialog-sure">${i18n('WW.CharOption.Reference.RemoveDialog.Confirm')}</p>`
     });

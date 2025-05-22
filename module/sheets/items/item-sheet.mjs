@@ -1,5 +1,4 @@
 import { i18n } from '../../helpers/utils.mjs';
-import ListEntryConfig from '../configs/list-entry-config.mjs';
 import MultiChoice from '../../apps/multi-choice.mjs';
 import {
   createActiveEffect, deleteActiveEffect, editActiveEffect,

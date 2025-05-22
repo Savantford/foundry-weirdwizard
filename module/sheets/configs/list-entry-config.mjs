@@ -1,9 +1,11 @@
+import { EntrySettingsMenu } from '../../apps/entry-settings-menu.mjs';
+
 export default class ListEntryConfig extends FormApplication {
   /** @override */
   static get defaultOptions() {
     const options = super.defaultOptions;
     options.id = "list-entry-config";
-    options.template = "systems/weirdwizard/templates/configs/list-entry-config.hbs";
+    options.template = "systems/weirdwizard/templates/configs/list-entry-dialog.hbs";
     options.height = "auto";
     options.width = 400;
     options.title = "Edit Entry";
@@ -15,11 +17,24 @@ export default class ListEntryConfig extends FormApplication {
     super(dataset, options);
     
     this.doc = doc;
-    if (doc instanceof Actor) this.actor = doc;
-    this.arrPath = 'system.' + dataset.array;
-    this.arr = foundry.utils.getProperty(doc, this.arrPath);
-    this.entryId = dataset.entryId;
-    this.entry = this.arr[dataset.entryId];
+
+    // Handle documents
+    console.log(doc)
+    //console.log(Document)
+    if (doc instanceof foundry.abstract.Document) {
+      console.log(doc)
+      if (doc instanceof Actor) this.actor = doc;
+      this.arrPath = 'system.' + dataset.array;
+      this.arr = foundry.utils.getProperty(doc, this.arrPath);
+      this.entryId = dataset.entryId;
+      this.entry = this.arr[dataset.entryId];
+    
+    // Handle entry settings menu
+    } else if (doc instanceof EntrySettingsMenu) {
+      console.log(doc)
+      console.log(dataset)
+    }
+    
     
   }
 
