@@ -14,7 +14,7 @@ export default class WWNpcSheet extends WWActorSheet {
       controls: super.DEFAULT_OPTIONS.window.controls.concat([ // Remove concat in V13
         {
           action: "resetSheet",
-          icon: "fas fa-rotate-left",
+          icon: "fas fa-eraser",
           label: "WW.Actor.Reset",
           ownership: "OWNER"
         }

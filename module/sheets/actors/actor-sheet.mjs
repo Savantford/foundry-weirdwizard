@@ -1162,8 +1162,14 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
 
     // Open a dialog to confirm
     const confirm = await WWDialog.confirm({
-      title: i18n('WW.CharOption.Reference.RemoveDialog.Title'),
-      content: `<p>${i18n('WW.CharOption.Reference.RemoveDialog.Msg')}</p><p class="dialog-sure">${i18n('WW.CharOption.Reference.RemoveDialog.Confirm')}</p>`
+      window: {
+        title: 'WW.CharOption.Reference.RemoveDialog.Title',
+        icon: 'fa-solid fa-trash'
+      },
+      content: `
+        <p>${i18n('WW.CharOption.Reference.RemoveDialog.Msg')}</p>
+        <p class="dialog-sure">${i18n('WW.CharOption.Reference.RemoveDialog.Confirm')}</p>
+      `
     });
 
     if (!confirm) return;
@@ -1284,9 +1290,15 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   async _onItemRemove(item, button) {
     
     // Confirm Dialog
-    const confirm = await Dialog.confirm({
-      title: i18n('WW.Item.Delete.Dialog.Title'),
-      content: i18n('WW.Item.Delete.Dialog.Msg', {name: '<b>' + item.name + '</b>'}) + '<p class="dialog-sure">' + i18n('WW.Item.Delete.Dialog.Confirm', {name: item.name}) + '</p>'
+    const confirm = await WWDialog.confirm({
+      window: {
+        title: 'WW.Item.Delete.Dialog.Title',
+        icon: 'fa-solid fa-trash'
+      },
+      content: `
+        <p>${i18n('WW.Item.Delete.Dialog.Msg', {name: '<b>' + item.name + '</b>'})}</p>
+        <p class="dialog-sure">${i18n('WW.Item.Delete.Dialog.Confirm', {name: item.name})}</p>
+      `
     });
 
     if (!confirm) return;
@@ -1698,9 +1710,15 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
 
   static async #onRest() {
     
-    const confirm = await Dialog.confirm({
-      title: i18n('WW.Rest.Label'),
-      content: i18n('WW.Rest.Msg') + '<p class="dialog-sure">' + i18n('WW.Rest.Confirm') + '</p>'
+    const confirm = await WWDialog.confirm({
+      window: {
+        title: 'WW.Rest.Label',
+        icon: 'fa-solid fa-campground'
+      },
+      content: `
+        <p>${i18n('WW.Rest.Msg')}</p>
+        <p class="dialog-sure">${i18n('WW.Rest.Confirm')}</p>
+      `
     });
 
     if (!confirm) return;
@@ -1736,7 +1754,11 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
 
   static async #onSheetReset() {
     
-    const confirm = await Dialog.confirm({
+    const confirm = await WWDialog.confirm({
+      window: {
+        title: 'WW.Reset.Label',
+        icon: 'fa-solid fa-rotate-left'
+      },
       title: i18n('WW.Reset.Label'),
       content: i18n('WW.Reset.Msg') + '<p class="dialog-sure">' + i18n('WW.Reset.Confirm') + '</p>'
     });
@@ -2081,9 +2103,12 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       const oldName = oldPage ? oldPage.name : 'Unknown';
 
       if (oldUuid) {
-        const confirm = await Dialog.confirm({
-          title: i18n('WW.CharOption.Reference.ReplaceDialog.Title'),
-          content: i18n('WW.CharOption.Reference.ReplaceDialog.Msg', { old: oldName, new: page.name, type: page.type })
+        const confirm = await WWDialog.confirm({
+          window: {
+            title: 'WW.CharOption.Reference.ReplaceDialog.Title',
+            icon: 'fa-solid fa-right-left'
+          },
+          content: `<p>${i18n('WW.CharOption.Reference.ReplaceDialog.Msg', { old: oldName, new: page.name, type: page.type })}</p>`
         });
 
         if (!confirm) return;

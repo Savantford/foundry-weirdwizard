@@ -1,5 +1,6 @@
 import { i18n, sysPath } from './utils.mjs';
 import InstantEffectConfig from '../sheets/configs/instant-effect-config.mjs';
+import WWDialog from '../apps/dialog.mjs';
 
 /* -------------------------------------------- */
 /*  Instant Effect handling actions             */
@@ -45,10 +46,13 @@ export async function deleteInstantEffect(effect, owner) {
   const arr = owner.system.instant;
 
   // Confirm Dialog
-  const confirm = await Dialog.confirm({
-    title: i18n('WW.Item.Delete.Dialog.Title'),
+  const confirm = await WWDialog.confirm({
+    window: {
+      title: 'WW.Item.Delete.Dialog.Title',
+      icon: 'fa-solid fa-trash'
+    },
     content: `
-      ${i18n('WW.Item.Delete.Dialog.Msg', { name: '<b>' + i18n(effect.locLabel) + '</b>' })}
+      <p>${i18n('WW.Item.Delete.Dialog.Msg', { name: '<b>' + i18n(effect.locLabel) + '</b>' })}</p>
       <p class="dialog-sure">${i18n('WW.Item.Delete.Dialog.Confirm', { name: i18n(effect.locLabel) })}</p>
     `
   });
@@ -119,10 +123,13 @@ export function editActiveEffect(effect, owner) {
 export async function deleteActiveEffect(effect, owner) {
 
   // Confirm Dialog
-  const confirm = await Dialog.confirm({
-    title: i18n('WW.Item.Delete.Dialog.Title'),
+  const confirm = await WWDialog.confirm({
+    window: {
+      title: 'WW.Item.Delete.Dialog.Title',
+      icon: 'fa-solid fa-trash'
+    },
     content: `
-      ${i18n('WW.Item.Delete.Dialog.Msg', { name: '<b>' + effect.name + '</b>' })}
+      <p>${i18n('WW.Item.Delete.Dialog.Msg', { name: '<b>' + effect.name + '</b>' })}</p>
       <p class="dialog-sure">${i18n('WW.Item.Delete.Dialog.Confirm', { name: effect.name })}</p>
     `
   });

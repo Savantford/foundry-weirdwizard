@@ -240,7 +240,10 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
     
     // Open a dialog to confirm
     const confirm = await WWDialog.confirm({
-      title: i18n('WW.Settings.Entry.Remove'),
+      window: {
+        title: 'WW.Settings.Entry.Remove',
+        icon: 'fa-solid fa-trash'
+      },
       content: i18n('WW.Settings.Entry.RemoveDialog.Msg')
     });
 

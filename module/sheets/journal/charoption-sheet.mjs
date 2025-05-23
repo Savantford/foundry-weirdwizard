@@ -1,3 +1,4 @@
+import WWDialog from "../../apps/dialog.mjs";
 import { i18n } from "../../helpers/utils.mjs";
 import ListEntryConfig from "../configs/list-entry-config.mjs";
 
@@ -392,9 +393,15 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     const item = await fromUuid(uuid);
 
     // Open a dialog to confirm
-    const confirm = await Dialog.confirm({
-      title: i18n('WW.CharOption.Reference.RemoveDialog.Title'),
-      content: `<p>${i18n('WW.CharOption.Reference.RemoveDialog.Msg')}</p><p class="dialog-sure">${i18n('WW.CharOption.Reference.RemoveDialog.Confirm')}</p>`
+    const confirm = await WWDialog.confirm({
+      window: {
+        title: 'WW.CharOption.Reference.RemoveDialog.Title',
+        icon: 'fa-solid fa-trash'
+      },
+      content: `
+        <p>${i18n('WW.CharOption.Reference.RemoveDialog.Msg')}</p>
+        <p class="dialog-sure">${i18n('WW.CharOption.Reference.RemoveDialog.Confirm')}</p>
+      `
     });
 
     if (!confirm) return;
