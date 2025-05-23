@@ -65,6 +65,8 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
   }
 
   /* -------------------------------------------- */
+  /*  Context preparation                         */
+  /* -------------------------------------------- */
 
   /**
    * Prepare application rendering context data for a given render request.
@@ -85,7 +87,9 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
     return context;
   }
 
-  /* -------------------------------------------------- */
+  /* -------------------------------------------- */
+  /*  Form handling                               */
+  /* -------------------------------------------- */
 
   /**
    * Handle form submission. The basic usage of this function is to set `#list`
@@ -98,23 +102,11 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
    * @param {FormDataExtended} formData   The form data.
    */
   static #submitHandler(event, form, formData) {
-    //this.list = this._processFormData(event, form, formData);
+    return game.settings.set('weirdwizard', this.settingName, this.list);
   }
 
-  /* -------------------------------------------------- */
-
-  /**
-   * Perform processing of the submitted data. To prevent submission, throw an error.
-   * @param {SubmitEvent} event           The submit event.
-   * @param {HTMLFormElement} form        The form element.
-   * @param {FormDataExtended} formData   The form data.
-   * @returns {object}                    The data to return from this application.
-   */
-  _processFormData(event, form, formData) {
-    foundry.utils.expandObject(formData.object);
-    return ;
-  }
-
+  /* -------------------------------------------- */
+  /*  Entry actions                               */
   /* -------------------------------------------- */
 
   /**
@@ -143,7 +135,11 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
       ]
     });
 
-    if (!dialogInput || !dialogInput.key) return;
+    // Return if cancelled
+    if (!dialogInput) return;
+
+    // Return with warning if the key or name are missing
+    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
 
     newList[dialogInput.key] = dialogInput;
 
@@ -198,6 +194,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
 
     const context = {
       entry: await newList[key],
+      key: key,
       showKey: true
     };
 
@@ -219,6 +216,12 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
         },
       ]
     });
+
+    // Return if cancelled
+    if (!dialogInput) return;
+
+    // Return with warning if the key or name are missing
+    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
 
     newList[key] = dialogInput;
     
@@ -253,102 +256,6 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
     delete newList[key];
     this.list = await newList;
     this.render(true);
-  }
-
-  /**
-   * Process form submission for the sheet
-   * @this {MyApplication}                      The handler is called with the application as its bound scope
-   * @param {SubmitEvent} event                   The originating form submission event
-   * @param {HTMLFormElement} form                The form element that was submitted
-   * @param {FormDataExtended} formData           Processed data for the submitted form
-   * @returns {Promise<void>}
-   */
-  static async #formHandler(event, form, formData) {
-    
-    const opt = this.options;
-
-    // Return if cancel button is clicked
-    if (event.submitter.value === 'cancel') return;
-    
-    const obj = await formData.object;
-
-    // Handle specific purposes
-    switch (opt.purpose) {
-
-      case 'editWeaponTraits':
-        opt.document.update(obj);
-      break;
-
-      // Update Afflictions
-      case 'updateAfflictions':
-        const checkedAffs = Object.fromEntries(Object.entries(obj).filter(([_, v]) => v));
-        
-        for (const aff in CONFIG.WW.AFFLICTIONS) {
-          
-          if (checkedAffs[aff]) {
-            const affliction = CONFIG.statusEffects.find(a => a.id === aff);
-            
-            if (affliction && !opt.document.effects.find(e => e.statuses.has(aff))) {
-              affliction['statuses'] = [affliction.id];
-              
-              await ActiveEffect.create(affliction, {parent: opt.document});
-            }
-
-          } else {
-            const affliction = opt.document.effects.find(e => e.statuses.has(aff));
-            
-            if (affliction) await affliction.delete();
-          }
-
-        }
-        
-      break;
-
-      // Chat Effect Application
-      case 'applyEffect':
-        const selected = Object.fromEntries(Object.entries(obj).filter(([_, v]) => v));
-
-        const value = opt.dataset.value,
-          effect = opt.dataset.effectUuid;
-
-        for (const uuid in selected) {
-
-          const target = await fromUuid(uuid);
-
-          switch (opt.dataset.action) {
-            case 'apply-damage': target.applyDamage(value); break;
-            case 'apply-damage-half': target.applyDamage(Math.floor(value / 2)); break;
-            case 'apply-damage-double': target.applyDamage(2 * value); break;
-            case 'apply-healing': target.applyHealing(value); break;
-            case 'apply-health-loss': target.applyHealthLoss(value); break;
-            case 'apply-health-regain': target.applyHealthRegain(value); break;
-            case 'apply-affliction': target.applyAffliction(value); break;
-            case 'apply-effect': target.applyEffect(effect); break;
-          }
-
-        }
-      break;
-    }
-    
-  }
-
-  /* -------------------------------------------- */
-  /*  Closing                                     */
-  /* -------------------------------------------- */
-
-  /**
-   * Close the Application, removing it from the DOM.
-   * @param {ApplicationClosingOptions} [options] Options which modify how the application is closed.
-   * @returns {Promise<ApplicationV2>}            A Promise which resolves to the closed Application instance
-   */
-  async close(options={}) {
-    
-    /*if (this.#onClickElsewhere) {
-      document.removeEventListener('click', this.#onClickElsewhere);
-      this.#onClickElsewhere = undefined;
-    }*/
-    
-    return super.close(options);
   }
 
 }

@@ -872,6 +872,7 @@
 "WW.Settings.Entry.AddSet": "Add set of default entries",
 "WW.Settings.Entry.SetNotification": "Default set of entries added.",
 "WW.Settings.Entry.Edit": "Edit Entry",
+"WW.Settings.Entry.EditWarning": "The entry is missing an ID/key and/or a name. Please provide both.",
 "WW.Settings.Entry.Remove": "Remove Entry",
 "WW.Settings.Entry.RemoveDialog.Msg": "Are you sure you want to remove the entry?",
 "WW.Settings.Entry.Key": "ID/Key (Required)",
