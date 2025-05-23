@@ -19,10 +19,8 @@ export default class ListEntryConfig extends FormApplication {
     this.doc = doc;
 
     // Handle documents
-    console.log(doc)
-    //console.log(Document)
     if (doc instanceof foundry.abstract.Document) {
-      console.log(doc)
+      
       if (doc instanceof Actor) this.actor = doc;
       this.arrPath = 'system.' + dataset.array;
       this.arr = foundry.utils.getProperty(doc, this.arrPath);
@@ -31,8 +29,7 @@ export default class ListEntryConfig extends FormApplication {
     
     // Handle entry settings menu
     } else if (doc instanceof EntrySettingsMenu) {
-      console.log(doc)
-      console.log(dataset)
+      // Not needed, app obsolete
     }
     
     

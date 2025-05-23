@@ -100,7 +100,7 @@ export function details(type = String) {
       })
     ),
 
-    immune: new fields.ArrayField(
+    immunities: new fields.ArrayField(
       new fields.ObjectField({
         initial: {
           name: "",

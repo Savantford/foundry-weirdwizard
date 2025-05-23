@@ -11,7 +11,7 @@ export default class WWSpellSheet extends WWItemSheet {
   static DEFAULT_OPTIONS = {
     classes: ['weirdwizard', 'sheet', 'item', 'spell'],
     window: {
-      icon: 'fas fa-bolt-lightning'
+      icon: 'fa-solid fa-bolt-lightning'
     }
   }
 

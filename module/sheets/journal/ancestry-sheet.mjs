@@ -11,7 +11,7 @@ export default class WWAncestrySheet extends WWCharOptionSheet {
   static DEFAULT_OPTIONS = {
     classes: ['weirdwizard', 'sheet', 'charoption', 'profession'],
     window: {
-      icon: 'fas fa-people-line'
+      icon: 'fa-solid fa-people-line'
     }
   }
 

@@ -107,8 +107,8 @@ export default class CharacterData extends BaseActorModel {
     if ('details' in source && isNaN(source.details?.reputation)) source.details.reputation = 0;
     if ('stats' in source && !source.stats?.damage?.raw && source.stats?.damage?.value) source.stats.damage.raw = source.stats?.damage?.value;
 
-    // Migrate legacy charOptions
-    //if (typeof x === 'object') source.details.noviceLegacy
+    // Migrate immune to immunities
+    if ('details' in source && source.details?.immune) source.details.immunities = source.details.immune;
 
     return super.migrateData(source);
   }

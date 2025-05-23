@@ -28,7 +28,7 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
     tag: 'form',
     window: {
       title: this.title, // Custom title display
-      icon: 'far fa-scroll',
+      icon: 'fa-regular fa-scroll',
       resizable: true,
       contentClasses: ['scrollable'],
       controls: [ // Remove concat in V13

@@ -11,7 +11,7 @@ export default class WWTalentSheet extends WWItemSheet {
   static DEFAULT_OPTIONS = {
     classes: ['weirdwizard', 'sheet', 'item', 'talent'],
     window: {
-      icon: 'fas fa-cards'
+      icon: 'fa-solid fa-cards'
     }
   }
 

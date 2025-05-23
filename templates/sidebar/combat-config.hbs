@@ -28,12 +28,12 @@
         <label>{{ localize combatTheme.name }}</label>
         <div class="form-fields">
             {{formInput combatTheme.type value=selectedTheme localize=true}}
-            <i data-tooltip="{{localize 'Preview'}}" class="fas fa-play audio-preview"></i>
+            <i data-tooltip="{{localize 'Preview'}}" class="fa-solid fa-play audio-preview"></i>
         </div>
         <p class="notes">{{ localize combatTheme.hint }}</p>
     </div>
 
     <button type="submit">
-        <i class="fas fa-save"></i> {{localize 'COMBAT.SettingsSave'}}
+        <i class="fa-solid fa-save"></i> {{localize 'COMBAT.SettingsSave'}}
     </button>
 </form>

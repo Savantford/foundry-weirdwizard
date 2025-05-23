@@ -11,7 +11,7 @@ export default class WWPathSheet extends WWCharOptionSheet {
   static DEFAULT_OPTIONS = {
     classes: ['weirdwizard', 'sheet', 'charoption', 'path'],
     window: {
-      icon: 'fas fa-route'
+      icon: 'fa-solid fa-route'
     }
   }
 

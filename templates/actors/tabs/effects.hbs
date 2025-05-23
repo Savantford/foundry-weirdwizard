@@ -30,7 +30,7 @@
         <div class="item-controls effect-controls flexrow">
           {{#if section.showCreate}}
           <a class="effect-control" data-action="effectCreate" data-type="{{section.type}}" data-tooltip="WW.Effect.Create">
-            <i class="fas fa-plus"></i> {{localize "WW.Item.Create.Label"}}
+            <i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}
           </a>
           {{/if}}
         </div>
@@ -61,14 +61,14 @@
           {{/if}}
       
           <a class="effect-control" data-action="effectEdit" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Edit">
-            <i class="fas fa-edit"></i>
+            <i class="fa-solid fa-edit"></i>
           </a>
 
           <a class="effect-control" data-action="effectRemove" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Delete">
-            <i class="fas fa-trash"></i>
+            <i class="fa-solid fa-trash"></i>
           </a>
           {{else}}
-          <a data-tooltip="{{#if effect.isBenefit}}WW.Effect.HandledByCharOption{{else}}WW.Effect.HandledByItem{{/if}}"><i class="fas fa-circle-question"></i></a>
+          <a data-tooltip="{{#if effect.isBenefit}}WW.Effect.HandledByCharOption{{else}}WW.Effect.HandledByItem{{/if}}"><i class="fa-solid fa-circle-question"></i></a>
           {{/if}}
         </div>
         
@@ -92,7 +92,7 @@
         <div class="item-controls effect-controls flexrow">
           {{#if section.showCreate}}
           <a class="effect-control" data-action="effectCreate" data-type="{{section.type}}" data-tooltip="WW.Effect.Create">
-            <i class="fas fa-plus"></i> {{localize "WW.Item.Create.Label"}}
+            <i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}
           </a>
           {{/if}}
         </div>
@@ -120,11 +120,11 @@
           {{/if}}
       
           <a class="effect-control" data-action="effectEdit" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Edit">
-            <i class="fas fa-edit"></i>
+            <i class="fa-solid fa-edit"></i>
           </a>
 
           <a class="effect-control" data-action="effectRemove" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Delete">
-            <i class="fas fa-trash"></i>
+            <i class="fa-solid fa-trash"></i>
           </a>
 
           {{/if}}

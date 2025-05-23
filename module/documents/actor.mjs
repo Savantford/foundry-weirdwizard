@@ -798,7 +798,7 @@ export default class WWActor extends Actor {
 
     const content = `
       <div style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this })}</b> ${i18n('WW.InstantEffect.Apply.Took')} ${damage} ${i18n('WW.InstantEffect.Apply.DamageLc')}.</div>
-      <div>${i18n('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fas fa-arrow-right"></i> ${newTotal}</div>
+      <div>${i18n('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fa-solid fa-arrow-right"></i> ${newTotal}</div>
     `;
 
     ChatMessage.create({
@@ -818,7 +818,7 @@ export default class WWActor extends Actor {
 
     const content = `
       <div style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this })}</b> ${i18n('WW.InstantEffect.Apply.Healed')} ${healing} ${i18n('WW.InstantEffect.Apply.DamageLc')}.</div>
-      <div>${i18n('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fas fa-arrow-right"></i> ${newTotal}</div>
+      <div>${i18n('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fa-solid fa-arrow-right"></i> ${newTotal}</div>
     `;
 
     ChatMessage.create({
@@ -839,7 +839,7 @@ export default class WWActor extends Actor {
 
     const content = `
       <div style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this })}</b> ${i18n('WW.InstantEffect.Apply.Lost')} ${loss} ${i18n('WW.InstantEffect.Apply.Health')}.</div>
-      <div>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${oldCurrent} <i class="fas fa-arrow-right"></i> ${current}</div>
+      <div>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${oldCurrent} <i class="fa-solid fa-arrow-right"></i> ${current}</div>
     `;
 
     ChatMessage.create({
@@ -861,7 +861,7 @@ export default class WWActor extends Actor {
     
     const content = `
       <div style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this })}</b> ${i18n('WW.InstantEffect.Apply.Regained')} ${regained} ${i18n('WW.InstantEffect.Apply.Health')}.</div>
-      <div>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${oldCurrent} <i class="fas fa-arrow-right"></i> ${current}</div>
+      <div>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${oldCurrent} <i class="fa-solid fa-arrow-right"></i> ${current}</div>
     `;
 
     ChatMessage.create({

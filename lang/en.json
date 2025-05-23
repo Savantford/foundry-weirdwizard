@@ -878,6 +878,8 @@
 "WW.Settings.Entry.Key": "ID/Key (Required)",
 "WW.Settings.Entry.Name": "Name (Required)",
 "WW.Settings.Entry.Description": "Description (Optional)",
+"WW.Settings.Entry.DisplayList": "Check the list of available entries",
+"WW.Settings.Entry.DisplayInstructions": "Hover an entry to see its description.<br>Drag an entry and drop it on a Character or NPC sheet to add it to them.",
 
 "WW.Settings.Languages.EntryType": "Language",
 "WW.Settings.Languages.Name": "Languages Available to Creatures",

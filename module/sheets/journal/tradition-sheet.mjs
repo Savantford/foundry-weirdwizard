@@ -11,7 +11,7 @@ export default class WWTraditionSheet extends WWCharOptionSheet {
   static DEFAULT_OPTIONS = {
     classes: ['weirdwizard', 'sheet', 'charoption', 'tradition'],
     window: {
-      icon: 'fas fa-hand-holding-magic'
+      icon: 'fa-solid fa-hand-holding-magic'
     }
   }
 

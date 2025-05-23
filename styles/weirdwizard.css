@@ -1062,7 +1062,8 @@ body {
 
 .weirdwizard.edit-mode .descriptors:hover .buttons,
 .weirdwizard.edit-mode .descriptors:hover .item-create,
-.weirdwizard.edit-mode .descriptors:hover .array-button[data-action=entryCreate] {
+.weirdwizard.edit-mode .descriptors:hover .array-button[data-action=entryCreate],
+.weirdwizard.edit-mode .descriptors:hover .array-button[data-action=entrySettings] {
   display: inline;
 }
 
@@ -2763,6 +2764,7 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard .statbox .buttons > a,
 .weirdwizard .list-entries .buttons > .array-button,
 .weirdwizard .list-entries .array-button[data-action=entryCreate],
+.weirdwizard .list-entries .array-button[data-action=entrySettings],
 .weirdwizard:not(.charoption) .list-entries .array-button[data-action="add"],
 .weirdwizard .list-entries .item-create,
 .weirdwizard .statbox h6 .item-create,
@@ -4019,7 +4021,7 @@ details.document-card .card-header:hover::after {
 }
 
 /* -------------------------------------------- */
-/*  List Entry Sub-Settings Menu                */
+/*  List Entry Sub-Settings: Menu & Display     */
 /* -------------------------------------------- */
 
 .theme-dark #entry-settings-menu header.table-header {
@@ -4080,6 +4082,31 @@ details.document-card .card-header:hover::after {
 
 #entry-settings-menu li > .form-fields > a {
   flex: 0 0 20px;
+}
+
+/* List Entry Sub-Settings: Display */
+
+#entry-settings-display ol {
+  list-style: none;
+  display: flex;
+  flex-flow: wrap;
+  gap: 5px;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+}
+
+#entry-settings-display li {
+  justify-content: space-between;
+  padding: 0.25rem 0.5rem;
+  margin: 0;
+  border: 1px solid var(--color-border-dark-4);
+  border-radius: 3px;
+}
+
+#entry-settings-display li:hover {
+  background: var(--pink);
 }
 
 /* -------------------------------------------- */

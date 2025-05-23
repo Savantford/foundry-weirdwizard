@@ -11,7 +11,7 @@
                 <div class="item-traits">{{localize "WW.Weapon.Traits.Label"}}</div>
                 <div class="item-controls">
                     <a class="item-control item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Weapon" data-type="Equipment" data-subtype="weapon"><i
-                        class="fas fa-plus"></i> {{localize "WW.Item.Create.Label"}}</a>
+                        class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}</a>
                 </div>
             </li>
 
@@ -47,16 +47,16 @@
                     {{#if item.system.description.value}}
                         <a class="item-button" data-action="itemScroll" data-item-id="{{item._id}}"
                             data-tooltip="{{localize "WW.Item.Send"}}">
-                        <i class="far fa-scroll"></i></a>
+                        <i class="fa-regular fa-scroll"></i></a>
                     {{/if}}
 
                     {{!-- Edit Button --}}
                     <a class="item-button" data-action="itemEdit" data-item-id="{{item._id}}"
                         data-tooltip="WW.Item.Edit.Weapon">
-                    <i class="fas fa-edit"></i></a>
+                    <i class="fa-solid fa-edit"></i></a>
 
                     {{!-- Delete Button --}}
-                    <a class="item-button" data-action="itemRemove" data-item-id="{{item._id}}" data-tooltip="WW.Item.Delete.Weapon"><i class="fas fa-trash"></i></a>
+                    <a class="item-button" data-action="itemRemove" data-item-id="{{item._id}}" data-tooltip="WW.Item.Delete.Weapon"><i class="fa-solid fa-trash"></i></a>
                 </div>
             </li>
             {{/each}}
@@ -81,7 +81,7 @@
                         <div class="input-overlay">{{system.currency.gp}}</div>
                     </div>
 
-                    <i class="fas fa-coins gold" data-tooltip="{{localize "WW.Equipment.GP"}}"></i>
+                    <i class="fa-solid fa-coins gold" data-tooltip="{{localize "WW.Equipment.GP"}}"></i>
                 </li>
 
                 <li>
@@ -92,7 +92,7 @@
                         <div class="input-overlay">{{system.currency.sp}}</div>
                     </div>
 
-                    <i class="fas fa-coins silver" data-tooltip="{{localize "WW.Equipment.SP"}}"></i>
+                    <i class="fa-solid fa-coins silver" data-tooltip="{{localize "WW.Equipment.SP"}}"></i>
                 </li>
 
                 <li>
@@ -103,7 +103,7 @@
                         <div class="input-overlay">{{system.currency.cp}}</div>
                     </div>
                         
-                    <i class="fas fa-coins copper" data-tooltip="{{localize "WW.Equipment.CP"}}"></i>
+                    <i class="fa-solid fa-coins copper" data-tooltip="{{localize "WW.Equipment.CP"}}"></i>
                 </li>
 
             </ol>
@@ -127,7 +127,7 @@
                 <div class="item-uses">{{localize "WW.Equipment.Uses"}}</div>
                 <div class="item-weight">{{localize "WW.Equipment.Weight"}}</div>
                 <div class="item-controls">
-                    <a class="item-control item-create" data-action="itemCreate"  data-tooltip="WW.Item.Create.Equipment" data-type="Equipment" data-subtype="generic"><i class="fas fa-plus"></i> {{localize "WW.Item.Create.Label"}}</a>
+                    <a class="item-control item-create" data-action="itemCreate"  data-tooltip="WW.Item.Create.Equipment" data-type="Equipment" data-subtype="generic"><i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}</a>
                 </div>
             </li>
 
@@ -154,7 +154,7 @@
                             {{!-- Container Collapse --}}
                             {{#if (eq item.system.subtype 'container')}}
                             <a class="item-collapse" data-action="containerCollapse" data-item-id="{{item._id}}" data-tooltip="WW.Container.Expand">
-                                <i class="fas fa-square-caret-up"></i>
+                                <i class="fa-solid fa-square-caret-up"></i>
                             </a>
                             {{/if}}
 
@@ -173,7 +173,7 @@
                     <div class="pip-box">
                         {{#each item.uses as |pip id|}}
                         <a class="item-pip" data-action="itemUpdateUses" data-item-id="{{item._id}}"
-                            data-tooltip="{{#if (eq pip "far fa-circle")}}{{localize "WW.Item.Uses.EquipmentSpend"}}{{else}}{{localize "WW.Item.Uses.EquipmentRecover"}}{{/if}}">
+                            data-tooltip="{{#if (eq pip "fa-regular fa-circle")}}{{localize "WW.Item.Uses.EquipmentSpend"}}{{else}}{{localize "WW.Item.Uses.EquipmentRecover"}}{{/if}}">
                         <i class="{{pip}}"></i></a>
                         {{/each}}
                     </div>
@@ -183,7 +183,7 @@
                     {{#if (eq item.system.subtype 'container')}}
                     <div class="item-holding" data-action="containerCollapse" data-item-id="{{item._id}}" data-tooltip="{{item.containerTooltip}}">
                         <span {{#if (gt item.filled item.system.capacity)}}class="over-warning"{{/if}}>{{item.filled}}/{{item.system.capacity}}</span>
-                        <i class="far fa-toolbox"></i>
+                        <i class="fa-regular fa-toolbox"></i>
                     </div>
                     {{/if}}
                 </div>
@@ -198,16 +198,16 @@
                     {{#if item.system.description.value}}
                         <a class="item-button" data-action="itemScroll" data-item-id="{{item._id}}"
                             data-tooltip="{{localize "WW.Item.Send"}}">
-                        <i class="far fa-scroll"></i></a>
+                        <i class="fa-regular fa-scroll"></i></a>
                     {{/if}}
 
                     {{!-- Edit Button --}}
                     <a class="item-button" data-action="itemEdit" data-item-id="{{item._id}}"
                         data-tooltip="WW.Item.Edit.Equipment">
-                    <i class="fas fa-edit"></i></a>
+                    <i class="fa-solid fa-edit"></i></a>
 
                     {{!-- Delete Button --}}
-                    <a class="item-button" data-action="itemRemove" data-item-id="{{item._id}}" data-tooltip="WW.Item.Delete.Equipment"><i class="fas fa-trash"></i></a>
+                    <a class="item-button" data-action="itemRemove" data-item-id="{{item._id}}" data-tooltip="WW.Item.Delete.Equipment"><i class="fa-solid fa-trash"></i></a>
                     
                 </div>
 
@@ -248,7 +248,7 @@
                         <span class="pip-box">
                             {{#each heldItem.uses as |pip id|}}
                             <a class="item-pip" data-item-id="{{heldItem._id}}"
-                                data-tooltip="{{#if (eq pip "far fa-circle")}}{{localize "WW.Item.Uses.EquipmentSpend"}}{{else}}{{localize "WW.Item.Uses.EquipmentRecover"}}{{/if}}">
+                                data-tooltip="{{#if (eq pip "fa-regular fa-circle")}}{{localize "WW.Item.Uses.EquipmentSpend"}}{{else}}{{localize "WW.Item.Uses.EquipmentRecover"}}{{/if}}">
                             <i class="{{pip}}"></i></a>
                             {{/each}}
                         </span>
@@ -264,16 +264,16 @@
                         {{#if heldItem.system.description.value}}
                             <a class="item-button" data-action="itemScroll" data-item-id="{{heldItem._id}}"
                                 data-tooltip="{{localize "WW.Item.Send"}}">
-                            <i class="far fa-scroll"></i></a>
+                            <i class="fa-regular fa-scroll"></i></a>
                         {{/if}}
 
                         {{!-- Edit Button --}}
                         <a class="item-button" data-action="itemEdit" data-item-id="{{heldItem._id}}"
                             data-tooltip="WW.Item.Edit.Equipment">
-                        <i class="fas fa-edit"></i></a>
+                        <i class="fa-solid fa-edit"></i></a>
 
                         {{!-- Delete Button --}}
-                        <a class="item-button" data-action="itemRemove" data-item-id="{{heldItem._id}}" data-tooltip="WW.Item.Delete.Equipment"><i class="fas fa-trash"></i></a>
+                        <a class="item-button" data-action="itemRemove" data-item-id="{{heldItem._id}}" data-tooltip="WW.Item.Delete.Equipment"><i class="fa-solid fa-trash"></i></a>
                         
                     </div>
                 </li>

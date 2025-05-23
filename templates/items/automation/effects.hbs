@@ -10,7 +10,7 @@
             <div class="instant-effect-value">Value</div>
             <div class="item-controls itemeffect-controls flexrow">
                 <a class="instant-control" data-action="instantCreate" data-tooltip="WW.Effect.Create">
-                    <i class="fas fa-plus"></i> {{localize "WW.Item.Create.Label"}}
+                    <i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}
                 </a>
             </div>
         </li>
@@ -28,7 +28,7 @@
 
                 <span class="buttons">
 
-                    <i class="fas fa-{{#if (eq system.trigger "onCritical")}}check-double
+                    <i class="fa-solid fa-{{#if (eq system.trigger "onCritical")}}check-double
                         {{else if (eq system.trigger "onSuccess")}}check
                         {{else if (eq system.trigger "onFailure")}}x
                         {{else}}bolt{{/if}}"
@@ -57,11 +57,11 @@
 
             <div class="item-controls itemeffect-controls flexrow">
                 <a class="instant-control" data-action="instantEdit" data-effect-id="{{id}}" data-tooltip="WW.Effect.Edit">
-                    <i class="fas fa-edit"></i>
+                    <i class="fa-solid fa-edit"></i>
                 </a>
 
                 <a class="instant-control" data-action="instantRemove" data-effect-id="{{id}}" data-tooltip="WW.Effect.Delete">
-                    <i class="fas fa-trash"></i>
+                    <i class="fa-solid fa-trash"></i>
                 </a>
             </div>
 
@@ -84,7 +84,7 @@
             <div class="item-controls effect-controls flexrow">
                 {{#if section.showCreate}}
                 <a class="effect-control" data-action="effectCreate" data-type="{{section.type}}" data-tooltip="WW.Effect.Create">
-                    <i class="fas fa-plus"></i> {{localize "WW.Item.Create.Label"}}
+                    <i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}
                 </a>
                 {{/if}}
             </div>
@@ -103,7 +103,7 @@
 
                 <span class="buttons">
 
-                    <i class="fas fa-{{#if (eq system.trigger "onCritical")}}check-double
+                    <i class="fa-solid fa-{{#if (eq system.trigger "onCritical")}}check-double
                         {{else if (eq system.trigger "onSuccess")}}check
                         {{else if (eq system.trigger "onFailure")}}x
                         {{else if (eq system.trigger "onUse")}}bolt
@@ -136,12 +136,12 @@
                 {{/if}}
         
                 <a class="effect-control" data-action="effectEdit" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Edit">
-                    <i class="fas fa-edit"></i>
+                    <i class="fa-solid fa-edit"></i>
                 </a>
 
                 <a class="effect-control" data-action="effectRemove" data-effect-id="{{effect.id}}"
                     data-tooltip="WW.Effect.Delete">
-                    <i class="fas fa-trash"></i>
+                    <i class="fa-solid fa-trash"></i>
                 </a>
                 
             </div>

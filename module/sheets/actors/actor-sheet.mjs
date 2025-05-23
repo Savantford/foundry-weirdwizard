@@ -9,6 +9,7 @@ import TargetingHUD from '../../apps/targeting-hud.mjs';
 import WWDialog from '../../apps/dialog.mjs';
 import WWPageView from '../journal/page-view.mjs';
 import WWRoll from '../../dice/roll.mjs';
+import { EntrySettingsDisplay } from '../../apps/entry-settings-display.mjs';
 
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
@@ -32,7 +33,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     tag: 'form',
     window: {
       title: this.title, // Custom title display
-      icon: 'far fa-scroll',
+      icon: 'fa-regular fa-scroll',
       resizable: true,
       contentClasses: ['scrollable'],
       controls: super.DEFAULT_OPTIONS.window.controls.concat([ // Remove concat in V13
@@ -73,6 +74,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       entryCreate: this.#onEntryCreate,
       entryEdit: this.#onEntryEdit,
       entryRemove: this.#onEntryRemove,
+      entrySettings: this.#onEntrySettingsDisplay,
 
       journalView: this.#onJournalView,
       journalRemove: this.#onJournalRemove,
@@ -641,7 +643,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       let i = 0; // fill the Buttons with available traditions
 
       for (i = 1; i <= max; i++) { // statement 1 = beginning of the block, statement 2 = condition, statement 3 = executed at the end of each loop
-        if (i <= spent) { arr.push('fas fa-circle-x') } else { arr.push('far fa-circle') };
+        if (i <= spent) { arr.push('fa-solid fa-circle-x') } else { arr.push('fa-regular fa-circle') };
       };
 
       item.uses = arr;
@@ -782,7 +784,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     return [
       {
         name: "WW.Item.Perform.Attack",
-        icon: '<i class="fas fa-bolt"></i>',
+        icon: '<i class="fa-solid fa-bolt"></i>',
         callback: li => {
           const dataset = Object.assign({}, li[0].dataset);
           return this._onItemUse(dataset);
@@ -794,7 +796,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       },
       {
         name: "WW.Item.Perform.AttackTarget",
-        icon: '<i class="fas fa-bullseye"></i>',
+        icon: '<i class="fa-solid fa-bullseye"></i>',
         callback: li => {
           const dataset = Object.assign({}, li[0].dataset);
           return this._onItemUse(dataset, 'targeted-use');
@@ -806,7 +808,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       },
       {
         name: "WW.Item.Perform.Equipment",
-        icon: '<i class="fas fa-bolt"></i>',
+        icon: '<i class="fa-solid fa-bolt"></i>',
         callback: li => {
           const dataset = Object.assign({}, li[0].dataset);
           return this._onItemUse(dataset);
@@ -818,7 +820,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       },
       {
         name: "WW.Item.Perform.EquipmentTarget",
-        icon: '<i class="fas fa-bullseye"></i>',
+        icon: '<i class="fa-solid fa-bullseye"></i>',
         callback: li => {
           const dataset = Object.assign({}, li[0].dataset);
           return this._onItemUse(dataset, 'targeted-use');
@@ -830,7 +832,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       },
       {
         name: "WW.Item.Perform.Spell",
-        icon: '<i class="fas fa-bolt"></i>',
+        icon: '<i class="fa-solid fa-bolt"></i>',
         callback: li => {
           const dataset = Object.assign({}, li[0].dataset);
           return this._onItemUse(dataset);
@@ -842,7 +844,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       },
       {
         name: "WW.Item.Perform.SpellTarget",
-        icon: '<i class="fas fa-bullseye"></i>',
+        icon: '<i class="fa-solid fa-bullseye"></i>',
         callback: li => {
           const dataset = Object.assign({}, li[0].dataset);
           return this._onItemUse(dataset, 'targeted-use');
@@ -854,7 +856,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       },
       {
         name: "WW.Item.Perform.Talent",
-        icon: '<i class="fas fa-bolt"></i>',
+        icon: '<i class="fa-solid fa-bolt"></i>',
         callback: li => {
           const dataset = Object.assign({}, li[0].dataset);
           return this._onItemUse(dataset);
@@ -866,7 +868,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       },
       {
         name: "WW.Item.Perform.TalentTarget",
-        icon: '<i class="fas fa-bullseye"></i>',
+        icon: '<i class="fa-solid fa-bullseye"></i>',
         callback: li => {
           const dataset = Object.assign({}, li[0].dataset);
           return this._onItemUse(dataset, 'targeted-use');
@@ -878,7 +880,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       },
       {
         name: "WW.Item.Send",
-        icon: '<i class="fas fa-scroll"></i>',
+        icon: '<i class="fa-solid fa-scroll"></i>',
         callback: li => {
           const item = this.actor.items.get(li.data('item-id'));
           return this._onItemScroll(item);
@@ -886,7 +888,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       },
       {
         name: "WW.Item.Edit.Activity",
-        icon: '<i class="fas fa-edit"></i>',
+        icon: '<i class="fa-solid fa-edit"></i>',
         callback: li => {
           const item = this.actor.items.get(li.data('item-id'));
           return this._onItemEdit(item);
@@ -894,7 +896,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       },
       {
         name: "WW.Item.Delete.Activity",
-        icon: '<i class="fas fa-trash"></i>',
+        icon: '<i class="fa-solid fa-trash"></i>',
         callback: li => {
           const item = this.actor.items.get(li.data('item-id'));
           return this._onItemRemove(item, li);
@@ -928,7 +930,6 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    * @type {ApplicationClickAction}
    */
   static async #onEditImage(_event, target) {
-    console.log('editing image')
     if ( target.nodeName !== "IMG" ) {
       throw new Error("The editImage action is available only for IMG elements.");
     }
@@ -1141,6 +1142,19 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     // Update document
     this.actor.update({[arrPath]: arr});
     
+  }
+
+  /**
+   * Handle removing an element from an array
+   * @param {Event} event          The originating click event
+   * @param {HTMLElement} button   The button element originating the click event
+   * @private
+  */
+  static #onEntrySettingsDisplay(event, button) {
+    const dataset = Object.assign({}, button.dataset),
+    entryType = dataset.entryType;
+
+    new EntrySettingsDisplay({ entryType: entryType }).render(true);
   }
 
   /* -------------------------------------------- */
@@ -1734,7 +1748,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     // Create message content
     const content = `
       <p style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this.actor })}</b> ${i18n('WW.Rest.Finished')}.</p>
-      <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${health.current} <i class="fas fa-arrow-right"></i> ${newCurrent}</p>
+      <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${health.current} <i class="fa-solid fa-arrow-right"></i> ${newCurrent}</p>
     `;
 
     // Create and send message to chat
@@ -1928,6 +1942,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   /* -------------------------------------------- */
 
   /**
+   * @override
    * An event that occurs when data is dropped into a drop target.
    * @param {DragEvent} event
    * @returns {Promise<void>}
@@ -1946,6 +1961,12 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       const document = await documentClass.fromDropData(data);
       await this._onDropDocument(event, document);
     }
+
+    // Dropped List Entry
+    if (data.key && data.name) {
+      await this._onDropListEntry(event, data);
+    }
+
   }
 
   /* -------------------------------------------- */
@@ -2156,6 +2177,17 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    * @protected
    */
   async _onDropFolder(event, data) {}
+
+  /**
+   * Handle a droped List Entry on the Actor Sheet.
+   */
+  async _onDropListEntry(event, data) {
+    const { entryType: entryType, ...entry } = data;
+    const arr = [... this.actor.system.details[entryType]];
+    arr.push(entry);
+
+    this.actor.update({ ['system.details.' + entryType]: arr });
+  }
 
   /* -------------------------------------------- */
 

@@ -79,14 +79,14 @@ export default class QuestCalendar extends Application {
       buttons.splice(closeIndex, 0, {
         label: "QC.Settings.Label",
         class: "configure-app",
-        icon: "fas fa-cog",
+        icon: "fa-solid fa-cog",
         onclick: ev => this._onConfigureApp(ev)
       });
 
       buttons.splice(closeIndex, 0, {
         label: "QC.Reset.Label",
         class: "reset-app",
-        icon: "fas fa-eraser",
+        icon: "fa-solid fa-eraser",
         onclick: ev => this._reset(ev)
       });
     }

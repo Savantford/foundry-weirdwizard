@@ -11,7 +11,7 @@
             
             <span class="buttons">
                 <a class="array-button" data-action="journalRemove" data-page-uuid="{{tradition.uuid}}" data-option-type="traditions"
-                    data-tooltip="WW.Tradition.Remove"><i class="fas fa-trash"></i>
+                    data-tooltip="WW.Tradition.Remove"><i class="fa-solid fa-trash"></i>
                 </a>
             </span>{{#unless @last}},{{/unless}}
 
@@ -30,10 +30,10 @@
                         
             <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
                 <a class="array-button" data-action="entryEdit" data-array="details.traditions" data-entry-id="{{id}}"
-                    data-tooltip="WW.Tradition.Edit"><i class="fas fa-edit"></i></a>
+                    data-tooltip="WW.Tradition.Edit"><i class="fa-solid fa-edit"></i></a>
                         
                 <a class="array-button" data-action="entryRemove" data-array="details.traditions" data-entry-id="{{id}}"
-                    data-tooltip="WW.Tradition.Remove"><i class="fas fa-trash"></i></a>
+                    data-tooltip="WW.Tradition.Remove"><i class="fa-solid fa-trash"></i></a>
 
                 </span>{{#unless @last}},{{/unless}}
             </span>
@@ -53,7 +53,7 @@
             <div>{{localize "WW.Item.Tier"}}</div>
             <div>{{localize "WW.Spell.Tradition"}}</div>
             <div class="item-controls">
-                <a class="item-control item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Spell" data-type="Spell"><i class="fas fa-plus"></i> {{localize "WW.Item.Create.Label"}}</a>
+                <a class="item-control item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Spell" data-type="Spell"><i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}</a>
             </div>
         </li>
         
@@ -88,7 +88,7 @@
                 <span class="pip-box">
                     {{#each item.uses as |pip id|}}
                     <a class="item-pip" data-item-id="{{item._id}}"
-                        data-tooltip="{{#if (eq pip "far fa-circle")}}{{localize "WW.Item.Uses.SpellSpend"}}{{else}}{{localize "WW.Item.Uses.SpellRecover"}}{{/if}}">
+                        data-tooltip="{{#if (eq pip "fa-regular fa-circle")}}{{localize "WW.Item.Uses.SpellSpend"}}{{else}}{{localize "WW.Item.Uses.SpellRecover"}}{{/if}}">
                     <i class="{{pip}}"></i></a>
                     {{/each}}
                 </span>
@@ -104,16 +104,16 @@
                 {{#if item.system.description.value}}
                     <a class="item-button" data-action="itemScroll" data-item-id="{{item._id}}"
                         data-tooltip="{{localize "WW.Item.Send"}}">
-                    <i class="far fa-scroll"></i></a>
+                    <i class="fa-regular fa-scroll"></i></a>
                 {{/if}}
 
                 {{!-- Edit Button --}}
                 <a class="item-button" data-action="itemEdit" data-item-id="{{item._id}}"
                     data-tooltip="WW.Item.Edit.Spell">
-                <i class="fas fa-edit"></i></a>
+                <i class="fa-solid fa-edit"></i></a>
 
                 {{!-- Delete Button --}}
-                <a class="item-button" data-action="itemRemove" data-item-id="{{item._id}}" data-tooltip="WW.Item.Delete.Spell"><i class="fas fa-trash"></i></a>
+                <a class="item-button" data-action="itemRemove" data-item-id="{{item._id}}" data-tooltip="WW.Item.Delete.Spell"><i class="fa-solid fa-trash"></i></a>
 
             </div>
         </li>

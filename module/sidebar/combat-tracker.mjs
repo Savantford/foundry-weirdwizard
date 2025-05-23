@@ -378,7 +378,7 @@ export default class WWCombatTracker extends CombatTracker {
     return [
       {
         name: "COMBAT.CombatantUpdate",
-        icon: '<i class="fas fa-edit"></i>',
+        icon: '<i class="fa-solid fa-edit"></i>',
         condition: li => {
           return game.user.isGM;
         },
@@ -446,7 +446,7 @@ export default class WWCombatTracker extends CombatTracker {
       },
       {
         name: "COMBAT.CombatantRemove",
-        icon: '<i class="fas fa-trash"></i>',
+        icon: '<i class="fa-solid fa-trash"></i>',
         condition: li => {
           return game.user.isGM;
         },

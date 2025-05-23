@@ -11,7 +11,7 @@ export default class WWEquipmentSheet extends WWItemSheet {
   static DEFAULT_OPTIONS = {
     classes: ['weirdwizard', 'sheet', 'item', 'equipment'],
     window: {
-      icon: 'fas fa-toolbox'
+      icon: 'fa-solid fa-toolbox'
     }
   }
 

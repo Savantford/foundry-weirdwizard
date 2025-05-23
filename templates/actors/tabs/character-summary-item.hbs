@@ -23,7 +23,7 @@
                 <span class="pip-box">
                     {{#each item.uses as |pip id|}}
                     <a class="item-pip" data-action="itemUpdateUses" data-item-id="{{../item._id}}"
-                        data-tooltip="{{#if (eq pip "far fa-circle")}}
+                        data-tooltip="{{#if (eq pip "fa-regular fa-circle")}}
                             {{#if (eq ../item.type "Equipment")}}{{localize "WW.Item.Uses.EquipmentSpend"}}
                             {{else if (eq ../item.type "Spell")}}{{localize "WW.Item.Uses.SpellSpend"}}
                             {{else}}{{localize "WW.Item.Uses.TalentSpend"}}{{/if}}

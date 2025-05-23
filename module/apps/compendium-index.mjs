@@ -27,7 +27,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     classes: ['weirdwizard'],
     window: {
       title: 'Compendium Index',
-      icon: 'far fa-rectangle-list',
+      icon: 'fa-regular fa-rectangle-list',
       resizable: true,
       contentClasses: ['scrollable']
     },
@@ -144,7 +144,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         const tip = i18n(CONFIG.WW.EQUIPMENT_COINS[doc.system.price.coin].tip);
         const color = CONFIG.WW.EQUIPMENT_COINS[doc.system.price.coin].color;
 
-        doc.priceLabel = `${doc.system.price.value} <i class="fas fa-coins ${color}" data-tooltip="${tip}"></i>`;
+        doc.priceLabel = `${doc.system.price.value} <i class="fa-solid fa-coins ${color}" data-tooltip="${tip}"></i>`;
       }
 
       // Get Weapon Requirements

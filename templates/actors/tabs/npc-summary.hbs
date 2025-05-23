@@ -9,10 +9,10 @@
             <a class="array-button" data-action="entryEdit" data-array="details.descriptors" data-entry-id="{{id}}"
                 data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
                 <a class="array-button" data-action="entryEdit" data-array="details.descriptors" data-entry-id="{{id}}"
-                    data-tooltip="WW.Detail.Descriptor.Edit"><i class="fas fa-edit"></i></a>
+                    data-tooltip="WW.Detail.Descriptor.Edit"><i class="fa-solid fa-edit"></i></a>
 
                 <a class="array-button" data-action="entryRemove" data-array="details.descriptors" data-entry-id="{{id}}"
-                    data-tooltip="WW.Detail.Descriptor.Remove"><i class="fas fa-trash"></i></a>
+                    data-tooltip="WW.Detail.Descriptor.Remove"><i class="fa-solid fa-trash"></i></a>
             </span>{{#unless @last}},{{/unless}}
 
         </span>
@@ -21,8 +21,10 @@
         {{#unless system.details.descriptors.length}}<span>{{localize "WW.Detail.Descriptor.None"}}</span>{{/unless}}
 
         <a class="array-button" data-action="entryCreate" data-array="details.descriptors" data-loc="Descriptor"
-            data-tooltip="WW.Detail.Descriptor.Create"><i class="fas fa-circle-plus"></i></a>
+            data-tooltip="WW.Detail.Descriptor.Create"><i class="fa-solid fa-circle-plus"></i></a>
 
+        <a class="array-button" data-action="entrySettings" data-entry-type="descriptors"
+            data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
     </h5>
 
     {{!-- Attribute Badges --}}
@@ -149,7 +151,7 @@
 
                     {{#unless equipment.length}}<span>—</span>{{/unless}}
 
-                    <a class="item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Equipment" data-type="Equipment" data-subtype="generic"><i class="fas fa-plus-circle"></i></a>
+                    <a class="item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Equipment" data-type="Equipment" data-subtype="generic"><i class="fa-solid fa-plus-circle"></i></a>
 
                 </div>
 
@@ -258,17 +260,19 @@
                             data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
                             
                             <a class="array-button" data-action="entryEdit" data-array="details.movementTraits" data-entry-id="{{id}}"
-                                data-tooltip="WW.Detail.Movement.Edit"><i class="fas fa-edit"></i></a>
+                                data-tooltip="WW.Detail.Movement.Edit"><i class="fa-solid fa-edit"></i></a>
                             
                             <a class="array-button" data-action="entryRemove" data-array="details.movementTraits" data-entry-id="{{id}}"
-                                data-tooltip="WW.Detail.Movement.Remove"><i class="fas fa-trash"></i></a>
+                                data-tooltip="WW.Detail.Movement.Remove"><i class="fa-solid fa-trash"></i></a>
                         </span>{{#unless @last}},{{/unless}}{{#if @last}}){{/if}}
                     </span>
                     {{/each}}
 
                     <a class="array-button" data-action="entryCreate" data-array="details.movementTraits" data-loc="Movement"
-                        data-tooltip="WW.Detail.Movement.Create"><i class="fas fa-circle-plus"></i></a>
+                        data-tooltip="WW.Detail.Movement.Create"><i class="fa-solid fa-circle-plus"></i></a>
 
+                    <a class="array-button" data-action="entrySettings" data-entry-type="movementTraits"
+                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
                 </div>
                 
             </div>
@@ -286,12 +290,12 @@
 
                         <a class="item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Trait" data-type="Trait or Talent" data-subtype="trait">
                             {{localize "WW.Talents.Traits"}}
-                            <i class="fas fa-plus-circle"></i>
+                            <i class="fa-solid fa-plus-circle"></i>
                         </a>
 
                         <a class="item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Equipment" data-type="Equipment" data-subtype="generic">
                             {{localize "WW.Equipment.Label"}}
-                            <i class="fas fa-plus-circle"></i>
+                            <i class="fa-solid fa-plus-circle"></i>
                         </a>
 
                     </span>
@@ -311,10 +315,10 @@
                             data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
                             
                             <a class="array-button" data-action="entryEdit" data-array="details.languages" data-entry-id="{{id}}"
-                                data-tooltip="WW.Detail.Language.Edit"><i class="fas fa-edit"></i></a>
+                                data-tooltip="WW.Detail.Language.Edit"><i class="fa-solid fa-edit"></i></a>
                     
                             <a class="array-button" data-action="entryRemove" data-array="details.languages" data-entry-id="{{id}}"
-                                data-tooltip="WW.Detail.Language.Remove"><i class="fas fa-trash"></i></a>
+                                data-tooltip="WW.Detail.Language.Remove"><i class="fa-solid fa-trash"></i></a>
                         </span>{{#unless @last}},{{/unless}}
                     </span>
                     {{/each}}
@@ -322,8 +326,10 @@
                     {{#unless system.details.languages.length}}<span>—</span>{{/unless}}
                     
                     <a class="array-button" data-action="entryCreate" data-array="details.languages" data-loc="Language"
-                        data-tooltip="WW.Detail.Language.Create"><i class="fas fa-circle-plus"></i></a>
+                        data-tooltip="WW.Detail.Language.Create"><i class="fa-solid fa-circle-plus"></i></a>
 
+                    <a class="array-button" data-action="entrySettings" data-entry-type="languages"
+                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
                 </div>
 
                 {{!-- Senses --}}
@@ -336,10 +342,10 @@
                         <a class="array-button" data-action="entryEdit" data-array="details.senses" data-entry-id="{{id}}"
                             data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
                             <a class="array-button" data-action="entryEdit" data-array="details.senses" data-entry-id="{{id}}"
-                                data-tooltip="WW.Detail.Sense.Edit"><i class="fas fa-edit"></i></a>
+                                data-tooltip="WW.Detail.Sense.Edit"><i class="fa-solid fa-edit"></i></a>
                     
                             <a class="array-button" data-action="entryRemove" data-array="details.senses" data-entry-id="{{id}}"
-                                data-tooltip="WW.Detail.Sense.Remove"><i class="fas fa-trash"></i></a>
+                                data-tooltip="WW.Detail.Sense.Remove"><i class="fa-solid fa-trash"></i></a>
                         </span>{{#unless @last}},{{/unless}}
 
                     </span>
@@ -348,8 +354,10 @@
                     {{#unless system.details.senses.length}}<span>—</span>{{/unless}}
                     
                     <a class="array-button" data-action="entryCreate" data-array="details.senses" data-loc="Sense"
-                        data-tooltip="WW.Detail.Sense.Create"><i class="fas fa-circle-plus"></i></a>
+                        data-tooltip="WW.Detail.Sense.Create"><i class="fa-solid fa-circle-plus"></i></a>
 
+                    <a class="array-button" data-action="entrySettings" data-entry-type="senses"
+                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
                 </div>
 
                 {{!-- Immune --}}
@@ -357,26 +365,28 @@
 
                     <label>{{localize "WW.Detail.Immune.Label"}}:</label>
 
-                    {{#each system.details.immune as |detail id|}}
+                    {{#each system.details.immunities as |detail id|}}
                     <span class="list-entry">
                         
-                        <a class="array-button" data-action="entryEdit" data-array="details.immune" data-entry-id="{{id}}"
+                        <a class="array-button" data-action="entryEdit" data-array="details.immunities" data-entry-id="{{id}}"
                             data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-                            <a class="array-button" data-action="entryEdit" data-array="details.immune" data-entry-id="{{id}}"
-                                data-tooltip="WW.Detail.Immune.Edit"><i class="fas fa-edit"></i></a>
+                            <a class="array-button" data-action="entryEdit" data-array="details.immunities" data-entry-id="{{id}}"
+                                data-tooltip="WW.Detail.Immune.Edit"><i class="fa-solid fa-edit"></i></a>
                                 
-                            <a class="array-button" data-action="entryRemove" data-array="details.immune" data-entry-id="{{id}}"
-                                data-tooltip="WW.Detail.Immune.Remove"><i class="fas fa-trash"></i></a>
+                            <a class="array-button" data-action="entryRemove" data-array="details.immunities" data-entry-id="{{id}}"
+                                data-tooltip="WW.Detail.Immune.Remove"><i class="fa-solid fa-trash"></i></a>
                         </span>{{#unless @last}},{{/unless}}
 
                     </span>
                     {{/each}}
 
-                    {{#unless system.details.immune.length}}<span>—</span>{{/unless}}
+                    {{#unless system.details.immunities.length}}<span>—</span>{{/unless}}
 
-                    <a class="array-button" data-action="entryCreate" data-array="details.immune" data-loc="Immune"
-                        data-tooltip="WW.Detail.Immune.Create"><i class="fas fa-circle-plus"></i></a>        
+                    <a class="array-button" data-action="entryCreate" data-array="details.immunities" data-loc="Immune"
+                        data-tooltip="WW.Detail.Immune.Create"><i class="fa-solid fa-circle-plus"></i></a>        
 
+                    <a class="array-button" data-action="entrySettings" data-entry-type="immunities"
+                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
                 </div>
                 {{/if}}
 
@@ -423,12 +433,12 @@
                             
                         <a class="item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Weapon" data-type="Equipment" data-subtype="weapon" data-grip="Natural">
                             {{localize "WW.Attack.Plural"}}
-                            <i class="fas fa-plus-circle"></i>
+                            <i class="fa-solid fa-plus-circle"></i>
                         </a>
 
                         <a class="item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Trait" data-type="Trait or Talent" data-subtype="action">
                             {{localize "WW.Talents.SpecialActions"}}
-                            <i class="fas fa-plus-circle"></i>
+                            <i class="fa-solid fa-plus-circle"></i>
                         </a>
 
                     </span>
@@ -467,7 +477,7 @@
                     <img src="systems/weirdwizard/assets/icons/reactions.svg"/>
                     <span>{{localize "WW.Talents.Reactions"}}</span>
                     <a class="item-create ml-auto" data-action="itemCreate" data-type="Trait or Talent" data-subtype="reaction"
-                        data-tooltip="WW.Item.Create.Trait"><i class="fas fa-plus"></i>
+                        data-tooltip="WW.Item.Create.Trait"><i class="fa-solid fa-plus"></i>
                     </a>
                 </h6>
                 
@@ -488,7 +498,7 @@
                     <img src="systems/weirdwizard/assets/icons/duration.svg"/>
                     <span>{{localize "WW.Talents.Ends"}}</span>
                     <a class="item-create ml-auto" data-action="itemCreate" data-type="Trait or Talent" data-subtype="end"
-                        data-tooltip="WW.Item.Create.Trait"><i class="fas fa-plus"></i>
+                        data-tooltip="WW.Item.Create.Trait"><i class="fa-solid fa-plus"></i>
                     </a>
                 </h6>
                 

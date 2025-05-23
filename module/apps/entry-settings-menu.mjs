@@ -18,7 +18,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
     tag: 'form',
     window: {
       contentClasses: ['standard-form'],
-      icon: 'far fa-scroll'
+      icon: 'fa-regular fa-scroll'
     },
     actions: {
       addEntry: this.#addEntry,

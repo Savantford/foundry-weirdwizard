@@ -55,16 +55,16 @@
         
           <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
             <a class="array-button" data-action="edit" data-array="benefits.benefit1.languages" data-entry-id="{{id}}"
-              data-tooltip="WW.Detail.Language.Edit"><i class="fas fa-edit"></i></a>
+              data-tooltip="WW.Detail.Language.Edit"><i class="fa-solid fa-edit"></i></a>
         
             <a class="array-button" data-action="remove" data-array="benefits.benefit1.languages" data-entry-id="{{id}}"
-              data-tooltip="WW.Detail.Language.Remove"><i class="fas fa-trash"></i></a>
+              data-tooltip="WW.Detail.Language.Remove"><i class="fa-solid fa-trash"></i></a>
           </span>{{#unless @last}},{{/unless}}
         </span>
         {{/each}}{{#unless benefits.benefit1.languages.length}}<span>—</span>{{/unless}}
         
         <a class="array-button" data-action="add" data-array="benefits.benefit1.languages" data-loc="Language"
-          data-tooltip="WW.Detail.Language.Create"><i class="fas fa-circle-plus"></i></a>
+          data-tooltip="WW.Detail.Language.Create"><i class="fa-solid fa-circle-plus"></i></a>
     
       </div>
   
@@ -80,8 +80,8 @@
   
           <span class="buttons">
             {{#unless item.missing}}<a class="ref-edit" data-tooltip="WW.CharOption.Reference.EditRef"><i
-                class="fas fa-edit"></i></a>{{/unless}}
-            <a class="ref-remove" data-tooltip="WW.CharOption.Reference.RemoveRef"><i class="fas fa-trash"></i></a>
+                class="fa-solid fa-edit"></i></a>{{/unless}}
+            <a class="ref-remove" data-tooltip="WW.CharOption.Reference.RemoveRef"><i class="fa-solid fa-trash"></i></a>
           </span>
 
         </li>

@@ -85,7 +85,7 @@
             {{#each (lookup instEffs "onCritical") as |effect id|}}
             <div class="chat-button" data-action="{{action}}" data-value="{{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}"
                 data-origin-uuid="{{@root.originUuid}}" data-target-ids="{{targetIds}}">
-                <i class="fas fa-{{icon}}"></i>{{localize loc}}: {{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}
+                <i class="fa-solid fa-{{icon}}"></i>{{localize loc}}: {{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}
             </div>
             {{/each}}
 
@@ -94,7 +94,7 @@
             {{#each (lookup instEffs "onSuccess") as |effect id|}}
             <div class="chat-button" data-action="{{action}}" data-value="{{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}"
                 data-origin-uuid="{{@root.originUuid}}" data-target-ids="{{targetIds}}">
-                <i class="fas fa-{{icon}}"></i>{{localize loc}}: {{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}
+                <i class="fa-solid fa-{{icon}}"></i>{{localize loc}}: {{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}
             </div>
             {{/each}}
 
@@ -103,7 +103,7 @@
             {{#each (lookup instEffs "onFailure") as |effect id|}}
             <div class="chat-button" data-action="{{action}}" data-value="{{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}"
                 data-origin-uuid="{{@root.originUuid}}" data-target-ids="{{targetIds}}">
-                <i class="fas fa-{{icon}}"></i>{{localize loc}}: {{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}
+                <i class="fa-solid fa-{{icon}}"></i>{{localize loc}}: {{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}
             </div>
             {{/each}}
 
@@ -112,7 +112,7 @@
             {{#each (lookup instEffs "onUse") as |effect id|}}
             <div class="chat-button" data-action="{{action}}" data-value="{{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}"
                 data-origin-uuid="{{@root.originUuid}}" data-target-ids="{{targetIds}}">
-                <i class="fas fa-{{icon}}"></i>{{localize loc}}: {{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}
+                <i class="fa-solid fa-{{icon}}"></i>{{localize loc}}: {{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}
             </div>
             {{/each}}
 

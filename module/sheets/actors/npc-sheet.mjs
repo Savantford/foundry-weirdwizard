@@ -10,11 +10,11 @@ export default class WWNpcSheet extends WWActorSheet {
   static DEFAULT_OPTIONS = {
     classes: ['weirdwizard', 'sheet', 'actor', 'npc'],
     window: {
-      icon: 'far fa-user',
+      icon: 'fa-regular fa-user',
       controls: super.DEFAULT_OPTIONS.window.controls.concat([ // Remove concat in V13
         {
           action: "resetSheet",
-          icon: "fas fa-eraser",
+          icon: "fa-solid fa-eraser",
           label: "WW.Actor.Reset",
           ownership: "OWNER"
         }

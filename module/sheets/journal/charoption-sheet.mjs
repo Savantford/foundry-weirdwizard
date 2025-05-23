@@ -29,7 +29,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
   /*static DEFAULT_OPTIONS = {
     classes: ['weirdwizard', 'sheet', 'charoption'],
     window: {
-      icon: 'fas fa-user'
+      icon: 'fa-solid fa-user'
     },
     dragDrop: [
       {dragSelector: null, dropSelector: '.items-area'},
@@ -73,7 +73,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
       buttons.splice(sheetIndex, 0, {
         label: "Help", // "WW.System.Help" not working
         class: "help",
-        icon: "fas fa-question",
+        icon: "fa-solid fa-question",
         onclick: ev => this._onHelp(ev)
       });
 

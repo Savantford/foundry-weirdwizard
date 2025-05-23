@@ -5,21 +5,21 @@
         {{#if user.isGM}}
         <nav class="encounters flexrow" aria-label="{{localize 'COMBAT.NavLabel'}}">
             <a class="combat-button combat-create" aria-label="{{localize 'COMBAT.Create'}}" role="button" data-tooltip="COMBAT.Create">
-                <i class="fas fa-plus"></i>
+                <i class="fa-solid fa-plus"></i>
             </a>
             {{#if combatCount}}
             <a class="combat-button combat-cycle" aria-label="{{localize 'COMBAT.EncounterPrevious'}}" role="button" data-tooltip="COMBAT.EncounterPrevious"
                {{#if previousId}}data-document-id="{{previousId}}"{{else}}disabled{{/if}}>
-                <i class="fas fa-caret-left"></i>
+                <i class="fa-solid fa-caret-left"></i>
             </a>
             <h4 class="encounter">{{localize "COMBAT.Encounter"}} {{currentIndex}} / {{combatCount}}</h4>
             <a class="combat-button combat-cycle" aria-label="{{localize 'COMBAT.EncounterNext'}}" role="button" data-tooltip="COMBAT.EncounterNext"
                {{#if nextId}}data-document-id="{{nextId}}"{{else}}disabled{{/if}}>
-                <i class="fas fa-caret-right"></i>
+                <i class="fa-solid fa-caret-right"></i>
             </a>
             {{/if}}
             <a class="combat-button combat-control" aria-label="{{localize 'COMBAT.Delete'}}" role="button" data-tooltip="COMBAT.Delete" data-control="endCombat" {{#unless combatCount}}disabled{{/unless}}>
-                <i class="fas fa-trash"></i>
+                <i class="fa-solid fa-trash"></i>
             </a>
         </nav>
         {{/if}}
@@ -39,11 +39,11 @@
             {{#if user.isGM}}
             <a class="combat-button combat-control" aria-label="{{localize 'labels.scope'}}" role="button" data-tooltip="{{labels.scope}}"
                 data-control="toggleSceneLink" {{#unless hasCombat}}disabled{{/unless}}>
-                <i class="fas fa-{{#unless linked}}un{{/unless}}link"></i>
+                <i class="fa-solid fa-{{#unless linked}}un{{/unless}}link"></i>
             </a>
             {{/if}}
             <a class="combat-button combat-settings" aria-label="{{localize 'COMBAT.Settings'}}" role="button" data-tooltip="COMBAT.Settings" data-control="trackerSettings">
-                <i class="fas fa-cog"></i>
+                <i class="fa-solid fa-cog"></i>
             </a>
         </div>
     </header>
@@ -116,9 +116,9 @@
     {{#if hasCombat}}
         {{#if user.isGM}}
             {{#if round}}
-            <a class="combat-control" aria-label="{{localize 'COMBAT.RoundPrev'}}" role="button" data-tooltip="COMBAT.RoundPrev" data-control="previousRound"><i class="fas fa-step-backward"></i></a>
+            <a class="combat-control" aria-label="{{localize 'COMBAT.RoundPrev'}}" role="button" data-tooltip="COMBAT.RoundPrev" data-control="previousRound"><i class="fa-solid fa-step-backward"></i></a>
             <a class="combat-control center" aria-label="{{localize 'COMBAT.End'}}" role="button" data-control="endCombat">{{localize 'COMBAT.End'}}</a>
-            <a class="combat-control" aria-label="{{localize 'COMBAT.RoundNext'}}" role="button" data-tooltip="COMBAT.RoundNext" data-control="nextRound"><i class="fas fa-step-forward"></i></a>
+            <a class="combat-control" aria-label="{{localize 'COMBAT.RoundNext'}}" role="button" data-tooltip="COMBAT.RoundNext" data-control="nextRound"><i class="fa-solid fa-step-forward"></i></a>
             {{else}}
             <a class="combat-control center" aria-label="{{localize 'COMBAT.Begin'}}" role="button"  data-control="startCombat">{{localize 'COMBAT.Begin'}}</a>
             {{/if}}

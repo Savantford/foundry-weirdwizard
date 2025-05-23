@@ -25,7 +25,7 @@ export default class WWPageView extends HandlebarsApplicationMixin(DocumentSheet
     tag: 'article',
     window: {
       title: this.title, // Custom title display
-      icon: 'far fa-scroll',
+      icon: 'fa-regular fa-scroll',
       resizable: true,
       contentClasses: ['journal-entry-content', 'scrollable'],
     },
@@ -68,7 +68,7 @@ export default class WWPageView extends HandlebarsApplicationMixin(DocumentSheet
       buttons.splice(sheetIndex, 0, {
         label: "Help", // "WW.System.Help" not working
         class: "help",
-        icon: "fas fa-question",
+        icon: "fa-solid fa-question",
         onclick: ev => this._onHelp(ev)
       });
 

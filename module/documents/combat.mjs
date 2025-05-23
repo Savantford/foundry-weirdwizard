@@ -198,7 +198,7 @@ export default class WWCombat extends Combat {
       content: `<p>${i18n("WW.Combat.End.Msg")}</p><p>${i18n("WW.Combat.End.Msg2")}</p>`,
       buttons: {
         skip: {
-          icon: '<i class="fas fa-hourglass-end"></i>',
+          icon: '<i class="fa-solid fa-hourglass-end"></i>',
           label: i18n("WW.Combat.End.Skip"),
           callback: () => {
             this._expireLeftoverEffects(); // Expire leftover effects
@@ -208,14 +208,14 @@ export default class WWCombat extends Combat {
           }
         },
         endOnly: {
-          icon: '<i class="fas fa-pause"></i>',
+          icon: '<i class="fa-solid fa-pause"></i>',
           label: i18n("WW.Combat.End.Only"),
           callback: () => {
             this.delete();
           }
         },
         cancel: {
-          icon: '<i class="fas fa-times"></i>',
+          icon: '<i class="fa-solid fa-times"></i>',
           label: i18n("WW.Combat.End.Cancel"),
           callback: () => {}
         }
