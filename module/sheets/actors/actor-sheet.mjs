@@ -1167,8 +1167,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
         icon: 'fa-solid fa-trash'
       },
       content: `
-        <p>${i18n('WW.CharOption.Reference.RemoveDialog.Msg')}</p>
-        <p class="dialog-sure">${i18n('WW.CharOption.Reference.RemoveDialog.Confirm')}</p>
+        <div>${i18n('WW.CharOption.Reference.RemoveDialog.Msg')}</div>
+        <div class="dialog-sure">${i18n('WW.CharOption.Reference.RemoveDialog.Confirm')}</div>
       `
     });
 
@@ -1296,8 +1296,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
         icon: 'fa-solid fa-trash'
       },
       content: `
-        <p>${i18n('WW.Item.Delete.Dialog.Msg', {name: '<b>' + item.name + '</b>'})}</p>
-        <p class="dialog-sure">${i18n('WW.Item.Delete.Dialog.Confirm', {name: item.name})}</p>
+        <div>${i18n('WW.Item.Delete.Dialog.Msg', {name: '<b>' + item.name + '</b>'})}</div>
+        <div class="dialog-sure">${i18n('WW.Item.Delete.Dialog.Confirm', {name: item.name})}</div>
       `
     });
 
@@ -1716,8 +1716,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
         icon: 'fa-solid fa-campground'
       },
       content: `
-        <p>${i18n('WW.Rest.Msg')}</p>
-        <p class="dialog-sure">${i18n('WW.Rest.Confirm')}</p>
+        <div>${i18n('WW.Rest.Msg')}</div>
+        <div class="dialog-sure">${i18n('WW.Rest.Confirm')}</div>
       `
     });
 
@@ -1760,7 +1760,10 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
         icon: 'fa-solid fa-rotate-left'
       },
       title: i18n('WW.Reset.Label'),
-      content: i18n('WW.Reset.Msg') + '<p class="dialog-sure">' + i18n('WW.Reset.Confirm') + '</p>'
+      content: `
+        <div>${i18n('WW.Reset.Msg')}</div>
+        <p class="dialog-sure">${i18n('WW.Reset.Confirm')}</div>
+      `
     });
 
     if (!confirm) return;
@@ -2108,7 +2111,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
             title: 'WW.CharOption.Reference.ReplaceDialog.Title',
             icon: 'fa-solid fa-right-left'
           },
-          content: `<p>${i18n('WW.CharOption.Reference.ReplaceDialog.Msg', { old: oldName, new: page.name, type: page.type })}</p>`
+          content: `<div>${i18n('WW.CharOption.Reference.ReplaceDialog.Msg', { old: oldName, new: page.name, type: page.type })}</div>`
         });
 
         if (!confirm) return;

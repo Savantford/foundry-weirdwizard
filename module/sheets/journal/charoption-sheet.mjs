@@ -399,8 +399,8 @@ export default class WWCharOptionSheet extends JournalPageSheet {
         icon: 'fa-solid fa-trash'
       },
       content: `
-        <p>${i18n('WW.CharOption.Reference.RemoveDialog.Msg')}</p>
-        <p class="dialog-sure">${i18n('WW.CharOption.Reference.RemoveDialog.Confirm')}</p>
+        <div>${i18n('WW.CharOption.Reference.RemoveDialog.Msg')}</div>
+        <div class="dialog-sure">${i18n('WW.CharOption.Reference.RemoveDialog.Confirm')}</div>
       `
     });
 

@@ -112,15 +112,6 @@ export default class WWPageView extends HandlebarsApplicationMixin(DocumentSheet
       })
     };
     
-    // Prepare Items Area Hint
-    /*context.itemsAreaHint = `
-      <p>${i18n("WW.CharOption.DropHere")}</p>
-      <p>${i18n("WW.CharOption.Help", { itemType: document.type })}</p>
-    `;*/
-
-    // Prepare common select dropdown
-    //context.spellsLearned = CONFIG.WW.SPELLS_LEARNED;
-    
     // Prepare Benefits list
     if (this.document.system.benefits) {
       context.benefits = this.document.system.benefits;

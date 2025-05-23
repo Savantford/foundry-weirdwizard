@@ -359,8 +359,8 @@ export default class WWCombat extends Combat {
         icon: 'fa-solid fa-bolt'
       },
       content: `
-        <p>${i18n('WW.Combat.StartTurn.Msg')}</p>
-        <p class="dialog-sure">${i18n('WW.Combat.StartTurn.Confirm')}</p>
+        <div>${i18n('WW.Combat.StartTurn.Msg')}</div>
+        <div class="dialog-sure">${i18n('WW.Combat.StartTurn.Confirm')}</div>
       `
     });
 

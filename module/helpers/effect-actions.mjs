@@ -52,8 +52,8 @@ export async function deleteInstantEffect(effect, owner) {
       icon: 'fa-solid fa-trash'
     },
     content: `
-      <p>${i18n('WW.Item.Delete.Dialog.Msg', { name: '<b>' + i18n(effect.locLabel) + '</b>' })}</p>
-      <p class="dialog-sure">${i18n('WW.Item.Delete.Dialog.Confirm', { name: i18n(effect.locLabel) })}</p>
+      <div>${i18n('WW.Item.Delete.Dialog.Msg', { name: '<b>' + i18n(effect.locLabel) + '</b>' })}</div>
+      <div class="dialog-sure">${i18n('WW.Item.Delete.Dialog.Confirm', { name: i18n(effect.locLabel) })}</div>
     `
   });
 
@@ -129,8 +129,8 @@ export async function deleteActiveEffect(effect, owner) {
       icon: 'fa-solid fa-trash'
     },
     content: `
-      <p>${i18n('WW.Item.Delete.Dialog.Msg', { name: '<b>' + effect.name + '</b>' })}</p>
-      <p class="dialog-sure">${i18n('WW.Item.Delete.Dialog.Confirm', { name: effect.name })}</p>
+      <div>${i18n('WW.Item.Delete.Dialog.Msg', { name: '<b>' + effect.name + '</b>' })}</div>
+      <div class="dialog-sure">${i18n('WW.Item.Delete.Dialog.Confirm', { name: effect.name })}</div>
     `
   });
 

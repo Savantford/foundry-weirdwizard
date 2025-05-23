@@ -3315,7 +3315,7 @@ article .weirdwizard.charoption .items-area {
 /*  Dialogs                                     */
 /* -------------------------------------------- */
 
-.dialog-sure {
+.weirdwizard .dialog-sure {
   text-align: center;
   font-size: var(--font-size-18);
   font-weight: bold;
@@ -3323,8 +3323,8 @@ article .weirdwizard.charoption .items-area {
 
 /* Dialog Buttons */
 
-.dialog .dialog-buttons button,
-.dialog .dialog-buttons button.default,
+.weirdwizard.dialog .form-footer button,
+.weirdwizard.dialog .form-footer button.default,
 #multi-choice .mc-buttons button,
 #roll-attribute .form-group button,
 #roll-damage .form-group button,
@@ -3334,23 +3334,27 @@ article .weirdwizard.charoption .items-area {
   border-image-source: url(../assets/ui/plates/single-transparent-thick.svg);  
   border-image-slice: 118 fill;
   border-image-width: 5px;
-  margin: 0 5px 0 0;
   padding: 0 5px;
   color: black;
   font-family: var(--font-capitalized);
   font-size: var(--font-size-16);
 }
 
+.weirdwizard .standard-form .form-footer > button,
+.weirdwizard .standard-form .form-footer a.button {
+  height: var(--input-height);
+}
+
 .folder-edit button[type=submit] {
   margin-top: 5px;
 }
 
-.dialog .dialog-buttons button.default {
+.weirdwizard.dialog .form-footer button.default {
   filter: drop-shadow(0 0 0px var(--purple-dark));
 }
 
-.dialog .dialog-buttons button:hover,
-.dialog .dialog-buttons button:focus,
+.weirdwizard.dialog .form-footer button:hover,
+.weirdwizard.dialog .form-footer button:focus,
 #multi-choice .mc-buttons button:hover,
 #multi-choice .mc-buttons button:focus,
 #roll-attribute .form-group button:hover,
@@ -3361,6 +3365,7 @@ article .weirdwizard.charoption .items-area {
   border-image-slice: 128 fill;
   border-image-width: 6px;
   box-shadow: none;
+  outline: none;
 }
 
 /* -------------------------------------------- */
