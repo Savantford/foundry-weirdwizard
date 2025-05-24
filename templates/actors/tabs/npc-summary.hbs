@@ -27,78 +27,6 @@
             data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
     </h5>
 
-    {{!-- Attribute Badges --}}
-    {{#unless editMode}}
-    <div class="attributes">
-
-        {{!-- Strength --}}
-        <div class="badge stat str item-button" data-action="attributeRoll" data-key="str" data-tooltip="WW.Roll.Strength">
-        
-            <div>
-                <a>{{localize "WW.Attributes.StrengthShort"}}</a>
-                <a>{{system.attributes.str.value}}</a>
-            </div>
-
-            <a class="attribute-mod">
-                {{#if system.attributes.str.value}}
-                {{numberFormat system.attributes.str.mod decimals=0 sign=true}}
-                {{else}}—{{/if}}
-            </a>
-
-        </div>
-        
-        {{!-- Agility --}}
-        <div class="badge stat agi item-button" data-action="attributeRoll" data-key="agi" data-tooltip="WW.Roll.Agility">
-
-            <div>
-                <a>{{localize "WW.Attributes.AgilityShort"}}</a>
-                <a>{{system.attributes.agi.value}}</a>
-            </div>
-            
-            <a class="attribute-mod">
-                {{#if system.attributes.agi.value}}
-                {{numberFormat system.attributes.agi.mod decimals=0 sign=true}}
-                {{else}}—{{/if}}
-            </a>
-        
-        </div>
-        
-        {{!-- Intellect --}}
-        <div class="badge stat int item-button" data-action="attributeRoll" data-key="int" data-tooltip="WW.Roll.Intellect">
-
-            <div>
-                <a>{{localize "WW.Attributes.IntellectShort"}}</a>
-                <a>{{system.attributes.int.value}}</a>
-            </div>
-        
-            
-            <a class="attribute-mod">
-                {{#if system.attributes.int.value}}
-                {{numberFormat system.attributes.int.mod decimals=0 sign=true}}
-                {{else}}—{{/if}}
-            </a>
-
-        </div>
-
-        {{!-- Will --}}
-        <div class="badge stat wil item-button" data-action="attributeRoll" data-key="wil" data-tooltip="WW.Roll.Will">
-
-            <div>
-                <a>{{localize "WW.Attributes.WillShort"}}</a>
-                <a>{{system.attributes.wil.value}}</a>
-            </div>
-
-            <a class="attribute-mod">
-                {{#if system.attributes.wil.value}}
-                {{numberFormat system.attributes.wil.mod decimals=0 sign=true}}
-                {{else}}—{{/if}}
-            </a>
-            
-        </div>
-
-    </div>
-    {{/unless}}
-
     {{!-- Statbox Sections --}}
     <div class="statbox-sections flexrow">
 
@@ -301,8 +229,7 @@
                     </span>
                     
                 </h6>
-
-                {{#if editMode}}
+                
                 {{!-- Languages --}}
                 <div class="stat-inline list-entries">
                     
@@ -333,6 +260,7 @@
                 </div>
 
                 {{!-- Senses --}}
+                {{#if editMode}}
                 <div class="stat-inline list-entries">
                     <label>{{localize "WW.Detail.Sense.Label"}}:</label>
 
@@ -359,6 +287,7 @@
                     <a class="array-button" data-action="entrySettings" data-entry-type="senses"
                         data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
                 </div>
+                {{/if}}
 
                 {{!-- Immune --}}
                 <div class="stat-inline list-entries">
@@ -388,7 +317,6 @@
                     <a class="array-button" data-action="entrySettings" data-entry-type="immunities"
                         data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
                 </div>
-                {{/if}}
 
                 {{!-- Traits or Talents --}}
                 <ol class="described-list">

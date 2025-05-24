@@ -4,7 +4,11 @@
     {{!-- Disposition Toggle --}}
     <div class="change-disposition label {{#if (eq disposition 1)}}ally{{else if (eq disposition -1)}}enemy{{/if}}"
         data-action="dispositionToggle" data-tooltip="WW.Actor.Disposition.Tip">
-    
+
+        <img class="crest"src="{{#if (eq disposition 1)}}systems/weirdwizard/assets/icons/heart-shield.svg
+            {{else if (eq disposition -1)}}systems/weirdwizard/assets/icons/skull-shield.svg
+        {{/if}}">
+
         <div>
             {{#if (eq disposition 1)}}{{localize "WW.Actor.Disposition.Ally"}}
             {{else if (eq disposition -1)}}{{localize "WW.Actor.Disposition.Enemy"}}
@@ -19,11 +23,61 @@
     <div class="circle" style="--total: 8">
         {{> "systems/weirdwizard/templates/actors/header/portrait.hbs" img=actor.img token=true}}
 
-        <div class="stat luck" style="--i:5">
+        <div class="stat str" style="--i:1">
+            <a class="attribute-mod item-button" data-action="attributeRoll" data-key="str" data-tooltip="WW.Roll.Agility">
+                <div>{{system.attributes.str.value}}</div>
+                
+                {{#if system.attributes.str.value}}
+                <div>
+                {{numberFormat system.attributes.str.mod decimals=0 sign=true}}
+                </div>
+                {{else}}—{{/if}}
+            </a>
+        </div>
+
+        <div class="stat agi" style="--i:2">
+            <a class="attribute-mod item-button" data-action="attributeRoll" data-key="agi" data-tooltip="WW.Roll.Agility">
+                <div>{{system.attributes.agi.value}}</div>
+
+                {{#if system.attributes.agi.value}}
+                <div>
+                {{numberFormat system.attributes.agi.mod decimals=0 sign=true}}
+                </div>
+                {{else}}—{{/if}}
+            </a>
+        </div>
+
+        <div class="stat int" style="--i:4">
+            <a class="attribute-mod item-button" data-action="attributeRoll" data-key="int" data-tooltip="WW.Roll.Agility">
+                <div>{{system.attributes.int.value}}</div>
+                
+                {{#if system.attributes.int.value}}
+                <div>
+                {{numberFormat system.attributes.int.mod decimals=0 sign=true}}
+                </div>
+                {{else}}—{{/if}}
+            </a>
+        </div>
+
+        <div class="stat wil" style="--i:5">
+            <a class="attribute-mod item-button" data-action="attributeRoll" data-key="wil" data-tooltip="WW.Roll.Agility">
+                <div>{{system.attributes.wil.value}}</div>
+                
+                {{#if system.attributes.wil.value}}
+                <div>
+                {{numberFormat system.attributes.wil.mod decimals=0 sign=true}}
+                </div>
+                {{else}}—{{/if}}
+            </a>
+        </div>
+
+        {{!-- Luck --}}
+        <div class="stat luck" style="--i:6">
             <a data-action="attributeRoll" data-key="luck" data-tooltip="WW.Roll.Luck"><i class="fa-solid fa-clover"></i></a>
         </div>
-    
-        <div class="stat rest" style="--i:1">
+
+        {{!-- Reset Sheet --}}
+        <div class="stat rest" style="--i:8">
             <a data-action="resetSheet" data-tooltip="WW.Actor.Reset"><i class="fa-solid fa-eraser"></i></a>
         </div>
 
@@ -124,21 +178,6 @@
     
         </div>
     
-        {{!-- Languages --}}
-        {{#if system.details.languages.length}}
-        <div class="stat">
-    
-            <div class="stat-header">{{localize "WW.Detail.Language.Label"}}</div>
-    
-            <div class="stat-content">
-                {{#each system.details.languages as |detail id|}}
-                <div data-tooltip="{{detail.desc}}">{{detail.name}}</div>
-                {{/each}}
-            </div>
-    
-        </div>
-        {{/if}}
-    
         {{!-- Senses --}}
         {{#if system.details.senses.length}}
         <div class="stat">
@@ -154,29 +193,6 @@
         </div>
         {{/if}}
     
-        {{!-- Immunities --}}
-        {{#if system.details.immune.length}}
-        <div class="stat">
-    
-            <div class="stat-header">{{localize "WW.Detail.Immune.Label"}}</div>
-    
-            <div class="stat-content">
-                {{#each system.details.immune as |detail id|}}
-                <div data-tooltip="{{detail.desc}}">{{detail.name}}</div>
-                {{/each}}
-            </div>
-    
-        </div>
-        {{/if}}
-    
-    </div>
-
-    {{!-- Disposition Toggle --}}
-    <div class="change-disposition{{#if (eq disposition 1)}} ally{{else if (eq disposition -1)}} enemy{{/if}}"
-        data-action="dispositionToggle" data-tooltip="WW.Actor.Disposition.Tip">
-    
-        <img class="crest"
-            src="{{#if (eq disposition 1)}}systems/weirdwizard/assets/icons/heart-shield.svg{{else if (eq disposition -1)}}systems/weirdwizard/assets/icons/skull-shield.svg{{/if}}">
     </div>
 
 </header>

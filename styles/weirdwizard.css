@@ -654,7 +654,6 @@ body {
   text-transform: none;
 }
 
-.weirdwizard.npc .window-content h5,
 .weirdwizard.npc .journal-entry-content h5 {
   border: none;
   margin-bottom: 0;
@@ -1056,6 +1055,7 @@ body {
 }
 
 /* Descriptor / Paths Header */
+
 .weirdwizard .descriptors .buttons {
   display: none;
 }
@@ -1198,7 +1198,7 @@ body {
 
 .weirdwizard.npc .sheet-banner {
   width: 160px;
-  padding: 8px 5px 10px;
+  padding: 8px 5px 32px;
 }
 
 /* Sheet Ribbon */
@@ -1279,7 +1279,13 @@ body {
 }
 
 /* Change Disposition Buttons */
-.weirdwizard .change-disposition.label {
+.weirdwizard .change-disposition {
+  --crest-padding: -8px;
+  --crest-size: calc(1lh - var(--crest-padding));
+
+  display: grid;
+  grid-template-columns: var(--crest-size) 1fr var(--crest-size);
+  gap: 5px;
   border-image: url(../assets/ui/headers/pointed-double-purple-dark.svg);
   border-image-slice: 15 15 fill;
   border-image-width: 20px;
@@ -1295,6 +1301,21 @@ body {
 .weirdwizard .change-disposition:hover {
   filter: drop-shadow(var(--filter-shadow-purple));
   cursor: pointer;
+}
+
+.weirdwizard .change-disposition > div {
+  grid-area: 1 / 2;
+  white-space: nowrap;
+  text-shadow: 0 0 3px #000,
+    0 0 3px #000,
+    0 0 3px #000,
+    0 0 3px #000;
+}
+
+.weirdwizard header.sheet-header .change-disposition > .crest {
+  grid-area: 1 / 1;
+  height: var(--crest-size);
+  margin: calc(var(--crest-padding) / 2) 0 var(--crest-padding) calc(var(--crest-padding) / 2);
 }
 
 /* Profile Image */
@@ -1380,6 +1401,7 @@ body {
 .weirdwizard.npc .circle {
   --radius: 55px;
   outline-offset: 3px;
+  margin: 24px auto;
 }
 
 .weirdwizard header.sheet-header .circle img {
@@ -1410,7 +1432,7 @@ body {
   /* Decimal value, 0-1 based on the child's index. */
   --d: calc(var(--i) / var(--total));
   /* Offset to get better starting placement on the circle */
-  --r-offset: -0.625turn;;
+  --r-offset: -0.625turn;
   /* Full circle */
   --r-amount: 1turn;
   /* Rotation based on the decimal and r modifiers */
@@ -1419,6 +1441,11 @@ body {
   --transform: rotate(var(--r)) translate(calc(var(--radius-offset) + var(--radius))) rotate(calc(-1 * var(--r)));
   transform: var(--transform);
 
+}
+
+.weirdwizard.npc .circle .stat {
+  --ele-radius: 18px;
+  --radius-offset: 16px;
 }
 
 .weirdwizard .circle,
@@ -1499,6 +1526,14 @@ body {
   margin-right: 5px;
 }
 
+.weirdwizard.npc .circle .stat .attribute-mod {
+  margin-right: 0;
+}
+
+.weirdwizard.npc .circle .stat .attribute-mod > * {
+  line-height: 1;
+}
+
 /* Actor: Badges */
 .weirdwizard.sheet .badge:hover {
   filter: drop-shadow(var(--filter-shadow-purple));
@@ -1556,7 +1591,7 @@ body {
 
 .weirdwizard.npc .health-indicator {
   position: absolute;
-  bottom: -5px;
+  bottom: -16px;
   left: 50%;
   transform: translate(-50%, 0);
 }
@@ -2156,6 +2191,12 @@ hr.bug {
 
 .weirdwizard .statbox .stat-inline {
   margin: 2px 5px;
+}
+
+.weirdwizard.npc .statbox .defense-line {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
 }
 
 .weirdwizard.npc .statbox .defense-line {
