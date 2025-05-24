@@ -1401,7 +1401,7 @@ body {
 .weirdwizard.npc .circle {
   --radius: 55px;
   outline-offset: 3px;
-  margin: 24px auto;
+  margin: 12px auto;
 }
 
 .weirdwizard header.sheet-header .circle img {
@@ -1591,7 +1591,7 @@ body {
 
 .weirdwizard.npc .health-indicator {
   position: absolute;
-  bottom: -16px;
+  bottom: -10px;
   left: 50%;
   transform: translate(-50%, 0);
 }
@@ -1837,6 +1837,45 @@ body {
 .weirdwizard .character-stats .stat.bonus-damage > div {
   background-image: url(/systems/weirdwizard/assets/ui/badges/spiked.svg);
   --stat-size: 55px;
+}
+
+/* NPC Attribute Banners */
+.weirdwizard .attribute-banners {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  margin: 0 5px;
+}
+
+.weirdwizard .attribute-banners > * {
+  flex: 1;
+  display: flex;
+  flex-flow: column;
+  border-image: url(../assets/ui/straps/pink-banner-outline.svg);
+  border-image-slice: 15 fill;
+  border-image-width: 15px;
+  padding: 5px 4px 10px;
+  color: var(--purple-dark);
+  font-weight: bold;
+}
+
+.weirdwizard .attribute-banners > * > * {
+  line-height: 1;
+}
+
+.weirdwizard .attribute-banners .score {
+  font-size: var(--font-size-20);
+}
+
+.weirdwizard header.sheet-header .attribute-banners img {
+  flex: 0;
+  height: auto;
+  filter: drop-shadow(0 0 1px gray);
+}
+
+.weirdwizard header.sheet-header .attribute-banners .agi img,
+.weirdwizard header.sheet-header .attribute-banners .int img {
+  margin-top: 5px;
 }
 
 /* NPC Stats */

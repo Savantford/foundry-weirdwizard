@@ -23,7 +23,7 @@
     <div class="circle" style="--total: 8">
         {{> "systems/weirdwizard/templates/actors/header/portrait.hbs" img=actor.img token=true}}
 
-        <div class="stat str" style="--i:1">
+        {{!--<div class="stat str" style="--i:1">
             <a class="attribute-mod item-button" data-action="attributeRoll" data-key="str" data-tooltip="WW.Roll.Agility">
                 <div>{{system.attributes.str.value}}</div>
                 
@@ -69,7 +69,7 @@
                 </div>
                 {{else}}—{{/if}}
             </a>
-        </div>
+        </div>--}}
 
         {{!-- Luck --}}
         <div class="stat luck" style="--i:6">
@@ -140,6 +140,66 @@
     
     </div>
     
+    {{!-- Attribute Banners Area --}}
+    <div class="attribute-banners">
+
+        {{!-- Strength --}}
+        <div class="stat str item-button" data-action="attributeRoll" data-key="str"
+            data-tooltip="WW.Roll.Strength">
+            <div class="score">{{system.attributes.str.value}}</div>
+        
+            <div class="modifier">
+                {{#if system.attributes.str.value}}
+                {{numberFormat system.attributes.str.mod decimals=0 sign=true}}
+                {{else}}—{{/if}}
+            </div>
+        
+            <img src="systems/weirdwizard/assets/icons/black/attribute-strength.svg" />
+        </div>
+        
+        {{!-- Agility --}}
+        <div class="stat agi item-button" data-action="attributeRoll" data-key="agi"
+            data-tooltip="WW.Roll.Agility">
+            <div class="score">{{system.attributes.agi.value}}</div>
+        
+            <div class="modifier">
+                {{#if system.attributes.agi.value}}
+                {{numberFormat system.attributes.agi.mod decimals=0 sign=true}}
+                {{else}}—{{/if}}
+            </div>
+        
+            <img src="systems/weirdwizard/assets/icons/black/attribute-agility.svg" />
+        </div>
+        
+        {{!-- Intellect --}}
+        <div class="stat int item-button" data-action="attributeRoll" data-key="int"
+            data-tooltip="WW.Roll.Intellect">
+            <div class="score">{{system.attributes.int.value}}</div>
+        
+            <div class="modifier">
+                {{#if system.attributes.int.value}}
+                {{numberFormat system.attributes.int.mod decimals=0 sign=true}}
+                {{else}}—{{/if}}
+            </div>
+        
+            <img src="systems/weirdwizard/assets/icons/black/attribute-intellect.svg" />
+        </div>
+        
+        {{!-- Will --}}
+        <div class="stat wil item-button" data-action="attributeRoll" data-key="wil"
+            data-tooltip="WW.Roll.Will">
+            <div class="score">{{system.attributes.wil.value}}</div>
+        
+            <div class="modifier">
+                {{#if system.attributes.wil.value}}
+                {{numberFormat system.attributes.wil.mod decimals=0 sign=true}}
+                {{else}}—{{/if}}
+            </div>
+        
+            <img src="systems/weirdwizard/assets/icons/black/attribute-will.svg" />
+        </div>
+
+    </div>
     {{!-- NPC Stats --}}
     <div class="npc-stats">
     
