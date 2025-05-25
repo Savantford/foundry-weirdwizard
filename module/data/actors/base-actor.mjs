@@ -1,4 +1,5 @@
 import embedCard from "../../helpers/embed-card.mjs";
+import { TypedObjectField } from "../typed-object-field.mjs";
 
 export class BaseActorModel extends foundry.abstract.TypeDataModel {
 
@@ -70,55 +71,46 @@ export function stats(type = String) {
 export function details(type = String) {
   
   const obj = {
-    descriptors: new fields.ObjectField({
-      initial: new fields.ObjectField({
-        initial: {
-          name: "",
-          desc: "",
-          grantedBy: null
-        }
-      })
-    }),
 
-    senses: new fields.ObjectField({
-      initial: new fields.ObjectField({
-        initial: {
-          name: "",
-          desc: "",
-          grantedBy: null
-        }
+    descriptors: new TypedObjectField(
+      new fields.SchemaField({
+        name: makeStrField("key", 0),
+        desc: makeStrField(),
+        grantedBy: makeStrField(null)
       })
-    }),
+    ),
 
-    languages: new fields.ObjectField({
-      initial: new fields.ObjectField({
-        initial: {
-          name: "",
-          desc: "",
-          grantedBy: null
-        }
+    senses: new TypedObjectField(
+      new fields.SchemaField({
+        name: makeStrField("key", 0),
+        desc: makeStrField(),
+        grantedBy: makeStrField(null)
       })
-    }),
+    ),
 
-    immunities: new fields.ObjectField({
-      initial: new fields.ObjectField({
-        initial: {
-          name: "",
-          desc: "",
-          grantedBy: null
-        }
+    languages: new TypedObjectField(
+      new fields.SchemaField({
+        name: makeStrField("key", 0),
+        desc: makeStrField(),
+        grantedBy: makeStrField(null)
       })
-    }),
+    ),
 
-    movementTraits: new fields.ObjectField({
-      initial: new fields.ObjectField({
-        initial: {
-          name: "",
-          desc: "",
-          grantedBy: null
-        }
+    immune: new TypedObjectField(
+      new fields.SchemaField({
+        name: makeStrField("key", 0),
+        desc: makeStrField(),
+        grantedBy: makeStrField(null)
       })
-    })
+    ),
+
+    movementTraits: new TypedObjectField(
+      new fields.SchemaField({
+        name: makeStrField("key", 0),
+        desc: makeStrField(),
+        grantedBy: makeStrField(null)
+      })
+    )
 
   }
 

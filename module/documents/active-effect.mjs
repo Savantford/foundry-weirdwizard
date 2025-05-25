@@ -18,7 +18,7 @@ export default class WWActiveEffect extends ActiveEffect {
 
   async _preUpdate(changes, options, user) {
     this._validateDuration(changes, 'preUpdate');
-
+    
     return await super._preUpdate(changes, options, user);
   }
 
@@ -86,6 +86,7 @@ export default class WWActiveEffect extends ActiveEffect {
    * is queried and has a roll executed directly from it).
   */
   prepareDerivedData() {
+    console.log('preparing derived data for', this.name, this.uuid)
     const system = this.system;
     
     // The item which this effect originates from if it has been transferred from an item to an actor
