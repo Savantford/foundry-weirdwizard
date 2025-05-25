@@ -299,7 +299,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
   */
   async _onListEntryButtonAdd(dataset) {
     
-    const arrPath = 'system.' + dataset.array,
+    const arrPath = 'system.' + dataset.path,
       arr = foundry.utils.getProperty(this.document, arrPath);
     
     // Push new element with a default name
@@ -309,8 +309,8 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     // Update document
     await this.document.update({[arrPath]: arr});
 
-    // Add entryId to dataset and render the config window
-    dataset.entryId = arr.length-1;
+    // Add entryKey to dataset and render the config window
+    dataset.entryKey = arr.length-1;
     new ListEntryConfig(await this.document, await dataset).render(true);
     
   }
@@ -336,11 +336,11 @@ export default class WWCharOptionSheet extends JournalPageSheet {
 
   _onListEntryButtonRemove(dataset) {
     
-    const arrPath = 'system.' + dataset.array,
+    const arrPath = 'system.' + dataset.path,
       arr = foundry.utils.getProperty(this.document, arrPath);
     
     // Delete array element
-    arr.splice(dataset.entryId, 1);
+    arr.splice(dataset.entryKey, 1);
     
     // Update document
     this.document.update({[arrPath]: arr});

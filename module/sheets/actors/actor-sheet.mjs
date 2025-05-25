@@ -1,4 +1,4 @@
-import { capitalize, escape, i18n, plusify, sum, sysPath } from '../../helpers/utils.mjs';
+import { camelCase, capitalize, escape, i18n, plusify, sum, sysPath } from '../../helpers/utils.mjs';
 import { diceTotalHtml } from '../../sidebar/chat-html-templates.mjs';
 import ListEntryConfig from '../configs/list-entry-config.mjs';
 import { mapRange } from '../../canvas/canvas-functions.mjs';
@@ -1095,26 +1095,23 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    * @private
   */
   static async #onEntryCreate(event, button) {
-    const dataset = Object.assign({}, button.dataset);
+    // Get data
+    const dataset = Object.assign({}, button.dataset),
+      path = 'system.' + dataset.path,
+      obj = foundry.utils.getProperty(this.actor, path),
+      entryName = (path.includes('languages') && !Object.keys(obj).length) ? i18n('WW.Detail.Language.Common') : i18n('WW.Detail.' + dataset.loc + '.New'),
+    entryKey = camelCase(entryName);
     
-    const arrPath = 'system.' + dataset.array,
-      oldArray = foundry.utils.getProperty(await this.actor, arrPath),
-      defaultName = (arrPath.includes('languages') && !oldArray.length) ? i18n('WW.Detail.Language.Common') : i18n('WW.Detail.' + dataset.loc + '.New'),
-      arr = [...oldArray, { name: defaultName }];
+    const entry = { name: entryName };
     
-    // Update document
-    await this.actor.update({[arrPath]: arr});
-    
-    // Add entryId to dataset and render the config window
-    dataset.entryId = arr.length-1;
-    new ListEntryConfig(this.actor, dataset).render(true);
+    obj[entryKey] = entry;
 
-    /*const key = button.dataset.key;
-    const newList = { ... this.list };
+    // Update document
+    await this.actor.update({[path]: obj});
 
     const context = {
-      entry: await newList[key],
-      key: key,
+      entry: entry,
+      key: entryKey,
       showKey: true
     };
 
@@ -1143,36 +1140,32 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     // Return with warning if the key or name are missing
     if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
 
-    newList[dialogInput.key] = dialogInput;
+    obj[dialogInput.key] = dialogInput;
 
-    delete newList[dialogInput.key].key;
+    delete await obj[dialogInput.key].key;
 
-    // Update list and re-render
-    this.list = await newList;
-
-    this.render(true);*/
+    await this.actor.update({[path]: obj});
     
   }
 
   /**
-   * Handle edditing a list entry
+   * Handle editing a list entry
    * @param {Event} event          The originating click event
    * @param {HTMLElement} button   The button element originating the click event
    * @private
   */
   static async #onEntryEdit(event, button) {
     
-    // Render ListEntryConfig
-    new ListEntryConfig(this.actor, button.dataset).render(true);
+    // Get data
     const dataset = button.dataset,
-      arrPath = 'system.' + dataset.array,
-      arr = foundry.utils.getProperty(doc, this.arrPath),
-      entryId = dataset.entryId,
-    entry = this.arr[dataset.entryId];
+      path = 'system.' + dataset.path,
+      obj = foundry.utils.getProperty(this.actor, path),
+      entryKey = dataset.entryKey,
+    entry = obj[entryKey];
     
     const context = {
       entry: await entry,
-      key: key,
+      key: entryKey,
       showKey: true
     };
 
@@ -1201,34 +1194,28 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     // Return with warning if the key or name are missing
     if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
 
-    arr[dialogInput.key] = dialogInput;
+    obj[dialogInput.key] = dialogInput;
 
-    delete arr[dialogInput.key].key;
+    delete await obj[dialogInput.key].key;
 
-    // Update list and re-render
-    this.list = await arr;
-
-    this.render(true);
+    await this.actor.update({[path]: obj});
     
   }
 
   /**
-   * Handle removing an element from an array
+   * Handle removing an entry from a list
    * @param {Event} event          The originating click event
    * @param {HTMLElement} button   The button element originating the click event
    * @private
   */
-  static #onEntryRemove(event, button) {
-    const dataset = Object.assign({}, button.dataset);
-    
-    const arrPath = 'system.' + dataset.array,
-      arr = [...foundry.utils.getProperty(this.actor, arrPath)];
-    
-    // Delete array element
-    arr.splice(dataset.entryId, 1);
-    
+  static async #onEntryRemove(event, button) {
+    const dataset = Object.assign({}, button.dataset),
+      path = 'system.' + dataset.path,
+    obj = {...foundry.utils.getProperty(this.actor, path)};
+
+    console.log(dataset.entryKey)
     // Update document
-    this.actor.update({[arrPath]: arr});
+    await this.actor.update({ [`${path}.-=${dataset.entryKey}`]: null });
     
   }
 

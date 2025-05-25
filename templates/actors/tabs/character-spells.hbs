@@ -29,10 +29,10 @@
             <span class="list-entry draggable">
                         
             <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-                <a class="array-button" data-action="entryEdit" data-array="details.traditions" data-entry-id="{{id}}"
+                <a class="array-button" data-action="entryEdit" data-path="details.traditions" data-entry-key="{{id}}"
                     data-tooltip="WW.Tradition.Edit"><i class="fa-solid fa-edit"></i></a>
                         
-                <a class="array-button" data-action="entryRemove" data-array="details.traditions" data-entry-id="{{id}}"
+                <a class="array-button" data-action="entryRemove" data-path="details.traditions" data-entry-key="{{id}}"
                     data-tooltip="WW.Tradition.Remove"><i class="fa-solid fa-trash"></i></a>
 
                 </span>{{#unless @last}},{{/unless}}

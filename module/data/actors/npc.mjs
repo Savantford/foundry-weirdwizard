@@ -97,19 +97,35 @@ export default class NpcData extends BaseActorModel {
     // Migrate entry lists from array to object
     if ('details' in source) {
       const entryTypes = ['senses', 'descriptors', 'languages', 'immunities', 'movementTraits'];
-
+      
       for (const key in source.details) {
         const prop = source.details[key];
-
+        
         // Check for the entryTypes and if it's an array
-        if (source.details.hasOwnProperty(key) && entryTypes.includes(key) && Array.isArray(prop)) {
-          const map = prop.map(value => [value.name ? camelCase(value.name) : camelCase(value), value]);
-
-          source.details[key] = Object.fromEntries(map);
+        if (source.details.hasOwnProperty(key) && entryTypes.includes(key)) {
+          
+          if (Array.isArray(prop)) {
+            console.log('isArray')
+            console.log(key, prop)
+            if (prop.length) {
+              const map = prop.map(value => [value.name ? camelCase(value.name) : camelCase(value), value]);
+              
+              source.details[key] = Object.fromEntries(map);
+            } else {
+              source.details[key] = {};
+            }
+            
+          } else {
+            console.log('not array')
+            console.log(key, prop)
+          }
+          
         }
 
       }
 
+      console.log(source.details)
+      
     }
 
     return super.migrateData(source);

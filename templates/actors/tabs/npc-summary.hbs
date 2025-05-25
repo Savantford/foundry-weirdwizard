@@ -6,12 +6,12 @@
         {{#each system.details.descriptors as |detail id|}}
         <span class="list-entry">
 
-            <a class="array-button" data-action="entryEdit" data-array="details.descriptors" data-entry-id="{{id}}"
+            <a class="array-button" data-action="entryEdit" data-path="details.descriptors" data-entry-key="{{id}}"
                 data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-                <a class="array-button" data-action="entryEdit" data-array="details.descriptors" data-entry-id="{{id}}"
+                <a class="array-button" data-action="entryEdit" data-path="details.descriptors" data-entry-key="{{id}}"
                     data-tooltip="WW.Detail.Descriptor.Edit"><i class="fa-solid fa-edit"></i></a>
 
-                <a class="array-button" data-action="entryRemove" data-array="details.descriptors" data-entry-id="{{id}}"
+                <a class="array-button" data-action="entryRemove" data-path="details.descriptors" data-entry-key="{{id}}"
                     data-tooltip="WW.Detail.Descriptor.Remove"><i class="fa-solid fa-trash"></i></a>
             </span>{{#unless @last}},{{/unless}}
 
@@ -20,7 +20,7 @@
 
         {{#unless system.details.descriptors.length}}<span>{{localize "WW.Detail.Descriptor.None"}}</span>{{/unless}}
 
-        <a class="array-button" data-action="entryCreate" data-array="details.descriptors" data-loc="Descriptor"
+        <a class="array-button" data-action="entryCreate" data-path="details.descriptors" data-loc="Descriptor"
             data-tooltip="WW.Detail.Descriptor.Create"><i class="fa-solid fa-circle-plus"></i></a>
 
         <a class="array-button" data-action="entrySettings" data-entry-type="descriptors"
@@ -184,19 +184,19 @@
                     
                     {{!-- Movement Traits --}}
                     {{#each system.details.movementTraits as |detail id|}}<span class="list-entry">
-                        {{#if @first}}({{/if}}<a class="array-button" data-action="entryEdit" data-array="details.movementTraits" data-entry-id="{{id}}"
+                        {{#if @first}}({{/if}}<a class="array-button" data-action="entryEdit" data-path="details.movementTraits" data-entry-key="{{id}}"
                             data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
                             
-                            <a class="array-button" data-action="entryEdit" data-array="details.movementTraits" data-entry-id="{{id}}"
+                            <a class="array-button" data-action="entryEdit" data-path="details.movementTraits" data-entry-key="{{id}}"
                                 data-tooltip="WW.Detail.Movement.Edit"><i class="fa-solid fa-edit"></i></a>
                             
-                            <a class="array-button" data-action="entryRemove" data-array="details.movementTraits" data-entry-id="{{id}}"
+                            <a class="array-button" data-action="entryRemove" data-path="details.movementTraits" data-entry-key="{{id}}"
                                 data-tooltip="WW.Detail.Movement.Remove"><i class="fa-solid fa-trash"></i></a>
                         </span>{{#unless @last}},{{/unless}}{{#if @last}}){{/if}}
                     </span>
                     {{/each}}
 
-                    <a class="array-button" data-action="entryCreate" data-array="details.movementTraits" data-loc="Movement"
+                    <a class="array-button" data-action="entryCreate" data-path="details.movementTraits" data-loc="Movement"
                         data-tooltip="WW.Detail.Movement.Create"><i class="fa-solid fa-circle-plus"></i></a>
 
                     <a class="array-button" data-action="entrySettings" data-entry-type="movementTraits"
@@ -238,13 +238,13 @@
                     {{#each system.details.languages as |detail id|}}
                     <span class="list-entry">
                     
-                        <a class="array-button" data-action="entryEdit" data-array="details.languages" data-entry-id="{{id}}"
+                        <a class="array-button" data-action="entryEdit" data-path="details.languages" data-entry-key="{{id}}"
                             data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
                             
-                            <a class="array-button" data-action="entryEdit" data-array="details.languages" data-entry-id="{{id}}"
+                            <a class="array-button" data-action="entryEdit" data-path="details.languages" data-entry-key="{{id}}"
                                 data-tooltip="WW.Detail.Language.Edit"><i class="fa-solid fa-edit"></i></a>
                     
-                            <a class="array-button" data-action="entryRemove" data-array="details.languages" data-entry-id="{{id}}"
+                            <a class="array-button" data-action="entryRemove" data-path="details.languages" data-entry-key="{{id}}"
                                 data-tooltip="WW.Detail.Language.Remove"><i class="fa-solid fa-trash"></i></a>
                         </span>{{#unless @last}},{{/unless}}
                     </span>
@@ -252,7 +252,7 @@
                     
                     {{#unless system.details.languages.length}}<span>—</span>{{/unless}}
                     
-                    <a class="array-button" data-action="entryCreate" data-array="details.languages" data-loc="Language"
+                    <a class="array-button" data-action="entryCreate" data-path="details.languages" data-loc="Language"
                         data-tooltip="WW.Detail.Language.Create"><i class="fa-solid fa-circle-plus"></i></a>
 
                     <a class="array-button" data-action="entrySettings" data-entry-type="languages"
@@ -267,12 +267,12 @@
                     {{#each system.details.senses as |detail id|}}
                     <span class="list-entry">
                     
-                        <a class="array-button" data-action="entryEdit" data-array="details.senses" data-entry-id="{{id}}"
+                        <a class="array-button" data-action="entryEdit" data-path="details.senses" data-entry-key="{{id}}"
                             data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-                            <a class="array-button" data-action="entryEdit" data-array="details.senses" data-entry-id="{{id}}"
+                            <a class="array-button" data-action="entryEdit" data-path="details.senses" data-entry-key="{{id}}"
                                 data-tooltip="WW.Detail.Sense.Edit"><i class="fa-solid fa-edit"></i></a>
                     
-                            <a class="array-button" data-action="entryRemove" data-array="details.senses" data-entry-id="{{id}}"
+                            <a class="array-button" data-action="entryRemove" data-path="details.senses" data-entry-key="{{id}}"
                                 data-tooltip="WW.Detail.Sense.Remove"><i class="fa-solid fa-trash"></i></a>
                         </span>{{#unless @last}},{{/unless}}
 
@@ -281,7 +281,7 @@
                     
                     {{#unless system.details.senses.length}}<span>—</span>{{/unless}}
                     
-                    <a class="array-button" data-action="entryCreate" data-array="details.senses" data-loc="Sense"
+                    <a class="array-button" data-action="entryCreate" data-path="details.senses" data-loc="Sense"
                         data-tooltip="WW.Detail.Sense.Create"><i class="fa-solid fa-circle-plus"></i></a>
 
                     <a class="array-button" data-action="entrySettings" data-entry-type="senses"
@@ -297,12 +297,12 @@
                     {{#each system.details.immunities as |detail id|}}
                     <span class="list-entry">
                         
-                        <a class="array-button" data-action="entryEdit" data-array="details.immunities" data-entry-id="{{id}}"
+                        <a class="array-button" data-action="entryEdit" data-path="details.immunities" data-entry-key="{{id}}"
                             data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-                            <a class="array-button" data-action="entryEdit" data-array="details.immunities" data-entry-id="{{id}}"
+                            <a class="array-button" data-action="entryEdit" data-path="details.immunities" data-entry-key="{{id}}"
                                 data-tooltip="WW.Detail.Immune.Edit"><i class="fa-solid fa-edit"></i></a>
                                 
-                            <a class="array-button" data-action="entryRemove" data-array="details.immunities" data-entry-id="{{id}}"
+                            <a class="array-button" data-action="entryRemove" data-path="details.immunities" data-entry-key="{{id}}"
                                 data-tooltip="WW.Detail.Immune.Remove"><i class="fa-solid fa-trash"></i></a>
                         </span>{{#unless @last}},{{/unless}}
 
@@ -311,7 +311,7 @@
 
                     {{#unless system.details.immunities.length}}<span>—</span>{{/unless}}
 
-                    <a class="array-button" data-action="entryCreate" data-array="details.immunities" data-loc="Immune"
+                    <a class="array-button" data-action="entryCreate" data-path="details.immunities" data-loc="Immune"
                         data-tooltip="WW.Detail.Immune.Create"><i class="fa-solid fa-circle-plus"></i></a>        
 
                     <a class="array-button" data-action="entrySettings" data-entry-type="immunities"

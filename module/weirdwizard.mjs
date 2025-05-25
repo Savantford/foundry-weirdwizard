@@ -212,7 +212,7 @@ Hooks.once('ready', function () {
     fullMigration: fullMigration,
     pathsOfJournaling: pathsOfJournaling,
     strToCharOptions: strToCharOptions,
-    effectOverhaul: effectOverhaul,
+    effectOverhaul: effectOverhaul
   }
 
   // Check and run data migrations if needed

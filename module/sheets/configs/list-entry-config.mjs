@@ -24,8 +24,8 @@ export default class ListEntryConfig extends FormApplication {
       if (doc instanceof Actor) this.actor = doc;
       this.arrPath = 'system.' + dataset.array;
       this.arr = foundry.utils.getProperty(doc, this.arrPath);
-      this.entryId = dataset.entryId;
-      this.entry = this.arr[dataset.entryId];
+      this.entryKey = dataset.entryKey;
+      this.entry = this.arr[dataset.entryKey];
     
     // Handle entry settings menu
     } else if (doc instanceof EntrySettingsMenu) {
@@ -61,7 +61,7 @@ export default class ListEntryConfig extends FormApplication {
     
     let arr = this.arr;
 
-    arr[this.entryId] = formData;
+    arr[this.entryKey] = formData;
     
     if (this.doc._id) await this.doc.update({ [this.arrPath]: arr });
     else {

@@ -168,16 +168,16 @@
         <span class="list-entry">
   
           <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-            <a class="array-button" data-action="edit" data-array="benefits.{{id}}.languages" data-entry-id="{{detailId}}"
+            <a class="array-button" data-action="edit" data-path="benefits.{{id}}.languages" data-entry-key="{{detailId}}"
               data-tooltip="WW.Detail.Language.Edit"><i class="fa-solid fa-edit"></i></a>
   
-            <a class="array-button" data-action="remove" data-array="benefits.{{id}}.languages"
-              data-entry-id="{{detailId}}" data-tooltip="WW.Detail.Language.Remove"><i class="fa-solid fa-trash"></i></a>
+            <a class="array-button" data-action="remove" data-path="benefits.{{id}}.languages"
+              data-entry-key="{{detailId}}" data-tooltip="WW.Detail.Language.Remove"><i class="fa-solid fa-trash"></i></a>
           </span>{{#unless @last}},{{/unless}}
         </span>
         {{/each}}{{#unless benefit.languages.length}}<span>—</span>{{/unless}}
   
-        <a class="array-button" data-action="add" data-array="benefits.{{id}}.languages" data-loc="Language"
+        <a class="array-button" data-action="add" data-path="benefits.{{id}}.languages" data-loc="Language"
           data-tooltip="WW.Detail.Language.Create"><i class="fa-solid fa-circle-plus"></i></a>
   
       </div>
@@ -193,16 +193,16 @@
           <span class="list-entry">
   
             <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-              <a class="array-button" data-action="edit" data-array="benefits.{{id}}.traditions"
-                data-entry-id="{{detailId}}" data-tooltip="WW.Tradition.Edit"><i class="fa-solid fa-edit"></i></a>
+              <a class="array-button" data-action="edit" data-path="benefits.{{id}}.traditions"
+                data-entry-key="{{detailId}}" data-tooltip="WW.Tradition.Edit"><i class="fa-solid fa-edit"></i></a>
   
-              <a class="array-button" data-action="remove" data-array="benefits.{{id}}.traditions"
-                data-entry-id="{{detailId}}" data-tooltip="WW.Tradition.Remove"><i class="fa-solid fa-trash"></i></a>
+              <a class="array-button" data-action="remove" data-path="benefits.{{id}}.traditions"
+                data-entry-key="{{detailId}}" data-tooltip="WW.Tradition.Remove"><i class="fa-solid fa-trash"></i></a>
             </span>{{#unless @last}},{{/unless}}
           </span>
           {{/each}}{{#unless benefit.traditions.length}}<span>—</span>{{/unless}}
 
-          <a class="array-button" data-action="add" data-array="benefits.{{id}}.traditions" data-loc="Tradition"
+          <a class="array-button" data-action="add" data-path="benefits.{{id}}.traditions" data-loc="Tradition"
             data-tooltip="WW.Tradition.Create"><i class="fa-solid fa-circle-plus"></i></a>
   
           {{!-- Spells --}}

@@ -54,16 +54,16 @@
         <span class="list-entry">
         
           <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-            <a class="array-button" data-action="edit" data-array="benefits.benefit1.languages" data-entry-id="{{id}}"
+            <a class="array-button" data-action="edit" data-path="benefits.benefit1.languages" data-entry-key="{{id}}"
               data-tooltip="WW.Detail.Language.Edit"><i class="fa-solid fa-edit"></i></a>
         
-            <a class="array-button" data-action="remove" data-array="benefits.benefit1.languages" data-entry-id="{{id}}"
+            <a class="array-button" data-action="remove" data-path="benefits.benefit1.languages" data-entry-key="{{id}}"
               data-tooltip="WW.Detail.Language.Remove"><i class="fa-solid fa-trash"></i></a>
           </span>{{#unless @last}},{{/unless}}
         </span>
         {{/each}}{{#unless benefits.benefit1.languages.length}}<span>—</span>{{/unless}}
         
-        <a class="array-button" data-action="add" data-array="benefits.benefit1.languages" data-loc="Language"
+        <a class="array-button" data-action="add" data-path="benefits.benefit1.languages" data-loc="Language"
           data-tooltip="WW.Detail.Language.Create"><i class="fa-solid fa-circle-plus"></i></a>
     
       </div>
