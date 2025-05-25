@@ -18,6 +18,15 @@ export function capitalize(string, noLowerCase) {
   return noLowerCase ? string?.charAt(0).toUpperCase() + string?.slice(1) : string?.charAt(0).toUpperCase() + string?.toLowerCase().slice(1);
 }
 
+export function camelCase(str) {
+  // converting all characters to lowercase
+  let ans = str.toLowerCase();
+
+  // Returning string to camelcase
+  return ans.split(" ").reduce((s, c) => s + (c.charAt(0).toUpperCase() + c.slice(1)));
+
+}
+
 export function escape(str) {
   let escapeMap = {
     '&': '&amp;',

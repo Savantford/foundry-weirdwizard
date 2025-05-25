@@ -1,3 +1,4 @@
+import { camelCase } from '../../helpers/utils.mjs';
 import {
   BaseActorModel,
   fields,
@@ -87,7 +88,6 @@ export default class CharacterData extends BaseActorModel {
         case '⅛': source.stats.level = 0.125; break;
         case '¼': source.stats.level = 0.25; break;
         case '½': source.stats.level = 0.5; break;
-        //default: source.stats.level = 1; break; // This is causing issues
       }
     }
 
@@ -98,7 +98,6 @@ export default class CharacterData extends BaseActorModel {
         case '⅛': source.stats.size = 0.125; break;
         case '¼': source.stats.size = 0.25; break;
         case '½': source.stats.size = 0.5; break;
-        //default: source.stats.size = 1; break; // This is causing issues
       }
     }
 
@@ -110,6 +109,24 @@ export default class CharacterData extends BaseActorModel {
     // Migrate immune to immunities
     if ('details' in source && source.details?.immune) source.details.immunities = source.details.immune;
 
+    // Migrate entry lists from array to object
+    if ('details' in source) {
+      const entryTypes = ['senses', 'descriptors', 'languages', 'immunities', 'movementTraits'];
+      
+      for (const key in source.details) {
+        const prop = source.details[key];
+        
+        // Check for the entryTypes and if it's an array
+        if (source.details.hasOwnProperty(key) && entryTypes.includes(key) && Array.isArray(prop)) {
+          const map = prop.map(value => [value.name ? camelCase(value.name) : camelCase(value), value]);
+            
+          source.details[key] = Object.fromEntries(map);
+        }
+
+      }
+      
+    }
+    
     return super.migrateData(source);
   }
 

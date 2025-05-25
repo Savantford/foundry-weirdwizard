@@ -1108,6 +1108,49 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     // Add entryId to dataset and render the config window
     dataset.entryId = arr.length-1;
     new ListEntryConfig(this.actor, dataset).render(true);
+
+    /*const key = button.dataset.key;
+    const newList = { ... this.list };
+
+    const context = {
+      entry: await newList[key],
+      key: key,
+      showKey: true
+    };
+
+    // Show a dialog 
+    const dialogInput = await WWDialog.input({
+      window: {
+        icon: "fa-solid fa-edit",
+        title: 'WW.Settings.Entry.Edit',
+      },
+      content: await renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
+      ok: {
+        label: 'EFFECT.Submit',
+        icon: 'fa-solid fa-save'
+      },
+      buttons: [
+        {
+          label: 'WW.System.Dialog.Cancel',
+          icon: 'fa-solid fa-xmark'
+        },
+      ]
+    });
+
+    // Return if cancelled
+    if (!dialogInput) return;
+
+    // Return with warning if the key or name are missing
+    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
+
+    newList[dialogInput.key] = dialogInput;
+
+    delete newList[dialogInput.key].key;
+
+    // Update list and re-render
+    this.list = await newList;
+
+    this.render(true);*/
     
   }
 
@@ -1117,10 +1160,55 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    * @param {HTMLElement} button   The button element originating the click event
    * @private
   */
-  static #onEntryEdit(event, button) {
+  static async #onEntryEdit(event, button) {
     
     // Render ListEntryConfig
     new ListEntryConfig(this.actor, button.dataset).render(true);
+    const dataset = button.dataset,
+      arrPath = 'system.' + dataset.array,
+      arr = foundry.utils.getProperty(doc, this.arrPath),
+      entryId = dataset.entryId,
+    entry = this.arr[dataset.entryId];
+    
+    const context = {
+      entry: await entry,
+      key: key,
+      showKey: true
+    };
+
+    // Show a dialog 
+    const dialogInput = await WWDialog.input({
+      window: {
+        icon: "fa-solid fa-edit",
+        title: 'WW.Settings.Entry.Edit',
+      },
+      content: await renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
+      ok: {
+        label: 'EFFECT.Submit',
+        icon: 'fa-solid fa-save'
+      },
+      buttons: [
+        {
+          label: 'WW.System.Dialog.Cancel',
+          icon: 'fa-solid fa-xmark'
+        },
+      ]
+    });
+
+    // Return if cancelled
+    if (!dialogInput) return;
+
+    // Return with warning if the key or name are missing
+    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
+
+    arr[dialogInput.key] = dialogInput;
+
+    delete arr[dialogInput.key].key;
+
+    // Update list and re-render
+    this.list = await arr;
+
+    this.render(true);
     
   }
 

@@ -68,57 +68,57 @@ export function stats(type = String) {
 };
 
 export function details(type = String) {
+  
   const obj = {
-
-    descriptors: new fields.ArrayField(
-      new fields.ObjectField({
+    descriptors: new fields.ObjectField({
+      initial: new fields.ObjectField({
         initial: {
           name: "",
           desc: "",
           grantedBy: null
         }
       })
-    ),
+    }),
 
-    senses: new fields.ArrayField(
-      new fields.ObjectField({
+    senses: new fields.ObjectField({
+      initial: new fields.ObjectField({
         initial: {
           name: "",
           desc: "",
           grantedBy: null
         }
       })
-    ),
+    }),
 
-    languages: new fields.ArrayField(
-      new fields.ObjectField({
+    languages: new fields.ObjectField({
+      initial: new fields.ObjectField({
         initial: {
           name: "",
           desc: "",
           grantedBy: null
         }
       })
-    ),
+    }),
 
-    immunities: new fields.ArrayField(
-      new fields.ObjectField({
+    immunities: new fields.ObjectField({
+      initial: new fields.ObjectField({
         initial: {
           name: "",
           desc: "",
           grantedBy: null
         }
       })
-    ),
+    }),
 
-    movementTraits: new fields.ArrayField(
-      new fields.ObjectField({
+    movementTraits: new fields.ObjectField({
+      initial: new fields.ObjectField({
         initial: {
           name: "",
           desc: "",
           grantedBy: null
         }
       })
-    )
+    })
 
   }
 

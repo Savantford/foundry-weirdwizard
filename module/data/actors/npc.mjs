@@ -1,3 +1,4 @@
+import { camelCase } from '../../helpers/utils.mjs';
 import {
   BaseActorModel,
   description,
@@ -89,6 +90,27 @@ export default class NpcData extends BaseActorModel {
 
     // Migrate other stuff
     if ('stats' in source && !source.stats?.damage?.raw && source.stats?.damage?.value) source.stats.damage.raw = source.stats?.damage?.value;
+
+    // Migrate immune to immunities
+    if ('details' in source && source.details?.immune) source.details.immunities = source.details.immune;
+
+    // Migrate entry lists from array to object
+    if ('details' in source) {
+      const entryTypes = ['senses', 'descriptors', 'languages', 'immunities', 'movementTraits'];
+
+      for (const key in source.details) {
+        const prop = source.details[key];
+
+        // Check for the entryTypes and if it's an array
+        if (source.details.hasOwnProperty(key) && entryTypes.includes(key) && Array.isArray(prop)) {
+          const map = prop.map(value => [value.name ? camelCase(value.name) : camelCase(value), value]);
+
+          source.details[key] = Object.fromEntries(map);
+        }
+
+      }
+
+    }
 
     return super.migrateData(source);
   }
