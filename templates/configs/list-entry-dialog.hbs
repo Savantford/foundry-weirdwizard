@@ -4,14 +4,14 @@
   {{#if showKey}}
   <div class="stat-inline">
     <label>{{localize "WW.Settings.Entry.Key"}}:</label>
-    <input name="key" type="text" required value="{{key}}" />
+    <input name="key" type="text" value="{{key}}" required />
   </div>
   {{/if}}
   
   {{!-- Name --}}
   <div class="stat-inline">
     <label>{{localize "WW.Settings.Entry.Name"}}:</label>
-    <input name="name" type="text" value="{{entry.name}}" />
+    <input name="name" type="text" value="{{localize entry.name}}" required />
   </div>
 
   {{!-- Description --}}

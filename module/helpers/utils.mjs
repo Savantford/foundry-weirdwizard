@@ -107,6 +107,66 @@ export function sysPath(string) {
   return 'systems/weirdwizard/' + string;
 }
 
+/**
+  * Gets the default new key for a list entry
+  * @param {string} listKey                    The entry list listKey to be used
+  * @param {Document|null} parent              A parent document within which the entry list should belong
+  * @returns {string}
+ */
+export function defaultListEntryKey(listKey, parent) {
+  const list = parent.system.details[listKey];
+  
+  // Get a set of taken names
+  const takenKeys = new Set();
+  for (const entryKey in list) takenKeys.add(entryKey);
+  
+  // Determine base name listKey and localize it
+  const baseKey = listKey ? CONFIG.WW.NEW_DEFAULT_ENTRY[listKey].key : 'entry';
+
+  // Determine and return name
+  let key = baseKey;
+
+  if (listKey.includes('languages') && !Object.keys(list).length) key = 'common';
+  else {
+    let index = 1;
+    while (takenKeys.has(key)) key = baseKey + (++index);
+  }
+
+  return key;
+}
+
+/**
+  * Gets the default new name for a list entry
+  * @param {string} listKey                    The entry list key to be used
+  * @param {Document|null} parent              A parent document within which the entry list should belong
+  * @returns {string}
+ */
+export function defaultListEntryName(listKey, parent) {
+  const list = parent.system.details[listKey];
+  
+  // Get a set of taken names
+  const takenNames = new Set();
+  for (const entryKey in list) {
+    if (list[entryKey]?.name) takenNames.add(list[entryKey].name);
+  }
+  
+  // Determine base name listKey and localize it
+  const baseNameKey = listKey ? CONFIG.WW.NEW_DEFAULT_ENTRY[listKey].loc : 'Entry';
+  
+  const baseName = i18n(baseNameKey);
+  
+  // Determine and return name
+  let name = baseName;
+
+  if (listKey.includes('languages') && !Object.keys(list).length) name = i18n('WW.ListEntry.Language.Common');
+  else {
+    let index = 1;
+    while (takenNames.has(name)) name = `${baseName} (${++index})`;
+  }
+
+  return name;
+}
+
 /* -------------------------------------------- */
 /*  Math Functions                              */
 /* -------------------------------------------- */

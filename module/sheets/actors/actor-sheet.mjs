@@ -1,4 +1,13 @@
-import { camelCase, capitalize, escape, i18n, plusify, sum, sysPath } from '../../helpers/utils.mjs';
+import {
+  capitalize,
+  defaultListEntryKey,
+  defaultListEntryName,
+  escape,
+  i18n,
+  plusify,
+  sum,
+  sysPath
+} from '../../helpers/utils.mjs';
 import { diceTotalHtml } from '../../sidebar/chat-html-templates.mjs';
 import ListEntryConfig from '../configs/list-entry-config.mjs';
 import { mapRange } from '../../canvas/canvas-functions.mjs';
@@ -1097,12 +1106,12 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   static async #onEntryCreate(event, button) {
     // Get data
     const dataset = Object.assign({}, button.dataset),
-      path = 'system.' + dataset.path,
+      listKey = dataset.listKey,
+      path = 'system.details.' + listKey,
       obj = foundry.utils.getProperty(this.actor, path),
-      entryName = (path.includes('languages') && !Object.keys(obj).length) ? i18n('WW.Detail.Language.Common') : i18n('WW.Detail.' + dataset.loc + '.New'),
-    entryKey = camelCase(entryName);
-    
-    const entry = { name: entryName };
+      entryKey = defaultListEntryKey(listKey, this.actor),
+      entryName = defaultListEntryName(listKey, this.actor),
+    entry = { name: entryName };
     
     obj[entryKey] = entry;
 
@@ -1158,7 +1167,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     
     // Get data
     const dataset = button.dataset,
-      path = 'system.' + dataset.path,
+      path = 'system.details.' + dataset.listKey,
       obj = foundry.utils.getProperty(this.actor, path),
       entryKey = dataset.entryKey,
     entry = obj[entryKey];
@@ -1198,7 +1207,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
 
     delete await obj[dialogInput.key].key;
 
-    await this.actor.update({[path]: obj});
+    await this.actor.update({ [path]: obj });
     
   }
 
@@ -1210,12 +1219,16 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   */
   static async #onEntryRemove(event, button) {
     const dataset = Object.assign({}, button.dataset),
-      path = 'system.' + dataset.path,
-    obj = {...foundry.utils.getProperty(this.actor, path)};
-
-    console.log(dataset.entryKey)
+      path = 'system.details.' + dataset.listKey,
+      baseObj = foundry.utils.getProperty(this.actor.token.baseActor, path),
+    key = dataset.entryKey;
+    
     // Update document
-    await this.actor.update({ [`${path}.-=${dataset.entryKey}`]: null });
+    if (baseObj?.hasOwnProperty(key)) {
+      await this.actor.update({ [`${path}.${key}`]: null }); // If the key exists in the Base Actor, null it
+    } else {
+      await this.actor.update({ [`${path}.-=${key}`]: null }); // Delete key otherwise
+    }
     
   }
 
@@ -1227,9 +1240,9 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   */
   static #onEntrySettingsDisplay(event, button) {
     const dataset = Object.assign({}, button.dataset),
-    entryType = dataset.entryType;
-
-    new EntrySettingsDisplay({ entryType: entryType }).render(true);
+    listKey = dataset.listKey;
+    
+    new EntrySettingsDisplay({ listKey: listKey }).render(true);
   }
 
   /* -------------------------------------------- */
@@ -2038,7 +2051,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     }
 
     // Dropped List Entry
-    if (data.key && data.name) {
+    if (data.listKey) {
       await this._onDropListEntry(event, data);
     }
 
@@ -2257,11 +2270,17 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    * Handle a droped List Entry on the Actor Sheet.
    */
   async _onDropListEntry(event, data) {
-    const { entryType: entryType, ...entry } = data;
-    const arr = [... this.actor.system.details[entryType]];
-    arr.push(entry);
+    const { listKey: listKey, entryKey: key, entryName: name, desc: desc } = data,
+      obj = {... this.actor.system.details[listKey]};
+    console.log(name)
+    const entry = {
+      name: name,
+      desc: desc
+    };
 
-    this.actor.update({ ['system.details.' + entryType]: arr });
+    obj[key] = entry;
+    
+    await this.actor.update({ ['system.details.' + listKey]: obj });
   }
 
   /* -------------------------------------------- */

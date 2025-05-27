@@ -111,17 +111,16 @@ export default class CharacterData extends BaseActorModel {
 
     // Migrate entry lists from array to object
     if ('details' in source) {
-      const entryTypes = ['senses', 'descriptors', 'languages', 'immunities', 'movementTraits'];
+      const listKeys = ['senses', 'descriptors', 'languages', 'immunities', 'movementTraits', 'traditions'];
       
       for (const key in source.details) {
         const prop = source.details[key];
         
-        // Check for the entryTypes and if it's an array
-        if (source.details.hasOwnProperty(key) && entryTypes.includes(key)) {
+        // Check for the listKeys and if it's an array
+        if (source.details.hasOwnProperty(key) && listKeys.includes(key)) {
           
           if (Array.isArray(prop)) {
-            console.log('isArray')
-            console.log(key, prop)
+            
             if (prop.length) {
               const map = prop.map(value => [value.name ? camelCase(value.name) : camelCase(value), value]);
               
@@ -130,16 +129,11 @@ export default class CharacterData extends BaseActorModel {
               source.details[key] = {};
             }
             
-          } else {
-            console.log('not array')
-            console.log(key, prop)
           }
           
         }
 
       }
-
-      console.log(source.details)
       
     }
     

@@ -70,8 +70,7 @@ export default class WWActor extends Actor {
 
   async _preUpdate(changes, options, user) {
     await super._preUpdate(changes, options, user);
-    console.log('preUpdating')
-    console.log(changes)
+    
     const damage = foundry.utils.getProperty(this, 'system.stats.damage.value');
 
     // Update token status icons
@@ -85,8 +84,7 @@ export default class WWActor extends Actor {
 
   async _onUpdate(changed, options, user) {
     await super._onUpdate(changed, options, user);
-    console.log('updating')
-    console.log(changed)
+    
     // Check for changed variables
     const health = foundry.utils.getProperty(changed, 'system.stats.health');
     const damage = foundry.utils.getProperty(changed, 'system.stats.damage');

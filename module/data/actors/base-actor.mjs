@@ -74,42 +74,42 @@ export function details(type = String) {
 
     descriptors: new TypedObjectField(
       new fields.SchemaField({
-        name: makeStrField("key", 0),
+        name: makeStrField("", 0),
         desc: makeStrField(),
         grantedBy: makeStrField(null)
-      })
+      }, {nullable: true})
     ),
 
     senses: new TypedObjectField(
       new fields.SchemaField({
-        name: makeStrField("key", 0),
+        name: makeStrField("", 0),
         desc: makeStrField(),
         grantedBy: makeStrField(null)
-      })
+      }, {nullable: true})
     ),
 
     languages: new TypedObjectField(
       new fields.SchemaField({
-        name: makeStrField("key", 0),
+        name: makeStrField("", 0),
         desc: makeStrField(),
         grantedBy: makeStrField(null)
-      })
+      }, {nullable: true})
     ),
 
-    immune: new TypedObjectField(
+    immunities: new TypedObjectField(
       new fields.SchemaField({
-        name: makeStrField("key", 0),
+        name: makeStrField("", 0),
         desc: makeStrField(),
         grantedBy: makeStrField(null)
-      })
+      }, {nullable: true})
     ),
 
     movementTraits: new TypedObjectField(
       new fields.SchemaField({
-        name: makeStrField("key", 0),
+        name: makeStrField("", 0),
         desc: makeStrField(),
         grantedBy: makeStrField(null)
-      })
+      }, {nullable: true})
     )
 
   }
@@ -123,14 +123,12 @@ export function details(type = String) {
     obj.expert = makeStrField("", 1, 1);
     obj.master = makeStrField("", 1, 1);
 
-    obj.traditions = new fields.ArrayField(
-      new fields.ObjectField({
-        initial: {
-          name: "",
-          desc: "",
-          grantedBy: null
-        }
-      })
+    obj.traditions = new TypedObjectField(
+      new fields.SchemaField({
+        name: makeStrField("", 0),
+        desc: makeStrField(),
+        grantedBy: makeStrField(null)
+      }, {nullable: true})
     );
 
     // Details

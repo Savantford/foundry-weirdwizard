@@ -35,7 +35,7 @@ export class EntrySettingsDisplay extends HandlebarsApplicationMixin(Application
 
   /** @override */
   get title() {
-    const type = this.options.entryType;
+    const type = this.options.listKey;
     
     return i18n(`WW.Settings.${capitalize(type, 1)}.Name`);
   }
@@ -46,10 +46,10 @@ export class EntrySettingsDisplay extends HandlebarsApplicationMixin(Application
     super(options); // This is required for the constructor to work
 
     const opt = this.options;
-
+    
     // Record important data
-    this.entryType = opt.entryType;
-    this.settingName = 'available' + capitalize(this.entryType, 1);
+    this.listKey = opt.listKey;
+    this.settingName = 'available' + capitalize(this.listKey, 1);
     this.list = game.settings.get('weirdwizard', this.settingName);
   }
 
@@ -71,7 +71,7 @@ export class EntrySettingsDisplay extends HandlebarsApplicationMixin(Application
   async _prepareContext(options = {}) {
 
     const context = {
-      listTitle: i18n(`WW.Settings.${capitalize(this.entryType, 1)}.EntryType`),
+      listTitle: i18n(`WW.Settings.${capitalize(this.listKey, 1)}.EntryType`),
       list: this.list
     }
 
@@ -170,7 +170,7 @@ export class EntrySettingsDisplay extends HandlebarsApplicationMixin(Application
     // Update list with the default values
     this.list = {
       ...this.list,
-      ...systemDefaults[this.entryType]
+      ...systemDefaults[this.listKey]
     };
 
     ui.notifications.info(i18n('WW.Settings.Entry.SetNotification'));
@@ -270,9 +270,9 @@ export class EntrySettingsDisplay extends HandlebarsApplicationMixin(Application
     const li = event.currentTarget;
 
     const dragData =  {
-      entryType: this.entryType,
-      key: li.dataset.key,
-      name: li.dataset.entryName,
+      listKey: this.listKey,
+      entryKey: li.dataset.entryKey,
+      entryName: i18n(li.dataset.entryName),
       desc: li.dataset.tooltip
     };
     

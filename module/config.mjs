@@ -905,73 +905,97 @@ WW.COMPENDIUM_GROUPS = {
 };
 
 /* Default Entries */
-WW.DEFAULT_LANGUAGES = {
-  'common': {
-    name: 'Common',
-    desc: 'The Common tongue originated with a seafaring people and was important for facilitating trade. It became the dominant language in the Great Kingdom and has spread to the new lands from the lips of refugees pouring across the borderlands. A dialect of Common—Seafarer—comes freighted with nautical jargon and odd digressions in which the speaker offers mild oaths to the sea god.'
+WW.NEW_DEFAULT_ENTRY = {
+  'afflictions': {
+    key: 'affliction',
+    loc: 'WW.ListEntry.Affliction.New'
   },
-  'archaic': {
-    name: 'Archaic',
-    desc: ''
+  'descriptors': {
+    key: 'descriptor',
+    loc: 'WW.ListEntry.Descriptor.New'
   },
-  'handSigns': {
-    name: 'Hand Signs',
-    desc: ''
+  'immunities': {
+    key: 'immunity',
+    loc: 'WW.ListEntry.Immunity.New'
   },
-  'kingdom': {
-    name: 'Kingdom',
-    desc: ''
+  'languages': {
+    key: 'language',
+    loc: 'WW.ListEntry.Language.New'
   },
-  'sylvan': {
-    name: 'Sylvan',
-    desc: ''
+  'movementTraits': {
+    key: 'movementTrait',
+    loc: 'WW.ListEntry.MovementTrait.New'
   },
-  'alchemical': {
-    name: 'Alchemical',
-    desc: ''
+  'senses': {
+    key: 'sense',
+    loc: 'WW.ListEntry.Sense.New'
   },
-  'arcane': {
-    name: 'Arcane',
-    desc: ''
+  'weaponTraits': {
+    key: 'weapon',
+    loc: 'WW.ListEntry.WeaponTrait.New'
   },
-  'druidic': {
-    name: 'Druidic',
-    desc: ''
-  },
-  'rangerSigns': {
-    name: 'Ranger Signs',
-    desc: ''
-  },
-  'thievesCant': {
-    name: "Thieves' Cant",
-    desc: ''
-  }
 };
 
-WW.DEFAULT_SENSES = {
-  'awareness': {
-    name: 'Awareness #',
-    desc: 'The creature always perceives everything around it within the listed number in yards. This perception ignores the effects of obscurement and lighting.'
+WW.DEFAULT_DESCRIPTORS = {
+  'ancestry': {
+    name: 'Ancestry',
+    desc: ''
   },
-  'darkVision': {
-    name: 'Dark Vision',
-    desc: 'The creature can see out to a range of 3 yards when in no light at all.'
+  'angel': {
+    name: 'Angel',
+    desc: ''
   },
-  'keenHearing': {
-    name: 'Keen Hearing',
-    desc: 'The creature hears out to double the normal distances.'
+  'beast': {
+    name: 'Beast',
+    desc: ''
   },
-  'keenScent': {
-    name: 'Keen Scent',
-    desc: 'The creature knows the location of each living or dead creature within 10 yards.'
+  'creation': {
+    name: 'Creation',
+    desc: ''
   },
-  'keenVision': {
-    name: 'Keen Vision',
-    desc: 'The creature can see twice as far as other creatures in natural light and doubles the normal range of artificial light sources. Finally, the creature reduces the degree of obscurement by one step, to a minimum of no obscurement.'
+  'demon': {
+    name: 'Demon',
+    desc: ''
   },
-  'trueVision': {
-    name: 'True Vision',
-    desc: 'The creature needs no light to see and treats everything within its line of sight as being illuminated. It perceives outlines around invisible creatures and objects in its line of sight. It also sees through mundane and magical disguises, perceives transformed creatures in their normal forms, and recognizes visual illusions for what they are.'
+  'elemental': {
+    name: 'Elemental',
+    desc: ''
+  },
+  'faerie': {
+    name: 'Faerie',
+    desc: ''
+  },
+  'fiend': {
+    name: 'Fiend',
+    desc: ''
+  },
+  'fungusPlant': {
+    name: 'Fungus/Plant',
+    desc: ''
+  },
+  'monster': {
+    name: 'Monster',
+    desc: ''
+  },
+  'spirit': {
+    name: 'Spirit',
+    desc: ''
+  },
+  'undead': {
+    name: 'Undead',
+    desc: ''
+  },
+  'amphibious': {
+    name: 'Amphibious',
+    desc: ''
+  },
+  'aquatic': {
+    name: 'Aquatic',
+    desc: ''
+  },
+  'swarm': {
+    name: 'Swarm',
+    desc: ''
   }
 };
 
@@ -1077,6 +1101,49 @@ WW.DEFAULT_IMMUNITIES = {
   }
 };
 
+WW.DEFAULT_LANGUAGES = {
+  'common': {
+    name: 'Common',
+    desc: 'The Common tongue originated with a seafaring people and was important for facilitating trade. It became the dominant language in the Great Kingdom and has spread to the new lands from the lips of refugees pouring across the borderlands. A dialect of Common—Seafarer—comes freighted with nautical jargon and odd digressions in which the speaker offers mild oaths to the sea god.'
+  },
+  'archaic': {
+    name: 'Archaic',
+    desc: ''
+  },
+  'handSigns': {
+    name: 'Hand Signs',
+    desc: ''
+  },
+  'kingdom': {
+    name: 'Kingdom',
+    desc: ''
+  },
+  'sylvan': {
+    name: 'Sylvan',
+    desc: ''
+  },
+  'alchemical': {
+    name: 'Alchemical',
+    desc: ''
+  },
+  'arcane': {
+    name: 'Arcane',
+    desc: ''
+  },
+  'druidic': {
+    name: 'Druidic',
+    desc: ''
+  },
+  'rangerSigns': {
+    name: 'Ranger Signs',
+    desc: ''
+  },
+  'thievesCant': {
+    name: "Thieves' Cant",
+    desc: ''
+  }
+};
+
 WW.DEFAULT_MOVEMENT_TRAITS = {
   'burrower': {
     name: 'Burrower',
@@ -1132,65 +1199,29 @@ WW.DEFAULT_MOVEMENT_TRAITS = {
   }
 };
 
-WW.DEFAULT_DESCRIPTORS = {
-  'ancestry': {
-    name: 'Ancestry',
-    desc: ''
+WW.DEFAULT_SENSES = {
+  'awareness': {
+    name: 'Awareness #',
+    desc: 'The creature always perceives everything around it within the listed number in yards. This perception ignores the effects of obscurement and lighting.'
   },
-  'angel': {
-    name: 'Angel',
-    desc: ''
+  'darkVision': {
+    name: 'Dark Vision',
+    desc: 'The creature can see out to a range of 3 yards when in no light at all.'
   },
-  'beast': {
-    name: 'Beast',
-    desc: ''
+  'keenHearing': {
+    name: 'Keen Hearing',
+    desc: 'The creature hears out to double the normal distances.'
   },
-  'creation': {
-    name: 'Creation',
-    desc: ''
+  'keenScent': {
+    name: 'Keen Scent',
+    desc: 'The creature knows the location of each living or dead creature within 10 yards.'
   },
-  'demon': {
-    name: 'Demon',
-    desc: ''
+  'keenVision': {
+    name: 'Keen Vision',
+    desc: 'The creature can see twice as far as other creatures in natural light and doubles the normal range of artificial light sources. Finally, the creature reduces the degree of obscurement by one step, to a minimum of no obscurement.'
   },
-  'elemental': {
-    name: 'Elemental',
-    desc: ''
-  },
-  'faerie': {
-    name: 'Faerie',
-    desc: ''
-  },
-  'fiend': {
-    name: 'Fiend',
-    desc: ''
-  },
-  'fungusPlant': {
-    name: 'Fungus/Plant',
-    desc: ''
-  },
-  'monster': {
-    name: 'Monster',
-    desc: ''
-  },
-  'spirit': {
-    name: 'Spirit',
-    desc: ''
-  },
-  'undead': {
-    name: 'Undead',
-    desc: ''
-  },
-  'amphibious': {
-    name: 'Amphibious',
-    desc: ''
-  },
-  'aquatic': {
-    name: 'Aquatic',
-    desc: ''
-  },
-  'swarm': {
-    name: 'Swarm',
-    desc: ''
+  'trueVision': {
+    name: 'True Vision',
+    desc: 'The creature needs no light to see and treats everything within its line of sight as being illuminated. It perceives outlines around invisible creatures and objects in its line of sight. It also sees through mundane and magical disguises, perceives transformed creatures in their normal forms, and recognizes visual illusions for what they are.'
   }
 };

@@ -39,12 +39,12 @@
       {{#if benefits.benefit1.descriptors.length}}
       <div class="stat-inline list-entries">
   
-        <label>{{localize "WW.Detail.Descriptor.Label"}}:</label>
+        <label>{{localize "WW.ListEntry.Descriptor.Label"}}:</label>
   
         {{#each benefits.benefit1.descriptors as |detail id|}}
         <span class="list-entry">
   
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>{{#unless @last}},{{/unless}}
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>data-entry-key=
         </span>
         {{/each}}
   
@@ -54,12 +54,12 @@
       {{!-- Senses --}}
       {{#if benefits.benefit1.senses.length}}
       <div class="stat-inline list-entries">
-        <label>{{localize "WW.Detail.Sense.Label"}}:</label>
+        <label>{{localize "WW.ListEntry.Sense.Label"}}:</label>
   
         {{#each benefits.benefit1.senses as |detail id|}}
         <span class="list-entry">
   
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>{{#unless @last}},{{/unless}}
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>data-entry-key=
         </span>
         {{/each}}
   
@@ -69,12 +69,12 @@
       {{!-- Bonus Languages --}}
       {{#if benefits.benefit1.languages.length}}
       <div class="stat-inline list-entries">
-        <label>{{localize "WW.Detail.Language.Bonus"}}:</label>
+        <label>{{localize "WW.ListEntry.Language.Bonus"}}:</label>
   
         {{#each benefits.benefit1.languages as |detail id|}}
         <span class="list-entry">
   
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>{{#unless @last}},{{/unless}}
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>data-entry-key=
         </span>
         {{/each}}
   
@@ -130,7 +130,7 @@
   
         {{!-- Movement Traits --}}
         {{#each benefits.benefit1.movementTraits as |detail id|}}<span class="list-entry">
-          {{#if @first}}({{/if}}<a data-tooltip="{{detail.desc}}">{{detail.name}}</a>{{#unless @last}},{{/unless}}{{#if @last}}){{/if}}
+          {{#if @first}}({{/if}}<a data-tooltip="{{detail.desc}}">{{detail.name}}</a>data-entry-key={{#if @last}}){{/if}}
         </span>
         {{/each}}
   
@@ -139,12 +139,12 @@
       {{!-- Immune --}}
       {{#if benefits.benefit1.immune.length}}
       <div class="stat-inline list-entries">
-        <label>{{localize "WW.Detail.Immune.Label"}}:</label>
+        <label>{{localize "WW.ListEntry.Immunity.Label"}}:</label>
   
         {{#each benefits.benefit1.immune as |detail id|}}
         <span class="list-entry">
   
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>{{#unless @last}},{{/unless}}
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>data-entry-key=
         </span>
         {{/each}}
   

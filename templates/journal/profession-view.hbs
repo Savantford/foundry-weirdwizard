@@ -40,12 +40,12 @@
       {{!-- Bonus Language --}}
       {{#if benefits.benefit1.languages.length}}
       <div class="stat-inline list-entries">
-        <label>{{localize "WW.Detail.Language.Bonus"}}:</label>
+        <label>{{localize "WW.ListEntry.Language.Bonus"}}:</label>
         
         {{#each benefits.benefit1.languages as |detail id|}}
         <span class="list-entry">
         
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>{{#unless @last}},{{/unless}}
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>data-entry-key=
         </span>
         {{/each}}
     

@@ -1,7 +1,7 @@
 <section class="tab spells {{tab.cssClass}}" data-group="primary" data-tab="spells">
 
     {{!-- Traditions --}}
-    <div class="stat-inline mb-2 list-entries">
+    <ol class="stat-inline mb-2 list-entries">
 
         <label>{{localize "WW.Tradition.Label"}}:</label>
         
@@ -13,7 +13,7 @@
                 <a class="array-button" data-action="journalRemove" data-page-uuid="{{tradition.uuid}}" data-option-type="traditions"
                     data-tooltip="WW.Tradition.Remove"><i class="fa-solid fa-trash"></i>
                 </a>
-            </span>{{#unless @last}},{{/unless}}
+            </span>
 
         </span>
         {{/each}}
@@ -22,25 +22,18 @@
 
         {{!-- Legacy Traditions --}}
         {{#if system.details.traditions}}
-        <span class="stat-inline list-entries">(
+        <ol class="stat-inline list-entries">(
             <label>Legacy, Delete:</label>
-
-            {{#each system.details.traditions as |detail id|}}
-            <span class="list-entry draggable">
-                        
-            <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-                <a class="array-button" data-action="entryEdit" data-path="details.traditions" data-entry-key="{{id}}"
-                    data-tooltip="WW.Tradition.Edit"><i class="fa-solid fa-edit"></i></a>
-                        
-                <a class="array-button" data-action="entryRemove" data-path="details.traditions" data-entry-key="{{id}}"
-                    data-tooltip="WW.Tradition.Remove"><i class="fa-solid fa-trash"></i></a>
-
-                </span>{{#unless @last}},{{/unless}}
-            </span>
+        
+            {{#each system.details.traditions as |entry key|}}
+            {{#if entry}}
+                {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=key listKey="traditions" loc="Tradition"}}
+            {{/if}}
             {{/each}}
-        )</span>
+        
+        )</ol>
         {{/if}}
-    </div>
+    </ol>
 
     {{!-- Spells Table --}}
     <ol class="item-list">

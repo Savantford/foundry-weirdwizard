@@ -101,11 +101,11 @@
       {{!-- Languages --}}
       {{#if benefit.languages.length}}
       <div class="stat-inline list-entries">
-        <label>{{localize "WW.Detail.Language.Label"}}:</label>
+        <label>{{localize "WW.ListEntry.Language.Label"}}:</label>
   
         {{#each benefit.languages as |detail detailId|}}
         <span class="list-entry">
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>{{#unless @last}},{{/unless}}
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>data-entry-key=
         </span>
         {{/each}}
   
@@ -122,7 +122,7 @@
         <span class="list-entries">
           {{#each benefit.traditions as |detail detailId|}}
           <span class="list-entry">
-            <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>{{#unless @last}},{{/unless}}
+            <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>data-entry-key=
           </span>
           {{/each}}
         </span>

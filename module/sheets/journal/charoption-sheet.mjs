@@ -303,7 +303,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
       arr = foundry.utils.getProperty(this.document, arrPath);
     
     // Push new element with a default name
-    const defaultName = (arrPath.includes('languages') && !arr.length) ? i18n('WW.Detail.Language.Common') : i18n('WW.Detail.' + dataset.loc + '.New');
+    const defaultName = (arrPath.includes('languages') && !arr.length) ? i18n('WW.ListEntry.Language.Common') : i18n('WW.ListEntry.' + dataset.loc + '.New');
     await arr.push({ name: defaultName })
     
     // Update document

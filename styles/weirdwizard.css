@@ -2790,8 +2790,7 @@ input[type="checkbox"].checkbox-uses {
   width: auto;
 } 
 
-.weirdwizard .item p:nth-child(-n+1),
-.weirdwizard.edit-mode .list-entries > :not(:first-child):hover {
+.weirdwizard .item p:nth-child(-n+1) {
   display: inline;
 }
 
@@ -3085,6 +3084,31 @@ input[type="checkbox"].checkbox-uses {
   display: flex;
   gap: 0 5px;
   flex-wrap: wrap;
+}
+
+.weirdwizard ol.list-entries {
+  list-style: none;
+  display: inline-flex;
+  margin: 0;
+  padding: 0;
+  text-indent: 0;
+}
+
+.weirdwizard ol.list-entries > li {
+  display: inline-flex;
+  margin: 0;
+}
+
+.weirdwizard ol.list-entries > li:first-of-type:not(:last-of-type)::after {
+  content: ', ';
+}
+
+.weirdwizard ol.list-entries.movement-traits > li:first-of-type::before {
+  content: '(';
+}
+
+.weirdwizard ol.list-entries.movement-traits > li:last-of-type::after {
+  content: ')';
 }
 
 .weirdwizard .list-entries span {

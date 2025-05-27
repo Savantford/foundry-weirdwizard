@@ -39,7 +39,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
 
   /** @override */
   get title() {
-    const type = this.options.entryType;
+    const type = this.options.listKey;
     
     return i18n(`WW.Settings.${capitalize(type, 1)}.Name`);
   }
@@ -52,8 +52,8 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
     const opt = this.options;
 
     // Record important data
-    this.entryType = opt.entryType;
-    this.settingName = 'available' + capitalize(this.entryType, 1);
+    this.listKey = opt.listKey;
+    this.settingName = 'available' + capitalize(this.listKey, 1);
     this.list = game.settings.get('weirdwizard', this.settingName);
   }
 
@@ -76,7 +76,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
   async _prepareContext(options = {}) {
 
     const context = {
-      listTitle: i18n(`WW.Settings.${capitalize(this.entryType, 1)}.EntryType`),
+      listTitle: i18n(`WW.Settings.${capitalize(this.listKey, 1)}.EntryType`),
       list: this.list,
       buttons: [
         {type: "submit", icon: "fa-solid fa-save", label: "PERMISSION.Submit"},
@@ -173,7 +173,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
     // Update list with the default values
     this.list = {
       ...this.list,
-      ...systemDefaults[this.entryType]
+      ...systemDefaults[this.listKey]
     };
 
     ui.notifications.info(i18n('WW.Settings.Entry.SetNotification'));
@@ -262,30 +262,30 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
 
 /* Other Subclasses */
 export class LanguagesMenu extends EntrySettingsMenu {
-  static DEFAULT_OPTIONS = { entryType: 'languages' };
+  static DEFAULT_OPTIONS = { listKey: 'languages' };
 }
 
 export class SensesMenu extends EntrySettingsMenu {
-  static DEFAULT_OPTIONS = { entryType: 'senses' };
+  static DEFAULT_OPTIONS = { listKey: 'senses' };
 }
 
 export class ImmunitiesMenu extends EntrySettingsMenu {
-  static DEFAULT_OPTIONS = { entryType: 'immunities' };
+  static DEFAULT_OPTIONS = { listKey: 'immunities' };
 }
 
 export class MovementTraitsMenu extends EntrySettingsMenu {
-  static DEFAULT_OPTIONS = { entryType: 'movementTraits' };
+  static DEFAULT_OPTIONS = { listKey: 'movementTraits' };
 }
 
 export class DescriptorsMenu extends EntrySettingsMenu {
-  static DEFAULT_OPTIONS = { entryType: 'descriptors' };
+  static DEFAULT_OPTIONS = { listKey: 'descriptors' };
 }
 
 export class WeaponTraitsMenu extends EntrySettingsMenu {
-  static DEFAULT_OPTIONS = { entryType: 'weaponTraits' };
+  static DEFAULT_OPTIONS = { listKey: 'weaponTraits' };
 }
 
 export class AfflictionsMenu extends EntrySettingsMenu {
-  static DEFAULT_OPTIONS = { entryType: 'afflictions' };
+  static DEFAULT_OPTIONS = { listKey: 'afflictions' };
 }
 

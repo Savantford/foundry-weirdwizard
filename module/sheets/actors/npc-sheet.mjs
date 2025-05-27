@@ -41,7 +41,8 @@ export default class WWNpcSheet extends WWActorSheet {
       template: 'systems/weirdwizard/templates/actors/tabs/npc-summary.hbs',
       templates: [
         'systems/weirdwizard/templates/actors/tabs/npc-summary-item.hbs',
-        'systems/weirdwizard/templates/actors/tabs/npc-summary-weapon.hbs'
+        'systems/weirdwizard/templates/actors/tabs/npc-summary-weapon.hbs',
+        'systems/weirdwizard/templates/actors/tabs/list-entry.hbs'
       ]
     },
     description: { template: 'systems/weirdwizard/templates/actors/tabs/npc-description.hbs' },

@@ -43,7 +43,8 @@ export default class WWCharacterSheet extends WWActorSheet {
       template: 'systems/weirdwizard/templates/actors/tabs/character-summary.hbs',
       templates: [
         'systems/weirdwizard/templates/actors/tabs/character-summary-item.hbs',
-        'systems/weirdwizard/templates/actors/tabs/character-summary-weapon.hbs'
+        'systems/weirdwizard/templates/actors/tabs/character-summary-weapon.hbs',
+        'systems/weirdwizard/templates/actors/tabs/list-entry.hbs'
       ]
     },
     details: { template: 'systems/weirdwizard/templates/actors/tabs/character-details.hbs' },

@@ -48,23 +48,23 @@
   
       {{!-- Bonus Language --}}
       <div class="stat-inline list-entries">
-        <label>{{localize "WW.Detail.Language.Bonus"}}:</label>
+        <label>{{localize "WW.ListEntry.Language.Bonus"}}:</label>
         
         {{#each benefits.benefit1.languages as |detail id|}}
         <span class="list-entry">
         
           <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-            <a class="array-button" data-action="edit" data-path="benefits.benefit1.languages" data-entry-key="{{id}}"
-              data-tooltip="WW.Detail.Language.Edit"><i class="fa-solid fa-edit"></i></a>
+            <a class="array-button" data-action="edit" data-list-key="benefits.benefit1.languages" data-entry-key="{{id}}"
+              data-tooltip="WW.ListEntry.Language.Edit"><i class="fa-solid fa-edit"></i></a>
         
-            <a class="array-button" data-action="remove" data-path="benefits.benefit1.languages" data-entry-key="{{id}}"
-              data-tooltip="WW.Detail.Language.Remove"><i class="fa-solid fa-trash"></i></a>
-          </span>{{#unless @last}},{{/unless}}
+            <a class="array-button" data-action="remove" data-list-key="benefits.benefit1.languages" data-entry-key="{{id}}"
+              data-tooltip="WW.ListEntry.Language.Remove"><i class="fa-solid fa-trash"></i></a>
+          </span>data-entry-key=
         </span>
         {{/each}}{{#unless benefits.benefit1.languages.length}}<span>—</span>{{/unless}}
         
-        <a class="array-button" data-action="add" data-path="benefits.benefit1.languages" data-loc="Language"
-          data-tooltip="WW.Detail.Language.Create"><i class="fa-solid fa-circle-plus"></i></a>
+        <a class="array-button" data-action="add" data-list-key="benefits.benefit1.languages" data-loc="Language"
+          data-tooltip="WW.ListEntry.Language.Create"><i class="fa-solid fa-circle-plus"></i></a>
     
       </div>
   
