@@ -98,24 +98,21 @@
                         {{/if}}
                         {{#unless charOptions.ancestry}}<span>—</span>{{/unless}}
                     </div>
-
-                    {{#if system.listEntries.descriptors}}<div>●</div>{{/if}}
+                    
+                    {{#if (or editMode listEntries.descriptors.length)}}<div>●</div>{{/if}}
 
                     {{!-- Descriptors --}}
-                    {{#each system.listEntries.descriptors as |entry key|}}
-                        {{#if entry}}
-                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=key listKey="descriptors" loc="Descriptor"}}
-                        {{/if}}
+                    {{#each listEntries.descriptors as |entry|}}
+                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="descriptors" loc="Descriptor"}}
+                    {{else}}
+                        {{#if editMode}}<span>({{localize "WW.ListEntry.Descriptor.Label"}})</span>{{/if}}
                     {{/each}}
-                    
-                    {{#unless system.listEntries.descriptors.length}}<span class="hover-only">({{localize
-                        "WW.ListEntry.Descriptor.Label"}})</span>{{/unless}}
                     
                     <a class="array-button" data-action="entryCreate" data-list-key="descriptors" data-loc="Descriptor"
                         data-tooltip="WW.ListEntry.Descriptor.Create"><i class="fa-solid fa-circle-plus"></i></a>
                     
                     <a class="array-button" data-action="entrySettings" data-list-key="descriptors"
-                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-rectangle-list"></i></a>
+                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
                     
                 </ol>
 
@@ -137,17 +134,15 @@
                     <a data-tooltip="{{{speedTooltip}}}">{{system.stats.speed.current}}</a>
                     
                     {{!-- Movement Traits --}}
-                    {{#each system.listEntries.movementTraits as |entry key|}}
-                    {{#if entry}}
-                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=key listKey="movementTraits" loc="MovementTrait"}}
-                    {{/if}}
+                    {{#each listEntries.movementTraits as |entry|}}
+                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="movementTraits" loc="MovementTrait"}}
                     {{/each}}
                     
                     <a class="array-button" data-action="entryCreate" data-list-key="movementTraits" data-loc="MovementTrait"
                         data-tooltip="WW.ListEntry.MovementTrait.Create"><i class="fa-solid fa-circle-plus"></i></a>
                     
                     <a class="array-button" data-action="entrySettings" data-list-key="movementTraits"
-                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-rectangle-list"></i></a>
+                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
                     
                 </ol>
 
@@ -155,54 +150,51 @@
                 <ol class="stat-inline list-entries">
                     <label>{{localize "WW.ListEntry.Language.Label"}}:</label>
 
-                    {{#each system.listEntries.languages as |entry key|}}
-                    {{#if entry}}
-                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=key listKey="languages" loc="Language"}}
-                    {{/if}}
+                    {{#each listEntries.languages as |entry|}}
+                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="languages" loc="Language"}}
+                    {{else}}
+                        <span>—</span>
                     {{/each}}
-                    {{#unless system.listEntries.languages.length}}<span>—</span>{{/unless}}
                 
                     <a class="array-button" data-action="entryCreate" data-list-key="languages" data-loc="Language"
                         data-tooltip="WW.ListEntry.Language.Create"><i class="fa-solid fa-circle-plus"></i></a>
                 
                     <a class="array-button" data-action="entrySettings" data-list-key="languages"
-                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-rectangle-list"></i></a>
+                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
                 </ol>
 
                 {{!-- Senses --}}
                 <ol class="stat-inline list-entries">
                     <label>{{localize "WW.ListEntry.Sense.Label"}}:</label>
                 
-                    {{#each system.listEntries.senses as |entry key|}}
-                    {{#if entry}}
-                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=key listKey="senses" loc="Sense"}}
-                    {{/if}}
+                    {{#each listEntries.senses as |entry key|}}
+                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="senses" loc="Sense"}}
+                    {{else}}
+                        <span>—</span>
                     {{/each}}
-                    {{#unless system.listEntries.senses.length}}<span>—</span>{{/unless}}
                 
                     <a class="array-button" data-action="entryCreate" data-list-key="senses" data-loc="Sense"
                         data-tooltip="WW.ListEntry.Sense.Create"><i class="fa-solid fa-circle-plus"></i></a>
                 
                     <a class="array-button" data-action="entrySettings" data-list-key="senses"
-                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-rectangle-list"></i></a>
+                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
                 </ol>
 
                 {{!-- Immune --}}
                 <ol class="stat-inline list-entries">
                     <label>{{localize "WW.ListEntry.Immunity.Label"}}:</label>
                 
-                    {{#each system.listEntries.immunities as |entry key|}}
-                    {{#if entry}}
-                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=key listKey="immunities" loc="Immunity"}}
-                    {{/if}}
+                    {{#each listEntries.immunities as |entry key|}}
+                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="immunities" loc="Immunity"}}
+                    {{else}}
+                        <span>—</span>
                     {{/each}}
-                    {{#unless system.listEntries.immunities.length}}<span>—</span>{{/unless}}
                 
                     <a class="array-button" data-action="entryCreate" data-list-key="immunities" data-loc="Immunity"
                         data-tooltip="WW.ListEntry.Immunity.Create"><i class="fa-solid fa-circle-plus"></i></a>
                 
                     <a class="array-button" data-action="entrySettings" data-list-key="immunities"
-                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-rectangle-list"></i></a>
+                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
                 </ol>
 
                 {{!-- Professions --}}
@@ -223,9 +215,9 @@
                         </span>
 
                     </span>
+                    {{else}}
+                        <span>—</span>
                     {{/each}}
-                        
-                    {{#unless charOptions.professions.length}}<span>—</span>{{/unless}}
                         
                     {{#if editMode}}
                     <a class="help-button" data-action="journalHelp" data-tooltip="WW.System.Documentation"><i class="fa-solid fa-circle-question"></i></a>
@@ -297,7 +289,7 @@
             </div>
 
             {{!-- Spells Section --}}
-            {{#if (or system.listEntries.traditions spells.length)}}
+            {{#if (or listEntries.traditions spells.length)}}
             <h4>{{localize "WW.Spells.Label"}}</h4>
 
             <div class="statbox-section spells">

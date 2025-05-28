@@ -3088,7 +3088,6 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard ol.list-entries {
   list-style: none;
-  display: inline-flex;
   margin: 0;
   padding: 0;
   text-indent: 0;

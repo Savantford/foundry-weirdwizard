@@ -216,22 +216,22 @@ export default class WWActor extends Actor {
 
     for (const o in cOpts) {
       const opt = cOpts[o];
-      
-      console.log(this)
+
       // Assign array of pages
       if (opt && opt.constructor === Array) {
         charOptions[o] = [];
 
         for (const idx in opt) {
           const page = await fromUuid(opt[idx]);
-          charOptions[o].push(page ? page : opt[idx]);
+          
+          charOptions[o].push(await page ? page : opt[idx]);
         }
       }
       // Assign page
       else if (typeof opt === 'string' && opt.includes('.')) charOptions[o] = await fromUuid(opt) ? await fromUuid(opt) : opt;
     }
 
-    this.charOptions = charOptions;
+    return this.charOptions = charOptions;
   }
 
   /**

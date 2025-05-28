@@ -52,7 +52,7 @@ export default class CharacterData extends BaseActorModel {
         makeCharOptionField()
       )
     })
-    console.log(schema.charOptions)
+    
     // Add Character stats
     schema.stats.fields.level = makeNumField();
     schema.stats.fields.bonusdamage = makeIntField();
@@ -79,10 +79,10 @@ export default class CharacterData extends BaseActorModel {
    * @inheritDoc
    */
   static migrateData(source) {
-
+    
     // Migrate Details
     if (source.details?.features?.value && !source.details?.appearance?.value) source.details.appearance = {value: source.details.features.value};
-    if ((source.description?.value || source.details?.bg_ancestry?.value) && !source.details?.background?.value) source.details.background = {value: source.description.value + source.details.bg_ancestry.value};
+    if ((source.description?.value || source.details?.bg_ancestry?.value) && !source.details?.background?.value) source.details.background = {value: source.description.value + source.details.bg_ancestry?.value};
     if (source.details?.belief?.value && !source.details?.beliefs?.value) source.details.beliefs = {value: source.details.belief.value};
     if ((source.details?.deeds?.value || source.details?.information?.value) && !source.details?.notes?.value) source.details.notes = {value: source.details.deeds.value + source.details.information.value};
 
