@@ -333,6 +333,13 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     context.items = this.actor.items.contents.toSorted((a, b) => a.sort - b.sort);
     await this._prepareItems(context);
 
+    // Prepare list entries
+    const listEntries = {
+      
+    }
+    
+    context.listEntries = listEntries;
+
     // Prepare character data
     if (actorData.type == 'Character') this._prepareCharacterData(context);
 
@@ -2271,8 +2278,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    */
   async _onDropListEntry(event, data) {
     const { listKey: listKey, entryKey: key, entryName: name, desc: desc } = data,
-      obj = {... this.actor.system.details[listKey]};
-    console.log(name)
+    obj = {... this.actor.system.details[listKey]};
+    
     const entry = {
       name: name,
       desc: desc

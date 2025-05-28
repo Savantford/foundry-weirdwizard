@@ -1,33 +1,76 @@
 import { camelCase } from '../../helpers/utils.mjs';
-import {
-  BaseActorModel,
-  fields,
-  description,
-  attributes,
-  stats,
-  details,
-  charOptions,
-  makeIntField
-} from './base-actor.mjs'
+import { TypedObjectField } from '../typed-object-field.mjs';
+import { BaseActorModel, makeCharOptionField, makeHtmlField, makeIntField, makeNumField, makeStrField } from './base-actor.mjs';
 
 export default class CharacterData extends BaseActorModel {
 
+  /** @inheritdoc */
   static defineSchema() {
-    const type = 'Character';
+    const fields = foundry.data.fields;
     
-    return {
-      ...description(type),
-      ...attributes(),
-      ...stats(type),
-      ...details(type),
-      ...charOptions(type),
+    const schema = super.defineSchema();
 
-      currency: new fields.SchemaField({
-        gp: makeIntField(),
-        sp: makeIntField(),
-        cp: makeIntField(),
-      }) 
-    }
+    // Add currency
+    schema.currency = new fields.SchemaField({
+      gp: makeIntField(),
+      sp: makeIntField(),
+      cp: makeIntField(),
+    });
+
+    // Add Character Details
+    schema.details = new fields.SchemaField({
+      appearance: makeHtmlField(),
+      background: makeHtmlField(),
+      personality: makeHtmlField(),
+      beliefs: makeHtmlField(),
+      notes: makeHtmlField(),
+
+      // Will be deleted in a later date
+      professions: makeStrField("", 1, 1),
+      ancestry: makeStrField("", 1, 1),
+      novice: makeStrField("", 1, 1),
+      expert: makeStrField("", 1, 1),
+      master: makeStrField("", 1, 1)
+    }),
+
+    // Add Character Options
+    schema.charOptions = new fields.SchemaField({
+
+      ancestry: makeCharOptionField('Compendium.weirdwizard.character-options.JournalEntry.pAAZKv2vrilITojZ.JournalEntryPage.GI4b6WkOLlTszbRe'),
+
+      // Paths
+      novice: makeCharOptionField(),
+      expert: makeCharOptionField(),
+      master: makeCharOptionField(),
+
+      // Arrays
+      professions: new fields.ArrayField(
+        makeCharOptionField()
+      ),
+
+      traditions: new fields.ArrayField(
+        makeCharOptionField()
+      )
+    })
+
+    // Add Character stats
+    schema.stats.fields.level = makeNumField();
+    schema.stats.fields.bonusdamage = makeIntField();
+
+    // Adjust Character-specific initials
+    schema.description = makeHtmlField('Unknown biography.');
+    schema.stats.fields.defense.fields.natural = makeIntField(8);
+    
+    // Will be deleted in a later date
+    schema.listEntries.fields.traditions = new TypedObjectField(
+      new fields.SchemaField({
+        name: makeStrField("", 0),
+        desc: makeStrField(),
+        grantedBy: makeStrField(null)
+      }, { nullable: true })
+    );
+
+    return schema;
   }
 
   /**
@@ -47,95 +90,15 @@ export default class CharacterData extends BaseActorModel {
     if ('stats.speed.value' in source) source.stats.speed.current = source.stats.speed.value;
     if ('stats.speed.raw' in source) source.stats.speed.normal = source.stats.speed.raw;
 
-    // Migrate List Entries
-    if (typeof source.details?.type === 'string') { // Types
-      const arr = source.details.type.split(",");
-      source.details.types = arr.filter(s => s).map((s) => ({ name: s.trim() }));
-    }
-
-    // Migrate Types to Descriptors
-    if (source.details?.types && !source.details?.descriptors) source.details.descriptors = source.details.types;
-
-    if (typeof source.details?.senses === 'string') { // Senses
-      const arr = source.details.senses.split(",");
-      source.details.senses = arr.filter(s => s).map((s) => ({ name: s.trim() }));
-    }
-    
-    if (typeof source.details?.languages === 'string') { // Languages
-      const arr = source.details.languages.split(",");
-      source.details.languages = arr.filter(s => s).map((s) => ({ name: s.trim() }));
-    }
-
-    if (typeof source.details?.immune === 'string') { // Immune
-      const arr = source.details.immune.split(",");
-      source.details.immune = arr.filter(s => s).map((s) => ({ name: s.trim() }));
-    }
-
-    if (typeof source.stats?.speed?.special === 'string') { // Movement Traits (Speed Special)
-      const arr = source.stats.speed.special.split(",");
-      source.details.movementTraits = arr.filter(s => s).map((s) => ({ name: s.trim() }));
-    }
-
-    if (typeof source.details?.traditions === 'string') { // Traditions
+    // Migrate legacy Traditions
+    if (typeof source.details?.traditions === 'string') {
       const arr = source.details.traditions.split(",");
       source.details.traditions = arr.filter(s => s).map((s) => ({ name: s.trim() }));
     }
-    
-    // Migrate Level
-    if (isNaN(source.stats?.level)) {
 
-      switch (source.stats?.level) {
-        case '⅛': source.stats.level = 0.125; break;
-        case '¼': source.stats.level = 0.25; break;
-        case '½': source.stats.level = 0.5; break;
-      }
-    }
-
-    // Migrate Size
-    if (isNaN(source.stats?.size)) {
-
-      switch (source.stats?.size) {
-        case '⅛': source.stats.size = 0.125; break;
-        case '¼': source.stats.size = 0.25; break;
-        case '½': source.stats.size = 0.5; break;
-      }
-    }
-
-    // Migrate other stuff
+    // Migrate bonus damage and reputation
     if ('stats' in source && isNaN(source.stats?.bonusdamage)) source.stats.bonusdamage = 0;
     if ('details' in source && isNaN(source.details?.reputation)) source.details.reputation = 0;
-    if ('stats' in source && !source.stats?.damage?.raw && source.stats?.damage?.value) source.stats.damage.raw = source.stats?.damage?.value;
-
-    // Migrate immune to immunities
-    if ('details' in source && source.details?.immune) source.details.immunities = source.details.immune;
-
-    // Migrate entry lists from array to object
-    if ('details' in source) {
-      const listKeys = ['senses', 'descriptors', 'languages', 'immunities', 'movementTraits', 'traditions'];
-      
-      for (const key in source.details) {
-        const prop = source.details[key];
-        
-        // Check for the listKeys and if it's an array
-        if (source.details.hasOwnProperty(key) && listKeys.includes(key)) {
-          
-          if (Array.isArray(prop)) {
-            
-            if (prop.length) {
-              const map = prop.map(value => [value.name ? camelCase(value.name) : camelCase(value), value]);
-              
-              source.details[key] = Object.fromEntries(map);
-            } else {
-              source.details[key] = {};
-            }
-            
-          }
-          
-        }
-
-      }
-      
-    }
     
     return super.migrateData(source);
   }
