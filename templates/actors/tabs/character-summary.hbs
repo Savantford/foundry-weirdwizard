@@ -99,16 +99,16 @@
                         {{#unless charOptions.ancestry}}<span>—</span>{{/unless}}
                     </div>
 
-                    {{#if system.details.descriptors}}<div>●</div>{{/if}}
+                    {{#if system.listEntries.descriptors}}<div>●</div>{{/if}}
 
                     {{!-- Descriptors --}}
-                    {{#each system.details.descriptors as |entry key|}}
+                    {{#each system.listEntries.descriptors as |entry key|}}
                         {{#if entry}}
                         {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=key listKey="descriptors" loc="Descriptor"}}
                         {{/if}}
                     {{/each}}
                     
-                    {{#unless system.details.descriptors.length}}<span class="hover-only">({{localize
+                    {{#unless system.listEntries.descriptors.length}}<span class="hover-only">({{localize
                         "WW.ListEntry.Descriptor.Label"}})</span>{{/unless}}
                     
                     <a class="array-button" data-action="entryCreate" data-list-key="descriptors" data-loc="Descriptor"
@@ -137,7 +137,7 @@
                     <a data-tooltip="{{{speedTooltip}}}">{{system.stats.speed.current}}</a>
                     
                     {{!-- Movement Traits --}}
-                    {{#each system.details.movementTraits as |entry key|}}
+                    {{#each system.listEntries.movementTraits as |entry key|}}
                     {{#if entry}}
                         {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=key listKey="movementTraits" loc="MovementTrait"}}
                     {{/if}}
@@ -155,12 +155,12 @@
                 <ol class="stat-inline list-entries">
                     <label>{{localize "WW.ListEntry.Language.Label"}}:</label>
 
-                    {{#each system.details.languages as |entry key|}}
+                    {{#each system.listEntries.languages as |entry key|}}
                     {{#if entry}}
                         {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=key listKey="languages" loc="Language"}}
                     {{/if}}
                     {{/each}}
-                    {{#unless system.details.languages.length}}<span>—</span>{{/unless}}
+                    {{#unless system.listEntries.languages.length}}<span>—</span>{{/unless}}
                 
                     <a class="array-button" data-action="entryCreate" data-list-key="languages" data-loc="Language"
                         data-tooltip="WW.ListEntry.Language.Create"><i class="fa-solid fa-circle-plus"></i></a>
@@ -173,12 +173,12 @@
                 <ol class="stat-inline list-entries">
                     <label>{{localize "WW.ListEntry.Sense.Label"}}:</label>
                 
-                    {{#each system.details.senses as |entry key|}}
+                    {{#each system.listEntries.senses as |entry key|}}
                     {{#if entry}}
                         {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=key listKey="senses" loc="Sense"}}
                     {{/if}}
                     {{/each}}
-                    {{#unless system.details.senses.length}}<span>—</span>{{/unless}}
+                    {{#unless system.listEntries.senses.length}}<span>—</span>{{/unless}}
                 
                     <a class="array-button" data-action="entryCreate" data-list-key="senses" data-loc="Sense"
                         data-tooltip="WW.ListEntry.Sense.Create"><i class="fa-solid fa-circle-plus"></i></a>
@@ -191,12 +191,12 @@
                 <ol class="stat-inline list-entries">
                     <label>{{localize "WW.ListEntry.Immunity.Label"}}:</label>
                 
-                    {{#each system.details.immunities as |entry key|}}
+                    {{#each system.listEntries.immunities as |entry key|}}
                     {{#if entry}}
                         {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=key listKey="immunities" loc="Immunity"}}
                     {{/if}}
                     {{/each}}
-                    {{#unless system.details.immunities.length}}<span>—</span>{{/unless}}
+                    {{#unless system.listEntries.immunities.length}}<span>—</span>{{/unless}}
                 
                     <a class="array-button" data-action="entryCreate" data-list-key="immunities" data-loc="Immunity"
                         data-tooltip="WW.ListEntry.Immunity.Create"><i class="fa-solid fa-circle-plus"></i></a>
@@ -297,7 +297,7 @@
             </div>
 
             {{!-- Spells Section --}}
-            {{#if (or system.details.traditions spells.length)}}
+            {{#if (or system.listEntries.traditions spells.length)}}
             <h4>{{localize "WW.Spells.Label"}}</h4>
 
             <div class="statbox-section spells">

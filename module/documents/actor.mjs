@@ -217,8 +217,9 @@ export default class WWActor extends Actor {
     for (const o in cOpts) {
       const opt = cOpts[o];
       
+      console.log(this)
       // Assign array of pages
-      if (opt.constructor === Array) {
+      if (opt && opt.constructor === Array) {
         charOptions[o] = [];
 
         for (const idx in opt) {

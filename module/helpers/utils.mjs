@@ -114,7 +114,7 @@ export function sysPath(string) {
   * @returns {string}
  */
 export function defaultListEntryKey(listKey, parent) {
-  const list = parent.system.details[listKey];
+  const list = parent.system.listEntries[listKey];
   
   // Get a set of taken names
   const takenKeys = new Set();
@@ -142,7 +142,7 @@ export function defaultListEntryKey(listKey, parent) {
   * @returns {string}
  */
 export function defaultListEntryName(listKey, parent) {
-  const list = parent.system.details[listKey];
+  const list = parent.system.listEntries[listKey];
   
   // Get a set of taken names
   const takenNames = new Set();

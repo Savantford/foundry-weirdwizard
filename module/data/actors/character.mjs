@@ -52,7 +52,7 @@ export default class CharacterData extends BaseActorModel {
         makeCharOptionField()
       )
     })
-
+    console.log(schema.charOptions)
     // Add Character stats
     schema.stats.fields.level = makeNumField();
     schema.stats.fields.bonusdamage = makeIntField();

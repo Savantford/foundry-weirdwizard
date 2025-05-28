@@ -337,7 +337,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     const listEntries = {
       
     }
-    
+
     context.listEntries = listEntries;
 
     // Prepare character data
@@ -1114,12 +1114,14 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     // Get data
     const dataset = Object.assign({}, button.dataset),
       listKey = dataset.listKey,
-      path = 'system.details.' + listKey,
-      obj = foundry.utils.getProperty(this.actor, path),
-      entryKey = defaultListEntryKey(listKey, this.actor),
+      path = 'system.listEntries.' + listKey,
+      obj = foundry.utils.getProperty(this.actor, path);
+      console.log(obj)
+      console.log(path)
+      const entryKey = defaultListEntryKey(listKey, this.actor),
       entryName = defaultListEntryName(listKey, this.actor),
     entry = { name: entryName };
-    
+    console.log(obj)
     obj[entryKey] = entry;
 
     // Update document
@@ -1174,7 +1176,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     
     // Get data
     const dataset = button.dataset,
-      path = 'system.details.' + dataset.listKey,
+      path = 'system.listEntries.' + dataset.listKey,
       obj = foundry.utils.getProperty(this.actor, path),
       entryKey = dataset.entryKey,
     entry = obj[entryKey];
@@ -1226,7 +1228,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   */
   static async #onEntryRemove(event, button) {
     const dataset = Object.assign({}, button.dataset),
-      path = 'system.details.' + dataset.listKey,
+      path = 'system.listEntries.' + dataset.listKey,
       baseObj = foundry.utils.getProperty(this.actor.token.baseActor, path),
     key = dataset.entryKey;
     
