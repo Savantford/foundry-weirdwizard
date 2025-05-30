@@ -105,7 +105,7 @@
   
         {{#each benefit.languages as |detail detailId|}}
         <span class="list-entry">
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>data-entry-key=
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>
         </span>
         {{/each}}
   
@@ -122,15 +122,14 @@
         <span class="list-entries">
           {{#each benefit.traditions as |detail detailId|}}
           <span class="list-entry">
-            <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>data-entry-key=
+            <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>
           </span>
           {{/each}}
         </span>
         {{/if}}
 
         {{!-- Spells --}}
-        {{#if (gt benefit.spells 0)}}
-        {{benefit.spells}}
+        {{#if (ne benefit.spells '0')}}
         <label>{{localize "WW.Spells.Label"}}:</label>
 
         {{localize (lookup @root.spellsLearned benefit.spells)}}

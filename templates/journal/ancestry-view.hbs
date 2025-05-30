@@ -44,7 +44,7 @@
         {{#each benefits.benefit1.descriptors as |detail id|}}
         <span class="list-entry">
   
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>data-entry-key=
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>
         </span>
         {{/each}}
   
@@ -59,7 +59,7 @@
         {{#each benefits.benefit1.senses as |detail id|}}
         <span class="list-entry">
   
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>data-entry-key=
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>
         </span>
         {{/each}}
   
@@ -74,7 +74,7 @@
         {{#each benefits.benefit1.languages as |detail id|}}
         <span class="list-entry">
   
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>data-entry-key=
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>
         </span>
         {{/each}}
   
@@ -130,7 +130,7 @@
   
         {{!-- Movement Traits --}}
         {{#each benefits.benefit1.movementTraits as |detail id|}}<span class="list-entry">
-          {{#if @first}}({{/if}}<a data-tooltip="{{detail.desc}}">{{detail.name}}</a>data-entry-key={{#if @last}}){{/if}}
+          {{#if @first}}({{/if}}<a data-tooltip="{{detail.desc}}">{{detail.name}}</a>{{#if @last}}){{/if}}
         </span>
         {{/each}}
   
@@ -144,7 +144,7 @@
         {{#each benefits.benefit1.immune as |detail id|}}
         <span class="list-entry">
   
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>data-entry-key=
+          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>
         </span>
         {{/each}}
   
