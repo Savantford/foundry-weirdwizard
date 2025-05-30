@@ -1,27 +1,24 @@
 import {
   BaseCharOptionModel,
-  fields,
-  base,
   makeStrField
 } from './base-charoption.mjs'
 
 export default class TraditionData extends BaseCharOptionModel {
 
   static defineSchema() {
-    const type = 'Tradition';
+    const fields = foundry.data.fields;
+    const schema = super.defineSchema();
 
-    return {
-      ...base(type),
+    // Item references
+    schema.talents = new fields.ArrayField(makeStrField());
 
-      talents: new fields.ArrayField(makeStrField()),
-      spells: new fields.SchemaField({
-        novice: new fields.ArrayField(makeStrField()),
-        expert: new fields.ArrayField(makeStrField()),
-        master: new fields.ArrayField(makeStrField())
-      })
+    schema.spells = new fields.SchemaField({
+      novice: new fields.ArrayField(makeStrField()),
+      expert: new fields.ArrayField(makeStrField()),
+      master: new fields.ArrayField(makeStrField())
+    });
 
-    }
-
+    return schema;
   }
 
   /**

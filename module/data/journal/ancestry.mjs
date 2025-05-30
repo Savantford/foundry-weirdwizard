@@ -1,25 +1,81 @@
+import { TypedObjectField } from '../typed-object-field.mjs';
 import {
   BaseCharOptionModel,
-  fields,
-  base,
-  makeStrField,
-  makeIntField
+  makeIntField,
+  makeStrField
 } from './base-charoption.mjs'
 
 export default class AncestryData extends BaseCharOptionModel {
 
   static defineSchema() {
-    const type = 'Ancestry';
+    const fields = foundry.data.fields;
+    const schema = super.defineSchema();
 
-    return {
-      ...base(type),
+    schema.benefits = new fields.SchemaField({
+      benefit1: new fields.SchemaField({
 
-      benefits: new fields.SchemaField({
-        benefit1: makeBenefitField()
+        attributes: makeStrField(),
+
+        stats: new fields.SchemaField({
+          
+          naturalIncrease: makeIntField(),
+          healthIncrease: makeIntField(),
+
+          sizeNormal: new fields.NumberField({
+            min: 0,
+            max: 10,
+            initial: 1
+          }),
+          speedNormal: makeIntField()
+          
+        }),
+
+        items: new fields.ArrayField(makeStrField()),
+
+        // List Entries
+        descriptors: new TypedObjectField(
+          new fields.SchemaField({
+            name: makeStrField("", 0),
+            desc: makeStrField(),
+            grantedBy: makeStrField(null)
+          }, { nullable: true })
+        ),
+
+        immunities: new TypedObjectField(
+          new fields.SchemaField({
+            name: makeStrField("", 0),
+            desc: makeStrField(),
+            grantedBy: makeStrField(null)
+          }, { nullable: true })
+        ),
+
+        languages: new TypedObjectField(
+          new fields.SchemaField({
+            name: makeStrField("", 0),
+            desc: makeStrField(),
+            grantedBy: makeStrField(null)
+          }, { nullable: true })
+        ),
+
+        movementTraits: new TypedObjectField(
+          new fields.SchemaField({
+            name: makeStrField("", 0),
+            desc: makeStrField(),
+            grantedBy: makeStrField(null)
+          }, { nullable: true })
+        ),
+
+        senses: new TypedObjectField(
+          new fields.SchemaField({
+            name: makeStrField("", 0),
+            desc: makeStrField(),
+            grantedBy: makeStrField(null)
+          }, { nullable: true })
+        ),
       })
+    });
 
-    }
-
+    return schema;
   }
 
   /**
@@ -36,43 +92,3 @@ export default class AncestryData extends BaseCharOptionModel {
   }
 
 }
-
-const makeBenefitField = () => new fields.SchemaField({
-  descriptors: new fields.ArrayField(
-    new fields.ObjectField({ initial: { name: "", desc: "" } })
-  ),
-
-  senses: new fields.ArrayField(
-    new fields.ObjectField({ initial: { name: "", desc: "" } })
-  ),
-
-  languages: new fields.ArrayField(
-    new fields.ObjectField({ initial: { name: "", desc: "" } })
-  ),
-
-  immune: new fields.ArrayField(
-    new fields.ObjectField({ initial: { name: "", desc: "" } })
-  ),
-
-  attributes: makeStrField(),
-
-  stats: new fields.SchemaField({
-    
-    naturalIncrease: makeIntField(),
-    healthIncrease: makeIntField(),
-
-    sizeNormal: new fields.NumberField({
-      min: 0,
-      max: 10,
-      initial: 1
-    }),
-    speedNormal: makeIntField()
-    
-  }),
-
-  movementTraits: new fields.ArrayField(
-    new fields.ObjectField({ initial: { name: "", desc: "" } })
-  ),
-
-  items: new fields.ArrayField(makeStrField())
-})

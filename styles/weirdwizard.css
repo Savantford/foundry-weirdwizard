@@ -2644,8 +2644,8 @@ hr.bug {
   padding: 0;
 }
 
-.weirdwizard .pip-box .fas,
-.weirdwizard .pip-box .far {
+.weirdwizard .pip-box .fa-solid,
+.weirdwizard .pip-box .fa-regular {
   display: inline !important;
 }
 

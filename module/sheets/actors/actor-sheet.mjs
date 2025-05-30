@@ -9,7 +9,6 @@ import {
   sysPath
 } from '../../helpers/utils.mjs';
 import { diceTotalHtml } from '../../sidebar/chat-html-templates.mjs';
-import ListEntryConfig from '../configs/list-entry-config.mjs';
 import { mapRange } from '../../canvas/canvas-functions.mjs';
 import MultiChoice from '../../apps/multi-choice.mjs';
 import { createActiveEffect, deleteActiveEffect, editActiveEffect, prepareActiveEffectCategories } from '../../helpers/effect-actions.mjs';
@@ -1733,10 +1732,10 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   static #onItemUpdateUses(event, button) {
     event.preventDefault();
     event.stopPropagation();
-    
+    console.log('clicked')
     const item = this.actor.items.get(button.dataset.itemId);
       
-    if ($(event.target).hasClass('far')) { // If the pip is regular (unchecked)
+    if ($(event.target).hasClass('fa-regular')) { // If the pip is regular (unchecked)
       item.update({'system.uses.value': item.system.uses.value + 1}) // Add 1 to the current value.
     } else {
       item.system.uses.value >= 0 ? item.update({'system.uses.value': item.system.uses.value - 1}) : item.update({'system.uses.value': 0}) // Subtract 1 from current value.

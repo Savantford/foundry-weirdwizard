@@ -1,5 +1,7 @@
 import embedCard from "../../helpers/embed-card.mjs";
 
+const fields = foundry.data.fields;
+
 export class BaseCharOptionModel extends foundry.abstract.TypeDataModel {
 
   /**
@@ -14,17 +16,60 @@ export class BaseCharOptionModel extends foundry.abstract.TypeDataModel {
     return embedCard(this.parent, config, options);
   }
 
-}
+  /** @inheritdoc */
+  static defineSchema() {
 
-export const fields = foundry.data.fields;
+    const schema = {
+      // Description
+      description: makeHtmlField('No description.')
+      
+    }
 
-export function base(type = String) {
-  const obj = {
-    description: makeHtmlField('No description.')
+    return schema;
   }
 
-  return obj;
-};
+  /**
+   * Migrate source data from some prior format into a new specification.
+   * The source parameter is either original data retrieved from disk or provided by an update operation.
+   * @inheritDoc
+   */
+  static migrateData(source) {
+
+    // Migrate immune to immunities
+    if ('details' in source && source.details?.immune) source.details.immunities = source.details.immune;
+
+    // Migrate entry lists from array to object to system.listEntries
+    if ('details' in source && 'listEntries' in source) {
+      const listKeys = ['senses', 'descriptors', 'languages', 'immunities', 'movementTraits', 'traditions'];
+
+      for (const key in source.details) {
+        const prop = source.details[key];
+
+        // Check for the listKeys and if it's an array
+        if (source.details.hasOwnProperty(key) && listKeys.includes(key)) {
+
+          if (Array.isArray(prop)) {
+
+            if (prop.length) {
+              const map = prop.map(value => [value.name ? camelCase(value.name) : camelCase(value), value]);
+
+              source.listEntries[key] = Object.fromEntries(map);
+            } else {
+              source.listEntries[key] = {};
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
+    return source;
+  }
+
+}
 
 export function grants() {
 

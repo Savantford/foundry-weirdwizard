@@ -1,29 +1,27 @@
+import { TypedObjectField } from '../typed-object-field.mjs';
 import {
   BaseCharOptionModel,
-  fields,
-  base,
   makeIntField,
   makeStrField
 } from './base-charoption.mjs'
 
+const fields = foundry.data.fields;
+
 export default class PathData extends BaseCharOptionModel {
 
   static defineSchema() {
-    const type = 'Path';
+    const schema = super.defineSchema();
     
-    return {
-      ...base(type),
+    schema.tier = makeStrField('novice', 0);
 
-      tier: makeStrField('novice'),
+    schema.benefits = new fields.SchemaField({
+      benefit1: makeBenefitField(1),
+      benefit2: makeBenefitField(2),
+      benefit3: makeBenefitField(5),
+      benefit4: makeBenefitField()
+    });
 
-      benefits: new fields.SchemaField({
-        benefit1: makeBenefitField(1),
-        benefit2: makeBenefitField(2),
-        benefit3: makeBenefitField(5),
-        benefit4: makeBenefitField()
-      })
-
-    }
+    return schema;
   }
 
   /**
@@ -41,10 +39,6 @@ export default class PathData extends BaseCharOptionModel {
 const makeBenefitField = (level = 99) => new fields.SchemaField({
   levelReq: makeIntField(level),
 
-  languages: new fields.ArrayField(
-    new fields.ObjectField({ initial: { name: "", desc: "" } })
-  ),
-
   stats: new fields.SchemaField({
     naturalSet: makeIntField(),
     naturalIncrease: makeIntField(),
@@ -59,7 +53,18 @@ const makeBenefitField = (level = 99) => new fields.SchemaField({
     new fields.ObjectField({ initial: { name: "", desc: "" } })
   ),
 
-  spells: makeStrField(),
+  spells: makeStrField('0', 0),
 
-  items: new fields.ArrayField(makeStrField())
+  // Granted items
+  items: new fields.ArrayField(makeStrField()),
+
+  // Granted list entries
+  languages: new TypedObjectField(
+    new fields.SchemaField({
+      name: makeStrField("", 0),
+      desc: makeStrField(),
+      grantedBy: makeStrField(null)
+    }, { nullable: true })
+  )
+
 })

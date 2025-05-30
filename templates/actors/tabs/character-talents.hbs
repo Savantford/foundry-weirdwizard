@@ -13,7 +13,7 @@
         </li>
 
         {{#each allTalents as |item id|}}
-        <li class="item flexrow" data-item-id="{{item._id}}">
+        <li class="item draggable flexrow" data-item-id="{{item._id}}">
 
             {{!-- Icon --}}
             <div class="item-image"><img src="{{item.img}}" data-tooltip="{{item.name}}" width="24" height="24" /></div>
@@ -29,7 +29,7 @@
                     {{#if item.hasPassiveEffects}}
                         <a class="item-button" data-action="itemToggleEffects" data-item-id="{{item._id}}"
                             data-tooltip="{{#if item.system.active}}{{localize "WW.Item.DisableEffects"}}{{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
-                            <i class="fas {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
+                            <i class="fa-solid {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
                     {{/if}}
 
                 </span>
@@ -39,13 +39,14 @@
             {{!-- Uses Pips --}}
             <div class="item-uses">
                 {{#if item.uses}}
-                <span class="pip-box">
+                <div class="pip-box">
                     {{#each item.uses as |pip id|}}
-                    <a class="item-pip" data-item-id="{{item._id}}"
-                        data-tooltip="{{#if (eq pip "fa-regular fa-circle")}}{{localize "WW.Item.Uses.TalentSpend"}}{{else}}{{localize "WW.Item.Uses.TalentRecover"}}{{/if}}">
+                    <a class="item-pip" data-action="itemUpdateUses" data-item-id="{{item._id}}"
+                        data-tooltip="{{#if (eq pip "fa-regular fa-circle")}}{{localize "WW.Item.Uses.EquipmentSpend"}}
+                        {{else}}{{localize "WW.Item.Uses.EquipmentRecover" }}{{/if}}">
                     <i class="{{pip}}"></i></a>
                     {{/each}}
-                </span>
+                </div>
                 {{/if}}
             </div>
 
@@ -91,7 +92,7 @@
         </li>
 
         {{#each legacy as |item id|}}
-        <li class="item flexrow" data-item-id="{{item._id}}">
+        <li class="item draggable flexrow" data-item-id="{{item._id}}">
 
             {{!-- Icon --}}
             <div class="item-image"><img src="{{item.img}}" data-tooltip="{{item.name}}" width="24" height="24" /></div>
@@ -107,7 +108,7 @@
                     {{#if item.hasPassiveEffects}}
                         <a class="item-button" data-action="itemToggleEffects" data-item-id="{{item._id}}"
                             data-tooltip="{{#if item.system.active}}{{localize "WW.Item.DisableEffects"}}{{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
-                            <i class="fas {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
+                            <i class="fa-solid {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
                     {{/if}}
 
                 </span>

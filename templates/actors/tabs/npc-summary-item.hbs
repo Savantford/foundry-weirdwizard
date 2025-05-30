@@ -10,7 +10,7 @@
         {{#if item.hasPassiveEffects}}
             <a class="item-button" data-action="itemToggleEffects" data-item-id="{{item._id}}"
                 data-tooltip="{{#if item.system.active}}{{localize "WW.Item.DisableEffects"}}{{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
-                <i class="fas {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
+                <i class="fa-solid {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
         {{/if}}
         
         {{!-- Uses Pips --}}

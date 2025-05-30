@@ -31,7 +31,7 @@
                         {{#if item.system.disadvantages.reload}}
                         <a class="item-button" data-action="item-toggle-reloaded" data-item-id="{{item._id}}"
                             data-tooltip="{{#if item.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
-                        <i class="fas {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
+                        <i class="fa-solid {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
                         {{/if}}
                         
                     </span>
@@ -148,7 +148,7 @@
                             {{#if item.hasPassiveEffects}}
                                 <a class="item-button" data-action="itemToggleEffects" data-item-id="{{item._id}}"
                                     data-tooltip="{{#if item.system.active}}{{localize "WW.Item.DisableEffects"}}{{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
-                                    <i class="fas {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
+                                    <i class="fa-solid {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
                             {{/if}}
 
                             {{!-- Container Collapse --}}
@@ -173,7 +173,8 @@
                     <div class="pip-box">
                         {{#each item.uses as |pip id|}}
                         <a class="item-pip" data-action="itemUpdateUses" data-item-id="{{item._id}}"
-                            data-tooltip="{{#if (eq pip "fa-regular fa-circle")}}{{localize "WW.Item.Uses.EquipmentSpend"}}{{else}}{{localize "WW.Item.Uses.EquipmentRecover"}}{{/if}}">
+                            data-tooltip="{{#if (eq pip "fa-regular fa-circle")}}{{localize "WW.Item.Uses.EquipmentSpend"}}
+                            {{else}}{{localize "WW.Item.Uses.EquipmentRecover"}}{{/if}}">
                         <i class="{{pip}}"></i></a>
                         {{/each}}
                     </div>
@@ -234,7 +235,7 @@
                                 {{#if heldItem.hasPassiveEffects}}
                                     <a class="item-button" data-action="itemToggleEffects" data-item-id="{{heldItem._id}}"
                                         data-tooltip="{{#if heldItem.system.active}}{{localize "WW.Item.DisableEffects"}}{{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
-                                        <i class="fas {{#if heldItem.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
+                                        <i class="fa-solid {{#if heldItem.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
                                 {{/if}}
 
                             </span>

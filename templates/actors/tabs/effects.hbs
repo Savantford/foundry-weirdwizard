@@ -8,7 +8,7 @@
     <span class="affliction" data-tooltip="{{affliction.description}}"><img class="icon" src="{{affliction.img}}"> {{localize affliction.name}}</span>
     {{/each}}
 
-    <a data-action="afflictionsMenu"><i class="fas {{#if afflictions.length}}fa-edit{{else}}fa-circle-plus{{/if}}"></i></a>
+    <a data-action="afflictionsMenu"><i class="fa-solid {{#if afflictions.length}}fa-edit{{else}}fa-circle-plus{{/if}}"></i></a>
 
   </div>
 
@@ -56,7 +56,7 @@
 
           {{#if (ne section.type 'temporary')}}
           <a class="effect-control" data-action="effectToggle" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Toggle">
-            <i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
+            <i class="fa-solid {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
           </a>
           {{/if}}
       
@@ -115,7 +115,7 @@
 
           {{#if (ne section.type 'temporary')}}
           <a class="effect-control" data-action="effectToggle" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Toggle">
-            <i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
+            <i class="fa-solid {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
           </a>
           {{/if}}
       

@@ -37,7 +37,7 @@
                             {{else}}{{localize "WW.Effect.Passive" }}{{/if}}">
                     </i>
                     
-                    <i class="fas {{#if (eq system.target "none")}}fa-user{{else}}fa-users-viewfinder{{/if}}
+                    <i class="fa-solid {{#if (eq system.target "none")}}fa-user{{else}}fa-users-viewfinder{{/if}}
                         {{#if (eq system.target "allies")}}color-green
                         {{else if (eq system.target "enemies")}}color-red{{/if}}"
                         data-tooltip="{{localize "WW.Effect.Target"}}:
@@ -113,7 +113,7 @@
                             {{else}}{{localize "WW.Effect.Passive" }}{{/if}}">
                     </i>
                     
-                    <i class="fas {{#if (eq system.target "none")}}fa-user{{else}}fa-users-viewfinder{{/if}}
+                    <i class="fa-solid {{#if (eq system.target "none")}}fa-user{{else}}fa-users-viewfinder{{/if}}
                         {{#if (eq system.target "allies")}}color-green
                         {{else if (eq system.target "enemies")}}color-red{{/if}}"
                         data-tooltip="{{localize "WW.Effect.Target"}}:
@@ -131,7 +131,7 @@
 
                 {{#if (ne section.type 'temporary')}}
                 <a class="effect-control" data-action="toggle" data-tooltip="WW.Effect.Toggle">
-                    <i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
+                    <i class="fa-solid {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
                 </a>
                 {{/if}}
         
