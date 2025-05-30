@@ -1,4 +1,5 @@
 import embedCard from "../../helpers/embed-card.mjs";
+import { camelCase } from "../../helpers/utils.mjs";
 
 const fields = foundry.data.fields;
 
@@ -36,10 +37,36 @@ export class BaseCharOptionModel extends foundry.abstract.TypeDataModel {
   static migrateData(source) {
 
     // Migrate immune to immunities
-    if ('details' in source && source.details?.immune) source.details.immunities = source.details.immune;
+    if ('benefits' in source) {
+      const listKeys = ['senses', 'descriptors', 'languages', 'immunities', 'movementTraits', 'traditions'];
+
+      for (const b in source.benefits) {
+        const benefit = source.benefits[b];
+        
+        for (const listKey in benefit) {
+          const list = benefit[listKey];
+
+          // Check for the listKeys and if it's an array
+          if (benefit.hasOwnProperty(listKey) && listKeys.includes(listKey)) {
+            
+            if (Array.isArray(list)) {
+
+              if (list.length) {
+                const map = list.map(value => [value.name ? camelCase(value.name) : camelCase(value), value]);
+
+                benefit[listKey] = Object.fromEntries(map);
+              } else {
+                benefit[listKey] = {};
+              }
+
+            }
+          }
+        }
+      }
+    } /*&& source.details?.immune) source.details.immunities = source.details.immune;
 
     // Migrate entry lists from array to object to system.listEntries
-    if ('details' in source && 'listEntries' in source) {
+    if ('benefits' in source && 'listEntries' in source) {
       const listKeys = ['senses', 'descriptors', 'languages', 'immunities', 'movementTraits', 'traditions'];
 
       for (const key in source.details) {
@@ -64,7 +91,7 @@ export class BaseCharOptionModel extends foundry.abstract.TypeDataModel {
 
       }
 
-    }
+    }*/
 
     return source;
   }

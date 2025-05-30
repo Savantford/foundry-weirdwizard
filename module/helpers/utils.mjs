@@ -109,13 +109,17 @@ export function sysPath(string) {
 
 /**
   * Gets the default new key for a list entry
-  * @param {string} listKey                    The entry list listKey to be used
-  * @param {Document|null} parent              A parent document within which the entry list should belong
+  * @param {Document|null} document            A document which the entry list should belong
+  * @param {string} listKey                    The entry list key to be used
+  * @param {string} listPath                   The entry list path to be used
   * @returns {string}
  */
-export function defaultListEntryKey(listKey, parent) {
-  const list = parent.system.listEntries[listKey];
-  
+export function defaultListEntryKey(document, listKey, listPath) {
+  console.log(document)
+  console.log(listKey)
+  console.log(listPath)
+  const list = foundry.utils.getProperty(document, listPath);
+  console.log(list)
   // Get a set of taken names
   const takenKeys = new Set();
   for (const entryKey in list) takenKeys.add(entryKey);
@@ -137,12 +141,13 @@ export function defaultListEntryKey(listKey, parent) {
 
 /**
   * Gets the default new name for a list entry
+  * @param {Document|null} document            A document which the entry list should belong
   * @param {string} listKey                    The entry list key to be used
-  * @param {Document|null} parent              A parent document within which the entry list should belong
+  * @param {string} listPath                   The entry list path to be used
   * @returns {string}
  */
-export function defaultListEntryName(listKey, parent) {
-  const list = parent.system.listEntries[listKey];
+export function defaultListEntryName(document, listKey, listPath) {
+  const list = foundry.utils.getProperty(document, listPath);
   
   // Get a set of taken names
   const takenNames = new Set();

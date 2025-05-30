@@ -45,7 +45,7 @@
     {{!-- Benefit Blocks --}}
     {{#each benefits as |benefit id|}}
     {{#if (ne benefit.levelReq 99)}}
-    <div class="benefit-block{{#if (ne id 'benefit1')}} mt-2{{/if}}">
+    <div class="benefit-block {{#if (ne id 'benefit1')}} mt-2{{/if}}" data-benefit-id="{{id}}">
 
       {{!-- Header --}}
       <h5>{{localize "WW.Stats.Level"}} {{benefit.levelReq}} {{@root.document.name}}</h5>
@@ -161,48 +161,49 @@
       </div>
 
       {{!-- Languages --}}
-      <div class="stat-inline list-entries">
+      {{#each (lookup @root.listEntries id) as |list listKey|}}
+      {{#if (eq listKey 'languages')}}
+      <ol class="stat-inline list-entries">
         <label>{{localize "WW.ListEntry.Language.Label"}}:</label>
+
+        {{#each list as |entry|}}
+          {{> "systems/weirdwizard/templates/journal/list-entry.hbs" entry=entry entryKey=entry.key
+            listKey="languages" listPath=(concat "benefits." id ".languages") loc="Language"}}
+        {{else}}<span>—</span>
+        {{/each}}
   
-        {{#each benefit.languages as |detail detailId|}}
-        <span class="list-entry">
-  
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-            <a class="array-button" data-action="edit" data-list-key="benefits.{{id}}.languages" data-entry-key="{{detailId}}"
-              data-tooltip="WW.ListEntry.Language.Edit"><i class="fa-solid fa-edit"></i></a>
-  
-            <a class="array-button" data-action="remove" data-list-key="benefits.{{id}}.languages"
-              data-entry-key="{{detailId}}" data-tooltip="WW.ListEntry.Language.Remove"><i class="fa-solid fa-trash"></i></a>
-          </span>
-        </span>
-        {{/each}}{{#unless benefit.languages.length}}<span>—</span>{{/unless}}
-  
-        <a class="array-button" data-action="add" data-list-key="benefits.{{id}}.languages" data-loc="Language"
+        <a class="array-button" data-action="entryCreate" data-list-key="languages" data-list-path="benefits.{{id}}.languages" data-loc="Language"
           data-tooltip="WW.ListEntry.Language.Create"><i class="fa-solid fa-circle-plus"></i></a>
-  
-      </div>
-      
+
+        <a class="array-button" data-action="entrySettings" data-list-key="languages" data-list-path="benefits.{{id}}.languages"
+          data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+
+      </ol>
+      {{/if}}
+      {{/each}}
+
       {{!-- Magic --}}
       <div class="stat-inline flex-wrap">
   
         {{!-- Traditions --}}
-        <div class="list-entries">
+        <ol class="list-entries">
           <label>{{localize "WW.Tradition.Label"}}:</label>
 
-          {{#each benefit.traditions as |detail detailId|}}
+          {{#each benefit.traditions as |entry entryId|}}
           <span class="list-entry">
   
-            <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-              <a class="array-button" data-action="edit" data-list-key="benefits.{{id}}.traditions"
-                data-entry-key="{{detailId}}" data-tooltip="WW.Tradition.Edit"><i class="fa-solid fa-edit"></i></a>
+            <a data-tooltip="{{entry.desc}}">{{entry.name}}</a><span class="buttons">
+              <a class="array-button" data-action="edit" data-list-key="traditions" data-list-path="benefits.{{id}}.traditions"
+                data-entry-key="{{entryId}}" data-tooltip="WW.Tradition.Edit"><i class="fa-solid fa-edit"></i></a>
   
-              <a class="array-button" data-action="remove" data-list-key="benefits.{{id}}.traditions"
-                data-entry-key="{{detailId}}" data-tooltip="WW.Tradition.Remove"><i class="fa-solid fa-trash"></i></a>
+              <a class="array-button" data-action="remove" data-list-key="traditions" data-list-path="benefits.{{id}}.traditions"
+                data-entry-key="{{entryId}}" data-tooltip="WW.Tradition.Remove"><i class="fa-solid fa-trash"></i></a>
             </span>
           </span>
-          {{/each}}{{#unless benefit.traditions.length}}<span>—</span>{{/unless}}
+          {{else}}<span>—</span>
+          {{/each}}
 
-          <a class="array-button" data-action="add" data-list-key="benefits.{{id}}.traditions" data-loc="Tradition"
+          <a class="array-button" data-action="entryCreate" data-list-key="traditions" data-list-path="benefits.{{id}}.traditions" data-loc="Tradition"
             data-tooltip="WW.Tradition.Create"><i class="fa-solid fa-circle-plus"></i></a>
   
           {{!-- Spells --}}
@@ -212,13 +213,12 @@
             {{selectOptions @root.spellsLearned selected=benefit.spells localize=true}}
           </select>
 
-        </div>
+        </ol>
   
       </div>
 
       {{!-- Item List Area --}}
       <ol class="described-list items-area {{id}}">
-        {{#unless benefit.itemsInfo}}{{{../itemsAreaHint}}}{{/unless}}
 
         {{!-- Populate Items --}}
         {{#each benefit.itemsInfo as |item id|}}
@@ -233,6 +233,7 @@
           </span>
 
         </li>
+        {{else}}{{{@root.itemsAreaHint}}}
         {{/each}}
 
       </ol>

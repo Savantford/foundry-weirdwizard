@@ -44,33 +44,33 @@
     </div>
 
     {{!-- Benefit Block --}}
-    <div class="benefit-block">
+    <div class="benefit-block" data-benefit-id="benefit1">
   
       {{!-- Bonus Language --}}
-      <div class="stat-inline list-entries">
+      <ol class="stat-inline list-entries">
         <label>{{localize "WW.ListEntry.Language.Bonus"}}:</label>
         
-        {{#each benefits.benefit1.languages as |detail id|}}
+        {{#each benefits.benefit1.languages as |entry id|}}
         <span class="list-entry">
         
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-            <a class="array-button" data-action="edit" data-list-key="benefits.benefit1.languages" data-entry-key="{{id}}"
+          <a data-tooltip="{{entry.desc}}">{{entry.name}}</a><span class="buttons">
+            <a class="array-button" data-action="edit" data-list-key="languages" data-list-path="benefits.benefit1.languages" data-entry-key="{{id}}"
               data-tooltip="WW.ListEntry.Language.Edit"><i class="fa-solid fa-edit"></i></a>
         
-            <a class="array-button" data-action="remove" data-list-key="benefits.benefit1.languages" data-entry-key="{{id}}"
+            <a class="array-button" data-action="remove" data-list-key="languages" data-list-path="benefits.benefit1.languages" data-entry-key="{{id}}"
               data-tooltip="WW.ListEntry.Language.Remove"><i class="fa-solid fa-trash"></i></a>
           </span>
         </span>
-        {{/each}}{{#unless benefits.benefit1.languages.length}}<span>—</span>{{/unless}}
+        {{else}}<span>—</span>
+        {{/each}}
         
-        <a class="array-button" data-action="add" data-list-key="benefits.benefit1.languages" data-loc="Language"
+        <a class="array-button" data-action="entryCreate" data-list-key="languages" data-list-path="benefits.benefit1.languages" data-loc="Language"
           data-tooltip="WW.ListEntry.Language.Create"><i class="fa-solid fa-circle-plus"></i></a>
     
-      </div>
+      </ol>
   
       {{!-- Item List Area --}}
       <ol class="described-list items-area benefit1">
-        {{#unless benefits.benefit1.itemsInfo}}{{{itemsAreaHint}}}{{/unless}}
 
         {{!-- Populate Items --}}
         {{#each benefits.benefit1.itemsInfo as |item id|}}
@@ -85,6 +85,7 @@
           </span>
 
         </li>
+        {{else}}{{{@root.itemsAreaHint}}}
         {{/each}}
 
       </ol>

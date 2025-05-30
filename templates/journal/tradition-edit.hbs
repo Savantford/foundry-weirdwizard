@@ -38,7 +38,6 @@
       <h2>{{localize "WW.Tradition.Talents"}}</h2>
       
       <ol class="described-list items-area talents">
-        {{#unless talents.length}}{{{itemsAreaHint}}}{{/unless}}
         
         {{!-- Populate Spells --}}
         {{#each talents as |item id|}}
@@ -52,6 +51,7 @@
           </span>
 
         </li>
+        {{else}}{{{@root.itemsAreaHint}}}
         {{/each}}
 
       </ol>
@@ -69,7 +69,6 @@
       </h2>
       
       <ol class="described-list items-area spells {{tierKey}}">
-        {{#unless tier.length}}{{{../itemsAreaHint}}}{{/unless}}
         
         {{!-- Populate Spells --}}
         {{#each tier as |item id|}}
@@ -83,6 +82,7 @@
           </span>
 
         </li>
+        {{else}}{{{../itemsAreaHint}}}
         {{/each}}
 
       </ol>

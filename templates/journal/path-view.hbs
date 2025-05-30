@@ -100,16 +100,16 @@
 
       {{!-- Languages --}}
       {{#if benefit.languages.length}}
-      <div class="stat-inline list-entries">
+      <ol class="stat-inline list-entries">
         <label>{{localize "WW.ListEntry.Language.Label"}}:</label>
   
-        {{#each benefit.languages as |detail detailId|}}
-        <span class="list-entry">
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>
-        </span>
+        {{#each benefit.languages as |entry entryId|}}
+        <li class="list-entry">
+          <a data-tooltip="{{entry.desc}}">{{entry.name}}</a>
+        </li>
         {{/each}}
   
-      </div>
+      </ol>
       {{/if}}
       
       {{!-- Magic --}}
@@ -119,13 +119,13 @@
         {{#if benefit.traditions.length}}
         <label>{{localize "WW.Tradition.Label"}}:</label>
 
-        <span class="list-entries">
-          {{#each benefit.traditions as |detail detailId|}}
-          <span class="list-entry">
-            <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>
-          </span>
+        <ol class="list-entries">
+          {{#each benefit.traditions as |entry entryId|}}
+          <li class="list-entry">
+            <a data-tooltip="{{entry.desc}}">{{entry.name}}</a>
+          </li>
           {{/each}}
-        </span>
+        </ol>
         {{/if}}
 
         {{!-- Spells --}}

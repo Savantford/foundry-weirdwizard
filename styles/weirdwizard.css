@@ -548,12 +548,12 @@ body {
 .weirdwizard .window-content h4,
 .weirdwizard .window-content h5,
 .weirdwizard .window-content h6,
-.journal-entry-content h1,
-.journal-entry-content h2,
-.journal-entry-content h3,
-.journal-entry-content h4,
-.journal-entry-content h5,
-.journal-entry-content h6 {
+.journal-entry-page h1,
+.journal-entry-page h2,
+.journal-entry-page h3,
+.journal-entry-page h4:not(.window-title),
+.journal-entry-page h5,
+.journal-entry-page h6 {
   font-weight: bold;
   text-transform: uppercase;
   margin: 10px 0 5px 0;
@@ -563,9 +563,9 @@ body {
 .weirdwizard .window-content h1,
 .weirdwizard .window-content h2,
 .weirdwizard .window-content h3,
-.journal-entry-content h1,
-.journal-entry-content h2,
-.journal-entry-content h3 {
+.journal-entry-page h1,
+.journal-entry-page h2,
+.journal-entry-page h3 {
   color: var(--purple-dark);
   font-family: var(--font-serif);
 }
@@ -575,16 +575,16 @@ body {
 .weirdwizard .window-content h3:first-of-type,
 .weirdwizard .window-content h4:first-of-type,
 .weirdwizard .window-content h5:first-of-type,
-.journal-entry-content h1:first-of-type,
-.journal-entry-content h2:first-of-type,
-.journal-entry-content h3:first-of-type,
-.journal-entry-content h4:first-of-type,
-.journal-entry-content h5:first-of-type {
+.journal-entry-page h1:first-of-type,
+.journal-entry-page h2:first-of-type,
+.journal-entry-page h3:first-of-type,
+.journal-entry-page h4:not(.window-title):first-of-type,
+.journal-entry-page h5:first-of-type {
   margin-top: 0px;
 }
 
 .weirdwizard .window-content h1,
-.journal-entry-content h1 {
+.journal-entry-page h1 {
   border-bottom: 0px;
   letter-spacing: 0.02em;
 }
@@ -594,7 +594,7 @@ body {
 }
 
 .weirdwizard .window-content h2,
-.journal-entry-content h2 {
+.journal-entry-page h2 {
   border-bottom: 3px double black;
   padding-bottom: 2px;
   font-size: var(--font-size-24);
@@ -602,7 +602,7 @@ body {
 }
 
 .weirdwizard .window-content h2.centered-style,
-.journal-entry-content h2.centered-style {
+.journal-entry-page h2.centered-style {
   color: var(--body-text-color);
   font-size: var(--font-size-16);
   font-family: var(--font-capitalized);
@@ -611,7 +611,7 @@ body {
 }
 
 .weirdwizard .window-content h3,
-.journal-entry-content h3 {
+.journal-entry-page h3 {
   border-bottom: 1px solid black;
   padding-bottom: 2px;
   font-size: var(--font-size-20);
@@ -620,7 +620,7 @@ body {
 }
 
 .weirdwizard .window-content h4,
-.journal-entry-content h4 {
+.journal-entry-page h4:not(.window-title) {
   color: white;
   background-color: var(--purple-medium);
   border-radius: 3px;
@@ -642,7 +642,7 @@ body {
 }
 
 .weirdwizard .window-content h5,
-.journal-entry-content h5 {
+.journal-entry-page h5 {
   color: var(--purple-dark);
   background-color: var(--pink);
   border: 1px solid var(--purple-medium);
@@ -660,7 +660,7 @@ body {
 }
 
 .weirdwizard .window-content h6,
-.journal-entry-content h6 {
+.journal-entry-page h6 {
   color: var(--purple-dark);
   background-color: var(--pink);
   border-radius: 3px;
@@ -770,6 +770,8 @@ body {
 
 .weirdwizard .input-wrap {
   position: relative;
+  display: grid;
+  align-items: center;
 }
 
 .weirdwizard .input-wrap input {
@@ -2780,7 +2782,8 @@ input[type="checkbox"].checkbox-uses {
   text-indent: 0;
 }
 
-.weirdwizard.edit-mode .statbox:hover .list-entry > .buttons {
+.weirdwizard.edit-mode .statbox:hover .list-entry > .buttons,
+.weirdwizard .benefit-block:hover .list-entry > .buttons {
   background: var(--pink);
   border: 1px solid var(--purple-medium);
   border-radius: 15px;
@@ -2842,8 +2845,8 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard .benefit-block .buttons > a,
 .weirdwizard .statbox .buttons > a,
 .weirdwizard .list-entries .buttons > .array-button,
-.weirdwizard .list-entries .array-button[data-action=entryCreate],
-.weirdwizard .list-entries .array-button[data-action=entrySettings],
+.weirdwizard.actor .list-entries .array-button[data-action=entryCreate],
+.weirdwizard.actor .list-entries .array-button[data-action=entrySettings],
 .weirdwizard:not(.charoption) .list-entries .array-button[data-action="add"],
 .weirdwizard .list-entries .item-create,
 .weirdwizard .statbox h6 .item-create,
@@ -3095,10 +3098,11 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard ol.list-entries > li {
   display: inline-flex;
+  align-items: center;
   margin: 0;
 }
 
-.weirdwizard ol.list-entries > li:first-of-type:not(:last-of-type)::after {
+.weirdwizard ol.list-entries > li:not(:last-of-type)::after {
   content: ', ';
 }
 
@@ -3122,8 +3126,16 @@ input[type="checkbox"].checkbox-uses {
 /*  Character Optionss                          */
 /* -------------------------------------------- */
 
+.journal-entry-page:not(article) .weirdwizard.charoption {
+  margin-bottom: 1rem;
+}
+
 .weirdwizard.charoption .header-section {
   margin-bottom: 0.5rem;
+}
+
+.weirdwizard.charoption.ancestry .header-section {
+  min-height: 100px;
 }
 
 .weirdwizard.charoption.path .header-section {
@@ -3288,14 +3300,6 @@ article .weirdwizard.charoption .benefits-section {
   margin: 0;
 }
 
-.weirdwizard.charoption .benefit-block > *:not {
-  margin: 0;
-}
-
-article .weirdwizard.charoption .benefit-block > *:not(h5) {
-  padding: 0;
-}
-
 .weirdwizard.charoption .benefit-block > h5 {
   margin: 10px 0 5px 0;
 }
@@ -3304,16 +3308,12 @@ article .weirdwizard.charoption .benefit-block > *:not(h5) {
   margin-top: 0;
 }
 
-.weirdwizard.charoption .benefit-block > .list-entries {
-  padding: 2px 1em;
-  margin: 0;
-}
-
 .weirdwizard .benefit-block:hover > .list-entries .buttons {
   margin-left: 5px;
 }
 
 .weirdwizard.charoption .benefit-block input {
+  height: 1lh;
   text-align: center;
 }
 

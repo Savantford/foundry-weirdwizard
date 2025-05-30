@@ -35,77 +35,65 @@
 
     {{!-- Benefit Block --}}
 
-    <div class="benefit-block">
+    <div class="benefit-block" data-benefit-id="benefit1">
   
       {{!-- Header --}}
       <h3>{{document.name}} {{localize "WW.CharOption.Traits"}}</h3>
   
       {{!-- Descriptor(s) --}}
-      <div class="stat-inline list-entries">
+      <ol class="stat-inline list-entries">
   
         <label>{{localize "WW.ListEntry.Descriptor.Label"}}:</label>
   
-        {{#each benefits.benefit1.descriptors as |detail id|}}
-        <span class="list-entry">
+        {{#each listEntries.benefit1.descriptors as |entry|}}
+          {{> "systems/weirdwizard/templates/journal/list-entry.hbs" entry=entry entryKey=entry.key
+            listKey="descriptors" listPath="benefits.benefit1.descriptors" loc="Descriptor"}}
+        {{else}}<span>—</span>
+        {{/each}}
+
+        <a class="array-button" data-action="entryCreate" data-list-key="descriptors" data-list-path="benefits.benefit1.descriptors"
+          data-loc="Descriptor" data-tooltip="WW.ListEntry.Descriptor.Create"><i class="fa-solid fa-circle-plus"></i></a>
+        
+        <a class="array-button" data-action="entrySettings" data-list-key="descriptors" data-list-path="benefits.benefit1.descriptors"
+          data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
   
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-            <a class="array-button" data-action="edit" data-list-key="benefits.benefit1.descriptors" data-entry-key="{{id}}"
-              data-tooltip="WW.ListEntry.Descriptor.Edit"><i class="fa-solid fa-edit"></i></a>
-  
-            <a class="array-button" data-action="remove" data-list-key="benefits.benefit1.descriptors" data-entry-key="{{id}}"
-              data-tooltip="WW.ListEntry.Descriptor.Remove"><i class="fa-solid fa-trash"></i></a>
-          </span>
-        </span>
-        {{/each}}{{#unless benefits.benefit1.descriptors.length}}<span>—</span>{{/unless}}
-  
-        <a class="array-button" data-action="add" data-list-key="benefits.benefit1.descriptors" data-loc="Descriptor"
-          data-tooltip="WW.ListEntry.Descriptor.Create"><i class="fa-solid fa-circle-plus"></i></a>
-  
-      </div>
+      </ol>
   
       {{!-- Senses --}}
-      <div class="stat-inline list-entries">
+      <ol class="stat-inline list-entries">
         <label>{{localize "WW.ListEntry.Sense.Label"}}:</label>
   
-        {{#each benefits.benefit1.senses as |detail id|}}
-        <span class="list-entry">
+        {{#each listEntries.benefit1.senses as |entry|}}
+          {{> "systems/weirdwizard/templates/journal/list-entry.hbs" entry=entry entryKey=entry.key
+            listKey="senses" listPath="benefits.benefit1.senses" loc="Sense"}}
+        {{else}}<span>—</span>
+        {{/each}}
   
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-            <a class="array-button" data-action="edit" data-list-key="benefits.benefit1.senses" data-entry-key="{{id}}"
-              data-tooltip="WW.ListEntry.Sense.Edit"><i class="fa-solid fa-edit"></i></a>
-  
-            <a class="array-button" data-action="remove" data-list-key="benefits.benefit1.senses" data-entry-key="{{id}}"
-              data-tooltip="WW.ListEntry.Sense.Remove"><i class="fa-solid fa-trash"></i></a>
-          </span>
-        </span>
-        {{/each}}{{#unless benefits.benefit1.senses.length}}<span>—</span>{{/unless}}
-  
-        <a class="array-button" data-action="add" data-list-key="benefits.benefit1.senses" data-loc="Sense"
+        <a class="array-button" data-action="entryCreate" data-list-key="senses" data-list-path="benefits.benefit1.senses" data-loc="Sense"
           data-tooltip="WW.ListEntry.Sense.Create"><i class="fa-solid fa-circle-plus"></i></a>
-  
-      </div>
+
+        <a class="array-button" data-action="entrySettings" data-list-key="senses" data-list-path="benefits.benefit1.senses"
+          data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+
+      </ol>
   
       {{!-- Bonus Languages --}}
-      <div class="stat-inline list-entries">
+      <ol class="stat-inline list-entries">
         <label>{{localize "WW.ListEntry.Language.Bonus"}}:</label>
   
-        {{#each benefits.benefit1.languages as |detail id|}}
-        <span class="list-entry">
+        {{#each listEntries.benefit1.languages as |entry|}}
+          {{> "systems/weirdwizard/templates/journal/list-entry.hbs" entry=entry entryKey=entry.key
+            listKey="languages" listPath="benefits.benefit1.languages" loc="Language"}}
+        {{else}}<span>—</span>
+        {{/each}}
   
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-            <a class="array-button" data-action="edit" data-list-key="benefits.benefit1.languages" data-entry-key="{{id}}"
-              data-tooltip="WW.ListEntry.Language.Edit"><i class="fa-solid fa-edit"></i></a>
-  
-            <a class="array-button" data-action="remove" data-list-key="benefits.benefit1.languages" data-entry-key="{{id}}"
-              data-tooltip="WW.ListEntry.Language.Remove"><i class="fa-solid fa-trash"></i></a>
-          </span>
-        </span>
-        {{/each}}{{#unless benefits.benefit1.languages.length}}<span>—</span>{{/unless}}
-  
-        <a class="array-button" data-action="add" data-list-key="benefits.benefit1.languages" data-loc="Language"
+        <a class="array-button" data-action="entryCreate" data-list-key="languages" data-list-path="benefits.benefit1.languages" data-loc="Language"
           data-tooltip="WW.ListEntry.Language.Create"><i class="fa-solid fa-circle-plus"></i></a>
-  
-      </div>
+
+        <a class="array-button" data-action="entrySettings" data-list-key="languages" data-list-path="benefits.benefit1.languages"
+          data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+
+      </ol>
   
       {{!-- Attributes --}}
       <div class="stat-inline">
@@ -148,7 +136,7 @@
       </div>
   
       {{!-- Size, Speed --}}
-      <div class="stat-inline list-entries flex-children">
+      <ol class="stat-inline list-entries movement-traits">
   
         {{!-- Size --}}
         <label>{{localize "WW.Stats.Size"}}:</label>
@@ -171,49 +159,39 @@
         </div>
   
         {{!-- Movement Traits --}}
-        {{#each benefits.benefit1.movementTraits as |detail id|}}<span class="list-entry">
-          {{#if @first}}({{/if}}<a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-            <a class="array-button" data-action="edit" data-list-key="benefits.benefit1.movementTraits"
-              data-entry-key="{{id}}" data-tooltip="WW.ListEntry.MovementTrait.Edit"><i class="fa-solid fa-edit"></i></a>
-  
-            <a class="array-button" data-action="remove" data-list-key="benefits.benefit1.movementTraits"
-              data-entry-key="{{id}}" data-tooltip="WW.ListEntry.MovementTrait.Remove"><i class="fa-solid fa-trash"></i></a>
-          </span>{{#if @last}}){{/if}}
-        </span>
+        {{#each listEntries.benefit1.movementTraits as |entry|}}
+          {{> "systems/weirdwizard/templates/journal/list-entry.hbs" entry=entry entryKey=entry.key
+            listKey="movementTraits" listPath="benefits.benefit1.movementTraits" loc="MovementTrait"}}
         {{/each}}
   
-        <a class="array-button" data-action="add" data-list-key="benefits.benefit1.movementTraits" data-loc="MovementTrait"
+        <a class="array-button" data-action="entryCreate" data-list-key="movementTraits" data-list-path="benefits.benefit1.movementTraits" data-loc="MovementTrait"
           data-tooltip="WW.ListEntry.MovementTrait.Create"><i class="fa-solid fa-circle-plus"></i></a>
+
+        <a class="array-button" data-action="entrySettings" data-list-key="movementTraits" data-list-path="benefits.benefit1.movementTraits"
+          data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+
+      </ol>
   
-      </div>
-  
-      {{!-- Immune --}}
-      <div class="stat-inline list-entries">
+      {{!-- Immunities --}}
+      <ol class="stat-inline list-entries">
         <label>{{localize "WW.ListEntry.Immunity.Label"}}:</label>
   
-        {{#each benefits.benefit1.immune as |detail id|}}
-        <span class="list-entry">
-  
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-            <a class="array-button" data-action="edit" data-list-key="benefits.benefit1.immune" data-entry-key="{{id}}"
-              data-tooltip="WW.ListEntry.Immunity.Edit"><i class="fa-solid fa-edit"></i></a>
-  
-            <a class="array-button" data-action="remove" data-list-key="benefits.benefit1.immune" data-entry-key="{{id}}"
-              data-tooltip="WW.ListEntry.Immunity.Remove"><i class="fa-solid fa-trash"></i></a>
-          </span>
-        </span>
+        {{#each listEntries.benefit1.immunities as |entry|}}
+          {{> "systems/weirdwizard/templates/journal/list-entry.hbs" entry=entry entryKey=entry.key
+            listKey="immunities" listPath="benefits.benefit1.immunities" loc="Immunity"}}
+        {{else}}<span>—</span>
         {{/each}}
   
-        {{#unless benefits.benefit1.immune.length}}<span>—</span>{{/unless}}
-  
-        <a class="array-button" data-action="add" data-list-key="benefits.benefit1.immune" data-loc="Immunity"
+        <a class="array-button" data-action="entryCreate" data-list-key="immunities" data-list-path="benefits.benefit1.immunities" data-loc="Immunity"
           data-tooltip="WW.ListEntry.Immunity.Create"><i class="fa-solid fa-circle-plus"></i></a>
+
+        <a class="array-button" data-action="entrySettings" data-list-key="immunities" data-list-path="benefits.benefit1.immunities"
+          data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
   
-      </div>
+      </ol>
   
       {{!-- Item List Area --}}
       <ol class="described-list items-area benefit1">
-        {{#unless benefits.benefit1.itemsInfo}}{{{itemsAreaHint}}}{{/unless}}
 
         {{!-- Populate Items --}}
         {{#each benefits.benefit1.itemsInfo as |item id|}}
@@ -228,6 +206,7 @@
           </span>
 
         </li>
+        {{else}}{{{@root.itemsAreaHint}}}
         {{/each}}
 
       </ol>

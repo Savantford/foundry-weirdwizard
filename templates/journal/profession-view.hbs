@@ -39,17 +39,16 @@
   
       {{!-- Bonus Language --}}
       {{#if benefits.benefit1.languages.length}}
-      <div class="stat-inline list-entries">
+      <ol class="stat-inline list-entries">
         <label>{{localize "WW.ListEntry.Language.Bonus"}}:</label>
         
-        {{#each benefits.benefit1.languages as |detail id|}}
-        <span class="list-entry">
-        
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>
-        </span>
+        {{#each benefits.benefit1.languages as |entry id|}}
+        <li class="list-entry">
+          <a data-tooltip="{{entry.desc}}">{{entry.name}}</a>
+        </li>
         {{/each}}
     
-      </div>
+      </ol>
       {{/if}}
   
       {{!-- Item List Area --}}

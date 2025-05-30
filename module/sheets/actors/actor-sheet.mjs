@@ -1128,8 +1128,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       listKey = dataset.listKey,
       path = 'system.listEntries.' + listKey,
       obj = foundry.utils.getProperty(this.actor, path),
-      entryKey = defaultListEntryKey(listKey, this.actor),
-      entryName = defaultListEntryName(listKey, this.actor),
+      entryKey = defaultListEntryKey(this.actor, listKey, path),
+      entryName = defaultListEntryName(this.actor, listKey, path),
     entry = { name: entryName };
     
     obj[entryKey] = entry;
