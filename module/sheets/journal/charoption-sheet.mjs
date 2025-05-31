@@ -20,7 +20,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
         {dragSelector: '.directory-list .item', dropSelector: '.items-area'},
         {dragSelector: '.item-list .item', dropSelector: '.items-area'},
         {dragSelector: '.draggable', dropSelector: '.actor'},
-        {dragSelector: '#entry-settings-display .draggable', dropSelector: null}
+        {dragSelector: '#entry-settings-display .draggable', dropSelector: '.benefit-block'}
       ],
       secrets: [{parentSelector: ".editor"}]
     });
@@ -446,19 +446,17 @@ export default class WWCharOptionSheet extends JournalPageSheet {
    * @private
   */
   async #onEntryRemove(event, button) {
+    if (event.currentTarget.classList.contains('benefit-block')) event.stopPropagation();
+
     const dataset = Object.assign({}, button.dataset),
       listPath = dataset.listPath,
       path = 'system.' + listPath,
-      baseObj = foundry.utils.getProperty(this.document.token?.baseActor, path),
     key = dataset.entryKey;
+    console.log('path:', path)
+    console.log('key:', key)
     
     // Update document
-    if (baseObj && baseObj?.hasOwnProperty(key)) {
-      await this.document.update({ [`${path}.${key}`]: null }); // If the key exists in the Base Actor, null it
-    } else {
-      console.log('deleting')
-      await this.document.update({ [`${path}.-=${key}`]: null }); // Delete key otherwise
-    }
+    await this.document.update({ [`${path}.-=${key}`]: null });
 
   }
 
@@ -476,27 +474,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
   }
 
   /* -------------------------------------------- */
-  /*  Array button actions                        */
-  /* -------------------------------------------- */
-  
-  /**
-   * Handle clicked array buttons
-   * @param {Event} ev   The originating click event
-   * @private
-  */
-
-  _onArrayButtonClicked(ev) {
-    const button = ev.currentTarget,
-      dataset = Object.assign({}, button.dataset);
-
-    
-    switch (dataset.action) {
-      case 'add': this._onArrayButtonAdd(dataset); break;
-      case 'remove': this._onArrayButtonRemove(dataset); break;
-    }
-    
-  }
-  
+  /*  Char Options reference actions              */
   /* -------------------------------------------- */
 
   async _onRefEdit(event) {
@@ -637,16 +615,19 @@ export default class WWCharOptionSheet extends JournalPageSheet {
    * @protected
    */
   async _onDrop(event) { // Delete in v13; core behavior
+    event.stopPropagation();
+    
     if ( !this.isEditable ) return;
     const data = TextEditor.getDragEventData(event);
     const journalEntry = this.document;
-    const allowed = Hooks.call("dropActorSheetData", journalEntry, this, data);
+    const allowed = Hooks.call("dropJournalEntryPageSheetData", journalEntry, this, data);
     if ( allowed === false ) return;
     
     // Dropped Documents
     const documentClass = getDocumentClass(data.type);
     if ( documentClass ) {
       const document = await documentClass.fromDropData(data);
+      
       await this._onDropDocument(event, document);
     }
 
@@ -658,7 +639,11 @@ export default class WWCharOptionSheet extends JournalPageSheet {
   }
 
   /** @inheritdoc */
-  async _onDropDocument(event, document) {
+  async _onDropDocument(event, item) {
+    // Ignore other document types
+    if (item.documentName !== 'Item') return;
+
+    // Fade out the area around the correct drop places
     const ol = event.target.closest('.items-area');
     
     if (!ol) return;
@@ -666,16 +651,27 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     $(ol).removeClass('fadeout');
 
     const benefit = ol.classList[2];
-
-    if (data.type !== "Item") return; // Receive only Items as drops
-
-    const item = await fromUuid(data.uuid);
     
-    if (!(item.type === 'Equipment' || item.type === 'Trait or Talent' || item.type === 'Spell')) {
-      return ui.notifications.warn(`${i18n('WW.CharOption.TypeWarning')}<br/>${i18n("WW.CharOption.Help", { itemType: this.document.type })}`);
-    }
+    // Check if document is from the correct allowed types
+    const docType = this.document.type;
+    let allowedTypes = ['Equipment', 'Trait or Talent', 'Spell'];
 
-    if (!item.pack) return ui.notifications.warn(`${i18n('WW.CharOption.CompendiumWarning')}<br/>${i18n("WW.CharOption.Help", { itemType: this.document.type })}`);
+    if (docType === 'ancestry' || docType === 'tradition') allowedTypes = ['Trait or Talent', 'Spell'];
+    if (docType === 'profession') allowedTypes = ['Equipment'];
+
+    // Return if not from an apropriate type
+    if (allowedTypes.includes(document.type)) return await ui.notifications.warn(`
+      ${i18n('WW.CharOption.TypeWarning')}
+      <br/>
+      ${i18n("WW.CharOption.Help", { itemType: item.type })}
+    `);
+    console.log('dropping')
+    // Return with warning if not in a pack
+    if (!item.pack) return await ui.notifications.warn(`
+      ${i18n('WW.CharOption.CompendiumWarning')}
+      <br/>
+      ${i18n("WW.CharOption.Help", { itemType: item.type })}
+    `);
     
     // Handle drop on Tradition
     if (this.document.type === 'tradition') {
@@ -697,7 +693,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     // Handle drop on non-Tradition
     } else {
       const benefits = this.document.system.benefits;
-      
+      console.log(benefits)
       benefits[benefit].items.push(item.uuid);
 
       await this.document.update({'system.benefits': benefits});

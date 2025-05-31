@@ -49,10 +49,6 @@ const makeBenefitField = (level = 99) => new fields.SchemaField({
     bonusDamage: makeIntField(),
   }),
 
-  traditions: new fields.ArrayField(
-    new fields.ObjectField({ initial: { name: "", desc: "" } })
-  ),
-
   spells: makeStrField('0', 0),
 
   // Granted items
@@ -60,6 +56,14 @@ const makeBenefitField = (level = 99) => new fields.SchemaField({
 
   // Granted list entries
   languages: new TypedObjectField(
+    new fields.SchemaField({
+      name: makeStrField("", 0),
+      desc: makeStrField(),
+      grantedBy: makeStrField(null)
+    }, { nullable: true })
+  ),
+
+  traditions: new TypedObjectField( // Delete on a later update
     new fields.SchemaField({
       name: makeStrField("", 0),
       desc: makeStrField(),
