@@ -1140,7 +1140,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     const context = {
       entry: entry,
       key: entryKey,
-      showKey: true
+      showKey: true,
+      grantedBy: entry.grantedBy ? await TextEditor.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { async: true, secrets: this.actor.isOwner }) : null
     };
 
     // Show a dialog 
@@ -1194,7 +1195,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     const context = {
       entry: await entry,
       key: entryKey,
-      showKey: true
+      showKey: true,
+      grantedBy: entry.grantedBy ? await TextEditor.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { async: true, secrets: this.actor.isOwner }) : null
     };
 
     // Show a dialog 

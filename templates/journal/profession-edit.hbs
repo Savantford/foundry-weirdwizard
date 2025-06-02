@@ -49,24 +49,19 @@
       {{!-- Bonus Language --}}
       <ol class="stat-inline list-entries">
         <label>{{localize "WW.ListEntry.Language.Bonus"}}:</label>
-        
-        {{#each benefits.benefit1.languages as |entry id|}}
-        <span class="list-entry">
-        
-          <a data-tooltip="{{entry.desc}}">{{entry.name}}</a><span class="buttons">
-            <a class="array-button" data-action="edit" data-list-key="languages" data-list-path="benefits.benefit1.languages" data-entry-key="{{id}}"
-              data-tooltip="WW.ListEntry.Language.Edit"><i class="fa-solid fa-edit"></i></a>
-        
-            <a class="array-button" data-action="remove" data-list-key="languages" data-list-path="benefits.benefit1.languages" data-entry-key="{{id}}"
-              data-tooltip="WW.ListEntry.Language.Remove"><i class="fa-solid fa-trash"></i></a>
-          </span>
-        </span>
+  
+        {{#each listEntries.benefit1.languages as |entry|}}
+          {{> "systems/weirdwizard/templates/journal/list-entry.hbs" entry=entry entryKey=entry.key
+            listKey="languages" listPath="benefits.benefit1.languages" loc="Language"}}
         {{else}}<span>—</span>
         {{/each}}
-        
+  
         <a class="array-button" data-action="entryCreate" data-list-key="languages" data-list-path="benefits.benefit1.languages" data-loc="Language"
           data-tooltip="WW.ListEntry.Language.Create"><i class="fa-solid fa-circle-plus"></i></a>
-    
+
+        <a class="array-button" data-action="entrySettings" data-list-key="languages" data-list-path="benefits.benefit1.languages"
+          data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+
       </ol>
   
       {{!-- Item List Area --}}

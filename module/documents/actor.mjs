@@ -659,33 +659,28 @@ export default class WWActor extends Actor {
     listEntries = this.system.listEntries,
     level = this.system.stats.level;
 
-    // Get list entries granted by the character option existing on the actor
-    const aDetails = {
-      descriptors: listEntries.descriptors.filter(i => {
-        return i.grantedBy === uuid;
-      }),
-      senses: listEntries.senses.filter(i => {
-        return i.grantedBy === uuid;
-      }),
-      languages: listEntries.languages.filter(i => {
-        return i.grantedBy === uuid;
-      }),
-      immune: listEntries.immune.filter(i => {
-        return i.grantedBy === uuid;
-      }),
-      traditions: listEntries.traditions.filter(i => {
-        return i.grantedBy === uuid;
-      })
+    const getGrantedEntries = listKey => {
+      return Object.fromEntries(Object.entries(listEntries[listKey]).filter(([k, v]) => v.grantedBy === uuid ));
     }
 
-    // Create aDetails to store existing actor listEntries
-    const newDetails = {
+    // Get list entries granted by the character option existing on the actor
+    const grantedEntries = {
+      descriptors: getGrantedEntries('descriptors'),
+      immunities: getGrantedEntries('immunities'),
+      languages: getGrantedEntries('languages'),
+      senses: getGrantedEntries('senses'),
+      traditions: getGrantedEntries('traditions')
+    }
+    
+    // Create newEntries to store existing actor listEntries
+    const newEntries = {
       descriptors: listEntries.descriptors,
       senses: listEntries.senses,
       languages: listEntries.languages,
-      immune: listEntries.immune,
+      immunities: listEntries.immunities,
       traditions: listEntries.traditions
     };
+    console.log(newEntries)
 
     // Loop through each benefit
     for (const b in benefits) {
@@ -697,43 +692,47 @@ export default class WWActor extends Actor {
       // If level does not meet the requirement, ignore it
       if (level >= benefit.levelReq) {
 
-        if (benefit.descriptors) this._addEntries(uuid, aDetails, newDetails, benefit, 'descriptors');
+        if (benefit.descriptors) this._addEntries(uuid, grantedEntries, newEntries, benefit, 'descriptors');
         
-        if (benefit.senses) this._addEntries(uuid, aDetails, newDetails, benefit, 'senses');
+        if (benefit.senses) this._addEntries(uuid, grantedEntries, newEntries, benefit, 'senses');
         
-        if (benefit.languages) this._addEntries(uuid, aDetails, newDetails, benefit, 'languages');
+        if (benefit.languages) this._addEntries(uuid, grantedEntries, newEntries, benefit, 'languages');
 
-        if (benefit.immune) this._addEntries(uuid, aDetails, newDetails, benefit, 'immune');
+        if (benefit.immune) this._addEntries(uuid, grantedEntries, newEntries, benefit, 'immune');
 
-        if (benefit.traditions) this._addEntries(uuid, aDetails, newDetails, benefit, 'traditions');
+        if (benefit.traditions) this._addEntries(uuid, grantedEntries, newEntries, benefit, 'traditions');
 
       }
       
     }
     
     // Update actor with new listEntries object
-    await this.update({['system.listEntries']: {...listEntries, ...newDetails} });
+    await this.update({['system.listEntries']: {...listEntries, ...newEntries} });
 
   }
 
-  _addEntries(uuid, aDetails, newDetails, benefit, arrName) {
-    const arr = [...benefit[arrName]];
-    
+  _addEntries(uuid, grantedEntries, newEntries, benefit, listName) {
+    const list = {...benefit[listName]};
+    console.log('list name =', listName)
+    console.log(list)
     // For each entry
-    arr.forEach((entry,id) => {
+    for (const entryId in list) {
+      const entry = list[entryId];
       
-      // Store the char option id on grantedBy
+      // Store the character option's UUID in grantedBy
       entry.grantedBy = uuid;
 
-      // If entry with the same name is found, splice entry from the array
-      if (aDetails[arrName].find(ae => ae.name === entry.name )) {
-        arr.splice(id);
+      // If entry with the same key is found, delete the entry from the list object
+      if (Object.keys(grantedEntries[listName]).find(e => e === entryId)) {
+        console.log(entryId)
+        delete list[entryId];
       }
 
-    });
-
-    // Add entries to newDetails object
-    if (arr.length) newDetails[arrName] = newDetails[arrName] ? newDetails[arrName].concat(arr) : arr;
+    };
+    console.log(newEntries)
+    console.log(list)
+    // Add entries to newEntries object
+    if (Object.keys(list).length) newEntries[listName] = newEntries[listName] ? { ...list, ...newEntries[listName] } : list;
 
   }
 
@@ -758,7 +757,7 @@ export default class WWActor extends Actor {
     // Clear granted list entries
 
     // Get actor list entries granted by the character option
-    const newDetails = { ...this.system.listEntries,
+    const newEntries = { ...this.system.listEntries,
       senses: this.system.listEntries.senses.filter(i => {
         return i.grantedBy !== uuid;
       }),
@@ -774,7 +773,7 @@ export default class WWActor extends Actor {
     }
 
     // Update actor with new listEntries
-    this.update({['system.listEntries']: newDetails});
+    this.update({['system.listEntries']: newEntries});
 
     ui.notifications.info(`${cOption.name}'s benefits were cleared from the actor.`);
   }

@@ -5,7 +5,7 @@ export default async function embedCard(doc, config, options) {
     config.label = doc.name;
 
     // Add to options
-    options.rollData ??= doc.getRollData();
+    options.rollData = doc.documentName === 'Actor' ? doc.getRollData() : null;
     options.relativeTo = doc;
     options.async = true;
     options.secrets = doc.isOwner;

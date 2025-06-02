@@ -20,12 +20,12 @@
 
     <textarea name="desc">{{entry.desc}}</textarea>
   </div>
-
+  
   {{!-- Granted By --}}
-  {{#if grantedBy}}
+  {{#if entry.grantedBy}}
   <div class="stat-inline">
-    <label>{{localize "WW.CharOption.GrantedBy"}}</label>
-    {{grantedBy}}
+    <label>{{localize "WW.CharOption.GrantedBy"}}:</label>
+    {{{grantedBy}}}
   </div>
   {{/if}}
   
