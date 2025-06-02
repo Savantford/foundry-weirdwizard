@@ -135,7 +135,7 @@ export default class WWJournalPage extends JournalEntryPage {
 
   async _onTierChange(data) {
     const tier = await data.system?.tier ? data.system.tier : await this.system.tier;
-    const benefits = {...await this.system.benefits};
+    const benefits = {...await data.system.benefits};
     
     for (const key in benefits) {
       

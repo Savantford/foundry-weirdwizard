@@ -318,11 +318,12 @@ export default class WWActor extends Actor {
     data.bd = sys.stats.bonusdamage;
 
     // Clean unused data
+    delete data.description;
     delete data.attributes;
     delete data.stats;
     delete data.currency;
     delete data.details;
-    delete data.description;
+    delete data.listEntries;
     
     return data;
   }
@@ -655,35 +656,35 @@ export default class WWActor extends Actor {
     if (!cOption) return ;
 
     const benefits = cOption.system.benefits,
-    details = this.system.details,
+    listEntries = this.system.listEntries,
     level = this.system.stats.level;
 
     // Get list entries granted by the character option existing on the actor
     const aDetails = {
-      descriptors: details.descriptors.filter(i => {
+      descriptors: listEntries.descriptors.filter(i => {
         return i.grantedBy === uuid;
       }),
-      senses: details.senses.filter(i => {
+      senses: listEntries.senses.filter(i => {
         return i.grantedBy === uuid;
       }),
-      languages: details.languages.filter(i => {
+      languages: listEntries.languages.filter(i => {
         return i.grantedBy === uuid;
       }),
-      immune: details.immune.filter(i => {
+      immune: listEntries.immune.filter(i => {
         return i.grantedBy === uuid;
       }),
-      traditions: details.traditions.filter(i => {
+      traditions: listEntries.traditions.filter(i => {
         return i.grantedBy === uuid;
       })
     }
 
-    // Create aDetails to store existing actor details
+    // Create aDetails to store existing actor listEntries
     const newDetails = {
-      descriptors: details.descriptors,
-      senses: details.senses,
-      languages: details.languages,
-      immune: details.immune,
-      traditions: details.traditions
+      descriptors: listEntries.descriptors,
+      senses: listEntries.senses,
+      languages: listEntries.languages,
+      immune: listEntries.immune,
+      traditions: listEntries.traditions
     };
 
     // Loop through each benefit
@@ -710,8 +711,8 @@ export default class WWActor extends Actor {
       
     }
     
-    // Update actor with new details object
-    await this.update({['system.details']: {...details, ...newDetails} });
+    // Update actor with new listEntries object
+    await this.update({['system.listEntries']: {...listEntries, ...newDetails} });
 
   }
 
@@ -757,23 +758,23 @@ export default class WWActor extends Actor {
     // Clear granted list entries
 
     // Get actor list entries granted by the character option
-    const newDetails = { ...this.system.details,
-      senses: this.system.details.senses.filter(i => {
+    const newDetails = { ...this.system.listEntries,
+      senses: this.system.listEntries.senses.filter(i => {
         return i.grantedBy !== uuid;
       }),
-      languages: this.system.details.languages.filter(i => {
+      languages: this.system.listEntries.languages.filter(i => {
         return i.grantedBy !== uuid;
       }),
-      immune: this.system.details.immune.filter(i => {
+      immune: this.system.listEntries.immune.filter(i => {
         return i.grantedBy !== uuid;
       }),
-      traditions: this.system.details.traditions.filter(i => {
+      traditions: this.system.listEntries.traditions.filter(i => {
         return i.grantedBy !== uuid;
       })
     }
 
-    // Update actor with new details
-    this.update({['system.details']: newDetails});
+    // Update actor with new listEntries
+    this.update({['system.listEntries']: newDetails});
 
     ui.notifications.info(`${cOption.name}'s benefits were cleared from the actor.`);
   }

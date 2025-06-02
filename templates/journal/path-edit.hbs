@@ -186,23 +186,17 @@
       <div class="stat-inline flex-wrap">
   
         {{!-- Traditions --}}
-        <ol class="list-entries">
+        {{#each (lookup @root.listEntries id) as |list listKey|}}
+        {{#if (eq listKey 'traditions')}}
+        <ol class="stat-inline list-entries">
           <label>{{localize "WW.Tradition.Label"}}:</label>
 
-          {{#each benefit.traditions as |entry entryId|}}
-          <span class="list-entry">
-  
-            <a data-tooltip="{{entry.desc}}">{{entry.name}}</a><span class="buttons">
-              <a class="array-button" data-action="edit" data-list-key="traditions" data-list-path="benefits.{{id}}.traditions"
-                data-entry-key="{{entryId}}" data-tooltip="WW.Tradition.Edit"><i class="fa-solid fa-edit"></i></a>
-  
-              <a class="array-button" data-action="remove" data-list-key="traditions" data-list-path="benefits.{{id}}.traditions"
-                data-entry-key="{{entryId}}" data-tooltip="WW.Tradition.Remove"><i class="fa-solid fa-trash"></i></a>
-            </span>
-          </span>
+          {{#each list as |entry|}}
+            {{> "systems/weirdwizard/templates/journal/list-entry.hbs" entry=entry entryKey=entry.key
+              listKey="traditions" listPath=(concat "benefits." id ".traditions") loc="Tradition"}}
           {{else}}<span>—</span>
           {{/each}}
-
+    
           <a class="array-button" data-action="entryCreate" data-list-key="traditions" data-list-path="benefits.{{id}}.traditions" data-loc="Tradition"
             data-tooltip="WW.Tradition.Create"><i class="fa-solid fa-circle-plus"></i></a>
   
@@ -214,7 +208,9 @@
           </select>
 
         </ol>
-  
+        {{/if}}
+        {{/each}}
+
       </div>
 
       {{!-- Item List Area --}}

@@ -99,33 +99,38 @@
       </div>
 
       {{!-- Languages --}}
-      {{#if benefit.languages.length}}
+      {{#each (lookup @root.listEntries id) as |list listKey|}}
+        {{#if (eq listKey 'languages')}}
+          {{#if list.length}}
+          <ol class="stat-inline list-entries">
+
+            <label>{{localize "WW.ListEntry.Language.Label"}}:</label>
+
+            {{#each list as |entry|}}
+            <li class="list-entry">
+              <a data-tooltip="{{entry.desc}}">{{entry.name}}</a>
+            </li>
+            {{/each}}
+            
+          </ol>
+          {{/if}}
+        {{/if}}
+      {{/each}}
+
+      {{!-- Magic --}}
+      {{#each (lookup @root.listEntries id) as |list listKey|}}
+      {{#if (eq listKey 'traditions')}}
       <ol class="stat-inline list-entries">
-        <label>{{localize "WW.ListEntry.Language.Label"}}:</label>
-  
-        {{#each benefit.languages as |entry entryId|}}
+
+        {{!-- Traditions --}}
+        {{#if list.length}}
+        <label>{{localize "WW.Tradition.Label"}}:</label>
+
+        {{#each list as |entry|}}
         <li class="list-entry">
           <a data-tooltip="{{entry.desc}}">{{entry.name}}</a>
         </li>
         {{/each}}
-  
-      </ol>
-      {{/if}}
-      
-      {{!-- Magic --}}
-      <div class="stat-inline flex-wrap">
-  
-        {{!-- Traditions --}}
-        {{#if benefit.traditions.length}}
-        <label>{{localize "WW.Tradition.Label"}}:</label>
-
-        <ol class="list-entries">
-          {{#each benefit.traditions as |entry entryId|}}
-          <li class="list-entry">
-            <a data-tooltip="{{entry.desc}}">{{entry.name}}</a>
-          </li>
-          {{/each}}
-        </ol>
         {{/if}}
 
         {{!-- Spells --}}
@@ -135,7 +140,9 @@
         {{localize (lookup @root.spellsLearned benefit.spells)}}
         {{/if}}
   
-      </div>
+      </ol>
+      {{/if}}
+      {{/each}}
 
       {{!-- Item List Area --}}
       {{#if benefit.itemsInfo}}

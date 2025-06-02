@@ -338,7 +338,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
       obj = foundry.utils.getProperty(this.document, path),
       entryKey = defaultListEntryKey(this.document, listKey, path),
       entryName = defaultListEntryName(this.document, listKey, path),
-      entry = { name: entryName };
+    entry = { name: entryName };
 
     obj[entryKey] = entry;
     
@@ -451,11 +451,14 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     const dataset = Object.assign({}, button.dataset),
       listPath = dataset.listPath,
       path = 'system.' + listPath,
+      obj = foundry.utils.getProperty(this.document, path),
     key = dataset.entryKey;
-    console.log('path:', path)
-    console.log('key:', key)
-    
+
+    const newObj = {...obj }; 
+    delete newObj[key];
+    console.log(await newObj)
     // Update document
+    //await this.document.update({ [path]: await newObj });
     await this.document.update({ [`${path}.-=${key}`]: null });
 
   }
@@ -693,8 +696,8 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     // Handle drop on non-Tradition
     } else {
       const benefits = this.document.system.benefits;
-      console.log(benefits)
-      benefits[benefit].items.push(item.uuid);
+      
+      await benefits[benefit].items.push(item.uuid);
 
       await this.document.update({'system.benefits': benefits});
     }
