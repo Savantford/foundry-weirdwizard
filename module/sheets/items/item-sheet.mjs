@@ -136,7 +136,7 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
       dtypes: ['String', 'Number', 'Boolean'],
       tabs: this._getTabs(options.parts)
     }
-    console.log(this.item.system.grantedBy)
+    
     // Prepare enriched variables for editor
     context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true, secrets: isOwner, relativeTo: this.document });
 

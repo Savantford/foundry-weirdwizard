@@ -115,11 +115,8 @@ export function sysPath(string) {
   * @returns {string}
  */
 export function defaultListEntryKey(document, listKey, listPath) {
-  console.log(document)
-  console.log(listKey)
-  console.log(listPath)
   const list = foundry.utils.getProperty(document, listPath);
-  console.log(list)
+  
   // Get a set of taken names
   const takenKeys = new Set();
   for (const entryKey in list) takenKeys.add(entryKey);

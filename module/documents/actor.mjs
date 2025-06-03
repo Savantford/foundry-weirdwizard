@@ -450,7 +450,7 @@ export default class WWActor extends Actor {
   /*  Character Options Handling                  */
   /* -------------------------------------------- */
 
-  async updateCharOptionBenefits(uuid) {
+  async updateCharOptionBenefits(uuid, settings={dropped: false}) {
     if (!uuid) return;
     const cOption = await fromUuid(uuid);
     
@@ -461,7 +461,17 @@ export default class WWActor extends Actor {
     // Handle char option's main effect, granted list entries and granted items
     this._updateMainEffect(uuid);
     this._updateGrantedEntries(uuid);
-    this._updateGrantedItems(uuid);
+
+    // Only grant items to professions if it's a drop and no other professions exist
+    if (cOption.type === 'profession') {
+      const professions = [...this.system.charOptions.professions].filter(x => x !== uuid);;
+      const noOtherProfessions = professions.length > 0 ? false : true;
+      console.log('this uuid = ', uuid)
+      console.log(professions)
+      console.log(noOtherProfessions)
+      
+      if (settings.dropped && noOtherProfessions) this._updateGrantedItems(uuid);
+    } else this._updateGrantedItems(uuid);
 
     ui.notifications.info(`${cOption.name}'s benefits updated.`);
 
@@ -600,11 +610,9 @@ export default class WWActor extends Actor {
 
   /* -------------------------------------------- */
 
-  async _updateGrantedItems(uuid) {
+  async _updateGrantedItems(uuid, settings={isDragDrop: false}) {
     const cOption = await fromUuid(uuid);
-    const professions = this.system.charOptions.professions;
-    const isOnlyProf = await professions.splice(uuid).length ? false : true;
-
+    
     if (!cOption) return ;
     
     const benefits = cOption.system.benefits,
@@ -621,7 +629,6 @@ export default class WWActor extends Actor {
       
       // If level does not meet the requirement, ignore it
       if (level >= benefit.levelReq) {
-        console.log('level achieved for', cOption.name)
         const bItems = benefit.items;
 
         for (const iUuid of bItems) {
@@ -629,7 +636,7 @@ export default class WWActor extends Actor {
           const item = await fromUuid(iUuid);
           const itemData = await game.items.fromCompendium(item);
           
-          // Store the char option id on a flag
+          // Store the char option's UUID in grantedBy
           itemData.system.grantedBy = uuid;
 
           // If item with the same name is not found, create it on the actor
@@ -659,7 +666,7 @@ export default class WWActor extends Actor {
 
     // Get list entries granted by the character option existing on the actor
     const grantedEntries = this._entriesToGrant(uuid);
-    console.log(grantedEntries)
+    
     // Create newEntries to store the updated list entries
     const newEntries = {
       descriptors: listEntries.descriptors,
@@ -748,7 +755,6 @@ export default class WWActor extends Actor {
 
     // Get list entries granted by the character option existing on the actor
     const newEntries = this._removeEntriesGrantedBy(uuid);
-    console.log(newEntries)
 
     // Update actor with new listEntries
     this.update({['system.listEntries']: newEntries});

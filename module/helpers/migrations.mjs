@@ -28,8 +28,6 @@ export async function improvedListEntries(forced) {
     const grantedFlag = item.flags.weirdwizard?.grantedBy ?? null;
 
     // Update item
-    console.log(item.name)
-    console.log(grantedFlag)
     if (grantedFlag) await item.update({'system.grantedBy': grantedFlag});
     
   }

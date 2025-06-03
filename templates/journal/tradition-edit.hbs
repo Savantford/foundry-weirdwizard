@@ -33,9 +33,10 @@
   {{!-- Benefits Section --}}
   <section class="benefits-section">
 
+    <h2>{{localize "WW.Tradition.Talents"}}</h2>
+
     {{!-- Talents --}}
     <div class="benefit-block">
-      <h2>{{localize "WW.Tradition.Talents"}}</h2>
       
       <ol class="described-list items-area talents">
         
@@ -60,13 +61,14 @@
   
     {{!-- Spells --}}
     {{#each spells as |tier tierKey|}}
-    <div class="benefit-block">
-      <h2>
+    <h2>
       {{#if (eq tierKey 'master')}}{{localize "WW.Spells.Master"}}
       {{else if (eq tierKey 'expert')}}{{localize "WW.Spells.Expert"}}
       {{else}}{{localize "WW.Spells.Novice"}}
       {{/if}}
-      </h2>
+    </h2>
+
+    <div class="benefit-block">
       
       <ol class="described-list items-area spells {{tierKey}}">
         

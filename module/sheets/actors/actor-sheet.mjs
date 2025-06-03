@@ -1734,7 +1734,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   static #onItemUpdateUses(event, button) {
     event.preventDefault();
     event.stopPropagation();
-    console.log('clicked')
+    
     const item = this.actor.items.get(button.dataset.itemId);
       
     if ($(event.target).hasClass('fa-regular')) { // If the pip is regular (unchecked)
@@ -2214,6 +2214,11 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   async _onDropJournalEntryPage(event, page) {
     const actor = this.actor;
 
+    const allowedTypes = ['ancestry', 'path', 'profession', 'tradition'];
+
+    // Return if not from an apropriate type
+    if (!allowedTypes.includes(page.type)) return;
+
     // Record Character Option's UUID in the correct field
     if (page.type === 'profession' || page.type === 'tradition') {
       const str = page.type + 's';
@@ -2222,7 +2227,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
         
       await actor.update({ ['system.charOptions.' + str]: arr });
 
-      await actor.updateCharOptionBenefits(page.uuid);
+      await actor.updateCharOptionBenefits(page.uuid, {dropped: true});
     
     } else {
       let str = 'system.charOptions.';
@@ -2249,11 +2254,11 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
         
         if (oldPage) await actor.clearCharOptionBenefits(oldPage.uuid);
         await actor.update({ [str]: page.uuid });
-        await actor.updateCharOptionBenefits(page.uuid);
+        await actor.updateCharOptionBenefits(page.uuid, {dropped: true});
 
       } else {
         await actor.update({ [str]: page.uuid });
-        await actor.updateCharOptionBenefits(page.uuid);
+        await actor.updateCharOptionBenefits(page.uuid, {dropped: true});
       }
       
     }

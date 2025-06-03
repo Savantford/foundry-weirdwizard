@@ -1,22 +1,22 @@
 <section class="tab {{tab.cssClass}}" data-group="primary" data-tab="summary">
 
     {{!-- Descriptor(s) --}}
-    <h5 class="descriptors flex-group-left list-entries">
+    <h5 class="descriptors flex-group-left">
 
         {{!-- Descriptors --}}
-        {{#each listEntries.descriptors as |entry|}}
-            {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="descriptors" loc="Descriptor"}}
-        {{else}}
-            <span>({{localize "WW.ListEntry.Descriptor.Label"}})</span>
-        {{/each}}
-        
-        {{#if (and (not listEntries.descriptors.length) editMode)}}<span>({{localize "WW.ListEntry.Descriptor.Label"}})</span>{{/if}}
-        
-        <a class="array-button" data-action="entryCreate" data-list-key="descriptors" data-loc="Descriptor"
-            data-tooltip="WW.ListEntry.Descriptor.Create"><i class="fa-solid fa-circle-plus"></i></a>
-        
-        <a class="array-button" data-action="entrySettings" data-list-key="descriptors"
-            data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+        <ol class="list-entries">
+            {{#each listEntries.descriptors as |entry|}}
+                {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="descriptors" loc="Descriptor"}}
+            {{else}}
+                <span>({{localize "WW.ListEntry.Descriptor.Label"}})</span>
+            {{/each}}
+            
+            <a class="array-button" data-action="entryCreate" data-list-key="descriptors" data-loc="Descriptor"
+                data-tooltip="WW.ListEntry.Descriptor.Create"><i class="fa-solid fa-circle-plus"></i></a>
+            
+            <a class="array-button" data-action="entrySettings" data-list-key="descriptors"
+                data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+        </ol>
         
     </h5>
 

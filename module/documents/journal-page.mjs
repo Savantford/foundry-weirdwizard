@@ -50,8 +50,7 @@ export default class WWJournalPage extends JournalEntryPage {
 
   async _preUpdate(changes, options, user) {
     await super._preUpdate(changes, options, user);
-    console.log('preupdating')
-    console.log(changes)
+    
     // If Path, apply on tier change flow
     if (this.system.tier && (this.system.tier !== changes.system?.tier)) {
       await this._onTierChange(await changes);
@@ -64,12 +63,10 @@ export default class WWJournalPage extends JournalEntryPage {
 
   }
 
-  async _onUpdate(changes, options, user) {
+  /*async _onUpdate(changes, options, user) {
     await super._onUpdate(changes, options, user);
-    console.log('onUpdate')
-    console.log(changes)
 
-  }
+  }*/
 
   /* -------------------------------------------- */
   /*  Data Preparation                            */

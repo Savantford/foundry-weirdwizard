@@ -6,7 +6,7 @@
         <label>{{localize "WW.Tradition.Label"}}:</label>
         
         {{#each charOptions.traditions as |tradition id|}}
-            <span class="list-entry draggable">
+            <li class="list-entry draggable">
                 <a data-action="journalView" data-page-uuid="{{tradition.uuid}}" data-tooltip="{{tradition.desc}}"><img src="{{tradition.src}}" />{{tradition.name}}</a>
                 
                 <span class="buttons">
@@ -15,17 +15,17 @@
                     </a>
                 </span>
 
-            </span>
+            </li>
         {{else}}
             <span>—</span>
         {{/each}}
 
         {{!-- Legacy Traditions --}}
-        {{#if system.details.traditions}}
+        {{#if listEntries.traditions.length}}
         <ol class="stat-inline list-entries">(
             <label>Legacy, Delete:</label>
         
-            {{#each system.details.traditions as |entry|}}
+            {{#each listEntries.traditions as |entry|}}
                 {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="traditions" loc="Tradition"}}
             {{/each}}
         

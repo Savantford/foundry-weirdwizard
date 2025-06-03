@@ -455,8 +455,8 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     key = dataset.entryKey;
 
     const newObj = {...obj }; 
-    delete newObj[key];
-    console.log(await newObj)
+    delete await newObj[key];
+    
     // Update document
     //await this.document.update({ [path]: await newObj });
     await this.document.update({ [`${path}.-=${key}`]: null });
@@ -668,7 +668,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
       <br/>
       ${i18n("WW.CharOption.Help", { itemType: item.type })}
     `);
-    console.log('dropping')
+    
     // Return with warning if not in a pack
     if (!item.pack) return await ui.notifications.warn(`
       ${i18n('WW.CharOption.CompendiumWarning')}

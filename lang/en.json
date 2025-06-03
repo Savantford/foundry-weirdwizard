@@ -145,6 +145,10 @@
 "TYPES.Item.Trait or Talent": "Trait or Talent",
 "TYPES.Item.Spell": "Spell",
 
+"TYPES.Item.Ancestry": "Ancestry (OBSOLETE)",
+"TYPES.Item.Path": "Path (OBSOLETE)",
+"TYPES.Item.Profession": "Profession (OBSOLETE)",
+
 "WW.Item.Name": "Name",
 "WW.Item.NamePH": "Item's Name",
 "WW.Item.Tier": "Tier",

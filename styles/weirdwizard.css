@@ -677,7 +677,7 @@ body {
 
 /* Actor: Section Headers */
 
-.weirdwizard .window-content h5.list-entries,
+.weirdwizard .window-content h5.descriptors,
 .weirdwizard.npc .window-content h6 {
   text-indent: 0;
   display: flex;
@@ -691,7 +691,7 @@ body {
   font-family: var(--font-capitalized);
 }
 
-.weirdwizard .window-content h5.list-entries {
+.weirdwizard .window-content h5.descriptors {
   border-image-source: url(../assets/ui/headers/pointed-right-pink.svg);
 }
 
@@ -3143,7 +3143,7 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .weirdwizard.charoption.tradition .header-section {
-  min-height: 170px;
+  min-height: 160px;
 }
 
 /* Character Option: Banner */

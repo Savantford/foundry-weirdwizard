@@ -198,23 +198,23 @@
                 </ol>
 
                 {{!-- Professions --}}
-                <div class="stat-inline list-entries">
+                <ol class="stat-inline list-entries">
 
                     <label>{{localize "WW.CharOptions.Professions"}}:</label>    
                     
                     {{#each charOptions.professions as |profession id|}}
-                    <span class="list-entry draggable">
-                        <a data-action="journalView" data-page-uuid="{{profession.uuid}}" data-option-type="professions"
-                            data-tooltip="{{profession.desc}}">{{profession.name}}
-                        </a>
-                        
-                        <span class="buttons">
-                            <a class="array-button" data-action="journalRemove" data-page-uuid="{{profession.uuid}}" data-option-type="professions"
-                                data-tooltip="WW.Profession.Remove"><i class="fa-solid fa-trash"></i>
+                        <li class="list-entry draggable">
+                            <a data-action="journalView" data-page-uuid="{{profession.uuid}}" data-option-type="professions"
+                                data-tooltip="{{profession.desc}}">{{profession.name}}
                             </a>
-                        </span>
+                            
+                            <span class="buttons">
+                                <a class="array-button" data-action="journalRemove" data-page-uuid="{{profession.uuid}}" data-option-type="professions"
+                                    data-tooltip="WW.Profession.Remove"><i class="fa-solid fa-trash"></i>
+                                </a>
+                            </span>
 
-                    </span>
+                        </li>
                     {{else}}
                         <span>—</span>
                     {{/each}}
@@ -223,7 +223,7 @@
                     <a class="help-button" data-action="journalHelp" data-tooltip="WW.System.Documentation"><i class="fa-solid fa-circle-question"></i></a>
                     {{/if}}
                     
-                </div>
+                </ol>
                 
             </div>
 
@@ -289,18 +289,18 @@
             </div>
 
             {{!-- Spells Section --}}
-            {{#if (or listEntries.traditions spells.length)}}
+            {{#if (or charOptions.traditions spells.length)}}
             <h4>{{localize "WW.Spells.Label"}}</h4>
 
             <div class="statbox-section spells">
 
                 {{!-- Traditions --}}
-                <div class="stat-inline mb-1 list-entries">
+                <ol class="stat-inline mb-1 list-entries">
 
                     <label>{{localize "WW.Tradition.Label"}}:</label>
 
                     {{#each charOptions.traditions as |tradition id|}}
-                    <span class="list-entry draggable">
+                    <li class="list-entry draggable">
                         <a data-action="journalView" data-page-uuid="{{tradition.uuid}}" data-option-type="traditions"
                             data-tooltip="{{tradition.desc}}">{{tradition.name}}
                         </a>
@@ -311,12 +311,12 @@
                             </a>
                         </span>
 
-                    </span>
+                    </li>
                     {{/each}}
                         
                     {{#unless charOptions.traditions.length}}<span>—</span>{{/unless}}
                     
-                </div>
+                </ol>
 
                 {{!-- Spells List --}}
                 <ol class="compact-list stat">
