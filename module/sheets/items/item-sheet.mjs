@@ -119,6 +119,7 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
    */
   async _prepareContext(options = {}) {
     const itemData = this.item;
+    const sys = this.item.system;
     const isOwner = this.item.isOwner;
 
     // Ensure editMode has a value
@@ -130,10 +131,12 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
       system: itemData.system, // Use a safe clone of the item data for further operations.
       folder: await itemData.folder,
       flags: itemData.flags,
+      grantedBy: sys.grantedBy ?
+        await TextEditor.enrichHTML(`@Embed[${sys.grantedBy} inline]`, { async: true, secrets: this.item.isOwner }) : null,
       dtypes: ['String', 'Number', 'Boolean'],
       tabs: this._getTabs(options.parts)
     }
-    
+    console.log(this.item.system.grantedBy)
     // Prepare enriched variables for editor
     context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true, secrets: isOwner, relativeTo: this.document });
 
@@ -231,8 +234,6 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
 
     // Pass down whether the item needs targets or not
     context.needTargets = this.document.needTargets;
-    const grantedById = this.document.flags.weirdwizard?.grantedBy;
-    if (grantedById) context.grantedBy = await fromUuid(grantedById).name;
     
     return context;
   }

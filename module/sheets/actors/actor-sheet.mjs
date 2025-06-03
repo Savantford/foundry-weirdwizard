@@ -1304,12 +1304,12 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       const arr = charOptions[type].filter(v => { return v !== button.dataset.pageUuid; });
 
       if (page) await this.actor.update({ [str]: arr });
-
     } else if (type) {
       
       await this.actor.update({ [str]: null });
-      if (page) await this.actor.clearCharOptionBenefits(page.uuid);
     }
+
+    if (page) await this.actor.clearCharOptionBenefits(page.uuid);
     
     this.render();
   }
@@ -2213,7 +2213,6 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    */
   async _onDropJournalEntryPage(event, page) {
     const actor = this.actor;
-    const cOpts = actor.system.charOptions;
 
     // Record Character Option's UUID in the correct field
     if (page.type === 'profession' || page.type === 'tradition') {
@@ -2222,6 +2221,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       const arr = [...new Set([...actor.system.charOptions[str], await page.uuid])];
         
       await actor.update({ ['system.charOptions.' + str]: arr });
+
+      await actor.updateCharOptionBenefits(page.uuid);
     
     } else {
       let str = 'system.charOptions.';

@@ -458,10 +458,10 @@ export default class WWActor extends Actor {
     if (!cOption) return ui.notifications.error(`"${uuid}" is not a valid Character Option UUID. Please remove it from the sheet!`);
     if (cOption.type === 'tradition') return;
 
-    // Handle char option's granted items, granted list entries and main effect
-    this._updateGrantedItems(uuid);
-    this._updateGrantedEntries(uuid);
+    // Handle char option's main effect, granted list entries and granted items
     this._updateMainEffect(uuid);
+    this._updateGrantedEntries(uuid);
+    this._updateGrantedItems(uuid);
 
     ui.notifications.info(`${cOption.name}'s benefits updated.`);
 
@@ -602,12 +602,14 @@ export default class WWActor extends Actor {
 
   async _updateGrantedItems(uuid) {
     const cOption = await fromUuid(uuid);
-    
+    const professions = this.system.charOptions.professions;
+    const isOnlyProf = await professions.splice(uuid).length ? false : true;
+
     if (!cOption) return ;
     
     const benefits = cOption.system.benefits,
       level = this.system.stats.level,
-      aItems = this.items.filter(i => { return i.flags?.weirdwizard?.grantedBy === uuid; });
+      aItems = this.items.filter(i => { return i.system.grantedBy === uuid; });
 
     const itemsArr = [];
     
@@ -619,7 +621,7 @@ export default class WWActor extends Actor {
       
       // If level does not meet the requirement, ignore it
       if (level >= benefit.levelReq) {
-
+        console.log('level achieved for', cOption.name)
         const bItems = benefit.items;
 
         for (const iUuid of bItems) {
@@ -628,11 +630,7 @@ export default class WWActor extends Actor {
           const itemData = await game.items.fromCompendium(item);
           
           // Store the char option id on a flag
-          itemData.flags = {
-            weirdwizard: {
-              grantedBy: uuid
-            }
-          }
+          itemData.system.grantedBy = uuid;
 
           // If item with the same name is not found, create it on the actor
           if (!aItems.find(i => i.name === itemData.name )) itemsArr.push(itemData);
@@ -659,20 +657,10 @@ export default class WWActor extends Actor {
     listEntries = this.system.listEntries,
     level = this.system.stats.level;
 
-    const getGrantedEntries = listKey => {
-      return Object.fromEntries(Object.entries(listEntries[listKey]).filter(([k, v]) => v.grantedBy === uuid ));
-    }
-
     // Get list entries granted by the character option existing on the actor
-    const grantedEntries = {
-      descriptors: getGrantedEntries('descriptors'),
-      immunities: getGrantedEntries('immunities'),
-      languages: getGrantedEntries('languages'),
-      senses: getGrantedEntries('senses'),
-      traditions: getGrantedEntries('traditions')
-    }
-    
-    // Create newEntries to store existing actor listEntries
+    const grantedEntries = this._entriesToGrant(uuid);
+    console.log(grantedEntries)
+    // Create newEntries to store the updated list entries
     const newEntries = {
       descriptors: listEntries.descriptors,
       senses: listEntries.senses,
@@ -680,7 +668,6 @@ export default class WWActor extends Actor {
       immunities: listEntries.immunities,
       traditions: listEntries.traditions
     };
-    console.log(newEntries)
 
     // Loop through each benefit
     for (const b in benefits) {
@@ -711,10 +698,11 @@ export default class WWActor extends Actor {
 
   }
 
+  /* -------------------------------------------- */
+
   _addEntries(uuid, grantedEntries, newEntries, benefit, listName) {
     const list = {...benefit[listName]};
-    console.log('list name =', listName)
-    console.log(list)
+    
     // For each entry
     for (const entryId in list) {
       const entry = list[entryId];
@@ -724,13 +712,11 @@ export default class WWActor extends Actor {
 
       // If entry with the same key is found, delete the entry from the list object
       if (Object.keys(grantedEntries[listName]).find(e => e === entryId)) {
-        console.log(entryId)
         delete list[entryId];
       }
 
     };
-    console.log(newEntries)
-    console.log(list)
+    
     // Add entries to newEntries object
     if (Object.keys(list).length) newEntries[listName] = newEntries[listName] ? { ...list, ...newEntries[listName] } : list;
 
@@ -741,41 +727,68 @@ export default class WWActor extends Actor {
   async clearCharOptionBenefits(uuid) {
     const cOption = await fromUuid(uuid);
 
+    /* Benefit Main Effect */
+
     // Delete main effect
     const eff = this.effects.find(e => { return e.system.grantedBy === cOption.uuid });
 
     // Create or update main effect
     if (eff) this.deleteEmbeddedDocuments("ActiveEffect", [eff.id]);
 
+    /* Granted Items */
+
     // Get granted items
-    const aItems = this.items.filter(i => i.flags?.weirdwizard?.grantedBy === uuid );
+    const aItems = this.items.filter(i => i.system.grantedBy === uuid );
     const ids = aItems.map(i => i._id);
     
     // Delete items granted by the Character Option
     this.deleteEmbeddedDocuments('Item', ids);
 
-    // Clear granted list entries
+    /* Granted List Entries */
 
-    // Get actor list entries granted by the character option
-    const newEntries = { ...this.system.listEntries,
-      senses: this.system.listEntries.senses.filter(i => {
-        return i.grantedBy !== uuid;
-      }),
-      languages: this.system.listEntries.languages.filter(i => {
-        return i.grantedBy !== uuid;
-      }),
-      immune: this.system.listEntries.immune.filter(i => {
-        return i.grantedBy !== uuid;
-      }),
-      traditions: this.system.listEntries.traditions.filter(i => {
-        return i.grantedBy !== uuid;
-      })
-    }
+    // Get list entries granted by the character option existing on the actor
+    const newEntries = this._removeEntriesGrantedBy(uuid);
+    console.log(newEntries)
 
     // Update actor with new listEntries
     this.update({['system.listEntries']: newEntries});
 
     ui.notifications.info(`${cOption.name}'s benefits were cleared from the actor.`);
+  }
+
+  /* -------------------------------------------- */
+
+  _entriesToGrant(uuid) {
+    const entries = this.system.listEntries;
+    const objFilter = list => Object.fromEntries(Object.entries(entries[list]).filter(([k, v]) => v.grantedBy === uuid ))
+    
+    return {
+      descriptors: objFilter('descriptors'),
+      immunities: objFilter('immunities'),
+      languages: objFilter('languages'),
+      senses: objFilter('senses'),
+      traditions: objFilter('traditions')
+    }
+
+  }
+
+  /* -------------------------------------------- */
+
+  _removeEntriesGrantedBy(uuid) {
+    const entries = this.system.listEntries;
+
+    const objFilter = list => Object.fromEntries(Object.entries(entries[list])
+      .filter(([k, v]) => v.grantedBy === uuid )
+      .map(([k]) => [`-=${k}`, null]));
+    
+    return {
+      descriptors: objFilter('descriptors'),
+      immunities: objFilter('immunities'),
+      languages: objFilter('languages'),
+      senses: objFilter('senses'),
+      traditions: objFilter('traditions')
+    }
+
   }
 
   /* -------------------------------------------- */

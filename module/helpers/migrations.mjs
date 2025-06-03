@@ -12,7 +12,90 @@ export function fullMigration(forced) {
   if (isNewer(isLastMigrationExp ? '2.3.0-exp' : '2.0.0', lastMigration) || forced) effectOverhaul(forced);
   if (isNewer(isLastMigrationExp ? '3.0.0-exp' : '3.0.0', lastMigration) || forced) strToCharOptions(forced);
   if (isNewer(isLastMigrationExp ? '6.0.0-exp' : '6.0.0', lastMigration) || forced) pathsOfJournaling(forced);
+  if (isNewer(isLastMigrationExp ? '6.1.0-exp' : '6.1.0', lastMigration) || forced) improvedListEntries(forced);
   
+}
+
+/* -------------------------------------------- */
+/* Improved List Entries                        */
+/* 6.1.0-exp / 6.1.0                            */
+/* -------------------------------------------- */
+
+export async function improvedListEntries(forced) {
+  await forced ? _notifyForcedStart() : _notifyStart();
+  
+  async function _fixItem(item) {
+    const grantedFlag = item.flags.weirdwizard?.grantedBy ?? null;
+
+    // Update item
+    console.log(item.name)
+    console.log(grantedFlag)
+    if (grantedFlag) await item.update({'system.grantedBy': grantedFlag});
+    
+  }
+
+  // Items Tab
+  for (const i of game.items) {
+    await _fixItem(i);
+  }
+
+  // Actors Tab
+  for (const a of game.actors) {
+
+    // Items embedded
+    for (const i of a.items) {
+      await _fixItem(i);
+    }
+  }
+  
+  // Scene Unlinked Tokens
+  for (const s of game.scenes) {
+    
+    for (const t of s.tokens) {
+      const a = t.actor;
+
+      if (a) {
+        // Items embedded
+        for (const i of a.items) {
+          await _fixItem(i);
+        }
+      }
+    }
+  }
+  
+  // Packs
+  for (const p of game.packs) {
+    // Ensure only world packs are affected
+    if (p.metadata.packageType === 'world') {
+
+      // Item Packs
+      if (p.metadata.type === 'Item') {
+        const documents = await p.getDocuments();
+        
+        for (const i of documents) {
+          await _fixItem(i);
+        }
+      
+      // Actor Packs
+      } else if (p.metadata.type === 'Actor') {
+        const documents = await p.getDocuments();
+        
+        for (const a of documents) {
+          // Items embedded
+          for (const i of a.items) {
+            await _fixItem(i);
+          }
+        }
+      }
+    }
+  }
+  
+  // Update lastMigrationVersion with current version value
+  const current = game.system.version != '#{VERSION}#' ? game.system.version : '6.1.0';
+  game.settings.set('weirdwizard', 'lastMigrationVersion', current);
+  
+  _notifyFinish(1000);
+
 }
 
 /* -------------------------------------------- */

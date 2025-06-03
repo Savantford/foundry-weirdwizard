@@ -24,7 +24,13 @@ export function base(type = String) {
 
   const obj = {
     description: makeHtmlField(desc),
-    active: makeBooField(active)
+    active: makeBooField(active),
+    grantedBy: new fields.StringField({
+      initial: null,
+      blank: true,
+      textSearch: false,
+      nullable: true
+    })
   }
 
   return obj;
