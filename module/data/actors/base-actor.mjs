@@ -107,7 +107,7 @@ export class BaseActorModel extends foundry.abstract.TypeDataModel {
 
       })
       
-    }
+    };
 
     return schema;
   }
@@ -174,7 +174,7 @@ export class BaseActorModel extends foundry.abstract.TypeDataModel {
     if ('details' in source && source.details?.immune) source.details.immunities = source.details.immune;
 
     // Migrate entry lists from array to object to system.listEntries
-    if ('details' in source && 'listEntries' in source) {
+    if ('details' in source/* && 'listEntries' in source*/) {
       const listKeys = ['senses', 'descriptors', 'languages', 'immunities', 'movementTraits', 'traditions'];
       
       for (const key in source.details) {
@@ -184,13 +184,14 @@ export class BaseActorModel extends foundry.abstract.TypeDataModel {
         if (source.details.hasOwnProperty(key) && listKeys.includes(key)) {
           
           if (Array.isArray(prop)) {
-            
+            console.log(key)
+            console.log(prop)
             if (prop.length) {
               const map = prop.map(value => [value.name ? camelCase(value.name) : camelCase(value), value]);
+
+              if (!source.listEntries) source.listEntries = {};
               
               source.listEntries[key] = Object.fromEntries(map);
-            } else {
-              source.listEntries[key] = {};
             }
             
           }

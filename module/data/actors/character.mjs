@@ -31,7 +31,7 @@ export default class CharacterData extends BaseActorModel {
       novice: makeStrField("", 1, 1),
       expert: makeStrField("", 1, 1),
       master: makeStrField("", 1, 1)
-    }),
+    });
 
     // Add Character Options
     schema.charOptions = new fields.SchemaField({
@@ -51,7 +51,7 @@ export default class CharacterData extends BaseActorModel {
       traditions: new fields.ArrayField(
         makeCharOptionField()
       )
-    })
+    });
     
     // Add Character stats
     schema.stats.fields.level = makeNumField();

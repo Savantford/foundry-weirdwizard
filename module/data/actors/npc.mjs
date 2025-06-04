@@ -12,13 +12,18 @@ export default class NpcData extends BaseActorModel {
     // Character Options
     schema.charOptions = new fields.SchemaField({
       ancestry: makeCharOptionField(null)
-    })
+    });
 
     // Add NPC stats
     schema.stats.fields.difficulty = makeIntField(1);
 
     // Change NPC initial stats
     schema.stats.fields.defense.fields.natural = makeIntField(10);
+
+    // Add Character Details
+    schema.details = new fields.SchemaField({
+      
+    });
 
     return schema;
   }

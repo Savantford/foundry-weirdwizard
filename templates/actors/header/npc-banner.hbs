@@ -21,55 +21,8 @@
 
     {{!-- Portrait --}}
     <div class="circle" style="--total: 8">
+
         {{> "systems/weirdwizard/templates/actors/header/portrait.hbs" img=actor.img token=true}}
-
-        {{!--<div class="stat str" style="--i:1">
-            <a class="attribute-mod item-button" data-action="attributeRoll" data-key="str" data-tooltip="WW.Roll.Agility">
-                <div>{{system.attributes.str.value}}</div>
-                
-                {{#if system.attributes.str.value}}
-                <div>
-                {{numberFormat system.attributes.str.mod decimals=0 sign=true}}
-                </div>
-                {{else}}—{{/if}}
-            </a>
-        </div>
-
-        <div class="stat agi" style="--i:2">
-            <a class="attribute-mod item-button" data-action="attributeRoll" data-key="agi" data-tooltip="WW.Roll.Agility">
-                <div>{{system.attributes.agi.value}}</div>
-
-                {{#if system.attributes.agi.value}}
-                <div>
-                {{numberFormat system.attributes.agi.mod decimals=0 sign=true}}
-                </div>
-                {{else}}—{{/if}}
-            </a>
-        </div>
-
-        <div class="stat int" style="--i:4">
-            <a class="attribute-mod item-button" data-action="attributeRoll" data-key="int" data-tooltip="WW.Roll.Agility">
-                <div>{{system.attributes.int.value}}</div>
-                
-                {{#if system.attributes.int.value}}
-                <div>
-                {{numberFormat system.attributes.int.mod decimals=0 sign=true}}
-                </div>
-                {{else}}—{{/if}}
-            </a>
-        </div>
-
-        <div class="stat wil" style="--i:5">
-            <a class="attribute-mod item-button" data-action="attributeRoll" data-key="wil" data-tooltip="WW.Roll.Agility">
-                <div>{{system.attributes.wil.value}}</div>
-                
-                {{#if system.attributes.wil.value}}
-                <div>
-                {{numberFormat system.attributes.wil.mod decimals=0 sign=true}}
-                </div>
-                {{else}}—{{/if}}
-            </a>
-        </div>--}}
 
         {{!-- Luck --}}
         <div class="stat luck" style="--i:6">
@@ -81,10 +34,6 @@
             <a data-action="resetSheet" data-tooltip="WW.Actor.Reset"><i class="fa-solid fa-eraser"></i></a>
         </div>
 
-        {{!--<div class="stat" style="--i:9">9</div>
-        <div class="stat" style="--i:10">10</div>
-        <div class="stat" style="--i:11">11</div>
-        <div class="stat" style="--i:12">12</div>--}}
     </div>
     
     {{!-- Damage / Health Block --}}
@@ -218,7 +167,8 @@
     
         {{!-- Speed --}}
         <div class="stat">
-    
+            
+            {{!-- Speed Score --}}
             <div class="stat-header">
                 <span>{{localize "WW.Stats.Speed"}}</span>
     
@@ -228,10 +178,10 @@
             </div>
     
             {{!-- Movement Traits --}}
-            {{#if system.details.movementTraits.length}}
+            {{#if listEntries.movementTraits.length}}
             <div class="stat-content">
-                {{#each system.details.movementTraits as |detail id|}}
-                <div data-tooltip="{{detail.desc}}">{{detail.name}}</div>
+                {{#each listEntries.movementTraits as |entry id|}}
+                <div data-tooltip="{{entry.desc}}">{{entry.name}}</div>
                 {{/each}}
             </div>
             {{/if}}
@@ -239,14 +189,14 @@
         </div>
     
         {{!-- Senses --}}
-        {{#if system.details.senses.length}}
+        {{#if listEntries.senses.length}}
         <div class="stat">
     
             <div class="stat-header">{{localize "WW.ListEntry.Sense.Label"}}</div>
     
             <div class="stat-content">
-                {{#each system.details.senses as |detail id|}}
-                <div data-tooltip="{{detail.desc}}">{{detail.name}}</div>
+                {{#each listEntries.senses as |entry id|}}
+                <div data-tooltip="{{entry.desc}}">{{entry.name}}</div>
                 {{/each}}
             </div>
     

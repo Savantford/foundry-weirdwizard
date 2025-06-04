@@ -235,7 +235,7 @@
                 {{/if}}
 
                 {{!-- Senses --}}
-                {{#if editMode}}
+                {{#if (or listEntries.senses.length editMode)}}
                 <ol class="stat-inline list-entries">
                     <label>{{localize "WW.ListEntry.Sense.Label"}}:</label>
                 
