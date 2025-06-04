@@ -132,20 +132,20 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
       folder: await itemData.folder,
       flags: itemData.flags,
       grantedBy: sys.grantedBy ?
-        await TextEditor.enrichHTML(`@Embed[${sys.grantedBy} inline]`, { async: true, secrets: this.item.isOwner }) : null,
+        await TextEditor.enrichHTML(`@Embed[${sys.grantedBy} inline]`, { secrets: this.item.isOwner }) : null,
       dtypes: ['String', 'Number', 'Boolean'],
       tabs: this._getTabs(options.parts)
     }
     
     // Prepare enriched variables for editor
-    context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true, secrets: isOwner, relativeTo: this.document });
+    context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { secrets: isOwner, relativeTo: this.document });
 
     // Record if the item has an actor
     context.hasActor = this.document.actor ? true : false;
     
     // Prepare character options
     if (context.item.type == 'Equipment' && context.item.system.subtype == 'weapon' && context.system.attackRider.value) {
-      context.system.attackRider.enriched = await TextEditor.enrichHTML(context.system.attackRider.value, { async: true, secrets: isOwner, relativeTo: this.document });
+      context.system.attackRider.enriched = await TextEditor.enrichHTML(context.system.attackRider.value, { secrets: isOwner, relativeTo: this.document });
     }
 
     // Prepare attribute labels

@@ -7,15 +7,16 @@
         <div class="list-entry">
             {{#if charOptions.novice}}
             <a data-action="journalView" data-page-uuid="{{charOptions.novice.uuid}}">{{charOptions.novice.name}}</a>
+
             <span class="buttons">
                 <a class="item-button" data-action="journalRemove" data-page-uuid="{{charOptions.novice.uuid}}" data-option-type="novice"
                     data-tooltip="WW.Item.Delete.NovicePath"><i class="fa-solid fa-trash"></i>
                 </a>
             </span>
             {{else if system.charOptions.novice}}      
-                <a class="invalid">{{system.charOptions.novice}}</a><span class="buttons">
-                    <a class="array-button" data-action="journalInvalid" data-charoption-type="novice" data-entry-key="{{id}}"
-                        data-tooltip="WW.Item.Delete.NovicePath"><i class="fa-solid fa-trash"></i></a>
+            <a class="invalid">{{system.charOptions.novice}}</a><span class="buttons">
+                <a class="array-button" data-action="journalInvalid" data-charoption-type="novice" data-entry-key="{{id}}"
+                    data-tooltip="WW.Item.Delete.NovicePath"><i class="fa-solid fa-trash"></i></a>
             </span>{{/if}}
             {{#unless charOptions.novice}}<span>—</span>{{/unless}}{{#if (gte system.stats.level 3)}} ● {{/if}}
 
@@ -25,15 +26,17 @@
         {{#if (gte system.stats.level 3)}}
         <div class="list-entry">
             {{#if charOptions.expert}}
-            <a data-tooltip="{{charOptions.expert.system.description.enriched}}">{{charOptions.expert.name}}</a>
+            <a data-action="journalView" data-page-uuid="{{charOptions.expert.uuid}}">{{charOptions.expert.name}}</a>
+
             <span class="buttons">
                 <a class="item-button" data-action="journalRemove" data-page-uuid="{{charOptions.expert.uuid}}" data-option-type="expert"
                     data-tooltip="WW.Item.Delete.ExpertPath"><i class="fa-solid fa-trash"></i>
                 </a>
-            </span>{{else if system.charOptions.expert}}      
-                <a class="invalid">{{system.charOptions.expert}}</a><span class="buttons">
-                    <a class="array-button" data-action="journalInvalid" data-charoption-type="expert" data-entry-key="{{id}}"
-                        data-tooltip="WW.Item.Delete.ExpertPath"><i class="fa-solid fa-trash"></i></a>
+            </span>
+            {{else if system.charOptions.expert}}      
+            <a class="invalid">{{system.charOptions.expert}}</a><span class="buttons">
+                <a class="array-button" data-action="journalInvalid" data-charoption-type="expert" data-entry-key="{{id}}"
+                    data-tooltip="WW.Item.Delete.ExpertPath"><i class="fa-solid fa-trash"></i></a>
             </span>{{/if}}
             {{#unless charOptions.expert}}<span>—</span>{{/unless}}{{#if (gte system.stats.level 7)}} ● {{/if}}
             
@@ -44,7 +47,8 @@
         {{#if (gte system.stats.level 7)}}
         <div class="list-entry">
             {{#if charOptions.master}}
-            <a data-tooltip="{{charOptions.master.system.description.enriched}}">{{charOptions.master.name}}</a>
+            <a data-action="journalView" data-page-uuid="{{charOptions.master.uuid}}">{{charOptions.master.name}}</a>
+
             <span class="buttons">
                 <a class="item-button" data-action="journalRemove" data-page-uuid="{{charOptions.master.uuid}}" data-option-type="master"
                     data-tooltip="WW.Item.Delete.MasterPath"><i class="fa-solid fa-trash"></i>

@@ -194,7 +194,7 @@ export async function prepareActiveEffectCategories(effects, showDuration = fals
       type: e.type,
 
       subtitle: i18n((e.duration.rounds || e.duration.seconds) ? "WW.Effect.Temporary" : "WW.Effect.Permanent"),
-      text: await TextEditor.enrichHTML(e.description, { async: true, secrets: e.isOwner }),
+      text: await TextEditor.enrichHTML(e.description, { secrets: e.isOwner }),
       changes: ''
     }
 
@@ -207,9 +207,13 @@ export async function prepareActiveEffectCategories(effects, showDuration = fals
     e.tooltip = await renderTemplate(sysPath(`templates/apps/tooltips/effect.hbs`), context);
 
     // Prepare source document cards
-    const source = `@Embed[${e.origin} inline]`;
+    if (e.origin) {
+      const source = `@Embed[${e.origin} inline]`;
     
-    e.sourceCard = await TextEditor.enrichHTML(source, { async: true, secrets: e.isOwner });
+      e.sourceCard = await TextEditor.enrichHTML(source, { secrets: e.isOwner });
+    } else {
+      e.sourceCard = e.sourceName;
+    }
     
     // Push them into categories
     if (await e.disabled) categories.inactive.effects.push(e);

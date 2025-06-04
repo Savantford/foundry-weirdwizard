@@ -161,7 +161,7 @@ export default class WWPageView extends HandlebarsApplicationMixin(DocumentSheet
         const talent = await fromUuid(talents[t]);
         
         // Prepare enriched variables for editor
-        talent.system.description.enriched = await TextEditor.enrichHTML(talent.system.description.value, { async: true, secrets: talent.isOwner, relativeTo: talent });
+        talent.system.description.enriched = await TextEditor.enrichHTML(talent.system.description.value, { secrets: talent.isOwner, relativeTo: talent });
 
         context.talents.push(talent);
       }
@@ -181,7 +181,7 @@ export default class WWPageView extends HandlebarsApplicationMixin(DocumentSheet
           const spell = await fromUuid(list[s]);
 
           // Prepare enriched variables for editor
-          spell.system.description.enriched = await TextEditor.enrichHTML(spell.system.description.value, { async: true, secrets: spell.isOwner, relativeTo: spell });
+          spell.system.description.enriched = await TextEditor.enrichHTML(spell.system.description.value, { secrets: spell.isOwner, relativeTo: spell });
 
           context.spells[tier].push(spell);
         }

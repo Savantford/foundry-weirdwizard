@@ -351,10 +351,10 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     context.listEntries = listEntries;
 
     // Prepare character data
-    if (actorData.type == 'Character') this._prepareCharacterData(context);
+    if (actorData.type == 'Character') await this._prepareCharacterData(context);
 
     // Prepare NPC data
-    if (actorData.type == 'NPC') this._prepareNPCData(context);
+    if (actorData.type == 'NPC') await this._prepareNPCData(context);
 
     // Add roll data for Prose Mirror editors
     context.rollData = actorData.getRollData();
@@ -395,7 +395,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       // Description tab
       case 'description':
         context.tab = context.tabs[partId];
-        context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true, secrets: this.actor.isOwner });
+        context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { secrets: this.actor.isOwner });
       break;
       
       // Effects tab
@@ -464,8 +464,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
 
       // Prepare html fields for the tooltip and chat message
       const isOwner = this.actor.isOwner;
-      i.system.description.enriched = await TextEditor.enrichHTML(i.system.description.value, { async: true, secrets: isOwner });
-      if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider.value, { async: true, secrets: isOwner });
+      i.system.description.enriched = await TextEditor.enrichHTML(i.system.description.value, { secrets: isOwner });
+      if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider.value, { secrets: isOwner });
 
       // Prepare tooltip context
       const tooltipContext = {
@@ -699,9 +699,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    *
    * @param {Object} context The actor's prepared context.
    *
-   * @return {undefined}
+   * @return {Promise<void>}
   */
-
   async _prepareCharacterData(context) {
 
     // Prepare dropdown lists
@@ -709,12 +708,15 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     context.level = CONFIG.WW.LEVELS[context.system.stats.level];
     const isOwner = this.actor.isOwner;
 
-    // Prepare enriched variables for editor.
-    context.system.details.appearance.enriched = await TextEditor.enrichHTML(context.system.details.appearance.value, { async: true, secrets: isOwner });
-    context.system.details.background.enriched = await TextEditor.enrichHTML(context.system.details.background.value, { async: true, secrets: isOwner });
-    context.system.details.personality.enriched = await TextEditor.enrichHTML(context.system.details.personality.value, { async: true, secrets: isOwner });
-    context.system.details.beliefs.enriched = await TextEditor.enrichHTML(context.system.details.beliefs.value, { async: true, secrets: isOwner });
-    context.system.details.notes.enriched = await TextEditor.enrichHTML(context.system.details.notes.value, { async: true, secrets: isOwner });
+    // Prepare enriched details to use in text editors
+    context.enrichedDetails = {
+      appearance: await TextEditor.enrichHTML(context.system.details.appearance.value, { secrets: isOwner }),
+      background: await TextEditor.enrichHTML(context.system.details.background.value, { secrets: isOwner }),
+      beliefs: await TextEditor.enrichHTML(context.system.details.beliefs.value, { secrets: isOwner }),
+      notes: await TextEditor.enrichHTML(context.system.details.notes.value, { secrets: isOwner }),
+      personality: await TextEditor.enrichHTML(context.system.details.personality.value, { secrets: isOwner })
+    };
+    
   }
 
   /**
@@ -722,7 +724,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    *
    * @param {Object} context The actor's prepared context.
    *
-   * @return {undefined}
+   * @return {Promise<void>}
   */
 
   async _prepareNPCData(context) {
@@ -1141,7 +1143,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       entry: entry,
       key: entryKey,
       showKey: true,
-      grantedBy: entry.grantedBy ? await TextEditor.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { async: true, secrets: this.actor.isOwner }) : null
+      grantedBy: entry.grantedBy ? await TextEditor.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { secrets: this.actor.isOwner }) : null
     };
 
     // Show a dialog 
@@ -1196,7 +1198,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       entry: await entry,
       key: entryKey,
       showKey: true,
-      grantedBy: entry.grantedBy ? await TextEditor.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { async: true, secrets: this.actor.isOwner }) : null
+      grantedBy: entry.grantedBy ? await TextEditor.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { secrets: this.actor.isOwner }) : null
     };
 
     // Show a dialog 

@@ -466,9 +466,6 @@ export default class WWActor extends Actor {
     if (cOption.type === 'profession') {
       const professions = [...this.system.charOptions.professions].filter(x => x !== uuid);;
       const noOtherProfessions = professions.length > 0 ? false : true;
-      console.log('this uuid = ', uuid)
-      console.log(professions)
-      console.log(noOtherProfessions)
       
       if (settings.dropped && noOtherProfessions) this._updateGrantedItems(uuid);
     } else this._updateGrantedItems(uuid);
