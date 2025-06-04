@@ -356,7 +356,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     // Prepare NPC data
     if (actorData.type == 'NPC') this._prepareNPCData(context);
 
-    // Add roll data for TinyMCE editors.
+    // Add roll data for Prose Mirror editors
     context.rollData = actorData.getRollData();
     
     return context;

@@ -184,13 +184,12 @@ export class BaseActorModel extends foundry.abstract.TypeDataModel {
         if (source.details.hasOwnProperty(key) && listKeys.includes(key)) {
           
           if (Array.isArray(prop)) {
-            console.log(key)
-            console.log(prop)
+            
             if (prop.length) {
               const map = prop.map(value => [value.name ? camelCase(value.name) : camelCase(value), value]);
 
               if (!source.listEntries) source.listEntries = {};
-              
+
               source.listEntries[key] = Object.fromEntries(map);
             }
             

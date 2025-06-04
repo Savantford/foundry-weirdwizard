@@ -1,3 +1,4 @@
+import WWRoll from '../dice/roll.mjs';
 import { i18n, capitalize } from '../helpers/utils.mjs';
 import { actDataFromEffect, dataFromLabel } from '../sidebar/chat-html-templates.mjs';
 
@@ -41,7 +42,12 @@ export default class WWChatMessage extends ChatMessage {
     
     const instEffs = item ? item.system.instant.filter(e => e.trigger === 'onUse') : null;
     const actEffs = item ? item.effects.filter(e => e.system.trigger === 'onUse') : null;
-    
+    console.log(this.getRollData())
+    console.log(instEffs)
+    // Replace formula values with roll data
+    instEffs.forEach(effect => {
+      effect.value = WWRoll.replaceFormulaData(effect.value, this.getRollData());
+    })
     // Prepare content
     const emptyContent = data.flags?.weirdwizard?.emptyContent ?? data.flags?.weirdwizard?.emptyContent;
     const content = isNaN(this.content) ? this.content : '';

@@ -96,9 +96,9 @@
             {{!-- Instant Effect Buttons --}}
             {{#if instEffs}}
             {{#each instEffs as |effect id|}}
-            <div class="chat-button" data-action="{{action}}" data-value="{{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}"
+            <div class="chat-button" data-action="{{action}}" data-value="{{#if (eq label 'affliction')}}{{affliction}}{{else}}{{{value}}}{{/if}}"
                 data-origin-uuid="{{@root.originUuid}}" data-target-ids="{{targetIds}}">
-                <i class="fa-solid fa-{{icon}}"></i>{{localize loc}}: {{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}
+                <i class="fa-solid fa-{{icon}}"></i>{{localize loc}}: {{#if (eq label 'affliction')}}{{affliction}}{{else}}{{{value}}}{{/if}}
             </div>
             {{/each}}
             {{/if}} {{!-- END Instant Effect Buttons --}}
