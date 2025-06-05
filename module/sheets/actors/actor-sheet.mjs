@@ -661,10 +661,9 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
           
         if ( level < 3 ) {
           third = 1;
-          }
-        else if ( level > 6 ) {
+        } else if ( level > 6 ) {
           third = 3;
-          }
+        }
         
         switch (item.system.uses.levelRelative) {
           case 'full': max = level; break;

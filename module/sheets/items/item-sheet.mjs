@@ -191,10 +191,9 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
           
           if ( level < 3 ) {
             third = 1;
-            }
-          else if ( level > 6 ) {
+          } else if ( level > 6 ) {
             third = 3;
-            }
+          }
 
           switch (context.system.uses.levelRelative) {
             case 'full': context.system.uses.max = level; break;
