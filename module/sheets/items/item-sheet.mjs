@@ -187,10 +187,18 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
         if (context.hasActor && this.document?.actor?.type === 'Character') {
           const level = this.document.actor.system.stats.level;
           const half = Math.floor(level / 2) > 0 ? Math.floor(level / 2) : 1;
+          let third = 2; 
+          
+          if ( level < 3 ) {
+            third = 1;
+          } else if ( level > 6 ) {
+            third = 3;
+          }
 
           switch (context.system.uses.levelRelative) {
             case 'full': context.system.uses.max = level; break;
             case 'half': context.system.uses.max = half; break;
+            case 'third': context.system.uses.max = third; break;
           }
         }
       break;
