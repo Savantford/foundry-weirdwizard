@@ -2223,7 +2223,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    */
   async _onDropJournalEntryPage(event, page) {
     const actor = this.actor;
-
+    
     const allowedTypes = ['ancestry', 'path', 'profession', 'tradition'];
 
     // Return if not from an apropriate type

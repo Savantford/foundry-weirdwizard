@@ -1,6 +1,7 @@
 import { TypedObjectField } from '../typed-object-field.mjs';
 import {
   BaseCharOptionModel,
+  makeIntField,
   makeStrField
 } from './base-charoption.mjs'
 
@@ -15,6 +16,8 @@ export default class ProfessionData extends BaseCharOptionModel {
     schema.benefits = new fields.SchemaField({
 
       benefit1: new fields.SchemaField({
+        levelReq: makeIntField(0),
+
         items: new fields.ArrayField(makeStrField()),
 
         // List entries

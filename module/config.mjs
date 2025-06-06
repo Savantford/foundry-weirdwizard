@@ -95,7 +95,8 @@ WW.TALENT_SOURCES = {
 WW.USES_LEVEL_RELATIVE = {
   'manual': 'WW.Item.Uses.Manual',
   'full': 'WW.Item.Uses.Full',
-  'half': 'WW.Item.Uses.Half'
+  'half': 'WW.Item.Uses.Half',
+  'third': 'WW.Item.Uses.Third'
 };
 
 WW.TIERS = {

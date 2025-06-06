@@ -13,6 +13,7 @@ export default class AncestryData extends BaseCharOptionModel {
 
     schema.benefits = new fields.SchemaField({
       benefit1: new fields.SchemaField({
+        levelReq: makeIntField(0),
 
         attributes: makeStrField(),
 
