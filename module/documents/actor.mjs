@@ -483,7 +483,7 @@ export default class WWActor extends Actor {
     const cOpt = await fromUuid(uuid);
 
     if (cOpt.type === 'profession' || cOpt.type === 'tradition') return;
-    console.log('updating main effect')
+    
     const benefits = cOpt.system.benefits;
     const level = this.system.stats.level ?? 0;
 
@@ -506,7 +506,7 @@ export default class WWActor extends Actor {
       // If level does not meet the requirement, ignore it
       if (level >= benefit.levelReq) {
         const bStats = benefit.stats;
-        console.log(bStats)
+        
         if (bStats.naturalSet !== undefined) stats.naturalSet = bStats.naturalSet;
         stats.naturalIncrease += bStats.naturalIncrease;
         stats.armoredIncrease += bStats.armoredIncrease;
@@ -601,7 +601,6 @@ export default class WWActor extends Actor {
       changes: changes,
       'system.grantedBy': cOpt.uuid
     };
-    console.log(changes)
 
     // Create or update main effect
     if (eff) this.updateEmbeddedDocuments("ActiveEffect", [{ _id: eff.id, ...effectData }]);
@@ -710,9 +709,7 @@ export default class WWActor extends Actor {
     // For each entry
     for (const entryId in list) {
       const entry = list[entryId];
-      console.log(list)
-      console.log(entryId)
-      console.log(entry)
+      
       // Store the character option's UUID in grantedBy
       entry.grantedBy = uuid;
 

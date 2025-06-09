@@ -343,7 +343,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       for (const entryKey in list) {
         const entry = list[entryKey];
         
-        listEntries[listKey].push({ ...entry, key: entryKey });
+        if (entry) listEntries[listKey].push({ ...entry, key: entryKey });
       }
 
     }
@@ -1151,7 +1151,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       entry: entry,
       key: entryKey,
       showKey: true,
-      grantedBy: entry.grantedBy ? await TextEditor.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { secrets: this.actor.isOwner }) : null
+      grantedBy: await fromUuid(entry.grantedBy) ?
+        await TextEditor.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { secrets: this.actor.isOwner }) : null
     };
 
     // Show a dialog 
@@ -1206,7 +1207,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       entry: await entry,
       key: entryKey,
       showKey: true,
-      grantedBy: entry.grantedBy ? await TextEditor.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { secrets: this.actor.isOwner }) : null
+      grantedBy: await fromUuid(entry.grantedBy) ?
+        await TextEditor.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { secrets: this.actor.isOwner }) : null
     };
 
     // Show a dialog 
