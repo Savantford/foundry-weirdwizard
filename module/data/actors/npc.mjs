@@ -21,9 +21,7 @@ export default class NpcData extends BaseActorModel {
     schema.stats.fields.defense.fields.natural = makeIntField(10);
 
     // Add Character Details
-    schema.details = new fields.SchemaField({
-      
-    });
+    schema.details = new fields.SchemaField({});
 
     return schema;
   }

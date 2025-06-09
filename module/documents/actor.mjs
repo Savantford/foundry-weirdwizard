@@ -61,6 +61,9 @@ export default class WWActor extends Actor {
       });
     }
 
+    // Fix starting Human ancestry
+    this.updateCharOptionBenefits('Compendium.weirdwizard.character-options.JournalEntry.pAAZKv2vrilITojZ.JournalEntryPage.GI4b6WkOLlTszbRe');
+
     return await super._onCreate(await data, options, user);
   }
 
