@@ -2239,7 +2239,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
         
       await actor.update({ ['system.charOptions.' + str]: arr });
 
-      await actor.updateCharOptionBenefits(page.uuid, {dropped: true});
+      await actor.updateCharOptionBenefits(page.uuid, 'dragDrop');
     
     } else {
       let str = 'system.charOptions.';
@@ -2266,11 +2266,11 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
         
         if (oldPage) await actor.clearCharOptionBenefits(oldPage.uuid);
         await actor.update({ [str]: page.uuid });
-        await actor.updateCharOptionBenefits(page.uuid, {dropped: true});
+        await actor.updateCharOptionBenefits(page.uuid, 'dragDrop');
 
       } else {
         await actor.update({ [str]: page.uuid });
-        await actor.updateCharOptionBenefits(page.uuid, {dropped: true});
+        await actor.updateCharOptionBenefits(page.uuid, 'dragDrop');
       }
       
     }

@@ -130,9 +130,9 @@ export default class WWJournalPage extends JournalEntryPage {
   /*  Methods                                     */
   /* -------------------------------------------- */
 
-  async _onTierChange(data) {
-    const tier = await data.system?.tier ? data.system.tier : await this.system.tier;
-    const benefits = {...await data.system.benefits};
+  async _onTierChange(changes) {
+    const tier = await changes.system?.tier ? changes.system.tier : await this.system.tier;
+    const benefits = {...await this.system.benefits};
     
     for (const key in benefits) {
       
@@ -176,25 +176,25 @@ export default class WWJournalPage extends JournalEntryPage {
       }
     }
 
-    if (data.system?.benefits) data.system.benefits = benefits;
+    return changes.system.benefits = benefits;
     
   }
 
   /* -------------------------------------------- */
 
-  async _onProfessionCategoryChange(data) {
-    const category = await data.system?.category ? data.system.category : await this.system.category;
+  async _onProfessionCategoryChange(changes) {
+    const category = await changes.system?.category ? changes.system.category : await this.system.category;
     const path = 'systems/weirdwizard/assets/icons/professions/';
     
     switch (category) {
-      case 'academic': data.src = 'icons/svg/book.svg'; break;
-      case 'aristocratic': data.src = path + 'wax-seal.svg'; break;
-      case 'commoner': data.src = path + 'dig-dug.svg'; break;
-      case 'criminal': data.src = path + 'manacles.svg'; break;
-      case 'entertainment': data.src = path + 'banjo.svg'; break;
-      case 'military': data.src = path + 'saber-and-pistol.svg'; break;
-      case 'religious': data.src = path + 'fire-shrine.svg'; break;
-      case 'wilderness': data.src = path + 'compass.svg'; break;
+      case 'academic': changes.src = 'icons/svg/book.svg'; break;
+      case 'aristocratic': changes.src = path + 'wax-seal.svg'; break;
+      case 'commoner': changes.src = path + 'dig-dug.svg'; break;
+      case 'criminal': changes.src = path + 'manacles.svg'; break;
+      case 'entertainment': changes.src = path + 'banjo.svg'; break;
+      case 'military': changes.src = path + 'saber-and-pistol.svg'; break;
+      case 'religious': changes.src = path + 'fire-shrine.svg'; break;
+      case 'wilderness': changes.src = path + 'compass.svg'; break;
     }
     
   }
