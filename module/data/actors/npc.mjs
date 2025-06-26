@@ -19,6 +19,9 @@ export default class NpcData extends BaseActorModel {
 
     // Change NPC initial stats
     schema.stats.fields.defense.fields.natural = makeIntField(10);
+    schema.stats.fields.defense.fields.natural = makeIntField(10);
+    schema.stats.fields.health.fields.normal = makeIntField(10);
+    schema.stats.fields.health.fields.current = makeIntField(10);
 
     // Add Character Details
     schema.details = new fields.SchemaField({});

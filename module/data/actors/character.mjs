@@ -60,6 +60,8 @@ export default class CharacterData extends BaseActorModel {
     // Adjust Character-specific initials
     schema.description = makeHtmlField('Unknown biography.');
     schema.stats.fields.defense.fields.natural = makeIntField(8);
+    schema.stats.fields.health.fields.normal = makeIntField(5);
+    schema.stats.fields.health.fields.current = makeIntField(5);
     
     // Will be deleted in a later date
     schema.listEntries.fields.traditions = new TypedObjectField(

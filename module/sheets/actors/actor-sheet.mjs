@@ -1137,6 +1137,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     const dataset = Object.assign({}, button.dataset),
       listKey = dataset.listKey,
       path = 'system.listEntries.' + listKey,
+      baseObj = foundry.utils.getProperty(this.actor.token?.baseActor, path),
       obj = foundry.utils.getProperty(this.actor, path),
       entryKey = defaultListEntryKey(this.actor, listKey, path),
       entryName = defaultListEntryName(this.actor, listKey, path),
@@ -1184,6 +1185,13 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
 
     delete await obj[dialogInput.key].key;
 
+    // Delete old key if key has changed
+    if (baseObj?.hasOwnProperty(entryKey) && entryKey !== dialogInput.key) {
+      obj[entryKey] = null; // If the key exists in the Base Actor, null it
+    } else {
+      obj['-=' + entryKey] = null; // Delete key otherwise
+    }
+
     await this.actor.update({[path]: obj});
     
   }
@@ -1199,6 +1207,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     // Get data
     const dataset = button.dataset,
       path = 'system.listEntries.' + dataset.listKey,
+      baseObj = foundry.utils.getProperty(this.actor.token?.baseActor, path),
       obj = foundry.utils.getProperty(this.actor, path),
       entryKey = dataset.entryKey,
     entry = obj[entryKey];
@@ -1239,9 +1248,15 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     obj[dialogInput.key] = dialogInput;
 
     delete await obj[dialogInput.key].key;
-
-    await this.actor.update({ [path]: obj });
     
+    // Delete old key if key has changed
+    if (baseObj?.hasOwnProperty(entryKey) && entryKey !== dialogInput.key) {
+      obj[entryKey] = null; // If the key exists in the Base Actor, null it
+    } else {
+      obj['-=' + entryKey] = null; // Delete key otherwise
+    }
+    
+    await this.actor.update({ [path]: obj });
   }
 
   /**

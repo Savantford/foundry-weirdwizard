@@ -46,21 +46,10 @@ export default class WWActor extends Actor {
     
     // Fix Health and Incapacitated
     this.incapacitated = false;
-    
-    if (data.type === 'NPC') {
-      await this.updateSource({
-        'system.stats.health.current': data.system.stats.health.normal ? data.system.stats.health.normal : 10,
-        'system.stats.damage.raw': 0
-      });
-    }
 
     if (data.type === 'Character') {
-      await this.updateSource({
-        'system.stats.health.current': data.system.stats.health.normal ? data.system.stats.health.normal : 5,
-        'system.stats.damage.raw': 0
-      });
-
-      // Fix starting Human ancestry
+      
+      // Update starting Human ancestry's benefits
       await this.updateCharOptionBenefits('Compendium.weirdwizard.character-options.JournalEntry.pAAZKv2vrilITojZ.JournalEntryPage.GI4b6WkOLlTszbRe', 'creation');
     }
 
@@ -86,16 +75,14 @@ export default class WWActor extends Actor {
   /* -------------------------------------------- */
 
   async _onUpdate(changed, options, user) {
-    console.log('chegou no onUpdate')
-    console.log(changed)
     await super._onUpdate(changed, options, user);
     
     // Check for changed variables
     const health = foundry.utils.getProperty(changed, 'system.stats.health');
     const damage = foundry.utils.getProperty(changed, 'system.stats.damage');
 
-    // Calculate Damage and Health
-    this._calculateDamageHealth(this.system, foundry.utils.getProperty(changed, 'system.stats.health.current') ? true : false);
+    // Calculate changed Damage and Health
+    this._calculateChangedDamageHealth(this.system, foundry.utils.getProperty(changed, 'system.stats.health.current') ? true : false);
     
     // Update token status icons
     if ((damage || health) && this.token) {
@@ -392,17 +379,19 @@ export default class WWActor extends Actor {
     
   }
 
+  /* Called during prepareDerivedData */
   _calculateHealthVariables(system) {
+    
     // Get variables
     const health = system.stats.health;
     const current = health.current;
     const damage = system.stats.damage.value;
-
+    
     if (damage > current) {
       this.system.stats.damage.value = current;
       system.stats.damage.value = current;
     };
-
+    
     // Health override effect exists
     if (health.override) {
       health.normal = health.override;
@@ -423,11 +412,13 @@ export default class WWActor extends Actor {
 
   }
 
-  _calculateDamageHealth(system, healthChanged) {
+  /* Called during _onUpdate */
+  _calculateChangedDamageHealth(system, healthChanged) {
+    
     // Get variables
     const health = system.stats.health;
     const current = health.current;
-    const damage = /*this.*/system.stats.damage.value;
+    const damage = system.stats.damage.value;
 
     // Set corrected damage value to stay incapacitated or
     // to not allow raw input value to surpass current Health
@@ -685,7 +676,6 @@ export default class WWActor extends Actor {
       
       // If level does not meet the requirement, ignore it
       if (level >= benefit.levelReq) {
-        console.log(benefit)
         if (benefit.descriptors) newEntries.descriptors = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'descriptors');
         
         if (benefit.immunities) newEntries.immunities = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'immunities');
