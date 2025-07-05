@@ -11,7 +11,7 @@ export default class WWProfessionSheet extends WWCharOptionSheet {
   static DEFAULT_OPTIONS = {
     classes: ['weirdwizard', 'sheet', 'charoption', 'profession'],
     window: {
-      icon: 'fas fa-hammer'
+      icon: 'fa-solid fa-hammer'
     }
   }
 

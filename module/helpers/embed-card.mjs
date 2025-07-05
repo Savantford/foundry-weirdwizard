@@ -5,7 +5,7 @@ export default async function embedCard(doc, config, options) {
     config.label = doc.name;
 
     // Add to options
-    options.rollData ??= doc.getRollData();
+    options.rollData = doc.documentName === 'Actor' ? doc.getRollData() : null;
     options.relativeTo = doc;
     options.async = true;
     options.secrets = doc.isOwner;
@@ -23,27 +23,28 @@ export default async function embedCard(doc, config, options) {
     switch (doc.documentName) {
 
         case 'Actor': {
-            const details = doc.system.details;
+            const listEntries = doc.system.listEntries;
     
             // Prepare contextual variables
             if (doc.type === 'Character') {
                 // Prepare subtitle
-                if (details.ancestry) context.subtitle = details.ancestry;
+                if (listEntries.ancestry) context.subtitle = listEntries.ancestry;
 
                 const sep = context.subtitle ? ' • ' : '';
 
-                if (details.master) context.subtitle += sep + details.master;
-                else if (details.expert) context.subtitle += sep + details.expert;
-                else if (details.novice) context.subtitle += sep + details.novice;
+                if (listEntries.master) context.subtitle += sep + listEntries.master;
+                else if (listEntries.expert) context.subtitle += sep + listEntries.expert;
+                else if (listEntries.novice) context.subtitle += sep + listEntries.novice;
 
                 // Prepare main text
-                context.text = await TextEditor.enrichHTML(details.appearance.value, options);
+                context.text = await TextEditor.enrichHTML(doc.system.details.appearance.value, options);
             
             } else {
                 // Prepare subtitle
-                details.descriptors.forEach(d => {
-                    context.subtitle += (context.subtitle ? ', ' : '') + d.name;
-                })
+                for (const d in listEntries.descriptors) {
+                    const descriptor = listEntries.descriptors[d];
+                    context.subtitle += (context.subtitle ? ', ' : '') + descriptor.name;
+                }
 
                 // Prepare main text
                 context.text = await TextEditor.enrichHTML(doc.system.description.value, options);

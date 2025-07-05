@@ -1,13 +1,23 @@
-import { capitalize, escape, i18n, plusify, sum, sysPath } from '../../helpers/utils.mjs';
+import {
+  capitalize,
+  defaultListEntryKey,
+  defaultListEntryName,
+  escape,
+  i18n,
+  plusify,
+  sum,
+  sysPath
+} from '../../helpers/utils.mjs';
 import { diceTotalHtml } from '../../sidebar/chat-html-templates.mjs';
-import ListEntryConfig from '../configs/list-entry-config.mjs';
 import { mapRange } from '../../canvas/canvas-functions.mjs';
 import MultiChoice from '../../apps/multi-choice.mjs';
 import { createActiveEffect, deleteActiveEffect, editActiveEffect, prepareActiveEffectCategories } from '../../helpers/effect-actions.mjs';
 import RollAttribute from '../../dice/roll-attribute.mjs';
 import TargetingHUD from '../../apps/targeting-hud.mjs';
+import WWDialog from '../../apps/dialog.mjs';
 import WWPageView from '../journal/page-view.mjs';
 import WWRoll from '../../dice/roll.mjs';
+import { EntrySettingsDisplay } from '../../apps/entry-settings-display.mjs';
 
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
@@ -31,7 +41,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     tag: 'form',
     window: {
       title: this.title, // Custom title display
-      icon: 'far fa-scroll',
+      icon: 'fa-regular fa-scroll',
       resizable: true,
       contentClasses: ['scrollable'],
       controls: super.DEFAULT_OPTIONS.window.controls.concat([ // Remove concat in V13
@@ -72,6 +82,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       entryCreate: this.#onEntryCreate,
       entryEdit: this.#onEntryEdit,
       entryRemove: this.#onEntryRemove,
+      entrySettings: this.#onEntrySettingsDisplay,
 
       journalView: this.#onJournalView,
       journalRemove: this.#onJournalRemove,
@@ -321,13 +332,31 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     context.items = this.actor.items.contents.toSorted((a, b) => a.sort - b.sort);
     await this._prepareItems(context);
 
+    // Prepare list entries
+    const listEntries = {};
+
+    for (const listKey in context.system.listEntries) {
+      const list = context.system.listEntries[listKey];
+      
+      listEntries[listKey] = [];
+      
+      for (const entryKey in list) {
+        const entry = list[entryKey];
+        
+        if (entry) listEntries[listKey].push({ ...entry, key: entryKey });
+      }
+
+    }
+    
+    context.listEntries = listEntries;
+
     // Prepare character data
-    if (actorData.type == 'Character') this._prepareCharacterData(context);
+    if (actorData.type == 'Character') await this._prepareCharacterData(context);
 
     // Prepare NPC data
-    if (actorData.type == 'NPC') this._prepareNPCData(context);
+    if (actorData.type == 'NPC') await this._prepareNPCData(context);
 
-    // Add roll data for TinyMCE editors.
+    // Add roll data for Prose Mirror editors
     context.rollData = actorData.getRollData();
     
     return context;
@@ -366,7 +395,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       // Description tab
       case 'description':
         context.tab = context.tabs[partId];
-        context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true, secrets: this.actor.isOwner });
+        context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { secrets: this.actor.isOwner });
       break;
       
       // Effects tab
@@ -435,8 +464,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
 
       // Prepare html fields for the tooltip and chat message
       const isOwner = this.actor.isOwner;
-      i.system.description.enriched = await TextEditor.enrichHTML(i.system.description.value, { async: true, secrets: isOwner });
-      if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider.value, { async: true, secrets: isOwner });
+      i.system.description.enriched = await TextEditor.enrichHTML(i.system.description.value, { secrets: isOwner });
+      if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider.value, { secrets: isOwner });
 
       // Prepare tooltip context
       const tooltipContext = {
@@ -628,10 +657,18 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       if (context.actor.type === 'Character') {
         const level = context.actor.system.stats.level;
         const half = Math.floor(level / 2) > 0 ? Math.floor(level / 2) : 1;
+        let third = 2; 
+          
+        if ( level < 3 ) {
+          third = 1;
+        } else if ( level > 6 ) {
+          third = 3;
+        }
         
         switch (item.system.uses.levelRelative) {
           case 'full': max = level; break;
           case 'half': max = half; break;
+          case 'third': max = third; break;
         }
       }
 
@@ -640,7 +677,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       let i = 0; // fill the Buttons with available traditions
 
       for (i = 1; i <= max; i++) { // statement 1 = beginning of the block, statement 2 = condition, statement 3 = executed at the end of each loop
-        if (i <= spent) { arr.push('fas fa-circle-x') } else { arr.push('far fa-circle') };
+        if (i <= spent) { arr.push('fa-solid fa-circle-x') } else { arr.push('fa-regular fa-circle') };
       };
 
       item.uses = arr;
@@ -670,9 +707,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    *
    * @param {Object} context The actor's prepared context.
    *
-   * @return {undefined}
+   * @return {Promise<void>}
   */
-
   async _prepareCharacterData(context) {
 
     // Prepare dropdown lists
@@ -680,12 +716,15 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     context.level = CONFIG.WW.LEVELS[context.system.stats.level];
     const isOwner = this.actor.isOwner;
 
-    // Prepare enriched variables for editor.
-    context.system.details.appearance.enriched = await TextEditor.enrichHTML(context.system.details.appearance.value, { async: true, secrets: isOwner });
-    context.system.details.background.enriched = await TextEditor.enrichHTML(context.system.details.background.value, { async: true, secrets: isOwner });
-    context.system.details.personality.enriched = await TextEditor.enrichHTML(context.system.details.personality.value, { async: true, secrets: isOwner });
-    context.system.details.beliefs.enriched = await TextEditor.enrichHTML(context.system.details.beliefs.value, { async: true, secrets: isOwner });
-    context.system.details.notes.enriched = await TextEditor.enrichHTML(context.system.details.notes.value, { async: true, secrets: isOwner });
+    // Prepare enriched details to use in text editors
+    context.enrichedDetails = {
+      appearance: await TextEditor.enrichHTML(context.system.details.appearance.value, { secrets: isOwner }),
+      background: await TextEditor.enrichHTML(context.system.details.background.value, { secrets: isOwner }),
+      beliefs: await TextEditor.enrichHTML(context.system.details.beliefs.value, { secrets: isOwner }),
+      notes: await TextEditor.enrichHTML(context.system.details.notes.value, { secrets: isOwner }),
+      personality: await TextEditor.enrichHTML(context.system.details.personality.value, { secrets: isOwner })
+    };
+    
   }
 
   /**
@@ -693,7 +732,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    *
    * @param {Object} context The actor's prepared context.
    *
-   * @return {undefined}
+   * @return {Promise<void>}
   */
 
   async _prepareNPCData(context) {
@@ -765,6 +804,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     //ContextMenu.create(this, this.element, '.profile-img', this._getProfileImageContextOptions()); - V13 only
     ContextMenu.create(this, this.element, '.item-button', this._getItemContextOptions());
 
+    // Force re-render to fix ancestry not loading up properly on new Characters
+    this.render();
   }
 
   /* -------------------------------------------- */
@@ -781,7 +822,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     return [
       {
         name: "WW.Item.Perform.Attack",
-        icon: '<i class="fas fa-bolt"></i>',
+        icon: '<i class="fa-solid fa-bolt"></i>',
         callback: li => {
           const dataset = Object.assign({}, li[0].dataset);
           return this._onItemUse(dataset);
@@ -793,7 +834,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       },
       {
         name: "WW.Item.Perform.AttackTarget",
-        icon: '<i class="fas fa-bullseye"></i>',
+        icon: '<i class="fa-solid fa-bullseye"></i>',
         callback: li => {
           const dataset = Object.assign({}, li[0].dataset);
           return this._onItemUse(dataset, 'targeted-use');
@@ -805,7 +846,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       },
       {
         name: "WW.Item.Perform.Equipment",
-        icon: '<i class="fas fa-bolt"></i>',
+        icon: '<i class="fa-solid fa-bolt"></i>',
         callback: li => {
           const dataset = Object.assign({}, li[0].dataset);
           return this._onItemUse(dataset);
@@ -817,7 +858,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       },
       {
         name: "WW.Item.Perform.EquipmentTarget",
-        icon: '<i class="fas fa-bullseye"></i>',
+        icon: '<i class="fa-solid fa-bullseye"></i>',
         callback: li => {
           const dataset = Object.assign({}, li[0].dataset);
           return this._onItemUse(dataset, 'targeted-use');
@@ -829,7 +870,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       },
       {
         name: "WW.Item.Perform.Spell",
-        icon: '<i class="fas fa-bolt"></i>',
+        icon: '<i class="fa-solid fa-bolt"></i>',
         callback: li => {
           const dataset = Object.assign({}, li[0].dataset);
           return this._onItemUse(dataset);
@@ -841,7 +882,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       },
       {
         name: "WW.Item.Perform.SpellTarget",
-        icon: '<i class="fas fa-bullseye"></i>',
+        icon: '<i class="fa-solid fa-bullseye"></i>',
         callback: li => {
           const dataset = Object.assign({}, li[0].dataset);
           return this._onItemUse(dataset, 'targeted-use');
@@ -853,7 +894,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       },
       {
         name: "WW.Item.Perform.Talent",
-        icon: '<i class="fas fa-bolt"></i>',
+        icon: '<i class="fa-solid fa-bolt"></i>',
         callback: li => {
           const dataset = Object.assign({}, li[0].dataset);
           return this._onItemUse(dataset);
@@ -865,7 +906,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       },
       {
         name: "WW.Item.Perform.TalentTarget",
-        icon: '<i class="fas fa-bullseye"></i>',
+        icon: '<i class="fa-solid fa-bullseye"></i>',
         callback: li => {
           const dataset = Object.assign({}, li[0].dataset);
           return this._onItemUse(dataset, 'targeted-use');
@@ -877,7 +918,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       },
       {
         name: "WW.Item.Send",
-        icon: '<i class="fas fa-scroll"></i>',
+        icon: '<i class="fa-solid fa-scroll"></i>',
         callback: li => {
           const item = this.actor.items.get(li.data('item-id'));
           return this._onItemScroll(item);
@@ -885,7 +926,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       },
       {
         name: "WW.Item.Edit.Activity",
-        icon: '<i class="fas fa-edit"></i>',
+        icon: '<i class="fa-solid fa-edit"></i>',
         callback: li => {
           const item = this.actor.items.get(li.data('item-id'));
           return this._onItemEdit(item);
@@ -893,7 +934,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       },
       {
         name: "WW.Item.Delete.Activity",
-        icon: '<i class="fas fa-trash"></i>',
+        icon: '<i class="fa-solid fa-trash"></i>',
         callback: li => {
           const item = this.actor.items.get(li.data('item-id'));
           return this._onItemRemove(item, li);
@@ -927,7 +968,6 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    * @type {ApplicationClickAction}
    */
   static async #onEditImage(_event, target) {
-    console.log('editing image')
     if ( target.nodeName !== "IMG" ) {
       throw new Error("The editImage action is available only for IMG elements.");
     }
@@ -1093,32 +1133,150 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    * @private
   */
   static async #onEntryCreate(event, button) {
-    const dataset = Object.assign({}, button.dataset);
+    // Get data
+    const dataset = Object.assign({}, button.dataset),
+      listKey = dataset.listKey,
+      path = 'system.listEntries.' + listKey,
+      baseObj = foundry.utils.getProperty(this.actor.token?.baseActor, path),
+      obj = foundry.utils.getProperty(this.actor, path),
+      entryKey = defaultListEntryKey(this.actor, listKey, path),
+      entryName = defaultListEntryName(this.actor, listKey, path),
+    entry = { name: entryName };
     
-    const arrPath = 'system.' + dataset.array,
-      oldArray = foundry.utils.getProperty(await this.actor, arrPath),
-      defaultName = (arrPath.includes('languages') && !oldArray.length) ? i18n('WW.Detail.Language.Common') : i18n('WW.Detail.' + dataset.loc + '.New'),
-      arr = [...oldArray, { name: defaultName }];
-    
+    obj[entryKey] = entry;
+
     // Update document
-    await this.actor.update({[arrPath]: arr});
-    
-    // Add entryId to dataset and render the config window
-    dataset.entryId = arr.length-1;
-    new ListEntryConfig(this.actor, dataset).render(true);
+    await this.actor.update({[path]: obj});
+
+    const context = {
+      entry: entry,
+      key: entryKey,
+      showKey: true,
+      grantedBy: await fromUuid(entry.grantedBy) ?
+        await TextEditor.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { secrets: this.actor.isOwner }) : null
+    };
+
+    // Show a dialog 
+    const dialogInput = await WWDialog.input({
+      window: {
+        icon: "fa-solid fa-edit",
+        title: 'WW.Settings.Entry.Edit',
+      },
+      content: await renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
+      ok: {
+        label: 'EFFECT.Submit',
+        icon: 'fa-solid fa-save'
+      },
+      buttons: [
+        {
+          label: 'WW.System.Dialog.Cancel',
+          icon: 'fa-solid fa-xmark'
+        },
+      ]
+    });
+
+    // Return if cancelled
+    if (!dialogInput) return;
+
+    // Return with warning if the key or name are missing
+    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
+
+    obj[dialogInput.key] = dialogInput;
+
+    delete await obj[dialogInput.key].key;
+
+    // Delete old key if key has changed
+    if (baseObj?.hasOwnProperty(entryKey) && entryKey !== dialogInput.key) {
+      obj[entryKey] = null; // If the key exists in the Base Actor, null it
+    } else {
+      obj['-=' + entryKey] = null; // Delete key otherwise
+    }
+
+    await this.actor.update({[path]: obj});
     
   }
 
   /**
-   * Handle edditing a list entry
+   * Handle editing a list entry
    * @param {Event} event          The originating click event
    * @param {HTMLElement} button   The button element originating the click event
    * @private
   */
-  static #onEntryEdit(event, button) {
+  static async #onEntryEdit(event, button) {
     
-    // Render ListEntryConfig
-    new ListEntryConfig(this.actor, button.dataset).render(true);
+    // Get data
+    const dataset = button.dataset,
+      path = 'system.listEntries.' + dataset.listKey,
+      baseObj = foundry.utils.getProperty(this.actor.token?.baseActor, path),
+      obj = foundry.utils.getProperty(this.actor, path),
+      entryKey = dataset.entryKey,
+    entry = obj[entryKey];
+    
+    const context = {
+      entry: await entry,
+      key: entryKey,
+      showKey: true,
+      grantedBy: await fromUuid(entry.grantedBy) ?
+        await TextEditor.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { secrets: this.actor.isOwner }) : null
+    };
+
+    // Show a dialog 
+    const dialogInput = await WWDialog.input({
+      window: {
+        icon: "fa-solid fa-edit",
+        title: 'WW.Settings.Entry.Edit',
+      },
+      content: await renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
+      ok: {
+        label: 'EFFECT.Submit',
+        icon: 'fa-solid fa-save'
+      },
+      buttons: [
+        {
+          label: 'WW.System.Dialog.Cancel',
+          icon: 'fa-solid fa-xmark'
+        },
+      ]
+    });
+
+    // Return if cancelled
+    if (!dialogInput) return;
+
+    // Return with warning if the key or name are missing
+    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
+
+    obj[dialogInput.key] = dialogInput;
+
+    delete await obj[dialogInput.key].key;
+    
+    // Delete old key if key has changed
+    if (baseObj?.hasOwnProperty(entryKey) && entryKey !== dialogInput.key) {
+      obj[entryKey] = null; // If the key exists in the Base Actor, null it
+    } else {
+      obj['-=' + entryKey] = null; // Delete key otherwise
+    }
+    
+    await this.actor.update({ [path]: obj });
+  }
+
+  /**
+   * Handle removing an entry from a list
+   * @param {Event} event          The originating click event
+   * @param {HTMLElement} button   The button element originating the click event
+   * @private
+  */
+  static async #onEntryRemove(event, button) {
+    const dataset = Object.assign({}, button.dataset),
+      path = 'system.listEntries.' + dataset.listKey,
+      baseObj = foundry.utils.getProperty(this.actor.token?.baseActor, path),
+    key = dataset.entryKey;
+    
+    // Update document
+    if (baseObj?.hasOwnProperty(key)) {
+      await this.actor.update({ [`${path}.${key}`]: null }); // If the key exists in the Base Actor, null it
+    } else {
+      await this.actor.update({ [`${path}.-=${key}`]: null }); // Delete key otherwise
+    }
     
   }
 
@@ -1128,18 +1286,11 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    * @param {HTMLElement} button   The button element originating the click event
    * @private
   */
-  static #onEntryRemove(event, button) {
-    const dataset = Object.assign({}, button.dataset);
+  static #onEntrySettingsDisplay(event, button) {
+    const dataset = Object.assign({}, button.dataset),
+    listKey = dataset.listKey;
     
-    const arrPath = 'system.' + dataset.array,
-      arr = [...foundry.utils.getProperty(this.actor, arrPath)];
-    
-    // Delete array element
-    arr.splice(dataset.entryId, 1);
-    
-    // Update document
-    this.actor.update({[arrPath]: arr});
-    
+    new EntrySettingsDisplay({ listKey: listKey }).render(true);
   }
 
   /* -------------------------------------------- */
@@ -1160,9 +1311,15 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     const charOptions = this.actor.system.charOptions;
 
     // Open a dialog to confirm
-    const confirm = await Dialog.confirm({
-      title: i18n('WW.CharOption.Reference.RemoveDialog.Title'),
-      content: `<p>${i18n('WW.CharOption.Reference.RemoveDialog.Msg')}</p><p class="dialog-sure">${i18n('WW.CharOption.Reference.RemoveDialog.Confirm')}</p>`
+    const confirm = await WWDialog.confirm({
+      window: {
+        title: 'WW.CharOption.Reference.RemoveDialog.Title',
+        icon: 'fa-solid fa-trash'
+      },
+      content: `
+        <div>${i18n('WW.CharOption.Reference.RemoveDialog.Msg')}</div>
+        <div class="dialog-sure">${i18n('WW.CharOption.Reference.RemoveDialog.Confirm')}</div>
+      `
     });
 
     if (!confirm) return;
@@ -1174,12 +1331,12 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       const arr = charOptions[type].filter(v => { return v !== button.dataset.pageUuid; });
 
       if (page) await this.actor.update({ [str]: arr });
-
     } else if (type) {
       
       await this.actor.update({ [str]: null });
-      if (page) await this.actor.clearCharOptionBenefits(page.uuid);
     }
+
+    if (page) await this.actor.clearCharOptionBenefits(page.uuid);
     
     this.render();
   }
@@ -1283,9 +1440,15 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   async _onItemRemove(item, button) {
     
     // Confirm Dialog
-    const confirm = await Dialog.confirm({
-      title: i18n('WW.Item.Delete.Dialog.Title'),
-      content: i18n('WW.Item.Delete.Dialog.Msg', {name: '<b>' + item.name + '</b>'}) + '<p class="dialog-sure">' + i18n('WW.Item.Delete.Dialog.Confirm', {name: item.name}) + '</p>'
+    const confirm = await WWDialog.confirm({
+      window: {
+        title: 'WW.Item.Delete.Dialog.Title',
+        icon: 'fa-solid fa-trash'
+      },
+      content: `
+        <div>${i18n('WW.Item.Delete.Dialog.Msg', {name: '<b>' + item.name + '</b>'})}</div>
+        <div class="dialog-sure">${i18n('WW.Item.Delete.Dialog.Confirm', {name: item.name})}</div>
+      `
     });
 
     if (!confirm) return;
@@ -1601,7 +1764,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     
     const item = this.actor.items.get(button.dataset.itemId);
       
-    if ($(event.target).hasClass('far')) { // If the pip is regular (unchecked)
+    if ($(event.target).hasClass('fa-regular')) { // If the pip is regular (unchecked)
       item.update({'system.uses.value': item.system.uses.value + 1}) // Add 1 to the current value.
     } else {
       item.system.uses.value >= 0 ? item.update({'system.uses.value': item.system.uses.value - 1}) : item.update({'system.uses.value': 0}) // Subtract 1 from current value.
@@ -1697,9 +1860,15 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
 
   static async #onRest() {
     
-    const confirm = await Dialog.confirm({
-      title: i18n('WW.Rest.Label'),
-      content: i18n('WW.Rest.Msg') + '<p class="dialog-sure">' + i18n('WW.Rest.Confirm') + '</p>'
+    const confirm = await WWDialog.confirm({
+      window: {
+        title: 'WW.Rest.Label',
+        icon: 'fa-solid fa-campground'
+      },
+      content: `
+        <div>${i18n('WW.Rest.Msg')}</div>
+        <div class="dialog-sure">${i18n('WW.Rest.Confirm')}</div>
+      `
     });
 
     if (!confirm) return;
@@ -1715,7 +1884,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     // Create message content
     const content = `
       <p style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this.actor })}</b> ${i18n('WW.Rest.Finished')}.</p>
-      <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${health.current} <i class="fas fa-arrow-right"></i> ${newCurrent}</p>
+      <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${health.current} <i class="fa-solid fa-arrow-right"></i> ${newCurrent}</p>
     `;
 
     // Create and send message to chat
@@ -1735,9 +1904,16 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
 
   static async #onSheetReset() {
     
-    const confirm = await Dialog.confirm({
+    const confirm = await WWDialog.confirm({
+      window: {
+        title: 'WW.Reset.Label',
+        icon: 'fa-solid fa-rotate-left'
+      },
       title: i18n('WW.Reset.Label'),
-      content: i18n('WW.Reset.Msg') + '<p class="dialog-sure">' + i18n('WW.Reset.Confirm') + '</p>'
+      content: `
+        <div>${i18n('WW.Reset.Msg')}</div>
+        <p class="dialog-sure">${i18n('WW.Reset.Confirm')}</div>
+      `
     });
 
     if (!confirm) return;
@@ -1902,6 +2078,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   /* -------------------------------------------- */
 
   /**
+   * @override
    * An event that occurs when data is dropped into a drop target.
    * @param {DragEvent} event
    * @returns {Promise<void>}
@@ -1920,6 +2097,12 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       const document = await documentClass.fromDropData(data);
       await this._onDropDocument(event, document);
     }
+
+    // Dropped List Entry
+    if (data.listKey) {
+      await this._onDropListEntry(event, data);
+    }
+
   }
 
   /* -------------------------------------------- */
@@ -2057,7 +2240,11 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    */
   async _onDropJournalEntryPage(event, page) {
     const actor = this.actor;
-    const cOpts = actor.system.charOptions;
+    
+    const allowedTypes = ['ancestry', 'path', 'profession', 'tradition'];
+
+    // Return if not from an apropriate type
+    if (!allowedTypes.includes(page.type)) return;
 
     // Record Character Option's UUID in the correct field
     if (page.type === 'profession' || page.type === 'tradition') {
@@ -2066,6 +2253,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       const arr = [...new Set([...actor.system.charOptions[str], await page.uuid])];
         
       await actor.update({ ['system.charOptions.' + str]: arr });
+
+      await actor.updateCharOptionBenefits(page.uuid, 'dragDrop');
     
     } else {
       let str = 'system.charOptions.';
@@ -2080,20 +2269,23 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       const oldName = oldPage ? oldPage.name : 'Unknown';
 
       if (oldUuid) {
-        const confirm = await Dialog.confirm({
-          title: i18n('WW.CharOption.Reference.ReplaceDialog.Title'),
-          content: i18n('WW.CharOption.Reference.ReplaceDialog.Msg', { old: oldName, new: page.name, type: page.type })
+        const confirm = await WWDialog.confirm({
+          window: {
+            title: 'WW.CharOption.Reference.ReplaceDialog.Title',
+            icon: 'fa-solid fa-right-left'
+          },
+          content: `<div>${i18n('WW.CharOption.Reference.ReplaceDialog.Msg', { old: oldName, new: page.name, type: page.type })}</div>`
         });
 
         if (!confirm) return;
         
         if (oldPage) await actor.clearCharOptionBenefits(oldPage.uuid);
         await actor.update({ [str]: page.uuid });
-        await actor.updateCharOptionBenefits(page.uuid);
+        await actor.updateCharOptionBenefits(page.uuid, 'dragDrop');
 
       } else {
         await actor.update({ [str]: page.uuid });
-        await actor.updateCharOptionBenefits(page.uuid);
+        await actor.updateCharOptionBenefits(page.uuid, 'dragDrop');
       }
       
     }
@@ -2127,6 +2319,23 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    * @protected
    */
   async _onDropFolder(event, data) {}
+
+  /**
+   * Handle a droped List Entry on the Actor Sheet.
+   */
+  async _onDropListEntry(event, data) {
+    const { listKey: listKey, entryKey: key, entryName: name, desc: desc } = data,
+    obj = {... this.actor.system.listEntries[listKey]};
+    
+    const entry = {
+      name: name,
+      desc: desc
+    };
+
+    obj[key] = entry;
+    
+    await this.actor.update({ ['system.listEntries.' + listKey]: obj });
+  }
 
   /* -------------------------------------------- */
 

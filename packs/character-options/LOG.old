@@ -1,7 +1,9 @@
-2025/05/18-13:54:00.201 18dc Recovering log #181
-2025/05/18-13:54:00.220 18dc Delete type=0 #181
-2025/05/18-13:54:00.220 18dc Delete type=3 #180
-2025/05/18-16:51:17.928 55d0 Level-0 table #185: started
-2025/05/18-16:51:17.928 55d0 Level-0 table #185: 0 bytes OK
-2025/05/18-16:51:17.936 55d0 Delete type=0 #183
-2025/05/18-16:51:17.944 55d0 Manual compaction at level-0 from '!folders!BhkcEOlF89jPWTpP' @ 72057594037927935 : 1 .. '!journal.pages!pAAZKv2vrilITojZ.GI4b6WkOLlTszbRe' @ 0 : 0; will stop at (end)
+2025/06/14-13:58:37.426 4474 Recovering log #362
+2025/06/14-13:58:37.432 4474 Delete type=0 #362
+2025/06/14-13:58:37.432 4474 Delete type=3 #361
+2025/06/14-16:11:49.885 2124 Compacting 1@0 + 1@1 files
+2025/06/14-16:11:49.895 2124 Generated table #365@0: 146 keys, 67672 bytes
+2025/06/14-16:11:49.896 2124 Compacted 1@0 + 1@1 files => 67672 bytes
+2025/06/14-16:11:49.898 2124 compacted to: files[ 0 1 0 0 0 0 0 ]
+2025/06/14-16:11:49.898 2124 Delete type=2 #295
+2025/06/14-16:11:49.898 2124 Delete type=2 #359

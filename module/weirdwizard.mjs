@@ -48,14 +48,23 @@ import WWToken from './canvas/token.mjs';
 
 // Import helper/utility classes and constants.
 import { WW } from './config.mjs';
+import registerSystemSettings from './helpers/system-settings.mjs'
 import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
 import { WWAfflictions } from './helpers/afflictions.mjs';
 import { expireFromTokens } from './helpers/effect-actions.mjs';
 import { initGlobalListeners } from './helpers/global-listeners.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
-import { fullMigration, effectOverhaul, strToCharOptions, pathsOfJournaling } from './helpers/migrations.mjs';
 import { Utils, handleWelcomeMessage } from './helpers/utils.mjs';
+
+// Import migrations
+import {
+  fullMigration,
+  effectOverhaul,
+  strToCharOptions,
+  pathsOfJournaling, 
+  improvedListEntries
+} from './helpers/migrations.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -190,113 +199,7 @@ Hooks.once('init', function () {
   WWActiveEffectConfig.initializeChangeLabels();
 
   // Register system settings
-  game.settings.register('weirdwizard', 'lastMigrationVersion', {
-    scope: 'world',
-    config: false,
-    requiresReload: false,
-    type: String,
-    default: '0.0.0'
-  });
-
-  game.settings.register('weirdwizard', 'welcomeMessageShown', {
-    scope: 'world',
-    config: false,
-    requiresReload: false,
-    type: Boolean,
-    default: false
-  });
-
-  game.settings.register('weirdwizard', 'damageBarReverse', {
-    name: 'WW.Settings.DamageBarReverse',
-    hint: 'WW.Settings.DamageBarReverseHint',
-    scope: 'world',
-    config: true,
-    requiresReload: true,
-    type: Boolean,
-    default: false
-  });
-
-  game.settings.register('weirdwizard', 'skipActed', {
-    name: 'WW.Settings.Combat.SkipActed',
-    hint: 'WW.Settings.Combat.SkipActedHint',
-    scope: 'world',
-    config: true,
-    requiresReload: false,
-    type: Boolean,
-    default: true
-  });
-
-  // Register Sage Tools app
-  game.settings.register('sagetools', 'visible', {
-    name: 'Visible',
-    scope: 'client',
-    config: false,
-    type: Boolean,
-    default: true,
-  });
-
-  // Register Quest Calendar integrated module
-  game.settings.register('questcalendar', 'visible', {
-    name: 'Visible',
-    scope: 'client',
-    config: false,
-    type: Boolean,
-    default: true,
-  });
-
-  game.settings.register('questcalendar', 'preciseSkip', {
-    name: 'QC.Settings.PreciseSkip',
-    hint: 'QC.Settings.PreciseSkipHint',
-    scope: 'world',
-    config: false,
-    type: Boolean,
-    default: false
-  });
-
-  game.settings.register('questcalendar', 'skipRef', {
-    name: 'QC.Settings.SkipRef',
-    hint: 'QC.Settings.SkipRefHint',
-    scope: 'world',
-    config: false,
-    type: String,
-    default: 'sunrise'
-  });
-
-  game.settings.register('questcalendar', 'sunrise', {
-    name: 'QC.Settings.Sunrise',
-    hint: 'QC.Settings.SunriseHint',
-    scope: 'world',
-    config: false,
-    type: Number,
-    default: '6'
-  });
-
-  game.settings.register('questcalendar', 'midday', {
-    name: 'QC.Settings.Midday',
-    hint: 'QC.Settings.MiddayHint',
-    scope: 'world',
-    config: false,
-    type: Number,
-    default: '12'
-  });
-
-  game.settings.register('questcalendar', 'sunset', {
-    name: 'QC.Settings.Sunset',
-    hint: 'QC.Settings.SunsetHint',
-    scope: 'world',
-    config: false,
-    type: Number,
-    default: '18'
-  });
-
-  game.settings.register('questcalendar', 'midnight', {
-    name: 'QC.Settings.Midnight',
-    hint: 'QC.Settings.MidnightHint',
-    scope: 'world',
-    config: false,
-    type: Number,
-    default: '0'
-  });
+  registerSystemSettings();
 
   // Preload Handlebars templates.
   return preloadHandlebarsTemplates();
@@ -315,9 +218,10 @@ Hooks.once('ready', function () {
   // Append data migration function to game.system.migrations so it can be used for manual migrations
   game.system.migrations = {
     fullMigration: fullMigration,
+    improvedListEntries: improvedListEntries,
     pathsOfJournaling: pathsOfJournaling,
     strToCharOptions: strToCharOptions,
-    effectOverhaul: effectOverhaul,
+    effectOverhaul: effectOverhaul
   }
 
   // Check and run data migrations if needed
@@ -377,7 +281,6 @@ Hooks.on('renderChatMessage', (app, html) => {
 /* -------------------------------------------- */
 /*  Rendering Hooks                             */
 /* -------------------------------------------- */
-
 
 Hooks.on('renderSettingsConfig', (app, html, data) => {
   // Add sections to settings dialog by iterating all *our* settings, stripping the module/system ID,

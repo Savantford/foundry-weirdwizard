@@ -99,44 +99,50 @@
       </div>
 
       {{!-- Languages --}}
-      {{#if benefit.languages.length}}
-      <div class="stat-inline list-entries">
-        <label>{{localize "WW.Detail.Language.Label"}}:</label>
-  
-        {{#each benefit.languages as |detail detailId|}}
-        <span class="list-entry">
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>{{#unless @last}},{{/unless}}
-        </span>
-        {{/each}}
-  
-      </div>
-      {{/if}}
-      
+      {{#each (lookup @root.listEntries id) as |list listKey|}}
+        {{#if (eq listKey 'languages')}}
+          {{#if list.length}}
+          <ol class="stat-inline list-entries">
+
+            <label>{{localize "WW.ListEntry.Language.Label"}}:</label>
+
+            {{#each list as |entry|}}
+            <li class="list-entry">
+              <a data-tooltip="{{entry.desc}}">{{entry.name}}</a>
+            </li>
+            {{/each}}
+            
+          </ol>
+          {{/if}}
+        {{/if}}
+      {{/each}}
+
       {{!-- Magic --}}
-      <div class="stat-inline flex-wrap">
-  
+      {{#each (lookup @root.listEntries id) as |list listKey|}}
+      {{#if (eq listKey 'traditions')}}
+      <ol class="stat-inline list-entries">
+
         {{!-- Traditions --}}
-        {{#if benefit.traditions.length}}
+        {{#if list.length}}
         <label>{{localize "WW.Tradition.Label"}}:</label>
 
-        <span class="list-entries">
-          {{#each benefit.traditions as |detail detailId|}}
-          <span class="list-entry">
-            <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>{{#unless @last}},{{/unless}}
-          </span>
-          {{/each}}
-        </span>
+        {{#each list as |entry|}}
+        <li class="list-entry">
+          <a data-tooltip="{{entry.desc}}">{{entry.name}}</a>
+        </li>
+        {{/each}}
         {{/if}}
 
         {{!-- Spells --}}
-        {{#if (gt benefit.spells 0)}}
-        {{benefit.spells}}
+        {{#if (ne benefit.spells '0')}}
         <label>{{localize "WW.Spells.Label"}}:</label>
 
         {{localize (lookup @root.spellsLearned benefit.spells)}}
         {{/if}}
   
-      </div>
+      </ol>
+      {{/if}}
+      {{/each}}
 
       {{!-- Item List Area --}}
       {{#if benefit.itemsInfo}}

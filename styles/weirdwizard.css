@@ -548,12 +548,12 @@ body {
 .weirdwizard .window-content h4,
 .weirdwizard .window-content h5,
 .weirdwizard .window-content h6,
-.journal-entry-content h1,
-.journal-entry-content h2,
-.journal-entry-content h3,
-.journal-entry-content h4,
-.journal-entry-content h5,
-.journal-entry-content h6 {
+.journal-entry-page h1,
+.journal-entry-page h2,
+.journal-entry-page h3,
+.journal-entry-page h4:not(.window-title),
+.journal-entry-page h5,
+.journal-entry-page h6 {
   font-weight: bold;
   text-transform: uppercase;
   margin: 10px 0 5px 0;
@@ -563,9 +563,9 @@ body {
 .weirdwizard .window-content h1,
 .weirdwizard .window-content h2,
 .weirdwizard .window-content h3,
-.journal-entry-content h1,
-.journal-entry-content h2,
-.journal-entry-content h3 {
+.journal-entry-page h1,
+.journal-entry-page h2,
+.journal-entry-page h3 {
   color: var(--purple-dark);
   font-family: var(--font-serif);
 }
@@ -575,16 +575,16 @@ body {
 .weirdwizard .window-content h3:first-of-type,
 .weirdwizard .window-content h4:first-of-type,
 .weirdwizard .window-content h5:first-of-type,
-.journal-entry-content h1:first-of-type,
-.journal-entry-content h2:first-of-type,
-.journal-entry-content h3:first-of-type,
-.journal-entry-content h4:first-of-type,
-.journal-entry-content h5:first-of-type {
+.journal-entry-page h1:first-of-type,
+.journal-entry-page h2:first-of-type,
+.journal-entry-page h3:first-of-type,
+.journal-entry-page h4:not(.window-title):first-of-type,
+.journal-entry-page h5:first-of-type {
   margin-top: 0px;
 }
 
 .weirdwizard .window-content h1,
-.journal-entry-content h1 {
+.journal-entry-page h1 {
   border-bottom: 0px;
   letter-spacing: 0.02em;
 }
@@ -594,7 +594,7 @@ body {
 }
 
 .weirdwizard .window-content h2,
-.journal-entry-content h2 {
+.journal-entry-page h2 {
   border-bottom: 3px double black;
   padding-bottom: 2px;
   font-size: var(--font-size-24);
@@ -602,7 +602,7 @@ body {
 }
 
 .weirdwizard .window-content h2.centered-style,
-.journal-entry-content h2.centered-style {
+.journal-entry-page h2.centered-style {
   color: var(--body-text-color);
   font-size: var(--font-size-16);
   font-family: var(--font-capitalized);
@@ -611,7 +611,7 @@ body {
 }
 
 .weirdwizard .window-content h3,
-.journal-entry-content h3 {
+.journal-entry-page h3 {
   border-bottom: 1px solid black;
   padding-bottom: 2px;
   font-size: var(--font-size-20);
@@ -620,7 +620,7 @@ body {
 }
 
 .weirdwizard .window-content h4,
-.journal-entry-content h4 {
+.journal-entry-page h4:not(.window-title) {
   color: white;
   background-color: var(--purple-medium);
   border-radius: 3px;
@@ -642,7 +642,7 @@ body {
 }
 
 .weirdwizard .window-content h5,
-.journal-entry-content h5 {
+.journal-entry-page h5 {
   color: var(--purple-dark);
   background-color: var(--pink);
   border: 1px solid var(--purple-medium);
@@ -654,14 +654,13 @@ body {
   text-transform: none;
 }
 
-.weirdwizard.npc .window-content h5,
 .weirdwizard.npc .journal-entry-content h5 {
   border: none;
   margin-bottom: 0;
 }
 
 .weirdwizard .window-content h6,
-.journal-entry-content h6 {
+.journal-entry-page h6 {
   color: var(--purple-dark);
   background-color: var(--pink);
   border-radius: 3px;
@@ -678,7 +677,7 @@ body {
 
 /* Actor: Section Headers */
 
-.weirdwizard .window-content h5.list-entries,
+.weirdwizard .window-content h5.descriptors,
 .weirdwizard.npc .window-content h6 {
   text-indent: 0;
   display: flex;
@@ -692,7 +691,7 @@ body {
   font-family: var(--font-capitalized);
 }
 
-.weirdwizard .window-content h5.list-entries {
+.weirdwizard .window-content h5.descriptors {
   border-image-source: url(../assets/ui/headers/pointed-right-pink.svg);
 }
 
@@ -705,7 +704,7 @@ body {
 
 .weirdwizard.npc .window-content h6 > img {
   height: 26px;
-  margin: -2px 0;
+  margin: -4px 0;
   filter: brightness(0);
 }
 
@@ -752,6 +751,7 @@ body {
 /* Inputs */
 .weirdwizard.sheet input {
   --input-text-color: var(--body-text-color);
+  --input-placeholder-color: var(--gray);
 }
 
 .weirdwizard.sheet input:hover,
@@ -771,6 +771,8 @@ body {
 
 .weirdwizard .input-wrap {
   position: relative;
+  display: grid;
+  align-items: center;
 }
 
 .weirdwizard .input-wrap input {
@@ -1056,13 +1058,15 @@ body {
 }
 
 /* Descriptor / Paths Header */
+
 .weirdwizard .descriptors .buttons {
   display: none;
 }
 
 .weirdwizard.edit-mode .descriptors:hover .buttons,
 .weirdwizard.edit-mode .descriptors:hover .item-create,
-.weirdwizard.edit-mode .descriptors:hover .array-button[data-action=entryCreate] {
+.weirdwizard.edit-mode .descriptors:hover .array-button[data-action=entryCreate],
+.weirdwizard.edit-mode .descriptors:hover .array-button[data-action=entrySettings] {
   display: inline;
 }
 
@@ -1197,7 +1201,7 @@ body {
 
 .weirdwizard.npc .sheet-banner {
   width: 160px;
-  padding: 8px 5px 10px;
+  padding: 8px 5px 32px;
 }
 
 /* Sheet Ribbon */
@@ -1278,7 +1282,13 @@ body {
 }
 
 /* Change Disposition Buttons */
-.weirdwizard .change-disposition.label {
+.weirdwizard .change-disposition {
+  --crest-padding: -8px;
+  --crest-size: calc(1lh - var(--crest-padding));
+
+  display: grid;
+  grid-template-columns: var(--crest-size) 1fr var(--crest-size);
+  gap: 5px;
   border-image: url(../assets/ui/headers/pointed-double-purple-dark.svg);
   border-image-slice: 15 15 fill;
   border-image-width: 20px;
@@ -1294,6 +1304,21 @@ body {
 .weirdwizard .change-disposition:hover {
   filter: drop-shadow(var(--filter-shadow-purple));
   cursor: pointer;
+}
+
+.weirdwizard .change-disposition > div {
+  grid-area: 1 / 2;
+  white-space: nowrap;
+  text-shadow: 0 0 3px #000,
+    0 0 3px #000,
+    0 0 3px #000,
+    0 0 3px #000;
+}
+
+.weirdwizard header.sheet-header .change-disposition > .crest {
+  grid-area: 1 / 1;
+  height: var(--crest-size);
+  margin: calc(var(--crest-padding) / 2) 0 var(--crest-padding) calc(var(--crest-padding) / 2);
 }
 
 /* Profile Image */
@@ -1379,6 +1404,7 @@ body {
 .weirdwizard.npc .circle {
   --radius: 55px;
   outline-offset: 3px;
+  margin: 12px auto;
 }
 
 .weirdwizard header.sheet-header .circle img {
@@ -1409,7 +1435,7 @@ body {
   /* Decimal value, 0-1 based on the child's index. */
   --d: calc(var(--i) / var(--total));
   /* Offset to get better starting placement on the circle */
-  --r-offset: -0.625turn;;
+  --r-offset: -0.625turn;
   /* Full circle */
   --r-amount: 1turn;
   /* Rotation based on the decimal and r modifiers */
@@ -1418,6 +1444,11 @@ body {
   --transform: rotate(var(--r)) translate(calc(var(--radius-offset) + var(--radius))) rotate(calc(-1 * var(--r)));
   transform: var(--transform);
 
+}
+
+.weirdwizard.npc .circle .stat {
+  --ele-radius: 18px;
+  --radius-offset: 16px;
 }
 
 .weirdwizard .circle,
@@ -1498,6 +1529,14 @@ body {
   margin-right: 5px;
 }
 
+.weirdwizard.npc .circle .stat .attribute-mod {
+  margin-right: 0;
+}
+
+.weirdwizard.npc .circle .stat .attribute-mod > * {
+  line-height: 1;
+}
+
 /* Actor: Badges */
 .weirdwizard.sheet .badge:hover {
   filter: drop-shadow(var(--filter-shadow-purple));
@@ -1555,7 +1594,7 @@ body {
 
 .weirdwizard.npc .health-indicator {
   position: absolute;
-  bottom: -5px;
+  bottom: -10px;
   left: 50%;
   transform: translate(-50%, 0);
 }
@@ -1803,6 +1842,46 @@ body {
   --stat-size: 55px;
 }
 
+/* NPC Attribute Banners */
+.weirdwizard .attribute-banners {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 0 5px;
+}
+
+.weirdwizard .attribute-banners > * {
+  flex: 1;
+  display: flex;
+  flex-flow: column;
+  gap: 5px;
+  border-image: url(../assets/ui/straps/pink-banner-outline.svg);
+  border-image-slice: 15 fill;
+  border-image-width: 15px;
+  padding: 5px 4px 10px;
+  color: var(--purple-dark);
+  font-weight: bold;
+}
+
+.weirdwizard .attribute-banners > * > * {
+  line-height: 1;
+}
+
+.weirdwizard .attribute-banners .score {
+  font-size: var(--font-size-20);
+}
+
+.weirdwizard header.sheet-header .attribute-banners img {
+  flex: 0;
+  height: auto;
+  filter: drop-shadow(0 0 1px gray);
+  margin-top: auto;
+}
+
+.weirdwizard header.sheet-header .attribute-banners .str,
+.weirdwizard header.sheet-header .attribute-banners .wil {
+  margin-bottom: 5px;
+}
+
 /* NPC Stats */
 
 .weirdwizard .npc-stats {
@@ -2025,11 +2104,11 @@ hr.bug {
   background-size: contain;
 }
 
-.weirdwizard.npc .tab[data-tab] .bug {
+.weirdwizard.npc .tab[data-tab] {
   --bug: url(../assets/bugs/npc-enemy.webp);
 }
 
-.weirdwizard.npc.ally .tab[data-tab] .bug {
+.weirdwizard.npc.ally .tab[data-tab] {
   --bug: url(../assets/bugs/npc-ally.webp);
 }
 
@@ -2067,17 +2146,17 @@ hr.bug {
 }
 
 .weirdwizard .path-sheet .tab[data-tab] .bug,
-.weirdwizard.character .tab[data-tab] .bug {
+.weirdwizard.character .tab[data-tab] {
   --bug: url(../assets/bugs/path-novice.webp);
 }
 
 .weirdwizard .path-sheet.expert .tab[data-tab] .bug,
-.weirdwizard.character.expert .tab[data-tab] .bug {
+.weirdwizard.character.expert .tab[data-tab] {
   --bug: url(../assets/bugs/path-expert.webp);
 }
 
 .weirdwizard .path-sheet.master .tab[data-tab] .bug,
-.weirdwizard.character.master .tab[data-tab] .bug {
+.weirdwizard.character.master .tab[data-tab] {
   --bug: url(../assets/bugs/path-master.webp);
 }
 
@@ -2130,6 +2209,7 @@ hr.bug {
 
 .weirdwizard.npc .window-content .statbox-sections {
   gap: 5px 15px;
+  align-items: normal;
 }
 
 .weirdwizard.npc .statbox {
@@ -2155,6 +2235,12 @@ hr.bug {
 
 .weirdwizard .statbox .stat-inline {
   margin: 2px 5px;
+}
+
+.weirdwizard.npc .statbox .defense-line {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
 }
 
 .weirdwizard.npc .statbox .defense-line {
@@ -2563,8 +2649,8 @@ hr.bug {
   padding: 0;
 }
 
-.weirdwizard .pip-box .fas,
-.weirdwizard .pip-box .far {
+.weirdwizard .pip-box .fa-solid,
+.weirdwizard .pip-box .fa-regular {
   display: inline !important;
 }
 
@@ -2699,7 +2785,8 @@ input[type="checkbox"].checkbox-uses {
   text-indent: 0;
 }
 
-.weirdwizard.edit-mode .statbox:hover .list-entry > .buttons {
+.weirdwizard.edit-mode .statbox:hover .list-entry > .buttons,
+.weirdwizard .benefit-block:hover .list-entry > .buttons {
   background: var(--pink);
   border: 1px solid var(--purple-medium);
   border-radius: 15px;
@@ -2709,8 +2796,7 @@ input[type="checkbox"].checkbox-uses {
   width: auto;
 } 
 
-.weirdwizard .item p:nth-child(-n+1),
-.weirdwizard.edit-mode .list-entries > :not(:first-child):hover {
+.weirdwizard .item p:nth-child(-n+1) {
   display: inline;
 }
 
@@ -2762,7 +2848,8 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard .benefit-block .buttons > a,
 .weirdwizard .statbox .buttons > a,
 .weirdwizard .list-entries .buttons > .array-button,
-.weirdwizard .list-entries .array-button[data-action=entryCreate],
+.weirdwizard.actor .list-entries .array-button[data-action=entryCreate],
+.weirdwizard.actor .list-entries .array-button[data-action=entrySettings],
 .weirdwizard:not(.charoption) .list-entries .array-button[data-action="add"],
 .weirdwizard .list-entries .item-create,
 .weirdwizard .statbox h6 .item-create,
@@ -3005,6 +3092,31 @@ input[type="checkbox"].checkbox-uses {
   flex-wrap: wrap;
 }
 
+.weirdwizard ol.list-entries {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-indent: 0;
+}
+
+.weirdwizard ol.list-entries > li {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+}
+
+.weirdwizard ol.list-entries > li:not(:last-of-type)::after {
+  content: ', ';
+}
+
+.weirdwizard ol.list-entries.movement-traits > li:first-of-type::before {
+  content: '(';
+}
+
+.weirdwizard ol.list-entries.movement-traits > li:last-of-type::after {
+  content: ')';
+}
+
 .weirdwizard .list-entries span {
   white-space: nowrap;
 }
@@ -3017,8 +3129,16 @@ input[type="checkbox"].checkbox-uses {
 /*  Character Optionss                          */
 /* -------------------------------------------- */
 
+.journal-entry-page:not(article) .weirdwizard.charoption {
+  margin-bottom: 1rem;
+}
+
 .weirdwizard.charoption .header-section {
   margin-bottom: 0.5rem;
+}
+
+.weirdwizard.charoption.ancestry .header-section {
+  min-height: 100px;
 }
 
 .weirdwizard.charoption.path .header-section {
@@ -3026,7 +3146,7 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .weirdwizard.charoption.tradition .header-section {
-  min-height: 170px;
+  min-height: 160px;
 }
 
 /* Character Option: Banner */
@@ -3183,14 +3303,6 @@ article .weirdwizard.charoption .benefits-section {
   margin: 0;
 }
 
-.weirdwizard.charoption .benefit-block > *:not {
-  margin: 0;
-}
-
-article .weirdwizard.charoption .benefit-block > *:not(h5) {
-  padding: 0;
-}
-
 .weirdwizard.charoption .benefit-block > h5 {
   margin: 10px 0 5px 0;
 }
@@ -3199,16 +3311,12 @@ article .weirdwizard.charoption .benefit-block > *:not(h5) {
   margin-top: 0;
 }
 
-.weirdwizard.charoption .benefit-block > .list-entries {
-  padding: 2px 1em;
-  margin: 0;
-}
-
 .weirdwizard .benefit-block:hover > .list-entries .buttons {
   margin-left: 5px;
 }
 
 .weirdwizard.charoption .benefit-block input {
+  height: 1lh;
   text-align: center;
 }
 
@@ -3315,7 +3423,7 @@ article .weirdwizard.charoption .items-area {
 /*  Dialogs                                     */
 /* -------------------------------------------- */
 
-.dialog-sure {
+.weirdwizard .dialog-sure {
   text-align: center;
   font-size: var(--font-size-18);
   font-weight: bold;
@@ -3323,8 +3431,8 @@ article .weirdwizard.charoption .items-area {
 
 /* Dialog Buttons */
 
-.dialog .dialog-buttons button,
-.dialog .dialog-buttons button.default,
+.weirdwizard.dialog .form-footer button,
+.weirdwizard.dialog .form-footer button.default,
 #multi-choice .mc-buttons button,
 #roll-attribute .form-group button,
 #roll-damage .form-group button,
@@ -3334,23 +3442,27 @@ article .weirdwizard.charoption .items-area {
   border-image-source: url(../assets/ui/plates/single-transparent-thick.svg);  
   border-image-slice: 118 fill;
   border-image-width: 5px;
-  margin: 0 5px 0 0;
   padding: 0 5px;
   color: black;
   font-family: var(--font-capitalized);
   font-size: var(--font-size-16);
 }
 
+.weirdwizard .standard-form .form-footer > button,
+.weirdwizard .standard-form .form-footer a.button {
+  height: var(--input-height);
+}
+
 .folder-edit button[type=submit] {
   margin-top: 5px;
 }
 
-.dialog .dialog-buttons button.default {
+.weirdwizard.dialog .form-footer button.default {
   filter: drop-shadow(0 0 0px var(--purple-dark));
 }
 
-.dialog .dialog-buttons button:hover,
-.dialog .dialog-buttons button:focus,
+.weirdwizard.dialog .form-footer button:hover,
+.weirdwizard.dialog .form-footer button:focus,
 #multi-choice .mc-buttons button:hover,
 #multi-choice .mc-buttons button:focus,
 #roll-attribute .form-group button:hover,
@@ -3361,6 +3473,7 @@ article .weirdwizard.charoption .items-area {
   border-image-slice: 128 fill;
   border-image-width: 6px;
   box-shadow: none;
+  outline: none;
 }
 
 /* -------------------------------------------- */
@@ -4011,6 +4124,95 @@ details.document-card .card-header:hover::after {
   text-align: center;
   font-weight: bold;
   width: 30px;
+}
+
+/* -------------------------------------------- */
+/*  List Entry Sub-Settings: Menu & Display     */
+/* -------------------------------------------- */
+
+.theme-dark #entry-settings-menu header.table-header {
+  background-color: var(--color-cool-4);
+  border-color: var(--color-cool-4);
+}
+
+#entry-settings-menu ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 400px;
+  overflow: hidden auto;
+}
+
+#entry-settings-menu header.table-header {
+  background-color: var(--color-cool-4);
+  border-color: var(--color-cool-4);
+  background: var(--color-text-dark-inactive);
+  padding: 0.5rem;
+  color: var(--color-text-light-highlight);
+  border: 1px solid var(--color-border-dark-4);
+  text-align: center;
+  font-weight: bold;
+  text-shadow: 1px 1px var(--color-shadow-dark);
+}
+
+#entry-settings-menu header .control {
+  display: flex;
+  flex-flow: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1em;
+  text-align: right;
+  font-size: smaller;
+}
+
+#entry-settings-menu li {
+  justify-content: space-between;
+  padding: 0.25rem 0.5rem;
+  border-bottom: 1px solid var(--color-border-dark-4);
+}
+
+#entry-settings-menu ol .index {
+  flex: 0 0 200px;
+  text-align: left;
+  font-weight: bold;
+}
+
+#entry-settings-menu ol .control.form-fields {
+  flex: 0 0 40px;
+  text-align: center;
+}
+
+#entry-settings-menu li > .form-fields {
+  justify-content: space-around;
+}
+
+#entry-settings-menu li > .form-fields > a {
+  flex: 0 0 20px;
+}
+
+/* List Entry Sub-Settings: Display */
+
+#entry-settings-display ol {
+  list-style: none;
+  display: flex;
+  flex-flow: wrap;
+  gap: 5px;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+}
+
+#entry-settings-display li {
+  justify-content: space-between;
+  padding: 0.25rem 0.5rem;
+  margin: 0;
+  border: 1px solid var(--color-border-dark-4);
+  border-radius: 3px;
+}
+
+#entry-settings-display li:hover {
+  background: var(--pink);
 }
 
 /* -------------------------------------------- */

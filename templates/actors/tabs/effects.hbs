@@ -1,16 +1,19 @@
 <section class="tab effects {{tab.cssClass}}" data-group="primary" data-tab="effects">
 
   {{!-- Afflictions List --}}
-  <div class="afflictions stat mb-2">
+  <ol class="list-entries afflictions stat mb-2">
     <label>{{localize "WW.Affliction.Label"}}:</label>
 
     {{#each afflictions as |affliction id|}}
-    <span class="affliction" data-tooltip="{{affliction.description}}"><img class="icon" src="{{affliction.img}}"> {{localize affliction.name}}</span>
+      <li class="list-entry affliction" data-tooltip="{{affliction.description}}">
+        <img class="icon" src="{{affliction.img}}">
+        {{localize affliction.name}}
+      </li>
     {{/each}}
 
-    <a data-action="afflictionsMenu"><i class="fas {{#if afflictions.length}}fa-edit{{else}}fa-circle-plus{{/if}}"></i></a>
+    <a data-action="afflictionsMenu"><i class="fa-solid {{#if afflictions.length}}fa-edit{{else}}fa-circle-plus{{/if}}"></i></a>
 
-  </div>
+  </ol>
 
   {{!-- All Effects --}}
   <div class="effects-wrapper">
@@ -30,7 +33,7 @@
         <div class="item-controls effect-controls flexrow">
           {{#if section.showCreate}}
           <a class="effect-control" data-action="effectCreate" data-type="{{section.type}}" data-tooltip="WW.Effect.Create">
-            <i class="fas fa-plus"></i> {{localize "WW.Item.Create.Label"}}
+            <i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}
           </a>
           {{/if}}
         </div>
@@ -56,19 +59,19 @@
 
           {{#if (ne section.type 'temporary')}}
           <a class="effect-control" data-action="effectToggle" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Toggle">
-            <i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
+            <i class="fa-solid {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
           </a>
           {{/if}}
       
           <a class="effect-control" data-action="effectEdit" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Edit">
-            <i class="fas fa-edit"></i>
+            <i class="fa-solid fa-edit"></i>
           </a>
 
           <a class="effect-control" data-action="effectRemove" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Delete">
-            <i class="fas fa-trash"></i>
+            <i class="fa-solid fa-trash"></i>
           </a>
           {{else}}
-          <a data-tooltip="{{#if effect.isBenefit}}WW.Effect.HandledByCharOption{{else}}WW.Effect.HandledByItem{{/if}}"><i class="fas fa-circle-question"></i></a>
+          <a data-tooltip="{{#if effect.isBenefit}}WW.Effect.HandledByCharOption{{else}}WW.Effect.HandledByItem{{/if}}"><i class="fa-solid fa-circle-question"></i></a>
           {{/if}}
         </div>
         
@@ -92,7 +95,7 @@
         <div class="item-controls effect-controls flexrow">
           {{#if section.showCreate}}
           <a class="effect-control" data-action="effectCreate" data-type="{{section.type}}" data-tooltip="WW.Effect.Create">
-            <i class="fas fa-plus"></i> {{localize "WW.Item.Create.Label"}}
+            <i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}
           </a>
           {{/if}}
         </div>
@@ -115,16 +118,16 @@
 
           {{#if (ne section.type 'temporary')}}
           <a class="effect-control" data-action="effectToggle" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Toggle">
-            <i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
+            <i class="fa-solid {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
           </a>
           {{/if}}
       
           <a class="effect-control" data-action="effectEdit" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Edit">
-            <i class="fas fa-edit"></i>
+            <i class="fa-solid fa-edit"></i>
           </a>
 
           <a class="effect-control" data-action="effectRemove" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Delete">
-            <i class="fas fa-trash"></i>
+            <i class="fa-solid fa-trash"></i>
           </a>
 
           {{/if}}

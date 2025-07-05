@@ -11,11 +11,11 @@ export default class WWCharacterSheet extends WWActorSheet {
   static DEFAULT_OPTIONS = {
     classes: ['weirdwizard', 'sheet', 'actor', 'character'],
     window: {
-      icon: 'fas fa-user',
+      icon: 'fa-solid fa-user',
       controls: super.DEFAULT_OPTIONS.window.controls.concat([ // Remove concat in V13
         {
           action: "startRest",
-          icon: "fas fa-campground",
+          icon: "fa-solid fa-campground",
           label: "WW.Rest.Label",
           ownership: "OWNER"
         }
@@ -43,7 +43,8 @@ export default class WWCharacterSheet extends WWActorSheet {
       template: 'systems/weirdwizard/templates/actors/tabs/character-summary.hbs',
       templates: [
         'systems/weirdwizard/templates/actors/tabs/character-summary-item.hbs',
-        'systems/weirdwizard/templates/actors/tabs/character-summary-weapon.hbs'
+        'systems/weirdwizard/templates/actors/tabs/character-summary-weapon.hbs',
+        'systems/weirdwizard/templates/actors/tabs/list-entry.hbs'
       ]
     },
     details: { template: 'systems/weirdwizard/templates/actors/tabs/character-details.hbs' },

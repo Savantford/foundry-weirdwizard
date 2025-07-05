@@ -1,3 +1,4 @@
+import WWDialog from '../apps/dialog.mjs';
 import { i18n } from '../helpers/utils.mjs';
 
 /**
@@ -197,7 +198,7 @@ export default class WWCombat extends Combat {
       content: `<p>${i18n("WW.Combat.End.Msg")}</p><p>${i18n("WW.Combat.End.Msg2")}</p>`,
       buttons: {
         skip: {
-          icon: '<i class="fas fa-hourglass-end"></i>',
+          icon: '<i class="fa-solid fa-hourglass-end"></i>',
           label: i18n("WW.Combat.End.Skip"),
           callback: () => {
             this._expireLeftoverEffects(); // Expire leftover effects
@@ -207,14 +208,14 @@ export default class WWCombat extends Combat {
           }
         },
         endOnly: {
-          icon: '<i class="fas fa-pause"></i>',
+          icon: '<i class="fa-solid fa-pause"></i>',
           label: i18n("WW.Combat.End.Only"),
           callback: () => {
             this.delete();
           }
         },
         cancel: {
-          icon: '<i class="fas fa-times"></i>',
+          icon: '<i class="fa-solid fa-times"></i>',
           label: i18n("WW.Combat.End.Cancel"),
           callback: () => {}
         }
@@ -352,9 +353,15 @@ export default class WWCombat extends Combat {
   async startTurn(li, combatant) {
     
     // Confirmation dialog
-    const confirm = game.user.isGM ? true : await Dialog.confirm({
-      title: i18n('WW.Combat.StartTurn.Title'),
-      content: i18n('WW.Combat.StartTurn.Msg') + '<p class="dialog-sure">' + i18n('WW.Combat.StartTurn.Confirm') + '</p>'
+    const confirm = game.user.isGM ? true : await WWDialog.confirm({
+      window: {
+        title: 'WW.Combat.StartTurn.Title',
+        icon: 'fa-solid fa-bolt'
+      },
+      content: `
+        <div>${i18n('WW.Combat.StartTurn.Msg')}</div>
+        <div class="dialog-sure">${i18n('WW.Combat.StartTurn.Confirm')}</div>
+      `
     });
 
     if (!confirm) return;
@@ -469,8 +476,11 @@ export default class WWCombat extends Combat {
         // Check if the users's character is present as a combatant in the current combat
         for (const c of game.combat.combatants) {
           if (c.actorId == game.user.character.id) {
-            const confirm = await Dialog.confirm({
-              title: i18n('WW.Combat.Initiative.Title'),
+            const confirm = await WWDialog.confirm({
+              window: {
+                title: 'WW.Combat.Initiative.Title',
+                icon: 'fa-solid fa-bolt'
+              },
               content: i18n('WW.Combat.Initiative.Msg')
             })
             

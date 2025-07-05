@@ -1,0 +1,23 @@
+<li class="list-entry">
+
+    {{!-- Name --}}
+    <a class="array-button" data-action="entryEdit" data-list-key="{{listKey}}" data-list-path="{{listPath}}"
+        data-entry-key="{{entryKey}}" data-tooltip="{{entry.desc}}">{{entry.name}}
+    </a>
+
+    {{!-- Buttons --}}
+    <span class="buttons">
+        
+        <a class="array-button" data-action="entryEdit" data-list-key="{{listKey}}" data-list-path="{{listPath}}"
+            data-entry-key="{{entryKey}}" data-tooltip="WW.ListEntry.{{loc}}.Edit">
+            <i class="fa-solid fa-edit"></i>
+        </a>
+
+        <a class="array-button" data-action="entryRemove" data-list-key="{{listKey}}" data-list-path="{{listPath}}"
+            data-entry-key="{{entryKey}}" data-tooltip="WW.ListEntry.{{loc}}.Remove">
+            <i class="fa-solid fa-trash"></i>
+        </a>
+
+    </span>
+
+</li>

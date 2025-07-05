@@ -109,7 +109,7 @@ export function chatMessageButton({action, value, effectUuid, originUuid, target
     (effectUuid ? '" data-effect-uuid="' + effectUuid : '') +
     '" data-origin-uuid="' + originUuid +
     '" data-target-ids="' + targetIds + '">' +
-    '<i class="fas fa-' + icon + '"></i>' +
+    '<i class="fa-solid fa-' + icon + '"></i>' +
     i18n(loc) + (effectUuid ? ': ' + fromUuidSync(effectUuid)?.name : '') +
     (showNo ? (': ' + value) : '') + '</div>';
   }

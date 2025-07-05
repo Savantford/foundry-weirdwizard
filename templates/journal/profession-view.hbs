@@ -36,20 +36,19 @@
 
     {{!-- Benefit Block --}}
     <div class="benefit-block">
+      
+      {{!-- Bonus Languages --}}
+      {{#if listEntries.benefit1.languages.length}}
+      <ol class="stat-inline list-entries">
+        <label>{{localize "WW.ListEntry.Language.Bonus"}}:</label>
   
-      {{!-- Bonus Language --}}
-      {{#if benefits.benefit1.languages.length}}
-      <div class="stat-inline list-entries">
-        <label>{{localize "WW.Detail.Language.Bonus"}}:</label>
-        
-        {{#each benefits.benefit1.languages as |detail id|}}
-        <span class="list-entry">
-        
-          <a data-tooltip="{{detail.desc}}">{{detail.name}}</a>{{#unless @last}},{{/unless}}
-        </span>
+        {{#each listEntries.benefit1.languages as |entry|}}
+        <li class="list-entry">
+          <a data-tooltip="{{entry.desc}}">{{entry.name}}</a>
+        </li>
         {{/each}}
-    
-      </div>
+  
+      </ol>
       {{/if}}
   
       {{!-- Item List Area --}}

@@ -1,0 +1,15 @@
+<div>
+    <div>{{{localize "WW.Settings.Entry.DisplayInstructions"}}}</div>
+
+    <br/>
+
+    {{!-- List --}}
+    <ol class="permissions-list">
+        {{#each list as |entry key|}}
+        <li class="draggable form-group" data-entry-key="{{key}}" data-entry-name="{{entry.name}}" data-tooltip="{{entry.desc}}">
+            {{localize entry.name}}
+        </li>
+        {{/each}}
+    </ol>
+
+</div>

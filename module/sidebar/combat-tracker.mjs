@@ -1,3 +1,4 @@
+import WWDialog from '../apps/dialog.mjs';
 import { i18n } from '../helpers/utils.mjs';
 import WWCombatTrackerConfig from '../sheets/configs/combat-config.mjs';
 
@@ -377,7 +378,7 @@ export default class WWCombatTracker extends CombatTracker {
     return [
       {
         name: "COMBAT.CombatantUpdate",
-        icon: '<i class="fas fa-edit"></i>',
+        icon: '<i class="fa-solid fa-edit"></i>',
         condition: li => {
           return game.user.isGM;
         },
@@ -445,7 +446,7 @@ export default class WWCombatTracker extends CombatTracker {
       },
       {
         name: "COMBAT.CombatantRemove",
-        icon: '<i class="fas fa-trash"></i>',
+        icon: '<i class="fa-solid fa-trash"></i>',
         condition: li => {
           return game.user.isGM;
         },
@@ -472,9 +473,13 @@ export default class WWCombatTracker extends CombatTracker {
     const source = await combatants.get(combatantData._id);
 
     // Confirmation dialog
-    const confirm = !source.permission ? false : await Dialog.confirm({
-      title: i18n('WW.Combat.ResetTurn.Title'),
-      content: i18n('WW.Combat.ResetTurn.Msg') + '<p class="dialog-sure">' + i18n('WW.Combat.ResetTurn.Confirm') + '</p>'
+    const confirm = !source.permission ? false : await WWDialog.confirm({
+      window: {
+        title: 'WW.Combat.ResetTurn.Title',
+        icon: 'fa-solid fa-rotate-left'
+      },
+      content: `${i18n('WW.Combat.ResetTurn.Msg')}
+        <p class="dialog-sure">${i18n('WW.Combat.ResetTurn.Confirm')}</p>`
     });
 
     if (!confirm) return;

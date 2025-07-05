@@ -24,7 +24,7 @@
     }
   },
   "Item": {
-    "types": ["Equipment", "Trait or Talent", "Spell", "Ancestry", "Profession", "Path", "Tradition"],
+    "types": ["Equipment", "Trait or Talent", "Spell", "Ancestry", "Profession", "Path"],
     "htmlFields": []
   },
   "ActiveEffect": {

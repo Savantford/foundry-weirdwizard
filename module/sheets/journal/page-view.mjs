@@ -25,7 +25,7 @@ export default class WWPageView extends HandlebarsApplicationMixin(DocumentSheet
     tag: 'article',
     window: {
       title: this.title, // Custom title display
-      icon: 'far fa-scroll',
+      icon: 'fa-regular fa-scroll',
       resizable: true,
       contentClasses: ['journal-entry-content', 'scrollable'],
     },
@@ -68,7 +68,7 @@ export default class WWPageView extends HandlebarsApplicationMixin(DocumentSheet
       buttons.splice(sheetIndex, 0, {
         label: "Help", // "WW.System.Help" not working
         class: "help",
-        icon: "fas fa-question",
+        icon: "fa-solid fa-question",
         onclick: ev => this._onHelp(ev)
       });
 
@@ -111,15 +111,6 @@ export default class WWPageView extends HandlebarsApplicationMixin(DocumentSheet
         secrets: this.document.isOwner
       })
     };
-    
-    // Prepare Items Area Hint
-    /*context.itemsAreaHint = `
-      <p>${i18n("WW.CharOption.DropHere")}</p>
-      <p>${i18n("WW.CharOption.Help", { itemType: document.type })}</p>
-    `;*/
-
-    // Prepare common select dropdown
-    //context.spellsLearned = CONFIG.WW.SPELLS_LEARNED;
     
     // Prepare Benefits list
     if (this.document.system.benefits) {
@@ -170,7 +161,7 @@ export default class WWPageView extends HandlebarsApplicationMixin(DocumentSheet
         const talent = await fromUuid(talents[t]);
         
         // Prepare enriched variables for editor
-        talent.system.description.enriched = await TextEditor.enrichHTML(talent.system.description.value, { async: true, secrets: talent.isOwner, relativeTo: talent });
+        talent.system.description.enriched = await TextEditor.enrichHTML(talent.system.description.value, { secrets: talent.isOwner, relativeTo: talent });
 
         context.talents.push(talent);
       }
@@ -190,7 +181,7 @@ export default class WWPageView extends HandlebarsApplicationMixin(DocumentSheet
           const spell = await fromUuid(list[s]);
 
           // Prepare enriched variables for editor
-          spell.system.description.enriched = await TextEditor.enrichHTML(spell.system.description.value, { async: true, secrets: spell.isOwner, relativeTo: spell });
+          spell.system.description.enriched = await TextEditor.enrichHTML(spell.system.description.value, { secrets: spell.isOwner, relativeTo: spell });
 
           context.spells[tier].push(spell);
         }

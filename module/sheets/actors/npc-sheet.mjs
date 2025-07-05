@@ -10,11 +10,11 @@ export default class WWNpcSheet extends WWActorSheet {
   static DEFAULT_OPTIONS = {
     classes: ['weirdwizard', 'sheet', 'actor', 'npc'],
     window: {
-      icon: 'far fa-user',
+      icon: 'fa-regular fa-user',
       controls: super.DEFAULT_OPTIONS.window.controls.concat([ // Remove concat in V13
         {
           action: "resetSheet",
-          icon: "fas fa-rotate-left",
+          icon: "fa-solid fa-eraser",
           label: "WW.Actor.Reset",
           ownership: "OWNER"
         }
@@ -41,7 +41,8 @@ export default class WWNpcSheet extends WWActorSheet {
       template: 'systems/weirdwizard/templates/actors/tabs/npc-summary.hbs',
       templates: [
         'systems/weirdwizard/templates/actors/tabs/npc-summary-item.hbs',
-        'systems/weirdwizard/templates/actors/tabs/npc-summary-weapon.hbs'
+        'systems/weirdwizard/templates/actors/tabs/npc-summary-weapon.hbs',
+        'systems/weirdwizard/templates/actors/tabs/list-entry.hbs'
       ]
     },
     description: { template: 'systems/weirdwizard/templates/actors/tabs/npc-description.hbs' },

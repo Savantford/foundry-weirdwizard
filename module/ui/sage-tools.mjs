@@ -1,4 +1,6 @@
+import WWDialog from "../apps/dialog.mjs";
 import QuestCalendar from "./quest-calendar.mjs";
+
 /**
  * Extend Application to make a Sage Tools app
  * @extends {Application}
@@ -61,31 +63,6 @@ export default class SageTools extends Application {
 
     return await context;
   }
-
-  /** @inheritdoc */
-  /*_getHeaderButtons() {
-    let buttons = super._getHeaderButtons();
-    const canConfigure = game.user.isGM;
-
-    if (canConfigure) {
-      const closeIndex = buttons.findIndex(btn => btn.label === "Close");
-      buttons.splice(closeIndex, 0, {
-        label: "QC.Settings.Label",
-        class: "configure-app",
-        icon: "fas fa-cog",
-        onclick: ev => this._onConfigureApp(ev)
-      });
-
-      buttons.splice(closeIndex, 0, {
-        label: "QC.Reset.Label",
-        class: "reset-app",
-        icon: "fas fa-eraser",
-        onclick: ev => this._reset(ev)
-      });
-    }
-
-    return buttons;
-  }*/
 
   /* -------------------------------------------- */
   /*  Event Listeners                             */
@@ -181,15 +158,6 @@ export default class SageTools extends Application {
 
   setting(name) {
     return game.settings.get('sagetools', name)
-  }
-
-  async _reset() {
-    const confirm = await Dialog.confirm({
-      title: i18n('QC.Reset.Title'),
-      content: i18n('QC.Reset.Msg') + '<p class="qc-dialog-sure">' + i18n('QC.Reset.Confirm') + '</p>'
-    });
-
-    if (confirm) { return adv(-this.world) } else { return };
   }
 
 }

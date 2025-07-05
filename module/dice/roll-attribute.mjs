@@ -135,7 +135,7 @@ export default class RollAttribute extends FormApplication {
       flat = formData.flat ? `+${formData.flat}` : '',
       rollData = this.origin.getRollData();
     ;
-
+    
     let rollHtml = '',
       boons = "0",
       rollsArray = []

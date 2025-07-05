@@ -1,5 +1,4 @@
 import { i18n } from '../../helpers/utils.mjs';
-import ListEntryConfig from '../configs/list-entry-config.mjs';
 import MultiChoice from '../../apps/multi-choice.mjs';
 import {
   createActiveEffect, deleteActiveEffect, editActiveEffect,
@@ -29,7 +28,7 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
     tag: 'form',
     window: {
       title: this.title, // Custom title display
-      icon: 'far fa-scroll',
+      icon: 'fa-regular fa-scroll',
       resizable: true,
       contentClasses: ['scrollable'],
       controls: [ // Remove concat in V13
@@ -120,6 +119,7 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
    */
   async _prepareContext(options = {}) {
     const itemData = this.item;
+    const sys = this.item.system;
     const isOwner = this.item.isOwner;
 
     // Ensure editMode has a value
@@ -131,19 +131,21 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
       system: itemData.system, // Use a safe clone of the item data for further operations.
       folder: await itemData.folder,
       flags: itemData.flags,
+      grantedBy: await fromUuid(sys.grantedBy) ?
+        await TextEditor.enrichHTML(`@Embed[${sys.grantedBy} inline]`, { secrets: this.item.isOwner }) : null,
       dtypes: ['String', 'Number', 'Boolean'],
       tabs: this._getTabs(options.parts)
     }
     
     // Prepare enriched variables for editor
-    context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { async: true, secrets: isOwner, relativeTo: this.document });
+    context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { secrets: isOwner, relativeTo: this.document });
 
     // Record if the item has an actor
     context.hasActor = this.document.actor ? true : false;
     
     // Prepare character options
     if (context.item.type == 'Equipment' && context.item.system.subtype == 'weapon' && context.system.attackRider.value) {
-      context.system.attackRider.enriched = await TextEditor.enrichHTML(context.system.attackRider.value, { async: true, secrets: isOwner, relativeTo: this.document });
+      context.system.attackRider.enriched = await TextEditor.enrichHTML(context.system.attackRider.value, { secrets: isOwner, relativeTo: this.document });
     }
 
     // Prepare attribute labels
@@ -185,10 +187,18 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
         if (context.hasActor && this.document?.actor?.type === 'Character') {
           const level = this.document.actor.system.stats.level;
           const half = Math.floor(level / 2) > 0 ? Math.floor(level / 2) : 1;
+          let third = 2; 
+          
+          if ( level < 3 ) {
+            third = 1;
+          } else if ( level > 6 ) {
+            third = 3;
+          }
 
           switch (context.system.uses.levelRelative) {
             case 'full': context.system.uses.max = level; break;
             case 'half': context.system.uses.max = half; break;
+            case 'third': context.system.uses.max = third; break;
           }
         }
       break;
@@ -232,8 +242,6 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
 
     // Pass down whether the item needs targets or not
     context.needTargets = this.document.needTargets;
-    const grantedById = this.document.flags.weirdwizard?.grantedBy;
-    if (grantedById) context.grantedBy = await fromUuid(grantedById).name;
     
     return context;
   }

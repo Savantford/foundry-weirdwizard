@@ -1,101 +1,24 @@
 <section class="tab {{tab.cssClass}}" data-group="primary" data-tab="summary">
 
     {{!-- Descriptor(s) --}}
-    <h5 class="descriptors flex-group-left list-entries">
+    <h5 class="descriptors flex-group-left">
 
-        {{#each system.details.descriptors as |detail id|}}
-        <span class="list-entry">
-
-            <a class="array-button" data-action="entryEdit" data-array="details.descriptors" data-entry-id="{{id}}"
-                data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-                <a class="array-button" data-action="entryEdit" data-array="details.descriptors" data-entry-id="{{id}}"
-                    data-tooltip="WW.Detail.Descriptor.Edit"><i class="fas fa-edit"></i></a>
-
-                <a class="array-button" data-action="entryRemove" data-array="details.descriptors" data-entry-id="{{id}}"
-                    data-tooltip="WW.Detail.Descriptor.Remove"><i class="fas fa-trash"></i></a>
-            </span>{{#unless @last}},{{/unless}}
-
-        </span>
-        {{/each}}
-
-        {{#unless system.details.descriptors.length}}<span>{{localize "WW.Detail.Descriptor.None"}}</span>{{/unless}}
-
-        <a class="array-button" data-action="entryCreate" data-array="details.descriptors" data-loc="Descriptor"
-            data-tooltip="WW.Detail.Descriptor.Create"><i class="fas fa-circle-plus"></i></a>
-
+        {{!-- Descriptors --}}
+        <ol class="list-entries">
+            {{#each listEntries.descriptors as |entry|}}
+                {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="descriptors" loc="Descriptor"}}
+            {{else}}
+                <span>({{localize "WW.ListEntry.Descriptor.Label"}})</span>
+            {{/each}}
+            
+            <a class="array-button" data-action="entryCreate" data-list-key="descriptors" data-loc="Descriptor"
+                data-tooltip="WW.ListEntry.Descriptor.Create"><i class="fa-solid fa-circle-plus"></i></a>
+            
+            <a class="array-button" data-action="entrySettings" data-list-key="descriptors"
+                data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+        </ol>
+        
     </h5>
-
-    {{!-- Attribute Badges --}}
-    {{#unless editMode}}
-    <div class="attributes">
-
-        {{!-- Strength --}}
-        <div class="badge stat str item-button" data-action="attributeRoll" data-key="str" data-tooltip="WW.Roll.Strength">
-        
-            <div>
-                <a>{{localize "WW.Attributes.StrengthShort"}}</a>
-                <a>{{system.attributes.str.value}}</a>
-            </div>
-
-            <a class="attribute-mod">
-                {{#if system.attributes.str.value}}
-                {{numberFormat system.attributes.str.mod decimals=0 sign=true}}
-                {{else}}—{{/if}}
-            </a>
-
-        </div>
-        
-        {{!-- Agility --}}
-        <div class="badge stat agi item-button" data-action="attributeRoll" data-key="agi" data-tooltip="WW.Roll.Agility">
-
-            <div>
-                <a>{{localize "WW.Attributes.AgilityShort"}}</a>
-                <a>{{system.attributes.agi.value}}</a>
-            </div>
-            
-            <a class="attribute-mod">
-                {{#if system.attributes.agi.value}}
-                {{numberFormat system.attributes.agi.mod decimals=0 sign=true}}
-                {{else}}—{{/if}}
-            </a>
-        
-        </div>
-        
-        {{!-- Intellect --}}
-        <div class="badge stat int item-button" data-action="attributeRoll" data-key="int" data-tooltip="WW.Roll.Intellect">
-
-            <div>
-                <a>{{localize "WW.Attributes.IntellectShort"}}</a>
-                <a>{{system.attributes.int.value}}</a>
-            </div>
-        
-            
-            <a class="attribute-mod">
-                {{#if system.attributes.int.value}}
-                {{numberFormat system.attributes.int.mod decimals=0 sign=true}}
-                {{else}}—{{/if}}
-            </a>
-
-        </div>
-
-        {{!-- Will --}}
-        <div class="badge stat wil item-button" data-action="attributeRoll" data-key="wil" data-tooltip="WW.Roll.Will">
-
-            <div>
-                <a>{{localize "WW.Attributes.WillShort"}}</a>
-                <a>{{system.attributes.wil.value}}</a>
-            </div>
-
-            <a class="attribute-mod">
-                {{#if system.attributes.wil.value}}
-                {{numberFormat system.attributes.wil.mod decimals=0 sign=true}}
-                {{else}}—{{/if}}
-            </a>
-            
-        </div>
-
-    </div>
-    {{/unless}}
 
     {{!-- Statbox Sections --}}
     <div class="statbox-sections flexrow">
@@ -145,11 +68,11 @@
                     <label>{{localize "WW.Equipment.Label"}}:</label>
                     {{#each equipment as |item id|}}
                         {{> "systems/weirdwizard/templates/actors/tabs/npc-summary-item.hbs" item=item id=id}}
+                    {{else}}
+                        <span>—</span>
                     {{/each}}
 
-                    {{#unless equipment.length}}<span>—</span>{{/unless}}
-
-                    <a class="item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Equipment" data-type="Equipment" data-subtype="generic"><i class="fas fa-plus-circle"></i></a>
+                    <a class="item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Equipment" data-type="Equipment" data-subtype="generic"><i class="fa-solid fa-plus-circle"></i></a>
 
                 </div>
 
@@ -228,7 +151,7 @@
                 </div>
 
                 {{!-- Size, Speed --}}
-                <div class="mt-1 stat-inline list-entries">
+                <ol class="mt-1 stat-inline list-entries movement-traits">
 
                     {{!-- Size --}}
                     <label>{{localize "WW.Stats.Size"}}:</label>
@@ -253,23 +176,17 @@
                     </div>
                     
                     {{!-- Movement Traits --}}
-                    {{#each system.details.movementTraits as |detail id|}}<span class="list-entry">
-                        {{#if @first}}({{/if}}<a class="array-button" data-action="entryEdit" data-array="details.movementTraits" data-entry-id="{{id}}"
-                            data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-                            
-                            <a class="array-button" data-action="entryEdit" data-array="details.movementTraits" data-entry-id="{{id}}"
-                                data-tooltip="WW.Detail.Movement.Edit"><i class="fas fa-edit"></i></a>
-                            
-                            <a class="array-button" data-action="entryRemove" data-array="details.movementTraits" data-entry-id="{{id}}"
-                                data-tooltip="WW.Detail.Movement.Remove"><i class="fas fa-trash"></i></a>
-                        </span>{{#unless @last}},{{/unless}}{{#if @last}}){{/if}}
-                    </span>
+                    {{#each listEntries.movementTraits as |entry|}}
+                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="movementTraits" loc="MovementTrait"}}
                     {{/each}}
-
-                    <a class="array-button" data-action="entryCreate" data-array="details.movementTraits" data-loc="Movement"
-                        data-tooltip="WW.Detail.Movement.Create"><i class="fas fa-circle-plus"></i></a>
-
-                </div>
+                    
+                    <a class="array-button" data-action="entryCreate" data-list-key="movementTraits" data-loc="MovementTrait"
+                        data-tooltip="WW.ListEntry.MovementTrait.Create"><i class="fa-solid fa-circle-plus"></i></a>
+                    
+                    <a class="array-button" data-action="entrySettings" data-list-key="movementTraits"
+                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+                    
+                </ol>
                 
             </div>
             {{/if}}
@@ -286,98 +203,73 @@
 
                         <a class="item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Trait" data-type="Trait or Talent" data-subtype="trait">
                             {{localize "WW.Talents.Traits"}}
-                            <i class="fas fa-plus-circle"></i>
+                            <i class="fa-solid fa-plus-circle"></i>
                         </a>
 
                         <a class="item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Equipment" data-type="Equipment" data-subtype="generic">
                             {{localize "WW.Equipment.Label"}}
-                            <i class="fas fa-plus-circle"></i>
+                            <i class="fa-solid fa-plus-circle"></i>
                         </a>
 
                     </span>
                     
                 </h6>
-
-                {{#if editMode}}
+                
                 {{!-- Languages --}}
-                <div class="stat-inline list-entries">
-                    
-                    <label>{{localize "WW.Detail.Language.Label"}}:</label>
-                    
-                    {{#each system.details.languages as |detail id|}}
-                    <span class="list-entry">
-                    
-                        <a class="array-button" data-action="entryEdit" data-array="details.languages" data-entry-id="{{id}}"
-                            data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-                            
-                            <a class="array-button" data-action="entryEdit" data-array="details.languages" data-entry-id="{{id}}"
-                                data-tooltip="WW.Detail.Language.Edit"><i class="fas fa-edit"></i></a>
-                    
-                            <a class="array-button" data-action="entryRemove" data-array="details.languages" data-entry-id="{{id}}"
-                                data-tooltip="WW.Detail.Language.Remove"><i class="fas fa-trash"></i></a>
-                        </span>{{#unless @last}},{{/unless}}
-                    </span>
-                    {{/each}}
-                    
-                    {{#unless system.details.languages.length}}<span>—</span>{{/unless}}
-                    
-                    <a class="array-button" data-action="entryCreate" data-array="details.languages" data-loc="Language"
-                        data-tooltip="WW.Detail.Language.Create"><i class="fas fa-circle-plus"></i></a>
+                {{#if (or listEntries.languages.length editMode)}}
+                <ol class="stat-inline list-entries">
+                    <label>{{localize "WW.ListEntry.Language.Label"}}:</label>
 
-                </div>
+                    {{#each listEntries.languages as |entry|}}
+                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="languages" loc="Language"}}
+                    {{else}}
+                        <span>—</span>
+                    {{/each}}
+                
+                    <a class="array-button" data-action="entryCreate" data-list-key="languages" data-loc="Language"
+                        data-tooltip="WW.ListEntry.Language.Create"><i class="fa-solid fa-circle-plus"></i></a>
+                
+                    <a class="array-button" data-action="entrySettings" data-list-key="languages"
+                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+                </ol>
+                {{/if}}
 
                 {{!-- Senses --}}
-                <div class="stat-inline list-entries">
-                    <label>{{localize "WW.Detail.Sense.Label"}}:</label>
-
-                    {{#each system.details.senses as |detail id|}}
-                    <span class="list-entry">
-                    
-                        <a class="array-button" data-action="entryEdit" data-array="details.senses" data-entry-id="{{id}}"
-                            data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-                            <a class="array-button" data-action="entryEdit" data-array="details.senses" data-entry-id="{{id}}"
-                                data-tooltip="WW.Detail.Sense.Edit"><i class="fas fa-edit"></i></a>
-                    
-                            <a class="array-button" data-action="entryRemove" data-array="details.senses" data-entry-id="{{id}}"
-                                data-tooltip="WW.Detail.Sense.Remove"><i class="fas fa-trash"></i></a>
-                        </span>{{#unless @last}},{{/unless}}
-
-                    </span>
+                {{#if (or listEntries.senses.length editMode)}}
+                <ol class="stat-inline list-entries">
+                    <label>{{localize "WW.ListEntry.Sense.Label"}}:</label>
+                
+                    {{#each listEntries.senses as |entry key|}}
+                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="senses" loc="Sense"}}
+                    {{else}}
+                        <span>—</span>
                     {{/each}}
-                    
-                    {{#unless system.details.senses.length}}<span>—</span>{{/unless}}
-                    
-                    <a class="array-button" data-action="entryCreate" data-array="details.senses" data-loc="Sense"
-                        data-tooltip="WW.Detail.Sense.Create"><i class="fas fa-circle-plus"></i></a>
-
-                </div>
+                
+                    <a class="array-button" data-action="entryCreate" data-list-key="senses" data-loc="Sense"
+                        data-tooltip="WW.ListEntry.Sense.Create"><i class="fa-solid fa-circle-plus"></i></a>
+                
+                    <a class="array-button" data-action="entrySettings" data-list-key="senses"
+                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+                </ol>
+                {{/if}}
 
                 {{!-- Immune --}}
-                <div class="stat-inline list-entries">
-
-                    <label>{{localize "WW.Detail.Immune.Label"}}:</label>
-
-                    {{#each system.details.immune as |detail id|}}
-                    <span class="list-entry">
-                        
-                        <a class="array-button" data-action="entryEdit" data-array="details.immune" data-entry-id="{{id}}"
-                            data-tooltip="{{detail.desc}}">{{detail.name}}</a><span class="buttons">
-                            <a class="array-button" data-action="entryEdit" data-array="details.immune" data-entry-id="{{id}}"
-                                data-tooltip="WW.Detail.Immune.Edit"><i class="fas fa-edit"></i></a>
-                                
-                            <a class="array-button" data-action="entryRemove" data-array="details.immune" data-entry-id="{{id}}"
-                                data-tooltip="WW.Detail.Immune.Remove"><i class="fas fa-trash"></i></a>
-                        </span>{{#unless @last}},{{/unless}}
-
-                    </span>
+                {{#if (or listEntries.immunities.length editMode)}}
+                <ol class="stat-inline list-entries">
+                    <label>{{localize "WW.ListEntry.Immunity.Label"}}:</label>
+                
+                    {{#each listEntries.immunities as |entry key|}}
+                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="immunities" loc="Immunity"}}
+                    {{else}}
+                        <span>—</span>
                     {{/each}}
-
-                    {{#unless system.details.immune.length}}<span>—</span>{{/unless}}
-
-                    <a class="array-button" data-action="entryCreate" data-array="details.immune" data-loc="Immune"
-                        data-tooltip="WW.Detail.Immune.Create"><i class="fas fa-circle-plus"></i></a>        
-
-                </div>
+                
+                    <a class="array-button" data-action="entryCreate" data-list-key="immunities" data-loc="Immunity"
+                        data-tooltip="WW.ListEntry.Immunity.Create"><i class="fa-solid fa-circle-plus"></i></a>
+                
+                    <a class="array-button" data-action="entrySettings" data-list-key="immunities"
+                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+                </ol>
                 {{/if}}
 
                 {{!-- Traits or Talents --}}
@@ -423,12 +315,12 @@
                             
                         <a class="item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Weapon" data-type="Equipment" data-subtype="weapon" data-grip="Natural">
                             {{localize "WW.Attack.Plural"}}
-                            <i class="fas fa-plus-circle"></i>
+                            <i class="fa-solid fa-plus-circle"></i>
                         </a>
 
                         <a class="item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Trait" data-type="Trait or Talent" data-subtype="action">
                             {{localize "WW.Talents.SpecialActions"}}
-                            <i class="fas fa-plus-circle"></i>
+                            <i class="fa-solid fa-plus-circle"></i>
                         </a>
 
                     </span>
@@ -467,7 +359,7 @@
                     <img src="systems/weirdwizard/assets/icons/reactions.svg"/>
                     <span>{{localize "WW.Talents.Reactions"}}</span>
                     <a class="item-create ml-auto" data-action="itemCreate" data-type="Trait or Talent" data-subtype="reaction"
-                        data-tooltip="WW.Item.Create.Trait"><i class="fas fa-plus"></i>
+                        data-tooltip="WW.Item.Create.Trait"><i class="fa-solid fa-plus"></i>
                     </a>
                 </h6>
                 
@@ -488,7 +380,7 @@
                     <img src="systems/weirdwizard/assets/icons/duration.svg"/>
                     <span>{{localize "WW.Talents.Ends"}}</span>
                     <a class="item-create ml-auto" data-action="itemCreate" data-type="Trait or Talent" data-subtype="end"
-                        data-tooltip="WW.Item.Create.Trait"><i class="fas fa-plus"></i>
+                        data-tooltip="WW.Item.Create.Trait"><i class="fa-solid fa-plus"></i>
                     </a>
                 </h6>
                 

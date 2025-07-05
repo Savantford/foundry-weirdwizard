@@ -1,0 +1,32 @@
+<form>
+
+  {{!-- New Key --}}
+  {{#if showKey}}
+  <div class="stat-inline">
+    <label>{{localize "WW.Settings.Entry.Key"}}:</label>
+    <input name="key" type="text" value="{{key}}" required />
+  </div>
+  {{/if}}
+  
+  {{!-- Name --}}
+  <div class="stat-inline">
+    <label>{{localize "WW.Settings.Entry.Name"}}:</label>
+    <input name="name" type="text" value="{{localize entry.name}}" required />
+  </div>
+
+  {{!-- Description --}}
+  <div class="stat">
+    <label>{{localize "WW.Settings.Entry.Description"}}:</label>
+
+    <textarea name="desc">{{entry.desc}}</textarea>
+  </div>
+  
+  {{!-- Granted By --}}
+  {{#if entry.grantedBy}}
+  <div class="stat-inline">
+    <label>{{localize "WW.CharOption.GrantedBy"}}:</label>
+    {{{grantedBy}}}
+  </div>
+  {{/if}}
+  
+</form>

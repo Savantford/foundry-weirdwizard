@@ -1,5 +1,6 @@
-import { i18n } from "../../helpers/utils.mjs";
-import ListEntryConfig from "../configs/list-entry-config.mjs";
+import WWDialog from "../../apps/dialog.mjs";
+import { EntrySettingsDisplay } from "../../apps/entry-settings-display.mjs";
+import { defaultListEntryKey, defaultListEntryName, i18n } from "../../helpers/utils.mjs";
 
 /**
  * * The Application responsible for displaying and editing a single JournalEntryPage character option.
@@ -18,7 +19,8 @@ export default class WWCharOptionSheet extends JournalPageSheet {
       dragDrop: [
         {dragSelector: '.directory-list .item', dropSelector: '.items-area'},
         {dragSelector: '.item-list .item', dropSelector: '.items-area'},
-        {dragSelector: '.draggable', dropSelector: '.actor'}
+        {dragSelector: '.draggable', dropSelector: '.actor'},
+        {dragSelector: '#entry-settings-display .draggable', dropSelector: '.benefit-block'}
       ],
       secrets: [{parentSelector: ".editor"}]
     });
@@ -28,7 +30,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
   /*static DEFAULT_OPTIONS = {
     classes: ['weirdwizard', 'sheet', 'charoption'],
     window: {
-      icon: 'fas fa-user'
+      icon: 'fa-solid fa-user'
     },
     dragDrop: [
       {dragSelector: null, dropSelector: '.items-area'},
@@ -72,7 +74,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
       buttons.splice(sheetIndex, 0, {
         label: "Help", // "WW.System.Help" not working
         class: "help",
-        icon: "fas fa-question",
+        icon: "fa-solid fa-question",
         onclick: ev => this._onHelp(ev)
       });
 
@@ -116,12 +118,14 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     
     // Prepare Benefits list
     if (this.document.system.benefits) {
-      context.benefits = this.document.system.benefits;
+      context.benefits = {...await this.document.system.benefits};
+      context.listEntries = {};
+      
+      const listKeys = ['senses', 'descriptors', 'languages', 'immunities', 'movementTraits', 'traditions'];
 
       for (const b in context.benefits) {
-
         const benefit = context.benefits[b];
-
+        
         // Prepare information for granted items
         benefit.itemsInfo = [];
 
@@ -139,9 +143,32 @@ export default class WWCharOptionSheet extends JournalPageSheet {
 
         }
 
-      }
-    }
+        // Prepare key for granted list entries
+        context.listEntries[b] = {};
 
+        for (const listKey in benefit) {
+          const list = await benefit[listKey];
+          
+          // Check for the listKeys and if it's an array
+          if (benefit.hasOwnProperty(listKey) && listKeys.includes(listKey)) {
+            const arr = [];
+
+            for (const entryKey in list) {
+              const entry = list[entryKey];
+
+              arr.push({ ...await entry, key: entryKey });
+            }
+            
+            context.listEntries[b][listKey] = arr;
+            
+          }
+
+        }
+
+      }
+
+    }
+    
     // Prepare paths
     if (this.document.type === 'path') {
       context.tiers = CONFIG.WW.PATH_TIERS;
@@ -163,7 +190,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
         const talent = await fromUuid(talents[t]);
         
         // Prepare enriched variables for editor
-        talent.system.description.enriched = await TextEditor.enrichHTML(talent.system.description.value, { async: true, secrets: talent.isOwner, relativeTo: talent });
+        talent.system.description.enriched = await TextEditor.enrichHTML(talent.system.description.value, { secrets: talent.isOwner, relativeTo: talent });
 
         context.talents.push(talent);
       }
@@ -183,7 +210,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
           const spell = await fromUuid(list[s]);
 
           // Prepare enriched variables for editor
-          spell.system.description.enriched = await TextEditor.enrichHTML(spell.system.description.value, { async: true, secrets: spell.isOwner, relativeTo: spell });
+          spell.system.description.enriched = await TextEditor.enrichHTML(spell.system.description.value, { secrets: spell.isOwner, relativeTo: spell });
 
           context.spells[tier].push(spell);
         }
@@ -252,7 +279,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     }).bind(this.element);
 
     // Drag events for macros.
-    /*if (this.actor.isOwner) {
+    /*if (this.document.isOwner) {
       
       const handler = ev => this._onDragStart(ev)
 
@@ -275,99 +302,182 @@ export default class WWCharOptionSheet extends JournalPageSheet {
 
   /**
    * Handle clicked array buttons
-   * @param {Event} ev   The originating click event
+   * @param {Event} event   The originating click event
    * @private
   */
 
-  _onListEntryButtonClicked(ev) {
-    const button = ev.currentTarget,
+  _onListEntryButtonClicked(event) { // Use actions in v13 instead
+    const button = event.currentTarget,
       dataset = Object.assign({}, button.dataset);
     
     switch (dataset.action) {
-      case 'add': this._onListEntryButtonAdd(dataset); break;
-      case 'edit': this._onListEntryButtonEdit(dataset); break;
-      case 'remove': this._onListEntryButtonRemove(dataset); break;
+      case 'entryCreate': this.#onEntryCreate(event, button); break;
+      case 'entryEdit': this.#onEntryEdit(event, button); break;
+      case 'entryRemove': this.#onEntryRemove(event, button); break;
+      case 'entrySettings': this.#onEntrySettingsDisplay(event, button); break;
     }
     
   }
+
+  /* -------------------------------------------- */
+  /*  List entry handling actions                 */
+  /* -------------------------------------------- */
 
   /**
    * Handle adding an array entry
-   * @param dataset   The dataset
+   * @param {Event} event          The originating click event
+   * @param {HTMLElement} button   The button element originating the click event
    * @private
   */
-  async _onListEntryButtonAdd(dataset) {
-    
-    const arrPath = 'system.' + dataset.array,
-      arr = foundry.utils.getProperty(this.document, arrPath);
-    
-    // Push new element with a default name
-    const defaultName = (arrPath.includes('languages') && !arr.length) ? i18n('WW.Detail.Language.Common') : i18n('WW.Detail.' + dataset.loc + '.New');
-    await arr.push({ name: defaultName })
+  async #onEntryCreate(event, button) {
+    // Get data
+    const dataset = Object.assign({}, button.dataset),
+      listKey = dataset.listKey,
+      listPath = dataset.listPath,
+      path = 'system.' + listPath,
+      obj = foundry.utils.getProperty(this.document, path),
+      entryKey = defaultListEntryKey(this.document, listKey, path),
+      entryName = defaultListEntryName(this.document, listKey, path),
+    entry = { name: entryName };
+
+    obj[entryKey] = entry;
     
     // Update document
-    await this.document.update({[arrPath]: arr});
+    await this.document.update({ [path]: obj });
 
-    // Add entryId to dataset and render the config window
-    dataset.entryId = arr.length-1;
-    new ListEntryConfig(await this.document, await dataset).render(true);
-    
+    const context = {
+      entry: entry,
+      key: entryKey,
+      showKey: true
+    };
+
+    // Show a dialog 
+    const dialogInput = await WWDialog.input({
+      window: {
+        icon: "fa-solid fa-edit",
+        title: 'WW.Settings.Entry.Edit',
+      },
+      content: await renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
+      ok: {
+        label: 'EFFECT.Submit',
+        icon: 'fa-solid fa-save'
+      },
+      buttons: [
+        {
+          label: 'WW.System.Dialog.Cancel',
+          icon: 'fa-solid fa-xmark'
+        },
+      ]
+    });
+
+    // Return if cancelled
+    if (!dialogInput) return;
+
+    // Return with warning if the key or name are missing
+    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
+
+    obj[dialogInput.key] = dialogInput;
+
+    delete await obj[dialogInput.key].key;
+
+    await this.document.update({ [path]: obj });
+
   }
-  
+
   /**
-   * Handle edditing a list entry
-   * @param {Event} ev   The originating click event
+   * Handle editing a list entry
+   * @param {Event} event          The originating click event
+   * @param {HTMLElement} button   The button element originating the click event
    * @private
   */
+  async #onEntryEdit(event, button) {
 
-  _onListEntryButtonEdit(dataset) {
+    // Get data
+    const dataset = button.dataset,
+      listPath = dataset.listPath,
+      path = 'system.' + listPath,
+      obj = foundry.utils.getProperty(this.document, path),
+      entryKey = dataset.entryKey,
+    entry = obj[entryKey];
     
-    // Render ListEntryConfig
-    new ListEntryConfig(this.document, dataset).render(true);
-    
+    const context = {
+      entry: await entry,
+      key: entryKey,
+      showKey: true
+    };
+
+    // Show a dialog 
+    const dialogInput = await WWDialog.input({
+      window: {
+        icon: "fa-solid fa-edit",
+        title: 'WW.Settings.Entry.Edit',
+      },
+      content: await renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
+      ok: {
+        label: 'EFFECT.Submit',
+        icon: 'fa-solid fa-save'
+      },
+      buttons: [
+        {
+          label: 'WW.System.Dialog.Cancel',
+          icon: 'fa-solid fa-xmark'
+        },
+      ]
+    });
+
+    // Return if cancelled
+    if (!dialogInput) return;
+
+    // Return with warning if the key or name are missing
+    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
+
+    obj[dialogInput.key] = dialogInput;
+
+    delete await obj[dialogInput.key].key;
+
+    await this.document.update({ [path]: obj });
+
   }
 
   /**
-   * Handle removing an element from an array
-   * @param {Event} ev   The originating click event
+   * Handle removing an entry from a list
+   * @param {Event} event          The originating click event
+   * @param {HTMLElement} button   The button element originating the click event
    * @private
   */
+  async #onEntryRemove(event, button) {
+    if (event.currentTarget.classList.contains('benefit-block')) event.stopPropagation();
 
-  _onListEntryButtonRemove(dataset) {
-    
-    const arrPath = 'system.' + dataset.array,
-      arr = foundry.utils.getProperty(this.document, arrPath);
-    
-    // Delete array element
-    arr.splice(dataset.entryId, 1);
+    const dataset = Object.assign({}, button.dataset),
+      listPath = dataset.listPath,
+      path = 'system.' + listPath,
+      obj = foundry.utils.getProperty(this.document, path),
+    key = dataset.entryKey;
+
+    const newObj = {...obj }; 
+    delete await newObj[key];
     
     // Update document
-    this.document.update({[arrPath]: arr});
-    
+    //await this.document.update({ [path]: await newObj });
+    await this.document.update({ [`${path}.-=${key}`]: null });
+
+  }
+
+  /**
+    * Handle removing an element from an array
+    * @param {Event} event          The originating click event
+    * @param {HTMLElement} button   The button element originating the click event
+    * @private
+   */
+  #onEntrySettingsDisplay(event, button) {
+    const dataset = Object.assign({}, button.dataset),
+      listKey = dataset.listKey;
+
+    new EntrySettingsDisplay({ listKey: listKey }).render(true);
   }
 
   /* -------------------------------------------- */
-  /*  Array button actions                        */
-  /* -------------------------------------------- */
-  
-  /**
-   * Handle clicked array buttons
-   * @param {Event} ev   The originating click event
-   * @private
-  */
-
-  _onArrayButtonClicked(ev) {
-    const button = ev.currentTarget,
-      dataset = Object.assign({}, button.dataset);
-
-    
-    switch (dataset.action) {
-      case 'add': this._onArrayButtonAdd(dataset); break;
-      case 'remove': this._onArrayButtonRemove(dataset); break;
-    }
-    
-  }
-  
+  /*  Char Options reference actions              */
   /* -------------------------------------------- */
 
   async _onRefEdit(event) {
@@ -392,9 +502,15 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     const item = await fromUuid(uuid);
 
     // Open a dialog to confirm
-    const confirm = await Dialog.confirm({
-      title: i18n('WW.CharOption.Reference.RemoveDialog.Title'),
-      content: `<p>${i18n('WW.CharOption.Reference.RemoveDialog.Msg')}</p><p class="dialog-sure">${i18n('WW.CharOption.Reference.RemoveDialog.Confirm')}</p>`
+    const confirm = await WWDialog.confirm({
+      window: {
+        title: 'WW.CharOption.Reference.RemoveDialog.Title',
+        icon: 'fa-solid fa-trash'
+      },
+      content: `
+        <div>${i18n('WW.CharOption.Reference.RemoveDialog.Msg')}</div>
+        <div class="dialog-sure">${i18n('WW.CharOption.Reference.RemoveDialog.Confirm')}</div>
+      `
     });
 
     if (!confirm) return;
@@ -480,7 +596,10 @@ export default class WWCharOptionSheet extends JournalPageSheet {
 
   /** @inheritdoc */
   _onDragOver(event) {
-    const ol = event.target.closest('.items-area');
+    // Highlight items area or benefit block
+    const ol = event.target.closest('.items-area') ?? event.target.closest('.benefit-block');
+
+    if (!ol) return;
 
     if ($(ol).hasClass('fadeout')) return;
 
@@ -491,10 +610,43 @@ export default class WWCharOptionSheet extends JournalPageSheet {
 
   /* -------------------------------------------- */
 
-  /** @inheritdoc */
-  async _onDrop(event) {
-    // Get basic drop event data
+  /**
+   * @override
+   * An event that occurs when data is dropped into a drop target.
+   * @param {DragEvent} event
+   * @returns {Promise<void>}
+   * @protected
+   */
+  async _onDrop(event) { // Delete in v13; core behavior
+    event.stopPropagation();
+    
+    if ( !this.isEditable ) return;
     const data = TextEditor.getDragEventData(event);
+    const journalEntry = this.document;
+    const allowed = Hooks.call("dropJournalEntryPageSheetData", journalEntry, this, data);
+    if ( allowed === false ) return;
+    
+    // Dropped Documents
+    const documentClass = getDocumentClass(data.type);
+    if ( documentClass ) {
+      const document = await documentClass.fromDropData(data);
+      
+      await this._onDropDocument(event, document);
+    }
+
+    // Dropped List Entry
+    if (data.listKey) {
+      await this._onDropListEntry(event, data);
+    }
+
+  }
+
+  /** @inheritdoc */
+  async _onDropDocument(event, item) {
+    // Ignore other document types
+    if (item.documentName !== 'Item') return;
+
+    // Fade out the area around the correct drop places
     const ol = event.target.closest('.items-area');
     
     if (!ol) return;
@@ -502,16 +654,27 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     $(ol).removeClass('fadeout');
 
     const benefit = ol.classList[2];
-
-    if (data.type !== "Item") return; // Receive only Items as drops
-
-    const item = await fromUuid(data.uuid);
     
-    if (!(item.type === 'Equipment' || item.type === 'Trait or Talent' || item.type === 'Spell')) {
-      return ui.notifications.warn(`${i18n('WW.CharOption.TypeWarning')}<br/>${i18n("WW.CharOption.Help", { itemType: this.document.type })}`);
-    }
+    // Check if document is from the correct allowed types
+    const docType = this.document.type;
+    let allowedTypes = ['Equipment', 'Trait or Talent', 'Spell'];
 
-    if (!item.pack) return ui.notifications.warn(`${i18n('WW.CharOption.CompendiumWarning')}<br/>${i18n("WW.CharOption.Help", { itemType: this.document.type })}`);
+    if (docType === 'ancestry' || docType === 'tradition') allowedTypes = ['Trait or Talent', 'Spell'];
+    if (docType === 'profession') allowedTypes = ['Equipment'];
+
+    // Return if not from an apropriate type
+    if (allowedTypes.includes(document.type)) return await ui.notifications.warn(`
+      ${i18n('WW.CharOption.TypeWarning')}
+      <br/>
+      ${i18n("WW.CharOption.Help", { itemType: item.type })}
+    `);
+    
+    // Return with warning if not in a pack
+    if (!item.pack) return await ui.notifications.warn(`
+      ${i18n('WW.CharOption.CompendiumWarning')}
+      <br/>
+      ${i18n("WW.CharOption.Help", { itemType: item.type })}
+    `);
     
     // Handle drop on Tradition
     if (this.document.type === 'tradition') {
@@ -534,11 +697,37 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     } else {
       const benefits = this.document.system.benefits;
       
-      benefits[benefit].items.push(item.uuid);
+      await benefits[benefit].items.push(item.uuid);
 
       await this.document.update({'system.benefits': benefits});
     }
 
+  }
+
+  /**
+   * Handle a droped List Entry on the Character Option Sheet.
+   */
+  async _onDropListEntry(event, dataset) {
+    const div = event.target.closest('.benefit-block');
+    
+    if (!div) return;
+
+    $(div).removeClass('fadeout');
+
+    const { listKey: listKey, entryKey: key, entryName: name, desc: desc } = dataset;
+
+    const benefit = div.dataset.benefitId,
+      path = `system.benefits.${benefit}.${listKey}`,
+    obj = {... foundry.utils.getProperty(this.document, path)};
+    
+    const entry = {
+      name: name,
+      desc: desc
+    };
+
+    obj[key] = entry;
+    
+    await this.document.update({ [path]: obj });
   }
   
 }

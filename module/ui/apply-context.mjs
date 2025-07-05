@@ -32,7 +32,7 @@ export default class ApplyContext extends ContextMenu {
       if ( group !== "_none" ) {
         const groupIcon = CONFIG.WW.APPLY_CONTEXT_ICONS[group];
         const groupHeader = i18n(CONFIG.WW.APPLY_CONTEXT_HEADERS[group]);
-        const groupItem = $(`<li class="context-group" data-group-id="${group}"><div class="context-header"><i class="fas fa-${groupIcon}"></i> ${groupHeader}</div><ol></ol></li>`);
+        const groupItem = $(`<li class="context-group" data-group-id="${group}"><div class="context-header"><i class="fa-solid fa-${groupIcon}"></i> ${groupHeader}</div><ol></ol></li>`);
         ol.append(groupItem);
         parent = groupItem.find("ol");
       }

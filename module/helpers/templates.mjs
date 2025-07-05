@@ -6,16 +6,11 @@
  export const preloadHandlebarsTemplates = async function() {
   return loadTemplates([
 
-    // Item partials
-    /*"systems/weirdwizard/templates/items/parts/Equipment-details.hbs",
-    "systems/weirdwizard/templates/items/parts/weapon-details.hbs",
-    "systems/weirdwizard/templates/items/parts/Talent-details.hbs",
-    "systems/weirdwizard/templates/items/parts/Spell-details.hbs",
-    "systems/weirdwizard/templates/items/parts/item-settings.hbs",
-    "systems/weirdwizard/templates/items/parts/item-effects.hbs",*/
-
     // Tabs
     "systems/weirdwizard/templates/sidebar/dice-tooltip.hbs",
-    "systems/weirdwizard/templates/sidebar/combatant.hbs"
+    "systems/weirdwizard/templates/sidebar/combatant.hbs",
+
+    // Journal Entry partials (remove in V13)
+    "systems/weirdwizard/templates/journal/list-entry.hbs"
   ]);
 };

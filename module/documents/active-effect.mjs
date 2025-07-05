@@ -18,7 +18,7 @@ export default class WWActiveEffect extends ActiveEffect {
 
   async _preUpdate(changes, options, user) {
     this._validateDuration(changes, 'preUpdate');
-
+    
     return await super._preUpdate(changes, options, user);
   }
 
@@ -68,9 +68,9 @@ export default class WWActiveEffect extends ActiveEffect {
     else this.system.duration.formatted = formatTime(this.duration.seconds);
   }
 
-  async _onUpdate(data, options, userId) {
+  /*async _onUpdate(data, options, userId) {
     super._onUpdate(data, options, userId); 
-  }
+  }*/
 
   /* -------------------------------------------- */
   /*  Data Preparation                            */
@@ -95,8 +95,8 @@ export default class WWActiveEffect extends ActiveEffect {
     const key = 'WW.Effect.Duration.';
     const rounds = this.duration.rounds;
     const selected = this.system.duration.selected;
-
-    if (rounds) {
+    
+    if (selected !== 'none' && rounds) { // (selected !== 'none') should not be needed post pathsOfJournaling migration
       // Prepare formatted selected label
       let str = '';
       if (selected) {

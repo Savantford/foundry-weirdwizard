@@ -7,6 +7,7 @@ const adv = (t) => game.time.advance(t),
   i18n = (s,d={}) => game.i18n.format(s,d)
 ;
 
+import WWDialog from '../apps/dialog.mjs';
 import QuestCalendarConfig from './quest-calendar-config.mjs';
 
 /**
@@ -78,14 +79,14 @@ export default class QuestCalendar extends Application {
       buttons.splice(closeIndex, 0, {
         label: "QC.Settings.Label",
         class: "configure-app",
-        icon: "fas fa-cog",
+        icon: "fa-solid fa-cog",
         onclick: ev => this._onConfigureApp(ev)
       });
 
       buttons.splice(closeIndex, 0, {
         label: "QC.Reset.Label",
         class: "reset-app",
-        icon: "fas fa-eraser",
+        icon: "fa-solid fa-eraser",
         onclick: ev => this._reset(ev)
       });
     }
@@ -229,8 +230,11 @@ export default class QuestCalendar extends Application {
   }
 
   async _reset() {
-    const confirm = await Dialog.confirm({
-      title: i18n('QC.Reset.Title'),
+    const confirm = await WWDialog.confirm({
+      window: {
+        title: 'QC.Reset.Title',
+        icon: 'fa-solid fa-eraser'
+      },
       content: i18n('QC.Reset.Msg') + '<p class="qc-dialog-sure">' + i18n('QC.Reset.Confirm') + '</p>'
     });
 

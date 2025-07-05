@@ -33,12 +33,12 @@
   {{!-- Benefits Section --}}
   <section class="benefits-section">
 
+    <h2>{{localize "WW.Tradition.Talents"}}</h2>
+
     {{!-- Talents --}}
     <div class="benefit-block">
-      <h2>{{localize "WW.Tradition.Talents"}}</h2>
       
       <ol class="described-list items-area talents">
-        {{#unless talents.length}}{{{itemsAreaHint}}}{{/unless}}
         
         {{!-- Populate Spells --}}
         {{#each talents as |item id|}}
@@ -47,11 +47,12 @@
           
           <span class="buttons">
             {{#unless item.missing}}<a class="ref-edit" data-tooltip="WW.CharOption.Reference.EditRef"><i
-                class="fas fa-edit"></i></a>{{/unless}}
-            <a class="ref-remove" data-tooltip="WW.CharOption.Reference.RemoveRef"><i class="fas fa-trash"></i></a>
+                class="fa-solid fa-edit"></i></a>{{/unless}}
+            <a class="ref-remove" data-tooltip="WW.CharOption.Reference.RemoveRef"><i class="fa-solid fa-trash"></i></a>
           </span>
 
         </li>
+        {{else}}{{{@root.itemsAreaHint}}}
         {{/each}}
 
       </ol>
@@ -60,16 +61,16 @@
   
     {{!-- Spells --}}
     {{#each spells as |tier tierKey|}}
-    <div class="benefit-block">
-      <h2>
+    <h2>
       {{#if (eq tierKey 'master')}}{{localize "WW.Spells.Master"}}
       {{else if (eq tierKey 'expert')}}{{localize "WW.Spells.Expert"}}
       {{else}}{{localize "WW.Spells.Novice"}}
       {{/if}}
-      </h2>
+    </h2>
+
+    <div class="benefit-block">
       
       <ol class="described-list items-area spells {{tierKey}}">
-        {{#unless tier.length}}{{{../itemsAreaHint}}}{{/unless}}
         
         {{!-- Populate Spells --}}
         {{#each tier as |item id|}}
@@ -78,11 +79,12 @@
 
           <span class="buttons">
             {{#unless item.missing}}<a class="ref-edit" data-tooltip="WW.CharOption.Reference.EditRef"><i
-                class="fas fa-edit"></i></a>{{/unless}}
-            <a class="ref-remove" data-tooltip="WW.CharOption.Reference.RemoveRef"><i class="fas fa-trash"></i></a>
+                class="fa-solid fa-edit"></i></a>{{/unless}}
+            <a class="ref-remove" data-tooltip="WW.CharOption.Reference.RemoveRef"><i class="fa-solid fa-trash"></i></a>
           </span>
 
         </li>
+        {{else}}{{{../itemsAreaHint}}}
         {{/each}}
 
       </ol>

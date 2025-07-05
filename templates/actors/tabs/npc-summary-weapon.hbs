@@ -27,14 +27,14 @@
         {{!-- Toggle Reloaded --}}
         <a class="item-button" data-action="item-toggle-reloaded" data-item-id="{{item._id}}"
             data-tooltip="{{#if item.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
-        <i class="fas {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
+        <i class="fa-solid {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
         {{/if}}
 
         {{!-- Edit Button --}}
-        <a class="item-button" data-action="itemEdit" data-item-id="{{item._id}}" data-tooltip="WW.Item.Edit.Activity"><i class="fas fa-edit"></i></a>
+        <a class="item-button" data-action="itemEdit" data-item-id="{{item._id}}" data-tooltip="WW.Item.Edit.Activity"><i class="fa-solid fa-edit"></i></a>
         
         {{!-- Delete Button --}}
-        <a class="item-button" data-action="itemRemove" data-item-id="{{item._id}}" data-tooltip="WW.Item.Delete.Activity"><i class="fas fa-trash"></i></a>
+        <a class="item-button" data-action="itemRemove" data-item-id="{{item._id}}" data-tooltip="WW.Item.Delete.Activity"><i class="fa-solid fa-trash"></i></a>
         
     </span>
 

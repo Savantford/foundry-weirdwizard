@@ -1,3 +1,4 @@
+import WWRoll from '../dice/roll.mjs';
 import { i18n, capitalize } from '../helpers/utils.mjs';
 import { actDataFromEffect, dataFromLabel } from '../sidebar/chat-html-templates.mjs';
 
@@ -42,6 +43,13 @@ export default class WWChatMessage extends ChatMessage {
     const instEffs = item ? item.system.instant.filter(e => e.trigger === 'onUse') : null;
     const actEffs = item ? item.effects.filter(e => e.system.trigger === 'onUse') : null;
     
+    // Replace formula values with roll data
+    if (instEffs) {
+      instEffs.forEach(effect => {
+        effect.value = WWRoll.replaceFormulaData(effect.value, this.getRollData());
+      });
+    };
+
     // Prepare content
     const emptyContent = data.flags?.weirdwizard?.emptyContent ?? data.flags?.weirdwizard?.emptyContent;
     const content = isNaN(this.content) ? this.content : '';
@@ -74,7 +82,7 @@ export default class WWChatMessage extends ChatMessage {
       // Prepare attack Rider
       item.attackRider = {
         value: item.system.attackRider?.value ?? '',
-        enriched: item.system.attackRider?.value ? await TextEditor.enrichHTML(item.system.attackRider.value, { async: true, secrets: true }) : '',
+        enriched: item.system.attackRider?.value ? await TextEditor.enrichHTML(item.system.attackRider.value, { secrets: true }) : '',
         name: item.system.attackRider?.name ?? ''
       }
 
@@ -104,7 +112,7 @@ export default class WWChatMessage extends ChatMessage {
           ...actDataFromEffect(actEffs[e])
         };
       }
-    }
+    };
     
     // Construct message data
     const messageData = {

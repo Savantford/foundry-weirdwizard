@@ -1,4 +1,8 @@
 import embedCard from "../../helpers/embed-card.mjs";
+import { camelCase } from "../../helpers/utils.mjs";
+import { TypedObjectField } from "../typed-object-field.mjs";
+
+export const fields = foundry.data.fields;
 
 export class BaseActorModel extends foundry.abstract.TypeDataModel {
 
@@ -14,184 +18,197 @@ export class BaseActorModel extends foundry.abstract.TypeDataModel {
     return embedCard(this.parent, config, options);
   }
 
-}
+  /** @inheritdoc */
+  static defineSchema() {
+    const fields = foundry.data.fields;
 
-export const fields = foundry.data.fields;
+    const schema = {
+      // Description
+      description: makeHtmlField('No creature description.'),
 
-export function description(type = String) {
-  const init = (type === 'Character') ? 'Unknown biography.' : 'No creature description.';
+      // Attributes
+      attributes: new fields.SchemaField({
+        str: makeAttribute('Strength'),
+        agi: makeAttribute('Agility'),
+        int: makeAttribute('Intellect'),
+        wil: makeAttribute('Will')
+      }),
 
-  return {
-    description: makeHtmlField(init)
+      // Stats
+      stats: new fields.SchemaField({
+        defense: new fields.SchemaField({
+          total: makeIntField(),
+          natural: makeIntField(10),
+          details: makeStrField()
+        }),
+
+        health: new fields.SchemaField({
+          current: makeIntField(),
+          normal: makeIntField(),
+          lost: makeIntField()
+        }),
+
+        damage: new fields.SchemaField({
+          raw: makeIntField(),
+          value: makeIntField(),
+          max: makeIntField()
+        }),
+
+        size: makeNumField(),
+
+        speed: new fields.SchemaField({
+          normal: makeIntField(5),
+          current: makeIntField()
+        })
+      }),
+
+      // List Entries
+      listEntries: new fields.SchemaField({
+
+        descriptors: new TypedObjectField(
+          new fields.SchemaField({
+            name: makeStrField("", 0),
+            desc: makeStrField(),
+            grantedBy: makeStrField(null)
+          }, {nullable: true})
+        ),
+
+        senses: new TypedObjectField(
+          new fields.SchemaField({
+            name: makeStrField("", 0),
+            desc: makeStrField(),
+            grantedBy: makeStrField(null)
+          }, {nullable: true})
+        ),
+
+        languages: new TypedObjectField(
+          new fields.SchemaField({
+            name: makeStrField("", 0),
+            desc: makeStrField(),
+            grantedBy: makeStrField(null)
+          }, {nullable: true})
+        ),
+
+        immunities: new TypedObjectField(
+          new fields.SchemaField({
+            name: makeStrField("", 0),
+            desc: makeStrField(),
+            grantedBy: makeStrField(null)
+          }, {nullable: true})
+        ),
+
+        movementTraits: new TypedObjectField(
+          new fields.SchemaField({
+            name: makeStrField("", 0),
+            desc: makeStrField(),
+            grantedBy: makeStrField(null)
+          }, {nullable: true})
+        )
+
+      })
+      
+    };
+
+    return schema;
   }
 
-};
+  /**
+   * Migrate source data from some prior format into a new specification.
+   * The source parameter is either original data retrieved from disk or provided by an update operation.
+   * @inheritDoc
+   */
+  static migrateData(source) {
+    // Migrate List Entries
+    if (typeof source.details?.type === 'string') { // Types
+      const arr = source.details.type.split(",");
+      source.details.types = arr.filter(s => s).map((s) => ({ name: s.trim() }));
+    }
 
-export const attributes = () => ({
-  attributes: new fields.SchemaField({
-    str: makeAttribute('Strength'),
-    agi: makeAttribute('Agility'),
-    int: makeAttribute('Intellect'),
-    wil: makeAttribute('Will')
-  })
-})
+    // Migrate Types to Descriptors
+    if (source.details?.types && !source.details?.descriptors) source.details.descriptors = source.details.types;
 
-export function stats(type = String) {
+    if (typeof source.details?.senses === 'string') { // Senses
+      const arr = source.details.senses.split(",");
+      source.details.senses = arr.filter(s => s).map((s) => ({ name: s.trim() }));
+    }
+    
+    if (typeof source.details?.languages === 'string') { // Languages
+      const arr = source.details.languages.split(",");
+      source.details.languages = arr.filter(s => s).map((s) => ({ name: s.trim() }));
+    }
 
-  const obj = {
+    if (typeof source.details?.immune === 'string') { // Immune
+      const arr = source.details.immune.split(",");
+      source.details.immune = arr.filter(s => s).map((s) => ({ name: s.trim() }));
+    }
 
-    defense: makeDefense(type),
-    health: makeHealth(type),
+    if (typeof source.stats?.speed?.special === 'string') { // Movement Traits (Speed Special)
+      const arr = source.stats.speed.special.split(",");
+      source.details.movementTraits = arr.filter(s => s).map((s) => ({ name: s.trim() }));
+    }
 
-    damage: new fields.SchemaField({
-      raw: makeIntField(),
-      value: makeIntField(),
-      max: makeIntField()
-    }),
+    // Migrate Level
+    if (isNaN(source.stats?.level)) {
 
-    size: makeNumField(),
+      switch (source.stats?.level) {
+        case '⅛': source.stats.level = 0.125; break;
+        case '¼': source.stats.level = 0.25; break;
+        case '½': source.stats.level = 0.5; break;
+      }
+    }
 
-    speed: new fields.SchemaField({
-      normal: makeIntField(5),
-      current: makeIntField()
-    })
+    // Migrate Size
+    if (isNaN(source.stats?.size)) {
+
+      switch (source.stats?.size) {
+        case '⅛': source.stats.size = 0.125; break;
+        case '¼': source.stats.size = 0.25; break;
+        case '½': source.stats.size = 0.5; break;
+      }
+    }
+
+    // Migrate damage.raw to damage.value
+    if ('stats' in source && !source.stats?.damage?.raw && source.stats?.damage?.value) source.stats.damage.raw = source.stats?.damage?.value;
+
+    // Migrate immune to immunities
+    if ('details' in source && source.details?.immune) source.details.immunities = source.details.immune;
+
+    // Migrate entry lists from array to object to system.listEntries
+    if ('details' in source/* && 'listEntries' in source*/) {
+      const listKeys = ['senses', 'descriptors', 'languages', 'immunities', 'movementTraits', 'traditions'];
+      
+      for (const key in source.details) {
+        const prop = source.details[key];
+        
+        // Check for the listKeys and if it's an array
+        if (source.details.hasOwnProperty(key) && listKeys.includes(key)) {
+          
+          if (Array.isArray(prop)) {
+            
+            if (prop.length) {
+              const map = prop.map(value => [value.name ? camelCase(value.name) : camelCase(value), value]);
+
+              if (!source.listEntries) source.listEntries = {};
+
+              source.listEntries[key] = Object.fromEntries(map);
+            }
+            
+          }
+          
+        }
+
+      }
+      
+    }
+
+    return source;
   }
 
-  if (type === 'Character') {
-    obj.level = makeNumField();
-    obj.bonusdamage = makeIntField();
-  } else if (type === 'NPC') {
-    obj.difficulty = makeIntField(1);
-  };
-
-  return { stats: new fields.SchemaField(obj) };
-};
-
-export function details(type = String) {
-  const obj = {
-
-    descriptors: new fields.ArrayField(
-      new fields.ObjectField({
-        initial: {
-          name: "",
-          desc: "",
-          grantedBy: null
-        }
-      })
-    ),
-
-    senses: new fields.ArrayField(
-      new fields.ObjectField({
-        initial: {
-          name: "",
-          desc: "",
-          grantedBy: null
-        }
-      })
-    ),
-
-    languages: new fields.ArrayField(
-      new fields.ObjectField({
-        initial: {
-          name: "",
-          desc: "",
-          grantedBy: null
-        }
-      })
-    ),
-
-    immune: new fields.ArrayField(
-      new fields.ObjectField({
-        initial: {
-          name: "",
-          desc: "",
-          grantedBy: null
-        }
-      })
-    ),
-
-    movementTraits: new fields.ArrayField(
-      new fields.ObjectField({
-        initial: {
-          name: "",
-          desc: "",
-          grantedBy: null
-        }
-      })
-    )
-
-  }
-
-  if (type === 'Character') {
-
-    // Will be deleted in a later date
-    obj.professions = makeStrField("", 1, 1);
-    obj.ancestry = makeStrField("", 1, 1);
-    obj.novice = makeStrField("", 1, 1);
-    obj.expert = makeStrField("", 1, 1);
-    obj.master = makeStrField("", 1, 1);
-
-    obj.traditions = new fields.ArrayField(
-      new fields.ObjectField({
-        initial: {
-          name: "",
-          desc: "",
-          grantedBy: null
-        }
-      })
-    );
-
-    // Details
-    obj.appearance = makeHtmlField();
-    obj.features = makeHtmlField(); // Deleted
-    obj.background = makeHtmlField();
-    obj.bg_ancestry = makeHtmlField(); // Deleted
-    obj.personality = makeHtmlField();
-    obj.beliefs = makeHtmlField();
-    obj.belief = makeHtmlField(); // Deleted
-
-    obj.notes = makeHtmlField();
-    obj.information = makeHtmlField(); // Deleted
-    obj.deeds = makeHtmlField(); // Deleted
-  }
-
-
-  return { details: new fields.SchemaField(obj) };
-}
-
-export function charOptions(type = String) {
-  const obj = {
-    ancestry: makeStrField('', 1) // Use Human Ancestry UUID instead
-  };
-
-  if (type === 'Character') {
-
-    obj.professions = new fields.ArrayField(
-      makeStrField()
-    );
-
-    // Paths
-    obj.novice = makeStrField();
-    obj.expert = makeStrField();
-    obj.master = makeStrField();
-
-    obj.traditions = new fields.ArrayField(
-      makeStrField()
-    );
-  }
-
-  return { charOptions: new fields.SchemaField(obj) };
 }
 
 /****************************************/
-export const makeHtmlField = (init = '') => new fields.SchemaField({
-  value: new fields.HTMLField({
-    initial: init,
-    textSearch: true // Allow it to be searched in the Search Bar
-  })
-})
 
-const makeBooField = (init = false) => new fields.BooleanField({
+export const makeBooField = (init = false) => new fields.BooleanField({
   initial: init
 })
 
@@ -209,9 +226,22 @@ export const makeIntField = (init = 0) => new fields.NumberField({
   clean: true
 })
 
-const makeStrField = (init = '', blank = true) => new fields.StringField({
+export const makeStrField = (init = '', blank = true) => new fields.StringField({
   initial: init,
   blank: blank
+})
+
+export const makeCharOptionField = (init = null) => new fields.StringField({
+  initial: init,
+  blank: true,
+  nullable: true
+})
+
+export const makeHtmlField = (init = '') => new fields.SchemaField({
+  value: new fields.HTMLField({
+    initial: init,
+    textSearch: true // Allow it to be searched in the Search Bar
+  })
 })
 
 export function makeAttribute(attribute) {
@@ -229,39 +259,3 @@ export function makeAttribute(attribute) {
     })
   })
 }
-
-export function makeDefense(type) {
-
-  if (type == 'Character') {
-    return new fields.SchemaField({
-      total: makeIntField(),
-      natural: makeIntField(8)
-    })
-  }
-
-  else if (type == 'NPC') return new fields.SchemaField({
-    total: makeIntField(),
-    natural: makeIntField(10),
-    details: makeStrField()
-  })
-
-  else return {}
-}
-
-export function makeHealth(type) {
-
-  if (type == 'Character') {
-    return new fields.SchemaField({
-      current: makeIntField(),
-      normal: makeIntField(),
-      lost: makeIntField()
-    })
-  } else if (type == 'NPC') return new fields.SchemaField({
-    current: makeIntField(),
-    normal: makeIntField(10),
-    lost: makeIntField()
-  })
-
-  else return {}
-}
-

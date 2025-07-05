@@ -46,19 +46,11 @@ export default class WWActor extends Actor {
     
     // Fix Health and Incapacitated
     this.incapacitated = false;
-    
-    if (data.type === 'NPC') {
-      await this.updateSource({
-        'system.stats.health.current': data.system.stats.health.normal ? data.system.stats.health.normal : 10,
-        'system.stats.damage.raw': 0
-      });
-    }
 
     if (data.type === 'Character') {
-      await this.updateSource({
-        'system.stats.health.current': data.system.stats.health.normal ? data.system.stats.health.normal : 5,
-        'system.stats.damage.raw': 0
-      });
+      
+      // Update starting Human ancestry's benefits
+      await this.updateCharOptionBenefits('Compendium.weirdwizard.character-options.JournalEntry.pAAZKv2vrilITojZ.JournalEntryPage.GI4b6WkOLlTszbRe', 'creation');
     }
 
     return await super._onCreate(await data, options, user);
@@ -89,8 +81,8 @@ export default class WWActor extends Actor {
     const health = foundry.utils.getProperty(changed, 'system.stats.health');
     const damage = foundry.utils.getProperty(changed, 'system.stats.damage');
 
-    // Calculate Damage and Health
-    this._calculateDamageHealth(this.system, foundry.utils.getProperty(changed, 'system.stats.health.current') ? true : false);
+    // Calculate changed Damage and Health
+    this._calculateChangedDamageHealth(this.system, foundry.utils.getProperty(changed, 'system.stats.health.current') ? true : false);
     
     // Update token status icons
     if ((damage || health) && this.token) {
@@ -108,11 +100,11 @@ export default class WWActor extends Actor {
         
         if (typeof cOpt !== 'string') {
           for (const e in cOpt) {
-            this.updateCharOptionBenefits(cOpt[e]);
+            this.updateCharOptionBenefits(cOpt[e], 'levelChange');
           }
 
         } else {
-          this.updateCharOptionBenefits(cOpt);
+          this.updateCharOptionBenefits(cOpt, 'levelChange');
         }
       }
       
@@ -216,21 +208,22 @@ export default class WWActor extends Actor {
 
     for (const o in cOpts) {
       const opt = cOpts[o];
-      
+
       // Assign array of pages
-      if (opt.constructor === Array) {
+      if (opt && opt.constructor === Array) {
         charOptions[o] = [];
 
         for (const idx in opt) {
           const page = await fromUuid(opt[idx]);
-          charOptions[o].push(page ? page : opt[idx]);
+          
+          charOptions[o].push(await page ? page : opt[idx]);
         }
       }
       // Assign page
       else if (typeof opt === 'string' && opt.includes('.')) charOptions[o] = await fromUuid(opt) ? await fromUuid(opt) : opt;
     }
 
-    this.charOptions = charOptions;
+    return this.charOptions = charOptions;
   }
 
   /**
@@ -317,11 +310,12 @@ export default class WWActor extends Actor {
     data.bd = sys.stats.bonusdamage;
 
     // Clean unused data
+    delete data.description;
     delete data.attributes;
     delete data.stats;
     delete data.currency;
     delete data.details;
-    delete data.description;
+    delete data.listEntries;
     
     return data;
   }
@@ -385,17 +379,19 @@ export default class WWActor extends Actor {
     
   }
 
+  /* Called during prepareDerivedData */
   _calculateHealthVariables(system) {
+    
     // Get variables
     const health = system.stats.health;
     const current = health.current;
     const damage = system.stats.damage.value;
-
+    
     if (damage > current) {
       this.system.stats.damage.value = current;
       system.stats.damage.value = current;
     };
-
+    
     // Health override effect exists
     if (health.override) {
       health.normal = health.override;
@@ -416,11 +412,13 @@ export default class WWActor extends Actor {
 
   }
 
-  _calculateDamageHealth(system, healthChanged) {
+  /* Called during _onUpdate */
+  _calculateChangedDamageHealth(system, healthChanged) {
+    
     // Get variables
     const health = system.stats.health;
     const current = health.current;
-    const damage = /*this.*/system.stats.damage.value;
+    const damage = system.stats.damage.value;
 
     // Set corrected damage value to stay incapacitated or
     // to not allow raw input value to surpass current Health
@@ -448,18 +446,26 @@ export default class WWActor extends Actor {
   /*  Character Options Handling                  */
   /* -------------------------------------------- */
 
-  async updateCharOptionBenefits(uuid) {
+  async updateCharOptionBenefits(uuid, source) {
     if (!uuid) return;
     const cOption = await fromUuid(uuid);
     
-    // Return if invalid uuid or a tradition
+    // Return if invalid uuid, tradition or ancestry on level change
     if (!cOption) return ui.notifications.error(`"${uuid}" is not a valid Character Option UUID. Please remove it from the sheet!`);
     if (cOption.type === 'tradition') return;
+    if (cOption.type === 'ancestry' && source === 'levelChange') return;
+    
+    // Handle char option's main effect, granted list entries and granted items
+    await this._updateMainEffect(uuid);
+    await this._updateGrantedEntries(uuid);
 
-    // Handle char option's granted items, granted list entries and main effect
-    this._updateGrantedItems(uuid);
-    this._updateGrantedEntries(uuid);
-    this._updateMainEffect(uuid);
+    // Only grant items to professions if it's a drop and no other professions exist
+    if (cOption.type === 'profession') {
+      const professions = [...this.system.charOptions.professions].filter(x => x !== uuid); 
+      const noOtherProfessions = professions.length > 0 ? false : true;
+      
+      if (source === 'dragDrop' && noOtherProfessions) this._updateGrantedItems(uuid);
+    } else this._updateGrantedItems(uuid);
 
     ui.notifications.info(`${cOption.name}'s benefits updated.`);
 
@@ -471,9 +477,9 @@ export default class WWActor extends Actor {
     const cOpt = await fromUuid(uuid);
 
     if (cOpt.type === 'profession' || cOpt.type === 'tradition') return;
-
+    
     const benefits = cOpt.system.benefits;
-    const level = this.system.stats.level;
+    const level = this.system.stats.level ?? 0;
 
     const stats = {
       naturalSet: 0,
@@ -486,7 +492,7 @@ export default class WWActor extends Actor {
       speedIncrease: 0,
       bonusDamage: 0
     };
-
+    
     for (const b in benefits) {
 
       const benefit = benefits[b];
@@ -598,26 +604,23 @@ export default class WWActor extends Actor {
 
   /* -------------------------------------------- */
 
-  async _updateGrantedItems(uuid) {
+  async _updateGrantedItems(uuid, settings={isDragDrop: false}) {
     const cOption = await fromUuid(uuid);
     
     if (!cOption) return ;
     
     const benefits = cOption.system.benefits,
       level = this.system.stats.level,
-      aItems = this.items.filter(i => { return i.flags?.weirdwizard?.grantedBy === uuid; });
+      aItems = this.items.filter(i => { return i.system.grantedBy === uuid; });
 
     const itemsArr = [];
     
     for (const b in benefits) {
 
       const benefit = benefits[b];
-
-      if (!benefit.levelReq) benefit.levelReq = 0;
       
       // If level does not meet the requirement, ignore it
       if (level >= benefit.levelReq) {
-
         const bItems = benefit.items;
 
         for (const iUuid of bItems) {
@@ -625,12 +628,8 @@ export default class WWActor extends Actor {
           const item = await fromUuid(iUuid);
           const itemData = await game.items.fromCompendium(item);
           
-          // Store the char option id on a flag
-          itemData.flags = {
-            weirdwizard: {
-              grantedBy: uuid
-            }
-          }
+          // Store the char option's UUID in grantedBy
+          itemData.system.grantedBy = uuid;
 
           // If item with the same name is not found, create it on the actor
           if (!aItems.find(i => i.name === itemData.name )) itemsArr.push(itemData);
@@ -654,85 +653,73 @@ export default class WWActor extends Actor {
     if (!cOption) return ;
 
     const benefits = cOption.system.benefits,
-    details = this.system.details,
+    listEntries = this.system.listEntries,
     level = this.system.stats.level;
 
     // Get list entries granted by the character option existing on the actor
-    const aDetails = {
-      descriptors: details.descriptors.filter(i => {
-        return i.grantedBy === uuid;
-      }),
-      senses: details.senses.filter(i => {
-        return i.grantedBy === uuid;
-      }),
-      languages: details.languages.filter(i => {
-        return i.grantedBy === uuid;
-      }),
-      immune: details.immune.filter(i => {
-        return i.grantedBy === uuid;
-      }),
-      traditions: details.traditions.filter(i => {
-        return i.grantedBy === uuid;
-      })
-    }
-
-    // Create aDetails to store existing actor details
-    const newDetails = {
-      descriptors: details.descriptors,
-      senses: details.senses,
-      languages: details.languages,
-      immune: details.immune,
-      traditions: details.traditions
+    const grantedEntries = this._entriesToGrant(uuid);
+    
+    // Create newEntries to store the updated list entries
+    const newEntries = {
+      descriptors: listEntries.descriptors,
+      immunities: listEntries.immunities,
+      languages: listEntries.languages,
+      movementTraits: listEntries.movementTraits,
+      senses: listEntries.senses,
+      traditions: listEntries.traditions
     };
 
     // Loop through each benefit
     for (const b in benefits) {
 
       const benefit = benefits[b];
-
-      if (!benefit.levelReq) benefit.levelReq = 0;
       
       // If level does not meet the requirement, ignore it
       if (level >= benefit.levelReq) {
-
-        if (benefit.descriptors) this._addEntries(uuid, aDetails, newDetails, benefit, 'descriptors');
+        if (benefit.descriptors) newEntries.descriptors = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'descriptors');
         
-        if (benefit.senses) this._addEntries(uuid, aDetails, newDetails, benefit, 'senses');
+        if (benefit.immunities) newEntries.immunities = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'immunities');
+
+        if (benefit.languages) newEntries.languages = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'languages');
+
+        if (benefit.movementTraits) newEntries.movementTraits = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'movementTraits');
+
+        if (benefit.senses) newEntries.senses = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'senses');
+
+        if (benefit.traditions) newEntries.traditions = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'traditions');
         
-        if (benefit.languages) this._addEntries(uuid, aDetails, newDetails, benefit, 'languages');
-
-        if (benefit.immune) this._addEntries(uuid, aDetails, newDetails, benefit, 'immune');
-
-        if (benefit.traditions) this._addEntries(uuid, aDetails, newDetails, benefit, 'traditions');
-
       }
       
     }
     
-    // Update actor with new details object
-    await this.update({['system.details']: {...details, ...newDetails} });
-
+    // Update actor with new listEntries object
+    const obj = {...await listEntries, ... newEntries };
+    
+    await this.updateSource({['system.listEntries']: obj });
   }
 
-  _addEntries(uuid, aDetails, newDetails, benefit, arrName) {
-    const arr = [...benefit[arrName]];
+  /* -------------------------------------------- */
+
+  async _addEntries(uuid, grantedEntries, newEntries, benefit, listName) {
+    const list = {...benefit[listName]};
     
     // For each entry
-    arr.forEach((entry,id) => {
+    for (const entryId in list) {
+      const entry = list[entryId];
       
-      // Store the char option id on grantedBy
+      // Store the character option's UUID in grantedBy
       entry.grantedBy = uuid;
 
-      // If entry with the same name is found, splice entry from the array
-      if (aDetails[arrName].find(ae => ae.name === entry.name )) {
-        arr.splice(id);
+      // If entry with the same key is found, delete the entry from the list object
+      if (Object.keys(await grantedEntries[listName]).find(e => e === entryId)) {
+        delete await list[entryId];
       }
 
-    });
-
-    // Add entries to newDetails object
-    if (arr.length) newDetails[arrName] = newDetails[arrName] ? newDetails[arrName].concat(arr) : arr;
-
+    };
+    
+    // Add entries to newEntries object
+    //if (Object.keys(await list).length) newEntries[listName] = newEntries[listName] ? { ...await list, ...newEntries[listName] } : list;
+    return await list;
   }
 
   /* -------------------------------------------- */
@@ -740,41 +727,78 @@ export default class WWActor extends Actor {
   async clearCharOptionBenefits(uuid) {
     const cOption = await fromUuid(uuid);
 
+    /* Benefit Main Effect */
+
     // Delete main effect
     const eff = this.effects.find(e => { return e.system.grantedBy === cOption.uuid });
 
     // Create or update main effect
     if (eff) this.deleteEmbeddedDocuments("ActiveEffect", [eff.id]);
 
+    /* Granted Items */
+
     // Get granted items
-    const aItems = this.items.filter(i => i.flags?.weirdwizard?.grantedBy === uuid );
+    const aItems = this.items.filter(i => i.system.grantedBy === uuid );
     const ids = aItems.map(i => i._id);
     
     // Delete items granted by the Character Option
     this.deleteEmbeddedDocuments('Item', ids);
 
-    // Clear granted list entries
+    /* Granted List Entries */
 
-    // Get actor list entries granted by the character option
-    const newDetails = { ...this.system.details,
-      senses: this.system.details.senses.filter(i => {
-        return i.grantedBy !== uuid;
-      }),
-      languages: this.system.details.languages.filter(i => {
-        return i.grantedBy !== uuid;
-      }),
-      immune: this.system.details.immune.filter(i => {
-        return i.grantedBy !== uuid;
-      }),
-      traditions: this.system.details.traditions.filter(i => {
-        return i.grantedBy !== uuid;
-      })
-    }
+    // Get list entries granted by the character option existing on the actor
+    const newEntries = this._removeEntriesGrantedBy(uuid);
 
-    // Update actor with new details
-    this.update({['system.details']: newDetails});
+    // Update actor with new listEntries
+    this.update({['system.listEntries']: newEntries});
 
     ui.notifications.info(`${cOption.name}'s benefits were cleared from the actor.`);
+  }
+
+  /* -------------------------------------------- */
+
+  _entriesToGrant(uuid) {
+    const entries = this.system.listEntries;
+    const objFilter = list => Object
+      .fromEntries(Object.entries(entries[list])
+    .filter(([k, v]) => v.grantedBy === uuid ));
+
+    const obj = {
+      descriptors: objFilter('descriptors'),
+      immunities: objFilter('immunities'),
+      languages: objFilter('languages'),
+      movementTraits: objFilter('movementTraits'),
+      senses: objFilter('senses')
+    }
+
+    if (this.type === 'Character') obj.traditions = objFilter('traditions');
+
+    return obj;
+
+  }
+
+  /* -------------------------------------------- */
+
+  _removeEntriesGrantedBy(uuid) {
+    const entries = this.system.listEntries;
+    
+    const objFilter = list => Object
+      .fromEntries(Object.entries(entries[list])
+      .filter(([k, v]) => v.grantedBy === uuid )
+    .map(([k]) => [`-=${k}`, null]));
+    
+    const obj = {
+      descriptors: objFilter('descriptors'),
+      immunities: objFilter('immunities'),
+      languages: objFilter('languages'),
+      movementTraits: objFilter('movementTraits'),
+      senses: objFilter('senses')
+    }
+
+    if (this.type === 'Character') obj.traditions = objFilter('traditions');
+
+    return obj;
+
   }
 
   /* -------------------------------------------- */
@@ -797,8 +821,8 @@ export default class WWActor extends Actor {
     }
 
     const content = `
-      <p style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this })}</b> ${i18n('WW.InstantEffect.Apply.Took')} ${damage} ${i18n('WW.InstantEffect.Apply.DamageLc')}.</p>
-      <p>${i18n('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fas fa-arrow-right"></i> ${newTotal}</p>
+      <div style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this })}</b> ${i18n('WW.InstantEffect.Apply.Took')} ${damage} ${i18n('WW.InstantEffect.Apply.DamageLc')}.</div>
+      <div>${i18n('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fa-solid fa-arrow-right"></i> ${newTotal}</div>
     `;
 
     ChatMessage.create({
@@ -817,8 +841,8 @@ export default class WWActor extends Actor {
     const newTotal = ((oldTotal - parseInt(healing)) > 0) ? oldTotal - parseInt(healing) : 0;
 
     const content = `
-      <p style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this })}</b> ${i18n('WW.InstantEffect.Apply.Healed')} ${healing} ${i18n('WW.InstantEffect.Apply.DamageLc')}.</p>
-      <p>${i18n('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fas fa-arrow-right"></i> ${newTotal}</p>
+      <div style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this })}</b> ${i18n('WW.InstantEffect.Apply.Healed')} ${healing} ${i18n('WW.InstantEffect.Apply.DamageLc')}.</div>
+      <div>${i18n('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fa-solid fa-arrow-right"></i> ${newTotal}</div>
     `;
 
     ChatMessage.create({
@@ -838,8 +862,8 @@ export default class WWActor extends Actor {
     const current = (oldCurrent - loss) > 0 ? oldCurrent - loss : 0;
 
     const content = `
-      <p style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this })}</b> ${i18n('WW.InstantEffect.Apply.Lost')} ${loss} ${i18n('WW.InstantEffect.Apply.Health')}.</p>
-      <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${oldCurrent} <i class="fas fa-arrow-right"></i> ${current}</p>
+      <div style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this })}</b> ${i18n('WW.InstantEffect.Apply.Lost')} ${loss} ${i18n('WW.InstantEffect.Apply.Health')}.</div>
+      <div>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${oldCurrent} <i class="fa-solid fa-arrow-right"></i> ${current}</div>
     `;
 
     ChatMessage.create({
@@ -860,8 +884,8 @@ export default class WWActor extends Actor {
     const current = oldCurrent + regained;
     
     const content = `
-      <p style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this })}</b> ${i18n('WW.InstantEffect.Apply.Regained')} ${regained} ${i18n('WW.InstantEffect.Apply.Health')}.</p>
-      <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${oldCurrent} <i class="fas fa-arrow-right"></i> ${current}</p>
+      <div style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this })}</b> ${i18n('WW.InstantEffect.Apply.Regained')} ${regained} ${i18n('WW.InstantEffect.Apply.Health')}.</div>
+      <div>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${oldCurrent} <i class="fa-solid fa-arrow-right"></i> ${current}</div>
     `;
 
     ChatMessage.create({

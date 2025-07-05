@@ -1,31 +1,41 @@
+import { TypedObjectField } from '../typed-object-field.mjs';
 import {
   BaseCharOptionModel,
-  fields,
-  base,
-  makeStrField,
   makeIntField,
-  /*makeBooField,
-  makeHtmlField*/
+  makeStrField
 } from './base-charoption.mjs'
 
 export default class ProfessionData extends BaseCharOptionModel {
 
   static defineSchema() {
-    const type = 'Profession';
+    const fields = foundry.data.fields;
+    const schema = super.defineSchema();
 
-    return {
-      ...base(type),
+    schema.category = makeStrField('commoner', 0);
 
-      category: makeStrField('commoner'),
+    schema.benefits = new fields.SchemaField({
 
-      benefits: new fields.SchemaField({
-        benefit1: makeBenefitField()
+      benefit1: new fields.SchemaField({
+        levelReq: makeIntField(0),
+
+        items: new fields.ArrayField(makeStrField()),
+
+        // List entries
+        languages: new TypedObjectField(
+          new fields.SchemaField({
+            name: makeStrField("", 0),
+            desc: makeStrField(),
+            grantedBy: makeStrField(null)
+          }, { nullable: true })
+        )
+
       })
 
-    }
+    });
 
+    return schema;
   }
-
+  
   /**
    * Migrate source data from some prior format into a new specification.
    * The source parameter is either original data retrieved from disk or provided by an update operation.
@@ -37,12 +47,3 @@ export default class ProfessionData extends BaseCharOptionModel {
   }
 
 }
-
-const makeBenefitField = () => new fields.SchemaField({
-    
-  languages: new fields.ArrayField(
-    new fields.ObjectField({ initial: { name: "", desc: "" } })
-  ),
-
-  items: new fields.ArrayField(makeStrField())
-})

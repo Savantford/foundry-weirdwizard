@@ -15,7 +15,16 @@ export class Utils {
 
 /* Formatting Functions */
 export function capitalize(string, noLowerCase) {
-  return noLowerCase ? string?.charAt(0).toUpperCase() + string?.slice(1) : string?.charAt(0).toUpperCase() + string?.toLowerCase().slice(1)
+  return noLowerCase ? string?.charAt(0).toUpperCase() + string?.slice(1) : string?.charAt(0).toUpperCase() + string?.toLowerCase().slice(1);
+}
+
+export function camelCase(str) {
+  // converting all characters to lowercase
+  let ans = str.toLowerCase();
+
+  // Returning string to camelcase
+  return ans.split(" ").reduce((s, c) => s + (c.charAt(0).toUpperCase() + c.slice(1)));
+
 }
 
 export function escape(str) {
@@ -96,6 +105,68 @@ export function plusify(x) {
 
 export function sysPath(string) {
   return 'systems/weirdwizard/' + string;
+}
+
+/**
+  * Gets the default new key for a list entry
+  * @param {Document|null} document            A document which the entry list should belong
+  * @param {string} listKey                    The entry list key to be used
+  * @param {string} listPath                   The entry list path to be used
+  * @returns {string}
+ */
+export function defaultListEntryKey(document, listKey, listPath) {
+  const list = foundry.utils.getProperty(document, listPath);
+  
+  // Get a set of taken names
+  const takenKeys = new Set();
+  for (const entryKey in list) takenKeys.add(entryKey);
+  
+  // Determine base name listKey and localize it
+  const baseKey = CONFIG.WW.NEW_DEFAULT_ENTRY[listKey]?.key ?? 'entry';
+
+  // Determine and return name
+  let key = baseKey;
+
+  if (listKey.includes('languages') && !Object.keys(list).length) key = 'common';
+  else {
+    let index = 1;
+    while (takenKeys.has(key)) key = baseKey + (++index);
+  }
+
+  return key;
+}
+
+/**
+  * Gets the default new name for a list entry
+  * @param {Document|null} document            A document which the entry list should belong
+  * @param {string} listKey                    The entry list key to be used
+  * @param {string} listPath                   The entry list path to be used
+  * @returns {string}
+ */
+export function defaultListEntryName(document, listKey, listPath) {
+  const list = foundry.utils.getProperty(document, listPath);
+  
+  // Get a set of taken names
+  const takenNames = new Set();
+  for (const entryKey in list) {
+    if (list[entryKey]?.name) takenNames.add(list[entryKey].name);
+  }
+  
+  // Determine base name listKey and localize it
+  const baseNameKey = listKey ? CONFIG.WW.NEW_DEFAULT_ENTRY[listKey]?.loc : null;
+  
+  const baseName = baseNameKey ? i18n(baseNameKey) : 'Entry';
+  
+  // Determine and return name
+  let name = baseName;
+
+  if (listKey.includes('languages') && !Object.keys(list).length) name = i18n('WW.ListEntry.Language.Common');
+  else {
+    let index = 1;
+    while (takenNames.has(name)) name = `${baseName} (${++index})`;
+  }
+
+  return name;
 }
 
 /* -------------------------------------------- */

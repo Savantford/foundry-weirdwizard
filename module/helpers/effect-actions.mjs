@@ -1,5 +1,6 @@
 import { i18n, sysPath } from './utils.mjs';
 import InstantEffectConfig from '../sheets/configs/instant-effect-config.mjs';
+import WWDialog from '../apps/dialog.mjs';
 
 /* -------------------------------------------- */
 /*  Instant Effect handling actions             */
@@ -45,11 +46,14 @@ export async function deleteInstantEffect(effect, owner) {
   const arr = owner.system.instant;
 
   // Confirm Dialog
-  const confirm = await Dialog.confirm({
-    title: i18n('WW.Item.Delete.Dialog.Title'),
+  const confirm = await WWDialog.confirm({
+    window: {
+      title: 'WW.Item.Delete.Dialog.Title',
+      icon: 'fa-solid fa-trash'
+    },
     content: `
-      ${i18n('WW.Item.Delete.Dialog.Msg', { name: '<b>' + i18n(effect.locLabel) + '</b>' })}
-      <p class="dialog-sure">${i18n('WW.Item.Delete.Dialog.Confirm', { name: i18n(effect.locLabel) })}</p>
+      <div>${i18n('WW.Item.Delete.Dialog.Msg', { name: '<b>' + i18n(effect.locLabel) + '</b>' })}</div>
+      <div class="dialog-sure">${i18n('WW.Item.Delete.Dialog.Confirm', { name: i18n(effect.locLabel) })}</div>
     `
   });
 
@@ -119,11 +123,14 @@ export function editActiveEffect(effect, owner) {
 export async function deleteActiveEffect(effect, owner) {
 
   // Confirm Dialog
-  const confirm = await Dialog.confirm({
-    title: i18n('WW.Item.Delete.Dialog.Title'),
+  const confirm = await WWDialog.confirm({
+    window: {
+      title: 'WW.Item.Delete.Dialog.Title',
+      icon: 'fa-solid fa-trash'
+    },
     content: `
-      ${i18n('WW.Item.Delete.Dialog.Msg', { name: '<b>' + effect.name + '</b>' })}
-      <p class="dialog-sure">${i18n('WW.Item.Delete.Dialog.Confirm', { name: effect.name })}</p>
+      <div>${i18n('WW.Item.Delete.Dialog.Msg', { name: '<b>' + effect.name + '</b>' })}</div>
+      <div class="dialog-sure">${i18n('WW.Item.Delete.Dialog.Confirm', { name: effect.name })}</div>
     `
   });
 
@@ -187,7 +194,7 @@ export async function prepareActiveEffectCategories(effects, showDuration = fals
       type: e.type,
 
       subtitle: i18n((e.duration.rounds || e.duration.seconds) ? "WW.Effect.Temporary" : "WW.Effect.Permanent"),
-      text: await TextEditor.enrichHTML(e.description, { async: true, secrets: e.isOwner }),
+      text: await TextEditor.enrichHTML(e.description, { secrets: e.isOwner }),
       changes: ''
     }
 
@@ -200,9 +207,13 @@ export async function prepareActiveEffectCategories(effects, showDuration = fals
     e.tooltip = await renderTemplate(sysPath(`templates/apps/tooltips/effect.hbs`), context);
 
     // Prepare source document cards
-    const source = `@Embed[${e.origin} inline]`;
+    if (e.origin) {
+      const source = `@Embed[${e.origin} inline]`;
     
-    e.sourceCard = await TextEditor.enrichHTML(source, { async: true, secrets: e.isOwner });
+      e.sourceCard = await TextEditor.enrichHTML(source, { secrets: e.isOwner });
+    } else {
+      e.sourceCard = e.sourceName;
+    }
     
     // Push them into categories
     if (await e.disabled) categories.inactive.effects.push(e);
