@@ -109,14 +109,11 @@ export function sysPath(string) {
 
 /**
   * Gets the default new key for a list entry
-  * @param {Document|null} document            A document which the entry list should belong
-  * @param {string} listKey                    The entry list key to be used
-  * @param {string} listPath                   The entry list path to be used
+  * @param {object} list            A list object which the entry list should belong
+  * @param {string} listKey         The entry list key to be used
   * @returns {string}
  */
-export function defaultListEntryKey(document, listKey, listPath) {
-  const list = foundry.utils.getProperty(document, listPath);
-  
+export function defaultListEntryKey(list, listKey) {
   // Get a set of taken names
   const takenKeys = new Set();
   for (const entryKey in list) takenKeys.add(entryKey);
@@ -138,14 +135,11 @@ export function defaultListEntryKey(document, listKey, listPath) {
 
 /**
   * Gets the default new name for a list entry
-  * @param {Document|null} document            A document which the entry list should belong
-  * @param {string} listKey                    The entry list key to be used
-  * @param {string} listPath                   The entry list path to be used
+  * @param {object} list            A list object which the entry list should belong
+  * @param {string} listKey         The entry list key to be used
   * @returns {string}
  */
-export function defaultListEntryName(document, listKey, listPath) {
-  const list = foundry.utils.getProperty(document, listPath);
-  
+export function defaultListEntryName(list, listKey) {
   // Get a set of taken names
   const takenNames = new Set();
   for (const entryKey in list) {

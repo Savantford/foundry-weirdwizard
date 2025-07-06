@@ -1,4 +1,4 @@
-import { capitalize, i18n } from '../helpers/utils.mjs';
+import { capitalize, defaultListEntryKey, defaultListEntryName, i18n } from '../helpers/utils.mjs';
 import WWDialog from './dialog.mjs';
 
 // Similar syntax to importing, but note that
@@ -114,7 +114,19 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
    * @param {HTMLElement} button - the capturing HTML element which defined a [data-action]
   */
   static async #addEntry(event, button) {
-    const newList = {... this.list};
+    const newList = {... this.list},
+      listKey = this.listKey,
+      entryKey = defaultListEntryKey(this.list, listKey),
+      entryName = defaultListEntryName(this.list, listKey),
+    entry = { name: entryName };
+
+    const context = {
+      entry: entry,
+      key: entryKey,
+      showKey: true,
+      grantedBy: await fromUuid(entry.grantedBy) ?
+        await TextEditor.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { secrets: this.actor.isOwner }) : null
+    };
 
     // Show a dialog 
     const dialogInput = await WWDialog.input({
@@ -122,7 +134,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
         icon: "fa-solid fa-circle-plus",
         title: 'WW.Settings.Entry.Add',
       },
-      content: await renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', { showKey: true }),
+      content: await renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
       ok: {
         label: 'EFFECT.Submit',
         icon: 'fa-solid fa-save'
@@ -157,44 +169,13 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
    * @param {PointerEvent} event - The originating click event
    * @param {HTMLElement} button - the capturing HTML element which defined a [data-action]
   */
-  static #addSet(event, button) {
-    
-    // Fetch default lists
-    const systemDefaults = {
-      languages: CONFIG.WW.DEFAULT_LANGUAGES,
-      senses: CONFIG.WW.DEFAULT_SENSES,
-      immunities: CONFIG.WW.DEFAULT_IMMUNITIES,
-      movementTraits: CONFIG.WW.DEFAULT_MOVEMENT_TRAITS,
-      descriptors: CONFIG.WW.DEFAULT_DESCRIPTORS,
-      weaponTraits: CONFIG.WW.DEFAULT_WEAPON_TRAITS,
-      afflictions: CONFIG.WW.DEFAULT_AFFLICTIONS
-    }
-
-    // Update list with the default values
-    this.list = {
-      ...this.list,
-      ...systemDefaults[this.listKey]
-    };
-
-    ui.notifications.info(i18n('WW.Settings.Entry.SetNotification'));
-
-    this.render(true);
-    
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * @param {PointerEvent} event - The originating click event
-   * @param {HTMLElement} button - the capturing HTML element which defined a [data-action]
-  */
   static async #editEntry(event, button) {
-    const key = button.dataset.key;
     const newList = {... this.list};
-
+    const entryKey = button.dataset.entryKey;
+    
     const context = {
-      entry: await newList[key],
-      key: key,
+      entry: await newList[entryKey],
+      key: entryKey,
       showKey: true
     };
 
@@ -223,7 +204,12 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
     // Return with warning if the key or name are missing
     if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
 
-    newList[key] = dialogInput;
+    newList[dialogInput.key] = dialogInput;
+
+    delete await newList[dialogInput.key].key;
+    
+    // Delete old key if key has changed
+    if (entryKey !== dialogInput.key) delete newList[entryKey];
     
     // Update list and re-render
     this.list = await newList;
@@ -238,7 +224,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
    * @param {HTMLElement} button - the capturing HTML element which defined a [data-action]
   */
   static async #removeEntry(event, button) {
-    const key = button.dataset.key;
+    const entryKey = button.dataset.entryKey;
     const newList = {... this.list};
     
     // Open a dialog to confirm
@@ -253,9 +239,40 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
     if (!confirm) return;
 
     // Delete and re-render
-    delete newList[key];
+    delete newList[entryKey];
     this.list = await newList;
     this.render(true);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * @param {PointerEvent} event - The originating click event
+   * @param {HTMLElement} button - the capturing HTML element which defined a [data-action]
+  */
+  static #addSet(event, button) {
+    
+    // Fetch default lists
+    const systemDefaults = {
+      languages: CONFIG.WW.DEFAULT_LANGUAGES,
+      senses: CONFIG.WW.DEFAULT_SENSES,
+      immunities: CONFIG.WW.DEFAULT_IMMUNITIES,
+      movementTraits: CONFIG.WW.DEFAULT_MOVEMENT_TRAITS,
+      descriptors: CONFIG.WW.DEFAULT_DESCRIPTORS,
+      weaponTraits: CONFIG.WW.DEFAULT_WEAPON_TRAITS,
+      afflictions: CONFIG.WW.DEFAULT_AFFLICTIONS
+    }
+
+    // Update list with the default values
+    this.list = {
+      ...this.list,
+      ...systemDefaults[this.listKey]
+    };
+
+    ui.notifications.info(i18n('WW.Settings.Entry.SetNotification'));
+
+    this.render(true);
+    
   }
 
 }
