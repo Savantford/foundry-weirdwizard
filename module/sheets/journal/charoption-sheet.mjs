@@ -336,8 +336,8 @@ export default class WWCharOptionSheet extends JournalPageSheet {
       listPath = dataset.listPath,
       path = 'system.' + listPath,
       obj = foundry.utils.getProperty(this.document, path),
-      entryKey = defaultListEntryKey(this.document, listKey, path),
-      entryName = defaultListEntryName(this.document, listKey, path),
+      entryKey = defaultListEntryKey(obj, listKey),
+      entryName = defaultListEntryName(obj, listKey),
     entry = { name: entryName };
 
     obj[entryKey] = entry;
@@ -424,7 +424,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
         },
       ]
     });
-
+    
     // Return if cancelled
     if (!dialogInput) return;
 
@@ -434,7 +434,10 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     obj[dialogInput.key] = dialogInput;
 
     delete await obj[dialogInput.key].key;
-
+    
+    // Delete old key if key has changed
+    if (entryKey !== dialogInput.key) obj['-=' + entryKey] = null;
+    
     await this.document.update({ [path]: obj });
 
   }
