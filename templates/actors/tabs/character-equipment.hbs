@@ -132,7 +132,7 @@
             </li>
 
             {{#each equipment as |item id|}}
-            <li class="item draggable flexrow{{#if (eq item.system.subtype 'container')}} container collapsed{{/if}}" data-item-id="{{item._id}}">
+            <li class="item draggable flexrow {{#if (eq item.system.subtype 'container')}}container collapsed{{/if}}" data-item-id="{{item._id}}">
                 {{!-- Icon --}}
                 <div class="item-image"><img src="{{item.img}}" data-tooltip="{{item.name}}" width="24" height="24" /></div>
 
@@ -154,7 +154,7 @@
                             {{!-- Container Collapse --}}
                             {{#if (eq item.system.subtype 'container')}}
                             <a class="item-collapse" data-action="containerCollapse" data-item-id="{{item._id}}" data-tooltip="WW.Container.Expand">
-                                <i class="fa-solid fa-square-caret-up"></i>
+                                <i class="fa-solid fa-square-caret-down"></i>
                             </a>
                             {{/if}}
 
@@ -162,7 +162,7 @@
                     </div>
 
                     {{!-- Container Held item list --}}
-                    {{#if item.filled}}<div class="held-list">{{item.heldList}}</div>{{/if}}
+                    {{#if item.heldList}}<div class="held-list">{{item.heldList}}</div>{{/if}}
                     
                 </div>
 
