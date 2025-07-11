@@ -536,7 +536,6 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
 
           // Prepare held items list and count weight of items
           this.actor.items.filter(x => x.system.heldBy === i._id).map((x) => {
-
             // Check if item has passive effects
             x.hasPassiveEffects = false;
             const effects = this.actor.items.get(x._id).effects;
@@ -556,10 +555,10 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
             // Append to list
             list = list.concat(list ? ', ' + x.name : x.name);
           })
-
+          
           i.heldItems = held.sort((a, b) => a.sort > b.sort ? 1 : -1);
           i.heldList = list;
-
+          
           // Prepare tooltip
           i.containerTooltip = i18n('WW.Container.FilledHint', { filled: i.filled, capacity: i.system.capacity });
         }
@@ -1830,13 +1829,14 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     const content = li.parent().find(`[data-container-id=${dataset.itemId}]`);
     const collapseButton = li.parent().find(`.item-collapse[data-item-id=${dataset.itemId}]`)[0];
     
-    // Toggle states
+    // Fetch collapsed elements
     const collapsed = li.hasClass('collapsed');
-    li[0].classList.toggle('collapsed');
-
     const icon = collapseButton.querySelector('i');
-    icon.classList.toggle('fa-square-caret-up');
-    icon.classList.toggle('fa-square-caret-down');
+
+    // Toggle collapsed states
+    icon.classList.toggle('fa-square-caret-up', collapsed);
+    icon.classList.toggle('fa-square-caret-down', !collapsed);
+    li[0].classList.toggle('collapsed');
 
     if (collapsed) {
       collapseButton.setAttribute('data-tooltip', 'WW.Container.Collapse');      
