@@ -48,12 +48,12 @@ export async function deleteInstantEffect(effect, owner) {
   // Confirm Dialog
   const confirm = await WWDialog.confirm({
     window: {
-      title: 'WW.Item.Delete.Dialog.Title',
+      title: 'WW.Item.Remove.Dialog.Title',
       icon: 'fa-solid fa-trash'
     },
     content: `
-      <div>${i18n('WW.Item.Delete.Dialog.Msg', { name: '<b>' + i18n(effect.locLabel) + '</b>' })}</div>
-      <div class="dialog-sure">${i18n('WW.Item.Delete.Dialog.Confirm', { name: i18n(effect.locLabel) })}</div>
+      <div>${i18n('WW.Item.Remove.Dialog.Msg', { name: '<b>' + i18n(effect.locLabel) + '</b>' })}</div>
+      <div class="dialog-sure">${i18n('WW.Item.Remove.Dialog.Confirm', { name: i18n(effect.locLabel) })}</div>
     `
   });
 
@@ -125,12 +125,12 @@ export async function deleteActiveEffect(effect, owner) {
   // Confirm Dialog
   const confirm = await WWDialog.confirm({
     window: {
-      title: 'WW.Item.Delete.Dialog.Title',
+      title: 'WW.Item.Remove.Dialog.Title',
       icon: 'fa-solid fa-trash'
     },
     content: `
-      <div>${i18n('WW.Item.Delete.Dialog.Msg', { name: '<b>' + effect.name + '</b>' })}</div>
-      <div class="dialog-sure">${i18n('WW.Item.Delete.Dialog.Confirm', { name: effect.name })}</div>
+      <div>${i18n('WW.Item.Remove.Dialog.Msg', { name: '<b>' + effect.name + '</b>' })}</div>
+      <div class="dialog-sure">${i18n('WW.Item.Remove.Dialog.Confirm', { name: effect.name })}</div>
     `
   });
 

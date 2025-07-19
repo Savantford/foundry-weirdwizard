@@ -932,7 +932,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
         }
       },
       {
-        name: "WW.Item.Delete.Activity",
+        name: "WW.Item.Remove.Activity",
         icon: '<i class="fa-solid fa-trash"></i>',
         callback: li => {
           const item = this.actor.items.get(li.data('item-id'));
@@ -1441,12 +1441,12 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     // Confirm Dialog
     const confirm = await WWDialog.confirm({
       window: {
-        title: 'WW.Item.Delete.Dialog.Title',
+        title: 'WW.Item.Remove.Dialog.Title',
         icon: 'fa-solid fa-trash'
       },
       content: `
-        <div>${i18n('WW.Item.Delete.Dialog.Msg', {name: '<b>' + item.name + '</b>'})}</div>
-        <div class="dialog-sure">${i18n('WW.Item.Delete.Dialog.Confirm', {name: item.name})}</div>
+        <div>${i18n('WW.Item.Remove.Dialog.Msg', {name: '<b>' + item.name + '</b>'})}</div>
+        <div class="dialog-sure">${i18n('WW.Item.Remove.Dialog.Confirm', {name: item.name})}</div>
       `
     });
 
