@@ -500,16 +500,19 @@ export default class WWActor extends Actor {
       // If level does not meet the requirement, ignore it
       if (level >= benefit.levelReq) {
         const bStats = benefit.stats;
-        
-        if (bStats.naturalSet !== undefined) stats.naturalSet = bStats.naturalSet;
+
+        // Defense
+        if (bStats.naturalSet) stats.naturalSet = bStats.naturalSet;
         stats.naturalIncrease += bStats.naturalIncrease;
         stats.armoredIncrease += bStats.armoredIncrease;
 
+        // Health
         if (cOpt.system.tier === 'novice' && benefit.levelReq === 1) stats.healthStarting = bStats.healthStarting;
         stats.healthIncrease += bStats.healthIncrease;
 
-        if (bStats.sizeNormal !== undefined) stats.sizeNormal = bStats.sizeNormal;
-        if (bStats.speedNormal !== undefined) stats.speedNormal = bStats.speedNormal;
+        // Other stats
+        if (bStats.sizeNormal) stats.sizeNormal = bStats.sizeNormal;
+        if (bStats.speedNormal) stats.speedNormal = bStats.speedNormal;
         stats.speedIncrease += bStats.speedIncrease;
         stats.bonusDamage += bStats.bonusDamage;
       }

@@ -55,7 +55,7 @@
         {{#if section.showSource}}<div class="effect-source">{{{effect.sourceCard}}}</div>{{/if}}
         
         <div class="item-controls effect-controls flexrow">
-          {{#if effect.showDeleteButton}}
+          {{#if effect.showRemoveButton}}
 
           {{#if (ne section.type 'temporary')}}
           <a class="effect-control" data-action="effectToggle" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Toggle">
@@ -67,7 +67,7 @@
             <i class="fa-solid fa-edit"></i>
           </a>
 
-          <a class="effect-control" data-action="effectRemove" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Delete">
+          <a class="effect-control" data-action="effectRemove" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Remove">
             <i class="fa-solid fa-trash"></i>
           </a>
           {{else}}
@@ -126,7 +126,7 @@
             <i class="fa-solid fa-edit"></i>
           </a>
 
-          <a class="effect-control" data-action="effectRemove" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Delete">
+          <a class="effect-control" data-action="effectRemove" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Remove">
             <i class="fa-solid fa-trash"></i>
           </a>
 
