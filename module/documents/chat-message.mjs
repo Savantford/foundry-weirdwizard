@@ -169,7 +169,7 @@ export default class WWChatMessage extends ChatMessage {
       ].filterJoin(" "),
       isWhisper: this.whisper.length,
       whisperTo: this.whisper.map(u => game.users.get(u)?.name).filterJoin(", "),
-      //showPrivate: this.isContentVisible, // No longer needed in v13?
+      showPrivate: this.isContentVisible, // Not needed in v13 maybe?
     };
 
     // Render message data specifically for ROLL type messages

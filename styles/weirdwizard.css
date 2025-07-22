@@ -4703,7 +4703,6 @@ form.quest-calendar {
 }
 
 .weirdwizard.chat-message .traits-container {
-  margin-top: 5px;
   display: flex;
   flex-wrap: wrap;
   gap: 3px;

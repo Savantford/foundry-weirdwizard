@@ -11,21 +11,21 @@ import WWRoll from '../dice/roll.mjs';
 
 //const tokenManager = new TokenManager()
 
-export function initChatListeners(html, app) {
+export function initChatListeners(html, message, context) {
   
   // Handle chat Message Button left click
-  html.on('click', '.chat-button[data-action*=roll]', _onMessageButtonRoll);
-  html.on('click', '.enricher-roll', _onMessageButtonRoll);
+  html.querySelector('.chat-button[data-action*=roll]')?.addEventListener('click', _onMessageButtonRoll);
+  html.querySelector('.enricher-roll')?.addEventListener('click', _onMessageButtonRoll);
 
   // Handle chat Message Button right click context menu
-  html.find('.chat-button[data-action*=apply]').click(ev => _onOpenMultiChoice(ev, 'applyEffect') );
+  html.querySelector('.chat-button[data-action*=apply]')?.addEventListener('click', (ev) => { _onOpenMultiChoice(ev, 'applyEffect') });
   new ApplyContext(html, '.enricher-call', [], { onOpen: _onMessageButtonContext.bind('call'), eventName:'click' });
 
   // Open Sheet from chat
-  html.on('click', '[data-action=open-sheet]', _onOpenSheet);
+  html.querySelector('[data-action=open-sheet]')?.addEventListener('click', _onOpenSheet);
 
   // Collapse descriptions
-  html.find('.chat-message-collapse').click(_onMessageCollapse);
+  html.querySelector('.chat-message-collapse')?.addEventListener('click', _onMessageCollapse);
 
 }
 

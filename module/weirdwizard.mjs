@@ -266,8 +266,6 @@ Hooks.once('setup', function () {
 
 Hooks.on('renderChatMessageHTML', (message, html, context) => {
   console.log(message)
-  console.log(html)
-  console.log(context)
   // Add custom enrichers
   //addCustomEnrichers();
 
@@ -279,7 +277,7 @@ Hooks.on('renderChatMessageHTML', (message, html, context) => {
   }
 
   // Initialize chat message listeners
-  //initChatListeners(html, message);
+  initChatListeners(html, message, context);
 });
 
 /* -------------------------------------------- */
