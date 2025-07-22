@@ -266,6 +266,8 @@ Hooks.once('setup', function () {
 
 Hooks.on('renderChatMessageHTML', (message, html, context) => {
   console.log(message)
+  console.log(html)
+  console.log(context)
   // Add custom enrichers
   //addCustomEnrichers();
 

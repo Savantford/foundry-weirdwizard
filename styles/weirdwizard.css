@@ -39,10 +39,10 @@ body {
   --color-border-highlight-alt: var(--color-shadow-primary);
   --color-shadow-primary: #c200ff;
   --color-shadow-highlight: var(--purple-dark);
+  --color-warm-2: var(--color-shadow-primary);
 
   /* Scrollbar Override */
-  --color-scrollbar: var(--purple-medium);
-  scrollbar-color: auto; /* V11 override */
+  --color-scrollbar: var(--purple-dark);
 
   /* Element Sizes */
   --avatar-size-npc: 110px;
@@ -4539,28 +4539,25 @@ form.quest-calendar {
 }
 
 /* Pause Menu */
-
 #pause {
-  background: none;
+  gap: 0px;
 }
 
 #pause img {
   content: url(../assets/drawings/pause-star.webp);
-  width: 250px;
-  height: 250px;
-  top: calc(50% - 125px);
-  left: calc(50% - 125px);
-  opacity: 0.7;
+  height: 210px;
+  width: auto;
+  opacity: 0.85;
   animation-duration: 10s;
 }
 
 #pause figcaption {
+  position: absolute;
+  line-height: inherit;
+  padding: 30px 70px;
   color: var(--body-text-color);
-  font-weight: bold;
-  font-family: var(--font-serif);
-  text-transform: uppercase;
-  text-shadow: none;
   background: url(../assets/drawings/pause-ribbon.webp) no-repeat center;
+  background-size: cover;
 }
 
 /* Journal Entry Codes */

@@ -12,7 +12,7 @@ import WWRoll from '../dice/roll.mjs';
 //const tokenManager = new TokenManager()
 
 export function initChatListeners(html, message, context) {
-  
+  console.log(context)
   // Handle chat Message Button left click
   html.querySelector('.chat-button[data-action*=roll]')?.addEventListener('click', _onMessageButtonRoll);
   html.querySelector('.enricher-roll')?.addEventListener('click', _onMessageButtonRoll);
@@ -25,7 +25,7 @@ export function initChatListeners(html, message, context) {
   html.querySelector('[data-action=open-sheet]')?.addEventListener('click', _onOpenSheet);
 
   // Collapse descriptions
-  html.querySelector('.chat-message-collapse')?.addEventListener('click', _onMessageCollapse);
+  html.querySelector('.chat-message-collapse')?.addEventListener('click', (ev) => _onMessageCollapse(html));
 
 }
 
@@ -446,36 +446,37 @@ async function _onChatRoll(dataset, label, nextAction) {
 
 }
 
-function _onMessageCollapse(ev) {
+function _onMessageCollapse(msg) {
+  console.warn('triggered')
+  const button = msg.querySelector('.chat-message-collapse');
+  const icon = msg.querySelector('.chat-message-collapse > i');
   
-  const button = ev.currentTarget,
-  icon = $(button).find('i'),
-  msg = $(button).parents('.chat-message');
-  
+  // List elements to toggle collapse
   const elements = {
-    traits: msg.find('.traits-container'),
-    wrapper: msg.find('.message-wrapper'),
-    wrapperChildren: msg.find('.message-wrapper > *'),
-    footer: msg.find('.message-footer > *'),
-    bug: msg.find('.bug'),
-    subheader: msg.find('.message-subheader-details')
+    wrapperChildren: msg.querySelector('.message-wrapper > *:not(.flavor-container)'),
+    traits: msg.querySelector('.traits-container'),
+    content: msg.querySelector('.message-content'),
+    subheader: msg.querySelector('.message-subheader-details'),
+    bug: msg.querySelector('.bug')
   }
   
   // Flip states
-  if (icon.hasClass('fa-square-plus')) {
-    $(button).attr('data-tooltip', 'WW.Item.HideDesc')
-    icon.removeClass('fa-square-plus').addClass('fa-square-minus');
+  if (icon.classList.contains('fa-square-plus')) {
+    button.setAttribute('data-tooltip', 'WW.Item.HideDesc')
+    icon.classList.remove('fa-square-plus')
+    icon.classList.add('fa-square-minus');
 
     for (const el in elements) {
-      elements[el].slideDown(500);
+      $(elements[el]).slideDown(500); // Remove jQuery when possible
     };
     
   } else {
-    $(button).attr('data-tooltip', 'WW.Item.ShowDesc')
-    icon.removeClass('fa-square-minus').addClass('fa-square-plus');
+    button.setAttribute('data-tooltip', 'WW.Item.ShowDesc')
+    icon.classList.remove('fa-square-minus')
+    icon.classList.add('fa-square-plus');
 
     for (const el in elements) {
-      elements[el].slideUp(500);
+      $(elements[el]).slideUp(500); // Remove jQuery when possible
     };
     
   }
