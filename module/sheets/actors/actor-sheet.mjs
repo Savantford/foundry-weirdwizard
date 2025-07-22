@@ -343,7 +343,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       for (const entryKey in list) {
         const entry = list[entryKey];
         
-        listEntries[listKey].push({ ...entry, key: entryKey });
+        if (entry) listEntries[listKey].push({ ...entry, key: entryKey });
       }
 
     }
@@ -536,7 +536,6 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
 
           // Prepare held items list and count weight of items
           this.actor.items.filter(x => x.system.heldBy === i._id).map((x) => {
-
             // Check if item has passive effects
             x.hasPassiveEffects = false;
             const effects = this.actor.items.get(x._id).effects;
@@ -556,10 +555,10 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
             // Append to list
             list = list.concat(list ? ', ' + x.name : x.name);
           })
-
+          
           i.heldItems = held.sort((a, b) => a.sort > b.sort ? 1 : -1);
           i.heldList = list;
-
+          
           // Prepare tooltip
           i.containerTooltip = i18n('WW.Container.FilledHint', { filled: i.filled, capacity: i.system.capacity });
         }
@@ -933,7 +932,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
         }
       },
       {
-        name: "WW.Item.Delete.Activity",
+        name: "WW.Item.Remove.Activity",
         icon: '<i class="fa-solid fa-trash"></i>',
         callback: li => {
           const item = this.actor.items.get(li.data('item-id'));
@@ -1137,9 +1136,10 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     const dataset = Object.assign({}, button.dataset),
       listKey = dataset.listKey,
       path = 'system.listEntries.' + listKey,
+      baseObj = foundry.utils.getProperty(this.actor.token?.baseActor, path),
       obj = foundry.utils.getProperty(this.actor, path),
-      entryKey = defaultListEntryKey(this.actor, listKey, path),
-      entryName = defaultListEntryName(this.actor, listKey, path),
+      entryKey = defaultListEntryKey(obj, listKey),
+      entryName = defaultListEntryName(obj, listKey),
     entry = { name: entryName };
     
     obj[entryKey] = entry;
@@ -1151,7 +1151,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       entry: entry,
       key: entryKey,
       showKey: true,
-      grantedBy: entry.grantedBy ? await TextEditor.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { secrets: this.actor.isOwner }) : null
+      grantedBy: await fromUuid(entry.grantedBy) ?
+        await TextEditor.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { secrets: this.actor.isOwner }) : null
     };
 
     // Show a dialog 
@@ -1182,6 +1183,13 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     obj[dialogInput.key] = dialogInput;
 
     delete await obj[dialogInput.key].key;
+
+    // Delete old key if key has changed
+    if (baseObj?.hasOwnProperty(entryKey) && entryKey !== dialogInput.key) {
+      obj[entryKey] = null; // If the key exists in the Base Actor, null it
+    } else {
+      obj['-=' + entryKey] = null; // Delete key otherwise
+    }
 
     await this.actor.update({[path]: obj});
     
@@ -1198,6 +1206,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     // Get data
     const dataset = button.dataset,
       path = 'system.listEntries.' + dataset.listKey,
+      baseObj = foundry.utils.getProperty(this.actor.token?.baseActor, path),
       obj = foundry.utils.getProperty(this.actor, path),
       entryKey = dataset.entryKey,
     entry = obj[entryKey];
@@ -1206,7 +1215,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       entry: await entry,
       key: entryKey,
       showKey: true,
-      grantedBy: entry.grantedBy ? await TextEditor.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { secrets: this.actor.isOwner }) : null
+      grantedBy: await fromUuid(entry.grantedBy) ?
+        await TextEditor.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { secrets: this.actor.isOwner }) : null
     };
 
     // Show a dialog 
@@ -1237,9 +1247,15 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     obj[dialogInput.key] = dialogInput;
 
     delete await obj[dialogInput.key].key;
-
-    await this.actor.update({ [path]: obj });
     
+    // Delete old key if key has changed
+    if (baseObj?.hasOwnProperty(entryKey) && entryKey !== dialogInput.key) {
+      obj[entryKey] = null; // If the key exists in the Base Actor, null it
+    } else {
+      obj['-=' + entryKey] = null; // Delete key otherwise
+    }
+    
+    await this.actor.update({ [path]: obj });
   }
 
   /**
@@ -1425,12 +1441,12 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     // Confirm Dialog
     const confirm = await WWDialog.confirm({
       window: {
-        title: 'WW.Item.Delete.Dialog.Title',
+        title: 'WW.Item.Remove.Dialog.Title',
         icon: 'fa-solid fa-trash'
       },
       content: `
-        <div>${i18n('WW.Item.Delete.Dialog.Msg', {name: '<b>' + item.name + '</b>'})}</div>
-        <div class="dialog-sure">${i18n('WW.Item.Delete.Dialog.Confirm', {name: item.name})}</div>
+        <div>${i18n('WW.Item.Remove.Dialog.Msg', {name: '<b>' + item.name + '</b>'})}</div>
+        <div class="dialog-sure">${i18n('WW.Item.Remove.Dialog.Confirm', {name: item.name})}</div>
       `
     });
 
@@ -1813,13 +1829,14 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     const content = li.parent().find(`[data-container-id=${dataset.itemId}]`);
     const collapseButton = li.parent().find(`.item-collapse[data-item-id=${dataset.itemId}]`)[0];
     
-    // Toggle states
+    // Fetch collapsed elements
     const collapsed = li.hasClass('collapsed');
-    li[0].classList.toggle('collapsed');
-
     const icon = collapseButton.querySelector('i');
-    icon.classList.toggle('fa-square-caret-up');
-    icon.classList.toggle('fa-square-caret-down');
+
+    // Toggle collapsed states
+    icon.classList.toggle('fa-square-caret-up', collapsed);
+    icon.classList.toggle('fa-square-caret-down', !collapsed);
+    li[0].classList.toggle('collapsed');
 
     if (collapsed) {
       collapseButton.setAttribute('data-tooltip', 'WW.Container.Collapse');      
@@ -2237,7 +2254,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
         
       await actor.update({ ['system.charOptions.' + str]: arr });
 
-      await actor.updateCharOptionBenefits(page.uuid, {dropped: true});
+      await actor.updateCharOptionBenefits(page.uuid, 'dragDrop');
     
     } else {
       let str = 'system.charOptions.';
@@ -2264,11 +2281,11 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
         
         if (oldPage) await actor.clearCharOptionBenefits(oldPage.uuid);
         await actor.update({ [str]: page.uuid });
-        await actor.updateCharOptionBenefits(page.uuid, {dropped: true});
+        await actor.updateCharOptionBenefits(page.uuid, 'dragDrop');
 
       } else {
         await actor.update({ [str]: page.uuid });
-        await actor.updateCharOptionBenefits(page.uuid, {dropped: true});
+        await actor.updateCharOptionBenefits(page.uuid, 'dragDrop');
       }
       
     }

@@ -188,7 +188,7 @@ export default class WWActiveEffect extends ActiveEffect {
     return uuidFound;
   }
 
-  get showDeleteButton() {
+  get showRemoveButton() {
     if (this.parent.documentName === 'Item') return false;
     if (this.isBenefit && this.hasValidCharOption) return false;
     return true;

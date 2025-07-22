@@ -131,7 +131,7 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
       system: itemData.system, // Use a safe clone of the item data for further operations.
       folder: await itemData.folder,
       flags: itemData.flags,
-      grantedBy: sys.grantedBy ?
+      grantedBy: await fromUuid(sys.grantedBy) ?
         await TextEditor.enrichHTML(`@Embed[${sys.grantedBy} inline]`, { secrets: this.item.isOwner }) : null,
       dtypes: ['String', 'Number', 'Boolean'],
       tabs: this._getTabs(options.parts)

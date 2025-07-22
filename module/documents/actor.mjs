@@ -46,23 +46,12 @@ export default class WWActor extends Actor {
     
     // Fix Health and Incapacitated
     this.incapacitated = false;
-    
-    if (data.type === 'NPC') {
-      await this.updateSource({
-        'system.stats.health.current': data.system.stats.health.normal ? data.system.stats.health.normal : 10,
-        'system.stats.damage.raw': 0
-      });
-    }
 
     if (data.type === 'Character') {
-      await this.updateSource({
-        'system.stats.health.current': data.system.stats.health.normal ? data.system.stats.health.normal : 5,
-        'system.stats.damage.raw': 0
-      });
+      
+      // Update starting Human ancestry's benefits
+      await this.updateCharOptionBenefits('Compendium.weirdwizard.character-options.JournalEntry.pAAZKv2vrilITojZ.JournalEntryPage.GI4b6WkOLlTszbRe', 'creation');
     }
-
-    // Fix starting Human ancestry
-    this.updateCharOptionBenefits('Compendium.weirdwizard.character-options.JournalEntry.pAAZKv2vrilITojZ.JournalEntryPage.GI4b6WkOLlTszbRe');
 
     return await super._onCreate(await data, options, user);
   }
@@ -92,8 +81,8 @@ export default class WWActor extends Actor {
     const health = foundry.utils.getProperty(changed, 'system.stats.health');
     const damage = foundry.utils.getProperty(changed, 'system.stats.damage');
 
-    // Calculate Damage and Health
-    this._calculateDamageHealth(this.system, foundry.utils.getProperty(changed, 'system.stats.health.current') ? true : false);
+    // Calculate changed Damage and Health
+    this._calculateChangedDamageHealth(this.system, foundry.utils.getProperty(changed, 'system.stats.health.current') ? true : false);
     
     // Update token status icons
     if ((damage || health) && this.token) {
@@ -111,11 +100,11 @@ export default class WWActor extends Actor {
         
         if (typeof cOpt !== 'string') {
           for (const e in cOpt) {
-            this.updateCharOptionBenefits(cOpt[e]);
+            this.updateCharOptionBenefits(cOpt[e], 'levelChange');
           }
 
         } else {
-          this.updateCharOptionBenefits(cOpt);
+          this.updateCharOptionBenefits(cOpt, 'levelChange');
         }
       }
       
@@ -390,17 +379,19 @@ export default class WWActor extends Actor {
     
   }
 
+  /* Called during prepareDerivedData */
   _calculateHealthVariables(system) {
+    
     // Get variables
     const health = system.stats.health;
     const current = health.current;
     const damage = system.stats.damage.value;
-
+    
     if (damage > current) {
       this.system.stats.damage.value = current;
       system.stats.damage.value = current;
     };
-
+    
     // Health override effect exists
     if (health.override) {
       health.normal = health.override;
@@ -421,11 +412,13 @@ export default class WWActor extends Actor {
 
   }
 
-  _calculateDamageHealth(system, healthChanged) {
+  /* Called during _onUpdate */
+  _calculateChangedDamageHealth(system, healthChanged) {
+    
     // Get variables
     const health = system.stats.health;
     const current = health.current;
-    const damage = /*this.*/system.stats.damage.value;
+    const damage = system.stats.damage.value;
 
     // Set corrected damage value to stay incapacitated or
     // to not allow raw input value to surpass current Health
@@ -453,24 +446,25 @@ export default class WWActor extends Actor {
   /*  Character Options Handling                  */
   /* -------------------------------------------- */
 
-  async updateCharOptionBenefits(uuid, settings={dropped: false}) {
+  async updateCharOptionBenefits(uuid, source) {
     if (!uuid) return;
     const cOption = await fromUuid(uuid);
     
-    // Return if invalid uuid or a tradition
+    // Return if invalid uuid, tradition or ancestry on level change
     if (!cOption) return ui.notifications.error(`"${uuid}" is not a valid Character Option UUID. Please remove it from the sheet!`);
     if (cOption.type === 'tradition') return;
-
+    if (cOption.type === 'ancestry' && source === 'levelChange') return;
+    
     // Handle char option's main effect, granted list entries and granted items
-    this._updateMainEffect(uuid);
-    this._updateGrantedEntries(uuid);
+    await this._updateMainEffect(uuid);
+    await this._updateGrantedEntries(uuid);
 
     // Only grant items to professions if it's a drop and no other professions exist
     if (cOption.type === 'profession') {
       const professions = [...this.system.charOptions.professions].filter(x => x !== uuid); 
       const noOtherProfessions = professions.length > 0 ? false : true;
       
-      if (settings.dropped && noOtherProfessions) this._updateGrantedItems(uuid);
+      if (source === 'dragDrop' && noOtherProfessions) this._updateGrantedItems(uuid);
     } else this._updateGrantedItems(uuid);
 
     ui.notifications.info(`${cOption.name}'s benefits updated.`);
@@ -483,7 +477,7 @@ export default class WWActor extends Actor {
     const cOpt = await fromUuid(uuid);
 
     if (cOpt.type === 'profession' || cOpt.type === 'tradition') return;
-    console.log('updating main effect')
+    
     const benefits = cOpt.system.benefits;
     const level = this.system.stats.level ?? 0;
 
@@ -506,16 +500,19 @@ export default class WWActor extends Actor {
       // If level does not meet the requirement, ignore it
       if (level >= benefit.levelReq) {
         const bStats = benefit.stats;
-        console.log(bStats)
-        if (bStats.naturalSet !== undefined) stats.naturalSet = bStats.naturalSet;
+
+        // Defense
+        if (bStats.naturalSet) stats.naturalSet = bStats.naturalSet;
         stats.naturalIncrease += bStats.naturalIncrease;
         stats.armoredIncrease += bStats.armoredIncrease;
 
+        // Health
         if (cOpt.system.tier === 'novice' && benefit.levelReq === 1) stats.healthStarting = bStats.healthStarting;
         stats.healthIncrease += bStats.healthIncrease;
 
-        if (bStats.sizeNormal !== undefined) stats.sizeNormal = bStats.sizeNormal;
-        if (bStats.speedNormal !== undefined) stats.speedNormal = bStats.speedNormal;
+        // Other stats
+        if (bStats.sizeNormal) stats.sizeNormal = bStats.sizeNormal;
+        if (bStats.speedNormal) stats.speedNormal = bStats.speedNormal;
         stats.speedIncrease += bStats.speedIncrease;
         stats.bonusDamage += bStats.bonusDamage;
       }
@@ -601,7 +598,6 @@ export default class WWActor extends Actor {
       changes: changes,
       'system.grantedBy': cOpt.uuid
     };
-    console.log(changes)
 
     // Create or update main effect
     if (eff) this.updateEmbeddedDocuments("ActiveEffect", [{ _id: eff.id, ...effectData }]);
@@ -669,9 +665,10 @@ export default class WWActor extends Actor {
     // Create newEntries to store the updated list entries
     const newEntries = {
       descriptors: listEntries.descriptors,
-      senses: listEntries.senses,
-      languages: listEntries.languages,
       immunities: listEntries.immunities,
+      languages: listEntries.languages,
+      movementTraits: listEntries.movementTraits,
+      senses: listEntries.senses,
       traditions: listEntries.traditions
     };
 
@@ -682,50 +679,50 @@ export default class WWActor extends Actor {
       
       // If level does not meet the requirement, ignore it
       if (level >= benefit.levelReq) {
-
-        if (benefit.descriptors) this._addEntries(uuid, grantedEntries, newEntries, benefit, 'descriptors');
+        if (benefit.descriptors) newEntries.descriptors = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'descriptors');
         
-        if (benefit.senses) this._addEntries(uuid, grantedEntries, newEntries, benefit, 'senses');
+        if (benefit.immunities) newEntries.immunities = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'immunities');
+
+        if (benefit.languages) newEntries.languages = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'languages');
+
+        if (benefit.movementTraits) newEntries.movementTraits = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'movementTraits');
+
+        if (benefit.senses) newEntries.senses = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'senses');
+
+        if (benefit.traditions) newEntries.traditions = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'traditions');
         
-        if (benefit.languages) this._addEntries(uuid, grantedEntries, newEntries, benefit, 'languages');
-
-        if (benefit.immune) this._addEntries(uuid, grantedEntries, newEntries, benefit, 'immune');
-
-        if (benefit.traditions) this._addEntries(uuid, grantedEntries, newEntries, benefit, 'traditions');
-
       }
       
     }
     
     // Update actor with new listEntries object
-    await this.update({['system.listEntries']: {...listEntries, ...newEntries} });
-
+    const obj = {...await listEntries, ... newEntries };
+    
+    await this.updateSource({['system.listEntries']: obj });
   }
 
   /* -------------------------------------------- */
 
-  _addEntries(uuid, grantedEntries, newEntries, benefit, listName) {
+  async _addEntries(uuid, grantedEntries, newEntries, benefit, listName) {
     const list = {...benefit[listName]};
     
     // For each entry
     for (const entryId in list) {
       const entry = list[entryId];
-      console.log(list)
-      console.log(entryId)
-      console.log(entry)
+      
       // Store the character option's UUID in grantedBy
       entry.grantedBy = uuid;
 
       // If entry with the same key is found, delete the entry from the list object
-      if (Object.keys(grantedEntries[listName]).find(e => e === entryId)) {
-        delete list[entryId];
+      if (Object.keys(await grantedEntries[listName]).find(e => e === entryId)) {
+        delete await list[entryId];
       }
 
     };
     
     // Add entries to newEntries object
-    if (Object.keys(list).length) newEntries[listName] = newEntries[listName] ? { ...list, ...newEntries[listName] } : list;
-
+    //if (Object.keys(await list).length) newEntries[listName] = newEntries[listName] ? { ...await list, ...newEntries[listName] } : list;
+    return await list;
   }
 
   /* -------------------------------------------- */
@@ -773,6 +770,7 @@ export default class WWActor extends Actor {
       descriptors: objFilter('descriptors'),
       immunities: objFilter('immunities'),
       languages: objFilter('languages'),
+      movementTraits: objFilter('movementTraits'),
       senses: objFilter('senses')
     }
 
@@ -796,6 +794,7 @@ export default class WWActor extends Actor {
       descriptors: objFilter('descriptors'),
       immunities: objFilter('immunities'),
       languages: objFilter('languages'),
+      movementTraits: objFilter('movementTraits'),
       senses: objFilter('senses')
     }
 

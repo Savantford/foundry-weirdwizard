@@ -74,7 +74,7 @@
     
             {{!-- Overlay: Mid Layer --}}
             <div class="health-overlay"></div>
-    
+
             {{!-- Health Bar: Bottom Layer --}}
             <div class="health-bar {{#if dead}}dead{{/if}}"
                 style="--health-pct: {{healthPct}}; --health-hue: {{healthHue}}; --health-temp: {{tempHealthPct}};"
@@ -93,62 +93,69 @@
     <div class="attribute-banners">
 
         {{!-- Strength --}}
-        <div class="stat str item-button" data-action="attributeRoll" data-key="str"
-            data-tooltip="WW.Roll.Strength">
-            <div class="score">{{system.attributes.str.value}}</div>
+        <div class="stat str item-button" data-action="attributeRoll" data-key="str" data-tooltip="WW.Roll.Strength">
+            <div>
+                <div class="score">{{system.attributes.str.value}}</div>
         
-            <div class="modifier">
-                {{#if system.attributes.str.value}}
-                {{numberFormat system.attributes.str.mod decimals=0 sign=true}}
-                {{else}}—{{/if}}
+                <div class="modifier">
+                    {{#if system.attributes.str.value}}
+                    {{numberFormat system.attributes.str.mod decimals=0 sign=true}}
+                    {{else}}—{{/if}}
+                </div>
             </div>
-        
+            
             <img src="systems/weirdwizard/assets/icons/black/attribute-strength.svg" />
+
         </div>
         
         {{!-- Agility --}}
-        <div class="stat agi item-button" data-action="attributeRoll" data-key="agi"
-            data-tooltip="WW.Roll.Agility">
-            <div class="score">{{system.attributes.agi.value}}</div>
+        <div class="stat agi item-button" data-action="attributeRoll" data-key="agi" data-tooltip="WW.Roll.Agility">
+            <div>
+                <div class="score">{{system.attributes.agi.value}}</div>
         
-            <div class="modifier">
-                {{#if system.attributes.agi.value}}
-                {{numberFormat system.attributes.agi.mod decimals=0 sign=true}}
-                {{else}}—{{/if}}
+                <div class="modifier">
+                    {{#if system.attributes.agi.value}}
+                    {{numberFormat system.attributes.agi.mod decimals=0 sign=true}}
+                    {{else}}—{{/if}}
+                </div>
             </div>
-        
+            
             <img src="systems/weirdwizard/assets/icons/black/attribute-agility.svg" />
+
         </div>
         
         {{!-- Intellect --}}
-        <div class="stat int item-button" data-action="attributeRoll" data-key="int"
-            data-tooltip="WW.Roll.Intellect">
-            <div class="score">{{system.attributes.int.value}}</div>
+        <div class="stat int item-button" data-action="attributeRoll" data-key="int" data-tooltip="WW.Roll.Intellect">
+            <div>
+                <div class="score">{{system.attributes.int.value}}</div>
         
-            <div class="modifier">
-                {{#if system.attributes.int.value}}
-                {{numberFormat system.attributes.int.mod decimals=0 sign=true}}
-                {{else}}—{{/if}}
+                <div class="modifier">
+                    {{#if system.attributes.int.value}}
+                    {{numberFormat system.attributes.int.mod decimals=0 sign=true}}
+                    {{else}}—{{/if}}
+                </div>
             </div>
-        
+
             <img src="systems/weirdwizard/assets/icons/black/attribute-intellect.svg" />
         </div>
         
         {{!-- Will --}}
-        <div class="stat wil item-button" data-action="attributeRoll" data-key="wil"
-            data-tooltip="WW.Roll.Will">
-            <div class="score">{{system.attributes.wil.value}}</div>
+        <div class="stat wil item-button" data-action="attributeRoll" data-key="wil" data-tooltip="WW.Roll.Will">
+            <div>
+                <div class="score">{{system.attributes.wil.value}}</div>
         
-            <div class="modifier">
-                {{#if system.attributes.wil.value}}
-                {{numberFormat system.attributes.wil.mod decimals=0 sign=true}}
-                {{else}}—{{/if}}
+                <div class="modifier">
+                    {{#if system.attributes.wil.value}}
+                    {{numberFormat system.attributes.wil.mod decimals=0 sign=true}}
+                    {{else}}—{{/if}}
+                </div>
             </div>
-        
+            
             <img src="systems/weirdwizard/assets/icons/black/attribute-will.svg" />
         </div>
 
     </div>
+
     {{!-- NPC Stats --}}
     <div class="npc-stats">
     

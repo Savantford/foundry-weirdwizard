@@ -170,17 +170,17 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     }
     
     // Prepare paths
-    if (this.document.type === 'path') {
+    if (this.isPath) {
       context.tiers = CONFIG.WW.PATH_TIERS;
     }
 
     // Prepare professions
-    if (this.document.type === 'profession') {
+    if (this.isProfession) {
       context.professionCategories = CONFIG.WW.PROFESSION_CATEGORIES;
     }
 
     // Prepare Traditions
-    if (this.document.type === 'tradition') {
+    if (this.isTradition) {
 
       // Prepare talents
       const talents = this.document.system.talents;
@@ -336,8 +336,8 @@ export default class WWCharOptionSheet extends JournalPageSheet {
       listPath = dataset.listPath,
       path = 'system.' + listPath,
       obj = foundry.utils.getProperty(this.document, path),
-      entryKey = defaultListEntryKey(this.document, listKey, path),
-      entryName = defaultListEntryName(this.document, listKey, path),
+      entryKey = defaultListEntryKey(obj, listKey),
+      entryName = defaultListEntryName(obj, listKey),
     entry = { name: entryName };
 
     obj[entryKey] = entry;
@@ -424,7 +424,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
         },
       ]
     });
-
+    
     // Return if cancelled
     if (!dialogInput) return;
 
@@ -434,7 +434,10 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     obj[dialogInput.key] = dialogInput;
 
     delete await obj[dialogInput.key].key;
-
+    
+    // Delete old key if key has changed
+    if (entryKey !== dialogInput.key) obj['-=' + entryKey] = null;
+    
     await this.document.update({ [path]: obj });
 
   }
@@ -447,20 +450,19 @@ export default class WWCharOptionSheet extends JournalPageSheet {
   */
   async #onEntryRemove(event, button) {
     if (event.currentTarget.classList.contains('benefit-block')) event.stopPropagation();
-
+    
     const dataset = Object.assign({}, button.dataset),
       listPath = dataset.listPath,
       path = 'system.' + listPath,
       obj = foundry.utils.getProperty(this.document, path),
     key = dataset.entryKey;
-
+    
     const newObj = {...obj }; 
     delete await newObj[key];
     
     // Update document
-    //await this.document.update({ [path]: await newObj });
     await this.document.update({ [`${path}.-=${key}`]: null });
-
+    
   }
 
   /**
@@ -516,7 +518,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     if (!confirm) return;
 
     // Handle delete on Tradition
-    if (this.document.type === 'tradition') {
+    if (this.isTradition) {
       const spells = this.document.system.spells;
       const talents = this.document.system.talents;
       
@@ -677,7 +679,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     `);
     
     // Handle drop on Tradition
-    if (this.document.type === 'tradition') {
+    if (this.isTradition) {
       const spells = this.document.system.spells;
       const talents = this.document.system.talents;
 
@@ -728,6 +730,26 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     obj[key] = entry;
     
     await this.document.update({ [path]: obj });
+  }
+
+  /* -------------------------------------------- */
+  /*  Properties (Getters)                        */
+  /* -------------------------------------------- */
+
+  get isAncestry() {
+    return this.document.type === 'ancestry';
+  }
+
+  get isPath() {
+    return this.document.type === 'path';
+  }
+
+  get isProfession() {
+    return this.document.type === 'profession';
+  }
+
+  get isTradition() {
+    return this.document.type === 'tradition';
   }
   
 }

@@ -704,7 +704,7 @@ body {
 
 .weirdwizard.npc .window-content h6 > img {
   height: 26px;
-  margin: -2px 0;
+  margin: -4px 0;
   filter: brightness(0);
 }
 
@@ -751,6 +751,7 @@ body {
 /* Inputs */
 .weirdwizard.sheet input {
   --input-text-color: var(--body-text-color);
+  --input-placeholder-color: var(--gray);
 }
 
 .weirdwizard.sheet input:hover,
@@ -1845,7 +1846,6 @@ body {
 .weirdwizard .attribute-banners {
   display: flex;
   justify-content: space-evenly;
-  align-items: flex-start;
   margin: 0 5px;
 }
 
@@ -1853,6 +1853,7 @@ body {
   flex: 1;
   display: flex;
   flex-flow: column;
+  gap: 5px;
   border-image: url(../assets/ui/straps/pink-banner-outline.svg);
   border-image-slice: 15 fill;
   border-image-width: 15px;
@@ -1873,11 +1874,12 @@ body {
   flex: 0;
   height: auto;
   filter: drop-shadow(0 0 1px gray);
+  margin-top: auto;
 }
 
-.weirdwizard header.sheet-header .attribute-banners .agi img,
-.weirdwizard header.sheet-header .attribute-banners .int img {
-  margin-top: 5px;
+.weirdwizard header.sheet-header .attribute-banners .str,
+.weirdwizard header.sheet-header .attribute-banners .wil {
+  margin-bottom: 5px;
 }
 
 /* NPC Stats */
@@ -2102,11 +2104,11 @@ hr.bug {
   background-size: contain;
 }
 
-.weirdwizard.npc .tab[data-tab] .bug {
+.weirdwizard.npc .tab[data-tab] {
   --bug: url(../assets/bugs/npc-enemy.webp);
 }
 
-.weirdwizard.npc.ally .tab[data-tab] .bug {
+.weirdwizard.npc.ally .tab[data-tab] {
   --bug: url(../assets/bugs/npc-ally.webp);
 }
 
@@ -2144,17 +2146,17 @@ hr.bug {
 }
 
 .weirdwizard .path-sheet .tab[data-tab] .bug,
-.weirdwizard.character .tab[data-tab] .bug {
+.weirdwizard.character .tab[data-tab] {
   --bug: url(../assets/bugs/path-novice.webp);
 }
 
 .weirdwizard .path-sheet.expert .tab[data-tab] .bug,
-.weirdwizard.character.expert .tab[data-tab] .bug {
+.weirdwizard.character.expert .tab[data-tab] {
   --bug: url(../assets/bugs/path-expert.webp);
 }
 
 .weirdwizard .path-sheet.master .tab[data-tab] .bug,
-.weirdwizard.character.master .tab[data-tab] .bug {
+.weirdwizard.character.master .tab[data-tab] {
   --bug: url(../assets/bugs/path-master.webp);
 }
 
@@ -2207,6 +2209,7 @@ hr.bug {
 
 .weirdwizard.npc .window-content .statbox-sections {
   gap: 5px 15px;
+  align-items: normal;
 }
 
 .weirdwizard.npc .statbox {

@@ -183,12 +183,13 @@ export default class RollDamage extends FormApplication {
     }
 
     // Prepare roll
-    const rollData = this.origin.getRollData();
+    const rollData = this.actor ? this.actor.getRollData() : null;
 
     const r = await new WWRoll(this.finalExp, rollData, {
       template: "systems/weirdwizard/templates/chat/roll.hbs",
       dataset: dataset
     }).evaluate();
+    
     dataset.value = await r.total;
     const rollArray= [r];
     
