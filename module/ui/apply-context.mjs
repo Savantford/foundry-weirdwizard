@@ -4,7 +4,7 @@ import { i18n } from "../helpers/utils.mjs";
  * @extends {ContextMenu}
 */
 
-export default class ApplyContext extends ContextMenu {
+export default class ApplyContext extends foundry.applications.ux.ContextMenu.implementation {
 
   /**
    * Render the Context Menu by iterating over the menuItems it contains.

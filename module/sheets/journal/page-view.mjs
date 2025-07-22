@@ -86,6 +86,7 @@ export default class WWPageView extends HandlebarsApplicationMixin(DocumentSheet
    */
   async _prepareContext(options = {}) {
     const docData = this.document;
+    const TextEditor = foundry.applications.ux.TextEditor.implementation;
 
     const context = {
       document: docData, // Use a safe clone of the document data for further operations.

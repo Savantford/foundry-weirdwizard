@@ -109,7 +109,7 @@ Hooks.once('init', function () {
   CONFIG.JournalEntryPage.dataModels.tradition = TraditionData;
   
   // Register actor Sheet classes
-  Actors.unregisterSheet('core', ActorSheet);
+  const Actors = foundry.documents.collections.Actors;
 
   Actors.registerSheet('weirdwizard', WWCharacterSheet, {
     types: ['Character'],
@@ -123,7 +123,7 @@ Hooks.once('init', function () {
   });
 
   // Register item Sheet classes
-  Items.unregisterSheet('core', ItemSheet);
+  const Items = foundry.documents.collections.Items;
 
   Items.registerSheet('weirdwizard', WWEquipmentSheet, {
     types: ['Equipment'],
@@ -142,6 +142,8 @@ Hooks.once('init', function () {
   });
 
   // Register Journal Page Sheet classes
+  const DocumentSheetConfig = foundry.applications.apps.DocumentSheetConfig;
+
   DocumentSheetConfig.registerSheet(JournalEntryPage, 'weirdwizard', WWAncestrySheet, {
     types: ['ancestry'],
     makeDefault: true,
@@ -262,20 +264,22 @@ Hooks.once('setup', function () {
 /*  Chat Hooks                                  */
 /* -------------------------------------------- */
 
-Hooks.on('renderChatMessage', (app, html) => {
-
+Hooks.on('renderChatMessageHTML', (message, html, context) => {
+  console.log(message)
+  console.log(html)
+  console.log(context)
   // Add custom enrichers
-  addCustomEnrichers();
+  //addCustomEnrichers();
 
   // Remove html elements meant for owners or non-owners only
   if (!game.user.isOwner) {
-    html.find('.owner-only').remove();
+    html.querySelector('.owner-only')?.remove();
   } else {
-    html.find('.non-owner-only').remove();
+    html.querySelector('.non-owner-only')?.remove();
   }
 
   // Initialize chat message listeners
-  initChatListeners(html, app);
+  //initChatListeners(html, message);
 });
 
 /* -------------------------------------------- */
@@ -319,29 +323,31 @@ Hooks.on('renderSettingsConfig', (app, html, data) => {
 });
 
 // Pretty up the system version display in the settings sidebar.
-Hooks.on("renderSettings", (app, [html]) => {
-  const details = html.querySelector("#game-details");
-  const pip = details.querySelector(".system-info .update");
-  details.querySelector(".system").remove();
+Hooks.on('renderSettings', (app, html) => {
+  const info = html.querySelector('.info');
+  const pip = info.querySelector('.info .system .notification-pip');
+  info.querySelector('.system').remove();
 
-  const heading = document.createElement("h2");
-  heading.classList.add("weirdwizard", "sidebar-heading");
-  heading.innerHTML = `${game.i18n.localize("WORLD.GameSystem")}`;
-  details.insertAdjacentElement("afterend", heading);
-
-  const badge = document.createElement("div");
-  badge.classList.add("weirdwizard", "system-badge");
+  // System Info Badge
+  const badge = document.createElement('section');
+  badge.classList.add('info', 'weirdwizard', 'flexcol');
   badge.innerHTML = `
-    <img src="systems/weirdwizard/assets/ui/sotww-logo.png" data-tooltip="${game.system.title}" alt="${game.system.title}">
-    
-    <p class="system-info" style="text-align: center;">Version ${game.system.version}<br>
-        <a href="https://github.com/Savantford/foundry-weirdwizard/releases/${game.system.version}" target="_blank">Patch Notes</a> •
-        <a href="https://github.com/Savantford/foundry-weirdwizard/issues" target="_blank">Issues</a> •
-        <a href="https://discord.gg/X5XustKpe4" target="_blank">Discord</a>
-    </p>
+    <h4 class="divider">${game.i18n.localize('WORLD.FIELDS.system.label')}</h4>
+
+    <img src="systems/weirdwizard/assets/ui/sotww-logo.png" alt="${game.system.title}" data-tooltip="${game.system.title}">
+
+    <p class="subtitle version">Version ${game.system.version}</p>
+
+    <span class="system-links" style="text-align: center;">
+      <a href="https://github.com/Savantford/foundry-weirdwizard/releases/${game.system.version}" target="_blank">Patch Notes</a> •
+      <a href="https://github.com/Savantford/foundry-weirdwizard/issues" target="_blank">Issues</a> •
+      <a href="https://discord.gg/X5XustKpe4" target="_blank">Discord</a>
+    </span>
   `;
-  if (pip) badge.querySelector(".system-info").insertAdjacentElement("beforeend", pip);
-  heading.insertAdjacentElement("afterend", badge);
+
+  if (pip) badge.querySelector('.version').insertAdjacentElement('beforeend', pip);
+
+  info.insertAdjacentElement('afterend', badge);
 });
 
 /**
@@ -372,33 +378,28 @@ Hooks.on("renderFolderConfig", (app, [html], context) => {
 /*  Misc Hooks                                  */
 /* -------------------------------------------- */
 
-Hooks.on('getSceneControlButtons', (array, html) => {
-
-  // Get button arrays
-  const token = array.find(a => a.name === 'token');
-  const notes = array.find(a => a.name === 'notes');
+Hooks.on('getSceneControlButtons', (controls) => {
 
   // Add Sage Tools button
-  token.tools.push({
+  controls['tokens'].tools['sage-tools'] = {
     name: 'sage-tools',
     title: 'Toggle Sage Tools',
     icon: 'fa-solid fa-wand-sparkles',
-    button: true,
     visible: game.user.isGM,
     toggle: true,
     onClick: () => SageTools.toggleVis('toggle')
-  });
+  };
   
   // Add Quest Calendar button
-  notes.tools.push({
+  controls['notes'].tools['quest-calendar'] = {
     name: 'quest-calendar',
     title: 'Toggle Quest Calendar',
     icon: 'fa-solid fa-calendar-clock',
-    button: true,
     visible: true,
     toggle: true,
     onClick: () => QuestCalendar.toggleVis('toggle')
-  });
+  };
+  
 });
 
 // On game world time change

@@ -420,7 +420,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
    * @protected
    */
   async _onDrop(event) {
-    const data = TextEditor.getDragEventData(event);
+    const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
     
     // Handle different data types
     switch (data.type) {

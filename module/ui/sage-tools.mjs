@@ -29,6 +29,7 @@ export default class SageTools extends Application {
 
   async getData(options = {}) {
     const context = super.getData();
+    const TextEditor = foundry.applications.ux.TextEditor.implementation;
 
     // Prepare users
     context.users = [];

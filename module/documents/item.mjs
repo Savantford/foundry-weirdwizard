@@ -216,7 +216,7 @@ export default class WWItem extends Item {
     const type = data.type || defaultType;
 
     // Render the document creation form
-    const html = await renderTemplate("templates/sidebar/document-create.html", {
+    const html = await foundry.applications.handlebars.renderTemplate("templates/sidebar/document-create.html", {
       folders,
       name: data.name || "",
       defaultName: cls.defaultName({ type, parent, pack }),

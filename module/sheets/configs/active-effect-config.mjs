@@ -1,7 +1,7 @@
 import { effChanges } from '../../helpers/effect-options.mjs'
 import { formatTime } from '../../helpers/utils.mjs';
 
-export default class WWActiveEffectConfig extends ActiveEffectConfig {
+export default class WWActiveEffectConfig extends foundry.applications.sheets.ActiveEffectConfig {
 
   /** @override */
   static get defaultOptions() {

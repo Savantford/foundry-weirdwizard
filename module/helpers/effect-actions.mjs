@@ -194,7 +194,7 @@ export async function prepareActiveEffectCategories(effects, showDuration = fals
       type: e.type,
 
       subtitle: i18n((e.duration.rounds || e.duration.seconds) ? "WW.Effect.Temporary" : "WW.Effect.Permanent"),
-      text: await TextEditor.enrichHTML(e.description, { secrets: e.isOwner }),
+      text: await foundry.applications.ux.TextEditor.implementation.enrichHTML(e.description, { secrets: e.isOwner }),
       changes: ''
     }
 
@@ -204,13 +204,13 @@ export async function prepareActiveEffectCategories(effects, showDuration = fals
       context.changes += `<li>${label} ${(c.value !== true) ? `${c.value}.` : ''}</li>`;
     }
 
-    e.tooltip = await renderTemplate(sysPath(`templates/apps/tooltips/effect.hbs`), context);
+    e.tooltip = await foundry.applications.handlebars.renderTemplate(sysPath(`templates/apps/tooltips/effect.hbs`), context);
 
     // Prepare source document cards
     if (e.origin) {
       const source = `@Embed[${e.origin} inline]`;
     
-      e.sourceCard = await TextEditor.enrichHTML(source, { secrets: e.isOwner });
+      e.sourceCard = await foundry.applications.ux.TextEditor.implementation.enrichHTML(source, { secrets: e.isOwner });
     } else {
       e.sourceCard = e.sourceName;
     }

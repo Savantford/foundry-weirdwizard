@@ -395,7 +395,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       // Description tab
       case 'description':
         context.tab = context.tabs[partId];
-        context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { secrets: this.actor.isOwner });
+        context.system.description.enriched = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.system.description.value, { secrets: this.actor.isOwner });
       break;
       
       // Effects tab
@@ -464,6 +464,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
 
       // Prepare html fields for the tooltip and chat message
       const isOwner = this.actor.isOwner;
+      const TextEditor = foundry.applications.ux.TextEditor.implementation;
       i.system.description.enriched = await TextEditor.enrichHTML(i.system.description.value, { secrets: isOwner });
       if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider.value, { secrets: isOwner });
 
@@ -495,7 +496,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
         tooltipContext.subtitle += ` • ${i18n(CONFIG.WW.TALENT_SOURCES[i.system.source])}`;
       }
 
-      i.tooltip = await renderTemplate(sysPath(`templates/apps/tooltips/item.hbs`), tooltipContext);
+      i.tooltip = await foundry.applications.handlebars.renderTemplate(sysPath(`templates/apps/tooltips/item.hbs`), tooltipContext);
 
       // Append to equipment.
       if (i.type === 'Equipment') {
@@ -714,6 +715,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     context.levels = CONFIG.WW.LEVELS;
     context.level = CONFIG.WW.LEVELS[context.system.stats.level];
     const isOwner = this.actor.isOwner;
+    const TextEditor = foundry.applications.ux.TextEditor.implementation;
 
     // Prepare enriched details to use in text editors
     context.enrichedDetails = {
@@ -1152,7 +1154,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       key: entryKey,
       showKey: true,
       grantedBy: await fromUuid(entry.grantedBy) ?
-        await TextEditor.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { secrets: this.actor.isOwner }) : null
+        await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { secrets: this.actor.isOwner }) : null
     };
 
     // Show a dialog 
@@ -1161,7 +1163,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
         icon: "fa-solid fa-edit",
         title: 'WW.Settings.Entry.Edit',
       },
-      content: await renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
+      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
       ok: {
         label: 'EFFECT.Submit',
         icon: 'fa-solid fa-save'
@@ -1216,7 +1218,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       key: entryKey,
       showKey: true,
       grantedBy: await fromUuid(entry.grantedBy) ?
-        await TextEditor.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { secrets: this.actor.isOwner }) : null
+        await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { secrets: this.actor.isOwner }) : null
     };
 
     // Show a dialog 
@@ -1225,7 +1227,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
         icon: "fa-solid fa-edit",
         title: 'WW.Settings.Entry.Edit',
       },
-      content: await renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
+      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
       ok: {
         label: 'EFFECT.Submit',
         icon: 'fa-solid fa-save'
@@ -2086,7 +2088,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
    */
   async _onDrop(event) { // Delete in v13; core behavior
     if ( !this.isEditable ) return;
-    const data = TextEditor.getDragEventData(event);
+    const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
     const actor = this.actor;
     const allowed = Hooks.call("dropActorSheetData", actor, this, data);
     if ( allowed === false ) return;

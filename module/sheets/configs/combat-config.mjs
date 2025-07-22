@@ -2,7 +2,7 @@
  * The Application responsible for configuring the CombatTracker and its contents.
  * @extends {FormApplication}
  */
-export default class WWCombatTrackerConfig extends CombatTrackerConfig {
+export default class WWCombatTrackerConfig extends foundry.applications.apps.CombatTrackerConfig {
 
   /** @override */
   static get defaultOptions() {

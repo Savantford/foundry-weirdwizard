@@ -11,6 +11,8 @@ export default async function embedCard(doc, config, options) {
     options.secrets = doc.isOwner;
 
     // Prepare variables
+    const TextEditor = foundry.applications.ux.TextEditor.implementation;
+    
     const context = {
         ...config,
         system: doc.system,
@@ -18,7 +20,7 @@ export default async function embedCard(doc, config, options) {
         type: doc.type,
         
         subtitle: ''
-    }
+    };
 
     switch (doc.documentName) {
 
@@ -99,9 +101,9 @@ export default async function embedCard(doc, config, options) {
     if (doc.documentName === 'JournalEntryPage') templateFile = 'page';
     
     if (config.inline) {
-        wrapper.innerHTML = await renderTemplate(sysPath(`templates/apps/tooltips/${templateFile}.hbs`), await context);
+        wrapper.innerHTML = await foundry.applications.handlebars.renderTemplate(sysPath(`templates/apps/tooltips/${templateFile}.hbs`), await context);
     } else {
-        wrapper.innerHTML = await renderTemplate(sysPath(`templates/apps/embeds/${templateFile}.hbs`), await context);
+        wrapper.innerHTML = await foundry.applications.handlebars.renderTemplate(sysPath(`templates/apps/embeds/${templateFile}.hbs`), await context);
     }
     
     return wrapper;

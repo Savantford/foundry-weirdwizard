@@ -85,7 +85,7 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
           field: opt.document.system.schema.getField("attackRider.value"),
           name: await section.attackRider.name,
           value: await section.attackRider.value,
-          enriched: await TextEditor.enrichHTML(section.attackRider.value, {
+          enriched: await foundry.applications.ux.TextEditor.implementation.enrichHTML(section.attackRider.value, {
             rollData: opt.document.getRollData(), relativeTo: opt.document, secrets: opt.document.isOwner
           })
         }

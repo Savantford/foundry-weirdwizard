@@ -7,7 +7,7 @@ import { defaultListEntryKey, defaultListEntryName, i18n } from "../../helpers/u
  * @extends {JournalPageSheet}
 */
 
-export default class WWCharOptionSheet extends JournalPageSheet {
+export default class WWCharOptionSheet extends foundry.appv1.sheets.JournalPageSheet {
 
   /** @inheritdoc */
   static get defaultOptions() {
@@ -91,6 +91,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     this._convertFormats(context);
     
     const docData = this.document;
+    const TextEditor = foundry.applications.ux.TextEditor.implementation;
 
     context.document = docData, // Use a safe clone of the document data for further operations.
     context.system = docData.system,
@@ -357,7 +358,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
         icon: "fa-solid fa-edit",
         title: 'WW.Settings.Entry.Edit',
       },
-      content: await renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
+      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
       ok: {
         label: 'EFFECT.Submit',
         icon: 'fa-solid fa-save'
@@ -412,7 +413,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
         icon: "fa-solid fa-edit",
         title: 'WW.Settings.Entry.Edit',
       },
-      content: await renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
+      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
       ok: {
         label: 'EFFECT.Submit',
         icon: 'fa-solid fa-save'
@@ -623,7 +624,7 @@ export default class WWCharOptionSheet extends JournalPageSheet {
     event.stopPropagation();
     
     if ( !this.isEditable ) return;
-    const data = TextEditor.getDragEventData(event);
+    const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
     const journalEntry = this.document;
     const allowed = Hooks.call("dropJournalEntryPageSheetData", journalEntry, this, data);
     if ( allowed === false ) return;

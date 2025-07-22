@@ -121,6 +121,7 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
     const itemData = this.item;
     const sys = this.item.system;
     const isOwner = this.item.isOwner;
+    const TextEditor = foundry.applications.ux.TextEditor.implementation;
 
     // Ensure editMode has a value
     if (this.editMode === undefined) this.editMode = false;
@@ -607,7 +608,7 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
     //const areas = rightCol.querySelectorAll(".example");
     
     // Get basic data
-    const data = TextEditor.getDragEventData(event);
+    const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
     const ol = event.target.closest('.items-area');
     
     if (!ol) return;

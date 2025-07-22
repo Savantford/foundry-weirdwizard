@@ -1,4 +1,4 @@
-import WWTour from './WWTour.mjs';
+import WWTour from './tour.mjs';
 
 export default async function registerWWTours() {
 

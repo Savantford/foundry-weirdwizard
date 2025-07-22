@@ -2,7 +2,7 @@ import { i18n } from './utils.mjs';
 
 // Add custom enrichers during init phase
 export default function addCustomEnrichers() {
-  CONFIG.TextEditor.enrichers.push(
+  CONFIG.foundry.applications.ux.TextEditor.implementation.enrichers.push(
     {
       pattern: /@\[(str|agi|int|wil|luck)(?:(\+[1-99]+?|\-[1-99]+?))?\]/gim,
       enricher: enrichCall

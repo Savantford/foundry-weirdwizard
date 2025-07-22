@@ -119,7 +119,7 @@ export class EntrySettingsDisplay extends HandlebarsApplicationMixin(Application
         icon: "fa-solid fa-circle-plus",
         title: 'WW.Settings.Entry.Add',
       },
-      content: await renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', { showKey: true }),
+      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', { showKey: true }),
       ok: {
         label: 'EFFECT.Submit',
         icon: 'fa-solid fa-save'
@@ -201,7 +201,7 @@ export class EntrySettingsDisplay extends HandlebarsApplicationMixin(Application
         icon: "fa-solid fa-edit",
         title: 'WW.Settings.Entry.Edit',
       },
-      content: await renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
+      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
       ok: {
         label: 'EFFECT.Submit',
         icon: 'fa-solid fa-save'
