@@ -5089,6 +5089,8 @@ form.quest-calendar {
   margin: 0;
   white-space: nowrap;
   color: var(--purple-medium);
+  font-family: var(--font-body);
+  font-size: var(--font-size-13);
   font-weight: bold;
 }
 

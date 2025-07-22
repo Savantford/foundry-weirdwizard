@@ -47,70 +47,15 @@ export default class WWChatMessage extends ChatMessage {
     const TextEditor = foundry.applications.ux.TextEditor.implementation;
     const speakerActor = this.speakerActor;
     const data = this.toObject(false);
-    data.content = await TextEditor.enrichHTML(this.content, {rollData: this.getRollData(),
-      secrets: speakerActor?.isOwner ?? game.user.isGM});
     const isWhisper = this.whisper.length;
 
-    // Construct message data
-    const messageData = {
-      ...rest,
-      canDelete, canClose,
-      message: data,
-      user: game.user,
-      author: this.author,
-      speakerActor,
-      alias: this.alias,
-      cssClass: [
-        this.style === CONST.CHAT_MESSAGE_STYLES.IC ? "ic" : null,
-        this.style === CONST.CHAT_MESSAGE_STYLES.EMOTE ? "emote" : null,
-        isWhisper ? "whisper" : null,
-        this.blind ? "blind": null
-      ].filterJoin(" "),
-      isWhisper: this.whisper.length,
-      whisperTo: this.whisper.map(u => game.users.get(u)?.name).filterJoin(", ")
-    };
-
-    // Render message data specifically for ROLL type messages
-    if ( this.isRoll ) await this.#renderRollContent(messageData);
-
-    // Define a border color
-    if ( this.style === CONST.CHAT_MESSAGE_STYLES.OOC ) messageData.borderColor = this.author?.color.css;
-
-    // Render the chat message
-    let html = await foundry.applications.handlebars.renderTemplate(CONFIG.ChatMessage.template, messageData);
-    html = foundry.utils.parseHTML(html);
-
-    // Flag expanded state of dice rolls
-    Hooks.callAll("renderChatMessageHTML", this, html, messageData);
-
-    /** @deprecated since v13 */
-    if ( "renderChatMessage" in Hooks.events ) {
-      foundry.utils.logCompatibilityWarning("The renderChatMessage hook is deprecated. Please use "
-        + "renderChatMessageHTML instead, which now passes an HTMLElement argument instead of jQuery.",
-      { since: 13, until: 15, once: true });
-      Hooks.callAll("renderChatMessage", this, $(html), messageData);
-    }
-
-    return html;
-  }
-
-  /**
-   * Render the HTML for the ChatMessage which should be added to the log
-   * @override
-   * @returns {Promise<jQuery>}
-   */
-  /*async getHTML() {
-    // Determine some metadata
-    const data = this.toObject(false);
+    // Determine some additional WW metadata
     const itemUuid = (data.flags?.weirdwizard?.item && (typeof data.flags?.weirdwizard?.item === 'string')) ? data.flags.weirdwizard.item : null;
     const item = await fromUuid(itemUuid);
     const icon = (data.flags?.weirdwizard?.icon && (typeof data.flags?.weirdwizard?.icon === 'string')) ? data.flags.weirdwizard.icon : null;
-    const isWhisper = this.whisper.length;
     
     const instEffs = item ? item.system.instant.filter(e => e.trigger === 'onUse') : null;
     const actEffs = item ? item.effects.filter(e => e.system.trigger === 'onUse') : null;
-
-    const TextEditor = foundry.applications.ux.TextEditor.implementation;
     
     // Replace formula values with roll data
     if (instEffs) {
@@ -124,9 +69,9 @@ export default class WWChatMessage extends ChatMessage {
     const content = isNaN(this.content) ? this.content : '';
 
     data.content = await TextEditor.enrichHTML(content, {
-      async: true,
-      secrets: true,
       rollData: this.getRollData(),
+      secrets: speakerActor?.isOwner ?? game.user.isGM,
+      async: true,
       relativeTo: item ? item : undefined
     });
 
@@ -182,13 +127,15 @@ export default class WWChatMessage extends ChatMessage {
         };
       }
     };
-    
+
     // Construct message data
     const messageData = {
+      ...rest,
+      canDelete, canClose,
       message: data,
-      type: this.type,
       user: game.user,
       author: this.author,
+      speakerActor,
       alias: this.alias,
       avatar: this.avatar,
       icon: icon,
@@ -206,47 +153,48 @@ export default class WWChatMessage extends ChatMessage {
         uuid: item.uuid,
         img: item.img
       } : null,
-      //rollHtml: await this._renderRollHTML(false),// no longer used
       instEffs: item ? await instEffs : null,
       actEffs: item ? await actEffs : null,
       emptyContent: emptyContent,
       cssClass: [
+        this.type,
+        item?.type ?? null,
+        item?.subtype ?? null,
+        item?.magical ?? null,
+        item?.actor?.type === 'NPC' ? "npc" : null,
         this.style === CONST.CHAT_MESSAGE_STYLES.IC ? "ic" : null,
         this.style === CONST.CHAT_MESSAGE_STYLES.EMOTE ? "emote" : null,
         isWhisper ? "whisper" : null,
-        this.blind ? "blind": null,
-        item?.actor?.type === 'NPC' ? "npc" : null,
+        this.blind ? "blind": null
       ].filterJoin(" "),
       isWhisper: this.whisper.length,
-      showPrivate: this.isContentVisible,
-      canDelete: game.user.isGM,  // Only GM users are allowed to have the trash-bin icon in the chat log itself
-      whisperTo: this.whisper.map(u => {
-        let user = game.users.get(u);
-        return user ? user.name : null;
-      }).filterJoin(", ")
+      whisperTo: this.whisper.map(u => game.users.get(u)?.name).filterJoin(", "),
+      //showPrivate: this.isContentVisible, // No longer needed in v13?
     };
-    
+
     // Render message data specifically for ROLL type messages
-    if ( this.isRoll ) await this._renderRollContent(messageData);
-    
+    if ( this.isRoll ) await this.#renderRollContent(messageData);
+
     // Define a border color
     if ( this.style === CONST.CHAT_MESSAGE_STYLES.OOC ) messageData.borderColor = this.author?.color.css;
 
     // Render the chat message
-    let html = await foundry.applications.handlebars.renderTemplate(`systems/weirdwizard/templates/chat/${this.type}-message.hbs`, messageData);
-    //html = $(html);
+    let html = await foundry.applications.handlebars.renderTemplate(`systems/weirdwizard/templates/chat/${this.type}-message.hbs`, messageData); // Default: CONFIG.ChatMessage.template
+    html = foundry.utils.parseHTML(html);
 
     // Flag expanded state of dice rolls
-    if ( this._rollExpanded ) html.find(".dice-tooltip").addClass("expanded");
-    Hooks.call("renderChatMessage", this, html, messageData);
-    Hooks.callAll("renderChatMessageHTML", this, html);
-    
-    // Return html only if content is visible
-    return this.isContentVisible ? html : '';
-    
-  }*/
+    Hooks.callAll("renderChatMessageHTML", this, html, messageData);
 
-  /* -------------------------------------------- */
+    /** @deprecated since v13 */
+    if ( "renderChatMessage" in Hooks.events ) {
+      foundry.utils.logCompatibilityWarning("The renderChatMessage hook is deprecated. Please use "
+        + "renderChatMessageHTML instead, which now passes an HTMLElement argument instead of jQuery.",
+      { since: 13, until: 15, once: true });
+      Hooks.callAll("renderChatMessage", this, $(html), messageData);
+    }
+
+    return html;
+  }
 
   /* -------------------------------------------- */
 
@@ -272,7 +220,7 @@ export default class WWChatMessage extends ChatMessage {
     if ( this.isContentVisible ) {
       const el = document.createElement("div");
       el.innerHTML = data.content;  // Ensure the content does not already contain custom HTML
-      if ( !el.childElementCount && this.rolls.length ) data.content = await this.#renderRollHTML(false);
+      if ( !el.childElementCount && this.rolls.length ) data.content = await this.#renderRollHTML(false); // If check was removed in v12
     }
 
     // Otherwise, show "rolled privately" messages for Roll content
@@ -283,41 +231,6 @@ export default class WWChatMessage extends ChatMessage {
       messageData.alias = name;
     }
   }
-
-  /**
-   * Render the inner HTML content for ROLL type messages.
-   * @param {object} messageData      The chat message data used to render the message HTML
-   * @returns {Promise}
-   * @private
-   */
-  /*async _renderRollContent(messageData) {
-    const data = messageData.message;
-    const renderRolls = async isPrivate => {
-      let html = "";
-      for ( const r of this.rolls ) {
-        html += await r.render({isPrivate});
-      }
-      return html;
-    };
-
-    // Suppress the "to:" whisper flavor for private rolls
-    if ( this.blind || this.whisper.length ) messageData.isWhisper = false;
-
-    // Display standard Roll HTML content
-    if ( this.isContentVisible ) {
-      const el = document.createElement("div");
-      el.innerHTML = data.content;  // Ensure the content does not already contain custom HTML
-      /*if ( !el.childElementCount && this.rolls.length )*/ /*data.content += await this._renderRollHTML(false);
-    }
-
-    // Otherwise, show "rolled privately" messages for Roll content
-    else {
-      const name = this.author?.name ?? game.i18n.localize("CHAT.UnknownUser");
-      data.flavor = game.i18n.format("CHAT.PrivateRollContent", {user: name});
-      data.content = await renderRolls(true);
-      messageData.alias = name;
-    }
-  }*/
 
   /* -------------------------------------------- */
 
