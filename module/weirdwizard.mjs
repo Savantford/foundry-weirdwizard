@@ -190,8 +190,9 @@ Hooks.once('init', function () {
     }
   };
 
-  // Register Primary Token Attribute
-  //game.system.primaryTokenAttribute = 'system.stats.damage'; - no longer needed?
+  // Set default current turn token ring
+  if (CONFIG.Combat.fallbackTurnMarker !== 'systems/weirdwizard/assets/drawings/pause-star.webp')
+  CONFIG.Combat.fallbackTurnMarker = 'systems/weirdwizard/assets/drawings/pause-star.webp';
 
   // Register custom Roll subclass
   CONFIG.Dice.rolls.unshift(WWRoll);
@@ -257,6 +258,9 @@ Hooks.once('setup', function () {
 
   // Assign blinded as the BLIND special status effect
   CONFIG.specialStatusEffects.BLIND = 'blinded';
+
+  // Add custom enrichers
+  addCustomEnrichers();
   
 });
 
@@ -265,12 +269,6 @@ Hooks.once('setup', function () {
 /* -------------------------------------------- */
 
 Hooks.on('renderChatMessageHTML', (message, html, context) => {
-  console.log(message)
-  console.log(html)
-  console.log(context)
-  // Add custom enrichers
-  //addCustomEnrichers();
-
   // Remove html elements meant for owners or non-owners only
   if (!game.user.isOwner) {
     html.querySelector('.owner-only')?.remove();

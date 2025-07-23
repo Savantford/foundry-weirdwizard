@@ -35,18 +35,14 @@ export default class WWCombatant extends Combatant {
     // Push the taking initiative status to the token
     const token = this.token;
     if ( !token ) return;
-    //const status = CONFIG.statusEffects.find(e => e.id === CONFIG.specialStatusEffects.TAKING_INITIATIVE);
-    //if ( !status && !token.object ) return;
     
     // Prepare message
-    let msg = i18n('WW.Combat.RegularTurn.ChatMsg', {name: '<b>' + game.weirdwizard.utils.getAlias({ token: token }) + '</b>'});
-    if (taking) {
-      msg = i18n('WW.Combat.Initiative.ChatMsg', {name: '<b>' + game.weirdwizard.utils.getAlias({ token: token }) + '</b>'});
-    }
+    const name = token.actor ? `@Embed[${c.actor.uuid} inline]` : '<b>' + game.weirdwizard.utils.getAlias({ token: token }) + '</b>';
+    const msg = taking ? i18n('WW.Combat.Initiative.ChatMsg', {name: name}) :i18n('WW.Combat.RegularTurn.ChatMsg', {name: name});
 
     // Send to chat
     ChatMessage.create({
-      content: '<div>' + msg + '</div>',
+      content: '<p>' + msg + '</p>',
       sound: CONFIG.sounds.notification
     });
 

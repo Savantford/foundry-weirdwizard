@@ -39,6 +39,7 @@ body {
   --color-border-highlight-alt: var(--color-shadow-primary);
   --color-shadow-primary: #c200ff;
   --color-shadow-highlight: var(--purple-dark);
+  --color-warm-1: var(--purple-medium);
   --color-warm-2: var(--color-shadow-primary);
 
   /* Scrollbar Override */
@@ -672,7 +673,23 @@ body {
 }
 
 .sheet.journal-entry .journal-entry-content {
+  color: var(--body-text-color);
   background: var(--paper-bg);
+}
+
+.sheet.journal-entry .journal-header .title {
+  color: var(--purple-dark);
+  font-family: var(--font-capitalized);
+  font-weight: bold;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  border-bottom: 5px double black;
+}
+
+.sheet.journal-entry .journal-header .title:hover {
+  outline: 2px solid var(--input-focus-outline-color);
+  outline-offset: -2px;
 }
 
 /* Actor: Section Headers */
@@ -4644,16 +4661,35 @@ form.quest-calendar {
   --banner: url(../assets/ui/banners/weapons-banner.webp);
 }
 
+/* Compendium Directory */
+.compendium-directory .header-banner img {
+  mask-image: none;
+}
+
+.compendium-directory .header-banner .compendium-name strong {
+  background: transparent;
+  text-shadow: 0 0 10px #000, 0 0 5px #000;
+}
+
+.compendium-directory .header-banner .compendium-name strong::after {
+  filter: drop-shadow(0 0 4px black);
+}
+
 /* -------------------------------------------- */
 /*  Chat Messages                               */
 /* -------------------------------------------- */
 
-/* Chat Elements */
-#chat-form textarea {
+/* Chat Message Input */
+#chat-message {
   background: url(../assets/drawings/star-chat.svg), var(--paper-bg);
   background-repeat: no-repeat, repeat;
   background-position: center;
   background-size: 30%, auto;
+  color: var(--body-text-color);
+}
+
+#chat-message::placeholder {
+  color: var(--purple-dark);
 }
 
 /* Chat Messages */
@@ -5103,6 +5139,36 @@ form.quest-calendar {
 .weirdwizard.chat-message .message-metadata {
   flex: 2;
   justify-content: end;
+}
+
+/* Chat Message: Status Type */
+.weirdwizard.chat-message.status {
+  background: transparent;
+  border-image: url(../assets/drawings/header-ribbon-pink.svg);
+  border-image-slice: 0 91 1 13 fill;
+  border-image-width: 0px 91px 1px 13px;
+
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 5px;
+  padding-right: 30px;
+}
+
+.weirdwizard.chat-message.status .message-wrapper {
+  flex: 1;
+}
+
+.weirdwizard.chat-message.status .message-info {
+  opacity: 0;
+  transition: all 0.5s;
+}
+
+.weirdwizard.chat-message.status:hover .message-info {
+  opacity: 100%;
+}
+
+.weirdwizard.chat-message.status .message-info:hover i::before {
+  content: "";
 }
 
 /* -------------------------------------------- */

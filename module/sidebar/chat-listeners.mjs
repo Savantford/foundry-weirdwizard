@@ -12,7 +12,6 @@ import WWRoll from '../dice/roll.mjs';
 //const tokenManager = new TokenManager()
 
 export function initChatListeners(html, message, context) {
-  console.log(context)
   // Handle chat Message Button left click
   html.querySelector('.chat-button[data-action*=roll]')?.addEventListener('click', _onMessageButtonRoll);
   html.querySelector('.enricher-roll')?.addEventListener('click', _onMessageButtonRoll);
@@ -447,7 +446,6 @@ async function _onChatRoll(dataset, label, nextAction) {
 }
 
 function _onMessageCollapse(msg) {
-  console.warn('triggered')
   const button = msg.querySelector('.chat-message-collapse');
   const icon = msg.querySelector('.chat-message-collapse > i');
   

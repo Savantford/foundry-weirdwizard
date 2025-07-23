@@ -1,7 +1,3 @@
-2025/07/22-15:21:58.892 4a4c Recovering log #726
-2025/07/22-15:21:58.897 4a4c Delete type=0 #726
-2025/07/22-15:21:58.897 4a4c Delete type=3 #725
-2025/07/22-15:25:11.027 45f8 Level-0 table #730: started
-2025/07/22-15:25:11.027 45f8 Level-0 table #730: 0 bytes OK
-2025/07/22-15:25:11.029 45f8 Delete type=0 #728
-2025/07/22-15:25:11.029 45f8 Manual compaction at level-0 from '!items!FWw7614Ks2FMn1HN' @ 72057594037927935 : 1 .. '!items!FWw7614Ks2FMn1HN' @ 0 : 0; will stop at (end)
+2025/07/22-17:25:17.889 3580 Recovering log #732
+2025/07/22-17:25:17.892 3580 Delete type=0 #732
+2025/07/22-17:25:17.893 3580 Delete type=3 #731

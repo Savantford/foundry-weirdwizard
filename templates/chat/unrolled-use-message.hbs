@@ -59,34 +59,34 @@
 
             {{!-- Collapse/Expand Icon --}}
             <div><a class="chat-message-collapse"><i class="fa-solid fa-square-minus"></i></a></div>
-
-            {{!-- Weapon Details --}}
-            {{#if (and showPrivate item.isWeapon)}}
-
-                {{!-- Weapon Traits --}}
-                <div class="traits-container">
-                    {{#each item.traits as |trait id|}}
-                    <span class="header-button" data-tooltip="{{trait.tip}}">{{trait.label}}</span>
-                    {{/each}}
-                </div>
-
-                {{!-- Attack Rider --}}
-                {{#if (or item.attackRider.value item.attackRider.name)}}
-                <div class="message-subheader-details attack-rider">
-                    <label>{{item.attackRider.name}}:</label>
-                    {{{item.attackRider.enriched}}}
-                </div>
-                {{/if}}
-
-            {{/if}} {{!-- END Weapon Details --}}
-
-            {{!-- Spell Header --}}
-            {{#if (and item.isSpell item.spellHeader)}}
-            <div class="message-subheader-details">
-                {{{item.spellHeader}}}
-            </div>
-            {{/if}}
             
+        </div>
+        {{/if}}
+
+        {{!-- Weapon Details --}}
+        {{#if (and showPrivate item.isWeapon)}}
+        
+        {{!-- Weapon Traits --}}
+        <div class="traits-container">
+            {{#each item.traits as |trait id|}}
+            <span class="header-button" data-tooltip="{{trait.tip}}">{{trait.label}}</span>
+            {{/each}}
+        </div>
+        
+        {{!-- Attack Rider --}}
+        {{#if (or item.attackRider.value item.attackRider.name)}}
+        <div class="message-subheader-details attack-rider">
+            <label>{{item.attackRider.name}}:</label>
+            {{{item.attackRider.enriched}}}
+        </div>
+        {{/if}}
+        
+        {{/if}} {{!-- END Weapon Details --}}
+        
+        {{!-- Spell Header --}}
+        {{#if (and item.isSpell item.spellHeader)}}
+        <div class="message-subheader-details">
+            {{{item.spellHeader}}}
         </div>
         {{/if}}
 

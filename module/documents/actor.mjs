@@ -824,11 +824,12 @@ export default class WWActor extends Actor {
     }
 
     const content = `
-      <div style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this })}</b> ${i18n('WW.InstantEffect.Apply.Took')} ${damage} ${i18n('WW.InstantEffect.Apply.DamageLc')}.</div>
-      <div>${i18n('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fa-solid fa-arrow-right"></i> ${newTotal}</div>
+      <p>@Embed[${this.uuid} inline] ${i18n('WW.InstantEffect.Apply.Took')} ${damage} ${i18n('WW.InstantEffect.Apply.DamageLc')}.</p>
+      <p>${i18n('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fa-solid fa-arrow-right"></i> ${newTotal}</p>
     `;
 
     ChatMessage.create({
+      type: 'status',
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
       content: content,
       sound: CONFIG.sounds.notification
@@ -838,17 +839,18 @@ export default class WWActor extends Actor {
   }
 
   async applyHealing(healing) {
-
+    console.log(CONFIG.ux.TextEditor)
     // Get values
     const oldTotal = this.system.stats.damage.value;
     const newTotal = ((oldTotal - parseInt(healing)) > 0) ? oldTotal - parseInt(healing) : 0;
 
     const content = `
-      <div style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this })}</b> ${i18n('WW.InstantEffect.Apply.Healed')} ${healing} ${i18n('WW.InstantEffect.Apply.DamageLc')}.</div>
-      <div>${i18n('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fa-solid fa-arrow-right"></i> ${newTotal}</div>
+      <p>@Embed[${this.uuid} inline] ${i18n('WW.InstantEffect.Apply.Healed')} ${healing} ${i18n('WW.InstantEffect.Apply.DamageLc')}.</p>
+      <p>${i18n('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fa-solid fa-arrow-right"></i> ${newTotal}</p>
     `;
 
     ChatMessage.create({
+      type: 'status',
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
       content: content,
       sound: CONFIG.sounds.notification
@@ -865,11 +867,12 @@ export default class WWActor extends Actor {
     const current = (oldCurrent - loss) > 0 ? oldCurrent - loss : 0;
 
     const content = `
-      <div style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this })}</b> ${i18n('WW.InstantEffect.Apply.Lost')} ${loss} ${i18n('WW.InstantEffect.Apply.Health')}.</div>
-      <div>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${oldCurrent} <i class="fa-solid fa-arrow-right"></i> ${current}</div>
+      <p>@Embed[${this.uuid} inline] ${i18n('WW.InstantEffect.Apply.Lost')} ${loss} ${i18n('WW.InstantEffect.Apply.Health')}.</p>
+      <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${oldCurrent} <i class="fa-solid fa-arrow-right"></i> ${current}</p>
     `;
 
     ChatMessage.create({
+      type: 'status',
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
       content: content,
       sound: CONFIG.sounds.notification
@@ -887,11 +890,12 @@ export default class WWActor extends Actor {
     const current = oldCurrent + regained;
     
     const content = `
-      <div style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this })}</b> ${i18n('WW.InstantEffect.Apply.Regained')} ${regained} ${i18n('WW.InstantEffect.Apply.Health')}.</div>
-      <div>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${oldCurrent} <i class="fa-solid fa-arrow-right"></i> ${current}</div>
+      <p>@Embed[${this.uuid} inline] ${i18n('WW.InstantEffect.Apply.Regained')} ${regained} ${i18n('WW.InstantEffect.Apply.Health')}.</p>
+      <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${oldCurrent} <i class="fa-solid fa-arrow-right"></i> ${current}</p>
     `;
 
     ChatMessage.create({
+      type: 'status',
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
       content: content,
       sound: CONFIG.sounds.notification
@@ -916,14 +920,15 @@ export default class WWActor extends Actor {
 
     // Check if the actor already has the affliction
     if (this.statuses.has(key)) {
-      content = `<b>${game.weirdwizard.utils.getAlias({ actor: this })}</b> ${i18n('WW.Affliction.Already')} <b class="info" data-tooltip="${effect.description}">${effect.name}</b>.`;
+      content = `@Embed[${this.uuid} inline] ${i18n('WW.Affliction.Already')} <b class="info" data-tooltip="${effect.description}">${effect.name}</b>.`;
     } else {
       await ActiveEffect.create(effect, {parent: this});
-      content = `<b>${game.weirdwizard.utils.getAlias({ actor: this })}</b> ${i18n('WW.Affliction.Becomes')} <b class="info" data-tooltip="${effect.description}">${effect.name}</b>.`;
+      content = `@Embed[${this.uuid} inline] ${i18n('WW.Affliction.Becomes')} <b class="info" data-tooltip="${effect.description}">${effect.name}</b>.`;
     }
 
     // Send chat message
     ChatMessage.create({
+      type: 'status',
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
       content: content,
       sound: CONFIG.sounds.notification
@@ -934,24 +939,25 @@ export default class WWActor extends Actor {
   /* Apply Active Effect */
   async applyEffect(effectUuid) {
     
-    const obj = fromUuidSync(effectUuid).toObject();
+    const effect = fromUuidSync(effectUuid);
 
     // Swap trigger to passive for it to take effect immediately
-    obj.system.trigger = 'passive';
+    effect.system.trigger = 'passive';
 
     const content = `<p>
-      <b class="info" data-tooltip="${obj.description}">${obj.name}</b>
+      @Embed[${effect.uuid} inline]
       ${i18n('WW.Effect.AppliedTo')}
-      <b>${game.weirdwizard.utils.getAlias({ actor: this })}</b>.
+      @Embed[${this.uuid} inline].
     </p>`;
 
     ChatMessage.create({
+      type: 'status',
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
       content: content,
       sound: CONFIG.sounds.notification
     })
 
-    this.createEmbeddedDocuments("ActiveEffect", [obj]);
+    this.createEmbeddedDocuments("ActiveEffect", [await effect.toObject()]);
 
   }
 
@@ -1023,9 +1029,10 @@ export default class WWActor extends Actor {
         const duration = ae.duration.seconds ? formatTime(ae.duration.seconds) : ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? i18n('WW.Effect.Duration.Rounds') : i18n('WW.Effect.Duration.Round'));
 
         await ChatMessage.create({
+          type: 'status',
           speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
           flavor: this.label,
-          content: '<div><b>' + ae.name + '</b> ' + i18n("WW.Effect.Duration.ExpiredMsg") + ' ' + duration + '.</div>',
+          content: `<p>@Embed[${this.uuid} inline]: @Embed[${ae.uuid} inline] ${i18n("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
           sound: CONFIG.sounds.notification
         });
 

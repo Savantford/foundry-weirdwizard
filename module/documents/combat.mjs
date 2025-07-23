@@ -523,9 +523,10 @@ export default class WWCombat extends Combat {
         const duration = ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? i18n('WW.Effect.Duration.Rounds') : i18n('WW.Effect.Duration.Round'));
       
         await ChatMessage.create({
+          type: 'status',
           speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
           flavor: this.label,
-          content: '<div><b>' + ae.name + '</b> ' + i18n("WW.Effect.Duration.ExpiredMsg") + ' ' + duration + '.</div>',
+          content: `<p>@Embed[${c.actor.uuid} inline]: @Embed[${ae.uuid} inline] ${i18n("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
           sound: CONFIG.sounds.notification
         });
 
@@ -590,9 +591,10 @@ export default class WWCombat extends Combat {
         const duration = ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? i18n('WW.Effect.Duration.Rounds') : i18n('WW.Effect.Duration.Round'));
         
         await ChatMessage.create({
+          type: 'status',
           speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
           flavor: this.label,
-          content: '<div><b>' + ae.name + '</b> ' + i18n("WW.Effect.Duration.ExpiredMsg") + ' ' + duration + '.</div>',
+          content: `<p>@Embed[${c.actor.uuid} inline]: @Embed[${ae.uuid} inline] ${i18n("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
           sound: CONFIG.sounds.notification
         });
         
@@ -673,9 +675,10 @@ export default class WWCombat extends Combat {
         const duration = ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? i18n('WW.Effect.Duration.Rounds') : i18n('WW.Effect.Duration.Round'));
         
         await ChatMessage.create({
-          speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
+          type: 'status',
+          speaker: game.weirdwizard.utils.getSpeaker({ actor: c.actor }),
           flavor: this.label,
-          content: '<div><b>' + ae.name + '</b> ' + i18n("WW.Effect.Duration.ExpiredMsg") + ' ' + duration + '.</div>',
+          content: `<p>@Embed[${c.actor.uuid} inline]: @Embed[${ae.uuid} inline] ${i18n("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
           sound: CONFIG.sounds.notification
         });
 
