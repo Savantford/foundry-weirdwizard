@@ -36,6 +36,11 @@
         {{#if isWhisper}}
         <span class="whisper-to">{{localize 'CHAT.To'}}: {{whisperTo}}</span>
         {{/if}}
+        
+    </header>
+
+    {{!-- Message Wrapper --}}
+    <div class="message-wrapper">
 
         {{!-- Flavor (Icon, Name, Categories, etc) --}}
         {{#if message.flavor}}
@@ -57,11 +62,6 @@
             
         </div>
         {{/if}}
-
-    </header>
-
-    {{!-- Message Wrapper --}}
-    <div class="message-wrapper">
 
         {{!-- Message Content (Body) --}}
         <div class="message-content">

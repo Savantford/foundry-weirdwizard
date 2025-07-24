@@ -363,7 +363,8 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
 
   /** @inheritdoc */
   _contextMenu(html) {
-    ContextMenu.create(this, html, ".directory-item", this._getEntryContextOptions());
+    //ContextMenu.create(this, html, ".directory-item", this._getEntryContextOptions());
+    new ContextMenu(html, '.directory-item', this._getEntryContextOptions(), {fixed: true});
   }
 
   /* -------------------------------------------- */

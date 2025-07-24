@@ -17,6 +17,7 @@
 "WW.Actor.Beliefs": "Beliefs",
 "WW.Actor.Notes": "Notes",
 "WW.Actor.Reset": "Reset to original values",
+"WW.Actor.ProfileMenuTip": "Left click to edit the portrait image.<br>Right click to show portrait or token artwork.",
 "WW.Actor.ShowPortrait": "Show portrait image",
 "WW.Actor.ShowToken": "Show token image",
 
@@ -349,9 +350,9 @@
 
 "WW.Equipment.Price": "Price",
 "WW.Equipment.Coins": "Coins",
-"WW.Equipment.GP": "Gold pieces (gp)",
-"WW.Equipment.SP": "Silver pieces (sp)",
-"WW.Equipment.CP": "Copper pieces (cp)",
+"WW.Equipment.GP": "gp",
+"WW.Equipment.SP": "sp",
+"WW.Equipment.CP": "cp",
 
 "WW.Equipment.CarryingLimit": "Carrying Limit",
 "WW.Equipment.Weight": "Weight",

@@ -493,6 +493,7 @@ body {
 
 .weirdwizard.item .window-content {
   padding-top: var(--sheet-name-stripe-height);
+  padding-right: var(--scroll-margin);
   margin-top: 0;
 }
 
@@ -1346,6 +1347,7 @@ body {
 .weirdwizard.sheet .profile-img {
   border-radius: 50%;
   margin: 0;
+  cursor: pointer;
 }
 
 /* Profile Image: Item */
@@ -1362,40 +1364,6 @@ body {
   outline: 2px solid var(--purple-dark);
   outline-offset: 2px;
   filter: drop-shadow(0 0 1px var(--purple-dark));
-}
-
-/* Profile Image: Menu */
-
-.weirdwizard .profile-img-menu {
-  position: absolute;
-  top: -15px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  display: flex;
-  gap: 7px;
-  padding: 1px 3px;
-  background: var(--paper-bg);
-  border: 2px solid var(--purple-dark);
-  border-radius: 5px;
-  font-size: medium;
-  opacity: 0;
-  transition: opacity 100ms ease-in-out;
-}
-
-.weirdwizard .sheet-header:hover .profile-img-menu {
-  opacity: 1;
-}
-
-.weirdwizard.character .profile-img-menu {
-  bottom: auto;
-  top: -20px;
-  left: calc(50% - 45px);
-}
-
-.weirdwizard.item .profile-img-menu {
-  top: -10px;
-  left: 0;
-  color: black;
 }
 
 /* Profile Image: Circle */
@@ -1657,6 +1625,7 @@ body {
 .weirdwizard .health-wrapper,
 .weirdwizard .health-wrapper input {
   color: white;
+  text-align: center;
 }
 
 .weirdwizard .health-overlay {

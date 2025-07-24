@@ -12,14 +12,14 @@ export default class WWCharacterSheet extends WWActorSheet {
     classes: ['weirdwizard', 'sheet', 'actor', 'character'],
     window: {
       icon: 'fa-solid fa-user',
-      controls: super.DEFAULT_OPTIONS.window.controls.concat([ // Remove concat in V13
+      controls: [
         {
           action: "startRest",
           icon: "fa-solid fa-campground",
           label: "WW.Rest.Label",
           ownership: "OWNER"
         }
-      ])
+      ]
     },
     position: {
       width: 850,

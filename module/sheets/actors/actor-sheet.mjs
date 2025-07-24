@@ -44,7 +44,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       icon: 'fa-regular fa-scroll',
       resizable: true,
       contentClasses: ['scrollable'],
-      controls: super.DEFAULT_OPTIONS.window.controls.concat([ // Remove concat in V13
+      controls: [
         {
           action: "embedInChat",
           icon: "fa-solid fa-scroll",
@@ -63,7 +63,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
           label: "WW.System.Tour",
           ownership: "OWNER"
         }
-      ])
+      ]
     },
     actions: {
       editImage: this.#onEditImage, // delete in V13; core functionality
@@ -802,8 +802,8 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     await super._onFirstRender(context, options);
 
     // Initialize context menus
-    //ContextMenu.create(this, this.element, '.profile-img', this._getProfileImageContextOptions()); - V13 only
-    ContextMenu.create(this, this.element, '.item-button', this._getItemContextOptions());
+    this._createContextMenu(this._getProfileImageContextEntries, '.profile-img', {fixed: true});
+    this._createContextMenu(this._getItemContextEntries, '.item-button', {fixed: true});
 
     // Force re-render to fix ancestry not loading up properly on new Characters
     this.render();
@@ -814,130 +814,149 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   /* -------------------------------------------- */
 
   /**
-   * Get the Item context options
+   * Get the profile image context options
    * @returns {object[]}   The Item context options
    * @private
    */
-  _getItemContextOptions() {
+  _getProfileImageContextEntries() {
+    
+    return [
+      {
+        name: "WW.Actor.ShowPortrait",
+        icon: '<i class="fa-solid fa-image-portrait"></i>',
+        callback: li => {
+          // From #onShowPortraitArtwork
+          const {img, name, uuid} = this.actor;
+          return new ImagePopout({src: img, uuid, window: {title: name}}).render({force: true});
+        },
+        condition: li => {
+          return true;
+        }
+      },
+      {
+        name: "WW.Actor.ShowToken",
+        icon: '<i class="fa-solid fa-circle-user"></i>',
+        callback: li => {
+          // From #onShowTokenArtwork
+          const {prototypeToken, name, uuid} = this.actor;
+          return new ImagePopout({src: prototypeToken.texture.src, uuid, window: {title: name}}).render({force: true});
+        },
+        condition: li => {
+          return this.token ? true : false;
+        }
+      }
+    ]
+
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Get right click context menu entries for Items.
+   * @returns {ContextMenuEntry[]}
+   */
+  _getItemContextEntries() {
     
     return [
       {
         name: "WW.Item.Perform.Attack",
         icon: '<i class="fa-solid fa-bolt"></i>',
         callback: li => {
-          const dataset = Object.assign({}, li[0].dataset);
-          return this._onItemUse(dataset);
+          return this._onItemUse(li.dataset);
         },
         condition: li => {
-          const item = this.actor.items.get(li.data('item-id'));
+          const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'Equipment' && item.system.subtype === 'weapon';
         }
-      },
-      {
+      }, {
         name: "WW.Item.Perform.AttackTarget",
         icon: '<i class="fa-solid fa-bullseye"></i>',
         callback: li => {
-          const dataset = Object.assign({}, li[0].dataset);
-          return this._onItemUse(dataset, 'targeted-use');
+          return this._onItemUse(li.dataset, 'targeted-use');
         },
         condition: li => {
-          const item = this.actor.items.get(li.data('item-id'));
+          const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'Equipment' && item.system.subtype === 'weapon';
         }
-      },
-      {
+      }, {
         name: "WW.Item.Perform.Equipment",
         icon: '<i class="fa-solid fa-bolt"></i>',
         callback: li => {
-          const dataset = Object.assign({}, li[0].dataset);
-          return this._onItemUse(dataset);
+          return this._onItemUse(li.dataset);
         },
         condition: li => {
-          const item = this.actor.items.get(li.data('item-id'));
+          const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'Equipment' && item.system.subtype !== 'weapon';
         }
-      },
-      {
+      }, {
         name: "WW.Item.Perform.EquipmentTarget",
         icon: '<i class="fa-solid fa-bullseye"></i>',
         callback: li => {
-          const dataset = Object.assign({}, li[0].dataset);
-          return this._onItemUse(dataset, 'targeted-use');
+          return this._onItemUse(li.dataset, 'targeted-use');
         },
         condition: li => {
-          const item = this.actor.items.get(li.data('item-id'));
+          const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'Equipment' && item.system.subtype !== 'weapon';
         }
-      },
-      {
+      }, {
         name: "WW.Item.Perform.Spell",
         icon: '<i class="fa-solid fa-bolt"></i>',
         callback: li => {
-          const dataset = Object.assign({}, li[0].dataset);
-          return this._onItemUse(dataset);
+          return this._onItemUse(li.dataset);
         },
         condition: li => {
-          const item = this.actor.items.get(li.data('item-id'));
+          const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'Spell';
         }
-      },
-      {
+      }, {
         name: "WW.Item.Perform.SpellTarget",
         icon: '<i class="fa-solid fa-bullseye"></i>',
         callback: li => {
-          const dataset = Object.assign({}, li[0].dataset);
-          return this._onItemUse(dataset, 'targeted-use');
+          return this._onItemUse(li.dataset, 'targeted-use');
         },
         condition: li => {
-          const item = this.actor.items.get(li.data('item-id'));
+          const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'Spell';
         }
-      },
-      {
+      }, {
         name: "WW.Item.Perform.Talent",
         icon: '<i class="fa-solid fa-bolt"></i>',
         callback: li => {
-          const dataset = Object.assign({}, li[0].dataset);
-          return this._onItemUse(dataset);
+          return this._onItemUse(li.dataset);
         },
         condition: li => {
-          const item = this.actor.items.get(li.data('item-id'));
+          const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'Trait or Talent';
         }
-      },
-      {
+      }, {
         name: "WW.Item.Perform.TalentTarget",
         icon: '<i class="fa-solid fa-bullseye"></i>',
         callback: li => {
-          const dataset = Object.assign({}, li[0].dataset);
-          return this._onItemUse(dataset, 'targeted-use');
+          return this._onItemUse(li.dataset, 'targeted-use');
         },
         condition: li => {
-          const item = this.actor.items.get(li.data('item-id'));
+          const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'Trait or Talent';
         }
-      },
-      {
+      }, {
         name: "WW.Item.Send",
         icon: '<i class="fa-solid fa-scroll"></i>',
         callback: li => {
-          const item = this.actor.items.get(li.data('item-id'));
+          const item = this.actor.items.get(li.dataset.itemId);
           return this._onItemScroll(item);
         }
-      },
-      {
+      }, {
         name: "WW.Item.Edit.Activity",
         icon: '<i class="fa-solid fa-edit"></i>',
         callback: li => {
-          const item = this.actor.items.get(li.data('item-id'));
+          const item = this.actor.items.get(li.dataset.itemId);
           return this._onItemEdit(item);
         }
-      },
-      {
+      }, {
         name: "WW.Item.Remove.Activity",
         icon: '<i class="fa-solid fa-trash"></i>',
         callback: li => {
-          const item = this.actor.items.get(li.data('item-id'));
+          const item = this.actor.items.get(li.dataset.itemId);
           return this._onItemRemove(item, li);
         }
       }

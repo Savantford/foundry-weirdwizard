@@ -31,7 +31,7 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
       icon: 'fa-regular fa-scroll',
       resizable: true,
       contentClasses: ['scrollable'],
-      controls: [ // Remove concat in V13
+      controls: [
         {
           action: "embedInChat",
           icon: "fa-solid fa-scroll",

@@ -11,14 +11,14 @@ export default class WWNpcSheet extends WWActorSheet {
     classes: ['weirdwizard', 'sheet', 'actor', 'npc'],
     window: {
       icon: 'fa-regular fa-user',
-      controls: super.DEFAULT_OPTIONS.window.controls.concat([ // Remove concat in V13
+      controls: [
         {
           action: "resetSheet",
           icon: "fa-solid fa-eraser",
           label: "WW.Actor.Reset",
           ownership: "OWNER"
         }
-      ])
+      ]
     },
     position: {
       width: 600,
