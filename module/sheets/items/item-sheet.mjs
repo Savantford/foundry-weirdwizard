@@ -5,6 +5,7 @@ import {
   createInstantEffect, deleteInstantEffect, editInstantEffect,
   prepareActiveEffectCategories
 } from '../../helpers/effect-actions.mjs';
+import WWSheetMixin from '../ww-sheet.mjs';
 
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
@@ -16,7 +17,7 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
  * @extends {ItemSheetV2}
 */
 
-export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
+export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
 
   constructor(options = {}) {
     super(options); // Required for the constructor to work 
@@ -27,21 +28,14 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
     classes: ['weirdwizard', 'sheet', 'item'],
     tag: 'form',
     window: {
-      title: this.title, // Custom title display
       icon: 'fa-regular fa-scroll',
       resizable: true,
       contentClasses: ['scrollable'],
       controls: [
         {
-          action: "embedInChat",
-          icon: "fa-solid fa-scroll",
-          label: "WW.System.Embed",
-          ownership: "OWNER"
-        },
-        {
-          action: "linkInChat",
-          icon: "fa-solid fa-link",
-          label: "WW.System.Link",
+          action: "showItemArtwork",
+          icon: "fa-solid fa-image",
+          label: "WW.Item.ArtworkShow",
           ownership: "OWNER"
         }
       ]
@@ -49,8 +43,6 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
     actions: {
       editImage: this.#onEditImage, // delete in V13; core functionality
       showItemArtwork: this.#onShowItemArtwork,
-      embedInChat: this.#embedInChat,
-      linkInChat: this.#linkInChat,
       traitsMenu: this.#onTraitsMenuOpen,
 
       instantCreate: this.#onInstantEffectCreate,
@@ -70,15 +62,6 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
       width: 520,
       height: 480
     }
-  }
-
-  /* -------------------------------------------- */
-
-  /** @override */
-  get title() {
-    const {constructor: cls, id, name, type} = this.document;
-    const prefix = cls.hasTypeData && type !== "base" ? CONFIG[cls.documentName].typeLabels[type] : cls.metadata.label;
-    return `${name ?? id} - ${game.i18n.localize(prefix)}`;
   }
 
   /* -------------------------------------------- */
@@ -133,7 +116,7 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
       folder: await itemData.folder,
       flags: itemData.flags,
       grantedBy: await fromUuid(sys.grantedBy) ?
-        await TextEditor.enrichHTML(`@Embed[${sys.grantedBy} inline]`, { secrets: this.item.isOwner }) : null,
+        await TextEditor.enrichHTML(`@UUID[${sys.grantedBy}]`, { secrets: this.item.isOwner }) : null,
       dtypes: ['String', 'Number', 'Boolean'],
       tabs: this._getTabs(options.parts)
     }
@@ -416,26 +399,14 @@ export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2)
     const item = this.item;
     // Construct the Application instance
     const ip = new ImagePopout(item.img, {
-      title: item.name,
+      window: {
+        title: item.name
+      },
       uuid: item.uuid
     });
 
     // Display the image popout
     ip.render(true);
-  }
-
-  static async #embedInChat(_event, target) {
-    ChatMessage.create({
-      speaker: game.weirdwizard.utils.getSpeaker({ actor: this.item.parent }),
-      content: `@Embed[${this.item.uuid}]`
-    })
-  }
-
-  static async #linkInChat(_event, target) {
-    ChatMessage.create({
-      speaker: game.weirdwizard.utils.getSpeaker({ actor: this.item.parent }),
-      content: `@Embed[${this.item.uuid} inline]`
-    })
   }
 
   /**

@@ -37,7 +37,7 @@ export default class WWCombatant extends Combatant {
     if ( !token ) return;
     
     // Prepare message
-    const name = token.actor ? `@Embed[${c.actor.uuid} inline]` : '<b>' + game.weirdwizard.utils.getAlias({ token: token }) + '</b>';
+    const name = token.actor ? `@UUID[${c.actor.uuid}]` : '<b>' + game.weirdwizard.utils.getAlias({ token: token }) + '</b>';
     const msg = taking ? i18n('WW.Combat.Initiative.ChatMsg', {name: name}) :i18n('WW.Combat.RegularTurn.ChatMsg', {name: name});
 
     // Send to chat

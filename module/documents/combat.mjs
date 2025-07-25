@@ -526,7 +526,7 @@ export default class WWCombat extends Combat {
           type: 'status',
           speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
           flavor: this.label,
-          content: `<p>@Embed[${c.actor.uuid} inline]: @Embed[${ae.uuid} inline] ${i18n("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
+          content: `<p>@UUID[${c.actor.uuid}]: @UUID[${ae.uuid}] ${i18n("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
           sound: CONFIG.sounds.notification
         });
 
@@ -594,7 +594,7 @@ export default class WWCombat extends Combat {
           type: 'status',
           speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
           flavor: this.label,
-          content: `<p>@Embed[${c.actor.uuid} inline]: @Embed[${ae.uuid} inline] ${i18n("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
+          content: `<p>@UUID[${c.actor.uuid}]: @UUID[${ae.uuid}] ${i18n("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
           sound: CONFIG.sounds.notification
         });
         
@@ -678,7 +678,7 @@ export default class WWCombat extends Combat {
           type: 'status',
           speaker: game.weirdwizard.utils.getSpeaker({ actor: c.actor }),
           flavor: this.label,
-          content: `<p>@Embed[${c.actor.uuid} inline]: @Embed[${ae.uuid} inline] ${i18n("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
+          content: `<p>@UUID[${c.actor.uuid}]: @UUID[${ae.uuid}] ${i18n("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
           sound: CONFIG.sounds.notification
         });
 

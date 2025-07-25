@@ -125,7 +125,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
       key: entryKey,
       showKey: true,
       grantedBy: await fromUuid(entry.grantedBy) ?
-        await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { secrets: this.actor.isOwner }) : null
+        await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${entry.grantedBy}]`, { secrets: this.actor.isOwner }) : null
     };
 
     // Show a dialog 

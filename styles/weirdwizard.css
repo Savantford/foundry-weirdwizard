@@ -688,7 +688,7 @@ body {
   border-bottom: 5px double black;
 }
 
-.sheet.journal-entry .journal-header .title:hover {
+.sheet.journal-entry .journal-header .title:hover:not(disabled) {
   outline: 2px solid var(--input-focus-outline-color);
   outline-offset: -2px;
 }
@@ -1227,7 +1227,7 @@ body {
   width: var(--sheet-ribbon-width);
   height: calc(100% + var(--sheet-name-stripe-height));
   margin-top: calc(-1 * var(--sheet-name-stripe-height));
-  padding: 8px 5px 24px;
+  padding: 8px 5px 30px;
   display: flex;
   flex-flow: column;
   gap: 10px;
@@ -3495,6 +3495,26 @@ article .weirdwizard.charoption .items-area {
 }
 
 /* -------------------------------------------- */
+/*  Content Links                               */
+/* -------------------------------------------- */
+
+.content-link {
+  background: none;
+  border: none;
+  color: var(--body-text-color);
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: text-bottom;
+  line-height: normal;
+}
+
+.content-link > i {
+  color: var(--body-text-color);
+}
+
+/* -------------------------------------------- */
 /*  Document Cards                              */
 /* -------------------------------------------- */
 
@@ -3509,18 +3529,6 @@ article .weirdwizard.charoption .items-area {
   --tooltip-banner-height: 80px;
 }
 
-/* Document Card: Link */
-.document-card-link {
-  color: var(--purple-dark);
-  font-weight: bold;
-}
-
-.document-card-link > img {
-  height: 1lh;
-  vertical-align: bottom;
-}
-
-/* Document Card: Banner */
 .document-card .card-banner {
   position: absolute;
   top: 0;

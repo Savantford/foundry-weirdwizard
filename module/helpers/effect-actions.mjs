@@ -208,7 +208,7 @@ export async function prepareActiveEffectCategories(effects, showDuration = fals
 
     // Prepare source document cards
     if (e.origin) {
-      const source = `@Embed[${e.origin} inline]`;
+      const source = `@UUID[${e.origin}]`;
     
       e.sourceCard = await foundry.applications.ux.TextEditor.implementation.enrichHTML(source, { secrets: e.isOwner });
     } else {

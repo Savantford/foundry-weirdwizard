@@ -1,10 +1,10 @@
-
+import WWMixin from "./ww-document.mjs";
 
 /**
  * Extend the basic Item with some modifications.
  * @extends {Item}
 */
-export default class WWItem extends Item {
+export default class WWItem extends WWMixin(Item) {
 
   /* -------------------------------------------- */
   /*  Document Creation                           */
@@ -76,26 +76,6 @@ export default class WWItem extends Item {
     const actorData = this.actor ? this.actor.system : {};
 
   }*/
-  
-  /* -------------------------------------------- */
-
-  /**
-    * A method that can be overridden by subclasses to customize inline embedded HTML generation.
-    * @param {HTMLElement|HTMLCollection} content  The embedded content.
-    * @param {DocumentHTMLEmbedConfig} config      Configuration for embedding behavior.
-    * @param {EnrichmentOptions} [options]         The original enrichment options for cases where the Document embed
-    *                                              content also contains text that must be enriched.
-    * @returns {Promise<HTMLElement|null>}
-    * @protected
-    * @override
-  */
-  async _createInlineEmbed(content, config, options) {
-    const anchor = this.toAnchor();
-    
-    anchor.setAttribute("data-tooltip", content.outerHTML);
-
-    return anchor;
-  }
 
   /* -------------------------------------------- */
 

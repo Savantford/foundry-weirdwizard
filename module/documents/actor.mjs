@@ -1,11 +1,11 @@
 import { i18n, formatTime } from '../helpers/utils.mjs';
+import WWMixin from './ww-document.mjs';
 
 /**
 * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
 * @extends {Actor}
-*/
-
-export default class WWActor extends Actor {
+ */
+export default class WWActor extends WWMixin(Actor) {
 
   /* -------------------------------------------- */
   /*  Document Creation                           */
@@ -318,26 +318,6 @@ export default class WWActor extends Actor {
     delete data.listEntries;
     
     return data;
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-    * A method that can be overridden by subclasses to customize inline embedded HTML generation.
-    * @param {HTMLElement|HTMLCollection} content  The embedded content.
-    * @param {DocumentHTMLEmbedConfig} config      Configuration for embedding behavior.
-    * @param {EnrichmentOptions} [options]         The original enrichment options for cases where the Document embed
-    *                                              content also contains text that must be enriched.
-    * @returns {Promise<HTMLElement|null>}
-    * @protected
-    * @override
-  */
-  async _createInlineEmbed(content, config, options) {
-    const anchor = this.toAnchor();
-    
-    anchor.setAttribute("data-tooltip", content.outerHTML);
-
-    return anchor;
   }
 
   /* -------------------------------------------- */
@@ -824,7 +804,7 @@ export default class WWActor extends Actor {
     }
 
     const content = `
-      <p>@Embed[${this.uuid} inline] ${i18n('WW.InstantEffect.Apply.Took')} ${damage} ${i18n('WW.InstantEffect.Apply.DamageLc')}.</p>
+      <p>@UUID[${this.uuid}] ${i18n('WW.InstantEffect.Apply.Took')} ${damage} ${i18n('WW.InstantEffect.Apply.DamageLc')}.</p>
       <p>${i18n('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fa-solid fa-arrow-right"></i> ${newTotal}</p>
     `;
 
@@ -839,13 +819,12 @@ export default class WWActor extends Actor {
   }
 
   async applyHealing(healing) {
-    console.log(CONFIG.ux.TextEditor)
     // Get values
     const oldTotal = this.system.stats.damage.value;
     const newTotal = ((oldTotal - parseInt(healing)) > 0) ? oldTotal - parseInt(healing) : 0;
 
     const content = `
-      <p>@Embed[${this.uuid} inline] ${i18n('WW.InstantEffect.Apply.Healed')} ${healing} ${i18n('WW.InstantEffect.Apply.DamageLc')}.</p>
+      <p>@UUID[${this.uuid}] ${i18n('WW.InstantEffect.Apply.Healed')} ${healing} ${i18n('WW.InstantEffect.Apply.DamageLc')}.</p>
       <p>${i18n('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fa-solid fa-arrow-right"></i> ${newTotal}</p>
     `;
 
@@ -867,7 +846,7 @@ export default class WWActor extends Actor {
     const current = (oldCurrent - loss) > 0 ? oldCurrent - loss : 0;
 
     const content = `
-      <p>@Embed[${this.uuid} inline] ${i18n('WW.InstantEffect.Apply.Lost')} ${loss} ${i18n('WW.InstantEffect.Apply.Health')}.</p>
+      <p>@UUID[${this.uuid}] ${i18n('WW.InstantEffect.Apply.Lost')} ${loss} ${i18n('WW.InstantEffect.Apply.Health')}.</p>
       <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${oldCurrent} <i class="fa-solid fa-arrow-right"></i> ${current}</p>
     `;
 
@@ -890,7 +869,7 @@ export default class WWActor extends Actor {
     const current = oldCurrent + regained;
     
     const content = `
-      <p>@Embed[${this.uuid} inline] ${i18n('WW.InstantEffect.Apply.Regained')} ${regained} ${i18n('WW.InstantEffect.Apply.Health')}.</p>
+      <p>@UUID[${this.uuid}] ${i18n('WW.InstantEffect.Apply.Regained')} ${regained} ${i18n('WW.InstantEffect.Apply.Health')}.</p>
       <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${oldCurrent} <i class="fa-solid fa-arrow-right"></i> ${current}</p>
     `;
 
@@ -920,10 +899,10 @@ export default class WWActor extends Actor {
 
     // Check if the actor already has the affliction
     if (this.statuses.has(key)) {
-      content = `@Embed[${this.uuid} inline] ${i18n('WW.Affliction.Already')} <b class="info" data-tooltip="${effect.description}">${effect.name}</b>.`;
+      content = `@UUID[${this.uuid}] ${i18n('WW.Affliction.Already')} <b class="info" data-tooltip="${effect.description}">${effect.name}</b>.`;
     } else {
       await ActiveEffect.create(effect, {parent: this});
-      content = `@Embed[${this.uuid} inline] ${i18n('WW.Affliction.Becomes')} <b class="info" data-tooltip="${effect.description}">${effect.name}</b>.`;
+      content = `@UUID[${this.uuid}] ${i18n('WW.Affliction.Becomes')} <b class="info" data-tooltip="${effect.description}">${effect.name}</b>.`;
     }
 
     // Send chat message
@@ -945,9 +924,9 @@ export default class WWActor extends Actor {
     effect.system.trigger = 'passive';
 
     const content = `<p>
-      @Embed[${effect.uuid} inline]
+      @UUID[${effect.uuid}]
       ${i18n('WW.Effect.AppliedTo')}
-      @Embed[${this.uuid} inline].
+      @UUID[${this.uuid}].
     </p>`;
 
     ChatMessage.create({
@@ -1032,7 +1011,7 @@ export default class WWActor extends Actor {
           type: 'status',
           speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
           flavor: this.label,
-          content: `<p>@Embed[${this.uuid} inline]: @Embed[${ae.uuid} inline] ${i18n("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
+          content: `<p>@UUID[${this.uuid}]: @UUID[${ae.uuid}] ${i18n("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
           sound: CONFIG.sounds.notification
         });
 

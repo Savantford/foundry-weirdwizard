@@ -24,7 +24,6 @@ export default class WWPageView extends HandlebarsApplicationMixin(DocumentSheet
     classes: ['weirdwizard', 'sheet', 'charoption'],
     tag: 'article',
     window: {
-      title: this.title, // Custom title display
       icon: 'fa-regular fa-scroll',
       resizable: true,
       contentClasses: ['journal-entry-content', 'scrollable'],

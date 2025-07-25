@@ -18,18 +18,17 @@ import WWDialog from '../../apps/dialog.mjs';
 import WWPageView from '../journal/page-view.mjs';
 import WWRoll from '../../dice/roll.mjs';
 import { EntrySettingsDisplay } from '../../apps/entry-settings-display.mjs';
+import WWSheetMixin from '../ww-sheet.mjs';
 
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
 const ActorSheetV2 = foundry.applications?.sheets?.ActorSheetV2 ?? (class {});
-const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicationMixin ?? (cls => cls);
 
 /**
  * Extend the basic ActorSheetV2 with modifications tailored for SotWW
  * @extends {ActorSheetV2}
-*/
-
-export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
+ */
+export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
 
   constructor(options = {}) {
     super(options); // Required for the constructor to work 
@@ -40,23 +39,10 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     classes: ['weirdwizard', 'sheet', 'actor'],
     tag: 'form',
     window: {
-      title: this.title, // Custom title display
       icon: 'fa-regular fa-scroll',
       resizable: true,
       contentClasses: ['scrollable'],
       controls: [
-        {
-          action: "embedInChat",
-          icon: "fa-solid fa-scroll",
-          label: "WW.System.Embed",
-          ownership: "OWNER"
-        },
-        {
-          action: "linkInChat",
-          icon: "fa-solid fa-link",
-          label: "WW.System.Link",
-          ownership: "OWNER"
-        },
         {
           action: "openTour",
           icon: "fa-solid fa-person-hiking",
@@ -67,8 +53,6 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
     },
     actions: {
       editImage: this.#onEditImage, // delete in V13; core functionality
-      embedInChat: this.#embedInChat,
-      linkInChat: this.#linkInChat,
       startRest: this.#onRest,
       resetSheet: this.#onSheetReset,
 
@@ -114,15 +98,6 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       width: 860,
       height: 500
     }
-  }
-
-  /* -------------------------------------------- */
-
-  /** @override */
-  get title() {
-    const {constructor: cls, id, name, type} = this.actor;
-    const prefix = cls.hasTypeData && type !== "base" ? CONFIG[cls.documentName].typeLabels[type] : cls.metadata.label;
-    return `${name ?? id} - ${game.i18n.localize(prefix)}`;
   }
 
   /* -------------------------------------------- */
@@ -968,20 +943,6 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
   /*  General Event Listeners and Handlers        */
   /* -------------------------------------------- */
 
-  static async #embedInChat(_event, target) {
-    ChatMessage.create({
-      speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
-      content: `@Embed[${this.actor.uuid}]`
-    })
-  }
-
-  static async #linkInChat(_event, target) {
-    ChatMessage.create({
-      speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
-      content: `@Embed[${this.actor.uuid} inline]`
-    })
-  }
-
   /**
    * Edit a Document image. - delete in V13; core functionality
    * @this {DocumentSheetV2}
@@ -1173,7 +1134,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       key: entryKey,
       showKey: true,
       grantedBy: await fromUuid(entry.grantedBy) ?
-        await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { secrets: this.actor.isOwner }) : null
+        await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${entry.grantedBy}]`, { secrets: this.actor.isOwner }) : null
     };
 
     // Show a dialog 
@@ -1237,7 +1198,7 @@ export default class WWActorSheet extends HandlebarsApplicationMixin(ActorSheetV
       key: entryKey,
       showKey: true,
       grantedBy: await fromUuid(entry.grantedBy) ?
-        await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { secrets: this.actor.isOwner }) : null
+        await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${entry.grantedBy}]`, { secrets: this.actor.isOwner }) : null
     };
 
     // Show a dialog 
