@@ -1,64 +1,67 @@
-import {
-  BaseItemModel,
-  fields,
-  base,
-  physical,
-  activity,
-  makeStrField,
-  makeBooField,
-  makeHtmlField,
-  makeIntField
-} from './base-item.mjs'
+import BaseItemModel from './base-item.mjs';
 
-export default class EquipmentData extends BaseItemModel {
+import { makeStrField, makeBooField, makeIntField, makeRequiredStrField, makeFloField, makeUuidStrField, makeHtmlField } from '../field-presets.mjs';
+
+export default class EquipmentModel extends BaseItemModel {
 
   static defineSchema() {
-    const type = 'Equipment';
+    const fields = foundry.data.fields;
+    const schema = super.defineSchema();
+
+    // Add common Equipment fields
+    schema.subtype = makeRequiredStrField('generic');
+    schema.quantity = makeIntField(1);
+    schema.weightUnit = makeIntField(1);
+    schema.heldBy = makeUuidStrField();
+    schema.availability = makeRequiredStrField('common');
+    schema.quality = makeRequiredStrField('standard');
+    schema.price = new fields.SchemaField({
+      value: makeFloField(),
+      coin: makeRequiredStrField('sp')
+    });
     
-    return {
-      ...base(type),
-      ...physical(type),
-      ...activity(type),
+    // Add subtype specific fields
+    schema.armorType = makeRequiredStrField('light');
+    schema.capacity = makeIntField(1);
+    //schema.consumableType = makeRequiredStrField('potion');
 
-      subtype: makeStrField('generic',0,1),
-      quality: makeStrField('standard'),
-      availability: makeStrField('common'),
-      attribute: makeStrField(),
-      heldBy: makeStrField(),
+    // Adjust Equipment-specific initials
+    schema.uses.fields.onRest = makeBooField(false);
+    //obj.uses.fields.autoDestroy = makeBooField(false);
 
-      // Weapons
-      requirements: makeStrField(),
-      damage: makeStrField(),
-      grip: makeStrField('One'),
+    // Add Weapon fields
+    schema.requirements = makeStrField();
+    schema.damage = makeStrField();
+    schema.grip = makeRequiredStrField('one');
+    schema.reloaded = makeBooField(true);
 
-      traits: new fields.SchemaField({
-        ammunition: makeBooField(false),
-        bludgeoning: makeBooField(false),
-        brutal: makeBooField(false),
-        disarming: makeBooField(false),
-        firearm: makeBooField(false),
-        large: makeBooField(false),
-        light: makeBooField(false),
-        long: makeBooField(false),
-        misfire: makeBooField(false),
-        nimble: makeBooField(false),
-        piercing: makeBooField(false),
-        range: makeBooField(false),
-        reload: makeBooField(false),
-        slashing: makeBooField(false),
-        slow: makeBooField(false),
-        special: makeBooField(false),
-        thrown: makeBooField(false),
-        versatile: makeBooField(false)
-      }),
+    schema.traits = new fields.SchemaField({
+      ammunition: makeBooField(false),
+      bludgeoning: makeBooField(false),
+      brutal: makeBooField(false),
+      disarming: makeBooField(false),
+      firearm: makeBooField(false),
+      large: makeBooField(false),
+      light: makeBooField(false),
+      long: makeBooField(false),
+      misfire: makeBooField(false),
+      nimble: makeBooField(false),
+      piercing: makeBooField(false),
+      range: makeBooField(false),
+      reload: makeBooField(false),
+      slashing: makeBooField(false),
+      slow: makeBooField(false),
+      special: makeBooField(false),
+      thrown: makeBooField(false),
+      versatile: makeBooField(false)
+    });
 
-      attackRider: makeHtmlField(),
-      reloaded: makeBooField(true),
-      armorType: makeStrField('light'),
-      
-      capacity: makeIntField(1),
-      //consumableType: makeStrField('potion')
-    }
+    schema.attackRider = new fields.SchemaField({
+      name: makeStrField(),
+      value: makeHtmlField()
+    });
+
+    return schema;
   }
 
   /**
@@ -158,11 +161,5 @@ export default class EquipmentData extends BaseItemModel {
     if ( this.parent.effects.some(e => e.statuses.has('invulnerable') )) return false;
     return this.health.value <= this.health.min;
   }
-
-  /* The defined destroyed property could then be accessed on any Actor document of the item type as follows:
-
-  // Determine if a item is destroyed.
-  game.actors.getName('Character').system.destroyed;
-  */
 
 }

@@ -10,16 +10,16 @@ import WWCombatant from './documents/combatant.mjs';
 import WWChatMessage from './documents/chat-message.mjs';
 
 // Import data models
-import CharacterData from './data/actors/character.mjs';
-import NpcData from './data/actors/npc.mjs';
-import EquipmentData from './data/items/equipment.mjs';
-import TalentData from './data/items/talent.mjs';
-import SpellData from './data/items/spell.mjs';
-import AncestryData from './data/journal/ancestry.mjs';
-import ProfessionData from './data/journal/profession.mjs';
-import PathData from './data/journal/path.mjs';
-import TraditionData from './data/journal/tradition.mjs';
-import { BaseEffectModel } from './data/effects/base-effect.mjs';
+import CharacterModel from './data/actors/character.mjs';
+import NpcModel from './data/actors/npc.mjs';
+import EquipmentModel from './data/items/equipment.mjs';
+import TalentModel from './data/items/talent.mjs';
+import SpellModel from './data/items/spell.mjs';
+import AncestryModel from './data/journal/ancestry.mjs';
+import ProfessionModel from './data/journal/profession.mjs';
+import PathModel from './data/journal/path.mjs';
+import TraditionModel from './data/journal/tradition.mjs';
+import BaseEffectModel from './data/effects/base-effect.mjs';
 import BenefitEffectModel from './data/effects/benefit-effect.mjs';
 
 // Import sheet classes.
@@ -92,21 +92,21 @@ Hooks.once('init', function () {
   CONFIG.ChatMessage.documentClass = WWChatMessage;
 
   // Register Actor and Item data models
-  CONFIG.Actor.dataModels.Character = CharacterData;
-  CONFIG.Actor.dataModels.NPC = NpcData;
-  CONFIG.Item.dataModels.Equipment = EquipmentData;
-  CONFIG.Item.dataModels['Trait or Talent'] = TalentData;
-  CONFIG.Item.dataModels.Spell = SpellData;
+  CONFIG.Actor.dataModels.Character = CharacterModel;
+  CONFIG.Actor.dataModels.NPC = NpcModel;
+  CONFIG.Item.dataModels.Equipment = EquipmentModel;
+  CONFIG.Item.dataModels['Trait or Talent'] = TalentModel;
+  CONFIG.Item.dataModels.Spell = SpellModel;
 
   // Active Effect data models
   CONFIG.ActiveEffect.dataModels.base = BaseEffectModel;
   CONFIG.ActiveEffect.dataModels.benefit = BenefitEffectModel;
 
   // Journal Entry Page data models
-  CONFIG.JournalEntryPage.dataModels.ancestry = AncestryData;
-  CONFIG.JournalEntryPage.dataModels.path = PathData;
-  CONFIG.JournalEntryPage.dataModels.profession = ProfessionData;
-  CONFIG.JournalEntryPage.dataModels.tradition = TraditionData;
+  CONFIG.JournalEntryPage.dataModels.ancestry = AncestryModel;
+  CONFIG.JournalEntryPage.dataModels.path = PathModel;
+  CONFIG.JournalEntryPage.dataModels.profession = ProfessionModel;
+  CONFIG.JournalEntryPage.dataModels.tradition = TraditionModel;
   
   // Register actor Sheet classes
   const Actors = foundry.documents.collections.Actors;

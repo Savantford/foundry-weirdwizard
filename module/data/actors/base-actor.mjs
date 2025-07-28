@@ -1,10 +1,8 @@
 import embedCard from "../../helpers/embed-card.mjs";
 import { camelCase } from "../../helpers/utils.mjs";
-import { TypedObjectField } from "../typed-object-field.mjs";
+import { makeAttributeField, makeHtmlField, makeIntField, makeFloField, makeStrField, makeUuidStrField } from "../field-presets.mjs";
 
-export const fields = foundry.data.fields;
-
-export class BaseActorModel extends foundry.abstract.TypeDataModel {
+export default class BaseActorModel extends foundry.abstract.TypeDataModel {
 
   /**
    * Convert this Document to some HTML display for embedding purposes.
@@ -28,10 +26,10 @@ export class BaseActorModel extends foundry.abstract.TypeDataModel {
 
       // Attributes
       attributes: new fields.SchemaField({
-        str: makeAttribute('Strength'),
-        agi: makeAttribute('Agility'),
-        int: makeAttribute('Intellect'),
-        wil: makeAttribute('Will')
+        str: makeAttributeField('Strength'),
+        agi: makeAttributeField('Agility'),
+        int: makeAttributeField('Intellect'),
+        wil: makeAttributeField('Will')
       }),
 
       // Stats
@@ -54,7 +52,7 @@ export class BaseActorModel extends foundry.abstract.TypeDataModel {
           max: makeIntField()
         }),
 
-        size: makeNumField(),
+        size: makeFloField(),
 
         speed: new fields.SchemaField({
           normal: makeIntField(5),
@@ -65,43 +63,43 @@ export class BaseActorModel extends foundry.abstract.TypeDataModel {
       // List Entries
       listEntries: new fields.SchemaField({
 
-        descriptors: new TypedObjectField(
+        descriptors: new fields.TypedObjectField(
           new fields.SchemaField({
-            name: makeStrField("", 0),
+            name: makeStrField("Unnamed", 0),
             desc: makeStrField(),
-            grantedBy: makeStrField(null)
+            grantedBy: makeUuidStrField()
           }, {nullable: true})
         ),
 
-        senses: new TypedObjectField(
+        senses: new fields.TypedObjectField(
           new fields.SchemaField({
-            name: makeStrField("", 0),
+            name: makeStrField("Unnamed", 0),
             desc: makeStrField(),
-            grantedBy: makeStrField(null)
+            grantedBy: makeUuidStrField()
           }, {nullable: true})
         ),
 
-        languages: new TypedObjectField(
+        languages: new fields.TypedObjectField(
           new fields.SchemaField({
-            name: makeStrField("", 0),
+            name: makeStrField("Unnamed", 0),
             desc: makeStrField(),
-            grantedBy: makeStrField(null)
+            grantedBy: makeUuidStrField()
           }, {nullable: true})
         ),
 
-        immunities: new TypedObjectField(
+        immunities: new fields.TypedObjectField(
           new fields.SchemaField({
-            name: makeStrField("", 0),
+            name: makeStrField("Unnamed", 0),
             desc: makeStrField(),
-            grantedBy: makeStrField(null)
+            grantedBy: makeUuidStrField()
           }, {nullable: true})
         ),
 
-        movementTraits: new TypedObjectField(
+        movementTraits: new fields.TypedObjectField(
           new fields.SchemaField({
-            name: makeStrField("", 0),
+            name: makeStrField("Unnamed", 0),
             desc: makeStrField(),
-            grantedBy: makeStrField(null)
+            grantedBy: makeUuidStrField()
           }, {nullable: true})
         )
 
@@ -204,58 +202,4 @@ export class BaseActorModel extends foundry.abstract.TypeDataModel {
     return source;
   }
 
-}
-
-/****************************************/
-
-export const makeBooField = (init = false) => new fields.BooleanField({
-  initial: init
-})
-
-export const makeNumField = (init = 1) => new fields.NumberField({
-  required: true,
-  initial: init,
-  positive: true
-})
-
-export const makeIntField = (init = 0) => new fields.NumberField({
-  required: true,
-  initial: init,
-  min: 0,
-  integer: true,
-  clean: true
-})
-
-export const makeStrField = (init = '', blank = true) => new fields.StringField({
-  initial: init,
-  blank: blank
-})
-
-export const makeCharOptionField = (init = null) => new fields.StringField({
-  initial: init,
-  blank: true,
-  nullable: true
-})
-
-export const makeHtmlField = (init = '') => new fields.SchemaField({
-  value: new fields.HTMLField({
-    initial: init,
-    textSearch: true // Allow it to be searched in the Search Bar
-  })
-})
-
-export function makeAttribute(attribute) {
-  const label = 'WW.' + attribute;
-
-  return new fields.SchemaField({
-    value: new fields.NumberField({
-      required: true,
-      initial: 10,
-      max: 20,
-      min: 0,
-      integer: true,
-      label: label,
-      hint: label
-    })
-  })
 }

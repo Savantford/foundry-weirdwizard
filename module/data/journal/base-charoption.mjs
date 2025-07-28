@@ -1,9 +1,8 @@
 import embedCard from "../../helpers/embed-card.mjs";
 import { camelCase } from "../../helpers/utils.mjs";
+import { makeHtmlField } from "../field-presets.mjs";
 
-const fields = foundry.data.fields;
-
-export class BaseCharOptionModel extends foundry.abstract.TypeDataModel {
+export default class BaseCharOptionModel extends foundry.abstract.TypeDataModel {
 
   /**
    * Convert this Document to some HTML display for embedding purposes.
@@ -19,12 +18,11 @@ export class BaseCharOptionModel extends foundry.abstract.TypeDataModel {
 
   /** @inheritdoc */
   static defineSchema() {
+    const fields = foundry.data.fields;
 
     const schema = {
-      // Description
       description: makeHtmlField('No description.')
-      
-    }
+    };
 
     return schema;
   }
@@ -63,84 +61,9 @@ export class BaseCharOptionModel extends foundry.abstract.TypeDataModel {
           }
         }
       }
-    } /*&& source.details?.immune) source.details.immunities = source.details.immune;
-
-    // Migrate entry lists from array to object to system.listEntries
-    if ('benefits' in source && 'listEntries' in source) {
-      const listKeys = ['senses', 'descriptors', 'languages', 'immunities', 'movementTraits', 'traditions'];
-
-      for (const key in source.details) {
-        const prop = source.details[key];
-
-        // Check for the listKeys and if it's an array
-        if (source.details.hasOwnProperty(key) && listKeys.includes(key)) {
-
-          if (Array.isArray(prop)) {
-
-            if (prop.length) {
-              const map = prop.map(value => [value.name ? camelCase(value.name) : camelCase(value), value]);
-
-              source.listEntries[key] = Object.fromEntries(map);
-            } else {
-              source.listEntries[key] = {};
-            }
-
-          }
-
-        }
-
-      }
-
-    }*/
+    }
 
     return source;
   }
 
 }
-
-export function grants() {
-
-  const obj = {
-    quantity: makeIntField(1),
-    weightUnit: makeIntField(1),
-
-    price: new fields.SchemaField({
-      value: makeIntField(),
-      coin: makeStrField('sp')
-    }),
-
-    availability: makeStrField()/*,
-    equipped: makeBooField(false),
-    identified: makeBooField(true)*/
-    
-  }
-
-  return obj;
-};
-
-/****************************************/
-
-export const makeHtmlField = (init = '') => new fields.SchemaField({
-  value: new fields.HTMLField({
-    initial: init,
-    textSearch: true // Allow it to be searched in the Search Bar
-  })
-})
-
-export const makeIntField = (init = 0) => new fields.NumberField({
-  required: true,
-  initial: init,
-  min: 0,
-  nullable: true,
-  integer: true
-})
-
-export const makeStrField = (init = '', blank = true, searchable = false) => new fields.StringField({
-  initial: init,
-  blank: blank,
-  textSearch: searchable
-})
-
-export const makeBooField = (init = false) => new fields.BooleanField ({
-  initial: init
-})
