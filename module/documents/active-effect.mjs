@@ -132,27 +132,6 @@ export default class WWActiveEffect extends ActiveEffect {
   }
 
   /* -------------------------------------------- */
-
-  /**
-   * A method that can be overridden by subclasses to customize the generation of the embed figure.
-   * @param {HTMLElement|HTMLCollection} content  The embedded content.
-   * @param {DocumentHTMLEmbedConfig} config      Configuration for embedding behavior.
-   * @param {EnrichmentOptions} [options]         The original enrichment options for cases where the Document embed
-   *                                              content also contains text that must be enriched.
-   * @returns {Promise<HTMLElement|null>}
-   * @protected
-   * @override
-   */
-  async _createFigureEmbed(content, config, options) {
-    const section = document.createElement("section");
-
-    if ( content instanceof HTMLCollection ) section.append(...content);
-    else section.append(content);
-    
-    return section;
-  }
-
-  /* -------------------------------------------- */
   /*  Properties/Getters                          */
   /* -------------------------------------------- */
 

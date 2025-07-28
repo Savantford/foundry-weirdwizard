@@ -1,20 +1,6 @@
-import embedCard from "../../helpers/embed-card.mjs";
 import { makeStrField, makeBooField, makeIntField, makeHtmlField, makeUuidStrField, makeRequiredStrField } from '../field-presets.mjs';
 
 export default class BaseItemModel extends foundry.abstract.TypeDataModel {
-
-  /**
-   * Convert this Document to some HTML display for embedding purposes.
-   * @param {DocumentHTMLEmbedConfig} config  Configuration for embedding behavior.
-   * @param {EnrichmentOptions} [options]     The original enrichment options for cases where the Document embed content
-   *                                          also contains text that must be enriched.
-   * @returns {Promise<HTMLDocumentEmbedElement|HTMLElement|HTMLCollection|null>}
-   */
-  /** @inheritdoc */
-  async toEmbed(config, options = {}) {
-    return embedCard(this.parent, config, options);
-  }
-
   /** @inheritdoc */
   static defineSchema() {
     const fields = foundry.data.fields;

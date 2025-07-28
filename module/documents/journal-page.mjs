@@ -1,10 +1,10 @@
-import WWMixin from "./ww-document.mjs";
+import WWDocumentMixin from "./ww-document.mjs";
 
 /**
  * Extend the basic JournalEntryPage with some modifications.
  * @extends {JournalEntryPage}
 */
-export default class WWJournalPage extends WWMixin(JournalEntryPage) {
+export default class WWJournalPage extends WWDocumentMixin(JournalEntryPage) {
 
   /* -------------------------------------------- */
   /*  Document Creation                           */
@@ -82,27 +82,6 @@ export default class WWJournalPage extends WWMixin(JournalEntryPage) {
     const system = this.system;
     //const actorData = this.actor ? this.actor.system : {};
 
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * A method that can be overridden by subclasses to customize the generation of the embed figure.
-   * @param {HTMLElement|HTMLCollection} content  The embedded content.
-   * @param {DocumentHTMLEmbedConfig} config      Configuration for embedding behavior.
-   * @param {EnrichmentOptions} [options]         The original enrichment options for cases where the Document embed
-   *                                              content also contains text that must be enriched.
-   * @returns {Promise<HTMLElement|null>}
-   * @protected
-   * @override
-   */
-  async _createFigureEmbed(content, config, options) {
-    const section = document.createElement("section");
-
-    if ( content instanceof HTMLCollection ) section.append(...content);
-    else section.append(content);
-    
-    return section;
   }
 
   /* -------------------------------------------- */

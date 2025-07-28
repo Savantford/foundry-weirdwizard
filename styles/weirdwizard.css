@@ -735,7 +735,7 @@ body {
   font-size: var(--font-size-12);
 }
 
-/* FORM FIELDS */
+/* INPUT FIELDS */
 
 /* Remove padding */
 .weirdwizard.sheet input,
@@ -820,6 +820,10 @@ body {
   border: 1px solid transparent;
 }
 
+.weirdwizard.sheet .sheet-ribbon input {
+  --input-placeholder-color: var(--gray);
+}
+
 /* Selects dropdown */
 .weirdwizard select {
   --input-background-color: transparent;
@@ -863,6 +867,14 @@ body {
   font-family: inherit;
   font-size: inherit;
   min-height: 1lh;
+  color: var(--body-text-color);
+  background: transparent;
+  outline: 2px solid transparent;
+  transition: outline-color 0.5s
+}
+
+.weirdwizard.sheet textarea:hover {
+  outline-color: var(--input-focus-outline-color);
 }
 
 /* Resizeable Text Areas */
@@ -3645,7 +3657,7 @@ details.document-card .card-header:hover::after {
   padding: 0.75rem 1rem;
 }
 
-.document-card-inline .document-card hr.spear {
+.document-embed .document-card hr.spear {
   height: 11px;
   margin: 0 -3px;
   border-image-width: 0 25px 11px 25px;

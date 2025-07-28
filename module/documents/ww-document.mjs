@@ -6,7 +6,7 @@ import { i18n, sysPath } from "../helpers/utils.mjs";
  * @category Mixins
  * @param {typeof Document} Base    The base Document class to be mixed
  */
-export default function WWMixin(Base) {
+export default function WWDocumentMixin(Base) {
   
   class WWBaseDocument extends Base {
 
@@ -22,7 +22,6 @@ export default function WWMixin(Base) {
      */
     async toAnchor({attrs={}, dataset={}, classes=[], name, icon}={}) {
       // Build dataset
-      console.log(this)
       const documentConfig = CONFIG[this.documentName];
       const documentName = game.i18n.localize(`DOCUMENT.${this.documentName}`);
       let anchorIcon = icon ?? documentConfig.sidebarIcon;
@@ -39,8 +38,8 @@ export default function WWMixin(Base) {
 
       // If this is a typed document, add the type to the dataset
       if ( this.type ) {
-        const typeLabel = documentConfig.typeLabels[this.type];
-        /*const typeName = game.i18n.has(typeLabel) ? `${game.i18n.localize(typeLabel)}` : "";
+        /*const typeLabel = documentConfig.typeLabels[this.type];
+        const typeName = game.i18n.has(typeLabel) ? `${game.i18n.localize(typeLabel)}` : "";
         dataset.tooltipText ??= typeName ?
           game.i18n.format("DOCUMENT.TypePageFormat", {type: typeName, page: documentName}) :
           documentName;*/
@@ -52,9 +51,54 @@ export default function WWMixin(Base) {
       return foundry.applications.ux.TextEditor.implementation.createAnchor({ attrs, dataset, name, classes, icon: anchorIcon });
     }
 
+    /* -------------------------------------------- */
+
     /* Prepare a fancy document card to use in tooltips. */
     async toCard(options) {
+      let templateFile = this.documentName.toLowerCase();
+      if (this.documentName === 'ActiveEffect') templateFile = 'effect';
+      if (this.documentName === 'JournalEntryPage') templateFile = 'page';
 
+      const card = await foundry.applications.handlebars.renderTemplate(
+        sysPath(`templates/apps/tooltips/${await templateFile}.hbs`),
+        await this._prepareCardContext(options)
+      );
+      
+      return await card;
+    }
+
+    /* -------------------------------------------- */
+
+    async toEmbed(config, options = {}) {
+      // Add to config 
+      config.label = this.name;
+
+      // Add to options
+      options.rollData = this.documentName === 'Actor' ? this.getRollData() : null;
+      options.relativeTo = this;
+      options.async = true;
+      options.secrets = this.isOwner;
+
+      // Prepare wrapper
+      const wrapper = document.createElement('div');
+      wrapper.classList.add('document-embed');
+
+      // Prepare embed template
+      let templateFile = this.documentName.toLowerCase();
+      if (this.documentName === 'ActiveEffect') templateFile = 'effect';
+      if (this.documentName === 'JournalEntryPage') templateFile = 'page';
+
+      wrapper.innerHTML = await foundry.applications.handlebars.renderTemplate(
+        sysPath(`templates/apps/embeds/${templateFile}.hbs`),
+        await this._prepareCardContext(options)
+      );
+
+      return wrapper;
+    }
+
+    /* -------------------------------------------- */
+
+    async _prepareCardContext(options) {
       // Prepare variables
       const TextEditor = foundry.applications.ux.TextEditor.implementation;
 
@@ -93,7 +137,7 @@ export default function WWMixin(Base) {
               const descriptor = listEntries.descriptors[d];
               context.subtitle += (context.subtitle ? ', ' : '') + descriptor.name;
             }
-
+            
             // Prepare main text
             context.text = await TextEditor.enrichHTML(this.system.description.value, options);
           }
@@ -112,15 +156,15 @@ export default function WWMixin(Base) {
             break;
 
             case 'Spell':
-              context.subtitle = i18n(CONFIG.WW.TIERS[this.system.tier]);
+              context.subtitle = `${i18n('TYPES.Item.Spell')} • ${i18n(CONFIG.WW.TIERS[this.system.tier])}`;
               const sep = context.subtitle ? ' • ' : '';
 
               if (this.system.tradition) context.subtitle += sep + this.system.tradition;
             break;
           }
-
+          console.log(this.system.description)
           // Prepare main text
-          context.text = await TextEditor.enrichHTML(this.description, options);
+          context.text = await TextEditor.enrichHTML(this.system.description.value, options);
 
         }; break;
 
@@ -150,15 +194,8 @@ export default function WWMixin(Base) {
         }; break;
       }
 
-      // Create the tooltip card
-      if (!context.text) context.text = 'No description available.';
-      let templateFile = this.documentName.toLowerCase();
-      if (this.documentName === 'ActiveEffect') templateFile = 'effect';
-      if (this.documentName === 'JournalEntryPage') templateFile = 'page';
+      return context;
 
-      const card = await foundry.applications.handlebars.renderTemplate(sysPath(`templates/apps/tooltips/${await templateFile}.hbs`), context);
-      
-      return await card;
     }
 
   }
