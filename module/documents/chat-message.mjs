@@ -167,7 +167,8 @@ export default class WWChatMessage extends ChatMessage {
         isWhisper ? "whisper" : null,
         this.blind ? "blind": null
       ].filterJoin(" "),
-      isWhisper: this.whisper.length,
+      isWhisper: isWhisper,
+      isBlind: this.blind,
       whisperTo: this.whisper.map(u => game.users.get(u)?.name).filterJoin(", "),
       showPrivate: this.isContentVisible, // Not needed in v13 maybe?
     };

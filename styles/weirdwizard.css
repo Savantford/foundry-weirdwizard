@@ -4845,7 +4845,6 @@ form.quest-calendar {
   display: flex;
   flex-flow: column;
   gap: 5px;
-  margin-top: 5px;
 }
 
 .weirdwizard .spear-divider {
@@ -5118,7 +5117,7 @@ form.quest-calendar {
   justify-content: end;
 }
 
-/* Chat Message: Status Type */
+/* Chat Message: Status Message */
 .weirdwizard.chat-message.status {
   background: transparent;
   border-image: url(../assets/drawings/header-ribbon-pink.svg);
@@ -5137,7 +5136,7 @@ form.quest-calendar {
 
 .weirdwizard.chat-message.status .message-info {
   opacity: 0;
-  transition: all 0.5s;
+  transition: all 0.8s;
 }
 
 .weirdwizard.chat-message.status:hover .message-info {
@@ -5146,6 +5145,16 @@ form.quest-calendar {
 
 .weirdwizard.chat-message.status .message-info:hover i::before {
   content: "";
+}
+
+.status-tooltip > p {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.status-tooltip img {
+  max-width: 20px;
 }
 
 /* -------------------------------------------- */

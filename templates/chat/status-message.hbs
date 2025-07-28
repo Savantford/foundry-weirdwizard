@@ -1,8 +1,6 @@
 <li class="weirdwizard chat-message message flexcol {{cssClass}}" data-message-id="{{message._id}}"
     {{#if borderColor}}style="border-color:{{borderColor}}"{{/if}}>
     
-    {{!-- Header --}}
-
     {{!-- Message Wrapper --}}
     <div class="message-wrapper">
 
@@ -16,27 +14,28 @@
     {{!-- Delete Button --}}
     <a class="message-delete message-info {{#if canDelete}}can-delete{{/if}}"
         {{#if canDelete}}aria-label="Delete" data-action="deleteMessage"{{/if}} data-tooltip='
-            {{!-- Sender --}}
-            <h4 class="message-sender">
-                {{#if avatar}}<img src="{{avatar}}">{{/if}}
-                {{alias}}
-            </h4>
-        
-            {{!-- Metadata --}}
-            <span class="message-metadata">
-                {{!-- Visibility Icons --}}
-                <img class="private-icon blind" src="icons/svg/blind.svg" data-tooltip="CHAT.RollBlind"/>
-                <img class="private-icon whisper" src="systems/weirdwizard/assets/icons/hood.svg" />
-                        
-                {{!-- Timestamp --}}
-                <time class="message-timestamp">{{timeSince message.timestamp}}</time>
-            </span>
-        
-            {{!-- Whisper To --}}
-            {{#if isWhisper}}
-            <span class="whisper-to">{{localize 'CHAT.To'}}: {{whisperTo}}</span>
-            {{/if}}'>
+            <div class="status-tooltip">
+                {{!-- Sender --}}
+                <p>{{#if avatar}}<img src="{{avatar}}">{{/if}} {{alias}}</p>
+
+                <p>
+                    {{!-- Timestamp --}}
+                    <time class="message-timestamp">{{timeSince message.timestamp}}</time>
+
+                    {{!-- Visibility Icons --}}
+                    {{#if isBlind}}<img class="private-icon blind" src="icons/svg/blind.svg" data-tooltip="CHAT.RollBlind"/>{{/if}}
+                    {{#if isWhisper}}<img class="private-icon whisper" src="systems/weirdwizard/assets/icons/hood.svg" />{{/if}}
+                </p>
+                
+                {{!-- Whisper To --}}
+                {{#if isWhisper}}
+                <p class="whisper-to">{{localize 'CHAT.To'}}: {{whisperTo}}</p>
+                {{/if}}
+            </div>'>
+
         <i class="fa-solid fa-eye" inert=""></i>
     </a>
+
+    
 
 </li>
