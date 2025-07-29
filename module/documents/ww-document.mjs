@@ -162,7 +162,7 @@ export default function WWDocumentMixin(Base) {
               if (this.system.tradition) context.subtitle += sep + this.system.tradition;
             break;
           }
-          console.log(this.system.description)
+          
           // Prepare main text
           context.text = await TextEditor.enrichHTML(this.system.description.value, options);
 

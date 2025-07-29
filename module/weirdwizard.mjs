@@ -385,7 +385,7 @@ Hooks.on('getSceneControlButtons', (controls) => {
     icon: 'fa-solid fa-wand-sparkles',
     visible: game.user.isGM,
     toggle: true,
-    onClick: () => SageTools.toggleVis('toggle')
+    onChange: () => SageTools.toggleVis('toggle')
   };
   
   // Add Quest Calendar button
@@ -395,7 +395,7 @@ Hooks.on('getSceneControlButtons', (controls) => {
     icon: 'fa-solid fa-calendar-clock',
     visible: true,
     toggle: true,
-    onClick: () => QuestCalendar.toggleVis('toggle')
+    onChange: () => QuestCalendar.toggleVis('toggle')
   };
   
 });

@@ -840,7 +840,13 @@
 "WW.Combat.End.Only": "End Only",
 "WW.Combat.End.Cancel": "Do Not End",
 
-"WW.Sage.Trackers.Label": "Trackers",
+"WW.Sage.Title": "Sage Tools",
+"WW.Sage.Resync": "Resync data",
+
+"WW.Sage.Tabs.trackers": "Trackers",
+"WW.Sage.Tabs.players": "Player Control",
+"WW.Sage.Tabs.index": "Compendia",
+
 "WW.Sage.Trackers.Time.World": "World Time (Elapsed)",
 "WW.Sage.Trackers.Time.Advance": "Advance 1 Minute",
 "WW.Sage.Trackers.Time.AdvanceHint": "<p>Action scenes, including combat, are assumed to last 1 minute.</p><p>Advancing the world time allows for ongoing effects with a duration under 1 minute to expire.",
@@ -849,14 +855,12 @@
 "WW.Sage.Trackers.Combat.Tab": "Switch to Combat Tab",
 "WW.Sage.Trackers.Combat.Popout": "Pop Out",
 
-"WW.Sage.Players.Label": "Player Control",
 "WW.Sage.Players.None": "No players on the table yet. Invite them!",
 "WW.Sage.Players.Character": "Character",
 "WW.Sage.Players.NoneAssigned": "None assigned",
 "WW.Sage.Players.FolderActors": "Actors in Folder",
 "WW.Sage.Players.SceneActors": "Actors in Scene",
 
-"WW.Sage.Index.Label": "Compendia",
 "WW.Sage.Index.CharOptions": "Character Options",
 "WW.Sage.Index.Equipment": "Equipment",
 

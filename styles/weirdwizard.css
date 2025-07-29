@@ -4240,6 +4240,10 @@ details.document-card .card-header:hover::after {
   white-space: nowrap;
 }
 
+#sage-tools .window-content {
+  gap: 10px;
+}
+
 #sage-tools .sheet-tabs > * { 
   line-height: 1;
 }
@@ -4254,6 +4258,7 @@ details.document-card .card-header:hover::after {
   background-position: center;
   background-size: 50%;
   padding: 0 5px;
+  gap: 0;
 }
 
 #sage-tools ol {
@@ -4262,6 +4267,7 @@ details.document-card .card-header:hover::after {
   gap: 5px;
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 #sage-tools li > div {
@@ -4281,6 +4287,7 @@ details.document-card .card-header:hover::after {
   display: flex;
   flex-flow: column;
   gap: 5px;
+  align-items: center;
 }
 
 #sage-tools .user-actors > div {
@@ -4290,25 +4297,20 @@ details.document-card .card-header:hover::after {
   flex-wrap: wrap;
 }
 
-#sage-tools .button,
-#sage-tools .index > div > a {
+#sage-tools .button, #sage-tools .index > div > a {
   padding: 0 5px;
   font-size: inherit;
   white-space: nowrap;
+  color: var(--body-text-color);
   background: rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--color-border-light-2);
+  border: 1px solid var(--gray);
   border-radius: 3px;
   box-shadow: 0 0 2px #fff inset;
   padding: 0 4px;
+  backdrop-filter: blur(1px);
 }
 
-#sage-tools .button:hover,
-#sage-tools .index > div > a:hover {
-  filter: drop-shadow(var(--filter-shadow-purple));
-  cursor: pointer;
-}
-
-#sage-tools .index > div > .enricher-index {
+#sage-tools .enricher-index {
   background-image: var(--banner);
   background-size: cover;
   font-size: var(--font-size-20);
@@ -4595,20 +4597,20 @@ form.quest-calendar {
 }
 
 .enricher-index {
-  background: var(--banner);
-  background-position: center;
-  background-size: cover;
-  color: white;
-  text-shadow: 0 0 5px black, 0 0 10px black;
-  font-family: var(--font-capitalized);
-  font-weight: normal;
+  display: inline-block;
   width: 100%;
   max-width: 300px;
   text-align: center;
-  display: inline-block;
-  font-size: x-large;
-  box-shadow: 0 0 2px 0px black;
+  color: white;
+  text-shadow: 0 0 5px black, 0 0 10px black;
+  font-family: var(--font-capitalized);
+  font-size: var(--font-size-24);
+  font-weight: normal;
   border-radius: 3px;
+  background: var(--banner);
+  background-position: center;
+  background-size: cover;
+  box-shadow: 0 0 2px 0px black;
 }
 
 .enricher-index:focus,
@@ -4896,6 +4898,7 @@ form.quest-calendar {
   align-items: stretch;
   gap: 0.5rem;*/
   padding: 0 5px;
+  overflow: visible;
 }
 
 .weirdwizard .message-subheader-details {
