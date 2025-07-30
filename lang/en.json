@@ -804,6 +804,7 @@
 "WW.Affliction.Weakened": "Weakened",
 "WW.Affliction.WeakenedDesc": "You make Strength and Agility rolls with 1 bane, and you grant 1 boon on rolls against your Strength and Agility. In addition, your Speed is halved and you cannot benefit from increases to your Speed.",
 
+"WW.Combat.AddGroup": "Add a preset group to the combat",
 "WW.Combat.RightClickTip": "<p>Right click for context options.</p><p>Drag and drop a combatant within its phase to reorder them.</p>",
 "WW.Combat.Standby": "<p>Combat is on standby because someone is taking their turn.</p><p>Please wait until the turn is finished.</p>",
 "WW.Combat.NoPermission": "<p>You lack permission to take turns with this combatant.</p><p>If you think you should have control over this creature, please ask your Sage for the Owner permission.</p>",
@@ -825,9 +826,9 @@
 "WW.Combat.Initiative.Msg": "<p>A new round started.</p><p>Do you want to use a <b>reaction</b> to <b>take the initiative</b>, instead of making a regular turn?</p>",
 "WW.Combat.Initiative.NoCharacter": "A new round started, but you don't have a character assigned to you.",
 
-"WW.Combat.ResetTurn.Title": "Reset Turn Count",
-"WW.Combat.ResetTurn.Msg": "<p>You already took a turn during this round.</p><p>Normally, each combatant can take one turn per round <b>once</b>.</p>",
-"WW.Combat.ResetTurn.Confirm": "Are you sure you want to reset the count?",
+"WW.Combat.ResetActed.Title": "Reset the \"Acted\" Status",
+"WW.Combat.ResetActed.Msg": "<p>You already took a turn during this round and are marked as \"Acted\".</p><p>Normally, each combatant can take <b>only one</b> turn per round.</p>",
+"WW.Combat.ResetActed.Confirm": "Are you sure you want to reset the Acted status?",
 
 "WW.Combat.StartTurn.Title": "Start a Turn",
 "WW.Combat.StartTurn.Msg": "You are going to make the combatant you selected take the the next turn.",

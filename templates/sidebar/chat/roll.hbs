@@ -38,7 +38,7 @@
 
                     {{!-- Attribute Dice No --}}
                     <div class="dice-number rolled-number {{#if (or (eq outcome "success") (eq outcome "critical"))}}highlight{{/if}}"
-                        data-tooltip='{{> "systems/weirdwizard/templates/sidebar/dice-tooltip.hbs" formula=formula terms=terms}}'><span>{{total}}</span></div>
+                        data-tooltip='{{> "systems/weirdwizard/templates/sidebar/chat/dice-tooltip.hbs" formula=formula terms=terms}}'><span>{{total}}</span></div>
 
                     {{#if targetNo}}
                     <div class="dice-vs">vs</div>

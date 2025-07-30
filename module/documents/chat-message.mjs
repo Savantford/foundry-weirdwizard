@@ -180,7 +180,7 @@ export default class WWChatMessage extends ChatMessage {
     if ( this.style === CONST.CHAT_MESSAGE_STYLES.OOC ) messageData.borderColor = this.author?.color.css;
 
     // Render the chat message
-    let html = await foundry.applications.handlebars.renderTemplate(`systems/weirdwizard/templates/chat/${this.type}-message.hbs`, messageData); // Default: CONFIG.ChatMessage.template
+    let html = await foundry.applications.handlebars.renderTemplate(`systems/weirdwizard/templates/sidebar/chat/${this.type}-message.hbs`, messageData); // Default: CONFIG.ChatMessage.template
     html = foundry.utils.parseHTML(html);
 
     // Flag expanded state of dice rolls

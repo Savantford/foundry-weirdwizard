@@ -187,6 +187,8 @@ export default class WWCombat extends Combat {
     return Hooks.callAll("combatTurn", this, updateData, updateOptions), this.update(updateData, updateOptions);
   }
 
+  /* -------------------------------------------- */
+
   /**
    * Display a dialog querying the GM whether they wish to end the combat encounter and empty the tracker
    * @returns {Promise<Combat>}

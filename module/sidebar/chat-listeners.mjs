@@ -413,7 +413,7 @@ async function _onChatRoll(dataset, label, nextAction) {
   // Prepare roll
   const r = await new WWRoll(data.value, data.actor?.getRollData(),
     {
-      template: "systems/weirdwizard/templates/chat/roll.hbs",
+      template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
       originUuid: origin,
       target: data.target,
       dataset: data,

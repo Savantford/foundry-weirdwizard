@@ -5216,25 +5216,19 @@ form.quest-calendar {
 .combat-phase img {
   height: 100%;
   width: 25px;
-  margin: -1px 0 -5px;
+  margin: -2px 0;
   border: none;
 }
 
 /* Combat Tracker: Combatants */
-
-.combat-sidebar.directory li.combatant {
-  padding: 1px 5px;
-  border: none;
-}
-
-.combat-sidebar li.combatant.acted {
+.combat-sidebar .combatant.acted {
   color: #707070;
 }
 
 /* Combat Tracker: Turn Control Button */
-
-.combat-sidebar li.combatant .turn-control {
+.combat-sidebar .combatant .turn-control {
   flex: 0 0 24px;
+  height: 30px;
   text-align: center;
   background: url(../assets/icons/empty-hourglass.svg) no-repeat;
   background-size: contain;
@@ -5243,57 +5237,56 @@ form.quest-calendar {
   filter: brightness(0) saturate(100%) invert(49%) sepia(0%) saturate(1191%) hue-rotate(161deg) brightness(88%) contrast(87%);
 }
 
-.combat-sidebar li.combatant .turn-control:hover {
+.combat-sidebar .combatant .turn-control:hover {
   cursor: help;
 }
 
-.combat-sidebar.standby li.combatant .turn-control,
-.combat-sidebar li.combatant.active .turn-control {
+.combat-sidebar.standby .combatant .turn-control,
+.combat-sidebar .combatant.active .turn-control {
   filter: none;
 }
 
-.combat-sidebar li.combatant:not(.has-perms) .turn-control,
-.combat-sidebar li.combatant.acted .turn-control {
+.combat-sidebar .combatant:not(.has-perms) .turn-control,
+.combat-sidebar .combatant.acted .turn-control {
   filter: brightness(0) saturate(100%) invert(49%) sepia(0%) saturate(1191%) hue-rotate(161deg) brightness(88%) contrast(87%);
 }
 
-.combat-sidebar li.combatant:not(.has-perms) .turn-control:hover,
-.combat-sidebar:not(.standby) li.combatant.has-perms .turn-control:hover {
+.combat-sidebar .combatant:not(.has-perms) .turn-control:hover,
+.combat-sidebar:not(.standby) .combatant.has-perms .turn-control:hover {
   background-image: url(../assets/icons/cancel.svg);
   filter: drop-shadow(0 0 4px white) drop-shadow(0 0 4px red);
 }
 
-.combat-sidebar.standby li.combatant.has-perms .turn-control:hover,
-.combat-sidebar li.combatant.has-perms.active .turn-control:hover {
+.combat-sidebar.standby .combatant.has-perms .turn-control:hover,
+.combat-sidebar .combatant.has-perms.active .turn-control:hover {
   filter: drop-shadow(0 0 4px white) drop-shadow(0 0 4px limegreen);
   cursor: pointer;
 }
 
-.combat-sidebar li.combatant.active .turn-control,
-.combat-sidebar.standby li.combatant.has-perms .turn-control:hover {
+.combat-sidebar .combatant.active .turn-control,
+.combat-sidebar.standby .combatant.has-perms .turn-control:hover {
   background-image: url(../assets/icons/pointy-sword.svg);
 }
 
-.combat-sidebar li.combatant.acted .turn-control,
-.combat-sidebar li.combatant.has-perms.active .turn-control:hover {
+.combat-sidebar .combatant.acted .turn-control,
+.combat-sidebar .combatant.has-perms.active .turn-control:hover {
   background-image: url(../assets/icons/check-mark.svg);
 }
 
-.combat-sidebar li.combatant.has-perms.acted .turn-control:hover {
+.combat-sidebar .combatant.has-perms.acted .turn-control:hover {
   background-image: url(../assets/icons/anticlockwise-rotation.svg);
 }
 
-.combat-sidebar li.combatant.has-perms.character.acted.taking-init .turn-control:hover {
+.combat-sidebar .combatant.has-perms.character.acted.taking-init .turn-control:hover {
   background-image: url(../assets/icons/actions.svg);
 }
 
-.combat-sidebar li.combatant.has-perms.character.acted .turn-control:hover {
+.combat-sidebar .combatant.has-perms.character.acted .turn-control:hover {
   background-image: url(../assets/icons/reactions.svg);
 }
 
-/* Combat Tracker: Token Resource */
-
-.combat-sidebar li.combatant .token-resource {
+/* Combat Tracker: Token Resources */
+.combat-sidebar .combatant .token-resource {
   flex: 0 0 40px;
   display: flex;
   justify-content: center;

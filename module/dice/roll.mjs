@@ -42,7 +42,8 @@ export default class WWRoll extends Roll {
     }
 
     if (this.options?.template) template = this.options.template;
-    template = template.replace('sidebar', 'chat');
+    template = template.replace('sidebar/r', 'sidebar/chat/');
+    template = template.replace('templates/chat/', 'templates/sidebar/chat/');
 
     return foundry.applications.handlebars.renderTemplate(template, chatData);
   }

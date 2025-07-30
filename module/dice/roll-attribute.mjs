@@ -164,7 +164,7 @@ export default class RollAttribute extends FormApplication {
         
         // Construct the Roll instance and evaluate the roll
         const r = await new WWRoll(rollFormula, rollData, {
-          template: "systems/weirdwizard/templates/chat/roll.hbs",
+          template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
           originUuid: this.origin.uuid,
           target: t,
           attribute: this.attribute,
@@ -253,7 +253,7 @@ export default class RollAttribute extends FormApplication {
       // Construct the Roll instance and evaluate the roll
       
       const r = await new WWRoll(rollFormula, rollData, {
-        template: "systems/weirdwizard/templates/chat/roll.hbs",
+        template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
         originUuid: this.origin.uuid,
         attribute: this.attribute,
         against: against,

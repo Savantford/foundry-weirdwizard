@@ -1,5 +1,4 @@
 import { i18n } from '../helpers/utils.mjs'
-//import { chatMessageButtonArray, diceTotalHtml } from '../sidebar/chat-html-templates.mjs';
 import WWRoll from './roll.mjs';
 
 /**
@@ -186,7 +185,7 @@ export default class RollDamage extends FormApplication {
     const rollData = this.actor ? this.actor.getRollData() : null;
 
     const r = await new WWRoll(this.finalExp, rollData, {
-      template: "systems/weirdwizard/templates/chat/roll.hbs",
+      template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
       dataset: dataset
     }).evaluate();
     

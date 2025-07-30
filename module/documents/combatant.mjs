@@ -13,7 +13,7 @@ export default class WWCombatant extends Combatant {
     const valueStr = this.parent.settings.resource,
       value = foundry.utils.getProperty(this.actor.system, valueStr),
       maxStr = valueStr ? valueStr.split(".value")[0] + '.max' : null,
-      max = maxStr ? foundry.utils.getProperty(this.actor.system, maxStr) : null;
+    max = maxStr ? foundry.utils.getProperty(this.actor.system, maxStr) : null;
     
     if (max) {
       return this.resource = value, this.resourceMax = max;
@@ -21,10 +21,11 @@ export default class WWCombatant extends Combatant {
       return this.resource = value;
     }
     
+    
   }
 
   /* -------------------------------------------- */
-  /*  Properties                                  */
+  /*  Methods                                     */
   /* -------------------------------------------- */
 
   async takeInit(taking) {
@@ -51,8 +52,75 @@ export default class WWCombatant extends Combatant {
   }
 
   /* -------------------------------------------- */
+
+  /**
+   * Reset the Acted status.
+   * @private
+   */
+  async resetActed() {
+    
+    // Get combatant
+    const combatants = this.combat.combatants;
+    const source = await combatants.get(this.id);
+
+    // Confirmation dialog
+    const confirm = !source.permission ? false : await WWDialog.confirm({
+      window: {
+        title: 'WW.Combat.ResetActed.Title',
+        icon: 'fa-solid fa-rotate-left'
+      },
+      content: `${i18n('WW.Combat.ResetActed.Msg')}
+        <p class="dialog-sure">${i18n('WW.Combat.ResetActed.Confirm')}</p>`
+    });
+
+    if (!confirm) return;
+
+    // Get the drag source and drop target
+    const bracket = combatants.filter(c => c.initiativeBracket === source.initiativeBracket);
+    const target = combatants.find(c => c.initiative === Math.max(...bracket.map(c => c.initiative)));
+    const tracker = li[0] ? await li[0].closest(`#combat-tracker`) : await li.closest(`#combat-tracker`);
+    
+    // Set source's Acted flag to false
+    await source.setFlag('weirdwizard', 'acted', false);
+
+    // Get dropTarget
+    const dropTarget = await tracker.querySelector(`li[data-combatant-id=${target?.id}]`);
+    if ( !dropTarget ) return;
+    
+    // Don't sort on yourself
+    if ( source.id === target.id ) return;
+
+    // Identify sibling combatants based on adjacent HTML elements
+    const siblings = [];
+    for ( let el of dropTarget.parentElement.children ) {
+      const siblingId = el.dataset.combatantId;
+      if ( siblingId && (siblingId !== source.id) ) siblings.push(combatants.get(el.dataset.combatantId));
+    }
+
+    // Perform the sort
+    const sortUpdates = this.performIntegerSort(source, {target, siblings, sortBefore: false});
+    
+    const updateData = sortUpdates.map(u => {
+      const update = u.update;
+      update._id = u.target._id;
+      return update;
+    });
+    
+    // Perform the update
+    return this.combat.updateEmbeddedDocuments("Combatant", updateData);
+  }
+
+  /* -------------------------------------------- */
   /*  Getters                                     */
   /* -------------------------------------------- */
+  
+  get actorType() {
+    return this.actor?.type ?? null;
+  }
+
+  get injured() {
+    return this.actor?.injured ?? false;
+  }
 
   get acted() {
     return this.flags.weirdwizard?.acted ?? false;
