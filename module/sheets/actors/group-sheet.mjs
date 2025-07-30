@@ -29,19 +29,18 @@ export default class WWGroupSheet extends WWSheetMixin(ActorSheetV2) {
     actions: {
     },
     form: {
-      //handler: this.#onSubmitDocumentForm, // delete in v13, core functionality
       submitOnChange: true,
       closeOnSubmit: false
     },
     position: {
-      width: 860,
+      width: 500,
       height: 500
     }
   }
 
   /* -------------------------------------------- */
   static PARTS = {
-    // Handled by the subclasses
+    main: { template: 'systems/weirdwizard/templates/actors/group/main.hbs' }
   }
 
   /**

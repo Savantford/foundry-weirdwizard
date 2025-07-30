@@ -1,0 +1,17 @@
+<section>
+    {{!-- Members --}}
+    <h2>Members</h2>
+
+    <ol>
+        {{#each members as |member id|}}
+        <li>@UUID[{{member.uuid}}]</li>
+        {{/each}}
+    </ol>
+
+    {{!-- Resources --}}
+    <h2>Resources</h2>
+
+    <div>
+        Wealth: {{totalWealth}}
+    </div>
+</secti>

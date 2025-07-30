@@ -255,7 +255,21 @@ export default class WWActor extends WWDocumentMixin(Actor) {
   */
   _prepareGroupData(system) {
     if (this.type !== 'group') return;
-    console.log('group data')
+    
+    const members = {
+      active: new Set(),
+      inactive: new Set(),
+      retired: new Set(),
+      dead: new Set()
+    }
+    
+    for (const cat in this.system.members) {
+      for (const m of this.system.members[cat]) {
+        console.log(m)
+      }
+    }
+
+    system.members = members;
   }
 
   /**
