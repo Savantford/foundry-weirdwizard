@@ -17,15 +17,15 @@ export default class WWItem extends WWDocumentMixin(Item) {
     if (!icon) {
 
       switch (this.type) {
-        case 'Equipment':
+        case 'equipment':
           icon = 'icons/svg/item-bag.svg';
         break;
    
-        case 'Trait or Talent':
+        case 'talent':
           icon = 'icons/svg/card-hand.svg';
         break;
   
-        case 'Spell':
+        case 'spell':
           icon = 'icons/svg/lightning.svg';
         break;
   
@@ -211,6 +211,19 @@ export default class WWItem extends WWDocumentMixin(Item) {
     });
     
     
+  }
+
+  /* -------------------------------------------- */
+  
+  static migrateData(data) {
+    // Fix uppercase on document types
+    switch (data.type) {
+      case "Equipment": data.type = "equipment"; break;
+      case "Trait or Talent": data.type = "talent"; break;
+      case "Spell": data.type = "spell"; break;
+    }
+    
+    return super.migrateData(data);
   }
 
 }

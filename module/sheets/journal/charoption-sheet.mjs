@@ -523,12 +523,12 @@ export default class WWCharOptionSheet extends foundry.appv1.sheets.JournalPageS
       const spells = this.document.system.spells;
       const talents = this.document.system.talents;
       
-      if (item.type === 'Spell') {
+      if (item.type === 'spell') {
         const arr = spells[item.system.tier].filter(v => { return v !== uuid; });
         spells[item.system.tier] = arr;
         
         await this.document.update({ 'system.spells': spells });
-      } else if (item.type === 'Trait or Talent') {
+      } else if (item.type === 'talent') {
         await this.document.update({ 'system.talents': talents.filter(v => { return v !== uuid; }) });
       }
     
@@ -660,10 +660,10 @@ export default class WWCharOptionSheet extends foundry.appv1.sheets.JournalPageS
     
     // Check if document is from the correct allowed types
     const docType = this.document.type;
-    let allowedTypes = ['Equipment', 'Trait or Talent', 'Spell'];
+    let allowedTypes = ['equipment', 'talent', 'spell'];
 
-    if (docType === 'ancestry' || docType === 'tradition') allowedTypes = ['Trait or Talent', 'Spell'];
-    if (docType === 'profession') allowedTypes = ['Equipment'];
+    if (docType === 'ancestry' || docType === 'tradition') allowedTypes = ['talent', 'spell'];
+    if (docType === 'profession') allowedTypes = ['equipment'];
 
     // Return if not from an apropriate type
     if (allowedTypes.includes(document.type)) return await ui.notifications.warn(`
@@ -684,15 +684,15 @@ export default class WWCharOptionSheet extends foundry.appv1.sheets.JournalPageS
       const spells = this.document.system.spells;
       const talents = this.document.system.talents;
 
-      if (item.type === 'Spell' && !spells[item.system.tier].filter(x => x === item.uuid).length) {
+      if (item.type === 'spell' && !spells[item.system.tier].filter(x => x === item.uuid).length) {
         spells[item.system.tier].push(item.uuid);
         await this.document.update({ 'system.spells': spells });
 
-      } else if (item.type === 'Trait or Talent' && !talents.filter(x => x === item.uuid).length) {
+      } else if (item.type === 'talent' && !talents.filter(x => x === item.uuid).length) {
         talents.push(item.uuid);
         await this.document.update({ 'system.talents': talents });
 
-      } else if (item.type === 'Equipment') {
+      } else if (item.type === 'equipment') {
         return ui.notifications.warn(i18n('WW.Tradition.EquipmentWarning'));
       }
     

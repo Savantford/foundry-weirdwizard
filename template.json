@@ -5,7 +5,7 @@
     "htmlFields": []
   },
   "Item": {
-    "types": ["Equipment", "Trait or Talent", "Spell", "Ancestry", "Profession", "Path"],
+    "types": ["equipment", "talent", "spell", "Ancestry", "Profession", "Path"],
     "htmlFields": []
   },
   "ActiveEffect": {

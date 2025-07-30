@@ -97,9 +97,9 @@ Hooks.once('init', function () {
   CONFIG.Actor.dataModels.character = CharacterModel;
   CONFIG.Actor.dataModels.npc = NpcModel;
   CONFIG.Actor.dataModels.group = GroupModel;
-  CONFIG.Item.dataModels.Equipment = EquipmentModel;
-  CONFIG.Item.dataModels['Trait or Talent'] = TalentModel;
-  CONFIG.Item.dataModels.Spell = SpellModel;
+  CONFIG.Item.dataModels.equipment = EquipmentModel;
+  CONFIG.Item.dataModels.talent = TalentModel;
+  CONFIG.Item.dataModels.spell = SpellModel;
 
   // Active Effect data models
   CONFIG.ActiveEffect.dataModels.base = BaseEffectModel;
@@ -134,17 +134,17 @@ Hooks.once('init', function () {
   const Items = foundry.documents.collections.Items;
 
   Items.registerSheet('weirdwizard', WWEquipmentSheet, {
-    types: ['Equipment'],
+    types: ['equipment'],
     makeDefault: true,
     label: 'WW.System.Sheet.Equipment'
   });
   Items.registerSheet('weirdwizard', WWTalentSheet, {
-    types: ['Trait or Talent'],
+    types: ['talent'],
     makeDefault: true,
     label: 'WW.System.Sheet.Talent'
   });
   Items.registerSheet('weirdwizard', WWSpellSheet, {
-    types: ['Spell'],
+    types: ['spell'],
     makeDefault: true,
     label: 'WW.System.Sheet.Spell'
   });

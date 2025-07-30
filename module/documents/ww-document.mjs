@@ -147,15 +147,15 @@ export default function WWDocumentMixin(Base) {
         case 'Item': {
           // Prepare subtitle
           switch (this.type) {
-            case 'Equipment':
+            case 'equipment':
               context.subtitle = i18n(CONFIG.WW.EQUIPMENT_SUBTYPES[this.system.subtype]);
             break;
 
-            case 'Trait or Talent':
+            case 'talent':
               context.subtitle = i18n(CONFIG.WW.TALENT_SUBTYPES[this.system.subtype]);
             break;
 
-            case 'Spell':
+            case 'spell':
               context.subtitle = `${i18n('TYPES.Item.Spell')} • ${i18n(CONFIG.WW.TIERS[this.system.tier])}`;
               const sep = context.subtitle ? ' • ' : '';
 

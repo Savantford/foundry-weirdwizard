@@ -1169,6 +1169,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
 
   }
 
+  /* -------------------------------------------- */
+  
   static migrateData(data) {
     // Fix uppercase on document types
     switch (data.type) {

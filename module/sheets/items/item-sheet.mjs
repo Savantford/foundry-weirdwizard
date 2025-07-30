@@ -128,7 +128,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     context.hasActor = this.document.actor ? true : false;
     
     // Prepare character options
-    if (context.item.type == 'Equipment' && context.item.system.subtype == 'weapon' && context.system.attackRider.value) {
+    if (context.item.type == 'equipment' && context.item.system.subtype == 'weapon' && context.system.attackRider.value) {
       context.system.attackRider.enriched = await TextEditor.enrichHTML(context.system.attackRider.value, { secrets: isOwner, relativeTo: this.document });
     }
 
@@ -144,7 +144,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     // Prepare specific dropdown menu objects
     switch (context.item.type) {
   
-      case 'Equipment':
+      case 'equipment':
         context.subtypes = CONFIG.WW.EQUIPMENT_SUBTYPES;
         context.coins = CONFIG.WW.COINS;
         context.qualities = CONFIG.WW.EQUIPMENT_QUALITIES;
@@ -160,7 +160,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
 
       break;
 
-      case 'Trait or Talent':
+      case 'talent':
         context.subtypes = CONFIG.WW.TALENT_SUBTYPES;
         context.sources = CONFIG.WW.TALENT_SOURCES;
 
@@ -187,7 +187,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         }
       break;
 
-      case 'Spell':
+      case 'spell':
         context.tiers = CONFIG.WW.TIERS;
       break;
       
@@ -241,9 +241,9 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
 
         let file = '';
         switch (this.item.type) {
-          case 'Equipment': file = 'equipment'; break;
-          case 'Spell': file = 'spell'; break;
-          case 'Trait or Talent': file = 'talent'; break;
+          case 'equipment': file = 'equipment'; break;
+          case 'spell': file = 'spell'; break;
+          case 'talent': file = 'talent'; break;
           default: file = 'talent'; break;
         }
 
@@ -592,7 +592,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
 
     const item = await fromUuid(data.uuid);
     
-    if (!(item.type === 'Equipment' || item.type === 'Trait or Talent' || item.type === 'Spell')) {
+    if (!(item.type === 'equipment' || item.type === 'talent' || item.type === 'spell')) {
       return ui.notifications.warn(`${i18n('WW.CharOption.TypeWarning')}<br/>${i18n("WW.CharOption.Help", { itemType: this.document.type })}`);
     }
 

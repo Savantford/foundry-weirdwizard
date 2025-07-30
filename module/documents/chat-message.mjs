@@ -101,7 +101,7 @@ export default class WWChatMessage extends ChatMessage {
       }
 
       // Prepare spell header
-      if (item.type == 'Spell') {
+      if (item.type == 'spell') {
         let header = '';
 
         header += sys.casting ? `<b>${i18n("WW.Spell.Castings")}:</b> ${sys.uses.max}, ${sys.casting}` : `<b>${i18n("WW.Spell.Castings")}:</b> ${sys.uses.max}`;
@@ -148,7 +148,7 @@ export default class WWChatMessage extends ChatMessage {
         isWeapon: item.system.subtype ?? item.system.subtype,
         traits: item.traits,
         attackRider: item.attackRider,
-        isSpell: item.type === 'Spell',
+        isSpell: item.type === 'spell',
         spellHeader: item.spellHeader,
         uuid: item.uuid,
         img: item.img

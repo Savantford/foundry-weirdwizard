@@ -53,7 +53,7 @@ export default class RollAttribute extends FormApplication {
       isWeapon: this.item?.system?.subtype === 'weapon' ?? false,
       isAttack: (this.item?.system?.subtype === 'weapon' || this.against === 'def') ?? false,
       isMagical: this.item?.system?.magical,
-      isSpell: this.item?.type === 'Spell' ?? false
+      isSpell: this.item?.type === 'spell' ?? false
     }
 
   }

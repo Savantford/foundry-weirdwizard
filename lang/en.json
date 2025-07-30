@@ -142,9 +142,9 @@
 "WW.ListEntry.MovementTrait.Edit": "Edit special movement trait",
 "WW.ListEntry.MovementTrait.Remove": "Remove special movement trait",
 
-"TYPES.Item.Equipment": "Equipment",
-"TYPES.Item.Trait or Talent": "Trait or Talent",
-"TYPES.Item.Spell": "Spell",
+"TYPES.Item.equipment": "Equipment",
+"TYPES.Item.talent": "Trait or Talent",
+"TYPES.Item.spell": "Spell",
 
 "TYPES.Item.Ancestry": "Ancestry (OBSOLETE)",
 "TYPES.Item.Path": "Path (OBSOLETE)",
@@ -490,7 +490,7 @@
 "WW.CharOption.DropHere": "Drop Equipment, Traits, Talents and Spells stored in a <b>Compendium</b> here to add them to the level benefit.",
 "WW.CharOption.Unknown": "Unknown",
 "WW.CharOption.MissingRef": "Missing UUID reference for the equipment, trait, talent or spell. You can either delete this entry or restore it by putting the item back in the original Compendium.",
-"WW.CharOption.TypeWarning": "Dropped item type must be one of the following: Equipment, Trait or Talent or Spell.",
+"WW.CharOption.TypeWarning": "Dropped item type must be one of the following: Equipment, Trait/Talent or Spell.",
 "WW.CharOption.CompendiumWarning": "Item must be dragged from a <b>Compendium</b>.",
 "WW.CharOption.Help": "Click on the <b>Help</b> buttom at the top right of the {itemType} window for more information.",
 "WW.CharOption.GrantedBy": "Granted by",

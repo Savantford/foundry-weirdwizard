@@ -151,7 +151,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       doc.system.requirementLabel = doc.system.requirements ? i18n(CONFIG.WW.WEAPON_REQUIREMENTS[doc.system.requirements]) : '—';
 
       // Get Defense stats
-      if (doc.type === 'Equipment') {
+      if (doc.type === 'equipment') {
 
         // Get Armor Type
         if (doc.system.subtype === 'armor') doc.typeLabel = i18n(CONFIG.WW.ARMOR_TYPES[doc.system.armorType]); else doc.typeLabel = i18n('WW.Armor.Shield');

@@ -34,7 +34,7 @@
         "items": [
           {
             "name": "WW.Tour.NPC.Items.Bow",
-            "type": "Equipment",
+            "type": "equipment",
             "img": "icons/weapons/bows/longbow-recurve-leather-brown.webp",
             "system": {
               "description": {
@@ -54,7 +54,7 @@
           },
           {
             "name": "WW.Tour.NPC.Items.Trait",
-            "type": "Trait or Talent",
+            "type": "talent",
             "img": "icons/magic/defensive/illusion-evasion-echo-purple.webp",
             "system": {
               "description": {
@@ -78,7 +78,7 @@
           },
           {
             "name": "WW.Tour.NPC.Items.Action",
-            "type": "Trait or Talent",
+            "type": "talent",
             "img": "icons/magic/control/buff-strength-muscle-damage-orange.webp",
             "system": {
               "description": {
@@ -94,7 +94,7 @@
           },
           {
             "name": "WW.Tour.NPC.Items.Reaction",
-            "type": "Trait or Talent",
+            "type": "talent",
             "img": "icons/magic/control/silhouette-aura-energy.webp",
             "system": {
               "description": {
@@ -109,7 +109,7 @@
           },
           {
             "name": "WW.Tour.NPC.Items.End",
-            "type": "Trait or Talent",
+            "type": "talent",
             "img": "icons/magic/control/silhouette-aura-energy.webp",
             "system": {
               "description": {

@@ -457,16 +457,16 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       }
 
       // Prepare tooltip subtitle
-      if (i.type === 'Spell') {
+      if (i.type === 'spell') {
         tooltipContext.subtitle += ` • ${i18n(CONFIG.WW.TIERS[i.system.tier])}`
         if (i.system.tradition) tooltipContext.subtitle += ` • ${i.system.tradition}`;
 
-      } else if (i.type === 'Equipment') {
+      } else if (i.type === 'equipment') {
         tooltipContext.subtitle = i18n(CONFIG.WW.EQUIPMENT_SUBTYPES[i.system.subtype]);
 
         if (i.system.subtype === 'weapon') tooltipContext.subtitle += ` • ${i.system.traits.range ? i18n("WW.Weapon.Ranged") : i18n("WW.Weapon.Melee")}`;
 
-      } else if (i.type === 'Trait or Talent') {
+      } else if (i.type === 'talent') {
         tooltipContext.subtitle = i18n(CONFIG.WW.TALENT_SUBTYPES[i.system.subtype]);
         tooltipContext.subtitle += ` • ${i18n(CONFIG.WW.TALENT_SOURCES[i.system.source])}`;
       }
@@ -474,7 +474,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       i.tooltip = await foundry.applications.handlebars.renderTemplate(sysPath(`templates/apps/tooltips/item.hbs`), tooltipContext);
 
       // Append to equipment.
-      if (i.type === 'Equipment') {
+      if (i.type === 'equipment') {
         // Prepare traits list for weapons
         if (i.system.subtype == 'weapon') {
 
@@ -563,7 +563,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       }
 
       // Append to talents.
-      else if (i.type === 'Trait or Talent') {
+      else if (i.type === 'talent') {
 
         if (context.actor.type == 'npc') {
           switch (i.system.subtype) {
@@ -604,7 +604,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       }
 
       // Append to spells.
-      else if (i.type === 'Spell') spells.push(i);
+      else if (i.type === 'spell') spells.push(i);
 
       // Appegend to legacy items array.
       else {
@@ -841,7 +841,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
         },
         condition: li => {
           const item = this.actor.items.get(li.dataset.itemId);
-          return item.type === 'Equipment' && item.system.subtype === 'weapon';
+          return item.type === 'equipment' && item.system.subtype === 'weapon';
         }
       }, {
         name: "WW.Item.Perform.AttackTarget",
@@ -851,7 +851,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
         },
         condition: li => {
           const item = this.actor.items.get(li.dataset.itemId);
-          return item.type === 'Equipment' && item.system.subtype === 'weapon';
+          return item.type === 'equipment' && item.system.subtype === 'weapon';
         }
       }, {
         name: "WW.Item.Perform.Equipment",
@@ -861,7 +861,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
         },
         condition: li => {
           const item = this.actor.items.get(li.dataset.itemId);
-          return item.type === 'Equipment' && item.system.subtype !== 'weapon';
+          return item.type === 'equipment' && item.system.subtype !== 'weapon';
         }
       }, {
         name: "WW.Item.Perform.EquipmentTarget",
@@ -871,7 +871,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
         },
         condition: li => {
           const item = this.actor.items.get(li.dataset.itemId);
-          return item.type === 'Equipment' && item.system.subtype !== 'weapon';
+          return item.type === 'equipment' && item.system.subtype !== 'weapon';
         }
       }, {
         name: "WW.Item.Perform.Spell",
@@ -881,7 +881,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
         },
         condition: li => {
           const item = this.actor.items.get(li.dataset.itemId);
-          return item.type === 'Spell';
+          return item.type === 'spell';
         }
       }, {
         name: "WW.Item.Perform.SpellTarget",
@@ -891,7 +891,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
         },
         condition: li => {
           const item = this.actor.items.get(li.dataset.itemId);
-          return item.type === 'Spell';
+          return item.type === 'spell';
         }
       }, {
         name: "WW.Item.Perform.Talent",
@@ -901,7 +901,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
         },
         condition: li => {
           const item = this.actor.items.get(li.dataset.itemId);
-          return item.type === 'Trait or Talent';
+          return item.type === 'talent';
         }
       }, {
         name: "WW.Item.Perform.TalentTarget",
@@ -911,7 +911,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
         },
         condition: li => {
           const item = this.actor.items.get(li.dataset.itemId);
-          return item.type === 'Trait or Talent';
+          return item.type === 'talent';
         }
       }, {
         name: "WW.Item.Send",
@@ -1359,7 +1359,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       subtype: dataset.subtype ?? '',
       tier: dataset.tier ?? '',
       grip: dataset.grip ?? 'Off',
-      source: type === 'Trait or Talent' ? dataset.source : '', // If Character's Talent, set source,
+      source: type === 'talent' ? dataset.source : '', // If Character's Talent, set source,
       attribute: '',
       damage: '',
       against: ''
