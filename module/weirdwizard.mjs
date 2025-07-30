@@ -12,6 +12,7 @@ import WWChatMessage from './documents/chat-message.mjs';
 // Import data models
 import CharacterModel from './data/actors/character.mjs';
 import NpcModel from './data/actors/npc.mjs';
+import GroupModel from './data/actors/group.mjs';
 import EquipmentModel from './data/items/equipment.mjs';
 import TalentModel from './data/items/talent.mjs';
 import SpellModel from './data/items/spell.mjs';
@@ -25,6 +26,7 @@ import BenefitEffectModel from './data/effects/benefit-effect.mjs';
 // Import sheet classes.
 import WWCharacterSheet from './sheets/actors/character-sheet.mjs';
 import WWNpcSheet from './sheets/actors/npc-sheet.mjs';
+import WWGroupSheet from './sheets/actors/group-sheet.mjs';
 import WWEquipmentSheet from './sheets/items/equipment-sheet.mjs';
 import WWTalentSheet from './sheets/items/talent-sheet.mjs';
 import WWSpellSheet from './sheets/items/spell-sheet.mjs';
@@ -92,8 +94,9 @@ Hooks.once('init', function () {
   CONFIG.ChatMessage.documentClass = WWChatMessage;
 
   // Register Actor and Item data models
-  CONFIG.Actor.dataModels.Character = CharacterModel;
-  CONFIG.Actor.dataModels.NPC = NpcModel;
+  CONFIG.Actor.dataModels.character = CharacterModel;
+  CONFIG.Actor.dataModels.npc = NpcModel;
+  CONFIG.Actor.dataModels.group = GroupModel;
   CONFIG.Item.dataModels.Equipment = EquipmentModel;
   CONFIG.Item.dataModels['Trait or Talent'] = TalentModel;
   CONFIG.Item.dataModels.Spell = SpellModel;
@@ -112,14 +115,19 @@ Hooks.once('init', function () {
   const Actors = foundry.documents.collections.Actors;
 
   Actors.registerSheet('weirdwizard', WWCharacterSheet, {
-    types: ['Character'],
+    types: ['character'],
     makeDefault: true,
     label: 'WW.System.Sheet.Character'
   });
   Actors.registerSheet('weirdwizard', WWNpcSheet, {
-    types: ['NPC'],
+    types: ['npc'],
     makeDefault: true,
     label: 'WW.System.Sheet.NPC'
+  });
+  Actors.registerSheet('weirdwizard', WWGroupSheet, {
+    types: ['group'],
+    makeDefault: true,
+    label: 'WW.System.Sheet.group'
   });
 
   // Register item Sheet classes

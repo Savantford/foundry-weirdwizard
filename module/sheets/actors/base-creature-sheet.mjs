@@ -153,35 +153,35 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
           tab.icon = 'systems/weirdwizard/assets/icons/diploma.svg';
           break;
         case 'details':
-          if (type === 'Character') {
+          if (type === 'character') {
             tab.id = 'details';
             tab.label = 'WW.Actor.Details';
             tab.icon = 'systems/weirdwizard/assets/icons/scroll-quill.svg';
           }
           break;
         case 'equipment':
-          if (type === 'Character') {
+          if (type === 'character') {
             tab.id = 'equipment';
             tab.label = 'WW.Equipment.Label';
             tab.icon = 'systems/weirdwizard/assets/icons/backpack.svg';
           }
           break;
         case 'talents':
-          if (type === 'Character') {
+          if (type === 'character') {
             tab.id = 'talents';
             tab.label = 'WW.Talents.Label';
             tab.icon = 'systems/weirdwizard/assets/icons/skills.svg';
           }
           break;
         case 'spells':
-          if (type === 'Character') {
+          if (type === 'character') {
             tab.id = 'spells';
             tab.label = 'WW.Spells.Label';
             tab.icon = 'systems/weirdwizard/assets/icons/spell-book.svg';
           }
           break;
         case 'description':
-          if (type === 'NPC') {
+          if (type === 'npc') {
             tab.id = 'description';
             tab.label = 'WW.Item.Description';
             tab.icon = 'systems/weirdwizard/assets/icons/scroll-quill.svg';
@@ -326,10 +326,10 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     context.listEntries = listEntries;
 
     // Prepare character data
-    if (actorData.type == 'Character') await this._prepareCharacterData(context);
+    if (actorData.type == 'character') await this._prepareCharacterData(context);
 
     // Prepare NPC data
-    if (actorData.type == 'NPC') await this._prepareNPCData(context);
+    if (actorData.type == 'npc') await this._prepareNPCData(context);
 
     // Add roll data for Prose Mirror editors
     context.rollData = actorData.getRollData();
@@ -496,7 +496,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
           i.system.traitsList = list;
 
           // Prepare name label
-          if (context.actor.type == 'Character') {
+          if (context.actor.type == 'character') {
             i.label = `${i.name} (${i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip])})${(i.system.traitsList ? ' ● ' + i.system.traitsList : '')}`;
           } else i.label = (i.system.traits.range ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + i.name + (i.system.traitsList ? ' ● ' + i.system.traitsList : '');
 
@@ -545,7 +545,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
             weapons.push(i);
 
             // If Character or if item has a Permanent effect, also append to Equipment
-            if (this.actor.type === 'Character' || i.effects.some(e => e.changes.some(c => c.key === "defense.bonus"))) equipment.push(i);
+            if (this.actor.type === 'character' || i.effects.some(e => e.changes.some(c => c.key === "defense.bonus"))) equipment.push(i);
 
           } else {
             equipment.push(i);
@@ -565,7 +565,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       // Append to talents.
       else if (i.type === 'Trait or Talent') {
 
-        if (context.actor.type == 'NPC') {
+        if (context.actor.type == 'npc') {
           switch (i.system.subtype) {
             case 'trait': {
               talents.push(i);
@@ -629,7 +629,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
 
       // Read the current amount of charges from the set max, or to be relative to the actor's level depending on the setting.
       // Only do this if it's a player character, as NPCs and non-characters do not have a level value to be relative to.
-      if (context.actor.type === 'Character') {
+      if (context.actor.type === 'character') {
         const level = context.actor.system.stats.level;
         const half = Math.floor(level / 2) > 0 ? Math.floor(level / 2) : 1;
         let third = 2; 

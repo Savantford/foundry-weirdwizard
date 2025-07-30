@@ -200,7 +200,7 @@ export default class WWToken extends foundry.canvas.placeables.Token {
     } else if (takingInit) {
       texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/reactions.svg');
       tint = this.#ylw;
-    } else if (combatant.actor?.type === 'Character' || (combatant.actor?.type == 'NPC' && dispo === 1)) {
+    } else if (combatant.actor?.type === 'character' || (combatant.actor?.type == 'npc' && dispo === 1)) {
       texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/heart-shield.svg');
       tint = this.#wht;
     }
@@ -219,7 +219,7 @@ export default class WWToken extends foundry.canvas.placeables.Token {
     turnBg.height = iconSize;
     turnBg.width = iconSize;
     turnBg.name = "turnBg";
-    turnBg.tint = combatant.actor?.type == 'NPC' && dispo !== 1 ? this.#wht : this.#blk;
+    turnBg.tint = combatant.actor?.type == 'npc' && dispo !== 1 ? this.#wht : this.#blk;
     
     // Background blur
     const blur = new PIXI.BlurFilter();

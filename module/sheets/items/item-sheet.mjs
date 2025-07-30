@@ -166,9 +166,9 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
 
         // Relative to Level Uses
         context.usesLevelRelative = CONFIG.WW.USES_LEVEL_RELATIVE;
-        context.belongsToNPC = (context.hasActor && this.document?.actor?.type === 'NPC') ? true : false;
+        context.belongsToNPC = (context.hasActor && this.document?.actor?.type === 'npc') ? true : false;
         
-        if (context.hasActor && this.document?.actor?.type === 'Character') {
+        if (context.hasActor && this.document?.actor?.type === 'character') {
           const level = this.document.actor.system.stats.level;
           const half = Math.floor(level / 2) > 0 ? Math.floor(level / 2) : 1;
           let third = 2; 

@@ -1,6 +1,6 @@
 <img class="profile-img" src="{{actor.img}}" data-action="editImage" data-edit="img" data-tooltip="{{{localize "WW.Actor.ProfileMenuTip"}}}"/>
 
-{{#if (eq actor.type 'NPC')}}
+{{#if (eq actor.type 'npc')}}
 {{!-- Health Indicator --}}
 <span class="health-indicator">
   {{~#if dead}}{{localize "WW.Health.Estimation.Dead"}}

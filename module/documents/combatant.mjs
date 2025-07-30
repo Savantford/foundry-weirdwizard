@@ -63,7 +63,7 @@ export default class WWCombatant extends Combatant {
   }
   
   get initiativeBracket() {
-    if ((this.actor?.type == 'Character')) {
+    if ((this.actor?.type == 'character')) {
       if (this.takingInit) return 1000; // Taking the Initiative
       else return 3000; // Allies' regular turn
     } else { // NPCs

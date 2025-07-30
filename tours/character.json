@@ -11,7 +11,7 @@
       "content": "WW.Tour.Character.Intro.Content",
       "actor": {
         "name": "WW.Tour.Character.Actor",
-        "type": "Character",
+        "type": "character",
         "img": "",
         "injured": true,
         "system": {

@@ -34,9 +34,9 @@ export default class WWActor extends WWDocumentMixin(Actor) {
 
     // Assign default Prototype Token values
     await this.updateSource({
-      'prototypeToken.disposition': this.type === 'Character' ? 1 : -1,
-      'prototypeToken.sight.enabled': this.type === 'Character' ? true : false,
-      'prototypeToken.actorLink': this.type === 'Character' ? true : false
+      'prototypeToken.disposition': this.type === 'character' ? 1 : -1,
+      'prototypeToken.sight.enabled': this.type === 'character' ? true : false,
+      'prototypeToken.actorLink': this.type === 'character' ? true : false
     });
 
     return await super._preCreate(data, options, user);
@@ -47,7 +47,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     // Fix Health and Incapacitated
     this.incapacitated = false;
 
-    if (data.type === 'Character') {
+    if (data.type === 'character') {
       
       // Update starting Human ancestry's benefits
       await this.updateCharOptionBenefits('Compendium.weirdwizard.character-options.JournalEntry.pAAZKv2vrilITojZ.JournalEntryPage.GI4b6WkOLlTszbRe', 'creation');
@@ -122,6 +122,9 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     // documents (including active effects) or derived data.
     super.prepareBaseData();
     
+    // Return earlier if a Group
+    if (this.type === 'group') return;
+
     // Create boons variables
     this.system.boons = {
       selfRoll: {
@@ -175,12 +178,15 @@ export default class WWActor extends WWDocumentMixin(Actor) {
   prepareDerivedData() {
     const system = this.system;
     const flags = this.flags.weirdwizard || {};
+
+    // Return earlier if a Group
+    if (this.type === 'group') return this._prepareGroupData(system);;
     
     // Loop through attributes, and add their modifiers calculated with DLE rules to our sheet output.
     for (let [key, attribute] of Object.entries(system.attributes)) {
       if (key != 'luck') attribute.mod = attribute.value - 10;
     }
-    
+
     // Calculate derived Health variables
     this._calculateHealthVariables(system);
 
@@ -230,18 +236,26 @@ export default class WWActor extends WWDocumentMixin(Actor) {
   * Prepare Character type specific data
   */
   _prepareCharacterData(system) {
-    if (this.type !== 'Character') return;
+    if (this.type !== 'character') return;
   }
 
   /**
   * Prepare NPC type specific data.
   */
   _prepareNpcData(system) {
-    if (this.type !== 'NPC') return;
+    if (this.type !== 'npc') return;
 
     // Assign Current Health to Max Damage for Token Bars
     system.stats.damage.max = system.stats.health.current;
 
+  }
+
+  /**
+  * Prepare Character type specific data
+  */
+  _prepareGroupData(system) {
+    if (this.type !== 'group') return;
+    console.log('group data')
   }
 
   /**
@@ -256,6 +270,9 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     const sys = this.system;
     const atts = this.system.attributes;
     const data = {...sys};
+
+    // Return earlier if group
+    if (this.type === 'group') return;
     
     // Attribute Modifiers and Scores
     data.str = {
@@ -733,7 +750,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
       senses: objFilter('senses')
     }
 
-    if (this.type === 'Character') obj.traditions = objFilter('traditions');
+    if (this.type === 'character') obj.traditions = objFilter('traditions');
 
     return obj;
 
@@ -757,7 +774,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
       senses: objFilter('senses')
     }
 
-    if (this.type === 'Character') obj.traditions = objFilter('traditions');
+    if (this.type === 'character') obj.traditions = objFilter('traditions');
 
     return obj;
 
@@ -1036,7 +1053,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     const damage = this.system.stats.damage.value;
 
     let isInjured = damage >= Math.floor(current / 2);
-    if (this.type === 'Character' && health.normal <= 0) isInjured = false;
+    if (this.type === 'character' && health.normal <= 0) isInjured = false;
 
     return isInjured ? true : false;
   }
@@ -1049,7 +1066,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     const health = this.system.stats.health;
     
     let isDead = health.current <= 0;
-    if (this.type === 'Character' && health.normal <= 0) isDead = false;
+    if (this.type === 'character' && health.normal <= 0) isDead = false;
 
     return isDead ? true : false;
   }
@@ -1071,7 +1088,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
      * @memberof ClientDocumentMixin
      */
   static async createDialog(data={}, {parent=null, pack=null, types, ...options}={}) {
-    data.type ??= "NPC";
+    data.type ??= "npc";
     
     const cls = this.implementation;
 
@@ -1150,6 +1167,18 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     });
 
 
+  }
+
+  static migrateData(data) {
+    // Fix uppercase on document types
+    switch (data.type) {
+      case "Character": data.type = "character"; break;
+      case "NPC": data.type = "npc"; break;
+      case "Group": data.type = "group"; break;
+      case "Vehicle": data.type = "vehicle"; break;
+    }
+    
+    return super.migrateData(data);
   }
 
 }

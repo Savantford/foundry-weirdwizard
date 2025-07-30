@@ -233,7 +233,7 @@ async function _cOptsItemsToPages() {
   }
 
   // Embbeded to an Actor in Actors Tab
-  for (const a of game.actors.filter(x => x.type === 'Character')) {
+  for (const a of game.actors.filter(x => x.type === 'character')) {
     
     for (const i of a.items.filter(x => x.type === 'Ancestry' || x.type === 'Path' || x.type === 'Profession')) {
       await _cOptItemToPage({item: i, actor: a, folders: folders});
@@ -247,7 +247,7 @@ async function _cOptsItemsToPages() {
     for (const t of s.tokens) {
       const a = t.actor;
       
-      if (a?.type === 'Character' && a.isToken) {
+      if (a?.type === 'character' && a.isToken) {
         for (const i of a.items.filter(x => x.type === 'Ancestry' || x.type === 'Path' || x.type === 'Profession')) {
           await _cOptItemToPage({item: i, actor: a, folders: folders});
         }
@@ -268,7 +268,7 @@ async function _cOptsItemsToPages() {
     }
 
     // Item embeded in a character in a pack
-    const chars = await p.getDocuments({ type: 'Character' });
+    const chars = await p.getDocuments({ type: 'character' });
     
     for (const a of chars) {
       

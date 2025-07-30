@@ -59,7 +59,7 @@ export default class SpellModel extends BaseItemModel {
   /* The defined destroyed property could then be accessed on any Actor document of the item type as follows:
 
   // Determine if a item is destroyed.
-  game.actors.getName('Character').system.destroyed;
+  game.actors.getName('character').system.destroyed;
   */
 
 }

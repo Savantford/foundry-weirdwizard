@@ -114,7 +114,7 @@
         {{#if section.showDuration}}<div class="effect-duration">{{system.duration.formatted}}</div>{{/if}}
       
         <div class="item-controls effect-controls flexrow">
-          {{#if (or (eq effect.parent.type 'Character') (eq effect.parent.type 'NPC'))}}
+          {{#if (or (eq effect.parent.type 'character') (eq effect.parent.type 'npc'))}}
 
           {{#if (ne section.type 'temporary')}}
           <a class="effect-control" data-action="effectToggle" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Toggle">

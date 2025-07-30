@@ -224,7 +224,7 @@ export default class SageTools extends HandlebarsApplicationMixin(ApplicationV2)
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
    */
   static async #openQuestCalendar(event, target) {
-    target.find('.quest-calendar').click(ev => QuestCalendar.toggleVis('toggle'));
+    QuestCalendar.toggleVis('toggle');
   }
 
   /* -------------------------------------------- */

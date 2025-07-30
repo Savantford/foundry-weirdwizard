@@ -161,7 +161,7 @@ export default class WWChatMessage extends ChatMessage {
         item?.type ?? null,
         item?.subtype ?? null,
         item?.magical ?? null,
-        item?.actor?.type === 'NPC' ? "npc" : null,
+        item?.actor?.type === 'npc' ? "npc" : null,
         this.style === CONST.CHAT_MESSAGE_STYLES.IC ? "ic" : null,
         this.style === CONST.CHAT_MESSAGE_STYLES.EMOTE ? "emote" : null,
         isWhisper ? "whisper" : null,

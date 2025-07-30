@@ -1,4 +1,4 @@
-import WWActorSheet from './actor-sheet.mjs';
+import WWActorSheet from './base-creature-sheet.mjs';
 
 /**
  * Extend the WWActorSheet with some modifications

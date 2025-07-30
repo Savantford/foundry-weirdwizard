@@ -11,7 +11,7 @@
       "content": "WW.Tour.NPC.Sheet.Content",
       "actor": {
         "name": "WW.Tour.NPC.Actor",
-        "type": "NPC",
+        "type": "npc",
         "img": "",
         "system": {
           "attributes": {

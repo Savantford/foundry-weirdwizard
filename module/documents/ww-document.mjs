@@ -118,7 +118,7 @@ export default function WWDocumentMixin(Base) {
           const listEntries = this.system.listEntries;
 
           // Prepare contextual variables
-          if (this.type === 'Character') {
+          if (this.type === 'character') {
             // Prepare subtitle
             if (charOptions.ancestry) context.subtitle = charOptions.ancestry.name;
 

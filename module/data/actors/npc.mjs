@@ -1,4 +1,4 @@
-import BaseActorModel from './base-actor.mjs';
+import BaseActorModel from './base-creature.mjs';
 import { makeIntField, makeUuidStrField } from '../field-presets.mjs';
 
 export default class NpcModel extends BaseActorModel {

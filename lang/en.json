@@ -2,10 +2,10 @@
 
 "USER.GM": "Sage",
 
-"TYPES.Actor.Character": "Player Character",
-"TYPES.Actor.NPC": "NPC",
-"TYPES.Actor.Vehicle": "Vehicle - BROKEN",
-"TYPES.Actor.Group": "Group - BROKEN",
+"TYPES.Actor.character": "Player Character",
+"TYPES.Actor.npc": "NPC",
+"TYPES.Actor.group": "Group",
+"TYPES.Actor.vehicle": "Vehicle - BROKEN",
 
 "WW.Actor.Name": "Actor's Name",
 "WW.Actor.Summary": "Summary",

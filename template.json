@@ -1,27 +1,8 @@
 {
   "Actor": {
-    "types": ["Character", "NPC", "Vehicle", "Group"],
+    "types": ["character", "npc", "group", "vehicle"],
     "templates": {},
-    "htmlFields": [],
-    "Group": {
-      "description": {
-        "full": "",
-        "summary": ""
-      },
-      "members": [],
-      "attributes": {
-        "movement": {
-          "land": 0,
-          "water": 0,
-          "air": 0
-        }
-      },
-      "currency": {
-        "gp": 0,
-        "sp": 0,
-        "cp": 0
-      }
-    }
+    "htmlFields": []
   },
   "Item": {
     "types": ["Equipment", "Trait or Talent", "Spell", "Ancestry", "Profession", "Path"],

@@ -1,5 +1,5 @@
 
-import BaseActorModel from './base-actor.mjs';
+import BaseActorModel from './base-creature.mjs';
 import { makeFloField, makeHtmlField, makeIntField, makeRequiredStrField, makeStrField, makeUuidStrField } from '../field-presets.mjs';
 
 export default class CharacterModel extends BaseActorModel {

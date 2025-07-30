@@ -204,7 +204,7 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
         else if (combat.standby && !acted && combatant !== combat.combatant) turn.controlTooltip = 'WW.Combat.StartTurn.Title';
         
         // Already acted; is a Character: Toggle between regular turn and taking the initiative
-        else if (acted && combatant.actor.type === 'Character') {
+        else if (acted && combatant.actor.type === 'character') {
           if (await combatant.takingInit) turn.controlTooltip = 'WW.Combat.Initiative.ClickTip'
           else turn.controlTooltip = 'WW.Combat.RegularTurn.ClickTip';
         }
@@ -219,7 +219,7 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
       // Push to to turns and respective phase
       turns.push(turn);
       
-      if (turn.type === 'Character') {
+      if (turn.type === 'character') {
         if (turn.takingInit) context.init.push(turn); else context.allies.push(turn);
       } else {
         if (turn.disposition === 1) context.allies.push(turn); else context.enemies.push(turn);
@@ -319,7 +319,7 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
       else if (combat.standby && !acted && combatant !== combat.combatant) combat.startTurn(li, combatant);
       
       // Already acted; is a Character: Toggle between regular turn and taking the initiative
-      else if (acted && combatant.actor.type === 'Character') {
+      else if (acted && combatant.actor.type === 'character') {
         if (await combatant.takingInit) await combatant.takeInit(false); else await combatant.takeInit(true);
       }
 
@@ -414,7 +414,7 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
       icon: '<i><img src="systems/weirdwizard/assets/icons/reactions.svg"></i>',
       condition: li => {
         const combatant = this.viewed.combatants.get(li.data("combatant-id"));
-        return (combatant?.permission >= 2) && (combatant?.actor.type === 'Character') && !combatant?.takingInit && (combatant !== this.viewed.combatant);
+        return (combatant?.permission >= 2) && (combatant?.actor.type === 'character') && !combatant?.takingInit && (combatant !== this.viewed.combatant);
       },
       callback: li => {
         const combatant = this.viewed.combatants.get(li.data("combatant-id"));
@@ -425,7 +425,7 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
       icon: '<i><img src="systems/weirdwizard/assets/icons/actions.svg"></i>',
       condition: li => {
         const combatant = this.viewed.combatants.get(li.data("combatant-id"));
-        return (combatant?.permission >= 2) && (combatant?.actor.type === 'Character') && combatant?.takingInit && (combatant !== this.viewed.combatant);
+        return (combatant?.permission >= 2) && (combatant?.actor.type === 'character') && combatant?.takingInit && (combatant !== this.viewed.combatant);
       },
       callback: li => {
         const combatant = this.viewed.combatants.get(li.data("combatant-id"));
