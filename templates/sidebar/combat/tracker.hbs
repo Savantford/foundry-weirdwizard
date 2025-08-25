@@ -1,65 +1,45 @@
-<ol class="combat-tracker plain {{#if standby}}standby{{/if}} {{!-- directory-list < not needed anymore? --}}">
-    {{#if combat}}
+<section class="combat-tracker plain {{#if standby}}standby{{/if}} {{!-- directory-list < not needed anymore? --}}">
+{{#if combat}}
 
-    {{!-- Taking the Initiative Phase --}}
-    {{#if init.length}}
-    <li
-        class="combat-phase init {{#if (gte acted.init init.length)}}grayed{{else if (lt acted.init init.length)}}highlight{{/if}}">
-        <div><img src="systems/weirdwizard/assets/icons/reactions.svg" /></div>
-    
-        <h4>{{localize "WW.Combat.Phase.Initiative"}}</h4>
-    
-        <div class="count">{{ acted.init }}/{{ init.length }}</div>
-    </li>
-    
-    {{#each init}}
-    {{> "systems/weirdwizard/templates/sidebar/combat/combatant.hbs" this=this standby=standby}}
-    {{/each}}
-    
-    {{/if}}
-    
-    {{!-- Enemies Phase --}}
-    {{#if enemies.length}}
-    <li
-        class="combat-phase enemies {{#if (gte acted.enemies enemies.length)}}grayed{{else if (gte acted.init init.length)}}highlight{{/if}}">
-        <div><img src="systems/weirdwizard/assets/icons/skull-shield.svg" /></div>
-    
-        <h4>{{localize "WW.Combat.Phase.Enemies"}}</h4>
-    
-        <div class="count">{{ acted.enemies }}/{{ enemies.length }}</div>
-    </li>
-    
-    {{#each enemies}}
-    {{> "systems/weirdwizard/templates/sidebar/combat/combatant.hbs" this=this standby=standby}}
-    {{/each}}
-    
-    {{/if}}
-    
-    {{!-- Allies Phase --}}
-    {{#if allies.length}}
-    <li
-        class="combat-phase allies {{#if (gte acted.allies allies.length)}}grayed{{else if (gte acted.enemies enemies.length)}}highlight{{/if}}">
-        <div><img src="systems/weirdwizard/assets/icons/heart-shield.svg" /></div>
-    
-        <h4>{{localize "WW.Combat.Phase.Allies"}}</h4>
-    
-        <div class="count">{{ acted.allies }}/{{ allies.length }}</div>
-    </li>
-    
-    {{#each allies}}
-    {{> "systems/weirdwizard/templates/sidebar/combat/combatant.hbs" this=this standby=standby}}
-    {{/each}}
-    
-    {{/if}}
-    
-    {{!-- End of the Round Phase --}}
-    <li class="combat-phase end {{#if (gte acted.allies allies.length)}}highlight{{/if}}">
-        <div><img src="systems/weirdwizard/assets/icons/duration.svg" /></div>
-    
-        <h4>{{localize "WW.Combat.Phase.End"}}</h4>
-    
-        <div class="count">{{ end.length }}</div>
+  {{!-- Phases --}}
+  {{#each phases as |phase phaseKey|}}
+  <ol class="combat-phase {{ phaseKey }}">
+    {{!-- Phase Header --}}
+    <li class="combat-phase-header {{#if (gte phase.actedCount phase.turns.length)}}grayed{{else if (lt phase.actedCount phase.turns.length)}}highlight{{/if}}">
+  
+      <div><img src="{{ phase.icon }}" /></div>
+  
+      <h4>{{localize phase.label}}</h4>
+  
+      <div class="count">{{ phase.actedCount }}/{{ phase.turns.length }}</div>
     </li>
 
-    {{/if}} {{!-- END If Combat --}}
-</ol>
+    {{!-- Phase Turns Setup --}}
+    {{#each phase.turns}}
+  
+    {{#if isGroup}}
+      {{!-- Combatant Group --}}
+      {{> "systems/weirdwizard/templates/sidebar/combat/combatant-group.hbs" this=this standby=standby}}
+    {{else}}
+      {{!-- Single Combatant --}}
+      {{> "systems/weirdwizard/templates/sidebar/combat/combatant.hbs" this=this standby=standby}}
+    {{/if}}
+  
+    {{/each}} {{!-- END Phase Turns Setup --}}
+  </ol>
+  {{/each}} {{!-- END Phases --}}
+  
+  {{!-- End of the Round Phase --}}
+  <ol class="combat-phase end">
+    <li class="combat-phase-header {{#if (gte acted.allies phases.allies.turns.length)}}highlight{{/if}}">
+      <div><img src="systems/weirdwizard/assets/icons/duration.svg" /></div>
+    
+      <h4>{{localize "WW.Combat.Phase.End"}}</h4>
+    
+      <div class="count">{{ end.length }}</div>
+    </li>
+  </ol>
+  
+  
+{{/if}} {{!-- END If Combat --}}
+</section>

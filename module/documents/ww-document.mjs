@@ -11,6 +11,32 @@ export default function WWDocumentMixin(Base) {
   class WWBaseDocument extends Base {
 
     /* -------------------------------------------- */
+    /*  Data Preparation                            */
+    /* -------------------------------------------- */
+
+    /** @inheritdoc */
+    static migrateData(data) {
+
+      // 6.2.0 subtype migrations - Thanks Draw Steel for the inspiration
+      if (['Character', 'NPC', 'Group', 'Vehicle', 'Equipment', 'Trait or Talent', 'Spell'].includes(data.type)) {
+
+        switch (data.type) {
+          case "Character": data.type = "character"; break;
+          case "NPC": data.type = "npc"; break;
+          case "Group": data.type = "group"; break;
+          case "Vehicle": data.type = "vehicle"; break;
+          case "Equipment": data.type = "equipment"; break;
+          case "Trait or Talent": data.type = "talent"; break;
+          case "Spell": data.type = "spell"; break;
+        }
+
+        foundry.utils.setProperty(data, "flags.weirdwizard.migrateType", true);
+      }
+
+      return super.migrateData(data);
+    }
+
+    /* -------------------------------------------- */
     /*  Enrichment                                  */
     /* -------------------------------------------- */
 

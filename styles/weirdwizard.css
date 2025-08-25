@@ -5176,8 +5176,14 @@ form.quest-calendar {
 /*  Combat Tracker                              */
 /* -------------------------------------------- */
 
-/* Combat Tracker: Phase Headers */
 .combat-phase {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Combat Tracker: Phase Headers */
+.combat-phase-header {
   border-image: url(../assets/ui/headers/pointed-double-purple-dark.svg);
   border-image-slice: 15 15 fill;
   border-image-width: 20px;
@@ -5191,29 +5197,29 @@ form.quest-calendar {
   gap: 5px;
 }
 
-.combat-phase.highlight {
+.combat-phase-header.highlight {
   filter: drop-shadow(0 0 2px white);
 }
 
-.combat-phase > * {
+.combat-phase-header > * {
   filter: drop-shadow(0 0 3px black);
 }
 
-.combat-phase h4 {
+.combat-phase-header h4 {
   font-family: var(--font-capitalized);
   font-size: var(--font-size-18);
   margin: 0;
 }
 
-.combat-phase :not(h4) {
+.combat-phase-header :not(h4) {
   width: 5ch;
 }
 
-.combat-phase.grayed :not(h4) {
+.combat-phase-header.grayed :not(h4) {
   filter: brightness(0) saturate(100%) invert(49%) sepia(0%) saturate(1191%) hue-rotate(161deg) brightness(88%) contrast(87%);
 }
 
-.combat-phase img {
+.combat-phase-header img {
   height: 100%;
   width: 25px;
   margin: -2px 0;
@@ -5224,6 +5230,42 @@ form.quest-calendar {
 .combat-sidebar .combatant.acted {
   color: #707070;
 }
+
+/* Combat Tracker: Combatant Groups */
+.combat-sidebar .combat-tracker .combatant-group {
+  margin: 0;
+}
+
+.combat-sidebar .combat-tracker .combatant-group .group-header {
+  display: flex;
+  align-items: center;
+  gap: var(--element-spacing);
+  padding: var(--element-spacing);
+  margin: 0;
+  cursor: var(--cursor-pointer);
+  border-radius: 4px;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-14);
+}
+
+.combat-sidebar .combat-tracker .combatant-group.hover .group-header,
+.combat-sidebar .combat-tracker .combatant-group:hover .group-header {
+  background: var(--entry-hover-bg, rgba(255, 255, 255, 0.1));
+}
+
+.combat-sidebar .combat-tracker .combatant-group .group-turns {
+  padding: 0;
+  border-left: 5px solid var(--purple-dark);
+}
+
+.combat-sidebar .combat-tracker .combatant-group.expanded .group-turns {
+  display: none;
+}
+
+.combat-sidebar .combat-tracker .combatant-group .combatant:not(:hover) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
 
 /* Combat Tracker: Turn Control Button */
 .combat-sidebar .combatant .turn-control {
@@ -5304,6 +5346,28 @@ form.quest-calendar {
 .combatant.acted.injured .resource,
 .combatant.acted.injured .token-name h4 {
   color: #880000;
+}
+
+/* Combat Tracker: Combatant Group Config */
+.combatant-group-config {
+  gap: 0;
+}
+
+.combatant-group-config .window-content {
+  gap: 1rem;
+}
+
+.combatant-group-config header.img-name {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  flex-basis: 64px;
+}
+
+.combatant-group-config header.img-name img {
+  height: 64px;
+  flex: 0 0 64px;
+  object-fit: contain;
 }
 
 /* Tokens */

@@ -1,3 +1,6 @@
+import WWCombatant from "../documents/combatant.mjs";
+import WWCombatantGroup from "../documents/combatant-group.mjs";
+
 /**
  * An Application that manages switching between Combats and tracking the Combatants in those Combats.
  * @extends {AbstractSidebarTab}
@@ -11,11 +14,11 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
       title: "COMBAT.SidebarTitle"
     },
     actions: {
+      toggleGroupExpand: this.#toggleGroupExpand,
       //activateCombatant: this.#onCombatantMouseDown,
       //trackerSettings: this.#onConfigure
     }
   };
-
   
   /** @override */
   static tabName = "combat";
@@ -28,7 +31,8 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
     tracker: {
       template: "systems/weirdwizard/templates/sidebar/combat/tracker.hbs",
       templates: [
-        "systems/weirdwizard/templates/sidebar/combat/combatant.hbs"
+        "systems/weirdwizard/templates/sidebar/combat/combatant.hbs",
+        "systems/weirdwizard/templates/sidebar/combat/combatant-group.hbs"
       ]
     },
     footer: {
@@ -40,57 +44,10 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
   /*  Rendering                                   */
   /* -------------------------------------------- */
 
-  /**
-   * Format a tooltip for displaying overflowing effects.
-   * @param {{ img: string, name: string }[]} effects  The effect names and icons.
-   * @returns {string}
-   * @protected
-   */
-  _formatEffectsTooltip(effects) { // maybe modify
-    if ( !effects.length ) return "";
-    const ul = document.createElement("ul");
-    ul.classList.add("effects-tooltip", "plain");
-    for ( const effect of effects ) {
-      const img = document.createElement("img");
-      img.src = effect.img;
-      img.alt = effect.name;
-      const span = document.createElement("span");
-      span.textContent = effect.name;
-      const li = document.createElement("li");
-      li.append(img, span);
-      ul.append(li);
-    }
-    return ul.outerHTML;
-  }
-
-  /* -------------------------------------------- */
-
-  /** @inheritDoc */
-  async _onFirstRender(context, options) {
-    await super._onFirstRender(context, options);
-    if ( !this.isPopout ) game.combats.apps.push(this);
-
-    // Combatant context menu
-    /** @fires {hookEvents:getCombatantContextOptions} */
-    this._createContextMenu(this._getEntryContextOptions, ".combatant", {fixed: true});
-
-    // Combat controls menu
-    if ( game.user.isGM ) {
-      /** @fires {hookEvents:getCombatContextOptions} */
-      this._createContextMenu(this._getCombatContextOptions, ".encounter-context-menu", {
-        eventName: "click",
-        fixed: true,
-        hookName: "getCombatContextOptions",
-        parentClassHooks: false
-      });
-    }
-  }
-
-  /* -------------------------------------------- */
-
   /** @inheritDoc */
   async _preparePartContext(partId, context, options) {
     context = await super._preparePartContext(partId, context, options);
+    
     switch ( partId ) {
       case "footer": case "header": await this._prepareCombatContext(context, options); break;
       case "tracker": await this._prepareTrackerContext(context, options); break;
@@ -158,32 +115,48 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
     if ( !combat ) return;
     let hasDecimals = false;
     const turns = context.turns = [];
-    context.init = [];
-    context.enemies = [];
-    context.allies = [];
 
-    for ( const [i, combatant] of combat.turns.entries() ) {
-      if ( !combatant.visible ) continue;
-      const turn = await this._prepareTurnContext(combat, combatant, i);
-      if ( turn.hasDecimals ) hasDecimals = true;
+    // Prepare phases object
+    const phases = {
+      init: {
+        label: "WW.Combat.Phase.Initiative",
+        icon: "systems/weirdwizard/assets/icons/reactions.svg",
+        actedCount: 0,
+        turns: []
+      },
+      enemies: {
+        label: "WW.Combat.Phase.Enemies",
+        icon: "systems/weirdwizard/assets/icons/skull-shield.svg",
+        actedCount: 0,
+        turns: []
+      },
+      allies: {
+        label: "WW.Combat.Phase.Allies",
+        icon: "systems/weirdwizard/assets/icons/heart-shield.svg",
+        actedCount: 0,
+        turns: []
+      }
+    }
+    
+    // Push Combatants and Groups to Turns
+    for ( const [i, turn] of combat.turns.entries() ) {
+      if ( !turn.visible ) continue;
+      if ( turn.group ) continue;
+      const preparedTurn = await this._prepareTurnContext(combat, turn, i);
+      if ( preparedTurn.hasDecimals ) hasDecimals = true;
 
       // Push to to turns and respective phase
-      turns.push(turn);
-      
-      if (turn.type === 'character') {
-        if (turn.takingInit) context.init.push(turn); else context.allies.push(turn);
-      } else {
-        if (turn.disposition === 1) context.allies.push(turn); else context.enemies.push(turn);
-      }
+      turns.push(preparedTurn);
+      phases[turn.phase].turns.push(preparedTurn);
     }
 
     // Count creatures acted per phase
-    context.acted = { init: 0, enemies: 0, allies: 0 };
+    phases.init.turns.forEach(t => { if (t.acted) phases.init.actedCount += 1 });
+    phases.enemies.turns.forEach(t => { if (t.acted) phases.enemies.actedCount += 1 });
+    phases.allies.turns.forEach(t => { if (t.acted) phases.allies.actedCount += 1 });
 
-    context.init.forEach(t => { if (t.acted) context.acted.init += 1 });
-    context.enemies.forEach(t => { if (t.acted) context.acted.enemies += 1 });
-    context.allies.forEach(t => { if (t.acted) context.acted.allies += 1 });
-
+    context.phases = phases;
+    
     // Format initiative numeric precision.
     const precision = CONFIG.Combat.initiative.decimals;
     turns.forEach(t => {
@@ -203,77 +176,173 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
   /* -------------------------------------------- */
 
   /**
-   * Prepare render context for a single entry in the combat tracker.
+   * Prepare render context for a single turn entry in the combat tracker.
    * @param {Combat} combat        The active combat.
-   * @param {Combatant} combatant  The Combatant whose turn is being prepared.
+   * @param {Combatant || CombatantGroup} entry  The Combatant whose turn is being prepared.
    * @param {number} index         The index of this entry in the turn order.
    * @returns {Promise<object>}
    * @protected
    */
-  async _prepareTurnContext(combat, combatant, index) {
-    const { id, name, isOwner, isDefeated, hidden, initiative, permission, acted, injured, takingInit } = combatant;
-    const resource = permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER ? combatant.resource : null;
-    const resourceMax = combatant.permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER ? combatant.resourceMax : null;
+  async _prepareTurnContext(combat, entry, index) {
+    const { id, name, isOwner, isDefeated, hidden, initiative, permission, acted, injured, takingInit, phase, _expanded } = entry;
     const hasDecimals = Number.isFinite(initiative) && !Number.isInteger(initiative);
+    const isGroup = entry.documentName === 'CombatantGroup' ? true : false;
     
     const turn = {
-      hasDecimals, hidden, id, isDefeated, initiative, isOwner, name, resource, resourceMax,
+      hasDecimals, hidden, id, isDefeated, initiative, isOwner, name, phase,
+      isGroup: isGroup,
       active: index === combat.turn,
-      acted: combatant.acted,
-      canPing: (combatant.sceneId === canvas.scene?.id) && game.user.hasPermission("PING_CANVAS"),
-      img: await this._getCombatantThumbnail(combatant)
+      canPing: (entry.sceneId === canvas.scene?.id) && game.user.hasPermission("PING_CANVAS"),
+      img: await this._getCombatantThumbnail(entry)
     };
 
     // Turn CSS classes
     turn.css = [
-      combatant.actor?.type === 'character' ? 'character' : null,
+      entry.actor?.type === 'character' ? 'character' : null,
       turn.active ? "active" : null,
       hidden ? "hide" : null,
       acted ? 'acted' : null,
       takingInit ? 'taking-init' : null,
       isDefeated ? "defeated" : null,
       injured ? 'injured' : null,
-      permission >= 2 ? "has-perms" : null
+      permission >= 2 ? "has-perms" : null,
+      _expanded ? "expanded" : null
     ].filterJoin(" ");
 
-    // Effects icons
-    const effects = [];
+    if (isGroup) {
+      // Assign Combatant Group specific context
+      Object.assign(turn, {
+        isGroup: isGroup,
+        groupTurns: [],
+        numMembers: entry.members.size,
+        numActed: entry.numActed,
+        numDefeated: entry.numDefeated
+      })
 
-    for ( const effect of combatant.actor?.temporaryEffects ?? [] ) {
-      if ( effect.statuses.has(CONFIG.specialStatusEffects.DEFEATED) ) turn.isDefeated = true;
-      else if ( effect.img ) effects.push({ img: effect.img, name: effect.name });
-    }
+      // Prepare member Combatant turns
+      for ( const [i, member] of entry.members.entries() ) {
+        if ( !member.visible ) continue;
+        const groupTurn = await this._prepareTurnContext(combat, member, i);
+        if ( groupTurn.hasDecimals ) hasDecimals = true;
+        
+        // Push to to turns and respective phase
+        turn.groupTurns.push(groupTurn);
+      }
+    
+    } else {
+      // Assign Combatant specific context
+      const resource = permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER ? entry.resource : null;
+      const resourceMax = entry.permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER ? entry.resourceMax : null;
 
-    turn.effects = {
-      icons: effects,
-      tooltip: this._formatEffectsTooltip(effects)
-    };
+      Object.assign(turn, {
+        resource, resourceMax,
+        acted: entry.acted,
+        canPing: (entry.sceneId === canvas.scene?.id) && game.user.hasPermission("PING_CANVAS")
+      })
 
-    // Prepare Turn Control tooltip
-    if (combatant.permission >= 2) { // Check if user has permission
+      // Effects icons
+      const effects = [];
 
-      // Default
-      turn.controlTooltip = 'WW.Combat.Standby';
-
-      // Combat NOT in standby; NOT acted; is current turn: End turn
-      if (!combat.standby && !acted && combatant === combat.combatant) turn.controlTooltip = 'WW.Combat.EndTurn';
-
-      // Combat in standby; Combatant has not acted; NOT current turn: Start a turn
-      else if (combat.standby && !acted && combatant !== combat.combatant) turn.controlTooltip = 'WW.Combat.StartTurn.Title';
-
-      // Already acted; is a Character: Toggle between regular turn and taking the initiative
-      else if (acted && combatant.actor.type === 'character') {
-        if (await combatant.takingInit) turn.controlTooltip = 'WW.Combat.Initiative.ClickTip'
-        else turn.controlTooltip = 'WW.Combat.RegularTurn.ClickTip';
+      for ( const effect of entry.actor?.temporaryEffects ?? [] ) {
+        if ( effect.statuses.has(CONFIG.specialStatusEffects.DEFEATED) ) turn.isDefeated = true;
+        else if ( effect.img ) effects.push({ img: effect.img, name: effect.name });
       }
 
-      // Combatant already acted
-      else if (acted) turn.controlTooltip = 'WW.Combat.ResetTurn.Title';
+      turn.effects = {
+        icons: effects,
+        tooltip: this._formatEffectsTooltip(effects)
+      };
 
-      // User has no permission over the combatant
-    } else turn.controlTooltip = 'WW.Combat.NoPermission';
+      // Prepare Turn Control tooltip
+      if (entry.permission >= 2) { // Check if user has permission
+        // Default
+        turn.controlTooltip = 'WW.Combat.Standby';
+
+        // Combat NOT in standby; NOT acted; is current turn: End turn
+        if (!combat.standby && !acted && entry === combat.combatant) turn.controlTooltip = 'WW.Combat.EndTurn';
+
+        // Combat in standby; Combatant has not acted; NOT current turn: Start a turn
+        else if (combat.standby && !acted && entry !== combat.combatant) turn.controlTooltip = 'WW.Combat.StartTurn.Title';
+
+        // Already acted; is a Character: Toggle between regular turn and taking the initiative
+        else if (acted && entry.actor.type === 'character') {
+          if (await entry.takingInit) turn.controlTooltip = 'WW.Combat.Initiative.ClickTip'
+          else turn.controlTooltip = 'WW.Combat.RegularTurn.ClickTip';
+        }
+
+        // Combatant already acted
+        else if (acted) turn.controlTooltip = 'WW.Combat.ResetTurn.Title';
+
+        // User has no permission over the combatant
+      } else turn.controlTooltip = 'WW.Combat.NoPermission';
+    }
+    
 
     return turn;
+  }
+
+  /* -------------------------------------------- */
+  
+  /** @inheritdoc */
+  async _onRender(context, options) {
+    await super._onRender(context, options);
+
+    // Initiate dragDrop
+    new foundry.applications.ux.DragDrop.implementation({
+      dragSelector: ".combatant",
+      dropSelector: ".combatant-group, .combat-tracker",
+      permissions: {
+        dragstart: () => game.user.isGM,
+        drop: () => game.user.isGM,
+      },
+      callbacks: {
+        dragstart: this._onDragStart.bind(this),
+        dragover: this._onDragOver.bind(this),
+        drop: this._onDrop.bind(this),
+      },
+    }).bind(this.element);
+
+    // Initiate dragDrop
+    new foundry.applications.ux.DragDrop.implementation({
+      dragSelector: ".combatant-group",
+      dropSelector: ".combatant-group, .combatant",
+      permissions: {
+        dragstart: () => game.user.isGM,
+        drop: () => game.user.isGM,
+      },
+      callbacks: {
+        dragstart: this._onDragStart.bind(this),
+        dragover: this._onDragOver.bind(this),
+        drop: this._onDrop.bind(this),
+      },
+    }).bind(this.element);
+  }
+
+  /* -------------------------------------------- */
+
+  /** @inheritDoc */
+  async _onFirstRender(context, options) {
+    await super._onFirstRender(context, options);
+    if ( !this.isPopout ) game.combats.apps.push(this);
+
+    // Combatant context menu
+    /** @fires {hookEvents:getCombatantContextOptions} */
+    this._createContextMenu(this._getEntryContextOptions, ".combatant", {fixed: true});
+
+    // Combatant Group context menu
+    /** @fires {hookEvents:getCombatantContextOptions} */
+    this._createContextMenu(this._getGroupContextOptions, ".combatant-group", {fixed: true});
+
+    // Combat controls menu
+    if ( game.user.isGM ) {
+      /** @fires {hookEvents:getCombatContextOptions} */
+      this._createContextMenu(this._getCombatContextOptions, ".encounter-context-menu", {
+        eventName: "click",
+        fixed: true,
+        hookName: "getCombatContextOptions",
+        parentClassHooks: false
+      });
+    }
   }
 
   /* -------------------------------------------- */
@@ -411,22 +480,114 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
    * @protected
    */
   _getCombatContextOptions() {
-    return [{
-      name: "WW.Combat.AddGroup",
-      icon: '<i class="fa-solid fa-user-plus"></i>',
-      condition: () => game.user.isGM && !!this.viewed,
-      callback: () => this.viewed.addGroup()
-    }, {
-      name: "COMBAT.ClearMovementHistories",
-      icon: '<i class="fa-solid fa-shoe-prints"></i>',
-      condition: () => game.user.isGM && (this.viewed?.combatants.size > 0),
-      callback: () => this.viewed.clearMovementHistories()
-    }, {
-      name: "COMBAT.Delete",
-      icon: '<i class="fa-solid fa-trash"></i>',
-      condition: () => game.user.isGM && !!this.viewed,
-      callback: () => this.viewed.endCombat()
-    }];
+    return [
+      {
+        name: game.i18n.format("DOCUMENT.Create", { type: game.i18n.localize("DOCUMENT.CombatantGroup") }),
+        icon: '<i class="fa-solid fa-users-rectangle"></i>',
+        callback: () => WWCombatantGroup.createDialog({}, { parent: this.viewed }),
+      }, {
+        name: "WW.Combat.AddGroup",
+        icon: '<i class="fa-solid fa-user-plus"></i>',
+        condition: () => game.user.isGM && !!this.viewed,
+        callback: () => this.viewed.addGroup()
+      }, {
+        name: "COMBAT.ClearMovementHistories",
+        icon: '<i class="fa-solid fa-shoe-prints"></i>',
+        condition: () => game.user.isGM && (this.viewed?.combatants.size > 0),
+        callback: () => this.viewed.clearMovementHistories()
+      }, {
+        name: "COMBAT.Delete",
+        icon: '<i class="fa-solid fa-trash"></i>',
+        condition: () => game.user.isGM && !!this.viewed,
+        callback: () => this.viewed.endCombat()
+      }
+    ];
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Get the context menu entries for Combatant Groups in the tracker.
+   * Only available to game masters.
+   * @returns {ContextMenuEntry[]}
+   */
+  _getGroupContextOptions() {
+    /** @type {(li: HTMLElement) => WWCombatantGroup} */
+    const getCombatantGroup = li => this.viewed.groups.get(li.dataset.groupId);
+    return [
+      {
+        name: game.i18n.format("DOCUMENT.Update", { type: game.i18n.localize("DOCUMENT.CombatantGroup") }),
+        icon: "<i class=\"fa-solid fa-edit\"></i>",
+        condition: li => getCombatantGroup(li).isOwner,
+        callback: li => getCombatantGroup(li)?.sheet.render({
+          force: true,
+          position: {
+            top: Math.min(li.offsetTop, window.innerHeight - 350),
+            left: window.innerWidth - 720,
+          },
+        }),
+      },
+      {
+        name: "DRAW_STEEL.CombatantGroup.ResetSquadHP",
+        icon: "<i class=\"fa-solid fa-rotate\"></i>",
+        condition: li => {
+          const group = getCombatantGroup(li);
+          return ((group.type === "squad") && group.isOwner);
+        },
+        callback: li => {
+          const group = getCombatantGroup(li);
+          group.update({ "system.staminaValue": group.system.staminaMax });
+        },
+      },
+      {
+        name: "COMBAT.ClearMovementHistories",
+        icon: "<i class=\"fa-solid fa-shoe-prints\"></i>",
+        condition: li => game.user.isGM,
+        callback: li => getCombatantGroup(li).clearMovementHistories(),
+      },
+      {
+        name: game.i18n.format("DOCUMENT.Delete", { type: game.i18n.localize("DOCUMENT.CombatantGroup") }),
+        icon: "<i class=\"fa-solid fa-trash\"></i>",
+        condition: li => game.user.isGM,
+        callback: li => getCombatantGroup(li).delete(),
+      },
+      {
+        name: "OWNERSHIP.Configure",
+        icon: "<i class=\"fa-solid fa-lock\"></i>",
+        condition: game.user.isGM,
+        callback: li => new foundry.applications.apps.DocumentOwnershipConfig({
+          document: getCombatantGroup(li),
+          position: {
+            top: Math.min(li.offsetTop, window.innerHeight - 350),
+            left: window.innerWidth - 720,
+          },
+        }).render({ force: true }),
+      },
+    ];
+  }
+
+  /* -------------------------------------------------- */
+  /*   Actions                                          */
+  /* -------------------------------------------------- */
+
+  /**
+   * Toggle a Combatant Group
+   * @this DrawSteelCombatTracker
+   * @param {PointerEvent} event The triggering event.
+   * @param {HTMLElement} target The action target element.
+   */
+  static async #toggleGroupExpand(event, target) {
+    // Don't proceed if the click event was actually on one of the combatants
+    const entry = event.target.closest("[data-combatant-id]");
+    if (entry) return;
+
+    const combat = this.viewed;
+    const group = combat.groups.get(target.dataset.groupId);
+
+    group._expanded = !group._expanded;
+    
+    // Main sidebar renders are automatically propagated to popouts
+    await ui.combat.render();
   }
 
   /* -------------------------------------------- */
@@ -439,70 +600,6 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
     try { await combat[target.dataset.action]?.(); }
     finally { target.disabled = false; }
   }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Cycle to a different combat encounter in the tracker.
-   * @this {CombatTracker}
-   * @param {...any} args
-   */
-  static #onCombatCycle(...args) {
-    return this._onCombatCycle(...args);
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Cycle to a different combat encounter in the tracker.
-   * @param {PointerEvent} event  The triggering event.
-   * @param {HTMLElement} target  The action target element.
-   * @protected
-   */
-  _onCombatCycle(event, target) {
-    const { combatId } = target.dataset;
-    return game.combats.get(combatId)?.activate({ render: false });
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Create a new combat.
-   * @this {CombatTracker}
-   * @param {...any} args
-   * @returns {Promise<void>}
-   */
-  static #onCombatCreate(...args) {
-    return this._onCombatCreate(...args);
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Create a new combat.
-   * @param {PointerEvent} event  The triggering event.
-   * @param {HTMLElement} target  The action target element.
-   * @returns {Promise<void>}
-   * @protected
-   */
-  async _onCombatCreate(event, target) {
-    const combat = await Combat.implementation.create();
-    combat.activate({ render: false });
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Spawn the combat tracker settings dialog.
-   * @this {CombatTracker}
-   * @param {PointerEvent} event  The triggering event.
-   * @param {HTMLElement} target  The action target element.
-   */
-  static #onConfigure(event, target) {
-    return new foundry.applications.apps.CombatTrackerConfig().render({ force: true });
-  }
-
-  /* -------------------------------------------- */
 
   /**
    * Handle performing some action for an individual combatant.
@@ -534,36 +631,6 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
       case "toggleHidden": return this._onToggleHidden(combatant);
     }
   }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Handle hovering over a combatant in the tracker.
-   * @param {PointerEvent} event  The triggering event.
-   * @protected
-   */
-  /*_onCombatantHoverIn(event) {
-    const { combatantId } = event.target.closest(".combatant[data-combatant-id]")?.dataset ?? {};
-    if ( !canvas.ready || !combatantId ) return;
-    const combatant = this.viewed.combatants.get(combatantId);
-    const token = combatant.token?.object;
-    if ( token && token._canHover(game.user, event) && this._isTokenVisible(token) ) {
-      token._onHoverIn(event, { hoverOutOthers: true });
-      this.#highlighted = token;
-    }
-  }*/
-
-  /* -------------------------------------------- */
-
-  /**
-   * Handle hovering out a combatant in the tracker.
-   * @param {PointerEvent} event  The triggering event.
-   * @protected
-   */
-  /*_onCombatantHoverOut(event) {
-    this.#highlighted?._onHoverOut(event);
-    this.#highlighted = null;
-  }*/
 
   /* -------------------------------------------- */
 
@@ -600,158 +667,67 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
   }
 
   /* -------------------------------------------- */
-
-  /**
-   * Handle panning to a combatant's token.
-   * @param {Combatant} combatant  The combatant.
-   * @protected
-   */
-  _onPanToCombatant(combatant) {
-    if ( !canvas.ready || (combatant.sceneId !== canvas.scene.id) ) return;
-    const token = combatant.token?.object;
-    if ( !token || !this._isTokenVisible(token) ) {
-      ui.notifications.warn("COMBAT.WarnNonVisibleToken", { localize: true });
-      return;
-    }
-    const { x, y } = token.center;
-    return canvas.animatePan({ x, y, scale: Math.max(canvas.stage.scale.x, canvas.dimensions.scale.default) });
-  }
-
+  /*  Drag & Drop                                 */
   /* -------------------------------------------- */
 
   /**
-   * Handle pinging a combatant's token.
-   * @param {Combatant} combatant  The combatant.
-   * @protected
-   */
-  _onPingCombatant(combatant) {
-    if ( !canvas.ready || (combatant.sceneId !== canvas.scene.id) ) return;
-    const token = combatant.token?.object;
-    if ( !token || !this._isTokenVisible(token) ) {
-      ui.notifications.warn("COMBAT.WarnNonVisibleToken", { localize: true });
-      return;
-    }
-    return canvas.ping(token.center);
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Handle rolling initiative for a single combatant.
-   * @param {Combatant} combatant  The combatant.
-   * @protected
-   */
-  _onRollInitiative(combatant) {
-    return this.viewed.rollInitiative([combatant.id]);
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Handle toggling the defeated status effect on a combatant token.
-   * @param {Combatant} combatant  The combatant.
+   * An event that occurs when a drag workflow begins for a draggable combatant on the combat tracker.
+   * @param {DragEvent} event       The initiating drag start event
    * @returns {Promise<void>}
    * @protected
    */
-  async _onToggleDefeatedStatus(combatant) {
-    const isDefeated = !combatant.isDefeated;
-    await combatant.update({ defeated: isDefeated });
-    const defeatedId = CONFIG.specialStatusEffects.DEFEATED;
-    await combatant.actor?.toggleStatusEffect(defeatedId, { overlay: true, active: isDefeated });
+  async _onDragStart(event) {
+    const li = event.currentTarget;
+    const combatant = this.viewed.combatants.get(li.dataset.combatantId);
+    if (!combatant) return;
+    const dragData = combatant.toDragData();
+    event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
   }
 
-  /* -------------------------------------------- */
+  /* -------------------------------------------------- */
 
   /**
-   * Toggle a combatant's hidden state in the tracker.
-   * @param {Combatant} combatant  The combatant.
+   * An event that occurs when a drag workflow moves over a drop target.
+   * @param {DragEvent} event
    * @protected
    */
-  _onToggleHidden(combatant) {
-    return combatant.update({ hidden: !combatant.hidden });
+  _onDragOver(event) {
+    // TODO: Highlight the drop target?
+    // console.debug(this, event);
   }
 
-  /* -------------------------------------------- */
+  /* -------------------------------------------------- */
 
   /**
-   * The CombatTracker application is not a <form> element by default, but it does handle specific input events.
-   * @param {Event} event  The triggering change event.
+   * An event that occurs when data is dropped into a drop target.
+   * @param {DragEvent} event
+   * @returns {Promise<void>}
    * @protected
    */
-  _onChangeInput(event) {
-    const input = event.target;
-    if ( input.classList.contains("initiative-input") ) {
-      return this._onUpdateInitiative(event);
+  async _onDrop(event) {
+    // Combat Tracker contains combatant groups, which means this would fire twice
+    event.stopPropagation();
+    const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
+    /** @type {WWCombatant} */
+    const combatant = await WWCombatant.fromDropData(data);
+    /** @type {HTMLLIElement | null} */
+    const groupLI = event.target.closest(".combatant-group");
+    if (groupLI) {
+      /** @type {WWCombatantGroup} */
+      const group = this.viewed.groups.get(groupLI.dataset.groupId);
+      if (group.system.captain && !combatant.actor?.isMinion) {
+        ui.notifications.error("DRAW_STEEL.CombatantGroup.Error.SquadOneCaptain", { localize: true });
+      }
+      else if ((combatant.actor?.isMinion && (group.type !== "squad"))) {
+        ui.notifications.error("DRAW_STEEL.CombatantGroup.Error.MinionMustSquad", { localize: true });
+      }
+      else {
+        combatant.update({ group });
+      }
+    }
+    else {
+      combatant.update({ group: null });
     }
   }
 
-  /* -------------------------------------------- */
-
-  /**
-   * Handle updating a combatant's initiative in-sheet.
-   * @param {Event} event  The triggering change event.
-   * @protected
-   */
-  _onUpdateInitiative(event) {
-    const { combatantId } = event.target.closest("[data-combatant-id]")?.dataset ?? {};
-    const combatant = this.viewed.combatants.get(combatantId);
-    if ( !combatant ) return;
-    const raw = event.target.value;
-    const isDelta = /^[+-]/.test(raw);
-    if ( !isDelta || (raw[0] === "=") ) {
-      return combatant.update({ initiative: raw ? Number(raw.replace(/^=/, "")) : null });
-    }
-    const delta = parseInt(raw);
-    if ( !isNaN(delta) ) return combatant.update({ initiative: combatant.initiative + delta });
-  }
-
-  /* -------------------------------------------- */
-  /*  Public API                                  */
-  /* -------------------------------------------- */
-
-  /**
-   * Highlight a hovered combatant in the tracker.
-   * @param {Combatant} combatant  The Combatant.
-   * @param {boolean} hover        Whether they are being hovered in or out.
-   */
-  hoverCombatant(combatant, hover) {
-    const trackers = [this.element];
-    if ( this.popout?.rendered ) trackers.push(this.popout.element);
-    for ( const tracker of trackers ) {
-      const li = tracker.querySelector(`.combatant[data-combatant-id="${combatant.id}"]`);
-      if ( !li ) break;
-      if ( hover ) li.classList.add("hover");
-      else li.classList.remove("hover");
-    }
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Is the token of the combatant visible?
-   * @param {Token} token    The token of the combatant
-   * @returns {boolean}      Is the token visible?
-   * @protected
-   */
-  _isTokenVisible(token) {
-    return token.visible;
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Infer which Combat document should be viewed on the tracker, if any.
-   * If the active combat is available for the current scene, prioritize it.
-   * Otherwise, choose the most recently modified Combat encounter as the one we should view.
-   * @returns {Combat|null}
-   */
-  #inferCombat() {
-    const sceneCombats = [];
-    for ( const c of game.combats ) {
-      if ( c.isActive ) return c;
-      else if ( !c.scene || (c.scene === game.scenes.current) ) sceneCombats.push(c);
-    }
-    sceneCombats.sort((a, b) => b._stats.modifiedTime - a._stats.modifiedTime); // Most recent
-    return sceneCombats[0] || null;
-  }
 }

@@ -1,4 +1,5 @@
 import { i18n } from '../helpers/utils.mjs'
+import WWDialog from '../apps/dialog.mjs';
 
 export default class WWCombatant extends Combatant {
 
@@ -54,7 +55,7 @@ export default class WWCombatant extends Combatant {
   /* -------------------------------------------- */
 
   /**
-   * Reset the Acted status.
+   * Reset the "Acted" combat status.
    * @private
    */
   async resetActed() {
@@ -72,16 +73,17 @@ export default class WWCombatant extends Combatant {
       content: `${i18n('WW.Combat.ResetActed.Msg')}
         <p class="dialog-sure">${i18n('WW.Combat.ResetActed.Confirm')}</p>`
     });
+    console.log(this)
 
     if (!confirm) return;
 
+    // Set source's Acted flag to false
+    return await source.setFlag('weirdwizard', 'acted', false);
+
     // Get the drag source and drop target
-    const bracket = combatants.filter(c => c.initiativeBracket === source.initiativeBracket);
+    /*const bracket = combatants.filter(c => c.initiativeBracket === source.initiativeBracket);
     const target = combatants.find(c => c.initiative === Math.max(...bracket.map(c => c.initiative)));
     const tracker = li[0] ? await li[0].closest(`#combat-tracker`) : await li.closest(`#combat-tracker`);
-    
-    // Set source's Acted flag to false
-    await source.setFlag('weirdwizard', 'acted', false);
 
     // Get dropTarget
     const dropTarget = await tracker.querySelector(`li[data-combatant-id=${target?.id}]`);
@@ -107,7 +109,7 @@ export default class WWCombatant extends Combatant {
     });
     
     // Perform the update
-    return this.combat.updateEmbeddedDocuments("Combatant", updateData);
+    return this.combat.updateEmbeddedDocuments("Combatant", updateData);*/
   }
 
   /* -------------------------------------------- */
@@ -126,6 +128,10 @@ export default class WWCombatant extends Combatant {
     return this.flags.weirdwizard?.acted ?? false;
   }
 
+  get disposition() {
+    return this.token.disposition ?? -2;
+  }
+
   get takingInit() {
     return this.flags.weirdwizard?.takingInit ?? false;
   }
@@ -137,6 +143,16 @@ export default class WWCombatant extends Combatant {
     } else { // NPCs
       if (this.token.disposition === 1) return 3000; // Allies' regular turn
       else return 2000; // Enemies' Taking the Initiative
+    }
+  }
+
+  get phase() {
+    if ((this.actor?.type == 'character')) {
+      if (this.takingInit) return 'init'; // Taking the Initiative
+      else return 'allies'; // Allies' regular turn
+    } else { // NPCs
+      if (this.token.disposition === 1) return 'allies'; // Allies' regular turn
+      else return 'enemies'; // Enemies' Taking the Initiative
     }
   }
 

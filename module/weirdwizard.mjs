@@ -7,6 +7,7 @@ import WWActiveEffect from './documents/active-effect.mjs';
 import WWJournalPage from './documents/journal-page.mjs';
 import WWCombat from './documents/combat.mjs';
 import WWCombatant from './documents/combatant.mjs';
+import WWCombatantGroup from './documents/combatant-group.mjs';
 import WWChatMessage from './documents/chat-message.mjs';
 
 // Import data models
@@ -65,8 +66,10 @@ import {
   effectOverhaul,
   strToCharOptions,
   pathsOfJournaling, 
-  improvedListEntries
+  improvedListEntries,
+  v13Support  
 } from './helpers/migrations.mjs';
+import WWCombatantGroupConfig from './sheets/configs/combatant-group-config.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -91,6 +94,7 @@ Hooks.once('init', function () {
   CONFIG.ActiveEffect.documentClass = WWActiveEffect;
   CONFIG.Combat.documentClass = WWCombat;
   CONFIG.Combatant.documentClass = WWCombatant;
+  CONFIG.CombatantGroup.documentClass = WWCombatantGroup;
   CONFIG.ChatMessage.documentClass = WWChatMessage;
 
   // Register Actor and Item data models
@@ -174,7 +178,13 @@ Hooks.once('init', function () {
   });
   
   // Register custom document config sheets
-  DocumentSheetConfig.registerSheet(ActiveEffect, 'weirdwizard', WWActiveEffectConfig, {makeDefault: true});
+  DocumentSheetConfig.registerSheet(ActiveEffect, 'weirdwizard', WWActiveEffectConfig, {
+    makeDefault: true
+  });
+  DocumentSheetConfig.registerSheet(CombatantGroup, 'weirdwizard', WWCombatantGroupConfig, {
+    makeDefault: true,
+    label: "WW.CombatantGroup",
+  });
   //DocumentSheetConfig.registerSheet(Folder, 'weirdwizard', WWFolderConfig, {makeDefault: true}); - does not work, maybe in v13. see renderFolderConfig hook
 
   // Register custom Combat Tracker
@@ -229,10 +239,11 @@ Hooks.once('ready', function () {
   // Append data migration function to game.system.migrations so it can be used for manual migrations
   game.system.migrations = {
     fullMigration: fullMigration,
-    improvedListEntries: improvedListEntries,
-    pathsOfJournaling: pathsOfJournaling,
+    effectOverhaul: effectOverhaul,
     strToCharOptions: strToCharOptions,
-    effectOverhaul: effectOverhaul
+    pathsOfJournaling: pathsOfJournaling,
+    improvedListEntries: improvedListEntries,
+    v13Support: v13Support
   }
 
   // Check and run data migrations if needed

@@ -6,14 +6,134 @@ export function fullMigration(forced) {
   const isNewer = foundry.utils.isNewerVersion;
 
   // Check if the versions are experimental
-  let isLastMigrationExp = lastMigration.includes('-exp') ? true : false;
+  const isLastMigrationExp = lastMigration.includes('-exp');
 
   // If last migration was done previous to the version indicated, perform the data migration needed
   if (isNewer(isLastMigrationExp ? '2.3.0-exp' : '2.0.0', lastMigration) || forced) effectOverhaul(forced);
   if (isNewer(isLastMigrationExp ? '3.0.0-exp' : '3.0.0', lastMigration) || forced) strToCharOptions(forced);
   if (isNewer(isLastMigrationExp ? '6.0.0-exp' : '6.0.0', lastMigration) || forced) pathsOfJournaling(forced);
   if (isNewer(isLastMigrationExp ? '6.1.0-exp' : '6.1.0', lastMigration) || forced) improvedListEntries(forced);
+  if (isNewer(isLastMigrationExp ? '6.2.0-exp' : '6.2.0', lastMigration) || forced) v13Support(forced);
   
+}
+
+/* -------------------------------------------- */
+/* v13 Support                                  */
+/* 6.2.0-exp / 6.2.0                            */
+/* -------------------------------------------- */
+
+export async function v13Support(forced) {
+  const warning = ui.notifications.warn(
+    forced ? 'WW.System.Migration.Forced' : 'WW.System.Migration.Started',
+    { format: { version: '6.2.0' }, progress: true }
+  );
+
+  // Migrate world actors
+  console.log('Migrating world actors');
+  await migrateType(game.actors);
+  warning.update({ pct: 0.2 });
+
+  // Migrate world itemms
+  console.log('Migrating world items');
+  await migrateType(game.items);
+  warning.update({ pct: 0.5 });
+
+  // Migrate items embedded in world actors
+  for (const actor of game.actors) {
+    console.log('Migrating items embedded in world actor:', actor.name);
+    await migrateType(actor.items, { parent: actor });
+  }
+  warning.update({ pct: 0.7 });
+  
+  // Migrate scene token actors (Unlinked/Synthetic/Delta)
+  /*for (const scene of game.scenes) {
+    console.log('Migrating actors in scene:', scene.name);
+    const actors = scene.tokens.map(t => t.actor);
+    await migrateType(actors);    
+  }
+  warning.update({ pct: 0.5 });*/
+
+  // Migrate items embedded in scene token actors
+  /*for (const scene of game.scenes) {
+    console.log('Migrating items embedded in actors in scene:', scene.name);
+    const actors = scene.tokens.map(t => t.actor);
+    console.log(actors)
+    for (const actor of actors) {
+      await migrateType(actor.items, { parent: actor });
+    }
+  }
+  warning.update({ pct: 0.7 });*/
+
+  // Migrate actors and items in packs
+  const packsToMigrate = game.packs.filter(p => shouldMigrateCompendium(p));
+  for (const pack of packsToMigrate) {
+    console.log('Migrating documents inside pack:', pack.title);
+    await pack.getDocuments();
+    const wasLocked = pack.config.locked;
+    if (wasLocked) await pack.configure({ locked: false });
+    await migrateType(pack, { pack: pack.collection });
+    if (pack.documentName === 'Actor') {
+      for (const actor of pack) await migrateType(actor.items, { parent: actor, pack: pack.collection });
+    }
+    if (wasLocked) await pack.configure({ locked: true });
+  }
+  warning.update({ pct: 1.0 });
+
+  ui.notifications.remove(warning);
+  ui.notifications.success('WW.System.Migration.Finished', { format: { version: '6.2.0' }, permanent: true });
+  console.log('Migration complete');
+  
+  // Update version
+  const current = game.system.version != '#{VERSION}#' ? game.system.version : '6.2.0';
+  await game.settings.set('weirdwizard', 'lastMigrationVersion', current);
+}
+
+/**
+ * @typedef {DocumentCollection<Document> | EmbeddedCollection<Document> | CompendiumCollection<Document>} AnyCollection
+ */
+
+/**
+ * Migrate the types of documents in the collection.
+ * From Draw Steel (Thank you all!)
+ * @param {AnyCollection} collection
+ * @param {object} [options={}]       Options forwarded to the document update operation.
+ * @param {string} [options.pack]     Pack to update.
+ * @param {Document} [options.parent] Parent of the collection for embedded collections.
+ */
+export async function migrateType(collection, options = {}) {
+  const toMigrate = collection.filter(doc => doc?.getFlag('weirdwizard', 'migrateType')).map(doc => ({
+    _id: doc.id,
+    type: doc.type,
+    '==system': doc.system.toObject(),
+    'flags.weirdwizard.-=migrateType': null,
+  }));
+
+  // Update in increments of 100
+  const batches = Math.ceil(toMigrate.length / 100);
+
+  for (let i = 0; i < batches; i++) {
+    const updateData = toMigrate.slice(i * 100, (i + 1) * 100);
+    await collection.documentClass.updateDocuments(updateData, { pack: options.pack, parent: options.parent, diff: false });
+  }
+}
+
+/**
+ * Determine whether a compendium pack should be migrated during `migrateWorld`.
+ * From Draw Steel (Thank you all!)
+ * @param {CompendiumCollection} pack
+ * @returns {boolean}
+ */
+function shouldMigrateCompendium(pack) {
+  // We only care about actor and item migrations
+  if (!['Actor', 'Item'].includes(pack.documentName)) return false;
+
+  // World compendiums should all be migrated, system ones should never by migrated
+  if (pack.metadata.packageType === 'world') return true;
+  if (pack.metadata.packageType === 'system') return false;
+
+  // Module compendiums should only be migrated if they don't have a download or manifest URL
+  const module = game.modules.get(pack.metadata.packageName);
+  return !module.download && !module.manifest;
 }
 
 /* -------------------------------------------- */
@@ -440,7 +560,7 @@ function _charOptionsFromStr(actor, oldString, type, tier) {
   if (oldString && typeof oldString === 'string') { // Make sure it's a string and not empty
 
     // Split string in an array
-    const arr = oldString.split(",");
+    const arr = oldString.split(',');
 
     // Create item data array and push each profession
     const itemDataArr = [];
@@ -621,9 +741,9 @@ function _convertKey(change) {
 /* Notification Functions                       */
 /* -------------------------------------------- */
 
-function _notifyStart() { ui.notifications.warn(i18n("WW.System.Migration.Started")); }
+function _notifyStart() { ui.notifications.warn(i18n('WW.System.Migration.Started')); }
 
-function _notifyForcedStart() { ui.notifications.warn(i18n("WW.System.Migration.Forced")); }
+function _notifyForcedStart() { ui.notifications.warn(i18n('WW.System.Migration.Forced')); }
 
-function _notifyFinish(delay=3000) { setTimeout(function(){ ui.notifications.warn(i18n("WW.System.Migration.Finished")); }, delay); }
+function _notifyFinish(delay=3000) { setTimeout(function(){ ui.notifications.warn(i18n('WW.System.Migration.Finished')); }, delay); }
 

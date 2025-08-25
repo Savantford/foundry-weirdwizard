@@ -21,18 +21,7 @@ import { i18n } from '../helpers/utils.mjs';
  */
 export default class WWCombat extends Combat {
 
-  /* -------------------------------------------- */
-  /*  Properties                                  */
-  /* -------------------------------------------- */
-
-  /**
-   * Return the object of settings which modify the Combat Tracker behavior
-   * @type {object}
-   */
-  get skipActed() {
-    return game.settings.get('weirdwizard', 'skipActed');
-  }
-
+  
   /* -------------------------------------------- */
 
   async _preCreate(...[data, options, user]) {
@@ -280,6 +269,38 @@ export default class WWCombat extends Combat {
       return this.setInitiative(c, v);
     })
     
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * @override
+   * Return the Array of combatants and groups sorted into initiative order, breaking ties alphabetically by name.
+   * @returns {Combatant[] && CombatantGroup[]}
+   */
+  setupTurns() {
+    this.turns ||= [];
+    const entries = this.combatants.contents.concat(this.groups.contents);
+
+    // Determine the turn order and the current turn
+    const turns = entries.sort(this._sortCombatants);
+    if ( this.turn !== null ) {
+      if ( this.turn < 0 ) this.turn = 0;
+      else if ( this.turn >= turns.length ) {
+        this.turn = 0;
+        this.round++;
+      }
+    }
+    
+    // Update state tracking
+    const c = turns[this.turn];
+    this.current = this._getCurrentState(c);
+
+    // One-time initialization of the previous state
+    if ( !this.previous ) this.previous = this.current;
+
+    // Return the array of prepared turns
+    return this.turns = turns;
   }
 
   /* -------------------------------------------- */
@@ -754,6 +775,14 @@ export default class WWCombat extends Combat {
   /* -------------------------------------------- */
   /*  Getters                                     */
   /* -------------------------------------------- */
+
+  /**
+   * Return the object of settings which modify the Combat Tracker behavior
+   * @type {object}
+   */
+  get skipActed() {
+    return game.settings.get('weirdwizard', 'skipActed');
+  }
 
   get standby () {
     return this.turn === null ? true : false;

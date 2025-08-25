@@ -210,20 +210,6 @@ export default class WWItem extends WWDocumentMixin(Item) {
       options
     });
     
-    
-  }
-
-  /* -------------------------------------------- */
-  
-  static migrateData(data) {
-    // Fix uppercase on document types
-    switch (data.type) {
-      case "Equipment": data.type = "equipment"; break;
-      case "Trait or Talent": data.type = "talent"; break;
-      case "Spell": data.type = "spell"; break;
-    }
-    
-    return super.migrateData(data);
   }
 
 }

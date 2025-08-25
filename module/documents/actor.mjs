@@ -1182,19 +1182,5 @@ export default class WWActor extends WWDocumentMixin(Actor) {
 
 
   }
-
-  /* -------------------------------------------- */
   
-  static migrateData(data) {
-    // Fix uppercase on document types
-    switch (data.type) {
-      case "Character": data.type = "character"; break;
-      case "NPC": data.type = "npc"; break;
-      case "Group": data.type = "group"; break;
-      case "Vehicle": data.type = "vehicle"; break;
-    }
-    
-    return super.migrateData(data);
-  }
-
 }
