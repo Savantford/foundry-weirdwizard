@@ -5250,6 +5250,11 @@ form.quest-calendar {
 
 .combat-sidebar .combat-tracker .combatant-group.hover .group-header,
 .combat-sidebar .combat-tracker .combatant-group:hover .group-header {
+  background: var(--purple-dark);
+}
+
+.combat-sidebar .combat-tracker .combatant-group .group-header.hover,
+.combat-sidebar .combat-tracker .combatant-group .group-header:hover {
   background: var(--entry-hover-bg, rgba(255, 255, 255, 0.1));
 }
 

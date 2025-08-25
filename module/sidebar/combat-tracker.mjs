@@ -219,10 +219,10 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
         numDefeated: entry.numDefeated
       })
 
-      // Prepare member Combatant turns
-      for ( const [i, member] of entry.members.entries() ) {
+      // Prepare member Combatant turns, sorted by initiative
+      for ( const member of Array.from(entry.members).sort((a, b) => a.initiative - b.initiative) ) {
         if ( !member.visible ) continue;
-        const groupTurn = await this._prepareTurnContext(combat, member, i);
+        const groupTurn = await this._prepareTurnContext(combat, member, member.initiative);
         if ( groupTurn.hasDecimals ) hasDecimals = true;
         
         // Push to to turns and respective phase
@@ -670,6 +670,22 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
   /*  Drag & Drop                                 */
   /* -------------------------------------------- */
 
+  /** @override */
+  _canDragStart(selector) {
+    console.log('candragstart')
+    return game.user.isGM;
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  _canDragDrop(selector) {
+    console.log('candragdrop')
+    return game.user.isGM;
+  }
+
+  /* -------------------------------------------------- */
+
   /**
    * An event that occurs when a drag workflow begins for a draggable combatant on the combat tracker.
    * @param {DragEvent} event       The initiating drag start event
@@ -678,9 +694,16 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
    */
   async _onDragStart(event) {
     const li = event.currentTarget;
-    const combatant = this.viewed.combatants.get(li.dataset.combatantId);
-    if (!combatant) return;
-    const dragData = combatant.toDragData();
+    let dragData;
+
+    // Dragging combatant
+    if ( li.dataset.combatantId ) {
+      const combatant = this.viewed.combatants.get(li.dataset.combatantId);
+      if (!combatant) return;
+      dragData = combatant.toDragData();
+    }
+
+    // Set data for transfer
     event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
   }
 
@@ -708,26 +731,176 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
     // Combat Tracker contains combatant groups, which means this would fire twice
     event.stopPropagation();
     const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
-    /** @type {WWCombatant} */
+
+    // Handle different data types
+    switch ( data.type ) {
+      case "Combatant": /** @type {WWCombatant} */
+        return this._onDropCombatant(event, data);
+      case "CombatantGroup": /** @type {WWCombatantGroup} */
+        return console.log('combatant group dropped');
+      /*case "ActiveEffect":
+        return this._onDropActiveEffect(event, data);*/
+    }
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle dropping of an combatant reference or combatant data onto an Actor Sheet
+   * @param {DragEvent} event            The concluding DragEvent which contains drop data
+   * @param {object} data                The data transfer extracted from the event
+   * @returns {Promise<Item[]|boolean>}  The created or updated Item instances, or false if the drop was not permitted.
+   * @protected
+   */
+  async _onDropCombatant(event, data) {
     const combatant = await WWCombatant.fromDropData(data);
+
     /** @type {HTMLLIElement | null} */
     const groupLI = event.target.closest(".combatant-group");
-    if (groupLI) {
-      /** @type {WWCombatantGroup} */
-      const group = this.viewed.groups.get(groupLI.dataset.groupId);
-      if (group.system.captain && !combatant.actor?.isMinion) {
-        ui.notifications.error("DRAW_STEEL.CombatantGroup.Error.SquadOneCaptain", { localize: true });
-      }
-      else if ((combatant.actor?.isMinion && (group.type !== "squad"))) {
-        ui.notifications.error("DRAW_STEEL.CombatantGroup.Error.MinionMustSquad", { localize: true });
-      }
-      else {
-        combatant.update({ group });
-      }
+
+    /** @type {WWCombatantGroup} */
+    const group = groupLI ? this.viewed.groups.get(groupLI.dataset.groupId) : null;
+    await combatant.update({ group });
+
+    // Sort combatant
+    return this._onSortCombatant(event, combatant.id);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle a drop event for an existing embedded Combatant to sort that Combatant relative to its siblings
+   * @param {Event} event
+   * @param {String} combatantId
+   * @private
+   */
+  _onSortCombatant(event, combatantId, dropTarget) {
+    
+    // Get the drag source and drop target
+    const combatants = this.viewed.combatants;
+    const source = combatants.get(combatantId);
+    if ( !dropTarget ) dropTarget = event.target.closest("[data-combatant-id]");
+    if ( !dropTarget ) return;
+    const target = combatants.get(dropTarget.dataset.combatantId);
+    
+    // Don't sort on yourself
+    if ( source.id === target.id ) return;
+
+    // Identify sibling combatants based on adjacent HTML elements
+    const siblings = [];
+    for ( let el of dropTarget.parentElement.children ) {
+      const siblingId = el.dataset.combatantId;
+      if ( siblingId && (siblingId !== source.id) ) siblings.push(combatants.get(el.dataset.combatantId));
     }
-    else {
-      combatant.update({ group: null });
+    
+    // Perform the sort
+    const sortUpdates = this.performIntegerSort(source, {target, siblings});
+    
+    const updateData = sortUpdates.map(u => {
+      const update = u.update;
+      update._id = u.target._id;
+      return update;
+    });
+    
+    //siblings.splice(idx, 0, source);
+
+    // Perform the update
+    return this.viewed.updateEmbeddedDocuments("Combatant", updateData);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Given a source object to sort, a target to sort relative to, and an Array of siblings in the container:
+   * Determine the updated sort keys for the source object, or all siblings if a reindex is required.
+   * Return an Array of updates to perform, it is up to the caller to dispatch these updates.
+   * Each update is structured as:
+   * {
+   *   target: object,
+   *   update: {sortKey: sortValue}
+   * }
+   *
+   * @param {object} source       The source object being sorted
+   * @param {object} [options]    Options which modify the sort behavior
+   * @param {object|null} [options.target]  The target object relative which to sort
+   * @param {object[]} [options.siblings]   The Array of siblings which the source should be sorted within
+   * @param {string} [options.sortKey=sort] The property name within the source object which defines the sort key
+   * @param {boolean} [options.sortBefore]  Explicitly sort before (true) or sort after( false).
+   *                                        If undefined the sort order will be automatically determined.
+   * @returns {object[]}          An Array of updates for the caller of the helper function to perform
+   */
+  performIntegerSort(source, {target=null, siblings=[], sortKey="initiative", sortBefore}={}) {
+
+    // Automatically determine the sorting direction
+    if ( sortBefore === undefined ) {
+      sortBefore = (source[sortKey] || 0) > (target?.[sortKey] || 0);
     }
+
+    // Register brackets
+    const sourceBracket = source.initiativeBracket,
+      targetBracket = target.initiativeBracket
+    ;
+
+    // Ensure the siblings are sorted
+    siblings = Array.from(siblings);
+    siblings.sort((a, b) => a[sortKey] - b[sortKey]);
+
+    // Case 1: Source and Target are on the same brackets
+    if (sourceBracket === targetBracket) {
+      
+      // Filter siblings to the bracket
+      siblings = siblings.filter(sib => sib[sortKey + 'Bracket'] === sourceBracket);
+      
+      // Determine the index target for the sort
+      let defaultIdx = sortBefore ? siblings.length : 0;
+      let idx = target ? siblings.findIndex(sib => sib === target) : defaultIdx;
+      
+      // Determine the indices to sort between
+      /*let min, max;
+      if ( sortBefore ) [min, max] = this._sortBefore(siblings, idx, sortKey);
+      else [min, max] = this._sortAfter(siblings, idx, sortKey);*/
+      
+      // Sort before or after
+      if (sortBefore) siblings.splice(idx, 0, source); else siblings.splice(idx+1, 0, source);
+      
+      return siblings.map((sib, idx) => {
+
+        return {
+          target: sib,
+          update: { [sortKey]: sourceBracket + (idx + 1) }
+        }
+      });
+      
+    }
+    
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Given an ordered Array of siblings and a target position, return the [min,max] indices to sort before the target
+   * @private
+   */
+  _sortBefore(siblings, idx, sortKey) {
+    let max = siblings[idx] ? siblings[idx][sortKey] : null;
+    let min = siblings[idx-1] ? siblings[idx-1][sortKey] : null;
+    //let max = siblings[idx+1] ? siblings[idx+1][sortKey] : null;
+    //let min = siblings[idx] ? siblings[idx][sortKey] : null;
+    return [min, max];
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Given an ordered Array of siblings and a target position, return the [min,max] indices to sort after the target
+   * @private
+   */
+  _sortAfter(siblings, idx, sortKey) {
+    let min = siblings[idx] ? siblings[idx][sortKey] : null;
+    let max = siblings[idx+1] ? siblings[idx+1][sortKey] : null;
+    //let min = siblings[idx-1] ? siblings[idx-1][sortKey] : null;
+    //let max = siblings[idx] ? siblings[idx][sortKey] : null;
+    return [min, max];
   }
 
 }

@@ -1,3 +1,5 @@
-2025/08/02-22:51:14.251 2cdc Recovering log #843
-2025/08/02-22:51:14.256 2cdc Delete type=0 #843
-2025/08/02-22:51:14.256 2cdc Delete type=3 #841
+2025/08/25-15:24:54.030 ed0 Recovering log #846
+2025/08/25-15:24:54.030 ed0 Level-0 table #848: started
+2025/08/25-15:24:54.032 ed0 Level-0 table #848: 13537 bytes OK
+2025/08/25-15:24:54.036 ed0 Delete type=0 #846
+2025/08/25-15:24:54.036 ed0 Delete type=3 #845
