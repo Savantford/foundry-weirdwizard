@@ -827,7 +827,7 @@
 "WW.Combat.Initiative.NoCharacter": "A new round started, but you don't have a character assigned to you.",
 
 "WW.Combat.ResetActed.Title": "Reset the \"Acted\" Status",
-"WW.Combat.ResetActed.Msg": "<p>You already took a turn during this round and are marked as \"Acted\".</p><p>Normally, each combatant can take <b>only one</b> turn per round.</p>",
+"WW.Combat.ResetActed.Msg": "You already took a turn during this round and are marked as \"Acted\".<br>Normally, each combatant can take <b>only one</b> turn per round.",
 "WW.Combat.ResetActed.Confirm": "Are you sure you want to reset the Acted status?",
 
 "WW.Combat.StartTurn.Title": "Start a Turn",

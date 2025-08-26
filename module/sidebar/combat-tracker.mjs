@@ -17,6 +17,7 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
       toggleGroupExpand: this.#toggleGroupExpand,
       //activateCombatant: this.#onCombatantMouseDown,
       //trackerSettings: this.#onConfigure
+      turnControl: this.#onCombatantTurnControl
     }
   };
   
@@ -114,6 +115,7 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
     const combat = this.viewed;
     if ( !combat ) return;
     let hasDecimals = false;
+    context.onStandby = combat.onStandby;
     const turns = context.turns = [];
 
     // Prepare phases object
@@ -163,14 +165,6 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
       if ( Number.isFinite(t.initiative) ) t.initiative = t.initiative.toFixed(hasDecimals ? precision : 0);
     });
     context.hasDecimals = hasDecimals;
-
-    // Merge update data for rendering
-    /*return foundry.utils.mergeObject(context, {
-      round: combat.round,
-      turn: combat.turn,
-      turns: turns,
-      standby: combat.standby
-    });*/
   }
 
   /* -------------------------------------------- */
@@ -259,10 +253,10 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
         turn.controlTooltip = 'WW.Combat.Standby';
 
         // Combat NOT in standby; NOT acted; is current turn: End turn
-        if (!combat.standby && !acted && entry === combat.combatant) turn.controlTooltip = 'WW.Combat.EndTurn';
+        if (!combat.onStandby && !acted && entry === combat.combatant) turn.controlTooltip = 'WW.Combat.EndTurn';
 
         // Combat in standby; Combatant has not acted; NOT current turn: Start a turn
-        else if (combat.standby && !acted && entry !== combat.combatant) turn.controlTooltip = 'WW.Combat.StartTurn.Title';
+        else if (combat.onStandby && !acted && entry !== combat.combatant) turn.controlTooltip = 'WW.Combat.StartTurn.Title';
 
         // Already acted; is a Character: Toggle between regular turn and taking the initiative
         else if (acted && entry.actor.type === 'character') {
@@ -271,7 +265,7 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
         }
 
         // Combatant already acted
-        else if (acted) turn.controlTooltip = 'WW.Combat.ResetTurn.Title';
+        else if (acted) turn.controlTooltip = 'WW.Combat.ResetActed.Title';
 
         // User has no permission over the combatant
       } else turn.controlTooltip = 'WW.Combat.NoPermission';
@@ -405,7 +399,7 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
       },
       callback: li => {
         const combatant = getCombatant(li);
-        if (combatant) return this.viewed.startTurn(li, combatant);
+        if (combatant) return this.viewed.startTurn(combatant);
       }
     }, {
       name: "WW.Combat.Initiative.Label",
@@ -601,15 +595,6 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
     finally { target.disabled = false; }
   }
 
-  /**
-   * Handle performing some action for an individual combatant.
-   * @this {CombatTracker}
-   * @param {...any} args
-   */
-  static #onCombatantControl(...args) {
-    return this._onCombatantControl(...args);
-  }
-
   /* -------------------------------------------- */
 
   /**
@@ -667,12 +652,50 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
   }
 
   /* -------------------------------------------- */
+
+  /**
+   * Handle a Combatant turn control button behavior
+   * @private
+   * @param {Event} event   The originating mousedown event
+   */
+  static async #onCombatantTurnControl(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    // Fetch variables
+    const combat = this.viewed;
+    const { combatantId } = event.target.closest("[data-combatant-id]")?.dataset ?? {};
+    const combatant = combat.combatants.get(combatantId), acted = combatant.acted;
+    
+    if (combatant.permission) { // Check if user has permission
+
+      // Combat NOT in standby; NOT acted; is current turn: End turn
+      if (!combat.onStandby && !acted && combatant === combat.combatant) combat.nextTurn();
+
+      // Combat in standby; Combatant has not acted; NOT current turn: Take a turn
+      else if (combat.onStandby && !acted && combatant !== combat.combatant) combat.startTurn(combatant);
+      
+      // Already acted; is a Character: Toggle between regular turn and taking the initiative
+      else if (acted && combatant.actor.type === 'character') {
+        if (await combatant.takingInit) await combatant.takeInit(false); else await combatant.takeInit(true);
+      }
+
+      // Combatant already acted
+      else if (acted) {
+        await combatant.resetActed();
+      }
+
+    }
+
+  }
+
+  /* -------------------------------------------- */
   /*  Drag & Drop                                 */
   /* -------------------------------------------- */
 
   /** @override */
   _canDragStart(selector) {
-    console.log('candragstart')
+    console.warn('candragstart')
     return game.user.isGM;
   }
 
@@ -680,7 +703,7 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
 
   /** @override */
   _canDragDrop(selector) {
-    console.log('candragdrop')
+    console.warn('candragdrop')
     return game.user.isGM;
   }
 
@@ -779,7 +802,8 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
     // Get the drag source and drop target
     const combatants = this.viewed.combatants;
     const source = combatants.get(combatantId);
-    if ( !dropTarget ) dropTarget = event.target.closest("[data-combatant-id]");
+    
+    if ( !dropTarget ) dropTarget = event.target.closest("[data-combatant-id]") ?? null;
     if ( !dropTarget ) return;
     const target = combatants.get(dropTarget.dataset.combatantId);
     

@@ -39,12 +39,13 @@ export default class WWCombatant extends Combatant {
     if ( !token ) return;
     
     // Prepare message
-    const name = token.actor ? `@UUID[${c.actor.uuid}]` : '<b>' + game.weirdwizard.utils.getAlias({ token: token }) + '</b>';
-    const msg = taking ? i18n('WW.Combat.Initiative.ChatMsg', {name: name}) :i18n('WW.Combat.RegularTurn.ChatMsg', {name: name});
+    const name = token.actor ? `@UUID[${ this.actor.uuid }]` : '<b>' + game.weirdwizard.utils.getAlias({ token }) + '</b>';
+    const msg = taking ? i18n('WW.Combat.Initiative.ChatMsg', { name }) : i18n('WW.Combat.RegularTurn.ChatMsg', { name });
 
     // Send to chat
     ChatMessage.create({
-      content: '<p>' + msg + '</p>',
+      type: 'status',
+      content: msg,
       sound: CONFIG.sounds.notification
     });
 
@@ -70,10 +71,9 @@ export default class WWCombatant extends Combatant {
         title: 'WW.Combat.ResetActed.Title',
         icon: 'fa-solid fa-rotate-left'
       },
-      content: `${i18n('WW.Combat.ResetActed.Msg')}
+      content: `<p>${i18n('WW.Combat.ResetActed.Msg')}</p>
         <p class="dialog-sure">${i18n('WW.Combat.ResetActed.Confirm')}</p>`
     });
-    console.log(this)
 
     if (!confirm) return;
 

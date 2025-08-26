@@ -5215,8 +5215,8 @@ form.quest-calendar {
   width: 5ch;
 }
 
-.combat-phase-header.grayed :not(h4) {
-  filter: brightness(0) saturate(100%) invert(49%) sepia(0%) saturate(1191%) hue-rotate(161deg) brightness(88%) contrast(87%);
+.combat-phase-header.grayed > * {
+  filter: brightness(0.5);
 }
 
 .combat-phase-header img {
@@ -5227,16 +5227,30 @@ form.quest-calendar {
 }
 
 /* Combat Tracker: Combatants */
-.combat-sidebar .combatant.acted {
-  color: #707070;
+.combat-sidebar .combat-tracker .combatant.acted img:not(:hover) {
+  opacity: 0.3;
+}
+
+.combat-sidebar .combat-tracker .combatant.acted:not(.defeated):not(.hidden) > :not(img) {
+  opacity: 0.3;
+}
+
+.combat-sidebar .combat-tracker .combatant:hover > * {
+  transition: all 0.3s;
+  opacity: 1 !important;
+}
+
+.combat-sidebar .combat-tracker .combatant.defeated:hover .name {
+  color: red;
+  text-decoration: none;
 }
 
 /* Combat Tracker: Combatant Groups */
-.combat-sidebar .combat-tracker .combatant-group {
+.combat-tracker .combatant-group {
   margin: 0;
 }
 
-.combat-sidebar .combat-tracker .combatant-group .group-header {
+.combat-tracker .combatant-group .group-header {
   display: flex;
   align-items: center;
   gap: var(--element-spacing);
@@ -5248,32 +5262,32 @@ form.quest-calendar {
   font-size: var(--font-size-14);
 }
 
-.combat-sidebar .combat-tracker .combatant-group.hover .group-header,
-.combat-sidebar .combat-tracker .combatant-group:hover .group-header {
+.combat-tracker .combatant-group.hover .group-header,
+.combat-tracker .combatant-group:hover .group-header {
   background: var(--purple-dark);
 }
 
-.combat-sidebar .combat-tracker .combatant-group .group-header.hover,
-.combat-sidebar .combat-tracker .combatant-group .group-header:hover {
+.combat-tracker .combatant-group .group-header.hover,
+.combat-tracker .combatant-group .group-header:hover {
   background: var(--entry-hover-bg, rgba(255, 255, 255, 0.1));
 }
 
-.combat-sidebar .combat-tracker .combatant-group .group-turns {
+.combat-tracker .combatant-group .group-turns {
   padding: 0;
   border-left: 5px solid var(--purple-dark);
 }
 
-.combat-sidebar .combat-tracker .combatant-group.expanded .group-turns {
+.combat-tracker .combatant-group.expanded .group-turns {
   display: none;
 }
 
-.combat-sidebar .combat-tracker .combatant-group .combatant:not(:hover) {
+.combat-tracker .combatant-group .combatant:not(:hover) {
   background: rgba(255, 255, 255, 0.02);
 }
 
 
 /* Combat Tracker: Turn Control Button */
-.combat-sidebar .combatant .turn-control {
+.combat-tracker .combatant .turn-control {
   flex: 0 0 24px;
   height: 30px;
   text-align: center;
@@ -5284,56 +5298,56 @@ form.quest-calendar {
   filter: brightness(0) saturate(100%) invert(49%) sepia(0%) saturate(1191%) hue-rotate(161deg) brightness(88%) contrast(87%);
 }
 
-.combat-sidebar .combatant .turn-control:hover {
+.combat-tracker .combatant .turn-control:hover {
   cursor: help;
 }
 
-.combat-sidebar.standby .combatant .turn-control,
-.combat-sidebar .combatant.active .turn-control {
+.combat-tracker.standby .combatant .turn-control,
+.combat-tracker .combatant.active .turn-control {
   filter: none;
 }
 
-.combat-sidebar .combatant:not(.has-perms) .turn-control,
-.combat-sidebar .combatant.acted .turn-control {
+.combat-tracker .combatant:not(.has-perms) .turn-control,
+.combat-tracker .combatant.acted .turn-control {
   filter: brightness(0) saturate(100%) invert(49%) sepia(0%) saturate(1191%) hue-rotate(161deg) brightness(88%) contrast(87%);
 }
 
-.combat-sidebar .combatant:not(.has-perms) .turn-control:hover,
-.combat-sidebar:not(.standby) .combatant.has-perms .turn-control:hover {
+.combat-tracker .combatant:not(.has-perms) .turn-control:hover,
+.combat-tracker:not(.standby) .combatant.has-perms .turn-control:hover {
   background-image: url(../assets/icons/cancel.svg);
   filter: drop-shadow(0 0 4px white) drop-shadow(0 0 4px red);
 }
 
-.combat-sidebar.standby .combatant.has-perms .turn-control:hover,
-.combat-sidebar .combatant.has-perms.active .turn-control:hover {
+.combat-tracker.standby .combatant.has-perms .turn-control:hover,
+.combat-tracker .combatant.has-perms.active .turn-control:hover {
   filter: drop-shadow(0 0 4px white) drop-shadow(0 0 4px limegreen);
   cursor: pointer;
 }
 
-.combat-sidebar .combatant.active .turn-control,
-.combat-sidebar.standby .combatant.has-perms .turn-control:hover {
+.combat-tracker .combatant.active .turn-control,
+.combat-tracker.standby .combatant.has-perms .turn-control:hover {
   background-image: url(../assets/icons/pointy-sword.svg);
 }
 
-.combat-sidebar .combatant.acted .turn-control,
-.combat-sidebar .combatant.has-perms.active .turn-control:hover {
+.combat-tracker .combatant.acted .turn-control,
+.combat-tracker .combatant.has-perms.active .turn-control:hover {
   background-image: url(../assets/icons/check-mark.svg);
 }
 
-.combat-sidebar .combatant.has-perms.acted .turn-control:hover {
+.combat-tracker .combatant.has-perms.acted .turn-control:hover {
   background-image: url(../assets/icons/anticlockwise-rotation.svg);
 }
 
-.combat-sidebar .combatant.has-perms.character.acted.taking-init .turn-control:hover {
+.combat-tracker .combatant.has-perms.character.acted.taking-init .turn-control:hover {
   background-image: url(../assets/icons/actions.svg);
 }
 
-.combat-sidebar .combatant.has-perms.character.acted .turn-control:hover {
+.combat-tracker .combatant.has-perms.character.acted .turn-control:hover {
   background-image: url(../assets/icons/reactions.svg);
 }
 
 /* Combat Tracker: Token Resources */
-.combat-sidebar .combatant .token-resource {
+.combat-tracker .combatant .token-resource {
   flex: 0 0 40px;
   display: flex;
   justify-content: center;

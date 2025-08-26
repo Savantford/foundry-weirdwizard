@@ -1,6 +1,5 @@
 
-<li class="combatant {{!--actor directory-item flexrow--}} {{ css }}"
-    data-tooltip="WW.Combat.RightClickTip" data-combatant-id="{{ id }}" data-action="activateCombatant">
+<li class="combatant {{ css }}" data-tooltip="WW.Combat.RightClickTip" data-combatant-id="{{ id }}">
 
     {{!-- TODO: Targets --}}
 
@@ -50,7 +49,7 @@
     </div>
     {{/if}}
 
-    {{!-- Turn Control (In place of Initiative) --}}
-    <div class="turn-control" data-tooltip="{{ this.controlTooltip }}" {{#unless standby}}disabled{{/unless}}></div>
+    {{!-- Turn Control Button (In place of Initiative) --}}
+    <div class="turn-control" data-action="turnControl" data-combatant-id="{{ id }}" data-tooltip="{{ controlTooltip }}" {{#unless standby}}disabled{{/unless}}></div>
 
 </li>

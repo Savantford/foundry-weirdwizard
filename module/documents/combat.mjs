@@ -1,5 +1,6 @@
 import WWDialog from '../apps/dialog.mjs';
 import { i18n } from '../helpers/utils.mjs';
+import WWCombatant from './combatant.mjs';
 
 /**
  * @typedef {Object} CombatHistoryData
@@ -369,11 +370,10 @@ export default class WWCombat extends Combat {
 
   /**
    * Attempt to take the next turn as the combatant.
-   * @param {Event} li
-   * @param {Object} combatant
+   * @param {WWCombatant} combatant
    * @private
    */
-  async startTurn(li, combatant) {
+  async startTurn(combatant) {
     
     // Confirmation dialog
     const confirm = game.user.isGM ? true : await WWDialog.confirm({
@@ -784,7 +784,7 @@ export default class WWCombat extends Combat {
     return game.settings.get('weirdwizard', 'skipActed');
   }
 
-  get standby () {
+  get onStandby () {
     return this.turn === null ? true : false;
   }
 

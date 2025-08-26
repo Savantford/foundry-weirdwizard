@@ -31,46 +31,7 @@ export default class WWCombatTrackerOld extends foundry.applications.sidebar.tab
     if (!game.user.isGM) this._contextMenu(html);
   }
 
-  /**
-   * Handle a Combatant acted toggle
-   * @private
-   * @param {Event} event   The originating mousedown event
-   */
-  async _onCombatantTurnControl(event) {
-    // Stop default behavior if it's an event
-    const isHtml = $(event)[0] instanceof HTMLElement;
-
-    if (!isHtml) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    
-    // Fetch variables
-    const li = isHtml ? $(event)[0] : event.currentTarget.closest('.combatant');
-    const combat = this.viewed;
-    const combatant = combat.combatants.get(li.dataset.combatantId), acted = combatant.acted, takingInit = combatant.takingInit;
-    
-    if (combatant.permission) { // Check if user has permission
-
-      // Combat NOT in standby; NOT acted; is current turn: End turn
-      if (!combat.standby && !acted && combatant === combat.combatant) this._endTurn(li);
-
-      // Combat in standby; Combatant has not acted; NOT current turn: Take a turn
-      else if (combat.standby && !acted && combatant !== combat.combatant) combat.startTurn(li, combatant);
-      
-      // Already acted; is a Character: Toggle between regular turn and taking the initiative
-      else if (acted && combatant.actor.type === 'character') {
-        if (await combatant.takingInit) await combatant.takeInit(false); else await combatant.takeInit(true);
-      }
-
-      // Combatant already acted
-      else if (acted) {
-        this._resetTurn(li, combatant.toObject());
-      }
-
-    }
-
-  }
+  
 
   /* -------------------------------------------- */
   /*  Getters                                     */
