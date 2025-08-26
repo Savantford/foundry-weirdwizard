@@ -5245,47 +5245,6 @@ form.quest-calendar {
   text-decoration: none;
 }
 
-/* Combat Tracker: Combatant Groups */
-.combat-tracker .combatant-group {
-  margin: 0;
-}
-
-.combat-tracker .combatant-group .group-header {
-  display: flex;
-  align-items: center;
-  gap: var(--element-spacing);
-  padding: var(--element-spacing);
-  margin: 0;
-  cursor: var(--cursor-pointer);
-  border-radius: 4px;
-  color: var(--color-text-primary);
-  font-size: var(--font-size-14);
-}
-
-.combat-tracker .combatant-group.hover .group-header,
-.combat-tracker .combatant-group:hover .group-header {
-  background: var(--purple-dark);
-}
-
-.combat-tracker .combatant-group .group-header.hover,
-.combat-tracker .combatant-group .group-header:hover {
-  background: var(--entry-hover-bg, rgba(255, 255, 255, 0.1));
-}
-
-.combat-tracker .combatant-group .group-turns {
-  padding: 0;
-  border-left: 5px solid var(--purple-dark);
-}
-
-.combat-tracker .combatant-group.expanded .group-turns {
-  display: none;
-}
-
-.combat-tracker .combatant-group .combatant:not(:hover) {
-  background: rgba(255, 255, 255, 0.02);
-}
-
-
 /* Combat Tracker: Turn Control Button */
 .combat-tracker .combatant .turn-control {
   flex: 0 0 24px;
@@ -5365,6 +5324,79 @@ form.quest-calendar {
 .combatant.acted.injured .resource,
 .combatant.acted.injured .token-name h4 {
   color: #880000;
+}
+
+/* Combat Tracker: Combatant Groups */
+.combat-tracker .combatant-group {
+  margin: 0;
+}
+
+.combat-tracker .combatant-group .group-header {
+  display: flex;
+  align-items: center;
+  gap: var(--element-spacing);
+  padding: var(--element-spacing);
+  margin: 0;
+  cursor: var(--cursor-pointer);
+  border-radius: 4px;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-14);
+}
+
+.combat-tracker .combatant-group.hover .group-header,
+.combat-tracker .combatant-group:hover .group-header {
+  background: var(--purple-dark);
+}
+
+.combat-tracker .combatant-group .group-header.hover,
+.combat-tracker .combatant-group .group-header:hover {
+  background: var(--entry-hover-bg, rgba(255, 255, 255, 0.1));
+}
+
+.combat-tracker .combatant-group .group-turns {
+  padding: 0;
+  border-left: 5px solid var(--purple-dark);
+}
+
+.combat-tracker .combatant-group.expanded .group-turns {
+  display: none;
+}
+
+.combat-tracker .combatant-group .combatant:not(:hover) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Combat Tracker: Combatant Group Icons */
+.combat-tracker .group-icons {
+  text-align: center;
+}
+
+.combat-tracker .group-icons > div {
+  display: flex;
+}
+
+.combat-tracker .group-icons > div > i {
+  width: 20px;
+}
+
+.combat-tracker .group-icons > div > div {
+  width: 2.5ch;
+}
+
+#tooltip .group-tooltip {
+  display: flex;
+  flex-flow: column;
+  gap: 5px;
+}
+
+#tooltip .group-tooltip .member {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#tooltip .group-tooltip .member img {
+  height: 20px;
 }
 
 /* Combat Tracker: Combatant Group Config */

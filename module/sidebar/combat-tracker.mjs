@@ -180,9 +180,7 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
       (phases.init.actedCount + phases.enemies.actedCount + phases.allies.actedCount) >=
       (phases.init.activeCount + phases.enemies.activeCount + phases.allies.activeCount)
     ) context.allActed = true;
-    console.log(phases.init.actedCount + phases.enemies.actedCount + phases.allies.actedCount);
-    console.log(phases.init.activeCount + phases.enemies.activeCount + phases.allies.activeCount);
-    console.log(context.allActed)
+    
     // Format initiative numeric precision.
     const precision = CONFIG.Combat.initiative.decimals;
     turns.forEach(t => {
@@ -716,22 +714,6 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
   /* -------------------------------------------- */
   /*  Drag & Drop                                 */
   /* -------------------------------------------- */
-
-  /** @override */
-  _canDragStart(selector) {
-    console.warn('candragstart')
-    return game.user.isGM;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  _canDragDrop(selector) {
-    console.warn('candragdrop')
-    return game.user.isGM;
-  }
-
-  /* -------------------------------------------------- */
 
   /**
    * An event that occurs when a drag workflow begins for a draggable combatant on the combat tracker.

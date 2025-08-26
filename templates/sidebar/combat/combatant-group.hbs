@@ -17,11 +17,6 @@
           <i class="fa-solid fa-skull"></i>
           {{ numDefeated }}
         </button>
-
-        <div class="inline-control">
-          <i class="fa-regular fa-square-check"></i>
-          {{ numActed }}
-        </div>
         {{/if}}
 
       </div>
@@ -29,10 +24,16 @@
     </div>
 
     {{!-- Group Icons --}}
-    <div class="group-icons">
+    {{log groupTurns}}
+    <div class="group-icons" data-tooltip="<div class='group-tooltip'>{{#each groupTurns}}<div class='member'><img src={{ this.img }}> {{ this.name }}</div>{{/each}}</div>">
+      <div>
+        <i class="fa-regular fa-square-check"></i>
+        <div>{{ numActed }}</div>
+      </div>
+
       <div>
         <i class="fa-solid fa-users"></i>
-        {{ numMembers }}
+        <div>{{ numMembers }}</div>
       </div>
     </div>
 
