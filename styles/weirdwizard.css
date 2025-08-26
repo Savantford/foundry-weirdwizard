@@ -5389,6 +5389,18 @@ form.quest-calendar {
   object-fit: contain;
 }
 
+/* Combat Tracker: Footer */
+.combat-sidebar .combat-controls [data-action="nextRound"] {
+  filter: drop-shadow(0 0 3px var(--button-hover-background-color))
+    drop-shadow(0 0 3px var(--button-hover-background-color))
+    drop-shadow(0 0 3px var(--button-hover-background-color))
+  drop-shadow(0 0 3px var(--button-hover-background-color));
+}
+
+.combat-sidebar .combat-controls [data-action="nextRound"]:hover {
+  filter: none;
+}
+
 /* Tokens */
 
 #token-hud .status-effects .effect-control {

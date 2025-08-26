@@ -76,7 +76,7 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
     const canControl = combat?.turn && combat.turn.between(1, combat.turns.length - 2)
       ? combat.canUserModify(game.user, "update", { turn: 0 })
       : combat?.canUserModify(game.user, "update", { round: 0 });
-
+    const allActed = 
     
     //const settings = game.settings.get('core', Combat.CONFIG_SETTING); - no longer needed?
 
@@ -123,18 +123,21 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
       init: {
         label: "WW.Combat.Phase.Initiative",
         icon: "systems/weirdwizard/assets/icons/reactions.svg",
+        activeCount: 0,
         actedCount: 0,
         turns: []
       },
       enemies: {
         label: "WW.Combat.Phase.Enemies",
         icon: "systems/weirdwizard/assets/icons/skull-shield.svg",
+        activeCount: 0,
         actedCount: 0,
         turns: []
       },
       allies: {
         label: "WW.Combat.Phase.Allies",
         icon: "systems/weirdwizard/assets/icons/heart-shield.svg",
+        activeCount: 0,
         actedCount: 0,
         turns: []
       }
@@ -151,14 +154,35 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
       turns.push(preparedTurn);
       phases[turn.phase].turns.push(preparedTurn);
     }
-
+    
     // Count creatures acted per phase
-    phases.init.turns.forEach(t => { if (t.acted) phases.init.actedCount += 1 });
-    phases.enemies.turns.forEach(t => { if (t.acted) phases.enemies.actedCount += 1 });
-    phases.allies.turns.forEach(t => { if (t.acted) phases.allies.actedCount += 1 });
+    const prepareActedCount = (phase) => phases[phase].turns.forEach(turn => {
+      if (turn.isGroup) {
+        turn.groupTurns.forEach(groupTurn => {
+          if (!groupTurn.isDefeated) phases[phase].activeCount += 1;
+          if (groupTurn.acted) phases[phase].actedCount += 1;
+        })
+      }
+      else {
+        if (!turn.isDefeated) phases[phase].activeCount += 1;
+        if (turn.acted) phases[phase].actedCount += 1;
+      }
+    });
+
+    await prepareActedCount('init');
+    await prepareActedCount('enemies');
+    await prepareActedCount('allies');
 
     context.phases = phases;
-    
+
+    // Check if all combatants acted
+    if (
+      (phases.init.actedCount + phases.enemies.actedCount + phases.allies.actedCount) >=
+      (phases.init.activeCount + phases.enemies.activeCount + phases.allies.activeCount)
+    ) context.allActed = true;
+    console.log(phases.init.actedCount + phases.enemies.actedCount + phases.allies.actedCount);
+    console.log(phases.init.activeCount + phases.enemies.activeCount + phases.allies.activeCount);
+    console.log(context.allActed)
     // Format initiative numeric precision.
     const precision = CONFIG.Combat.initiative.decimals;
     turns.forEach(t => {
@@ -818,8 +842,10 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
     }
     
     // Perform the sort
-    const sortUpdates = this.performIntegerSort(source, {target, siblings});
     
+    const sortUpdates = this.performIntegerSort(source, {target, siblings});
+    if (!sortUpdates) return;
+
     const updateData = sortUpdates.map(u => {
       const update = u.update;
       update._id = u.target._id;

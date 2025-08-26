@@ -5,13 +5,13 @@
   {{#each phases as |phase phaseKey|}}
   <ol class="combat-phase {{ phaseKey }}">
     {{!-- Phase Header --}}
-    <li class="combat-phase-header {{#if (gte phase.actedCount phase.turns.length)}}grayed{{else if (lt phase.actedCount phase.turns.length)}}highlight{{/if}}">
+    <li class="combat-phase-header {{#if (gte phase.actedCount phase.activeCount)}}grayed{{else if (lt phase.actedCount phase.activeCount)}}highlight{{/if}}">
   
       <div><img src="{{ phase.icon }}" /></div>
   
       <h4>{{localize phase.label}}</h4>
   
-      <div class="count">{{ phase.actedCount }}/{{ phase.turns.length }}</div>
+      <div class="count">{{ phase.actedCount }}/{{ phase.activeCount }}</div>
     </li>
 
     {{!-- Phase Turns Setup --}}
@@ -31,7 +31,7 @@
   
   {{!-- End of the Round Phase --}}
   <ol class="combat-phase end">
-    <li class="combat-phase-header {{#if (gte acted.allies phases.allies.turns.length)}}highlight{{/if}}">
+    <li class="combat-phase-header {{#if (gte phases.allies.actedCount phases.allies.activeCount)}}highlight{{/if}}">
       <div><img src="systems/weirdwizard/assets/icons/duration.svg" /></div>
     
       <h4>{{localize "WW.Combat.Phase.End"}}</h4>
