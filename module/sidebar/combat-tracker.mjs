@@ -303,35 +303,32 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
   async _onRender(context, options) {
     await super._onRender(context, options);
 
-    // Initiate dragDrop
-    new foundry.applications.ux.DragDrop.implementation({
-      dragSelector: ".combatant",
-      dropSelector: ".combatant-group, .combat-tracker",
-      permissions: {
-        dragstart: () => game.user.isGM,
-        drop: () => game.user.isGM,
-      },
-      callbacks: {
-        dragstart: this._onDragStart.bind(this),
-        dragover: this._onDragOver.bind(this),
-        drop: this._onDrop.bind(this),
-      },
-    }).bind(this.element);
+    // Initialize Drag and Drop handlers
+    const dragDropPairs = [
+      {
+        dragSelector: '.combatant',
+        dropSelector: '.combatant-group, .combat-tracker',
+      }, {
+        dragSelector: '.combatant-group',
+        dropSelector: '.combatant-group, .combatant',
+      }
+    ];
 
-    // Initiate dragDrop
-    new foundry.applications.ux.DragDrop.implementation({
-      dragSelector: ".combatant-group",
-      dropSelector: ".combatant-group, .combatant",
-      permissions: {
-        dragstart: () => game.user.isGM,
-        drop: () => game.user.isGM,
-      },
-      callbacks: {
-        dragstart: this._onDragStart.bind(this),
-        dragover: this._onDragOver.bind(this),
-        drop: this._onDrop.bind(this),
-      },
-    }).bind(this.element);
+    for (const dragDropPair of dragDropPairs) {
+      new foundry.applications.ux.DragDrop.implementation({
+        dragSelector: dragDropPair.dragSelector,
+        dropSelector: dragDropPair.dropSelector,
+        permissions: {
+          dragstart: () => game.user.isGM,
+          drop: () => game.user.isGM,
+        },
+        callbacks: {
+          dragstart: this._onDragStart.bind(this),
+          dragover: this._onDragOver.bind(this),
+          drop: this._onDrop.bind(this),
+        },
+      }).bind(this.element);
+    }
   }
 
   /* -------------------------------------------- */

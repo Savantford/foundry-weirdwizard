@@ -92,7 +92,7 @@ export class EntrySettingsDisplay extends HandlebarsApplicationMixin(Application
     await super._onRender(context, options);
 
     // Create dragDrop listener
-    new DragDrop({ // Remove in v13; core implementation
+    new foundry.applications.ux.DragDrop.implementation({
       dragSelector: ".draggable",
       dropSelector: null,
       callbacks: {
