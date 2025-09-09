@@ -748,17 +748,6 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     window.classList.toggle('dead', actor.dead);
     window.classList.toggle('ally', (this.actor?.token ? this.actor.token.disposition : this.actor.prototypeToken.disposition) === 1);
 
-    // Create dragDrop listener
-    new DragDrop({ // Remove in v13; core implementation
-      dragSelector: ".draggable",
-      dropSelector: null,
-      callbacks: {
-        dragstart: this._onDragStart.bind(this),
-        dragover: this._onDragOver.bind(this),
-        drop: this._onDrop.bind(this)
-      }
-    }).bind(this.element);
-
     // Drag events for macros.
     /*if (this.actor.isOwner) {
       
@@ -2019,54 +2008,13 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   /* -------------------------------------------- */
 
   /**
-   * An event that occurs when a drag workflow begins for a draggable item on the sheet.
-   * @param {DragEvent} event       The initiating drag start event
-   * @returns {Promise<void>}
-   * @protected
-   * @override
-   */
-  async _onDragStart(event) {
-    const li = event.currentTarget;
-    if ( "link" in event.target.dataset ) return;
-    let dragData;
-
-    // Owned Items
-    if ( li.dataset.itemId ) {
-      const item = this.actor.items.get(li.dataset.itemId);
-      dragData = item.toDragData();
-    }
-
-    // Active Effect
-    if ( li.dataset.effectId ) {
-      const effect = this.actor.effects.get(li.dataset.effectId);
-      //const effect = await this.actor.appliedEffects.find(e => e.id === li.dataset.effectId);
-      dragData = effect.toDragData();
-    }
-
-    // Set data transfer
-    if ( !dragData ) return;
-    event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * An event that occurs when a drag workflow moves over a drop target.
-   * @param {DragEvent} event
-   * @protected
-   */
-  _onDragOver(event) {} // Delete in v13; core behavior
-
-  /* -------------------------------------------- */
-
-  /**
    * @override
    * An event that occurs when data is dropped into a drop target.
    * @param {DragEvent} event
    * @returns {Promise<void>}
    * @protected
    */
-  async _onDrop(event) { // Delete in v13; core behavior
+  async _onDrop(event) {
     if ( !this.isEditable ) return;
     const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
     const actor = this.actor;
@@ -2090,6 +2038,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   /* -------------------------------------------- */
 
   /**
+   * @override
    * Handle a dropped document on the ActorSheet
    * @param {DragEvent} event         The initiating drop event
    * @param {Document} document       The resolved Document class
@@ -2116,6 +2065,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   /* -------------------------------------------- */
 
   /**
+   * @override
    * Handle a dropped Active Effect on the Actor Sheet.
    * The default implementation creates an Active Effect embedded document on the Actor.
    * @param {DragEvent} event       The initiating drop event
@@ -2148,23 +2098,52 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   /* -------------------------------------------- */
 
   /**
-   * Handle a dropped Actor on the Actor Sheet.
+   * Handle a drop event for an existing embedded Item to sort that Item relative to its siblings.
    * @param {DragEvent} event     The initiating drop event
-   * @param {Actor} actor         The dropped Actor document
-   * @returns {Promise<void>}
+   * @param {Item} item           The dropped Item document
    * @protected
    */
-  async _onDropActor(event, actor) {}
+  _onSortEffect(event, effect) {
+    const effects = this.actor.appliedEffects;
+    const source = effects.find(e => e._id === effect._id); // is `id` in v13
+
+    // Confirm the drop target
+    const dropTarget = event.target.closest("[data-effect-id]");
+    if ( !dropTarget ) return;
+    const target = effects.find(e => e._id === dropTarget.dataset.effectId);
+    if ( source.id === target.id ) return;
+    
+    if (source.parent !== target.parent) return;
+
+    // Identify sibling effects based on adjacent HTML elements
+    const siblings = [];
+    for ( const element of dropTarget.parentElement.children ) {
+      const siblingId = element.dataset.effectId;
+      if ( siblingId && (siblingId !== source.id) ) siblings.push(effects.find(e => e._id === element.dataset.effectId));
+    }
+
+    // Perform the sort only if 
+    const sortUpdates = SortingHelpers.performIntegerSort(source, {target, siblings});
+    
+    const updateData = sortUpdates.map(u => {
+      const update = u.update;
+      update._id = u.target._id;
+      return update;
+    });
+    
+    // Perform the update
+    return target.parent.updateEmbeddedDocuments("ActiveEffect", updateData);
+  }
 
   /* -------------------------------------------- */
 
   /**
+   * @override
    * Handle dropping of an item reference or item data onto an Actor Sheet
    * @param {DragEvent} event            The concluding DragEvent which contains drop data
    * @param {Item} item                  The dropped Item document
    * @returns {Promise<Item[]|boolean>}  The created or updated Item instances, or false if the drop was not permitted.
    * @protected
-   * @override
    */
   async _onDropItem(event, item) {
     if ( !this.actor.isOwner ) return;
@@ -2199,10 +2178,9 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
 
   /* -------------------------------------------- */
 
-  /** @override */
   async _onDropItemCreate(itemData, event) {
     
-    const isAllowed = await this.checkDroppedItem(itemData);
+    const isAllowed = true; //await this.checkDroppedItem(itemData);
 
     if (isAllowed) {
       const keepId = !this.actor.items.has(itemData.id);
@@ -2211,6 +2189,61 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     
     console.warn('Wrong item type dragged', this.actor, itemData);
   }
+  
+  /* -------------------------------------------- */
+  
+  /** @override */
+  /*async checkDroppedItem(itemData) { // DL method
+    const type = itemData.type;
+    if (['specialaction', 'endoftheround'].includes(type)) return false;
+
+    if (type === 'ancestry') {
+      const currentAncestriesIds = this.actor.items.filter(i => i.type === 'ancestry').map(i => i._id)
+      if (currentAncestriesIds?.length > 0) await this.actor.deleteEmbeddedDocuments('Item', currentAncestriesIds)
+      return true
+    } else if (type === 'path' && this.actor.system.paths?.length >= 3) return false
+    
+    return true;
+  }*/
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle a drop event for an existing embedded Item to sort that Item relative to its siblings.
+   * @param {DragEvent} event     The initiating drop event
+   * @param {Item} item           The dropped Item document
+   * @protected
+   */
+  _onSortItem(event, item) {
+    const items = this.actor.items;
+    const source = items.get(item._id); // is `id` in v13
+
+    // Confirm the drop target
+    const dropTarget = event.target.closest("[data-item-id]");
+    if ( !dropTarget ) return;
+    const target = items.get(dropTarget.dataset.itemId);
+    if ( source.id === target.id ) return;
+
+    // Identify sibling items based on adjacent HTML elements
+    const siblings = [];
+    for ( const element of dropTarget.parentElement.children ) {
+      const siblingId = element.dataset.itemId;
+      if ( siblingId && (siblingId !== source.id) ) siblings.push(items.get(element.dataset.itemId));
+    }
+
+    // Perform the sort
+    const sortUpdates = foundry.utils.SortingHelpers.performIntegerSort(source, {target, siblings});
+    const updateData = sortUpdates.map(u => {
+      const update = u.update;
+      update._id = u.target._id;
+      return update;
+    });
+    
+    // Perform the update
+    return this.actor.updateEmbeddedDocuments("Item", updateData);
+  }
+
+  /* -------------------------------------------- */
 
   /**
    * Handle dropping of a journal entry page reference or journal entry page data onto an Actor Sheet
@@ -2275,21 +2308,6 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     this.render(); // Force re-rendering because it's not being triggered
   }
 
-  /* -------------------------------------------- */
-  
-  /** @override */
-  async checkDroppedItem(itemData) {
-    const type = itemData.type;
-    if (['specialaction', 'endoftheround'].includes(type)) return false;
-
-    if (type === 'ancestry') {
-      const currentAncestriesIds = this.actor.items.filter(i => i.type === 'ancestry').map(i => i._id)
-      if (currentAncestriesIds?.length > 0) await this.actor.deleteEmbeddedDocuments('Item', currentAncestriesIds)
-      return true
-    } else if (type === 'path' && this.actor.system.paths?.length >= 3) return false
-    
-    return true;
-  }
 
   /* -------------------------------------------- */
 
@@ -2301,6 +2319,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
    * @protected
    */
   async _onDropFolder(event, data) {}
+
+  /* -------------------------------------------- */
 
   /**
    * Handle a droped List Entry on the Actor Sheet.
@@ -2317,81 +2337,6 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     obj[key] = entry;
     
     await this.actor.update({ ['system.listEntries.' + listKey]: obj });
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Handle a drop event for an existing embedded Item to sort that Item relative to its siblings.
-   * @param {DragEvent} event     The initiating drop event
-   * @param {Item} item           The dropped Item document
-   * @protected
-   */
-  _onSortItem(event, item) {
-    const items = this.actor.items;
-    const source = items.get(item._id); // is `id` in v13
-
-    // Confirm the drop target
-    const dropTarget = event.target.closest("[data-item-id]");
-    if ( !dropTarget ) return;
-    const target = items.get(dropTarget.dataset.itemId);
-    if ( source.id === target.id ) return;
-
-    // Identify sibling items based on adjacent HTML elements
-    const siblings = [];
-    for ( const element of dropTarget.parentElement.children ) {
-      const siblingId = element.dataset.itemId;
-      if ( siblingId && (siblingId !== source.id) ) siblings.push(items.get(element.dataset.itemId));
-    }
-
-    // Perform the sort
-    const sortUpdates = SortingHelpers.performIntegerSort(source, {target, siblings});
-    const updateData = sortUpdates.map(u => {
-      const update = u.update;
-      update._id = u.target._id;
-      return update;
-    });
-    
-    // Perform the update
-    return this.actor.updateEmbeddedDocuments("Item", updateData);
-  }
-
-  /**
-   * Handle a drop event for an existing embedded Item to sort that Item relative to its siblings.
-   * @param {DragEvent} event     The initiating drop event
-   * @param {Item} item           The dropped Item document
-   * @protected
-   */
-  _onSortEffect(event, effect) {
-    const effects = this.actor.appliedEffects;
-    const source = effects.find(e => e._id === effect._id); // is `id` in v13
-
-    // Confirm the drop target
-    const dropTarget = event.target.closest("[data-effect-id]");
-    if ( !dropTarget ) return;
-    const target = effects.find(e => e._id === dropTarget.dataset.effectId);
-    if ( source.id === target.id ) return;
-    
-    if (source.parent !== target.parent) return;
-
-    // Identify sibling effects based on adjacent HTML elements
-    const siblings = [];
-    for ( const element of dropTarget.parentElement.children ) {
-      const siblingId = element.dataset.effectId;
-      if ( siblingId && (siblingId !== source.id) ) siblings.push(effects.find(e => e._id === element.dataset.effectId));
-    }
-
-    // Perform the sort only if 
-    const sortUpdates = SortingHelpers.performIntegerSort(source, {target, siblings});
-    
-    const updateData = sortUpdates.map(u => {
-      const update = u.update;
-      update._id = u.target._id;
-      return update;
-    });
-    
-    // Perform the update
-    return target.parent.updateEmbeddedDocuments("ActiveEffect", updateData);
   }
   
 }

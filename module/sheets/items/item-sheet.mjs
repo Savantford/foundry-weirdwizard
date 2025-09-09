@@ -343,10 +343,13 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     window.classList.toggle('magical', item.system.magical);
     window.classList.toggle('weapon', item.system.subtype === 'weapon');
 
-    // Create dragDrop listener
-    new DragDrop({ // Remove in v13; core implementation
+    // Create dragDrop flow
+    new foundry.applications.ux.DragDrop.implementation({
       dragSelector: ".draggable",
-      dropSelector: null,
+      permissions: {
+        dragstart: this._canDragStart.bind(this),
+        drop: this._canDragDrop.bind(this)
+      },
       callbacks: {
         dragstart: this._onDragStart.bind(this),
         dragover: this._onDragOver.bind(this),
@@ -517,242 +520,81 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
   /*  Drag and Drop                               */
   /* -------------------------------------------- */
 
-  /** @inheritdoc */
-  /*_canDragStart(selector) {
+  /**
+   * Define whether a user is able to begin a dragstart workflow for a given drag selector.
+   * @param {string} selector       The candidate HTML selector for dragging
+   * @returns {boolean}             Can the current user drag this selector?
+   * @protected
+   */
+  _canDragStart(selector) {
     return this.isEditable;
-  }*/
+  }
 
   /* -------------------------------------------- */
 
-  /** @inheritdoc */
-  /*_canDragDrop(selector) {
+  /**
+   * Define whether a user is able to conclude a drag-and-drop workflow for a given drop selector.
+   * @param {string} selector       The candidate HTML selector for the drop target
+   * @returns {boolean}             Can the current user drop on this selector?
+   * @protected
+   */
+  _canDragDrop(selector) {
     return this.isEditable;
-  }*/
+  }
 
   /* -------------------------------------------- */
 
-  /** @inheritdoc */
-  _onDragStart(event) {
-    
-    /*const li = event.currentTarget;
-    if ( event.target.classList.contains("content-link") ) return;
-
-    // Create drag data
+  /**
+   * An event that occurs when a drag workflow begins for a draggable item on the sheet.
+   * @param {DragEvent} event       The initiating drag start event
+   * @returns {Promise<void>}
+   * @protected
+   */
+  async _onDragStart(event) {
+    const target = event.currentTarget;
+    if ( "link" in event.target.dataset ) return;
     let dragData;
 
-    // Owned Items
-    if ( li.dataset.itemId ) {
-      const item = this.actor.items.get(li.dataset.itemId);
-      dragData = item.toDragData();
-    }
-
     // Active Effect
-    if ( li.dataset.effectId ) {
-      const effect = this.actor.effects.get(li.dataset.effectId);
+    if ( target.dataset.effectId ) {
+      const effect = this.item.effects.get(target.dataset.effectId);
       dragData = effect.toDragData();
     }
 
-    if ( !dragData ) return;
-
     // Set data transfer
-    event.dataTransfer.setData("text/plain", JSON.stringify(dragData));*/
+    if ( !dragData ) return;
+    event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
   }
 
   /* -------------------------------------------- */
 
-  /** @inheritdoc */
-  _onDragOver(event) {
-    const ol = event.target.closest('.items-area');
-
-    if ($(ol).hasClass('fadeout')) return;
-
-    $(ol).addClass('fadeout');
-
-    ol.addEventListener("dragleave", (event) => $(ol).removeClass('fadeout') );
-  }
+  /**
+   * An event that occurs when a drag workflow moves over a drop target.
+   * @param {DragEvent} event
+   * @protected
+   */
+  _onDragOver(event) {}
 
   /* -------------------------------------------- */
 
-  /** @inheritdoc */
+  /**
+   * An event that occurs when data is dropped into a drop target.
+   * @param {DragEvent} event
+   * @returns {Promise<void>}
+   * @protected
+   */
   async _onDrop(event) {
-    //const rightCol = event.target.closest('.right-col');
-    //const areas = rightCol.querySelectorAll(".example");
-    
-    // Get basic data
-    const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
-    const ol = event.target.closest('.items-area');
-    
-    if (!ol) return;
+    const data = TextEditor.implementation.getDragEventData(event);
+    const actor = this.actor;
+    const allowed = Hooks.call("dropActorSheetData", actor, this, data);
+    if ( allowed === false ) return;
 
-    $(ol).removeClass('fadeout')
-
-    const benefit = ol.classList[2];
-
-    if (data.type !== "Item") return;
-
-    const item = await fromUuid(data.uuid);
-    
-    if (!(item.type === 'equipment' || item.type === 'talent' || item.type === 'spell')) {
-      return ui.notifications.warn(`${i18n('WW.CharOption.TypeWarning')}<br/>${i18n("WW.CharOption.Help", { itemType: this.document.type })}`);
+    // Dropped Documents
+    const documentClass = foundry.utils.getDocumentClass(data.type);
+    if ( documentClass ) {
+      const document = await documentClass.fromDropData(data);
+      await this._onDropDocument(event, document);
     }
-
-    if (!item.pack) return ui.notifications.warn(`${i18n('WW.CharOption.CompendiumWarning')}<br/>${i18n("WW.CharOption.Help", { itemType: this.document.type })}`);
-    
-    const benefits = this.document.system.benefits;
-    
-    benefits[benefit].items.push(data.uuid);
-
-    this.document.update({'system.benefits': benefits});
-
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Handle the dropping of ActiveEffect data onto an Actor Sheet
-   * @param {DragEvent} event                  The concluding DragEvent which contains drop data
-   * @param {object} data                      The data transfer extracted from the event
-   * @returns {Promise<ActiveEffect|boolean>}  The created ActiveEffect object or false if it couldn't be created.
-   * @protected
-   */
-  async _onDropActiveEffect(event, data) {
-    const effect = await ActiveEffect.implementation.fromDropData(data);
-    if ( !this.actor.isOwner || !effect ) return false;
-    if ( this.actor.uuid === effect.parent?.uuid ) return false;
-    return ActiveEffect.create(effect.toObject(), {parent: this.actor});
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Handle dropping of an Actor data onto another Actor sheet
-   * @param {DragEvent} event            The concluding DragEvent which contains drop data
-   * @param {object} data                The data transfer extracted from the event
-   * @returns {Promise<object|boolean>}  A data object which describes the result of the drop, or false if the drop was
-   *                                     not permitted.
-   * @protected
-   */
-  async _onDropActor(event, data) {
-    if ( !this.actor.isOwner ) return false;
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Handle dropping of an item reference or item data onto an Actor Sheet
-   * @param {DragEvent} event            The concluding DragEvent which contains drop data
-   * @param {object} data                The data transfer extracted from the event
-   * @returns {Promise<Item[]|boolean>}  The created or updated Item instances, or false if the drop was not permitted.
-   * @protected
-   */
-  async _onDropItem(event, data) {
-    if ( !this.actor.isOwner ) return false;
-    const item = await Item.implementation.fromDropData(data);
-    const itemData = item.toObject();
-
-    // Handle item sorting within the same Actor
-    if ( this.actor.uuid === item.parent?.uuid ) return this._onSortItem(event, itemData);
-
-    // Create the owned item
-    return this._onDropItemCreate(itemData);
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Handle dropping of a Folder on an Actor Sheet.
-   * The core sheet currently supports dropping a Folder of Items to create all items as owned items.
-   * @param {DragEvent} event     The concluding DragEvent which contains drop data
-   * @param {object} data         The data transfer extracted from the event
-   * @returns {Promise<Item[]>}
-   * @protected
-   */
-  async _onDropFolder(event, data) {
-    if ( !this.actor.isOwner ) return [];
-    const folder = await Folder.implementation.fromDropData(data);
-    if ( folder.type !== "Item" ) return [];
-    const droppedItemData = await Promise.all(folder.contents.map(async item => {
-      if ( !(document instanceof Item) ) item = await fromUuid(item.uuid);
-      return item.toObject();
-    }));
-    return this._onDropItemCreate(droppedItemData);
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Handle the final creation of dropped Item data on the Actor.
-   * This method is factored out to allow downstream classes the opportunity to override item creation behavior.
-   * @param {object[]|object} itemData     The item data requested for creation
-   * @returns {Promise<Item[]>}
-   * @private
-   */
-  async _onDropItemCreate(itemData) {
-    itemData = itemData instanceof Array ? itemData : [itemData];
-    return this.actor.createEmbeddedDocuments("Item", itemData);
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Handle a drop event for an existing embedded Item to sort that Item relative to its siblings
-   * @param {Event} event
-   * @param {Object} itemData
-   * @private
-   */
-  _onSortItem(event, itemData) {
-
-    // Get the drag source and drop target
-    const items = this.actor.items;
-    const source = items.get(itemData._id);
-    const dropTarget = event.target.closest("[data-item-id]");
-    if ( !dropTarget ) return;
-    const target = items.get(dropTarget.dataset.itemId);
-
-    // Don't sort on yourself
-    if ( source.id === target.id ) return;
-
-    // Identify sibling items based on adjacent HTML elements
-    const siblings = [];
-    for ( let el of dropTarget.parentElement.children ) {
-      const siblingId = el.dataset.itemId;
-      if ( siblingId && (siblingId !== source.id) ) siblings.push(items.get(el.dataset.itemId));
-    }
-
-    // Perform the sort
-    const sortUpdates = SortingHelpers.performIntegerSort(source, {target, siblings});
-    const updateData = sortUpdates.map(u => {
-      const update = u.update;
-      update._id = u.target._id;
-      return update;
-    });
-
-    // Perform the update
-    return this.actor.updateEmbeddedDocuments("Item", updateData);
-  }
-
-  /** @override */
-  async _onDropItemCreate(itemData) {
-    
-    const isAllowed = await this.checkDroppedItem(itemData);
-    if (isAllowed) return await super._onDropItemCreate(itemData);
-    console.warn('Wrong item type dragged', this.actor, itemData);
-  }
-
-  /* -------------------------------------------- */
-
-  /** @override */
-  async checkDroppedItem(itemData) {
-    const type = itemData.type
-    if (['specialaction', 'endoftheround'].includes(type)) return false
-
-    if (type === 'ancestry') {
-      const currentAncestriesIds = this.actor.items.filter(i => i.type === 'ancestry').map(i => i._id)
-      if (currentAncestriesIds?.length > 0) await this.actor.deleteEmbeddedDocuments('Item', currentAncestriesIds)
-      return true
-    } else if (type === 'path' && this.actor.system.paths?.length >= 3) return false
-
-    return true
   }
 
 }
