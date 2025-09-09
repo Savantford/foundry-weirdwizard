@@ -499,11 +499,6 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
         icon: '<i class="fa-solid fa-users-rectangle"></i>',
         callback: () => WWCombatantGroup.createDialog({}, { parent: this.viewed }),
       }, {
-        name: "WW.Combat.AddGroup",
-        icon: '<i class="fa-solid fa-user-plus"></i>',
-        condition: () => game.user.isGM && !!this.viewed,
-        callback: () => this.viewed.addGroup()
-      }, {
         name: "COMBAT.ClearMovementHistories",
         icon: '<i class="fa-solid fa-shoe-prints"></i>',
         condition: () => game.user.isGM && (this.viewed?.combatants.size > 0),

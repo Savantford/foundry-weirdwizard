@@ -804,7 +804,6 @@
 "WW.Affliction.Weakened": "Weakened",
 "WW.Affliction.WeakenedDesc": "You make Strength and Agility rolls with 1 bane, and you grant 1 boon on rolls against your Strength and Agility. In addition, your Speed is halved and you cannot benefit from increases to your Speed.",
 
-"WW.Combat.AddGroup": "Add a preset group to the combat",
 "WW.Combat.RightClickTip": "<p>Right click for context options.</p><p>Drag and drop a combatant within its phase to reorder them.</p>",
 "WW.Combat.Standby": "<p>Combat is on standby because someone is taking their turn.</p><p>Please wait until the turn is finished.</p>",
 "WW.Combat.NoPermission": "<p>You lack permission to take turns with this combatant.</p><p>If you think you should have control over this creature, please ask your Sage for the Owner permission.</p>",
