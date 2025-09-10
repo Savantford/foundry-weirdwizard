@@ -2392,6 +2392,24 @@ hr.bug {
   margin: 0;
 }
 
+.folder-config .prosemirror .editor-content,
+.folder-config prose-mirror .editor-content {
+  --input-background-color: var(--color-cool-4);
+  --input-border-color: transparent;
+  --input-text-color: var(--color-light-3);
+  --input-focus-outline-color: var(--color-cool-3);
+  --input-box-shadow: none;
+  --color-text-selection-bg: var(--color-cool-3);
+  padding: 0.25rem 0.5rem;
+  background: var(--input-background-color);
+  border: 1px solid var(--input-border-color);
+  border-radius: 4px;
+  box-shadow: var(--input-box-shadow);
+  font-family: var(--font-monospace);
+  font-size: var(--font-size-14);
+  color: var(--input-text-color);
+}
+
 /* NPC: Attributes */
 
 .weirdwizard.npc .attributes {

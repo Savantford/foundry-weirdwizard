@@ -89,6 +89,7 @@ Hooks.once('init', function () {
   
   // Define custom Document classes
   CONFIG.Actor.documentClass = WWActor;
+  CONFIG.Actor.defaultType = 'npc';
   CONFIG.Item.documentClass = WWItem;
   CONFIG.JournalEntryPage.documentClass = WWJournalPage;
   CONFIG.ActiveEffect.documentClass = WWActiveEffect;
@@ -373,7 +374,7 @@ Hooks.on('renderSettings', (app, html) => {
  * @param {JQuery<HTMLElement>} jquery  The inner HTML of the document that will be displayed and may be modified
  * @param {Record<string, any>} context The object of data used when rendering the application
  */
-Hooks.on("renderFolderConfig", (app, [html], context) => {
+Hooks.on("renderFolderConfig", (app, html, context) => {
   const folder = app.document;
 
   const description = folder.getFlag('weirdwizard', 'description') ?? '';
@@ -383,10 +384,10 @@ Hooks.on("renderFolderConfig", (app, [html], context) => {
     name="flags.weirdwizard.description" data-document-UUID="${folder.uuid}" value="${description}"
     toggled=true compact=true>${description}</prose-mirror>`;
   
-  html.querySelector('button[type="submit"]').insertAdjacentHTML('beforeBegin', htmlStr);
+  html.querySelector('[data-application-part=body]').insertAdjacentHTML('beforeEnd', htmlStr);
   
   // Add weirdwizard class to html and resize app's height
-  html.classList.add('weirdwizard');
+  //html.classList.add('weirdwizard');
   app.setPosition({ width: 435, height: 'auto' });
 
 });
