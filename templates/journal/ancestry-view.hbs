@@ -1,5 +1,6 @@
-<div class="weirdwizard charoption ancestry">
-  <section class="header-section">
+<div>
+  {{log 'testaram,'}}
+  <section class="header-section weirdwizard">
 
     {{!-- Right Banner --}}
     <header class="sheet-banner-wrapper">
@@ -9,12 +10,12 @@
         <img src="{{document.src}}" data-edit="src" data-tooltip="WW.System.ViewImage" />
       </div>
     </header>
-
-    {{#if data.title.show}}
+    
+    {{#if title.show}}
     <header class="journal-page-header">
-      <h{{data.title.level}} class="draggable" data-journal-page-uuid="{{document.uuid}}">
-        {{data.name}}
-      </h{{data.title.level}}>
+      <h{{ title.level }} class="draggable" data-journal-page-uuid="{{document.uuid}}">
+        {{ name }}
+      </h{{ title.level }}>
     </header>
     {{/if}}
 
@@ -26,7 +27,7 @@
   </section>
   
   {{!-- Benefits Section --}}
-  <section class="benefits-section">
+  <section class="benefits-section weirdwizard">
 
     {{!-- Benefit Block --}}
 

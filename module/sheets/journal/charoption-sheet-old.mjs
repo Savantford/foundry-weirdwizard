@@ -1,65 +1,99 @@
 import WWDialog from "../../apps/dialog.mjs";
 import { EntrySettingsDisplay } from "../../apps/entry-settings-display.mjs";
 import { defaultListEntryKey, defaultListEntryName, i18n } from "../../helpers/utils.mjs";
-import WWSheetMixin from "../ww-sheet.mjs";
 
-const JournalEntryPageHandlebarsSheet = foundry.applications.sheets.journal.JournalEntryPageHandlebarsSheet;
 /**
  * * The Application responsible for displaying and editing a single JournalEntryPage character option.
- * @extends {JournalEntryPageHandlebarsSheet}
+ * @extends {JournalPageSheet}
 */
 
-export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHandlebarsSheet) {
-  /** @override */
-  static DEFAULT_OPTIONS = {
-    classes: ['charoption'],
-    window: {
-      icon: 'fa-regular fa-scroll',
-      controls: [
-        {
-          action: "showItemArtwork",
-          icon: "fa-solid fa-image",
-          label: "WW.Item.ArtworkShow",
-          ownership: "OBSERVER"
-        },
-        {
-          action: "openHelp",
-          icon: "fa-solid fa-question",
-          label: "WW.System.Help",
-          ownership: "OBSERVER"
-        }
-      ]
-    },
-    actions: {
-      openHelp: this.#onOpenHelp,
-      //editImage: this.#onEditImage, // delete in V13; core functionality
-      //showItemArtwork: this.#onShowItemArtwork,
-    }
+export default class WWCharOptionSheet extends foundry.appv1.sheets.JournalPageSheet {
+
+  /** @inheritdoc */
+  static get defaultOptions() {
+    return foundry.utils.mergeObject(super.defaultOptions, {
+      closeOnSubmit: false,
+      submitOnClose: true,
+      submitOnChange: true,
+      resizable: true,
+      dragDrop: [
+        {dragSelector: '.directory-list .item', dropSelector: '.items-area'},
+        {dragSelector: '.item-list .item', dropSelector: '.items-area'},
+        {dragSelector: '.draggable', dropSelector: '.actor'},
+        {dragSelector: '#entry-settings-display .draggable', dropSelector: '.benefit-block'}
+      ],
+      secrets: [{parentSelector: ".editor"}]
+    });
   }
 
   /** @override */
-  _configureRenderParts(options) {
-    const parts = this.isView ? this.constructor.VIEW_PARTS : this.constructor.EDIT_PARTS;
-    return foundry.utils.deepClone(parts);
+  /*static DEFAULT_OPTIONS = {
+    classes: ['weirdwizard', 'sheet', 'charoption'],
+    window: {
+      icon: 'fa-solid fa-user'
+    },
+    dragDrop: [
+      {dragSelector: null, dropSelector: '.items-area'},
+      //{dragSelector: ".directory-list .item", dropSelector: null},
+      //{dragSelector: ".item-list .item", dropSelector: null}
+    ]
+  }*/
+
+  /** @override */
+  get template() {
+    const mode = this.isEditable ? "edit" : "view";
+    return `systems/weirdwizard/templates/journal/${this.document.type}-${mode}.hbs`;
+  }
+
+  /** @override */
+  /*static PARTS = { // App V2 only
+    //
+  }*/
+
+  /** @override */
+  /*_configureRenderOptions(options) { // App V2 only
+    super._configureRenderOptions(options);
+
+    // Completely overriding the parts
+    options.parts = ['menu', 'sidetabs', 'namestripe', 'banner', 'summary', 'details', 'equipment', 'talents', 'spells', 'effects'];
+    
+    return options;
+  }*/
+
+  /* -------------------------------------------- */
+
+  /** @inheritdoc */
+  _getHeaderButtons() {
+    let buttons = super._getHeaderButtons();
+    const canConfigure = game.user.isGM;
+
+    if (canConfigure) {
+      const sheetIndex = buttons.findIndex(btn => btn.label === "Sheet");
+
+      // Add help button
+      buttons.splice(sheetIndex, 0, {
+        label: "Help", // "WW.System.Help" not working
+        class: "help",
+        icon: "fa-solid fa-question",
+        onclick: ev => this._onHelp(ev)
+      });
+
+    }
+
+    return buttons;
   }
 
   /* -------------------------------------------- */
 
-  /**
-   * @inheritdoc
-   * Prepare application rendering context data for a given render request.
-   * @param {RenderOptions} options                 Options which configure application rendering behavior
-   * @returns {Promise<ApplicationRenderContext>}   Context data for the render operation
-   */
-  async _prepareContext(options) {
-    const context = await super._prepareContext(options);
-    context.text = { ...this.page.text };
-    this.#convertFormats(context);
-
-    const docData = this.page;
+  /** @inheritdoc */
+  async getData(options={}) { // Swap by _prepareContext() in V2
+    const context = super.getData(options);
+    this._convertFormats(context);
+    
+    const docData = this.document;
     const TextEditor = foundry.applications.ux.TextEditor.implementation;
 
-    context.page = docData, // Use a safe clone of the document data for further operations.
+    context.document = docData, // Use a safe clone of the document data for further operations.
     context.system = docData.system,
     context.folder = await docData.folder,
     context.flags = docData.flags,
@@ -68,9 +102,9 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     context.editor = {
       engine: "prosemirror",
       collaborate: true,
-      content: await TextEditor.enrichHTML(context.page.text.content, {
-        relativeTo: this.page,
-        secrets: this.page.isOwner
+      content: await TextEditor.enrichHTML(context.document.text.content, {
+        relativeTo: this.document,
+        secrets: this.document.isOwner
       })
     };
 
@@ -84,8 +118,8 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     context.spellsLearned = CONFIG.WW.SPELLS_LEARNED;
     
     // Prepare Benefits list
-    if (this.page.system.benefits) {
-      context.benefits = {...await this.page.system.benefits};
+    if (this.document.system.benefits) {
+      context.benefits = {...await this.document.system.benefits};
       context.listEntries = {};
       
       const listKeys = ['senses', 'descriptors', 'languages', 'immunities', 'movementTraits', 'traditions'];
@@ -150,7 +184,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     if (this.isTradition) {
 
       // Prepare talents
-      const talents = this.page.system.talents;
+      const talents = this.document.system.talents;
       context.talents = [];
       
       for (const t in talents) {
@@ -163,7 +197,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
       }
 
       // Prepare spells
-      const spells = this.page.system.spells;
+      const spells = this.document.system.spells;
       context.spells = {
         novice: [],
         expert: [],
@@ -189,8 +223,22 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
 
   /* -------------------------------------------- */
 
+  /**
+   * Lazily convert text formats if we detect the document being saved in a different format.
+   * @param {object} renderData  Render data.
+   * @protected
+   */
+  _convertFormats(renderData) {
+    const formats = CONST.JOURNAL_ENTRY_PAGE_FORMATS;
+    const text = this.object.text;
+    if ( (this.constructor.format === formats.MARKDOWN) && text.content?.length && !text.markdown?.length ) {
+      // We've opened an HTML document in a markdown editor, so we need to convert the HTML to markdown for editing.
+      renderData.data.text.markdown = this.constructor._converter.makeMarkdown(text.content.trim());
+    }
+  }
+
   /** @override */
-  /*activateListeners(html) {
+  activateListeners(html) {
     super.activateListeners(html);
 
     // Everything below here is only needed if the sheet is editable
@@ -206,7 +254,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     // Handle array elements
     html.find('.array-button').click(this._onListEntryButtonClicked.bind(this));
 
-  }*/
+  }
 
   /* -------------------------------------------- */
   /*  Array button actions                        */
@@ -247,7 +295,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
       listKey = dataset.listKey,
       listPath = dataset.listPath,
       path = 'system.' + listPath,
-      obj = foundry.utils.getProperty(this.page, path),
+      obj = foundry.utils.getProperty(this.document, path),
       entryKey = defaultListEntryKey(obj, listKey),
       entryName = defaultListEntryName(obj, listKey),
     entry = { name: entryName };
@@ -255,7 +303,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     obj[entryKey] = entry;
     
     // Update document
-    await this.page.update({ [path]: obj });
+    await this.document.update({ [path]: obj });
 
     const context = {
       entry: entry,
@@ -292,7 +340,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
 
     delete await obj[dialogInput.key].key;
 
-    await this.page.update({ [path]: obj });
+    await this.document.update({ [path]: obj });
 
   }
 
@@ -308,7 +356,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     const dataset = button.dataset,
       listPath = dataset.listPath,
       path = 'system.' + listPath,
-      obj = foundry.utils.getProperty(this.page, path),
+      obj = foundry.utils.getProperty(this.document, path),
       entryKey = dataset.entryKey,
     entry = obj[entryKey];
     
@@ -350,7 +398,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     // Delete old key if key has changed
     if (entryKey !== dialogInput.key) obj['-=' + entryKey] = null;
     
-    await this.page.update({ [path]: obj });
+    await this.document.update({ [path]: obj });
 
   }
 
@@ -366,14 +414,14 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     const dataset = Object.assign({}, button.dataset),
       listPath = dataset.listPath,
       path = 'system.' + listPath,
-      obj = foundry.utils.getProperty(this.page, path),
+      obj = foundry.utils.getProperty(this.document, path),
     key = dataset.entryKey;
     
     const newObj = {...obj }; 
     delete await newObj[key];
     
     // Update document
-    await this.page.update({ [`${path}.-=${key}`]: null });
+    await this.document.update({ [`${path}.-=${key}`]: null });
     
   }
 
@@ -431,33 +479,33 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
 
     // Handle delete on Tradition
     if (this.isTradition) {
-      const spells = this.page.system.spells;
-      const talents = this.page.system.talents;
+      const spells = this.document.system.spells;
+      const talents = this.document.system.talents;
       
       if (item.type === 'spell') {
         const arr = spells[item.system.tier].filter(v => { return v !== uuid; });
         spells[item.system.tier] = arr;
         
-        await this.page.update({ 'system.spells': spells });
+        await this.document.update({ 'system.spells': spells });
       } else if (item.type === 'talent') {
-        await this.page.update({ 'system.talents': talents.filter(v => { return v !== uuid; }) });
+        await this.document.update({ 'system.talents': talents.filter(v => { return v !== uuid; }) });
       }
     
     // Handle delete on non-Tradition
     } else {
       // Remove the UUID from the benefit's items
-      const benefits = this.page.system.benefits;
+      const benefits = this.document.system.benefits;
       const arr = benefits[benefit].items.filter(v => { return v !== uuid; });
       benefits[benefit].items = arr;
 
-      await this.page.update({'system.benefits': benefits});
+      await this.document.update({'system.benefits': benefits});
     }
 
   }
 
   /* -------------------------------------------- */
 
-  static async #onOpenHelp() {
+  async _onHelp(event) {
     const entry = await fromUuid('Compendium.weirdwizard.documentation.JournalEntry.R3pFihgoMAB2Uab5');
     entry.sheet.render(true);
   }
@@ -662,24 +710,6 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
 
   get isTradition() {
     return this.document.type === 'tradition';
-  }
-
-  /* -------------------------------------------- */
-  /*  Conversion                                  */
-  /* -------------------------------------------- */
-
-  /**
-   * From {JournalEntryPageTextSheet}
-   * Lazily convert text formats if we detect the document being opened in a different format.
-   * @param {ApplicationRenderContext} context
-   */
-  #convertFormats(context) {
-    const formats = CONST.JOURNAL_ENTRY_PAGE_FORMATS;
-    const text = this.page.text;
-    if ( (this.constructor.format === formats.MARKDOWN) && text.content?.length && !text.markdown?.length ) {
-      // We've opened an HTML document in a markdown editor, so we need to convert the HTML to markdown for editing.
-      context.text.markdown = this.constructor._converter.makeMarkdown(text.content.trim());
-    }
   }
   
 }

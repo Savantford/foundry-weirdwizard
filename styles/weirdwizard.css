@@ -15,7 +15,9 @@ body {
   --purple-dark-rgb: 73, 36, 79;
   --purple-medium: #775B7B;
   --purple-darker: #2A142E;
-  --purple-darker-hsla: hsl(291deg 39% 13% / 90%);
+  --purple-darker-rgb: 42, 20, 46;
+  --purple-darkest: #100711;
+  --purple-darkest-rgb: 16, 7, 17;
 
   /* Filters */
   --grey-filter: brightness(0) saturate(100%) invert(53%) sepia(66%) saturate(0%) hue-rotate(194deg) brightness(76%) contrast(71%);
@@ -41,6 +43,11 @@ body {
   --color-shadow-highlight: var(--purple-dark);
   --color-warm-1: var(--purple-medium);
   --color-warm-2: var(--color-shadow-primary);
+  --color-cool-5: var(--purple-darkest);
+  --color-cool-5-25: rgba(var(--purple-darkest-rgb), 0.25);
+  --color-cool-5-50: rgba(var(--purple-darkest-rgb), 0.5);
+  --color-cool-5-75: rgba(var(--purple-darkest-rgb), 0.75);
+  --color-cool-5-90: rgba(var(--purple-darkest-rgb), 0.9);
 
   /* Scrollbar Override */
   --color-scrollbar: var(--purple-dark);
@@ -465,12 +472,6 @@ body {
 /* -------------------------------------------- */
 
 /* Styles limited to weirdwizard sheets */
-.app.weirdwizard,
-.application.weirdwizard {
-  background-color: var(--purple-darker-hsla);
-  background-blend-mode: hard-light;
-}
-
 .application.weirdwizard .window-header {
   background: none;
 }
@@ -479,7 +480,7 @@ body {
   z-index: 2; /* Readjust on some sheets */
 }
 
-.weirdwizard .window-content,
+.weirdwizard:not(.journal-entry-page) .window-content,
 .window-app .window-content {
   color: var(--body-text-color);
   background: var(--paper-bg);
@@ -550,7 +551,7 @@ body {
 .weirdwizard .window-content h4,
 .weirdwizard .window-content h5,
 .weirdwizard .window-content h6,
-.journal-entry-page h1,
+.journal-entry-page h1:not(.window-title),
 .journal-entry-page h2,
 .journal-entry-page h3,
 .journal-entry-page h4:not(.window-title),
@@ -565,7 +566,7 @@ body {
 .weirdwizard .window-content h1,
 .weirdwizard .window-content h2,
 .weirdwizard .window-content h3,
-.journal-entry-page h1,
+.journal-entry-page h1:not(.window-title),
 .journal-entry-page h2,
 .journal-entry-page h3 {
   color: var(--purple-dark);
@@ -577,7 +578,7 @@ body {
 .weirdwizard .window-content h3:first-of-type,
 .weirdwizard .window-content h4:first-of-type,
 .weirdwizard .window-content h5:first-of-type,
-.journal-entry-page h1:first-of-type,
+.journal-entry-page h1:first-of-type:not(.window-title),
 .journal-entry-page h2:first-of-type,
 .journal-entry-page h3:first-of-type,
 .journal-entry-page h4:not(.window-title):first-of-type,
@@ -586,7 +587,7 @@ body {
 }
 
 .weirdwizard .window-content h1,
-.journal-entry-page h1 {
+.journal-entry-page h1:not(.window-title) {
   border-bottom: 0px;
   letter-spacing: 0.02em;
 }
@@ -783,7 +784,7 @@ body {
 
 .weirdwizard.sheet.actor input,
 .weirdwizard.sheet.item input,
-.weirdwizard.charoption input {
+.journal-entry-page .weirdwizard input {
   height: var(--sheet-input-height);
 }
 
@@ -806,7 +807,7 @@ body {
   margin: 0;
   padding: 0;
   /*margin: 0 0 5px;*/
-  min-width: 2ch;
+  min-width: 2.5ch;
   min-height: 1lh;
 }
 
@@ -926,14 +927,14 @@ body {
 }
 
 .weirdwizard.character form,
-.weirdwizard.charoption form {
+.journal-entry-page .weirdwizard form {
   display: flex;
   flex-direction: row;
   gap: 15px;
   padding: 0;
 }
 
-.weirdwizard.charoption form {
+.journal-entry-page .weirdwizard form {
   margin-left: 245px;
 }
 
@@ -1079,7 +1080,7 @@ body {
   gap: 0.5rem;
 }
 
-.weirdwizard.charoption header.sheet-header {
+.journal-entry-page .weirdwizard header.sheet-header {
   flex-direction: column;
   text-align: center;
   height: fit-content;
@@ -1140,7 +1141,7 @@ body {
   padding-right: 200px;
 }
 
-.weirdwizard.charoption .profession-sheet .name-stripe {
+.journal-entry-page .weirdwizard .profession-sheet .name-stripe {
   padding-left: 185px;
 }
 
@@ -1213,7 +1214,6 @@ body {
 }
 
 /* Sheet Banner */
-
 .weirdwizard .sheet-banner {
   width: var(--sheet-banner-width);
   display: flex;
@@ -2078,7 +2078,7 @@ hr.bug {
   display: flex;
 }
 
-.weirdwizard.charoption .tab[data-tab] {
+.journal-entry-page .weirdwizard .tab[data-tab] {
   margin-left: 245px;
   background-position: center calc(50% - 10px), bottom;
   background-origin: padding-box;
@@ -2086,7 +2086,7 @@ hr.bug {
   padding-bottom: 35px;
 }
 
-.weirdwizard.charoption .profession-sheet .tab[data-tab] {
+.journal-entry-page .weirdwizard .profession-sheet .tab[data-tab] {
   margin-left: 175px;
 }
 
@@ -3142,38 +3142,34 @@ input[type="checkbox"].checkbox-uses {
 }
 
 /* -------------------------------------------- */
-/*  Character Optionss                          */
+/*  Character Options                           */
 /* -------------------------------------------- */
 
-.journal-entry-page:not(article) .weirdwizard.charoption {
-  margin-bottom: 1rem;
-}
-
-.weirdwizard.charoption .header-section {
+.journal-entry-page .header-section.weirdwizard {
   margin-bottom: 0.5rem;
 }
 
-.weirdwizard.charoption.ancestry .header-section {
+.journal-entry-page.ancestry .header-section {
   min-height: 100px;
 }
 
-.weirdwizard.charoption.path .header-section {
+.journal-entry-page.path .header-section {
   min-height: 130px;
 }
 
-.weirdwizard.charoption.tradition .header-section {
+.journal-entry-page.tradition .header-section {
   min-height: 160px;
 }
 
 /* Character Option: Banner */
-.weirdwizard.charoption .sheet-banner-wrapper {
+.sheet-banner-wrapper {
   --spear-offset: 30px;
   --spear-height: 14px;
   float: right;
   margin-left: -1rem;
 }
 
-.weirdwizard.charoption .sheet-banner-wrapper hr.spear {
+.sheet-banner-wrapper hr.spear {
   position: relative;
   background: none;
   border-image-source: url(../assets/ui/spear-divider.svg);
@@ -3185,7 +3181,7 @@ input[type="checkbox"].checkbox-uses {
   z-index: 1;
 }
 
-.weirdwizard.charoption .sheet-banner {
+.journal-entry-page .sheet-banner {
   width: auto;
   margin: 0 var(--spear-offset) 1rem;
   padding: 1rem 1rem 2rem;
@@ -3193,30 +3189,16 @@ input[type="checkbox"].checkbox-uses {
   filter: drop-shadow(0 2px 2px black);
 }
 
-.weirdwizard.charoption .image-wrapper {
-  display: flex;
-  flex: 0;
-  margin-left: 1rem;
-}
-
-.weirdwizard.charoption .image-wrapper figure {
-  margin: 0;
-}
-
-.weirdwizard.charoption .image-wrapper > div {
-  flex: 1;
-}
-
-.weirdwizard.charoption .banner-img {
+.journal-entry-page .banner-img {
   width: 90px;
 }
 
-.weirdwizard.charoption .image-preview img {
+.journal-entry-page .image-preview img {
   width: 100px;
 }
 
 /* Character Option: Framed Icon */
-.weirdwizard.charoption:not(.tradition) .sheet-banner-wrapper {
+.journal-entry-page:not(.tradition) .sheet-banner-wrapper {
   padding: 0 5px;
   margin-left: 0.5rem;
 }
@@ -3253,8 +3235,33 @@ input[type="checkbox"].checkbox-uses {
   width: 50px;
 }
 
-/* Character Option: Text Editor */
-.weirdwizard.charoption .editor {
+/* Character Option: Edit Mode */
+.journal-entry-page.charoption .window-content {
+  padding: 0;
+}
+
+.journal-entry-page.charoption .edit-mode .image-wrapper {
+  display: flex;
+  flex: 0;
+  gap: 1rem;
+  margin: 0 1rem;
+}
+
+.journal-entry-page.charoption .edit-mode .image-wrapper figure,
+.journal-entry-page.charoption .edit-mode .image-wrapper figure figcaption {
+  margin: 0;
+  width: auto;
+}
+
+.journal-entry-page.charoption .edit-mode .image-wrapper > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 1rem;
+}
+
+.journal-entry-page.charoption .edit-mode .editor {
   min-height: 200px;
 }
 
@@ -3262,12 +3269,56 @@ input[type="checkbox"].checkbox-uses {
   z-index: 2;
 }
 
-.weirdwizard.charoption .prosemirror .editor-container {
-  margin: 0.5rem 1rem;
+.journal-entry-page.charoption .edit-mode .prosemirror .editor-content {
+  margin: 0.25rem 1rem;
 }
 
-/* Character Option: Text Formatting */
-.weirdwizard.charoption h5 {
+.journal-entry-page.charoption .edit-mode .prosemirror .editor-container,
+.journal-entry-page.charoption .edit-mode .benefits-section {
+  --border-image: url(../assets/ui/plates/double-purple-transparent.svg);
+  --border-width: 15px;
+  --clip-radius: calc(var(--border-width) - 5px);
+  --clip-radius-neg: calc(-1* var(--clip-radius));
+  background: var(--paper-bg);
+  color: var(--body-text-color);
+  border-image: var(--border-image);
+  border-image-slice: 155 fill;
+  border-image-width: var(--border-width);
+  --mask: radial-gradient(var(--clip-radius) at var(--clip-radius) var(--clip-radius), #0000 90%, #000) var(--clip-radius-neg) var(--clip-radius-neg);
+  -webkit-mask: var(--mask);
+  mask: var(--mask);
+  padding: 0.75rem 1rem;
+}
+
+.journal-entry-page.charoption .edit-mode .benefits-section {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.journal-entry-page.charoption .edit-mode .benefit-block input {
+  background: var(--background-color-shadow);
+  border-radius: 3px;
+  margin: 0;
+  padding: 2px 5px;
+  height: 1lh;
+  line-height: normal;
+  color: var(--body-text-color);
+}
+
+.journal-entry-page.charoption .edit-mode .benefit-block input[type=number] {
+  padding: 0;
+  text-align: center;
+}
+
+.journal-entry-page.charoption .edit-mode .items-area {
+  background: var(--background-color-shadow);
+  border-radius: 3px;
+  margin: 0;
+  padding: 2px 5px;
+}
+
+/* Character Option: View Mode Formatting */
+.journal-entry-page .weirdwizard h5 {
   text-align: center;
   background: none;
   border-image: url(../assets/ui/plates/double-purple.svg);
@@ -3280,7 +3331,7 @@ input[type="checkbox"].checkbox-uses {
   font-size: var(--font-size-14);
 }
 
-.weirdwizard.charoption .type {
+.journal-entry-page .weirdwizard .type {
   border-image: url(../assets/ui/headers/pointed-double-grey.svg);
   border-image-slice: 15 15 fill;
   border-image-width: 20px;
@@ -3295,35 +3346,30 @@ input[type="checkbox"].checkbox-uses {
   line-height: 1lh;
 }
 
-.weirdwizard.charoption .item-type > select {
+.journal-entry-page .weirdwizard .item-type > select {
   color: white;
 }
 
-.weirdwizard.charoption .item-type > select > * {
+.journal-entry-page .weirdwizard .item-type > select > * {
   color: black;
   font-family: var(--font-body);
 }
 
-.weirdwizard.charoption .item-type-container {
+.journal-entry-page .weirdwizard .item-type-container {
   display: inline-flex;
   align-items: center;
   gap: 5px;
 }
 
-.weirdwizard.charoption .benefits-section {
-  margin-left: 1rem;
-  margin-right: 1rem;
-}
-
-article .weirdwizard.charoption .benefits-section {
+.journal-entry-page .weirdwizard .benefits-section {
   margin: 0;
 }
 
-.weirdwizard.charoption .benefit-block > h5 {
+.journal-entry-page .weirdwizard .benefit-block > h5 {
   margin: 10px 0 5px 0;
 }
 
-.weirdwizard.charoption .benefit-block > h5:first-of-type {
+.journal-entry-page .weirdwizard .benefit-block > h5:first-of-type {
   margin-top: 0;
 }
 
@@ -3331,25 +3377,13 @@ article .weirdwizard.charoption .benefits-section {
   margin-left: 5px;
 }
 
-.weirdwizard.charoption .benefit-block input {
-  height: 1lh;
-  text-align: center;
-}
-
-.weirdwizard.charoption .items-area {
-  background: var(--background-color-shadow);
-  border-radius: 3px;
-  margin: 0;
-  padding: 2px 5px;
-}
-
-article .weirdwizard.charoption .items-area {
+.journal-entry-page .weirdwizard .items-area {
   background: none;
   border-radius: 0;
   padding: 0;
 }
 
-.weirdwizard.charoption .items-area:not(:first-child) {
+.journal-entry-page .weirdwizard .items-area:not(:first-child) {
   margin-top: 5px;
 }
 
@@ -3360,7 +3394,7 @@ article .weirdwizard.charoption .items-area {
   padding-left: 1em;
 }
 
-.weirdwizard.charoption .formatted-spell-list {
+.journal-entry-page .weirdwizard .formatted-spell-list {
   list-style: none;
   font-size: small;
   display: flex;
@@ -3371,7 +3405,7 @@ article .weirdwizard.charoption .items-area {
   padding: 0;
 }
 
-.weirdwizard.charoption .formatted-spell-list li {
+.journal-entry-page .weirdwizard .formatted-spell-list li {
   flex: 250px;
   max-width: 400px;
   background: var(--background-color-shadow);
@@ -3380,23 +3414,23 @@ article .weirdwizard.charoption .items-area {
   padding: 3px 5px;
 }
 
-.weirdwizard.charoption .formatted-spell-list li .spell-title {
+.journal-entry-page .weirdwizard .formatted-spell-list li .spell-title {
   display: flex;
   align-items: center;
   gap: 1em;
   justify-content: space-between;
 }
 
-.weirdwizard.charoption .formatted-spell-list .spell-title > h3 {
+.journal-entry-page .weirdwizard .formatted-spell-list .spell-title > h3 {
   flex: 1;
 }
 
-.weirdwizard.charoption .formatted-spell-list .spell-title > img {
+.journal-entry-page .weirdwizard .formatted-spell-list .spell-title > img {
   height: 30px;
   border-radius: 50%;
 }
 
-.weirdwizard.charoption .fadeout {
+.journal-entry-page .weirdwizard .fadeout {
   box-shadow: rgba(33, 33, 33, 0.8) 0px 0px 1px 2px, rgba(33, 33, 33, 0.6) 0px 0px 0px 5000px;
   /* border-radius: 4px; */
   transition: all 0.3s ease-out;
@@ -3404,11 +3438,11 @@ article .weirdwizard.charoption .items-area {
   position: relative;
 }
 
-.weirdwizard.charoption .missing {
+.journal-entry-page .weirdwizard .missing {
   color: #880000;
 }
 
-.weirdwizard.charoption .missing label {
+.journal-entry-page .weirdwizard .missing label {
   color: var(--color-text-dark-5);
 }
 

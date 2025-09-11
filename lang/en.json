@@ -492,7 +492,7 @@
 "WW.CharOption.MissingRef": "Missing UUID reference for the equipment, trait, talent or spell. You can either delete this entry or restore it by putting the item back in the original Compendium.",
 "WW.CharOption.TypeWarning": "Dropped item type must be one of the following: Equipment, Trait/Talent or Spell.",
 "WW.CharOption.CompendiumWarning": "Item must be dragged from a <b>Compendium</b>.",
-"WW.CharOption.Help": "Click on the <b>Help</b> buttom at the top right of the {itemType} window for more information.",
+"WW.CharOption.Help": "For more information about character options, open the top right window header menu, then <b>Help</b>.",
 "WW.CharOption.GrantedBy": "Granted by",
 
 "WW.CharOption.Reference.EditRef": "Edit the referenced item in the Compendium",
@@ -923,6 +923,7 @@
 "WW.System.EditImage": "Click to edit the image.",
 "WW.System.Embed": "Embed in chat",
 "WW.System.Link": "Link in chat",
+"WW.System.Help": "Help",
 "WW.System.Tour": "Start tour",
 "WW.System.Documentation": "Show documentation",
 

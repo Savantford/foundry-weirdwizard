@@ -1,6 +1,4 @@
-<form class="{{cssClass}} flexcol weirdwizard charoption ancestry" autocomplete="off">
-
-  {{> journalEntryPageHeader}}
+<div class="journal-page-content edit-mode scrollable">
   
   <div class="image-wrapper">
     <figure class="image-preview">
@@ -27,11 +25,10 @@
   </div>
 
   {{!-- Editor --}}
-  {{editor editor.content target="text.content" class="journal-page-content" button=false editable=true
-    engine=editor.engine collaborate=editor.collaborate}}
+  <prose-mirror name="text.content" class="journal-page-content" value="{{ text.content }}" data-document-uuid="{{ uuid }}" collaborate></prose-mirror>
   
   {{!-- Benefits Section --}}
-  <section class="benefits-section">
+  <section class="benefits-section weirdwizard">
 
     {{!-- Benefit Block --}}
 
@@ -214,8 +211,5 @@
     </div>
 
   </section>
-
-  {{!-- Journal Page Footer --}}
-  {{!--{{> journalEntryPageFooter}}--}}
-
-</form>
+  
+</div>
