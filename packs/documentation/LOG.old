@@ -1,7 +1,3 @@
-2025/09/10-14:37:15.206 5050 Recovering log #885
-2025/09/10-14:37:15.210 5050 Delete type=0 #885
-2025/09/10-14:37:15.210 5050 Delete type=3 #884
-2025/09/10-19:14:13.206 3904 Level-0 table #889: started
-2025/09/10-19:14:13.206 3904 Level-0 table #889: 0 bytes OK
-2025/09/10-19:14:13.207 3904 Delete type=0 #887
-2025/09/10-19:14:13.212 3904 Manual compaction at level-0 from '!journal!3bnYDDtjmh0SFFBS' @ 72057594037927935 : 1 .. '!journal.pages!R3pFihgoMAB2Uab5.thPe333HcfTJyiLv' @ 0 : 0; will stop at (end)
+2025/09/10-19:15:56.094 5050 Recovering log #888
+2025/09/10-19:15:56.098 5050 Delete type=0 #888
+2025/09/10-19:15:56.098 5050 Delete type=3 #886

@@ -17,12 +17,6 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
       icon: 'fa-regular fa-scroll',
       controls: [
         {
-          action: "showItemArtwork",
-          icon: "fa-solid fa-image",
-          label: "WW.Item.ArtworkShow",
-          ownership: "OBSERVER"
-        },
-        {
           action: "openHelp",
           icon: "fa-solid fa-question",
           label: "WW.System.Help",
@@ -30,12 +24,43 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
         }
       ]
     },
+    secrets: [{parentSelector: ".editor"}],
     actions: {
       openHelp: this.#onOpenHelp,
-      //editImage: this.#onEditImage, // delete in V13; core functionality
-      //showItemArtwork: this.#onShowItemArtwork,
+
+      entryCreate: this.#onEntryCreate,
+      entryEdit: this.#onEntryEdit,
+      entryRemove: this.#onEntryRemove,
+      entrySettings: this.#onEntrySettingsDisplay,
+
+      refEdit: this.#onRefEdit,
+      refRemove: this.#onRefRemove
     }
   }
+
+  /* -------------------------------------------- */
+  /*  Rendering                                   */
+  /* -------------------------------------------- */
+
+  /** @inheritdoc
+   * Append a Help button to the window's header
+   */
+  async _renderFrame(options) {
+    const frame = await super._renderFrame(options);
+    const buttons = [
+      game.weirdwizard.utils.constructHTMLButton({
+        label: "",
+        classes: ["header-control", "icon", "fa-solid", "fa-circle-question"],
+        dataset: { action: "openHelp", tooltip: "WW.System.Help" }
+      })
+    ];
+    
+    this.window.controls?.after(...buttons);
+
+    return frame;
+  }
+
+  /* -------------------------------------------- */
 
   /** @override */
   _configureRenderParts(options) {
@@ -189,46 +214,51 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
 
   /* -------------------------------------------- */
 
-  /** @override */
-  /*activateListeners(html) {
-    super.activateListeners(html);
+  /** @inheritdoc */
+  async _onRender(context, options) {
+    await super._onRender(context, options);
 
-    // Everything below here is only needed if the sheet is editable
-    if (!this.options.editable) return;
+    // Initialize Drag and Drop handlers
+    const dragDropPairs = [
+      {
+        dragSelector: '.directory-list .item',
+        dropSelector: '.items-area'
+      }, {
+        dragSelector: '.item-list .item',
+        dropSelector: '.items-area'
+      }, {
+        dragSelector: '.draggable',
+        dropSelector: '.actor'
+      }, {
+        dragSelector: '#entry-settings-display .draggable',
+        dropSelector: '.benefit-block'
+      }
+    ];
 
-    // Reference handling
-    html.find('.ref-edit').click(ev => this._onRefEdit(ev));
-    html.find('.ref-remove').click(ev => this._onRefRemove(ev));
-
-    // Handle help
-    html.find('.help').click(ev => this._onHelp(ev));
-
-    // Handle array elements
-    html.find('.array-button').click(this._onListEntryButtonClicked.bind(this));
-
-  }*/
-
-  /* -------------------------------------------- */
-  /*  Array button actions                        */
-  /* -------------------------------------------- */
-
-  /**
-   * Handle clicked array buttons
-   * @param {Event} event   The originating click event
-   * @private
-  */
-
-  _onListEntryButtonClicked(event) { // Use actions in v13 instead
-    const button = event.currentTarget,
-      dataset = Object.assign({}, button.dataset);
-    
-    switch (dataset.action) {
-      case 'entryCreate': this.#onEntryCreate(event, button); break;
-      case 'entryEdit': this.#onEntryEdit(event, button); break;
-      case 'entryRemove': this.#onEntryRemove(event, button); break;
-      case 'entrySettings': this.#onEntrySettingsDisplay(event, button); break;
+    for (const dragDropPair of dragDropPairs) {
+      new foundry.applications.ux.DragDrop.implementation({
+        dragSelector: dragDropPair.dragSelector,
+        dropSelector: dragDropPair.dropSelector,
+        permissions: {
+          dragstart: () => this.isEditable,
+          drop: () => this.isEditable,
+        },
+        callbacks: {
+          dragstart: this._onDragStart.bind(this),
+          dragover: this._onDragOver.bind(this),
+          drop: this._onDrop.bind(this),
+        },
+      }).bind(this.element);
     }
-    
+  }
+
+  /* -------------------------------------------- */
+  /*  General purpose actions                     */
+  /* -------------------------------------------- */
+
+  static async #onOpenHelp() {
+    const entry = await fromUuid('Compendium.weirdwizard.documentation.JournalEntry.R3pFihgoMAB2Uab5');
+    entry.sheet.render(true);
   }
 
   /* -------------------------------------------- */
@@ -241,7 +271,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
    * @param {HTMLElement} button   The button element originating the click event
    * @private
   */
-  async #onEntryCreate(event, button) {
+  static async #onEntryCreate(event, button) {
     // Get data
     const dataset = Object.assign({}, button.dataset),
       listKey = dataset.listKey,
@@ -302,8 +332,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
    * @param {HTMLElement} button   The button element originating the click event
    * @private
   */
-  async #onEntryEdit(event, button) {
-
+  static async #onEntryEdit(event, button) {
     // Get data
     const dataset = button.dataset,
       listPath = dataset.listPath,
@@ -360,7 +389,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
    * @param {HTMLElement} button   The button element originating the click event
    * @private
   */
-  async #onEntryRemove(event, button) {
+  static async #onEntryRemove(event, button) {
     if (event.currentTarget.classList.contains('benefit-block')) event.stopPropagation();
     
     const dataset = Object.assign({}, button.dataset),
@@ -383,7 +412,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     * @param {HTMLElement} button   The button element originating the click event
     * @private
    */
-  #onEntrySettingsDisplay(event, button) {
+  static #onEntrySettingsDisplay(event, button) {
     const dataset = Object.assign({}, button.dataset),
       listKey = dataset.listKey;
 
@@ -394,22 +423,20 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
   /*  Char Options reference actions              */
   /* -------------------------------------------- */
 
-  async _onRefEdit(event) {
-
-    const li = event.currentTarget.closest('.item-reference');
+  static async #onRefEdit(event, button) {
+    const li = button.closest('.item-reference');
     const item = await fromUuid(li.dataset.itemUuid);
     
-    await item.compendium.apps[0]._render(true);
+    await item.compendium.apps[0].render(true);
     await item.sheet.render(true);
 
   }
 
   /* -------------------------------------------- */
 
-  async _onRefRemove(event) {
-
-    const li = event.currentTarget.closest('.item-reference');
-    const ol = event.currentTarget.closest('.items-area');
+  static async #onRefRemove(event, button) {
+    const li = button.closest('.item-reference');
+    const ol = button.closest('.items-area');
 
     const benefit = ol.classList[2];
     const uuid = li.dataset.itemUuid;
@@ -429,8 +456,8 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
 
     if (!confirm) return;
 
-    // Handle delete on Tradition
-    if (this.isTradition) {
+    // Handle deletion
+    if (this.isTradition) { // Is a Tradition
       const spells = this.page.system.spells;
       const talents = this.page.system.talents;
       
@@ -443,8 +470,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
         await this.page.update({ 'system.talents': talents.filter(v => { return v !== uuid; }) });
       }
     
-    // Handle delete on non-Tradition
-    } else {
+    } else { // Not a Tradition
       // Remove the UUID from the benefit's items
       const benefits = this.page.system.benefits;
       const arr = benefits[benefit].items.filter(v => { return v !== uuid; });
@@ -456,26 +482,8 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
   }
 
   /* -------------------------------------------- */
-
-  static async #onOpenHelp() {
-    const entry = await fromUuid('Compendium.weirdwizard.documentation.JournalEntry.R3pFihgoMAB2Uab5');
-    entry.sheet.render(true);
-  }
-
-  /* -------------------------------------------- */
   /*  Drag and Drop                               */
   /* -------------------------------------------- */
-
-  /**
-   * Define whether a user is able to conclude a drag-and-drop workflow for a given drop selector
-   * @param {string} selector       The candidate HTML selector for the drop target
-   * @returns {boolean}             Can the current user drop on this selector?
-   * @protected
-   */
-  _canDragDrop(selector) {
-    // game.user fetches the current user
-    return this.isEditable;
-  }
 
   /**
    * An event that occurs when a drag workflow begins for a draggable item on the sheet.
@@ -508,6 +516,8 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
   }
 
+  /* -------------------------------------------- */
+
   /** @inheritdoc */
   _onDragOver(event) {
     // Highlight items area or benefit block
@@ -531,7 +541,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
    * @returns {Promise<void>}
    * @protected
    */
-  async _onDrop(event) { // Delete in v13; core behavior
+  async _onDrop(event) {
     event.stopPropagation();
     
     if ( !this.isEditable ) return;
@@ -554,6 +564,8 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     }
 
   }
+
+  /* -------------------------------------------- */
 
   /** @inheritdoc */
   async _onDropDocument(event, item) {
@@ -617,6 +629,8 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     }
 
   }
+
+  /* -------------------------------------------- */
 
   /**
    * Handle a droped List Entry on the Character Option Sheet.

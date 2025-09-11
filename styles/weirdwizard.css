@@ -759,6 +759,16 @@ body {
   font-weight: inherit;
 }
 
+.weirdwizard.application textarea {
+  --input-placeholder-color: #666666;
+  background: var(--background-color-shadow);
+  border-radius: 1px;
+  width: 100%;
+  min-height: 2lh;
+  color: inherit;
+  font-family: inherit;
+}
+
 /* Remove border and background from inputs/selects/textareas not hovered */
 .weirdwizard.sheet input:not(:hover):not(:focus),
 .weirdwizard.sheet select:not(:hover):not(:focus),
@@ -3199,7 +3209,6 @@ input[type="checkbox"].checkbox-uses {
 
 /* Character Option: Framed Icon */
 .journal-entry-page:not(.tradition) .sheet-banner-wrapper {
-  padding: 0 5px;
   margin-left: 0.5rem;
 }
 
@@ -3314,7 +3323,7 @@ input[type="checkbox"].checkbox-uses {
   background: var(--background-color-shadow);
   border-radius: 3px;
   margin: 0;
-  padding: 2px 5px;
+  padding: 3px 5px;
 }
 
 /* Character Option: View Mode Formatting */
@@ -3381,6 +3390,7 @@ input[type="checkbox"].checkbox-uses {
   background: none;
   border-radius: 0;
   padding: 0;
+  margin: 0;
 }
 
 .journal-entry-page .weirdwizard .items-area:not(:first-child) {
@@ -3500,7 +3510,7 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard .standard-form .form-footer > button,
 .weirdwizard .standard-form .form-footer a.button {
-  height: var(--input-height);
+  --button-size: var(--input-height);
 }
 
 .folder-edit button[type=submit] {
@@ -4620,7 +4630,12 @@ form.quest-calendar {
   background-size: cover;
 }
 
-/* Journal Entry Codes */
+/* Journal Entry fixes */
+.sheet.journal-entry .journal-entry-pages { /* Avoid clipping by .scrollable on journal pages */
+  margin: 0;
+  padding: 0 calc(8px + var(--scroll-margin)) 16px 16px;
+}
+
 .journal-entry-content code {
   background: var(--background-color-shadow);
   padding: 0 2px;

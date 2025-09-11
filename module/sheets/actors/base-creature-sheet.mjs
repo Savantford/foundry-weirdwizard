@@ -90,7 +90,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       effectRemove: this.#onEffectRemove
     },
     form: {
-      handler: this.#onSubmitDocumentForm, // delete in v13, core functionality
+      handler: this.#onSubmitDocumentForm, // needed for damage update
       submitOnChange: true,
       closeOnSubmit: false
     },
@@ -1462,6 +1462,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   /* -------------------------------------------- */
 
   /**
+   * @override
    * Process form submission for the sheet
    * @this {DocumentSheetV2}                      The handler is called with the application as its bound scope
    * @param {SubmitEvent} event                   The originating form submission event
@@ -2073,26 +2074,27 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
    * @returns {Promise<void>}
    * @protected
    */
-  async _onDropActiveEffect(event, effect) { // Delete in v13; core behavior
-    if ( !this.actor.isOwner ) return;
-    if ( !effect || (effect.target === this.actor) ) return;
+  async _onDropActiveEffect(event, effect) {
+    if ( !this.actor.isOwner || !effect ) return;
     
     const effectData = effect.toObject();
     
-    // Get target effect details
-    const target = event.target.closest('.item');
-    const targetId = target ? target.dataset.effectId : '';
-    //const targetData = (targetId) ? this.actor.effects.get(targetId).toObject() : {};
-    
-    // If within the same Actor
+    // If within the same Actor, sort
     if ( effect.parent?.uuid?.includes(this.actor.uuid) ) {
-      // Handle sorting
-      return this._onSortEffect(event, effectData);
-    }
+      this._onSortEffect(event, effectData);
+    
+    // If not within the same Actor, check if the effect should be added
+    } else if ( effect.target !== this.actor ) {
+      // Get target effect details
+      const target = event.target.closest('.item');
+      const targetId = target ? target.dataset.effectId : '';
+      //const targetData = (targetId) ? this.actor.effects.get(targetId).toObject() : {};
 
-    // Create owned effect
-    const keepId = !this.actor.effects.has(effect.id);
-    await ActiveEffect.create(effect.toObject(), {parent: this.actor, keepId});
+      // Create owned effect
+      const keepId = !this.actor.effects.has(effect.id);
+      await ActiveEffect.create(effect.toObject(), {parent: this.actor, keepId});
+    }
+    
   }
 
   /* -------------------------------------------- */
@@ -2104,32 +2106,37 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
    * @protected
    */
   _onSortEffect(event, effect) {
+    console.log('sorting eff')
     const effects = this.actor.appliedEffects;
-    const source = effects.find(e => e._id === effect._id); // is `id` in v13
+    const source = effects.find(e => e._id === effect._id); // is `id` in v13?
 
     // Confirm the drop target
     const dropTarget = event.target.closest("[data-effect-id]");
     if ( !dropTarget ) return;
     const target = effects.find(e => e._id === dropTarget.dataset.effectId);
-    if ( source.id === target.id ) return;
+    if ( source._id === target._id ) return;
     
     if (source.parent !== target.parent) return;
-
+    console.log(source._id)
+    console.log(target._id)
     // Identify sibling effects based on adjacent HTML elements
     const siblings = [];
     for ( const element of dropTarget.parentElement.children ) {
       const siblingId = element.dataset.effectId;
-      if ( siblingId && (siblingId !== source.id) ) siblings.push(effects.find(e => e._id === element.dataset.effectId));
+      if ( siblingId && (siblingId !== source._id) ) siblings.push(effects.find(e => e._id === element.dataset.effectId));
     }
 
     // Perform the sort only if 
-    const sortUpdates = SortingHelpers.performIntegerSort(source, {target, siblings});
+    const sortUpdates = foundry.utils.SortingHelpers.performIntegerSort(source, {target, siblings});
     
     const updateData = sortUpdates.map(u => {
+      console.log(u.update)
+      console.log(u.target._id)
       const update = u.update;
       update._id = u.target._id;
       return update;
     });
+    console.log(updateData)
     
     // Perform the update
     return target.parent.updateEmbeddedDocuments("ActiveEffect", updateData);
