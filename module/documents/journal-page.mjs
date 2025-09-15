@@ -144,6 +144,28 @@ export default class WWJournalPage extends WWDocumentMixin(JournalEntryPage) {
   }
 
   /* -------------------------------------------- */
+  
+  /**
+   * Creates an app to display a single JournalEntryPageSheet in view mode.
+   * Useful for Character Sheets and other places where a single page should be displayed without the parent JournalEntrySheet.
+  */
+  async viewPage() {
+    const sheetClass = this._getSheetClass();
+
+    const sheet = new sheetClass({
+      document: this,
+      classes: ['view-mode', 'weirdwizard'],
+      position: {
+        width: 570,
+        height: 600
+      },
+      mode: "view"
+    });
+    
+    sheet.render(true);
+  }
+
+  /* -------------------------------------------- */
   /*  Properties (Getters)                        */
   /* -------------------------------------------- */
 

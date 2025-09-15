@@ -481,11 +481,16 @@ body {
 }
 
 .weirdwizard:not(.journal-entry-page) .window-content,
-.window-app .window-content {
+.window-app .window-content,
+.weirdwizard.view-mode .window-content {
   color: var(--body-text-color);
   background: var(--paper-bg);
   font-family: var(--font-body);
   font-size: var(--font-size-14);
+}
+
+.sheet.journal-entry-page.view-mode .window-content {
+  padding: 1rem;
 }
 
 .weirdwizard.actor .window-content {
@@ -3212,7 +3217,7 @@ input[type="checkbox"].checkbox-uses {
   margin-left: 0.5rem;
 }
 
-.journal-entry-content .icon-frame {
+.journal-entry-page .icon-frame {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3225,7 +3230,7 @@ input[type="checkbox"].checkbox-uses {
     drop-shadow(0 0px 0 var(--purple-medium));
 }
 
-.journal-entry-content .icon-frame img {
+.journal-entry-page .icon-frame img {
   --border-width: 18px;
   --clip-radius: calc(var(--border-width) - 5px);
   --clip-radius-neg: calc(-1* var(--clip-radius));
@@ -3239,13 +3244,13 @@ input[type="checkbox"].checkbox-uses {
   width: 90px;
 }
 
-.journal-entry-content .icon-frame.w-50 img {
+.journal-entry-page .icon-frame.w-50 img {
   --border-width: 13px;
   width: 50px;
 }
 
 /* Character Option: Edit Mode */
-.journal-entry-page.charoption .window-content {
+.journal-entry-page.charoption:not(.view-mode) .window-content {
   padding: 0;
 }
 

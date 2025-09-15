@@ -24,7 +24,9 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
         }
       ]
     },
-    secrets: [{parentSelector: ".editor"}],
+    secrets: [
+      { parentSelector: ".editor" }
+    ],
     actions: {
       openHelp: this.#onOpenHelp,
 
@@ -217,7 +219,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
   /** @inheritdoc */
   async _onRender(context, options) {
     await super._onRender(context, options);
-
+    
     // Initialize Drag and Drop handlers
     const dragDropPairs = [
       {

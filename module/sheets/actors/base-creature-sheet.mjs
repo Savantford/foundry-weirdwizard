@@ -15,7 +15,6 @@ import { createActiveEffect, deleteActiveEffect, editActiveEffect, prepareActive
 import RollAttribute from '../../dice/roll-attribute.mjs';
 import TargetingHUD from '../../apps/targeting-hud.mjs';
 import WWDialog from '../../apps/dialog.mjs';
-import WWPageView from '../journal/page-view.mjs';
 import WWRoll from '../../dice/roll.mjs';
 import { EntrySettingsDisplay } from '../../apps/entry-settings-display.mjs';
 import WWSheetMixin from '../ww-sheet.mjs';
@@ -1269,7 +1268,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
 
   static async #onJournalView(event, button) {
     const page = await fromUuid(button.dataset.pageUuid);
-    await new WWPageView({ document: page }).render(true);
+    page.viewPage();
   }
 
   /* -------------------------------------------- */
