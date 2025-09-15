@@ -923,7 +923,8 @@
 "WW.System.EditImage": "Click to edit the image.",
 "WW.System.Embed": "Embed in chat",
 "WW.System.Link": "Link in chat",
-"WW.System.Help": "Help",
+"WW.System.CharOptionHelp": "Character Options Help",
+"WW.System.CharOptionDrag": "Drag the Character Option and drop on a creature sheet to add it to them.",
 "WW.System.Tour": "Start tour",
 "WW.System.Documentation": "Show documentation",
 

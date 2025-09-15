@@ -19,7 +19,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
         {
           action: "openHelp",
           icon: "fa-solid fa-question",
-          label: "WW.System.Help",
+          label: "WW.System.CharOptionHelp",
           ownership: "OBSERVER"
         }
       ]
@@ -44,7 +44,8 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
   /*  Rendering                                   */
   /* -------------------------------------------- */
 
-  /** @inheritdoc
+  /**
+   * @inheritdoc
    * Append a Help button to the window's header
    */
   async _renderFrame(options) {
@@ -53,7 +54,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
       game.weirdwizard.utils.constructHTMLButton({
         label: "",
         classes: ["header-control", "icon", "fa-solid", "fa-circle-question"],
-        dataset: { action: "openHelp", tooltip: "WW.System.Help" }
+        dataset: { action: "openHelp", tooltip: "WW.System.CharOptionHelp" }
       })
     ];
     
@@ -496,24 +497,26 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
    * @override
    */
   async _onDragStart(event) {
-    const li = event.currentTarget;
+    const el = event.currentTarget;
     
     let dragData;
 
     // Items
-    if ( li.dataset.itemUuid ) {
-      const item = await fromUuid(li.dataset.itemUuid);
+    const itemUuid = el.dataset.itemUuid || el.closest('[data-item-uuid]')?.dataset.itemUuid;
+    if ( itemUuid ) {
+      const item = await fromUuid(itemUuid);
       dragData = item.toDragData();
       dragData.grantedBy = this.document.uuid;
     }
-
+    
     // Journal Entry Pages
-    if ( li.dataset.journalPageUuid ) {
-      const page = await fromUuid(li.dataset.journalPageUuid);
+    const pageUuid = el.dataset.journalPageUuid || el.closest('[data-journal-page-uuid]')?.dataset.journalPageUuid;
+    if ( pageUuid ) {
+      const page = await fromUuid(pageUuid);
       dragData = page.toDragData();
-      if ( this.document.uuid !== li.dataset.journalPageUuid ) dragData.grantedBy = this.document.uuid;
+      if ( this.document.uuid !== pageUuid ) dragData.grantedBy = this.document.uuid;
     }
-    console.log('starting drag')
+    
     // Set data transfer
     if ( !dragData ) return;
     event.dataTransfer.setData("text/plain", JSON.stringify(dragData));

@@ -70,6 +70,7 @@ import {
   v13Support  
 } from './helpers/migrations.mjs';
 import WWCombatantGroupConfig from './sheets/configs/combatant-group-config.mjs';
+import { WWJournalEntrySheet } from './sheets/journal/journal-entry-sheet.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -182,6 +183,9 @@ Hooks.once('init', function () {
   DocumentSheetConfig.registerSheet(ActiveEffect, 'weirdwizard', WWActiveEffectConfig, {
     makeDefault: true
   });
+  DocumentSheetConfig.registerSheet(JournalEntry, 'weirdwizard', WWJournalEntrySheet, {
+    makeDefault: true
+  });
   DocumentSheetConfig.registerSheet(CombatantGroup, 'weirdwizard', WWCombatantGroupConfig, {
     makeDefault: true,
     label: "WW.CombatantGroup",
@@ -285,7 +289,7 @@ Hooks.once('setup', function () {
 });
 
 /* -------------------------------------------- */
-/*  Chat Hooks                                  */
+/*  Rendering Hooks                             */
 /* -------------------------------------------- */
 
 Hooks.on('renderChatMessageHTML', (message, html, context) => {
@@ -300,8 +304,6 @@ Hooks.on('renderChatMessageHTML', (message, html, context) => {
   initChatListeners(html, message, context);
 });
 
-/* -------------------------------------------- */
-/*  Rendering Hooks                             */
 /* -------------------------------------------- */
 
 Hooks.on('renderSettingsConfig', (app, html, data) => {
@@ -340,6 +342,8 @@ Hooks.on('renderSettingsConfig', (app, html, data) => {
 
 });
 
+/* -------------------------------------------- */
+
 // Pretty up the system version display in the settings sidebar.
 Hooks.on('renderSettings', (app, html) => {
   const info = html.querySelector('.info');
@@ -367,6 +371,8 @@ Hooks.on('renderSettings', (app, html) => {
 
   info.insertAdjacentElement('afterend', badge);
 });
+
+/* -------------------------------------------- */
 
 /**
  * A hook event that fires when the ActiveEffectConfig application is rendered
@@ -419,6 +425,8 @@ Hooks.on('getSceneControlButtons', (controls) => {
   };
   
 });
+
+/* -------------------------------------------- */
 
 // On game world time change
 Hooks.on('updateWorldTime', (worldTime, dt, options, userId) => {

@@ -14,11 +14,7 @@
     </header>
 
     {{#if title.show}}
-    <header class="journal-page-header">
-      <h{{ title.level }} class="draggable" data-journal-page-uuid="{{document.uuid}}">
-        {{ name }}
-      </h{{ title.level }}>
-    </header>
+    {{> "systems/weirdwizard/templates/journal/parts/journal-page-header.hbs" this=this }}
     {{/if}}
 
     {{!-- Page Content (Editor/Description) --}}

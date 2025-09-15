@@ -3164,6 +3164,28 @@ input[type="checkbox"].checkbox-uses {
   margin-bottom: 0.5rem;
 }
 
+.journal-entry-page .header-section.weirdwizard .journal-page-header > * {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.journal-entry-page .header-section.weirdwizard .journal-page-header .buttons {
+  display: none;
+}
+
+.journal-entry-page .header-section.weirdwizard .journal-page-header:hover .buttons {
+  display: inline-flex;
+}
+
+.journal-entry-page .header-section.weirdwizard .journal-page-header .buttons a {
+  display: flex;
+}
+
+.journal-entry-page .header-section.weirdwizard .journal-page-header .buttons i {
+  font-size: medium;
+}
+
 .journal-entry-page.ancestry .header-section .journal-page-content {
   min-height: 60px;
 }

@@ -20,7 +20,10 @@ export default class WWTraditionSheet extends WWCharOptionSheet {
     header: super.EDIT_PARTS.header,
     content: {
       template: 'systems/weirdwizard/templates/journal/tradition-edit.hbs',
-      classes: ["standard-form"]
+      classes: ["standard-form"],
+      templates: [
+        'systems/weirdwizard/templates/journal/parts/list-entry.hbs'
+      ]
     },
     footer: super.EDIT_PARTS.footer
   };
@@ -29,6 +32,9 @@ export default class WWTraditionSheet extends WWCharOptionSheet {
   static VIEW_PARTS = {
     content: {
       template: "systems/weirdwizard/templates/journal/tradition-view.hbs",
+      templates: [
+        'systems/weirdwizard/templates/journal/parts/journal-page-header.hbs'
+      ],
       root: true
     }
   };

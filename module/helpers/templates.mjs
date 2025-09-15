@@ -8,8 +8,6 @@
 
     // Tabs (remove post V13)
     "systems/weirdwizard/templates/sidebar/chat/dice-tooltip.hbs",
-
-    // Journal Entry partials (remove post V13)
-    "systems/weirdwizard/templates/journal/list-entry.hbs"
+    
   ]);
 };
