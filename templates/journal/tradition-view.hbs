@@ -39,7 +39,7 @@
     
       {{!-- Populate Talents --}}
       {{#each talents as |item id|}}
-      <li class="item-reference item {{#if item.missing}}missing{{/if}} draggable" data-item-uuid="{{item.uuid}}">
+      <li class="item-reference item {{#if item.missing}}missing{{/if}} {{#if @root.singlePage}}draggable{{/if}}" data-item-uuid="{{item.uuid}}">
         <label><img src="{{item.img}}"> {{item.name}}:</label>
     
         <span>{{{item.system.description.enriched}}}</span>
@@ -63,7 +63,7 @@
     
       {{!-- Populate Spells --}}
       {{#each tier as |item id|}}
-      <li class="item-reference item {{#if item.missing}}missing{{/if}} draggable" data-item-uuid="{{item.uuid}}">
+      <li class="item-reference item {{#if item.missing}}missing{{/if}} {{#if @root.singlePage}}draggable{{/if}}" data-item-uuid="{{item.uuid}}">
         <div class="spell-title">
           <h3>{{item.name}}</h3>
           <img src="{{item.img}}" />

@@ -243,7 +243,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
         dragSelector: dragDropPair.dragSelector,
         dropSelector: dragDropPair.dropSelector,
         permissions: {
-          dragstart: () => this.isEditable,
+          dragstart: () => game.user.isGM,
           drop: () => this.isEditable,
         },
         callbacks: {
