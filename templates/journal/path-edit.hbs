@@ -1,25 +1,24 @@
-<form class="{{cssClass}} flexcol weirdwizard charoption path" autocomplete="off">
-
-  {{> journalEntryPageHeader}}
+<div class="journal-page-content edit-mode scrollable">
   
+  {{!-- Image Wrapper --}}
   <div class="image-wrapper">
     <figure class="image-preview">
-      <img src="{{document.src}}" title="{{title}}" alt="{{title}}" />
-      <figcaption>{{document.image.caption}}</figcaption>
+      <img src="{{ document.src }}" title="{{ title }}" alt="{{ title }}" />
+      <figcaption>{{ document.image.caption }}</figcaption>
     </figure>
   
     <div>
       <div class="form-group picker">
-        <label>{{localize "JOURNALENTRYPAGE.ImageSource"}}</label>
+        <label>{{ localize "JOURNALENTRYPAGE.ImageSource" }}</label>
         <div class="form-fields">
-          <file-picker name="src" type="image" value="{{document.src}}"></file-picker>
+          <file-picker name="src" type="image" value="{{ document.src }}"></file-picker>
         </div>
       </div>
   
       <div class="form-group">
-        <label>{{localize "JOURNALENTRYPAGE.ImageCaption"}}</label>
+        <label>{{ localize "JOURNALENTRYPAGE.ImageCaption" }}</label>
         <div class="form-fields">
-          <input type="text" name="image.caption" value="{{document.image.caption}}">
+          <input type="text" name="image.caption" value="{{ document.image.caption }}">
         </div>
       </div>
     </div>
@@ -27,11 +26,10 @@
   </div>
 
   {{!-- Editor --}}
-  {{editor editor.content target="text.content" class="journal-page-content" button=false editable=true
-    engine=editor.engine collaborate=editor.collaborate}}
+  <prose-mirror name="text.content" class="journal-page-content" value="{{ text.content }}" data-document-uuid="{{ uuid }}" collaborate></prose-mirror>
 
   {{!-- Benefits Section --}}
-  <section class="benefits-section">
+  <section class="benefits-section weirdwizard">
 
     {{!-- Tier Select --}}
     <div class="stat mb-2">
@@ -240,7 +238,4 @@
 
   </section>
 
-  {{!-- Journal Page Footer --}}
-  {{!--{{> journalEntryPageFooter}}--}}
-
-</form>
+</div>

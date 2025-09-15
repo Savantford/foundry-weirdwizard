@@ -91,6 +91,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     context.folder = await docData.folder,
     context.flags = docData.flags,
     context.dtypes = ['String', 'Number', 'Boolean']
+    context.singlePage = options?.window?.title ? true : false;
 
     context.editor = {
       engine: "prosemirror",
@@ -512,7 +513,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
       dragData = page.toDragData();
       if ( this.document.uuid !== li.dataset.journalPageUuid ) dragData.grantedBy = this.document.uuid;
     }
-    
+    console.log('starting drag')
     // Set data transfer
     if ( !dragData ) return;
     event.dataTransfer.setData("text/plain", JSON.stringify(dragData));

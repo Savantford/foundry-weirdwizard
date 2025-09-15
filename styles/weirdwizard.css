@@ -3164,16 +3164,20 @@ input[type="checkbox"].checkbox-uses {
   margin-bottom: 0.5rem;
 }
 
-.journal-entry-page.ancestry .header-section {
-  min-height: 100px;
+.journal-entry-page.ancestry .header-section .journal-page-content {
+  min-height: 60px;
 }
 
-.journal-entry-page.path .header-section {
-  min-height: 130px;
+.journal-entry-page.path .header-section .journal-page-content {
+  min-height: 90px;
 }
 
-.journal-entry-page.tradition .header-section {
-  min-height: 160px;
+.journal-entry-page.tradition .header-section .journal-page-content {
+  min-height: 120px;
+}
+
+.journal-entry-page.view-mode .journal-page-header h3 {
+  border-bottom: none;
 }
 
 /* Character Option: Banner */
@@ -3309,14 +3313,18 @@ input[type="checkbox"].checkbox-uses {
   margin-right: 1rem;
 }
 
-.journal-entry-page.charoption .edit-mode .benefit-block input {
+.journal-entry-page.charoption .edit-mode .benefit-block input,
+.journal-entry-page.charoption .edit-mode .benefit-block select {
   background: var(--background-color-shadow);
   border-radius: 3px;
   margin: 0;
+  color: var(--body-text-color);
+}
+
+.journal-entry-page.charoption .edit-mode .benefit-block input {
   padding: 2px 5px;
   height: 1lh;
   line-height: normal;
-  color: var(--body-text-color);
 }
 
 .journal-entry-page.charoption .edit-mode .benefit-block input[type=number] {
