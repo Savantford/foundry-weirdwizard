@@ -73,6 +73,19 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
 
   /* -------------------------------------------- */
 
+  /** @inheritDoc */
+  async _preparePartContext(partId, context, options) {
+    context = await super._preparePartContext(partId, context, options);
+    switch ( partId ) {
+      case "header": await this._prepareHeaderContext(context, options); break;
+      case "footer": await this._prepareFooterContext(context, options); break;
+      case "content": await this._prepareContentContext(context, options); break;
+    }
+    return context;
+  }
+
+  /* -------------------------------------------- */
+
   /**
    * @inheritdoc
    * Prepare application rendering context data for a given render request.

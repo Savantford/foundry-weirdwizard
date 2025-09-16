@@ -3335,21 +3335,21 @@ input[type="checkbox"].checkbox-uses {
   margin-right: 1rem;
 }
 
-.journal-entry-page.charoption .edit-mode .benefit-block input,
-.journal-entry-page.charoption .edit-mode .benefit-block select {
+.journal-entry-page.charoption .edit-mode .benefits-section input,
+.journal-entry-page.charoption .edit-mode .benefits-section select {
   background: var(--background-color-shadow);
   border-radius: 3px;
   margin: 0;
   color: var(--body-text-color);
 }
 
-.journal-entry-page.charoption .edit-mode .benefit-block input {
+.journal-entry-page.charoption .edit-mode .benefits-section input {
   padding: 2px 5px;
   height: 1lh;
   line-height: normal;
 }
 
-.journal-entry-page.charoption .edit-mode .benefit-block input[type=number] {
+.journal-entry-page.charoption .edit-mode .benefits-section input[type=number] {
   padding: 0;
   text-align: center;
 }
