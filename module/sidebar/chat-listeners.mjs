@@ -1,7 +1,5 @@
-import ApplyContext from '../ui/apply-context.mjs';
 import { i18n } from '../helpers/utils.mjs';
 import MultiChoice from '../apps/multi-choice.mjs';
-import RollAttribute from '../dice/roll-attribute.mjs';
 import RollDamage from '../dice/roll-damage.mjs';
 import WWRoll from '../dice/roll.mjs';
 
@@ -12,13 +10,15 @@ import WWRoll from '../dice/roll.mjs';
 //const tokenManager = new TokenManager()
 
 export function initChatListeners(html, message, context) {
-  // Handle chat Message Button left click
-  html.querySelector('.chat-button[data-action*=roll]')?.addEventListener('click', _onMessageButtonRoll);
-  html.querySelector('.enricher-roll')?.addEventListener('click', _onMessageButtonRoll);
+  // Rolling for Instant Effects
+  html.querySelector('.chat-button[data-action*=roll]')?.addEventListener('click', _onInstantEffectRoll);
+  html.querySelector('.enricher-roll')?.addEventListener('click', _onInstantEffectRoll);
 
-  // Handle chat Message Button right click context menu
-  html.querySelector('.chat-button[data-action*=apply]')?.addEventListener('click', (ev) => { _onOpenMultiChoice(ev, 'applyEffect') });
-  new ApplyContext(html, '.enricher-call', [], { onOpen: _onMessageButtonContext.bind('call'), eventName:'click' });
+  // Attribute Call (Enricher)
+  html.querySelector('.enricher-call')?.addEventListener('click', (ev) => { _onMultiChoice(ev, 'attributeCall') });
+
+  // Effect Application Multi-Choice
+  html.querySelector('.chat-button[data-action*=apply]')?.addEventListener('click', (ev) => { _onMultiChoice(ev, 'applyEffect') });
 
   // Open Sheet from chat
   html.querySelector('[data-action=open-sheet]')?.addEventListener('click', _onOpenSheet);
@@ -31,7 +31,7 @@ export function initChatListeners(html, message, context) {
 /** 
  * Handle roll started from a chat button.
  */
-function _onMessageButtonRoll(event) {
+function _onInstantEffectRoll(event) {
 
   event.preventDefault()
   const button = event.currentTarget,
@@ -53,7 +53,7 @@ function _onMessageButtonRoll(event) {
   * Handle opening of a context menu from a chat button.
   * @param {HTMLElement} element     The element the menu opens on.
 */
-function _onOpenMultiChoice(ev, purpose) {
+function _onMultiChoice(ev, purpose) {
   
   const element = ev.currentTarget;
   const user = game.user;
@@ -186,8 +186,8 @@ function _onOpenMultiChoice(ev, purpose) {
   for (const group in groups) {
     
     sections.push({
-      title: i18n(CONFIG.WW.APPLY_CONTEXT_HEADERS[group]),
-      icon: CONFIG.WW.APPLY_CONTEXT_ICONS[group],
+      title: i18n(CONFIG.WW.MULTI_CHOICE_TARGET_HEADERS[group]),
+      icon: CONFIG.WW.MULTI_CHOICE_TARGET_HEADER_ICONS[group],
       choices: groups[group],
       collapsed: (group === 'actors-tab' && Object.keys(groups).length > 1) ? true : false
     })
@@ -206,172 +206,6 @@ function _onOpenMultiChoice(ev, purpose) {
     },
     sections: sections
   }).render(true);
-
-}
-
-/**
-  * Handle opening of a context menu from a chat button.
-  * @param {HTMLElement} element     The element the menu opens on.
-*/
-function _onMessageButtonContext(element) {
-  
-  // Get Variables
-  const user = game.user;
-  const character = user.character;
-  
-  function callRoll(dataset, target) {
-    
-    const { attribute, fixedBoons }  = dataset;
-    
-    const obj = {
-      origin: target.uuid,
-      label: i18n(CONFIG.WW.ROLL_ATTRIBUTES[attribute]),
-      content: '',
-      attKey: attribute,
-      fixedBoons: parseInt(fixedBoons)
-    }
-
-    new RollAttribute(obj).render(true);
-    
-  }
-
-  function _applyToTarget(dataset, target) {
-    const value = dataset.value,
-      effect = dataset.effectUuid;
-    
-    switch (dataset.action) {
-      case 'apply-damage': target.applyDamage(value); break;
-      case 'apply-damage-half': target.applyDamage(Math.floor(value/2)); break;
-      case 'apply-damage-double': target.applyDamage(2*value); break;
-      case 'apply-healing': target.applyHealing(value); break;
-      case 'apply-health-loss': target.applyHealthLoss(value); break;
-      case 'apply-health-regain': target.applyHealthRegain(value); break;
-      case 'apply-affliction': target.applyAffliction(value); break;
-      case 'apply-effect': target.applyEffect(effect); break;
-    }
-  }
-  
-  function iconToHTML(icon, id) { return `<img src="${icon}" data-tooltip="ID: ${id}" />`}
-
-  function resolveAction({action, dataset, target}) {
-    return action === 'call' ? callRoll(dataset, target) : _applyToTarget(dataset, target);
-  }
-
-  const menuItems = [];
-  
-  // Get pre-selected targets
-  const preTargetIds = element.dataset.targetIds ? element.dataset.targetIds.split(',') : [];
-  const preTargets = [];
-  
-  preTargetIds.forEach(t => {
-    if(game.actors.tokens[t]) preTargets.push(game.actors.tokens[t]);
-  })
-
-  // Assign pre-selected Targets, if any exists
-  if (preTargets) {
-    preTargets.forEach(actor => {
-      
-      if (actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
-        name: game.weirdwizard.utils.getAlias({ actor: actor }),
-        icon: iconToHTML(actor.token ? actor.token.texture.src : actor.img, actor.uuid),
-        group: 'pre-targets',
-        uuid: actor.uuid,
-        callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
-      });
-    
-    })
-  }
-
-  // Assign user's targets, if any exists
-  if (game.user.targets.size) {
-    game.user.targets.forEach(token => {
-      const actor = token.document.actor;
-      
-      if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
-        name: game.weirdwizard.utils.getAlias({ actor: actor }),
-        icon: iconToHTML(actor.token ? actor.token.texture.src : actor.img, actor.uuid),
-        group: 'targets',
-        uuid: actor.uuid,
-        callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
-      });
-    
-    })
-  }
-
-  // Assign user's selected tokens, if any exists
-  if (canvas.tokens.controlled) {
-    
-    canvas.tokens.controlled.forEach(token => {
-      const actor = token.document.actor;
-      
-      if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
-        name: game.weirdwizard.utils.getAlias({ actor: actor }),
-        icon: iconToHTML(actor.token ? actor.token.texture.src : actor.img, actor.uuid),
-        group: 'selected',
-        uuid: actor.uuid,
-        callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
-      });
-    
-    })
-  }
-
-  // Assign a character if it exists
-  if (character && (!menuItems.find(o => o.uuid === character.uuid))) {
-    
-    menuItems.push({
-      name: game.weirdwizard.utils.getAlias({ actor: character }),
-      icon: iconToHTML(character.img, character.uuid),
-      group: 'character',
-      uuid: character.uuid,
-      callback: li => resolveAction({ action: this, dataset: element.dataset, target: character })
-    })
-  }
-
-  // Assign combatants from current combat, if there are any
-  game.combat?.combatants.forEach(c => {
-    const actor = c.actor;
-    
-    if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
-      name: game.weirdwizard.utils.getAlias({ actor: actor }),
-      icon: iconToHTML(actor.token ? actor.token.texture.src : actor.img, actor.uuid),
-      group: 'combatants',
-      uuid: actor.uuid,
-      callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
-    });
-  
-  })
-  
-  // Add synthetic Token actors in the current scene
-  for (const id in game.actors.tokens) {
-    const actor = game.actors.tokens[id];
-    
-    if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
-      name: game.weirdwizard.utils.getAlias({ actor: actor }),
-      icon: iconToHTML(actor.token ? actor.token.texture.src : actor.img, actor.uuid),
-      group: 'scene-tokens',
-      uuid: actor.uuid,
-      callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
-    });
-  
-  }
-
-  // Add actors in the actor tab
-  for (const actor of game.actors) {
-
-    if (actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) {
-      
-      menuItems.push({
-        name: game.weirdwizard.utils.getAlias({ actor: actor }),
-        icon: iconToHTML(actor.token ? actor.token.texture.src : actor.img, actor.uuid),
-        group: 'actors-tab',
-        uuid: actor.uuid,
-        callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
-      })  
-      
-    }
-  }
-
-  ui.context.menuItems = menuItems;
 
 }
 

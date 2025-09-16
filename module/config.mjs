@@ -332,17 +332,17 @@ WW.SPELLS_LEARNED = {
   '1m': 'WW.Spells.Learned.OneMaster'
 }
 
-WW.APPLY_CONTEXT_HEADERS = {
-  'pre-targets': 'WW.System.ApplyContext.PreTargets',
-  'targets': 'WW.System.ApplyContext.Targets',
-  'selected': 'WW.System.ApplyContext.Selected',
-  'character': 'WW.System.ApplyContext.Character',
-  'combatants': 'WW.System.ApplyContext.Combatants',
-  'scene-tokens': 'WW.System.ApplyContext.SceneTokens',
-  'actors-tab': 'WW.System.ApplyContext.ActorsTab'
+WW.MULTI_CHOICE_TARGET_HEADERS = {
+  'pre-targets': 'WW.MultiChoice.TargetHeader.PreTargets',
+  'targets': 'WW.MultiChoice.TargetHeader.Targets',
+  'selected': 'WW.MultiChoice.TargetHeader.Selected',
+  'character': 'WW.MultiChoice.TargetHeader.Character',
+  'combatants': 'WW.MultiChoice.TargetHeader.Combatants',
+  'scene-tokens': 'WW.MultiChoice.TargetHeader.SceneTokens',
+  'actors-tab': 'WW.MultiChoice.TargetHeader.ActorsTab'
 }
 
-WW.APPLY_CONTEXT_ICONS = {
+WW.MULTI_CHOICE_TARGET_HEADER_ICONS = {
   'pre-targets': 'arrows-down-to-people',
   'targets': 'users-viewfinder',
   'selected': 'users-rectangle',
