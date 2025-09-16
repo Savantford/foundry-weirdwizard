@@ -199,10 +199,10 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     // Prepare CharOptions
     this._prepareCharOptions(system);
 
-    // Make separate methods for each Actor type (character, npc, etc.) to keep
-    // things organized.
+    // Make separate methods for each Actor type (character, npc, etc) to keep things organized.
     this._prepareCharacterData(system);
     this._prepareNpcData(system);
+    this._prepareGroupData(system);
 
   }
 
@@ -256,6 +256,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
   _prepareGroupData(system) {
     if (this.type !== 'group') return;
     
+    // Prepare list of members
     const members = {
       active: new Set(),
       inactive: new Set(),
@@ -269,7 +270,48 @@ export default class WWActor extends WWDocumentMixin(Actor) {
       }
     }
 
-    system.members = members;
+    system.membersList = members;
+
+    // Compute Total Wealth and Equipment List for Valid Members
+    const validMembers = new Set([...members.active, ...members.inactive]);
+    
+    const wealth = {
+      active: { gp: 0, sp: 0, cp: 0 },
+      inactive: { gp: 0, sp: 0, cp: 0 }
+    };
+
+    const equipmentList = {
+      active: [],
+      inactive: []
+    };
+
+    for (const member of validMembers) {
+      const status = members.active.has(member) ? 'active' : 'inactive';
+
+      // Add Wealth to correct count
+      for (const coins of member.currency) {
+        wealth[status][coins] += member.currency[coins];
+      }
+
+      // Add Equipment to the correct list
+      for (const equipment of member.items.filter(i => i.type === 'equipment')) {
+        equipmentList[status].push(equipment);
+      }
+      
+    }
+
+    // Compute active + inactive Wealth and Equipment
+    wealth.total = {
+      gp: wealth.active.gp + wealth.inactive.gp,
+      sp: wealth.active.sp + wealth.inactive.sp,
+      cp: wealth.active.cp + wealth.inactive.cp
+    };
+
+    equipmentList.total = [...equipmentList.active, ...equipmentList.inactive];
+
+    context.wealth = wealth;
+    context.equipmentList = equipmentList;
+    
   }
 
   /**

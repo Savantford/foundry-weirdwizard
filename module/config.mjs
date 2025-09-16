@@ -73,6 +73,15 @@ WW.COINS = {
   'gp': 'WW.Equipment.GP'
 };
 
+WW.CONNECTIONS = {
+  'financial': 'WW.Group.Connections.Financial',
+  'influence': 'WW.Group.Connections.Influence',
+  'professional': 'WW.Group.Connections.Professional',
+  'information': 'WW.Group.Connections.Information',
+  'resource': 'WW.Group.Connections.Resource',
+  'security': 'WW.Group.Connections.Security'
+};
+
 /* Items */
 
 WW.TALENT_SUBTYPES = {
@@ -298,10 +307,10 @@ WW.TEMPLATE_TYPES = {
 /* Character Options */
 
 WW.CHARACTER_OPTIONS = {
-  'ancestry': "TYPES.JournalEntryPage.ancestry",
-  'path': "TYPES.JournalEntryPage.path",
-  'profession': "TYPES.JournalEntryPage.profession",
-  'tradition': "TYPES.JournalEntryPage.tradition"
+  'ancestry': 'TYPES.JournalEntryPage.ancestry',
+  'path': 'TYPES.JournalEntryPage.path',
+  'profession': 'TYPES.JournalEntryPage.profession',
+  'tradition': 'TYPES.JournalEntryPage.tradition'
 }
 
 WW.PATH_TIERS = {

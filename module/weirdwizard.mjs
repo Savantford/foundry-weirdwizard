@@ -388,7 +388,7 @@ Hooks.on("renderFolderConfig", (app, html, context) => {
   // Create HTML string, inject it, then set app's position
   const htmlStr = `<prose-mirror class="editor prosemirror"
     name="flags.weirdwizard.description" data-document-UUID="${folder.uuid}" value="${description}"
-    toggled=true compact=true>${description}</prose-mirror>`;
+    toggled compact>${description}</prose-mirror>`;
   
   html.querySelector('[data-application-part=body]').insertAdjacentHTML('beforeEnd', htmlStr);
   

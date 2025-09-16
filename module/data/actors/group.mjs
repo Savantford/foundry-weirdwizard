@@ -1,4 +1,4 @@
-import { makeHtmlField, makeUuidStrField } from "../field-presets.mjs";
+import { makeHtmlField, makeIntField, makeRequiredStrField, makeStrField, makeUuidStrField } from "../field-presets.mjs";
 
 export default class GroupModel extends foundry.abstract.TypeDataModel {
 
@@ -7,8 +7,16 @@ export default class GroupModel extends foundry.abstract.TypeDataModel {
     const fields = foundry.data.fields;
 
     const schema = {
-      // Description
-      description: makeHtmlField('No group description.'),
+      // Basic information
+      level: makeIntField(1),
+      tier: makeRequiredStrField('novice'),
+
+      // Details
+      details: new fields.SchemaField({
+        origin: makeHtmlField('No group origin story.'),
+        achievements: makeHtmlField(),
+        notes: makeHtmlField(),
+      }),
 
       // Group Members
       members: new fields.SchemaField({
@@ -24,6 +32,20 @@ export default class GroupModel extends foundry.abstract.TypeDataModel {
         dead: new fields.ArrayField(
           makeUuidStrField()
         ),
+      }),
+
+      // List Entries
+      listEntries: new fields.SchemaField({
+
+        connections: new fields.TypedObjectField(
+          new fields.SchemaField({
+            name: makeStrField("Unnamed", 0),
+            desc: makeStrField(),
+            type: makeRequiredStrField('financial'),
+            grantedBy: makeUuidStrField()
+          }, { nullable: true })
+        )
+
       })
 
     }
