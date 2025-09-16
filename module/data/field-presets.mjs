@@ -72,11 +72,9 @@ export const makeBooField = (init = false) => new fields.BooleanField ({
 })
 
 /* Complex Fields */
-export const makeHtmlField = (init = '') => new fields.SchemaField({
-  value: new fields.HTMLField({
-    initial: init,
-    textSearch: true // Allow it to be searched in the Search Bar
-  })
+export const makeHtmlField = (init = '') => new fields.HTMLField({
+  initial: init,
+  textSearch: true // Allow it to be searched in the Search Bar
 })
 
 export function makeAttributeField(attribute) {

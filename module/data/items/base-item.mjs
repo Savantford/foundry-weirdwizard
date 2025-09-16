@@ -51,4 +51,16 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
     return schema;
   }
 
+  /**
+   * Migrate source data from some prior format into a new specification.
+   * The source parameter is either original data retrieved from disk or provided by an update operation.
+   * @inheritDoc
+  */
+  static migrateData(source) {
+    // Migrate description to a single string
+    if (typeof source.description === 'object') source.description = source.description.value;
+    
+    return source;
+  }
+
 }

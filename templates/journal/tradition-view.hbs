@@ -38,7 +38,7 @@
       <li class="item-reference item {{#if item.missing}}missing{{/if}} {{#if @root.singlePage}}draggable{{/if}}" data-item-uuid="{{item.uuid}}">
         <label><img src="{{item.img}}"> {{item.name}}:</label>
     
-        <span>{{{item.system.description.enriched}}}</span>
+        <span>{{{item.system.descriptionEnriched}}}</span>
       </li>
       {{/each}}
     
@@ -92,7 +92,7 @@
     
         </div>
     
-        <div>{{{item.system.description.enriched}}}</div>
+        <div>{{{item.system.descriptionEnriched}}}</div>
     
       </li>
       {{/each}}

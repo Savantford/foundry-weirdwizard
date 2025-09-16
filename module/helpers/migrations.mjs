@@ -418,7 +418,7 @@ async function _cOptItemToPage({ item, actor, folders }) {
         src: item.img,
         _id: item.id,
         type: item.type.toLowerCase(),
-        'text.content': item.system.description.value
+        'text.content': item.system.description
       }
 
       // Create the new page

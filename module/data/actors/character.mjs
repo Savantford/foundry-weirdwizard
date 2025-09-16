@@ -94,6 +94,13 @@ export default class CharacterModel extends BaseActorModel {
     // Migrate bonus damage and reputation
     if ('stats' in source && isNaN(source.stats?.bonusdamage)) source.stats.bonusdamage = 0;
     if ('details' in source && isNaN(source.details?.reputation)) source.details.reputation = 0;
+
+    // Migrate HTML fields to a single string
+    if (typeof source.details.appearance === 'object') source.details.appearance = source.details.appearance.value;
+    if (typeof source.details.background === 'object') source.details.background = source.details.background.value;
+    if (typeof source.details.personality === 'object') source.details.personality = source.details.personality.value;
+    if (typeof source.details.beliefs === 'object') source.details.beliefs = source.details.beliefs.value;
+    if (typeof source.details.notes === 'object') source.details.notes = source.details.notes.value;
     
     return super.migrateData(source);
   }

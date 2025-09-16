@@ -2514,6 +2514,7 @@ hr.bug {
 
 /* Lists */
 .weirdwizard [data-action=journalView] > img {
+  display: inline;
   height: 1lh;
   margin-right: 5px;
   vertical-align: text-bottom;
@@ -2758,13 +2759,6 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard .described-list li > * {
   padding: 0;
-}
-
-.weirdwizard .described-list li > label {
-  display: inline-flex;
-  gap: 1lh;
-  vertical-align: text-bottom;
-  padding-left: 1em;
 }
 
 .weirdwizard .described-list li > label > img {
@@ -3430,13 +3424,6 @@ input[type="checkbox"].checkbox-uses {
 
 .journal-entry-page .weirdwizard .items-area:not(:first-child) {
   margin-top: 5px;
-}
-
-.weirdwizard .described-list li > label {
-  display: inline-flex;
-  gap: 1lh;
-  vertical-align: text-bottom;
-  padding-left: 1em;
 }
 
 .journal-entry-page .weirdwizard .formatted-spell-list {

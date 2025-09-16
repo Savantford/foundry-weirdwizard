@@ -155,7 +155,7 @@ export default function WWDocumentMixin(Base) {
             else if (charOptions.novice) context.subtitle += sep + charOptions.novice.name;
 
             // Prepare main text
-            context.text = await TextEditor.enrichHTML(this.system.details.appearance.value, options);
+            context.text = await TextEditor.enrichHTML(this.system.details.appearance, options);
 
           } else {
             // Prepare subtitle
@@ -165,7 +165,7 @@ export default function WWDocumentMixin(Base) {
             }
             
             // Prepare main text
-            context.text = await TextEditor.enrichHTML(this.system.description.value, options);
+            context.text = await TextEditor.enrichHTML(this.system.description, options);
           }
 
         }; break;
@@ -190,7 +190,7 @@ export default function WWDocumentMixin(Base) {
           }
           
           // Prepare main text
-          context.text = await TextEditor.enrichHTML(this.system.description.value, options);
+          context.text = await TextEditor.enrichHTML(this.system.description, options);
 
         }; break;
 

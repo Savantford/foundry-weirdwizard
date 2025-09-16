@@ -146,7 +146,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
             uuid: i,
             name: retrieved ? retrieved.name : i18n('WW.CharOption.Unknown'),
             img: retrieved ? retrieved.img : '',
-            description: retrieved ? retrieved.system.description.value : i18n('WW.CharOption.MissingRef'),
+            description: retrieved ? retrieved.system.description : i18n('WW.CharOption.MissingRef'),
             missing: retrieved ? false : true
           });
 
@@ -199,7 +199,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
         const talent = await fromUuid(talents[t]);
         
         // Prepare enriched variables for editor
-        talent.system.description.enriched = await TextEditor.enrichHTML(talent.system.description.value, { secrets: talent.isOwner, relativeTo: talent });
+        talent.system.descriptionEnriched = await TextEditor.enrichHTML(talent.system.description, { secrets: talent.isOwner, relativeTo: talent });
 
         context.talents.push(talent);
       }
@@ -219,7 +219,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
           const spell = await fromUuid(list[s]);
 
           // Prepare enriched variables for editor
-          spell.system.description.enriched = await TextEditor.enrichHTML(spell.system.description.value, { secrets: spell.isOwner, relativeTo: spell });
+          spell.system.descriptionEnriched = await TextEditor.enrichHTML(spell.system.description, { secrets: spell.isOwner, relativeTo: spell });
 
           context.spells[tier].push(spell);
         }

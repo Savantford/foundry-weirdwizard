@@ -62,7 +62,7 @@ export default class RollAttribute extends FormApplication {
     
     return foundry.utils.mergeObject(super.defaultOptions, {
       id: "roll-attribute",
-      title: 'WW.Roll.Details',
+      title: this.title,
       classes: ['weirdwizard'],
       width: 400,
       height: "auto",
@@ -70,6 +70,10 @@ export default class RollAttribute extends FormApplication {
     });
 
   }
+
+  /* -------------------------------------------- */
+  /*  Rendering                                   */
+  /* -------------------------------------------- */
 
   getData(options = {}) {
     const context = super.getData()
@@ -89,6 +93,10 @@ export default class RollAttribute extends FormApplication {
     
     return context;
   }
+
+  /* -------------------------------------------- */
+  /*  Actions                                     */
+  /* -------------------------------------------- */
 
   activateListeners(html) {
     super.activateListeners(html);
@@ -466,6 +474,12 @@ export default class RollAttribute extends FormApplication {
   /* -------------------------------------------- */
   /*  Getters                                     */
   /* -------------------------------------------- */
+
+  /** @override */
+  get title() {
+    const { constructor: id, name, type } = this.item ?? this.actor;
+    return `${i18n('WW.Roll.Details')}: ${name ?? id}`;
+  }
   
   get targets() {
     const targets = [];
@@ -580,4 +594,5 @@ export default class RollAttribute extends FormApplication {
 
     return targetIds;
   }
+
 }

@@ -186,6 +186,9 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
       
     }
 
+    // Migrate description to a single string
+    if (typeof source.description === 'object') source.description = source.description.value;
+
     return source;
   }
 

@@ -17,9 +17,9 @@
     </header>
 
     {{!-- Description --}}
-    <prose-mirror name="system.description.value" data-document-u-u-i-d="{{item.uuid}}" value="{{system.description.value}}"
+    <prose-mirror name="system.description" data-document-u-u-i-d="{{item.uuid}}" value="{{system.description}}"
         toggled=true collaborate=true compact=true owner={{owner}} editable={{editable}}>
-        {{{system.description.enriched}}}
+        {{{system.descriptionEnriched}}}
     </prose-mirror>
 
     {{#if grantedBy}}

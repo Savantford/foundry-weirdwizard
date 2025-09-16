@@ -71,7 +71,7 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
 
       // Prepare Attack Rider
       if (section.type === 'attackRider') {
-        
+        console.log(section.attackRider)
         section.attackRider = {
           field: opt.document.system.schema.getField("attackRider.value"),
           name: await section.attackRider.name,
@@ -153,15 +153,6 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
     if (event.submitter.value === 'cancel') return;
     
     const obj = await formData.object;
-    
-    // Handle Attack Rider
-    if (obj['attackRider.name'] || obj['attackRider.value']) {
-      obj['system.attackRider.value'] = obj['attackRider.value'];
-      delete obj['attackRider.value'];
-
-      obj['system.attackRider.name'] = obj['attackRider.name'];
-      delete obj['attackRider.name'];
-    }
 
     // Get selected choices
     const selected = Object.fromEntries(Object.entries(obj).filter(([_, v]) => v));

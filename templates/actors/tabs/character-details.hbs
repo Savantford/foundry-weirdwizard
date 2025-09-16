@@ -5,15 +5,15 @@
         <div class="flexcol">
             
             {{!-- Appearance --}}
-            {{#if (or editMode system.details.appearance.value)}}
+            {{#if (or editMode system.details.appearance)}}
             <div>
                 <h2>{{localize "WW.Actor.Appearance"}}</h2>
                 {{#if editMode}}
-                <prose-mirror name="system.details.appearance.value" data-document-uuid="{{actor.uuid}}" value="{{actor.system.details.appearance.value}}"
+                <prose-mirror name="system.details.appearance" data-document-uuid="{{actor.uuid}}" value="{{actor.system.details.appearance}}"
                     toggled=true collaborate=true compact=true owner={{owner}} editable={{editable}}>
                     {{{enrichedDetails.appearance}}}
                 </prose-mirror>
-                {{else if system.details.appearance.value}}
+                {{else if system.details.appearance}}
                 {{{enrichedDetails.appearance}}}
                 {{else}}—{{/if}}
             </div>
@@ -23,11 +23,11 @@
             <div>
                 <h2>{{localize "WW.Actor.Background"}}</h2>
                 {{#if editMode}}
-                <prose-mirror name="system.details.background.value" data-document-uuid="{{actor.uuid}}" value="{{actor.system.details.background.value}}"
+                <prose-mirror name="system.details.background" data-document-uuid="{{actor.uuid}}" value="{{actor.system.details.background}}"
                     toggled=true collaborate=true compact=true owner={{owner}} editable={{editable}}>
                     {{{enrichedDetails.background}}}
                 </prose-mirror>
-                {{else if system.details.background.value}}
+                {{else if system.details.background}}
                 {{{enrichedDetails.background}}}
                 {{else}}—{{/if}}
             </div>
@@ -40,26 +40,26 @@
             {{!-- Identity --}}
             <div>
                 <h2>{{localize "WW.Actor.Identity"}}</h2>
-                {{#if (or editMode system.details.personality.value system.details.beliefs.value)}}
+                {{#if (or editMode system.details.personality system.details.beliefs)}}
                 {{!-- Personality --}}
                 <h3 class="detail-label">{{localize "WW.Actor.Personality"}}</h3>
                 {{#if editMode}}
-                <prose-mirror name="system.details.personality.value" data-document-uuid="{{actor.uuid}}" value="{{actor.system.details.personality.value}}"
+                <prose-mirror name="system.details.personality" data-document-uuid="{{actor.uuid}}" value="{{actor.system.details.personality}}"
                     toggled=true collaborate=true compact=true owner={{owner}} editable={{editable}}>
                     {{{enrichedDetails.personality}}}
                 </prose-mirror>
-                {{else if system.details.personality.value}}
+                {{else if system.details.personality}}
                 {{{enrichedDetails.personality}}}
                 {{else}}—{{/if}}
 
                 {{!-- Beliefs --}}
                 <h3 class="detail-label">{{localize "WW.Actor.Beliefs"}}</h3>
                 {{#if editMode}}
-                <prose-mirror name="system.details.beliefs.value" data-document-uuid="{{actor.uuid}}" value="{{actor.system.details.beliefs.value}}"
+                <prose-mirror name="system.details.beliefs" data-document-uuid="{{actor.uuid}}" value="{{actor.system.details.beliefs}}"
                     toggled=true collaborate=true compact=true owner={{owner}} editable={{editable}}>
                     {{{enrichedDetails.beliefs}}}
                 </prose-mirror>
-                {{else if system.details.beliefs.value}}
+                {{else if system.details.beliefs}}
                 {{{enrichedDetails.beliefs}}}
                 {{else}}—{{/if}}
 
@@ -72,11 +72,11 @@
             <div>
                 <h2>{{localize "WW.Actor.Notes"}}</h2>
                 {{#if editMode}}
-                <prose-mirror name="system.details.notes.value" data-document-uuid="{{actor.uuid}}" value="{{actor.system.details.notes.value}}"
+                <prose-mirror name="system.details.notes" data-document-uuid="{{actor.uuid}}" value="{{actor.system.details.notes}}"
                     toggled=true collaborate=true compact=true owner={{owner}} editable={{editable}}>
                     {{{enrichedDetails.notes}}}
                 </prose-mirror>
-                {{else if system.details.notes.value}}
+                {{else if system.details.notes}}
                 {{{enrichedDetails.notes}}}
                 {{else}}—{{/if}}
             </div>

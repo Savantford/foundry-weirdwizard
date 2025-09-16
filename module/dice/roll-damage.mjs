@@ -44,6 +44,10 @@ export default class RollDamage extends FormApplication {
 
   }
 
+  /* -------------------------------------------- */
+  /*  Rendering                                   */
+  /* -------------------------------------------- */
+
   getData(options = {}) {
     let context = super.getData()
     
@@ -68,6 +72,10 @@ export default class RollDamage extends FormApplication {
     return context;
   }
 
+  /* -------------------------------------------- */
+  /*  Actions                                     */
+  /* -------------------------------------------- */
+
   activateListeners(html) {
     super.activateListeners(html);
     
@@ -83,6 +91,8 @@ export default class RollDamage extends FormApplication {
     el.change();
 
   }
+
+  /* -------------------------------------------- */
 
   _onBonusDamageAdjusted(ev) {
     const a = ev.currentTarget;
@@ -112,11 +122,15 @@ export default class RollDamage extends FormApplication {
     this._updateFields(ev, this);
   }
 
+  /* -------------------------------------------- */
+
   async _updateObject(event, formData) { // Triggers on submit
     
     this._onButtonSubmit(event);
     
   }
+
+  /* -------------------------------------------- */
 
   // Update html fields
   _updateFields(ev) {
@@ -169,6 +183,8 @@ export default class RollDamage extends FormApplication {
     
   }
 
+  /* -------------------------------------------- */
+
   // On submit
   async _onButtonSubmit(event) {
     // Prepare apply button.
@@ -211,6 +227,20 @@ export default class RollDamage extends FormApplication {
     // Send to chat
     await ChatMessage.create(messageData);
 
+  }
+
+  /* -------------------------------------------- */
+  /*  Getters                                     */
+  /* -------------------------------------------- */
+
+  /** @override */
+  get title() {
+    let title = `${i18n('WW.Roll.Details')}`;
+    if (this.item || this.actor) {
+      const { constructor: id, name, type } = this.item ?? this.actor;
+      title += `: ${name ?? id}`;
+    }
+    return title;
   }
 
 }

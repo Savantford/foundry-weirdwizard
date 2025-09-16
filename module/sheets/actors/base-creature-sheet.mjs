@@ -369,7 +369,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       // Description tab
       case 'description':
         context.tab = context.tabs[partId];
-        context.system.description.enriched = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.system.description.value, { secrets: this.actor.isOwner });
+        context.system.descriptionEnriched = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.system.description, { secrets: this.actor.isOwner });
       break;
       
       // Effects tab
@@ -439,8 +439,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       // Prepare html fields for the tooltip and chat message
       const isOwner = this.actor.isOwner;
       const TextEditor = foundry.applications.ux.TextEditor.implementation;
-      i.system.description.enriched = await TextEditor.enrichHTML(i.system.description.value, { secrets: isOwner });
-      if (i.system.attackRider) i.system.attackRider.enriched = await TextEditor.enrichHTML(i.system.attackRider.value, { secrets: isOwner });
+      i.system.descriptionEnriched = await TextEditor.enrichHTML(i.system.description, { secrets: isOwner });
+      if (i.system.attackRider) i.system.attackRiderEnriched = await TextEditor.enrichHTML(i.system.attackRider.value, { secrets: isOwner });
 
       // Prepare tooltip context
       const tooltipContext = {
@@ -451,8 +451,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
         inSheet: true,
 
         subtitle: i.type,
-        text: i.system.description.enriched ?? null,
-        attackRider: i.system.attackRider?.enriched ?? null
+        text: i.system.descriptionEnriched ?? null,
+        attackRider: i.system.attackRiderEnriched ?? null
       }
 
       // Prepare tooltip subtitle
@@ -693,11 +693,11 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
 
     // Prepare enriched details to use in text editors
     context.enrichedDetails = {
-      appearance: await TextEditor.enrichHTML(context.system.details.appearance.value, { secrets: isOwner }),
-      background: await TextEditor.enrichHTML(context.system.details.background.value, { secrets: isOwner }),
-      beliefs: await TextEditor.enrichHTML(context.system.details.beliefs.value, { secrets: isOwner }),
-      notes: await TextEditor.enrichHTML(context.system.details.notes.value, { secrets: isOwner }),
-      personality: await TextEditor.enrichHTML(context.system.details.personality.value, { secrets: isOwner })
+      appearance: await TextEditor.enrichHTML(context.system.details.appearance, { secrets: isOwner }),
+      background: await TextEditor.enrichHTML(context.system.details.background, { secrets: isOwner }),
+      beliefs: await TextEditor.enrichHTML(context.system.details.beliefs, { secrets: isOwner }),
+      notes: await TextEditor.enrichHTML(context.system.details.notes, { secrets: isOwner }),
+      personality: await TextEditor.enrichHTML(context.system.details.personality, { secrets: isOwner })
     };
     
   }
@@ -1518,7 +1518,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     const system = this.actor.system,
       item = this.actor.items.get(dataset.itemId),
       label = _secretLabel(item.name),
-      content = _secretContent(item.system.description.value),
+      content = _secretContent(item.system.description),
       instEffs = item.system.instant,
       effects = item.effects,
       origin = item.uuid ? item.uuid : this.actor.uuid;
@@ -1719,7 +1719,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     ChatMessage.create({
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
       flavor: _secretLabel(item.name),
-      content: item.system.description.value,
+      content: item.system.description,
       'flags.weirdwizard': {
         icon: item.img,
         item: item.uuid

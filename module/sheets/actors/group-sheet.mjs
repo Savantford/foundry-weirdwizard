@@ -107,7 +107,7 @@ export default class WWGroupSheet extends WWSheetMixin(ActorSheetV2) {
       // Description tab
       case 'description':
         context.tab = context.tabs[partId];
-        context.system.description.enriched = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.system.description.value, { secrets: this.actor.isOwner });
+        context.system.descriptionEnriched = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.system.description, { secrets: this.actor.isOwner });
       break;
       
       // Effects tab

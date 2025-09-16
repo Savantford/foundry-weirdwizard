@@ -122,14 +122,14 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     }
     
     // Prepare enriched variables for editor
-    context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { secrets: isOwner, relativeTo: this.document });
+    context.system.descriptionEnriched = await TextEditor.enrichHTML(context.system.description, { secrets: isOwner, relativeTo: this.document });
 
     // Record if the item has an actor
     context.hasActor = this.document.actor ? true : false;
     
     // Prepare character options
     if (context.item.type == 'equipment' && context.item.system.subtype == 'weapon' && context.system.attackRider.value) {
-      context.system.attackRider.enriched = await TextEditor.enrichHTML(context.system.attackRider.value, { secrets: isOwner, relativeTo: this.document });
+      context.system.attackRiderEnriched = await TextEditor.enrichHTML(context.system.attackRider.value, { secrets: isOwner, relativeTo: this.document });
     }
 
     // Prepare attribute labels
@@ -420,7 +420,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     
     // Create MultiChoice instance
     const rect = button.getBoundingClientRect();
-
+    console.log(this.document.system.attackRider)
     new MultiChoice({
       purpose: 'editWeaponTraits',
       document: this.document,
