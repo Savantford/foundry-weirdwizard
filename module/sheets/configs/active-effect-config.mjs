@@ -19,10 +19,10 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
 static DEFAULT_OPTIONS = {
     // classes: ["weirdwizard"],
     position: { width: 580 },
-    form: {
-      closeOnSubmit: false,
-      submitOnChange: true,
-    }
+    // form: {
+    //   closeOnSubmit: false,
+    //   submitOnChange: true,
+    // }
   }
 
   get title() {
