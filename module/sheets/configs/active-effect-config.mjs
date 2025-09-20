@@ -1,4 +1,4 @@
-import { getEffectChangeOptionLabels, shapeEffectChangesForRender } from '../../helpers/effect-options.mjs'
+import { getEffectChangeOptionLabels } from '../../helpers/effect-options.mjs'
 
 export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
@@ -6,10 +6,10 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
   static DEFAULT_OPTIONS = {
     // classes: ["weirdwizard"],
     position: { width: 580 },
-    // form: {
-    //   closeOnSubmit: false,
-    //   submitOnChange: true,
-    // }
+    form: {
+      closeOnSubmit: false,
+      submitOnChange: true,
+    }
   }
 
   /** @inheritdoc */
@@ -24,38 +24,42 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
   /** @inheritDoc */
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
-    context.submitText = 'EFFECT.Submit';
-
+    context.buttons = [
+      {type: "submit", icon: "fa-solid fa-floppy-disk", label: "EFFECT.Submit", action: "close"},
+    ];
     return context;
   }
 
   /** @inheritDoc */
-  async _preparePartContext(partId, context, options) {
-    await super._preparePartContext(partId, context, options);
+  async _preparePartContext(partId, context) {
+    const partContext = await super._preparePartContext(partId, context);
+    if ( partId in partContext.tabs ) partContext.tab = partContext.tabs[partId];
 
     switch (partId) {
       case 'changes': {
-        context.tab = context.tabs[partId];
-        // Provide labels-only options
-        context.effectChangeOptions = getEffectChangeOptionLabels();
-        // Shape change rows for rendering (adds valueType)
-        if (Array.isArray(context.source?.changes)) {
-          context.source.changes = shapeEffectChangesForRender(context.source.changes);
-        }
+        partContext.effectChangeOptions = getEffectChangeOptionLabels();
       } break;
     }
 
     return context;
   }
 
+  /** @inheritDoc */
+  async _processSubmitData(event, form, submitData, options={}) {
+    console.debug("WWActiveEffectConfig | _processSubmitData", {event, form, submitData, options});
+    if (submitData?.changes) {
+      submitData.changes.mode = getEffectChangeMeta(submitData.changes.key)?.mode ?? CONST.ACTIVE_EFFECT_MODES.ADD;
+      submitData.changes.priority = getEffectChangeMeta(submitData.changes.key)?.priority ?? null;
+    }
+    return super._processSubmitData(event, form, submitData, options);
+  }
+
   /** @override */
   _onChangeForm(formConfig, event) {
     super._onChangeForm(formConfig, event);
 
-    // When the effect change key select is changed, submit to re-render the correct value input type.
-    const target = event?.target;
-    if (target instanceof HTMLSelectElement && typeof target.name === 'string' && /(^|\.)key$/.test(target.name)) {
-      // Submit and keep the sheet open; Foundry will re-render this part with updated valueType from the helper.
+    // Re-submit the form if a change key is changed to update the value input type
+    if (event.target instanceof HTMLSelectElement && event.target.name.endsWith(".key")) {
       this.submit({ preventClose: true });
     }
   }
