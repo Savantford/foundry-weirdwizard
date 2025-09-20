@@ -503,6 +503,11 @@ body {
   margin-top: 0;
 }
 
+.weirdwizard.active-effect-config .window-content {
+  padding-top: var(--sheet-name-stripe-height);
+  padding-right: var(--scroll-margin);
+}
+
 .theme-dark .application.weirdwizard.sheet .window-content {
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
@@ -5559,5 +5564,6 @@ body {
 .active-effect-config .tab.changes li {
   display: flex;
   width: 100%;
+  gap: 1rem;
 }
 
