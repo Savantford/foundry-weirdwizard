@@ -152,53 +152,6 @@ export default class WWActiveEffectConfig extends foundry.applications.sheets.Ac
     }});
   }
 
-  /* Initialization functions */
-
-  static initializeChangeKeys() {
-    const refObj = CONFIG.WW.EFFECT_OPTIONS;
-    let obj = {};
-    
-    for (const [key, value] of Object.entries(refObj)) {
-      obj = {
-        ...obj,
-        ...Object.entries(value.options).reduce((all,[k,data]) => { all[k] = data.key; return all;}, {}
-        )
-      }
-    }
-
-    CONFIG.WW.EFFECT_CHANGE_KEYS = obj;
-  }
-  
-  static initializeRealChangeKeys() {
-    const refObj = CONFIG.WW.EFFECT_OPTIONS;
-    let obj = {};
-    
-    for (const [key, value] of Object.entries(refObj)) {
-      obj = {
-        ...obj,
-        ...Object.entries(value.options).reduce((all,[k,data]) => { all[k] = data.key; return all;}, {}
-        )
-      }
-    }
-    
-    CONFIG.WW.EFFECT_CHANGE_KEYS = obj;
-  }
-
-  static initializeChangeLabels() {
-    const refObj = CONFIG.WW.EFFECT_OPTIONS;
-    let obj = {};
-    
-    for (const [key, value] of Object.entries(refObj)) {
-      obj = {
-        ...obj,
-        ...Object.entries(value.options).reduce((all,[k,data]) => { all[k] = data.label; return all;}, {}
-        )
-      }
-    }
-
-    CONFIG.WW.EFFECT_CHANGE_LABELS = obj;
-  }
-
 }
 
 

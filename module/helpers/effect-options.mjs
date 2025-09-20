@@ -184,3 +184,23 @@ function makeChangeData(mode,valueType,priority = null) {
     valueType: valueType
   };
 }
+
+/**
+ * Build flattened lookup maps from CONFIG.WW.EFFECT_OPTIONS
+ * Sets CONFIG.WW.EFFECT_CHANGE_KEYS and CONFIG.WW.EFFECT_CHANGE_LABELS
+ */
+export function initializeEffectLookups() {
+  const refObj = CONFIG.WW.EFFECT_OPTIONS || {};
+  const keys = {};
+  const labels = {};
+
+  for (const [, value] of Object.entries(refObj)) {
+    Object.entries(value.options || {}).forEach(([optId, data]) => {
+      keys[optId] = data.key;
+      labels[optId] = data.label;
+    });
+  }
+
+  CONFIG.WW.EFFECT_CHANGE_KEYS = keys;
+  CONFIG.WW.EFFECT_CHANGE_LABELS = labels;
+}
