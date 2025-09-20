@@ -151,33 +151,28 @@ effChanges.reduceAttribute = {
 
 /* Make functions */
 
-/* Mode Number:
-  0: Special
-  1: Multiply
-  2: Add
-  3: Downgrade
-  4: Upgrade
-  5: Override
+/* Modes:
+  https://foundryvtt.com/api/v13/variables/CONST.ACTIVE_EFFECT_MODES.html
 */
 
 function addInt(priority = null) {
-  return makeChangeData(2,'int',priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.ADD,'int',priority);
 }
 
 function overInt(priority = null) {
-  return makeChangeData(5,'int',priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.OVERRIDE,'int',priority);
 }
 
 function upInt(priority = null) {
-  return makeChangeData(4,'int',priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.UPGRADE,'int',priority);
 }
 
 function downInt(priority = null) {
-  return makeChangeData(3,'int',priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.DOWNGRADE,'int',priority);
 }
 
 function setBoo(priority = null) {
-  return makeChangeData(5,'boo',priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.OVERRIDE,'boo',priority);
 }
 
 function makeChangeData(mode,valueType,priority = null) {
@@ -193,11 +188,10 @@ function makeChangeData(mode,valueType,priority = null) {
  * Sets CONFIG.WW.EFFECT_CHANGE_KEYS and CONFIG.WW.EFFECT_CHANGE_LABELS
  */
 export function initializeEffectLookups() {
-  const refObj = CONFIG.WW.EFFECT_OPTIONS || {};
   const keys = {};
   const labels = {};
 
-  for (const [, value] of Object.entries(refObj)) {
+  for (const [, value] of Object.entries(CONFIG.WW.EFFECT_OPTIONS)) {
     Object.entries(value.options || {}).forEach(([optId, data]) => {
       keys[optId] = data.key;
       labels[optId] = data.label;
@@ -205,7 +199,7 @@ export function initializeEffectLookups() {
   }
 
   CONFIG.WW.EFFECT_CHANGE_KEYS = keys;
-CONFIG.WW.EFFECT_CHANGE_LABELS = labels;
+  CONFIG.WW.EFFECT_CHANGE_LABELS = labels;
 }
 
 /**
@@ -214,23 +208,14 @@ CONFIG.WW.EFFECT_CHANGE_LABELS = labels;
  * Safe to call during _preparePartContext.
  */
 export function getEffectChangeOptionLabels() {
-  const src = CONFIG?.WW?.EFFECT_OPTIONS;
-  if (!src) return {};
-  const optionsObj = foundry.utils.deepClone(src);
-  for (const [catKey, catVal] of Object.entries(optionsObj)) {
-    optionsObj[catKey].options = Object.entries(catVal.options || {}).reduce((all, [optId, data]) => {
-      all[optId] = data.label;
-      return all;
-    }, {});
-  }
-  return optionsObj;
+  return CONFIG.WW.EFFECT_CHANGE_LABELS;
 }
 
 /**
  * Resolve metadata for an effect change option given its label key (e.g., "boons.str").
  * Returns null if no metadata exists.
  * @param {string} labelKey
- * @returns {{mode:number, priority:(number|null), valueType:'int'|'str'|'boo'}|null}
+ * @returns {{mode:CONST.ACTIVE_EFFECT_MODES, priority:(number|null), valueType:'int'|'str'|'boo'}|null}
  */
 export function getEffectChangeMeta(labelKey) {
   try {
