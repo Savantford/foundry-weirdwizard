@@ -48,6 +48,18 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     return context;
   }
 
+  /** @override */
+  _onChangeForm(formConfig, event) {
+    super._onChangeForm(formConfig, event);
+
+    // When the effect change key select is changed, submit to re-render the correct value input type.
+    const target = event?.target;
+    if (target instanceof HTMLSelectElement && typeof target.name === 'string' && /(^|\.)key$/.test(target.name)) {
+      // Submit and keep the sheet open; Foundry will re-render this part with updated valueType from the helper.
+      this.submit({ preventClose: true });
+    }
+  }
+
   //// OLD STUFF BELOW FROM V12 / APPV1 VERSION, DELETE BEFORE PR ////
 
   // /** @inheritDoc */
