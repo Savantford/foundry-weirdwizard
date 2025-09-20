@@ -1,4 +1,7 @@
+// Effect change metadata registry (label-keyed). Example: "boons.str" -> { mode, valueType, priority }
 export const effChanges = {};
+// Back-compat clearer alias; prefer this in new code
+export { effChanges as effectChangeMetaRegistry };
 
 /* Self Attribute Rolls */
 effChanges.boons = {
@@ -202,5 +205,51 @@ export function initializeEffectLookups() {
   }
 
   CONFIG.WW.EFFECT_CHANGE_KEYS = keys;
-  CONFIG.WW.EFFECT_CHANGE_LABELS = labels;
+CONFIG.WW.EFFECT_CHANGE_LABELS = labels;
+}
+
+/**
+ * Labels-only catalog for rendering effect change selects. Derived once from CONFIG.WW.EFFECT_OPTIONS
+ * to avoid reading globals during template render.
+ */
+export const effectChangeOptionLabels = (() => {
+  const optionsObj = foundry.utils.deepClone(CONFIG.WW.EFFECT_OPTIONS);
+  for (const [catKey, catVal] of Object.entries(optionsObj)) {
+    optionsObj[catKey].options = Object.entries(catVal.options).reduce((all, [optId, data]) => {
+      all[optId] = data.label;
+      return all;
+    }, {});
+  }
+  return optionsObj;
+})();
+
+/**
+ * Resolve metadata for an effect change option given its label key (e.g., "boons.str").
+ * Returns null if no metadata exists.
+ * @param {string} labelKey
+ * @returns {{mode:number, priority:(number|null), valueType:'int'|'str'|'boo'}|null}
+ */
+export function getEffectChangeMeta(labelKey) {
+  try {
+    return labelKey.split('.').reduce((o, i) => o?.[i], effChanges) ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+// Stable local copies of lookups for safe use in UI context
+export const effectLookups = { keys: {}, labels: {}, types: {}, modes: {}, priorities: {} };
+
+/**
+ * Shape a list of ActiveEffect changes for rendering in the sheet/template.
+ * Adds valueType to each change so the template can render the appropriate input widget.
+ * This is a thin layer to avoid reading CONFIG during render and to keep sheets minimal.
+ * @param {Array<{key:string,value:any}>} changes
+ * @returns {Array<{key:string,value:any,valueType?:'int'|'str'|'boo'}>}
+ */
+export function shapeEffectChangesForRender(changes=[]) {
+  return (changes || []).map((c) => {
+    const meta = getEffectChangeMeta(c.key) || {};
+    return { ...c, valueType: meta.valueType };
+  });
 }

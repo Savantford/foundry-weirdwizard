@@ -1,5 +1,4 @@
-import { effChanges, initializeEffectLookups, getEffChangeMeta } from '../../helpers/effect-options.mjs'
-import { formatTime } from '../../helpers/utils.mjs';
+import { effectChangeOptionLabels, shapeEffectChangesForRender } from '../../helpers/effect-options.mjs'
 
 export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
@@ -52,8 +51,24 @@ async _prepareContext(options) {
     const context = await super._prepareContext(options);
     context.submitText = 'EFFECT.Submit';
 
-    // Build effect option list once (labels only) and attach to context
-    context.effOptions = CONFIG.WW.EFFECT_OPTIONS;
+return context;
+}
+
+  /** @override */
+  async _preparePartContext(partId, context, options) {
+    await super._preparePartContext(partId, context, options);
+
+    switch (partId) {
+      case 'changes': {
+        context.tab = context.tabs[partId];
+        // Provide labels-only options
+        context.effectChangeOptions = effectChangeOptionLabels;
+        // Shape change rows for rendering (adds valueType)
+        if (Array.isArray(context.source?.changes)) {
+          context.source.changes = shapeEffectChangesForRender(context.source.changes);
+        }
+      } break;
+    }
 
     return context;
   }
