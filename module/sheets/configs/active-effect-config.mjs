@@ -1,22 +1,9 @@
-import { effectChangeOptionLabels, shapeEffectChangesForRender } from '../../helpers/effect-options.mjs'
+import { getEffectChangeOptionLabels, shapeEffectChangesForRender } from '../../helpers/effect-options.mjs'
 
 export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
-  // /** @override */
-  // static get defaultOptions() {
-  //   return foundry.utils.mergeObject(super.defaultOptions, {
-  //     classes: ['sheet', 'active-effect-sheet'],
-  //     template: 'systems/weirdwizard/templates/configs/active-effect-config.hbs',
-  //     width: 580,
-  //     height: 'auto',
-  //     submitOnChange: true,
-  //     closeOnSubmit: false,
-  //     tabs: [{ navSelector: '.tabs', contentSelector: 'form', initial: 'details' }],
-  //   })
-  // }
-
   /** @inheritDoc */
-static DEFAULT_OPTIONS = {
+  static DEFAULT_OPTIONS = {
     // classes: ["weirdwizard"],
     position: { width: 580 },
     // form: {
@@ -25,36 +12,24 @@ static DEFAULT_OPTIONS = {
     // }
   }
 
-  get title() {
-    // return `${this.document.label} - ${game.i18n.localize("EFFECT.EffectConfig")}`;
-    return `${super.title} test`;
-  }
-
+  /** @inheritdoc */
   static PARTS = {
     ...super.PARTS,
     changes: {
       template: "systems/weirdwizard/templates/sheets/active-effect/changes.hbs",
       scrollable: ["ol[data-changes]"],
     }
-    // header: { 
-      // template: "systems/weirdwizard/templates/items/common/name-stripe.hbs",
-      // templates: [
-      //   'systems/weirdwizard/templates/items/common/name-stripe.hbs',
-      //   'systems/weirdwizard/templates/items/common/item-ribbon.hbs',
-      //   'systems/weirdwizard/templates/items/common/portrait.hbs',
-      // ]
-    // },
   }
 
   /** @inheritDoc */
-async _prepareContext(options) {
+  async _prepareContext(options) {
     const context = await super._prepareContext(options);
     context.submitText = 'EFFECT.Submit';
 
-return context;
-}
+    return context;
+  }
 
-  /** @override */
+  /** @inheritDoc */
   async _preparePartContext(partId, context, options) {
     await super._preparePartContext(partId, context, options);
 
@@ -62,7 +37,7 @@ return context;
       case 'changes': {
         context.tab = context.tabs[partId];
         // Provide labels-only options
-        context.effectChangeOptions = effectChangeOptionLabels;
+        context.effectChangeOptions = getEffectChangeOptionLabels();
         // Shape change rows for rendering (adds valueType)
         if (Array.isArray(context.source?.changes)) {
           context.source.changes = shapeEffectChangesForRender(context.source.changes);
@@ -72,6 +47,8 @@ return context;
 
     return context;
   }
+
+  //// OLD STUFF BELOW FROM V12 / APPV1 VERSION, DELETE BEFORE PR ////
 
   // /** @inheritDoc */
   // async _prepareContext(options) {

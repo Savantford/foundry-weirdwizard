@@ -209,19 +209,22 @@ CONFIG.WW.EFFECT_CHANGE_LABELS = labels;
 }
 
 /**
- * Labels-only catalog for rendering effect change selects. Derived once from CONFIG.WW.EFFECT_OPTIONS
- * to avoid reading globals during template render.
+ * Labels-only catalog getter for rendering effect change selects.
+ * Built on demand from CONFIG.WW.EFFECT_OPTIONS to avoid accessing CONFIG at module import time.
+ * Safe to call during _preparePartContext.
  */
-export const effectChangeOptionLabels = (() => {
-  const optionsObj = foundry.utils.deepClone(CONFIG.WW.EFFECT_OPTIONS);
+export function getEffectChangeOptionLabels() {
+  const src = CONFIG?.WW?.EFFECT_OPTIONS;
+  if (!src) return {};
+  const optionsObj = foundry.utils.deepClone(src);
   for (const [catKey, catVal] of Object.entries(optionsObj)) {
-    optionsObj[catKey].options = Object.entries(catVal.options).reduce((all, [optId, data]) => {
+    optionsObj[catKey].options = Object.entries(catVal.options || {}).reduce((all, [optId, data]) => {
       all[optId] = data.label;
       return all;
     }, {});
   }
   return optionsObj;
-})();
+}
 
 /**
  * Resolve metadata for an effect change option given its label key (e.g., "boons.str").
