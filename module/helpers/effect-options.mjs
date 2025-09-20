@@ -253,6 +253,13 @@ export const effectLookups = { keys: {}, labels: {}, types: {}, modes: {}, prior
 export function shapeEffectChangesForRender(changes=[]) {
   return (changes || []).map((c) => {
     const meta = getEffectChangeMeta(c.key) || {};
-    return { ...c, valueType: meta.valueType };
+    const hasMode = c?.mode !== undefined && c?.mode !== null && c?.mode !== '';
+    const hasPriority = c?.priority !== undefined && c?.priority !== null && c?.priority !== '';
+    return {
+      ...c,
+      valueType: meta.valueType,
+      mode: hasMode ? c.mode : meta.mode,
+      priority: hasPriority ? c.priority : meta.priority,
+    };
   });
 }
