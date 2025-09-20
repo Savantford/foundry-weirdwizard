@@ -9,7 +9,6 @@
     </header>
     <ol class="scrollable changes-list flex flex-nowrap" data-changes>
       {{#each source.changes as |change i|}}
-      {{#with ../fields.changes.element.fields as |changeFields|}}
         <li class="effect-change flexrow flex-between" data-index="{{i}}">
             <div class="key flexlarge">
                 <select name="changes.{{i}}.key" style="width:100%;">
@@ -21,9 +20,10 @@
                 {{/each}}
                 </select>
             </div>
+
             <div class="value">
-                {{formInput changeFields.value name="changes.{{ i }}.value" value=change.value}}
-              {{!-- {{#if (eq change.valueType "int")}}
+                {{!-- {{formInput changeFields.value name="changes.{{ i }}.value" value=change.value}} --}}
+              {{#if (eq change.valueType "int")}}
                 <input type="number" name="changes.{{i}}.value" value="{{change.value}}" min="0"/>
               {{else if (eq change.valueType "str")}}
                 <input type="text" name="changes.{{i}}.value" value="{{change.value}}"/>
@@ -31,18 +31,13 @@
                 <input type="checkbox" name="changes.{{i}}.value" {{checked change.value}}>
               {{else}}
                 <input style="display: none;" type="text" name="changes.{{i}}.value" value="{{change.value}}"/>
-              {{/if}} --}}
+              {{/if}}
             </div>
-
-            <!-- Hidden fields to satisfy v13 form schema (mode & priority) -->
-            <input type="hidden" name="changes.{{i}}.mode" value="{{change.mode}}" />
-            <input type="hidden" name="changes.{{i}}.priority" value="{{change.priority}}" />
             
             <div class="controls effect-controls flexshrink">
-                <button class="effect-control inline-control icon fa-solid fa-trash" data-action="deleteChange"></button>
+                <button type="button" class="effect-control inline-control icon fa-solid fa-trash" data-action="deleteChange"></button>
             </div>
         </li>
-      {{/with}}
       {{/each}}
     </ol>
 
