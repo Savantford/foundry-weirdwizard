@@ -509,8 +509,8 @@ body {
 }
 
 .theme-dark .application.weirdwizard.sheet .window-content {
-  backdrop-filter: none;
   -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 .application.weirdwizard .window-resize-handle {
@@ -876,9 +876,9 @@ body {
 }
 
 .weirdwizard.sheet select {
-  appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
+  appearance: none;
   text-overflow: unset;
   border: 1px solid transparent;
 }
@@ -1158,6 +1158,10 @@ body {
 }
 
 .weirdwizard.item .talent-sheet .name-stripe {
+  padding-right: 200px;
+}
+
+.weirdwizard.active-effect-config .talent-sheet .name-stripe {
   padding-right: 200px;
 }
 
@@ -4748,6 +4752,7 @@ form.quest-calendar {
 
 /* Compendium Directory */
 .compendium-directory .header-banner img {
+  -webkit-mask-image: none;
   mask-image: none;
 }
 
