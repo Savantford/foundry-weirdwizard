@@ -185,7 +185,8 @@ function makeChangeData(mode,valueType,priority = null) {
 
 /**
  * Build flattened lookup maps from CONFIG.WW.EFFECT_OPTIONS
- * Sets CONFIG.WW.EFFECT_CHANGE_KEYS and CONFIG.WW.EFFECT_CHANGE_LABELS
+ * Sets CONFIG.WW.EFFECT_OPTIONS_KEYS and CONFIG.WW.EFFECT_OPTIONS_LABELS
+ * (these replace EFFECT_CHANGE_KEYS and EFFECT_CHANGE_LABELS where still needed)
  */
 export function initializeEffectLookups() {
   const keys = {};
@@ -198,17 +199,8 @@ export function initializeEffectLookups() {
     });
   }
 
-  CONFIG.WW.EFFECT_CHANGE_KEYS = keys;
-  CONFIG.WW.EFFECT_CHANGE_LABELS = labels;
-}
-
-/**
- * Labels-only catalog getter for rendering effect change selects.
- * Built on demand from CONFIG.WW.EFFECT_OPTIONS to avoid accessing CONFIG at module import time.
- * Safe to call during _preparePartContext.
- */
-export function getEffectChangeOptionLabels() {
-  return CONFIG.WW.EFFECT_CHANGE_LABELS;
+  CONFIG.WW.EFFECT_OPTIONS_KEYS = keys;
+  CONFIG.WW.EFFECT_OPTIONS_LABELS = labels;
 }
 
 /**

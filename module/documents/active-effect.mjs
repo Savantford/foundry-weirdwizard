@@ -235,7 +235,7 @@ export default class WWActiveEffect extends ActiveEffect {
   _applyLegacy(actor, change, changes) {
     // Weird Wizard: Save label key and get real change key
     const labelKey = '' + change.key;
-    change.key = CONFIG.WW.EFFECT_CHANGE_KEYS[change.key];
+    change.key = CONFIG.WW.EFFECT_OPTIONS_KEYS[change.key];
 
     // Determine the data type of the target field
     const current = foundry.utils.getProperty(actor, change.key) ?? null;

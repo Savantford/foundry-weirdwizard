@@ -1,4 +1,4 @@
-import { getEffectChangeOptionLabels } from '../../helpers/effect-options.mjs'
+import { getEffectChangeMeta } from '../../helpers/effect-options.mjs'
 
 export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
@@ -15,8 +15,9 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
   /** @inheritdoc */
   static PARTS = {
     ...super.PARTS,
+    
     changes: {
-      template: "systems/weirdwizard/templates/sheets/active-effect/changes.hbs",
+      template: "systems/weirdwizard/templates/configs/active-effect-config/changes.hbs",
       scrollable: ["ol[data-changes]"],
     }
   }
@@ -24,9 +25,9 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
   /** @inheritDoc */
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
-    context.buttons = [
-      {type: "submit", icon: "fa-solid fa-floppy-disk", label: "EFFECT.Submit", action: "close"},
-    ];
+    // context.buttons = [
+    //   {type: "submit", icon: "fa-solid fa-floppy-disk", label: "EFFECT.Submit", action: "close"},
+    // ];
     return context;
   }
 
@@ -37,7 +38,11 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
     switch (partId) {
       case 'changes': {
-        partContext.effectChangeOptions = getEffectChangeOptionLabels();
+        partContext.effectChangeOptions = CONFIG.WW.EFFECT_OPTIONS;
+        partContext.source.changes = partContext.source.changes.map(change => {
+          change.valueType = getEffectChangeMeta(change.key)?.valueType ?? 'str';
+          return change
+        })
       } break;
     }
 
@@ -47,10 +52,10 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
   /** @inheritDoc */
   async _processSubmitData(event, form, submitData, options={}) {
     console.debug("WWActiveEffectConfig | _processSubmitData", {event, form, submitData, options});
-    if (submitData?.changes) {
-      submitData.changes.mode = getEffectChangeMeta(submitData.changes.key)?.mode ?? CONST.ACTIVE_EFFECT_MODES.ADD;
-      submitData.changes.priority = getEffectChangeMeta(submitData.changes.key)?.priority ?? null;
-    }
+    // if (submitData?.changes) {
+    //   submitData.changes.mode = getEffectChangeMeta(submitData.changes.key)?.mode ?? CONST.ACTIVE_EFFECT_MODES.ADD;
+    //   submitData.changes.priority = getEffectChangeMeta(submitData.changes.key)?.priority ?? null;
+    // }
     return super._processSubmitData(event, form, submitData, options);
   }
 

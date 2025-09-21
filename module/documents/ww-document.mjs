@@ -205,7 +205,7 @@ export default function WWDocumentMixin(Base) {
           context.changes = '';
 
           for (const c of this.changes) {
-            const label = CONFIG.WW.EFFECT_CHANGE_LABELS[c.key] ? i18n(CONFIG.WW.EFFECT_CHANGE_LABELS[c.key]) : 'BROKEN EFFECT CHANGE, FIX IT!';
+            const label = CONFIG.WW.EFFECT_OPTIONS_LABELS[c.key] ? i18n(CONFIG.WW.EFFECT_OPTIONS_LABELS[c.key]) : 'BROKEN EFFECT CHANGE, FIX IT!';
             context.changes += `<li>${label} ${(c.value !== true) ? `${c.value}.` : ''}</li>`;
           }
 
