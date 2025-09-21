@@ -179,7 +179,7 @@ export default class WWActiveEffect extends ActiveEffect {
   get originalCombatant() {
     const document = fromUuidSync(this.origin);
 
-    if (document.documetName === 'Item') {
+    if (document.documentName === 'Item') {
       return document.parent.token?.combatant ?? null;
     } else {
       return document.token?.combatant ?? null;
