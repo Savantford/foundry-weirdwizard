@@ -33,7 +33,7 @@ export default class WWActiveEffect extends ActiveEffect {
 
     const updateData = function(rounds, seconds) {
       if (stage === 'preCreate') effect.updateSource({ 'duration.rounds': rounds, 'duration.seconds': seconds });
-      else if (stage = 'preUpdate') changes = foundry.utils.mergeObject(changes, { 'duration.rounds': rounds, 'duration.seconds': seconds });
+      else if (stage === 'preUpdate') changes = foundry.utils.mergeObject(changes, { 'duration.rounds': rounds, 'duration.seconds': seconds });
     };
     
     // Check the selected value and set duration values
