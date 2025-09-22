@@ -40,10 +40,12 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
 
     switch (partId) {
       case 'details': {
-        // If effect has duration, use instant triggers since they remove "passive" option
-        partContext.triggers = this.document.isTemporary 
-          ? CONFIG.WW.INSTANT_TRIGGERS 
-          : CONFIG.WW.EFFECT_TRIGGERS
+        partContext.triggers = CONFIG.WW.EFFECT_TRIGGERS;
+        // // If effect has duration, use instant triggers since they remove "passive" option
+        // // disabled due to issues with isTemporary and duration input/outputs for now
+        // partContext.triggers = this.document.isTemporary 
+        //   ? CONFIG.WW.INSTANT_TRIGGERS 
+        //   : CONFIG.WW.EFFECT_TRIGGERS
         partContext.targets = CONFIG.WW.EFFECT_TARGETS
       } break;
       case 'changes': {
