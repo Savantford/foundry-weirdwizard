@@ -16,6 +16,9 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
   static PARTS = {
     ...super.PARTS,
     
+    details: {
+      template: "systems/weirdwizard/templates/configs/active-effect-config/details.hbs",
+    },
     changes: {
       template: "systems/weirdwizard/templates/configs/active-effect-config/changes.hbs",
       scrollable: ["ol[data-changes]"],
@@ -36,6 +39,13 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     if ( partId in partContext.tabs ) partContext.tab = partContext.tabs[partId];
 
     switch (partId) {
+      case 'details': {
+        // Use instant triggers if effect has a duration
+        partContext.triggers = this.document.isTemporary 
+          ? CONFIG.WW.INSTANT_TRIGGERS 
+          : CONFIG.WW.EFFECT_TRIGGERS
+        partContext.targets = CONFIG.WW.EFFECT_TARGETS
+      } break;
       case 'changes': {
         partContext.effectChangeOptions = CONFIG.WW.EFFECT_OPTIONS;
         partContext.source.changes = partContext.source.changes.map(change => {
@@ -46,16 +56,6 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     }
 
     return context;
-  }
-
-  /** @inheritDoc */
-  async _processSubmitData(event, form, submitData, options={}) {
-    console.debug("WWActiveEffectConfig | _processSubmitData", {event, form, submitData, options});
-    // if (submitData?.changes) {
-    //   submitData.changes.mode = getEffectChangeMeta(submitData.changes.key)?.mode ?? CONST.ACTIVE_EFFECT_MODES.ADD;
-    //   submitData.changes.priority = getEffectChangeMeta(submitData.changes.key)?.priority ?? null;
-    // }
-    return super._processSubmitData(event, form, submitData, options);
   }
 
   /** @override */
