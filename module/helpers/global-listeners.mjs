@@ -6,9 +6,12 @@ export function initGlobalListeners() {
   // Create enricher index listener
   body.on('click', '.enricher-index', _onClickIndex);
 
-  /*body.on('click', ev => {
-    if ( ui.choiceMenu ) ui.choiceMenu.close();
-  });*/
+  /*body.addEventListener("click", async (ev) => {
+  if (ev.target.matches(".content-link")) {
+    // do await stuff
+  }
+
+  })*/
 }
 
 /** 
