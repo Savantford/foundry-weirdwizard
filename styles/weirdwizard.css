@@ -299,16 +299,20 @@ body {
   flex-wrap: nowrap;
 }
 
+.gap-5 {
+  gap: 5px;
+}
+
+.gap-20 {
+  gap: 20px;
+}
+
 .nogap {
   gap: 0;
 }
 
 .nowrap {
   white-space: nowrap;
-}
-
-.nogap {
-  gap: 0;
 }
 
 .align-left {
@@ -3157,6 +3161,48 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard .list-entries label {
   margin-right: 0;
+}
+
+/* -------------------------------------------- */
+/*  Group Sheet                                 */
+/* -------------------------------------------- */
+
+.weirdwizard.group .members-area {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.weirdwizard.group .members-area > li {
+  margin: 0;
+}
+
+.weirdwizard.group .members-area > li:not(:last-of-type)::after {
+  content: ",";
+}
+
+.weirdwizard.group .members-area > label {
+  color: var(--purple-dark);
+  font-weight: bold;
+}
+
+.weirdwizard.group .members-area > .item-owner {
+  flex: 2;
+}
+
+.weirdwizard.group .fadeout {
+  box-shadow: rgba(33, 33, 33, 0.8) 0px 0px 1px 2px, rgba(33, 33, 33, 0.6) 0px 0px 0px 5000px;
+  border-radius: 4px;
+  transition: all 0.3s ease-out;
+  z-index: calc(var(--z-index-tooltip) - 2);
+  position: relative;
+}
+
+.weirdwizard.group .wealth {
+  gap: 20px;
 }
 
 /* -------------------------------------------- */

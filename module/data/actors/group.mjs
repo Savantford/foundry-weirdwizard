@@ -7,10 +7,6 @@ export default class GroupModel extends foundry.abstract.TypeDataModel {
     const fields = foundry.data.fields;
 
     const schema = {
-      // Basic information
-      level: makeIntField(1),
-      tier: makeRequiredStrField('novice'),
-
       // Details
       details: new fields.SchemaField({
         origin: makeHtmlField('No group origin story.'),

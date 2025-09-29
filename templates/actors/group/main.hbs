@@ -1,92 +1,156 @@
-<section>
-    {{!-- General Group Info --}}
-    <div class="general-info">
-        <h2>{{ localize "WW.Group.GeneralInfo" }}</h2>
-        <div class="stat-inline"><label>{{ localize "WW.Stats.Level" }}:</label> {{ level }}</div>
-        <div class="stat-inline"><label>{{ localize "WW.Item.Tier" }}:</label> {{ tier }}</div>
-
-        <h3>{{ localize "WW.Group.Origin" }}</h3>
-        <prose-mirror name="details.origin" value="{{ details.origin }}" data-document-uuid="{{ actor.uuid }}" toggled compact collaborate></prose-mirror>
-
-        <h3>{{ localize "WW.Group.Achievements" }}</h3>
-        <prose-mirror name="details.achievements" value="{{ details.achievements }}" data-document-uuid="{{ actor.uuid }}" toggled compact collaborate></prose-mirror>
-
-        <h3>{{ localize "WW.Actor.Notes" }}</h3>
-        <prose-mirror name="details.notes" value="{{ details.notes }}" data-document-uuid="{{ actor.uuid }}" toggled compact collaborate></prose-mirror>
-    </div>
-
-    {{!-- Members --}}
-    <div class="members">
-        <h2>{{ localize "WW.Group.Members.Label" }}</h2>
-
-        {{!-- Active Members --}}
-        <div class="members-active">
-            <ol>
-                <label>{{ localize "WW.Group.Members.Active" }}:</label>
-                {{#each members.active as |member id|}}
-                <li>@UUID[{{ member.uuid }}]</li>
-                {{/each}}
-            </ol>
+<section class="flexcol gap-5">
+    {{!-- Name --}}
+    <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.Actor.Name"}}" /></h1>
+    
+    {{!-- Level and Tier --}}
+    <div class="stat-inline">
+        <label>{{ localize "WW.Stats.Level" }}:</label>
+    
+        <div>
+            {{ level }}
+    
+            {{#if wrongLevels.length}}
+            ({{localize "WW.Group.LevelExcept"}}:
+    
+            {{#each wrongLevels as |member id|}}<span>{{{ member }}}{{#unless @last}}, {{/unless}}</span>{{/each}})
+            {{/if}}
         </div>
-
-        {{!-- Inactive Members --}}
-        <div class="members-inactive">
-            <ol>
-                <label>{{ localize "WW.Group.Members.Inactive" }}:</label>
-                {{#each members.inactive as |member id|}}
-                <li>@UUID[{{ member.uuid }}]</li>
-                {{/each}}
-            </ol>
-        </div>
-
-        {{!-- Retired Members --}}
-        <div class="members-retired">
-            <ol>
-                <label>{{ localize "WW.Group.Members.Retired" }}:</label>
-                {{#each members.retired as |member id|}}
-                <li>@UUID[{{ member.uuid }}]</li>
-                {{/each}}
-            </ol>
-        </div>
-
-        {{!-- Dead Members --}}
-        <div class="members-dead">
-            <ol>
-                <label>{{ localize "WW.Group.Members.Dead" }}:</label>
-                {{#each members.dead as |member id|}}
-                <li>@UUID[{{ member.uuid }}]</li>
-                {{/each}}
-            </ol>
-        </div>
-
+    
+        <label class="ml-2">{{ localize "WW.Item.Tier" }}:</label>
+    
+        {{ tier }}
+    
     </div>
     
-
+    
+    {{!-- Members --}}
+    <div class="members">
+        <h2>{{ localize "WW.Group.Members" }}</h2>
+        {{!-- Active Members --}}
+        <ol class="members-area active">
+            <label>{{ localize "WW.Group.Active" }}:</label>
+            {{#each members.active as |member id|}}
+            <li>{{{ member.outerHTML }}}</li>
+            {{else}}
+            {{localize "–"}}
+            {{/each}}
+        </ol>
+    
+        {{!-- Inactive Members --}}
+        <ol class="members-area inactive">
+            <label>{{ localize "WW.Group.Inactive" }}:</label>
+            {{#each members.inactive as |member id|}}
+            <li>{{{ member.outerHTML }}}</li>
+            {{else}}
+            {{localize "–"}}
+            {{/each}}
+        </ol>
+    
+        {{!-- Retired Members --}}
+        <ol class="members-area retired">
+            <label>{{ localize "WW.Group.Retired" }}:</label>
+            {{#each members.retired as |member id|}}
+            <li>{{{ member.outerHTML }}}</li>
+            {{else}}
+            {{localize "–"}}
+            {{/each}}
+        </ol>
+    
+        {{!-- Dead Members --}}
+        <ol class="members-area dead">
+            <label>{{ localize "WW.Group.Dead" }}:</label>
+            {{#each members.dead as |member id|}}
+            <li>{{{ member.outerHTML }}}</li>
+            {{else}}
+            {{localize "–"}}
+            {{/each}}
+        </ol>
+    
+    </div>
+    
+    {{!-- General Group Info --}}
+    <div class="general-info">
+        <h3>{{ localize "WW.Group.Origin" }}</h3>
+        <prose-mirror name="details.origin" value="{{ details.origin }}" data-document-uuid="{{ actor.uuid }}" toggled
+            compact collaborate></prose-mirror>
+    
+        <h3>{{ localize "WW.Group.Achievements" }}</h3>
+        <prose-mirror name="details.achievements" value="{{ details.achievements }}" data-document-uuid="{{ actor.uuid }}"
+            toggled compact collaborate></prose-mirror>
+    
+        <h3>{{ localize "WW.Actor.Notes" }}</h3>
+        <prose-mirror name="details.notes" value="{{ details.notes }}" data-document-uuid="{{ actor.uuid }}" toggled compact
+            collaborate></prose-mirror>
+    </div>
+    
     {{!-- Resources --}}
     <div class="resources">
         <h2>{{ localize "WW.Group.Resources" }}</h2>
 
         {{!-- Wealth --}}
+        <h3>{{ localize "WW.Group.Wealth" }}</h3>
+
         <div class="wealth stat-inline">
-           <label>{{ localize "WW.Group.Wealth" }}:</label>
-           {{ wealth.total }}
-           ({{ localize "WW.Group.Members.Active" }}: {{ wealth.active }},
-           {{ localize "WW.Group.Members.Inactive" }}: {{ wealth.inactive }})
+
+           <div>
+                <label>{{ localize "WW.Group.Total" }}:</label>
+                {{ system.wealth.total.gp }} <i class="fa-solid fa-coins gold" data-tooltip="{{localize "WW.Equipment.GP"}}"></i>
+                {{ system.wealth.total.sp }} <i class="fa-solid fa-coins silver" data-tooltip="{{localize "WW.Equipment.SP"}}"></i>
+                {{ system.wealth.total.cp }} <i class="fa-solid fa-coins copper" data-tooltip="{{localize "WW.Equipment.CP"}}"></i>
+           </div>
+           
+           <div>
+                <label>{{ localize "WW.Group.Active" }}:</label>
+                {{ system.wealth.active.gp }} <i class="fa-solid fa-coins gold" data-tooltip="{{localize "WW.Equipment.GP"}}"></i>
+                {{ system.wealth.active.sp }} <i class="fa-solid fa-coins silver" data-tooltip="{{localize "WW.Equipment.SP"}}"></i>
+                {{ system.wealth.active.cp }} <i class="fa-solid fa-coins copper" data-tooltip="{{localize "WW.Equipment.CP"}}"></i>
+           </div>
+
+           <div>
+                <label>{{ localize "WW.Group.Inactive" }}:</label>
+                {{ system.wealth.inactive.gp }} <i class="fa-solid fa-coins gold" data-tooltip="{{localize "WW.Equipment.GP"}}"></i>
+                {{ system.wealth.inactive.sp }} <i class="fa-solid fa-coins silver" data-tooltip="{{localize "WW.Equipment.SP"}}"></i>
+                {{ system.wealth.inactive.cp }} <i class="fa-solid fa-coins copper" data-tooltip="{{localize "WW.Equipment.CP"}}"></i>
+           </div>
         </div>
 
         {{!-- Connections --}}
         <h3>{{ localize "WW.Group.Connections.Label" }}</h3>
+
         <ol>
-            {{#each equipmentList.total as |item id|}}
-            <li>@UUID[{{ item.uuid }}]</li>
+            {{#each system.listEntries.connections as |connection id|}}
+            <li>{{ connection }}</li>
             {{/each}}
         </ol>
 
-        {{!-- Equipment List --}}
-        <h3>{{ localize "WW.Group.EquipmentList" }}</h3>
-        <ol>
-            {{#each equipmentList.total as |item id|}}
-            <li>@UUID[{{ item.uuid }}]</li>
+        {{!-- Equipment Overview --}}
+        <h3>{{ localize "WW.Group.EquipmentOverview" }}</h3>
+
+        <ol class="item-list equipment-list">
+            <li class="item flexrow items-header">
+                <div class="item-image"></div>
+                <div class="item-name">{{localize "WW.Item.Name"}}</div>
+                <div class="item-type">{{localize "WW.Armor.Type"}}</div>
+                <div class="item-owner">{{localize "WW.Equipment.Owner"}}</div>
+            </li>
+
+            {{#each equipment.total as |item id|}}
+            <li class="item draggable flexrow {{#if (eq item.system.subtype 'container')}}container collapsed{{/if}}" data-item-id="{{item._id}}">
+                {{!-- Icon --}}
+                <div class="item-image"><img src="{{item.img}}" data-tooltip="{{item.name}}" width="24" height="24" /></div>
+                
+                {{!-- Name --}}
+                <div class="item-name">
+                    <label data-item-uuid="{{item.uuid}}" data-tooltip="{{item.tooltip}}">{{#if (gt item.system.quantity 1)}}{{item.system.quantity}} {{/if}}{{item.name}}</label>
+                </div>
+
+                {{!-- Type Column --}}
+                <div class="type-type">{{ localize item.subtypeLabel }}</div>
+
+                {{!-- Item Controls Column --}}
+                <div class="item-owner">{{{ item.ownerLink.outerHTML }}}</div>
+
+            </li>
             {{/each}}
         </ol>
 

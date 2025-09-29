@@ -77,39 +77,42 @@ export default class WWActor extends WWDocumentMixin(Actor) {
   async _onUpdate(changed, options, user) {
     await super._onUpdate(changed, options, user);
     
-    // Check for changed variables
-    const health = foundry.utils.getProperty(changed, 'system.stats.health');
-    const damage = foundry.utils.getProperty(changed, 'system.stats.damage');
+    if (this.type === 'character' || this.type === 'npc') {
+      // Check for changed variables
+      const health = foundry.utils.getProperty(changed, 'system.stats.health');
+      const damage = foundry.utils.getProperty(changed, 'system.stats.damage');
 
-    // Calculate changed Damage and Health
-    this._calculateChangedDamageHealth(this.system, foundry.utils.getProperty(changed, 'system.stats.health.current') ? true : false);
-    
-    // Update token status icons
-    if ((damage || health) && this.token) {
-      this.token.object.updateStatusIcons();
-    }
-    
-    // Update Character Options if Level updates
-    if (foundry.utils.getProperty(changed, 'system.stats.level')) {
+      // Calculate changed Damage and Health
+      this._calculateChangedDamageHealth(this.system, foundry.utils.getProperty(changed, 'system.stats.health.current') ? true : false);
       
-      if (user !== game.user.id) return;
-      const cOpts = this.system.charOptions;
-      
-      for (const o in cOpts) {
-        const cOpt = cOpts[o];
-        
-        if (typeof cOpt !== 'string') {
-          for (const e in cOpt) {
-            this.updateCharOptionBenefits(cOpt[e], 'levelChange');
-          }
-
-        } else {
-          this.updateCharOptionBenefits(cOpt, 'levelChange');
-        }
+      // Update token status icons
+      if ((damage || health) && this.token) {
+        this.token.object.updateStatusIcons();
       }
       
-    }
+      // Update Character Options if Level updates
+      if (foundry.utils.getProperty(changed, 'system.stats.level')) {
+        
+        if (user !== game.user.id) return;
+        const cOpts = this.system.charOptions;
+        
+        for (const o in cOpts) {
+          const cOpt = cOpts[o];
+          
+          if (typeof cOpt !== 'string') {
+            for (const e in cOpt) {
+              this.updateCharOptionBenefits(cOpt[e], 'levelChange');
+            }
 
+          } else {
+            this.updateCharOptionBenefits(cOpt, 'levelChange');
+          }
+        }
+        
+      }
+
+    }
+    
   }
 
   /* -------------------------------------------- */
@@ -253,7 +256,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
   /**
   * Prepare Character type specific data
   */
-  _prepareGroupData(system) {
+  async _prepareGroupData(system) {
     if (this.type !== 'group') return;
     
     // Prepare list of members
@@ -266,11 +269,22 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     
     for (const cat in this.system.members) {
       for (const m of this.system.members[cat]) {
-        console.log(m)
+        members[cat].add(fromUuidSync(m));
       }
     }
 
     system.membersList = members;
+
+    // Prepare Level and Tier
+    if (members.active.size) {
+      const membersArr = [... members.active].filter(x => x.type === 'character');
+      const levels = membersArr.map(x => x.system.stats.level);
+      const maxLevel = Math.max(...levels);
+
+      system.level = maxLevel;
+      system.tier = maxLevel >= 7 ? 'master' : (maxLevel >= 3 ? 'expert' : 'novice');
+      system.wrongLevels = membersArr.filter(x => x.system.stats.level !== maxLevel).map(x => x.name); // toAnchor() would be better, but requires async
+    }
 
     // Compute Total Wealth and Equipment List for Valid Members
     const validMembers = new Set([...members.active, ...members.inactive]);
@@ -288,16 +302,18 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     for (const member of validMembers) {
       const status = members.active.has(member) ? 'active' : 'inactive';
 
-      // Add Wealth to correct count
-      for (const coins of member.currency) {
-        wealth[status][coins] += member.currency[coins];
-      }
-
       // Add Equipment to the correct list
       for (const equipment of member.items.filter(i => i.type === 'equipment')) {
         equipmentList[status].push(equipment);
       }
       
+      // Add Wealth to correct count
+      if (member.system?.currency) {
+        for (const coin in member.system.currency) {
+          wealth[status][coin] += member.system.currency[coin];
+        }
+      }
+
     }
 
     // Compute active + inactive Wealth and Equipment
@@ -309,8 +325,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
 
     equipmentList.total = [...equipmentList.active, ...equipmentList.inactive];
 
-    context.wealth = wealth;
-    context.equipmentList = equipmentList;
+    system.wealth = wealth;
+    system.equipmentList = equipmentList;
     
   }
 

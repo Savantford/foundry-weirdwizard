@@ -51,6 +51,7 @@ export default function WWDocumentMixin(Base) {
       const documentConfig = CONFIG[this.documentName];
       const documentName = game.i18n.localize(`DOCUMENT.${this.documentName}`);
       let anchorIcon = icon ?? documentConfig.sidebarIcon;
+      console.log(icon)
       if ( !classes.includes("content-link") ) classes.unshift("content-link");
       attrs = foundry.utils.mergeObject({ draggable: "true" }, attrs);
       dataset = foundry.utils.mergeObject({
