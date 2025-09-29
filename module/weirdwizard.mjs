@@ -59,6 +59,7 @@ import { initGlobalListeners } from './helpers/global-listeners.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
 import { Utils, handleWelcomeMessage } from './helpers/utils.mjs';
+import { initializeEffectLookups } from './helpers/effect-options.mjs';
 
 // Import migrations
 import {
@@ -221,8 +222,7 @@ Hooks.once('init', function () {
   CONFIG.Dice.rolls.unshift(WWRoll);
 
   // Set active effect keys-labels to be used in Active Effects Config app
-  WWActiveEffectConfig.initializeChangeKeys();
-  WWActiveEffectConfig.initializeChangeLabels();
+  initializeEffectLookups();
 
   // Register system settings
   registerSystemSettings();

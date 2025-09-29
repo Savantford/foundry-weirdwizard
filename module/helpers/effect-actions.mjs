@@ -200,7 +200,7 @@ export async function prepareActiveEffectCategories(effects, showDuration = fals
 
     // Prepare changes
     for (const c of e.changes) {
-      const label = CONFIG.WW.EFFECT_CHANGE_LABELS[c.key] ? i18n(CONFIG.WW.EFFECT_CHANGE_LABELS[c.key]) : 'BROKEN EFFECT CHANGE, FIX IT!';
+      const label = CONFIG.WW.EFFECT_OPTIONS_LABELS[c.key] ? i18n(CONFIG.WW.EFFECT_OPTIONS_LABELS[c.key]) : 'BROKEN EFFECT CHANGE, FIX IT!';
       context.changes += `<li>${label} ${(c.value !== true) ? `${c.value}.` : ''}</li>`;
     }
 
@@ -216,8 +216,9 @@ export async function prepareActiveEffectCategories(effects, showDuration = fals
     }
     
     // Push them into categories
-    if (await e.disabled) categories.inactive.effects.push(e);
-    else if (await e.isTemporary) categories.temporary.effects.push(e);
+    // if (await e.disabled) categories.inactive.effects.push(e);
+    // else 
+    if (await e.isTemporary) categories.temporary.effects.push(e);
     else categories.permanent.effects.push(e);
   }
   

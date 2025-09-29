@@ -33,7 +33,7 @@ export default class WWActiveEffect extends ActiveEffect {
 
     const updateData = function(rounds, seconds) {
       if (stage === 'preCreate') effect.updateSource({ 'duration.rounds': rounds, 'duration.seconds': seconds });
-      else if (stage = 'preUpdate') changes = foundry.utils.mergeObject(changes, { 'duration.rounds': rounds, 'duration.seconds': seconds });
+      else if (stage === 'preUpdate') changes = foundry.utils.mergeObject(changes, { 'duration.rounds': rounds, 'duration.seconds': seconds });
     };
     
     // Check the selected value and set duration values
@@ -179,7 +179,7 @@ export default class WWActiveEffect extends ActiveEffect {
   get originalCombatant() {
     const document = fromUuidSync(this.origin);
 
-    if (document.documetName === 'Item') {
+    if (document.documentName === 'Item') {
       return document.parent.token?.combatant ?? null;
     } else {
       return document.token?.combatant ?? null;
@@ -235,7 +235,7 @@ export default class WWActiveEffect extends ActiveEffect {
   _applyLegacy(actor, change, changes) {
     // Weird Wizard: Save label key and get real change key
     const labelKey = '' + change.key;
-    change.key = CONFIG.WW.EFFECT_CHANGE_KEYS[change.key];
+    change.key = CONFIG.WW.EFFECT_OPTIONS_KEYS[change.key];
 
     // Determine the data type of the target field
     const current = foundry.utils.getProperty(actor, change.key) ?? null;

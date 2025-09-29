@@ -1,4 +1,7 @@
+// Effect change metadata registry (label-keyed). Example: "boons.str" -> { mode, valueType, priority }
 export const effChanges = {};
+// Back-compat clearer alias; prefer this in new code
+export { effChanges as effectChangeMetaRegistry };
 
 /* Self Attribute Rolls */
 effChanges.boons = {
@@ -148,33 +151,28 @@ effChanges.reduceAttribute = {
 
 /* Make functions */
 
-/* Mode Number:
-  0: Special
-  1: Multiply
-  2: Add
-  3: Downgrade
-  4: Upgrade
-  5: Override
+/* Modes:
+  https://foundryvtt.com/api/v13/variables/CONST.ACTIVE_EFFECT_MODES.html
 */
 
 function addInt(priority = null) {
-  return makeChangeData(2,'int',priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.ADD,'int',priority);
 }
 
 function overInt(priority = null) {
-  return makeChangeData(5,'int',priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.OVERRIDE,'int',priority);
 }
 
 function upInt(priority = null) {
-  return makeChangeData(4,'int',priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.UPGRADE,'int',priority);
 }
 
 function downInt(priority = null) {
-  return makeChangeData(3,'int',priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.DOWNGRADE,'int',priority);
 }
 
 function setBoo(priority = null) {
-  return makeChangeData(5,'boo',priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.OVERRIDE,'boo',priority);
 }
 
 function makeChangeData(mode,valueType,priority = null) {
@@ -183,4 +181,62 @@ function makeChangeData(mode,valueType,priority = null) {
     priority: priority,
     valueType: valueType
   };
+}
+
+/**
+ * Build flattened lookup maps from CONFIG.WW.EFFECT_OPTIONS
+ * Sets CONFIG.WW.EFFECT_OPTIONS_KEYS and CONFIG.WW.EFFECT_OPTIONS_LABELS
+ * (these replace EFFECT_CHANGE_KEYS and EFFECT_CHANGE_LABELS where still needed)
+ */
+export function initializeEffectLookups() {
+  const keys = {};
+  const labels = {};
+
+  for (const [, value] of Object.entries(CONFIG.WW.EFFECT_OPTIONS)) {
+    Object.entries(value.options || {}).forEach(([optId, data]) => {
+      keys[optId] = data.key;
+      labels[optId] = data.label;
+    });
+  }
+
+  CONFIG.WW.EFFECT_OPTIONS_KEYS = keys;
+  CONFIG.WW.EFFECT_OPTIONS_LABELS = labels;
+}
+
+/**
+ * Resolve metadata for an effect change option given its label key (e.g., "boons.str").
+ * Returns null if no metadata exists.
+ * @param {string} labelKey
+ * @returns {{mode:CONST.ACTIVE_EFFECT_MODES, priority:(number|null), valueType:'int'|'str'|'boo'}|null}
+ */
+export function getEffectChangeMeta(labelKey) {
+  try {
+    return labelKey.split('.').reduce((o, i) => o?.[i], effChanges) ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+// Stable local copies of lookups for safe use in UI context
+export const effectLookups = { keys: {}, labels: {}, types: {}, modes: {}, priorities: {} };
+
+/**
+ * Shape a list of ActiveEffect changes for rendering in the sheet/template.
+ * Adds valueType to each change so the template can render the appropriate input widget.
+ * This is a thin layer to avoid reading CONFIG during render and to keep sheets minimal.
+ * @param {Array<{key:string,value:any}>} changes
+ * @returns {Array<{key:string,value:any,valueType?:'int'|'str'|'boo'}>}
+ */
+export function shapeEffectChangesForRender(changes=[]) {
+  return (changes || []).map((c) => {
+    const meta = getEffectChangeMeta(c.key) || {};
+    const hasMode = c?.mode !== undefined && c?.mode !== null && c?.mode !== '';
+    const hasPriority = c?.priority !== undefined && c?.priority !== null && c?.priority !== '';
+    return {
+      ...c,
+      valueType: meta.valueType,
+      mode: hasMode ? c.mode : meta.mode,
+      priority: hasPriority ? c.priority : meta.priority,
+    };
+  });
 }
