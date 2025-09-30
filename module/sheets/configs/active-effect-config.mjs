@@ -1,6 +1,8 @@
 import { getEffectChangeMeta } from '../../helpers/effect-options.mjs'
+import WWSheetMixin from '../ww-sheet.mjs';
 
-export default class WWActiveEffectConfig extends ActiveEffectConfig {
+export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applications.sheets.ActiveEffectConfig) {
+//export default class WWActiveEffectConfig extends foundry.applications.sheets.ActiveEffectConfig {
 
   /** @inheritDoc */
   static DEFAULT_OPTIONS = {
@@ -17,10 +19,10 @@ export default class WWActiveEffectConfig extends ActiveEffectConfig {
     ...super.PARTS,
     
     details: {
-      template: "systems/weirdwizard/templates/configs/active-effect-config/details.hbs",
+      template: "systems/weirdwizard/templates/configs/active-effect/details.hbs",
     },
     changes: {
-      template: "systems/weirdwizard/templates/configs/active-effect-config/changes.hbs",
+      template: "systems/weirdwizard/templates/configs/active-effect/changes.hbs",
       scrollable: ["ol[data-changes]"],
     }
   }

@@ -216,10 +216,10 @@ export async function prepareActiveEffectCategories(effects, showDuration = fals
     }
     
     // Push them into categories
-    // if (await e.disabled) categories.inactive.effects.push(e);
-    // else 
-    if (await e.isTemporary) categories.temporary.effects.push(e);
+    if (await e.disabled) categories.inactive.effects.push(e); // TODO: Think of a way to group Actor + Item inactive effects into temporary/permanent effects
+    else if (await e.isTemporary) categories.temporary.effects.push(e);
     else categories.permanent.effects.push(e);
+    
   }
   
   return categories;

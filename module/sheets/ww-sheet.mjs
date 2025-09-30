@@ -4,19 +4,17 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
  * A mixin which extends each Document definition with specialized client-side behaviors.
  * This mixin defines the client-side interface for database operations and common document behaviors.
  * @category Mixins
- * @param DocumentSheetV2   The base DocumentSheetV2 class to be mixed
+ * @param BaseSheet   The base DocumentSheetV2 class to be mixed
  */
-export default function WWSheetMixin(DocumentSheetV2) {
+export default function WWSheetMixin(BaseSheet) {
+  const MiddleClass = BaseSheet.PARTS ? BaseSheet : HandlebarsApplicationMixin(BaseSheet);
   
-  class WWBaseSheet extends HandlebarsApplicationMixin(DocumentSheetV2) {
+  class WWBaseSheet extends MiddleClass {
 
     /** @override */
     static DEFAULT_OPTIONS = {
       window: {
         title: this.title, // Custom title display
-        icon: 'fa-regular fa-scroll',
-        resizable: true,
-        contentClasses: ['scrollable'],
         controls: [
           {
             action: "embedInChat",
