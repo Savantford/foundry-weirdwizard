@@ -507,11 +507,6 @@ body {
   margin-top: 0;
 }
 
-.weirdwizard.active-effect-config .window-content {
-  padding-top: var(--sheet-name-stripe-height);
-  padding-right: var(--scroll-margin);
-}
-
 .theme-dark .application.weirdwizard.sheet .window-content {
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
@@ -975,7 +970,7 @@ body {
 /*  Sheet Navigation Tabs                       */
 /* -------------------------------------------- */
 
-.weirdwizard.sheet:not(.active-effect-sheet) nav.sheet-tabs {
+.weirdwizard.sheet .sheet-tabs {
   --tab-full-width: 44px;
   --tab-inactive-width: 26px;
   position: absolute;
@@ -993,57 +988,65 @@ body {
   text-transform: uppercase;
   justify-content: space-between;
   z-index: -1;
+
+  > div {
+    display: flex;
+    flex-grow: 1;
+    min-width: 18rem;
+    gap: 2px 2px;
+  }
+
+  [data-tab] {
+    width: var(--tab-full-width);
+    height: 40px;
+    position: relative;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    background: no-repeat;
+    background-color: var(--purple-medium);
+    background-position: center;
+    background-size: auto 80%;
+    border: 1px solid transparent;
+    border-radius: 0 8px 8px 0;
+    font-size: var(--font-size-14);
+    margin-left: calc((var(--tab-full-width) - var(--tab-inactive-width)) * -1);
+    padding: 4px 6px;
+    transition: all 250ms ease;
+    filter: drop-shadow(3px 0 5px black);
+  }
+
+  [data-tab].active,
+  [data-tab]:hover {
+    background-color: var(--purple-dark);
+  }
+
+  [data-tab].active {
+    margin: 0;
+  }
+
+  [data-tab]:hover {
+    text-shadow: none;
+    margin: 0;
+    box-shadow: 0 0 5px 0 black;
+    border: 1px solid;
+  }
+
+  [data-tab] > img {
+    width: var(--sheet-tabs-icon-height);
+  }
+
+  [data-tab] > i {
+    width: var(--sheet-tabs-icon-height);
+    font-size: calc(var(--sheet-tabs-icon-height) - 6px);
+    text-align: center;
+    vertical-align: middle;
+  }
+
 }
 
 .weirdwizard.sheet.item nav.sheet-tabs {
   top: var(--header-height);
-}
-
-.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs > div {
-  display: flex;
-  flex-grow: 1;
-  min-width: 18rem;
-  gap: 2px 2px;
-}
-
-.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item {
-  width: var(--tab-full-width);
-  height: 40px;
-  position: relative;
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  background: no-repeat;
-  background-color: var(--purple-medium);
-  background-position: center;
-  background-size: auto 80%;
-  border: 1px solid transparent;
-  border-radius: 0 8px 8px 0;
-  font-size: var(--font-size-14);
-  margin-left: calc((var(--tab-full-width) - var(--tab-inactive-width)) * -1);
-  padding: 4px 6px;
-  transition: all 250ms ease;
-  filter: drop-shadow(3px 0 5px black);
-}
-
-.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item.active,
-.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item:hover {
-  background-color: var(--purple-dark);
-}
-
-.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item.active {
-  margin: 0;
-}
-
-.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item:hover {
-  text-shadow: none;
-  margin: 0;
-  box-shadow: 0 0 5px 0 black;
-  border: 1px solid;
-}
-
-.weirdwizard.sheet:not(.active-effect-sheet) .sheet-tabs .item > img {
-  width: var(--sheet-tabs-icon-height);
 }
 
 /* Edit Mode Toggle */
@@ -1081,7 +1084,7 @@ body {
 /* -------------------------------------------- */
 
 /* Sheet Headers */
-.weirdwizard header.sheet-header {
+.weirdwizard:not(.active-effect-config) header.sheet-header {
   position: absolute;
   top: var(--header-height);
   left: 0.5rem;
@@ -5607,48 +5610,30 @@ body {
 .weirdwizard.sheet.active-effect-config {
   overflow: visible;
 
+  /* Active Effect Config: Header */
   header.sheet-header {
-    left: 0;
-    height: var(--header-height);
-    overflow: visible;
-    display: flex;
-    width: 100%;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.5rem;
-    background: var(--purple-darker);
-    color: var(--pink);
-    /* margin: -1rem -1rem -1rem -1rem; */
 
+    img[data-edit] {
+      outline: 1px solid var(--purple-dark);
+      border-radius: 1px;
+      filter: drop-shadow(0 0 1px var(--purple-dark));
+      cursor: pointer;
+    }
+  
     input {
       font-size: var(--font-size-32);
       font-family: var(--font-capitalized);
       font-weight: bold;
-      color: var(--pink);
-      text-shadow: 0 0 5px black, 0 0 10px black;
-      flex: 1;
-      /* margin: 0; */
+      color: var(--purple-dark);
       background: transparent;
-      border: none;
-      color: var(--pink);
-      font-size: var(--font-size-24);
-      font-family: var(--font-serif);
-      font-weight: bold;
-      width: 100%;
-      height: var(--sheet-input-height);
+      border-image: url(../assets/drawings/header-ribbon-pink.svg);
+      border-image-slice: 0 91 1 13 fill;
+      border-image-width: 0px 91px 1px 13px;
+      padding: 5px 40px 5px 13px;
     }
-
-    /* img[data-edit] {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      outline: 2px solid var(--purple-dark);
-      outline-offset: 2px;
-      filter: drop-shadow(0 0 1px var(--purple-dark));
-      cursor: pointer;
-    } */
   }
 
+  /* Active Effect Config: Form Elements */
   .form-group {
     display: flex;
     align-items: center;
@@ -5663,6 +5648,21 @@ body {
     .form-fields {
       flex: 1;
     }
+
+    input[type="text"], select {
+      background: var(--background-color-shadow);
+      appearance: auto;
+      width: auto;
+    }
+
+    input[type="color"] {
+      padding: 1px 2px;
+    }
+
+    input[type="color"]:hover {
+      outline: none;
+      padding: 1px 2px;
+    }
   }
 
   /* .changes-list {
@@ -5673,6 +5673,7 @@ body {
     overflow-y: auto;
   } */
 
+  /* Active Effect Config: Changes Tab */
   .tab.changes {
     /* background: var(--background-color-shadow); */
     padding: 0.5rem;
@@ -5693,42 +5694,18 @@ body {
     }
   }
 
+  /* Active Effect Config: Tabs */
   nav.sheet-tabs {
+    --tab-inactive-width: 32px;
     top: var(--header-height);
 
     [data-tab] {
-      width: var(--tab-full-width);
-      height: 40px;
-      position: relative;
-      display: flex;
-      justify-content: end;
-      align-items: center;
-      background: no-repeat;
-      background-color: var(--purple-medium);
-      background-position: center;
-      background-size: auto 80%;
-      border: 1px solid transparent;
-      border-radius: 0 8px 8px 0;
-      font-size: var(--font-size-14);
-      margin-left: calc((var(--tab-full-width) - var(--tab-inactive-width)) * -1);
-      padding: 4px 6px;
-      transition: all 250ms ease;
-      filter: drop-shadow(3px 0 5px black);
-
-      span {
-        display: none;
-      }
-    }
-    [data-tab].active,
-    [data-tab]:hover {
-      background-color: var(--purple-dark);
-      margin: 0;
-    }
-    [data-tab]:hover {
+      color: #fff;
       text-shadow: none;
-      margin: 0;
-      box-shadow: 0 0 5px 0 black;
-      border: 1px solid;
+    }
+
+    [data-tab] span {
+      display: none;
     }
   }
 }

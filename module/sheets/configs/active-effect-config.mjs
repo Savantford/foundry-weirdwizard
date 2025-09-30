@@ -27,6 +27,19 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
     }
   }
 
+  /** @override */
+  static TABS = {
+    sheet: {
+      tabs: [
+        {id: "details", icon: "fa-solid fa-feather-pointed", tooltip: 'EFFECT.TABS.details'},
+        {id: "duration", icon: "fa-regular fa-hourglass-half", tooltip: 'EFFECT.TABS.duration'},
+        {id: "changes", icon: "fa-solid fa-wand-sparkles", tooltip: 'EFFECT.TABS.changes'}
+      ],
+      initial: "details",
+      labelPrefix: "EFFECT.TABS"
+    }
+  };
+
   /** @inheritDoc */
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
@@ -39,7 +52,7 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
   async _preparePartContext(partId, context) {
     const partContext = await super._preparePartContext(partId, context);
     if ( partId in partContext.tabs ) partContext.tab = partContext.tabs[partId];
-
+    
     switch (partId) {
       case 'details': {
         partContext.triggers = CONFIG.WW.EFFECT_TRIGGERS;
