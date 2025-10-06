@@ -5609,7 +5609,7 @@ body {
 
 .weirdwizard.sheet.active-effect-config {
   overflow: visible;
-
+  
   /* Active Effect Config: Header */
   header.sheet-header {
 
@@ -5633,12 +5633,30 @@ body {
     }
   }
 
+  /* Active Effect Config: Tabs */
+  nav.sheet-tabs {
+    --tab-inactive-width: 32px;
+    top: var(--header-height);
+
+    [data-tab] {
+      color: #fff;
+      text-shadow: none;
+    }
+
+    [data-tab] span {
+      display: none;
+    }
+  }
+
+  .standard-form .tab {
+    gap: 0.5rem;
+  }
+
   /* Active Effect Config: Form Elements */
   .form-group {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin-bottom: 0.5rem;
 
     label {
       font-weight: bold;
@@ -5649,7 +5667,9 @@ body {
       flex: 1;
     }
 
-    input[type="text"], select {
+    input[type="number"],
+    input[type="text"],
+    select {
       background: var(--background-color-shadow);
       appearance: auto;
       width: auto;
@@ -5665,13 +5685,9 @@ body {
     }
   }
 
-  /* .changes-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    max-height: calc(100vh - var(--header-height) - 2rem - 2rem);
-    overflow-y: auto;
-  } */
+  [data-tab="duration"] input {
+    text-align: right;
+  }
 
   /* Active Effect Config: Changes Tab */
   .tab.changes {
@@ -5694,20 +5710,14 @@ body {
     }
   }
 
-  /* Active Effect Config: Tabs */
-  nav.sheet-tabs {
-    --tab-inactive-width: 32px;
-    top: var(--header-height);
-
-    [data-tab] {
-      color: #fff;
-      text-shadow: none;
-    }
-
-    [data-tab] span {
-      display: none;
-    }
-  }
+  /* .changes-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    max-height: calc(100vh - var(--header-height) - 2rem - 2rem);
+    overflow-y: auto;
+  } */
+  
 }
 
 

@@ -25,7 +25,8 @@ export default class WWActiveEffect extends ActiveEffect {
   _validateDuration(changes, stage) {
     const effect = this;
     const selected = changes.system?.duration?.selected ?? this.system.duration.selected;
-
+    
+    console.log(changes.duration.seconds)
     const rounds = changes.duration?.rounds ?? this.duration.rounds,
     minutes = changes.system?.duration?.inMinutes ?? this.system.duration.inMinutes,
     hours = changes.system?.duration?.inHours ?? this.system.duration.inHours,
@@ -56,10 +57,9 @@ export default class WWActiveEffect extends ActiveEffect {
 
       // Real World duration
       case '1minute': updateData(null, 60); break;
-      case 'minutes': updateData(null, minutes * 60); break;
-      case 'hours': updateData(null, hours * 60*60); break;
-      case 'days': updateData(null, days * 60*60*24); break;
-      
+      case 'minutes': if (minutes) updateData(null, minutes * 60); break;
+      case 'hours': if (hours) updateData(null, hours * 60*60); break;
+      case 'days': if (days) updateData(null, days * 60*60*24); break;
     }
 
     // Format duration

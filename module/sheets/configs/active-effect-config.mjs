@@ -2,8 +2,6 @@ import { getEffectChangeMeta } from '../../helpers/effect-options.mjs'
 import WWSheetMixin from '../ww-sheet.mjs';
 
 export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applications.sheets.ActiveEffectConfig) {
-//export default class WWActiveEffectConfig extends foundry.applications.sheets.ActiveEffectConfig {
-
   /** @inheritDoc */
   static DEFAULT_OPTIONS = {
     classes: ["weirdwizard", "sheet"],
@@ -43,6 +41,8 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
     }
   };
 
+  /* -------------------------------------------- */
+
   /** @inheritDoc */
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
@@ -50,6 +50,8 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
     context.buttons = [];
     return context;
   }
+
+  /* -------------------------------------------- */
 
   /** @inheritDoc */
   async _preparePartContext(partId, context) {
@@ -83,6 +85,10 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
     return context;
   }
 
+  /* -------------------------------------------- */
+  /*  Form Submission                             */
+  /* -------------------------------------------- */
+
   /** @override */
   _onChangeForm(formConfig, event) {
     super._onChangeForm(formConfig, event);
@@ -93,6 +99,49 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
     }
   }
 
+  /* -------------------------------------------- */
+
+  /**
+   * @override
+   * Submit a document update or creation request based on the processed form data.
+   * @param {SubmitEvent} event                   The originating form submission event
+   * @param {HTMLFormElement} form                The form element that was submitted
+   * @param {object} submitData                   Processed and validated form data to be used for a document update
+   * @param {Partial<DatabaseCreateOperation|DatabaseUpdateOperation>} [options] Additional options altering the request
+   * @returns {Promise<void>}
+   * @protected
+   */
+  async _processSubmitData(event, form, submitData, options={}) {
+    const sysDur = submitData.system.duration;
+    let inSeconds = null;
+    
+    if (!submitData.duration) submitData.duration = {};
+    
+    switch (submitData.system.duration.selected) {
+      case 'minutes': 
+        inSeconds = sysDur.inMinutes ? sysDur.inMinutes * 60 : 60;
+        submitData.duration = { seconds: inSeconds, rounds: null };
+        if (!sysDur.inMinutes) sysDur.inMinutes = 1;
+      break;
+
+      case 'hours':
+        inSeconds = sysDur.inHours ? sysDur.inHours * 60*60 : 60*60;
+        submitData.duration = { seconds: inSeconds, rounds: null };
+        if (!sysDur.inHours) sysDur.inHours = 1;
+      break;
+
+      case 'days':
+        inSeconds = sysDur.inDays ? sysDur.inDays * 60*60*24 : 60*60*24;
+        submitData.duration = { seconds: inSeconds, rounds: null };
+        if (!sysDur.inDays) sysDur.inDays = 1;
+      break;
+
+      case 'none':
+        submitData.duration = { seconds: null, rounds: null };
+      break;
+    }
+    
+    return super._processSubmitData(event, form, submitData, options);
+  }
+
 }
-
-
