@@ -21,6 +21,9 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
     details: {
       template: "systems/weirdwizard/templates/configs/active-effect/details.hbs",
     },
+    duration: {
+      template: "systems/weirdwizard/templates/configs/active-effect/duration.hbs",
+    },
     changes: {
       template: "systems/weirdwizard/templates/configs/active-effect/changes.hbs",
       scrollable: ["ol[data-changes]"],
@@ -56,12 +59,17 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
     switch (partId) {
       case 'details': {
         partContext.triggers = CONFIG.WW.EFFECT_TRIGGERS;
-        // // If effect has duration, use instant triggers since they remove "passive" option
-        // // disabled due to issues with isTemporary and duration input/outputs for now
-        // partContext.triggers = this.document.isTemporary 
-        //   ? CONFIG.WW.INSTANT_TRIGGERS 
-        //   : CONFIG.WW.EFFECT_TRIGGERS
-        partContext.targets = CONFIG.WW.EFFECT_TARGETS
+        // If effect has duration, use instant triggers since they remove "passive" option
+        // disabled due to issues with isTemporary and duration input/outputs for now
+        partContext.triggers = this.document.isTemporary ? CONFIG.WW.INSTANT_TRIGGERS : CONFIG.WW.EFFECT_TRIGGERS;
+        //partContext.targets = CONFIG.WW.EFFECT_TARGETS
+      } break;
+      case 'duration': {
+        // Prepare durationSelect dropdown
+        partContext.durationOptions = CONFIG.WW.EFFECT_DURATIONS;
+
+        // Pass down durations to display
+        partContext.formattedStartTime = game.weirdwizard.utils.formatTime(this.document.duration.startTime, 1);
       } break;
       case 'changes': {
         partContext.effectChangeOptions = CONFIG.WW.EFFECT_OPTIONS;

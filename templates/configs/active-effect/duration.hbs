@@ -1,0 +1,89 @@
+<section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+
+  <div class="form-group">
+    <label>{{ localize "WW.Effect.Duration.Label"}}</label>
+
+    <div class="form-fields">
+
+      {{!-- Selected Duration --}}
+      <select name="system.duration.selected" class="duration-selection">
+        <option label="{{localize "WW.Effect.Duration.None"}}" value="none"></option>
+        {{#each durationOptions as |category i|}}
+        <optgroup label="{{localize category.header}}">
+          {{selectOptions category.options selected=@root.system.duration.selected localize=true}}
+        </optgroup>
+        {{/each}}
+      </select>
+
+    </div>
+
+  </div>
+
+  {{#if data.duration.seconds}}
+  {{#if (eq system.duration.selected "minutes")}}
+  <div class="form-group">
+    <label>{{ localize "WW.Effect.Duration.InMinutes" }}</label>
+    <div class="form-fields">
+      <input type="number" name="system.duration.inMinutes" value="{{ system.duration.inMinutes }}" min="1" />
+    </div>
+  </div>
+  {{/if}}
+
+  {{#if (eq system.duration.selected "hours")}}
+  <div class="form-group">
+    <label>{{ localize "WW.Effect.Duration.InHours" }}</label>
+    <div class="form-fields">
+      <input type="number" name="system.duration.inHours" value="{{ system.duration.inHours }}" min="1" />
+    </div>
+  </div>
+  {{/if}}
+
+  {{#if (eq system.duration.selected "days")}}
+  <div class="form-group">
+    <label>{{ localize "WW.Effect.Duration.InDays" }}</label>
+    <div class="form-fields">
+      <input type="number" name="system.duration.inDays" value="{{ system.duration.inDays }}" min="1" />
+    </div>
+  </div>
+  {{/if}}
+
+  <div class="form-group">
+    <label>{{ localize "EFFECT.StartTime" }}</label>
+    {{ formattedStartTime }}
+  </div>
+
+  {{else if data.duration.rounds}}
+
+  <div class="form-group">
+    <label>{{ localize "WW.Effect.Duration.InRounds" }}</label>
+
+    {{#if (eq system.duration.selected 'Xrounds')}}
+    <input type="number" name="duration.rounds" value="{{ effect.duration.rounds }}" />
+    {{else}}
+    {{ effect.duration.rounds }}
+    {{/if}}
+
+  </div>
+
+  <div class="form-group">
+    <label>{{ localize "WW.Effect.Duration.StartRound" }}</label>
+    {{ effect.duration.startRound }}
+  </div>
+
+  <div class="form-group">
+    <label>{{ localize "EFFECT.Combat" }}</label>
+    <div class="form-fields">
+      <input type="text" name="duration.combat" value="{{ effect.duration.combat }}" disabled />
+    </div>
+  </div>
+
+  {{/if}}
+
+  <div class="form-group">
+    <label>{{ localize "WW.Effect.Duration.AutoRemove" }}</label>
+    <div class="form-fields">
+      <input type="checkbox" name="system.duration.autoExpire" {{checked system.duration.autoExpire}}>
+    </div>
+  </div>
+
+</section>
