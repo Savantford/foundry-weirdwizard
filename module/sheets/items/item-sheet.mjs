@@ -30,7 +30,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     window: {
       icon: 'fa-regular fa-scroll',
       resizable: true,
-      contentClasses: ['scrollable'],
+      contentClasses: [],
       controls: [
         {
           action: "showItemArtwork",
@@ -62,13 +62,13 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       width: 520,
       height: 480
     }
-  }
+  };
 
   /* -------------------------------------------- */
 
   /** @override */
   static PARTS = {
-    sidetabs: { template: 'systems/weirdwizard/templates/items/common/side-tabs.hbs' },
+    sidetabs: { template: 'systems/weirdwizard/templates/generic/side-tabs.hbs' },
     
     details: {
       template: 'systems/weirdwizard/templates/items/details/tab.hbs',
@@ -91,7 +91,21 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       ]
     },
     
-  }
+  };
+
+  /* -------------------------------------------- */
+
+  /** @override */
+  static TABS = {
+    sheet: {
+      tabs: [
+        {id: 'details', tooltip: 'WW.Actor.Details', icon: 'systems/weirdwizard/assets/icons/diploma.svg', iconType: 'img'},
+        {id: 'automation', tooltip: 'WW.Effects.TabLabel', iconType: 'img', icon: 'systems/weirdwizard/assets/icons/gear-hammer.svg', iconType: 'img'}
+      ],
+      initial: "details",
+      labelPrefix: "EFFECT.TABS"
+    }
+  };
   
   /* -------------------------------------------- */
 
@@ -101,6 +115,8 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
    * @returns {Promise<ApplicationRenderContext>}   Context data for the render operation
    */
   async _prepareContext(options = {}) {
+    const context = await super._prepareContext(options);
+    
     const itemData = this.item;
     const sys = this.item.system;
     const isOwner = this.item.isOwner;
@@ -109,17 +125,14 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     // Ensure editMode has a value
     if (this.editMode === undefined) this.editMode = false;
 
-    const context = {
-      item: itemData, // Use a safe clone of the item data for further operations.
+    context.item = itemData; // Use a safe clone of the item data for further operations.
     
-      system: itemData.system, // Use a safe clone of the item data for further operations.
-      folder: await itemData.folder,
-      flags: itemData.flags,
-      grantedBy: await fromUuid(sys.grantedBy) ?
-        await TextEditor.enrichHTML(`@UUID[${sys.grantedBy}]`, { secrets: this.item.isOwner }) : null,
-      dtypes: ['String', 'Number', 'Boolean'],
-      tabs: this._getTabs(options.parts)
-    }
+    context.system = itemData.system; // Use a safe clone of the item data for further operations.
+    context.folder = await itemData.folder;
+    context.flags = itemData.flags;
+    context.grantedBy = await fromUuid(sys.grantedBy) ?
+      await TextEditor.enrichHTML(`@UUID[${sys.grantedBy}]`, { secrets: this.item.isOwner }) : null;
+    context.dtypes = ['String', 'Number', 'Boolean'];
     
     // Prepare enriched variables for editor
     context.system.descriptionEnriched = await TextEditor.enrichHTML(context.system.description, { secrets: isOwner, relativeTo: this.document });
@@ -301,14 +314,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         case 'sidetabs':
           return tabs;
         case 'details':
-          tab.id = 'details';
-          tab.label = 'WW.Actor.Details';
-          tab.icon = 'systems/weirdwizard/assets/icons/diploma.svg';
-          break;
-        case 'automation':
-          tab.id = 'automation';
-          tab.label = 'WW.Effects.TabLabel';
-          tab.icon = 'systems/weirdwizard/assets/icons/gear-hammer.svg';
+          
         break;
         default: break;
       }

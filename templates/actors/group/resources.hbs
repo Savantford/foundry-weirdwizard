@@ -1,0 +1,74 @@
+<section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+
+    <h2>{{ localize "WW.Group.Resources" }}</h2>
+
+    {{!-- Wealth --}}
+    <h3>{{ localize "WW.Group.Wealth" }}</h3>
+
+    <div class="wealth stat-inline">
+
+        <div>
+            <label>{{ localize "WW.Group.Total" }}:</label>
+            {{ system.wealth.total.gp }} <i class="fa-solid fa-coins gold" data-tooltip="{{localize "WW.Equipment.GP"}}"></i>
+            {{ system.wealth.total.sp }} <i class="fa-solid fa-coins silver" data-tooltip="{{localize "WW.Equipment.SP"}}"></i>
+            {{ system.wealth.total.cp }} <i class="fa-solid fa-coins copper" data-tooltip="{{localize "WW.Equipment.CP"}}"></i>
+        </div>
+
+        <div>
+            <label>{{ localize "WW.Group.Active" }}:</label>
+            {{ system.wealth.active.gp }} <i class="fa-solid fa-coins gold" data-tooltip="{{localize "WW.Equipment.GP"}}"></i>
+            {{ system.wealth.active.sp }} <i class="fa-solid fa-coins silver" data-tooltip="{{localize "WW.Equipment.SP"}}"></i>
+            {{ system.wealth.active.cp }} <i class="fa-solid fa-coins copper" data-tooltip="{{localize "WW.Equipment.CP"}}"></i>
+        </div>
+
+        <div>
+            <label>{{ localize "WW.Group.Inactive" }}:</label>
+            {{ system.wealth.inactive.gp }} <i class="fa-solid fa-coins gold" data-tooltip="{{localize "WW.Equipment.GP"}}"></i>
+            {{ system.wealth.inactive.sp }} <i class="fa-solid fa-coins silver" data-tooltip="{{localize "WW.Equipment.SP"}}"></i>
+            {{ system.wealth.inactive.cp }} <i class="fa-solid fa-coins copper" data-tooltip="{{localize "WW.Equipment.CP"}}"></i>
+        </div>
+    </div>
+
+    {{!-- Connections --}}
+    <h3>{{ localize "WW.Group.Connections.Label" }}</h3>
+
+    <ol>
+        {{#each system.listEntries.connections as |connection id|}}
+        <li>{{ connection }}</li>
+        {{/each}}
+    </ol>
+
+    {{!-- Equipment Overview --}}
+    <h3>{{ localize "WW.Group.EquipmentOverview" }}</h3>
+
+    <ol class="item-list equipment-list">
+        <li class="item flexrow items-header">
+            <div class="item-image"></div>
+            <div class="item-name">{{localize "WW.Item.Name"}}</div>
+            <div class="item-type">{{localize "WW.Armor.Type"}}</div>
+            <div class="item-owner">{{localize "WW.Equipment.Owner"}}</div>
+        </li>
+
+        {{#each equipment.total as |item id|}}
+        <li class="item draggable flexrow {{#if (eq item.system.subtype 'container')}}container collapsed{{/if}}"
+            data-item-id="{{item._id}}">
+            {{!-- Icon --}}
+            <div class="item-image"><img src="{{item.img}}" data-tooltip="{{item.name}}" width="24" height="24" /></div>
+
+            {{!-- Name --}}
+            <div class="item-name">
+                <label data-item-uuid="{{item.uuid}}" data-tooltip="{{item.tooltip}}">{{#if (gt item.system.quantity
+                    1)}}{{item.system.quantity}} {{/if}}{{item.name}}</label>
+            </div>
+
+            {{!-- Type Column --}}
+            <div class="type-type">{{ localize item.subtypeLabel }}</div>
+
+            {{!-- Item Controls Column --}}
+            <div class="item-owner">{{{ item.ownerLink.outerHTML }}}</div>
+
+        </li>
+        {{/each}}
+    </ol>
+
+</section>

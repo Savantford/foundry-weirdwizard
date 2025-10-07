@@ -484,6 +484,10 @@ body {
   z-index: 2; /* Readjust on some sheets */
 }
 
+.application.weirdwizard.sheet .window-content {
+  padding-right: 0.25rem;
+}
+
 .weirdwizard:not(.journal-entry-page) .window-content,
 .window-app .window-content,
 .weirdwizard.view-mode .window-content {
@@ -970,23 +974,23 @@ body {
 /*  Sheet Navigation Tabs                       */
 /* -------------------------------------------- */
 
-.weirdwizard.sheet .sheet-tabs {
+.weirdwizard.sheet {
+  overflow: visible; /* Needed to display tabs off the sheet box */
+}
+
+.weirdwizard.sheet nav.tabs {
   --tab-full-width: 44px;
-  --tab-inactive-width: 26px;
+  --tab-inactive-width: 32px;
   position: absolute;
   left: 100%;
-  top: calc(var(--header-height) + var(--tab-full-width));
+  top: var(--header-height);
   width: max-content;
   display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
   margin: 0;
-  border: none;
   font-family: var(--font-serif);
   font-size: var(--font-size-14);
   font-weight: bold;
   text-transform: uppercase;
-  justify-content: space-between;
   z-index: -1;
 
   > div {
@@ -1045,8 +1049,13 @@ body {
 
 }
 
-.weirdwizard.sheet.item nav.sheet-tabs {
-  top: var(--header-height);
+.weirdwizard.sheet nav.tabs.icon-only [data-tab] span {
+  display: none;
+}
+
+.weirdwizard.sheet.character nav.tabs,
+.weirdwizard.sheet.npc nav.tabs {
+  top: calc(var(--header-height) + var(--tab-full-width));
 }
 
 /* Edit Mode Toggle */
@@ -5624,9 +5633,6 @@ body {
 
   /* Active Effect Config: Tabs */
   nav.sheet-tabs {
-    --tab-inactive-width: 32px;
-    top: var(--header-height);
-
     [data-tab] {
       color: #fff;
       text-shadow: none;

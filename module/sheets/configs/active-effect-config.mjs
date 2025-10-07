@@ -1,4 +1,4 @@
-import { getEffectChangeMeta } from '../../helpers/effect-presets.mjs'
+import { getEffectChangeMeta } from '../../helpers/effect-presets.mjs';
 import WWSheetMixin from '../ww-sheet.mjs';
 
 export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applications.sheets.ActiveEffectConfig) {
@@ -16,6 +16,9 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
   static PARTS = {
     ...super.PARTS,
     
+    tabs: {
+      template: 'systems/weirdwizard/templates/generic/side-tabs.hbs'
+    },
     details: {
       template: "systems/weirdwizard/templates/configs/active-effect/details.hbs",
     },
@@ -32,9 +35,9 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
   static TABS = {
     sheet: {
       tabs: [
-        {id: "details", icon: "fa-solid fa-feather-pointed", tooltip: 'EFFECT.TABS.details'},
-        {id: "duration", icon: "fa-regular fa-hourglass-half", tooltip: 'EFFECT.TABS.duration'},
-        {id: "changes", icon: "fa-solid fa-wand-sparkles", tooltip: 'EFFECT.TABS.changes'}
+        {id: "details", tooltip: 'EFFECT.TABS.details', icon: "systems/weirdwizard/assets/icons/scroll-quill.svg", iconType: 'img'},
+        {id: "duration", tooltip: 'EFFECT.TABS.duration', icon: "systems/weirdwizard/assets/icons/empty-hourglass.svg", iconType: 'img'},
+        {id: "changes", tooltip: 'EFFECT.TABS.changes', icon: "systems/weirdwizard/assets/icons/sparkles.svg", iconType: 'img'}
       ],
       initial: "details",
       labelPrefix: "EFFECT.TABS"
@@ -46,7 +49,6 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
   /** @inheritDoc */
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
-    context.verticalTabs = true;
     context.buttons = [];
     return context;
   }

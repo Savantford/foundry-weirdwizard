@@ -1,0 +1,88 @@
+<section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+    {{!-- Level and Tier --}}
+    <div class="stat-inline">
+        <label>{{ localize "WW.Stats.Level" }}:</label>
+    
+        <div>
+            {{ level }}
+    
+            {{#if wrongLevels.length}}
+            ({{localize "WW.Group.LevelExcept"}}:
+    
+            {{#each wrongLevels as |member id|}}<span>{{{ member }}}{{#unless @last}}, {{/unless}}</span>{{/each}})
+            {{/if}}
+        </div>
+    
+        <label class="ml-2">{{ localize "WW.Item.Tier" }}:</label>
+    
+        {{ tier }}
+    
+    </div>
+    
+    {{!-- Members --}}
+    <div class="members">
+        <h2>{{ localize "WW.Group.Members" }}</h2>
+        {{!-- Active Members --}}
+        <ol class="members-area active">
+            <label>{{ localize "WW.Group.Active" }}:</label>
+            {{#each members.active as |member id|}}
+            <li>{{{ member.outerHTML }}}</li>
+            {{else}}
+            {{localize "–"}}
+            {{/each}}
+        </ol>
+    
+        {{!-- Inactive Members --}}
+        <ol class="members-area inactive">
+            <label>{{ localize "WW.Group.Inactive" }}:</label>
+            {{#each members.inactive as |member id|}}
+            <li>{{{ member.outerHTML }}}</li>
+            {{else}}
+            {{localize "–"}}
+            {{/each}}
+        </ol>
+    
+        {{!-- Retired Members --}}
+        <ol class="members-area retired">
+            <label>{{ localize "WW.Group.Retired" }}:</label>
+            {{#each members.retired as |member id|}}
+            <li>{{{ member.outerHTML }}}</li>
+            {{else}}
+            {{localize "–"}}
+            {{/each}}
+        </ol>
+    
+        {{!-- Dead Members --}}
+        <ol class="members-area dead">
+            <label>{{ localize "WW.Group.Dead" }}:</label>
+            {{#each members.dead as |member id|}}
+            <li>{{{ member.outerHTML }}}</li>
+            {{else}}
+            {{localize "–"}}
+            {{/each}}
+        </ol>
+    
+    </div>
+    
+    {{!-- General Group Info --}}
+    <div class="general-info">
+        <h3>{{ localize "WW.Group.Origin" }}</h3>
+        <prose-mirror name="system.details.origin" value="{{ actor.system.details.origin }}" data-document-uuid="{{ actor.uuid }}"
+            toggled compact collaborate>
+            {{{ enrichedDetails.origin }}}
+        </prose-mirror>
+    
+        <h3>{{ localize "WW.Group.Achievements" }}</h3>
+        <prose-mirror name="system.details.achievements" value="{{ actor.system.details.achievements }}" data-document-uuid="{{ actor.uuid }}"
+            toggled compact collaborate>
+            {{{ enrichedDetails.achievements }}}
+        </prose-mirror>
+    
+        <h3>{{ localize "WW.Actor.Notes" }}</h3>
+        <prose-mirror name="system.details.notes" value="{{ actor.system.details.notes }}" data-document-uuid="{{ actor.uuid }}"
+            toggled compact collaborate>
+            {{{ enrichedDetails.notes }}}
+        </prose-mirror>
+    </div>
+
+</section>

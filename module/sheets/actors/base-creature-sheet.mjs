@@ -40,7 +40,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     window: {
       icon: 'fa-regular fa-scroll',
       resizable: true,
-      contentClasses: ['scrollable'],
+      contentClasses: [],
       controls: [
         {
           action: "openTour",
@@ -100,6 +100,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   }
 
   /* -------------------------------------------- */
+
   static PARTS = {
     // Handled by the subclasses
   }
@@ -116,122 +117,33 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   /* -------------------------------------------- */
 
   /**
-   * Generates the data for the generic tab navigation template
-   * @param {string[]} parts An array of named template parts to render
-   * @returns {Record<string, Partial<ApplicationTab>>}
-   * @protected
-   */
-  _getTabs(parts) {
-    // If you have sub-tabs this is necessary to change
-    const tabGroup = 'primary';
-    const type = this.actor.type;
-
-    // Default tab for first time it's rendered this session
-    if (!this.tabGroups[tabGroup]) this.tabGroups[tabGroup] = this.actor.limited ? 'details' : 'summary';
-    
-    // Assign tab properties
-    return parts.reduce((tabs, partId) => {
-      
-      const tab = {
-        cssClass: "",
-        group: tabGroup,
-        // Matches tab property to
-        id: '',
-        // Icon svg
-        icon: '',
-        // Run through localization
-        label: ''
-      };
-
-      switch (partId) {
-        case 'sidetabs':
-          return tabs;
-        case 'summary':
-          tab.id = 'summary';
-          tab.label = 'WW.Actor.Summary';
-          tab.icon = 'systems/weirdwizard/assets/icons/diploma.svg';
-          break;
-        case 'details':
-          if (type === 'character') {
-            tab.id = 'details';
-            tab.label = 'WW.Actor.Details';
-            tab.icon = 'systems/weirdwizard/assets/icons/scroll-quill.svg';
-          }
-          break;
-        case 'equipment':
-          if (type === 'character') {
-            tab.id = 'equipment';
-            tab.label = 'WW.Equipment.Label';
-            tab.icon = 'systems/weirdwizard/assets/icons/backpack.svg';
-          }
-          break;
-        case 'talents':
-          if (type === 'character') {
-            tab.id = 'talents';
-            tab.label = 'WW.Talents.Label';
-            tab.icon = 'systems/weirdwizard/assets/icons/skills.svg';
-          }
-          break;
-        case 'spells':
-          if (type === 'character') {
-            tab.id = 'spells';
-            tab.label = 'WW.Spells.Label';
-            tab.icon = 'systems/weirdwizard/assets/icons/spell-book.svg';
-          }
-          break;
-        case 'description':
-          if (type === 'npc') {
-            tab.id = 'description';
-            tab.label = 'WW.Item.Description';
-            tab.icon = 'systems/weirdwizard/assets/icons/scroll-quill.svg';
-          }
-          break;
-        case 'effects':
-          tab.id = 'effects';
-          tab.label = 'WW.Effects.Label';
-          tab.icon = '/icons/svg/aura.svg';
-          break;
-        default: break;
-      }
-
-      // Activate tab
-      if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = "active";
-      if (tab.id) tabs[partId] = tab;
-
-      return tabs;
-    }, {});
-  }
-
-  /**
    * Prepare application rendering context data for a given render request.
    * @param {RenderOptions} options                 Options which configure application rendering behavior
    * @returns {Promise<ApplicationRenderContext>}   Context data for the render operation
    */
   async _prepareContext(options = {}) {
+    const context = await super._prepareContext(options);
     const actorData = this.actor;
     
     // Ensure editMode has a value
     if (this.editMode === undefined) this.editMode = false;
     
-    const context = {
-      actor: actorData, // Use a safe clone of the actor data for further operations.
-    
-      system: actorData.system, // Add the actor's data to context.system for easier access, as well as flags.
-      charOptions: actorData.charOptions,
-      folder: await actorData.folder,
-      flags: actorData.flags,
-      dtypes: ['String', 'Number', 'Boolean'],
-      editMode: this.editMode, // Pass editMode state
-      tabs: this._getTabs(options.parts),
-      afflictions: this.appliedAfflictions,
+    context.actor = actorData; // Use a safe clone of the actor data for further operations.
 
-      itemSources: CONFIG.WW.TALENT_SOURCES,
-      tiers: CONFIG.WW.TIERS,
+    context.system = actorData.system; // Add the actor's data to context.system for easier access, as well as flags.
+    context.charOptions = actorData.charOptions;
+    context.folder = await actorData.folder;
+    context.flags = actorData.flags;
+    context.dtypes = ['String', 'Number', 'Boolean'];
+    context.editMode = this.editMode; // Pass editMode state
+    context.afflictions = this.appliedAfflictions;
 
-      injured: actorData.injured,
-      incapacitated: actorData.incapacitated,
-      dead: actorData.dead
-    }
+    context.itemSources = CONFIG.WW.TALENT_SOURCES;
+    context.tiers = CONFIG.WW.TIERS;
+
+    context.injured = actorData.injured;
+    context.incapacitated = actorData.incapacitated;
+    context.dead = actorData.dead;
     
     // Prepare attributes
     for (let attr of Object.values(context.system.attributes)) {

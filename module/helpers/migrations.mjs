@@ -31,6 +31,7 @@ export async function v13Support(forced) {
   // Migrate world actors
   console.log('Migrating world actors');
   await migrateType(game.actors);
+  await migrateProfessions(game.actors);
   warning.update({ pct: 0.2 });
 
   // Migrate world itemms
@@ -52,17 +53,6 @@ export async function v13Support(forced) {
     await migrateType(actors);    
   }
   warning.update({ pct: 0.5 });*/
-
-  // Migrate items embedded in scene token actors
-  /*for (const scene of game.scenes) {
-    console.log('Migrating items embedded in actors in scene:', scene.name);
-    const actors = scene.tokens.map(t => t.actor);
-    console.log(actors)
-    for (const actor of actors) {
-      await migrateType(actor.items, { parent: actor });
-    }
-  }
-  warning.update({ pct: 0.7 });*/
 
   // Migrate actors and items in packs
   const packsToMigrate = game.packs.filter(p => shouldMigrateCompendium(p));
@@ -134,6 +124,37 @@ function shouldMigrateCompendium(pack) {
   // Module compendiums should only be migrated if they don't have a download or manifest URL
   const module = game.modules.get(pack.metadata.packageName);
   return !module.download && !module.manifest;
+}
+
+/**
+ * Migrate old system compendium Profession page references to new ones.
+ * @param {ActorCollection} collection The collection of Actors to have their Professions migrated
+ * @param {object} [options={}]        Options forwarded to the document update operation.
+ * @param {string} [options.pack]      Pack to update.
+ * @param {Document} [options.parent]  Parent of the collection for embedded collections.
+ */
+export async function migrateProfessions(collection, options = {}) {
+  console.log('migrating professions')
+  const actors = collection.filter(doc => doc?.type === 'character' && doc.system.charOptions.professions.length);
+  const toMigrate = [];
+
+  for (const actor in actors) {
+    const oldIds = actor.system.charOptions.professions;
+    toMigrate.push({
+      _id: actor.id,
+      type: actor.type,
+      //'system.charOptions.professions': 
+    });
+  }
+
+  // Update in increments of 100
+  const batches = Math.ceil(toMigrate.length / 100);
+
+  for (let i = 0; i < batches; i++) {
+    const updateData = toMigrate.slice(i * 100, (i + 1) * 100);
+    console.log(updateData)
+    await collection.documentClass.updateDocuments(updateData, { pack: options.pack, parent: options.parent, diff: false });
+  }
 }
 
 /* -------------------------------------------- */

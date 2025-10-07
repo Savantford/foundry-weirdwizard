@@ -22,9 +22,7 @@ export default class WWGroupSheet extends WWSheetMixin(ActorSheetV2) {
     window: {
       icon: 'fa-solid fa-users',
       resizable: true,
-      contentClasses: ['scrollable'],
-      controls: [
-      ]
+      controls: []
     },
     actions: {
     },
@@ -36,12 +34,28 @@ export default class WWGroupSheet extends WWSheetMixin(ActorSheetV2) {
       width: 500,
       height: 500
     }
-  }
+  };
+
+  static PARTS = {
+    header: {template: 'systems/weirdwizard/templates/actors/group/header.hbs'},
+    tabs: {template: 'systems/weirdwizard/templates/generic/side-tabs.hbs'},
+    details: {template: 'systems/weirdwizard/templates/actors/group/details.hbs'},
+    resources: {template: 'systems/weirdwizard/templates/actors/group/resources.hbs'}
+  };
+
+  /** @override */
+  static TABS = {
+    sheet: {
+      tabs: [
+        {id: "details", icon: "systems/weirdwizard/assets/icons/scroll-quill.svg", iconType: "img", tooltip: 'WW.Group.GeneralInfo'},
+        {id: "resources", icon: "systems/weirdwizard/assets/icons/locked-chest.svg", iconType: "img", tooltip: 'WW.Group.Resources'}
+      ],
+      initial: "details",
+      labelPrefix: "EFFECT.TABS"
+    }
+  };
 
   /* -------------------------------------------- */
-  static PARTS = {
-    main: { template: 'systems/weirdwizard/templates/actors/group/main.hbs' }
-  }
 
   /**
    * Prepare application rendering context data for a given render request.
@@ -49,54 +63,78 @@ export default class WWGroupSheet extends WWSheetMixin(ActorSheetV2) {
    * @returns {Promise<ApplicationRenderContext>}   Context data for the render operation
    */
   async _prepareContext(options = {}) {
+    const context = await super._prepareContext(options);
+
     const actorData = this.actor;
-    
+
     // Ensure editMode has a value
     if (this.editMode === undefined) this.editMode = false;
     
-    const context = {
-      actor: actorData, // Use a safe clone of the actor data for further operations.
+    context.actor = actorData, // Use a safe clone of the actor data for further operations.
     
-      system: actorData.system, // Add the actor's data to context.system for easier access, as well as flags.
-      folder: await actorData.folder,
-      flags: actorData.flags,
-      dtypes: ['String', 'Number', 'Boolean'],
-      //tabs: this._getTabs(options.parts),
+    context.system = actorData.system; // Add the actor's data to context.system for easier access, as well as flags.
+    context.flags = actorData.flags;
 
-      level: actorData.system.level,
-      tier: i18n(CONFIG.WW.TIERS[actorData.system.tier]),
-      wrongLevels: actorData.system.wrongLevels
-    }
-
-    // Prepare Members
-    context.members = { active: [], inactive: [], retired: [], dead: [] };
-
-    for (const cat in actorData.system.membersList) {
-      for (const m of actorData.system.membersList[cat]) {
-        context.members[cat].push(await m.toAnchor());
-      }
-    }
-
-    // Prepare Equipment
-    context.equipment = { total: [], active: [], inactive: [] };
-
-    for (const cat in actorData.system.equipmentList) {
-      for (const i of actorData.system.equipmentList[cat]) {
-        const item = {... i};
-        item.ownerLink = await i.parent.toAnchor();
-        item.subtypeLabel = CONFIG.WW.EQUIPMENT_SUBTYPES[i.system.subtype];
-
-        context.equipment[cat].push(item);
-      }
-    }
-
-    // Prepare Items
-    context.items = this.actor.items.contents.toSorted((a, b) => a.sort - b.sort);
-    //await this._prepareItems(context);
+    context.level = actorData.system.level;
+    context.tier = i18n(CONFIG.WW.TIERS[actorData.system.tier]);
+    context.wrongLevels=  actorData.system.wrongLevels;
 
     // Add roll data for Prose Mirror editors
     context.rollData = actorData.getRollData();
     
+    return context;
+  }
+
+  /* -------------------------------------------- */
+
+  /** @inheritDoc */
+  async _preparePartContext(partId, context) {
+    const partContext = await super._preparePartContext(partId, context);
+    console.log(partContext)
+    if (partId in partContext.tabs) partContext.tab = partContext.tabs[partId];
+
+    switch (partId) {
+      case 'details': {
+        // Prepare Members
+        partContext.members = { active: [], inactive: [], retired: [], dead: [] };
+
+        for (const cat in context.actor.system.membersList) {
+          for (const m of context.actor.system.membersList[cat]) {
+            partContext.members[cat].push(await m.toAnchor());
+          }
+        }
+
+        // Prepare Text Editors
+        const TextEditor = foundry.applications.ux.TextEditor.implementation;
+        const details = context.system.details;
+        
+        partContext.enrichedDetails = {
+          origin: await TextEditor.enrichHTML(details.origin, { secrets: this.actor.isOwner }),
+          achievements: await TextEditor.enrichHTML(details.achievements, { secrets: this.actor.isOwner }),
+          notes: await TextEditor.enrichHTML(details.notes, { secrets: this.actor.isOwner }),
+        }
+      } break;
+      case 'resources': {
+        // Prepare Equipment
+        context.equipment = { total: [], active: [], inactive: [] };
+
+        for (const cat in context.actor.system.equipmentList) {
+          for (const i of context.actor.system.equipmentList[cat]) {
+            const item = {... i};
+            item.ownerLink = await i.parent.toAnchor();
+            item.subtypeLabel = CONFIG.WW.EQUIPMENT_SUBTYPES[i.system.subtype];
+
+            context.equipment[cat].push(item);
+          }
+        }
+
+        // Prepare Items
+        context.items = this.actor.items.contents.toSorted((a, b) => a.sort - b.sort);
+        //await this._prepareItems(context);
+
+      } break;
+    }
+
     return context;
   }
 

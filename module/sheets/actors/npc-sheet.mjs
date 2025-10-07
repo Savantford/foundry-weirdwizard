@@ -28,7 +28,7 @@ export default class WWNpcSheet extends WWActorSheet {
 
   static PARTS = {
     menu: { template: 'systems/weirdwizard/templates/actors/header/edit-mode.hbs' },
-    sidetabs: { template: 'systems/weirdwizard/templates/actors/header/side-tabs.hbs' },
+    sidetabs: { template: 'systems/weirdwizard/templates/generic/side-tabs.hbs' },
     namestripe: { template: 'systems/weirdwizard/templates/actors/header/name-stripe.hbs' },
     banner: {
       template: 'systems/weirdwizard/templates/actors/header/npc-banner.hbs',
@@ -49,6 +49,21 @@ export default class WWNpcSheet extends WWActorSheet {
     effects: { template: 'systems/weirdwizard/templates/actors/tabs/effects.hbs' },
     
   }
+
+  /* -------------------------------------------- */
+
+  /** @override */
+  static TABS = {
+    sheet: {
+      tabs: [
+        {id: 'summary', tooltip: 'WW.Actor.Summary', iconType: 'img', icon: 'systems/weirdwizard/assets/icons/diploma.svg'},
+        {id: 'description', tooltip: 'WW.Item.Description', icon: 'systems/weirdwizard/assets/icons/scroll-quill.svg', iconType: 'img'},
+        {id: 'effects', tooltip: 'WW.Effects.Label', iconType: 'img', icon: '/icons/svg/aura.svg', iconType: 'img'}
+      ],
+      initial: "summary",
+      labelPrefix: "EFFECT.TABS"
+    }
+  };
 
   /** @override */
   _configureRenderOptions(options) {

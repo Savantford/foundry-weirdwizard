@@ -1,5 +1,4 @@
-{{!-- Description Tab --}}
-<section class="tab description {{tab.cssClass}}" data-group="primary" data-tab="description">
+<section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
     {{#if (or folder editMode)}}
     {{!-- Folder Name / Creature Group --}}
     {{#if folder}}
