@@ -94,9 +94,9 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
     super._onChangeForm(formConfig, event);
 
     // Re-submit the form if a change key is changed to update the value input type
-    if (event.target instanceof HTMLSelectElement && event.target.name.endsWith(".key")) {
+    /*if (event.target instanceof HTMLSelectElement && event.target.name.endsWith(".key")) {
       this.submit({ preventClose: true });
-    }
+    }*/
   }
 
   /* -------------------------------------------- */

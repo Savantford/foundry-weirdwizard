@@ -5687,39 +5687,41 @@ body {
       font-size: var(--font-size-14);
     }
 
-    .items-header {
-      border-image-outset: 0 11px;
+    .item:nth-of-type(odd) {
+      background: none;
+    }
 
-      > * {
-        font-size: var(--font-size-14);
-      }
-
-      button {
-        color: #fff;
-      }
+    .items-header > * {
+      font-size: var(--font-size-14);
     }
 
     button {
       --button-text-color: var(--body-text-color);
     }
 
-    
+    .items-header button {
+      color: #fff;
+    }
 
     .value {
       flex: 0.5;
+      display: flex;
       text-align: left;
+
+      [type="checkbox"] {
+        margin: 0;
+        height: 20px;
+      }
     }
-    
+
+    .controls {
+      flex: 0 0 24px;
+
+      [data-action="addChange"] {
+        display: flex;
+        justify-content: center;
+      }
+    }
   }
 
-  /* .changes-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    max-height: calc(100vh - var(--header-height) - 2rem - 2rem);
-    overflow-y: auto;
-  } */
-  
 }
-
-

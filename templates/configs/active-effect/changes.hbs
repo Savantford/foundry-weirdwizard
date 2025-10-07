@@ -6,49 +6,50 @@
     <li class="item effect-change items-header effects-header flexrow">
       <div class="key">{{ localize "WW.Effect.ToApply" }}</div>
       <div class="value">{{ localize "WW.Effect.Value" }}</div>
-      <div class="controls effect-controls flexshrink">
-        <button class="inline-control icon fa-regular fa-square-plus" data-action="addChange"></button>
-      </div>
+      <div class="controls"><a data-action="addChange"><i class="fa-regular fa-square-plus"></i></a></div>
     </li>
 
     {{!-- Changes Rows --}}
     {{#each source.changes as |change i|}}
-    <li class="item effect-change flexrow" data-index="{{i}}">
+    {{#with ../fields.changes.element.fields as |changeFields|}}
+    <li class="item effect-change flexrow" data-index="{{ i }}">
       <div class="key">
-        <select name="changes.{{i}}.key">
+        <select name="changes.{{ i }}.key">
           <option label="No Effect"></option>
-          {{#each @root.effectChangeOptions as |category i|}}
+          {{#each @root.effectChangeOptions as |category|}}
           <optgroup label="{{localize category.header}}">
             {{selectOptions category.options selected=change.key labelAttr="label" localize=true}}
           </optgroup>
           {{/each}}
         </select>
       </div>
-
+      
+      {{!-- Change Value conditional input --}}
       <div class="value">
-        {{!-- {{formInput changeFields.value name="changes.{{ i }}.value" value=change.value}} --}}
-        {{#if (eq change.valueType "int")}}
-        <input type="number" name="changes.{{i}}.value" value="{{change.value}}" min="0" />
+        {{#if (not change.key)}}
+          <input style="display: none;" type="text" name="changes.{{i}}.value" value="{{change.value}}" />
+        {{else if (eq change.valueType "int")}}
+          <input type="number" name="changes.{{i}}.value" value="{{change.value}}" min="0" />
         {{else if (eq change.valueType "str")}}
-        <input type="text" name="changes.{{i}}.value" value="{{change.value}}" />
+          <input type="text" name="changes.{{i}}.value" value="{{change.value}}" />
         {{else if (eq change.valueType "boo")}}
-        <input type="checkbox" name="changes.{{i}}.value" {{checked change.value}}>
-        {{else}}
-        <input type="text" name="changes.{{i}}.value" value="{{change.value}}" />
+          <input type="checkbox" name="changes.{{i}}.value" {{#if (eq change.value 'true')}}checked{{/if}}>
         {{/if}}
       </div>
 
       {{!-- Hidden inputs for mode and priority, to avoid losing existing backend values --}}
-      <input type="hidden" name="changes.{{i}}.mode" value="{{change.mode}}" />
-      {{#if (ne change.priority undefined)}}
-      <input type="hidden" name="changes.{{i}}.priority" value="{{change.priority}}" />
+      <input type="hidden" name="changes.{{ i }}.mode" value="{{change.mode}}" />
+      {{#if (ne changeFields.priority undefined)}}
+      <input type="hidden" name="changes.{{ i }}.priority" value="{{change.priority}}" />
       {{/if}}
 
+      {{!-- Delete Button --}}
       <div class="controls effect-controls flexshrink">
         <button type="button" class="effect-control inline-control icon fa-solid fa-trash"
           data-action="deleteChange"></button>
       </div>
     </li>
+    {{/with}}
     {{/each}}
   </ol>
 
