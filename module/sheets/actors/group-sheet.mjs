@@ -22,6 +22,7 @@ export default class WWGroupSheet extends WWSheetMixin(ActorSheetV2) {
     window: {
       icon: 'fa-solid fa-users',
       resizable: true,
+      contentClasses: ['standard-form'],
       controls: []
     },
     actions: {

@@ -19,13 +19,16 @@ export default class WWActor extends WWDocumentMixin(Actor) {
    */
   static getDefaultArtwork(actorData) {
     const icon = {
-      Character: 'icons/svg/mystery-man.svg',
-      NPC: 'icons/svg/mystery-man-black.svg',
+      character: 'icons/svg/mystery-man.svg',
+      npc: 'icons/svg/mystery-man-black.svg',
+      group: 'icons/environment/people/charge.webp'
     }[actorData.type] ?? this.DEFAULT_ICON;
 
     return { img: icon, texture: { src: icon } };
   };
   
+  /* -------------------------------------------- */
+
   async _preCreate(data, options, user) {
     const sourceId = this._stats.compendiumSource;
 
@@ -41,6 +44,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
 
     return await super._preCreate(data, options, user);
   }
+
+  /* -------------------------------------------- */
 
   async _onCreate(data, options, user) {
     
@@ -169,6 +174,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     
   }
 
+  /* -------------------------------------------- */
+
   /**
    * @override
    * Augment the basic actor data with additional dynamic data. Typically,
@@ -209,6 +216,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
 
   }
 
+  /* -------------------------------------------- */
+
   /* Prepare Char Options */
   async _prepareCharOptions(system) {
     // Prepare Character Options
@@ -235,12 +244,16 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     return this.charOptions = charOptions;
   }
 
+  /* -------------------------------------------- */
+
   /**
   * Prepare Character type specific data
   */
   _prepareCharacterData(system) {
     if (this.type !== 'character') return;
   }
+
+  /* -------------------------------------------- */
 
   /**
   * Prepare NPC type specific data.
@@ -252,6 +265,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     system.stats.damage.max = system.stats.health.current;
 
   }
+
+  /* -------------------------------------------- */
 
   /**
   * Prepare Character type specific data
@@ -329,6 +344,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     system.equipmentList = equipmentList;
     
   }
+
+  /* -------------------------------------------- */
 
   /**
    * @override
@@ -427,6 +444,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     
   }
 
+  /* -------------------------------------------- */
+
   /* Called during prepareDerivedData */
   _calculateHealthVariables(system) {
     
@@ -460,6 +479,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
 
   }
 
+  /* -------------------------------------------- */
+
   /* Called during _onUpdate */
   _calculateChangedDamageHealth(system, healthChanged) {
     
@@ -478,6 +499,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     this.system.stats.damage.value = damageNew;
     this.incapacitated = damageNew >= current;
   }
+
+  /* -------------------------------------------- */
 
   _calculateSpeed(system) {
     const speed = system.stats.speed;
@@ -886,6 +909,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     this.update({ 'system.stats.damage.value': await newTotal });
   }
 
+  /* -------------------------------------------- */
+
   async applyHealing(healing) {
     // Get values
     const oldTotal = this.system.stats.damage.value;
@@ -907,6 +932,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     this.update({ 'system.stats.damage.value': newTotal });
   }
 
+  /* -------------------------------------------- */
+
   /* Apply loss to Health */
   async applyHealthLoss(loss) {
     const oldCurrent = this.system.stats.health.current;
@@ -927,6 +954,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
 
     this.update({ 'system.stats.health.current': current });
   }
+
+  /* -------------------------------------------- */
 
   /* Apply lost Health regain */
   async applyHealthRegain(max) {
@@ -950,6 +979,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
 
     this.update({ 'system.stats.health.current': current });
   }
+
+  /* -------------------------------------------- */
 
   /* Apply Affliction */
   async applyAffliction(key) {
@@ -982,6 +1013,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     })
 
   }
+
+  /* -------------------------------------------- */
 
   /* Apply Active Effect */
   async applyEffect(effectUuid) {
@@ -1032,6 +1065,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
       }
     }
   }
+
+  /* -------------------------------------------- */
 
   /**
    * Deletes expired temporary active effects and disables linked expired buffs.
@@ -1129,6 +1164,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
 
     return isInjured ? true : false;
   }
+
+  /* -------------------------------------------- */
 
   /**
    * Determine whether the character is dead or destroyed.

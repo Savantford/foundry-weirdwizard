@@ -10,6 +10,24 @@ export default class WWItem extends WWDocumentMixin(Item) {
   /*  Document Creation                           */
   /* -------------------------------------------- */
 
+  /**
+   * @override
+   * Determine default artwork based on the provided item data.
+   * @param {ItemData} itemData  The source item data.
+   * @returns {{img: string}}    Candidate item image.
+   */
+  static getDefaultArtwork(itemData) {
+    const icon = {
+      equipment: 'icons/svg/item-bag.svg',
+      talent: 'icons/svg/card-hand.svg',
+      spell: 'icons/svg/lightning.svg'
+    }[itemData.type] ?? this.DEFAULT_ICON;
+
+    return { img: icon };
+  }
+
+  /* -------------------------------------------- */
+
   async _preCreate(data, options, user) {
     let icon = data.img;
     
@@ -18,27 +36,15 @@ export default class WWItem extends WWDocumentMixin(Item) {
 
       switch (this.type) {
         case 'equipment':
-          icon = 'icons/svg/item-bag.svg';
+          icon = '';
         break;
    
         case 'talent':
-          icon = 'icons/svg/card-hand.svg';
+          icon = '';
         break;
   
         case 'spell':
-          icon = 'icons/svg/lightning.svg';
-        break;
-  
-        case 'Ancestry':
-          icon = 'icons/svg/oak.svg';
-        break;
-
-        case 'Profession':
-          icon = 'systems/weirdwizard/assets/icons/professions/dig-dug.svg';
-        break;
-  
-        case 'Path':
-          icon = 'icons/svg/stone-path.svg';
+          icon = '';
         break;
       }
 
@@ -69,6 +75,8 @@ export default class WWItem extends WWDocumentMixin(Item) {
     return (i.system.attribute || i.effects.size || i.system.instant.length);
   }
 
+  /* -------------------------------------------- */
+
   /**
    * Check if item needs targets
    * @returns needTargets
@@ -95,6 +103,8 @@ export default class WWItem extends WWDocumentMixin(Item) {
   
     return need;
   }
+
+  /* -------------------------------------------- */
 
   get charOption() {
     if (this.type == 'Ancestry' || this.type == 'Profession' || this.type == 'Path') return true; else return false;

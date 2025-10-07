@@ -9,6 +9,15 @@
         {{/with}}
     </div>
 
+    {{!-- Connections --}}
+    <h3>{{ localize "WW.Group.Connections.Label" }}</h3>
+
+    <ol class="connections">
+        {{#each system.listEntries.connections as |connection id|}}
+        <li>{{ connection }}</li>
+        {{/each}}
+    </ol>
+
     {{!-- Wealth --}}
     <h3>{{ localize "WW.Group.Wealth" }}</h3>
 
@@ -35,15 +44,6 @@
             {{ system.wealth.inactive.cp }} <i class="fa-solid fa-coins copper" data-tooltip="{{localize "WW.Equipment.CP"}}"></i>
         </div>
     </div>
-
-    {{!-- Connections --}}
-    <h3>{{ localize "WW.Group.Connections.Label" }}</h3>
-
-    <ol>
-        {{#each system.listEntries.connections as |connection id|}}
-        <li>{{ connection }}</li>
-        {{/each}}
-    </ol>
 
     {{!-- Equipment Overview --}}
     <h3>{{ localize "WW.Group.EquipmentOverview" }}</h3>

@@ -783,11 +783,13 @@ body {
 }
 
 /* Remove border and background from inputs/selects/textareas not hovered */
-.weirdwizard.sheet:not(.active-effect-config) input:not(:hover):not(:focus),
-.weirdwizard.sheet:not(.active-effect-config) select:not(:hover):not(:focus),
-.weirdwizard.sheet:not(.active-effect-config) textarea:not(:hover):not(:focus) {
-  background: none;
-  border: 1px solid transparent;
+.weirdwizard.sheet .window-content:not(.standard-form) {
+  input:not(:hover):not(:focus),
+  select:not(:hover):not(:focus),
+  textarea:not(:hover):not(:focus) {
+    background: none;
+    border: 1px solid transparent;
+  }
 }
 
 /* Inputs */
@@ -1092,8 +1094,35 @@ body {
 /*  Sheet Header/Name Stripe/Banner             */
 /* -------------------------------------------- */
 
+/* Simple Sheet Headers */
+/* Active Effect Config: Header */
+.weirdwizard.sheet.active-effect-config,
+.weirdwizard.sheet.group {
+  header.sheet-header {
+
+    img[data-edit] {
+      outline: 1px solid var(--purple-dark);
+      border-radius: 1px;
+      filter: drop-shadow(0 0 1px var(--purple-dark));
+      cursor: pointer;
+    }
+  
+    input {
+      font-size: var(--font-size-32);
+      font-family: var(--font-capitalized);
+      font-weight: bold;
+      color: var(--purple-dark);
+      background: transparent;
+      border-image: url(../assets/drawings/header-ribbon-pink.svg);
+      border-image-slice: 0 91 1 13 fill;
+      border-image-width: 0px 91px 1px 13px;
+      padding: 5px 40px 5px 13px;
+    }
+  }
+}
+
 /* Sheet Headers */
-.weirdwizard:not(.active-effect-config) header.sheet-header {
+.weirdwizard:not(.active-effect-config):not(.group) header.sheet-header {
   position: absolute;
   top: var(--header-height);
   left: 0.5rem;
@@ -1174,10 +1203,6 @@ body {
 }
 
 .weirdwizard.item .talent-sheet .name-stripe {
-  padding-right: 200px;
-}
-
-.weirdwizard.active-effect-config .talent-sheet .name-stripe {
   padding-right: 200px;
 }
 
@@ -5607,29 +5632,6 @@ body {
 
 .weirdwizard.sheet.active-effect-config {
   overflow: visible;
-  
-  /* Active Effect Config: Header */
-  header.sheet-header {
-
-    img[data-edit] {
-      outline: 1px solid var(--purple-dark);
-      border-radius: 1px;
-      filter: drop-shadow(0 0 1px var(--purple-dark));
-      cursor: pointer;
-    }
-  
-    input {
-      font-size: var(--font-size-32);
-      font-family: var(--font-capitalized);
-      font-weight: bold;
-      color: var(--purple-dark);
-      background: transparent;
-      border-image: url(../assets/drawings/header-ribbon-pink.svg);
-      border-image-slice: 0 91 1 13 fill;
-      border-image-width: 0px 91px 1px 13px;
-      padding: 5px 40px 5px 13px;
-    }
-  }
 
   /* Active Effect Config: Tabs */
   nav.sheet-tabs {
