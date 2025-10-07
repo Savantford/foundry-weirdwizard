@@ -23,17 +23,14 @@ export default class WWActiveEffect extends ActiveEffect {
   }
 
   _validateDuration(changes, stage) {
-    const effect = this;
     const selected = changes.system?.duration?.selected ?? this.system.duration.selected;
-    
-    console.log(changes.duration.seconds)
-    const rounds = changes.duration?.rounds ?? this.duration.rounds,
-    minutes = changes.system?.duration?.inMinutes ?? this.system.duration.inMinutes,
-    hours = changes.system?.duration?.inHours ?? this.system.duration.inHours,
-    days = changes.system?.duration?.inDays ?? this.system.duration.inDays;
+    const rounds = changes.duration?.rounds ?? this.duration.rounds;
+    const minutes = changes.system?.duration?.inMinutes ?? this.system.duration.inMinutes;
+    const hours = changes.system?.duration?.inHours ?? this.system.duration.inHours;
+    const days = changes.system?.duration?.inDays ?? this.system.duration.inDays;
 
     const updateData = function(rounds, seconds) {
-      if (stage === 'preCreate') effect.updateSource({ 'duration.rounds': rounds, 'duration.seconds': seconds });
+      if (stage === 'preCreate') this.updateSource({ 'duration.rounds': rounds, 'duration.seconds': seconds });
       else if (stage === 'preUpdate') changes = foundry.utils.mergeObject(changes, { 'duration.rounds': rounds, 'duration.seconds': seconds });
     };
     

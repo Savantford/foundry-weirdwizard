@@ -779,9 +779,9 @@ body {
 }
 
 /* Remove border and background from inputs/selects/textareas not hovered */
-.weirdwizard.sheet input:not(:hover):not(:focus),
-.weirdwizard.sheet select:not(:hover):not(:focus),
-.weirdwizard.sheet textarea:not(:hover):not(:focus) {
+.weirdwizard.sheet:not(.active-effect-config) input:not(:hover):not(:focus),
+.weirdwizard.sheet:not(.active-effect-config) select:not(:hover):not(:focus),
+.weirdwizard.sheet:not(.active-effect-config) textarea:not(:hover):not(:focus) {
   background: none;
   border: 1px solid transparent;
 }
@@ -2492,10 +2492,6 @@ hr.bug {
 /* Internal Element Formatting */
 .weirdwizard .window-content .flexrow {
   gap: 5px;
-}
-
-.weirdwizard .window-content .item-list .flexrow {
-  gap: 0;
 }
 
 .weirdwizard .justify-between {
@@ -5584,13 +5580,6 @@ form.quest-calendar {
 /* Tokens */
 
 #token-hud .status-effects .effect-control {
-  /*width: 24px;
-  height: 24px;
-  margin: 0;
-  padding: 0;
-  border: none;
-  opacity: 0.5;
-  filter: invert(86%) sepia(95%) saturate(6026%) hue-rotate(357deg) brightness(91%) contrast(122%);*/
   filter: invert(70%) sepia(100%) saturate(6026%) hue-rotate(357deg) brightness(91%) contrast(122%);
 }
 
@@ -5650,9 +5639,10 @@ body {
 
   .standard-form .tab {
     gap: 0.5rem;
+    padding-right: 0;
   }
 
-  /* Active Effect Config: Form Elements */
+  /* Active Effect Config: Form Group */
   .form-group {
     display: flex;
     align-items: center;
@@ -5666,23 +5656,25 @@ body {
     .form-fields {
       flex: 1;
     }
+  }
 
-    input[type="number"],
-    input[type="text"],
-    select {
-      background: var(--background-color-shadow);
-      appearance: auto;
-      width: auto;
-    }
+  /* Active Effect Config: Inputs */
+  input[type="number"],
+  input[type="text"],
+  select {
+    --input-height: 100%;
+    background: var(--background-color-shadow);
+    appearance: auto;
+    width: 100%;
+  }
 
-    input[type="color"] {
-      padding: 1px 2px;
-    }
+  input[type="color"] {
+    padding: 1px 2px;
+  }
 
-    input[type="color"]:hover {
-      outline: none;
-      padding: 1px 2px;
-    }
+  input[type="color"]:hover {
+    outline: none;
+    padding: 1px 2px;
   }
 
   [data-tab="duration"] input {
@@ -5690,24 +5682,34 @@ body {
   }
 
   /* Active Effect Config: Changes Tab */
-  .tab.changes {
-    /* background: var(--background-color-shadow); */
-    padding: 0.5rem;
-    border-radius: 5px;
-    margin-right: 1rem;
-
-    ol {   
-      display: flex;
-      flex-direction: column;
-      flex-wrap: nowrap;
-      justify-content: space-between;
+  [data-tab="changes"] {
+    .item {
+      font-size: var(--font-size-14);
     }
 
-    header, li {
-      display: flex;
-      width: 100%;
-      gap: 1rem;
+    .items-header {
+      border-image-outset: 0 11px;
+
+      > * {
+        font-size: var(--font-size-14);
+      }
+
+      button {
+        color: #fff;
+      }
     }
+
+    button {
+      --button-text-color: var(--body-text-color);
+    }
+
+    
+
+    .value {
+      flex: 0.5;
+      text-align: left;
+    }
+    
   }
 
   /* .changes-list {
