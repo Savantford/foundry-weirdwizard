@@ -62,9 +62,9 @@
 
       <div class="form-fields">
         {{#if (eq document.system.duration.selected 'Xrounds')}}
-        <input type="number" name="duration.rounds" value="{{ effect.duration.rounds }}" />
+        <input type="number" name="duration.rounds" value="{{ document.duration.rounds }}" />
         {{else}}
-        {{ effect.duration.rounds }}
+        {{ document.duration.rounds }}
         {{/if}}
       </div>
 
@@ -72,13 +72,13 @@
 
     <div class="form-group">
       <label>{{ localize "WW.Effect.Duration.StartRound" }}</label>
-      <div class="form-fields">{{ effect.duration.startRound }}</div>
+      <div class="form-fields">{{ document.duration.startRound }}</div>
     </div>
 
     <div class="form-group">
       <label>{{ localize "EFFECT.FIELDS.duration.combat.label" }}</label>
       <div class="form-fields">
-        <input type="text" name="duration.combat" value="{{ effect.duration.combat }}" disabled />
+        <input type="text" name="duration.combat" value="{{ document.duration.combat }}" disabled />
       </div>
     </div>
 

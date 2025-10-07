@@ -1,10 +1,10 @@
 // Effect change metadata registry (label-keyed). Example: "boons.str" -> { mode, valueType, priority }
-export const effChanges = {};
+export const effPresets = {};
 // Back-compat clearer alias; prefer this in new code
-export { effChanges as effectChangeMetaRegistry };
+export { effPresets as effectChangeMetaRegistry };
 
 /* Self Attribute Rolls */
-effChanges.boons = {
+effPresets.boons = {
   str: addInt(),
   agi: addInt(),
   int: addInt(),
@@ -15,7 +15,7 @@ effChanges.boons = {
   resistMagical: addInt()
 }
 
-effChanges.banes = {
+effPresets.banes = {
   str: addInt(),
   agi: addInt(),
   int: addInt(),
@@ -26,7 +26,7 @@ effChanges.banes = {
   resistMagical: addInt()
 }
 
-effChanges.autoFail = {
+effPresets.autoFail = {
   str: setBoo(),
   agi: setBoo(),
   int: setBoo(),
@@ -38,7 +38,7 @@ effChanges.autoFail = {
 }
 
 /* Rolls Against Self */
-effChanges.boonsAgainst = {
+effPresets.boonsAgainst = {
   def: addInt(),
   str: addInt(),
   agi: addInt(),
@@ -49,7 +49,7 @@ effChanges.boonsAgainst = {
   fromMagical: addInt()
 }
 
-effChanges.banesAgainst = {
+effPresets.banesAgainst = {
   def: addInt(),
   str: addInt(),
   agi: addInt(),
@@ -60,7 +60,7 @@ effChanges.banesAgainst = {
   fromMagical: addInt()
 }
 
-effChanges.autoSuccessAgainst = {
+effPresets.autoSuccessAgainst = {
   def: setBoo(),
   str: setBoo(),
   agi: setBoo(),
@@ -72,12 +72,12 @@ effChanges.autoSuccessAgainst = {
 }
 
 /* Other Stats */
-effChanges.extraDamage = {
+effPresets.extraDamage = {
   dice: addInt(),
   mod: addInt()
 }
 
-effChanges.defense = {
+effPresets.defense = {
   override: overInt(),
   bonus: addInt(),
   armored: upInt(1),
@@ -87,7 +87,7 @@ effChanges.defense = {
   naturalReduce: addInt()
 }
 
-effChanges.health = {
+effPresets.health = {
   tempIncrease: addInt(),
   tempReduce: addInt(),
   override: overInt(),
@@ -95,7 +95,7 @@ effChanges.health = {
   increase: addInt()
 }
 
-effChanges.speed = {
+effPresets.speed = {
   tempIncrease: addInt(),
   tempReduce: addInt(),
   halved: setBoo(),
@@ -103,46 +103,46 @@ effChanges.speed = {
   increase: addInt()
 }
 
-effChanges.size = {
+effPresets.size = {
   increase: addInt(),
   override: overInt(),
   normal: overInt(1)
 }
 
-effChanges.bonusDamage = {
+effPresets.bonusDamage = {
   increase: addInt()
 }
 
 /* Attribute Changes */
-effChanges.upgradeAttribute = {
+effPresets.upgradeAttribute = {
   str: upInt(),
   agi: upInt(),
   int: upInt(),
   wil: upInt()
 }
 
-effChanges.downgradeAttribute = {
+effPresets.downgradeAttribute = {
   str: downInt(),
   agi: downInt(),
   int: downInt(),
   wil: downInt()
 }
 
-effChanges.overrideAttribute = {
+effPresets.overrideAttribute = {
   str: overInt(),
   agi: overInt(),
   int: overInt(),
   wil: overInt()
 }
 
-effChanges.increaseAttribute = {
+effPresets.increaseAttribute = {
   str: addInt(),
   agi: addInt(),
   int: addInt(),
   wil: addInt()
 }
 
-effChanges.reduceAttribute = {
+effPresets.reduceAttribute = {
   str: addInt(),
   agi: addInt(),
   int: addInt(),
@@ -211,7 +211,7 @@ export function initializeEffectLookups() {
  */
 export function getEffectChangeMeta(labelKey) {
   try {
-    return labelKey.split('.').reduce((o, i) => o?.[i], effChanges) ?? null;
+    return labelKey.split('.').reduce((o, i) => o?.[i], effPresets) ?? null;
   } catch (e) {
     return null;
   }

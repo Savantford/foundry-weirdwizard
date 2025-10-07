@@ -59,7 +59,7 @@ import { initGlobalListeners } from './helpers/global-listeners.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
 import { Utils, handleWelcomeMessage } from './helpers/utils.mjs';
-import { initializeEffectLookups } from './helpers/effect-options.mjs';
+import { initializeEffectLookups } from './helpers/effect-presets.mjs';
 
 // Import migrations
 import {

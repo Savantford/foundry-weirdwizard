@@ -1,4 +1,4 @@
-import { getEffectChangeMeta } from '../../helpers/effect-options.mjs'
+import { getEffectChangeMeta } from '../../helpers/effect-presets.mjs'
 import WWSheetMixin from '../ww-sheet.mjs';
 
 export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applications.sheets.ActiveEffectConfig) {
