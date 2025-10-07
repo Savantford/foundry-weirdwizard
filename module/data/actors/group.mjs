@@ -1,4 +1,4 @@
-import { makeHtmlField, makeIntField, makeRequiredStrField, makeStrField, makeUuidStrField } from "../field-presets.mjs";
+import { makeBooField, makeHtmlField, makeIntField, makeRequiredStrField, makeStrField, makeUuidStrField } from "../field-presets.mjs";
 
 export default class GroupModel extends foundry.abstract.TypeDataModel {
 
@@ -11,7 +11,7 @@ export default class GroupModel extends foundry.abstract.TypeDataModel {
       details: new fields.SchemaField({
         origin: makeHtmlField('No group origin story.'),
         achievements: makeHtmlField(),
-        notes: makeHtmlField(),
+        notes: makeHtmlField()
       }),
 
       // Group Members
@@ -28,6 +28,10 @@ export default class GroupModel extends foundry.abstract.TypeDataModel {
         dead: new fields.ArrayField(
           makeUuidStrField()
         ),
+      }),
+
+      resources: new fields.SchemaField({
+        fortune: makeBooField()
       }),
 
       // List Entries

@@ -83,7 +83,7 @@ export default class WWToken extends foundry.canvas.placeables.Token {
   updateStatusIcons() {
     // Create containers
     const TopContainer = this.createIconContainer('Top'), BottomContainer = this.createIconContainer('Bottom');
-
+    
     // Add Health status icon
     this.displayHealthIcon(TopContainer);
     
@@ -237,7 +237,7 @@ export default class WWToken extends foundry.canvas.placeables.Token {
   _applyRenderFlags(flags) {
     super._applyRenderFlags(flags);
     
-    this.updateStatusIcons();
+    if (this.actor.type !== 'group') this.updateStatusIcons();
   }
 
 }

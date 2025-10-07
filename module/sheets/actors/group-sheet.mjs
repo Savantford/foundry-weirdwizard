@@ -90,7 +90,7 @@ export default class WWGroupSheet extends WWSheetMixin(ActorSheetV2) {
   /** @inheritDoc */
   async _preparePartContext(partId, context) {
     const partContext = await super._preparePartContext(partId, context);
-    console.log(partContext)
+    
     if (partId in partContext.tabs) partContext.tab = partContext.tabs[partId];
 
     switch (partId) {
@@ -115,8 +115,15 @@ export default class WWGroupSheet extends WWSheetMixin(ActorSheetV2) {
         }
       } break;
       case 'resources': {
+        // Prepare form fields
+        partContext.fortune = {
+          name: `system.resources.fortune`,
+          value: context.system.resources.fortune,
+          field: new foundry.data.fields.BooleanField()
+        }
+
         // Prepare Equipment
-        context.equipment = { total: [], active: [], inactive: [] };
+        partContext.equipment = { total: [], active: [], inactive: [] };
 
         for (const cat in context.actor.system.equipmentList) {
           for (const i of context.actor.system.equipmentList[cat]) {
@@ -124,12 +131,12 @@ export default class WWGroupSheet extends WWSheetMixin(ActorSheetV2) {
             item.ownerLink = await i.parent.toAnchor();
             item.subtypeLabel = CONFIG.WW.EQUIPMENT_SUBTYPES[i.system.subtype];
 
-            context.equipment[cat].push(item);
+            partContext.equipment[cat].push(item);
           }
         }
 
         // Prepare Items
-        context.items = this.actor.items.contents.toSorted((a, b) => a.sort - b.sort);
+        partContext.items = this.actor.items.contents.toSorted((a, b) => a.sort - b.sort);
         //await this._prepareItems(context);
 
       } break;

@@ -2,6 +2,13 @@
 
     <h2>{{ localize "WW.Group.Resources" }}</h2>
 
+    <div class="stat-inline">
+        <label>{{localize "WW.Group.Fortune"}}:</label>
+        {{#with fortune}}
+        {{formInput field name=name value=value}}
+        {{/with}}
+    </div>
+
     {{!-- Wealth --}}
     <h3>{{ localize "WW.Group.Wealth" }}</h3>
 
