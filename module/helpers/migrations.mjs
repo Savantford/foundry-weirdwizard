@@ -31,7 +31,7 @@ export async function v13Support(forced) {
   // Migrate world actors
   console.log('Migrating world actors');
   await migrateType(game.actors);
-  await migrateProfessions(game.actors);
+  //await migrateProfessions(game.actors);
   warning.update({ pct: 0.2 });
 
   // Migrate world itemms
@@ -133,7 +133,7 @@ function shouldMigrateCompendium(pack) {
  * @param {string} [options.pack]      Pack to update.
  * @param {Document} [options.parent]  Parent of the collection for embedded collections.
  */
-export async function migrateProfessions(collection, options = {}) {
+/*async function migrateProfessions(collection, options = {}) {
   console.log('migrating professions')
   const actors = collection.filter(doc => doc?.type === 'character' && doc.system.charOptions.professions.length);
   const toMigrate = [];
@@ -155,7 +155,7 @@ export async function migrateProfessions(collection, options = {}) {
     console.log(updateData)
     await collection.documentClass.updateDocuments(updateData, { pack: options.pack, parent: options.parent, diff: false });
   }
-}
+}*/
 
 /* -------------------------------------------- */
 /* Improved List Entries                        */
