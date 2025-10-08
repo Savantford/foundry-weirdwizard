@@ -162,16 +162,16 @@ WW.WEAPON_REQUIREMENTS = {
 };
 
 WW.WEAPON_GRIPS = {
-  'One': 'WW.Weapon.Grip.One',
-  'Two': 'WW.Weapon.Grip.Two',
-  'Off': 'WW.Weapon.Grip.Off',
-  'Natural': 'WW.Weapon.Grip.Natural'
+  'one': 'WW.Weapon.Grip.One',
+  'two': 'WW.Weapon.Grip.Two',
+  'off': 'WW.Weapon.Grip.Off',
+  'natural': 'WW.Weapon.Grip.Natural'
 };
 
 WW.WEAPON_GRIPS_SHORT = {
-  'One': 'WW.Weapon.Grip.OneShort',
-  'Two': 'WW.Weapon.Grip.TwoShort',
-  'Off': 'WW.Weapon.Grip.OffShort'
+  'one': 'WW.Weapon.Grip.OneShort',
+  'two': 'WW.Weapon.Grip.TwoShort',
+  'off': 'WW.Weapon.Grip.OffShort'
 };
 
 WW.WEAPON_TRAITS = {

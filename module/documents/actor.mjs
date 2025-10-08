@@ -1155,12 +1155,16 @@ export default class WWActor extends WWDocumentMixin(Actor) {
    * @type {boolean}
    */
   get injured() {
-    const health = this.system.stats.health;
-    const current = health.current;
-    const damage = this.system.stats.damage.value;
+    let isInjured = false;
 
-    let isInjured = damage >= Math.floor(current / 2);
-    if (this.type === 'character' && health.normal <= 0) isInjured = false;
+    if (this.type !== 'group') {
+      const health = this.system.stats.health;
+      const current = health.current;
+      const damage = this.system.stats.damage.value;
+
+      isInjured = damage >= Math.floor(current / 2);
+      if (this.type === 'character' && health.normal <= 0) isInjured = false;
+    }
 
     return isInjured ? true : false;
   }
@@ -1172,10 +1176,14 @@ export default class WWActor extends WWDocumentMixin(Actor) {
    * @type {boolean}
    */
   get dead() {
-    const health = this.system.stats.health;
+    let isDead = false;
+
+    if (this.type !== 'group') {
+      const health = this.system.stats.health;
     
-    let isDead = health.current <= 0;
-    if (this.type === 'character' && health.normal <= 0) isDead = false;
+      isDead = health.current <= 0;
+      if (this.type === 'character' && health.normal <= 0) isDead = false;
+    }
 
     return isDead ? true : false;
   }

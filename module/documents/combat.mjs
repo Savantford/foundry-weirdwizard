@@ -185,36 +185,42 @@ export default class WWCombat extends Combat {
    * @override
    */
   async endCombat() {
-    let d = new Dialog({
-      title: i18n("WW.Combat.End.Title"),
+    const endDialog = new WWDialog({
+      window: {
+        title: 'WW.Combat.End.Title',
+        icon: 'fa-solid fa-hourglass'
+      },
       content: `<p>${i18n("WW.Combat.End.Msg")}</p><p>${i18n("WW.Combat.End.Msg2")}</p>`,
-      buttons: {
-        skip: {
-          icon: '<i class="fa-solid fa-hourglass-end"></i>',
-          label: i18n("WW.Combat.End.Skip"),
+      ok: {},
+      buttons: [
+        {
+          action: 'skip',
+          label: 'WW.Combat.End.Skip',
+          icon: 'fa-solid fa-hourglass-end',
           callback: () => {
             this._expireLeftoverEffects(); // Expire leftover effects
             game.time.advance(60); // Advance 1 minute to end 1 minute durations
             this.delete();
-            
           }
         },
-        endOnly: {
-          icon: '<i class="fa-solid fa-pause"></i>',
-          label: i18n("WW.Combat.End.Only"),
+        {
+          action: 'endOnly',
+          label: 'WW.Combat.End.Only',
+          icon: 'fa-solid fa-pause',
           callback: () => {
             this.delete();
           }
         },
-        cancel: {
-          icon: '<i class="fa-solid fa-times"></i>',
-          label: i18n("WW.Combat.End.Cancel"),
+        {
+          action: 'cancel',
+          label: 'WW.Combat.End.Cancel',
+          icon: 'fa-solid fa-times',
           callback: () => {}
         }
-      }
+      ]
     });
 
-    return d.render(true);
+    return endDialog.render(true);
 
   }
 

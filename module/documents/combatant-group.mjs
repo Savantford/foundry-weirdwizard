@@ -1,6 +1,3 @@
-import WWDialog from '../apps/dialog.mjs';
-import { i18n } from '../helpers/utils.mjs'
-
 export default class WWCombatantGroup extends foundry.documents.CombatantGroup {
 
   /**

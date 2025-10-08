@@ -84,7 +84,7 @@ export default class SageTools extends HandlebarsApplicationMixin(ApplicationV2)
       template: sysPath('templates/apps/sage/index.hbs')
     },
     bug: {
-      template: sysPath('templates/bug.hbs')
+      template: sysPath('templates/generic/bug.hbs')
     }
   }
 

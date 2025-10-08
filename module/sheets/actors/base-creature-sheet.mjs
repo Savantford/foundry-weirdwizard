@@ -406,9 +406,11 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
 
           i.system.traitsList = list;
 
-          // Prepare name label
+          // Prepare name and grip label
           if (context.actor.type == 'character') {
-            i.label = `${i.name} (${i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip])})${(i.system.traitsList ? ' ● ' + i.system.traitsList : '')}`;
+            i.system.gripLabel = i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip]);
+            
+            i.label = `${i.name} (${i.system.gripLabel})${(i.system.traitsList ? ' ● ' + i.system.traitsList : '')}`;
           } else i.label = (i.system.traits.range ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + i.name + (i.system.traitsList ? ' ● ' + i.system.traitsList : '');
 
         }
@@ -2017,7 +2019,6 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
    * @protected
    */
   _onSortEffect(event, effect) {
-    console.log('sorting eff')
     const effects = this.actor.appliedEffects;
     const source = effects.find(e => e._id === effect._id); // is `id` in v13?
 
@@ -2028,8 +2029,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     if ( source._id === target._id ) return;
     
     if (source.parent !== target.parent) return;
-    console.log(source._id)
-    console.log(target._id)
+    
     // Identify sibling effects based on adjacent HTML elements
     const siblings = [];
     for ( const element of dropTarget.parentElement.children ) {
@@ -2041,13 +2041,10 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     const sortUpdates = foundry.utils.SortingHelpers.performIntegerSort(source, {target, siblings});
     
     const updateData = sortUpdates.map(u => {
-      console.log(u.update)
-      console.log(u.target._id)
       const update = u.update;
       update._id = u.target._id;
       return update;
     });
-    console.log(updateData)
     
     // Perform the update
     return target.parent.updateEmbeddedDocuments("ActiveEffect", updateData);

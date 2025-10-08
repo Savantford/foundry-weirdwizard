@@ -2132,26 +2132,14 @@ hr.bug {
   margin-top: calc(-1 * var(--sheet-name-stripe-height));
 }
 
-.weirdwizard.item .tab[data-tab].automation {
+.weirdwizard.item .tab[data-tab=automation] {
   margin-top: calc(1rem - var(--sheet-name-stripe-height));
   flex-flow: column;
   gap: 0.5rem;
 }
 
-.weirdwizard.item .tab[data-tab].automation.active {
+.weirdwizard.item .tab[data-tab=automation].active {
   display: flex;
-}
-
-.journal-entry-page .weirdwizard .tab[data-tab] {
-  margin-left: 245px;
-  background-position: center calc(50% - 10px), bottom;
-  background-origin: padding-box;
-  background-size: 50% auto, 270px;
-  padding-bottom: 35px;
-}
-
-.journal-entry-page .weirdwizard .profession-sheet .tab[data-tab] {
-  margin-left: 175px;
 }
 
 /* Sheet Bugs */
@@ -3615,6 +3603,7 @@ input[type="checkbox"].checkbox-uses {
   color: black;
   font-family: var(--font-capitalized);
   font-size: var(--font-size-16);
+  white-space: nowrap;
 }
 
 .weirdwizard .standard-form .form-footer > button,

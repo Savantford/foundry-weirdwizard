@@ -151,6 +151,9 @@ export default class EquipmentModel extends BaseItemModel {
 
     // Migrate attack rider to a single string
     if (typeof source.attackRider?.value === 'object') source.attackRider.value = source.attackRider.value.value;
+
+    // Apply lowercase to grip field
+    if (source.grip !== source.grip?.toLowerCase()) source.grip = source.grip.toLowerCase();
     
     return super.migrateData(source);
   }
