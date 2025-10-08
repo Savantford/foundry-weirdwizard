@@ -14,7 +14,6 @@ export default class WWRoll extends Roll {
    */
   
   async render({flavor, template=this.constructor.CHAT_TEMPLATE, isPrivate=false}={}) {
-    
     if ( !this._evaluated ) await this.evaluate();
     
     const attribute = this.options.attribute;

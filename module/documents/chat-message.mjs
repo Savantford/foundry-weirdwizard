@@ -198,8 +198,9 @@ export default class WWChatMessage extends ChatMessage {
   }
 
   /* -------------------------------------------- */
-
+  
   /**
+   * (Unchanged from core except for !el.childElementCount being removed from a check)
    * Render the inner HTML content for ROLL type messages.
    * @param {object} messageData      The chat message data used to render the message HTML
    * @returns {Promise<void>}
@@ -221,7 +222,7 @@ export default class WWChatMessage extends ChatMessage {
     if ( this.isContentVisible ) {
       const el = document.createElement("div");
       el.innerHTML = data.content;  // Ensure the content does not already contain custom HTML
-      if ( !el.childElementCount && this.rolls.length ) data.content = await this.#renderRollHTML(false); // If check was removed in v12
+      if ( /*!el.childElementCount &&*/ this.rolls.length ) data.content = await this.#renderRollHTML(false);
     }
 
     // Otherwise, show "rolled privately" messages for Roll content
@@ -236,6 +237,7 @@ export default class WWChatMessage extends ChatMessage {
   /* -------------------------------------------- */
 
   /**
+   * (Unchanged from core)
    * Render HTML for the array of Roll objects included in this message.
    * @param {boolean} isPrivate   Is the chat message private?
    * @returns {Promise<string>}   The rendered HTML string
@@ -243,7 +245,7 @@ export default class WWChatMessage extends ChatMessage {
   async #renderRollHTML(isPrivate) {
     let html = "";
     for ( const roll of this.rolls ) {
-      html += await roll.render({isPrivate, message: this}); // message: this was absent in v12, might cause issues
+      html += await roll.render({isPrivate, message: this});
     }
     return html;
   }
@@ -260,19 +262,5 @@ export default class WWChatMessage extends ChatMessage {
     // If no match is found, return the original string
     return type;
   }
-
-  /* -------------------------------------------- */
-  /*  Event Handlers                              */
-  /* -------------------------------------------- */
-
-  /** @override */
-  /*async _preCreate(data, options, user) {
-    await super._preCreate(data, options, user);
-    
-  }*/
-
-  /* -------------------------------------------- */
-  /*  Importing and Exporting                     */
-  /* -------------------------------------------- */
 
 }

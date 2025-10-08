@@ -329,9 +329,8 @@ export default class RollAttribute extends FormApplication {
 
       // Push roll to roll array
       rollsArray.push(r);
-
     }
-
+    
     // Create message data
     const messageData = {
       type: 'd20-roll',
@@ -480,6 +479,8 @@ export default class RollAttribute extends FormApplication {
     return `${i18n('WW.Roll.Details')}: ${name ?? id}`;
   }
   
+  /* -------------------------------------------- */
+
   get targets() {
     const targets = [];
 
@@ -504,6 +505,8 @@ export default class RollAttribute extends FormApplication {
 
     return targets;
   }
+
+  /* -------------------------------------------- */
 
   get actEffs() {
     const effs = {
@@ -533,6 +536,8 @@ export default class RollAttribute extends FormApplication {
     
     return effs;
   }
+
+  /* -------------------------------------------- */
 
   get instEffs() {
     const effs = {
@@ -578,6 +583,8 @@ export default class RollAttribute extends FormApplication {
     
     return effs;
   }
+
+  /* -------------------------------------------- */
 
   _getTargetIds(targets, effTarget) {
     let targetIds = '';

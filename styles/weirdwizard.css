@@ -5122,6 +5122,10 @@ form.quest-calendar {
   text-align: center;
 }
 
+.weirdwizard.chat-message .roll-wrapper:not(:last-of-type) {
+  margin-bottom: 0.5rem;
+}
+
 .weirdwizard span:not(:last-child) .dice-roll {
   margin-bottom: 10px;
 }
@@ -5186,7 +5190,7 @@ form.quest-calendar {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin: 5px 0 0;
-  padding: 8px 14px;
+  padding: 2px 14px;
   border-image: url(../assets/ui/plates/single-transparent.svg);
   border-image-slice: 120 fill;
   border-image-width: 10px;
@@ -5221,8 +5225,11 @@ form.quest-calendar {
 }
 
 .weirdwizard.chat-message .chat-target a.button {
-  display: inline-flex;
-  gap: 3px;
+  min-height: auto;
+  height: auto;
+  padding: 0;
+  border: none;
+  color: white;
 }
 
 .weirdwizard.chat-message .chat-target img {
