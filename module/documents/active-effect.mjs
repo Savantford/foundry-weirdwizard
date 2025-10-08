@@ -8,7 +8,7 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
   /* -------------------------------------------- */
 
   async _preCreate(data, options, user) {
-    this._validateDuration(data, 'preCreate');
+    this._validateDuration(data, '_preCreate');
 
     return await super._preCreate(data, options, user);
   }
@@ -18,21 +18,24 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
   /* -------------------------------------------- */
 
   async _preUpdate(changes, options, user) {
-    this._validateDuration(changes, 'preUpdate');
+    this._validateDuration(changes, '_preUpdate');
     
     return await super._preUpdate(changes, options, user);
   }
 
-  _validateDuration(changes, stage) {
-    const selected = changes.system?.duration?.selected ?? this.system.duration.selected;
-    const rounds = changes.duration?.rounds ?? this.duration.rounds;
-    const minutes = changes.system?.duration?.inMinutes ?? this.system.duration.inMinutes;
-    const hours = changes.system?.duration?.inHours ?? this.system.duration.inHours;
-    const days = changes.system?.duration?.inDays ?? this.system.duration.inDays;
+  /* -------------------------------------------- */
 
+  _validateDuration(data, stage) {
+    const selected = data.system?.duration?.selected ?? this.system.duration.selected;
+    const rounds = data.duration?.rounds ?? this.duration.rounds;
+    const minutes = data.system?.duration?.inMinutes ?? this.system.duration.inMinutes;
+    const hours = data.system?.duration?.inHours ?? this.system.duration.inHours;
+    const days = data.system?.duration?.inDays ?? this.system.duration.inDays;
+    
     const updateData = function(rounds, seconds) {
-      if (stage === 'preCreate') this.updateSource({ 'duration.rounds': rounds, 'duration.seconds': seconds });
-      else if (stage === 'preUpdate') changes = foundry.utils.mergeObject(changes, { 'duration.rounds': rounds, 'duration.seconds': seconds });
+      // Stage is probably not needed for this and thus was removed from the check. More testing needed!
+      //if (stage === '_preCreate') this.updateSource({ 'duration.rounds': rounds, 'duration.seconds': seconds });
+      /*else if (stage === '_preUpdate')*/ data = foundry.utils.mergeObject(data, { 'duration.rounds': rounds, 'duration.seconds': seconds });
     };
     
     // Check the selected value and set duration values
@@ -65,10 +68,6 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
     else if (rounds) this.system.duration.formatted = `${rounds} ${(rounds > 1 ? i18n(rounds + 'Rounds') : i18n(rounds + 'Round'))}`;
     else this.system.duration.formatted = formatTime(this.duration.seconds);
   }
-
-  /*async _onUpdate(data, options, userId) {
-    super._onUpdate(data, options, userId); 
-  }*/
 
   /* -------------------------------------------- */
   /*  Data Preparation                            */
@@ -140,6 +139,8 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
   get factor() {
     return this.system.originalItem?.activeEffectFactor ?? 1;
   }
+
+  /* -------------------------------------------- */
   
   /** @override */
   get isSuppressed() {
@@ -150,9 +151,13 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
     return false;
   }
 
+  /* -------------------------------------------- */
+
   get isBenefit() {
     return this.type === 'benefit';
   }
+
+  /* -------------------------------------------- */
 
   get hasValidCharOption() {
     const actor = this.parent.documentName === 'Actor' ? this.parent : null;
@@ -165,11 +170,15 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
     return uuidFound;
   }
 
+  /* -------------------------------------------- */
+
   get showRemoveButton() {
     if (this.parent.documentName === 'Item') return false;
     if (this.isBenefit && this.hasValidCharOption) return false;
     return true;
   }
+
+  /* -------------------------------------------- */
 
   /**
    * The combatant from which the effect originated

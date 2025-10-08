@@ -1099,6 +1099,7 @@ body {
 .weirdwizard.sheet.active-effect-config,
 .weirdwizard.sheet.group {
   header.sheet-header {
+    padding-right: 0.75rem;
 
     img[data-edit] {
       outline: 1px solid var(--purple-dark);
@@ -1122,7 +1123,8 @@ body {
 }
 
 /* Sheet Headers */
-.weirdwizard:not(.active-effect-config):not(.group) header.sheet-header {
+.weirdwizard.actor header.sheet-header,
+.weirdwizard.item header.sheet-header {
   position: absolute;
   top: var(--header-height);
   left: 0.5rem;
@@ -1196,7 +1198,7 @@ body {
 .weirdwizard.item .name-stripe {
   position: relative;
   top: 0;
-  width: calc(100% + 1rem + var(--scroll-margin));
+  width: calc(100% + 1.25rem + var(--scroll-margin));
   margin-left: -1rem;
   padding-left: 1rem;
   padding-right: calc(var(--sheet-ribbon-width) + 1em);
@@ -1309,9 +1311,6 @@ body {
   flex-flow: column;
   gap: 10px;
   align-items: center;
-  /* background: url(../assets/ui/straps/triangle-ribbon.svg) no-repeat; */
-  /* background-position: center bottom; */
-  /* background-size: 100% 100%; */
   border-image: url(../assets/ui/straps/triangle-ribbon.svg);
   border-image-slice: 3 3 21 fill;
   border-image-width: 3px 3px 21px;
@@ -5646,8 +5645,8 @@ body {
   }
 
   .standard-form .tab {
+    overflow: visible;
     gap: 0.5rem;
-    padding-right: 0;
   }
 
   /* Active Effect Config: Form Group */

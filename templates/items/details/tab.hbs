@@ -1,4 +1,4 @@
-<section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+<section class="tab{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
 
     {{!-- Name Stripe --}}
     {{> "systems/weirdwizard/templates/items/common/name-stripe.hbs" }}
@@ -18,7 +18,7 @@
 
     {{!-- Description --}}
     <prose-mirror name="system.description" data-document-u-u-i-d="{{item.uuid}}" value="{{system.description}}"
-        toggled collaborate compact owner={{owner}} editable={{editable}}>
+        toggled collaborate compact editable={{editable}}>
         {{{system.descriptionEnriched}}}
     </prose-mirror>
 

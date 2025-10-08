@@ -429,7 +429,6 @@ export default class RollAttribute extends FormApplication {
       let targetsDisplay = '';
       
       this.targets.forEach(t => {
-        
         // Boons against count
         let boonsAgainst = 0;
         if (t.boonsAgainst) boonsAgainst += t.boonsAgainst[against];
@@ -497,6 +496,7 @@ export default class RollAttribute extends FormApplication {
         attributes: actor ? sys.attributes : null,
         defense: actor ? sys.stats.defense.total : null,
         againstNo: sys ? (this.against === 'def' ? sys.stats.defense.total : sys.attributes[this.against]?.value) : "—",
+        boons: actor ? sys.boons.selfRoll : null,
         boonsAgainst: actor ? sys.boons.against : null
       })
 

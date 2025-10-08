@@ -30,7 +30,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     window: {
       icon: 'fa-regular fa-scroll',
       resizable: true,
-      contentClasses: [],
+      contentClasses: ['scrollable'],
       controls: [
         {
           action: "showItemArtwork",
