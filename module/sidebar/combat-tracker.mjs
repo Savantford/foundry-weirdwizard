@@ -474,7 +474,7 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
         const combatant = getCombatant(li);
         if ( !combatant ) return;
         await combatant.clearMovementHistory();
-        ui.notifications.info("COMBAT.CombatantMovementHistoryCleared", {format: {name: combatant.token.name}});
+        ui.notifications.info("COMBAT.CombatantMovementHistoryCleared", {format: {name: combatant.token?.name}});
       }
     }, {
       name: "COMBAT.CombatantRemove",

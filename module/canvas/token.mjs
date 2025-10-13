@@ -181,7 +181,7 @@ export default class WWToken extends foundry.canvas.placeables.Token {
     
     const combatant = this.combatant, acted = combatant.acted, takingInit = combatant.takingInit,
       current = combatant == combatant.combat.combatant,
-      dispo = combatant.token.disposition
+      dispo = combatant.token?.disposition
     ;
 
     const index = container.children.length;

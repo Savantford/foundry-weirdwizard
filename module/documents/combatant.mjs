@@ -39,7 +39,7 @@ export default class WWCombatant extends Combatant {
     if ( !token ) return;
     
     // Prepare message
-    const name = token.actor ? `@UUID[${ this.actor.uuid }]` : '<b>' + game.weirdwizard.utils.getAlias({ token }) + '</b>';
+    const name = token?.actor ? `@UUID[${ this.actor.uuid }]` : '<b>' + game.weirdwizard.utils.getAlias({ token }) + '</b>';
     const msg = taking ? i18n('WW.Combat.Initiative.ChatMsg', { name }) : i18n('WW.Combat.RegularTurn.ChatMsg', { name });
 
     // Send to chat
@@ -129,7 +129,7 @@ export default class WWCombatant extends Combatant {
   }
 
   get disposition() {
-    return this.token.disposition ?? -2;
+    return this.token?.disposition ?? -2;
   }
 
   get takingInit() {
@@ -141,7 +141,7 @@ export default class WWCombatant extends Combatant {
       if (this.takingInit) return 1000; // Taking the Initiative
       else return 3000; // Allies' regular turn
     } else { // NPCs
-      if (this.token.disposition === 1) return 3000; // Allies' regular turn
+      if (this.token?.disposition === 1) return 3000; // Allies' regular turn
       else return 2000; // Enemies' Taking the Initiative
     }
   }
@@ -151,7 +151,7 @@ export default class WWCombatant extends Combatant {
       if (this.takingInit) return 'init'; // Taking the Initiative
       else return 'allies'; // Allies' regular turn
     } else { // NPCs
-      if (this.token.disposition === 1) return 'allies'; // Allies' regular turn
+      if (this.token?.disposition === 1) return 'allies'; // Allies' regular turn
       else return 'enemies'; // Enemies' Taking the Initiative
     }
   }

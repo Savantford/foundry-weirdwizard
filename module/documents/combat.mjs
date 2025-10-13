@@ -34,7 +34,7 @@ export default class WWCombat extends Combat {
     super._onDelete(options, userId);
     
     // Update Status Icons
-    this.combatants.forEach(c => c.token.object.updateStatusIcons());
+    this.combatants.forEach(c => c.token?.object?.updateStatusIcons());
   }
 
   /* -------------------------------------------- */
