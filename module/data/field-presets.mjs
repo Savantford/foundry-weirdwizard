@@ -33,6 +33,15 @@ export const makeFloField = (init = 0) => new fields.NumberField({
   integer: false
 })
 
+/* Positive Integer */
+export const makePosNegIntField = (init = 0) => new fields.NumberField({
+  required: true,
+  initial: init,
+  nullable: true,
+  integer: true,
+  clean: true
+})
+
 /* Any Number */
 export const makeNumField = (init = 1) => new fields.NumberField({
   required: true,
