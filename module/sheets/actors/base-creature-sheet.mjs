@@ -408,7 +408,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
 
           // Prepare name and grip label
           if (context.actor.type == 'character') {
-            i.system.gripLabel = i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip]);
+            console.log(i.name, i.system.grip); // Added temporarily to debug an issue
+            i.system.gripLabel = CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip] ? i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip]) : i.system.grip;
             
             i.label = `${i.name} (${i.system.gripLabel})${(i.system.traitsList ? ' ● ' + i.system.traitsList : '')}`;
           } else i.label = (i.system.traits.range ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + i.name + (i.system.traitsList ? ' ● ' + i.system.traitsList : '');
