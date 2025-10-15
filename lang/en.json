@@ -142,6 +142,12 @@
 "WW.ListEntry.MovementTrait.Edit": "Edit special movement trait",
 "WW.ListEntry.MovementTrait.Remove": "Remove special movement trait",
 
+"WW.ListEntry.Connection.Label": "Connections",
+"WW.ListEntry.Connection.New": "New connection",
+"WW.ListEntry.Connection.Create": "Add new connection",
+"WW.ListEntry.Connection.Edit": "Edit connection",
+"WW.ListEntry.Connection.Remove": "Remove connection",
+
 "WW.Group.GeneralInfo": "General Information",
 "WW.Group.Origin": "Origin",
 "WW.Group.Achievements": "Achievements and Reputation",
@@ -157,7 +163,6 @@
 "WW.Group.Wealth": "Wealth",
 "WW.Group.EquipmentOverview": "Equipment Overview",
 
-"WW.Group.Connections.Label": "Connections",
 "WW.Group.Connections.Financial": "Financial",
 "WW.Group.Connections.Influence": "Influence",
 "WW.Group.Connections.Professional": "Professional",

@@ -2852,7 +2852,7 @@ input[type="checkbox"].checkbox-uses {
   margin-left: 2px;
   padding: 0 3px;
   width: auto;
-} 
+}
 
 .weirdwizard .item p:nth-child(-n+1) {
   display: inline;
@@ -3187,42 +3187,94 @@ input[type="checkbox"].checkbox-uses {
 /*  Group Sheet                                 */
 /* -------------------------------------------- */
 
-.weirdwizard.group .members-area {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+.weirdwizard.group {
 
-.weirdwizard.group .members-area > li {
-  margin: 0;
-}
+  .members-area {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 
-.weirdwizard.group .members-area > li:not(:last-of-type)::after {
-  content: ",";
-}
+    > li {
+      margin: 0;
+    }
 
-.weirdwizard.group .members-area > label {
-  color: var(--purple-dark);
-  font-weight: bold;
-}
+    > li:not(:last-of-type)::after {
+      content: ",";
+    }
 
-.weirdwizard.group .members-area > .item-owner {
-  flex: 2;
-}
+    > label {
+      color: var(--purple-dark);
+      font-weight: bold;
+    }
 
-.weirdwizard.group .fadeout {
-  box-shadow: rgba(33, 33, 33, 0.8) 0px 0px 1px 2px, rgba(33, 33, 33, 0.6) 0px 0px 0px 5000px;
-  border-radius: 4px;
-  transition: all 0.3s ease-out;
-  z-index: calc(var(--z-index-tooltip) - 2);
-  position: relative;
-}
+    > .item-owner {
+      flex: 2;
+    }
+  }
 
-.weirdwizard.group .wealth {
-  gap: 20px;
+  .fadeout {
+    box-shadow: rgba(33, 33, 33, 0.8) 0px 0px 1px 2px, rgba(33, 33, 33, 0.6) 0px 0px 0px 5000px;
+    border-radius: 4px;
+    transition: all 0.3s ease-out;
+    z-index: calc(var(--z-index-tooltip) - 2);
+    position: relative;
+  }
+
+  /* Group Sheet: Resources */
+  .resources-header {
+    display: flex;
+    gap: 2em;
+  }
+
+  .wealth {
+    flex: 1;
+    min-width: 200px;
+
+    .wealth-table > * {
+      display: flex;
+      gap: 1em;
+
+      > * {
+        flex: 1;
+        text-align: right;
+      }
+
+      > label {
+        flex: 2;
+        text-align: left;
+      }
+    }
+  }
+
+  .fortune-col {
+    flex: 2;
+
+    .connections > .array-button {
+      display: none;
+    }
+  }
+
+  .fortune-col:hover {
+    
+    .list-entry > .buttons {
+      background: var(--pink);
+      border: 1px solid var(--purple-medium);
+      border-radius: 15px;
+      color: black;
+      margin-left: 2px;
+      padding: 0 3px;
+      width: auto;
+      
+    }
+
+    .array-button {
+      display: inline-block;
+    }
+  }
+  
 }
 
 /* -------------------------------------------- */

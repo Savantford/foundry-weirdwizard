@@ -1,4 +1,6 @@
-import { i18n } from '../../helpers/utils.mjs';
+import WWDialog from '../../apps/dialog.mjs';
+import { defaultListEntryKey, defaultListEntryName, i18n } from '../../helpers/utils.mjs';
+import { EntrySettingsDisplay } from '../../apps/entry-settings-display.mjs';
 import WWSheetMixin from '../ww-sheet.mjs';
 
 // Similar syntax to importing, but note that
@@ -26,6 +28,10 @@ export default class WWGroupSheet extends WWSheetMixin(ActorSheetV2) {
       controls: []
     },
     actions: {
+      entryCreate: this.#onEntryCreate,
+      entryEdit: this.#onEntryEdit,
+      entryRemove: this.#onEntryRemove,
+      entrySettings: this.#onEntrySettingsDisplay
     },
     form: {
       submitOnChange: true,
@@ -41,7 +47,10 @@ export default class WWGroupSheet extends WWSheetMixin(ActorSheetV2) {
     header: {template: 'systems/weirdwizard/templates/actors/group/header.hbs'},
     tabs: {template: 'systems/weirdwizard/templates/generic/side-tabs.hbs'},
     details: {template: 'systems/weirdwizard/templates/actors/group/details.hbs'},
-    resources: {template: 'systems/weirdwizard/templates/actors/group/resources.hbs'}
+    resources: {
+      template: 'systems/weirdwizard/templates/actors/group/resources.hbs',
+      templates: ['systems/weirdwizard/templates/actors/tabs/list-entry.hbs']
+    }
   };
 
   /** @override */
@@ -121,6 +130,24 @@ export default class WWGroupSheet extends WWSheetMixin(ActorSheetV2) {
           field: new foundry.data.fields.BooleanField()
         }
 
+        // Prepare list entries
+        const listEntries = {};
+
+        for (const listKey in context.system.listEntries) {
+          const list = context.system.listEntries[listKey];
+          
+          listEntries[listKey] = [];
+          
+          for (const entryKey in list) {
+            const entry = list[entryKey];
+            
+            if (entry) listEntries[listKey].push({ ...entry, key: entryKey });
+          }
+
+        }
+        
+        partContext.listEntries = listEntries;
+
         // Prepare Equipment
         partContext.equipment = { total: [], active: [], inactive: [] };
 
@@ -192,6 +219,177 @@ export default class WWGroupSheet extends WWSheetMixin(ActorSheetV2) {
 
   static async #onGroupRest() {
     // Rest all characters
+  }
+
+  /* -------------------------------------------- */
+  /*  List entry handling actions                 */
+  /* -------------------------------------------- */
+
+  /**
+   * Handle adding an array entry
+   * @param {Event} event          The originating click event
+   * @param {HTMLElement} button   The button element originating the click event
+   * @private
+  */
+  static async #onEntryCreate(event, button) {
+    // Get data
+    const dataset = Object.assign({}, button.dataset),
+      listKey = dataset.listKey,
+      path = 'system.listEntries.' + listKey,
+      baseObj = foundry.utils.getProperty(this.actor.token?.baseActor, path),
+      obj = foundry.utils.getProperty(this.actor, path),
+      entryKey = defaultListEntryKey(obj, listKey),
+      entryName = defaultListEntryName(obj, listKey),
+      entry = { name: entryName };
+
+    obj[entryKey] = entry;
+
+    // Update document
+    await this.actor.update({ [path]: obj });
+
+    const context = {
+      entry: entry,
+      key: entryKey,
+      showKey: true,
+      grantedBy: await fromUuid(entry.grantedBy) ?
+        await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${entry.grantedBy}]`, { secrets: this.actor.isOwner }) : null
+    };
+
+    // Show a dialog 
+    const dialogInput = await WWDialog.input({
+      window: {
+        icon: "fa-solid fa-edit",
+        title: 'WW.Settings.Entry.Edit',
+      },
+      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
+      ok: {
+        label: 'EFFECT.Submit',
+        icon: 'fa-solid fa-save'
+      },
+      buttons: [
+        {
+          label: 'WW.System.Dialog.Cancel',
+          icon: 'fa-solid fa-xmark'
+        },
+      ]
+    });
+
+    // Return if cancelled
+    if (!dialogInput) return;
+
+    // Return with warning if the key or name are missing
+    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
+
+    obj[dialogInput.key] = dialogInput;
+
+    delete await obj[dialogInput.key].key;
+
+    // Delete old key if key has changed
+    if (baseObj?.hasOwnProperty(entryKey) && entryKey !== dialogInput.key) {
+      obj[entryKey] = null; // If the key exists in the Base Actor, null it
+    } else {
+      obj['-=' + entryKey] = null; // Delete key otherwise
+    }
+
+    await this.actor.update({ [path]: obj });
+
+  }
+
+  /**
+   * Handle editing a list entry
+   * @param {Event} event          The originating click event
+   * @param {HTMLElement} button   The button element originating the click event
+   * @private
+  */
+  static async #onEntryEdit(event, button) {
+
+    // Get data
+    const dataset = button.dataset,
+      path = 'system.listEntries.' + dataset.listKey,
+      baseObj = foundry.utils.getProperty(this.actor.token?.baseActor, path),
+      obj = foundry.utils.getProperty(this.actor, path),
+      entryKey = dataset.entryKey,
+      entry = obj[entryKey];
+
+    const context = {
+      entry: await entry,
+      key: entryKey,
+      showKey: true,
+      grantedBy: await fromUuid(entry.grantedBy) ?
+        await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${entry.grantedBy}]`, { secrets: this.actor.isOwner }) : null
+    };
+
+    // Show a dialog 
+    const dialogInput = await WWDialog.input({
+      window: {
+        icon: "fa-solid fa-edit",
+        title: 'WW.Settings.Entry.Edit',
+      },
+      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
+      ok: {
+        label: 'EFFECT.Submit',
+        icon: 'fa-solid fa-save'
+      },
+      buttons: [
+        {
+          label: 'WW.System.Dialog.Cancel',
+          icon: 'fa-solid fa-xmark'
+        },
+      ]
+    });
+
+    // Return if cancelled
+    if (!dialogInput) return;
+
+    // Return with warning if the key or name are missing
+    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
+
+    obj[dialogInput.key] = dialogInput;
+
+    delete await obj[dialogInput.key].key;
+
+    // Delete old key if key has changed
+    if (baseObj?.hasOwnProperty(entryKey) && entryKey !== dialogInput.key) {
+      obj[entryKey] = null; // If the key exists in the Base Actor, null it
+    } else {
+      obj['-=' + entryKey] = null; // Delete key otherwise
+    }
+
+    await this.actor.update({ [path]: obj });
+  }
+
+  /**
+   * Handle removing an entry from a list
+   * @param {Event} event          The originating click event
+   * @param {HTMLElement} button   The button element originating the click event
+   * @private
+  */
+  static async #onEntryRemove(event, button) {
+    const dataset = Object.assign({}, button.dataset),
+      path = 'system.listEntries.' + dataset.listKey,
+      baseObj = foundry.utils.getProperty(this.actor.token?.baseActor, path),
+      key = dataset.entryKey;
+
+    // Update document
+    if (baseObj?.hasOwnProperty(key)) {
+      await this.actor.update({ [`${path}.${key}`]: null }); // If the key exists in the Base Actor, null it
+    } else {
+      await this.actor.update({ [`${path}.-=${key}`]: null }); // Delete key otherwise
+    }
+
+  }
+
+  /**
+   * Handle removing an element from an array
+   * @param {Event} event          The originating click event
+   * @param {HTMLElement} button   The button element originating the click event
+   * @private
+  */
+  static #onEntrySettingsDisplay(event, button) {
+    const dataset = Object.assign({}, button.dataset),
+      listKey = dataset.listKey;
+
+    new EntrySettingsDisplay({ listKey: listKey }).render(true);
   }
 
   /* -------------------------------------------- */
@@ -310,29 +508,20 @@ export default class WWGroupSheet extends WWSheetMixin(ActorSheetV2) {
   /* -------------------------------------------- */
 
   /**
-   * Handle a droped List Entry on the Character Option Sheet.
+   * Handle a droped List Entry on the Actor Sheet.
    */
-  async _onDropListEntry(event, dataset) {
-    const div = event.target.closest('.benefit-block');
-
-    if (!div) return;
-
-    $(div).removeClass('fadeout');
-
-    const { listKey: listKey, entryKey: key, entryName: name, desc: desc } = dataset;
-
-    const benefit = div.dataset.benefitId,
-      path = `system.benefits.${benefit}.${listKey}`,
-      obj = { ...foundry.utils.getProperty(this.document, path) };
-
+  async _onDropListEntry(event, data) {
+    const { listKey: listKey, entryKey: key, entryName: name, desc: desc } = data,
+    obj = {... this.actor.system.listEntries[listKey]};
+    
     const entry = {
       name: name,
       desc: desc
     };
 
     obj[key] = entry;
-
-    await this.document.update({ [path]: obj });
+    
+    await this.actor.update({ ['system.listEntries.' + listKey]: obj });
   }
 
   /* -------------------------------------------- */
