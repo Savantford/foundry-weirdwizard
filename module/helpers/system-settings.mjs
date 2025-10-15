@@ -1,5 +1,6 @@
 import {
   AfflictionsMenu,
+  ConnectionsMenu,
   DescriptorsMenu,
   ImmunitiesMenu,
   LanguagesMenu, 
@@ -54,7 +55,6 @@ export default function registerSystemSettings() {
   /* List Entry Settings                          */
   /* -------------------------------------------- */
 
- 
   // Languages
   game.settings.register('weirdwizard', 'availableLanguages', {
     scope: 'world',
@@ -69,7 +69,7 @@ export default function registerSystemSettings() {
     hint: 'WW.Settings.Languages.Hint',
     label: 'WW.Settings.Languages.Label', // The text label used in the button
     icon: "fa-solid fa-feather-pointed",  // A Font Awesome icon used in the menu button
-    type: LanguagesMenu,  // A FormApplication subclass which should be created
+    type: LanguagesMenu,                  // A FormApplication subclass which should be created
     restricted: true                      // Restrict this menu to gamemaster only?
   });
 
@@ -86,9 +86,9 @@ export default function registerSystemSettings() {
     name: 'WW.Settings.Senses.Name',
     hint: 'WW.Settings.Senses.Hint',
     label: 'WW.Settings.Senses.Label', // The text label used in the button
-    icon: "fa-solid fa-eye",  // A Font Awesome icon used in the menu button
-    type: SensesMenu,  // A FormApplication subclass which should be created
-    restricted: true                      // Restrict this menu to gamemaster only?
+    icon: "fa-solid fa-eye",           // A Font Awesome icon used in the menu button
+    type: SensesMenu,                  // A FormApplication subclass which should be created
+    restricted: true                   // Restrict this menu to gamemaster only?
   });
 
   // Immunities
@@ -104,9 +104,9 @@ export default function registerSystemSettings() {
     name: 'WW.Settings.Immunities.Name',
     hint: 'WW.Settings.Immunities.Hint',
     label: 'WW.Settings.Immunities.Label', // The text label used in the button
-    icon: "fa-solid fa-ban",  // A Font Awesome icon used in the menu button
-    type: ImmunitiesMenu,  // A FormApplication subclass which should be created
-    restricted: true                      // Restrict this menu to gamemaster only?
+    icon: "fa-solid fa-ban",               // A Font Awesome icon used in the menu button
+    type: ImmunitiesMenu,                  // A FormApplication subclass which should be created
+    restricted: true                       // Restrict this menu to gamemaster only?
   });
 
   // Movement Traits
@@ -122,9 +122,9 @@ export default function registerSystemSettings() {
     name: 'WW.Settings.MovementTraits.Name',
     hint: 'WW.Settings.MovementTraits.Hint',
     label: 'WW.Settings.MovementTraits.Label', // The text label used in the button
-    icon: "fa-solid fa-arrow-trend-up",  // A Font Awesome icon used in the menu button
-    type: MovementTraitsMenu,  // A FormApplication subclass which should be created
-    restricted: true                      // Restrict this menu to gamemaster only?
+    icon: "fa-solid fa-arrow-trend-up",        // A Font Awesome icon used in the menu button
+    type: MovementTraitsMenu,                  // A FormApplication subclass which should be created
+    restricted: true                           // Restrict this menu to gamemaster only?
   });
 
   // Descriptors
@@ -140,9 +140,9 @@ export default function registerSystemSettings() {
     name: 'WW.Settings.Descriptors.Name',
     hint: 'WW.Settings.Descriptors.Hint',
     label: 'WW.Settings.Descriptors.Label', // The text label used in the button
-    icon: "fa-solid fa-ghost",  // A Font Awesome icon used in the menu button
-    type: DescriptorsMenu,  // A FormApplication subclass which should be created
-    restricted: true                      // Restrict this menu to gamemaster only?
+    icon: "fa-solid fa-ghost",              // A Font Awesome icon used in the menu button
+    type: DescriptorsMenu,                  // A FormApplication subclass which should be created
+    restricted: true                        // Restrict this menu to gamemaster only?
   });
 
   // Weapon Traits
@@ -158,9 +158,9 @@ export default function registerSystemSettings() {
     name: 'WW.Settings.WeaponTraits.Name',
     hint: 'WW.Settings.WeaponTraits.Hint',
     label: 'WW.Settings.WeaponTraits.Label', // The text label used in the button
-    icon: "fa-solid fa-wand-sparkles",  // A Font Awesome icon used in the menu button
-    type: WeaponTraitsMenu,  // A FormApplication subclass which should be created
-    restricted: true                      // Restrict this menu to gamemaster only?
+    icon: "fa-solid fa-wand-sparkles",       // A Font Awesome icon used in the menu button
+    type: WeaponTraitsMenu,                  // A FormApplication subclass which should be created
+    restricted: true                         // Restrict this menu to gamemaster only?
   });
 
   // Afflictions
@@ -176,9 +176,27 @@ export default function registerSystemSettings() {
     name: 'WW.Settings.Afflictions.Name',
     hint: 'WW.Settings.Afflictions.Hint',
     label: 'WW.Settings.Afflictions.Label', // The text label used in the button
-    icon: "fa-solid fa-skull-crossbones",  // A Font Awesome icon used in the menu button
-    type: AfflictionsMenu,  // A FormApplication subclass which should be created
-    restricted: true                      // Restrict this menu to gamemaster only?
+    icon: "fa-solid fa-skull-crossbones",   // A Font Awesome icon used in the menu button
+    type: AfflictionsMenu,                  // A FormApplication subclass which should be created
+    restricted: true                        // Restrict this menu to gamemaster only?
+  });
+
+  // Connections
+  game.settings.register('weirdwizard', 'availableConnections', {
+    scope: 'world',
+    config: false,
+    requiresReload: false,
+    type: Object,
+    default: CONFIG.WW.DEFAULT_CONNECTIONS
+  });
+
+  game.settings.registerMenu('weirdwizard', 'connections', {
+    name: 'WW.Settings.Connections.Name',
+    hint: 'WW.Settings.Connections.Hint',
+    label: 'WW.Settings.Connections.Label', // The text label used in the button
+    icon: "fa-solid fa-handshake-angle",    // A Font Awesome icon used in the menu button
+    type: ConnectionsMenu,                  // A FormApplication subclass which should be created
+    restricted: true                        // Restrict this menu to gamemaster only?
   });
 
   /* -------------------------------------------- */

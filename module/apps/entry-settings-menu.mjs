@@ -306,3 +306,6 @@ export class AfflictionsMenu extends EntrySettingsMenu {
   static DEFAULT_OPTIONS = { listKey: 'afflictions' };
 }
 
+export class ConnectionsMenu extends EntrySettingsMenu {
+  static DEFAULT_OPTIONS = { listKey: 'connections' };
+}

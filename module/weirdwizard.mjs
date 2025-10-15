@@ -311,34 +311,34 @@ Hooks.on('renderSettingsConfig', (app, html, data) => {
   // then checking whether they have the format '<section>.setting'.
   // If so, we check whether the section matches the last section we saw;
   // otherwise, this is a new section and we insert a new section header.
-  let lastSectionID = '';
+  /*let lastSectionID = '';
 
-  const wwSettings = html.find(`.tab[data-tab=system] .form-group`);
+  const wwSettings = [... html.querySelectorAll('.tab[data-tab=system] .form-group')];
 
-  wwSettings.each((i, value) => {
-    const setting = (value.getAttribute('data-setting-id') || '').replace(/^(weirdwizard\.)/, '');
+  for (const [i, value] of wwSettings.entries()) {
+    const setting = (value.querySelector('label').getAttribute('for') || '').replace(/^(weirdwizard\.)/, '');
+    
     if (!setting || setting.indexOf('.') < 1) {
-      return;
+      continue;
     }
 
     const section = setting.split('.')[0];
-
+    
     if (section !== lastSectionID) {
       const key = 'WW.Settings.Section.' + section;
-      const hintKey = key + 'Hint';
-      let hint = game.i18n.localize(hintKey);
+      const div = document.createElement("div");
 
-      if (hint !== hintKey) {
-        hint = `<p class="notes">${hint}</p>`;
-      } else {
-        hint = '';
-      }
+      div.innerHTML = `
+        <h3>${game.i18n.localize(key + '.Title')}</h3>
+        <p class="notes">${game.i18n.localize(key + '.Hint')}</p>
+      `;
 
-      wwSettings.eq(i).before(`<h3>${game.i18n.localize(key)}</h3>${hint}`);
+      wwSettings[i].before(div);
+
       lastSectionID = section;
     }
 
-  });
+  }*/
 
 });
 

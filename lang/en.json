@@ -949,6 +949,11 @@
 "WW.Settings.Afflictions.Hint": "Here you can edit the Afflictions available to creatures in your world.",
 "WW.Settings.Afflictions.Label": "Edit Afflictions",
 
+"WW.Settings.Connections.EntryType": "Connection",
+"WW.Settings.Connections.Name": "Connections Available to Groups",
+"WW.Settings.Connections.Hint": "Here you can edit the Connections available to the players' group in your world.",
+"WW.Settings.Connections.Label": "Edit Connections",
+
 "WW.System.Welcome": "{intro}<p>Hail!</p><p>Welcome to <b>Shadow of the Weird Wizard</b>.</p><p>To get started, have a look at the <b>System Documentation</b> compendium in the <b>Compendium Packs</b> tab.</p><p>You can also find <b>tours</b> in the <b>Tour Managegement</b> under settings.</p>",
 "WW.System.WelcomeFooter": "<p>Links to the <a href=\"https://github.com/Savantford/foundry-weirdwizard/releases/latest\">Patch Notes</a>, known <a href=\"https://github.com/Savantford/foundry-weirdwizard/issues\">Issues</a> on Github and the <a href=\"https://discord.com/invite/DUMfrUc\">Discord</a> community can also be found in the settings tab. Feedback is always welcome!</p><p>Have fun and stay weird!</p>",
 "WW.System.ViewImage": "Click to enlarge image",
