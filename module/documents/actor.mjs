@@ -293,12 +293,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     // Prepare Level and Tier
     if (members.active.size) {
       const membersArr = [... members.active].filter(x => x.type === 'character');
-      const levels = membersArr.map(x => x.system.stats.level);
-      const maxLevel = Math.max(...levels);
-
-      system.level = maxLevel;
-      system.tier = maxLevel >= 7 ? 'master' : (maxLevel >= 3 ? 'expert' : 'novice');
-      system.wrongLevels = membersArr.filter(x => x.system.stats.level !== maxLevel).map(x => x.name); // toAnchor() would be better, but requires async
+      system.wrongLevels = membersArr.filter(x => x.system.stats.level !== this.system.maxLevel).map(x => x.name); // toAnchor() would be better, but requires async
     }
 
     // Compute Total Wealth and Equipment List for Valid Members
@@ -1147,7 +1142,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
   }
 
   /* -------------------------------------------- */
-  /*  Properties (Getters)                        */
+  /*  Getters                                     */
   /* -------------------------------------------- */
 
   /**

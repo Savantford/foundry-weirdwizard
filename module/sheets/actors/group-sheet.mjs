@@ -76,9 +76,7 @@ export default class WWGroupSheet extends WWSheetMixin(ActorSheetV2) {
     context.system = actorData.system; // Add the actor's data to context.system for easier access, as well as flags.
     context.flags = actorData.flags;
 
-    context.level = actorData.system.level;
     context.tier = i18n(CONFIG.WW.TIERS[actorData.system.tier]);
-    context.wrongLevels=  actorData.system.wrongLevels;
 
     // Add roll data for Prose Mirror editors
     context.rollData = actorData.getRollData();

@@ -53,4 +53,27 @@ export default class GroupModel extends foundry.abstract.TypeDataModel {
     return schema;
   }
 
+  /* -------------------------------------------- */
+  /*  Getters                                     */
+  /* -------------------------------------------- */
+
+  /**
+   * Get the group's max level Character from Active Members list.
+   * @type {integer}
+   */
+  get maxLevel() {
+    const membersArr = [... this.membersList.active].filter(x => x.type === 'character');
+    const levels = membersArr.map(x => x.system.stats.level);
+    
+    return levels.length ? Math.max(...levels) : 0;
+  }
+
+  /**
+   * Infer the group's Tier from the group's max level Character.
+   * @type {string}
+   */
+  get tier() {
+    return this.maxLevel >= 7 ? 'master' : (this.maxLevel >= 3 ? 'expert' : 'novice');
+  }
+
 }
