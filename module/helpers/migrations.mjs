@@ -31,10 +31,10 @@ export async function v13Support(forced) {
   // Migrate world actors
   console.log('Migrating world actors');
   await migrateType(game.actors);
-  //await migrateProfessions(game.actors);
+  await migrateProfessions(game.actors);
   warning.update({ pct: 0.2 });
 
-  // Migrate world itemms
+  // Migrate world items
   console.log('Migrating world items');
   await migrateType(game.items);
   warning.update({ pct: 0.5 });
@@ -45,14 +45,6 @@ export async function v13Support(forced) {
     await migrateType(actor.items, { parent: actor });
   }
   warning.update({ pct: 0.7 });
-  
-  // Migrate scene token actors (Unlinked/Synthetic/Delta)
-  /*for (const scene of game.scenes) {
-    console.log('Migrating actors in scene:', scene.name);
-    const actors = scene.tokens.map(t => t.actor);
-    await migrateType(actors);    
-  }
-  warning.update({ pct: 0.5 });*/
 
   // Migrate actors and items in packs
   const packsToMigrate = game.packs.filter(p => shouldMigrateCompendium(p));
@@ -61,10 +53,17 @@ export async function v13Support(forced) {
     await pack.getDocuments();
     const wasLocked = pack.config.locked;
     if (wasLocked) await pack.configure({ locked: false });
+
     await migrateType(pack, { pack: pack.collection });
+    await migrateProfessions(pack, { pack: pack.collection });
+
     if (pack.documentName === 'Actor') {
-      for (const actor of pack) await migrateType(actor.items, { parent: actor, pack: pack.collection });
+      for (const actor of pack) {
+        await migrateType(actor.items, { parent: actor, pack: pack.collection })
+        await migrateProfessions(actor.items, { parent: actor, pack: pack.collection })
+      }
     }
+
     if (wasLocked) await pack.configure({ locked: true });
   }
   warning.update({ pct: 1.0 });
@@ -133,17 +132,30 @@ function shouldMigrateCompendium(pack) {
  * @param {string} [options.pack]      Pack to update.
  * @param {Document} [options.parent]  Parent of the collection for embedded collections.
  */
-/*async function migrateProfessions(collection, options = {}) {
+async function migrateProfessions(collection, options = {}) {
   console.log('migrating professions')
   const actors = collection.filter(doc => doc?.type === 'character' && doc.system.charOptions.professions.length);
   const toMigrate = [];
 
-  for (const actor in actors) {
-    const oldIds = actor.system.charOptions.professions;
-    toMigrate.push({
+  for (const actor of actors) {
+    const oldPrefix = 'Compendium.weirdwizard.character-options.JournalEntry.';
+    const legacyIds = ['ot4wxPHlAIquNiTV', 'oft36PGLISpeBfo5', 'hPz0MAZHDS7xQUPo', 'gIhUtIir8AKnsJOd', 'TKxCUvqtEMT9BBog', 'YHVpNIRjRnGoWgN0', '9LLyfT131tgoqLjm', '8bwvmMjXQkx42fVf'];
+    const regex = new RegExp(legacyIds.join("|"), 'g');
+    const newId = 'vOw25RT7MBSNxqJI';
+    const oldUuids = actor.system.charOptions.professions;
+    const newUuids = [];
+
+    // Push UUIds
+    for (const uuid of oldUuids) {
+      if (uuid.includes(oldPrefix)) newUuids.push(uuid.replace(regex, newId));
+      else newUuids.push(uuid);
+    }
+
+    // Push actor
+    if (JSON.stringify(oldUuids) != JSON.stringify(newUuids)) toMigrate.push({
       _id: actor.id,
       type: actor.type,
-      //'system.charOptions.professions': 
+      'system.charOptions.professions': newUuids
     });
   }
 
@@ -152,10 +164,9 @@ function shouldMigrateCompendium(pack) {
 
   for (let i = 0; i < batches; i++) {
     const updateData = toMigrate.slice(i * 100, (i + 1) * 100);
-    console.log(updateData)
     await collection.documentClass.updateDocuments(updateData, { pack: options.pack, parent: options.parent, diff: false });
   }
-}*/
+}
 
 /* -------------------------------------------- */
 /* Improved List Entries                        */
