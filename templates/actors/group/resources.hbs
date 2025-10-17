@@ -44,20 +44,23 @@
                 </div>
 
                 {{!-- Connections --}}
-                <h3>{{ localize "WW.ListEntry.Connection.Label" }}</h3>
+                <h3>
+                    {{ localize "WW.ListEntry.Connection.Label" }}
+                    
+                    <span>
+                        <a class="array-button" data-action="entryCreate" data-list-key="connections" data-loc="Connection"
+                            data-tooltip="WW.ListEntry.Connection.Create"><i class="fa-solid fa-circle-plus"></i></a>
+
+                        <a class="array-button" data-action="entrySettings" data-list-key="connections"
+                            data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+                    </span>
+                </h3>
 
                 <ol class="stat-inline list-entries connections">
                     {{!-- Movement Traits --}}
                     {{#each listEntries.connections as |entry|}}
                     {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="connections" loc="Connection"}}
                     {{/each}}
-
-                    <a class="array-button" data-action="entryCreate" data-list-key="connections" data-loc="Connection"
-                        data-tooltip="WW.ListEntry.Connection.Create"><i class="fa-solid fa-circle-plus"></i></a>
-
-                    <a class="array-button" data-action="entrySettings" data-list-key="connections"
-                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
-                
                 </ol>
 
             </div>

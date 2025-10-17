@@ -1,16 +1,14 @@
-import WWActorSheet from './base-creature-sheet.mjs';
+import WWCreatureSheet from './base-creature-sheet.mjs';
 
 /**
  * Extend the WWActorSheet with some modifications
  * @extends {WWActorSheet}
 */
-
-export default class WWNpcSheet extends WWActorSheet {
+export default class WWNpcSheet extends WWCreatureSheet {
   /** @override */
   static DEFAULT_OPTIONS = {
     classes: ['weirdwizard', 'sheet', 'actor', 'npc'],
     window: {
-      icon: 'fa-regular fa-user',
       controls: [
         {
           action: "resetSheet",

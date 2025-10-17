@@ -501,7 +501,7 @@ body {
   padding: 1rem;
 }
 
-.weirdwizard.actor .window-content {
+.weirdwizard.creature .window-content {
   margin-top: var(--sheet-name-stripe-height);
 }
 
@@ -525,7 +525,7 @@ body {
 }
 
 /* Min Dimensions and Overflow for Sheets */
-.weirdwizard.sheet.actor:not(.minimized) {
+.weirdwizard.sheet.creature:not(.minimized) {
   overflow: visible;
   min-width: 560px;
   min-height: 350px;
@@ -538,11 +538,11 @@ body {
 }
 
 /* Grayscale Filter for Actor Sheets */
-.weirdwizard.actor.dead {
+.weirdwizard.creature.dead {
   filter: grayscale(1);
 }
 
-.weirdwizard.actor.incapacitated {
+.weirdwizard.creature.incapacitated {
   filter: grayscale(0.5);
 }
 
@@ -807,7 +807,7 @@ body {
   outline: 2px solid var(--input-focus-outline-color);
 }
 
-.weirdwizard.sheet.actor input,
+.weirdwizard.sheet.creature input,
 .weirdwizard.sheet.item input,
 .journal-entry-page .weirdwizard input {
   height: var(--sheet-input-height);
@@ -1123,7 +1123,7 @@ body {
 }
 
 /* Sheet Headers */
-.weirdwizard.actor header.sheet-header,
+.weirdwizard.creature header.sheet-header,
 .weirdwizard.item header.sheet-header {
   position: absolute;
   top: var(--header-height);
@@ -2087,7 +2087,7 @@ hr.bug {
   margin-top: 3px;
 }
 
-.weirdwizard.actor .attack-rider {
+.weirdwizard.creature .attack-rider {
   margin-left: 5px;
 }
 
@@ -2110,7 +2110,7 @@ hr.bug {
 
 /* Character/NPC Tab Container */
 
-.weirdwizard.actor .tab[data-tab] {
+.weirdwizard.creature .tab[data-tab] {
   height: fit-content;
   background: url(../assets/drawings/star-sheet.svg) no-repeat;
   background-position: center;
@@ -2143,7 +2143,7 @@ hr.bug {
 }
 
 /* Sheet Bugs */
-.weirdwizard.actor .tab[data-tab]::after,
+.weirdwizard.creature .tab[data-tab]::after,
 .weirdwizard.item .tab[data-tab]::after {
   content: "";
   display: block;
@@ -2243,7 +2243,7 @@ hr.bug {
   gap: 5px;
 }
 
-.weirdwizard.actor .temporary-effects .effect-source {
+.weirdwizard.creature .temporary-effects .effect-source {
   flex: 0.7;
 }
 
@@ -2398,15 +2398,15 @@ hr.bug {
   border-radius: 5px;
 }
 
-.weirdwizard.actor .editor-content p:not(:first-child) {
+.weirdwizard.creature .editor-content p:not(:first-child) {
   margin-top: 5px;
 }
 
-.weirdwizard.actor .editor-content p:first-of-type {
+.weirdwizard.creature .editor-content p:first-of-type {
   margin-top: 0px;
 }
 
-.weirdwizard.actor .editor-content p:last-of-type {
+.weirdwizard.creature .editor-content p:last-of-type {
   margin-bottom: 0px;
 }
 
@@ -2906,8 +2906,8 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard .benefit-block .buttons > a,
 .weirdwizard .statbox .buttons > a,
 .weirdwizard .list-entries .buttons > .array-button,
-.weirdwizard.actor .list-entries .array-button[data-action=entryCreate],
-.weirdwizard.actor .list-entries .array-button[data-action=entrySettings],
+.weirdwizard.creature .list-entries .array-button[data-action=entryCreate],
+.weirdwizard.creature .list-entries .array-button[data-action=entrySettings],
 .weirdwizard:not(.charoption) .list-entries .array-button[data-action="add"],
 .weirdwizard .list-entries .item-create,
 .weirdwizard .statbox h6 .item-create,
@@ -3251,9 +3251,15 @@ input[type="checkbox"].checkbox-uses {
 
   .fortune-col {
     flex: 2;
+    h3 {
+      display: flex;
+      justify-content: space-between;
 
-    .connections > .array-button {
-      display: none;
+      .array-button {
+        display: none;
+        font-size: smaller;
+        color: var(--body-text-color);
+      }
     }
   }
 

@@ -426,7 +426,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     
     // Create MultiChoice instance
     const rect = button.getBoundingClientRect();
-    console.log(this.document.system.attackRider)
+    
     new MultiChoice({
       purpose: 'editWeaponTraits',
       document: this.document,

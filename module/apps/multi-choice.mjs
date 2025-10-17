@@ -71,7 +71,6 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
 
       // Prepare Attack Rider
       if (section.type === 'attackRider') {
-        console.log(section.attackRider)
         section.attackRider = {
           field: opt.document.system.schema.getField("attackRider.value"),
           name: await section.attackRider.name,

@@ -37,9 +37,9 @@ export default class WWActor extends WWDocumentMixin(Actor) {
 
     // Assign default Prototype Token values
     await this.updateSource({
-      'prototypeToken.disposition': this.type === 'character' ? 1 : -1,
-      'prototypeToken.sight.enabled': this.type === 'character' ? true : false,
-      'prototypeToken.actorLink': this.type === 'character' ? true : false
+      'prototypeToken.disposition': (this.type === 'character' || this.type === 'group') ? 1 : -1,
+      'prototypeToken.sight.enabled': (this.type === 'character' || this.type === 'group') ? true : false,
+      'prototypeToken.actorLink': (this.type === 'character' || this.type === 'group') ? true : false
     });
 
     return await super._preCreate(data, options, user);
