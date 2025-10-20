@@ -90,16 +90,33 @@ export default class WWCreatureSheet extends WWActorSheet {
     context.injured = actorData.injured;
     context.incapacitated = actorData.incapacitated;
     context.dead = actorData.dead;
+
+    // Prepare inputs
+    const field = (str) => this.document.system.schema.getField(str);
     
     // Prepare attributes
-    for (let attr of Object.values(context.system.attributes)) {
-      attr.isCheckbox = attr.dtype === 'Boolean';
+    context.attributes = {};
+
+    for (const key of Object.keys(context.system.attributes)) {
+      const obj = {
+        key: key,
+        name: `system.attributes.${key}.value`,
+        field: field(`attributes.${key}.value`),
+        sourceValue: context.system._source.attributes[key].value,
+        finalValue: context.system.attributes[key].value,
+        finalMod: context.system.attributes[key].mod,
+        label: i18n(CONFIG.WW.ATTRIBUTES_SHORT[key] ?? key),
+        tooltip: i18n(CONFIG.WW.ROLL_ATTRIBUTE_LABELS[key]),
+        inputTooltip: i18n('WW.Attributes.EditHint', { value: context.system.attributes[key].value })
+      };
+      
+      context.attributes[key] = obj;
     }
 
-    // Localize attribute names
-    for (let [k, v] of Object.entries(context.system.attributes)) {
-      v.label = i18n(CONFIG.WW.ATTRIBUTES[k] ?? k);
-    }
+    context.attributes.str.index = 2;
+    context.attributes.agi.index = 4;
+    context.attributes.int.index = 8;
+    context.attributes.wil.index = 6;
 
     // Prepare Disposition
     context.disposition = await this.actor?.token ? await this.actor.token.disposition : await this.actor.prototypeToken.disposition;

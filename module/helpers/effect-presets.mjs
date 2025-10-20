@@ -1,10 +1,14 @@
 // Effect change metadata registry (label-keyed). Example: "boons.str" -> { mode, valueType, priority }
-export const effPresets = {};
+export const changePresets = {};
 // Back-compat clearer alias; prefer this in new code
-export { effPresets as effectChangeMetaRegistry };
+export { changePresets as effectChangeMetaRegistry };
+
+/* -------------------------------------------- */
+/*  Change Presets                              */
+/* -------------------------------------------- */
 
 /* Self Attribute Rolls */
-effPresets.boons = {
+changePresets.boons = {
   str: addInt(),
   agi: addInt(),
   int: addInt(),
@@ -15,7 +19,7 @@ effPresets.boons = {
   resistMagical: addInt()
 }
 
-effPresets.banes = {
+changePresets.banes = {
   str: addInt(),
   agi: addInt(),
   int: addInt(),
@@ -26,7 +30,7 @@ effPresets.banes = {
   resistMagical: addInt()
 }
 
-effPresets.autoFail = {
+changePresets.autoFail = {
   str: setBoo(),
   agi: setBoo(),
   int: setBoo(),
@@ -38,7 +42,7 @@ effPresets.autoFail = {
 }
 
 /* Rolls Against Self */
-effPresets.boonsAgainst = {
+changePresets.boonsAgainst = {
   def: addInt(),
   str: addInt(),
   agi: addInt(),
@@ -49,7 +53,7 @@ effPresets.boonsAgainst = {
   fromMagical: addInt()
 }
 
-effPresets.banesAgainst = {
+changePresets.banesAgainst = {
   def: addInt(),
   str: addInt(),
   agi: addInt(),
@@ -60,7 +64,7 @@ effPresets.banesAgainst = {
   fromMagical: addInt()
 }
 
-effPresets.autoSuccessAgainst = {
+changePresets.autoSuccessAgainst = {
   def: setBoo(),
   str: setBoo(),
   agi: setBoo(),
@@ -72,12 +76,12 @@ effPresets.autoSuccessAgainst = {
 }
 
 /* Other Stats */
-effPresets.extraDamage = {
+changePresets.extraDamage = {
   dice: addInt(),
   mod: addInt()
 }
 
-effPresets.defense = {
+changePresets.defense = {
   override: overInt(),
   bonus: addInt(),
   armored: upInt(1),
@@ -87,7 +91,7 @@ effPresets.defense = {
   naturalReduce: addInt()
 }
 
-effPresets.health = {
+changePresets.health = {
   tempIncrease: addInt(),
   tempReduce: addInt(),
   override: overInt(),
@@ -95,7 +99,7 @@ effPresets.health = {
   increase: addInt()
 }
 
-effPresets.speed = {
+changePresets.speed = {
   tempIncrease: addInt(),
   tempReduce: addInt(),
   halved: setBoo(),
@@ -103,85 +107,107 @@ effPresets.speed = {
   increase: addInt()
 }
 
-effPresets.size = {
+changePresets.size = {
   increase: addInt(),
   override: overInt(),
   normal: overInt(1)
 }
 
-effPresets.bonusDamage = {
+changePresets.bonusDamage = {
   increase: addInt()
 }
 
 /* Attribute Changes */
-effPresets.upgradeAttribute = {
+changePresets.upgradeAttribute = {
   str: upInt(),
   agi: upInt(),
   int: upInt(),
   wil: upInt()
 }
 
-effPresets.downgradeAttribute = {
+changePresets.downgradeAttribute = {
   str: downInt(),
   agi: downInt(),
   int: downInt(),
   wil: downInt()
 }
 
-effPresets.overrideAttribute = {
+changePresets.overrideAttribute = {
   str: overInt(),
   agi: overInt(),
   int: overInt(),
   wil: overInt()
 }
 
-effPresets.increaseAttribute = {
+changePresets.increaseAttribute = {
   str: addInt(),
   agi: addInt(),
   int: addInt(),
   wil: addInt()
 }
 
-effPresets.reduceAttribute = {
+changePresets.reduceAttribute = {
   str: addInt(),
   agi: addInt(),
   int: addInt(),
   wil: addInt()
 }
 
-/* Make functions */
-
+/* -------------------------------------------- */
+/*  Simplified Change Data making functions     */
+/* -------------------------------------------- */
 /* Modes:
   https://foundryvtt.com/api/v13/variables/CONST.ACTIVE_EFFECT_MODES.html
 */
 
 function addInt(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.ADD,'int',priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.ADD, 'int', priority);
 }
+
+/* -------------------------------------------- */
 
 function overInt(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.OVERRIDE,'int',priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.OVERRIDE, 'int', priority);
 }
+
+/* -------------------------------------------- */
 
 function upInt(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.UPGRADE,'int',priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.UPGRADE, 'int', priority);
 }
+
+/* -------------------------------------------- */
 
 function downInt(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.DOWNGRADE,'int',priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.DOWNGRADE, 'int', priority);
 }
+
+/* -------------------------------------------- */
 
 function setBoo(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.OVERRIDE,'boo',priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.OVERRIDE, 'boo', priority);
 }
 
-function makeChangeData(mode,valueType,priority = null) {
+/* -------------------------------------------- */
+
+/**
+ * Make a change data object to use in Active Effects.
+ * @param {*} mode      The change's Mode (Add, Override, etc)
+ * @param {*} valueType The change data Type (Integer, Boolean, etc)
+ * @param {*} priority  The effect's Priority
+ * @returns 
+ */
+function makeChangeData(mode, valueType, priority = null) {
   return {
     mode: mode,
     priority: priority,
     valueType: valueType
   };
 }
+
+/* -------------------------------------------- */
+/*  Other Helper Functions                      */
+/* -------------------------------------------- */
 
 /**
  * Build flattened lookup maps from CONFIG.WW.EFFECT_OPTIONS
@@ -203,6 +229,8 @@ export function initializeEffectLookups() {
   CONFIG.WW.EFFECT_OPTIONS_LABELS = labels;
 }
 
+/* -------------------------------------------- */
+
 /**
  * Resolve metadata for an effect change option given its label key (e.g., "boons.str").
  * Returns null if no metadata exists.
@@ -217,8 +245,12 @@ export function getEffectChangeMeta(labelKey) {
   }
 }
 
+/* -------------------------------------------- */
+
 // Stable local copies of lookups for safe use in UI context
 export const effectLookups = { keys: {}, labels: {}, types: {}, modes: {}, priorities: {} };
+
+/* -------------------------------------------- */
 
 /**
  * Shape a list of ActiveEffect changes for rendering in the sheet/template.

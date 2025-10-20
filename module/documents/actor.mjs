@@ -67,13 +67,15 @@ export default class WWActor extends WWDocumentMixin(Actor) {
 
   async _preUpdate(changes, options, user) {
     await super._preUpdate(changes, options, user);
-    
+    console.log('1.1. _preupdate', await changes)
     const damage = foundry.utils.getProperty(this, 'system.stats.damage.value');
 
     // Update token status icons
     if (( damage || foundry.utils.getProperty(changes, 'system.stats.health')) && this.token ) {
       this.token.object?.updateStatusIcons();
     }
+    
+    console.log('1.2. _preUpdate, changes are correct:', await changes)
 
   }
 
@@ -81,7 +83,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
 
   async _onUpdate(changed, options, user) {
     await super._onUpdate(changed, options, user);
-    
+    console.log(`4.1. _onUpdate`, await changed)
     if (this.type === 'character' || this.type === 'npc') {
       // Check for changed variables
       const health = foundry.utils.getProperty(changed, 'system.stats.health');
@@ -117,6 +119,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
       }
 
     }
+    console.log(`4.2. _onUpdate`, await changed)
     
   }
 
@@ -128,12 +131,13 @@ export default class WWActor extends WWDocumentMixin(Actor) {
   prepareBaseData() {
     // Data modifications in this step occur before processing embedded
     // documents (including active effects) or derived data.
+    console.log('2.1. _prepareBaseData', this)
     super.prepareBaseData();
     
     // Return earlier if a Group
     if (this.type === 'group') return;
 
-    // Create boons variables
+    // Initialize boons and banes
     this.system.boons = {
       selfRoll: {
         luck: 0,
@@ -151,27 +155,25 @@ export default class WWActor extends WWDocumentMixin(Actor) {
 
     };
 
-    // Create objects
+    // Initialize auto failure
     this.system.autoFail = {};
-    //this.system.against = {}; - no longer needed
 
-    // Create halved boolean for Speed reductions
-    this.system.stats.speed.halved = false;
-
-    // Create dynamic Defense properties
-    this.system.stats.defense.armored = 0;
-    this.system.stats.defense.bonus = 0;
-
-    // Attributes
+    // Initialize Attributes boons and banes
     ['str', 'agi', 'int', 'wil'].forEach(attribute => {
       this.system.boons.selfRoll[attribute] = 0;
 
       this.system.boons.against[attribute] = 0;
 
       this.system.autoFail[attribute] = false;
-      
     })
-    
+
+    // Initialize halved boolean for Speed reductions
+    this.system.stats.speed.halved = false;
+
+    // Initialize dynamic Defense properties
+    this.system.stats.defense.armored = 0;
+    this.system.stats.defense.bonus = 0;
+    console.log('2.2. _prepareBaseData', this)
   }
 
   /* -------------------------------------------- */
@@ -186,6 +188,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
    * is queried and has a roll executed directly from it).
   */
   prepareDerivedData() {
+    console.log('3.1. _prepareDerivedData', this)
     const system = this.system;
     const flags = this.flags.weirdwizard || {};
 
@@ -213,7 +216,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     this._prepareCharacterData(system);
     this._prepareNpcData(system);
     this._prepareGroupData(system);
-
+    console.log('3.2. _prepareDerivedData', this)
   }
 
   /* -------------------------------------------- */

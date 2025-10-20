@@ -8,6 +8,13 @@ WW.ATTRIBUTES = {
   'wil': 'WW.Attributes.Will'
 }
 
+WW.ATTRIBUTES_SHORT = {
+  'str': 'WW.Attributes.StrengthShort',
+  'agi': 'WW.Attributes.AgilityShort',
+  'int': 'WW.Attributes.IntellectShort',
+  'wil': 'WW.Attributes.WillShort'
+}
+
 WW.ATTRIBUTE_ROLLS = {
   'str': 'WW.Attributes.StrengthRoll',
   'agi': 'WW.Attributes.AgilityRoll',
@@ -23,6 +30,14 @@ WW.ATTRIBUTE_ICONS = {
   'wil': '/systems/weirdwizard/assets/icons/burning-star.svg',
   'luck': '/systems/weirdwizard/assets/icons/clover.svg',
   'def': 'icons/svg/shield.svg'
+}
+
+WW.ROLL_ATTRIBUTE_LABELS = {
+  'str': 'WW.Roll.Strength',
+  'agi': 'WW.Roll.Agility',
+  'int': 'WW.Roll.Intellect',
+  'wil': 'WW.Roll.Will',
+  'luck': 'WW.Roll.Luck'
 }
 
 /* Dropdown Menus */

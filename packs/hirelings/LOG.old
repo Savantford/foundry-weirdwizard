@@ -1,3 +1,7 @@
-2025/10/17-12:53:57.579 884 Recovering log #960
-2025/10/17-12:53:57.584 884 Delete type=0 #960
-2025/10/17-12:53:57.585 884 Delete type=3 #958
+2025/10/20-11:33:09.558 b1c Recovering log #968
+2025/10/20-11:33:09.562 b1c Delete type=0 #968
+2025/10/20-11:33:09.562 b1c Delete type=3 #966
+2025/10/20-13:45:24.664 4a2c Level-0 table #973: started
+2025/10/20-13:45:24.664 4a2c Level-0 table #973: 0 bytes OK
+2025/10/20-13:45:24.665 4a2c Delete type=0 #971
+2025/10/20-13:45:24.669 4a2c Manual compaction at level-0 from '!actors!SFrHJkXef553V1pb' @ 72057594037927935 : 1 .. '!actors.items.effects!as1taLMKFKTq59IW.wmlROsXEUKn64LB0.6CApAcAOoxllfLyA' @ 0 : 0; will stop at (end)

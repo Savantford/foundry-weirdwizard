@@ -702,7 +702,7 @@ body {
   border-bottom: 5px double black;
 }
 
-.sheet.journal-entry .journal-header .title:hover:not(disabled) {
+.sheet.journal-entry .journal-header .title:hover:not([disabled]) {
   outline: 2px solid var(--input-focus-outline-color);
   outline-offset: -2px;
 }
@@ -783,11 +783,11 @@ body {
 }
 
 /* Remove border and background from inputs/selects/textareas not hovered */
-.weirdwizard.sheet .window-content:not(.standard-form) {
-  input:not(:hover):not(:focus),
-  select:not(:hover):not(:focus),
-  textarea:not(:hover):not(:focus) {
-    background: none;
+.weirdwizard.sheet .window-content {
+  input,
+  select,
+  textarea {
+    background: var(--background-color-shadow);
     border: 1px solid transparent;
   }
 }
@@ -803,7 +803,7 @@ body {
   background: none;
 }
 
-.weirdwizard input:hover {
+.weirdwizard input:hover:not([disabled]) {
   outline: 2px solid var(--input-focus-outline-color);
 }
 
@@ -1232,53 +1232,63 @@ body {
   width: 100%;
 }
 
-.weirdwizard .name-stripe > *:first-child {
-  flex: 1;
+.weirdwizard .name-stripe {
+  > *:first-child {
+    flex: 1;
+  }
+
+  > .charname {
+    display: inline-flex;
+  }
+
+  > .charname > input {
+    color: var(--pink);
+    font-size: var(--font-size-32);
+    text-align: left;
+  }
+
+  .difficulty-label {
+    font-size: var(--font-size-16);
+  }
+
+  .level-badge {
+    flex: 0 50px;
+    display: inline-flex;
+    background: url(../assets/ui/badges/round.svg);
+    background-size: cover;
+    background-position: center;
+    width: 50px;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    color: var(--body-text-color);
+    font-family: var(--font-body);
+    font-weight: bold;
+
+    > select,
+    > select:focus {
+      font-size: inherit;
+      text-align: center;
+      background: none;
+      outline: none;
+    }
+
+    > select:hover:not([disabled]),
+    > select:focus:not([disabled]) {
+      appearance: none;
+      outline: none;
+      box-shadow: none;
+      cursor: pointer;
+    }
+  }
+
+  .level-badge:hover:not([disabled]),
+  .level-badge:focus:not([disabled]) {
+    filter: drop-shadow(var(--filter-shadow-purple));
+  }
 }
 
-.weirdwizard .name-stripe > .charname {
-  display: inline-flex;
-}
 
-.weirdwizard .name-stripe > .charname > input {
-  color: var(--pink);
-  font-size: var(--font-size-32);
-  text-align: left;
-}
-
-.weirdwizard .name-stripe .difficulty-label {
-  font-size: var(--font-size-16);
-}
-
-.weirdwizard .name-stripe .level-badge {
-  flex: 0 50px;
-  display: inline-flex;
-  background: url(../assets/ui/badges/round.svg);
-  background-size: cover;
-  background-position: center;
-  width: 50px;
-  height: 50px;
-  align-items: center;
-  justify-content: center;
-  color: var(--body-text-color);
-  font-family: var(--font-body);
-  font-weight: bold;
-}
-
-.weirdwizard .name-stripe .level-badge > select,
-.weirdwizard .name-stripe .level-badge > select:focus {
-  font-size: inherit;
-  text-align: center;
-}
-
-.weirdwizard .name-stripe .level-badge > select:hover,
-.weirdwizard .name-stripe .level-badge > select:focus {
-  appearance: none;
-  border: none;
-  box-shadow: none;
-  filter: drop-shadow(var(--filter-shadow-purple));
-  cursor: pointer;
-}
 
 /* Sheet Banner */
 .weirdwizard .sheet-banner {
@@ -1460,12 +1470,160 @@ body {
   outline: 2px solid var(--purple-dark);
   outline-offset: 5px;
   filter: drop-shadow(0 0 1px var(--purple-dark));
+
+  .stat {
+    grid-area: layer;
+    
+    --text-shadow: 0 0 1px white, 0 0 2px white, 0 0 3px white, 0 0 4px white, 0 0 5px white;
+    --ele-radius: 32px;
+    --radius-offset: 12px;
+    width: calc(2 * var(--ele-radius));
+    height: calc(2 * var(--ele-radius));
+    border: 2px solid var(--purple-dark);
+    border-radius: 50%;
+
+    display: grid;
+    place-items: center;
+
+    background: var(--icon) no-repeat, var(--paper-bg), var(--background-color-shadow);
+    background-size: 90%;
+    background-position: center;
+    background-blend-mode: multiply;
+
+    font-weight: bold;
+    text-shadow: var(--text-shadow);
+
+    /* Decimal value, 0-1 based on the child's index. */
+    --d: calc(var(--i) / var(--total));
+    /* Offset to get better starting placement on the circle */
+    --r-offset: -0.625turn;
+    /* Full circle */
+    --r-amount: 1turn;
+    /* Rotation based on the decimal and r modifiers */
+    --r: calc((var(--r-amount) * var(--d)) + var(--r-offset));
+    /* Rotate, transform out, then negative rotation so the content appears upright */
+    --transform: rotate(var(--r)) translate(calc(var(--radius-offset) + var(--radius))) rotate(calc(-1 * var(--r)));
+    transform: var(--transform);
+
+    > label {
+      display: none;
+      position: absolute;
+      top: -5px;
+      cursor: pointer;
+    }
+
+    .numbers {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+
+      .score, .mod {
+        flex: 1;
+        text-align: left;
+      }
+
+      .score {
+        text-align: right;
+        font-size: large;
+      }
+    }
+
+    range-picker {
+      flex-flow: column;
+      gap: 3px;
+      justify-content: center;
+      height: 100%;
+      padding: 0 5px;
+
+      > * {
+        flex: 0;
+      }
+
+      [type=range] {
+        height: auto;
+      }
+    }
+
+    input[type='number'] {
+      min-width: 2.5ch;
+      padding: 0;
+      font-size: large;
+      text-shadow: var(--text-shadow);
+    }
+  }
+
+  .stat.str {
+    --icon: url(../assets/icons/circle-strength.svg);
+    background-size: 100%;
+  }
+
+  .stat.agi {
+    --icon: url(../assets/icons/circle-agility.svg);
+    background-size: 85%;
+    background-position: center calc(50% - 2px);
+  }
+
+  .stat.int {
+    --icon: url(../assets/icons/circle-intellect.svg);
+    background-position: center calc(50% + 1px);
+  }
+
+  .stat.wil {
+    --icon: url(../assets/icons/circle-will.svg);
+  }
+
+  .stat.luck,
+  .stat.rest {
+    --ele-radius: 22px;
+    --radius-offset: 10px;
+    transition: opacity 100ms ease-in-out;
+    opacity: 0;
+
+    > label {
+      top: 0;
+      bottom: 0;
+      align-self: center;
+    }
+  }
+
+  .stat:hover {
+    filter: drop-shadow(var(--filter-shadow-purple));
+    cursor: pointer;
+  }
+}
+
+.weirdwizard.character .circle {
+  .stat.luck {
+    --icon: url(../assets/icons/circle-luck.svg);
+    background-position: calc(50% + 1px) calc(50% + 1px);
+  }
+
+  .stat.rest {
+    --icon: url(../assets/icons/circle-rest.svg);
+    background-position: 50% calc(50% - 2px);
+  }
 }
 
 .weirdwizard.npc .circle {
   --radius: 55px;
   outline-offset: 3px;
   margin: 12px auto;
+
+  .stat {
+    --ele-radius: 18px;
+    --radius-offset: 16px;
+
+    .attribute-mod > * {
+      line-height: 1;
+    }
+  }
+
+  .stat.luck,
+  .stat.rest {
+    --ele-radius: 13px;
+    --radius-offset: 7px;
+    --icon: none;
+  }
 }
 
 .weirdwizard header.sheet-header .circle img {
@@ -1473,129 +1631,13 @@ body {
   height: 100%;
 }
 
-.weirdwizard .circle .stat {
-  grid-area: layer;
-  
-  --ele-radius: 32px;
-  --radius-offset: 12px;
-  width: calc(2 * var(--ele-radius));
-  height: calc(2 * var(--ele-radius));
-  border: 2px solid var(--purple-dark);
-  border-radius: 50%;
-
-  display: grid;
-  place-items: center;
-
-  background: var(--icon) no-repeat, var(--paper-bg), var(--background-color-shadow);
-  background-size: 90%;
-  background-position: center;
-  background-blend-mode: multiply;
-
-  font-weight: bold;
-
-  /* Decimal value, 0-1 based on the child's index. */
-  --d: calc(var(--i) / var(--total));
-  /* Offset to get better starting placement on the circle */
-  --r-offset: -0.625turn;
-  /* Full circle */
-  --r-amount: 1turn;
-  /* Rotation based on the decimal and r modifiers */
-  --r: calc((var(--r-amount) * var(--d)) + var(--r-offset));
-  /* Rotate, transform out, then negative rotation so the content appears upright */
-  --transform: rotate(var(--r)) translate(calc(var(--radius-offset) + var(--radius))) rotate(calc(-1 * var(--r)));
-  transform: var(--transform);
-
-}
-
-.weirdwizard.npc .circle .stat {
-  --ele-radius: 18px;
-  --radius-offset: 16px;
-}
-
-.weirdwizard .circle,
-.weirdwizard .circle input {
-  text-shadow: 0 0 1px white, 0 0 2px white, 0 0 3px white, 0 0 4px white
-}
-
-.weirdwizard .circle .stat.str {
-  --icon: url(../assets/icons/circle-strength.svg);
-  background-size: 100%;
-}
-
-.weirdwizard .circle .stat.agi {
-  --icon: url(../assets/icons/circle-agility.svg);
-  background-size: 85%;
-  background-position: center calc(50% - 2px);
-}
-
-.weirdwizard .circle .stat.int {
-  --icon: url(../assets/icons/circle-intellect.svg);
-  background-position: center calc(50% + 1px);
-}
-
-.weirdwizard .circle .stat.wil {
-  --icon: url(../assets/icons/circle-will.svg);
-}
-
-.weirdwizard .circle .stat.luck,
-.weirdwizard .circle .stat.rest {
-  --ele-radius: 22px;
-  --radius-offset: 10px;
-  transition: opacity 100ms ease-in-out;
-  opacity: 0;
-}
-
-.weirdwizard.character .circle .stat.luck {
-  --icon: url(../assets/icons/circle-luck.svg);
-  background-position: calc(50% + 1px) calc(50% + 1px);
-}
-
-.weirdwizard.character .circle .stat.rest {
-  --icon: url(../assets/icons/circle-rest.svg);
-  background-position: 50% calc(50% - 2px);
-}
-
-.weirdwizard.npc .circle .stat.luck,
-.weirdwizard.npc .circle .stat.rest {
-  --ele-radius: 13px;
-  --radius-offset: 7px;
-  --icon: none;
-}
-
 .weirdwizard .sheet-header:hover .circle .stat.luck,
 .weirdwizard .sheet-header:hover .circle .stat.rest {
   opacity: 1;
 }
 
-.weirdwizard .circle .stat > label {
-  align-self: flex-end;
-}
-
-.weirdwizard .circle .stat.luck > label,
-.weirdwizard .circle .stat.rest > label {
-  align-self: center;
-}
-
-.weirdwizard .circle .stat > div {
-  align-self: flex-start;
-}
-
-.weirdwizard .circle .stat input[type="number"] {
-  min-width: 20px;
-  width: 20px;
-  padding: 0;
-}
-
-.weirdwizard .circle .stat .attribute-mod {
-  margin-right: 5px;
-}
-
-.weirdwizard.npc .circle .stat .attribute-mod {
-  margin-right: 0;
-}
-
-.weirdwizard.npc .circle .stat .attribute-mod > * {
-  line-height: 1;
+.weirdwizard .sheet-header:hover .circle .stat > label {
+  display: inline;
 }
 
 /* Actor: Badges */

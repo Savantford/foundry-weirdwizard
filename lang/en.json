@@ -33,22 +33,28 @@
 "WW.Actor.Folder.None": "Creature is not in a folder. To have a folder description, please put it in a folder first.",
 
 "WW.Attributes.Label": "Attributes",
+"WW.Attributes.EditHint": "You are editing the base attribute score, without any effect modifying it. The modified score should be {value}.",
+
 "WW.Attributes.Strength": "Strength",
 "WW.Attributes.StrengthShort": "Strength",
 "WW.Attributes.StrengthScore": "Strength Score",
 "WW.Attributes.StrengthRoll": "Strength Roll",
+
 "WW.Attributes.Agility": "Agility",
 "WW.Attributes.AgilityShort": "Agility",
 "WW.Attributes.AgilityScore": "Agility Score",
 "WW.Attributes.AgilityRoll": "Agility Roll",
+
 "WW.Attributes.Intellect": "Intellect",
 "WW.Attributes.IntellectShort": "Intellect",
 "WW.Attributes.IntellectScore": "Intellect Score",
 "WW.Attributes.IntellectRoll": "Intellect Roll",
+
 "WW.Attributes.Will": "Will",
 "WW.Attributes.WillShort": "Will",
 "WW.Attributes.WillScore": "Will Score",
 "WW.Attributes.WillRoll": "Will Roll",
+
 "WW.Attributes.Luck": "Luck",
 "WW.Attributes.LuckRoll": "Luck Roll",
 
