@@ -2838,7 +2838,8 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard .described-list li > label > img {
   height: 1lh;
-  margin-left: -1em;
+  display: inline;
+  vertical-align: text-top;
 }
 
 .weirdwizard .described-list .item:not(:last-child) {

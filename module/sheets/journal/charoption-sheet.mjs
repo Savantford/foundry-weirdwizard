@@ -131,26 +131,26 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
       context.listEntries = {};
       
       const listKeys = ['senses', 'descriptors', 'languages', 'immunities', 'movementTraits', 'traditions'];
-
+      
       for (const b in context.benefits) {
         const benefit = context.benefits[b];
         
         // Prepare information for granted items
-        benefit.itemsInfo = [];
+        const itemsInfo = [];
 
         for (const i of benefit.items) {
-
           const retrieved = await fromUuid(i);
 
-          benefit.itemsInfo.push({
+          itemsInfo.push({
             uuid: i,
             name: retrieved ? retrieved.name : i18n('WW.CharOption.Unknown'),
             img: retrieved ? retrieved.img : '',
             description: retrieved ? retrieved.system.description : i18n('WW.CharOption.MissingRef'),
             missing: retrieved ? false : true
           });
-
         }
+
+        benefit.itemsInfo = itemsInfo;
 
         // Prepare key for granted list entries
         context.listEntries[b] = {};
@@ -169,7 +169,6 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
             }
             
             context.listEntries[b][listKey] = arr;
-            
           }
 
         }
@@ -561,6 +560,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
    * @protected
    */
   async _onDrop(event) {
+    event.preventDefault();
     event.stopPropagation();
     
     if ( !this.isEditable ) return;

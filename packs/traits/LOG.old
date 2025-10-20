@@ -1,7 +1,3 @@
-2025/10/20-11:33:09.603 b1c Recovering log #955
-2025/10/20-11:33:09.607 b1c Delete type=0 #955
-2025/10/20-11:33:09.607 b1c Delete type=3 #953
-2025/10/20-13:45:24.672 4a2c Level-0 table #960: started
-2025/10/20-13:45:24.672 4a2c Level-0 table #960: 0 bytes OK
-2025/10/20-13:45:24.673 4a2c Delete type=0 #958
-2025/10/20-13:45:24.677 4a2c Manual compaction at level-0 from '!items!FWw7614Ks2FMn1HN' @ 72057594037927935 : 1 .. '!items!FWw7614Ks2FMn1HN' @ 0 : 0; will stop at (end)
+2025/10/20-13:46:57.430 b1c Recovering log #959
+2025/10/20-13:46:57.434 b1c Delete type=0 #959
+2025/10/20-13:46:57.434 b1c Delete type=3 #957
