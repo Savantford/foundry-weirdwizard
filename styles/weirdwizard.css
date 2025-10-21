@@ -784,18 +784,19 @@ body {
 
 /* Remove border and background from inputs/selects/textareas not hovered */
 .weirdwizard.sheet .window-content {
-  input,
+  input[type=number],
+  input[type=text],
   select,
   textarea {
+    --input-text-color: var(--body-text-color);
+    --input-placeholder-color: var(--gray);
     background: var(--background-color-shadow);
     border: 1px solid transparent;
   }
-}
 
-/* Inputs */
-.weirdwizard.sheet input {
-  --input-text-color: var(--body-text-color);
-  --input-placeholder-color: var(--gray);
+  input[type=checkbox] {
+    height: var(--checkbox-size);
+  }
 }
 
 .weirdwizard.sheet input:hover,
@@ -3251,6 +3252,11 @@ input[type="checkbox"].checkbox-uses {
     > label {
       color: var(--purple-dark);
       font-weight: bold;
+
+      i {
+        width: 18px;
+        text-align: center;
+      }
     }
 
     > .item-owner {

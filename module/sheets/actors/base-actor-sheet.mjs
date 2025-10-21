@@ -138,25 +138,25 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     // Iterate through items, then allocate it to lists
     for (const i of context.items) {
       // Assign attributeLabel for template use
-      if (i.system.attribute == 'luck') {
-        i.system.attributeLabel = `${i18n('WW.Attributes.Luck')} (+0)`;
-      } else if (i.system.attribute) {
-        const attribute = context.system.attributes[i.system.attribute];
-        const name = i18n(CONFIG.WW.ATTRIBUTES[i.system.attribute]);
-        i.system.attributeLabel = `${name} (${plusify(attribute.mod)})`
+      if (context.system.attributes) {
+        if (i.system.attribute == 'luck') {
+          i.system.attributeLabel = `${i18n('WW.Attributes.Luck')} (+0)`;
+        } else if (i.system.attribute) {
+          const attribute = context.system.attributes[i.system.attribute];
+          const name = i18n(CONFIG.WW.ATTRIBUTES[i.system.attribute]);
+          i.system.attributeLabel = `${name} (${plusify(attribute.mod)})`
+        }
       }
-
+      
       // Check if item has passive effects
       i.hasPassiveEffects = i.effects.some((ef => ef.system.trigger === 'passive'));
 
-      // Pass down whether the item need targets or not
-      //i.needTargets = this.actor.items.get(i._id).needTargets; - no longer needed?
-
-      // Prepare html fields for the tooltip and chat message
+      // Prepare html fields and labels for the tooltip and chat messages
       const isOwner = this.actor.isOwner;
       const TextEditor = foundry.applications.ux.TextEditor.implementation;
       i.system.descriptionEnriched = await TextEditor.enrichHTML(i.system.description, { secrets: isOwner });
       if (i.system.attackRider) i.system.attackRiderEnriched = await TextEditor.enrichHTML(i.system.attackRider.value, { secrets: isOwner });
+      i.subtypeLabel = CONFIG.WW.EQUIPMENT_SUBTYPES[i.system.subtype];
 
       // Prepare tooltip context
       const tooltipContext = {
@@ -261,8 +261,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
           if (i.system.subtype === 'weapon') {
             weapons.push(i);
 
-            // If Character or if item has a Permanent effect, also append to Equipment
-            if (this.actor.type === 'character' || i.effects.some(e => e.changes.some(c => c.key === "defense.bonus"))) equipment.push(i);
+            // If not an NPC or if item has a Permanent effect, also append to Equipment
+            if (this.actor.type !== 'npc' || (this.actor.type === 'npc' && i.effects.some(e => e.changes.some(c => c.key === "defense.bonus")))) equipment.push(i);
 
           } else {
             equipment.push(i);

@@ -1,30 +1,31 @@
-<section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
-    {{!-- Level and Tier --}}
-    <div class="stat-inline">
-        <label>{{ localize "WW.Stats.Level" }}:</label>
-    
-        <div>
-            {{ system.maxLevel }}
-    
-            {{#if system.wrongLevels.length}}
-            ({{localize "WW.Group.LevelExcept"}}:
-    
-            {{#each system.wrongLevels as |member id|}}<span>{{{ member }}}{{#unless @last}}, {{/unless}}</span>{{/each}})
-            {{/if}}
-        </div>
-    
-        <label class="ml-2">{{ localize "WW.Item.Tier" }}:</label>
-    
-        {{ tier }}
-    
-    </div>
-    
+<section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">   
     {{!-- Members --}}
     <div class="members">
         <h2>{{ localize "WW.Group.Members" }}</h2>
+
+        {{!-- Level and Tier --}}
+        <div class="level-row stat-inline mb-2">
+            <label>{{ localize "WW.Stats.Level" }}:</label>
+        
+            <div class="mr-2">
+                {{ system.maxLevel }}
+        
+                {{#if system.wrongLevels.length}}
+                ({{localize "WW.Group.LevelExcept"}}:
+        
+                {{#each system.wrongLevels as |member id|}}<span>{{{ member }}}{{#unless @last}}, {{/unless}}</span>{{/each}})
+                {{/if}}
+            </div>
+        
+            <label>{{ localize "WW.Item.Tier" }}:</label>
+        
+            {{ tier }}
+        
+        </div>
+        
         {{!-- Active Members --}}
         <ol class="members-area active">
-            <label>{{ localize "WW.Group.Active" }}:</label>
+            <label><i class="fa-solid fa-hand-fist"></i> {{ localize "WW.Group.Active" }}:</label>
             {{#each members.active as |member id|}}
             <li>{{{ member.outerHTML }}}</li>
             {{else}}
@@ -34,7 +35,7 @@
     
         {{!-- Inactive Members --}}
         <ol class="members-area inactive">
-            <label>{{ localize "WW.Group.Inactive" }}:</label>
+            <label><i class="fa-solid fa-house-chimney"></i> {{ localize "WW.Group.Inactive" }}:</label>
             {{#each members.inactive as |member id|}}
             <li>{{{ member.outerHTML }}}</li>
             {{else}}
@@ -44,7 +45,7 @@
     
         {{!-- Retired Members --}}
         <ol class="members-area retired">
-            <label>{{ localize "WW.Group.Retired" }}:</label>
+            <label><i class="fa-solid fa-champagne-glasses"></i> {{ localize "WW.Group.Retired" }}:</label>
             {{#each members.retired as |member id|}}
             <li>{{{ member.outerHTML }}}</li>
             {{else}}
@@ -54,7 +55,7 @@
     
         {{!-- Dead Members --}}
         <ol class="members-area dead">
-            <label>{{ localize "WW.Group.Dead" }}:</label>
+            <label><i class="fa-solid fa-skull-crossbones"></i> {{ localize "WW.Group.Dead" }}:</label>
             {{#each members.dead as |member id|}}
             <li>{{{ member.outerHTML }}}</li>
             {{else}}

@@ -163,10 +163,13 @@
 "WW.Group.Inactive": "Inactive",
 "WW.Group.Retired": "Retired",
 "WW.Group.Dead": "Dead",
+"WW.Group.ActorDropWarning": "You can only drop Characters, NPCs or Vehicles on the Group sheet.",
 "WW.Group.Total": "Total",
 "WW.Group.Resources": "Resources",
 "WW.Group.Fortune": "Fortune",
 "WW.Group.Wealth": "Wealth",
+"WW.Group.EquipmentStashed": "Stashed Equipment (Not carried)",
+"WW.Group.EquipmentDropWarning": "Groups can only store Equipment items, not Traits, Talents or Spells.",
 "WW.Group.EquipmentOverview": "Equipment Overview",
 
 "WW.Group.Connections.Financial": "Financial",
