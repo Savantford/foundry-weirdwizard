@@ -185,4 +185,24 @@ export default class WWJournalPage extends WWDocumentMixin(JournalEntryPage) {
     return this.type === 'tradition';
   }
 
+  /* -------------------------------------------- */
+  /*  Properties (Getters)                        */
+  /* -------------------------------------------- */
+
+  get isAncestry() {
+    return this.type === 'ancestry';
+  }
+
+  get isPath() {
+    return this.type === 'path';
+  }
+
+  get isProfession() {
+    return this.type === 'profession';
+  }
+
+  get isTradition() {
+    return this.type === 'tradition';
+  }
+
 }

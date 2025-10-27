@@ -179,10 +179,12 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     
     // Prepare paths
     if (this.isPath) {
+    if (this.isPath) {
       context.tiers = CONFIG.WW.PATH_TIERS;
     }
 
     // Prepare professions
+    if (this.isProfession) {
     if (this.isProfession) {
       context.professionCategories = CONFIG.WW.PROFESSION_CATEGORIES;
     }

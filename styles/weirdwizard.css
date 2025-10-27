@@ -737,6 +737,7 @@ body {
 .weirdwizard.npc .window-content h6 > img {
   height: 26px;
   margin: -4px 0;
+  margin: -4px 0;
   filter: brightness(0);
 }
 
@@ -1959,6 +1960,7 @@ body {
   display: flex;
   flex-flow: column;
   gap: 5px;
+  gap: 5px;
   border-image: url(../assets/ui/straps/pink-banner-outline.svg);
   border-image-slice: 15 fill;
   border-image-width: 15px;
@@ -1980,8 +1982,12 @@ body {
   height: auto;
   filter: drop-shadow(0 0 1px gray);
   margin-top: auto;
+  margin-top: auto;
 }
 
+.weirdwizard header.sheet-header .attribute-banners .str,
+.weirdwizard header.sheet-header .attribute-banners .wil {
+  margin-bottom: 5px;
 .weirdwizard header.sheet-header .attribute-banners .str,
 .weirdwizard header.sheet-header .attribute-banners .wil {
   margin-bottom: 5px;
@@ -2198,9 +2204,11 @@ hr.bug {
 }
 
 .weirdwizard.npc .tab[data-tab] {
+.weirdwizard.npc .tab[data-tab] {
   --bug: url(../assets/bugs/npc-enemy.webp);
 }
 
+.weirdwizard.npc.ally .tab[data-tab] {
 .weirdwizard.npc.ally .tab[data-tab] {
   --bug: url(../assets/bugs/npc-ally.webp);
 }
@@ -2240,15 +2248,18 @@ hr.bug {
 
 .weirdwizard .path-sheet .tab[data-tab] .bug,
 .weirdwizard.character .tab[data-tab] {
+.weirdwizard.character .tab[data-tab] {
   --bug: url(../assets/bugs/path-novice.webp);
 }
 
 .weirdwizard .path-sheet.expert .tab[data-tab] .bug,
 .weirdwizard.character.expert .tab[data-tab] {
+.weirdwizard.character.expert .tab[data-tab] {
   --bug: url(../assets/bugs/path-expert.webp);
 }
 
 .weirdwizard .path-sheet.master .tab[data-tab] .bug,
+.weirdwizard.character.master .tab[data-tab] {
 .weirdwizard.character.master .tab[data-tab] {
   --bug: url(../assets/bugs/path-master.webp);
 }
@@ -2302,6 +2313,7 @@ hr.bug {
 
 .weirdwizard.npc .window-content .statbox-sections {
   gap: 5px 15px;
+  align-items: normal;
   align-items: normal;
 }
 
