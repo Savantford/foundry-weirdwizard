@@ -1,5 +1,1 @@
-2025/10/27-14:46:42.223 2540 Log #968: 0 ops saved to Table #969 OK
-2025/10/27-14:46:42.223 2540 Archiving ..\Data\systems\weirdwizard\packs\talents/000968.log: OK
-2025/10/27-14:46:42.224 2540 Table #874: 24 entries OK
-2025/10/27-14:46:42.227 2540 Archiving ..\Data\systems\weirdwizard\packs\talents/MANIFEST-000967: OK
-2025/10/27-14:46:42.229 2540 **** Repaired leveldb ..\Data\systems\weirdwizard\packs\talents; recovered 1 files; 15231 bytes. Some data may have been lost. ****
+2025/10/27-14:46:42.234 2540 Delete type=3 #1

@@ -1,5 +1,1 @@
-2025/10/27-14:46:42.112 7a4 Log #983: 0 ops saved to Table #984 OK
-2025/10/27-14:46:42.113 7a4 Archiving ..\Data\systems\weirdwizard\packs\documentation/000983.log: OK
-2025/10/27-14:46:42.114 7a4 Table #727: 6 entries OK
-2025/10/27-14:46:42.116 7a4 Archiving ..\Data\systems\weirdwizard\packs\documentation/MANIFEST-000982: OK
-2025/10/27-14:46:42.117 7a4 **** Repaired leveldb ..\Data\systems\weirdwizard\packs\documentation; recovered 1 files; 5645 bytes. Some data may have been lost. ****
+2025/10/27-14:46:42.123 7a4 Delete type=3 #1

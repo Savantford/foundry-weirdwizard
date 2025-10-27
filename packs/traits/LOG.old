@@ -1,5 +1,1 @@
-2025/10/27-14:46:42.197 2540 Log #966: 0 ops saved to Table #967 OK
-2025/10/27-14:46:42.197 2540 Archiving ..\Data\systems\weirdwizard\packs\traits/000966.log: OK
-2025/10/27-14:46:42.205 2540 Table #872: 1 entries OK
-2025/10/27-14:46:42.207 2540 Archiving ..\Data\systems\weirdwizard\packs\traits/MANIFEST-000965: OK
-2025/10/27-14:46:42.209 2540 **** Repaired leveldb ..\Data\systems\weirdwizard\packs\traits; recovered 1 files; 1093 bytes. Some data may have been lost. ****
+2025/10/27-14:46:42.218 2540 Delete type=3 #1
