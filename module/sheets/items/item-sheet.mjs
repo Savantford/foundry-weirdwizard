@@ -5,7 +5,6 @@ import {
   createInstantEffect, deleteInstantEffect, editInstantEffect,
   prepareActiveEffectCategories
 } from '../../helpers/effect-actions.mjs';
-import WWSheetMixin from '../ww-sheet.mjs';
 
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
@@ -17,7 +16,7 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
  * @extends {ItemSheetV2}
 */
 
-export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
+export default class WWItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
 
   constructor(options = {}) {
     super(options); // Required for the constructor to work 
@@ -28,14 +27,21 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     classes: ['weirdwizard', 'sheet', 'item'],
     tag: 'form',
     window: {
+      title: this.title, // Custom title display
       icon: 'fa-regular fa-scroll',
       resizable: true,
       contentClasses: ['scrollable'],
-      controls: [
+      controls: [ // Remove concat in V13
         {
-          action: "showItemArtwork",
-          icon: "fa-solid fa-image",
-          label: "WW.Item.ArtworkShow",
+          action: "embedInChat",
+          icon: "fa-solid fa-scroll",
+          label: "WW.System.Embed",
+          ownership: "OWNER"
+        },
+        {
+          action: "linkInChat",
+          icon: "fa-solid fa-link",
+          label: "WW.System.Link",
           ownership: "OWNER"
         }
       ]
@@ -43,6 +49,8 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     actions: {
       editImage: this.#onEditImage, // delete in V13; core functionality
       showItemArtwork: this.#onShowItemArtwork,
+      embedInChat: this.#embedInChat,
+      linkInChat: this.#linkInChat,
       traitsMenu: this.#onTraitsMenuOpen,
 
       instantCreate: this.#onInstantEffectCreate,
@@ -62,13 +70,22 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       width: 520,
       height: 480
     }
-  };
+  }
+
+  /* -------------------------------------------- */
+
+  /** @override */
+  get title() {
+    const {constructor: cls, id, name, type} = this.document;
+    const prefix = cls.hasTypeData && type !== "base" ? CONFIG[cls.documentName].typeLabels[type] : cls.metadata.label;
+    return `${name ?? id} - ${game.i18n.localize(prefix)}`;
+  }
 
   /* -------------------------------------------- */
 
   /** @override */
   static PARTS = {
-    sidetabs: { template: 'systems/weirdwizard/templates/generic/side-tabs.hbs' },
+    sidetabs: { template: 'systems/weirdwizard/templates/items/common/side-tabs.hbs' },
     
     details: {
       template: 'systems/weirdwizard/templates/items/details/tab.hbs',
@@ -91,21 +108,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       ]
     },
     
-  };
-
-  /* -------------------------------------------- */
-
-  /** @override */
-  static TABS = {
-    sheet: {
-      tabs: [
-        {id: 'details', tooltip: 'WW.Actor.Details', icon: 'systems/weirdwizard/assets/icons/diploma.svg', iconType: 'img'},
-        {id: 'automation', tooltip: 'WW.Effects.TabLabel', iconType: 'img', icon: 'systems/weirdwizard/assets/icons/gear-hammer.svg', iconType: 'img'}
-      ],
-      initial: "details",
-      labelPrefix: "EFFECT.TABS"
-    }
-  };
+  }
   
   /* -------------------------------------------- */
 
@@ -115,34 +118,34 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
    * @returns {Promise<ApplicationRenderContext>}   Context data for the render operation
    */
   async _prepareContext(options = {}) {
-    const context = await super._prepareContext(options);
-    
     const itemData = this.item;
     const sys = this.item.system;
     const isOwner = this.item.isOwner;
-    const TextEditor = foundry.applications.ux.TextEditor.implementation;
 
     // Ensure editMode has a value
     if (this.editMode === undefined) this.editMode = false;
 
-    context.item = itemData; // Use a safe clone of the item data for further operations.
+    const context = {
+      item: itemData, // Use a safe clone of the item data for further operations.
     
-    context.system = itemData.system; // Use a safe clone of the item data for further operations.
-    context.folder = await itemData.folder;
-    context.flags = itemData.flags;
-    context.grantedBy = await fromUuid(sys.grantedBy) ?
-      await TextEditor.enrichHTML(`@UUID[${sys.grantedBy}]`, { secrets: this.item.isOwner }) : null;
-    context.dtypes = ['String', 'Number', 'Boolean'];
+      system: itemData.system, // Use a safe clone of the item data for further operations.
+      folder: await itemData.folder,
+      flags: itemData.flags,
+      grantedBy: await fromUuid(sys.grantedBy) ?
+        await TextEditor.enrichHTML(`@Embed[${sys.grantedBy} inline]`, { secrets: this.item.isOwner }) : null,
+      dtypes: ['String', 'Number', 'Boolean'],
+      tabs: this._getTabs(options.parts)
+    }
     
     // Prepare enriched variables for editor
-    context.system.descriptionEnriched = await TextEditor.enrichHTML(context.system.description, { secrets: isOwner, relativeTo: this.document });
+    context.system.description.enriched = await TextEditor.enrichHTML(context.system.description.value, { secrets: isOwner, relativeTo: this.document });
 
     // Record if the item has an actor
     context.hasActor = this.document.actor ? true : false;
     
     // Prepare character options
-    if (context.item.type == 'equipment' && context.item.system.subtype == 'weapon' && context.system.attackRider.value) {
-      context.system.attackRiderEnriched = await TextEditor.enrichHTML(context.system.attackRider.value, { secrets: isOwner, relativeTo: this.document });
+    if (context.item.type == 'Equipment' && context.item.system.subtype == 'weapon' && context.system.attackRider.value) {
+      context.system.attackRider.enriched = await TextEditor.enrichHTML(context.system.attackRider.value, { secrets: isOwner, relativeTo: this.document });
     }
 
     // Prepare attribute labels
@@ -157,7 +160,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     // Prepare specific dropdown menu objects
     switch (context.item.type) {
   
-      case 'equipment':
+      case 'Equipment':
         context.subtypes = CONFIG.WW.EQUIPMENT_SUBTYPES;
         context.coins = CONFIG.WW.COINS;
         context.qualities = CONFIG.WW.EQUIPMENT_QUALITIES;
@@ -173,15 +176,15 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
 
       break;
 
-      case 'talent':
+      case 'Trait or Talent':
         context.subtypes = CONFIG.WW.TALENT_SUBTYPES;
         context.sources = CONFIG.WW.TALENT_SOURCES;
 
         // Relative to Level Uses
         context.usesLevelRelative = CONFIG.WW.USES_LEVEL_RELATIVE;
-        context.belongsToNPC = (context.hasActor && this.document?.actor?.type === 'npc') ? true : false;
+        context.belongsToNPC = (context.hasActor && this.document?.actor?.type === 'NPC') ? true : false;
         
-        if (context.hasActor && this.document?.actor?.type === 'character') {
+        if (context.hasActor && this.document?.actor?.type === 'Character') {
           const level = this.document.actor.system.stats.level;
           const half = Math.floor(level / 2) > 0 ? Math.floor(level / 2) : 1;
           let third = 2; 
@@ -200,7 +203,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         }
       break;
 
-      case 'spell':
+      case 'Spell':
         context.tiers = CONFIG.WW.TIERS;
       break;
       
@@ -235,7 +238,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     }
 
     // Prepare effect change labels to display
-    context.effectChangeLabels = CONFIG.WW.EFFECT_OPTIONS_LABELS;
+    context.effectChangeLabels = CONFIG.WW.EFFECT_CHANGE_LABELS;
 
     // Pass down whether the item needs targets or not
     context.needTargets = this.document.needTargets;
@@ -254,9 +257,9 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
 
         let file = '';
         switch (this.item.type) {
-          case 'equipment': file = 'equipment'; break;
-          case 'spell': file = 'spell'; break;
-          case 'talent': file = 'talent'; break;
+          case 'Equipment': file = 'equipment'; break;
+          case 'Spell': file = 'spell'; break;
+          case 'Trait or Talent': file = 'talent'; break;
           default: file = 'talent'; break;
         }
 
@@ -314,7 +317,14 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         case 'sidetabs':
           return tabs;
         case 'details':
-          
+          tab.id = 'details';
+          tab.label = 'WW.Actor.Details';
+          tab.icon = 'systems/weirdwizard/assets/icons/diploma.svg';
+          break;
+        case 'automation':
+          tab.id = 'automation';
+          tab.label = 'WW.Effects.TabLabel';
+          tab.icon = 'systems/weirdwizard/assets/icons/gear-hammer.svg';
         break;
         default: break;
       }
@@ -349,13 +359,10 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     window.classList.toggle('magical', item.system.magical);
     window.classList.toggle('weapon', item.system.subtype === 'weapon');
 
-    // Create dragDrop flow
-    new foundry.applications.ux.DragDrop.implementation({
+    // Create dragDrop listener
+    new DragDrop({ // Remove in v13; core implementation
       dragSelector: ".draggable",
-      permissions: {
-        dragstart: this._canDragStart.bind(this),
-        drop: this._canDragDrop.bind(this)
-      },
+      dropSelector: null,
       callbacks: {
         dragstart: this._onDragStart.bind(this),
         dragover: this._onDragOver.bind(this),
@@ -408,14 +415,26 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     const item = this.item;
     // Construct the Application instance
     const ip = new ImagePopout(item.img, {
-      window: {
-        title: item.name
-      },
+      title: item.name,
       uuid: item.uuid
     });
 
     // Display the image popout
     ip.render(true);
+  }
+
+  static async #embedInChat(_event, target) {
+    ChatMessage.create({
+      speaker: game.weirdwizard.utils.getSpeaker({ actor: this.item.parent }),
+      content: `@Embed[${this.item.uuid}]`
+    })
+  }
+
+  static async #linkInChat(_event, target) {
+    ChatMessage.create({
+      speaker: game.weirdwizard.utils.getSpeaker({ actor: this.item.parent }),
+      content: `@Embed[${this.item.uuid} inline]`
+    })
   }
 
   /**
@@ -426,7 +445,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     
     // Create MultiChoice instance
     const rect = button.getBoundingClientRect();
-    
+
     new MultiChoice({
       purpose: 'editWeaponTraits',
       document: this.document,
@@ -526,81 +545,242 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
   /*  Drag and Drop                               */
   /* -------------------------------------------- */
 
-  /**
-   * Define whether a user is able to begin a dragstart workflow for a given drag selector.
-   * @param {string} selector       The candidate HTML selector for dragging
-   * @returns {boolean}             Can the current user drag this selector?
-   * @protected
-   */
-  _canDragStart(selector) {
+  /** @inheritdoc */
+  /*_canDragStart(selector) {
     return this.isEditable;
-  }
+  }*/
 
   /* -------------------------------------------- */
 
-  /**
-   * Define whether a user is able to conclude a drag-and-drop workflow for a given drop selector.
-   * @param {string} selector       The candidate HTML selector for the drop target
-   * @returns {boolean}             Can the current user drop on this selector?
-   * @protected
-   */
-  _canDragDrop(selector) {
+  /** @inheritdoc */
+  /*_canDragDrop(selector) {
     return this.isEditable;
-  }
+  }*/
 
   /* -------------------------------------------- */
 
-  /**
-   * An event that occurs when a drag workflow begins for a draggable item on the sheet.
-   * @param {DragEvent} event       The initiating drag start event
-   * @returns {Promise<void>}
-   * @protected
-   */
-  async _onDragStart(event) {
-    const target = event.currentTarget;
-    if ( "link" in event.target.dataset ) return;
+  /** @inheritdoc */
+  _onDragStart(event) {
+    
+    /*const li = event.currentTarget;
+    if ( event.target.classList.contains("content-link") ) return;
+
+    // Create drag data
     let dragData;
 
+    // Owned Items
+    if ( li.dataset.itemId ) {
+      const item = this.actor.items.get(li.dataset.itemId);
+      dragData = item.toDragData();
+    }
+
     // Active Effect
-    if ( target.dataset.effectId ) {
-      const effect = this.item.effects.get(target.dataset.effectId);
+    if ( li.dataset.effectId ) {
+      const effect = this.actor.effects.get(li.dataset.effectId);
       dragData = effect.toDragData();
     }
 
-    // Set data transfer
     if ( !dragData ) return;
-    event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+
+    // Set data transfer
+    event.dataTransfer.setData("text/plain", JSON.stringify(dragData));*/
+  }
+
+  /* -------------------------------------------- */
+
+  /** @inheritdoc */
+  _onDragOver(event) {
+    const ol = event.target.closest('.items-area');
+
+    if ($(ol).hasClass('fadeout')) return;
+
+    $(ol).addClass('fadeout');
+
+    ol.addEventListener("dragleave", (event) => $(ol).removeClass('fadeout') );
+  }
+
+  /* -------------------------------------------- */
+
+  /** @inheritdoc */
+  async _onDrop(event) {
+    //const rightCol = event.target.closest('.right-col');
+    //const areas = rightCol.querySelectorAll(".example");
+    
+    // Get basic data
+    const data = TextEditor.getDragEventData(event);
+    const ol = event.target.closest('.items-area');
+    
+    if (!ol) return;
+
+    $(ol).removeClass('fadeout')
+
+    const benefit = ol.classList[2];
+
+    if (data.type !== "Item") return;
+
+    const item = await fromUuid(data.uuid);
+    
+    if (!(item.type === 'Equipment' || item.type === 'Trait or Talent' || item.type === 'Spell')) {
+      return ui.notifications.warn(`${i18n('WW.CharOption.TypeWarning')}<br/>${i18n("WW.CharOption.Help", { itemType: this.document.type })}`);
+    }
+
+    if (!item.pack) return ui.notifications.warn(`${i18n('WW.CharOption.CompendiumWarning')}<br/>${i18n("WW.CharOption.Help", { itemType: this.document.type })}`);
+    
+    const benefits = this.document.system.benefits;
+    
+    benefits[benefit].items.push(data.uuid);
+
+    this.document.update({'system.benefits': benefits});
+
   }
 
   /* -------------------------------------------- */
 
   /**
-   * An event that occurs when a drag workflow moves over a drop target.
-   * @param {DragEvent} event
+   * Handle the dropping of ActiveEffect data onto an Actor Sheet
+   * @param {DragEvent} event                  The concluding DragEvent which contains drop data
+   * @param {object} data                      The data transfer extracted from the event
+   * @returns {Promise<ActiveEffect|boolean>}  The created ActiveEffect object or false if it couldn't be created.
    * @protected
    */
-  _onDragOver(event) {}
+  async _onDropActiveEffect(event, data) {
+    const effect = await ActiveEffect.implementation.fromDropData(data);
+    if ( !this.actor.isOwner || !effect ) return false;
+    if ( this.actor.uuid === effect.parent?.uuid ) return false;
+    return ActiveEffect.create(effect.toObject(), {parent: this.actor});
+  }
 
   /* -------------------------------------------- */
 
   /**
-   * An event that occurs when data is dropped into a drop target.
-   * @param {DragEvent} event
-   * @returns {Promise<void>}
+   * Handle dropping of an Actor data onto another Actor sheet
+   * @param {DragEvent} event            The concluding DragEvent which contains drop data
+   * @param {object} data                The data transfer extracted from the event
+   * @returns {Promise<object|boolean>}  A data object which describes the result of the drop, or false if the drop was
+   *                                     not permitted.
    * @protected
    */
-  async _onDrop(event) {
-    const data = TextEditor.implementation.getDragEventData(event);
-    const actor = this.actor;
-    const allowed = Hooks.call("dropActorSheetData", actor, this, data);
-    if ( allowed === false ) return;
+  async _onDropActor(event, data) {
+    if ( !this.actor.isOwner ) return false;
+  }
 
-    // Dropped Documents
-    const documentClass = foundry.utils.getDocumentClass(data.type);
-    if ( documentClass ) {
-      const document = await documentClass.fromDropData(data);
-      await this._onDropDocument(event, document);
+  /* -------------------------------------------- */
+
+  /**
+   * Handle dropping of an item reference or item data onto an Actor Sheet
+   * @param {DragEvent} event            The concluding DragEvent which contains drop data
+   * @param {object} data                The data transfer extracted from the event
+   * @returns {Promise<Item[]|boolean>}  The created or updated Item instances, or false if the drop was not permitted.
+   * @protected
+   */
+  async _onDropItem(event, data) {
+    if ( !this.actor.isOwner ) return false;
+    const item = await Item.implementation.fromDropData(data);
+    const itemData = item.toObject();
+
+    // Handle item sorting within the same Actor
+    if ( this.actor.uuid === item.parent?.uuid ) return this._onSortItem(event, itemData);
+
+    // Create the owned item
+    return this._onDropItemCreate(itemData);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle dropping of a Folder on an Actor Sheet.
+   * The core sheet currently supports dropping a Folder of Items to create all items as owned items.
+   * @param {DragEvent} event     The concluding DragEvent which contains drop data
+   * @param {object} data         The data transfer extracted from the event
+   * @returns {Promise<Item[]>}
+   * @protected
+   */
+  async _onDropFolder(event, data) {
+    if ( !this.actor.isOwner ) return [];
+    const folder = await Folder.implementation.fromDropData(data);
+    if ( folder.type !== "Item" ) return [];
+    const droppedItemData = await Promise.all(folder.contents.map(async item => {
+      if ( !(document instanceof Item) ) item = await fromUuid(item.uuid);
+      return item.toObject();
+    }));
+    return this._onDropItemCreate(droppedItemData);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle the final creation of dropped Item data on the Actor.
+   * This method is factored out to allow downstream classes the opportunity to override item creation behavior.
+   * @param {object[]|object} itemData     The item data requested for creation
+   * @returns {Promise<Item[]>}
+   * @private
+   */
+  async _onDropItemCreate(itemData) {
+    itemData = itemData instanceof Array ? itemData : [itemData];
+    return this.actor.createEmbeddedDocuments("Item", itemData);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle a drop event for an existing embedded Item to sort that Item relative to its siblings
+   * @param {Event} event
+   * @param {Object} itemData
+   * @private
+   */
+  _onSortItem(event, itemData) {
+
+    // Get the drag source and drop target
+    const items = this.actor.items;
+    const source = items.get(itemData._id);
+    const dropTarget = event.target.closest("[data-item-id]");
+    if ( !dropTarget ) return;
+    const target = items.get(dropTarget.dataset.itemId);
+
+    // Don't sort on yourself
+    if ( source.id === target.id ) return;
+
+    // Identify sibling items based on adjacent HTML elements
+    const siblings = [];
+    for ( let el of dropTarget.parentElement.children ) {
+      const siblingId = el.dataset.itemId;
+      if ( siblingId && (siblingId !== source.id) ) siblings.push(items.get(el.dataset.itemId));
     }
+
+    // Perform the sort
+    const sortUpdates = SortingHelpers.performIntegerSort(source, {target, siblings});
+    const updateData = sortUpdates.map(u => {
+      const update = u.update;
+      update._id = u.target._id;
+      return update;
+    });
+
+    // Perform the update
+    return this.actor.updateEmbeddedDocuments("Item", updateData);
+  }
+
+  /** @override */
+  async _onDropItemCreate(itemData) {
+    
+    const isAllowed = await this.checkDroppedItem(itemData);
+    if (isAllowed) return await super._onDropItemCreate(itemData);
+    console.warn('Wrong item type dragged', this.actor, itemData);
+  }
+
+  /* -------------------------------------------- */
+
+  /** @override */
+  async checkDroppedItem(itemData) {
+    const type = itemData.type
+    if (['specialaction', 'endoftheround'].includes(type)) return false
+
+    if (type === 'ancestry') {
+      const currentAncestriesIds = this.actor.items.filter(i => i.type === 'ancestry').map(i => i._id)
+      if (currentAncestriesIds?.length > 0) await this.actor.deleteEmbeddedDocuments('Item', currentAncestriesIds)
+      return true
+    } else if (type === 'path' && this.actor.system.paths?.length >= 3) return false
+
+    return true
   }
 
 }

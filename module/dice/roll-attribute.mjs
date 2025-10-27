@@ -53,7 +53,7 @@ export default class RollAttribute extends FormApplication {
       isWeapon: this.item?.system?.subtype === 'weapon' ?? false,
       isAttack: (this.item?.system?.subtype === 'weapon' || this.against === 'def') ?? false,
       isMagical: this.item?.system?.magical,
-      isSpell: this.item?.type === 'spell' ?? false
+      isSpell: this.item?.type === 'Spell' ?? false
     }
 
   }
@@ -62,7 +62,7 @@ export default class RollAttribute extends FormApplication {
     
     return foundry.utils.mergeObject(super.defaultOptions, {
       id: "roll-attribute",
-      title: this.title,
+      title: 'WW.Roll.Details',
       classes: ['weirdwizard'],
       width: 400,
       height: "auto",
@@ -70,10 +70,6 @@ export default class RollAttribute extends FormApplication {
     });
 
   }
-
-  /* -------------------------------------------- */
-  /*  Rendering                                   */
-  /* -------------------------------------------- */
 
   getData(options = {}) {
     const context = super.getData()
@@ -93,10 +89,6 @@ export default class RollAttribute extends FormApplication {
     
     return context;
   }
-
-  /* -------------------------------------------- */
-  /*  Actions                                     */
-  /* -------------------------------------------- */
 
   activateListeners(html) {
     super.activateListeners(html);
@@ -172,7 +164,7 @@ export default class RollAttribute extends FormApplication {
         
         // Construct the Roll instance and evaluate the roll
         const r = await new WWRoll(rollFormula, rollData, {
-          template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
+          template: "systems/weirdwizard/templates/chat/roll.hbs",
           originUuid: this.origin.uuid,
           target: t,
           attribute: this.attribute,
@@ -261,7 +253,7 @@ export default class RollAttribute extends FormApplication {
       // Construct the Roll instance and evaluate the roll
       
       const r = await new WWRoll(rollFormula, rollData, {
-        template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
+        template: "systems/weirdwizard/templates/chat/roll.hbs",
         originUuid: this.origin.uuid,
         attribute: this.attribute,
         against: against,
@@ -329,8 +321,9 @@ export default class RollAttribute extends FormApplication {
 
       // Push roll to roll array
       rollsArray.push(r);
+
     }
-    
+
     // Create message data
     const messageData = {
       type: 'd20-roll',
@@ -428,6 +421,7 @@ export default class RollAttribute extends FormApplication {
       let targetsDisplay = '';
       
       this.targets.forEach(t => {
+        
         // Boons against count
         let boonsAgainst = 0;
         if (t.boonsAgainst) boonsAgainst += t.boonsAgainst[against];
@@ -472,15 +466,7 @@ export default class RollAttribute extends FormApplication {
   /* -------------------------------------------- */
   /*  Getters                                     */
   /* -------------------------------------------- */
-
-  /** @override */
-  get title() {
-    const { constructor: id, name, type } = this.item ?? this.actor;
-    return `${i18n('WW.Roll.Details')}: ${name ?? id}`;
-  }
   
-  /* -------------------------------------------- */
-
   get targets() {
     const targets = [];
 
@@ -497,7 +483,6 @@ export default class RollAttribute extends FormApplication {
         attributes: actor ? sys.attributes : null,
         defense: actor ? sys.stats.defense.total : null,
         againstNo: sys ? (this.against === 'def' ? sys.stats.defense.total : sys.attributes[this.against]?.value) : "—",
-        boons: actor ? sys.boons.selfRoll : null,
         boonsAgainst: actor ? sys.boons.against : null
       })
 
@@ -505,8 +490,6 @@ export default class RollAttribute extends FormApplication {
 
     return targets;
   }
-
-  /* -------------------------------------------- */
 
   get actEffs() {
     const effs = {
@@ -536,8 +519,6 @@ export default class RollAttribute extends FormApplication {
     
     return effs;
   }
-
-  /* -------------------------------------------- */
 
   get instEffs() {
     const effs = {
@@ -584,8 +565,6 @@ export default class RollAttribute extends FormApplication {
     return effs;
   }
 
-  /* -------------------------------------------- */
-
   _getTargetIds(targets, effTarget) {
     let targetIds = '';
 
@@ -601,5 +580,4 @@ export default class RollAttribute extends FormApplication {
 
     return targetIds;
   }
-
 }

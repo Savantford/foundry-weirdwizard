@@ -1,23 +1,27 @@
-<div>
+<div class="weirdwizard charoption profession">
 
-  <section class="header-section weirdwizard">
+  <section class="header-section">
 
     {{!-- Right Banner --}}
     {{#if singlePage}}
     <header class="sheet-banner-wrapper">
 
       {{!-- Category --}}
-      <div class="type">{{ localize (lookup @root.professionCategories system.category) }}</div>
+      <div class="type">{{localize (lookup @root.professionCategories system.category)}}</div>
 
       <div class="icon-frame">
-        <img src="{{ document.src }}" data-edit="src" data-tooltip="WW.System.ViewImage" />
+        <img src="{{document.src}}" data-edit="src" data-tooltip="WW.System.ViewImage" />
       </div>
 
     </header>
     {{/if}}
 
-    {{#if title.show}}
-    {{> "systems/weirdwizard/templates/journal/parts/journal-page-header.hbs" this=this }}
+    {{#if data.title.show}}
+    <header class="journal-page-header">
+      <h{{data.title.level}} class="draggable" data-journal-page-uuid="{{document.uuid}}">
+        {{data.name}}
+      </h{{data.title.level}}>
+    </header>
     {{/if}}
 
     {{!-- Page Content (Editor/Description) --}}
@@ -28,7 +32,7 @@
   </section>
   
   {{!-- Benefits Section --}}
-  <section class="benefits-section weirdwizard">
+  <section class="benefits-section">
 
     {{!-- Benefit Block --}}
     <div class="benefit-block">

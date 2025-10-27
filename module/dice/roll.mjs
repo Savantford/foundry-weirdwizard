@@ -14,6 +14,7 @@ export default class WWRoll extends Roll {
    */
   
   async render({flavor, template=this.constructor.CHAT_TEMPLATE, isPrivate=false}={}) {
+    
     if ( !this._evaluated ) await this.evaluate();
     
     const attribute = this.options.attribute;
@@ -41,10 +42,9 @@ export default class WWRoll extends Roll {
     }
 
     if (this.options?.template) template = this.options.template;
-    template = template.replace('sidebar/r', 'sidebar/chat/');
-    template = template.replace('templates/chat/', 'templates/sidebar/chat/');
+    template = template.replace('sidebar', 'chat');
 
-    return foundry.applications.handlebars.renderTemplate(template, chatData);
+    return renderTemplate(template, chatData);
   }
 
   /** 

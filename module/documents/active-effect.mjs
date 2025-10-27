@@ -1,14 +1,13 @@
 import { i18n, formatTime } from '../helpers/utils.mjs';
-import WWDocumentMixin from './ww-document.mjs';
 
-export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
+export default class WWActiveEffect extends ActiveEffect {
 
   /* -------------------------------------------- */
   /*  Document Creation                           */
   /* -------------------------------------------- */
 
   async _preCreate(data, options, user) {
-    this._validateDuration(data, '_preCreate');
+    this._validateDuration(data, 'preCreate');
 
     return await super._preCreate(data, options, user);
   }
@@ -18,24 +17,23 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
   /* -------------------------------------------- */
 
   async _preUpdate(changes, options, user) {
-    this._validateDuration(changes, '_preUpdate');
+    this._validateDuration(changes, 'preUpdate');
     
     return await super._preUpdate(changes, options, user);
   }
 
-  /* -------------------------------------------- */
+  _validateDuration(changes, stage) {
+    const effect = this;
+    const selected = changes.system?.duration?.selected ?? this.system.duration.selected;
 
-  _validateDuration(data, stage) {
-    const selected = data.system?.duration?.selected ?? this.system.duration.selected;
-    const rounds = data.duration?.rounds ?? this.duration.rounds;
-    const minutes = data.system?.duration?.inMinutes ?? this.system.duration.inMinutes;
-    const hours = data.system?.duration?.inHours ?? this.system.duration.inHours;
-    const days = data.system?.duration?.inDays ?? this.system.duration.inDays;
-    
+    const rounds = changes.duration?.rounds ?? this.duration.rounds,
+    minutes = changes.system?.duration?.inMinutes ?? this.system.duration.inMinutes,
+    hours = changes.system?.duration?.inHours ?? this.system.duration.inHours,
+    days = changes.system?.duration?.inDays ?? this.system.duration.inDays;
+
     const updateData = function(rounds, seconds) {
-      // Stage is probably not needed for this and thus was removed from the check. More testing needed!
-      //if (stage === '_preCreate') this.updateSource({ 'duration.rounds': rounds, 'duration.seconds': seconds });
-      /*else if (stage === '_preUpdate')*/ data = foundry.utils.mergeObject(data, { 'duration.rounds': rounds, 'duration.seconds': seconds });
+      if (stage === 'preCreate') effect.updateSource({ 'duration.rounds': rounds, 'duration.seconds': seconds });
+      else if (stage = 'preUpdate') changes = foundry.utils.mergeObject(changes, { 'duration.rounds': rounds, 'duration.seconds': seconds });
     };
     
     // Check the selected value and set duration values
@@ -58,9 +56,10 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
 
       // Real World duration
       case '1minute': updateData(null, 60); break;
-      case 'minutes': if (minutes) updateData(null, minutes * 60); break;
-      case 'hours': if (hours) updateData(null, hours * 60*60); break;
-      case 'days': if (days) updateData(null, days * 60*60*24); break;
+      case 'minutes': updateData(null, minutes * 60); break;
+      case 'hours': updateData(null, hours * 60*60); break;
+      case 'days': updateData(null, days * 60*60*24); break;
+      
     }
 
     // Format duration
@@ -68,6 +67,10 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
     else if (rounds) this.system.duration.formatted = `${rounds} ${(rounds > 1 ? i18n(rounds + 'Rounds') : i18n(rounds + 'Round'))}`;
     else this.system.duration.formatted = formatTime(this.duration.seconds);
   }
+
+  /*async _onUpdate(data, options, userId) {
+    super._onUpdate(data, options, userId); 
+  }*/
 
   /* -------------------------------------------- */
   /*  Data Preparation                            */
@@ -129,6 +132,27 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
   }
 
   /* -------------------------------------------- */
+
+  /**
+   * A method that can be overridden by subclasses to customize the generation of the embed figure.
+   * @param {HTMLElement|HTMLCollection} content  The embedded content.
+   * @param {DocumentHTMLEmbedConfig} config      Configuration for embedding behavior.
+   * @param {EnrichmentOptions} [options]         The original enrichment options for cases where the Document embed
+   *                                              content also contains text that must be enriched.
+   * @returns {Promise<HTMLElement|null>}
+   * @protected
+   * @override
+   */
+  async _createFigureEmbed(content, config, options) {
+    const section = document.createElement("section");
+
+    if ( content instanceof HTMLCollection ) section.append(...content);
+    else section.append(content);
+    
+    return section;
+  }
+
+  /* -------------------------------------------- */
   /*  Properties/Getters                          */
   /* -------------------------------------------- */
 
@@ -139,8 +163,6 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
   get factor() {
     return this.system.originalItem?.activeEffectFactor ?? 1;
   }
-
-  /* -------------------------------------------- */
   
   /** @override */
   get isSuppressed() {
@@ -151,13 +173,9 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
     return false;
   }
 
-  /* -------------------------------------------- */
-
   get isBenefit() {
     return this.type === 'benefit';
   }
-
-  /* -------------------------------------------- */
 
   get hasValidCharOption() {
     const actor = this.parent.documentName === 'Actor' ? this.parent : null;
@@ -170,15 +188,11 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
     return uuidFound;
   }
 
-  /* -------------------------------------------- */
-
   get showRemoveButton() {
     if (this.parent.documentName === 'Item') return false;
     if (this.isBenefit && this.hasValidCharOption) return false;
     return true;
   }
-
-  /* -------------------------------------------- */
 
   /**
    * The combatant from which the effect originated
@@ -186,7 +200,7 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
   get originalCombatant() {
     const document = fromUuidSync(this.origin);
 
-    if (document.documentName === 'Item') {
+    if (document.documetName === 'Item') {
       return document.parent.token?.combatant ?? null;
     } else {
       return document.token?.combatant ?? null;
@@ -208,22 +222,18 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
 
   /**
    * Apply this ActiveEffect to a provided Actor.
+   * TODO: This method is poorly conceived. Its functionality is static, applying a provided change to an Actor
+   * TODO: When we revisit this in Active Effects V2 this should become an Actor method, or a static method
    * @param {Actor} actor                   The Actor to whom this effect should be applied
    * @param {EffectChangeData} change       The change data being applied
    * @returns {Record<string, *>}           An object of property paths and their updated values.
    */
 
   apply(actor, change) {
-    // TODO: This method is poorly conceived. Its functionality is static, applying a provided change to an Actor
-    // TODO: When we revisit this in Active Effects V2 this should become an Actor method, or a static method
     let field;
     const changes = {};
-    if ( change.key.startsWith("system.") ) {
-      if ( actor.system instanceof foundry.abstract.DataModel ) {
-        field = actor.system.schema.getField(change.key.slice(7));
-      }
-      // field = actor.system.schema?.getField(change.key.slice(7));
-    } else field = actor.schema.getField(change.key);
+    if ( change.key.startsWith("system.") ) field = actor.system.schema?.getField(change.key.slice(7));
+    else field = actor.schema.getField(change.key);
     if ( field ) changes[change.key] = this.constructor.applyField(actor, change, field);
     else this._applyLegacy(actor, change, changes);
     return changes;
@@ -240,10 +250,10 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
    * @protected
    */
   _applyLegacy(actor, change, changes) {
-    // Weird Wizard: Save label key and get real change key
+    // Save label key and get real change key - Weird Wizard only
     const labelKey = '' + change.key;
-    change.key = CONFIG.WW.EFFECT_OPTIONS_KEYS[change.key];
-
+    change.key = CONFIG.WW.EFFECT_CHANGE_KEYS[change.key];
+    
     // Determine the data type of the target field
     const current = foundry.utils.getProperty(actor, change.key) ?? null;
     let target = current;
@@ -251,9 +261,9 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
       const model = game.model.Actor[actor.type] || {};
       target = foundry.utils.getProperty(model, change.key) ?? null;
     }
-    const targetType = foundry.utils.getType(target);
+    let targetType = foundry.utils.getType(target);
 
-    // Weird Wizard: Alter Change Values to negative values if they are meant to be
+    // Alter Change Values to negative values if they are meant to be - Weird Wizard only
     if (labelKey.includes('banes') || (labelKey.toLowerCase().includes('reduce') && !labelKey.includes('health'))) change.value = -change.value;
 
     // Cast the effect change value to the correct type
@@ -261,9 +271,9 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
     try {
       if ( targetType === "Array" ) {
         const innerType = target.length ? foundry.utils.getType(target[0]) : "string";
-        delta = this.#castArray(change.value, innerType);
+        delta = this._castArray(change.value, innerType);
       }
-      else delta = this.#castDelta(change.value, targetType);
+      else delta = this._castDelta(change.value, targetType);
     } catch(err) {
       console.warn(`Actor [${actor.id}] | Unable to parse active effect change for ${change.key}: "${change.value}"`);
       return;
@@ -292,70 +302,6 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
 
     // Apply all changes to the Actor data
     foundry.utils.mergeObject(actor, changes);
-
-  }
-
-  /* -------------------------------------------- */
-  /*  Static Actions (Unmodified)                 */
-  /* -------------------------------------------- */
-
-  /**
-   * Cast a raw EffectChangeData change string to the desired data type.
-   * @param {string} raw      The raw string value
-   * @param {string} type     The target data type that the raw value should be cast to match
-   * @returns {*}             The parsed delta cast to the target data type
-   */
-  #castDelta(raw, type) {
-    let delta;
-    switch ( type ) {
-      case "boolean":
-        delta = Boolean(this.#parseOrString(raw));
-        break;
-      case "number":
-        delta = Number.fromString(raw);
-        if ( Number.isNaN(delta) ) delta = 0;
-        break;
-      case "string":
-        delta = String(raw);
-        break;
-      default:
-        delta = this.#parseOrString(raw);
-    }
-    return delta;
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Cast a raw EffectChangeData change string to an Array of an inner type.
-   * @param {string} raw      The raw string value
-   * @param {string} type     The target data type of inner array elements
-   * @returns {Array<*>}      The parsed delta cast as a typed array
-   */
-  #castArray(raw, type) {
-    let delta;
-    try {
-      delta = this.#parseOrString(raw);
-      delta = delta instanceof Array ? delta : [delta];
-    } catch(e) {
-      delta = [raw];
-    }
-    return delta.map(d => this.#castDelta(d, type));
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Parse serialized JSON, or retain the raw string.
-   * @param {string} raw      A raw serialized string
-   * @returns {*}             The parsed value, or the original value if parsing failed
-   */
-  #parseOrString(raw) {
-    try {
-      return JSON.parse(raw);
-    } catch(err) {
-      return raw;
-    }
   }
 
 }

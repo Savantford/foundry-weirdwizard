@@ -92,7 +92,7 @@ export class EntrySettingsDisplay extends HandlebarsApplicationMixin(Application
     await super._onRender(context, options);
 
     // Create dragDrop listener
-    new foundry.applications.ux.DragDrop.implementation({
+    new DragDrop({ // Remove in v13; core implementation
       dragSelector: ".draggable",
       dropSelector: null,
       callbacks: {
@@ -119,7 +119,7 @@ export class EntrySettingsDisplay extends HandlebarsApplicationMixin(Application
         icon: "fa-solid fa-circle-plus",
         title: 'WW.Settings.Entry.Add',
       },
-      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', { showKey: true }),
+      content: await renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', { showKey: true }),
       ok: {
         label: 'EFFECT.Submit',
         icon: 'fa-solid fa-save'
@@ -201,7 +201,7 @@ export class EntrySettingsDisplay extends HandlebarsApplicationMixin(Application
         icon: "fa-solid fa-edit",
         title: 'WW.Settings.Entry.Edit',
       },
-      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
+      content: await renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
       ok: {
         label: 'EFFECT.Submit',
         icon: 'fa-solid fa-save'

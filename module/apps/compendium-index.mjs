@@ -151,7 +151,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       doc.system.requirementLabel = doc.system.requirements ? i18n(CONFIG.WW.WEAPON_REQUIREMENTS[doc.system.requirements]) : '—';
 
       // Get Defense stats
-      if (doc.type === 'equipment') {
+      if (doc.type === 'Equipment') {
 
         // Get Armor Type
         if (doc.system.subtype === 'armor') doc.typeLabel = i18n(CONFIG.WW.ARMOR_TYPES[doc.system.armorType]); else doc.typeLabel = i18n('WW.Armor.Shield');
@@ -420,7 +420,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
    * @protected
    */
   async _onDrop(event) {
-    const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
+    const data = TextEditor.getDragEventData(event);
     
     // Handle different data types
     switch (data.type) {

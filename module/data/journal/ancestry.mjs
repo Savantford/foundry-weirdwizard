@@ -1,7 +1,11 @@
-import BaseCharOptionModel from './base-charoption.mjs';
-import { makeIntField, makeRequiredStrField, makeStrField, makeUuidStrField } from '../field-presets.mjs';
+import { TypedObjectField } from '../typed-object-field.mjs';
+import {
+  BaseCharOptionModel,
+  makeIntField,
+  makeStrField
+} from './base-charoption.mjs'
 
-export default class AncestryModel extends BaseCharOptionModel {
+export default class AncestryData extends BaseCharOptionModel {
 
   static defineSchema() {
     const fields = foundry.data.fields;
@@ -30,43 +34,43 @@ export default class AncestryModel extends BaseCharOptionModel {
         items: new fields.ArrayField(makeStrField()),
 
         // List Entries
-        descriptors: new fields.TypedObjectField(
+        descriptors: new TypedObjectField(
           new fields.SchemaField({
-            name: makeRequiredStrField(),
+            name: makeStrField("", 0),
             desc: makeStrField(),
-            grantedBy: makeUuidStrField(null)
+            grantedBy: makeStrField(null)
           }, { nullable: true })
         ),
 
-        immunities: new fields.TypedObjectField(
+        immunities: new TypedObjectField(
           new fields.SchemaField({
-            name: makeRequiredStrField(),
+            name: makeStrField("", 0),
             desc: makeStrField(),
-            grantedBy: makeUuidStrField(null)
+            grantedBy: makeStrField(null)
           }, { nullable: true })
         ),
 
-        languages: new fields.TypedObjectField(
+        languages: new TypedObjectField(
           new fields.SchemaField({
-            name: makeRequiredStrField(),
+            name: makeStrField("", 0),
             desc: makeStrField(),
-            grantedBy: makeUuidStrField(null)
+            grantedBy: makeStrField(null)
           }, { nullable: true })
         ),
 
-        movementTraits: new fields.TypedObjectField(
+        movementTraits: new TypedObjectField(
           new fields.SchemaField({
-            name: makeRequiredStrField(),
+            name: makeStrField("", 0),
             desc: makeStrField(),
-            grantedBy: makeUuidStrField(null)
+            grantedBy: makeStrField(null)
           }, { nullable: true })
         ),
 
-        senses: new fields.TypedObjectField(
+        senses: new TypedObjectField(
           new fields.SchemaField({
-            name: makeRequiredStrField(),
+            name: makeStrField("", 0),
             desc: makeStrField(),
-            grantedBy: makeUuidStrField(null)
+            grantedBy: makeStrField(null)
           }, { nullable: true })
         ),
       })

@@ -1,29 +1,31 @@
-import BaseCharOptionModel from './base-charoption.mjs';
-import { makeIntField, makeRequiredStrField, makeStrField, makeUuidStrField } from '../field-presets.mjs';
+import { TypedObjectField } from '../typed-object-field.mjs';
+import {
+  BaseCharOptionModel,
+  makeIntField,
+  makeStrField
+} from './base-charoption.mjs'
 
-export default class ProfessionModel extends BaseCharOptionModel {
+export default class ProfessionData extends BaseCharOptionModel {
 
   static defineSchema() {
     const fields = foundry.data.fields;
     const schema = super.defineSchema();
 
-    schema.category = makeRequiredStrField('commoner');
+    schema.category = makeStrField('commoner', 0);
 
     schema.benefits = new fields.SchemaField({
 
       benefit1: new fields.SchemaField({
         levelReq: makeIntField(0),
 
-        items: new fields.ArrayField(
-          makeUuidStrField()
-        ),
+        items: new fields.ArrayField(makeStrField()),
 
         // List entries
-        languages: new fields.TypedObjectField(
+        languages: new TypedObjectField(
           new fields.SchemaField({
-            name: makeRequiredStrField(),
+            name: makeStrField("", 0),
             desc: makeStrField(),
-            grantedBy: makeUuidStrField()
+            grantedBy: makeStrField(null)
           }, { nullable: true })
         )
 

@@ -1,29 +1,21 @@
-import BaseCharOptionModel from './base-charoption.mjs';
-import { makeUuidStrField } from '../field-presets.mjs'
+import {
+  BaseCharOptionModel,
+  makeStrField
+} from './base-charoption.mjs'
 
-export default class TraditionModel extends BaseCharOptionModel {
+export default class TraditionData extends BaseCharOptionModel {
 
   static defineSchema() {
     const fields = foundry.data.fields;
     const schema = super.defineSchema();
 
     // Item references
-    schema.talents = new fields.ArrayField(
-      makeUuidStrField()
-    );
+    schema.talents = new fields.ArrayField(makeStrField());
 
     schema.spells = new fields.SchemaField({
-      novice: new fields.ArrayField(
-        makeUuidStrField()
-      ),
-
-      expert: new fields.ArrayField(
-        makeUuidStrField()
-      ),
-
-      master: new fields.ArrayField(
-        makeUuidStrField()
-      )
+      novice: new fields.ArrayField(makeStrField()),
+      expert: new fields.ArrayField(makeStrField()),
+      master: new fields.ArrayField(makeStrField())
     });
 
     return schema;

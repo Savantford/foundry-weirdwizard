@@ -1,18 +1,23 @@
-import BaseItemModel from './base-item.mjs';
-import { makeHtmlField, makeRequiredStrField } from '../field-presets.mjs';
+import {
+  BaseItemModel,
+  fields,
+  base,
+  activity,
+  makeStrField
+} from './base-item.mjs'
 
-export default class TalentModel extends BaseItemModel {
+export default class TalentData extends BaseItemModel {
 
   static defineSchema() {
-    const fields = foundry.data.fields;
-    const schema = super.defineSchema();
+    const type = 'Talent';
     
-    schema.description = makeHtmlField('No description available.'),
-    schema.subtype =  makeRequiredStrField('trait'),
-    schema.source = makeRequiredStrField('none')
-    
+    return {
+      ...base(type),
+      ...activity(type),
 
-    return schema;
+      subtype: makeStrField('trait',0,1),
+      source: makeStrField('none',0,1)
+    }
   }
 
   /**

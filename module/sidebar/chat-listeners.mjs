@@ -1,5 +1,7 @@
+import ApplyContext from '../ui/apply-context.mjs';
 import { i18n } from '../helpers/utils.mjs';
 import MultiChoice from '../apps/multi-choice.mjs';
+import RollAttribute from '../dice/roll-attribute.mjs';
 import RollDamage from '../dice/roll-damage.mjs';
 import WWRoll from '../dice/roll.mjs';
 
@@ -9,29 +11,28 @@ import WWRoll from '../dice/roll.mjs';
 
 //const tokenManager = new TokenManager()
 
-export function initChatListeners(html, message, context) {
-  // Rolling for Instant Effects
-  html.querySelector('.chat-button[data-action*=roll]')?.addEventListener('click', _onInstantEffectRoll);
-  html.querySelector('.enricher-roll')?.addEventListener('click', _onInstantEffectRoll);
+export function initChatListeners(html, app) {
+  
+  // Handle chat Message Button left click
+  html.on('click', '.chat-button[data-action*=roll]', _onMessageButtonRoll);
+  html.on('click', '.enricher-roll', _onMessageButtonRoll);
 
-  // Attribute Call (Enricher)
-  html.querySelector('.enricher-call')?.addEventListener('click', (ev) => { _onMultiChoice(ev, 'attributeCall') });
-
-  // Effect Application Multi-Choice
-  html.querySelector('.chat-button[data-action*=apply]')?.addEventListener('click', (ev) => { _onMultiChoice(ev, 'applyEffect') });
+  // Handle chat Message Button right click context menu
+  html.find('.chat-button[data-action*=apply]').click(ev => _onOpenMultiChoice(ev, 'applyEffect') );
+  new ApplyContext(html, '.enricher-call', [], { onOpen: _onMessageButtonContext.bind('call'), eventName:'click' });
 
   // Open Sheet from chat
-  html.querySelector('[data-action=open-sheet]')?.addEventListener('click', _onOpenSheet);
+  html.on('click', '[data-action=open-sheet]', _onOpenSheet);
 
   // Collapse descriptions
-  html.querySelector('.chat-message-collapse')?.addEventListener('click', (ev) => _onMessageCollapse(html));
+  html.find('.chat-message-collapse').click(_onMessageCollapse);
 
 }
 
 /** 
  * Handle roll started from a chat button.
  */
-function _onInstantEffectRoll(event) {
+function _onMessageButtonRoll(event) {
 
   event.preventDefault()
   const button = event.currentTarget,
@@ -53,7 +54,7 @@ function _onInstantEffectRoll(event) {
   * Handle opening of a context menu from a chat button.
   * @param {HTMLElement} element     The element the menu opens on.
 */
-function _onMultiChoice(ev, purpose) {
+function _onOpenMultiChoice(ev, purpose) {
   
   const element = ev.currentTarget;
   const user = game.user;
@@ -186,8 +187,8 @@ function _onMultiChoice(ev, purpose) {
   for (const group in groups) {
     
     sections.push({
-      title: i18n(CONFIG.WW.MULTI_CHOICE_TARGET_HEADERS[group]),
-      icon: CONFIG.WW.MULTI_CHOICE_TARGET_HEADER_ICONS[group],
+      title: i18n(CONFIG.WW.APPLY_CONTEXT_HEADERS[group]),
+      icon: CONFIG.WW.APPLY_CONTEXT_ICONS[group],
       choices: groups[group],
       collapsed: (group === 'actors-tab' && Object.keys(groups).length > 1) ? true : false
     })
@@ -206,6 +207,172 @@ function _onMultiChoice(ev, purpose) {
     },
     sections: sections
   }).render(true);
+
+}
+
+/**
+  * Handle opening of a context menu from a chat button.
+  * @param {HTMLElement} element     The element the menu opens on.
+*/
+function _onMessageButtonContext(element) {
+  
+  // Get Variables
+  const user = game.user;
+  const character = user.character;
+  
+  function callRoll(dataset, target) {
+    
+    const { attribute, fixedBoons }  = dataset;
+    
+    const obj = {
+      origin: target.uuid,
+      label: i18n(CONFIG.WW.ROLL_ATTRIBUTES[attribute]),
+      content: '',
+      attKey: attribute,
+      fixedBoons: parseInt(fixedBoons)
+    }
+
+    new RollAttribute(obj).render(true);
+    
+  }
+
+  function _applyToTarget(dataset, target) {
+    const value = dataset.value,
+      effect = dataset.effectUuid;
+    
+    switch (dataset.action) {
+      case 'apply-damage': target.applyDamage(value); break;
+      case 'apply-damage-half': target.applyDamage(Math.floor(value/2)); break;
+      case 'apply-damage-double': target.applyDamage(2*value); break;
+      case 'apply-healing': target.applyHealing(value); break;
+      case 'apply-health-loss': target.applyHealthLoss(value); break;
+      case 'apply-health-regain': target.applyHealthRegain(value); break;
+      case 'apply-affliction': target.applyAffliction(value); break;
+      case 'apply-effect': target.applyEffect(effect); break;
+    }
+  }
+  
+  function iconToHTML(icon, id) { return `<img src="${icon}" data-tooltip="ID: ${id}" />`}
+
+  function resolveAction({action, dataset, target}) {
+    return action === 'call' ? callRoll(dataset, target) : _applyToTarget(dataset, target);
+  }
+
+  const menuItems = [];
+  
+  // Get pre-selected targets
+  const preTargetIds = element.dataset.targetIds ? element.dataset.targetIds.split(',') : [];
+  const preTargets = [];
+  
+  preTargetIds.forEach(t => {
+    if(game.actors.tokens[t]) preTargets.push(game.actors.tokens[t]);
+  })
+
+  // Assign pre-selected Targets, if any exists
+  if (preTargets) {
+    preTargets.forEach(actor => {
+      
+      if (actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
+        name: game.weirdwizard.utils.getAlias({ actor: actor }),
+        icon: iconToHTML(actor.token ? actor.token.texture.src : actor.img, actor.uuid),
+        group: 'pre-targets',
+        uuid: actor.uuid,
+        callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
+      });
+    
+    })
+  }
+
+  // Assign user's targets, if any exists
+  if (game.user.targets.size) {
+    game.user.targets.forEach(token => {
+      const actor = token.document.actor;
+      
+      if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
+        name: game.weirdwizard.utils.getAlias({ actor: actor }),
+        icon: iconToHTML(actor.token ? actor.token.texture.src : actor.img, actor.uuid),
+        group: 'targets',
+        uuid: actor.uuid,
+        callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
+      });
+    
+    })
+  }
+
+  // Assign user's selected tokens, if any exists
+  if (canvas.tokens.controlled) {
+    
+    canvas.tokens.controlled.forEach(token => {
+      const actor = token.document.actor;
+      
+      if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
+        name: game.weirdwizard.utils.getAlias({ actor: actor }),
+        icon: iconToHTML(actor.token ? actor.token.texture.src : actor.img, actor.uuid),
+        group: 'selected',
+        uuid: actor.uuid,
+        callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
+      });
+    
+    })
+  }
+
+  // Assign a character if it exists
+  if (character && (!menuItems.find(o => o.uuid === character.uuid))) {
+    
+    menuItems.push({
+      name: game.weirdwizard.utils.getAlias({ actor: character }),
+      icon: iconToHTML(character.img, character.uuid),
+      group: 'character',
+      uuid: character.uuid,
+      callback: li => resolveAction({ action: this, dataset: element.dataset, target: character })
+    })
+  }
+
+  // Assign combatants from current combat, if there are any
+  game.combat?.combatants.forEach(c => {
+    const actor = c.actor;
+    
+    if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
+      name: game.weirdwizard.utils.getAlias({ actor: actor }),
+      icon: iconToHTML(actor.token ? actor.token.texture.src : actor.img, actor.uuid),
+      group: 'combatants',
+      uuid: actor.uuid,
+      callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
+    });
+  
+  })
+  
+  // Add synthetic Token actors in the current scene
+  for (const id in game.actors.tokens) {
+    const actor = game.actors.tokens[id];
+    
+    if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
+      name: game.weirdwizard.utils.getAlias({ actor: actor }),
+      icon: iconToHTML(actor.token ? actor.token.texture.src : actor.img, actor.uuid),
+      group: 'scene-tokens',
+      uuid: actor.uuid,
+      callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
+    });
+  
+  }
+
+  // Add actors in the actor tab
+  for (const actor of game.actors) {
+
+    if (actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) {
+      
+      menuItems.push({
+        name: game.weirdwizard.utils.getAlias({ actor: actor }),
+        icon: iconToHTML(actor.token ? actor.token.texture.src : actor.img, actor.uuid),
+        group: 'actors-tab',
+        uuid: actor.uuid,
+        callback: li => resolveAction({ action: this, dataset: element.dataset, target: actor })
+      })  
+      
+    }
+  }
+
+  ui.context.menuItems = menuItems;
 
 }
 
@@ -247,7 +414,7 @@ async function _onChatRoll(dataset, label, nextAction) {
   // Prepare roll
   const r = await new WWRoll(data.value, data.actor?.getRollData(),
     {
-      template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
+      template: "systems/weirdwizard/templates/chat/roll.hbs",
       originUuid: origin,
       target: data.target,
       dataset: data,
@@ -279,36 +446,36 @@ async function _onChatRoll(dataset, label, nextAction) {
 
 }
 
-function _onMessageCollapse(msg) {
-  const button = msg.querySelector('.chat-message-collapse');
-  const icon = msg.querySelector('.chat-message-collapse > i');
+function _onMessageCollapse(ev) {
   
-  // List elements to toggle collapse
+  const button = ev.currentTarget,
+  icon = $(button).find('i'),
+  msg = $(button).parents('.chat-message');
+  
   const elements = {
-    wrapperChildren: msg.querySelector('.message-wrapper > *:not(.flavor-container)'),
-    traits: msg.querySelector('.traits-container'),
-    content: msg.querySelector('.message-content'),
-    subheader: msg.querySelector('.message-subheader-details'),
-    bug: msg.querySelector('.bug')
+    traits: msg.find('.traits-container'),
+    wrapper: msg.find('.message-wrapper'),
+    wrapperChildren: msg.find('.message-wrapper > *'),
+    footer: msg.find('.message-footer > *'),
+    bug: msg.find('.bug'),
+    subheader: msg.find('.message-subheader-details')
   }
   
   // Flip states
-  if (icon.classList.contains('fa-square-plus')) {
-    button.setAttribute('data-tooltip', 'WW.Item.HideDesc')
-    icon.classList.remove('fa-square-plus')
-    icon.classList.add('fa-square-minus');
+  if (icon.hasClass('fa-square-plus')) {
+    $(button).attr('data-tooltip', 'WW.Item.HideDesc')
+    icon.removeClass('fa-square-plus').addClass('fa-square-minus');
 
     for (const el in elements) {
-      $(elements[el]).slideDown(500); // Remove jQuery when possible
+      elements[el].slideDown(500);
     };
     
   } else {
-    button.setAttribute('data-tooltip', 'WW.Item.ShowDesc')
-    icon.classList.remove('fa-square-minus')
-    icon.classList.add('fa-square-plus');
+    $(button).attr('data-tooltip', 'WW.Item.ShowDesc')
+    icon.removeClass('fa-square-minus').addClass('fa-square-plus');
 
     for (const el in elements) {
-      $(elements[el]).slideUp(500); // Remove jQuery when possible
+      elements[el].slideUp(500);
     };
     
   }

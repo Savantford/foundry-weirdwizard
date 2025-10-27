@@ -1,26 +1,36 @@
-import { makeBooField, makeHtmlField, makeIntField, makeRequiredStrField, makeStrField } from '../field-presets.mjs';
-import BaseItemModel from './base-item.mjs';
+import {
+  BaseItemModel,
+  fields,
+  base,
+  activity,
+  makeBooField,
+  makeIntField,
+  makeStrField
+} from './base-item.mjs'
 
-export default class SpellModel extends BaseItemModel {
+export default class SpellData extends BaseItemModel {
 
   static defineSchema() {
-    const fields = foundry.data.fields;
-    const schema = super.defineSchema();
+    const type = 'Spell';
     
-    // Add Spell fields
-    schema.tier = makeRequiredStrField('novice');
-    schema.tradition = makeStrField();
-    schema.casting = makeStrField();
-    schema.target = makeStrField();
-    schema.duration = makeStrField('Instantaneous');
+    return {
+      ...base(type),
+      ...activity(type),
+      
+      tier: makeStrField('novice',0),
+      tradition: makeStrField('',1,1),
+      casting: makeStrField('',1,1),
+      target: makeStrField('',1,1),
+      duration: makeStrField('Instantaneous',1,1),
 
-    // Adjust Spell-specific initials
-    schema.active = makeBooField(false);
-    schema.description = makeHtmlField('No description available.');
-    schema.magical = makeBooField(true);
-    schema.uses.fields.max = makeIntField(1);
+      uses: new fields.SchemaField({
+        value: makeIntField(),
+        max: makeIntField(1),
+        onRest: makeBooField(true),
+        levelRelative: makeStrField('manual',0)
+      })
 
-    return schema;
+    }
   }
 
   /**
@@ -59,7 +69,7 @@ export default class SpellModel extends BaseItemModel {
   /* The defined destroyed property could then be accessed on any Actor document of the item type as follows:
 
   // Determine if a item is destroyed.
-  game.actors.getName('character').system.destroyed;
+  game.actors.getName('Character').system.destroyed;
   */
 
 }

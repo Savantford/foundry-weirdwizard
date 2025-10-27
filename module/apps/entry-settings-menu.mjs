@@ -125,7 +125,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
       key: entryKey,
       showKey: true,
       grantedBy: await fromUuid(entry.grantedBy) ?
-        await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${entry.grantedBy}]`, { secrets: this.actor.isOwner }) : null
+        await TextEditor.enrichHTML(`@Embed[${entry.grantedBy} inline]`, { secrets: this.actor.isOwner }) : null
     };
 
     // Show a dialog 
@@ -134,7 +134,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
         icon: "fa-solid fa-circle-plus",
         title: 'WW.Settings.Entry.Add',
       },
-      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
+      content: await renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
       ok: {
         label: 'EFFECT.Submit',
         icon: 'fa-solid fa-save'
@@ -185,7 +185,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
         icon: "fa-solid fa-edit",
         title: 'WW.Settings.Entry.Edit',
       },
-      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
+      content: await renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
       ok: {
         label: 'EFFECT.Submit',
         icon: 'fa-solid fa-save'
@@ -306,6 +306,3 @@ export class AfflictionsMenu extends EntrySettingsMenu {
   static DEFAULT_OPTIONS = { listKey: 'afflictions' };
 }
 
-export class ConnectionsMenu extends EntrySettingsMenu {
-  static DEFAULT_OPTIONS = { listKey: 'connections' };
-}

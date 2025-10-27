@@ -8,13 +8,6 @@ WW.ATTRIBUTES = {
   'wil': 'WW.Attributes.Will'
 }
 
-WW.ATTRIBUTES_SHORT = {
-  'str': 'WW.Attributes.StrengthShort',
-  'agi': 'WW.Attributes.AgilityShort',
-  'int': 'WW.Attributes.IntellectShort',
-  'wil': 'WW.Attributes.WillShort'
-}
-
 WW.ATTRIBUTE_ROLLS = {
   'str': 'WW.Attributes.StrengthRoll',
   'agi': 'WW.Attributes.AgilityRoll',
@@ -30,14 +23,6 @@ WW.ATTRIBUTE_ICONS = {
   'wil': '/systems/weirdwizard/assets/icons/burning-star.svg',
   'luck': '/systems/weirdwizard/assets/icons/clover.svg',
   'def': 'icons/svg/shield.svg'
-}
-
-WW.ROLL_ATTRIBUTE_LABELS = {
-  'str': 'WW.Roll.Strength',
-  'agi': 'WW.Roll.Agility',
-  'int': 'WW.Roll.Intellect',
-  'wil': 'WW.Roll.Will',
-  'luck': 'WW.Roll.Luck'
 }
 
 /* Dropdown Menus */
@@ -86,15 +71,6 @@ WW.COINS = {
   'cp': 'WW.Equipment.CP',
   'sp': 'WW.Equipment.SP',
   'gp': 'WW.Equipment.GP'
-};
-
-WW.CONNECTIONS = {
-  'financial': 'WW.Group.Connections.Financial',
-  'influence': 'WW.Group.Connections.Influence',
-  'professional': 'WW.Group.Connections.Professional',
-  'information': 'WW.Group.Connections.Information',
-  'resource': 'WW.Group.Connections.Resource',
-  'security': 'WW.Group.Connections.Security'
 };
 
 /* Items */
@@ -177,16 +153,16 @@ WW.WEAPON_REQUIREMENTS = {
 };
 
 WW.WEAPON_GRIPS = {
-  'one': 'WW.Weapon.Grip.One',
-  'two': 'WW.Weapon.Grip.Two',
-  'off': 'WW.Weapon.Grip.Off',
-  'natural': 'WW.Weapon.Grip.Natural'
+  'One': 'WW.Weapon.Grip.One',
+  'Two': 'WW.Weapon.Grip.Two',
+  'Off': 'WW.Weapon.Grip.Off',
+  'Natural': 'WW.Weapon.Grip.Natural'
 };
 
 WW.WEAPON_GRIPS_SHORT = {
-  'one': 'WW.Weapon.Grip.OneShort',
-  'two': 'WW.Weapon.Grip.TwoShort',
-  'off': 'WW.Weapon.Grip.OffShort'
+  'One': 'WW.Weapon.Grip.OneShort',
+  'Two': 'WW.Weapon.Grip.TwoShort',
+  'Off': 'WW.Weapon.Grip.OffShort'
 };
 
 WW.WEAPON_TRAITS = {
@@ -322,10 +298,10 @@ WW.TEMPLATE_TYPES = {
 /* Character Options */
 
 WW.CHARACTER_OPTIONS = {
-  'ancestry': 'TYPES.JournalEntryPage.ancestry',
-  'path': 'TYPES.JournalEntryPage.path',
-  'profession': 'TYPES.JournalEntryPage.profession',
-  'tradition': 'TYPES.JournalEntryPage.tradition'
+  'ancestry': "TYPES.JournalEntryPage.ancestry",
+  'path': "TYPES.JournalEntryPage.path",
+  'profession': "TYPES.JournalEntryPage.profession",
+  'tradition': "TYPES.JournalEntryPage.tradition"
 }
 
 WW.PATH_TIERS = {
@@ -356,17 +332,17 @@ WW.SPELLS_LEARNED = {
   '1m': 'WW.Spells.Learned.OneMaster'
 }
 
-WW.MULTI_CHOICE_TARGET_HEADERS = {
-  'pre-targets': 'WW.MultiChoice.TargetHeader.PreTargets',
-  'targets': 'WW.MultiChoice.TargetHeader.Targets',
-  'selected': 'WW.MultiChoice.TargetHeader.Selected',
-  'character': 'WW.MultiChoice.TargetHeader.Character',
-  'combatants': 'WW.MultiChoice.TargetHeader.Combatants',
-  'scene-tokens': 'WW.MultiChoice.TargetHeader.SceneTokens',
-  'actors-tab': 'WW.MultiChoice.TargetHeader.ActorsTab'
+WW.APPLY_CONTEXT_HEADERS = {
+  'pre-targets': 'WW.System.ApplyContext.PreTargets',
+  'targets': 'WW.System.ApplyContext.Targets',
+  'selected': 'WW.System.ApplyContext.Selected',
+  'character': 'WW.System.ApplyContext.Character',
+  'combatants': 'WW.System.ApplyContext.Combatants',
+  'scene-tokens': 'WW.System.ApplyContext.SceneTokens',
+  'actors-tab': 'WW.System.ApplyContext.ActorsTab'
 }
 
-WW.MULTI_CHOICE_TARGET_HEADER_ICONS = {
+WW.APPLY_CONTEXT_ICONS = {
   'pre-targets': 'arrows-down-to-people',
   'targets': 'users-viewfinder',
   'selected': 'users-rectangle',
@@ -1248,32 +1224,5 @@ WW.DEFAULT_SENSES = {
   'trueVision': {
     name: 'True Vision',
     desc: 'The creature needs no light to see and treats everything within its line of sight as being illuminated. It perceives outlines around invisible creatures and objects in its line of sight. It also sees through mundane and magical disguises, perceives transformed creatures in their normal forms, and recognizes visual illusions for what they are.'
-  }
-};
-
-WW.DEFAULT_CONNECTIONS = {
-  'financial': {
-    name: 'Financial',
-    desc: 'The connection gives 5 gp to the character at the novice tier, 10 gp at the expert tier, or 25 gp at the master tier.'
-  },
-  'influence': {
-    name: 'Influence',
-    desc: 'The connection either allows access to a restricted area or person, such as inside a library after hours or a meeting with a local ruler, or helps a character make a different connection. In the latter case, the character activates the connection between quests to gain a different connection.'
-  },
-  'professional': {
-    name: 'Professional',
-    desc: 'The connection belongs to a particular profession and lends aid related to their area of expertise. This might be helpful for identifying a monster, creating an item, acquiring an inscription or consumable, securing shelter in a temple, or learning specific information related to the profession.'
-  },
-  'information': {
-    name: 'Information',
-    desc: 'The connection reveals information concerning any subject. The time it takes to gain this information depends on its secrecy. Common knowledge is immediate, while gaining exotic knowledge might require a character to wait until the end of the next quest or longer.'
-  },
-  'resource': {
-    name: 'Resource',
-    desc: 'The connection grants access to a specific tangible resource that is something other than coin: healing, horses, a ship, a tower or keep, a vehicle, or something else.'
-  },
-  'security': {
-    name: 'Security',
-    desc: 'The connection either grants a place for the character and allies to hole up for a time or provides the services of an armed guard for the duration of the next quest. The guard should have a Difficulty 1 at the novice tier, 2 at the expert tier, and 4 at the master tier.'
   }
 };

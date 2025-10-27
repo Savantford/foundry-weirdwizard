@@ -1,4 +1,4 @@
-<section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+<section class="tab equipment {{tab.cssClass}}" data-group="primary" data-tab="equipment">
     {{!-- Weapons --}}
     <h2>{{localize "WW.Equipment.Weapons"}}</h2>
     <div>
@@ -10,7 +10,7 @@
                 <div class="item-fixed">{{localize "WW.Weapon.Grip.Label"}}</div>
                 <div class="item-traits">{{localize "WW.Weapon.Traits.Label"}}</div>
                 <div class="item-controls">
-                    <a class="item-control item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Weapon" data-type="equipment" data-subtype="weapon"><i
+                    <a class="item-control item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Weapon" data-type="Equipment" data-subtype="weapon"><i
                         class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}</a>
                 </div>
             </li>
@@ -39,12 +39,12 @@
                 </div>
                 
                 <div class="item-fixed"><a>{{item.system.damage}}</a></div>
-                <div class="item-fixed">{{localize item.system.gripLabel}}</div>
+                <div class="item-fixed">{{localize item.system.grip}}</div>
                 <div class="item-traits">{{item.system.traitsList}}</div>
 
                 <div class="item-controls">
                     {{!-- Scroll Button --}}
-                    {{#if item.system.description}}
+                    {{#if item.system.description.value}}
                         <a class="item-button" data-action="itemScroll" data-item-id="{{item._id}}"
                             data-tooltip="{{localize "WW.Item.Send"}}">
                         <i class="fa-regular fa-scroll"></i></a>
@@ -127,7 +127,7 @@
                 <div class="item-uses">{{localize "WW.Equipment.Uses"}}</div>
                 <div class="item-weight">{{localize "WW.Equipment.Weight"}}</div>
                 <div class="item-controls">
-                    <a class="item-control item-create" data-action="itemCreate"  data-tooltip="WW.Item.Create.Equipment" data-type="equipment" data-subtype="generic"><i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}</a>
+                    <a class="item-control item-create" data-action="itemCreate"  data-tooltip="WW.Item.Create.Equipment" data-type="Equipment" data-subtype="generic"><i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}</a>
                 </div>
             </li>
 
@@ -196,7 +196,7 @@
                 <div class="item-controls">
 
                     {{!-- Scroll Button --}}
-                    {{#if item.system.description}}
+                    {{#if item.system.description.value}}
                         <a class="item-button" data-action="itemScroll" data-item-id="{{item._id}}"
                             data-tooltip="{{localize "WW.Item.Send"}}">
                         <i class="fa-regular fa-scroll"></i></a>
@@ -262,7 +262,7 @@
                     <div class="item-controls">
 
                         {{!-- Scroll Button --}}
-                        {{#if heldItem.system.description}}
+                        {{#if heldItem.system.description.value}}
                             <a class="item-button" data-action="itemScroll" data-item-id="{{heldItem._id}}"
                                 data-tooltip="{{localize "WW.Item.Send"}}">
                             <i class="fa-regular fa-scroll"></i></a>

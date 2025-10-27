@@ -3,7 +3,7 @@
  * Most code was originally written for the DnD5e system:
  * https://github.com/foundryvtt/dnd5e/blob/master/module/canvas/ability-template.mjs
  */
-export default class GridTemplate extends foundry.canvas.placeables.MeasuredTemplate {
+export default class GridTemplate extends MeasuredTemplate {
 
   /**
    * Track the timestamp when the last mouse move event was captured.

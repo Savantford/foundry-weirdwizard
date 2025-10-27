@@ -1,17 +1,22 @@
-<div>
-  <section class="header-section weirdwizard">
+<div class="weirdwizard charoption path">
+
+  <section class="header-section">
 
     {{!-- Right Banner --}}
     <header class="sheet-banner-wrapper">
-      <div class="type">{{ localize (lookup @root.tiers document.system.tier) }}</div>
+      <div class="type">{{localize (lookup @root.tiers document.system.tier)}}</div>
 
       <div class="icon-frame">
-        <img src="{{ document.src }}" data-edit="src" data-tooltip="WW.System.ViewImage" />
+        <img src="{{document.src}}" data-edit="src" data-tooltip="WW.System.ViewImage" />
       </div>
     </header>
     
-    {{#if title.show}}
-    {{> "systems/weirdwizard/templates/journal/parts/journal-page-header.hbs" this=this }}
+    {{#if data.title.show}}
+    <header class="journal-page-header">
+      <h{{data.title.level}} class="draggable" data-journal-page-uuid="{{document.uuid}}">
+        {{data.name}}
+      </h{{data.title.level}}>
+    </header>
     {{/if}}
 
     {{!-- Page Content (Editor/Description) --}}
@@ -22,7 +27,7 @@
   </section>
   
   {{!-- Benefits Section --}}
-  <section class="benefits-section weirdwizard">
+  <section class="benefits-section">
     {{!-- Benefit Blocks --}}
     {{#each benefits as |benefit id|}}
     {{#if (ne benefit.levelReq 99)}}

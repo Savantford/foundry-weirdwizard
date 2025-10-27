@@ -1,7 +1,7 @@
 import { mapRange } from './canvas-functions.mjs';
 
 // Code base borrowed from SWADE game system. Thank you!
-export default class WWToken extends foundry.canvas.placeables.Token {
+export default class WWToken extends Token {
 
   /* Color macros */
   #blk = 0x000000;
@@ -83,7 +83,7 @@ export default class WWToken extends foundry.canvas.placeables.Token {
   updateStatusIcons() {
     // Create containers
     const TopContainer = this.createIconContainer('Top'), BottomContainer = this.createIconContainer('Bottom');
-    
+
     // Add Health status icon
     this.displayHealthIcon(TopContainer);
     
@@ -181,7 +181,7 @@ export default class WWToken extends foundry.canvas.placeables.Token {
     
     const combatant = this.combatant, acted = combatant.acted, takingInit = combatant.takingInit,
       current = combatant == combatant.combat.combatant,
-      dispo = combatant.token?.disposition
+      dispo = combatant.token.disposition
     ;
 
     const index = container.children.length;
@@ -200,7 +200,7 @@ export default class WWToken extends foundry.canvas.placeables.Token {
     } else if (takingInit) {
       texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/reactions.svg');
       tint = this.#ylw;
-    } else if (combatant.actor?.type === 'character' || (combatant.actor?.type == 'npc' && dispo === 1)) {
+    } else if (combatant.actor?.type === 'Character' || (combatant.actor?.type == 'NPC' && dispo === 1)) {
       texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/heart-shield.svg');
       tint = this.#wht;
     }
@@ -219,7 +219,7 @@ export default class WWToken extends foundry.canvas.placeables.Token {
     turnBg.height = iconSize;
     turnBg.width = iconSize;
     turnBg.name = "turnBg";
-    turnBg.tint = combatant.actor?.type == 'npc' && dispo !== 1 ? this.#wht : this.#blk;
+    turnBg.tint = combatant.actor?.type == 'NPC' && dispo !== 1 ? this.#wht : this.#blk;
     
     // Background blur
     const blur = new PIXI.BlurFilter();
@@ -237,7 +237,7 @@ export default class WWToken extends foundry.canvas.placeables.Token {
   _applyRenderFlags(flags) {
     super._applyRenderFlags(flags);
     
-    if (this.actor.type !== 'group') this.updateStatusIcons();
+    this.updateStatusIcons();
   }
 
 }

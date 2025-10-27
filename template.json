@@ -1,11 +1,30 @@
 {
   "Actor": {
-    "types": ["character", "npc", "group", "vehicle"],
+    "types": ["Character", "NPC", "Vehicle", "Group"],
     "templates": {},
-    "htmlFields": []
+    "htmlFields": [],
+    "Group": {
+      "description": {
+        "full": "",
+        "summary": ""
+      },
+      "members": [],
+      "attributes": {
+        "movement": {
+          "land": 0,
+          "water": 0,
+          "air": 0
+        }
+      },
+      "currency": {
+        "gp": 0,
+        "sp": 0,
+        "cp": 0
+      }
+    }
   },
   "Item": {
-    "types": ["equipment", "talent", "spell", "Ancestry", "Profession", "Path"],
+    "types": ["Equipment", "Trait or Talent", "Spell", "Ancestry", "Profession", "Path"],
     "htmlFields": []
   },
   "ActiveEffect": {
@@ -17,7 +36,7 @@
     "htmlFields": []
   },
   "ChatMessage": {
-    "types": ["d20-roll", "d6-roll", "unrolled-use", "embed-card", "status"],
+    "types": ["d20-roll", "d6-roll", "unrolled-use", "embed-card"],
     "htmlFields": []
   }
 }
