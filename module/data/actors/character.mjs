@@ -1,8 +1,8 @@
-import { camelCase } from '../../helpers/utils.mjs';
-import { TypedObjectField } from '../typed-object-field.mjs';
-import { BaseActorModel, makeCharOptionField, makeHtmlField, makeIntField, makeNumField, makeStrField } from './base-actor.mjs';
 
-export default class CharacterData extends BaseActorModel {
+import BaseActorModel from './base-creature.mjs';
+import { makeFloField, makeHtmlField, makeIntField, makeRequiredStrField, makeStrField, makeUuidStrField } from '../field-presets.mjs';
+
+export default class CharacterModel extends BaseActorModel {
 
   /** @inheritdoc */
   static defineSchema() {
@@ -23,38 +23,31 @@ export default class CharacterData extends BaseActorModel {
       background: makeHtmlField(),
       personality: makeHtmlField(),
       beliefs: makeHtmlField(),
-      notes: makeHtmlField(),
-
-      // Will be deleted in a later date
-      professions: makeStrField("", 1, 1),
-      ancestry: makeStrField("", 1, 1),
-      novice: makeStrField("", 1, 1),
-      expert: makeStrField("", 1, 1),
-      master: makeStrField("", 1, 1)
+      notes: makeHtmlField()
     });
 
     // Add Character Options
     schema.charOptions = new fields.SchemaField({
 
-      ancestry: makeCharOptionField('Compendium.weirdwizard.character-options.JournalEntry.pAAZKv2vrilITojZ.JournalEntryPage.GI4b6WkOLlTszbRe'),
+      ancestry: makeUuidStrField('Compendium.weirdwizard.character-options.JournalEntry.pAAZKv2vrilITojZ.JournalEntryPage.GI4b6WkOLlTszbRe'),
 
-      // Paths
-      novice: makeCharOptionField(),
-      expert: makeCharOptionField(),
-      master: makeCharOptionField(),
+      // Path UUIDs
+      novice: makeUuidStrField(),
+      expert: makeUuidStrField(),
+      master: makeUuidStrField(),
 
-      // Arrays
+      // Array of UUIDs
       professions: new fields.ArrayField(
-        makeCharOptionField()
+        makeUuidStrField()
       ),
-
       traditions: new fields.ArrayField(
-        makeCharOptionField()
+        makeUuidStrField()
       )
+      
     });
     
     // Add Character stats
-    schema.stats.fields.level = makeNumField();
+    schema.stats.fields.level = makeFloField();
     schema.stats.fields.bonusdamage = makeIntField();
 
     // Adjust Character-specific initials
@@ -64,11 +57,11 @@ export default class CharacterData extends BaseActorModel {
     schema.stats.fields.health.fields.current = makeIntField(5);
     
     // Will be deleted in a later date
-    schema.listEntries.fields.traditions = new TypedObjectField(
+    schema.listEntries.fields.traditions = new fields.TypedObjectField(
       new fields.SchemaField({
-        name: makeStrField("", 0),
+        name: makeStrField(""),
         desc: makeStrField(),
-        grantedBy: makeStrField(null)
+        grantedBy: makeUuidStrField()
       }, { nullable: true })
     );
 
@@ -101,28 +94,17 @@ export default class CharacterData extends BaseActorModel {
     // Migrate bonus damage and reputation
     if ('stats' in source && isNaN(source.stats?.bonusdamage)) source.stats.bonusdamage = 0;
     if ('details' in source && isNaN(source.details?.reputation)) source.details.reputation = 0;
+
+    // Migrate HTML fields to a single string
+    if ('details' in source) {
+      if (typeof source.details.appearance === 'object') source.details.appearance = source.details.appearance.value;
+      if (typeof source.details.background === 'object') source.details.background = source.details.background.value;
+      if (typeof source.details.personality === 'object') source.details.personality = source.details.personality.value;
+      if (typeof source.details.beliefs === 'object') source.details.beliefs = source.details.beliefs.value;
+      if (typeof source.details.notes === 'object') source.details.notes = source.details.notes.value;
+    }
     
     return super.migrateData(source);
   }
-
-  /* -------------------------------------------- */
-  /*  Properties (Getters)                        */
-  /* -------------------------------------------- */
-
-  /**
-   * Determine whether the character is injured.
-   * @type {boolean}
-   */
-  /*get dead() {
-    const invulnerable = CONFIG.specialStatusEffects.INVULNERABLE;
-    if ( this.parent.effects.some(e => e.statuses.has("invulnerable") )) return false;
-    return this.health.value <= this.health.min;
-  }*/
-
-  /* The defined dead property could then be accessed on any Actor document of the character type as follows:
-
-  // Determine if a character is dead.
-  game.actors.getName("Character").system.dead;
-  */
 
 }

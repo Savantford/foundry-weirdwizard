@@ -1,204 +1,157 @@
-import { effChanges } from '../../helpers/effect-options.mjs'
-import { formatTime } from '../../helpers/utils.mjs';
+import WWSheetMixin from '../ww-sheet.mjs';
+import { getEffectChangeMeta } from '../../helpers/effect-presets.mjs';
+import { makeBooField, makePosIntField, makeStrField } from '../../data/field-presets.mjs';
 
-export default class WWActiveEffectConfig extends ActiveEffectConfig {
-
-  /** @override */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ['sheet', 'active-effect-sheet'],
-      template: 'systems/weirdwizard/templates/configs/active-effect-config.hbs',
-      width: 580,
-      height: 'auto',
-      submitOnChange: true,
+export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applications.sheets.ActiveEffectConfig) {
+  /** @inheritDoc */
+  static DEFAULT_OPTIONS = {
+    classes: ["weirdwizard", "sheet"],
+    position: { width: 580 },
+    form: {
       closeOnSubmit: false,
-      tabs: [{ navSelector: '.tabs', contentSelector: 'form', initial: 'details' }],
-    })
+      submitOnChange: true,
+    }
+  }
+
+  /** @inheritdoc */
+  static PARTS = {
+    ...super.PARTS,
+    
+    tabs: {
+      template: 'systems/weirdwizard/templates/generic/side-tabs.hbs'
+    },
+    details: {
+      template: "systems/weirdwizard/templates/configs/active-effect/details.hbs",
+    },
+    duration: {
+      template: "systems/weirdwizard/templates/configs/active-effect/duration.hbs",
+    },
+    changes: {
+      template: "systems/weirdwizard/templates/configs/active-effect/changes.hbs",
+      scrollable: ["ol[data-changes]"],
+    }
   }
 
   /** @override */
-  async getData(options={}) {
-
-    const doc = this.document;
-
-    const data = {
-      effect: doc,
-      system: doc.system,
-      triggers: doc.isTemporary ? CONFIG.WW.INSTANT_TRIGGERS : CONFIG.WW.EFFECT_TRIGGERS, // Use instant triggers if effect has a duration
-      targets: CONFIG.WW.EFFECT_TARGETS,
-      isActorEffect: doc.parent.documentName === 'Actor',
-      isItemEffect: doc.parent.documentName === 'Item',
-      submitText: 'EFFECT.Submit',
-      modes: Object.entries(CONST.ACTIVE_EFFECT_MODES).reduce((obj, e) => {
-        obj[e[1]] = game.i18n.localize(`EFFECT.MODE_${e[0]}`);
-        return obj;
-      }, {})
-      
-    };
-
-    const context = foundry.utils.mergeObject(await super.getData(options), data);
-
-    // Prepare durationSelect dropdown
-    context.durationOptions = CONFIG.WW.EFFECT_DURATIONS;
-
-    // Pass down durations to display
-    context.formattedStartTime = formatTime(doc.duration.startTime,1);
-
-    // Prepare Effect Options to display on key dropdown menu
-    const optionsObj = foundry.utils.deepClone(CONFIG.WW.EFFECT_OPTIONS);
-    
-    for (const [key, value] of Object.entries(optionsObj)) {
-      optionsObj[key].options = Object.entries(optionsObj[key].options).reduce((all,[k,data]) => { all[k] = data.label; return all; }, {});
+  static TABS = {
+    sheet: {
+      tabs: [
+        {id: "details", tooltip: 'EFFECT.TABS.details', icon: "systems/weirdwizard/assets/icons/scroll-quill.svg", iconType: 'img'},
+        {id: "duration", tooltip: 'EFFECT.TABS.duration', icon: "systems/weirdwizard/assets/icons/empty-hourglass.svg", iconType: 'img'},
+        {id: "changes", tooltip: 'EFFECT.TABS.changes', icon: "systems/weirdwizard/assets/icons/sparkles.svg", iconType: 'img'}
+      ],
+      initial: "details",
+      labelPrefix: "EFFECT.TABS"
     }
-    
-    context.effOptions = optionsObj;
-    
-    // Pass down the value type
-    let i = 0;
+  };
 
-    for (const c of context.data.changes) {
-      const change = c.key.split('.').reduce((o, i) => o[i], effChanges);
-      
-      context.data.changes[i] = {
-        ...c,
-        ...change
-      }
+  /* -------------------------------------------- */
 
-      i++;
-    }
-    
+  /** @inheritDoc */
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    context.buttons = [];
     return context;
   }
 
-  activateListeners(html) {
-    super.activateListeners(html);
+  /* -------------------------------------------- */
 
-    // Update dropdown selections
-    html.find('.key > select').change((ev) => this._updateValueInput(ev, this.document));
-    html.find('select.duration-selection').change((ev) => this.submit({preventClose: true}).then(() => this.render()));
+  /** @inheritDoc */
+  async _preparePartContext(partId, context) {
+    const partContext = await super._preparePartContext(partId, context);
+    if ( partId in partContext.tabs ) partContext.tab = partContext.tabs[partId];
+    
+    switch (partId) {
+      case 'details': {
+        // If effect has duration, use instant triggers since they remove "passive" option
+        partContext.triggers = this.document.isTemporary ? CONFIG.WW.INSTANT_TRIGGERS : CONFIG.WW.EFFECT_TRIGGERS;
+        partContext.targets = CONFIG.WW.EFFECT_TARGETS;
+      } break;
+      case 'duration': {
+        // Prepare durationSelect dropdown
+        partContext.durationOptions = CONFIG.WW.EFFECT_DURATIONS;
 
-    // Close window when Submit is clicked
-    html.find('button[type=submit]').click((ev) => this.close());
+        // Pass down durations to display
+        partContext.formattedStartTime = game.weirdwizard.utils.formatTime(this.document.duration.startTime, 1);
+      } break;
+      case 'changes': {
+        partContext.effectChangeOptions = CONFIG.WW.EFFECT_OPTIONS;
+        partContext.source.changes = partContext.source.changes.map(change => {
+          const valueType = getEffectChangeMeta(change.key)?.valueType ?? 'str';
+          
+          switch (valueType) {
+            case 'boo': change.field = makeBooField(true); break;
+            case 'int': change.field = makePosIntField(); break;
+            case 'str': change.field = makeStrField(); break;
+          }
 
-  }
+          change.typedValue = change.field.clean(change.value);
 
-  async _updateObject(event, formData) { // Update actor data.
-    const sysDur = formData.system.duration;
-    switch (formData.system.duration.selected) {
-      case 'minutes': formData.duration = { seconds: sysDur.inMinutes ? sysDur.inMinutes * 60 : 60, rounds: null }; break;
-      case 'hours': formData.duration = { seconds: sysDur.inHours ? sysDur.inHours * 3600 : 3600, rounds: null }; break;
-      case 'days': formData.duration = { seconds: sysDur.inDays ? sysDur.inDays * 3600*24 : 3600*24, rounds: null }; break;
-      case 'none': formData.duration = { seconds: null, rounds: null }; break;
+          return change;
+        })
+      } break;
     }
 
-    // Prepare custom mode change data
-    const changes = formData.changes;
-    let altChanges = [];
-    
-    changes.forEach(c => {
-      
-      const change = c.key.split('.').reduce((o, i) => o[i], effChanges);
-      
-      c = {
-        ...c,
-        ...change
-      }
-
-      delete c.valueLabel;
-      delete c.valueType;
-
-      altChanges.push(c)
-      
-    })
-
-    // Assign to formData
-    formData.changes = altChanges;
-
-    return super._updateObject(event, formData);
+    return context;
   }
 
-  // Update change.value input to reflect the corresponding change.key
-  _updateValueInput(ev, doc) {
-    const select = ev.currentTarget;
-    const parent = ev.currentTarget.closest('.effect-change');
-    const div = parent.querySelector('.value');
-    let ele = parent.querySelector('.value input');
-    
-    const valueRef = select.value.split('.').reduce((o, i) => o[i], effChanges);
-    const valueType = valueRef?.valueType ?? '';
-    ele.remove();
-    
-    if (valueType === "int") {
-      if (isNaN(ele.value) || !ele.value) ele.value = 0;
-      ele = '<input type="number" name="' + ele.name + '" value="' + ele.value + '" min="0"/>';
-    } else if (valueType === "str") {
-      ele = '<input type="text" name="' + ele.name + '" value="' + ele.value + '"/>';
-    } else if (valueType === "boo") {
-      ele = '<input type="checkbox" name="' + ele.name + '" checked>'
-    } else {
-      ele = '<input style="display: none;" type="text" name="' + ele.name + '" value="' + ele.value + '"/>';
-    }
+  /* -------------------------------------------- */
+  /*  Form Submission                             */
+  /* -------------------------------------------- */
 
-    div.insertAdjacentHTML('beforeend', ele);
+  /** @override */
+  _onChangeForm(formConfig, event) {
+    super._onChangeForm(formConfig, event);
+
+    // Re-submit the form if a change key is changed to update the value input type
+    /*if (event.target instanceof HTMLSelectElement && event.target.name.endsWith(".key")) {
+      this.submit({ preventClose: true });
+    }*/
   }
+
+  /* -------------------------------------------- */
 
   /**
-   * Handle adding a new change to the changes array.
-   * @private
+   * @override
+   * Submit a document update or creation request based on the processed form data.
+   * @param {SubmitEvent} event                   The originating form submission event
+   * @param {HTMLFormElement} form                The form element that was submitted
+   * @param {object} submitData                   Processed and validated form data to be used for a document update
+   * @param {Partial<DatabaseCreateOperation|DatabaseUpdateOperation>} [options] Additional options altering the request
+   * @returns {Promise<void>}
+   * @protected
    */
-  async _updateDurationSelect() {
-    return this.submit({preventClose: true, updateData: {
-      ['systemm.duration.selected']: {key: "", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: ""}
-    }});
-  }
-
-  /* Initialization functions */
-
-  static initializeChangeKeys() {
-    const refObj = CONFIG.WW.EFFECT_OPTIONS;
-    let obj = {};
+  async _processSubmitData(event, form, submitData, options={}) {
+    const sysDur = submitData.system.duration;
+    let inSeconds = null;
     
-    for (const [key, value] of Object.entries(refObj)) {
-      obj = {
-        ...obj,
-        ...Object.entries(value.options).reduce((all,[k,data]) => { all[k] = data.key; return all;}, {}
-        )
-      }
-    }
-
-    CONFIG.WW.EFFECT_CHANGE_KEYS = obj;
-  }
-  
-  static initializeRealChangeKeys() {
-    const refObj = CONFIG.WW.EFFECT_OPTIONS;
-    let obj = {};
+    if (!submitData.duration) submitData.duration = {};
     
-    for (const [key, value] of Object.entries(refObj)) {
-      obj = {
-        ...obj,
-        ...Object.entries(value.options).reduce((all,[k,data]) => { all[k] = data.key; return all;}, {}
-        )
-      }
+    switch (submitData.system.duration.selected) {
+      case 'minutes': 
+        inSeconds = sysDur.inMinutes ? sysDur.inMinutes * 60 : 60;
+        submitData.duration = { seconds: inSeconds, rounds: null };
+        if (!sysDur.inMinutes) sysDur.inMinutes = 1;
+      break;
+
+      case 'hours':
+        inSeconds = sysDur.inHours ? sysDur.inHours * 60*60 : 60*60;
+        submitData.duration = { seconds: inSeconds, rounds: null };
+        if (!sysDur.inHours) sysDur.inHours = 1;
+      break;
+
+      case 'days':
+        inSeconds = sysDur.inDays ? sysDur.inDays * 60*60*24 : 60*60*24;
+        submitData.duration = { seconds: inSeconds, rounds: null };
+        if (!sysDur.inDays) sysDur.inDays = 1;
+      break;
+
+      case 'none':
+        submitData.duration = { seconds: null, rounds: null };
+      break;
     }
     
-    CONFIG.WW.EFFECT_CHANGE_KEYS = obj;
-  }
-
-  static initializeChangeLabels() {
-    const refObj = CONFIG.WW.EFFECT_OPTIONS;
-    let obj = {};
-    
-    for (const [key, value] of Object.entries(refObj)) {
-      obj = {
-        ...obj,
-        ...Object.entries(value.options).reduce((all,[k,data]) => { all[k] = data.label; return all;}, {}
-        )
-      }
-    }
-
-    CONFIG.WW.EFFECT_CHANGE_LABELS = obj;
+    return super._processSubmitData(event, form, submitData, options);
   }
 
 }
-
-

@@ -1,18 +1,15 @@
-import { TypedObjectField } from '../typed-object-field.mjs';
-import {
-  BaseCharOptionModel,
-  makeIntField,
-  makeStrField
-} from './base-charoption.mjs'
+import BaseCharOptionModel from './base-charoption.mjs'
+import { makeIntField, makeRequiredStrField, makeStrField, makeUuidStrField } from '../field-presets.mjs';
 
 const fields = foundry.data.fields;
 
-export default class PathData extends BaseCharOptionModel {
+export default class PathModel extends BaseCharOptionModel {
 
   static defineSchema() {
+    const fields = foundry.data.fields;
     const schema = super.defineSchema();
     
-    schema.tier = makeStrField('novice', 0);
+    schema.tier = makeRequiredStrField('novice');
 
     schema.benefits = new fields.SchemaField({
       benefit1: makeBenefitField(1),
@@ -36,6 +33,7 @@ export default class PathData extends BaseCharOptionModel {
 
 }
 
+/* Path Benefit Field */
 const makeBenefitField = (level = 99) => new fields.SchemaField({
   levelReq: makeIntField(level),
 
@@ -49,25 +47,27 @@ const makeBenefitField = (level = 99) => new fields.SchemaField({
     bonusDamage: makeIntField(),
   }),
 
-  spells: makeStrField('0', 0),
+  spells: makeRequiredStrField('0'),
 
   // Granted items
-  items: new fields.ArrayField(makeStrField()),
+  items: new fields.ArrayField(
+    makeUuidStrField()
+  ),
 
   // Granted list entries
-  languages: new TypedObjectField(
+  languages: new fields.TypedObjectField(
     new fields.SchemaField({
-      name: makeStrField("", 0),
+      name: makeRequiredStrField(),
       desc: makeStrField(),
-      grantedBy: makeStrField(null)
+      grantedBy: makeUuidStrField()
     }, { nullable: true })
   ),
 
-  traditions: new TypedObjectField( // Delete on a later update
+  traditions: new fields.TypedObjectField( // Delete on a later update
     new fields.SchemaField({
-      name: makeStrField("", 0),
+      name: makeRequiredStrField(),
       desc: makeStrField(),
-      grantedBy: makeStrField(null)
+      grantedBy: makeUuidStrField()
     }, { nullable: true })
   )
 

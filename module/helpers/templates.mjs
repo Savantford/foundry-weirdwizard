@@ -4,13 +4,10 @@
  * @return {Promise}
  */
  export const preloadHandlebarsTemplates = async function() {
-  return loadTemplates([
+  return foundry.applications.handlebars.loadTemplates([
 
-    // Tabs
-    "systems/weirdwizard/templates/sidebar/dice-tooltip.hbs",
-    "systems/weirdwizard/templates/sidebar/combatant.hbs",
-
-    // Journal Entry partials (remove in V13)
-    "systems/weirdwizard/templates/journal/list-entry.hbs"
+    // Tabs (remove post V13)
+    "systems/weirdwizard/templates/sidebar/chat/dice-tooltip.hbs",
+    
   ]);
 };

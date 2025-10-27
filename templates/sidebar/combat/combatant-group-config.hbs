@@ -1,0 +1,15 @@
+<section>
+    {{!-- Header --}}
+    <header class="img-name">
+    <img src="{{source.img}}" data-action="editImage" data-edit="img" alt="{{localize "DOCUMENT.FIELDS.img.label"}}">
+    {{formInput fields.name value=source.name placeholder=(localize "DOCUMENT.FIELDS.name.label") aria=(object label=(localize "DOCUMENT.FIELDS.name.label"))}}
+    </header>
+
+    {{!-- Body --}}
+    <div class="sheet-body">
+    {{formGroup fields.initiative value=source.initiative label="COMBAT.CombatantInitiative" localize=true}}
+    {{#if (eq document.type "squad")}}
+    {{formGroup systemFields.staminaValue value=source.system.staminaValue}}
+    {{/if}}
+    </div>
+</section>

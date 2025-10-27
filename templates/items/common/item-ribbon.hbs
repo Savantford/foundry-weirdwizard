@@ -3,7 +3,7 @@
 
     {{!-- Item Type --}}
     <div class="item-type">
-        {{#if (eq item.type "Spell")}}
+        {{#if (eq item.type "spell")}}
         {{localize "WW.Spell.Label"}}
         {{else}}
         <select class="align-center" name="system.subtype">
@@ -61,7 +61,7 @@
     {{/if}}
 
     {{!-- Spell Info --}}
-    {{#if (eq item.type 'Spell')}}
+    {{#if (eq item.type 'spell')}}
     <div>
 
         {{!-- Tradition --}}

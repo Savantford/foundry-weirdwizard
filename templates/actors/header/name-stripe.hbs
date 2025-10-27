@@ -2,7 +2,7 @@
 <div class="name-stripe">
 
     {{!-- Character Name --}}
-    <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.Actor.Name"}}" /></h1>
+    <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.Actor.Name"}}" {{#unless editMode}}disabled{{/unless}}/></h1>
 
     {{!-- Level / Difficulty --}}
     <div>
@@ -12,13 +12,13 @@
         {{localize "WW.Stats.Difficulty"}}
         {{/if}}
 
-        <div class="level-badge">
+        <div class="level-badge" {{#unless editMode}}disabled{{/unless}}>
             {{#if levels}}
-            <select class="level-badge" name="system.stats.level">
+            <select name="system.stats.level" {{#unless editMode}}disabled{{/unless}}>
                 {{selectOptions levels selected=system.stats.level}}
             </select>
             {{else if difficulties}}
-            <select class="level-badge" name="system.stats.difficulty">
+            <select name="system.stats.difficulty" {{#unless editMode}}disabled{{/unless}}>
                 {{selectOptions difficulties selected=system.stats.difficulty}}
             </select>
             {{/if}}

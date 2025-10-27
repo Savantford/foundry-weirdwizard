@@ -1,18 +1,15 @@
-import {
-  BaseEffectModel,
-  makeStrField
-} from "./base-effect.mjs";
+import BaseEffectModel from './base-effect.mjs';
+import { makeUuidStrField } from '../field-presets.mjs';
 
 export default class BenefitEffectModel extends BaseEffectModel {
 
   static defineSchema() {
+    const fields = foundry.data.fields;
+    const schema = super.defineSchema();
     
-    return foundry.utils.mergeObject(super.defineSchema(),
-      {
-        charOption: makeStrField('')
-      }
-    );
+    schema.charOption = makeUuidStrField();
     
+    return schema;
   }
 
   /**

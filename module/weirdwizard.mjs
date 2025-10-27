@@ -7,24 +7,27 @@ import WWActiveEffect from './documents/active-effect.mjs';
 import WWJournalPage from './documents/journal-page.mjs';
 import WWCombat from './documents/combat.mjs';
 import WWCombatant from './documents/combatant.mjs';
+import WWCombatantGroup from './documents/combatant-group.mjs';
 import WWChatMessage from './documents/chat-message.mjs';
 
 // Import data models
-import CharacterData from './data/actors/character.mjs';
-import NpcData from './data/actors/npc.mjs';
-import EquipmentData from './data/items/equipment.mjs';
-import TalentData from './data/items/talent.mjs';
-import SpellData from './data/items/spell.mjs';
-import AncestryData from './data/journal/ancestry.mjs';
-import ProfessionData from './data/journal/profession.mjs';
-import PathData from './data/journal/path.mjs';
-import TraditionData from './data/journal/tradition.mjs';
-import { BaseEffectModel } from './data/effects/base-effect.mjs';
+import CharacterModel from './data/actors/character.mjs';
+import NpcModel from './data/actors/npc.mjs';
+import GroupModel from './data/actors/group.mjs';
+import EquipmentModel from './data/items/equipment.mjs';
+import TalentModel from './data/items/talent.mjs';
+import SpellModel from './data/items/spell.mjs';
+import AncestryModel from './data/journal/ancestry.mjs';
+import ProfessionModel from './data/journal/profession.mjs';
+import PathModel from './data/journal/path.mjs';
+import TraditionModel from './data/journal/tradition.mjs';
+import BaseEffectModel from './data/effects/base-effect.mjs';
 import BenefitEffectModel from './data/effects/benefit-effect.mjs';
 
 // Import sheet classes.
 import WWCharacterSheet from './sheets/actors/character-sheet.mjs';
 import WWNpcSheet from './sheets/actors/npc-sheet.mjs';
+import WWGroupSheet from './sheets/actors/group-sheet.mjs';
 import WWEquipmentSheet from './sheets/items/equipment-sheet.mjs';
 import WWTalentSheet from './sheets/items/talent-sheet.mjs';
 import WWSpellSheet from './sheets/items/spell-sheet.mjs';
@@ -56,6 +59,7 @@ import { initGlobalListeners } from './helpers/global-listeners.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
 import { Utils, handleWelcomeMessage } from './helpers/utils.mjs';
+import { initializeEffectLookups } from './helpers/effect-presets.mjs';
 
 // Import migrations
 import {
@@ -63,8 +67,11 @@ import {
   effectOverhaul,
   strToCharOptions,
   pathsOfJournaling, 
-  improvedListEntries
+  improvedListEntries,
+  v13Support  
 } from './helpers/migrations.mjs';
+import WWCombatantGroupConfig from './sheets/configs/combatant-group-config.mjs';
+import { WWJournalEntrySheet } from './sheets/journal/journal-entry-sheet.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -84,64 +91,74 @@ Hooks.once('init', function () {
   
   // Define custom Document classes
   CONFIG.Actor.documentClass = WWActor;
+  CONFIG.Actor.defaultType = 'npc';
   CONFIG.Item.documentClass = WWItem;
   CONFIG.JournalEntryPage.documentClass = WWJournalPage;
   CONFIG.ActiveEffect.documentClass = WWActiveEffect;
   CONFIG.Combat.documentClass = WWCombat;
   CONFIG.Combatant.documentClass = WWCombatant;
+  CONFIG.CombatantGroup.documentClass = WWCombatantGroup;
   CONFIG.ChatMessage.documentClass = WWChatMessage;
 
   // Register Actor and Item data models
-  CONFIG.Actor.dataModels.Character = CharacterData;
-  CONFIG.Actor.dataModels.NPC = NpcData;
-  CONFIG.Item.dataModels.Equipment = EquipmentData;
-  CONFIG.Item.dataModels['Trait or Talent'] = TalentData;
-  CONFIG.Item.dataModels.Spell = SpellData;
+  CONFIG.Actor.dataModels.character = CharacterModel;
+  CONFIG.Actor.dataModels.npc = NpcModel;
+  CONFIG.Actor.dataModels.group = GroupModel;
+  CONFIG.Item.dataModels.equipment = EquipmentModel;
+  CONFIG.Item.dataModels.talent = TalentModel;
+  CONFIG.Item.dataModels.spell = SpellModel;
 
   // Active Effect data models
   CONFIG.ActiveEffect.dataModels.base = BaseEffectModel;
   CONFIG.ActiveEffect.dataModels.benefit = BenefitEffectModel;
 
   // Journal Entry Page data models
-  CONFIG.JournalEntryPage.dataModels.ancestry = AncestryData;
-  CONFIG.JournalEntryPage.dataModels.path = PathData;
-  CONFIG.JournalEntryPage.dataModels.profession = ProfessionData;
-  CONFIG.JournalEntryPage.dataModels.tradition = TraditionData;
+  CONFIG.JournalEntryPage.dataModels.ancestry = AncestryModel;
+  CONFIG.JournalEntryPage.dataModels.path = PathModel;
+  CONFIG.JournalEntryPage.dataModels.profession = ProfessionModel;
+  CONFIG.JournalEntryPage.dataModels.tradition = TraditionModel;
   
   // Register actor Sheet classes
-  Actors.unregisterSheet('core', ActorSheet);
+  const Actors = foundry.documents.collections.Actors;
 
   Actors.registerSheet('weirdwizard', WWCharacterSheet, {
-    types: ['Character'],
+    types: ['character'],
     makeDefault: true,
     label: 'WW.System.Sheet.Character'
   });
   Actors.registerSheet('weirdwizard', WWNpcSheet, {
-    types: ['NPC'],
+    types: ['npc'],
     makeDefault: true,
     label: 'WW.System.Sheet.NPC'
   });
+  Actors.registerSheet('weirdwizard', WWGroupSheet, {
+    types: ['group'],
+    makeDefault: true,
+    label: 'WW.System.Sheet.group'
+  });
 
   // Register item Sheet classes
-  Items.unregisterSheet('core', ItemSheet);
+  const Items = foundry.documents.collections.Items;
 
   Items.registerSheet('weirdwizard', WWEquipmentSheet, {
-    types: ['Equipment'],
+    types: ['equipment'],
     makeDefault: true,
     label: 'WW.System.Sheet.Equipment'
   });
   Items.registerSheet('weirdwizard', WWTalentSheet, {
-    types: ['Trait or Talent'],
+    types: ['talent'],
     makeDefault: true,
     label: 'WW.System.Sheet.Talent'
   });
   Items.registerSheet('weirdwizard', WWSpellSheet, {
-    types: ['Spell'],
+    types: ['spell'],
     makeDefault: true,
     label: 'WW.System.Sheet.Spell'
   });
 
   // Register Journal Page Sheet classes
+  const DocumentSheetConfig = foundry.applications.apps.DocumentSheetConfig;
+
   DocumentSheetConfig.registerSheet(JournalEntryPage, 'weirdwizard', WWAncestrySheet, {
     types: ['ancestry'],
     makeDefault: true,
@@ -164,7 +181,16 @@ Hooks.once('init', function () {
   });
   
   // Register custom document config sheets
-  DocumentSheetConfig.registerSheet(ActiveEffect, 'weirdwizard', WWActiveEffectConfig, {makeDefault: true});
+  DocumentSheetConfig.registerSheet(ActiveEffect, 'weirdwizard', WWActiveEffectConfig, {
+    makeDefault: true
+  });
+  DocumentSheetConfig.registerSheet(JournalEntry, 'weirdwizard', WWJournalEntrySheet, {
+    makeDefault: true
+  });
+  DocumentSheetConfig.registerSheet(CombatantGroup, 'weirdwizard', WWCombatantGroupConfig, {
+    makeDefault: true,
+    label: "WW.CombatantGroup",
+  });
   //DocumentSheetConfig.registerSheet(Folder, 'weirdwizard', WWFolderConfig, {makeDefault: true}); - does not work, maybe in v13. see renderFolderConfig hook
 
   // Register custom Combat Tracker
@@ -188,15 +214,15 @@ Hooks.once('init', function () {
     }
   };
 
-  // Register Primary Token Attribute
-  //game.system.primaryTokenAttribute = 'system.stats.damage'; - no longer needed?
+  // Set default current turn token ring
+  if (CONFIG.Combat.fallbackTurnMarker !== 'systems/weirdwizard/assets/drawings/pause-star.webp')
+  CONFIG.Combat.fallbackTurnMarker = 'systems/weirdwizard/assets/drawings/pause-star.webp';
 
   // Register custom Roll subclass
   CONFIG.Dice.rolls.unshift(WWRoll);
 
   // Set active effect keys-labels to be used in Active Effects Config app
-  WWActiveEffectConfig.initializeChangeKeys();
-  WWActiveEffectConfig.initializeChangeLabels();
+  initializeEffectLookups();
 
   // Register system settings
   registerSystemSettings();
@@ -218,10 +244,11 @@ Hooks.once('ready', function () {
   // Append data migration function to game.system.migrations so it can be used for manual migrations
   game.system.migrations = {
     fullMigration: fullMigration,
-    improvedListEntries: improvedListEntries,
-    pathsOfJournaling: pathsOfJournaling,
+    effectOverhaul: effectOverhaul,
     strToCharOptions: strToCharOptions,
-    effectOverhaul: effectOverhaul
+    pathsOfJournaling: pathsOfJournaling,
+    improvedListEntries: improvedListEntries,
+    v13Support: v13Support
   }
 
   // Check and run data migrations if needed
@@ -255,31 +282,28 @@ Hooks.once('setup', function () {
 
   // Assign blinded as the BLIND special status effect
   CONFIG.specialStatusEffects.BLIND = 'blinded';
+
+  // Add custom enrichers
+  addCustomEnrichers();
   
 });
 
 /* -------------------------------------------- */
-/*  Chat Hooks                                  */
+/*  Rendering Hooks                             */
 /* -------------------------------------------- */
 
-Hooks.on('renderChatMessage', (app, html) => {
-
-  // Add custom enrichers
-  addCustomEnrichers();
-
+Hooks.on('renderChatMessageHTML', (message, html, context) => {
   // Remove html elements meant for owners or non-owners only
   if (!game.user.isOwner) {
-    html.find('.owner-only').remove();
+    html.querySelector('.owner-only')?.remove();
   } else {
-    html.find('.non-owner-only').remove();
+    html.querySelector('.non-owner-only')?.remove();
   }
 
   // Initialize chat message listeners
-  initChatListeners(html, app);
+  initChatListeners(html, message, context);
 });
 
-/* -------------------------------------------- */
-/*  Rendering Hooks                             */
 /* -------------------------------------------- */
 
 Hooks.on('renderSettingsConfig', (app, html, data) => {
@@ -287,62 +311,68 @@ Hooks.on('renderSettingsConfig', (app, html, data) => {
   // then checking whether they have the format '<section>.setting'.
   // If so, we check whether the section matches the last section we saw;
   // otherwise, this is a new section and we insert a new section header.
-  let lastSectionID = '';
+  /*let lastSectionID = '';
 
-  const wwSettings = html.find(`.tab[data-tab=system] .form-group`);
+  const wwSettings = [... html.querySelectorAll('.tab[data-tab=system] .form-group')];
 
-  wwSettings.each((i, value) => {
-    const setting = (value.getAttribute('data-setting-id') || '').replace(/^(weirdwizard\.)/, '');
+  for (const [i, value] of wwSettings.entries()) {
+    const setting = (value.querySelector('label').getAttribute('for') || '').replace(/^(weirdwizard\.)/, '');
+    
     if (!setting || setting.indexOf('.') < 1) {
-      return;
+      continue;
     }
 
     const section = setting.split('.')[0];
-
+    
     if (section !== lastSectionID) {
       const key = 'WW.Settings.Section.' + section;
-      const hintKey = key + 'Hint';
-      let hint = game.i18n.localize(hintKey);
+      const div = document.createElement("div");
 
-      if (hint !== hintKey) {
-        hint = `<p class="notes">${hint}</p>`;
-      } else {
-        hint = '';
-      }
+      div.innerHTML = `
+        <h3>${game.i18n.localize(key + '.Title')}</h3>
+        <p class="notes">${game.i18n.localize(key + '.Hint')}</p>
+      `;
 
-      wwSettings.eq(i).before(`<h3>${game.i18n.localize(key)}</h3>${hint}`);
+      wwSettings[i].before(div);
+
       lastSectionID = section;
     }
 
-  });
+  }*/
 
 });
+
+/* -------------------------------------------- */
 
 // Pretty up the system version display in the settings sidebar.
-Hooks.on("renderSettings", (app, [html]) => {
-  const details = html.querySelector("#game-details");
-  const pip = details.querySelector(".system-info .update");
-  details.querySelector(".system").remove();
+Hooks.on('renderSettings', (app, html) => {
+  const info = html.querySelector('.info');
+  const pip = info.querySelector('.info .system .notification-pip');
+  info.querySelector('.system').remove();
 
-  const heading = document.createElement("h2");
-  heading.classList.add("weirdwizard", "sidebar-heading");
-  heading.innerHTML = `${game.i18n.localize("WORLD.GameSystem")}`;
-  details.insertAdjacentElement("afterend", heading);
-
-  const badge = document.createElement("div");
-  badge.classList.add("weirdwizard", "system-badge");
+  // System Info Badge
+  const badge = document.createElement('section');
+  badge.classList.add('info', 'weirdwizard', 'flexcol');
   badge.innerHTML = `
-    <img src="systems/weirdwizard/assets/ui/sotww-logo.png" data-tooltip="${game.system.title}" alt="${game.system.title}">
-    
-    <p class="system-info" style="text-align: center;">Version ${game.system.version}<br>
-        <a href="https://github.com/Savantford/foundry-weirdwizard/releases/${game.system.version}" target="_blank">Patch Notes</a> •
-        <a href="https://github.com/Savantford/foundry-weirdwizard/issues" target="_blank">Issues</a> •
-        <a href="https://discord.gg/X5XustKpe4" target="_blank">Discord</a>
-    </p>
+    <h4 class="divider">${game.i18n.localize('WORLD.FIELDS.system.label')}</h4>
+
+    <img src="systems/weirdwizard/assets/ui/sotww-logo.png" alt="${game.system.title}" data-tooltip="${game.system.title}">
+
+    <p class="subtitle version">Version ${game.system.version}</p>
+
+    <span class="system-links" style="text-align: center;">
+      <a href="https://github.com/Savantford/foundry-weirdwizard/releases/${game.system.version}" target="_blank">Patch Notes</a> •
+      <a href="https://github.com/Savantford/foundry-weirdwizard/issues" target="_blank">Issues</a> •
+      <a href="https://discord.gg/X5XustKpe4" target="_blank">Discord</a>
+    </span>
   `;
-  if (pip) badge.querySelector(".system-info").insertAdjacentElement("beforeend", pip);
-  heading.insertAdjacentElement("afterend", badge);
+
+  if (pip) badge.querySelector('.version').insertAdjacentElement('beforeend', pip);
+
+  info.insertAdjacentElement('afterend', badge);
 });
+
+/* -------------------------------------------- */
 
 /**
  * A hook event that fires when the ActiveEffectConfig application is rendered
@@ -350,7 +380,7 @@ Hooks.on("renderSettings", (app, [html]) => {
  * @param {JQuery<HTMLElement>} jquery  The inner HTML of the document that will be displayed and may be modified
  * @param {Record<string, any>} context The object of data used when rendering the application
  */
-Hooks.on("renderFolderConfig", (app, [html], context) => {
+Hooks.on("renderFolderConfig", (app, html, context) => {
   const folder = app.document;
 
   const description = folder.getFlag('weirdwizard', 'description') ?? '';
@@ -358,12 +388,12 @@ Hooks.on("renderFolderConfig", (app, [html], context) => {
   // Create HTML string, inject it, then set app's position
   const htmlStr = `<prose-mirror class="editor prosemirror"
     name="flags.weirdwizard.description" data-document-UUID="${folder.uuid}" value="${description}"
-    toggled=true compact=true>${description}</prose-mirror>`;
+    toggled compact>${description}</prose-mirror>`;
   
-  html.querySelector('button[type="submit"]').insertAdjacentHTML('beforeBegin', htmlStr);
+  html.querySelector('[data-application-part=body]').insertAdjacentHTML('beforeEnd', htmlStr);
   
   // Add weirdwizard class to html and resize app's height
-  html.classList.add('weirdwizard');
+  //html.classList.add('weirdwizard');
   app.setPosition({ width: 435, height: 'auto' });
 
 });
@@ -372,34 +402,31 @@ Hooks.on("renderFolderConfig", (app, [html], context) => {
 /*  Misc Hooks                                  */
 /* -------------------------------------------- */
 
-Hooks.on('getSceneControlButtons', (array, html) => {
-
-  // Get button arrays
-  const token = array.find(a => a.name === 'token');
-  const notes = array.find(a => a.name === 'notes');
+Hooks.on('getSceneControlButtons', (controls) => {
 
   // Add Sage Tools button
-  token.tools.push({
+  controls['tokens'].tools['sage-tools'] = {
     name: 'sage-tools',
     title: 'Toggle Sage Tools',
     icon: 'fa-solid fa-wand-sparkles',
-    button: true,
     visible: game.user.isGM,
     toggle: true,
-    onClick: () => SageTools.toggleVis('toggle')
-  });
+    onChange: () => SageTools.toggleVis('toggle')
+  };
   
   // Add Quest Calendar button
-  notes.tools.push({
+  controls['notes'].tools['quest-calendar'] = {
     name: 'quest-calendar',
     title: 'Toggle Quest Calendar',
     icon: 'fa-solid fa-calendar-clock',
-    button: true,
     visible: true,
     toggle: true,
-    onClick: () => QuestCalendar.toggleVis('toggle')
-  });
+    onChange: () => QuestCalendar.toggleVis('toggle')
+  };
+  
 });
+
+/* -------------------------------------------- */
 
 // On game world time change
 Hooks.on('updateWorldTime', (worldTime, dt, options, userId) => {

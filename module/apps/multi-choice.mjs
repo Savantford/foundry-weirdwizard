@@ -1,5 +1,6 @@
 import { capitalize, i18n } from '../helpers/utils.mjs';
 import { WWAfflictions } from '../helpers/afflictions.mjs'
+import RollAttribute from '../dice/roll-attribute.mjs';
 
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
@@ -48,16 +49,6 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
     form: { template: 'systems/weirdwizard/templates/apps/multi-choice.hbs' }
   }
 
-  /** @override */
-  _configureRenderOptions(options) {
-    super._configureRenderOptions(options);
-
-    // Completely overriding the parts
-    //options.parts = ['header', 'generic', 'weapons', 'armor', 'paths', 'professions' ];
-    
-    return options;
-  }
-
   /* -------------------------------------------- */
 
   /**
@@ -80,12 +71,11 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
 
       // Prepare Attack Rider
       if (section.type === 'attackRider') {
-        
         section.attackRider = {
           field: opt.document.system.schema.getField("attackRider.value"),
           name: await section.attackRider.name,
           value: await section.attackRider.value,
-          enriched: await TextEditor.enrichHTML(section.attackRider.value, {
+          enriched: await foundry.applications.ux.TextEditor.implementation.enrichHTML(section.attackRider.value, {
             rollData: opt.document.getRollData(), relativeTo: opt.document, secrets: opt.document.isOwner
           })
         }
@@ -162,15 +152,9 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
     if (event.submitter.value === 'cancel') return;
     
     const obj = await formData.object;
-    
-    // Handle Attack Rider
-    if (obj['attackRider.name'] || obj['attackRider.value']) {
-      obj['system.attackRider.value'] = obj['attackRider.value'];
-      delete obj['attackRider.value'];
 
-      obj['system.attackRider.name'] = obj['attackRider.name'];
-      delete obj['attackRider.name'];
-    }
+    // Get selected choices
+    const selected = Object.fromEntries(Object.entries(obj).filter(([_, v]) => v));
 
     // Handle specific purposes
     switch (opt.purpose) {
@@ -181,11 +165,9 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
 
       // Update Afflictions
       case 'updateAfflictions':
-        const checkedAffs = Object.fromEntries(Object.entries(obj).filter(([_, v]) => v));
-        
         for (const aff in CONFIG.WW.AFFLICTIONS) {
           
-          if (checkedAffs[aff]) {
+          if (selected[aff]) {
             const affliction = CONFIG.statusEffects.find(a => a.id === aff);
             
             if (affliction && !opt.document.effects.find(e => e.statuses.has(aff))) {
@@ -201,15 +183,11 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
           }
 
         }
-        
       break;
 
       // Chat Effect Application
       case 'applyEffect':
-        const selected = Object.fromEntries(Object.entries(obj).filter(([_, v]) => v));
-
-        const value = opt.dataset.value,
-          effect = opt.dataset.effectUuid;
+        const value = opt.dataset.value, effect = opt.dataset.effectUuid;
 
         for (const uuid in selected) {
 
@@ -228,6 +206,29 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
 
         }
       break;
+
+      // Inline Attribute Call
+      case 'attributeCall':
+        const { attribute, fixedBoons } = opt.dataset;
+
+        for (const uuid in selected) {
+
+          const target = await fromUuid(uuid);
+
+          const rollInfo = {
+            origin: target.uuid,
+            label: i18n(CONFIG.WW.ROLL_ATTRIBUTES[attribute]),
+            content: '',
+            attKey: attribute,
+            fixedBoons: parseInt(fixedBoons)
+          }
+
+          new RollAttribute(rollInfo).render(true);
+
+        }
+
+      break;    
+      
     }
     
   }

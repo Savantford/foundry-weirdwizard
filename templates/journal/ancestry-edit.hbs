@@ -1,7 +1,6 @@
-<form class="{{cssClass}} flexcol weirdwizard charoption ancestry" autocomplete="off">
-
-  {{> journalEntryPageHeader}}
+<div class="journal-page-content edit-mode scrollable">
   
+  {{!-- Image Wrapper --}}
   <div class="image-wrapper">
     <figure class="image-preview">
       <img src="{{document.src}}" title="{{title}}" alt="{{title}}" />
@@ -27,11 +26,10 @@
   </div>
 
   {{!-- Editor --}}
-  {{editor editor.content target="text.content" class="journal-page-content" button=false editable=true
-    engine=editor.engine collaborate=editor.collaborate}}
+  <prose-mirror name="text.content" class="journal-page-content" value="{{ text.content }}" data-document-uuid="{{ uuid }}" collaborate></prose-mirror>
   
   {{!-- Benefits Section --}}
-  <section class="benefits-section">
+  <section class="benefits-section weirdwizard">
 
     {{!-- Benefit Block --}}
 
@@ -46,7 +44,7 @@
         <label>{{localize "WW.ListEntry.Descriptor.Label"}}:</label>
   
         {{#each listEntries.benefit1.descriptors as |entry|}}
-          {{> "systems/weirdwizard/templates/journal/list-entry.hbs" entry=entry entryKey=entry.key
+          {{> "systems/weirdwizard/templates/journal/parts/list-entry.hbs" entry=entry entryKey=entry.key
             listKey="descriptors" listPath="benefits.benefit1.descriptors" loc="Descriptor"}}
         {{else}}<span>—</span>
         {{/each}}
@@ -64,7 +62,7 @@
         <label>{{localize "WW.ListEntry.Sense.Label"}}:</label>
   
         {{#each listEntries.benefit1.senses as |entry|}}
-          {{> "systems/weirdwizard/templates/journal/list-entry.hbs" entry=entry entryKey=entry.key
+          {{> "systems/weirdwizard/templates/journal/parts/list-entry.hbs" entry=entry entryKey=entry.key
             listKey="senses" listPath="benefits.benefit1.senses" loc="Sense"}}
         {{else}}<span>—</span>
         {{/each}}
@@ -82,7 +80,7 @@
         <label>{{localize "WW.ListEntry.Language.Bonus"}}:</label>
   
         {{#each listEntries.benefit1.languages as |entry|}}
-          {{> "systems/weirdwizard/templates/journal/list-entry.hbs" entry=entry entryKey=entry.key
+          {{> "systems/weirdwizard/templates/journal/parts/list-entry.hbs" entry=entry entryKey=entry.key
             listKey="languages" listPath="benefits.benefit1.languages" loc="Language"}}
         {{else}}<span>—</span>
         {{/each}}
@@ -160,7 +158,7 @@
   
         {{!-- Movement Traits --}}
         {{#each listEntries.benefit1.movementTraits as |entry|}}
-          {{> "systems/weirdwizard/templates/journal/list-entry.hbs" entry=entry entryKey=entry.key
+          {{> "systems/weirdwizard/templates/journal/parts/list-entry.hbs" entry=entry entryKey=entry.key
             listKey="movementTraits" listPath="benefits.benefit1.movementTraits" loc="MovementTrait"}}
         {{/each}}
   
@@ -177,7 +175,7 @@
         <label>{{localize "WW.ListEntry.Immunity.Label"}}:</label>
   
         {{#each listEntries.benefit1.immunities as |entry|}}
-          {{> "systems/weirdwizard/templates/journal/list-entry.hbs" entry=entry entryKey=entry.key
+          {{> "systems/weirdwizard/templates/journal/parts/list-entry.hbs" entry=entry entryKey=entry.key
             listKey="immunities" listPath="benefits.benefit1.immunities" loc="Immunity"}}
         {{else}}<span>—</span>
         {{/each}}
@@ -200,9 +198,9 @@
           <label><img src="{{item.img}}"> {{item.name}}</label>
   
           <span class="buttons">
-            {{#unless item.missing}}<a class="ref-edit" data-tooltip="WW.CharOption.Reference.EditRef"><i
+            {{#unless item.missing}}<a data-action="refEdit" data-tooltip="WW.CharOption.Reference.EditRef"><i
                 class="fa-solid fa-edit"></i></a>{{/unless}}
-            <a class="ref-remove" data-tooltip="WW.CharOption.Reference.RemoveRef"><i class="fa-solid fa-trash"></i></a>
+            <a data-action="refRemove" data-tooltip="WW.CharOption.Reference.RemoveRef"><i class="fa-solid fa-trash"></i></a>
           </span>
 
         </li>
@@ -214,8 +212,5 @@
     </div>
 
   </section>
-
-  {{!-- Journal Page Footer --}}
-  {{!--{{> journalEntryPageFooter}}--}}
-
-</form>
+  
+</div>
