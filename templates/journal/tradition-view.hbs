@@ -1,6 +1,6 @@
-<div class="weirdwizard charoption tradition">
+<div>
 
-  <section class="journal-page-content header-section">
+  <section class="header-section weirdwizard">
 
     {{!-- Right Banner --}}
     <header class="sheet-banner-wrapper">
@@ -8,26 +8,24 @@
     
       <div class="sheet-banner">
         {{!-- Image --}}
-        <img class="banner-img" src="{{document.src}}" data-edit="src" data-tooltip="WW.System.EditImage" />
+        <img class="banner-img" src="{{ document.src }}" data-edit="src" data-tooltip="WW.System.EditImage" />
       </div>
     
     </header>
 
-    <div>
-      {{#if data.title.show}}
-      <header class="journal-page-header">
-        <h{{data.title.level}} class="draggable" data-journal-page-uuid="{{document.uuid}}">{{data.name}}</h{{data.title.level}}>
-      </header>
-      {{/if}}
+    {{#if title.show}}
+    {{> "systems/weirdwizard/templates/journal/parts/journal-page-header.hbs" this=this }}
+    {{/if}}
 
-      {{!-- Editor Content / Description --}}
+    {{!-- Page Content (Editor/Description) --}}
+    <section class="journal-page-content">
       {{{editor.content}}}
-    </div>
+    </section>
 
   </section>
 
   {{!-- Page Content --}}
-  <section class="journal-page-content">
+  <section class="content-section weirdwizard">
 
     {{!-- Talents --}}
     {{#if talents.length}}
@@ -37,10 +35,10 @@
     
       {{!-- Populate Talents --}}
       {{#each talents as |item id|}}
-      <li class="item-reference item {{#if item.missing}}missing{{/if}} draggable" data-item-uuid="{{item.uuid}}">
+      <li class="item-reference item {{#if item.missing}}missing{{/if}} {{#if @root.singlePage}}draggable{{/if}}" data-item-uuid="{{item.uuid}}">
         <label><img src="{{item.img}}"> {{item.name}}:</label>
     
-        <span>{{{item.system.description.enriched}}}</span>
+        <span>{{{item.system.descriptionEnriched}}}</span>
       </li>
       {{/each}}
     
@@ -61,7 +59,7 @@
     
       {{!-- Populate Spells --}}
       {{#each tier as |item id|}}
-      <li class="item-reference item {{#if item.missing}}missing{{/if}} draggable" data-item-uuid="{{item.uuid}}">
+      <li class="item-reference item {{#if item.missing}}missing{{/if}} {{#if @root.singlePage}}draggable{{/if}}" data-item-uuid="{{item.uuid}}">
         <div class="spell-title">
           <h3>{{item.name}}</h3>
           <img src="{{item.img}}" />
@@ -94,7 +92,7 @@
     
         </div>
     
-        <div>{{{item.system.description.enriched}}}</div>
+        <div>{{{item.system.descriptionEnriched}}}</div>
     
       </li>
       {{/each}}

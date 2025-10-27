@@ -1,4 +1,4 @@
-<section class="tab spells {{tab.cssClass}}" data-group="primary" data-tab="spells">
+<section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
 
     {{!-- Traditions --}}
     <ol class="stat-inline mb-2 list-entries">
@@ -44,7 +44,7 @@
             <div>{{localize "WW.Item.Tier"}}</div>
             <div>{{localize "WW.Spell.Tradition"}}</div>
             <div class="item-controls">
-                <a class="item-control item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Spell" data-type="Spell"><i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}</a>
+                <a class="item-control item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Spell" data-type="spell"><i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}</a>
             </div>
         </li>
         
@@ -93,7 +93,7 @@
             <div class="item-controls">
 
                 {{!-- Scroll Button --}}
-                {{#if item.system.description.value}}
+                {{#if item.system.description}}
                     <a class="item-button" data-action="itemScroll" data-item-id="{{item._id}}"
                         data-tooltip="{{localize "WW.Item.Send"}}">
                     <i class="fa-regular fa-scroll"></i></a>

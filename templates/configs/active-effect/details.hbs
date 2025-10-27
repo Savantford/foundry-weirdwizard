@@ -1,0 +1,28 @@
+<section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+  {{formGroup fields.tint value=source.tint rootId=rootId placeholder="#ffffff"}}
+
+  {{formGroup fields.description value=source.description rootId=rootId}}
+  {{formGroup fields.disabled value=source.disabled rootId=rootId}}
+
+  {{#if isActorEffect}}
+  {{formGroup fields.origin value=source.origin rootId=rootId disabled=true}}
+  {{/if}}
+  {{#if isItemEffect}}
+  <div class="form-group">
+    <label>{{ localize "WW.Effect.Trigger" }}</label>
+    <select name="system.trigger">
+      {{selectOptions triggers selected=document.system.trigger localize=true}}
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>{{ localize "WW.Effect.Target" }}</label>
+    <select name="system.target">
+      {{selectOptions targets selected=document.system.target localize=true}}
+    </select>
+  </div>
+  {{formGroup fields.transfer value=source.transfer rootId=rootId label=legacyTransfer.label hint=legacyTransfer.hint}}
+  {{/if}}
+
+  {{formGroup fields.statuses value=source.statuses options=statuses rootId=rootId classes="statuses"}}
+</section>

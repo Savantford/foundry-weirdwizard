@@ -1,5 +1,6 @@
 import WWDialog from '../apps/dialog.mjs';
 import { i18n } from '../helpers/utils.mjs';
+import WWCombatant from './combatant.mjs';
 
 /**
  * @typedef {Object} CombatHistoryData
@@ -21,18 +22,7 @@ import { i18n } from '../helpers/utils.mjs';
  */
 export default class WWCombat extends Combat {
 
-  /* -------------------------------------------- */
-  /*  Properties                                  */
-  /* -------------------------------------------- */
-
-  /**
-   * Return the object of settings which modify the Combat Tracker behavior
-   * @type {object}
-   */
-  get skipActed() {
-    return game.settings.get('weirdwizard', 'skipActed');
-  }
-
+  
   /* -------------------------------------------- */
 
   async _preCreate(...[data, options, user]) {
@@ -44,7 +34,7 @@ export default class WWCombat extends Combat {
     super._onDelete(options, userId);
     
     // Update Status Icons
-    this.combatants.forEach(c => c.token.object.updateStatusIcons());
+    this.combatants.forEach(c => c.token?.object?.updateStatusIcons());
   }
 
   /* -------------------------------------------- */
@@ -187,42 +177,50 @@ export default class WWCombat extends Combat {
     return Hooks.callAll("combatTurn", this, updateData, updateOptions), this.update(updateData, updateOptions);
   }
 
+  /* -------------------------------------------- */
+
   /**
    * Display a dialog querying the GM whether they wish to end the combat encounter and empty the tracker
    * @returns {Promise<Combat>}
    * @override
    */
   async endCombat() {
-    let d = new Dialog({
-      title: i18n("WW.Combat.End.Title"),
+    const endDialog = new WWDialog({
+      window: {
+        title: 'WW.Combat.End.Title',
+        icon: 'fa-solid fa-hourglass'
+      },
       content: `<p>${i18n("WW.Combat.End.Msg")}</p><p>${i18n("WW.Combat.End.Msg2")}</p>`,
-      buttons: {
-        skip: {
-          icon: '<i class="fa-solid fa-hourglass-end"></i>',
-          label: i18n("WW.Combat.End.Skip"),
+      ok: {},
+      buttons: [
+        {
+          action: 'skip',
+          label: 'WW.Combat.End.Skip',
+          icon: 'fa-solid fa-hourglass-end',
           callback: () => {
             this._expireLeftoverEffects(); // Expire leftover effects
             game.time.advance(60); // Advance 1 minute to end 1 minute durations
             this.delete();
-            
           }
         },
-        endOnly: {
-          icon: '<i class="fa-solid fa-pause"></i>',
-          label: i18n("WW.Combat.End.Only"),
+        {
+          action: 'endOnly',
+          label: 'WW.Combat.End.Only',
+          icon: 'fa-solid fa-pause',
           callback: () => {
             this.delete();
           }
         },
-        cancel: {
-          icon: '<i class="fa-solid fa-times"></i>',
-          label: i18n("WW.Combat.End.Cancel"),
+        {
+          action: 'cancel',
+          label: 'WW.Combat.End.Cancel',
+          icon: 'fa-solid fa-times',
           callback: () => {}
         }
-      }
+      ]
     });
 
-    return d.render(true);
+    return endDialog.render(true);
 
   }
 
@@ -278,6 +276,38 @@ export default class WWCombat extends Combat {
       return this.setInitiative(c, v);
     })
     
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * @override
+   * Return the Array of combatants and groups sorted into initiative order, breaking ties alphabetically by name.
+   * @returns {Combatant[] && CombatantGroup[]}
+   */
+  setupTurns() {
+    this.turns ||= [];
+    const entries = this.combatants.contents.concat(this.groups.contents);
+
+    // Determine the turn order and the current turn
+    const turns = entries.sort(this._sortCombatants);
+    if ( this.turn !== null ) {
+      if ( this.turn < 0 ) this.turn = 0;
+      else if ( this.turn >= turns.length ) {
+        this.turn = 0;
+        this.round++;
+      }
+    }
+    
+    // Update state tracking
+    const c = turns[this.turn];
+    this.current = this._getCurrentState(c);
+
+    // One-time initialization of the previous state
+    if ( !this.previous ) this.previous = this.current;
+
+    // Return the array of prepared turns
+    return this.turns = turns;
   }
 
   /* -------------------------------------------- */
@@ -346,11 +376,10 @@ export default class WWCombat extends Combat {
 
   /**
    * Attempt to take the next turn as the combatant.
-   * @param {Event} li
-   * @param {Object} combatant
+   * @param {WWCombatant} combatant
    * @private
    */
-  async startTurn(li, combatant) {
+  async startTurn(combatant) {
     
     // Confirmation dialog
     const confirm = game.user.isGM ? true : await WWDialog.confirm({
@@ -523,9 +552,10 @@ export default class WWCombat extends Combat {
         const duration = ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? i18n('WW.Effect.Duration.Rounds') : i18n('WW.Effect.Duration.Round'));
       
         await ChatMessage.create({
+          type: 'status',
           speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
           flavor: this.label,
-          content: '<div><b>' + ae.name + '</b> ' + i18n("WW.Effect.Duration.ExpiredMsg") + ' ' + duration + '.</div>',
+          content: `<p>@UUID[${c.actor.uuid}]: @UUID[${ae.uuid}] ${i18n("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
           sound: CONFIG.sounds.notification
         });
 
@@ -590,9 +620,10 @@ export default class WWCombat extends Combat {
         const duration = ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? i18n('WW.Effect.Duration.Rounds') : i18n('WW.Effect.Duration.Round'));
         
         await ChatMessage.create({
+          type: 'status',
           speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
           flavor: this.label,
-          content: '<div><b>' + ae.name + '</b> ' + i18n("WW.Effect.Duration.ExpiredMsg") + ' ' + duration + '.</div>',
+          content: `<p>@UUID[${c.actor.uuid}]: @UUID[${ae.uuid}] ${i18n("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
           sound: CONFIG.sounds.notification
         });
         
@@ -673,9 +704,10 @@ export default class WWCombat extends Combat {
         const duration = ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? i18n('WW.Effect.Duration.Rounds') : i18n('WW.Effect.Duration.Round'));
         
         await ChatMessage.create({
-          speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
+          type: 'status',
+          speaker: game.weirdwizard.utils.getSpeaker({ actor: c.actor }),
           flavor: this.label,
-          content: '<div><b>' + ae.name + '</b> ' + i18n("WW.Effect.Duration.ExpiredMsg") + ' ' + duration + '.</div>',
+          content: `<p>@UUID[${c.actor.uuid}]: @UUID[${ae.uuid}] ${i18n("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
           sound: CONFIG.sounds.notification
         });
 
@@ -750,7 +782,15 @@ export default class WWCombat extends Combat {
   /*  Getters                                     */
   /* -------------------------------------------- */
 
-  get standby () {
+  /**
+   * Return the object of settings which modify the Combat Tracker behavior
+   * @type {object}
+   */
+  get skipActed() {
+    return game.settings.get('weirdwizard', 'skipActed');
+  }
+
+  get onStandby () {
     return this.turn === null ? true : false;
   }
 

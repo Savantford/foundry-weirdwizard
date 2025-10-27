@@ -11,7 +11,7 @@
       "content": "WW.Tour.Character.Intro.Content",
       "actor": {
         "name": "WW.Tour.Character.Actor",
-        "type": "Character",
+        "type": "character",
         "img": "",
         "injured": true,
         "system": {
@@ -42,7 +42,7 @@
         "items": [
           {
             "name": "WW.Tour.Character.Items.Bow",
-            "type": "Equipment",
+            "type": "equipment",
             "img": "icons/weapons/bows/longbow-recurve-leather-brown.webp",
             "system": {
               "description": {
@@ -62,7 +62,7 @@
           },
           {
             "name": "WW.Tour.Character.Items.Trait",
-            "type": "Trait or Talent",
+            "type": "talent",
             "img": "icons/magic/defensive/illusion-evasion-echo-purple.webp",
             "system": {
               "description": {
@@ -78,7 +78,7 @@
           },
           {
             "name": "WW.Tour.Character.Items.Talent",
-            "type": "Trait or Talent",
+            "type": "talent",
             "img": "icons/magic/control/buff-strength-muscle-damage-orange.webp",
             "system": {
               "subtype": "action",
@@ -104,7 +104,7 @@
           },
           {
             "name": "WW.Tour.Character.Items.Spell",
-            "type": "Spell",
+            "type": "spell",
             "img": "icons/magic/water/water-drop-swirl-blue.webp",
             "system": {
               "tier": "novice",
@@ -117,7 +117,7 @@
           },
           {
             "name": "WW.Tour.Character.Items.Armor",
-            "type": "Equipment",
+            "type": "equipment",
             "img": "icons/equipment/chest/breastplate-banded-steel-gold.webp",
             "system": {
               "description": {
@@ -143,7 +143,7 @@
           },
           {
             "name": "WW.Tour.Character.Items.Potion",
-            "type": "Equipment",
+            "type": "equipment",
             "img": "icons/consumables/potions/bottle-corked-green.webp",
             "system": {
               "description": {

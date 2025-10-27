@@ -1,3 +1,5 @@
-2025/07/11-10:55:44.959 2068 Recovering log #712
-2025/07/11-10:55:44.966 2068 Delete type=0 #712
-2025/07/11-10:55:44.966 2068 Delete type=3 #711
+2025/10/27-14:46:42.161 7a4 Log #979: 0 ops saved to Table #980 OK
+2025/10/27-14:46:42.161 7a4 Archiving ..\Data\systems\weirdwizard\packs\hirelings/000979.log: OK
+2025/10/27-14:46:42.162 7a4 Table #885: 18 entries OK
+2025/10/27-14:46:42.164 7a4 Archiving ..\Data\systems\weirdwizard\packs\hirelings/MANIFEST-000978: OK
+2025/10/27-14:46:42.166 7a4 **** Repaired leveldb ..\Data\systems\weirdwizard\packs\hirelings; recovered 1 files; 14908 bytes. Some data may have been lost. ****

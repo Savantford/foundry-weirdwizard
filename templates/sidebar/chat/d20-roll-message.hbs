@@ -1,0 +1,102 @@
+<li class="weirdwizard chat-message message flexcol {{cssClass}}" data-message-id="{{message._id}}"
+    {{#if borderColor}}style="border-color:{{borderColor}}"{{/if}}>
+    
+    {{!-- Header --}}
+    <header class="message-header flexrow">
+
+        {{!-- Sender --}}
+        <h4 class="message-sender">
+            {{#if avatar}}<img src="{{avatar}}">{{/if}}
+            {{alias}}
+        </h4>
+
+        {{!-- Metadata --}}
+        <span class="message-metadata">
+            {{!-- Visibility Icons --}}
+            <img class="private-icon blind" src="icons/svg/blind.svg" data-tooltip="CHAT.RollBlind"/>
+            <img class="private-icon whisper" src="systems/weirdwizard/assets/icons/hood.svg" data-tooltip='{{localize "CHAT.RollPrivate"}} / {{localize "CHAT.RollSelf"}}' />
+            
+            {{!-- Timestamp --}}
+            <time class="message-timestamp">{{timeSince message.timestamp}}</time>
+
+            {{!-- Delete / Close Buttons --}}
+            {{#if canDelete}}
+            <a aria-label="{{localize 'Delete'}}" class="message-delete" data-action="deleteMessage">
+                <i class="fa-solid fa-trash" inert></i>
+            </a>
+            {{/if}}
+            {{#if canClose}}
+            <a aria-label="{{ localize "CHAT.Dismiss" }}" class="message-dismiss" data-action="dismissMessage">
+                <i class="fa-solid fa-xmark" inert></i>
+            </a>
+            {{/if}}
+        </span>
+
+        {{!-- Whisper To --}}
+        {{#if isWhisper}}
+        <span class="whisper-to">{{localize 'CHAT.To'}}: {{whisperTo}}</span>
+        {{/if}}
+
+    </header>
+
+    {{!-- Message Wrapper --}}
+    <div class="message-wrapper">
+
+        {{!-- Flavor (Icon, Name, Categories, etc) --}}
+        {{#if message.flavor}}
+        <div class="flavor-container">
+            {{#if icon}}<img src="{{icon}}">{{/if}}
+
+            <div class="flavor-title">
+
+                {{!-- Title (Item Name) --}}
+                <span class="flavor-text">{{{message.flavor}}}</span>
+
+                {{!-- Subtitle --}}
+                {{#if (and showPrivate item)}}<span class="flavor-type">{{item.type}}{{#if item.source}} • {{item.source}}{{/if}}{{#if item.tier}} • {{item.tier}}{{/if}}</span>{{/if}}
+
+            </div>
+
+            {{!-- Collapse/Expand Icon --}}
+            <div><a class="chat-message-collapse"><i class="fa-solid fa-square-minus"></i></a></div>
+
+        </div>
+        {{/if}}
+
+        {{!-- Weapon Details --}}
+        {{#if (and showPrivate item.isWeapon)}}
+        
+        {{!-- Weapon Traits --}}
+        <div class="traits-container">
+            {{#each item.traits as |trait id|}}
+            <span class="header-button" data-tooltip="{{trait.tip}}">{{trait.label}}</span>
+            {{/each}}
+        </div>
+        
+        {{!-- Attack Rider --}}
+        {{#if (or item.attackRider.value item.attackRider.name)}}
+        <div class="message-subheader-details attack-rider">
+            <label>{{item.attackRider.name}}:</label>
+            {{{item.attackRiderEnriched}}}
+        </div>
+        {{/if}}
+        
+        {{/if}} {{!-- END Weapon Details --}}
+        
+        {{!-- Spell Header --}}
+        {{#if (and item.isSpell item.spellHeader)}}
+        <div class="message-subheader-details">
+            {{{item.spellHeader}}}
+        </div>
+        {{/if}}
+
+        {{!-- Message Content (Body) --}}
+        <div class="message-content">
+            {{{message.content}}}
+        </div>
+        
+    </div>
+
+    <hr class="bug">
+    
+</li>

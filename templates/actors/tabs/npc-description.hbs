@@ -1,5 +1,4 @@
-{{!-- Description Tab --}}
-<section class="tab description {{tab.cssClass}}" data-group="primary" data-tab="description">
+<section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
     {{#if (or folder editMode)}}
     {{!-- Folder Name / Creature Group --}}
     {{#if folder}}
@@ -20,13 +19,13 @@
     {{/if}}
 
     {{#if editMode}}
-    <prose-mirror name="system.description.value" data-document-u-u-i-d="{{actor.uuid}}"
-        value="{{actor.system.description.value}}" toggled=true collaborate=true compact=true owner={{owner}}
+    <prose-mirror name="system.description" data-document-u-u-i-d="{{actor.uuid}}"
+        value="{{actor.system.description}}" toggled collaborate compact owner={{owner}}
         editable={{editable}}>
-        {{{actor.system.description.enriched}}}
+        {{{actor.system.descriptionEnriched}}}
     </prose-mirror>
     {{else}}
-    {{{actor.system.description.enriched}}}
+    {{{actor.system.descriptionEnriched}}}
     {{/if}}
 
 </section>

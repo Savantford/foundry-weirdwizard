@@ -1,3 +1,5 @@
-2025/07/11-10:55:44.939 38a8 Recovering log #1523
-2025/07/11-10:55:44.944 38a8 Delete type=0 #1523
-2025/07/11-10:55:44.944 38a8 Delete type=3 #1522
+2025/10/27-14:46:42.144 519c Log #1790: 0 ops saved to Table #1791 OK
+2025/10/27-14:46:42.144 519c Archiving ..\Data\systems\weirdwizard\packs\weapons/001790.log: OK
+2025/10/27-14:46:42.146 519c Table #1696: 39 entries OK
+2025/10/27-14:46:42.147 519c Archiving ..\Data\systems\weirdwizard\packs\weapons/MANIFEST-001789: OK
+2025/10/27-14:46:42.150 519c **** Repaired leveldb ..\Data\systems\weirdwizard\packs\weapons; recovered 1 files; 25016 bytes. Some data may have been lost. ****

@@ -194,31 +194,32 @@ export async function prepareActiveEffectCategories(effects, showDuration = fals
       type: e.type,
 
       subtitle: i18n((e.duration.rounds || e.duration.seconds) ? "WW.Effect.Temporary" : "WW.Effect.Permanent"),
-      text: await TextEditor.enrichHTML(e.description, { secrets: e.isOwner }),
+      text: await foundry.applications.ux.TextEditor.implementation.enrichHTML(e.description, { secrets: e.isOwner }),
       changes: ''
     }
 
     // Prepare changes
     for (const c of e.changes) {
-      const label = CONFIG.WW.EFFECT_CHANGE_LABELS[c.key] ? i18n(CONFIG.WW.EFFECT_CHANGE_LABELS[c.key]) : 'BROKEN EFFECT CHANGE, FIX IT!';
+      const label = CONFIG.WW.EFFECT_OPTIONS_LABELS[c.key] ? i18n(CONFIG.WW.EFFECT_OPTIONS_LABELS[c.key]) : 'BROKEN EFFECT CHANGE, FIX IT!';
       context.changes += `<li>${label} ${(c.value !== true) ? `${c.value}.` : ''}</li>`;
     }
 
-    e.tooltip = await renderTemplate(sysPath(`templates/apps/tooltips/effect.hbs`), context);
+    e.tooltip = await foundry.applications.handlebars.renderTemplate(sysPath(`templates/apps/tooltips/effect.hbs`), context);
 
     // Prepare source document cards
     if (e.origin) {
-      const source = `@Embed[${e.origin} inline]`;
+      const source = `@UUID[${e.origin}]`;
     
-      e.sourceCard = await TextEditor.enrichHTML(source, { secrets: e.isOwner });
+      e.sourceCard = await foundry.applications.ux.TextEditor.implementation.enrichHTML(source, { secrets: e.isOwner });
     } else {
       e.sourceCard = e.sourceName;
     }
     
     // Push them into categories
-    if (await e.disabled) categories.inactive.effects.push(e);
+    if (await e.disabled) categories.inactive.effects.push(e); // TODO: Think of a way to group Actor + Item inactive effects into temporary/permanent effects
     else if (await e.isTemporary) categories.temporary.effects.push(e);
     else categories.permanent.effects.push(e);
+    
   }
   
   return categories;

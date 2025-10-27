@@ -1,3 +1,5 @@
-2025/07/11-10:55:45.056 2068 Recovering log #702
-2025/07/11-10:55:45.062 2068 Delete type=0 #702
-2025/07/11-10:55:45.062 2068 Delete type=3 #701
+2025/10/27-14:46:42.239 2540 Log #969: 0 ops saved to Table #970 OK
+2025/10/27-14:46:42.240 2540 Archiving ..\Data\systems\weirdwizard\packs\spells/000969.log: OK
+2025/10/27-14:46:42.241 2540 Table #875: 104 entries OK
+2025/10/27-14:46:42.243 2540 Archiving ..\Data\systems\weirdwizard\packs\spells/MANIFEST-000968: OK
+2025/10/27-14:46:42.245 2540 **** Repaired leveldb ..\Data\systems\weirdwizard\packs\spells; recovered 1 files; 52490 bytes. Some data may have been lost. ****

@@ -4,15 +4,15 @@ import { i18n } from './utils.mjs';
 export default function addCustomEnrichers() {
   CONFIG.TextEditor.enrichers.push(
     {
-      pattern: /@\[(str|agi|int|wil|luck)(?:(\+[1-99]+?|\-[1-99]+?))?\]/gim,
+      pattern: /@\[(str|agi|int|wil|luck)(?:(\+[1-99]+?|\-[1-99]+?))?\]/gi,
       enricher: enrichCall
     },
     {
-      pattern: /@\[([1-99][^|]*?)(?:\|(d|h|hl|hr))?\]/gim,
+      pattern: /@\[([1-99][^|]*?)(?:\|(d|h|hl|hr))?\]/gi,
       enricher: enrichRoll
     },
     {
-      pattern: /(?:index:(armor|weapons|hirelings|charopts|traits|talents|spells){1})/gim,
+      pattern: /(?:index:(armor|weapons|hirelings|charopts|traits|talents|spells){1})/gi,
       enricher: enrichIndex
     },
   );

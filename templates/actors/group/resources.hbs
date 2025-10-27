@@ -1,0 +1,277 @@
+<section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">  
+    {{!-- Resources Header --}}
+    <div>
+        <h2>{{ localize "WW.Group.Resources" }}</h2>
+
+        <div class="resources-header">
+            {{!-- Wealth Column --}}
+            <div class="wealth stat">
+                <h3>{{ localize "WW.Group.Wealth" }}</h3>
+        
+                <div class="wealth-table">
+                    <div>
+                        <label>{{ localize "WW.Group.Total" }}:</label>
+                        <div class="gp">{{ system.wealth.total.gp }} <i class="fa-solid fa-coins gold"
+                                data-tooltip="{{localize " WW.Equipment.GP"}}"></i></div>
+                        <div class="sp">{{ system.wealth.total.sp }} <i class="fa-solid fa-coins silver"
+                                data-tooltip="{{localize " WW.Equipment.SP"}}"></i></div>
+                        <div class="cp">{{ system.wealth.total.cp }} <i class="fa-solid fa-coins copper"
+                                data-tooltip="{{localize " WW.Equipment.CP"}}"></i></div>
+                    </div>
+        
+                    <div>
+                        <label>{{ localize "WW.Group.Active" }}:</label>
+                        <div class="gp">{{ system.wealth.active.gp }} <i class="fa-solid fa-coins gold"
+                                data-tooltip="{{localize " WW.Equipment.GP"}}"></i></div>
+                        <div class="sp">{{ system.wealth.active.sp }} <i class="fa-solid fa-coins silver"
+                                data-tooltip="{{localize " WW.Equipment.SP"}}"></i></div>
+                        <div class="cp">{{ system.wealth.active.cp }} <i class="fa-solid fa-coins copper"
+                                data-tooltip="{{localize " WW.Equipment.CP"}}"></i></div>
+                    </div>
+        
+                    <div>
+                        <label>{{ localize "WW.Group.Inactive" }}:</label>
+                        <div class="gp">{{ system.wealth.inactive.gp }} <i class="fa-solid fa-coins gold"
+                                data-tooltip="{{localize " WW.Equipment.GP"}}"></i></div>
+                        <div class="sp">{{ system.wealth.inactive.sp }} <i class="fa-solid fa-coins silver"
+                                data-tooltip="{{localize " WW.Equipment.SP"}}"></i></div>
+                        <div class="cp">{{ system.wealth.inactive.cp }} <i class="fa-solid fa-coins copper"
+                                data-tooltip="{{localize " WW.Equipment.CP"}}"></i></div>
+                    </div>
+                </div>
+        
+            </div>
+        
+            {{!-- Fortune / Connections Column --}}
+            <div class="fortune-col">
+                {{!-- Fortune --}}
+                <div class="stat-inline">
+                    <label>{{localize "WW.Group.Fortune"}}:</label>
+                    {{#with fortune}}
+                    {{formInput field name=name value=value}}
+                    {{/with}}
+                </div>
+        
+                {{!-- Connections --}}
+                <h3>
+                    {{ localize "WW.ListEntry.Connection.Label" }}
+        
+                    <span>
+                        <a class="array-button" data-action="entryCreate" data-list-key="connections" data-loc="Connection"
+                            data-tooltip="WW.ListEntry.Connection.Create"><i class="fa-solid fa-circle-plus"></i></a>
+        
+                        <a class="array-button" data-action="entrySettings" data-list-key="connections"
+                            data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+                    </span>
+                </h3>
+        
+                <ol class="stat-inline list-entries connections">
+                    {{!-- Movement Traits --}}
+                    {{#each listEntries.connections as |entry|}}
+                    {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key
+                    listKey="connections" loc="Connection"}}
+                    {{/each}}
+                </ol>
+        
+            </div>
+        </div>
+    </div>
+
+    {{!-- Stashed Equipment --}}
+    <div>
+        <h3>{{ localize "WW.Group.EquipmentStashed" }}</h3>
+
+        <ol class="item-list equipment-list">
+            <li class="item flexrow items-header">
+                <div class="item-image"></div>
+                <div class="item-name">{{localize "WW.Item.Name"}}</div>
+                <div class="item-uses">{{localize "WW.Equipment.Uses"}}</div>
+                <div class="item-type">{{localize "WW.Armor.Type"}}</div>
+                <div class="item-controls">
+                    <a class="item-control item-create" data-action="itemCreate"  data-tooltip="WW.Item.Create.Equipment" data-type="equipment" data-subtype="generic"><i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}</a>
+                </div>
+            </li>
+            
+            {{#each equipment as |item id|}}
+            <li class="item draggable flexrow {{#if (eq item.system.subtype 'container')}}container collapsed{{/if}}" data-item-id="{{item._id}}">
+                {{!-- Icon --}}
+                <div class="item-image"><img src="{{item.img}}" data-tooltip="{{item.name}}" width="24" height="24" /></div>
+
+                <div class="item-name">
+                    {{!-- Title --}}
+                    <div>
+                        <label class="item-button" data-item-id="{{item._id}}" data-tooltip="{{item.tooltip}}">
+                            {{#if (gt item.system.quantity 1)}}{{item.system.quantity}} {{/if}}{{item.name}}</label>
+
+                        <span class="buttons">
+                            {{!-- Container Collapse --}}
+                            {{#if (eq item.system.subtype 'container')}}
+                            <a class="item-collapse" data-action="containerCollapse" data-item-id="{{item._id}}" data-tooltip="WW.Container.Expand">
+                                <i class="fa-solid fa-square-caret-down"></i>
+                            </a>
+                            {{/if}}
+
+                        </span>
+                    </div>
+
+                    {{!-- Container Held item list --}}
+                    {{#if item.heldList}}<div class="held-list">{{item.heldList}}</div>{{/if}}
+                    
+                </div>
+
+                {{!-- Uses/Charges/Capacity Column --}}
+                <div>
+                    {{!-- Uses Pips --}}
+                    {{#if item.uses}}
+                    <div class="pip-box">
+                        {{#each item.uses as |pip id|}}
+                        <a class="item-pip" data-action="itemUpdateUses" data-item-id="{{item._id}}"
+                            data-tooltip="{{#if (eq pip "fa-regular fa-circle")}}{{localize "WW.Item.Uses.EquipmentSpend"}}
+                            {{else}}{{localize "WW.Item.Uses.EquipmentRecover"}}{{/if}}">
+                        <i class="{{pip}}"></i></a>
+                        {{/each}}
+                    </div>
+                    {{/if}}
+
+                    {{!-- Container Capacity --}}
+                    {{#if (eq item.system.subtype 'container')}}
+                    <div class="item-holding" data-action="containerCollapse" data-item-id="{{item._id}}" data-tooltip="{{item.containerTooltip}}">
+                        <span {{#if (gt item.filled item.system.capacity)}}class="over-warning"{{/if}}>{{item.filled}}/{{item.system.capacity}}</span>
+                        <i class="fa-regular fa-toolbox"></i>
+                    </div>
+                    {{/if}}
+                </div>
+
+                {{!-- Type Column --}}
+                <div class="type-type">{{ localize item.subtypeLabel }}</div>
+
+                {{!-- Item Controls Column --}}
+                <div class="item-controls">
+
+                    {{!-- Scroll Button --}}
+                    {{#if item.system.description}}
+                        <a class="item-button" data-action="itemScroll" data-item-id="{{item._id}}"
+                            data-tooltip="{{localize "WW.Item.Send"}}">
+                        <i class="fa-regular fa-scroll"></i></a>
+                    {{/if}}
+
+                    {{!-- Edit Button --}}
+                    <a class="item-button" data-action="itemEdit" data-item-id="{{item._id}}"
+                        data-tooltip="WW.Item.Edit.Equipment">
+                    <i class="fa-solid fa-edit"></i></a>
+
+                    {{!-- Remove Button --}}
+                    <a class="item-button" data-action="itemRemove" data-item-id="{{item._id}}" data-tooltip="WW.Item.Remove.Equipment"><i class="fa-solid fa-trash"></i></a>
+                    
+                </div>
+
+            </li>
+            
+            {{!-- Container Held Item List --}}
+            {{#if item.filled}}
+            <ol class="item-list container-content" data-container-id="{{item._id}}">
+                {{#each item.heldItems as |heldItem heldId|}}
+                <li class="item draggable flexrow" data-item-id="{{heldItem._id}}">
+
+                    {{!-- Icon --}}
+                    <div class="item-image"><img src="{{heldItem.img}}" data-tooltip="{{heldItem.name}}" width="24" height="24" /></div>
+
+                    <div class="item-name">
+                        {{!-- Title --}}
+                        <div>
+                            <label class="item-button" data-action="itemLabelClick" data-item-id="{{heldItem._id}}"
+                                data-tooltip="{{heldItem.tooltip}}">{{#if (gt heldItem.system.quantity 1)}}{{heldItem.system.quantity}} {{/if}}{{heldItem.name}}</label>
+                            
+                            <span class="buttons">
+
+                                {{!-- Toggle Effects --}}
+                                {{#if heldItem.hasPassiveEffects}}
+                                    <a class="item-button" data-action="itemToggleEffects" data-item-id="{{heldItem._id}}"
+                                        data-tooltip="{{#if heldItem.system.active}}{{localize "WW.Item.DisableEffects"}}{{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
+                                        <i class="fa-solid {{#if heldItem.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
+                                {{/if}}
+
+                            </span>
+                        </div>
+                        
+                    </div>
+
+                    {{!-- Uses Pips --}}
+                    <div>
+                        {{#if heldItem.uses}}
+                        <span class="pip-box">
+                            {{#each heldItem.uses as |pip id|}}
+                            <a class="item-pip" data-item-id="{{heldItem._id}}"
+                                data-tooltip="{{#if (eq pip "fa-regular fa-circle")}}{{localize "WW.Item.Uses.EquipmentSpend"}}{{else}}{{localize "WW.Item.Uses.EquipmentRecover"}}{{/if}}">
+                            <i class="{{pip}}"></i></a>
+                            {{/each}}
+                        </span>
+                        {{/if}}
+                    </div>
+
+                    {{!-- Weight --}}
+                    <div class="item-weight">{{heldItem.system.weight}}</div>
+
+                    <div class="item-controls">
+
+                        {{!-- Scroll Button --}}
+                        {{#if heldItem.system.description}}
+                            <a class="item-button" data-action="itemScroll" data-item-id="{{heldItem._id}}"
+                                data-tooltip="{{localize "WW.Item.Send"}}">
+                            <i class="fa-regular fa-scroll"></i></a>
+                        {{/if}}
+
+                        {{!-- Edit Button --}}
+                        <a class="item-button" data-action="itemEdit" data-item-id="{{heldItem._id}}"
+                            data-tooltip="WW.Item.Edit.Equipment">
+                        <i class="fa-solid fa-edit"></i></a>
+
+                        {{!-- Remove Button --}}
+                        <a class="item-button" data-action="itemRemove" data-item-id="{{heldItem._id}}" data-tooltip="WW.Item.Remove.Equipment"><i class="fa-solid fa-trash"></i></a>
+                        
+                    </div>
+                </li>
+                {{/each}}
+            </ol>
+            {{/if}}
+
+            {{/each}}
+        </ol>
+    </div>
+    
+    {{!-- Equipment Overview --}}
+    <div>
+        <h3>{{ localize "WW.Group.EquipmentOverview" }}</h3>
+
+        <ol class="item-list equipment-list">
+            <li class="item flexrow items-header">
+                <div class="item-image"></div>
+                <div class="item-name">{{localize "WW.Item.Name"}}</div>
+                <div class="item-type">{{localize "WW.Armor.Type"}}</div>
+                <div class="item-owner">{{localize "WW.Equipment.Owner"}}</div>
+            </li>
+
+            {{#each membersEquipment.total as |item id|}}
+            <li class="item draggable flexrow {{#if (eq item.system.subtype 'container')}}container collapsed{{/if}}"
+                data-item-id="{{item._id}}">
+                {{!-- Icon --}}
+                <div class="item-image"><img src="{{item.img}}" data-tooltip="{{item.name}}" width="24" height="24" /></div>
+
+                {{!-- Name --}}
+                <div class="item-name">
+                    <label data-item-uuid="{{item.uuid}}" data-tooltip="{{item.tooltip}}">{{#if (gt item.system.quantity
+                        1)}}{{item.system.quantity}} {{/if}}{{item.name}}</label>
+                </div>
+
+                {{!-- Type Column --}}
+                <div class="type-type">{{ localize item.subtypeLabel }}</div>
+
+                {{!-- Item Controls Column --}}
+                <div class="item-owner">{{{ item.ownerLink.outerHTML }}}</div>
+
+            </li>
+            {{/each}}
+        </ol>
+    </div>
+
+</section>

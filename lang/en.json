@@ -2,10 +2,10 @@
 
 "USER.GM": "Sage",
 
-"TYPES.Actor.Character": "Player Character",
-"TYPES.Actor.NPC": "NPC",
-"TYPES.Actor.Vehicle": "Vehicle - BROKEN",
-"TYPES.Actor.Group": "Group - BROKEN",
+"TYPES.Actor.character": "Player Character",
+"TYPES.Actor.npc": "NPC",
+"TYPES.Actor.group": "Group",
+"TYPES.Actor.vehicle": "Vehicle - BROKEN",
 
 "WW.Actor.Name": "Actor's Name",
 "WW.Actor.Summary": "Summary",
@@ -17,6 +17,7 @@
 "WW.Actor.Beliefs": "Beliefs",
 "WW.Actor.Notes": "Notes",
 "WW.Actor.Reset": "Reset to original values",
+"WW.Actor.ProfileMenuTip": "Left click to edit the portrait image.<br>Right click to show portrait or token artwork.",
 "WW.Actor.ShowPortrait": "Show portrait image",
 "WW.Actor.ShowToken": "Show token image",
 
@@ -32,22 +33,28 @@
 "WW.Actor.Folder.None": "Creature is not in a folder. To have a folder description, please put it in a folder first.",
 
 "WW.Attributes.Label": "Attributes",
+"WW.Attributes.EditHint": "You are editing the base attribute score, without any effect modifying it. The modified score should be {value}.",
+
 "WW.Attributes.Strength": "Strength",
 "WW.Attributes.StrengthShort": "Strength",
 "WW.Attributes.StrengthScore": "Strength Score",
 "WW.Attributes.StrengthRoll": "Strength Roll",
+
 "WW.Attributes.Agility": "Agility",
 "WW.Attributes.AgilityShort": "Agility",
 "WW.Attributes.AgilityScore": "Agility Score",
 "WW.Attributes.AgilityRoll": "Agility Roll",
+
 "WW.Attributes.Intellect": "Intellect",
 "WW.Attributes.IntellectShort": "Intellect",
 "WW.Attributes.IntellectScore": "Intellect Score",
 "WW.Attributes.IntellectRoll": "Intellect Roll",
+
 "WW.Attributes.Will": "Will",
 "WW.Attributes.WillShort": "Will",
 "WW.Attributes.WillScore": "Will Score",
 "WW.Attributes.WillRoll": "Will Roll",
+
 "WW.Attributes.Luck": "Luck",
 "WW.Attributes.LuckRoll": "Luck Roll",
 
@@ -141,9 +148,40 @@
 "WW.ListEntry.MovementTrait.Edit": "Edit special movement trait",
 "WW.ListEntry.MovementTrait.Remove": "Remove special movement trait",
 
-"TYPES.Item.Equipment": "Equipment",
-"TYPES.Item.Trait or Talent": "Trait or Talent",
-"TYPES.Item.Spell": "Spell",
+"WW.ListEntry.Connection.Label": "Connections",
+"WW.ListEntry.Connection.New": "New connection",
+"WW.ListEntry.Connection.Create": "Add new connection",
+"WW.ListEntry.Connection.Edit": "Edit connection",
+"WW.ListEntry.Connection.Remove": "Remove connection",
+
+"WW.Group.GeneralInfo": "General Information",
+"WW.Group.Origin": "Origin",
+"WW.Group.Achievements": "Achievements and Reputation",
+"WW.Group.Members": "Members",
+"WW.Group.LevelExcept": "Except",
+"WW.Group.Active": "Active",
+"WW.Group.Inactive": "Inactive",
+"WW.Group.Retired": "Retired",
+"WW.Group.Dead": "Dead",
+"WW.Group.ActorDropWarning": "You can only drop Characters, NPCs or Vehicles on the Group sheet.",
+"WW.Group.Total": "Total",
+"WW.Group.Resources": "Resources",
+"WW.Group.Fortune": "Fortune",
+"WW.Group.Wealth": "Wealth",
+"WW.Group.EquipmentStashed": "Stashed Equipment (Not carried)",
+"WW.Group.EquipmentDropWarning": "Groups can only store Equipment items, not Traits, Talents or Spells.",
+"WW.Group.EquipmentOverview": "Equipment Overview",
+
+"WW.Group.Connections.Financial": "Financial",
+"WW.Group.Connections.Influence": "Influence",
+"WW.Group.Connections.Professional": "Professional",
+"WW.Group.Connections.Information": "Information",
+"WW.Group.Connections.Resource": "Resource",
+"WW.Group.Connections.Security": "Security",
+
+"TYPES.Item.equipment": "Equipment",
+"TYPES.Item.talent": "Trait or Talent",
+"TYPES.Item.spell": "Spell",
 
 "TYPES.Item.Ancestry": "Ancestry (OBSOLETE)",
 "TYPES.Item.Path": "Path (OBSOLETE)",
@@ -157,6 +195,7 @@
 "WW.Item.ShowDesc": "Show description",
 "WW.Item.HideDesc": "Hide description",
 "WW.Item.Send": "Send description to chat",
+"WW.Item.ArtworkShow": "Show item image",
 "WW.Item.EnableEffects": "Enable passive effects",
 "WW.Item.DisableEffects": "Disable passive effects",
 "WW.Item.Equip": "Wear equipment",
@@ -346,12 +385,13 @@
 "WW.Equipment.Generic": "Generic Item",
 "WW.Equipment.Consumable": "Consumable",
 "WW.Equipment.Hirelings": "Hirelings",
+"WW.Equipment.Owner": "Owner",
 
 "WW.Equipment.Price": "Price",
 "WW.Equipment.Coins": "Coins",
-"WW.Equipment.GP": "Gold pieces (gp)",
-"WW.Equipment.SP": "Silver pieces (sp)",
-"WW.Equipment.CP": "Copper pieces (cp)",
+"WW.Equipment.GP": "gp",
+"WW.Equipment.SP": "sp",
+"WW.Equipment.CP": "cp",
 
 "WW.Equipment.CarryingLimit": "Carrying Limit",
 "WW.Equipment.Weight": "Weight",
@@ -488,13 +528,13 @@
 "WW.CharOption.DropHere": "Drop Equipment, Traits, Talents and Spells stored in a <b>Compendium</b> here to add them to the level benefit.",
 "WW.CharOption.Unknown": "Unknown",
 "WW.CharOption.MissingRef": "Missing UUID reference for the equipment, trait, talent or spell. You can either delete this entry or restore it by putting the item back in the original Compendium.",
-"WW.CharOption.TypeWarning": "Dropped item type must be one of the following: Equipment, Trait or Talent or Spell.",
+"WW.CharOption.TypeWarning": "Dropped item type must be one of the following: Equipment, Trait/Talent or Spell.",
 "WW.CharOption.CompendiumWarning": "Item must be dragged from a <b>Compendium</b>.",
-"WW.CharOption.Help": "Click on the <b>Help</b> buttom at the top right of the {itemType} window for more information.",
+"WW.CharOption.Help": "For more information about character options, click on <b>Help</b> at the top right of the window.",
 "WW.CharOption.GrantedBy": "Granted by",
 
-"WW.CharOption.Reference.EditRef": "Edit the referenced item in the Compendium",
-"WW.CharOption.Reference.RemoveRef": "Remove reference from this list. This won't affect the item in the Compendium.",
+"WW.CharOption.Reference.EditRef": "Edit the referenced item in the Compendium.",
+"WW.CharOption.Reference.RemoveRef": "Remove reference from this list. This won't affect the item in the Compendium!",
 "WW.CharOption.Reference.RemoveDialog.Title": "Remove Reference",
 "WW.CharOption.Reference.RemoveDialog.Msg": "You are about to remove a reference for an item in a Compendium. Removing the reference will not make any changes the referenced item.",
 "WW.CharOption.Reference.RemoveDialog.Confirm": "Are you sure you want to remove the reference?",
@@ -823,9 +863,9 @@
 "WW.Combat.Initiative.Msg": "<p>A new round started.</p><p>Do you want to use a <b>reaction</b> to <b>take the initiative</b>, instead of making a regular turn?</p>",
 "WW.Combat.Initiative.NoCharacter": "A new round started, but you don't have a character assigned to you.",
 
-"WW.Combat.ResetTurn.Title": "Reset Turn Count",
-"WW.Combat.ResetTurn.Msg": "<p>You already took a turn during this round.</p><p>Normally, each combatant can take one turn per round <b>once</b>.</p>",
-"WW.Combat.ResetTurn.Confirm": "Are you sure you want to reset the count?",
+"WW.Combat.ResetActed.Title": "Reset the \"Acted\" Status",
+"WW.Combat.ResetActed.Msg": "You already took a turn during this round and are marked as \"Acted\".<br>Normally, each combatant can take <b>only one</b> turn per round.",
+"WW.Combat.ResetActed.Confirm": "Are you sure you want to reset the Acted status?",
 
 "WW.Combat.StartTurn.Title": "Start a Turn",
 "WW.Combat.StartTurn.Msg": "You are going to make the combatant you selected take the the next turn.",
@@ -838,7 +878,21 @@
 "WW.Combat.End.Only": "End Only",
 "WW.Combat.End.Cancel": "Do Not End",
 
-"WW.Sage.Trackers.Label": "Trackers",
+"WW.MultiChoice.TargetHeader.PreTargets": "Pre-Selected Targets",
+"WW.MultiChoice.TargetHeader.Targets": "Current Targets",
+"WW.MultiChoice.TargetHeader.Selected": "Selected Tokens",
+"WW.MultiChoice.TargetHeader.Character": "Your Character",
+"WW.MultiChoice.TargetHeader.Combatants": "Combatants",
+"WW.MultiChoice.TargetHeader.SceneTokens": "Tokens in Scene",
+"WW.MultiChoice.TargetHeader.ActorsTab": "Actors Tab",
+
+"WW.Sage.Title": "Sage Tools",
+"WW.Sage.Resync": "Resync data",
+
+"WW.Sage.Tabs.trackers": "Trackers",
+"WW.Sage.Tabs.players": "Player Control",
+"WW.Sage.Tabs.index": "Compendia",
+
 "WW.Sage.Trackers.Time.World": "World Time (Elapsed)",
 "WW.Sage.Trackers.Time.Advance": "Advance 1 Minute",
 "WW.Sage.Trackers.Time.AdvanceHint": "<p>Action scenes, including combat, are assumed to last 1 minute.</p><p>Advancing the world time allows for ongoing effects with a duration under 1 minute to expire.",
@@ -847,14 +901,12 @@
 "WW.Sage.Trackers.Combat.Tab": "Switch to Combat Tab",
 "WW.Sage.Trackers.Combat.Popout": "Pop Out",
 
-"WW.Sage.Players.Label": "Player Control",
 "WW.Sage.Players.None": "No players on the table yet. Invite them!",
 "WW.Sage.Players.Character": "Character",
 "WW.Sage.Players.NoneAssigned": "None assigned",
 "WW.Sage.Players.FolderActors": "Actors in Folder",
 "WW.Sage.Players.SceneActors": "Actors in Scene",
 
-"WW.Sage.Index.Label": "Compendia",
 "WW.Sage.Index.CharOptions": "Character Options",
 "WW.Sage.Index.Equipment": "Equipment",
 
@@ -911,12 +963,19 @@
 "WW.Settings.Afflictions.Hint": "Here you can edit the Afflictions available to creatures in your world.",
 "WW.Settings.Afflictions.Label": "Edit Afflictions",
 
+"WW.Settings.Connections.EntryType": "Connection",
+"WW.Settings.Connections.Name": "Connections Available to Groups",
+"WW.Settings.Connections.Hint": "Here you can edit the Connections available to the players' group in your world.",
+"WW.Settings.Connections.Label": "Edit Connections",
+
 "WW.System.Welcome": "{intro}<p>Hail!</p><p>Welcome to <b>Shadow of the Weird Wizard</b>.</p><p>To get started, have a look at the <b>System Documentation</b> compendium in the <b>Compendium Packs</b> tab.</p><p>You can also find <b>tours</b> in the <b>Tour Managegement</b> under settings.</p>",
 "WW.System.WelcomeFooter": "<p>Links to the <a href=\"https://github.com/Savantford/foundry-weirdwizard/releases/latest\">Patch Notes</a>, known <a href=\"https://github.com/Savantford/foundry-weirdwizard/issues\">Issues</a> on Github and the <a href=\"https://discord.com/invite/DUMfrUc\">Discord</a> community can also be found in the settings tab. Feedback is always welcome!</p><p>Have fun and stay weird!</p>",
 "WW.System.ViewImage": "Click to enlarge image",
-"WW.System.EditImage": "Click to edit image",
+"WW.System.EditImage": "Click to edit the image.",
 "WW.System.Embed": "Embed in chat",
 "WW.System.Link": "Link in chat",
+"WW.System.CharOptionHelp": "Character Options Help",
+"WW.System.CharOptionDrag": "Drag the Character Option and drop on a creature sheet to add it to them.",
 "WW.System.Tour": "Start tour",
 "WW.System.Documentation": "Show documentation",
 
@@ -934,14 +993,6 @@
 "WW.System.Migration.Started": "Outdated data found. Please wait until the data migration is finished.",
 "WW.System.Migration.Forced": "Forced data migration started. Please wait until the data migration is finished.",
 "WW.System.Migration.Finished": "Data migration successful. Enjoy your game!",
-
-"WW.System.ApplyContext.PreTargets": "Pre-Selected Targets",
-"WW.System.ApplyContext.Targets": "Current Targets",
-"WW.System.ApplyContext.Selected": "Selected Tokens",
-"WW.System.ApplyContext.Character": "Your Character",
-"WW.System.ApplyContext.Combatants": "Combatants",
-"WW.System.ApplyContext.SceneTokens": "Tokens in Scene",
-"WW.System.ApplyContext.ActorsTab": "Actors Tab",
 
 "WW.System.Compendium.Group.Core": "Shadow of the Weird Wizard",
 "WW.System.Compendium.Group.World": "World Compendia",

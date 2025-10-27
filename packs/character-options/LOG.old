@@ -1,3 +1,5 @@
-2025/07/11-10:55:44.982 4ae4 Recovering log #369
-2025/07/11-10:55:44.989 4ae4 Delete type=0 #369
-2025/07/11-10:55:44.989 4ae4 Delete type=3 #368
+2025/10/27-14:46:42.177 7a4 Log #639: 0 ops saved to Table #640 OK
+2025/10/27-14:46:42.177 7a4 Archiving ..\Data\systems\weirdwizard\packs\character-options/000639.log: OK
+2025/10/27-14:46:42.179 7a4 Table #629: 248 entries OK
+2025/10/27-14:46:42.181 7a4 Archiving ..\Data\systems\weirdwizard\packs\character-options/MANIFEST-000638: OK
+2025/10/27-14:46:42.183 7a4 **** Repaired leveldb ..\Data\systems\weirdwizard\packs\character-options; recovered 1 files; 108134 bytes. Some data may have been lost. ****

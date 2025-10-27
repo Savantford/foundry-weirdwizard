@@ -1,4 +1,4 @@
-<section class="tab talents {{tab.cssClass}}" data-group="primary" data-tab="talents">
+<section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
     <ol class="item-list">
 
         {{!-- Header --}}
@@ -8,7 +8,7 @@
             <div class="item-uses">{{localize "WW.Talent.Uses"}}</div>
             <div class="item-source">{{localize "WW.Talent.Source.Label"}}</div>
             <div class="item-controls">
-                <a class="item-control item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Trait" data-type="Trait or Talent" data-subtype="trait" data-source="Ancestry"><i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}</a>
+                <a class="item-control item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Trait" data-type="talent" data-subtype="trait" data-source="Ancestry"><i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}</a>
             </div>
         </li>
 
@@ -56,7 +56,7 @@
             <div class="item-controls">
 
                 {{!-- Scroll Button --}}
-                {{#if item.system.description.value}}
+                {{#if item.system.description}}
                     <a class="item-button" data-action="itemScroll" data-item-id="{{item._id}}"
                         data-tooltip="{{localize "WW.Item.Send"}}">
                     <i class="fa-regular fa-scroll"></i></a>
@@ -87,7 +87,7 @@
             <div class="item-uses">{{localize "WW.Talent.Uses"}}</div>
             <div class="item-source">{{localize "WW.Talent.Source.Label"}}</div>
             <div class="item-controls">
-                <a class="item-control item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Trait" data-type="Trait or Talent" data-subtype="trait" data-source="Ancestry"><i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}</a>
+                <a class="item-control item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Trait" data-type="talent" data-subtype="trait" data-source="Ancestry"><i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}</a>
             </div>
         </li>
 
@@ -134,7 +134,7 @@
             <div class="item-controls">
 
                 {{!-- Scroll Button --}}
-                {{#if item.system.description.value}}
+                {{#if item.system.description}}
                     <a class="item-button" data-action="itemScroll" data-item-id="{{item._id}}"
                         data-tooltip="{{localize "WW.Item.Send"}}">
                     <i class="fa-regular fa-scroll"></i></a>
