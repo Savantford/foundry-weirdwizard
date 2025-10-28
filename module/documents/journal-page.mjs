@@ -155,6 +155,9 @@ export default class WWJournalPage extends WWDocumentMixin(JournalEntryPage) {
     const sheet = new sheetClass({
       document: this,
       classes: ['view-mode', 'weirdwizard'],
+      window: {
+        contentClasses: ['scrollable'],
+      },
       position: {
         width: 570,
         height: 600

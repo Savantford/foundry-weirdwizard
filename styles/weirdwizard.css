@@ -812,6 +812,7 @@ body {
 .weirdwizard.sheet.item input,
 .journal-entry-page .weirdwizard input {
   height: var(--sheet-input-height);
+  line-height: normal;
 }
 
 .weirdwizard .input-wrap {
@@ -1530,27 +1531,23 @@ body {
     }
 
     range-picker {
-      flex-flow: column;
-      gap: 3px;
-      justify-content: center;
-      height: 100%;
-      padding: 0 5px;
+      flex-flow: column-reverse;
+      gap: 5px;
+      padding: 6px;
 
       > * {
         flex: 0;
       }
 
-      [type=range] {
-        height: auto;
+      input[type='number'] {
+        min-width: 2.5ch;
+        padding: 0;
+        min-height: 1lh;
+        font-size: large;
+        text-shadow: var(--text-shadow);
       }
     }
 
-    input[type='number'] {
-      min-width: 2.5ch;
-      padding: 0;
-      font-size: large;
-      text-shadow: var(--text-shadow);
-    }
   }
 
   .stat.str {
@@ -1779,6 +1776,7 @@ body {
 
 .weirdwizard .health-wrapper .stat {
   width: var(--health-number-width);
+  height: var(--sheet-input-height);
 }
 
 .weirdwizard.npc .health-wrapper .stat {
