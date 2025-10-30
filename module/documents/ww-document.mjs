@@ -179,14 +179,12 @@ export default function WWDocumentMixin(Base) {
             break;
 
             case 'talent':
-              context.subtitle = i18n(CONFIG.WW.TALENT_SUBTYPES[this.system.subtype]);
+              context.subtitle = i18n(CONFIG.WW.TALENT_SOURCE_LABELS[this.system.source]);
             break;
 
             case 'spell':
-              context.subtitle = `${i18n('TYPES.Item.Spell')} • ${i18n(CONFIG.WW.TIERS[this.system.tier])}`;
-              const sep = context.subtitle ? ' • ' : '';
-
-              if (this.system.tradition) context.subtitle += sep + this.system.tradition;
+              context.subtitle = i18n(CONFIG.WW.SPELL_TIERS[this.system.tier]);
+              if (this.system.tradition) context.subtitle += ` • ${this.system.tradition}`;
             break;
           }
           

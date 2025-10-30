@@ -54,6 +54,12 @@ WW.LEVELS = {
   10: '10'
 }
 
+WW.TIERS = {
+  'novice': 'WW.CharOptions.Novice',
+  'expert': 'WW.CharOptions.Expert',
+  'master': 'WW.CharOptions.Master'
+};
+
 WW.SIZES = {
   0.125: '⅛',
   0.25: '¼',
@@ -98,6 +104,11 @@ WW.CONNECTIONS = {
 };
 
 /* Items */
+WW.ITEM_TYPES = {
+  'equipment': 'TYPES.Item.equipment',
+  'talent': 'TYPES.Item.talent',
+  'spell': 'TYPES.Item.spell',
+};
 
 WW.TALENT_SUBTYPES = {
   'trait': 'WW.Talent.Trait',
@@ -116,6 +127,16 @@ WW.TALENT_SOURCES = {
   'other': 'WW.Talent.Source.Other'
 };
 
+WW.TALENT_SOURCE_LABELS = {
+  'none': 'WW.Talent.Source.NoneLabel',
+  'ancestry': 'WW.Talent.Source.AncestryLabel',
+  'novice': 'WW.Talent.Source.NoviceLabel',
+  'expert': 'WW.Talent.Source.ExpertLabel',
+  'master': 'WW.Talent.Source.MasterLabel',
+  'tradition': 'WW.Talent.Source.TraditionLabel',
+  'other': 'WW.Talent.Source.OtherLabel'
+};
+
 WW.USES_LEVEL_RELATIVE = {
   'manual': 'WW.Item.Uses.Manual',
   'full': 'WW.Item.Uses.Full',
@@ -123,10 +144,10 @@ WW.USES_LEVEL_RELATIVE = {
   'third': 'WW.Item.Uses.Third'
 };
 
-WW.TIERS = {
-  'novice': 'WW.CharOptions.Novice',
-  'expert': 'WW.CharOptions.Expert',
-  'master': 'WW.CharOptions.Master'
+WW.SPELL_TIERS = {
+  'novice': 'WW.Spell.Novice',
+  'expert': 'WW.Spell.Expert',
+  'master': 'WW.Spell.Master'
 };
 
 WW.EQUIPMENT_SUBTYPES = {

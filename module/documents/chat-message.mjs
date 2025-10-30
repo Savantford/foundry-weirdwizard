@@ -76,8 +76,26 @@ export default class WWChatMessage extends ChatMessage {
     });
 
     // Prepare item
-    if (item) {
+    if (await item) {
       const sys = item?.system;
+
+      // Prepare subtitle
+      switch (await item.type) {
+        case 'equipment':
+          item.subtitle = i18n(CONFIG.WW.EQUIPMENT_SUBTYPES[sys.subtype]);
+        break;
+
+        case 'talent':
+          item.subtitle = i18n(CONFIG.WW.TALENT_SOURCE_LABELS[sys.source]);
+        break;
+
+        case 'spell':
+          item.subtitle = i18n(CONFIG.WW.SPELL_TIERS[sys.tier]);
+          if (sys.tradition) item.subtitle += ` • ${sys.tradition}`;
+        break;
+
+        default: item.subtitle = sys.subtype ?? item.type; break;
+      }
 
       // Prepare traits list
       item.traits = [];
@@ -140,12 +158,13 @@ export default class WWChatMessage extends ChatMessage {
       avatar: this.avatar,
       icon: icon,
       item: item ? {
-        type: this.getTypeLabel(item.type),
-        subtype: item.system.subtype ? this.getTypeLabel(item.system.subtype) : '',
+        type: item.type,
+        subtype: item.system.subtype,
         magical: item.system.magical ? 'magical' : '',
-        source: item.system.source ? item.system.source : null,
-        tier: item.system.tier ? item.system.tier : null,
-        isWeapon: item.system.subtype ?? item.system.subtype,
+        source: item.system.source,
+        tier: item.system.tier,
+        isWeapon: item.system.subtype === 'weapon',
+        subtitle: item.subtitle,
         traits: item.traits,
         attackRider: item.attackRider,
         isSpell: item.type === 'spell',
@@ -248,19 +267,6 @@ export default class WWChatMessage extends ChatMessage {
       html += await roll.render({isPrivate, message: this});
     }
     return html;
-  }
-
-  /* -------------------------------------------- */
-
-  getTypeLabel(type) {
-    const i18n = (s,d={}) => game.i18n.format(s,d);
-    
-    // Try to find a match
-    if (CONFIG.WW.TALENT_SUBTYPES[type]) return i18n(CONFIG.WW.TALENT_SUBTYPES[type]);
-    if (CONFIG.WW.EQUIPMENT_SUBTYPES[type]) return i18n(CONFIG.WW.EQUIPMENT_SUBTYPES[type]);
-    
-    // If no match is found, return the original string
-    return type;
   }
 
 }

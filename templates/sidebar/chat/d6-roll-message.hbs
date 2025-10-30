@@ -53,7 +53,7 @@
                 <span class="flavor-text">{{{message.flavor}}}</span>
 
                 {{!-- Subtitle --}}
-                {{#if (and showPrivate item)}}<span class="flavor-type">{{item.type}}{{#if item.source}} • {{item.source}}{{/if}}{{#if item.tier}} • {{item.tier}}{{/if}}</span>{{/if}}
+                {{#if (and showPrivate item)}}<span class="flavor-type">{{ item.subtitle }}</span>{{/if}}
 
             </div>
 

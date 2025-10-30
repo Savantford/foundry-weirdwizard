@@ -980,7 +980,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     const dataset = Object.assign({}, button.dataset);
     const item = this.actor.items.get(dataset.itemId);
 
-    this._onItemScroll(item)
+    this._onItemScroll(item);
   }
   
   _onItemScroll(item) {
