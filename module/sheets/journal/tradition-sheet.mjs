@@ -21,6 +21,7 @@ export default class WWTraditionSheet extends WWCharOptionSheet {
     content: {
       template: 'systems/weirdwizard/templates/journal/tradition-edit.hbs',
       classes: ["standard-form"],
+      scrollable: [""],
       templates: [
         'systems/weirdwizard/templates/journal/parts/list-entry.hbs'
       ]

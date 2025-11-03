@@ -25,7 +25,7 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
     classes: ['weirdwizard'],
     tag: 'form',
     window: {
-      resizable: false,
+      resizable: true,
       contentClasses: ['scrollable']
     },
     actions: {
@@ -74,20 +74,23 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
         section.attackRider = {
           field: opt.document.system.schema.getField("attackRider.value"),
           name: await section.attackRider.name,
-          value: await section.attackRider.value,
-          enriched: await foundry.applications.ux.TextEditor.implementation.enrichHTML(section.attackRider.value, {
-            rollData: opt.document.getRollData(), relativeTo: opt.document, secrets: opt.document.isOwner
-          })
+          value: await section.attackRider.value
         }
+
+        const TextEditor = foundry.applications.ux.TextEditor.implementation;
+        section.attackRiderEnriched = await TextEditor.enrichHTML(section.attackRider.value,
+          { rollData: opt.document.getRollData(), relativeTo: opt.document, secrets: opt.document.isOwner }
+        );
         
       } else {
 
         // Prepare cols
-        if (!section.cols) section.cols = 'auto auto auto';
+        if (!section.cols) section.cols = 'auto auto';
 
         // Prepare choices
         for (const c in section.choices) {
           const choice = section.choices[c];
+          
           if (choice.path) choice.value = foundry.utils.getProperty(this.document, choice.path);
         }
         
@@ -109,21 +112,19 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
    * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
   */
   static #collapseSection(event, target) {
-    
     const section = target.closest('.mc-section');
-    const grid = section.querySelector('.choices-grid');
+    const content = section.querySelector('.section-content');
     
     // Flip states
     if (target.classList.contains('fa-circle-chevron-up')) {
       target.classList.replace('fa-circle-chevron-up', 'fa-circle-chevron-down');
 
-      $(grid).slideDown(500);
+      $(content).slideDown(500);
       
     } else {
       target.classList.replace('fa-circle-chevron-down', 'fa-circle-chevron-up');
 
-      $(grid).slideUp(500);
-      
+      $(content).slideUp(500);
     }
     
   }

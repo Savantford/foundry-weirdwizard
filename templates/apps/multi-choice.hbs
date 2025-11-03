@@ -1,8 +1,4 @@
 <div class="{{purpose}}">
-
-    {{!-- Bug --}}
-    <div class="bug"></div>
-
     {{!-- Sections --}}
     <div class="mc-sections">
         
@@ -22,35 +18,36 @@
             
             {{!-- Attack Rider --}}
             {{#if (eq type "attackRider")}}
-            {{!-- Attack Rider Title --}}
-            <span class="stat-inline mb-1">
+            <div class="section-content">
+                {{!-- Attack Rider Title --}}
+                <span class="stat-inline mb-1">
 
-            <label>{{localize "WW.Item.Name"}}:</label>
+                <label>{{localize "WW.Item.Name"}}:</label>
 
-            <input type="text" name="system.attackRider.name" value="{{@root.document.system.attackRider.name}}">
+                <input type="text" name="system.attackRider.name" value="{{@root.document.system.attackRider.name}}">
 
-            </span>
+                </span>
 
-            {{!-- Attack Rider Text Editor --}}
-            <prose-mirror name="system.attackRider.value" data-document-u-u-i-d="{{@root.document.uuid}}" value="{{@root.document.system.attackRider.value}}"
-                toggled collaborate compact owner={{owner}} editable={{editable}}>
-                {{{attackRiderEnriched}}}
-            </prose-mirror>
-            
-            {{else}}
-
-            {{!-- Choices Grid --}}
-            <div class="choices-grid" style="--cols: {{cols}};">
-
-                {{#each choices as |choice|}}
-                <label data-tooltip="{{tip}}">
-                    <input type="checkbox" name="{{#if uuid}}{{uuid}}{{else if id}}{{id}}{{else}}{{path}}{{/if}}" {{checked value}}>
-                    {{#if img}}<img src={{img}}> {{/if}}{{localize label}}
-                </label>
-                {{/each}}
-
+                {{!-- Attack Rider Text Editor --}}
+                <prose-mirror name="system.attackRider.value" data-document-u-u-i-d="{{@root.document.uuid}}" value="{{@root.document.system.attackRider.value}}"
+                    collaborate compact owner={{owner}} editable={{editable}}>
+                    {{{attackRiderEnriched}}}
+                </prose-mirror>
             </div>
             
+            {{!-- Choices Grid --}}
+            {{else}}
+            <div class="section-content">
+                <div class="choices-grid" style="--cols: {{cols}};">
+                    {{#each choices as |choice|}}
+                    <label data-tooltip="{{tip}}">
+                        <input type="checkbox" name="{{#if uuid}}{{uuid}}{{else if id}}{{id}}{{else}}{{path}}{{/if}}" {{checked value}}>
+                        {{#if img}}<img src={{img}}> {{/if}}{{localize label}}
+                    </label>
+                    {{/each}}
+                </div>
+
+            </div>
             {{/if}}
 
         </div>

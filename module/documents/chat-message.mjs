@@ -67,7 +67,7 @@ export default class WWChatMessage extends ChatMessage {
     // Prepare content
     const emptyContent = data.flags?.weirdwizard?.emptyContent ?? data.flags?.weirdwizard?.emptyContent;
     const content = isNaN(this.content) ? this.content : '';
-
+    
     data.content = await TextEditor.enrichHTML(content, {
       rollData: this.getRollData(),
       secrets: speakerActor?.isOwner ?? game.user.isGM,
@@ -112,12 +112,10 @@ export default class WWChatMessage extends ChatMessage {
       })
 
       // Prepare attack Rider
-      item.attackRider = {
-        value: item.system.attackRider?.value ?? '',
-        enriched: item.system.attackRider?.value ? await TextEditor.enrichHTML(item.system.attackRider.value, { secrets: true }) : '',
-        name: item.system.attackRider?.name ?? ''
+      if (item.system.attackRider) item.attackRider = { ... item.system.attackRider,
+        enriched: await TextEditor.enrichHTML(item.system.attackRider.value, { secrets: true })
       }
-
+      
       // Prepare spell header
       if (item.type == 'spell') {
         let header = '';
@@ -197,7 +195,7 @@ export default class WWChatMessage extends ChatMessage {
 
     // Define a border color
     if ( this.style === CONST.CHAT_MESSAGE_STYLES.OOC ) messageData.borderColor = this.author?.color.css;
-
+    
     // Render the chat message
     let html = await foundry.applications.handlebars.renderTemplate(`systems/weirdwizard/templates/sidebar/chat/${this.type}-message.hbs`, messageData); // Default: CONFIG.ChatMessage.template
     html = foundry.utils.parseHTML(html);
@@ -241,14 +239,15 @@ export default class WWChatMessage extends ChatMessage {
     if ( this.isContentVisible ) {
       const el = document.createElement("div");
       el.innerHTML = data.content;  // Ensure the content does not already contain custom HTML
-      if ( /*!el.childElementCount &&*/ this.rolls.length ) data.content = await this.#renderRollHTML(false);
+      
+      if ( /*!el.childElementCount &&*/ this.rolls.length ) data.content += await this.#renderRollHTML(false);
     }
 
     // Otherwise, show "rolled privately" messages for Roll content
     else {
       const name = this.author?.name ?? game.i18n.localize("CHAT.UnknownUser");
       data.flavor = game.i18n.format("CHAT.PrivateRollContent", {user: foundry.utils.escapeHTML(name)});
-      data.content = await renderRolls(true);
+      data.content += await renderRolls(true);
       messageData.alias = name;
     }
   }

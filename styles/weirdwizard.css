@@ -2173,6 +2173,13 @@ hr.bug {
   margin-top: calc(-1 * var(--sheet-name-stripe-height));
 }
 
+/* Item Tabs: Container */
+.weirdwizard.item .tab.active[data-tab=details] {
+  display: flex;
+  flex-flow: column;
+  flex: 1;
+}
+
 .weirdwizard.item .tab[data-tab=automation] {
   margin-top: calc(1rem - var(--sheet-name-stripe-height));
   flex-flow: column;
@@ -3975,42 +3982,53 @@ details.document-card .card-header:hover::after {
 /* -------------------------------------------- */
 
 #multi-choice {
-  max-width: 400px;
+  background: var(--paper-bg) repeat;
+  min-width: 330px;
+  min-height: 150px;
 }
 
 #multi-choice .window-header {
-  display: none;
+  border: none;
+}
+
+#multi-choice .window-header::before {
+  --bug: url(../assets/bugs/talent.webp);
+  content: '';
+  position: absolute;
+  width: calc(100% - 2*(24px + 0.5rem));
+  height: calc(100% - 4px);
+  right: calc(24px + 0.5rem);
+  background: var(--bug) no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+#multi-choice .window-header button {
+  color: var(--body-text-color);
 }
 
 #multi-choice .window-content {
-  padding: 0.75rem;
+  padding: 0.75rem 0.25rem 0.75rem 0.75rem;
+  background: none;
+  backdrop-filter: none;
 }
 
 #multi-choice .window-content > div {
   display: flex;
   flex-flow: column;
   gap: 10px;
+  flex: 1;
 }
 
 #multi-choice .window-content > div > *:not(.bug):not(.spear-divider) {
   margin: 0 20px;
 }
 
-#multi-choice .bug {
-  --bug: url(../assets/bugs/talent.webp);
-  display: block;
-  width: 100%;
-  height: 40px;
-  background: var(--bug) no-repeat;
-  background-position: center;
-  background-size: calc(100% + 10px);
-  opacity: 0.5;
-}
-
 #multi-choice .mc-sections {
   display: flex;
   flex-flow: column;
   gap: 20px;
+  flex: 1;
 }
 
 #multi-choice h3 {
@@ -4018,15 +4036,17 @@ details.document-card .card-header:hover::after {
   border: none;
 }
 
-#multi-choice .choices-grid {
-  --cols: auto auto auto;
-  display: grid;
-  grid-template-columns: var(--cols);
-  grid-gap: 5px;
+/* Multi-Choice: Section Content */
+
+#multi-choice .mc-section.collapsed .section-content {
+  display: none;
 }
 
-#multi-choice .mc-section.collapsed .choices-grid {
-  display: none;
+#multi-choice .choices-grid {
+  --cols: auto auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15ch, 1fr));
+  gap: 5px;
 }
 
 #multi-choice .choices-grid label,
@@ -4465,25 +4485,25 @@ details.document-card .card-header:hover::after {
 
 #entry-settings-display ol {
   list-style: none;
-  display: flex;
-  flex-flow: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 5px;
   align-items: center;
   justify-content: space-between;
   margin: 0;
   padding: 0;
-}
+  
+  li {
+    justify-content: space-between;
+    padding: 0.25rem 0.5rem;
+    margin: 0;
+    background: var(--background-color-shadow);
+    border-radius: 3px;
+  }
 
-#entry-settings-display li {
-  justify-content: space-between;
-  padding: 0.25rem 0.5rem;
-  margin: 0;
-  border: 1px solid var(--color-border-dark-4);
-  border-radius: 3px;
-}
-
-#entry-settings-display li:hover {
-  background: var(--pink);
+  li:hover {
+    background: var(--pink);
+  }
 }
 
 /* -------------------------------------------- */
@@ -4841,6 +4861,7 @@ form.quest-calendar {
 
 .journal-entry-content code {
   background: var(--background-color-shadow);
+  color: var(--purple-medium);
   padding: 0 2px;
   border-radius: 3px;
   border: 1px solid var(--purple-medium);
@@ -5130,6 +5151,10 @@ form.quest-calendar {
   display: flex;
   flex-flow: column;
   gap: 5px;
+}
+
+.weirdwizard .chat-description:not(:last-child) {
+  margin-bottom: 1em;
 }
 
 .weirdwizard .spear-divider {

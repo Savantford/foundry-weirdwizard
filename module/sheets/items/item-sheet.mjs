@@ -1,4 +1,3 @@
-import { i18n } from '../../helpers/utils.mjs';
 import MultiChoice from '../../apps/multi-choice.mjs';
 import {
   createActiveEffect, deleteActiveEffect, editActiveEffect,
@@ -447,7 +446,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
             value: this.document.system.attackRider?.value,
             name: this.document.system.attackRider?.name
           },
-          noCollapse: true
+          collapsed: true
         }
 
       ]

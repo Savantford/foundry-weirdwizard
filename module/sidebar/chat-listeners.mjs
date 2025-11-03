@@ -73,7 +73,7 @@ function _onMultiChoice(ev, purpose) {
       
       if (actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
         label: game.weirdwizard.utils.getAlias({ actor: actor }),
-        icon: actor.token ? actor.token.texture.src : actor.img,
+        img: actor.token ? actor.token.texture.src : actor.img,
         tip: `ID: ${actor.uuid}`,
         group: 'pre-targets',
         uuid: actor.uuid
@@ -89,7 +89,7 @@ function _onMultiChoice(ev, purpose) {
       
       if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
         label: game.weirdwizard.utils.getAlias({ actor: actor }),
-        icon: actor.token ? actor.token.texture.src : actor.img,
+        img: actor.token ? actor.token.texture.src : actor.img,
         tip: `ID: ${actor.uuid}`,
         group: 'targets',
         uuid: actor.uuid
@@ -106,7 +106,7 @@ function _onMultiChoice(ev, purpose) {
       
       if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
         label: game.weirdwizard.utils.getAlias({ actor: actor }),
-        icon: actor.token ? actor.token.texture.src : actor.img,
+        img: actor.token ? actor.token.texture.src : actor.img,
         tip: `ID: ${actor.uuid}`,
         group: 'selected',
         uuid: actor.uuid
@@ -122,7 +122,7 @@ function _onMultiChoice(ev, purpose) {
     
     menuItems.push({
       label: game.weirdwizard.utils.getAlias({ actor: character }),
-      icon: character.img,
+      img: character.img,
       tip: `ID: ${character.uuid}`,
       group: 'character',
       uuid: character.uuid
@@ -135,7 +135,7 @@ function _onMultiChoice(ev, purpose) {
     
     if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
       label: game.weirdwizard.utils.getAlias({ actor: actor }),
-      icon: actor.token ? actor.token.texture.src : actor.img,
+      img: actor.token ? actor.token.texture.src : actor.img,
       tip: `ID: ${actor.uuid}`,
       group: 'combatants',
       uuid: actor.uuid
@@ -149,7 +149,7 @@ function _onMultiChoice(ev, purpose) {
     
     if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
       label: game.weirdwizard.utils.getAlias({ actor: actor }),
-      icon: actor.token ? actor.token.texture.src : actor.img,
+      img: actor.token ? actor.token.texture.src : actor.img,
       tip: `ID: ${actor.uuid}`,
       group: 'scene-tokens',
       uuid: actor.uuid
@@ -164,7 +164,7 @@ function _onMultiChoice(ev, purpose) {
       
       menuItems.push({
         label: game.weirdwizard.utils.getAlias({ actor: actor }),
-        icon: actor.token ? actor.token.texture.src : actor.img,
+        img: actor.token ? actor.token.texture.src : actor.img,
         tip: `ID: ${actor.uuid}`,
         group: 'actors-tab',
         uuid: actor.uuid
@@ -184,14 +184,12 @@ function _onMultiChoice(ev, purpose) {
   const sections = [];
   
   for (const group in groups) {
-    
     sections.push({
       title: i18n(CONFIG.WW.MULTI_CHOICE_TARGET_HEADERS[group]),
-      icon: CONFIG.WW.MULTI_CHOICE_TARGET_HEADER_ICONS[group],
+      img: CONFIG.WW.MULTI_CHOICE_TARGET_HEADER_ICONS[group],
       choices: groups[group],
       collapsed: (group === 'actors-tab' && Object.keys(groups).length > 1) ? true : false
     })
-
   }
 
   // Create MultiChoice instance

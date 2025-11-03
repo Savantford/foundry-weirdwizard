@@ -21,6 +21,7 @@ export default class WWProfessionSheet extends WWCharOptionSheet {
     content: {
       template: 'systems/weirdwizard/templates/journal/profession-edit.hbs',
       classes: ["standard-form"],
+      scrollable: [""],
       templates: [
         'systems/weirdwizard/templates/journal/parts/list-entry.hbs'
       ]

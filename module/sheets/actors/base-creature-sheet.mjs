@@ -74,6 +74,8 @@ export default class WWCreatureSheet extends WWActorSheet {
   }
   
   /* -------------------------------------------- */
+  /*  Context Preparation                         */
+  /* -------------------------------------------- */
 
   /**
    * Prepare application rendering context data for a given render request.
@@ -186,6 +188,8 @@ export default class WWCreatureSheet extends WWActorSheet {
     return context;
   }
 
+  /* -------------------------------------------- */
+
   /** @override */
   async _preparePartContext(partId, context, options) {
     await super._preparePartContext(partId, context, options);
@@ -246,6 +250,8 @@ export default class WWCreatureSheet extends WWActorSheet {
     return context;
   }
 
+  /* -------------------------------------------- */
+
   /**
    * Prepare data for Character sheets.
    *
@@ -272,6 +278,8 @@ export default class WWCreatureSheet extends WWActorSheet {
     
   }
 
+  /* -------------------------------------------- */
+
   /**
    * Prepare data for NPC sheets.
    *
@@ -279,7 +287,6 @@ export default class WWCreatureSheet extends WWActorSheet {
    *
    * @return {Promise<void>}
   */
-
   async _prepareNPCData(context) {
 
     // Prepare dropdown lists
@@ -290,6 +297,8 @@ export default class WWCreatureSheet extends WWActorSheet {
 
   }
 
+  /* -------------------------------------------- */
+  /*  Rendering                                   */
   /* -------------------------------------------- */
 
   /**
@@ -596,7 +605,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     const user = game.user;
     const afflictions = [];
     
-    // Convert ContextMenu data to MultiChoice data
+    // Create MultiChoice choices data
     CONFIG.statusEffects.forEach(a => {
       if (a.id in CONFIG.WW.AFFLICTIONS) afflictions.push({
         id: a.id,
@@ -1612,7 +1621,7 @@ export default class WWCreatureSheet extends WWActorSheet {
 
 // Make secret message content
 function _secretContent(content) {
-  if (content) return '<span class="owner-only chat-description">' + content + '</span>';
+  if (content) return '<div class="owner-only chat-description">' + content + '</div>';
   else return ''
 }
 

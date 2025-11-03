@@ -21,6 +21,7 @@ export default class WWAncestrySheet extends WWCharOptionSheet {
     content: {
       template: 'systems/weirdwizard/templates/journal/ancestry-edit.hbs',
       classes: ["standard-form"],
+      scrollable: [""],
       templates: [
         'systems/weirdwizard/templates/journal/parts/list-entry.hbs'
       ]

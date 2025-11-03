@@ -18,7 +18,8 @@ export class EntrySettingsDisplay extends HandlebarsApplicationMixin(Application
     tag: 'div',
     classes: ['weirdwizard'],
     window: {
-      icon: 'fa-solid fa-list'
+      icon: 'fa-solid fa-list',
+      resizable: true
     },
     actions: {
       addEntry: this.#addEntry,
