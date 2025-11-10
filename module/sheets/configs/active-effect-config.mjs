@@ -75,17 +75,34 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
         partContext.formattedStartTime = game.weirdwizard.utils.formatTime(this.document.duration.startTime, 1);
       } break;
       case 'changes': {
-        partContext.effectChangeOptions = CONFIG.WW.EFFECT_OPTIONS;
+        partContext.effectChangeOptions = CONFIG.WW.EFFECT_CHANGE_PRESET_DATA;
         partContext.source.changes = partContext.source.changes.map(change => {
-          const valueType = getEffectChangeMeta(change.key)?.valueType ?? 'str';
-          
+          const changeDataPreset = getEffectChangeMeta(change.key);
+          const valueType = changeDataPreset?.valueType ?? 'str';
+
+          // Pass preset data to the change
+          change = {... change, ...changeDataPreset};
+
+          // Assign field
           switch (valueType) {
-            case 'boo': change.field = makeBooField(true); break;
-            case 'int': change.field = makePosIntField(); break;
-            case 'str': change.field = makeStrField(); break;
+            case 'boo': {
+              change.field = makeBooField(true);
+            }; break;
+
+            case 'int': {
+              change.field = makePosIntField();
+            } break;
+
+            case 'str': {
+              change.field = makeStrField();
+            } break;
           }
+          
+          // Ensure integer field does not have true or false as value
+          if (valueType === 'int' & (change.value === 'true' || change.value === 'false')) change.value = 1;
 
           change.typedValue = change.field.clean(change.value);
+          console.log(change)
 
           return change;
         })
@@ -103,10 +120,10 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
   _onChangeForm(formConfig, event) {
     super._onChangeForm(formConfig, event);
 
-    // Re-submit the form if a change key is changed to update the value input type
-    /*if (event.target instanceof HTMLSelectElement && event.target.name.endsWith(".key")) {
+    // Re-submit the form if a change key is changed to update the value input type - needed to avoid desync on the Actor
+    if (event.target instanceof HTMLSelectElement && event.target.name.endsWith(".key")) {
       this.submit({ preventClose: true });
-    }*/
+    }
   }
 
   /* -------------------------------------------- */
@@ -122,6 +139,7 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
    * @protected
    */
   async _processSubmitData(event, form, submitData, options={}) {
+    // Update duration
     const sysDur = submitData.system.duration;
     let inSeconds = null;
     
@@ -151,6 +169,7 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
       break;
     }
     
+    // Submit processed data
     return super._processSubmitData(event, form, submitData, options);
   }
 

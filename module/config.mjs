@@ -495,7 +495,7 @@ WW.EFFECT_DURATIONS = {
   }
 }
 
-WW.EFFECT_OPTIONS = {
+WW.EFFECT_CHANGE_PRESET_DATA = {
   boons: {
     header: 'WW.Effect.Keys.Boons.Header',
     options: {
@@ -777,7 +777,7 @@ WW.EFFECT_OPTIONS = {
         label: 'WW.Effect.Keys.Speed.Halved'
       },
       'speed.override': {
-        key: 'system.stats.speed.current',
+        key: 'system.stats.speed.override',
         label: 'WW.Effect.Keys.Speed.Override'
       },
       'speed.normal': {

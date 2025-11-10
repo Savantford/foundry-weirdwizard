@@ -538,13 +538,10 @@ export default class WWCreatureSheet extends WWActorSheet {
         type: 'd20-roll',
         speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
         flavor: label,
-        content: content,
+        content: `<div class="dice-outcome chat-failure">${i18n('WW.Roll.AutoFail')}!</div>`,
         sound: CONFIG.sounds.dice,
         'flags.weirdwizard': {
-          icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey],
-          item: item.uuid,
-          rollHtml: '<div class="dice-outcome chat-failure">' + i18n('WW.Roll.AutoFail') + '!</div>',
-          emptyContent: !content ?? true
+          icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey]
         }
       };
       

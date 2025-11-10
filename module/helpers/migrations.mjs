@@ -719,7 +719,7 @@ function _convertKey(change) {
   const oldKey = change.key;
   let newKey = '';
   
-  for (let [k,cat] of Object.entries(CONFIG.WW.EFFECT_OPTIONS)) { 
+  for (let [k,cat] of Object.entries(CONFIG.WW.EFFECT_CHANGE_PRESET_DATA)) { 
     
     for (let [k,v] of Object.entries(cat.options)) {
 

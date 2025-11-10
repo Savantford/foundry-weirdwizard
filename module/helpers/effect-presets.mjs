@@ -104,6 +104,7 @@ changePresets.speed = {
   tempReduce: addInt(),
   halved: setBoo(),
   override: overInt(),
+  normal: overInt(1),
   increase: addInt()
 }
 
@@ -210,23 +211,23 @@ function makeChangeData(mode, valueType, priority = null) {
 /* -------------------------------------------- */
 
 /**
- * Build flattened lookup maps from CONFIG.WW.EFFECT_OPTIONS
- * Sets CONFIG.WW.EFFECT_OPTIONS_KEYS and CONFIG.WW.EFFECT_OPTIONS_LABELS
- * (these replace EFFECT_CHANGE_KEYS and EFFECT_CHANGE_LABELS where still needed)
+ * Build flattened lookup maps from CONFIG.WW.EFFECT_CHANGE_PRESET_DATA
+ * Sets CONFIG.WW.EFFECT_CHANGE_PRESET_KEYS and CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS
+ * (these replace EFFECT_CHANGE_PRESET_KEYS and EFFECT_CHANGE_LABELS where still needed)
  */
 export function initializeEffectLookups() {
   const keys = {};
   const labels = {};
 
-  for (const [, value] of Object.entries(CONFIG.WW.EFFECT_OPTIONS)) {
+  for (const [, value] of Object.entries(CONFIG.WW.EFFECT_CHANGE_PRESET_DATA)) {
     Object.entries(value.options || {}).forEach(([optId, data]) => {
       keys[optId] = data.key;
       labels[optId] = data.label;
     });
   }
 
-  CONFIG.WW.EFFECT_OPTIONS_KEYS = keys;
-  CONFIG.WW.EFFECT_OPTIONS_LABELS = labels;
+  CONFIG.WW.EFFECT_CHANGE_PRESET_KEYS = keys;
+  CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS = labels;
 }
 
 /* -------------------------------------------- */
@@ -239,7 +240,9 @@ export function initializeEffectLookups() {
  */
 export function getEffectChangeMeta(labelKey) {
   try {
-    return labelKey.split('.').reduce((o, i) => o?.[i], effPresets) ?? null;
+    console.log(labelKey)
+    console.log(labelKey.split('.').reduce((o, i) => o?.[i], changePresets) ?? null)
+    return labelKey.split('.').reduce((o, i) => o?.[i], changePresets) ?? null;
   } catch (e) {
     return null;
   }

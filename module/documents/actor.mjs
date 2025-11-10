@@ -162,7 +162,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
       this.system.autoFail[attribute] = false;
     })
 
-    // Initialize halved boolean for Speed reductions
+    // Initialize Speed variables
     this.system.stats.speed.halved = false;
 
     // Initialize dynamic Defense properties
@@ -455,7 +455,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     }
     
     // Calculate temporary Health and assign it
-    health.temp = health.current - this.toObject().system?.stats.health.current;
+    health.temp = health.current - this._source.system.stats.health.current;
 
     // Calculate lost Health and assign it
     if (health.normal - health.current >= 0) health.lost = health.normal - health.current; else health.lost = 0;
@@ -493,14 +493,17 @@ export default class WWActor extends WWDocumentMixin(Actor) {
   /* -------------------------------------------- */
 
   _calculateSpeed(system) {
+    
     const speed = system.stats.speed;
+    console.log(speed.normal)
+    console.log(speed.current)
+    const adjusted = speed.current ? speed.normal + speed.current : speed.normal;
     
-    // Halve Speed
-    if (speed.halved) speed.current = Math.floor(speed.normal / 2)
-
-    // Assign normal Speed
-    else speed.current = speed.normal;
+    // Use adjusted Speed
+    speed.current = speed.halved ? Math.floor(adjusted / 2) : adjusted;
     
+    // Override Speed
+    if (speed.override && speed.current > speed.override) speed.current = speed.override;
   }
 
   /* -------------------------------------------- */

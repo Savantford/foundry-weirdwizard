@@ -234,7 +234,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     }
 
     // Prepare effect change labels to display
-    context.effectChangeLabels = CONFIG.WW.EFFECT_OPTIONS_LABELS;
+    context.effectChangeLabels = CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS;
 
     // Pass down whether the item needs targets or not
     context.needTargets = this.document.needTargets;
