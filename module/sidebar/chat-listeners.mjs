@@ -11,43 +11,47 @@ import WWRoll from '../dice/roll.mjs';
 
 export function initChatListeners(html, message, context) {
   // Rolling for Instant Effects
-  html.querySelector('.chat-button[data-action*=roll]')?.addEventListener('click', _onInstantEffectRoll);
-  html.querySelector('.enricher-roll')?.addEventListener('click', _onInstantEffectRoll);
+  html.querySelectorAll('.chat-button[data-action*=roll]').forEach((el, i) => { el.addEventListener('click', _onInstantEffectRoll); });
+  html.querySelectorAll('.enricher-roll').forEach((el, i) => { el.addEventListener('click', _onInstantEffectRoll); });
 
   // Attribute Call (Enricher)
-  html.querySelector('.enricher-call')?.addEventListener('click', (ev) => { _onMultiChoice(ev, 'attributeCall') });
+  html.querySelectorAll('.enricher-call').forEach((el, i) => { el.addEventListener('click', (ev) => { _onMultiChoice(ev, 'attributeCall') }); });
 
   // Effect Application Multi-Choice
-  html.querySelector('.chat-button[data-action*=apply]')?.addEventListener('click', (ev) => { _onMultiChoice(ev, 'applyEffect') });
+  html.querySelectorAll('.chat-button[data-action*=apply]').forEach((el, i) => { el.addEventListener('click', (ev) => { _onMultiChoice(ev, 'applyEffect') }); });
 
   // Open Sheet from chat
-  html.querySelector('[data-action=open-sheet]')?.addEventListener('click', _onOpenSheet);
+  html.querySelectorAll('[data-action=open-sheet]').forEach((el, i) => { el.addEventListener('click', _onOpenSheet); });
 
   // Collapse descriptions
   html.querySelector('.chat-message-collapse')?.addEventListener('click', (ev) => _onMessageCollapse(html));
-
 }
+
+/* -------------------------------------------- */
 
 /** 
  * Handle roll started from a chat button.
  */
 function _onInstantEffectRoll(event) {
-
+  console.log('rolando')
   event.preventDefault()
   const button = event.currentTarget,
     dataset = Object.assign({}, button.dataset)
   ;
+  console.log(dataset.action)
   
   switch (dataset.action) {
     // Instant Effect Rolls
-    case 'roll-damage': new RollDamage(dataset).render(true); break;
-    case 'roll-healing': _onChatRoll(dataset, 'WW.InstantEffect.HealOf', 'apply-healing'); break;
-    case 'roll-health-loss': _onChatRoll(dataset, 'WW.InstantEffect.HealthLoseOf', 'apply-health-loss'); break;
-    case 'roll-health-regain': _onChatRoll(dataset, 'WW.InstantEffect.HealthRegainedBy', 'apply-health-regain'); break;
+    case 'rollDamage': new RollDamage(dataset).render(true); break;
+    case 'rollHealing': _onChatRoll(dataset, 'WW.InstantEffect.HealOf', 'applyHealing'); break;
+    case 'rollHealthLoss': _onChatRoll(dataset, 'WW.InstantEffect.HealthLoseOf', 'applyHealthLoss'); break;
+    case 'rollHealthRegain': _onChatRoll(dataset, 'WW.InstantEffect.HealthRegainedBy', 'applyHealthRegain'); break;
     default: _onChatRoll(dataset); break;
   }
   
 }
+
+/* -------------------------------------------- */
 
 /**
   * Handle opening of a context menu from a chat button.
@@ -207,6 +211,8 @@ function _onMultiChoice(ev, purpose) {
 
 }
 
+/* -------------------------------------------- */
+
 /**
    * Handle opening of a related sheet
    * @param {PointerEvent} event      The originating click event
@@ -277,6 +283,8 @@ async function _onChatRoll(dataset, label, nextAction) {
 
 }
 
+/* -------------------------------------------- */
+
 function _onMessageCollapse(msg) {
   const button = msg.querySelector('.chat-message-collapse');
   const icon = msg.querySelector('.chat-message-collapse > i');
@@ -324,11 +332,8 @@ function _onMessageCollapse(msg) {
  * @private
 */
 function _getActorFromOrigin(origin) {
-
-  if (origin?.documentName === 'Item') { // Case 1 - Origin is an Item
-    return origin.parent || null;
-
-  } else { // Case 2 - Origin is an Actor
-    return origin || null;
-  }
+  // Case 1 - Origin is an Item
+  if (origin?.documentName === 'Item') return origin.parent || null; 
+  // Case 2 - Origin is an Actor
+  else return origin || null; 
 }

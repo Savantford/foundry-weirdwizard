@@ -153,7 +153,6 @@ export async function deleteActiveEffect(effect, owner) {
  * @return {Object}                   Data for rendering
 */
 export async function prepareActiveEffectCategories(effects, showDuration = false, showSource = true, showControls = true, showCreate = true) {
-  console.log(effects)
   // Define effect header categories
   const categories = {
     temporary: {

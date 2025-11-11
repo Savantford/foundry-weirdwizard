@@ -195,14 +195,14 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
           const target = await fromUuid(uuid);
 
           switch (opt.dataset.action) {
-            case 'apply-damage': target.applyDamage(value); break;
-            case 'apply-damage-half': target.applyDamage(Math.floor(value / 2)); break;
-            case 'apply-damage-double': target.applyDamage(2 * value); break;
-            case 'apply-healing': target.applyHealing(value); break;
-            case 'apply-health-loss': target.applyHealthLoss(value); break;
-            case 'apply-health-regain': target.applyHealthRegain(value); break;
-            case 'apply-affliction': target.applyAffliction(value); break;
-            case 'apply-effect': target.applyEffect(effect); break;
+            case 'applyDamage': target.applyDamage(value); break;
+            case 'applyDamageHalf': target.applyDamage(Math.floor(value / 2)); break;
+            case 'applyDamageDouble': target.applyDamage(2 * value); break;
+            case 'applyHealing': target.applyHealing(value); break;
+            case 'applyHealthLoss': target.applyHealthLoss(value); break;
+            case 'applyHealthRegain': target.applyHealthRegain(value); break;
+            case 'applyAffliction': target.applyAffliction(value); break;
+            case 'applyEffect': target.applyEffect(effect); break;
           }
 
         }

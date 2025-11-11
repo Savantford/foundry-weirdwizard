@@ -191,7 +191,7 @@ export default class RollDamage extends FormApplication {
     const labelHtml = this.item ? i18n('WW.Damage.Of', { name: '<span class="owner-only">' + this.item.name + '</span><span class="non-owner-only">? ? ?</span>' }) : '';
 
     const dataset = {
-      action: 'apply-damage',
+      action: 'applyDamage',
       value: '',
       originUuid: this.origin?.uuid,
       targetIds: this.targetIds

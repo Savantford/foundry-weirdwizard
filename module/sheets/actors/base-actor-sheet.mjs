@@ -32,14 +32,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     window: {
       resizable: true,
       contentClasses: [],
-      controls: [
-        {
-          action: "openTour",
-          icon: "fa-solid fa-person-hiking",
-          label: "WW.System.Tour",
-          ownership: "OWNER"
-        }
-      ]
+      controls: []
     },
     actions: {
       editImage: this.#onEditImage, // delete in V13; core functionality

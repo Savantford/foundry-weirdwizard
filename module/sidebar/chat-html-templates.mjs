@@ -26,65 +26,65 @@ export function chatMessageButton({action, value, effectUuid, originUuid, target
 
   switch (action) {
     /* Roll Actions */
-    case 'roll-damage': {
+    case 'rollDamage': {
       loc += 'Damage';
       break;
     }
-    case 'roll-healing': {
+    case 'rollHealing': {
       loc += 'Healing';
       break;
     }
-    case 'roll-health-loss': {
+    case 'rollHealthLoss': {
       loc += 'HealthLoss';
       break;
     }
-    case 'roll-health-regain': {
+    case 'rollHealthRegain': {
       loc += 'HealthRegain';
       break;
     }
-    case 'apply-affliction': {
+    case 'applyAffliction': {
       icon = 'skull-crossbones';
       loc = 'WW.InstantEffect.Affliction';
       break;
     }
     /* Apply Actions */
-    case 'apply-damage': {
+    case 'applyDamage': {
       img = '/systems/weirdwizard/assets/icons/rough-wound-black.svg';
       loc += 'Damage';
       showNo = false;
       break;
     }
-    case 'apply-damage-half': {
+    case 'applyDamageHalf': {
       img = '/systems/weirdwizard/assets/icons/slashed-shield-black.svg';
       loc += 'Half';
       showNo = false;
       break;
     }
-    case 'apply-damage-double': {
+    case 'applyDamageDouble': {
       img = '/systems/weirdwizard/assets/icons/cross-mark-black.svg';
       loc += 'Double';
       showNo = false;
       break;
     }
-    case 'apply-healing': {
+    case 'applyHealing': {
       img = '/systems/weirdwizard/assets/icons/caduceus-black.svg';
       loc += 'Healing';
       showNo = false;
       break;
     }
-    case 'apply-health-loss': {
+    case 'applyHealthLoss': {
       img = '/systems/weirdwizard/assets/icons/health-decrease-black.svg';
       loc += 'LoseHealth';
       showNo = false;
       break;
     }
-    case 'apply-health-regain': {
+    case 'applyHealthRegain': {
       img = '/systems/weirdwizard/assets/icons/health-increase-black.svg';
       loc += 'RegainHealth';
       showNo = false;
       break;
     }
-    case 'apply-effect': {
+    case 'applyEffect': {
       icon = 'hand-holding-magic';
       loc = 'WW.Effect.Apply';
       showNo = false;
@@ -118,7 +118,7 @@ export function chatMessageButton({action, value, effectUuid, originUuid, target
 }
 
 export function chatMessageButtonArray({value, originUuid, targetIds}) {
-  const actions = ['apply-damage', 'apply-damage-half', 'apply-damage-double', 'apply-healing']
+  const actions = ['applyDamage', 'applyDamageHalf', 'applyDamageDouble', 'applyHealing']
   let html = '<div class="chat-button-container">';
 
   actions.forEach(a => {
@@ -136,11 +136,11 @@ export function actionFromLabel(label) {
   let action = '';
   
   switch (label) {
-    case ('damage'): action = 'roll-damage'; break;
-    case ('heal'): action = 'roll-healing'; break;
-    case ('healthLose'): action = 'roll-health-loss'; break;
-    case ('healthRegain'): action = 'roll-health-regain'; break;
-    case ('affliction'): action = 'apply-affliction'; break;
+    case ('damage'): action = 'rollDamage'; break;
+    case ('heal'): action = 'rollHealing'; break;
+    case ('healthLose'): action = 'rollHealthLoss'; break;
+    case ('healthRegain'): action = 'rollHealthRegain'; break;
+    case ('affliction'): action = 'applyAffliction'; break;
   }
   
   return action;
@@ -159,65 +159,65 @@ export function dataFromLabel(label) {
 
   switch (data.action) {
     /* Roll Actions */
-    case 'roll-damage': {
+    case 'rollDamage': {
       data.loc += 'Damage';
       break;
     }
-    case 'roll-healing': {
+    case 'rollHealing': {
       data.loc += 'Healing';
       break;
     }
-    case 'roll-health-loss': {
+    case 'rollHealthLoss': {
       data.loc += 'HealthLoss';
       break;
     }
-    case 'roll-health-regain': {
+    case 'rollHealthRegain': {
       data.loc += 'HealthRegain';
       break;
     }
-    case 'apply-affliction': {
+    case 'applyAffliction': {
       data.icon = 'skull-crossbones';
       data.loc = 'WW.InstantEffect.Affliction';
       break;
     }
     /* Apply Actions */
-    case 'apply-damage': {
+    case 'applyDamage': {
       data.img = '/systems/weirdwizard/assets/icons/rough-wound-black.svg';
       data.loc += 'Damage';
       data.showNo = false;
       break;
     }
-    case 'apply-damage-half': {
+    case 'applyDamageHalf': {
       data.img = '/systems/weirdwizard/assets/icons/slashed-shield-black.svg';
       data.loc += 'Half';
       data.showNo = false;
       break;
     }
-    case 'apply-damage-double': {
+    case 'applyDamageDouble': {
       data.img = '/systems/weirdwizard/assets/icons/cross-mark-black.svg';
       data.loc += 'Double';
       data.showNo = false;
       break;
     }
-    case 'apply-healing': {
+    case 'applyHealing': {
       data.img = '/systems/weirdwizard/assets/icons/caduceus-black.svg';
       data.loc += 'Healing';
       data.showNo = false;
       break;
     }
-    case 'apply-health-loss': {
+    case 'applyHealthLoss': {
       data.img = '/systems/weirdwizard/assets/icons/health-decrease-black.svg';
       data.loc += 'LoseHealth';
       data.showNo = false;
       break;
     }
-    case 'apply-health-regain': {
+    case 'applyHealthRegain': {
       data.img = '/systems/weirdwizard/assets/icons/health-increase-black.svg';
       data.loc += 'RegainHealth';
       data.showNo = false;
       break;
     }
-    case 'apply-effect': {
+    case 'applyEffect': {
       data.icon = 'hand-holding-magic';
       data.loc = 'WW.Effect.Apply';
       data.showNo = false;
@@ -231,7 +231,7 @@ export function dataFromLabel(label) {
 /* Prepare a complementary object from a label string */
 export function actDataFromEffect(effect) {
   const data = {
-    action: 'apply-effect',
+    action: 'applyEffect',
     uuid: effect.uuid,
     trigger: effect.system.trigger
   }
@@ -347,7 +347,7 @@ export function addActEffs(actEffs, origin, target, singleRoll = false) {
     
     // Create the chat button
     html = chatMessageButton({
-      action: 'apply-effect',
+      action: 'applyEffect',
       originUuid: origin,
       targetIds: targetIds,
       value: '',

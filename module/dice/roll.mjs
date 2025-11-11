@@ -95,7 +95,7 @@ export default class WWRoll extends Roll {
         effects[e] = {
           ...effects[e],
           ...{
-            action: 'apply-effect'
+            action: 'applyEffect'
             /*targetIds: targetIds*/
           }
         };
@@ -114,8 +114,8 @@ export default class WWRoll extends Roll {
     
     switch (dataset.action) {
 
-      case 'apply-health-loss': {
-        const actions = ['apply-health-loss', 'apply-health-regain'];
+      case 'applyHealthLoss': {
+        const actions = ['applyHealthLoss', 'applyHealthRegain'];
 
         actions.forEach(a => {
           buttons.push({
@@ -126,8 +126,8 @@ export default class WWRoll extends Roll {
         
       }; break;
 
-      case 'apply-health-regain': {
-        const actions = ['apply-health-regain'];
+      case 'applyHealthRegain': {
+        const actions = ['applyHealthRegain'];
 
         actions.forEach(a => {
           buttons.push({
@@ -138,8 +138,8 @@ export default class WWRoll extends Roll {
         
       }; break;
 
-      case 'apply-healing': {
-        const actions = ['apply-healing'];
+      case 'applyHealing': {
+        const actions = ['applyHealing'];
 
         actions.forEach(a => {
           buttons.push({
@@ -151,7 +151,7 @@ export default class WWRoll extends Roll {
       }; break;
 
       default: {
-        const actions = ['apply-damage', 'apply-damage-half', 'apply-damage-double', 'apply-healing'];
+        const actions = ['applyDamage', 'applyDamageHalf', 'applyDamageDouble', 'applyHealing'];
         
         actions.forEach(a => {
           buttons.push({

@@ -4159,8 +4159,8 @@ details.document-card .card-header:hover::after {
   font-size: var(--font-size-12);
 }
 
-.chat-button[data-action="apply-damage-double"] #context-menu,
-.chat-button[data-action="apply-healing"] #context-menu {
+.chat-button[data-action="applyDamageDouble"] #context-menu,
+.chat-button[data-action="applyHealing"] #context-menu {
   left: auto;
   right: 0;
 }
