@@ -52,8 +52,8 @@ export async function deleteInstantEffect(effect, owner) {
       icon: 'fa-solid fa-trash'
     },
     content: `
-      <div>${i18n('WW.Item.Remove.Dialog.Msg', { name: '<b>' + i18n(effect.locLabel) + '</b>' })}</div>
-      <div class="dialog-sure">${i18n('WW.Item.Remove.Dialog.Confirm', { name: i18n(effect.locLabel) })}</div>
+      <div>${i18n('WW.Item.Remove.Dialog.Msg', { name: '<b>' + i18n(effect.labelLoc) + '</b>' })}</div>
+      <div class="dialog-sure">${i18n('WW.Item.Remove.Dialog.Confirm', { name: i18n(effect.labelLoc) })}</div>
     `
   });
 
@@ -153,7 +153,7 @@ export async function deleteActiveEffect(effect, owner) {
  * @return {Object}                   Data for rendering
 */
 export async function prepareActiveEffectCategories(effects, showDuration = false, showSource = true, showControls = true, showCreate = true) {
-
+  console.log(effects)
   // Define effect header categories
   const categories = {
     temporary: {

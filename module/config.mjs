@@ -455,11 +455,26 @@ WW.EFFECT_TRIGGERS = {
   'onFailure': 'WW.Effect.OnFailure'
 }
 
+WW.EFFECT_TRIGGER_ICONS = {
+  'passive': 'fa-solid fa-',
+  'onUse': 'fa-solid fa-bolt',
+  'onSuccess': 'fa-solid fa-check',
+  'onCritical': 'fa-solid fa-check-double',
+  'onFailure': 'fa-solid fa-x'
+}
+
 WW.EFFECT_TARGETS = {
   'none': 'WW.Effect.None',
   'tokens': 'WW.Effect.Any',
   'enemies': 'WW.Effect.Enemies',
   'allies': 'WW.Effect.Allies'
+}
+
+WW.EFFECT_TARGET_ICONS = {
+  'none': 'fa-solid fa-user',
+  'tokens': 'fa-solid fa-users-viewfinder',
+  'enemies': 'fa-solid fa-users-viewfinder color-red',
+  'allies': 'fa-solid fa-users-viewfinder color-green'
 }
 
 WW.EFFECT_TARGETS_TARGETED = {

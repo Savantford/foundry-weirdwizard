@@ -240,8 +240,6 @@ export function initializeEffectLookups() {
  */
 export function getEffectChangeMeta(labelKey) {
   try {
-    console.log(labelKey)
-    console.log(labelKey.split('.').reduce((o, i) => o?.[i], changePresets) ?? null)
     return labelKey.split('.').reduce((o, i) => o?.[i], changePresets) ?? null;
   } catch (e) {
     return null;

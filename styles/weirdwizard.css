@@ -2738,6 +2738,13 @@ hr.bug {
   margin-bottom: 2px;
 }
 
+.weirdwizard .effects-wrapper .item-name .buttons {
+  background: var(--background-color-shadow);
+  padding: 5px;
+  border-radius: 5px;
+  gap: 5px;
+}
+
 .weirdwizard .effect-changes {
   display: flex;
   gap: 5px;

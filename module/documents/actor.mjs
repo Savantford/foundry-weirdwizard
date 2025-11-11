@@ -493,10 +493,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
   /* -------------------------------------------- */
 
   _calculateSpeed(system) {
-    
     const speed = system.stats.speed;
-    console.log(speed.normal)
-    console.log(speed.current)
     const adjusted = speed.current ? speed.normal + speed.current : speed.normal;
     
     // Use adjusted Speed

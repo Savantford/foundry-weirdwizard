@@ -9,7 +9,6 @@ import WWSheetMixin from '../ww-sheet.mjs';
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
 const ItemSheetV2 = foundry.applications?.sheets?.ItemSheetV2 ?? (class {});
-const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicationMixin ?? (cls => cls);
 
 /**
  * Extend the basic ItemSheetV2 with modifications tailored for SotWW
@@ -205,42 +204,13 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       
     }
 
-    // Prepare instant effects
-    let instEffs = context.system.instant;
-
-    instEffs.forEach((e,id) => {
-      const obj = e;
-      obj.locLabel = CONFIG.WW.INSTANT_LABELS[e.label];
-      obj.locTrigger = CONFIG.WW.INSTANT_TRIGGERS[e.trigger];
-      obj.locTarget = CONFIG.WW.EFFECT_TARGETS[e.target];
-      obj.img = CONFIG.WW.INSTANT_ICONS[e.label];
-      
-      instEffs[id] = obj;
-    })
-    
-    context.instantEffects = instEffs;
-
-    // Prepare active effects
-    context.effects = prepareActiveEffectCategories(this.document.effects);
-    
-    for (const cat in context.effects) {
-      const category = context.effects[cat];
-      for (const e in category.effects) {
-        const effect = category.effects[e];
-        const system = effect.system;
-        effect.locTrigger = CONFIG.WW.INSTANT_TRIGGERS[system.trigger];
-        effect.locTarget = CONFIG.WW.EFFECT_TARGETS_TARGETED[system.target];
-      }
-    }
-
-    // Prepare effect change labels to display
-    context.effectChangeLabels = CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS;
-
     // Pass down whether the item needs targets or not
     context.needTargets = this.document.needTargets;
     
     return context;
   }
+
+  /* -------------------------------------------- */
 
   /** @override */
   async _preparePartContext(partId, context, options) {
@@ -266,11 +236,45 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       case 'automation':
         context.tab = context.tabs[partId];
 
-        context.effects = await prepareActiveEffectCategories(this.item.effects);
+        // Prepare instant effects
+        let instEffs = context.system.instant;
 
-        for (const c in context.effects) {
-          context.effects[c].effects = context.effects[c].effects.toSorted((a, b) => a.sort - b.sort);
+        instEffs.forEach((e,id) => {
+          const obj = {...e,
+            img: CONFIG.WW.INSTANT_ICONS[e.label],
+            labelLoc: CONFIG.WW.INSTANT_LABELS[e.label],
+            triggerLoc: CONFIG.WW.INSTANT_TRIGGERS[e.trigger],
+            triggerIcon: CONFIG.WW.EFFECT_TRIGGER_ICONS[e.trigger],
+            targetLoc: CONFIG.WW.EFFECT_TARGETS[e.target],
+            targetIcon: CONFIG.WW.EFFECT_TARGET_ICONS[e.target],
+          };
+          
+          instEffs[id] = obj;
+        })
+        
+        context.instantEffects = instEffs;
+
+        // Prepare active effects
+        const actEffs = await prepareActiveEffectCategories(this.document.effects); /* await is needed, ignore linter */
+        
+        for (const cat in actEffs) {
+          const category = actEffs[cat];
+          category.effects = category.effects.toSorted((a, b) => a.sort - b.sort);
+          
+          for (const e in category.effects) {
+            const effect = category.effects[e];
+            const system = effect.system;
+            effect.triggerLoc = CONFIG.WW.INSTANT_TRIGGERS[system.trigger];
+            effect.triggerIcon = CONFIG.WW.EFFECT_TRIGGER_ICONS[system.trigger];
+            effect.targetLoc = CONFIG.WW.EFFECT_TARGETS_TARGETED[system.target];
+            effect.targetIcon = CONFIG.WW.EFFECT_TARGET_ICONS[system.target];
+          }
         }
+
+        context.effects = actEffs;
+
+        // Prepare effect change labels to display
+        context.effectChangeLabels = CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS;
         
       break;
 
