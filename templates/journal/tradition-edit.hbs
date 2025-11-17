@@ -40,16 +40,7 @@
         
         {{!-- Populate Spells --}}
         {{#each talents as |item id|}}
-        <li class="item-reference item {{#if item.missing}}missing{{/if}}" data-item-uuid="{{item.uuid}}">
-          <label><img src="{{item.img}}"> {{item.name}}</label>
-          
-          <span class="buttons">
-            {{#unless item.missing}}<a class="ref-edit" data-tooltip="WW.CharOption.Reference.EditRef"><i
-                class="fa-solid fa-edit"></i></a>{{/unless}}
-            <a class="ref-remove" data-tooltip="WW.CharOption.Reference.RemoveRef"><i class="fa-solid fa-trash"></i></a>
-          </span>
-
-        </li>
+          {{> "systems/weirdwizard/templates/journal/parts/item-reference.hbs" item=item }}
         {{else}}{{{@root.itemsAreaHint}}}
         {{/each}}
 
@@ -72,16 +63,7 @@
         
         {{!-- Populate Spells --}}
         {{#each tier as |item id|}}
-        <li class="item-reference item {{#if item.missing}}missing{{/if}}" data-item-uuid="{{item.uuid}}">
-          <label><img src="{{item.img}}"> {{item.name}}</label>
-
-          <span class="buttons">
-            {{#unless item.missing}}<a class="ref-edit" data-tooltip="WW.CharOption.Reference.EditRef"><i
-                class="fa-solid fa-edit"></i></a>{{/unless}}
-            <a class="ref-remove" data-tooltip="WW.CharOption.Reference.RemoveRef"><i class="fa-solid fa-trash"></i></a>
-          </span>
-
-        </li>
+          {{> "systems/weirdwizard/templates/journal/parts/item-reference.hbs" item=item }}
         {{else}}{{{../itemsAreaHint}}}
         {{/each}}
 

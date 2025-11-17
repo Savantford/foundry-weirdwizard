@@ -23,7 +23,8 @@ export default class WWAncestrySheet extends WWCharOptionSheet {
       classes: ["standard-form"],
       scrollable: [""],
       templates: [
-        'systems/weirdwizard/templates/journal/parts/list-entry.hbs'
+        'systems/weirdwizard/templates/journal/parts/list-entry.hbs',
+        'systems/weirdwizard/templates/journal/parts/item-reference.hbs'
       ]
     },
     footer: super.EDIT_PARTS.footer
