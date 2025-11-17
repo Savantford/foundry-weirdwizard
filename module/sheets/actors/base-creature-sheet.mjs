@@ -1099,7 +1099,7 @@ export default class WWCreatureSheet extends WWActorSheet {
 
   static async #onRest() {
     
-    const confirm = await WWDialog.confirm({
+    const confirm = await WWDialog.input({
       window: {
         title: 'WW.Rest.Label',
         icon: 'fa-solid fa-campground'
@@ -1107,7 +1107,17 @@ export default class WWCreatureSheet extends WWActorSheet {
       content: `
         <div>${i18n('WW.Rest.Msg')}</div>
         <div class="dialog-sure">${i18n('WW.Rest.Confirm')}</div>
-      `
+      `,
+      ok: {
+        label: 'WW.System.Dialog.Confirm',
+        icon: 'fa-solid fa-check'
+      },
+      buttons: [
+        {
+          label: 'WW.System.Dialog.Cancel',
+          icon: 'fa-solid fa-xmark'
+        },
+      ]
     });
 
     if (!confirm) return;

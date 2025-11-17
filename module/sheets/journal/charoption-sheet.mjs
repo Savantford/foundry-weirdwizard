@@ -119,7 +119,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     // Prepare Items Area Hint
     context.itemsAreaHint = `
       <p>${i18n("WW.CharOption.DropHere")}</p>
-      <p>${i18n("WW.CharOption.Help", { itemType: document.type })}</p>
+      <p>${i18n("WW.CharOption.Help", { itemType: this.page.type })}</p>
     `;
 
     // Prepare common select dropdown
@@ -134,6 +134,9 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
       
       for (const b in context.benefits) {
         const benefit = context.benefits[b];
+
+        // Prepare benefit heading
+        benefit.heading = i18n("WW.CharOption.BenefitHeading", { charOption: this.page.name, level: benefit.levelReq });
         
         // Prepare information for granted items
         const itemsInfo = [];
@@ -176,13 +179,18 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
       }
 
     }
+
+    // Prepare Ancestries
+    if (this.isAncestry) {
+      context.traitsHeading = i18n("WW.CharOption.AncestryTraitsHeading", { ancestry: this.page.name });
+    }
     
-    // Prepare paths
+    // Prepare Paths
     if (this.isPath) {
       context.tiers = CONFIG.WW.PATH_TIERS;
     }
 
-    // Prepare professions
+    // Prepare Professions
     if (this.isProfession) {
       context.professionCategories = CONFIG.WW.PROFESSION_CATEGORIES;
     }
@@ -317,7 +325,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
       },
       content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
       ok: {
-        label: 'EFFECT.Submit',
+        label: 'WW.System.Dialog.Save',
         icon: 'fa-solid fa-save'
       },
       buttons: [
@@ -371,7 +379,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
       },
       content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
       ok: {
-        label: 'EFFECT.Submit',
+        label: 'WW.System.Dialog.Save',
         icon: 'fa-solid fa-save'
       },
       buttons: [

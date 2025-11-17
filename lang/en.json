@@ -10,27 +10,28 @@
 "WW.Actor.Name": "Actor's Name",
 "WW.Actor.Summary": "Summary",
 "WW.Actor.Details": "Details",
-"WW.Actor.Appearance": "Appearance",
-"WW.Actor.Background": "Background",
-"WW.Actor.Identity": "Identity",
-"WW.Actor.Personality": "Personality",
-"WW.Actor.Beliefs": "Beliefs",
 "WW.Actor.Notes": "Notes",
 "WW.Actor.Reset": "Reset to original values",
 "WW.Actor.ProfileMenuTip": "Left click to edit the portrait image.<br>Right click to show portrait or token artwork.",
 "WW.Actor.ShowPortrait": "Show portrait image",
 "WW.Actor.ShowToken": "Show token image",
 
-"WW.Actor.Disposition.Enemy": "Enemy",
-"WW.Actor.Disposition.Ally": "Ally",
-"WW.Actor.Disposition.Neutral": "Neutral",
-"WW.Actor.Disposition.Secret": "Secret",
-"WW.Actor.Disposition.Unknown": "Unknown",
-"WW.Actor.Disposition.Tip": "<p>Click to toggle disposition between <b>Ally</b> (<i>friendly</i>) and <b>Enemy</b> (<i>hostile</i>).</p><p>In <i>Shadow of the Weird Wizard</i>, a creature is either an enemy or an ally for the purpose of combat.</p><p>Foundry's <i>neutral</i> disposition should not be used. Use <b>Enemy</b> (<i>hostile</i>) for unaligned creatures or <b>Ally</b> (<i>friendly</i>) if they are actively helping the characters.</p><p>Foundry's <i>secret</i> disposition should be used wisely. You should switch the disposition to <b>Enemy</b> or <b>Ally</b> before combat begins.</p>",
-
 "WW.Actor.Folder.Unnamed": "Unnamed Folder",
 "WW.Actor.Folder.NoDescription": "No folder description.",
 "WW.Actor.Folder.None": "Creature is not in a folder. To have a folder description, please put it in a folder first.",
+
+"WW.Character.Appearance": "Appearance",
+"WW.Character.Background": "Background",
+"WW.Character.Identity": "Identity",
+"WW.Character.Personality": "Personality",
+"WW.Character.Beliefs": "Beliefs",
+
+"WW.NPC.Disposition.Enemy": "Enemy",
+"WW.NPC.Disposition.Ally": "Ally",
+"WW.NPC.Disposition.Neutral": "Neutral",
+"WW.NPC.Disposition.Secret": "Secret",
+"WW.NPC.Disposition.Unknown": "Unknown",
+"WW.NPC.Disposition.Tip": "<p>Click to toggle disposition between <b>Ally</b> (<i>friendly</i>) and <b>Enemy</b> (<i>hostile</i>).</p><p>In <i>Shadow of the Weird Wizard</i>, a creature is either an enemy or an ally for the purpose of combat.</p><p>Foundry's <i>neutral</i> disposition should not be used. Use <b>Enemy</b> (<i>hostile</i>) for unaligned creatures or <b>Ally</b> (<i>friendly</i>) if they are actively helping the characters.</p><p>Foundry's <i>secret</i> disposition should be used wisely. You should switch the disposition to <b>Enemy</b> or <b>Ally</b> before combat begins.</p>",
 
 "WW.Attributes.Label": "Attributes",
 "WW.Attributes.EditHint": "You are editing the base attribute score, without any effect modifying it. The modified score should be {value}.",
@@ -533,8 +534,9 @@
 "WW.CharOptions.JournalEntryWarning": "You are trying to drag and drop a Journal Entry. If you wanted to drag a Character Option, make sure to drag a PAGE from the Journal Entry's hierarchy!",
 
 "WW.CharOption.Description": "Description",
-"WW.CharOption.Traits": "Traits",
 "WW.CharOption.Benefits": "Benefits",
+"WW.CharOption.BenefitHeading": "Level {level} {charOption}",
+"WW.CharOption.AncestryTraitsHeading": "{ancestry} Traits",
 "WW.CharOption.DropHere": "Drop Equipment, Traits, Talents and Spells stored in a <b>Compendium</b> here to add them to the level benefit.",
 "WW.CharOption.Unknown": "Unknown",
 "WW.CharOption.MissingRef": "Missing UUID reference for the equipment, trait, talent or spell. You can either delete this entry or restore it by putting the item back in the original Compendium.",
@@ -583,6 +585,52 @@
 "WW.Effects.Permanent": "Permanent Effects",
 "WW.Effects.Inactive": "Inactive Effects",
 
+"DOCUMENT.ActiveEffect": "Active Effect",
+"EFFECT.MODE_CUSTOM": "Custom",
+"EFFECT.MODE_MULTIPLY": "Multiply",
+"EFFECT.MODE_ADD": "Add",
+"EFFECT.MODE_DOWNGRADE": "Downgrade",
+"EFFECT.MODE_UPGRADE": "Upgrade",
+"EFFECT.MODE_OVERRIDE": "Override",
+"EFFECT.TransferLegacy": "Transfer Effect to Actor",
+"EFFECT.TransferHintLegacy": "If checked, this Effect will be copied to the Actor when this Effect's parent Item is created on an Actor, and deleted if that Item is ever removed.",
+"EFFECT.DurationTurns": "Effect Duration (Combat)",
+"EFFECT.StartTurns": "Effect Start",
+"EFFECT.ChangeKey": "Attribute Key",
+"EFFECT.ChangeMode": "Change Mode",
+"EFFECT.ChangeValue": "Value",
+"EFFECT.ChangePriority": "Priority",
+"EFFECT.Submit": "Submit Changes",
+"EFFECT.FIELDS": {
+  "name.label": "Effect Name",
+  "img.label": "Effect Icon",
+  "tint.label": "Icon Tint Color",
+  "description.label": "Effect Description",
+  "disabled.label": "Effect Suspended",
+  "origin.label": "Effect Origin",
+  "transfer": {
+    "label": "Apply Effect to Actor",
+    "hint": "If checked, this Effect will be applied to any Actor that owns this Effect's parent Item."
+  },
+  "statuses.label": "Status Conditions",
+  "duration": {
+    "seconds.label": "Effect Duration (Seconds)",
+    "rounds.label": "Rounds",
+    "turns.label": "Turns",
+    "startTime.label": "Effect Start Time",
+    "startRound.label": "Round",
+    "startTurn.label": "Turn",
+    "combat.label": "Combat Encounter"
+  }
+},
+"EFFECT.TABS": {
+  "details": "Details",
+  "duration": "Duration",
+  "changes": "Changes"
+},
+"EFFECT.StatusDead": "Dead",
+"EFFECT.StatusInvisible": "Invisible",
+
 "WW.Effect.Temporary": "Temporary Effect",
 "WW.Effect.Permanent": "Permanent Effect",
 "WW.Effect.Create": "Create Effect",
@@ -593,6 +641,7 @@
 "WW.Effect.Changes": "Changes",
 "WW.Effect.ToApply": "Effect Changes to Apply",
 "WW.Effect.Value": "Value",
+"WW.Effect.Source": "Source",
 "WW.Effect.Trigger": "Condition to Trigger Effect",
 "WW.Effect.TriggerShort": "Effect Trigger",
 "WW.Effect.Passive": "None (Passive Effect)",
@@ -615,6 +664,7 @@
 "WW.Effect.HandledByCharOption": "This effect is a benefit handled by a character option. If you want to edit it, please edit the character option instead of the effect itself.",
 
 "WW.Effect.Duration.Label": "Effect Duration",
+"WW.Effect.Duration.Short": "Duration",
 "WW.Effect.Duration.StartRound": "Effect Start Round",
 "WW.Effect.Duration.InRounds": "Duration in Rounds",
 "WW.Effect.Duration.InMinutes": "Duration in Minutes",
@@ -654,6 +704,8 @@
 "WW.Effect.Duration.OutOfCombat.Minutes": "X minutes (Choose value)",
 "WW.Effect.Duration.OutOfCombat.Hours": "X hours (Choose value)",
 "WW.Effect.Duration.OutOfCombat.Days": "X days (Choose value)",
+
+"WW.Effect.Keys.None": "No Effect",
 
 "WW.Effect.Keys.Boons.Header": "Boons on Attribute rolls",
 "WW.Effect.Keys.Boons.Strength": "Boons on Strength rolls +",
@@ -776,6 +828,7 @@
 "WW.Effect.Keys.ReduceAttribute.Will":"Reduce Will by",
 
 "WW.InstantEffect.Label": "Instant Effect",
+"WW.InstantEffect.Title": "Instant Effect Details",
 "WW.InstantEffect.Damage": "Deal Damage",
 "WW.InstantEffect.Heal": "Heal Damage",
 "WW.InstantEffect.HealOf": "Healing of",
@@ -989,11 +1042,12 @@
 "WW.System.Tour": "Start tour",
 "WW.System.Documentation": "Show documentation",
 
-"WW.System.Sheet.EditMode": "Toggle Edit Mode",
 "WW.System.Sheet.Character": "Character Sheet",
 "WW.System.Sheet.NPC": "NPC Sheet",
 "WW.System.Sheet.Item": "Regular Item Sheet",
 "WW.System.Sheet.CharOption": "Character Option Sheet",
+"WW.System.Sheet.EditMode": "Toggle Edit Mode",
+"WW.System.Sheet.NoDescription": "No description available.",
 
 "WW.System.Dialog.Confirm": "Confirm",
 "WW.System.Dialog.Save": "Save",

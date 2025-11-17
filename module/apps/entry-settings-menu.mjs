@@ -136,7 +136,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
       },
       content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
       ok: {
-        label: 'EFFECT.Submit',
+        label: 'WW.System.Dialog.Save',
         icon: 'fa-solid fa-save'
       },
       buttons: [
@@ -187,7 +187,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
       },
       content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
       ok: {
-        label: 'EFFECT.Submit',
+        label: 'WW.System.Dialog.Save',
         icon: 'fa-solid fa-save'
       },
       buttons: [

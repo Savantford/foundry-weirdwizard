@@ -6,7 +6,7 @@ export default class InstantEffectConfig extends FormApplication {
     options.template = "systems/weirdwizard/templates/configs/instant-effect-config.hbs";
     options.height = "auto";
     options.width = 400;
-    options.title = "Instant Effect Details";
+    options.title = "WW.InstantEffect.Title";
 
     return options;
   }

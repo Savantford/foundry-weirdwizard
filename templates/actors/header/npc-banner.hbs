@@ -3,18 +3,18 @@
     
     {{!-- Disposition Toggle --}}
     <div class="change-disposition label {{#if (eq disposition 1)}}ally{{else if (eq disposition -1)}}enemy{{/if}}"
-        data-action="dispositionToggle" data-tooltip="WW.Actor.Disposition.Tip">
+        data-action="dispositionToggle" data-tooltip="WW.NPC.Disposition.Tip">
 
         <img class="crest"src="{{#if (eq disposition 1)}}systems/weirdwizard/assets/icons/heart-shield.svg
             {{else if (eq disposition -1)}}systems/weirdwizard/assets/icons/skull-shield.svg
         {{/if}}">
 
         <div>
-            {{#if (eq disposition 1)}}{{localize "WW.Actor.Disposition.Ally"}}
-            {{else if (eq disposition -1)}}{{localize "WW.Actor.Disposition.Enemy"}}
-            {{else if (eq disposition 0)}}{{localize "WW.Actor.Disposition.Neutral"}} (!)
-            {{else if (eq disposition -2)}}{{localize "WW.Actor.Disposition.Secret"}} (!)
-            {{else}}{{localize "WW.Actor.Disposition.Unknown"}} (!){{/if}}
+            {{#if (eq disposition 1)}}{{localize "WW.NPC.Disposition.Ally"}}
+            {{else if (eq disposition -1)}}{{localize "WW.NPC.Disposition.Enemy"}}
+            {{else if (eq disposition 0)}}{{localize "WW.NPC.Disposition.Neutral"}} (!)
+            {{else if (eq disposition -2)}}{{localize "WW.NPC.Disposition.Secret"}} (!)
+            {{else}}{{localize "WW.NPC.Disposition.Unknown"}} (!){{/if}}
         </div>
     
     </div>

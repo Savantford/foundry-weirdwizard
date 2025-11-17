@@ -1,4 +1,4 @@
-import { camelCase } from "../../helpers/utils.mjs";
+import { camelCase, i18n } from "../../helpers/utils.mjs";
 import { makeHtmlField } from "../field-presets.mjs";
 
 export default class BaseCharOptionModel extends foundry.abstract.TypeDataModel {
@@ -7,7 +7,7 @@ export default class BaseCharOptionModel extends foundry.abstract.TypeDataModel 
     const fields = foundry.data.fields;
 
     const schema = {
-      description: makeHtmlField('No description.')
+      description: makeHtmlField(i18n("WW.System.Sheet.NoDescription"))
     };
 
     return schema;

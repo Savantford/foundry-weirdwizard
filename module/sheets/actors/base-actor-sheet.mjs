@@ -486,7 +486,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       },
       content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
       ok: {
-        label: 'EFFECT.Submit',
+        label: 'WW.System.Dialog.Save',
         icon: 'fa-solid fa-save'
       },
       buttons: [

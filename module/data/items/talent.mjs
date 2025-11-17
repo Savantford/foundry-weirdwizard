@@ -1,5 +1,6 @@
 import BaseItemModel from './base-item.mjs';
 import { makeHtmlField, makeRequiredStrField } from '../field-presets.mjs';
+import { i18n } from '../../helpers/utils.mjs';
 
 export default class TalentModel extends BaseItemModel {
 
@@ -7,7 +8,7 @@ export default class TalentModel extends BaseItemModel {
     const fields = foundry.data.fields;
     const schema = super.defineSchema();
     
-    schema.description = makeHtmlField('No description available.'),
+    schema.description = makeHtmlField(i18n("WW.System.Sheet.NoDescription")),
     schema.subtype =  makeRequiredStrField('trait'),
     schema.source = makeRequiredStrField('none')
     

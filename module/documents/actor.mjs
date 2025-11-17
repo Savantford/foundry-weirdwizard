@@ -53,7 +53,6 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     this.incapacitated = false;
 
     if (data.type === 'character') {
-      
       // Update starting Human ancestry's benefits
       await this.updateCharOptionBenefits('Compendium.weirdwizard.character-options.JournalEntry.pAAZKv2vrilITojZ.JournalEntryPage.GI4b6WkOLlTszbRe', 'creation');
     }

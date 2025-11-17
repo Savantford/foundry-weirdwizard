@@ -45,8 +45,8 @@
     {{#if (ne benefit.levelReq 99)}}
     <div class="benefit-block {{#if (ne id 'benefit1')}} mt-2{{/if}}" data-benefit-id="{{id}}">
 
-      {{!-- Header --}}
-      <h5>{{localize "WW.Stats.Level"}} {{benefit.levelReq}} {{@root.document.name}}</h5>
+      {{!-- Heading --}}
+      <h5>{{ benefit.heading }}</h5>
       
       {{!-- Stats --}}
       <div class="stat-inline flex-wrap flex-children">

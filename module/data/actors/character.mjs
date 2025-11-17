@@ -1,6 +1,7 @@
 
 import BaseActorModel from './base-creature.mjs';
-import { makeFloField, makeHtmlField, makeIntField, makeRequiredStrField, makeStrField, makeUuidStrField } from '../field-presets.mjs';
+import { makeFloField, makeHtmlField, makeIntField, makeStrField, makeUuidStrField } from '../field-presets.mjs';
+import { i18n } from '../../helpers/utils.mjs';
 
 export default class CharacterModel extends BaseActorModel {
 
@@ -49,9 +50,8 @@ export default class CharacterModel extends BaseActorModel {
     // Add Character stats
     schema.stats.fields.level = makeFloField();
     schema.stats.fields.bonusdamage = makeIntField();
-
+    
     // Adjust Character-specific initials
-    schema.description = makeHtmlField('Unknown biography.');
     schema.stats.fields.defense.fields.natural = makeIntField(8);
     schema.stats.fields.health.fields.normal = makeIntField(5);
     schema.stats.fields.health.fields.current = makeIntField(5);

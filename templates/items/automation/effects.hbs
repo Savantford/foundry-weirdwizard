@@ -7,7 +7,7 @@
         <li class="item items-header flexrow">
             <div class="item-image"></div>
             <div class="item-name">{{localize "WW.Effects.Instant"}}</div>
-            <div class="instant-effect-value">Value</div>
+            <div class="instant-effect-value">{{localize "WW.Effect.Value"}}</div>
             <div class="item-controls itemeffect-controls flexrow">
                 <a class="instant-control" data-action="instantCreate" data-tooltip="WW.Effect.Create">
                     <i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}
@@ -64,7 +64,7 @@
         <li class="item items-header flexrow" data-effect-type="{{section.type}}">
             <div class="item-image"></div>
             <div class="item-name">{{localize section.name}}</div>
-            {{#if section.showDuration}}<div class="effect-duration">Duration</div>{{/if}}
+            {{#if section.showDuration}}<div class="effect-duration">{{localize "WW.Effect.Duration.Short"}}</div>{{/if}}
             
             <div class="item-controls effect-controls flexrow">
                 {{#if section.showCreate}}

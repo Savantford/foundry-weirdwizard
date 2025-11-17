@@ -15,7 +15,7 @@
     <li class="item effect-change flexrow" data-index="{{ i }}">
       <div class="key">
         <select name="changes.{{ i }}.key">
-          <option label="No Effect"></option>
+          <option label="{{localize "WW.Effect.Keys.None"}}"></option>
           {{#each @root.effectChangeOptions as |category|}}
           <optgroup label="{{localize category.header}}">
             {{selectOptions category.options selected=change.key labelAttr="label" localize=true}}
