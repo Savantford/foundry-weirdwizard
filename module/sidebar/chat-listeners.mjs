@@ -33,12 +33,9 @@ export function initChatListeners(html, message, context) {
  * Handle roll started from a chat button.
  */
 function _onInstantEffectRoll(event) {
-  console.log('rolando')
   event.preventDefault()
-  const button = event.currentTarget,
-    dataset = Object.assign({}, button.dataset)
-  ;
-  console.log(dataset.action)
+  const button = event.currentTarget;
+  const dataset = Object.assign({}, button.dataset);
   
   switch (dataset.action) {
     // Instant Effect Rolls

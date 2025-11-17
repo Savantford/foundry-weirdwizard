@@ -172,6 +172,11 @@ export default class WWJournalPage extends WWDocumentMixin(JournalEntryPage) {
   /*  Properties (Getters)                        */
   /* -------------------------------------------- */
 
+  get isCharOption() {
+    const charOptions = ['ancestry', 'path', 'profession', 'tradition'];
+    return charOptions.includes(this.type);
+  }
+
   get isAncestry() {
     return this.type === 'ancestry';
   }

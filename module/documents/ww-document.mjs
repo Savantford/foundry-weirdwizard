@@ -211,8 +211,8 @@ export default function WWDocumentMixin(Base) {
         }; break;
 
         case 'JournalEntryPage': {
-          // Prepare subtitle
-          context.subtitle = i18n(CONFIG.WW.CHARACTER_OPTIONS[this.type]);
+          // Prepare subtitle for Character Options
+          if (this.isCharOption) context.subtitle = i18n(CONFIG.WW.CHARACTER_OPTIONS[this.type]);
 
           // Prepare main text
           context.text = await TextEditor.enrichHTML(this.text.content, options);

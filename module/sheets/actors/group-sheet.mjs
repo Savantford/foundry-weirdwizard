@@ -398,8 +398,10 @@ export default class WWGroupSheet extends WWActorSheet {
    * Handle a droped List Entry on the Actor Sheet.
    */
   async _onDropListEntry(event, data) {
-    const { listKey: listKey, entryKey: key, entryName: name, desc: desc } = data,
+    const { listKey: listKey, entryName: name, desc: desc } = data,
     obj = {... this.actor.system.listEntries[listKey]};
+
+    const key = foundry.utils.randomID();
     
     const entry = {
       name: name,
