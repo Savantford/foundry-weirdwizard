@@ -13,7 +13,7 @@ export default class SpellModel extends BaseItemModel {
     schema.tradition = makeStrField();
     schema.casting = makeStrField();
     schema.target = makeStrField();
-    schema.duration = makeStrField('Instantaneous');
+    schema.duration = makeStrField(i18n("WW.Spell.DurationDefault"));
 
     // Adjust Spell-specific initials
     schema.active = makeBooField(false);

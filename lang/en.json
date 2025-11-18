@@ -8,6 +8,7 @@
 "TYPES.Actor.vehicle": "Vehicle - BROKEN",
 
 "WW.Actor.Name": "Actor's Name",
+"WW.Actor.DescriptionDefault": "No creature description.",
 "WW.Actor.Summary": "Summary",
 "WW.Actor.Details": "Details",
 "WW.Actor.Notes": "Notes",
@@ -116,6 +117,8 @@
 "WW.Reset.Msg": "This action will reset the following parameters to their original values: total Damage, Health, talent/trait uses and spell castings.",
 "WW.Reset.Confirm": "Do you really want to reset the sheet?",
 
+"WW.ListEntry.DefaultName": "Unnamed",
+
 "WW.ListEntry.Descriptor.Label": "Descriptors",
 "WW.ListEntry.Descriptor.None": "No Descriptor",
 "WW.ListEntry.Descriptor.New": "New Descriptor",
@@ -157,6 +160,7 @@
 
 "WW.Group.GeneralInfo": "General Information",
 "WW.Group.Origin": "Origin",
+"WW.Group.OriginDefault": "No group origin story.",
 "WW.Group.Achievements": "Achievements and Reputation",
 "WW.Group.Members": "Members",
 "WW.Group.LevelExcept": "Except",
@@ -191,7 +195,6 @@
 "WW.Item.Name": "Name",
 "WW.Item.NamePH": "Item's Name",
 "WW.Item.Tier": "Tier",
-"WW.Item.New": "New {itemType}",
 "WW.Item.Description": "Description",
 "WW.Item.ShowDesc": "Show description",
 "WW.Item.HideDesc": "Hide description",
@@ -390,6 +393,7 @@
 "WW.Spell.Castings": "Castings",
 "WW.Spell.Target": "Target",
 "WW.Spell.Duration": "Duration",
+"WW.Spell.DurationDefault": "Instantaneous",
 
 "WW.Equipment.Label": "Equipment",
 "WW.Equipment.Weapons": "Weapons",

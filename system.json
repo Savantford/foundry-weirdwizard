@@ -36,8 +36,14 @@
       "flags": {}
     },
     {
+      "lang": "de",
+      "name": "Deutsch (German)",
+      "path": "lang/de.json",
+      "flags": {}
+    },
+    {
       "lang": "pt-BR",
-      "name": "Português Brasileiro",
+      "name": "Português Brasileiro (Brazilian Portuguese)",
       "path": "lang/pt-BR.json",
       "flags": {}
     }

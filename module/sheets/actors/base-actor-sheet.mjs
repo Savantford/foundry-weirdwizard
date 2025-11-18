@@ -585,9 +585,13 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       system.damage = '1d6';
     }
 
-    // Prepare the item object.
+    // Prepare the item data
+    let defaultName = `TYPES.Item.${type}`;
+    if (system.subtype && type === 'equipment') defaultName = CONFIG.WW.EQUIPMENT_SUBTYPES[system.subtype];
+    if (system.subtype && type === 'talent') defaultName = CONFIG.WW.TALENT_SUBTYPES[system.subtype];
+
     const itemData = {
-      name: i18n('WW.Item.New', { itemType: (system.subtype ? system.subtype.capitalize() : type.capitalize()) }),
+      name: i18n(defaultName),
       type: type,
       system: system
     };
