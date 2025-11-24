@@ -1,6 +1,6 @@
 import WWSheetMixin from '../ww-sheet.mjs';
 import { getEffectChangeMeta } from '../../helpers/effect-presets.mjs';
-import { makeBooField, makePosIntField, makeStrField } from '../../data/field-presets.mjs';
+import { makeBooField, makeFloField, makePosIntField, makeStrField } from '../../data/field-presets.mjs';
 
 export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applications.sheets.ActiveEffectConfig) {
   /** @inheritDoc */
@@ -88,6 +88,10 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
             case 'boo': {
               change.field = makeBooField(true);
             }; break;
+
+            case 'flo': {
+              change.field = makeFloField();
+            } break;
 
             case 'int': {
               change.field = makePosIntField();

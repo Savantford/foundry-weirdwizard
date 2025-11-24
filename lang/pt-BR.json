@@ -64,7 +64,7 @@
 "WW.Stats.Difficulty": "Dificuldade",
 "WW.Stats.Size": "Tamanho",
 "WW.Stats.Speed": "Velocidade",
-"WW.Stats.NormalSpeed": "Velocidade (Normal)",
+"WW.Stats.SpeedNormal": "Velocidade (Normal)",
 "WW.Stats.Normal": "Normal",
 "WW.Stats.Lost": "Perdido",
 "WW.Stats.AutomationHint": "Para alterar, adicione uma Ancestralidade, Trilha e/ou efeito que modifique o cálculo.",

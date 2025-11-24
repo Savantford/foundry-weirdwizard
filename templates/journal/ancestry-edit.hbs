@@ -141,10 +141,12 @@
   
         <div class="input-wrap">
           <input name="system.benefits.benefit1.stats.sizeNormal" type="number"
-            value="{{benefits.benefit1.stats.sizeNormal}}" min="0" placeholder="1" />
+            value="{{benefits.benefit1.stats.sizeNormal}}" min="0" placeholder="1" data-tooltip="{{ benefits.benefit1.sizeTooltip }}"/>
   
           <div class="input-overlay">{{benefits.benefit1.stats.sizeNormal}}</div>
         </div>
+
+        ({{ benefits.benefit1.sizeDisplayed }})
   
         {{!-- Speed --}}
         <label>{{localize "WW.Stats.Speed"}}:</label>

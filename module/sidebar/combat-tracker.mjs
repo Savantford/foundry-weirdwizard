@@ -152,7 +152,7 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
 
       // Push to to turns and respective phase
       turns.push(preparedTurn);
-      phases[turn.phase].turns.push(preparedTurn);
+      phases[turn.phase]?.turns.push(preparedTurn);
     }
     
     // Count creatures acted per phase

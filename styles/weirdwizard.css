@@ -66,6 +66,16 @@ body {
   --sheet-name-stripe-height: 40px;
 }
 
+/* Theme Variable Overrides */
+body.theme-light,
+body.theme-dark,
+.themed.theme-light,
+.themed.theme-dark {
+  --table-background-color: transparent;
+  --table-row-color-odd: var(--pink);
+  --table-row-color-even: transparent;
+}
+
 /* -------------------------------------------- */
 /*  Quick Formatting Classes                    */
 /* -------------------------------------------- */
@@ -813,6 +823,11 @@ body {
 .journal-entry-page .weirdwizard input {
   height: var(--sheet-input-height);
   line-height: normal;
+}
+
+.weirdwizard.sheet.creature input[type=number] {
+  min-width: 2.5ch;
+  max-width: 4.5ch;
 }
 
 .weirdwizard .input-wrap {

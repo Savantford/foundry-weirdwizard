@@ -109,9 +109,9 @@ changePresets.speed = {
 }
 
 changePresets.size = {
-  increase: addInt(),
-  override: overInt(),
-  normal: overInt(1)
+  increase: addFlo(),
+  override: overFlo(),
+  normal: overFlo(1)
 }
 
 changePresets.bonusDamage = {
@@ -185,6 +185,30 @@ function downInt(priority = null) {
 
 /* -------------------------------------------- */
 
+function addFlo(priority = null) {
+  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.ADD, 'flo', priority);
+}
+
+/* -------------------------------------------- */
+
+function overFlo(priority = null) {
+  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.OVERRIDE, 'flo', priority);
+}
+
+/* -------------------------------------------- */
+
+function upFlo(priority = null) {
+  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.UPGRADE, 'flo', priority);
+}
+
+/* -------------------------------------------- */
+
+function downFlo(priority = null) {
+  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.DOWNGRADE, 'flo', priority);
+}
+
+/* -------------------------------------------- */
+
 function setBoo(priority = null) {
   return makeChangeData(CONST.ACTIVE_EFFECT_MODES.OVERRIDE, 'boo', priority);
 }
@@ -236,7 +260,7 @@ export function initializeEffectLookups() {
  * Resolve metadata for an effect change option given its label key (e.g., "boons.str").
  * Returns null if no metadata exists.
  * @param {string} labelKey
- * @returns {{mode:CONST.ACTIVE_EFFECT_MODES, priority:(number|null), valueType:'int'|'str'|'boo'}|null}
+ * @returns {{mode:CONST.ACTIVE_EFFECT_MODES, priority:(number|null), valueType:'boo'|'flo'|'int'|'str'}|null}
  */
 export function getEffectChangeMeta(labelKey) {
   try {
@@ -258,7 +282,7 @@ export const effectLookups = { keys: {}, labels: {}, types: {}, modes: {}, prior
  * Adds valueType to each change so the template can render the appropriate input widget.
  * This is a thin layer to avoid reading CONFIG during render and to keep sheets minimal.
  * @param {Array<{key:string,value:any}>} changes
- * @returns {Array<{key:string,value:any,valueType?:'int'|'str'|'boo'}>}
+ * @returns {Array<{key:string,value:any,valueType?:'boo'|'flo'|'int'|'str'|}>}
  */
 export function shapeEffectChangesForRender(changes=[]) {
   return (changes || []).map((c) => {

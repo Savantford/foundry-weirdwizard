@@ -38,12 +38,7 @@
                         <label>{{localize "WW.Defense.NaturalNPC"}}:</label>
                         
                         {{!-- Natural Defense --}}
-                        <div class="input-wrap">
-                            <input type="number" name="system.stats.defense.natural" value="{{system.stats.defense.natural}}" min="0"
-                                data-dtype="Number" {{~#if defenseDisabled}}data-tooltip="WW.Defense.NaturalDisabled" disabled{{/if}} />
-                            
-                            <div class="input-overlay">{{system.stats.defense.natural}}</div>
-                        </div>
+                        {{formInput stats.defenseNatural.field name=stats.defenseNatural.name value=stats.defenseNatural.sourceValue }}
                         
                     </div>
 
@@ -152,28 +147,17 @@
 
                 {{!-- Size, Speed --}}
                 <ol class="mt-1 stat-inline list-entries movement-traits">
-
                     {{!-- Size --}}
-                    <label>{{localize "WW.Stats.Size"}}:</label>
+                    <label>{{ stats.size.label }}:</label>
 
-                    {{#if isV12}}
-                    <select name="system.stats.size">
-                        {{selectOptions sizes selected=system.stats.size valueAttr="key" labelAttr="label"}}
-                    </select>
-                    {{else}}
-                    <select name="system.stats.size">
-                        {{selectOptions sizes selected=system.stats.size valueAttr="key" labelAttr="label"}}
-                    </select>
-                    {{/if}}
+                    {{ formInput stats.size.field name=stats.size.name value=stats.size.sourceValue dataset=(object tooltip=stats.size.inputTooltip) }}
 
+                    ({{ stats.size.displayedValue }})
+                    
                     {{!-- Speed --}}
-                    <label class="ml-1">{{localize "WW.Stats.NormalSpeed"}}:</label>
-                        
-                    <div class="input-wrap">
-                        <input type="number" name="system.stats.speed.normal" value="{{system.stats.speed.normal}}" min="0" />
-
-                        <div class="input-overlay">{{system.stats.speed.normal}}</div>
-                    </div>
+                    <label class="ml-1">{{localize "WW.Stats.SpeedNormalNPC"}}:</label>
+                    
+                    {{ formInput stats.speedNormal.field name=stats.speedNormal.name value=stats.speedNormal.sourceValue dataset=(object tooltip=stats.speedNormal.inputTooltip) }}
                     
                     {{!-- Movement Traits --}}
                     {{#each listEntries.movementTraits as |entry|}}

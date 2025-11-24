@@ -63,7 +63,7 @@
 "WW.Stats.Difficulty": "Schwierigkeit",
 "WW.Stats.Size": "Größe",
 "WW.Stats.Speed": "BR",
-"WW.Stats.NormalSpeed": "Normale Bewegungsrate",
+"WW.Stats.SpeedNormal": "Normale Bewegungsrate",
 "WW.Stats.Normal": "Normal",
 "WW.Stats.Lost": "Verlust",
 "WW.Stats.AutomationHint": "{stat} is calculated dynamically. In order to change its value, you need to have an Ancestry, Path or an effect that changes it. Please add one or more of them.",

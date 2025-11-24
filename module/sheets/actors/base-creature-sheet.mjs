@@ -1,7 +1,4 @@
-import {
-  escape,
-  i18n
-} from '../../helpers/utils.mjs';
+import { escape, i18n, plusify } from '../../helpers/utils.mjs';
 import { diceTotalHtml } from '../../sidebar/chat-html-templates.mjs';
 import { mapRange } from '../../canvas/canvas-functions.mjs';
 import MultiChoice from '../../apps/multi-choice.mjs';
@@ -104,10 +101,11 @@ export default class WWCreatureSheet extends WWActorSheet {
         key: key,
         name: `system.attributes.${key}.value`,
         field: field(`attributes.${key}.value`),
+        label: i18n(CONFIG.WW.ATTRIBUTES_SHORT[key] ?? key),
+
         sourceValue: context.system._source.attributes[key].value,
         finalValue: context.system.attributes[key].value,
         finalMod: context.system.attributes[key].mod,
-        label: i18n(CONFIG.WW.ATTRIBUTES_SHORT[key] ?? key),
         tooltip: i18n(CONFIG.WW.ROLL_ATTRIBUTE_LABELS[key]),
         inputTooltip: i18n('WW.Attributes.EditHint', { value: context.system.attributes[key].value })
       };
@@ -119,6 +117,86 @@ export default class WWCreatureSheet extends WWActorSheet {
     context.attributes.agi.index = 4;
     context.attributes.int.index = 8;
     context.attributes.wil.index = 6;
+    
+    // Prepare stats
+    context.stats = {};
+    const usedDefense = Math.max(context.system.stats.defense.armored, context.system.stats.defense.natural);
+
+    // Natural Defense
+    context.stats.defenseNatural = {
+      name: `system.stats.defense.natural`,
+      field: field(`stats.defense.natural`),
+      label: this.actor.type === 'npc' ? i18n("WW.Defense.NaturalNPC") : i18n("WW.Defense.Natural"),
+      
+      sourceValue: context.system._source.stats.defense.natural,
+      finalValue: context.system.stats.defense.natural,
+      bonusValue: parseInt(context.system.stats.defense.natural - context.system._source.stats.defense.natural)
+    }
+
+    // Total Defense
+    context.stats.defenseTotal = {
+      name: `system.stats.defense.total`,
+      field: field(`stats.defense.total`),
+      label: i18n("WW.Defense.Label"),
+      
+      sourceValue: context.system._source.stats.defense.total,
+      finalValue: context.system.stats.defense.total,
+      bonusValue: parseInt(context.system.stats.defense.total - context.system._source.stats.defense.total),
+      autoTooltip: `
+        <p><b>${i18n("WW.Defense.Score")}: ${context.system.stats.defense.total}</b>
+          ${context.system.stats.defense.total !== usedDefense ?
+          " (" + usedDefense + plusify(context.system.stats.defense.total - usedDefense) + ")" : ""}
+        </p>
+        ${context.system.stats.defense.armored ? '<p>' + i18n("WW.Defense.Armored") + ': ' + context.system.stats.defense.armored + '</p>' : ""}
+        <p>${i18n("WW.Defense.Natural")}: ${context.system.stats.defense.natural}
+          ${context.system.stats.defense.natural !== context.system._source.stats.defense.natural ?
+          " (" + context.system._source.stats.defense.natural + plusify(parseInt(context.system.stats.defense.natural) - parseInt(context.system._source.stats.defense.natural)) + ")" : ""}
+        </p>
+        <p>• ${i18n("WW.Stats.AutomationHint", { stat: i18n("WW.Defense.Label") })}</p>
+        ${this.actor.type === 'npc' ? '<p>• ' + i18n("WW.Defense.NaturalNPCTip") + '</p>' : ''}
+      `
+    }
+
+    // Size
+    context.stats.size = {
+      name: `system.stats.size`,
+      field: field(`stats.size`),
+      label: i18n("WW.Stats.Size"),
+
+      sourceValue: context.system._source.stats.size,
+      finalValue: context.system.stats.size,
+      displayedValue: CONFIG.WW.SIZE_FRACTIONS[context.system.stats.size] ?? context.system.stats.size,
+      autoTooltip: this.actor.type === 'npc' && (context.system.stats.size !== context.system._source.stats.size) ? `
+        <p>${i18n('WW.Stats.SizeNormal')}: ${context.system._source.stats.size}</p>
+        <p>• ${i18n('WW.Stats.AutomationHint', { stat: i18n("WW.Stats.Size") })}</p>
+      ` : i18n('WW.Stats.AutomationHint', { stat: i18n("WW.Stats.Size") }),
+      inputTooltip: `<p>${i18n('WW.Stats.SizeTip', { value: context.system.stats.size })}</p> ${i18n('WW.Stats.SizeConversionTip')}`
+    }
+
+    // Normal Speed
+    context.stats.speedNormal = {
+      name: `system.stats.speed.normal`,
+      field: field(`stats.speed.normal`),
+      label: i18n("WW.Stats.SpeedNormal"),
+      
+      sourceValue: context.system._source.stats.speed.normal,
+      finalValue: context.system.stats.speed.normal,
+      inputTooltip: i18n('WW.Stats.SpeedNormalTip', { value: context.system.stats.speed.current })
+    }
+
+    // Current Speed
+    context.stats.speedCurrent = {
+      name: `system.stats.speed.current`,
+      field: field(`stats.speed.current`),
+      label: i18n("WW.Stats.Speed"),
+      
+      sourceValue: context.system._source.stats.speed.current,
+      finalValue: context.system.stats.speed.current,
+      autoTooltip: context.system.stats.speed.current !== context.system.stats.speed.normal ? `
+        <p>${i18n('WW.Stats.SpeedNormal')}: ${context.system.stats.speed.normal}</p>
+        <p>• ${i18n('WW.Stats.AutomationHint', { stat: i18n("WW.Stats.SpeedNormal") })}</p>
+      ` : i18n('WW.Stats.AutomationHint', { stat: i18n("WW.Stats.Speed") })
+    };
 
     // Prepare Disposition
     context.disposition = await this.actor?.token ? await this.actor.token.disposition : await this.actor.prototypeToken.disposition;
@@ -137,10 +215,6 @@ export default class WWCreatureSheet extends WWActorSheet {
     const degrees = mapRange((current ? damage : 1), 0, (current ? current : 1), 30, 120);
     // Invert the degrees and map them from 0 to a third
     context.healthHue = mapRange(120 - degrees, 0, 120, 0, 1 / 3);
-
-    // Prepare Sizes
-    context.sizes = Object.entries(CONFIG.WW.SIZES).map(([k, v]) => ({key: k, label: v})).sort((a,b) => a.key - b.key);
-    context.size = CONFIG.WW.SIZES[context.system.stats.size];
 
     // Prepare hasEffect for use in templates
     context.hasEffect = {};
@@ -162,17 +236,6 @@ export default class WWCreatureSheet extends WWActorSheet {
     if (!health.normal || health.temp) context.healthTooltip += `<hr/>`;
     if (!health.normal) context.healthTooltip += escape(`<p>• ${i18n('WW.Health.NormalHint')}</p>`);
     if (health.temp) context.healthTooltip += escape(`<p>• ${i18n("WW.Health.CurrentHint")}</p>`);
-
-    // Speed tooltip
-    context.speedTooltip = escape(`
-      <p>${i18n("WW.Stats.NormalSpeed")}: ${actorData.system.stats.speed.normal}</p>
-      <p>• ${i18n('WW.Stats.AutomationHint', { stat: i18n("WW.Stats.NormalSpeed") })}</p>
-    `);
-
-    // Size tooltip
-    context.sizeTooltip = escape(`
-      <p>${i18n('WW.Stats.AutomationHint', { stat: i18n("WW.Stats.Size") })}</p>
-    `);
 
     // Bonus Damage Tooltip
     context.bonusDamageTooltip = escape(`

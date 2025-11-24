@@ -10,7 +10,7 @@
         <div class="stat {{ key }}" style="--i:{{ index }}" {{#unless @root.editMode}}data-action="attributeRoll" data-key="{{ key }}" data-tooltip-text="{{ tooltip }}"{{/unless}}>
             <label>{{localize label }}</label>
             {{#if @root.editMode}}
-            {{formInput field name=name value=sourceValue data-tooltip-text=inputTooltip }}
+            {{formInput field name=name value=sourceValue dataset=(object tooltip=inputTooltip)}}
             {{else}}
             {{#if finalValue}}
             <div class="numbers">
@@ -101,7 +101,7 @@
             <label>{{localize "WW.Stats.Size"}}</label>
     
             <div class="align-center">
-                <a data-tooltip="{{{sizeTooltip}}}">{{system.stats.size}}</a>
+                <a data-tooltip="{{{ stats.size.autoTooltip }}}">{{ stats.size.displayedValue }}</a>
             </div>
     
         </div>
@@ -111,13 +111,9 @@
             {{!-- Defense --}}
             <div class="stat defense">
     
-                <div><a data-tooltip="<p>{{localize "WW.Defense.Armored"}}: {{system.stats.defense.armored}}</p>
-                        <p>{{localize "WW.Defense.Natural"}}: {{system.stats.defense.natural}}</p>
-                        ">{{system.stats.defense.total}}
-                    </a>
-                </div>
+                <div><a data-tooltip="{{ stats.defenseTotal.autoTooltip }}">{{ stats.defenseTotal.finalValue }}</a></div>
     
-                <label>{{localize "WW.Defense.Label"}}</label>
+                <label>{{ stats.defenseTotal.label }}</label>
     
             </div>
     
@@ -136,12 +132,11 @@
     
         {{!-- Speed --}}
         <div class="stat">
-            <label>{{localize "WW.Stats.Speed"}}</label>
-    
-            <div class="align-center">
-                <a data-tooltip="{{{speedTooltip}}}">{{system.stats.speed.current}}</a>
+            <label>{{ stats.speedCurrent.label }}</label>
+        
+            <div class="badge stat-badge">
+                <a data-tooltip="{{{ stats.speedCurrent.autoTooltip }}}">{{ stats.speedCurrent.finalValue }}</a>
             </div>
-    
         </div>
     
     </div>

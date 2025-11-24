@@ -454,29 +454,32 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
 
   async _updateEntry(dataset, entryKey) {
     const path = 'system.listEntries.' + dataset.listKey;
-    const baseObj = foundry.utils.getProperty(this.actor.token?.baseActor, path);
-    const obj = foundry.utils.getProperty(this.actor, path);
+    const baseObj = {... foundry.utils.getProperty(this.actor.token?.baseActor, path)};
+    const obj = {... foundry.utils.getProperty(this.actor, path)};
 
     // Get or set entry key and data
-    let entry = null;
+    let entryData = null;
 
     if (entryKey) {
-      entry = obj[entryKey];
+      entryData = obj[entryKey];
     } else {
       entryKey = defaultListEntryKey(obj, dataset.listKey);
       const entryName = defaultListEntryName(obj, dataset.listKey);
-      entry = { name: entryName };
-      obj[entryKey] = entry;
+      entryData = { name: entryName };
     }
+
+    console.log(await entryData)
 
     // Prepare context
     const context = {
-      entry: await entry,
+      entry: await entryData,
       key: entryKey,
       showKey: true,
-      grantedBy: await fromUuid(entry.grantedBy) ?
-        await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${entry.grantedBy}]`, { secrets: this.actor.isOwner }) : null
+      grantedBy: await fromUuid(entryData.grantedBy) ?
+        await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${entryData.grantedBy}]`, { secrets: this.actor.isOwner }) : null
     };
+
+    console.log(await context)
 
     // Show a dialog 
     const dialogInput = await WWDialog.input({
@@ -509,6 +512,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     delete await obj[dialogInput.key].key;
 
     // Delete old entry if key changed
+    console.log(await dialogInput.key)
+    console.log(await entryKey)
     if (dialogInput.key !== entryKey) {
       // If the key exists in the Base Actor, null it
       if (baseObj?.hasOwnProperty(entryKey) && entryKey !== dialogInput.key) obj[entryKey] = null;
@@ -572,7 +577,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       subtype: dataset.subtype ?? '',
       tier: dataset.tier ?? '',
       grip: dataset.grip ?? 'Off',
-      source: type === 'talent' ? dataset.source : '', // If Character's Talent, set source,
+      source: type === 'talent' ? dataset.source : '', // If Talent, set source
       attribute: '',
       damage: '',
       against: ''

@@ -48,12 +48,7 @@
                 {{!-- Defense Badge --}}
                 <div class="badge stat defense">
     
-                    <div><a data-tooltip="<p><b>{{localize "WW.Defense.Label"}}</b></p>
-                            <p>{{localize "WW.Defense.Armored"}}: {{system.stats.defense.armored}}</p>
-                            <p>{{localize "WW.Defense.Natural"}}: {{system.stats.defense.natural}}</p>
-                            ">{{system.stats.defense.total}}
-                        </a>
-                    </div>
+                    <div><a data-tooltip="{{ stats.defenseTotal.autoTooltip }}">{{ stats.defenseTotal.finalValue }}</a></div>
     
                 </div>
     
@@ -163,10 +158,10 @@
         <div class="stat">
     
             <div class="stat-header">
-                <span>{{localize "WW.Stats.Size"}}</span>
+                <span>{{ stats.size.label }}</span>
     
                 <div class="badge stat-badge">
-                    <a data-tooltip="{{{sizeTooltip}}}">{{system.stats.size}}</a>
+                    <a data-tooltip="{{{ stats.size.autoTooltip }}}">{{ stats.size.displayedValue }}</a>
                 </div>
             </div>
     
@@ -177,10 +172,10 @@
             
             {{!-- Speed Score --}}
             <div class="stat-header">
-                <span>{{localize "WW.Stats.Speed"}}</span>
+                <span>{{ stats.speedCurrent.label }}</span>
     
                 <div class="badge stat-badge">
-                    <a data-tooltip="{{{speedTooltip}}}">{{system.stats.speed.current}}</a>
+                    <a data-tooltip="{{{ stats.speedCurrent.autoTooltip }}}">{{ stats.speedCurrent.finalValue }}</a>
                 </div>
             </div>
     

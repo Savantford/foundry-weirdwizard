@@ -183,6 +183,13 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     // Prepare Ancestries
     if (this.isAncestry) {
       context.traitsHeading = i18n("WW.CharOption.AncestryTraitsHeading", { ancestry: this.page.name });
+
+      for (const b in context.benefits) {
+        const benefit = context.benefits[b];
+        
+        benefit.sizeDisplayed = CONFIG.WW.SIZE_FRACTIONS[benefit.stats.sizeNormal] ?? benefit.stats.sizeNormal;
+        benefit.sizeTooltip = i18n('WW.Stats.SizeConversionTip');
+      }
     }
     
     // Prepare Paths
@@ -301,12 +308,10 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
       listKey = dataset.listKey,
       listPath = dataset.listPath,
       path = 'system.' + listPath,
-      obj = foundry.utils.getProperty(this.page, path),
+      obj = {... foundry.utils.getProperty(this.page, path)},
       entryKey = defaultListEntryKey(obj, listKey),
       entryName = defaultListEntryName(obj, listKey),
     entry = { name: entryName };
-
-    obj[entryKey] = entry;
     
     // Update document
     await this.page.update({ [path]: obj });
@@ -361,7 +366,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     const dataset = button.dataset,
       listPath = dataset.listPath,
       path = 'system.' + listPath,
-      obj = foundry.utils.getProperty(this.page, path),
+      obj = {... foundry.utils.getProperty(this.page, path)},
       entryKey = dataset.entryKey,
     entry = obj[entryKey];
     
