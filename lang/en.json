@@ -420,6 +420,7 @@
 "WW.Equipment.Uses": "Uses/Charges",
 
 "WW.Equipment.Availability.Label": "Availability",
+"WW.Equipment.Availability.Short": "Availability",
 "WW.Equipment.Availability.Common": "Common",
 "WW.Equipment.Availability.Uncommon": "Uncommon",
 "WW.Equipment.Availability.Rare": "Rare",

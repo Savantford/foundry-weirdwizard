@@ -410,6 +410,7 @@
 "WW.Equipment.Uses": "Nutzungen/Ladungen",
 
 "WW.Equipment.Availability.Label": "Verfügbarkeit",
+"WW.Equipment.Availability.Short": "Availability",
 "WW.Equipment.Availability.Common": "Gewöhnlich",
 "WW.Equipment.Availability.Uncommon": "Ungewöhnlich",
 "WW.Equipment.Availability.Rare": "Selten",

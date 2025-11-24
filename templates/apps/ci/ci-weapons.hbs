@@ -6,7 +6,7 @@
             <div class="item-image"></div>
             <div class="item-name">{{localize "WW.Item.Name"}}</div>
 
-            <div class="item-fixed">{{localize "WW.Equipment.Availability.Label"}}</div>
+            <div class="item-fixed" data-tooltip-text="{{localize "WW.Equipment.Availability.Label"}}">{{localize "WW.Equipment.Availability.Short"}}</div>
             <div class="item-fixed">{{localize "WW.Equipment.Price"}}</div>
             <div>{{localize "WW.Weapon.Requirement.Label"}}</div>
 
@@ -29,7 +29,7 @@
             <div>{{doc.system.requirementLabel}}</div>
 
             <div class="item-fixed">{{#if doc.system.traits.range}}{{localize "WW.Weapon.Ranged"}}{{else}}{{localize "WW.Weapon.Melee"}}{{/if}}</div>
-            <div class="item-fixed">{{localize doc.system.grip}}</div>
+            <div class="item-fixed">{{localize doc.system.gripLabel}}</div>
             <div class="item-fixed">{{doc.system.damage}}</div>
             <div class="item-traits">{{doc.system.traitsList}}</div>
         </li>

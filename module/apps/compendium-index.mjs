@@ -194,7 +194,10 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
         })
 
-        doc.system.traitsList = list ? list : '—';
+        doc.system.traitsList = list ?? '—';
+
+        // Prepare Grip label
+        doc.system.gripLabel = CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip] ? i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip]) : doc.system.grip;
       }
 
       // Get Tier
