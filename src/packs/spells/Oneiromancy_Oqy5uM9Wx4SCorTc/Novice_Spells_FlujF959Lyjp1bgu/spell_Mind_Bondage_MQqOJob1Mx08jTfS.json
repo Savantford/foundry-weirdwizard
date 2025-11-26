@@ -1,0 +1,57 @@
+{
+  "folder": "FlujF959Lyjp1bgu",
+  "name": "Mind Bondage",
+  "type": "spell",
+  "_id": "MQqOJob1Mx08jTfS",
+  "img": "icons/magic/control/debuff-chains-ropes-purple.webp",
+  "system": {
+    "description": {
+      "value": "<p>You place the target into a dreamlike state and cause it to become Will impaired until the end of your next turn. When the affliction ends, provided you are still within 5 yards of the target, you can make an Intellect roll against its Will. You make the roll with 1 bane if the target’s Health score is greater than yours. On a success, describe an activity you want the target to perform at some point within the next 24 hours that is within its power to do and does not directly cause its death or bring harm to its loved ones or property. For example, you might suggest the target unlock a door, speak a phrase, or start a fire. As part of the activity’s description, you also define the event that triggers the activity. The event could be the expiration of a period of time, a signal of some kind, or arriving at a specified place. The target becomes bound to perform the stated activity when the triggering event occurs and does so unless somehow prevented.</p>"
+    },
+    "active": false,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 1,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "tier": "novice",
+    "tradition": "",
+    "casting": "",
+    "target": "One creature within 5 yards",
+    "duration": "Instantaneous",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744754756038,
+    "modifiedTime": 1754186601432,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!MQqOJob1Mx08jTfS"
+}

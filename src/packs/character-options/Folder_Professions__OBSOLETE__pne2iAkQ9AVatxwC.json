@@ -1,0 +1,27 @@
+{
+  "name": "Professions (OBSOLETE)",
+  "sorting": "a",
+  "folder": null,
+  "type": "JournalEntry",
+  "_id": "pne2iAkQ9AVatxwC",
+  "description": "",
+  "sort": 100000,
+  "color": "#a70000",
+  "flags": {
+    "weirdwizard": {
+      "description": ""
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1745092758834,
+    "modifiedTime": 1760724926038,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!folders!pne2iAkQ9AVatxwC"
+}

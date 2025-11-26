@@ -1,0 +1,96 @@
+{
+  "name": "Great Hammer",
+  "type": "equipment",
+  "system": {
+    "description": {
+      "value": "<p>A great hammer has an enormous wooden-and-iron head bisected by a long haft.</p>"
+    },
+    "active": true,
+    "quantity": 1,
+    "weightUnit": 1,
+    "price": {
+      "value": 1,
+      "coin": "gp"
+    },
+    "availability": "rare",
+    "attribute": "str",
+    "boons": 0,
+    "against": "def",
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": false,
+      "levelRelative": "manual"
+    },
+    "damage": "4d6",
+    "healing": "",
+    "subtype": "weapon",
+    "quality": "standard",
+    "grip": "Two",
+    "attackRider": {
+      "value": {
+        "value": ""
+      },
+      "name": ""
+    },
+    "reloaded": true,
+    "armorType": "light",
+    "instant": [],
+    "traits": {
+      "ammunition": false,
+      "brutal": false,
+      "firearm": false,
+      "long": true,
+      "nimble": false,
+      "range": false,
+      "special": false,
+      "thrown": false,
+      "versatile": false,
+      "large": true,
+      "bludgeoning": true,
+      "disarming": false,
+      "light": false,
+      "misfire": false,
+      "piercing": false,
+      "reload": false,
+      "slashing": false,
+      "slow": false
+    },
+    "requirements": "str14",
+    "grantedBy": null,
+    "magical": false,
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "heldBy": null,
+    "capacity": 1
+  },
+  "img": "icons/weapons/hammers/hammer-double-engraved.webp",
+  "effects": [],
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "coreVersion": "13.345",
+    "createdTime": 1691865076351,
+    "modifiedTime": 1754186600815,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
+  },
+  "folder": "CGh2LhSduUMqiiy4",
+  "_id": "yE3TjCX7gki2NmHk",
+  "sort": 1300000,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "_key": "!items!yE3TjCX7gki2NmHk"
+}

@@ -1,0 +1,153 @@
+{
+  "name": "Breastplate Armor",
+  "type": "equipment",
+  "img": "icons/equipment/chest/breastplate-gorget-steel-white.webp",
+  "system": {
+    "description": {
+      "value": "<p>A breastplate is typically worn over a coat of mail.</p>"
+    },
+    "active": true,
+    "quantity": 1,
+    "weightUnit": 3,
+    "price": {
+      "value": 5,
+      "coin": "gp"
+    },
+    "availability": "uncommon",
+    "attribute": "",
+    "boons": 0,
+    "against": "",
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": false,
+      "levelRelative": "manual"
+    },
+    "damage": "",
+    "healing": "",
+    "subtype": "armor",
+    "quality": "standard",
+    "grip": "One-Handed",
+    "attackRider": {
+      "value": {
+        "value": ""
+      },
+      "name": ""
+    },
+    "reloaded": true,
+    "armorType": "heavy",
+    "instant": [],
+    "requirements": "",
+    "traits": {
+      "ammunition": false,
+      "brutal": false,
+      "firearm": false,
+      "long": false,
+      "nimble": false,
+      "range": false,
+      "special": false,
+      "thrown": false,
+      "versatile": false,
+      "bludgeoning": false,
+      "disarming": false,
+      "large": false,
+      "light": false,
+      "misfire": false,
+      "piercing": false,
+      "reload": false,
+      "slashing": false,
+      "slow": false
+    },
+    "grantedBy": null,
+    "magical": false,
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "heldBy": null,
+    "capacity": 1
+  },
+  "effects": [
+    {
+      "name": "Armor Equipped",
+      "origin": "Compendium.weirdwizard.armor.Item.Ru8LGyG2xFR771qd",
+      "duration": {
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "_id": "8fnTKoiG94yFk5qS",
+      "changes": [
+        {
+          "key": "defense.armored",
+          "value": "16",
+          "mode": 4,
+          "priority": 1
+        },
+        {
+          "key": "defense.naturalIncrease",
+          "value": "3",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "",
+      "transfer": true,
+      "statuses": [],
+      "flags": {
+        "weirdwizard": {
+          "external": true,
+          "trigger": "passive",
+          "target": "none"
+        }
+      },
+      "tint": "#ffffff",
+      "_stats": {
+        "coreVersion": "13.345",
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null,
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "img": "icons/equipment/chest/breastplate-gorget-steel-white.webp",
+      "type": "base",
+      "system": {},
+      "sort": 0,
+      "_key": "!items.effects!Ru8LGyG2xFR771qd.8fnTKoiG94yFk5qS"
+    }
+  ],
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "coreVersion": "13.345",
+    "createdTime": 1692116593788,
+    "modifiedTime": 1756159288441,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
+  },
+  "folder": "qg6b2lcnE2nBm9uW",
+  "_id": "Ru8LGyG2xFR771qd",
+  "sort": 300000,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "_key": "!items!Ru8LGyG2xFR771qd"
+}

@@ -1,0 +1,57 @@
+{
+  "folder": "FlujF959Lyjp1bgu",
+  "name": "Lullaby",
+  "type": "spell",
+  "_id": "qMhoZNsXch4SCTxZ",
+  "img": "icons/magic/control/sleep-bubble-purple.webp",
+  "system": {
+    "description": {
+      "value": "<p>Waves of lethargy wash over the targets. Each target with a Health score of 15 or less falls prone and goes to sleep (luck ends). The effect ends early for a target if it is harmed. Each other target makes a Will roll. On a failure, the target becomes weakened (luck ends).</p>"
+    },
+    "active": false,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 1,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "tier": "novice",
+    "tradition": "",
+    "casting": "",
+    "target": "Any number of creatures in a Size 5 space within 10 yards",
+    "duration": "Instantaneous",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744754714176,
+    "modifiedTime": 1754186601837,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!qMhoZNsXch4SCTxZ"
+}

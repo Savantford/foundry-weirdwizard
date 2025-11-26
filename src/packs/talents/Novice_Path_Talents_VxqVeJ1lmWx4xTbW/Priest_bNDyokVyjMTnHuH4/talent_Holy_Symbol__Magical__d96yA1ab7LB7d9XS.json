@@ -1,0 +1,84 @@
+{
+  "folder": "bNDyokVyjMTnHuH4",
+  "name": "Holy Symbol (Magical)",
+  "type": "talent",
+  "_id": "d96yA1ab7LB7d9XS",
+  "img": "icons/magic/holy/chalice-glowing-gold.webp",
+  "system": {
+    "description": {
+      "value": "<p>You have a symbol of your faith, spiritual beliefs, or ethical system. If you lose this symbol, you can fashion a new one after you rest. The symbol has a number of charges equal to your level. Once per round, you can expend 1 charge from the symbol each time you use it to invoke one of the following effects. You replenish expended charges after you rest.</p>\n<ul>\n<li><strong>Holy Smite:</strong> When your roll to attack results in a success, you can deal an extra 3d6 damage.</li>\n<li><strong>Holy Healing:</strong> You can use an action to enable yourself or one ally within 5 yards to heal 3d6 damage.</li>\n<li><strong>Holy Denunciation:</strong> You can use an action to present your holy symbol to one creature that can see you, hear you, and is within 10 yards. Make a Will roll against the target’s Will. You roll with 1 boon if you know the target is a demon, faerie, fiend, spirit, or undead. On a success, the target becomes held (luck ends).</li>\n</ul>"
+    },
+    "active": true,
+    "attribute": "wil",
+    "against": "wil",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "full"
+    },
+    "healing": "",
+    "instant": [
+      {
+        "label": "damage",
+        "trigger": "onUse",
+        "target": "none",
+        "value": "3d6",
+        "affliction": "",
+        "locLabel": "WW.InstantEffect.Damage",
+        "locTrigger": "WW.Effect.OnUse",
+        "locTarget": "WW.Effect.None",
+        "img": "icons/svg/explosion.svg"
+      },
+      {
+        "label": "heal",
+        "trigger": "onUse",
+        "target": "allies",
+        "value": "3d6",
+        "affliction": "",
+        "locLabel": "WW.InstantEffect.Heal",
+        "locTrigger": "WW.Effect.OnUse",
+        "locTarget": "WW.Effect.Allies",
+        "img": "icons/svg/heal.svg"
+      },
+      {
+        "label": "affliction",
+        "trigger": "onSuccess",
+        "target": "tokens",
+        "affliction": "Held",
+        "value": ""
+      }
+    ],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "trait",
+    "source": "novice",
+    "grantedBy": null,
+    "magical": false
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1720988481075,
+    "modifiedTime": 1754186601112,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!d96yA1ab7LB7d9XS"
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Medium Armor",
+  "sorting": "a",
+  "folder": null,
+  "type": "Item",
+  "_id": "QWYSO2x1lrITBKj4",
+  "description": "",
+  "sort": 0,
+  "color": null,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.329",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1721415901929,
+    "modifiedTime": 1721415901929,
+    "lastModifiedBy": "zin7Kb6P2LomswaD"
+  },
+  "_key": "!folders!QWYSO2x1lrITBKj4"
+}

@@ -1,0 +1,96 @@
+{
+  "name": "Dagger",
+  "type": "equipment",
+  "img": "icons/weapons/daggers/dagger-curved-guard-blue.webp",
+  "system": {
+    "description": {
+      "value": "<p>A dagger has a long blade up to 18 inches in length and serves well as a backup or off-hand weapon. Daggers come in many different styles, each with their own names, such as dirk, jambiya, jile, misericord, and stiletto. Daggers also include throwing knives, shuriken, and similar weapons.</p>"
+    },
+    "active": true,
+    "quantity": 1,
+    "weightUnit": 1,
+    "price": {
+      "value": 5,
+      "coin": "cp"
+    },
+    "availability": "common",
+    "attribute": "agi",
+    "boons": 0,
+    "against": "def",
+    "range": 5,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": false,
+      "levelRelative": "manual"
+    },
+    "damage": "1d6",
+    "healing": "",
+    "subtype": "weapon",
+    "quality": "standard",
+    "grip": "Off",
+    "attackRider": {
+      "value": {
+        "value": ""
+      },
+      "name": ""
+    },
+    "reloaded": true,
+    "armorType": "light",
+    "instant": [],
+    "traits": {
+      "ammunition": false,
+      "brutal": false,
+      "firearm": false,
+      "long": false,
+      "nimble": true,
+      "range": false,
+      "special": false,
+      "thrown": true,
+      "versatile": false,
+      "light": true,
+      "piercing": true,
+      "bludgeoning": false,
+      "disarming": false,
+      "large": false,
+      "misfire": false,
+      "reload": false,
+      "slashing": false,
+      "slow": false
+    },
+    "requirements": "",
+    "grantedBy": null,
+    "magical": false,
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "heldBy": null,
+    "capacity": 1
+  },
+  "effects": [],
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "coreVersion": "13.345",
+    "createdTime": 1692071093156,
+    "modifiedTime": 1754186600568,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
+  },
+  "folder": "CGh2LhSduUMqiiy4",
+  "_id": "CXVX2qXNjAUvWkpi",
+  "sort": 1600000,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "_key": "!items!CXVX2qXNjAUvWkpi"
+}

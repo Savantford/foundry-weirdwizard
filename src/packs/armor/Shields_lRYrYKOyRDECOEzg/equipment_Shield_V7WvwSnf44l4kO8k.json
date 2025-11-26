@@ -1,0 +1,149 @@
+{
+  "name": "Shield",
+  "type": "equipment",
+  "img": "icons/equipment/shield/heater-steel-boss-red.webp",
+  "system": {
+    "description": {
+      "value": "<p>A shield is a flat or convex object held in one's off-hand or worn strapped to the arm. The shield might be round, square, or have some other shape.</p>\n<p>You can also use a shield as an off-hand improvised weapon. When you attack with the shield, you lose its increase to your Defense until the start of your next turn.</p>"
+    },
+    "active": true,
+    "quantity": 1,
+    "weightUnit": 1,
+    "price": {
+      "value": 2,
+      "coin": "sp"
+    },
+    "availability": "common",
+    "attribute": "str",
+    "boons": -1,
+    "against": "",
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": false,
+      "levelRelative": "manual"
+    },
+    "damage": "1d6",
+    "healing": "",
+    "subtype": "weapon",
+    "quality": "standard",
+    "grip": "Off",
+    "attackRider": {
+      "value": {
+        "value": ""
+      },
+      "name": ""
+    },
+    "reloaded": true,
+    "armorType": "light",
+    "instant": [],
+    "traits": {
+      "ammunition": false,
+      "brutal": false,
+      "firearm": false,
+      "long": false,
+      "nimble": false,
+      "range": false,
+      "special": false,
+      "thrown": false,
+      "versatile": false,
+      "bludgeoning": false,
+      "disarming": false,
+      "large": false,
+      "light": false,
+      "misfire": false,
+      "piercing": false,
+      "reload": false,
+      "slashing": false,
+      "slow": false
+    },
+    "requirements": "",
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "heldBy": "",
+    "capacity": 1,
+    "grantedBy": null,
+    "magical": false
+  },
+  "effects": [
+    {
+      "name": "Shield Equipped",
+      "origin": "Compendium.weirdwizard.armor.Item.V7WvwSnf44l4kO8k",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "flags": {
+        "weirdwizard": {
+          "selectedDuration": "",
+          "autoDelete": true,
+          "external": false,
+          "trigger": "passive",
+          "target": "none"
+        }
+      },
+      "disabled": false,
+      "img": "icons/equipment/shield/heater-steel-boss-red.webp",
+      "_id": "6CApAcAOoxllfLyA",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "defense.bonus",
+          "value": "2",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1721397934273,
+        "modifiedTime": 1721397986865,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "_key": "!items.effects!V7WvwSnf44l4kO8k.6CApAcAOoxllfLyA"
+    }
+  ],
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1721397738535,
+    "modifiedTime": 1754186600452,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "folder": "lRYrYKOyRDECOEzg",
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "_id": "V7WvwSnf44l4kO8k",
+  "sort": 100000,
+  "_key": "!items!V7WvwSnf44l4kO8k"
+}

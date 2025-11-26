@@ -1,0 +1,1105 @@
+{
+  "folder": "pne2iAkQ9AVatxwC",
+  "name": "Commoner Professions (OBSOLETE)",
+  "_id": "hPz0MAZHDS7xQUPo",
+  "pages": [
+    {
+      "sort": 100000,
+      "name": "Introduction",
+      "type": "text",
+      "_id": "o8uVtvTTO0bxKf5g",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<div class=\"icon-frame w-50 float-right\"><img src=\"systems/weirdwizard/assets/icons/professions/dig-dug.svg\" /></div><p>You come from the ranks of ordinary people.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745095099108,
+        "modifiedTime": 1745096116461,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!hPz0MAZHDS7xQUPo.o8uVtvTTO0bxKf5g"
+    },
+    {
+      "sort": 200000,
+      "name": "Baker (OBSOLETE)",
+      "type": "profession",
+      "_id": "RiUJ29tsqCNf0tZ9",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You worked in a bakery and learned how to bake breads, cakes, pies, and pastries. You have a set of kitchen utensils.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745098806716,
+        "modifiedTime": 1760715646099,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!hPz0MAZHDS7xQUPo.RiUJ29tsqCNf0tZ9"
+    },
+    {
+      "sort": 300000,
+      "name": "Bartender (OBSOLETE)",
+      "type": "profession",
+      "_id": "HyctfjQ5ljzZhXB8",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You sold drinks to earn your pay. You know all about beverages, alcoholic and otherwise. You have a small cask of beer and two bottles of spirits.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745098840912,
+        "modifiedTime": 1760715649569,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!hPz0MAZHDS7xQUPo.HyctfjQ5ljzZhXB8"
+    },
+    {
+      "sort": 400000,
+      "name": "Carpenter (OBSOLETE)",
+      "type": "profession",
+      "_id": "NEwZyPETc57Ydqs7",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You know how to cut wood and join pieces of it to produce anything from small chests to furniture to entire dwellings. You have a tool kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745098862728,
+        "modifiedTime": 1760715652427,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!hPz0MAZHDS7xQUPo.NEwZyPETc57Ydqs7"
+    },
+    {
+      "sort": 500000,
+      "name": "Cook (OBSOLETE)",
+      "type": "profession",
+      "_id": "mQxU6sVjYWeJfirl",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You might have been a cook in a camp, charged with rationing provisions, or you could have been a chef at a restaurant where you created culinary masterpieces. You have a dagger and a pair of kitchen knives.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745098877032,
+        "modifiedTime": 1760715655242,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!hPz0MAZHDS7xQUPo.mQxU6sVjYWeJfirl"
+    },
+    {
+      "sort": 600000,
+      "name": "Exterminator (OBSOLETE)",
+      "type": "profession",
+      "_id": "Zg86x2sd1icHrBXr",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You made your living by hunting rats and other vermin. You have a net and a dog.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745098898180,
+        "modifiedTime": 1760715657913,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!hPz0MAZHDS7xQUPo.Zg86x2sd1icHrBXr"
+    },
+    {
+      "sort": 700000,
+      "name": "Farmer (OBSOLETE)",
+      "type": "profession",
+      "_id": "W2n4FRWI0u1xgasc",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You worked the land to produce crops for your family and for sale at the market. You might also have raised livestock. You have a pitchfork (treat as an improvised weapon).</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745098913295,
+        "modifiedTime": 1760715660457,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!hPz0MAZHDS7xQUPo.W2n4FRWI0u1xgasc"
+    },
+    {
+      "sort": 800000,
+      "name": "Fisher (OBSOLETE)",
+      "type": "profession",
+      "_id": "V6o6dNuNSWAIVQAZ",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You know how to pilot a small boat and how to catch fish either in freshwater or on the open seas. You have a fishing pole, line, lures, and a net.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745098938076,
+        "modifiedTime": 1760715662922,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!hPz0MAZHDS7xQUPo.V6o6dNuNSWAIVQAZ"
+    },
+    {
+      "sort": 900000,
+      "name": "Gravedigger (OBSOLETE)",
+      "type": "profession",
+      "_id": "YYx0ttcpX3Ql9BRi",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You handled corpses for a living. You could have been a digger of graves or a collector of corpses for some purpose. You have a shovel (treat as an improvised weapon).</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745098954348,
+        "modifiedTime": 1760715665945,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!hPz0MAZHDS7xQUPo.YYx0ttcpX3Ql9BRi"
+    },
+    {
+      "sort": 1000000,
+      "name": "Groom (OBSOLETE)",
+      "type": "profession",
+      "_id": "zGDn1xcP9VcTiisN",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You cared for horses and perhaps other animals and helped train them to perform certain activities. You have a tool kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745098973540,
+        "modifiedTime": 1760715668384,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!hPz0MAZHDS7xQUPo.zGDn1xcP9VcTiisN"
+    },
+    {
+      "sort": 1100000,
+      "name": "Herder (OBSOLETE)",
+      "type": "profession",
+      "_id": "hvSku0OzFJQLAaHi",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You watched over a flock of sheep, a herd of goats or cows, or another form of livestock. You have either a sling or a quarterstaff.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745098987529,
+        "modifiedTime": 1760715670914,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!hPz0MAZHDS7xQUPo.hvSku0OzFJQLAaHi"
+    },
+    {
+      "sort": 1200000,
+      "name": "Jeweler (OBSOLETE)",
+      "type": "profession",
+      "_id": "YfgJ6N9ugWdgpZuT",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You made jewelry from precious metals and stones. You can ascertain the value of such things by examining them. You have a tool kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099004084,
+        "modifiedTime": 1760715673857,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!hPz0MAZHDS7xQUPo.YfgJ6N9ugWdgpZuT"
+    },
+    {
+      "sort": 1300000,
+      "name": "Laborer (OBSOLETE)",
+      "type": "profession",
+      "_id": "vR0ylMXUyzEk0rzY",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You performed manual labor for whoever paid you. You could have worked as a porter, a stevedore, or at some other job that involved moving heavy objects. You have a club.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099021162,
+        "modifiedTime": 1760715677200,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!hPz0MAZHDS7xQUPo.vR0ylMXUyzEk0rzY"
+    },
+    {
+      "sort": 1400000,
+      "name": "Mason (OBSOLETE)",
+      "type": "profession",
+      "_id": "K7InqY8M1wXewJfO",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You worked with stone, shaping it into blocks and mortaring those blocks into larger shapes. You have a tool kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099054618,
+        "modifiedTime": 1760715679584,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!hPz0MAZHDS7xQUPo.K7InqY8M1wXewJfO"
+    },
+    {
+      "sort": 1500000,
+      "name": "Miner (OBSOLETE)",
+      "type": "profession",
+      "_id": "UZQSY5nfKxOAkPJG",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You dug ore out of the ground. You have a mattock.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099070634,
+        "modifiedTime": 1760715681880,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!hPz0MAZHDS7xQUPo.UZQSY5nfKxOAkPJG"
+    },
+    {
+      "sort": 1600000,
+      "name": "Sailor (OBSOLETE)",
+      "type": "profession",
+      "_id": "8gHJx3O9fLh9OXo4",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You worked on a ship and helped keep the vessel in good working order. You have a dagger and a coil of rope.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099084562,
+        "modifiedTime": 1760715684954,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!hPz0MAZHDS7xQUPo.8gHJx3O9fLh9OXo4"
+    },
+    {
+      "sort": 1700000,
+      "name": "Servant (OBSOLETE)",
+      "type": "profession",
+      "_id": "DH1vxvjv3B5tmcDn",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Maybe you waited tables in a tavern. You could have been a scullery worker, washing pots and pans for a noble household. You might also have served as a butler, a valet, a maid, or in some other similar capacity. You have a uniform.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099098482,
+        "modifiedTime": 1760715688889,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!hPz0MAZHDS7xQUPo.DH1vxvjv3B5tmcDn"
+    },
+    {
+      "sort": 1800000,
+      "name": "Shopkeeper (OBSOLETE)",
+      "type": "profession",
+      "_id": "jqIvTdGvHqek42mT",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You ran a small shop selling minor baubles and other curios. You have three pieces of cheap jewelry.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099122665,
+        "modifiedTime": 1760715692434,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!hPz0MAZHDS7xQUPo.jqIvTdGvHqek42mT"
+    },
+    {
+      "sort": 1900000,
+      "name": "Smith (OBSOLETE)",
+      "type": "profession",
+      "_id": "qcPccIqI95CRkbhK",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You worked at a forge, pounding metal ingots into different forms. You have a hammer.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099136770,
+        "modifiedTime": 1760715695393,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!hPz0MAZHDS7xQUPo.qcPccIqI95CRkbhK"
+    },
+    {
+      "sort": 2000000,
+      "name": "Tanner (OBSOLETE)",
+      "type": "profession",
+      "_id": "DbBNGzzPRWwZp2Te",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You turned raw animal hides into leather suitable for making clothing, gear, and armor. You have a quarterstaff.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099150826,
+        "modifiedTime": 1760715699104,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!hPz0MAZHDS7xQUPo.DbBNGzzPRWwZp2Te"
+    },
+    {
+      "sort": 2100000,
+      "name": "Teamster (OBSOLETE)",
+      "type": "profession",
+      "_id": "tANGr0wS3WgED8dL",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You drove a cart, wagon, carriage, or some other vehicle for commercial purposes. You have a whip.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099209506,
+        "modifiedTime": 1760715702394,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!hPz0MAZHDS7xQUPo.tANGr0wS3WgED8dL"
+    }
+  ],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1745095091170,
+    "modifiedTime": 1760715989377,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "categories": [],
+  "_key": "!journal!hPz0MAZHDS7xQUPo"
+}

@@ -1,0 +1,26 @@
+{
+  "name": "Magical Talents",
+  "sorting": "a",
+  "folder": "8fMRUwVu1Rvd2PNc",
+  "type": "Item",
+  "_id": "bHjit5NEKz2cSFgt",
+  "description": "",
+  "sort": -100000,
+  "color": null,
+  "flags": {
+    "weirdwizard": {
+      "description": ""
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": null,
+    "modifiedTime": 1744749748458,
+    "lastModifiedBy": "zin7Kb6P2LomswaD"
+  },
+  "_key": "!folders!bHjit5NEKz2cSFgt"
+}

@@ -1,0 +1,57 @@
+{
+  "folder": "XibbrFWjJUIR6jcU",
+  "name": "Weigh You Down",
+  "type": "spell",
+  "_id": "wfoVohjvBuo8PFP3",
+  "img": "icons/magic/control/debuff-chains-orb-movement-blue.webp",
+  "system": {
+    "description": {
+      "value": "<p>You cause the targets to grow big and heavy, so that they move more slowly. Each target becomes slowed and vulnerable (luck ends both).</p>"
+    },
+    "active": false,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 1,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "tier": "novice",
+    "tradition": "",
+    "casting": "",
+    "target": "Up to five creatures all inside a Size 5 space within 10 yards",
+    "duration": "Instantaneous",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744753200467,
+    "modifiedTime": 1754186601892,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!wfoVohjvBuo8PFP3"
+}

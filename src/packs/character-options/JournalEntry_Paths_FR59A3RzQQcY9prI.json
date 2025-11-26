@@ -1,0 +1,606 @@
+{
+  "name": "Paths",
+  "pages": [
+    {
+      "sort": 200000,
+      "name": "Fighter",
+      "type": "path",
+      "_id": "aBJDqugMHeZwbKpu",
+      "system": {
+        "benefits": {
+          "benefit1": {
+            "spells": "0",
+            "stats": {
+              "armoredIncrease": 0,
+              "healthStarting": 16,
+              "naturalSet": 10,
+              "naturalIncrease": 0,
+              "healthIncrease": 0,
+              "speedIncrease": 0,
+              "bonusDamage": 0
+            },
+            "items": [
+              "Compendium.weirdwizard.talents.Item.HUNqSqp6i3iszfK4",
+              "Compendium.weirdwizard.talents.Item.CmrnuiIFx9rA0alr"
+            ],
+            "languages": {
+              "common": {
+                "name": "Common",
+                "desc": "The Common tongue originated with a seafaring people and was important for facilitating trade. It became the dominant language in the Great Kingdom and has spread to the new lands from the lips of refugees pouring across the borderlands. A dialect of Common—Seafarer—comes freighted with nautical jargon and odd digressions in which the speaker offers mild oaths to the sea god."
+              }
+            },
+            "levelReq": 1,
+            "traditions": []
+          },
+          "benefit2": {
+            "spells": "0",
+            "stats": {
+              "naturalIncrease": 0,
+              "healthIncrease": 6,
+              "bonusDamage": 1,
+              "speedIncrease": 0,
+              "armoredIncrease": 0,
+              "naturalSet": 0,
+              "healthStarting": 0
+            },
+            "items": [
+              "Compendium.weirdwizard.talents.Item.jUAyOKf62V6GaTSQ"
+            ],
+            "levelReq": 2,
+            "languages": [],
+            "traditions": []
+          },
+          "benefit3": {
+            "spells": "0",
+            "items": [
+              "Compendium.weirdwizard.talents.Item.t1f5Nc3G380hS95s",
+              "Compendium.weirdwizard.talents.Item.eW0WbuqP9bRnbT6N"
+            ],
+            "stats": {
+              "naturalIncrease": 1,
+              "armoredIncrease": 1,
+              "healthIncrease": 6,
+              "bonusDamage": 1,
+              "naturalSet": 0,
+              "healthStarting": 0,
+              "speedIncrease": 0
+            },
+            "levelReq": 5,
+            "languages": [],
+            "traditions": []
+          },
+          "benefit4": {
+            "levelReq": 99,
+            "languages": [],
+            "stats": {
+              "naturalSet": 0,
+              "naturalIncrease": 0,
+              "armoredIncrease": 0,
+              "healthStarting": 0,
+              "healthIncrease": 0,
+              "speedIncrease": 0,
+              "bonusDamage": 0
+            },
+            "traditions": [],
+            "spells": "",
+            "items": []
+          }
+        },
+        "tier": "novice",
+        "description": {
+          "value": "No description."
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Extensive training prepared you for battle and you demonstrate your skill at arms in every contest, every engagement. You can wield any weapon with skill and have the durability to keep fighting when lesser warriors would fall. As a fighter, you rely on weapons and attack options to overwhelm your foes.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/skills/melee/weapons-crossed-swords-yellow-teal.webp",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": null,
+        "modifiedTime": 1757987715827,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": "kGme12W9Z7TQLrfG",
+      "_key": "!journal.pages!FR59A3RzQQcY9prI.aBJDqugMHeZwbKpu"
+    },
+    {
+      "sort": 300000,
+      "name": "Mage",
+      "type": "path",
+      "_id": "SkT2bVGDCHOBRiHn",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "tier": "novice",
+        "benefits": {
+          "benefit1": {
+            "levelReq": 1,
+            "languages": {
+              "arcane": {
+                "name": "Arcane",
+                "desc": ""
+              },
+              "common": {
+                "name": "Common",
+                "desc": "The Common tongue originated with a seafaring people and was important for facilitating trade. It became the dominant language in the Great Kingdom and has spread to the new lands from the lips of refugees pouring across the borderlands. A dialect of Common—Seafarer—comes freighted with nautical jargon and odd digressions in which the speaker offers mild oaths to the sea god."
+              }
+            },
+            "stats": {
+              "naturalSet": 8,
+              "naturalIncrease": 0,
+              "armoredIncrease": 0,
+              "healthStarting": 12,
+              "healthIncrease": 0,
+              "speedIncrease": 0,
+              "bonusDamage": 0
+            },
+            "traditions": {
+              "mageLevel1": {
+                "name": "Two",
+                "desc": ""
+              }
+            },
+            "spells": "4n",
+            "items": [
+              "Compendium.weirdwizard.talents.Item.Glkd69mbyqZUn0yC"
+            ]
+          },
+          "benefit2": {
+            "levelReq": 2,
+            "languages": [],
+            "stats": {
+              "naturalSet": 0,
+              "naturalIncrease": 0,
+              "armoredIncrease": 0,
+              "healthStarting": 0,
+              "healthIncrease": 2,
+              "speedIncrease": 0,
+              "bonusDamage": 0
+            },
+            "traditions": {
+              "mageLevel2": {
+                "name": "One",
+                "desc": ""
+              }
+            },
+            "spells": "2n",
+            "items": [
+              "Compendium.weirdwizard.talents.Item.SOXfV3feCK4Jz2s6"
+            ]
+          },
+          "benefit3": {
+            "levelReq": 5,
+            "languages": [],
+            "stats": {
+              "naturalSet": 0,
+              "naturalIncrease": 0,
+              "armoredIncrease": 0,
+              "healthStarting": 0,
+              "healthIncrease": 2,
+              "speedIncrease": 0,
+              "bonusDamage": 0
+            },
+            "traditions": [],
+            "spells": "1e",
+            "items": [
+              "Compendium.weirdwizard.talents.Item.N2cAax0wL8WZxthe"
+            ]
+          },
+          "benefit4": {
+            "levelReq": 99,
+            "languages": [],
+            "stats": {
+              "naturalSet": 0,
+              "naturalIncrease": 0,
+              "armoredIncrease": 0,
+              "healthStarting": 0,
+              "healthIncrease": 0,
+              "speedIncrease": 0,
+              "bonusDamage": 0
+            },
+            "traditions": [],
+            "spells": "",
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You learn real magic—not tricks and misdirection. From your hands, you can release gouts of flame. With a word, you can cross vast distances in an instant. You can call up monsters to fight on your behalf and consult with mind-boggling, diabolical beings. Learning magic requires time and energy, forcing you to neglect other areas of potential development, but then, who needs to be good with a sword when you can blast your enemies apart by speaking a few mystical words?</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/magic/perception/orb-crystal-ball-scrying-blue.webp",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744401549466,
+        "modifiedTime": 1757987720595,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": "kGme12W9Z7TQLrfG",
+      "_key": "!journal.pages!FR59A3RzQQcY9prI.SkT2bVGDCHOBRiHn"
+    },
+    {
+      "sort": 400000,
+      "name": "Priest",
+      "type": "path",
+      "_id": "8vk0wd5v8UvfO1Na",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "tier": "novice",
+        "benefits": {
+          "benefit1": {
+            "levelReq": 1,
+            "languages": {
+              "common": {
+                "name": "Common",
+                "desc": "The Common tongue originated with a seafaring people and was important for facilitating trade. It became the dominant language in the Great Kingdom and has spread to the new lands from the lips of refugees pouring across the borderlands. A dialect of Common—Seafarer—comes freighted with nautical jargon and odd digressions in which the speaker offers mild oaths to the sea god."
+              },
+              "language": {
+                "name": "New other language"
+              }
+            },
+            "stats": {
+              "naturalSet": 9,
+              "naturalIncrease": 0,
+              "armoredIncrease": 0,
+              "healthStarting": 14,
+              "healthIncrease": 0,
+              "speedIncrease": 0,
+              "bonusDamage": 0
+            },
+            "traditions": {
+              "priestLevel1": {
+                "name": "Two",
+                "desc": ""
+              }
+            },
+            "spells": "0",
+            "items": [
+              "Compendium.weirdwizard.talents.Item.W7w1u6hcK971sZJh",
+              "Compendium.weirdwizard.talents.Item.d96yA1ab7LB7d9XS"
+            ]
+          },
+          "benefit2": {
+            "levelReq": 2,
+            "languages": [],
+            "stats": {
+              "naturalSet": 0,
+              "naturalIncrease": 0,
+              "armoredIncrease": 0,
+              "healthStarting": 0,
+              "healthIncrease": 4,
+              "speedIncrease": 0,
+              "bonusDamage": 1
+            },
+            "traditions": [],
+            "spells": "2n",
+            "items": [
+              "Compendium.weirdwizard.talents.Item.3jN4UViEJJ3pV2hx"
+            ]
+          },
+          "benefit3": {
+            "levelReq": 5,
+            "languages": [],
+            "stats": {
+              "naturalSet": 0,
+              "naturalIncrease": 0,
+              "armoredIncrease": 0,
+              "healthStarting": 0,
+              "healthIncrease": 4,
+              "speedIncrease": 0,
+              "bonusDamage": 0
+            },
+            "traditions": [],
+            "spells": "1e",
+            "items": [
+              "Compendium.weirdwizard.talents.Item.3kwo9SuHXURIFZEr"
+            ]
+          },
+          "benefit4": {
+            "levelReq": 99,
+            "languages": [],
+            "stats": {
+              "naturalSet": 0,
+              "naturalIncrease": 0,
+              "armoredIncrease": 0,
+              "healthStarting": 0,
+              "healthIncrease": 0,
+              "speedIncrease": 0,
+              "bonusDamage": 0
+            },
+            "traditions": [],
+            "spells": "",
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>The gods chose you to represent them in the world, to be their champion, agent, and speaker for all their interests. You call upon magical energies from your divine patrons to cast spells and imbue your strikes with power. You can serve one god, many different gods, or no god at all, instead representing a spiritual belief or system of ethics.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/magic/holy/prayer-hands-glowing-yellow.webp",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744401657651,
+        "modifiedTime": 1757987724698,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": "kGme12W9Z7TQLrfG",
+      "_key": "!journal.pages!FR59A3RzQQcY9prI.8vk0wd5v8UvfO1Na"
+    },
+    {
+      "sort": 500000,
+      "name": "Rogue",
+      "type": "path",
+      "_id": "sHrXLClxwxIEaKWj",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "tier": "novice",
+        "benefits": {
+          "benefit1": {
+            "levelReq": 1,
+            "languages": {
+              "common": {
+                "desc": "The Common tongue originated with a seafaring people and was important for facilitating trade. It became the dominant language in the Great Kingdom and has spread to the new lands from the lips of refugees pouring across the borderlands. A dialect of Common—Seafarer—comes freighted with nautical jargon and odd digressions in which the speaker offers mild oaths to the sea god.",
+                "name": "Common"
+              },
+              "language": {
+                "name": "One other language"
+              }
+            },
+            "stats": {
+              "naturalSet": 11,
+              "naturalIncrease": 0,
+              "armoredIncrease": 0,
+              "healthStarting": 14,
+              "healthIncrease": 0,
+              "speedIncrease": 0,
+              "bonusDamage": 0
+            },
+            "traditions": [],
+            "spells": "0",
+            "items": [
+              "Compendium.weirdwizard.talents.Item.L1VW9FcoaB0jzej1",
+              "Compendium.weirdwizard.talents.Item.dGCyymUhguvWu0S4"
+            ]
+          },
+          "benefit2": {
+            "levelReq": 2,
+            "languages": [],
+            "stats": {
+              "naturalSet": 0,
+              "naturalIncrease": 0,
+              "armoredIncrease": 0,
+              "healthStarting": 0,
+              "healthIncrease": 4,
+              "speedIncrease": 0,
+              "bonusDamage": 0
+            },
+            "traditions": [],
+            "spells": "0",
+            "items": [
+              "Compendium.weirdwizard.talents.Item.XUsINZVPzeC5trhx",
+              "Compendium.weirdwizard.talents.Item.teygYu15nfjaMKoK"
+            ]
+          },
+          "benefit3": {
+            "levelReq": 5,
+            "languages": [],
+            "stats": {
+              "naturalSet": 0,
+              "naturalIncrease": 0,
+              "armoredIncrease": 0,
+              "healthStarting": 0,
+              "healthIncrease": 4,
+              "speedIncrease": 0,
+              "bonusDamage": 0
+            },
+            "traditions": [],
+            "spells": "0",
+            "items": [
+              "Compendium.weirdwizard.talents.Item.EHgNj3YT6Lkom5D0"
+            ]
+          },
+          "benefit4": {
+            "levelReq": 99,
+            "languages": [],
+            "stats": {
+              "naturalSet": 0,
+              "naturalIncrease": 0,
+              "armoredIncrease": 0,
+              "healthStarting": 0,
+              "healthIncrease": 0,
+              "speedIncrease": 0,
+              "bonusDamage": 0
+            },
+            "traditions": [],
+            "spells": "",
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You walk a crooked road, one with many twists and turns. As a result, you have a knack for being able to do a little bit of everything, whether you’re fighting in combat, casting a spell, solving puzzles, or running for your life.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/sundries/gaming/playing-cards.webp",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744401691011,
+        "modifiedTime": 1757987729225,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": "kGme12W9Z7TQLrfG",
+      "_key": "!journal.pages!FR59A3RzQQcY9prI.sHrXLClxwxIEaKWj"
+    },
+    {
+      "sort": 100000,
+      "name": "Novice Paths",
+      "type": "text",
+      "_id": "WRF8Ctjcnrqpi4ry",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>Creating a character involves making one big choice—your novice path—and a few smaller choices related to your path. At the start you choose one of four novice paths, each of which represent one of the great archetypes of fantasy heroes. The Novice Paths table offers descriptions for each path.</p><p>Your character begins play at level 1, just starting out on your life of adventure. As you complete quests, you learn to unlock more traits and specialize in certain areas. This advancement is represented in the game by attaining levels. At each new level, your character gains new abilities. The maximum level for characters is 10.</p><table><tbody><tr><td data-colwidth=\"66\"><p><strong>PATH</strong></p></td><td><p><strong>DESCRIPTION</strong></p></td></tr><tr><td data-colwidth=\"66\"><p>Fighter</p></td><td><p>A skilled combatant, trained in the use of all weaponry.</p></td></tr><tr><td data-colwidth=\"66\"><p>Mage</p></td><td><p>A dedicated spellcaster with access to a wide range of different spells.</p></td></tr><tr><td data-colwidth=\"66\"><p>Priest</p></td><td><p>A sworn servant of one or more gods.</p></td></tr><tr><td data-colwidth=\"66\"><p>Rogue</p></td><td><p>A devious adventurer who relies on cunning, skill, and luck.</p></td></tr></tbody></table><p></p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745100421288,
+        "modifiedTime": 1757988138425,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": "kGme12W9Z7TQLrfG",
+      "_key": "!journal.pages!FR59A3RzQQcY9prI.WRF8Ctjcnrqpi4ry"
+    }
+  ],
+  "folder": null,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744401445979,
+    "modifiedTime": 1757987794209,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_id": "FR59A3RzQQcY9prI",
+  "sort": -100000,
+  "categories": [
+    {
+      "name": "Novice Paths",
+      "sort": 100000,
+      "_id": "kGme12W9Z7TQLrfG",
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987700276,
+        "modifiedTime": 1757987700276,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "_key": "!journal.categories!FR59A3RzQQcY9prI.kGme12W9Z7TQLrfG"
+    }
+  ],
+  "_key": "!journal!FR59A3RzQQcY9prI"
+}

@@ -1,0 +1,54 @@
+{
+  "folder": "wR9LaCBbhRXvKPzU",
+  "name": "Wolf in Sheep's Clothing",
+  "type": "talent",
+  "_id": "STijj3H9c4BM5kcM",
+  "img": "icons/creatures/mammals/humanoid-cat-skulking-teal.webp",
+  "system": {
+    "description": {
+      "value": "<p>You can use an action to make yourself appear to be an ordinary animal of a kind suited to the nearby habitat. While this effect masks your appearance, you leave prints as you normally do and make noises you normally make, either from the gear you carry or what you say. Any creature that touches you can see through this magical disguise. The effect lasts 8 hours, but ends early if you harm another creature. You can use this talent once. You regain the use of it after you rest.</p>"
+    },
+    "active": true,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "trait",
+    "source": "tradition",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744755015302,
+    "modifiedTime": 1754186601531,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!STijj3H9c4BM5kcM"
+}

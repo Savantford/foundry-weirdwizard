@@ -1,0 +1,94 @@
+{
+  "name": "Hatchet",
+  "type": "equipment",
+  "_id": "7HV0q5qG3zTLHAdT",
+  "img": "icons/weapons/axes/shortaxe-yellow.webp",
+  "system": {
+    "description": {
+      "value": "<p>A hatchet is a single-edged blade sitting atop a shaft of wood or metal.</p>"
+    },
+    "active": true,
+    "quantity": 1,
+    "weightUnit": 1,
+    "price": {
+      "value": 5,
+      "coin": "cp"
+    },
+    "availability": "common",
+    "attribute": "str",
+    "against": "def",
+    "boons": 0,
+    "range": 5,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "weapon",
+    "quality": "standard",
+    "heldBy": "",
+    "requirements": "",
+    "damage": "1d6",
+    "grip": "Off",
+    "traits": {
+      "ammunition": false,
+      "bludgeoning": false,
+      "brutal": true,
+      "disarming": false,
+      "firearm": false,
+      "large": false,
+      "light": true,
+      "long": false,
+      "misfire": false,
+      "nimble": false,
+      "piercing": false,
+      "range": false,
+      "reload": false,
+      "slashing": false,
+      "slow": false,
+      "special": false,
+      "thrown": true,
+      "versatile": false
+    },
+    "attackRider": {
+      "value": {
+        "value": ""
+      },
+      "name": ""
+    },
+    "reloaded": true,
+    "armorType": "light",
+    "capacity": 1,
+    "grantedBy": null,
+    "magical": false
+  },
+  "effects": [],
+  "folder": "CGh2LhSduUMqiiy4",
+  "sort": 1000000,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1721406662611,
+    "modifiedTime": 1754186600547,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!7HV0q5qG3zTLHAdT"
+}

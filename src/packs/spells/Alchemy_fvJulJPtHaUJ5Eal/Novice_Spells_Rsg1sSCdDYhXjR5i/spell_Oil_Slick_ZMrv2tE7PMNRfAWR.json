@@ -1,0 +1,57 @@
+{
+  "folder": "Rsg1sSCdDYhXjR5i",
+  "name": "Oil Slick",
+  "type": "spell",
+  "_id": "ZMrv2tE7PMNRfAWR",
+  "img": "icons/magic/water/orb-water-bubbles-blue.webp",
+  "system": {
+    "description": {
+      "value": "<p>Slippery oil covers all exposed surfaces inside the target space. Such surfaces count as challenging terrain. Any creature in the space when you cast the spell, that enters it, or attempts to move through it makes an Agility roll. On a failure, the creature falls prone. The oil is flammable. Any prone creature or object in the target space that takes damage from fire catches fire (luck ends).</p>"
+    },
+    "active": false,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 1,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "tier": "novice",
+    "tradition": "",
+    "casting": "",
+    "target": "One Size 5 space within 5 yards",
+    "duration": "1 minute",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744752774747,
+    "modifiedTime": 1754186601639,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!ZMrv2tE7PMNRfAWR"
+}

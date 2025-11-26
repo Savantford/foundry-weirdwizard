@@ -1,0 +1,96 @@
+{
+  "name": "Maul",
+  "type": "equipment",
+  "system": {
+    "description": {
+      "value": "<p>A maul has a weighted, blunt sledge at the end of a long wooden haft.</p>"
+    },
+    "active": true,
+    "quantity": 1,
+    "weightUnit": 1,
+    "price": {
+      "value": 2,
+      "coin": "sp"
+    },
+    "availability": "common",
+    "attribute": "str",
+    "boons": 0,
+    "against": "def",
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": false,
+      "levelRelative": "manual"
+    },
+    "damage": "3d6",
+    "healing": "",
+    "subtype": "weapon",
+    "quality": "standard",
+    "grip": "Two",
+    "attackRider": {
+      "value": {
+        "value": ""
+      },
+      "name": ""
+    },
+    "reloaded": true,
+    "armorType": "light",
+    "instant": [],
+    "traits": {
+      "ammunition": false,
+      "brutal": false,
+      "firearm": false,
+      "long": false,
+      "nimble": false,
+      "range": false,
+      "special": false,
+      "thrown": false,
+      "versatile": false,
+      "large": true,
+      "slow": true,
+      "bludgeoning": true,
+      "disarming": false,
+      "light": false,
+      "misfire": false,
+      "piercing": false,
+      "reload": false,
+      "slashing": false
+    },
+    "requirements": "str13",
+    "grantedBy": null,
+    "magical": false,
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "heldBy": null,
+    "capacity": 1
+  },
+  "img": "icons/weapons/hammers/hammer-double-simple-worn.webp",
+  "effects": [],
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "coreVersion": "13.345",
+    "createdTime": 1692036040104,
+    "modifiedTime": 1754186600823,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
+  },
+  "folder": "CGh2LhSduUMqiiy4",
+  "_id": "ySquPBOgbMpVbAhO",
+  "sort": 300000,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "_key": "!items!ySquPBOgbMpVbAhO"
+}

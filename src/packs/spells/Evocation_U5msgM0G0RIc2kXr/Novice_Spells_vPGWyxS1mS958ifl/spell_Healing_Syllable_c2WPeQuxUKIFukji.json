@@ -1,0 +1,57 @@
+{
+  "folder": "vPGWyxS1mS958ifl",
+  "name": "Healing Syllable",
+  "type": "spell",
+  "_id": "c2WPeQuxUKIFukji",
+  "img": "icons/magic/light/orb-container-orange.webp",
+  "system": {
+    "description": {
+      "value": "<p>Pain washes away from people who hear your vocalization. A target heals 1d6 damage if you whisper, 2d6 damage if you speak, and 3d6 damage if you shout.</p>"
+    },
+    "active": false,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 1,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "tier": "novice",
+    "tradition": "",
+    "casting": "at level 1, 2 at level 3, or 4 at level 7, on your turn, no action required when you lack the confused, controlled, stunned, and unconscious afflictions",
+    "target": "Each creature in a Size 3 space centered on you if you whisper, a Size 10 space if you speak, or a Size 60 space if you shout",
+    "duration": "Instantaneous",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744753769755,
+    "modifiedTime": 1754186601675,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!c2WPeQuxUKIFukji"
+}

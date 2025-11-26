@@ -1,0 +1,57 @@
+{
+  "folder": "Rsg1sSCdDYhXjR5i",
+  "name": "Minor Animation",
+  "type": "spell",
+  "_id": "m68EK5sxifZkW7EX",
+  "img": "icons/magic/control/voodoo-doll-pain-damage-green.webp",
+  "system": {
+    "description": {
+      "value": "<p>The target twitches and shakes as the magic transforms it into a creation. The target becomes your controlled companion. The effect ends early if the target becomes incapacitated.</p><p><strong>Defense:</strong> 6, <strong>Health:</strong> 10</p><p><strong>Attributes:</strong> Strength 11 (+1), Agility 8 (–2), Intellect —, Will —</p><p><strong>Size:</strong> 1/4 to 1, <strong>Speed:</strong> 5</p><p><strong>Immune:</strong> asleep, blinded, confused, deafened, impaired, poisoned, stunned, weakened</p><p><strong>Melee Attack—Body:</strong> Strength (+1) with 1 bane (1d6)</p>"
+    },
+    "active": false,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 1,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "tier": "novice",
+    "tradition": "",
+    "casting": "",
+    "target": "One unsecured Size 1/4 to Size 1 object within 5 yards",
+    "duration": "1 minute",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744752491747,
+    "modifiedTime": 1754186601753,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!m68EK5sxifZkW7EX"
+}

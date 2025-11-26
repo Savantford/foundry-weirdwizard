@@ -1,0 +1,96 @@
+{
+  "name": "Sword",
+  "type": "equipment",
+  "system": {
+    "description": {
+      "value": "<p>A sword typically features a straight blade with an edge on both sides, a guard, and a handle.</p>"
+    },
+    "active": true,
+    "quantity": 1,
+    "weightUnit": 1,
+    "price": {
+      "value": 2,
+      "coin": "sp"
+    },
+    "availability": "common",
+    "attribute": "str",
+    "boons": 0,
+    "against": "def",
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": false,
+      "levelRelative": "manual"
+    },
+    "damage": "2d6",
+    "healing": "",
+    "subtype": "weapon",
+    "quality": "standard",
+    "grip": "One",
+    "attackRider": {
+      "value": {
+        "value": ""
+      },
+      "name": ""
+    },
+    "reloaded": true,
+    "armorType": "light",
+    "instant": [],
+    "traits": {
+      "ammunition": false,
+      "brutal": false,
+      "firearm": false,
+      "long": false,
+      "nimble": false,
+      "range": false,
+      "special": false,
+      "thrown": false,
+      "versatile": false,
+      "slashing": true,
+      "bludgeoning": false,
+      "disarming": false,
+      "large": false,
+      "light": false,
+      "misfire": false,
+      "piercing": false,
+      "reload": false,
+      "slow": false
+    },
+    "requirements": "",
+    "grantedBy": null,
+    "magical": false,
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "heldBy": null,
+    "capacity": 1
+  },
+  "img": "icons/weapons/swords/sword-guard-blue.webp",
+  "effects": [],
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "coreVersion": "13.345",
+    "createdTime": 1692035729091,
+    "modifiedTime": 1754186600530,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
+  },
+  "folder": "CGh2LhSduUMqiiy4",
+  "_id": "0u3rLO1CFHSf8aJw",
+  "sort": 100782,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "_key": "!items!0u3rLO1CFHSf8aJw"
+}

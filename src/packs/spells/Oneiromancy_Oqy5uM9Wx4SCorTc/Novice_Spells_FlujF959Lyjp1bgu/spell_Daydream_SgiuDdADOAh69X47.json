@@ -1,0 +1,57 @@
+{
+  "folder": "FlujF959Lyjp1bgu",
+  "name": "Daydream",
+  "type": "spell",
+  "_id": "SgiuDdADOAh69X47",
+  "img": "icons/magic/control/hypnosis-mesmerism-eye.webp",
+  "system": {
+    "description": {
+      "value": "<p>The target’s mind wanders into memory and imagination. Make an Intellect roll against the target’s Will. On a success, the target becomes confused and Will impaired (luck ends both). Until the affliction ends, all other creatures are invisible to the target, and the space out to 5 yards around it appears to be safe and comfortable. If harmed, the target makes an Intellect roll. On a success, it ends afflictions. If the target fails this roll, it becomes frightened of a Size 5 space centered on itself, as the once safe and comfortable area becomes treacherous and hopeless, until the confused and Will impaired afflictions end.</p>"
+    },
+    "active": false,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 1,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "tier": "novice",
+    "tradition": "",
+    "casting": "",
+    "target": "One creature within 5 yards",
+    "duration": "Instantaneous",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744754541930,
+    "modifiedTime": 1754186601540,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!SgiuDdADOAh69X47"
+}

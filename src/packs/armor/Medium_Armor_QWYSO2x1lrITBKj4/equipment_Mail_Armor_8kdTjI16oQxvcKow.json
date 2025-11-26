@@ -1,0 +1,147 @@
+{
+  "name": "Mail Armor",
+  "type": "equipment",
+  "img": "icons/equipment/chest/breastplate-banded-steel-gold.webp",
+  "system": {
+    "description": {
+      "value": "<p>Made from a mesh of interlocked rings designed to stop thrusts and cuts, mail is one of the most common types of armor in the borderlands.</p>"
+    },
+    "active": true,
+    "quantity": 1,
+    "weightUnit": 2,
+    "price": {
+      "value": 15,
+      "coin": "sp"
+    },
+    "availability": "uncommon",
+    "attribute": "",
+    "boons": 0,
+    "against": "",
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": false,
+      "levelRelative": "manual"
+    },
+    "damage": "",
+    "healing": "",
+    "subtype": "armor",
+    "quality": "standard",
+    "grip": "One-Handed",
+    "attackRider": {
+      "value": {
+        "value": ""
+      },
+      "name": ""
+    },
+    "reloaded": true,
+    "armorType": "medium",
+    "instant": [],
+    "requirements": "",
+    "traits": {
+      "ammunition": false,
+      "brutal": false,
+      "firearm": false,
+      "long": false,
+      "nimble": false,
+      "range": false,
+      "special": false,
+      "thrown": false,
+      "versatile": false,
+      "bludgeoning": false,
+      "disarming": false,
+      "large": false,
+      "light": false,
+      "misfire": false,
+      "piercing": false,
+      "reload": false,
+      "slashing": false,
+      "slow": false
+    },
+    "grantedBy": null,
+    "magical": false,
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "heldBy": null,
+    "capacity": 1
+  },
+  "effects": [
+    {
+      "name": "Armor Equipped",
+      "origin": "Compendium.weirdwizard.armor.Item.8kdTjI16oQxvcKow",
+      "duration": {
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "_id": "Nu6YqCTqVi1ErYX0",
+      "changes": [
+        {
+          "key": "defense.armored",
+          "value": "15",
+          "mode": 4,
+          "priority": 1
+        }
+      ],
+      "description": "",
+      "transfer": true,
+      "statuses": [],
+      "flags": {
+        "weirdwizard": {
+          "external": true,
+          "trigger": "passive",
+          "target": "none"
+        }
+      },
+      "tint": "#ffffff",
+      "_stats": {
+        "coreVersion": "13.345",
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null,
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "img": "icons/equipment/chest/breastplate-banded-steel-gold.webp",
+      "type": "base",
+      "system": {},
+      "sort": 0,
+      "_key": "!items.effects!8kdTjI16oQxvcKow.Nu6YqCTqVi1ErYX0"
+    }
+  ],
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "coreVersion": "13.345",
+    "createdTime": 1692116593788,
+    "modifiedTime": 1754186600399,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
+  },
+  "folder": "QWYSO2x1lrITBKj4",
+  "_id": "8kdTjI16oQxvcKow",
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "_key": "!items!8kdTjI16oQxvcKow"
+}

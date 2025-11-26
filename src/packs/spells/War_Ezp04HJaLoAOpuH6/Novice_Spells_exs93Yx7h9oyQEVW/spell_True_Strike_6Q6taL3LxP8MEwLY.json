@@ -1,0 +1,57 @@
+{
+  "folder": "exs93Yx7h9oyQEVW",
+  "name": "True Strike",
+  "type": "spell",
+  "_id": "6Q6taL3LxP8MEwLY",
+  "img": "icons/skills/melee/strike-dagger-arcane-pink.webp",
+  "system": {
+    "description": {
+      "value": "<p>Magic guides your hand to ensure your strike lands true. Roll damage as if you had succeeded with a roll to attack, and the attack deals an extra 1d6 damage.</p>"
+    },
+    "active": false,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 1,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "tier": "novice",
+    "tradition": "",
+    "casting": "",
+    "target": "One enemy in reach or within range of a weapon you are wielding",
+    "duration": "Instantaneous",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744757018381,
+    "modifiedTime": 1754186601256,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!6Q6taL3LxP8MEwLY"
+}

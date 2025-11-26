@@ -1,0 +1,147 @@
+{
+  "name": "Plate Armor",
+  "type": "equipment",
+  "img": "icons/equipment/chest/breastplate-layered-steel.webp",
+  "system": {
+    "description": {
+      "value": "<p>A suit of plate includes any armor that mostly covers the wearer with plating, while leaving the joints exposed to improve mobility.</p>"
+    },
+    "active": true,
+    "quantity": 1,
+    "weightUnit": 3,
+    "price": {
+      "value": 10,
+      "coin": "gp"
+    },
+    "availability": "rare",
+    "attribute": "",
+    "boons": 0,
+    "against": "",
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": false,
+      "levelRelative": "manual"
+    },
+    "damage": "",
+    "healing": "",
+    "subtype": "armor",
+    "quality": "standard",
+    "grip": "One-Handed",
+    "attackRider": {
+      "value": {
+        "value": ""
+      },
+      "name": ""
+    },
+    "reloaded": true,
+    "armorType": "heavy",
+    "instant": [],
+    "requirements": "",
+    "traits": {
+      "ammunition": false,
+      "brutal": false,
+      "firearm": false,
+      "long": false,
+      "nimble": false,
+      "range": false,
+      "special": false,
+      "thrown": false,
+      "versatile": false,
+      "bludgeoning": false,
+      "disarming": false,
+      "large": false,
+      "light": false,
+      "misfire": false,
+      "piercing": false,
+      "reload": false,
+      "slashing": false,
+      "slow": false
+    },
+    "grantedBy": null,
+    "magical": false,
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "heldBy": null,
+    "capacity": 1
+  },
+  "effects": [
+    {
+      "name": "Armor Equipped",
+      "origin": "Compendium.weirdwizard.armor.Item.TVwprbxmkTJ9YKJK",
+      "duration": {
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "_id": "bGFj5hdeAe7rXmCk",
+      "changes": [
+        {
+          "key": "defense.armored",
+          "value": "17",
+          "mode": 4,
+          "priority": 1
+        }
+      ],
+      "description": "",
+      "transfer": true,
+      "statuses": [],
+      "flags": {
+        "weirdwizard": {
+          "external": true,
+          "trigger": "passive",
+          "target": "none"
+        }
+      },
+      "tint": "#ffffff",
+      "_stats": {
+        "coreVersion": "13.345",
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null,
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "img": "icons/equipment/chest/breastplate-layered-steel.webp",
+      "type": "base",
+      "system": {},
+      "sort": 0,
+      "_key": "!items.effects!TVwprbxmkTJ9YKJK.bGFj5hdeAe7rXmCk"
+    }
+  ],
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "coreVersion": "13.345",
+    "createdTime": 1692116593788,
+    "modifiedTime": 1754186600445,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
+  },
+  "folder": "qg6b2lcnE2nBm9uW",
+  "_id": "TVwprbxmkTJ9YKJK",
+  "sort": 200000,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "_key": "!items!TVwprbxmkTJ9YKJK"
+}

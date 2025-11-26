@@ -1,0 +1,57 @@
+{
+  "folder": "FlujF959Lyjp1bgu",
+  "name": "Frighten",
+  "type": "spell",
+  "_id": "JdjdRyWpzHLZmeHL",
+  "img": "icons/magic/control/fear-fright-monster-purple-blue.webp",
+  "system": {
+    "description": {
+      "value": "<p>You amplify the target’s misgivings and doubts until it experiences naked terror. Make an Intellect roll against the target’s Will. On a success, the target becomes frightened of you (luck ends). On a critical success, the target becomes frightened of you for 1 minute instead. If you fail the roll, you regain the casting of this spell after 1 minute.</p>"
+    },
+    "active": false,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 3,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "tier": "novice",
+    "tradition": "",
+    "casting": "",
+    "target": "One creature with 10 yards",
+    "duration": "Instantaneous",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744754623734,
+    "modifiedTime": 1754186601396,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!JdjdRyWpzHLZmeHL"
+}

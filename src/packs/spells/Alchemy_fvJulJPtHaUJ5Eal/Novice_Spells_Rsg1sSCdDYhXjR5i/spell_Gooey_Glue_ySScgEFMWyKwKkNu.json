@@ -1,0 +1,57 @@
+{
+  "folder": "Rsg1sSCdDYhXjR5i",
+  "name": "Gooey Glue",
+  "type": "spell",
+  "_id": "ySScgEFMWyKwKkNu",
+  "img": "icons/creatures/webs/web-nest-ball-teal.webp",
+  "system": {
+    "description": {
+      "value": "<p>Thick, viscous slime covers all exposed surfaces inside the target space. Such surfaces count as challenging terrain. Any creature in the space when you cast the spell, that enters it, or attempts to move through it makes a Strength roll. On a failure, the creature becomes held until the spell ends. A creature can overcome this effect with a successful Strength roll.</p>"
+    },
+    "active": false,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 1,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "tier": "novice",
+    "tradition": "",
+    "casting": "",
+    "target": "One Size 5 space within 5 yards",
+    "duration": "1 minute",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744752440211,
+    "modifiedTime": 1754186601901,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!ySScgEFMWyKwKkNu"
+}

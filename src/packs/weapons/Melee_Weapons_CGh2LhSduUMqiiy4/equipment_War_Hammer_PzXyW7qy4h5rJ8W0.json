@@ -1,0 +1,94 @@
+{
+  "name": "War Hammer",
+  "type": "equipment",
+  "_id": "PzXyW7qy4h5rJ8W0",
+  "img": "icons/weapons/hammers/hammer-war-spiked.webp",
+  "system": {
+    "description": {
+      "value": "<p>This oversized hammer with a long haft is favored by dwarfs.</p>"
+    },
+    "active": true,
+    "quantity": 1,
+    "weightUnit": 1,
+    "price": {
+      "value": 1,
+      "coin": "gp"
+    },
+    "availability": "common",
+    "attribute": "str",
+    "against": "def",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "weapon",
+    "quality": "standard",
+    "heldBy": "",
+    "requirements": "str12",
+    "damage": "2d6",
+    "grip": "One",
+    "traits": {
+      "ammunition": false,
+      "bludgeoning": true,
+      "brutal": false,
+      "disarming": false,
+      "firearm": false,
+      "large": false,
+      "light": false,
+      "long": false,
+      "misfire": false,
+      "nimble": false,
+      "piercing": false,
+      "range": false,
+      "reload": false,
+      "slashing": false,
+      "slow": true,
+      "special": false,
+      "thrown": false,
+      "versatile": true
+    },
+    "attackRider": {
+      "value": {
+        "value": ""
+      },
+      "name": ""
+    },
+    "reloaded": true,
+    "armorType": "light",
+    "capacity": 1,
+    "grantedBy": null,
+    "magical": false
+  },
+  "effects": [],
+  "folder": "CGh2LhSduUMqiiy4",
+  "sort": 100391,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1721413942337,
+    "modifiedTime": 1754186600654,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!PzXyW7qy4h5rJ8W0"
+}

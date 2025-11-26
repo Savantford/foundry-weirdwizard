@@ -1,0 +1,26 @@
+{
+  "name": "Novice Spells",
+  "sorting": "a",
+  "folder": "Oqy5uM9Wx4SCorTc",
+  "type": "Item",
+  "_id": "FlujF959Lyjp1bgu",
+  "description": "",
+  "sort": 0,
+  "color": null,
+  "flags": {
+    "weirdwizard": {
+      "description": ""
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_key": "!folders!FlujF959Lyjp1bgu"
+}

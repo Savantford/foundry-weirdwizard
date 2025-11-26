@@ -1,0 +1,22 @@
+{
+  "name": "Fighter",
+  "sorting": "a",
+  "folder": "VxqVeJ1lmWx4xTbW",
+  "type": "Item",
+  "_id": "q1MV8P3UBR3280Pi",
+  "description": "",
+  "sort": 0,
+  "color": null,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.328",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": null,
+    "modifiedTime": 1720986505144,
+    "lastModifiedBy": "zin7Kb6P2LomswaD"
+  },
+  "_key": "!folders!q1MV8P3UBR3280Pi"
+}

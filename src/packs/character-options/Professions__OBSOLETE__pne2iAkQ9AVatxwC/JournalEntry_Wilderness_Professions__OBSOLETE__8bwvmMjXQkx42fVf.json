@@ -1,0 +1,585 @@
+{
+  "folder": "pne2iAkQ9AVatxwC",
+  "name": "Wilderness Professions (OBSOLETE)",
+  "_id": "8bwvmMjXQkx42fVf",
+  "pages": [
+    {
+      "sort": 0,
+      "name": "Introduction",
+      "type": "text",
+      "_id": "9td2p5F6HgNt8d7A",
+      "system": {},
+      "title": {
+        "show": false,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<div class=\"icon-frame w-50 float-right\"><img src=\"systems/weirdwizard/assets/icons/professions/compass.svg\" /></div><p>You learned how to survive in the wild places of the world.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "[object Object]",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.ot4wxPHlAIquNiTV.JournalEntryPage.9td2p5F6HgNt8d7A",
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745095434578,
+        "modifiedTime": 1745096407818,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!8bwvmMjXQkx42fVf.9td2p5F6HgNt8d7A"
+    },
+    {
+      "sort": 100000,
+      "name": "Beggar (OBSOLETE)",
+      "type": "profession",
+      "_id": "Yhp1L7fLtDILEkbT",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "wilderness",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You travel from place to place, living off the charity of others. You might suffer some malady, such as leprosy, have fallen on hard times, or just prefer the hobo life. You have a quarterstaff.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/compass.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745100119144,
+        "modifiedTime": 1760715891400,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!8bwvmMjXQkx42fVf.Yhp1L7fLtDILEkbT"
+    },
+    {
+      "sort": 200000,
+      "name": "Forester (OBSOLETE)",
+      "type": "profession",
+      "_id": "9pXfZdd8515C9ifk",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "wilderness",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You worked as a game warden for a noble’s pre- serve. You have a bow and arrows.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/compass.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745100146185,
+        "modifiedTime": 1760715894480,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!8bwvmMjXQkx42fVf.9pXfZdd8515C9ifk"
+    },
+    {
+      "sort": 300000,
+      "name": "Gatherer (OBSOLETE)",
+      "type": "profession",
+      "_id": "odEWMFdGf4YI9g3T",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "wilderness",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You lived by gathering what you could forage from the land. You have two poultices.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/compass.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745100158834,
+        "modifiedTime": 1760715897185,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!8bwvmMjXQkx42fVf.odEWMFdGf4YI9g3T"
+    },
+    {
+      "sort": 400000,
+      "name": "Hunter (OBSOLETE)",
+      "type": "profession",
+      "_id": "mtJ1anX4EOCjmLJX",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "wilderness",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You stalked game through the wild places, hunting them for meat and materials. You have a bow and arrows.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/compass.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745100175368,
+        "modifiedTime": 1760715900328,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!8bwvmMjXQkx42fVf.mtJ1anX4EOCjmLJX"
+    },
+    {
+      "sort": 500000,
+      "name": "Nomad (OBSOLETE)",
+      "type": "profession",
+      "_id": "7W2O5pvFQeED2WGd",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "wilderness",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You belonged to a traveling people. You might have followed your herds, been performers who traveled from town to town, or belonged to a people displaced from your homeland. You have a quarterstaff.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/compass.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745100194384,
+        "modifiedTime": 1760715903800,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!8bwvmMjXQkx42fVf.7W2O5pvFQeED2WGd"
+    },
+    {
+      "sort": 600000,
+      "name": "Pilgrim (OBSOLETE)",
+      "type": "profession",
+      "_id": "G2b7yiwr1DOsIvOL",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "wilderness",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You traveled to sites deemed holy by your faith: places where saints performed miracles or where the gods have walked among mortals, and shrines and temples believed to hold relics of your faith. You have a quarterstaff.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/compass.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745100217905,
+        "modifiedTime": 1760715906931,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!8bwvmMjXQkx42fVf.G2b7yiwr1DOsIvOL"
+    },
+    {
+      "sort": 700000,
+      "name": "Prospect (OBSOLETE)",
+      "type": "profession",
+      "_id": "PEpk3Hjimear9DSN",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "wilderness",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You traveled into the wilderness searching for precious metals. You have a tool kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/compass.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745100239617,
+        "modifiedTime": 1760715910039,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!8bwvmMjXQkx42fVf.PEpk3Hjimear9DSN"
+    },
+    {
+      "sort": 800000,
+      "name": "Recluse (OBSOLETE)",
+      "type": "profession",
+      "_id": "45SLfsohbZPE9Wmw",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "wilderness",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You retreated from the world to contemplate the nature of divinity in isolation. You know how to forage for provisions and clean water. You have a quarterstaff.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/compass.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745100261113,
+        "modifiedTime": 1760715913329,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!8bwvmMjXQkx42fVf.45SLfsohbZPE9Wmw"
+    },
+    {
+      "sort": 900000,
+      "name": "Spelunker (OBSOLETE)",
+      "type": "profession",
+      "_id": "WC5gQTPyhGvvub8c",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "wilderness",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You explore caves and caverns. You have rope, a lantern, oil, and a tinderbox.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/compass.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745100277984,
+        "modifiedTime": 1760715916256,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!8bwvmMjXQkx42fVf.WC5gQTPyhGvvub8c"
+    },
+    {
+      "sort": 1000000,
+      "name": "Woodcutter (OBSOLETE)",
+      "type": "profession",
+      "_id": "mZFfgP2FAZqMVeWi",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "wilderness",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You cut timber from forests. You have an axe.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/compass.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745100293088,
+        "modifiedTime": 1760715919148,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!8bwvmMjXQkx42fVf.mZFfgP2FAZqMVeWi"
+    }
+  ],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1745095403029,
+    "modifiedTime": 1760716010185,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "categories": [],
+  "_key": "!journal!8bwvmMjXQkx42fVf"
+}

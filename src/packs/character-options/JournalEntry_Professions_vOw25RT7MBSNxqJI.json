@@ -1,0 +1,5030 @@
+{
+  "name": "Professions",
+  "_id": "vOw25RT7MBSNxqJI",
+  "pages": [
+    {
+      "sort": 100000,
+      "name": "Academic Professions",
+      "type": "text",
+      "_id": "9td2p5F6HgNt8d7A",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<div class=\"icon-frame w-50 float-right\"><img src=\"icons/svg/book.svg\" /></div><p>You received a formal education or specialized training.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "[object Object]",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.ot4wxPHlAIquNiTV.JournalEntryPage.9td2p5F6HgNt8d7A",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757982499100,
+        "modifiedTime": 1757987969003,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "aJfZO1yxfjf4VmiU",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.9td2p5F6HgNt8d7A"
+    },
+    {
+      "sort": 200000,
+      "name": "Apothecary",
+      "type": "profession",
+      "_id": "rOntqZUneFkCaywf",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "academic",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You learned the medicinal properties of herbs, roots, and other useful plants. You have either a dose of antitoxin or a dose of poison.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/svg/book.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.ot4wxPHlAIquNiTV.JournalEntryPage.rOntqZUneFkCaywf",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757982500957,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "aJfZO1yxfjf4VmiU",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.rOntqZUneFkCaywf"
+    },
+    {
+      "sort": 300000,
+      "name": "Apprentice Magician",
+      "type": "profession",
+      "_id": "1nJc2pc059l7Shc2",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "academic",
+        "benefits": {
+          "benefit1": {
+            "languages": {
+              "academic": {
+                "name": "Academic",
+                "desc": "",
+                "grantedBy": null
+              }
+            },
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You studied under a magician to learn all you could of magic. You understand the principles that form the foundation of magic and hope to learn your first spell soon.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/svg/book.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.ot4wxPHlAIquNiTV.JournalEntryPage.1nJc2pc059l7Shc2",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757982503452,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "aJfZO1yxfjf4VmiU",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.1nJc2pc059l7Shc2"
+    },
+    {
+      "sort": 400000,
+      "name": "Astrologer",
+      "type": "profession",
+      "_id": "lgYpljW5qa1P3shb",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "academic",
+        "benefits": {
+          "benefit1": {
+            "languages": {
+              "oldTongue": {
+                "name": "Old Tongue",
+                "desc": "",
+                "grantedBy": null
+              }
+            },
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You made a study of the stars. You can identify the constellations, divine their meaning, and interpret the movements of heavenly bodies. You have a bundle of star charts and a writing kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/svg/book.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.ot4wxPHlAIquNiTV.JournalEntryPage.lgYpljW5qa1P3shb",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757982504933,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "aJfZO1yxfjf4VmiU",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.lgYpljW5qa1P3shb"
+    },
+    {
+      "sort": 500000,
+      "name": "Doctor",
+      "type": "profession",
+      "_id": "r2GTRwoKurcOj6sn",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "academic",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Your studies of anatomy, medicine, and treatment methods combine to make you a dependable healer. You have a healer’s kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/svg/book.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.ot4wxPHlAIquNiTV.JournalEntryPage.r2GTRwoKurcOj6sn",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757982506149,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "aJfZO1yxfjf4VmiU",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.r2GTRwoKurcOj6sn"
+    },
+    {
+      "sort": 600000,
+      "name": "Folklorist",
+      "type": "profession",
+      "_id": "EGbXrW2ShQzgZB4t",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "academic",
+        "benefits": {
+          "benefit1": {
+            "languages": {
+              "sylvan": {
+                "name": "Sylvan",
+                "desc": "",
+                "grantedBy": null
+              }
+            },
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You study the local legends, superstitions, and customs of your community and of neighboring lands. As part of your research, you also learned a bit about the faeries.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/svg/book.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.ot4wxPHlAIquNiTV.JournalEntryPage.EGbXrW2ShQzgZB4t",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757982507910,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "aJfZO1yxfjf4VmiU",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.EGbXrW2ShQzgZB4t"
+    },
+    {
+      "sort": 700000,
+      "name": "Inventor",
+      "type": "profession",
+      "_id": "E5Vl5cNSw03RPCdy",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "academic",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You build interesting machines in your workshop. You have a tool kit and one set of spare parts.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/svg/book.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.ot4wxPHlAIquNiTV.JournalEntryPage.E5Vl5cNSw03RPCdy",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757982509870,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "aJfZO1yxfjf4VmiU",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.E5Vl5cNSw03RPCdy"
+    },
+    {
+      "sort": 800000,
+      "name": "Naturalist",
+      "type": "profession",
+      "_id": "WGI4gVaYdTeQlmUA",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "academic",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>The life sciences dominated your educational pursuits, and thus you now know much about animals, the natural world, and the weather. You have two poultices.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/svg/book.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.ot4wxPHlAIquNiTV.JournalEntryPage.WGI4gVaYdTeQlmUA",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757982511758,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "aJfZO1yxfjf4VmiU",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.WGI4gVaYdTeQlmUA"
+    },
+    {
+      "sort": 900000,
+      "name": "Occultist",
+      "type": "profession",
+      "_id": "W6xTGk5DKp3MMhpB",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "academic",
+        "benefits": {
+          "benefit1": {
+            "languages": {
+              "archaic": {
+                "name": "Archaic",
+                "desc": "",
+                "grantedBy": null
+              }
+            },
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You looked into the dark places to gain an understanding of things and concepts that others deem forbidden. You know about demons, the Void, fiends, the Underworld, and the Netherworld. You have an occultist’s kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/svg/book.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.ot4wxPHlAIquNiTV.JournalEntryPage.W6xTGk5DKp3MMhpB",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757982513463,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "aJfZO1yxfjf4VmiU",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.W6xTGk5DKp3MMhpB"
+    },
+    {
+      "sort": 1000000,
+      "name": "Philosopher",
+      "type": "profession",
+      "_id": "niljgtZtd9V5lNsR",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "academic",
+        "benefits": {
+          "benefit1": {
+            "languages": {
+              "archaicOrKingdom": {
+                "name": "Archaic or Kingdom",
+                "desc": "",
+                "grantedBy": null
+              }
+            },
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You studied the nature of reality, space, time, and ethics, and the question of what it means to be.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/svg/book.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.ot4wxPHlAIquNiTV.JournalEntryPage.niljgtZtd9V5lNsR",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757982515055,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "aJfZO1yxfjf4VmiU",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.niljgtZtd9V5lNsR"
+    },
+    {
+      "sort": 1100000,
+      "name": "Politician",
+      "type": "profession",
+      "_id": "J5y2ALjOHPBcR6LX",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "academic",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You know how to navigate the ins and outs of bureaucracies. You might have held political office or aided those who did. You have a set of superior clothing.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/svg/book.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.ot4wxPHlAIquNiTV.JournalEntryPage.J5y2ALjOHPBcR6LX",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757982516214,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "aJfZO1yxfjf4VmiU",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.J5y2ALjOHPBcR6LX"
+    },
+    {
+      "sort": 1200000,
+      "name": "Aristocratic Professions",
+      "type": "text",
+      "_id": "d77QYDTFcA6IZvcm",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<div class=\"icon-frame w-50 float-right\"><img src=\"systems/weirdwizard/assets/icons/professions/wax-seal.svg\" /></div><p>You come from money and status.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "[object Object]",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.oft36PGLISpeBfo5.JournalEntryPage.d77QYDTFcA6IZvcm",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983603609,
+        "modifiedTime": 1757987983738,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "RG7T9o85bFPgLrkA",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.d77QYDTFcA6IZvcm"
+    },
+    {
+      "sort": 1300000,
+      "name": "Carouser",
+      "type": "profession",
+      "_id": "YXYLwixqjQFkT9IK",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "aristocratic",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>A lesser scion of a noble house, you spent your days frittering away your inheritance in gambling halls and taverns. You have a deck of cards or a set of dice.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/wax-seal.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.oft36PGLISpeBfo5.JournalEntryPage.YXYLwixqjQFkT9IK",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983607680,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "RG7T9o85bFPgLrkA",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.YXYLwixqjQFkT9IK"
+    },
+    {
+      "sort": 1400000,
+      "name": "Dilettante",
+      "type": "profession",
+      "_id": "GraEoLJMST4nKC9c",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "aristocratic",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You were a patron to artists, poets, and musicians; you gave funds to anyone who impressed you. You have a work of art created by one of those under your patronage that could be worth as much as 1 gp.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/wax-seal.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.oft36PGLISpeBfo5.JournalEntryPage.GraEoLJMST4nKC9c",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983609464,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "RG7T9o85bFPgLrkA",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.GraEoLJMST4nKC9c"
+    },
+    {
+      "sort": 1500000,
+      "name": "Merchant",
+      "type": "profession",
+      "_id": "gVXLFqKDqivA5VOM",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "aristocratic",
+        "benefits": {
+          "benefit1": {
+            "languages": {
+              "non-secretLanguage": {
+                "name": "Non-Secret Language",
+                "desc": "",
+                "grantedBy": null
+              }
+            },
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You belonged to the class of the newly rich, having made your money in commerce rather than through inheritance. Your wealth opened doors for you, but you nev- er found acceptance among the elite. You have a cart and a pack animal to draw it.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/wax-seal.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.oft36PGLISpeBfo5.JournalEntryPage.gVXLFqKDqivA5VOM",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983611119,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "RG7T9o85bFPgLrkA",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.gVXLFqKDqivA5VOM"
+    },
+    {
+      "sort": 1600000,
+      "name": "Landholder",
+      "type": "profession",
+      "_id": "Ci9B7fjD2fhdW8ug",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "aristocratic",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You owned an extensive plot of land and likely had a noble title to go with your holdings. You have a sword.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/wax-seal.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.oft36PGLISpeBfo5.JournalEntryPage.Ci9B7fjD2fhdW8ug",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983613671,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "RG7T9o85bFPgLrkA",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.Ci9B7fjD2fhdW8ug"
+    },
+    {
+      "sort": 1700000,
+      "name": "Influencer",
+      "type": "profession",
+      "_id": "I0DufUVrcGND0xyF",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "aristocratic",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Your opinions determined which trends and fads swept through the upper classes. You were renowned for your impeccable taste and often envied for your life of luxury. You have a set of superior clothing.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/wax-seal.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.oft36PGLISpeBfo5.JournalEntryPage.I0DufUVrcGND0xyF",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983615666,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "RG7T9o85bFPgLrkA",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.I0DufUVrcGND0xyF"
+    },
+    {
+      "sort": 1800000,
+      "name": "Commoner Professions",
+      "type": "text",
+      "_id": "o8uVtvTTO0bxKf5g",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<div class=\"icon-frame w-50 float-right\"><img src=\"systems/weirdwizard/assets/icons/professions/dig-dug.svg\" /></div><p>You come from the ranks of ordinary people.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "[object Object]",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.hPz0MAZHDS7xQUPo.JournalEntryPage.o8uVtvTTO0bxKf5g",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983853769,
+        "modifiedTime": 1757987991954,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "zgPy8vOnkl9fkIRQ",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.o8uVtvTTO0bxKf5g"
+    },
+    {
+      "sort": 1900000,
+      "name": "Baker",
+      "type": "profession",
+      "_id": "RiUJ29tsqCNf0tZ9",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You worked in a bakery and learned how to bake breads, cakes, pies, and pastries. You have a set of kitchen utensils.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.hPz0MAZHDS7xQUPo.JournalEntryPage.RiUJ29tsqCNf0tZ9",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983856264,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "zgPy8vOnkl9fkIRQ",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.RiUJ29tsqCNf0tZ9"
+    },
+    {
+      "sort": 2000000,
+      "name": "Bartender",
+      "type": "profession",
+      "_id": "HyctfjQ5ljzZhXB8",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You sold drinks to earn your pay. You know all about beverages, alcoholic and otherwise. You have a small cask of beer and two bottles of spirits.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.hPz0MAZHDS7xQUPo.JournalEntryPage.HyctfjQ5ljzZhXB8",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983859018,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "zgPy8vOnkl9fkIRQ",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.HyctfjQ5ljzZhXB8"
+    },
+    {
+      "sort": 2100000,
+      "name": "Carpenter",
+      "type": "profession",
+      "_id": "NEwZyPETc57Ydqs7",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You know how to cut wood and join pieces of it to produce anything from small chests to furniture to entire dwellings. You have a tool kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.hPz0MAZHDS7xQUPo.JournalEntryPage.NEwZyPETc57Ydqs7",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983861465,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "zgPy8vOnkl9fkIRQ",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.NEwZyPETc57Ydqs7"
+    },
+    {
+      "sort": 2200000,
+      "name": "Cook",
+      "type": "profession",
+      "_id": "mQxU6sVjYWeJfirl",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You might have been a cook in a camp, charged with rationing provisions, or you could have been a chef at a restaurant where you created culinary masterpieces. You have a dagger and a pair of kitchen knives.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.hPz0MAZHDS7xQUPo.JournalEntryPage.mQxU6sVjYWeJfirl",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983863450,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "zgPy8vOnkl9fkIRQ",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.mQxU6sVjYWeJfirl"
+    },
+    {
+      "sort": 2300000,
+      "name": "Exterminator",
+      "type": "profession",
+      "_id": "Zg86x2sd1icHrBXr",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You made your living by hunting rats and other vermin. You have a net and a dog.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.hPz0MAZHDS7xQUPo.JournalEntryPage.Zg86x2sd1icHrBXr",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983865786,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "zgPy8vOnkl9fkIRQ",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.Zg86x2sd1icHrBXr"
+    },
+    {
+      "sort": 2400000,
+      "name": "Farmer",
+      "type": "profession",
+      "_id": "W2n4FRWI0u1xgasc",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You worked the land to produce crops for your family and for sale at the market. You might also have raised livestock. You have a pitchfork (treat as an improvised weapon).</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.hPz0MAZHDS7xQUPo.JournalEntryPage.W2n4FRWI0u1xgasc",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983868307,
+        "modifiedTime": 1757984430549,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "zgPy8vOnkl9fkIRQ",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.W2n4FRWI0u1xgasc"
+    },
+    {
+      "sort": 2500000,
+      "name": "Fisher",
+      "type": "profession",
+      "_id": "V6o6dNuNSWAIVQAZ",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You know how to pilot a small boat and how to catch fish either in freshwater or on the open seas. You have a fishing pole, line, lures, and a net.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.hPz0MAZHDS7xQUPo.JournalEntryPage.V6o6dNuNSWAIVQAZ",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983870706,
+        "modifiedTime": 1757984430549,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "zgPy8vOnkl9fkIRQ",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.V6o6dNuNSWAIVQAZ"
+    },
+    {
+      "sort": 2600000,
+      "name": "Gravedigger",
+      "type": "profession",
+      "_id": "YYx0ttcpX3Ql9BRi",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You handled corpses for a living. You could have been a digger of graves or a collector of corpses for some purpose. You have a shovel (treat as an improvised weapon).</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.hPz0MAZHDS7xQUPo.JournalEntryPage.YYx0ttcpX3Ql9BRi",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983885011,
+        "modifiedTime": 1757984430549,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "zgPy8vOnkl9fkIRQ",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.YYx0ttcpX3Ql9BRi"
+    },
+    {
+      "sort": 2700000,
+      "name": "Groom",
+      "type": "profession",
+      "_id": "zGDn1xcP9VcTiisN",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You cared for horses and perhaps other animals and helped train them to perform certain activities. You have a tool kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.hPz0MAZHDS7xQUPo.JournalEntryPage.zGDn1xcP9VcTiisN",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983887819,
+        "modifiedTime": 1757984430549,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "zgPy8vOnkl9fkIRQ",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.zGDn1xcP9VcTiisN"
+    },
+    {
+      "sort": 2800000,
+      "name": "Herder",
+      "type": "profession",
+      "_id": "hvSku0OzFJQLAaHi",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You watched over a flock of sheep, a herd of goats or cows, or another form of livestock. You have either a sling or a quarterstaff.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.hPz0MAZHDS7xQUPo.JournalEntryPage.hvSku0OzFJQLAaHi",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983890659,
+        "modifiedTime": 1757984430549,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "zgPy8vOnkl9fkIRQ",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.hvSku0OzFJQLAaHi"
+    },
+    {
+      "sort": 2900000,
+      "name": "Jeweler",
+      "type": "profession",
+      "_id": "YfgJ6N9ugWdgpZuT",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You made jewelry from precious metals and stones. You can ascertain the value of such things by examining them. You have a tool kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.hPz0MAZHDS7xQUPo.JournalEntryPage.YfgJ6N9ugWdgpZuT",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983894330,
+        "modifiedTime": 1757984430549,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "zgPy8vOnkl9fkIRQ",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.YfgJ6N9ugWdgpZuT"
+    },
+    {
+      "sort": 3000000,
+      "name": "Laborer",
+      "type": "profession",
+      "_id": "vR0ylMXUyzEk0rzY",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You performed manual labor for whoever paid you. You could have worked as a porter, a stevedore, or at some other job that involved moving heavy objects. You have a club.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.hPz0MAZHDS7xQUPo.JournalEntryPage.vR0ylMXUyzEk0rzY",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983896075,
+        "modifiedTime": 1757984430549,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "zgPy8vOnkl9fkIRQ",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.vR0ylMXUyzEk0rzY"
+    },
+    {
+      "sort": 3100000,
+      "name": "Mason",
+      "type": "profession",
+      "_id": "K7InqY8M1wXewJfO",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You worked with stone, shaping it into blocks and mortaring those blocks into larger shapes. You have a tool kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.hPz0MAZHDS7xQUPo.JournalEntryPage.K7InqY8M1wXewJfO",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983899747,
+        "modifiedTime": 1757984430549,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "zgPy8vOnkl9fkIRQ",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.K7InqY8M1wXewJfO"
+    },
+    {
+      "sort": 3200000,
+      "name": "Miner",
+      "type": "profession",
+      "_id": "UZQSY5nfKxOAkPJG",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You dug ore out of the ground. You have a mattock.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.hPz0MAZHDS7xQUPo.JournalEntryPage.UZQSY5nfKxOAkPJG",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983902371,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "zgPy8vOnkl9fkIRQ",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.UZQSY5nfKxOAkPJG"
+    },
+    {
+      "sort": 3300000,
+      "name": "Sailor",
+      "type": "profession",
+      "_id": "8gHJx3O9fLh9OXo4",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You worked on a ship and helped keep the vessel in good working order. You have a dagger and a coil of rope.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.hPz0MAZHDS7xQUPo.JournalEntryPage.8gHJx3O9fLh9OXo4",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983905211,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "zgPy8vOnkl9fkIRQ",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.8gHJx3O9fLh9OXo4"
+    },
+    {
+      "sort": 3400000,
+      "name": "Servant",
+      "type": "profession",
+      "_id": "DH1vxvjv3B5tmcDn",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Maybe you waited tables in a tavern. You could have been a scullery worker, washing pots and pans for a noble household. You might also have served as a butler, a valet, a maid, or in some other similar capacity. You have a uniform.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.hPz0MAZHDS7xQUPo.JournalEntryPage.DH1vxvjv3B5tmcDn",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983907916,
+        "modifiedTime": 1757984131342,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "zgPy8vOnkl9fkIRQ",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.DH1vxvjv3B5tmcDn"
+    },
+    {
+      "sort": 3600000,
+      "name": "Shopkeeper",
+      "type": "profession",
+      "_id": "jqIvTdGvHqek42mT",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You ran a small shop selling minor baubles and other curios. You have three pieces of cheap jewelry.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.hPz0MAZHDS7xQUPo.JournalEntryPage.jqIvTdGvHqek42mT",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983912067,
+        "modifiedTime": 1757987187566,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "zgPy8vOnkl9fkIRQ",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.jqIvTdGvHqek42mT"
+    },
+    {
+      "sort": 3700000,
+      "name": "Smith",
+      "type": "profession",
+      "_id": "qcPccIqI95CRkbhK",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You worked at a forge, pounding metal ingots into different forms. You have a hammer.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.hPz0MAZHDS7xQUPo.JournalEntryPage.qcPccIqI95CRkbhK",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983915227,
+        "modifiedTime": 1757987187566,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "zgPy8vOnkl9fkIRQ",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.qcPccIqI95CRkbhK"
+    },
+    {
+      "sort": 3800000,
+      "name": "Tanner",
+      "type": "profession",
+      "_id": "DbBNGzzPRWwZp2Te",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You turned raw animal hides into leather suitable for making clothing, gear, and armor. You have a quarterstaff.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.hPz0MAZHDS7xQUPo.JournalEntryPage.DbBNGzzPRWwZp2Te",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983918316,
+        "modifiedTime": 1757987187566,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "zgPy8vOnkl9fkIRQ",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.DbBNGzzPRWwZp2Te"
+    },
+    {
+      "sort": 3900000,
+      "name": "Teamster",
+      "type": "profession",
+      "_id": "tANGr0wS3WgED8dL",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "commoner",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You drove a cart, wagon, carriage, or some other vehicle for commercial purposes. You have a whip.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/dig-dug.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.hPz0MAZHDS7xQUPo.JournalEntryPage.tANGr0wS3WgED8dL",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983920459,
+        "modifiedTime": 1757987187566,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "zgPy8vOnkl9fkIRQ",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.tANGr0wS3WgED8dL"
+    },
+    {
+      "sort": 3500000,
+      "name": "Criminal Professions",
+      "type": "text",
+      "_id": "q9Zmh3oG8mnx9FuW",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<div class=\"icon-frame w-50 float-right\"><img src=\"systems/weirdwizard/assets/icons/professions/manacles.svg\" /></div><p>You learn a trade that operates outside or against the law, or that works to prevent such activity.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "[object Object]",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.gIhUtIir8AKnsJOd.JournalEntryPage.q9Zmh3oG8mnx9FuW",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757984193453,
+        "modifiedTime": 1757988002078,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "sEfF3v2npKhOvP9z",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.q9Zmh3oG8mnx9FuW"
+    },
+    {
+      "sort": 4000000,
+      "name": "Bandit",
+      "type": "profession",
+      "_id": "Gs1mz5N16spqx5Ey",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "criminal",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You waylaid and robbed travelers to earn enough coin to survive. You have a bow and arrows.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/manacles.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.gIhUtIir8AKnsJOd.JournalEntryPage.Gs1mz5N16spqx5Ey",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757984196340,
+        "modifiedTime": 1757987187566,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "sEfF3v2npKhOvP9z",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.Gs1mz5N16spqx5Ey"
+    },
+    {
+      "sort": 4100000,
+      "name": "Burglar",
+      "type": "profession",
+      "_id": "QJ3fvVwNKfb9N5bi",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "criminal",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You made ends meet by breaking into buildings and pilfering their contents. You have a set of lock picks.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/manacles.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.gIhUtIir8AKnsJOd.JournalEntryPage.QJ3fvVwNKfb9N5bi",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757984199948,
+        "modifiedTime": 1757987187566,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "sEfF3v2npKhOvP9z",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.QJ3fvVwNKfb9N5bi"
+    },
+    {
+      "sort": 4200000,
+      "name": "Charlatan",
+      "type": "profession",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "criminal",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You know how to trick people out of their coins. You have a dagger, a deck of cards, and a case holding 10 tiny bottles filled with alcohol in different colors.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/manacles.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.gIhUtIir8AKnsJOd.JournalEntryPage.cmvU0X81HSv6cdc7",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757984207701,
+        "modifiedTime": 1757987187566,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "sEfF3v2npKhOvP9z",
+      "_id": "PIRwBdMBCZuNnmXf",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.PIRwBdMBCZuNnmXf"
+    },
+    {
+      "sort": 4300000,
+      "name": "Constable",
+      "type": "profession",
+      "_id": "4okyxWWGjCZCgcKr",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "criminal",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You patrolled your community to uphold the law and protect the citizens from lawbreakers. You have a club and a badge of office.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/manacles.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.gIhUtIir8AKnsJOd.JournalEntryPage.4okyxWWGjCZCgcKr",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757984218460,
+        "modifiedTime": 1757987187566,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "sEfF3v2npKhOvP9z",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.4okyxWWGjCZCgcKr"
+    },
+    {
+      "sort": 4400000,
+      "name": "Detective",
+      "type": "profession",
+      "_id": "3Eu7z7Ib0JHsklri",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "criminal",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You investigated crimes committed in your community. You could have been a member of law enforcement or a private investigator. You have a magnifying glass.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/manacles.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.gIhUtIir8AKnsJOd.JournalEntryPage.3Eu7z7Ib0JHsklri",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757984221882,
+        "modifiedTime": 1757987187566,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "sEfF3v2npKhOvP9z",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.3Eu7z7Ib0JHsklri"
+    },
+    {
+      "sort": 4500000,
+      "name": "Forger",
+      "type": "profession",
+      "_id": "nlsfIiOk9EO8K7GI",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "criminal",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You earned a living by making fake copies of official documents. You have a writing kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/manacles.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.gIhUtIir8AKnsJOd.JournalEntryPage.nlsfIiOk9EO8K7GI",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757984224526,
+        "modifiedTime": 1757987187566,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "sEfF3v2npKhOvP9z",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.nlsfIiOk9EO8K7GI"
+    },
+    {
+      "sort": 4600000,
+      "name": "Grave Robber",
+      "type": "profession",
+      "_id": "1J8hZ68Wib4zVilV",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "criminal",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You stole valuables from the dead and sold them to buy food and shelter. You might also have stolen corpses for interested buyers. You have a shovel (treat as an improvised weapon).</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/manacles.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.gIhUtIir8AKnsJOd.JournalEntryPage.1J8hZ68Wib4zVilV",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757984226340,
+        "modifiedTime": 1757987187566,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "sEfF3v2npKhOvP9z",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.1J8hZ68Wib4zVilV"
+    },
+    {
+      "sort": 4700000,
+      "name": "Jailer",
+      "type": "profession",
+      "_id": "9a2zQSS8UGy5BDLm",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "criminal",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You watched over prisoners sentenced to spend time in your dungeon. You have a club and a lantern.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/manacles.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.gIhUtIir8AKnsJOd.JournalEntryPage.9a2zQSS8UGy5BDLm",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757984228318,
+        "modifiedTime": 1757987187566,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "sEfF3v2npKhOvP9z",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.9a2zQSS8UGy5BDLm"
+    },
+    {
+      "sort": 4800000,
+      "name": "Mugger",
+      "type": "profession",
+      "_id": "MWzKiBeOSbavSECa",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "criminal",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You threatened or roughed up people and then took their money. You have a blackjack (treat as a club).</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/manacles.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.gIhUtIir8AKnsJOd.JournalEntryPage.MWzKiBeOSbavSECa",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757984232621,
+        "modifiedTime": 1757984430549,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "sEfF3v2npKhOvP9z",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.MWzKiBeOSbavSECa"
+    },
+    {
+      "sort": 4900000,
+      "name": "Rake",
+      "type": "profession",
+      "_id": "LX2goepM72cQfbAL",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "criminal",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You fleeced people of their valuables, then squandered your earnings on gambling and carousing. You have either a deck of cards or a set of dice.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/manacles.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.gIhUtIir8AKnsJOd.JournalEntryPage.LX2goepM72cQfbAL",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757984235071,
+        "modifiedTime": 1757984430549,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "sEfF3v2npKhOvP9z",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.LX2goepM72cQfbAL"
+    },
+    {
+      "sort": 5000000,
+      "name": "Entertainment Professions",
+      "type": "text",
+      "_id": "usXkY673JN6sICg0",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<div class=\"icon-frame w-50 float-right\"><img src=\"systems/weirdwizard/assets/icons/professions/banjo.svg\" /></div><p>You entertain audiences using a particular method.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "[object Object]",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.TKxCUvqtEMT9BBog.JournalEntryPage.usXkY673JN6sICg0",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757986367207,
+        "modifiedTime": 1757988011054,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "Fjameiv8lV79agGa",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.usXkY673JN6sICg0"
+    },
+    {
+      "sort": 5100000,
+      "name": "Acrobat",
+      "type": "profession",
+      "_id": "K7J2gLPiFC28jy3W",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "entertainment",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You jumped, tumbled, and performed other feats of dexterity for the crowds. You have a quarterstaff.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/banjo.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.TKxCUvqtEMT9BBog.JournalEntryPage.K7J2gLPiFC28jy3W",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757986368975,
+        "modifiedTime": 1757986454522,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "Fjameiv8lV79agGa",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.K7J2gLPiFC28jy3W"
+    },
+    {
+      "sort": 6700000,
+      "name": "Animal Handler",
+      "type": "profession",
+      "_id": "JABTgAAHl9nCmsqV",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "entertainment",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You trained animals to perform tricks. You have a harmless pet of your choice.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/banjo.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.TKxCUvqtEMT9BBog.JournalEntryPage.JABTgAAHl9nCmsqV",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757986372383,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "Fjameiv8lV79agGa",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.JABTgAAHl9nCmsqV"
+    },
+    {
+      "sort": 7000000,
+      "name": "Artist",
+      "type": "profession",
+      "_id": "0tL5CWe7Srbpjom9",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "entertainment",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You produced works of art such as sculptures, paintings, tapestries and more. You have a tool kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/banjo.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.TKxCUvqtEMT9BBog.JournalEntryPage.0tL5CWe7Srbpjom9",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757986374249,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "Fjameiv8lV79agGa",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.0tL5CWe7Srbpjom9"
+    },
+    {
+      "sort": 8200000,
+      "name": "Busker",
+      "type": "profession",
+      "_id": "jb3b9h9pM5Xovzmu",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "entertainment",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You performed songs, music, told jokes, and performed other acts on street corners. You have a musical instrument.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/banjo.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.TKxCUvqtEMT9BBog.JournalEntryPage.jb3b9h9pM5Xovzmu",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757986377311,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "Fjameiv8lV79agGa",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.jb3b9h9pM5Xovzmu"
+    },
+    {
+      "sort": 8600000,
+      "name": "Clown/Mime",
+      "type": "profession",
+      "_id": "MUPPN0pRESFYNr24",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "entertainment",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You painted up your face and acted the fool. You have a disguise kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/banjo.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.TKxCUvqtEMT9BBog.JournalEntryPage.MUPPN0pRESFYNr24",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757986378983,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "Fjameiv8lV79agGa",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.MUPPN0pRESFYNr24"
+    },
+    {
+      "sort": 8700000,
+      "name": "Dancer",
+      "type": "profession",
+      "_id": "Yh0AWMenMVQrNuvv",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "entertainment",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You performed exotic and complex dances. You have a cosmetics kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/banjo.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.TKxCUvqtEMT9BBog.JournalEntryPage.Yh0AWMenMVQrNuvv",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757986380839,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "Fjameiv8lV79agGa",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.Yh0AWMenMVQrNuvv"
+    },
+    {
+      "sort": 8900000,
+      "name": "Fortune Teller",
+      "type": "profession",
+      "_id": "yB1j0mt81zVxD2EG",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "entertainment",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You used cards, crystal balls, and other implements of divination to foretell the future for those who paid. You have a deck of cards.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/banjo.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.TKxCUvqtEMT9BBog.JournalEntryPage.yB1j0mt81zVxD2EG",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757986382274,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "Fjameiv8lV79agGa",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.yB1j0mt81zVxD2EG"
+    },
+    {
+      "sort": 9000000,
+      "name": "Juggler",
+      "type": "profession",
+      "_id": "2hCcr0DzwgJ3LQSx",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "entertainment",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Knives, torches, bottles, balls, or fish—you can juggle just about anything. You have a set of five daggers.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/banjo.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.TKxCUvqtEMT9BBog.JournalEntryPage.2hCcr0DzwgJ3LQSx",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757986384056,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "Fjameiv8lV79agGa",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.2hCcr0DzwgJ3LQSx"
+    },
+    {
+      "sort": 9100000,
+      "name": "Singer",
+      "type": "profession",
+      "_id": "TxyTBP37zH0YkcQT",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "entertainment",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You have a beautiful voice and can move people with your songs. You have a book containing several common songs.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/banjo.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.TKxCUvqtEMT9BBog.JournalEntryPage.TxyTBP37zH0YkcQT",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757986385514,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "Fjameiv8lV79agGa",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.TxyTBP37zH0YkcQT"
+    },
+    {
+      "sort": 9200000,
+      "name": "Thespian",
+      "type": "profession",
+      "_id": "CO2qFwn2vPFcUsAF",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "entertainment",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>The stage is your home; you never feel more alive than when you perform in front of an audience. You have a book that contains scripts for several common plays.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/banjo.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.TKxCUvqtEMT9BBog.JournalEntryPage.CO2qFwn2vPFcUsAF",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757986386626,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "Fjameiv8lV79agGa",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.CO2qFwn2vPFcUsAF"
+    },
+    {
+      "sort": 7400000,
+      "name": "Military Professions",
+      "type": "text",
+      "_id": "eD1DYFevEPAOOkej",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<div class=\"icon-frame w-50 float-right\"><img src=\"systems/weirdwizard/assets/icons/professions/saber-and-pistol.svg\" /></div><p>You are trained to fight and survive in battle.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "[object Object]",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.YHVpNIRjRnGoWgN0.JournalEntryPage.eD1DYFevEPAOOkej",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757986574312,
+        "modifiedTime": 1757988029502,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "0PgweHN1RyjB0sNS",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.eD1DYFevEPAOOkej"
+    },
+    {
+      "sort": 7500000,
+      "name": "Caravan Guard",
+      "type": "profession",
+      "_id": "DotS6TEMOB8RMiSy",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "military",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You traveled with caravans to protect them from bandits and monsters. You have a bow and arrows.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/saber-and-pistol.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.YHVpNIRjRnGoWgN0.JournalEntryPage.DotS6TEMOB8RMiSy",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757986577704,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "0PgweHN1RyjB0sNS",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.DotS6TEMOB8RMiSy"
+    },
+    {
+      "sort": 7600000,
+      "name": "Herald",
+      "type": "profession",
+      "_id": "dtjLdzNtXHTNg37w",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "military",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You delivered messages and made announcements for a person of power. You have a uniform, a trumpet, and a sword.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/saber-and-pistol.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.YHVpNIRjRnGoWgN0.JournalEntryPage.dtjLdzNtXHTNg37w",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757986579387,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "0PgweHN1RyjB0sNS",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.dtjLdzNtXHTNg37w"
+    },
+    {
+      "sort": 7700000,
+      "name": "House Guard",
+      "type": "profession",
+      "_id": "y4A9BVe9o80SMFrE",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "military",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You served as a guard for a noble family. You have a uniform and a spear.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/saber-and-pistol.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.YHVpNIRjRnGoWgN0.JournalEntryPage.y4A9BVe9o80SMFrE",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757986581281,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "0PgweHN1RyjB0sNS",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.y4A9BVe9o80SMFrE"
+    },
+    {
+      "sort": 7800000,
+      "name": "Marine",
+      "type": "profession",
+      "_id": "ajwM1PrSiE2XIsa1",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "military",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You helped protect ships sailing the deep waters. You have a mace.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/saber-and-pistol.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.YHVpNIRjRnGoWgN0.JournalEntryPage.ajwM1PrSiE2XIsa1",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757986583033,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "0PgweHN1RyjB0sNS",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.ajwM1PrSiE2XIsa1"
+    },
+    {
+      "sort": 7900000,
+      "name": "Member of the Watch",
+      "type": "profession",
+      "_id": "5Ddd0aAqSJgWp020",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "military",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You belonged to your community’s watch and helped keep the peace. You have a spear and a lantern.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/saber-and-pistol.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.YHVpNIRjRnGoWgN0.JournalEntryPage.5Ddd0aAqSJgWp020",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757986584425,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "0PgweHN1RyjB0sNS",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.5Ddd0aAqSJgWp020"
+    },
+    {
+      "sort": 8000000,
+      "name": "Mercenary Soldier",
+      "type": "profession",
+      "_id": "oZGHQQaIvxYRy1Ak",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "military",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You sold your services to the highest bidder. You have an axe.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/saber-and-pistol.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.YHVpNIRjRnGoWgN0.JournalEntryPage.oZGHQQaIvxYRy1Ak",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757986585962,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "0PgweHN1RyjB0sNS",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.oZGHQQaIvxYRy1Ak"
+    },
+    {
+      "sort": 8100000,
+      "name": "Militia Member",
+      "type": "profession",
+      "_id": "NbaaGQcytXvgnIV6",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "military",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You belonged to your community’s militia. When your ruler called for it, you took up arms to protect your people. You have a spear.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/saber-and-pistol.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.YHVpNIRjRnGoWgN0.JournalEntryPage.NbaaGQcytXvgnIV6",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757986587211,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "0PgweHN1RyjB0sNS",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.NbaaGQcytXvgnIV6"
+    },
+    {
+      "sort": 8400000,
+      "name": "Soldier",
+      "type": "profession",
+      "_id": "IeA12sHQRedF98qJ",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "military",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Whether conscripted or enlisted, you joined an army and fought on battlefields. You have a spear and a shield.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/saber-and-pistol.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.YHVpNIRjRnGoWgN0.JournalEntryPage.IeA12sHQRedF98qJ",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757986588692,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "0PgweHN1RyjB0sNS",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.IeA12sHQRedF98qJ"
+    },
+    {
+      "sort": 8500000,
+      "name": "Squire",
+      "type": "profession",
+      "_id": "s7MM4Bb1ha4DOpqc",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "military",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You served a knight. You have a short sword and a shield.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/saber-and-pistol.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.YHVpNIRjRnGoWgN0.JournalEntryPage.s7MM4Bb1ha4DOpqc",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757986589937,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "0PgweHN1RyjB0sNS",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.s7MM4Bb1ha4DOpqc"
+    },
+    {
+      "sort": 8800000,
+      "name": "Sworn Bodyguard",
+      "type": "profession",
+      "_id": "T5w1azFXqF357pjU",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "military",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You swore an oath to protect one or more people. You have a suit of brigandine armor.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/saber-and-pistol.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.YHVpNIRjRnGoWgN0.JournalEntryPage.T5w1azFXqF357pjU",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757986591122,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "0PgweHN1RyjB0sNS",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.T5w1azFXqF357pjU"
+    },
+    {
+      "sort": 5500000,
+      "name": "Religious Professions",
+      "type": "text",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<div class=\"icon-frame w-50 float-right\"><img src=\"systems/weirdwizard/assets/icons/professions/fire-shrine.svg\" /></div><p>You were indoctrinated into a particular faith.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "[object Object]",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.ot4wxPHlAIquNiTV.JournalEntryPage.9td2p5F6HgNt8d7A",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987270778,
+        "modifiedTime": 1757988072602,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "qIYCuglwdxO7dwlI",
+      "_id": "jZx9fCR3ROlHbdOQ",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.jZx9fCR3ROlHbdOQ"
+    },
+    {
+      "sort": 6100000,
+      "name": "Acolyte",
+      "type": "profession",
+      "_id": "T9WQKU7Op7NsfuYV",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "religious",
+        "benefits": {
+          "benefit1": {
+            "languages": {
+              "archaic": {
+                "name": "Archaic",
+                "desc": "",
+                "grantedBy": null
+              }
+            },
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You studied to become a priest of the High One and spent your time perusing the holy texts. You have an acolyte’s uniform.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/fire-shrine.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.9LLyfT131tgoqLjm.JournalEntryPage.T9WQKU7Op7NsfuYV",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987272436,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "qIYCuglwdxO7dwlI",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.T9WQKU7Op7NsfuYV"
+    },
+    {
+      "sort": 6200000,
+      "name": "Aspirant",
+      "type": "profession",
+      "_id": "nl4RrJovBbGeop13",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "religious",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You studied to become a priest of the Old Faith or a particular god of the pantheon. You have the uniform of your faith.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/fire-shrine.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.9LLyfT131tgoqLjm.JournalEntryPage.nl4RrJovBbGeop13",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987275219,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "qIYCuglwdxO7dwlI",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.nl4RrJovBbGeop13"
+    },
+    {
+      "sort": 6300000,
+      "name": "Cultist",
+      "type": "profession",
+      "_id": "EIFoHzjj9vyV6ARz",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "religious",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You belonged to a small religion that operated on the fringes of your community. Your cult might have had good intentions or could honor some monstrous power. You have a symbol or badge of your faith.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/fire-shrine.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.9LLyfT131tgoqLjm.JournalEntryPage.EIFoHzjj9vyV6ARz",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987276948,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "qIYCuglwdxO7dwlI",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.EIFoHzjj9vyV6ARz"
+    },
+    {
+      "sort": 6400000,
+      "name": "Evangelist",
+      "type": "profession",
+      "_id": "3hZLuNHpUnp6ElSe",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "religious",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You traveled the land, attempting to convert people to your religion. You have a book containing uncommon knowledge about your faith.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/fire-shrine.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.9LLyfT131tgoqLjm.JournalEntryPage.3hZLuNHpUnp6ElSe",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987278372,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "qIYCuglwdxO7dwlI",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.3hZLuNHpUnp6ElSe"
+    },
+    {
+      "sort": 6500000,
+      "name": "Fundamentalist",
+      "type": "profession",
+      "_id": "Jvbo8PrmUnrmx2Z8",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "religious",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You subscribe to an extremely orthodox interpretation of your religion. You have a book containing uncommon knowledge of your faith.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/fire-shrine.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.9LLyfT131tgoqLjm.JournalEntryPage.Jvbo8PrmUnrmx2Z8",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987279787,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "qIYCuglwdxO7dwlI",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.Jvbo8PrmUnrmx2Z8"
+    },
+    {
+      "sort": 6600000,
+      "name": "Heretic",
+      "type": "profession",
+      "_id": "Tzs95CDFkVrTTpah",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "religious",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You held unorthodox beliefs about an extant religion and were an outsider among the faithful who shared your devotion. You have a quarterstaff.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/fire-shrine.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.9LLyfT131tgoqLjm.JournalEntryPage.Tzs95CDFkVrTTpah",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987281268,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "qIYCuglwdxO7dwlI",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.Tzs95CDFkVrTTpah"
+    },
+    {
+      "sort": 7100000,
+      "name": "Missionary",
+      "type": "profession",
+      "_id": "HwmT97BTP3dRTQTE",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "religious",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You traveled into unexplored lands, hoping to bring the message of your religion to the people you met. You have a symbol of your faith.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/fire-shrine.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.9LLyfT131tgoqLjm.JournalEntryPage.HwmT97BTP3dRTQTE",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987282660,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "qIYCuglwdxO7dwlI",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.HwmT97BTP3dRTQTE"
+    },
+    {
+      "sort": 7200000,
+      "name": "Minister",
+      "type": "profession",
+      "_id": "OpZMfTZdT8u2ULWI",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "religious",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You led a congregation of the faithful and taught them to lead spiritual lives. You have a book containing uncommon knowledge about your religion.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/fire-shrine.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.9LLyfT131tgoqLjm.JournalEntryPage.OpZMfTZdT8u2ULWI",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987283891,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "qIYCuglwdxO7dwlI",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.OpZMfTZdT8u2ULWI"
+    },
+    {
+      "sort": 7300000,
+      "name": "Prophet",
+      "type": "profession",
+      "_id": "pIVokWQ4NhsuH4vW",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "religious",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You believe the gods spoke to you or through you to pronounce future happenings. You have a quarterstaff.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/fire-shrine.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.9LLyfT131tgoqLjm.JournalEntryPage.pIVokWQ4NhsuH4vW",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987285237,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "qIYCuglwdxO7dwlI",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.pIVokWQ4NhsuH4vW"
+    },
+    {
+      "sort": 8300000,
+      "name": "Scribe",
+      "type": "profession",
+      "_id": "nXtKiEeE6LrdvDYb",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "religious",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You made copies of sacred texts and illuminated the manuscripts. You have a writing kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/fire-shrine.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.9LLyfT131tgoqLjm.JournalEntryPage.nXtKiEeE6LrdvDYb",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987286651,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "qIYCuglwdxO7dwlI",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.nXtKiEeE6LrdvDYb"
+    },
+    {
+      "sort": 5200000,
+      "name": "Wilderness Professions",
+      "type": "text",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<div class=\"icon-frame w-50 float-right\"><img src=\"systems/weirdwizard/assets/icons/professions/compass.svg\" /></div><p>You learned how to survive in the wild places of the world.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "[object Object]",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.ot4wxPHlAIquNiTV.JournalEntryPage.9td2p5F6HgNt8d7A",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987496796,
+        "modifiedTime": 1757988048298,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "AyR4eLaZLLpq6cQH",
+      "_id": "8esizFlRmWlAOqF0",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.8esizFlRmWlAOqF0"
+    },
+    {
+      "sort": 5250000,
+      "name": "Beggar",
+      "type": "profession",
+      "_id": "Yhp1L7fLtDILEkbT",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "wilderness",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You travel from place to place, living off the charity of others. You might suffer some malady, such as leprosy, have fallen on hard times, or just prefer the hobo life. You have a quarterstaff.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/compass.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.8bwvmMjXQkx42fVf.JournalEntryPage.Yhp1L7fLtDILEkbT",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987498541,
+        "modifiedTime": 1757987622742,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "AyR4eLaZLLpq6cQH",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.Yhp1L7fLtDILEkbT"
+    },
+    {
+      "sort": 5300000,
+      "name": "Forester",
+      "type": "profession",
+      "_id": "9pXfZdd8515C9ifk",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "wilderness",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You worked as a game warden for a noble’s pre- serve. You have a bow and arrows.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/compass.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.8bwvmMjXQkx42fVf.JournalEntryPage.9pXfZdd8515C9ifk",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987500676,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "AyR4eLaZLLpq6cQH",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.9pXfZdd8515C9ifk"
+    },
+    {
+      "sort": 5600000,
+      "name": "Gatherer",
+      "type": "profession",
+      "_id": "odEWMFdGf4YI9g3T",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "wilderness",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You lived by gathering what you could forage from the land. You have two poultices.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/compass.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.8bwvmMjXQkx42fVf.JournalEntryPage.odEWMFdGf4YI9g3T",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987502917,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "AyR4eLaZLLpq6cQH",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.odEWMFdGf4YI9g3T"
+    },
+    {
+      "sort": 5700000,
+      "name": "Hunter",
+      "type": "profession",
+      "_id": "mtJ1anX4EOCjmLJX",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "wilderness",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You stalked game through the wild places, hunting them for meat and materials. You have a bow and arrows.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/compass.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.8bwvmMjXQkx42fVf.JournalEntryPage.mtJ1anX4EOCjmLJX",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987504965,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "AyR4eLaZLLpq6cQH",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.mtJ1anX4EOCjmLJX"
+    },
+    {
+      "sort": 5750000,
+      "name": "Nomad",
+      "type": "profession",
+      "_id": "7W2O5pvFQeED2WGd",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "wilderness",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You belonged to a traveling people. You might have followed your herds, been performers who traveled from town to town, or belonged to a people displaced from your homeland. You have a quarterstaff.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/compass.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.8bwvmMjXQkx42fVf.JournalEntryPage.7W2O5pvFQeED2WGd",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987507205,
+        "modifiedTime": 1757987630309,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "AyR4eLaZLLpq6cQH",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.7W2O5pvFQeED2WGd"
+    },
+    {
+      "sort": 5775000,
+      "name": "Pilgrim",
+      "type": "profession",
+      "_id": "G2b7yiwr1DOsIvOL",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "wilderness",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You traveled to sites deemed holy by your faith: places where saints performed miracles or where the gods have walked among mortals, and shrines and temples believed to hold relics of your faith. You have a quarterstaff.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/compass.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.8bwvmMjXQkx42fVf.JournalEntryPage.G2b7yiwr1DOsIvOL",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987509884,
+        "modifiedTime": 1757987643894,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "AyR4eLaZLLpq6cQH",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.G2b7yiwr1DOsIvOL"
+    },
+    {
+      "sort": 5800000,
+      "name": "Prospect",
+      "type": "profession",
+      "_id": "PEpk3Hjimear9DSN",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "wilderness",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You traveled into the wilderness searching for precious metals. You have a tool kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/compass.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.8bwvmMjXQkx42fVf.JournalEntryPage.PEpk3Hjimear9DSN",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987512133,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "AyR4eLaZLLpq6cQH",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.PEpk3Hjimear9DSN"
+    },
+    {
+      "sort": 5900000,
+      "name": "Recluse",
+      "type": "profession",
+      "_id": "45SLfsohbZPE9Wmw",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "wilderness",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You retreated from the world to contemplate the nature of divinity in isolation. You know how to forage for provisions and clean water. You have a quarterstaff.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/compass.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.8bwvmMjXQkx42fVf.JournalEntryPage.45SLfsohbZPE9Wmw",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987513935,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "AyR4eLaZLLpq6cQH",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.45SLfsohbZPE9Wmw"
+    },
+    {
+      "sort": 6000000,
+      "name": "Spelunker",
+      "type": "profession",
+      "_id": "WC5gQTPyhGvvub8c",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "wilderness",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You explore caves and caverns. You have rope, a lantern, oil, and a tinderbox.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/compass.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.8bwvmMjXQkx42fVf.JournalEntryPage.WC5gQTPyhGvvub8c",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987515366,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "AyR4eLaZLLpq6cQH",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.WC5gQTPyhGvvub8c"
+    },
+    {
+      "sort": 6900000,
+      "name": "Woodcutter",
+      "type": "profession",
+      "_id": "mZFfgP2FAZqMVeWi",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "wilderness",
+        "benefits": {
+          "benefit1": {
+            "languages": {},
+            "items": [],
+            "levelReq": 0
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You cut timber from forests. You have an axe.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/compass.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.8bwvmMjXQkx42fVf.JournalEntryPage.mZFfgP2FAZqMVeWi",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757987516478,
+        "modifiedTime": 1757987616794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "category": "AyR4eLaZLLpq6cQH",
+      "_key": "!journal.pages!vOw25RT7MBSNxqJI.mZFfgP2FAZqMVeWi"
+    }
+  ],
+  "folder": null,
+  "categories": [
+    {
+      "name": "Academic Professions",
+      "sort": 100000,
+      "_id": "aJfZO1yxfjf4VmiU",
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757982529021,
+        "modifiedTime": 1757982529021,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "_key": "!journal.categories!vOw25RT7MBSNxqJI.aJfZO1yxfjf4VmiU"
+    },
+    {
+      "name": "Aristocratic Professions",
+      "sort": 200000,
+      "_id": "RG7T9o85bFPgLrkA",
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983471009,
+        "modifiedTime": 1757983471009,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "_key": "!journal.categories!vOw25RT7MBSNxqJI.RG7T9o85bFPgLrkA"
+    },
+    {
+      "name": "Commoner Professions",
+      "sort": 300000,
+      "_id": "zgPy8vOnkl9fkIRQ",
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983486278,
+        "modifiedTime": 1757983486278,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "_key": "!journal.categories!vOw25RT7MBSNxqJI.zgPy8vOnkl9fkIRQ"
+    },
+    {
+      "name": "Criminal Professions",
+      "sort": 400000,
+      "_id": "sEfF3v2npKhOvP9z",
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983496007,
+        "modifiedTime": 1757983496007,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "_key": "!journal.categories!vOw25RT7MBSNxqJI.sEfF3v2npKhOvP9z"
+    },
+    {
+      "name": "Entertainment Professions",
+      "sort": 500000,
+      "_id": "Fjameiv8lV79agGa",
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983501734,
+        "modifiedTime": 1757983501734,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "_key": "!journal.categories!vOw25RT7MBSNxqJI.Fjameiv8lV79agGa"
+    },
+    {
+      "name": "Military Professions",
+      "sort": 600000,
+      "_id": "0PgweHN1RyjB0sNS",
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983521678,
+        "modifiedTime": 1757983521678,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "_key": "!journal.categories!vOw25RT7MBSNxqJI.0PgweHN1RyjB0sNS"
+    },
+    {
+      "name": "Religious Professions",
+      "sort": 700000,
+      "_id": "qIYCuglwdxO7dwlI",
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983530998,
+        "modifiedTime": 1757983530998,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "_key": "!journal.categories!vOw25RT7MBSNxqJI.qIYCuglwdxO7dwlI"
+    },
+    {
+      "name": "Wilderness Professions",
+      "sort": 800000,
+      "_id": "AyR4eLaZLLpq6cQH",
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1757983538134,
+        "modifiedTime": 1757983538134,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "_key": "!journal.categories!vOw25RT7MBSNxqJI.AyR4eLaZLLpq6cQH"
+    }
+  ],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1757982136779,
+    "modifiedTime": 1757983544289,
+    "lastModifiedBy": "zin7Kb6P2LomswaD"
+  },
+  "_key": "!journal!vOw25RT7MBSNxqJI"
+}

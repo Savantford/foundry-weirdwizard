@@ -1,0 +1,96 @@
+{
+  "name": "Saber",
+  "type": "equipment",
+  "system": {
+    "description": {
+      "value": "<p>A saber has a curved blade that tapers toward the tip and usually has a single edge. Similar weapons—the cutlass, khopesh and scimitar—use the same rules.</p>"
+    },
+    "active": true,
+    "quantity": 1,
+    "weightUnit": 1,
+    "price": {
+      "value": 3,
+      "coin": "sp"
+    },
+    "availability": "common",
+    "attribute": "agi",
+    "boons": 0,
+    "against": "def",
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": false,
+      "levelRelative": "manual"
+    },
+    "damage": "2d6",
+    "healing": "",
+    "subtype": "weapon",
+    "quality": "standard",
+    "grip": "One",
+    "attackRider": {
+      "value": {
+        "value": ""
+      },
+      "name": ""
+    },
+    "reloaded": true,
+    "armorType": "light",
+    "instant": [],
+    "traits": {
+      "ammunition": false,
+      "brutal": false,
+      "firearm": false,
+      "long": false,
+      "nimble": true,
+      "range": false,
+      "special": false,
+      "thrown": false,
+      "versatile": false,
+      "disarming": true,
+      "slashing": true,
+      "bludgeoning": false,
+      "large": false,
+      "light": false,
+      "misfire": false,
+      "piercing": false,
+      "reload": false,
+      "slow": false
+    },
+    "requirements": "agi11",
+    "grantedBy": null,
+    "magical": false,
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "heldBy": null,
+    "capacity": 1
+  },
+  "img": "icons/weapons/swords/scimitar-guard-gold.webp",
+  "effects": [],
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "coreVersion": "13.345",
+    "createdTime": 1691868642734,
+    "modifiedTime": 1754186600689,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
+  },
+  "folder": "CGh2LhSduUMqiiy4",
+  "_id": "TxBuijAqyHelboeg",
+  "sort": 112500,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "_key": "!items!TxBuijAqyHelboeg"
+}

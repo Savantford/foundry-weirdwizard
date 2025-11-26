@@ -1,0 +1,330 @@
+{
+  "folder": "pne2iAkQ9AVatxwC",
+  "name": "Aristocratic Professions (OBSOLETE)",
+  "_id": "oft36PGLISpeBfo5",
+  "pages": [
+    {
+      "sort": 100000,
+      "name": "Introduction",
+      "type": "text",
+      "_id": "d77QYDTFcA6IZvcm",
+      "system": {},
+      "title": {
+        "show": false,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<div class=\"icon-frame w-50 float-right\"><img src=\"systems/weirdwizard/assets/icons/professions/wax-seal.svg\" /></div><p>You come from money and status.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745095002889,
+        "modifiedTime": 1745095886788,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!oft36PGLISpeBfo5.d77QYDTFcA6IZvcm"
+    },
+    {
+      "sort": 200000,
+      "name": "Carouser (OBSOLETE)",
+      "type": "profession",
+      "_id": "YXYLwixqjQFkT9IK",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "aristocratic",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>A lesser scion of a noble house, you spent your days frittering away your inheritance in gambling halls and taverns. You have a deck of cards or a set of dice.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/wax-seal.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745098648394,
+        "modifiedTime": 1760715622961,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!oft36PGLISpeBfo5.YXYLwixqjQFkT9IK"
+    },
+    {
+      "sort": 300000,
+      "name": "Dilettante (OBSOLETE)",
+      "type": "profession",
+      "_id": "GraEoLJMST4nKC9c",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "aristocratic",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You were a patron to artists, poets, and musicians; you gave funds to anyone who impressed you. You have a work of art created by one of those under your patronage that could be worth as much as 1 gp.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/wax-seal.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745098683113,
+        "modifiedTime": 1760715627984,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!oft36PGLISpeBfo5.GraEoLJMST4nKC9c"
+    },
+    {
+      "sort": 400000,
+      "name": "Merchant (OBSOLETE)",
+      "type": "profession",
+      "_id": "gVXLFqKDqivA5VOM",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "aristocratic",
+        "benefits": {
+          "benefit1": {
+            "languages": [
+              {
+                "name": "Non-Secret Language",
+                "desc": ""
+              }
+            ],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You belonged to the class of the newly rich, having made your money in commerce rather than through inheritance. Your wealth opened doors for you, but you nev- er found acceptance among the elite. You have a cart and a pack animal to draw it.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/wax-seal.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745098716977,
+        "modifiedTime": 1760715631360,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!oft36PGLISpeBfo5.gVXLFqKDqivA5VOM"
+    },
+    {
+      "sort": 500000,
+      "name": "Landholder (OBSOLETE)",
+      "type": "profession",
+      "_id": "Ci9B7fjD2fhdW8ug",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "aristocratic",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You owned an extensive plot of land and likely had a noble title to go with your holdings. You have a sword.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/wax-seal.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745098756525,
+        "modifiedTime": 1760715634647,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!oft36PGLISpeBfo5.Ci9B7fjD2fhdW8ug"
+    },
+    {
+      "sort": 600000,
+      "name": "Influencer (OBSOLETE)",
+      "type": "profession",
+      "_id": "I0DufUVrcGND0xyF",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "aristocratic",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Your opinions determined which trends and fads swept through the upper classes. You were renowned for your impeccable taste and often envied for your life of luxury. You have a set of superior clothing.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/wax-seal.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745098779905,
+        "modifiedTime": 1760715638288,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!oft36PGLISpeBfo5.I0DufUVrcGND0xyF"
+    }
+  ],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1745094981218,
+    "modifiedTime": 1760715982219,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "categories": [],
+  "_key": "!journal!oft36PGLISpeBfo5"
+}

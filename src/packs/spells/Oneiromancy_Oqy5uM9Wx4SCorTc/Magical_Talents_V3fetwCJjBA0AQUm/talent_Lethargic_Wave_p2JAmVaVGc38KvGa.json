@@ -1,0 +1,54 @@
+{
+  "folder": "V3fetwCJjBA0AQUm",
+  "name": "Lethargic Wave",
+  "type": "talent",
+  "_id": "p2JAmVaVGc38KvGa",
+  "img": "icons/magic/air/air-burst-spiral-pink.webp",
+  "system": {
+    "description": {
+      "value": "<p>You can use an action to afflict a creature with intense fatigue. Target one creature within 5 yards. Make an Intellect roll against the target’s Will. On a success, the target becomes confused and slowed (luck ends both). A creature immune to the asleep affliction ignores this effect. At level 3, you can target two creatures within the same Size 5 space. At level 7, you can target three creatures within the same Size 5 space. On a critical success, the target also falls prone.</p>"
+    },
+    "active": true,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "trait",
+    "source": "tradition",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744754447638,
+    "modifiedTime": 1754186601810,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!p2JAmVaVGc38KvGa"
+}

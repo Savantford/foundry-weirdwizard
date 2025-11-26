@@ -1,0 +1,57 @@
+{
+  "folder": "tj24NSEA1FBIvYN1",
+  "name": "Run them Down",
+  "type": "spell",
+  "_id": "nTrtiGicWmJ4rHpr",
+  "img": "icons/creatures/mammals/wolf-shadow-black.webp",
+  "system": {
+    "description": {
+      "value": "<p>The target senses its imminent demise. Make a Will roll against the target’s Will. On a success, the target becomes frightened of you until the start of your next turn. The target then moves its Speed away from you and you can move up to twice your Speed to follow. You have the Slippery trait for this movement. If you end your movement where you can reach it, you can make a melee attack against it, rolling with 1 boon. If you get a failure on your Will roll, you regain the casting of this spell after 1 minute.</p>"
+    },
+    "active": false,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 1,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "tier": "novice",
+    "tradition": "",
+    "casting": "",
+    "target": "One flesh-and-blood creature within 5 yards",
+    "duration": "Instantaneous",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744755239936,
+    "modifiedTime": 1754186601771,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!nTrtiGicWmJ4rHpr"
+}

@@ -1,0 +1,57 @@
+{
+  "folder": "nAj6zmKECLrE7wIq",
+  "name": "Wind Wall",
+  "type": "spell",
+  "_id": "4FXlMHoT51yodTvB",
+  "img": "icons/magic/air/fog-gas-smoke-dense-white.webp",
+  "system": {
+    "description": {
+      "value": "<p>Strong wind blows through the target space. The noise it creates drowns out all sounds quieter than a shout. A creature that would move through the space makes a Strength roll, rolling with 1 boon for each point of Size above 3. On a failure, the creature is pushed back to the nearest empty space and its Speed becomes 0 until the end of the round. Finally, the wind imposes 3 banes on rolls to attack targets behind the target space using ranged attacks</p>"
+    },
+    "active": false,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 1,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "tier": "novice",
+    "tradition": "",
+    "casting": "",
+    "target": "One line-shaped space, up to 10 yards wide, 10 yards tall, and 1 yard thick originating from a point within 10 yards",
+    "duration": "1 minute",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744750463828,
+    "modifiedTime": 1754186601235,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!4FXlMHoT51yodTvB"
+}

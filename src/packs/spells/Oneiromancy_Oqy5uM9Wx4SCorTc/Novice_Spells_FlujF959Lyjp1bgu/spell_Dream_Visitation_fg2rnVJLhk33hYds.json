@@ -1,0 +1,57 @@
+{
+  "folder": "FlujF959Lyjp1bgu",
+  "name": "Dream Visitation",
+  "type": "spell",
+  "_id": "fg2rnVJLhk33hYds",
+  "img": "icons/creatures/birds/corvid-flying-wings-purple.webp",
+  "system": {
+    "description": {
+      "value": "<p>Your mind enters the dreamlands to search for the target’s sleeping mind. Make an Intellect roll against its Will. On a success, you find the target’s mind and enter its dreams. To the target’s dreaming self, you present yourself as anyone you choose and can communicate with the target regardless of having any languages in common. In addition, you make the target’s dreams pleasant, so that it regains twice as much Health as normal when it wakens, or unpleasant, in which case the target derives no benefit from resting.</p>"
+    },
+    "active": false,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 1,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "tier": "novice",
+    "tradition": "",
+    "casting": "",
+    "target": "One sleeping creature from which you have a part such as a bit of its hair or a drop of blood; you need not have line of sight or line of effect to it; the creature can be any distance from you",
+    "duration": "Instantaneous",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744754579953,
+    "modifiedTime": 1754186601709,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!fg2rnVJLhk33hYds"
+}

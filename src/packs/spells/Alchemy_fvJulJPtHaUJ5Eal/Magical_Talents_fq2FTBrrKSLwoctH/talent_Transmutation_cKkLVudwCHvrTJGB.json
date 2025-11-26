@@ -1,0 +1,54 @@
+{
+  "folder": "fq2FTBrrKSLwoctH",
+  "name": "Transmutation",
+  "type": "talent",
+  "_id": "cKkLVudwCHvrTJGB",
+  "img": "icons/commodities/treasure/glass-crystal-green.webp",
+  "system": {
+    "description": {
+      "value": "<p>You can perform a ritual using an alchemist’s kit and 5 sp of exotic materials to make a material alteration. Target one Size 1/2 or smaller ordinary object in reach. When you finish, expend the exotic materials and apply one of the following effects to the target.</p><ul><li><p>The target regains 2d6 Health.</p></li><li><p>The target loses 4d6 Health.</p></li><li><p>The target becomes as hard as iron.</p></li><li><p>The target becomes as soft as clay.</p></li><li><p>You change the material of the target from one to another, provided the new material is of the same kind as the old. You could turn an iron bar into one of gold, or the oak of a haft into something soft as balsa. The change lasts for 1 hour.</p></li></ul>"
+    },
+    "active": true,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "trait",
+    "source": "tradition",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744751769705,
+    "modifiedTime": 1754186601683,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!cKkLVudwCHvrTJGB"
+}

@@ -1,0 +1,54 @@
+{
+  "folder": "T5ORvdZmPypgqswc",
+  "name": "Occult Strike",
+  "type": "talent",
+  "_id": "0wsTIH1THLuIp8H0",
+  "img": "icons/magic/fire/dagger-rune-enchant-purple-orange.webp",
+  "system": {
+    "description": {
+      "value": "<p>You can use a reaction when you get a failure on a roll to attack to harm a different target. Target one creature or object within 5 yards of the target you attacked. The new target takes 2d6 damage (or 4d6 at level 3, or 6d6 at level 7). Once you use this talent, you lose access to it for 1 minute.</p>"
+    },
+    "active": true,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "trait",
+    "source": "tradition",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744756397930,
+    "modifiedTime": 1754186601188,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!0wsTIH1THLuIp8H0"
+}

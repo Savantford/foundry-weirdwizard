@@ -1,0 +1,94 @@
+{
+  "name": "Great Sword",
+  "type": "equipment",
+  "_id": "LRGi26XDOFfBcxhd",
+  "img": "icons/weapons/swords/greatsword-crossguard-silver.webp",
+  "system": {
+    "description": {
+      "value": "<p>A great sword is a 7-foot-long weapon with a double-edged blade extending from a wide hilt. The weapon has an overlong handle to help offset the blade's weight.</p>"
+    },
+    "active": true,
+    "quantity": 1,
+    "weightUnit": 1,
+    "price": {
+      "value": 1,
+      "coin": "gp"
+    },
+    "availability": "rare",
+    "attribute": "str",
+    "against": "def",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "weapon",
+    "quality": "standard",
+    "heldBy": "",
+    "requirements": "str14",
+    "damage": "4d6",
+    "grip": "Two",
+    "traits": {
+      "ammunition": false,
+      "bludgeoning": false,
+      "brutal": false,
+      "disarming": false,
+      "firearm": false,
+      "large": true,
+      "light": false,
+      "long": false,
+      "misfire": false,
+      "nimble": false,
+      "piercing": false,
+      "range": false,
+      "reload": false,
+      "slashing": true,
+      "slow": true,
+      "special": false,
+      "thrown": false,
+      "versatile": false
+    },
+    "attackRider": {
+      "value": {
+        "value": ""
+      },
+      "name": ""
+    },
+    "reloaded": true,
+    "armorType": "light",
+    "capacity": 1,
+    "grantedBy": null,
+    "magical": false
+  },
+  "effects": [],
+  "folder": "CGh2LhSduUMqiiy4",
+  "sort": 1200000,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1721406318283,
+    "modifiedTime": 1754186600620,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!LRGi26XDOFfBcxhd"
+}

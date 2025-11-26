@@ -1,0 +1,610 @@
+{
+  "name": "Academic Professions (OBSOLETE)",
+  "_id": "ot4wxPHlAIquNiTV",
+  "pages": [
+    {
+      "sort": 100000,
+      "name": "Apothecary (OBSOLETE)",
+      "type": "profession",
+      "_id": "rOntqZUneFkCaywf",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "academic",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You learned the medicinal properties of herbs, roots, and other useful plants. You have either a dose of antitoxin or a dose of poison.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/svg/book.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745010064760,
+        "modifiedTime": 1760715557027,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": "r4qG3ZBjhSbcTBNC",
+      "_key": "!journal.pages!ot4wxPHlAIquNiTV.rOntqZUneFkCaywf"
+    },
+    {
+      "sort": 200000,
+      "name": "Apprentice Magician (OBSOLETE)",
+      "type": "profession",
+      "_id": "1nJc2pc059l7Shc2",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "academic",
+        "benefits": {
+          "benefit1": {
+            "languages": [
+              {
+                "name": "Academic",
+                "desc": ""
+              }
+            ],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You studied under a magician to learn all you could of magic. You understand the principles that form the foundation of magic and hope to learn your first spell soon.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/svg/book.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745011098256,
+        "modifiedTime": 1760715566657,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": "r4qG3ZBjhSbcTBNC",
+      "_key": "!journal.pages!ot4wxPHlAIquNiTV.1nJc2pc059l7Shc2"
+    },
+    {
+      "sort": 300000,
+      "name": "Astrologer (OBSOLETE)",
+      "type": "profession",
+      "_id": "lgYpljW5qa1P3shb",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "academic",
+        "benefits": {
+          "benefit1": {
+            "languages": [
+              {
+                "name": "Old Tongue",
+                "desc": ""
+              }
+            ],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You made a study of the stars. You can identify the constellations, divine their meaning, and interpret the movements of heavenly bodies. You have a bundle of star charts and a writing kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/svg/book.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745012129439,
+        "modifiedTime": 1760715573519,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": "r4qG3ZBjhSbcTBNC",
+      "_key": "!journal.pages!ot4wxPHlAIquNiTV.lgYpljW5qa1P3shb"
+    },
+    {
+      "sort": 400000,
+      "name": "Doctor (OBSOLETE)",
+      "type": "profession",
+      "_id": "r2GTRwoKurcOj6sn",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "academic",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Your studies of anatomy, medicine, and treatment methods combine to make you a dependable healer. You have a healer’s kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/svg/book.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745012192409,
+        "modifiedTime": 1760715580528,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!ot4wxPHlAIquNiTV.r2GTRwoKurcOj6sn"
+    },
+    {
+      "sort": 500000,
+      "name": "Folklorist (OBSOLETE)",
+      "type": "profession",
+      "_id": "EGbXrW2ShQzgZB4t",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "academic",
+        "benefits": {
+          "benefit1": {
+            "languages": [
+              {
+                "name": "Sylvan",
+                "desc": ""
+              }
+            ],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You study the local legends, superstitions, and customs of your community and of neighboring lands. As part of your research, you also learned a bit about the faeries.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/svg/book.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745012219120,
+        "modifiedTime": 1760715585768,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!ot4wxPHlAIquNiTV.EGbXrW2ShQzgZB4t"
+    },
+    {
+      "sort": 600000,
+      "name": "Inventor (OBSOLETE)",
+      "type": "profession",
+      "_id": "E5Vl5cNSw03RPCdy",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "academic",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You build interesting machines in your workshop. You have a tool kit and one set of spare parts.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/svg/book.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745012256343,
+        "modifiedTime": 1760715590951,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!ot4wxPHlAIquNiTV.E5Vl5cNSw03RPCdy"
+    },
+    {
+      "sort": 700000,
+      "name": "Naturalist (OBSOLETE)",
+      "type": "profession",
+      "_id": "WGI4gVaYdTeQlmUA",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "academic",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>The life sciences dominated your educational pursuits, and thus you now know much about animals, the natural world, and the weather. You have two poultices.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/svg/book.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745012278622,
+        "modifiedTime": 1760715595474,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!ot4wxPHlAIquNiTV.WGI4gVaYdTeQlmUA"
+    },
+    {
+      "sort": 800000,
+      "name": "Occultist (OBSOLETE)",
+      "type": "profession",
+      "_id": "W6xTGk5DKp3MMhpB",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "academic",
+        "benefits": {
+          "benefit1": {
+            "languages": [
+              {
+                "name": "Archaic",
+                "desc": ""
+              }
+            ],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You looked into the dark places to gain an understanding of things and concepts that others deem forbidden. You know about demons, the Void, fiends, the Underworld, and the Netherworld. You have an occultist’s kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/svg/book.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745012301806,
+        "modifiedTime": 1760715601215,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!ot4wxPHlAIquNiTV.W6xTGk5DKp3MMhpB"
+    },
+    {
+      "sort": 900000,
+      "name": "Philosopher (OBSOLETE)",
+      "type": "profession",
+      "_id": "niljgtZtd9V5lNsR",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "academic",
+        "benefits": {
+          "benefit1": {
+            "languages": [
+              {
+                "name": "Archaic or Kingdom",
+                "desc": ""
+              }
+            ],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You studied the nature of reality, space, time, and ethics, and the question of what it means to be.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/svg/book.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745012348198,
+        "modifiedTime": 1760715607352,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!ot4wxPHlAIquNiTV.niljgtZtd9V5lNsR"
+    },
+    {
+      "sort": 1000000,
+      "name": "Politician (OBSOLETE)",
+      "type": "profession",
+      "_id": "J5y2ALjOHPBcR6LX",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "academic",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You know how to navigate the ins and outs of bureaucracies. You might have held political office or aided those who did. You have a set of superior clothing.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/svg/book.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745012488249,
+        "modifiedTime": 1760715611905,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!ot4wxPHlAIquNiTV.J5y2ALjOHPBcR6LX"
+    },
+    {
+      "sort": 0,
+      "name": "Introduction",
+      "type": "text",
+      "_id": "9td2p5F6HgNt8d7A",
+      "system": {},
+      "title": {
+        "show": false,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<div class=\"icon-frame w-50 float-right\"><img src=\"icons/svg/book.svg\" /></div><p>You received a formal education or specialized training.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745012826233,
+        "modifiedTime": 1757980151858,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": "r4qG3ZBjhSbcTBNC",
+      "_key": "!journal.pages!ot4wxPHlAIquNiTV.9td2p5F6HgNt8d7A"
+    }
+  ],
+  "folder": "pne2iAkQ9AVatxwC",
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744401263904,
+    "modifiedTime": 1760715976786,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "categories": [],
+  "_key": "!journal!ot4wxPHlAIquNiTV"
+}

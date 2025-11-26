@@ -1,0 +1,54 @@
+{
+  "folder": "UlsxEYDyBywLEP7N",
+  "name": "Efficacious Disguise",
+  "type": "talent",
+  "_id": "CIEr2QVwIencId82",
+  "img": "icons/equipment/head/hood-cowl-mask-purple.webp",
+  "system": {
+    "description": {
+      "value": "<p>You can use an action to alter a creature’s appearance. Target one creature in reach. You touch the target and change as much or as little of the target’s physical appearance as you like. You can adjust the target’s height and weight, within limits for its Size, change coloration, apparent ancestry, and any other detail you decide. Objects worn and carried by the target are unchanged. The effect lasts 1 hour, but ends early if the target becomes unconscious or you cross running water. You can use this talent once, twice at level 3, and three times at level 7. You regain expended uses after you rest.</p>"
+    },
+    "active": true,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "trait",
+    "source": "tradition",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744752866368,
+    "modifiedTime": 1754186601319,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!CIEr2QVwIencId82"
+}

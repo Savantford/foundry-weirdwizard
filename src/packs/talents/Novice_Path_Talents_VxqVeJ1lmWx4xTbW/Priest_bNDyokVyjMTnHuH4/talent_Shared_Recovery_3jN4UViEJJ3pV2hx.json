@@ -1,0 +1,73 @@
+{
+  "folder": "bNDyokVyjMTnHuH4",
+  "name": "Shared Recovery",
+  "type": "talent",
+  "_id": "3jN4UViEJJ3pV2hx",
+  "img": "icons/magic/time/arrows-circling-green.webp",
+  "system": {
+    "description": {
+      "value": "<p>You can use an action to heal half your dam- age total and enable one other creature within 5 yards to heal half their damage total. Once you use this talent, you lose access to it until after you rest.</p>"
+    },
+    "active": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 1,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [
+      {
+        "label": "heal",
+        "trigger": "onUse",
+        "target": "none",
+        "value": "@dmg.half",
+        "affliction": "",
+        "locLabel": "WW.InstantEffect.Heal",
+        "locTrigger": "WW.Effect.OnUse",
+        "locTarget": "WW.Effect.None",
+        "img": "icons/svg/heal.svg"
+      },
+      {
+        "label": "heal",
+        "trigger": "onUse",
+        "target": "allies",
+        "value": "1",
+        "affliction": ""
+      }
+    ],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "trait",
+    "source": "novice",
+    "grantedBy": null,
+    "magical": false
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1720988744283,
+    "modifiedTime": 1754186601029,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!3jN4UViEJJ3pV2hx"
+}

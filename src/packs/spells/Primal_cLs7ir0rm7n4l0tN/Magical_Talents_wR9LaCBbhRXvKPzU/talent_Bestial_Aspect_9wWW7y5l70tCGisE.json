@@ -1,0 +1,54 @@
+{
+  "folder": "wR9LaCBbhRXvKPzU",
+  "name": "Bestial Aspect",
+  "type": "talent",
+  "_id": "9wWW7y5l70tCGisE",
+  "img": "icons/magic/nature/wolf-paw-glow-small-teal-blue.webp",
+  "system": {
+    "description": {
+      "value": "<p>You can use your teeth and claws as natural weapons that deal 2d6 damage and have the Brutal and Slashing traits. At level 3, you roll to attack with these weapons with 1 boon. At level 7, you increase their damage to 4d6.</p>"
+    },
+    "active": true,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "trait",
+    "source": "tradition",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744754910251,
+    "modifiedTime": 1754186601292,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!9wWW7y5l70tCGisE"
+}

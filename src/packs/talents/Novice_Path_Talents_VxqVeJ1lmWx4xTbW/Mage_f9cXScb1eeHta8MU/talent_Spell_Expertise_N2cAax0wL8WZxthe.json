@@ -1,0 +1,106 @@
+{
+  "folder": "f9cXScb1eeHta8MU",
+  "name": "Spell Expertise",
+  "type": "talent",
+  "_id": "N2cAax0wL8WZxthe",
+  "img": "icons/magic/control/debuff-energy-hold-levitate-pink.webp",
+  "system": {
+    "description": {
+      "value": "<p>When you cast a spell and the spell requires you to make an attribute roll, you roll with 1 boon. When you cast a spell and the spell enables an affected creature to make an attribute or luck roll, you impose 1 bane on the creature’s roll.</p>"
+    },
+    "active": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "trait",
+    "source": "novice",
+    "grantedBy": null,
+    "magical": false
+  },
+  "effects": [
+    {
+      "name": "Spell Expertise",
+      "origin": "Compendium.weirdwizard.talents.Item.N2cAax0wL8WZxthe",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "flags": {
+        "weirdwizard": {
+          "selectedDuration": "",
+          "autoDelete": true,
+          "trigger": "passive",
+          "target": "none"
+        }
+      },
+      "disabled": false,
+      "img": "icons/svg/card-hand.svg",
+      "_id": "l7ege9iTxbfQIT0H",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "boons.spells",
+          "value": "1",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1738016869472,
+        "modifiedTime": 1738016954254,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "_key": "!items.effects!N2cAax0wL8WZxthe.l7ege9iTxbfQIT0H"
+    }
+  ],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1720986860993,
+    "modifiedTime": 1754186601081,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!N2cAax0wL8WZxthe"
+}

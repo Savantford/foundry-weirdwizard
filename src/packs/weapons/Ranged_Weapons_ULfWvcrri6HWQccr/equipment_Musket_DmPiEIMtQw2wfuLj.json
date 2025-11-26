@@ -1,0 +1,94 @@
+{
+  "name": "Musket",
+  "type": "equipment",
+  "_id": "DmPiEIMtQw2wfuLj",
+  "img": "icons/weapons/guns/gun-wood.webp",
+  "system": {
+    "description": {
+      "value": "<p>A musket has a long metal barrel attached to a wooden stock. A wheel lock mechanism throws a spark into the pan to ignite the powder and propel the ball from the weapon with force. You can use the musket as a two-handed improvised melee weapon.</p>"
+    },
+    "active": true,
+    "quantity": 1,
+    "weightUnit": 1,
+    "price": {
+      "value": 10,
+      "coin": "gp"
+    },
+    "availability": "exotic",
+    "attribute": "agi",
+    "against": "def",
+    "boons": 0,
+    "range": 20,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "weapon",
+    "quality": "standard",
+    "heldBy": "",
+    "requirements": "agi12",
+    "damage": "6d6",
+    "grip": "Two",
+    "traits": {
+      "ammunition": true,
+      "bludgeoning": false,
+      "brutal": true,
+      "disarming": false,
+      "firearm": true,
+      "large": false,
+      "light": false,
+      "long": false,
+      "misfire": true,
+      "nimble": false,
+      "piercing": false,
+      "range": true,
+      "reload": false,
+      "slashing": false,
+      "slow": false,
+      "special": false,
+      "thrown": false,
+      "versatile": false
+    },
+    "attackRider": {
+      "value": {
+        "value": ""
+      },
+      "name": ""
+    },
+    "reloaded": true,
+    "armorType": "light",
+    "capacity": 1,
+    "grantedBy": null,
+    "magical": false
+  },
+  "effects": [],
+  "folder": "ULfWvcrri6HWQccr",
+  "sort": 112500,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1721408505468,
+    "modifiedTime": 1754186600577,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!DmPiEIMtQw2wfuLj"
+}

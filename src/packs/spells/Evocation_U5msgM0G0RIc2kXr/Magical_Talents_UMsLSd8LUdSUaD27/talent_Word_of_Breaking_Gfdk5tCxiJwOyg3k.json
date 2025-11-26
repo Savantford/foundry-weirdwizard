@@ -1,0 +1,54 @@
+{
+  "folder": "UMsLSd8LUdSUaD27",
+  "name": "Word of Breaking",
+  "type": "talent",
+  "_id": "Gfdk5tCxiJwOyg3k",
+  "img": "icons/magic/earth/laval-stone-orange.webp",
+  "system": {
+    "description": {
+      "value": "<p>You can use an action to speak the Word of Breaking. Target one creature or object within 5 yards. The target takes 1d6 damage. At level 3, the target takes 2d6 damage. At level 7, the target takes 4d6 damage.</p>"
+    },
+    "active": true,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "trait",
+    "source": "tradition",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744753515239,
+    "modifiedTime": 1754186601371,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!Gfdk5tCxiJwOyg3k"
+}

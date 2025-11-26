@@ -1,0 +1,57 @@
+{
+  "folder": "FlujF959Lyjp1bgu",
+  "name": "Imaginary Friend",
+  "type": "spell",
+  "_id": "AdPN1Q71RVOQgktK",
+  "img": "icons/creatures/magical/spirit-mischief-fire-ice-blue.webp",
+  "system": {
+    "description": {
+      "value": "<p>You see a being formed from your imagination appear inside the target space. The being can have any appearance you choose, but it is invisible to all other creatures. The imaginary friend becomes your controlled companion for the duration, but the spell ends early if the companion becomes incapacitated, in which case you make a Will roll. On a failure, you become stunned until the end of your next turn. The friend uses your Intellect score for its Defense, Health, and attributes. The friend cannot harm other creatures directly and cannot interact with creatures, though it can use actions to carry things for you, help you with tasks, and perform other activities as you choose.</p>"
+    },
+    "active": false,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 1,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "tier": "novice",
+    "tradition": "",
+    "casting": "",
+    "target": "One empty Size 1 space on the ground within 5 yards",
+    "duration": "1 hour",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744754665585,
+    "modifiedTime": 1754186601300,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!AdPN1Q71RVOQgktK"
+}

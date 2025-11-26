@@ -1,0 +1,54 @@
+{
+  "folder": "bHjit5NEKz2cSFgt",
+  "name": "Soaring Leap",
+  "type": "talent",
+  "_id": "uTieiCqfyvnxlED0",
+  "img": "icons/magic/control/debuff-energy-hold-blue-yellow.webp",
+  "system": {
+    "description": {
+      "value": "<p>You can use this talent when you move at least 1 yard. You gain the Fly trait until the end of your turn. If you are still flying at the end of your turn, you gently descend until you reach a surface on which you can stand. Once you use this talent, you lose access to it (luck ends).</p>"
+    },
+    "active": true,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "trait",
+    "source": "tradition",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744749977098,
+    "modifiedTime": 1754186601861,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!uTieiCqfyvnxlED0"
+}

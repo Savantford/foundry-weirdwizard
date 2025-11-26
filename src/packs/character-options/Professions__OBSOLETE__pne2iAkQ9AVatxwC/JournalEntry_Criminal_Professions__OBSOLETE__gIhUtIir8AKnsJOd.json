@@ -1,0 +1,585 @@
+{
+  "folder": "pne2iAkQ9AVatxwC",
+  "name": "Criminal Professions (OBSOLETE)",
+  "_id": "gIhUtIir8AKnsJOd",
+  "pages": [
+    {
+      "sort": 100000,
+      "name": "Introduction",
+      "type": "text",
+      "_id": "q9Zmh3oG8mnx9FuW",
+      "system": {},
+      "title": {
+        "show": false,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<div class=\"icon-frame w-50 float-right\"><img src=\"systems/weirdwizard/assets/icons/professions/manacles.svg\" /></div><p>You learn a trade that operates outside or against the law, or that works to prevent such activity.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745095142842,
+        "modifiedTime": 1745096196490,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gIhUtIir8AKnsJOd.q9Zmh3oG8mnx9FuW"
+    },
+    {
+      "sort": 200000,
+      "name": "Bandit (OBSOLETE)",
+      "type": "profession",
+      "_id": "Gs1mz5N16spqx5Ey",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "criminal",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You waylaid and robbed travelers to earn enough coin to survive. You have a bow and arrows.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/manacles.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099237081,
+        "modifiedTime": 1760715725951,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gIhUtIir8AKnsJOd.Gs1mz5N16spqx5Ey"
+    },
+    {
+      "sort": 300000,
+      "name": "Burglar (OBSOLETE)",
+      "type": "profession",
+      "_id": "QJ3fvVwNKfb9N5bi",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "criminal",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You made ends meet by breaking into buildings and pilfering their contents. You have a set of lock picks.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/manacles.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099260977,
+        "modifiedTime": 1760715728807,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gIhUtIir8AKnsJOd.QJ3fvVwNKfb9N5bi"
+    },
+    {
+      "sort": 400000,
+      "name": "Charlatan (OBSOLETE)",
+      "type": "profession",
+      "_id": "cmvU0X81HSv6cdc7",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "criminal",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You know how to trick people out of their coins. You have a dagger, a deck of cards, and a case holding 10 tiny bottles filled with alcohol in different colors.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/manacles.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099278601,
+        "modifiedTime": 1760715731463,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gIhUtIir8AKnsJOd.cmvU0X81HSv6cdc7"
+    },
+    {
+      "sort": 500000,
+      "name": "Constable (OBSOLETE)",
+      "type": "profession",
+      "_id": "4okyxWWGjCZCgcKr",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "criminal",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You patrolled your community to uphold the law and protect the citizens from lawbreakers. You have a club and a badge of office.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/manacles.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099294409,
+        "modifiedTime": 1760715733727,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gIhUtIir8AKnsJOd.4okyxWWGjCZCgcKr"
+    },
+    {
+      "sort": 600000,
+      "name": "Detective (OBSOLETE)",
+      "type": "profession",
+      "_id": "3Eu7z7Ib0JHsklri",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "criminal",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You investigated crimes committed in your community. You could have been a member of law enforcement or a private investigator. You have a magnifying glass.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/manacles.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099309244,
+        "modifiedTime": 1760715735864,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gIhUtIir8AKnsJOd.3Eu7z7Ib0JHsklri"
+    },
+    {
+      "sort": 700000,
+      "name": "Forger (OBSOLETE)",
+      "type": "profession",
+      "_id": "nlsfIiOk9EO8K7GI",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "criminal",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You earned a living by making fake copies of official documents. You have a writing kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/manacles.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099333833,
+        "modifiedTime": 1760715739015,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gIhUtIir8AKnsJOd.nlsfIiOk9EO8K7GI"
+    },
+    {
+      "sort": 800000,
+      "name": "Grave Robber (OBSOLETE)",
+      "type": "profession",
+      "_id": "1J8hZ68Wib4zVilV",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "criminal",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You stole valuables from the dead and sold them to buy food and shelter. You might also have stolen corpses for interested buyers. You have a shovel (treat as an improvised weapon).</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/manacles.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099353467,
+        "modifiedTime": 1760715742455,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gIhUtIir8AKnsJOd.1J8hZ68Wib4zVilV"
+    },
+    {
+      "sort": 900000,
+      "name": "Jailer (OBSOLETE)",
+      "type": "profession",
+      "_id": "9a2zQSS8UGy5BDLm",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "criminal",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You watched over prisoners sentenced to spend time in your dungeon. You have a club and a lantern.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/manacles.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099369369,
+        "modifiedTime": 1760715745231,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gIhUtIir8AKnsJOd.9a2zQSS8UGy5BDLm"
+    },
+    {
+      "sort": 1000000,
+      "name": "Mugger (OBSOLETE)",
+      "type": "profession",
+      "_id": "MWzKiBeOSbavSECa",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "criminal",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You threatened or roughed up people and then took their money. You have a blackjack (treat as a club).</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/manacles.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099403265,
+        "modifiedTime": 1760715748263,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gIhUtIir8AKnsJOd.MWzKiBeOSbavSECa"
+    },
+    {
+      "sort": 1100000,
+      "name": "Rake (OBSOLETE)",
+      "type": "profession",
+      "_id": "LX2goepM72cQfbAL",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "criminal",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You fleeced people of their valuables, then squandered your earnings on gambling and carousing. You have either a deck of cards or a set of dice.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/manacles.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099428473,
+        "modifiedTime": 1760715751536,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gIhUtIir8AKnsJOd.LX2goepM72cQfbAL"
+    }
+  ],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1745095134989,
+    "modifiedTime": 1760715993071,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "categories": [],
+  "_key": "!journal!gIhUtIir8AKnsJOd"
+}

@@ -1,0 +1,54 @@
+{
+  "folder": "q1MV8P3UBR3280Pi",
+  "name": "Fighting Style",
+  "type": "talent",
+  "_id": "jUAyOKf62V6GaTSQ",
+  "img": "icons/skills/melee/maneuver-sword-katana-yellow.webp",
+  "system": {
+    "description": {
+      "value": "<p>You favor a particular fighting style. Choose one of the following benefits.</p>\n<ul>\n<li><strong>Armiger:</strong> Choose three weapons. When you attack with these weapons, you roll with 1 boon.<br />At level 5, when you get a success for an attack with a chosen weapon, you can choose to treat the success as a critical success. Once you use this aspect of the talent, you lose access to it (luck ends).</li>\n<li><strong>Battle Savant:</strong> When you use an attack option, you roll to attack with 1 boon.<br />At level 5, the number of boons increases to 2.</li>\n<li><strong>Brawler:</strong> You roll with 1 boon when you make an unarmed attack. You ignore the bane imposed from making unarmed strikes. Your unarmed strikes count as natural off-hand weapons with the Nimble trait that deal 1d6 damage.<br />At level 5, your unarmed strikes deal an extra 1d6 damage when you wield no other weapon.</li>\n<li><strong>Brute:</strong> Increase your Natural Defense by 2 and your Health score by 10.<br />At level 5, your Health score increases again by 10.</li>\n<li><strong>Close-Combat Fighter:</strong> You ignore the Light trait of melee weapons you wield.<br />At level 5, you roll to attack with 1 boon when you use a weapon that has the Light trait.</li>\n<li><strong>Combat Controller:</strong> When you successfully attack a creature in reach, you can choose to mark the target. The target remains marked until you use this talent again, you become stunned or unconscious, or the marked target becomes incapacitated. A creature you have marked rolls to attack targets other than you with 1 bane.<br />At level 5, when a creature you have marked makes an attack that does not include you as a target, you can use a reaction to attack that creature.</li>\n<li><strong>Crack Shot:</strong> You roll to attack with 1 boon when you attack with a ranged weapon. Also, you can use ranged weapons to make free attacks.<br />At level 5, the number of boons increases to 2.</li>\n<li><strong>Dual Wielder:</strong> You can use a reaction to attack with a weapon you wield in your off-hand when you attack.<br />At level 5, you impose 1 bane on rolls to attack you while you wield two weapons, one in each hand.</li>\n<li><strong>Engager:</strong> You can use a reaction when an enemy moves to within 5 yards of you to move up to your Speed. If you can reach the enemy that enabled the use of this talent, you can attack it. If the enemy takes damage from this attack, its Speed drops to 0 until the start of its next turn.<br />At level 5, you roll to attack with 1 boon whenever you attack by using a reaction.</li>\n<li><strong>Great Weapon Specialist:</strong> When you get a success on a roll to attack, you can add twice your Strength modifier (min- imum 0) as extra damage for that attack. Once you use this talent, you lose access to it for 1 minute.<br />At level 5, you ignore the effects of the Slow weapon trait.</li>\n<li><strong>Impalement Arts Specialist:</strong> Increase the range of thrown weapons you wield by 5. You roll to attack with thrown weapons with 1 boon.<br />At level 5, when you get a critical success with a thrown weapon, you can use a reaction to make a ranged attack using another thrown weapon.</li>\n<li><strong>Shield Basher:</strong> You treat shields as off-hand melee weapons that deal 1d6 damage instead of as improvised weap- ons. In addition, when you attack with a shield, you retain the shield’s increase to your Defense score.<br />At level 5, when you get a critical success with an attack using your shield, you roll to attack the target with 1 boon until the end of your next turn.</li>\n</ul>"
+    },
+    "active": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "trait",
+    "source": "novice",
+    "grantedBy": null,
+    "magical": false
+  },
+  "effects": [],
+  "sort": 300000,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1720985641417,
+    "modifiedTime": 1754186601132,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!jUAyOKf62V6GaTSQ"
+}

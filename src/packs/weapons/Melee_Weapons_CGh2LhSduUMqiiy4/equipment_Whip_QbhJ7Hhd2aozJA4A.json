@@ -1,0 +1,94 @@
+{
+  "name": "Whip",
+  "type": "equipment",
+  "_id": "QbhJ7Hhd2aozJA4A",
+  "img": "icons/weapons/misc/whip-red-yellow.webp",
+  "system": {
+    "description": {
+      "value": "<p>A long, braided length of leather cord extending from a stout handle, the whip might have a metal cap or a hook at the end to tear at the skin.<br />You can use the whip to disarm, grab, drag, and trip. When you attack with the whip and get a critical success, the target takes 1d6 damage. Attacks made using a whip derive no benefit from bonus or extra damage.</p>"
+    },
+    "active": true,
+    "quantity": 1,
+    "weightUnit": 1,
+    "price": {
+      "value": 5,
+      "coin": "cp"
+    },
+    "availability": "common",
+    "attribute": "agi",
+    "against": "def",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "weapon",
+    "quality": "standard",
+    "heldBy": "",
+    "requirements": "agi11",
+    "damage": "0",
+    "grip": "Off",
+    "traits": {
+      "ammunition": false,
+      "bludgeoning": false,
+      "brutal": false,
+      "disarming": false,
+      "firearm": false,
+      "large": false,
+      "light": false,
+      "long": true,
+      "misfire": false,
+      "nimble": true,
+      "piercing": false,
+      "range": false,
+      "reload": false,
+      "slashing": false,
+      "slow": true,
+      "special": true,
+      "thrown": false,
+      "versatile": false
+    },
+    "attackRider": {
+      "value": {
+        "value": ""
+      },
+      "name": ""
+    },
+    "reloaded": true,
+    "armorType": "light",
+    "capacity": 1,
+    "grantedBy": null,
+    "magical": false
+  },
+  "effects": [],
+  "folder": "CGh2LhSduUMqiiy4",
+  "sort": 100196,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1721414047273,
+    "modifiedTime": 1754186600662,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!QbhJ7Hhd2aozJA4A"
+}

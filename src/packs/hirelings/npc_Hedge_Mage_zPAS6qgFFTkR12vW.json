@@ -1,0 +1,450 @@
+{
+  "name": "Hedge Mage",
+  "type": "npc",
+  "_id": "zPAS6qgFFTkR12vW",
+  "img": "systems/weirdwizard/assets/compendia/hedge-mage.png",
+  "system": {
+    "description": {
+      "value": "<p>Hedge mages hire out spells for a steep price and cast them as needed. In addition to Common, a hedge mage also knows Arcane.</p>"
+    },
+    "attributes": {
+      "str": {
+        "value": 10
+      },
+      "agi": {
+        "value": 10
+      },
+      "int": {
+        "value": 11
+      },
+      "wil": {
+        "value": 11
+      }
+    },
+    "stats": {
+      "defense": {
+        "total": 0,
+        "details": "",
+        "natural": 10
+      },
+      "health": {
+        "current": 10,
+        "normal": 10,
+        "lost": 0
+      },
+      "damage": {
+        "value": 0,
+        "max": 10,
+        "raw": 0
+      },
+      "size": 1,
+      "speed": {
+        "normal": 5,
+        "current": 5
+      },
+      "difficulty": 1
+    },
+    "details": {},
+    "listEntries": {
+      "descriptors": {
+        "human": {
+          "name": "Human",
+          "desc": "As humans have the largest population in the Borderlands, most hirelings are assumed to be human.",
+          "grantedBy": null
+        }
+      },
+      "languages": {
+        "common": {
+          "name": "Common",
+          "desc": "The Common tongue originated with a seafaring people and was important for facilitating trade. It became the dominant language in the Great Kingdom and has spread to the new lands from the lips of refugees pouring across the borderlands. A dialect of Common—Seafarer—comes freighted with nautical jargon and odd digressions in which the speaker offers mild oaths to the sea god.",
+          "grantedBy": null
+        },
+        "arcane": {
+          "name": "Arcane",
+          "desc": "The need for magical script arose when wizards sought to guard access to the knowledge they had amassed, hoarding power and wealth for themselves. Only when confronted by angry mobs and zealous priests did they relent and pull back a bit of the curtain so that others could see and understand the inner mechanisms of magic.\n\nArcane represents one of the few attempts to secure magic against willy-nilly usage and has become a crucial component in casting spells from inscriptions.",
+          "grantedBy": null
+        }
+      },
+      "senses": {},
+      "immunities": {},
+      "movementTraits": {}
+    },
+    "charOptions": {
+      "ancestry": null
+    }
+  },
+  "prototypeToken": {
+    "name": "Hedge Mage",
+    "displayName": 20,
+    "actorLink": false,
+    "appendNumber": true,
+    "prependAdjective": false,
+    "width": 1,
+    "height": 1,
+    "texture": {
+      "src": "icons/svg/mystery-man-black.svg",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "offsetX": 0,
+      "offsetY": 0,
+      "fit": "contain",
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotation": 0,
+      "tint": "#ffffff",
+      "alphaThreshold": 0.75
+    },
+    "lockRotation": false,
+    "rotation": 0,
+    "alpha": 1,
+    "disposition": 1,
+    "displayBars": 20,
+    "bar1": {
+      "attribute": "stats.damage"
+    },
+    "bar2": {
+      "attribute": null
+    },
+    "light": {
+      "negative": false,
+      "priority": 0,
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "color": null,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "sight": {
+      "enabled": false,
+      "range": 0,
+      "angle": 360,
+      "visionMode": "basic",
+      "color": null,
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0
+    },
+    "detectionModes": [],
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 1,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "flags": {},
+    "randomImg": false,
+    "turnMarker": {
+      "mode": 1,
+      "animation": null,
+      "src": null,
+      "disposition": false
+    },
+    "movementAction": null
+  },
+  "items": [
+    {
+      "name": "Novice Spell 1",
+      "type": "talent",
+      "system": {
+        "subtype": "action",
+        "source": "none",
+        "attribute": "",
+        "against": "",
+        "description": {
+          "value": "No description."
+        },
+        "active": true,
+        "boons": 0,
+        "range": 0,
+        "affliction": "",
+        "uses": {
+          "value": 0,
+          "max": 0,
+          "onRest": true,
+          "levelRelative": "manual"
+        },
+        "healing": "",
+        "instant": [],
+        "targeting": "manual",
+        "template": {
+          "type": "size",
+          "value": 5
+        },
+        "grantedBy": null,
+        "magical": false
+      },
+      "_id": "01C3ZQlrEmNqZjFP",
+      "img": "icons/svg/card-hand.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1721419015652,
+        "modifiedTime": 1754186600982,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "_key": "!actors.items!zPAS6qgFFTkR12vW.01C3ZQlrEmNqZjFP"
+    },
+    {
+      "name": "Novice Spell 2",
+      "type": "talent",
+      "system": {
+        "subtype": "action",
+        "source": "none",
+        "attribute": "",
+        "against": "",
+        "description": {
+          "value": "No description."
+        },
+        "active": true,
+        "boons": 0,
+        "range": 0,
+        "affliction": "",
+        "uses": {
+          "value": 0,
+          "max": 0,
+          "onRest": true,
+          "levelRelative": "manual"
+        },
+        "healing": "",
+        "instant": [],
+        "targeting": "manual",
+        "template": {
+          "type": "size",
+          "value": 5
+        },
+        "grantedBy": null,
+        "magical": false
+      },
+      "_id": "iurzQ7DrE8idvl4B",
+      "img": "icons/svg/card-hand.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1721419053212,
+        "modifiedTime": 1754186600990,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "_key": "!actors.items!zPAS6qgFFTkR12vW.iurzQ7DrE8idvl4B"
+    },
+    {
+      "name": "Novice Spell 3",
+      "type": "talent",
+      "system": {
+        "subtype": "action",
+        "source": "none",
+        "attribute": "",
+        "against": "",
+        "description": {
+          "value": "No description."
+        },
+        "active": true,
+        "boons": 0,
+        "range": 0,
+        "affliction": "",
+        "uses": {
+          "value": 0,
+          "max": 0,
+          "onRest": true,
+          "levelRelative": "manual"
+        },
+        "healing": "",
+        "instant": [],
+        "targeting": "manual",
+        "template": {
+          "type": "size",
+          "value": 5
+        },
+        "grantedBy": null,
+        "magical": false
+      },
+      "_id": "0kdWx7ZMmQvaDPGh",
+      "img": "icons/svg/card-hand.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1721419058644,
+        "modifiedTime": 1754186600998,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "_key": "!actors.items!zPAS6qgFFTkR12vW.0kdWx7ZMmQvaDPGh"
+    },
+    {
+      "name": "Dagger",
+      "type": "equipment",
+      "img": "icons/weapons/daggers/dagger-curved-guard-blue.webp",
+      "system": {
+        "description": {
+          "value": "<p>A dagger has a long blade up to 18 inches in length and serves well as a backup or off-hand weapon. Daggers come in many different styles, each with their own names, such as dirk, jambiya, jile, misericord, and stiletto. Daggers also include throwing knives, shuriken, and similar weapons.</p>"
+        },
+        "active": true,
+        "quantity": 1,
+        "weightUnit": 1,
+        "price": {
+          "value": 5,
+          "coin": "cp"
+        },
+        "availability": "common",
+        "attribute": "agi",
+        "boons": 0,
+        "against": "def",
+        "range": 5,
+        "affliction": "",
+        "uses": {
+          "value": 0,
+          "max": 0,
+          "onRest": false,
+          "levelRelative": "manual"
+        },
+        "damage": "1d6",
+        "healing": "",
+        "subtype": "weapon",
+        "quality": "standard",
+        "grip": "Off",
+        "attackRider": {
+          "value": {
+            "value": ""
+          },
+          "name": ""
+        },
+        "reloaded": true,
+        "armorType": "light",
+        "instant": [],
+        "traits": {
+          "ammunition": false,
+          "brutal": false,
+          "firearm": false,
+          "long": false,
+          "nimble": true,
+          "range": false,
+          "special": false,
+          "thrown": true,
+          "versatile": false,
+          "light": true,
+          "piercing": true,
+          "bludgeoning": false,
+          "disarming": false,
+          "large": false,
+          "misfire": false,
+          "reload": false,
+          "slashing": false,
+          "slow": false
+        },
+        "requirements": "",
+        "targeting": "manual",
+        "template": {
+          "type": "size",
+          "value": 5
+        },
+        "heldBy": "",
+        "capacity": 1,
+        "grantedBy": null,
+        "magical": false
+      },
+      "effects": [],
+      "flags": {
+        "core": {}
+      },
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.weapons.Item.CXVX2qXNjAUvWkpi",
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1721423919993,
+        "modifiedTime": 1754186601004,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "folder": "CGh2LhSduUMqiiy4",
+      "_id": "JZqQ9ahkkW2DPI8y",
+      "sort": 1600000,
+      "ownership": {
+        "default": 0,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "_key": "!actors.items!zPAS6qgFFTkR12vW.JZqQ9ahkkW2DPI8y"
+    }
+  ],
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1721418712670,
+    "modifiedTime": 1754186600971,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!actors!zPAS6qgFFTkR12vW"
+}

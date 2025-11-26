@@ -1,0 +1,90 @@
+{
+  "name": "Ancestries",
+  "_id": "pAAZKv2vrilITojZ",
+  "pages": [
+    {
+      "sort": 100000,
+      "name": "Human",
+      "type": "ancestry",
+      "_id": "GI4b6WkOLlTszbRe",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "benefits": {
+          "benefit1": {
+            "descriptors": [],
+            "senses": [],
+            "languages": [],
+            "immune": [],
+            "attributes": "",
+            "stats": {
+              "naturalIncrease": 0,
+              "healthIncrease": 0,
+              "sizeNormal": 1,
+              "speedNormal": 5
+            },
+            "movementTraits": [],
+            "items": [
+              "Compendium.weirdwizard.traits.Item.FWw7614Ks2FMn1HN"
+            ]
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Most people found in the borderlands belong to the great family of humanity, which encompasses people much like those found in our world, but also exotic people, with unusual physical characteristics that would make such people stand out. Blue skin, upswept, pointed ears, scaled skin, and other features reflect the influence of magic on humans, as well as the fantastical nature of the setting.</p><p>The human family is incredibly large and diverse. A human can be tall or short, big and bulky, small and slight. Humans’ skin tones run the gamut from blue-black to bone white, green, blue, pink, or patterned. Typical height and weight ranges from 4 to 7 feet tall and from 80 to 400 pounds, though examples of shorter, taller, lighter, and heavier people abound. Differences in appearance have, at times, led to enmity between different groups, and a tendency toward xenophobia persists in some isolated communities, but over the passage of time humans have come to appreciate their common origin and similar nature, looking beyond the physical qualities that make them individually distinctive.</p><p>As a human, you might have been born and raised in the borderlands or could have traveled here, perhaps as one of the many troubled refugees fleeing war and disease in their homelands, or as an exile, cast out from your native land for a crime you did or did not commit. You can choose your homeland from those made available to you by the Sage. You and the other characters might come from the same village or be part of the same band of refugees, or you might hail from different parts of the world, brought together by fate or circumstance.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "icons/skills/social/diplomacy-handshake.webp",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744401277691,
+        "modifiedTime": 1745009021769,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!pAAZKv2vrilITojZ.GI4b6WkOLlTszbRe"
+    }
+  ],
+  "folder": null,
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744401195514,
+    "modifiedTime": 1744401315471,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "categories": [],
+  "_key": "!journal!pAAZKv2vrilITojZ"
+}

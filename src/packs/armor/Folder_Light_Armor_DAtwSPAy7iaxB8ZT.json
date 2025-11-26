@@ -1,0 +1,22 @@
+{
+  "name": "Light Armor",
+  "sorting": "a",
+  "folder": null,
+  "type": "Item",
+  "_id": "DAtwSPAy7iaxB8ZT",
+  "description": "",
+  "sort": 0,
+  "color": null,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.329",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1721415852426,
+    "modifiedTime": 1721415852426,
+    "lastModifiedBy": "zin7Kb6P2LomswaD"
+  },
+  "_key": "!folders!DAtwSPAy7iaxB8ZT"
+}

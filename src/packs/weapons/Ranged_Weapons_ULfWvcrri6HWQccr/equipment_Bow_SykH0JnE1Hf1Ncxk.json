@@ -1,0 +1,96 @@
+{
+  "name": "Bow",
+  "type": "equipment",
+  "img": "icons/weapons/bows/longbow-recurve-leather-brown.webp",
+  "system": {
+    "description": {
+      "value": "<p>The bow is a flexible length of wood that, when bent, can be fitted with a cord tied off on both ends to create tension. You can use a bow as a two-handed improvised melee weapon.</p>"
+    },
+    "active": true,
+    "quantity": 1,
+    "weightUnit": 1,
+    "price": {
+      "value": 1,
+      "coin": "sp"
+    },
+    "availability": "common",
+    "attribute": "agi",
+    "boons": 0,
+    "against": "def",
+    "range": 20,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": false,
+      "levelRelative": "manual"
+    },
+    "damage": "2d6",
+    "healing": "",
+    "subtype": "weapon",
+    "quality": "standard",
+    "grip": "Two",
+    "attackRider": {
+      "value": {
+        "value": ""
+      },
+      "name": ""
+    },
+    "reloaded": true,
+    "armorType": "light",
+    "traits": {
+      "range": true,
+      "ammunition": true,
+      "brutal": false,
+      "firearm": false,
+      "long": false,
+      "nimble": false,
+      "special": false,
+      "thrown": false,
+      "versatile": false,
+      "large": true,
+      "light": true,
+      "bludgeoning": false,
+      "disarming": false,
+      "misfire": false,
+      "piercing": false,
+      "reload": false,
+      "slashing": false,
+      "slow": false
+    },
+    "instant": [],
+    "requirements": "",
+    "grantedBy": null,
+    "magical": false,
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "heldBy": null,
+    "capacity": 1
+  },
+  "effects": [],
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "coreVersion": "13.345",
+    "createdTime": 1692214385649,
+    "modifiedTime": 1754186600678,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
+  },
+  "folder": "ULfWvcrri6HWQccr",
+  "_id": "SykH0JnE1Hf1Ncxk",
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "_key": "!items!SykH0JnE1Hf1Ncxk"
+}

@@ -1,0 +1,54 @@
+{
+  "folder": "V3fetwCJjBA0AQUm",
+  "name": "Interpret Dreams",
+  "type": "talent",
+  "_id": "aWznfAYVXcZUn9vt",
+  "img": "icons/skills/trades/academics-astronomy-navigation-purple.webp",
+  "system": {
+    "description": {
+      "value": "<p>You can perform a ritual to interpret another’s dreams. Target one creature within reach. The target tells you of their most recent dreams. Make an Intellect roll when you finish. On a success, you offer guidance the creature can use any time before it finishes another rest. The guidance enables the target to discard the result of one attribute roll or luck roll and roll again. The creature must use the result of the second roll. Once you use this talent, you lose access to it until after you rest.</p>"
+    },
+    "active": true,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "trait",
+    "source": "tradition",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744754405480,
+    "modifiedTime": 1754186601648,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!aWznfAYVXcZUn9vt"
+}

@@ -1,0 +1,54 @@
+{
+  "folder": "V3fetwCJjBA0AQUm",
+  "name": "Fading Dream",
+  "type": "talent",
+  "_id": "PVNvTFQlNW0s0wP2",
+  "img": "icons/magic/air/fog-gas-smoke-purple.webp",
+  "system": {
+    "description": {
+      "value": "<p>When you are attacked, you can use a reaction to become invisible until the start of your next turn. You can use this talent once, twice at level 3, and three times at level 7. You regain expended uses after you rest.</p>"
+    },
+    "active": true,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "trait",
+    "source": "tradition",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744754373603,
+    "modifiedTime": 1754186601469,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!PVNvTFQlNW0s0wP2"
+}

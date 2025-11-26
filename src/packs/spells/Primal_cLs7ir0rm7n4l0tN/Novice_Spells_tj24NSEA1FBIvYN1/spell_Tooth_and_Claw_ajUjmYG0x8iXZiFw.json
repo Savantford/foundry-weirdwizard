@@ -1,0 +1,57 @@
+{
+  "folder": "tj24NSEA1FBIvYN1",
+  "name": "Tooth and Claw",
+  "type": "spell",
+  "_id": "ajUjmYG0x8iXZiFw",
+  "img": "icons/commodities/claws/claw-brown-black.webp",
+  "system": {
+    "description": {
+      "value": "<p>You throw yourself at the target, clawing and biting it. Make an unarmed strike or an attack with your natural weapons. You roll with 1 boon. On a success, the target takes an extra 3d6 damage. On a critical success, the target makes a Will roll. On a failure, it becomes frightened of you until the end of your next turn. After the attack, your melee attacks deal an extra 2d6 damage until the end of your next turn.</p>"
+    },
+    "active": false,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 1,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "tier": "novice",
+    "tradition": "",
+    "casting": "",
+    "target": "One creature in reach",
+    "duration": "Instantaneous",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744755466701,
+    "modifiedTime": 1754186601655,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!ajUjmYG0x8iXZiFw"
+}

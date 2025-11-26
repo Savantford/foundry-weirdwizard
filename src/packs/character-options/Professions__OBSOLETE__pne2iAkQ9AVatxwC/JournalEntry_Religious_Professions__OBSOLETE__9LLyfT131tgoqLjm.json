@@ -1,0 +1,590 @@
+{
+  "folder": "pne2iAkQ9AVatxwC",
+  "name": "Religious Professions (OBSOLETE)",
+  "_id": "9LLyfT131tgoqLjm",
+  "pages": [
+    {
+      "sort": 0,
+      "name": "Introduction",
+      "type": "text",
+      "_id": "9td2p5F6HgNt8d7A",
+      "system": {},
+      "title": {
+        "show": false,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<div class=\"icon-frame w-50 float-right\"><img src=\"systems/weirdwizard/assets/icons/professions/fire-shrine.svg\" /></div><p>You were indoctrinated into a particular faith.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "[object Object]",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.character-options.JournalEntry.ot4wxPHlAIquNiTV.JournalEntryPage.9td2p5F6HgNt8d7A",
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745095442706,
+        "modifiedTime": 1745096371210,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!9LLyfT131tgoqLjm.9td2p5F6HgNt8d7A"
+    },
+    {
+      "sort": 100000,
+      "name": "Acolyte (OBSOLETE)",
+      "type": "profession",
+      "_id": "T9WQKU7Op7NsfuYV",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "religious",
+        "benefits": {
+          "benefit1": {
+            "languages": [
+              {
+                "name": "Archaic",
+                "desc": ""
+              }
+            ],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You studied to become a priest of the High One and spent your time perusing the holy texts. You have an acolyte’s uniform.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/fire-shrine.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099934841,
+        "modifiedTime": 1760715841457,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!9LLyfT131tgoqLjm.T9WQKU7Op7NsfuYV"
+    },
+    {
+      "sort": 200000,
+      "name": "Aspirant (OBSOLETE)",
+      "type": "profession",
+      "_id": "nl4RrJovBbGeop13",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "religious",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You studied to become a priest of the Old Faith or a particular god of the pantheon. You have the uniform of your faith.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/fire-shrine.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099961992,
+        "modifiedTime": 1760715844407,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!9LLyfT131tgoqLjm.nl4RrJovBbGeop13"
+    },
+    {
+      "sort": 300000,
+      "name": "Cultist (OBSOLETE)",
+      "type": "profession",
+      "_id": "EIFoHzjj9vyV6ARz",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "religious",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You belonged to a small religion that operated on the fringes of your community. Your cult might have had good intentions or could honor some monstrous power. You have a symbol or badge of your faith.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/fire-shrine.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099980057,
+        "modifiedTime": 1760715846887,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!9LLyfT131tgoqLjm.EIFoHzjj9vyV6ARz"
+    },
+    {
+      "sort": 400000,
+      "name": "Evangelist (OBSOLETE)",
+      "type": "profession",
+      "_id": "3hZLuNHpUnp6ElSe",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "religious",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You traveled the land, attempting to convert people to your religion. You have a book containing uncommon knowledge about your faith.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/fire-shrine.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745100002801,
+        "modifiedTime": 1760715849616,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!9LLyfT131tgoqLjm.3hZLuNHpUnp6ElSe"
+    },
+    {
+      "sort": 500000,
+      "name": "Fundamentalist (OBSOLETE)",
+      "type": "profession",
+      "_id": "Jvbo8PrmUnrmx2Z8",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "religious",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You subscribe to an extremely orthodox interpretation of your religion. You have a book containing uncommon knowledge of your faith.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/fire-shrine.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745100023052,
+        "modifiedTime": 1760715852119,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!9LLyfT131tgoqLjm.Jvbo8PrmUnrmx2Z8"
+    },
+    {
+      "sort": 600000,
+      "name": "Heretic (OBSOLETE)",
+      "type": "profession",
+      "_id": "Tzs95CDFkVrTTpah",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "religious",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You held unorthodox beliefs about an extant religion and were an outsider among the faithful who shared your devotion. You have a quarterstaff.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/fire-shrine.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745100041329,
+        "modifiedTime": 1760715861472,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!9LLyfT131tgoqLjm.Tzs95CDFkVrTTpah"
+    },
+    {
+      "sort": 700000,
+      "name": "Missionary (OBSOLETE)",
+      "type": "profession",
+      "_id": "HwmT97BTP3dRTQTE",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "religious",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You traveled into unexplored lands, hoping to bring the message of your religion to the people you met. You have a symbol of your faith.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/fire-shrine.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745100055508,
+        "modifiedTime": 1760715864592,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!9LLyfT131tgoqLjm.HwmT97BTP3dRTQTE"
+    },
+    {
+      "sort": 800000,
+      "name": "Minister (OBSOLETE)",
+      "type": "profession",
+      "_id": "OpZMfTZdT8u2ULWI",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "religious",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You led a congregation of the faithful and taught them to lead spiritual lives. You have a book containing uncommon knowledge about your religion.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/fire-shrine.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745100069409,
+        "modifiedTime": 1760715867568,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!9LLyfT131tgoqLjm.OpZMfTZdT8u2ULWI"
+    },
+    {
+      "sort": 900000,
+      "name": "Prophet (OBSOLETE)",
+      "type": "profession",
+      "_id": "pIVokWQ4NhsuH4vW",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "religious",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You believe the gods spoke to you or through you to pronounce future happenings. You have a quarterstaff.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/fire-shrine.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745100083169,
+        "modifiedTime": 1760715870688,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!9LLyfT131tgoqLjm.pIVokWQ4NhsuH4vW"
+    },
+    {
+      "sort": 1000000,
+      "name": "Scribe (OBSOLETE)",
+      "type": "profession",
+      "_id": "nXtKiEeE6LrdvDYb",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "religious",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You made copies of sacred texts and illuminated the manuscripts. You have a writing kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/fire-shrine.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745100097010,
+        "modifiedTime": 1760715874232,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!9LLyfT131tgoqLjm.nXtKiEeE6LrdvDYb"
+    }
+  ],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1745095374008,
+    "modifiedTime": 1760716006703,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "categories": [],
+  "_key": "!journal!9LLyfT131tgoqLjm"
+}

@@ -1,0 +1,54 @@
+{
+  "folder": "ZhRkhTNcig06LXT1",
+  "name": "Light the Candle",
+  "type": "talent",
+  "_id": "DNtqkyHvtW0Bb5aV",
+  "img": "icons/magic/fire/flame-burning-campfire-orange.webp",
+  "system": {
+    "description": {
+      "value": "<p>You can use an action to light a creature on fire. Target one creature within 5 yards. Make a Will roll against the target’s Strength. On a success, the target catches fire (luck ends). You can use this talent once, twice at level 3, and three times at level 7. You regain expended uses after you rest.</p>"
+    },
+    "active": true,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "trait",
+    "source": "tradition",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744755693311,
+    "modifiedTime": 1754186601327,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!DNtqkyHvtW0Bb5aV"
+}

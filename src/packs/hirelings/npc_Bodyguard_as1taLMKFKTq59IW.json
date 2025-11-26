@@ -1,0 +1,675 @@
+{
+  "name": "Bodyguard",
+  "type": "npc",
+  "_id": "as1taLMKFKTq59IW",
+  "img": "systems/weirdwizard/assets/compendia/bodyguard.png",
+  "system": {
+    "description": {
+      "value": "<p>These trained warriors protect their employers and take risks, even sacrificing themselves if need be. Bodyguards do not throw their lives away for no reason, though; employers who show no regard for their safety might end up with no protection at all.</p>"
+    },
+    "attributes": {
+      "str": {
+        "value": 12
+      },
+      "agi": {
+        "value": 11
+      },
+      "int": {
+        "value": 10
+      },
+      "wil": {
+        "value": 11
+      }
+    },
+    "stats": {
+      "defense": {
+        "total": 17,
+        "details": "mail, shield",
+        "natural": 17
+      },
+      "health": {
+        "current": 40,
+        "normal": 40,
+        "lost": 0
+      },
+      "damage": {
+        "value": 0,
+        "max": 40,
+        "raw": 0
+      },
+      "size": 1,
+      "speed": {
+        "normal": 5,
+        "current": 5
+      },
+      "difficulty": 1
+    },
+    "details": {},
+    "listEntries": {
+      "descriptors": {
+        "human": {
+          "name": "Human",
+          "desc": "As humans have the largest population in the Borderlands, most hirelings are assumed to be human.",
+          "grantedBy": null
+        }
+      },
+      "languages": {
+        "common": {
+          "name": "Common",
+          "desc": "The Common tongue originated with a seafaring people and was important for facilitating trade. It became the dominant language in the Great Kingdom and has spread to the new lands from the lips of refugees pouring across the borderlands. A dialect of Common—Seafarer—comes freighted with nautical jargon and odd digressions in which the speaker offers mild oaths to the sea god.",
+          "grantedBy": null
+        }
+      },
+      "senses": {},
+      "immunities": {},
+      "movementTraits": {}
+    },
+    "charOptions": {
+      "ancestry": null
+    }
+  },
+  "prototypeToken": {
+    "name": "Bodyguard",
+    "displayName": 20,
+    "actorLink": false,
+    "appendNumber": true,
+    "prependAdjective": false,
+    "width": 1,
+    "height": 1,
+    "texture": {
+      "src": "icons/svg/mystery-man-black.svg",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "offsetX": 0,
+      "offsetY": 0,
+      "fit": "contain",
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotation": 0,
+      "tint": "#ffffff",
+      "alphaThreshold": 0.75
+    },
+    "lockRotation": false,
+    "rotation": 0,
+    "alpha": 1,
+    "disposition": 1,
+    "displayBars": 20,
+    "bar1": {
+      "attribute": "stats.damage"
+    },
+    "bar2": {
+      "attribute": null
+    },
+    "light": {
+      "negative": false,
+      "priority": 0,
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "color": null,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "sight": {
+      "enabled": false,
+      "range": 0,
+      "angle": 360,
+      "visionMode": "basic",
+      "color": null,
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0
+    },
+    "detectionModes": [],
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 1,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "flags": {},
+    "randomImg": false,
+    "turnMarker": {
+      "mode": 1,
+      "animation": null,
+      "src": null,
+      "disposition": false
+    },
+    "movementAction": null
+  },
+  "items": [
+    {
+      "name": "Mail Armor",
+      "type": "equipment",
+      "img": "icons/equipment/chest/breastplate-banded-steel-gold.webp",
+      "system": {
+        "description": {
+          "value": "<p>Made from a mesh of interlocked rings designed to stop thrusts and cuts, mail is one of the most common types of armor in the borderlands.</p>"
+        },
+        "active": true,
+        "quantity": 1,
+        "weightUnit": 2,
+        "price": {
+          "value": 15,
+          "coin": "sp"
+        },
+        "availability": "uncommon",
+        "attribute": "",
+        "boons": 0,
+        "against": "",
+        "range": 0,
+        "affliction": "",
+        "uses": {
+          "value": 0,
+          "max": 0,
+          "onRest": false,
+          "levelRelative": "manual"
+        },
+        "damage": "",
+        "healing": "",
+        "subtype": "armor",
+        "quality": "standard",
+        "grip": "One-Handed",
+        "attackRider": {
+          "value": {
+            "value": ""
+          },
+          "name": ""
+        },
+        "reloaded": true,
+        "armorType": "medium",
+        "instant": [],
+        "requirements": "",
+        "traits": {
+          "ammunition": false,
+          "brutal": false,
+          "firearm": false,
+          "long": false,
+          "nimble": false,
+          "range": false,
+          "special": false,
+          "thrown": false,
+          "versatile": false,
+          "bludgeoning": false,
+          "disarming": false,
+          "large": false,
+          "light": false,
+          "misfire": false,
+          "piercing": false,
+          "reload": false,
+          "slashing": false,
+          "slow": false
+        },
+        "targeting": "manual",
+        "template": {
+          "type": "size",
+          "value": 5
+        },
+        "heldBy": "",
+        "capacity": 1,
+        "grantedBy": null,
+        "magical": false
+      },
+      "effects": [
+        {
+          "name": "Armor Equipped",
+          "origin": "Compendium.weirdwizard.armor.Item.8kdTjI16oQxvcKow",
+          "duration": {
+            "startTime": 46073280,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": 31,
+            "startTurn": 1
+          },
+          "disabled": false,
+          "_id": "Nu6YqCTqVi1ErYX0",
+          "changes": [
+            {
+              "key": "defense.armored",
+              "value": "15",
+              "mode": 4,
+              "priority": 1
+            }
+          ],
+          "description": "",
+          "transfer": true,
+          "statuses": [],
+          "flags": {
+            "weirdwizard": {
+              "external": true,
+              "trigger": "passive",
+              "target": "none"
+            }
+          },
+          "tint": "#ffffff",
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "coreVersion": "13.345",
+            "systemId": "weirdwizard",
+            "systemVersion": "#{VERSION}#",
+            "createdTime": null,
+            "modifiedTime": null,
+            "lastModifiedBy": null,
+            "exportSource": null
+          },
+          "img": "icons/equipment/chest/breastplate-banded-steel-gold.webp",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!as1taLMKFKTq59IW.paEgNzJUYVe1VnT7.Nu6YqCTqVi1ErYX0"
+        }
+      ],
+      "flags": {
+        "core": {}
+      },
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.armor.Item.8kdTjI16oQxvcKow",
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1721419131460,
+        "modifiedTime": 1754186600902,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "folder": "QWYSO2x1lrITBKj4",
+      "_id": "paEgNzJUYVe1VnT7",
+      "sort": -200000,
+      "ownership": {
+        "default": 0,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "_key": "!actors.items!as1taLMKFKTq59IW.paEgNzJUYVe1VnT7"
+    },
+    {
+      "name": "Shield",
+      "type": "equipment",
+      "img": "icons/equipment/shield/heater-steel-boss-red.webp",
+      "system": {
+        "description": {
+          "value": "<p>A shield is a flat or convex object held in one's off-hand or worn strapped to the arm. The shield might be round, square, or have some other shape.</p>\n<p>You can also use a shield as an off-hand improvised weapon. When you attack with the shield, you lose its increase to your Defense until the start of your next turn.</p>"
+        },
+        "active": true,
+        "quantity": 1,
+        "weightUnit": 1,
+        "price": {
+          "value": 2,
+          "coin": "sp"
+        },
+        "availability": "common",
+        "attribute": "str",
+        "boons": 0,
+        "against": "",
+        "range": 0,
+        "affliction": "",
+        "uses": {
+          "value": 0,
+          "max": 0,
+          "onRest": false,
+          "levelRelative": "manual"
+        },
+        "damage": "1d6",
+        "healing": "",
+        "subtype": "weapon",
+        "quality": "standard",
+        "grip": "Off",
+        "attackRider": {
+          "value": {
+            "value": ""
+          },
+          "name": ""
+        },
+        "reloaded": true,
+        "armorType": "light",
+        "instant": [],
+        "traits": {
+          "ammunition": false,
+          "brutal": false,
+          "firearm": false,
+          "long": false,
+          "nimble": false,
+          "range": false,
+          "special": false,
+          "thrown": false,
+          "versatile": false,
+          "bludgeoning": false,
+          "disarming": false,
+          "large": false,
+          "light": false,
+          "misfire": false,
+          "piercing": false,
+          "reload": false,
+          "slashing": false,
+          "slow": false
+        },
+        "requirements": "",
+        "targeting": "manual",
+        "template": {
+          "type": "size",
+          "value": 5
+        },
+        "heldBy": "",
+        "capacity": 1,
+        "grantedBy": null,
+        "magical": false
+      },
+      "effects": [
+        {
+          "name": "Shield Equipped",
+          "origin": "Compendium.weirdwizard.armor.Item.V7WvwSnf44l4kO8k",
+          "duration": {
+            "rounds": null,
+            "startTime": 46073280,
+            "seconds": null,
+            "combat": null,
+            "turns": null,
+            "startRound": 31,
+            "startTurn": 1
+          },
+          "flags": {
+            "weirdwizard": {
+              "selectedDuration": "",
+              "autoDelete": true,
+              "external": false,
+              "trigger": "passive",
+              "target": "none"
+            }
+          },
+          "disabled": false,
+          "img": "icons/equipment/shield/heater-steel-boss-red.webp",
+          "_id": "6CApAcAOoxllfLyA",
+          "type": "base",
+          "system": {},
+          "changes": [
+            {
+              "key": "defense.bonus",
+              "value": "2",
+              "mode": 2,
+              "priority": null
+            }
+          ],
+          "description": "",
+          "tint": "#ffffff",
+          "transfer": true,
+          "statuses": [],
+          "sort": 0,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "coreVersion": "13.345",
+            "systemId": "weirdwizard",
+            "systemVersion": "#{VERSION}#",
+            "createdTime": null,
+            "modifiedTime": null,
+            "lastModifiedBy": null,
+            "exportSource": null
+          },
+          "_key": "!actors.items.effects!as1taLMKFKTq59IW.wmlROsXEUKn64LB0.6CApAcAOoxllfLyA"
+        }
+      ],
+      "flags": {
+        "core": {}
+      },
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.armor.Item.V7WvwSnf44l4kO8k",
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1721419151998,
+        "modifiedTime": 1754186600911,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "folder": "lRYrYKOyRDECOEzg",
+      "ownership": {
+        "default": 0,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "_id": "wmlROsXEUKn64LB0",
+      "sort": -100000,
+      "_key": "!actors.items!as1taLMKFKTq59IW.wmlROsXEUKn64LB0"
+    },
+    {
+      "name": "Sword",
+      "type": "equipment",
+      "system": {
+        "description": {
+          "value": "<p>A sword typically features a straight blade with an edge on both sides, a guard, and a handle.</p>"
+        },
+        "active": true,
+        "quantity": 1,
+        "weightUnit": 1,
+        "price": {
+          "value": 2,
+          "coin": "sp"
+        },
+        "availability": "common",
+        "attribute": "str",
+        "boons": 1,
+        "against": "def",
+        "range": 0,
+        "affliction": "",
+        "uses": {
+          "value": 0,
+          "max": 0,
+          "onRest": false,
+          "levelRelative": "manual"
+        },
+        "damage": "2d6",
+        "healing": "",
+        "subtype": "weapon",
+        "quality": "standard",
+        "grip": "One",
+        "attackRider": {
+          "value": {
+            "value": ""
+          },
+          "name": ""
+        },
+        "reloaded": true,
+        "armorType": "light",
+        "instant": [],
+        "traits": {
+          "ammunition": false,
+          "brutal": false,
+          "firearm": false,
+          "long": false,
+          "nimble": false,
+          "range": false,
+          "special": false,
+          "thrown": false,
+          "versatile": false,
+          "slashing": true,
+          "bludgeoning": false,
+          "disarming": false,
+          "large": false,
+          "light": false,
+          "misfire": false,
+          "piercing": false,
+          "reload": false,
+          "slow": false
+        },
+        "requirements": "",
+        "targeting": "manual",
+        "template": {
+          "type": "size",
+          "value": 5
+        },
+        "heldBy": "",
+        "capacity": 1,
+        "grantedBy": null,
+        "magical": false
+      },
+      "img": "icons/weapons/swords/sword-guard-blue.webp",
+      "effects": [],
+      "flags": {
+        "core": {}
+      },
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.weapons.Item.0u3rLO1CFHSf8aJw",
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1721419259719,
+        "modifiedTime": 1754186600921,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "folder": "CGh2LhSduUMqiiy4",
+      "_id": "zYMBqiEfjzNboq1s",
+      "sort": -400000,
+      "ownership": {
+        "default": 0,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "_key": "!actors.items!as1taLMKFKTq59IW.zYMBqiEfjzNboq1s"
+    },
+    {
+      "name": "Dagger",
+      "type": "equipment",
+      "img": "icons/weapons/daggers/dagger-curved-guard-blue.webp",
+      "system": {
+        "description": {
+          "value": "<p>A dagger has a long blade up to 18 inches in length and serves well as a backup or off-hand weapon. Daggers come in many different styles, each with their own names, such as dirk, jambiya, jile, misericord, and stiletto. Daggers also include throwing knives, shuriken, and similar weapons.</p>"
+        },
+        "active": true,
+        "quantity": 1,
+        "weightUnit": 1,
+        "price": {
+          "value": 5,
+          "coin": "cp"
+        },
+        "availability": "common",
+        "attribute": "str",
+        "boons": 1,
+        "against": "def",
+        "range": 5,
+        "affliction": "",
+        "uses": {
+          "value": 0,
+          "max": 0,
+          "onRest": false,
+          "levelRelative": "manual"
+        },
+        "damage": "1d6",
+        "healing": "",
+        "subtype": "weapon",
+        "quality": "standard",
+        "grip": "Off",
+        "attackRider": {
+          "value": {
+            "value": ""
+          },
+          "name": ""
+        },
+        "reloaded": true,
+        "armorType": "light",
+        "instant": [],
+        "traits": {
+          "ammunition": false,
+          "brutal": false,
+          "firearm": false,
+          "long": false,
+          "nimble": true,
+          "range": false,
+          "special": false,
+          "thrown": true,
+          "versatile": false,
+          "light": true,
+          "piercing": true,
+          "bludgeoning": false,
+          "disarming": false,
+          "large": false,
+          "misfire": false,
+          "reload": false,
+          "slashing": false,
+          "slow": false
+        },
+        "requirements": "",
+        "targeting": "manual",
+        "template": {
+          "type": "size",
+          "value": 5
+        },
+        "heldBy": "",
+        "capacity": 1,
+        "grantedBy": null,
+        "magical": false
+      },
+      "effects": [],
+      "flags": {
+        "core": {}
+      },
+      "_stats": {
+        "compendiumSource": "Compendium.weirdwizard.weapons.Item.CXVX2qXNjAUvWkpi",
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1721419277165,
+        "modifiedTime": 1754186600931,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "folder": "CGh2LhSduUMqiiy4",
+      "_id": "HUPuWTY4a84FASMc",
+      "sort": -300000,
+      "ownership": {
+        "default": 0,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "_key": "!actors.items!as1taLMKFKTq59IW.HUPuWTY4a84FASMc"
+    }
+  ],
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1721418686743,
+    "modifiedTime": 1754186600886,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!actors!as1taLMKFKTq59IW"
+}

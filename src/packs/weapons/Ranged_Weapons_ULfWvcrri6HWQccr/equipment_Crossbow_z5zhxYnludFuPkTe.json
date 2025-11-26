@@ -1,0 +1,96 @@
+{
+  "name": "Crossbow",
+  "type": "equipment",
+  "system": {
+    "description": {
+      "value": "<p>A crossbow has a grooved wooden stock to which has been fastened a metal or wooden crossbar that functions as the bow. Cranking back the bowstring until it cocks readies the weapon for firing a loaded bolt. You can use a crossbow as a twohanded improvised melee weapon.</p>"
+    },
+    "active": true,
+    "quantity": 1,
+    "weightUnit": 1,
+    "price": {
+      "value": 1,
+      "coin": "gp"
+    },
+    "availability": "rare",
+    "attribute": "agi",
+    "boons": 0,
+    "against": "def",
+    "range": 20,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": false,
+      "levelRelative": "manual"
+    },
+    "damage": "2d6",
+    "healing": "",
+    "subtype": "weapon",
+    "quality": "standard",
+    "grip": "Two",
+    "attackRider": {
+      "value": {
+        "value": ""
+      },
+      "name": ""
+    },
+    "reloaded": true,
+    "armorType": "light",
+    "instant": [],
+    "traits": {
+      "ammunition": true,
+      "brutal": true,
+      "firearm": false,
+      "long": false,
+      "nimble": false,
+      "range": true,
+      "special": false,
+      "thrown": false,
+      "versatile": false,
+      "reload": true,
+      "bludgeoning": false,
+      "disarming": false,
+      "large": false,
+      "light": false,
+      "misfire": false,
+      "piercing": false,
+      "slashing": false,
+      "slow": false
+    },
+    "requirements": "",
+    "grantedBy": null,
+    "magical": false,
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "heldBy": null,
+    "capacity": 1
+  },
+  "img": "icons/weapons/crossbows/crossbow-loaded-black.webp",
+  "effects": [],
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "coreVersion": "13.345",
+    "createdTime": 1692034059944,
+    "modifiedTime": 1754186600831,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
+  },
+  "folder": "ULfWvcrri6HWQccr",
+  "_id": "z5zhxYnludFuPkTe",
+  "sort": 200000,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "_key": "!items!z5zhxYnludFuPkTe"
+}

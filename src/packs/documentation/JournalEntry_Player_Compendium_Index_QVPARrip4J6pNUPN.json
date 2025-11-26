@@ -1,0 +1,65 @@
+{
+  "name": "Player Compendium Index",
+  "pages": [
+    {
+      "sort": 100000,
+      "name": "Player Index",
+      "type": "text",
+      "_id": "bz1TcjiGMLAXyUXb",
+      "system": {},
+      "title": {
+        "show": false,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>The <strong>Compendium Index</strong> is an app used to display <a href=\"https://foundryvtt.com/article/compendium/\">compendia</a> for the Shadow of the Weird Wizard system, usually formatted in a way similar to the book's tables.</p><h1>Usage</h1><p>The Compendium Index can only be accessed through <a href=\"https://foundryvtt.wiki/en/development/guides/enrichers\">enricher</a> codes, enabled anywhere where enriched text exists. This includes:</p><ul><li><p><a href=\"https://foundryvtt.com/article/journal/\">Journal entries</a> (like this one!)</p></li><li><p><a href=\"https://foundryvtt.com/article/chat/\">Chat messages</a></p></li><li><p>Fields in <a href=\"https://foundryvtt.com/article/actors/\">actor</a> and <a href=\"https://foundryvtt.com/article/items/\">item</a> sheets where the text editor is used.</p></li><li><p>Other places where a text editor such as this one is used.</p></li></ul><h2>Available Codes</h2><p>Below is the code and result for each existing system compendium.</p><h3>Equipment</h3><table><tbody><tr><td><p><strong>Code</strong></p></td><td><p><strong>Result</strong></p></td></tr><tr><td><p><code>index:‌‌armor</code></p></td><td><p>index:armor</p></td></tr><tr><td><p><code>index:‌‌weapons</code></p></td><td><p>index:weapons</p></td></tr><tr><td><p><code>index:‌‌hirelings</code></p></td><td><p>index:hirelings</p></td></tr></tbody></table><h3>Character Options</h3><table><tbody><tr><td><p><strong>Code</strong></p></td><td><p><strong>Result</strong></p></td></tr><tr><td><p><code>index:‌‌charopts</code></p></td><td><p>index:charopts</p></td></tr><tr><td><p><code>index:‌‌traits</code></p></td><td><p>index:traits</p></td></tr><tr><td><p><code>index:‌‌talents</code></p></td><td><p>index:talents</p></td></tr><tr><td><p><code>index:‌‌spells</code></p></td><td><p>index:spells</p></td></tr></tbody></table>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": null,
+        "modifiedTime": 1746130202223,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!QVPARrip4J6pNUPN.bz1TcjiGMLAXyUXb"
+    }
+  ],
+  "folder": null,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1720476331814,
+    "modifiedTime": 1726259668608,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_id": "QVPARrip4J6pNUPN",
+  "sort": 100000,
+  "categories": [],
+  "_key": "!journal!QVPARrip4J6pNUPN"
+}

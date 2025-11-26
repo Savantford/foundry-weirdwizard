@@ -1,0 +1,57 @@
+{
+  "folder": "tj24NSEA1FBIvYN1",
+  "name": "Speed of the Cheetah",
+  "type": "spell",
+  "_id": "R4xHnoAtlj3uxkEf",
+  "img": "icons/creatures/abilities/cougar-pounce-stalk-black.webp",
+  "system": {
+    "description": {
+      "value": "<p>Increase your Speed by 2 and gain the Slippery trait. When you run, you quadruple your Speed instead of tripling.</p>"
+    },
+    "active": false,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 3,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "tier": "novice",
+    "tradition": "",
+    "casting": "reaction when you move 1 yard",
+    "target": "You",
+    "duration": "1 minute",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744755357121,
+    "modifiedTime": 1754186601507,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!R4xHnoAtlj3uxkEf"
+}

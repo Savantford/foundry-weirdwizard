@@ -1,0 +1,52 @@
+{
+  "folder": "AR1igPLlcOaaNUUW",
+  "name": "Rogue Technique",
+  "type": "talent",
+  "_id": "XUsINZVPzeC5trhx",
+  "img": "icons/skills/melee/maneuver-daggers-paired-orange.webp",
+  "system": {
+    "description": "<p>You have developed a special technique. Gain one of the following benefits.</p><ul><li><p><strong>Backstab:</strong> When you get a success on a roll to attack using a melee weapon and you are either hidden from the target or the target is within the reach of one or more allies, the attack deals an extra 1d6 damage.<br>At level 5, the extra damage increases to 2d6.</p></li><li><p><strong>Beloved of the Gods:</strong> You make luck rolls with 1 boon.<br>Whenever you roll a 1 on the die for an attribute roll, you can use this talent to make a luck roll. The result of the luck roll replaces the result of the attribute roll. Once you use this aspect of the talent, you lose access to the talent until after you rest.<br>At level 5, you regain the use of this talent after 1 minute.</p></li><li><strong>Fighting Style:</strong> You gain one Fighting Style from the fighter path.</li><li><p><strong>Magic Use:</strong> Add Arcane to your list of languages. You discover one tradition and learn two novice spells.<br>At level 5, you learn one expert spell.</p></li><li><p><strong>Mockery:</strong> While you are not injured, you increase the number of actions you can use on your turn by one, but one of these actions must be used to hinder. When you hinder a creature, the target makes your choice of an Intellect roll or Will roll. In either case, the target rolls with 1 bane. On a success, the target becomes immune to this aspect of your hinder attempts for 24 hours. On a failed Intellect roll, the target becomes weakened (luck ends). On a failed Will roll, the target becomes vulnerable (luck ends). While vulnerable in this way, the target rolls to attack targets other than you with 1 bane.<br>At level 5, you can use a reaction when a creature within 5 yards makes an attribute roll to hinder it. In addition, your attacks against hindered creatures deal an extra 1d6 damage.</p></li><li><p><strong>Skirmisher:</strong> Your Speed increases by 2. When you use an action to attack, you gain the Slippery trait until the end of your turn.<br>At level 5, when you use an action to run, you can use this aspect of the talent to gain another action. Once you use this aspect of the talent, you lose access to this talent (luck ends).</p></li></ul>",
+    "active": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "trait",
+    "source": "novice",
+    "grantedBy": null,
+    "magical": false
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.350",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1720989578680,
+    "modifiedTime": 1761782357119,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!XUsINZVPzeC5trhx"
+}

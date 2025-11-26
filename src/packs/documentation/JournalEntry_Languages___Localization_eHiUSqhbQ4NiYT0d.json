@@ -1,0 +1,104 @@
+{
+  "name": "Languages & Localization",
+  "_id": "eHiUSqhbQ4NiYT0d",
+  "pages": [
+    {
+      "sort": 100000,
+      "name": "Supported Languages",
+      "type": "text",
+      "_id": "O4CeO4Sqtl0bNBPg",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p><em><strong>Shadow of the Weird Wizard</strong></em> system has community-provided support for the following languages:</p><ul><li><p>Brazilian Portuguese (Português Brasileiro)</p></li><li><p>German (Deutsch)</p></li></ul><p>You can read more about it in <a href=\"https://foundryvtt.com/article/localization/\">Foundry's documentation</a>.</p><h2>Changing the Language</h2><p>If you wish to change the system's language, head to the <strong>Game Settings</strong> tab, then open <strong>Configure Settings</strong>. Scroll down to <strong>Language Preference</strong> and select the language you wish to use.</p><p>Once confirmed, Foundry will need to be refreshed for the changes to be applied.</p><h2>Foundry Core's Interface</h2><p>The localizations included in the Weird Wizard system is for the <strong>system interface only</strong>.</p><p>If you wish to also localize Foundry core's interface, head to <a href=\"https://foundryvtt.com/packages/tag/translation\">Translation and Localization</a> in Foundry VTT's website and find the appropriate localization module of your choice.</p><p>To speed up the test, here are some example modules, one for each supported language:</p><ul><li><p><a href=\"https://foundryvtt.com/packages/pt-BR\">Translation [Core]: Tradução para Português Brasileiro</a></p></li><li><p><a href=\"https://foundryvtt.com/packages/lang-de\">German [Core]</a></p></li></ul><p>If a localization module is installed and enabled, changing the <strong>Language Preference</strong> will also apply Foundry core's localization to the interface.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "category": null,
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1763468267666,
+        "modifiedTime": 1763472299193,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "_key": "!journal.pages!eHiUSqhbQ4NiYT0d.O4CeO4Sqtl0bNBPg"
+    },
+    {
+      "sort": 200000,
+      "name": "Contributing to a Localization",
+      "type": "text",
+      "_id": "ALO3cXx999oQG7Bt",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>If you wish to contribute to a localization of a language in particular, read below.</p><h2>Contributing to an Existing Language</h2><p>If the language is already supported, please join our <a href=\"https://discord.gg/X5XustKpe4\">Discord server</a>, head to the <a href=\"https://discord.com/channels/1342990053311250552/1432914330034110474\">localization</a> channel under <strong>Join the Party</strong> category and then find the dedicated post for the language you want to help with.</p><p>The file that needs to be changed is located in <code>&lt;Foundry's data path&gt;/systems/weirdwizard/lang</code> folder (<a href=\"https://github.com/Savantford/foundry-weirdwizard/tree/main/lang\">GitHub</a>). The English file, for example, is <code>en.json</code>.</p><p>Once discussed and approved by the community, you can either submit a pull request in the system's <a href=\"https://github.com/Savantford/foundry-weirdwizard\">GitHub repository</a> yourself or ask the Development Team in Discord to do so.</p><p>Thanks for the contribution!</p><h2>Adding a New Language</h2><p>In order to add a new language to the system, please join our <a href=\"https://discord.gg/X5XustKpe4\">Discord server</a>, head to the <a href=\"https://discord.com/channels/1342990053311250552/1432914330034110474\">localization</a> channel under <strong>Join the Party</strong> category and then drop a message in <a href=\"https://discord.com/channels/1342990053311250552/1432919068188479529\">Requests for the Dev Team</a>.</p><p>Once discussed, you'll need to create a new language file and provide information to the system's manifest.</p><h3>Creating a Language File</h3><p>You'll need to make a copy of <code>en.json</code> file located in <code>&lt;Foundry's data path&gt;/systems/weirdwizard/lang</code> folder (<a href=\"https://github.com/Savantford/foundry-weirdwizard/tree/main/lang\">GitHub</a>).</p><p>The copy must be named using the appropriate <a href=\"https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes\">ISO 639-2 code</a>. English, for example, is <code>en</code>.</p><p>If you wish to specify a regional language variation, such as <strong>Brazilian</strong> Portuguese, then make sure to add the <a href=\"https://countrycode.org/\">ISO country code</a> to the file name, such as in <code>pt-BR</code>.</p><h3>Manifest Information</h3><p>You'll also need to alter the code below with:</p><ul><li><p>The language code, such as <code>pt-BR</code>.</p></li><li><p>The display name for the language, such as <code>Português Brasileiro (Brazilian Portuguese)</code>.</p></li><li><p>The file path, such as <code>lang/pt-BR.json</code>.</p></li></ul><pre><code>{\n    \"lang\": \"en\",\n    \"name\": \"English\",\n    \"path\": \"lang/en.json\"\n}</code></pre><p>This code will be included on the system's manifest, <code>system.json</code> (<a href=\"https://github.com/Savantford/foundry-weirdwizard/blob/main/system.json\">GitHub</a>), in order for the localization to be recognized by Foundry.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "category": null,
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1763469693379,
+        "modifiedTime": 1763472044162,
+        "lastModifiedBy": "zin7Kb6P2LomswaD"
+      },
+      "_key": "!journal.pages!eHiUSqhbQ4NiYT0d.ALO3cXx999oQG7Bt"
+    }
+  ],
+  "folder": null,
+  "categories": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.350",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1763468238422,
+    "modifiedTime": 1763468238422,
+    "lastModifiedBy": "zin7Kb6P2LomswaD"
+  },
+  "_key": "!journal!eHiUSqhbQ4NiYT0d"
+}

@@ -1,0 +1,54 @@
+{
+  "folder": "UlsxEYDyBywLEP7N",
+  "name": "Warp Flesh",
+  "type": "talent",
+  "_id": "Ki1VMC5bxm85nSuO",
+  "img": "icons/magic/control/voodoo-doll-pain-damage-red.webp",
+  "system": {
+    "description": {
+      "value": "<p>You can use an action to cause a creature’s body to undergo a brief, but painful transformation. Target one creature within 5 yards. Make a Will roll against its Strength. On a success, the target becomes weakened until the end of your next turn. On a critical success, the target takes 1d6 damage and becomes vulnerable (luck ends). At level 3, you can target two creatures. At level 7, you can target three creatures.</p>"
+    },
+    "active": true,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "trait",
+    "source": "tradition",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744752924123,
+    "modifiedTime": 1754186601404,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!Ki1VMC5bxm85nSuO"
+}

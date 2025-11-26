@@ -1,0 +1,153 @@
+{
+  "name": "Padded Armor",
+  "type": "equipment",
+  "img": "icons/equipment/chest/breastplate-quilted-brown.webp",
+  "system": {
+    "description": {
+      "value": "<p>A suit of padded armor has quilted or felt panels designed to soften blows and protect against minor scrapes.</p>"
+    },
+    "active": true,
+    "quantity": 1,
+    "weightUnit": 1,
+    "price": {
+      "value": 1,
+      "coin": "sp"
+    },
+    "availability": "common",
+    "attribute": "",
+    "boons": 0,
+    "against": "",
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": false,
+      "levelRelative": "manual"
+    },
+    "damage": "",
+    "healing": "",
+    "subtype": "armor",
+    "quality": "standard",
+    "grip": "One-Handed",
+    "attackRider": {
+      "value": {
+        "value": ""
+      },
+      "name": ""
+    },
+    "reloaded": true,
+    "armorType": "light",
+    "instant": [],
+    "requirements": "",
+    "traits": {
+      "ammunition": false,
+      "brutal": false,
+      "firearm": false,
+      "long": false,
+      "nimble": false,
+      "range": false,
+      "special": false,
+      "thrown": false,
+      "versatile": false,
+      "bludgeoning": false,
+      "disarming": false,
+      "large": false,
+      "light": false,
+      "misfire": false,
+      "piercing": false,
+      "reload": false,
+      "slashing": false,
+      "slow": false
+    },
+    "grantedBy": null,
+    "magical": false,
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "heldBy": null,
+    "capacity": 1
+  },
+  "effects": [
+    {
+      "name": "Armor Equipped",
+      "origin": "Compendium.weirdwizard.armor.Item.IRML4OXCEco84V5k",
+      "duration": {
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "_id": "j5s9UVUGhjC0mgwk",
+      "changes": [
+        {
+          "key": "defense.armored",
+          "value": "11",
+          "mode": 4,
+          "priority": 1
+        },
+        {
+          "key": "defense.naturalIncrease",
+          "value": "0",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "",
+      "transfer": true,
+      "statuses": [],
+      "flags": {
+        "weirdwizard": {
+          "external": true,
+          "trigger": "passive",
+          "target": "none"
+        }
+      },
+      "tint": "#ffffff",
+      "_stats": {
+        "coreVersion": "13.345",
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null,
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "img": "icons/equipment/chest/breastplate-quilted-brown.webp",
+      "type": "base",
+      "system": {},
+      "sort": 0,
+      "_key": "!items.effects!IRML4OXCEco84V5k.j5s9UVUGhjC0mgwk"
+    }
+  ],
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "coreVersion": "13.345",
+    "createdTime": 1692116593788,
+    "modifiedTime": 1754186600412,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
+  },
+  "folder": "DAtwSPAy7iaxB8ZT",
+  "_id": "IRML4OXCEco84V5k",
+  "sort": 200000,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "_key": "!items!IRML4OXCEco84V5k"
+}

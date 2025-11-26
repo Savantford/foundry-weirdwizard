@@ -1,0 +1,94 @@
+{
+  "name": "Flail",
+  "type": "equipment",
+  "_id": "VDtOlkQaKMmf4o3K",
+  "img": "icons/weapons/maces/flail-spiked-grey.webp",
+  "system": {
+    "description": {
+      "value": "<p>A flail has a weighted rod, ball, metal lozenge, ring, or spiked ball at the end of a chain that’s attached to a long handle. Some flails feature multiple weights at the ends of chains.</p>"
+    },
+    "active": true,
+    "quantity": 1,
+    "weightUnit": 1,
+    "price": {
+      "value": 5,
+      "coin": "sp"
+    },
+    "availability": "uncommon",
+    "attribute": "str",
+    "against": "def",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "weapon",
+    "quality": "standard",
+    "heldBy": "",
+    "requirements": "str12",
+    "damage": "2d6",
+    "grip": "One",
+    "traits": {
+      "ammunition": false,
+      "bludgeoning": true,
+      "brutal": false,
+      "disarming": true,
+      "firearm": false,
+      "large": false,
+      "light": false,
+      "long": false,
+      "misfire": false,
+      "nimble": false,
+      "piercing": false,
+      "range": false,
+      "reload": false,
+      "slashing": false,
+      "slow": true,
+      "special": false,
+      "thrown": false,
+      "versatile": false
+    },
+    "attackRider": {
+      "value": {
+        "value": ""
+      },
+      "name": ""
+    },
+    "reloaded": true,
+    "armorType": "light",
+    "capacity": 1,
+    "grantedBy": null,
+    "magical": false
+  },
+  "effects": [],
+  "folder": "CGh2LhSduUMqiiy4",
+  "sort": 1500000,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1721405707313,
+    "modifiedTime": 1754186600699,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!VDtOlkQaKMmf4o3K"
+}

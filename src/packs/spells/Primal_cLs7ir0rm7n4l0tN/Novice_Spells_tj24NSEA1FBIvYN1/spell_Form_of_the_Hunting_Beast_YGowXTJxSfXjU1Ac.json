@@ -1,0 +1,57 @@
+{
+  "folder": "tj24NSEA1FBIvYN1",
+  "name": "Form of the Hunting Beast",
+  "type": "spell",
+  "_id": "YGowXTJxSfXjU1Ac",
+  "img": "icons/creatures/mammals/wolf-howl-moon-gray.webp",
+  "system": {
+    "description": {
+      "value": "<p>You, along with everything you wear and carry, transform into an enormous beast that looks something like a wolf. You remain in this form for the duration, but the spell ends early if you become incapacitated. In this form, you lose the ability to speak and make use of your equipment. Make the following changes to your rules until the spell ends. When it ends, you heal 2d6 damage.</p><p>You can expend a casting of this spell to heal 4d6 damage instead of producing the spell's normal effects.</p><p><strong>Defense:</strong> 15, Health: 30</p><p><strong>Attributes:</strong> Strength 14 (+4), Agility 10 (+0)</p><p><strong>Size:</strong> 1, <strong>Speed:</strong> 6</p><p><strong>Senses:</strong> Keen Hearing, Keen Scent, and Keen Vision</p><p><strong>Natural Weapons:</strong> You can use your teeth and claws as a single natural weapon that deals 4d6 damage. When you attack with your natural weapon, you roll with 1 boon.</p><p><strong>Tongue of Beasts:</strong> You can cast Primal spells without having to speak.</p>"
+    },
+    "active": false,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 1,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "tier": "novice",
+    "tradition": "",
+    "casting": "",
+    "target": "You",
+    "duration": "1 hour",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744755104689,
+    "modifiedTime": 1754186601623,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!YGowXTJxSfXjU1Ac"
+}

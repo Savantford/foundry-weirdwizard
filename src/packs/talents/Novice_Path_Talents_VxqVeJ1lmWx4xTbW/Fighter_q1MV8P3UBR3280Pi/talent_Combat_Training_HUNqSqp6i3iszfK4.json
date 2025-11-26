@@ -1,0 +1,107 @@
+{
+  "folder": "q1MV8P3UBR3280Pi",
+  "name": "Combat Training",
+  "type": "talent",
+  "_id": "HUNqSqp6i3iszfK4",
+  "img": "icons/environment/settlement/target-dummy.webp",
+  "system": {
+    "description": {
+      "value": "<p>You ignore the requirements for wearing armor and using weapons. You roll to attack with 1 boon. When you get a critical success on a roll to attack, you can roll the damage an additional time and use the highest total.</p>"
+    },
+    "active": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "trait",
+    "source": "novice",
+    "grantedBy": null,
+    "magical": false
+  },
+  "effects": [
+    {
+      "name": "Combat Training",
+      "origin": "Compendium.weirdwizard.talents.Item.HUNqSqp6i3iszfK4",
+      "duration": {
+        "rounds": null,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "flags": {
+        "weirdwizard": {
+          "selectedDuration": "",
+          "autoDelete": true,
+          "external": false,
+          "trigger": "passive",
+          "target": "none"
+        }
+      },
+      "disabled": false,
+      "img": "icons/svg/card-hand.svg",
+      "_id": "FAMNoDNbqWe3wqqA",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "boons.attacks",
+          "value": "1",
+          "mode": 2,
+          "priority": null
+        }
+      ],
+      "description": "",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1720985351761,
+        "modifiedTime": 1738016808343,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "_key": "!items.effects!HUNqSqp6i3iszfK4.FAMNoDNbqWe3wqqA"
+    }
+  ],
+  "sort": 200000,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1720985313353,
+    "modifiedTime": 1754186601067,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!HUNqSqp6i3iszfK4"
+}

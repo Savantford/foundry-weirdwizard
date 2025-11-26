@@ -1,0 +1,66 @@
+{
+  "name": "Inline Rolls & Attribute Calls",
+  "pages": [
+    {
+      "sort": 100000,
+      "name": "Inline Rolls & Attribute Calls",
+      "type": "text",
+      "_id": "RvMIKK8k2nfZ0rP3",
+      "title": {
+        "show": false,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>You can use certain text enriching codes in <strong>item descriptions</strong> to obtain inline <strong>attribute or luck calls</strong> (\"The target must roll @[agi]\") or <strong>inline rolls</strong> (\"On a failure, it takes @[1d6|d] damage\").</p><p>Other than being formatted, <strong>they do nothing outside of Chat Messages.</strong></p><h1>Attribute or Luck Call</h1><p>You can use inline attribute calls to request an attribute or luck roll from whoever clicks it.</p><h2>Syntax</h2><p><strong><code>@[attr]</code></strong>, <strong><code>@[attr+boons]</code></strong>, <strong><code>@[attr-banes]</code></strong></p><p></p><ul><li><p><strong><code>attr</code></strong> is the called attribute's key. Possible keys are:</p><ul><li><p><strong><code>str</code></strong>: Strength</p></li><li><p><strong><code>agi</code></strong>: Agility</p></li><li><p><strong><code>int</code></strong>: Intellect</p></li><li><p><strong><code>wil</code></strong>: Will</p></li><li><p><strong><code>luck</code></strong>: Luck</p></li></ul></li><li><p>Optional: <strong><code>+boons</code></strong> indicates that the roll is made with a number of boons: <strong><code>+1</code></strong>, <strong><code>+2</code></strong>, <strong><code>+3</code></strong>.</p></li><li><p>Optional: <strong><code>-banes</code></strong> indicates that the roll is made with a number of banes: <strong><code>-1</code></strong>, <strong><code>-2</code></strong>, <strong><code>-3</code></strong>.</p></li></ul><h2>Examples</h2><ul><li><p>@[<strong>str</strong>]: @[str]</p></li><li><p>@[<strong>agi+2</strong>]: @[agi+2] (with 2 boons)</p></li><li><p>@[<strong>wil-1</strong>]: @[wil-1] (with 1 bane)</p></li></ul><h1>Inline Roll</h1><p>You can also use inline rolls to conveniently allow people to roll a dice expression.</p><h2>Syntax</h2><p><strong><code>@[exp]</code></strong>, <strong><code>@[exp|type]</code></strong></p><p></p><ul><li><p><strong><code>exp</code></strong> is the the dice expression to be rolled: <strong><code>1d6</code></strong>, <strong><code>2d6+1</code></strong>, <strong><code>1d6+3d6</code></strong>.</p></li><li><p>Optional, but Recommended: <strong><code>type</code></strong> is the roll type key. Possible keys are:</p><ul><li><p><strong><code>d</code></strong>: Damage</p></li><li><p><strong><code>h</code></strong>: Healing</p></li><li><p><strong><code>hl</code></strong>: Health Loss</p></li><li><p><strong><code>hr</code></strong>: Health Recovery</p></li></ul></li></ul><h2>Examples</h2><ul><li><p>@[<strong>1d6</strong>]: @[1d6] (unspecified)</p></li><li><p>@[<strong>1d6+2|d</strong>]: @[1d6+2|d] (flagged as a damage roll)</p></li><li><p>@[<strong>2d6|hl</strong>]: @[2d6|hl] (flagged as a Health loss roll)</p></li></ul>",
+        "markdown": ""
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "system": {},
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": null,
+        "modifiedTime": 1726262120058,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!3bnYDDtjmh0SFFBS.RvMIKK8k2nfZ0rP3"
+    }
+  ],
+  "folder": null,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1720476333432,
+    "modifiedTime": 1720476344086,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_id": "3bnYDDtjmh0SFFBS",
+  "sort": 150000,
+  "categories": [],
+  "_key": "!journal!3bnYDDtjmh0SFFBS"
+}

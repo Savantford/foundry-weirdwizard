@@ -1,0 +1,585 @@
+{
+  "folder": "pne2iAkQ9AVatxwC",
+  "name": "Entertainment Professions (OBSOLETE)",
+  "_id": "TKxCUvqtEMT9BBog",
+  "pages": [
+    {
+      "sort": 100000,
+      "name": "Introduction",
+      "type": "text",
+      "_id": "usXkY673JN6sICg0",
+      "system": {},
+      "title": {
+        "show": false,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<div class=\"icon-frame w-50 float-right\"><img src=\"systems/weirdwizard/assets/icons/professions/banjo.svg\" /></div><p>You entertain audiences using a particular method.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745095326649,
+        "modifiedTime": 1745096292946,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!TKxCUvqtEMT9BBog.usXkY673JN6sICg0"
+    },
+    {
+      "sort": 200000,
+      "name": "Acrobat (OBSOLETE)",
+      "type": "profession",
+      "_id": "K7J2gLPiFC28jy3W",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "entertainment",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You jumped, tumbled, and performed other feats of dexterity for the crowds. You have a quarterstaff.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/banjo.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099451616,
+        "modifiedTime": 1760715762160,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!TKxCUvqtEMT9BBog.K7J2gLPiFC28jy3W"
+    },
+    {
+      "sort": 300000,
+      "name": "Animal Handler (OBSOLETE)",
+      "type": "profession",
+      "_id": "JABTgAAHl9nCmsqV",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "entertainment",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You trained animals to perform tricks. You have a harmless pet of your choice.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/banjo.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099546321,
+        "modifiedTime": 1760715764921,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!TKxCUvqtEMT9BBog.JABTgAAHl9nCmsqV"
+    },
+    {
+      "sort": 400000,
+      "name": "Artist (OBSOLETE)",
+      "type": "profession",
+      "_id": "0tL5CWe7Srbpjom9",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "entertainment",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You produced works of art such as sculptures, paintings, tapestries and more. You have a tool kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/banjo.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099566747,
+        "modifiedTime": 1760715767760,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!TKxCUvqtEMT9BBog.0tL5CWe7Srbpjom9"
+    },
+    {
+      "sort": 500000,
+      "name": "Busker (OBSOLETE)",
+      "type": "profession",
+      "_id": "jb3b9h9pM5Xovzmu",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "entertainment",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You performed songs, music, told jokes, and performed other acts on street corners. You have a musical instrument.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/banjo.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099580952,
+        "modifiedTime": 1760715770559,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!TKxCUvqtEMT9BBog.jb3b9h9pM5Xovzmu"
+    },
+    {
+      "sort": 600000,
+      "name": "Clown/Mime (OBSOLETE)",
+      "type": "profession",
+      "_id": "MUPPN0pRESFYNr24",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "entertainment",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You painted up your face and acted the fool. You have a disguise kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/banjo.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099598594,
+        "modifiedTime": 1760715773240,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!TKxCUvqtEMT9BBog.MUPPN0pRESFYNr24"
+    },
+    {
+      "sort": 700000,
+      "name": "Dancer (OBSOLETE)",
+      "type": "profession",
+      "_id": "Yh0AWMenMVQrNuvv",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "entertainment",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You performed exotic and complex dances. You have a cosmetics kit.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/banjo.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099629041,
+        "modifiedTime": 1760715778193,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!TKxCUvqtEMT9BBog.Yh0AWMenMVQrNuvv"
+    },
+    {
+      "sort": 800000,
+      "name": "Fortune Teller (OBSOLETE)",
+      "type": "profession",
+      "_id": "yB1j0mt81zVxD2EG",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "entertainment",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You used cards, crystal balls, and other implements of divination to foretell the future for those who paid. You have a deck of cards.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/banjo.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099656385,
+        "modifiedTime": 1760715781399,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!TKxCUvqtEMT9BBog.yB1j0mt81zVxD2EG"
+    },
+    {
+      "sort": 900000,
+      "name": "Juggler (OBSOLETE)",
+      "type": "profession",
+      "_id": "2hCcr0DzwgJ3LQSx",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "entertainment",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Knives, torches, bottles, balls, or fish—you can juggle just about anything. You have a set of five daggers.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/banjo.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099674097,
+        "modifiedTime": 1760715784752,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!TKxCUvqtEMT9BBog.2hCcr0DzwgJ3LQSx"
+    },
+    {
+      "sort": 1000000,
+      "name": "Singer (OBSOLETE)",
+      "type": "profession",
+      "_id": "TxyTBP37zH0YkcQT",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "entertainment",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You have a beautiful voice and can move people with your songs. You have a book containing several common songs.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/banjo.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099692458,
+        "modifiedTime": 1760715787695,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!TKxCUvqtEMT9BBog.TxyTBP37zH0YkcQT"
+    },
+    {
+      "sort": 1100000,
+      "name": "Thespian (OBSOLETE)",
+      "type": "profession",
+      "_id": "CO2qFwn2vPFcUsAF",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "entertainment",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>The stage is your home; you never feel more alive than when you perform in front of an audience. You have a book that contains scripts for several common plays.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/banjo.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099709025,
+        "modifiedTime": 1760715790552,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!TKxCUvqtEMT9BBog.CO2qFwn2vPFcUsAF"
+    }
+  ],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1745095320619,
+    "modifiedTime": 1760715997558,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "categories": [],
+  "_key": "!journal!TKxCUvqtEMT9BBog"
+}

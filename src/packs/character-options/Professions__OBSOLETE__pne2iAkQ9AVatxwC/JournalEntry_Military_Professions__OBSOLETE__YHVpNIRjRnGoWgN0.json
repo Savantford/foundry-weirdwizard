@@ -1,0 +1,585 @@
+{
+  "folder": "pne2iAkQ9AVatxwC",
+  "name": "Military Professions (OBSOLETE)",
+  "_id": "YHVpNIRjRnGoWgN0",
+  "pages": [
+    {
+      "sort": 100000,
+      "name": "Introduction",
+      "type": "text",
+      "_id": "eD1DYFevEPAOOkej",
+      "system": {},
+      "title": {
+        "show": false,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<div class=\"icon-frame w-50 float-right\"><img src=\"systems/weirdwizard/assets/icons/professions/saber-and-pistol.svg\" /></div><p>You are trained to fight and survive in battle.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745095355392,
+        "modifiedTime": 1745096350050,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!YHVpNIRjRnGoWgN0.eD1DYFevEPAOOkej"
+    },
+    {
+      "sort": 200000,
+      "name": "Caravan Guard (OBSOLETE)",
+      "type": "profession",
+      "_id": "DotS6TEMOB8RMiSy",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "military",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You traveled with caravans to protect them from bandits and monsters. You have a bow and arrows.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/saber-and-pistol.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099738520,
+        "modifiedTime": 1760715801326,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!YHVpNIRjRnGoWgN0.DotS6TEMOB8RMiSy"
+    },
+    {
+      "sort": 300000,
+      "name": "Herald (OBSOLETE)",
+      "type": "profession",
+      "_id": "dtjLdzNtXHTNg37w",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "military",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You delivered messages and made announcements for a person of power. You have a uniform, a trumpet, and a sword.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/saber-and-pistol.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099756472,
+        "modifiedTime": 1760715804023,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!YHVpNIRjRnGoWgN0.dtjLdzNtXHTNg37w"
+    },
+    {
+      "sort": 400000,
+      "name": "House Guard (OBSOLETE)",
+      "type": "profession",
+      "_id": "y4A9BVe9o80SMFrE",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "military",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You served as a guard for a noble family. You have a uniform and a spear.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/saber-and-pistol.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099776561,
+        "modifiedTime": 1760715806647,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!YHVpNIRjRnGoWgN0.y4A9BVe9o80SMFrE"
+    },
+    {
+      "sort": 500000,
+      "name": "Marine (OBSOLETE)",
+      "type": "profession",
+      "_id": "ajwM1PrSiE2XIsa1",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "military",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You helped protect ships sailing the deep waters. You have a mace.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/saber-and-pistol.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099799778,
+        "modifiedTime": 1760715809139,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!YHVpNIRjRnGoWgN0.ajwM1PrSiE2XIsa1"
+    },
+    {
+      "sort": 600000,
+      "name": "Member of the Watch (OBSOLETE)",
+      "type": "profession",
+      "_id": "5Ddd0aAqSJgWp020",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "military",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You belonged to your community’s watch and helped keep the peace. You have a spear and a lantern.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/saber-and-pistol.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099815459,
+        "modifiedTime": 1760715812016,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!YHVpNIRjRnGoWgN0.5Ddd0aAqSJgWp020"
+    },
+    {
+      "sort": 700000,
+      "name": "Mercenary Soldier (OBSOLETE)",
+      "type": "profession",
+      "_id": "oZGHQQaIvxYRy1Ak",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "military",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You sold your services to the highest bidder. You have an axe.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/saber-and-pistol.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099836609,
+        "modifiedTime": 1760715814943,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!YHVpNIRjRnGoWgN0.oZGHQQaIvxYRy1Ak"
+    },
+    {
+      "sort": 800000,
+      "name": "Militia Member (OBSOLETE)",
+      "type": "profession",
+      "_id": "NbaaGQcytXvgnIV6",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "military",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You belonged to your community’s militia. When your ruler called for it, you took up arms to protect your people. You have a spear.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/saber-and-pistol.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099857242,
+        "modifiedTime": 1760715817951,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!YHVpNIRjRnGoWgN0.NbaaGQcytXvgnIV6"
+    },
+    {
+      "sort": 900000,
+      "name": "Soldier (OBSOLETE)",
+      "type": "profession",
+      "_id": "IeA12sHQRedF98qJ",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "military",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Whether conscripted or enlisted, you joined an army and fought on battlefields. You have a spear and a shield.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/saber-and-pistol.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099873171,
+        "modifiedTime": 1760715821649,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!YHVpNIRjRnGoWgN0.IeA12sHQRedF98qJ"
+    },
+    {
+      "sort": 1000000,
+      "name": "Squire (OBSOLETE)",
+      "type": "profession",
+      "_id": "s7MM4Bb1ha4DOpqc",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "military",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You served a knight. You have a short sword and a shield.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/saber-and-pistol.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099886705,
+        "modifiedTime": 1760715824759,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!YHVpNIRjRnGoWgN0.s7MM4Bb1ha4DOpqc"
+    },
+    {
+      "sort": 1100000,
+      "name": "Sworn Bodyguard (OBSOLETE)",
+      "type": "profession",
+      "_id": "T5w1azFXqF357pjU",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "category": "military",
+        "benefits": {
+          "benefit1": {
+            "languages": [],
+            "items": []
+          }
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 3
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>You swore an oath to protect one or more people. You have a suit of brigandine armor.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/professions/saber-and-pistol.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745099906873,
+        "modifiedTime": 1760715827625,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!YHVpNIRjRnGoWgN0.T5w1azFXqF357pjU"
+    }
+  ],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1745095350232,
+    "modifiedTime": 1760716003438,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "categories": [],
+  "_key": "!journal!YHVpNIRjRnGoWgN0"
+}

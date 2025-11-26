@@ -12,8 +12,8 @@ for (const pack of packs) {
   if (pack.startsWith(".")) continue;
   console.log("Unpacking " + pack);
   await extractPack(
-    `${PACKAGE_ID}/packs/${pack}`,
-    `${PACKAGE_ID}/src/packs/${pack}`,
+    path.join(PACKAGE_ID, 'packs', pack),
+    path.join(PACKAGE_ID, 'src', 'packs', pack),
     {
       yaml,
       transformName,

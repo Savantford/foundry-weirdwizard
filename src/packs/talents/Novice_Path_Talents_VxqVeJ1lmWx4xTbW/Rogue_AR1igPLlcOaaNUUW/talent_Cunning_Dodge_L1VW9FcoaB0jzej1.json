@@ -1,0 +1,54 @@
+{
+  "folder": "AR1igPLlcOaaNUUW",
+  "name": "Cunning Dodge",
+  "type": "talent",
+  "_id": "L1VW9FcoaB0jzej1",
+  "img": "icons/skills/movement/figure-running-gray.webp",
+  "system": {
+    "description": {
+      "value": "<p>Whenever you dodge, increase the number of boons granted to your Agility roll by 1 or the number of banes imposed on the roll made against your Defense or Agility by 1.</p>"
+    },
+    "active": true,
+    "attribute": "agi",
+    "against": "",
+    "boons": 2,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "trait",
+    "source": "novice",
+    "grantedBy": null,
+    "magical": false
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1720989289011,
+    "modifiedTime": 1754186601075,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!L1VW9FcoaB0jzej1"
+}

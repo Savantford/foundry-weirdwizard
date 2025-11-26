@@ -1,0 +1,54 @@
+{
+  "folder": "UMsLSd8LUdSUaD27",
+  "name": "Numinous Benediction",
+  "type": "talent",
+  "_id": "FONbbSfV0CRW6qq8",
+  "img": "icons/magic/defensive/shield-barrier-glowing-triangle-red.webp",
+  "system": {
+    "description": {
+      "value": "<p>The study of the uncanny has fortified your psyche. You can use a reaction when you would become confused, controlled, or stunned to make a luck roll. On a success, you do not gain the affliction.</p>"
+    },
+    "active": true,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "trait",
+    "source": "tradition",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744753444024,
+    "modifiedTime": 1754186601352,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!FONbbSfV0CRW6qq8"
+}

@@ -1,0 +1,54 @@
+{
+  "folder": "f9cXScb1eeHta8MU",
+  "name": "Mage Implement",
+  "type": "talent",
+  "_id": "Glkd69mbyqZUn0yC",
+  "img": "icons/weapons/staves/staff-simple-green.webp",
+  "system": {
+    "description": {
+      "value": "<p>You have a wand, amulet, totem, or crystal ball, or some other item that helps you focus your magic. If you lose this object, you can fashion another one after you rest. You can have one mage implement at a time.</p>\n<p>The implement contains a number of charges equal to your level. Once per round, you can expend 1 charge from the implement to produce one of the following effects. You regain expended charges after you rest.</p>\n<ul>\n<li>\n<p><strong>Augment Magic:</strong> You can produce this effect when you cast a spell or use a magical talent. You roll with 1 boon and you impose 1 bane on rolls made as a result of casting the spell or using the talent.</p>\n</li>\n<li>\n<p><strong>Mage Sense (Magical):</strong> You can use an action to perceive the presence or absence of magic within 5 yards. The range increases to 10 at level 3, and 20 at level 7. If a creature, object, or space is under the effects of or created by magic and is within range, you know it and where to find it. The effect lasts 1 minute.</p>\n</li>\n<li>\n<p><strong>Mage Shield (Magical):</strong> You can use a reaction when a creature you can see within 10 yards targets you with a magical effect. You roll to resist the effect with 1 boon and you impose 1 bane on the roll made to affect you. In addition, if the magic deals damage, you take half damage from it.</p>\n</li>\n</ul>"
+    },
+    "active": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "full"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "trait",
+    "source": "novice",
+    "grantedBy": null,
+    "magical": false
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1720986540227,
+    "modifiedTime": 1754186601059,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_key": "!items!Glkd69mbyqZUn0yC"
+}
