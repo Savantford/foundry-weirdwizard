@@ -1,7 +1,7 @@
 {
   "id": "weirdwizard",
   "title": "Shadow of the Weird Wizard",
-  "description": "System built for the upcoming Shadow of the Weird Wizard fantasy game by Schwalb Entertainment.",
+  "description": "A Foundry VTT system adapted from Shadow of the Weird Wizard by Schwalb Entertainment.",
   "version": "#{VERSION}#",
   "url": "#{URL}#",
   "manifest": "#{MANIFEST}#",

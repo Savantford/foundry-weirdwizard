@@ -1,0 +1,3 @@
+node_modules
+packs
+!src/packs
