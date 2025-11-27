@@ -30,7 +30,7 @@
 #   - Has the module's entry on FoundryVTT's module administration site
 #     (https://foundryvtt.com/admin) been updated?
 #
-name: Create Module Files For GitHub Release
+name: Prepare Files For GitHub Release
 
 
 env:
@@ -109,9 +109,10 @@ jobs:
         run: npm ci
       
       # Run build script, leaving out CSS because that's handled by the postInstall script
+      # Change to prepareRelease and remove this comment when script compiling is added
       - name: Build Packs
         run: |
-          npm run pullYMLtoLDB --if-present
+          npm run build:packs --if-present
 
       # Create a "module.zip" archive containing all the module's required files.
       # If you have other directories or files that will need to be added to
