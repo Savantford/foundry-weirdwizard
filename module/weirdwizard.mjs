@@ -215,8 +215,8 @@ Hooks.once('init', function () {
   };
 
   // Set default current turn token ring
-  if (CONFIG.Combat.fallbackTurnMarker !== 'systems/weirdwizard/assets/drawings/pause-star.webp')
-  CONFIG.Combat.fallbackTurnMarker = 'systems/weirdwizard/assets/drawings/pause-star.webp';
+  if (CONFIG.Combat.fallbackTurnMarker !== 'systems/weirdwizard/assets/drawings/turn-indicator.webp')
+  CONFIG.Combat.fallbackTurnMarker = 'systems/weirdwizard/assets/drawings/turn-indicator.webp';
 
   // Register custom Roll subclass
   CONFIG.Dice.rolls.unshift(WWRoll);
