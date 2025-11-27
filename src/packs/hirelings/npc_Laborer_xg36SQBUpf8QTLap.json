@@ -77,7 +77,7 @@
     "width": 1,
     "height": 1,
     "texture": {
-      "src": "icons/svg/mystery-man-black.svg",
+      "src": "systems/weirdwizard/assets/compendia/laborer.png",
       "anchorX": 0.5,
       "anchorY": 0.5,
       "offsetX": 0,
@@ -459,12 +459,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721416087836,
-    "modifiedTime": 1754186600939,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1764248253993,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!actors!xg36SQBUpf8QTLap"
