@@ -1171,8 +1171,8 @@ body.theme-dark,
   border-image: url(../assets/drawings/header-ribbon-dark.svg);
   border-image-slice: 0 91 1 13 fill;
   border-image-width: 0px 91px 1px 13px;
-  padding: 5px 22px 5px 0.5em;
-  margin: -0.5em 0px 5px;
+  padding: 5px 22px 5px 5px;
+  margin: -0.5em 0px 5px calc(var(--sheet-banner-width) + 5px);
 
   > *:first-child {
     flex: 1;
@@ -1263,6 +1263,10 @@ body.theme-dark,
 }
 
 /* Sheet Banner */
+.weirdwizard.npc {
+  --sheet-banner-width: 160px;
+}
+
 .weirdwizard .sheet-banner {
   width: var(--sheet-banner-width);
   display: flex;
@@ -1279,7 +1283,7 @@ body.theme-dark,
 }
 
 .weirdwizard.npc .sheet-banner {
-  width: 160px;
+  width: var(--sheet-banner-width);
   padding: 8px 5px 32px;
 }
 
@@ -2069,9 +2073,14 @@ hr.bug {
   margin-left: calc(var(--sheet-banner-width) + 5px);
 }
 
-.weirdwizard.npc .tab[data-tab],
-.weirdwizard.npc .name-stripe {
-  margin-left: 165px;
+.weirdwizard.npc .tab[data-tab] {
+  margin-left: var(--sheet-banner-width);
+  padding-left: 5px;
+  background-position: 50% calc(50% - var(--sheet-name-stripe-height));
+}
+
+.weirdwizard.npc .tab[data-tab="description"] > * {
+  padding-left: 5px;
 }
 
 /* Items Tab Container */
