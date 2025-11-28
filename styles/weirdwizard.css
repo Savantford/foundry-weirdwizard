@@ -536,10 +536,14 @@ body.theme-dark,
   min-height: 350px;
 }
 
-.weirdwizard.item:not(.minimized) {
+.weirdwizard.sheet.item:not(.minimized) {
   overflow: visible;
   min-width: 440px;
   min-height: 350px;
+}
+
+.weirdwizard.sheet.item.talent:not(.minimized) {
+  min-width: 555px;
 }
 
 /* Grayscale Filter for Actor Sheets */
@@ -1170,9 +1174,9 @@ body.theme-dark,
   z-index: 1;
   border-image: url(../assets/drawings/header-ribbon-dark.svg);
   border-image-slice: 0 91 1 13 fill;
-  border-image-width: 0px 91px 1px 13px;
-  padding: 5px 22px 5px 5px;
-  margin: -0.5em 0px 5px calc(var(--sheet-banner-width) + 5px);
+  border-image-width: 0px 47px 1px 13px;
+  padding: 5px 10px 5px 10px;
+  margin: -0.5em 1rem 5px calc(var(--sheet-banner-width) - 0.5rem);
 
   > *:first-child {
     flex: 1;
@@ -1231,16 +1235,15 @@ body.theme-dark,
 }
 
 .weirdwizard.item .name-stripe {
-  position: relative;
-  top: 0;
-  width: calc(100% + 1.25rem + var(--scroll-margin));
-  margin-left: -1rem;
-  padding-left: 1rem;
-  padding-right: calc(var(--sheet-ribbon-width) + 1em);
+  border-image: url(../assets/drawings/header-ribbon-dark-flipped.svg);
+  border-image-slice: 0 13 1 91 fill;
+  border-image-width: 0px 13px 1px 47px;
+  padding: 5px 5px 5px 15px;
+  margin: 0 calc(var(--sheet-ribbon-width)) 0 -10px;
 }
 
-.weirdwizard.item .talent-sheet .name-stripe {
-  padding-right: 200px;
+.weirdwizard.talent {
+  --sheet-ribbon-width: 200px;
 }
 
 .journal-entry-page .weirdwizard .profession-sheet .name-stripe {
@@ -1297,9 +1300,9 @@ body.theme-dark,
   flex-flow: column;
   gap: 10px;
   align-items: center;
-  border-image: url(../assets/ui/straps/triangle-ribbon.svg);
-  border-image-slice: 3 3 21 fill;
-  border-image-width: 3px 3px 21px;
+  border-image: url(../assets/ui/straps/triangle-banner.svg);
+  border-image-slice: 3 3 21 3 fill;
+  border-image-width: 3px 3px 21px 3px;
   filter: drop-shadow(0 1px 3px black);
   -webkit-box-flex: 1;
   -ms-flex: 1;
@@ -1309,8 +1312,11 @@ body.theme-dark,
   font-size: var(--font-size-16);
 }
 
-.weirdwizard .talent-sheet .sheet-ribbon {
-  width: 180px;
+.weirdwizard.talent .sheet-ribbon {
+  border-image: url(../assets/ui/straps/zigzag-banner.svg);
+  border-image-slice: 3 3 49 3 fill;
+  border-image-width: 3px 3px 34px 3px;
+  padding-bottom: 45px;
 }
 
 .weirdwizard .sheet-ribbon select,
@@ -1963,7 +1969,7 @@ body.theme-dark,
 /* Sheet Header Fields */
 .weirdwizard.item .header-fields {
   height: 100%;
-  padding-top: 1rem;
+  padding-top: 0.5rem;
   flex-flow: column;
   align-items: flex-start;
   justify-content: space-between;
@@ -2070,17 +2076,12 @@ hr.bug {
   background: url(../assets/drawings/star-sheet.svg) no-repeat;
   background-position: center;
   background-size: auto 50%;
-  margin-left: calc(var(--sheet-banner-width) + 5px);
 }
 
-.weirdwizard.npc .tab[data-tab] {
-  margin-left: var(--sheet-banner-width);
-  padding-left: 5px;
+.weirdwizard.creature .tab[data-tab] {
+  margin-left: calc(var(--sheet-banner-width) - 1rem);
+  padding-left: calc(1rem + 5px);
   background-position: 50% calc(50% - var(--sheet-name-stripe-height));
-}
-
-.weirdwizard.npc .tab[data-tab="description"] > * {
-  padding-left: 5px;
 }
 
 /* Items Tab Container */
@@ -3550,6 +3551,43 @@ input[type="checkbox"].checkbox-uses {
 
 /* ---------------------------- Non-Sheet Applications -----------------------------*/
 
+.weirdwizard.application {
+  background: var(--paper-bg) repeat;
+  
+  .window-header {
+    border: none;
+
+    .window-icon,
+    .window-title,
+    button {
+      color: var(--body-text-color);
+    }
+  }
+
+  .window-header::before {
+    --bug: url(../assets/bugs/talent.webp);
+    content: '';
+    position: absolute;
+    width: calc(100% - 2*(24px + 0.5rem));
+    height: calc(100% - 4px);
+    right: calc(24px + 0.5rem);
+    background: var(--bug) no-repeat;
+    background-position: center;
+    background-size: contain;
+    pointer-events: none;
+  }
+}
+
+.weirdwizard.application:not(.minimized) {
+  min-width: 330px;
+  min-height: 150px;
+
+  .window-icon,
+  .window-title {
+    opacity: 0;
+  }
+}
+
 .application.weirdwizard input[type="checkbox"]::before,
 .application.weirdwizard input[type="checkbox"]:checked::after {
   content: "";
@@ -3569,6 +3607,7 @@ input[type="checkbox"].checkbox-uses {
   --scroll-margin: 0.75rem;
   margin-right: 0 !important;
   overflow: hidden auto;
+  padding-left: var(--scroll-margin);
 }
 
 /* -------------------------------------------- */
@@ -3863,43 +3902,6 @@ details.document-card .card-header:hover::after {
 /* -------------------------------------------- */
 /*  Multi-Choice App                            */
 /* -------------------------------------------- */
-
-.weirdwizard.application {
-  background: var(--paper-bg) repeat;
-  min-width: 330px;
-  min-height: 150px;
-
-  .window-header {
-    border: none;
-
-    .window-icon,
-    .window-title {
-      opacity: 0;
-    }
-
-    button {
-      color: var(--body-text-color);
-    }
-  }
-
-  .window-header::before {
-    --bug: url(../assets/bugs/talent.webp);
-    content: '';
-    position: absolute;
-    width: calc(100% - 2*(24px + 0.5rem));
-    height: calc(100% - 4px);
-    right: calc(24px + 0.5rem);
-    background: var(--bug) no-repeat;
-    background-position: center;
-    background-size: contain;
-  }
-}
-
-.weirdwizard.application 
-
-.weirdwizard.application 
-
-.weirdwizard.application .window-header 
 
 #multi-choice .window-content {
   padding: 0.75rem 0.25rem 0.75rem 0.75rem;
@@ -4446,6 +4448,8 @@ details.document-card .card-header:hover::after {
 
 /* NPC: Edit Mode */
 .weirdwizard.npc.edit-mode .window-content {
+  padding-left: 0.25rem;
+
   [data-application-part="npcform"] {
     height: 100%;
     display: flex;
