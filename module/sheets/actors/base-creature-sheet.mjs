@@ -90,6 +90,9 @@ export default class WWCreatureSheet extends WWActorSheet {
     context.incapacitated = actorData.incapacitated;
     context.dead = actorData.dead;
 
+    // Prepare Enriched Text
+    context.system.descriptionEnriched = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.system.description, { secrets: this.actor.isOwner });
+
     // Prepare inputs
     const field = (str) => this.document.system.schema.getField(str);
     
@@ -286,7 +289,6 @@ export default class WWCreatureSheet extends WWActorSheet {
       // Description tab
       case 'description':
         context.tab = context.tabs[partId];
-        context.system.descriptionEnriched = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.system.description, { secrets: this.actor.isOwner });
       break;
       
       // Effects tab
@@ -380,8 +382,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     // Add dynamic classes to app window
     const actor = this.actor;
     const window = this.element;
-
-    window.classList.toggle('edit-mode', this.editMode); // Toggle edit mode
+    
     window.classList.toggle('master', actor.system.stats.level >= 7); // Toggle Tier classes
     window.classList.toggle('expert', actor.system.stats.level >= 3);
     window.classList.toggle('injured', actor.injured); // Add Health status classes

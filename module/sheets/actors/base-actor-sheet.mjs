@@ -37,8 +37,6 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     actions: {
       editImage: this.#onEditImage, // delete in V13; core functionality
 
-      editModeToggle: this.#onToggleEditMode,
-
       entryCreate: this.#onEntryCreate,
       entryEdit: this.#onEntryEdit,
       entryRemove: this.#onEntryRemove,
@@ -57,7 +55,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       height: 500
     }
   }
-  
+
   /* -------------------------------------------- */
 
   /**
@@ -67,11 +65,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
    */
   async _prepareContext(options = {}) {
     const context = await super._prepareContext(options);
-    const actorData = this.actor;
-    
-    // Ensure editMode has a value
-    if (this.editMode === undefined) this.editMode = false;
-    context.editMode = this.editMode; // Pass editMode state
+    const actorData = await this.actor;
     
     context.actor = actorData; // Use a safe clone of the actor data for further operations.
     context.system = actorData.system; // Add the actor's data to context.system for easier access, as well as flags.
@@ -107,6 +101,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     
     return context;
   }
+
+  /* -------------------------------------------- */
 
   /**
    * Organize and classify Items for actor sheets.
@@ -439,6 +435,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     await this._updateEntry(dataset);
   }
 
+  /* -------------------------------------------- */
+
   /**
    * Handle editing a list entry
    * @param {Event} event          The originating click event
@@ -451,6 +449,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     // Update entry
     await this._updateEntry(dataset, dataset.entryKey);
   }
+
+  /* -------------------------------------------- */
 
   async _updateEntry(dataset, entryKey) {
     const path = 'system.listEntries.' + dataset.listKey;
@@ -524,6 +524,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     await this.actor.update({ [path]: obj });
   }
 
+  /* -------------------------------------------- */
+
   /**
    * Handle removing an entry from a list
    * @param {Event} event          The originating click event
@@ -544,6 +546,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     }
     
   }
+
+  /* -------------------------------------------- */
 
   /**
    * Handle removing an element from an array
@@ -612,6 +616,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     return;
   }
 
+  /* -------------------------------------------- */
+
   /**
    * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
    * @param {Event} event          The originating click event
@@ -627,6 +633,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   _onItemEdit(item) {
     item.sheet.render(true);
   }
+
+  /* -------------------------------------------- */
 
   /**
    * Handle delete of an Owned Item for the actor using initial data defined in the HTML dataset
@@ -659,17 +667,6 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     // Delete item
     //await $(button).slideUp(200, () => this.render(false));
     item.delete();
-    
-  }
-
-  /* -------------------------------------------- */
-  /*  Miscellaneous actions                       */
-  /* -------------------------------------------- */
-
-  static #onToggleEditMode() {
-    this.editMode = !this.editMode;
-    
-    this.render(true);
   }
   
 }

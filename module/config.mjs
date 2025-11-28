@@ -954,9 +954,9 @@ WW.COMPENDIUM_GROUPS = {
   'system': 'WW.System.Compendium.Group.Core',
   'world': 'WW.System.Compendium.Group.World',
   'module': 'WW.System.Compendium.Group.Modules',
-  'sotww-secrets': 'WW.System.Compendium.Group.Secrets',
-  'sotww-heroes': 'WW.System.Compendium.Group.Heroes',
-  'sotww-wa': 'WW.System.Compendium.Group.WeirdAncestries'
+  'sww-secrets': 'WW.System.Compendium.Group.Secrets',
+  'sww-heroes': 'WW.System.Compendium.Group.Heroes',
+  'sww-wa': 'WW.System.Compendium.Group.WeirdAncestries'
 };
 
 /* Default Entries */

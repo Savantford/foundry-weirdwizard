@@ -28,7 +28,7 @@ export default class WWCharacterSheet extends WWCreatureSheet {
   static PARTS = {
     menu: { template: 'systems/weirdwizard/templates/actors/header/edit-mode.hbs' },
     sidetabs: { template: 'systems/weirdwizard/templates/generic/side-tabs.hbs' },
-    namestripe: { template: 'systems/weirdwizard/templates/actors/header/name-stripe.hbs' },
+    namestripe: { template: 'systems/weirdwizard/templates/actors/name-stripe.hbs' },
     banner: {
       template: 'systems/weirdwizard/templates/actors/header/character-banner.hbs',
       templates: [
