@@ -502,7 +502,6 @@ body.theme-dark,
 .window-app .window-content,
 .weirdwizard.view-mode .window-content {
   color: var(--body-text-color);
-  background: var(--paper-bg);
   font-family: var(--font-body);
   font-size: var(--font-size-14);
 }
@@ -986,43 +985,46 @@ body.theme-dark,
   }
 
   [data-tab] {
-    width: var(--tab-full-width);
-    height: 40px;
     position: relative;
+    overflow: hidden;
     display: flex;
     justify-content: end;
     align-items: center;
-    background: no-repeat;
-    background-color: var(--purple-medium);
-    background-position: center;
-    background-size: auto 80%;
+    width: var(--tab-inactive-width);
+    height: 40px;
+    background-color: var(--purple-dark);
     border: 1px solid transparent;
     border-radius: 0 8px 8px 0;
-    font-size: var(--font-size-14);
-    margin-left: calc((var(--tab-full-width) - var(--tab-inactive-width)) * -1);
-    padding: 4px 6px;
+    padding: 0;
+    padding-inline-end: 6px;
     transition: all 250ms ease;
-    filter: drop-shadow(3px 0 5px black);
+    box-shadow: 5px 4px 5px -4px black;
   }
 
   [data-tab].active,
   [data-tab]:hover {
-    background-color: var(--purple-dark);
-  }
-
-  [data-tab].active {
-    margin: 0;
+    background: var(--paper-bg);
+    width: var(--tab-full-width);
   }
 
   [data-tab]:hover {
     text-shadow: none;
-    margin: 0;
-    box-shadow: 0 0 5px 0 black;
-    border: 1px solid;
+  }
+
+  [data-tab]:first-of-type {
+    padding: 0;
+    padding-inline-end: 6px;
   }
 
   [data-tab] > img {
+    position: absolute;
     width: var(--sheet-tabs-icon-height);
+    transition: all 250ms ease;
+  }
+
+  [data-tab].active > img,
+  [data-tab]:hover > img {
+    filter: brightness(0) saturate(100%) invert(14%) sepia(39%) saturate(1426%) hue-rotate(252deg) brightness(94%) contrast(90%) drop-shadow(0 0 1px white);
   }
 
   [data-tab] > i {
