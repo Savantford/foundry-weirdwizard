@@ -2,7 +2,7 @@
   "name": "Hedge Mage",
   "type": "npc",
   "_id": "zPAS6qgFFTkR12vW",
-  "img": "systems/weirdwizard/assets/compendia/hedge-mage.png",
+  "img": "systems/weirdwizard/assets/artwork/portraits/hedge-mage.png",
   "system": {
     "description": {
       "value": "<p>Hedge mages hire out spells for a steep price and cast them as needed. In addition to Common, a hedge mage also knows Arcane.</p>"
@@ -442,7 +442,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721418712670,
-    "modifiedTime": 1764248260772,
+    "modifiedTime": 1764373753447,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

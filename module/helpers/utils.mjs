@@ -274,7 +274,7 @@ export function handleWelcomeMessage(force = false) {
     return;
   }
 
-  const intro = `<img style="background: none;" src="systems/weirdwizard/assets/ui/sotww-logo.png">`;
+  const intro = `<img style="background: none;" src="systems/weirdwizard/assets/decorations/sww-logo.png">`;
   const content = i18n('WW.System.Welcome', { intro: intro }) + i18n('WW.System.WelcomeFooter');
   ChatMessage.create({
     speaker: game.weirdwizard.utils.getSpeaker({ alias: game.system.title }),

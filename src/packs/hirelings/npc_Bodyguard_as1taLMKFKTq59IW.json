@@ -2,7 +2,7 @@
   "name": "Bodyguard",
   "type": "npc",
   "_id": "as1taLMKFKTq59IW",
-  "img": "systems/weirdwizard/assets/compendia/bodyguard.png",
+  "img": "systems/weirdwizard/assets/artwork/portraits/bodyguard.png",
   "system": {
     "description": {
       "value": "<p>These trained warriors protect their employers and take risks, even sacrificing themselves if need be. Bodyguards do not throw their lives away for no reason, though; employers who show no regard for their safety might end up with no protection at all.</p>"
@@ -667,7 +667,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721418686743,
-    "modifiedTime": 1764245612169,
+    "modifiedTime": 1764373738193,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

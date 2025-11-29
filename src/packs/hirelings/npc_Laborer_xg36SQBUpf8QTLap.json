@@ -2,7 +2,7 @@
   "name": "Laborer",
   "type": "npc",
   "_id": "xg36SQBUpf8QTLap",
-  "img": "systems/weirdwizard/assets/compendia/laborer.png",
+  "img": "systems/weirdwizard/assets/artwork/portraits/laborer.png",
   "system": {
     "description": {
       "value": "<p>Workers, drivers, pilots, stevedores, porters, sailors, butchers, servants, valets, and more fill the ranks of laborers.</p>"
@@ -463,7 +463,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721416087836,
-    "modifiedTime": 1764248253993,
+    "modifiedTime": 1764373769382,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

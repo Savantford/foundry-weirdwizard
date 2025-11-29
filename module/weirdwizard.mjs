@@ -215,8 +215,8 @@ Hooks.once('init', function () {
   };
 
   // Set default current turn token ring
-  if (CONFIG.Combat.fallbackTurnMarker !== 'systems/weirdwizard/assets/drawings/pause-star.webp')
-  CONFIG.Combat.fallbackTurnMarker = 'systems/weirdwizard/assets/drawings/pause-star.webp';
+  if (CONFIG.Combat.fallbackTurnMarker !== 'systems/weirdwizard/assets/decorations/stars/turn-indicator.webp')
+  CONFIG.Combat.fallbackTurnMarker = 'systems/weirdwizard/assets/decorations/stars/turn-indicator.webp';
 
   // Register custom Roll subclass
   CONFIG.Dice.rolls.unshift(WWRoll);
@@ -356,7 +356,7 @@ Hooks.on('renderSettings', (app, html) => {
   badge.innerHTML = `
     <h4 class="divider">${game.i18n.localize('WORLD.FIELDS.system.label')}</h4>
 
-    <img src="systems/weirdwizard/assets/ui/sotww-logo.png" alt="${game.system.title}" data-tooltip="${game.system.title}">
+    <img src="systems/weirdwizard/assets/decorations/sww-logo.png" alt="${game.system.title}" data-tooltip="${game.system.title}">
 
     <p class="subtitle version">Version ${game.system.version}</p>
 

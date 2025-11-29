@@ -2,7 +2,7 @@
   "name": "Professional",
   "type": "npc",
   "_id": "SFrHJkXef553V1pb",
-  "img": "systems/weirdwizard/assets/compendia/professional.png",
+  "img": "systems/weirdwizard/assets/artwork/portraits/professional.png",
   "system": {
     "description": {
       "value": "<p>Any commoner with special training counts as a professional. These characters include guides, entertainers, healers, and scholars.</p>"
@@ -275,7 +275,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721418770454,
-    "modifiedTime": 1764248265909,
+    "modifiedTime": 1764373781231,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

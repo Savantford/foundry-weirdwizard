@@ -52,7 +52,7 @@
     {
       "name": "documentation",
       "label": "System Documentation",
-      "banner": "systems/weirdwizard/assets/ui/banners/documentation-banner.webp",
+      "banner": "systems/weirdwizard/assets/artwork/banners/documentation-banner.webp",
       "system": "weirdwizard",
       "path": "packs/documentation.db",
       "type": "JournalEntry"
@@ -60,7 +60,7 @@
     {
       "name": "armor",
       "label": "Armor",
-      "banner": "systems/weirdwizard/assets/ui/banners/armor-banner.webp",
+      "banner": "systems/weirdwizard/assets/artwork/banners/armor-banner.webp",
       "system": "weirdwizard",
       "path": "packs/armor.db",
       "type": "Item",
@@ -73,7 +73,7 @@
     {
       "name": "weapons",
       "label": "Weapons",
-      "banner": "systems/weirdwizard/assets/ui/banners/weapons-banner.webp",
+      "banner": "systems/weirdwizard/assets/artwork/banners/weapons-banner.webp",
       "system": "weirdwizard",
       "path": "packs/weapons.db",
       "type": "Item",
@@ -86,7 +86,7 @@
     {
       "name": "hirelings",
       "label": "Hirelings",
-      "banner": "systems/weirdwizard/assets/ui/banners/hirelings-banner.webp",
+      "banner": "systems/weirdwizard/assets/artwork/banners/hirelings-banner.webp",
       "system": "weirdwizard",
       "path": "packs/hirelings.db",
       "type": "Actor"
@@ -94,7 +94,7 @@
     {
       "name": "character-options",
       "label": "Character Options",
-      "banner": "systems/weirdwizard/assets/ui/banners/character-options-banner.webp",
+      "banner": "systems/weirdwizard/assets/artwork/banners/character-options-banner.webp",
       "system": "weirdwizard",
       "path": "packs/character-options.db",
       "type": "JournalEntry",
@@ -107,7 +107,7 @@
     {
       "name": "traits",
       "label": "Ancestry Traits",
-      "banner": "systems/weirdwizard/assets/ui/banners/traits-banner.webp",
+      "banner": "systems/weirdwizard/assets/artwork/banners/traits-banner.webp",
       "system": "weirdwizard",
       "path": "packs/traits.db",
       "type": "Item",
@@ -120,7 +120,7 @@
     {
       "name": "talents",
       "label": "Path Talents",
-      "banner": "systems/weirdwizard/assets/ui/banners/path-talents-banner.webp",
+      "banner": "systems/weirdwizard/assets/artwork/banners/path-talents-banner.webp",
       "system": "weirdwizard",
       "path": "packs/talents.db",
       "type": "Item",
@@ -133,7 +133,7 @@
     {
       "name": "spells",
       "label": "Tradition Talents & Spells",
-      "banner": "systems/weirdwizard/assets/ui/banners/spells-banner.webp",
+      "banner": "systems/weirdwizard/assets/artwork/banners/spells-banner.webp",
       "system": "weirdwizard",
       "path": "packs/spells.db",
       "type": "Item",
@@ -174,7 +174,7 @@
   },
   "primaryTokenAttribute": "stats.damage",
   "secondaryTokenAttribute": "",
-  "background": "systems/weirdwizard/assets/ui/sotww-background.webp",
+  "background": "systems/weirdwizard/assets/artwork/full/secrets-background.webp",
   "flags": {
     "hotReload": {
       "extensions": ["css", "html", "hbs", "json"],
