@@ -1106,7 +1106,7 @@ body.theme-dark,
       font-weight: bold;
       color: var(--purple-dark);
       background: transparent;
-      border-image: url(../assets/ui/ribbons/strap-pink.svg);
+      border-image: url(../assets/ui/ribbons/simple-pink.svg);
       border-image-slice: 0 91 1 13 fill;
       border-image-width: 0px 91px 1px 13px;
       padding: 5px 40px 5px 90px;
@@ -1168,12 +1168,12 @@ body.theme-dark,
   color: var(--pink);
   font-size: var(--font-size-20);
   font-family: var(--font-capitalized);
-  z-index: 1;
-  border-image: url(../assets/ui/ribbons/strap-dark.svg);
-  border-image-slice: 0 91 1 13 fill;
-  border-image-width: 0px 47px 1px 13px;
-  padding: 5px 10px 5px 10px;
-  margin: -0.5em 1rem 5px calc(var(--sheet-banner-width) - 0.5rem);
+  border-image: url(../assets/ui/ribbons/simple-dark.svg);
+  border-image-slice: 1 95 2 14 fill;
+  border-image-width: 1px 40px 2px 14px;
+  padding: 5px 10px 5px 1rem;
+  margin: -0.5em 0.5rem 5px calc(var(--sheet-banner-width) - 0.5rem);
+  filter: drop-shadow(1px 0 1px black);
 
   > *:first-child {
     flex: 1;
@@ -1232,11 +1232,13 @@ body.theme-dark,
 }
 
 .weirdwizard.item .name-stripe {
-  border-image: url(../assets/ui/ribbons/strap-dark-flipped.svg);
-  border-image-slice: 0 13 1 91 fill;
-  border-image-width: 0px 13px 1px 47px;
-  padding: 5px 5px 5px 15px;
-  margin: 5px calc(var(--sheet-banner-width)) 0 -10px;
+  border-image: url(../assets/ui/ribbons/rolled-dark.svg);
+  border-image-slice: 1 73 7 30 fill;
+  border-image-width: 1px 30px 7px 30px;
+  border-image-outset: 0 0 6px 0;
+  padding: 5px 15px 5px 24px;
+  margin: 5px calc(var(--sheet-banner-width) - 0.5rem) 0px -10px;
+  filter: drop-shadow(-1px 0 1px black);
 }
 
 .journal-entry-page .weirdwizard .profession-sheet .name-stripe {
@@ -5533,15 +5535,15 @@ form.quest-calendar {
 
 /* Chat Message: Status Message */
 .weirdwizard.chat-message.status {
-  background: transparent;
-  border-image: url(../assets/ui/ribbons/strap-pink.svg);
-  border-image-slice: 0 91 1 13 fill;
-  border-image-width: 0px 91px 1px 13px;
-
   flex-flow: row nowrap;
   align-items: center;
   gap: 5px;
-  padding-right: 30px;
+  background: transparent;
+  border-image: url(../assets/ui/ribbons/rolled-pink-flipped.svg);
+  border-image-slice: 1 30 7 73 fill;
+  border-image-width: 1px 30px 7px 45px;
+  border-image-outset: 0 1px 4px;
+  padding: 8px 20px 8px 17px;
 }
 
 .weirdwizard.chat-message.status .message-wrapper {
