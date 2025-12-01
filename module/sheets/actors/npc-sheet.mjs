@@ -42,14 +42,14 @@ export default class WWNpcSheet extends WWCreatureSheet {
   /** @override */
   static PARTS = {
     // Shared Parts:
-    menu: { template: 'systems/weirdwizard/templates/actors/header/edit-mode.hbs' },
+    menu: { template: 'systems/weirdwizard/templates/generic/edit-mode.hbs' },
     // View Mode Parts:
     sidetabs: { template: 'systems/weirdwizard/templates/generic/side-tabs.hbs' },
     namestripe: { template: 'systems/weirdwizard/templates/actors/name-stripe.hbs' },
     banner: {
-      template: 'systems/weirdwizard/templates/actors/header/npc-banner.hbs',
+      template: 'systems/weirdwizard/templates/actors/npc/banner.hbs',
       templates: [
-        'systems/weirdwizard/templates/actors/header/portrait.hbs'
+        'systems/weirdwizard/templates/actors/portrait.hbs'
       ]
     },
     summary: {
@@ -57,18 +57,18 @@ export default class WWNpcSheet extends WWCreatureSheet {
       templates: [
         'systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs',
         'systems/weirdwizard/templates/actors/npc/parts/summary-weapon.hbs',
-        'systems/weirdwizard/templates/actors/tabs/list-entry.hbs'
+        'systems/weirdwizard/templates/generic/list-entry.hbs'
       ]
     },
     description: { template: 'systems/weirdwizard/templates/actors/npc/description.hbs' },
-    effects: { template: 'systems/weirdwizard/templates/actors/tabs/effects.hbs' },
+    effects: { template: 'systems/weirdwizard/templates/actors/effects.hbs' },
     // Edit Mode Parts:
     npcform: {
       template: 'systems/weirdwizard/templates/actors/npc/form.hbs',
       templates: [
         'systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs',
         'systems/weirdwizard/templates/actors/npc/parts/summary-weapon.hbs',
-        'systems/weirdwizard/templates/actors/tabs/list-entry.hbs'
+        'systems/weirdwizard/templates/generic/list-entry.hbs'
       ]
     },
   }

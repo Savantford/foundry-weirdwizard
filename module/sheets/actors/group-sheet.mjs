@@ -45,7 +45,7 @@ export default class WWGroupSheet extends WWActorSheet {
     details: {template: 'systems/weirdwizard/templates/actors/group/details.hbs'},
     resources: {
       template: 'systems/weirdwizard/templates/actors/group/resources.hbs',
-      templates: ['systems/weirdwizard/templates/actors/tabs/list-entry.hbs']
+      templates: ['systems/weirdwizard/templates/generic/list-entry.hbs']
     }
   };
 

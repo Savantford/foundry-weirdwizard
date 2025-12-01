@@ -26,29 +26,29 @@ export default class WWCharacterSheet extends WWCreatureSheet {
 
   /** @override */
   static PARTS = {
-    menu: { template: 'systems/weirdwizard/templates/actors/header/edit-mode.hbs' },
+    menu: { template: 'systems/weirdwizard/templates/generic/edit-mode.hbs' },
     sidetabs: { template: 'systems/weirdwizard/templates/generic/side-tabs.hbs' },
     namestripe: { template: 'systems/weirdwizard/templates/actors/name-stripe.hbs' },
     banner: {
-      template: 'systems/weirdwizard/templates/actors/header/character-banner.hbs',
+      template: 'systems/weirdwizard/templates/actors/character/banner.hbs',
       templates: [
-        'systems/weirdwizard/templates/actors/header/portrait.hbs'
+        'systems/weirdwizard/templates/actors/portrait.hbs'
       ]
     },
     
     summary: {
-      template: 'systems/weirdwizard/templates/actors/tabs/character-summary.hbs',
+      template: 'systems/weirdwizard/templates/actors/character/summary.hbs',
       templates: [
-        'systems/weirdwizard/templates/actors/tabs/character-summary-item.hbs',
-        'systems/weirdwizard/templates/actors/tabs/character-summary-weapon.hbs',
-        'systems/weirdwizard/templates/actors/tabs/list-entry.hbs'
+        'systems/weirdwizard/templates/actors/character/parts/summary-item.hbs',
+        'systems/weirdwizard/templates/actors/character/parts/summary-weapon.hbs',
+        'systems/weirdwizard/templates/generic/list-entry.hbs'
       ]
     },
-    details: { template: 'systems/weirdwizard/templates/actors/tabs/character-details.hbs' },
-    equipment: { template: 'systems/weirdwizard/templates/actors/tabs/character-equipment.hbs' },
-    talents: { template: 'systems/weirdwizard/templates/actors/tabs/character-talents.hbs' },
-    spells: { template: 'systems/weirdwizard/templates/actors/tabs/character-spells.hbs' },
-    effects: { template: 'systems/weirdwizard/templates/actors/tabs/effects.hbs' },
+    details: { template: 'systems/weirdwizard/templates/actors/character/details.hbs' },
+    equipment: { template: 'systems/weirdwizard/templates/actors/character/equipment.hbs' },
+    talents: { template: 'systems/weirdwizard/templates/actors/character/talents.hbs' },
+    spells: { template: 'systems/weirdwizard/templates/actors/character/spells.hbs' },
+    effects: { template: 'systems/weirdwizard/templates/actors/effects.hbs' },
     
   }
 

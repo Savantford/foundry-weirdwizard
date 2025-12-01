@@ -107,7 +107,7 @@
 
                     {{!-- Descriptors --}}
                     {{#each listEntries.descriptors as |entry|}}
-                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="descriptors" loc="Descriptor"}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="descriptors" loc="Descriptor"}}
                     {{else}}
                         {{#if editMode}}<span>({{localize "WW.ListEntry.Descriptor.Label"}})</span>{{/if}}
                     {{/each}}
@@ -139,7 +139,7 @@
                     
                     {{!-- Movement Traits --}}
                     {{#each listEntries.movementTraits as |entry|}}
-                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="movementTraits" loc="MovementTrait"}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="movementTraits" loc="MovementTrait"}}
                     {{/each}}
                     
                     <a class="array-button" data-action="entryCreate" data-list-key="movementTraits" data-loc="MovementTrait"
@@ -155,7 +155,7 @@
                     <label>{{localize "WW.ListEntry.Language.Label"}}:</label>
 
                     {{#each listEntries.languages as |entry|}}
-                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="languages" loc="Language"}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="languages" loc="Language"}}
                     {{else}}
                         <span>—</span>
                     {{/each}}
@@ -172,7 +172,7 @@
                     <label>{{localize "WW.ListEntry.Sense.Label"}}:</label>
                 
                     {{#each listEntries.senses as |entry key|}}
-                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="senses" loc="Sense"}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="senses" loc="Sense"}}
                     {{else}}
                         <span>—</span>
                     {{/each}}
@@ -189,7 +189,7 @@
                     <label>{{localize "WW.ListEntry.Immunity.Label"}}:</label>
                 
                     {{#each listEntries.immunities as |entry key|}}
-                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="immunities" loc="Immunity"}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="immunities" loc="Immunity"}}
                     {{else}}
                         <span>—</span>
                     {{/each}}
@@ -247,7 +247,7 @@
                 <div>
                     <ol class="described-list">
                         {{#each weapons as |item id|}}
-                            {{> "systems/weirdwizard/templates/actors/tabs/character-summary-weapon.hbs" item=item id=id}}
+                            {{> "systems/weirdwizard/templates/actors/character/parts/summary-weapon.hbs" item=item id=id}}
                         {{/each}}
                     </ol>
                 </div>
@@ -265,7 +265,7 @@
 
                 <ol class="compact-list stat">
                     {{#each talents as |item id|}}
-                        {{> "systems/weirdwizard/templates/actors/tabs/character-summary-item.hbs" item=item id=id}}
+                        {{> "systems/weirdwizard/templates/actors/character/parts/summary-item.hbs" item=item id=id}}
                     {{/each}}
                 </ol>
 
@@ -275,7 +275,7 @@
 
                 <ol class="compact-list stat">
                     {{#each actions as |item id|}}
-                        {{> "systems/weirdwizard/templates/actors/tabs/character-summary-item.hbs" item=item id=id}}
+                        {{> "systems/weirdwizard/templates/actors/character/parts/summary-item.hbs" item=item id=id}}
                     {{/each}}
                 </ol>
                 {{/if}}
@@ -286,7 +286,7 @@
 
                 <ol class="compact-list stat">
                     {{#each reactions as |item id|}}
-                        {{> "systems/weirdwizard/templates/actors/tabs/character-summary-item.hbs" item=item id=id}}
+                        {{> "systems/weirdwizard/templates/actors/character/parts/summary-item.hbs" item=item id=id}}
                     {{/each}}
                 </ol>
                 {{/if}}
@@ -325,7 +325,7 @@
                 {{!-- Spells List --}}
                 <ol class="compact-list stat">
                     {{#each spells as |item id|}}
-                        {{> "systems/weirdwizard/templates/actors/tabs/character-summary-item.hbs" item=item id=id}}
+                        {{> "systems/weirdwizard/templates/actors/character/parts/summary-item.hbs" item=item id=id}}
                     {{/each}}
                 </ol>
                 

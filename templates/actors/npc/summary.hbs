@@ -7,7 +7,7 @@
         {{#if (gt listEntries.descriptors.length 0)}}
         <ol class="list-entries">
             {{#each listEntries.descriptors as |entry|}}
-                {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="descriptors" loc="Descriptor"}}
+                {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="descriptors" loc="Descriptor"}}
             {{/each}}
             
             <a class="array-button" data-action="entryCreate" data-list-key="descriptors" data-loc="Descriptor"
@@ -167,7 +167,7 @@
                     
                     {{!-- Movement Traits --}}
                     {{#each listEntries.movementTraits as |entry|}}
-                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="movementTraits" loc="MovementTrait"}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="movementTraits" loc="MovementTrait"}}
                     {{/each}}
                     
                     <a class="array-button" data-action="entryCreate" data-list-key="movementTraits" data-loc="MovementTrait"
@@ -211,7 +211,7 @@
                     <label>{{localize "WW.ListEntry.Language.Label"}}:</label>
 
                     {{#each listEntries.languages as |entry|}}
-                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="languages" loc="Language"}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="languages" loc="Language"}}
                     {{else}}
                         <span>—</span>
                     {{/each}}
@@ -230,7 +230,7 @@
                     <label>{{localize "WW.ListEntry.Sense.Label"}}:</label>
                 
                     {{#each listEntries.senses as |entry key|}}
-                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="senses" loc="Sense"}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="senses" loc="Sense"}}
                     {{else}}
                         <span>—</span>
                     {{/each}}
@@ -249,7 +249,7 @@
                     <label>{{localize "WW.ListEntry.Immunity.Label"}}:</label>
                 
                     {{#each listEntries.immunities as |entry key|}}
-                        {{> "systems/weirdwizard/templates/actors/tabs/list-entry.hbs" entry=entry entryKey=entry.key listKey="immunities" loc="Immunity"}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="immunities" loc="Immunity"}}
                     {{else}}
                         <span>—</span>
                     {{/each}}
