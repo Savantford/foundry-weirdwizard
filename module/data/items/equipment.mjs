@@ -1,6 +1,6 @@
 import BaseItemModel from './base-item.mjs';
 
-import { makeStrField, makeBooField, makeIntField, makeRequiredStrField, makeFloField, makeUuidStrField, makeHtmlField } from '../field-presets.mjs';
+import { makeStrField, makeBooField, makeIntField, makeRequiredStrField, makeFloField, makeHtmlField, makeIdStrField } from '../field-presets.mjs';
 
 export default class EquipmentModel extends BaseItemModel {
 
@@ -12,7 +12,7 @@ export default class EquipmentModel extends BaseItemModel {
     schema.subtype = makeRequiredStrField('generic');
     schema.quantity = makeIntField(1);
     schema.weightUnit = makeIntField(1);
-    schema.heldBy = makeUuidStrField();
+    schema.heldBy = makeIdStrField();
     schema.availability = makeRequiredStrField('common');
     schema.quality = makeRequiredStrField('standard');
     schema.price = new fields.SchemaField({

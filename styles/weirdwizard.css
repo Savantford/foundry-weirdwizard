@@ -671,7 +671,6 @@ body.theme-dark,
   color: var(--purple-dark);
   background-color: var(--pink);
   box-shadow: 0 0 2px 0px var(--purple-medium);
-  border-radius: 3px;
   padding: 2px 5px;
   font-family: var(--font-serif);
   font-size: var(--font-size-16);
@@ -713,7 +712,8 @@ body.theme-dark,
 
 /* Actor: Section Headers */
 
-.weirdwizard:not(.npc.edit-mode) .window-content h5.descriptors {
+.weirdwizard:not(.npc.edit-mode) .window-content h5.descriptors,
+.weirdwizard:not(.npc.edit-mode) .window-content h5.individual-traits {
   text-indent: 0;
   display: flex;
   align-items: center;
@@ -4417,6 +4417,12 @@ details.document-card .card-header:hover::after {
     height: 100%;
   }
 
+  .individual-traits {
+    color: var(--body-text-color);
+    font-style: italic;
+    font-family: var(--font-serif);
+  }
+
   .window-content h6 {
     text-indent: 0;
     display: flex;
@@ -4491,7 +4497,6 @@ details.document-card .card-header:hover::after {
     display: flex;
     gap: 5px;
     font-size: inherit;
-    border-radius: 0;
   }
 }
 
@@ -4907,23 +4912,6 @@ form.quest-calendar {
 /* -------------------------------------------- */
 /*  Foundry UI Overrides                        */
 /* -------------------------------------------- */
-
-/* Top Left HUD */
-
-#controls {
-  padding: 10px 15px 0px;
-}
-
-#logo {
-  content: url(../assets/decorations/sww-logo.png);
-  margin: 12px 0 0 10px;
-  height: fit-content;
-  width: 150px;
-}
-
-#ui-top.offset {
-  margin-left: -50px;
-}
 
 /* Pause Menu */
 #pause {

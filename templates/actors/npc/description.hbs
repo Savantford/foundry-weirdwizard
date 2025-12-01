@@ -1,5 +1,4 @@
 <section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
-    {{#if (or folder editMode)}}
     {{!-- Folder Name / Creature Group --}}
     {{#if folder}}
     <div class="folder-info">
@@ -11,21 +10,16 @@
 
         <button class="edit-folder" data-action="folderEdit"><i class="fa-solid fa-edit"></i></button>
     </div>
-    {{else}}
-    {{localize "WW.Actor.Folder.None"}}
-    {{/if}}
 
+    {{!-- Creature Name --}}
     <h4 class="pointed-right mt-2">{{actor.name}}</h4>
     {{/if}}
-
-    {{#if editMode}}
-    <prose-mirror name="system.description" data-document-u-u-i-d="{{actor.uuid}}"
-        value="{{actor.system.description}}" toggled collaborate compact owner={{owner}}
-        editable={{editable}}>
-        {{{actor.system.descriptionEnriched}}}
-    </prose-mirror>
-    {{else}}
-    {{{actor.system.descriptionEnriched}}}
+    
+    {{!-- Individual Traits --}}
+    {{#if actor.system.details.individualTraits}}
+    <h5 class="individual-traits">{{ actor.system.details.individualTraits }}</h5>
     {{/if}}
+
+    {{{actor.system.descriptionEnriched}}}
 
 </section>

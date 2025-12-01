@@ -53,21 +53,21 @@ export default class WWNpcSheet extends WWCreatureSheet {
       ]
     },
     summary: {
-      template: 'systems/weirdwizard/templates/actors/tabs/npc-summary.hbs',
+      template: 'systems/weirdwizard/templates/actors/npc/summary.hbs',
       templates: [
-        'systems/weirdwizard/templates/actors/tabs/npc-summary-item.hbs',
-        'systems/weirdwizard/templates/actors/tabs/npc-summary-weapon.hbs',
+        'systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs',
+        'systems/weirdwizard/templates/actors/npc/parts/summary-weapon.hbs',
         'systems/weirdwizard/templates/actors/tabs/list-entry.hbs'
       ]
     },
-    description: { template: 'systems/weirdwizard/templates/actors/tabs/npc-description.hbs' },
+    description: { template: 'systems/weirdwizard/templates/actors/npc/description.hbs' },
     effects: { template: 'systems/weirdwizard/templates/actors/tabs/effects.hbs' },
     // Edit Mode Parts:
     npcform: {
       template: 'systems/weirdwizard/templates/actors/npc/form.hbs',
       templates: [
-        'systems/weirdwizard/templates/actors/tabs/npc-summary-item.hbs',
-        'systems/weirdwizard/templates/actors/tabs/npc-summary-weapon.hbs',
+        'systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs',
+        'systems/weirdwizard/templates/actors/npc/parts/summary-weapon.hbs',
         'systems/weirdwizard/templates/actors/tabs/list-entry.hbs'
       ]
     },
@@ -103,7 +103,7 @@ export default class WWNpcSheet extends WWCreatureSheet {
     for ( const partId in parts ) {
       if ( !allowedParts.includes(partId) ) delete parts[partId];
     }
-    console.log(parts)
+    
     return parts;
   }
   

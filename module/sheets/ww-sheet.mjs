@@ -172,7 +172,7 @@ export default function WWSheetMixin(BaseSheet) {
      */
     static async #onChangeMode() {
       this.mode = this.isEditMode ? "view" : "edit";
-      console.log('changing mode')
+      
       await this.render(true);
     }
 

@@ -60,6 +60,9 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
     // Migrate description to a single string
     if (typeof source.description === 'object') source.description = source.description.value;
     
+    // Migrate invalid UUIDs
+    if (source.grantedBy === 'jYwMjI0baL87WX3c') source.grantedBy = 'JournalEntry.LMmphPzAYiO8vOgI.JournalEntryPage.jYwMjI0baL87WX3c';
+    
     return source;
   }
 

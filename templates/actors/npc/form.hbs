@@ -29,6 +29,13 @@
     {{!-- Bestiary Entry Name --}}
     <h4 class="pointed-right mt-2">{{ actor.name }}</h4>
 
+    {{!-- Individual Traits --}}
+    <h5 class="individual-traits">
+      {{#with individualTraits}}
+      {{formInput field name=name value=value}}
+      {{/with}}
+    </h5>
+
     {{!-- Description --}}
     <prose-mirror name="system.description" data-document-u-u-i-d="{{actor.uuid}}" value="{{actor.system.description}}"
       toggled collaborate compact owner={{owner}} editable={{editable}}>
@@ -42,7 +49,7 @@
 
     {{!-- Name --}}
     <h4 class="statbox-name">
-      <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize " WW.Actor.Name"}}" />
+      <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.Actor.Name"}}" />
     </h4>
   
     {{!-- Descriptor / Difficulty Row --}}
@@ -84,9 +91,7 @@
             <label>{{localize "WW.Defense.NaturalNPC"}}:</label>
   
             {{!-- Natural Defense --}}
-            {{formInput stats.defenseNatural.field name=stats.defenseNatural.name
-            value=stats.defenseNatural.sourceValue
-            }}
+            {{formInput stats.defenseNatural.field name=stats.defenseNatural.name value=stats.defenseNatural.sourceValue}}
   
           </div>
   
@@ -110,7 +115,7 @@
   
           <label>{{localize "WW.Equipment.Label"}}:</label>
           {{#each equipment as |item id|}}
-          {{> "systems/weirdwizard/templates/actors/tabs/npc-summary-item.hbs" item=item id=id}}
+          {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
           {{else}}
           <span>—</span>
           {{/each}}
@@ -315,7 +320,7 @@
         {{!-- Traits or Talents --}}
         <ol class="described-list">
           {{#each talents as |item id|}}
-          {{> "systems/weirdwizard/templates/actors/tabs/npc-summary-item.hbs" item=item id=id}}
+          {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
           {{/each}}
         </ol>
   
@@ -325,7 +330,7 @@
           <label>{{localize "WW.Equipment.Label"}}:</label>
   
           {{#each equipment as |item id|}}
-          {{> "systems/weirdwizard/templates/actors/tabs/npc-summary-item.hbs" item=item id=id}}
+          {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
           {{/each}}
   
           {{#unless equipment.length}}<span>—</span>{{/unless}}
@@ -366,21 +371,21 @@
         {{!-- Attacks --}}
         <ol class="described-list attacks-list">
           {{#each weapons as |item id|}}
-          {{> "systems/weirdwizard/templates/actors/tabs/npc-summary-weapon.hbs" item=item id=id}}
+          {{> "systems/weirdwizard/templates/actors/npc/parts/summary-weapon.hbs" item=item id=id}}
           {{/each}}
         </ol>
   
         {{!-- Special Actions --}}
         <ol class="described-list actions-list">
           {{#each actions as |item id|}}
-          {{> "systems/weirdwizard/templates/actors/tabs/npc-summary-item.hbs" item=item id=id}}
+          {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
           {{/each}}
         </ol>
   
         {{!-- Spells --}}
         <ol class="described-list spells-list">
           {{#each spells as |item id|}}
-          {{> "systems/weirdwizard/templates/actors/tabs/npc-summary-item.hbs" item=item id=id}}
+          {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
           {{/each}}
         </ol>
   
@@ -399,7 +404,7 @@
   
         <ol class="described-list">
           {{#each reactions as |item id|}}
-          {{> "systems/weirdwizard/templates/actors/tabs/npc-summary-item.hbs" item=item id=id}}
+          {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
           {{/each}}
         </ol>
   
@@ -418,7 +423,7 @@
   
         <ol class="described-list">
           {{#each end as |item id|}}
-          {{> "systems/weirdwizard/templates/actors/tabs/npc-summary-item.hbs" item=item id=id}}
+          {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
           {{/each}}
         </ol>
   

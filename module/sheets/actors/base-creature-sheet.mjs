@@ -353,6 +353,12 @@ export default class WWCreatureSheet extends WWActorSheet {
    * @return {Promise<void>}
   */
   async _prepareNPCData(context) {
+    // Prepare fields
+    context.individualTraits = {
+      name: `system.details.individualTraits`,
+      value: context.system.details.individualTraits,
+      field: new foundry.data.fields.StringField()
+    }
 
     // Prepare dropdown lists
     context.difficulties = CONFIG.WW.BESTIARY_DIFFICULTIES;
