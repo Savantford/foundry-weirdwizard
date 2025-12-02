@@ -99,6 +99,7 @@ export default class WWNpcSheet extends WWCreatureSheet {
   /** @override */
   _configureRenderParts(options) {
     const parts = super._configureRenderParts(options);
+    
     const allowedParts = this.constructor.MODE_PARTS[this.mode];
     for ( const partId in parts ) {
       if ( !allowedParts.includes(partId) ) delete parts[partId];

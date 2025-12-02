@@ -8,7 +8,7 @@
         {{#if folder.name}}{{folder.name}}{{else}}{{localize "WW.Actor.Folder.Unnamed"}}{{/if}}</h2>
 
       {{!-- Folder / Creature Group Description --}}
-      <div>
+      <div class="description">
         {{!-- Profile Image --}}
         <img class="profile-img" style="--profile-img: url(/{{ source.img }})" src="{{ source.img }}"
           data-action="editImage" data-edit="img" alt="{{localize "EFFECT.FIELDS.img.label"}}">

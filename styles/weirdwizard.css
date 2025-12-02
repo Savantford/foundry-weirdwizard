@@ -484,11 +484,13 @@ body.theme-dark,
 /*  General Sheet / App Style                   */
 /* -------------------------------------------- */
 
-/* Styles limited to weirdwizard sheets */
-.application.weirdwizard .window-header {
-  background: none;
+body.theme-dark .application.weirdwizard .window-content,
+body.theme-dark.application.weirdwizard .window-content {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
+/* Styles limited to weirdwizard sheets */
 .application.weirdwizard .controls-dropdown {
   z-index: 2; /* Readjust on some sheets */
 }
@@ -958,12 +960,229 @@ body.theme-dark,
 }
 
 /* -------------------------------------------- */
-/*  Sheet Navigation Tabs                       */
+/*  Sheets                                      */
 /* -------------------------------------------- */
 
-.weirdwizard.sheet {
-  overflow: visible; /* Needed to display tabs off the sheet box */
+.weirdwizard.application.sheet {
+  overflow: visible; /* Needed for tabs off the sheet box to appear */
 }
+
+.weirdwizard.application.sheet:not(.minimized) {
+  .window-header {
+    background: url(../assets/decorations/frames/rose.webp);
+  }
+
+  .window-icon,
+  .window-title {
+    opacity: 0;
+  }
+}
+
+/* -------------------------------------------- */
+/*  NPC Sheet                                   */
+/* -------------------------------------------- */
+
+.weirdwizard.sheet.npc {
+  h1.charname {
+    display: inline-flex;
+    height: 100%;
+  }
+
+  .individual-traits {
+    color: var(--body-text-color);
+    font-style: italic;
+    font-family: var(--font-serif);
+  }
+
+  .window-content h6 {
+    text-indent: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0 5px;
+    background: none;
+    border-image-slice: 11 fill;
+    border-image-width: 40px;
+    border-image-outset: 0 8px 0 0;
+    font-family: var(--font-capitalized);
+
+    border-image-source: url(../assets/ui/headers/pointed-right-grey.svg);
+    color: black;
+    font-weight: normal;
+    white-space: nowrap;
+
+    > img {
+      height: 26px;
+      margin: -4px 0;
+      filter: brightness(0);
+    }
+
+    .add-buttons {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0 10px;
+      margin-left: auto;
+      font-size: var(--font-size-12);
+    }
+  }
+}
+
+/* NPC: Edit Mode */
+.weirdwizard.npc.edit-mode .window-content {
+  padding-left: 0.25rem;
+
+  [data-application-part="npcform"] {
+    height: 100%;
+    display: flex;
+    gap: 1.5em;
+
+    > * {
+      flex: 1;
+    }
+  }
+
+  .description {
+    min-height: 100px;
+
+    .profile-img {
+      height: 100px;
+      float: right;
+      shape-outside: var(--profile-img);
+      shape-image-threshold: .5;
+      shape-margin: 1%;
+    }
+  }
+  
+  prose-mirror[name="system.description"] {
+    height: 100%;
+  }
+
+  .statbox {
+    flex-flow: column;
+
+    > h4 {
+      background: var(--purple-dark);
+      border-radius: 0;
+      margin-bottom: 3px;
+    }
+  }
+
+  h5.descriptors {
+    display: flex;
+    gap: 5px;
+    font-size: inherit;
+  }
+}
+
+/* NPC: Attributes */
+.weirdwizard.sheet.npc .attributes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 5px 0;
+
+  .stat {
+    --stat-size: 55px;
+    flex: 1;
+    height: var(--stat-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--purple-dark);
+    font-weight: bold;
+    background: url(/systems/weirdwizard/assets/ui/badges/npc-attribute.svg) no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    > div {
+      display: flex;
+      flex-flow: column;
+      width: var(--stat-size);
+      padding-left: 2px;
+
+      > *:first-child {
+        font-size: var(--font-size-12);
+      }
+
+      > *:last-child {
+        font-size: var(--font-size-16);
+      }
+    }
+
+    > a {
+      width: calc(var(--stat-size) / 2 + 5px);
+      padding-right: 7px;
+    }
+  }
+}
+
+/* NPC: Stats */
+.weirdwizard.sheet.npc .npc-stats {
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
+  margin-top: 10px;
+
+  .stat {
+    .stat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 20px;
+      padding: 0 10px;
+      border-image: url(../assets/ui/headers/pointed-double-purple-dark.svg);
+      border-image-slice: 15 15 fill;
+      border-image-width: 20px;
+      border-image-outset: 0 3px;
+      color: white;
+      font-family: var(--font-capitalized);
+      font-weight: bold;
+    }
+
+    .stat-badge {
+      --stat-size: 35px;
+      margin-right: -13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: var(--stat-size);
+      height: var(--stat-size);
+      background: url(/systems/weirdwizard/assets/ui/badges/octagonal.svg) no-repeat;
+      background-position: center;
+      background-size: contain;
+      color: var(--body-text-color);
+      font-family: var(--font-body);
+      font-weight: bold;
+    }
+
+    .stat-content {
+      background-color: var(--pink);
+      border: 2px solid var(--purple-dark);
+      margin: 0 4px;
+      border-top: none;
+      text-align: left;
+      padding: 5px;
+      box-shadow: inset 0px 2px 2px -1px black;
+      color: var(--purple-dark);
+      font-weight: bold;
+
+      > *:hover {
+        filter: drop-shadow(var(--text-shadow-bold-purple));
+        cursor: pointer;
+      }
+    }
+  }
+
+  .stat:first-of-type {
+    margin-bottom: 7px;
+  }
+}
+
+/* -------------------------------------------- */
+/*  Sheet Navigation Tabs                       */
+/* -------------------------------------------- */
 
 .weirdwizard.sheet nav.tabs {
   --tab-full-width: 44px;
@@ -3580,7 +3799,7 @@ input[type="checkbox"].checkbox-uses {
   background: var(--paper-bg) repeat;
   
   .window-header {
-    background: url(../assets/decorations/frames/rose.webp);
+    background: none;
     border: none;
 
     .window-icon,
@@ -3599,14 +3818,13 @@ input[type="checkbox"].checkbox-uses {
   }
 }
 
-.weirdwizard.application:not(.minimized) {
+.weirdwizard.application:not(.minimized):not(.sheet) {
   min-width: 330px;
   min-height: 150px;
+}
 
-  .window-icon,
-  .window-title {
-    opacity: 0;
-  }
+.weirdwizard.application.minimized .header-control[data-action=close] {
+  display: flex;
 }
 
 .application.weirdwizard input[type="checkbox"]::before,
@@ -4420,204 +4638,6 @@ details.document-card .card-header:hover::after {
 
   li:hover {
     background: var(--pink);
-  }
-}
-
-/* -------------------------------------------- */
-/*  NPC Sheet                                   */
-/* -------------------------------------------- */
-
-.weirdwizard.sheet.npc {
-  h1.charname {
-    display: inline-flex;
-    height: 100%;
-  }
-
-  .individual-traits {
-    color: var(--body-text-color);
-    font-style: italic;
-    font-family: var(--font-serif);
-  }
-
-  .window-content h6 {
-    text-indent: 0;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 0 5px;
-    background: none;
-    border-image-slice: 11 fill;
-    border-image-width: 40px;
-    border-image-outset: 0 8px 0 0;
-    font-family: var(--font-capitalized);
-
-    border-image-source: url(../assets/ui/headers/pointed-right-grey.svg);
-    color: black;
-    font-weight: normal;
-    white-space: nowrap;
-
-    > img {
-      height: 26px;
-      margin: -4px 0;
-      filter: brightness(0);
-    }
-
-    .add-buttons {
-      display: inline-flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0 10px;
-      margin-left: auto;
-      font-size: var(--font-size-12);
-    }
-  }
-}
-
-/* NPC: Edit Mode */
-.weirdwizard.npc.edit-mode .window-content {
-  padding-left: 0.25rem;
-
-  [data-application-part="npcform"] {
-    height: 100%;
-    display: flex;
-    gap: 1.5em;
-
-    > * {
-      flex: 1;
-    }
-  }
-
-  .profile-img {
-    width: 100px;
-    float: right;
-    shape-outside: var(--profile-img);
-    shape-image-threshold: .5;
-    shape-margin: 1%;
-  }
-  
-  prose-mirror[name="system.description"] {
-    height: 100%;
-  }
-
-  .statbox {
-    flex-flow: column;
-
-    > h4 {
-      background: var(--purple-dark);
-      border-radius: 0;
-      margin-bottom: 3px;
-    }
-  }
-
-  h5.descriptors {
-    display: flex;
-    gap: 5px;
-    font-size: inherit;
-  }
-}
-
-/* NPC: Attributes */
-.weirdwizard.sheet.npc .attributes {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 5px 0;
-
-  .stat {
-    --stat-size: 55px;
-    flex: 1;
-    height: var(--stat-size);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: var(--purple-dark);
-    font-weight: bold;
-    background: url(/systems/weirdwizard/assets/ui/badges/npc-attribute.svg) no-repeat;
-    background-position: center;
-    background-size: contain;
-
-    > div {
-      display: flex;
-      flex-flow: column;
-      width: var(--stat-size);
-      padding-left: 2px;
-
-      > *:first-child {
-        font-size: var(--font-size-12);
-      }
-
-      > *:last-child {
-        font-size: var(--font-size-16);
-      }
-    }
-
-    > a {
-      width: calc(var(--stat-size) / 2 + 5px);
-      padding-right: 7px;
-    }
-  }
-}
-
-/* NPC: Stats */
-.weirdwizard.sheet.npc .npc-stats {
-  display: flex;
-  flex-flow: column;
-  gap: 10px;
-  margin-top: 10px;
-
-  .stat {
-    .stat-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 20px;
-      padding: 0 10px;
-      border-image: url(../assets/ui/headers/pointed-double-purple-dark.svg);
-      border-image-slice: 15 15 fill;
-      border-image-width: 20px;
-      border-image-outset: 0 3px;
-      color: white;
-      font-family: var(--font-capitalized);
-      font-weight: bold;
-    }
-
-    .stat-badge {
-      --stat-size: 35px;
-      margin-right: -13px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: var(--stat-size);
-      height: var(--stat-size);
-      background: url(/systems/weirdwizard/assets/ui/badges/octagonal.svg) no-repeat;
-      background-position: center;
-      background-size: contain;
-      color: var(--body-text-color);
-      font-family: var(--font-body);
-      font-weight: bold;
-    }
-
-    .stat-content {
-      background-color: var(--pink);
-      border: 2px solid var(--purple-dark);
-      margin: 0 4px;
-      border-top: none;
-      text-align: left;
-      padding: 5px;
-      box-shadow: inset 0px 2px 2px -1px black;
-      color: var(--purple-dark);
-      font-weight: bold;
-
-      > *:hover {
-        filter: drop-shadow(var(--text-shadow-bold-purple));
-        cursor: pointer;
-      }
-    }
-  }
-
-  .stat:first-of-type {
-    margin-bottom: 7px;
   }
 }
 
