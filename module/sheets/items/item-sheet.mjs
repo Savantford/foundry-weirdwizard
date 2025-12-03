@@ -139,7 +139,6 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     
     for (const a of sys.usedBy) {
       if (await fromUuid(a)) await context.usedBy.push(await TextEditor.enrichHTML(`@UUID[${a}]`, { secrets: this.item.isOwner }));
-      if (await fromUuid(a)) await context.usedBy.push(await TextEditor.enrichHTML(`@UUID[${a}]`, { secrets: this.item.isOwner }));
     }
     
     // Prepare enriched variables for editor
