@@ -128,9 +128,19 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     context.system = itemData.system; // Use a safe clone of the item data for further operations.
     context.folder = await itemData.folder;
     context.flags = itemData.flags;
+    context.dtypes = ['String', 'Number', 'Boolean'];
+    
+    
+    // Prepare enriched document reference links
     context.grantedBy = await fromUuid(sys.grantedBy) ?
       await TextEditor.enrichHTML(`@UUID[${sys.grantedBy}]`, { secrets: this.item.isOwner }) : null;
-    context.dtypes = ['String', 'Number', 'Boolean'];
+    
+    context.usedBy = [];
+    
+    for (const a of sys.usedBy) {
+      if (await fromUuid(a)) await context.usedBy.push(await TextEditor.enrichHTML(`@UUID[${a}]`, { secrets: this.item.isOwner }));
+      if (await fromUuid(a)) await context.usedBy.push(await TextEditor.enrichHTML(`@UUID[${a}]`, { secrets: this.item.isOwner }));
+    }
     
     // Prepare enriched variables for editor
     context.system.descriptionEnriched = await TextEditor.enrichHTML(context.system.description, { secrets: isOwner, relativeTo: this.document });

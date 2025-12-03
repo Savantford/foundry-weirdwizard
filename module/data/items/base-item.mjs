@@ -9,6 +9,9 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
       description: makeHtmlField(),
       active: makeBooField(true),
       grantedBy: makeUuidStrField(),
+      usedBy: new fields.ArrayField(
+        makeUuidStrField()
+      ),
 
       magical: makeBooField(false),
       attribute: makeStrField(), // Make it required maybe

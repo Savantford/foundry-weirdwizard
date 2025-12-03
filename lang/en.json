@@ -209,6 +209,7 @@
 "WW.Item.DisableEffects": "Disable passive effects",
 "WW.Item.Equip": "Wear equipment",
 "WW.Item.Unequip": "Remove equipment",
+"WW.Item.UsedBy": "Used by",
 
 "WW.Item.Perform.Attack": "Attack",
 "WW.Item.Perform.AttackTarget": "Select targets and attack",

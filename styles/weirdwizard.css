@@ -3238,7 +3238,7 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .weirdwizard .fa-coins.copper {
-  color: burlywood;
+  color: sandybrown;
 }
 
 .weirdwizard .carrying-limit > label {
@@ -5030,35 +5030,35 @@ form.quest-calendar {
 }
 
 .enricher-index[data-type="armor"] {
-  --banner: url(../assets/artwork/banners/armor-banner.webp);
+  --banner: url(../assets/artwork/banners/armor.webp);
 }
 
 .enricher-index[data-type="character-options"] {
-  --banner: url(../assets/artwork/banners/character-options-banner.webp);
+  --banner: url(../assets/artwork/banners/character-options.webp);
 }
 
 .enricher-index[data-type="documentation"] {
-  --banner: url(../assets/artwork/banners/documentation-banner.webp);
+  --banner: url(../assets/artwork/banners/documentation.webp);
 }
 
 .enricher-index[data-type="hirelings"] {
-  --banner: url(../assets/artwork/banners/hirelings-banner.webp);
+  --banner: url(../assets/artwork/banners/hirelings.webp);
 }
 
 .enricher-index[data-type="talents"] {
-  --banner: url(../assets/artwork/banners/path-talents-banner.webp);
+  --banner: url(../assets/artwork/banners/path-talents.webp);
 }
 
 .enricher-index[data-type="spells"] {
-  --banner: url(../assets/artwork/banners/spells-banner.webp);
+  --banner: url(../assets/artwork/banners/spells.webp);
 }
 
 .enricher-index[data-type="traits"] {
-  --banner: url(../assets/artwork/banners/traits-banner.webp);
+  --banner: url(../assets/artwork/banners/traits.webp);
 }
 
 .enricher-index[data-type="weapons"] {
-  --banner: url(../assets/artwork/banners/weapons-banner.webp);
+  --banner: url(../assets/artwork/banners/weapons.webp);
 }
 
 /* Compendium Directory */

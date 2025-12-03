@@ -22,11 +22,21 @@
         {{{system.descriptionEnriched}}}
     </prose-mirror>
 
+    {{!-- Granted By --}}
     {{#if grantedBy}}
     <div class="stat-inline mt-1">
         <label>{{localize "WW.CharOption.GrantedBy"}}:</label>
-        {{{grantedBy}}}
+        {{{ grantedBy }}}
     </div>
+    {{/if}}
+
+    {{#if usedBy}}
+    <ol class="used-by stat-inline list-entries mt-1">
+        <label>{{localize "WW.Item.UsedBy"}}:</label>
+        {{#each usedBy as |actor|}}
+        <li>{{{ actor }}}</li>
+        {{/each}}
+    </ol>
     {{/if}}
 
 </section>
