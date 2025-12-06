@@ -1,0 +1,29 @@
+<section class="sidebar">
+  {{!-- View Selection --}}
+  <div class="flexrow">
+    <label>{{localize "WW.System.Index.ViewAs"}}</label>
+  
+    <select data-action="changeView">
+      {{selectOptions views selected=view localize=true}}
+    </select>
+  </div>
+
+  {{!-- Search --}}
+  <div>
+    <input type="text"></input>
+  </div>
+
+  {{!-- Filters --}}
+  <div>
+    {{!-- Source Compendia --}}
+    {{!--<div class="flexrow">
+      <label>{{localize "WW.System.Index.Compendium"}}</label>
+    
+      <select data-action="changeCompendium">
+        {{selectOptions compendiumList selected=selectedCompendium}}
+      </select>
+    </div>--}}
+  </div>
+
+  
+</section>

@@ -72,6 +72,7 @@ import {
 } from './helpers/migrations.mjs';
 import WWCombatantGroupConfig from './sheets/configs/combatant-group-config.mjs';
 import { WWJournalEntrySheet } from './sheets/journal/journal-entry-sheet.mjs';
+import CompendiumIndex from './apps/compendium-index.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -291,6 +292,8 @@ Hooks.once('setup', function () {
 /* -------------------------------------------- */
 /*  Rendering Hooks                             */
 /* -------------------------------------------- */
+
+Hooks.on("renderCompendiumDirectory", (app, html) => CompendiumIndex.injectSidebarButton(html));
 
 Hooks.on('renderChatMessageHTML', (message, html, context) => {
   // Remove html elements meant for owners or non-owners only

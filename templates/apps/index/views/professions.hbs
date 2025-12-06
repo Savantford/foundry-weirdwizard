@@ -1,11 +1,11 @@
-<section class="tab {{tabs.paths.cssClass}}" data-group="primary" data-tab="paths">
+<section class="view professions">
 
     <ol class="item-list">
-    
+
         <li class="item flexrow items-header">
             <div class="item-image"></div>
-            <div class="item-name">{{localize "WW.Item.Name"}}</div>
-            <div>{{localize "WW.Item.Tier"}}</div>
+            <div class="item-name" data-action="renderItem">{{localize "WW.Item.Name"}}</div>
+            <div class="item-fixed">{{localize "WW.Profession.Category"}}</div>
         </li>
 
         {{#each documents as |doc id|}}
@@ -17,7 +17,7 @@
             <a class="item-name" data-action="openSheet" data-item-uuid="{{doc.uuid}}" data-tooltip="{{{doc.tooltip}}}">{{doc.name}}</a>
 
             {{!-- Tier --}}
-            <div>{{doc.tierLabel}}</div>
+            <div class="item-fixed">{{doc.professionCategory}}</div>
         </li>
         {{/each}}
 

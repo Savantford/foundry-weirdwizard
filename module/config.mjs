@@ -932,7 +932,7 @@ WW.EFFECT_CHANGE_PRESET_DATA = {
   },
 }
 
-WW.COMPENDIUM_TYPES = {
+WW.COMPENDIUM_INDEX_VIEWS = {
   'generic': 'WW.System.Index.Generic',
   'paths': 'WW.CharOptions.Paths',
   'professions': 'WW.CharOptions.Professions',
@@ -992,8 +992,8 @@ WW.NEW_DEFAULT_ENTRY = {
 };
 
 WW.DEFAULT_DESCRIPTORS = {
-  'ancestry': {
-    name: 'Ancestry',
+  'human': {
+    name: 'Human',
     desc: ''
   },
   'angel': {

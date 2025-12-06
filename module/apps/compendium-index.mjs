@@ -16,7 +16,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     super(options); // This is required for the constructor to work
     
     this.compendium = game.packs.get(options.compendium);
-    this.type = options.type ? options.type : 'generic';
 
     // Enable drag n drop operations
     this.#dragDrop = this.#createDragDropHandlers();
@@ -26,13 +25,12 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     id: 'compendium-index',
     classes: ['weirdwizard'],
     window: {
-      title: 'Compendium Index',
-      icon: 'fa-regular fa-rectangle-list',
-      resizable: true,
-      contentClasses: ['scrollable']
+      title: "WW.System.Index.Label",
+      icon: 'fa-solid fa-hat-wizard',
+      resizable: true
     },
     actions: {
-      openSheet: CompendiumIndex.openSheet
+      openSheet: CompendiumIndex.#openSheet
     },
     position: {
       width: 800,
@@ -41,29 +39,27 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     dragDrop: [{ dragSelector: '.item', dropSelector: null }]
   }
 
+  /**
+   * The current view
+   * @type {"edit"|"view"}
+   */
+  static #DEFAULT_VIEW = "generic";
+
   /* -------------------------------------------- */
 
   static PARTS = {
-    header: { template: 'systems/weirdwizard/templates/apps/ci/compendium-index.hbs' },
-
-    generic: { template: 'systems/weirdwizard/templates/apps/ci/ci-generic.hbs' },
-    weapons: { template: 'systems/weirdwizard/templates/apps/ci/ci-weapons.hbs' },
-    armor: { template: 'systems/weirdwizard/templates/apps/ci/ci-armor.hbs' },
-    paths: { template: 'systems/weirdwizard/templates/apps/ci/ci-paths.hbs' },
-    professions: { template: 'systems/weirdwizard/templates/apps/ci/ci-professions.hbs' }
+    sidebar: { template: 'systems/weirdwizard/templates/apps/index/sidebar.hbs' },
+    view: {
+      template: 'systems/weirdwizard/templates/apps/index/view.hbs',
+      templates: [
+        'systems/weirdwizard/templates/apps/index/views/generic.hbs',
+        'systems/weirdwizard/templates/apps/index/views/weapons.hbs',
+        'systems/weirdwizard/templates/apps/index/views/armor.hbs',
+        'systems/weirdwizard/templates/apps/index/views/paths.hbs',
+        'systems/weirdwizard/templates/apps/index/views/professions.hbs'
+      ]
+    }
   }
-
-  /** @override */
-  _configureRenderOptions(options) {
-    super._configureRenderOptions(options);
-
-    // Completely overriding the parts
-    options.parts = ['header', 'generic', 'weapons', 'armor', 'paths', 'professions' ];
-    
-    return options;
-  }
-
-  tabGroups = {'primary': 'generic'};
 
   /* -------------------------------------------- */
 
@@ -73,143 +69,101 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
    * @returns {Promise<ApplicationRenderContext>}   Context data for the render operation
    */
   async _prepareContext(options = {}) {
-    
-    const context = {};
+    const context = await super._prepareContext(options);
 
-    context.types = CONFIG.WW.COMPENDIUM_TYPES;
+    context.views = CONFIG.WW.COMPENDIUM_INDEX_VIEWS;
+    context.view = this.view;
 
     context.compendiumList = getCompendiumList();
-
-    context.tabs = [
-      {
-        id: 'generic',
-        group: 'primary',
-        icon: '',
-        label: 'Generic',
-        active: true,
-        cssClass: '',
-      },
-      {
-        id: 'paths',
-        group: 'primary',
-        icon: '',
-        label: 'Paths',
-        active: false,
-        cssClass: '',
-      },
-      {
-        id: 'professions',
-        group: 'primary',
-        icon: '',
-        label: 'Professions',
-        active: false,
-        cssClass: '',
-      },
-      {
-        id: 'armor',
-        group: 'primary',
-        icon: '',
-        label: 'Armor',
-        active: false,
-        cssClass: '',
-      },
-      {
-        id: 'weapons',
-        group: 'primary',
-        icon: '',
-        label: 'Weapons',
-        active: false,
-        cssClass: '',
-      }
-      
-    ];
     
-    // Get dropdown values
-    context.selectedCompendium = await this.compendium.collection;
-    context.tableType = await this.inferType(this.type);
+    if (this.compendium) {
+      // Get dropdown values
+      //context.selectedCompendium = this.compendium ? await this.compendium.collection : null;
+      context.view = this.view;
 
-    // Prepare documents data
-    context.documents = await this.compendium.getDocuments();
+      // Prepare documents data
+      context.documents = await this.compendium.getDocuments();
 
-    for (const d in context.documents) {
-      const doc = context.documents[d];
+      for (const d in context.documents) {
+        const doc = context.documents[d];
 
-      // Get Availability
-      if (doc.system.availability) {
-        doc.availabilityLabel = i18n(CONFIG.WW.EQUIPMENT_AVAILABILITIES[doc.system.availability]);
-      }
-
-      // Get Price
-      if (doc.system.price?.value) {
-        const tip = i18n(CONFIG.WW.EQUIPMENT_COINS[doc.system.price.coin].tip);
-        const color = CONFIG.WW.EQUIPMENT_COINS[doc.system.price.coin].color;
-
-        doc.priceLabel = `${doc.system.price.value} <i class="fa-solid fa-coins ${color}" data-tooltip="${tip}"></i>`;
-      }
-
-      // Get Weapon Requirements
-      doc.system.requirementLabel = doc.system.requirements ? i18n(CONFIG.WW.WEAPON_REQUIREMENTS[doc.system.requirements]) : '—';
-
-      // Get Defense stats
-      if (doc.type === 'equipment') {
-
-        // Get Armor Type
-        if (doc.system.subtype === 'armor') doc.typeLabel = i18n(CONFIG.WW.ARMOR_TYPES[doc.system.armorType]); else doc.typeLabel = i18n('WW.Armor.Shield');
-
-        // Get Defense
-        let armored = 0,
-        natural = null,
-        bonus = null;
-
-        for (const e of doc.effects) {
-          for (const c of e.changes) {
-            
-            if (c.key === 'defense.armored') armored = await c.value;
-            if (c.key === 'defense.naturalIncrease') natural = await c.value;
-            if (c.key === 'defense.bonus') bonus = await c.value;
-          }
-
+        // Get Availability
+        if (doc.system.availability) {
+          doc.availabilityLabel = i18n(CONFIG.WW.EQUIPMENT_AVAILABILITIES[doc.system.availability]);
         }
 
-        // Set Defense
-        doc.defense = bonus ? `+${bonus}` : `${armored} ${await natural ? 'or +' + natural : ''}`;
-        if (doc.defense == 0) doc.defense = '—';
-      }
+        // Get Price
+        if (doc.system.price?.value) {
+          const tip = i18n(CONFIG.WW.EQUIPMENT_COINS[doc.system.price.coin].tip);
+          const color = CONFIG.WW.EQUIPMENT_COINS[doc.system.price.coin].color;
 
-      // Prepare traits list for weapons
-      if (doc.system.subtype == 'weapon') {
+          doc.priceLabel = `${doc.system.price.value} <i class="fa-solid fa-coins ${color}" data-tooltip="${tip}"></i>`;
+        }
 
-        // Prepare traits list
-        let list = '';
+        // Get Weapon Requirements
+        doc.system.requirementLabel = doc.system.requirements ? i18n(CONFIG.WW.WEAPON_REQUIREMENTS[doc.system.requirements]) : '—';
 
-        Object.entries(doc.system.traits).map((x) => {
+        // Get Defense stats
+        if (doc.type === 'equipment') {
 
-          if (x[1]) {
-            let string = i18n('WW.Weapon.Traits.' + capitalize(x[0]) + '.Label');
+          // Get Armor Type
+          if (doc.system.subtype === 'armor') doc.typeLabel = i18n(CONFIG.WW.ARMOR_TYPES[doc.system.armorType]); else doc.typeLabel = i18n('WW.Armor.Shield');
 
-            if ((x[0] == 'range') || (x[0] == 'reach' && doc.system.range) || (x[0] == 'thrown')) { string += ' ' + doc.system.range; }
+          // Get Defense
+          let armored = 0,
+          natural = null,
+          bonus = null;
 
-            list = list.concat(list ? ', ' + string : string);
+          for (const e of doc.effects) {
+            for (const c of e.changes) {
+              
+              if (c.key === 'defense.armored') armored = await c.value;
+              if (c.key === 'defense.naturalIncrease') natural = await c.value;
+              if (c.key === 'defense.bonus') bonus = await c.value;
+            }
+
           }
 
-        })
+          // Set Defense
+          doc.defense = bonus ? `+${bonus}` : `${armored} ${await natural ? 'or +' + natural : ''}`;
+          if (doc.defense == 0) doc.defense = '—';
+        }
 
-        doc.system.traitsList = list ?? '—';
+        // Prepare traits list for weapons
+        if (doc.system.subtype == 'weapon') {
 
-        // Prepare Grip label
-        doc.system.gripLabel = CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip] ? i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip]) : doc.system.grip;
+          // Prepare traits list
+          let list = '';
+
+          Object.entries(doc.system.traits).map((x) => {
+
+            if (x[1]) {
+              let string = i18n('WW.Weapon.Traits.' + capitalize(x[0]) + '.Label');
+
+              if ((x[0] == 'range') || (x[0] == 'reach' && doc.system.range) || (x[0] == 'thrown')) { string += ' ' + doc.system.range; }
+
+              list = list.concat(list ? ', ' + string : string);
+            }
+
+          })
+
+          doc.system.traitsList = list ?? '—';
+
+          // Prepare Grip label
+          doc.system.gripLabel = CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip] ? i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip]) : doc.system.grip;
+        }
+
+        // Get Tier
+        if (doc.type === 'Path') {
+          doc.tierLabel = i18n(CONFIG.WW.TIERS[capitalize(doc.system.tier)]);
+        }
+
+        // Get Profession Category
+        if (doc.type === 'Profession') {
+          doc.professionCategory = i18n(CONFIG.WW.PROFESSION_CATEGORIES[doc.system.category]);
+        }
+
       }
-
-      // Get Tier
-      if (doc.type === 'Path') {
-        doc.tierLabel = i18n(CONFIG.WW.TIERS[capitalize(doc.system.tier)]);
-      }
-
-      // Get Profession Category
-      if (doc.type === 'Profession') {
-        doc.professionCategory = i18n(CONFIG.WW.PROFESSION_CATEGORIES[doc.system.category]);
-      }
-
     }
     
     return context;
@@ -218,22 +172,50 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   /* -------------------------------------------- */
 
   /**
-   * Prepare context that is specific to only a single rendered part.
-   *
-   * It is recommended to augment or mutate the shared context so that downstream methods like _onRender have
-   * visibility into the data that was used for rendering. It is acceptable to return a different context object
-   * rather than mutating the shared context at the expense of this transparency.
-   *
-   * @param {string} partId                         The part being rendered
-   * @param {ApplicationRenderContext} context      Shared context provided by _prepareContext
-   * @returns {Promise<ApplicationRenderContext>}   Context data for a specific part
-   * @protected
+   * @param {PointerEvent} event - The originating click event
+   * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
+  */
+  static async #openSheet(event, target) {
+    return fromUuid(target.dataset.itemUuid)?.sheet.render(true);
+  }
+
+  /**
+   * Alternate between the available views.
+   * @param {PointerEvent} event - The originating change event
+   * @this {CompendiumIndex}
    */
-  /*async _preparePartContext(partId, context) {
+  async _onChangeView(event) {
+    const el = event.currentTarget;
+    this.view = el.value;
+    console.log(this)
+    await this.render();
+  }
+
+  inferView(value, context) {
     
+    // Set the view automatically for core Compendia
+    switch (value) {
+      case 'armor': this.view = 'armor'; break;
+      case 'weapons': this.view = 'weapons'; break;
+      default: this.view = 'generic'; break;
+    }
     
-    return context;
-  }*/
+    return this.view;
+  }
+
+  /* -------------------------------------------- */
+  /*  Life-Cycle Handlers                         */
+  /* -------------------------------------------- */
+
+  /** @inheritDoc */
+  async _preRender(context, options) {
+    await super._preRender(context, options);
+
+    // Wipe the window content after the first render
+    if (!options.isFirstRender) {
+      this.element.querySelector(".window-content").innerHTML = "";
+    }
+  }
 
   /* -------------------------------------------- */
 
@@ -247,76 +229,35 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   _onRender(context, options) {
 
     // Get Compendium dropdown to get compendium
-    const compendiumDropdown = this.element.querySelector('select[data-action=changeCompendium]');
+    /*const compendiumDropdown = this.element.querySelector('select[data-action=changeCompendium]');
 
     compendiumDropdown.addEventListener("change", event => {
       this.compendium = game.packs.get(compendiumDropdown.value);
 
-      this.type = 'generic';
+      this.view = 'generic';
       
-      // Set type according to the dropdown value
+      // Set view according to the dropdown value
       if (compendiumDropdown.value.includes('weirdwizard.')) {
         const str = compendiumDropdown.value.replace('weirdwizard.', '');
         
         switch (str) {
-          case 'armor': this.type = 'armor'; break;
-          case 'weapons': this.type = 'weapons'; break;
+          case 'armor': this.view = 'armor'; break;
+          case 'weapons': this.view = 'weapons'; break;
         }
       }
 
       // Re-render sheet to update compendium data
       this.render(true);
       
-    });
+    });*/
     
-    // Get Type dropdown
-    const typeDropdown = this.element.querySelector('select[data-action=changeType]');
-    
-    // Swap to another tab first if the tab is the same
-    if (this.type === this.tabGroups.primary) this.changeTab('professions', 'primary', {navElement: typeDropdown});
-    this.changeTab(this.inferType(this.type), 'primary', {navElement: typeDropdown});
-
-    // Change tab when Type dropdown is changed
-    typeDropdown.addEventListener("change", event => {
-      this.type = 'generic';
-      this.changeTab(this.inferType(event.currentTarget.value), 'primary', {event, navElement: typeDropdown});
-    });
+    // View selection dropdown functionality
+    const viewDropdown = this.element.querySelector('select[data-action=changeView]');
+    viewDropdown.addEventListener("change", event => this._onChangeView(event));
 
     // Create dragDrop listener
-    this.#dragDrop.forEach((d) => d.bind(this.element));
+    //this.#dragDrop.forEach((d) => d.bind(this.element));
 
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * @param {PointerEvent} event - The originating click event
-   * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
-  */
-  static openSheet(event, target) {
-    fromUuidSync(target.dataset.itemUuid)?.sheet.render(true);
-  }
-
-  /*static changeType(event, app, nav) {
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    const value = event.currentTarget.value;
-    app.type = value;
-    
-    app.changeTab(this.inferType(value), 'primary', {event, navElement: nav});
-    
-  }*/
-
-  inferType(value, context) {
-    
-    // Set the type automatically for core Compendia
-    switch (value) {
-      case 'armor': this.type = 'armor'; break;
-      case 'weapons': this.type = 'weapons'; break;
-      default: this.type = 'generic'; break;
-    }
-    
-    return this.type;
   }
 
   /* -------------------------------------------- */
@@ -425,15 +366,34 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   async _onDrop(event) {
     const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
     
-    // Handle different data types
-    switch (data.type) {
+    // Handle different data views
+    switch (data.view) {
         // write your cases
     }
   }
 
   /* -------------------------------------------- */
-  /*  Properties (Getters)                        */
+  /*  Getters and Setters                         */
   /* -------------------------------------------- */
+
+  /**
+   * The operational view of this sheet
+   * @type {"edit"|"view"}
+   */
+  get view() {
+    return this.#view;
+  }
+
+  /**
+   * Change the operational view of the app. Changing this value will also change the view in which subsequent
+   * Compendium Index instances first render.
+   * @param {"edit"|"view"} value
+   */
+  set view(value) {
+    this.#view = CompendiumIndex.#DEFAULT_VIEW = value;
+  }
+
+  #view = CompendiumIndex.#DEFAULT_VIEW;
 
   /**
    * Returns an array of DragDrop instances
@@ -441,6 +401,26 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
    */
   get dragDrop() {
     return this.#dragDrop;
+  }
+
+  /**
+   * Adapted from D&D 5e system's code. Thank you!
+   * Inject the compendium index button into the compendium sidebar.
+   * @param {HTMLElement} html  HTML of the sidebar being rendered.
+   */
+  static injectSidebarButton(html) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.classList.add("open-compendium-index");
+    button.innerHTML = `
+        <i class="fa-solid fa-hat-wizard" inert></i>
+        ${game.i18n.localize("WW.System.Index.Open")}
+      `;
+    button.addEventListener("click", event => (new CompendiumIndex()).render({ force: true }));''
+
+    let headerActions = html.querySelector(".header-actions");
+    
+    headerActions.append(button);
   }
 
 }
