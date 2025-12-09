@@ -1,4 +1,5 @@
 import { capitalize, getCompendiumList, i18n } from '../helpers/utils.mjs';
+import WWDialog from '../apps/dialog.mjs';
 
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
@@ -73,12 +74,11 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
     context.views = CONFIG.WW.COMPENDIUM_INDEX_VIEWS;
     context.view = this.view;
-
-    const compendiumList = getCompendiumList();
     
     // Old - Compendium
     if (this.compendium) {
       // Get dropdown values
+
       //context.selectedCompendium = this.compendium ? await this.compendium.collection : null;
       context.view = this.view;
 
@@ -169,21 +169,14 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     
     // Prepare filters
     context.filters = [];
+    const fields = foundry.data.fields;
 
     context.filters.source = {
-      field: new foundry.data.fields.SetField(
-        new foundry.data.fields.StringField()
-      ),
+      field: new fields.SetField(new fields.StringField()),
       value: options.sourceCompendia ?? [],
-      label: i18n("WW.System.Index.SourceCompendia"),
-      //options: Object.values(getCompendiumList())
-      options: [
-        {
-          value: 'test',
-          label: 'Label Test',
-          group: "Test Group"
-        }
-      ]
+      title: i18n("WW.System.Index.SourceCompendia"),
+      name: 'source',
+      options: Object.values(getCompendiumList())
     }
     
     return context;

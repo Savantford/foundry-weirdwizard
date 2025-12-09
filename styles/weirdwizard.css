@@ -4691,36 +4691,37 @@ details.document-card .card-header:hover::after {
         flex-flow: column nowrap;
         gap: 5px;
         overflow: auto;
-        max-height: calc(100% - 100px);
+        max-height: calc(100% - 110px);
       }
 
       .filter {
 
-        summary {
-          border-image: url(../assets/ui/ribbons/simple-pink.svg);
+        .title {
+          border-image: url(../assets/ui/ribbons/simple-medium.svg);
           border-image-slice: 1 95 2 14 fill;
           border-image-width: 1px 40px 2px 14px;
           padding: 3px 7px 3px 6px;
+          color: white;
         }
 
-        multi-checkbox {
-          display: flex;
-          flex-flow: column nowrap;
-          margin-top: 5px;
+      }
 
-          .checkbox-group {
-            border-image: url(../assets/ui/plates/single-transparent.svg);
-            border-image-slice: 120 fill;
-            border-image-width: 8px;
+      multi-checkbox {
+        display: flex;
+        flex-flow: column nowrap;
+        margin-top: 5px;
 
-            legend {
-              background: rgba(0, 0, 0, 0.07);
-              outline: 1px solid var(--purple-medium);
-              border-radius: 2px;
-            }
+        .checkbox-group {
+          border-image: url(../assets/ui/plates/single-transparent.svg);
+          border-image-slice: 120 fill;
+          border-image-width: 8px;
+
+          legend {
+            background: rgba(0, 0, 0, 0.07);
+            outline: 1px solid var(--purple-medium);
+            border-radius: 2px;
           }
         }
-        
       }
     }
 

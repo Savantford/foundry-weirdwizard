@@ -21,20 +21,15 @@
 
       {{!-- Source Compendia --}}
       {{#with filters.source}}
+      <div class="filter">
+        <div class="title">{{ title }}</div>
+        {{formInput field type="checkboxes" options=options name=name value=value}}
+      </div>
+      
       <details class="filter">
-        <summary>{{label}}</summary>
-
-        {{formInput field type="checkboxes" name="source" options=options value="world.adsasf"}}
+        <summary class="title">{{title}}</summary>
         
-      </details>
-      {{/with}}
-
-      {{!-- Source Compendia --}}
-      {{#with filters.source}}
-      <details class="filter">
-        <summary>{{label}}</summary>
-
-        {{formInput field type="checkboxes" name="source" options=options value="world.adsasf"}}
+        {{formInput field type="checkboxes" options=options name=name value=value}}
         
       </details>
       {{/with}}

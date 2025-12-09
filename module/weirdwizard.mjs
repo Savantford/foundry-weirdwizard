@@ -293,7 +293,9 @@ Hooks.once('setup', function () {
 /*  Rendering Hooks                             */
 /* -------------------------------------------- */
 
-Hooks.on("renderCompendiumDirectory", (app, html) => CompendiumIndex.injectSidebarButton(html));
+Hooks.on("renderCompendiumDirectory", (app, html) => {
+  CompendiumIndex.injectSidebarButton(html);
+})
 
 Hooks.on('renderChatMessageHTML', (message, html, context) => {
   // Remove html elements meant for owners or non-owners only
