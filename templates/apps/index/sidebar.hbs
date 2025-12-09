@@ -1,29 +1,46 @@
 <section class="sidebar">
-  {{!-- View Selection --}}
-  <div class="flexrow">
-    <label>{{localize "WW.System.Index.ViewAs"}}</label>
-  
-    <select data-action="changeView">
-      {{selectOptions views selected=view localize=true}}
-    </select>
-  </div>
+  <div class="sidebar-content">
+    <div class="sidebar-header">
+      {{!-- View Selection --}}
+      <div class="flexrow">
+        <label>{{localize "WW.System.Index.ViewAs"}}</label>
+      
+        <select data-action="changeView">
+          {{selectOptions views selected=view localize=true}}
+        </select>
+      </div>
 
-  {{!-- Search --}}
-  <div>
-    <input type="text"></input>
-  </div>
+      {{!-- Search --}}
+      <input type="text" class="search" placeholder="{{localize "WW.System.Index.Search"}}">
 
-  {{!-- Filters --}}
-  <div>
-    {{!-- Source Compendia --}}
-    {{!--<div class="flexrow">
-      <label>{{localize "WW.System.Index.Compendium"}}</label>
+      <hr class="spear">
+    </div>
     
-      <select data-action="changeCompendium">
-        {{selectOptions compendiumList selected=selectedCompendium}}
-      </select>
-    </div>--}}
-  </div>
+    {{!-- Filters --}}
+    <div class="filters">
 
+      {{!-- Source Compendia --}}
+      {{#with filters.source}}
+      <details class="filter">
+        <summary>{{label}}</summary>
+
+        {{formInput field type="checkboxes" name="source" options=options value="world.adsasf"}}
+        
+      </details>
+      {{/with}}
+
+      {{!-- Source Compendia --}}
+      {{#with filters.source}}
+      <details class="filter">
+        <summary>{{label}}</summary>
+
+        {{formInput field type="checkboxes" name="source" options=options value="world.adsasf"}}
+        
+      </details>
+      {{/with}}
+
+
+    </div>
+  </div>
   
 </section>

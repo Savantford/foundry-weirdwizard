@@ -74,8 +74,9 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     context.views = CONFIG.WW.COMPENDIUM_INDEX_VIEWS;
     context.view = this.view;
 
-    context.compendiumList = getCompendiumList();
+    const compendiumList = getCompendiumList();
     
+    // Old - Compendium
     if (this.compendium) {
       // Get dropdown values
       //context.selectedCompendium = this.compendium ? await this.compendium.collection : null;
@@ -164,6 +165,25 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         }
 
       }
+    }
+    
+    // Prepare filters
+    context.filters = [];
+
+    context.filters.source = {
+      field: new foundry.data.fields.SetField(
+        new foundry.data.fields.StringField()
+      ),
+      value: options.sourceCompendia ?? [],
+      label: i18n("WW.System.Index.SourceCompendia"),
+      //options: Object.values(getCompendiumList())
+      options: [
+        {
+          value: 'test',
+          label: 'Label Test',
+          group: "Test Group"
+        }
+      ]
     }
     
     return context;
