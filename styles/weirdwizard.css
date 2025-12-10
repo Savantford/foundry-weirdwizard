@@ -4629,7 +4629,6 @@ details.document-card .card-header:hover::after {
   padding: 0;
   
   li {
-    justify-content: space-between;
     padding: 0.25rem 0.5rem;
     margin: 0;
     background: var(--background-color-shadow);
@@ -4708,18 +4707,40 @@ details.document-card .card-header:hover::after {
 
       multi-checkbox {
         display: flex;
-        flex-flow: column nowrap;
+        flex-flow: wrap;
+        gap: 0 0.5em;
         margin-top: 5px;
 
         .checkbox-group {
+          display: flex;
+          flex-flow: wrap;
+          gap: 0 0.5em;
+          width: 100%;
           border-image: url(../assets/ui/plates/single-transparent.svg);
           border-image-slice: 120 fill;
           border-image-width: 8px;
+          padding: 0;
 
           legend {
             background: rgba(0, 0, 0, 0.07);
             outline: 1px solid var(--purple-medium);
             border-radius: 2px;
+            margin-left: 10px;
+          }
+
+        }
+
+        .checkbox-group:not(:first-child) {
+          margin-top: 0.5em;
+        }
+
+        label.checkbox {
+          gap: 0;
+          flex: 1 40%;
+          white-space: nowrap;
+
+          > input[type=checkbox] {
+            height: var(--checkbox-size);
           }
         }
       }

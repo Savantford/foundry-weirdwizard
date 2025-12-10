@@ -114,7 +114,7 @@ async function enrichIndex (match, options) {
   // Prepare dataset
   container.dataset.compendium = 'weirdwizard.' + type;
   container.dataset.type = type;
-  container.dataset.tooltip = i18n('WW.System.Index.Tooltip', {type: label});
+  container.dataset.tooltip = i18n('WW.Index.Tooltip', {type: label});
 
   return container;
 }

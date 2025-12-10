@@ -1012,10 +1012,10 @@
 "WW.System.Compendium.Group.Heroes": "Heroes",
 "WW.System.Compendium.Group.WeirdAncestries": "Weird Ancestries",
 
-"WW.System.Index.Tooltip": "Open the {type} Index.",
-"WW.System.Index.Compendium": "Kompendium",
-"WW.System.Index.TableType": "Tabellentyp",
-"WW.System.Index.Generic": "Generisch",
+"WW.Index.Tooltip": "Open the {type} Index.",
+"WW.Index.Compendium": "Kompendium",
+"WW.Index.TableType": "Tabellentyp",
+"WW.Index.Generic": "Generisch",
 
 "WW.Tour.Character.Title": "Charakterbogen",
 "WW.Tour.Character.Content": "Learn how to use everything the Player Character Sheet has to offer!",

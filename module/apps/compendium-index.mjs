@@ -1,5 +1,4 @@
-import { capitalize, getCompendiumList, i18n } from '../helpers/utils.mjs';
-import WWDialog from '../apps/dialog.mjs';
+import { capitalize, getCompendiumList, getDocumentTypeList, i18n } from '../helpers/utils.mjs';
 
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
@@ -26,7 +25,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     id: 'compendium-index',
     classes: ['weirdwizard'],
     window: {
-      title: "WW.System.Index.Label",
+      title: "WW.Index.Label",
       icon: 'fa-solid fa-hat-wizard',
       resizable: true
     },
@@ -168,21 +167,38 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     }
     
     // Prepare filters
-    context.filters = [];
-    const fields = foundry.data.fields;
+    await this._prepareFilters(context, options);
 
-    context.filters.source = {
-      field: new fields.SetField(new fields.StringField()),
-      value: options.sourceCompendia ?? [],
-      title: i18n("WW.System.Index.SourceCompendia"),
-      name: 'source',
-      options: Object.values(getCompendiumList())
-    }
+    console.log(context)
     
     return context;
   }
 
   /* -------------------------------------------- */
+
+  async _prepareFilters(context, options) {
+    context.filters = [];
+    const fields = foundry.data.fields;
+    context.fields = {
+      set: new fields.SetField(new fields.StringField())
+    }
+
+    // Source
+    context.filters.push({
+      name: 'filters.sourceCompendia',
+      title: i18n("WW.Index.Filters.SourceCompendia"),
+      value: options.sourceCompendia ?? [],
+      options: Object.values(getCompendiumList())
+    })
+
+    // Document types
+    context.filters.push({
+      name: 'filters.documentTypes',
+      title: i18n("WW.Index.Filters.DocumentTypes"),
+      value: options.documentTypes ?? [],
+      options: Object.values(getDocumentTypeList())
+    })
+  }
 
   /**
    * @param {PointerEvent} event - The originating click event
@@ -267,6 +283,10 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     // View selection dropdown functionality
     const viewDropdown = this.element.querySelector('select[data-action=changeView]');
     viewDropdown.addEventListener("change", event => this._onChangeView(event));
+
+    // Collapsible filters
+    const filters = this.element.querySelector(".filter");
+    window.getSelection().collapse(filters, 0);
 
     // Create dragDrop listener
     //this.#dragDrop.forEach((d) => d.bind(this.element));
@@ -427,7 +447,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     button.classList.add("open-compendium-index");
     button.innerHTML = `
         <i class="fa-solid fa-hat-wizard" inert></i>
-        ${game.i18n.localize("WW.System.Index.Open")}
+        ${game.i18n.localize("WW.Index.Open")}
       `;
     button.addEventListener("click", event => (new CompendiumIndex()).render({ force: true }));''
 

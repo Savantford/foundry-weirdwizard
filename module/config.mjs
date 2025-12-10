@@ -933,7 +933,7 @@ WW.EFFECT_CHANGE_PRESET_DATA = {
 }
 
 WW.COMPENDIUM_INDEX_VIEWS = {
-  'generic': 'WW.System.Index.Generic',
+  'generic': 'WW.Index.Generic',
   'paths': 'WW.CharOptions.Paths',
   'professions': 'WW.CharOptions.Professions',
   'armor': 'WW.Armor.Label',

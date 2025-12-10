@@ -1076,13 +1076,15 @@
 "WW.System.Compendium.Group.Heroes": "Heroes",
 "WW.System.Compendium.Group.WeirdAncestries": "Weird Ancestries",
 
-"WW.System.Index.Label": "Compendium Index",
-"WW.System.Index.Open": "Open the Compendium Index",
-"WW.System.Index.Tooltip": "Open the {type} Index.",
-"WW.System.Index.ViewAs": "View as",
-"WW.System.Index.Generic": "Generic",
-"WW.System.Index.Search": "Search...",
-"WW.System.Index.SourceCompendia": "Source Compendia",
+"WW.Index.Label": "Compendium Index",
+"WW.Index.Open": "Open the Compendium Index",
+"WW.Index.Tooltip": "Open the {type} Index.",
+"WW.Index.ViewAs": "View as",
+"WW.Index.Generic": "Generic",
+"WW.Index.Search": "Search...",
+
+"WW.Index.Filters.SourceCompendia": "Source Compendia",
+"WW.Index.Filters.DocumentTypes": "Document Types",
 
 "WW.Tour.Character.Title": "Character Sheet",
 "WW.Tour.Character.Content": "Learn how to use everything the Player Character Sheet has to offer!",

@@ -3,7 +3,7 @@
     <div class="sidebar-header">
       {{!-- View Selection --}}
       <div class="flexrow">
-        <label>{{localize "WW.System.Index.ViewAs"}}</label>
+        <label>{{localize "WW.Index.ViewAs"}}</label>
       
         <select data-action="changeView">
           {{selectOptions views selected=view localize=true}}
@@ -11,7 +11,7 @@
       </div>
 
       {{!-- Search --}}
-      <input type="text" class="search" placeholder="{{localize "WW.System.Index.Search"}}">
+      <input type="text" class="search" placeholder="{{localize "WW.Index.Search"}}">
 
       <hr class="spear">
     </div>
@@ -19,21 +19,18 @@
     {{!-- Filters --}}
     <div class="filters">
 
-      {{!-- Source Compendia --}}
-      {{#with filters.source}}
+      {{!-- Filter --}}
+      {{log filters}}
+      {{#each filters as |filter key|}}
+      {{log key}}
+      {{log filter}}
       <div class="filter">
-        <div class="title">{{ title }}</div>
-        {{formInput field type="checkboxes" options=options name=name value=value}}
+        <div class="title">{{ filter.title }}</div>
+        {{formInput @root.fields.set type="checkboxes" options=filter.options name=filter.name value=filter.value}}
       </div>
-      
-      <details class="filter">
-        <summary class="title">{{title}}</summary>
-        
-        {{formInput field type="checkboxes" options=options name=name value=value}}
-        
-      </details>
-      {{/with}}
-
+      {{else}}
+      falhou
+      {{/each}}
 
     </div>
   </div>

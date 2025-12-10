@@ -1070,10 +1070,10 @@
 "WW.System.Compendium.Group.Heroes": "Heroes",
 "WW.System.Compendium.Group.WeirdAncestries": "Weird Ancestries",
 
-"WW.System.Index.Tooltip": "Open the {type} Index.",
-"WW.System.Index.Compendium": "Compendium",
-"WW.System.Index.TableType": "Tipo de Tabela",
-"WW.System.Index.Generic": "Genérica",
+"WW.Index.Tooltip": "Open the {type} Index.",
+"WW.Index.Compendium": "Compendium",
+"WW.Index.TableType": "Tipo de Tabela",
+"WW.Index.Generic": "Genérica",
 
 "WW.Tour.Character.Title": "Character Sheet",
 "WW.Tour.Character.Content": "Learn how to use everything the Player Character Sheet has to offer!",
