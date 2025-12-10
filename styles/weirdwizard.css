@@ -4644,7 +4644,7 @@ details.document-card .card-header:hover::after {
 /*  Compendium Index                            */
 /* -------------------------------------------- */
 
-#compendium-index {
+.compendium-index {
   min-width: 400px;
   min-height: 250px;
 
@@ -4757,7 +4757,7 @@ details.document-card .card-header:hover::after {
   }
 }
 
-#compendium-index:not(.minimized) {
+.compendium-index:not(.minimized) {
   .window-header {
     background: url(../assets/decorations/frames/rose.webp);
     justify-content: space-between;

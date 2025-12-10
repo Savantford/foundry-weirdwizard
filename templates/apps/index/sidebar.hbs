@@ -18,20 +18,12 @@
     
     {{!-- Filters --}}
     <div class="filters">
-
-      {{!-- Filter --}}
-      {{log filters}}
       {{#each filters as |filter key|}}
-      {{log key}}
-      {{log filter}}
       <div class="filter">
         <div class="title">{{ filter.title }}</div>
         {{formInput @root.fields.set type="checkboxes" options=filter.options name=filter.name value=filter.value}}
       </div>
-      {{else}}
-      falhou
       {{/each}}
-
     </div>
   </div>
   

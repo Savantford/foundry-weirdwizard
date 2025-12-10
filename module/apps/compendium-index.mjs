@@ -22,8 +22,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   }
 
   static DEFAULT_OPTIONS = {
-    id: 'compendium-index',
-    classes: ['weirdwizard'],
+    classes: ['weirdwizard', 'compendium-index'],
     window: {
       title: "WW.Index.Label",
       icon: 'fa-solid fa-hat-wizard',
@@ -73,6 +72,43 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
     context.views = CONFIG.WW.COMPENDIUM_INDEX_VIEWS;
     context.view = this.view;
+    
+    // Prepare part data
+    await this._prepareFilters(context, options);
+    await this._prepareView(context, options);
+    
+    return context;
+  }
+
+  /* -------------------------------------------- */
+
+  async _prepareFilters(context, options) {
+    context.filters = [];
+    const fields = foundry.data.fields;
+    context.fields = {
+      set: new fields.SetField(new fields.StringField())
+    }
+
+    // Source
+    context.filters.push({
+      name: 'filters.sourceCompendia',
+      title: i18n("WW.Index.Filters.SourceCompendia"),
+      value: options.sourceCompendia ?? [],
+      options: Object.values(getCompendiumList())
+    })
+
+    // Document types
+    context.filters.push({
+      name: 'filters.documentTypes',
+      title: i18n("WW.Index.Filters.DocumentTypes"),
+      value: options.documentTypes ?? [],
+      options: Object.values(getDocumentTypeList())
+    })
+  }
+
+  /* -------------------------------------------- */
+
+  async _prepareView(context, options) {
     
     // Old - Compendium
     if (this.compendium) {
@@ -165,71 +201,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
       }
     }
-    
-    // Prepare filters
-    await this._prepareFilters(context, options);
-
-    console.log(context)
-    
-    return context;
-  }
-
-  /* -------------------------------------------- */
-
-  async _prepareFilters(context, options) {
-    context.filters = [];
-    const fields = foundry.data.fields;
-    context.fields = {
-      set: new fields.SetField(new fields.StringField())
-    }
-
-    // Source
-    context.filters.push({
-      name: 'filters.sourceCompendia',
-      title: i18n("WW.Index.Filters.SourceCompendia"),
-      value: options.sourceCompendia ?? [],
-      options: Object.values(getCompendiumList())
-    })
-
-    // Document types
-    context.filters.push({
-      name: 'filters.documentTypes',
-      title: i18n("WW.Index.Filters.DocumentTypes"),
-      value: options.documentTypes ?? [],
-      options: Object.values(getDocumentTypeList())
-    })
-  }
-
-  /**
-   * @param {PointerEvent} event - The originating click event
-   * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
-  */
-  static async #openSheet(event, target) {
-    return fromUuid(target.dataset.itemUuid)?.sheet.render(true);
-  }
-
-  /**
-   * Alternate between the available views.
-   * @param {PointerEvent} event - The originating change event
-   * @this {CompendiumIndex}
-   */
-  async _onChangeView(event) {
-    const el = event.currentTarget;
-    this.view = el.value;
-    console.log(this)
-    await this.render();
-  }
-
-  inferView(value, context) {
-    
-    // Set the view automatically for core Compendia
-    switch (value) {
-      case 'armor': this.view = 'armor'; break;
-      case 'weapons': this.view = 'weapons'; break;
-      default: this.view = 'generic'; break;
-    }
-    
-    return this.view;
   }
 
   /* -------------------------------------------- */
@@ -284,13 +255,53 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     const viewDropdown = this.element.querySelector('select[data-action=changeView]');
     viewDropdown.addEventListener("change", event => this._onChangeView(event));
 
-    // Collapsible filters
+    // Collapsible filters - not working
     const filters = this.element.querySelector(".filter");
     window.getSelection().collapse(filters, 0);
 
     // Create dragDrop listener
     //this.#dragDrop.forEach((d) => d.bind(this.element));
 
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Alternate between the available views.
+   * @param {PointerEvent} event - The originating change event
+   * @this {CompendiumIndex}
+   */
+  async _onChangeView(event) {
+    const el = event.currentTarget;
+    this.view = el.value;
+    console.log(this)
+    await this.render();
+  }
+
+  /* -------------------------------------------- */
+
+  inferView(value, context) {
+    
+    // Set the view automatically for core Compendia
+    switch (value) {
+      case 'armor': this.view = 'armor'; break;
+      case 'weapons': this.view = 'weapons'; break;
+      default: this.view = 'generic'; break;
+    }
+    
+    return this.view;
+  }
+
+  /* -------------------------------------------- */
+  /*  Actions                                     */
+  /* -------------------------------------------- */
+
+  /**
+   * @param {PointerEvent} event - The originating click event
+   * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
+  */
+  static async #openSheet(event, target) {
+    return fromUuid(target.dataset.itemUuid)?.sheet.render(true);
   }
 
   /* -------------------------------------------- */
