@@ -15,7 +15,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   constructor(options = {}) {
     super(options); // This is required for the constructor to work
     
-    this.compendium = game.packs.get(options.compendium);
+    if (options.filters) this.filters = options.filters;
 
     // Enable drag n drop operations
     this.#dragDrop = this.#createDragDropHandlers();
@@ -74,17 +74,19 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     context.view = this.view;
     
     // Prepare part data
-    await this._prepareFilters(context, options);
-    await this._prepareView(context, options);
+    await this._prepareFilters(context);
+    await this._prepareView(context);
     
     return context;
   }
 
   /* -------------------------------------------- */
 
-  async _prepareFilters(context, options) {
+  async _prepareFilters(context) {
     context.filters = [];
     const fields = foundry.data.fields;
+    const fs = this.filters;
+
     context.fields = {
       set: new fields.SetField(new fields.StringField())
     }
@@ -93,7 +95,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     context.filters.push({
       name: 'filters.sourceCompendia',
       title: i18n("WW.Index.Filters.SourceCompendia"),
-      value: options.sourceCompendia ?? [],
+      value: fs.sourceCompendia ?? [],
       options: Object.values(getCompendiumList())
     })
 
@@ -101,14 +103,14 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     context.filters.push({
       name: 'filters.documentTypes',
       title: i18n("WW.Index.Filters.DocumentTypes"),
-      value: options.documentTypes ?? [],
+      value: fs.documentTypes ?? [],
       options: Object.values(getDocumentTypeList())
     })
   }
 
   /* -------------------------------------------- */
 
-  async _prepareView(context, options) {
+  async _prepareView(context) {
     
     // Old - Compendium
     if (this.compendium) {

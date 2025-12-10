@@ -103,17 +103,18 @@ async function enrichRoll (match, options) {
 }
 
 async function enrichIndex (match, options) {
-  const type = match[1] === 'charopts' ? 'character-options' : match[1];
-  const label = i18n(CONFIG.WW.COMPENDIUM_INDEX_ENRICHER_LABELS[type]);
-
+  const preset = match[1];
+  const view = match[2];
+  const label = i18n(CONFIG.WW.COMPENDIUM_INDEX_PRESET_LABELS[preset]);
+  
   // Prepare container
   const container = document.createElement("a");
   container.className = 'enricher-index';
   container.innerHTML = label;
 
   // Prepare dataset
-  container.dataset.compendium = 'weirdwizard.' + type;
-  container.dataset.type = type;
+  container.dataset.preset = preset;
+  container.dataset.view = view;
   container.dataset.tooltip = i18n('WW.Index.Tooltip', {type: label});
 
   return container;

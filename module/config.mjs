@@ -940,14 +940,20 @@ WW.COMPENDIUM_INDEX_VIEWS = {
   'weapons': 'WW.Equipment.Weapons'
 };
 
-WW.COMPENDIUM_INDEX_ENRICHER_LABELS = {
+WW.COMPENDIUM_INDEX_PRESET_LABELS = {
+  /* Equipment */
+  'equipment': 'TYPES.Item.equipment',
   'armor': 'WW.Armor.Label',
   'weapons': 'WW.Equipment.Weapons',
   'hirelings': 'WW.Equipment.Hirelings',
-  'character-options': 'WW.CharOptions.Label',
-  'traits': 'WW.CharOptions.AncestryTraits',
-  'talents': 'WW.CharOptions.PathTalents',
-  'spells': 'WW.CharOptions.TraditionSpells'
+  
+  /* Character Options */
+  'ancestries': 'WW.CharOptions.Ancestries',
+  'novice-paths': 'WW.Equipment.Hirelings',
+
+  /* Activities */
+  'talents': 'TYPES.Item.talent',
+  'spells': 'TYPES.Item.spell'
 };
 
 WW.COMPENDIUM_GROUPS = {
