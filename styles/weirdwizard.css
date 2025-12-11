@@ -5147,6 +5147,7 @@ form.quest-calendar {
 }
 
 .enricher-index {
+  --banner: url(../assets/artwork/banners/documentation.webp);
   display: inline-block;
   width: 100%;
   max-width: 300px;
@@ -5170,37 +5171,37 @@ form.quest-calendar {
   text-shadow: 0 0 5px black, 0 0 10px black;
 }
 
-.enricher-index[data-type="armor"] {
+.enricher-index[data-preset="armor"] {
   --banner: url(../assets/artwork/banners/armor.webp);
 }
 
-.enricher-index[data-type="character-options"] {
-  --banner: url(../assets/artwork/banners/character-options.webp);
+.enricher-index[data-preset="weapons"] {
+  --banner: url(../assets/artwork/banners/weapons.webp);
 }
 
-.enricher-index[data-type="documentation"] {
-  --banner: url(../assets/artwork/banners/documentation.webp);
-}
-
-.enricher-index[data-type="hirelings"] {
+.enricher-index[data-preset="hirelings"] {
   --banner: url(../assets/artwork/banners/hirelings.webp);
 }
 
-.enricher-index[data-type="talents"] {
-  --banner: url(../assets/artwork/banners/path-talents.webp);
+.enricher-index[data-preset="charopts"] {
+  --banner: url(../assets/artwork/banners/character-options.webp);
 }
 
-.enricher-index[data-type="spells"] {
-  --banner: url(../assets/artwork/banners/spells.webp);
-}
-
-.enricher-index[data-type="traits"] {
+.enricher-index[data-preset="ancestries"] {
   --banner: url(../assets/artwork/banners/traits.webp);
 }
 
-.enricher-index[data-type="weapons"] {
-  --banner: url(../assets/artwork/banners/weapons.webp);
+.enricher-index[data-preset="expert"],
+.enricher-index[data-preset="talents"] {
+  --banner: url(../assets/artwork/banners/path-talents.webp);
 }
+
+.enricher-index[data-preset="traditions"],
+.enricher-index[data-preset="spells"] {
+  --banner: url(../assets/artwork/banners/spells.webp);
+}
+
+
 
 /* Compendium Directory */
 .compendium-directory .header-banner img {

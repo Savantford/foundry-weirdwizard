@@ -133,16 +133,27 @@ export default class SageTools extends HandlebarsApplicationMixin(ApplicationV2)
         const TextEditor = foundry.applications.ux.TextEditor.implementation;
 
         context.index = {
+          all: await TextEditor.enrichHTML(`
+            index:all
+          `),
           charOptions: await TextEditor.enrichHTML(`
             index:charopts
-            index:traits
-            index:talents
-            index:spells
+            index:ancestries
+            index:professions
+            index:novice
+            index:expert
+            index:master
+            index:traditions
           `),
           equipment: await TextEditor.enrichHTML(`
+            index:equipment
             index:armor
             index:weapons
             index:hirelings
+          `),
+          other: await TextEditor.enrichHTML(`
+            index:talents
+            index:spells
           `),
         }
       break;

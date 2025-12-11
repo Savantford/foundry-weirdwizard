@@ -12,9 +12,9 @@ export default function addCustomEnrichers() {
       enricher: enrichRoll
     },
     {
-      pattern: /(?:index:(armor|weapons|hirelings|charopts|traits|talents|spells){1})/gi,
+      pattern: /(?:index:(all|equipment|armor|weapons|hirelings|charopts|ancestries|professions|novice|expert|master|traditions|talents|spells){1})/gi,
       enricher: enrichIndex
-    },
+    }
   );
 }
 
@@ -113,8 +113,8 @@ async function enrichIndex (match, options) {
   container.innerHTML = label;
 
   // Prepare dataset
-  container.dataset.preset = preset;
-  container.dataset.view = view;
+  container.dataset.preset = preset ?? "";
+  container.dataset.view = view ?? "";
   container.dataset.tooltip = i18n('WW.Index.Tooltip', {type: label});
 
   return container;

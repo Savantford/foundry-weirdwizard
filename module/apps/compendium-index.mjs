@@ -13,9 +13,12 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
 export default class CompendiumIndex extends HandlebarsApplicationMixin(ApplicationV2) {
 
   constructor(options = {}) {
-    super(options); // This is required for the constructor to work
+    super(options); // Required for "this." to work
     
+    // Apply options
+    if (options.preset) this._applyPreset(options.preset);
     if (options.filters) this.filters = options.filters;
+    if (options.view) this.view = options.view;
 
     // Enable drag n drop operations
     this.#dragDrop = this.#createDragDropHandlers();
@@ -95,7 +98,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     context.filters.push({
       name: 'filters.sourceCompendia',
       title: i18n("WW.Index.Filters.SourceCompendia"),
-      value: fs.sourceCompendia ?? [],
+      value: fs?.sourceCompendia ?? [],
       options: Object.values(getCompendiumList())
     })
 
@@ -103,7 +106,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     context.filters.push({
       name: 'filters.documentTypes',
       title: i18n("WW.Index.Filters.DocumentTypes"),
-      value: fs.documentTypes ?? [],
+      value: fs?.documentTypes ?? [],
       options: Object.values(getDocumentTypeList())
     })
   }
@@ -111,7 +114,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   /* -------------------------------------------- */
 
   async _prepareView(context) {
-    
+    console.log(this.filters)
     // Old - Compendium
     if (this.compendium) {
       // Get dropdown values
@@ -286,6 +289,21 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     
     // Set the view automatically for core Compendia
     switch (value) {
+      case 'armor': this.view = 'armor'; break;
+      case 'weapons': this.view = 'weapons'; break;
+      default: this.view = 'generic'; break;
+    }
+    
+    return this.view;
+  }
+
+  /* -------------------------------------------- */
+
+  _applyPreset(preset) {
+    console.log()
+    
+    // Set the view automatically for core Compendia
+    switch (preset) {
       case 'armor': this.view = 'armor'; break;
       case 'weapons': this.view = 'weapons'; break;
       default: this.view = 'generic'; break;

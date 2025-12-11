@@ -941,6 +941,8 @@ WW.COMPENDIUM_INDEX_VIEWS = {
 };
 
 WW.COMPENDIUM_INDEX_PRESET_LABELS = {
+  'all': 'WW.Index.Label',
+
   /* Equipment */
   'equipment': 'TYPES.Item.equipment',
   'armor': 'WW.Armor.Label',
@@ -948,12 +950,17 @@ WW.COMPENDIUM_INDEX_PRESET_LABELS = {
   'hirelings': 'WW.Equipment.Hirelings',
   
   /* Character Options */
+  'charopts': 'WW.CharOptions.Label',
   'ancestries': 'WW.CharOptions.Ancestries',
-  'novice-paths': 'WW.Equipment.Hirelings',
+  'professions': 'WW.CharOptions.Professions',
+  'novice': 'WW.Index.NovicePaths',
+  'expert': 'WW.Index.ExpertPaths',
+  'master': 'WW.Index.MasterPaths',
+  'traditions': 'WW.Tradition.Label',
 
   /* Activities */
-  'talents': 'TYPES.Item.talent',
-  'spells': 'TYPES.Item.spell'
+  'talents': 'WW.Talents.Label',
+  'spells': 'WW.Spells.Label'
 };
 
 WW.COMPENDIUM_GROUPS = {

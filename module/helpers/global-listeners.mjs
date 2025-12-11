@@ -4,7 +4,7 @@ export function initGlobalListeners() {
   const body = $("body");
 
   // Create enricher index listener
-  body.on('click', '.enricher-index', _onClickIndex);
+  body.on('click', '.enricher-index', _onClickIndexEnricher);
 
   /*body.addEventListener("click", async (ev) => {
   if (ev.target.matches(".content-link")) {
@@ -15,15 +15,14 @@ export function initGlobalListeners() {
 }
 
 /** 
- * Handle roll started from a chat button.
+ * Handle Compendium Index opened by an enricher.
  */
-function _onClickIndex(event) {
-  
+function _onClickIndexEnricher(event) {
   event.preventDefault()
-  const button = event.currentTarget,
-    dataset = Object.assign({}, button.dataset)
-  ;
+
+  const button = event.currentTarget;
+  const dataset = Object.assign({}, button.dataset);
   
-  new CompendiumIndex({ compendium: dataset.compendium, type: dataset.type === 'ancestries' ? 'generic' : dataset.type }).render(true);
+  new CompendiumIndex({ preset: dataset.preset, view: dataset.view }).render(true);
   
 }

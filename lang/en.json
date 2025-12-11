@@ -525,7 +525,7 @@
 "TYPES.JournalEntryPage.profession": "Profession",
 "TYPES.JournalEntryPage.tradition": "Tradition",
 
-"WW.CharOptions.Label": "Character Options (BROKEN)",
+"WW.CharOptions.Label": "Character Options",
 "WW.CharOptions.Ancestry": "Ancestry",
 "WW.CharOptions.Ancestries": "Ancestries",
 "WW.CharOptions.NoAncestry": "No Ancestry",
@@ -981,9 +981,6 @@
 "WW.Sage.Players.FolderActors": "Actors in Folder",
 "WW.Sage.Players.SceneActors": "Actors in Scene",
 
-"WW.Sage.Index.CharOptions": "Character Options",
-"WW.Sage.Index.Equipment": "Equipment",
-
 "WW.Settings.Combat.SkipActed": "Skip Acted?",
 "WW.Settings.Combat.SkipActedHint": "Automatically bypass combatants who already acted during this round.",
 "WW.Settings.DamageBarReverse": "Reverse Damage Bars",
@@ -1085,6 +1082,7 @@
 "WW.Index.NovicePaths": "Novice Paths",
 "WW.Index.ExpertPaths": "Expert Paths",
 "WW.Index.MasterPaths": "Master Paths",
+"WW.Index.Other": "Other",
 
 "WW.Index.Filters.SourceCompendia": "Source Compendia",
 "WW.Index.Filters.DocumentTypes": "Document Types",
