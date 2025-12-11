@@ -75,6 +75,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         'systems/weirdwizard/templates/apps/index/views/professions.hbs',
         'systems/weirdwizard/templates/apps/index/views/traditions.hbs',
 
+        'systems/weirdwizard/templates/apps/index/views/creatures.hbs',
         'systems/weirdwizard/templates/apps/index/views/talents.hbs',
         'systems/weirdwizard/templates/apps/index/views/spells.hbs'
       ]
@@ -300,6 +301,11 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   _applyPreset(preset) {
     // Set the parameters for the filter
     switch (preset) {
+      case 'all':
+        this.view = 'generic';
+      break;
+
+      /* Equipment Presets */
       case 'equipment': 
         this.view = 'equipment';
         this.filters = {
@@ -323,9 +329,82 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         }
       break;
 
-      case 'all':
-        this.view = 'generic';
+      case 'hirelings':
+        this.view = 'creatures';
+        this.filters = {
+          sourceCompendia: ['weirdwizard.hirelings'],
+          documentTypes: ['npc']
+        }
       break;
+
+      /* Character Option Presets */
+      case 'ancestries':
+        this.view = 'ancestries';
+        this.filters = {
+          documentTypes: ['ancestry']
+        }
+      break;
+
+      case 'professions':
+        this.view = 'professions';
+        this.filters = {
+          documentTypes: ['profession']
+        }
+      break;
+
+      case 'novice':
+        this.view = 'paths';
+        this.filters = {
+          documentTypes: ['path'],
+          tiers: ['novice']
+        }
+      break;
+
+      case 'expert':
+        this.view = 'paths';
+        this.filters = {
+          documentTypes: ['path'],
+          tiers: ['expert']
+        }
+      break;
+
+      case 'master':
+        this.view = 'paths';
+        this.filters = {
+          documentTypes: ['path'],
+          tiers: ['master']
+        }
+      break;
+
+      case 'traditions':
+        this.view = 'traditions';
+        this.filters = {
+          documentTypes: ['tradition']
+        }
+      break;
+
+      /* Other Presets */
+      case 'creatures':
+        this.view = 'creatures';
+        this.filters = {
+          documentTypes: ['npc']
+        }
+      break;
+
+      case 'talents':
+        this.view = 'talents';
+        this.filters = {
+          documentTypes: ['talent']
+        }
+      break;
+      
+      case 'spells':
+        this.view = 'spells';
+        this.filters = {
+          documentTypes: ['spell']
+        }
+      break;
+      
     }
     
     return this.view;

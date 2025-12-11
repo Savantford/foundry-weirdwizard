@@ -137,7 +137,6 @@ export default class SageTools extends HandlebarsApplicationMixin(ApplicationV2)
             index:all
           `),
           charOptions: await TextEditor.enrichHTML(`
-            index:charopts
             index:ancestries
             index:professions
             index:novice
@@ -152,6 +151,7 @@ export default class SageTools extends HandlebarsApplicationMixin(ApplicationV2)
             index:hirelings
           `),
           other: await TextEditor.enrichHTML(`
+            index:creatures
             index:talents
             index:spells
           `),

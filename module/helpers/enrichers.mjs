@@ -12,7 +12,7 @@ export default function addCustomEnrichers() {
       enricher: enrichRoll
     },
     {
-      pattern: /(?:index:(all|equipment|armor|weapons|hirelings|charopts|ancestries|professions|novice|expert|master|traditions|talents|spells){1})/gi,
+      pattern: /(?:index:(all|equipment|armor|weapons|hirelings|charopts|ancestries|professions|novice|expert|master|traditions|creatures|talents|spells){1})/gi,
       enricher: enrichIndex
     }
   );

@@ -950,7 +950,6 @@ WW.COMPENDIUM_INDEX_PRESET_LABELS = {
   'hirelings': 'WW.Equipment.Hirelings',
   
   /* Character Options */
-  'charopts': 'WW.CharOptions.Label',
   'ancestries': 'WW.CharOptions.Ancestries',
   'professions': 'WW.CharOptions.Professions',
   'novice': 'WW.Index.NovicePaths',
@@ -958,7 +957,8 @@ WW.COMPENDIUM_INDEX_PRESET_LABELS = {
   'master': 'WW.Index.MasterPaths',
   'traditions': 'WW.Tradition.Label',
 
-  /* Activities */
+  /* Other */
+  'creatures': 'WW.Index.Creatures',
   'talents': 'WW.Talents.Label',
   'spells': 'WW.Spells.Label'
 };

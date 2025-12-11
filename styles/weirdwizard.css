@@ -4645,9 +4645,6 @@ details.document-card .card-header:hover::after {
 /* -------------------------------------------- */
 
 .compendium-index {
-  min-width: 400px;
-  min-height: 250px;
-
   .window-content {
     flex-flow: row nowrap;
     padding-top: 0;
@@ -4758,6 +4755,9 @@ details.document-card .card-header:hover::after {
 }
 
 .compendium-index:not(.minimized) {
+  min-width: 400px;
+  min-height: 250px;
+
   .window-header {
     background: url(../assets/decorations/frames/rose.webp);
     justify-content: space-between;
@@ -5179,15 +5179,13 @@ form.quest-calendar {
   --banner: url(../assets/artwork/banners/weapons.webp);
 }
 
-.enricher-index[data-preset="hirelings"] {
+.enricher-index[data-preset="hirelings"],
+.enricher-index[data-preset="professions"] {
   --banner: url(../assets/artwork/banners/hirelings.webp);
 }
 
-.enricher-index[data-preset="charopts"] {
-  --banner: url(../assets/artwork/banners/character-options.webp);
-}
-
-.enricher-index[data-preset="ancestries"] {
+.enricher-index[data-preset="ancestries"],
+.enricher-index[data-preset="creatures"] {
   --banner: url(../assets/artwork/banners/traits.webp);
 }
 
@@ -5196,12 +5194,14 @@ form.quest-calendar {
   --banner: url(../assets/artwork/banners/path-talents.webp);
 }
 
+.enricher-index[data-preset="master"] {
+  --banner: url(../assets/artwork/banners/character-options.webp);
+}
+
 .enricher-index[data-preset="traditions"],
 .enricher-index[data-preset="spells"] {
   --banner: url(../assets/artwork/banners/spells.webp);
 }
-
-
 
 /* Compendium Directory */
 .compendium-directory .header-banner img {
