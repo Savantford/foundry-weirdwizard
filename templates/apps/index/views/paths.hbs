@@ -1,13 +1,15 @@
 <section class="view paths">
 
     <ol class="item-list">
-    
+        
+        {{!-- Header Row --}}
         <li class="item flexrow items-header">
             <div class="item-image"></div>
             <div class="item-name">{{localize "WW.Item.Name"}}</div>
             <div>{{localize "WW.Item.Tier"}}</div>
         </li>
 
+        {{!-- Rows --}}
         {{#each documents as |doc id|}}
         <li class="item flexrow flex-group-left" data-item-id="{{doc._id}}">
             {{!-- Icon --}}

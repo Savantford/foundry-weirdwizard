@@ -12,13 +12,13 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
 
 export default class CompendiumIndex extends HandlebarsApplicationMixin(ApplicationV2) {
 
-  constructor(options = {}) {
-    super(options); // Required for "this." to work
+  constructor(config = {}) {
+    super(config); // Required for "this." to work
     
-    // Apply options
-    if (options.preset) this._applyPreset(options.preset);
-    if (options.filters) this.filters = options.filters;
-    if (options.view) this.view = options.view;
+    // Apply config
+    if (config.preset) this._applyPreset(config.preset);
+    if (config.filters) this.filters = config.filters;
+    if (config.view) this.view = config.view;
 
     // Enable drag n drop operations
     this.#dragDrop = this.#createDragDropHandlers();
@@ -50,15 +50,33 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   /* -------------------------------------------- */
 
   static PARTS = {
-    sidebar: { template: 'systems/weirdwizard/templates/apps/index/sidebar.hbs' },
+    sidebar: {
+      template: 'systems/weirdwizard/templates/apps/index/sidebar.hbs',
+      scrollable: ['.filters'],
+      forms: {
+        "form": { // <-- this is actually a CSS selector
+          handler: this.#onSubmit, // In case I need a custom handler
+          submitOnChange: true,
+          closeOnSubmit: false
+        }
+      }
+    },
     view: {
       template: 'systems/weirdwizard/templates/apps/index/view.hbs',
       templates: [
         'systems/weirdwizard/templates/apps/index/views/generic.hbs',
-        'systems/weirdwizard/templates/apps/index/views/weapons.hbs',
+
+        'systems/weirdwizard/templates/apps/index/views/equipment.hbs',
         'systems/weirdwizard/templates/apps/index/views/armor.hbs',
+        'systems/weirdwizard/templates/apps/index/views/weapons.hbs',
+        
+        'systems/weirdwizard/templates/apps/index/views/ancestries.hbs',
         'systems/weirdwizard/templates/apps/index/views/paths.hbs',
-        'systems/weirdwizard/templates/apps/index/views/professions.hbs'
+        'systems/weirdwizard/templates/apps/index/views/professions.hbs',
+        'systems/weirdwizard/templates/apps/index/views/traditions.hbs',
+
+        'systems/weirdwizard/templates/apps/index/views/talents.hbs',
+        'systems/weirdwizard/templates/apps/index/views/spells.hbs'
       ]
     }
   }
@@ -72,7 +90,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
    */
   async _prepareContext(options = {}) {
     const context = await super._prepareContext(options);
-
+    console.log('preparing')
     context.views = CONFIG.WW.COMPENDIUM_INDEX_VIEWS;
     context.view = this.view;
     
@@ -94,19 +112,19 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       set: new fields.SetField(new fields.StringField())
     }
 
-    // Source
+    // Source Compendia
     context.filters.push({
       name: 'filters.sourceCompendia',
       title: i18n("WW.Index.Filters.SourceCompendia"),
-      value: fs?.sourceCompendia ?? [],
+      value: fs?.sourceCompendia ?? Object.values(getCompendiumList()).map(x => x.value),
       options: Object.values(getCompendiumList())
     })
 
-    // Document types
+    // Document Types
     context.filters.push({
       name: 'filters.documentTypes',
       title: i18n("WW.Index.Filters.DocumentTypes"),
-      value: fs?.documentTypes ?? [],
+      value: fs?.documentTypes ?? Object.values(getDocumentTypeList()).map(x => x.value),
       options: Object.values(getDocumentTypeList())
     })
   }
@@ -125,9 +143,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       // Prepare documents data
       context.documents = await this.compendium.getDocuments();
 
-      for (const d in context.documents) {
-        const doc = context.documents[d];
-
+      for (const [d, doc] of Object.entries(context.documents)) {
         // Get Availability
         if (doc.system.availability) {
           doc.availabilityLabel = i18n(CONFIG.WW.EQUIPMENT_AVAILABILITIES[doc.system.availability]);
@@ -213,14 +229,10 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   /* -------------------------------------------- */
 
   /** @inheritDoc */
-  async _preRender(context, options) {
+  /*async _preRender(context, options) {
     await super._preRender(context, options);
-
-    // Wipe the window content after the first render
-    if (!options.isFirstRender) {
-      this.element.querySelector(".window-content").innerHTML = "";
-    }
-  }
+    
+  }*/
 
   /* -------------------------------------------- */
 
@@ -256,9 +268,9 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       
     });*/
     
-    // View selection dropdown functionality
-    const viewDropdown = this.element.querySelector('select[data-action=changeView]');
-    viewDropdown.addEventListener("change", event => this._onChangeView(event));
+    // View selection dropdown functionality - moved to form handling
+    /*const viewDropdown = this.element.querySelector('select[data-action=changeView]');
+    viewDropdown.addEventListener("change", event => this._onChangeView(event));*/
 
     // Collapsible filters - not working
     const filters = this.element.querySelector(".filter");
@@ -285,28 +297,35 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
   /* -------------------------------------------- */
 
-  inferView(value, context) {
-    
-    // Set the view automatically for core Compendia
-    switch (value) {
-      case 'armor': this.view = 'armor'; break;
-      case 'weapons': this.view = 'weapons'; break;
-      default: this.view = 'generic'; break;
-    }
-    
-    return this.view;
-  }
-
-  /* -------------------------------------------- */
-
   _applyPreset(preset) {
-    console.log()
-    
-    // Set the view automatically for core Compendia
+    // Set the parameters for the filter
     switch (preset) {
-      case 'armor': this.view = 'armor'; break;
-      case 'weapons': this.view = 'weapons'; break;
-      default: this.view = 'generic'; break;
+      case 'equipment': 
+        this.view = 'equipment';
+        this.filters = {
+          documentTypes: ['equipment']
+        };
+      break;
+
+      case 'armor': 
+        this.view = 'armor';
+        this.filters = {
+          documentTypes: ['equipment'],
+          subtypes: ['armor']
+        }
+      break;
+
+      case 'weapons':
+        this.view = 'weapons';
+        this.filters = {
+          documentTypes: ['equipment'],
+          subtypes: ['weapon']
+        }
+      break;
+
+      case 'all':
+        this.view = 'generic';
+      break;
     }
     
     return this.view;
@@ -322,6 +341,28 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   */
   static async #openSheet(event, target) {
     return fromUuid(target.dataset.itemUuid)?.sheet.render(true);
+  }
+
+  /* -------------------------------------------- */
+  /*  Form handling                               */
+  /* -------------------------------------------- */
+
+  /**
+   * Handle the sidebar's form submission
+   * @this {DocumentSheetV2}                      The handler is called with the application as its bound scope
+   * @param {SubmitEvent} event                   The originating form submission event
+   * @param {HTMLFormElement} form                The form element that was submitted
+   * @param {FormDataExtended} formData           Processed data for the submitted form
+   * @returns {Promise<void>}
+   */
+  static async #onSubmit(event, form, formData) {
+    const obj = foundry.utils.expandObject(formData.object);
+
+    // Save view and filters
+    this.view = obj.view;
+    this.filters = obj.filters;
+    
+    return this.render();
   }
 
   /* -------------------------------------------- */

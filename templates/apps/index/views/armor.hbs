@@ -1,7 +1,7 @@
 <section class="view armor">
     
     <ol class="item-list armor-list">
-        
+        {{!-- Header Row --}}
         <li class="item flexrow items-header">
             <div class="item-image"></div>
             <div class="item-name">{{localize "WW.Item.Name"}}</div>
@@ -12,6 +12,7 @@
             <div>{{localize "WW.Equipment.Price"}}</div>
         </li>
 
+        {{!-- Rows --}}
         {{#each documents as |doc id|}}
         <li class="item flexrow flex-group-left" data-item-id="{{doc._id}}">
             {{!-- Icon --}}

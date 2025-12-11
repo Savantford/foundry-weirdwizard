@@ -1,11 +1,14 @@
-<section class="view professions">
-
-    <ol class="item-list">
+<section class="view equipment">
+    
+    <ol class="item-list equipment-list">
+        
         {{!-- Header Row --}}
         <li class="item flexrow items-header">
             <div class="item-image"></div>
-            <div class="item-name" data-action="renderItem">{{localize "WW.Item.Name"}}</div>
-            <div class="item-fixed">{{localize "WW.Profession.Category"}}</div>
+            <div class="item-name">{{localize "WW.Item.Name"}}</div>
+
+            <div>{{localize "WW.Equipment.Availability.Label"}}</div>
+            <div>{{localize "WW.Equipment.Price"}}</div>
         </li>
 
         {{!-- Rows --}}
@@ -17,8 +20,8 @@
             {{!-- Name --}}
             <a class="item-name" data-action="openSheet" data-item-uuid="{{doc.uuid}}" data-tooltip="{{{doc.tooltip}}}">{{doc.name}}</a>
 
-            {{!-- Tier --}}
-            <div class="item-fixed">{{doc.professionCategory}}</div>
+            <div>{{doc.availabilityLabel}}</div>
+            <div>{{{doc.priceLabel}}}</div>
         </li>
         {{/each}}
 

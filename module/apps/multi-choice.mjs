@@ -146,7 +146,6 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
    * @returns {Promise<void>}
    */
   static async formHandler(event, form, formData) {
-    
     const opt = this.options;
 
     // Return if cancel button is clicked

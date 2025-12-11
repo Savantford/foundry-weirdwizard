@@ -1,22 +1,23 @@
-<section class="sidebar">
+<form class="sidebar">
   <div class="sidebar-content">
+    {{!-- Header Section --}}
     <div class="sidebar-header">
       {{!-- View Selection --}}
       <div class="flexrow">
         <label>{{localize "WW.Index.ViewAs"}}</label>
       
-        <select data-action="changeView">
+        <select name="view" data-action="changeView">
           {{selectOptions views selected=view localize=true}}
         </select>
       </div>
 
       {{!-- Search --}}
-      <input type="text" class="search" placeholder="{{localize "WW.Index.Search"}}">
+      <input type="search" name="search" placeholder="{{localize "WW.Index.Search"}}">
 
       <hr class="spear">
     </div>
     
-    {{!-- Filters --}}
+    {{!-- Filters Section --}}
     <div class="filters">
       {{#each filters as |filter key|}}
       <div class="filter">
@@ -27,4 +28,4 @@
     </div>
   </div>
   
-</section>
+</form>
