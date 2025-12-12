@@ -221,11 +221,12 @@ export function getAlias({scene, actor, token, alias}={}) {
 /* Return a list of Compendia with a prefix included */
 export function getCompendiumList () {
   const compendiumList = {};
+  const allowedTypes = ["Actor", "Item", "JournalEntry"];
 
   for (const pack of game.packs) {
     const data = pack.metadata;
     
-    if (!(data.type === "Item" || data.type === "Actor")) continue; // Skip non-wanted document types
+    if (!allowedTypes.includes(data.type)) continue; // Skip document types not allowed
 
     // Package Name exists in the system's group list
     const compGroups = CONFIG.WW.COMPENDIUM_GROUPS;
@@ -234,7 +235,7 @@ export function getCompendiumList () {
     compendiumList[data.id] = {
       value: data.id,
       label: data.label,
-      group: i18n(group)
+      group: i18n(group) ?? 'World'
     }
 
   }

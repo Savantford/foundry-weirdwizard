@@ -16,9 +16,9 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     super(config); // Required for "this." to work
     
     // Apply config
+    this.view = config.view ?? 'generic';
+    this.filters = config.filters ?? {};
     if (config.preset) this._applyPreset(config.preset);
-    if (config.filters) this.filters = config.filters;
-    if (config.view) this.view = config.view;
 
     // Enable drag n drop operations
     this.#dragDrop = this.#createDragDropHandlers();
@@ -63,6 +63,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     },
     view: {
       template: 'systems/weirdwizard/templates/apps/index/view.hbs',
+      scrollable: ['.item-list'],
       templates: [
         'systems/weirdwizard/templates/apps/index/views/generic.hbs',
 
@@ -97,7 +98,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     
     // Prepare part data
     await this._prepareFilters(context);
-    await this._prepareView(context);
+    await this._prepareDisplayedDocuments(context);
     
     return context;
   }
@@ -132,97 +133,113 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
   /* -------------------------------------------- */
 
-  async _prepareView(context) {
-    console.log(this.filters)
-    // Old - Compendium
-    if (this.compendium) {
-      // Get dropdown values
+  async _prepareDisplayedDocuments(context) {
+    // Prepare documents list
+    let docList = [];
+    const allowedTypes = this.filters.documentTypes ?? Object.values(getDocumentTypeList()).map(x => x.value);
 
-      //context.selectedCompendium = this.compendium ? await this.compendium.collection : null;
-      context.view = this.view;
+    for (const pack of game.packs) {
+      if (this.filters.sourceCompendia && !this.filters.sourceCompendia?.includes(pack.metadata.id)) continue;
 
-      // Prepare documents data
-      context.documents = await this.compendium.getDocuments();
-
-      for (const [d, doc] of Object.entries(context.documents)) {
-        // Get Availability
-        if (doc.system.availability) {
-          doc.availabilityLabel = i18n(CONFIG.WW.EQUIPMENT_AVAILABILITIES[doc.system.availability]);
+      // Get Journal Pages instead of Entries
+      if (pack.metadata.type === "JournalEntry") {
+        const packDocs = await pack.getDocuments();
+        
+        for (const entry of packDocs) {
+          const allowedDocs = [...await entry.pages].filter(p => allowedTypes.includes(p.type));
+          
+          docList = [... docList, ... allowedDocs];
         }
+      } else {
+        const allowedDocs = [... await pack.getDocuments()].filter(d => allowedTypes.includes(d.type));
+        
+        docList = [... docList, ... allowedDocs];
+      }
+      
+    }
 
-        // Get Price
-        if (doc.system.price?.value) {
-          const tip = i18n(CONFIG.WW.EQUIPMENT_COINS[doc.system.price.coin].tip);
-          const color = CONFIG.WW.EQUIPMENT_COINS[doc.system.price.coin].color;
+    // Prepare formatted document data
+    for (const [d, doc] of Object.entries(docList)) {
+      // Assign src to img
+      if (!doc.img && doc.src) doc.img = doc.src;
 
-          doc.priceLabel = `${doc.system.price.value} <i class="fa-solid fa-coins ${color}" data-tooltip="${tip}"></i>`;
-        }
+      // Get Availability
+      if (doc.system.availability) doc.availabilityLabel = i18n(CONFIG.WW.EQUIPMENT_AVAILABILITIES[doc.system.availability]);
 
-        // Get Weapon Requirements
-        doc.system.requirementLabel = doc.system.requirements ? i18n(CONFIG.WW.WEAPON_REQUIREMENTS[doc.system.requirements]) : '—';
+      // Get Price
+      if (doc.system.price?.value) {
+        const tip = i18n(CONFIG.WW.EQUIPMENT_COINS[doc.system.price.coin].tip);
+        const color = CONFIG.WW.EQUIPMENT_COINS[doc.system.price.coin].color;
 
-        // Get Defense stats
-        if (doc.type === 'equipment') {
+        doc.priceLabel = `${doc.system.price.value} <i class="fa-solid fa-coins ${color}" data-tooltip="${tip}"></i>`;
+      }
 
-          // Get Armor Type
-          if (doc.system.subtype === 'armor') doc.typeLabel = i18n(CONFIG.WW.ARMOR_TYPES[doc.system.armorType]); else doc.typeLabel = i18n('WW.Armor.Shield');
+      // Get Weapon Requirements
+      doc.system.requirementLabel = doc.system.requirements ? i18n(CONFIG.WW.WEAPON_REQUIREMENTS[doc.system.requirements]) : '—';
 
-          // Get Defense
-          let armored = 0,
+      // Get Defense stats
+      if (doc.type === 'equipment') {
+
+        // Get Armor Type
+        if (doc.system.subtype === 'armor') doc.typeLabel = i18n(CONFIG.WW.ARMOR_TYPES[doc.system.armorType]); else doc.typeLabel = i18n('WW.Armor.Shield');
+
+        // Get Defense
+        let armored = 0,
           natural = null,
           bonus = null;
 
-          for (const e of doc.effects) {
-            for (const c of e.changes) {
-              
-              if (c.key === 'defense.armored') armored = await c.value;
-              if (c.key === 'defense.naturalIncrease') natural = await c.value;
-              if (c.key === 'defense.bonus') bonus = await c.value;
-            }
+        for (const e of doc.effects) {
+          for (const c of e.changes) {
 
+            if (c.key === 'defense.armored') armored = await c.value;
+            if (c.key === 'defense.naturalIncrease') natural = await c.value;
+            if (c.key === 'defense.bonus') bonus = await c.value;
           }
 
-          // Set Defense
-          doc.defense = bonus ? `+${bonus}` : `${armored} ${await natural ? 'or +' + natural : ''}`;
-          if (doc.defense == 0) doc.defense = '—';
         }
 
-        // Prepare traits list for weapons
-        if (doc.system.subtype == 'weapon') {
-
-          // Prepare traits list
-          let list = '';
-
-          Object.entries(doc.system.traits).map((x) => {
-
-            if (x[1]) {
-              let string = i18n('WW.Weapon.Traits.' + capitalize(x[0]) + '.Label');
-
-              if ((x[0] == 'range') || (x[0] == 'reach' && doc.system.range) || (x[0] == 'thrown')) { string += ' ' + doc.system.range; }
-
-              list = list.concat(list ? ', ' + string : string);
-            }
-
-          })
-
-          doc.system.traitsList = list ?? '—';
-
-          // Prepare Grip label
-          doc.system.gripLabel = CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip] ? i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip]) : doc.system.grip;
-        }
-
-        // Get Tier
-        if (doc.type === 'Path') {
-          doc.tierLabel = i18n(CONFIG.WW.TIERS[capitalize(doc.system.tier)]);
-        }
-
-        // Get Profession Category
-        if (doc.type === 'Profession') {
-          doc.professionCategory = i18n(CONFIG.WW.PROFESSION_CATEGORIES[doc.system.category]);
-        }
-
+        // Set Defense
+        doc.defense = bonus ? `+${bonus}` : `${armored} ${await natural ? 'or +' + natural : ''}`;
+        if (doc.defense == 0) doc.defense = '—';
       }
+
+      // Prepare traits list for weapons
+      if (doc.system.subtype == 'weapon') {
+
+        // Prepare traits list
+        let list = '';
+
+        Object.entries(doc.system.traits).map((x) => {
+
+          if (x[1]) {
+            let string = i18n('WW.Weapon.Traits.' + capitalize(x[0]) + '.Label');
+
+            if ((x[0] == 'range') || (x[0] == 'reach' && doc.system.range) || (x[0] == 'thrown')) { string += ' ' + doc.system.range; }
+
+            list = list.concat(list ? ', ' + string : string);
+          }
+
+        })
+
+        doc.system.traitsList = list ?? '—';
+
+        // Prepare Grip label
+        doc.system.gripLabel = CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip] ? i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip]) : doc.system.grip;
+      }
+
+      // Get Tier
+      if (doc.type === 'path') {
+        doc.tierLabel = i18n(CONFIG.WW.TIERS[doc.system.tier]);
+      }
+
+      // Get Profession Category
+      if (doc.type === 'profession') {
+        doc.professionCategory = i18n(CONFIG.WW.PROFESSION_CATEGORIES[doc.system.category]);
+      }
+
     }
+
+    context.documents = await docList;
   }
 
   /* -------------------------------------------- */
@@ -244,34 +261,8 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
    * @param {RenderOptions} options                 Provided render options
    * @protected
    */
-  _onRender(context, options) {
-
-    // Get Compendium dropdown to get compendium
-    /*const compendiumDropdown = this.element.querySelector('select[data-action=changeCompendium]');
-
-    compendiumDropdown.addEventListener("change", event => {
-      this.compendium = game.packs.get(compendiumDropdown.value);
-
-      this.view = 'generic';
-      
-      // Set view according to the dropdown value
-      if (compendiumDropdown.value.includes('weirdwizard.')) {
-        const str = compendiumDropdown.value.replace('weirdwizard.', '');
-        
-        switch (str) {
-          case 'armor': this.view = 'armor'; break;
-          case 'weapons': this.view = 'weapons'; break;
-        }
-      }
-
-      // Re-render sheet to update compendium data
-      this.render(true);
-      
-    });*/
-    
-    // View selection dropdown functionality - moved to form handling
-    /*const viewDropdown = this.element.querySelector('select[data-action=changeView]');
-    viewDropdown.addEventListener("change", event => this._onChangeView(event));*/
+  /*async _onRender(context, options) {
+    await super._onRender(context, options);
 
     // Collapsible filters - not working
     const filters = this.element.querySelector(".filter");
@@ -280,21 +271,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     // Create dragDrop listener
     //this.#dragDrop.forEach((d) => d.bind(this.element));
 
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Alternate between the available views.
-   * @param {PointerEvent} event - The originating change event
-   * @this {CompendiumIndex}
-   */
-  async _onChangeView(event) {
-    const el = event.currentTarget;
-    this.view = el.value;
-    console.log(this)
-    await this.render();
-  }
+  }*/
 
   /* -------------------------------------------- */
 

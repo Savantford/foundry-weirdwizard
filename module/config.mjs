@@ -934,10 +934,22 @@ WW.EFFECT_CHANGE_PRESET_DATA = {
 
 WW.COMPENDIUM_INDEX_VIEWS = {
   'generic': 'WW.Index.Generic',
+
+  /* Equipment Views */
+  'equipment': 'TYPES.Item.equipment',
+  'armor': 'WW.Armor.Label',
+  'weapons': 'WW.Equipment.Weapons',
+
+  /* Character Option Views */
+  'ancestries': 'WW.CharOptions.Ancestries',
   'paths': 'WW.CharOptions.Paths',
   'professions': 'WW.CharOptions.Professions',
-  'armor': 'WW.Armor.Label',
-  'weapons': 'WW.Equipment.Weapons'
+  'traditions': 'WW.Tradition.Label',
+
+  /* Other */
+  'creatures': 'WW.Index.Creatures',
+  'talents': 'WW.Talents.Label',
+  'spells': 'WW.Spells.Label'
 };
 
 WW.COMPENDIUM_INDEX_PRESET_LABELS = {

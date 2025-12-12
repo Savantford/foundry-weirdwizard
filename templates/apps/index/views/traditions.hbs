@@ -1,15 +1,14 @@
 <section class="view traditions">
 
-    <ol class="item-list">
-        
-        {{!-- Header Row --}}
-        <li class="item flexrow items-header">
-            <div class="item-image"></div>
-            <div class="item-name">{{localize "WW.Item.Name"}}</div>
-            <div>{{localize "WW.Item.Tier"}}</div>
-        </li>
+    {{!-- Header Row --}}
+    <li class="item flexrow items-header">
+        <div class="item-image"></div>
+        <div class="item-name">{{localize "WW.Item.Name"}}</div>
+        <div>{{localize "WW.Item.Tier"}}</div>
+    </li>
 
-        {{!-- Rows --}}
+    {{!-- Rows --}}
+    <ol class="item-list">
         {{#each documents as |doc id|}}
         <li class="item flexrow flex-group-left" data-item-id="{{doc._id}}">
             {{!-- Icon --}}
@@ -22,7 +21,6 @@
             <div>{{doc.tierLabel}}</div>
         </li>
         {{/each}}
-
     </ol>
 
 </section>

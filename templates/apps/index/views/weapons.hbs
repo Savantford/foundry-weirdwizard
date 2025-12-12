@@ -1,22 +1,23 @@
 <section class="view weapons">
 
+    {{!-- Header Row --}}
+    <li class="item flexrow items-header">
+        <div class="item-image"></div>
+        <div class="item-name">{{localize "WW.Item.Name"}}</div>
+    
+        <div class="item-fixed" data-tooltip-text="{{localize " WW.Equipment.Availability.Label"}}">{{localize
+            "WW.Equipment.Availability.Short"}}</div>
+        <div class="item-fixed">{{localize "WW.Equipment.Price"}}</div>
+        <div>{{localize "WW.Weapon.Requirement.Label"}}</div>
+    
+        <div class="item-fixed">{{localize "WW.Weapon.Type"}}</div>
+        <div class="item-fixed">{{localize "WW.Weapon.Grip.Label"}}</div>
+        <div class="item-fixed">{{localize "WW.Damage.Label"}}</div>
+        <div class="item-traits">{{localize "WW.Weapon.Traits.Label"}}</div>
+    </li>
+
+    {{!-- Rows --}}
     <ol class="item-list weapons-list">
-        {{!-- Header Row --}}
-        <li class="item flexrow items-header">
-            <div class="item-image"></div>
-            <div class="item-name">{{localize "WW.Item.Name"}}</div>
-
-            <div class="item-fixed" data-tooltip-text="{{localize "WW.Equipment.Availability.Label"}}">{{localize "WW.Equipment.Availability.Short"}}</div>
-            <div class="item-fixed">{{localize "WW.Equipment.Price"}}</div>
-            <div>{{localize "WW.Weapon.Requirement.Label"}}</div>
-
-            <div class="item-fixed">{{localize "WW.Weapon.Type"}}</div>
-            <div class="item-fixed">{{localize "WW.Weapon.Grip.Label"}}</div>
-            <div class="item-fixed">{{localize "WW.Damage.Label"}}</div>
-            <div class="item-traits">{{localize "WW.Weapon.Traits.Label"}}</div>
-        </li>
-
-        {{!-- Rows --}}
         {{#each documents as |doc id|}}
         <li class="item flexrow flex-group-left" data-item-id="{{doc._id}}">
             {{!-- Icon --}}
@@ -35,7 +36,6 @@
             <div class="item-traits">{{doc.system.traitsList}}</div>
         </li>
         {{/each}}
-
     </ol>
 
 </section>

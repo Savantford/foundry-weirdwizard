@@ -1,17 +1,16 @@
 <section class="view equipment">
+
+    {{!-- Header Row --}}
+    <li class="item flexrow items-header">
+        <div class="item-image"></div>
+        <div class="item-name">{{localize "WW.Item.Name"}}</div>
     
+        <div>{{localize "WW.Equipment.Availability.Label"}}</div>
+        <div>{{localize "WW.Equipment.Price"}}</div>
+    </li>
+
+    {{!-- Rows --}}
     <ol class="item-list equipment-list">
-        
-        {{!-- Header Row --}}
-        <li class="item flexrow items-header">
-            <div class="item-image"></div>
-            <div class="item-name">{{localize "WW.Item.Name"}}</div>
-
-            <div>{{localize "WW.Equipment.Availability.Label"}}</div>
-            <div>{{localize "WW.Equipment.Price"}}</div>
-        </li>
-
-        {{!-- Rows --}}
         {{#each documents as |doc id|}}
         <li class="item flexrow flex-group-left" data-item-id="{{doc._id}}">
             {{!-- Icon --}}
@@ -24,7 +23,6 @@
             <div>{{{doc.priceLabel}}}</div>
         </li>
         {{/each}}
-
     </ol>
 
 </section>

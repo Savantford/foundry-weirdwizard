@@ -1,14 +1,13 @@
 <section class="view spells">
 
-    <ol class="item-list">
-        
-        {{!-- Header Row --}}
-        <li class="item flexrow items-header">
-            <div class="item-image"></div>
-            <div class="item-name">{{localize "WW.Item.Name"}}</div>
-        </li>
+    {{!-- Header Row --}}
+    <li class="item flexrow items-header">
+        <div class="item-image"></div>
+        <div class="item-name">{{localize "WW.Item.Name"}}</div>
+    </li>
 
-        {{!-- Rows --}}
+    {{!-- Rows --}}
+    <ol class="item-list">
         {{#each documents as |doc id|}}
         <li class="item flexrow flex-group-left" data-item-id="{{doc._id}}">
             {{!-- Icon --}}
@@ -19,7 +18,6 @@
 
         </li>
         {{/each}}
-
     </ol>
 
 </section>
