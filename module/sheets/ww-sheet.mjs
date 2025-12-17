@@ -106,9 +106,9 @@ export default function WWSheetMixin(BaseSheet) {
     /** @inheritDoc */
     async _preRender(context, options) {
       await super._preRender(context, options);
-
+      
       // Wipe the window content after the first render and swap the mode CSS class
-      if ( !options.isFirstRender ) {
+      if ( this.document.documentName !== 'JournalEntryPage' && !options.isFirstRender ) {
         await this.element.classList.toggle("edit-mode", this.isEditMode);
         await this.element.classList.toggle("view-mode", !this.isEditMode);
         this.element.querySelector(".window-content").innerHTML = "";

@@ -3697,6 +3697,7 @@ input[type="checkbox"].checkbox-uses {
   border-image-slice: 120 134 fill;
   border-image-width: 15px 16px;
   padding: 4px 16px;
+  box-shadow: none;
 }
 
 .weirdwizard h5 .item-create {

@@ -30,6 +30,14 @@
 
       {{!-- Heading --}}
       <h5>{{ benefit.heading }}</h5>
+
+      {{#if benefit.attributes}}
+      <div class="stat-inline">
+        <label>{{localize "WW.Attributes.Label"}}:</label>
+  
+        {{benefit.attributes}}
+      </div>
+      {{/if}}
       
       {{!-- Stats --}}
       <div class="stat-inline flex-wrap flex-children">

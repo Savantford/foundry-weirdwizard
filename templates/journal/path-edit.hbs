@@ -47,6 +47,15 @@
 
       {{!-- Heading --}}
       <h5>{{ benefit.heading }}</h5>
+
+      {{!-- Attributes --}}
+      {{#if (and (eq id 'benefit1') (ne @root.document.system.tier 'novice'))}}
+      <div class="stat-inline">
+        <label>{{localize "WW.Attributes.Label"}}:</label>
+  
+        <input name="system.benefits.{{id}}.attributes" type="text" value="{{benefit.attributes}}" />
+      </div>
+      {{/if}}
       
       {{!-- Stats --}}
       <div class="stat-inline flex-wrap flex-children">
