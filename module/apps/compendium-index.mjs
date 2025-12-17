@@ -92,7 +92,8 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
    */
   async _prepareContext(options = {}) {
     const context = await super._prepareContext(options);
-    console.log('preparing')
+    
+    // Prepare basic variables
     context.views = CONFIG.WW.COMPENDIUM_INDEX_VIEWS;
     context.view = this.view;
     context.weaponTraits = CONFIG.WW.WEAPON_TRAITS;
@@ -171,7 +172,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
       // Get tooltip
       doc.tooltip = await doc.toCard();
-      console.log(doc.tooltip)
 
       // Get Availability
       if (doc.system.availability) doc.availabilityLabel = i18n(CONFIG.WW.EQUIPMENT_AVAILABILITIES[doc.system.availability]);

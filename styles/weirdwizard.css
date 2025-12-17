@@ -2098,9 +2098,10 @@ body.theme-dark.application.weirdwizard .window-content {
   width: 100%;
   height: 100%;
   background: url(../assets/decorations/custom/stats-pattern.svg) no-repeat;
-  background-position: center calc(50% - var(--stats-height-offset));
-  background-size: calc(100% - 63px) calc(100% - 31px);
+  background-position: center;
+  background-size: calc(100% - 62px) calc(100% - 31px);
   pointer-events: none;
+  z-index: -1;
 }
 
 .weirdwizard .character-stats .stat-col {
@@ -4008,12 +4009,13 @@ input[type="checkbox"].checkbox-uses {
 }
 
 #tooltip .document-card .card-banner {
-  right: unset;
-  left: 1rem;
+  left: 0;
+  height: calc(100% + 1rem);
   background: url(../assets/ui/banners/simple.svg) no-repeat;
   background-position: center bottom;
   background-size: cover;
   padding: 5px 5px 10px;
+  margin-top: -0.75rem;
 }
 
 .document-card .card-banner img {
@@ -4047,9 +4049,15 @@ details.document-card .card-header:hover {
 }
 
 #tooltip .document-card .card-header .title-wrapper {
-  min-height: calc(var(--tooltip-banner-height) - 1rem);
+  min-height: calc(var(--tooltip-banner-height) - 1.5rem);
   margin-right: 0;
-  margin-left: calc(var(--tooltip-banner-width) + 0.5rem);
+  margin-left: calc(var(--tooltip-banner-width));
+  /*border-image: url(../assets/ui/ribbons/simple-pink.svg);
+  border-image-slice: 1 95 2 14 fill;
+  border-image-width: 1px 95px 2px 14px;
+  padding: 5px 1.5rem 5px 0.75rem;*/
+  padding: 0 0 0 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .document-card .card-title {
