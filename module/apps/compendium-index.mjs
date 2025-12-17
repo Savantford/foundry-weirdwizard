@@ -169,6 +169,10 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       const subtypes = {...CONFIG.WW.EQUIPMENT_SUBTYPES, ...CONFIG.WW.TALENT_SUBTYPES};
       doc.subtypeLabel = doc.system.subtype ? i18n(subtypes[doc.system.subtype]) : null;
 
+      // Get tooltip
+      doc.tooltip = await doc.toCard();
+      console.log(doc.tooltip)
+
       // Get Availability
       if (doc.system.availability) doc.availabilityLabel = i18n(CONFIG.WW.EQUIPMENT_AVAILABILITIES[doc.system.availability]);
 

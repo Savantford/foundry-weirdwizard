@@ -17,8 +17,10 @@
             <div class="item-image"><img src="{{doc.img}}" data-tooltip="{{doc.name}}" width="24" height="24" /></div>
 
             {{!-- Name --}}
-            <a class="item-name" data-action="openSheet" data-item-uuid="{{doc.uuid}}" data-tooltip="{{{doc.tooltip}}}">{{doc.name}}</a>
-
+            <div class="item-name">
+                <a data-action="openSheet" data-item-uuid="{{doc.uuid}}" data-tooltip="{{doc.tooltip}}">{{doc.name}}</a>
+            </div>
+            
             {{!-- Type --}}
             <div class="item-fixed">{{#if doc.subtypeLabel}}{{doc.subtypeLabel}}{{else}}{{doc.typeLabel}}{{/if}}</div>
 
