@@ -2264,12 +2264,18 @@ hr.bug {
   opacity: 0.5;
 }
 
-.weirdwizard .weapon-traits > span:not(:last-of-type)::after {
-  content: ", ";
-}
+.weirdwizard .weapon-traits {
+  > span {
+    cursor: help;
+  }
 
-.weirdwizard .weapon-traits .edit-traits {
-  font-size: smaller;
+  > span:not(:last-of-type)::after {
+    content: ", ";
+  }
+
+  .edit-traits {
+    font-size: smaller;
+  }
 }
 
 /* Attack Rider */
@@ -2756,7 +2762,7 @@ hr.bug {
 }
 
 .weirdwizard .item-fixed {
-  flex: 0 0 60px;
+  flex: 0 0 65px;
 }
 
 .weirdwizard .item-traits {
@@ -4755,7 +4761,7 @@ details.document-card .card-header:hover::after {
       .items-header {
         border-image-width: 20px 20px 20px 0;
         border-image-outset: 0 9px 0 0;
-        padding: 2px 7px 2px calc(7px + 0.5em);
+        padding: 2px 1em 2px calc(7px + 0.5em);
         margin: 0 0 0 -0.5em;
       }
 

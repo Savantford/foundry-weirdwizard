@@ -95,6 +95,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     console.log('preparing')
     context.views = CONFIG.WW.COMPENDIUM_INDEX_VIEWS;
     context.view = this.view;
+    context.weaponTraits = CONFIG.WW.WEAPON_TRAITS;
     
     // Prepare part data
     await this._prepareFilters(context);
@@ -205,24 +206,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
       // Prepare traits list for weapons
       if (doc.system.subtype == 'weapon') {
-
-        // Prepare traits list
-        let list = '';
-
-        Object.entries(doc.system.traits).map((x) => {
-
-          if (x[1]) {
-            let string = i18n('WW.Weapon.Traits.' + capitalize(x[0]) + '.Label');
-
-            if ((x[0] == 'range') || (x[0] == 'reach' && doc.system.range) || (x[0] == 'thrown')) { string += ' ' + doc.system.range; }
-
-            list = list.concat(list ? ', ' + string : string);
-          }
-
-        })
-
-        doc.system.traitsList = list ?? '—';
-
         // Prepare Grip label
         doc.system.gripLabel = CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip] ? i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip]) : doc.system.grip;
       }

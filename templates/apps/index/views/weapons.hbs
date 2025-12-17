@@ -33,7 +33,15 @@
             <div class="item-fixed">{{#if doc.system.traits.range}}{{localize "WW.Weapon.Ranged"}}{{else}}{{localize "WW.Weapon.Melee"}}{{/if}}</div>
             <div class="item-fixed">{{localize doc.system.gripLabel}}</div>
             <div class="item-fixed">{{doc.system.damage}}</div>
-            <div class="item-traits">{{doc.system.traitsList}}</div>
+
+            {{!-- Traits --}}
+            <div class="item-traits weapon-traits">
+                {{#each @root.weaponTraits as |trait id|}}
+                    {{#if (lookup doc.system.traits id)}}
+                    <span data-tooltip="{{trait.tip}}">{{localize trait.label}}{{#if (or (eq id "range") (eq id "thrown"))}} {{doc.system.range}}{{/if}}</span>
+                    {{/if}}
+                {{/each}}
+            </div>
         </li>
         {{/each}}
     </ol>
