@@ -4,13 +4,16 @@
     <li class="item flexrow items-header">
         <div class="item-image"></div>
         <div class="item-name">{{localize "WW.Item.Name"}}</div>
-    
-        <div>{{localize "WW.Equipment.Availability.Label"}}</div>
-        <div>{{localize "WW.Equipment.Price"}}</div>
+
+        <div class="item-fixed">{{localize "WW.Item.Type"}}</div>
+        <div class="item-fixed">{{localize "WW.Equipment.Availability.Label"}}</div>
+        <div class="item-fixed">{{localize "WW.Equipment.Price"}}</div>
+
+        <div class="item-last">{{localize "WW.Item.Description"}}</div>
     </li>
 
     {{!-- Rows --}}
-    <ol class="item-list equipment-list">
+    <ol class="item-list">
         {{#each documents as |doc id|}}
         <li class="item flexrow flex-group-left" data-item-id="{{doc._id}}">
             {{!-- Icon --}}
@@ -19,8 +22,14 @@
             {{!-- Name --}}
             <a class="item-name" data-action="openSheet" data-item-uuid="{{doc.uuid}}" data-tooltip="{{{doc.tooltip}}}">{{doc.name}}</a>
 
-            <div>{{doc.availabilityLabel}}</div>
-            <div>{{{doc.priceLabel}}}</div>
+            {{!-- Type --}}
+            <div class="item-fixed">{{doc.subtypeLabel}}</div>
+
+            <div class="item-fixed">{{doc.availabilityLabel}}</div>
+            <div class="item-fixed">{{{doc.priceLabel}}}</div>
+
+            {{!-- Description --}}
+            <div class="item-last">{{{doc.system.description}}}</div>
         </li>
         {{/each}}
     </ol>

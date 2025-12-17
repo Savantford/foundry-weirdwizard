@@ -4,6 +4,9 @@
     <li class="item flexrow items-header">
         <div class="item-image"></div>
         <div class="item-name">{{localize "WW.Item.Name"}}</div>
+
+        <div class="item-fixed">{{localize "WW.Item.Type"}}</div>
+        <div class="item-last">{{localize "WW.Item.Description"}}</div>
     </li>
 
     {{!-- Rows --}}
@@ -16,6 +19,11 @@
             {{!-- Name --}}
             <a class="item-name" data-action="openSheet" data-item-uuid="{{doc.uuid}}" data-tooltip="{{{doc.tooltip}}}">{{doc.name}}</a>
 
+            {{!-- Type --}}
+            <div class="item-fixed">{{#if doc.subtypeLabel}}{{doc.subtypeLabel}}{{else}}{{doc.typeLabel}}{{/if}}</div>
+
+            {{!-- Description --}}
+            <div class="item-last">{{{doc.system.description}}}</div>
         </li>
         {{/each}}
     </ol>

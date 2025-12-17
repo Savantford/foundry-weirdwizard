@@ -164,6 +164,11 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       // Assign src to img
       if (!doc.img && doc.src) doc.img = doc.src;
 
+      // Get type and subtype labels
+      doc.typeLabel = i18n(CONFIG[doc.documentName].typeLabels[doc.type]);
+      const subtypes = {...CONFIG.WW.EQUIPMENT_SUBTYPES, ...CONFIG.WW.TALENT_SUBTYPES};
+      doc.subtypeLabel = doc.system.subtype ? i18n(subtypes[doc.system.subtype]) : null;
+
       // Get Availability
       if (doc.system.availability) doc.availabilityLabel = i18n(CONFIG.WW.EQUIPMENT_AVAILABILITIES[doc.system.availability]);
 
@@ -182,7 +187,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       if (doc.type === 'equipment') {
 
         // Get Armor Type
-        if (doc.system.subtype === 'armor') doc.typeLabel = i18n(CONFIG.WW.ARMOR_TYPES[doc.system.armorType]); else doc.typeLabel = i18n('WW.Armor.Shield');
+        if (doc.system.subtype === 'armor') doc.armorTypeLabel = i18n(CONFIG.WW.ARMOR_TYPES[doc.system.armorType]); else doc.armorTypeLabel = i18n('WW.Armor.Shield');
 
         // Get Defense
         let armored = 0,

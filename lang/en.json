@@ -199,6 +199,7 @@
 
 "WW.Item.Name": "Name",
 "WW.Item.NamePH": "Item's Name",
+"WW.Item.Type": "Type",
 "WW.Item.Tier": "Tier",
 "WW.Item.Description": "Description",
 "WW.Item.ShowDesc": "Show description",
