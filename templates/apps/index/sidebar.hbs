@@ -1,16 +1,16 @@
 <form class="sidebar">
+  {{!-- View Selector --}}
+  <div class="view-selector flexrow">
+    <label>{{localize "WW.Index.ViewAs"}}</label>
+  
+    <select name="view" data-action="changeView">
+      {{selectOptions views selected=view localize=true}}
+    </select>
+  </div>
+
   <div class="sidebar-content">
     {{!-- Header Section --}}
     <div class="sidebar-header">
-      {{!-- View Selection --}}
-      <div class="flexrow">
-        <label>{{localize "WW.Index.ViewAs"}}</label>
-      
-        <select name="view" data-action="changeView">
-          {{selectOptions views selected=view localize=true}}
-        </select>
-      </div>
-
       {{!-- Search --}}
       <input type="search" name="search" placeholder="{{localize "WW.Index.Search"}}">
 
