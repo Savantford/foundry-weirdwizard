@@ -5,20 +5,21 @@ export default function addCustomEnrichers() {
   CONFIG.TextEditor.enrichers.push(
     {
       pattern: /@\[(str|agi|int|wil|luck)(?:(\+[1-99]+?|\-[1-99]+?))?\]/gi,
-      enricher: enrichCall
+      enricher: inlineAttributeCallEnricher
     },
     {
       pattern: /@\[([1-99][^|]*?)(?:\|(d|h|hl|hr))?\]/gi,
-      enricher: enrichRoll
+      enricher: inlineRollEnricher
     },
     {
-      pattern: /(?:index:(all|equipment|armor|weapons|hirelings|charopts|ancestries|professions|novice|expert|master|traditions|creatures|talents|spells){1})/gi,
-      enricher: enrichIndex
+      pattern: /@index\[(?<config>[^\]]+)?]/gim,
+      enricher: compediumIndexEnricher
     }
   );
 }
 
-async function enrichCall (match, options) {
+/* Inline Attribute Call */
+async function inlineAttributeCallEnricher (match, options) {
           
   const container = document.createElement("a");
   container.className = 'enricher-call';
@@ -50,8 +51,8 @@ async function enrichCall (match, options) {
   return container;
 }
 
-async function enrichRoll (match, options) {
-
+/* Inline Roll */
+async function inlineRollEnricher (match, options) {
   const exp = match[1];
 
   // Prepare container
@@ -102,20 +103,42 @@ async function enrichRoll (match, options) {
   return container;
 }
 
-async function enrichIndex (match, options) {
-  const preset = match[1];
-  const view = match[2];
-  const label = i18n(CONFIG.WW.COMPENDIUM_INDEX_PRESET_LABELS[preset]);
+/* Compendium Index Link */
+async function compediumIndexEnricher (match, options) {
+  const config = match.groups.config;
+  const pairRegex = /(\w+)(?:=("(?:[^"]*)"|\w+))?/g;
+  const settings = {};
+
+  // Process matches and assign to settings object
+  for (const [, key, value] of config.matchAll(pairRegex)) {
+    
+    if (value)  {
+      const mappedKeys = {
+        'source': 'sourceCompendia',
+        'compendia': 'sourceCompendia',
+        'types': 'documentTypes',
+        'docTypes': 'documentTypes',
+      }
+
+      settings[mappedKeys[key] ?? key] = await value.replace(/['"]+/g, '');
+    } else if (!value && CONFIG.WW.COMPENDIUM_INDEX_PRESET_LABELS[key]) {
+      settings.preset = await key;
+    }
+  }
+
+  // Prepare label and tooltip
+  if (!settings.label) settings.label = i18n(CONFIG.WW.COMPENDIUM_INDEX_PRESET_LABELS[settings.preset ?? 'all']);
+  if (!settings.tooltip) settings.tooltip = i18n('WW.Index.Tooltip', {type: settings.label});
   
   // Prepare container
   const container = document.createElement("a");
   container.className = 'enricher-index';
-  container.innerHTML = label;
+  container.innerHTML = settings.label;
 
-  // Prepare dataset
-  container.dataset.preset = preset ?? "";
-  container.dataset.view = view ?? "";
-  container.dataset.tooltip = i18n('WW.Index.Tooltip', {type: label});
+  // Assign settings to the dataset
+  for (const setting in settings) {
+    container.dataset[setting] = settings[setting];
+  }
 
   return container;
 }

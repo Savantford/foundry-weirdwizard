@@ -14,15 +14,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
   static DEFAULT_OPTIONS = {
     classes: ['charoption'],
     window: {
-      icon: 'fa-regular fa-scroll',
-      controls: [
-        {
-          action: "openHelp",
-          icon: "fa-solid fa-question",
-          label: "WW.System.CharOptionHelp",
-          ownership: "OBSERVER"
-        }
-      ]
+      icon: 'fa-regular fa-scroll'
     },
     secrets: [
       { parentSelector: ".editor" }

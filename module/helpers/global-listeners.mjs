@@ -22,7 +22,16 @@ function _onClickIndexEnricher(event) {
 
   const button = event.currentTarget;
   const dataset = Object.assign({}, button.dataset);
+
+  // Destructure dataset into needed variables
+  const { preset, label, tooltip, view, ...rawFilters } = dataset;
+
+  // Assign filter
+  const filters = {};
+  for (const [key, value] of Object.entries(rawFilters)) {
+    filters[key] = value.split(',');
+  }
   
-  new CompendiumIndex({ preset: dataset.preset, view: dataset.view }).render(true);
-  
+  // Open app with the options
+  new CompendiumIndex({ preset, view, filters }).render(true);
 }
