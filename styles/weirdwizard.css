@@ -1284,6 +1284,13 @@ body.theme-dark.application.weirdwizard .window-content {
   color: goldenrod;
 }
 
+/* Edit Mode Window Header Button */
+.edit-mode .header-control.fa-lock {
+  --fa: "";
+  --fa--fa: "";
+  background: var(--button-hover-background-color);
+}
+
 /* -------------------------------------------- */
 /*  Sheet Header/Name Stripe/Banner             */
 /* -------------------------------------------- */

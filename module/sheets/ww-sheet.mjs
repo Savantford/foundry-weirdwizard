@@ -117,6 +117,32 @@ export default function WWSheetMixin(BaseSheet) {
 
     /* -------------------------------------------- */
 
+    /**
+     * @inheritdoc
+     * Append buttons to the window's header
+     */
+    async _renderFrame(options) {
+      const frame = await super._renderFrame(options);
+      console.log('rerendering frame')
+      const buttons = [
+        game.weirdwizard.utils.constructHTMLButton({
+          label: "",
+          classes: ["header-control", "icon", "fa-solid", "fa-lock"],
+          dataset: { action: "changeMode", tooltip: "WW.System.Sheet.EditMode" }
+        })
+      ];
+      
+      // Add only to specified types
+      const types = ['character', 'npc'];
+      if (types.includes(this.document.type)) this.window.controls?.before(...buttons);
+
+      return frame;
+    }
+    
+    
+
+    /* -------------------------------------------- */
+
     /** @inheritDoc */
     async _onFirstRender(context, options) {
       this.element.classList.add(`${this.mode}-mode`);
