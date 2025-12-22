@@ -5,10 +5,10 @@
         <div class="flexcol">
             
             {{!-- Appearance --}}
-            {{#if (or editMode system.details.appearance)}}
+            {{#if (or isEditMode system.details.appearance)}}
             <div>
                 <h2>{{localize "WW.Character.Appearance"}}</h2>
-                {{#if editMode}}
+                {{#if isEditMode}}
                 <prose-mirror name="system.details.appearance" data-document-uuid="{{actor.uuid}}" value="{{actor.system.details.appearance}}"
                     toggled collaborate compact owner={{owner}} editable={{editable}}>
                     {{{enrichedDetails.appearance}}}
@@ -22,7 +22,7 @@
             {{!-- Background --}}
             <div>
                 <h2>{{localize "WW.Character.Background"}}</h2>
-                {{#if editMode}}
+                {{#if isEditMode}}
                 <prose-mirror name="system.details.background" data-document-uuid="{{actor.uuid}}" value="{{actor.system.details.background}}"
                     toggled collaborate compact owner={{owner}} editable={{editable}}>
                     {{{enrichedDetails.background}}}
@@ -40,10 +40,10 @@
             {{!-- Identity --}}
             <div>
                 <h2>{{localize "WW.Character.Identity"}}</h2>
-                {{#if (or editMode system.details.personality system.details.beliefs)}}
+                {{#if (or isEditMode system.details.personality system.details.beliefs)}}
                 {{!-- Personality --}}
                 <h3 class="detail-label">{{localize "WW.Character.Personality"}}</h3>
-                {{#if editMode}}
+                {{#if isEditMode}}
                 <prose-mirror name="system.details.personality" data-document-uuid="{{actor.uuid}}" value="{{actor.system.details.personality}}"
                     toggled collaborate compact owner={{owner}} editable={{editable}}>
                     {{{enrichedDetails.personality}}}
@@ -54,7 +54,7 @@
 
                 {{!-- Beliefs --}}
                 <h3 class="detail-label">{{localize "WW.Character.Beliefs"}}</h3>
-                {{#if editMode}}
+                {{#if isEditMode}}
                 <prose-mirror name="system.details.beliefs" data-document-uuid="{{actor.uuid}}" value="{{actor.system.details.beliefs}}"
                     toggled collaborate compact owner={{owner}} editable={{editable}}>
                     {{{enrichedDetails.beliefs}}}
@@ -71,7 +71,7 @@
             {{!-- Notes --}}
             <div>
                 <h2>{{localize "WW.Actor.Notes"}}</h2>
-                {{#if editMode}}
+                {{#if isEditMode}}
                 <prose-mirror name="system.details.notes" data-document-uuid="{{actor.uuid}}" value="{{actor.system.details.notes}}"
                     toggled collaborate compact owner={{owner}} editable={{editable}}>
                     {{{enrichedDetails.notes}}}

@@ -6,9 +6,9 @@
 
         {{!-- Attribute Circles --}}
         {{#each attributes as |attribute|}}
-        <div class="stat {{ key }}" style="--i:{{ index }}" {{#unless @root.editMode}}data-action="attributeRoll" data-key="{{ key }}" data-tooltip-text="{{ tooltip }}"{{/unless}}>
+        <div class="stat {{ key }}" style="--i:{{ index }}" {{#unless @root.isEditMode}}data-action="attributeRoll" data-key="{{ key }}" data-tooltip-text="{{ tooltip }}"{{/unless}}>
             <label>{{localize label }}</label>
-            {{#if @root.editMode}}
+            {{#if @root.isEditMode}}
             {{formInput field name=name value=sourceValue dataset=(object tooltip=inputTooltip)}}
             {{else}}
             {{#if finalValue}}

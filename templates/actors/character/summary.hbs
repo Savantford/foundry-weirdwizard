@@ -64,7 +64,7 @@
         {{/if}}
 
         {{!-- Help Button --}}
-        {{#if editMode}}
+        {{#if isEditMode}}
         <a class="help-button" data-action="journalHelp" data-tooltip="WW.System.Documentation"><i class="fa-solid fa-circle-question"></i></a>
         {{/if}}
 
@@ -85,7 +85,7 @@
                     <div class="list-entry">
                         {{#if charOptions.ancestry}}
                         <a data-action="journalView" data-page-uuid="{{charOptions.ancestry.uuid}}">{{charOptions.ancestry.name}}</a>
-                        {{#if editMode}}
+                        {{#if isEditMode}}
                         <span class="buttons">
                             <a class="item-button" data-action="journalRemove" data-page-uuid="{{charOptions.ancestry.uuid}}" data-option-type="ancestry"
                                 data-tooltip="WW.Ancestry.Remove"><i class="fa-solid fa-trash"></i>
@@ -103,13 +103,13 @@
                         {{#unless charOptions.ancestry}}<span>—</span>{{/unless}}
                     </div>
                     
-                    {{#if (or editMode listEntries.descriptors.length)}}<div>●</div>{{/if}}
+                    {{#if (or isEditMode listEntries.descriptors.length)}}<div>●</div>{{/if}}
 
                     {{!-- Descriptors --}}
                     {{#each listEntries.descriptors as |entry|}}
                         {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="descriptors" loc="Descriptor"}}
                     {{else}}
-                        {{#if editMode}}<span>({{localize "WW.ListEntry.Descriptor.Label"}})</span>{{/if}}
+                        {{#if isEditMode}}<span>({{localize "WW.ListEntry.Descriptor.Label"}})</span>{{/if}}
                     {{/each}}
                     
                     <a class="array-button" data-action="entryCreate" data-list-key="descriptors" data-loc="Descriptor"
@@ -223,7 +223,7 @@
                         <span>—</span>
                     {{/each}}
                         
-                    {{#if editMode}}
+                    {{#if isEditMode}}
                     <a class="help-button" data-action="journalHelp" data-tooltip="WW.System.Documentation"><i class="fa-solid fa-circle-question"></i></a>
                     {{/if}}
                     

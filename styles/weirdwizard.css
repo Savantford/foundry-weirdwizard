@@ -3817,7 +3817,7 @@ input[type="checkbox"].checkbox-uses {
     }
 
     button {
-      backdrop-filter: contrast(0.3) sepia(0.5);
+      backdrop-filter: contrast(0.1) sepia(0.5);
     }
 
     button::before {

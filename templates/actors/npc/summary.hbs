@@ -30,157 +30,7 @@
     <div class="statbox-sections flexrow">
 
         {{!-- Statbox: Left Column --}}
-        <div class="statbox">
-
-            {{!-- Edit Mode Stats --}}
-            {{#if editMode}}
-            <div class="statbox-section">
-
-                {{!-- Defense, Health --}}
-                <div class="stat-inline flex-wrap flex-children">
-
-                    {{!-- Defense --}}
-                    <div class="defense-line">
-                        <label>{{localize "WW.Defense.NaturalNPC"}}:</label>
-                        
-                        {{!-- Natural Defense --}}
-                        {{formInput stats.defenseNatural.field name=stats.defenseNatural.name value=stats.defenseNatural.sourceValue }}
-                        
-                    </div>
-
-                    {{!-- Health --}}
-                    <div class="nowrap">
-                        
-                        <label>{{localize "WW.Health.NormalNPC"}}:</label>
-                        
-                        <div class="input-wrap">
-                            <input type="number" name="system.stats.health.normal" value="{{system.stats.health.normal}}" min="0" />
-
-                            <div class="input-overlay">{{system.stats.health.normal}}</div>
-                        </div>
-                        
-                    </div>
-                    
-                </div>
-
-                {{!-- Equipment --}}
-                <div class="stat equipment-list">
-                        
-                    <label>{{localize "WW.Equipment.Label"}}:</label>
-                    {{#each equipment as |item id|}}
-                        {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
-                    {{else}}
-                        <span>—</span>
-                    {{/each}}
-
-                    <a class="item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Equipment" data-type="equipment" data-subtype="generic"><i class="fa-solid fa-plus-circle"></i></a>
-
-                </div>
-
-                {{!-- Attributes 1 --}}
-                <div class="mt-1 stat-inline">
-
-                    {{!-- Strength --}}
-                    <label><a class="item-button" data-action="attributeRoll" data-key="str" data-tooltip="WW.Roll.Strength">{{localize "WW.Attributes.Strength"}}:</a></label>
-
-                    <div class="input-wrap">
-                        <input type="number" name="system.attributes.str.value"
-                            value="{{system.attributes.str.value}}" min="0" placeholder="—" data-dtype="Number" />
-
-                        <div class="input-overlay">{{system.attributes.str.value}}</div>
-                    </div>
-                        
-                    {{#if system.attributes.str.value}}
-                    <a class="attribute-mod item-button" data-action="attributeRoll" data-key="str" data-tooltip="WW.Roll.Agility">
-                        ({{numberFormat system.attributes.str.mod decimals=0 sign=true}})
-                    </a>
-                    {{/if}}
-                    
-                    {{!-- Agility --}}
-                    <label class="ml-1"><a class="item-button" data-action="attributeRoll" data-key="agi" data-tooltip="WW.Roll.Agility">{{localize "WW.Attributes.Agility"}}:</a></label>
-
-                    <div class="input-wrap">
-                        <input type="number" name="system.attributes.agi.value"
-                            value="{{system.attributes.agi.value}}" min="0" placeholder="—" data-dtype="Number" /> 
-
-                        <div class="input-overlay">{{system.attributes.agi.value}}</div>
-                    </div>
-                    
-                    {{#if system.attributes.agi.value}}
-                    <a class="attribute-mod item-button" data-action="attributeRoll" data-key="agi" data-tooltip="WW.Roll.Agility">
-                        ({{numberFormat system.attributes.agi.mod decimals=0 sign=true}})
-                    </a>
-                    {{/if}}
-
-                </div>
-
-                {{!-- Attributes 2 --}}
-                <div class="stat-inline">
-
-                    {{!-- Intellect --}}
-                    <label><a class="item-button" data-action="attributeRoll" data-key="int" data-tooltip="WW.Roll.Intellect">{{localize "WW.Attributes.Intellect"}}:</a></label>
-                    
-                    <div class="input-wrap">
-                        <input type="number" name="system.attributes.int.value"
-                            value="{{system.attributes.int.value}}" min="0" placeholder="—" data-dtype="Number" /> 
-
-                        <div class="input-overlay">{{system.attributes.int.value}}</div>
-                    </div>
-                    
-                    {{#if system.attributes.int.value}}
-                    <a class="attribute-mod item-button" data-action="attributeRoll" data-key="int" data-tooltip="WW.Roll.Intellect">
-                        ({{numberFormat system.attributes.int.mod decimals=0 sign=true}})
-                    </a>
-                    {{/if}}
-                    
-                    {{!-- Will --}}
-                    <label class="ml-1"><a class="item-button" data-action="attributeRoll" data-key="wil" data-tooltip="WW.Roll.Will">{{localize "WW.Attributes.Will"}}:</a></label>
-
-                    <div class="input-wrap">
-                        <input type="number" name="system.attributes.wil.value"
-                            value="{{system.attributes.wil.value}}" min="0" placeholder="—" data-dtype="Number" /> 
-
-                        <div class="input-overlay">{{system.attributes.wil.value}}</div>
-                    </div>
-                    
-                    {{#if system.attributes.wil.value}}
-                    <a class="attribute-mod item-button" data-action="attributeRoll" data-key="wil" data-tooltip="WW.Roll.Will">
-                        ({{numberFormat system.attributes.wil.mod decimals=0 sign=true}})
-                    </a>
-                    {{/if}}
-
-                </div>
-
-                {{!-- Size, Speed --}}
-                <ol class="mt-1 stat-inline list-entries movement-traits">
-                    {{!-- Size --}}
-                    <label>{{ stats.size.label }}:</label>
-
-                    {{ formInput stats.size.field name=stats.size.name value=stats.size.sourceValue dataset=(object tooltip=stats.size.inputTooltip) }}
-
-                    ({{ stats.size.displayedValue }})
-                    
-                    {{!-- Speed --}}
-                    <label class="ml-1">{{localize "WW.Stats.SpeedNormalNPC"}}:</label>
-                    
-                    {{ formInput stats.speedNormal.field name=stats.speedNormal.name value=stats.speedNormal.sourceValue dataset=(object tooltip=stats.speedNormal.inputTooltip) }}
-                    
-                    {{!-- Movement Traits --}}
-                    {{#each listEntries.movementTraits as |entry|}}
-                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="movementTraits" loc="MovementTrait"}}
-                    {{/each}}
-                    
-                    <a class="array-button" data-action="entryCreate" data-list-key="movementTraits" data-loc="MovementTrait"
-                        data-tooltip="WW.ListEntry.MovementTrait.Create"><i class="fa-solid fa-circle-plus"></i></a>
-                    
-                    <a class="array-button" data-action="entrySettings" data-list-key="movementTraits"
-                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
-                    
-                </ol>
-                
-            </div>
-            {{/if}}
-            
+        <div class="statbox">            
             {{!-- Traits and Talents --}}
             <div class="statbox-section talents-section">
 
@@ -206,7 +56,7 @@
                 </h6>
                 
                 {{!-- Languages --}}
-                {{#if (or listEntries.languages.length editMode)}}
+                {{#if listEntries.languages.length}}
                 <ol class="stat-inline list-entries">
                     <label>{{localize "WW.ListEntry.Language.Label"}}:</label>
 
@@ -225,7 +75,7 @@
                 {{/if}}
 
                 {{!-- Senses --}}
-                {{#if (or listEntries.senses.length editMode)}}
+                {{#if listEntries.senses.length}}
                 <ol class="stat-inline list-entries">
                     <label>{{localize "WW.ListEntry.Sense.Label"}}:</label>
                 
@@ -244,7 +94,7 @@
                 {{/if}}
 
                 {{!-- Immune --}}
-                {{#if (or listEntries.immunities.length editMode)}}
+                {{#if listEntries.immunities.length}}
                 <ol class="stat-inline list-entries">
                     <label>{{localize "WW.ListEntry.Immunity.Label"}}:</label>
                 
@@ -270,7 +120,7 @@
                 </ol>
 
                 {{!-- Equipment --}}
-                {{#if (and equipment.length (not editMode))}}
+                {{#if equipment.length}}
                 <div class="stat equipment-list">
                         
                     <label>{{localize "WW.Equipment.Label"}}:</label>
@@ -292,7 +142,7 @@
         <div class="statbox">
             
             {{!-- Actions Section --}}
-            {{#if (or editMode weapons.length actions.length)}}
+            {{#if (or weapons.length actions.length)}}
             <div class="statbox-section actions">
                 
                 {{!-- Actions Header --}}
@@ -342,7 +192,7 @@
             {{/if}}
             
             {{!-- Reactions Section --}}
-            {{#if (or editMode reactions.length)}}
+            {{#if reactions.length}}
             <div class="statbox-section reactions">
 
                 <h6>
@@ -363,7 +213,7 @@
             {{/if}}
             
             {{!-- End of Round Section --}}
-            {{#if (or editMode end.length)}}
+            {{#if end.length}}
             <div class="statbox-section ends">
 
                 <h6>

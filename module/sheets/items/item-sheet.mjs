@@ -120,8 +120,8 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     const isOwner = this.item.isOwner;
     const TextEditor = foundry.applications.ux.TextEditor.implementation;
 
-    // Ensure editMode has a value
-    if (this.editMode === undefined) this.editMode = false;
+    // Ensure isEditMode has a value
+    if (this.isEditMode === undefined) this.isEditMode = false;
 
     context.item = itemData; // Use a safe clone of the item data for further operations.
     
