@@ -41,8 +41,6 @@ export default class WWNpcSheet extends WWCreatureSheet {
 
   /** @override */
   static PARTS = {
-    // Shared Parts:
-    menu: { template: 'systems/weirdwizard/templates/generic/edit-mode.hbs' },
     // View Mode Parts:
     sidetabs: { template: 'systems/weirdwizard/templates/generic/side-tabs.hbs' },
     namestripe: { template: 'systems/weirdwizard/templates/actors/name-stripe.hbs' },
@@ -77,8 +75,8 @@ export default class WWNpcSheet extends WWCreatureSheet {
    * Parts for each view
    */
   static MODE_PARTS = {
-    edit: ["menu", "npcform"],
-    view: ["menu", "sidetabs", "namestripe", "banner", "summary", "description", "effects"]
+    edit: ["npcform"],
+    view: ["sidetabs", "namestripe", "banner", "summary", "description", "effects"]
   };
 
   /** @override */

@@ -26,7 +26,6 @@ export default class WWCharacterSheet extends WWCreatureSheet {
 
   /** @override */
   static PARTS = {
-    menu: { template: 'systems/weirdwizard/templates/generic/edit-mode.hbs' },
     sidetabs: { template: 'systems/weirdwizard/templates/generic/side-tabs.hbs' },
     namestripe: { template: 'systems/weirdwizard/templates/actors/name-stripe.hbs' },
     banner: {
@@ -75,7 +74,7 @@ export default class WWCharacterSheet extends WWCreatureSheet {
     super._configureRenderOptions(options);
 
     // Completely overriding the parts
-    options.parts = ['menu', 'sidetabs', 'namestripe', 'banner', 'summary', 'details', 'equipment', 'talents', 'spells', 'effects'];
+    options.parts = ['sidetabs', 'namestripe', 'banner', 'summary', 'details', 'equipment', 'talents', 'spells', 'effects'];
     
     return options;
   }
