@@ -307,7 +307,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     console.log(await pages)
     console.log(docList)*/
     console.log(this.filters)
-    const searchResults = this.search({ filters: this.filters });
+    const searchResults = this.search({ query: this.searchQuery, filters: this.filters });
     context.documents = searchResults;
   }
 
@@ -324,7 +324,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
   /** @inheritDoc */
   /*async _onFirstRender(context, options) {
-    this.filteredDocuments ?? searchResults;
 
     return super._onFirstRender(context, options);
   }*/
@@ -601,8 +600,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
    * @param {string[]} [search.exclude]          An array of document IDs to exclude from search results
    * @returns {TDocument[]|object[]}
    */
-  search({query= "", filters=[], exclude=[]}) {
-    
+  search({query="", filters=[], exclude=[]}) {
     query = foundry.applications.ux.SearchFilter.cleanQuery(query);
     const regex = new RegExp(RegExp.escape(query), "i");
     console.log(query)
@@ -613,11 +611,13 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     for ( const doc of this.allDocuments ) {
       if ( exclude.includes(doc._id) ) continue; // Explicitly exclude this document
       let matched = !query;
+      console.log(matched)
 
       // Do a full-text search against any searchable fields based on metadata
       if ( query ) {
         const searchFields = foundry.documents.abstract.DocumentCollection.getSearchableFields(doc.documentName, doc.type);
         const match = CompendiumIndex.#searchTextFields(doc, searchFields, regex);
+        console.log('match no query', match)
         if ( !match ) continue; // Query did not match, no need to continue
         matched = true;
       }
