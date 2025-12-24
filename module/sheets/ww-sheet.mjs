@@ -123,7 +123,7 @@ export default function WWSheetMixin(BaseSheet) {
      */
     async _renderFrame(options) {
       const frame = await super._renderFrame(options);
-      console.log('rerendering frame')
+      
       const buttons = [
         game.weirdwizard.utils.constructHTMLButton({
           label: "",
@@ -139,8 +139,6 @@ export default function WWSheetMixin(BaseSheet) {
       return frame;
     }
     
-    
-
     /* -------------------------------------------- */
 
     /** @inheritDoc */

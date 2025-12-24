@@ -222,6 +222,9 @@ Hooks.once('init', function () {
   // Register custom Roll subclass
   CONFIG.Dice.rolls.unshift(WWRoll);
 
+  // Define Compendium.index fields
+  CompendiumIndex.defineCompendiumIndexFields();
+
   // Set active effect keys-labels to be used in Active Effects Config app
   initializeEffectLookups();
 

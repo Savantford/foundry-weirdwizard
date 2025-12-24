@@ -468,8 +468,6 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       entryData = { name: entryName };
     }
 
-    console.log(await entryData)
-
     // Prepare context
     const context = {
       entry: await entryData,
@@ -478,8 +476,6 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       grantedBy: await fromUuid(entryData.grantedBy) ?
         await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${entryData.grantedBy}]`, { secrets: this.actor.isOwner }) : null
     };
-
-    console.log(await context)
 
     // Show a dialog 
     const dialogInput = await WWDialog.input({
@@ -512,8 +508,6 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     delete await obj[dialogInput.key].key;
 
     // Delete old entry if key changed
-    console.log(await dialogInput.key)
-    console.log(await entryKey)
     if (dialogInput.key !== entryKey) {
       // If the key exists in the Base Actor, null it
       if (baseObj?.hasOwnProperty(entryKey) && entryKey !== dialogInput.key) obj[entryKey] = null;
