@@ -1,4 +1,5 @@
-import { capitalize, getCompendiumList, getDocumentTypeList, i18n } from '../helpers/utils.mjs';
+import { getCompendiumList, i18n } from '../helpers/utils.mjs';
+import IndexFilter from '../ux/index-filter.mjs';
 
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
@@ -9,14 +10,13 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
  * Extend FormApplication to make windows to display a compendium more neatly
  * @extends {ApplicationV2}
 */
-
 export default class CompendiumIndex extends HandlebarsApplicationMixin(ApplicationV2) {
   constructor(config = {}) {
     super(config); // Required for "this." to work
     
     // Apply config
     this.view = config.view ?? 'generic';
-    this.filters = config.filters ?? {};
+    this.searchFilters = config.filters ?? {};
     if (config.preset) this._applyPreset(config.preset);
 
     // Enable drag n drop operations
@@ -54,7 +54,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       scrollable: ['.filters'],
       forms: {
         "form": { // <-- this is actually a CSS selector
-          handler: this.#onSubmit, // In case I need a custom handler
+          handler: this.#onSubmit,
           submitOnChange: true,
           closeOnSubmit: false
         }
@@ -217,7 +217,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     
     // Prepare documents data
     if (!this.allDocuments) this.allDocuments = await this.#fullDocumentData();
-    await this._prepareFilters(context);
+    await this._prepareFilterCheckboxes(context);
     await this._prepareDisplayedDocuments(context);
     
     return context;
@@ -225,11 +225,11 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
   /* -------------------------------------------- */
 
-  async _prepareFilters(context) {
+  async _prepareFilterCheckboxes(context) {
     context.filters = [];
     const fields = foundry.data.fields;
-    const fs = {};
-    this.filters.forEach(x => fs[x.field] = x.value);
+    const appliedFilters = {};
+    this.searchFilters.forEach(x => appliedFilters[x.field] = x.value);
 
     context.fields = {
       set: new fields.SetField(new fields.StringField())
@@ -237,19 +237,29 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     
     // Source Compendia
     context.filters.push({
-      name: 'filters.sourceCompendia',
+      name: 'sourceCompendia',
       title: i18n("WW.Index.Filters.SourceCompendia"),
-      value: fs?.sourceCompendia ?? Object.values(getCompendiumList()).map(x => x.value),
+      value: appliedFilters?.sourceCompendia ?? Object.values(getCompendiumList()).map(x => x.value),
       options: Object.values(getCompendiumList())
     })
 
-    // Document Types
-    context.filters.push({
-      name: 'filters.type',
-      title: i18n("WW.Index.Filters.DocumentTypes"),
-      value: fs?.type ?? Object.values(getDocumentTypeList()).map(x => x.value),
-      options: Object.values(getDocumentTypeList())
-    })
+    const filterRef = {
+      'type': "WW.Index.Filters.DocumentType",
+      'system.tier': "WW.Item.Tier"
+    }
+
+    for (const [key, loc] of Object.entries(filterRef)) {
+      const filterData = await this.filtersData[key];
+      const appliedFilter = foundry.utils.getProperty(appliedFilters, key);
+      
+      context.filters.push({
+        name: key,
+        title: i18n(loc),
+        value: appliedFilter ?? filterData?.map(x => x.value),
+        options: filterData
+      })
+
+    }
   }
 
   /* -------------------------------------------- */
@@ -306,8 +316,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     await loadAllUsers();
     console.log(await pages)
     console.log(docList)*/
-    console.log(this.filters)
-    const searchResults = this.search({ query: this.searchQuery, filters: this.filters });
+    const searchResults = this.search({ query: this.searchQuery, filters: this.searchFilters });
     context.documents = searchResults;
   }
 
@@ -350,6 +359,8 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   }*/
 
   /* -------------------------------------------- */
+  /*  Core Functionality                          */
+  /* -------------------------------------------- */
 
   async #fullDocumentData() {
     // Prepare documents list
@@ -357,10 +368,8 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     
     // Convert filters to object of arrays
     const filters = {};
-    this.filters.forEach(x => filters[x.field] = x.value);
-
-    //Object.entries(
-    const validTypes = Object.values(getDocumentTypeList()).map(x => x.value);
+    this.searchFilters.forEach(x => filters[x.field] = x.value);
+    const validTypes = this.filtersData['type'].map(x => x.value);
 
     for (const pack of game.packs) {
       if (filters.sourceCompendia && !filters.sourceCompendia?.includes(pack.metadata.id)) continue;
@@ -464,136 +473,10 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
   /* -------------------------------------------- */
 
-  _applyPreset(preset) {
-    // Set the parameters for the filter
-    switch (preset) {
-      case 'all':
-        this.view = 'generic';
-      break;
-
-      /* Equipment Presets */
-      case 'equipment': 
-        this.view = 'equipment';
-        this.filters = {
-          'type': ['equipment']
-        };
-      break;
-
-      case 'armor': 
-        this.view = 'armor';
-        this.filters = {
-          'type': ['equipment'],
-          'system.subtype': ['armor']
-        }
-      break;
-
-      case 'weapons':
-        this.view = 'weapons';
-        this.filters = {
-          'type': ['equipment'],
-          'system.subtype': ['weapon']
-        }
-      break;
-
-      case 'hirelings':
-        this.view = 'creatures';
-        this.filters = {
-          sourceCompendia: ['weirdwizard.hirelings'],
-          'type': ['npc']
-        }
-      break;
-
-      /* Character Option Presets */
-      case 'ancestries':
-        this.view = 'ancestries';
-        this.filters = {
-          'type': ['ancestry']
-        }
-      break;
-
-      case 'professions':
-        this.view = 'professions';
-        this.filters = {
-          'type': ['profession']
-        }
-      break;
-
-      case 'novice':
-        this.view = 'paths';
-        this.filters = {
-          'type': ['path'],
-          tiers: ['novice']
-        }
-      break;
-
-      case 'expert':
-        this.view = 'paths';
-        this.filters = {
-          'type': ['path'],
-          tiers: ['expert']
-        }
-      break;
-
-      case 'master':
-        this.view = 'paths';
-        this.filters = {
-          'type': ['path'],
-          tiers: ['master']
-        }
-      break;
-
-      case 'traditions':
-        this.view = 'traditions';
-        this.filters = {
-          'type': ['tradition']
-        }
-      break;
-
-      /* Other Presets */
-      case 'creatures':
-        this.view = 'creatures';
-        this.filters = {
-          'type': ['npc']
-        }
-      break;
-
-      case 'talents':
-        this.view = 'talents';
-        this.filters = {
-          'type': ['talent']
-        }
-      break;
-      
-      case 'spells':
-        this.view = 'spells';
-        this.filters = {
-          'type': ['spell']
-        }
-      break;
-      
-    }
-    
-    return this.view;
-  }
-
-  /* -------------------------------------------- */
-  /*  Event Listeners and Handlers                */
-  /* -------------------------------------------- */
-
-  /** @inheritDoc */
-  _attachPartListeners(partId, element, options) {
-    super._attachPartListeners(partId, element, options);
-    if ( partId === "sidebar" ) {
-      const searchInput = this.element.querySelector("input[type=search]");
-      //searchInput.addEventListener("change", (event) => this.#onSearch(event));
-    }
-  }
-  
-  /* -------------------------------------------- */
-
   /**
    * Find all Documents which match a given search term using a full-text search against their indexed HTML fields
    * and their name. If filters are provided, results are filtered to only those that match the provided values.
+   * Adapted from DocumentCollection#search()
    * @param {object} search                      An object configuring the search
    * @param {string} [search.query]              A case-insensitive search string
    * @param {FieldFilter[]} [search.filters]     An array of filters to apply
@@ -601,30 +484,28 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
    * @returns {TDocument[]|object[]}
    */
   search({query="", filters=[], exclude=[]}) {
-    query = foundry.applications.ux.SearchFilter.cleanQuery(query);
+    query = IndexFilter.cleanQuery(query);
     const regex = new RegExp(RegExp.escape(query), "i");
-    console.log(query)
-    console.log(filters)
+    const DocumentCollection = foundry.documents.abstract.DocumentCollection;
+    
     // Iterate over all index members or documents
     const results = [];
-    
+    console.log(filters)
     for ( const doc of this.allDocuments ) {
       if ( exclude.includes(doc._id) ) continue; // Explicitly exclude this document
       let matched = !query;
-      console.log(matched)
 
       // Do a full-text search against any searchable fields based on metadata
       if ( query ) {
-        const searchFields = foundry.documents.abstract.DocumentCollection.getSearchableFields(doc.documentName, doc.type);
+        const searchFields = DocumentCollection.getSearchableFields(doc.documentName, doc.type);
         const match = CompendiumIndex.#searchTextFields(doc, searchFields, regex);
-        console.log('match no query', match)
         if ( !match ) continue; // Query did not match, no need to continue
         matched = true;
       }
 
       // Apply filters
       for ( const filter of filters ) {
-        const match = foundry.applications.ux.SearchFilter.evaluateFilter(doc, filter);
+        const match = IndexFilter.evaluateFilter(doc, filter);
         
         if ( !match ) {
           matched = false;
@@ -656,10 +537,10 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
           // TODO: Ideally we would search the text content of enriched HTML
           v = domParser.parseFromString(v, "text/html").body.textContent;
         }
-        if ( foundry.applications.ux.SearchFilter.testQuery(rgx, v) ) return true;
+        if ( IndexFilter.testQuery(rgx, v) ) return true;
       }
       else if ( Array.isArray(v) ) {
-        if ( v.some(x => foundry.applications.ux.SearchFilter.testQuery(rgx, x)) ) return true;
+        if ( v.some(x => IndexFilter.testQuery(rgx, x)) ) return true;
       }
       else if ( typeof v === "object" ) {
         const m = CompendiumIndex.#searchTextFields(v, field, rgx, domParser);
@@ -671,19 +552,179 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
   /* -------------------------------------------- */
 
-  /** Handles the click event for the 'clear search' button, resetting the query. */
-  _onClearSearch() {
-    this.searchQuery = "";
-    void this.render({ parts: ["filters", this.activeTab === "Settings" ? "settings" : "results"] });
+  _applyPreset(preset) {
+    // Set the parameters for the filter
+    switch (preset) {
+      case 'all':
+        this.view = 'generic';
+      break;
+
+      /* Equipment Presets */
+      case 'equipment': 
+        this.view = 'equipment';
+        this.searchFilters = {
+          'type': ['equipment']
+        };
+      break;
+
+      case 'armor': 
+        this.view = 'armor';
+        this.searchFilters = {
+          'type': ['equipment'],
+          'system.subtype': ['armor']
+        }
+      break;
+
+      case 'weapons':
+        this.view = 'weapons';
+        this.searchFilters = {
+          'type': ['equipment'],
+          'system.subtype': ['weapon']
+        }
+      break;
+
+      case 'hirelings':
+        this.view = 'creatures';
+        this.searchFilters = {
+          sourceCompendia: ['weirdwizard.hirelings'],
+          'type': ['npc']
+        }
+      break;
+
+      /* Character Option Presets */
+      case 'ancestries':
+        this.view = 'ancestries';
+        this.searchFilters = {
+          'type': ['ancestry']
+        }
+      break;
+
+      case 'professions':
+        this.view = 'professions';
+        this.searchFilters = {
+          'type': ['profession']
+        }
+      break;
+
+      case 'novice':
+        this.view = 'paths';
+        this.searchFilters = {
+          'type': ['path'],
+          'system.tier': ['novice']
+        }
+      break;
+
+      case 'expert':
+        this.view = 'paths';
+        this.searchFilters = {
+          'type': ['path'],
+          'system.tier': ['expert']
+        }
+      break;
+
+      case 'master':
+        this.view = 'paths';
+        this.searchFilters = {
+          'type': ['path'],
+          'system.tier': ['master']
+        }
+      break;
+
+      case 'traditions':
+        this.view = 'traditions';
+        this.searchFilters = {
+          'type': ['tradition']
+        }
+      break;
+
+      /* Other Presets */
+      case 'creatures':
+        this.view = 'creatures';
+        this.searchFilters = {
+          'type': ['npc']
+        }
+      break;
+
+      case 'talents':
+        this.view = 'talents';
+        this.searchFilters = {
+          'type': ['talent']
+        }
+      break;
+      
+      case 'spells':
+        this.view = 'spells';
+        this.searchFilters = {
+          'type': ['spell']
+        }
+      break;
+      
+    }
+    
+    return this.view;
   }
 
   /* -------------------------------------------- */
 
-  /** Handles the `change` event for a type filter checkbox. */
-  _onFilterChange(type, selected) {
-    const typeEntry = this.allFilters.find((t2) => t2.id === type);
-    if (typeEntry) typeEntry.selected = selected;
-    void this.render({ parts: [this.activeTab === "Settings" ? "settings" : "results"] });
+  /* Returns a data object containing arrays of filter's value and label */
+  get filtersData () {
+    const filters = {};
+
+    // Document Type
+    filters['type'] = [];
+    const docTypes = [CONFIG.Actor, CONFIG.Item, CONFIG.JournalEntryPage];
+    const ignoredDocs = ['base', 'group', 'Ancestry', 'Profession', 'Path', 'text', 'image', 'pdf', 'video'];
+    
+    docTypes.forEach(type => {
+      for (const typeKey in type.typeLabels) {
+        if (ignoredDocs.includes(typeKey)) continue;
+
+        filters['type'].push({
+          value: typeKey,
+          label: i18n(type.typeLabels[typeKey]),
+          //group: type.documentClass.documentName
+        })
+      }
+    })
+
+    // Tier
+    filters['system.tier'] = [];
+    const tiers = ['novice', 'expert', 'master'];
+
+    for (const filterKey of tiers) {
+      filters['system.tier'].push({
+        value: filterKey,
+        label: i18n(CONFIG.WW.TIERS[filterKey])
+      })
+    }
+
+    console.log(filters)
+
+    return filters;
+  }
+
+  /* -------------------------------------------- */
+  /*  Event Listeners and Handlers                */
+  /* -------------------------------------------- */
+
+  /** @inheritDoc */
+  _attachPartListeners(partId, element, options) {
+    super._attachPartListeners(partId, element, options);
+    if ( partId === "sidebar" ) {
+      const searchInput = this.element.querySelector("input[type=search]");
+      searchInput.addEventListener("input", (event) => this.#onSearch(event));
+    }
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * @param {PointerEvent} event - The originating click event
+  */
+  #onSearch(event) {
+    event.preventDefault();
+    this.searchQuery = event.target.value;
+    this.render({parts: ['view']});
   }
 
   /* -------------------------------------------- */
@@ -711,12 +752,11 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
    * @returns {Promise<void>}
    */
   static async #onSubmit(event, form, formData) {
-    const obj = foundry.utils.expandObject(formData.object);
-    
-    // Save view and filters
-    this.view = obj.view;
-    this.filters = obj.filters;
-    this.searchQuery = obj.searchQuery;
+    const {view, searchQuery, ...filters} = formData.object;
+
+    this.view = view;
+    this.searchQuery = searchQuery;
+    this.searchFilters = filters;
     
     return this.render();
   }
@@ -856,25 +896,24 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     this.#view = CompendiumIndex.#DEFAULT_VIEW = value;
   }
 
-  #filters = [];
+  #searchFilters = [];
 
-  get filters() {
-    return this.#filters;
+  get searchFilters() {
+    return this.#searchFilters;
   }
 
-  set filters(rawFilters) {
-    console.log(rawFilters)
-    const filters = [];
-
-    // Push document Type
-    filters.push({
-      field: 'type',
-      operator: SearchFilter.OPERATORS.CONTAINS,
-      value: rawFilters.type ?? Object.values(getDocumentTypeList()).map(x => x.value)
-    })
-    console.log(filters)
+  set searchFilters(raw) {
+    const searchFilters = [];
     
-    this.#filters = filters;
+    for (const [key, value] of Object.entries(raw)) {
+      searchFilters.push({
+        field: key,
+        operator: SearchFilter.OPERATORS.CONTAINS,
+        value: value ?? this.filtersData[key].map(x => x.value)
+      })
+    }
+    
+    this.#searchFilters = searchFilters;
   }
 
   /**

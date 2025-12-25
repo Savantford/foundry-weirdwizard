@@ -243,29 +243,6 @@ export function getCompendiumList () {
   return compendiumList;
 };
 
-/* Return a list of Compendia with a prefix included */
-export function getDocumentTypeList (DocumentType) {
-  const typeList = {};
-
-  const docs = DocumentType ? CONFIG[DocumentType] : [CONFIG.Actor, CONFIG.Item, CONFIG.JournalEntryPage];
-  const ignoredDocs = ['base', 'group', 'Ancestry', 'Profession', 'Path', 'text', 'image', 'pdf', 'video'];
-  
-  docs.forEach(doc => {
-    for (const typeKey in doc.typeLabels) {
-      if (ignoredDocs.includes(typeKey)) continue;
-
-      typeList[typeKey] = {
-        value: typeKey,
-        label: i18n(doc.typeLabels[typeKey]),
-        //group: doc.documentClass.documentName
-      }
-    }
-
-  })
-
-  return typeList;
-};
-
 /* Return a list of Folders */
 export function getFolderList(compendium) {
   const folderList = {};
