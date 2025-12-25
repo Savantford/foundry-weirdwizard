@@ -250,7 +250,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       /* Equipment Views */
       'equipment': ['system.subtype', 'system.availability'],
       'armor': ['system.armorType', 'system.availability'],
-      'weapons': ['system.availability', 'system.grip', 'system.damage', 'system.traits'],
+      'weapons': ['system.availability', 'system.grip', 'system.traits'],
 
       /* Character Option Views */
       'ancestries': [],
@@ -476,8 +476,13 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         doc.system.gripLabel = CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip] ? i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip]) : doc.system.grip;
       }
 
+      // Get source
+      if (doc.type === 'talent') {
+        doc.sourceLabel = i18n(CONFIG.WW.TALENT_SOURCE_LABELS[doc.system.source]);
+      }
+
       // Get Tier
-      if (doc.type === 'path') {
+      if (doc.type === 'path' || doc.type === 'spell') {
         doc.tierLabel = i18n(CONFIG.WW.TIERS[doc.system.tier]);
       }
 
@@ -1002,7 +1007,18 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       'system.price',
       'system.grip',
       'system.damage',
-      'system.traits'
+      'system.traits',
+      // Talent specific
+      'system.source',
+      'system.magical',
+      'system.uses.max',
+
+      // Spell specific
+      'system.tier',
+      'system.tradition',
+      'system.casting',
+      'system.target',
+      'system.duration'
     ];
 
     // Journal Entries

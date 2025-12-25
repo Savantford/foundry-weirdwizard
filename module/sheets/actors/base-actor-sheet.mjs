@@ -146,6 +146,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       i.system.descriptionEnriched = await TextEditor.enrichHTML(i.system.description, { secrets: isOwner });
       if (i.system.attackRider) i.system.attackRiderEnriched = await TextEditor.enrichHTML(i.system.attackRider.value, { secrets: isOwner });
       i.subtypeLabel = CONFIG.WW.EQUIPMENT_SUBTYPES[i.system.subtype];
+      i.sourceLabel = CONFIG.WW.TALENT_SOURCES[i.system.source];
 
       // Prepare tooltip context
       const tooltipContext = {

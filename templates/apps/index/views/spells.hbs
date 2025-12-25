@@ -4,6 +4,13 @@
     <li class="item flexrow items-header">
         <div class="item-image"></div>
         <div class="item-name">{{localize "WW.Item.Name"}}</div>
+
+        <div class="item-fixed">{{localize "WW.Item.Tier"}}</div>
+        <div class="item-fixed">{{localize "WW.Spell.Tradition"}}</div>
+        <div>{{localize "WW.Spell.Castings"}}</div>
+        <div>{{localize "WW.Spell.Target"}}</div>
+        <div>{{localize "WW.Spell.Duration"}}</div>
+        <div class="item-last">{{localize "WW.Item.Description"}}</div>
     </li>
 
     {{!-- Rows --}}
@@ -17,6 +24,13 @@
             <div class="item-name">
                 <a data-action="openSheet" data-item-uuid="{{doc.uuid}}" data-tooltip="{{doc.tooltip}}">{{doc.name}}</a>
             </div>
+
+            <div class="item-fixed">{{doc.tierLabel}}</div>
+            <div class="item-fixed">{{doc.system.tradition}}</div>
+            <div>{{doc.system.uses.max}}{{#if doc.system.casting}}, {{doc.system.casting}}{{/if}}</div>
+            <div>{{doc.system.target}}</div>
+            <div>{{doc.system.duration}}</div>
+            <div class="item-last">{{{doc.system.descriptionEnriched}}}</div>
 
         </li>
         {{/each}}
