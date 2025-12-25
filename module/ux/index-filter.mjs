@@ -46,7 +46,10 @@ export default class IndexFilter extends foundry.applications.ux.SearchFilter {
           return (docValue === filterValue);
       }
     };
-    const result = evaluate();
+
+    // If value is undefined, set result to true
+    const result = docValue === undefined ? true : evaluate();
+    
     return filter.negate ? !result : result;
   }
 }

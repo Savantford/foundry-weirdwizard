@@ -243,18 +243,12 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       options: Object.values(getCompendiumList())
     })
 
-    const filterRef = {
-      'type': "WW.Index.Filters.DocumentType",
-      'system.tier': "WW.Item.Tier"
-    }
-
-    for (const [key, loc] of Object.entries(filterRef)) {
-      const filterData = await this.filtersData[key];
-      const appliedFilter = foundry.utils.getProperty(appliedFilters, key);
+    for (const [filterKey, filterData] of Object.entries(this.filtersData)) {
+      const appliedFilter = foundry.utils.getProperty(appliedFilters, filterKey);
       
       context.filters.push({
-        name: key,
-        title: i18n(loc),
+        name: filterKey,
+        title: i18n(CONFIG.WW.COMPENDIUM_INDEX_FILTER_LABELS[filterKey]),
         value: appliedFilter ?? filterData?.map(x => x.value),
         options: filterData
       })
@@ -688,14 +682,16 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     })
 
     // Tier
-    filters['system.tier'] = [];
-    const tiers = ['novice', 'expert', 'master'];
+    if (['paths', 'spells'].includes(this.view)) {
+      filters['system.tier'] = [];
+      const tiers = ['novice', 'expert', 'master'];
 
-    for (const filterKey of tiers) {
-      filters['system.tier'].push({
-        value: filterKey,
-        label: i18n(CONFIG.WW.TIERS[filterKey])
-      })
+      for (const filterKey of tiers) {
+        filters['system.tier'].push({
+          value: filterKey,
+          label: i18n(CONFIG.WW.TIERS[filterKey])
+        })
+      }
     }
 
     console.log(filters)

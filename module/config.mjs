@@ -975,6 +975,11 @@ WW.COMPENDIUM_INDEX_PRESET_LABELS = {
   'spells': 'WW.Spells.Label'
 };
 
+WW.COMPENDIUM_INDEX_FILTER_LABELS = {
+  'type': "WW.Index.Filters.DocumentType",
+  'system.tier': "WW.Item.Tier"
+};
+
 WW.COMPENDIUM_GROUPS = {
   'system': 'WW.System.Compendium.Group.Core',
   'world': 'WW.System.Compendium.Group.World',
