@@ -240,17 +240,41 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       name: 'sourceCompendia',
       title: i18n("WW.Index.Filters.SourceCompendia"),
       value: appliedFilters?.sourceCompendia ?? Object.values(getCompendiumList()).map(x => x.value),
-      options: Object.values(getCompendiumList())
+      options: Object.values(getCompendiumList()),
+      hidden: false
     })
 
+    const viewFilters = {
+      'generic': [],
+
+      /* Equipment Views */
+      'equipment': ['system.subtype', 'system.availability'],
+      'armor': ['system.armorType', 'system.availability'],
+      'weapons': ['system.availability', 'system.grip', 'system.damage', 'system.traits'],
+
+      /* Character Option Views */
+      'ancestries': [],
+      'paths': ['system.tier'],
+      'professions': [],
+      'traditions': [],
+
+      /* Other */
+      'creatures': [],
+      'talents': [],
+      'spells': ['system.tier']
+    }
+
+    // Render Other filters
     for (const [filterKey, filterData] of Object.entries(this.filtersData)) {
       const appliedFilter = foundry.utils.getProperty(appliedFilters, filterKey);
       
+      // Add filter only if view requires it
       context.filters.push({
         name: filterKey,
         title: i18n(CONFIG.WW.COMPENDIUM_INDEX_FILTER_LABELS[filterKey]),
         value: appliedFilter ?? filterData?.map(x => x.value),
-        options: filterData
+        options: filterData,
+        hidden: filterKey === 'type' ? false : !viewFilters[this.view].includes(filterKey)
       })
 
     }
@@ -259,6 +283,8 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   /* -------------------------------------------- */
 
   async _prepareDisplayedDocuments(context) {
+    const searchResults = this.search({ query: this.searchQuery, filters: this.searchFilters });
+
     // Prepare pagination
     /*let pages = [];
 
@@ -310,7 +336,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     await loadAllUsers();
     console.log(await pages)
     console.log(docList)*/
-    const searchResults = this.search({ query: this.searchQuery, filters: this.searchFilters });
+
     context.documents = searchResults;
   }
 
@@ -484,7 +510,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     
     // Iterate over all index members or documents
     const results = [];
-    console.log(filters)
+    
     for ( const doc of this.allDocuments ) {
       if ( exclude.includes(doc._id) ) continue; // Explicitly exclude this document
       let matched = !query;
@@ -681,20 +707,33 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       }
     })
 
-    // Tier
-    if (['paths', 'spells'].includes(this.view)) {
-      filters['system.tier'] = [];
-      const tiers = ['novice', 'expert', 'master'];
+    // Other Filters
+    const L = CONFIG.WW;
+    const filtersRef = {
+      'system.tier': {
+        views: ['paths', 'spells'],
+        locMap: L.TIERS
+      },
 
-      for (const filterKey of tiers) {
-        filters['system.tier'].push({
-          value: filterKey,
-          label: i18n(CONFIG.WW.TIERS[filterKey])
-        })
+      // Weapons view
+      'system.grip': {
+        views: ['weapons'],
+        locMap: L.WEAPON_GRIPS
       }
     }
 
-    console.log(filters)
+    // Add View-specific filters
+    for (const filterKey in filtersRef) {
+      const { views, locMap } = filtersRef[filterKey];
+      filters[filterKey] = [];
+
+      for (const [key, loc] of Object.entries(locMap)) {
+        filters[filterKey].push({
+          value: key,
+          label: i18n(loc)
+        })
+      }
+    }
 
     return filters;
   }

@@ -20,10 +20,12 @@
     {{!-- Filters Section --}}
     <div class="filters">
       {{#each filters as |filter key|}}
-      <div class="filter">
-        <div class="title">{{ filter.title }}</div>
-        {{formInput @root.fields.set type="checkboxes" options=filter.options name=filter.name value=filter.value}}
+      {{#with filter}}
+      <div class="filter{{#if hidden}} hidden{{/if}}">
+        <div class="title">{{ title }}</div>
+        {{formInput @root.fields.set type="checkboxes" options=options name=name value=value}}
       </div>
+      {{/with}}
       {{/each}}
     </div>
   </div>

@@ -977,7 +977,9 @@ WW.COMPENDIUM_INDEX_PRESET_LABELS = {
 
 WW.COMPENDIUM_INDEX_FILTER_LABELS = {
   'type': "WW.Index.Filters.DocumentType",
-  'system.tier': "WW.Item.Tier"
+  'system.tier': "WW.Item.Tier",
+  'system.grip': "WW.Weapon.Grip.Label",
+  'system.traits': "WW.Weapon.Traits.Label"
 };
 
 WW.COMPENDIUM_GROUPS = {

@@ -12,8 +12,7 @@ export default class IndexFilter extends foundry.applications.ux.SearchFilter {
   static evaluateFilter(obj, filter) {
     const docValue = foundry.utils.getProperty(obj, filter.field);
     const filterValue = filter.value;
-    console.log(filter)
-    console.log(docValue)
+    
     const evaluate = () => {
       switch (filter.operator) {
         case SearchFilter.OPERATORS.EQUALS:
@@ -48,6 +47,10 @@ export default class IndexFilter extends foundry.applications.ux.SearchFilter {
     };
 
     // If value is undefined, set result to true
+    /*if (filter.field === 'system.grip' && ['One', 'Off', 'Two', 'Natural'].includes(docValue)) {
+      console.log(obj.name)
+      console.log(filter.field, docValue)
+    }*/
     const result = docValue === undefined ? true : evaluate();
     
     return filter.negate ? !result : result;
