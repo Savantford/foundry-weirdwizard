@@ -4,7 +4,18 @@
     <li class="item flexrow items-header">
         <div class="item-image"></div>
         <div class="item-name">{{localize "WW.Item.Name"}}</div>
-        <div>{{localize "WW.Item.Tier"}}</div>
+
+        <div>{{localize "WW.ListEntry.Descriptor.Label"}}</div>
+        <div>{{localize "WW.ListEntry.Sense.Label"}}</div>
+        <div>{{localize "WW.ListEntry.Language.Label"}}</div>
+        
+        <div class="item-fixed">{{localize "WW.Health.Label"}}</div>
+        <div class="item-fixed">{{localize "WW.Defense.Label"}}</div>
+        <div class="item-fixed">{{localize "WW.Stats.Size"}}</div>
+        <div>{{localize "WW.Stats.Speed"}}</div>
+
+        <div>{{localize "WW.ListEntry.Immunity.Label"}}</div>
+        <div class="item-last">{{localize "WW.Weapon.Traits.Label"}}</div>
     </li>
 
     {{!-- Rows --}}
@@ -19,8 +30,71 @@
                 <a data-action="openSheet" data-item-uuid="{{doc.uuid}}" data-tooltip="{{doc.tooltip}}">{{doc.name}}</a>
             </div>
 
-            {{!-- Tier --}}
-            <div>{{doc.tierLabel}}</div>
+            {{!-- Descriptors --}}
+            <div>
+                <ol>
+                {{#each system.benefits.benefit1.descriptors as |descriptor|}}
+                    <li class="info" data-tooltip="{{descriptor.desc}}">{{ descriptor.name }}</li>
+                {{/each}}
+                </ol>
+            </div>
+
+            {{!-- Senses --}}
+            <div>
+                <ol>
+                {{#each system.benefits.benefit1.senses as |sense|}}
+                    <li class="info" data-tooltip="{{sense.desc}}">{{ sense.name }}</li>
+                {{/each}}
+                </ol>
+            </div>
+
+            {{!-- Languages --}}
+            <div>
+                <ol>
+                {{#each system.benefits.benefit1.languages as |language|}}
+                    <li class="info" data-tooltip="{{language.desc}}">{{ language.name }}</li>
+                {{/each}}
+                </ol>
+            </div>
+
+            {{!-- Stats --}}
+            {{#with system.benefits.benefit1.stats}}
+            <div class="item-fixed">{{#if healthIncrease}}{{numberFormat healthIncrease sign=true}}{{/if}}</div>
+            <div class="item-fixed">{{#if naturalIncrease}}{{numberFormat naturalIncrease sign=true}}{{/if}}</div>
+            <div class="item-fixed">{{sizeNormal}}</div>
+            {{/with}}
+
+            {{!-- Speed --}}
+            <div>
+                {{system.benefits.benefit1.stats.speedNormal}}
+
+                {{#if system.benefits.benefit1.movementTraits}}
+                (<ol>
+                {{#each system.benefits.benefit1.movementTraits as |movementTrait|}}
+                    <li class="info" data-tooltip="{{movementTrait.desc}}">{{ movementTrait.name }}</li>
+                {{/each}}
+                </ol>)
+                {{/if}}
+            </div>
+
+            {{!-- Immunities --}}
+            <div>
+                <ol>
+                {{#each system.benefits.benefit1.immunities as |immunity|}}
+                    <li class="info" data-tooltip="{{immunity.desc}}">{{ immunity.name }}</li>
+                {{/each}}
+                </ol>
+            </div>
+
+            {{!-- Traits --}}
+            <div class="item-last">
+                <ol>
+                {{#each system.benefits.benefit1.itemLinks as |link|}}
+                    <li>{{{ link }}}</li>
+                {{/each}}
+                </ol>
+            </div>
+
         </li>
         {{/each}}
     </ol>

@@ -501,9 +501,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
       // Prepare Item Links for Character Options
       if (doc.system.benefits) {
-        for (const [k, v] of Object.entries(doc.system.benefits ?? null)) {
-          console.log(k)
-          console.log(v)
+        for (const [k, v] of Object.entries(doc.system.benefits)) {
           v.itemLinks = [];
 
           for (const uuid of v.items) {

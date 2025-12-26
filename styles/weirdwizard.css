@@ -3967,7 +3967,6 @@ input[type="checkbox"].checkbox-uses {
   padding: 0;
   display: inline-flex;
   align-items: center;
-  vertical-align: text-bottom;
   line-height: normal;
 }
 
@@ -4813,6 +4812,16 @@ details.document-card .card-header:hover::after {
 
         .item:first-of-type {
           padding-top: 5px;
+        }
+
+        ol {
+          display: inline-flex;
+          flex-flow: wrap;
+          gap: 5px;
+
+          > li:not(:last-of-type)::after {
+            content: ", ";
+          }
         }
       }
     }
