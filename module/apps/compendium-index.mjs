@@ -420,7 +420,9 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     for (const [d, doc] of Object.entries(docList)) {
       // Assign Journal Entry Page specific fields to corresponding Actor/Item fields
       if (doc.src) doc.img = doc.src;
-      doc.system.descriptionEnriched = await TextEditor.enrichHTML(doc.text ? doc.text.content : doc.system.description, { secrets: doc.isOwner });
+      doc.system.descriptionEnriched = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+        doc.text ? doc.text.content : doc.system.description, { secrets: doc.isOwner }
+      );
 
       // Get type and subtype labels
       doc.typeLabel = i18n(CONFIG[doc.documentName].typeLabels[doc.type]);
@@ -489,6 +491,13 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       // Get Profession Category
       if (doc.type === 'profession') {
         doc.professionCategory = i18n(CONFIG.WW.PROFESSION_CATEGORIES[doc.system.category]);
+      }
+
+      // Get NPC Folder
+      if (doc.type === 'npc' && doc.folder) {
+        const npc = await fromUuid(doc.uuid);
+        doc.folderLabel = npc.folder.name;
+        console.log(npc)
       }
 
     }
@@ -955,7 +964,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     for (const [key, value] of Object.entries(raw)) {
       searchFilters.push({
         field: key,
-        operator: SearchFilter.OPERATORS.CONTAINS,
+        operator: foundry.applications.ux.SearchFilter.OPERATORS.CONTAINS,
         value: value ?? this.filtersData[key].map(x => x.value)
       })
     }
@@ -1026,7 +1035,21 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   static defineCompendiumIndexFields() {
     // Actors
     CONFIG.Actor.compendiumIndexFields = [
-      'system.description'
+      'system.description',
+      'folder',
+      // Attributes
+      'system.attributes.str.value',
+      'system.attributes.agi.value',
+      'system.attributes.int.value',
+      'system.attributes.wil.value',
+      // Stats
+      'system.stats.difficulty',
+      'system.stats.defense.natural',
+      'system.stats.health.normal',
+      'system.stats.size',
+      'system.stats.speed.normal',
+      // List Entries
+      'system.listEntries'
     ];
 
     // Items

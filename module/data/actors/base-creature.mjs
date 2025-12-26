@@ -39,7 +39,7 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
           max: makeIntField()
         }),
 
-        size: makeFloField(),
+        size: makeFloField(1),
 
         speed: new fields.SchemaField({
           normal: makeIntField(5),

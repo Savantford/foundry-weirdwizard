@@ -1,7 +1,8 @@
+const SearchFilter = foundry.applications.ux.SearchFilter;
 /**
  * A controller class for managing a text input widget that filters the contents of some other UI element.
  */
-export default class IndexFilter extends foundry.applications.ux.SearchFilter {
+export default class IndexFilter extends SearchFilter {
 
   /**
    * Test whether a given object matches a provided filter
@@ -47,12 +48,13 @@ export default class IndexFilter extends foundry.applications.ux.SearchFilter {
     };
 
     // If value is undefined, set result to true
-    /*if (filter.field === 'system.grip' && ['One', 'Off', 'Two', 'Natural'].includes(docValue)) {
+    /*if (filter.field === 'system.grip' && ['One-Handed', 'Off', 'Two', 'Natural'].includes(docValue)) {
       console.log(obj.name)
       console.log(filter.field, docValue)
     }*/
+  
     const result = docValue === undefined ? true : evaluate();
-    
+    //if (filter.field === 'system.grip' && docValue && !result) console.log(obj.name, docValue, result)
     return filter.negate ? !result : result;
   }
 }
