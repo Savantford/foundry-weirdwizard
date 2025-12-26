@@ -218,31 +218,6 @@ export function getAlias({scene, actor, token, alias}={}) {
   return game.weirdwizard.utils.getSpeaker({ scene, actor, token, alias })?.alias;
 }
 
-/* Return a list of Compendia with a prefix included */
-export function getCompendiumList () {
-  const compendiumList = {};
-  const allowedTypes = ["Actor", "Item", "JournalEntry"];
-
-  for (const pack of game.packs) {
-    const data = pack.metadata;
-    
-    if (!allowedTypes.includes(data.type)) continue; // Skip document types not allowed
-
-    // Package Name exists in the system's group list
-    const compGroups = CONFIG.WW.COMPENDIUM_GROUPS;
-    const group = Object.hasOwn(compGroups, data.packageName) ? compGroups[data.packageName] : compGroups[data.packageType];
-    
-    compendiumList[data.id] = {
-      value: data.id,
-      label: data.label,
-      group: i18n(group) ?? 'World'
-    }
-
-  }
-
-  return compendiumList;
-};
-
 /* Return a list of Folders */
 export function getFolderList(compendium) {
   const folderList = {};

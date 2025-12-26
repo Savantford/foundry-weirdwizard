@@ -1,4 +1,4 @@
-import { getCompendiumList, i18n } from '../helpers/utils.mjs';
+import { i18n } from '../helpers/utils.mjs';
 import IndexFilter from '../ux/index-filter.mjs';
 
 // Similar syntax to importing, but note that
@@ -216,7 +216,10 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     };
     
     // Prepare documents data
-    if (!this.allDocuments) this.allDocuments = await this.#fullDocumentData();
+    if (!this.sourceCompendia) this.sourceCompendia = this.getCompendiumArray().map(x => x.value);
+    if (!this.fullDocumentList) await this._updateFullDocumentData();
+
+    // Prepare layout elements
     await this._prepareFilterCheckboxes(context);
     await this._prepareDisplayedDocuments(context);
     
@@ -235,15 +238,16 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       set: new fields.SetField(new fields.StringField())
     }
     
-    // Source Compendia
+    // Source Compendia filter
     context.filters.push({
       name: 'sourceCompendia',
       title: i18n("WW.Index.Filters.SourceCompendia"),
-      value: appliedFilters?.sourceCompendia ?? Object.values(getCompendiumList()).map(x => x.value),
-      options: Object.values(getCompendiumList()),
+      value: this.sourceCompendia ?? this.getCompendiumArray().map(x => x.value),
+      options: this.getCompendiumArray(),
       hidden: false
     })
 
+    // Create view filters reference
     const viewFilters = {
       'generic': [],
 
@@ -382,17 +386,13 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   /*  Core Functionality                          */
   /* -------------------------------------------- */
 
-  async #fullDocumentData() {
-    // Prepare documents list
+  async _updateFullDocumentData(sourceCompendia = this.sourceCompendia) {
     let docList = [];
     
-    // Convert filters to object of arrays
-    const filters = {};
-    this.searchFilters.forEach(x => filters[x.field] = x.value);
     const validTypes = this.filtersData['type'].map(x => x.value);
 
     for (const pack of game.packs) {
-      if (filters.sourceCompendia && !filters.sourceCompendia?.includes(pack.metadata.id)) continue;
+      if (sourceCompendia && !sourceCompendia?.includes(pack.metadata.id)) continue;
       
       // Get Journal Pages instead of Entries
       if (pack.metadata.type === "JournalEntry") {
@@ -493,7 +493,8 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
     }
 
-    return docList;
+    // Update full document list
+    this.fullDocumentList = docList;
   }
 
   /* -------------------------------------------- */
@@ -516,7 +517,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     // Iterate over all index members or documents
     const results = [];
     
-    for ( const doc of this.allDocuments ) {
+    for ( const doc of this.fullDocumentList ) {
       if ( exclude.includes(doc._id) ) continue; // Explicitly exclude this document
       let matched = !query;
 
@@ -792,11 +793,17 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
    * @returns {Promise<void>}
    */
   static async #onSubmit(event, form, formData) {
-    const {view, searchQuery, ...filters} = formData.object;
+    const {view, searchQuery, sourceCompendia, ...filters} = formData.object;
 
     this.view = view;
     this.searchQuery = searchQuery;
     this.searchFilters = filters;
+
+    // Update full document data if it does not exist
+    if (sourceCompendia !== this.sourceCompendia) {
+      this.sourceCompendia = sourceCompendia;
+      await this._updateFullDocumentData(sourceCompendia);
+    }
     
     return this.render();
   }
@@ -967,6 +974,32 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   /* -------------------------------------------- */
   /*  Utility Methods                             */
   /* -------------------------------------------- */
+
+  
+  /* Returns an array of compendia UUIDs */
+  getCompendiumArray () {
+    const arr = [];
+    const allowedTypes = ["Actor", "Item", "JournalEntry"];
+
+    for (const pack of game.packs) {
+      const data = pack.metadata;
+      
+      if (!allowedTypes.includes(data.type)) continue; // Skip document types not allowed
+
+      // Package Name exists in the system's group list
+      const compGroups = CONFIG.WW.COMPENDIUM_GROUPS;
+      const group = Object.hasOwn(compGroups, data.packageName) ? compGroups[data.packageName] : compGroups[data.packageType];
+      
+      arr.push({
+        value: data.id,
+        label: data.label,
+        group: i18n(group) ?? 'World'
+      })
+
+    }
+
+    return arr;
+  };
 
   /**
    * Adapted from D&D 5e system's code. Thank you!
