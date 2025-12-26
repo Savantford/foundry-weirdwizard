@@ -3,24 +3,51 @@
     <li class="item flexrow items-header">
         <div class="item-image"></div>
         <div class="item-name" data-action="renderItem">{{localize "WW.Item.Name"}}</div>
+
         <div class="item-fixed">{{localize "WW.Profession.Category"}}</div>
+        <div>{{localize "WW.ListEntry.Language.Bonus"}}</div>
+        <div>{{localize "TYPES.Item.equipment"}}</div>
+        <div class="item-last">{{localize "WW.Item.Description"}}</div>
+
     </li>
 
     {{!-- Rows --}}
     <ol class="item-list">
         {{#each documents as |doc id|}}
-        <li class="item flexrow flex-group-left" data-item-id="{{doc._id}}">
+        {{#with doc}}
+        <li class="item flexrow flex-group-left" data-item-id="{{_id}}">
             {{!-- Icon --}}
-            <div class="item-image"><img src="{{doc.img}}" data-tooltip="{{doc.name}}" width="24" height="24" /></div>
+            <div class="item-image"><img src="{{img}}" data-tooltip="{{name}}" width="24" height="24" /></div>
 
             {{!-- Name --}}
             <div class="item-name">
-                <a data-action="openSheet" data-item-uuid="{{doc.uuid}}" data-tooltip="{{doc.tooltip}}">{{doc.name}}</a>
+                <a data-action="openSheet" data-item-uuid="{{uuid}}" data-tooltip="{{tooltip}}">{{name}}</a>
             </div>
 
-            {{!-- Tier --}}
-            <div class="item-fixed">{{doc.professionCategory}}</div>
+            <div class="item-fixed">{{professionCategory}}</div>
+
+            {{!-- Bonus Languages --}}
+            <div>
+                <ol>
+                {{#each system.benefits.benefit1.languages as |language|}}
+                    <li class="info" data-tooltip="{{language.desc}}">{{ language.name }}</li>
+                {{/each}}
+                </ol>
+            </div>
+
+            {{!-- Equipment --}}
+            <div>
+                <ol>
+                {{#each system.benefits.benefit1.itemLinks as |link|}}
+                    <li>{{{ link }}}</li>
+                {{/each}}
+                </ol>
+            </div>
+
+            {{!-- Description --}}
+            <div class="item-last">{{{ system.descriptionEnriched }}}</div>
         </li>
+        {{/with}}
         {{/each}}
     </ol>
 

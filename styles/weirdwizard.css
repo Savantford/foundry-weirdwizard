@@ -2260,10 +2260,6 @@ hr.bug {
 }
 
 .weirdwizard .weapon-traits {
-  > span {
-    cursor: help;
-  }
-
   > span:not(:last-of-type)::after {
     content: ", ";
   }

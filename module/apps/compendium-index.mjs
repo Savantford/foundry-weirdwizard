@@ -497,9 +497,21 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       if (doc.type === 'npc' && doc.folder) {
         const npc = await fromUuid(doc.uuid);
         doc.folderLabel = npc.folder.name;
-        console.log(npc)
       }
 
+      // Prepare Item Links for Character Options
+      if (doc.system.benefits) {
+        for (const [k, v] of Object.entries(doc.system.benefits ?? null)) {
+          console.log(k)
+          console.log(v)
+          v.itemLinks = [];
+
+          for (const uuid of v.items) {
+            v.itemLinks.push(await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${uuid}]`, { secrets: doc.isOwner }));
+          }
+          
+        }
+      }
     }
 
     // Update full document list
@@ -1084,7 +1096,9 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       'pages.src',
       'pages.text',
       'pages.system.tier',
-      'pages.system.category'
+      'pages.system.category',
+      'pages.system.listEntries',
+      'pages.system.benefits'
     ];
   }
 }

@@ -40,7 +40,7 @@
             <div class="item-traits weapon-traits">
                 {{#each @root.weaponTraits as |trait id|}}
                     {{#if (lookup doc.system.traits id)}}
-                    <span data-tooltip="{{trait.tip}}">{{localize trait.label}}{{#if (or (eq id "range") (eq id "thrown"))}} {{doc.system.range}}{{/if}}</span>
+                    <span class="info" data-tooltip="{{trait.tip}}">{{localize trait.label}}{{#if (or (eq id "range") (eq id "thrown"))}} {{doc.system.range}}{{/if}}</span>
                     {{/if}}
                 {{/each}}
             </div>
