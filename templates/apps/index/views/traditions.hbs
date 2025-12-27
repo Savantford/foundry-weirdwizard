@@ -4,7 +4,11 @@
     <li class="item flexrow items-header">
         <div class="item-image"></div>
         <div class="item-name">{{localize "WW.Item.Name"}}</div>
-        <div>{{localize "WW.Item.Tier"}}</div>
+
+        <div>{{localize "WW.Tradition.Talents"}}</div>
+        <div>{{localize "WW.Spells.Novice"}}</div>
+        <div>{{localize "WW.Spells.Expert"}}</div>
+        <div>{{localize "WW.Spells.Master"}}</div>
     </li>
 
     {{!-- Rows --}}
@@ -19,8 +23,26 @@
                 <a data-action="openSheet" data-item-uuid="{{doc.uuid}}" data-tooltip="{{doc.tooltip}}">{{doc.name}}</a>
             </div>
 
-            {{!-- Tier --}}
-            <div>{{doc.tierLabel}}</div>
+            {{!-- Talents --}}
+            <div>
+                <ol>
+                {{#each talentLinks as |link|}}
+                    <li>{{{ link }}}</li>
+                {{/each}}
+                </ol>
+            </div>
+
+            {{!-- Spells --}}
+            {{#each spellLinks as |spells|}}
+            <div>
+                <ol>
+                {{#each spells as |link|}}
+                    <li>{{{ link }}}</li>
+                {{/each}}
+                </ol>
+            </div>
+            {{/each}}
+            
         </li>
         {{/each}}
     </ol>

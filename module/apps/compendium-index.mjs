@@ -478,37 +478,48 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         doc.system.gripLabel = CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip] ? i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip]) : doc.system.grip;
       }
 
-      // Get source
+      // Prepare Trait & Talent specifics
       if (doc.type === 'talent') {
-        doc.sourceLabel = i18n(CONFIG.WW.TALENT_SOURCE_LABELS[doc.system.source]);
+        doc.talentTypeLabel = doc.system.source === 'none'
+        ? `${i18n("TYPES.Actor.npc")}: ${i18n(CONFIG.WW.TALENT_SUBTYPES[doc.system.subtype])}`
+        : i18n(CONFIG.WW.TALENT_SOURCE_LABELS[doc.system.source]);
+        
+        // Prepare Used By Links
+        doc.usedByLinks = [];
+        
+        if (doc.system.usedBy) {
+          for (const uuid of doc.system.usedBy) {
+            console.log(uuid)
+            doc.usedByLinks.push(await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${uuid}]`, { secrets: doc.isOwner }));
+          }
+        }
+        
       }
 
-      // Get Tier
+      // Prepare Tier
       if (doc.type === 'path' || doc.type === 'spell') {
         doc.tierLabel = i18n(CONFIG.WW.TIERS[doc.system.tier]);
       }
 
-      
-
-      // Get NPC Folder
+      // Prepare NPC specifics
       if (doc.type === 'npc' && doc.folder) {
         const npc = await fromUuid(doc.uuid);
         doc.folderLabel = npc.folder.name;
       }
 
-      // Prepare Item Links for Character Options
-      if (doc.system.benefits) {
+      // Prepare Ancestry specifics
+      if (doc.type === 'ancestry') {
         for (const [k, v] of Object.entries(doc.system.benefits)) {
-          v.itemLinks = [];
+          v.traitLinks = [];
 
           for (const uuid of v.items) {
-            v.itemLinks.push(await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${uuid}]`, { secrets: doc.isOwner }));
+            v.traitLinks.push(await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${uuid}]`, { secrets: doc.isOwner }));
           }
           
         }
       }
 
-      // Prepare Path Benefits
+      // Prepare Path specifics
       if (doc.type === 'path') {
         const bs = {
           natural: '',
@@ -563,9 +574,45 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         doc.benefitsSummary = bs;
       }
 
-      // Get Profession Category
+      // Prepare Profession specifics
       if (doc.type === 'profession') {
         doc.professionCategory = i18n(CONFIG.WW.PROFESSION_CATEGORIES[doc.system.category]);
+
+        // Prepare Equipment Links
+        for (const [k, v] of Object.entries(doc.system.benefits)) {
+          v.equipmentLinks = [];
+
+          for (const uuid of v.items) {
+            v.equipmentLinks.push(await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${uuid}]`, { secrets: doc.isOwner }));
+          }
+          
+        }
+      }
+
+      // Prepare Tradition specifics
+      if (doc.type === 'tradition') {
+        // Prepare Talent Links
+        doc.talentLinks = [];
+
+        for (const uuid of doc.system.talents) {
+          doc.talentLinks.push(await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${uuid}]`, { secrets: doc.isOwner }));
+        }
+
+        // Prepare Spell Links for each Tier
+        doc.spellLinks = {
+          novice: [],
+          expert: [],
+          master: []
+        }
+
+        for (const [k, v] of Object.entries(doc.system.spells)) {
+          doc.spellLinks[k] = [];
+
+          for (const uuid of v) {
+            doc.spellLinks[k].push(await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${uuid}]`, { secrets: doc.isOwner }));
+          }
+
+        }
       }
     }
 
@@ -1136,7 +1183,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       'system.source',
       'system.magical',
       'system.uses.max',
-
+      'system.usedBy',
       // Spell specific
       'system.tier',
       'system.tradition',
@@ -1154,7 +1201,9 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       'pages.system.tier',
       'pages.system.category',
       'pages.system.listEntries',
-      'pages.system.benefits'
+      'pages.system.benefits',
+      'pages.system.talents',
+      'pages.system.spells'
     ];
   }
 }
