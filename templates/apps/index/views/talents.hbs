@@ -6,7 +6,7 @@
 
         <div class="item-fixed">{{localize "WW.Item.Type"}}</div>
         <div class="item-fixed">{{localize "WW.Talent.Magical"}}</div>
-        <div class="item-fixed">{{localize "WW.Talent.Uses"}}</div>
+        <div>{{localize "WW.Talent.Uses"}}</div>
         <div class="item-last">{{localize "WW.Item.Description"}}</div>
     </li>
 
@@ -24,7 +24,7 @@
 
             <div class="item-fixed">{{doc.sourceLabel}}</div>
             <div class="item-fixed"><i class="fa-solid {{#if doc.system.magical}}fa-check{{else}}fa-xmark-large{{/if}}"></i></div>
-            <div class="item-fixed">{{#if (eq doc.system.uses.max 0)}}<span style="font-size: large">∞</span>{{else}}{{doc.system.uses.max}}{{/if}}</div>
+            <div>{{#if (eq doc.system.uses.max 0)}}<span style="font-size: large">∞</span>{{else}}{{doc.system.uses.max}}{{/if}}</div>
             <div class="item-last">{{{doc.system.descriptionEnriched}}}</div>
 
         </li>

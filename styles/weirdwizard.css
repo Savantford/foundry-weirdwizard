@@ -2771,6 +2771,14 @@ hr.bug {
   flex: 0 0 65px;
 }
 
+.weirdwizard .item-summary {
+  flex: 0 0 75px;
+}
+
+.weirdwizard .item-stat {
+  flex: 0 0 51px;
+}
+
 .weirdwizard .item-last,
 .weirdwizard .item-traits {
   flex: 2.5;
@@ -3965,8 +3973,6 @@ input[type="checkbox"].checkbox-uses {
   color: var(--body-text-color);
   margin: 0;
   padding: 0;
-  display: inline-flex;
-  align-items: center;
   line-height: normal;
 }
 
@@ -4800,7 +4806,7 @@ details.document-card .card-header:hover::after {
 
       .items-header {
         border-image-width: 20px;
-        border-image-outset: 0 0.5em 0 calc(var(--compendium-sidebar-width) + 1.5em);
+        border-image-outset: 0 13px 0 calc(var(--compendium-sidebar-width) + 1.5em);
         padding: 2px calc(0.75rem + 8px) 2px 7px;
         filter: drop-shadow(0 1px 1px black);
       }

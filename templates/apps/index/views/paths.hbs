@@ -4,7 +4,16 @@
     <li class="item flexrow items-header">
         <div class="item-image"></div>
         <div class="item-name">{{localize "WW.Item.Name"}}</div>
-        <div>{{localize "WW.Item.Tier"}}</div>
+
+        <div class="item-fixed">{{localize "WW.Item.Tier"}}</div>
+
+        <div class="item-summary">{{localize "WW.Defense.Natural"}}</div>
+        <div class="item-summary">{{localize "WW.Defense.Armored"}}</div>
+        <div class="item-summary">{{localize "WW.Health.Label"}}</div>
+        <div class="item-summary">{{localize "WW.Damage.Bonus"}}</div>
+        <div class="item-summary">{{localize "WW.Stats.Speed"}}</div>
+
+        <div class="item-last">{{localize "WW.CharOptions.PathTalents"}}</div>
     </li>
 
     {{!-- Rows --}}
@@ -19,8 +28,15 @@
                 <a data-action="openSheet" data-item-uuid="{{doc.uuid}}" data-tooltip="{{doc.tooltip}}">{{doc.name}}</a>
             </div>
 
-            {{!-- Tier --}}
-            <div>{{doc.tierLabel}}</div>
+            <div class="item-fixed">{{ doc.tierLabel }}</div>
+
+            {{!-- Stats Summary --}}
+            <div class="item-summary">{{{ doc.benefitsSummary.natural }}}</div>
+            <div class="item-summary">{{{ doc.benefitsSummary.armored }}}</div>
+            <div class="item-summary">{{{ doc.benefitsSummary.health }}}</div>
+            <div class="item-summary">{{{ doc.benefitsSummary.bonusDamage }}}</div>
+            <div class="item-summary">{{{ doc.benefitsSummary.speed }}}</div>
+            <div class="item-last">{{{ doc.benefitsSummary.talents }}}</div>
         </li>
         {{/each}}
     </ol>

@@ -12,7 +12,7 @@
     
         <div class="item-fixed">{{localize "WW.Weapon.Type"}}</div>
         <div class="item-fixed">{{localize "WW.Weapon.Grip.Label"}}</div>
-        <div class="item-fixed">{{localize "WW.Damage.Label"}}</div>
+        <div class="item-stat">{{localize "WW.Damage.Label"}}</div>
         <div class="item-traits">{{localize "WW.Weapon.Traits.Label"}}</div>
     </li>
 
@@ -34,7 +34,7 @@
 
             <div class="item-fixed">{{#if doc.system.traits.range}}{{localize "WW.Weapon.Ranged"}}{{else}}{{localize "WW.Weapon.Melee"}}{{/if}}</div>
             <div class="item-fixed">{{localize doc.system.gripLabel}}</div>
-            <div class="item-fixed">{{doc.system.damage}}</div>
+            <div class="item-stat">{{doc.system.damage}}</div>
 
             {{!-- Traits --}}
             <div class="item-traits weapon-traits">

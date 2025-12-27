@@ -8,7 +8,7 @@
         <div class="item-fixed">{{localize "WW.Item.Type"}}</div>
         <div class="item-fixed">{{localize "WW.Equipment.Availability.Label"}}</div>
         <div class="item-fixed">{{localize "WW.Equipment.Price"}}</div>
-        <div class="item-fixed">{{localize "WW.Equipment.Uses"}}</div>
+        <div>{{localize "WW.Equipment.Uses"}}</div>
 
         <div class="item-last">{{localize "WW.Item.Description"}}</div>
     </li>
@@ -30,7 +30,7 @@
 
             <div class="item-fixed">{{doc.availabilityLabel}}</div>
             <div class="item-fixed">{{{doc.priceLabel}}}</div>
-            <div class="item-fixed">{{#if (eq doc.system.uses.max 0)}}<span style="font-size: large">∞</span>{{else}}{{doc.system.uses.max}}{{/if}}</div>
+            <div>{{#if (eq doc.system.uses.max 0)}}<span style="font-size: large">∞</span>{{else}}{{doc.system.uses.max}}{{/if}}</div>
 
             {{!-- Description --}}
             <div class="item-last">{{{doc.system.descriptionEnriched}}}</div>

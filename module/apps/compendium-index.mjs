@@ -34,8 +34,8 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       openSheet: CompendiumIndex.#openSheet
     },
     position: {
-      width: 800,
-      height: 500
+      width: 1050,
+      height: 550
     },
     dragDrop: [{ dragSelector: '.item', dropSelector: null }]
   }
@@ -467,9 +467,9 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
         }
 
-        // Set Defense
-        doc.defense = bonus ? `+${bonus}` : `${armored} ${natural ? 'or +' + natural : ''}`;
-        if (doc.defense == 0) doc.defense = '—';
+        // Set Defense Label
+        doc.defenseLabel = bonus ? `+${bonus}` : `${armored} ${natural ? 'or +' + natural : ''}`;
+        if (doc.defenseLabel == 0) doc.defenseLabel = '—';
       }
 
       // Prepare traits list for weapons
@@ -488,10 +488,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         doc.tierLabel = i18n(CONFIG.WW.TIERS[doc.system.tier]);
       }
 
-      // Get Profession Category
-      if (doc.type === 'profession') {
-        doc.professionCategory = i18n(CONFIG.WW.PROFESSION_CATEGORIES[doc.system.category]);
-      }
+      
 
       // Get NPC Folder
       if (doc.type === 'npc' && doc.folder) {
@@ -509,6 +506,66 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
           }
           
         }
+      }
+
+      // Prepare Path Benefits
+      if (doc.type === 'path') {
+        const bs = {
+          natural: '',
+          armored: '',
+          health: '',
+          speed: '',
+          bonusDamage: '',
+          talents: ''
+        };
+
+        for await (const [k, v] of Object.entries(doc.system.benefits)) {
+          const lv = `<b>${i18n("WW.CharOption.BenefitsSummaryLevel", {level: v.levelReq})}:</b>`;
+          
+          // Natural Defense
+          if (v.stats.naturalIncrease || v.stats.naturalSet) {
+            const value = v.stats.naturalSet > 0 ? v.stats.naturalSet : `+${v.stats.naturalIncrease}`;
+            
+            bs.natural += `${bs.natural ? '<br>' : ''}${lv} ${value}`;
+          }
+
+          // Armored Defense
+          if (v.stats.armoredIncrease) bs.armored += `${bs.armored ? '<br>' : ''}${lv} +${v.stats.armoredIncrease}`;
+
+          // Health
+          if (v.stats.healthIncrease || v.stats.healthStarting) {
+            const value = v.stats.healthStarting > 0 ? v.stats.healthStarting : `+${v.stats.healthIncrease}`;
+
+            bs.health += `${bs.health ? '<br>' : ''}${lv} ${value}`;
+          }
+
+          // Bonus Damage
+          if (v.stats.bonusDamage) bs.bonusDamage += `${bs.bonusDamage ? '<br>' : ''}${lv} +${v.stats.bonusDamage}d6`;
+          
+          // Speed
+          if (v.stats.speedIncrease) bs.speed += `${bs.speed ? '<br>' : ''}${lv} +${v.stats.speedIncrease}`;
+
+          // Talents
+          if (v.items.length) {
+            bs.talents += `${bs.talents ? '<br>' : ''}<ol>${lv} `;
+
+            for (const uuid of v.items) {
+              bs.talents += `<li>${await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${uuid}]`, { secrets: doc.isOwner })}</li>`;
+            }
+
+            bs.talents += `</ol>`;
+            
+          }
+          
+          
+        }
+        
+        doc.benefitsSummary = bs;
+      }
+
+      // Get Profession Category
+      if (doc.type === 'profession') {
+        doc.professionCategory = i18n(CONFIG.WW.PROFESSION_CATEGORIES[doc.system.category]);
       }
     }
 
@@ -1071,6 +1128,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       'system.armorType',
       'system.availability',
       'system.price',
+      'system.requirements',
       'system.grip',
       'system.damage',
       'system.traits',
