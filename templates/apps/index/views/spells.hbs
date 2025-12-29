@@ -5,8 +5,8 @@
         <div class="item-image"></div>
         <div class="item-name">{{localize "WW.Item.Name"}}</div>
 
-        <div class="item-fixed">{{localize "WW.Item.Tier"}}</div>
-        <div class="item-fixed">{{localize "WW.Spell.Tradition"}}</div>
+        <div class="flex-width-60">{{localize "WW.Item.Tier"}}</div>
+        <div class="flex-width-60">{{localize "WW.Spell.Tradition"}}</div>
         <div>{{localize "WW.Spell.Castings"}}</div>
         <div>{{localize "WW.Spell.Target"}}</div>
         <div>{{localize "WW.Spell.Duration"}}</div>
@@ -25,8 +25,8 @@
                 <a data-action="openSheet" data-item-uuid="{{doc.uuid}}" data-tooltip="{{doc.tooltip}}">{{doc.name}}</a>
             </div>
 
-            <div class="item-fixed">{{doc.tierLabel}}</div>
-            <div class="item-fixed">{{doc.system.tradition}}</div>
+            <div class="flex-width-60">{{doc.tierLabel}}</div>
+            <div class="flex-width-60">{{doc.system.tradition}}</div>
             <div>{{doc.system.uses.max}}{{#if doc.system.casting}}, {{doc.system.casting}}{{/if}}</div>
             <div>{{doc.system.target}}</div>
             <div>{{doc.system.duration}}</div>

@@ -436,6 +436,9 @@ body.theme-dark,
 .weirdwizard .large {
   font-size: large !important;
 }
+.weirdwizard .x-large {
+  font-size: x-large !important;
+}
 .weirdwizard .bold {
   font-weight: bold !important;
 }
@@ -2767,16 +2770,16 @@ hr.bug {
   font-size: var(--font-size-12);
 }
 
-.weirdwizard .item-fixed {
-  flex: 0 0 65px;
+.weirdwizard .flex-width-50 {
+  flex: 0 0 50px;
 }
 
-.weirdwizard .item-summary {
-  flex: 0 0 75px;
+.weirdwizard .flex-width-60 {
+  flex: 0 0 60px;
 }
 
-.weirdwizard .item-stat {
-  flex: 0 0 51px;
+.weirdwizard .flex-width-80 {
+  flex: 0 0 80px;
 }
 
 .weirdwizard .item-last,

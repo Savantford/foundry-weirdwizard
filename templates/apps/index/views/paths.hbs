@@ -5,7 +5,7 @@
         <div class="item-image"></div>
         <div class="item-name">{{localize "WW.Item.Name"}}</div>
 
-        <div class="item-fixed">{{localize "WW.Item.Tier"}}</div>
+        <div class="flex-width-60">{{localize "WW.Item.Tier"}}</div>
 
         <div class="item-summary">{{localize "WW.Defense.Natural"}}</div>
         <div class="item-summary">{{localize "WW.Defense.Armored"}}</div>
@@ -28,7 +28,7 @@
                 <a data-action="openSheet" data-item-uuid="{{doc.uuid}}" data-tooltip="{{doc.tooltip}}">{{doc.name}}</a>
             </div>
 
-            <div class="item-fixed">{{ doc.tierLabel }}</div>
+            <div class="flex-width-60">{{ doc.tierLabel }}</div>
 
             {{!-- Stats Summary --}}
             <div class="item-summary">{{{ doc.benefitsSummary.natural }}}</div>

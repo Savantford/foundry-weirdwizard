@@ -5,7 +5,7 @@
         <div class="item-image"></div>
         <div class="item-name">{{localize "WW.Item.Name"}}</div>
 
-        <div class="item-fixed">{{localize "TYPES.Actor.group"}}</div>
+        <div class="flex-width-60">{{localize "TYPES.Actor.group"}}</div>
         <div class="item-stat">{{localize "WW.Stats.Difficulty"}}</div>
         <div>{{localize "WW.ListEntry.Descriptor.Label"}}</div>
 
@@ -32,8 +32,8 @@
                 <a data-action="openSheet" data-item-uuid="{{doc.uuid}}" data-tooltip="{{doc.tooltip}}">{{doc.name}}</a>
             </div>
             
-            <div class="item-fixed">{{doc.folderLabel}}</div>
-            <div class="item-fixed">{{doc.system.stats.difficulty}}</div>
+            <div class="flex-width-60">{{doc.folderLabel}}</div>
+            <div class="flex-width-60">{{doc.system.stats.difficulty}}</div>
             <div>
                 <ol>
                 {{#each doc.system.listEntries.descriptors as |entry id|}}

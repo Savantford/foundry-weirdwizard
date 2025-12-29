@@ -353,9 +353,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     const colHeaders = {};
 
     for (const [key, data] of Object.entries(CompendiumIndex.colHeaders)) {
-      console.log(CompendiumIndex.colHeaders)
-      console.log(key)
-      if (data.views.includes(this.view)) {
+      if (data.views.includes(this.view) || data.views.includes('all')) {
         colHeaders[key] = {
           label: CompendiumIndex.colHeaders[key].label,
           field: key,
@@ -365,7 +363,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       }
     }
 
-    console.log(colHeaders)
     context.colHeaders = colHeaders;
   }
 
@@ -452,7 +449,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       // Get (sub)type labels
       doc.typeLabel = i18n(CONFIG[doc.documentName].typeLabels[doc.type]);
       const subtypes = {...CONFIG.WW.EQUIPMENT_SUBTYPES, ...CONFIG.WW.TALENT_SUBTYPES};
-      doc.subtypeLabel = doc.system.subtype ? i18n(subtypes[doc.system.subtype]) : null;
+      doc.subtypeLabel = doc.system.subtype ? i18n(subtypes[doc.system.subtype]) : doc.typeLabel;
 
       if (doc.type === 'talent') {
         doc.talentTypeLabel = doc.system.source === 'none'
@@ -467,27 +464,29 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       // Get tooltip
       //doc.tooltip = doc.toCard();
 
-      // Get Availability
-      if (doc.system.availability) doc.availabilityLabel = i18n(CONFIG.WW.EQUIPMENT_AVAILABILITIES[doc.system.availability]);
-
-      // Get Price
-      if (doc.system.price?.value) {
-        const tip = i18n(CONFIG.WW.EQUIPMENT_COINS[doc.system.price.coin].tip);
-        const color = CONFIG.WW.EQUIPMENT_COINS[doc.system.price.coin].color;
-
-        doc.priceLabel = `${doc.system.price.value} <i class="fa-solid fa-coins ${color}" data-tooltip="${tip}"></i>`;
-      }
-
-      // Get Weapon Requirements
-      doc.system.requirementLabel = doc.system.requirements ? i18n(CONFIG.WW.WEAPON_REQUIREMENTS[doc.system.requirements]) : '—';
-
-      // Get Defense stats
+      // Prepare Equipment specifics
       if (doc.type === 'equipment') {
+        // Get Availability
+        doc.availabilityLabel = i18n(CONFIG.WW.EQUIPMENT_AVAILABILITIES[doc.system.availability]);
+
+        // Get Price
+        if (doc.system.price?.value) {
+          const tip = i18n(CONFIG.WW.EQUIPMENT_COINS[doc.system.price.coin].tip);
+          const color = CONFIG.WW.EQUIPMENT_COINS[doc.system.price.coin].color;
+
+          doc.priceLabel = `${doc.system.price.value} <i class="fa-solid fa-coins ${color}" data-tooltip="${tip}"></i>`;
+        }
+
+        // Equipment Uses
+        doc.equipmentUses = doc.system.uses.max === 0 ? '<span class="x-large">∞</span>' : doc.system.uses.max;
+
+        // Get Requirements
+        doc.system.requirementLabel = doc.system.requirements ? i18n(CONFIG.WW.WEAPON_REQUIREMENTS[doc.system.requirements]) : '—';
 
         // Get Armor Type
         if (doc.system.subtype === 'armor') doc.armorTypeLabel = i18n(CONFIG.WW.ARMOR_TYPES[doc.system.armorType]); else doc.armorTypeLabel = i18n('WW.Armor.Shield');
 
-        // Get Defense
+        // Get Defense Stats
         let armored = 0,
           natural = null,
           bonus = null;
@@ -505,14 +504,15 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         // Set Defense Label
         doc.defenseLabel = bonus ? `+${bonus}` : `${armored} ${natural ? 'or +' + natural : ''}`;
         if (doc.defenseLabel == 0) doc.defenseLabel = '—';
-      }
 
-      // Prepare traits list for weapons
-      if (doc.system.subtype == 'weapon') {
-        // Prepare Grip label
-        doc.system.gripLabel = CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip] ? i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip]) : doc.system.grip;
-      }
+        // Prepare traits list for weapons
+        if (doc.system.subtype == 'weapon') {
+          // Prepare Grip label
+          doc.system.gripLabel = CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip] ? i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip]) : doc.system.grip;
+        }
 
+      }
+      
       // Prepare Trait & Talent specifics
       if (doc.type === 'talent') {
         doc.usedByLinks = [];
@@ -695,7 +695,13 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
     // Sort documents and reverse if needed
     const field = this.sortOptions.field;
-    const sorted = results.sort((a, b) => foundry.utils.getProperty(a, field).localeCompare(foundry.utils.getProperty(b, field), game.i18n.lang));
+    
+    const sorted = results.sort((a, b) => {
+      const valueA = foundry.utils.getProperty(a, field) + '' ?? '';
+      const valueB = foundry.utils.getProperty(b, field) + '' ?? '';
+      
+      return valueA.localeCompare(valueB, game.i18n.lang)
+    });
     
     return this.sortOptions.reverse ? sorted.reverse() : sorted;
   }
@@ -1142,20 +1148,43 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
   static get colHeaders() {
     return {
+      // Name and Type
       'name': {
         label: "WW.Item.Name",
         css: "item-name",
-        views: ['generic']
+        views: ['all']
       },
       'genericTypeLabel': {
         label: "WW.Item.Type",
-        css: "item-fixed",
+        css: "flex-width-60",
         views: ['generic']
       },
+      'subtypeLabel': {
+        label: "WW.Item.Type",
+        css: "flex-width-60",
+        views: ['equipment']
+      },
+      // Equipment
+      'availabilityLabel': {
+        label: "WW.Equipment.Availability.Label",
+        css: "flex-width-80",
+        views: ['equipment']
+      },
+      'priceLabel': {
+        label: "WW.Equipment.Price",
+        css: "flex-width-60",
+        views: ['equipment']
+      },
+      'equipmentUses': {
+        label: "WW.Equipment.Uses",
+        css: "",
+        views: ['equipment']
+      },
+      // Description
       'system.descriptionEnriched': {
         label: "WW.Item.Description",
         css: "item-last",
-        views: ['generic']
+        views: ['generic', 'equipment']
       },
       
     };

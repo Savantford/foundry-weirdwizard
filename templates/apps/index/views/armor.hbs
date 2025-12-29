@@ -5,10 +5,10 @@
         <div class="item-image"></div>
         <div class="item-name">{{localize "WW.Item.Name"}}</div>
     
-        <div class="item-fixed">{{localize "WW.Armor.Type"}}</div>
+        <div class="flex-width-60">{{localize "WW.Armor.Type"}}</div>
         <div class="item-stat">{{localize "WW.Defense.Label"}}</div>
-        <div class="item-fixed">{{localize "WW.Equipment.Availability.Label"}}</div>
-        <div class="item-fixed">{{localize "WW.Equipment.Price"}}</div>
+        <div class="flex-width-60">{{localize "WW.Equipment.Availability.Label"}}</div>
+        <div class="flex-width-60">{{localize "WW.Equipment.Price"}}</div>
         <div class="item-last">{{localize "WW.Item.Description"}}</div>
     </li>
     
@@ -24,10 +24,10 @@
                 <a data-action="openSheet" data-item-uuid="{{doc.uuid}}" data-tooltip="{{doc.tooltip}}">{{doc.name}}</a>
             </div>
 
-            <div class="item-fixed">{{ doc.armorTypeLabel }}</div>
+            <div class="flex-width-60">{{ doc.armorTypeLabel }}</div>
             <div class="item-stat">{{ doc.defenseLabel }}</div>
-            <div class="item-fixed">{{ doc.availabilityLabel }}</div>
-            <div class="item-fixed">{{{ doc.priceLabel }}}</div>
+            <div class="flex-width-60">{{ doc.availabilityLabel }}</div>
+            <div class="flex-width-60">{{{ doc.priceLabel }}}</div>
 
             {{!-- Description --}}
             <div class="item-last">{{{ doc.system.descriptionEnriched }}}</div>
