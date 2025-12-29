@@ -9,9 +9,9 @@
         <div>{{localize "WW.ListEntry.Sense.Label"}}</div>
         <div>{{localize "WW.ListEntry.Language.Label"}}</div>
         
-        <div class="item-stat">{{localize "WW.Health.Label"}}</div>
-        <div class="item-stat">{{localize "WW.Defense.Label"}}</div>
-        <div class="item-stat">{{localize "WW.Stats.Size"}}</div>
+        <div class="flex-width-50">{{localize "WW.Health.Label"}}</div>
+        <div class="flex-width-50">{{localize "WW.Defense.Label"}}</div>
+        <div class="flex-width-50">{{localize "WW.Stats.Size"}}</div>
         <div>{{localize "WW.Stats.Speed"}}</div>
 
         <div>{{localize "WW.ListEntry.Immunity.Label"}}</div>
@@ -59,9 +59,9 @@
 
             {{!-- Stats --}}
             {{#with system.benefits.benefit1.stats}}
-            <div class="item-stat">{{#if healthIncrease}}{{numberFormat healthIncrease sign=true}}{{/if}}</div>
-            <div class="item-stat">{{#if naturalIncrease}}{{numberFormat naturalIncrease sign=true}}{{/if}}</div>
-            <div class="item-stat">{{sizeNormal}}</div>
+            <div class="flex-width-50">{{#if healthIncrease}}{{numberFormat healthIncrease sign=true}}{{/if}}</div>
+            <div class="flex-width-50">{{#if naturalIncrease}}{{numberFormat naturalIncrease sign=true}}{{/if}}</div>
+            <div class="flex-width-50">{{sizeNormal}}</div>
             {{/with}}
 
             {{!-- Speed --}}

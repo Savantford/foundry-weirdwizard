@@ -5,7 +5,7 @@
         <div class="item-name">{{localize "WW.Item.Name"}}</div>
 
         <div class="flex-width-60">{{localize "WW.Item.Type"}}</div>
-        <div class="item-stat">{{localize "WW.Talent.Magical"}}</div>
+        <div class="flex-width-50">{{localize "WW.Talent.Magical"}}</div>
         <div>{{localize "WW.Talent.Uses"}}</div>
         <div>{{localize "WW.Item.UsedBy"}}</div>
         <div class="item-last">{{localize "WW.Item.Description"}}</div>
@@ -24,7 +24,7 @@
             </div>
 
             <div class="flex-width-60">{{doc.talentTypeLabel}}</div>
-            <div class="item-stat"><i class="fa-solid {{#if doc.system.magical}}fa-check{{else}}fa-xmark-large{{/if}}"></i></div>
+            <div class="flex-width-50"><i class="fa-solid {{#if doc.system.magical}}fa-check{{else}}fa-xmark-large{{/if}}"></i></div>
             <div>{{#if (eq doc.system.uses.max 0)}}<span style="font-size: large">∞</span>{{else}}{{doc.system.uses.max}}{{/if}}</div>
             <div>{{{ doc.usedByLinks }}}</div>
             <div class="item-last">{{{doc.system.descriptionEnriched}}}</div>

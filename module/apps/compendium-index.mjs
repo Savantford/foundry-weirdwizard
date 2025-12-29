@@ -483,9 +483,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         // Get Requirements
         doc.system.requirementLabel = doc.system.requirements ? i18n(CONFIG.WW.WEAPON_REQUIREMENTS[doc.system.requirements]) : '—';
 
-        // Get Armor Type
-        if (doc.system.subtype === 'armor') doc.armorTypeLabel = i18n(CONFIG.WW.ARMOR_TYPES[doc.system.armorType]); else doc.armorTypeLabel = i18n('WW.Armor.Shield');
-
         // Get Defense Stats
         let armored = 0,
           natural = null,
@@ -501,8 +498,11 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
         }
 
-        // Set Defense Label
+        // Set Defense and Armor Type labels
         doc.defenseLabel = bonus ? `+${bonus}` : `${armored} ${natural ? 'or +' + natural : ''}`;
+
+        if (doc.system.subtype === 'armor') doc.armorTypeLabel = i18n(CONFIG.WW.ARMOR_TYPES[doc.system.armorType]);
+        else if (doc.defenseLabel != 0) doc.armorTypeLabel = i18n('WW.Armor.Shield');
         if (doc.defenseLabel == 0) doc.defenseLabel = '—';
 
         // Prepare traits list for weapons
@@ -695,13 +695,14 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
     // Sort documents and reverse if needed
     const field = this.sortOptions.field;
-    
+
     const sorted = results.sort((a, b) => {
       const valueA = foundry.utils.getProperty(a, field) + '' ?? '';
       const valueB = foundry.utils.getProperty(b, field) + '' ?? '';
       
       return valueA.localeCompare(valueB, game.i18n.lang)
     });
+    console.log(sorted)
     
     return this.sortOptions.reverse ? sorted.reverse() : sorted;
   }
@@ -1164,16 +1165,27 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         css: "flex-width-60",
         views: ['equipment']
       },
+      // Armor
+      'armorTypeLabel': {
+        label: "WW.Armor.Type",
+        css: "flex-width-60",
+        views: ['armor']
+      },
+      'defenseLabel': {
+        label: "WW.Defense.Label",
+        css: "flex-width-60",
+        views: ['armor']
+      },
       // Equipment
       'availabilityLabel': {
         label: "WW.Equipment.Availability.Label",
         css: "flex-width-80",
-        views: ['equipment']
+        views: ['equipment', 'armor']
       },
       'priceLabel': {
         label: "WW.Equipment.Price",
         css: "flex-width-60",
-        views: ['equipment']
+        views: ['equipment', 'armor']
       },
       'equipmentUses': {
         label: "WW.Equipment.Uses",
@@ -1184,7 +1196,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       'system.descriptionEnriched': {
         label: "WW.Item.Description",
         css: "item-last",
-        views: ['generic', 'equipment']
+        views: ['generic', 'equipment', 'armor']
       },
       
     };

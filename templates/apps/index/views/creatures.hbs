@@ -6,18 +6,18 @@
         <div class="item-name">{{localize "WW.Item.Name"}}</div>
 
         <div class="flex-width-60">{{localize "TYPES.Actor.group"}}</div>
-        <div class="item-stat">{{localize "WW.Stats.Difficulty"}}</div>
+        <div class="flex-width-50">{{localize "WW.Stats.Difficulty"}}</div>
         <div>{{localize "WW.ListEntry.Descriptor.Label"}}</div>
 
-        <div class="item-stat">{{localize "WW.Attributes.Strength"}}</div>
-        <div class="item-stat">{{localize "WW.Attributes.Agility"}}</div>
-        <div class="item-stat">{{localize "WW.Attributes.Intellect"}}</div>
-        <div class="item-stat">{{localize "WW.Attributes.Will"}}</div>
+        <div class="flex-width-50">{{localize "WW.Attributes.Strength"}}</div>
+        <div class="flex-width-50">{{localize "WW.Attributes.Agility"}}</div>
+        <div class="flex-width-50">{{localize "WW.Attributes.Intellect"}}</div>
+        <div class="flex-width-50">{{localize "WW.Attributes.Will"}}</div>
         
-        <div class="item-stat">{{localize "WW.Defense.Label"}}</div>
-        <div class="item-stat">{{localize "WW.Health.Label"}}</div>
-        <div class="item-stat">{{localize "WW.Stats.Size"}}</div>
-        <div class="item-stat">{{localize "WW.Stats.Speed"}}</div>
+        <div class="flex-width-50">{{localize "WW.Defense.Label"}}</div>
+        <div class="flex-width-50">{{localize "WW.Health.Label"}}</div>
+        <div class="flex-width-50">{{localize "WW.Stats.Size"}}</div>
+        <div class="flex-width-50">{{localize "WW.Stats.Speed"}}</div>
     </li>
 
     {{!-- Rows --}}
@@ -42,15 +42,15 @@
                 </ol>
             </div>
 
-            <div class="item-stat">{{doc.system.attributes.str.value}}</div>
-            <div class="item-stat">{{doc.system.attributes.agi.value}}</div>
-            <div class="item-stat">{{doc.system.attributes.int.value}}</div>
-            <div class="item-stat">{{doc.system.attributes.wil.value}}</div>
+            <div class="flex-width-50">{{doc.system.attributes.str.value}}</div>
+            <div class="flex-width-50">{{doc.system.attributes.agi.value}}</div>
+            <div class="flex-width-50">{{doc.system.attributes.int.value}}</div>
+            <div class="flex-width-50">{{doc.system.attributes.wil.value}}</div>
             
-            <div class="item-stat">{{doc.system.stats.defense.natural}}</div>
-            <div class="item-stat">{{doc.system.stats.health.normal}}</div>
-            <div class="item-stat">{{doc.system.stats.size}}</div>
-            <div class="item-stat">{{doc.system.stats.speed.normal}}</div>
+            <div class="flex-width-50">{{doc.system.stats.defense.natural}}</div>
+            <div class="flex-width-50">{{doc.system.stats.health.normal}}</div>
+            <div class="flex-width-50">{{doc.system.stats.size}}</div>
+            <div class="flex-width-50">{{doc.system.stats.speed.normal}}</div>
         </li>
         {{/each}}
     </ol>
