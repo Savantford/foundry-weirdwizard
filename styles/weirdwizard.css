@@ -4834,10 +4834,14 @@ details.document-card .card-header:hover::after {
         ol {
           display: inline-flex;
           flex-flow: wrap;
-          gap: 5px;
+          gap: 0 5px;
 
           > li:not(:last-of-type)::after {
             content: ", ";
+          }
+
+          .content-link > i {
+            display: none;
           }
         }
       }

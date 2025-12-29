@@ -548,7 +548,7 @@
 "WW.CharOption.Description": "Description",
 "WW.CharOption.Benefits": "Benefits",
 "WW.CharOption.BenefitHeading": "Level {level} {charOption}",
-"WW.CharOption.BenefitsSummaryLevel": "Level {level}",
+"WW.CharOption.BenefitsSummaryLevel": "Lv{level}",
 "WW.CharOption.AncestryTraitsHeading": "{ancestry} Traits",
 "WW.CharOption.DropHere": "Drop Equipment, Traits, Talents and Spells stored in a <b>Compendium</b> here to add them to the level benefit.",
 "WW.CharOption.Unknown": "Unknown",
