@@ -1,12 +1,13 @@
+
 <section class="view generic">
 
     {{!-- Header Row --}}
     <li class="item flexrow items-header">
         <div class="item-image"></div>
-        <div class="item-name">{{localize "WW.Item.Name"}}</div>
 
-        <div class="item-fixed">{{localize "WW.Item.Type"}}</div>
-        <div class="item-last">{{localize "WW.Item.Description"}}</div>
+        {{#each colHeaders as |header id|}}
+            {{> "systems/weirdwizard/templates/apps/index/parts/col-header.hbs" data=header }}
+        {{/each}}
     </li>
 
     {{!-- Rows --}}
@@ -22,15 +23,7 @@
             </div>
             
             {{!-- Type --}}
-            <div class="item-fixed">
-                {{#if doc.talentTypeLabel}}
-                    {{doc.talentTypeLabel}}
-                {{else if doc.subtypeLabel}}
-                    {{doc.subtypeLabel}}
-                {{else}}
-                    {{doc.typeLabel}}
-                {{/if}}
-            </div>
+            <div class="item-fixed">{{doc.genericTypeLabel}}</div>
 
             {{!-- Description --}}
             <div class="item-last">{{{doc.system.descriptionEnriched}}}</div>

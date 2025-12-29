@@ -4809,6 +4809,14 @@ details.document-card .card-header:hover::after {
         border-image-outset: 0 13px 0 calc(var(--compendium-sidebar-width) + 1.5em);
         padding: 2px calc(0.75rem + 8px) 2px 7px;
         filter: drop-shadow(0 1px 1px black);
+        cursor: pointer;
+
+        .fa-solid,
+        .fa-regular {
+          font-size: smaller;
+          font-weight: normal;
+          line-height: normal;
+        }
       }
 
       .item-list {

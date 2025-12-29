@@ -18,6 +18,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     this.view = config.view ?? 'generic';
     this.searchFilters = config.filters ?? {};
     if (config.preset) this._applyPreset(config.preset);
+    this.sortOptions = { field: 'name', reverse: false };
 
     // Enable drag n drop operations
     this.#dragDrop = this.#createDragDropHandlers();
@@ -31,7 +32,8 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       resizable: true
     },
     actions: {
-      openSheet: CompendiumIndex.#openSheet
+      openSheet: CompendiumIndex.#openSheet,
+      sort: CompendiumIndex.#sortDocuments
     },
     position: {
       width: 1050,
@@ -77,7 +79,8 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
         'systems/weirdwizard/templates/apps/index/views/creatures.hbs',
         'systems/weirdwizard/templates/apps/index/views/talents.hbs',
-        'systems/weirdwizard/templates/apps/index/views/spells.hbs'
+        'systems/weirdwizard/templates/apps/index/views/spells.hbs',
+        'systems/weirdwizard/templates/apps/index/parts/col-header.hbs'
       ]
     }
   }
@@ -212,7 +215,8 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       views: CONFIG.WW.COMPENDIUM_INDEX_VIEWS,
       view: this.view,
       weaponTraits: CONFIG.WW.WEAPON_TRAITS,
-      searchQuery: this.searchQuery
+      searchQuery: this.searchQuery,
+      si: this.sortingIcons
     };
     
     // Prepare documents data
@@ -221,6 +225,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
     // Prepare layout elements
     await this._prepareFilterCheckboxes(context);
+    await this._prepareColumnHeaders(context);
     await this._prepareDisplayedDocuments(context);
     
     return context;
@@ -344,6 +349,26 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     context.documents = searchResults;
   }
 
+  async _prepareColumnHeaders(context) {
+    const colHeaders = {};
+
+    for (const [key, data] of Object.entries(CompendiumIndex.colHeaders)) {
+      console.log(CompendiumIndex.colHeaders)
+      console.log(key)
+      if (data.views.includes(this.view)) {
+        colHeaders[key] = {
+          label: CompendiumIndex.colHeaders[key].label,
+          field: key,
+          css: CompendiumIndex.colHeaders[key].css,
+          sortIcon: this.sortingIcons[key]
+        }
+      }
+    }
+
+    console.log(colHeaders)
+    context.colHeaders = colHeaders;
+  }
+
   /* -------------------------------------------- */
   /*  Life-Cycle Handlers                         */
   /* -------------------------------------------- */
@@ -424,10 +449,20 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         doc.text ? doc.text.content : doc.system.description, { secrets: doc.isOwner }
       );
 
-      // Get type and subtype labels
+      // Get (sub)type labels
       doc.typeLabel = i18n(CONFIG[doc.documentName].typeLabels[doc.type]);
       const subtypes = {...CONFIG.WW.EQUIPMENT_SUBTYPES, ...CONFIG.WW.TALENT_SUBTYPES};
       doc.subtypeLabel = doc.system.subtype ? i18n(subtypes[doc.system.subtype]) : null;
+
+      if (doc.type === 'talent') {
+        doc.talentTypeLabel = doc.system.source === 'none'
+        ? `${i18n("TYPES.Actor.npc")}: ${i18n(CONFIG.WW.TALENT_SUBTYPES[doc.system.subtype])}`
+        : i18n(CONFIG.WW.TALENT_SOURCE_LABELS[doc.system.source]);
+      }
+
+      if (doc.talentTypeLabel) doc.genericTypeLabel = doc.talentTypeLabel;
+      else if (doc.subtypeLabel) doc.genericTypeLabel = doc.subtypeLabel;
+      else doc.genericTypeLabel = doc.typeLabel;
 
       // Get tooltip
       //doc.tooltip = doc.toCard();
@@ -480,16 +515,10 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
       // Prepare Trait & Talent specifics
       if (doc.type === 'talent') {
-        doc.talentTypeLabel = doc.system.source === 'none'
-        ? `${i18n("TYPES.Actor.npc")}: ${i18n(CONFIG.WW.TALENT_SUBTYPES[doc.system.subtype])}`
-        : i18n(CONFIG.WW.TALENT_SOURCE_LABELS[doc.system.source]);
-        
-        // Prepare Used By Links
         doc.usedByLinks = [];
         
         if (doc.system.usedBy) {
           for (const uuid of doc.system.usedBy) {
-            console.log(uuid)
             doc.usedByLinks.push(await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${uuid}]`, { secrets: doc.isOwner }));
           }
         }
@@ -663,8 +692,12 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       }
       if ( matched ) results.push(doc);
     }
+
+    // Sort documents and reverse if needed
+    const field = this.sortOptions.field;
+    const sorted = results.sort((a, b) => foundry.utils.getProperty(a, field).localeCompare(foundry.utils.getProperty(b, field), game.i18n.lang));
     
-    return results;
+    return this.sortOptions.reverse ? sorted.reverse() : sorted;
   }
 
   /* -------------------------------------------- */
@@ -904,6 +937,23 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   }
 
   /* -------------------------------------------- */
+
+  /**
+   * @param {PointerEvent} event - The originating click event
+   * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
+  */
+  static #sortDocuments(event, target) {
+    const field = target.dataset.field;
+    
+    this.sortOptions = {
+      field: field,
+      reverse: field === this.sortOptions.field && !this.sortOptions.reverse ? true : false
+    }
+    
+    this.render();
+  }
+
+  /* -------------------------------------------- */
   /*  Form handling                               */
   /* -------------------------------------------- */
 
@@ -1066,6 +1116,8 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     this.#view = CompendiumIndex.#DEFAULT_VIEW = value;
   }
 
+  /* -------------------------------------------- */
+
   #searchFilters = [];
 
   get searchFilters() {
@@ -1085,6 +1137,44 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     
     this.#searchFilters = searchFilters;
   }
+  
+  /* -------------------------------------------- */
+
+  static get colHeaders() {
+    return {
+      'name': {
+        label: "WW.Item.Name",
+        css: "item-name",
+        views: ['generic']
+      },
+      'genericTypeLabel': {
+        label: "WW.Item.Type",
+        css: "item-fixed",
+        views: ['generic']
+      },
+      'system.descriptionEnriched': {
+        label: "WW.Item.Description",
+        css: "item-last",
+        views: ['generic']
+      },
+      
+    };
+  }
+
+  get sortingIcons() {
+    const icons = {};
+    
+    Object.keys(CompendiumIndex.colHeaders).forEach(x => {
+      let icon = 'arrow-down-up-across-line';
+      if (this.sortOptions.field === x) icon = this.sortOptions.reverse ? 'arrow-up-short-wide' : 'arrow-down-short-wide';
+
+      icons[x] = `fa-${icon === 'diamond' ? 'regular' : 'solid'} fa-${icon}`;
+    })
+
+    return icons;
+  }
+
+  /* -------------------------------------------- */
 
   /**
    * Returns an array of DragDrop instances
