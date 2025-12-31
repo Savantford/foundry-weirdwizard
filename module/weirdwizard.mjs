@@ -31,18 +31,22 @@ import WWGroupSheet from './sheets/actors/group-sheet.mjs';
 import WWEquipmentSheet from './sheets/items/equipment-sheet.mjs';
 import WWTalentSheet from './sheets/items/talent-sheet.mjs';
 import WWSpellSheet from './sheets/items/spell-sheet.mjs';
+import { WWJournalEntrySheet } from './sheets/journal/journal-entry-sheet.mjs';
 import WWAncestrySheet from './sheets/journal/ancestry-sheet.mjs';
 import WWPathSheet from './sheets/journal/path-sheet.mjs';
 import WWProfessionSheet from './sheets/journal/profession-sheet.mjs';
 import WWTraditionSheet from './sheets/journal/tradition-sheet.mjs';
 import WWActiveEffectConfig from './sheets/configs/active-effect-config.mjs';
+import WWRollTableSheet from './sheets/roll-table-sheet.mjs';
 
 // Import sidebar related classes.
 import WWCombatTracker from './sidebar/combat-tracker.mjs';
+import WWCombatantGroupConfig from './sheets/configs/combatant-group-config.mjs';
 import { initChatListeners } from './sidebar/chat-listeners.mjs';
 
 // Import UI apps.
 import WWRoll from './dice/roll.mjs';
+import CompendiumIndex from './apps/compendium-index.mjs';
 import SageTools from './ui/sage-tools.mjs';
 import QuestCalendar from './ui/quest-calendar.mjs';
 
@@ -70,9 +74,6 @@ import {
   improvedListEntries,
   v13Support  
 } from './helpers/migrations.mjs';
-import WWCombatantGroupConfig from './sheets/configs/combatant-group-config.mjs';
-import { WWJournalEntrySheet } from './sheets/journal/journal-entry-sheet.mjs';
-import CompendiumIndex from './apps/compendium-index.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -191,6 +192,9 @@ Hooks.once('init', function () {
   DocumentSheetConfig.registerSheet(CombatantGroup, 'weirdwizard', WWCombatantGroupConfig, {
     makeDefault: true,
     label: "WW.CombatantGroup",
+  });
+  DocumentSheetConfig.registerSheet(RollTable, 'weirdwizard', WWRollTableSheet, {
+    makeDefault: true
   });
   //DocumentSheetConfig.registerSheet(Folder, 'weirdwizard', WWFolderConfig, {makeDefault: true}); - does not work, maybe in v13. see renderFolderConfig hook
 
