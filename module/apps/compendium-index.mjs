@@ -287,6 +287,8 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       })
 
     }
+    
+    this.multiCheckboxesData = await context.filters;
   }
 
   /* -------------------------------------------- */
@@ -702,7 +704,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       
       return valueA.localeCompare(valueB, game.i18n.lang)
     });
-    console.log(sorted)
     
     return this.sortOptions.reverse ? sorted.reverse() : sorted;
   }
@@ -914,9 +915,15 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   /** @inheritDoc */
   _attachPartListeners(partId, element, options) {
     super._attachPartListeners(partId, element, options);
+
     if ( partId === "sidebar" ) {
+      // Search input
       const searchInput = this.element.querySelector("input[type=search]");
       searchInput.addEventListener("input", (event) => this.#onSearch(event));
+
+      // Right click on multi-checkboxes
+      const multiCheckboxes = this.element.querySelectorAll("multi-checkbox");
+      multiCheckboxes.forEach(x => x.addEventListener("contextmenu", (event) => this.#onFilterRightClick(event)))
     }
   }
 
@@ -928,7 +935,37 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   #onSearch(event) {
     event.preventDefault();
     this.searchQuery = event.target.value;
-    this.render({parts: ['view']});
+    this.render({ parts: ['view'] });
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * @param {PointerEvent} event - The originating click event
+  */
+  #onFilterRightClick(event, element) {
+    event.preventDefault();
+
+    const label = event.target.closest('label.checkbox');
+    if (!label) return;
+    const multiCheckbox = label.closest('multi-checkbox');
+    const { value, checked } = label.querySelector('input');
+    
+    // Cross reference with multiCheckboxesData
+    const multicheckboxData = [...this.multiCheckboxesData.find(x => x.name === multiCheckbox.name).options];
+    const checkedData = multicheckboxData.find(x => x.value === value);
+    const selectedValues = multiCheckbox.value;
+
+    // Process checkbox groups
+    if (checkedData.group) {
+      // Remove group from selected values
+      const group = multicheckboxData.filter(x => x.group === checkedData.group && x.value !== value);
+      const arr = selectedValues.filter(x => !group.map(x => x.value).includes(x));
+
+      multiCheckbox.value = [...arr, value];
+    } else {
+      multiCheckbox.value = [value];
+    }
   }
 
   /* -------------------------------------------- */
@@ -1157,7 +1194,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       },
       'genericTypeLabel': {
         label: "WW.Item.Type",
-        css: "flex-width-60",
+        css: "flex-width-90",
         views: ['generic']
       },
       'subtypeLabel': {
@@ -1206,10 +1243,10 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     const icons = {};
     
     Object.keys(CompendiumIndex.colHeaders).forEach(x => {
-      let icon = 'arrow-down-up-across-line';
+      let icon = 'sort';
       if (this.sortOptions.field === x) icon = this.sortOptions.reverse ? 'arrow-up-short-wide' : 'arrow-down-short-wide';
 
-      icons[x] = `fa-${icon === 'diamond' ? 'regular' : 'solid'} fa-${icon}`;
+      icons[x] = `fas fa-${icon}`;
     })
 
     return icons;
@@ -1247,7 +1284,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       arr.push({
         value: data.id,
         label: data.label,
-        group: i18n(group) ?? 'World'
+        group: i18n(group)
       })
 
     }

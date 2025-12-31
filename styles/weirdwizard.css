@@ -2782,6 +2782,10 @@ hr.bug {
   flex: 0 0 80px;
 }
 
+.weirdwizard .flex-width-90 {
+  flex: 0 0 90px;
+}
+
 .weirdwizard .item-last,
 .weirdwizard .item-traits {
   flex: 2.5;
@@ -4814,10 +4818,8 @@ details.document-card .card-header:hover::after {
         filter: drop-shadow(0 1px 1px black);
         cursor: pointer;
 
-        .fa-solid,
-        .fa-regular {
+        .fas {
           font-size: smaller;
-          font-weight: normal;
           line-height: normal;
         }
       }

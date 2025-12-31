@@ -1081,6 +1081,7 @@
 "WW.Index.ViewAs": "View as",
 "WW.Index.Generic": "Generic",
 "WW.Index.Search": "Search...",
+"WW.Index.CheckboxTip": "Left click to enable/disable a filter.<br>Right click to disable all filters in the group EXCEPT the clicked filter.",
 "WW.Index.NovicePaths": "Novice Paths",
 "WW.Index.ExpertPaths": "Expert Paths",
 "WW.Index.MasterPaths": "Master Paths",
