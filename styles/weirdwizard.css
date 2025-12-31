@@ -1029,6 +1029,14 @@ body.theme-dark.application.weirdwizard .window-content {
   }
 }
 
+.weirdwizard.application.actor:not(.minimized),
+.weirdwizard.application.item:not(.minimized)
+.weirdwizard.application.active-effect-config:not(.minimized) {
+  .window-title {
+    opacity: 0;
+  }
+}
+
 /* -------------------------------------------- */
 /*  NPC Sheet                                   */
 /* -------------------------------------------- */
@@ -4744,7 +4752,7 @@ details.document-card .card-header:hover::after {
 /*  Compendium Index                            */
 /* -------------------------------------------- */
 
-.compendium-index {
+.weirdwizard.application.compendium-index {
   --compendium-sidebar-width: 250px;
 
   .window-content {
@@ -4916,9 +4924,9 @@ details.document-card .card-header:hover::after {
   }
 }
 
-.compendium-index:not(.minimized) {
-  min-width: 550px;
-  min-height: 270px;
+.weirdwizard.application.compendium-index:not(.minimized) {
+  min-width: 600px;
+  min-height: 350px;
 
   .window-header {
     background: url(../assets/decorations/frames/rose.webp);

@@ -18,10 +18,9 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     this.view = config.view ?? 'generic';
     this.searchFilters = config.filters ?? {};
     if (config.preset) this._applyPreset(config.preset);
-    this.sortOptions = { field: 'name', reverse: false };
 
-    // Enable drag n drop operations
-    this.#dragDrop = this.#createDragDropHandlers();
+    // Initialize sort options
+    this.sortOptions = { field: 'name', reverse: false };
   }
 
   static DEFAULT_OPTIONS = {
@@ -56,8 +55,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     position: {
       width: 1050,
       height: 550
-    },
-    dragDrop: [{ dragSelector: '.item', dropSelector: null }]
+    }
   }
 
   /**
@@ -259,7 +257,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
     context.fields = {
       set: new fields.SetField(new fields.StringField())
-    }
+    };
     
     // Source Compendia filter
     context.filters.push({
@@ -289,7 +287,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       'creatures': [],
       'talents': [],
       'spells': ['system.tier']
-    }
+    };
 
     // Render Other filters
     for (const [filterKey, filterData] of Object.entries(this.filtersData)) {
@@ -303,7 +301,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         options: filterData,
         hidden: filterKey === 'type' ? false : !viewFilters[this.view].includes(filterKey)
       })
-
     }
     
     this.multiCheckboxesData = await context.filters;
@@ -410,6 +407,37 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   }
 
   /* -------------------------------------------- */
+  
+  /** @inheritdoc */
+  async _onRender(context, options) {
+    await super._onRender(context, options);
+
+    // Initialize Drag and Drop handlers
+    const dragDropPairs = [
+      {
+        dragSelector: '.item .item-name',
+        dropSelector: null
+      }
+    ];
+
+    for (const dragDropPair of dragDropPairs) {
+      new foundry.applications.ux.DragDrop.implementation({
+        dragSelector: dragDropPair.dragSelector,
+        dropSelector: dragDropPair.dropSelector,
+        permissions: {
+          dragstart: () => true,
+          drop: () => true,
+        },
+        callbacks: {
+          dragstart: this._onDragStart.bind(this),
+          dragover: this._onDragOver.bind(this),
+          drop: this._onDrop.bind(this),
+        },
+      }).bind(this.element);
+    }
+  }
+
+  /* -------------------------------------------- */
   /*  Core Functionality                          */
   /* -------------------------------------------- */
 
@@ -426,12 +454,10 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         const packDocs = Array.from(await pack.getIndex());
         
         for (const entry of packDocs) {
-          console.log(entry)
           const allowedDocs = [...await entry.pages].filter(p => validTypes.includes(p.type));
           allowedDocs.forEach(x => {
             x.uuid = foundry.utils.buildUuid({parent: entry, id: x._id, documentName: 'JournalEntryPage'});
             x.documentName = 'JournalEntryPage';
-            x.collection = pack.uuid;
           });
           
           docList = [... docList, ... allowedDocs];
@@ -440,7 +466,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         const allowedDocs = [... Array.from(await pack.getIndex())].filter(d => validTypes.includes(d.type));
         allowedDocs.forEach(x => {
           x.documentName = pack.documentName;
-          x.collection = pack.uuid;
         });
 
         docList = [... docList, ... allowedDocs];
@@ -983,7 +1008,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
    * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
   */
   static async #openSheet(event, target) {
-    const doc = await fromUuid(target.dataset.itemUuid);
+    const doc = await fromUuid(target.dataset.docUuid);
     
     return doc.documentName === 'JournalEntryPage' ? doc.viewPage() : doc.sheet.render(true);
   }
@@ -1071,63 +1096,12 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   /* -------------------------------------------- */
 
   /**
-   * Create drag-and-drop workflow handlers for this Application
-   * @returns {DragDrop[]}     An array of DragDrop handlers
-   * @private
-   */
-  #createDragDropHandlers() {
-    
-    return this.options.dragDrop.map((d) => {
-      d.permissions = {
-        dragstart: this._canDragStart.bind(this),
-        drop: this._canDragDrop.bind(this),
-      };
-
-      d.callbacks = {
-        dragstart: this._onDragStart.bind(this),
-        dragover: this._onDragOver.bind(this),
-        drop: this._onDrop.bind(this),
-      };
-      
-      return new DragDrop(d);
-    });
-  }
-
-  #dragDrop;
-
-  /* -------------------------------------------- */
-
-  /**
-   * Define whether a user is able to begin a dragstart workflow for a given drag selector
-   * @param {string} selector       The candidate HTML selector for dragging
-   * @returns {boolean}             Can the current user drag this selector?
-   * @protected
-   */
-  _canDragStart(selector) {
-    return true; //this.isEditable;
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Define whether a user is able to conclude a drag-and-drop workflow for a given drop selector
-   * @param {string} selector       The candidate HTML selector for the drop target
-   * @returns {boolean}             Can the current user drop on this selector?
-   * @protected
-   */
-  _canDragDrop(selector) {
-    return true;//this.isEditable;
-  }
-
-  /* -------------------------------------------- */
-
-  /**
    * Callback actions which occur at the beginning of a drag start workflow.
    * @param {DragEvent} event       The originating DragEvent
    * @protected
    */
   _onDragStart(event) {
-    if ( ui.context ) ui.context.close({animate: false});
+    if ( ui.context ) ui.context.close({ animate: false });
     const li = event.currentTarget.closest(".item");
     
     const dragData = this._getEntryDragData(li.dataset.itemId);
@@ -1137,18 +1111,19 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
   }
 
-  /* -------------------------------------------- */
+  async _onDragStart(event) {
+    const li = event.currentTarget.closest(".item");
+    let dragData;
 
-  /**
-   * Get the data transfer object for a Compendium Entry being dragged from this item
-   * @param {string} entryId     The Compendium Entry's _id being dragged
-   * @returns {Object}
-   * @private
-   */
-  _getEntryDragData(entryId) {
-    const entry = this.compendium.get(entryId);
-    
-    return entry?.toDragData();
+    // Dragging document
+    if ( li.dataset.docUuid ) {
+      const document = await fromUuid(li.dataset.docUuid);
+      if (!document) return;
+      dragData = document.toDragData();
+    }
+
+    // Set data for transfer
+    event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
   }
 
   /* -------------------------------------------- */
@@ -1170,12 +1145,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
    * @protected
    */
   async _onDrop(event) {
-    const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
-    
-    // Handle different data views
-    switch (data.view) {
-        // write your cases
-    }
+    // Do nothing
   }
 
   /* -------------------------------------------- */
@@ -1291,16 +1261,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     })
 
     return icons;
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Returns an array of DragDrop instances
-   * @type {DragDrop[]}
-   */
-  get dragDrop() {
-    return this.#dragDrop;
   }
 
   /* -------------------------------------------- */

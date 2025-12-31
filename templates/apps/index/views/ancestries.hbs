@@ -21,13 +21,13 @@
     {{!-- Rows --}}
     <ol class="item-list">
         {{#each documents as |doc id|}}
-        <li class="item flexrow flex-group-left" data-item-id="{{doc._id}}">
+        <li class="item flexrow flex-group-left" data-doc-uuid="{{uuid}}">
             {{!-- Icon --}}
             <div class="item-image"><img src="{{doc.img}}" data-tooltip="{{doc.name}}" width="24" height="24" /></div>
 
             {{!-- Name --}}
             <div class="item-name">
-                <a data-action="openSheet" data-item-uuid="{{doc.uuid}}" data-tooltip="{{doc.tooltip}}">{{doc.name}}</a>
+                <a data-action="openSheet" data-doc-uuid="{{uuid}}" data-tooltip="{{doc.tooltip}}">{{doc.name}}</a>
             </div>
 
             {{!-- Descriptors --}}
