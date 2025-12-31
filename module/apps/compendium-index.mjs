@@ -29,11 +29,20 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     window: {
       title: "WW.Index.Label",
       icon: 'fa-solid fa-hat-wizard',
-      resizable: true
+      resizable: true,
+      controls: [
+        {
+          action: "createRollTable",
+          icon: "fa-solid fa-dice",
+          label: "WW.Index.RollTable.Text",
+          ownership: "VIEWER"
+        }
+      ]
     },
     actions: {
       openSheet: CompendiumIndex.#openSheet,
-      sort: CompendiumIndex.#sortDocuments
+      sort: CompendiumIndex.#sortDocuments,
+      createRollTable: CompendiumIndex.#createRollTable
     },
     position: {
       width: 1050,
@@ -294,7 +303,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   /* -------------------------------------------- */
 
   async _prepareDisplayedDocuments(context) {
-    const searchResults = this.search({ query: this.searchQuery, filters: this.searchFilters });
+    const filteredDocuments = this.search({ query: this.searchQuery, filters: this.searchFilters });
 
     // Prepare pagination
     /*let pages = [];
@@ -347,8 +356,8 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     await loadAllUsers();
     console.log(await pages)
     console.log(docList)*/
-
-    context.documents = searchResults;
+    this.filteredDocuments = filteredDocuments;
+    context.documents = filteredDocuments;
   }
 
   async _prepareColumnHeaders(context) {
@@ -423,17 +432,22 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         const packDocs = Array.from(await pack.getIndex());
         
         for (const entry of packDocs) {
+          console.log(entry)
           const allowedDocs = [...await entry.pages].filter(p => validTypes.includes(p.type));
           allowedDocs.forEach(x => {
             x.uuid = foundry.utils.buildUuid({parent: entry, id: x._id, documentName: 'JournalEntryPage'});
             x.documentName = 'JournalEntryPage';
+            x.collection = pack.uuid;
           });
           
           docList = [... docList, ... allowedDocs];
         }
       } else {
         const allowedDocs = [... Array.from(await pack.getIndex())].filter(d => validTypes.includes(d.type));
-        allowedDocs.forEach(x => x.documentName = pack.documentName);
+        allowedDocs.forEach(x => {
+          x.documentName = pack.documentName;
+          x.collection = pack.uuid;
+        });
 
         docList = [... docList, ... allowedDocs];
       }
@@ -995,6 +1009,22 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     }
     
     this.render();
+  }
+
+  static async #createRollTable(event, target) {
+    const table = await RollTable.create({
+      name: i18n("WW.Index.RollTable.Title"),
+      results: this.filteredDocuments.map((item, index) => {
+        return ({
+          img: item.img,
+          text: `@UUID[${item.uuid}]`,//text: item.system.descriptionEnriched,
+          type: CONST.TABLE_RESULT_TYPES.DOCUMENT,
+          range: [index+1,index+1]
+        })
+      })
+    })
+
+    table.sheet.render(true);
   }
 
   /* -------------------------------------------- */
