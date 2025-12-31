@@ -32,6 +32,11 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       resizable: true,
       controls: [
         {
+          action: "resyncDocuments",
+          icon: "fa-solid fa-rotate",
+          label: "WW.Index.ResyncDocuments",
+          ownership: "VIEWER"
+        }, {
           action: "createRollTable",
           icon: "fa-solid fa-dice",
           label: "WW.Index.RollTable.Text",
@@ -42,6 +47,10 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     actions: {
       openSheet: CompendiumIndex.#openSheet,
       sort: CompendiumIndex.#sortDocuments,
+
+      // Window header menu
+      openHelp: CompendiumIndex.#onOpenHelp,
+      resyncDocumetns: CompendiumIndex.#onResyncDocuments,
       createRollTable: CompendiumIndex.#createRollTable
     },
     position: {
@@ -381,39 +390,24 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   /*  Life-Cycle Handlers                         */
   /* -------------------------------------------- */
 
-  /** @inheritDoc */
-  async _preRender(context, options) {
-    await super._preRender(context, options);
-  }
-
-  /* -------------------------------------------- */
-
-  /** @inheritDoc */
-  /*async _onFirstRender(context, options) {
-
-    return super._onFirstRender(context, options);
-  }*/
-
-  /* -------------------------------------------- */
-  
   /**
-   * Actions performed after any render of the Application.
-   * Post-render steps are not awaited by the render process.
-   * @param {ApplicationRenderContext} context      Prepared context data
-   * @param {RenderOptions} options                 Provided render options
-   * @protected
+   * @inheritdoc
+   * Append a Help button to the window's header
    */
-  /*async _onRender(context, options) {
-    await super._onRender(context, options);
+  async _renderFrame(options) {
+    const frame = await super._renderFrame(options);
+    const buttons = [
+      game.weirdwizard.utils.constructHTMLButton({
+        label: "",
+        classes: ["header-control", "icon", "fa-solid", "fa-circle-question"],
+        dataset: { action: "openHelp", tooltip: "WW.Index.Help" }
+      })
+    ];
+    
+    this.window.controls?.after(...buttons);
 
-    // Collapsible filters - not working
-    const filters = this.element.querySelector(".filter");
-    window.getSelection().collapse(filters, 0);
-
-    // Create dragDrop listener
-    //this.#dragDrop.forEach((d) => d.bind(this.element));
-
-  }*/
+    return frame;
+  }
 
   /* -------------------------------------------- */
   /*  Core Functionality                          */
@@ -1010,6 +1004,23 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     
     this.render();
   }
+
+  /* -------------------------------------------- */
+
+  static async #onOpenHelp() {
+    const entry = await fromUuid('Compendium.weirdwizard.documentation.JournalEntry.QVPARrip4J6pNUPN');
+    entry.sheet.render(true);
+  }
+
+  /* -------------------------------------------- */
+
+  static async #onResyncDocuments() {
+    await this._updateFullDocumentData();
+    
+    this.render();
+  }
+
+  /* -------------------------------------------- */
 
   static async #createRollTable(event, target) {
     const table = await RollTable.create({
