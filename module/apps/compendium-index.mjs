@@ -230,7 +230,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       ...await super._prepareContext(options),
       views: CONFIG.WW.COMPENDIUM_INDEX_VIEWS,
       view: this.view,
-      weaponTraits: CONFIG.WW.WEAPON_TRAITS,
       searchQuery: this.searchQuery,
       si: this.sortingIcons
     };
@@ -516,7 +515,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         doc.equipmentUses = doc.system.uses.max === 0 ? '<span class="x-large">∞</span>' : doc.system.uses.max;
 
         // Get Requirements
-        doc.system.requirementLabel = doc.system.requirements ? i18n(CONFIG.WW.WEAPON_REQUIREMENTS[doc.system.requirements]) : '—';
+        doc.requirementLabel = doc.system.requirements ? i18n(CONFIG.WW.WEAPON_REQUIREMENTS[doc.system.requirements]) : '—';
 
         // Get Defense Stats
         let armored = 0,
@@ -540,10 +539,26 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         else if (doc.defenseLabel != 0) doc.armorTypeLabel = i18n('WW.Armor.Shield');
         if (doc.defenseLabel == 0) doc.defenseLabel = '—';
 
-        // Prepare traits list for weapons
+        // Prepare Weapon specifics
         if (doc.system.subtype == 'weapon') {
-          // Prepare Grip label
-          doc.system.gripLabel = CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip] ? i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip]) : doc.system.grip;
+          doc.weaponRange = doc.system.traits.range ? i18n("WW.Weapon.Ranged") : i18n("WW.Weapon.Melee");
+          doc.gripLabel = CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip] ? i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip]) : doc.system.grip;
+          doc.weaponDamage = doc.system.damage;
+
+          // Prepare Weapon Traits
+          let traits = '';
+
+          for (const [key,trait] of Object.entries(CONFIG.WW.WEAPON_TRAITS)) {
+            if (doc.system.traits[key]) {
+              console.log(trait)
+              traits += `<span class="info" data-tooltip="${trait.tip}">
+                ${i18n(trait.label)} 
+                ${(key === "range" || key === "thrown") ? doc.system.range : ''}
+              </span>`;
+            }
+          }
+
+          doc.weaponTraits = traits;
         }
 
       }
@@ -1226,19 +1241,45 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       },
       // Equipment
       'availabilityLabel': {
-        label: "WW.Equipment.Availability.Label",
+        label: "WW.Equipment.Availability.Short",
         css: "flex-width-80",
-        views: ['equipment', 'armor']
+        views: ['equipment', 'armor', 'weapons']
       },
       'priceLabel': {
         label: "WW.Equipment.Price",
         css: "flex-width-60",
-        views: ['equipment', 'armor']
+        views: ['equipment', 'armor', 'weapons']
       },
       'equipmentUses': {
         label: "WW.Equipment.Uses",
         css: "",
         views: ['equipment']
+      },
+      // Weapons
+      'requirementLabel': {
+        label: "WW.Weapon.Requirement.Label",
+        css: "flex-width-90",
+        views: ['weapons']
+      },
+      'weaponRange': {
+        label: "WW.Weapon.Type",
+        css: "flex-width-60",
+        views: ['weapons']
+      },
+      'gripLabel': {
+        label: "WW.Weapon.Grip.Label",
+        css: "flex-width-60",
+        views: ['weapons']
+      },
+      'weaponDamage': {
+        label: "WW.Damage.Label",
+        css: "flex-width-60",
+        views: ['weapons']
+      },
+      'weaponTraits': {
+        label: "WW.Weapon.Traits.Label",
+        css: "item-traits",
+        views: ['weapons']
       },
       // Description
       'system.descriptionEnriched': {
