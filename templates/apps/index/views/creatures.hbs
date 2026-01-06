@@ -25,15 +25,15 @@
         {{#each documents as |doc id|}}
         <li class="item flexrow flex-group-left" data-doc-uuid="{{uuid}}">
             {{!-- Icon --}}
-            <div class="item-image"><img src="{{doc.img}}" data-tooltip="{{doc.name}}" width="24" height="24" /></div>
+            <div class="item-image"><img src="{{img}}" data-tooltip="{{name}}" width="24" height="24" /></div>
 
             {{!-- Name --}}
             <div class="item-name">
-                <a data-action="openSheet" data-doc-uuid="{{uuid}}" data-tooltip="{{doc.tooltip}}">{{doc.name}}</a>
+                <a data-action="openSheet" data-doc-uuid="{{uuid}}" data-tooltip="{{tooltip}}">{{name}}</a>
             </div>
             
-            <div class="flex-width-60">{{doc.folderLabel}}</div>
-            <div class="flex-width-60">{{doc.system.stats.difficulty}}</div>
+            <div class="flex-width-60">{{folderLabel}}</div>
+            <div class="flex-width-60">{{system.stats.difficulty}}</div>
             <div>
                 <ol>
                 {{#each doc.system.listEntries.descriptors as |entry id|}}
@@ -42,15 +42,15 @@
                 </ol>
             </div>
 
-            <div class="flex-width-50">{{doc.system.attributes.str.value}}</div>
-            <div class="flex-width-50">{{doc.system.attributes.agi.value}}</div>
-            <div class="flex-width-50">{{doc.system.attributes.int.value}}</div>
-            <div class="flex-width-50">{{doc.system.attributes.wil.value}}</div>
+            <div class="flex-width-50">{{system.attributes.str.value}}</div>
+            <div class="flex-width-50">{{system.attributes.agi.value}}</div>
+            <div class="flex-width-50">{{system.attributes.int.value}}</div>
+            <div class="flex-width-50">{{system.attributes.wil.value}}</div>
             
-            <div class="flex-width-50">{{doc.system.stats.defense.natural}}</div>
-            <div class="flex-width-50">{{doc.system.stats.health.normal}}</div>
-            <div class="flex-width-50">{{doc.system.stats.size}}</div>
-            <div class="flex-width-50">{{doc.system.stats.speed.normal}}</div>
+            <div class="flex-width-50">{{system.stats.defense.natural}}</div>
+            <div class="flex-width-50">{{system.stats.health.normal}}</div>
+            <div class="flex-width-50">{{system.stats.size}}</div>
+            <div class="flex-width-50">{{system.stats.speed.normal}}</div>
         </li>
         {{/each}}
     </ol>

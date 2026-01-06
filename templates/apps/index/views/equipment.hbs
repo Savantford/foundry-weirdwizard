@@ -14,22 +14,22 @@
         {{#each documents as |doc id|}}
         <li class="item flexrow flex-group-left" data-doc-uuid="{{uuid}}">
             {{!-- Icon --}}
-            <div class="item-image"><img src="{{doc.img}}" data-tooltip="{{doc.name}}" width="24" height="24" /></div>
+            <div class="item-image"><img src="{{img}}" data-tooltip="{{name}}" width="24" height="24" /></div>
 
             {{!-- Name --}}
             <div class="item-name">
-                <a data-action="openSheet" data-doc-uuid="{{uuid}}" data-tooltip="{{doc.tooltip}}">{{doc.name}}</a>
+                <a data-action="openSheet" data-doc-uuid="{{uuid}}" data-tooltip="{{tooltip}}">{{name}}</a>
             </div>
 
             {{!-- Type --}}
-            <div class="flex-width-60">{{doc.subtypeLabel}}</div>
+            <div class="flex-width-60">{{subtypeLabel}}</div>
 
-            <div class="flex-width-80">{{doc.availabilityLabel}}</div>
-            <div class="flex-width-60">{{{doc.priceLabel}}}</div>
-            <div>{{{doc.equipmentUses}}}</div>
+            <div class="flex-width-80">{{availabilityLabel}}</div>
+            <div class="flex-width-60">{{{priceLabel}}}</div>
+            <div>{{{equipmentUses}}}</div>
 
             {{!-- Description --}}
-            <div class="item-last">{{{doc.system.descriptionEnriched}}}</div>
+            <div class="item-last">{{{system.descriptionEnriched}}}</div>
         </li>
         {{/each}}
     </ol>

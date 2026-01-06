@@ -16,18 +16,18 @@
         {{#each documents as |doc id|}}
         <li class="item flexrow flex-group-left" data-doc-uuid="{{uuid}}">
             {{!-- Icon --}}
-            <div class="item-image"><img src="{{doc.img}}" data-tooltip="{{doc.name}}" width="24" height="24" /></div>
+            <div class="item-image"><img src="{{img}}" data-tooltip="{{name}}" width="24" height="24" /></div>
 
             {{!-- Name --}}
             <div class="item-name">
-                <a data-action="openSheet" data-doc-uuid="{{uuid}}" data-tooltip="{{doc.tooltip}}">{{doc.name}}</a>
+                <a data-action="openSheet" data-doc-uuid="{{uuid}}" data-tooltip="{{tooltip}}">{{name}}</a>
             </div>
 
-            <div class="flex-width-60">{{doc.talentTypeLabel}}</div>
+            <div class="flex-width-60">{{talentTypeLabel}}</div>
             <div class="flex-width-50"><i class="fa-solid {{#if doc.system.magical}}fa-check{{else}}fa-xmark-large{{/if}}"></i></div>
-            <div>{{#if (eq doc.system.uses.max 0)}}<span style="font-size: large">∞</span>{{else}}{{doc.system.uses.max}}{{/if}}</div>
-            <div>{{{ doc.usedByLinks }}}</div>
-            <div class="item-last">{{{doc.system.descriptionEnriched}}}</div>
+            <div>{{#if (eq doc.system.uses.max 0)}}<span style="font-size: large">∞</span>{{else}}{{system.uses.max}}{{/if}}</div>
+            <div>{{{ usedByLinks }}}</div>
+            <div class="item-last">{{{system.descriptionEnriched}}}</div>
 
         </li>
         {{/each}}

@@ -24,26 +24,26 @@
         {{#each documents as |doc id|}}
         <li class="item flexrow flex-group-left" data-doc-uuid="{{uuid}}">
             {{!-- Icon --}}
-            <div class="item-image"><img src="{{doc.img}}" data-tooltip="{{doc.name}}" width="24" height="24" /></div>
+            <div class="item-image"><img src="{{img}}" data-tooltip="{{name}}" width="24" height="24" /></div>
 
             {{!-- Name --}}
             <div class="item-name">
-                <a data-action="openSheet" data-doc-uuid="{{uuid}}" data-tooltip="{{doc.tooltip}}">{{doc.name}}</a>
+                <a data-action="openSheet" data-doc-uuid="{{uuid}}" data-tooltip="{{tooltip}}">{{name}}</a>
             </div>
 
-            <div class="flex-width-60">{{ doc.tierLabel }}</div>
+            <div class="flex-width-60">{{ tierLabel }}</div>
 
             {{!-- Stats Summary --}}
-            <div class="flex-width-60">{{{ doc.benefitsSummary.natural }}}</div>
-            <div class="flex-width-60">{{{ doc.benefitsSummary.armored }}}</div>
-            <div class="flex-width-60">{{{ doc.benefitsSummary.health }}}</div>
-            <div class="flex-width-60">{{{ doc.benefitsSummary.bonusDamage }}}</div>
-            <div class="flex-width-60">{{{ doc.benefitsSummary.speed }}}</div>
+            <div class="flex-width-60">{{{ benefitsSummary.natural }}}</div>
+            <div class="flex-width-60">{{{ benefitsSummary.armored }}}</div>
+            <div class="flex-width-60">{{{ benefitsSummary.health }}}</div>
+            <div class="flex-width-60">{{{ benefitsSummary.bonusDamage }}}</div>
+            <div class="flex-width-60">{{{ benefitsSummary.speed }}}</div>
 
-            <div class="item-width-60">{{{ doc.benefitsSummary.traditions }}}</div>
-            <div class="item-width-60">{{{ doc.benefitsSummary.spells }}}</div>
+            <div class="item-width-60">{{{ benefitsSummary.traditions }}}</div>
+            <div class="item-width-60">{{{ benefitsSummary.spells }}}</div>
             
-            <div class="item-last">{{{ doc.benefitsSummary.talents }}}</div>
+            <div class="item-last">{{{ benefitsSummary.talents }}}</div>
         </li>
         {{/each}}
     </ol>
