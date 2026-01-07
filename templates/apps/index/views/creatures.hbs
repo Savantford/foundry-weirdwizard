@@ -1,23 +1,11 @@
 <section class="view creatures">
-
     {{!-- Header Row --}}
     <li class="item flexrow items-header">
         <div class="item-image"></div>
-        <div class="item-name">{{localize "WW.Item.Name"}}</div>
-
-        <div class="flex-width-60">{{localize "TYPES.Actor.group"}}</div>
-        <div class="flex-width-50">{{localize "WW.Stats.Difficulty"}}</div>
-        <div>{{localize "WW.ListEntry.Descriptor.Label"}}</div>
-
-        <div class="flex-width-50">{{localize "WW.Attributes.Strength"}}</div>
-        <div class="flex-width-50">{{localize "WW.Attributes.Agility"}}</div>
-        <div class="flex-width-50">{{localize "WW.Attributes.Intellect"}}</div>
-        <div class="flex-width-50">{{localize "WW.Attributes.Will"}}</div>
-        
-        <div class="flex-width-50">{{localize "WW.Defense.Label"}}</div>
-        <div class="flex-width-50">{{localize "WW.Health.Label"}}</div>
-        <div class="flex-width-50">{{localize "WW.Stats.Size"}}</div>
-        <div class="flex-width-50">{{localize "WW.Stats.Speed"}}</div>
+    
+        {{#each colHeaders as |header id|}}
+            {{> "systems/weirdwizard/templates/apps/index/parts/col-header.hbs" data=header }}
+        {{/each}}
     </li>
 
     {{!-- Rows --}}

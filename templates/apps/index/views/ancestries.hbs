@@ -1,21 +1,11 @@
 <section class="view ancestries">
-
     {{!-- Header Row --}}
     <li class="item flexrow items-header">
         <div class="item-image"></div>
-        <div class="item-name">{{localize "WW.Item.Name"}}</div>
-
-        <div>{{localize "WW.ListEntry.Descriptor.Label"}}</div>
-        <div>{{localize "WW.ListEntry.Sense.Label"}}</div>
-        <div>{{localize "WW.ListEntry.Language.Label"}}</div>
-        
-        <div class="flex-width-50">{{localize "WW.Health.Label"}}</div>
-        <div class="flex-width-50">{{localize "WW.Defense.Label"}}</div>
-        <div class="flex-width-50">{{localize "WW.Stats.Size"}}</div>
-        <div>{{localize "WW.Stats.Speed"}}</div>
-
-        <div>{{localize "WW.ListEntry.Immunity.Label"}}</div>
-        <div class="item-last">{{localize "WW.Weapon.Traits.Label"}}</div>
+    
+        {{#each colHeaders as |header id|}}
+            {{> "systems/weirdwizard/templates/apps/index/parts/col-header.hbs" data=header }}
+        {{/each}}
     </li>
 
     {{!-- Rows --}}

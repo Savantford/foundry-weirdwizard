@@ -501,21 +501,21 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       // Prepare Equipment specifics
       if (doc.type === 'equipment') {
         // Get Availability
-        doc.availabilityLabel = i18n(CONFIG.WW.EQUIPMENT_AVAILABILITIES[doc.system.availability]);
+        doc.equipmentAvailability = i18n(CONFIG.WW.EQUIPMENT_AVAILABILITIES[doc.system.availability]);
 
         // Get Price
         if (doc.system.price?.value) {
           const tip = i18n(CONFIG.WW.EQUIPMENT_COINS[doc.system.price.coin].tip);
           const color = CONFIG.WW.EQUIPMENT_COINS[doc.system.price.coin].color;
 
-          doc.priceLabel = `${doc.system.price.value} <i class="fa-solid fa-coins ${color}" data-tooltip="${tip}"></i>`;
+          doc.equipmentPrice = `${doc.system.price.value} <i class="fa-solid fa-coins ${color}" data-tooltip="${tip}"></i>`;
         }
 
         // Equipment Uses
         doc.equipmentUses = doc.system.uses.max === 0 ? '<span class="x-large">∞</span>' : doc.system.uses.max;
 
         // Get Requirements
-        doc.requirementLabel = doc.system.requirements ? i18n(CONFIG.WW.WEAPON_REQUIREMENTS[doc.system.requirements]) : '—';
+        doc.weaponRequirement = doc.system.requirements ? i18n(CONFIG.WW.WEAPON_REQUIREMENTS[doc.system.requirements]) : '—';
 
         // Get Defense Stats
         let armored = 0,
@@ -533,16 +533,16 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         }
 
         // Set Defense and Armor Type labels
-        doc.defenseLabel = bonus ? `+${bonus}` : `${armored} ${natural ? 'or +' + natural : ''}`;
+        doc.armorDefense = bonus ? `+${bonus}` : `${armored} ${natural ? 'or +' + natural : ''}`;
 
-        if (doc.system.subtype === 'armor') doc.armorTypeLabel = i18n(CONFIG.WW.ARMOR_TYPES[doc.system.armorType]);
-        else if (doc.defenseLabel != 0) doc.armorTypeLabel = i18n('WW.Armor.Shield');
-        if (doc.defenseLabel == 0) doc.defenseLabel = '—';
+        if (doc.system.subtype === 'armor') doc.armorType = i18n(CONFIG.WW.ARMOR_TYPES[doc.system.armorType]);
+        else if (doc.armorDefense != 0) doc.armorType = i18n('WW.Armor.Shield');
+        if (doc.armorDefense == 0) doc.armorDefense = '—';
 
         // Prepare Weapon specifics
         if (doc.system.subtype == 'weapon') {
           doc.weaponRange = doc.system.traits.range ? i18n("WW.Weapon.Ranged") : i18n("WW.Weapon.Melee");
-          doc.gripLabel = CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip] ? i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip]) : doc.system.grip;
+          doc.weaponGrip = CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip] ? i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip]) : doc.system.grip;
           doc.weaponDamage = doc.system.damage;
 
           // Prepare Weapon Traits
@@ -550,7 +550,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
           for (const [key,trait] of Object.entries(CONFIG.WW.WEAPON_TRAITS)) {
             if (doc.system.traits[key]) {
-              console.log(trait)
               traits += `<span class="info" data-tooltip="${trait.tip}">
                 ${i18n(trait.label)} 
                 ${(key === "range" || key === "thrown") ? doc.system.range : ''}
@@ -1212,7 +1211,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
   static get colHeaders() {
     return {
-      // Name and Type
+      // General Fields
       'name': {
         label: "WW.Item.Name",
         css: "item-name",
@@ -1229,23 +1228,23 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         views: ['equipment']
       },
       // Armor
-      'armorTypeLabel': {
+      'armorType': {
         label: "WW.Armor.Type",
         css: "flex-width-60",
         views: ['armor']
       },
-      'defenseLabel': {
+      'armorDefense': {
         label: "WW.Defense.Label",
         css: "flex-width-60",
         views: ['armor']
       },
       // Equipment
-      'availabilityLabel': {
+      'equipmentAvailability': {
         label: "WW.Equipment.Availability.Short",
         css: "flex-width-80",
         views: ['equipment', 'armor', 'weapons']
       },
-      'priceLabel': {
+      'equipmentPrice': {
         label: "WW.Equipment.Price",
         css: "flex-width-60",
         views: ['equipment', 'armor', 'weapons']
@@ -1256,7 +1255,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         views: ['equipment']
       },
       // Weapons
-      'requirementLabel': {
+      'weaponRequirement': {
         label: "WW.Weapon.Requirement.Label",
         css: "flex-width-90",
         views: ['weapons']
@@ -1266,7 +1265,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         css: "flex-width-60",
         views: ['weapons']
       },
-      'gripLabel': {
+      'weaponGrip': {
         label: "WW.Weapon.Grip.Label",
         css: "flex-width-60",
         views: ['weapons']
@@ -1281,13 +1280,239 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         css: "item-traits",
         views: ['weapons']
       },
+      // Ancestries
+      'ancestryDescriptors': {
+        label: "WW.ListEntry.Descriptor.Label",
+        css: "",
+        views: ['ancestries']
+      },
+      'ancestrySenses': {
+        label: "WW.ListEntry.Sense.Label",
+        css: "",
+        views: ['ancestries']
+      },
+      'ancestryLanguages': {
+        label: "WW.ListEntry.Language.Label",
+        css: "",
+        views: ['ancestries']
+      },
+      'ancestryStats': {
+        label: i18n("WW.Health.Label") & i18n("WW.Defense.Label"),
+        css: "",
+        views: ['ancestries']
+      },
+      'ancestrySize': {
+        label: "WW.Stats.Size",
+        css: "flex-width-50",
+        views: ['ancestries']
+      },
+      'ancestrySpeed': {
+        label: "WW.Stats.Speed",
+        css: "",
+        views: ['ancestries']
+      },
+      'ancestryImmune': {
+        label: "WW.ListEntry.Immunity.Label",
+        css: "",
+        views: ['ancestries']
+      },
+      'ancestryTraits': {
+        label: "WW.Weapon.Traits.Label",
+        css: "item-last",
+        views: ['ancestries']
+      },
+      // Paths
+      'pathTier': {
+        label: "WW.Item.Tier",
+        css: "flex-width-60",
+        views: ['paths']
+      },
+      'pathNatural': {
+        label: "WW.Defense.Natural",
+        css: "flex-width-60",
+        views: ['paths']
+      },
+      'pathArmored': {
+        label: "WW.Defense.Armored",
+        css: "flex-width-60",
+        views: ['paths']
+      },
+      'pathHealth': {
+        label: "WW.Health.Label",
+        css: "flex-width-60",
+        views: ['paths']
+      },
+      'pathBonusDamage': {
+        label: "WW.Damage.Bonus",
+        css: "flex-width-60",
+        views: ['paths']
+      },
+      'pathSpeed': {
+        label: "WW.Stats.Speed",
+        css: "flex-width-60",
+        views: ['paths']
+      },
+      'pathTraditions': {
+        label: "WW.Tradition.Label",
+        css: "flex-width-60",
+        views: ['paths']
+      },
+      'pathSpells': {
+        label: "WW.Spells.Label",
+        css: "flex-width-60",
+        views: ['paths']
+      },
+      'pathTalents': {
+        label: "WW.CharOptions.PathTalents",
+        css: "item-last",
+        views: ['paths']
+      },
+      // Professions
+      'professionCategory': {
+        label: "WW.Profession.Category",
+        css: "flex-width-60",
+        views: ['professions']
+      },
+      'professionLanguages': {
+        label: "WW.ListEntry.Language.Bonus",
+        css: "",
+        views: ['professions']
+      },
+      'professionEquipment': {
+        label: "TYPES.Item.equipment",
+        css: "",
+        views: ['professions']
+      },
+      // Traditions
+      'traditionTalents': {
+        label: "WW.Tradition.Talents",
+        css: "",
+        views: ['traditions']
+      },
+      'traditionNovice': {
+        label: "WW.Spells.Novice",
+        css: "",
+        views: ['traditions']
+      },
+      'traditionExpert': {
+        label: "WW.Spells.Expert",
+        css: "",
+        views: ['traditions']
+      },
+      'traditionMaster': {
+        label: "WW.Spells.Master",
+        css: "",
+        views: ['traditions']
+      },
+      // Creatures
+      'creatureGroup': {
+        label: "TYPES.Actor.group",
+        css: "flex-width-60",
+        views: ['creatures']
+      },
+      'creatureDifficulty': {
+        label: "WW.Stats.Difficulty",
+        css: "flex-width-50",
+        views: ['creatures']
+      },
+      'creatureDescriptors': {
+        label: "WW.ListEntry.Descriptor.Label",
+        css: "",
+        views: ['creatures']
+      },
+      'creatureStrength': {
+        label: "WW.Attributes.Strength",
+        css: "flex-width-50",
+        views: ['creatures']
+      },
+      'creatureAgility': {
+        label: "WW.Attributes.Agility",
+        css: "flex-width-50",
+        views: ['creatures']
+      },
+      'creatureIntellect': {
+        label: "WW.Attributes.Intellect",
+        css: "flex-width-50",
+        views: ['creatures']
+      },
+      'creatureWill': {
+        label: "WW.Attributes.Will",
+        css: "flex-width-50",
+        views: ['creatures']
+      },
+      'creatureDefense': {
+        label: "WW.Defense.Label",
+        css: "flex-width-50",
+        views: ['creatures']
+      },
+      'creatureHealth': {
+        label: "WW.Health.Label",
+        css: "flex-width-50",
+        views: ['creatures']
+      },
+      'creatureSize': {
+        label: "WW.Stats.Size",
+        css: "flex-width-50",
+        views: ['creatures']
+      },
+      'creatureSpeed': {
+        label: "WW.Stats.Speed",
+        css: "flex-width-50",
+        views: ['creatures']
+      },
+      // Traits & Talents
+      'talentType': {
+        label: "WW.Item.Type",
+        css: "flex-width-60",
+        views: ['talents']
+      },
+      'talentMagical': {
+        label: "WW.Talent.Magical",
+        css: "flex-width-50",
+        views: ['talents']
+      },
+      'talentUses': {
+        label: "WW.Talent.Uses",
+        css: "",
+        views: ['talents']
+      },
+      'talentUsedBy': {
+        label: "WW.Item.UsedBy",
+        css: "",
+        views: ['talents']
+      },
+      // Spells
+      'spellTier': {
+        label: "WW.Item.Tier",
+        css: "flex-width-60",
+        views: ['spells']
+      },
+      'spellTradition': {
+        label: "WW.Spell.Tradition",
+        css: "flex-width-60",
+        views: ['spells']
+      },
+      'spellCastings': {
+        label: "WW.Spell.Castings",
+        css: "",
+        views: ['spells']
+      },
+      'spellTarget': {
+        label: "WW.Spell.Target",
+        css: "",
+        views: ['spells']
+      },
+      'spellDuration': {
+        label: "WW.Spell.Duration",
+        css: "",
+        views: ['spells']
+      },
       // Description
       'system.descriptionEnriched': {
         label: "WW.Item.Description",
         css: "item-last",
-        views: ['generic', 'equipment', 'armor']
-      },
-      
+        views: ['generic', 'equipment', 'armor', 'professions', 'talents', 'spells']
+      }      
     };
   }
 
