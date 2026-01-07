@@ -4914,6 +4914,7 @@ details.document-card .card-header:hover::after {
           display: inline-flex;
           flex-flow: wrap;
           gap: 0 5px;
+          justify-content: center;
 
           >li:not(:last-of-type)::after {
             content: ", ";

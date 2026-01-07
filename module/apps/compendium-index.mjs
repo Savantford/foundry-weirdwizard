@@ -1,4 +1,4 @@
-import { i18n } from '../helpers/utils.mjs';
+import { i18n, plusify } from '../helpers/utils.mjs';
 import IndexFilter from '../ux/index-filter.mjs';
 
 // Similar syntax to importing, but note that
@@ -512,7 +512,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         }
 
         // Equipment Uses
-        doc.equipmentUses = doc.system.uses.max === 0 ? '<span class="x-large">∞</span>' : doc.system.uses.max;
+        doc.equipmentUses = doc.system.uses.max === 0 ? 'inf' : doc.system.uses.max;
 
         // Get Requirements
         doc.weaponRequirement = doc.system.requirements ? i18n(CONFIG.WW.WEAPON_REQUIREMENTS[doc.system.requirements]) : '—';
@@ -587,14 +587,66 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
       // Prepare Ancestry specifics
       if (doc.type === 'ancestry') {
-        for (const [k, v] of Object.entries(doc.system.benefits)) {
-          v.traitLinks = [];
+        const benefit = doc.system.benefits.benefit1;
 
-          for (const uuid of v.items) {
-            v.traitLinks.push(await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${uuid}]`, { secrets: doc.isOwner }));
-          }
-          
+        
+        // Health
+        const {sizeNormal, speedNormal, ...stats} = benefit.stats;
+        let ancestryStats = '';
+        for (const [k, v] of Object.entries(stats)) {
+          let label = k === 'healthIncrease' ? "WW.Health.Short" : "WW.Defense.NaturalShort";
+          if (v) ancestryStats += `<li><b>${i18n(label)}:</b> ${plusify(v)}</li>`;
         }
+        doc.ancestryStats = ancestryStats ? `<ol>${ancestryStats}</ol>` : '—';
+
+        // Size
+        doc.ancestrySize = CONFIG.WW.SIZE_FRACTIONS[sizeNormal] ?? sizeNormal;
+        
+        // Speed
+        let movementTraits = '';
+        if (benefit.movementTraits) {
+          for (const [_, v] of Object.entries(benefit.movementTraits)) {     
+            movementTraits += `<li class="info" data-tooltip="${v.desc}">${v.name}</li>`;
+          }
+        }
+        doc.ancestrySpeed = movementTraits ? `${speedNormal} (<ol>${movementTraits}</ol>)` : speedNormal;
+
+        // Descriptors
+        let descriptors = '';
+        for (const [_, v] of Object.entries(benefit.descriptors)) {     
+          descriptors += `<li class="info" data-tooltip="${v.desc}">${v.name}</li>`;
+        }
+        doc.ancestryDescriptors = descriptors ? `<ol>${descriptors}</ol>` : '—';
+
+        // Senses
+        let senses = '';
+        for (const [_, v] of Object.entries(benefit.senses)) {     
+          senses += `<li class="info" data-tooltip="${v.desc}">${v.name}</li>`;
+        }
+        doc.ancestrySenses = senses ? `<ol>${senses}</ol>` : '—';
+
+        // Languages
+        let languages = '';
+        for (const [_, v] of Object.entries(benefit.languages)) {     
+          languages += `<li class="info" data-tooltip="${v.desc}">${v.name}</li>`;
+        }
+        doc.ancestryLanguages = languages ? `<ol>${languages}</ol>` : '—';
+
+        // Languages
+        let immunities = '';
+        if (benefit.immunities) {
+          for (const [_, v] of Object.entries(benefit.immunities)) {     
+            immunities += `<li class="info" data-tooltip="${v.desc}">${v.name}</li>`;
+          }
+        }
+        doc.ancestryImmunities = immunities ? `<ol>${immunities}</ol>` : '—';
+
+        // Traits
+        let traits = '';
+        for (const uuid of benefit.items) {
+          traits += `<li class="info">@UUID[${uuid}]</li>`;
+        }
+        doc.ancestryTraits = traits ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(`<ol>${traits}</ol>`, { secrets: doc.isOwner }) : '—';
       }
 
       // Prepare Path specifics
@@ -608,7 +660,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
           talents: ''
         };
 
-        for await (const [k, v] of Object.entries(doc.system.benefits)) {
+        for await (const [_, v] of Object.entries(doc.system.benefits)) {
           const lv = `<b>${i18n("WW.CharOption.BenefitsSummaryLevel", {level: v.levelReq})}:</b>`;
           
           // Natural Defense
@@ -657,7 +709,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         doc.professionCategory = i18n(CONFIG.WW.PROFESSION_CATEGORIES[doc.system.category]);
 
         // Prepare Equipment Links
-        for (const [k, v] of Object.entries(doc.system.benefits)) {
+        for (const [_, v] of Object.entries(doc.system.benefits)) {
           v.equipmentLinks = [];
 
           for (const uuid of v.items) {
@@ -1114,17 +1166,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
    * @param {DragEvent} event       The originating DragEvent
    * @protected
    */
-  _onDragStart(event) {
-    if ( ui.context ) ui.context.close({ animate: false });
-    const li = event.currentTarget.closest(".item");
-    
-    const dragData = this._getEntryDragData(li.dataset.itemId);
-    if ( !dragData ) return;
-
-    // Set data transfer
-    event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
-  }
-
   async _onDragStart(event) {
     const li = event.currentTarget.closest(".item");
     let dragData;
@@ -1297,8 +1338,8 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         views: ['ancestries']
       },
       'ancestryStats': {
-        label: `${i18n("WW.Health.Label")} & ${i18n("WW.Defense.Label")}`,
-        css: "",
+        label: `${i18n("WW.Defense.Label")} & ${i18n("WW.Health.Label")}`,
+        css: "flex-width-70",
         views: ['ancestries']
       },
       'ancestrySize': {
@@ -1311,7 +1352,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         css: "",
         views: ['ancestries']
       },
-      'ancestryImmune': {
+      'ancestryImmunities': {
         label: "WW.ListEntry.Immunity.Label",
         css: "",
         views: ['ancestries']

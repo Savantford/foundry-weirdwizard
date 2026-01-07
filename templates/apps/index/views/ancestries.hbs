@@ -21,69 +21,26 @@
             </div>
 
             {{!-- Descriptors --}}
-            <div>
-                <ol>
-                {{#each system.benefits.benefit1.descriptors as |descriptor|}}
-                    <li class="info" data-tooltip="{{descriptor.desc}}">{{ descriptor.name }}</li>
-                {{/each}}
-                </ol>
-            </div>
+            <div>{{{ ancestryDescriptors }}}</div>
 
             {{!-- Senses --}}
-            <div>
-                <ol>
-                {{#each system.benefits.benefit1.senses as |sense|}}
-                    <li class="info" data-tooltip="{{sense.desc}}">{{ sense.name }}</li>
-                {{/each}}
-                </ol>
-            </div>
+            <div>{{{ ancestrySenses }}}</div>
 
             {{!-- Languages --}}
-            <div>
-                <ol>
-                {{#each system.benefits.benefit1.languages as |language|}}
-                    <li class="info" data-tooltip="{{language.desc}}">{{ language.name }}</li>
-                {{/each}}
-                </ol>
-            </div>
+            <div>{{{ ancestryLanguages }}}</div>
 
             {{!-- Stats --}}
-            {{#with system.benefits.benefit1.stats}}
-            <div class="flex-width-50">{{#if healthIncrease}}{{numberFormat healthIncrease sign=true}}{{/if}}</div>
-            <div class="flex-width-50">{{#if naturalIncrease}}{{numberFormat naturalIncrease sign=true}}{{/if}}</div>
-            <div class="flex-width-50">{{sizeNormal}}</div>
-            {{/with}}
+            <div class="flex-width-70">{{{ ancestryStats }}}</div>
+            <div class="flex-width-50">{{ ancestrySize }}</div>
 
             {{!-- Speed --}}
-            <div>
-                {{system.benefits.benefit1.stats.speedNormal}}
-
-                {{#if system.benefits.benefit1.movementTraits}}
-                (<ol>
-                {{#each system.benefits.benefit1.movementTraits as |movementTrait|}}
-                    <li class="info" data-tooltip="{{movementTrait.desc}}">{{ movementTrait.name }}</li>
-                {{/each}}
-                </ol>)
-                {{/if}}
-            </div>
+            <div>{{{ ancestrySpeed }}}</div>
 
             {{!-- Immunities --}}
-            <div>
-                <ol>
-                {{#each system.benefits.benefit1.immunities as |immunity|}}
-                    <li class="info" data-tooltip="{{immunity.desc}}">{{ immunity.name }}</li>
-                {{/each}}
-                </ol>
-            </div>
+            <div>{{{ ancestryImmunities }}}</div>
 
             {{!-- Traits --}}
-            <div class="item-last">
-                <ol>
-                {{#each system.benefits.benefit1.traitLinks as |link|}}
-                    <li>{{{ link }}}</li>
-                {{/each}}
-                </ol>
-            </div>
+            <div class="item-last">{{{ ancestryTraits }}}</div>
 
         </li>
         {{/each}}
