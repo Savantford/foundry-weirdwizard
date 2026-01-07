@@ -1297,7 +1297,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         views: ['ancestries']
       },
       'ancestryStats': {
-        label: i18n("WW.Health.Label") & i18n("WW.Defense.Label"),
+        label: `${i18n("WW.Health.Label")} & ${i18n("WW.Defense.Label")}`,
         css: "",
         views: ['ancestries']
       },
@@ -1354,7 +1354,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       },
       'pathTraditions': {
         label: "WW.Tradition.Label",
-        css: "flex-width-60",
+        css: "flex-width-70",
         views: ['paths']
       },
       'pathSpells': {
@@ -1412,7 +1412,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       },
       'creatureDifficulty': {
         label: "WW.Stats.Difficulty",
-        css: "flex-width-50",
+        css: "flex-width-70",
         views: ['creatures']
       },
       'creatureDescriptors': {
@@ -1422,7 +1422,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       },
       'creatureStrength': {
         label: "WW.Attributes.Strength",
-        css: "flex-width-50",
+        css: "flex-width-60",
         views: ['creatures']
       },
       'creatureAgility': {
@@ -1432,7 +1432,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       },
       'creatureIntellect': {
         label: "WW.Attributes.Intellect",
-        css: "flex-width-50",
+        css: "flex-width-60",
         views: ['creatures']
       },
       'creatureWill': {
@@ -1442,7 +1442,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       },
       'creatureDefense': {
         label: "WW.Defense.Label",
-        css: "flex-width-50",
+        css: "flex-width-60",
         views: ['creatures']
       },
       'creatureHealth': {

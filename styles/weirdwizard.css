@@ -2851,6 +2851,10 @@ hr.bug {
   flex: 0 0 60px;
 }
 
+.weirdwizard .flex-width-70 {
+  flex: 0 0 70px;
+}
+
 .weirdwizard .flex-width-80 {
   flex: 0 0 80px;
 }
