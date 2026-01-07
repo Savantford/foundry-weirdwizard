@@ -23,16 +23,16 @@
             <div class="flex-width-60">{{ tierLabel }}</div>
 
             {{!-- Stats Summary --}}
-            <div class="flex-width-60">{{{ benefitsSummary.natural }}}</div>
-            <div class="flex-width-60">{{{ benefitsSummary.armored }}}</div>
-            <div class="flex-width-60">{{{ benefitsSummary.health }}}</div>
-            <div class="flex-width-60">{{{ benefitsSummary.bonusDamage }}}</div>
-            <div class="flex-width-60">{{{ benefitsSummary.speed }}}</div>
+            <div class="flex-width-60">{{{ pathNatural }}}</div>
+            <div class="flex-width-60">{{{ pathArmored }}}</div>
+            <div class="flex-width-60">{{{ pathHealth }}}</div>
+            <div class="flex-width-60">{{{ pathBonusDamage }}}</div>
+            <div class="flex-width-60">{{{ pathSpeed }}}</div>
 
-            <div class="item-width-70">{{{ benefitsSummary.traditions }}}</div>
-            <div class="item-width-60">{{{ benefitsSummary.spells }}}</div>
+            <div class="flex-width-70">{{{ pathTraditions }}}</div>
+            <div class="flex-width-90">{{{ pathSpells }}}</div>
             
-            <div class="item-last">{{{ benefitsSummary.talents }}}</div>
+            <div class="item-last">{{{ pathTalents }}}</div>
         </li>
         {{/each}}
     </ol>

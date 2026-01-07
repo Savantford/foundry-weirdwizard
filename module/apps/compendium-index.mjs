@@ -657,6 +657,8 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
           health: '',
           speed: '',
           bonusDamage: '',
+          traditions: '',
+          spells: '',
           talents: ''
         };
 
@@ -686,6 +688,20 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
           // Speed
           if (v.stats.speedIncrease) bs.speed += `${bs.speed ? '<br>' : ''}${lv} +${v.stats.speedIncrease}`;
 
+          // Traditions
+          if (Object.keys(v.traditions).length) {
+            bs.traditions += `${bs.traditions ? '<br>' : ''}<ol>${lv} `;
+
+            for (const [_, trad] of Object.entries(v.traditions)) {
+              bs.traditions += `<li class="info" data-tooltip="${trad.desc}">${trad.name}</li>`;
+            }
+
+            bs.traditions += `</ol>`;
+          }
+
+          // Spells
+          if (v.spells && v.spells !== '0') bs.spells += `${bs.spells ? '<br>' : ''}${lv} ${i18n(CONFIG.WW.SPELLS_LEARNED[v.spells])}`;
+          
           // Talents
           if (v.items.length) {
             bs.talents += `${bs.talents ? '<br>' : ''}<ol>${lv} `;
@@ -695,13 +711,19 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
             }
 
             bs.talents += `</ol>`;
-            
           }
           
-          
         }
-        
-        doc.benefitsSummary = bs;
+
+        doc.pathNatural = bs.natural;
+        doc.pathArmored = bs.armored;
+        doc.pathHealth = bs.health;
+        doc.pathBonusDamage = bs.bonusDamage;
+        doc.pathSpeed = bs.speed;
+        doc.pathTraditions = bs.traditions;
+        doc.pathSpells = bs.spells;
+        doc.pathTalents = bs.talents;
+        //doc.ancestryImmunities = traditions ? `<ol>${traditions}</ol>` : '—';
       }
 
       // Prepare Profession specifics
@@ -1400,7 +1422,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       },
       'pathSpells': {
         label: "WW.Spells.Label",
-        css: "flex-width-60",
+        css: "flex-width-90",
         views: ['paths']
       },
       'pathTalents': {

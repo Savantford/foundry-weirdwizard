@@ -4913,7 +4913,7 @@ details.document-card .card-header:hover::after {
         ol {
           display: inline-flex;
           flex-flow: wrap;
-          gap: 0 5px;
+          gap: 0 4px;
           justify-content: center;
 
           >li:not(:last-of-type)::after {
@@ -4923,6 +4923,15 @@ details.document-card .card-header:hover::after {
           .content-link>i {
             display: none;
           }
+        }
+
+        .item-last ol {
+          justify-content: left;
+        }
+
+        .content-link {
+          white-space: normal;
+          word-break: normal;
         }
       }
     }
