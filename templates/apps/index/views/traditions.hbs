@@ -21,27 +21,14 @@
             </div>
 
             {{!-- Talents --}}
-            <div>
-                <ol>
-                {{#each talentLinks as |link|}}
-                    <li>{{{ link }}}</li>
-                {{/each}}
-                </ol>
-            </div>
+            <div>{{{ traditionTalents }}}</div>
 
             {{!-- Spells --}}
-            {{#each spellLinks as |spells|}}
-            <div>
-                <ol>
-                {{#each spells as |link|}}
-                    <li>{{{ link }}}</li>
-                {{/each}}
-                </ol>
-            </div>
-            {{/each}}
+            <div>{{{ traditionNoviceSpells }}}</div>
+            <div>{{{ traditionExpertSpells }}}</div>
+            <div>{{{ traditionMasterSpells }}}</div>
             
         </li>
         {{/each}}
     </ol>
-
 </section>

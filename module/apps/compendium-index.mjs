@@ -749,12 +749,12 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
       // Prepare Tradition specifics
       if (doc.type === 'tradition') {
-        // Prepare Talent Links
-        doc.talentLinks = [];
-
+        // Talents
+        let talents = '';
         for (const uuid of doc.system.talents) {
-          doc.talentLinks.push(await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${uuid}]`, { secrets: doc.isOwner }));
+          talents += `<li class="info">@UUID[${uuid}]</li>`;
         }
+        doc.traditionTalents = talents ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(`<ol>${talents}</ol>`, { secrets: doc.isOwner }) : '—';
 
         // Prepare Spell Links for each Tier
         doc.spellLinks = {
@@ -771,6 +771,30 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
           }
 
         }
+
+        // Novice Spells
+        let novice = '';
+        for (const uuid of doc.system.spells.novice) {
+          novice += `<li class="info">@UUID[${uuid}]</li>`;
+        }
+        doc.traditionNoviceSpells = novice ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(`<ol>${novice}</ol>`, { secrets: doc.isOwner }) : '—';
+        //
+
+        // Expert Spells
+        let expert = '';
+        for (const uuid of doc.system.spells.expert) {
+          expert += `<li class="info">@UUID[${uuid}]</li>`;
+        }
+        doc.traditionExpertSpells = expert ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(`<ol>${expert}</ol>`, { secrets: doc.isOwner }) : '—';
+        //
+
+        // Master Spells
+        let master = '';
+        for (const uuid of doc.system.spells.master) {
+          master += `<li class="info">@UUID[${uuid}]</li>`;
+        }
+        doc.traditionMasterSpells = master ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(`<ol>${master}</ol>`, { secrets: doc.isOwner }) : '—';
+        //
       }
     }
 
@@ -1458,17 +1482,17 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         css: "",
         views: ['traditions']
       },
-      'traditionNovice': {
+      'traditionNoviceSpells': {
         label: "WW.Spells.Novice",
         css: "",
         views: ['traditions']
       },
-      'traditionExpert': {
+      'traditionExpertSpells': {
         label: "WW.Spells.Expert",
         css: "",
         views: ['traditions']
       },
-      'traditionMaster': {
+      'traditionMasterSpells': {
         label: "WW.Spells.Master",
         css: "",
         views: ['traditions']
