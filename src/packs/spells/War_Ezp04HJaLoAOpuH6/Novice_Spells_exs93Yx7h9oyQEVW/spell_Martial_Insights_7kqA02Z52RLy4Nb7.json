@@ -5,9 +5,7 @@
   "_id": "7kqA02Z52RLy4Nb7",
   "img": "icons/skills/melee/weapons-crossed-swords-pink.webp",
   "system": {
-    "description": {
-      "value": "<p>You enhance your fighting instincts. You impose 1 bane on rolls to attack you and you increase your supply of Bonus Damage dice by 2.</p>"
-    },
+    "description": "<p>You enhance your fighting instincts. You impose 1 bane on rolls to attack you and you increase your supply of Bonus Damage dice by 2.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744756972804,
-    "modifiedTime": 1754186601274,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598249174,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!7kqA02Z52RLy4Nb7"

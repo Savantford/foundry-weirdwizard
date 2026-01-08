@@ -5,9 +5,7 @@
   "_id": "ySScgEFMWyKwKkNu",
   "img": "icons/creatures/webs/web-nest-ball-teal.webp",
   "system": {
-    "description": {
-      "value": "<p>Thick, viscous slime covers all exposed surfaces inside the target space. Such surfaces count as challenging terrain. Any creature in the space when you cast the spell, that enters it, or attempts to move through it makes a Strength roll. On a failure, the creature becomes held until the spell ends. A creature can overcome this effect with a successful Strength roll.</p>"
-    },
+    "description": "<p>Thick, viscous slime covers all exposed surfaces inside the target space. Such surfaces count as challenging terrain. Any creature in the space when you cast the spell, that enters it, or attempts to move through it makes a Strength roll. On a failure, the creature becomes held until the spell ends. A creature can overcome this effect with a successful Strength roll.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744752440211,
-    "modifiedTime": 1754186601901,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766597905660,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!ySScgEFMWyKwKkNu"

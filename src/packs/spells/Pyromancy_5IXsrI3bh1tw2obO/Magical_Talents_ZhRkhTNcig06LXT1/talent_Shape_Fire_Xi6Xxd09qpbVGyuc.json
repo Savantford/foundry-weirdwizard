@@ -5,9 +5,7 @@
   "_id": "Xi6Xxd09qpbVGyuc",
   "img": "icons/magic/light/hand-sparks-glow-yellow.webp",
   "system": {
-    "description": {
-      "value": "<p>You can use an action to manipulate fires around you. When you use this talent, choose one of the following effects.</p><ul><li><p><strong>Fan or Dampen Flame:</strong> Target one ordinary Size 1 or smaller fire within 10 yards. Either you increase the intensity of the light the target sheds by one step, but the fire burns twice as fast, or you reduce the intensity of the light the target sheds by one step, but the fire burns twice as long.</p></li><li><p><strong>Extinguish Fire:</strong> Target one Size 1 or smaller ordinary fire within 10 yards. You extinguish the target fire. Then, either you cause smoke to billow from it to fill a Size 5 space centered on the fire with light obscurement for 1 minute, or your damage-dealing Fire spells deal an extra 1d6 damage for 1 minute.</p></li><li><p><strong>Move Flames:</strong> Target one Size 1 or smaller ordinary fire within 10 yards. You move the flames up to 5 yards.</p></li><li><p><strong>Form Fire:</strong> Target one Size 1 or smaller ordinary fire within 10 yards. You shape the fire into a particular form such as a humanoid, a monstrous visage, or burning words. The effect lasts 1 minute.</p></li><li><p><strong>Ignite Flame:</strong> Target one flammable, ordinary object within 10 yards. It catches fire.</p></li></ul>"
-    },
+    "description": "<p>You can use an action to manipulate fires around you. When you use this talent, choose one of the following effects.</p><ul><li><p><strong>Fan or Dampen Flame:</strong> Target one ordinary Size 1 or smaller fire within 10 yards. Either you increase the intensity of the light the target sheds by one step, but the fire burns twice as fast, or you reduce the intensity of the light the target sheds by one step, but the fire burns twice as long.</p></li><li><p><strong>Extinguish Fire:</strong> Target one Size 1 or smaller ordinary fire within 10 yards. You extinguish the target fire. Then, either you cause smoke to billow from it to fill a Size 5 space centered on the fire with light obscurement for 1 minute, or your damage-dealing Fire spells deal an extra 1d6 damage for 1 minute.</p></li><li><p><strong>Move Flames:</strong> Target one Size 1 or smaller ordinary fire within 10 yards. You move the flames up to 5 yards.</p></li><li><p><strong>Form Fire:</strong> Target one Size 1 or smaller ordinary fire within 10 yards. You shape the fire into a particular form such as a humanoid, a monstrous visage, or burning words. The effect lasts 1 minute.</p></li><li><p><strong>Ignite Flame:</strong> Target one flammable, ordinary object within 10 yards. It catches fire.</p></li></ul>",
     "active": true,
     "magical": true,
     "attribute": "",
@@ -42,12 +40,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744755736095,
-    "modifiedTime": 1754186601615,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598456954,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!Xi6Xxd09qpbVGyuc"

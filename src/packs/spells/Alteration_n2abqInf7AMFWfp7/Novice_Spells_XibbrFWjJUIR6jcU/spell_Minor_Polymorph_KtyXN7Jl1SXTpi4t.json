@@ -5,9 +5,7 @@
   "_id": "KtyXN7Jl1SXTpi4t",
   "img": "icons/creatures/mammals/cat-hunched-glowing-red.webp",
   "system": {
-    "description": {
-      "value": "<p>You, along with everything you wear and carry, transform into a Size 1/4 harmless animal of your choice such as a bird, cat, or frog. The effect ends early if you are harmed. Your Speed is 4 and you have the Slippery trait and other movement traits appropriate to your form. You have no attacks and you lose the ability to speak.</p>"
-    },
+    "description": "<p>You, along with everything you wear and carry, transform into a Size 1/4 harmless animal of your choice such as a bird, cat, or frog. The effect ends early if you are harmed. Your Speed is 4 and you have the Slippery trait and other movement traits appropriate to your form. You have no attacks and you lose the ability to speak.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744753050264,
-    "modifiedTime": 1754186601412,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766597722359,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!KtyXN7Jl1SXTpi4t"

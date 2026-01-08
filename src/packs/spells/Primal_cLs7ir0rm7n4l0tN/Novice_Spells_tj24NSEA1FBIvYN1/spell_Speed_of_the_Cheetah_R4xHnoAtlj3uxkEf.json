@@ -5,9 +5,7 @@
   "_id": "R4xHnoAtlj3uxkEf",
   "img": "icons/creatures/abilities/cougar-pounce-stalk-black.webp",
   "system": {
-    "description": {
-      "value": "<p>Increase your Speed by 2 and gain the Slippery trait. When you run, you quadruple your Speed instead of tripling.</p>"
-    },
+    "description": "<p>Increase your Speed by 2 and gain the Slippery trait. When you run, you quadruple your Speed instead of tripling.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744755357121,
-    "modifiedTime": 1754186601507,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598563374,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!R4xHnoAtlj3uxkEf"

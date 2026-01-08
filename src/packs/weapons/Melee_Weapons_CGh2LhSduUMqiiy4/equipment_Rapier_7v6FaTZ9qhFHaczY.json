@@ -4,9 +4,7 @@
   "_id": "7v6FaTZ9qhFHaczY",
   "img": "icons/skills/melee/strike-sword-gray.webp",
   "system": {
-    "description": {
-      "value": "<p>A rapier has a thin, double-edged blade extending from an elaborate guard and handle. Similar weapons, such as jians and side-swords, use the same rules.</p>"
-    },
+    "description": "<p>A rapier has a thin, double-edged blade extending from an elaborate guard and handle. Similar weapons, such as jians and side-swords, use the same rules.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 1,
@@ -38,7 +36,7 @@
     "heldBy": "",
     "requirements": "agi12",
     "damage": "2d6",
-    "grip": "One",
+    "grip": "one",
     "traits": {
       "ammunition": false,
       "bludgeoning": false,
@@ -82,11 +80,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721410074013,
-    "modifiedTime": 1754186600557,
+    "modifiedTime": 1766692503356,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

@@ -4,9 +4,7 @@
   "_id": "uy3Gyc3XmqxKWc23",
   "img": "icons/weapons/swords/greatsword-guard.webp",
   "system": {
-    "description": {
-      "value": "<p>The longsword category includes any sword that has a blade length greater than a normal sword but less than a great sword, such as the hand-and-a-half or katana.</p>"
-    },
+    "description": "<p>The longsword category includes any sword that has a blade length greater than a normal sword but less than a great sword, such as the hand-and-a-half or katana.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 1,
@@ -38,7 +36,7 @@
     "heldBy": "",
     "requirements": "str12",
     "damage": "2d6",
-    "grip": "One",
+    "grip": "one",
     "traits": {
       "ammunition": false,
       "bludgeoning": false,
@@ -82,11 +80,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721407479154,
-    "modifiedTime": 1754186600791,
+    "modifiedTime": 1766692525300,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

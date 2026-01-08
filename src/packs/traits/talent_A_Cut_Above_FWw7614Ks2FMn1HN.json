@@ -4,9 +4,7 @@
   "_id": "FWw7614Ks2FMn1HN",
   "img": "icons/commodities/treasure/medal-ribbon-gold-blue.webp",
   "system": {
-    "description": {
-      "value": "<p>You have certain advantages that set you apart from other people. These advantages can source from special training, a knack, a destiny, or something that happened during upbringing. You can increase the scores of two different attributes by 1 each.</p>"
-    },
+    "description": "<p>You have certain advantages that set you apart from other people. These advantages can source from special training, a knack, a destiny, or something that happened during upbringing. You can increase the scores of two different attributes by 1 each.</p>",
     "active": true,
     "attribute": "",
     "against": "",
@@ -42,12 +40,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1720983432224,
-    "modifiedTime": 1754186601012,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766597181834,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!FWw7614Ks2FMn1HN"

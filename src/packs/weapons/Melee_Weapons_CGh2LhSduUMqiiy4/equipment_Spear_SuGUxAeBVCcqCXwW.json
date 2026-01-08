@@ -2,9 +2,7 @@
   "name": "Spear",
   "type": "equipment",
   "system": {
-    "description": {
-      "value": "<p>A spear is a pole with a sharp point at one end. The point might be whittled down or be a metal spike or blade.</p>"
-    },
+    "description": "<p>A spear is a pole with a sharp point at one end. The point might be whittled down or be a metal spike or blade.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 1,
@@ -28,7 +26,7 @@
     "healing": "",
     "subtype": "weapon",
     "quality": "standard",
-    "grip": "One",
+    "grip": "one",
     "attackRider": {
       "value": {
         "value": ""
@@ -77,9 +75,9 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "createdTime": 1692034683946,
-    "modifiedTime": 1754186600670,
+    "modifiedTime": 1766692485846,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "compendiumSource": null,
     "duplicateSource": null,

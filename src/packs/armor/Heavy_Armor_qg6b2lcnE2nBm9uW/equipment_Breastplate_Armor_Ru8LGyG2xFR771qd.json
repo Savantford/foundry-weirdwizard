@@ -3,9 +3,7 @@
   "type": "equipment",
   "img": "icons/equipment/chest/breastplate-gorget-steel-white.webp",
   "system": {
-    "description": {
-      "value": "<p>A breastplate is typically worn over a coat of mail.</p>"
-    },
+    "description": "<p>A breastplate is typically worn over a coat of mail.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 3,
@@ -29,7 +27,7 @@
     "healing": "",
     "subtype": "armor",
     "quality": "standard",
-    "grip": "One-Handed",
+    "grip": "one",
     "attackRider": {
       "value": {
         "value": ""
@@ -134,10 +132,10 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "createdTime": 1692116593788,
-    "modifiedTime": 1756159288441,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766768974362,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null

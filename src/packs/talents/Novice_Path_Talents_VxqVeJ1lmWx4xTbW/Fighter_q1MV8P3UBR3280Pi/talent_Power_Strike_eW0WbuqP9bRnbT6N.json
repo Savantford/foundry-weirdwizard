@@ -5,9 +5,7 @@
   "_id": "eW0WbuqP9bRnbT6N",
   "img": "icons/skills/melee/strike-hammer-destructive-blue.webp",
   "system": {
-    "description": {
-      "value": "<p>When you deal damage with an attack, you can use this talent to deal extra damage to the target equal to your level.</p>\n<p>Once you use this talent, you lose access to it until the start of your next turn.</p>"
-    },
+    "description": "<p>When you deal damage with an attack, you can use this talent to deal extra damage to the target equal to your level.</p><p>Once you use this talent, you lose access to it until the start of your next turn.</p>",
     "active": true,
     "attribute": "",
     "against": "",
@@ -42,12 +40,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1720986015154,
-    "modifiedTime": 1754186601126,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766597355162,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!eW0WbuqP9bRnbT6N"

@@ -5,9 +5,7 @@
   "_id": "dTMuuckIiS99FOT1",
   "img": "icons/magic/defensive/shield-barrier-glowing-triangle-green.webp",
   "system": {
-    "description": {
-      "value": "<p>You dispatch any poisons, venoms, and infectious agents. If you target a creature, the creature can make a Strength roll. On a failure, it loses any trait that bestows the poisoned affliction or that would expose a creature to infection for 1 minute. If the creature suffers from the effects of infection, the infection ends. Finally, if you target an object, any ordinary poison, toxin, or infection it contains is destroyed.</p>"
-    },
+    "description": "<p>You dispatch any poisons, venoms, and infectious agents. If you target a creature, the creature can make a Strength roll. On a failure, it loses any trait that bestows the poisoned affliction or that would expose a creature to infection for 1 minute. If the creature suffers from the effects of infection, the infection ends. Finally, if you target an object, any ordinary poison, toxin, or infection it contains is destroyed.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744752738820,
-    "modifiedTime": 1754186601691,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766597883001,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!dTMuuckIiS99FOT1"

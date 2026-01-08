@@ -462,7 +462,7 @@
               "healthStarting": 0,
               "healthIncrease": 4,
               "speedIncrease": 0,
-              "bonusDamage": 0
+              "bonusDamage": 1
             },
             "traditions": [],
             "spells": "0",
@@ -512,12 +512,12 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.345",
+        "coreVersion": "13.350",
         "systemId": "weirdwizard",
         "systemVersion": "#{VERSION}#",
         "createdTime": 1744401691011,
-        "modifiedTime": 1757987729225,
-        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "modifiedTime": 1767049120965,
+        "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
         "exportSource": null
       },
       "category": "kGme12W9Z7TQLrfG",

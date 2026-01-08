@@ -5,9 +5,7 @@
   "_id": "qMhoZNsXch4SCTxZ",
   "img": "icons/magic/control/sleep-bubble-purple.webp",
   "system": {
-    "description": {
-      "value": "<p>Waves of lethargy wash over the targets. Each target with a Health score of 15 or less falls prone and goes to sleep (luck ends). The effect ends early for a target if it is harmed. Each other target makes a Will roll. On a failure, the target becomes weakened (luck ends).</p>"
-    },
+    "description": "<p>Waves of lethargy wash over the targets. Each target with a Health score of 15 or less falls prone and goes to sleep (luck ends). The effect ends early for a target if it is harmed. Each other target makes a Will roll. On a failure, the target becomes weakened (luck ends).</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744754714176,
-    "modifiedTime": 1754186601837,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598689750,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!qMhoZNsXch4SCTxZ"

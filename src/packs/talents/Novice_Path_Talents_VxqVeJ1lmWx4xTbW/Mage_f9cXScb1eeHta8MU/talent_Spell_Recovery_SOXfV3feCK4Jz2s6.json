@@ -5,9 +5,7 @@
   "_id": "SOXfV3feCK4Jz2s6",
   "img": "icons/magic/time/arrows-circling-green.webp",
   "system": {
-    "description": {
-      "value": "<p>You can use an action to heal half your damage total and regain all the expended castings of your novice spells. At level 5, you also regain one expended casting of an expert spell.</p>\n<p>At level 9, you also regain one expended casting of an expert or master spell.</p>\n<p>Once you use this talent, you lose access to it until after you rest.</p>"
-    },
+    "description": "<p>You can use an action to heal half your damage total and regain all the expended castings of your novice spells. At level 5, you also regain one expended casting of an expert spell.</p><p>At level 9, you also regain one expended casting of an expert or master spell.</p><p>Once you use this talent, you lose access to it until after you rest.</p>",
     "active": true,
     "attribute": "",
     "against": "",
@@ -50,12 +48,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1720986791026,
-    "modifiedTime": 1754186601089,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766597335258,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!SOXfV3feCK4Jz2s6"

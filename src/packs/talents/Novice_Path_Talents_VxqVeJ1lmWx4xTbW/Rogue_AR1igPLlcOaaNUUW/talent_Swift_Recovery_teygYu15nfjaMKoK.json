@@ -5,9 +5,7 @@
   "_id": "teygYu15nfjaMKoK",
   "img": "icons/magic/time/arrows-circling-green.webp",
   "system": {
-    "description": {
-      "value": "<p>You can use an action, or a reaction when you are harmed, to heal half your damage total and move up to your Speed. You have the Slippery trait for this movement. Once you use this talent, you lose access to it until after you rest.</p>"
-    },
+    "description": "<p>You can use an action, or a reaction when you are harmed, to heal half your damage total and move up to your Speed. You have the Slippery trait for this movement. Once you use this talent, you lose access to it until after you rest.</p>",
     "active": true,
     "attribute": "",
     "against": "",
@@ -50,12 +48,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1720991005678,
-    "modifiedTime": 1754186601149,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766597258868,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!teygYu15nfjaMKoK"

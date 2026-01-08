@@ -4,9 +4,7 @@
   "_id": "VDtOlkQaKMmf4o3K",
   "img": "icons/weapons/maces/flail-spiked-grey.webp",
   "system": {
-    "description": {
-      "value": "<p>A flail has a weighted rod, ball, metal lozenge, ring, or spiked ball at the end of a chain that’s attached to a long handle. Some flails feature multiple weights at the ends of chains.</p>"
-    },
+    "description": "<p>A flail has a weighted rod, ball, metal lozenge, ring, or spiked ball at the end of a chain that’s attached to a long handle. Some flails feature multiple weights at the ends of chains.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 1,
@@ -38,7 +36,7 @@
     "heldBy": "",
     "requirements": "str12",
     "damage": "2d6",
-    "grip": "One",
+    "grip": "one",
     "traits": {
       "ammunition": false,
       "bludgeoning": true,
@@ -82,11 +80,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721405707313,
-    "modifiedTime": 1754186600699,
+    "modifiedTime": 1766692585193,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

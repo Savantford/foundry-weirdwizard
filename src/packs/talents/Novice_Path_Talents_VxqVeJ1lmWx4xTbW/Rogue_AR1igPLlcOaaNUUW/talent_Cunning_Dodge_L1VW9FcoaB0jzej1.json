@@ -5,9 +5,7 @@
   "_id": "L1VW9FcoaB0jzej1",
   "img": "icons/skills/movement/figure-running-gray.webp",
   "system": {
-    "description": {
-      "value": "<p>Whenever you dodge, increase the number of boons granted to your Agility roll by 1 or the number of banes imposed on the roll made against your Defense or Agility by 1.</p>"
-    },
+    "description": "<p>Whenever you dodge, increase the number of boons granted to your Agility roll by 1 or the number of banes imposed on the roll made against your Defense or Agility by 1.</p>",
     "active": true,
     "attribute": "agi",
     "against": "",
@@ -42,12 +40,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1720989289011,
-    "modifiedTime": 1754186601075,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766597290196,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!L1VW9FcoaB0jzej1"

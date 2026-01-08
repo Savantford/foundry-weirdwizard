@@ -5,9 +5,7 @@
   "_id": "RkhFoaRfdLO0jrlc",
   "img": "icons/magic/light/explosion-star-glow-silhouette.webp",
   "system": {
-    "description": {
-      "value": "<p>You can perform a ritual to place yourself into a restful sleep. When you finish, you fall prone and sleep for 1 hour. The effect ends early if you are harmed. If you sleep the whole time, you heal 4d6 damage and you make Intellect and Will rolls with 1 boon for 24 hours. Once you use this talent, you lose access to it until after you rest.</p>"
-    },
+    "description": "<p>You can perform a ritual to place yourself into a restful sleep. When you finish, you fall prone and sleep for 1 hour. The effect ends early if you are harmed. If you sleep the whole time, you heal 4d6 damage and you make Intellect and Will rolls with 1 boon for 24 hours. Once you use this talent, you lose access to it until after you rest.</p>",
     "active": true,
     "magical": true,
     "attribute": "",
@@ -42,12 +40,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744754481534,
-    "modifiedTime": 1754186601524,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598733666,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!RkhFoaRfdLO0jrlc"

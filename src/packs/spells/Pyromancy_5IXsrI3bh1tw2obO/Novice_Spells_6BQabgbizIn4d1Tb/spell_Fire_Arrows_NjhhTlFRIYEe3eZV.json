@@ -5,9 +5,7 @@
   "_id": "NjhhTlFRIYEe3eZV",
   "img": "icons/magic/earth/projectiles-magma-stone-orange.webp",
   "system": {
-    "description": {
-      "value": "<p>You fling fiery arrows from your hand. For each target, separately make a Will roll against its Agility. On a success, the target takes 3d6 damage. On a critical success, the target takes an extra 1d6 damage. On a failure, you have 1 boon on all rolls you make against the target until the end of your next turn.</p>"
-    },
+    "description": "<p>You fling fiery arrows from your hand. For each target, separately make a Will roll against its Agility. On a success, the target takes @[3d6|d] damage. On a critical success, the target takes an extra @[1d6|d] damage. On a failure, you have 1 boon on all rolls you make against the target until the end of your next turn.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744756080562,
-    "modifiedTime": 1754186601442,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598429900,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!NjhhTlFRIYEe3eZV"

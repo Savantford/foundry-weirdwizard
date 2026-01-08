@@ -4,9 +4,7 @@
   "_id": "Ix7SDYxwMQV5lMbe",
   "img": "icons/weapons/axes/axe-double-engraved-black.webp",
   "system": {
-    "description": {
-      "value": "<p>A great axe features a double axe-blade at the end of a long wooden or metal haft. It is sometimes called an executioner's axe.</p>"
-    },
+    "description": "<p>A great axe features a double axe-blade at the end of a long wooden or metal haft. It is sometimes called an executioner's axe.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 1,
@@ -38,7 +36,7 @@
     "heldBy": "",
     "requirements": "str14",
     "damage": "4d6",
-    "grip": "Two",
+    "grip": "two",
     "traits": {
       "ammunition": false,
       "bludgeoning": false,
@@ -82,11 +80,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721405951330,
-    "modifiedTime": 1754186600602,
+    "modifiedTime": 1766692567940,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

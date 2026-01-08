@@ -5,9 +5,7 @@
   "_id": "c2WPeQuxUKIFukji",
   "img": "icons/magic/light/orb-container-orange.webp",
   "system": {
-    "description": {
-      "value": "<p>Pain washes away from people who hear your vocalization. A target heals 1d6 damage if you whisper, 2d6 damage if you speak, and 3d6 damage if you shout.</p>"
-    },
+    "description": "<p>Pain washes away from people who hear your vocalization. A target heals @[1d6|h] damage if you whisper, @[2d6|h] damage if you speak, and @[3d6|h] damage if you shout.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744753769755,
-    "modifiedTime": 1754186601675,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766597523927,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!c2WPeQuxUKIFukji"

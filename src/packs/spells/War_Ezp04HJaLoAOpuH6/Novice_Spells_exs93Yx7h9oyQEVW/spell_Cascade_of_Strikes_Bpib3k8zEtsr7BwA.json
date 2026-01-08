@@ -5,9 +5,7 @@
   "_id": "Bpib3k8zEtsr7BwA",
   "img": "icons/skills/melee/spear-tips-three-purple.webp",
   "system": {
-    "description": {
-      "value": "<p>You spring into motion, striking at all foes at once. Each target takes 1d6 damage and then makes a Strength roll. On a failure, the target takes an extra 2d6 damage.</p>"
-    },
+    "description": "<p>You spring into motion, striking at all foes at once. Each target takes @[1d6|d] damage and then makes a Strength roll. On a failure, the target takes an extra @[2d6|d] damage.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744756782224,
-    "modifiedTime": 1754186601308,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598307728,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!Bpib3k8zEtsr7BwA"

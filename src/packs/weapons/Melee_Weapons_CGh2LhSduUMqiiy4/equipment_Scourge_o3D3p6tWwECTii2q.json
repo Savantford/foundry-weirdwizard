@@ -4,9 +4,7 @@
   "_id": "o3D3p6tWwECTii2q",
   "img": "icons/sundries/survival/leather-strap-brown.webp",
   "system": {
-    "description": {
-      "value": "<p>A scourge has several metal-tipped cords extending from a handle. When you attack a flesh and blood target with a scourge and the result of your roll is a critical success, the target makes a Will roll. On a failure, the target becomes weakened until the end of your next turn.</p>"
-    },
+    "description": "<p>A scourge has several metal-tipped cords extending from a handle. When you attack a flesh and blood target with a scourge and the result of your roll is a critical success, the target makes a Will roll. On a failure, the target becomes weakened until the end of your next turn.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 1,
@@ -38,7 +36,7 @@
     "heldBy": "",
     "requirements": "agi12",
     "damage": "1d6",
-    "grip": "Off",
+    "grip": "off",
     "traits": {
       "ammunition": false,
       "bludgeoning": false,
@@ -82,11 +80,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721411602774,
-    "modifiedTime": 1754186600774,
+    "modifiedTime": 1766692494538,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

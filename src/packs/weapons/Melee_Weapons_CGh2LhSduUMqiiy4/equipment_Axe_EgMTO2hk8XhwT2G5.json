@@ -4,9 +4,7 @@
   "_id": "EgMTO2hk8XhwT2G5",
   "img": "icons/weapons/axes/axe-broad-simple-black.webp",
   "system": {
-    "description": {
-      "value": "<p>An axe has a wedge-shaped blade fitted to a long wooden handle and is designed for cutting wood.</p>"
-    },
+    "description": "<p>An axe has a wedge-shaped blade fitted to a long wooden handle and is designed for cutting wood.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 1,
@@ -38,7 +36,7 @@
     "heldBy": "",
     "requirements": "str12",
     "damage": "3d6",
-    "grip": "Two",
+    "grip": "two",
     "traits": {
       "ammunition": false,
       "bludgeoning": false,
@@ -82,11 +80,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721400764653,
-    "modifiedTime": 1754186600594,
+    "modifiedTime": 1766692402680,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

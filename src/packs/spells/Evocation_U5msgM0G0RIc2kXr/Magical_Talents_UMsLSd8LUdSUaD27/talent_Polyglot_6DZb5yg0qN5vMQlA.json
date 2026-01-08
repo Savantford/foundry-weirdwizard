@@ -5,9 +5,7 @@
   "_id": "6DZb5yg0qN5vMQlA",
   "img": "icons/sundries/documents/document-symbol-circle-gold-red.webp",
   "system": {
-    "description": {
-      "value": "<p>You can speak, understand, read, and write in any language.</p>"
-    },
+    "description": "<p>You can speak, understand, read, and write in any language.</p>",
     "active": true,
     "magical": true,
     "attribute": "",
@@ -42,12 +40,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744753474879,
-    "modifiedTime": 1754186601245,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766597667034,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!6DZb5yg0qN5vMQlA"

@@ -4,9 +4,7 @@
   "_id": "v8b2HQZ92CwvfXHt",
   "img": "icons/weapons/guns/gun-pistol-brass.webp",
   "system": {
-    "description": {
-      "value": "<p>Firearm design has advanced in fits and starts until gunsmiths devised a superior firing mechanism that enables quicker loading and firing. The pistol uses the same wheel lock technology as the musket. You can use the pistol as an off-hand improvised melee weapon.</p>"
-    },
+    "description": "<p>Firearm design has advanced in fits and starts until gunsmiths devised a superior firing mechanism that enables quicker loading and firing. The pistol uses the same wheel lock technology as the musket. You can use the pistol as an off-hand improvised melee weapon.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 1,
@@ -38,7 +36,7 @@
     "heldBy": "",
     "requirements": "agi11",
     "damage": "3d6",
-    "grip": "Off",
+    "grip": "off",
     "traits": {
       "ammunition": true,
       "bludgeoning": false,
@@ -82,11 +80,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721408789444,
-    "modifiedTime": 1754186600799,
+    "modifiedTime": 1766692446535,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

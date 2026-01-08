@@ -5,9 +5,7 @@
   "_id": "HSW5tixMO4n0f2lM",
   "img": "icons/magic/light/explosion-star-glow-orange.webp",
   "system": {
-    "description": {
-      "value": "<p>A pea-sized ball of flash launches itself from your fingertip. When it reaches its destination or can fly no further, the ball explodes in a pyrotechnic display that creates bright light until the end of the round. Any sighted creature within 5 yards of the explosion makes a luck roll with 1 boon. On a failure, the creature becomes blinded until the start of your next turn.</p>"
-    },
+    "description": "<p>A pea-sized ball of flash launches itself from your fingertip. When it reaches its destination or can fly no further, the ball explodes in a pyrotechnic display that creates bright light until the end of the round. Any sighted creature within 5 yards of the explosion makes a luck roll with 1 boon. On a failure, the creature becomes blinded until the start of your next turn.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744755912008,
-    "modifiedTime": 1754186601380,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598449415,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!HSW5tixMO4n0f2lM"

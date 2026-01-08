@@ -5,9 +5,7 @@
   "_id": "oEYFMko6aZsrasow",
   "img": "icons/creatures/magical/humanoid-silhouette-glowing-pink.webp",
   "system": {
-    "description": {
-      "value": "<p>You change the appearance of each target. Each target is subjected to the effects of the Efficacious Disguise talent, with you making all decisions about their new appearance. Additionally, the effect ends early for a target if it enters running water.</p>"
-    },
+    "description": "<p>You change the appearance of each target. Each target is subjected to the effects of the Efficacious Disguise talent, with you making all decisions about their new appearance. Additionally, the effect ends early for a target if it enters running water.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744753091754,
-    "modifiedTime": 1754186601803,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766597713128,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!oEYFMko6aZsrasow"

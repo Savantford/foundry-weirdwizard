@@ -5,9 +5,7 @@
   "_id": "ajUjmYG0x8iXZiFw",
   "img": "icons/commodities/claws/claw-brown-black.webp",
   "system": {
-    "description": {
-      "value": "<p>You throw yourself at the target, clawing and biting it. Make an unarmed strike or an attack with your natural weapons. You roll with 1 boon. On a success, the target takes an extra 3d6 damage. On a critical success, the target makes a Will roll. On a failure, it becomes frightened of you until the end of your next turn. After the attack, your melee attacks deal an extra 2d6 damage until the end of your next turn.</p>"
-    },
+    "description": "<p>You throw yourself at the target, clawing and biting it. Make an unarmed strike or an attack with your natural weapons. You roll with 1 boon. On a success, the target takes an extra @[3d6|d] damage. On a critical success, the target makes a Will roll. On a failure, it becomes frightened of you until the end of your next turn. After the attack, your melee attacks deal an extra @[2d6|d] damage until the end of your next turn.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744755466701,
-    "modifiedTime": 1754186601655,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598540065,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!ajUjmYG0x8iXZiFw"

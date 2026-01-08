@@ -5,9 +5,7 @@
   "_id": "VxkAYYz4ERhA8X5d",
   "img": "icons/magic/air/air-wave-gust-blue.webp",
   "system": {
-    "description": {
-      "value": "<p>You can use an action to send a skirling wind out from your hand. Target one Size 5 space within 10 yards. Each unsecured object of Size 2 or smaller is pushed 5 yards. Each creature in the target space makes a Strength roll. A creature rolls with 1 boon for each point of Size it is larger than 2. On a failure, you push the creature 5 yards. Once you use this talent, you lose access to it (luck ends).</p>"
-    },
+    "description": "<p>You can use an action to send a skirling wind out from your hand. Target one Size 5 space within 10 yards. Each unsecured object of Size 2 or smaller is pushed 5 yards. Each creature in the target space makes a Strength roll. A creature rolls with 1 boon for each point of Size it is larger than 2. On a failure, you push the creature 5 yards. Once you use this talent, you lose access to it (luck ends).</p>",
     "active": true,
     "magical": true,
     "attribute": "",
@@ -42,12 +40,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744750020146,
-    "modifiedTime": 1754186601568,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598130772,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!VxkAYYz4ERhA8X5d"

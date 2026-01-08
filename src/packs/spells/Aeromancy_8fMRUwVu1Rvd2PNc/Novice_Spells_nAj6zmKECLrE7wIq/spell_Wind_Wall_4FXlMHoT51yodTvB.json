@@ -5,9 +5,7 @@
   "_id": "4FXlMHoT51yodTvB",
   "img": "icons/magic/air/fog-gas-smoke-dense-white.webp",
   "system": {
-    "description": {
-      "value": "<p>Strong wind blows through the target space. The noise it creates drowns out all sounds quieter than a shout. A creature that would move through the space makes a Strength roll, rolling with 1 boon for each point of Size above 3. On a failure, the creature is pushed back to the nearest empty space and its Speed becomes 0 until the end of the round. Finally, the wind imposes 3 banes on rolls to attack targets behind the target space using ranged attacks</p>"
-    },
+    "description": "<p>Strong wind blows through the target space. The noise it creates drowns out all sounds quieter than a shout. A creature that would move through the space makes a Strength roll, rolling with 1 boon for each point of Size above 3. On a failure, the creature is pushed back to the nearest empty space and its Speed becomes 0 until the end of the round. Finally, the wind imposes 3 banes on rolls to attack targets behind the target space using ranged attacks.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744750463828,
-    "modifiedTime": 1754186601235,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598024132,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!4FXlMHoT51yodTvB"

@@ -4,9 +4,7 @@
   "_id": "eBWVxA2PNageUrVk",
   "img": "icons/weapons/polearms/javelin-hooked.webp",
   "system": {
-    "description": {
-      "value": "<p>A javelin is a short spear designed for throwing.</p>"
-    },
+    "description": "<p>A javelin is a short spear designed for throwing.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 1,
@@ -38,7 +36,7 @@
     "heldBy": "",
     "requirements": "",
     "damage": "1d6",
-    "grip": "One",
+    "grip": "one",
     "traits": {
       "ammunition": false,
       "bludgeoning": false,
@@ -82,11 +80,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721406849827,
-    "modifiedTime": 1754186600741,
+    "modifiedTime": 1766692541043,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

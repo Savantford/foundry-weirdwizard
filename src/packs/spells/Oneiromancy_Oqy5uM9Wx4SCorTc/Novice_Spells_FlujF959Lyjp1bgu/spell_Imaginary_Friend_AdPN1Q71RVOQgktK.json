@@ -5,9 +5,7 @@
   "_id": "AdPN1Q71RVOQgktK",
   "img": "icons/creatures/magical/spirit-mischief-fire-ice-blue.webp",
   "system": {
-    "description": {
-      "value": "<p>You see a being formed from your imagination appear inside the target space. The being can have any appearance you choose, but it is invisible to all other creatures. The imaginary friend becomes your controlled companion for the duration, but the spell ends early if the companion becomes incapacitated, in which case you make a Will roll. On a failure, you become stunned until the end of your next turn. The friend uses your Intellect score for its Defense, Health, and attributes. The friend cannot harm other creatures directly and cannot interact with creatures, though it can use actions to carry things for you, help you with tasks, and perform other activities as you choose.</p>"
-    },
+    "description": "<p>You see a being formed from your imagination appear inside the target space. The being can have any appearance you choose, but it is invisible to all other creatures. The imaginary friend becomes your controlled companion for the duration, but the spell ends early if the companion becomes incapacitated, in which case you make a Will roll. On a failure, you become stunned until the end of your next turn. The friend uses your Intellect score for its Defense, Health, and attributes. The friend cannot harm other creatures directly and cannot interact with creatures, though it can use actions to carry things for you, help you with tasks, and perform other activities as you choose.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744754665585,
-    "modifiedTime": 1754186601300,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598699296,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!AdPN1Q71RVOQgktK"

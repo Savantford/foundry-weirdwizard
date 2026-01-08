@@ -4,9 +4,7 @@
   "_id": "LDGYWS7N6Pa79oDH",
   "img": "icons/weapons/staves/staff-simple.webp",
   "system": {
-    "description": {
-      "value": "<p>A quarterstaff or staff is a pole of wood between 4 and 5 feet in length. Higher quality quarterstaffs have ferrules on either end to prevent splitting.</p>"
-    },
+    "description": "<p>A quarterstaff or staff is a pole of wood between 4 and 5 feet in length. Higher quality quarterstaffs have ferrules on either end to prevent splitting.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 1,
@@ -38,7 +36,7 @@
     "heldBy": "",
     "requirements": "",
     "damage": "1d6",
-    "grip": "Two",
+    "grip": "two",
     "traits": {
       "ammunition": false,
       "bludgeoning": false,
@@ -82,11 +80,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721409412525,
-    "modifiedTime": 1754186600612,
+    "modifiedTime": 1766692507301,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

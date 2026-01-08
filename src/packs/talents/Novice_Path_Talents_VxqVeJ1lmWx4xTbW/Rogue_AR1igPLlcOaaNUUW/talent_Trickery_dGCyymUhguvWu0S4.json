@@ -5,9 +5,7 @@
   "_id": "dGCyymUhguvWu0S4",
   "img": "icons/commodities/currency/coin-embossed-skull-silver.webp",
   "system": {
-    "description": {
-      "value": "<p>You can use this talent to make an attribute roll with 1 boon. When you use this talent to roll to attack with 1 boon, your attack deals an extra 1d6 damage. When you use this talent in combat, you lose access to it until the start of your next turn. If you use this talent outside of rounds, you lose access to it for 1 minute or until a combat begins.</p>"
-    },
+    "description": "<p>You can use this talent to make an attribute roll with 1 boon. When you use this talent to roll to attack with 1 boon, your attack deals an extra @[1d6|d] damage. When you use this talent in combat, you lose access to it until the start of your next turn. If you use this talent outside of rounds, you lose access to it for 1 minute or until a combat begins.</p>",
     "active": true,
     "attribute": "",
     "against": "",
@@ -50,12 +48,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1720989362084,
-    "modifiedTime": 1754186601119,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766597233974,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!dGCyymUhguvWu0S4"

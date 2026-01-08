@@ -5,9 +5,7 @@
   "_id": "fg2rnVJLhk33hYds",
   "img": "icons/creatures/birds/corvid-flying-wings-purple.webp",
   "system": {
-    "description": {
-      "value": "<p>Your mind enters the dreamlands to search for the target’s sleeping mind. Make an Intellect roll against its Will. On a success, you find the target’s mind and enter its dreams. To the target’s dreaming self, you present yourself as anyone you choose and can communicate with the target regardless of having any languages in common. In addition, you make the target’s dreams pleasant, so that it regains twice as much Health as normal when it wakens, or unpleasant, in which case the target derives no benefit from resting.</p>"
-    },
+    "description": "<p>Your mind enters the dreamlands to search for the target’s sleeping mind. Make an Intellect roll against its Will. On a success, you find the target’s mind and enter its dreams. To the target’s dreaming self, you present yourself as anyone you choose and can communicate with the target regardless of having any languages in common. In addition, you make the target’s dreams pleasant, so that it regains twice as much Health as normal when it wakens, or unpleasant, in which case the target derives no benefit from resting.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744754579953,
-    "modifiedTime": 1754186601709,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598716582,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!fg2rnVJLhk33hYds"

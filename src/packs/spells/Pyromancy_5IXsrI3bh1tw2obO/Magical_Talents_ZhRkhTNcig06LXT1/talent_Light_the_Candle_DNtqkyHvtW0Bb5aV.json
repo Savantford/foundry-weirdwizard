@@ -5,9 +5,7 @@
   "_id": "DNtqkyHvtW0Bb5aV",
   "img": "icons/magic/fire/flame-burning-campfire-orange.webp",
   "system": {
-    "description": {
-      "value": "<p>You can use an action to light a creature on fire. Target one creature within 5 yards. Make a Will roll against the target’s Strength. On a success, the target catches fire (luck ends). You can use this talent once, twice at level 3, and three times at level 7. You regain expended uses after you rest.</p>"
-    },
+    "description": "<p>You can use an action to light a creature on fire. Target one creature within 5 yards. Make a Will roll against the target’s Strength. On a success, the target catches fire (luck ends). You can use this talent once, twice at level 3, and three times at level 7. You regain expended uses after you rest.</p>",
     "active": true,
     "magical": true,
     "attribute": "",
@@ -42,12 +40,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744755693311,
-    "modifiedTime": 1754186601327,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598463920,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!DNtqkyHvtW0Bb5aV"

@@ -5,9 +5,7 @@
   "_id": "6Q6taL3LxP8MEwLY",
   "img": "icons/skills/melee/strike-dagger-arcane-pink.webp",
   "system": {
-    "description": {
-      "value": "<p>Magic guides your hand to ensure your strike lands true. Roll damage as if you had succeeded with a roll to attack, and the attack deals an extra 1d6 damage.</p>"
-    },
+    "description": "<p>Magic guides your hand to ensure your strike lands true. Roll damage as if you had succeeded with a roll to attack, and the attack deals an extra @[1d6|d] damage.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744757018381,
-    "modifiedTime": 1754186601256,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598239292,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!6Q6taL3LxP8MEwLY"

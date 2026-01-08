@@ -5,9 +5,7 @@
   "_id": "N2cAax0wL8WZxthe",
   "img": "icons/magic/control/debuff-energy-hold-levitate-pink.webp",
   "system": {
-    "description": {
-      "value": "<p>When you cast a spell and the spell requires you to make an attribute roll, you roll with 1 boon. When you cast a spell and the spell enables an affected creature to make an attribute or luck roll, you impose 1 bane on the creature’s roll.</p>"
-    },
+    "description": "<p>When you cast a spell and the spell requires you to make an attribute roll, you roll with 1 boon. When you cast a spell and the spell enables an affected creature to make an attribute or luck roll, you impose 1 bane on the creature’s roll.</p>",
     "active": true,
     "attribute": "",
     "against": "",
@@ -94,12 +92,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1720986860993,
-    "modifiedTime": 1754186601081,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766597341009,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!N2cAax0wL8WZxthe"

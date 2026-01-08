@@ -5,9 +5,7 @@
   "_id": "GA8eUNreGmUM3ef2",
   "img": "icons/creatures/eyes/lizard-single-slit-blue.webp",
   "system": {
-    "description": {
-      "value": "<p>You have the Keen Hearing, Keen Scent, or Keen Vision trait. At level 3, you gain a second trait from the previous list. At level 7, you have all three. For each trait you have already, increase your Health by 6.</p>"
-    },
+    "description": "<p>You have the Keen Hearing, Keen Scent, or Keen Vision trait. At level 3, you gain a second trait from the previous list. At level 7, you have all three. For each trait you have already, increase your Health by 6.</p>",
     "active": true,
     "magical": true,
     "attribute": "",
@@ -42,12 +40,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744754947767,
-    "modifiedTime": 1754186601363,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598621640,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!GA8eUNreGmUM3ef2"

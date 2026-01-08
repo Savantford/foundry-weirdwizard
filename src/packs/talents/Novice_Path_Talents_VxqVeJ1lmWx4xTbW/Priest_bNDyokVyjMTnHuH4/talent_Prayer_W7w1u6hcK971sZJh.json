@@ -1,13 +1,11 @@
 {
   "folder": "bNDyokVyjMTnHuH4",
-  "name": "Prayer (Magical)",
+  "name": "Prayer",
   "type": "talent",
   "_id": "W7w1u6hcK971sZJh",
   "img": "icons/magic/holy/prayer-hands-glowing-yellow.webp",
   "system": {
-    "description": {
-      "value": "<p>You can use a reaction when you or a creature within 5 yards of you makes an attribute roll to speak aloud a prayer that grants 1 boon to the roll. After you use this talent, you lose access to it (luck ends).</p>"
-    },
+    "description": "<p>You can use a reaction when you or a creature within 5 yards of you makes an attribute roll to speak aloud a prayer that grants 1 boon to the roll. After you use this talent, you lose access to it (luck ends).</p>",
     "active": true,
     "attribute": "",
     "against": "",
@@ -30,7 +28,7 @@
     "subtype": "trait",
     "source": "novice",
     "grantedBy": null,
-    "magical": false
+    "magical": true
   },
   "effects": [],
   "sort": 0,
@@ -42,11 +40,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1720988407372,
-    "modifiedTime": 1754186601096,
+    "modifiedTime": 1766697065972,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

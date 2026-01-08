@@ -5,9 +5,7 @@
   "_id": "zG0xVUikdvp75ujs",
   "img": "icons/magic/earth/strike-body-stone-crumble.webp",
   "system": {
-    "description": {
-      "value": "<p>A bulge forms on the target’s body and breaks open. The target becomes vulnerable (luck ends). Each time the target makes a luck roll to end this effect, the target takes 1d6 damage.</p>"
-    },
+    "description": "<p>A bulge forms on the target’s body and breaks open. The target becomes vulnerable (luck ends). Each time the target makes a luck roll to end this effect, the target takes @[1d6|d] damage.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744753133640,
-    "modifiedTime": 1754186601916,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766597702404,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!zG0xVUikdvp75ujs"

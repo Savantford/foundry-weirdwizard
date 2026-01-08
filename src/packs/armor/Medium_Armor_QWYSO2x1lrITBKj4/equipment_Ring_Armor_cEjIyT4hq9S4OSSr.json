@@ -3,9 +3,7 @@
   "type": "equipment",
   "img": "icons/equipment/chest/breastplate-scale-grey.webp",
   "system": {
-    "description": {
-      "value": "<p>An affordable suit of armor, this is a suit of brigandine further reinforced by heavy metal rings sewn into the leather.</p>"
-    },
+    "description": "<p>An affordable suit of armor, this is a suit of brigandine further reinforced by heavy metal rings sewn into the leather.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 2,
@@ -29,7 +27,7 @@
     "healing": "",
     "subtype": "armor",
     "quality": "standard",
-    "grip": "One-Handed",
+    "grip": "one",
     "attackRider": {
       "value": {
         "value": ""
@@ -134,10 +132,10 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "createdTime": 1692116593788,
-    "modifiedTime": 1754186600471,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766768873108,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null

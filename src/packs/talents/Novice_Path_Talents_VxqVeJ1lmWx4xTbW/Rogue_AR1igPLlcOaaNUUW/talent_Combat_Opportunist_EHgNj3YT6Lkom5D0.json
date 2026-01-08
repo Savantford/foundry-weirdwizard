@@ -5,9 +5,7 @@
   "_id": "EHgNj3YT6Lkom5D0",
   "img": "icons/magic/control/mouth-smile-deception-purple.webp",
   "system": {
-    "description": {
-      "value": "<p>When you get a success on any roll in combat, you can use this talent to either move up to half your Speed or cause one enemy in reach to take 1d6 damage. You have the Slippery trait if and while you move from using this talent. Once you use this talent, you lose access to it (luck ends).</p>"
-    },
+    "description": "<p>When you get a success on any roll in combat, you can use this talent to either move up to half your Speed or cause one enemy in reach to take 1d6 damage. You have the Slippery trait if and while you move from using this talent. Once you use this talent, you lose access to it (luck ends).</p>",
     "active": true,
     "attribute": "",
     "against": "",
@@ -50,12 +48,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1720991234589,
-    "modifiedTime": 1754186601051,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766597295858,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!EHgNj3YT6Lkom5D0"

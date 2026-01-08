@@ -5,9 +5,7 @@
   "_id": "PrGOlgZaH6jY6px6",
   "img": "icons/creatures/abilities/wolf-howl-moon-purple.webp",
   "system": {
-    "description": {
-      "value": "<p>You can use a reaction when you harm a creature or are harmed to give voice to a terrible scream. Each creature within 5 yards of you makes a Will roll. On a failure, the creature becomes frightened of you until the end of your next turn. Then, for 1 minute, you roll to attack with 1 boon. You can use this talent once, twice at level 3, and three times at level 7. You regain expended uses after you rest.</p>"
-    },
+    "description": "<p>You can use a reaction when you harm a creature or are harmed to give voice to a terrible scream. Each creature within 5 yards of you makes a Will roll. On a failure, the creature becomes frightened of you until the end of your next turn. Then, for 1 minute, you roll to attack with 1 boon. You can use this talent once, twice at level 3, and three times at level 7. You regain expended uses after you rest.</p>",
     "active": true,
     "magical": true,
     "attribute": "",
@@ -42,12 +40,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744754986470,
-    "modifiedTime": 1754186601480,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598612743,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!PrGOlgZaH6jY6px6"

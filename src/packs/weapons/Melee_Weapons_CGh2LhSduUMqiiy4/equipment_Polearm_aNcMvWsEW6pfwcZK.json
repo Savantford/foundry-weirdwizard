@@ -4,9 +4,7 @@
   "_id": "aNcMvWsEW6pfwcZK",
   "img": "icons/weapons/polearms/halberd-crescent-small-spiked.webp",
   "system": {
-    "description": {
-      "value": "<p>The halberd, voulge, and bardiche, polearms all, are long, hafted weapons fitted with blades, barbs, or tines at one end.</p>"
-    },
+    "description": "<p>The halberd, voulge, and bardiche, polearms all, are long, hafted weapons fitted with blades, barbs, or tines at one end.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 1,
@@ -38,7 +36,7 @@
     "heldBy": "",
     "requirements": "str12",
     "damage": "3d6",
-    "grip": "Two",
+    "grip": "two",
     "traits": {
       "ammunition": false,
       "bludgeoning": false,
@@ -82,11 +80,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721408927245,
-    "modifiedTime": 1754186600715,
+    "modifiedTime": 1766692511213,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

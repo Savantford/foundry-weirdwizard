@@ -5,9 +5,7 @@
   "_id": "oEQUBOQ3GNugIQoY",
   "img": "icons/commodities/treasure/token-engraved-eye-red.webp",
   "system": {
-    "description": {
-      "value": "<p>The sound you make uplifts those who hear you. Until the end of your next turn, a target makes attribute rolls with 1 boon if you whispered, 2 boons if you spoke, or 3 boons if you shouted.</p>"
-    },
+    "description": "<p>The sound you make uplifts those who hear you. Until the end of your next turn, a target makes attribute rolls with 1 boon if you whispered, 2 boons if you spoke, or 3 boons if you shouted.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744753564513,
-    "modifiedTime": 1754186601796,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766597612168,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!oEQUBOQ3GNugIQoY"

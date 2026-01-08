@@ -5,9 +5,7 @@
   "_id": "QasqZsDDWRxlVxUI",
   "img": "icons/creatures/abilities/paw-print-yellow.webp",
   "system": {
-    "description": {
-      "value": "<p>Hunger grows inside you and images of predators killing their prey dance through your mind. Increase your Health by 10, make Strength rolls with 1 boon, impose 1 bane on rolls against your Strength, and increase your supply of Bonus Damage dice by 1. The spell ends early if you become unconscious.</p>"
-    },
+    "description": "<p>Hunger grows inside you and images of predators killing their prey dance through your mind. Increase your Health by 10, make Strength rolls with 1 boon, impose 1 bane on rolls against your Strength, and increase your supply of Bonus Damage dice by 1. The spell ends early if you become unconscious.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744755498214,
-    "modifiedTime": 1754186601499,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598524902,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!QasqZsDDWRxlVxUI"

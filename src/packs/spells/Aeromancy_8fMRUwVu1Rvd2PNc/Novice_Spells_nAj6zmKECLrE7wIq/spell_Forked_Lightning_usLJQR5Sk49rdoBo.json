@@ -5,9 +5,7 @@
   "_id": "usLJQR5Sk49rdoBo",
   "img": "icons/magic/lightning/bolt-strike-forked-blue.webp",
   "system": {
-    "description": {
-      "value": "<p>A forked bolt of lightning leaps from your hand. For each target separately, make a Will roll with 1 boon against its Agility. On a success, the target takes 5d6 damage. On a critical success, the target takes an extra 1d6 damage.</p>"
-    },
+    "description": "<p>A forked bolt of lightning leaps from your hand. For each target separately, make a Will roll with 1 boon against its Agility. On a success, the target takes @[5d6|d] damage. On a critical success, the target takes an extra @[1d6|d] damage.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744750195078,
-    "modifiedTime": 1754186601880,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598087014,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!usLJQR5Sk49rdoBo"

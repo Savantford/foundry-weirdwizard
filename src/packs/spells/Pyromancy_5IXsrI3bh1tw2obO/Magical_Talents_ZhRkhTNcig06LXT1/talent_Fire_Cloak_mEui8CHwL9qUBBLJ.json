@@ -5,9 +5,7 @@
   "_id": "mEui8CHwL9qUBBLJ",
   "img": "icons/magic/fire/projectile-feathers-embers-gold.webp",
   "system": {
-    "description": {
-      "value": "<p>You can use a reaction when you are attacked to sheathe your body in wild, dancing flames. You suffer no harm from these flames. They shed bright light. They remain for 1 minute, but the effect ends early if you are doused in water. When a creature in your reach rolls to attack you, the creature makes a luck roll. On a failure, the creature takes 1d6 damage. You can use this talent once, twice at level 3, and three times at level 7. You regain expended uses after you rest.</p>"
-    },
+    "description": "<p>You can use a reaction when you are attacked to sheathe your body in wild, dancing flames. You suffer no harm from these flames. They shed bright light. They remain for 1 minute, but the effect ends early if you are doused in water. When a creature in your reach rolls to attack you, the creature makes a luck roll. On a failure, the creature takes @[1d6|d] damage. You can use this talent once, twice at level 3, and three times at level 7. You regain expended uses after you rest.</p>",
     "active": true,
     "magical": true,
     "attribute": "",
@@ -42,12 +40,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744755665148,
-    "modifiedTime": 1754186601762,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598497327,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!mEui8CHwL9qUBBLJ"

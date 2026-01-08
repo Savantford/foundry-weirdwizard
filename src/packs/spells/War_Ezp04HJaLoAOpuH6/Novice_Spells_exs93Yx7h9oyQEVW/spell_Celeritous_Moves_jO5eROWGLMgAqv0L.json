@@ -5,9 +5,7 @@
   "_id": "jO5eROWGLMgAqv0L",
   "img": "icons/magic/light/explosion-impact-purple.webp",
   "system": {
-    "description": {
-      "value": "<p>You pick up speed until you leave tracers when you move. Increase your Speed by 5, roll to attack with 1 boon, and gain the Slippery trait.</p>"
-    },
+    "description": "<p>You pick up speed until you leave tracers when you move. Increase your Speed by 5, roll to attack with 1 boon, and gain the Slippery trait.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744756821644,
-    "modifiedTime": 1754186601736,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598289020,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!jO5eROWGLMgAqv0L"

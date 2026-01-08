@@ -5,9 +5,7 @@
   "_id": "Lio2Pt3B3DUc7xL7",
   "img": "icons/magic/air/air-pressure-shield-blue.webp",
   "system": {
-    "description": {
-      "value": "<p>You gather the wind and release it to go screaming away from you. If you target an object and the object is secured, it takes 2d6 damage. An unsecured object is pushed 1d6 yards. If you target a creature, make a Will roll against the target’s Strength. On a success, the target takes 1d6 damage, is pushed 1d6 yards, and falls prone. On a critical success, the target takes an extra 1d6 damage.</p>"
-    },
+    "description": "<p>You gather the wind and release it to go screaming away from you. If you target an object and the object is secured, it takes @[2d6|d] damage. An unsecured object is pushed 1d6 yards. If you target a creature, make a Will roll against the target’s Strength. On a success, the target takes @[1d6|d] damage, is pushed 1d6 yards, and falls prone. On a critical success, the target takes an extra @[1d6|d] damage.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744750285970,
-    "modifiedTime": 1754186601422,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598056692,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!Lio2Pt3B3DUc7xL7"

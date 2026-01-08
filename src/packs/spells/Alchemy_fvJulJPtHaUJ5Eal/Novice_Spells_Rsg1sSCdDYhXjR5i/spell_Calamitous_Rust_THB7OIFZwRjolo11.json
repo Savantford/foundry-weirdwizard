@@ -5,9 +5,7 @@
   "_id": "THB7OIFZwRjolo11",
   "img": "icons/magic/unholy/strike-beam-blood-large-red-green.webp",
   "system": {
-    "description": {
-      "value": "<p>You toss red flakes into the air. Any ordinary metal object in the target space that is neither worn nor carried drops to Health 0. A creature wearing or carrying such objects makes an Agility roll with 1 boon. On a failure, each ordinary metal object the creature wears or carries drops to Health 0.</p>"
-    },
+    "description": "<p>You toss red flakes into the air. Any ordinary metal object in the target space that is neither worn nor carried drops to Health 0. A creature wearing or carrying such objects makes an Agility roll with 1 boon. On a failure, each ordinary metal object the creature wears or carries drops to Health 0.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744752322509,
-    "modifiedTime": 1754186601553,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766597913973,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!THB7OIFZwRjolo11"

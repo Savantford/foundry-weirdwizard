@@ -5,9 +5,7 @@
   "_id": "OTWiyX9MKOKUmkXP",
   "img": "icons/skills/movement/feet-winged-sandals-tan.webp",
   "system": {
-    "description": {
-      "value": "<p>If you are not injured and you lack the confused, controlled, held, slowed, stunned, and unconscious afflictions, you can use this talent at the start of your turn. Until the end of your turn, increase your Speed by 10 and gain the Slippery trait.</p>"
-    },
+    "description": "<p>If you are not injured and you lack the confused, controlled, held, slowed, stunned, and unconscious afflictions, you can use this talent at the start of your turn. Until the end of your turn, increase your Speed by 10 and gain the Slippery trait.</p>",
     "active": true,
     "magical": true,
     "attribute": "",
@@ -42,12 +40,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744756541167,
-    "modifiedTime": 1754186601452,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598338655,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!OTWiyX9MKOKUmkXP"

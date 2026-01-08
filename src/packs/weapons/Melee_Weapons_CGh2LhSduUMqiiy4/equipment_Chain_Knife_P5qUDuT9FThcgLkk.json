@@ -4,9 +4,7 @@
   "_id": "P5qUDuT9FThcgLkk",
   "img": "icons/tools/fasteners/chain-hook-grey.webp",
   "system": {
-    "description": {
-      "value": "<p>A length of chain with a blade at one end and a ring or weight at the opposite end, you attack with the chain knife by flinging the blade at a foe and then whipping it back to your hand.</p>"
-    },
+    "description": "<p>A length of chain with a blade at one end and a ring or weight at the opposite end, you attack with the chain knife by flinging the blade at a foe and then whipping it back to your hand.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 1,
@@ -38,7 +36,7 @@
     "heldBy": "",
     "requirements": "agi13",
     "damage": "1d6",
-    "grip": "Two",
+    "grip": "two",
     "traits": {
       "ammunition": false,
       "bludgeoning": false,
@@ -82,11 +80,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721402691712,
-    "modifiedTime": 1754186600646,
+    "modifiedTime": 1766692596744,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

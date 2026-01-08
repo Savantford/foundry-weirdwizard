@@ -4,9 +4,7 @@
   "_id": "7HV0q5qG3zTLHAdT",
   "img": "icons/weapons/axes/shortaxe-yellow.webp",
   "system": {
-    "description": {
-      "value": "<p>A hatchet is a single-edged blade sitting atop a shaft of wood or metal.</p>"
-    },
+    "description": "<p>A hatchet is a single-edged blade sitting atop a shaft of wood or metal.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 1,
@@ -38,7 +36,7 @@
     "heldBy": "",
     "requirements": "",
     "damage": "1d6",
-    "grip": "Off",
+    "grip": "off",
     "traits": {
       "ammunition": false,
       "bludgeoning": false,
@@ -82,11 +80,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721406662611,
-    "modifiedTime": 1754186600547,
+    "modifiedTime": 1766692548755,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

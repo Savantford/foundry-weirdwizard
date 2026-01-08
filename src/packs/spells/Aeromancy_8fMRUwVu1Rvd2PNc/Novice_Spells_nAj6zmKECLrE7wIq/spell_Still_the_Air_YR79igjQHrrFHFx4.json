@@ -5,9 +5,7 @@
   "_id": "YR79igjQHrrFHFx4",
   "img": "icons/magic/air/wind-vortex-swirl-blue.webp",
   "system": {
-    "description": {
-      "value": "<p>Silence descends on the target space. No sound emanates from inside it and no sound from outside reaches into it. Any activity that requires vocalizations performed inside the target space, such as the casting of spells, has no effect. Alternatively, you can expend the casting of this spell to target up to three creatures in reach. Each gains the Silent trait for 1 hour.</p>"
-    },
+    "description": "<p>Silence descends on the target space. No sound emanates from inside it and no sound from outside reaches into it. Any activity that requires vocalizations performed inside the target space, such as the casting of spells, has no effect. Alternatively, you can expend the casting of this spell to target up to three creatures in reach. Each gains the Silent trait for 1 hour.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744750245133,
-    "modifiedTime": 1754186601632,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598067086,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!YR79igjQHrrFHFx4"

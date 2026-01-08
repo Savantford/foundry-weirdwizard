@@ -5,9 +5,7 @@
   "_id": "qZWHTDr6sqLq2Uhu",
   "img": "icons/skills/movement/feet-winged-boots-brown.webp",
   "system": {
-    "description": {
-      "value": "<p>You find purchase for your steps in the air. You can move in any direction and remain there. If you fail to stand on a solid surface that can support your weight when the spell ends, you fall.</p>"
-    },
+    "description": "<p>You find purchase for your steps in the air. You can move in any direction and remain there. If you fail to stand on a solid surface that can support your weight when the spell ends, you fall.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744750350169,
-    "modifiedTime": 1754186601844,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598030269,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!qZWHTDr6sqLq2Uhu"

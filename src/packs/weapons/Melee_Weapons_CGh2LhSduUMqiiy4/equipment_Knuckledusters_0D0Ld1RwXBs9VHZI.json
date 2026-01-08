@@ -4,9 +4,7 @@
   "_id": "0D0Ld1RwXBs9VHZI",
   "img": "icons/weapons/fist/fist-knuckles-spiked-stone.webp",
   "system": {
-    "description": {
-      "value": "<p>Sometimes called brass knuckles, knuckledusters are a set of fused rings worn over the fingers. Wearing knuckledusters prevents you from wielding a weapon or using an object in that hand.</p>"
-    },
+    "description": "<p>Sometimes called brass knuckles, knuckledusters are a set of fused rings worn over the fingers. Wearing knuckledusters prevents you from wielding a weapon or using an object in that hand.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 1,
@@ -38,7 +36,7 @@
     "heldBy": "",
     "requirements": "",
     "damage": "1d6",
-    "grip": "Off",
+    "grip": "off",
     "traits": {
       "ammunition": false,
       "bludgeoning": false,
@@ -82,11 +80,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721407032509,
-    "modifiedTime": 1754186600521,
+    "modifiedTime": 1766692535947,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

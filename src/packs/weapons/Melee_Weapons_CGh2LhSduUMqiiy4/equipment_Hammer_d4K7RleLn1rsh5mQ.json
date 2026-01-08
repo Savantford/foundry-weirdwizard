@@ -4,9 +4,7 @@
   "_id": "d4K7RleLn1rsh5mQ",
   "img": "icons/weapons/hammers/shorthammer-claw-stone.webp",
   "system": {
-    "description": {
-      "value": "<p>A hammer has a stone or metal sledge atop a sturdy length of wood or metal.</p>"
-    },
+    "description": "<p>A hammer has a stone or metal sledge atop a sturdy length of wood or metal.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 1,
@@ -38,7 +36,7 @@
     "heldBy": "",
     "requirements": "",
     "damage": "1d6",
-    "grip": "Off",
+    "grip": "off",
     "traits": {
       "ammunition": false,
       "bludgeoning": true,
@@ -82,11 +80,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721406479091,
-    "modifiedTime": 1754186600730,
+    "modifiedTime": 1766692553075,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

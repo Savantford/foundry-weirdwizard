@@ -2,9 +2,7 @@
   "name": "Mace",
   "type": "equipment",
   "system": {
-    "description": {
-      "value": "<p>A heavy bludgeon, a mace sports a weight at the end of a short haft. The weight might be flanged, spheroid, or spiked. A mace is sometimes called a war club.</p>"
-    },
+    "description": "<p>A heavy bludgeon, a mace sports a weight at the end of a short haft. The weight might be flanged, spheroid, or spiked. A mace is sometimes called a war club.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 1,
@@ -28,7 +26,7 @@
     "healing": "",
     "subtype": "weapon",
     "quality": "standard",
-    "grip": "One",
+    "grip": "one",
     "attackRider": {
       "value": {
         "value": ""
@@ -77,9 +75,9 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "createdTime": 1691866075388,
-    "modifiedTime": 1754186600749,
+    "modifiedTime": 1766692522109,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "compendiumSource": null,
     "duplicateSource": null,

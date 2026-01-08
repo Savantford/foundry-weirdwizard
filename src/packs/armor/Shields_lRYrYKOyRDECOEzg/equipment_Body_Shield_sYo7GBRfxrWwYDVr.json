@@ -4,9 +4,7 @@
   "_id": "sYo7GBRfxrWwYDVr",
   "img": "icons/equipment/shield/pavise-wooden-wings-blue-white.webp",
   "system": {
-    "description": {
-      "value": "<p>A body shield, sometimes called a tower shield, offers total body protection. Rather than strap it to your arm, you carry the body shield into position and then use an action to place it on the ground to provide partial or total cover to creatures behind it. A body shield does not, however, increase Defense. A body shield counts as 4 items.</p>"
-    },
+    "description": "<p>A body shield, sometimes called a tower shield, offers total body protection. Rather than strap it to your arm, you carry the body shield into position and then use an action to place it on the ground to provide partial or total cover to creatures behind it. A body shield does not, however, increase Defense. A body shield counts as 4 items.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 4,
@@ -38,7 +36,7 @@
     "heldBy": "",
     "requirements": "",
     "damage": "",
-    "grip": "One",
+    "grip": "one",
     "traits": {
       "ammunition": false,
       "bludgeoning": false,
@@ -82,11 +80,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721397574323,
-    "modifiedTime": 1754186600487,
+    "modifiedTime": 1766692763062,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

@@ -5,9 +5,7 @@
   "_id": "lY0mLR4XUbXYM6PI",
   "img": "icons/magic/fire/projectile-meteor-salvo-light-red.webp",
   "system": {
-    "description": {
-      "value": "<p>Cinders spray from your body and swirl toward the target. The target takes 2d6 damage and makes an Agility roll. On a failure, it becomes blinded until the start of your next turn.</p>"
-    },
+    "description": "<p>Cinders spray from your body and swirl toward the target. The target takes @[2d6|d] damage and makes an Agility roll. On a failure, it becomes blinded until the start of your next turn.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744756183084,
-    "modifiedTime": 1754186601746,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598389285,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!lY0mLR4XUbXYM6PI"

@@ -2,9 +2,7 @@
   "name": "Battle Axe",
   "type": "equipment",
   "system": {
-    "description": {
-      "value": "<p>A battle axe is a one-handed weapon intended for use in combat. It has a long haft and a wide, crescent-shaped blade.</p>"
-    },
+    "description": "<p>A battle axe is a one-handed weapon intended for use in combat. It has a long haft and a wide, crescent-shaped blade.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 1,
@@ -28,7 +26,7 @@
     "healing": "",
     "subtype": "weapon",
     "quality": "standard",
-    "grip": "One",
+    "grip": "one",
     "attackRider": {
       "value": {
         "value": ""
@@ -77,9 +75,9 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "createdTime": 1692034039251,
-    "modifiedTime": 1754186600629,
+    "modifiedTime": 1766692607190,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "compendiumSource": null,
     "duplicateSource": null,

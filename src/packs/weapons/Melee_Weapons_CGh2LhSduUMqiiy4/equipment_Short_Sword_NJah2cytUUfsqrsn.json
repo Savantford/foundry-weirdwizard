@@ -5,9 +5,7 @@
   "_id": "NJah2cytUUfsqrsn",
   "img": "icons/weapons/swords/shortsword-guard-brass.webp",
   "system": {
-    "description": {
-      "value": "<p>A short sword, as it sounds, is a sword with a shorter blade. Short swords include similar blades such as a gladius or sax.</p>"
-    },
+    "description": "<p>A short sword, as it sounds, is a sword with a shorter blade. Short swords include similar blades such as a gladius or sax.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 1,
@@ -40,7 +38,7 @@
     "heldBy": "",
     "requirements": "",
     "damage": "1d6",
-    "grip": "Off",
+    "grip": "off",
     "traits": {
       "ammunition": false,
       "bludgeoning": false,
@@ -82,11 +80,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1737153688249,
-    "modifiedTime": 1754186600638,
+    "modifiedTime": 1766692490453,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

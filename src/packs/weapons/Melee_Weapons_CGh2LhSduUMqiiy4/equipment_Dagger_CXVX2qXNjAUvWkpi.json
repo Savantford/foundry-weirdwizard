@@ -3,9 +3,7 @@
   "type": "equipment",
   "img": "icons/weapons/daggers/dagger-curved-guard-blue.webp",
   "system": {
-    "description": {
-      "value": "<p>A dagger has a long blade up to 18 inches in length and serves well as a backup or off-hand weapon. Daggers come in many different styles, each with their own names, such as dirk, jambiya, jile, misericord, and stiletto. Daggers also include throwing knives, shuriken, and similar weapons.</p>"
-    },
+    "description": "<p>A dagger has a long blade up to 18 inches in length and serves well as a backup or off-hand weapon. Daggers come in many different styles, each with their own names, such as dirk, jambiya, jile, misericord, and stiletto. Daggers also include throwing knives, shuriken, and similar weapons.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 1,
@@ -29,7 +27,7 @@
     "healing": "",
     "subtype": "weapon",
     "quality": "standard",
-    "grip": "Off",
+    "grip": "off",
     "attackRider": {
       "value": {
         "value": ""
@@ -77,9 +75,9 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "createdTime": 1692071093156,
-    "modifiedTime": 1754186600568,
+    "modifiedTime": 1766692588631,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "compendiumSource": null,
     "duplicateSource": null,

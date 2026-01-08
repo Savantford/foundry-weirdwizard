@@ -5,9 +5,7 @@
   "_id": "wfoVohjvBuo8PFP3",
   "img": "icons/magic/control/debuff-chains-orb-movement-blue.webp",
   "system": {
-    "description": {
-      "value": "<p>You cause the targets to grow big and heavy, so that they move more slowly. Each target becomes slowed and vulnerable (luck ends both).</p>"
-    },
+    "description": "<p>You cause the targets to grow big and heavy, so that they move more slowly. Each target becomes slowed and vulnerable (luck ends both).</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744753200467,
-    "modifiedTime": 1754186601892,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766597688534,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!wfoVohjvBuo8PFP3"

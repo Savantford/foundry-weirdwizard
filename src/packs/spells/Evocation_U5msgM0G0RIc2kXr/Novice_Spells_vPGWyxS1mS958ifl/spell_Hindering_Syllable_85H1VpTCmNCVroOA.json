@@ -5,9 +5,7 @@
   "_id": "85H1VpTCmNCVroOA",
   "img": "icons/magic/control/debuff-chains-red.webp",
   "system": {
-    "description": {
-      "value": "<p>Confidence drains out from people who hear the sound you make. Until the end of your next turn, a target makes attribute rolls with 1 bane if you whispered, 2 banes if you spoke, or 3 banes if you shouted.</p>"
-    },
+    "description": "<p>Confidence drains out from people who hear the sound you make. Until the end of your next turn, a target makes attribute rolls with 1 bane if you whispered, 2 banes if you spoke, or 3 banes if you shouted.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744753814735,
-    "modifiedTime": 1754186601282,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766597485522,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!85H1VpTCmNCVroOA"

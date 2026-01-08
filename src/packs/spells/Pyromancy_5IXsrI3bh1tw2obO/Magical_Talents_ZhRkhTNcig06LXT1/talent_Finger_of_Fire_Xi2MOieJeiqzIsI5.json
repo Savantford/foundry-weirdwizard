@@ -5,9 +5,7 @@
   "_id": "Xi2MOieJeiqzIsI5",
   "img": "icons/magic/fire/explosion-flame-lightning-strike.webp",
   "system": {
-    "description": {
-      "value": "<p>You can use an action to cause flames to spill out from your fingertip. Target one creature within 10 yards. Make a Will roll against the target’s Agility. On a success, the target takes 2d6 damage, 3d6 damage at level 3, or 7d6 damage at level 7. On a critical success, the target also catches fire (luck ends). After you use this talent, a tongue of fire appears above the tip of your finger and remains for 1 minute. The fire sheds dim light.</p>"
-    },
+    "description": "<p>You can use an action to cause flames to spill out from your fingertip. Target one creature within 10 yards. Make a Will roll against the target’s Agility. On a success, the target takes @[2d6|d] damage, @[3d6|d] damage at level 3, or @[7d6] damage at level 7. On a critical success, the target also catches fire (luck ends). After you use this talent, a tongue of fire appears above the tip of your finger and remains for 1 minute. The fire sheds dim light.</p>",
     "active": true,
     "magical": true,
     "attribute": "",
@@ -42,12 +40,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744755640785,
-    "modifiedTime": 1754186601606,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766598515898,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!Xi2MOieJeiqzIsI5"

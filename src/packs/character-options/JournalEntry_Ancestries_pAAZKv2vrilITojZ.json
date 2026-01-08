@@ -13,7 +13,12 @@
         },
         "benefits": {
           "benefit1": {
-            "descriptors": [],
+            "descriptors": {
+              "human": {
+                "name": "Human",
+                "desc": ""
+              }
+            },
             "senses": [],
             "languages": [],
             "immune": [],
@@ -55,12 +60,12 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.345",
+        "coreVersion": "13.350",
         "systemId": "weirdwizard",
         "systemVersion": "#{VERSION}#",
         "createdTime": 1744401277691,
-        "modifiedTime": 1745009021769,
-        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "modifiedTime": 1767819027985,
+        "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
         "exportSource": null
       },
       "category": null,

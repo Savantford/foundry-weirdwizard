@@ -4,9 +4,7 @@
   "_id": "as1taLMKFKTq59IW",
   "img": "systems/weirdwizard/assets/artwork/portraits/bodyguard.png",
   "system": {
-    "description": {
-      "value": "<p>These trained warriors protect their employers and take risks, even sacrificing themselves if need be. Bodyguards do not throw their lives away for no reason, though; employers who show no regard for their safety might end up with no protection at all.</p>"
-    },
+    "description": "<p>These trained warriors protect their employers and take risks, even sacrificing themselves if need be. Bodyguards do not throw their lives away for no reason, though; employers who show no regard for their safety might end up with no protection at all.</p>",
     "attributes": {
       "str": {
         "value": 12
@@ -667,7 +665,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721418686743,
-    "modifiedTime": 1764373738193,
+    "modifiedTime": 1766597094265,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

@@ -5,9 +5,7 @@
   "_id": "3vTAdFy6S3szf45L",
   "img": "icons/skills/social/intimidation-impressing.webp",
   "system": {
-    "description": {
-      "value": "<p>The target grows a bit bigger and stronger. The target increases its Health by 5, makes Strength rolls with 1 boon, imposes 1 bane on rolls against its Strength, and its melee attacks deal an extra 1d6 damage. The spell ends early if the target becomes unconscious.</p>"
-    },
+    "description": "<p>The target grows a bit bigger and stronger. The target increases its Health by 5, makes Strength rolls with 1 boon, imposes 1 bane on rolls against its Strength, and its melee attacks deal an extra @[1d6|d] damage. The spell ends early if the target becomes unconscious.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -45,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744752959633,
-    "modifiedTime": 1754186601225,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766597756791,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!3vTAdFy6S3szf45L"

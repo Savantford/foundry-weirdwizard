@@ -5,9 +5,7 @@
   "_id": "cKkLVudwCHvrTJGB",
   "img": "icons/commodities/treasure/glass-crystal-green.webp",
   "system": {
-    "description": {
-      "value": "<p>You can perform a ritual using an alchemist’s kit and 5 sp of exotic materials to make a material alteration. Target one Size 1/2 or smaller ordinary object in reach. When you finish, expend the exotic materials and apply one of the following effects to the target.</p><ul><li><p>The target regains 2d6 Health.</p></li><li><p>The target loses 4d6 Health.</p></li><li><p>The target becomes as hard as iron.</p></li><li><p>The target becomes as soft as clay.</p></li><li><p>You change the material of the target from one to another, provided the new material is of the same kind as the old. You could turn an iron bar into one of gold, or the oak of a haft into something soft as balsa. The change lasts for 1 hour.</p></li></ul>"
-    },
+    "description": "<p>You can perform a ritual using an alchemist’s kit and 5 sp of exotic materials to make a material alteration. Target one Size 1/2 or smaller ordinary object in reach. When you finish, expend the exotic materials and apply one of the following effects to the target.</p><ul><li><p>The target regains 2d6 Health.</p></li><li><p>The target loses 4d6 Health.</p></li><li><p>The target becomes as hard as iron.</p></li><li><p>The target becomes as soft as clay.</p></li><li><p>You change the material of the target from one to another, provided the new material is of the same kind as the old. You could turn an iron bar into one of gold, or the oak of a haft into something soft as balsa. The change lasts for 1 hour.</p></li></ul>",
     "active": true,
     "magical": true,
     "attribute": "",
@@ -42,12 +40,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744751769705,
-    "modifiedTime": 1754186601683,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766597954807,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!cKkLVudwCHvrTJGB"

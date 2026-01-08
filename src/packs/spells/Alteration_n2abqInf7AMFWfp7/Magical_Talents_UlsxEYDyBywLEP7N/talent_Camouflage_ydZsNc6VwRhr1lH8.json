@@ -5,9 +5,7 @@
   "_id": "ydZsNc6VwRhr1lH8",
   "img": "icons/magic/nature/stealth-hide-eyes-pink.webp",
   "system": {
-    "description": {
-      "value": "<p>You can use this talent at the end of your turn if you are within reach of one object of your Size or larger. Your appearance changes to match your surroundings. You become invisible to all creatures more than 2 yards away from you. The effect ends if you move. You can use this talent once, twice at level 3, and three times at level 7. You regain expended uses after you rest.</p>"
-    },
+    "description": "<p>You can use this talent at the end of your turn if you are within reach of one object of your Size or larger. Your appearance changes to match your surroundings. You become invisible to all creatures more than 2 yards away from you. The effect ends if you move. You can use this talent once, twice at level 3, and three times at level 7. You regain expended uses after you rest.</p>",
     "active": true,
     "magical": true,
     "attribute": "",
@@ -42,12 +40,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744752839987,
-    "modifiedTime": 1754186601908,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766597867030,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!ydZsNc6VwRhr1lH8"

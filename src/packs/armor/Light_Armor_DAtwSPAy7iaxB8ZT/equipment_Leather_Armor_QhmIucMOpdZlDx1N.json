@@ -3,9 +3,7 @@
   "type": "equipment",
   "img": "icons/equipment/chest/breastplate-collared-leather-brown.webp",
   "system": {
-    "description": {
-      "value": "<p>The most common form of light armor has soft, flexible leather clothing reinforced with plates of inflexible, hardened leather designed to protect the vitals.</p>"
-    },
+    "description": "<p>The most common form of light armor has soft, flexible leather clothing reinforced with plates of inflexible, hardened leather designed to protect the vitals.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 1,
@@ -29,7 +27,7 @@
     "healing": "",
     "subtype": "armor",
     "quality": "standard",
-    "grip": "One-Handed",
+    "grip": "one",
     "attackRider": {
       "value": {
         "value": ""
@@ -134,10 +132,10 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "createdTime": 1692116593788,
-    "modifiedTime": 1754186600429,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1766768925304,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null

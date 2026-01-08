@@ -4,9 +4,7 @@
   "_id": "DmPiEIMtQw2wfuLj",
   "img": "icons/weapons/guns/gun-wood.webp",
   "system": {
-    "description": {
-      "value": "<p>A musket has a long metal barrel attached to a wooden stock. A wheel lock mechanism throws a spark into the pan to ignite the powder and propel the ball from the weapon with force. You can use the musket as a two-handed improvised melee weapon.</p>"
-    },
+    "description": "<p>A musket has a long metal barrel attached to a wooden stock. A wheel lock mechanism throws a spark into the pan to ignite the powder and propel the ball from the weapon with force. You can use the musket as a two-handed improvised melee weapon.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 1,
@@ -38,7 +36,7 @@
     "heldBy": "",
     "requirements": "agi12",
     "damage": "6d6",
-    "grip": "Two",
+    "grip": "two",
     "traits": {
       "ammunition": true,
       "bludgeoning": false,
@@ -82,11 +80,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721408505468,
-    "modifiedTime": 1754186600577,
+    "modifiedTime": 1766692451706,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

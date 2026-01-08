@@ -3,9 +3,7 @@
   "type": "equipment",
   "img": "icons/weapons/bows/longbow-recurve-leather-brown.webp",
   "system": {
-    "description": {
-      "value": "<p>The bow is a flexible length of wood that, when bent, can be fitted with a cord tied off on both ends to create tension. You can use a bow as a two-handed improvised melee weapon.</p>"
-    },
+    "description": "<p>The bow is a flexible length of wood that, when bent, can be fitted with a cord tied off on both ends to create tension. You can use a bow as a two-handed improvised melee weapon.</p>",
     "active": true,
     "quantity": 1,
     "weightUnit": 1,
@@ -29,7 +27,7 @@
     "healing": "",
     "subtype": "weapon",
     "quality": "standard",
-    "grip": "Two",
+    "grip": "two",
     "attackRider": {
       "value": {
         "value": ""
@@ -77,9 +75,9 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "13.345",
+    "coreVersion": "13.350",
     "createdTime": 1692214385649,
-    "modifiedTime": 1754186600678,
+    "modifiedTime": 1766692467772,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "compendiumSource": null,
     "duplicateSource": null,
