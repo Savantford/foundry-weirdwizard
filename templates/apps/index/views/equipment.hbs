@@ -22,14 +22,14 @@
             </div>
 
             {{!-- Type --}}
-            <div class="flex-width-60">{{subtypeLabel}}</div>
+            <div class="flex-width-60">{{ equipmentSubtype }}</div>
 
-            <div class="flex-width-80">{{equipmentAvailability}}</div>
-            <div class="flex-width-60">{{{equipmentPrice}}}</div>
-            <div>{{#if (eq equipmentUses "inf")}}<span class="x-large">∞</span>{{else}}{{equipmentUses}}{{/if}}</div>
+            <div class="flex-width-80">{{ equipmentAvailability }}</div>
+            <div class="flex-width-60">{{{ equipmentPrice }}}</div>
+            <div>{{#if (eq equipmentUses "inf")}}<span class="x-large">∞</span>{{else}}{{ equipmentUses }}{{/if}}</div>
 
             {{!-- Description --}}
-            <div class="item-last">{{{system.descriptionEnriched}}}</div>
+            <div class="item-last">{{{ system.descriptionEnriched }}}</div>
         </li>
         {{/each}}
     </ol>

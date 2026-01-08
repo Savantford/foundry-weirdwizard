@@ -483,7 +483,10 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       // Get (sub)type labels
       doc.typeLabel = i18n(CONFIG[doc.documentName].typeLabels[doc.type]);
       const subtypes = {...CONFIG.WW.EQUIPMENT_SUBTYPES, ...CONFIG.WW.TALENT_SUBTYPES};
-      doc.subtypeLabel = doc.system.subtype ? i18n(subtypes[doc.system.subtype]) : doc.typeLabel;
+
+      if (doc.type === 'equipment') {
+        doc.equipmentSubtype = i18n(subtypes[doc.system.subtype]) ?? doc.typeLabel;
+      }
 
       if (doc.type === 'talent') {
         doc.talentType = doc.system.source === 'none'
@@ -492,7 +495,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       }
 
       if (doc.talentType) doc.genericTypeLabel = doc.talentType;
-      else if (doc.subtypeLabel) doc.genericTypeLabel = doc.subtypeLabel;
+      else if (doc.equipmentSubtype) doc.genericTypeLabel = doc.equipmentSubtype;
       else doc.genericTypeLabel = doc.typeLabel;
 
       // Get tooltip
@@ -580,11 +583,10 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       // Prepare Spell specifics
       if (doc.type === 'spell') {
         doc.spellTier = i18n(CONFIG.WW.TIERS[doc.system.tier]);
-        console.log(doc.system)
         doc.spellTradition = doc.system.tradition ?? '—';
+        doc.spellCastings = `${doc.system.uses.max}, ${doc.system.casting}` ? doc.system.uses.max : '—';
         doc.spellTarget = doc.system.target ?? '—';
         doc.spellDuration = doc.system.duration ?? '—';
-        doc.spellCastings = `${doc.system.uses.max}, ${doc.system.casting}` ? doc.system.uses.max : '—';
       }
 
       // Prepare Ancestry specifics
@@ -1332,7 +1334,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         css: "flex-width-90",
         views: ['generic']
       },
-      'subtypeLabel': {
+      'equipmentSubtype': {
         label: "WW.Item.Type",
         css: "flex-width-60",
         views: ['equipment']
