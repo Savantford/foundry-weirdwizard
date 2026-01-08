@@ -53,7 +53,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       createRollTable: CompendiumIndex.#createRollTable
     },
     position: {
-      width: 1050,
+      width: 1130,
       height: 550
     }
   }
@@ -579,12 +579,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         doc.tierLabel = i18n(CONFIG.WW.TIERS[doc.system.tier]);
       }
 
-      // Prepare NPC specifics
-      if (doc.type === 'npc' && doc.folder) {
-        const npc = await fromUuid(doc.uuid);
-        doc.folderLabel = npc.folder.name;
-      }
-
       // Prepare Ancestry specifics
       if (doc.type === 'ancestry') {
         const benefit = doc.system.benefits.benefit1;
@@ -756,22 +750,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         }
         doc.traditionTalents = talents ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(`<ol>${talents}</ol>`, { secrets: doc.isOwner }) : '—';
 
-        // Prepare Spell Links for each Tier
-        doc.spellLinks = {
-          novice: [],
-          expert: [],
-          master: []
-        }
-
-        for (const [k, v] of Object.entries(doc.system.spells)) {
-          doc.spellLinks[k] = [];
-
-          for (const uuid of v) {
-            doc.spellLinks[k].push(await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${uuid}]`, { secrets: doc.isOwner }));
-          }
-
-        }
-
         // Novice Spells
         let novice = '';
         for (const uuid of doc.system.spells.novice) {
@@ -795,6 +773,38 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         }
         doc.traditionMasterSpells = master ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(`<ol>${master}</ol>`, { secrets: doc.isOwner }) : '—';
         //
+      }
+
+      // Prepare NPC specifics
+      if (doc.type === 'npc') {
+        const attributes = doc.system.attributes;
+        const stats = doc.system.stats;
+        const npc = await fromUuid(doc.uuid);
+        
+        // Group (Folder)
+        doc.creatureGroup = doc.folder ? npc.folder.name : '—';
+
+        // Difficulty 
+        doc.creatureDifficulty = stats.difficulty ?? '—';
+
+        // Descriptors
+        let descriptors = '';
+        for (const [_, v] of Object.entries(doc.system.listEntries.descriptors)) {     
+          descriptors += `<li class="info" data-tooltip="${v.desc}">${v.name}</li>`;
+        }
+        doc.creatureDescriptors = descriptors ? `<ol>${descriptors}</ol>` : '—';
+        
+        // Attributes
+        doc.creatureStrength = attributes.str.value ?? '—';
+        doc.creatureAgility = attributes.agi.value ?? '—';
+        doc.creatureIntellect = attributes.int.value ?? '—';
+        doc.creatureWill = attributes.wil.value ?? '—';
+
+        // Other Stats
+        doc.creatureDefense = stats.defense.natural ?? '—';
+        doc.creatureHealth = stats.health.normal ?? '—';
+        doc.creatureSize = stats.size ?? '—';
+        doc.creatureSpeed = stats.speed.normal ?? '—';
       }
     }
 
@@ -1515,17 +1525,17 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       },
       'creatureStrength': {
         label: "WW.Attributes.Strength",
-        css: "flex-width-60",
+        css: "flex-width-70",
         views: ['creatures']
       },
       'creatureAgility': {
         label: "WW.Attributes.Agility",
-        css: "flex-width-50",
+        css: "flex-width-60",
         views: ['creatures']
       },
       'creatureIntellect': {
         label: "WW.Attributes.Intellect",
-        css: "flex-width-60",
+        css: "flex-width-70",
         views: ['creatures']
       },
       'creatureWill': {
@@ -1540,7 +1550,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       },
       'creatureHealth': {
         label: "WW.Health.Label",
-        css: "flex-width-50",
+        css: "flex-width-60",
         views: ['creatures']
       },
       'creatureSize': {

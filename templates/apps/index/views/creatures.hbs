@@ -20,25 +20,19 @@
                 <a data-action="openSheet" data-doc-uuid="{{uuid}}" data-tooltip="{{tooltip}}">{{name}}</a>
             </div>
             
-            <div class="flex-width-60">{{folderLabel}}</div>
-            <div class="flex-width-70">{{system.stats.difficulty}}</div>
-            <div>
-                <ol>
-                {{#each doc.system.listEntries.descriptors as |entry id|}}
-                    <li>{{entry.name}}</li>
-                {{/each}}
-                </ol>
-            </div>
+            <div class="flex-width-60">{{ creatureGroup }}</div>
+            <div class="flex-width-70">{{ creatureDifficulty }}</div>
+            <div>{{{ creatureDescriptors }}}</div>
 
-            <div class="flex-width-60">{{system.attributes.str.value}}</div>
-            <div class="flex-width-50">{{system.attributes.agi.value}}</div>
-            <div class="flex-width-60">{{system.attributes.int.value}}</div>
-            <div class="flex-width-50">{{system.attributes.wil.value}}</div>
+            <div class="flex-width-70">{{ creatureStrength }}</div>
+            <div class="flex-width-60">{{ creatureAgility }}</div>
+            <div class="flex-width-70">{{ creatureIntellect }}</div>
+            <div class="flex-width-50">{{ creatureWill }}</div>
             
-            <div class="flex-width-60">{{system.stats.defense.natural}}</div>
-            <div class="flex-width-50">{{system.stats.health.normal}}</div>
-            <div class="flex-width-50">{{system.stats.size}}</div>
-            <div class="flex-width-50">{{system.stats.speed.normal}}</div>
+            <div class="flex-width-60">{{ creatureDefense }}</div>
+            <div class="flex-width-60">{{ creatureHealth }}</div>
+            <div class="flex-width-50">{{ creatureSize }}</div>
+            <div class="flex-width-50">{{ creatureSpeed }}</div>
         </li>
         {{/each}}
     </ol>
