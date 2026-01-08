@@ -20,14 +20,18 @@
                 <a data-action="openSheet" data-doc-uuid="{{uuid}}" data-tooltip="{{tooltip}}">{{name}}</a>
             </div>
 
-            <div class="flex-width-60">{{talentTypeLabel}}</div>
-            <div class="flex-width-50"><i class="fa-solid {{#if system.magical}}fa-check{{else}}fa-xmark-large{{/if}}"></i></div>
-            <div>{{#if (eq talentUses "inf")}}<span class="x-large">∞</span>{{else}}{{talentUses}}{{/if}}</div>
-            <div>{{{ usedByLinks }}}</div>
+            <div class="flex-width-60">{{ talentType }}</div>
+            <div class="flex-width-50">
+                {{#if talentType}}<i class="fa-solid {{#if talentMagical}}fa-check{{else}}fa-xmark-large{{/if}}"></i>{{/if}}
+            </div>
+            <div>{{#if (eq talentUses "inf")}}<span class="x-large">∞</span>{{else}}{{ talentUses }}{{/if}}</div>
+
+            {{!-- Used By --}}
+            <div>{{{ talentUsedBy }}}</div>
+
             <div class="item-last">{{{system.descriptionEnriched}}}</div>
 
         </li>
         {{/each}}
     </ol>
-
 </section>

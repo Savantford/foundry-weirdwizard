@@ -486,12 +486,12 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       doc.subtypeLabel = doc.system.subtype ? i18n(subtypes[doc.system.subtype]) : doc.typeLabel;
 
       if (doc.type === 'talent') {
-        doc.talentTypeLabel = doc.system.source === 'none'
+        doc.talentType = doc.system.source === 'none'
         ? `${i18n("TYPES.Actor.npc")}: ${i18n(CONFIG.WW.TALENT_SUBTYPES[doc.system.subtype])}`
         : i18n(CONFIG.WW.TALENT_SOURCE_LABELS[doc.system.source]);
       }
 
-      if (doc.talentTypeLabel) doc.genericTypeLabel = doc.talentTypeLabel;
+      if (doc.talentType) doc.genericTypeLabel = doc.talentType;
       else if (doc.subtypeLabel) doc.genericTypeLabel = doc.subtypeLabel;
       else doc.genericTypeLabel = doc.typeLabel;
 
@@ -564,14 +564,26 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       
       // Prepare Trait & Talent specifics
       if (doc.type === 'talent') {
-        doc.usedByLinks = [];
+        doc.talentMagical = doc.system.magical ?? false;
+        doc.talentUses = doc.system.uses.max === 0 ? 'inf' : doc.system.uses.max;
         
+        // Used By
+        let talentUsedBy = '';
         if (doc.system.usedBy) {
           for (const uuid of doc.system.usedBy) {
-            doc.usedByLinks.push(await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${uuid}]`, { secrets: doc.isOwner }));
+            talentUsedBy += `<li class="info">@UUID[${uuid}]</li>`;
           }
         }
-        
+        doc.talentUsedBy = talentUsedBy ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(`<ol>${talentUsedBy}</ol>`, { secrets: doc.isOwner }) : '—'; 
+      }
+
+      // Prepare Spell specifics
+      if (doc.type === 'spell') {
+        //spellTier
+        //spellTradition
+        //spellCastings
+        //spellTarget
+        //spellDuration
       }
 
       // Prepare Tier
@@ -756,7 +768,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
           novice += `<li class="info">@UUID[${uuid}]</li>`;
         }
         doc.traditionNoviceSpells = novice ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(`<ol>${novice}</ol>`, { secrets: doc.isOwner }) : '—';
-        //
 
         // Expert Spells
         let expert = '';
@@ -764,7 +775,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
           expert += `<li class="info">@UUID[${uuid}]</li>`;
         }
         doc.traditionExpertSpells = expert ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(`<ol>${expert}</ol>`, { secrets: doc.isOwner }) : '—';
-        //
 
         // Master Spells
         let master = '';
@@ -772,7 +782,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
           master += `<li class="info">@UUID[${uuid}]</li>`;
         }
         doc.traditionMasterSpells = master ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(`<ol>${master}</ol>`, { secrets: doc.isOwner }) : '—';
-        //
       }
 
       // Prepare NPC specifics
