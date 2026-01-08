@@ -20,11 +20,11 @@
                 <a data-action="openSheet" data-doc-uuid="{{uuid}}" data-tooltip="{{tooltip}}">{{name}}</a>
             </div>
 
-            <div class="flex-width-60">{{tierLabel}}</div>
-            <div class="flex-width-60">{{system.tradition}}</div>
-            <div>{{system.uses.max}}{{#if doc.system.casting}}, {{system.casting}}{{/if}}</div>
-            <div>{{system.target}}</div>
-            <div>{{system.duration}}</div>
+            <div class="flex-width-60">{{ spellTier }}</div>
+            <div class="flex-width-60">{{ spellTradition }}</div>
+            <div>{{ spellCastings }}</div>
+            <div>{{ spellTarget }}</div>
+            <div>{{ spellDuration }}</div>
             <div class="item-last">{{{system.descriptionEnriched}}}</div>
 
         </li>

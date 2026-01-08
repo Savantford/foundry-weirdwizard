@@ -579,16 +579,12 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
       // Prepare Spell specifics
       if (doc.type === 'spell') {
-        //spellTier
-        //spellTradition
-        //spellCastings
-        //spellTarget
-        //spellDuration
-      }
-
-      // Prepare Tier
-      if (doc.type === 'path' || doc.type === 'spell') {
-        doc.tierLabel = i18n(CONFIG.WW.TIERS[doc.system.tier]);
+        doc.spellTier = i18n(CONFIG.WW.TIERS[doc.system.tier]);
+        console.log(doc.system)
+        doc.spellTradition = doc.system.tradition ?? '—';
+        doc.spellTarget = doc.system.target ?? '—';
+        doc.spellDuration = doc.system.duration ?? '—';
+        doc.spellCastings = `${doc.system.uses.max}, ${doc.system.casting}` ? doc.system.uses.max : '—';
       }
 
       // Prepare Ancestry specifics
@@ -656,6 +652,8 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
       // Prepare Path specifics
       if (doc.type === 'path') {
+        doc.pathTier = i18n(CONFIG.WW.TIERS[doc.system.tier]);
+
         const bs = {
           natural: '',
           armored: '',
