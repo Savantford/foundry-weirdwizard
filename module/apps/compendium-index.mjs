@@ -588,7 +588,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       // Prepare Ancestry specifics
       if (doc.type === 'ancestry') {
         const benefit = doc.system.benefits.benefit1;
-
         
         // Health
         const {sizeNormal, speedNormal, ...stats} = benefit.stats;
@@ -632,7 +631,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         }
         doc.ancestryLanguages = languages ? `<ol>${languages}</ol>` : '—';
 
-        // Languages
+        // Immunities
         let immunities = '';
         if (benefit.immunities) {
           for (const [_, v] of Object.entries(benefit.immunities)) {     
@@ -728,17 +727,24 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
       // Prepare Profession specifics
       if (doc.type === 'profession') {
+        const benefit = doc.system.benefits.benefit1;
+
+        // Category
         doc.professionCategory = i18n(CONFIG.WW.PROFESSION_CATEGORIES[doc.system.category]);
 
-        // Prepare Equipment Links
-        for (const [_, v] of Object.entries(doc.system.benefits)) {
-          v.equipmentLinks = [];
-
-          for (const uuid of v.items) {
-            v.equipmentLinks.push(await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${uuid}]`, { secrets: doc.isOwner }));
-          }
-          
+        // Languages
+        let languages = '';
+        for (const [_, v] of Object.entries(benefit.languages)) {     
+          languages += `<li class="info" data-tooltip="${v.desc}">${v.name}</li>`;
         }
+        doc.professionLanguages = languages ? `<ol>${languages}</ol>` : '—';
+        
+        // Traits
+        let equipment = '';
+        for (const uuid of benefit.items) {
+          equipment += `<li class="info">@UUID[${uuid}]</li>`;
+        }
+        doc.professionEquipment = equipment ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(`<ol>${equipment}</ol>`, { secrets: doc.isOwner }) : '—';
       }
 
       // Prepare Tradition specifics

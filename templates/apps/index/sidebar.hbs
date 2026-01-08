@@ -20,12 +20,10 @@
     {{!-- Filters Section --}}
     <div class="filters">
       {{#each filters as |filter key|}}
-      {{#with filter}}
       <div class="filter{{#if hidden}} hidden{{/if}}">
         <div class="title">{{ title }}</div>
         {{formInput @root.fields.set type="checkboxes" options=options name=name value=value dataset=(object tooltip="WW.Index.CheckboxTip")}}
       </div>
-      {{/with}}
       {{/each}}
     </div>
   </div>

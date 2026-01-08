@@ -11,7 +11,6 @@
     {{!-- Rows --}}
     <ol class="item-list">
         {{#each documents as |doc id|}}
-        {{#with doc}}
         <li class="item flexrow flex-group-left" data-item-id="{{_id}}">
             {{!-- Icon --}}
             <div class="item-image"><img src="{{img}}" data-tooltip="{{name}}" width="24" height="24" /></div>
@@ -21,31 +20,17 @@
                 <a data-action="openSheet" data-doc-uuid="{{uuid}}" data-tooltip="{{tooltip}}">{{name}}</a>
             </div>
 
-            <div class="flex-width-60">{{professionCategory}}</div>
+            <div class="flex-width-60">{{ professionCategory }}</div>
 
             {{!-- Bonus Languages --}}
-            <div>
-                <ol>
-                {{#each system.benefits.benefit1.languages as |language|}}
-                    <li class="info" data-tooltip="{{language.desc}}">{{ language.name }}</li>
-                {{/each}}
-                </ol>
-            </div>
+            <div>{{{ professionLanguages }}}</div>
 
             {{!-- Equipment --}}
-            <div>
-                <ol>
-                {{#each system.benefits.benefit1.equipmentLinks as |link|}}
-                    <li>{{{ link }}}</li>
-                {{/each}}
-                </ol>
-            </div>
+            <div>{{{ professionEquipment }}}</div>
 
             {{!-- Description --}}
             <div class="item-last">{{{ system.descriptionEnriched }}}</div>
         </li>
-        {{/with}}
         {{/each}}
     </ol>
-
 </section>
