@@ -14,7 +14,63 @@ export function fullMigration(forced) {
   if (isNewer(isLastMigrationExp ? '6.0.0-exp' : '6.0.0', lastMigration) || forced) pathsOfJournaling(forced);
   if (isNewer(isLastMigrationExp ? '6.1.0-exp' : '6.1.0', lastMigration) || forced) improvedListEntries(forced);
   if (isNewer(isLastMigrationExp ? '6.2.0-exp' : '6.2.0', lastMigration) || forced) v13Support(forced);
+  if (isNewer(isLastMigrationExp ? '6.3.1-exp' : '6.3.0', lastMigration) || forced) secrets(forced);
   
+}
+
+/* -------------------------------------------- */
+/* Secrets                                      */
+/* 6.3.1-exp / 6.3.0                            */
+/* -------------------------------------------- */
+
+export async function secrets(forced) {
+  const warning = ui.notifications.warn(
+    forced ? 'WW.System.Migration.Forced' : 'WW.System.Migration.Started',
+    { format: { version: '6.3.0' }, progress: true }
+  );
+
+  // Record invalid Item IDs
+  const invalidItemIds = Array.from(game.items.invalidDocumentIds);
+
+  // Record invalid Actors
+  const invalidActorIds = Array.from(game.actors.invalidDocumentIds);
+  const invalidActors = [];
+  invalidActorIds.forEach(x => {
+    invalidActors.push(game.actors.getInvalid(x));
+  })
+
+  // Delete invalid item references from world Actors
+  console.log('Deleting invalid world item references from world Actors');
+  for (const actor of invalidActors) {
+    console.log(actor)
+    for (const [listKey, list] of Object.entries(actor.system.listEntries)) {
+      for (const [entryKey, entry] of Object.entries(list)) {
+        console.log(entry)
+        if (invalidItemIds.includes(entry.grantedBy)) {
+          const path = `system.listEntries.${listKey}.${entryKey}.grantedBy`;
+          console.log(path)
+          await actor.update({ [path]: null });
+        }
+      }
+    }
+  }
+  warning.update({ pct: 0.5 });
+
+  // Delete invalid world Items
+  console.log('Deleting invalid world Items');
+  invalidItemIds.forEach(x => {
+    const invalidItem = game.items.getInvalid(x);
+    invalidItem.delete();
+  })
+  warning.update({ pct: 1.0 });
+
+  ui.notifications.remove(warning);
+  ui.notifications.success('WW.System.Migration.Finished', { format: { version: '6.3.0' }, permanent: true });
+  console.log('Migration complete');
+  
+  // Update version
+  const current = game.system.version != '#{VERSION}#' ? game.system.version : '6.3.0';
+  await game.settings.set('weirdwizard', 'lastMigrationVersion', current);
 }
 
 /* -------------------------------------------- */
