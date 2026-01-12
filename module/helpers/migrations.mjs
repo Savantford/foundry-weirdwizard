@@ -8,14 +8,19 @@ export function fullMigration(forced) {
   // Check if the versions are experimental
   const isLastMigrationExp = lastMigration.includes('-exp');
 
-  // If last migration was done previous to the version indicated, perform the data migration needed
-  if (isNewer(isLastMigrationExp ? '2.3.0-exp' : '2.0.0', lastMigration) || forced) effectOverhaul(forced);
-  if (isNewer(isLastMigrationExp ? '3.0.0-exp' : '3.0.0', lastMigration) || forced) strToCharOptions(forced);
-  if (isNewer(isLastMigrationExp ? '6.0.0-exp' : '6.0.0', lastMigration) || forced) pathsOfJournaling(forced);
-  if (isNewer(isLastMigrationExp ? '6.1.0-exp' : '6.1.0', lastMigration) || forced) improvedListEntries(forced);
-  if (isNewer(isLastMigrationExp ? '6.2.0-exp' : '6.2.0', lastMigration) || forced) v13Support(forced);
-  if (isNewer(isLastMigrationExp ? '6.3.1-exp' : '6.3.0', lastMigration) || forced) secrets(forced);
-  
+  // Check if the world is new or old
+  if (game.actors.size || game.items.size || game.journal.size) {
+    // If last migration was done before the version provided, perform the necessary data migration
+    if (isNewer(isLastMigrationExp ? '2.3.0-exp' : '2.0.0', lastMigration) || forced) effectOverhaul(forced);
+    if (isNewer(isLastMigrationExp ? '3.0.0-exp' : '3.0.0', lastMigration) || forced) strToCharOptions(forced);
+    if (isNewer(isLastMigrationExp ? '6.0.0-exp' : '6.0.0', lastMigration) || forced) pathsOfJournaling(forced);
+    if (isNewer(isLastMigrationExp ? '6.1.0-exp' : '6.1.0', lastMigration) || forced) improvedListEntries(forced);
+    if (isNewer(isLastMigrationExp ? '6.2.0-exp' : '6.2.0', lastMigration) || forced) v13Support(forced);
+    if (isNewer(isLastMigrationExp ? '6.3.1-exp' : '6.3.0', lastMigration) || forced) secrets(forced);
+  } else if (game.system.version !== '#{VERSION}#') {
+    // If world is new, set lastMigrationVersion to current system version
+    game.settings.set('weirdwizard', 'lastMigrationVersion', game.system.version);
+  }
 }
 
 /* -------------------------------------------- */
