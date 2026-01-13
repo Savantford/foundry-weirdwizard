@@ -235,7 +235,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     };
     
     // Prepare documents data
-    if (!this.sourceCompendia) this.sourceCompendia = this.getCompendiumArray().map(x => x.value);
+    if (!this.sourceCompendia) this.sourceCompendia = CompendiumIndex.getCompendiumArray().map(x => x.value);
     if (!this.fullDocumentList) await this._updateFullDocumentData();
 
     // Prepare layout elements
@@ -262,8 +262,8 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     context.filters.push({
       name: 'sourceCompendia',
       title: i18n("WW.Index.Filters.SourceCompendia"),
-      value: this.sourceCompendia ?? this.getCompendiumArray().map(x => x.value),
-      options: this.getCompendiumArray(),
+      value: this.sourceCompendia ?? CompendiumIndex.getCompendiumArray().map(x => x.value),
+      options: CompendiumIndex.getCompendiumArray(),
       hidden: false
     })
 
@@ -1642,12 +1642,33 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   }
 
   /* -------------------------------------------- */
-  /*  Utility Methods                             */
+  /*  Static Utility Methods                      */
   /* -------------------------------------------- */
 
-  
+  /**
+   * Adapted from D&D 5e system's code. Thank you!
+   * Inject the compendium index button into the compendium sidebar.
+   * @param {HTMLElement} html  HTML of the sidebar being rendered.
+   */
+  static injectSidebarButton(html) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.classList.add("open-compendium-index");
+    button.innerHTML = `
+        <i class="fa-solid fa-hat-wizard" inert></i>
+        ${game.i18n.localize("WW.Index.Open")}
+      `;
+    button.addEventListener("click", event => (new CompendiumIndex()).render({ force: true }));''
+
+    let headerActions = html.querySelector(".header-actions");
+    
+    headerActions.append(button);
+  }
+
+  /* -------------------------------------------- */
+
   /* Returns an array of compendia UUIDs */
-  getCompendiumArray () {
+  static getCompendiumArray() {
     const arr = [];
     const allowedTypes = ["Actor", "Item", "JournalEntry"];
 
@@ -1669,26 +1690,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     }
 
     return arr;
-  };
-
-  /**
-   * Adapted from D&D 5e system's code. Thank you!
-   * Inject the compendium index button into the compendium sidebar.
-   * @param {HTMLElement} html  HTML of the sidebar being rendered.
-   */
-  static injectSidebarButton(html) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.classList.add("open-compendium-index");
-    button.innerHTML = `
-        <i class="fa-solid fa-hat-wizard" inert></i>
-        ${game.i18n.localize("WW.Index.Open")}
-      `;
-    button.addEventListener("click", event => (new CompendiumIndex()).render({ force: true }));''
-
-    let headerActions = html.querySelector(".header-actions");
-    
-    headerActions.append(button);
   }
 
   /* -------------------------------------------- */
