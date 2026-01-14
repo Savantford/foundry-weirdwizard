@@ -4720,12 +4720,8 @@ details.document-card .card-header:hover::after {
   text-align: center;
 }
 
-#entry-settings-menu li>.form-fields {
-  justify-content: space-around;
-}
-
-#entry-settings-menu li>.form-fields>a {
-  flex: 0 0 20px;
+#entry-settings-menu li > .form-fields > a {
+  flex: 0 0 16px;
 }
 
 /* List Entry Sub-Settings: Display */

@@ -1,4 +1,4 @@
-console.log('SotWW | Initializing weirdwizard.mjs...')
+console.log('SWW | Initializing weirdwizard.mjs...')
 
 // Import document classes.
 import WWActor from './documents/actor.mjs';
@@ -465,4 +465,4 @@ Hooks.on('diceSoNiceReady', (dice3d) => {
 
 });
 
-console.log('SotWW | Done initializating weirdwizard.mjs.')
+console.log('SWW | Done initializating weirdwizard.mjs.')

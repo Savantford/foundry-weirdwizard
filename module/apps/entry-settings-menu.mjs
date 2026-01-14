@@ -251,7 +251,6 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
    * @param {HTMLElement} button - the capturing HTML element which defined a [data-action]
   */
   static #addSet(event, button) {
-    
     // Fetch default lists
     const systemDefaults = {
       languages: CONFIG.WW.DEFAULT_LANGUAGES,
@@ -272,7 +271,6 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
     ui.notifications.info(i18n('WW.Settings.Entry.SetNotification'));
 
     this.render(true);
-    
   }
 
 }
