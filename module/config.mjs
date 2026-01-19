@@ -1056,8 +1056,12 @@ WW.DEFAULT_DESCRIPTORS = {
     name: 'Fiend',
     desc: ''
   },
-  'fungusPlant': {
-    name: 'Fungus/Plant',
+  'fungus': {
+    name: 'Fungus',
+    desc: ''
+  },
+  'plant': {
+    name: 'Plant',
     desc: ''
   },
   'monster': {

@@ -4,6 +4,12 @@
     <label class="item-button" data-action="itemLabelClick" data-item-id="{{item._id}}"
         data-tooltip="{{item.tooltip}}">{{item.name}}</label>
     
+    {{!-- Description --}}
+    {{#if item.system.description}}
+    <span class="item-description">{{{ item.system.descriptionEnriched }}}</span>
+    {{/if}}
+
+    {{!-- Buttons --}}
     <span class="buttons">
 
         {{!-- Toggle Effects --}}
