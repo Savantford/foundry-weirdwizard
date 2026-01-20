@@ -32,6 +32,7 @@ export default class EquipmentModel extends BaseItemModel {
     // Add Weapon fields
     schema.requirements = makeStrField();
     schema.damage = makeStrField();
+    schema.damageAlt = makeStrField();
     schema.grip = makeRequiredStrField('one');
     schema.reloaded = makeBooField(true);
 

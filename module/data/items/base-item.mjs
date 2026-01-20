@@ -22,6 +22,7 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
         initial: 0,
         integer: true
       }),
+      boonsAlt: makeStrField(),
 
       range: makeIntField(),
       affliction: makeStrField(), // Make it required maybe

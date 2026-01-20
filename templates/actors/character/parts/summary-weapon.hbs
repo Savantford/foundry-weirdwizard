@@ -9,7 +9,11 @@
         {{localize item.system.attributeLabel}}
 
         {{!-- Boons --}}
-        {{#if item.system.boons}} {{localize "WW.Boons.With"}} {{item.system.boons}}
+        {{#if item.system.boonsAlt}}
+            {{ item.system.boonsAlt }}
+        {{else if item.system.boons}}
+            {{localize "WW.Boons.With"}} {{item.system.boons}}
+
             {{#if (lt item.system.boons -1)}}{{localize "WW.Boons.Banes"}}
                 {{else if (lt item.system.boons 0)}}{{localize "WW.Boons.Bane"}}
                 {{else if (gt item.system.boons 1)}}{{localize "WW.Boons.Boons"}}
@@ -19,7 +23,7 @@
     </span>
 
     {{!-- Damage --}}
-    <span class="damage-line">({{#if item.system.damage}}{{item.system.damage}}{{else}}0{{/if}})</span>
+    <span class="damage-line">({{#if item.system.damageAlt}}{{ item.system.damageAlt }}{{else if item.system.damage}}{{ item.system.damage }}{{else}}0{{/if}})</span>
 
     {{#if (or item.system.traits.reload item.system.traits.firearm)}}
     <span class="buttons">

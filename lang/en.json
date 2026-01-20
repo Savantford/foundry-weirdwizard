@@ -213,6 +213,8 @@
 "WW.Item.Equip": "Wear equipment",
 "WW.Item.Unequip": "Remove equipment",
 "WW.Item.UsedBy": "Used by",
+"WW.Item.Alt": "Alternative text to display.",
+"WW.Item.AltTip": "Optional: If this field is filled, the sheet will display it in place of the associated the value.",
 
 "WW.Item.Perform.Attack": "Attack",
 "WW.Item.Perform.AttackTarget": "Select targets and attack",

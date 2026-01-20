@@ -8,6 +8,10 @@
 
             <input type="text" name="system.damage" value="{{system.damage}}" placeholder="1d6"
                 style="width: 50px; text-align: left;" data-dtype="String" />
+            
+            {{!-- Alternative Text --}}
+            <input type="text" name="system.damageAlt" value="{{system.damageAlt}}" placeholder="{{localize "WW.Item.Alt"}}"
+                data-tooltip-text="{{localize "WW.Item.AltTip"}}" data-dtype="String" />
         </div>
         
         {{!-- Range --}}
