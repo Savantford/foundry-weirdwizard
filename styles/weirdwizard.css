@@ -542,7 +542,7 @@ body.theme-dark.application.weirdwizard .window-content {
   /* Readjust on some sheets */
 }
 
-.application.weirdwizard.sheet .window-content {
+.application.weirdwizard.sheet:not(.roll-table-sheet) .window-content {
   padding-right: 0.25rem;
 }
 
@@ -1003,32 +1003,6 @@ body.theme-dark.application.weirdwizard .window-content {
   /* Needed for tabs off the sheet box to appear */
 }
 
-.weirdwizard.application:not(.minimized) {
-  .window-header {
-    background: url(../assets/decorations/frames/rose.webp);
-    overflow: visible;
-  }
-
-  .window-icon {
-    opacity: 0;
-  }
-
-  .window-title {
-    flex: none;
-    font-family: var(--font-header);
-    font-size: var(--font-size-20);
-    font-weight: bold;
-    line-height: 100%;
-    border-image: url(../assets/ui/ribbons/folded-double-pink.svg);
-    border-image-slice: 5 57 16 57 fill;
-    border-image-width: 4px 45px 12px 45px;
-    border-image-outset: 4px 55px 15px 55px;
-    padding: 0;
-    margin: 0 auto 8px auto;
-    filter: drop-shadow(0 1px 2px black);
-  }
-}
-
 .weirdwizard.application.actor:not(.minimized),
 .weirdwizard.application.item:not(.minimized)
 .weirdwizard.application.active-effect-config:not(.minimized) {
@@ -1243,7 +1217,7 @@ body.theme-dark.application.weirdwizard .window-content {
 /*  Sheet Navigation Tabs                       */
 /* -------------------------------------------- */
 
-.weirdwizard.sheet nav.tabs {
+.weirdwizard.sheet:not(.roll-table-sheet) nav.tabs {
   --tab-full-width: 44px;
   --tab-inactive-width: 32px;
   position: absolute;
@@ -2746,7 +2720,7 @@ hr.bug {
 }
 
 /* Internal Element Formatting */
-.weirdwizard .window-content .flexrow {
+.weirdwizard:not(.roll-table-sheet) .window-content .flexrow {
   gap: 5px;
 }
 
@@ -3926,6 +3900,37 @@ input[type="checkbox"].checkbox-uses {
   }
 }
 
+.weirdwizard.application:not(.minimized) {
+  .window-header {
+    background: url(../assets/decorations/frames/rose.webp);
+    overflow: visible;
+  }
+
+  .window-icon,
+  .window-title {
+    opacity: 0;
+  }
+}
+
+.weirdwizard.application:not(.sheet):not(.minimized) {
+  .window-title {
+    opacity: 1;
+    overflow: visible;
+    flex: none;
+    font-family: var(--font-header);
+    font-size: var(--font-size-20);
+    font-weight: bold;
+    line-height: 100%;
+    border-image: url(../assets/ui/ribbons/folded-double-pink.svg);
+    border-image-slice: 5 57 16 57 fill;
+    border-image-width: 4px 45px 12px 45px;
+    border-image-outset: 4px 55px 15px 55px;
+    padding: 0;
+    margin: 0 auto 8px auto;
+    filter: drop-shadow(0 1px 2px black);
+  }
+}
+
 .weirdwizard.application:not(.minimized):not(.sheet) {
   min-width: 330px;
   min-height: 150px;
@@ -3950,7 +3955,7 @@ input[type="checkbox"].checkbox-uses {
   background-image: url(../assets/ui/checkbox/tick.svg);
 }
 
-.application.weirdwizard .scrollable {
+.application.weirdwizard:not(.roll-table-sheet) .scrollable {
   --scroll-margin: 0.75rem;
   margin-right: 0 !important;
   overflow: hidden auto;
@@ -3971,6 +3976,7 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard.dialog .form-footer button,
 .weirdwizard.dialog .form-footer button.default,
+.weirdwizard.roll-table-sheet .form-footer > button,
 #multi-choice .mc-buttons button,
 #roll-attribute .form-group button,
 #roll-damage .form-group button,
@@ -3987,7 +3993,7 @@ input[type="checkbox"].checkbox-uses {
   white-space: nowrap;
 }
 
-.weirdwizard .standard-form .form-footer>button,
+.weirdwizard .standard-form .form-footer > button,
 .weirdwizard .standard-form .form-footer a.button {
   --button-size: var(--input-height);
 }
@@ -4002,6 +4008,8 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard.dialog .form-footer button:hover,
 .weirdwizard.dialog .form-footer button:focus,
+.weirdwizard.roll-table-sheet .form-footer > button:hover,
+.weirdwizard.roll-table-sheet .form-footer > button:focus,
 #multi-choice .mc-buttons button:hover,
 #multi-choice .mc-buttons button:focus,
 #roll-attribute .form-group button:hover,
@@ -4749,6 +4757,59 @@ details.document-card .card-header:hover::after {
 }
 
 /* -------------------------------------------- */
+/*  Rollable Table                              */
+/* -------------------------------------------- */
+
+.weirdwizard.roll-table-sheet {
+  --button-text-color: var(--purple-medium);
+
+  table {
+    overflow: visible;
+
+    thead {
+      background: none;
+      border-image: url(../assets/ui/headers/pointed-double-purple-dark.svg);
+      border-image-slice: 15 15 fill;
+      border-image-width: 40px;
+      border-image-outset: 0 13px;
+      color: white;
+      filter: drop-shadow(0 0 1px black);
+    }
+
+    tbody {
+      border: 1px solid var(--purple-dark);
+      border-top: none;
+    }
+  }
+
+  nav.tabs {
+    background-color: var(--purple-medium);
+    border-radius: 3px;
+  }
+
+  .inline-control {
+    color: var(--purple-medium);
+  }
+
+  .standard-form .form-group > label {
+    color: var(--body-text-color);
+  }
+
+  header.sheet-header {
+    button {
+      background: none;
+      border: none;
+      backdrop-filter: contrast(0.1) sepia(0.5);
+      color: var(--body-text-color);
+    }
+
+    button:hover {
+      background: var(--button-hover-background-color);
+    }
+  }
+}
+
+/* -------------------------------------------- */
 /*  Compendium Index                            */
 /* -------------------------------------------- */
 
@@ -4890,6 +4951,7 @@ details.document-card .card-header:hover::after {
         padding: 2px calc(0.75rem + 6px) 2px 7px;
         filter: drop-shadow(0 1px 1px black);
         cursor: pointer;
+        letter-spacing: normal;
 
         .fas {
           font-size: smaller;
