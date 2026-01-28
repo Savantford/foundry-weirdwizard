@@ -11,9 +11,9 @@ export default class SpellModel extends BaseItemModel {
     // Add Spell fields
     schema.tier = makeRequiredStrField('novice');
     schema.tradition = makeStrField();
-    schema.casting = makeStrField();
-    schema.target = makeStrField();
-    schema.duration = makeStrField(i18n("WW.Spell.DurationDefault"));
+    schema.casting = makeHtmlField();
+    schema.target = makeHtmlField();
+    schema.duration = makeHtmlField(i18n("WW.Spell.DurationDefault"));
 
     // Adjust Spell-specific initials
     schema.active = makeBooField(false);

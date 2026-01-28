@@ -133,7 +133,7 @@ export default function WWSheetMixin(BaseSheet) {
       ];
       
       // Add only to specified types
-      const types = ['character', 'npc', 'equipment', 'talent', 'spell'];
+      const types = ['character', 'npc'];
       if (types.includes(this.document.type)) this.window.controls?.before(...buttons);
 
       return frame;

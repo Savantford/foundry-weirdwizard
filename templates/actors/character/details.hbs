@@ -1,6 +1,6 @@
 <section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
     
-    <div class="auto-grid-2">
+    <div class="flex-1 auto-grid-2">
         {{!-- Left Column --}}
         <div class="flexcol">
             
@@ -20,7 +20,7 @@
             {{/if}}
             
             {{!-- Background --}}
-            <div>
+            <div {{#if isEditMode}}class="editor-stretcher"{{/if}}>
                 <h2>{{localize "WW.Character.Background"}}</h2>
                 {{#if isEditMode}}
                 <prose-mirror name="system.details.background" data-document-uuid="{{actor.uuid}}" value="{{actor.system.details.background}}"
@@ -69,7 +69,7 @@
             </div>
             
             {{!-- Notes --}}
-            <div>
+            <div {{#if isEditMode}}class="editor-stretcher"{{/if}}>
                 <h2>{{localize "WW.Actor.Notes"}}</h2>
                 {{#if isEditMode}}
                 <prose-mirror name="system.details.notes" data-document-uuid="{{actor.uuid}}" value="{{actor.system.details.notes}}"

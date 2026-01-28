@@ -2,27 +2,13 @@
     {{!-- Name Stripe --}}
     {{> "systems/weirdwizard/templates/items/header.hbs" }}
 
-    {{#unless editMode}}
-    {{!-- Sheet Header --}}
-    <header class="sheet-header">
-        
-        {{!-- Details Area --}}
-        {{#each detailsPartial as |part|}}
-            {{> (part) @root}}
-        {{/each}}
-
-        {{!-- Right Ribbon --}}
-        {{> "systems/weirdwizard/templates/items/banner.hbs" }}
-
-    </header>
-    {{else}}
-        {{#each detailsPartial as |part|}}
-            {{> (part) @root}}
-        {{/each}}
-    {{/unless}}
+    {{!-- Type Specific Partial --}}
+    {{#each detailsPartial as |part|}}
+        {{> (part) @root}}
+    {{/each}}
 
     {{!-- Description --}}
-    <div class="description">
+    <div class="description editor-stretcher">
         <h4>{{localize "WW.Item.Description"}}</h4>
 
         <prose-mirror name="system.description" data-document-u-u-i-d="{{item.uuid}}" value="{{system.description}}"

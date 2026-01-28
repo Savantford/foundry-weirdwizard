@@ -62,12 +62,28 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     }
   };
 
-  /**
-   * Parts for each view
-   */
-  static MODE_PARTS = {
-    edit: ["sidetabs", "details", "automation"],
-    view: ["sidetabs", "details", "automation"]
+  /** @override */
+  static PARTS = {
+    sidetabs: { template: 'systems/weirdwizard/templates/generic/side-tabs.hbs' },
+    
+    details: {
+      template: 'systems/weirdwizard/templates/items/details/tab.hbs',
+      templates: [
+        'systems/weirdwizard/templates/items/header.hbs',
+        'systems/weirdwizard/templates/items/details/equipment.hbs',
+        'systems/weirdwizard/templates/items/details/talent.hbs',
+        'systems/weirdwizard/templates/items/details/spell.hbs'
+      ],
+    },
+
+    automation: {
+      template: 'systems/weirdwizard/templates/items/automation/tab.hbs',
+      templates: [
+        'systems/weirdwizard/templates/items/automation/settings.hbs',
+        'systems/weirdwizard/templates/items/automation/effects.hbs'
+      ]
+    }
+    
   };
 
   /** @override */
@@ -81,20 +97,6 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       labelPrefix: "EFFECT.TABS"
     }
   };
-  
-  /* -------------------------------------------- */
-
-  /** @override */
-  _configureRenderParts(options) {
-    const parts = super._configureRenderParts(options);
-    
-    const allowedParts = this.constructor.MODE_PARTS[this.mode];
-    for ( const partId in parts ) {
-      if ( !allowedParts.includes(partId) ) delete parts[partId];
-    }
-    
-    return parts;
-  }
   
   /* -------------------------------------------- */
 
@@ -223,6 +225,10 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
 
       case 'spell':
         context.tiers = CONFIG.WW.TIERS;
+
+        context.system.castingEnriched = await TextEditor.enrichHTML(context.system.casting, { secrets: isOwner, relativeTo: this.document });
+        context.system.targetEnriched = await TextEditor.enrichHTML(context.system.target, { secrets: isOwner, relativeTo: this.document });
+        context.system.durationEnriched = await TextEditor.enrichHTML(context.system.duration, { secrets: isOwner, relativeTo: this.document });
       break;
       
     }
@@ -244,7 +250,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       case 'details':
         context.tab = context.tabs[partId];
         
-        context.detailsPartial = [`systems/weirdwizard/templates/items/details/${this.item.type}-${this.mode}.hbs`];
+        context.detailsPartial = [`systems/weirdwizard/templates/items/details/${this.item.type}.hbs`];
       break;
       
       // Effects tab

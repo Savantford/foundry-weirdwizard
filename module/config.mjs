@@ -135,6 +135,7 @@ WW.USES_LEVEL_RELATIVE = {
   'manual': 'WW.Item.Uses.Manual',
   'full': 'WW.Item.Uses.Full',
   'half': 'WW.Item.Uses.Half',
+  '1+half': 'WW.Item.Uses.OnePlusHalf',
   'third': 'WW.Item.Uses.Third'
 };
 

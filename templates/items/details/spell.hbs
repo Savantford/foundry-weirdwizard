@@ -1,0 +1,52 @@
+<div>
+  <div class="stat-inline flex flex-children mb-2">
+    {{!-- Tier --}}
+    <div>
+      <label>{{localize "WW.Item.Tier"}}:</label>
+      
+      <select name="system.tier">
+        {{selectOptions tiers selected=system.tier localize=true}}
+      </select>
+    </div>
+    
+    {{!-- Tradition --}}
+    <div>
+      <label>{{localize "WW.Spell.Tradition"}}:</label>
+
+      <input type="text" name="system.tradition" value="{{system.tradition}}"
+        placeholder="{{localize "WW.Spell.Tradition"}}" data-dtype="String" />
+    </div>
+  
+  </div>
+
+  {{!-- Castings --}}
+  <h3>{{localize "WW.Spell.Castings"}}:
+    <div class="input-wrap">
+      <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="1" data-dtype="Number" />
+
+      <div class="input-overlay">{{system.uses.max}}</div>
+    </div>
+  </h3>
+
+  <prose-mirror name="system.casting" data-document-u-u-i-d="{{item.uuid}}" value="{{system.casting}}" toggled
+    collaborate compact editable={{editable}}>
+    {{{system.castingEnriched}}}
+  </prose-mirror>
+
+  {{!-- Target --}}
+  <h3>{{localize "WW.Spell.Target"}}</h3>
+
+  <prose-mirror name="system.target" data-document-u-u-i-d="{{item.uuid}}" value="{{system.target}}" toggled
+    collaborate compact editable={{editable}}>
+    {{{system.targetEnriched}}}
+  </prose-mirror>
+
+  {{!-- Duration --}}
+  <h3>{{localize "WW.Spell.Duration"}}</h3>
+
+  <prose-mirror name="system.duration" data-document-u-u-i-d="{{item.uuid}}" value="{{system.duration}}" toggled
+    collaborate compact editable={{editable}}>
+    {{{system.durationEnriched}}}
+  </prose-mirror>
+
+</div>
