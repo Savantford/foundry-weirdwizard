@@ -69,33 +69,15 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
     for (const s in context.sections) {
       const section = context.sections[s];
 
-      // Prepare Attack Rider
-      if (section.type === 'attackRider') {
-        section.attackRider = {
-          field: opt.document.system.schema.getField("attackRider.value"),
-          name: await section.attackRider.name,
-          value: await section.attackRider.value
-        }
+      // Prepare cols
+      if (!section.cols) section.cols = 'auto auto';
 
-        const TextEditor = foundry.applications.ux.TextEditor.implementation;
-        section.attackRiderEnriched = await TextEditor.enrichHTML(section.attackRider.value,
-          { rollData: opt.document.getRollData(), relativeTo: opt.document, secrets: opt.document.isOwner }
-        );
-        
-      } else {
+      // Prepare choices
+      for (const c in section.choices) {
+        const choice = section.choices[c];
 
-        // Prepare cols
-        if (!section.cols) section.cols = 'auto auto';
-
-        // Prepare choices
-        for (const c in section.choices) {
-          const choice = section.choices[c];
-          
-          if (choice.path) choice.value = foundry.utils.getProperty(this.document, choice.path);
-        }
-        
+        if (choice.path) choice.value = foundry.utils.getProperty(this.document, choice.path);
       }
-
     }
     
     // Define submit button label

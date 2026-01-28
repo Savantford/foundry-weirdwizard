@@ -1,11 +1,8 @@
 {{!-- Details Area --}}
-<div class="header-fields stat-inline flex-wrap flex-children">
-
-  {{!-- Weapon Fields --}}
-  {{> "systems/weirdwizard/templates/items/details/weapon.hbs"}}
+<div class="fields stat-inline flex-wrap flex-children">
 
   {{!-- Common Fields --}}
-  {{#unless (and (eq system.subtype 'weapon') (eq system.grip 'Natural'))}}
+  {{#unless (and (eq system.subtype 'weapon') (eq system.grip 'natural'))}}
   <div class="common-fields flex-children">
     <div>
       <label>{{localize "WW.Equipment.Availability.Label"}}:</label>

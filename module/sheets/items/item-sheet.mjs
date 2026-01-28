@@ -57,41 +57,18 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       closeOnSubmit: false
     },
     position: {
-      width: 520,
+      width: 550,
       height: 480
     }
   };
 
-  /* -------------------------------------------- */
-
-  /** @override */
-  static PARTS = {
-    sidetabs: { template: 'systems/weirdwizard/templates/generic/side-tabs.hbs' },
-    
-    details: {
-      template: 'systems/weirdwizard/templates/items/details/tab.hbs',
-      templates: [
-        'systems/weirdwizard/templates/items/common/name-stripe.hbs',
-        'systems/weirdwizard/templates/items/common/item-ribbon.hbs',
-        'systems/weirdwizard/templates/items/common/portrait.hbs',
-        'systems/weirdwizard/templates/items/details/equipment.hbs',
-        'systems/weirdwizard/templates/items/details/weapon.hbs',
-        'systems/weirdwizard/templates/items/details/talent.hbs',
-        'systems/weirdwizard/templates/items/details/spell.hbs'
-      ],
-    },
-
-    automation: {
-      template: 'systems/weirdwizard/templates/items/automation/tab.hbs',
-      templates: [
-        'systems/weirdwizard/templates/items/automation/settings.hbs',
-        'systems/weirdwizard/templates/items/automation/effects.hbs'
-      ]
-    },
-    
+  /**
+   * Parts for each view
+   */
+  static MODE_PARTS = {
+    edit: ["sidetabs", "details", "automation"],
+    view: ["sidetabs", "details", "automation"]
   };
-
-  /* -------------------------------------------- */
 
   /** @override */
   static TABS = {
@@ -100,10 +77,24 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         {id: 'details', tooltip: 'WW.Actor.Details', icon: 'systems/weirdwizard/assets/icons/diploma.svg', iconType: 'img'},
         {id: 'automation', tooltip: 'WW.Effects.TabLabel', iconType: 'img', icon: 'systems/weirdwizard/assets/icons/gear-hammer.svg', iconType: 'img'}
       ],
-      initial: "details",
+      initial: 'details',
       labelPrefix: "EFFECT.TABS"
     }
   };
+  
+  /* -------------------------------------------- */
+
+  /** @override */
+  _configureRenderParts(options) {
+    const parts = super._configureRenderParts(options);
+    
+    const allowedParts = this.constructor.MODE_PARTS[this.mode];
+    for ( const partId in parts ) {
+      if ( !allowedParts.includes(partId) ) delete parts[partId];
+    }
+    
+    return parts;
+  }
   
   /* -------------------------------------------- */
 
@@ -129,7 +120,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     context.folder = await itemData.folder;
     context.flags = itemData.flags;
     context.dtypes = ['String', 'Number', 'Boolean'];
-    
+    context.editMode = this.isEditMode;
     
     // Prepare enriched document reference links
     context.grantedBy = await fromUuid(sys.grantedBy) ?
@@ -171,11 +162,34 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         context.availabilities = CONFIG.WW.EQUIPMENT_AVAILABILITIES;
         context.armorTypes = CONFIG.WW.ARMOR_TYPES;
 
+        if (context.system.subtype == 'armor') {
+          context.requirements = CONFIG.WW.EQUIPMENT_REQUIREMENTS;
+        }
+        
         if (context.system.subtype == 'weapon') {
-          context.requirements = CONFIG.WW.WEAPON_REQUIREMENTS;
+          context.requirements = CONFIG.WW.EQUIPMENT_REQUIREMENTS;
           context.grips = CONFIG.WW.WEAPON_GRIPS;
-          context.traits = CONFIG.WW.WEAPON_TRAITS;
-          context.hasTraits = Object.values(context.system.traits).filter(v => !!v).length ? true : false;
+
+          // Weapon Traits
+          const options = [];
+
+          for (const [key, data] of Object.entries(CONFIG.WW.WEAPON_TRAITS)) {
+            options.push({
+              value: key,
+              label: data.label
+            })
+          }
+          
+          context.traits = {
+            name: 'system.traits',
+            field: this.item.system.schema.fields.traits,
+            value: context.system.traits,
+            options: options
+          }
+
+          context.hasTraits = context.system.traits.length ? true : false;
+          context.isRanged = context.system.traits.has('range');
+          context.hasRange = context.system.traits.has('range') || context.system.traits.has('thrown');
         }
 
       break;
@@ -229,16 +243,8 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       // Details tab
       case 'details':
         context.tab = context.tabs[partId];
-
-        let file = '';
-        switch (this.item.type) {
-          case 'equipment': file = 'equipment'; break;
-          case 'spell': file = 'spell'; break;
-          case 'talent': file = 'talent'; break;
-          default: file = 'talent'; break;
-        }
-
-        context.detailsPartial = [`systems/weirdwizard/templates/items/details/${file}.hbs`];
+        
+        context.detailsPartial = [`systems/weirdwizard/templates/items/details/${this.item.type}-${this.mode}.hbs`];
       break;
       
       // Effects tab

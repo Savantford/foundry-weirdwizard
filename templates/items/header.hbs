@@ -1,7 +1,9 @@
 {{!-- Name Stripe --}}
-<div class="name-stripe">
+<header class="name-stripe">
 
     {{!-- Item Name --}}
     <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize "WW.Item.Name"}}" /></h1>
 
-</div>
+    <img class="profile-img" src="{{item.img}}" data-action="editImage" data-edit="img" data-tooltip="WW.System.EditImage"/>
+
+</header>

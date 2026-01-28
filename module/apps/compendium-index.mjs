@@ -518,7 +518,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         doc.equipmentUses = doc.system.uses.max === 0 ? 'inf' : doc.system.uses.max;
 
         // Get Requirements
-        doc.weaponRequirement = doc.system.requirements ? i18n(CONFIG.WW.WEAPON_REQUIREMENTS[doc.system.requirements]) : '—';
+        doc.weaponRequirement = doc.system.requirements ? i18n(CONFIG.WW.EQUIPMENT_REQUIREMENTS[doc.system.requirements]) : '—';
 
         // Get Defense Stats
         let armored = 0,
@@ -1368,7 +1368,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       },
       // Weapons
       'weaponRequirement': {
-        label: "WW.Weapon.Requirement.Label",
+        label: "WW.Equipment.Requirement.Label",
         css: "flex-width-90",
         views: ['weapons']
       },

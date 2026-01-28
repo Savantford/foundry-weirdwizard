@@ -7,6 +7,7 @@
 body {
   /* Colors */
   --body-text-color: #000000;
+  --placeholder-text-color: #777777;
   --gray: #BCBEC0;
   --pink: #DBD3DC;
   --pink-rbg: 219, 211, 220;
@@ -558,12 +559,6 @@ body.theme-dark.application.weirdwizard .window-content {
   padding: 1rem;
 }
 
-.weirdwizard.item .window-content {
-  padding-top: var(--sheet-name-stripe-height);
-  padding-right: var(--scroll-margin);
-  margin-top: 0;
-}
-
 .theme-dark .application.weirdwizard.sheet .window-content {
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
@@ -788,7 +783,7 @@ body.theme-dark.application.weirdwizard .window-content {
 /* Style App V2 Inputs */
 .weirdwizard.application input[type="text"],
 .weirdwizard.application input[type="search"] {
-  --input-placeholder-color: #666666;
+  --input-placeholder-color: var(--placeholder-text-color);
   background: var(--background-color-shadow);
   border-radius: 1px;
   padding: 0;
@@ -801,7 +796,7 @@ body.theme-dark.application.weirdwizard .window-content {
 }
 
 .weirdwizard.application textarea {
-  --input-placeholder-color: #666666;
+  --input-placeholder-color: var(--placeholder-text-color);
   background: var(--background-color-shadow);
   border-radius: 1px;
   width: 100%;
@@ -812,13 +807,11 @@ body.theme-dark.application.weirdwizard .window-content {
 
 /* Remove border and background from inputs/selects/textareas not hovered */
 .weirdwizard.sheet .window-content {
-
   input[type="number"],
   input[type="text"],
   select,
   textarea {
     --input-text-color: var(--body-text-color);
-    --input-placeholder-color: var(--gray);
     background: var(--background-color-shadow);
     border: 1px solid transparent;
   }
@@ -889,7 +882,7 @@ body.theme-dark.application.weirdwizard .window-content {
 /* Selects dropdown */
 .weirdwizard select {
   --input-background-color: transparent;
-  --input-placeholder-color: #666666;
+  --input-placeholder-color: var(--placeholder-text-color);
   height: auto;
   width: max-content;
   min-height: 1lh;
@@ -900,14 +893,6 @@ body.theme-dark.application.weirdwizard .window-content {
 
 .weirdwizard select:hover {
   outline: 2px solid var(--input-focus-outline-color);
-}
-
-.weirdwizard.sheet select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  text-overflow: unset;
-  border: 1px solid transparent;
 }
 
 /* Text Areas */
@@ -1442,7 +1427,7 @@ body.theme-dark.application.weirdwizard .window-content {
     display: inline-flex;
 
     input {
-      color: var(--pink);
+      color: white;
       font-size: var(--font-size-32);
       text-align: left;
       line-height: 100%;
@@ -1467,16 +1452,18 @@ body.theme-dark.application.weirdwizard .window-content {
     font-family: var(--font-body);
     font-weight: bold;
 
-    >select,
-    >select:focus {
+    > select,
+    > select:focus {
+      appearance: none;
+      color: var(--body-text-color);
       font-size: inherit;
       text-align: center;
       background: none;
       outline: none;
     }
 
-    >select:hover:not([disabled]),
-    >select:focus:not([disabled]) {
+    > select:hover:not([disabled]),
+    > select:focus:not([disabled]) {
       appearance: none;
       outline: none;
       box-shadow: none;
@@ -1488,16 +1475,6 @@ body.theme-dark.application.weirdwizard .window-content {
   .level-badge:focus:not([disabled]) {
     filter: drop-shadow(var(--filter-shadow-purple));
   }
-}
-
-.weirdwizard.item .name-stripe {
-  border-image: url(../assets/ui/ribbons/rolled-dark.svg);
-  border-image-slice: 1 73 7 30 fill;
-  border-image-width: 1px 30px 7px 30px;
-  border-image-outset: 0 0 6px 0;
-  padding: 5px 15px 5px 24px;
-  margin: 5px calc(var(--sheet-banner-width) - 0.5rem) 0px -10px;
-  filter: drop-shadow(-1px 0 1px black);
 }
 
 .journal-entry-page .weirdwizard .profession-sheet .name-stripe {
@@ -1591,8 +1568,26 @@ body.theme-dark.application.weirdwizard .window-content {
   }
 }
 
+/* Item Sheet */
 .weirdwizard.item {
   --sheet-banner-width: 160px;
+
+  .name-stripe {
+    border-image: url(../assets/ui/ribbons/rolled-medium-flipped.svg);
+    border-image-slice: 1 30 7 73 fill;
+    border-image-width: 1px 30px 7px 30px;
+    border-image-outset: 0 0 6px 0;
+    padding: 5px 24px 5px 15px;
+    margin: 0;
+    filter: drop-shadow(-1px 0 1px black);
+  }
+
+  .profile-img {
+    height: 55px;
+    background: var(--purple-darker);
+    outline: 1px solid black;
+    filter: drop-shadow(0 0 1px black);
+  }
 
   .sheet-banner {
     position: relative;
@@ -1645,6 +1640,101 @@ body.theme-dark.application.weirdwizard .window-content {
       }
     }
   }
+
+  /* Items Tab Container */
+  .tab[data-tab] {
+    --bug: url(../assets/decorations/bugs/talent.webp);
+    background: url(../assets/decorations/stars/sheet-background.svg) no-repeat;
+    background-position: center calc(50% - 10px);
+    background-size: auto 50%;
+  }
+
+  /* Item Tabs: Container */
+  .tab.active[data-tab="details"] {
+    display: flex;
+    flex-flow: column;
+    flex: 1;
+    gap: 0.5rem;
+  }
+
+  .tab[data-tab="automation"] {
+    margin-top: calc(1rem - var(--sheet-name-stripe-height));
+    flex-flow: column;
+    gap: 0.5rem;
+  }
+
+  .tab[data-tab="automation"].active {
+    display: flex;
+  }
+
+  /* Header Fields */
+  .fields {
+    gap: 5px;
+
+    > * {
+      width: 100%;
+    }
+
+    > *:not(h4) {
+      padding: 0 5px;
+    }
+
+    hr {
+      height: 1px;
+      width: 100%;
+      color: var(--purple-dark);
+      background: var(--purple-dark);
+      margin: 3px 0;
+    }
+
+    .common-fields {
+      flex-flow: row wrap;
+      gap: 3px 5px;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .weapon-fields {
+      display: flex;
+      flex-flow: column;
+      align-items: flex-start;
+      gap: 3px 5px;
+
+      > * {
+        width: 100%;
+      }
+    }
+  }
+
+  /* Weapon Traits */
+  .weapon-traits {
+    width: 100%;
+
+    multi-checkbox {
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 0;
+    }
+  }
+
+  .attack-rider {
+    width: 100%;
+
+    h3 {
+      font-size: var(--font-size-16);
+    }
+
+    prose-mirror {
+      min-height: 70px;
+    }
+  }
+
+  .description {
+    flex: 1;
+
+    prose-mirror {
+      height: calc(100% - 2rem);
+    }
+  }
 }
 
 .weirdwizard.talent {
@@ -1655,6 +1745,12 @@ body.theme-dark.application.weirdwizard .window-content {
     border-image-slice: 3 3 49 3 fill;
     border-image-width: 3px 3px 34px 3px;
     padding-bottom: 45px;
+  }
+}
+
+.weirdwizard.spell {
+  .fields > * {
+    align-items: flex-start;
   }
 }
 
@@ -1682,22 +1778,6 @@ body.theme-dark.application.weirdwizard .window-content {
   border-radius: 50%;
   margin: 0;
   cursor: pointer;
-}
-
-/* Profile Image: Item */
-.weirdwizard.item .profile-img-wrapper {
-  position: relative;
-}
-
-.weirdwizard.item .profile-img {
-  margin: 10px 0;
-  height: 80px;
-}
-
-.weirdwizard.item .profile-img {
-  outline: 2px solid var(--purple-dark);
-  outline-offset: 2px;
-  filter: drop-shadow(0 0 1px var(--purple-dark));
 }
 
 /* Profile Image: Circle */
@@ -2246,47 +2326,6 @@ body.theme-dark.application.weirdwizard .window-content {
   margin-bottom: 5px;
 }
 
-/* Sheet Header Fields */
-.weirdwizard.item .header-fields {
-  height: 100%;
-  padding-top: 0.5rem;
-  flex-flow: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 5px;
-}
-
-.weirdwizard.item .spell-sheet .header-fields>* {
-  align-items: flex-start;
-}
-
-.weirdwizard.item .common-fields {
-  flex-flow: row wrap;
-  gap: 3px 5px;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.weirdwizard.item .equipment-sheet:not(.weapon) .common-fields {
-  height: 100%;
-}
-
-.weirdwizard.item .weapon-fields {
-  display: flex;
-  flex-flow: column;
-  align-items: flex-start;
-  gap: 3px 5px;
-  width: 100%;
-}
-
-.weirdwizard.item .header-fields hr {
-  height: 1px;
-  width: 100%;
-  color: var(--purple-dark);
-  background: var(--purple-dark);
-  margin: 3px 0;
-}
-
 hr.spear {
   height: 14px;
   background: none;
@@ -2307,43 +2346,25 @@ hr.bug {
   opacity: 0.5;
 }
 
-.weirdwizard .weapon-traits {
-  >span:not(:last-of-type)::after {
-    content: ", ";
-  }
-
-  .edit-traits {
-    font-size: smaller;
-  }
-}
-
 /* Attack Rider */
 .weirdwizard .attack-rider {
   text-align: left;
-}
-
-.weirdwizard.item .attack-rider {
-  display: block;
-  width: 100%;
-  border-top: 1px solid var(--purple-dark);
-  padding-top: 8px;
-  margin-top: 3px;
 }
 
 .weirdwizard.creature .attack-rider {
   margin-left: 5px;
 }
 
-.weirdwizard .attack-rider>label {
+.weirdwizard .attack-rider > label {
   font-weight: bold;
   color: var(--purple-dark);
 }
 
-.weirdwizard .attack-rider>p:first-of-type {
+.weirdwizard .attack-rider > p:first-of-type {
   display: inline;
 }
 
-.weirdwizard .attack-rider>p:last-of-type {
+.weirdwizard .attack-rider > p:last-of-type {
   margin-bottom: 0;
 }
 
@@ -2366,36 +2387,8 @@ hr.bug {
   background-position: 50% calc(50% - var(--sheet-name-stripe-height));
 }
 
-/* Items Tab Container */
-
-.weirdwizard.item .tab[data-tab] {
-  --bug: url(../assets/decorations/bugs/talent.webp);
-  background: url(../assets/decorations/stars/sheet-background.svg) no-repeat;
-  background-position: center calc(50% - 10px);
-  background-size: auto 50%;
-  margin-top: calc(-1 * var(--sheet-name-stripe-height));
-}
-
-/* Item Tabs: Container */
-.weirdwizard.item .tab.active[data-tab="details"] {
-  display: flex;
-  flex-flow: column;
-  flex: 1;
-}
-
-.weirdwizard.item .tab[data-tab="automation"] {
-  margin-top: calc(1rem - var(--sheet-name-stripe-height));
-  flex-flow: column;
-  gap: 0.5rem;
-}
-
-.weirdwizard.item .tab[data-tab="automation"].active {
-  display: flex;
-}
-
 /* Sheet Bugs */
-.weirdwizard.creature .tab[data-tab]::after,
-.weirdwizard.item .tab[data-tab]::after {
+.weirdwizard.creature .tab[data-tab]::after {
   content: "";
   display: block;
   height: 50px;
@@ -2627,15 +2620,27 @@ hr.bug {
 
 /* Prose Mirror Text Editor */
 
+.weirdwizard prose-mirror[compact] {
+  gap: 0.25rem;
+
+  menu {
+    gap: 0;
+    padding: 0;
+  }
+}
+
 .theme-dark .weirdwizard prose-mirror {
   --menu-background: var(--purple-medium);
 }
 
-.weirdwizard .prosemirror menu .pm-dropdown i.fa-chevron-down {
-  color: var(--body-text-color);
+.weirdwizard .prosemirror menu button,
+.weirdwizard prose-mirror menu button,
+.weirdwizard .prosemirror menu .pm-dropdown i.fa-chevron-down,
+.weirdwizard prose-mirror menu .pm-dropdown i.fa-chevron-down {
+  color: white;
 }
 
-.weirdwizard .prosemirror .toggle>i {
+.weirdwizard .prosemirror .toggle > i {
   margin-right: 0;
 }
 

@@ -24,18 +24,6 @@ export default class WWNpcSheet extends WWCreatureSheet {
       height: 500
     },
     actions: {
-      // Edit mode:
-      //normalizeResults: WWNpcSheet.#onNormalizeResults,
-      //createResult: WWNpcSheet.#onCreateResult,
-      //openResultSheet: WWNpcSheet.#onOpenResultSheet,
-      //deleteResult: WWNpcSheet.#onDeleteResult,
-      // View mode:
-      //drawSpecificResult: WWNpcSheet.#onDrawSpecificResult,
-      // Shared:
-      //changeMode: WWNpcSheet.#onChangeMode,
-      //lockResult: WWNpcSheet.#onLockResult,
-      //drawResult: WWNpcSheet.#onDrawResult,
-      //resetResults: WWNpcSheet.#onResetResults
     }
   }
 

@@ -161,8 +161,9 @@ WW.EQUIPMENT_AVAILABILITIES = {
 
 WW.EQUIPMENT_QUALITIES = {
   'standard': 'WW.Equipment.Quality.Standard',
+  'inferior': 'WW.Equipment.Quality.Inferior',
   'superior': 'WW.Equipment.Quality.Superior',
-  'inferior': 'WW.Equipment.Quality.Inferior'
+  'trinket': 'WW.Equipment.Quality.Trinket'
 };
 
 WW.EQUIPMENT_COINS = {
@@ -180,15 +181,15 @@ WW.EQUIPMENT_COINS = {
   }
 };
 
-WW.WEAPON_REQUIREMENTS = {
-  '': 'WW.Weapon.Requirement.None',
-  'str11': 'WW.Weapon.Requirement.Str11',
-  'str12': 'WW.Weapon.Requirement.Str12',
-  'str13': 'WW.Weapon.Requirement.Str13',
-  'str14': 'WW.Weapon.Requirement.Str14',
-  'agi11': 'WW.Weapon.Requirement.Agi11',
-  'agi12': 'WW.Weapon.Requirement.Agi12',
-  'agi13': 'WW.Weapon.Requirement.Agi13'
+WW.EQUIPMENT_REQUIREMENTS = {
+  '': 'WW.Equipment.Requirement.None',
+  'str11': 'WW.Equipment.Requirement.Str11',
+  'str12': 'WW.Equipment.Requirement.Str12',
+  'str13': 'WW.Equipment.Requirement.Str13',
+  'str14': 'WW.Equipment.Requirement.Str14',
+  'agi11': 'WW.Equipment.Requirement.Agi11',
+  'agi12': 'WW.Equipment.Requirement.Agi12',
+  'agi13': 'WW.Equipment.Requirement.Agi13'
 };
 
 WW.WEAPON_GRIPS = {

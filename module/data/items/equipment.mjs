@@ -36,7 +36,7 @@ export default class EquipmentModel extends BaseItemModel {
     schema.grip = makeRequiredStrField('one');
     schema.reloaded = makeBooField(true);
 
-    schema.traits = new fields.SchemaField({
+    /*schema.traits = new fields.SchemaField({
       ammunition: makeBooField(false),
       bludgeoning: makeBooField(false),
       brutal: makeBooField(false),
@@ -55,7 +55,11 @@ export default class EquipmentModel extends BaseItemModel {
       special: makeBooField(false),
       thrown: makeBooField(false),
       versatile: makeBooField(false)
-    });
+    });*/
+
+    schema.traits = new fields.SetField(
+      makeRequiredStrField()
+    );
 
     schema.attackRider = new fields.SchemaField({
       name: makeStrField(),

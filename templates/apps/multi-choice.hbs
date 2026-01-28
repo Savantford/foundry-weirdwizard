@@ -16,27 +16,7 @@
             </h3>
             {{/if}}
             
-            {{!-- Attack Rider --}}
-            {{#if (eq type "attackRider")}}
-            <div class="section-content">
-                {{!-- Attack Rider Title --}}
-                <span class="stat-inline mb-1">
-
-                <label>{{localize "WW.Item.Name"}}:</label>
-
-                <input type="text" name="system.attackRider.name" value="{{@root.document.system.attackRider.name}}">
-
-                </span>
-
-                {{!-- Attack Rider Text Editor --}}
-                <prose-mirror name="system.attackRider.value" data-document-u-u-i-d="{{@root.document.uuid}}" value="{{@root.document.system.attackRider.value}}"
-                    collaborate compact owner={{owner}} editable={{editable}}>
-                    {{{attackRiderEnriched}}}
-                </prose-mirror>
-            </div>
-            
             {{!-- Choices Grid --}}
-            {{else}}
             <div class="section-content">
                 <div class="choices-grid" style="--cols: {{cols}};">
                     {{#each choices as |choice|}}
@@ -48,7 +28,6 @@
                 </div>
 
             </div>
-            {{/if}}
 
         </div>
         {{/each}}
