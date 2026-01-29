@@ -149,34 +149,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       i.sourceLabel = CONFIG.WW.TALENT_SOURCES[i.system.source];
 
       // Prepare tooltip context
-      const tooltipContext = {
-        label: i.name,
-        system: i.system,
-        img: i.img,
-        type: i.type,
-        inSheet: true,
-
-        subtitle: i.type,
-        text: i.system.descriptionEnriched ?? null,
-        attackRider: i.system.attackRiderEnriched ?? null
-      }
-
-      // Prepare tooltip subtitle
-      if (i.type === 'spell') {
-        tooltipContext.subtitle += ` • ${i18n(CONFIG.WW.TIERS[i.system.tier])}`
-        if (i.system.tradition) tooltipContext.subtitle += ` • ${i.system.tradition}`;
-
-      } else if (i.type === 'equipment') {
-        tooltipContext.subtitle = i18n(CONFIG.WW.EQUIPMENT_SUBTYPES[i.system.subtype]);
-
-        if (i.system.subtype === 'weapon') tooltipContext.subtitle += ` • ${i.system.traits.range ? i18n("WW.Weapon.Ranged") : i18n("WW.Weapon.Melee")}`;
-
-      } else if (i.type === 'talent') {
-        tooltipContext.subtitle = i18n(CONFIG.WW.TALENT_SUBTYPES[i.system.subtype]);
-        tooltipContext.subtitle += ` • ${i18n(CONFIG.WW.TALENT_SOURCES[i.system.source])}`;
-      }
-
-      i.tooltip = await foundry.applications.handlebars.renderTemplate(sysPath(`templates/apps/tooltips/item.hbs`), tooltipContext);
+      i.tooltip = await i.toCard({ usageFooter: true });
 
       // Append to equipment.
       if (i.type === 'equipment') {

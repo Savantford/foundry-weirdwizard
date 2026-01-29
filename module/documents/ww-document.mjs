@@ -134,6 +134,7 @@ export default function WWDocumentMixin(Base) {
         system: this.system,
         img: this instanceof JournalEntryPage ? this.src : this.img,
         type: this.type,
+        usageFooter: options.usageFooter ?? false,
 
         subtitle: ''
       };
@@ -173,9 +174,10 @@ export default function WWDocumentMixin(Base) {
 
         case 'Item': {
           // Prepare subtitle
+          console.log(this.type)
           switch (this.type) {
             case 'equipment':
-              context.subtitle = i18n(CONFIG.WW.EQUIPMENT_SUBTYPES[this.system.subtype]);
+              context.subtitle = `${i18n(CONFIG.WW.EQUIPMENT_SUBTYPES[this.system.subtype])} • ${i18n(CONFIG.WW.WEAPON_GRIPS[this.system.grip])}`;
             break;
 
             case 'talent':
@@ -184,6 +186,7 @@ export default function WWDocumentMixin(Base) {
 
             case 'spell':
               context.subtitle = i18n(CONFIG.WW.SPELL_TIERS[this.system.tier]);
+              console.log(context.subtitle)
               if (this.system.tradition) context.subtitle += ` • ${this.system.tradition}`;
             break;
           }

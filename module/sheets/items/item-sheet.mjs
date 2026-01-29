@@ -190,7 +190,6 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
           }
 
           context.hasTraits = context.system.traits.length ? true : false;
-          context.isRanged = context.system.traits.has('range');
           context.hasRange = context.system.traits.has('range') || context.system.traits.has('thrown');
         }
 
