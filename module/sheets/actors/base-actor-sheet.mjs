@@ -159,17 +159,15 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
           // Prepare traits list
           let list = '';
 
-          Object.entries(i.system.traits).map((x) => {
+          for (const x of i.system.traits) {
+            let string = i18n('WW.Weapon.Traits.' + capitalize(x) + '.Label');
 
-            if (x[1]) {
-              let string = i18n('WW.Weapon.Traits.' + capitalize(x[0]) + '.Label');
+            if ((x == 'range') || (x == 'reach' && i.system.range) || (x == 'thrown')) string += ` ${i.system.range}`;
 
-              if ((x[0] == 'range') || (x[0] == 'reach' && i.system.range) || (x[0] == 'thrown')) string += ' ' + i.system.range;
+            list = list.concat(list ? ', ' + string : string);
+          }
 
-              list = list.concat(list ? ', ' + string : string);
-            }
-
-          })
+          if (i.system.magical) list += ` (${i18n("WW.Talent.Magical")})`;
 
           i.system.traitsList = list;
 
