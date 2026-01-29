@@ -9,7 +9,7 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
 
     const schema = {
       // Description
-      description: makeHtmlField(i18n("WW.Actor.DescriptionDefault")),
+      description: makeHtmlField(`<p>${i18n("WW.Actor.DescriptionDefault")}</p>`),
       
       // Attributes
       attributes: new fields.SchemaField({

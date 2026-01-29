@@ -13,11 +13,11 @@ export default class SpellModel extends BaseItemModel {
     schema.tradition = makeStrField();
     schema.casting = makeHtmlField();
     schema.target = makeHtmlField();
-    schema.duration = makeHtmlField(i18n("WW.Spell.DurationDefault"));
+    schema.duration = makeHtmlField(`<p>${i18n("WW.Spell.DurationDefault")}</p>`);
 
     // Adjust Spell-specific initials
     schema.active = makeBooField(false);
-    schema.description = makeHtmlField(i18n("WW.System.Sheet.NoDescription"));
+    schema.description = makeHtmlField(`<p>${i18n("WW.System.Sheet.NoDescription")}</p>`);
     schema.magical = makeBooField(true);
     schema.uses.fields.max = makeIntField(1);
 
