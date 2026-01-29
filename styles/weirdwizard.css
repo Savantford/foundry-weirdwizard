@@ -320,6 +320,10 @@ body.theme-dark,
   flex-wrap: nowrap;
 }
 
+.flex-col {
+  flex-flow: column;
+}
+
 .flex-1 {
   flex: 1;
 }
@@ -1077,8 +1081,10 @@ body.theme-dark.application.weirdwizard .window-content {
     display: flex;
     gap: 1.5em;
 
-    >* {
+    > * {
       flex: 1;
+      display: flex;
+      flex-flow: column;
     }
   }
 
@@ -2392,23 +2398,18 @@ hr.bug {
 /* Character/NPC Tab Container */
 
 .weirdwizard.creature .tab[data-tab] {
-  height: fit-content;
+  margin-left: calc(var(--sheet-banner-width) - 0.5rem);
+  padding-left: calc(1rem + 5px);
   background: url(../assets/decorations/stars/sheet-background.svg) no-repeat;
   background-position: center;
   background-size: auto 50%;
-  margin-left: calc(var(--sheet-banner-width) - 1rem);
-  padding-left: calc(1rem + 5px);
-  background-position: 50% calc(50% - var(--sheet-name-stripe-height));
+  background-position: 50% calc(50% - var(--sheet-name-stripe-height) + 1rem);
 }
 
-.weirdwizard.character .tab.active[data-tab] {
+.weirdwizard.creature .tab.active[data-tab] {
   display: flex;
   flex-flow: column;
   height: 100%;
-}
-
-.weirdwizard.creature.character .tab[data-tab] {
-  margin-left: calc(var(--sheet-banner-width) - 0.5rem);
 }
 
 /* Sheet Bugs */

@@ -1,6 +1,6 @@
 <section class="scrollable">
 
-  <div class="details editor-stretcher">
+  <div class="details">
     {{!-- Folder Name / Creature Group --}}
     {{#if folder}}
     <div class="folder-info">
@@ -31,16 +31,18 @@
 
     {{!-- Individual Traits --}}
     <h5 class="individual-traits">
-      {{#with individualTraits}}
+    {{#with individualTraits}}
       {{formInput field name=name value=value}}
-      {{/with}}
+    {{/with}}
     </h5>
 
     {{!-- Description --}}
-    <prose-mirror name="system.description" data-document-u-u-i-d="{{actor.uuid}}" value="{{actor.system.description}}"
-      toggled collaborate compact owner={{owner}} editable={{editable}}>
-      {{{actor.system.descriptionEnriched}}}
-    </prose-mirror>
+    <div class="editor-stretcher">
+      <prose-mirror name="system.description" data-document-u-u-i-d="{{actor.uuid}}" value="{{actor.system.description}}"
+        toggled collaborate compact owner={{owner}} editable={{editable}}>
+        {{{actor.system.descriptionEnriched}}}
+      </prose-mirror>
+    </div>
 
   </div>
   

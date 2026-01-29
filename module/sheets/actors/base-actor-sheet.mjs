@@ -350,6 +350,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
         switch (item.system.uses.levelRelative) {
           case 'full': max = level; break;
           case 'half': max = half; break;
+          case '1+half': context.system.uses.max = parseInt(1 + half); break;
           case 'third': max = third; break;
         }
       }

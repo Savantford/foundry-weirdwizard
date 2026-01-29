@@ -218,6 +218,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
           switch (context.system.uses.levelRelative) {
             case 'full': context.system.uses.max = level; break;
             case 'half': context.system.uses.max = half; break;
+            case '1+half': context.system.uses.max = parseInt(1 + half); break;
             case 'third': context.system.uses.max = third; break;
           }
         }
