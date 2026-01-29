@@ -584,7 +584,8 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       if (doc.type === 'spell') {
         doc.spellTier = i18n(CONFIG.WW.TIERS[doc.system.tier]);
         doc.spellTradition = doc.system.tradition ?? '—';
-        doc.spellCastings = `${doc.system.uses.max}, ${doc.system.casting}` ? doc.system.uses.max : '—';
+        const castingsLabel = doc.system.casting && (doc.system.casting.replace(/\s/g,'') !== '<p></p>') ? doc.system.casting : `<p>${doc.system.uses.max}<p>`;
+        doc.spellCastings = castingsLabel ?? '—';
         doc.spellTarget = doc.system.target ?? '—';
         doc.spellDuration = doc.system.duration ?? '—';
       }
