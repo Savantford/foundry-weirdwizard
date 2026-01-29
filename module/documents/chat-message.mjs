@@ -118,11 +118,9 @@ export default class WWChatMessage extends ChatMessage {
       
       // Prepare spell header
       if (item.type == 'spell') {
-        const castingsLabel = sys.casting && (sys.casting.replace(/\s/g,'') !== '<p></p>') ? sys.casting : `<p>${sys.uses.max}</p>`;
-        console.log(castingsLabel)
         const header = `
           <div class="inline-second">
-            <b>${i18n("WW.Spell.Castings")}:</b> ${castingsLabel ?? '<p></p>'}
+            <b>${i18n("WW.Spell.Castings")}:</b> ${sys.castingsLabel ?? '<p></p>'}
           </div>
           <div class="inline-second">
             <b>${i18n("WW.Spell.Target")}:</b> ${sys.target ?? '<p></p>'}

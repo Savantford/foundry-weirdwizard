@@ -121,7 +121,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
   /*  Data Preparation                            */
   /* -------------------------------------------- */
 
-  /** @override 
+  /**
+   * @override 
    * Data modifications in this step occur before processing embedded
    * documents (including active effects) or derived data.
   */

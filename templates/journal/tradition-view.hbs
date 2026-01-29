@@ -61,38 +61,32 @@
       {{#each tier as |item id|}}
       <li class="item-reference item {{#if item.missing}}missing{{/if}} {{#if @root.singlePage}}draggable{{/if}}" data-item-uuid="{{item.uuid}}">
         <div class="spell-title">
-          <h3>{{item.name}}</h3>
-          <img src="{{item.img}}" />
+          <h3>{{ item.name }}</h3>
+          <img src="{{ item.img }}" />
         </div>
     
         {{!-- Castings --}}
-        <div>
+        <div class="inline-second">
           <label>{{localize "WW.Spell.Castings"}}:</label>
     
-          {{system.uses.max}}
-    
-          {{#if system.casting}}<span class="ml-n1">, </span>{{/if}}
-    
-          {{system.casting}}
+          {{{ system.castingsLabelEnriched }}}
         </div>
     
         {{!-- Target --}}
-        <div>
+        <div class="inline-second">
           <label class="resource-label">{{localize "WW.Spell.Target"}}:</label>
     
-          {{system.target}}
-    
+          {{{ system.targetEnriched }}}
         </div>
     
         {{!-- Duration --}}
-        <div>
+        <div class="inline-second">
           <label class="resource-label">{{localize "WW.Spell.Duration"}}:</label>
     
-          {{system.duration}}
-    
+          {{{ system.durationEnriched }}}
         </div>
     
-        <div>{{{item.system.descriptionEnriched}}}</div>
+        <div>{{{ system.descriptionEnriched }}}</div>
     
       </li>
       {{/each}}

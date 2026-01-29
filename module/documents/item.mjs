@@ -68,6 +68,31 @@ export default class WWItem extends WWDocumentMixin(Item) {
   }
 
   /* -------------------------------------------- */
+  /*  Data Preparation                            */
+  /* -------------------------------------------- */
+
+  /**
+   * @override
+   * Augment the basic actor data with additional dynamic data. Typically,
+   * you'll want to handle most of your calculated/derived data in this step.
+   * Data calculated in this step should generally not exist in template.json
+   * (such as ability modifiers rather than ability scores) and should be
+   * available both inside and outside of character sheets (such as if an actor
+   * is queried and has a roll executed directly from it).
+  */
+  prepareDerivedData() {
+    const sys = this.system;
+
+    switch (this.type) {
+      case 'spell':
+        // Prepare castings label
+        this.system.castingsLabel = sys.casting && (sys.casting.replace(/\s/g,'') !== '<p></p>') ? sys.casting : `<p>${sys.uses.max}</p>`;
+      break;
+    }
+    
+  }
+
+  /* -------------------------------------------- */
   /*  Properties (Getters)                        */
   /* -------------------------------------------- */
 

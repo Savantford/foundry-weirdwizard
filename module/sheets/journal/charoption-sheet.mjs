@@ -226,6 +226,9 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
 
           // Prepare enriched variables for editor
           spell.system.descriptionEnriched = await TextEditor.enrichHTML(spell.system.description, { secrets: spell.isOwner, relativeTo: spell });
+          spell.system.castingsLabelEnriched = await TextEditor.enrichHTML(spell.system.castingsLabel, { secrets: spell.isOwner, relativeTo: spell });
+          spell.system.targetEnriched = await TextEditor.enrichHTML(spell.system.target, { secrets: spell.isOwner, relativeTo: spell });
+          spell.system.durationEnriched = await TextEditor.enrichHTML(spell.system.duration, { secrets: spell.isOwner, relativeTo: spell });
 
           context.spells[tier].push(spell);
         }
