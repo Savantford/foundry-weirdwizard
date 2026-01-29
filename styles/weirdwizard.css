@@ -369,6 +369,10 @@ body.theme-dark,
   text-align: center;
 }
 
+.inline-second > *:nth-child(2) {
+  display: inline;
+}
+
 /* Quick Weird Wizard Formatting */
 
 .weirdwizard .ml-1 {
