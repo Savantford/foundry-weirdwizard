@@ -404,6 +404,8 @@
 "WW.Spell.Master": "Master Spell",
 "WW.Spell.Tradition": "Tradition",
 "WW.Spell.Castings": "Castings",
+"WW.Spell.CastingsNumber": "This value is intended for tracking and automation only. However, if no text is provided on the box below, this number is displayed instead.",
+"WW.Spell.CastingsAlt": "If filled, this text is displayed on tooltips and such. If not filled, the castings number will be displayed instead.",
 "WW.Spell.Target": "Target",
 "WW.Spell.Duration": "Duration",
 "WW.Spell.DurationDefault": "Instantaneous",

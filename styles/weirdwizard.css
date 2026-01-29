@@ -1755,14 +1755,8 @@ body.theme-dark.application.weirdwizard .window-content {
   }
 }
 
-/* Talent Sheet */
-.weirdwizard.talent {
-  
-}
-
 /* Spell Sheet */
 .weirdwizard.spell .window-content {
-
   h3 {
     display: inline-flex;
     align-items: center;

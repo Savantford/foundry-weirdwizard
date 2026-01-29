@@ -22,7 +22,8 @@
   {{!-- Castings --}}
   <h3>{{localize "WW.Spell.Castings"}}:
     <div class="input-wrap">
-      <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="1" data-dtype="Number" />
+      <input type="number" name="system.uses.max" value="{{system.uses.max}}" min="1" data-dtype="Number"
+        data-tooltip="WW.Spell.CastingsNumber" />
 
       <div class="input-overlay">{{system.uses.max}}</div>
     </div>
@@ -30,7 +31,7 @@
 
   <prose-mirror name="system.casting" data-document-u-u-i-d="{{item.uuid}}" value="{{system.casting}}" toggled
     collaborate compact editable={{editable}}>
-    {{{system.castingEnriched}}}
+    <div data-tooltip="WW.Spell.CastingsAlt">{{{system.castingEnriched}}}</div>
   </prose-mirror>
 
   {{!-- Target --}}
