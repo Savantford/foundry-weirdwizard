@@ -106,13 +106,11 @@ export default class EquipmentModel extends BaseItemModel {
         
         // Assign disadvantages
         if (disadvantagesList.includes(p) && properties[p]) disadvantages[p] = true;
-        
       }
 
       source.traits = traits;
       source.advantages = advantages;
       source.disadvantages = disadvantages;
-
     }
 
     // Migrate old traits to new ones
@@ -138,13 +136,11 @@ export default class EquipmentModel extends BaseItemModel {
 
     // Migrate weapon requirements
     if ('requirements' in source) {
-      
       switch (source.requirements) {
         case 'str10': source.requirements = 'str11'; break;
         case 'agi14': source.requirements = 'agi13'; break;
         case 'int10agi12': source.requirements = 'agi12'; break;
       }
-
     }
 
     // Convert Health recover to Health regain
@@ -159,6 +155,9 @@ export default class EquipmentModel extends BaseItemModel {
 
     // Apply lowercase to grip field
     if (source.grip !== source.grip?.toLowerCase()) source.grip = source.grip.toLowerCase();
+
+    // Convert object traits to set
+    if (!Array.isArray(source.traits)) source.traits = Object.keys(source.traits).filter(key => source.traits[key] === true);
     
     return super.migrateData(source);
   }

@@ -4788,26 +4788,38 @@ details.document-card .card-header:hover::after {
 }
 
 /* List Entry Sub-Settings: Display */
-
-#entry-settings-display ol {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 5px;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0;
-  padding: 0;
-
-  li {
-    padding: 0.25rem 0.5rem;
-    margin: 0;
-    background: var(--background-color-shadow);
-    border-radius: 3px;
+#entry-settings-display {
+  .window-title {
+    border-image: none;
+    filter: none;
+    backdrop-filter: contrast(0.1) sepia(0.5);
+    border-radius: 4px;
+    margin: 8px auto auto;
+    padding: 0 0.5rem;
+    font-size: inherit;
+    line-height: normal;
   }
 
-  li:hover {
-    background: var(--pink);
+  ol {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 5px;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+
+    li {
+      padding: 0.25rem 0.5rem;
+      margin: 0;
+      background: var(--background-color-shadow);
+      border-radius: 3px;
+    }
+
+    li:hover {
+      background: var(--pink);
+    }
   }
 }
 

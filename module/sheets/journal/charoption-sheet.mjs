@@ -298,57 +298,13 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
    * @private
   */
   static async #onEntryCreate(event, button) {
-    // Get data
-    const dataset = Object.assign({}, button.dataset),
-      listKey = dataset.listKey,
-      listPath = dataset.listPath,
-      path = 'system.' + listPath,
-      obj = {... foundry.utils.getProperty(this.page, path)},
-      entryKey = defaultListEntryKey(obj, listKey),
-      entryName = defaultListEntryName(obj, listKey),
-    entry = { name: entryName };
+    const dataset = Object.assign({}, button.dataset);
     
-    // Update document
-    await this.page.update({ [path]: obj });
-
-    const context = {
-      entry: entry,
-      key: entryKey,
-      showKey: true
-    };
-
-    // Show a dialog 
-    const dialogInput = await WWDialog.input({
-      window: {
-        icon: "fa-solid fa-edit",
-        title: 'WW.Settings.Entry.Edit',
-      },
-      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
-      ok: {
-        label: 'WW.System.Dialog.Save',
-        icon: 'fa-solid fa-save'
-      },
-      buttons: [
-        {
-          label: 'WW.System.Dialog.Cancel',
-          icon: 'fa-solid fa-xmark'
-        },
-      ]
-    });
-
-    // Return if cancelled
-    if (!dialogInput) return;
-
-    // Return with warning if the key or name are missing
-    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
-
-    obj[dialogInput.key] = dialogInput;
-
-    delete await obj[dialogInput.key].key;
-
-    await this.page.update({ [path]: obj });
-
+    // Update entry
+    await this._updateEntry(dataset);
   }
+
+  /* -------------------------------------------- */
 
   /**
    * Handle editing a list entry
@@ -357,16 +313,33 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
    * @private
   */
   static async #onEntryEdit(event, button) {
-    // Get data
-    const dataset = button.dataset,
-      listPath = dataset.listPath,
-      path = 'system.' + listPath,
-      obj = {... foundry.utils.getProperty(this.page, path)},
-      entryKey = dataset.entryKey,
-    entry = obj[entryKey];
-    
+    const dataset = Object.assign({}, button.dataset);
+
+    // Update entry
+    await this._updateEntry(dataset, dataset.entryKey);
+  }
+
+  /* -------------------------------------------- */
+
+  async _updateEntry(dataset, entryKey) {
+    const listPath = dataset.listPath;
+    const path = 'system.' + listPath;
+    const obj = { ...foundry.utils.getProperty(this.page, path) };
+
+    // Get or set entry key and data
+    let entryData = null;
+
+    if (entryKey) {
+      entryData = obj[entryKey];
+    } else {
+      entryKey = defaultListEntryKey(obj, dataset.listKey);
+      const entryName = defaultListEntryName(obj, dataset.listKey);
+      entryData = { name: entryName };
+    }
+
+    // Prepare context
     const context = {
-      entry: await entry,
+      entry: await entryData,
       key: entryKey,
       showKey: true
     };
@@ -389,23 +362,25 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
         },
       ]
     });
-    
+
     // Return if cancelled
     if (!dialogInput) return;
 
     // Return with warning if the key or name are missing
     if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
 
+    // Update key and value with dialogInput
     obj[dialogInput.key] = dialogInput;
 
     delete await obj[dialogInput.key].key;
-    
-    // Delete old key if key has changed
-    if (entryKey !== dialogInput.key) obj['-=' + entryKey] = null;
-    
-    await this.page.update({ [path]: obj });
 
+    // Delete old entry if key changed
+    if (dialogInput.key !== entryKey) obj['-=' + entryKey] = null;
+
+    await this.page.update({ [path]: obj });
   }
+
+  /* -------------------------------------------- */
 
   /**
    * Handle removing an entry from a list
@@ -422,7 +397,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
       obj = foundry.utils.getProperty(this.page, path),
     key = dataset.entryKey;
     
-    const newObj = {...obj }; 
+    const newObj = {...obj}; 
     delete await newObj[key];
     
     // Update document
@@ -430,16 +405,18 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     
   }
 
+  /* -------------------------------------------- */
+
   /**
-    * Handle removing an element from an array
-    * @param {Event} event          The originating click event
-    * @param {HTMLElement} button   The button element originating the click event
-    * @private
-   */
+   * Handle removing an element from an array
+   * @param {Event} event          The originating click event
+   * @param {HTMLElement} button   The button element originating the click event
+   * @private
+  */
   static #onEntrySettingsDisplay(event, button) {
     const dataset = Object.assign({}, button.dataset),
-      listKey = dataset.listKey;
-
+    listKey = dataset.listKey;
+    
     new EntrySettingsDisplay({ listKey: listKey }).render(true);
   }
 
