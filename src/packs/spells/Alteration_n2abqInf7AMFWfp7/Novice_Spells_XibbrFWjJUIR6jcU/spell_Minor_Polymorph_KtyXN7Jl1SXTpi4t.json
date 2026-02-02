@@ -29,8 +29,8 @@
     "tier": "novice",
     "tradition": "",
     "casting": "",
-    "target": "You",
-    "duration": "1 hour",
+    "target": "<p>You</p>",
+    "duration": "<p>1 hour</p>",
     "grantedBy": null
   },
   "effects": [],
@@ -47,7 +47,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744753050264,
-    "modifiedTime": 1766597722359,
+    "modifiedTime": 1769707643311,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

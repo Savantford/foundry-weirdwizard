@@ -29,8 +29,8 @@
     "tier": "novice",
     "tradition": "",
     "casting": "",
-    "target": "One creature within 15 yards",
-    "duration": "Instantaneous",
+    "target": "<p>One creature within 15 yards</p>",
+    "duration": "<p>Instantaneous</p>",
     "grantedBy": null
   },
   "effects": [],
@@ -47,7 +47,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744756112204,
-    "modifiedTime": 1766598403841,
+    "modifiedTime": 1769708014171,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

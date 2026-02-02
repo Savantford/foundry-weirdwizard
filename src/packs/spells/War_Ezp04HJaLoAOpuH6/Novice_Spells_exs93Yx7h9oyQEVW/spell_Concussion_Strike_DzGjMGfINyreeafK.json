@@ -28,9 +28,9 @@
     },
     "tier": "novice",
     "tradition": "",
-    "casting": "reaction when you get a success on a roll to attack",
-    "target": "Each enemy inside one Size 5 space centered on you other than the target of the attack that enabled the casting of this spell",
-    "duration": "Instantaneous",
+    "casting": "<p>1, reaction when you get a success on a roll to attack</p>",
+    "target": "<p>Each enemy inside one Size 5 space centered on you other than the target of the attack that enabled the casting of this spell</p>",
+    "duration": "<p>Instantaneous</p>",
     "grantedBy": null
   },
   "effects": [],
@@ -47,7 +47,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744756873660,
-    "modifiedTime": 1766598280829,
+    "modifiedTime": 1769708090332,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

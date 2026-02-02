@@ -28,9 +28,9 @@
     },
     "tier": "novice",
     "tradition": "",
-    "casting": "reaction when you attack",
-    "target": "You",
-    "duration": "1 minute",
+    "casting": "<p>1, reaction when you attack</p>",
+    "target": "<p>You</p>",
+    "duration": "<p>1 minute</p>",
     "grantedBy": null
   },
   "effects": [],
@@ -47,7 +47,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744756972804,
-    "modifiedTime": 1766598249174,
+    "modifiedTime": 1769708147968,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

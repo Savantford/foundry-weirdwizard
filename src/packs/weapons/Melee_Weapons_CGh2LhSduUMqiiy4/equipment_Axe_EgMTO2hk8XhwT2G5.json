@@ -37,26 +37,11 @@
     "requirements": "str12",
     "damage": "3d6",
     "grip": "two",
-    "traits": {
-      "ammunition": false,
-      "bludgeoning": false,
-      "brutal": true,
-      "disarming": false,
-      "firearm": false,
-      "large": true,
-      "light": false,
-      "long": false,
-      "misfire": false,
-      "nimble": false,
-      "piercing": false,
-      "range": false,
-      "reload": false,
-      "slashing": false,
-      "slow": true,
-      "special": false,
-      "thrown": false,
-      "versatile": false
-    },
+    "traits": [
+      "large",
+      "slow",
+      "brutal"
+    ],
     "attackRider": {
       "value": {
         "value": ""
@@ -84,8 +69,8 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721400764653,
-    "modifiedTime": 1766692402680,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1769799566107,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!EgMTO2hk8XhwT2G5"

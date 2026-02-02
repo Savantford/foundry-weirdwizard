@@ -28,9 +28,9 @@
     },
     "tier": "novice",
     "tradition": "",
-    "casting": "at level 1, 2 at level 3, or 4 at level 7, on your turn, no action required when you lack the confused, controlled, stunned, and unconscious afflictions",
-    "target": "Each creature in a Size 3 space centered on you if you whisper, a Size 10 space if you speak, or a Size 60 space if you shout",
-    "duration": "Instantaneous",
+    "casting": "<p>1 at level 1, 2 at level 3, or 4 at level 7, on your turn, no action required when you lack the confused, controlled, stunned, and unconscious afflictions</p>",
+    "target": "<p>Each creature in a Size 3 space centered on you if you whisper, a Size 10 space if you speak, or a Size 60 space if you shout</p>",
+    "duration": "<p>Instantaneous</p>",
     "grantedBy": null
   },
   "effects": [],
@@ -47,7 +47,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744753860890,
-    "modifiedTime": 1766597479083,
+    "modifiedTime": 1769707779298,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

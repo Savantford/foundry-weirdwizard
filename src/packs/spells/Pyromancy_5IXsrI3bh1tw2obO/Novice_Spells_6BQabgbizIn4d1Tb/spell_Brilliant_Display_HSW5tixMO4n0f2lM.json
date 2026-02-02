@@ -29,8 +29,8 @@
     "tier": "novice",
     "tradition": "",
     "casting": "",
-    "target": "One point within 1 mile",
-    "duration": "Instantaneous",
+    "target": "<p>One point within 1 mile</p>",
+    "duration": "<p>Instantaneous</p>",
     "grantedBy": null
   },
   "effects": [],
@@ -47,7 +47,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744755912008,
-    "modifiedTime": 1766598449415,
+    "modifiedTime": 1769707940893,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

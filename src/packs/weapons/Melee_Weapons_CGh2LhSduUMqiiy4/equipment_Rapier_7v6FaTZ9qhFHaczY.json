@@ -37,26 +37,10 @@
     "requirements": "agi12",
     "damage": "2d6",
     "grip": "one",
-    "traits": {
-      "ammunition": false,
-      "bludgeoning": false,
-      "brutal": false,
-      "disarming": false,
-      "firearm": false,
-      "large": false,
-      "light": false,
-      "long": false,
-      "misfire": false,
-      "nimble": true,
-      "piercing": true,
-      "range": false,
-      "reload": false,
-      "slashing": false,
-      "slow": false,
-      "special": false,
-      "thrown": false,
-      "versatile": false
-    },
+    "traits": [
+      "nimble",
+      "piercing"
+    ],
     "attackRider": {
       "value": {
         "value": ""
@@ -84,8 +68,8 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721410074013,
-    "modifiedTime": 1766692503356,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1769799862666,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!7v6FaTZ9qhFHaczY"

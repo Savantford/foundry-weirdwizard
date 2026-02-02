@@ -29,8 +29,8 @@
     "tier": "novice",
     "tradition": "",
     "casting": "",
-    "target": "Up to five creatures all inside a Size 5 space within 5 yards",
-    "duration": "8 hours",
+    "target": "<p>Up to five creatures all inside a Size 5 space within 5 yards</p>",
+    "duration": "<p>8 hours</p>",
     "grantedBy": null
   },
   "effects": [],
@@ -47,7 +47,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744753091754,
-    "modifiedTime": 1766597713128,
+    "modifiedTime": 1769707658151,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

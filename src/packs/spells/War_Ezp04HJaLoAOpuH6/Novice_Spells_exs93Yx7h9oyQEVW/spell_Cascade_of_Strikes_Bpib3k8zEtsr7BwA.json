@@ -29,8 +29,8 @@
     "tier": "novice",
     "tradition": "",
     "casting": "",
-    "target": "Any number of creatures in one Size 5 space centered on you",
-    "duration": "Instantaneous",
+    "target": "<p>Any number of creatures in one Size 5 space centered on you</p>",
+    "duration": "<p>Instantaneous</p>",
     "grantedBy": null
   },
   "effects": [],
@@ -47,7 +47,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744756782224,
-    "modifiedTime": 1766598307728,
+    "modifiedTime": 1769708049285,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

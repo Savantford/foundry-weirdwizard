@@ -28,9 +28,9 @@
     },
     "tier": "novice",
     "tradition": "",
-    "casting": "reaction when you attack with a melee weapon",
-    "target": "One weapon you wield",
-    "duration": "1 minute",
+    "casting": "<p>3, reaction when you attack with a melee weapon</p>",
+    "target": "<p>One weapon you wield</p>",
+    "duration": "<p>1 minute</p>",
     "grantedBy": null
   },
   "effects": [],
@@ -47,7 +47,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744755957932,
-    "modifiedTime": 1766598440039,
+    "modifiedTime": 1769707968930,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

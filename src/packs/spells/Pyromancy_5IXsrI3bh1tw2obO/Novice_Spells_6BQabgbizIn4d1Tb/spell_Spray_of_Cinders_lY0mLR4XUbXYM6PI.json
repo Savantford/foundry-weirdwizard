@@ -28,9 +28,9 @@
     },
     "tier": "novice",
     "tradition": "",
-    "casting": "reaction when a creature within 5 yards attacks you",
-    "target": "The creature that enabled the casting of this spell",
-    "duration": "Instantaneous",
+    "casting": "<p>1, reaction when a creature within 5 yards attacks you</p>",
+    "target": "<p>The creature that enabled the casting of this spell</p>",
+    "duration": "<p>Instantaneous</p>",
     "grantedBy": null
   },
   "effects": [],
@@ -47,7 +47,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744756183084,
-    "modifiedTime": 1766598389285,
+    "modifiedTime": 1769708036252,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

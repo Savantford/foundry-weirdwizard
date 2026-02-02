@@ -29,8 +29,8 @@
     "tier": "novice",
     "tradition": "",
     "casting": "",
-    "target": "One unsecured Size 1/4 to Size 1 object within 5 yards",
-    "duration": "1 minute",
+    "target": "<p>One unsecured Size 1/4 to Size 1 object within 5 yards</p>",
+    "duration": "<p>1 minute</p>",
     "grantedBy": null
   },
   "effects": [],
@@ -47,7 +47,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744752491747,
-    "modifiedTime": 1766597896279,
+    "modifiedTime": 1769707582437,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

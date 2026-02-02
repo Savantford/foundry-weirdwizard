@@ -29,8 +29,8 @@
     "tier": "novice",
     "tradition": "",
     "casting": "",
-    "target": "One empty Size 1 space on the ground within 5 yards",
-    "duration": "1 hour",
+    "target": "<p>One empty Size 1 space on the ground within 5 yards</p>",
+    "duration": "<p>1 hour</p>",
     "grantedBy": null
   },
   "effects": [],
@@ -47,7 +47,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744754665585,
-    "modifiedTime": 1766598699296,
+    "modifiedTime": 1769707819410,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

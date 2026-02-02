@@ -29,8 +29,8 @@
     "tier": "novice",
     "tradition": "",
     "casting": "",
-    "target": "One Size 1 creature or object within 5 yards",
-    "duration": "Instantaneous",
+    "target": "<p>One Size 1 creature or object within 5 yards</p>",
+    "duration": "<p>Instantaneous</p>",
     "grantedBy": null
   },
   "effects": [],
@@ -47,7 +47,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744752738820,
-    "modifiedTime": 1766597883001,
+    "modifiedTime": 1769707594222,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

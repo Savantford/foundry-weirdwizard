@@ -29,8 +29,8 @@
     "tier": "novice",
     "tradition": "",
     "casting": "",
-    "target": "One enemy in reach or within range of a weapon you are wielding",
-    "duration": "Instantaneous",
+    "target": "<p>One enemy in reach or within range of a weapon you are wielding</p>",
+    "duration": "<p>Instantaneous</p>",
     "grantedBy": null
   },
   "effects": [],
@@ -47,7 +47,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744757018381,
-    "modifiedTime": 1766598239292,
+    "modifiedTime": 1769708156838,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

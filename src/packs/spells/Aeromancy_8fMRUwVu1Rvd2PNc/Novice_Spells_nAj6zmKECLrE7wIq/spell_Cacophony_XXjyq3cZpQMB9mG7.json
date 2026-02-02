@@ -29,8 +29,8 @@
     "tier": "novice",
     "tradition": "",
     "casting": "",
-    "target": "One Size 5 space within 15 yards",
-    "duration": "Instantaneous",
+    "target": "<p>One Size 5 space within 15 yards</p>",
+    "duration": "<p>Instantaneous</p>",
     "grantedBy": null
   },
   "effects": [],
@@ -47,7 +47,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744750102356,
-    "modifiedTime": 1766598107840,
+    "modifiedTime": 1769707446758,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

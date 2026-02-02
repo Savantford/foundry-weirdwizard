@@ -29,8 +29,8 @@
     "tier": "novice",
     "tradition": "",
     "casting": "",
-    "target": "One flesh-and-blood creature within 5 yards",
-    "duration": "Instantaneous",
+    "target": "<p>One flesh-and-blood creature within 5 yards</p>",
+    "duration": "<p>Instantaneous</p>",
     "grantedBy": null
   },
   "effects": [],
@@ -47,7 +47,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744755239936,
-    "modifiedTime": 1766598572855,
+    "modifiedTime": 1769707846738,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

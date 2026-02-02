@@ -37,26 +37,12 @@
     "requirements": "agi11",
     "damage": "0",
     "grip": "off",
-    "traits": {
-      "ammunition": false,
-      "bludgeoning": false,
-      "brutal": false,
-      "disarming": false,
-      "firearm": false,
-      "large": false,
-      "light": false,
-      "long": true,
-      "misfire": false,
-      "nimble": true,
-      "piercing": false,
-      "range": false,
-      "reload": false,
-      "slashing": false,
-      "slow": true,
-      "special": true,
-      "thrown": false,
-      "versatile": false
-    },
+    "traits": [
+      "long",
+      "nimble",
+      "slow",
+      "special"
+    ],
     "attackRider": {
       "value": {
         "value": ""
@@ -84,8 +70,8 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721414047273,
-    "modifiedTime": 1766692473969,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1769799896048,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
   "_key": "!items!QbhJ7Hhd2aozJA4A"

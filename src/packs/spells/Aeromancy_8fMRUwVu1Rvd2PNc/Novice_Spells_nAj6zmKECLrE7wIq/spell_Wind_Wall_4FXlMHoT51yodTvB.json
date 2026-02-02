@@ -29,8 +29,8 @@
     "tier": "novice",
     "tradition": "",
     "casting": "",
-    "target": "One line-shaped space, up to 10 yards wide, 10 yards tall, and 1 yard thick originating from a point within 10 yards",
-    "duration": "1 minute",
+    "target": "<p>One line-shaped space, up to 10 yards wide, 10 yards tall, and 1 yard thick originating from a point within 10 yards</p>",
+    "duration": "<p>1 minute</p>",
     "grantedBy": null
   },
   "effects": [],
@@ -47,7 +47,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744750463828,
-    "modifiedTime": 1766598024132,
+    "modifiedTime": 1769707524501,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

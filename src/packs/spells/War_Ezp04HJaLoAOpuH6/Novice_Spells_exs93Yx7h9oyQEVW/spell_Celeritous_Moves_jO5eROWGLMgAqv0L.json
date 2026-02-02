@@ -28,9 +28,9 @@
     },
     "tier": "novice",
     "tradition": "",
-    "casting": "reaction when you move at least 1 yard",
-    "target": "You",
-    "duration": "1 minute",
+    "casting": "<p>1, reaction when you move at least 1 yard</p>",
+    "target": "<p>You</p>",
+    "duration": "<p>1 minute</p>",
     "grantedBy": null
   },
   "effects": [],
@@ -47,7 +47,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744756821644,
-    "modifiedTime": 1766598289020,
+    "modifiedTime": 1769708069760,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },

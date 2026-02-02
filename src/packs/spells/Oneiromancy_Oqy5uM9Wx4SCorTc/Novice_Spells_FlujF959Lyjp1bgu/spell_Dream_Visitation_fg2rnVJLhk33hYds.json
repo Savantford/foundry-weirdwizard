@@ -29,8 +29,8 @@
     "tier": "novice",
     "tradition": "",
     "casting": "",
-    "target": "One sleeping creature from which you have a part such as a bit of its hair or a drop of blood; you need not have line of sight or line of effect to it; the creature can be any distance from you",
-    "duration": "Instantaneous",
+    "target": "<p>One sleeping creature from which you have a part such as a bit of its hair or a drop of blood; you need not have line of sight or line of effect to it; the creature can be any distance from you</p>",
+    "duration": "<p>Instantaneous</p>",
     "grantedBy": null
   },
   "effects": [],
@@ -47,7 +47,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744754579953,
-    "modifiedTime": 1766598716582,
+    "modifiedTime": 1769707806105,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "exportSource": null
   },
