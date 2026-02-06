@@ -142,3 +142,62 @@ async function compediumIndexEnricher (match, options) {
 
   return container;
 }
+
+/* -------------------------------------------- */
+/*  Helper Functions                            */
+/* -------------------------------------------- */
+
+/* Parse descriptions to include inline enrichers */
+export function parseDesc(desc) {
+  let parsedDesc = desc;
+
+  // Parse descriptions to use inline rolls
+  const regex1 = /(?:(?:(?<h>heals)|(?<hl>loses))\s+)?(?<value>\d+d6)\s*(?:damage|Health)/gi;
+
+  const matches1 = [...parsedDesc.matchAll(regex1)];
+
+  matches1.forEach(match => {
+    const { h, hl, value } = match.groups;
+
+    // Determine operation
+    const operation = h ? "h" : (hl ? "hl" : "d");
+
+    // Format and parse
+    const formattedExp = `@[${value}|${operation}]`;
+    parsedDesc = parsedDesc.replace(match[0], match[0].replace(value, formattedExp));
+  });
+
+  // Inline attribute calls
+  const regex2 = /(?<attribute>Strength|Agility|Will|Intellect|luck)\s*roll(?:\s*with\s*(?<boonsValue>\d+)\s*(?<boonsType>boon|bane)s?)?/gi;
+
+  const attrMap = {
+    strength: 'str',
+    agility: 'agi',
+    will: 'wil',
+    intellect: 'int',
+    luck: 'luck'
+  };
+
+  const plusify = (n) => (n > 0 ? `+${n}` : n);
+
+  const matches2 = [...parsedDesc.matchAll(regex2)];
+
+  matches2.forEach(match => {
+    const { attribute, boonsValue, boonsType } = match.groups;
+
+    // Boons calculation
+    let boons = 0;
+    if (boonsValue && boonsType) {
+      const val = parseInt(boonsValue, 10);
+      boons = boonsType.toLowerCase().startsWith('bane') ? -val : val;
+    }
+
+    const attrKey = attrMap[attribute.toLowerCase()];
+
+    // Format and parse
+    const formattedCall = `@[${attrKey}${boons !== 0 ? plusify(boons) : ''}]`;
+    parsedDesc = parsedDesc.replace(match[0], match[0].replace(attribute, formattedCall));
+  });
+
+  return parsedDesc;
+}

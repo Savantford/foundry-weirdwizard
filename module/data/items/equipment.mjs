@@ -157,7 +157,7 @@ export default class EquipmentModel extends BaseItemModel {
     if (source.grip !== source.grip?.toLowerCase()) source.grip = source.grip.toLowerCase();
 
     // Convert object traits to set
-    if (!Array.isArray(source.traits)) source.traits = Object.keys(source.traits).filter(key => source.traits[key] === true);
+    if ('traits' in source && !Array.isArray(source.traits)) source.traits = Object.keys(source.traits).filter(key => source.traits[key] === true);
     
     return super.migrateData(source);
   }
