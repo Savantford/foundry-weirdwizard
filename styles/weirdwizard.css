@@ -11,6 +11,7 @@ body {
   --gray: #BCBEC0;
   --pink: #DBD3DC;
   --pink-rbg: 219, 211, 220;
+  --pink-dark: #C8BDCA;
 
   --purple-dark: #49244F;
   --purple-dark-rgb: 73, 36, 79;
@@ -638,8 +639,7 @@ body.theme-dark.application.weirdwizard .window-content {
   color: red;
 }
 
-/* Headers */
-
+/* Headings */
 .weirdwizard .window-content h1,
 .weirdwizard .window-content h2,
 .weirdwizard .window-content h3,
@@ -652,20 +652,11 @@ body.theme-dark.application.weirdwizard .window-content {
 .journal-entry-page h4:not(.window-title),
 .journal-entry-page h5,
 .journal-entry-page h6 {
-  font-weight: bold;
-  text-transform: uppercase;
-  margin: 10px 0 5px 0;
-  text-shadow: none;
-}
-
-.weirdwizard .window-content h1,
-.weirdwizard .window-content h2,
-.weirdwizard .window-content h3,
-.journal-entry-page h1:not(.window-title),
-.journal-entry-page h2,
-.journal-entry-page h3 {
   color: var(--purple-dark);
   font-family: var(--font-serif);
+  font-weight: bold;
+  text-shadow: none;
+  margin: 10px 0 5px 0;
 }
 
 .weirdwizard .window-content h1:first-of-type,
@@ -681,22 +672,24 @@ body.theme-dark.application.weirdwizard .window-content {
   margin-top: 0px;
 }
 
+/* Heading 1 */
 .weirdwizard .window-content h1,
 .journal-entry-page h1:not(.window-title) {
-  border-bottom: 0px;
   letter-spacing: 0.02em;
+  border-bottom: none;
 }
 
 .weirdwizard .journal-entry-content h1 {
   font-size: 2em;
 }
 
+/* Heading 2 */
 .weirdwizard .window-content h2,
 .journal-entry-page h2 {
-  border-bottom: 3px double black;
-  padding-bottom: 2px;
   font-size: var(--font-size-24);
   letter-spacing: 0.04em;
+  border-bottom: 3px double black;
+  padding-bottom: 2px;
 }
 
 .weirdwizard .window-content h2.centered-style,
@@ -708,39 +701,59 @@ body.theme-dark.application.weirdwizard .window-content {
   border-bottom: 3px double var(--purple-medium);
 }
 
+/* Heading 3 */
 .weirdwizard .window-content h3,
 .journal-entry-page h3 {
-  border-bottom: 1px solid black;
-  padding-bottom: 2px;
   font-size: var(--font-size-20);
   font-family: var(--font-capitalized);
   text-transform: none;
+  border-bottom: 1px solid black;
+  padding-bottom: 2px;
+  
 }
 
+/* Heading 4 */
 .weirdwizard .window-content h4,
 .journal-entry-page h4:not(.window-title) {
+  font-size: var(--font-size-16);
+  letter-spacing: 0.07em;
+  background: none;
+  border-radius: 3px;
+  padding: 6px 10px;
+  border-image-source: url(../assets/ui/headers/pointed-right-pink-dark.svg);
+  border-image-slice: 11 fill;
+  border-image-width: 45px 80px;
+  border-image-outset: 0 7px 0 0;
+}
+
+.weirdwizard .window-content .statbox h4,
+.journal-entry-page .statbox h4:not(.window-title) {
   color: white;
+  font-size: var(--font-size-14);
+  font-family: var(--font-body);
+  letter-spacing: 0.07em;
   background-color: var(--purple-medium);
   border-radius: 3px;
   padding: 2px 5px;
-  font-family: var(--font-body);
-  font-size: var(--font-size-14);
-  letter-spacing: 0.07em;
-
 }
 
-.weirdwizard .window-content h4.pointed-right {
-  background: none;
-  border-image-source: url(../assets/ui/headers/pointed-right-purple-medium.svg);
-  border-image-slice: 11 fill;
-  border-image-width: 40px;
-  border-image-outset: 0 7px 0 0;
-  font-family: var(--font-capitalized);
-  font-family: var(--font-body);
-}
-
+/* Heading 5 */
 .weirdwizard .window-content h5,
 .journal-entry-page h5 {
+  color: white;
+  font-size: var(--font-size-14);
+  font-family: var(--font-body);
+  letter-spacing: 0.05em;
+  border-radius: 3px;
+  padding: 2px 10px;
+  border-image-source: url(../assets/ui/headers/pointed-right-purple-medium.svg);
+  border-image-slice: 11 fill;
+  border-image-width: 45px 80px;
+  border-image-outset: 0 7px 0 0;
+}
+
+.weirdwizard .window-content .statbox h5,
+.journal-entry-page .statbox h5 {
   color: var(--purple-dark);
   background-color: var(--pink);
   box-shadow: 0 0 2px 0px var(--purple-medium);
@@ -751,8 +764,19 @@ body.theme-dark.application.weirdwizard .window-content {
   text-transform: none;
 }
 
+/* Heading 6 */
 .weirdwizard .window-content h6,
 .journal-entry-page h6 {
+  color: var(--body-text-color);
+  font-size: var(--font-size-14);
+  letter-spacing: 0.1em;
+  text-align: center;
+  background: none;
+  border-bottom: 3px double var(--purple-medium);
+}
+
+.weirdwizard .window-content .statbox h6,
+.journal-entry-page .statbox h6 {
   color: var(--purple-dark);
   background-color: var(--pink);
   border-radius: 3px;
@@ -3095,11 +3119,11 @@ input[type="checkbox"].checkbox-uses {
   font-size: inherit;
 }
 
-.weirdwizard .described-list li>* {
+.weirdwizard .described-list li > * {
   padding: 0;
 }
 
-.weirdwizard .described-list li>label>img {
+.weirdwizard .described-list li > label > img {
   height: 1lh;
   display: inline;
   vertical-align: text-top;
@@ -5438,6 +5462,13 @@ form.quest-calendar {
   padding: 0 2px;
   border-radius: 3px;
   border: 1px solid var(--purple-medium);
+}
+
+.journal-entry-page.text .editor-content {
+  color: var(--body-text-color);
+  background: var(--paper-bg);
+  padding-left: 0.5em;
+  border-radius: 3px;
 }
 
 /* Enrichers */
