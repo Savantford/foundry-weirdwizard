@@ -756,7 +756,8 @@ body.theme-dark.application.weirdwizard .window-content {
 }
 
 .weirdwizard .window-content .statbox h5,
-.journal-entry-page .statbox h5 {
+.journal-entry-page .statbox h5,
+.weirdwizard .window-content .statbox h5.descriptors {
   color: var(--purple-dark);
   background: var(--pink);
   box-shadow: 0 0 1px 0 var(--purple-medium);
@@ -767,6 +768,34 @@ body.theme-dark.application.weirdwizard .window-content {
   font-size: var(--font-size-15);
   letter-spacing: 0.05em;
   text-transform: none;
+}
+
+/* Heading 5: Descriptors and Invividual Traits */
+.weirdwizard .window-content h5.descriptors,
+.weirdwizard .window-content h5.individual-traits {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0 5px;
+  margin-top: 0;
+  padding: 2px 5px;
+  background: none;
+  border-image-source: url(../assets/ui/headers/pointed-right-pink.svg);
+  border-image-slice: 11 fill;
+  border-image-width: 40px;
+  border-image-outset: 0 8px 0 0;
+  color: var(--purple-dark);
+  text-indent: 0;
+}
+
+.weirdwizard .window-content h5.individual-traits {
+  border-image-slice: 11 fill;
+  border-image-width: 45px 80px;
+  border-image-outset: 0 7px 0 0;
+}
+
+.weirdwizard .descriptors .buttons i {
+  font-size: var(--font-size-12);
 }
 
 /* Heading 6 */
@@ -1061,6 +1090,7 @@ body.theme-dark.application.weirdwizard .window-content {
     justify-content: flex-start;
     gap: 0 5px;
     margin-top: 0;
+    margin-bottom: 0.5em;
     background: none;
     border-image-slice: 11 fill;
     border-image-width: 40px;
@@ -1098,6 +1128,9 @@ body.theme-dark.application.weirdwizard .window-content {
       flex: 1;
       display: flex;
       flex-flow: column;
+    }
+    > .details {
+      flex: 0.8;
     }
   }
 
@@ -1410,34 +1443,6 @@ body.theme-dark.application.weirdwizard .window-content {
   height: 100%;
 }
 
-/* Descriptor / Paths Header */
-.weirdwizard:not(.npc.edit-mode) .window-content h5.descriptors,
-.weirdwizard:not(.npc.edit-mode) .window-content h5.individual-traits {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0 5px;
-  margin-top: 0;
-  padding: 2px 5px;
-  background: none;
-  border-image-source: url(../assets/ui/headers/pointed-right-pink.svg);
-  border-image-slice: 11 fill;
-  border-image-width: 40px;
-  border-image-outset: 0 8px 0 0;
-  color: var(--purple-dark);
-  text-indent: 0;
-}
-
-.weirdwizard:not(.npc.edit-mode) .window-content h5.individual-traits {
-  border-image-slice: 11 fill;
-  border-image-width: 45px 80px;
-  border-image-outset: 0 7px 0 0;
-}
-
-.weirdwizard .descriptors .buttons i {
-  font-size: var(--font-size-12);
-}
-
 /* Sheet Name Stripe */
 .weirdwizard .name-stripe {
   height: var(--sheet-name-stripe-height);
@@ -1714,7 +1719,7 @@ body.theme-dark.application.weirdwizard .window-content {
       width: 100%;
     }
 
-    > *:not(h4) {
+    > *:not(h4):not(h5) {
       margin: 0 5px;
     }
 
@@ -2574,7 +2579,7 @@ prose-mirror .statbox {
 }
 
 .weirdwizard.npc .statbox {
-  min-width: 275px;
+  min-width: 240px;
 
   > h4 {
     display: flex;
@@ -2622,37 +2627,38 @@ prose-mirror .statbox {
   }
 }
 
-.weirdwizard .window-content .statbox 
-.weirdwizard .statbox-header .list-entries {
-  display: flex;
-  align-items: center;
+.weirdwizard.npc.edit-mode .statbox {
+  min-width: 275px;
 }
 
-.weirdwizard .statbox-header .statbox-level {
-  float: right;
-  display: flex;
-  align-items: center;
-  gap: 3px;
-}
+/* Statbox: Header */
+.weirdwizard .statbox-header {
+  .statbox-level {
+    float: right;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
 
-.weirdwizard .statbox-header .statbox-difficulty {
-  font-size: 0.7rem;
-  font-weight: bold;
-  float: right;
-  padding-top: 1px;
-}
+  .statbox-difficulty {
+    font-size: 0.7rem;
+    font-weight: bold;
+    float: right;
+    padding-top: 1px;
+  }
 
-.weirdwizard .statbox-header .statbox-level > select,
-.weirdwizard .statbox-header .statbox-difficulty > select {
-  color: white;
-  font-weight: bold;
-}
+  .statbox-level > select,
+  .statbox-difficulty > select {
+    color: white;
+    font-weight: bold;
+  }
 
-.weirdwizard .statbox-header .statbox-level > select > option,
-.weirdwizard .statbox-header .statbox-difficulty > select > option {
-  color: var(--body-text-color);
-  font-family: var(--font-body);
-  font-size: var(--font-size-14);
+  .statbox-level > select > option,
+  .statbox-difficulty > select > option {
+    color: var(--body-text-color);
+    font-family: var(--font-body);
+    font-size: var(--font-size-14);
+  }
 }
 
 /* -------------------------------------------- */
@@ -2795,7 +2801,7 @@ prose-mirror .statbox {
 }
 
 /* Internal Element Formatting */
-.weirdwizard:not(.roll-table-sheet) .window-content .flexrow {
+.weirdwizard:not(.npc):not(.roll-table-sheet) .window-content .flexrow {
   gap: 5px;
 }
 

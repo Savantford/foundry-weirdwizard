@@ -10,7 +10,7 @@
     {{/if}}
 
     {{!-- Buttons --}}
-    <span class="buttons clean">
+    <span class="buttons">
 
         {{!-- Toggle Effects --}}
         {{#if item.hasPassiveEffects}}
@@ -35,13 +35,16 @@
             {{/each}}
         </span>
         {{/if}}
+    </span>
 
+    {{!-- Edit Buttons --}}
+    {{#if isEditMode}}
+    <span class="edit-buttons">
         {{!-- Edit Button --}}
         <a class="item-button" data-action="itemEdit" data-item-id="{{item._id}}" data-tooltip="WW.Item.Edit.Activity"><i class="fa-solid fa-edit"></i></a>
 
         {{!-- Remove Button --}}
         <a class="item-button" data-action="itemRemove" data-item-id="{{item._id}}" data-tooltip="WW.Item.Remove.Activity"><i class="fa-solid fa-trash"></i></a>
-
     </span>
-    
+    {{/if}}
 </li>

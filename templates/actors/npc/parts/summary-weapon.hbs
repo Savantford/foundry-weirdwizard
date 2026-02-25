@@ -33,14 +33,17 @@
             data-tooltip="{{#if item.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
         <i class="fa-solid {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
         {{/if}}
+    </span>
 
+    {{#if isEditMode}}
+    <span class="edit-buttons">
         {{!-- Edit Button --}}
         <a class="item-button" data-action="itemEdit" data-item-id="{{item._id}}" data-tooltip="WW.Item.Edit.Activity"><i class="fa-solid fa-edit"></i></a>
         
         {{!-- Remove Button --}}
         <a class="item-button" data-action="itemRemove" data-item-id="{{item._id}}" data-tooltip="WW.Item.Remove.Activity"><i class="fa-solid fa-trash"></i></a>
-        
     </span>
+    {{/if}}
 
     {{!-- Attack Rider --}}
     {{#if (or item.system.attackRider.value item.system.attackRider.name)}}
