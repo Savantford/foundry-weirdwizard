@@ -9,16 +9,24 @@
             <li class="list-entry draggable">
                 <a data-action="journalView" data-page-uuid="{{tradition.uuid}}" data-tooltip="{{tradition.desc}}"><img src="{{tradition.src}}" />{{tradition.name}}</a>
                 
-                <span class="buttons">
+                {{#if isEditMode}}
+                <span class="edit-buttons">
                     <a class="array-button" data-action="journalRemove" data-page-uuid="{{tradition.uuid}}" data-option-type="traditions"
                         data-tooltip="WW.Tradition.Remove"><i class="fa-solid fa-trash"></i>
                     </a>
                 </span>
+                {{/if}}
 
             </li>
         {{else}}
             <span>—</span>
         {{/each}}
+
+        {{#if isEditMode}}
+            <span class="buttons">
+                <a class="help-button" data-action="journalHelp" data-tooltip="WW.System.Documentation"><i class="fa-solid fa-circle-question"></i></a>
+            </span>
+        {{/if}}
 
         {{!-- Legacy Traditions --}}
         {{#if listEntries.traditions.length}}

@@ -64,6 +64,7 @@ import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
 import { Utils, handleWelcomeMessage } from './helpers/utils.mjs';
 import { initializeEffectLookups } from './helpers/effect-presets.mjs';
+import { addFormattingOptions } from './helpers/text-editor.mjs';
 
 // Import migrations
 import {
@@ -451,30 +452,7 @@ Hooks.on('updateWorldTime', (worldTime, dt, options, userId) => {
 
 // Add prosemirror dropdown options
 Hooks.on("getProseMirrorMenuDropDowns", (menu, dropdowns) => {
-  const toggleMark = foundry.prosemirror.commands.toggleMark;
-  const wrapIn = foundry.prosemirror.commands.wrapIn;
-  if ("format" in dropdowns) {
-    dropdowns.format.entries.push({
-      action: "action-id",
-      title: "LABEL",
-      children: [
-        {
-          action: "your-stat-box",
-          class: "statbox",
-          title: "Stat Box",
-          node: menu.schema.nodes.section,
-          attrs: { _preserve: { class: "statbox" } },
-          priority: 1,
-          cmd: () => {
-            menu._toggleBlock(menu.schema.nodes.section, wrapIn, {
-              attrs: { _preserve: { class: "statbox" } },
-            });
-            return true;
-          }
-        }
-      ]
-    });
-  }
+  addFormattingOptions(menu, dropdowns);
 });
 
 /* -------------------------------------------- */

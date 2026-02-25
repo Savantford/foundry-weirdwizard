@@ -99,8 +99,8 @@
         <div class="stat">
             <label>{{localize "WW.Stats.Size"}}</label>
     
-            <div class="align-center">
-                <a data-tooltip="{{{ stats.size.autoTooltip }}}">{{ stats.size.displayedValue }}</a>
+            <div class="badge align-center" data-tooltip="{{{ stats.size.autoTooltip }}}">
+                <div>{{ stats.size.displayedValue }}</div>
             </div>
     
         </div>
@@ -110,7 +110,9 @@
             {{!-- Defense --}}
             <div class="stat defense">
     
-                <div><a data-tooltip="{{ stats.defenseTotal.autoTooltip }}">{{ stats.defenseTotal.finalValue }}</a></div>
+                <div class="badge" data-tooltip="{{ stats.defenseTotal.autoTooltip }}">
+                    <div>{{ stats.defenseTotal.finalValue }}</div>
+                </div>
     
                 <label>{{ stats.defenseTotal.label }}</label>
     
@@ -121,8 +123,8 @@
     
                 <label>{{localize "WW.Damage.Bonus"}}</label>
                 
-                <div class="flex nogap align-center {{#unless system.stats.bonusdamage}}filler{{/unless}}">
-                    <a data-tooltip="{{{bonusDamageTooltip}}}">{{#if system.stats.bonusdamage}}{{system.stats.bonusdamage}}d6{{else}}◆{{/if}}</a>
+                <div class="badge flex nogap align-center {{#unless system.stats.bonusdamage}}filler{{/unless}}" data-tooltip="{{{bonusDamageTooltip}}}">
+                    <div>{{#if system.stats.bonusdamage}}{{system.stats.bonusdamage}}d6{{else}}◆{{/if}}</div>
                 </div>
     
             </div>
@@ -133,8 +135,8 @@
         <div class="stat">
             <label>{{ stats.speedCurrent.label }}</label>
         
-            <div class="badge stat-badge">
-                <a data-tooltip="{{{ stats.speedCurrent.autoTooltip }}}">{{ stats.speedCurrent.finalValue }}</a>
+            <div class="badge clickable" data-action="speedRoll" data-tooltip="{{{ stats.speedCurrent.autoTooltip }}}">
+                <div>{{ stats.speedCurrent.finalValue }}</div>
             </div>
         </div>
     

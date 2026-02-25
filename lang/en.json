@@ -1084,6 +1084,11 @@
 "WW.System.Compendium.Group.Secrets": "Secrets of the Weird Wizard",
 "WW.System.Compendium.Group.Heroes": "Heroes",
 "WW.System.Compendium.Group.WeirdAncestries": "Weird Ancestries",
+"WW.System.TextEditor.Wizardry": "Wizardry",
+"WW.System.TextEditor.TextBoxSimple": "Text Box (Regular)",
+"WW.System.TextEditor.TextBoxFancy": "Text Box (Fancy)",
+"WW.System.TextEditor.StatboxRegular": "Statbox (Regular)",
+"WW.System.TextEditor.StatboxBackground": "Statbox (Background)",
 
 "WW.Index.Label": "Compendium Index",
 "WW.Index.Open": "Open the Compendium Index",

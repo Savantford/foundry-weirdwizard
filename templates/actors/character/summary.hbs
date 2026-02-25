@@ -6,18 +6,25 @@
         {{!-- Novice Path --}}
         <div class="list-entry">
             {{#if charOptions.novice}}
-            <a data-action="journalView" data-page-uuid="{{charOptions.novice.uuid}}">{{charOptions.novice.name}}</a>
+                <a data-action="journalView" data-page-uuid="{{charOptions.novice.uuid}}">{{charOptions.novice.name}}</a>
 
-            <span class="buttons">
-                <a class="item-button" data-action="journalRemove" data-page-uuid="{{charOptions.novice.uuid}}" data-option-type="novice"
-                    data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i>
-                </a>
-            </span>
+                {{#if isEditMode}}
+                <span class="buttons">
+                    <a class="item-button" data-action="journalRemove" data-page-uuid="{{charOptions.novice.uuid}}" data-option-type="novice"
+                        data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i>
+                    </a>
+                </span>
+                {{/if}}
             {{else if system.charOptions.novice}}      
-            <a class="invalid">{{system.charOptions.novice}}</a><span class="buttons">
-                <a class="array-button" data-action="journalInvalid" data-charoption-type="novice" data-entry-key="{{id}}"
-                    data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i></a>
-            </span>{{/if}}
+                <a class="invalid">{{system.charOptions.novice}}</a>
+
+                {{#if isEditMode}}
+                <span class="buttons">
+                    <a class="array-button" data-action="journalInvalid" data-charoption-type="novice" data-entry-key="{{id}}"
+                        data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i></a>
+                </span>
+                {{/if}}
+            {{/if}}
             {{#unless charOptions.novice}}<span>—</span>{{/unless}}{{#if (gte system.stats.level 3)}} ● {{/if}}
 
         </div>
@@ -26,18 +33,25 @@
         {{#if (gte system.stats.level 3)}}
         <div class="list-entry">
             {{#if charOptions.expert}}
-            <a data-action="journalView" data-page-uuid="{{charOptions.expert.uuid}}">{{charOptions.expert.name}}</a>
+                <a data-action="journalView" data-page-uuid="{{charOptions.expert.uuid}}">{{charOptions.expert.name}}</a>
 
-            <span class="buttons">
-                <a class="item-button" data-action="journalRemove" data-page-uuid="{{charOptions.expert.uuid}}" data-option-type="expert"
-                    data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i>
-                </a>
-            </span>
+                {{#if isEditMode}}
+                <span class="buttons">
+                    <a class="item-button" data-action="journalRemove" data-page-uuid="{{charOptions.expert.uuid}}" data-option-type="expert"
+                        data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i>
+                    </a>
+                </span>
+                {{/if}}
             {{else if system.charOptions.expert}}      
-            <a class="invalid">{{system.charOptions.expert}}</a><span class="buttons">
-                <a class="array-button" data-action="journalInvalid" data-charoption-type="expert" data-entry-key="{{id}}"
-                    data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i></a>
-            </span>{{/if}}
+                <a class="invalid">{{system.charOptions.expert}}</a>
+
+                {{#if isEditMode}}
+                <span class="buttons">
+                    <a class="array-button" data-action="journalInvalid" data-charoption-type="expert" data-entry-key="{{id}}"
+                        data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i></a>
+                </span>
+                {{/if}}
+            {{/if}}
             {{#unless charOptions.expert}}<span>—</span>{{/unless}}{{#if (gte system.stats.level 7)}} ● {{/if}}
             
         </div>
@@ -47,17 +61,25 @@
         {{#if (gte system.stats.level 7)}}
         <div class="list-entry">
             {{#if charOptions.master}}
-            <a data-action="journalView" data-page-uuid="{{charOptions.master.uuid}}">{{charOptions.master.name}}</a>
+                <a data-action="journalView" data-page-uuid="{{charOptions.master.uuid}}">{{charOptions.master.name}}</a>
+                
+                {{#if isEditMode}}
+                <span class="buttons">
+                    <a class="item-button" data-action="journalRemove" data-page-uuid="{{charOptions.master.uuid}}" data-option-type="master"
+                        data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i>
+                    </a>
+                </span>
+                {{/if}}
+            {{else if system.charOptions.master}}      
+                <a class="invalid">{{system.charOptions.master}}</a>
 
-            <span class="buttons">
-                <a class="item-button" data-action="journalRemove" data-page-uuid="{{charOptions.master.uuid}}" data-option-type="master"
-                    data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i>
-                </a>
-            </span>{{else if system.charOptions.master}}      
-                <a class="invalid">{{system.charOptions.master}}</a><span class="buttons">
+                {{#if isEditMode}}
+                <span class="buttons">
                     <a class="array-button" data-action="journalInvalid" data-charoption-type="master" data-entry-key="{{id}}"
                         data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i></a>
-            </span>{{/if}}
+                </span>
+                {{/if}}
+            {{/if}}
             {{#unless charOptions.master}}<span>—</span>{{/unless}}
 
         </div>
@@ -65,7 +87,9 @@
 
         {{!-- Help Button --}}
         {{#if isEditMode}}
-        <a class="help-button" data-action="journalHelp" data-tooltip="WW.System.Documentation"><i class="fa-solid fa-circle-question"></i></a>
+        <span class="buttons">
+            <a class="help-button" data-action="journalHelp" data-tooltip="WW.System.Documentation"><i class="fa-solid fa-circle-question"></i></a>
+        </span>
         {{/if}}
 
     </h5>
@@ -76,7 +100,7 @@
         {{!-- Left Column --}}
         <div class="statbox">
 
-            <h4 class="statbox-header">
+            <h5 class="statbox-header">
                 
                 {{!-- Ancestry, Descriptors --}}
                 <ol class="list-entries statbox-ancestry">
@@ -84,21 +108,24 @@
                     {{!-- Ancestry --}}
                     <div class="list-entry">
                         {{#if charOptions.ancestry}}
-                        <a data-action="journalView" data-page-uuid="{{charOptions.ancestry.uuid}}">{{charOptions.ancestry.name}}</a>
-                        {{#if isEditMode}}
-                        <span class="buttons">
-                            <a class="item-button" data-action="journalRemove" data-page-uuid="{{charOptions.ancestry.uuid}}" data-option-type="ancestry"
-                                data-tooltip="WW.Ancestry.Remove"><i class="fa-solid fa-trash"></i>
-                            </a>
-                        </span>
-                        {{/if}}
-                        {{else if system.charOptions.ancestry}}
-                        <a class="invalid">{{system.charOptions.ancestry}}</a><span class="buttons">
-                            <a class="array-button" data-action="journalInvalid" data-charoption-type="ancestry" data-entry-key="{{id}}"
-                                data-tooltip="WW.Ancestry.Remove"><i class="fa-solid fa-trash"></i></a>
-
+                            <a data-action="journalView" data-page-uuid="{{charOptions.ancestry.uuid}}">{{charOptions.ancestry.name}}</a>
+                            
+                            {{#if isEditMode}}
+                            <span class="buttons">
+                                <a class="item-button" data-action="journalRemove" data-page-uuid="{{charOptions.ancestry.uuid}}" data-option-type="ancestry"
+                                    data-tooltip="WW.Ancestry.Remove"><i class="fa-solid fa-trash"></i>
+                                </a>
                             </span>
-                        </span>
+                            {{/if}}
+                        {{else if system.charOptions.ancestry}}
+                            {{#if isEditMode}}
+                            <a class="invalid">{{system.charOptions.ancestry}}</a><span class="buttons">
+                                <a class="array-button" data-action="journalInvalid" data-charoption-type="ancestry" data-entry-key="{{id}}"
+                                    data-tooltip="WW.Ancestry.Remove"><i class="fa-solid fa-trash"></i></a>
+
+                                </span>
+                            </span>
+                            {{/if}}
                         {{/if}}
                         {{#unless charOptions.ancestry}}<span>—</span>{{/unless}}
                     </div>
@@ -112,15 +139,19 @@
                         {{#if isEditMode}}<span>({{localize "WW.ListEntry.Descriptor.Label"}})</span>{{/if}}
                     {{/each}}
                     
-                    <a class="array-button" data-action="entryCreate" data-list-key="descriptors" data-loc="Descriptor"
-                        data-tooltip="WW.ListEntry.Descriptor.Create"><i class="fa-solid fa-circle-plus"></i></a>
-                    
-                    <a class="array-button" data-action="entrySettings" data-list-key="descriptors"
-                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+                    {{#if isEditMode}}
+                    <span class="buttons">
+                        <a class="array-button" data-action="entryCreate" data-list-key="descriptors" data-loc="Descriptor"
+                            data-tooltip="WW.ListEntry.Descriptor.Create"><i class="fa-solid fa-circle-plus"></i></a>
+                        
+                        <a class="array-button" data-action="entrySettings" data-list-key="descriptors"
+                            data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+                    </span>
+                    {{/if}}
                     
                 </ol>
 
-            </h4>
+            </h5>
 
             <div class="statbox-section stats">
 
@@ -130,23 +161,27 @@
                     {{!-- Size --}}
                     <label>{{localize "WW.Stats.Size"}}:</label>
 
-                    <a data-tooltip="{{{sizeTooltip}}}">{{system.stats.size}}</a>
+                    <span class="info" data-tooltip="{{{ stats.size.autoTooltip }}}">{{system.stats.size}}</span>
                     
                     {{!-- Speed --}}
                     <label>{{localize "WW.Stats.Speed"}}:</label>
 
-                    <a data-tooltip="{{{speedTooltip}}}">{{system.stats.speed.current}}</a>
+                    <a data-action="speedRoll" data-tooltip="{{{ stats.speedCurrent.autoTooltip }}}">{{system.stats.speed.current}}</a>
                     
                     {{!-- Movement Traits --}}
                     {{#each listEntries.movementTraits as |entry|}}
                         {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="movementTraits" loc="MovementTrait"}}
                     {{/each}}
                     
-                    <a class="array-button" data-action="entryCreate" data-list-key="movementTraits" data-loc="MovementTrait"
-                        data-tooltip="WW.ListEntry.MovementTrait.Create"><i class="fa-solid fa-circle-plus"></i></a>
-                    
-                    <a class="array-button" data-action="entrySettings" data-list-key="movementTraits"
-                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+                    {{#if isEditMode}}
+                    <span class="buttons">
+                        <a class="array-button" data-action="entryCreate" data-list-key="movementTraits" data-loc="MovementTrait"
+                            data-tooltip="WW.ListEntry.MovementTrait.Create"><i class="fa-solid fa-circle-plus"></i></a>
+                        
+                        <a class="array-button" data-action="entrySettings" data-list-key="movementTraits"
+                            data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+                    </span>
+                    {{/if}}
                     
                 </ol>
 
@@ -159,12 +194,16 @@
                     {{else}}
                         <span>—</span>
                     {{/each}}
-                
-                    <a class="array-button" data-action="entryCreate" data-list-key="languages" data-loc="Language"
-                        data-tooltip="WW.ListEntry.Language.Create"><i class="fa-solid fa-circle-plus"></i></a>
-                
-                    <a class="array-button" data-action="entrySettings" data-list-key="languages"
-                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+
+                    {{#if isEditMode}}
+                    <span class="buttons">
+                        <a class="array-button" data-action="entryCreate" data-list-key="languages" data-loc="Language"
+                            data-tooltip="WW.ListEntry.Language.Create"><i class="fa-solid fa-circle-plus"></i></a>
+                    
+                        <a class="array-button" data-action="entrySettings" data-list-key="languages"
+                            data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+                    </span>
+                    {{/if}}
                 </ol>
 
                 {{!-- Senses --}}
@@ -176,12 +215,16 @@
                     {{else}}
                         <span>—</span>
                     {{/each}}
-                
-                    <a class="array-button" data-action="entryCreate" data-list-key="senses" data-loc="Sense"
-                        data-tooltip="WW.ListEntry.Sense.Create"><i class="fa-solid fa-circle-plus"></i></a>
-                
-                    <a class="array-button" data-action="entrySettings" data-list-key="senses"
-                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+
+                    {{#if isEditMode}}
+                    <span class="buttons">
+                        <a class="array-button" data-action="entryCreate" data-list-key="senses" data-loc="Sense"
+                            data-tooltip="WW.ListEntry.Sense.Create"><i class="fa-solid fa-circle-plus"></i></a>
+                    
+                        <a class="array-button" data-action="entrySettings" data-list-key="senses"
+                            data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+                    </span>
+                    {{/if}}
                 </ol>
 
                 {{!-- Immune --}}
@@ -193,12 +236,16 @@
                     {{else}}
                         <span>—</span>
                     {{/each}}
-                
-                    <a class="array-button" data-action="entryCreate" data-list-key="immunities" data-loc="Immunity"
-                        data-tooltip="WW.ListEntry.Immunity.Create"><i class="fa-solid fa-circle-plus"></i></a>
-                
-                    <a class="array-button" data-action="entrySettings" data-list-key="immunities"
-                        data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+
+                    {{#if isEditMode}}
+                    <span class="buttons">
+                        <a class="array-button" data-action="entryCreate" data-list-key="immunities" data-loc="Immunity"
+                            data-tooltip="WW.ListEntry.Immunity.Create"><i class="fa-solid fa-circle-plus"></i></a>
+                    
+                        <a class="array-button" data-action="entrySettings" data-list-key="immunities"
+                            data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+                    </span>
+                    {{/if}}
                 </ol>
 
                 {{!-- Professions --}}
@@ -211,12 +258,14 @@
                             <a data-action="journalView" data-page-uuid="{{profession.uuid}}" data-option-type="professions"
                                 data-tooltip="{{profession.desc}}">{{profession.name}}
                             </a>
-                            
-                            <span class="buttons">
+
+                            {{#if isEditMode}}
+                            <span class="edit-buttons">
                                 <a class="array-button" data-action="journalRemove" data-page-uuid="{{profession.uuid}}" data-option-type="professions"
                                     data-tooltip="WW.Profession.Remove"><i class="fa-solid fa-trash"></i>
                                 </a>
                             </span>
+                            {{/if}}
 
                         </li>
                     {{else}}
@@ -224,14 +273,16 @@
                     {{/each}}
                         
                     {{#if isEditMode}}
-                    <a class="help-button" data-action="journalHelp" data-tooltip="WW.System.Documentation"><i class="fa-solid fa-circle-question"></i></a>
+                    <span class="buttons">
+                        <a class="help-button" data-action="journalHelp" data-tooltip="WW.System.Documentation"><i class="fa-solid fa-circle-question"></i></a>
+                    </span>
                     {{/if}}
                     
                 </ol>
                 
             </div>
 
-            <h4>{{localize "WW.Attack.Plural"}}</h4>
+            <h6>{{localize "WW.Attack.Plural"}}</h6>
             
             <div class="statbox-section attacks">
 
@@ -239,7 +290,7 @@
                 {{#if system.stats.bonusdamage}}
                 <div class="stat">
                     <label class="" for="bonusdamage" class="resource-label">{{localize "WW.Damage.Bonus"}}:</label>
-                    +{{system.stats.bonusdamage}}d6
+                    <span data-tooltip="{{{bonusDamageTooltip}}}">+{{system.stats.bonusdamage}}d6</span>
                 </div>
                 {{/if}}
 
@@ -259,7 +310,7 @@
         <div class="statbox">
 
             {{!-- Talents --}}
-            <h4>{{localize "WW.Talents.Label"}}</h4>
+            <h6>{{localize "WW.Talents.Label"}}</h6>
 
             <div class="statbox-section talents">
 
@@ -294,7 +345,7 @@
 
             {{!-- Spells Section --}}
             {{#if (or charOptions.traditions spells.length)}}
-            <h4>{{localize "WW.Spells.Label"}}</h4>
+            <h6>{{localize "WW.Spells.Label"}}</h6>
 
             <div class="statbox-section spells">
 
@@ -309,12 +360,13 @@
                             data-tooltip="{{tradition.desc}}">{{tradition.name}}
                         </a>
                         
-                        <span class="buttons">
+                        {{#if isEditMode}}
+                        <span class="edit-buttons">
                             <a class="array-button" data-action="journalRemove" data-page-uuid="{{tradition.uuid}}" data-option-type="traditions"
                                 data-tooltip="WW.Tradition.Remove"><i class="fa-solid fa-trash"></i>
                             </a>
                         </span>
-
+                        {{/if}}
                     </li>
                     {{/each}}
                         
