@@ -727,7 +727,8 @@ body.theme-dark.application.weirdwizard .window-content {
 }
 
 .weirdwizard .window-content .statbox h4,
-.journal-entry-page .statbox h4 {
+.journal-entry-page .statbox h4,
+.journal-entry-page h4.statbox-heading {
   background: var(--purple-dark);
   border: none;
   border-radius: 0;
@@ -757,7 +758,8 @@ body.theme-dark.application.weirdwizard .window-content {
 
 .weirdwizard .window-content .statbox h5,
 .journal-entry-page .statbox h5,
-.weirdwizard .window-content .statbox h5.descriptors {
+.weirdwizard .window-content .statbox h5.descriptors,
+.journal-entry-page h5.statbox-heading {
   color: var(--purple-dark);
   background: var(--pink);
   box-shadow: 0 0 1px 0 var(--purple-medium);
@@ -810,7 +812,8 @@ body.theme-dark.application.weirdwizard .window-content {
 }
 
 .weirdwizard .window-content .statbox h6,
-.journal-entry-page .statbox h6 {
+.journal-entry-page .statbox h6,
+.journal-entry-page h6.statbox-heading {
   background: var(--gray);
   border: none;
   margin-top: 5px;
@@ -1688,7 +1691,7 @@ body.theme-dark.application.weirdwizard .window-content {
 
   /* Tabs */
   .tab[data-tab] {
-    --bug: url(../assets/decorations/bugs/talent.webp);
+    --bug: url(../assets/decorations/bugs/vines-grape-cluster.webp);
     background: url(../assets/decorations/stars/sheet-background.svg) no-repeat;
     background-position: center calc(50% - 10px);
     background-size: auto 50%;
@@ -1976,7 +1979,7 @@ body.theme-dark.application.weirdwizard .window-content {
     --ele-radius: 18px;
     --radius-offset: 16px;
 
-    .attribute-mod>* {
+    .attribute-mod > * {
       line-height: 1;
     }
   }
@@ -2355,6 +2358,10 @@ body.theme-dark.application.weirdwizard .window-content {
   margin-bottom: 5px;
 }
 
+.weirdwizard .attribute label {
+  font-weight: bold;
+}
+
 hr.spear {
   height: 14px;
   background: none;
@@ -2429,59 +2436,59 @@ hr.bug {
 }
 
 .weirdwizard.npc .tab[data-tab] {
-  --bug: url(../assets/decorations/bugs/npc-enemy.webp);
+  --bug: url(../assets/decorations/bugs/cockatrice-and-hydra.webp);
 }
 
 .weirdwizard.npc.ally .tab[data-tab] {
-  --bug: url(../assets/decorations/bugs/npc-ally.webp);
+  --bug: url(../assets/decorations/bugs/clouds-sky-father.webp);
 }
 
 .weirdwizard.item.talent.magical .tab[data-tab] .bug,
 .weirdwizard.chat-message.magical .bug {
-  --bug: url(../assets/decorations/bugs/talent-magical.webp);
+  --bug: url(../assets/decorations/bugs/shelf-book-and-hands.webp);
 }
 
 .weirdwizard.chat-message.npc .bug {
-  --bug: url(../assets/decorations/bugs/talent-npc.webp);
+  --bug: url(../assets/decorations/bugs/vines-dragonflies.webp);
 }
 
 .weirdwizard.item.equipment .tab[data-tab] .bug,
 .weirdwizard.chat-message.Equipment .bug {
-  --bug: url(../assets/decorations/bugs/equipment.webp);
+  --bug: url(../assets/decorations/bugs/keys.webp);
 }
 
 .weirdwizard.item.weapon .tab[data-tab] .bug,
 .weirdwizard.chat-message.Weapon .bug {
-  --bug: url(../assets/decorations/bugs/weapon.webp);
+  --bug: url(../assets/decorations/bugs/swords.webp);
   opacity: 0.7;
 }
 
 .weirdwizard.item.spell .tab[data-tab] .bug,
 .weirdwizard.chat-message.Spell .bug {
-  --bug: url(../assets/decorations/bugs/spell.webp);
+  --bug: url(../assets/decorations/bugs/shelf-goat-skull.webp);
 }
 
 .weirdwizard .ancestry-sheet .tab[data-tab] .bug {
-  --bug: url(../assets/decorations/bugs/ancestry.webp);
+  --bug: url(../assets/decorations/bugs/gorgon-and-harpy.webp);
 }
 
 .weirdwizard .profession-sheet .tab[data-tab] .bug {
-  --bug: url(../assets/decorations/bugs/profession.webp);
+  --bug: url(../assets/decorations/bugs/vines-green-man.webp);
 }
 
 .weirdwizard .path-sheet .tab[data-tab] .bug,
 .weirdwizard.character .tab[data-tab] {
-  --bug: url(../assets/decorations/bugs/path-novice.webp);
+  --bug: url(../assets/decorations/bugs/clouds-pigeon.webp);
 }
 
 .weirdwizard .path-sheet.expert .tab[data-tab] .bug,
 .weirdwizard.character.expert .tab[data-tab] {
-  --bug: url(../assets/decorations/bugs/path-expert.webp);
+  --bug: url(../assets/decorations/bugs/dragon-breath.webp);
 }
 
 .weirdwizard .path-sheet.master .tab[data-tab] .bug,
 .weirdwizard.character.master .tab[data-tab] {
-  --bug: url(../assets/decorations/bugs/path-master.webp);
+  --bug: url(../assets/decorations/bugs/double-dragons.webp);
 }
 
 /* Effects Tab */
@@ -2533,7 +2540,8 @@ hr.bug {
 
   > *:not(.statbox-section),
   .statbox-section > * {
-    padding: 0 5px !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
     font-size: var(--font-size-13);
   }
 
@@ -2662,7 +2670,7 @@ prose-mirror .statbox {
 }
 
 /* -------------------------------------------- */
-/*  Internal Sheet Elements                     */
+/*  Prose Mirror Text Editor                    */
 /* -------------------------------------------- */
 
 /* Prose Mirror Text Editor */
@@ -2796,9 +2804,60 @@ prose-mirror .statbox {
   color: var(--input-text-color);
 }
 
-.weirdwizard .attribute label {
-  font-weight: bold;
+/* Text Box */
+.textbox {
+  text-align: justify;
 }
+
+.textbox > *:not(img):not(h5) {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+prose-mirror .textbox {
+  background: var(--background-color-shadow);
+}
+
+/* Text Box: Title Heading */
+.journal-entry-page h4.textbox-heading,
+.journal-entry-page .textbox h4 {
+  border: none;
+  padding-bottom: 2px;
+  font-size: var(--font-size-20);
+  font-family: var(--font-capitalized);
+  text-align: center;
+}
+
+/* Text Box: Section Heading */
+.journal-entry-page h5.textbox-heading,
+.journal-entry-page .textbox h5 {
+  border: 1px solid var(--purple-dark);
+  border-width: 1px 0;
+  border-radius: 0;
+  padding: 5px 10px;
+  color: var(--body-text-color);
+  font-size: var(--font-size-16);
+  font-family: var(--font-serif);
+  text-align: center;
+}
+
+/* Text Box: Example Heading */
+.journal-entry-page h6.textbox-heading,
+.journal-entry-page .textbox h6 {
+  background: var(--purple-dark);
+  border: none;
+  border-radius: 3px;
+  padding: 2px 5px;
+  color: white;
+  font-family: var(--body-text-color);
+  font-style: italic;
+  text-align: left;
+  letter-spacing: 0.05em;
+}
+
+/* -------------------------------------------- */
+/*  Internal Sheet Elements                     */
+/* -------------------------------------------- */
 
 /* Internal Element Formatting */
 .weirdwizard:not(.npc):not(.roll-table-sheet) .window-content .flexrow {
@@ -3634,7 +3693,7 @@ input[type="checkbox"].checkbox-uses {
   .editor-content { /* Add paper bg to text editor */
     color: var(--body-text-color);
     background: var(--paper-bg);
-    padding-left: 0.5em;
+    padding: 0.5rem;
     border-radius: 3px;
   }
 }
@@ -4266,7 +4325,7 @@ details.document-card .card-header:hover::after {
 
 /* Document Card: Body */
 .document-card .card-body {
-  --bug: url(../assets/decorations/bugs/talent.webp);
+  --bug: url(../assets/decorations/bugs/vines-grape-cluster.webp);
   --border-image: url(../assets/ui/plates/double-purple-transparent.svg);
   --border-width: 15px;
   --clip-radius: calc(var(--border-width) - 5px);
@@ -4326,7 +4385,7 @@ details.document-card .card-header:hover::after {
 
 /* Tooltip: Separators */
 .document-card .bug {
-  --bug: url(../assets/decorations/bugs/talent.webp);
+  --bug: url(../assets/decorations/bugs/vines-grape-cluster.webp);
   display: block;
   width: 100%;
   height: 40px;
@@ -5238,7 +5297,7 @@ details.document-card .card-header:hover::after {
   display: block;
   width: 100%;
   height: 40px;
-  background: url(../assets/decorations/bugs/spell.webp) no-repeat;
+  background: url(../assets/decorations/bugs/shelf-goat-skull.webp) no-repeat;
   background-position: center;
   background-size: 100%;
   opacity: 0.5;
@@ -5565,7 +5624,7 @@ form.quest-calendar {
 
 /* Chat Messages */
 .weirdwizard.chat-message {
-  --bug: url(../assets/decorations/bugs/talent.webp);
+  --bug: url(../assets/decorations/bugs/vines-grape-cluster.webp);
   gap: 5px;
   font-family: var(--font-body) !important;
   background: var(--paper-bg) repeat;
