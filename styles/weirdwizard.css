@@ -3902,18 +3902,28 @@ input[type="checkbox"].checkbox-uses {
 }
 
 /* Character Option: View Mode Formatting */
-.journal-entry-page .weirdwizard h5 {
-  text-align: center;
-  background: none;
-  border-image: url(../assets/ui/plates/double-purple.svg);
-  border-image-slice: 120 134 fill;
-  border-image-width: 15px 16px;
-  padding: 4px 16px;
-  box-shadow: none;
-}
+.journal-entry-page .benefit-block {
+  h5 {
+    border-image: url(../assets/ui/plates/double-purple.svg);
+    border-image-slice: 120 134 fill;
+    border-image-width: 15px 17px;
+    padding: 6px 16px;
+    color: var(--purple-dark);
+    font-family: var(--font-capitalized);
+    text-align: center;
 
-.weirdwizard h5 .item-create {
-  font-size: var(--font-size-14);
+    .item-create {
+      font-size: var(--font-size-14);
+    }
+  }
+
+  > h5 {
+    margin: 10px 0 5px 0;
+  }
+
+  > h5:first-of-type {
+    margin-top: 0;
+  }
 }
 
 .journal-entry-page .weirdwizard .type {
@@ -3931,7 +3941,7 @@ input[type="checkbox"].checkbox-uses {
   line-height: 1lh;
 }
 
-.journal-entry-page .weirdwizard .item-type>select {
+.journal-entry-page .weirdwizard .item-type > select {
   color: white;
 }
 
@@ -3948,14 +3958,6 @@ input[type="checkbox"].checkbox-uses {
 
 .journal-entry-page .weirdwizard .benefits-section {
   margin: 0;
-}
-
-.journal-entry-page .weirdwizard .benefit-block > h5 {
-  margin: 10px 0 5px 0;
-}
-
-.journal-entry-page .weirdwizard .benefit-block > h5:first-of-type {
-  margin-top: 0;
 }
 
 .weirdwizard .benefit-block > .list-entries .buttons {

@@ -65,16 +65,7 @@ import registerWWTours from './tours/registration.mjs';
 import { Utils, handleWelcomeMessage } from './helpers/utils.mjs';
 import { initializeEffectLookups } from './helpers/effect-presets.mjs';
 import { addFormattingOptions } from './helpers/text-editor.mjs';
-
-// Import migrations
-import {
-  fullMigration,
-  effectOverhaul,
-  strToCharOptions,
-  pathsOfJournaling, 
-  improvedListEntries,
-  v13Support  
-} from './helpers/migrations.mjs';
+import { fullMigration, migrationsReference } from './helpers/migrations.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -251,14 +242,7 @@ Hooks.once('ready', function () {
   registerWWTours();
 
   // Append data migration function to game.system.migrations so it can be used for manual migrations
-  game.system.migrations = {
-    fullMigration: fullMigration,
-    effectOverhaul: effectOverhaul,
-    strToCharOptions: strToCharOptions,
-    pathsOfJournaling: pathsOfJournaling,
-    improvedListEntries: improvedListEntries,
-    v13Support: v13Support
-  }
+  game.system.migrations = migrationsReference;
 
   // Check and run data migrations if needed
   fullMigration();

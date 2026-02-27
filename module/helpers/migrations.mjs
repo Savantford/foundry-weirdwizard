@@ -1,5 +1,15 @@
 import { i18n } from './utils.mjs';
 
+export const migrationsReference = {
+  fullMigration,
+  effectOverhaul,
+  strToCharOptions,
+  pathsOfJournaling,
+  improvedListEntries,
+  v13Support,
+  secrets
+}
+
 export function fullMigration(forced) {
   const lastMigration = game.settings.get('weirdwizard', 'lastMigrationVersion');
 
