@@ -175,7 +175,7 @@ export default class RollDamage extends FormApplication {
     if (this.isAttack && this.usedBonusDamage) exp += addDice(this.usedBonusDamage, exp);
     if (diceCount) exp += addDice(diceCount, exp);
     if (modCount) exp += (exp ? ' + ' : '') + modCount;
-    if (this.item?.system?.traits?.brutal) exp = exp.replace('d6', 'd6r1');
+    if (this.item?.system?.traits?.brutal) exp = exp.replaceAll('d6', 'd6r1');
     
     // Display final expression
     this.finalExp = exp;

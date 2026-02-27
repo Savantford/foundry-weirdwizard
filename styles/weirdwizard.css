@@ -2558,17 +2558,24 @@ prose-mirror .statbox {
   background: var(--background-color-shadow);
 }
 
+.statbox:not(.background) {
+  border: solid var(--purple-medium);
+  border-width: 1px 0;
+}
+
+.weirdwizard.actor .statbox:not(.background) {
+  border: none;
+}
+
 .statbox.background {
   background: var(--pink);
+  padding: 5px 0;
 }
 
 /* Statbox: Actors */
 .weirdwizard.actor .statbox {
   display: flex;
   flex-flow: column wrap;
-  text-align: left;
-  padding: 1px 0px;
-  border-radius: 2px;
 
   > :last-child {
     flex: 1;
@@ -2831,7 +2838,7 @@ prose-mirror .textbox {
 /* Text Box: Section Heading */
 .journal-entry-page h5.textbox-heading,
 .journal-entry-page .textbox h5 {
-  border: 1px solid var(--purple-dark);
+  border: solid var(--purple-dark);
   border-width: 1px 0;
   border-radius: 0;
   padding: 5px 10px;

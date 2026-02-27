@@ -437,9 +437,11 @@ export default class RollAttribute extends FormApplication {
         
         targetsDisplay += `<li><label><img class="target-icon" src="${t.img}" /> ${t.name}</label>`
 
-        if (boonsNo != 0) targetsDisplay += `<div class="target-boons">(${boonsNo} <img src="/systems/weirdwizard/assets/icons/${boonsIcon}.svg" data-tooltip="${boonsTip}"/>)</div>`;
+        if (t.againstNo) {
+          if (boonsNo != 0) targetsDisplay += `<div class="target-boons">(${boonsNo} <img src="/systems/weirdwizard/assets/icons/${boonsIcon}.svg" data-tooltip="${boonsTip}"/>)</div>`;
 
-        targetsDisplay += `<div class="target-against" data-tooltip="${againstLabel}">${t.againstNo} <img src="${againstIcon}" /></div></li>`;
+          targetsDisplay += `<div class="target-against" data-tooltip="${againstLabel}">${t.againstNo} <img src="${againstIcon}" /></div></li>`;
+        }
       });
 
       parent.querySelector('.boons-targets').innerHTML = targetsDisplay;
