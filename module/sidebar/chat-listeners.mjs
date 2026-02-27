@@ -12,10 +12,6 @@ import WWRoll from '../dice/roll.mjs';
 export function initChatListeners(html, message, context) {
   // Rolling for Instant Effects
   html.querySelectorAll('.chat-button[data-action*=roll]').forEach((el, i) => { el.addEventListener('click', _onInstantEffectRoll); });
-  html.querySelectorAll('.enricher-roll').forEach((el, i) => { el.addEventListener('click', _onInstantEffectRoll); });
-
-  // Attribute Call (Enricher)
-  html.querySelectorAll('.enricher-call').forEach((el, i) => { el.addEventListener('click', (ev) => { _onMultiChoice(ev, 'attributeCall') }); });
 
   // Effect Application Multi-Choice
   html.querySelectorAll('.chat-button[data-action*=apply]').forEach((el, i) => { el.addEventListener('click', (ev) => { _onMultiChoice(ev, 'applyEffect') }); });
@@ -32,7 +28,7 @@ export function initChatListeners(html, message, context) {
 /** 
  * Handle roll started from a chat button.
  */
-function _onInstantEffectRoll(event) {
+export function _onInstantEffectRoll(event) {
   event.preventDefault()
   const button = event.currentTarget;
   const dataset = Object.assign({}, button.dataset);
@@ -54,7 +50,7 @@ function _onInstantEffectRoll(event) {
   * Handle opening of a context menu from a chat button.
   * @param {HTMLElement} element     The element the menu opens on.
 */
-function _onMultiChoice(ev, purpose) {
+export function _onMultiChoice(ev, purpose) {
   
   const element = ev.currentTarget;
   const user = game.user;
@@ -329,8 +325,12 @@ function _onMessageCollapse(msg) {
  * @private
 */
 function _getActorFromOrigin(origin) {
-  // Case 1 - Origin is an Item
-  if (origin?.documentName === 'Item') return origin.parent || null; 
-  // Case 2 - Origin is an Actor
-  else return origin || null; 
+  switch (origin?.documentName) {
+    case 'Actor':
+      return origin;
+    case 'Item':
+      return origin.parent ?? null;
+    default:
+      return null;
+  }
 }

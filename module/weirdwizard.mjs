@@ -59,7 +59,6 @@ import registerSystemSettings from './helpers/system-settings.mjs'
 import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
 import { WWAfflictions } from './helpers/afflictions.mjs';
 import { expireFromTokens } from './helpers/effect-actions.mjs';
-import { initGlobalListeners } from './helpers/global-listeners.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
 import { Utils, handleWelcomeMessage } from './helpers/utils.mjs';
@@ -235,22 +234,20 @@ Hooks.once('init', function () {
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
 
-Hooks.once('ready', function () {
+Hooks.once('ready', function (app, html) {
   // Include steps that need to happen after Foundry has fully loaded here.
 
   // Register Tours
   registerWWTours();
 
-  // Append data migration function to game.system.migrations so it can be used for manual migrations
+  // Append data migration functions to game.system.migrations so tye can be used for manual forced migrations
   game.system.migrations = migrationsReference;
 
-  // Check and run data migrations if needed
+  // Check and run full data migration if needed
   fullMigration();
 
+  // Post a welcome message if needed
   handleWelcomeMessage();
-
-  // Initialize global listeners
-  initGlobalListeners();
 });
 
 /* -------------------------------------------- */

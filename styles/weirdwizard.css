@@ -5542,6 +5542,10 @@ form.quest-calendar {
   color: var(--body-text-color);
 }
 
+[enricher="weirdwizard.compendiumIndexLink"] {
+  width: 100%;
+}
+
 .enricher-index {
   --banner: url(../assets/artwork/banners/documentation.webp);
   display: inline-block;

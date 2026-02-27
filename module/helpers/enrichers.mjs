@@ -1,24 +1,38 @@
+import CompendiumIndex from '../apps/compendium-index.mjs';
+import { _onInstantEffectRoll, _onMultiChoice } from '../sidebar/chat-listeners.mjs';
 import { i18n } from './utils.mjs';
 
 // Add custom enrichers during init phase
 export default function addCustomEnrichers() {
   CONFIG.TextEditor.enrichers.push(
     {
+      id: 'weirdwizard.inlineAttributeCall',
+      replaceParent: true,
       pattern: /@\[(str|agi|int|wil|luck)(?:(\+[1-99]+?|\-[1-99]+?))?\]/gi,
-      enricher: inlineAttributeCallEnricher
+      enricher: inlineAttributeCallEnricher,
+      onRender: inlineAttributeCallCallback
     },
     {
+      id: 'weirdwizard.inlineRoll',
+      replaceParent: true,
       pattern: /@\[([1-99][^|]*?)(?:\|(d|h|hl|hr))?\]/gi,
-      enricher: inlineRollEnricher
+      enricher: inlineRollEnricher,
+      onRender: inlineRollCallback
     },
     {
+      id: 'weirdwizard.compendiumIndexLink',
+      replaceParent: true,
       pattern: /@index\[(?<config>[^\]]+)?]/gim,
-      enricher: compediumIndexEnricher
+      enricher: compediumIndexLinkEnricher,
+      onRender: compendiumIndexLinkCallback
     }
   );
 }
 
-/* Inline Attribute Call */
+/* -------------------------------------------- */
+/*  Inline Attribute Call                       */
+/* -------------------------------------------- */
+
 async function inlineAttributeCallEnricher (match, options) {
           
   const container = document.createElement("a");
@@ -51,7 +65,20 @@ async function inlineAttributeCallEnricher (match, options) {
   return container;
 }
 
-/* Inline Roll */
+/* -------------------------------------------- */
+
+/**
+  * Handle opening of a context menu from a chat button.
+  * @param {HTMLElement} el    The element the menu opens on.
+*/
+function inlineAttributeCallCallback(enrichedContent, purpose='applyEffect') {
+  enrichedContent.querySelector('a').addEventListener('click', (ev) => { _onMultiChoice(ev, 'attributeCall') });
+}
+
+/* -------------------------------------------- */
+/*  Inline Roll                                 */
+/* -------------------------------------------- */
+
 async function inlineRollEnricher (match, options) {
   const exp = match[1];
 
@@ -103,8 +130,17 @@ async function inlineRollEnricher (match, options) {
   return container;
 }
 
-/* Compendium Index Link */
-async function compediumIndexEnricher (match, options) {
+/* -------------------------------------------- */
+
+function inlineRollCallback(enrichedContent) {
+  enrichedContent.querySelector('a').addEventListener('click', _onInstantEffectRoll);
+}
+
+/* -------------------------------------------- */
+/*  Compendium Index Link                       */
+/* -------------------------------------------- */
+
+async function compediumIndexLinkEnricher (match, options) {
   const config = match.groups.config;
   const pairRegex = /(\w+)(?:=("(?:[^"]*)"|\w+))?/g;
   const settings = {};
@@ -141,6 +177,32 @@ async function compediumIndexEnricher (match, options) {
   }
 
   return container;
+}
+
+/** 
+ * Handle Compendium Index opened by an enricher.
+ */
+function compendiumIndexLinkCallback(enrichedContent) {
+  function _onClickIndexEnricher(event) {
+    event.preventDefault()
+
+    const button = event.currentTarget;
+    const dataset = Object.assign({}, button.dataset);
+
+    // Destructure dataset into needed variables
+    const { preset, label, tooltip, view, ...rawFilters } = dataset;
+
+    // Assign filter
+    const filters = {};
+    for (const [key, value] of Object.entries(rawFilters)) {
+      filters[key] = value.split(',');
+    }
+    
+    // Open app with the options
+    new CompendiumIndex({ preset, view, filters }).render(true);
+  }
+
+  enrichedContent.querySelector('a').addEventListener('click', _onClickIndexEnricher);
 }
 
 /* -------------------------------------------- */

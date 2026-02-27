@@ -281,7 +281,7 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
         else if (combat.onStandby && !acted && entry !== combat.combatant) turn.controlTooltip = 'WW.Combat.StartTurn.Title';
 
         // Already acted; is a Character: Toggle between regular turn and taking the initiative
-        else if (acted && entry.actor.type === 'character') {
+        else if (acted && entry.actor?.type === 'character') {
           if (await entry.takingInit) turn.controlTooltip = 'WW.Combat.Initiative.ClickTip'
           else turn.controlTooltip = 'WW.Combat.RegularTurn.ClickTip';
         }
