@@ -7,7 +7,7 @@
         {{#if (gt listEntries.descriptors.length 0)}}
         <ol class="list-entries">
             {{#each listEntries.descriptors as |entry|}}
-                {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="descriptors" loc="Descriptor"}}
+                {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="descriptors" loc="Descriptor" isEditMode=@root.isEditMode }}
             {{/each}}
         </ol>
         {{/if}}
@@ -41,7 +41,7 @@
                     <label>{{localize "WW.ListEntry.Language.Label"}}:</label>
 
                     {{#each listEntries.languages as |entry|}}
-                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="languages" loc="Language"}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="languages" loc="Language" isEditMode=@root.isEditMode }}
                     {{else}}
                         <span>—</span>
                     {{/each}}
@@ -55,7 +55,7 @@
                     <label>{{localize "WW.ListEntry.Sense.Label"}}:</label>
                 
                     {{#each listEntries.senses as |entry key|}}
-                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="senses" loc="Sense"}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="senses" loc="Sense" isEditMode=@root.isEditMode }}
                     {{else}}
                         <span>—</span>
                     {{/each}}
@@ -69,7 +69,7 @@
                     <label>{{localize "WW.ListEntry.Immunity.Label"}}:</label>
                 
                     {{#each listEntries.immunities as |entry key|}}
-                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="immunities" loc="Immunity"}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="immunities" loc="Immunity" isEditMode=@root.isEditMode }}
                     {{else}}
                         <span>—</span>
                     {{/each}}

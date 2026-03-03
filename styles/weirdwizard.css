@@ -706,6 +706,7 @@ body.theme-dark.application.weirdwizard .window-content {
 .journal-entry-page h3 {
   font-size: var(--font-size-20);
   font-family: var(--font-capitalized);
+  letter-spacing: 0.05em;
   text-transform: none;
   border-bottom: 1px solid black;
   padding-bottom: 2px;
@@ -2532,6 +2533,8 @@ hr.bug {
 /*  Statboxes                                   */
 /* -------------------------------------------- */
 .statbox {
+  margin: 0.5rem 0;
+
   h4:first-child,
   h5:first-child,
   h6:first-child {
@@ -2816,7 +2819,7 @@ prose-mirror .statbox {
   text-align: justify;
 }
 
-.textbox > *:not(img):not(h5) {
+.textbox > *:not(img):not(h5):not(table) {
   margin-left: 10%;
   margin-right: 10%;
 }
@@ -3697,6 +3700,10 @@ input[type="checkbox"].checkbox-uses {
 
 /* Add paper bg to text editor */
 .journal-entry-page.text {
+  strong {
+    color: var(--purple-dark);
+  }
+
   .editor-content { /* Add paper bg to text editor */
     color: var(--body-text-color);
     background: var(--paper-bg);

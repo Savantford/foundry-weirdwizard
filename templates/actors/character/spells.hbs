@@ -9,7 +9,7 @@
             <li class="list-entry draggable">
                 <a data-action="journalView" data-page-uuid="{{tradition.uuid}}" data-tooltip="{{tradition.desc}}"><img src="{{tradition.src}}" />{{tradition.name}}</a>
                 
-                {{#if isEditMode}}
+                {{#if @root.isEditMode}}
                 <span class="edit-buttons">
                     <a class="array-button" data-action="journalRemove" data-page-uuid="{{tradition.uuid}}" data-option-type="traditions"
                         data-tooltip="WW.Tradition.Remove"><i class="fa-solid fa-trash"></i>
@@ -34,7 +34,7 @@
             <label>Legacy, Delete:</label>
         
             {{#each listEntries.traditions as |entry|}}
-                {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="traditions" loc="Tradition"}}
+                {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="traditions" loc="Tradition" isEditMode=@root.isEditMode }}
             {{/each}}
         
         )</ol>
