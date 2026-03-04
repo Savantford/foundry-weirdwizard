@@ -23,7 +23,7 @@ export default class NpcModel extends BaseActorModel {
     schema.stats.fields.health.fields.normal = makeIntField(10);
     schema.stats.fields.health.fields.current = makeIntField(10);
 
-    // Add Character Details
+    // Add details
     schema.details = new fields.SchemaField({
       individualTraits: makeStrField(),
     });

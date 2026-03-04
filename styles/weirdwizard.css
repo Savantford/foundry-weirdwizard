@@ -2384,24 +2384,24 @@ hr.bug {
 }
 
 /* Attack Rider */
-.weirdwizard .attack-rider {
+.statbox .attack-rider {
   text-align: left;
 }
 
-.weirdwizard.creature .attack-rider {
+.statbox .attack-rider {
   margin-left: 5px;
 }
 
-.weirdwizard .attack-rider > label {
+.statbox .attack-rider > label {
   font-weight: bold;
   color: var(--purple-dark);
 }
 
-.weirdwizard .attack-rider > p:first-of-type {
+.statbox .attack-rider > p:first-of-type {
   display: inline;
 }
 
-.weirdwizard .attack-rider > p:last-of-type {
+.statbox .attack-rider > p:last-of-type {
   margin-bottom: 0;
 }
 
@@ -2541,14 +2541,16 @@ hr.bug {
     margin-top: 0 !important;
   }
 
-  > *:not(.statbox-section),
+  > *:not(.statbox-section):not(.statbox-header),
   .statbox-section > * {
     padding-left: 5px !important;
     padding-right: 5px !important;
     font-size: var(--font-size-13);
   }
 
-  > p {
+  > p,
+  ol,
+  ul {
     margin: 0.25rem 0;
   }
 
@@ -2563,7 +2565,7 @@ prose-mirror .statbox {
 
 .statbox:not(.background) {
   border: solid var(--purple-medium);
-  border-width: 1px 0;
+  border-width: 0 0 1px;
 }
 
 .weirdwizard.actor .statbox:not(.background) {
@@ -2650,7 +2652,28 @@ prose-mirror .statbox {
 }
 
 /* Statbox: Header */
-.weirdwizard .statbox-header {
+.statbox-header {
+  position: relative;
+
+  .statbox-image {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--paper-bg);
+    border: 1px solid var(--purple-dark);
+  }
+
+  .content-link {
+    color: inherit;
+    line-height: inherit;
+    
+    i {
+      display: none;
+    }
+  }
+  
   .statbox-level {
     float: right;
     display: flex;
@@ -3187,24 +3210,29 @@ input[type="checkbox"].checkbox-uses {
   text-align: center;
 }
 
-.weirdwizard .described-list .item {
+.described-list .item {
   padding: 0;
   margin-bottom: 0;
   border-bottom: none;
   font-size: inherit;
 }
 
-.weirdwizard .described-list li > * {
+.described-list li > * {
   padding: 0;
 }
 
-.weirdwizard .described-list li > label > img {
+.described-list li > p:first-of-type,
+.described-list li > p:first-of-type > * {
+  display: inline;
+}
+
+.described-list li > label > img {
   height: 1lh;
   display: inline;
   vertical-align: text-top;
 }
 
-.weirdwizard .described-list .item:not(:last-child) {
+.described-list .item:not(:last-child) {
   padding-bottom: 2px;
 }
 
@@ -3231,13 +3259,13 @@ input[type="checkbox"].checkbox-uses {
   margin-right: 5px;
 }
 
-.weirdwizard .described-list>.item,
+.described-list>.item,
 .weirdwizard .list-entries {
   padding-left: 1em;
   text-indent: -1em;
 }
 
-.weirdwizard .described-list>.item ul>li {
+.described-list>.item ul>li {
   text-indent: 0;
 }
 
@@ -3281,7 +3309,7 @@ input[type="checkbox"].checkbox-uses {
   font-weight: bold;
 }
 
-.weirdwizard .described-list,
+.described-list,
 .weirdwizard .compact-list {
   list-style: none;
   padding: 2px 0;
@@ -3317,7 +3345,7 @@ input[type="checkbox"].checkbox-uses {
   text-shadow: var(--text-shadow-icon-purple);
 }
 
-.weirdwizard .described-list .item-roll,
+.described-list .item-roll,
 .weirdwizard .summary-list .item-roll,
 .weirdwizard .compact-list .item-roll {
   font-weight: bold;

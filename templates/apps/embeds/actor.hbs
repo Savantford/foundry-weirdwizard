@@ -1,43 +1,165 @@
-<details class="document-card">
+<section class="document-card">
 
-    {{!-- Card Header --}}
-    <summary class="card-header">
+    {{#if text}}
+    <h5>{{label}}</h5>
 
-        <div class="card-banner">
-            <img src="{{img}}">
-        </div>
-
-        <div class="title-wrapper">
-            <div class="card-title">{{label}}</div>
-            <div class="card-subtitle">{{subtitle}}</div>
-        </div>
-
-    </summary>
-
-    {{!-- Main Card Body --}}
-    <div class="card-body">
-
-        <hr class="spear" />
-
-        {{!-- Description --}}
-        <div class="card-text">
-            {{{text}}}
-        </div>
-
-        {{!-- Bug Separator --}}
-        <hr class="bug">
-
+    {{!-- Description --}}
+    <div class="card-text">
+        {{{text}}}
     </div>
-
-    {{!-- Outer Footer ---}}
-    {{#if usageFooter}}
-    <footer class="tooltip-footer">
-        <p>{{{localize "WW.Item.Perform.Left"}}}</p>
-        <p>{{{localize "WW.Item.Perform.Shift"}}}</p>
-        <p>{{{localize "WW.Item.Perform.Ctrl"}}}</p>
-        <p>{{{localize "WW.Item.Perform.Alt"}}}</p>
-        <p>{{{localize "WW.Item.Perform.Right"}}}</p>
-    </footer>
     {{/if}}
 
-</details>
+    <section class="statbox">
+        <div class="statbox-header">
+            {{!-- Name --}}
+            <h4>{{{ docLink }}}</h4>
+
+            {{!-- Descriptors --}}
+            <h5>
+            {{#if listEntries.descriptors}}{{ listEntries.descriptors }}{{/if}}
+            {{!-- Individual Traits --}}
+            {{#if actor.system.details.individualTraits}}
+            {{#if listEntries.descriptors}}<span>•</span>{{/if}}
+            <span class="individual-traits">{{ actor.system.details.individualTraits }}</span>
+            {{/if}} · {{localize "WW.Stats.Difficulty"}} {{ system.stats.difficulty }}</h5>
+
+            {{!-- Image --}}
+            <img class="statbox-image" src="{{ img }}">
+        </div>
+
+        {{!-- Basic Stats --}}
+        <p>
+            <strong>{{localize "WW.Defense.Label"}}:</strong>
+            {{ system.stats.defense.total }}{{#if items.equipment.length}} ({{#each items.equipment as |item id|}}<li class="item"><strong>{{ name }}:</strong> {{{ desc }}}</li>{{/each}}){{/if}},
+            <strong>{{localize "WW.Health.Label"}}:</strong>
+            {{ system.stats.health.normal }}
+        </p>
+
+        <p>
+            <strong>{{localize "WW.Attributes.Strength"}}:</strong> {{ system.attributes.str.value }} ({{ system.attributes.str.mod }}),
+            <strong>{{localize "WW.Attributes.Agility"}}:</strong> {{ system.attributes.str.value }} ({{ system.attributes.str.mod }})
+        </p>
+
+        <p>
+            <strong>{{localize "WW.Attributes.Intellect"}}:</strong> {{ system.attributes.str.value }} ({{ system.attributes.str.mod }}),
+            <strong>{{localize "WW.Attributes.Will"}}:</strong> {{ system.attributes.str.value }} ({{ system.attributes.str.mod }})
+        </p>
+
+        <p>
+            <strong>{{localize "WW.Stats.Size"}}:</strong> {{ system.stats.size }},
+            <strong>{{localize "WW.Stats.Speed"}}:</strong> {{ system.stats.speed.normal }} {{#if listEntries.movementTraits}}({{ listEntries.movementTraits }}){{/if}}
+        </p>
+
+        {{!-- Languages --}}
+        {{#if listEntries.languages}}
+        <ol class="stat-inline list-entries">
+            <strong>{{localize "WW.ListEntry.Language.Label"}}:</strong>
+        
+            {{ listEntries.languages }}
+        </ol>
+        {{/if}}
+        
+        {{!-- Senses --}}
+        {{#if listEntries.senses}}
+        <ol class="stat-inline list-entries">
+            <strong>{{localize "WW.ListEntry.Sense.Label"}}:</strong>
+        
+            {{ listEntries.senses }}
+        </ol>
+        {{/if}}
+        
+        {{!-- Immune --}}
+        {{#if listEntries.immunities}}
+        <ol class="stat-inline list-entries">
+            <strong>{{localize "WW.ListEntry.Immunity.Label"}}:</strong>
+        
+            {{ listEntries.immunities }}
+        </ol>
+        {{/if}}
+
+        {{!-- Traits & Talents --}}
+        {{#if items.talent.length}}
+        <ol class="described-list">
+            {{#each items.talent as |item id|}}
+                <li class="item"><strong>{{ name }}:</strong> {{{ desc }}}</li>
+            {{/each}}
+        </ol>
+        {{/if}}
+        
+        {{!-- Actions Section --}}
+        {{#if (or items.weapon.length items.action.length items.spell.length)}}
+        <div class="statbox-section actions">
+        
+            {{!-- Actions Header --}}
+            <h6>{{localize "WW.Talents.Actions"}}</h6>
+        
+            {{!-- Attacks --}}
+            {{#if items.weapon.length}}
+            <ol class="described-list attacks-list">
+                {{#each items.weapon as |item id|}}
+                    <li class="item">
+                        <strong>{{ name }}:</strong> {{{ desc }}}
+
+                        {{#if attackRider.name}}
+                        <div class="attack-rider">
+                            <strong>{{ attackRider.name }}:</strong> {{{ attackRider.value }}}
+                        </div>
+                        {{/if}}
+                    </li>
+                {{/each}}
+            </ol>
+            {{/if}}
+        
+            {{!-- Special Actions --}}
+            {{#if items.action.length}}
+            <ol class="described-list actions-list">
+                {{#each items.action as |item id|}}
+                    <li class="item"><strong>{{ name }}:</strong> {{{ desc }}}</li>
+                {{/each}}
+            </ol>
+            {{/if}}
+        
+            {{!-- Spells --}}
+            {{#if items.spell.length}}
+            <ol class="described-list spells-list">
+                {{#each items.spell as |item id|}}
+                    <li class="item"><strong>{{ name }}:</strong> {{{ desc }}}</li>
+                {{/each}}
+            </ol>
+            {{/if}}
+        
+        </div>
+        {{/if}}
+        
+        {{!-- Reactions Section --}}
+        {{#if items.reaction.length}}
+        <div class="statbox-section reactions">
+        
+            <h6>{{localize "WW.Talents.Reactions"}}</h6>
+        
+            <ol class="described-list">
+                {{#each items.reaction as |item id|}}
+                    <li class="item"><strong>{{ name }}:</strong> {{{ desc }}}</li>
+                {{/each}}
+            </ol>
+        
+        </div>
+        {{/if}}
+        
+        {{!-- End of Round Section --}}
+        {{#if items.end.length}}
+        <div class="statbox-section ends">
+            <h6>{{localize "WW.Talents.Ends"}}</h6>
+        
+            <ol class="described-list">
+                {{#each items.end as |item id|}}
+                    <li class="item"><strong>{{ name }}:</strong> {{{ desc }}}</li>
+                {{/each}}
+            </ol>
+        
+        </div>
+        {{/if}}
+
+    </section>
+
+</section>
