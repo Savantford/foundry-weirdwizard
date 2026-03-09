@@ -10,7 +10,7 @@ body {
   --placeholder-text-color: #777777;
   --gray: #BCBEC0;
   --pink: #DBD3DC;
-  --pink-rbg: 219, 211, 220;
+  --pink-medium: #D2C8D3;
   --pink-dark: #C8BDCA;
 
   --purple-dark: #49244F;
@@ -72,9 +72,13 @@ body.theme-light,
 body.theme-dark,
 .themed.theme-light,
 .themed.theme-dark {
+  --table-header-bg-color: var(--purple-dark);
+  --table-header-border-color: transparent;
+  --table-header-text-color: white;
+
   --table-background-color: transparent;
-  --table-row-color-odd: var(--pink);
-  --table-row-color-even: transparent;
+  --table-row-color-odd: transparent;
+  --table-row-color-even: var(--pink-medium);
 }
 
 /* -------------------------------------------- */
@@ -554,6 +558,37 @@ body.theme-dark.application.weirdwizard .window-content {
   -webkit-backdrop-filter: none;
 }
 
+/* Table Style */
+.sheet:not(.roll-table-sheet) table {
+  th,
+  td {
+    padding: 0.25rem 0.5rem;
+  }
+
+  td p:first-of-type {
+    margin-top: 0px;
+  }
+
+  td p:last-of-type {
+    margin-bottom: 0px;
+  }
+
+  border-bottom: 1px solid var(--purple-medium);
+}
+
+.sheet table:not(:has(thead)) {
+  --table-row-color-odd: var(--pink-medium);
+  --table-row-color-even: transparent;
+
+  tr:first-child,
+  tr:first-child * {
+    background: var(--table-header-bg-color);
+    border: 1px solid var(--table-header-border-color);
+    color: var(--table-header-text-color);
+    font-weight: bold;
+  }
+}
+
 /* Styles limited to weirdwizard sheets */
 .application.weirdwizard .controls-dropdown {
   z-index: 2;
@@ -659,16 +694,16 @@ body.theme-dark.application.weirdwizard .window-content {
   margin: 10px 0 5px 0;
 }
 
-.weirdwizard .window-content h1:first-of-type,
-.weirdwizard .window-content h2:first-of-type,
-.weirdwizard .window-content h3:first-of-type,
-.weirdwizard .window-content h4:first-of-type,
-.weirdwizard .window-content h5:first-of-type,
-.journal-entry-page h1:first-of-type:not(.window-title),
-.journal-entry-page h2:first-of-type,
-.journal-entry-page h3:first-of-type,
-.journal-entry-page h4:not(.window-title):first-of-type,
-.journal-entry-page h5:first-of-type {
+.weirdwizard .window-content h1:first-child,
+.weirdwizard .window-content h2:first-child,
+.weirdwizard .window-content h3:first-child,
+.weirdwizard .window-content h4:first-child,
+.weirdwizard .window-content h5:first-child,
+.journal-entry-page h1:first-child:not(.window-title),
+.journal-entry-page h2:first-child,
+.journal-entry-page h3:first-child,
+.journal-entry-page h4:not(.window-title):first-child,
+.journal-entry-page h5:first-child {
   margin-top: 0px;
 }
 
@@ -1941,7 +1976,7 @@ body.theme-dark.application.weirdwizard .window-content {
     transition: opacity 100ms ease-in-out;
     opacity: 0;
 
-    >label {
+    > label {
       top: 0;
       bottom: 0;
       align-self: center;
@@ -2057,7 +2092,7 @@ body.theme-dark.application.weirdwizard .window-content {
 
 /* Health Indicator: Injured */
 .weirdwizard.injured .health-indicator {
-  background: rgba(var(--pink-rbg), 0.7);
+  background: color-mix(in srgb, var(--pink) 70%, transparent);
 }
 
 .weirdwizard.injured .health-indicator::before {
@@ -2842,7 +2877,7 @@ prose-mirror .statbox {
   text-align: justify;
 }
 
-.textbox > *:not(img):not(h5):not(table) {
+.textbox > *:not(img):not(h5):not(table):not(document-embed) {
   margin-left: 10%;
   margin-right: 10%;
 }
@@ -3656,7 +3691,7 @@ input[type="checkbox"].checkbox-uses {
     flex: 1;
     min-width: 200px;
 
-    .wealth-table>* {
+    .wealth-table > * {
       display: flex;
       gap: 1em;
 
@@ -3739,7 +3774,6 @@ input[type="checkbox"].checkbox-uses {
     border-radius: 3px;
   }
 }
-
 
 /* -------------------------------------------- */
 /*  Character Options                           */
@@ -4234,11 +4268,11 @@ input[type="checkbox"].checkbox-uses {
   transition: opacity 10ms;
 }
 
-#tooltip:not(.tour)>p:first-child {
+#tooltip:not(.tour) > p:first-child {
   margin-top: 0;
 }
 
-#tooltip:not(.tour)>p:last-child {
+#tooltip:not(.tour) > p:last-child {
   margin-bottom: 0;
 }
 
@@ -4973,6 +5007,10 @@ details.document-card .card-header:hover::after {
       border-image-outset: 0 13px;
       color: white;
       filter: drop-shadow(0 0 1px black);
+
+      .inline-control {
+        color: white;
+      }
     }
 
     tbody {
@@ -5005,6 +5043,21 @@ details.document-card .card-header:hover::after {
     button:hover {
       background: var(--button-hover-background-color);
     }
+  }
+}
+
+/* Embedded Rollable Table */
+table.roll-table-embed {
+  tbody > tr > td > h4 {
+    all: inherit !important;
+    padding: 0 !important;
+  }
+}
+
+.journal-entry-page figure {
+  margin: 0;
+  figcaption {
+    margin: 0;
   }
 }
 
