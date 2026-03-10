@@ -1141,24 +1141,19 @@ export default class WWCreatureSheet extends WWActorSheet {
       li = $(button);
     }
 
+    // Fetch elements
+    const item = this.actor.items.get(dataset.itemId);
     const content = li.parent().find(`[data-container-id=${dataset.itemId}]`);
-    const collapseButton = li.parent().find(`.item-collapse[data-item-id=${dataset.itemId}]`)[0];
-    
-    // Fetch collapsed elements
-    const collapsed = li.hasClass('collapsed');
-    const icon = collapseButton.querySelector('i');
+    const collapsed = item.containerCollapsed ?? false;
+    content[0].classList.toggle('collapsed', collapsed)
 
     // Toggle collapsed states
-    icon.classList.toggle('fa-square-caret-up', collapsed);
-    icon.classList.toggle('fa-square-caret-down', !collapsed);
-    li[0].classList.toggle('collapsed');
-
-    if (collapsed) {
-      collapseButton.setAttribute('data-tooltip', 'WW.Container.Collapse');      
+    if (collapsed) {  
       content.slideDown(300);
+      item.containerCollapsed = false;
     } else {
-      collapseButton.setAttribute('data-tooltip', 'WW.Container.Expand');
       content.slideUp(300);
+      item.containerCollapsed = true;
     }
     
   }
@@ -1474,7 +1469,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     }
 
     // Perform the sort only if 
-    const sortUpdates = foundry.utils.SortingHelpers.performIntegerSort(source, {target, siblings});
+    const sortUpdates = foundry.utils.performIntegerSort(source, {target, siblings});
     
     const updateData = sortUpdates.map(u => {
       const update = u.update;
@@ -1583,7 +1578,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     }
 
     // Perform the sort
-    const sortUpdates = foundry.utils.SortingHelpers.performIntegerSort(source, {target, siblings});
+    const sortUpdates = foundry.utils.performIntegerSort(source, {target, siblings});
     const updateData = sortUpdates.map(u => {
       const update = u.update;
       update._id = u.target._id;

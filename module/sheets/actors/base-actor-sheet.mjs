@@ -209,6 +209,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
             // Append to list
             list = list.concat(list ? ', ' + x.name : x.name);
           })
+
+          held.forEach(updateUses);
           
           i.heldItems = held.sort((a, b) => a.sort > b.sort ? 1 : -1);
           i.heldList = list;

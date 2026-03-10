@@ -3595,16 +3595,20 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .weirdwizard .container-content {
+  display: block;
   background: rgba(0, 0, 0, 0.05);
   border: 2px solid var(--purple-dark);
   border-top: none;
-  display: none;
   margin: 0 3px 3px 3px;
-  padding: 3px 2px 0;
+  padding-top: 2px;
+
+  .item {
+    padding: 2px;
+  }
 }
 
-.weirdwizard .item-list.container-content .item {
-  padding: 0;
+.weirdwizard .container-content.collapsed {
+  display: none;
 }
 
 .weirdwizard .container .item-holding {

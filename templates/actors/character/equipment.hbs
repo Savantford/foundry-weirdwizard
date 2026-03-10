@@ -154,9 +154,16 @@
 
                             {{!-- Container Collapse --}}
                             {{#if (eq item.system.subtype 'container')}}
-                            <a class="item-collapse" data-action="containerCollapse" data-item-id="{{item._id}}" data-tooltip="WW.Container.Expand">
-                                <i class="fa-solid fa-square-caret-down"></i>
-                            </a>
+                                {{log item.containerCollapsed}}
+                                {{#if item.containerCollapsed}}
+                                    <a class="item-collapse" data-action="containerCollapse" data-item-id="{{item._id}}" data-tooltip="WW.Container.Expand">
+                                        <i class="fa-solid fa-square-caret-down"></i>
+                                    </a>
+                                {{else}}
+                                    <a class="item-collapse" data-action="containerCollapse" data-item-id="{{item._id}}" data-tooltip="WW.Container.Collapse">
+                                        <i class="fa-solid fa-square-caret-right"></i>
+                                    </a>
+                                {{/if}}
                             {{/if}}
 
                         </span>
@@ -217,7 +224,7 @@
             
             {{!-- Container Held Item List --}}
             {{#if item.filled}}
-            <ol class="item-list container-content" data-container-id="{{item._id}}">
+            <ol class="item-list container-content{{#if item.containerCollapsed}} collapsed{{/if}}" data-container-id="{{item._id}}">
                 {{#each item.heldItems as |heldItem heldId|}}
                 <li class="item draggable flexrow" data-item-id="{{heldItem._id}}">
 
@@ -249,7 +256,7 @@
                         {{#if heldItem.uses}}
                         <span class="pip-box">
                             {{#each heldItem.uses as |pip id|}}
-                            <a class="item-pip" data-item-id="{{heldItem._id}}"
+                            <a class="item-pip" data-action="itemUpdateUses" data-item-id="{{heldItem._id}}"
                                 data-tooltip="{{#if (eq pip "fa-regular fa-circle")}}{{localize "WW.Item.Uses.EquipmentSpend"}}{{else}}{{localize "WW.Item.Uses.EquipmentRecover"}}{{/if}}">
                             <i class="{{pip}}"></i></a>
                             {{/each}}
