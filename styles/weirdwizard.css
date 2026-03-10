@@ -752,10 +752,8 @@ body.theme-dark.application.weirdwizard .window-content {
   font-size: var(--font-size-20);
   font-variant-caps: small-caps;
   letter-spacing: 0.05em;
-  text-transform: none;
   border-bottom: 1px solid black;
   padding-bottom: 2px;
-  
 }
 
 /* Heading 4 */
@@ -805,15 +803,16 @@ body.theme-dark.application.weirdwizard .window-content {
 .weirdwizard .window-content .statbox h5.descriptors,
 .journal-entry-page h5.statbox-heading {
   color: var(--purple-dark);
+  font-variant-caps: small-caps;
+  font-weight: 700;
+  font-size: var(--font-size-15);
+  letter-spacing: 0.05em;
+  text-align: left;
   background: var(--pink);
   box-shadow: 0 0 1px 0 var(--purple-medium);
   border: none;
   border-radius: 0;
   padding: 2px 5px;
-  font-variant-caps: small-caps;
-  font-size: var(--font-size-15);
-  letter-spacing: 0.05em;
-  text-transform: none;
 }
 
 /* Heading 5: Descriptors and Invividual Traits */
@@ -863,16 +862,14 @@ body.theme-dark.application.weirdwizard .window-content {
 .weirdwizard .window-content .statbox h6,
 .journal-entry-page .statbox h6,
 .journal-entry-page h6.statbox-heading {
+  color: var(--body-text-color);
+  font-size: var(--font-size-14);
+  font-variant-caps: small-caps;
+  letter-spacing: normal;
   background: var(--gray);
   border: none;
   margin-top: 5px;
   padding: 1px 5px;
-  color: var(--body-text-color);
-  font-size: var(--font-size-14);
-  font-variant-caps: small-caps;
-  font-weight: normal;
-  letter-spacing: normal;
-  text-align: left;
 }
 
 .sheet.journal-entry .journal-entry-content {
@@ -1157,11 +1154,13 @@ body.theme-dark.application.weirdwizard .window-content {
     }
 
     .add-buttons {
+      flex: 0;
       display: inline-flex;
       align-items: center;
       flex-wrap: wrap;
       gap: 0 10px;
       margin-left: auto;
+      margin-right: 3px;
       font-size: var(--font-size-12);
     }
   }
@@ -2581,8 +2580,11 @@ hr.bug {
 /* -------------------------------------------- */
 /*  Statboxes                                   */
 /* -------------------------------------------- */
+
 .statbox {
   margin: 0.5rem 0;
+  font-family: var(--ww-font-sans);
+  font-weight: 400;
 
   h4:first-child,
   h5:first-child,
@@ -2601,6 +2603,10 @@ hr.bug {
   ol,
   ul {
     margin: 0.25rem 0;
+  }
+
+  p {
+    font-weight: 400;
   }
 
   strong {
@@ -2889,7 +2895,13 @@ prose-mirror .statbox {
 
 /* Text Box */
 .textbox {
+  font-family: var(--ww-font-sans);
+  font-weight: 400;
   text-align: justify;
+
+  p {
+    font-weight: 400;
+  }
 }
 
 .textbox > *:not(img):not(h5):not(table):not(document-embed) {
@@ -2992,12 +3004,13 @@ prose-mirror .textbox {
 /* Item List Table */
 .weirdwizard .item-list {
   list-style: none;
-  /*overflow-y: auto; < breaking tooltips */
   scrollbar-width: thin;
   padding: 0px;
   margin: 2px 0;
   border: 1px solid var(--purple-dark);
   border-top: none;
+  font-family: var(--ww-font-sans);
+  font-weight: 400;
 
   .item {
     transition: all 1s;

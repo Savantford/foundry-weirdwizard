@@ -209,8 +209,8 @@ export default function WWDocumentMixin(Base) {
           // Prepare subtitle
           switch (this.type) {
             case 'equipment':
-              console.log(this.system.subtype)
-              context.subtitle = `${i18n(CONFIG.WW.EQUIPMENT_SUBTYPES[this.system.subtype])} • ${i18n(CONFIG.WW.WEAPON_GRIPS[this.system.grip])}`;
+              context.subtitle = i18n(CONFIG.WW.EQUIPMENT_SUBTYPES[this.system.subtype]);
+              if (this.system.subtype === 'weapon') context.subtitle += ` • ${i18n(CONFIG.WW.WEAPON_GRIPS[this.system.grip])}`;
             break;
 
             case 'talent':
