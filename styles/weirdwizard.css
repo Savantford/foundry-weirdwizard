@@ -5626,7 +5626,7 @@ p {
     position: absolute;
     line-height: inherit;
     color: var(--body-text-color);
-    font-family: var(--ww-font-fancy);
+    font-family: var(--ww-font-body);
     letter-spacing: 0.05em;
     padding: 30px 70px;
     background: url(../assets/ui/ribbons/pause.webp) no-repeat center;
