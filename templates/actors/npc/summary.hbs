@@ -78,11 +78,13 @@
                 {{/if}}
 
                 {{!-- Traits or Talents --}}
+                {{#if talents.length}}
                 <ol class="described-list">
                     {{#each talents as |item id|}}
                         {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
                     {{/each}}
                 </ol>
+                {{/if}}
 
                 {{!-- Equipment --}}
                 {{#if equipment.length}}

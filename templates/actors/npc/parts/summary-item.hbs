@@ -5,7 +5,7 @@
         data-tooltip="{{item.tooltip}}">{{item.name}}</label>
     
     {{!-- Description --}}
-    {{#if item.system.description}}
+    {{#if (and item.system.description (ne item.type 'equipment'))}}
     <span class="item-description">{{{ item.system.descriptionEnriched }}}</span>
     {{/if}}
 
