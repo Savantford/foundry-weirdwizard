@@ -458,8 +458,7 @@
 "WW.Container.Capacity": "Capacity",
 "WW.Container.CapacityHint": "The maximum amount of items this container can hold.",
 "WW.Container.FilledHint": "Container is holding {filled} items. Maximum capacity is {capacity}.",
-"WW.Container.Collapse": "Click to hide container content.",
-"WW.Container.Expand": "Click to show container content.",
+"WW.Container.Toggle": "Click to show or hide container content.",
 
 "WW.Armor.Label": "Armor",
 "WW.Armor.Type": "Type",

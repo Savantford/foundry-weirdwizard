@@ -1,4 +1,4 @@
-import { escape, i18n, plusify } from '../../helpers/utils.mjs';
+import { escape, i18n, plusify, slideDown, slideUp } from '../../helpers/utils.mjs';
 import { diceTotalHtml } from '../../sidebar/chat-html-templates.mjs';
 import { mapRange } from '../../canvas/canvas-functions.mjs';
 import MultiChoice from '../../apps/multi-choice.mjs';
@@ -381,7 +381,7 @@ export default class WWCreatureSheet extends WWActorSheet {
    */
   async _onRender(context, options) {
     await super._onRender(context, options);
-
+    console.log('rendering')
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
 
@@ -1048,7 +1048,9 @@ export default class WWCreatureSheet extends WWActorSheet {
     
   }
 
-  // Item Scroll: Send item description to chat when clicked
+  /* -------------------------------------------- */
+
+  /* Send item description to chat when clicked */
   static #onItemScroll(event, button) {
     event.preventDefault();
     event.stopPropagation();
@@ -1058,6 +1060,8 @@ export default class WWCreatureSheet extends WWActorSheet {
 
     this._onItemScroll(item);
   }
+
+  /* -------------------------------------------- */
   
   _onItemScroll(item) {
     ChatMessage.create({
@@ -1071,7 +1075,9 @@ export default class WWCreatureSheet extends WWActorSheet {
     })
   }
 
-  // Set uses pips to update the value when clicked
+  /* -------------------------------------------- */
+
+  /* Set uses pips to update the value when clicked */
   static #onItemUpdateUses(event, button) {
     event.preventDefault();
     event.stopPropagation();
@@ -1085,6 +1091,8 @@ export default class WWCreatureSheet extends WWActorSheet {
     }
   }
 
+  /* -------------------------------------------- */
+
   static #onItemToggleEffects(event, button) {
     event.preventDefault();
     event.stopPropagation();
@@ -1095,6 +1103,8 @@ export default class WWCreatureSheet extends WWActorSheet {
     item.update({ "system.active": !item.system.active });
   }
 
+  /* -------------------------------------------- */
+
   static #onItemToggleReloaded(event, button) {
     event.preventDefault();
     event.stopPropagation();
@@ -1104,58 +1114,30 @@ export default class WWCreatureSheet extends WWActorSheet {
     item.update({ "system.reloaded": !item.system.reloaded });
   }
 
-  // Collapses description - not used anymore
-  /*static #onItemCollapse(button) {
-    let li = $(button).parents('.item');
-    
-    if (!li.length) { // If parent does not have .item class, set li to current target.
-      li = $(button);
-    }
+  /* -------------------------------------------- */
 
-    const desc = li.find('.item-desc'),
-      icon = li.find('.item-button[data-action=item-collapse]').find('i');
-    
-    // Flip states
-    if (icon.hasClass('fa-square-chevron-down')) {
-      $(button).attr('data-tooltip', 'WW.Item.HideDesc')
-      icon.removeClass('fa-square-chevron-down').addClass('fa-square-chevron-up');
-      desc.slideDown(500);
-    } else {
-      $(button).attr('data-tooltip', 'WW.Item.ShowDesc')
-      icon.removeClass('fa-square-chevron-up').addClass('fa-square-chevron-down');
-      desc.slideUp(500);
-    }
-    
-  }*/
-
-  // Collapses Container content
+  /* Collapses Equipment Container content */
   static #onContainerCollapse(event, button) {
     event.preventDefault();
     event.stopPropagation();
     
-    const dataset = Object.assign({}, button.dataset);
+    // Get item info
+    const { itemId } = button.dataset;
+    const item = this.actor.items.get(itemId);
 
-    let li = $(button).parents('.item');
-    
-    if (!li.length) { // If parent does not have .item class, set li to current target.
-      li = $(button);
+    // Get HTML elements
+    const li = button.closest('.item') ?? button;
+    const content = li.parentElement.querySelector(`[data-container-id="${itemId}"]`);
+
+    if (content) {
+      if (item.containerCollapsed === undefined) item.containerCollapsed = true;
+      const shouldCollapse = item.containerCollapsed = !item.containerCollapsed;
+      
+      // Handle collapsing
+      if (shouldCollapse) slideUp(content, 300); else slideDown(content, 300);
+      li.classList.toggle('collapsed', shouldCollapse);
+      content.classList.toggle('collapsed', shouldCollapse);
     }
-
-    // Fetch elements
-    const item = this.actor.items.get(dataset.itemId);
-    const content = li.parent().find(`[data-container-id=${dataset.itemId}]`);
-    const collapsed = item.containerCollapsed ?? false;
-    content[0].classList.toggle('collapsed', collapsed)
-
-    // Toggle collapsed states
-    if (collapsed) {  
-      content.slideDown(300);
-      item.containerCollapsed = false;
-    } else {
-      content.slideUp(300);
-      item.containerCollapsed = true;
-    }
-    
   }
 
   /* -------------------------------------------- */
@@ -1163,7 +1145,6 @@ export default class WWCreatureSheet extends WWActorSheet {
   /* -------------------------------------------- */
 
   static async #onRest() {
-    
     const confirm = await WWDialog.input({
       window: {
         title: 'WW.Rest.Label',

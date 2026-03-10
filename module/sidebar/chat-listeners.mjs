@@ -1,4 +1,4 @@
-import { i18n } from '../helpers/utils.mjs';
+import { i18n, slideDown } from '../helpers/utils.mjs';
 import MultiChoice from '../apps/multi-choice.mjs';
 import RollDamage from '../dice/roll-damage.mjs';
 import WWRoll from '../dice/roll.mjs';
@@ -292,7 +292,7 @@ function _onMessageCollapse(msg) {
     icon.classList.add('fa-square-minus');
 
     for (const el in elements) {
-      $(elements[el]).slideDown(500); // Remove jQuery when possible
+      slideDown(elements[el]);
     };
     
   } else {
@@ -301,7 +301,7 @@ function _onMessageCollapse(msg) {
     icon.classList.add('fa-square-plus');
 
     for (const el in elements) {
-      $(elements[el]).slideUp(500); // Remove jQuery when possible
+      slideUp(elements[el]);
     };
     
   }

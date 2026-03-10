@@ -1,4 +1,4 @@
-import { capitalize, i18n } from '../helpers/utils.mjs';
+import { capitalize, i18n, slideDown, slideUp } from '../helpers/utils.mjs';
 import { WWAfflictions } from '../helpers/afflictions.mjs'
 import RollAttribute from '../dice/roll-attribute.mjs';
 
@@ -100,13 +100,12 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
     // Flip states
     if (target.classList.contains('fa-circle-chevron-up')) {
       target.classList.replace('fa-circle-chevron-up', 'fa-circle-chevron-down');
-
-      $(content).slideDown(500);
+      
+      slideDown(content, 500);
       
     } else {
       target.classList.replace('fa-circle-chevron-down', 'fa-circle-chevron-up');
-
-      $(content).slideUp(500);
+      slideUp(content, 500);
     }
     
   }

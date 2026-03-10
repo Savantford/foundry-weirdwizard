@@ -634,7 +634,6 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     if (!confirm) return;
 
     // Delete item
-    //await $(button).slideUp(200, () => this.render(false));
     item.delete();
   }
   

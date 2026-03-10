@@ -3454,8 +3454,7 @@ input[type="checkbox"].checkbox-uses {
   font-size: smaller;
 }
 
-.weirdwizard .item-button[data-action="itemToggleEffects"] i,
-.weirdwizard .item-collapse i {
+.weirdwizard .item-button[data-action="itemToggleEffects"] i {
   font-size: inherit;
 }
 
@@ -3569,29 +3568,55 @@ input[type="checkbox"].checkbox-uses {
 }
 
 /* List: Equipment Containers */
-.weirdwizard .item-list .item.container {
-  border-bottom: 1px solid #c9c7b8;
-  transition: all 500ms;
-}
+.weirdwizard .item-list {
+  .item.container {
+    border-bottom: 1px solid #c9c7b8;
+    transition: all 500ms;
 
-.weirdwizard .item-list .item.container:not(.collapsed) {
-  border: none;
-  box-shadow: 0px 1px 2px black;
-}
+    .item-name {
+      display: block;
+    }
 
-.weirdwizard .container .item-name {
-  display: block;
-}
+    .held-list {
+      color: var(--body-text-color);
+      font-size: smaller;
+      font-style: italic;
+      display: none;
+    }
 
-.weirdwizard .container .held-list {
-  color: var(--body-text-color);
-  font-size: smaller;
-  font-style: italic;
-  display: none;
-}
+    .item-holding {
+      cursor: pointer;
+    }
 
-.weirdwizard .container.collapsed .held-list {
-  display: block;
+    .item-collapse {
+      display: none;
+      cursor: pointer;
+
+      i {
+        rotate: 0deg;
+        transition: rotate 300ms ease;
+      }
+    }
+  }
+
+  .item.container:not(.collapsed) {
+    border: none;
+    box-shadow: 0px 1px 2px black;
+  }
+
+  .container.collapsed {
+    .held-list {
+      display: block;
+    }
+
+    .item-collapse i {
+      rotate: 90deg;
+    }
+  }
+
+  .container:hover .item-collapse {
+    display: block;
+  }
 }
 
 .weirdwizard .container-content {
@@ -3611,19 +3636,7 @@ input[type="checkbox"].checkbox-uses {
   display: none;
 }
 
-.weirdwizard .container .item-holding {
-  cursor: pointer;
-}
-
-.weirdwizard .container .item-collapse {
-  display: none;
-  cursor: pointer;
-}
-
-.weirdwizard .container:hover .item-collapse {
-  display: block;
-}
-
+/* List Entries */
 .weirdwizard .list-entries {
   display: flex;
   gap: 0 5px;

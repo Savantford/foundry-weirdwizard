@@ -133,7 +133,7 @@
             </li>
 
             {{#each equipment as |item id|}}
-            <li class="item draggable flexrow {{#if (eq item.system.subtype 'container')}}container collapsed{{/if}}" data-item-id="{{item._id}}">
+            <li class="item draggable flexrow {{#if (eq item.system.subtype 'container')}}container{{#unless (eq item.containerCollapsed false)}} collapsed{{/unless}}{{/if}}" data-item-id="{{item._id}}">
                 {{!-- Icon --}}
                 <div class="item-image"><img src="{{item.img}}" data-tooltip="{{item.name}}" width="24" height="24" /></div>
 
@@ -154,16 +154,9 @@
 
                             {{!-- Container Collapse --}}
                             {{#if (eq item.system.subtype 'container')}}
-                                {{log item.containerCollapsed}}
-                                {{#if item.containerCollapsed}}
-                                    <a class="item-collapse" data-action="containerCollapse" data-item-id="{{item._id}}" data-tooltip="WW.Container.Expand">
-                                        <i class="fa-solid fa-square-caret-down"></i>
-                                    </a>
-                                {{else}}
-                                    <a class="item-collapse" data-action="containerCollapse" data-item-id="{{item._id}}" data-tooltip="WW.Container.Collapse">
-                                        <i class="fa-solid fa-square-caret-right"></i>
-                                    </a>
-                                {{/if}}
+                                <a class="item-collapse" data-action="containerCollapse" data-item-id="{{item._id}}" data-tooltip="WW.Container.Toggle">
+                                    <i class="fa-solid fa-square-caret-right"></i>
+                                </a>
                             {{/if}}
 
                         </span>
@@ -224,7 +217,7 @@
             
             {{!-- Container Held Item List --}}
             {{#if item.filled}}
-            <ol class="item-list container-content{{#if item.containerCollapsed}} collapsed{{/if}}" data-container-id="{{item._id}}">
+            <ol class="item-list container-content{{#unless (eq item.containerCollapsed false)}} collapsed{{/unless}}" data-container-id="{{item._id}}">
                 {{#each item.heldItems as |heldItem heldId|}}
                 <li class="item draggable flexrow" data-item-id="{{heldItem._id}}">
 
