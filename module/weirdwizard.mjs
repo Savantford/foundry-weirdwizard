@@ -189,7 +189,7 @@ Hooks.once('init', function () {
   });
   //DocumentSheetConfig.registerSheet(Folder, 'weirdwizard', WWFolderConfig, {makeDefault: true}); - does not work, maybe in v13. see renderFolderConfig hook
 
-  // Register custom Combat Tracker
+  // Register custom Sidebar elements
   CONFIG.ui.combat = WWCombatTracker;
   
   // Disable legacy pre-V11 behavior of item effects being stored on actor.effects. Use actor.appliedEffects instead for all effects

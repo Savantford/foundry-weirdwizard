@@ -38,7 +38,7 @@ body {
   --filter-shadow-purple: 0 0 2px #c200ff;
 
   /* Fonts */
-  --ww-font-body: 'EB Garamond', serif;
+  --ww-font-serif: 'EB Garamond', serif;
   --ww-font-sans: 'Jost', sans-serif;
   --ww-font-fancy: 'Forum', serif;
   --ww-font-typography: 'Cinzel Decorative', serif;
@@ -610,7 +610,7 @@ body.theme-dark.application.weirdwizard .window-content {
 .window-app .window-content,
 .weirdwizard.view-mode .window-content {
   color: var(--body-text-color);
-  font-family: var(--ww-font-body);
+  font-family: var(--ww-font-serif);
   font-weight: 500;
   font-size: var(--font-size-14);
 }
@@ -696,7 +696,7 @@ body.theme-dark.application.weirdwizard .window-content {
 .journal-entry-page h5,
 .journal-entry-page h6 {
   color: var(--purple-dark);
-  font-family: var(--ww-font-body);
+  font-family: var(--ww-font-serif);
   font-weight: 600;
   text-shadow: none;
   margin: 10px 0 5px 0;
@@ -800,13 +800,13 @@ body.theme-dark.application.weirdwizard .window-content {
 
 .weirdwizard .window-content .statbox h5,
 .journal-entry-page .statbox h5,
-.weirdwizard .window-content .statbox h5.descriptors,
+.weirdwizard .window-content h5.descriptors,
 .journal-entry-page h5.statbox-heading {
   color: var(--purple-dark);
   font-variant-caps: small-caps;
-  font-weight: 700;
+  font-weight: 800;
   font-size: var(--font-size-15);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.01em;
   text-align: left;
   background: var(--pink);
   box-shadow: 0 0 1px 0 var(--purple-medium);
@@ -822,18 +822,17 @@ body.theme-dark.application.weirdwizard .window-content {
   align-items: center;
   justify-content: flex-start;
   gap: 0 5px;
-  margin-top: 0;
-  padding: 2px 5px;
   background: none;
+  box-shadow: none;
   border-image-source: url(../assets/ui/headers/pointed-right-pink.svg);
   border-image-slice: 11 fill;
   border-image-width: 40px;
   border-image-outset: 0 8px 0 0;
-  color: var(--purple-dark);
   text-indent: 0;
 }
 
 .weirdwizard .window-content h5.individual-traits {
+  font-variant-caps: normal;
   border-image-slice: 11 fill;
   border-image-width: 45px 80px;
   border-image-outset: 0 7px 0 0;
@@ -864,8 +863,10 @@ body.theme-dark.application.weirdwizard .window-content {
 .journal-entry-page h6.statbox-heading {
   color: var(--body-text-color);
   font-size: var(--font-size-14);
+  font-family: var(--ww-font-serif);
+  font-weight: 600;
   font-variant-caps: small-caps;
-  letter-spacing: normal;
+  letter-spacing: 0.01em;
   background: var(--gray);
   border: none;
   margin-top: 5px;
@@ -1280,7 +1281,7 @@ body.theme-dark.application.weirdwizard .window-content {
       background-position: center;
       background-size: contain;
       color: var(--body-text-color);
-      font-family: var(--ww-font-body);
+      font-family: var(--ww-font-sans);
       font-weight: 600;
     }
 
@@ -1541,7 +1542,7 @@ body.theme-dark.application.weirdwizard .window-content {
     align-items: center;
     justify-content: center;
     color: var(--body-text-color);
-    font-family: var(--ww-font-body);
+    font-family: var(--ww-font-serif);
     font-weight: 600;
 
     > select,
@@ -1712,7 +1713,7 @@ body.theme-dark.application.weirdwizard .window-content {
 
     select > * {
       color: var(--body-text-color);
-      font-family: var(--ww-font-body);
+      font-family: var(--ww-font-serif);
       font-weight: 500;
       font-size: var(--font-size-14);
     }
@@ -1866,7 +1867,6 @@ body.theme-dark.application.weirdwizard .window-content {
 }
 
 /* Profile Image: Circle */
-
 .weirdwizard .circle {
   display: grid;
   grid-template-areas: "layer";
@@ -1903,6 +1903,7 @@ body.theme-dark.application.weirdwizard .window-content {
     background-position: center;
     background-blend-mode: multiply;
 
+    font-family: var(--ww-font-sans);
     font-weight: 600;
     text-shadow: var(--text-shadow);
 
@@ -2062,6 +2063,7 @@ body.theme-dark.application.weirdwizard .window-content {
   --health-progress-width: 20px;
   --health-progress-length: 164px;
   --health-right-offset: 10px;
+  font-family: var(--ww-font-sans);
 }
 
 .weirdwizard .health-header {
@@ -2220,7 +2222,7 @@ body.theme-dark.application.weirdwizard .window-content {
   background-size: contain;
   margin: 0;
   color: var(--body-text-color);
-  font-size: var(--font-size-20);
+  font-size: large;
 }
 
 .weirdwizard .health-wrapper .stat>div {
@@ -2283,6 +2285,7 @@ body.theme-dark.application.weirdwizard .window-content {
   border-image: url(../assets/ui/banners/pink.svg);
   border-image-slice: 3 3 38 3 fill;
   border-image-width: 2px 3px 38px 3px;
+  font-family: var(--ww-font-sans);
   font-weight: 600;
   filter: drop-shadow(0 2px 2px #333);
 }
@@ -2371,44 +2374,45 @@ body.theme-dark.application.weirdwizard .window-content {
 .weirdwizard .attribute-banners {
   display: flex;
   justify-content: space-evenly;
+  font-family: var(--ww-font-sans);
   margin: 0 5px;
-}
 
-.weirdwizard .attribute-banners>* {
-  flex: 1;
-  display: flex;
-  flex-flow: column;
-  gap: 5px;
-  border-image: url(../assets/ui/banners/pink-outline.svg);
-  border-image-slice: 15 fill;
-  border-image-width: 15px;
-  padding: 5px 4px 10px;
-  color: var(--purple-dark);
-  font-weight: 600;
-}
+  > * {
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+    gap: 5px;
+    border-image: url(../assets/ui/banners/pink-outline.svg);
+    border-image-slice: 15 fill;
+    border-image-width: 15px;
+    padding: 5px 4px 10px;
+    color: var(--purple-dark);
+    font-weight: 600;
 
-.weirdwizard .attribute-banners>*>* {
-  line-height: 1;
-}
+    > * {
+      line-height: 1;
+    }
+  }
 
-.weirdwizard .attribute-banners .score {
-  font-size: var(--font-size-20);
-}
+  .score {
+    font-size: large;
+  }
 
-.weirdwizard .attribute-banners img {
-  flex: 0;
-  height: auto;
-  filter: drop-shadow(0 0 1px gray);
-  margin-top: auto;
-}
+  img {
+    flex: 0;
+    height: auto;
+    filter: drop-shadow(0 0 1px gray);
+    margin-top: auto;
+  }
 
-.weirdwizard .attribute-banners .str,
-.weirdwizard .attribute-banners .wil {
-  margin-bottom: 5px;
-}
+  .str,
+  .wil {
+    margin-bottom: 5px;
+  }
 
-.weirdwizard .attribute label {
-  font-weight: 600;
+  label {
+    font-weight: 600;
+  }
 }
 
 hr.spear {
@@ -2752,7 +2756,7 @@ prose-mirror .statbox {
   .statbox-level > select > option,
   .statbox-difficulty > select > option {
     color: var(--body-text-color);
-    font-family: var(--ww-font-body);
+    font-family: var(--ww-font-serif);
     font-weight: 500;
     font-size: var(--font-size-14);
   }
@@ -3488,7 +3492,7 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard .equipment-header > div {
   color: var(--body-text-color);
-  font-family: var(--ww-font-body);
+  font-family: var(--ww-font-serif);
   font-size: var(--font-size-14);
   text-transform: none;
   letter-spacing: 0;
@@ -4060,7 +4064,7 @@ input[type="checkbox"].checkbox-uses {
 
 .journal-entry-page .weirdwizard .item-type > select > * {
   color: var(--body-text-color);
-  font-family: var(--ww-font-body);
+  font-family: var(--ww-font-serif);
   font-weight: 500;
 }
 
@@ -4183,7 +4187,7 @@ input[type="checkbox"].checkbox-uses {
     opacity: 1;
     overflow: visible;
     flex: none;
-    font-family: var(--ww-font-body);
+    font-family: var(--ww-font-serif);
     font-size: var(--font-size-20);
     font-weight: 600;
     line-height: 100%;
@@ -4457,7 +4461,7 @@ details.document-card .card-header:hover::after {
   flex-flow: column;
   gap: 0.5rem;
   color: var(--body-text-color);
-  font-family: var(--ww-font-body);
+  font-family: var(--ww-font-serif);
   font-weight: 500;
   font-size: var(--font-size-13);
   padding: 0;
@@ -4750,7 +4754,7 @@ details.document-card .card-header:hover::after {
   text-align: center;
   margin: 0;
   border-radius: 5px 5px 0px 0px;
-  font-family: var(--ww-font-body);
+  font-family: var(--ww-font-serif);
   font-size: var(--font-size-16);
   border: none;
 }
@@ -5305,7 +5309,7 @@ table.roll-table-embed {
 
     .window-title {
       flex: none;
-      font-family: var(--ww-font-body);
+      font-family: var(--ww-font-serif);
       font-size: var(--font-size-20);
       font-weight: 600;
       line-height: 100%;
@@ -5457,7 +5461,7 @@ table.roll-table-embed {
 form.quest-calendar {
   display: flex;
   flex-direction: row;
-  font-family: var(--ww-font-body);
+  font-family: var(--ww-font-serif);
   font-weight: 600;
 }
 
@@ -5600,7 +5604,7 @@ form.quest-calendar {
 #quest-calendar-config form {
   display: flex;
   flex-direction: column;
-  font-family: var(--ww-font-body);
+  font-family: var(--ww-font-serif);
   font-weight: 500;
 }
 
@@ -5656,7 +5660,7 @@ p {
     position: absolute;
     line-height: inherit;
     color: var(--body-text-color);
-    font-family: var(--ww-font-body);
+    font-family: var(--ww-font-serif);
     letter-spacing: 0.05em;
     padding: 30px 70px;
     background: url(../assets/ui/ribbons/pause.webp) no-repeat center;
@@ -5781,7 +5785,7 @@ p {
 .weirdwizard.chat-message {
   --bug: url(../assets/decorations/bugs/vines-grape-cluster.webp);
   gap: 5px;
-  font-family: var(--ww-font-body) !important;
+  font-family: var(--ww-font-serif) !important;
   background: var(--paper-bg) repeat;
   background-position: center;
   background-blend-mode: multiply;
@@ -6059,21 +6063,21 @@ p {
   gap: 5px;
 }
 
-.weirdwizard .dice-comparison>img.attribute-icon {
+.weirdwizard .dice-comparison > img.attribute-icon {
   width: auto;
   height: 24px;
   filter: var(--grey-filter);
 }
 
-.weirdwizard .dice-comparison>img.attribute-icon.highlight {
+.weirdwizard .dice-comparison > img.attribute-icon.highlight {
   filter: brightness(0) saturate(100%) drop-shadow(var(--text-shadow-bold-purple));
 }
 
-.weirdwizard .dice-comparison>div {
+.weirdwizard .dice-comparison > div {
   font-size: var(--font-size-20);
 }
 
-.weirdwizard .dice-comparison>div:not(.dice-vs) {
+.weirdwizard .dice-comparison > div:not(.dice-vs) {
   width: 40px;
   height: 40px;
   font-weight: 600;
@@ -6086,22 +6090,22 @@ p {
   filter: drop-shadow(0 0 2px black);
 }
 
-.weirdwizard .dice-comparison>div:not(.dice-vs).highlight {
+.weirdwizard .dice-comparison > div:not(.dice-vs).highlight {
   filter: drop-shadow(var(--filter-shadow-purple));
 }
 
-.weirdwizard .dice-comparison>div:not(.dice-vs).highlight>span {
+.weirdwizard .dice-comparison > div:not(.dice-vs).highlight > span {
   text-shadow: 0 0 7px var(--purple-medium),
     0 0 7px var(--purple-dark),
     0 0 7px var(--purple-dark),
     0 0 7px var(--purple-dark);
 }
 
-.weirdwizard .dice-comparison>.rolled-number {
+.weirdwizard .dice-comparison > .rolled-number {
   background: url(/icons/svg/d20-grey.svg);
 }
 
-.weirdwizard .dice-comparison>.target-number {
+.weirdwizard .dice-comparison > .target-number {
   background: url(../assets/ui/badges/cross-grey.svg);
 }
 
@@ -6138,7 +6142,7 @@ p {
   padding: 4px;
   margin: 0px;
   border-radius: 5px 5px 0px 0px;
-  font-family: var(--ww-font-body);
+  font-family: var(--ww-font-serif);
   letter-spacing: 0.05em;
 }
 
@@ -6218,7 +6222,7 @@ p {
   margin: 0;
   white-space: nowrap;
   color: var(--purple-medium);
-  font-family: var(--ww-font-body);
+  font-family: var(--ww-font-serif);
   font-size: var(--font-size-13);
   font-weight: 600;
 }

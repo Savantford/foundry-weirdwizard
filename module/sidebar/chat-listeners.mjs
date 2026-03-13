@@ -10,6 +10,12 @@ import WWRoll from '../dice/roll.mjs';
 //const tokenManager = new TokenManager()
 
 export function initChatListeners(html, message, context) {
+  // Rolling for Instant Effects
+  html.querySelectorAll('.chat-button[data-action*=roll]').forEach((el, i) => { el.addEventListener('click', _onInstantEffectRoll); });
+
+  // Effect Application Multi-Choice
+  html.querySelectorAll('.chat-button[data-action*=apply]').forEach((el, i) => { el.addEventListener('click', (ev) => _onMultiChoice(ev, 'applyEffect')); });
+
   // Open Sheet from chat
   html.querySelectorAll('[data-action=open-sheet]').forEach((el, i) => { el.addEventListener('click', _onOpenSheet); });
 
