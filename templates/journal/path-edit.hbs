@@ -46,7 +46,7 @@
     <div class="benefit-block {{#if (ne id 'benefit1')}} mt-2{{/if}}" data-benefit-id="{{id}}">
 
       {{!-- Heading --}}
-      <h5>{{ benefit.heading }}</h5>
+      <h4>{{ benefit.heading }}</h4>
 
       {{!-- Attributes --}}
       {{#if (and (eq id 'benefit1') (ne @root.document.system.tier 'novice'))}}
