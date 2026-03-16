@@ -205,8 +205,8 @@ export default function WWDocumentMixin(Base) {
 
                 for (const x of item.system.traits) {
                   let string = i18n('WW.Weapon.Traits.' + capitalize(x) + '.Label');
-
-                  if ((x == 'range') || (x == 'reach' && item.system.range) || (x == 'thrown')) string += ` ${item.system.range}`;
+                  
+                  if ((x === 'range') || (x === 'reach' && item.system.range) || (x === 'thrown')) string += ` ${item.system.range}`;
 
                   list = list.concat(list ? ', ' + string : string);
                 }
@@ -216,7 +216,7 @@ export default function WWDocumentMixin(Base) {
                 item.system.traitsList = list;
 
                 // Prepare name and grip label
-                label = (item.system.traits.range ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + item.name + (item.system.traitsList ? ' ● ' + item.system.traitsList : '');
+                label = (item.system.traits.has('range') ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + item.name + (item.system.traitsList ? ' • ' + item.system.traitsList : '');
               }
               
               context.items[category].push({

@@ -162,7 +162,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
           for (const x of i.system.traits) {
             let string = i18n('WW.Weapon.Traits.' + capitalize(x) + '.Label');
 
-            if ((x == 'range') || (x == 'reach' && i.system.range) || (x == 'thrown')) string += ` ${i.system.range}`;
+            if ((x === 'range') || (x === 'reach' && i.system.range) || (x === 'thrown')) string += ` ${i.system.range}`;
 
             list = list.concat(list ? ', ' + string : string);
           }
@@ -175,8 +175,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
           if (context.actor.type == 'character') {
             i.system.gripLabel = CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip] ? i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip]) : i.system.grip;
             
-            i.label = `${i.name} (${i.system.gripLabel})${(i.system.traitsList ? ' ● ' + i.system.traitsList : '')}`;
-          } else i.label = (i.system.traits.range ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + i.name + (i.system.traitsList ? ' ● ' + i.system.traitsList : '');
+            i.label = `${i.name} (${i.system.gripLabel})${(i.system.traitsList ? ' • ' + i.system.traitsList : '')}`;
+          } else i.label = (i.system.traits.has('range') ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + i.name + (i.system.traitsList ? ' • ' + i.system.traitsList : '');
 
         }
 
