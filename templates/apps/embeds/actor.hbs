@@ -36,13 +36,13 @@
         </p>
 
         <p>
-            <strong>{{localize "WW.Attributes.Strength"}}:</strong> {{ system.attributes.str.value }} ({{ system.attributes.str.mod }}),
-            <strong>{{localize "WW.Attributes.Agility"}}:</strong> {{ system.attributes.str.value }} ({{ system.attributes.str.mod }})
+            <strong>{{localize "WW.Attributes.Strength"}}:</strong> {{ system.attributes.str.value }} ({{numberFormat system.attributes.str.mod sign=true }}),
+            <strong>{{localize "WW.Attributes.Agility"}}:</strong> {{ system.attributes.agi.value }} ({{numberFormat system.attributes.agi.mod sign=true }})
         </p>
 
         <p>
-            <strong>{{localize "WW.Attributes.Intellect"}}:</strong> {{ system.attributes.str.value }} ({{ system.attributes.str.mod }}),
-            <strong>{{localize "WW.Attributes.Will"}}:</strong> {{ system.attributes.str.value }} ({{ system.attributes.str.mod }})
+            <strong>{{localize "WW.Attributes.Intellect"}}:</strong> {{ system.attributes.int.value }} ({{numberFormat system.attributes.int.mod sign=true }}),
+            <strong>{{localize "WW.Attributes.Will"}}:</strong> {{ system.attributes.wil.value }} ({{numberFormat system.attributes.wil.mod sign=true }})
         </p>
 
         <p>
