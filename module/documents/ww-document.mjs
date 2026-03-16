@@ -1,4 +1,4 @@
-import { i18n, sysPath } from "../helpers/utils.mjs";
+import { capitalize, i18n, sysPath } from "../helpers/utils.mjs";
 
 /**
  * A mixin which extends each Document definition with specialized client-side behaviors.
@@ -193,9 +193,34 @@ export default function WWDocumentMixin(Base) {
               let category = item.type;
               
               if (subtypes.includes(subtype)) category = subtype;
+
+              // Prepare label
+              let label = item.system.magical ? `${item.name} (${i18n("WW.Talent.Magical")})` : item.name;
+
+              // Prepare weapon label
+              if (item.system.subtype == 'weapon') {
+
+                // Prepare traits list
+                let list = '';
+
+                for (const x of item.system.traits) {
+                  let string = i18n('WW.Weapon.Traits.' + capitalize(x) + '.Label');
+
+                  if ((x == 'range') || (x == 'reach' && item.system.range) || (x == 'thrown')) string += ` ${item.system.range}`;
+
+                  list = list.concat(list ? ', ' + string : string);
+                }
+
+                if (item.system.magical) list += ` (${i18n("WW.Talent.Magical")})`;
+
+                item.system.traitsList = list;
+
+                // Prepare name and grip label
+                label = (item.system.traits.range ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + item.name + (item.system.traitsList ? ' ● ' + item.system.traitsList : '');
+              }
               
               context.items[category].push({
-                name: item.name,
+                label,
                 desc: item.system.description,
                 attackRider: item.system.attackRider ?? null
               });

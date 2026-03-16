@@ -30,7 +30,7 @@
         {{!-- Basic Stats --}}
         <p>
             <strong>{{localize "WW.Defense.Label"}}:</strong>
-            {{ system.stats.defense.total }}{{#if items.equipment.length}} ({{#each items.equipment as |item id|}}<li class="item"><strong>{{ name }}:</strong> {{{ desc }}}</li>{{/each}}){{/if}},
+            {{ system.stats.defense.total }}{{#if items.equipment.length}} ({{#each items.equipment as |item id|}}<li class="item"><strong>{{ label }}:</strong> {{{ desc }}}</li>{{/each}}){{/if}},
             <strong>{{localize "WW.Health.Label"}}:</strong>
             {{ system.stats.health.normal }}
         </p>
@@ -81,7 +81,7 @@
         {{#if items.talent.length}}
         <ol class="described-list">
             {{#each items.talent as |item id|}}
-                <li class="item"><strong>{{ name }}:</strong> {{{ desc }}}</li>
+                <li class="item"><strong>{{ label }}:</strong> {{{ desc }}}</li>
             {{/each}}
         </ol>
         {{/if}}
@@ -98,7 +98,7 @@
             <ol class="described-list attacks-list">
                 {{#each items.weapon as |item id|}}
                     <li class="item">
-                        <strong>{{ name }}:</strong> {{{ desc }}}
+                        <strong>{{ label }}:</strong> {{{ desc }}}
 
                         {{#if attackRider.name}}
                         <div class="attack-rider">
@@ -114,7 +114,7 @@
             {{#if items.action.length}}
             <ol class="described-list actions-list">
                 {{#each items.action as |item id|}}
-                    <li class="item"><strong>{{ name }}:</strong> {{{ desc }}}</li>
+                    <li class="item"><strong>{{ label }}:</strong> {{{ desc }}}</li>
                 {{/each}}
             </ol>
             {{/if}}
@@ -123,7 +123,7 @@
             {{#if items.spell.length}}
             <ol class="described-list spells-list">
                 {{#each items.spell as |item id|}}
-                    <li class="item"><strong>{{ name }}:</strong> {{{ desc }}}</li>
+                    <li class="item"><strong>{{ label }}:</strong> {{{ desc }}}</li>
                 {{/each}}
             </ol>
             {{/if}}
@@ -139,7 +139,7 @@
         
             <ol class="described-list">
                 {{#each items.reaction as |item id|}}
-                    <li class="item"><strong>{{ name }}:</strong> {{{ desc }}}</li>
+                    <li class="item"><strong>{{ label }}:</strong> {{{ desc }}}</li>
                 {{/each}}
             </ol>
         
@@ -153,7 +153,7 @@
         
             <ol class="described-list">
                 {{#each items.end as |item id|}}
-                    <li class="item"><strong>{{ name }}:</strong> {{{ desc }}}</li>
+                    <li class="item"><strong>{{ label }}:</strong> {{{ desc }}}</li>
                 {{/each}}
             </ol>
         

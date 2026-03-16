@@ -244,6 +244,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
 
       // Append to talents.
       else if (i.type === 'talent') {
+        // Set label
+        i.label = i.system.magical ? `${i.name} (${i18n("WW.Talent.Magical")})` : i.name;
 
         if (context.actor.type == 'npc') {
           switch (i.system.subtype) {
