@@ -813,13 +813,13 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         // Other Stats
         doc.creatureDefense = stats.defense.natural ?? '—';
         doc.creatureHealth = stats.health.normal ?? '—';
-        doc.creatureSize = stats.size ?? '—';
+        doc.creatureSize = (CONFIG.WW.SIZE_FRACTIONS[stats.size] ?? stats.size) ?? '—';
         doc.creatureSpeed = stats.speed.normal ?? '—';
       }
 
       // Update progress if needed
       i = ++i;
-      if (i/docList.length*100 % 5 === 0) progress.update({ pct: i / docList.length });
+      if (i % 10 === 0) progress.update({ pct: i / docList.length });
     }
 
     // Update full document list
