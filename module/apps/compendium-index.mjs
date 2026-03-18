@@ -46,6 +46,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     actions: {
       openSheet: CompendiumIndex.#openSheet,
       sort: CompendiumIndex.#sortDocuments,
+      changePage: CompendiumIndex.#changePage,
 
       // Window header menu
       openHelp: CompendiumIndex.#onOpenHelp,
@@ -99,123 +100,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         'systems/weirdwizard/templates/apps/index/parts/col-header.hbs'
       ]
     }
-  }
-
-  // =========================================================================
-  //                                     STATE
-  // =========================================================================
-  activeTab = "Item";
-  allFilters = [];
-  packBlackList = [];
-  _searchQuery = "";
-  /** State for virtual scrolling */
-  scrollState = {
-    throttle: false,
-    height: 50,
-    // Estimated height of a single result row
-    entries: []
-  };
-  // =========================================================================
-  //                               STATIC API
-  // =========================================================================
-  
-  /**
-  * Returns an object containing all available, filterable search options.
-  * This includes document types, sub-types, and available packs.
-  *
-  * @returns An object with structured search options.
-  */
-  static getSearchFilters() {
-    const groupedPacks = Object.groupBy(game.packs, (pack) => pack.metadata.type);
-    const searchOptions = {};
-    for (const [type, packs] of Object.entries(groupedPacks)) {
-      searchOptions[type] = {
-        packs: packs.map((pack) => pack.collection),
-        types: foundry.documents[type].TYPES
-      };
-    }
-    return searchOptions;
-  }
-  
-  // =========================================================================
-  //                         CORE DATA & RENDERING LOGIC
-  // =========================================================================
-  /**
-   * Asynchronously refreshes the compendium entries for the browser instance
-   * by calling the static search API with the current state.
-   */
-  async _refreshEntries() {
-    if (this.scrollState.throttle) return;
-    this.scrollState.throttle = true;
-    const selectedTypes = this.allFilters.filter((f2) => f2.selected).map((f2) => f2.id);
-    const selectedPacks = game.packs.filter((p2) => !this.packBlackList.includes(p2.collection)).map((p2) => p2.collection);
-    let entries = await _CompendiumBrowser.search(
-      this.activeTab,
-      {
-        queryName: this._searchQuery,
-        types: selectedTypes.length ? selectedTypes : void 0,
-        packs: selectedPacks.length ? selectedPacks : void 0
-      }
-    );
-    entries = entries.map((entry) => ({
-      ...entry,
-      sourcePack: game.packs.get(entry.sourcePack).title,
-      type: game.i18n.localize(`TYPES.${this.activeTab}.${entry.type}`)
-    })).sort((a2, b2) => a2.name.localeCompare(b2.name, game.i18n.lang));
-    this.scrollState.entries = entries;
-    this.scrollState.throttle = false;
-    if (entries.length === 0) {
-      const loading = this.element.querySelector(".compendium-list .loading");
-      const noResults = this.element.querySelector(".compendium-list .no-results");
-      if (loading) loading.hidden = true;
-      if (noResults) noResults.hidden = false;
-    }
-  }
-  /** Renders a slice of the results for virtual scrolling. */
-  async _renderResultSlice(indexStart, indexEnd) {
-    if (this.scrollState.throttle) return;
-    this.scrollState.throttle = true;
-    const container = this.element.querySelector(".compendium-list");
-    if (!container) return;
-    const toRender = [];
-    const topPadDiv = document.createElement("div");
-    topPadDiv.className = "top-pad";
-    topPadDiv.style.height = `${indexStart * this.scrollState.height}px`;
-    toRender.push(topPadDiv);
-    if (indexStart % 2 === 0) {
-      const topOddPadDiv = document.createElement("div");
-      topOddPadDiv.className = "top-pad";
-      topOddPadDiv.style.height = `0px`;
-      toRender.push(topOddPadDiv);
-    }
-    indexStart = Math.max(0, indexStart);
-    indexEnd = Math.min(this.scrollState.entries.length, indexEnd);
-    for (let idx = indexStart; idx < indexEnd; idx++) {
-      const entry = this.scrollState.entries[idx];
-      const html = await foundry.applications.handlebars.renderTemplate(
-        "systems/shadowrun5e/dist/templates/apps/compendium-browser/entries.hbs",
-        { entry }
-      );
-      const template = document.createElement("template");
-      template.innerHTML = html;
-      toRender.push(template.content.firstElementChild);
-    }
-    const bottomPadDiv = document.createElement("div");
-    bottomPadDiv.className = "bottom-pad";
-    bottomPadDiv.style.height = `${(this.scrollState.entries.length - indexEnd) * this.scrollState.height}px`;
-    toRender.push(bottomPadDiv);
-    container.replaceChildren(...toRender);
-    this.scrollState.throttle = false;
-  }
-  /** Handles scroll events to implement virtual scrolling for the results list. */
-  async _scrollResults(event) {
-    const target = event.target;
-    if (this.scrollState.throttle || !target?.matches(".compendium-list")) return;
-    const { scrollTop, clientHeight } = target;
-    const entriesPerScreen = Math.ceil(clientHeight / this.scrollState.height);
-    const startIndex = Math.max(0, Math.floor(scrollTop / this.scrollState.height) - 2 * entriesPerScreen);
-    const endIndex = Math.min(this.scrollState.entries.length, startIndex + 5 * entriesPerScreen);
-    await this._renderResultSlice(startIndex, endIndex);
   }
 
   /* -------------------------------------------- */
@@ -308,102 +192,60 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   /* -------------------------------------------- */
 
   async _prepareDisplayedDocuments(context) {
-    const filteredDocuments = this.search({ query: this.searchQuery, filters: this.searchFilters });
+    // Filter and record documents
+    const oldLength = this.filteredDocuments?.length ?? 0;
+    const documents = this.filteredDocuments = this.search({ query: this.searchQuery, filters: this.searchFilters });
 
-    /*// The Generator Function: This yields slices of 50 items until the array is exhausted.
-    function* documentGenerator(allDocs, batchSize = 50) {
-      for (let i = 0; i < allDocs.length; i += batchSize) {
-        yield allDocs.slice(i, i + batchSize);
-      }
+    // Update pagination variables
+    const perPage = 50;
+
+    if (documents?.length !== oldLength) {
+      this.activePage = 1;
+      this.startDisplayAt = 0;
     }
 
-    // Initialization (Assuming your JSON is already loaded into 'myDocs')
-    const myDocs = [...]; // Your array of X documents
-    const loader = documentGenerator(myDocs, 50);
+    context.activePage = this.activePage;
 
-    const loadMoreBtn = document.getElementById('load-more-btn');
-    const container = document.getElementById('container');
+    // Prepare documents to be displayed in the page
+    const start = this.startDisplayAt;
+    const end = Math.min(start + perPage, documents.length);
+    
+    context.documents = documents.slice(start, end);
 
-    // Button Click Event
-    loadMoreBtn.addEventListener('click', () => {
-      // Get the next batch from the generator
-      const { value: batch, done } = loader.next();
+    // Prepare pagination buttons
+    const pages = Math.ceil(documents.length / 50);
 
-      if (!done) {
-        renderToUI(batch);
-      } else {
-        // Handle end of list
-        loadMoreBtn.textContent = "No More Documents";
-        loadMoreBtn.disabled = true;
+    if (pages > 1) {
+      const active = this.activePage;
+      const range = 2;
+      const buttons = [];
+
+      // Calculate start and end of the middle window
+      let start = Math.max(1, active - range);
+      let end = Math.min(pages, active + range);
+
+      // Add first page and ellipsis if needed
+      if (start > 1) {
+        buttons.push(1);
+        if (start > 2) buttons.push('ellipsis');
       }
-    });
 
-    function renderToUI(docs) {
-      docs.forEach(doc => {
-        const div = document.createElement('div');
-        div.className = 'doc-item';
-        div.textContent = JSON.stringify(doc); // or doc.name
-        container.appendChild(div);
-      });
-    }*/
-
-
-    /*// Prepare pagination
-    let pages = [];
-
-    // A service function that simulates an API call
-    const fetchUsersApi = async (limit, skip) => {
-      // In a real app, you would use fetch() here
-      console.log(`Fetching limit=${limit}, skip=${skip}`);
-      const perPage = 50;
-      //const filteredDocuments = Array(perPage).fill().map((_, i) => ({ name: `user${i}`, id: `id_${i}` }));
-
-      const pageData = filteredDocuments.slice(skip, skip + limit);
-      return {
-        data: pageData,
-        nextSkip: skip + pageData.length,
-        hasMore: (skip + pageData.length) < perPage
-      };
-    };
-
-    // The async generator function for pagination
-    async function* userGenerator(limit = 10) {
-      let skip = 0;
-      let hasMore = true;
-
-      while (hasMore) {
-        const result = await fetchUsersApi(limit, skip);
-        console.log(result)
-        yield* result.data; // Yield each user individually
-        skip = result.nextSkip;
-        hasMore = result.hasMore;
+      // Add the range of pages
+      for (let i = start; i <= end; i++) {
+        buttons.push(i);
       }
-    }
 
-    // How to consume the generator
-    async function loadAllUsers() {
-      console.log("Starting to load filteredDocuments...");
-      const generator = userGenerator(5); // Load 5 filteredDocuments per "page"
-
-      for await (const user of generator) {
-        // This loop automatically calls generator.next() until done
-        console.log(user.name);
-        pages.push(user)
-
-        // You can add logic here to stop early if needed,
-        // or wait for a "load more" button click in a UI context
+      // Add last page and ellipsis if needed
+      if (end < pages) {
+        if (end < pages - 1) buttons.push('ellipsis');
+        buttons.push(pages);
       }
-      console.log("Finished loading all filteredDocuments.");
-    }
 
-    // Run the example
-    await loadAllUsers();
-    console.log(pages)*/
-    const pages = 50;
-
-    this.filteredDocuments = filteredDocuments;
-    context.documents = filteredDocuments; //.slice(0, pages);
+      context.paginationButtons = buttons;
   }
+  }
+
+  /* -------------------------------------------- */
 
   async _prepareColumnHeaders(context) {
     const colHeaders = {};
@@ -1216,6 +1058,20 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       field: field,
       reverse: field === this.sortOptions.field && !this.sortOptions.reverse ? true : false
     }
+    
+    this.render();
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Change the viewed page to a new one.
+   * @param {PointerEvent} event - The originating click event
+   * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
+  */
+  static #changePage(event, target) {
+    this.activePage = parseInt(target.dataset.page);
+    this.startDisplayAt = (target.dataset.page - 1) * 50;
     
     this.render();
   }

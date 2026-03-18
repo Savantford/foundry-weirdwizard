@@ -5271,6 +5271,7 @@ table.roll-table-embed {
 
     /* View Table */
     .view-wrapper {
+      --pagination-button-size: 1.5rem;
       flex: 1;
       margin-top: 1px;
 
@@ -5324,7 +5325,38 @@ table.roll-table-embed {
           white-space: normal;
           word-break: normal;
         }
+
+        p {
+          font-weight: 400;
+        }
       }
+
+      .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 0.75em;
+        margin-top: 1em;
+
+        .button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: var(--pagination-button-size);
+          height: var(--pagination-button-size);
+          backdrop-filter: contrast(0.1) sepia(0.5);
+          border-radius: 5px;
+          cursor: pointer;
+        }
+
+        .button:hover,
+        .button.active {
+          background: #c200ff;
+        }
+      }
+    }
+
+    .view-wrapper.hasPagination .view {
+      height: calc(100% - var(--pagination-button-size) - 1em);
     }
   }
 }
