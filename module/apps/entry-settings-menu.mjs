@@ -74,8 +74,6 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
    * @returns {Promise<ApplicationRenderContext>}   Context data for the render operation
    */
   async _prepareContext(options = {}) {
-    console.log(this.listKey);
-
     const context = {
       listTitle: i18n(`WW.Settings.${capitalize(this.listKey, 1)}.EntryType`),
       list: this.list,

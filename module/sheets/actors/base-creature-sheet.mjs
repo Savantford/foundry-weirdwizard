@@ -381,7 +381,7 @@ export default class WWCreatureSheet extends WWActorSheet {
    */
   async _onRender(context, options) {
     await super._onRender(context, options);
-    console.log('rendering')
+    
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
 

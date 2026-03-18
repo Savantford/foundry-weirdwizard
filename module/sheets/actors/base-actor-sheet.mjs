@@ -286,7 +286,10 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       }
 
       // Append to spells.
-      else if (i.type === 'spell') spells.push(i);
+      else if (i.type === 'spell') {
+        i.label = i.name;
+        spells.push(i);
+      }
 
       // Appegend to legacy items array.
       else {
