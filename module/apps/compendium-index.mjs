@@ -310,17 +310,55 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   async _prepareDisplayedDocuments(context) {
     const filteredDocuments = this.search({ query: this.searchQuery, filters: this.searchFilters });
 
-    // Prepare pagination
-    /*let pages = [];
+    /*// The Generator Function: This yields slices of 50 items until the array is exhausted.
+    function* documentGenerator(allDocs, batchSize = 50) {
+      for (let i = 0; i < allDocs.length; i += batchSize) {
+        yield allDocs.slice(i, i + batchSize);
+      }
+    }
+
+    // Initialization (Assuming your JSON is already loaded into 'myDocs')
+    const myDocs = [...]; // Your array of X documents
+    const loader = documentGenerator(myDocs, 50);
+
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    const container = document.getElementById('container');
+
+    // Button Click Event
+    loadMoreBtn.addEventListener('click', () => {
+      // Get the next batch from the generator
+      const { value: batch, done } = loader.next();
+
+      if (!done) {
+        renderToUI(batch);
+      } else {
+        // Handle end of list
+        loadMoreBtn.textContent = "No More Documents";
+        loadMoreBtn.disabled = true;
+      }
+    });
+
+    function renderToUI(docs) {
+      docs.forEach(doc => {
+        const div = document.createElement('div');
+        div.className = 'doc-item';
+        div.textContent = JSON.stringify(doc); // or doc.name
+        container.appendChild(div);
+      });
+    }*/
+
+
+    /*// Prepare pagination
+    let pages = [];
 
     // A service function that simulates an API call
     const fetchUsersApi = async (limit, skip) => {
       // In a real app, you would use fetch() here
       console.log(`Fetching limit=${limit}, skip=${skip}`);
       const perPage = 50;
-      const users = Array(perPage).fill().map((_, i) => ({ name: `user${i}`, id: `id_${i}` }));
+      //const filteredDocuments = Array(perPage).fill().map((_, i) => ({ name: `user${i}`, id: `id_${i}` }));
 
-      const pageData = users.slice(skip, skip + limit);
+      const pageData = filteredDocuments.slice(skip, skip + limit);
       return {
         data: pageData,
         nextSkip: skip + pageData.length,
@@ -335,6 +373,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
       while (hasMore) {
         const result = await fetchUsersApi(limit, skip);
+        console.log(result)
         yield* result.data; // Yield each user individually
         skip = result.nextSkip;
         hasMore = result.hasMore;
@@ -343,8 +382,8 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
     // How to consume the generator
     async function loadAllUsers() {
-      console.log("Starting to load users...");
-      const generator = userGenerator(5); // Load 5 users per "page"
+      console.log("Starting to load filteredDocuments...");
+      const generator = userGenerator(5); // Load 5 filteredDocuments per "page"
 
       for await (const user of generator) {
         // This loop automatically calls generator.next() until done
@@ -354,15 +393,16 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         // You can add logic here to stop early if needed,
         // or wait for a "load more" button click in a UI context
       }
-      console.log("Finished loading all users.");
+      console.log("Finished loading all filteredDocuments.");
     }
 
     // Run the example
     await loadAllUsers();
-    console.log(await pages)
-    console.log(docList)*/
+    console.log(pages)*/
+    const pages = 50;
+
     this.filteredDocuments = filteredDocuments;
-    context.documents = filteredDocuments;
+    context.documents = filteredDocuments; //.slice(0, pages);
   }
 
   async _prepareColumnHeaders(context) {
@@ -441,12 +481,13 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   /* -------------------------------------------- */
 
   async _updateFullDocumentData(sourceCompendia = this.sourceCompendia) {
-    let docList = [];
     const validTypes = this.filtersData['type'].map(x => x.value);
     const progress = ui.notifications.info(i18n('WW.Index.Loading.InProgress'), { progress: true });
 
-    for (const pack of game.packs) {
-      if (sourceCompendia && !sourceCompendia?.includes(pack.metadata.id)) continue;
+    const getDocumentData = async (pack) => {
+      let docList = [];
+
+      if (sourceCompendia && !sourceCompendia?.includes(pack.metadata.id)) return;
       
       // Get Journal Pages instead of Entries
       if (pack.metadata.type === "JournalEntry") {
@@ -469,12 +510,17 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
         docList = [... docList, ... allowedDocs];
       }
-      
+
+      return docList;
     }
+
+    const promises = game.packs.map(pack => getDocumentData(pack));
+    const arrays = await Promise.all(promises);
+    const documents = arrays.flat().filter( Boolean );
 
     // Prepare formatted document data
     let i = 0;
-    for (const [d, doc] of Object.entries(docList)) {
+    for (const doc of documents) {
       // Assign Journal Entry Page specific fields to corresponding Actor/Item fields
       if (doc.src) doc.img = doc.src;
       doc.system.descriptionEnriched = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
@@ -819,13 +865,13 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
       // Update progress if needed
       i = ++i;
-      if (i % 10 === 0) progress.update({ pct: i / docList.length });
+      if (i % 10 === 0) progress.update({ pct: i / documents.length });
     }
 
     // Update full document list
     ui.notifications.remove(progress);
     ui.notifications.success(i18n('WW.Index.Loading.Finished'), { permanent: false });
-    this.fullDocumentList = docList;
+    this.fullDocumentList = documents;
   }
 
   /* -------------------------------------------- */

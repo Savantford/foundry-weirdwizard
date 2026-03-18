@@ -203,7 +203,8 @@ WW.WEAPON_GRIPS = {
 WW.WEAPON_GRIPS_SHORT = {
   'one': 'WW.Weapon.Grip.OneShort',
   'two': 'WW.Weapon.Grip.TwoShort',
-  'off': 'WW.Weapon.Grip.OffShort'
+  'off': 'WW.Weapon.Grip.OffShort',
+  'natural': 'WW.Weapon.Grip.NaturalShort'
 };
 
 WW.WEAPON_TRAITS = {
