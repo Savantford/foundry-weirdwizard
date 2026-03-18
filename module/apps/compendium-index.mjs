@@ -442,8 +442,8 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
   async _updateFullDocumentData(sourceCompendia = this.sourceCompendia) {
     let docList = [];
-    
     const validTypes = this.filtersData['type'].map(x => x.value);
+    const progress = ui.notifications.info(i18n('WW.Index.Loading.InProgress'), { progress: true });
 
     for (const pack of game.packs) {
       if (sourceCompendia && !sourceCompendia?.includes(pack.metadata.id)) continue;
@@ -473,6 +473,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     }
 
     // Prepare formatted document data
+    let i = 0;
     for (const [d, doc] of Object.entries(docList)) {
       // Assign Journal Entry Page specific fields to corresponding Actor/Item fields
       if (doc.src) doc.img = doc.src;
@@ -815,9 +816,15 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         doc.creatureSize = stats.size ?? '—';
         doc.creatureSpeed = stats.speed.normal ?? '—';
       }
+
+      // Update progress if needed
+      i = ++i;
+      if (i/docList.length*100 % 5 === 0) progress.update({ pct: i / docList.length });
     }
 
     // Update full document list
+    ui.notifications.remove(progress);
+    ui.notifications.success(i18n('WW.Index.Loading.Finished'), { permanent: false });
     this.fullDocumentList = docList;
   }
 

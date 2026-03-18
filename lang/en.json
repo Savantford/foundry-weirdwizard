@@ -1131,6 +1131,9 @@
 "WW.Index.RollTable.Text": "Create a Roll Table",
 "WW.Index.RollTable.Title": "Compendium Index Table",
 
+"WW.Index.Loading.InProgress": "Indexing compendia...",
+"WW.Index.Loading.Finished": "All compendia were indexed.",
+
 "WW.Index.Filters.SourceCompendia": "Source Compendia",
 "WW.Index.Filters.DocumentType": "Document Type",
 
