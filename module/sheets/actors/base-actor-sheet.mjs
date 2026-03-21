@@ -381,7 +381,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     const defaultArtwork = this.actor.constructor.getDefaultArtwork?.(this.actor._source) ?? {};
     const defaultImage = foundry.utils.getProperty(defaultArtwork, attr);
     
-    const fp = new FilePicker({
+    const fp = new foundry.applications.apps.FilePicker.implementation({
       current,
       type: "image",
       redirectToRoot: defaultImage ? [defaultImage] : [],

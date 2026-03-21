@@ -363,10 +363,12 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     // Prepare formatted document data
     let i = 0;
     for (const doc of documents) {
+      const sys = doc.system;
+
       // Assign Journal Entry Page specific fields to corresponding Actor/Item fields
       if (doc.src) doc.img = doc.src;
-      doc.system.descriptionEnriched = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-        doc.text ? doc.text.content : doc.system.description, { secrets: doc.isOwner }
+      sys.descriptionEnriched = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+        doc.text ? doc.text.content : sys.description, { secrets: doc.isOwner }
       );
 
       // Get (sub)type labels
@@ -374,13 +376,13 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       const subtypes = {...CONFIG.WW.EQUIPMENT_SUBTYPES, ...CONFIG.WW.TALENT_SUBTYPES};
 
       if (doc.type === 'equipment') {
-        doc.equipmentSubtype = i18n(subtypes[doc.system.subtype]) ?? doc.typeLabel;
+        doc.equipmentSubtype = i18n(subtypes[sys.subtype]) ?? doc.typeLabel;
       }
 
       if (doc.type === 'talent') {
-        doc.talentType = doc.system.source === 'none'
-        ? `${i18n("TYPES.Actor.npc")}: ${i18n(CONFIG.WW.TALENT_SUBTYPES[doc.system.subtype])}`
-        : i18n(CONFIG.WW.TALENT_SOURCE_LABELS[doc.system.source]);
+        doc.talentType = sys.source === 'none'
+        ? `${i18n("TYPES.Actor.npc")}: ${i18n(CONFIG.WW.TALENT_SUBTYPES[sys.subtype])}`
+        : i18n(CONFIG.WW.TALENT_SOURCE_LABELS[sys.source]);
       }
 
       if (doc.talentType) doc.genericTypeLabel = doc.talentType;
@@ -393,21 +395,21 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       // Prepare Equipment specifics
       if (doc.type === 'equipment') {
         // Get Availability
-        doc.equipmentAvailability = i18n(CONFIG.WW.EQUIPMENT_AVAILABILITIES[doc.system.availability]);
+        doc.equipmentAvailability = i18n(CONFIG.WW.EQUIPMENT_AVAILABILITIES[sys.availability]);
 
         // Get Price
-        if (doc.system.price?.value) {
-          const tip = i18n(CONFIG.WW.EQUIPMENT_COINS[doc.system.price.coin].tip);
-          const color = CONFIG.WW.EQUIPMENT_COINS[doc.system.price.coin].color;
+        if (sys.price?.value) {
+          const tip = i18n(CONFIG.WW.EQUIPMENT_COINS[sys.price.coin].tip);
+          const color = CONFIG.WW.EQUIPMENT_COINS[sys.price.coin].color;
 
-          doc.equipmentPrice = `${doc.system.price.value} <i class="fa-solid fa-coins ${color}" data-tooltip="${tip}"></i>`;
+          doc.equipmentPrice = `${sys.price.value} <i class="fa-solid fa-coins ${color}" data-tooltip="${tip}"></i>`;
         }
 
         // Equipment Uses
-        doc.equipmentUses = doc.system.uses.max === 0 ? 'inf' : doc.system.uses.max;
+        doc.equipmentUses = sys.uses.max === 0 ? 'inf' : sys.uses.max;
 
         // Get Requirements
-        doc.weaponRequirement = doc.system.requirements ? i18n(CONFIG.WW.EQUIPMENT_REQUIREMENTS[doc.system.requirements]) : '—';
+        doc.weaponRequirement = sys.requirements ? i18n(CONFIG.WW.EQUIPMENT_REQUIREMENTS[sys.requirements]) : '—';
 
         // Get Defense Stats
         let armored = 0,
@@ -427,24 +429,24 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         // Set Defense and Armor Type labels
         doc.armorDefense = bonus ? `+${bonus}` : `${armored} ${natural ? 'or +' + natural : ''}`;
 
-        if (doc.system.subtype === 'armor') doc.armorType = i18n(CONFIG.WW.ARMOR_TYPES[doc.system.armorType]);
+        if (sys.subtype === 'armor') doc.armorType = i18n(CONFIG.WW.ARMOR_TYPES[sys.armorType]);
         else if (doc.armorDefense != 0) doc.armorType = i18n('WW.Armor.Shield');
         if (doc.armorDefense == 0) doc.armorDefense = '—';
 
         // Prepare Weapon specifics
-        if (doc.system.subtype == 'weapon') {
-          doc.weaponRange = doc.system.traits.range ? i18n("WW.Weapon.Ranged") : i18n("WW.Weapon.Melee");
-          doc.weaponGrip = CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip] ? i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[doc.system.grip]) : doc.system.grip;
-          doc.weaponDamage = doc.system.damage;
+        if (sys.subtype == 'weapon') {
+          doc.weaponRange = sys.traits.range ? i18n("WW.Weapon.Ranged") : i18n("WW.Weapon.Melee");
+          doc.weaponGrip = CONFIG.WW.WEAPON_GRIPS_SHORT[sys.grip] ? i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[sys.grip]) : sys.grip;
+          doc.weaponDamage = sys.damage;
 
           // Prepare Weapon Traits
           let traits = '';
 
           for (const [key,trait] of Object.entries(CONFIG.WW.WEAPON_TRAITS)) {
-            if (doc.system.traits[key]) {
+            if (sys.traits[key]) {
               traits += `<span class="info" data-tooltip="${trait.tip}">
                 ${i18n(trait.label)} 
-                ${(key === "range" || key === "thrown") ? doc.system.range : ''}
+                ${(key === "range" || key === "thrown") ? sys.range : ''}
               </span>`;
             }
           }
@@ -456,13 +458,13 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       
       // Prepare Trait & Talent specifics
       if (doc.type === 'talent') {
-        doc.talentMagical = doc.system.magical ?? false;
-        doc.talentUses = doc.system.uses.max === 0 ? 'inf' : doc.system.uses.max;
+        doc.talentMagical = sys.magical ?? false;
+        doc.talentUses = sys.uses.max === 0 ? 'inf' : sys.uses.max;
         
         // Used By
         let talentUsedBy = '';
-        if (doc.system.usedBy) {
-          for (const uuid of doc.system.usedBy) {
+        if (sys.usedBy) {
+          for (const uuid of sys.usedBy) {
             talentUsedBy += `<li class="info">@UUID[${uuid}]</li>`;
           }
         }
@@ -471,16 +473,16 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
       // Prepare Spell specifics
       if (doc.type === 'spell') {
-        doc.spellTier = i18n(CONFIG.WW.TIERS[doc.system.tier]);
-        doc.spellTradition = doc.system.tradition ?? '—';
-        doc.spellCastings = doc.system.castingsLabel ?? '—';
-        doc.spellTarget = doc.system.target ?? '—';
-        doc.spellDuration = doc.system.duration ?? '—';
+        doc.spellTier = i18n(CONFIG.WW.TIERS[sys.tier]);
+        doc.spellTradition = sys.tradition ?? '—';
+        doc.spellCastings = sys.casting && (sys.casting.replace(/\s/g,'') !== '<p></p>') ? sys.casting : `<p>${sys.uses.max}</p>` ?? '—';
+        doc.spellTarget = sys.target ?? '—';
+        doc.spellDuration = sys.duration ?? '—';
       }
 
       // Prepare Ancestry specifics
       if (doc.type === 'ancestry') {
-        const benefit = doc.system.benefits.benefit1;
+        const benefit = sys.benefits.benefit1;
         
         // Health
         const {sizeNormal, speedNormal, ...stats} = benefit.stats;
@@ -543,7 +545,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
       // Prepare Path specifics
       if (doc.type === 'path') {
-        doc.pathTier = i18n(CONFIG.WW.TIERS[doc.system.tier]);
+        doc.pathTier = i18n(CONFIG.WW.TIERS[sys.tier]);
 
         const bs = {
           natural: '',
@@ -556,7 +558,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
           talents: ''
         };
 
-        for await (const [_, v] of Object.entries(doc.system.benefits)) {
+        for await (const [_, v] of Object.entries(sys.benefits)) {
           const lv = `<b>${i18n("WW.CharOption.BenefitsSummaryLevel", {level: v.levelReq})}:</b>`;
           
           // Natural Defense
@@ -622,10 +624,10 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
       // Prepare Profession specifics
       if (doc.type === 'profession') {
-        const benefit = doc.system.benefits.benefit1;
+        const benefit = sys.benefits.benefit1;
 
         // Category
-        doc.professionCategory = i18n(CONFIG.WW.PROFESSION_CATEGORIES[doc.system.category]);
+        doc.professionCategory = i18n(CONFIG.WW.PROFESSION_CATEGORIES[sys.category]);
 
         // Languages
         let languages = '';
@@ -646,28 +648,28 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       if (doc.type === 'tradition') {
         // Talents
         let talents = '';
-        for (const uuid of doc.system.talents) {
+        for (const uuid of sys.talents) {
           talents += `<li class="info">@UUID[${uuid}]</li>`;
         }
         doc.traditionTalents = talents ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(`<ol>${talents}</ol>`, { secrets: doc.isOwner }) : '—';
 
         // Novice Spells
         let novice = '';
-        for (const uuid of doc.system.spells.novice) {
+        for (const uuid of sys.spells.novice) {
           novice += `<li class="info">@UUID[${uuid}]</li>`;
         }
         doc.traditionNoviceSpells = novice ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(`<ol>${novice}</ol>`, { secrets: doc.isOwner }) : '—';
 
         // Expert Spells
         let expert = '';
-        for (const uuid of doc.system.spells.expert) {
+        for (const uuid of sys.spells.expert) {
           expert += `<li class="info">@UUID[${uuid}]</li>`;
         }
         doc.traditionExpertSpells = expert ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(`<ol>${expert}</ol>`, { secrets: doc.isOwner }) : '—';
 
         // Master Spells
         let master = '';
-        for (const uuid of doc.system.spells.master) {
+        for (const uuid of sys.spells.master) {
           master += `<li class="info">@UUID[${uuid}]</li>`;
         }
         doc.traditionMasterSpells = master ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(`<ol>${master}</ol>`, { secrets: doc.isOwner }) : '—';
@@ -675,8 +677,8 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
       // Prepare NPC specifics
       if (doc.type === 'npc') {
-        const attributes = doc.system.attributes;
-        const stats = doc.system.stats;
+        const attributes = sys.attributes;
+        const stats = sys.stats;
         const npc = await fromUuid(doc.uuid);
         
         // Group (Folder)
@@ -687,7 +689,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
         // Descriptors
         let descriptors = '';
-        for (const [_, v] of Object.entries(doc.system.listEntries.descriptors)) {     
+        for (const [_, v] of Object.entries(sys.listEntries.descriptors)) {     
           descriptors += `<li class="info" data-tooltip="${v.desc}">${v.name}</li>`;
         }
         doc.creatureDescriptors = descriptors ? `<ol>${descriptors}</ol>` : '—';
