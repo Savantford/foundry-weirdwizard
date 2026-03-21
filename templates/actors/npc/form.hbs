@@ -2,10 +2,9 @@
 
   <div class="details">
     {{!-- Folder Name / Creature Group --}}
-    {{#if folder}}
+    
     <div class="folder-info">
-      <h2>
-        {{#if folder.name}}{{folder.name}}{{else}}{{localize "WW.Actor.Folder.Unnamed"}}{{/if}}</h2>
+      {{#if folder}}<h2>{{#if folder.name}}{{folder.name}}{{else}}{{localize "WW.Actor.Folder.Unnamed"}}{{/if}}</h2>{{/if}}
 
       {{!-- Folder / Creature Group Description --}}
       <div class="description">
@@ -15,16 +14,15 @@
 
         {{#if folder.flags.weirdwizard.description}}
           {{{ folder.flags.weirdwizard.description }}}
-        {{else}}
+        {{else if folder}}
           {{localize "WW.Actor.Folder.NoDescription"}}
+        {{else}}
+          {{localize "WW.Actor.Folder.None"}}
         {{/if}}
       </div>
 
-      <button class="edit-folder" data-action="folderEdit"><i class="fa-solid fa-edit"></i></button>
+      {{#if folder}}<button class="edit-folder" data-action="folderEdit"><i class="fa-solid fa-edit"></i></button>{{/if}}
     </div>
-    {{else}}
-      {{localize "WW.Actor.Folder.None"}}
-    {{/if}}
 
     {{!-- Bestiary Entry Name --}}
     <h5>{{ actor.name }}</h5>
