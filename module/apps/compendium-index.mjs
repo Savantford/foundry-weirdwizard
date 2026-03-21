@@ -707,9 +707,9 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         doc.creatureSpeed = stats.speed.normal ?? '—';
       }
 
-      // Update progress if needed
+      // Update progress for every X documents
       i = ++i;
-      if (i % 10 === 0) progress.update({ pct: i / documents.length });
+      if (i % Math.floor(documents.length / 50) === 0) progress.update({ pct: i / documents.length });
     }
 
     // Update full document list
@@ -752,7 +752,6 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
       // Apply filters
       for ( const filter of filters ) {
-        console.log(filter)
         const match = IndexFilter.evaluateFilter(doc, filter);
         
         if ( !match ) {
@@ -978,14 +977,14 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
   /* -------------------------------------------- */
 
-  filterOperator(field) {
+  /* Return a key:pair object with the correct operators */
+  static get #filterOperator() {
     const OPERATORS = foundry.applications.ux.SearchFilter.OPERATORS;
 
-    switch (field) {
-      case 'type': return OPERATORS.CONTAINS;
-      case 'system.grip': return OPERATORS.CONTAINS;
-      case 'system.tier': return OPERATORS.CONTAINS;
-      default: return OPERATORS.CONTAINS;
+    return {
+      'type': OPERATORS.CONTAINS,
+      'system.grip': OPERATORS.CONTAINS,
+      'system.tier': OPERATORS.CONTAINS,
     }
   }
 
@@ -1234,10 +1233,9 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     const searchFilters = [];
     
     for (const [key, value] of Object.entries(raw)) {
-      console.warn(this.filtersData[key])
       searchFilters.push({
         field: key,
-        operator: this.filterOperator(key),
+        operator: CompendiumIndex.#filterOperator[key],
         value: value ?? this.filtersData[key].map(x => x.value)
       })
     }
