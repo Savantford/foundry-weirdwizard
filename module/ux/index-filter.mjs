@@ -5,6 +5,7 @@ const SearchFilter = foundry.applications.ux.SearchFilter;
 export default class IndexFilter extends SearchFilter {
 
   /**
+   * @override
    * Test whether a given object matches a provided filter
    * @param {object} obj          An object to test against
    * @param {FieldFilter} filter  The filter to test
@@ -47,14 +48,7 @@ export default class IndexFilter extends SearchFilter {
       }
     };
 
-    // If value is undefined, set result to true
-    /*if (filter.field === 'system.grip' && ['One-Handed', 'Off', 'Two', 'Natural'].includes(docValue)) {
-      console.log(obj.name)
-      console.log(filter.field, docValue)
-    }*/
-  
-    const result = docValue === undefined ? true : evaluate();
-    //if (filter.field === 'system.grip' && docValue && !result) console.log(obj.name, docValue, result)
+    const result = docValue === undefined ? true : evaluate(); // The only changed string
     return filter.negate ? !result : result;
   }
 }

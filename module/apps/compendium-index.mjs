@@ -752,6 +752,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
       // Apply filters
       for ( const filter of filters ) {
+        console.log(filter)
         const match = IndexFilter.evaluateFilter(doc, filter);
         
         if ( !match ) {
@@ -926,6 +927,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
   /* Returns a data object containing arrays of filter's value and label */
   get filtersData () {
     const filters = {};
+    const OPERATORS = foundry.applications.ux.SearchFilter.OPERATORS;
 
     // Document Type
     filters['type'] = [];
@@ -938,6 +940,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
         filters['type'].push({
           value: typeKey,
+          operator: OPERATORS.CONTAINS,
           label: i18n(type.typeLabels[typeKey]),
           //group: type.documentClass.documentName
         })
@@ -949,24 +952,27 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     const filtersRef = {
       'system.tier': {
         views: ['paths', 'spells'],
+        operator: OPERATORS.CONTAINS,
         locMap: L.TIERS
       },
 
       // Weapons view
       'system.grip': {
         views: ['weapons'],
+        operator: OPERATORS.CONTAINS,
         locMap: L.WEAPON_GRIPS
       }
     }
 
     // Add View-specific filters
     for (const filterKey in filtersRef) {
-      const { views, locMap } = filtersRef[filterKey];
+      const { views, locMap, operator } = filtersRef[filterKey];
       filters[filterKey] = [];
 
       for (const [key, loc] of Object.entries(locMap)) {
         filters[filterKey].push({
           value: key,
+          operator,
           label: i18n(loc)
         })
       }
@@ -1222,7 +1228,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     for (const [key, value] of Object.entries(raw)) {
       searchFilters.push({
         field: key,
-        operator: foundry.applications.ux.SearchFilter.OPERATORS.CONTAINS,
+        operator: this.filtersData[key].operator,
         value: value ?? this.filtersData[key].map(x => x.value)
       })
     }
