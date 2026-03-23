@@ -1248,6 +1248,7 @@ body.theme-dark.application.weirdwizard .window-content {
   flex-flow: column;
   gap: 10px;
   margin-top: 10px;
+  font-family: var(--ww-font-sans);
 
   .stat {
     .stat-header {
@@ -1290,9 +1291,8 @@ body.theme-dark.application.weirdwizard .window-content {
       padding: 5px;
       box-shadow: inset 0px 2px 2px -1px black;
       color: var(--purple-dark);
-      font-weight: 600;
 
-      >*:hover {
+      > *:hover {
         filter: drop-shadow(var(--text-shadow-bold-purple));
         cursor: pointer;
       }
@@ -2326,8 +2326,9 @@ body.theme-dark.application.weirdwizard .window-content {
 }
 
 .weirdwizard .character-stats .stat.bonus-damage .filler {
-  font-size: x-large;
   color: var(--purple-medium);
+  font-size: x-large;
+  line-height: normal;
 }
 
 .weirdwizard .character-stats .stat label {
@@ -2345,23 +2346,24 @@ body.theme-dark.application.weirdwizard .window-content {
   margin-bottom: 65px;
 }
 
-.weirdwizard .character-stats .stat>div {
+.weirdwizard .character-stats .stat > div {
   --stat-size: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   width: var(--stat-size);
   height: var(--stat-size);
+  line-height: normal;
   background: url(/systems/weirdwizard/assets/ui/badges/octagonal.svg) no-repeat;
   background-position: center;
   background-size: contain;
 }
 
-.weirdwizard .character-stats .stat.defense>div {
+.weirdwizard .character-stats .stat.defense > div {
   background-image: url(/systems/weirdwizard/assets/ui/badges/shield.svg);
 }
 
-.weirdwizard .character-stats .stat.bonus-damage>div {
+.weirdwizard .character-stats .stat.bonus-damage > div {
   background-image: url(/systems/weirdwizard/assets/ui/badges/spiked.svg);
   --stat-size: 55px;
 }
