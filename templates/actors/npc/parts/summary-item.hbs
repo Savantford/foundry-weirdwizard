@@ -4,38 +4,38 @@
     <label class="item-button" data-action="itemLabelClick" data-item-id="{{item._id}}"
         data-tooltip="{{item.tooltip}}">{{item.label}}{{#if (ne item.type "equipment")}}:{{/if}}</label>
     
+    {{#if (or item.hasPassiveEffects item.uses.length)}}
+        {{!-- Buttons --}}
+        <span class="buttons">
+            {{!-- Toggle Effects --}}
+            {{#if item.hasPassiveEffects}}
+                <a class="item-button" data-action="itemToggleEffects" data-item-id="{{item._id}}"
+                    data-tooltip="{{#if item.system.active}}{{localize "WW.Item.DisableEffects"}}{{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
+                    <i class="fa-solid {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
+            {{/if}}
+            
+            {{!-- Uses Pips --}}
+            {{#if item.uses}}
+            <span class="pip-box">
+                {{#each item.uses as |pip id|}}
+                    <a class="item-pip" data-action="itemUpdateUses" data-item-id="{{../item._id}}"
+                        data-tooltip="{{#if (eq pip "fa-regular fa-circle")}}
+                            {{#if (or (eq ../item.system.subtype "action") (eq ../item.system.subtype "reaction"))}}{{localize "WW.Item.Uses.ActionSpend"}}
+                            {{else}}{{localize "WW.Item.Uses.TalentSpend"}}{{/if}}
+                        {{else}}
+                            {{#if (or (eq ../item.system.subtype "action") (eq ../item.system.subtype "reaction"))}}{{localize "WW.Item.Uses.ActionRecover"}}
+                            {{else}}{{localize "WW.Item.Uses.TalentRecover"}}{{/if}}
+                        {{/if}}">
+                    <i class="{{pip}}"></i></a>
+                {{/each}}
+            </span>
+            {{/if}}
+        </span>
+    {{/if}}
+    
     {{!-- Description --}}
     {{#if (and item.system.description (ne item.type 'equipment'))}}
     <span class="item-description">{{{ item.system.descriptionEnriched }}}</span>
-    {{/if}}
-
-    {{!-- Buttons --}}
-    {{#if (or item.hasPassiveEffects item.uses.length)}}
-    <span class="buttons">
-        {{!-- Toggle Effects --}}
-        {{#if item.hasPassiveEffects}}
-            <a class="item-button" data-action="itemToggleEffects" data-item-id="{{item._id}}"
-                data-tooltip="{{#if item.system.active}}{{localize "WW.Item.DisableEffects"}}{{else}}{{localize "WW.Item.EnableEffects"}}{{/if}}">
-                <i class="fa-solid {{#if item.system.active}}fa-toggle-on{{else}}fa-toggle-off{{/if}}"></i></a>
-        {{/if}}
-        
-        {{!-- Uses Pips --}}
-        {{#if item.uses}}
-        <span class="pip-box">
-            {{#each item.uses as |pip id|}}
-                <a class="item-pip" data-action="itemUpdateUses" data-item-id="{{../item._id}}"
-                    data-tooltip="{{#if (eq pip "fa-regular fa-circle")}}
-                        {{#if (or (eq ../item.system.subtype "action") (eq ../item.system.subtype "reaction"))}}{{localize "WW.Item.Uses.ActionSpend"}}
-                        {{else}}{{localize "WW.Item.Uses.TalentSpend"}}{{/if}}
-                    {{else}}
-                        {{#if (or (eq ../item.system.subtype "action") (eq ../item.system.subtype "reaction"))}}{{localize "WW.Item.Uses.ActionRecover"}}
-                        {{else}}{{localize "WW.Item.Uses.TalentRecover"}}{{/if}}
-                    {{/if}}">
-                <i class="{{pip}}"></i></a>
-            {{/each}}
-        </span>
-        {{/if}}
-    </span>
     {{/if}}
 
     {{!-- Edit Buttons --}}
