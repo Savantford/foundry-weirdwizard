@@ -155,7 +155,6 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       if (i.type === 'equipment') {
         // Prepare traits list for weapons
         if (i.system.subtype == 'weapon') {
-
           // Prepare traits list
           let list = '';
 
@@ -178,6 +177,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
             i.label = `${i.name} (${i.system.gripLabel})${(i.system.traitsList ? ' • ' + i.system.traitsList : '')}`;
           } else i.label = (i.system.traits.has('range') ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + i.name + (i.system.traitsList ? ' • ' + i.system.traitsList : '');
 
+          // Can reload?
+          i.canReload = (i.system.traits.has('reload') || i.system.traits.has('firearm')) ?? false;
         }
 
         // Prepare filled capacity for containers
@@ -218,6 +219,9 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
           // Prepare tooltip
           i.containerTooltip = i18n('WW.Container.FilledHint', { filled: i.filled, capacity: i.system.capacity });
         }
+
+        // Prepare label for other Equipment
+        else i.label = i.name;
 
         if (!i.system.heldBy) {
 

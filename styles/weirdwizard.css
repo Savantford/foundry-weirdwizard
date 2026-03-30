@@ -1151,13 +1151,10 @@ body.theme-dark.application.weirdwizard .window-content {
     }
 
     .add-buttons {
-      flex: 0;
       display: inline-flex;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 0 10px;
+      gap: 0 0.5em;
       margin-left: auto;
-      margin-right: 3px;
       font-size: var(--font-size-12);
     }
   }
@@ -2687,6 +2684,7 @@ prose-mirror .statbox {
     .item {
       display: flex;
       flex-wrap: nowrap;
+      gap: 0 5px;
 
       label {
         color: var(--body-text-color);
@@ -2696,10 +2694,6 @@ prose-mirror .statbox {
 
     .item:not(:last-of-type)::after {
       content: ", ";
-    }
-
-    .item-button[data-action="itemToggleEffects"] {
-      margin-left: 5px;
     }
   }
 }
@@ -3326,19 +3320,19 @@ input[type="checkbox"].checkbox-uses {
   margin-right: 5px;
 }
 
-.described-list>.item,
+.described-list > .item,
 .weirdwizard .list-entries {
   padding-left: 1em;
   text-indent: -1em;
 }
 
-.described-list>.item ul>li {
+.described-list > .item ul > li {
   text-indent: 0;
 }
 
 .weirdwizard .item p,
-.weirdwizard .list-entries> :not(:first-child),
-.weirdwizard .list-entry> :not(:first-child) {
+.weirdwizard .list-entries > :not(:first-child),
+.weirdwizard .list-entry > :not(:first-child) {
   margin: 0px;
   text-indent: 0;
 }
@@ -3445,7 +3439,6 @@ input[type="checkbox"].checkbox-uses {
   background: var(--pink);
   border: 1px solid var(--purple-medium);
   border-radius: 15px;
-  margin-left: 5px !important;
   padding: 0 3px;
 }
 
@@ -3456,14 +3449,20 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .buttons i,
-.item-create i,
-.array-button i,
+.edit-buttons i,
 .help-button i {
   font-size: smaller;
 }
 
 .weirdwizard .item-button[data-action="itemToggleEffects"] i {
   font-size: inherit;
+}
+
+.buttons .item-button,
+.item-create {
+  display: inline-flex;
+  align-items: center;
+  gap: 0 5px;
 }
 
 .item-button i.fa-toggle-off {
@@ -3649,6 +3648,7 @@ input[type="checkbox"].checkbox-uses {
   display: flex;
   gap: 0 5px;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .weirdwizard ol.list-entries {
@@ -3656,24 +3656,30 @@ input[type="checkbox"].checkbox-uses {
   margin: 0;
   padding: 0;
   text-indent: 0;
+
+  > li {
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+
+    .edit-buttons {
+      margin-left: 5px;
+    }
+  }
+
+  > li:not(:last-of-type)::after {
+    content: ', ';
+  }
 }
 
-.weirdwizard ol.list-entries>li {
-  display: inline-flex;
-  align-items: center;
-  margin: 0;
-}
+.weirdwizard ol.list-entries.movement-traits {
+  > li:first-of-type::before {
+    content: '(';
+  }
 
-.weirdwizard ol.list-entries>li:not(:last-of-type)::after {
-  content: ', ';
-}
-
-.weirdwizard ol.list-entries.movement-traits>li:first-of-type::before {
-  content: '(';
-}
-
-.weirdwizard ol.list-entries.movement-traits>li:last-of-type::after {
-  content: ')';
+  > li:last-of-type::after {
+    content: ')';
+  }
 }
 
 .weirdwizard .list-entries span {

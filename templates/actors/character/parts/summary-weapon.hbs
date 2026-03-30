@@ -25,14 +25,14 @@
     {{!-- Damage --}}
     <span class="damage-line">({{#if item.system.damageAlt}}{{ item.system.damageAlt }}{{else if item.system.damage}}{{ item.system.damage }}{{else}}0{{/if}})</span>
 
-    {{#if (or item.system.traits.reload item.system.traits.firearm)}}
+    {{#if (or item.canReload)}}
     <span class="buttons">
-
         {{!-- Toggle Reloaded --}}
+        {{#if item.canReload}}
         <a class="item-button" data-action="itemToggleReloaded" data-item-id="{{item._id}}"
             data-tooltip="{{#if item.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
         <i class="fa-solid {{#if item.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
-
+        {{/if}}
     </span>
     {{/if}}
 

@@ -2,7 +2,7 @@
 
     {{!-- Title --}}
     <label class="item-button" data-action="itemLabelClick" data-item-id="{{item._id}}"
-        data-tooltip="{{item.tooltip}}">{{item.label}}:</label>
+        data-tooltip="{{item.tooltip}}">{{item.label}}{{#if (ne item.type "equipment")}}:{{/if}}</label>
     
     {{!-- Description --}}
     {{#if (and item.system.description (ne item.type 'equipment'))}}
@@ -10,8 +10,8 @@
     {{/if}}
 
     {{!-- Buttons --}}
+    {{#if (or item.hasPassiveEffects item.uses.length)}}
     <span class="buttons">
-
         {{!-- Toggle Effects --}}
         {{#if item.hasPassiveEffects}}
             <a class="item-button" data-action="itemToggleEffects" data-item-id="{{item._id}}"
@@ -36,6 +36,7 @@
         </span>
         {{/if}}
     </span>
+    {{/if}}
 
     {{!-- Edit Buttons --}}
     {{#if isEditMode}}

@@ -364,6 +364,7 @@
 
 "WW.Talent.Trait": "Trait or Talent",
 "WW.Talent.Action": "Action",
+"WW.Talent.SpecialAction": "Special Action",
 "WW.Talent.Reaction": "Reaction",
 "WW.Talent.End": "End of the Round",
 "WW.Talent.Uses": "Uses/Tokens",
@@ -467,6 +468,7 @@
 "WW.Armor.Heavy": "Heavy",
 "WW.Armor.Shield": "Shield",
 
+"WW.Attack.Label": "Attack",
 "WW.Attack.Plural": "Attacks",
 "WW.Attack.Melee": "Melee Attack",
 "WW.Attack.Ranged": "Ranged Attack",
