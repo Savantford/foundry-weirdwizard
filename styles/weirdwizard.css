@@ -2905,6 +2905,11 @@ prose-mirror .statbox {
   margin-right: 10%;
 }
 
+.textbox > hr.spear {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
 prose-mirror .textbox {
   background: var(--background-color-shadow);
 }
@@ -2913,9 +2918,12 @@ prose-mirror .textbox {
 .journal-entry-page h4.textbox-heading,
 .journal-entry-page .textbox h4 {
   border: none;
-  padding-bottom: 2px;
-  font-size: var(--font-size-20);
+  padding: 0;
+  font-size: var(--font-size-18);
+  font-family: var(--ww-font-serif);
+  font-weight: 700;
   font-variant-caps: small-caps;
+  letter-spacing: 0.02em;
   text-align: center;
 }
 
@@ -5845,6 +5853,8 @@ p {
   background-repeat: no-repeat, repeat;
   background-position: center;
   background-size: 30%, auto;
+  font-family: var(--ww-font-serif);
+  font-weight: 500;
   color: var(--body-text-color);
 }
 
@@ -5856,10 +5866,15 @@ p {
 .weirdwizard.chat-message {
   --bug: url(../assets/decorations/bugs/vines-grape-cluster.webp);
   gap: 5px;
-  font-family: var(--ww-font-serif) !important;
+  font-family: var(--ww-font-serif);
+  font-weight: 500;
   background: var(--paper-bg) repeat;
   background-position: center;
   background-blend-mode: multiply;
+
+  [class*="enricher-"] {
+    font-weight: 700;
+  }
 }
 
 .weirdwizard.chat-message.whisper {
@@ -5888,11 +5903,11 @@ p {
 
 .weirdwizard.chat-message span.flavor-text {
   font-family: var(--ww-font-fancy);
-  font-size: var(--font-size-16) !important;
+  font-variant: small-caps;
+  font-size: var(--font-size-18);
   font-weight: 600;
+  letter-spacing: 0.05rem;
   color: var(--purple-dark);
-  /*border-bottom: 3px double black;
-  margin-top: 5px;*/
 }
 
 .weirdwizard.chat-message .traits-container {
@@ -6025,10 +6040,28 @@ p {
 
 /* Other Chat Message Styles */
 
-.weirdwizard .message-wrapper {
-  display: flex;
-  flex-flow: column;
-  gap: 5px;
+.weirdwizard.chat-message {
+  .message-wrapper {
+    display: flex;
+    flex-flow: column;
+    gap: 5px;
+  }
+}
+
+.weirdwizard.chat-message.d6-roll,
+.weirdwizard.chat-message.d20-roll {
+  .message-wrapper {
+    font-family: var(--ww-font-sans);
+    font-weight: 400;
+    
+    p {
+      font-weight: 400;
+    }
+
+    [class*="enricher-"] {
+      font-weight: 600;
+    }
+  }
 }
 
 .weirdwizard .chat-description:not(:last-child) {
@@ -6264,12 +6297,16 @@ p {
   margin-top: 10px;
 }
 
-/* Footer Sender */
+/* Message Header */
 
 .weirdwizard.chat-message .footer-sender {
   line-height: 20px;
   color: var(--color-text-dark-secondary);
   font-size: var(--font-size-12);
+}
+
+.weirdwizard.chat-message .message-header {
+  font-weight: 600;
 }
 
 .weirdwizard.chat-message .message-sender,
@@ -6292,10 +6329,11 @@ p {
   flex: 3;
   margin: 0;
   white-space: nowrap;
-  color: var(--purple-medium);
+  color: var(--purple-dark);
   font-family: var(--ww-font-serif);
   font-size: var(--font-size-13);
-  font-weight: 600;
+  font-weight: 800;
+  font-variant: small-caps;
 }
 
 .weirdwizard.chat-message .message-sender img,
