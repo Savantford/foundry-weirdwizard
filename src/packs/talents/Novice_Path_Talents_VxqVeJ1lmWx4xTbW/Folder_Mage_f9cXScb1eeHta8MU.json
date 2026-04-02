@@ -1,0 +1,22 @@
+{
+  "name": "Mage",
+  "sorting": "a",
+  "folder": "VxqVeJ1lmWx4xTbW",
+  "type": "Item",
+  "_id": "f9cXScb1eeHta8MU",
+  "description": "",
+  "sort": 0,
+  "color": null,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.328",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_key": "!folders!f9cXScb1eeHta8MU"
+}

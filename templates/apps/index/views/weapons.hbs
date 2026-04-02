@@ -1,0 +1,38 @@
+<section class="view weapons">
+
+    {{!-- Header Row --}}
+    <li class="item flexrow items-header">
+        <div class="item-image"></div>
+
+        {{#each colHeaders as |header id|}}
+            {{> "systems/weirdwizard/templates/apps/index/parts/col-header.hbs" data=header }}
+        {{/each}}
+    </li>
+
+    {{!-- Rows --}}
+    <ol class="item-list weapons-list">
+        {{#each documents as |doc id|}}
+        <li class="item flexrow flex-group-left" data-doc-uuid="{{uuid}}">
+            {{!-- Icon --}}
+            <div class="item-image"><img src="{{img}}" data-tooltip="{{name}}" width="24" height="24" /></div>
+
+            {{!-- Name --}}
+            <div class="item-name">
+                <a data-action="openSheet" data-doc-uuid="{{uuid}}" data-tooltip="{{tooltip}}">{{name}}</a>
+            </div>
+
+            <div class="flex-width-80">{{ equipmentAvailability }}</div>
+            <div class="flex-width-60">{{{ equipmentPrice }}}</div>
+            <div class="flex-width-90">{{ weaponRequirement }}</div>
+
+            <div class="flex-width-60">{{ weaponRange }}</div>
+            <div class="flex-width-60">{{ weaponGrip }}</div>
+            <div class="flex-width-60">{{ weaponDamage }}</div>
+
+            {{!-- Traits --}}
+            <div class="item-traits weapon-traits">{{{ weaponTraits }}}</div>
+        </li>
+        {{/each}}
+    </ol>
+
+</section>

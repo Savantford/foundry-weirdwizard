@@ -1,4 +1,4 @@
-console.log('SotWW | Initializing weirdwizard.mjs...')
+console.log('SWW | Initializing weirdwizard.mjs...')
 
 // Import document classes.
 import WWActor from './documents/actor.mjs';
@@ -31,18 +31,22 @@ import WWGroupSheet from './sheets/actors/group-sheet.mjs';
 import WWEquipmentSheet from './sheets/items/equipment-sheet.mjs';
 import WWTalentSheet from './sheets/items/talent-sheet.mjs';
 import WWSpellSheet from './sheets/items/spell-sheet.mjs';
+import { WWJournalEntrySheet } from './sheets/journal/journal-entry-sheet.mjs';
 import WWAncestrySheet from './sheets/journal/ancestry-sheet.mjs';
 import WWPathSheet from './sheets/journal/path-sheet.mjs';
 import WWProfessionSheet from './sheets/journal/profession-sheet.mjs';
 import WWTraditionSheet from './sheets/journal/tradition-sheet.mjs';
 import WWActiveEffectConfig from './sheets/configs/active-effect-config.mjs';
+import WWRollTableSheet from './sheets/roll-table-sheet.mjs';
 
 // Import sidebar related classes.
 import WWCombatTracker from './sidebar/combat-tracker.mjs';
+import WWCombatantGroupConfig from './sheets/configs/combatant-group-config.mjs';
 import { initChatListeners } from './sidebar/chat-listeners.mjs';
 
 // Import UI apps.
 import WWRoll from './dice/roll.mjs';
+import CompendiumIndex from './apps/compendium-index.mjs';
 import SageTools from './ui/sage-tools.mjs';
 import QuestCalendar from './ui/quest-calendar.mjs';
 
@@ -55,23 +59,12 @@ import registerSystemSettings from './helpers/system-settings.mjs'
 import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
 import { WWAfflictions } from './helpers/afflictions.mjs';
 import { expireFromTokens } from './helpers/effect-actions.mjs';
-import { initGlobalListeners } from './helpers/global-listeners.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
 import { Utils, handleWelcomeMessage } from './helpers/utils.mjs';
 import { initializeEffectLookups } from './helpers/effect-presets.mjs';
-
-// Import migrations
-import {
-  fullMigration,
-  effectOverhaul,
-  strToCharOptions,
-  pathsOfJournaling, 
-  improvedListEntries,
-  v13Support  
-} from './helpers/migrations.mjs';
-import WWCombatantGroupConfig from './sheets/configs/combatant-group-config.mjs';
-import { WWJournalEntrySheet } from './sheets/journal/journal-entry-sheet.mjs';
+import { addFormattingOptions } from './helpers/text-editor.mjs';
+import { fullMigration, migrationsReference } from './helpers/migrations.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -191,9 +184,12 @@ Hooks.once('init', function () {
     makeDefault: true,
     label: "WW.CombatantGroup",
   });
+  DocumentSheetConfig.registerSheet(RollTable, 'weirdwizard', WWRollTableSheet, {
+    makeDefault: true
+  });
   //DocumentSheetConfig.registerSheet(Folder, 'weirdwizard', WWFolderConfig, {makeDefault: true}); - does not work, maybe in v13. see renderFolderConfig hook
 
-  // Register custom Combat Tracker
+  // Register custom Sidebar elements
   CONFIG.ui.combat = WWCombatTracker;
   
   // Disable legacy pre-V11 behavior of item effects being stored on actor.effects. Use actor.appliedEffects instead for all effects
@@ -215,11 +211,14 @@ Hooks.once('init', function () {
   };
 
   // Set default current turn token ring
-  if (CONFIG.Combat.fallbackTurnMarker !== 'systems/weirdwizard/assets/drawings/pause-star.webp')
-  CONFIG.Combat.fallbackTurnMarker = 'systems/weirdwizard/assets/drawings/pause-star.webp';
+  if (CONFIG.Combat.fallbackTurnMarker !== 'systems/weirdwizard/assets/decorations/stars/turn-indicator.webp')
+  CONFIG.Combat.fallbackTurnMarker = 'systems/weirdwizard/assets/decorations/stars/turn-indicator.webp';
 
   // Register custom Roll subclass
   CONFIG.Dice.rolls.unshift(WWRoll);
+
+  // Define Compendium.index fields
+  CompendiumIndex.defineCompendiumIndexFields();
 
   // Set active effect keys-labels to be used in Active Effects Config app
   initializeEffectLookups();
@@ -235,29 +234,20 @@ Hooks.once('init', function () {
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
 
-Hooks.once('ready', function () {
+Hooks.once('ready', function (app, html) {
   // Include steps that need to happen after Foundry has fully loaded here.
 
   // Register Tours
   registerWWTours();
 
-  // Append data migration function to game.system.migrations so it can be used for manual migrations
-  game.system.migrations = {
-    fullMigration: fullMigration,
-    effectOverhaul: effectOverhaul,
-    strToCharOptions: strToCharOptions,
-    pathsOfJournaling: pathsOfJournaling,
-    improvedListEntries: improvedListEntries,
-    v13Support: v13Support
-  }
+  // Append data migration functions to game.system.migrations so tye can be used for manual forced migrations
+  game.system.migrations = migrationsReference;
 
-  // Check and run data migrations if needed
+  // Check and run full data migration if needed
   fullMigration();
 
+  // Post a welcome message if needed
   handleWelcomeMessage();
-
-  // Initialize global listeners
-  initGlobalListeners();
 });
 
 /* -------------------------------------------- */
@@ -291,6 +281,10 @@ Hooks.once('setup', function () {
 /* -------------------------------------------- */
 /*  Rendering Hooks                             */
 /* -------------------------------------------- */
+
+Hooks.on("renderCompendiumDirectory", (app, html) => {
+  CompendiumIndex.injectSidebarButton(html);
+})
 
 Hooks.on('renderChatMessageHTML', (message, html, context) => {
   // Remove html elements meant for owners or non-owners only
@@ -356,7 +350,7 @@ Hooks.on('renderSettings', (app, html) => {
   badge.innerHTML = `
     <h4 class="divider">${game.i18n.localize('WORLD.FIELDS.system.label')}</h4>
 
-    <img src="systems/weirdwizard/assets/ui/sotww-logo.png" alt="${game.system.title}" data-tooltip="${game.system.title}">
+    <img src="systems/weirdwizard/assets/decorations/sww-logo.png" alt="${game.system.title}" data-tooltip="${game.system.title}">
 
     <p class="subtitle version">Version ${game.system.version}</p>
 
@@ -436,6 +430,13 @@ Hooks.on('updateWorldTime', (worldTime, dt, options, userId) => {
 });
 
 /* -------------------------------------------- */
+
+// Add prosemirror dropdown options
+Hooks.on("getProseMirrorMenuDropDowns", (menu, dropdowns) => {
+  addFormattingOptions(menu, dropdowns);
+});
+
+/* -------------------------------------------- */
 /*  External Module Hooks                       */
 /* -------------------------------------------- */
 
@@ -453,4 +454,4 @@ Hooks.on('diceSoNiceReady', (dice3d) => {
 
 });
 
-console.log('SotWW | Done initializating weirdwizard.mjs.')
+console.log('SWW | Done initializating weirdwizard.mjs.')

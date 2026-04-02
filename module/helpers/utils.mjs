@@ -218,30 +218,6 @@ export function getAlias({scene, actor, token, alias}={}) {
   return game.weirdwizard.utils.getSpeaker({ scene, actor, token, alias })?.alias;
 }
 
-/* Return a list of Compendia with a prefix included */
-export function getCompendiumList () {
-  const compendiumList = {};
-
-  for (const pack of game.packs) {
-    const data = pack.metadata;
-    
-    if (!(data.type === "Item" || data.type === "Actor")) continue; // Skip non-wanted document types
-
-    // Package Name exists in the system's group list
-    const compGroups = CONFIG.WW.COMPENDIUM_GROUPS;
-    const group = Object.hasOwn(compGroups, data.packageName) ? compGroups[data.packageName] : compGroups[data.packageType];
-    
-    compendiumList[data.id] = {
-      value: data.id,
-      label: data.label,
-      group: i18n(group)
-    }
-
-  }
-
-  return compendiumList;
-};
-
 /* Return a list of Folders */
 export function getFolderList(compendium) {
   const folderList = {};
@@ -262,6 +238,78 @@ export function getFolderList(compendium) {
 }
 
 /* -------------------------------------------- */
+/*  Animations                                  */
+/* -------------------------------------------- */
+
+/* SLIDE UP */
+export const slideUp = (target, duration = 500) => {
+  target.style.transitionProperty = 'height, margin, padding';
+  target.style.transitionDuration = duration + 'ms';
+  target.style.boxSizing = 'border-box';
+  target.style.height = target.offsetHeight + 'px';
+  target.offsetHeight;
+  target.style.overflow = 'hidden';
+  target.style.height = 0;
+  target.style.paddingTop = 0;
+  target.style.paddingBottom = 0;
+  target.style.marginTop = 0;
+  target.style.marginBottom = 0;
+
+  window.setTimeout(() => {
+    target.style.display = 'none';
+    target.style.removeProperty('height');
+    target.style.removeProperty('padding-top');
+    target.style.removeProperty('padding-bottom');
+    target.style.removeProperty('margin-top');
+    target.style.removeProperty('margin-bottom');
+    target.style.removeProperty('overflow');
+    target.style.removeProperty('transition-duration');
+    target.style.removeProperty('transition-property');
+    //alert("!");
+  }, duration);
+}
+
+/* SLIDE DOWN */
+export const slideDown = (target, duration = 500) => {
+  target.style.removeProperty('display');
+  let display = window.getComputedStyle(target).display;
+  if (display === 'none') display = 'block';
+  target.style.display = display;
+  let height = target.offsetHeight;
+  target.style.overflow = 'hidden';
+  target.style.height = 0;
+  target.style.paddingTop = 0;
+  target.style.paddingBottom = 0;
+  target.style.marginTop = 0;
+  target.style.marginBottom = 0;
+  target.offsetHeight;
+  target.style.boxSizing = 'border-box';
+  target.style.transitionProperty = "height, margin, padding";
+  target.style.transitionDuration = duration + 'ms';
+  target.style.height = height + 'px';
+  target.style.removeProperty('padding-top');
+  target.style.removeProperty('padding-bottom');
+  target.style.removeProperty('margin-top');
+  target.style.removeProperty('margin-bottom');
+
+  window.setTimeout(() => {
+    target.style.removeProperty('height');
+    target.style.removeProperty('overflow');
+    target.style.removeProperty('transition-duration');
+    target.style.removeProperty('transition-property');
+  }, duration);
+}
+
+/* TOGGLE */
+export const slideToggle = (target, duration = 500) => {
+  if (window.getComputedStyle(target).display === 'none') {
+    return slideDown(target, duration);
+  } else {
+    return slideUp(target, duration);
+  }
+}
+
+/* -------------------------------------------- */
 /*  Misc                                        */
 /* -------------------------------------------- */
 
@@ -274,7 +322,7 @@ export function handleWelcomeMessage(force = false) {
     return;
   }
 
-  const intro = `<img style="background: none;" src="systems/weirdwizard/assets/ui/sotww-logo.png">`;
+  const intro = `<img style="background: none;" src="systems/weirdwizard/assets/decorations/sww-logo.png">`;
   const content = i18n('WW.System.Welcome', { intro: intro }) + i18n('WW.System.WelcomeFooter');
   ChatMessage.create({
     speaker: game.weirdwizard.utils.getSpeaker({ alias: game.system.title }),

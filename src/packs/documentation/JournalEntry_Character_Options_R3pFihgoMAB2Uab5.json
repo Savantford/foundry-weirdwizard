@@ -1,0 +1,66 @@
+{
+  "name": "Character Options",
+  "pages": [
+    {
+      "sort": 100000,
+      "name": "Character Options",
+      "type": "text",
+      "_id": "thPe333HcfTJyiLv",
+      "title": {
+        "show": false,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p><strong>Ancestries</strong>, <strong>Paths</strong>, <strong>Professions</strong> and <strong>Traditions</strong>, collectively called <strong>Character Options</strong> by the system, are <a href=\"https://foundryvtt.com/article/journal/\">journal entry pages</a> that share similar concepts and function.</p><p>Such functions and concepts are usually not intuitive at first glance. For this reason, this documentation was made to help setting up character options correctly.</p><h1>Benefits</h1><p><strong>Benefits</strong> are data blocks used by all Character Options, except Traditions.</p><p>All character options grant one or more benefits that might include:</p><ul><li><p>Changes to Stats: <strong>Defense (Natural or Armored)</strong>, <strong>Health</strong>, <strong>Size</strong>, <strong>Speed</strong> and <strong>Bonus Damage</strong>.</p></li><li><p>Common Traits &amp; Knowledge: creature <strong>Type</strong>, <strong>Senses</strong>, <strong>Languages</strong>, <strong>Special Movement Traits</strong>, <strong>Immunities</strong>, <strong>Traditions</strong>.</p></li><li><p>Regular Items: <strong>Traits</strong>, <strong>Talents</strong>, <strong>Equipment</strong> and <strong>Spells</strong>.</p></li></ul><p>Both <strong>Ancestries</strong> and <strong>Professions</strong> grant the benefits straight away when applied. <strong>Paths</strong>, on the other hand, grant benefits on certain <strong>Levels</strong>.</p><h1>Item References</h1><p><a href=\"https://foundryvtt.com/article/items/\">Items</a> (Equipment, Traits, Talents, Spells etc) can be granted by some Character Option's benefits.</p><p>Since only <a href=\"https://foundryvtt.com/article/actors/\">actors</a> (Characters, NPCs, etc) can carry items, Character Options only record item <strong>UUIDs</strong> (universal IDs) as <strong>references</strong>.</p><p>This means that <strong>items must first be created in a Compendium</strong> in order to be used in a Character Option.</p><p>To create a proper item reference for a character option, follow the instructions below.</p><h2>Creating a New Item Reference</h2><ol><li><p><strong>Choose an Item Compendium:</strong> The first step is to create a new <strong>Item</strong> <a href=\"https://foundryvtt.com/article/compendium/\">compendium</a> or find one you already created and want to use for character options.</p></li><li><p><strong>Choose an Item:</strong> Select or create a new item from the Compendium chose in step 1.</p></li><li><p><strong>Drag and Drop the Item onto the Character Option:</strong> Drag the item from the Compendium and drop it onto one of the areas reserved for items in the Character Option's journal page. The areas will be <strong>highlighted</strong> to indicate where the item can be dropped.</p></li><li><p>Done!</p></li></ol><h2>Editing an Item</h2><p>Once an item reference is recorded in a Character Option, you can edit it by clicking on the <strong>edit button</strong> next to the item's name.</p><p>Remember that you'll be editing <strong>an item inside a compendium</strong>, so you might need to first unlock the compendium.</p><h2>Removing an Item Reference</h2><p>You can remove an item reference by clicking the <strong>trash bin button</strong> next to the item's name.</p><p>Remember that you are just <strong>removing the reference</strong> to the item, not the item itself. The item will stay in the compendium, untouched.</p><h1>Using Character Options</h1><p>After you are finished making a character option, you can drag it from the left sidebar in the Journal they are in and drop it onto an actor (Character, etc) sheet.</p><p>The actor will then have a link to the character option, and apply any changes it needs.</p>",
+        "markdown": ""
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "system": {},
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": null,
+        "modifiedTime": 1742829123646,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!R3pFihgoMAB2Uab5.thPe333HcfTJyiLv"
+    }
+  ],
+  "folder": null,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1720476335040,
+    "modifiedTime": 1742826834491,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_id": "R3pFihgoMAB2Uab5",
+  "sort": 200000,
+  "categories": [],
+  "_key": "!journal!R3pFihgoMAB2Uab5"
+}

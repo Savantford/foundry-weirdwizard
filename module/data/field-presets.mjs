@@ -60,10 +60,17 @@ export const makeStrField = (init = '') => new fields.StringField({
   textSearch: true
 })
 
-/* UUID Reference String (Nullable, cannot be blank) */
-export const makeUuidStrField = (init = null) => new fields.StringField({
+/* ID Reference String (Nullable, cannot be blank) */
+export const makeIdStrField = (init = null) => new fields.StringField({
   initial: init,
   nullable: true
+})
+
+/* UUID Reference String (Nullable, cannot be blank) */
+export const makeUuidStrField = (init = null) => new fields.DocumentUUIDField({
+  initial: init,
+  nullable: true,
+  //relative: true - v14 only
 })
 
 /* Required String (Cannot be blank; for dropdown and name fields) */

@@ -1,0 +1,40 @@
+<section class="view paths">
+    {{!-- Header Row --}}
+    <li class="item flexrow items-header">
+        <div class="item-image"></div>
+    
+        {{#each colHeaders as |header id|}}
+            {{> "systems/weirdwizard/templates/apps/index/parts/col-header.hbs" data=header }}
+        {{/each}}
+    </li>
+
+    {{!-- Rows --}}
+    <ol class="item-list">
+        {{#each documents as |doc id|}}
+        <li class="item flexrow flex-group-left" data-doc-uuid="{{uuid}}">
+            {{!-- Icon --}}
+            <div class="item-image"><img src="{{img}}" data-tooltip="{{name}}" width="24" height="24" /></div>
+
+            {{!-- Name --}}
+            <div class="item-name">
+                <a data-action="openSheet" data-doc-uuid="{{uuid}}" data-tooltip="{{tooltip}}">{{name}}</a>
+            </div>
+
+            <div class="flex-width-60">{{ pathTier }}</div>
+
+            {{!-- Stats Summary --}}
+            <div class="flex-width-60">{{{ pathNatural }}}</div>
+            <div class="flex-width-60">{{{ pathArmored }}}</div>
+            <div class="flex-width-60">{{{ pathHealth }}}</div>
+            <div class="flex-width-60">{{{ pathBonusDamage }}}</div>
+            <div class="flex-width-60">{{{ pathSpeed }}}</div>
+
+            <div class="flex-width-70">{{{ pathTraditions }}}</div>
+            <div class="flex-width-90">{{{ pathSpells }}}</div>
+            
+            <div class="item-last">{{{ pathTalents }}}</div>
+        </li>
+        {{/each}}
+    </ol>
+
+</section>

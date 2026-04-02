@@ -1,4 +1,4 @@
-import { i18n } from '../helpers/utils.mjs';
+import { i18n, slideDown } from '../helpers/utils.mjs';
 import MultiChoice from '../apps/multi-choice.mjs';
 import RollDamage from '../dice/roll-damage.mjs';
 import WWRoll from '../dice/roll.mjs';
@@ -12,13 +12,9 @@ import WWRoll from '../dice/roll.mjs';
 export function initChatListeners(html, message, context) {
   // Rolling for Instant Effects
   html.querySelectorAll('.chat-button[data-action*=roll]').forEach((el, i) => { el.addEventListener('click', _onInstantEffectRoll); });
-  html.querySelectorAll('.enricher-roll').forEach((el, i) => { el.addEventListener('click', _onInstantEffectRoll); });
-
-  // Attribute Call (Enricher)
-  html.querySelectorAll('.enricher-call').forEach((el, i) => { el.addEventListener('click', (ev) => { _onMultiChoice(ev, 'attributeCall') }); });
 
   // Effect Application Multi-Choice
-  html.querySelectorAll('.chat-button[data-action*=apply]').forEach((el, i) => { el.addEventListener('click', (ev) => { _onMultiChoice(ev, 'applyEffect') }); });
+  html.querySelectorAll('.chat-button[data-action*=apply]').forEach((el, i) => { el.addEventListener('click', (ev) => _onMultiChoice(ev, 'applyEffect')); });
 
   // Open Sheet from chat
   html.querySelectorAll('[data-action=open-sheet]').forEach((el, i) => { el.addEventListener('click', _onOpenSheet); });
@@ -32,7 +28,7 @@ export function initChatListeners(html, message, context) {
 /** 
  * Handle roll started from a chat button.
  */
-function _onInstantEffectRoll(event) {
+export function _onInstantEffectRoll(event) {
   event.preventDefault()
   const button = event.currentTarget;
   const dataset = Object.assign({}, button.dataset);
@@ -54,7 +50,7 @@ function _onInstantEffectRoll(event) {
   * Handle opening of a context menu from a chat button.
   * @param {HTMLElement} element     The element the menu opens on.
 */
-function _onMultiChoice(ev, purpose) {
+export function _onMultiChoice(ev, purpose) {
   
   const element = ev.currentTarget;
   const user = game.user;
@@ -235,7 +231,7 @@ async function _onChatRoll(dataset, label, nextAction) {
   // Prepare following action
   dataset.action = nextAction;
 
-  const origin = fromUuidSync(dataset.originUuid),
+  const origin = await fromUuid(dataset.originUuid),
     data = {
       actor: _getActorFromOrigin(origin),
       target: canvas.tokens.get(dataset.targetId),
@@ -302,7 +298,7 @@ function _onMessageCollapse(msg) {
     icon.classList.add('fa-square-minus');
 
     for (const el in elements) {
-      $(elements[el]).slideDown(500); // Remove jQuery when possible
+      slideDown(elements[el]);
     };
     
   } else {
@@ -311,7 +307,7 @@ function _onMessageCollapse(msg) {
     icon.classList.add('fa-square-plus');
 
     for (const el in elements) {
-      $(elements[el]).slideUp(500); // Remove jQuery when possible
+      slideUp(elements[el]);
     };
     
   }
@@ -329,8 +325,12 @@ function _onMessageCollapse(msg) {
  * @private
 */
 function _getActorFromOrigin(origin) {
-  // Case 1 - Origin is an Item
-  if (origin?.documentName === 'Item') return origin.parent || null; 
-  // Case 2 - Origin is an Actor
-  else return origin || null; 
+  switch (origin?.documentName) {
+    case 'Actor':
+      return origin;
+    case 'Item':
+      return origin.parent ?? null;
+    default:
+      return null;
+  }
 }

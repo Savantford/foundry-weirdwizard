@@ -1,15 +1,14 @@
 <div class="weirdwizard document-card">
-
-    {{!-- Image Banner --}}
-    <div class="card-banner">
-        <img src="{{img}}">
-    </div>
-
     {{!-- Main Card Body --}}
     <div class="card-body">
 
         {{!-- Tooltip Card Header --}}
         <header class="card-header">
+
+            {{!-- Image Banner --}}
+            <div class="card-banner">
+                <img src="{{img}}">
+            </div>
 
             <div class="title-wrapper">
                 <div class="card-title">{{label}}</div>
@@ -22,19 +21,19 @@
         {{#if (eq type 'spell')}}
         <header class="card-subheader">
             
-            <div class="stat">
+            <div class="stat inline-second">
                 <label>{{localize "WW.Spell.Castings"}}:</label>
-                {{system.uses.max}}{{#if system.casting}}, {{system.casting}}{{/if}}
+                {{{ system.castingsLabel }}}
             </div>
 
-            <div class="stat">
+            <div class="stat inline-second">
                 <label>{{localize "WW.Spell.Target"}}:</label>
-                {{system.target}}
+                {{{ system.target }}}
             </div>
 
-            <div class="stat">
+            <div class="stat inline-second">
                 <label>{{localize "WW.Spell.Duration"}}:</label>
-                {{system.duration}}
+                {{{ system.duration }}}
             </div>
 
         </header>
@@ -51,7 +50,7 @@
     </div>
 
     {{!-- Outer Footer ---}}
-    {{#if inSheet}}
+    {{#if usageFooter}}
     <footer class="tooltip-footer">
         <p>{{{localize "WW.Item.Perform.Left"}}}</p>
         <p>{{{localize "WW.Item.Perform.Shift"}}}</p>

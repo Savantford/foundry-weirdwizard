@@ -1,0 +1,189 @@
+<section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+
+    {{!-- Descriptor(s) --}}
+    <h5 class="descriptors flex-group-left">
+
+        {{!-- Descriptors --}}
+        {{#if (gt listEntries.descriptors.length 0)}}
+        <ol class="list-entries">
+            {{#each listEntries.descriptors as |entry|}}
+                {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="descriptors" loc="Descriptor" isEditMode=@root.isEditMode }}
+            {{/each}}
+        </ol>
+        {{/if}}
+
+        {{!-- Individual Traits --}}
+        {{#if actor.system.details.individualTraits}}
+        {{#if (gt listEntries.descriptors.length 0)}}<span>•</span>{{/if}}
+        <span class="individual-traits">{{ actor.system.details.individualTraits }}</span>
+        {{/if}}
+        
+    </h5>
+
+    {{!-- Statbox Sections --}}
+    <div class="statbox-sections flexrow">
+
+        {{!-- Statbox: Left Column --}}
+        <div class="statbox">            
+            {{!-- Traits and Talents --}}
+            <div class="statbox-section talents-section">
+
+                {{!-- Heading --}}
+                <h6>
+                    <img src="systems/weirdwizard/assets/icons/skills.svg"/>
+
+                    <span>{{localize "WW.Talents.Traits"}}</span>
+                </h6>
+                
+                {{!-- Languages --}}
+                {{#if listEntries.languages.length}}
+                <ol class="stat-inline list-entries">
+                    <label>{{localize "WW.ListEntry.Language.Label"}}:</label>
+
+                    {{#each listEntries.languages as |entry|}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="languages" loc="Language" isEditMode=@root.isEditMode }}
+                    {{else}}
+                        <span>—</span>
+                    {{/each}}
+
+                </ol>
+                {{/if}}
+
+                {{!-- Senses --}}
+                {{#if listEntries.senses.length}}
+                <ol class="stat-inline list-entries">
+                    <label>{{localize "WW.ListEntry.Sense.Label"}}:</label>
+                
+                    {{#each listEntries.senses as |entry key|}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="senses" loc="Sense" isEditMode=@root.isEditMode }}
+                    {{else}}
+                        <span>—</span>
+                    {{/each}}
+
+                </ol>
+                {{/if}}
+
+                {{!-- Immune --}}
+                {{#if listEntries.immunities.length}}
+                <ol class="stat-inline list-entries">
+                    <label>{{localize "WW.ListEntry.Immunity.Label"}}:</label>
+                
+                    {{#each listEntries.immunities as |entry key|}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="immunities" loc="Immunity" isEditMode=@root.isEditMode }}
+                    {{else}}
+                        <span>—</span>
+                    {{/each}}
+
+                </ol>
+                {{/if}}
+
+                {{!-- Traits or Talents --}}
+                {{#if talents.length}}
+                <ol class="described-list">
+                    {{#each talents as |item id|}}
+                        {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
+                    {{/each}}
+                </ol>
+                {{/if}}
+
+                {{!-- Equipment --}}
+                {{#if equipment.length}}
+                <div class="stat equipment-list">
+                        
+                    <label>{{localize "WW.Equipment.Label"}}:</label>
+                    
+                    {{#each equipment as |item id|}}
+                        {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
+                    {{/each}}
+
+                    {{#unless equipment.length}}<span>—</span>{{/unless}}
+
+                </div>
+                {{/if}}
+
+            </div>
+
+        </div>
+
+        {{!-- Statbox: Right Column --}}
+        <div class="statbox">
+            
+            {{!-- Actions Section --}}
+            {{#if (or weapons.length actions.length)}}
+            <div class="statbox-section actions">
+                
+                {{!-- Actions Header --}}
+                <h6>
+                    <img src="systems/weirdwizard/assets/icons/actions.svg"/>
+
+                    <span>{{localize "WW.Talents.Actions"}}</span>
+                </h6>
+
+                {{!-- Attacks --}}
+                <ol class="described-list attacks-list">
+                    {{#each weapons as |item id|}}
+                        {{> "systems/weirdwizard/templates/actors/npc/parts/summary-weapon.hbs" item=item id=id}}
+                    {{/each}}
+                </ol>
+                
+                {{!-- Special Actions --}}
+                <ol class="described-list actions-list">
+                    {{#each actions as |item id|}}
+                        {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
+                    {{/each}}
+                </ol>
+
+                {{!-- Spells --}}
+                <ol class="described-list spells-list">
+                    {{#each spells as |item id|}}
+                        {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
+                    {{/each}}
+                </ol>
+
+            </div>
+            {{/if}}
+            
+            {{!-- Reactions Section --}}
+            {{#if reactions.length}}
+            <div class="statbox-section reactions">
+
+                <h6>
+                    <img src="systems/weirdwizard/assets/icons/reactions.svg"/>
+
+                    <span>{{localize "WW.Talents.Reactions"}}</span>
+                </h6>
+                
+                <ol class="described-list">
+                    {{#each reactions as |item id|}}
+                        {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
+                    {{/each}}
+                </ol>
+
+            </div>
+            {{/if}}
+            
+            {{!-- End of Round Section --}}
+            {{#if end.length}}
+            <div class="statbox-section ends">
+
+                <h6>
+                    <img src="systems/weirdwizard/assets/icons/duration.svg"/>
+                    
+                    <span>{{localize "WW.Talents.Ends"}}</span>
+                </h6>
+                
+                <ol class="described-list">
+                    {{#each end as |item id|}}
+                        {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
+                    {{/each}}
+                </ol>
+
+            </div>
+            {{/if}}
+
+        </div>
+
+    </div>
+
+    <div class="flex-1"></div>
+</section>

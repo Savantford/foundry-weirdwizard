@@ -1,4 +1,4 @@
-import { escape, i18n, plusify } from '../../helpers/utils.mjs';
+import { escape, i18n, plusify, slideDown, slideUp } from '../../helpers/utils.mjs';
 import { diceTotalHtml } from '../../sidebar/chat-html-templates.mjs';
 import { mapRange } from '../../canvas/canvas-functions.mjs';
 import MultiChoice from '../../apps/multi-choice.mjs';
@@ -89,6 +89,9 @@ export default class WWCreatureSheet extends WWActorSheet {
     context.injured = actorData.injured;
     context.incapacitated = actorData.incapacitated;
     context.dead = actorData.dead;
+
+    // Prepare Enriched Text
+    context.system.descriptionEnriched = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.system.description, { secrets: this.actor.isOwner });
 
     // Prepare inputs
     const field = (str) => this.document.system.schema.getField(str);
@@ -286,7 +289,6 @@ export default class WWCreatureSheet extends WWActorSheet {
       // Description tab
       case 'description':
         context.tab = context.tabs[partId];
-        context.system.descriptionEnriched = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.system.description, { secrets: this.actor.isOwner });
       break;
       
       // Effects tab
@@ -351,6 +353,12 @@ export default class WWCreatureSheet extends WWActorSheet {
    * @return {Promise<void>}
   */
   async _prepareNPCData(context) {
+    // Prepare fields
+    context.individualTraits = {
+      name: `system.details.individualTraits`,
+      value: context.system.details.individualTraits,
+      field: new foundry.data.fields.StringField()
+    }
 
     // Prepare dropdown lists
     context.difficulties = CONFIG.WW.BESTIARY_DIFFICULTIES;
@@ -373,15 +381,14 @@ export default class WWCreatureSheet extends WWActorSheet {
    */
   async _onRender(context, options) {
     await super._onRender(context, options);
-
+    
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
 
     // Add dynamic classes to app window
     const actor = this.actor;
     const window = this.element;
-
-    window.classList.toggle('edit-mode', this.editMode); // Toggle edit mode
+    
     window.classList.toggle('master', actor.system.stats.level >= 7); // Toggle Tier classes
     window.classList.toggle('expert', actor.system.stats.level >= 3);
     window.classList.toggle('injured', actor.injured); // Add Health status classes
@@ -1041,7 +1048,9 @@ export default class WWCreatureSheet extends WWActorSheet {
     
   }
 
-  // Item Scroll: Send item description to chat when clicked
+  /* -------------------------------------------- */
+
+  /* Send item description to chat when clicked */
   static #onItemScroll(event, button) {
     event.preventDefault();
     event.stopPropagation();
@@ -1051,6 +1060,8 @@ export default class WWCreatureSheet extends WWActorSheet {
 
     this._onItemScroll(item);
   }
+
+  /* -------------------------------------------- */
   
   _onItemScroll(item) {
     ChatMessage.create({
@@ -1064,7 +1075,9 @@ export default class WWCreatureSheet extends WWActorSheet {
     })
   }
 
-  // Set uses pips to update the value when clicked
+  /* -------------------------------------------- */
+
+  /* Set uses pips to update the value when clicked */
   static #onItemUpdateUses(event, button) {
     event.preventDefault();
     event.stopPropagation();
@@ -1078,6 +1091,8 @@ export default class WWCreatureSheet extends WWActorSheet {
     }
   }
 
+  /* -------------------------------------------- */
+
   static #onItemToggleEffects(event, button) {
     event.preventDefault();
     event.stopPropagation();
@@ -1088,6 +1103,8 @@ export default class WWCreatureSheet extends WWActorSheet {
     item.update({ "system.active": !item.system.active });
   }
 
+  /* -------------------------------------------- */
+
   static #onItemToggleReloaded(event, button) {
     event.preventDefault();
     event.stopPropagation();
@@ -1097,63 +1114,30 @@ export default class WWCreatureSheet extends WWActorSheet {
     item.update({ "system.reloaded": !item.system.reloaded });
   }
 
-  // Collapses description - not used anymore
-  /*static #onItemCollapse(button) {
-    let li = $(button).parents('.item');
-    
-    if (!li.length) { // If parent does not have .item class, set li to current target.
-      li = $(button);
-    }
+  /* -------------------------------------------- */
 
-    const desc = li.find('.item-desc'),
-      icon = li.find('.item-button[data-action=item-collapse]').find('i');
-    
-    // Flip states
-    if (icon.hasClass('fa-square-chevron-down')) {
-      $(button).attr('data-tooltip', 'WW.Item.HideDesc')
-      icon.removeClass('fa-square-chevron-down').addClass('fa-square-chevron-up');
-      desc.slideDown(500);
-    } else {
-      $(button).attr('data-tooltip', 'WW.Item.ShowDesc')
-      icon.removeClass('fa-square-chevron-up').addClass('fa-square-chevron-down');
-      desc.slideUp(500);
-    }
-    
-  }*/
-
-  // Collapses Container content
+  /* Collapses Equipment Container content */
   static #onContainerCollapse(event, button) {
     event.preventDefault();
     event.stopPropagation();
     
-    const dataset = Object.assign({}, button.dataset);
+    // Get item info
+    const { itemId } = button.dataset;
+    const item = this.actor.items.get(itemId);
 
-    let li = $(button).parents('.item');
-    
-    if (!li.length) { // If parent does not have .item class, set li to current target.
-      li = $(button);
+    // Get HTML elements
+    const li = button.closest('.item') ?? button;
+    const content = li.parentElement.querySelector(`[data-container-id="${itemId}"]`);
+
+    if (content) {
+      if (item.containerCollapsed === undefined) item.containerCollapsed = true;
+      const shouldCollapse = item.containerCollapsed = !item.containerCollapsed;
+      
+      // Handle collapsing
+      if (shouldCollapse) slideUp(content, 300); else slideDown(content, 300);
+      li.classList.toggle('collapsed', shouldCollapse);
+      content.classList.toggle('collapsed', shouldCollapse);
     }
-
-    const content = li.parent().find(`[data-container-id=${dataset.itemId}]`);
-    const collapseButton = li.parent().find(`.item-collapse[data-item-id=${dataset.itemId}]`)[0];
-    
-    // Fetch collapsed elements
-    const collapsed = li.hasClass('collapsed');
-    const icon = collapseButton.querySelector('i');
-
-    // Toggle collapsed states
-    icon.classList.toggle('fa-square-caret-up', collapsed);
-    icon.classList.toggle('fa-square-caret-down', !collapsed);
-    li[0].classList.toggle('collapsed');
-
-    if (collapsed) {
-      collapseButton.setAttribute('data-tooltip', 'WW.Container.Collapse');      
-      content.slideDown(300);
-    } else {
-      collapseButton.setAttribute('data-tooltip', 'WW.Container.Expand');
-      content.slideUp(300);
-    }
-    
   }
 
   /* -------------------------------------------- */
@@ -1161,7 +1145,6 @@ export default class WWCreatureSheet extends WWActorSheet {
   /* -------------------------------------------- */
 
   static async #onRest() {
-    
     const confirm = await WWDialog.input({
       window: {
         title: 'WW.Rest.Label',
@@ -1467,7 +1450,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     }
 
     // Perform the sort only if 
-    const sortUpdates = foundry.utils.SortingHelpers.performIntegerSort(source, {target, siblings});
+    const sortUpdates = foundry.utils.performIntegerSort(source, {target, siblings});
     
     const updateData = sortUpdates.map(u => {
       const update = u.update;
@@ -1576,7 +1559,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     }
 
     // Perform the sort
-    const sortUpdates = foundry.utils.SortingHelpers.performIntegerSort(source, {target, siblings});
+    const sortUpdates = foundry.utils.performIntegerSort(source, {target, siblings});
     const updateData = sortUpdates.map(u => {
       const update = u.update;
       update._id = u.target._id;

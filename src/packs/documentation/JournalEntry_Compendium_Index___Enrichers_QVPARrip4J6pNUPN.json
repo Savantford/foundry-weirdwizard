@@ -1,0 +1,143 @@
+{
+  "name": "Compendium Index & Enrichers",
+  "pages": [
+    {
+      "sort": 100000,
+      "name": "Compendium Index",
+      "type": "text",
+      "_id": "bz1TcjiGMLAXyUXb",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>The <strong>Compendium Index</strong> is an app used to browse, filter and display <a href=\"https://foundryvtt.com/article/compendium/\">compendia</a> for the Shadow of the Weird Wizard system.</p><p>A shortcut to the app can be found by everyone in the <strong>Compendium Packs</strong> tab, and Sages can find many handy presets displayed in the <strong>Sage Tools</strong> app.</p><p>In addition to these places, the Compendium Index can be accessed through <a href=\"https://foundryvtt.wiki/en/development/guides/enrichers\">enriched text</a> anywhere where enriched text exists:</p><ul><li><p><a href=\"https://foundryvtt.com/article/journal/\">Journal entries</a> (like this documentation!)</p></li><li><p><a href=\"https://foundryvtt.com/article/chat/\">Chat messages</a></p></li><li><p>Fields in <a href=\"https://foundryvtt.com/article/actors/\">actor</a> and <a href=\"https://foundryvtt.com/article/items/\">item</a> sheets where the text editor is enabled, such as the <strong>Description</strong> fields.</p></li><li><p>Any other place where the text is enriched.</p></li></ul><p>Here is a default Compendium Index enricher result:</p><p>@Index[all]</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.350",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": null,
+        "modifiedTime": 1766187536146,
+        "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!QVPARrip4J6pNUPN.bz1TcjiGMLAXyUXb"
+    },
+    {
+      "sort": 200000,
+      "name": "Default Enricher Presets",
+      "type": "text",
+      "_id": "kQZzIaUoBZtwfrvO",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>In addition to simply opening the Compendium Index, there are a few presets ready that open it with preset filters and a view on.</p><p>Below is the code and enrichment result for each available compendium index preset.</p><p>Notes that the enricher is <strong>case insensitive</strong>, meaning it does not matter if you prefer <code>@index</code> or <code>@InDeX</code>.</p><h2>Equipment</h2><table><tbody><tr><td><p><strong>Code</strong></p></td><td><p><strong>Result</strong></p></td></tr><tr><td><p><code>@Index​[equipment]</code></p></td><td><p>@Index[equipment]</p></td></tr><tr><td><p><code>@Index​[armor]</code></p></td><td><p>@Index[armor]</p></td></tr><tr><td><p><code>@Index​[weapons]</code></p></td><td><p>@Index[weapons]</p></td></tr><tr><td><p><code>@Index​[hirelings]</code></p></td><td><p>@Index[hirelings]</p></td></tr></tbody></table><h2>Character Options</h2><table><tbody><tr><td><p><strong>Code</strong></p></td><td><p><strong>Result</strong></p></td></tr><tr><td><p><code>@Index​[ancestries]</code></p></td><td><p>@Index[ancestries]</p></td></tr><tr><td><p><code>@Index​[professions]</code></p></td><td><p>@Index[professions]</p></td></tr><tr><td><p><code>@Index​[novice]</code></p></td><td><p>@Index[novice]</p></td></tr><tr><td><p><code>@Index​[expert]</code></p></td><td><p>@Index[expert]</p></td></tr><tr><td><p><code>@Index​[master]</code></p></td><td><p>@Index[master]</p></td></tr><tr><td><p><code>@Index​[traditions]</code></p></td><td><p>@Index[traditions]</p></td></tr></tbody></table><h2>Other</h2><table><tbody><tr><td><p><strong>Code</strong></p></td><td><p><strong>Result</strong></p></td></tr><tr><td><p><code>@Index​[all]</code></p></td><td><p>@Index[all]</p></td></tr><tr><td><p><code>@Index​[creatures]</code></p></td><td><p>@Index[creatures]</p></td></tr><tr><td><p><code>@Index​[talents]</code></p></td><td><p>@Index[talents]</p></td></tr><tr><td><p><code>@Index​[‌‌spells]</code></p></td><td><p>@Index[spells]</p></td></tr></tbody></table>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "category": null,
+      "ownership": {
+        "default": -1,
+        "7Z8jr2YYjOUPt6i3": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1766179697671,
+        "modifiedTime": 1766184275630,
+        "lastModifiedBy": "7Z8jr2YYjOUPt6i3"
+      },
+      "_key": "!journal.pages!QVPARrip4J6pNUPN.kQZzIaUoBZtwfrvO"
+    },
+    {
+      "sort": 300000,
+      "name": "Advanced Enricher Options",
+      "type": "text",
+      "_id": "VGppuvyieMErVHuv",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>In addition to presets, you can instead use the advanced options below.</p><p>You must, though, keep the syntax <code>@Index​[param1=\"value1\" param2=\"value2.1, value 2.2\"]</code>.</p><p>Note that the values for parameters <strong>must be enclosed by quotes</strong> (\"). While the enricher might work in some cases, it's recommended to always use quotes as best practice.</p><h2>Available Parameters</h2><table><tbody><tr><td><p></p><p><strong>Parameter and Aliases</strong></p></td><td data-colwidth=\"182\"><p><strong>Explanation and Example</strong></p></td><td><p><strong>Possible Values and Examples</strong></p></td></tr><tr><td><p><code>label</code></p></td><td data-colwidth=\"182\"><p>The text shown on the widget.</p><p>If none is assigned, either the preset's label will be used or \"Compendium Index\" will show.</p></td><td><p><code>Weird Compendium!</code></p></td></tr><tr><td><p><code>tooltip</code></p></td><td data-colwidth=\"182\"><p>The tooltip when the widget is hovered.</p><p>If none is assigned, the system will use the <code>label</code> to come up with a name.</p></td><td><p><code>Very lengthy description<br />worth of a hover tooltip.</code></p></td></tr><tr><td><p><code>view</code></p></td><td data-colwidth=\"182\"><p>The <strong>View</strong> the app should open with.</p></td><td><p><strong>Default:</strong> <code>generic</code></p><p><strong>Equipment:</strong> <code>equipment</code>, <code>armor</code>, <code>weapons</code></p><p><strong>Character Options:</strong> <code>ancestries</code>, <code>paths</code>, <code>professions</code>, <code>traditions</code></p><p><strong>Other:</strong> <code>creatures</code>, <code>spells</code>, <code>talents</code> (traits included)</p></td></tr><tr><td><p><code>sourceCompendia</code></p><p><code>source</code></p><p><code>compendia</code></p></td><td data-colwidth=\"182\"><p>The compendium packs that should be used in the <strong>Source Compendia</strong> filter.</p></td><td><p><code>weirdwizard.armor</code></p><p><code>weirdwizard.hirelings</code></p><p><code>weirdwizard.character-options</code></p></td></tr><tr><td><p><code>documentTypes</code></p><p><code>types</code></p><p><code>docTypes</code></p></td><td data-colwidth=\"182\"><p>The filter that determines what <strong>Document Types</strong> should be displayed by the app.</p></td><td><p><strong>Actors:</strong> <code>character</code>, <code>npc</code>, <code>vehicle</code></p><p><strong>Items:</strong> <code>equipment</code>, <code>talent</code>, <code>spell</code></p><p><strong>Journal Entry Pages:</strong> <code>ancestry</code>, <code>path</code>, <code>profession</code>, <code>tradition</code></p></td></tr></tbody></table><h2>Examples</h2><p>Below are a few code examples and the result.</p><p>Note that <strong>in the example below</strong>, the parameters are broken down into multiple lines on the code preview!</p><p><strong>This should not be the case for the real code!</strong> If you copy an example code and it does not work, it's probably because you have line breaks.</p><table><tbody><tr><td><p><strong>Code</strong></p></td><td><p><strong>Result</strong></p></td></tr><tr><td><p><code>@Index​[view=\"equipment\"<br />source=\"weirdwizard.armor,weirdwizard.weapons\"<br />types=\"equipment,armor,weapons\"]</code></p></td><td><p>@Index[view=\"equipment\" source=\"weirdwizard.armor,weirdwizard.weapons\" types=\"equipment,armor,weapons\"]</p></td></tr><tr><td><p><code>@Index​[label=\"Fancy Label\"<br />tooltip=\"Cool tooltip, brother.\"]</code></p></td><td><p>@Index[label=\"Fancy Label\" tooltip=\"Cool tooltip, brother.\"]</p></td></tr></tbody></table><p></p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "category": null,
+      "ownership": {
+        "default": -1,
+        "7Z8jr2YYjOUPt6i3": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.350",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1766180998766,
+        "modifiedTime": 1766188832885,
+        "lastModifiedBy": "7Z8jr2YYjOUPt6i3"
+      },
+      "_key": "!journal.pages!QVPARrip4J6pNUPN.VGppuvyieMErVHuv"
+    }
+  ],
+  "folder": null,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.350",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1720476331814,
+    "modifiedTime": 1766187477298,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "exportSource": null
+  },
+  "_id": "QVPARrip4J6pNUPN",
+  "sort": 100000,
+  "categories": [],
+  "_key": "!journal!QVPARrip4J6pNUPN"
+}

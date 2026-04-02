@@ -1,0 +1,26 @@
+{
+  "name": "Alchemy",
+  "sorting": "m",
+  "folder": null,
+  "type": "Item",
+  "_id": "fvJulJPtHaUJ5Eal",
+  "description": "",
+  "sort": 0,
+  "color": null,
+  "flags": {
+    "weirdwizard": {
+      "description": ""
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744749203370,
+    "modifiedTime": 1744749754993,
+    "lastModifiedBy": "zin7Kb6P2LomswaD"
+  },
+  "_key": "!folders!fvJulJPtHaUJ5Eal"
+}

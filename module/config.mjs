@@ -135,6 +135,7 @@ WW.USES_LEVEL_RELATIVE = {
   'manual': 'WW.Item.Uses.Manual',
   'full': 'WW.Item.Uses.Full',
   'half': 'WW.Item.Uses.Half',
+  '1+half': 'WW.Item.Uses.OnePlusHalf',
   'third': 'WW.Item.Uses.Third'
 };
 
@@ -161,8 +162,9 @@ WW.EQUIPMENT_AVAILABILITIES = {
 
 WW.EQUIPMENT_QUALITIES = {
   'standard': 'WW.Equipment.Quality.Standard',
+  'inferior': 'WW.Equipment.Quality.Inferior',
   'superior': 'WW.Equipment.Quality.Superior',
-  'inferior': 'WW.Equipment.Quality.Inferior'
+  'trinket': 'WW.Equipment.Quality.Trinket'
 };
 
 WW.EQUIPMENT_COINS = {
@@ -180,15 +182,15 @@ WW.EQUIPMENT_COINS = {
   }
 };
 
-WW.WEAPON_REQUIREMENTS = {
-  '': 'WW.Weapon.Requirement.None',
-  'str11': 'WW.Weapon.Requirement.Str11',
-  'str12': 'WW.Weapon.Requirement.Str12',
-  'str13': 'WW.Weapon.Requirement.Str13',
-  'str14': 'WW.Weapon.Requirement.Str14',
-  'agi11': 'WW.Weapon.Requirement.Agi11',
-  'agi12': 'WW.Weapon.Requirement.Agi12',
-  'agi13': 'WW.Weapon.Requirement.Agi13'
+WW.EQUIPMENT_REQUIREMENTS = {
+  '': 'WW.Equipment.Requirement.None',
+  'str11': 'WW.Equipment.Requirement.Str11',
+  'str12': 'WW.Equipment.Requirement.Str12',
+  'str13': 'WW.Equipment.Requirement.Str13',
+  'str14': 'WW.Equipment.Requirement.Str14',
+  'agi11': 'WW.Equipment.Requirement.Agi11',
+  'agi12': 'WW.Equipment.Requirement.Agi12',
+  'agi13': 'WW.Equipment.Requirement.Agi13'
 };
 
 WW.WEAPON_GRIPS = {
@@ -201,7 +203,8 @@ WW.WEAPON_GRIPS = {
 WW.WEAPON_GRIPS_SHORT = {
   'one': 'WW.Weapon.Grip.OneShort',
   'two': 'WW.Weapon.Grip.TwoShort',
-  'off': 'WW.Weapon.Grip.OffShort'
+  'off': 'WW.Weapon.Grip.OffShort',
+  'natural': 'WW.Weapon.Grip.NaturalShort'
 };
 
 WW.WEAPON_TRAITS = {
@@ -932,31 +935,63 @@ WW.EFFECT_CHANGE_PRESET_DATA = {
   },
 }
 
-WW.COMPENDIUM_TYPES = {
-  'generic': 'WW.System.Index.Generic',
+WW.COMPENDIUM_INDEX_VIEWS = {
+  'generic': 'WW.Index.Generic',
+
+  /* Equipment Views */
+  'equipment': 'TYPES.Item.equipment',
+  'armor': 'WW.Armor.Label',
+  'weapons': 'WW.Equipment.Weapons',
+
+  /* Character Option Views */
+  'ancestries': 'WW.CharOptions.Ancestries',
   'paths': 'WW.CharOptions.Paths',
   'professions': 'WW.CharOptions.Professions',
-  'armor': 'WW.Armor.Label',
-  'weapons': 'WW.Equipment.Weapons'
+  'traditions': 'WW.Tradition.Label',
+
+  /* Other */
+  'creatures': 'WW.Index.Creatures',
+  'talents': 'WW.Talents.Label',
+  'spells': 'WW.Spells.Label'
 };
 
-WW.COMPENDIUM_INDEX_ENRICHER_LABELS = {
+WW.COMPENDIUM_INDEX_PRESET_LABELS = {
+  'all': 'WW.Index.Label',
+
+  /* Equipment */
+  'equipment': 'TYPES.Item.equipment',
   'armor': 'WW.Armor.Label',
   'weapons': 'WW.Equipment.Weapons',
   'hirelings': 'WW.Equipment.Hirelings',
-  'character-options': 'WW.CharOptions.Label',
-  'traits': 'WW.CharOptions.AncestryTraits',
-  'talents': 'WW.CharOptions.PathTalents',
-  'spells': 'WW.CharOptions.TraditionSpells'
+  
+  /* Character Options */
+  'ancestries': 'WW.CharOptions.Ancestries',
+  'professions': 'WW.CharOptions.Professions',
+  'novice': 'WW.Index.NovicePaths',
+  'expert': 'WW.Index.ExpertPaths',
+  'master': 'WW.Index.MasterPaths',
+  'traditions': 'WW.Tradition.Label',
+
+  /* Other */
+  'creatures': 'WW.Index.Creatures',
+  'talents': 'WW.Talents.Label',
+  'spells': 'WW.Spells.Label'
+};
+
+WW.COMPENDIUM_INDEX_FILTER_LABELS = {
+  'type': "WW.Index.Filters.DocumentType",
+  'system.tier': "WW.Item.Tier",
+  'system.grip': "WW.Weapon.Grip.Label",
+  'system.traits': "WW.Weapon.Traits.Label"
 };
 
 WW.COMPENDIUM_GROUPS = {
   'system': 'WW.System.Compendium.Group.Core',
   'world': 'WW.System.Compendium.Group.World',
   'module': 'WW.System.Compendium.Group.Modules',
-  'sotww-secrets': 'WW.System.Compendium.Group.Secrets',
-  'sotww-heroes': 'WW.System.Compendium.Group.Heroes',
-  'sotww-wa': 'WW.System.Compendium.Group.WeirdAncestries'
+  'sww-secrets': 'WW.System.Compendium.Group.Secrets',
+  'sww-heroes': 'WW.System.Compendium.Group.Heroes',
+  'sww-wa': 'WW.System.Compendium.Group.WeirdAncestries'
 };
 
 /* Default Entries */
@@ -992,8 +1027,8 @@ WW.NEW_DEFAULT_ENTRY = {
 };
 
 WW.DEFAULT_DESCRIPTORS = {
-  'ancestry': {
-    name: 'Ancestry',
+  'human': {
+    name: 'Human',
     desc: ''
   },
   'angel': {
@@ -1024,8 +1059,12 @@ WW.DEFAULT_DESCRIPTORS = {
     name: 'Fiend',
     desc: ''
   },
-  'fungusPlant': {
-    name: 'Fungus/Plant',
+  'fungus': {
+    name: 'Fungus',
+    desc: ''
+  },
+  'plant': {
+    name: 'Plant',
     desc: ''
   },
   'monster': {

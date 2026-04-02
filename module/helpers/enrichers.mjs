@@ -1,24 +1,39 @@
+import CompendiumIndex from '../apps/compendium-index.mjs';
+import { _onInstantEffectRoll, _onMultiChoice } from '../sidebar/chat-listeners.mjs';
 import { i18n } from './utils.mjs';
 
 // Add custom enrichers during init phase
 export default function addCustomEnrichers() {
   CONFIG.TextEditor.enrichers.push(
     {
+      id: 'weirdwizard.inlineAttributeCall',
+      replaceParent: true,
       pattern: /@\[(str|agi|int|wil|luck)(?:(\+[1-99]+?|\-[1-99]+?))?\]/gi,
-      enricher: enrichCall
+      enricher: inlineAttributeCallEnricher,
+      onRender: inlineAttributeCallCallback
     },
     {
+      id: 'weirdwizard.inlineRoll',
+      replaceParent: true,
       pattern: /@\[([1-99][^|]*?)(?:\|(d|h|hl|hr))?\]/gi,
-      enricher: enrichRoll
+      enricher: inlineRollEnricher,
+      onRender: inlineRollCallback
     },
     {
-      pattern: /(?:index:(armor|weapons|hirelings|charopts|traits|talents|spells){1})/gi,
-      enricher: enrichIndex
-    },
+      id: 'weirdwizard.compendiumIndexLink',
+      replaceParent: true,
+      pattern: /@index\[(?<config>[^\]]+)?]/gim,
+      enricher: compediumIndexLinkEnricher,
+      onRender: compendiumIndexLinkCallback
+    }
   );
 }
 
-async function enrichCall (match, options) {
+/* -------------------------------------------- */
+/*  Inline Attribute Call                       */
+/* -------------------------------------------- */
+
+async function inlineAttributeCallEnricher (match, options) {
           
   const container = document.createElement("a");
   container.className = 'enricher-call';
@@ -50,8 +65,21 @@ async function enrichCall (match, options) {
   return container;
 }
 
-async function enrichRoll (match, options) {
+/* -------------------------------------------- */
 
+/**
+  * Handle opening of a context menu from a chat button.
+  * @param {HTMLElement} el    The element the menu opens on.
+*/
+function inlineAttributeCallCallback(enrichedContent, purpose='applyEffect') {
+  enrichedContent.querySelector('a').addEventListener('click', (ev) => { _onMultiChoice(ev, 'attributeCall') });
+}
+
+/* -------------------------------------------- */
+/*  Inline Roll                                 */
+/* -------------------------------------------- */
+
+async function inlineRollEnricher (match, options) {
   const exp = match[1];
 
   // Prepare container
@@ -102,19 +130,136 @@ async function enrichRoll (match, options) {
   return container;
 }
 
-async function enrichIndex (match, options) {
-  const type = match[1] === 'charopts' ? 'character-options' : match[1];
-  const label = i18n(CONFIG.WW.COMPENDIUM_INDEX_ENRICHER_LABELS[type]);
+/* -------------------------------------------- */
 
+function inlineRollCallback(enrichedContent) {
+  enrichedContent.querySelector('a').addEventListener('click', _onInstantEffectRoll);
+}
+
+/* -------------------------------------------- */
+/*  Compendium Index Link                       */
+/* -------------------------------------------- */
+
+async function compediumIndexLinkEnricher (match, options) {
+  const config = match.groups.config;
+  const pairRegex = /(\w+)(?:=("(?:[^"]*)"|\w+))?/g;
+  const settings = {};
+
+  // Process matches and assign to settings object
+  for (const [, key, value] of config.matchAll(pairRegex)) {
+    
+    if (value)  {
+      const mappedKeys = {
+        'source': 'sourceCompendia',
+        'compendia': 'sourceCompendia',
+        'types': 'documentTypes',
+        'docTypes': 'documentTypes',
+      }
+
+      settings[mappedKeys[key] ?? key] = await value.replace(/['"]+/g, '');
+    } else if (!value && CONFIG.WW.COMPENDIUM_INDEX_PRESET_LABELS[key]) {
+      settings.preset = await key;
+    }
+  }
+
+  // Prepare label and tooltip
+  if (!settings.label) settings.label = i18n(CONFIG.WW.COMPENDIUM_INDEX_PRESET_LABELS[settings.preset ?? 'all']);
+  if (!settings.tooltip) settings.tooltip = i18n('WW.Index.Tooltip', {type: settings.label});
+  
   // Prepare container
   const container = document.createElement("a");
   container.className = 'enricher-index';
-  container.innerHTML = label;
+  container.innerHTML = settings.label;
 
-  // Prepare dataset
-  container.dataset.compendium = 'weirdwizard.' + type;
-  container.dataset.type = type;
-  container.dataset.tooltip = i18n('WW.System.Index.Tooltip', {type: label});
+  // Assign settings to the dataset
+  for (const setting in settings) {
+    container.dataset[setting] = settings[setting];
+  }
 
   return container;
+}
+
+/** 
+ * Handle Compendium Index opened by an enricher.
+ */
+function compendiumIndexLinkCallback(enrichedContent) {
+  function _onClickIndexEnricher(event) {
+    event.preventDefault()
+
+    const button = event.currentTarget;
+    const dataset = Object.assign({}, button.dataset);
+
+    // Destructure dataset into needed variables
+    const { preset, label, tooltip, view, ...rawFilters } = dataset;
+
+    // Assign filter
+    const filters = {};
+    for (const [key, value] of Object.entries(rawFilters)) {
+      filters[key] = value.split(',');
+    }
+    
+    // Open app with the options
+    new CompendiumIndex({ preset, view, filters }).render(true);
+  }
+
+  enrichedContent.querySelector('a').addEventListener('click', _onClickIndexEnricher);
+}
+
+/* -------------------------------------------- */
+/*  Helper Functions                            */
+/* -------------------------------------------- */
+
+/* Parse descriptions to include inline enrichers */
+export function parseDesc(desc) {
+  let parsedDesc = desc;
+
+  // Parse descriptions to use inline rolls
+  const regex1 = /(?:(?:(?<h>heals)|(?<hl>loses))\s+)?(?<value>\d+d6)\s*(?:damage|Health)/gi;
+
+  const matches1 = [...parsedDesc.matchAll(regex1)];
+
+  matches1.forEach(match => {
+    const { h, hl, value } = match.groups;
+
+    // Determine operation
+    const operation = h ? "h" : (hl ? "hl" : "d");
+
+    // Format and parse
+    const formattedExp = `@[${value}|${operation}]`;
+    parsedDesc = parsedDesc.replace(match[0], match[0].replace(value, formattedExp));
+  });
+
+  // Inline attribute calls
+  const regex2 = /(?<attribute>Strength|Agility|Will|Intellect|luck)\s*roll(?:\s*with\s*(?<boonsValue>\d+)\s*(?<boonsType>boon|bane)s?)?/gi;
+
+  const attrMap = {
+    strength: 'str',
+    agility: 'agi',
+    will: 'wil',
+    intellect: 'int',
+    luck: 'luck'
+  };
+
+  const plusify = (n) => (n > 0 ? `+${n}` : n);
+
+  const matches2 = [...parsedDesc.matchAll(regex2)];
+
+  matches2.forEach(match => {
+    const { attribute, boonsValue, boonsType } = match.groups;
+
+    // Boons calculation
+    let boons = 0;
+    if (boonsValue && boonsType) {
+      const val = parseInt(boonsValue, 10);
+      boons = boonsType.toLowerCase().startsWith('bane') ? -val : val;
+    }
+
+    const attrKey = attrMap[attribute.toLowerCase()];
+
+    // Format and parse
+    const formattedCall = `@[${attrKey}${boons !== 0 ? plusify(boons) : ''}]`;
+    parsedDesc = parsedDesc.replace(match[0], match[0].replace(attribute, formattedCall));
+  });
+
+  return parsedDesc;
 }

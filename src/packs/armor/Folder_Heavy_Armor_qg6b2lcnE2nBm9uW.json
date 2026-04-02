@@ -1,0 +1,22 @@
+{
+  "name": "Heavy Armor",
+  "sorting": "a",
+  "folder": null,
+  "type": "Item",
+  "_id": "qg6b2lcnE2nBm9uW",
+  "description": "",
+  "sort": 100000,
+  "color": null,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.329",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1721415870002,
+    "modifiedTime": 1721415874657,
+    "lastModifiedBy": "zin7Kb6P2LomswaD"
+  },
+  "_key": "!folders!qg6b2lcnE2nBm9uW"
+}

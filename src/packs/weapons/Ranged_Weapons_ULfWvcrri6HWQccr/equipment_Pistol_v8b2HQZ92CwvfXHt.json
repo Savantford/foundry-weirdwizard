@@ -1,0 +1,79 @@
+{
+  "name": "Pistol",
+  "type": "equipment",
+  "_id": "v8b2HQZ92CwvfXHt",
+  "img": "icons/weapons/guns/gun-pistol-brass.webp",
+  "system": {
+    "description": "<p>Firearm design has advanced in fits and starts until gunsmiths devised a superior firing mechanism that enables quicker loading and firing. The pistol uses the same wheel lock technology as the musket. You can use the pistol as an off-hand improvised melee weapon.</p>",
+    "active": true,
+    "quantity": 1,
+    "weightUnit": 1,
+    "price": {
+      "value": 5,
+      "coin": "gp"
+    },
+    "availability": "exotic",
+    "attribute": "agi",
+    "against": "def",
+    "boons": 0,
+    "range": 5,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "weapon",
+    "quality": "standard",
+    "heldBy": "",
+    "requirements": "agi11",
+    "damage": "3d6",
+    "grip": "off",
+    "traits": [
+      "brutal",
+      "firearm",
+      "misfire",
+      "range",
+      "ammunition"
+    ],
+    "attackRider": {
+      "value": {
+        "value": ""
+      },
+      "name": ""
+    },
+    "reloaded": true,
+    "armorType": "light",
+    "capacity": 1,
+    "grantedBy": null,
+    "magical": false
+  },
+  "effects": [],
+  "folder": "ULfWvcrri6HWQccr",
+  "sort": 106250,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.350",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1721408789444,
+    "modifiedTime": 1769799931060,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "exportSource": null
+  },
+  "_key": "!items!v8b2HQZ92CwvfXHt"
+}

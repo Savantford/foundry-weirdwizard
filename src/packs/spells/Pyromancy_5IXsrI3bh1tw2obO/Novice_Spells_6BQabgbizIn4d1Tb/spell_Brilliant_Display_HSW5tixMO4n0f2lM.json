@@ -1,0 +1,55 @@
+{
+  "folder": "6BQabgbizIn4d1Tb",
+  "name": "Brilliant Display",
+  "type": "spell",
+  "_id": "HSW5tixMO4n0f2lM",
+  "img": "icons/magic/light/explosion-star-glow-orange.webp",
+  "system": {
+    "description": "<p>A pea-sized ball of flash launches itself from your fingertip. When it reaches its destination or can fly no further, the ball explodes in a pyrotechnic display that creates bright light until the end of the round. Any sighted creature within 5 yards of the explosion makes a luck roll with 1 boon. On a failure, the creature becomes blinded until the start of your next turn.</p>",
+    "active": false,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 3,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "tier": "novice",
+    "tradition": "",
+    "casting": "",
+    "target": "<p>One point within 1 mile</p>",
+    "duration": "<p>Instantaneous</p>",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.350",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744755912008,
+    "modifiedTime": 1769707940893,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "exportSource": null
+  },
+  "_key": "!items!HSW5tixMO4n0f2lM"
+}

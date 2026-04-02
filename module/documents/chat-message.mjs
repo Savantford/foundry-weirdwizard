@@ -118,11 +118,17 @@ export default class WWChatMessage extends ChatMessage {
       
       // Prepare spell header
       if (item.type == 'spell') {
-        let header = '';
-
-        header += sys.casting ? `<b>${i18n("WW.Spell.Castings")}:</b> ${sys.uses.max}, ${sys.casting}` : `<b>${i18n("WW.Spell.Castings")}:</b> ${sys.uses.max}`;
-        if (sys.target) header += `<br/><b>${i18n("WW.Spell.Target")}:</b> ${sys.target}`;
-        if (sys.duration) header += `<br/><b>${i18n("WW.Spell.Duration")}:</b> ${sys.duration}`;
+        const header = `
+          <div class="inline-second">
+            <b>${i18n("WW.Spell.Castings")}:</b> ${sys.castingsLabel ?? '<p></p>'}
+          </div>
+          <div class="inline-second">
+            <b>${i18n("WW.Spell.Target")}:</b> ${sys.target ?? '<p></p>'}
+          </div>
+          <div class="inline-second">
+            <b>${i18n("WW.Spell.Duration")}:</b> ${sys.duration ?? '<p></p>'}
+          </div>
+        `;
 
         item.spellHeader = header;
       }

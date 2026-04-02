@@ -29,7 +29,15 @@
     <div class="benefit-block{{#if (ne id 'benefit1')}} mt-2{{/if}}">
 
       {{!-- Heading --}}
-      <h5>{{ benefit.heading }}</h5>
+      <h4>{{ benefit.heading }}</h4>
+
+      {{#if benefit.attributes}}
+      <div class="stat-inline">
+        <label>{{localize "WW.Attributes.Label"}}:</label>
+  
+        {{benefit.attributes}}
+      </div>
+      {{/if}}
       
       {{!-- Stats --}}
       <div class="stat-inline flex-wrap flex-children">

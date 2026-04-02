@@ -31,6 +31,12 @@
         </div>
 
         {{#if system.attribute}}
+        {{!-- Boons Alt --}}
+        <div class="mt-1">
+            <input type="text" name="system.boonsAlt" value="{{ system.boonsAlt }}" placeholder="{{localize "WW.Item.Alt"}}"
+                data-tooltip-text="{{localize "WW.Item.AltTip"}}" data-dtype="String" />
+        </div>
+
         <div class="flex-row stat-inline mt-1">
             {{localize "WW.Roll.Against"}}
 
@@ -40,7 +46,6 @@
             
         </div>
         {{/if}}
-
     </div>
 
     {{!-- Right Column --}}

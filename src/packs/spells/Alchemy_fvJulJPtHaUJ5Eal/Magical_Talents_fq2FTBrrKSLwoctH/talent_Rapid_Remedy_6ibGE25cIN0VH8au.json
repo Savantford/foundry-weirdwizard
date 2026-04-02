@@ -1,0 +1,52 @@
+{
+  "folder": "fq2FTBrrKSLwoctH",
+  "name": "Rapid Remedy",
+  "type": "talent",
+  "_id": "6ibGE25cIN0VH8au",
+  "img": "icons/consumables/potions/potion-round-stopped-yellow-green.webp",
+  "system": {
+    "description": "<p>You can perform a ritual using an alchemist’s kit and 5 cp of common materials to produce an elixir. When you finish, expend the materials and fill one bottle with an Elixir of Healing. The consumable retains potency until consumed.</p>",
+    "active": true,
+    "magical": true,
+    "attribute": "",
+    "against": "",
+    "boons": 0,
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "trait",
+    "source": "tradition",
+    "grantedBy": null
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.350",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744751728165,
+    "modifiedTime": 1766597961709,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "exportSource": null
+  },
+  "_key": "!items!6ibGE25cIN0VH8au"
+}

@@ -1,6 +1,6 @@
 # Welcome to Foundry's Weird Wizard system module
 
-![Shadow of the Weird Wizard](https://github.com/Savantford/foundry-weirdwizard/blob/main/assets/ui/sotww-logo.png?raw=true)
+![Shadow of the Weird Wizard](https://github.com/Savantford/foundry-weirdwizard/blob/main/assets/decorations/sww-logo.png?raw=true)
 
 Hail!
 

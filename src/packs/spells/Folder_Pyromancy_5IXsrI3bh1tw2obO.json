@@ -1,0 +1,26 @@
+{
+  "name": "Pyromancy",
+  "sorting": "m",
+  "folder": null,
+  "type": "Item",
+  "_id": "5IXsrI3bh1tw2obO",
+  "description": "",
+  "sort": 0,
+  "color": null,
+  "flags": {
+    "weirdwizard": {
+      "description": ""
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744749241498,
+    "modifiedTime": 1744749778469,
+    "lastModifiedBy": "zin7Kb6P2LomswaD"
+  },
+  "_key": "!folders!5IXsrI3bh1tw2obO"
+}

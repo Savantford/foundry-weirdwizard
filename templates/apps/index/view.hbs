@@ -1,0 +1,13 @@
+<section class="view-wrapper{{#if paginationButtons.length}} hasPagination{{/if}}">
+    {{> (concat "systems/weirdwizard/templates/apps/index/views/" view ".hbs")}}
+
+    <div class="pagination">
+        {{#each paginationButtons as |button|}}
+        {{#if (eq button 'ellipsis')}}
+            <div>...</div>
+        {{else}}
+            <div class="button{{#if (eq button @root.activePage)}} active{{/if}}" data-action="changePage" data-page="{{button}}">{{button}}</div>
+        {{/if}}
+        {{/each}}
+    </div>
+</section>

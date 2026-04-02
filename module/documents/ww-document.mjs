@@ -1,4 +1,4 @@
-import { i18n, sysPath } from "../helpers/utils.mjs";
+import { capitalize, i18n, sysPath } from "../helpers/utils.mjs";
 
 /**
  * A mixin which extends each Document definition with specialized client-side behaviors.
@@ -100,12 +100,6 @@ export default function WWDocumentMixin(Base) {
       // Add to config 
       config.label = this.name;
 
-      // Add to options
-      options.rollData = this.documentName === 'Actor' ? this.getRollData() : null;
-      options.relativeTo = this;
-      options.async = true;
-      options.secrets = this.isOwner;
-
       // Prepare wrapper
       const wrapper = document.createElement('div');
       wrapper.classList.add('document-embed');
@@ -117,7 +111,13 @@ export default function WWDocumentMixin(Base) {
 
       wrapper.innerHTML = await foundry.applications.handlebars.renderTemplate(
         sysPath(`templates/apps/embeds/${templateFile}.hbs`),
-        await this._prepareCardContext(options)
+        await this._prepareCardContext({... options,
+          rollData: this.documentName === 'Actor' ? this.getRollData() : null,
+          relativeTo: this,
+          async: true,
+          secrets: this.isOwner,
+          docLink: await CONFIG.ux.TextEditor.enrichHTML(`@UUID[${this.uuid}]`)
+        })
       );
 
       return wrapper;
@@ -125,15 +125,17 @@ export default function WWDocumentMixin(Base) {
 
     /* -------------------------------------------- */
 
-    async _prepareCardContext(options) {
+    async _prepareCardContext(options={}) {
       // Prepare variables
-      const TextEditor = foundry.applications.ux.TextEditor.implementation;
-
+      const TextEditor = CONFIG.ux.TextEditor;
+      
       const context = {
         label: this.name,
         system: this.system,
         img: this instanceof JournalEntryPage ? this.src : this.img,
         type: this.type,
+        usageFooter: options?.usageFooter ?? false,
+        docLink: options?.docLink ?? null,
 
         subtitle: ''
       };
@@ -156,17 +158,74 @@ export default function WWDocumentMixin(Base) {
             else if (charOptions.novice) context.subtitle += sep + charOptions.novice.name;
 
             // Prepare main text
-            context.text = await TextEditor.enrichHTML(this.system.details.appearance, options);
+            context.text = await TextEditor.enrichHTML(this.system.details.appearance);
 
-          } else {
-            // Prepare subtitle
-            for (const d in listEntries.descriptors) {
-              const descriptor = listEntries.descriptors[d];
-              context.subtitle += (context.subtitle ? ', ' : '') + descriptor.name;
-            }
-            
+          } else if (this.type === 'npc') {
             // Prepare main text
-            context.text = await TextEditor.enrichHTML(this.system.description, options);
+            context.text = await TextEditor.enrichHTML(this.system.description);
+
+            // Prepare list entries
+            context.listEntries = {};
+
+            for (const list in listEntries) {
+              context.listEntries[list] = '';
+
+              for (const e in listEntries[list]) {
+                const entry = listEntries[list][e];
+                context.listEntries[list] += (context.listEntries[list] ? ', ' : '') + entry.name;
+              }
+            }
+
+            // Prepare items
+            context.items = {
+              equipment: [],
+              weapon: [],
+              talent: [],
+              action: [],
+              reaction: [],
+              end: [],
+              spells: []
+            }
+
+            for (const item of this.items) {
+              const subtypes = ['weapon', 'talent', 'action', 'reaction', 'end'];
+              const subtype = item.system.subtype;
+              let category = item.type;
+              
+              if (subtypes.includes(subtype)) category = subtype;
+
+              // Prepare label
+              let label = item.system.magical ? `${item.name} (${i18n("WW.Talent.Magical")})` : item.name;
+
+              // Prepare weapon label
+              if (item.system.subtype == 'weapon') {
+
+                // Prepare traits list
+                let list = '';
+
+                for (const x of item.system.traits) {
+                  let string = i18n('WW.Weapon.Traits.' + capitalize(x) + '.Label');
+                  
+                  if ((x === 'range') || (x === 'reach' && item.system.range) || (x === 'thrown')) string += ` ${item.system.range}`;
+
+                  list = list.concat(list ? ', ' + string : string);
+                }
+
+                if (item.system.magical) list += ` (${i18n("WW.Talent.Magical")})`;
+
+                item.system.traitsList = list;
+
+                // Prepare name and grip label
+                label = (item.system.traits.has('range') ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + item.name + (item.system.traitsList ? ' • ' + item.system.traitsList : '');
+              }
+              
+              context.items[category].push({
+                label,
+                desc: item.system.description,
+                attackRider: item.system.attackRider ?? null
+              });
+            }
+
           }
 
         }; break;
@@ -176,6 +235,7 @@ export default function WWDocumentMixin(Base) {
           switch (this.type) {
             case 'equipment':
               context.subtitle = i18n(CONFIG.WW.EQUIPMENT_SUBTYPES[this.system.subtype]);
+              if (this.system.subtype === 'weapon') context.subtitle += ` • ${i18n(CONFIG.WW.WEAPON_GRIPS[this.system.grip])}`;
             break;
 
             case 'talent':
@@ -189,7 +249,7 @@ export default function WWDocumentMixin(Base) {
           }
           
           // Prepare main text
-          context.text = await TextEditor.enrichHTML(this.system.description, options);
+          context.text = await TextEditor.enrichHTML(this.system.description);
 
         }; break;
 
@@ -198,7 +258,7 @@ export default function WWDocumentMixin(Base) {
           context.subtitle = i18n((this.duration.rounds || this.duration.seconds) ? "WW.Effect.Temporary" : "WW.Effect.Permanent");
 
           // Prepare main text
-          context.text = await TextEditor.enrichHTML(this.description, options);
+          context.text = await TextEditor.enrichHTML(this.description);
 
           // Prepare changes
           context.changes = '';
@@ -215,7 +275,7 @@ export default function WWDocumentMixin(Base) {
           if (this.isCharOption) context.subtitle = i18n(CONFIG.WW.CHARACTER_OPTIONS[this.type]);
 
           // Prepare main text
-          context.text = await TextEditor.enrichHTML(this.text.content, options);
+          context.text = await TextEditor.enrichHTML(this.text.content);
         }; break;
       }
 

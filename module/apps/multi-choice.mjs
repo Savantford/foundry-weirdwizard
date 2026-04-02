@@ -1,4 +1,4 @@
-import { capitalize, i18n } from '../helpers/utils.mjs';
+import { capitalize, i18n, slideDown, slideUp } from '../helpers/utils.mjs';
 import { WWAfflictions } from '../helpers/afflictions.mjs'
 import RollAttribute from '../dice/roll-attribute.mjs';
 
@@ -69,33 +69,15 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
     for (const s in context.sections) {
       const section = context.sections[s];
 
-      // Prepare Attack Rider
-      if (section.type === 'attackRider') {
-        section.attackRider = {
-          field: opt.document.system.schema.getField("attackRider.value"),
-          name: await section.attackRider.name,
-          value: await section.attackRider.value
-        }
+      // Prepare cols
+      if (!section.cols) section.cols = 'auto auto';
 
-        const TextEditor = foundry.applications.ux.TextEditor.implementation;
-        section.attackRiderEnriched = await TextEditor.enrichHTML(section.attackRider.value,
-          { rollData: opt.document.getRollData(), relativeTo: opt.document, secrets: opt.document.isOwner }
-        );
-        
-      } else {
+      // Prepare choices
+      for (const c in section.choices) {
+        const choice = section.choices[c];
 
-        // Prepare cols
-        if (!section.cols) section.cols = 'auto auto';
-
-        // Prepare choices
-        for (const c in section.choices) {
-          const choice = section.choices[c];
-          
-          if (choice.path) choice.value = foundry.utils.getProperty(this.document, choice.path);
-        }
-        
+        if (choice.path) choice.value = foundry.utils.getProperty(this.document, choice.path);
       }
-
     }
     
     // Define submit button label
@@ -118,13 +100,12 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
     // Flip states
     if (target.classList.contains('fa-circle-chevron-up')) {
       target.classList.replace('fa-circle-chevron-up', 'fa-circle-chevron-down');
-
-      $(content).slideDown(500);
+      
+      slideDown(content, 500);
       
     } else {
       target.classList.replace('fa-circle-chevron-down', 'fa-circle-chevron-up');
-
-      $(content).slideUp(500);
+      slideUp(content, 500);
     }
     
   }
@@ -146,7 +127,6 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
    * @returns {Promise<void>}
    */
   static async formHandler(event, form, formData) {
-    
     const opt = this.options;
 
     // Return if cancel button is clicked

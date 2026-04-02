@@ -9,6 +9,9 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
       description: makeHtmlField(),
       active: makeBooField(true),
       grantedBy: makeUuidStrField(),
+      usedBy: new fields.ArrayField(
+        makeUuidStrField()
+      ),
 
       magical: makeBooField(false),
       attribute: makeStrField(), // Make it required maybe
@@ -19,6 +22,7 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
         initial: 0,
         integer: true
       }),
+      boonsAlt: makeStrField(),
 
       range: makeIntField(),
       affliction: makeStrField(), // Make it required maybe
@@ -59,6 +63,12 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
   static migrateData(source) {
     // Migrate description to a single string
     if (typeof source.description === 'object') source.description = source.description.value;
+
+    // Migrate invalid UUIDs
+    if ('grantedBy' in source) {
+      if (source.grantedBy === 'jYwMjI0baL87WX3c') source.grantedBy = 'JournalEntry.LMmphPzAYiO8vOgI.JournalEntryPage.jYwMjI0baL87WX3c';
+      else if (!source.grantedBy?.includes('.')) source.grantedBy = null;
+    }
     
     return source;
   }

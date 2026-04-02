@@ -1,0 +1,26 @@
+<section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+    {{!-- Folder Name / Creature Group --}}
+    
+    <div {{#if folder}}class="folder-info"{{/if}}>
+        {{#if folder}}
+        <h2>{{#if folder.name}}{{folder.name}}{{else}}{{localize "WW.Actor.Folder.Unnamed"}}{{/if}}</h2>
+
+        {{!-- Folder / Creature Group Description --}}
+        <div>{{#if folder.flags.weirdwizard.description}}{{{folder.flags.weirdwizard.description}}}{{else}}{{localize "WW.Actor.Folder.NoDescription"}}{{/if}}</div>
+
+        <button class="edit-folder" data-action="folderEdit"><i class="fa-solid fa-edit"></i></button>
+
+        {{!-- Creature Name --}}
+        <h5>{{actor.name}}</h5>
+        {{/if}}
+        
+        {{!-- Individual Traits --}}
+        {{#if actor.system.details.individualTraits}}
+        <h5 class="individual-traits">{{ actor.system.details.individualTraits }}</h5>
+        {{/if}}
+
+        {{{actor.system.descriptionEnriched}}}
+    </div>
+
+    <div class="flex-1"></div>
+</section>

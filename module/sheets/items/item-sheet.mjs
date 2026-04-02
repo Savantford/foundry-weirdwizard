@@ -57,12 +57,10 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       closeOnSubmit: false
     },
     position: {
-      width: 520,
+      width: 550,
       height: 480
     }
   };
-
-  /* -------------------------------------------- */
 
   /** @override */
   static PARTS = {
@@ -71,11 +69,8 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     details: {
       template: 'systems/weirdwizard/templates/items/details/tab.hbs',
       templates: [
-        'systems/weirdwizard/templates/items/common/name-stripe.hbs',
-        'systems/weirdwizard/templates/items/common/item-ribbon.hbs',
-        'systems/weirdwizard/templates/items/common/portrait.hbs',
+        'systems/weirdwizard/templates/items/header.hbs',
         'systems/weirdwizard/templates/items/details/equipment.hbs',
-        'systems/weirdwizard/templates/items/details/weapon.hbs',
         'systems/weirdwizard/templates/items/details/talent.hbs',
         'systems/weirdwizard/templates/items/details/spell.hbs'
       ],
@@ -87,11 +82,9 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         'systems/weirdwizard/templates/items/automation/settings.hbs',
         'systems/weirdwizard/templates/items/automation/effects.hbs'
       ]
-    },
+    }
     
   };
-
-  /* -------------------------------------------- */
 
   /** @override */
   static TABS = {
@@ -100,7 +93,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         {id: 'details', tooltip: 'WW.Actor.Details', icon: 'systems/weirdwizard/assets/icons/diploma.svg', iconType: 'img'},
         {id: 'automation', tooltip: 'WW.Effects.TabLabel', iconType: 'img', icon: 'systems/weirdwizard/assets/icons/gear-hammer.svg', iconType: 'img'}
       ],
-      initial: "details",
+      initial: 'details',
       labelPrefix: "EFFECT.TABS"
     }
   };
@@ -120,17 +113,26 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     const isOwner = this.item.isOwner;
     const TextEditor = foundry.applications.ux.TextEditor.implementation;
 
-    // Ensure editMode has a value
-    if (this.editMode === undefined) this.editMode = false;
+    // Ensure isEditMode has a value
+    if (this.isEditMode === undefined) this.isEditMode = false;
 
     context.item = itemData; // Use a safe clone of the item data for further operations.
     
     context.system = itemData.system; // Use a safe clone of the item data for further operations.
     context.folder = await itemData.folder;
     context.flags = itemData.flags;
+    context.dtypes = ['String', 'Number', 'Boolean'];
+    context.editMode = this.isEditMode;
+    
+    // Prepare enriched document reference links
     context.grantedBy = await fromUuid(sys.grantedBy) ?
       await TextEditor.enrichHTML(`@UUID[${sys.grantedBy}]`, { secrets: this.item.isOwner }) : null;
-    context.dtypes = ['String', 'Number', 'Boolean'];
+    
+    context.usedBy = [];
+    
+    for (const a of sys.usedBy) {
+      if (await fromUuid(a)) await context.usedBy.push(await TextEditor.enrichHTML(`@UUID[${a}]`, { secrets: this.item.isOwner }));
+    }
     
     // Prepare enriched variables for editor
     context.system.descriptionEnriched = await TextEditor.enrichHTML(context.system.description, { secrets: isOwner, relativeTo: this.document });
@@ -162,11 +164,33 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         context.availabilities = CONFIG.WW.EQUIPMENT_AVAILABILITIES;
         context.armorTypes = CONFIG.WW.ARMOR_TYPES;
 
+        if (context.system.subtype == 'armor') {
+          context.requirements = CONFIG.WW.EQUIPMENT_REQUIREMENTS;
+        }
+        
         if (context.system.subtype == 'weapon') {
-          context.requirements = CONFIG.WW.WEAPON_REQUIREMENTS;
+          context.requirements = CONFIG.WW.EQUIPMENT_REQUIREMENTS;
           context.grips = CONFIG.WW.WEAPON_GRIPS;
-          context.traits = CONFIG.WW.WEAPON_TRAITS;
-          context.hasTraits = Object.values(context.system.traits).filter(v => !!v).length ? true : false;
+
+          // Weapon Traits
+          const options = [];
+
+          for (const [key, data] of Object.entries(CONFIG.WW.WEAPON_TRAITS)) {
+            options.push({
+              value: key,
+              label: data.label
+            })
+          }
+          
+          context.traits = {
+            name: 'system.traits',
+            field: this.item.system.schema.fields.traits,
+            value: context.system.traits,
+            options: options
+          }
+
+          context.hasTraits = context.system.traits.length ? true : false;
+          context.hasRange = context.system.traits.has('range') || context.system.traits.has('thrown');
         }
 
       break;
@@ -193,6 +217,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
           switch (context.system.uses.levelRelative) {
             case 'full': context.system.uses.max = level; break;
             case 'half': context.system.uses.max = half; break;
+            case '1+half': context.system.uses.max = parseInt(1 + half); break;
             case 'third': context.system.uses.max = third; break;
           }
         }
@@ -200,6 +225,10 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
 
       case 'spell':
         context.tiers = CONFIG.WW.TIERS;
+
+        context.system.castingEnriched = await TextEditor.enrichHTML(context.system.casting, { secrets: isOwner, relativeTo: this.document });
+        context.system.targetEnriched = await TextEditor.enrichHTML(context.system.target, { secrets: isOwner, relativeTo: this.document });
+        context.system.durationEnriched = await TextEditor.enrichHTML(context.system.duration, { secrets: isOwner, relativeTo: this.document });
       break;
       
     }
@@ -220,16 +249,8 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       // Details tab
       case 'details':
         context.tab = context.tabs[partId];
-
-        let file = '';
-        switch (this.item.type) {
-          case 'equipment': file = 'equipment'; break;
-          case 'spell': file = 'spell'; break;
-          case 'talent': file = 'talent'; break;
-          default: file = 'talent'; break;
-        }
-
-        context.detailsPartial = [`systems/weirdwizard/templates/items/details/${file}.hbs`];
+        
+        context.detailsPartial = [`systems/weirdwizard/templates/items/details/${this.item.type}.hbs`];
       break;
       
       // Effects tab

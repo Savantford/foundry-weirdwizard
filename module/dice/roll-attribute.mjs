@@ -10,15 +10,7 @@ export default class RollAttribute extends FormApplication {
 
   constructor(obj) {
     super(); // This is required for the constructor to work
-    
-    this.origin = fromUuidSync(obj.origin);
-    
-    if (this.origin.documentName === 'Item') {
-      this.item = this.origin;
-      this.actor = this.origin.parent;
-    } else {
-      this.actor = this.origin;
-    }
+    this.data = obj;
     
     this.token = this.actor.token;
     this.baseHtml = obj.baseHtml;
@@ -445,9 +437,11 @@ export default class RollAttribute extends FormApplication {
         
         targetsDisplay += `<li><label><img class="target-icon" src="${t.img}" /> ${t.name}</label>`
 
-        if (boonsNo != 0) targetsDisplay += `<div class="target-boons">(${boonsNo} <img src="/systems/weirdwizard/assets/icons/${boonsIcon}.svg" data-tooltip="${boonsTip}"/>)</div>`;
+        if (t.againstNo) {
+          if (boonsNo != 0) targetsDisplay += `<div class="target-boons">(${boonsNo} <img src="/systems/weirdwizard/assets/icons/${boonsIcon}.svg" data-tooltip="${boonsTip}"/>)</div>`;
 
-        targetsDisplay += `<div class="target-against" data-tooltip="${againstLabel}">${t.againstNo} <img src="${againstIcon}" /></div></li>`;
+          targetsDisplay += `<div class="target-against" data-tooltip="${againstLabel}">${t.againstNo} <img src="${againstIcon}" /></div></li>`;
+        }
       });
 
       parent.querySelector('.boons-targets').innerHTML = targetsDisplay;
@@ -478,6 +472,19 @@ export default class RollAttribute extends FormApplication {
     const { constructor: id, name, type } = this.item ?? this.actor;
     return `${i18n('WW.Roll.Details')}: ${name ?? id}`;
   }
+
+  get origin() {
+    return fromUuidSync(this.data.origin);
+  }
+
+  get item() {
+    return this.origin.documentName === 'Item' ? this.origin : null;
+  }
+
+  get actor() {
+    return this.origin.documentName === 'Item' ? this.origin.parent : this.origin;
+  }
+  
   
   /* -------------------------------------------- */
 

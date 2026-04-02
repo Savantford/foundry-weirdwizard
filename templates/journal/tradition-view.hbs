@@ -29,14 +29,14 @@
 
     {{!-- Talents --}}
     {{#if talents.length}}
-    <h2 class="centered-style">{{localize "WW.Tradition.Talents"}}</h2>
+    <h5>{{localize "WW.Tradition.Talents"}}</h5>
     
     <ol class="described-list items-area talents">
     
       {{!-- Populate Talents --}}
       {{#each talents as |item id|}}
       <li class="item-reference item {{#if item.missing}}missing{{/if}} {{#if @root.singlePage}}draggable{{/if}}" data-item-uuid="{{item.uuid}}">
-        <label><img src="{{item.img}}"> {{item.name}}:</label>
+        <label><img src="{{item.img}}"> {{item.name}}{{#if item.system.magical}} ({{localize "WW.Talent.Magical"}}){{/if}}:</label>
     
         <span>{{{item.system.descriptionEnriched}}}</span>
       </li>
@@ -61,38 +61,32 @@
       {{#each tier as |item id|}}
       <li class="item-reference item {{#if item.missing}}missing{{/if}} {{#if @root.singlePage}}draggable{{/if}}" data-item-uuid="{{item.uuid}}">
         <div class="spell-title">
-          <h3>{{item.name}}</h3>
-          <img src="{{item.img}}" />
+          <h3>{{ item.name }}</h3>
+          <img src="{{ item.img }}" />
         </div>
     
         {{!-- Castings --}}
-        <div>
+        <div class="inline-second">
           <label>{{localize "WW.Spell.Castings"}}:</label>
     
-          {{system.uses.max}}
-    
-          {{#if system.casting}}<span class="ml-n1">, </span>{{/if}}
-    
-          {{system.casting}}
+          {{{ system.castingsLabelEnriched }}}
         </div>
     
         {{!-- Target --}}
-        <div>
+        <div class="inline-second">
           <label class="resource-label">{{localize "WW.Spell.Target"}}:</label>
     
-          {{system.target}}
-    
+          {{{ system.targetEnriched }}}
         </div>
     
         {{!-- Duration --}}
-        <div>
+        <div class="inline-second">
           <label class="resource-label">{{localize "WW.Spell.Duration"}}:</label>
     
-          {{system.duration}}
-    
+          {{{ system.durationEnriched }}}
         </div>
     
-        <div>{{{item.system.descriptionEnriched}}}</div>
+        <div>{{{ system.descriptionEnriched }}}</div>
     
       </li>
       {{/each}}

@@ -17,17 +17,19 @@ export default class RollDamage extends FormApplication {
     if (this.origin?.documentName === 'Item') {
       this.item = this.origin;
       this.isAttack = this.item.system.subtype == 'weapon' ? true : false;
-      this.actor = this.origin.parent;
-    } else {
-      this.actor = this.origin;
+      this.actor = this.origin.parent ?? null;
+    } else if (this.origin?.documentName === 'Actor') {
+      this.actor = this.origin ?? null;
     }
 
-    this.targetIds = obj.targetIds ? obj.targetIds : '';
+    this.targetIds = obj.targetIds ?? '';
     this.baseDamage = obj.value;
 
-    // Bonus Damage Variables
-    this.bonusDamage = this.actor ? this.actor.system.stats.bonusdamage : '';
-    this.usedBonusDamage = this.bonusDamage;
+    // Bonus Damage variables - Actor needed
+    if (this.actor) {
+      this.bonusDamage = this.actor.system.stats.bonusdamage ?? null;
+      this.usedBonusDamage = this.bonusDamage;
+    }
 
   }
 
@@ -175,7 +177,7 @@ export default class RollDamage extends FormApplication {
     if (this.isAttack && this.usedBonusDamage) exp += addDice(this.usedBonusDamage, exp);
     if (diceCount) exp += addDice(diceCount, exp);
     if (modCount) exp += (exp ? ' + ' : '') + modCount;
-    if (this.item?.system?.traits?.brutal) exp = exp.replace('d6', 'd6r1');
+    if (this.item?.system?.traits?.brutal) exp = exp.replaceAll('d6', 'd6r1');
     
     // Display final expression
     this.finalExp = exp;
