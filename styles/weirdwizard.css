@@ -1765,7 +1765,7 @@ body.theme-dark.application.weirdwizard .window-content {
       width: 100%;
     }
 
-    > *:not(h4):not(h5) {
+    > *:not(h4):not(h6) {
       margin: 0 5px;
     }
 
