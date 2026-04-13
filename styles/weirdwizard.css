@@ -2453,6 +2453,10 @@ hr.bug {
   color: var(--purple-dark);
 }
 
+.statbox .attack-rider > p {
+  margin: 0
+}
+
 .statbox .attack-rider > p:first-of-type {
   display: inline;
 }
@@ -3343,7 +3347,8 @@ input[type="checkbox"].checkbox-uses {
   text-indent: -1em;
 }
 
-.described-list > .item ul > li {
+.described-list > .item ul > li,
+.described-list > .item enriched-content {
   text-indent: 0;
 }
 
@@ -3360,6 +3365,11 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard .item p:not(:first-of-type) {
   text-indent: 1em;
+}
+
+.weirdwizard .item .attack-rider p:not(:first-of-type) {
+  text-indent: 0;
+  margin-left: -1em;
 }
 
 .weirdwizard .summary-list {

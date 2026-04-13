@@ -225,7 +225,7 @@ export default function WWDocumentMixin(Base) {
               context.items[category].push({
                 label,
                 desc: item.system.description ? await TextEditor.enrichHTML(item.system.description, { secrets: this.isOwner }) : null,
-                attackRider: item.system.attackRider ? await TextEditor.enrichHTML(item.system.attackRider, { secrets: this.isOwner }) : null
+                attackRider: item.system.attackRider ?? null
               });
             }
 
