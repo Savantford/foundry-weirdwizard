@@ -1815,6 +1815,15 @@ body.theme-dark.application.weirdwizard .window-content {
     h3 {
       font-size: var(--font-size-16);
     }
+
+    input {
+      font-weight: 600;
+      color: var(--purple-dark);
+    }
+
+    prose-mirror p {
+      font-weight: 400;
+    }
   }
 }
 
