@@ -1128,6 +1128,7 @@ body.theme-dark.application.weirdwizard .window-content {
     color: var(--body-text-color);
     font-style: italic;
     font-family: var(--ww-font-fancy);
+    padding: 0;
   }
 
   .statbox h6 {
