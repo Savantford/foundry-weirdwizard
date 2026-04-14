@@ -1,4 +1,4 @@
-import { capitalize, i18n, slideDown, slideUp } from '../helpers/utils.mjs';
+import { i18n, slideDown, slideUp } from '../helpers/utils.mjs';
 import { WWAfflictions } from '../helpers/afflictions.mjs'
 import RollAttribute from '../dice/roll-attribute.mjs';
 

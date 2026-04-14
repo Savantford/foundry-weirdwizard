@@ -265,7 +265,6 @@ export const slideUp = (target, duration = 500) => {
     target.style.removeProperty('overflow');
     target.style.removeProperty('transition-duration');
     target.style.removeProperty('transition-property');
-    //alert("!");
   }, duration);
 }
 
@@ -275,6 +274,7 @@ export const slideDown = (target, duration = 500) => {
   let display = window.getComputedStyle(target).display;
   if (display === 'none') display = 'block';
   target.style.display = display;
+  
   let height = target.offsetHeight;
   target.style.overflow = 'hidden';
   target.style.height = 0;
