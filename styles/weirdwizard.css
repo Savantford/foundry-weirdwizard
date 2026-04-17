@@ -5522,7 +5522,6 @@ table.roll-table-embed {
   background-image: var(--banner);
   background-size: cover;
   font-size: var(--font-size-20);
-  box-shadow: 0 0 2px 0px black;
   border: none;
 }
 
@@ -5798,7 +5797,7 @@ p {
   max-width: 300px;
   text-align: center;
   color: white;
-  text-shadow: 0 0 5px black, 0 0 10px black;
+  text-shadow: 0 0 10px black, 0 0 10px black, 0 0 10px black, 0 0 10px black, 0 0 10px black, 0 0 10px black, 0 0 10px black, 0 0 10px black, 0 0 10px black;
   font-variant-caps: small-caps;
   font-size: var(--font-size-24);
   font-weight: normal;
@@ -5813,7 +5812,6 @@ p {
 .enricher-index:hover {
   box-shadow: 0 0 3px 1px var(--color-shadow-primary);
   color: white;
-  text-shadow: 0 0 5px black, 0 0 10px black;
 }
 
 .enricher-index[data-preset="armor"] {
