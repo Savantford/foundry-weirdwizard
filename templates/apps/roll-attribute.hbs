@@ -1,12 +1,12 @@
-<form class="weirdwizard roll-details">
+<section class="weirdwizard roll-details">
 
     <div class="roll-main">
 
         {{!-- Total Boones/Banes --}}
         <h3 class="boons-header">
-            <span name="total">{{localize "WW.Boons.Total"}}</span>
+            <span>{{localize "WW.Boons.Total"}}</span>
 
-            <span class="boons-display total ml-auto"></span>
+            <span class="boons-display total ml-auto">{{ boonsFinal }}</span>
         </h3>
 
         {{!-- Boons Count Box --}}
@@ -15,30 +15,30 @@
             {{!-- Affliction Banes --}}
             <div class="stat-stretch flex-group-left">
                 <label>{{localize "WW.Boons.Afflictions"}}</label>
-                <span class="boons-display afflictions">{{numberFormat effectBoons decimals=0 sign=true}}</span>
+                <span class="boons-display">{{numberFormat boonsConfig.fromEffects decimals=0 sign=true}}</span>
             </div>
 
             {{!-- Attack Boons --}}
-            {{#if attackBoons}}
+            {{#if boonsConfig.forAttacks}}
             <div class="stat-stretch flex-group-left">
                 <label>{{localize "WW.Boons.Attack"}}</label>
-                <input name="apply-attack-boons" class="damage-checkbox attack" type="checkbox" data-tooltip="WW.Boons.Apply" {{#if tags.isWeapon}}checked{{/if}}>
-                <span class="boons-display attack">{{numberFormat attackBoons decimals=0 sign=true}}</span>
+                <input name="applyAttackBoons" class="damage-checkbox attack" type="checkbox" data-tooltip="WW.Boons.Apply" {{#if inputs.applyAttackBoons}}checked{{/if}}>
+                <span class="boons-display attack">{{numberFormat boonsConfig.forAttacks decimals=0 sign=true}}</span>
             </div>
             {{/if}}
 
             {{!-- Fixed Boons --}}
-            {{#if fixedBoons}}
+            {{#if boonsConfig.fixed}}
             <div class="stat-stretch flex-group-left">
                 <label>{{localize "WW.Boons.Fixed"}}</label>
-                <span class="boons-display fixed">{{numberFormat fixedBoons decimals=0 sign=true}}</span>
+                <span class="boons-display fixed">{{numberFormat boonsConfig.fixed decimals=0 sign=true}}</span>
             </div>
             {{/if}}
 
             {{!-- Situational Boons Widget --}}
             <div class="adjustment-widget">
                 <a data-action="down" data-tooltip="WW.Boons.AddBanes"></a>
-                <input class="boons-input situational mx-1" name="situational" type="number" value="0" data-tooltip="WW.Boons.Situational"/>
+                <input name="situationalBoons" class="boons-input situational mx-1" type="number" value="{{ inputs.situationalBoons }}" data-tooltip="WW.Boons.Situational"/>
                 <a data-action="up" data-tooltip="WW.Boons.AddBoons"></a>
             </div>
             
@@ -52,25 +52,25 @@
         {{!-- Custom Target Number --}}
         <div class="override stat-inline align-center">
             <label>{{localize "WW.Roll.Flat"}}:</label>
-            <input name="flat" type="number" placeholder="—" data-tooltip="WW.Roll.FlatHint"/>
+            <input name="flatBonus" type="number" value="{{ inputs.flatBonus }}" placeholder="—" data-tooltip="WW.Roll.FlatHint"/>
         </div>
 
         {{!-- Custom Target Number --}}
         <div class="override stat-inline align-center">
             <label>{{localize "WW.Roll.TargetNumber"}}:</label>
-            <input name="targetno" type="number" placeholder="—" data-tooltip="WW.Roll.TargetNumberHint"/>
+            <input name="customTn" type="number" value="{{ inputs.customTn }}" placeholder="—" data-tooltip="WW.Roll.TargetNumberHint"/>
         </div>
         
     </div>
 
     {{!-- Terms Expression --}}
-    <div class="boons-expression flex-group-center"></div>
+    <div class="boons-expression flex-group-center">{{ boonsExpression }}</div>
 
     {{!-- Targets Box --}}
     {{#if targets}}
     <div class="targets-box">
         <h3>{{localize "WW.Targeting.Targets"}}</h3>
-        <div class="h3-box boons-targets"></div>
+        <div class="h3-box boons-targets">{{{ targetsDisplay }}}</div>
     </div>
     {{/if}}
 
@@ -85,4 +85,4 @@
         </button>
     </div>
     
-</form>
+</section>

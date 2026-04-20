@@ -587,14 +587,14 @@ export default class WWCreatureSheet extends WWActorSheet {
 
     // Define variables to be used
     const system = this.actor.system,
-      origin = this.actor.uuid,
+      actor = this.actor.uuid,
       attKey = dataset.key,
       label = i18n(CONFIG.WW.ATTRIBUTE_ROLLS[attKey]);
 
     let content = '';
 
     const obj = {
-      origin: origin,
+      actor: actor,
       label: label,
       icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey],
       content: content,
@@ -861,18 +861,19 @@ export default class WWCreatureSheet extends WWActorSheet {
     // Define variables to be used
     const system = this.actor.system,
       item = this.actor.items.get(dataset.itemId),
+      actor = this.actor,
       label = _secretLabel(item.name),
       content = _secretContent(item.system.description),
       instEffs = item.system.instant,
-      effects = item.effects,
-      origin = item.uuid ? item.uuid : this.actor.uuid;
+      effects = item.effects;
 
     const attKey = CONFIG.WW.ATTRIBUTE_ROLLS[item.system.attribute] ? item.system.attribute : '';
     
     if (!attKey) { // If an attribute key is not defined, do not roll
       
       const obj = {
-        origin: origin,
+        actor: actor,
+        item: item,
         label: label,
         content: content,
         attKey: attKey,
@@ -997,7 +998,8 @@ export default class WWCreatureSheet extends WWActorSheet {
     } else { // Attempt to use RollAttribute app
 
       const obj = {
-        origin: origin,
+        actor: actor,
+        item: item,
         label: label,
         content: content,
         attKey: attKey,
