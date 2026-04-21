@@ -24,7 +24,6 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
     this.token = actor.token;
 
     // Roll Configuration
-    console.log(attKey)
     this.rollConfig = {
       baseHtml, action, label, content,
       icon: icon ?? (item ? item.img : null),
@@ -67,26 +66,13 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
     window: {
       title: this.title,
       icon: 'fa-solid fa-dice-d20',
-      resizable: true,
-      controls: [
-        /*{
-          action: "resyncDocuments",
-          icon: "fa-solid fa-rotate",
-          label: "WW.Index.ResyncDocuments",
-          ownership: "VIEWER"
-        }, {
-          action: "createRollTable",
-          icon: "fa-solid fa-dice",
-          label: "WW.Index.RollTable.Text",
-          ownership: "VIEWER"
-        }*/
-      ]
+      resizable: true
     },
     actions: {
       situationalUp: RollAttribute.#changeSituationalBoons,
       situationalDown: RollAttribute.#changeSituationalBoons,
-      //roll: RollAttribute.#roll,
-      //cancel: RollAttribute.#cancel
+      submitRoll: RollAttribute.#submitRoll,
+      cancelRoll: RollAttribute.#cancelRoll
     },
     form: {
       handler: this.#onSubmit,
@@ -119,30 +105,30 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
       rollConfig: this.rollConfig,
       boonsConfig: this.boonsConfig,
       tags: this.tags,
-      targeted: this.action === 'targeted-use' ?? false,
+      targeted: this.rollConfig.action === 'targeted-use' ?? false,
     };
 
     // Destructure variables
     const { against, attLabel, attMod } = this.rollConfig;
     const { fixed, forAttacks, forSpells, fromEffects } = this.boonsConfig;
-    const { applyAttackBoons, applySpellBoons, customTn, flatBonus, situationalBoons } = this.formData;
+    const { applyAttackBoons, applySpellBoons, customTn, flatMod, situationalBoons } = this.formData;
     
     // Prepare input context
     context.inputs = this.formData ?? { applyAttackBoons, applySpellBoons, situationalBoons };
 
     // Prepare attribute display
-    const attDisplay = (attLabel ? `${attLabel} (${attMod})` : '1d20 + 0') + (flatBonus ? ` + ${flatBonus}` : '');
+    const attDisplay = (attLabel ? `${attLabel} (${attMod})` : '1d20 + 0') + (flatMod ? ` + ${flatMod}` : '');
 
     // Calculate and display final boons
-    let boonsFinal = this.boonsConfig.final;
+    let boonsFinal = 0;
+
     if (situationalBoons) boonsFinal += situationalBoons; // Add situational boons input value
     if (fromEffects) boonsFinal += fromEffects; // If there are boons or banes applied by Active Effects, add it
     if (applyAttackBoons && forAttacks) boonsFinal += forAttacks;
     if (fixed) boonsFinal += fixed; // If there are fixed boons or banes, add it
-    
-    boonsFinal = plusify(boonsFinal); // Add a + sign if positive
 
-    context.boonsFinal = boonsFinal;
+    this.boonsConfig.final = boonsFinal;
+    context.boonsFinal = plusify(boonsFinal);
 
     // Prepare boons display
     let boonsDisplay = '';
@@ -200,7 +186,6 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
         if (this.tags.isAttack) boonsAgainst += t.boonsAgainst.fromAttacks;
         if (this.tags.isSpell) boonsAgainst += t.boonsAgainst.fromSpells;
         if (this.tags.isMagical) boonsAgainst += t.boonsAgainst.fromMagical + t.boons.resistMagical;
-        console.log(t)
         
         // Boons display
         const boonsNo = boonsAgainst;
@@ -233,21 +218,6 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
   /*  Actions                                     */
   /* -------------------------------------------- */
 
-  activateListeners(html) {
-    super.activateListeners(html);
-
-    // Handle closing the window without saving
-    html.find('#boons-cancel').click(() => this.close({ submit: false }));
-
-    // Update forms fields dynamically
-    const el = html.find('input');
-    el.change((ev) => this._updateFields(ev));
-    el.change();
-
-  }
-
-  /* -------------------------------------------- */
-
   /**
    * @param {PointerEvent} event - The originating click event
    * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
@@ -267,20 +237,34 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
 
   /* -------------------------------------------- */
 
-  async _updateObject(event, formData) { // Update actor data.
+  /**
+   * @param {PointerEvent} event - The originating click event
+   * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
+  */
+  static #cancelRoll(event, target) {
+    this.close({ submit: false });
+  }
+
+  /* -------------------------------------------- */
+
+  
+  /**
+   * @param {PointerEvent} event - The originating click event
+   * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
+  */
+  static async #submitRoll(event, target) {
+    console.log('action')
     const against = this.rollConfig.against,
-      boonsFinal = this.boonsFinal,
-      targeted = (this.action === 'targeted-use' || game.user.targets?.size) ? true : false,
-      flatBonus = formData.flatBonus ? `+${formData.flatBonus}` : '',
-      rollData = this.origin.getRollData();
-    ;
+      boonsFinal = this.boonsConfig.final,
+      targeted = (this.rollConfig.action === 'targeted-use' || game.user.targets?.size) ? true : false,
+      flatMod = this.formData.flatMod ? `+${formData.flatMod}` : '',
+    rollData = this.actor.getRollData();
     
-    let rollHtml = '',
-      boons = "0",
-      rollsArray = []
-    ;
+    let rollHtml = '', boons = "0";
+    const rollsArray = [];
     
-    if (targeted && against) { // If Action is Targeted and Against is filled; perform one separate roll for each target
+    console.log('parte 1')
+    if (targeted && against) { // If Action is Targeted and Against is filled: perform one separate roll for each target
       
       for (const t of this.targets) {
         
@@ -296,7 +280,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
         if (boonsNo != 0) { boons = (boonsNo < 0 ? "" : "+") + boonsNo + "d6kh" } else { boons = ""; };
 
         // Determine the rollFormula
-        const rollFormula = "1d20" + (this.mod != "+0" ? this.mod : "") + flatBonus + boons;
+        const rollFormula = "1d20" + (this.rollConfig.attMod != "+0" ? this.rollConfig.attMod : "") + flatMod + boons;
 
         // Get and set target number
         const targetNo = against == 'def' ? t.defense : t.attributes[against].value;
@@ -305,9 +289,9 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
         const r = await new WWRoll(rollFormula, rollData, {
           template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
           actor: this.actor,
-          actor: this.item,
+          item: this.item,
           target: t,
-          attribute: this.attribute,
+          attribute: this.rollConfig.attKey,
           against: against,
           targetNo: targetNo,
           instEffs: this.instEffs,
@@ -379,30 +363,29 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
 
       }
 
-    } else { // against is false; perform a SINGLE ROLL for all targets
-      
+    } else { // Not targeted and Against is false: perform a SINGLE ROLL for all targets
+      console.log('against is false, single roll')
       // Set boons text
       if (boonsFinal != 0) { boons = boonsFinal + "d6kh" } else { boons = ""; };
 
       // Determine the rollFormula
-      const rollFormula = "1d20" + (this.mod != "+0" ? this.mod : "") + flatBonus + boons;
+      const rollFormula = "1d20" + (this.rollConfig.attMod != "+0" ? this.rollConfig.attMod : "") + flatMod + boons;
 
       // Set targetNo to the custom; 10 is used otherwise
-      const targetNo = formData.customTn ?? 10;
+      const targetNo = this.formData.customTn ?? 10;
 
       // Construct the Roll instance and evaluate the roll
-      
       const r = await new WWRoll(rollFormula, rollData, {
         template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
         actor: this.actor,
         item: this.item,
-        attribute: this.attribute,
+        attribute: this.rollConfig.attKey,
         against: against,
         targetNo: targetNo,
         instEffs: this.instEffs,
         actEffs: this.actEffs
       }).evaluate();
-
+      
       // Set the roll order and color dice for DSN
       for (let i = 0; i < r.dice.length; i++) {
         r.dice[i].options.rollOrder = 0;
@@ -463,26 +446,27 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
       // Push roll to roll array
       rollsArray.push(r);
     }
-    
+    console.log('parte 2')
     // Create message data
     const messageData = {
       type: 'd20-roll',
       rolls: rollsArray,
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
-      flavor: this.label,
-      content: this.content,
+      flavor: this.rollConfig.label,
+      content: this.rollConfig.content,
       sound: CONFIG.sounds.dice,
       'flags.weirdwizard': {
-        icon: this.icon,
+        icon: this.rollConfig.icon,
         item: this.item?.uuid,
         rollHtml: rollHtml,
-        emptyContent: !this.content ?? true
+        emptyContent: !this.rollConfig.content ?? true
       }
     }
+
+    console.log(messageData)
     
+    // Apply roll mode and send to chat
     await ChatMessage.applyRollMode(messageData, game.settings.get('core', 'rollMode'));
-    
-    // Send to chat
     await ChatMessage.create(messageData);
   }
 
@@ -594,7 +578,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
     }
 
     // Add Weapon Damage
-    const itemSystem = this.origin.system;
+    const itemSystem = this.item.system;
     const weaponDamage = (itemSystem.subtype == 'weapon' && itemSystem.damage) ? itemSystem.damage : 0;
     
     if (weaponDamage) {

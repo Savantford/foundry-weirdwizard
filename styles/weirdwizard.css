@@ -6312,6 +6312,7 @@ p {
 .weirdwizard.dice-tooltip .dice-rolls {
   display: flex;
   align-items: center;
+  flex-flow: wrap;
   font-size: var(--font-size-16);
   gap: 3px;
   margin: 0;

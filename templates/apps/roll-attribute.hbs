@@ -38,7 +38,7 @@
             {{!-- Situational Boons Widget --}}
             <div class="adjustment-widget">
                 <a class="down" data-action="situationalDown" data-tooltip="WW.Boons.AddBanes"></a>
-                
+
                 <input name="situationalBoons" class="boons-input situational mx-1" type="number" value="{{ inputs.situationalBoons }}" data-tooltip="WW.Boons.Situational"/>
 
                 <a class="up" data-action="situationalUp" data-tooltip="WW.Boons.AddBoons"></a>
@@ -54,7 +54,7 @@
         {{!-- Custom Target Number --}}
         <div class="override stat-inline align-center">
             <label>{{localize "WW.Roll.Flat"}}:</label>
-            <input name="flatBonus" type="number" value="{{ inputs.flatBonus }}" placeholder="—" data-tooltip="WW.Roll.FlatHint"/>
+            <input name="flatMod" type="number" value="{{ inputs.flatMod }}" placeholder="—" data-tooltip="WW.Roll.FlatHint"/>
         </div>
 
         {{!-- Custom Target Number --}}
@@ -94,11 +94,11 @@
 
     {{!-- Form Buttons --}}
     <div class="form-group">
-        <button type="submit" id="boons-submit">
+        <button type="button" id="boons-submit" data-action="submitRoll">
             <i class="fa-solid fa-dice"></i> {{localize "WW.Roll.Label"}}
         </button>
 
-        <button type="button" id="boons-cancel">
+        <button type="button" id="boons-cancel" data-action="cancelRoll">
             <i class="fa-solid fa-x"></i> {{localize "WW.System.Dialog.Cancel"}}
         </button>
     </div>
