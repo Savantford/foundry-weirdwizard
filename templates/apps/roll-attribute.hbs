@@ -1,4 +1,4 @@
-<section class="weirdwizard roll-details">
+<section class="standard-form">
 
     <div class="roll-main">
 
@@ -93,12 +93,12 @@
     {{/if}}
 
     {{!-- Form Buttons --}}
-    <div class="form-group">
-        <button type="button" id="boons-submit" data-action="submitRoll">
+    <div class="form-footer">
+        <button type="submit" id="boons-submit" data-action="submitRoll">
             <i class="fa-solid fa-dice"></i> {{localize "WW.Roll.Label"}}
         </button>
 
-        <button type="button" id="boons-cancel" data-action="cancelRoll">
+        <button type="submit" id="boons-cancel" data-action="cancelRoll">
             <i class="fa-solid fa-x"></i> {{localize "WW.System.Dialog.Cancel"}}
         </button>
     </div>

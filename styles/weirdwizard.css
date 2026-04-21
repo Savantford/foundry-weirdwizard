@@ -4299,8 +4299,8 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard.dialog .form-footer button.default,
 .weirdwizard.roll-table-sheet .form-footer > button,
 #multi-choice .mc-buttons button,
-.roll-attribute .form-group button,
-#roll-damage .form-group button,
+.roll-attribute .form-footer button,
+#roll-damage .form-footer button,
 .folder-edit button[type="submit"] {
   border: none;
   background: none;
@@ -4333,10 +4333,10 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard.roll-table-sheet .form-footer > button:focus,
 #multi-choice .mc-buttons button:hover,
 #multi-choice .mc-buttons button:focus,
-.roll-attribute .form-group button:hover,
-.roll-attribute .form-group button:focus,
-#roll-damage .form-group button:hover,
-#roll-damage .form-group button:focus {
+.roll-attribute .form-footer button:hover,
+.roll-attribute .form-footer button:focus,
+#roll-damage .form-footer button:hover,
+#roll-damage .form-footer button:focus {
   border-image-source: url(../assets/ui/plates/single-transparent-thicker.svg);
   border-image-slice: 128 fill;
   border-image-width: 6px;
