@@ -4885,6 +4885,13 @@ details.document-card .card-header:hover::after {
     filter: brightness(0) saturate(100%) invert(15%) sepia(25%) saturate(2839%) hue-rotate(258deg) brightness(87%) contrast(88%);
     text-shadow: 0 0 1px black;
   }
+
+  input[type="number"] {
+    --input-text-color: var(--body-text-color);
+    background: var(--background-color-shadow);
+    border: 1px solid transparent;
+    text-align: center;
+  }
 }
 
 /* Attribute Roll App */
