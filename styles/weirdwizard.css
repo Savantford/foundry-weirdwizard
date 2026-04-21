@@ -4888,9 +4888,11 @@ details.document-card .card-header:hover::after {
 
   input[type="number"] {
     --input-text-color: var(--body-text-color);
+    height: 1lh;
     background: var(--background-color-shadow);
     border: 1px solid transparent;
     text-align: center;
+    line-height: normal;
   }
 }
 
