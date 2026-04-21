@@ -253,17 +253,16 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
    * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
   */
   static async #submitRoll(event, target) {
-    console.log('action')
-    const against = this.rollConfig.against,
-      boonsFinal = this.boonsConfig.final,
+    const { against, attKey } = this.rollConfig;
+    
+    const boonsFinal = this.boonsConfig.final,
       targeted = (this.rollConfig.action === 'targeted-use' || game.user.targets?.size) ? true : false,
-      flatMod = this.formData.flatMod ? `+${formData.flatMod}` : '',
+      flatMod = this.formData.flatMod,
     rollData = this.actor.getRollData();
     
     let rollHtml = '', boons = "0";
     const rollsArray = [];
     
-    console.log('parte 1')
     if (targeted && against) { // If Action is Targeted and Against is filled: perform one separate roll for each target
       
       for (const t of this.targets) {
@@ -364,12 +363,16 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
       }
 
     } else { // Not targeted and Against is false: perform a SINGLE ROLL for all targets
-      console.log('against is false, single roll')
       // Set boons text
       if (boonsFinal != 0) { boons = boonsFinal + "d6kh" } else { boons = ""; };
 
       // Determine the rollFormula
-      const rollFormula = "1d20" + (this.rollConfig.attMod != "+0" ? this.rollConfig.attMod : "") + flatMod + boons;
+      const rollFormula = [
+        "1d20",
+        `${this.rollConfig.attMod}[${i18n(CONFIG.WW.ATTRIBUTES_SHORT[attKey])}]`,
+        flatMod ? flatMod + `[${i18n("WW.Roll.Flat")}]` : null,
+        boons ? boons + `[${i18n(boonsFinal < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
+      ].filterJoin(" + ");
 
       // Set targetNo to the custom; 10 is used otherwise
       const targetNo = this.formData.customTn ?? 10;
@@ -385,7 +388,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
         instEffs: this.instEffs,
         actEffs: this.actEffs
       }).evaluate();
-      
+
       // Set the roll order and color dice for DSN
       for (let i = 0; i < r.dice.length; i++) {
         r.dice[i].options.rollOrder = 0;
@@ -446,7 +449,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
       // Push roll to roll array
       rollsArray.push(r);
     }
-    console.log('parte 2')
+    
     // Create message data
     const messageData = {
       type: 'd20-roll',
@@ -462,8 +465,6 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
         emptyContent: !this.rollConfig.content ?? true
       }
     }
-
-    console.log(messageData)
     
     // Apply roll mode and send to chat
     await ChatMessage.applyRollMode(messageData, game.settings.get('core', 'rollMode'));

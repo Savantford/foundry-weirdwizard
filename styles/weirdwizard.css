@@ -6307,28 +6307,31 @@ p {
 /* Dice Tooltip */
 .weirdwizard.dice-tooltip {
   text-align: center;
-}
 
-.weirdwizard.dice-tooltip .dice-rolls {
-  display: flex;
-  align-items: center;
-  flex-flow: wrap;
-  font-size: var(--font-size-16);
-  gap: 3px;
-  margin: 0;
-}
+  .dice-rolls {
+    display: flex;
+    align-items: center;
+    flex-flow: wrap;
+    font-size: var(--font-size-16);
+    gap: 3px;
+    margin: 0;
 
-.weirdwizard.dice-tooltip .dice-rolls .roll.discarded {
-  color: var(--body-text-color);
-}
+    > * {
+      margin: 0;
+    }
 
-.weirdwizard.dice-tooltip .dice-formula {
-  font-size: var(--font-size-16);
-  margin-top: 10px;
+    .roll.discarded {
+      color: var(--body-text-color);
+    }
+  }
+
+  .dice-formula {
+    font-size: var(--font-size-16);
+    margin-top: 10px;
+  }
 }
 
 /* Message Header */
-
 .weirdwizard.chat-message .footer-sender {
   line-height: 20px;
   color: var(--color-text-dark-secondary);

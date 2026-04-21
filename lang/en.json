@@ -299,6 +299,8 @@
 "WW.Roll.Luck": "Roll Luck",
 "WW.Roll.Flat": "Custom Modifier",
 "WW.Roll.FlatHint": "This number will be added to the total roll sum, regardless if there an attribute modifier exists or not.",
+"WW.Roll.Boons": "Boons",
+"WW.Roll.Banes": "Banes",
 
 "WW.Boons.Apply": "Apply boons/banes",
 "WW.Boons.Total": "Total Boons or Banes",
