@@ -47,7 +47,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
     // Tags
     this.tags = {
       isWeapon: this.item?.system?.subtype === 'weapon' ?? false,
-      isAttack: (this.item?.system?.subtype === 'weapon' || this.against === 'def') ?? false,
+      isAttack: (this.item?.system?.subtype === 'weapon' || this.rollConfig.against === 'def') ?? false,
       isMagical: this.item?.system?.magical,
       isSpell: this.item?.type === 'spell' ?? false
     };
@@ -117,7 +117,6 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
       boonsConfig: this.boonsConfig,
       tags: this.tags,
       targeted: this.action === 'targeted-use' ?? false,
-      targets: this.targets,
     };
 
     // Destructure variables
@@ -193,7 +192,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
 
     // Targets display
     if (this.targets.length) {
-      let targetsDisplay = '';
+      const targets = [];
       
       this.targets.forEach(t => {
         // Boons against count
@@ -202,6 +201,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
         if (this.tags.isAttack) boonsAgainst += t.boonsAgainst.fromAttacks;
         if (this.tags.isSpell) boonsAgainst += t.boonsAgainst.fromSpells;
         if (this.tags.isMagical) boonsAgainst += t.boonsAgainst.fromMagical + t.boons.resistMagical;
+        console.log(t)
         
         // Boons display
         const boonsNo = boonsAgainst;
@@ -211,16 +211,20 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
         const againstIcon = CONFIG.WW.ATTRIBUTE_ICONS[against];
         const againstLabel = CONFIG.WW.ROLL_AGAINST[against];
         
-        targetsDisplay += `<li><label><img class="target-icon" src="${t.img}" /> ${t.name}</label>`
+        targets.push({
+          img: t.img,
+          name: t.name,
+          boonsNo,
+          boonsIcon: '/systems/weirdwizard/assets/icons/' + boonsIcon + '.svg',
+          boonsTip,
+          againstNo: t.againstNo,
+          againstLabel,
+          againstIcon
+        })
 
-        if (t.againstNo) {
-          if (boonsNo != 0) targetsDisplay += `<div class="target-boons">(${boonsNo} <img src="/systems/weirdwizard/assets/icons/${boonsIcon}.svg" data-tooltip="${boonsTip}"/>)</div>`;
-
-          targetsDisplay += `<div class="target-against" data-tooltip="${againstLabel}">${t.againstNo} <img src="${againstIcon}" /></div></li>`;
-        }
       });
 
-      context.targetsDisplay = targetsDisplay;
+      context.targets = targets;
     }
     
     return context;
@@ -269,7 +273,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
   /* -------------------------------------------- */
 
   async _updateObject(event, formData) { // Update actor data.
-    const against = this.against,
+    const against = this.rollConfig.against,
       boonsFinal = this.boonsFinal,
       targeted = (this.action === 'targeted-use' || game.user.targets?.size) ? true : false,
       flatBonus = formData.flatBonus ? `+${formData.flatBonus}` : '',
@@ -543,7 +547,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
         name: game.weirdwizard.utils.getAlias({ token: tDoc, actor: actor }),
         attributes: actor ? sys.attributes : null,
         defense: actor ? sys.stats.defense.total : null,
-        againstNo: sys ? (this.against === 'def' ? sys.stats.defense.total : sys.attributes[this.against]?.value) : "—",
+        againstNo: sys ? (this.rollConfig.against === 'def' ? sys.stats.defense.total : sys.attributes[this.rollConfig.against]?.value) : "—",
         boons: actor ? sys.boons.selfRoll : null,
         boonsAgainst: actor ? sys.boons.against : null
       })

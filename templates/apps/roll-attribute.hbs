@@ -70,7 +70,23 @@
     {{#if targets}}
     <div class="targets-box">
         <h3>{{localize "WW.Targeting.Targets"}}</h3>
-        <div class="h3-box boons-targets">{{{ targetsDisplay }}}</div>
+
+        <div class="h3-box boons-targets">
+            {{#each targets as |target id|}}
+            {{log target}}
+            <li>
+                <label><img class="target-icon" src="{{ img }}"> {{ name }}</label>
+
+                {{#if againstNo}}
+                    {{#if (ne boonsNo 0)}}
+                    <div class="target-boons">({{ boonsNo }} <img src="{{ boonsIcon }}" data-tooltip="{{boonsTip}}"/>)</div>
+                    {{/if}}
+
+                    <div class="target-against" data-tooltip="{{ againstLabel }}">{{ againstNo }} <img src="{{ againstIcon }}"></div>
+                {{/if}}
+            </li>
+            {{/each}}
+        </div>
     </div>
     {{/if}}
 
