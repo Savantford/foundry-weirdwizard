@@ -4909,7 +4909,7 @@ details.document-card .card-header:hover::after {
       background-size: contain;
     }
 
-    > a[data-action="down"] {
+    > a.down {
       background-image: url(../assets/icons/banes-colored.svg);
     }
   }

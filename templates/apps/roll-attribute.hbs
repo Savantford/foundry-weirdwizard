@@ -37,9 +37,11 @@
 
             {{!-- Situational Boons Widget --}}
             <div class="adjustment-widget">
-                <a data-action="down" data-tooltip="WW.Boons.AddBanes"></a>
+                <a class="down" data-action="situationalDown" data-tooltip="WW.Boons.AddBanes"></a>
+                
                 <input name="situationalBoons" class="boons-input situational mx-1" type="number" value="{{ inputs.situationalBoons }}" data-tooltip="WW.Boons.Situational"/>
-                <a data-action="up" data-tooltip="WW.Boons.AddBoons"></a>
+
+                <a class="up" data-action="situationalUp" data-tooltip="WW.Boons.AddBoons"></a>
             </div>
             
         </div>

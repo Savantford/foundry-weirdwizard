@@ -52,6 +52,13 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
       isSpell: this.item?.type === 'spell' ?? false
     };
 
+    // Default Form Data Values
+    this.formData = {
+      applyAttackBoons: this.tags.isWeapon ?? false,
+      applySpellBoons: this.tags.isSpell ?? false,
+      situationalBoons: 0
+    }
+
   }
 
   static DEFAULT_OPTIONS = {
@@ -75,16 +82,12 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
         }*/
       ]
     },
-    /*actions: {
-      openSheet: CompendiumIndex.#openSheet,
-      sort: CompendiumIndex.#sortDocuments,
-      changePage: CompendiumIndex.#changePage,
-
-      // Window header menu
-      openHelp: CompendiumIndex.#onOpenHelp,
-      resyncDocumetns: CompendiumIndex.#onResyncDocuments,
-      createRollTable: CompendiumIndex.#createRollTable
-    },*/
+    actions: {
+      situationalUp: RollAttribute.#changeSituationalBoons,
+      situationalDown: RollAttribute.#changeSituationalBoons,
+      //roll: RollAttribute.#roll,
+      //cancel: RollAttribute.#cancel
+    },
     form: {
       handler: this.#onSubmit,
       submitOnChange: true,
@@ -122,11 +125,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
     // Destructure variables
     const { against, attLabel, attMod } = this.rollConfig;
     const { fixed, forAttacks, forSpells, fromEffects } = this.boonsConfig;
-    const { applyAttackBoons, applySpellBoons, customTn, flatBonus, situationalBoons } = this.formData ?? {
-      applyAttackBoons: this.tags.isWeapon ?? false,
-      applySpellBoons: this.tags.isSpell ?? false,
-      situationalBoons: 0
-    };
+    const { applyAttackBoons, applySpellBoons, customTn, flatBonus, situationalBoons } = this.formData;
     
     // Prepare input context
     context.inputs = this.formData ?? { applyAttackBoons, applySpellBoons, situationalBoons };
@@ -240,9 +239,6 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
     // Handle closing the window without saving
     html.find('#boons-cancel').click(() => this.close({ submit: false }));
 
-    // Handle closing the window without saving
-    html.find('.adjustment-widget > a').click((ev) => this._onSituationalBoons(ev));
-
     // Update forms fields dynamically
     const el = html.find('input');
     el.change((ev) => this._updateFields(ev));
@@ -252,22 +248,21 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
 
   /* -------------------------------------------- */
 
-  _onSituationalBoons(ev) {
-    const a = ev.currentTarget;
-    const parent = a.closest('.adjustment-widget');
-    const action = a.dataset.action;
+  /**
+   * @param {PointerEvent} event - The originating click event
+   * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
+  */
+  static #changeSituationalBoons(event, target) {
+    const parent = target.closest('.adjustment-widget');
+    const action = target.dataset.action;
 
-    let value = parseInt(parent.querySelector('input[type=number].situational').value);
-    
-    if (action === 'up') {
-      value++;
+    if (action === 'situationalUp') {
+      this.formData.situationalBoons++;
     } else {
-      value--;
+      this.formData.situationalBoons--;
     }
     
-    parent.querySelector('input[type=number].situational').value = value;
-    
-    this._updateFields(ev);
+    this.render();
   }
 
   /* -------------------------------------------- */
