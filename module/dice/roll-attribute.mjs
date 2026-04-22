@@ -179,13 +179,13 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
     if (this.targets.length) {
       const targets = [];
       
-      this.targets.forEach(t => {
+      this.targets.forEach(tar => {
         // Boons against count
         let boonsAgainst = 0;
-        if (t.boonsAgainst) boonsAgainst += t.boonsAgainst[against];
-        if (this.tags.isAttack) boonsAgainst += t.boonsAgainst.fromAttacks;
-        if (this.tags.isSpell) boonsAgainst += t.boonsAgainst.fromSpells;
-        if (this.tags.isMagical) boonsAgainst += t.boonsAgainst.fromMagical + t.boons.resistMagical;
+        if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against];
+        if (this.tags.isAttack) boonsAgainst += tar.boonsAgainst.fromAttacks;
+        if (this.tags.isSpell) boonsAgainst += tar.boonsAgainst.fromSpells;
+        if (this.tags.isMagical) boonsAgainst += tar.boonsAgainst.fromMagical + tar.boons.resistMagical;
         
         // Boons display
         const boonsNo = boonsAgainst;
@@ -196,12 +196,12 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
         const againstLabel = CONFIG.WW.ROLL_AGAINST[against];
         
         targets.push({
-          img: t.img,
-          name: t.name,
+          img: tar.img,
+          name: tar.name,
           boonsNo,
           boonsIcon: '/systems/weirdwizard/assets/icons/' + boonsIcon + '.svg',
           boonsTip,
-          againstNo: t.againstNo,
+          againstNo: tar.againstNo,
           againstLabel,
           againstIcon
         })
@@ -253,113 +253,64 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
    * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
   */
   static async #submitRoll(event, target) {
-    const { against, attKey } = this.rollConfig;
+    const { against, attKey, attMod } = this.rollConfig;
     
     const boonsFinal = this.boonsConfig.final,
       targeted = (this.rollConfig.action === 'targeted-use' || game.user.targets?.size) ? true : false,
       flatMod = this.formData.flatMod,
-    rollData = this.actor.getRollData();
+      rollData = this.actor.getRollData(),
+      rollsArray = [],
+      rollOptions = {
+        template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
+        actor: this.actor,
+        item: this.item,
+        attribute: this.rollConfig.attKey,
+        against: against,
+        instEffs: this.instEffs,
+        actEffs: this.actEffs
+    };
     
     let rollHtml = '', boons = "0";
-    const rollsArray = [];
     
     if (targeted && against) { // If Action is Targeted and Against is filled: perform one separate roll for each target
       
-      for (const t of this.targets) {
+      for (const tar of this.targets) {
         
         // Set boons text
         let boonsAgainst = 0;
-        if (t.boonsAgainst) boonsAgainst += t.boonsAgainst[against];
-        if (this.tags.isAttack) boonsAgainst += t.boonsAgainst.fromAttacks;
-        if (this.tags.isSpell) boonsAgainst += t.boonsAgainst.fromSpells;
-        if (this.tags.isMagical) boonsAgainst += t.boonsAgainst.fromMagical;
+        if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against];
+        if (this.tags.isAttack) boonsAgainst += tar.boonsAgainst.fromAttacks;
+        if (this.tags.isSpell) boonsAgainst += tar.boonsAgainst.fromSpells;
+        if (this.tags.isMagical) boonsAgainst += tar.boonsAgainst.fromMagical;
 
         const boonsNo = parseInt(boonsFinal) + boonsAgainst;
 
         if (boonsNo != 0) { boons = (boonsNo < 0 ? "" : "+") + boonsNo + "d6kh" } else { boons = ""; };
 
         // Determine the rollFormula
-        const rollFormula = "1d20" + (this.rollConfig.attMod != "+0" ? this.rollConfig.attMod : "") + flatMod + boons;
+        const rollFormula = [
+          "1d20",
+          `${attMod}[${i18n(CONFIG.WW.ATTRIBUTES_SHORT[attKey])}]`,
+          flatMod ? flatMod + `[${i18n("WW.Roll.Flat")}]` : null,
+          boons ? boons + `[${i18n(boonsFinal < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
+        ].filterJoin(" + ");
 
-        // Get and set target number
-        const targetNo = against == 'def' ? t.defense : t.attributes[against].value;
+        // Determine target number
+        const targetNo = against === 'def' ? tar.defense : tar.attributes[against].value;
         
         // Construct the Roll instance and evaluate the roll
-        const r = await new WWRoll(rollFormula, rollData, {
-          template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
-          actor: this.actor,
-          item: this.item,
+        const roll = await new WWRoll(rollFormula, rollData, {
+          ... rollOptions,
           target: t,
-          attribute: this.rollConfig.attKey,
-          against: against,
-          targetNo: targetNo,
-          instEffs: this.instEffs,
-          actEffs: this.actEffs
+          targetNo
         }).evaluate();
         
-        // Save the roll order
-        const index = this.targets.findIndex(obj => { return obj.id === t.id; });
-
-        // Set the roll order and color dice for DSN
-        for (let i = 0; i < r.dice.length; i++) {
-          r.dice[i].options.rollOrder = index;
-
-          const exp = r.dice[i].expression;
-          if (exp.includes('d20')) {
-            r.dice[i].options.appearance = {
-              colorset: 'wwd20',
-              texture: 'stars',
-              material: 'metal',
-              font: 'Amiri',
-              foreground: '#FFAE00', // Label Color
-              background: "#AE00FF", // Dice Color
-              outline: '#FF7B00',
-              edge: '#FFAE00',
-              material: 'metal',
-              font: 'Amiri',
-              default: true
-            };
-          
-          }
-
-          if (exp.includes('d6')) {
-            const sub = r.formula.substring(0, r.formula.indexOf(exp)).trim();
-            const sign = sub.slice(-1);
-            
-            if (sign === '+') { // If a boon
-              r.dice[i].options.appearance = {
-                colorset: 'wwboon',
-                texture: 'stars',
-                material: 'metal',
-                font: 'Amiri',
-                foreground: '#FFAE00', // Label Color
-                background: "#4394FE", // Dice Color
-                outline: '#FF7B00',
-                edge: '#FFAE00',
-                material: 'metal',
-                font: 'Amiri'
-              };
-            
-            } else if (sign === '-') { // If a bane
-              r.dice[i].options.appearance = {
-                colorset: 'wwbane',
-                texture: 'stars',
-                material: 'metal',
-                font: 'Amiri',
-                foreground: '#FFAE00', // Label Color
-                background: "#C70000", // Dice Color
-                outline: '#FF7B00',
-                edge: '#FFAE00',
-                material: 'metal',
-                font: 'Amiri'
-              };
-            }
-          }
-        }
+        // Prepare DSN data
+        const index = this.targets.findIndex(obj => { return obj.id === tar.id; });
+        this.prepareDSN(roll, index);
 
         // Push roll to roll array
-        rollsArray.push(r);
-
+        rollsArray.push(roll);
       }
 
     } else { // Not targeted and Against is false: perform a SINGLE ROLL for all targets
@@ -369,7 +320,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
       // Determine the rollFormula
       const rollFormula = [
         "1d20",
-        `${this.rollConfig.attMod}[${i18n(CONFIG.WW.ATTRIBUTES_SHORT[attKey])}]`,
+        `${attMod}[${i18n(CONFIG.WW.ATTRIBUTES_SHORT[attKey])}]`,
         flatMod ? flatMod + `[${i18n("WW.Roll.Flat")}]` : null,
         boons ? boons + `[${i18n(boonsFinal < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
       ].filterJoin(" + ");
@@ -378,76 +329,16 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
       const targetNo = this.formData.customTn ?? 10;
 
       // Construct the Roll instance and evaluate the roll
-      const r = await new WWRoll(rollFormula, rollData, {
-        template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
-        actor: this.actor,
-        item: this.item,
-        attribute: this.rollConfig.attKey,
-        against: against,
-        targetNo: targetNo,
-        instEffs: this.instEffs,
-        actEffs: this.actEffs
+      const roll = await new WWRoll(rollFormula, rollData, {
+        ... rollOptions,
+        targetNo
       }).evaluate();
 
-      // Set the roll order and color dice for DSN
-      for (let i = 0; i < r.dice.length; i++) {
-        r.dice[i].options.rollOrder = 0;
-
-        const exp = r.dice[i].expression;
-        if (exp.includes('d20')) {
-          r.dice[i].options.appearance = {
-            colorset: 'wwd20',
-            texture: 'stars',
-            material: 'metal',
-            font: 'Amiri',
-            foreground: '#FFAE00', // Label Color
-            background: "#AE00FF", // Dice Color
-            outline: '#FF7B00',
-            edge: '#FFAE00',
-            material: 'metal',
-            font: 'Amiri',
-            default: true
-          };
-        
-        }
-
-        if (exp.includes('d6')) {
-          const sub = r.formula.substring(0, r.formula.indexOf(exp)).trim();
-          const sign = sub.slice(-1);
-          
-          if (sign === '+') { // If a boon
-            r.dice[i].options.appearance = {
-              colorset: 'wwboon',
-              texture: 'stars',
-              material: 'metal',
-              font: 'Amiri',
-              foreground: '#FFAE00', // Label Color
-              background: "#4394FE", // Dice Color
-              outline: '#FF7B00',
-              edge: '#FFAE00',
-              material: 'metal',
-              font: 'Amiri'
-            };
-          
-          } else if (sign === '-') { // If a bane
-            r.dice[i].options.appearance = {
-              colorset: 'wwbane',
-              texture: 'stars',
-              material: 'metal',
-              font: 'Amiri',
-              foreground: '#FFAE00', // Label Color
-              background: "#C70000", // Dice Color
-              outline: '#FF7B00',
-              edge: '#FFAE00',
-              material: 'metal',
-              font: 'Amiri'
-            };
-          }
-        }
-      }
+      // Prepare DSN data
+      this.prepareDSN(roll, 0);
 
       // Push roll to roll array
-      rollsArray.push(r);
+      rollsArray.push(roll);
     }
     
     // Create message data
@@ -473,13 +364,61 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
 
   /* -------------------------------------------- */
 
-  _compareDispo(effTarget, compared) {
-    const dispo = canvas.tokens.get(compared)?.document?.disposition;
-    
-    if ((effTarget === 'allies') && (dispo === 1)) return true;
-    else if ((effTarget === 'enemies') && (dispo === -1)) return true;
-    else if (effTarget === 'tokens') return true;
-    else return false;
+  prepareDSN(roll, index) {
+    for (let i = 0; i < roll.dice.length; i++) {
+      roll.dice[i].options.rollOrder = index;
+
+      const exp = roll.dice[i].expression;
+      if (exp.includes('d20')) {
+        roll.dice[i].options.appearance = {
+          colorset: 'wwd20',
+          texture: 'stars',
+          material: 'metal',
+          font: 'Amiri',
+          foreground: '#FFAE00', // Label Color
+          background: "#AE00FF", // Dice Color
+          outline: '#FF7B00',
+          edge: '#FFAE00',
+          material: 'metal',
+          font: 'Amiri',
+          default: true
+        };
+      }
+
+      if (exp.includes('d6')) {
+        const sub = roll.formula.substring(0, roll.formula.indexOf(exp)).trim();
+        const sign = sub.slice(-1);
+
+        if (sign === '+') { // Boon dice
+          roll.dice[i].options.appearance = {
+            colorset: 'wwboon',
+            texture: 'stars',
+            material: 'metal',
+            font: 'Amiri',
+            foreground: '#FFAE00', // Label Color
+            background: "#4394FE", // Dice Color
+            outline: '#FF7B00',
+            edge: '#FFAE00',
+            material: 'metal',
+            font: 'Amiri'
+          };
+
+        } else if (sign === '-') { // Bane dice
+          roll.dice[i].options.appearance = {
+            colorset: 'wwbane',
+            texture: 'stars',
+            material: 'metal',
+            font: 'Amiri',
+            foreground: '#FFAE00', // Label Color
+            background: "#C70000", // Dice Color
+            outline: '#FF7B00',
+            edge: '#FFAE00',
+            material: 'metal',
+            font: 'Amiri'
+          };
+        }
+      }
+    }
   }
 
   /* -------------------------------------------- */
@@ -515,13 +454,13 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
   get targets() {
     const targets = [];
 
-    game.user.targets.forEach(t => {
-      const tDoc = t.document;
+    game.user.targets.forEach(tar => {
+      const tDoc = tar.document;
       const actor = tDoc?.actor;
       const sys = actor?.system;
       
       targets.push({
-        id: t.id,
+        id: tar.id,
         uuid: tDoc.uuid,
         img: tDoc?.texture?.src,
         name: game.weirdwizard.utils.getAlias({ token: tDoc, actor: actor }),
@@ -620,17 +559,28 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
   _getTargetIds(targets, effTarget) {
     let targetIds = '';
 
-    targets.forEach(t => {
+    function compareDispo(effTarget, compared) {
+      const dispo = canvas.tokens.get(compared)?.document?.disposition;
+      
+      if ((effTarget === 'allies') && (dispo === 1)) return true;
+      else if ((effTarget === 'enemies') && (dispo === -1)) return true;
+      else if (effTarget === 'tokens') return true;
+      else return false;
+    }
 
-      if (this._compareDispo(effTarget, t.id)) {
+    targets.forEach(tar => {
+      if (compareDispo(effTarget, tar.id)) {
         if (targetIds) targetIds += ',';
 
-        targetIds += t.id;
+        targetIds += tar.id;
       }
-
     })
 
     return targetIds;
   }
+
+  /* -------------------------------------------- */
+
+  
 
 }
