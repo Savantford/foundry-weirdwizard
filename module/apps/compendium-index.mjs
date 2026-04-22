@@ -27,7 +27,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     classes: ['weirdwizard', 'compendium-index'],
     window: {
       title: "WW.Index.Label",
-      icon: 'fa-solid fa-hat-wizard',
+      icon: 'fa-solid fa-book-bookmark',
       resizable: true,
       controls: [
         {
@@ -1577,18 +1577,32 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
    * @param {HTMLElement} html  HTML of the sidebar being rendered.
    */
   static injectSidebarButton(html) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.classList.add("open-compendium-index");
-    button.innerHTML = `
-        <i class="fa-solid fa-hat-wizard" inert></i>
-        ${game.i18n.localize("WW.Index.Open")}
-      `;
-    button.addEventListener("click", event => (new CompendiumIndex()).render({ force: true }));''
+    const headerActions = html.querySelector(".header-actions");
 
-    let headerActions = html.querySelector(".header-actions");
+    // Compendium Index button
+    const ciButton = document.createElement("button");
+    ciButton.type = "button";
+    ciButton.classList.add("open-compendium-index");
+    ciButton.innerHTML = `
+      <i class="fa-solid fa-book-bookmark" inert></i>
+      ${i18n("WW.Index.Open")}
+    `;
+    ciButton.addEventListener("click", event => (new CompendiumIndex()).render({ force: true }));''
+
+    headerActions.append(ciButton);
+
+    // CI Presets button
+    const presetsButton = document.createElement("button");
+    presetsButton.type = "button";
+    presetsButton.classList.add("open-ci-presets");
+    presetsButton.setAttribute("data-tooltip", i18n("WW.Index.PresetsTip"));
+    presetsButton.innerHTML = `
+      <i class="fa-solid fa-wand-sparkles" inert></i>
+      ${i18n("WW.Index.PresetsLabel")}
+    `;
+    //presetsButton.addEventListener("click", event => (new CompendiumIndexPresets()).render({ force: true }));''
     
-    headerActions.append(button);
+    headerActions.append(presetsButton);
   }
 
   /* -------------------------------------------- */

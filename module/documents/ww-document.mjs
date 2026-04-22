@@ -218,10 +218,13 @@ export default function WWDocumentMixin(Base) {
                 // Prepare name and grip label
                 label = (item.system.traits.has('range') ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + item.name + (item.system.traitsList ? ' • ' + item.system.traitsList : '');
               }
-              
+
+              // Enrich HTML and push data
+              const TextEditor = foundry.applications.ux.TextEditor.implementation;
+
               context.items[category].push({
                 label,
-                desc: item.system.description,
+                desc: item.system.description ? await TextEditor.enrichHTML(item.system.description, { secrets: this.isOwner }) : null,
                 attackRider: item.system.attackRider ?? null
               });
             }

@@ -1,4 +1,4 @@
-import { i18n, slideDown } from '../helpers/utils.mjs';
+import { i18n, slideDown, slideUp } from '../helpers/utils.mjs';
 import MultiChoice from '../apps/multi-choice.mjs';
 import RollDamage from '../dice/roll-damage.mjs';
 import WWRoll from '../dice/roll.mjs';
@@ -289,7 +289,7 @@ function _onMessageCollapse(msg) {
     content: msg.querySelector('.message-content'),
     subheader: msg.querySelector('.message-subheader-details'),
     bug: msg.querySelector('.bug')
-  }
+  };
   
   // Flip states
   if (icon.classList.contains('fa-square-plus')) {
@@ -297,18 +297,20 @@ function _onMessageCollapse(msg) {
     icon.classList.remove('fa-square-plus')
     icon.classList.add('fa-square-minus');
 
-    for (const el in elements) {
-      slideDown(elements[el]);
-    };
+    for (const key in elements) {
+      const el = elements[key];
+      if (el) slideDown(el);
+    }
     
   } else {
     button.setAttribute('data-tooltip', 'WW.Item.ShowDesc')
     icon.classList.remove('fa-square-minus')
     icon.classList.add('fa-square-plus');
 
-    for (const el in elements) {
-      slideUp(elements[el]);
-    };
+    for (const key in elements) {
+      const el = elements[key];
+      if (el) slideUp(el);
+    }
     
   }
   

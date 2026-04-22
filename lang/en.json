@@ -299,6 +299,8 @@
 "WW.Roll.Luck": "Roll Luck",
 "WW.Roll.Flat": "Custom Modifier",
 "WW.Roll.FlatHint": "This number will be added to the total roll sum, regardless if there an attribute modifier exists or not.",
+"WW.Roll.Boons": "Boons",
+"WW.Roll.Banes": "Banes",
 
 "WW.Boons.Apply": "Apply boons/banes",
 "WW.Boons.Total": "Total Boons or Banes",
@@ -1117,8 +1119,10 @@
 "WW.System.TextEditor.Statbox.Section": "Statbox Section",
 
 "WW.Index.Label": "Compendium Index",
-"WW.Index.Open": "Open the Compendium Index",
+"WW.Index.Open": "Open Compendium Index",
 "WW.Index.Tooltip": "Open the {type} Index.",
+"WW.Index.PresetsLabel": "CI Presets",
+"WW.Index.PresetsTip": "Open Compendium Index Presets (SOON!)",
 "WW.Index.ViewAs": "View as",
 "WW.Index.Generic": "Generic",
 "WW.Index.Search": "Search...",

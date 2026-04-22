@@ -1,4 +1,4 @@
-import { capitalize, i18n, slideDown, slideUp } from '../helpers/utils.mjs';
+import { i18n, slideDown, slideUp } from '../helpers/utils.mjs';
 import { WWAfflictions } from '../helpers/afflictions.mjs'
 import RollAttribute from '../dice/roll-attribute.mjs';
 
@@ -197,7 +197,7 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
           const target = await fromUuid(uuid);
 
           const rollInfo = {
-            origin: target.uuid,
+            actor: target,
             label: i18n(CONFIG.WW.ROLL_ATTRIBUTES[attribute]),
             content: '',
             attKey: attribute,

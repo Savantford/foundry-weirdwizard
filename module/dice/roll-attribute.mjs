@@ -1,380 +1,136 @@
 import { i18n, plusify } from '../helpers/utils.mjs';
 import WWRoll from './roll.mjs';
 
+// Similar syntax to importing, but note that
+// this is object destructuring rather than an actual import
+const ApplicationV2 = foundry.applications?.api?.ApplicationV2 ?? (class {});
+const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicationMixin ?? (cls => cls);
+
 /**
- * Extend FormApplication to make a prompt shown by attribute and luck rolls
- * @extends {FormApplication}
+ * An attribute and luck roll app
+ * @extends {ApplicationV2}
 */
+export default class RollAttribute extends HandlebarsApplicationMixin(ApplicationV2) {
 
-export default class RollAttribute extends FormApplication {
+  constructor(config) {
+    super(); // Required for "this." to work
 
-  constructor(obj) {
-    super(); // This is required for the constructor to work
-    this.data = obj;
+    const { action, actor, attKey, baseHtml, content, fixedBoons, icon, item, label } = config;
+    const sys = actor.system;
+
+    // Documents
+    this.actor = actor;
+    this.item = item ?? null;
+    this.token = actor.token;
+
+    // Roll Configuration
+    this.rollConfig = {
+      baseHtml, action, label, content,
+      icon: icon ?? (item ? item.img : null),
+      attKey: attKey,
+      attLabel: i18n(CONFIG.WW.ROLL_ATTRIBUTES[attKey]),
+      attMod: sys.attributes[attKey]?.mod ? plusify(sys.attributes[attKey].mod) : '+0',
+      against: item?.system?.against ?? null
+    };
+
+    // Roll Parameters
+    this.boonsConfig = {
+      actor: sys.boons,
+      fixed: fixedBoons ?? (item.system?.boons ? item.system.boons : 0),
+      fromEffects: sys.boons.selfRoll[attKey] ? sys.boons.selfRoll[attKey] : 0, // Conditional boons should be added here later
+      forAttacks: sys.boons.selfRoll.attacks,
+      forSpells: sys.boons.selfRoll.spells,
+      final: 0
+    };
     
-    this.token = this.actor.token;
-    this.baseHtml = obj.baseHtml;
-    this.action = obj.action;
-    this.system = this.actor.system; // Assign actor data
-    const attKey = obj.attKey;
-
-    // Assign label, name, etc
-    this.label = obj.label;
-    this.content = obj.content;
-    this.icon = obj.icon ? obj.icon : (this.item ? this.item.img : null);
-    this.name = attKey == 'luck' ? i18n('WW.Attributes.Luck') : this.system.attributes[attKey].label;
-    this.effectBoons = this.system.boons.selfRoll[attKey] ?
-      this.system.boons.selfRoll[attKey] : 0;
-    this.actorBoons = this.system.boons;
-
-    // Get fixed boons
-    if (obj.fixedBoons) this.fixedBoons = obj.fixedBoons;
-    else if (this.item?.system?.boons) this.fixedBoons = this.item.system.boons;
-    else this.fixedBoons = 0;
-    
-    // Assign mod
-    this.mod = this.system.attributes[attKey]?.mod ?
-      plusify(this.system.attributes[attKey].mod) : '+0'; // If undefined, set it to +0
-
-    this.attribute = attKey;
-    this.against = this.item?.system?.against;
-    this.boonsFinal = 0;
-
     // Tags
     this.tags = {
       isWeapon: this.item?.system?.subtype === 'weapon' ?? false,
-      isAttack: (this.item?.system?.subtype === 'weapon' || this.against === 'def') ?? false,
+      isAttack: (this.item?.system?.subtype === 'weapon' || this.rollConfig.against === 'def') ?? false,
       isMagical: this.item?.system?.magical,
       isSpell: this.item?.type === 'spell' ?? false
+    };
+
+    // Default Form Data Values
+    this.formData = {
+      applyAttackBoons: this.tags.isWeapon ?? false,
+      applySpellBoons: this.tags.isSpell ?? false,
+      situationalBoons: 0
     }
 
   }
 
-  static get defaultOptions() {
-    
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      id: "roll-attribute",
+  static DEFAULT_OPTIONS = {
+    tag: 'form',
+    classes: ['weirdwizard', 'roll-attribute'],
+    window: {
       title: this.title,
-      classes: ['weirdwizard'],
+      icon: 'fa-solid fa-dice-d20',
+      resizable: true
+    },
+    actions: {
+      situationalUp: RollAttribute.#changeSituationalBoons,
+      situationalDown: RollAttribute.#changeSituationalBoons,
+      submitRoll: RollAttribute.#submitRoll,
+      cancelRoll: RollAttribute.#cancelRoll
+    },
+    form: {
+      handler: this.#onSubmit,
+      submitOnChange: true,
+      closeOnSubmit: false
+    },
+    position: {
       width: 400,
-      height: "auto",
-      template: "systems/weirdwizard/templates/apps/roll-attribute.hbs"
-    });
+      height: "auto"
+    }
+  }
 
+  /* -------------------------------------------- */
+
+  static PARTS = {
+    main: {
+      template: 'systems/weirdwizard/templates/apps/roll-attribute.hbs',
+      scrollable: []
+    }
   }
 
   /* -------------------------------------------- */
   /*  Rendering                                   */
   /* -------------------------------------------- */
 
-  getData(options = {}) {
-    const context = super.getData()
+  async _prepareContext(options = {}) {
+    const context = {
+      ...await super._prepareContext(options),
+
+      rollConfig: this.rollConfig,
+      boonsConfig: this.boonsConfig,
+      tags: this.tags,
+      targeted: this.rollConfig.action === 'targeted-use' ?? false,
+    };
+
+    // Destructure variables
+    const { against, attLabel, attMod } = this.rollConfig;
+    const { fixed, forAttacks, forSpells, fromEffects } = this.boonsConfig;
+    const { applyAttackBoons, applySpellBoons, customTn, flatMod, situationalBoons } = this.formData;
     
-    // General data
-    context.system = this.system;
-    context.mod = this.mod;
-    context.targeted = this.action === 'targeted-use' ?? false;
-    context.targets = this.targets;
-    context.tags = this.tags;
+    // Prepare input context
+    context.inputs = this.formData ?? { applyAttackBoons, applySpellBoons, situationalBoons };
 
-    // Boons
-    context.fixedBoons = this.fixedBoons;
-    context.effectBoons = this.effectBoons; // Conditional boons should be added here later
-    context.attackBoons = this.actorBoons.selfRoll.attacks;
-    context.spellBoons = this.actorBoons.selfRoll.spells;
-    
-    return context;
-  }
-
-  /* -------------------------------------------- */
-  /*  Actions                                     */
-  /* -------------------------------------------- */
-
-  activateListeners(html) {
-    super.activateListeners(html);
-
-    // Handle closing the window without saving
-    html.find('#boons-cancel').click(() => this.close({ submit: false }));
-
-    // Handle closing the window without saving
-    html.find('.adjustment-widget > a').click((ev) => this._onSituationalBoons(ev));
-
-    // Update forms fields dynamically
-    const el = html.find('input');
-    el.change((ev) => this._updateFields(ev));
-    el.change();
-
-  }
-
-  /* -------------------------------------------- */
-
-  _onSituationalBoons(ev) {
-    const a = ev.currentTarget;
-    const parent = a.closest('.adjustment-widget');
-    const action = a.dataset.action;
-
-    let value = parseInt(parent.querySelector('input[type=number].situational').value);
-    
-    if (action === 'up') {
-      value++;
-    } else {
-      value--;
-    }
-    
-    parent.querySelector('input[type=number].situational').value = value;
-    
-    this._updateFields(ev);
-  }
-
-  /* -------------------------------------------- */
-
-  async _updateObject(event, formData) { // Update actor data.
-    const against = this.against,
-      boonsFinal = this.boonsFinal,
-      targeted = (this.action === 'targeted-use' || game.user.targets?.size) ? true : false,
-      flat = formData.flat ? `+${formData.flat}` : '',
-      rollData = this.origin.getRollData();
-    ;
-    
-    let rollHtml = '',
-      boons = "0",
-      rollsArray = []
-    ;
-    
-    if (targeted && against) { // If Action is Targeted and Against is filled; perform one separate roll for each target
-      
-      for (const t of this.targets) {
-        
-        // Set boons text
-        let boonsAgainst = 0;
-        if (t.boonsAgainst) boonsAgainst += t.boonsAgainst[against];
-        if (this.tags.isAttack) boonsAgainst += t.boonsAgainst.fromAttacks;
-        if (this.tags.isSpell) boonsAgainst += t.boonsAgainst.fromSpells;
-        if (this.tags.isMagical) boonsAgainst += t.boonsAgainst.fromMagical;
-
-        const boonsNo = parseInt(boonsFinal) + boonsAgainst;
-
-        if (boonsNo != 0) { boons = (boonsNo < 0 ? "" : "+") + boonsNo + "d6kh" } else { boons = ""; };
-
-        // Determine the rollFormula
-        const rollFormula = "1d20" + (this.mod != "+0" ? this.mod : "") + flat + boons;
-
-        // Get and set target number
-        const targetNo = against == 'def' ? t.defense : t.attributes[against].value;
-        
-        // Construct the Roll instance and evaluate the roll
-        const r = await new WWRoll(rollFormula, rollData, {
-          template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
-          originUuid: this.origin.uuid,
-          target: t,
-          attribute: this.attribute,
-          against: against,
-          targetNo: targetNo,
-          instEffs: this.instEffs,
-          actEffs: this.actEffs
-        }).evaluate();
-        
-        // Save the roll order
-        const index = this.targets.findIndex(obj => { return obj.id === t.id; });
-
-        // Set the roll order and color dice for DSN
-        for (let i = 0; i < r.dice.length; i++) {
-          r.dice[i].options.rollOrder = index;
-
-          const exp = r.dice[i].expression;
-          if (exp.includes('d20')) {
-            r.dice[i].options.appearance = {
-              colorset: 'wwd20',
-              texture: 'stars',
-              material: 'metal',
-              font: 'Amiri',
-              foreground: '#FFAE00', // Label Color
-              background: "#AE00FF", // Dice Color
-              outline: '#FF7B00',
-              edge: '#FFAE00',
-              material: 'metal',
-              font: 'Amiri',
-              default: true
-            };
-          
-          }
-
-          if (exp.includes('d6')) {
-            const sub = r.formula.substring(0, r.formula.indexOf(exp)).trim();
-            const sign = sub.slice(-1);
-            
-            if (sign === '+') { // If a boon
-              r.dice[i].options.appearance = {
-                colorset: 'wwboon',
-                texture: 'stars',
-                material: 'metal',
-                font: 'Amiri',
-                foreground: '#FFAE00', // Label Color
-                background: "#4394FE", // Dice Color
-                outline: '#FF7B00',
-                edge: '#FFAE00',
-                material: 'metal',
-                font: 'Amiri'
-              };
-            
-            } else if (sign === '-') { // If a bane
-              r.dice[i].options.appearance = {
-                colorset: 'wwbane',
-                texture: 'stars',
-                material: 'metal',
-                font: 'Amiri',
-                foreground: '#FFAE00', // Label Color
-                background: "#C70000", // Dice Color
-                outline: '#FF7B00',
-                edge: '#FFAE00',
-                material: 'metal',
-                font: 'Amiri'
-              };
-            }
-          }
-        }
-
-        // Push roll to roll array
-        rollsArray.push(r);
-
-      }
-
-    } else { // against is false; perform a SINGLE ROLL for all targets
-      
-      // Set boons text
-      if (boonsFinal != 0) { boons = boonsFinal + "d6kh" } else { boons = ""; };
-
-      // Determine the rollFormula
-      const rollFormula = "1d20" + (this.mod != "+0" ? this.mod : "") + flat + boons;
-
-      // Set targetNo to the custom; 10 is used otherwise
-      const targetNo = formData.targetno ? formData.targetno : 10;
-
-      // Construct the Roll instance and evaluate the roll
-      
-      const r = await new WWRoll(rollFormula, rollData, {
-        template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
-        originUuid: this.origin.uuid,
-        attribute: this.attribute,
-        against: against,
-        targetNo: targetNo,
-        instEffs: this.instEffs,
-        actEffs: this.actEffs
-      }).evaluate();
-
-      // Set the roll order and color dice for DSN
-      for (let i = 0; i < r.dice.length; i++) {
-        r.dice[i].options.rollOrder = 0;
-
-        const exp = r.dice[i].expression;
-        if (exp.includes('d20')) {
-          r.dice[i].options.appearance = {
-            colorset: 'wwd20',
-            texture: 'stars',
-            material: 'metal',
-            font: 'Amiri',
-            foreground: '#FFAE00', // Label Color
-            background: "#AE00FF", // Dice Color
-            outline: '#FF7B00',
-            edge: '#FFAE00',
-            material: 'metal',
-            font: 'Amiri',
-            default: true
-          };
-        
-        }
-
-        if (exp.includes('d6')) {
-          const sub = r.formula.substring(0, r.formula.indexOf(exp)).trim();
-          const sign = sub.slice(-1);
-          
-          if (sign === '+') { // If a boon
-            r.dice[i].options.appearance = {
-              colorset: 'wwboon',
-              texture: 'stars',
-              material: 'metal',
-              font: 'Amiri',
-              foreground: '#FFAE00', // Label Color
-              background: "#4394FE", // Dice Color
-              outline: '#FF7B00',
-              edge: '#FFAE00',
-              material: 'metal',
-              font: 'Amiri'
-            };
-          
-          } else if (sign === '-') { // If a bane
-            r.dice[i].options.appearance = {
-              colorset: 'wwbane',
-              texture: 'stars',
-              material: 'metal',
-              font: 'Amiri',
-              foreground: '#FFAE00', // Label Color
-              background: "#C70000", // Dice Color
-              outline: '#FF7B00',
-              edge: '#FFAE00',
-              material: 'metal',
-              font: 'Amiri'
-            };
-          }
-        }
-      }
-
-      // Push roll to roll array
-      rollsArray.push(r);
-    }
-    
-    // Create message data
-    const messageData = {
-      type: 'd20-roll',
-      rolls: rollsArray,
-      speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
-      flavor: this.label,
-      content: this.content,
-      sound: CONFIG.sounds.dice,
-      'flags.weirdwizard': {
-        icon: this.icon,
-        item: this.item?.uuid,
-        rollHtml: rollHtml,
-        emptyContent: !this.content ?? true
-      }
-    }
-    
-    await ChatMessage.applyRollMode(messageData, game.settings.get('core', 'rollMode'));
-    
-    // Send to chat
-    await ChatMessage.create(messageData);
-  }
-
-  /* -------------------------------------------- */
-
-  _updateFields(ev) { // Update html fields
-    
-    const parent = ev.target.closest('.roll-details'),
-      against = this.against,
-      fixedBoons = this.fixedBoons,
-      applyAttackBoons = parent.querySelector('input[name=apply-attack-boons]:checked'),
-      attackBoons = this.actorBoons.selfRoll.attacks,
-      //applySpellBoons = parent.querySelector('input[name=apply-spell-boons]:checked'),
-      spellBoons = this.actorBoons.selfRoll.spells,
-      effectBoons = this.effectBoons, // Conditional boons should be added here later,
-      flat = parent.querySelector('input[name=flat]').value ?? null;
-
-    let boonsFinal = this.boonsFinal;
-
-    // Set attribute display
-    const attDisplay = (this.name ? `${this.name} (${this.mod})` : '1d20 + 0') + (flat ? ` + ${flat}` : '');
+    // Prepare attribute display
+    const attDisplay = (attLabel ? `${attLabel} (${attMod})` : '1d20 + 0') + (flatMod ? ` + ${flatMod}` : '');
 
     // Calculate and display final boons
-    boonsFinal = parseInt(parent.querySelector('input[type=number].situational').value); // Set boonsFinal to the situational input value
-    if (effectBoons) boonsFinal += effectBoons; // If there are boons or banes applied by Active Effects, add it
-    if (applyAttackBoons && attackBoons) boonsFinal += attackBoons;
-    if (fixedBoons) boonsFinal += fixedBoons; // If there are fixed boons or banes, add it
-    
-    boonsFinal = (boonsFinal < 0 ? "" : "+") + boonsFinal; // Add a + sign if positive
+    let boonsFinal = 0;
 
-    parent.querySelector('.boons-display.total').innerHTML = boonsFinal;
-    this.boonsFinal = boonsFinal;
+    if (situationalBoons) boonsFinal += situationalBoons; // Add situational boons input value
+    if (fromEffects) boonsFinal += fromEffects; // If there are boons or banes applied by Active Effects, add it
+    if (applyAttackBoons && forAttacks) boonsFinal += forAttacks;
+    if (fixed) boonsFinal += fixed; // If there are fixed boons or banes, add it
 
+    this.boonsConfig.final = boonsFinal;
+    context.boonsFinal = plusify(boonsFinal);
+
+    // Prepare boons display
     let boonsDisplay = '';
 
     if (boonsFinal > 1) {
@@ -387,45 +143,49 @@ export default class RollAttribute extends FormApplication {
       boonsDisplay = " " + i18n("WW.Boons.With") + " " + boonsFinal * -1 + " " + i18n("WW.Boons.Bane");
     }
 
-    // Set against display
-    let againstDisplay = ' ' + i18n('WW.Roll.Against').toLowerCase() + ' ';
+    // Prepare against display
+    let againstDisplay = ` ${i18n('WW.Roll.Against').toLowerCase()} `;
+    
+    if (customTn) againstDisplay += customTn;
+    else if (against) {
+      switch (against) {
+        case 'def': {
+          againstDisplay += i18n('WW.Defense.Label');
+          break;
+        }
+        case 'str': {
+          againstDisplay += i18n('WW.Attributes.Strength');
+          break;
+        }
+        case 'agi': {
+          againstDisplay += i18n('WW.Attributes.Agility');
+          break;
+        }
+        case 'int': {
+          againstDisplay += i18n('WW.Attributes.Intellect');
+          break;
+        }
+        case 'wil': {
+          againstDisplay += i18n('WW.Attributes.Will');
+          break;
+        }
+      }
+    } else againstDisplay = '';
 
-    switch (against) {
-      case 'def': {
-        againstDisplay += i18n('WW.Defense.Label');
-        break;
-      }
-      case 'str': {
-        againstDisplay += i18n('WW.Attributes.Strength');
-        break;
-      }
-      case 'agi': {
-        againstDisplay += i18n('WW.Attributes.Agility');
-        break;
-      }
-      case 'int': {
-        againstDisplay += i18n('WW.Attributes.Intellect');
-        break;
-      }
-      case 'wil': {
-        againstDisplay += i18n('WW.Attributes.Will');
-        break;
-      }
-    }
-
-    parent.querySelector('.boons-expression').innerHTML = attDisplay + boonsDisplay + (against ? againstDisplay : '');
+    // Prepare the final boons expression
+    context.boonsExpression = attDisplay + boonsDisplay + againstDisplay;
 
     // Targets display
     if (this.targets.length) {
-      let targetsDisplay = '';
+      const targets = [];
       
-      this.targets.forEach(t => {
+      this.targets.forEach(tar => {
         // Boons against count
         let boonsAgainst = 0;
-        if (t.boonsAgainst) boonsAgainst += t.boonsAgainst[against];
-        if (this.tags.isAttack) boonsAgainst += t.boonsAgainst.fromAttacks;
-        if (this.tags.isSpell) boonsAgainst += t.boonsAgainst.fromSpells;
-        if (this.tags.isMagical) boonsAgainst += t.boonsAgainst.fromMagical + t.boons.resistMagical;
+        if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against];
+        if (this.tags.isAttack) boonsAgainst += tar.boonsAgainst.fromAttacks;
+        if (this.tags.isSpell) boonsAgainst += tar.boonsAgainst.fromSpells;
+        if (this.tags.isMagical) boonsAgainst += tar.boonsAgainst.fromMagical + tar.boons.resistMagical;
         
         // Boons display
         const boonsNo = boonsAgainst;
@@ -435,32 +195,251 @@ export default class RollAttribute extends FormApplication {
         const againstIcon = CONFIG.WW.ATTRIBUTE_ICONS[against];
         const againstLabel = CONFIG.WW.ROLL_AGAINST[against];
         
-        targetsDisplay += `<li><label><img class="target-icon" src="${t.img}" /> ${t.name}</label>`
+        targets.push({
+          img: tar.img,
+          name: tar.name,
+          boonsNo,
+          boonsIcon: '/systems/weirdwizard/assets/icons/' + boonsIcon + '.svg',
+          boonsTip,
+          againstNo: tar.againstNo,
+          againstLabel,
+          againstIcon
+        })
 
-        if (t.againstNo) {
-          if (boonsNo != 0) targetsDisplay += `<div class="target-boons">(${boonsNo} <img src="/systems/weirdwizard/assets/icons/${boonsIcon}.svg" data-tooltip="${boonsTip}"/>)</div>`;
-
-          targetsDisplay += `<div class="target-against" data-tooltip="${againstLabel}">${t.againstNo} <img src="${againstIcon}" /></div></li>`;
-        }
       });
 
-      parent.querySelector('.boons-targets').innerHTML = targetsDisplay;
+      context.targets = targets;
     }
+    
+    return context;
+  }
 
-    // Update app position/scaling
-    this.setPosition();
+  /* -------------------------------------------- */
+  /*  Actions                                     */
+  /* -------------------------------------------- */
 
+  /**
+   * @param {PointerEvent} event - The originating click event
+   * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
+  */
+  static #changeSituationalBoons(event, target) {
+    const parent = target.closest('.adjustment-widget');
+    const action = target.dataset.action;
+
+    if (action === 'situationalUp') {
+      this.formData.situationalBoons++;
+    } else {
+      this.formData.situationalBoons--;
+    }
+    
+    this.render();
   }
 
   /* -------------------------------------------- */
 
-  _compareDispo(effTarget, compared) {
-    const dispo = canvas.tokens.get(compared)?.document?.disposition;
+  /**
+   * @param {PointerEvent} event - The originating click event
+   * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
+  */
+  static #cancelRoll(event, target) {
+    this.close({ submit: false });
+  }
+
+  /* -------------------------------------------- */
+
+  
+  /**
+   * @param {PointerEvent} event - The originating click event
+   * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
+  */
+  static async #submitRoll(event, target) {
+    const { against, attKey, attMod } = this.rollConfig;
     
-    if ((effTarget === 'allies') && (dispo === 1)) return true;
-    else if ((effTarget === 'enemies') && (dispo === -1)) return true;
-    else if (effTarget === 'tokens') return true;
-    else return false;
+    const boonsFinal = this.boonsConfig.final,
+      targeted = (this.rollConfig.action === 'targeted-use' || game.user.targets?.size) ? true : false,
+      flatMod = this.formData.flatMod,
+      rollData = this.actor.getRollData(),
+      rollsArray = [],
+      rollOptions = {
+        template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
+        actor: this.actor,
+        item: this.item,
+        attribute: this.rollConfig.attKey,
+        against: against,
+        instEffs: this.instEffs,
+        actEffs: this.actEffs
+    };
+    
+    let rollHtml = '', boons = "0";
+    
+    if (targeted && against) { // If Action is Targeted and Against is filled: perform one separate roll for each target
+      
+      for (const tar of this.targets) {
+        
+        // Set boons text
+        let boonsAgainst = 0;
+        if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against];
+        if (this.tags.isAttack) boonsAgainst += tar.boonsAgainst.fromAttacks;
+        if (this.tags.isSpell) boonsAgainst += tar.boonsAgainst.fromSpells;
+        if (this.tags.isMagical) boonsAgainst += tar.boonsAgainst.fromMagical;
+
+        const boonsNo = parseInt(boonsFinal) + boonsAgainst;
+
+        if (boonsNo != 0) { boons = (boonsNo < 0 ? "" : "+") + boonsNo + "d6kh" } else { boons = ""; };
+
+        // Determine the rollFormula
+        const rollFormula = [
+          "1d20",
+          `${attMod}[${i18n(CONFIG.WW.ATTRIBUTES_SHORT[attKey])}]`,
+          flatMod ? flatMod + `[${i18n("WW.Roll.Flat")}]` : null,
+          boons ? boons + `[${i18n(boonsFinal < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
+        ].filterJoin(" + ");
+
+        // Determine target number
+        const targetNo = against === 'def' ? tar.defense : tar.attributes[against].value;
+        
+        // Construct the Roll instance and evaluate the roll
+        const roll = await new WWRoll(rollFormula, rollData, {
+          ... rollOptions,
+          target: t,
+          targetNo
+        }).evaluate();
+        
+        // Prepare DSN data
+        const index = this.targets.findIndex(obj => { return obj.id === tar.id; });
+        this.prepareDSN(roll, index);
+
+        // Push roll to roll array
+        rollsArray.push(roll);
+      }
+
+    } else { // Not targeted and Against is false: perform a SINGLE ROLL for all targets
+      // Set boons text
+      if (boonsFinal != 0) { boons = boonsFinal + "d6kh" } else { boons = ""; };
+
+      // Determine the rollFormula
+      const rollFormula = [
+        "1d20",
+        `${attMod}[${i18n(CONFIG.WW.ATTRIBUTES_SHORT[attKey])}]`,
+        flatMod ? flatMod + `[${i18n("WW.Roll.Flat")}]` : null,
+        boons ? boons + `[${i18n(boonsFinal < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
+      ].filterJoin(" + ");
+
+      // Set targetNo to the custom; 10 is used otherwise
+      const targetNo = this.formData.customTn ?? 10;
+
+      // Construct the Roll instance and evaluate the roll
+      const roll = await new WWRoll(rollFormula, rollData, {
+        ... rollOptions,
+        targetNo
+      }).evaluate();
+
+      // Prepare DSN data
+      this.prepareDSN(roll, 0);
+
+      // Push roll to roll array
+      rollsArray.push(roll);
+    }
+    
+    // Create message data
+    const messageData = {
+      type: 'd20-roll',
+      rolls: rollsArray,
+      speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
+      flavor: this.rollConfig.label,
+      content: this.rollConfig.content,
+      sound: CONFIG.sounds.dice,
+      'flags.weirdwizard': {
+        icon: this.rollConfig.icon,
+        item: this.item?.uuid,
+        rollHtml: rollHtml,
+        emptyContent: !this.rollConfig.content ?? true
+      }
+    }
+    
+    // Apply roll mode and send to chat
+    await ChatMessage.applyRollMode(messageData, game.settings.get('core', 'rollMode'));
+    await ChatMessage.create(messageData);
+
+    // Submit and close app
+    this.close({ submit: true });
+  }
+
+  /* -------------------------------------------- */
+
+  prepareDSN(roll, index) {
+    for (let i = 0; i < roll.dice.length; i++) {
+      roll.dice[i].options.rollOrder = index;
+
+      const exp = roll.dice[i].expression;
+      if (exp.includes('d20')) {
+        roll.dice[i].options.appearance = {
+          colorset: 'wwd20',
+          texture: 'stars',
+          material: 'metal',
+          font: 'Amiri',
+          foreground: '#FFAE00', // Label Color
+          background: "#AE00FF", // Dice Color
+          outline: '#FF7B00',
+          edge: '#FFAE00',
+          material: 'metal',
+          font: 'Amiri',
+          default: true
+        };
+      }
+
+      if (exp.includes('d6')) {
+        const sub = roll.formula.substring(0, roll.formula.indexOf(exp)).trim();
+        const sign = sub.slice(-1);
+
+        if (sign === '+') { // Boon dice
+          roll.dice[i].options.appearance = {
+            colorset: 'wwboon',
+            texture: 'stars',
+            material: 'metal',
+            font: 'Amiri',
+            foreground: '#FFAE00', // Label Color
+            background: "#4394FE", // Dice Color
+            outline: '#FF7B00',
+            edge: '#FFAE00',
+            material: 'metal',
+            font: 'Amiri'
+          };
+
+        } else if (sign === '-') { // Bane dice
+          roll.dice[i].options.appearance = {
+            colorset: 'wwbane',
+            texture: 'stars',
+            material: 'metal',
+            font: 'Amiri',
+            foreground: '#FFAE00', // Label Color
+            background: "#C70000", // Dice Color
+            outline: '#FF7B00',
+            edge: '#FFAE00',
+            material: 'metal',
+            font: 'Amiri'
+          };
+        }
+      }
+    }
+  }
+
+  /* -------------------------------------------- */
+  /*  Form handling                               */
+  /* -------------------------------------------- */
+
+  /**
+   * Handle the sidebar's form submission
+   * @this {DocumentSheetV2}                      The handler is called with the application as its bound scope
+   * @param {SubmitEvent} event                   The originating form submission event
+   * @param {HTMLFormElement} form                The form element that was submitted
+   * @param {FormDataExtended} formData           Processed data for the submitted form
+   * @returns {Promise<void>}
+   */
+  static async #onSubmit(event, form, formData) {
+    this.formData = formData.object;
+    
+    return this.render();
   }
 
   /* -------------------------------------------- */
@@ -472,38 +451,25 @@ export default class RollAttribute extends FormApplication {
     const { constructor: id, name, type } = this.item ?? this.actor;
     return `${i18n('WW.Roll.Details')}: ${name ?? id}`;
   }
-
-  get origin() {
-    return fromUuidSync(this.data.origin);
-  }
-
-  get item() {
-    return this.origin.documentName === 'Item' ? this.origin : null;
-  }
-
-  get actor() {
-    return this.origin.documentName === 'Item' ? this.origin.parent : this.origin;
-  }
-  
   
   /* -------------------------------------------- */
 
   get targets() {
     const targets = [];
 
-    game.user.targets.forEach(t => {
-      const tDoc = t.document;
+    game.user.targets.forEach(tar => {
+      const tDoc = tar.document;
       const actor = tDoc?.actor;
       const sys = actor?.system;
       
       targets.push({
-        id: t.id,
+        id: tar.id,
         uuid: tDoc.uuid,
         img: tDoc?.texture?.src,
         name: game.weirdwizard.utils.getAlias({ token: tDoc, actor: actor }),
         attributes: actor ? sys.attributes : null,
         defense: actor ? sys.stats.defense.total : null,
-        againstNo: sys ? (this.against === 'def' ? sys.stats.defense.total : sys.attributes[this.against]?.value) : "—",
+        againstNo: sys ? (this.rollConfig.against === 'def' ? sys.stats.defense.total : sys.attributes[this.rollConfig.against]?.value) : "—",
         boons: actor ? sys.boons.selfRoll : null,
         boonsAgainst: actor ? sys.boons.against : null
       })
@@ -555,13 +521,13 @@ export default class RollAttribute extends FormApplication {
     }
 
     // Add Weapon Damage
-    const itemSystem = this.origin.system;
+    const itemSystem = this.item.system;
     const weaponDamage = (itemSystem.subtype == 'weapon' && itemSystem.damage) ? itemSystem.damage : 0;
     
     if (weaponDamage) {
       const eff = {
         label: 'damage',
-        originUuid: this.item?.uuid,
+        item: this.item,
         value: weaponDamage
       };
       
@@ -596,17 +562,28 @@ export default class RollAttribute extends FormApplication {
   _getTargetIds(targets, effTarget) {
     let targetIds = '';
 
-    targets.forEach(t => {
+    function compareDispo(effTarget, compared) {
+      const dispo = canvas.tokens.get(compared)?.document?.disposition;
+      
+      if ((effTarget === 'allies') && (dispo === 1)) return true;
+      else if ((effTarget === 'enemies') && (dispo === -1)) return true;
+      else if (effTarget === 'tokens') return true;
+      else return false;
+    }
 
-      if (this._compareDispo(effTarget, t.id)) {
+    targets.forEach(tar => {
+      if (compareDispo(effTarget, tar.id)) {
         if (targetIds) targetIds += ',';
 
-        targetIds += t.id;
+        targetIds += tar.id;
       }
-
     })
 
     return targetIds;
   }
+
+  /* -------------------------------------------- */
+
+  
 
 }

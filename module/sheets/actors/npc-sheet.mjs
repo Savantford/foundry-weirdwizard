@@ -51,6 +51,7 @@ export default class WWNpcSheet extends WWCreatureSheet {
     // Edit Mode Parts:
     npcform: {
       template: 'systems/weirdwizard/templates/actors/npc/form.hbs',
+      scrollable: [''],
       templates: [
         'systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs',
         'systems/weirdwizard/templates/actors/npc/parts/summary-weapon.hbs',

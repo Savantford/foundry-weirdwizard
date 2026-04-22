@@ -11,15 +11,18 @@
         <button class="edit-folder" data-action="folderEdit"><i class="fa-solid fa-edit"></i></button>
 
         {{!-- Creature Name --}}
-        <h5>{{actor.name}}</h5>
+        <h6>{{actor.name}}</h6>
         {{/if}}
         
         {{!-- Individual Traits --}}
         {{#if actor.system.details.individualTraits}}
         <h5 class="individual-traits">{{ actor.system.details.individualTraits }}</h5>
         {{/if}}
-
+        
+        {{!-- Description --}}
+        {{#if actor.system.description}}
         {{{actor.system.descriptionEnriched}}}
+        {{/if}}
     </div>
 
     <div class="flex-1"></div>
