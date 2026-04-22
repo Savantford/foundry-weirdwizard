@@ -5448,6 +5448,12 @@ table.roll-table-embed {
   }
 }
 
+/* Compendium Index injected buttons */
+.compendium-sidebar .open-ci-presets {
+  flex: 0;
+  white-space: nowrap;
+}
+
 /* -------------------------------------------- */
 /*  Sage Tools App                              */
 /* -------------------------------------------- */

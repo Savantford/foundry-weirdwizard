@@ -1119,8 +1119,10 @@
 "WW.System.TextEditor.Statbox.Section": "Statbox Section",
 
 "WW.Index.Label": "Compendium Index",
-"WW.Index.Open": "Open the Compendium Index",
+"WW.Index.Open": "Open Compendium Index",
 "WW.Index.Tooltip": "Open the {type} Index.",
+"WW.Index.PresetsLabel": "CI Presets",
+"WW.Index.PresetsTip": "Open Compendium Index Presets (SOON!)",
 "WW.Index.ViewAs": "View as",
 "WW.Index.Generic": "Generic",
 "WW.Index.Search": "Search...",
