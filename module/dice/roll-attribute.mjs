@@ -360,6 +360,9 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
     // Apply roll mode and send to chat
     await ChatMessage.applyRollMode(messageData, game.settings.get('core', 'rollMode'));
     await ChatMessage.create(messageData);
+
+    // Submit and close app
+    this.close({ submit: true });
   }
 
   /* -------------------------------------------- */
