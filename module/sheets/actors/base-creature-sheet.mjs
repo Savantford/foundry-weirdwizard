@@ -586,15 +586,12 @@ export default class WWCreatureSheet extends WWActorSheet {
     const dataset = Object.assign({}, button.dataset);
 
     // Define variables to be used
-    const system = this.actor.system,
-      actor = this.actor.uuid,
-      attKey = dataset.key,
-      label = i18n(CONFIG.WW.ATTRIBUTE_ROLLS[attKey]);
+    const attKey = dataset.key, label = i18n(CONFIG.WW.ATTRIBUTE_ROLLS[attKey]);
 
     let content = '';
 
     const obj = {
-      actor: actor,
+      actor: this.actor,
       label: label,
       icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey],
       content: content,
@@ -602,7 +599,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     }
 
     // Check for Automatic Failure
-    if (system.autoFail[obj.attKey]) {
+    if (this.actor.system.autoFail[obj.attKey]) {
 
       const messageData = {
         type: 'd20-roll',

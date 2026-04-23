@@ -17,6 +17,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
 
     const { action, actor, attKey, baseHtml, content, fixedBoons, icon, item, label } = config;
     const sys = actor.system;
+    console.log(actor)
 
     // Documents
     this.actor = actor;
@@ -36,7 +37,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
     // Roll Parameters
     this.boonsConfig = {
       actor: sys.boons,
-      fixed: fixedBoons ?? (item.system?.boons ? item.system.boons : 0),
+      fixed: fixedBoons ?? (item?.system?.boons ? item.system.boons : 0),
       fromEffects: sys.boons.selfRoll[attKey] ? sys.boons.selfRoll[attKey] : 0, // Conditional boons should be added here later
       forAttacks: sys.boons.selfRoll.attacks,
       forSpells: sys.boons.selfRoll.spells,
@@ -520,6 +521,9 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
       onFailure: []
     }
 
+    // Return earlier if there is no item
+    if (!this.item) return effs;
+
     // Add Weapon Damage
     const itemSystem = this.item.system;
     const weaponDamage = (itemSystem.subtype == 'weapon' && itemSystem.damage) ? itemSystem.damage : 0;
@@ -536,7 +540,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
     }
     
     // Add Instant Effects
-    this.item?.system?.instant?.forEach(e => {
+    this.item.system.instant.forEach(e => {
       
       if (!e.trigger) e.trigger = e.flags.weirdwizard.trigger;
 
