@@ -5,18 +5,19 @@
   "type": "Item",
   "_id": "lRYrYKOyRDECOEzg",
   "description": "",
-  "sort": 100000,
+  "sort": 200000,
   "color": null,
   "flags": {},
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "12.329",
+    "coreVersion": "13.351",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721415908137,
-    "modifiedTime": 1721415911474,
-    "lastModifiedBy": "zin7Kb6P2LomswaD"
+    "modifiedTime": 1777069937921,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "exportSource": null
   },
   "_key": "!folders!lRYrYKOyRDECOEzg"
 }
