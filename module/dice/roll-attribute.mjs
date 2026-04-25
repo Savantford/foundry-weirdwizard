@@ -17,7 +17,6 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
 
     const { action, actor, attKey, baseHtml, content, fixedBoons, icon, item, label } = config;
     const sys = actor.system;
-    console.log(actor)
 
     // Documents
     this.actor = actor;
@@ -265,6 +264,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
         template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
         actor: this.actor,
         item: this.item,
+        originUuid: this.item ? this.item.uuid : this.actor.uuid, // TODO: Replace with item/actor
         attribute: this.rollConfig.attKey,
         against: against,
         instEffs: this.instEffs,
@@ -291,7 +291,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
         // Determine the rollFormula
         const rollFormula = [
           "1d20",
-          `${attMod}[${i18n(CONFIG.WW.ATTRIBUTES_SHORT[attKey])}]`,
+          (attKey && attKey !== 'luck') ? `${attMod}[${i18n(CONFIG.WW.ATTRIBUTES_SHORT[attKey])}]` : null,
           flatMod ? flatMod + `[${i18n("WW.Roll.Flat")}]` : null,
           boons ? boons + `[${i18n(boonsFinal < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
         ].filterJoin(" + ");
@@ -302,7 +302,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
         // Construct the Roll instance and evaluate the roll
         const roll = await new WWRoll(rollFormula, rollData, {
           ... rollOptions,
-          target: t,
+          target: tar,
           targetNo
         }).evaluate();
         
@@ -317,11 +317,11 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
     } else { // Not targeted and Against is false: perform a SINGLE ROLL for all targets
       // Set boons text
       if (boonsFinal != 0) { boons = boonsFinal + "d6kh" } else { boons = ""; };
-
+      
       // Determine the rollFormula
       const rollFormula = [
         "1d20",
-        `${attMod}[${i18n(CONFIG.WW.ATTRIBUTES_SHORT[attKey])}]`,
+        (attKey && attKey !== 'luck') ? `${attMod}[${i18n(CONFIG.WW.ATTRIBUTES_SHORT[attKey])}]` : null,
         flatMod ? flatMod + `[${i18n("WW.Roll.Flat")}]` : null,
         boons ? boons + `[${i18n(boonsFinal < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
       ].filterJoin(" + ");
