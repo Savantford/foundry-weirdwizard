@@ -8,11 +8,11 @@ import WWRoll from './roll.mjs';
 
 export default class RollDamage extends FormApplication {
 
-  constructor(obj) {
+  constructor(config) {
     super(); // This is required for the constructor to work
     
     // Assign variables
-    this.origin = fromUuidSync(obj.originUuid);
+    this.origin = fromUuidSync(config.originUuid);
     
     if (this.origin?.documentName === 'Item') {
       this.item = this.origin;
@@ -22,8 +22,8 @@ export default class RollDamage extends FormApplication {
       this.actor = this.origin ?? null;
     }
 
-    this.targetIds = obj.targetIds ?? '';
-    this.baseDamage = obj.value;
+    this.targetIds = config.targetIds ?? '';
+    this.baseDamage = config.value;
 
     // Bonus Damage variables - Actor needed
     if (this.actor) {

@@ -17,7 +17,6 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
 
     const { action, actor, attKey, baseHtml, content, fixedBoons, icon, item, label } = config;
     const sys = actor.system;
-    console.log(actor)
 
     // Documents
     this.actor = actor;
@@ -265,6 +264,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
         template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
         actor: this.actor,
         item: this.item,
+        originUuid: this.item ? this.item.uuid : this.actor.uuid, // TODO: Replace with item/actor
         attribute: this.rollConfig.attKey,
         against: against,
         instEffs: this.instEffs,
