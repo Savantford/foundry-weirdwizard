@@ -302,7 +302,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
         // Construct the Roll instance and evaluate the roll
         const roll = await new WWRoll(rollFormula, rollData, {
           ... rollOptions,
-          target: t,
+          target: tar,
           targetNo
         }).evaluate();
         
