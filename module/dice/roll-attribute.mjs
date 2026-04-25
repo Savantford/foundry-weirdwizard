@@ -291,7 +291,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
         // Determine the rollFormula
         const rollFormula = [
           "1d20",
-          `${attMod}[${i18n(CONFIG.WW.ATTRIBUTES_SHORT[attKey])}]`,
+          (attKey && attKey !== 'luck') ? `${attMod}[${i18n(CONFIG.WW.ATTRIBUTES_SHORT[attKey])}]` : null,
           flatMod ? flatMod + `[${i18n("WW.Roll.Flat")}]` : null,
           boons ? boons + `[${i18n(boonsFinal < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
         ].filterJoin(" + ");
@@ -317,11 +317,11 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
     } else { // Not targeted and Against is false: perform a SINGLE ROLL for all targets
       // Set boons text
       if (boonsFinal != 0) { boons = boonsFinal + "d6kh" } else { boons = ""; };
-
+      
       // Determine the rollFormula
       const rollFormula = [
         "1d20",
-        `${attMod}[${i18n(CONFIG.WW.ATTRIBUTES_SHORT[attKey])}]`,
+        (attKey && attKey !== 'luck') ? `${attMod}[${i18n(CONFIG.WW.ATTRIBUTES_SHORT[attKey])}]` : null,
         flatMod ? flatMod + `[${i18n("WW.Roll.Flat")}]` : null,
         boons ? boons + `[${i18n(boonsFinal < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
       ].filterJoin(" + ");
