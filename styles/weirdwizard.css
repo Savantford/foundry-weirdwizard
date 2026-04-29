@@ -2687,33 +2687,33 @@ prose-mirror .statbox {
     align-items: center;
     white-space: nowrap;
   }
-
-  .equipment-list {
-    display: inline-flex;
-    flex-flow: wrap;
-    gap: 0 5px;
-    list-style: none;
-    font-size: small;
-
-    .item {
-      display: flex;
-      flex-wrap: nowrap;
-      gap: 0 5px;
-
-      label {
-        color: var(--body-text-color);
-        font-weight: normal;
-      }
-    }
-
-    .item:not(:last-of-type)::after {
-      content: ", ";
-    }
-  }
 }
 
 .weirdwizard.npc.edit-mode .statbox {
   min-width: 275px;
+}
+
+.equipment-list {
+  display: inline-flex;
+  flex-flow: wrap;
+  gap: 0 5px;
+  list-style: none;
+  font-size: small;
+
+  .item {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0 5px;
+
+    label {
+      color: var(--body-text-color);
+      font-weight: normal;
+    }
+  }
+
+  .item:not(:last-of-type)::after {
+    content: ", ";
+  }
 }
 
 /* Statbox: Header */

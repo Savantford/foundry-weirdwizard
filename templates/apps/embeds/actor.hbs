@@ -30,7 +30,7 @@
         {{!-- Basic Stats --}}
         <p>
             <strong>{{localize "WW.Defense.Label"}}:</strong>
-            {{ system.stats.defense.total }}{{#if items.equipment.length}} ({{#each items.equipment as |item id|}}<li class="item"><strong>{{ label }}:</strong> {{{ desc }}}</li>{{/each}}){{/if}},
+            {{ system.stats.defense.total }}{{#if items.equipment.length}} (<span class="equipment-list">{{#each items.equipment as |item id|}}<span class="item">{{ label }}</span>{{/each}}</span>){{/if}},
             <strong>{{localize "WW.Health.Label"}}:</strong>
             {{ system.stats.health.normal }}
         </p>
