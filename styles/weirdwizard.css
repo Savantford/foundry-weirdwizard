@@ -813,6 +813,7 @@ body.theme-dark.application.weirdwizard .window-content {
 .weirdwizard .window-content h5.descriptors,
 .weirdwizard .window-content h5.individual-traits {
   display: flex;
+  flex-flow: wrap;
   align-items: center;
   justify-content: flex-start;
   gap: 0 5px;
@@ -1128,7 +1129,7 @@ body.theme-dark.application.weirdwizard .window-content {
     color: var(--body-text-color);
     font-style: italic;
     font-family: var(--ww-font-fancy);
-    padding: 0;
+    padding: 0px 5px;
   }
 
   .statbox h6 {
@@ -1652,6 +1653,18 @@ body.theme-dark.application.weirdwizard .window-content {
       cursor: pointer;
     }
 
+  }
+
+  .equipment-list .item {
+    .buttons,
+    .edit-buttons {
+      margin-left: 5px !important;
+    }
+
+    label {
+      color: var(--body-text-color);
+      font-weight: 400;
+    }
   }
 }
 
@@ -2687,33 +2700,32 @@ prose-mirror .statbox {
     align-items: center;
     white-space: nowrap;
   }
-
-  .equipment-list {
-    display: inline-flex;
-    flex-flow: wrap;
-    gap: 0 5px;
-    list-style: none;
-    font-size: small;
-
-    .item {
-      display: flex;
-      flex-wrap: nowrap;
-      gap: 0 5px;
-
-      label {
-        color: var(--body-text-color);
-        font-weight: normal;
-      }
-    }
-
-    .item:not(:last-of-type)::after {
-      content: ", ";
-    }
-  }
 }
 
 .weirdwizard.npc.edit-mode .statbox {
   min-width: 275px;
+}
+
+.equipment-list {
+  display: inline-flex;
+  flex-flow: wrap;
+  gap: 0 5px;
+  list-style: none;
+  font-size: small;
+
+  .item {
+    display: flex;
+    flex-wrap: nowrap;
+
+    label {
+      color: var(--body-text-color);
+      font-weight: normal;
+    }
+  }
+
+  .item:not(:last-of-type)::after {
+    content: ", ";
+  }
 }
 
 /* Statbox: Header */
@@ -4384,12 +4396,13 @@ input[type="checkbox"].checkbox-uses {
   background: none;
   border: none;
   color: var(--body-text-color);
+  font-weight: bold;
   margin: 0;
   padding: 0;
   line-height: normal;
 }
 
-.content-link>i {
+.content-link > i {
   color: var(--body-text-color);
 }
 
@@ -5368,7 +5381,7 @@ table.roll-table-embed {
             content: ", ";
           }
 
-          .content-link>i {
+          .content-link > i {
             display: none;
           }
         }

@@ -126,9 +126,9 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "createdTime": 1692116593788,
-    "modifiedTime": 1766768893088,
+    "modifiedTime": 1777484543736,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "compendiumSource": null,
     "duplicateSource": null,
@@ -136,7 +136,7 @@
   },
   "folder": "QWYSO2x1lrITBKj4",
   "_id": "8kdTjI16oQxvcKow",
-  "sort": 100000,
+  "sort": 350000,
   "ownership": {
     "default": 0,
     "zin7Kb6P2LomswaD": 3

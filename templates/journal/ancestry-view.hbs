@@ -45,44 +45,7 @@
   
       </ol>
       {{/if}}
-  
-      {{!-- Senses --}}
-      {{#if listEntries.benefit1.senses.length}}
-      <ol class="stat-inline list-entries">
-        <label>{{localize "WW.ListEntry.Sense.Label"}}:</label>
-  
-        {{#each listEntries.benefit1.senses as |entry|}}
-        <li class="list-entry">
-          <a data-tooltip="{{entry.desc}}">{{entry.name}}</a>
-        </li>
-        {{/each}}
-  
-      </ol>
-      {{/if}}
-  
-      {{!-- Bonus Languages --}}
-      {{#if listEntries.benefit1.languages.length}}
-      <ol class="stat-inline list-entries">
-        <label>{{localize "WW.ListEntry.Language.Bonus"}}:</label>
-  
-        {{#each listEntries.benefit1.languages as |entry|}}
-        <li class="list-entry">
-          <a data-tooltip="{{entry.desc}}">{{entry.name}}</a>
-        </li>
-        {{/each}}
-  
-      </ol>
-      {{/if}}
-  
-      {{!-- Attributes --}}
-      {{#if benefits.benefit1.attributes}}
-      <div class="stat-inline">
-        <label>{{localize "WW.Attributes.Label"}}:</label>
-  
-        {{benefits.benefit1.attributes}}
-      </div>
-      {{/if}}
-  
+      
       {{!-- Natural Defense, Health --}}
       {{#if (or benefits.benefit1.stats.naturalIncrease benefits.benefit1.stats.healthIncrease)}}
       <div class="stat-inline flex-wrap flex-children">
@@ -129,6 +92,43 @@
         {{/each}}
   
       </ol>
+
+      {{!-- Attributes --}}
+      {{#if benefits.benefit1.attributes}}
+      <div class="stat-inline">
+        <label>{{localize "WW.Attributes.Label"}}:</label>
+  
+        {{benefits.benefit1.attributes}}
+      </div>
+      {{/if}}
+
+      {{!-- Bonus Languages --}}
+      {{#if listEntries.benefit1.languages.length}}
+      <ol class="stat-inline list-entries">
+        <label>{{localize "WW.ListEntry.Language.Bonus"}}:</label>
+  
+        {{#each listEntries.benefit1.languages as |entry|}}
+        <li class="list-entry">
+          <a data-tooltip="{{entry.desc}}">{{entry.name}}</a>
+        </li>
+        {{/each}}
+  
+      </ol>
+      {{/if}}
+
+      {{!-- Senses --}}
+      {{#if listEntries.benefit1.senses.length}}
+      <ol class="stat-inline list-entries">
+        <label>{{localize "WW.ListEntry.Sense.Label"}}:</label>
+  
+        {{#each listEntries.benefit1.senses as |entry|}}
+        <li class="list-entry">
+          <a data-tooltip="{{entry.desc}}">{{entry.name}}</a>
+        </li>
+        {{/each}}
+  
+      </ol>
+      {{/if}}
   
       {{!-- Immunities --}}
       {{#if listEntries.benefit1.immunities.length}}
@@ -153,7 +153,7 @@
         <li class="item-reference item {{#if item.missing}}missing{{/if}}" data-item-uuid="{{item.uuid}}">
           <label><img src="{{item.img}}"> {{item.name}}:</label>
   
-          <span>{{{item.description}}}</span>
+          <span>{{{ item.description }}}</span>
         </li>
         {{/each}}
 
