@@ -2703,7 +2703,6 @@ prose-mirror .statbox {
   .item {
     display: flex;
     flex-wrap: nowrap;
-    gap: 0 5px;
 
     label {
       color: var(--body-text-color);

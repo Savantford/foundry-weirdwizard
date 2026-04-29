@@ -30,7 +30,7 @@
         {{!-- Basic Stats --}}
         <p>
             <strong>{{localize "WW.Defense.Label"}}:</strong>
-            {{ system.stats.defense.total }}{{#if items.equipment.length}} (<span class="equipment-list">{{#each items.equipment as |item id|}}<span class="item">{{ label }}</span>{{/each}}</span>){{/if}},
+            {{ system.stats.defense.total }}{{#if items.equipment.length}} (<span class="equipment-list">{{#each items.equipment as |item id|}}<span class="item">{{ name }}</span>{{/each}}</span>){{/if}},
             <strong>{{localize "WW.Health.Label"}}:</strong>
             {{ system.stats.health.normal }}
         </p>
@@ -98,7 +98,19 @@
             <ol class="described-list attacks-list">
                 {{#each items.weapon as |item id|}}
                     <li class="item">
-                        <strong>{{ label }}:</strong> {{{ desc }}}
+                        {{!-- Title --}}
+                        <strong>{{ label }}:</strong>
+                        
+                        {{!-- Modifier --}}
+                        <span class="modifier-line">
+                            {{localize system.attributeLabel}}
+
+                            {{!-- Boons --}}
+                            {{#if system.boonsLabel}}{{ system.boonsLabel }}{{else}}{{ system.boons }}{{/if}}
+                        </span>
+                        
+                        {{!-- Damage --}}
+                        <span class="damage-line">({{#if system.damageAlt}}{{ system.damageAlt }}{{else if system.damage}}{{ system.damage }}{{else}}0{{/if}})</span>
                         
                         {{#if attackRider.name}}
                         <div class="attack-rider">
@@ -106,6 +118,7 @@
                         </div>
                         {{/if}}
                     </li>
+                    {{{ description }}}
                 {{/each}}
             </ol>
             {{/if}}

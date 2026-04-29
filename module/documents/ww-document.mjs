@@ -1,4 +1,4 @@
-import { capitalize, i18n, sysPath } from "../helpers/utils.mjs";
+import { capitalize, i18n, plusify, sysPath } from "../helpers/utils.mjs";
 
 /**
  * A mixin which extends each Document definition with specialized client-side behaviors.
@@ -191,13 +191,39 @@ export default function WWDocumentMixin(Base) {
               const subtypes = ['weapon', 'talent', 'action', 'reaction', 'end'];
               const subtype = item.system.subtype;
               let category = item.type;
+              let isShield = false;
               
               if (subtypes.includes(subtype)) category = subtype;
 
-              // Prepare label
+              // Prepare name label
               let label = item.system.magical ? `${item.name} (${i18n("WW.Talent.Magical")})` : item.name;
 
-              // Prepare weapon label
+              // Prepare attribute label
+              let attributeLabel = null;
+
+              if (item.system.attribute == 'luck') {
+                attributeLabel = `${i18n('WW.Attributes.Luck')} (+0)`;
+              } else if (item.system.attribute) {
+                const attribute = context.system.attributes[item.system.attribute];
+                attributeLabel = `${i18n(CONFIG.WW.ATTRIBUTES[item.system.attribute])} (${plusify(attribute.mod)})`
+              }
+
+              // Prepare absolute boons
+              const boons = item.system.boons;
+              let boonsLabel = boons;
+              
+              if (item.system.boonsAlt) boonsLabel = item.system.boonsAlt;
+              else {
+                let boonsLoc = "WW.Boons.Boon";
+
+                if (boons < -1) boonsLoc = "WW.Boons.Banes";
+                else if (boons < 0) boonsLoc = "WW.Boons.Bane";
+                else if (boons > 1) boonsLoc = "WW.Boons.Boons";
+
+                boonsLabel = `${i18n("WW.Boons.With")} ${Math.abs(boons)} ${i18n(boonsLoc)}`;
+              }
+              
+              // Prepare weapon fields
               if (item.system.subtype == 'weapon') {
 
                 // Prepare traits list
@@ -217,16 +243,33 @@ export default function WWDocumentMixin(Base) {
 
                 // Prepare name and grip label
                 label = (item.system.traits.has('range') ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + item.name + (item.system.traitsList ? ' • ' + item.system.traitsList : '');
-              }
 
+                // Is shield?
+                for (const e of item.effects) {
+                  for (const c of e.changes) {
+                    if (['defense.armored', 'defense.naturalIncrease', 'defense.bonus'].includes(c.key)) isShield = true;
+                  }
+                }
+              }
+              
               // Enrich HTML and push data
               const TextEditor = foundry.applications.ux.TextEditor.implementation;
 
-              context.items[category].push({
+              const itemContext = {
+                name: item.name,
                 label,
+                system: {
+                  ...item.system,
+                  attributeLabel,
+                  boonsLabel
+                },
                 desc: item.system.description ? await TextEditor.enrichHTML(item.system.description, { secrets: this.isOwner }) : null,
                 attackRider: item.system.attackRider ?? null
-              });
+              };
+
+              context.items[category].push(itemContext);
+
+              if (isShield) context.items['equipment'].push(itemContext);
             }
 
           }
