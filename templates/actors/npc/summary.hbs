@@ -34,6 +34,21 @@
 
                     <span>{{localize "WW.Talents.Traits"}}</span>
                 </h6>
+
+                {{!-- Equipment --}}
+                {{#if equipment.length}}
+                <div class="stat equipment-list mb-1">
+                        
+                    <label>{{localize "WW.Equipment.Label"}}:</label>
+                    
+                    {{#each equipment as |item id|}}
+                        {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
+                    {{/each}}
+
+                    {{#unless equipment.length}}<span>—</span>{{/unless}}
+
+                </div>
+                {{/if}}
                 
                 {{!-- Languages --}}
                 {{#if listEntries.languages.length}}
@@ -84,21 +99,6 @@
                         {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
                     {{/each}}
                 </ol>
-                {{/if}}
-
-                {{!-- Equipment --}}
-                {{#if equipment.length}}
-                <div class="stat equipment-list">
-                        
-                    <label>{{localize "WW.Equipment.Label"}}:</label>
-                    
-                    {{#each equipment as |item id|}}
-                        {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
-                    {{/each}}
-
-                    {{#unless equipment.length}}<span>—</span>{{/unless}}
-
-                </div>
                 {{/if}}
 
             </div>

@@ -110,6 +110,24 @@
           </div>
   
         </div>
+
+        {{!-- Equipment --}}
+        {{#if equipment.length}}
+        <div class="stat equipment-list">
+          <label>{{localize "WW.Equipment.Label"}}:</label>
+        
+          {{#each equipment as |item id|}}
+            {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id isEditMode=@root.isEditMode }}
+          {{else}}
+            <span>—</span>
+          {{/each}}
+        
+          <a class="item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Equipment" data-type="equipment"
+            data-subtype="generic">
+            <i class="fa-solid fa-plus-circle"></i>
+          </a>
+        </div>
+        {{/if}}
   
         {{!-- Attributes 1 --}}
         <div class="mt-1 stat-inline">
@@ -293,23 +311,6 @@
           {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id isEditMode=@root.isEditMode }}
           {{/each}}
         </ol>
-        {{/if}}
-        
-        {{!-- Equipment --}}
-        {{#if equipment.length}}
-        <div class="stat equipment-list">
-          <label>{{localize "WW.Equipment.Label"}}:</label>
-
-          {{#each equipment as |item id|}}
-          {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id isEditMode=@root.isEditMode }}
-          {{else}}
-          <span>—</span>
-          {{/each}}
-  
-          <a class="item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Equipment" data-type="equipment" data-subtype="generic">
-            <i class="fa-solid fa-plus-circle"></i>
-          </a>
-        </div>
         {{/if}}
   
       </div>

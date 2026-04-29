@@ -1653,6 +1653,18 @@ body.theme-dark.application.weirdwizard .window-content {
     }
 
   }
+
+  .equipment-list .item {
+    .buttons,
+    .edit-buttons {
+      margin-left: 5px !important;
+    }
+
+    label {
+      color: var(--body-text-color);
+      font-weight: 400;
+    }
+  }
 }
 
 /* Item Sheet */
