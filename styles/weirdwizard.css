@@ -813,6 +813,7 @@ body.theme-dark.application.weirdwizard .window-content {
 .weirdwizard .window-content h5.descriptors,
 .weirdwizard .window-content h5.individual-traits {
   display: flex;
+  flex-flow: wrap;
   align-items: center;
   justify-content: flex-start;
   gap: 0 5px;
@@ -1128,7 +1129,7 @@ body.theme-dark.application.weirdwizard .window-content {
     color: var(--body-text-color);
     font-style: italic;
     font-family: var(--ww-font-fancy);
-    padding: 0;
+    padding: 0px 5px;
   }
 
   .statbox h6 {
