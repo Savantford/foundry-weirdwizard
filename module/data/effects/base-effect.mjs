@@ -3,8 +3,10 @@ import { makeBooField, makeRequiredStrField, makeUuidStrField, makePosIntField }
 export default class BaseEffectModel extends foundry.data.ActiveEffectTypeDataModel {
   static defineSchema() {
     const fields = foundry.data.fields;
-    console.error()
+    
     const schema = {
+      ... super.defineSchema(),
+
       target: makeRequiredStrField('none'),
       trigger: makeRequiredStrField('passive'),
 
@@ -17,10 +19,12 @@ export default class BaseEffectModel extends foundry.data.ActiveEffectTypeDataMo
       }),
       
       grantedBy: makeUuidStrField(),
-
-      // Changes
-      changes: super.defineSchema().changes
     }
+    
+    // Custom Changes - Unused for now
+    /*schema.changes.element.extendFields({
+      test: makeBooField()
+    });*/
 
     return schema;
   }
