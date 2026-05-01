@@ -207,51 +207,31 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
   /* -------------------------------------------- */
 
   /**
-   * Apply this ActiveEffect to a provided Actor.
-   * @param {Actor} actor                   The Actor to whom this effect should be applied
-   * @param {EffectChangeData} change       The change data being applied
-   * @returns {Record<string, *>}           An object of property paths and their updated values.
-   */
-
-  apply(actor, change) {
-    // TODO: This method is poorly conceived. Its functionality is static, applying a provided change to an Actor
-    // TODO: When we revisit this in Active Effects V2 this should become an Actor method, or a static method
-    let field;
-    const changes = {};
-    if ( change.key.startsWith("system.") ) {
-      if ( actor.system instanceof foundry.abstract.DataModel ) {
-        field = actor.system.schema.getField(change.key.slice(7));
-      }
-      // field = actor.system.schema?.getField(change.key.slice(7));
-    } else field = actor.schema.getField(change.key);
-    if ( field ) changes[change.key] = this.constructor.applyField(actor, change, field);
-    else this._applyLegacy(actor, change, changes);
-    return changes;
-  }
-
-  /* -------------------------------------------- */
-
-  /**
    * Apply this ActiveEffect to a provided Actor using a heuristic to infer the value types based on the current value
    * and/or the default value in the template.json.
-   * @param {Actor} actor                The Actor to whom this effect should be applied.
-   * @param {EffectChangeData} change    The change data being applied.
-   * @param {Record<string, *>} changes  The aggregate update paths and their updated values.
+   * @param {Actor|Item|TokenDocument|DataModel} targetDoc  The Document or DataModel to which this effect should be
+   *                                                        applied
+   * @param {ActiveEffectChangeData} change                 The change data being applied.
+   * @param {Record<string, unknown>} changes               The aggregate update paths and their updated values.
+   * @param {object} [options]
+   * @param {Record<string, unknown>} [options.replacementData] Data used to resolve "@" expressions.
+   * @param {boolean} [options.modifyTarget]                    Modify the target Document with the updated value.
    * @protected
    */
-  _applyLegacy(actor, change, changes) {
+  static _applyChangeUnguided(targetDoc, change, changes, {replacementData={}, modifyTarget=true}={}) {
     // Weird Wizard: Save label key and get real change key
     const labelKey = '' + change.key;
     change.key = CONFIG.WW.EFFECT_CHANGE_PRESET_KEYS[change.key];
 
     // Determine the data type of the target field
-    const current = foundry.utils.getProperty(actor, change.key) ?? null;
-    let target = current;
-    if ( current === null ) {
-      const model = game.model.Actor[actor.type] || {};
-      target = foundry.utils.getProperty(model, change.key) ?? null;
+    const {getProperty, getType} = foundry.utils;
+    const current = getProperty(targetDoc, change.key) ?? null;
+    let targetData = current;
+    if ( (current === null) && targetDoc.documentName ) {
+      const model = game.model[targetDoc.documentName]?.[targetDoc.type] ?? {};
+      targetData = getProperty(model, change.key) ?? null;
     }
-    const targetType = foundry.utils.getType(target);
+    const targetType = getType(targetData);
 
     // Weird Wizard: Alter Change Values to negative values if they are meant to be
     if (labelKey.includes('banes') || (labelKey.toLowerCase().includes('reduce') && !labelKey.includes('health'))) change.value = -change.value;
@@ -259,40 +239,72 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
     // Cast the effect change value to the correct type
     let delta;
     try {
-      if ( targetType === "Array" ) {
-        const innerType = target.length ? foundry.utils.getType(target[0]) : "string";
-        delta = this.#castArray(change.value, innerType);
+      if ( ["Array", "Set"].includes(targetType) ) {
+        const innerType = targetData.length
+          ? getType(targetData[0])
+          : targetData.size
+            ? getType(targetData.first())
+            : "string";
+        delta = ActiveEffect.#castArray(change.value, innerType, replacementData);
+        if ( targetType === "Set" ) delta = new Set(delta);
       }
-      else delta = this.#castDelta(change.value, targetType);
-    } catch(err) {
-      console.warn(`Actor [${actor.id}] | Unable to parse active effect change for ${change.key}: "${change.value}"`);
+      else delta = ActiveEffect.#castDelta(change.value, targetType, replacementData);
+    } catch(error) {
+      const header = change.effect ? `Active Effect (${change.effect.uuid}) |` : "";
+      console.warn(`${header} "${change.type}" change to "${change.key}" failed to resolve: ${error.message}`);
       return;
     }
 
     // Apply the change depending on the application mode
-    const modes = CONST.ACTIVE_EFFECT_MODES;
-    switch ( change.mode ) {
-      case modes.ADD:
-        this._applyAdd(actor, change, current, delta, changes);
+    switch ( change.type ) {
+      case "add":
+        if ( change.effect && (foundry.utils.getDefiningClass(change.effect, "_applyAdd") !== ActiveEffect) ) {
+          foundry.utils.logCompatibilityWarning("The ActiveEffect implementation overrides _applyAdd, which is"
+            + " deprecated. Please override static _applyChangeAdd instead.", {since: 14, until: 16, once: true});
+          change.effect._applyAdd(targetDoc, change, current, delta, changes);
+        }
+        else this._applyChangeAdd(targetDoc, change, current, delta, changes);
         break;
-      case modes.MULTIPLY:
-        this._applyMultiply(actor, change, current, delta, changes);
+      case "subtract":
+        this._applyChangeSubtract(targetDoc, change, current, delta, changes);
         break;
-      case modes.OVERRIDE:
-        this._applyOverride(actor, change, current, delta, changes);
+      case "multiply":
+        if ( change.effect && (foundry.utils.getDefiningClass(change.effect, "_applyMultiply") !== ActiveEffect) ) {
+          foundry.utils.logCompatibilityWarning("The ActiveEffect implementation overrides _applyMultiply, which is"
+            + " deprecated. Please override static _applyChangeMultiply instead.", {since: 14, until: 16, once: true});
+          change.effect._applyMultiply(targetDoc, change, current, delta, changes);
+        }
+        else this._applyChangeMultiply(targetDoc, change, current, delta, changes);
         break;
-      case modes.UPGRADE:
-      case modes.DOWNGRADE:
-        this._applyUpgrade(actor, change, current, delta, changes);
+      case "override":
+        if ( change.effect && (foundry.utils.getDefiningClass(change.effect, "_applyOverride") !== ActiveEffect) ) {
+          foundry.utils.logCompatibilityWarning("The ActiveEffect implementation overrides _applyOverride, which is"
+            + " deprecated. Please override static _applyChangeOverride instead.", {since: 14, until: 16, once: true});
+          change.effect._applyOverride(targetDoc, change, current, delta, changes);
+        }
+        else this._applyChangeOverride(targetDoc, change, current, delta, changes);
+        break;
+      case "upgrade":
+      case "downgrade":
+        if ( change.effect && (foundry.utils.getDefiningClass(change.effect, "_applyUpgrade") !== ActiveEffect) ) {
+          foundry.utils.logCompatibilityWarning("The ActiveEffect implementation overrides _applyUpgrade, which is"
+            + " deprecated. Please override static _applyChangeUpgrade instead.", {since: 14, until: 16, once: true});
+          change.effect._applyUpgrade(targetDoc, change, current, delta, changes);
+        }
+        else this._applyChangeUpgrade(targetDoc, change, current, delta, changes);
         break;
       default:
-        this._applyCustom(actor, change, current, delta, changes);
+        if ( change.effect && (foundry.utils.getDefiningClass(change.effect, "_applyCustom") !== ActiveEffect) ) {
+          foundry.utils.logCompatibilityWarning("The ActiveEffect implementation overrides _applyCustom, which is"
+            + " deprecated. Please override static _applyChangeCustom instead.", {since: 14, until: 16, once: true});
+          change.effect._applyCustom(targetDoc, change, current, delta, changes);
+        }
+        else this._applyChangeCustom(targetDoc, change, current, delta, changes);
         break;
     }
 
     // Apply all changes to the Actor data
-    foundry.utils.mergeObject(actor, changes);
-
+    if ( modifyTarget ) foundry.utils.mergeObject(targetDoc, changes);
   }
 
   /* -------------------------------------------- */
