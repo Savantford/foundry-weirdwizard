@@ -190,7 +190,8 @@ WW.EQUIPMENT_REQUIREMENTS = {
   'str14': 'WW.Equipment.Requirement.Str14',
   'agi11': 'WW.Equipment.Requirement.Agi11',
   'agi12': 'WW.Equipment.Requirement.Agi12',
-  'agi13': 'WW.Equipment.Requirement.Agi13'
+  'agi13': 'WW.Equipment.Requirement.Agi13',
+  'agi14': 'WW.Equipment.Requirement.Agi14'
 };
 
 WW.WEAPON_GRIPS = {
