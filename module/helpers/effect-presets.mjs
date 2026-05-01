@@ -20,14 +20,14 @@ changePresets.boons = {
 }
 
 changePresets.banes = {
-  str: addInt(),
-  agi: addInt(),
-  int: addInt(),
-  wil: addInt(),
-  luck: addInt(),
-  attacks: addInt(),
-  spells: addInt(),
-  resistMagical: addInt()
+  str: subInt(),
+  agi: subInt(),
+  int: subInt(),
+  wil: subInt(),
+  luck: subInt(),
+  attacks: subInt(),
+  spells: subInt(),
+  resistMagical: subInt()
 }
 
 changePresets.autoFail = {
@@ -35,10 +35,7 @@ changePresets.autoFail = {
   agi: setBoo(),
   int: setBoo(),
   wil: setBoo(),
-  luck: setBoo(),
-  attacks: addInt(),
-  spells: addInt(),
-  resistMagical: addInt()
+  luck: setBoo()
 }
 
 /* Rolls Against Self */
@@ -54,14 +51,14 @@ changePresets.boonsAgainst = {
 }
 
 changePresets.banesAgainst = {
-  def: addInt(),
-  str: addInt(),
-  agi: addInt(),
-  int: addInt(),
-  wil: addInt(),
-  fromAttacks: addInt(),
-  fromSpells: addInt(),
-  fromMagical: addInt()
+  def: subInt(),
+  str: subInt(),
+  agi: subInt(),
+  int: subInt(),
+  wil: subInt(),
+  fromAttacks: subInt(),
+  fromSpells: subInt(),
+  fromMagical: subInt()
 }
 
 changePresets.autoSuccessAgainst = {
@@ -69,10 +66,7 @@ changePresets.autoSuccessAgainst = {
   str: setBoo(),
   agi: setBoo(),
   int: setBoo(),
-  wil: setBoo(),
-  fromAttacks: addInt(),
-  fromSpells: addInt(),
-  fromMagical: addInt()
+  wil: setBoo()
 }
 
 /* Other Stats */
@@ -88,12 +82,12 @@ changePresets.defense = {
   armoredIncrease: addInt(),
   natural: overInt(1),
   naturalIncrease: addInt(),
-  naturalReduce: addInt()
+  naturalReduce: subInt()
 }
 
 changePresets.health = {
   tempIncrease: addInt(),
-  tempReduce: addInt(),
+  tempReduce: subInt(),
   override: overInt(),
   starting: overInt(1),
   increase: addInt()
@@ -101,7 +95,7 @@ changePresets.health = {
 
 changePresets.speed = {
   tempIncrease: addInt(),
-  tempReduce: addInt(),
+  tempReduce: subInt(),
   halved: setBoo(),
   override: overInt(),
   normal: overInt(1),
@@ -148,69 +142,75 @@ changePresets.increaseAttribute = {
 }
 
 changePresets.reduceAttribute = {
-  str: addInt(),
-  agi: addInt(),
-  int: addInt(),
-  wil: addInt()
+  str: subInt(),
+  agi: subInt(),
+  int: subInt(),
+  wil: subInt()
 }
 
 /* -------------------------------------------- */
 /*  Simplified Change Data making functions     */
 /* -------------------------------------------- */
 /* Modes:
-  https://foundryvtt.com/api/v13/variables/CONST.ACTIVE_EFFECT_MODES.html
+  https://foundryvtt.com/api/variables/CONST.ACTIVE_EFFECT_CHANGE_TYPES.html
 */
 
 function addInt(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.ADD, 'int', priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.ADD, 'int', priority);
+}
+
+/* -------------------------------------------- */
+
+function subInt(priority = null) {
+  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.SUBTRACT, 'int', priority);
 }
 
 /* -------------------------------------------- */
 
 function overInt(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.OVERRIDE, 'int', priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.OVERRIDE, 'int', priority);
 }
 
 /* -------------------------------------------- */
 
 function upInt(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.UPGRADE, 'int', priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.UPGRADE, 'int', priority);
 }
 
 /* -------------------------------------------- */
 
 function downInt(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.DOWNGRADE, 'int', priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.DOWNGRADE, 'int', priority);
 }
 
 /* -------------------------------------------- */
 
 function addFlo(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.ADD, 'flo', priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.ADD, 'flo', priority);
 }
 
 /* -------------------------------------------- */
 
 function overFlo(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.OVERRIDE, 'flo', priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.OVERRIDE, 'flo', priority);
 }
 
 /* -------------------------------------------- */
 
 function upFlo(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.UPGRADE, 'flo', priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.UPGRADE, 'flo', priority);
 }
 
 /* -------------------------------------------- */
 
 function downFlo(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.DOWNGRADE, 'flo', priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.DOWNGRADE, 'flo', priority);
 }
 
 /* -------------------------------------------- */
 
 function setBoo(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_MODES.OVERRIDE, 'boo', priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.OVERRIDE, 'boo', priority);
 }
 
 /* -------------------------------------------- */
@@ -260,7 +260,7 @@ export function initializeEffectLookups() {
  * Resolve metadata for an effect change option given its label key (e.g., "boons.str").
  * Returns null if no metadata exists.
  * @param {string} labelKey
- * @returns {{mode:CONST.ACTIVE_EFFECT_MODES, priority:(number|null), valueType:'boo'|'flo'|'int'|'str'}|null}
+ * @returns {{mode:CONST.ACTIVE_EFFECT_CHANGE_TYPES, priority:(number|null), valueType:'boo'|'flo'|'int'|'str'}|null}
  */
 export function getEffectChangeMeta(labelKey) {
   try {

@@ -205,169 +205,53 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
   }
 
   /* -------------------------------------------- */
+  /*  Methods                                     */
+  /* -------------------------------------------- */
 
   /**
-   * Apply this ActiveEffect to a provided Actor using a heuristic to infer the value types based on the current value
-   * and/or the default value in the template.json.
-   * @param {Actor|Item|TokenDocument|DataModel} targetDoc  The Document or DataModel to which this effect should be
-   *                                                        applied
-   * @param {ActiveEffectChangeData} change                 The change data being applied.
-   * @param {Record<string, unknown>} changes               The aggregate update paths and their updated values.
-   * @param {object} [options]
-   * @param {Record<string, unknown>} [options.replacementData] Data used to resolve "@" expressions.
-   * @param {boolean} [options.modifyTarget]                    Modify the target Document with the updated value.
-   * @protected
+   * @override
+   * Apply this ActiveEffect to a provided Actor.
+   * @param {Actor|Item|TokenDocument} targetDoc The Document to which this effect should be applied
+   * @param {ActiveEffectChangeData} change      The change data being applied
+   * @param {object} [options]                   Options affecting the change application
+   * @param {object} [options.replacementData]   Data used to resolve "@" expressions in a string value
+   * @param {boolean} [options.modifyTarget]     Modify the target Document with the updated value.
+   * @returns {Record<string, unknown>} An object of property keys and their updated values
    */
-  static _applyChangeUnguided(targetDoc, change, changes, {replacementData={}, modifyTarget=true}={}) {
-    // Weird Wizard: Save label key and get real change key
-    const labelKey = '' + change.key;
-    change.key = CONFIG.WW.EFFECT_CHANGE_PRESET_KEYS[change.key];
 
-    // Determine the data type of the target field
-    const {getProperty, getType} = foundry.utils;
-    const current = getProperty(targetDoc, change.key) ?? null;
-    let targetData = current;
-    if ( (current === null) && targetDoc.documentName ) {
-      const model = game.model[targetDoc.documentName]?.[targetDoc.type] ?? {};
-      targetData = getProperty(model, change.key) ?? null;
-    }
-    const targetType = getType(targetData);
+  static applyChange(targetDoc, change, {replacementData={}, modifyTarget=true}={}) {
+    // Weird Wizard: Replace presetKey with real change key
+    change.key = CONFIG.WW.EFFECT_CHANGE_PRESET_KEYS[change.key]; // Better solution pending
 
-    // Weird Wizard: Alter Change Values to negative values if they are meant to be
-    if (labelKey.includes('banes') || (labelKey.toLowerCase().includes('reduce') && !labelKey.includes('health'))) change.value = -change.value;
-
-    // Cast the effect change value to the correct type
-    let delta;
-    try {
-      if ( ["Array", "Set"].includes(targetType) ) {
-        const innerType = targetData.length
-          ? getType(targetData[0])
-          : targetData.size
-            ? getType(targetData.first())
-            : "string";
-        delta = ActiveEffect.#castArray(change.value, innerType, replacementData);
-        if ( targetType === "Set" ) delta = new Set(delta);
+    let field;
+    const changes = {};
+    if ( (typeof change.key === "string") && change.key.startsWith("system.") ) {
+      if ( targetDoc.system instanceof foundry.abstract.DataModel ) {
+        field = targetDoc.system.getFieldForProperty(change.key.slice(7));
       }
-      else delta = ActiveEffect.#castDelta(change.value, targetType, replacementData);
-    } catch(error) {
-      const header = change.effect ? `Active Effect (${change.effect.uuid}) |` : "";
-      console.warn(`${header} "${change.type}" change to "${change.key}" failed to resolve: ${error.message}`);
-      return;
     }
-
-    // Apply the change depending on the application mode
-    switch ( change.type ) {
-      case "add":
-        if ( change.effect && (foundry.utils.getDefiningClass(change.effect, "_applyAdd") !== ActiveEffect) ) {
-          foundry.utils.logCompatibilityWarning("The ActiveEffect implementation overrides _applyAdd, which is"
-            + " deprecated. Please override static _applyChangeAdd instead.", {since: 14, until: 16, once: true});
-          change.effect._applyAdd(targetDoc, change, current, delta, changes);
-        }
-        else this._applyChangeAdd(targetDoc, change, current, delta, changes);
-        break;
-      case "subtract":
-        this._applyChangeSubtract(targetDoc, change, current, delta, changes);
-        break;
-      case "multiply":
-        if ( change.effect && (foundry.utils.getDefiningClass(change.effect, "_applyMultiply") !== ActiveEffect) ) {
-          foundry.utils.logCompatibilityWarning("The ActiveEffect implementation overrides _applyMultiply, which is"
-            + " deprecated. Please override static _applyChangeMultiply instead.", {since: 14, until: 16, once: true});
-          change.effect._applyMultiply(targetDoc, change, current, delta, changes);
-        }
-        else this._applyChangeMultiply(targetDoc, change, current, delta, changes);
-        break;
-      case "override":
-        if ( change.effect && (foundry.utils.getDefiningClass(change.effect, "_applyOverride") !== ActiveEffect) ) {
-          foundry.utils.logCompatibilityWarning("The ActiveEffect implementation overrides _applyOverride, which is"
-            + " deprecated. Please override static _applyChangeOverride instead.", {since: 14, until: 16, once: true});
-          change.effect._applyOverride(targetDoc, change, current, delta, changes);
-        }
-        else this._applyChangeOverride(targetDoc, change, current, delta, changes);
-        break;
-      case "upgrade":
-      case "downgrade":
-        if ( change.effect && (foundry.utils.getDefiningClass(change.effect, "_applyUpgrade") !== ActiveEffect) ) {
-          foundry.utils.logCompatibilityWarning("The ActiveEffect implementation overrides _applyUpgrade, which is"
-            + " deprecated. Please override static _applyChangeUpgrade instead.", {since: 14, until: 16, once: true});
-          change.effect._applyUpgrade(targetDoc, change, current, delta, changes);
-        }
-        else this._applyChangeUpgrade(targetDoc, change, current, delta, changes);
-        break;
-      default:
-        if ( change.effect && (foundry.utils.getDefiningClass(change.effect, "_applyCustom") !== ActiveEffect) ) {
-          foundry.utils.logCompatibilityWarning("The ActiveEffect implementation overrides _applyCustom, which is"
-            + " deprecated. Please override static _applyChangeCustom instead.", {since: 14, until: 16, once: true});
-          change.effect._applyCustom(targetDoc, change, current, delta, changes);
-        }
-        else this._applyChangeCustom(targetDoc, change, current, delta, changes);
-        break;
+    else field = targetDoc.getFieldForProperty(String(change.key ?? ""));
+    const configuredHandler = ActiveEffect.CHANGE_TYPES[change.type]?.handler;
+    if ( typeof configuredHandler === "function" ) {
+      configuredHandler(targetDoc, change, {field, replacementData, modifyTarget});
     }
-
-    // Apply all changes to the Actor data
-    if ( modifyTarget ) foundry.utils.mergeObject(targetDoc, changes);
-  }
-
-  /* -------------------------------------------- */
-  /*  Static Actions (Unmodified)                 */
-  /* -------------------------------------------- */
-
-  /**
-   * Cast a raw EffectChangeData change string to the desired data type.
-   * @param {string} raw      The raw string value
-   * @param {string} type     The target data type that the raw value should be cast to match
-   * @returns {*}             The parsed delta cast to the target data type
-   */
-  #castDelta(raw, type) {
-    let delta;
-    switch ( type ) {
-      case "boolean":
-        delta = Boolean(this.#parseOrString(raw));
-        break;
-      case "number":
-        delta = Number.fromString(raw);
-        if ( Number.isNaN(delta) ) delta = 0;
-        break;
-      case "string":
-        delta = String(raw);
-        break;
-      default:
-        delta = this.#parseOrString(raw);
+    else if ( field ) {
+      if ( foundry.utils.getDefiningClass(this, "applyField") !== ActiveEffect ) {
+        foundry.utils.logCompatibilityWarning("The ActiveEffect implementation overrides applyField, which is"
+          + " deprecated. Please override applyChangeField instead.", {since: 14, until: 16, once: true});
+        changes[change.key] = this.applyField(targetDoc, change, field);
+      }
+      else changes[change.key] = this.applyChangeField(targetDoc, change, {field, replacementData, modifyTarget});
     }
-    return delta;
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Cast a raw EffectChangeData change string to an Array of an inner type.
-   * @param {string} raw      The raw string value
-   * @param {string} type     The target data type of inner array elements
-   * @returns {Array<*>}      The parsed delta cast as a typed array
-   */
-  #castArray(raw, type) {
-    let delta;
-    try {
-      delta = this.#parseOrString(raw);
-      delta = delta instanceof Array ? delta : [delta];
-    } catch(e) {
-      delta = [raw];
+    else {
+      if ( change.effect && (foundry.utils.getDefiningClass(change.effect, "_applyLegacy") !== ActiveEffect) ) {
+        foundry.utils.logCompatibilityWarning("The ActiveEffect implementation overrides _applyLegacy, which is"
+          + " deprecated. Please override static _applyChangeUnguided instead.", {since: 14, until: 16, once: true});
+        change.effect._applyLegacy(targetDoc, change, changes);
+      }
+      else this._applyChangeUnguided(targetDoc, change, changes, {replacementData, modifyTarget});
     }
-    return delta.map(d => this.#castDelta(d, type));
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Parse serialized JSON, or retain the raw string.
-   * @param {string} raw      A raw serialized string
-   * @returns {*}             The parsed value, or the original value if parsing failed
-   */
-  #parseOrString(raw) {
-    try {
-      return JSON.parse(raw);
-    } catch(err) {
-      return raw;
-    }
+    return changes;
   }
 
 }
