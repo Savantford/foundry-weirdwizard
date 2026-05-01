@@ -1,0 +1,22 @@
+{
+  "name": "Ranged Weapons",
+  "sorting": "a",
+  "folder": null,
+  "type": "Item",
+  "_id": "ULfWvcrri6HWQccr",
+  "description": "",
+  "sort": 0,
+  "color": null,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.329",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1721414150472,
+    "modifiedTime": 1721414150472,
+    "lastModifiedBy": "zin7Kb6P2LomswaD"
+  },
+  "_key": "!folders!ULfWvcrri6HWQccr"
+}

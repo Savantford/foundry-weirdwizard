@@ -1,0 +1,27 @@
+{
+  "name": "Shields",
+  "sorting": "m",
+  "folder": null,
+  "type": "Item",
+  "_id": "lRYrYKOyRDECOEzg",
+  "description": "",
+  "sort": 200000,
+  "color": null,
+  "flags": {
+    "weirdwizard": {
+      "description": ""
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.351",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1721415908137,
+    "modifiedTime": 1777484584423,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "exportSource": null
+  },
+  "_key": "!folders!lRYrYKOyRDECOEzg"
+}

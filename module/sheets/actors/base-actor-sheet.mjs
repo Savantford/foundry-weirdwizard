@@ -37,8 +37,6 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     actions: {
       editImage: this.#onEditImage, // delete in V13; core functionality
 
-      editModeToggle: this.#onToggleEditMode,
-
       entryCreate: this.#onEntryCreate,
       entryEdit: this.#onEntryEdit,
       entryRemove: this.#onEntryRemove,
@@ -57,7 +55,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       height: 500
     }
   }
-  
+
   /* -------------------------------------------- */
 
   /**
@@ -67,11 +65,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
    */
   async _prepareContext(options = {}) {
     const context = await super._prepareContext(options);
-    const actorData = this.actor;
-    
-    // Ensure editMode has a value
-    if (this.editMode === undefined) this.editMode = false;
-    context.editMode = this.editMode; // Pass editMode state
+    const actorData = await this.actor;
     
     context.actor = actorData; // Use a safe clone of the actor data for further operations.
     context.system = actorData.system; // Add the actor's data to context.system for easier access, as well as flags.
@@ -107,6 +101,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     
     return context;
   }
+
+  /* -------------------------------------------- */
 
   /**
    * Organize and classify Items for actor sheets.
@@ -150,56 +146,27 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       i.system.descriptionEnriched = await TextEditor.enrichHTML(i.system.description, { secrets: isOwner });
       if (i.system.attackRider) i.system.attackRiderEnriched = await TextEditor.enrichHTML(i.system.attackRider.value, { secrets: isOwner });
       i.subtypeLabel = CONFIG.WW.EQUIPMENT_SUBTYPES[i.system.subtype];
+      i.sourceLabel = CONFIG.WW.TALENT_SOURCES[i.system.source];
 
       // Prepare tooltip context
-      const tooltipContext = {
-        label: i.name,
-        system: i.system,
-        img: i.img,
-        type: i.type,
-        inSheet: true,
-
-        subtitle: i.type,
-        text: i.system.descriptionEnriched ?? null,
-        attackRider: i.system.attackRiderEnriched ?? null
-      }
-
-      // Prepare tooltip subtitle
-      if (i.type === 'spell') {
-        tooltipContext.subtitle += ` • ${i18n(CONFIG.WW.TIERS[i.system.tier])}`
-        if (i.system.tradition) tooltipContext.subtitle += ` • ${i.system.tradition}`;
-
-      } else if (i.type === 'equipment') {
-        tooltipContext.subtitle = i18n(CONFIG.WW.EQUIPMENT_SUBTYPES[i.system.subtype]);
-
-        if (i.system.subtype === 'weapon') tooltipContext.subtitle += ` • ${i.system.traits.range ? i18n("WW.Weapon.Ranged") : i18n("WW.Weapon.Melee")}`;
-
-      } else if (i.type === 'talent') {
-        tooltipContext.subtitle = i18n(CONFIG.WW.TALENT_SUBTYPES[i.system.subtype]);
-        tooltipContext.subtitle += ` • ${i18n(CONFIG.WW.TALENT_SOURCES[i.system.source])}`;
-      }
-
-      i.tooltip = await foundry.applications.handlebars.renderTemplate(sysPath(`templates/apps/tooltips/item.hbs`), tooltipContext);
+      i.tooltip = await i.toCard({ usageFooter: true });
 
       // Append to equipment.
       if (i.type === 'equipment') {
         // Prepare traits list for weapons
         if (i.system.subtype == 'weapon') {
-
           // Prepare traits list
           let list = '';
 
-          Object.entries(i.system.traits).map((x) => {
+          for (const x of i.system.traits) {
+            let string = i18n('WW.Weapon.Traits.' + capitalize(x) + '.Label');
 
-            if (x[1]) {
-              let string = i18n('WW.Weapon.Traits.' + capitalize(x[0]) + '.Label');
+            if ((x === 'range') || (x === 'reach' && i.system.range) || (x === 'thrown')) string += ` ${i.system.range}`;
 
-              if ((x[0] == 'range') || (x[0] == 'reach' && i.system.range) || (x[0] == 'thrown')) string += ' ' + i.system.range;
+            list = list.concat(list ? ', ' + string : string);
+          }
 
-              list = list.concat(list ? ', ' + string : string);
-            }
-
-          })
+          if (i.system.magical) list += ` (${i18n("WW.Talent.Magical")})`;
 
           i.system.traitsList = list;
 
@@ -207,9 +174,11 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
           if (context.actor.type == 'character') {
             i.system.gripLabel = CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip] ? i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip]) : i.system.grip;
             
-            i.label = `${i.name} (${i.system.gripLabel})${(i.system.traitsList ? ' ● ' + i.system.traitsList : '')}`;
-          } else i.label = (i.system.traits.range ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + i.name + (i.system.traitsList ? ' ● ' + i.system.traitsList : '');
+            i.label = `${i.name} (${i.system.gripLabel})${(i.system.traitsList ? ' • ' + i.system.traitsList : '')}`;
+          } else i.label = (i.system.traits.has('range') ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + i.name + (i.system.traitsList ? ' • ' + i.system.traitsList : '');
 
+          // Can reload?
+          i.canReload = (i.system.traits.has('reload') || i.system.traits.has('firearm')) ?? false;
         }
 
         // Prepare filled capacity for containers
@@ -241,6 +210,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
             // Append to list
             list = list.concat(list ? ', ' + x.name : x.name);
           })
+
+          held.forEach(updateUses);
           
           i.heldItems = held.sort((a, b) => a.sort > b.sort ? 1 : -1);
           i.heldList = list;
@@ -248,6 +219,9 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
           // Prepare tooltip
           i.containerTooltip = i18n('WW.Container.FilledHint', { filled: i.filled, capacity: i.system.capacity });
         }
+
+        // Prepare label for other Equipment
+        else i.label = i.name;
 
         if (!i.system.heldBy) {
 
@@ -274,6 +248,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
 
       // Append to talents.
       else if (i.type === 'talent') {
+        // Set label
+        i.label = i.system.magical ? `${i.name} (${i18n("WW.Talent.Magical")})` : i.name;
 
         if (context.actor.type == 'npc') {
           switch (i.system.subtype) {
@@ -314,7 +290,10 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       }
 
       // Append to spells.
-      else if (i.type === 'spell') spells.push(i);
+      else if (i.type === 'spell') {
+        i.label = i.name;
+        spells.push(i);
+      }
 
       // Appegend to legacy items array.
       else {
@@ -353,6 +332,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
         switch (item.system.uses.levelRelative) {
           case 'full': max = level; break;
           case 'half': max = half; break;
+          case '1+half': context.system.uses.max = parseInt(1 + half); break;
           case 'third': max = third; break;
         }
       }
@@ -405,7 +385,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     const defaultArtwork = this.actor.constructor.getDefaultArtwork?.(this.actor._source) ?? {};
     const defaultImage = foundry.utils.getProperty(defaultArtwork, attr);
     
-    const fp = new FilePicker({
+    const fp = new foundry.applications.apps.FilePicker.implementation({
       current,
       type: "image",
       redirectToRoot: defaultImage ? [defaultImage] : [],
@@ -439,6 +419,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     await this._updateEntry(dataset);
   }
 
+  /* -------------------------------------------- */
+
   /**
    * Handle editing a list entry
    * @param {Event} event          The originating click event
@@ -451,6 +433,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     // Update entry
     await this._updateEntry(dataset, dataset.entryKey);
   }
+
+  /* -------------------------------------------- */
 
   async _updateEntry(dataset, entryKey) {
     const path = 'system.listEntries.' + dataset.listKey;
@@ -468,8 +452,6 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       entryData = { name: entryName };
     }
 
-    console.log(await entryData)
-
     // Prepare context
     const context = {
       entry: await entryData,
@@ -478,8 +460,6 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       grantedBy: await fromUuid(entryData.grantedBy) ?
         await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${entryData.grantedBy}]`, { secrets: this.actor.isOwner }) : null
     };
-
-    console.log(await context)
 
     // Show a dialog 
     const dialogInput = await WWDialog.input({
@@ -512,8 +492,6 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     delete await obj[dialogInput.key].key;
 
     // Delete old entry if key changed
-    console.log(await dialogInput.key)
-    console.log(await entryKey)
     if (dialogInput.key !== entryKey) {
       // If the key exists in the Base Actor, null it
       if (baseObj?.hasOwnProperty(entryKey) && entryKey !== dialogInput.key) obj[entryKey] = null;
@@ -523,6 +501,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     
     await this.actor.update({ [path]: obj });
   }
+
+  /* -------------------------------------------- */
 
   /**
    * Handle removing an entry from a list
@@ -544,6 +524,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     }
     
   }
+
+  /* -------------------------------------------- */
 
   /**
    * Handle removing an element from an array
@@ -612,6 +594,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     return;
   }
 
+  /* -------------------------------------------- */
+
   /**
    * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
    * @param {Event} event          The originating click event
@@ -627,6 +611,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   _onItemEdit(item) {
     item.sheet.render(true);
   }
+
+  /* -------------------------------------------- */
 
   /**
    * Handle delete of an Owned Item for the actor using initial data defined in the HTML dataset
@@ -657,19 +643,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     if (!confirm) return;
 
     // Delete item
-    //await $(button).slideUp(200, () => this.render(false));
     item.delete();
-    
-  }
-
-  /* -------------------------------------------- */
-  /*  Miscellaneous actions                       */
-  /* -------------------------------------------- */
-
-  static #onToggleEditMode() {
-    this.editMode = !this.editMode;
-    
-    this.render(true);
   }
   
 }

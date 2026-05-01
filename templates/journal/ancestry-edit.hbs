@@ -56,50 +56,7 @@
           data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
   
       </ol>
-  
-      {{!-- Senses --}}
-      <ol class="stat-inline list-entries">
-        <label>{{localize "WW.ListEntry.Sense.Label"}}:</label>
-  
-        {{#each listEntries.benefit1.senses as |entry|}}
-          {{> "systems/weirdwizard/templates/journal/parts/list-entry.hbs" entry=entry entryKey=entry.key
-            listKey="senses" listPath="benefits.benefit1.senses" loc="Sense"}}
-        {{else}}<span>—</span>
-        {{/each}}
-  
-        <a class="array-button" data-action="entryCreate" data-list-key="senses" data-list-path="benefits.benefit1.senses" data-loc="Sense"
-          data-tooltip="WW.ListEntry.Sense.Create"><i class="fa-solid fa-circle-plus"></i></a>
-
-        <a class="array-button" data-action="entrySettings" data-list-key="senses" data-list-path="benefits.benefit1.senses"
-          data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
-
-      </ol>
-  
-      {{!-- Bonus Languages --}}
-      <ol class="stat-inline list-entries">
-        <label>{{localize "WW.ListEntry.Language.Bonus"}}:</label>
-  
-        {{#each listEntries.benefit1.languages as |entry|}}
-          {{> "systems/weirdwizard/templates/journal/parts/list-entry.hbs" entry=entry entryKey=entry.key
-            listKey="languages" listPath="benefits.benefit1.languages" loc="Language"}}
-        {{else}}<span>—</span>
-        {{/each}}
-  
-        <a class="array-button" data-action="entryCreate" data-list-key="languages" data-list-path="benefits.benefit1.languages" data-loc="Language"
-          data-tooltip="WW.ListEntry.Language.Create"><i class="fa-solid fa-circle-plus"></i></a>
-
-        <a class="array-button" data-action="entrySettings" data-list-key="languages" data-list-path="benefits.benefit1.languages"
-          data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
-
-      </ol>
-  
-      {{!-- Attributes --}}
-      <div class="stat-inline">
-        <label>{{localize "WW.Attributes.Label"}}:</label>
-  
-        <input name="system.benefits.benefit1.attributes" type="text" value="{{benefits.benefit1.attributes}}" />
-      </div>
-  
+      
       {{!-- Natural Defense, Health --}}
       <div class="stat-inline flex-wrap flex-children">
   
@@ -132,7 +89,7 @@
         </div>
   
       </div>
-  
+
       {{!-- Size, Speed --}}
       <ol class="stat-inline list-entries movement-traits">
   
@@ -171,7 +128,50 @@
           data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
 
       </ol>
+
+      {{!-- Attributes --}}
+      <div class="stat-inline">
+        <label>{{localize "WW.Attributes.Label"}}:</label>
   
+        <input name="system.benefits.benefit1.attributes" type="text" value="{{benefits.benefit1.attributes}}" />
+      </div>
+      
+      {{!-- Bonus Languages --}}
+      <ol class="stat-inline list-entries">
+        <label>{{localize "WW.ListEntry.Language.Bonus"}}:</label>
+  
+        {{#each listEntries.benefit1.languages as |entry|}}
+          {{> "systems/weirdwizard/templates/journal/parts/list-entry.hbs" entry=entry entryKey=entry.key
+            listKey="languages" listPath="benefits.benefit1.languages" loc="Language"}}
+        {{else}}<span>—</span>
+        {{/each}}
+  
+        <a class="array-button" data-action="entryCreate" data-list-key="languages" data-list-path="benefits.benefit1.languages" data-loc="Language"
+          data-tooltip="WW.ListEntry.Language.Create"><i class="fa-solid fa-circle-plus"></i></a>
+
+        <a class="array-button" data-action="entrySettings" data-list-key="languages" data-list-path="benefits.benefit1.languages"
+          data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+
+      </ol>
+  
+      {{!-- Senses --}}
+      <ol class="stat-inline list-entries">
+        <label>{{localize "WW.ListEntry.Sense.Label"}}:</label>
+  
+        {{#each listEntries.benefit1.senses as |entry|}}
+          {{> "systems/weirdwizard/templates/journal/parts/list-entry.hbs" entry=entry entryKey=entry.key
+            listKey="senses" listPath="benefits.benefit1.senses" loc="Sense"}}
+        {{else}}<span>—</span>
+        {{/each}}
+  
+        <a class="array-button" data-action="entryCreate" data-list-key="senses" data-list-path="benefits.benefit1.senses" data-loc="Sense"
+          data-tooltip="WW.ListEntry.Sense.Create"><i class="fa-solid fa-circle-plus"></i></a>
+
+        <a class="array-button" data-action="entrySettings" data-list-key="senses" data-list-path="benefits.benefit1.senses"
+          data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+
+      </ol>
+
       {{!-- Immunities --}}
       <ol class="stat-inline list-entries">
         <label>{{localize "WW.ListEntry.Immunity.Label"}}:</label>

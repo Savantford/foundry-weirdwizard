@@ -21,12 +21,7 @@ export class EntrySettingsDisplay extends HandlebarsApplicationMixin(Application
       icon: 'fa-solid fa-list',
       resizable: true
     },
-    actions: {
-      addEntry: this.#addEntry,
-      addSet: this.#addSet,
-      editEntry: this.#editEntry,
-      removeEntry: this.#removeEntry
-    },
+    actions: {},
     position: {
       width: 400
     }
@@ -70,7 +65,6 @@ export class EntrySettingsDisplay extends HandlebarsApplicationMixin(Application
    * @returns {Promise<ApplicationRenderContext>}   Context data for the render operation
    */
   async _prepareContext(options = {}) {
-
     const context = {
       listTitle: i18n(`WW.Settings.${capitalize(this.listKey, 1)}.EntryType`),
       list: this.list
@@ -101,159 +95,6 @@ export class EntrySettingsDisplay extends HandlebarsApplicationMixin(Application
       }
     }).bind(this.element);
 
-  }
-  
-  /* -------------------------------------------- */
-  /*  Entry actions                               */
-  /* -------------------------------------------- */
-
-  /**
-   * @param {PointerEvent} event - The originating click event
-   * @param {HTMLElement} button - the capturing HTML element which defined a [data-action]
-  */
-  static async #addEntry(event, button) {
-    const newList = {... this.list};
-
-    // Show a dialog 
-    const dialogInput = await WWDialog.input({
-      window: {
-        icon: "fa-solid fa-circle-plus",
-        title: 'WW.Settings.Entry.Add',
-      },
-      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', { showKey: true }),
-      ok: {
-        label: 'WW.System.Dialog.Save',
-        icon: 'fa-solid fa-save'
-      },
-      buttons: [
-        {
-          label: 'WW.System.Dialog.Cancel',
-          icon: 'fa-solid fa-xmark'
-        },
-      ]
-    });
-
-    // Return if cancelled
-    if (!dialogInput) return;
-
-    // Return with warning if the key or name are missing
-    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
-
-    newList[dialogInput.key] = dialogInput;
-
-    delete newList[dialogInput.key].key;
-    
-    // Update list and re-render
-    this.list = await newList;
-
-    this.render(true);
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * @param {PointerEvent} event - The originating click event
-   * @param {HTMLElement} button - the capturing HTML element which defined a [data-action]
-  */
-  static #addSet(event, button) {
-    
-    // Fetch default lists
-    const systemDefaults = {
-      languages: CONFIG.WW.DEFAULT_LANGUAGES,
-      senses: CONFIG.WW.DEFAULT_SENSES,
-      immunities: CONFIG.WW.DEFAULT_IMMUNITIES,
-      movementTraits: CONFIG.WW.DEFAULT_MOVEMENT_TRAITS,
-      descriptors: CONFIG.WW.DEFAULT_DESCRIPTORS,
-      weaponTraits: CONFIG.WW.DEFAULT_WEAPON_TRAITS,
-      afflictions: CONFIG.WW.DEFAULT_AFFLICTIONS
-    }
-
-    // Update list with the default values
-    this.list = {
-      ...this.list,
-      ...systemDefaults[this.listKey]
-    };
-
-    ui.notifications.info(i18n('WW.Settings.Entry.SetNotification'));
-
-    this.render(true);
-    
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * @param {PointerEvent} event - The originating click event
-   * @param {HTMLElement} button - the capturing HTML element which defined a [data-action]
-  */
-  static async #editEntry(event, button) {
-    const key = button.dataset.key;
-    const newList = {... this.list};
-
-    const context = {
-      entry: await newList[key],
-      key: key,
-      showKey: true
-    };
-
-    // Show a dialog 
-    const dialogInput = await WWDialog.input({
-      window: {
-        icon: "fa-solid fa-edit",
-        title: 'WW.Settings.Entry.Edit',
-      },
-      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
-      ok: {
-        label: 'WW.System.Dialog.Save',
-        icon: 'fa-solid fa-save'
-      },
-      buttons: [
-        {
-          label: 'WW.System.Dialog.Cancel',
-          icon: 'fa-solid fa-xmark'
-        },
-      ]
-    });
-
-    // Return if cancelled
-    if (!dialogInput) return;
-
-    // Return with warning if the key or name are missing
-    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
-
-    newList[key] = dialogInput;
-    
-    // Update list and re-render
-    this.list = await newList;
-
-    this.render(true);
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * @param {PointerEvent} event - The originating click event
-   * @param {HTMLElement} button - the capturing HTML element which defined a [data-action]
-  */
-  static async #removeEntry(event, button) {
-    const key = button.dataset.key;
-    const newList = {... this.list};
-    
-    // Open a dialog to confirm
-    const confirm = await WWDialog.confirm({
-      window: {
-        title: 'WW.Settings.Entry.Remove',
-        icon: 'fa-solid fa-trash'
-      },
-      content: i18n('WW.Settings.Entry.RemoveDialog.Msg')
-    });
-
-    if (!confirm) return;
-
-    // Delete and re-render
-    delete newList[key];
-    this.list = await newList;
-    this.render(true);
   }
 
   /* -------------------------------------------- */

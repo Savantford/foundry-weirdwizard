@@ -1,0 +1,26 @@
+{
+  "name": "Primal",
+  "sorting": "m",
+  "folder": null,
+  "type": "Item",
+  "_id": "cLs7ir0rm7n4l0tN",
+  "description": "",
+  "sort": 0,
+  "color": null,
+  "flags": {
+    "weirdwizard": {
+      "description": ""
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744749238173,
+    "modifiedTime": 1744749771492,
+    "lastModifiedBy": "zin7Kb6P2LomswaD"
+  },
+  "_key": "!folders!cLs7ir0rm7n4l0tN"
+}

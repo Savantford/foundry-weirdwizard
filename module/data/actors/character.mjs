@@ -47,7 +47,7 @@ export default class CharacterModel extends BaseActorModel {
     });
     
     // Add Character stats
-    schema.stats.fields.level = makeFloField();
+    schema.stats.fields.level = makeIntField(1);
     schema.stats.fields.bonusdamage = makeIntField();
     
     // Adjust Character-specific initials

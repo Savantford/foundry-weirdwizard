@@ -1,0 +1,75 @@
+{
+  "name": "Club",
+  "type": "equipment",
+  "system": {
+    "description": "<p>A club is a manufactured bludgeon made from wood or metal. Examples include nightsticks, cudgels, and saps.</p>",
+    "active": true,
+    "quantity": 1,
+    "weightUnit": 1,
+    "price": {
+      "value": 3,
+      "coin": "cp"
+    },
+    "availability": "common",
+    "attribute": "str",
+    "boons": 0,
+    "against": "def",
+    "range": 0,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": false,
+      "levelRelative": "manual"
+    },
+    "damage": "2d6",
+    "healing": "",
+    "subtype": "weapon",
+    "quality": "standard",
+    "grip": "one",
+    "attackRider": {
+      "value": {
+        "value": ""
+      },
+      "name": ""
+    },
+    "reloaded": true,
+    "armorType": "light",
+    "instant": [],
+    "traits": [],
+    "requirements": "",
+    "grantedBy": null,
+    "magical": false,
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "heldBy": null,
+    "capacity": 1
+  },
+  "img": "icons/weapons/clubs/club-heavy-barbed-grey.webp",
+  "effects": [],
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "coreVersion": "13.350",
+    "createdTime": 1692036876193,
+    "modifiedTime": 1769799762524,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
+  },
+  "folder": "CGh2LhSduUMqiiy4",
+  "_id": "E0F1qmXP6TCMefFC",
+  "sort": 1700000,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "_key": "!items!E0F1qmXP6TCMefFC"
+}

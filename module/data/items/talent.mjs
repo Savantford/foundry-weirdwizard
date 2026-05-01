@@ -8,7 +8,7 @@ export default class TalentModel extends BaseItemModel {
     const fields = foundry.data.fields;
     const schema = super.defineSchema();
     
-    schema.description = makeHtmlField(i18n("WW.System.Sheet.NoDescription")),
+    schema.description = makeHtmlField(`<p>${i18n("WW.System.Sheet.NoDescription")}</p>`),
     schema.subtype =  makeRequiredStrField('trait'),
     schema.source = makeRequiredStrField('none')
     

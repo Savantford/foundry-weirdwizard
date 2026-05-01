@@ -1,32 +1,38 @@
 <section class="tab{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
-
     {{!-- Name Stripe --}}
-    {{> "systems/weirdwizard/templates/items/common/name-stripe.hbs" }}
-    
-    {{!-- Sheet Header --}}
-    <header class="sheet-header">
-        
-        {{!-- Details Area --}}
-        {{#each detailsPartial as |part|}}
-            {{> (part) @root}}
-        {{/each}}
+    {{> "systems/weirdwizard/templates/items/header.hbs" }}
 
-        {{!-- Right Ribbon --}}
-        {{> "systems/weirdwizard/templates/items/common/item-ribbon.hbs" }}
-
-    </header>
+    {{!-- Type Specific Partial --}}
+    {{#each detailsPartial as |part|}}
+        {{> (part) @root}}
+    {{/each}}
 
     {{!-- Description --}}
-    <prose-mirror name="system.description" data-document-u-u-i-d="{{item.uuid}}" value="{{system.description}}"
-        toggled collaborate compact editable={{editable}}>
-        {{{system.descriptionEnriched}}}
-    </prose-mirror>
+    <div class="description editor-stretcher">
+        <h4>{{localize "WW.Item.Description"}}</h4>
 
+        <prose-mirror name="system.description" data-document-u-u-i-d="{{item.uuid}}" value="{{system.description}}"
+            toggled collaborate compact editable={{editable}}>
+            {{{system.descriptionEnriched}}}
+        </prose-mirror>
+    </div>
+
+    {{!-- Granted By --}}
     {{#if grantedBy}}
-    <div class="stat-inline mt-1">
+    <div class="stat-inline">
         <label>{{localize "WW.CharOption.GrantedBy"}}:</label>
-        {{{grantedBy}}}
+        {{{ grantedBy }}}
     </div>
     {{/if}}
 
+    {{#if usedBy}}
+    <ol class="used-by stat-inline list-entries">
+        <label>{{localize "WW.Item.UsedBy"}}:</label>
+        {{#each usedBy as |actor|}}
+        <li>{{{ actor }}}</li>
+        {{/each}}
+    </ol>
+    {{/if}}
+
+    <hr class="bug">
 </section>

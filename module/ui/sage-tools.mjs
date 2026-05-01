@@ -1,5 +1,4 @@
-import WWDialog from "../apps/dialog.mjs";
-import { i18n, sysPath } from "../helpers/utils.mjs";
+import { sysPath } from "../helpers/utils.mjs";
 import QuestCalendar from "./quest-calendar.mjs";
 
 // Similar syntax to importing, but note that
@@ -11,9 +10,7 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
  * Extend FormApplication to make windows to display a compendium more neatly
  * @extends {ApplicationV2}
 */
-
 export default class SageTools extends HandlebarsApplicationMixin(ApplicationV2) {
-
   static DEFAULT_OPTIONS = {
     id: 'sage-tools',
     tag: 'form',
@@ -133,16 +130,27 @@ export default class SageTools extends HandlebarsApplicationMixin(ApplicationV2)
         const TextEditor = foundry.applications.ux.TextEditor.implementation;
 
         context.index = {
+          all: await TextEditor.enrichHTML(`
+            @Index[all]
+          `),
           charOptions: await TextEditor.enrichHTML(`
-            index:charopts
-            index:traits
-            index:talents
-            index:spells
+            @Index[ancestries]
+            @Index[professions]
+            @Index[novice]
+            @Index[expert]
+            @Index[master]
+            @Index[traditions]
           `),
           equipment: await TextEditor.enrichHTML(`
-            index:armor
-            index:weapons
-            index:hirelings
+            @Index[equipment]
+            @Index[armor]
+            @Index[weapons]
+            @Index[hirelings]
+          `),
+          other: await TextEditor.enrichHTML(`
+            @Index[creatures]
+            @Index[talents]
+            @Index[spells]
           `),
         }
       break;

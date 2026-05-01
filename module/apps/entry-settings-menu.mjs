@@ -74,7 +74,6 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
    * @returns {Promise<ApplicationRenderContext>}   Context data for the render operation
    */
   async _prepareContext(options = {}) {
-
     const context = {
       listTitle: i18n(`WW.Settings.${capitalize(this.listKey, 1)}.EntryType`),
       list: this.list,
@@ -251,7 +250,6 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
    * @param {HTMLElement} button - the capturing HTML element which defined a [data-action]
   */
   static #addSet(event, button) {
-    
     // Fetch default lists
     const systemDefaults = {
       languages: CONFIG.WW.DEFAULT_LANGUAGES,
@@ -272,7 +270,6 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
     ui.notifications.info(i18n('WW.Settings.Entry.SetNotification'));
 
     this.render(true);
-    
   }
 
 }

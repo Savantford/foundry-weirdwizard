@@ -7,7 +7,7 @@ export default class BaseCharOptionModel extends foundry.abstract.TypeDataModel 
     const fields = foundry.data.fields;
 
     const schema = {
-      description: makeHtmlField(i18n("WW.System.Sheet.NoDescription"))
+      description: makeHtmlField(`<p>${i18n("WW.System.Sheet.NoDescription")}</p>`)
     };
 
     return schema;

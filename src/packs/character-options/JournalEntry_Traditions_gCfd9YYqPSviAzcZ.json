@@ -1,0 +1,1848 @@
+{
+  "folder": null,
+  "name": "Traditions",
+  "pages": [
+    {
+      "sort": -100000,
+      "name": "Aeromancy",
+      "type": "tradition",
+      "_id": "HK03KrrWON5B1I2I",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [
+          "Compendium.weirdwizard.spells.Item.f3KtnhJHUqmL5syG",
+          "Compendium.weirdwizard.spells.Item.uTieiCqfyvnxlED0",
+          "Compendium.weirdwizard.spells.Item.VxkAYYz4ERhA8X5d",
+          "Compendium.weirdwizard.spells.Item.RIp4DywBinP5Q5SU"
+        ],
+        "spells": {
+          "novice": [
+            "Compendium.weirdwizard.spells.Item.XXjyq3cZpQMB9mG7",
+            "Compendium.weirdwizard.spells.Item.usLJQR5Sk49rdoBo",
+            "Compendium.weirdwizard.spells.Item.YR79igjQHrrFHFx4",
+            "Compendium.weirdwizard.spells.Item.Lio2Pt3B3DUc7xL7",
+            "Compendium.weirdwizard.spells.Item.qZWHTDr6sqLq2Uhu",
+            "Compendium.weirdwizard.spells.Item.4FXlMHoT51yodTvB"
+          ],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>If you listen, you can hear the wind speak. From the moment you first heard the moaning words, the shrieks, and the whispers, you committed yourself to learning the language. As your knowledge grows, so does your command of the air. You can call forth the wind to assail your foes or blast them apart with crackling lightning.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/aeromancy.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748211892,
+        "modifiedTime": 1746137694287,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.HK03KrrWON5B1I2I"
+    },
+    {
+      "sort": 0,
+      "name": "Alchemy",
+      "type": "tradition",
+      "_id": "70veH57gcE0VBLgY",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [
+          "Compendium.weirdwizard.spells.Item.DYHFyTq6fmH4zweS",
+          "Compendium.weirdwizard.spells.Item.iOZB2ZHdGIKPnLi8",
+          "Compendium.weirdwizard.spells.Item.6ibGE25cIN0VH8au",
+          "Compendium.weirdwizard.spells.Item.cKkLVudwCHvrTJGB"
+        ],
+        "spells": {
+          "novice": [
+            "Compendium.weirdwizard.spells.Item.phO5cgrb3EbYRa5s",
+            "Compendium.weirdwizard.spells.Item.THB7OIFZwRjolo11",
+            "Compendium.weirdwizard.spells.Item.ySScgEFMWyKwKkNu",
+            "Compendium.weirdwizard.spells.Item.m68EK5sxifZkW7EX",
+            "Compendium.weirdwizard.spells.Item.dTMuuckIiS99FOT1",
+            "Compendium.weirdwizard.spells.Item.ZMrv2tE7PMNRfAWR"
+          ],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>The Alchemy tradition owes its existence to mortal pursuit of wonders. The pioneers sought to turn lead into gold, while others hoped to arrest their aging. All believed the answers could be found in the natural world, through combinations of certain elements. The results of their work established an entire body of magic concerned with the nature of things. Spells from the tradition enable you to produce weird substances and to reshape the world you find around you.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/alchemy.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748250068,
+        "modifiedTime": 1746137710794,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.70veH57gcE0VBLgY"
+    },
+    {
+      "sort": 100000,
+      "name": "Alteration",
+      "type": "tradition",
+      "_id": "kvOZ8HE2wRQBJ19J",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [
+          "Compendium.weirdwizard.spells.Item.ydZsNc6VwRhr1lH8",
+          "Compendium.weirdwizard.spells.Item.CIEr2QVwIencId82",
+          "Compendium.weirdwizard.spells.Item.qs7lJ3L2pnn7f3cI",
+          "Compendium.weirdwizard.spells.Item.Ki1VMC5bxm85nSuO"
+        ],
+        "spells": {
+          "novice": [
+            "Compendium.weirdwizard.spells.Item.3vTAdFy6S3szf45L",
+            "Compendium.weirdwizard.spells.Item.nzE9CGUeJanK0ZUJ",
+            "Compendium.weirdwizard.spells.Item.KtyXN7Jl1SXTpi4t",
+            "Compendium.weirdwizard.spells.Item.oEYFMko6aZsrasow",
+            "Compendium.weirdwizard.spells.Item.zG0xVUikdvp75ujs",
+            "Compendium.weirdwizard.spells.Item.wfoVohjvBuo8PFP3"
+          ],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Alteration magic grants you the means to take charge of your destiny by enabling you to adapt to just about any circumstance. Not strong enough? There’s a spell for that. Need to get somewhere fast? This tradition has you covered. You can make yourself grow to gigantic proportions or shrink down to the size of a mouse. And when you need something to deal with a difficult foe, Alteration magic offers a suite of appalling spells that can make your enemies suffer</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/alteration.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748281044,
+        "modifiedTime": 1746324105551,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.kvOZ8HE2wRQBJ19J"
+    },
+    {
+      "sort": 200000,
+      "name": "Animism",
+      "type": "tradition",
+      "_id": "3w44yO1BgQt36yN6",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>The Animism tradition opens a dialogue between you and the spirits found in the natural world, wherever you happen to be. Engaging these entities enables you to befriend them and recruit them to aid you in your endeavors. Since these spirits are bound to the trees, dunes, the rocks, the combers crashing against the shore, and nature itself, their aid often comes in the form of awakening the landscape, calling forth vines to ensnare and strangle enemies, or uprooting trees to march forth and smash through the enemy lines.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/animism.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748314604,
+        "modifiedTime": 1746137745114,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.3w44yO1BgQt36yN6"
+    },
+    {
+      "sort": 300000,
+      "name": "Astromancy",
+      "type": "tradition",
+      "_id": "U1cN2SbgHtdeR5YY",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Long have mortals looked to the heavens for answers to the mysteries on Erth. The Sun drives back the darkness, the Moon plays tricks on the mind and drives the sane mad, while the stars hang in the firmament, their falling portending great events. It’s no wonder then that an entire tradition of magic formed around the study of the celestial bodies. Astromancy spells let you draw light and energy from the skies and bring them to bear against your foes.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/astromancy.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748335212,
+        "modifiedTime": 1746137756798,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.U1cN2SbgHtdeR5YY"
+    },
+    {
+      "sort": 400000,
+      "name": "Chaos",
+      "type": "tradition",
+      "_id": "wmpDRK7njENN7DIN",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Magic embodies raw potential and in its natural state, it produces wild, unpredictable effects. The Chaos tradition forgoes the rules that normally apply to the casting of spells to seize and release magic in unconventional ways. Chaos spells can provide unexpected windfalls that enable casters to triumph over impossible situations, but are just as likely to make even the simplest task impossible. Chaos magic appeals most to risk takers and is ignored, shunned even, by those who prefer to remain in control of the magic they wield.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/chaos.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748391028,
+        "modifiedTime": 1746137770196,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.wmpDRK7njENN7DIN"
+    },
+    {
+      "sort": 500000,
+      "name": "Chronomancy",
+      "type": "tradition",
+      "_id": "gqUn11UefSZagcwv",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Students of the Chronomancy tradition learn to meddle with time. Understanding time’s mutability enables them to speed it up and slow it down, to steal moments from others, and to cause hiccoughs in people’s own timelines. Twisting time as they do sometimes produces unfortunate consequences, but to become a master of moments puts to rest any misgivings these casters might feel.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/chronomancy.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748421324,
+        "modifiedTime": 1746137783724,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.gqUn11UefSZagcwv"
+    },
+    {
+      "sort": 600000,
+      "name": "Conjuration",
+      "type": "tradition",
+      "_id": "iSw7HR280OCOUWiW",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Whatever you need, whenever you need it can be yours if you know the proper spell. The Conjuration tradition reveals methods for plucking creatures and objects from the world and bringing them to you. Thus, when you produce a blade from thin air, the spell plucks the item from somewhere nearby. When the spell ends, the blade returns to the place from which it came. Given the widespread knowledge of this tradition, many people have become accustomed to the sudden disappearance of their possessions and accept that they will find their way home, possibly a bit worse for wear.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/conjuration.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748441598,
+        "modifiedTime": 1746137795235,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.iSw7HR280OCOUWiW"
+    },
+    {
+      "sort": 700000,
+      "name": "Cryomancy",
+      "type": "tradition",
+      "_id": "iPLfOnKXHbqw0YPh",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>In the frozen tundra, on glaciers, and all across the polar regions one finds a climate anathema to most living things. Between the bitter cold, freezing winds, and slippery ice, doom awaits the unprepared. Armed with Cryomancy, casters can bring these inhospitable environments to anywhere in the world. With a word, the temperatures plummet. With a gesture, snow and ice barrel forward.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/cryomancy.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748467812,
+        "modifiedTime": 1746137808733,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.iPLfOnKXHbqw0YPh"
+    },
+    {
+      "sort": 800000,
+      "name": "Dark Arts",
+      "type": "tradition",
+      "_id": "1w22uSdI7HfCHUb2",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>There can be no mistaking the evil inherent in the Dark Arts tradition; each spell makes the world a bit worse. They create suffering, sickness, and sorrow. A tradition of last resort for people seeking unlimited power—no matter the consequences, studying the Dark Arts stains the soul and increases the population of the Netherworld by one upon the caster’s death. Efforts to stamp out the Dark Arts should make discovering the tradition a challenge, yet its secrets have a way of surviving the bonfires and purges to infect more and more with its false promises and cruel effects.</p><p>Fiends in the Netherworld introduced the Dark Arts to mortals, offering potent and harmful magic in return for souls. It’s believed that the gods despise the Dark Arts and that knowledge of even a single spell from this tradition will doom a soul to the Netherworld. For this reason, the Dark Arts tradition is a poor choice for heroes. Sometimes, though, casters find evil a powerful weapon for use against its authors, and thus these insidious spells might find their way into a spellcaster’s arsenal.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/dark-arts.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748492012,
+        "modifiedTime": 1746137819933,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.1w22uSdI7HfCHUb2"
+    },
+    {
+      "sort": 900000,
+      "name": "Destruction",
+      "type": "tradition",
+      "_id": "ILD8TVZRotBxF2gs",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Some people just want to watch the world burn. The Destruction tradition is for them. Magic with the sole aim of undoing creation, its spells break, burst, splinter, and erode. Students of the tradition not disgusted by the ruin they create might find themselves reveling in the sheer devastation wrought.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/destruction.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748523844,
+        "modifiedTime": 1746137829815,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.ILD8TVZRotBxF2gs"
+    },
+    {
+      "sort": 1000000,
+      "name": "Divination",
+      "type": "tradition",
+      "_id": "niXiEsuzSuAzElB5",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Beyond reading entrails or finding omens in the shapes of the clouds, Divination magic reveals possible futures and offers ways for those armed with foreknowledge to avoid or mitigate disaster. Some spells employ the fortune teller’s craft of card or tea leaf reading to focus the mind, but the greater spells merge the caster’s consciousness with all of time and space to gain true and lasting insight into what is to come.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/divination.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748542956,
+        "modifiedTime": 1746137839363,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.niXiEsuzSuAzElB5"
+    },
+    {
+      "sort": 1100000,
+      "name": "Eldritch",
+      "type": "tradition",
+      "_id": "yp2N6UQXVGZceY8x",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Eldritch magic explores the forbidden. It taps into cosmic forces best left undisturbed, calling forth monstrosities from other realities or contorting reality in such ways that it can never be righted. Studying the tradition offers considerable advantages, and its spells can produce spectacular outcomes, but the cost of using such magic weighs heavily upon the mind until it finally buckles and breaks into a million different pieces.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/eldritch.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748562591,
+        "modifiedTime": 1746137848378,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.yp2N6UQXVGZceY8x"
+    },
+    {
+      "sort": 1200000,
+      "name": "Enchantment",
+      "type": "tradition",
+      "_id": "pTm7dQjBlnkpeyg6",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Why bother fighting when others can take all the risks and put themselves in danger on your behalf ? The Enchantment tradition reveals how to magically manipulate others’ emotions, making them feel and experience things you wish. Your control over people puts you in a dubious position; who can tell if the feelings others have for you are genuine or not?</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/enchantment.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748585252,
+        "modifiedTime": 1746137858681,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.pTm7dQjBlnkpeyg6"
+    },
+    {
+      "sort": 1300000,
+      "name": "Evocation",
+      "type": "tradition",
+      "_id": "KZedvVcL6smdZYSv",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [
+          "Compendium.weirdwizard.spells.Item.gthiEpsRpRDLwBN8",
+          "Compendium.weirdwizard.spells.Item.FONbbSfV0CRW6qq8",
+          "Compendium.weirdwizard.spells.Item.6DZb5yg0qN5vMQlA",
+          "Compendium.weirdwizard.spells.Item.Gfdk5tCxiJwOyg3k"
+        ],
+        "spells": {
+          "novice": [
+            "Compendium.weirdwizard.spells.Item.oEQUBOQ3GNugIQoY",
+            "Compendium.weirdwizard.spells.Item.ujHUjJMfcUF2dUWE",
+            "Compendium.weirdwizard.spells.Item.QRmPmjc4oo90dzSU",
+            "Compendium.weirdwizard.spells.Item.c2WPeQuxUKIFukji",
+            "Compendium.weirdwizard.spells.Item.85H1VpTCmNCVroOA",
+            "Compendium.weirdwizard.spells.Item.2FDq0lTvHSrGsYEL"
+          ],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Hidden within every tongue spoken or written lie fragments, syllables, and sounds that survive from the moment of creation, when powers ancient and terrible imposed order on substance. The Evocation tradition allows casters to extract the secret words of power and give voice to them. The spells presented here are but a fraction of those that exist, producing effects useful to those who explore dangerous places and confront deadly challenges.</p><p>Novice Evocation spells offer the ability to voice sounds, mere syllables of words of power. Expert spells give casters the ability to speak words, while master spells string words together into phrases capable of producing devastating outcomes.</p><p><strong>EVOCATION SPELLS:</strong> You must be able to hear in order to cast an Evocation spell, and creatures must be able to hear your voice. In addition, when you cast a spell, you choose to whisper, speak, or shout. The volume at which you pronounce the syllable, utterance, or recitation determines its effects as noted in the spell’s descriptions. Novice Evocation spells, and only such spells, enable you to cast them without having to use an action to do so. In fact, you need do nothing more than speak the syllable. While you remain free to do other things on your turn, after you cast any Evocation spell, you must wait until the start of your next turn before you can cast another one. A caster is never subject to the effects of an Evocation spell they cast.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/evocation.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748628260,
+        "modifiedTime": 1746137867556,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.KZedvVcL6smdZYSv"
+    },
+    {
+      "sort": 1400000,
+      "name": "Geomancy",
+      "type": "tradition",
+      "_id": "FQn5AZhQytxqQSo7",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Look anywhere in the world and you’re bound to find magic. The Geomancy tradition contains all the spells that interact with earth, sand, and stone, as well those that draw energy from them. Students of the tradition swear they can hear whispering from the earth and many have been spotted, ear to the ground, mumbling. Maybe the earth has something to say. Or, it could be that Draconus grumbles in his sleep. Or, the earth mages might just all be mad.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/geomancy.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748688120,
+        "modifiedTime": 1746137962605,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.FQn5AZhQytxqQSo7"
+    },
+    {
+      "sort": 1500000,
+      "name": "Hydromancy",
+      "type": "tradition",
+      "_id": "FTLbRywE3S5b0jKM",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>From the seas and lakes and rivers of the world comes forth magic known as Hydromancy. A tradition concerned solely with the creation and manipulation of water, and other liquids, its spells have numerous applications, from easing one’s thirst to drowning unwitting sailors. Some believe the magic comes from listening to the voice of the waves and divining secrets from the crashing combers.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/hydromancy.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748713661,
+        "modifiedTime": 1746137973037,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.FTLbRywE3S5b0jKM"
+    },
+    {
+      "sort": 1600000,
+      "name": "Illusion",
+      "type": "tradition",
+      "_id": "dPj89A99o2ByjrCB",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Illusion magic fools the senses. The simplest spells affect just one sense—people see things that aren’t there or hear phantom noises. Advanced spells can transform the appearance of areas, making what is foul seem a sumptuous, lavish paradise. They can mask dangers or hide entire areas from view. They can also make victims believe they have been harmed and even create hideous things that seem so real their claws and teeth open actual wounds. These spells trick the mind into believing their false creations until it is almost impossible to discern reality from fantasy.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/illusion.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748737741,
+        "modifiedTime": 1746137982806,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.dPj89A99o2ByjrCB"
+    },
+    {
+      "sort": 1700000,
+      "name": "Invocation",
+      "type": "tradition",
+      "_id": "nSR8IBy3eExho8Hf",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Magic from the Invocation tradition comes from the gods themselves. Any god might grant access to it through sworn service, in addition to other traditions of the caster’s choice. Invocation spells manifest the divine in the world and can call down the fires of holy wrath, whisk the faithful to safety, and rouse the dead.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/invocation.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748761845,
+        "modifiedTime": 1746137994211,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.nSR8IBy3eExho8Hf"
+    },
+    {
+      "sort": 1800000,
+      "name": "Necromancy",
+      "type": "tradition",
+      "_id": "bSAqL1MLGOl89wJb",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Fear of death, an obsession with attaining immortality, a desire to divine the secrets known only to the dead, or some darker motive could explain why someone would risk awakening Lord Death’s wrath by dabbling in these dark arts. Necromancy offends the god for it dabbles in the domain He claims: chiefly death and dying things. The spells it offers create abominations, undead that pervert life, or sap life force from others on which the necromancers feed. Most students of the tradition deserve the stigma attached to its study, but a few find a way to use the magic for good, if not noble, ends.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/necromancy.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748779133,
+        "modifiedTime": 1746138004434,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.bSAqL1MLGOl89wJb"
+    },
+    {
+      "sort": 1900000,
+      "name": "Oneiromancy",
+      "type": "tradition",
+      "_id": "kKhnTv8MYMRCngXK",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [
+          "Compendium.weirdwizard.spells.Item.PVNvTFQlNW0s0wP2",
+          "Compendium.weirdwizard.spells.Item.aWznfAYVXcZUn9vt",
+          "Compendium.weirdwizard.spells.Item.p2JAmVaVGc38KvGa",
+          "Compendium.weirdwizard.spells.Item.RkhFoaRfdLO0jrlc"
+        ],
+        "spells": {
+          "novice": [
+            "Compendium.weirdwizard.spells.Item.SgiuDdADOAh69X47",
+            "Compendium.weirdwizard.spells.Item.fg2rnVJLhk33hYds",
+            "Compendium.weirdwizard.spells.Item.JdjdRyWpzHLZmeHL",
+            "Compendium.weirdwizard.spells.Item.AdPN1Q71RVOQgktK",
+            "Compendium.weirdwizard.spells.Item.qMhoZNsXch4SCTxZ",
+            "Compendium.weirdwizard.spells.Item.MQqOJob1Mx08jTfS"
+          ],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>When creatures drift off, enfolded in sleep’s embrace, their minds enter a fantastic realm of imagination, collectively shared with all other creatures. Called the dreamlands, mortals roam this place, experiencing wonders and terrors in equal measure. The Oneiromancy tradition taps into the magic of dreams and enables casters to call them forth to manipulate others or subject them to waking terrors.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/oneiromancy.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748796918,
+        "modifiedTime": 1746138017167,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.kKhnTv8MYMRCngXK"
+    },
+    {
+      "sort": 2000000,
+      "name": "Order",
+      "type": "tradition",
+      "_id": "cMG2oGCk4wTkfw5B",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>The Order tradition sprang from early efforts to tame magic, to make the spells cast and talents used more predictable in their effects. The tradition enables casters to shape magical energy into solid forms. Also, the tradition removes chance from the effects its magic creates.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/order.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748815621,
+        "modifiedTime": 1746138028407,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.cMG2oGCk4wTkfw5B"
+    },
+    {
+      "sort": 2100000,
+      "name": "Primal",
+      "type": "tradition",
+      "_id": "sbhX08THvJjU4p4m",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [
+          "Compendium.weirdwizard.spells.Item.9wWW7y5l70tCGisE",
+          "Compendium.weirdwizard.spells.Item.GA8eUNreGmUM3ef2",
+          "Compendium.weirdwizard.spells.Item.PrGOlgZaH6jY6px6",
+          "Compendium.weirdwizard.spells.Item.STijj3H9c4BM5kcM"
+        ],
+        "spells": {
+          "novice": [
+            "Compendium.weirdwizard.spells.Item.YGowXTJxSfXjU1Ac",
+            "Compendium.weirdwizard.spells.Item.nTrtiGicWmJ4rHpr",
+            "Compendium.weirdwizard.spells.Item.R4xHnoAtlj3uxkEf",
+            "Compendium.weirdwizard.spells.Item.1unGIygbmKckzSZ1",
+            "Compendium.weirdwizard.spells.Item.ajUjmYG0x8iXZiFw",
+            "Compendium.weirdwizard.spells.Item.QasqZsDDWRxlVxUI"
+          ],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>One of the oldest traditions in the world, predating even the systemization of magic, the Primal tradition draws energy from the natural world, specifically wild animals, and manifests their traits and behavior in the casters. Frequent casting of these spells takes a toll on many casters, causing them to become almost feral, uncouth and unsuited to refined company. Being a little dirty and a little rude seems a fine price to pay for the ability to tear an enemy’s heart from its chest.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/primal.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748834118,
+        "modifiedTime": 1746138037651,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.sbhX08THvJjU4p4m"
+    },
+    {
+      "sort": 2200000,
+      "name": "Protection",
+      "type": "tradition",
+      "_id": "otL9a5V8L4AHKlGv",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>The ability to blast apart foes with a word and a gesture, to call forth horrible monsters bristling with teeth and tentacles, or travel anywhere in an instant draws many to studying the secrets of magic, yet most recognize that no matter how powerful the spells they cast, without some sort of safeguard they are as vulnerable as the lowliest peasant. The Protection traditions encompasses the many different efforts to mitigate the worst the world might throw at casters. From simple wards to elaborate security systems, it’s magic can mean the difference between life and death.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/protection.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748855157,
+        "modifiedTime": 1746138047906,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.otL9a5V8L4AHKlGv"
+    },
+    {
+      "sort": 2300000,
+      "name": "Psychomancy",
+      "type": "tradition",
+      "_id": "vnX7geQvkngN6FhQ",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Psychomancy, sometimes called psionics or psychic powers, encompasses all the spells that draw power from the caster’s mind and focuses that power into useful effects. Many people in the world have the talent for this tradition, evidenced by frequent déjà vu, the ability to sense what others might be thinking or feeling, or the strange occurrence of ordinary objects suddenly being at hand. Training builds on these natural gifts and enables a caster to unlock the full potential of their mind.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/psychomancy.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748872989,
+        "modifiedTime": 1746138058085,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.vnX7geQvkngN6FhQ"
+    },
+    {
+      "sort": 2400000,
+      "name": "Pyromancy",
+      "type": "tradition",
+      "_id": "nSMBWCwJHnNXmI3I",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [
+          "Compendium.weirdwizard.spells.Item.Xi2MOieJeiqzIsI5",
+          "Compendium.weirdwizard.spells.Item.mEui8CHwL9qUBBLJ",
+          "Compendium.weirdwizard.spells.Item.DNtqkyHvtW0Bb5aV",
+          "Compendium.weirdwizard.spells.Item.Xi6Xxd09qpbVGyuc"
+        ],
+        "spells": {
+          "novice": [
+            "Compendium.weirdwizard.spells.Item.HSW5tixMO4n0f2lM",
+            "Compendium.weirdwizard.spells.Item.bjXTx0E8ocRx020G",
+            "Compendium.weirdwizard.spells.Item.NjhhTlFRIYEe3eZV",
+            "Compendium.weirdwizard.spells.Item.WkGH4e7sdJc3V5tb",
+            "Compendium.weirdwizard.spells.Item.P0qQ9wK8FvbJPbwd",
+            "Compendium.weirdwizard.spells.Item.lY0mLR4XUbXYM6PI"
+          ],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Some swear fire lives, that in the dancing flames one sees patterns, communications almost. Students of Pyromancy learn how to coax knowledge from fires and use that knowledge to control it. Often, Pyromancy leaves a mark on those who discover it; they feel warm to the touch, feverish, and their eyes flash when angry.</p><p><strong>NO WATER:</strong> If you cast a Pyromancy spell or use a Pyromancy talent while you are submerged in water, the spell has no effect and the use is wasted.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/pyromancy.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748893197,
+        "modifiedTime": 1746138068260,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.nSMBWCwJHnNXmI3I"
+    },
+    {
+      "sort": 2500000,
+      "name": "Shadowmancy",
+      "type": "tradition",
+      "_id": "KfT3eReaj5i66GyY",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Scholars of magic and magical theory believe the stuff of Shadowmancy bleeds into reality from the Underworld. Truly, it’s spells deal in darkness, oblivion, and ennui. Students of the tradition tend to appear wan, pale, sickly even. Bruises smudge their eyes and lights seem to dim around them.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/shadowmancy.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748938735,
+        "modifiedTime": 1746138294080,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.KfT3eReaj5i66GyY"
+    },
+    {
+      "sort": 2600000,
+      "name": "Skullduggery",
+      "type": "tradition",
+      "_id": "y4CMZUq80Fm1m9N2",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>People sometimes forget that with magic, almost anything becomes possible. While a great many spells have big, flashy effects, magicians profit from the smaller, subtler forms magic takes. The Skullduggery tradition offers solutions to a raft of common challenges spellcasters face on their quests. And when they don’t solve the problem, they offer a way out of it.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/skullduggery.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748961591,
+        "modifiedTime": 1746138341181,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.y4CMZUq80Fm1m9N2"
+    },
+    {
+      "sort": 2700000,
+      "name": "Spiritualism",
+      "type": "tradition",
+      "_id": "bMXM41WBv34MMskh",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>The natural world, or the mortal world as some call it, exists within a supernatural envelope, a realm apart inhabited by the spirits. This realm resembles the real world, though misty and sometimes indistinct. Discovering this tradition opens channels of communication between the two worlds, enabling casters the ability to enlist aid from the spirits of the great beyond.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/spiritualism.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748976766,
+        "modifiedTime": 1746138362466,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.bMXM41WBv34MMskh"
+    },
+    {
+      "sort": 2800000,
+      "name": "Symbolism",
+      "type": "tradition",
+      "_id": "W3CbSyGi3FOddGud",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>The practice of imbuing magic into symbols goes back to the fallen empires of old. One can still find these glyphs and runes inscribed in ruins and, sometimes, the magic lingers to ruin anyone’s day who triggers them. The Symbolism tradition lets a caster sketch a symbol, imbue it with power that typically lasts until the symbol burns away.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/symbolism.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744748994494,
+        "modifiedTime": 1746138386082,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.W3CbSyGi3FOddGud"
+    },
+    {
+      "sort": 2900000,
+      "name": "Technomancy",
+      "type": "tradition",
+      "_id": "avud1K39ZNZwJ6XP",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Grease and soot, a scattering of tools, and sheaves of blueprints: these are the trappings of anyone who studies Technomancy. The tradition’s spells enable casters to construct marvelous devices from junk, scrap, and other bits of detritus they happen to find around them. The spells transform the wreckage into useful forms.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/technomancy.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744749015720,
+        "modifiedTime": 1746138400092,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.avud1K39ZNZwJ6XP"
+    },
+    {
+      "sort": 3000000,
+      "name": "Teleportation",
+      "type": "tradition",
+      "_id": "IUeDAGzM419wPlGz",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [],
+        "spells": {
+          "novice": [],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>With the spells from the Teleportation tradition, the world becomes so much smaller. Its spells enable instant transit from one space to another, so that a caster can cross hundreds of miles without breaking a sweat. The tradition also finds clever and sometimes gory ways to harm others. Ultimately, the tradition works by finding the soft spaces in reality and exploiting them.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/teleportation.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744749035301,
+        "modifiedTime": 1746138410306,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.IUeDAGzM419wPlGz"
+    },
+    {
+      "sort": 3100000,
+      "name": "War",
+      "type": "tradition",
+      "_id": "rWvyRNRLAgRMHPKL",
+      "system": {
+        "description": {
+          "value": "No description."
+        },
+        "talents": [
+          "Compendium.weirdwizard.spells.Item.pSOGXazLoLF8B9ib",
+          "Compendium.weirdwizard.spells.Item.0wsTIH1THLuIp8H0",
+          "Compendium.weirdwizard.spells.Item.OTWiyX9MKOKUmkXP",
+          "Compendium.weirdwizard.spells.Item.IZoCOU6D8QP71cTg"
+        ],
+        "spells": {
+          "novice": [
+            "Compendium.weirdwizard.spells.Item.Bpib3k8zEtsr7BwA",
+            "Compendium.weirdwizard.spells.Item.jO5eROWGLMgAqv0L",
+            "Compendium.weirdwizard.spells.Item.DzGjMGfINyreeafK",
+            "Compendium.weirdwizard.spells.Item.nZNfAFKHtauXTvjZ",
+            "Compendium.weirdwizard.spells.Item.7kqA02Z52RLy4Nb7",
+            "Compendium.weirdwizard.spells.Item.6Q6taL3LxP8MEwLY"
+          ],
+          "expert": [],
+          "master": []
+        }
+      },
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {
+        "caption": ""
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Most magicians lack the martial prowess of warriors and their ilk. While magicians throw fireballs and hurl lightning from their fingertips, most would rather be anywhere else than in the thick of a fight with a bar of sharpened iron standing between them and certain death. The War tradition arose from a demand to even the odds, to give magicians a fighting chance when they find themselves low on spells and in the middle of a battlefield.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": "systems/weirdwizard/assets/icons/traditions/war.svg",
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1744749050800,
+        "modifiedTime": 1746138420706,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.rWvyRNRLAgRMHPKL"
+    },
+    {
+      "sort": -200000,
+      "name": "Introduction",
+      "type": "text",
+      "_id": "j7xOg4rIt3XDaSX4",
+      "system": {},
+      "title": {
+        "show": false,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>Some paths let you discover one or more traditions—thematic groupings of talents and spells. When the path indicates you discover a tradition, you can choose one new tradition or make a discovery from a tradition you have discovered already.</p><h2>Tradition Talent</h2><p>Discovering a tradition grants you one talent from it. In addition, each time you discover a tradition you have discovered, you gain another talent from the tradition. If you have four talents from a tradition already, you instead learn a novice spell from the tradition.</p><h2>Spells</h2><p>Each tradition offers three tiers of spells: novice, expert, and master. If your path instructs you to learn a spell of a particular tier, choose the spell of the indicated tier or lower from any tradition you have discovered. Alternatively, you can choose a spell you have already learned when you would learn a spell. When you do so, you increase the castings for this spell by the number of castings the spell normally grants. If the spell has 3 castings and you learn it again, you have 6 castings for this spell.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1,
+        "zin7Kb6P2LomswaD": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.345",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1745100730078,
+        "modifiedTime": 1745100859405,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "exportSource": null
+      },
+      "category": null,
+      "_key": "!journal.pages!gCfd9YYqPSviAzcZ.j7xOg4rIt3XDaSX4"
+    }
+  ],
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {
+    "core": {
+      "searchMode": "name"
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.345",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744401460719,
+    "modifiedTime": 1744401460719,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "exportSource": null
+  },
+  "_id": "gCfd9YYqPSviAzcZ",
+  "sort": 0,
+  "categories": [],
+  "_key": "!journal!gCfd9YYqPSviAzcZ"
+}

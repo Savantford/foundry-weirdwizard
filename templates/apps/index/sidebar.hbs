@@ -1,0 +1,31 @@
+<form class="sidebar">
+  {{!-- View Selector --}}
+  <div class="view-selector flexrow">
+    <label>{{localize "WW.Index.ViewAs"}}</label>
+  
+    <select name="view" data-action="changeView">
+      {{selectOptions views selected=view localize=true}}
+    </select>
+  </div>
+
+  <div class="sidebar-content">
+    {{!-- Header Section --}}
+    <div class="sidebar-header">
+      {{!-- Search --}}
+      <input type="search" name="searchQuery" value="{{ searchQuery }}" placeholder="{{localize "WW.Index.Search"}}">
+
+      <hr class="spear">
+    </div>
+    
+    {{!-- Filters Section --}}
+    <div class="filters">
+      {{#each filters as |filter key|}}
+      <div class="filter{{#if hidden}} hidden{{/if}}">
+        <div class="title">{{ title }}</div>
+        {{formInput @root.fields.set type="checkboxes" options=options name=name value=value dataset=(object tooltip="WW.Index.CheckboxTip")}}
+      </div>
+      {{/each}}
+    </div>
+  </div>
+  
+</form>

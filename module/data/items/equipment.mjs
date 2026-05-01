@@ -1,6 +1,6 @@
 import BaseItemModel from './base-item.mjs';
 
-import { makeStrField, makeBooField, makeIntField, makeRequiredStrField, makeFloField, makeUuidStrField, makeHtmlField } from '../field-presets.mjs';
+import { makeStrField, makeBooField, makeIntField, makeRequiredStrField, makeFloField, makeHtmlField, makeIdStrField } from '../field-presets.mjs';
 
 export default class EquipmentModel extends BaseItemModel {
 
@@ -12,7 +12,7 @@ export default class EquipmentModel extends BaseItemModel {
     schema.subtype = makeRequiredStrField('generic');
     schema.quantity = makeIntField(1);
     schema.weightUnit = makeIntField(1);
-    schema.heldBy = makeUuidStrField();
+    schema.heldBy = makeIdStrField();
     schema.availability = makeRequiredStrField('common');
     schema.quality = makeRequiredStrField('standard');
     schema.price = new fields.SchemaField({
@@ -32,10 +32,11 @@ export default class EquipmentModel extends BaseItemModel {
     // Add Weapon fields
     schema.requirements = makeStrField();
     schema.damage = makeStrField();
+    schema.damageAlt = makeStrField();
     schema.grip = makeRequiredStrField('one');
     schema.reloaded = makeBooField(true);
 
-    schema.traits = new fields.SchemaField({
+    /*schema.traits = new fields.SchemaField({
       ammunition: makeBooField(false),
       bludgeoning: makeBooField(false),
       brutal: makeBooField(false),
@@ -54,7 +55,11 @@ export default class EquipmentModel extends BaseItemModel {
       special: makeBooField(false),
       thrown: makeBooField(false),
       versatile: makeBooField(false)
-    });
+    });*/
+
+    schema.traits = new fields.SetField(
+      makeRequiredStrField()
+    );
 
     schema.attackRider = new fields.SchemaField({
       name: makeStrField(),
@@ -101,13 +106,11 @@ export default class EquipmentModel extends BaseItemModel {
         
         // Assign disadvantages
         if (disadvantagesList.includes(p) && properties[p]) disadvantages[p] = true;
-        
       }
 
       source.traits = traits;
       source.advantages = advantages;
       source.disadvantages = disadvantages;
-
     }
 
     // Migrate old traits to new ones
@@ -133,13 +136,11 @@ export default class EquipmentModel extends BaseItemModel {
 
     // Migrate weapon requirements
     if ('requirements' in source) {
-      
       switch (source.requirements) {
         case 'str10': source.requirements = 'str11'; break;
         case 'agi14': source.requirements = 'agi13'; break;
         case 'int10agi12': source.requirements = 'agi12'; break;
       }
-
     }
 
     // Convert Health recover to Health regain
@@ -154,6 +155,9 @@ export default class EquipmentModel extends BaseItemModel {
 
     // Apply lowercase to grip field
     if (source.grip !== source.grip?.toLowerCase()) source.grip = source.grip.toLowerCase();
+
+    // Convert object traits to set
+    if ('traits' in source && !Array.isArray(source.traits)) source.traits = Object.keys(source.traits).filter(key => source.traits[key] === true);
     
     return super.migrateData(source);
   }

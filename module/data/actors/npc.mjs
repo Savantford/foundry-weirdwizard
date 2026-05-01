@@ -1,5 +1,5 @@
 import BaseActorModel from './base-creature.mjs';
-import { makeIntField, makeUuidStrField } from '../field-presets.mjs';
+import { makeIntField, makeStrField, makeUuidStrField } from '../field-presets.mjs';
 
 export default class NpcModel extends BaseActorModel {
 
@@ -23,8 +23,10 @@ export default class NpcModel extends BaseActorModel {
     schema.stats.fields.health.fields.normal = makeIntField(10);
     schema.stats.fields.health.fields.current = makeIntField(10);
 
-    // Add Character Details
-    schema.details = new fields.SchemaField({});
+    // Add details
+    schema.details = new fields.SchemaField({
+      individualTraits: makeStrField(),
+    });
 
     return schema;
   }
