@@ -1,18 +1,29 @@
 {{!-- Compendium Index Tab --}}
 <section class="tab {{tab.cssClass}}" data-group="primary" data-tab="index">
 
+    <div class="ci-list">
+        {{{index.all}}}
+    </div>
+
     {{!-- Equipment --}}
-    <h2>{{localize "WW.Sage.Index.Equipment"}}</h2>
+    <h2 class="mt-2">{{localize "TYPES.Item.equipment"}}</h2>
 
     <div class="ci-list">
         {{{index.equipment}}}
     </div>
 
     {{!-- Character Options --}}
-    <h2 class="mt-2">{{localize "WW.Sage.Index.CharOptions"}}</h2>
+    <h2 class="mt-2">{{localize "WW.CharOptions.Label"}}</h2>
 
     <div class="ci-list">
         {{{index.charOptions}}}
+    </div>
+
+    {{!-- Character Options --}}
+    <h2 class="mt-2">{{localize "WW.Index.Other"}}</h2>
+
+    <div class="ci-list">
+        {{{index.other}}}
     </div>
 
     {{!-- Secrets --}}

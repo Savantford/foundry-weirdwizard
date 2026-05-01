@@ -10,7 +10,7 @@ export default class GroupModel extends foundry.abstract.TypeDataModel {
     const schema = {
       // Details
       details: new fields.SchemaField({
-        origin: makeHtmlField(i18n("WW.Group.OriginDefault")),
+        origin: makeHtmlField(`<p>${i18n("WW.Group.OriginDefault")}</p>`),
         achievements: makeHtmlField(),
         notes: makeHtmlField()
       }),

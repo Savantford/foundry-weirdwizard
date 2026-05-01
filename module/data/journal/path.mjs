@@ -18,6 +18,8 @@ export default class PathModel extends BaseCharOptionModel {
       benefit4: makeBenefitField()
     });
 
+    schema.benefits.fields.benefit1.fields.attributes = makeStrField();
+
     return schema;
   }
 

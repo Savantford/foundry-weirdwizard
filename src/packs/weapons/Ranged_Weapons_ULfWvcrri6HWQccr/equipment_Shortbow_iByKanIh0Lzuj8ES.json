@@ -1,0 +1,77 @@
+{
+  "name": "Shortbow",
+  "type": "equipment",
+  "_id": "iByKanIh0Lzuj8ES",
+  "img": "icons/weapons/bows/shortbow-arrows-black.webp",
+  "system": {
+    "description": "<p>A shortbow is a smaller, more compact version of the bow, designed for use from the back of a steed. You can use a shortbow as a two-handed improvised melee weapon.</p>",
+    "active": true,
+    "quantity": 1,
+    "weightUnit": 1,
+    "price": {
+      "value": 5,
+      "coin": "sp"
+    },
+    "availability": "common",
+    "attribute": "agi",
+    "against": "def",
+    "boons": 0,
+    "range": 20,
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": true,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": "manual",
+    "template": {
+      "type": "size",
+      "value": 5
+    },
+    "subtype": "weapon",
+    "quality": "standard",
+    "heldBy": "",
+    "requirements": "str12",
+    "damage": "2d6",
+    "grip": "two",
+    "traits": [
+      "light",
+      "range",
+      "ammunition"
+    ],
+    "attackRider": {
+      "value": {
+        "value": ""
+      },
+      "name": ""
+    },
+    "reloaded": true,
+    "armorType": "light",
+    "capacity": 1,
+    "grantedBy": null,
+    "magical": false
+  },
+  "effects": [],
+  "folder": "ULfWvcrri6HWQccr",
+  "sort": 103125,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.350",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1721407724331,
+    "modifiedTime": 1769799933396,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "exportSource": null
+  },
+  "_key": "!items!iByKanIh0Lzuj8ES"
+}

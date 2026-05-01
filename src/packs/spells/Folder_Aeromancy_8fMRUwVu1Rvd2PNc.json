@@ -1,0 +1,26 @@
+{
+  "name": "Aeromancy",
+  "sorting": "m",
+  "folder": null,
+  "type": "Item",
+  "_id": "8fMRUwVu1Rvd2PNc",
+  "description": "",
+  "sort": 0,
+  "color": null,
+  "flags": {
+    "weirdwizard": {
+      "description": ""
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1744749194722,
+    "modifiedTime": 1744749746571,
+    "lastModifiedBy": "zin7Kb6P2LomswaD"
+  },
+  "_key": "!folders!8fMRUwVu1Rvd2PNc"
+}

@@ -121,7 +121,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
   /*  Data Preparation                            */
   /* -------------------------------------------- */
 
-  /** @override 
+  /**
+   * @override 
    * Data modifications in this step occur before processing embedded
    * documents (including active effects) or derived data.
   */
@@ -917,7 +918,6 @@ export default class WWActor extends WWDocumentMixin(Actor) {
       sound: CONFIG.sounds.notification
     })
 
-    //this.incapacitated = newTotal >= this.system.stats.health.current; - probably overwritten
     this.update({ 'system.stats.damage.value': newTotal });
   }
 
@@ -925,13 +925,14 @@ export default class WWActor extends WWDocumentMixin(Actor) {
 
   /* Apply loss to Health */
   async applyHealthLoss(loss) {
-    const oldCurrent = this.system.stats.health.current;
+    const rawCurrent = this._source.system.stats.health.current; // Use raw because temporary changes are added later
     loss = parseInt(loss);
-    const current = (oldCurrent - loss) > 0 ? oldCurrent - loss : 0;
-
+    const newCurrent = (rawCurrent - loss) > 0 ? rawCurrent - loss : 0;
+    const temp = this.system.stats.health.current - rawCurrent; // Diference between final vs raw current Health
+    
     const content = `
       <p>@UUID[${this.uuid}] ${i18n('WW.InstantEffect.Apply.Lost')} ${loss} ${i18n('WW.InstantEffect.Apply.Health')}.</p>
-      <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${oldCurrent} <i class="fa-solid fa-arrow-right"></i> ${current}</p>
+      <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${rawCurrent + temp} <i class="fa-solid fa-arrow-right"></i> ${newCurrent + temp}</p>
     `;
 
     ChatMessage.create({
@@ -941,7 +942,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
       sound: CONFIG.sounds.notification
     })
 
-    this.update({ 'system.stats.health.current': current });
+    this.update({ 'system.stats.health.current': newCurrent });
   }
 
   /* -------------------------------------------- */
@@ -949,14 +950,15 @@ export default class WWActor extends WWDocumentMixin(Actor) {
   /* Apply lost Health regain */
   async applyHealthRegain(max) {
     const lost = this.system.stats.health.lost;
-    const oldCurrent = this.system.stats.health.current;
+    const rawCurrent = this._source.system.stats.health.current; // Use raw because temporary changes are added later
     max = parseInt(max);
     const regained = max > lost ? lost : max;
-    const current = oldCurrent + regained;
+    const newCurrent = rawCurrent + regained;
+    const temp = this.system.stats.health.current - rawCurrent; // Diference between final vs raw current Health
     
     const content = `
       <p>@UUID[${this.uuid}] ${i18n('WW.InstantEffect.Apply.Regained')} ${regained} ${i18n('WW.InstantEffect.Apply.Health')}.</p>
-      <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${oldCurrent} <i class="fa-solid fa-arrow-right"></i> ${current}</p>
+      <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${rawCurrent + temp} <i class="fa-solid fa-arrow-right"></i> ${newCurrent + temp}</p>
     `;
 
     ChatMessage.create({
@@ -966,7 +968,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
       sound: CONFIG.sounds.notification
     })
 
-    this.update({ 'system.stats.health.current': current });
+    this.update({ 'system.stats.health.current': newCurrent });
   }
 
   /* -------------------------------------------- */

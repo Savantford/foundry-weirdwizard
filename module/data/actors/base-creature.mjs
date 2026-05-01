@@ -9,7 +9,7 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
 
     const schema = {
       // Description
-      description: makeHtmlField(i18n("WW.Actor.DescriptionDefault")),
+      description: makeHtmlField(),
       
       // Attributes
       attributes: new fields.SchemaField({
@@ -39,7 +39,7 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
           max: makeIntField()
         }),
 
-        size: makeFloField(),
+        size: makeFloField(1),
 
         speed: new fields.SchemaField({
           normal: makeIntField(5),
@@ -159,7 +159,7 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
     if ('details' in source && source.details?.immune) source.details.immunities = source.details.immune;
 
     // Migrate entry lists from array to object to system.listEntries
-    if ('details' in source/* && 'listEntries' in source*/) {
+    if ('details' in source) {
       const listKeys = ['senses', 'descriptors', 'languages', 'immunities', 'movementTraits', 'traditions'];
       
       for (const key in source.details) {
@@ -167,27 +167,28 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
         
         // Check for the listKeys and if it's an array
         if (source.details.hasOwnProperty(key) && listKeys.includes(key)) {
-          
           if (Array.isArray(prop)) {
-            
             if (prop.length) {
               const map = prop.map(value => [value.name ? camelCase(value.name) : camelCase(value), value]);
 
               if (!source.listEntries) source.listEntries = {};
 
               source.listEntries[key] = Object.fromEntries(map);
-            }
-            
-          }
-          
+            } 
+          } 
         }
-
-      }
-      
+      } 
     }
 
-    // Migrate description to a single string
-    if (typeof source.description === 'object') source.description = source.description.value;
+    // Migrate invalid UUIDs
+    if ('listEntries' in source) {
+      for (const [listKey, list] of Object.entries(source.listEntries)) {
+        for (const [entryKey, entry] of Object.entries(list)) {
+          if (!entry?.grantedBy) continue;
+          if (!entry.grantedBy.includes('.')) source.listEntries[listKey][entryKey].grantedBy = null;
+        }
+      }
+    }
 
     return source;
   }

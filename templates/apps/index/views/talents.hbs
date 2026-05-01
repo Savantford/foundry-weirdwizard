@@ -1,0 +1,37 @@
+<section class="view talents">
+    {{!-- Header Row --}}
+    <li class="item flexrow items-header">
+        <div class="item-image"></div>
+    
+        {{#each colHeaders as |header id|}}
+            {{> "systems/weirdwizard/templates/apps/index/parts/col-header.hbs" data=header }}
+        {{/each}}
+    </li>
+
+    {{!-- Rows --}}
+    <ol class="item-list">
+        {{#each documents as |doc id|}}
+        <li class="item flexrow flex-group-left" data-doc-uuid="{{uuid}}">
+            {{!-- Icon --}}
+            <div class="item-image"><img src="{{img}}" data-tooltip="{{name}}" width="24" height="24" /></div>
+
+            {{!-- Name --}}
+            <div class="item-name">
+                <a data-action="openSheet" data-doc-uuid="{{uuid}}" data-tooltip="{{tooltip}}">{{name}}</a>
+            </div>
+
+            <div class="flex-width-60">{{ talentType }}</div>
+            <div class="flex-width-50">
+                {{#if talentType}}<i class="fa-solid {{#if talentMagical}}fa-check{{else}}fa-xmark-large{{/if}}"></i>{{/if}}
+            </div>
+            <div>{{#if (eq talentUses "inf")}}<span class="x-large">∞</span>{{else}}{{ talentUses }}{{/if}}</div>
+
+            {{!-- Used By --}}
+            <div>{{{ talentUsedBy }}}</div>
+
+            <div class="item-last">{{{system.descriptionEnriched}}}</div>
+
+        </li>
+        {{/each}}
+    </ol>
+</section>
