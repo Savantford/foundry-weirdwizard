@@ -21,13 +21,13 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
       template: 'systems/weirdwizard/templates/generic/side-tabs.hbs'
     },
     details: {
-      template: "systems/weirdwizard/templates/configs/active-effect/details.hbs",
+      template: "systems/weirdwizard/templates/sheets/active-effects/details.hbs",
     },
     duration: {
-      template: "systems/weirdwizard/templates/configs/active-effect/duration.hbs",
+      template: "systems/weirdwizard/templates/sheets/active-effects/duration.hbs",
     },
     changes: {
-      template: "systems/weirdwizard/templates/configs/active-effect/changes.hbs",
+      template: "systems/weirdwizard/templates/sheets/active-effects/changes.hbs",
       scrollable: ["ol[data-changes]"],
     }
   }
