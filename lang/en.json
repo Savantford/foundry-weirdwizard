@@ -689,7 +689,7 @@
 "WW.Effect.HandledByItem": "This effect is handled by the item indicated in the Source column. If you want to edit it, please check the item sheet instead.",
 "WW.Effect.HandledByCharOption": "This effect is a benefit handled by a character option. If you want to edit it, please edit the character option instead of the effect itself.",
 
-"WW.Effect.Duration.Label": "Effect Duration",
+"WW.Effect.Duration.Label": "Duration Preset",
 "WW.Effect.Duration.Short": "Duration",
 "WW.Effect.Duration.StartRound": "Effect Start Round",
 "WW.Effect.Duration.InRounds": "Duration in Rounds",

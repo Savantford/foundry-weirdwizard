@@ -1,24 +1,6 @@
-<section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+<section class="tab{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
 
-  <div class="form-group">
-    <label>{{ localize "WW.Effect.Duration.Label"}}</label>
-    
-    <div class="form-fields">
-
-      {{!-- Selected Duration --}}
-      <select name="system.duration.selected" class="duration-selection">
-        <option label="{{localize "WW.Effect.Duration.None"}}" value="none"></option>
-        {{#each durationOptions as |category i|}}
-        <optgroup label="{{localize category.header}}">
-          {{selectOptions category.options selected=@root.document.system.duration.selected localize=true}}
-        </optgroup>
-        {{/each}}
-      </select>
-
-    </div>
-
-  </div>
-
+  <h4>Old Block START</h4>
   {{!-- Duration in Seconds (Out of Combat) --}}
   {{#if document.duration.seconds}}
   
@@ -90,5 +72,72 @@
       <input type="checkbox" name="system.duration.autoExpire" {{checked document.system.duration.autoExpire}}>
     </div>
   </div>
+
+  <h4>Old Block END</h4>
+
+  {{!-- V14 Template --}}
+  <div class="form-group">
+    <label>{{ localize "WW.Effect.Duration.Label"}}</label>
+    
+    <div class="form-fields">
+
+      {{!-- Selected Duration --}}
+      <select name="system.duration.selected" class="duration-selection">
+        <option label="{{localize "WW.Effect.Duration.None"}}" value="none"></option>
+        {{#each durationOptions as |category i|}}
+        <optgroup label="{{localize category.header}}">
+          {{selectOptions category.options selected=@root.document.system.duration.selected localize=true}}
+        </optgroup>
+        {{/each}}
+      </select>
+
+    </div>
+
+  </div>
+
+  {{!-- Duration Start --}}
+  {{#if start}}
+  <fieldset class="start-data">
+    <legend>{{localize "EFFECT.START.Header"}}</legend>
+    <div class="form-group">
+      <span class="label">{{localize "EFFECT.FIELDS.start.time.label"}}</span>
+      <div class="form-fields">{{start.time}}</div>
+    </div>
+    {{#if start.combat}}
+    <div class="form-group">
+      <span class="label">{{localize "DOCUMENT.Combat"}}</span>
+      <div class="form-fields">
+        {{localize "EFFECT.START.Combat" round=start.round turn=start.turn}}
+      </div>
+    </div>
+    {{#if start.combatant}}
+    <div class="form-group">
+      <span class="label">{{localize "DOCUMENT.Combatant"}}</span>
+      <div class="form-fields">
+        {{localize "EFFECT.START.Combatant" combatant=start.combatantName initiative=start.combatantInitiative}}
+      </div>
+    </div>
+    {{/if}}
+    {{/if}}
+  </fieldset>
+  {{/if}}
+
+  {{!-- Duration Block --}}
+  <h3>{{localize "EFFECT.DURATION.Header"}}</h3>
+  
+  <div class="form-group slim duration" data-duration>
+    <label class="flexrow" for="{{rootId}}-duration.value">
+      <span>{{localize "EFFECT.DURATION.Label"}}</span>
+      <span class="warning" hidden><i class="fa-duotone fa-triangle-exclamation"></i></span>
+    </label>
+    <div class="form-fields">
+      {{formInput fields.duration.fields.value value=source.duration.value id=(concat rootId "-duration.value")
+      aria=(object label=(localize "EFFECT.FIELDS.duration.value.label"))}}
+      {{formInput fields.duration.fields.units value=source.duration.units id=(concat rootId "-duration.units")
+      options=durationUnits aria=(object label=(localize "EFFECT.FIELDS.duration.units.label"))}}
+    </div>
+  </div>
+
+  {{formGroup fields.duration.fields.expiry choices=expiryEvents value=source.duration.expiry rootId=rootId}}
 
 </section>
