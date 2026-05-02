@@ -67,20 +67,20 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     sidetabs: { template: 'systems/weirdwizard/templates/generic/side-tabs.hbs' },
     
     details: {
-      template: 'systems/weirdwizard/templates/items/details/tab.hbs',
+      template: 'systems/weirdwizard/templates/sheets/items/details/tab.hbs',
       templates: [
-        'systems/weirdwizard/templates/items/header.hbs',
-        'systems/weirdwizard/templates/items/details/equipment.hbs',
-        'systems/weirdwizard/templates/items/details/talent.hbs',
-        'systems/weirdwizard/templates/items/details/spell.hbs'
+        'systems/weirdwizard/templates/sheets/items/header.hbs',
+        'systems/weirdwizard/templates/sheets/items/details/equipment.hbs',
+        'systems/weirdwizard/templates/sheets/items/details/talent.hbs',
+        'systems/weirdwizard/templates/sheets/items/details/spell.hbs'
       ],
     },
 
     automation: {
-      template: 'systems/weirdwizard/templates/items/automation/tab.hbs',
+      template: 'systems/weirdwizard/templates/sheets/items/automation/tab.hbs',
       templates: [
-        'systems/weirdwizard/templates/items/automation/settings.hbs',
-        'systems/weirdwizard/templates/items/automation/effects.hbs'
+        'systems/weirdwizard/templates/sheets/items/automation/settings.hbs',
+        'systems/weirdwizard/templates/sheets/items/automation/effects.hbs'
       ]
     }
     
@@ -250,7 +250,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       case 'details':
         context.tab = context.tabs[partId];
         
-        context.detailsPartial = [`systems/weirdwizard/templates/items/details/${this.item.type}.hbs`];
+        context.detailsPartial = [`systems/weirdwizard/templates/sheets/items/details/${this.item.type}.hbs`];
       break;
       
       // Effects tab
