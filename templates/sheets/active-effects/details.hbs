@@ -6,8 +6,8 @@
 
   {{#if isActorEffect}}
   {{formGroup fields.origin value=source.origin rootId=rootId disabled=true}}
-  {{/if}}
-  {{#if isItemEffect}}
+  {{else if isItemEffect}}
+  {{!-- Trigger --}}
   <div class="form-group">
     <label>{{ localize "WW.Effect.Trigger" }}</label>
     <select name="system.trigger">
@@ -15,14 +15,17 @@
     </select>
   </div>
 
+  {{!-- Target --}}
   <div class="form-group">
     <label>{{ localize "WW.Effect.Target" }}</label>
     <select name="system.target">
       {{selectOptions targets selected=document.system.target localize=true}}
     </select>
   </div>
-  {{formGroup fields.transfer value=source.transfer rootId=rootId label=legacyTransfer.label hint=legacyTransfer.hint}}
+
+  {{formGroup fields.transfer value=source.transfer rootId=rootId}}
   {{/if}}
 
   {{formGroup fields.statuses value=source.statuses options=statuses rootId=rootId classes="statuses"}}
+  {{formGroup fields.showIcon value=source.showIcon options=showIconOptions rootId=rootId}}
 </section>
