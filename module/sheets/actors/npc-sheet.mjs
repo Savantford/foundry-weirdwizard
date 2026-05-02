@@ -31,30 +31,30 @@ export default class WWNpcSheet extends WWCreatureSheet {
   static PARTS = {
     // View Mode Parts:
     sidetabs: { template: 'systems/weirdwizard/templates/generic/side-tabs.hbs' },
-    namestripe: { template: 'systems/weirdwizard/templates/actors/name-stripe.hbs' },
+    namestripe: { template: 'systems/weirdwizard/templates/sheets/actors/name-stripe.hbs' },
     banner: {
-      template: 'systems/weirdwizard/templates/actors/npc/banner.hbs',
+      template: 'systems/weirdwizard/templates/sheets/actors/npc/banner.hbs',
       templates: [
-        'systems/weirdwizard/templates/actors/portrait.hbs'
+        'systems/weirdwizard/templates/sheets/actors/portrait.hbs'
       ]
     },
     summary: {
-      template: 'systems/weirdwizard/templates/actors/npc/summary.hbs',
+      template: 'systems/weirdwizard/templates/sheets/actors/npc/summary.hbs',
       templates: [
-        'systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs',
-        'systems/weirdwizard/templates/actors/npc/parts/summary-weapon.hbs',
+        'systems/weirdwizard/templates/sheets/actors/npc/parts/summary-item.hbs',
+        'systems/weirdwizard/templates/sheets/actors/npc/parts/summary-weapon.hbs',
         'systems/weirdwizard/templates/generic/list-entry.hbs'
       ]
     },
-    description: { template: 'systems/weirdwizard/templates/actors/npc/description.hbs' },
-    effects: { template: 'systems/weirdwizard/templates/actors/effects.hbs' },
+    description: { template: 'systems/weirdwizard/templates/sheets/actors/npc/description.hbs' },
+    effects: { template: 'systems/weirdwizard/templates/sheets/actors/effects.hbs' },
     // Edit Mode Parts:
     npcform: {
-      template: 'systems/weirdwizard/templates/actors/npc/form.hbs',
+      template: 'systems/weirdwizard/templates/sheets/actors/npc/form.hbs',
       scrollable: [''],
       templates: [
-        'systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs',
-        'systems/weirdwizard/templates/actors/npc/parts/summary-weapon.hbs',
+        'systems/weirdwizard/templates/sheets/actors/npc/parts/summary-item.hbs',
+        'systems/weirdwizard/templates/sheets/actors/npc/parts/summary-weapon.hbs',
         'systems/weirdwizard/templates/generic/list-entry.hbs'
       ]
     },

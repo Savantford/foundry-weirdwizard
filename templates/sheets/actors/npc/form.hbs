@@ -117,7 +117,7 @@
           <label>{{localize "WW.Equipment.Label"}}:</label>
         
           {{#each equipment as |item id|}}
-            {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id isEditMode=@root.isEditMode }}
+            {{> "systems/weirdwizard/templates/sheets/actors/npc/parts/summary-item.hbs" item=item id=id isEditMode=@root.isEditMode }}
           {{else}}
             <span>—</span>
           {{/each}}
@@ -308,7 +308,7 @@
         {{#if talents.length}}
         <ol class="described-list">
           {{#each talents as |item id|}}
-          {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id isEditMode=@root.isEditMode }}
+          {{> "systems/weirdwizard/templates/sheets/actors/npc/parts/summary-item.hbs" item=item id=id isEditMode=@root.isEditMode }}
           {{/each}}
         </ol>
         {{/if}}
@@ -344,7 +344,7 @@
         {{#if weapons.length}}
         <ol class="described-list attacks-list">
           {{#each weapons as |item id|}}
-          {{> "systems/weirdwizard/templates/actors/npc/parts/summary-weapon.hbs" item=item id=id isEditMode=@root.isEditMode }}
+          {{> "systems/weirdwizard/templates/sheets/actors/npc/parts/summary-weapon.hbs" item=item id=id isEditMode=@root.isEditMode }}
           {{/each}}
         </ol>
         {{/if}}
@@ -353,7 +353,7 @@
         {{#if actions.length}}
         <ol class="described-list actions-list">
           {{#each actions as |item id|}}
-          {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id isEditMode=@root.isEditMode }}
+          {{> "systems/weirdwizard/templates/sheets/actors/npc/parts/summary-item.hbs" item=item id=id isEditMode=@root.isEditMode }}
           {{/each}}
         </ol>
         {{/if}}
@@ -362,7 +362,7 @@
         {{#if spells.length}}
         <ol class="described-list spells-list">
           {{#each spells as |item id|}}
-          {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id isEditMode=@root.isEditMode }}
+          {{> "systems/weirdwizard/templates/sheets/actors/npc/parts/summary-item.hbs" item=item id=id isEditMode=@root.isEditMode }}
           {{/each}}
         </ol>
         {{/if}}
@@ -382,7 +382,7 @@
   
         <ol class="described-list">
           {{#each reactions as |item id|}}
-          {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id isEditMode=@root.isEditMode }}
+          {{> "systems/weirdwizard/templates/sheets/actors/npc/parts/summary-item.hbs" item=item id=id isEditMode=@root.isEditMode }}
           {{/each}}
         </ol>
   
@@ -401,7 +401,7 @@
   
         <ol class="described-list">
           {{#each end as |item id|}}
-          {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id isEditMode=@root.isEditMode }}
+          {{> "systems/weirdwizard/templates/sheets/actors/npc/parts/summary-item.hbs" item=item id=id isEditMode=@root.isEditMode }}
           {{/each}}
         </ol>
   

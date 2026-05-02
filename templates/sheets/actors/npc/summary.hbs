@@ -42,7 +42,7 @@
                     <label>{{localize "WW.Equipment.Label"}}:</label>
                     
                     {{#each equipment as |item id|}}
-                        {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
+                        {{> "systems/weirdwizard/templates/sheets/actors/npc/parts/summary-item.hbs" item=item id=id}}
                     {{/each}}
 
                     {{#unless equipment.length}}<span>—</span>{{/unless}}
@@ -96,7 +96,7 @@
                 {{#if talents.length}}
                 <ol class="described-list">
                     {{#each talents as |item id|}}
-                        {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
+                        {{> "systems/weirdwizard/templates/sheets/actors/npc/parts/summary-item.hbs" item=item id=id}}
                     {{/each}}
                 </ol>
                 {{/if}}
@@ -122,21 +122,21 @@
                 {{!-- Attacks --}}
                 <ol class="described-list attacks-list">
                     {{#each weapons as |item id|}}
-                        {{> "systems/weirdwizard/templates/actors/npc/parts/summary-weapon.hbs" item=item id=id}}
+                        {{> "systems/weirdwizard/templates/sheets/actors/npc/parts/summary-weapon.hbs" item=item id=id}}
                     {{/each}}
                 </ol>
                 
                 {{!-- Special Actions --}}
                 <ol class="described-list actions-list">
                     {{#each actions as |item id|}}
-                        {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
+                        {{> "systems/weirdwizard/templates/sheets/actors/npc/parts/summary-item.hbs" item=item id=id}}
                     {{/each}}
                 </ol>
 
                 {{!-- Spells --}}
                 <ol class="described-list spells-list">
                     {{#each spells as |item id|}}
-                        {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
+                        {{> "systems/weirdwizard/templates/sheets/actors/npc/parts/summary-item.hbs" item=item id=id}}
                     {{/each}}
                 </ol>
 
@@ -155,7 +155,7 @@
                 
                 <ol class="described-list">
                     {{#each reactions as |item id|}}
-                        {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
+                        {{> "systems/weirdwizard/templates/sheets/actors/npc/parts/summary-item.hbs" item=item id=id}}
                     {{/each}}
                 </ol>
 
@@ -174,7 +174,7 @@
                 
                 <ol class="described-list">
                     {{#each end as |item id|}}
-                        {{> "systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs" item=item id=id}}
+                        {{> "systems/weirdwizard/templates/sheets/actors/npc/parts/summary-item.hbs" item=item id=id}}
                     {{/each}}
                 </ol>
 

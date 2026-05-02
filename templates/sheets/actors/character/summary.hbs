@@ -298,7 +298,7 @@
                 <div>
                     <ol class="described-list">
                         {{#each weapons as |item id|}}
-                            {{> "systems/weirdwizard/templates/actors/character/parts/summary-weapon.hbs" item=item id=id}}
+                            {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-weapon.hbs" item=item id=id}}
                         {{/each}}
                     </ol>
                 </div>
@@ -316,7 +316,7 @@
 
                 <ol class="compact-list stat">
                     {{#each talents as |item id|}}
-                        {{> "systems/weirdwizard/templates/actors/character/parts/summary-item.hbs" item=item id=id}}
+                        {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-item.hbs" item=item id=id}}
                     {{/each}}
                 </ol>
 
@@ -326,7 +326,7 @@
 
                 <ol class="compact-list stat">
                     {{#each actions as |item id|}}
-                        {{> "systems/weirdwizard/templates/actors/character/parts/summary-item.hbs" item=item id=id}}
+                        {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-item.hbs" item=item id=id}}
                     {{/each}}
                 </ol>
                 {{/if}}
@@ -337,7 +337,7 @@
 
                 <ol class="compact-list stat">
                     {{#each reactions as |item id|}}
-                        {{> "systems/weirdwizard/templates/actors/character/parts/summary-item.hbs" item=item id=id}}
+                        {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-item.hbs" item=item id=id}}
                     {{/each}}
                 </ol>
                 {{/if}}
@@ -377,7 +377,7 @@
                 {{!-- Spells List --}}
                 <ol class="compact-list stat">
                     {{#each spells as |item id|}}
-                        {{> "systems/weirdwizard/templates/actors/character/parts/summary-item.hbs" item=item id=id}}
+                        {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-item.hbs" item=item id=id}}
                     {{/each}}
                 </ol>
                 
