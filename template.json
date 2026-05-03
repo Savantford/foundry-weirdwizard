@@ -9,7 +9,7 @@
     "htmlFields": []
   },
   "ActiveEffect": {
-    "types": ["benefit"],
+    "types": ["generic", "benefit", "affliction"],
     "htmlFields": []
   },
   "JournalEntryPage": {
