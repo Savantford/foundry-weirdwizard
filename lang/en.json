@@ -689,7 +689,8 @@
 "WW.Effect.Duration.OutOfCombat.Hours": "X hours (Choose value)",
 "WW.Effect.Duration.OutOfCombat.Days": "X days (Choose value)",
 
-"WW.Effect.Keys.None": "No Effect",
+"WW.Effect.Keys.None": "No Change",
+"WW.Effect.Keys.Custom": "Custom Change",
 
 "WW.Effect.Keys.Boons.Header": "Boons on Attribute rolls",
 "WW.Effect.Keys.Boons.Strength": "Boons on Strength rolls +",

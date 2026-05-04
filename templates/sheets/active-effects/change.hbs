@@ -1,4 +1,4 @@
-<li class="change" data-index="{{index}}">
+<li class="change statbox" data-index="{{index}}">
   {{!-- Header --}}
   <div class="header">
     <div class="preset">
@@ -12,7 +12,7 @@
     </div>
 
     <div class="controls">
-      <button type="button" class="inline-control icon fa-solid fa-eye" data-action="toggleDetails"></button>
+      {{#if change.preset}}<button type="button" class="inline-control icon fa-solid fa-eye" data-action="toggleDetails"></button>{{/if}}
       <button type="button" class="inline-control icon fa-solid fa-trash" data-action="deleteChange"></button>
     </div>
   </div>

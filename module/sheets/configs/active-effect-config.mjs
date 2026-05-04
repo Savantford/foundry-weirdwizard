@@ -88,7 +88,10 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
         const fields = effect.system.schema.fields.changes.element.fields;
         
         // Prepare change preset options
-        const changePresetOptions = [];
+        const changePresetOptions = [{
+          value: 'custom',
+          label: _loc("WW.Effect.Keys.Custom")
+        }];
 
         for (const [groupKey, groupData] of Object.entries(CONFIG.WW.EFFECT_CHANGE_PRESET_DATA)) {
           const group = _loc(groupData.header);
@@ -122,7 +125,7 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
           change = {
             ... change,
             ... changeDataPreset,
-            key: CONFIG.WW.EFFECT_CHANGE_PRESET_KEYS[change.preset]
+            key: CONFIG.WW.EFFECT_CHANGE_PRESET_KEYS[change.preset] ?? change.key
           };
 
           // Assign field
