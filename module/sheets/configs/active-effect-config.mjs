@@ -126,19 +126,16 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
           };
 
           // Assign field
-          switch (valueType) {
+          switch (valueType) { // TODO - Automate somehow using character.schema.getField(change.key) or something else
             case 'boo': change.field = makeBooField(true); break;
             case 'flo': change.field = makeFloField(); break;
             case 'int': change.field = makePosIntField(); break;
             case 'str': change.field = makeStrField(); break;
             default: change.field = makeStrField(); break;
           }
-          //const actor = new WWActor;
-          /*console.log(actor)
-          console.log(new WWActor.system.getFieldForProperty('test'))*/
           
           // Ensure integer field does not have true or false as value
-          if (valueType === 'int' & (change.value === 'true' || change.value === 'false')) change.value = 1;
+          if (valueType === 'int' && (change.value === 'true' || change.value === 'false')) change.value = 1;
 
           change.typedValue = change.field.clean(change.value);
 
@@ -175,6 +172,7 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
         paths[`${fieldName}Path`] = `system.changes.${index}.${fieldName}`;
         return paths;
       }, {}));
+    
     return ActiveEffect.CHANGE_TYPES[change.type].render?.(context)
       ?? foundry.applications.handlebars.renderTemplate("systems/weirdwizard/templates/sheets/active-effects/change.hbs", context);
   }

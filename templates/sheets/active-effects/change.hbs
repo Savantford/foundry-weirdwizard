@@ -4,32 +4,42 @@
     <div class="preset">
       {{formInput fields.preset name=change.presetPath value=change.preset options=changePresetOptions blank=(localize "WW.Effect.Keys.None")}}
       
-      {{#if change.preset}}
-        {{formInput change.field name=change.valuePath value=change.typedValue}} {{!-- value=change.value --}}
+      {{#if (and change.preset change.field)}}
+        {{formInput change.field name=change.valuePath value=change.typedValue}}
+      {{else if change.preset}}
+        {{formInput fields.value name=change.valuePath value=change.value}}
       {{/if}}
     </div>
 
     <div class="controls">
+      <button type="button" class="inline-control icon fa-solid fa-eye" data-action="toggleDetails"></button>
       <button type="button" class="inline-control icon fa-solid fa-trash" data-action="deleteChange"></button>
     </div>
   </div>
 
+  {{#if change.preset}}
+  <div class="key">
+    <strong>{{localize "EFFECT.FIELDS.changes.element.key.label"}}:</strong>
+    {{formInput fields.key name=change.keyPath value=change.key disabled=(ne change.preset 'custom')}}
+  </div>
+
   {{!-- Details --}}
   <div class="details">
-    <div class="key">
-      <strong>{{localize "EFFECT.FIELDS.changes.element.key.label"}}:</strong>
-      {{formInput fields.key name=change.keyPath value=change.key disabled=(ne change.preset 'custom')}}
-    </div>
+    {{!-- Type --}}
     <div class="type">
       <strong>{{localize "EFFECT.FIELDS.changes.element.type.label"}}:</strong>
       {{formInput fields.type name=change.typePath value=change.type choices=changeTypes disabled=(ne change.preset 'custom')}}
     </div>
 
+    {{!-- Phase --}}
     <input type="hidden" name="{{change.phasePath}}" value="{{change.phase}}">
 
+    {{!-- Priority --}}
     <div class="priority">
       <strong>{{localize "EFFECT.FIELDS.changes.element.priority.label"}}:</strong>
       {{formInput fields.priority name=change.priorityPath value=change.priority placeholder=defaultPriority disabled=(ne change.preset 'custom')}}
     </div>
   </div>
+  {{/if}}
+
 </li>

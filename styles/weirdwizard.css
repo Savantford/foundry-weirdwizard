@@ -6806,12 +6806,14 @@ body {
       .change {
         display: flex;
         flex-flow: column;
+        width: 100%;
         background: var(--background-color-shadow);
         border: solid 1px var(--purple-dark);
         border-radius: 5px;
 
         .header,
-        .details {
+        .details,
+        .key {
           display: flex;
           flex-flow: wrap;
           align-items: center;
@@ -6827,12 +6829,21 @@ body {
           }
         }
 
-        .header {
-          border-bottom: 1px solid var(--purple-dark);
+        .key {
+          border-top: 1px solid var(--purple-dark);
+          padding-bottom: 0;
+          flex-flow: nowrap;
+          gap: 5px;
+        }
 
+        .header {
           .controls {
             margin-left: auto;
           }
+        }
+
+        input[type="number"] {
+          flex: 0 50px;
         }
       }
     }
