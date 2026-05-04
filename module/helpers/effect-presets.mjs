@@ -169,19 +169,19 @@ function subInt(priority = null) {
 /* -------------------------------------------- */
 
 function overInt(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.OVERRIDE, 'int', priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.override, 'int', priority);
 }
 
 /* -------------------------------------------- */
 
 function upInt(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.UPGRADE, 'int', priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.upgrade, 'int', priority);
 }
 
 /* -------------------------------------------- */
 
 function downInt(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.DOWNGRADE, 'int', priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.downgrade, 'int', priority);
 }
 
 /* -------------------------------------------- */
@@ -193,26 +193,26 @@ function addFlo(priority = null) {
 /* -------------------------------------------- */
 
 function overFlo(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.OVERRIDE, 'flo', priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.override, 'flo', priority);
 }
 
 /* -------------------------------------------- */
 
 function upFlo(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.UPGRADE, 'flo', priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.upgrade, 'flo', priority);
 }
 
 /* -------------------------------------------- */
 
 function downFlo(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.DOWNGRADE, 'flo', priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.downgrade, 'flo', priority);
 }
 
 /* -------------------------------------------- */
 
 function setBoo(priority = null) {
   console.log(CONST.ACTIVE_EFFECT_CHANGE_TYPES)
-  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.OVERRIDE, 'boo', priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.override, 'boo', priority);
 }
 
 /* -------------------------------------------- */

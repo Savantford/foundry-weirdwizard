@@ -16,28 +16,28 @@ export const subtractEffect = (key, value, priority) => ({
 export const multiplyEffect = (key, value, priority) => ({
   key: key,
   value: parseInt(value),
-  type: CONST.ACTIVE_EFFECT_CHANGE_TYPES.MULTIPLY,
+  type: CONST.ACTIVE_EFFECT_CHANGE_TYPES.multiply,
   priority: priority
 })
 
 export const overrideEffect = (key, value, priority) => ({
   key: key,
   value: (value !== true) ? parseInt(value) : true,
-  type: CONST.ACTIVE_EFFECT_CHANGE_TYPES.OVERRIDE,
+  type: CONST.ACTIVE_EFFECT_CHANGE_TYPES.override,
   priority: priority
 })
 
 export const upgradeEffect = (key, value, priority) => ({
   key: key,
   value: parseInt(value),
-  type: CONST.ACTIVE_EFFECT_CHANGE_TYPES.UPGRADE,
+  type: CONST.ACTIVE_EFFECT_CHANGE_TYPES.upgrade,
   priority: priority
 })
 
 export const downgradeEffect = (key, value, priority) => ({
   key: key,
   value: parseInt(value),
-  type: CONST.ACTIVE_EFFECT_CHANGE_TYPES.DOWNGRADE,
+  type: CONST.ACTIVE_EFFECT_CHANGE_TYPES.downgrade,
   priority: priority
 })
 
