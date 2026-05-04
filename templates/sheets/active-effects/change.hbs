@@ -5,7 +5,6 @@
       {{formInput fields.preset name=change.presetPath value=change.preset options=changePresetOptions blank=(localize "WW.Effect.Keys.None")}}
       
       {{#if change.preset}}
-      {{log change}}
         {{formInput change.field name=change.valuePath value=change.typedValue}} {{!-- value=change.value --}}
       {{/if}}
     </div>
@@ -19,18 +18,18 @@
   <div class="details">
     <div class="key">
       <strong>{{localize "EFFECT.FIELDS.changes.element.key.label"}}:</strong>
-      {{formInput fields.key name=change.keyPath value=change.key}}
+      {{formInput fields.key name=change.keyPath value=change.key disabled=(ne change.preset 'custom')}}
     </div>
     <div class="type">
       <strong>{{localize "EFFECT.FIELDS.changes.element.type.label"}}:</strong>
-      {{formInput fields.type name=change.typePath value=change.type choices=changeTypes}}
+      {{formInput fields.type name=change.typePath value=change.type choices=changeTypes disabled=(ne change.preset 'custom')}}
     </div>
 
     <input type="hidden" name="{{change.phasePath}}" value="{{change.phase}}">
 
     <div class="priority">
       <strong>{{localize "EFFECT.FIELDS.changes.element.priority.label"}}:</strong>
-      {{formInput fields.priority name=change.priorityPath value=change.priority placeholder=defaultPriority}}
+      {{formInput fields.priority name=change.priorityPath value=change.priority placeholder=defaultPriority disabled=(ne change.preset 'custom')}}
     </div>
   </div>
 </li>

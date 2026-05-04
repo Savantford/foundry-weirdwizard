@@ -156,63 +156,61 @@ changePresets.reduceAttribute = {
 */
 
 function addInt(priority = null) {
-  console.log(CONST.ACTIVE_EFFECT_CHANGE_TYPES)
-  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.add, 'int', priority);
+  return makeChangeData('add', 'int', priority);
 }
 
 /* -------------------------------------------- */
 
 function subInt(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.subtract, 'int', priority);
+  return makeChangeData('subtract', 'int', priority);
 }
 
 /* -------------------------------------------- */
 
 function overInt(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.override, 'int', priority);
+  return makeChangeData('override', 'int', priority);
 }
 
 /* -------------------------------------------- */
 
 function upInt(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.upgrade, 'int', priority);
+  return makeChangeData('upgrade', 'int', priority);
 }
 
 /* -------------------------------------------- */
 
 function downInt(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.downgrade, 'int', priority);
+  return makeChangeData('downgrade', 'int', priority);
 }
 
 /* -------------------------------------------- */
 
 function addFlo(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.add, 'flo', priority);
+  return makeChangeData('add', 'flo', priority);
 }
 
 /* -------------------------------------------- */
 
 function overFlo(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.override, 'flo', priority);
+  return makeChangeData('override', 'flo', priority);
 }
 
 /* -------------------------------------------- */
 
 function upFlo(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.upgrade, 'flo', priority);
+  return makeChangeData('upgrade', 'flo', priority);
 }
 
 /* -------------------------------------------- */
 
 function downFlo(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.downgrade, 'flo', priority);
+  return makeChangeData('downgrade', 'flo', priority);
 }
 
 /* -------------------------------------------- */
 
 function setBoo(priority = null) {
-  console.log(CONST.ACTIVE_EFFECT_CHANGE_TYPES)
-  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.override, 'boo', priority);
+  return makeChangeData('override', 'boo', priority);
 }
 
 /* -------------------------------------------- */
@@ -265,8 +263,6 @@ export function initializeEffectLookups() {
  * @returns {{type:CONST.ACTIVE_EFFECT_CHANGE_TYPES, priority:(number|null), valueType:'boo'|'flo'|'int'|'str'}|null}
  */
 export function getEffectChangeMeta(presetKey) {
-  console.log(changePresets)
-  console.log(CONST.ACTIVE_EFFECT_CHANGE_TYPES)
   try {
     return presetKey.split('.').reduce((o, i) => o?.[i], changePresets) ?? null;
   } catch (e) {

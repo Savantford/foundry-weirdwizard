@@ -15,6 +15,7 @@ body {
   /* Colors */
   --body-text-color: #000000;
   --placeholder-text-color: #777777;
+  --disabled-text-color: #555555;
   --gray: #BCBEC0;
   --pink: #DBD3DC;
   --pink-medium: #D2C8D3;
@@ -602,7 +603,7 @@ body.theme-dark.application.weirdwizard .window-content {
   /* Readjust on some sheets */
 }
 
-.application.weirdwizard.sheet:not(.roll-table-sheet) .window-content {
+.application.weirdwizard.sheet:not(.roll-table-sheet):not(.active-effect-config) .window-content {
   padding-right: 0.25rem;
 }
 
@@ -909,9 +910,6 @@ body.theme-dark.application.weirdwizard .window-content {
   line-height: normal;
   height: auto;
   min-height: 1lh;
-  font-size: inherit;
-  color: inherit;
-  font-weight: inherit;
 }
 
 .weirdwizard.application textarea {
@@ -931,18 +929,21 @@ body.theme-dark.application.weirdwizard .window-content {
   select,
   textarea {
     --input-text-color: var(--body-text-color);
-    background: var(--background-color-shadow);
+    --input-placeholder-color: var(--placeholder-text-color);
+    --input-background-color: var(--background-color-shadow);
     border: 1px solid transparent;
+  }
+
+  input[type="number"]:disabled,
+  input[type="text"]:disabled,
+  select:disabled,
+  textarea:disabled {
+    --input-text-color: var(--disabled-text-color);
   }
 
   input[type="checkbox"] {
     height: var(--checkbox-size);
   }
-}
-
-.weirdwizard.sheet input:hover,
-.weirdwizard.sheet input:focus {
-  background: none;
 }
 
 .weirdwizard input:hover:not([disabled]) {
@@ -1000,17 +1001,15 @@ body.theme-dark.application.weirdwizard .window-content {
 
 /* Selects dropdown */
 .weirdwizard select {
-  --input-background-color: transparent;
   --input-placeholder-color: var(--placeholder-text-color);
   height: auto;
   width: max-content;
   min-height: 1lh;
   line-height: normal;
   padding: 0;
-  color: var(--body-text-color);
 }
 
-.weirdwizard select:hover {
+.weirdwizard select:hover:not([disabled]) {
   outline: 2px solid var(--input-focus-outline-color);
 }
 
@@ -1436,8 +1435,7 @@ body.theme-dark.application.weirdwizard .window-content {
 .weirdwizard.sheet.active-effect-config,
 .weirdwizard.sheet.group {
   header.sheet-header {
-    padding-right: 0.75rem;
-    padding-left: 0.75rem;
+    padding-left: 1rem;
     gap: 0;
 
     img[data-edit] {
@@ -1488,6 +1486,13 @@ body.theme-dark.application.weirdwizard .window-content {
   height: fit-content;
   flex: 0 230px;
   height: 100%;
+}
+
+.weirdwizard.sheet.group {
+  header.sheet-header {
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+  }
 }
 
 /* Sheet Name Stripe */
@@ -6771,9 +6776,6 @@ body {
   input[type="text"],
   select {
     --input-height: 100%;
-    background: var(--background-color-shadow);
-    appearance: auto;
-    width: 100%;
   }
 
   input[type="color"] {
@@ -6827,6 +6829,10 @@ body {
 
         .header {
           border-bottom: 1px solid var(--purple-dark);
+
+          .controls {
+            margin-left: auto;
+          }
         }
       }
     }

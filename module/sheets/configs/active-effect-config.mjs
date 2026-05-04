@@ -115,36 +115,27 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
         partContext.changes = await Promise.all(foundry.utils.deepClone(context.source.changes).map((change, index) => {
           const defaultPriority = ActiveEffect.CHANGE_TYPES[change.type]?.defaultPriority;
           
-          const changeDataPreset = getEffectChangeMeta(change.preset);
+          const changeDataPreset = getEffectChangeMeta(change.preset); // TODO - Remove this intermediary function
           const valueType = changeDataPreset?.valueType ?? 'str';
           
           // Pass preset data to the change
-          change = {... change, ...changeDataPreset};
-          console.log(changeDataPreset)
+          change = {
+            ... change,
+            ... changeDataPreset,
+            key: CONFIG.WW.EFFECT_CHANGE_PRESET_KEYS[change.preset]
+          };
 
           // Assign field
-          console.log(valueType)
           switch (valueType) {
-            case 'boo': {
-              change.field = makeBooField(true);
-            }; break;
-
-            case 'flo': {
-              change.field = makeFloField();
-            } break;
-
-            case 'int': {
-              change.field = makePosIntField();
-            } break;
-
-            case 'str': {
-              change.field = makeStrField();
-            } break;
+            case 'boo': change.field = makeBooField(true); break;
+            case 'flo': change.field = makeFloField(); break;
+            case 'int': change.field = makePosIntField(); break;
+            case 'str': change.field = makeStrField(); break;
+            default: change.field = makeStrField(); break;
           }
           //const actor = new WWActor;
           /*console.log(actor)
           console.log(new WWActor.system.getFieldForProperty('test'))*/
-          
           
           // Ensure integer field does not have true or false as value
           if (valueType === 'int' & (change.value === 'true' || change.value === 'false')) change.value = 1;
@@ -176,7 +167,7 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
    */
   async _renderChange(context) {
     const {change, index} = context;
-    //console.log(change)
+
     if ( typeof change.value !== "string" ) change.value = JSON.stringify(change.value);
     Object.assign(
       change,
