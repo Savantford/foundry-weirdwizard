@@ -814,21 +814,21 @@ function _convertKey(change) {
       } else { // Match not found
         if (oldKey.includes('defense.total')) {
           
-          if (change.mode == 2) {
+          if (change.type == 2) {
             newKey = 'defense.bonus';
             break;
 
-          } else if (change.mode == 4 || change.mode == 5) {
+          } else if (change.type == 4 || change.type == 5) {
             newKey = 'defense.armored';
             break;
           }
         } else if (oldKey.includes('defense.natural')) {
           
-          if (change.mode == 2) {
+          if (change.type == 2) {
             newKey = change.value < 0 ? 'defense.naturalReduce' : 'defense.naturalIncrease';
             break;
 
-          } else if (change.mode == 4 || change.mode == 5) {
+          } else if (change.type == 4 || change.type == 5) {
             newKey = 'defense.natural';
             break;
           }

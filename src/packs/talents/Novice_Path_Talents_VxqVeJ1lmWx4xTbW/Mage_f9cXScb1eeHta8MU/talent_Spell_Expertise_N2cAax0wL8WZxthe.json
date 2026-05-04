@@ -60,7 +60,7 @@
         {
           "key": "boons.spells",
           "value": "1",
-          "mode": 2,
+          "": 2,
           "priority": null
         }
       ],

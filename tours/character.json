@@ -94,7 +94,7 @@
                 "changes": [
                   {
                     "key": "system.boons.attributes.str.global",
-                    "mode": 2,
+                    "type": 2,
                     "priority": null,
                     "value": 1
                   }
@@ -133,7 +133,7 @@
                 "changes": [
                   {
                     "key": "system.stats.defense.armored",
-                    "mode": 4,
+                    "type": 4,
                     "priority": null,
                     "value": 13
                   }
@@ -160,7 +160,7 @@
             "changes": [
               {
                 "key": "system.boons.attributes.luck.global",
-                "mode": 2,
+                "type": 2,
                 "priority": null,
                 "value": 1
               }
@@ -176,7 +176,7 @@
             "changes": [
               {
                 "key": "system.boons.attacks.global",
-                "mode": 2,
+                "type": 2,
                 "priority": null,
                 "value": 1
               }

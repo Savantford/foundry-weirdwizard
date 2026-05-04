@@ -6790,7 +6790,47 @@ body {
   }
 
   /* Active Effect Config: Changes Tab */
-  [data-tab="changes"] {
+  .tab.changes {
+    h3 {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    ol {
+      display: flex;
+      flex-flow: column;
+      padding: 0;
+
+      .change {
+        display: flex;
+        flex-flow: column;
+        background: var(--background-color-shadow);
+        border: solid 1px var(--purple-dark);
+        border-radius: 5px;
+
+        .header,
+        .details {
+          display: flex;
+          flex-flow: wrap;
+          align-items: center;
+          gap: 5px 10px;
+          padding: 5px;
+
+          > * {
+            display: flex;
+            flex-flow: nowrap;
+            align-items: center;
+            gap: 0 5px;
+            white-space: nowrap;
+          }
+        }
+
+        .header {
+          border-bottom: 1px solid var(--purple-dark);
+        }
+      }
+    }
+
     .item {
       font-size: var(--font-size-14);
     }
@@ -6799,7 +6839,7 @@ body {
       background: none;
     }
 
-    .items-header>* {
+    .items-header > * {
       font-size: var(--font-size-14);
     }
 

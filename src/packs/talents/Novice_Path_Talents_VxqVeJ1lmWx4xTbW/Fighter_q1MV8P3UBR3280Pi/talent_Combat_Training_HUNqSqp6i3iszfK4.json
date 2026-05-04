@@ -61,7 +61,7 @@
         {
           "key": "boons.attacks",
           "value": "1",
-          "mode": 2,
+          "": 2,
           "priority": null
         }
       ],

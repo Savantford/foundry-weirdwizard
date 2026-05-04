@@ -18,7 +18,7 @@ export const makeIntField = (init = 0) => new fields.NumberField({
 export const makePosIntField = (init = 0) => new fields.NumberField({
   required: true,
   initial: init,
-  min: 1,
+  min: 0,
   nullable: true,
   integer: true,
   clean: true

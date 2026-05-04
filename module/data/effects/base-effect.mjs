@@ -17,14 +17,15 @@ export default class BaseEffectModel extends foundry.data.ActiveEffectTypeDataMo
         inDays: makePosIntField(null),
         autoExpire: makeBooField(true)
       }),
+
+      durationPreset: makeRequiredStrField('none'),
       
       grantedBy: makeUuidStrField(),
     }
     
     // Custom Changes fields
     schema.changes.element.extendFields({
-      presetKey: makeStrField(),
-      presetValue: makeStrField()
+      preset: makeStrField()
     });
 
     return schema;
@@ -32,6 +33,9 @@ export default class BaseEffectModel extends foundry.data.ActiveEffectTypeDataMo
 
   /** @inheritdoc */
   static migrateData(data) {
+    if (data.duration?.selected) data.durationPreset = data.duration.selected;
+
+    // Migrate changes (from DrawSteel)
     let migrateChanges = false;
 
     /*for (const change of data.system?.changes ?? []) {
@@ -56,8 +60,6 @@ export default class BaseEffectModel extends foundry.data.ActiveEffectTypeDataMo
     if (foundry.utils.hasProperty(data, oldExpiry) && (data.duration?.expiry === null)) {
       foundry.utils.setProperty(data, "flags.draw-steel.oldExpiry", data.system.end.type);
     }*/
-
-    console.log(data)
 
     return super.migrateData(data);
   }

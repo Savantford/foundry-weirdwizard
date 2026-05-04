@@ -87,13 +87,13 @@
         {
           "key": "defense.armored",
           "value": "14",
-          "mode": 4,
+          "": 4,
           "priority": 1
         },
         {
           "key": "defense.naturalIncrease",
           "value": "2",
-          "mode": 2,
+          "": 2,
           "priority": null
         }
       ],

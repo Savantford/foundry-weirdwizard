@@ -1,6 +1,9 @@
 import WWSheetMixin from '../ww-sheet.mjs';
 import { getEffectChangeMeta } from '../../helpers/effect-presets.mjs';
 import { makeBooField, makeFloField, makePosIntField, makeStrField } from '../../data/field-presets.mjs';
+import CharacterModel from '../../data/actors/character.mjs';
+import WWActor from '../../documents/actor.mjs';
+
 
 export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applications.sheets.ActiveEffectConfig) {
   /** @inheritDoc */
@@ -28,7 +31,8 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
     },
     changes: {
       template: "systems/weirdwizard/templates/sheets/active-effects/changes.hbs",
-      scrollable: ["ol[data-changes]"],
+      templates: ["systems/weirdwizard/templates/sheets/active-effects/change.hbs"],
+      scrollable: ["ol[data-changes]"]
     }
   }
 
@@ -60,30 +64,66 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
   async _preparePartContext(partId, context) {
     const partContext = await super._preparePartContext(partId, context);
     if ( partId in partContext.tabs ) partContext.tab = partContext.tabs[partId];
+    const effect = this.document;
     
     switch (partId) {
-      case 'details': {
+      // Details Tab
+      case "details":
         // If effect has duration, use instant triggers since they remove "passive" option
         partContext.triggers = this.document.isTemporary ? CONFIG.WW.INSTANT_TRIGGERS : CONFIG.WW.EFFECT_TRIGGERS;
         partContext.targets = CONFIG.WW.EFFECT_TARGETS;
-      } break;
+        break;
+
+      // Duration tab
       case 'duration': {
-        // Prepare durationSelect dropdown
+        // Prepare options for the duration preset dropdown
         partContext.durationOptions = CONFIG.WW.EFFECT_DURATIONS;
 
-        // Pass down durations to display
+        // Pass down durations to display - not needed anymore?
         partContext.formattedStartTime = game.weirdwizard.utils.formatTime(this.document.duration.startTime, 1);
       } break;
-      case 'changes': {
-        partContext.effectChangeOptions = CONFIG.WW.EFFECT_CHANGE_PRESET_DATA;
-        partContext.source.changes = partContext.source.changes.map(change => {
-          const changeDataPreset = getEffectChangeMeta(change.key);
-          const valueType = changeDataPreset?.valueType ?? 'str';
 
+      // Changes tab
+      case 'changes': {
+        const fields = effect.system.schema.fields.changes.element.fields;
+        
+        // Prepare change preset options
+        const changePresetOptions = [];
+
+        for (const [groupKey, groupData] of Object.entries(CONFIG.WW.EFFECT_CHANGE_PRESET_DATA)) {
+          const group = _loc(groupData.header);
+
+          for (const [presetKey, presetData] of Object.entries(groupData.options)) {  
+            changePresetOptions.push({
+              value: presetKey,
+              label: _loc(presetData.label),
+              group
+            })
+          }
+        }
+
+        // Prepare changeTypes
+        const changeTypes = Object.entries(ActiveEffect.CHANGE_TYPES)
+          .map(([type, {label}]) => ({type, label: _loc(label)}))
+          .sort((a, b) => a.label.localeCompare(b.label, game.i18n.lang))
+          .reduce((types, {type, label}) => {
+            types[type] = label;
+            return types;
+          }, {});
+        
+        // Prepare changes
+        partContext.changes = await Promise.all(foundry.utils.deepClone(context.source.changes).map((change, index) => {
+          const defaultPriority = ActiveEffect.CHANGE_TYPES[change.type]?.defaultPriority;
+          
+          const changeDataPreset = getEffectChangeMeta(change.preset);
+          const valueType = changeDataPreset?.valueType ?? 'str';
+          
           // Pass preset data to the change
           change = {... change, ...changeDataPreset};
+          console.log(changeDataPreset)
 
           // Assign field
+          console.log(valueType)
           switch (valueType) {
             case 'boo': {
               change.field = makeBooField(true);
@@ -101,18 +141,51 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
               change.field = makeStrField();
             } break;
           }
+          //const actor = new WWActor;
+          /*console.log(actor)
+          console.log(new WWActor.system.getFieldForProperty('test'))*/
+          
           
           // Ensure integer field does not have true or false as value
           if (valueType === 'int' & (change.value === 'true' || change.value === 'false')) change.value = 1;
 
           change.typedValue = change.field.clean(change.value);
 
-          return change;
-        })
+          return this._renderChange({change, index, fields, defaultPriority, changeTypes, changePresetOptions});
+        }));
+        
       } break;
     }
 
     return context;
+  }
+
+  /* ----------------------------------------- */
+
+  /**
+   * @override
+   * Prepare render context for a single change object.
+   * @param {object} context                   Data for rendering the change row
+   * @param {EffectChangeData} context.change  A copy of the change from the Effect's source array
+   * @param {number} context.index             The change object's index in the array
+   * @param {DataSchema} context.fields        The defined fields of the change data
+   * @param {number} context.defaultPriority   The change type's default priority
+   * @param {Record<string, string>} context.changeTypes All change types and their localized labels
+   * @returns {Promise<string>}
+   * @protected
+   */
+  async _renderChange(context) {
+    const {change, index} = context;
+    //console.log(change)
+    if ( typeof change.value !== "string" ) change.value = JSON.stringify(change.value);
+    Object.assign(
+      change,
+      ["key", "type", "value", "phase", "priority", "preset"].reduce((paths, fieldName) => {
+        paths[`${fieldName}Path`] = `system.changes.${index}.${fieldName}`;
+        return paths;
+      }, {}));
+    return ActiveEffect.CHANGE_TYPES[change.type].render?.(context)
+      ?? foundry.applications.handlebars.renderTemplate("systems/weirdwizard/templates/sheets/active-effects/change.hbs", context);
   }
 
   /* -------------------------------------------- */

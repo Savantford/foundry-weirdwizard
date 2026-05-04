@@ -590,52 +590,6 @@
 "WW.Effects.Permanent": "Efeitos Permanentes",
 "WW.Effects.Inactive": "Efeitos Inativos",
 
-"DOCUMENT.ActiveEffect": "Efeito Ativo",
-"EFFECT.MODE_CUSTOM": "Customizar",
-"EFFECT.MODE_MULTIPLY": "Multiplicar",
-"EFFECT.MODE_ADD": "Adicionar",
-"EFFECT.MODE_DOWNGRADE": "Diminuir",
-"EFFECT.MODE_UPGRADE": "Aumentar até X",
-"EFFECT.MODE_OVERRIDE": "Substituir até X",
-"EFFECT.TransferLegacy": "Transferir Efeito para o Ator",
-"EFFECT.TransferHintLegacy": "Se selecionado, o Efeito será copiado para o Personagem quando seu Item-fonte for criado em um Personagem e excluído se o mesmo for removido.",
-"EFFECT.DurationTurns": "Duração do Efeito (Combate)",
-"EFFECT.StartTurns": "Início do Efeito",
-"EFFECT.ChangeKey": "Atributo-Chave",
-"EFFECT.ChangeMode": "Change Mode",
-"EFFECT.ChangeValue": "Valor",
-"EFFECT.ChangePriority": "Prioridade",
-"EFFECT.Submit": "Submit Change",
-"EFFECT.FIELDS": {
-  "name.label": "Nome do Efeito",
-  "img.label": "Ícone do Efeito",
-  "tint.label": "Cor do Ícone",
-  "description.label": "Descrição do Efeito",
-  "disabled.label": "Efeito Suspenso",
-  "origin.label": "Origem do Efeito",
-  "transfer": {
-    "label": "Aplicar Efeito ao Personagem",
-    "hint": "Se selecionado, o Efeito será aplicado a quem possuir a fonte geradora do mesmo."
-  },
-  "statuses.label": "Condições de Status",
-  "duration": {
-    "seconds.label": "Duração do Efeito (em segundos)",
-    "rounds.label": "Rodadas",
-    "turns.label": "Turnos",
-    "startTime.label": "Tempo de Início do Efeito",
-    "startRound.label": "Rodada",
-    "startTurn.label": "Turno",
-    "combat.label": "Combate"
-  }
-},
-"EFFECT.TABS": {
-  "details": "Detalhes",
-  "duration": "Duração",
-  "changes": "Alterações"
-},
-"EFFECT.StatusDead": "Morto",
-"EFFECT.StatusInvisible": "Invisível",
-
 "WW.Effect.Temporary": "Efeito Temporário",
 "WW.Effect.Permanent": "Efeito Permanente",
 "WW.Effect.Create": "Criar Efeito",

@@ -586,63 +586,63 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     if (stats.naturalSet) changes.push({
       key: 'defense.natural',
       value: stats.naturalSet,
-      mode: 5,
+      type: 5,
       priority: 1
     })
 
     if (cOpt.system.tier === 'novice') changes.push({
       key: 'health.starting',
       value: stats.healthStarting,
-      mode: 5,
+      type: 5,
       priority: 1
     })
 
     if (stats.naturalIncrease) changes.push({
       key: 'defense.naturalIncrease',
       value: stats.naturalIncrease,
-      mode: 2,
+      type: 2,
       priority: null
     })
 
     if (stats.armoredIncrease) changes.push({
       key: 'defense.armoredIncrease',
       value: stats.armoredIncrease,
-      mode: 2,
+      type: 2,
       priority: null
     })
     
     if (stats.healthIncrease) changes.push({
       key: 'health.increase',
       value: stats.healthIncrease,
-      mode: 2,
+      type: 2,
       priority: null
     })
 
     if (stats.sizeNormal) changes.push({
       key: 'size.normal',
       value: stats.sizeNormal,
-      mode: 5,
+      type: 5,
       priority: 1
     })
 
     if (stats.speedNormal) changes.push({
       key: 'speed.normal',
       value: stats.speedNormal,
-      mode: 5,
+      type: 5,
       priority: 1
     })
 
     if (stats.speedIncrease) changes.push({
       key: 'speed.increase',
       value: stats.speedIncrease,
-      mode: 2,
+      type: 2,
       priority: null
     })
 
     if (stats.bonusDamage) changes.push({
       key: 'bonusDamage.increase',
       value: stats.bonusDamage,
-      mode: 2,
+      type: 2,
       priority: null
     })
     

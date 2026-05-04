@@ -87,7 +87,7 @@
         {
           "key": "defense.armored",
           "value": "17",
-          "mode": 4,
+          "": 4,
           "priority": 1
         }
       ],

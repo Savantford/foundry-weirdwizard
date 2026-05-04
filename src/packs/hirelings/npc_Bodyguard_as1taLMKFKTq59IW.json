@@ -153,7 +153,7 @@
     "flags": {},
     "randomImg": false,
     "turnMarker": {
-      "mode": 1,
+      "": 1,
       "animation": null,
       "src": null,
       "disposition": false
@@ -252,7 +252,7 @@
             {
               "key": "defense.armored",
               "value": "15",
-              "mode": 4,
+              "": 4,
               "priority": 1
             }
           ],
@@ -411,7 +411,7 @@
             {
               "key": "defense.bonus",
               "value": "2",
-              "mode": 2,
+              "": 2,
               "priority": null
             }
           ],

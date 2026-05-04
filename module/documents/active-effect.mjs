@@ -220,7 +220,7 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
    */
 
   static applyChange(targetDoc, change, {replacementData={}, modifyTarget=true}={}) {
-    // Weird Wizard: Replace presetKey with real change key
+    // Weird Wizard: Replace preset with real change key
     change.key = CONFIG.WW.EFFECT_CHANGE_PRESET_KEYS[change.key]; // Better solution pending
 
     let field;

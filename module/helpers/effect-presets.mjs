@@ -1,4 +1,4 @@
-// Effect change metadata registry (label-keyed). Example: "boons.str" -> { mode, valueType, priority }
+// Effect change metadata registry (label-keyed). Example: "boons.str" -> { type, valueType, priority }
 export const changePresets = {};
 // Back-compat clearer alias; prefer this in new code
 export { changePresets as effectChangeMetaRegistry };
@@ -151,18 +151,19 @@ changePresets.reduceAttribute = {
 /* -------------------------------------------- */
 /*  Simplified Change Data making functions     */
 /* -------------------------------------------- */
-/* Modes:
+/* Types:
   https://foundryvtt.com/api/variables/CONST.ACTIVE_EFFECT_CHANGE_TYPES.html
 */
 
 function addInt(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.ADD, 'int', priority);
+  console.log(CONST.ACTIVE_EFFECT_CHANGE_TYPES)
+  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.add, 'int', priority);
 }
 
 /* -------------------------------------------- */
 
 function subInt(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.SUBTRACT, 'int', priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.subtract, 'int', priority);
 }
 
 /* -------------------------------------------- */
@@ -186,7 +187,7 @@ function downInt(priority = null) {
 /* -------------------------------------------- */
 
 function addFlo(priority = null) {
-  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.ADD, 'flo', priority);
+  return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.add, 'flo', priority);
 }
 
 /* -------------------------------------------- */
@@ -210,6 +211,7 @@ function downFlo(priority = null) {
 /* -------------------------------------------- */
 
 function setBoo(priority = null) {
+  console.log(CONST.ACTIVE_EFFECT_CHANGE_TYPES)
   return makeChangeData(CONST.ACTIVE_EFFECT_CHANGE_TYPES.OVERRIDE, 'boo', priority);
 }
 
@@ -217,14 +219,14 @@ function setBoo(priority = null) {
 
 /**
  * Make a change data object to use in Active Effects.
- * @param {*} mode      The change's Mode (Add, Override, etc)
+ * @param {*} type      The change's Type (Add, Override, etc)
  * @param {*} valueType The change data Type (Integer, Boolean, etc)
  * @param {*} priority  The effect's Priority
  * @returns 
  */
-function makeChangeData(mode, valueType, priority = null) {
+function makeChangeData(type, valueType, priority = null) {
   return {
-    mode: mode,
+    type: type,
     priority: priority,
     valueType: valueType
   };
@@ -259,12 +261,14 @@ export function initializeEffectLookups() {
 /**
  * Resolve metadata for an effect change option given its label key (e.g., "boons.str").
  * Returns null if no metadata exists.
- * @param {string} labelKey
- * @returns {{mode:CONST.ACTIVE_EFFECT_CHANGE_TYPES, priority:(number|null), valueType:'boo'|'flo'|'int'|'str'}|null}
+ * @param {string} presetKey
+ * @returns {{type:CONST.ACTIVE_EFFECT_CHANGE_TYPES, priority:(number|null), valueType:'boo'|'flo'|'int'|'str'}|null}
  */
-export function getEffectChangeMeta(labelKey) {
+export function getEffectChangeMeta(presetKey) {
+  console.log(changePresets)
+  console.log(CONST.ACTIVE_EFFECT_CHANGE_TYPES)
   try {
-    return labelKey.split('.').reduce((o, i) => o?.[i], changePresets) ?? null;
+    return presetKey.split('.').reduce((o, i) => o?.[i], changePresets) ?? null;
   } catch (e) {
     return null;
   }
@@ -273,7 +277,7 @@ export function getEffectChangeMeta(labelKey) {
 /* -------------------------------------------- */
 
 // Stable local copies of lookups for safe use in UI context
-export const effectLookups = { keys: {}, labels: {}, types: {}, modes: {}, priorities: {} };
+export const effectLookups = { keys: {}, labels: {}, types: {}, priorities: {} };
 
 /* -------------------------------------------- */
 
@@ -287,12 +291,12 @@ export const effectLookups = { keys: {}, labels: {}, types: {}, modes: {}, prior
 export function shapeEffectChangesForRender(changes=[]) {
   return (changes || []).map((c) => {
     const meta = getEffectChangeMeta(c.key) || {};
-    const hasMode = c?.mode !== undefined && c?.mode !== null && c?.mode !== '';
+    const hasType = c?.type !== undefined && c?.type !== null && c?.type !== '';
     const hasPriority = c?.priority !== undefined && c?.priority !== null && c?.priority !== '';
     return {
       ...c,
       valueType: meta.valueType,
-      mode: hasMode ? c.mode : meta.mode,
+      type: hasType ? c.type : meta.type,
       priority: hasPriority ? c.priority : meta.priority,
     };
   });

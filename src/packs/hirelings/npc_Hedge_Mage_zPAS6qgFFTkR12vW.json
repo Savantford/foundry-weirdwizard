@@ -158,7 +158,7 @@
     "flags": {},
     "randomImg": false,
     "turnMarker": {
-      "mode": 1,
+      "": 1,
       "animation": null,
       "src": null,
       "disposition": false

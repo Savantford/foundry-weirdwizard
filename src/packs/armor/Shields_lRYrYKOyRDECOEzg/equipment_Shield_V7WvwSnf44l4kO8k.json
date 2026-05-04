@@ -99,7 +99,7 @@
         {
           "key": "defense.bonus",
           "value": "2",
-          "mode": 2,
+          "": 2,
           "priority": null
         }
       ],
