@@ -483,6 +483,7 @@ WW.EFFECT_TARGETS_TARGETED = {
 }
 
 WW.EFFECT_DURATION_PRESETS = {
+  '1minute': 'WW.Effect.DurationPresets.1Minute',
   'luckEnds': 'WW.Effect.DurationPresets.LuckEnds',
   '1round': 'WW.Effect.DurationPresets.1Round',
   '2rounds': 'WW.Effect.DurationPresets.2Rounds',
@@ -491,435 +492,431 @@ WW.EFFECT_DURATION_PRESETS = {
   'nextTargetTurnStart': 'WW.Effect.DurationPresets.NextTargetTurnStart',
   'nextTriggerTurnEnd': 'WW.Effect.DurationPresets.NextTriggerTurnEnd',
   'nextTargetTurnEnd': 'WW.Effect.DurationPresets.NextTargetTurnEnd',
-  '1minute': 'WW.Effect.DurationPresets.1Minute',
-  'minutes': 'WW.Effect.DurationPresets.Minutes',
-  'hours': 'WW.Effect.DurationPresets.Hours',
-  'days': 'WW.Effect.DurationPresets.Days'
 }
 
 WW.EFFECT_CHANGE_PRESET_DATA = {
   boons: {
-    header: 'WW.Effect.Keys.Boons.Header',
+    header: 'WW.Effect.ChangePresets.Boons.Header',
     options: {
       'boons.str': {
         key: 'system.boons.selfRoll.str',
-        label: 'WW.Effect.Keys.Boons.Strength'
+        label: 'WW.Effect.ChangePresets.Boons.Strength'
       },
       'boons.agi': {
         key: 'system.boons.selfRoll.agi',
-        label: 'WW.Effect.Keys.Boons.Agility'
+        label: 'WW.Effect.ChangePresets.Boons.Agility'
       },
       'boons.int': {
         key: 'system.boons.selfRoll.int',
-        label: 'WW.Effect.Keys.Boons.Intellect'
+        label: 'WW.Effect.ChangePresets.Boons.Intellect'
       },
       'boons.wil': {
         key: 'system.boons.selfRoll.wil',
-        label: 'WW.Effect.Keys.Boons.Will'
+        label: 'WW.Effect.ChangePresets.Boons.Will'
       },
       'boons.luck': {
         key: 'system.boons.selfRoll.luck',
-        label: 'WW.Effect.Keys.Boons.Luck'
+        label: 'WW.Effect.ChangePresets.Boons.Luck'
       },
       'boons.attacks': {
         key: 'system.boons.selfRoll.attacks',
-        label: 'WW.Effect.Keys.Boons.Attacks'
+        label: 'WW.Effect.ChangePresets.Boons.Attacks'
       },
       'boons.spells': {
         key: 'system.boons.selfRoll.spells',
-        label: 'WW.Effect.Keys.Boons.Spells'
+        label: 'WW.Effect.ChangePresets.Boons.Spells'
       },
       'boons.resistMagical': {
         key: 'system.boons.selfRoll.resistMagical',
-        label: 'WW.Effect.Keys.Boons.ResistMagical'
+        label: 'WW.Effect.ChangePresets.Boons.ResistMagical'
       }
     }
   },
   banes: {
-    header: 'WW.Effect.Keys.Banes.Header',
+    header: 'WW.Effect.ChangePresets.Banes.Header',
     options: {
       'banes.str': {
         key: 'system.boons.selfRoll.str',
-        label: 'WW.Effect.Keys.Banes.Strength'
+        label: 'WW.Effect.ChangePresets.Banes.Strength'
       },
       'banes.agi': {
         key: 'system.boons.selfRoll.agi',
-        label: 'WW.Effect.Keys.Banes.Agility'
+        label: 'WW.Effect.ChangePresets.Banes.Agility'
       },
       'banes.int': {
         key: 'system.boons.selfRoll.int',
-        label: 'WW.Effect.Keys.Banes.Intellect'
+        label: 'WW.Effect.ChangePresets.Banes.Intellect'
       },
       'banes.wil': {
         key: 'system.boons.selfRoll.wil',
-        label: 'WW.Effect.Keys.Banes.Will'
+        label: 'WW.Effect.ChangePresets.Banes.Will'
       },
       'banes.luck': {
         key: 'system.boons.selfRoll.luck',
-        label: 'WW.Effect.Keys.Banes.Luck'
+        label: 'WW.Effect.ChangePresets.Banes.Luck'
       },
       'banes.attacks': {
         key: 'system.boons.selfRoll.attacks',
-        label: 'WW.Effect.Keys.Banes.Attacks'
+        label: 'WW.Effect.ChangePresets.Banes.Attacks'
       },
       'banes.spells': {
         key: 'system.boons.selfRoll.spells',
-        label: 'WW.Effect.Keys.Banes.Spells'
+        label: 'WW.Effect.ChangePresets.Banes.Spells'
       },
       'banes.resistMagical': {
         key: 'system.boons.selfRoll.resistMagical',
-        label: 'WW.Effect.Keys.Banes.ResistMagical'
+        label: 'WW.Effect.ChangePresets.Banes.ResistMagical'
       }
     }
   },
   autoFail: {
-    header: 'WW.Effect.Keys.AutoFail.Header',
+    header: 'WW.Effect.ChangePresets.AutoFail.Header',
     options: {
       'autoFail.str': {
         key: 'system.autoFail.str',
-        label: 'WW.Effect.Keys.AutoFail.Strength'
+        label: 'WW.Effect.ChangePresets.AutoFail.Strength'
       },
       'autoFail.agi': {
         key: 'system.autoFail.agi',
-        label: 'WW.Effect.Keys.AutoFail.Agility'
+        label: 'WW.Effect.ChangePresets.AutoFail.Agility'
       },
       'autoFail.int': {
         key: 'system.autoFail.int',
-        label: 'WW.Effect.Keys.AutoFail.Intellect'
+        label: 'WW.Effect.ChangePresets.AutoFail.Intellect'
       },
       'autoFail.wil': {
         key: 'system.autoFail.wil',
-        label: 'WW.Effect.Keys.AutoFail.Will'
+        label: 'WW.Effect.ChangePresets.AutoFail.Will'
       }
     }
   },
   boonsAgainst: {
-    header: 'WW.Effect.Keys.BoonsAgainst.Header',
+    header: 'WW.Effect.ChangePresets.BoonsAgainst.Header',
     options: {
       'boonsAgainst.def': {
         key: 'system.boons.against.def',
-        label: 'WW.Effect.Keys.BoonsAgainst.Defense'
+        label: 'WW.Effect.ChangePresets.BoonsAgainst.Defense'
       },
       'boonsAgainst.str': {
         key: 'system.boons.against.str',
-        label: 'WW.Effect.Keys.BoonsAgainst.Strength'
+        label: 'WW.Effect.ChangePresets.BoonsAgainst.Strength'
       },
       'boonsAgainst.agi': {
         key: 'system.boons.against.agi',
-        label: 'WW.Effect.Keys.BoonsAgainst.Agility'
+        label: 'WW.Effect.ChangePresets.BoonsAgainst.Agility'
       },
       'boonsAgainst.int': {
         key: 'system.boons.against.int',
-        label: 'WW.Effect.Keys.BoonsAgainst.Intellect'
+        label: 'WW.Effect.ChangePresets.BoonsAgainst.Intellect'
       },
       'boonsAgainst.wil': {
         key: 'system.boons.against.wil',
-        label: 'WW.Effect.Keys.BoonsAgainst.Will'
+        label: 'WW.Effect.ChangePresets.BoonsAgainst.Will'
       },
       'boonsAgainst.fromAttacks': {
         key: 'system.boons.against.fromAttacks',
-        label: 'WW.Effect.Keys.BoonsAgainst.FromAttacks'
+        label: 'WW.Effect.ChangePresets.BoonsAgainst.FromAttacks'
       },
       'boonsAgainst.fromSpells': {
         key: 'system.boons.against.fromSpells',
-        label: 'WW.Effect.Keys.BoonsAgainst.FromSpells'
+        label: 'WW.Effect.ChangePresets.BoonsAgainst.FromSpells'
       },
       'boonsAgainst.fromMagical': {
         key: 'system.boons.against.fromMagical',
-        label: 'WW.Effect.Keys.BoonsAgainst.FromMagical'
+        label: 'WW.Effect.ChangePresets.BoonsAgainst.FromMagical'
       }
     }
   },
   banesAgainst: {
-    header: 'WW.Effect.Keys.BanesAgainst.Header',
+    header: 'WW.Effect.ChangePresets.BanesAgainst.Header',
     options: {
       'banesAgainst.def': {
         key: 'system.boons.against.def',
-        label: 'WW.Effect.Keys.BanesAgainst.Defense'
+        label: 'WW.Effect.ChangePresets.BanesAgainst.Defense'
       },
       'banesAgainst.str': {
         key: 'system.boons.against.str',
-        label: 'WW.Effect.Keys.BanesAgainst.Strength'
+        label: 'WW.Effect.ChangePresets.BanesAgainst.Strength'
       },
       'banesAgainst.agi': {
         key: 'system.boons.against.agi',
-        label: 'WW.Effect.Keys.BanesAgainst.Agility'
+        label: 'WW.Effect.ChangePresets.BanesAgainst.Agility'
       },
       'banesAgainst.int': {
         key: 'system.boons.against.int',
-        label: 'WW.Effect.Keys.BanesAgainst.Intellect'
+        label: 'WW.Effect.ChangePresets.BanesAgainst.Intellect'
       },
       'banesAgainst.wil': {
         key: 'system.boons.against.wil',
-        label: 'WW.Effect.Keys.BanesAgainst.Will'
+        label: 'WW.Effect.ChangePresets.BanesAgainst.Will'
       },
       'banesAgainst.fromAttacks': {
         key: 'system.boons.against.fromAttacks',
-        label: 'WW.Effect.Keys.BanesAgainst.FromAttacks'
+        label: 'WW.Effect.ChangePresets.BanesAgainst.FromAttacks'
       },
       'banesAgainst.fromSpells': {
         key: 'system.boons.against.fromSpells',
-        label: 'WW.Effect.Keys.BanesAgainst.FromSpells'
+        label: 'WW.Effect.ChangePresets.BanesAgainst.FromSpells'
       },
       'banesAgainst.fromMagical': {
         key: 'system.boons.against.fromMagical',
-        label: 'WW.Effect.Keys.BanesAgainst.FromMagical'
+        label: 'WW.Effect.ChangePresets.BanesAgainst.FromMagical'
       }
     }
   },
   autoSuccessAgainst: {
-    header: 'WW.Effect.Keys.AutoSuccessAgainst.Header',
+    header: 'WW.Effect.ChangePresets.AutoSuccessAgainst.Header',
     options: {
       'autoSuccessAgainst.def': {
         key: 'system.autoSuccess.against.def',
-        label: 'WW.Effect.Keys.AutoSuccessAgainst.Defense'
+        label: 'WW.Effect.ChangePresets.AutoSuccessAgainst.Defense'
       },
       'autoSuccessAgainst.str': {
         key: 'system.autoSuccess.against.str',
-        label: 'WW.Effect.Keys.AutoSuccessAgainst.Strength'
+        label: 'WW.Effect.ChangePresets.AutoSuccessAgainst.Strength'
       },
       'autoSuccessAgainst.agi': {
         key: 'system.autoSuccess.against.agi',
-        label: 'WW.Effect.Keys.AutoSuccessAgainst.Agility'
+        label: 'WW.Effect.ChangePresets.AutoSuccessAgainst.Agility'
       },
       'autoSuccessAgainst.int': {
         key: 'system.autoSuccess.against.int',
-        label: 'WW.Effect.Keys.AutoSuccessAgainst.Intellect'
+        label: 'WW.Effect.ChangePresets.AutoSuccessAgainst.Intellect'
       },
       'autoSuccessAgainst.wil': {
         key: 'system.autoSuccess.against.wil',
-        label: 'WW.Effect.Keys.AutoSuccessAgainst.Will'
+        label: 'WW.Effect.ChangePresets.AutoSuccessAgainst.Will'
       }
     }
   },
   extraDamage: {
-    header: 'WW.Effect.Keys.ExtraDamage.Header',
+    header: 'WW.Effect.ChangePresets.ExtraDamage.Header',
     options: {
       'extraDamage.dice': {
         key: 'system.extraDamage.attacks.dice',
-        label: 'WW.Effect.Keys.ExtraDamage.Dice'
+        label: 'WW.Effect.ChangePresets.ExtraDamage.Dice'
       },
       'extraDamage.mod': {
         key: 'system.extraDamage.attacks.mod',
-        label: 'WW.Effect.Keys.ExtraDamage.Mod'
+        label: 'WW.Effect.ChangePresets.ExtraDamage.Mod'
       }
     }
   },
   defense: {
-    header: 'WW.Effect.Keys.Defense.Header',
+    header: 'WW.Effect.ChangePresets.Defense.Header',
     options: {
       'defense.override': {
         key: 'system.stats.defense.override',
-        label: 'WW.Effect.Keys.Defense.Override'
+        label: 'WW.Effect.ChangePresets.Defense.Override'
       },
       'defense.bonus': {
         key: 'system.stats.defense.bonus',
-        label: 'WW.Effect.Keys.Defense.Bonus'
+        label: 'WW.Effect.ChangePresets.Defense.Bonus'
       },
       'defense.armored': {
         key: 'system.stats.defense.armored',
-        label: 'WW.Effect.Keys.Defense.Armored'
+        label: 'WW.Effect.ChangePresets.Defense.Armored'
       },
       'defense.armoredIncrease': {
         key: 'system.stats.defense.armored',
-        label: 'WW.Effect.Keys.Defense.ArmoredIncrease'
+        label: 'WW.Effect.ChangePresets.Defense.ArmoredIncrease'
       },
       'defense.natural': {
         key: 'system.stats.defense.natural',
-        label: 'WW.Effect.Keys.Defense.Natural'
+        label: 'WW.Effect.ChangePresets.Defense.Natural'
       },
       'defense.naturalIncrease': {
         key: 'system.stats.defense.natural',
-        label: 'WW.Effect.Keys.Defense.NaturalIncrease'
+        label: 'WW.Effect.ChangePresets.Defense.NaturalIncrease'
       },
       'defense.naturalReduce': {
         key: 'system.stats.defense.natural',
-        label: 'WW.Effect.Keys.Defense.NaturalReduce'
+        label: 'WW.Effect.ChangePresets.Defense.NaturalReduce'
       }
     }
   },
   health: {
-    header: 'WW.Effect.Keys.Health.Header',
+    header: 'WW.Effect.ChangePresets.Health.Header',
     options: {
       'health.tempIncrease': {
         key: 'system.stats.health.current',
-        label: 'WW.Effect.Keys.Health.TempIncrease'
+        label: 'WW.Effect.ChangePresets.Health.TempIncrease'
       },
       'health.tempReduce': {
         key: 'system.stats.health.current',
-        label: 'WW.Effect.Keys.Health.TempReduce'
+        label: 'WW.Effect.ChangePresets.Health.TempReduce'
       },
       'health.override': {
         key: 'system.stats.health.override',
-        label: 'WW.Effect.Keys.Health.Override'
+        label: 'WW.Effect.ChangePresets.Health.Override'
       },
       'health.starting': {
         key: 'system.stats.health.normal',
-        label: 'WW.Effect.Keys.Health.Starting'
+        label: 'WW.Effect.ChangePresets.Health.Starting'
       },
       'health.increase': {
         key: 'system.stats.health.normal',
-        label: 'WW.Effect.Keys.Health.Increase'
+        label: 'WW.Effect.ChangePresets.Health.Increase'
       }
     }
   },
   speed: {
-    header: 'WW.Effect.Keys.Speed.Header',
+    header: 'WW.Effect.ChangePresets.Speed.Header',
     options: {
       'speed.tempIncrease': {
         key: 'system.stats.speed.current',
-        label: 'WW.Effect.Keys.Speed.TempIncrease'
+        label: 'WW.Effect.ChangePresets.Speed.TempIncrease'
       },
       'speed.tempReduce': {
         key: 'system.stats.speed.current',
-        label: 'WW.Effect.Keys.Speed.TempReduce'
+        label: 'WW.Effect.ChangePresets.Speed.TempReduce'
       },
       'speed.halved': {
         key: 'system.stats.speed.halved',
-        label: 'WW.Effect.Keys.Speed.Halved'
+        label: 'WW.Effect.ChangePresets.Speed.Halved'
       },
       'speed.override': {
         key: 'system.stats.speed.override',
-        label: 'WW.Effect.Keys.Speed.Override'
+        label: 'WW.Effect.ChangePresets.Speed.Override'
       },
       'speed.normal': {
         key: 'system.stats.speed.normal',
-        label: 'WW.Effect.Keys.Speed.Normal'
+        label: 'WW.Effect.ChangePresets.Speed.Normal'
       },
       'speed.increase': {
         key: 'system.stats.speed.normal',
-        label: 'WW.Effect.Keys.Speed.Increase'
+        label: 'WW.Effect.ChangePresets.Speed.Increase'
       }
     }
   },
   size: {
-    header: 'WW.Effect.Keys.Size.Header',
+    header: 'WW.Effect.ChangePresets.Size.Header',
     options: {
       'size.increase': {
         key: 'system.stats.size',
-        label: 'WW.Effect.Keys.Size.Increase'
+        label: 'WW.Effect.ChangePresets.Size.Increase'
       },
       'size.override': {
         key: 'system.stats.size',
-        label: 'WW.Effect.Keys.Size.Override'
+        label: 'WW.Effect.ChangePresets.Size.Override'
       },
       'size.normal': {
         key: 'system.stats.size',
-        label: 'WW.Effect.Keys.Size.Normal'
+        label: 'WW.Effect.ChangePresets.Size.Normal'
       },
     }
   },
   bonusDamage: {
-    header: 'WW.Effect.Keys.BonusDamage.Header',
+    header: 'WW.Effect.ChangePresets.BonusDamage.Header',
     options: {
       'bonusDamage.increase': {
         key: 'system.stats.bonusdamage',
-        label: 'WW.Effect.Keys.BonusDamage.Increase'
+        label: 'WW.Effect.ChangePresets.BonusDamage.Increase'
       }
     }
   },
   upgradeAttribute: {
-    header: 'WW.Effect.Keys.UpgradeAttribute.Header',
+    header: 'WW.Effect.ChangePresets.UpgradeAttribute.Header',
     options: {
       'upgradeAttribute.str': {
         key: 'system.attributes.str.value',
-        label: 'WW.Effect.Keys.UpgradeAttribute.Strength'
+        label: 'WW.Effect.ChangePresets.UpgradeAttribute.Strength'
       },
       'upgradeAttribute.agi': {
         key: 'system.attributes.agi.value',
-        label: 'WW.Effect.Keys.UpgradeAttribute.Agility'
+        label: 'WW.Effect.ChangePresets.UpgradeAttribute.Agility'
       },
       'upgradeAttribute.int': {
         key: 'system.attributes.int.value',
-        label: 'WW.Effect.Keys.UpgradeAttribute.Intellect'
+        label: 'WW.Effect.ChangePresets.UpgradeAttribute.Intellect'
       },
       'upgradeAttribute.wil': {
         key: 'system.attributes.wil.value',
-        label: 'WW.Effect.Keys.UpgradeAttribute.Will'
+        label: 'WW.Effect.ChangePresets.UpgradeAttribute.Will'
       }
     }
   },
   downgradeAttribute: {
-    header: 'WW.Effect.Keys.DowngradeAttribute.Header',
+    header: 'WW.Effect.ChangePresets.DowngradeAttribute.Header',
     options: {
       'downgradeAttribute.str': {
         key: 'system.attributes.str.value',
-        label: 'WW.Effect.Keys.DowngradeAttribute.Strength'
+        label: 'WW.Effect.ChangePresets.DowngradeAttribute.Strength'
       },
       'downgradeAttribute.agi': {
         key: 'system.attributes.agi.value',
-        label: 'WW.Effect.Keys.DowngradeAttribute.Agility'
+        label: 'WW.Effect.ChangePresets.DowngradeAttribute.Agility'
       },
       'downgradeAttribute.int': {
         key: 'system.attributes.int.value',
-        label: 'WW.Effect.Keys.DowngradeAttribute.Intellect'
+        label: 'WW.Effect.ChangePresets.DowngradeAttribute.Intellect'
       },
       'downgradeAttribute.wil': {
         key: 'system.attributes.wil.value',
-        label: 'WW.Effect.Keys.DowngradeAttribute.Will'
+        label: 'WW.Effect.ChangePresets.DowngradeAttribute.Will'
       }
     }
   },
   overrideAttribute: {
-    header: 'WW.Effect.Keys.OverrideAttribute.Header',
+    header: 'WW.Effect.ChangePresets.OverrideAttribute.Header',
     options: {
       'overrideAttribute.str': {
         key: 'system.attributes.str.value',
-        label: 'WW.Effect.Keys.OverrideAttribute.Strength'
+        label: 'WW.Effect.ChangePresets.OverrideAttribute.Strength'
       },
       'overrideAttribute.agi': {
         key: 'system.attributes.agi.value',
-        label: 'WW.Effect.Keys.OverrideAttribute.Agility'
+        label: 'WW.Effect.ChangePresets.OverrideAttribute.Agility'
       },
       'overrideAttribute.int': {
         key: 'system.attributes.int.value',
-        label: 'WW.Effect.Keys.OverrideAttribute.Intellect'
+        label: 'WW.Effect.ChangePresets.OverrideAttribute.Intellect'
       },
       'overrideAttribute.wil': {
         key: 'system.attributes.wil.value',
-        label: 'WW.Effect.Keys.OverrideAttribute.Will'
+        label: 'WW.Effect.ChangePresets.OverrideAttribute.Will'
       }
     }
   },
   increaseAttribute: {
-    header: 'WW.Effect.Keys.IncreaseAttribute.Header',
+    header: 'WW.Effect.ChangePresets.IncreaseAttribute.Header',
     options: {
       'increaseAttribute.str': {
         key: 'system.attributes.str.value',
-        label: 'WW.Effect.Keys.IncreaseAttribute.Strength'
+        label: 'WW.Effect.ChangePresets.IncreaseAttribute.Strength'
       },
       'increaseAttribute.agi': {
         key: 'system.attributes.agi.value',
-        label: 'WW.Effect.Keys.IncreaseAttribute.Agility'
+        label: 'WW.Effect.ChangePresets.IncreaseAttribute.Agility'
       },
       'increaseAttribute.int': {
         key: 'system.attributes.int.value',
-        label: 'WW.Effect.Keys.IncreaseAttribute.Intellect'
+        label: 'WW.Effect.ChangePresets.IncreaseAttribute.Intellect'
       },
       'increaseAttribute.wil': {
         key: 'system.attributes.wil.value',
-        label: 'WW.Effect.Keys.IncreaseAttribute.Will'
+        label: 'WW.Effect.ChangePresets.IncreaseAttribute.Will'
       }
     }
   },
   reduceAttribute: {
-    header: 'WW.Effect.Keys.ReduceAttribute.Header',
+    header: 'WW.Effect.ChangePresets.ReduceAttribute.Header',
     options: {
       'reduceAttribute.str': {
         key: 'system.attributes.str.value',
-        label: 'WW.Effect.Keys.ReduceAttribute.Strength'
+        label: 'WW.Effect.ChangePresets.ReduceAttribute.Strength'
       },
       'reduceAttribute.agi': {
         key: 'system.attributes.agi.value',
-        label: 'WW.Effect.Keys.ReduceAttribute.Agility'
+        label: 'WW.Effect.ChangePresets.ReduceAttribute.Agility'
       },
       'reduceAttribute.int': {
         key: 'system.attributes.int.value',
-        label: 'WW.Effect.Keys.ReduceAttribute.Intellect'
+        label: 'WW.Effect.ChangePresets.ReduceAttribute.Intellect'
       },
       'reduceAttribute.wil': {
         key: 'system.attributes.wil.value',
-        label: 'WW.Effect.Keys.ReduceAttribute.Will'
+        label: 'WW.Effect.ChangePresets.ReduceAttribute.Will'
       }
     }
   },

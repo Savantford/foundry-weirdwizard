@@ -64,8 +64,20 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
       // Duration tab
       case 'duration': {
         const fields = effect.system.schema.fields;
+
         // Prepare options for the duration preset dropdown
-        partContext.durationPresetOptions = CONFIG.WW.EFFECT_DURATION_PRESETS;
+        partContext.durationPresetOptions = [
+          {
+            value: 'custom',
+            label: _loc("WW.Effect.DurationPresets.Custom"),
+          },
+          ... Object.entries(CONFIG.WW.EFFECT_DURATION_PRESETS).map(([value, label]) => ({
+            value,
+            label,
+            group: _loc('WW.Effect.DurationPresets.Label')
+          }))
+        ];
+        
         partContext.systemFields = fields;
 
         // Pass down durations to display - not needed anymore?
@@ -79,7 +91,7 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
         // Prepare change preset options
         const changePresetOptions = [{
           value: 'custom',
-          label: _loc("WW.Effect.Keys.Custom")
+          label: _loc("WW.Effect.ChangePresets.Custom")
         }];
 
         for (const [groupKey, groupData] of Object.entries(CONFIG.WW.EFFECT_CHANGE_PRESET_DATA)) {
@@ -177,8 +189,8 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
   _onChangeForm(formConfig, event) {
     super._onChangeForm(formConfig, event);
     
-    // Submit the form if a Change Preset is changed to update the Active Effect document
-    if (event.target instanceof HTMLSelectElement && event.target.name.endsWith(".preset")) {
+    // Submit the form if a Change Preset or Duration Preset is changed
+    if (event.target instanceof HTMLSelectElement && (event.target.name.endsWith(".preset")) || event.target.name.endsWith(".durationPreset")) {
       this.submit({ preventClose: true });
     }
   }

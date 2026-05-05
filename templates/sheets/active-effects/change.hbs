@@ -2,7 +2,8 @@
   {{!-- Header --}}
   <div class="header">
     <div class="preset">
-      {{formInput fields.preset name=change.presetPath value=change.preset options=changePresetOptions blank=(localize "WW.Effect.Keys.None")}}
+      {{formInput fields.preset name=change.presetPath value=change.preset options=changePresetOptions
+      blank=(localize "WW.Effect.ChangePresets.None")}}
       
       {{#if (and change.preset change.field)}}
         {{formInput change.field name=change.valuePath value=change.typedValue}}
