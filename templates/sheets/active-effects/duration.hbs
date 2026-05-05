@@ -82,11 +82,12 @@
     <div class="form-fields">
 
       {{!-- Selected Duration --}}
+      {{formInput systemFields.durationPreset value=source.system.durationPreset choices=durationPresetOptions localize=true blank=(localize "WW.Effect.Keys.None")}}
       <select name="system.duration.selected" class="duration-selection">
         <option label="{{localize "WW.Effect.Duration.None"}}" value="none"></option>
         {{#each durationOptions as |category i|}}
         <optgroup label="{{localize category.header}}">
-          {{selectOptions category.options selected=@root.document.system.duration.selected localize=true}}
+          {{!--selectOptions category.options selected=@root.document.system.duration.selected localize=true--}}
         </optgroup>
         {{/each}}
       </select>

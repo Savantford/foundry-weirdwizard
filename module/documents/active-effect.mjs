@@ -97,7 +97,7 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
       // Prepare formatted selected label
       let str = '';
       if (selected) {
-        str += i18n(CONFIG.WW.EFFECT_DURATIONS.combat.options[selected]);
+        str += i18n(CONFIG.WW.EFFECT_DURATION_PRESETS.combat.options[selected]);
         if (selected !== 'luckEnds') str += ` (${rounds} ${(rounds > 1 ? i18n(key + 'Rounds') : i18n(key + 'Round'))})`;
         if (selected === 'Xrounds') str = `${rounds} ${(rounds > 1 ? i18n(key + 'Rounds') : i18n(key + 'Round'))}`; // Override if X rounds
       }

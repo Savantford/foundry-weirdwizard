@@ -18,7 +18,7 @@ export default class BaseEffectModel extends foundry.data.ActiveEffectTypeDataMo
         autoExpire: makeBooField(true)
       }),
 
-      durationPreset: makeRequiredStrField('none'),
+      durationPreset: makeStrField(),
       
       grantedBy: makeUuidStrField(),
     }
@@ -33,7 +33,7 @@ export default class BaseEffectModel extends foundry.data.ActiveEffectTypeDataMo
 
   /** @inheritdoc */
   static migrateData(data) {
-    if (data.duration?.selected) data.durationPreset = data.duration.selected;
+    if (data.duration?.selected) data.durationPreset = data.duration.selected === 'none' ? '' : data.duration.selected;
 
     // Migrate changes (from DrawSteel)
     let migrateChanges = false;

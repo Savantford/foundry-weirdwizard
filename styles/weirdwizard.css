@@ -3303,6 +3303,10 @@ input[type="checkbox"].checkbox-uses {
   margin: 0;
   border-bottom: 1px solid #c9c7b8;
   font-size: var(--font-size-12);
+
+  .content-link {
+    font-weight: 500;
+  }
 }
 
 .weirdwizard .items-header,

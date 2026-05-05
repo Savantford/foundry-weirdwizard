@@ -482,30 +482,19 @@ WW.EFFECT_TARGETS_TARGETED = {
   'allies': 'WW.Effect.AlliesTargeted'
 }
 
-WW.EFFECT_DURATIONS = {
-  combat: {
-    header: 'WW.Effect.Duration.Combat.Header',
-    options: {
-      'luckEnds': 'WW.Effect.Duration.Combat.LuckEnds',
-      '1round': 'WW.Effect.Duration.Combat.1Round',
-      '2rounds': 'WW.Effect.Duration.Combat.2Rounds',
-      'Xrounds': 'WW.Effect.Duration.Combat.XRounds',
-      'turnEnd': 'WW.Effect.Duration.Combat.TurnEnd',
-      'nextTriggerTurnStart': 'WW.Effect.Duration.Combat.NextTriggerTurnStart',
-      'nextTargetTurnStart': 'WW.Effect.Duration.Combat.NextTargetTurnStart',
-      'nextTriggerTurnEnd': 'WW.Effect.Duration.Combat.NextTriggerTurnEnd',
-      'nextTargetTurnEnd': 'WW.Effect.Duration.Combat.NextTargetTurnEnd'
-    }
-  },
-  outOfCombat: {
-    header: 'WW.Effect.Duration.OutOfCombat.Header',
-    options: {
-      '1minute': 'WW.Effect.Duration.OutOfCombat.1Minute',
-      'minutes': 'WW.Effect.Duration.OutOfCombat.Minutes',
-      'hours': 'WW.Effect.Duration.OutOfCombat.Hours',
-      'days': 'WW.Effect.Duration.OutOfCombat.Days'
-    }
-  }
+WW.EFFECT_DURATION_PRESETS = {
+  'luckEnds': 'WW.Effect.DurationPresets.LuckEnds',
+  '1round': 'WW.Effect.DurationPresets.1Round',
+  '2rounds': 'WW.Effect.DurationPresets.2Rounds',
+  'turnEnd': 'WW.Effect.DurationPresets.TurnEnd',
+  'nextTriggerTurnStart': 'WW.Effect.DurationPresets.NextTriggerTurnStart',
+  'nextTargetTurnStart': 'WW.Effect.DurationPresets.NextTargetTurnStart',
+  'nextTriggerTurnEnd': 'WW.Effect.DurationPresets.NextTriggerTurnEnd',
+  'nextTargetTurnEnd': 'WW.Effect.DurationPresets.NextTargetTurnEnd',
+  '1minute': 'WW.Effect.DurationPresets.1Minute',
+  'minutes': 'WW.Effect.DurationPresets.Minutes',
+  'hours': 'WW.Effect.DurationPresets.Hours',
+  'days': 'WW.Effect.DurationPresets.Days'
 }
 
 WW.EFFECT_CHANGE_PRESET_DATA = {
