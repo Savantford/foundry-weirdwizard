@@ -9,11 +9,7 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
   /** @inheritDoc */
   static DEFAULT_OPTIONS = {
     classes: ["weirdwizard", "sheet"],
-    position: { width: 580 },
-    form: {
-      closeOnSubmit: false,
-      submitOnChange: true,
-    }
+    position: { width: 580 }
   }
 
   /** @inheritdoc */
@@ -187,9 +183,9 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
   /** @override */
   _onChangeForm(formConfig, event) {
     super._onChangeForm(formConfig, event);
-
-    // Re-submit the form if a change key is changed to update the change on the Actor
-    if (event.target instanceof HTMLSelectElement && event.target.name.endsWith(".key")) {
+    
+    // Submit the form if a Change Preset is changed to update the Active Effect document
+    if (event.target instanceof HTMLSelectElement && event.target.name.endsWith(".preset")) {
       this.submit({ preventClose: true });
     }
   }
@@ -207,6 +203,8 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
    * @protected
    */
   async _processSubmitData(event, form, submitData, options={}) {
+    const oldChanges = this.document.system.changes;
+
     // Update duration
     const sysDur = submitData.system.duration;
     let inSeconds = null;
@@ -236,6 +234,20 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
         submitData.duration = { seconds: null, rounds: null };
       break;
     }
+
+    // Update changes
+    submitData.system.changes.forEach((change, index) => {
+      // Apply preset
+      if (change.preset !== oldChanges[index].preset) {
+        // Pass preset data to the change
+        submitData.system.changes[index] = {
+          ...change,
+          ...getEffectChangeMeta(change.preset), // TODO - Improve this
+          key: CONFIG.WW.EFFECT_CHANGE_PRESET_KEYS[change.preset] ?? change.key
+        };
+      }
+      
+    })
     
     // Submit processed data
     return super._processSubmitData(event, form, submitData, options);
