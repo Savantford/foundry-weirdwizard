@@ -80,6 +80,8 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
         
         partContext.systemFields = fields;
 
+        
+
         // Pass down durations to display - not needed anymore?
         //partContext.formattedStartTime = game.weirdwizard.utils.formatTime(this.document.duration.startTime, 1);
       } break;
@@ -143,6 +145,7 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
 
           change.typedValue = change.field.clean(change.value);
 
+          // Render change
           return this._renderChange({change, index, fields, defaultPriority, changeTypes, changePresetOptions});
         }));
         
@@ -240,8 +243,29 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
       break;
     }
 
+    // Check the Duration Preset and apply
+    const dur = submitData.duration;
+
+    switch (submitData.system.durationPreset) {
+      case '': submitData.duration = { value: null, units: dur.units, expiry: null }; break;
+      case 'custom': submitData.duration = { value: dur.value, units: dur.units, expiry: dur.expiry }; break;
+
+      // Combat Rounds duration
+      case 'luckEnds': submitData.duration = { value: null, units: dur.units, expiry: 'luckEnds' }; break;
+      case '1round': submitData.duration = { value: 1, units: 'rounds', expiry: 'roundEnd' }; break;
+      case '2rounds': submitData.duration = { value: 2, units: 'rounds', expiry: 'roundEnd' }; break;
+      case 'turnEnd': submitData.duration = { value: 1, units: 'rounds', expiry: 'turnEnd' }; break;
+      case 'nextTriggerTurnStart': submitData.duration = { value: 1, units: 'rounds', expiry: 'turnStart' }; break;
+      case 'nextTargetTurnStart': submitData.duration = { value: 1, units: 'rounds', expiry: 'turnStart' }; break;
+      case 'nextTriggerTurnEnd': submitData.duration = { value: 1, units: 'rounds', expiry: 'turnEnd' }; break;
+      case 'nextTargetTurnEnd': submitData.duration = { value: 1, units: 'rounds', expiry: 'turnEnd' }; break;
+
+      // World Time duration
+      case '1minute': submitData.duration = { value: 1, units: 'minutes', expiry: null }; break;
+    }
+
     // Update changes
-    submitData.system.changes.forEach((change, index) => {
+    submitData.system.changes?.forEach((change, index) => {
       // Apply preset
       if (change.preset !== oldChanges[index].preset) {
         // Pass preset data to the change

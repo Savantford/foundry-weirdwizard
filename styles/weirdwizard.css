@@ -4727,17 +4727,12 @@ details.document-card .card-header:hover::after {
 #context-menu li.context-item {
   display: flex;
   align-items: center;
-}
 
-#context-menu li.context-item>i {
-  line-height: 1;
-  display: inline-flex;
-  justify-content: center;
-}
-
-#context-menu li.context-item>i>img {
-  height: auto;
-  flex: 0;
+  > i {
+    display: inline-flex;
+    justify-content: center;
+    height: 1lh;
+  }
 }
 
 /* Context Menu: Item */
