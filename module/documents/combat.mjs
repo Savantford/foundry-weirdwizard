@@ -202,43 +202,34 @@ export default class WWCombat extends Combat {
 
   /**
    * Assign initiative for all combatants which have not already been assigned.
-   * @param {object} [options={}]   Additional options forwarded to the Combat.rollInitiative method
+   * This method is meant to be called every time a Combatant is taking regular turns or the initiative.
    */
   async setAll() {
-    const ids = this.combatants.reduce((ids, c) => {
-      if ( c.isOwner ) ids.push(c.id);
-      return ids;
-    }, []);
+    let initiative = 1001, enemies = 2001, allies = 3001;
 
-    let initiative = 1001;
-    let enemies = 2001;
-    let allies = 3001;
-
-    ids.forEach(c => {
-      const cdata = this.combatants.get(c);
-      let v = null;
-
-      switch (cdata.initiativeBracket) {
+    const updates = this.combatants.reduce((updates, combatant) => {
+      if (!combatant.isOwner) return updates;
+      let newInit = null;
+      switch (combatant.initiativeBracket) {
         case 1000: {
-          v = initiative;
-          initiative += 1;
+          newInit = initiative++;
           break;
         }
         case 3000: {
-          v = allies;
-          allies += 1;
+          newInit = allies++;
           break;
         }
         case 2000: {
-          v = enemies;
-          enemies += 1;
+          newInit = enemies++;
           break;
         }
       }
-      
-      return this.setInitiative(c, v);
-    })
-    
+      updates.push({ _id: combatant.id, initiative: newInit });
+
+      return updates;
+    }, []);
+
+    return this.updateEmbeddedDocuments("Combatant", updates);
   }
 
   /* -------------------------------------------- */
