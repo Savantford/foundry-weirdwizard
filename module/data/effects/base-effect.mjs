@@ -10,14 +10,14 @@ export default class BaseEffectModel extends foundry.data.ActiveEffectTypeDataMo
       target: makeRequiredStrField('none'),
       trigger: makeRequiredStrField('passive'),
 
-      durationPreset: makeStrField(),
+      durationPreset: makeStrField(''),
       
       grantedBy: makeUuidStrField(),
     }
     
     // Custom Changes fields
     schema.changes.element.extendFields({
-      preset: makeStrField()
+      preset: makeStrField('')
     });
 
     return schema;

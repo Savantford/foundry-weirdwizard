@@ -76,7 +76,6 @@ export async function deleteInstantEffect(effect, owner) {
   * @param {Actor|Item}  owner    The owning entity which manages this effect
 */
 export async function createActiveEffect(dataset, owner) {
-  
   const name = i18n('WW.Effect.New') // Initialize a default name.
   const type = dataset.type;
   const isTemp = type === 'temporary';
@@ -87,12 +86,19 @@ export async function createActiveEffect(dataset, owner) {
     img: owner.img,
     origin: owner.uuid,
     disabled: type === 'inactive',
-    'duration.type': type === 'temporary' ? 'seconds' : 'none',
-    'duration.seconds': isTemp ? 3600 : null,
-    'duration.rounds': isTemp ? 1 : undefined,
-    'system.duration.selected': isTemp ? '1round' : '',
-    'system.duration.autoExpire': true,
-    'system.trigger': isTemp ? 'onUse' : 'passive'
+
+    // Duration
+    duration: {
+      value: isTemp ? 1 : null,
+      units: 'rounds',
+      expiry: isTemp ? 'roundEnd' : null
+    },
+    
+    // System
+    system: {
+      durationPreset: isTemp ? '1round' : '',
+      trigger: isTemp ? 'onUse' : 'passive'
+    }
   };
   
   // Create the effect

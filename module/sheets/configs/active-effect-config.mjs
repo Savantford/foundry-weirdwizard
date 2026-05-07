@@ -219,9 +219,6 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
       units: submitDur?.units ?? effDur.units,
       expiry: submitDur?.expiry ?? effDur.expiry
     };
-    console.log(dur)
-    console.log(submitDur?.value)
-    console.log(effDur.value)
 
     switch (submitData.system.durationPreset) {
       case '': submitData.duration = { value: null, units: dur.units, expiry: null }; break;
