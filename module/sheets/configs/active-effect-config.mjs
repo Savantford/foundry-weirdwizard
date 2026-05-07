@@ -51,7 +51,7 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
   async _preparePartContext(partId, context) {
     const partContext = await super._preparePartContext(partId, context);
     if ( partId in partContext.tabs ) partContext.tab = partContext.tabs[partId];
-    const effect = this.document;
+    const effect = await this.document;
     
     switch (partId) {
       // Details Tab
@@ -79,8 +79,8 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
         ];
         
         partContext.systemFields = fields;
-
-        
+        console.log(effect.duration)
+        partContext.durationLabel = effect.duration.label;
 
         // Pass down durations to display - not needed anymore?
         //partContext.formattedStartTime = game.weirdwizard.utils.formatTime(this.document.duration.startTime, 1);
@@ -211,40 +211,17 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
    * @protected
    */
   async _processSubmitData(event, form, submitData, options={}) {
-    const oldChanges = this.document.system.changes;
-
-    // Update duration
-    const sysDur = submitData.system.duration;
-    let inSeconds = null;
-    
-    if (!submitData.duration) submitData.duration = {};
-    
-    switch (submitData.system.duration.selected) {
-      case 'minutes': 
-        inSeconds = sysDur.inMinutes ? sysDur.inMinutes * 60 : 60;
-        submitData.duration = { seconds: inSeconds, rounds: null };
-        if (!sysDur.inMinutes) sysDur.inMinutes = 1;
-      break;
-
-      case 'hours':
-        inSeconds = sysDur.inHours ? sysDur.inHours * 60*60 : 60*60;
-        submitData.duration = { seconds: inSeconds, rounds: null };
-        if (!sysDur.inHours) sysDur.inHours = 1;
-      break;
-
-      case 'days':
-        inSeconds = sysDur.inDays ? sysDur.inDays * 60*60*24 : 60*60*24;
-        submitData.duration = { seconds: inSeconds, rounds: null };
-        if (!sysDur.inDays) sysDur.inDays = 1;
-      break;
-
-      case 'none':
-        submitData.duration = { seconds: null, rounds: null };
-      break;
-    }
-
-    // Check the Duration Preset and apply
-    const dur = submitData.duration;
+    // Check the Duration Preset and apply modifications
+    const effDur = this.document.duration;
+    const submitDur = submitData.duration;
+    const dur = {
+      value: submitDur?.value ? submitDur?.value : (effDur.value === Infinity ? null : effDur.value),
+      units: submitDur?.units ?? effDur.units,
+      expiry: submitDur?.expiry ?? effDur.expiry
+    };
+    console.log(dur)
+    console.log(submitDur?.value)
+    console.log(effDur.value)
 
     switch (submitData.system.durationPreset) {
       case '': submitData.duration = { value: null, units: dur.units, expiry: null }; break;
@@ -264,10 +241,12 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
       case '1minute': submitData.duration = { value: 1, units: 'minutes', expiry: null }; break;
     }
 
-    // Update changes
+    // Update Changes
+    const effChanges = this.document.system.changes;
+
     submitData.system.changes?.forEach((change, index) => {
       // Apply preset
-      if (change.preset !== oldChanges[index].preset) {
+      if (change.preset !== effChanges[index].preset) {
         // Pass preset data to the change
         submitData.system.changes[index] = {
           ...change,

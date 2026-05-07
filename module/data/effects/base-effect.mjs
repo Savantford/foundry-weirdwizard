@@ -10,14 +10,6 @@ export default class BaseEffectModel extends foundry.data.ActiveEffectTypeDataMo
       target: makeRequiredStrField('none'),
       trigger: makeRequiredStrField('passive'),
 
-      duration: new fields.SchemaField({
-        selected: makeRequiredStrField('none'),
-        inMinutes: makePosIntField(null),
-        inHours: makePosIntField(null),
-        inDays: makePosIntField(null),
-        autoExpire: makeBooField(true)
-      }),
-
       durationPreset: makeStrField(),
       
       grantedBy: makeUuidStrField(),
@@ -34,6 +26,15 @@ export default class BaseEffectModel extends foundry.data.ActiveEffectTypeDataMo
   /** @inheritdoc */
   static migrateData(data) {
     if (data.duration?.selected) data.durationPreset = data.duration.selected === 'none' ? '' : data.duration.selected;
+
+    /*      duration: new fields.SchemaField({ <<< TODO: migrate these
+        selected: makeRequiredStrField('none'),
+        inMinutes: makePosIntField(null),
+        inHours: makePosIntField(null),
+        inDays: makePosIntField(null),
+        autoExpire: makeBooField(true)
+      }),
+    */
 
     // Migrate changes (from DrawSteel)
     let migrateChanges = false;

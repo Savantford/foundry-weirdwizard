@@ -7,25 +7,26 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
   /*  Document Creation                           */
   /* -------------------------------------------- */
 
-  async _preCreate(data, options, user) {
+  /*async _preCreate(data, options, user) {
     this._validateDuration(data, '_preCreate');
 
     return await super._preCreate(data, options, user);
-  }
+  }*/
 
   /* -------------------------------------------- */
   /*  Document Update                             */
   /* -------------------------------------------- */
 
-  async _preUpdate(changes, options, user) {
+  /*async _preUpdate(changes, options, user) {
     this._validateDuration(changes, '_preUpdate');
     
     return await super._preUpdate(changes, options, user);
-  }
+  }*/
 
   /* -------------------------------------------- */
 
   _validateDuration(data, stage) {
+    console.log('validating duration')
     const selected = data.system?.duration?.selected ?? this.system.duration.selected;
     const rounds = data.duration?.rounds ?? this.duration.rounds;
     const minutes = data.system?.duration?.inMinutes ?? this.system.duration.inMinutes;
@@ -89,7 +90,7 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
     this.originalItem = (this.parent instanceof Item) ? this.parent : null;
 
     // Get derived duration variables
-    const key = 'WW.Effect.Duration.';
+    /*const key = 'WW.Effect.Duration.';
     const rounds = this.duration.rounds;
     const selected = this.system.duration.selected;
     
@@ -104,7 +105,7 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
       
       this.system.duration.formatted = str;
 
-    } else this.system.duration.formatted = formatTime(this.duration.seconds);
+    } else this.system.duration.formatted = formatTime(this.duration.seconds);*/
     
   }
 
@@ -199,7 +200,7 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
   /* -------------------------------------------- */
 
   // Transfer to actor only if the item is passive
-  determineTransfer(){
+  determineTransfer() {
     if (this.system.trigger === 'passive') return true;
     else return false;
   }

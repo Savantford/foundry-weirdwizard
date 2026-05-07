@@ -37,9 +37,10 @@
     {{/if}}
   </fieldset>
   {{/if}}
+  {{ durationLabel }}
 
   {{!-- Duration Block --}}
-  {{#if source.system.durationPreset}}
+  <div class="{{#unless source.system.durationPreset}}.hidden{{/unless}}">
   <h3>{{localize "EFFECT.DURATION.Header"}}</h3>
   
   <div class="form-group slim duration" data-duration>
@@ -60,7 +61,7 @@
 
   {{formGroup fields.duration.fields.expiry choices=expiryEvents value=source.duration.expiry rootId=rootId
   disabled=(ne source.system.durationPreset 'custom')}}
-  {{/if}}
+  </div>
 
   <h4>Old Block START</h4>
   {{!-- Duration in Seconds (Out of Combat) --}}

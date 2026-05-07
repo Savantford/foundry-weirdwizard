@@ -279,40 +279,6 @@ export default class WWCombat extends Combat {
   }
 
   /* -------------------------------------------- */
-  /*  Round Events                                */
-  /* -------------------------------------------- */
-
-  /**
-   * A workflow that occurs at the start of each Combat Round.
-   * This workflow occurs after the Combat document update, new round information exists in this.current.
-   * This can be overridden to implement system-specific combat tracking behaviors.
-   * This method only executes for one designated GM user. If no GM users are present this method will not be called.
-   * @returns {Promise<void>}
-   * @protected
-   */
-  async _onStartRound() {
-    if ( CONFIG.debug.combat ) console.debug(`${vtt} | Combat Start Round: ${this.round}`);
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * A workflow that occurs at the end of each Combat Round.
-   * This workflow occurs after the Combat document update, prior round information exists in this.previous.
-   * This can be overridden to implement system-specific combat tracking behaviors.
-   * This method only executes for one designated GM user. If no GM users are present this method will not be called.
-   * @override
-   * @returns {Promise<void>}
-   * @protected
-   */
-  async _onEndRound() {
-    super._onEndRound();
-
-    this._expireEffectsOnEndOfRound();
-     
-  }
-
-  /* -------------------------------------------- */
   /*  Turn Events                                 */
   /* -------------------------------------------- */
 
@@ -328,7 +294,7 @@ export default class WWCombat extends Combat {
    * @returns {Promise<void>}
    * @protected
    */
-  async _manageTurnEvents() { // Maybe do something about this
+  /*async _manageTurnEvents() { // Maybe do something about this
 
     // Capture current and previous states
     const {current, previous} = this;
@@ -336,25 +302,7 @@ export default class WWCombat extends Combat {
     console.log(previous)
     
     await super._manageTurnEvents();
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * A workflow that occurs at the start of each Combat Turn.
-   * This workflow occurs after the Combat document update, new turn information exists in this.current.
-   * This can be overridden to implement system-specific combat tracking behaviors.
-   * This method only executes for one designated GM user. If no GM users are present this method will not be called.
-   * @inheritdoc
-   * @param {Combatant} combatant     The Combatant whose turn just started
-   * @returns {Promise<void>}
-   * @protected
-   */
-  async _onStartTurn(combatant) {
-    super._onStartTurn(combatant);
-
-    this._expireEffectsOnTurn(combatant, 'start');
-  }
+  }*/
 
   /* -------------------------------------------- */
 
@@ -368,13 +316,60 @@ export default class WWCombat extends Combat {
    * @returns {Promise<void>}
    * @protected
    */
-  async _onEndTurn(combatant) {
+  /*async _onEndTurn(combatant) {
     super._onEndTurn(combatant);
     
     this._expireEffectsOnTurn(combatant, 'end');
-  }
+  }*/
 
-  
+  /* -------------------------------------------- */
+
+  /**
+   * @override
+   * A workflow that occurs at the end of each Combat Round.
+   * This workflow occurs after the Combat document update.
+   * This can be overridden to implement system-specific combat tracking behaviors.
+   * The default implementation of this function does nothing.
+   * This method only executes for one designated GM user. If no GM users are present this method will not be called.
+   * @param {CombatRoundEventContext} context    The context of the round that just ended
+   * @returns {Promise<void>}
+   * @protected
+   */
+  /*async _onEndRound(context) {
+    super._onEndRound();
+
+    this._expireEffectsOnEndOfRound();
+  }*/
+
+  /* -------------------------------------------- */
+
+  /**
+   * A workflow that occurs at the start of each Combat Round.
+   * This workflow occurs after the Combat document update, new round information exists in this.current.
+   * This can be overridden to implement system-specific combat tracking behaviors.
+   * This method only executes for one designated GM user. If no GM users are present this method will not be called.
+   * @returns {Promise<void>}
+   * @protected
+   */
+  /*async _onStartRound(context) {}*/
+
+  /* -------------------------------------------- */
+
+  /**
+   * A workflow that occurs at the start of each Combat Turn.
+   * This workflow occurs after the Combat document update, new turn information exists in this.current.
+   * This can be overridden to implement system-specific combat tracking behaviors.
+   * This method only executes for one designated GM user. If no GM users are present this method will not be called.
+   * @inheritdoc
+   * @param {Combatant} combatant     The Combatant whose turn just started
+   * @returns {Promise<void>}
+   * @protected
+   */
+  /*async _onStartTurn(combatant, context) {
+    super._onStartTurn(combatant);
+
+    this._expireEffectsOnTurn(combatant, 'start');
+  }*/
 
   /* -------------------------------------------- */
   /*  Expire Effect Methods                       */
