@@ -84,6 +84,8 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
    * is queried and has a roll executed directly from it).
   */
   prepareDerivedData() {
+    super.prepareDerivedData();
+
     const system = this.system;
     
     // The item which this effect originates from if it has been transferred from an item to an actor
@@ -139,17 +141,6 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
   */
   get factor() {
     return this.system.originalItem?.activeEffectFactor ?? 1;
-  }
-
-  /* -------------------------------------------- */
-  
-  /** @override */
-  get isSuppressed() {
-    // Suppress if parent is an inactive item
-    if (this.parent instanceof Item && !foundry.utils.getProperty(this.parent, 'system.active')) return true;
-
-    // False otherwise
-    return false;
   }
 
   /* -------------------------------------------- */
@@ -253,6 +244,54 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
       else this._applyChangeUnguided(targetDoc, change, changes, {replacementData, modifyTarget});
     }
     return changes;
+  }
+
+  /**
+   * A determination of whether the ActiveEffect's expiry event was reached. This check is independent of whether the
+   * duration was also reached.
+   * @param {string} event     The event that triggered this check
+   * @param {object} [context] Contextual information for use in the determination
+   * @returns {boolean}
+   */
+  isExpiryEvent(event, context) {
+    const CORE_EXPIRY_EVENTS = CONST.ACTIVE_EFFECT_EXPIRY_EVENTS
+    const expiry = this.duration.expiry;
+    if ( event === "updateWorldTime" ) {
+      // Expiry is determined by duration alone
+      if ( !expiry ) return true;
+      // Outside of combat, treat any time advancement as satisfying in-combat expiry events
+      return !this.actor?.inCombat && CORE_EXPIRY_EVENTS.includes(expiry) && expiry !== "combatStart";
+    }
+    if ( event !== expiry ) return false;
+    
+    if ( !CORE_EXPIRY_EVENTS.includes(expiry) ) return true;
+
+    /** @type {Combat|null} */
+    const combat = context.combat ?? game.combat;
+    /** @type {Combatant|null|undefined} */
+    const effectCombatant = combat?.started
+      ? combat === this.start.combat && combat.combatants.get(this.start.combatant)
+        ? combat.combatants.get(this.start.combatant)
+        : combat.getCombatantsByActor(this.actor ?? "")[0]
+      : null;
+    
+    switch ( event ) {
+      case "combatStart":
+      case "combatEnd":
+      case "roundStart":
+      case "roundEnd":
+        return !!effectCombatant;
+      case "turnStart":
+        return !!combat?.started && (combat.combatant === effectCombatant);
+      case "turnEnd": {
+        if ( !combat?.started || !effectCombatant ) return false;
+        const previousCombatantId = combat.previous.combatantId;
+        if ( previousCombatantId ) return effectCombatant.id === previousCombatantId; // Prefer matching on combatant
+        else return effectCombatant.turnNumber === combat.previous.turn;              // Otherwise match turn number
+      }
+      default:
+        return false;
+    }
   }
 
 }

@@ -46,19 +46,15 @@ export default class WWCombat extends Combat {
   /* -------------------------------------------- */
   /*  Methods                                     */
   /* -------------------------------------------- */
-
+  
   /**
    * @override
    * Begin the combat encounter, advancing to round 1 and turn 1
    * @returns {Promise<this>}
    */
   /*async startCombat() { 
-    this._playCombatSound("startEncounter");
-    this._expireLeftoverEffects(), // Probably not needed; Expiration handled by core
-    const updateData = {round: 1, turn: 0};
-    Hooks.callAll("combatStart", this, updateData);
-    await this.update(updateData);
-    await ActiveEffect.registry.refresh("combatStart", {combat: this});
+    await super.startCombat();
+    console.log('starting combat!')
     return this;
   }*/
 

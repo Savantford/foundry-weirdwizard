@@ -79,11 +79,6 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
         ];
         
         partContext.systemFields = fields;
-        console.log(effect.duration)
-        partContext.durationLabel = effect.duration.label;
-
-        // Pass down durations to display - not needed anymore?
-        //partContext.formattedStartTime = game.weirdwizard.utils.formatTime(this.document.duration.startTime, 1);
       } break;
 
       // Changes tab
@@ -224,15 +219,15 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
       case '': submitData.duration = { value: null, units: dur.units, expiry: null }; break;
       case 'custom': submitData.duration = { value: dur.value, units: dur.units, expiry: dur.expiry }; break;
 
-      // Combat Rounds duration
+      // Combat Rounds duration (value 0 means next)
       case 'luckEnds': submitData.duration = { value: null, units: dur.units, expiry: 'luckEnds' }; break;
-      case '1round': submitData.duration = { value: 1, units: 'rounds', expiry: 'roundEnd' }; break;
-      case '2rounds': submitData.duration = { value: 2, units: 'rounds', expiry: 'roundEnd' }; break;
-      case 'turnEnd': submitData.duration = { value: 1, units: 'rounds', expiry: 'turnEnd' }; break;
-      case 'nextTriggerTurnStart': submitData.duration = { value: 1, units: 'rounds', expiry: 'turnStart' }; break;
-      case 'nextTargetTurnStart': submitData.duration = { value: 1, units: 'rounds', expiry: 'turnStart' }; break;
-      case 'nextTriggerTurnEnd': submitData.duration = { value: 1, units: 'rounds', expiry: 'turnEnd' }; break;
-      case 'nextTargetTurnEnd': submitData.duration = { value: 1, units: 'rounds', expiry: 'turnEnd' }; break;
+      case '1round': submitData.duration = { value: 0, units: 'rounds', expiry: 'roundEnd' }; break;
+      case '2rounds': submitData.duration = { value: 1, units: 'rounds', expiry: 'roundEnd' }; break;
+      case 'turnEnd': submitData.duration = { value: 0, units: 'rounds', expiry: 'turnEnd' }; break;
+      case 'nextTriggerTurnStart': submitData.duration = { value: 0, units: 'rounds', expiry: 'turnStart' }; break;
+      case 'nextTargetTurnStart': submitData.duration = { value: 0, units: 'rounds', expiry: 'turnStart' }; break;
+      case 'nextTriggerTurnEnd': submitData.duration = { value: 0, units: 'rounds', expiry: 'turnEnd' }; break;
+      case 'nextTargetTurnEnd': submitData.duration = { value: 0, units: 'rounds', expiry: 'turnEnd' }; break;
 
       // World Time duration
       case '1minute': submitData.duration = { value: 1, units: 'minutes', expiry: null }; break;

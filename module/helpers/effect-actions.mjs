@@ -87,9 +87,9 @@ export async function createActiveEffect(dataset, owner) {
     origin: owner.uuid,
     disabled: type === 'inactive',
 
-    // Duration
+    // Duration (Until the end of the round)
     duration: {
-      value: isTemp ? 1 : null,
+      value: isTemp ? 0 : null,
       units: 'rounds',
       expiry: isTemp ? 'roundEnd' : null
     },

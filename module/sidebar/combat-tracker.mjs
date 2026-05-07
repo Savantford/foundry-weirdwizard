@@ -408,7 +408,6 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
         },
         onClick: (event, li) => {
           const combatant = getCombatant(li);
-          console.log(this)
           if (combatant) return this.viewed.startTurn(combatant);
         }
       }, {
