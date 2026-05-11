@@ -1,10 +1,11 @@
-import { i18n, formatTime } from '../helpers/utils.mjs';
+//import { formatTime } from '../helpers/utils.mjs';
+import { escape } from '../helpers/utils.mjs';
 import WWDocumentMixin from './ww-document.mjs';
 
 export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
 
   /* -------------------------------------------- */
-  /*  Document Creation                           */
+  /*  Document Lifecycle                          */
   /* -------------------------------------------- */
 
   /*async _preCreate(data, options, user) {
@@ -14,18 +15,32 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
   }*/
 
   /* -------------------------------------------- */
-  /*  Document Update                             */
-  /* -------------------------------------------- */
 
-  /*async _preUpdate(changes, options, user) {
-    this._validateDuration(changes, '_preUpdate');
+  async _preUpdate(changes, options, user) {
+    //this._validateDuration(changes, '_preUpdate');
     
     return await super._preUpdate(changes, options, user);
-  }*/
+  }
+
+  /* -------------------------------------------- */
+  
+  /** @inheritDoc */
+  _onDelete(options, userId) {
+    if (this.isTemporary && this.duration.remaining <= 0) ChatMessage.create({
+      type: 'status',
+      content: `<p>${this.actor.link}:
+        <a class="content-link" data-tooltip="${escape(this.tooltip)}"><img src="${this.img}"> ${this.name}</a>
+        ${_loc("WW.Effect.Duration.ExpiredMsg")} ${this.formattedDuration}.
+      </p>`,
+      sound: CONFIG.sounds.notification
+    });
+
+    super._onDelete(options, userId);
+  }
 
   /* -------------------------------------------- */
 
-  _validateDuration(data, stage) {
+  /*_validateDuration(data, stage) {
     console.log('validating duration')
     const selected = data.system?.duration?.selected ?? this.system.duration.selected;
     const rounds = data.duration?.rounds ?? this.duration.rounds;
@@ -36,7 +51,7 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
     const updateData = function(rounds, seconds) {
       // Stage is probably not needed for this and thus was removed from the check. More testing needed!
       //if (stage === '_preCreate') this.updateSource({ 'duration.rounds': rounds, 'duration.seconds': seconds });
-      /*else if (stage === '_preUpdate')*/ data = foundry.utils.mergeObject(data, { 'duration.rounds': rounds, 'duration.seconds': seconds });
+      /*else if (stage === '_preUpdate')*/ /*data = foundry.utils.mergeObject(data, { 'duration.rounds': rounds, 'duration.seconds': seconds });
     };
     
     // Check the selected value and set duration values
@@ -66,9 +81,9 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
 
     // Format duration
     if (rounds === 777) this.system.duration.formatted = 'Luck ends';
-    else if (rounds) this.system.duration.formatted = `${rounds} ${(rounds > 1 ? i18n(rounds + 'Rounds') : i18n(rounds + 'Round'))}`;
+    else if (rounds) this.system.duration.formatted = `${rounds} ${(rounds > 1 ? _loc(rounds + 'Rounds') : _loc(rounds + 'Round'))}`;
     else this.system.duration.formatted = formatTime(this.duration.seconds);
-  }
+  }*/
 
   /* -------------------------------------------- */
   /*  Data Preparation                            */
@@ -100,9 +115,9 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
       // Prepare formatted selected label
       let str = '';
       if (selected) {
-        str += i18n(CONFIG.WW.EFFECT_DURATION_PRESETS.combat.options[selected]);
-        if (selected !== 'luckEnds') str += ` (${rounds} ${(rounds > 1 ? i18n(key + 'Rounds') : i18n(key + 'Round'))})`;
-        if (selected === 'Xrounds') str = `${rounds} ${(rounds > 1 ? i18n(key + 'Rounds') : i18n(key + 'Round'))}`; // Override if X rounds
+        str += _loc(CONFIG.WW.EFFECT_DURATION_PRESETS.combat.options[selected]);
+        if (selected !== 'luckEnds') str += ` (${rounds} ${(rounds > 1 ? _loc(key + 'Rounds') : _loc(key + 'Round'))})`;
+        if (selected === 'Xrounds') str = `${rounds} ${(rounds > 1 ? _loc(key + 'Rounds') : _loc(key + 'Round'))}`; // Override if X rounds
       }
       
       this.system.duration.formatted = str;
@@ -291,6 +306,39 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
       }
       default:
         return false;
+    }
+  }
+
+  get formattedDuration() {
+    const { value, units, expiry, ... duration } = this.duration;
+    
+    const path = "WW.Effect.Duration.";
+
+    // Permanent
+    if (value === Infinity) return _loc(path + 'Permanent');
+
+    // World time duration (Out of combat)
+    else if (CONST.ACTIVE_EFFECT_TIME_DURATION_UNITS.includes(units)) {
+      // Convert time to seconds - Adapted from _prepareTimeBasedDuration
+      const calendar = game.time.calendar;
+      const durationInMonths = units === "months";
+      const unitsSingular = durationInMonths ? "day": units.slice(0, -1);
+      const avgDaysPerMonth = durationInMonths && calendar.months.values.length
+        ? calendar.days.daysPerYear / calendar.months.values.length
+        : 0;
+      const durationValue = durationInMonths ? Math.ceil(value * avgDaysPerMonth) : value;
+      const seconds = calendar.componentsToTime({[unitsSingular]: durationValue});
+      
+      return game.time.calendar.format(seconds, 'formatDuration');
+    }
+
+    // Combat duration (Turns and rounds)
+    else {
+      const adjusted = value + 1;
+      const unitLabel = adjusted > 1
+        ? (units === 'turns' ? _loc(path + 'Turns') : _loc(path + 'Rounds'))
+        : (units === 'turns' ? _loc(path + 'Turn') : _loc(path + 'Round'));
+      return `${adjusted} ${unitLabel}`;
     }
   }
 

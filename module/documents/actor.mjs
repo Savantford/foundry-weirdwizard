@@ -1068,7 +1068,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
    * @param {number} [options.timeOffset=0] Time offset from world time
    * @param {DocumentModificationContext} [context] Document update context
    */
-  async expireActiveEffects({ combat, timeOffset = 0 } = {}, context = {}) {
+  /*async expireActiveEffects({ combat, timeOffset = 0 } = {}, context = {}) {
     if (!this.isOwner) throw new Error("Must be owner");
     const worldTime = game.time.worldTime + timeOffset;
     
@@ -1135,7 +1135,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     if (disableBuffs.length) await this.updateEmbeddedDocuments("Item", disableBuffs, disableBuffContext);
 
     if (hasActorUpdates) await this.update(actorUpdate, context);
-  }
+  }*/
 
   /* -------------------------------------------- */
   /*  Getters                                     */

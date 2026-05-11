@@ -58,10 +58,10 @@ import { WW } from './config.mjs';
 import registerSystemSettings from './helpers/system-settings.mjs'
 import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
 import { WWAfflictions } from './helpers/afflictions.mjs';
-import { expireFromTokens } from './helpers/effect-actions.mjs';
+//import { expireFromTokens } from './helpers/effect-actions.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
-import { Utils, handleWelcomeMessage } from './helpers/utils.mjs';
+import * as utils from './helpers/utils.mjs';
 import { initializeEffectLookups } from './helpers/effect-presets.mjs';
 import { addFormattingOptions } from './helpers/text-editor.mjs';
 import { fullMigration, migrationsReference } from './helpers/migrations.mjs';
@@ -76,11 +76,14 @@ Hooks.once('init', function () {
   game.weirdwizard = {
     WWActor,
     WWItem,
-    utils: Utils
+    utils
   };
   
   // Add custom constants for configuration.
   CONFIG.WW = WW;
+
+  // Delete effects when expired
+  CONFIG.ActiveEffect.expiryAction = 'delete';
   
   // Define custom Document classes
   CONFIG.Actor.documentClass = WWActor;
@@ -247,7 +250,7 @@ Hooks.once('ready', function (app, html) {
   fullMigration();
 
   // Post a welcome message if needed
-  handleWelcomeMessage();
+  utils.handleWelcomeMessage();
 });
 
 /* -------------------------------------------- */
@@ -424,7 +427,7 @@ Hooks.on('getSceneControlButtons', (controls) => {
 
 // On game world time change
 Hooks.on('updateWorldTime', (worldTime, dt, options, userId) => {
-  expireFromTokens();
+  //expireFromTokens();
 
   if (ui.questcalendar?.rendered) ui.questcalendar.render();
 });

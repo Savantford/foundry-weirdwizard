@@ -4409,10 +4409,16 @@ input[type="checkbox"].checkbox-uses {
   margin: 0;
   padding: 0;
   line-height: normal;
-}
 
-.content-link > i {
-  color: var(--body-text-color);
+  > i {
+    color: var(--body-text-color);
+  }
+
+  > img {
+    display: inline;
+    vertical-align: text-bottom;
+    height: 1lh;
+  }
 }
 
 /* -------------------------------------------- */

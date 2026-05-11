@@ -436,7 +436,7 @@ export default class WWCombat extends Combat {
   /**
    * Expire active effects that lasts until an end of round.
    */
-  async _expireEffectsOnEndOfRound() {
+  /*async _expireEffectsOnEndOfRound() {
 
     // Loop for each combatant
     for (const c of this.combatants) {
@@ -497,12 +497,12 @@ export default class WWCombat extends Combat {
       if (hasActorUpdates) await c.actor.update(actorUpdate, context);
 
     }
-  }
+  }*/
 
   /**
    * Expire active effects that lasts until an end of a turn.
    */
-  async _expireEffectsOnTurn(current, phase) {
+  /*async _expireEffectsOnTurn(current, phase) {
     // Loop for each combatant
     for (const c of this.combatants) {
 
@@ -584,7 +584,7 @@ export default class WWCombat extends Combat {
 
     }
 
-  }
+  }*/
 
   /**
    * Expire active effects on update.
@@ -593,7 +593,7 @@ export default class WWCombat extends Combat {
    * @param {options} options Context options
    * @param {string} userId Triggering user ID
    */
-  async _expireEffectsOnUpdate(data, options, userId) {
+  /*async _expireEffectsOnUpdate(data, options, userId) {
     
     if (data.turn === undefined && data.round === undefined) return;
 
@@ -614,7 +614,7 @@ export default class WWCombat extends Combat {
     } else if (!game.user.isGM) return;
     
     actor.expireActiveEffects({ timeOffset, combat: this });
-  }
+  }*/
 
   /* -------------------------------------------- */
   /*  Event Handlers                              */
@@ -636,11 +636,11 @@ export default class WWCombat extends Combat {
   async _onUpdate(data, options, userId) {
     super._onUpdate(data, options, userId);
 
-    try {
+    /*try {
       this._expireEffectsOnUpdate(data, options, userId);
     } catch (error) {
       console.error(error);
-    }
+    }*/
 
     // Update Status Icons
     this.combatants.forEach(c => c.token?.object?.updateStatusIcons());

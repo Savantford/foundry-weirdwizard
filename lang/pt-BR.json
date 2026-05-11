@@ -646,22 +646,18 @@
 "WW.Effect.Duration.Months": "meses",
 "WW.Effect.Duration.And": "e",
 
-"WW.Effect.DurationPresets.Header": "Em Rodadas ou Turnos (combate)",
+"WW.Effect.DurationPresets.Label": "Predefinições",
+"WW.Effect.DurationPresets.None": "Sem duração (Permanente)",
+"WW.Effect.DurationPresets.Custom": "Duração personalizada",
+"WW.Effect.DurationPresets.1Minute": "1 minuto",
 "WW.Effect.DurationPresets.LuckEnds": "Sorte encerra (não-automatizado)",
-"WW.Effect.DurationPresets.1Round": "Até o fim da rodada",
-"WW.Effect.DurationPresets.2Rounds": "Até o fim da próxima rodada",
-"WW.Effect.DurationPresets.XRounds": "X rodadas (escolha valor)",
+"WW.Effect.DurationPresets.RoundEnd": "Até o fim da rodada",
+"WW.Effect.DurationPresets.NextRoundEnd": "Até o fim da próxima rodada",
 "WW.Effect.DurationPresets.TurnEnd": "Até o fim do turno",
 "WW.Effect.DurationPresets.NextTriggerTurnStart": "Até o início do próximo turno do ativador",
 "WW.Effect.DurationPresets.NextTargetTurnStart": "Até o início do próximo turno do alvo",
 "WW.Effect.DurationPresets.NextTriggerTurnEnd": "Até o fim do próximo turno do ativador",
 "WW.Effect.DurationPresets.NextTargetTurnEnd": "Até o fim do próximo turno do alvo",
-
-"WW.Effect.DurationPresets.Header": "Em Unidades de Tempo (fora do combate)",
-"WW.Effect.DurationPresets.1Minute": "1 minuto",
-"WW.Effect.DurationPresets.Minutes": "X minutos (escolha valor)",
-"WW.Effect.DurationPresets.Hours": "X horas (escolha valor)",
-"WW.Effect.DurationPresets.Days": "X dias (escolha valor)",
 
 "WW.Effect.ChangePresets.None": "Sem Efeito",
 

@@ -2,19 +2,9 @@
 /*  Utility Functions (available as game.weirdwizard.utils) */
 /* -------------------------------------------------------- */
 
-export class Utils {
-  static capitalize = capitalize;
-  static plusify = plusify;
-  static formatTime = formatTime;
-  static getEffectBoons = getEffectBoons;
-  static getSpeaker = getSpeaker;
-  static getAlias = getAlias;
-  static sum = sum;
-  static sysPath = sysPath;
-  static constructHTMLButton = constructHTMLButton;
-}
-
-/* Formatting Functions */
+/* -------------------------------------------------------- */
+/*  Formating Functions                                     */
+/* -------------------------------------------------------- */
 export function capitalize(string, noLowerCase) {
   return noLowerCase ? string?.charAt(0).toUpperCase() + string?.slice(1) : string?.charAt(0).toUpperCase() + string?.toLowerCase().slice(1);
 }

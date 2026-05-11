@@ -230,7 +230,7 @@ export async function prepareActiveEffectCategories(effects, showDuration = fals
   return categories;
 }
 
-export function expireFromTokens() {
+/*export function expireFromTokens() {
   if (game.users.activeGM?.isSelf) {
     for (const t of canvas.tokens.placeables) {
       
@@ -240,4 +240,4 @@ export function expireFromTokens() {
       t.actor.expireActiveEffects();
     }
   }
-}
+}*/

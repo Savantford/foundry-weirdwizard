@@ -485,8 +485,8 @@ WW.EFFECT_TARGETS_TARGETED = {
 WW.EFFECT_DURATION_PRESETS = {
   '1minute': 'WW.Effect.DurationPresets.1Minute',
   'luckEnds': 'WW.Effect.DurationPresets.LuckEnds',
-  '1round': 'WW.Effect.DurationPresets.1Round',
-  '2rounds': 'WW.Effect.DurationPresets.2Rounds',
+  '1round': 'WW.Effect.DurationPresets.RoundEnd',
+  '2rounds': 'WW.Effect.DurationPresets.NextRoundEnd',
   'turnEnd': 'WW.Effect.DurationPresets.TurnEnd',
   'nextTriggerTurnStart': 'WW.Effect.DurationPresets.NextTriggerTurnStart',
   'nextTargetTurnStart': 'WW.Effect.DurationPresets.NextTargetTurnStart',
