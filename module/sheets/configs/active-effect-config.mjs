@@ -77,8 +77,14 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
             group: _loc('WW.Effect.DurationPresets.Label')
           }))
         ];
-        
+
+        // Other duration related variables
         partContext.systemFields = fields;
+        partContext.formattedDuration = effect.formattedDuration;
+        partContext.durationIsTimeBased = CONST.ACTIVE_EFFECT_TIME_DURATION_UNITS.includes(effect.duration.units);
+        partContext.startTime = partContext.durationIsTimeBased
+          ? game.time.calendar.format(effect.start.time, 'formatDuration') : null;
+        
       } break;
 
       // Changes tab

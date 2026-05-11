@@ -1,4 +1,5 @@
 <section class="tab{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+  <h3>{{localize "EFFECT.DURATION.Header"}}: {{ formattedDuration }}</h3>
   {{!-- Duration Preset --}}
   <div class="form-group">
     <label class="flexrow" for="{{rootId}}-system.durationPreset">
@@ -11,128 +12,70 @@
     </div>
   </div>
 
-  {{!-- Duration Start --}}
-  {{#if start}}
-  <fieldset class="start-data">
-    <legend>{{localize "EFFECT.START.Header"}}</legend>
-    <div class="form-group">
-      <span class="label">{{localize "EFFECT.FIELDS.start.time.label"}}</span>
-      <div class="form-fields">{{start.time}}</div>
+  {{!-- Duration Block --}}
+  <div class="{{#unless source.system.durationPreset}}hidden{{/unless}}">
+    <h4>{{localize "WW.Effect.Duration.Automation"}}</h4>
+    
+    <div class="form-group slim" data-duration>
+      <label class="flexrow" for="{{rootId}}-duration.value">
+        <span>{{localize "WW.Effect.Duration.ExpiryDuration"}}</span>
+        <span class="warning" hidden><i class="fa-duotone fa-triangle-exclamation"></i></span>
+      </label>
+      <div class="form-fields">
+        {{formInput fields.duration.fields.value value=source.duration.value id=(concat rootId "-duration.value")
+        aria=(object label=(localize "EFFECT.FIELDS.duration.value.label"))
+        disabled=(ne source.system.durationPreset 'custom')}}
+
+        {{#unless durationIsTimeBased}}
+        <i class="info flex-0 fa-solid fa-circle-question" data-tooltip="{{localize "WW.Effect.Duration.ExpiryDurationHint"}}"></i>
+        {{/unless}}
+
+        {{formInput fields.duration.fields.units value=source.duration.units id=(concat rootId "-duration.units")
+        options=durationUnits aria=(object label=(localize "EFFECT.FIELDS.duration.units.label"))
+        disabled=(ne source.system.durationPreset 'custom')}}
+      </div>
     </div>
+
+    {{formGroup fields.duration.fields.expiry choices=expiryEvents value=source.duration.expiry rootId=rootId
+    disabled=(ne source.system.durationPreset 'custom')}}
+  </div>
+
+  {{!-- Start Block --}}
+  {{#if start}}
+  <div class="{{#unless source.system.durationPreset}}hidden{{/unless}}">
+    <h4>{{localize "EFFECT.START.Header"}}</h4>
+
+    <div class="form-group">
+      <label>{{localize "EFFECT.FIELDS.start.time.label"}}</label>
+      <div class="form-fields">{{#if startTime}}{{startTime}} ({{start.time}}){{else}}{{start.time}}{{/if}}</div>
+    </div>
+
     {{#if start.combat}}
     <div class="form-group">
-      <span class="label">{{localize "DOCUMENT.Combat"}}</span>
+      <label>{{localize "DOCUMENT.Combat"}}</label>
       <div class="form-fields">
         {{localize "EFFECT.START.Combat" round=start.round turn=start.turn}}
       </div>
     </div>
-    {{#if start.combatant}}
-    <div class="form-group">
-      <span class="label">{{localize "DOCUMENT.Combatant"}}</span>
-      <div class="form-fields">
-        {{localize "EFFECT.START.Combatant" combatant=start.combatantName initiative=start.combatantInitiative}}
+
+      {{#if start.combatant}}
+      <div class="form-group">
+        <label>{{localize "DOCUMENT.Combatant"}}</label>
+        <div class="form-fields">
+          {{localize "EFFECT.START.Combatant" combatant=start.combatantName initiative=start.combatantInitiative}}
+        </div>
       </div>
-    </div>
-    {{/if}}
-    {{/if}}
-  </fieldset>
-  {{/if}}
-  {{ durationLabel }}
+      {{/if}}
 
-  {{!-- Duration Block --}}
-  <div class="{{#unless source.system.durationPreset}}.hidden{{/unless}}">
-  <h3>{{localize "EFFECT.DURATION.Header"}}</h3>
-  
-  <div class="form-group slim duration" data-duration>
-    <label class="flexrow" for="{{rootId}}-duration.value">
-      <span>{{localize "EFFECT.DURATION.Label"}}</span>
-      <span class="warning" hidden><i class="fa-duotone fa-triangle-exclamation"></i></span>
-    </label>
-    <div class="form-fields">
-      {{formInput fields.duration.fields.value value=source.duration.value id=(concat rootId "-duration.value")
-      aria=(object label=(localize "EFFECT.FIELDS.duration.value.label"))
-      disabled=(ne source.system.durationPreset 'custom')}}
-
-      {{formInput fields.duration.fields.units value=source.duration.units id=(concat rootId "-duration.units")
-      options=durationUnits aria=(object label=(localize "EFFECT.FIELDS.duration.units.label"))
-      disabled=(ne source.system.durationPreset 'custom')}}
-    </div>
+    {{/if}}
   </div>
-
-  {{formGroup fields.duration.fields.expiry choices=expiryEvents value=source.duration.expiry rootId=rootId
-  disabled=(ne source.system.durationPreset 'custom')}}
-  </div>
-
-  <h4>Old Block START</h4>
-  {{!-- Duration in Seconds (Out of Combat) --}}
-  {{#if document.duration.seconds}}
-  
-    {{#if (eq document.system.duration.selected "minutes")}}
-    <div class="form-group">
-      <label>{{ localize "WW.Effect.Duration.InMinutes" }}</label>
-      <div class="form-fields">
-        <input type="number" name="system.duration.inMinutes" value="{{ document.system.duration.inMinutes }}" min="1" />
-      </div>
-    </div>
-    {{/if}}
-
-    {{#if (eq document.system.duration.selected "hours")}}
-    <div class="form-group">
-      <label>{{ localize "WW.Effect.Duration.InHours" }}</label>
-      <div class="form-fields">
-        <input type="number" name="system.duration.inHours" value="{{ document.system.duration.inHours }}" min="1" />
-      </div>
-    </div>
-    {{/if}}
-
-    {{#if (eq document.system.duration.selected "days")}}
-    <div class="form-group">
-      <label>{{ localize "WW.Effect.Duration.InDays" }}</label>
-      <div class="form-fields">
-        <input type="number" name="system.duration.inDays" value="{{ document.system.duration.inDays }}" min="1" />
-      </div>
-    </div>
-    {{/if}}
-
-    <div class="form-group">
-      <label>{{ localize "EFFECT.FIELDS.duration.startTime.label" }}</label>
-      <div class="form-fields">{{ formattedStartTime }}</div>
-    </div>
-
-  {{!-- Duration in Rounds (Combat) --}}
-  {{else if document.duration.rounds}}
-
-    <div class="form-group">
-      <label>{{ localize "WW.Effect.Duration.InRounds" }}</label>
-
-      <div class="form-fields">
-        {{#if (eq document.system.duration.selected 'Xrounds')}}
-        <input type="number" name="duration.rounds" value="{{ document.duration.rounds }}" />
-        {{else}}
-        {{ document.duration.rounds }}
-        {{/if}}
-      </div>
-
-    </div>
-
-    <div class="form-group">
-      <label>{{ localize "WW.Effect.Duration.StartRound" }}</label>
-      <div class="form-fields">{{ document.duration.startRound }}</div>
-    </div>
-
-    <div class="form-group">
-      <label>{{ localize "EFFECT.FIELDS.duration.combat.label" }}</label>
-      <div class="form-fields">
-        <input type="text" name="duration.combat" value="{{ document.duration.combat }}" disabled />
-      </div>
-    </div>
-
   {{/if}}
 
-  <div class="form-group">
+  {{!-- Automatically Delete when Expired --}}
+  {{!--<div class="form-group">
     <label>{{ localize "WW.Effect.Duration.AutoRemove" }}</label>
     <div class="form-fields">
       <input type="checkbox" name="system.duration.autoExpire" {{checked document.system.duration.autoExpire}}>
     </div>
-  </div>
+  </div>--}}
 </section>
