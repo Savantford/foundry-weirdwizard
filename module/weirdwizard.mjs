@@ -105,8 +105,9 @@ Hooks.once('init', function () {
   CONFIG.Item.dataModels.spell = SpellModel;
 
   // Active Effect data models
-  CONFIG.ActiveEffect.dataModels.base = BaseEffectModel;
+  CONFIG.ActiveEffect.dataModels.generic = BaseEffectModel;
   CONFIG.ActiveEffect.dataModels.benefit = BenefitEffectModel;
+  CONFIG.ActiveEffect.dataModels.affliction = BaseEffectModel;
 
   // Journal Entry Page data models
   CONFIG.JournalEntryPage.dataModels.ancestry = AncestryModel;

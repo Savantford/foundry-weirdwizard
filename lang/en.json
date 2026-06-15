@@ -651,7 +651,7 @@
 "WW.Effect.Duration.Short": "Duration",
 "WW.Effect.Duration.Permanent": "Permanent",
 "WW.Effect.Duration.LuckEnds": "Luck ends",
-"WW.Effect.Duration.Automation": "Effect Expiration Automation",
+"WW.Effect.Duration.Automation": "Effect Expiry Automation",
 "WW.Effect.Duration.ExpiryDuration": "Expiry Duration",
 "WW.Effect.Duration.ExpiryDurationHint": "<p>Foundry VTT measures effect duration differently from Shadow of the Weird Wizard, so here you should follow its logic in order for effects to expire as expected.</p><p>For Foundry, an expiry duration of 0 turns/rounds means it will expire this turn/round, 1 turns/rounds will expire next round, and so on.</p><p>That said, everywhere else in the system, including the Effect Duration heading above, the duration text should match Shadow of the Weird Wizard wording.</p>",
 "WW.Effect.Duration.StartRound": "Effect Start Round",

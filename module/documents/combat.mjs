@@ -22,31 +22,74 @@ import WWCombatant from './combatant.mjs';
  */
 export default class WWCombat extends Combat {
   /* -------------------------------------------- */
-  /*  Properties                                  */
-  /* -------------------------------------------- */
-
-  /**
-   * Return the object of settings which modify the Combat Tracker behavior
-   * @type {object}
-   */
-  get skipActed() {
-    return game.settings.get('weirdwizard', 'skipActed');
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Return the Combat Tracker's standby state
-   * @type {boolean}
-  */
-  get onStandby () {
-    return this.turn === null ? true : false;
-  }
-
-  /* -------------------------------------------- */
-  /*  Methods                                     */
+  /*  Lifecycle Handlers                          */
   /* -------------------------------------------- */
   
+  async _preCreate(...[data, options, user]) {
+    // Start the combat without a current turn
+    return this.updateSource({ turn: null }), super._preCreate(data, options, user);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * @override
+   * @param {object} data Update data
+   * @param {options} options Context options
+   * @param {string} userId Triggering user ID
+   */
+  async _onUpdate(data, options, userId) {
+    super._onUpdate(data, options, userId);
+
+    /*try {
+      this._expireEffectsOnUpdate(data, options, userId);
+    } catch (error) {
+      console.error(error);
+    }*/
+
+    // Update Status Icons
+    this.combatants.forEach(c => c.token?.object?.updateStatusIcons());
+    
+    // If not a GM, show a Take The Initiative prompt at the beginning of a new round
+    if (options.direction !== -1 && data.round && !game.user.isGM) {
+      
+      if (!game.user.character) {
+        ui.notifications.warn(i18n('WW.Combat.Initiative.NoCharacter'));
+      } else {
+        // Check if the users's character is present as a combatant in the current combat
+        for (const c of game.combat.combatants) {
+          if (c.actorId == game.user.character.id) {
+            const confirm = await WWDialog.confirm({
+              window: {
+                title: 'WW.Combat.Initiative.Title',
+                icon: 'fa-solid fa-bolt'
+              },
+              content: i18n('WW.Combat.Initiative.Msg')
+            })
+            
+            c.takeInit(confirm);
+          }
+        }
+  
+      }
+    }
+    
+  }
+
+  /* -------------------------------------------- */
+
+  /** @inheritdoc */
+  _onDelete(options, userId) {
+    super._onDelete(options, userId);
+    
+    // Update Status Icons after deleting the combat
+    this.combatants.forEach(c => c.token?.object?.updateStatusIcons());
+  }
+  
+  /* -------------------------------------------- */
+  /*  Combat Handling                             */
+  /* -------------------------------------------- */
+
   /**
    * @override
    * Begin the combat encounter, advancing to round 1 and turn 1
@@ -57,142 +100,6 @@ export default class WWCombat extends Combat {
     console.log('starting combat!')
     return this;
   }*/
-
-  /* -------------------------------------------- */
-
-  /**
-   * @override
-   * Advance the combat to the next round
-   * @returns {Promise<this>}
-   */
-  async nextRound() {
-    this.turns.forEach((t) => t.setFlag('weirdwizard', 'acted', false)); // Reset acted flag
-    
-    await super.nextRound();
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * @override
-   * Rewind the combat to the previous round
-   * @returns {Promise<this>}
-   */
-  async previousRound() {
-    this.turns.forEach((t) => t.setFlag('weirdwizard', 'acted', false)); // Reset acted flag
-    
-    await super.previousRound();
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * @override
-   * Ends the current turn without starting a new one
-   * @returns {Promise<Combat>}
-   */
-  async nextTurn() {
-    // Mark current combatant, if any, as acted
-    if (this.combatant) await this.combatant.setFlag('weirdwizard', 'acted', true);
-
-    // Update Data and Options
-    const updateData = { turn: null }, updateOptions = { direction: 0, worldTime: {delta: 0} };
-    Hooks.callAll("combatTurn", this, updateData, updateOptions);
-    await this.update(updateData, updateOptions);
-    return this;
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * A custom method based on nextTurn() to attempt to take the next turn as the combatant.
-   * @param {WWCombatant} combatant
-   * @private
-   */
-  async startTurn(combatant) {
-    // Return earlier if the combatant is null or has acted
-    if (!(combatant != null && !combatant.acted)) return this;
-
-    // Confirmation dialog
-    const confirm = game.user.isGM ? true : await WWDialog.confirm({
-      window: {
-        title: 'WW.Combat.StartTurn.Title',
-        icon: 'fa-solid fa-bolt'
-      },
-      content: `
-        <div>${i18n('WW.Combat.StartTurn.Msg')}</div>
-        <div class="dialog-sure">${i18n('WW.Combat.StartTurn.Confirm')}</div>
-      `
-    });
-
-    if (!confirm) return;
-
-    // Prepare turn data
-    const nextTurn = this.turns.findIndex((turn) => turn.id === combatant.id); // Custom next turn
-    const advanceTime = this.getTimeDelta(this.round, this.turn, this.round, nextTurn);
-
-    // Update the document, passing data through a hook first
-    const updateData = {round: this.round, turn: nextTurn};
-    const updateOptions = {direction: 1, worldTime: {delta: advanceTime}};
-    Hooks.callAll("combatTurn", this, updateData, updateOptions);
-    await this.update(updateData, updateOptions);
-
-    return this;
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Display a dialog querying the GM whether they wish to end the combat encounter and empty the tracker
-   * @returns {Promise<this>}
-   */
-  async endCombat() {
-    await foundry.applications.api.DialogV2.confirm({
-      window: {icon: "fa-solid fa-xmark", title: "COMBAT.EndTitle"},
-      content: `<p>${_loc("COMBAT.EndConfirmation")}</p>`,
-      yes: {callback: () => this.delete()},
-      modal: true
-    });
-    return this;
-  }
-
-  /**
-   * @override
-   * Display a dialog querying the GM whether they wish to end the combat encounter and empty the tracker
-   * @returns {Promise<Combat>}
-   */
-  async endCombat() {
-    await WWDialog.input({
-      window: { icon: 'fa-solid fa-hourglass', title: 'WW.Combat.End.Title' },
-      content: `<p>${i18n("WW.Combat.End.Msg")}</p><p>${i18n("WW.Combat.End.Msg2")}</p>`,
-      ok: {
-        action: 'skip',
-        label: 'WW.Combat.End.Skip',
-        icon: 'fa-solid fa-hourglass-end',
-        callback: () => {
-          this._expireLeftoverEffects(); // Expire leftover effects - no longer needed?
-          game.time.advance(60); // Advance 1 minute to end 1 minute durations
-          this.delete();
-        }
-      },
-      buttons: [{
-        action: 'endOnly',
-        label: 'WW.Combat.End.Only',
-        icon: 'fa-solid fa-pause',
-        callback: () => {
-          this.delete();
-        }
-      },
-      {
-        action: 'cancel',
-        label: 'WW.Combat.End.Cancel',
-        icon: 'fa-solid fa-times',
-        callback: () => { }
-      }]
-    });
-
-    return this;
-  }
 
   /* -------------------------------------------- */
 
@@ -275,8 +182,6 @@ export default class WWCombat extends Combat {
   }
 
   /* -------------------------------------------- */
-  /*  Turn Events                                 */
-  /* -------------------------------------------- */
 
   /**
    * @override
@@ -290,6 +195,21 @@ export default class WWCombat extends Combat {
    * @returns {Promise<void>}
    * @protected
    */
+  /*async _manageTurnEvents() {
+    if ( !this.started ) return;
+
+    // Capture current and previous states
+    const {current, previous} = this;
+    console.log('manage turn Events')
+    console.log(current)
+    console.log(previous)
+    // Gamemaster handling only
+    if ( game.user.isActiveGM ) await super.#triggerTurnEvents();
+
+    // Hooks handled by all clients
+    Hooks.callAll("combatTurnChange", this, previous, current);
+  }*/
+
   /*async _manageTurnEvents() { // Maybe do something about this
 
     // Capture current and previous states
@@ -303,19 +223,81 @@ export default class WWCombat extends Combat {
   /* -------------------------------------------- */
 
   /**
-   * A workflow that occurs at the end of each Combat Turn.
-   * This workflow occurs after the Combat document update, prior round information exists in this.previous.
+   * @override
+   * Display a dialog querying the GM whether they wish to end the combat encounter and empty the tracker
+   * @returns {Promise<Combat>}
+   */
+  async endCombat() {
+    await WWDialog.input({
+      window: { icon: 'fa-solid fa-hourglass', title: 'WW.Combat.End.Title' },
+      content: `<p>${i18n("WW.Combat.End.Msg")}</p><p>${i18n("WW.Combat.End.Msg2")}</p>`,
+      ok: {
+        action: 'skip',
+        label: 'WW.Combat.End.Skip',
+        icon: 'fa-solid fa-hourglass-end',
+        callback: () => {
+          this._expireLeftoverEffects(); // Expire leftover effects - no longer needed?
+          game.time.advance(60); // Advance 1 minute to end 1 minute durations
+          this.delete();
+        }
+      },
+      buttons: [{
+        action: 'endOnly',
+        label: 'WW.Combat.End.Only',
+        icon: 'fa-solid fa-pause',
+        callback: () => this.delete()
+      },
+      {
+        action: 'cancel',
+        label: 'WW.Combat.End.Cancel',
+        icon: 'fa-solid fa-times',
+        callback: () => { }
+      }]
+    });
+
+    return this;
+  }
+
+  /* -------------------------------------------- */
+  /*  Rounds Handling                             */
+  /* -------------------------------------------- */
+
+  /**
+   * @override
+   * Advance the combat to the next round
+   * @returns {Promise<this>}
+   */
+  async nextRound() {
+    this.turns.forEach((t) => t.setFlag('weirdwizard', 'acted', false)); // Reset acted flag
+    
+    await super.nextRound();
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * @override
+   * Rewind the combat to the previous round
+   * @returns {Promise<this>}
+   */
+  async previousRound() {
+    this.turns.forEach((t) => t.setFlag('weirdwizard', 'acted', false)); // Reset acted flag
+    
+    await super.previousRound();
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * A workflow that occurs at the start of each Combat Round.
+   * This workflow occurs after the Combat document update, new round information exists in this.current.
    * This can be overridden to implement system-specific combat tracking behaviors.
    * This method only executes for one designated GM user. If no GM users are present this method will not be called.
-   * @inheritdoc
-   * @param {Combatant} combatant     The Combatant whose turn just ended
    * @returns {Promise<void>}
    * @protected
    */
-  /*async _onEndTurn(combatant) {
-    super._onEndTurn(combatant);
-    
-    this._expireEffectsOnTurn(combatant, 'end');
+  /*async _onStartRound(context) {
+
   }*/
 
   /* -------------------------------------------- */
@@ -338,16 +320,41 @@ export default class WWCombat extends Combat {
   }*/
 
   /* -------------------------------------------- */
+  /*  Turns Handling                              */
+  /* -------------------------------------------- */
 
   /**
-   * A workflow that occurs at the start of each Combat Round.
-   * This workflow occurs after the Combat document update, new round information exists in this.current.
+   * A workflow that occurs at the end of each Combat Turn.
+   * This workflow occurs after the Combat document update.
+   * This method only executes for one designated GM user. If no GM users are present this method will not be called.
+   * @param {Combatant} combatant               The Combatant whose turn just ended
+   * @param {CombatTurnEventContext} context    The context of the turn that just ended
+   * @returns {Promise<void>}
+   */
+  async #onEndTurn(combatant, context) {
+    if ( CONFIG.debug.combat ) console.debug(` | Combat End Turn: ${combatant.name}`);
+    await this._onEndTurn(combatant, context);
+    await ActiveEffect.registry.refresh("turnEnd", {...context, combat: this});
+    this.#triggerRegionEvents(CONST.REGION_EVENTS.TOKEN_TURN_END, context, [combatant]);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * A workflow that occurs at the end of each Combat Turn.
+   * This workflow occurs after the Combat document update, prior round information exists in this.previous.
    * This can be overridden to implement system-specific combat tracking behaviors.
    * This method only executes for one designated GM user. If no GM users are present this method will not be called.
+   * @inheritdoc
+   * @param {Combatant} combatant     The Combatant whose turn just ended
    * @returns {Promise<void>}
    * @protected
    */
-  /*async _onStartRound(context) {}*/
+  async _onEndTurn(combatant) {
+    super._onEndTurn(combatant);
+    console.log('turn ending for', combatant.name)
+    //this._expireEffectsOnTurn(combatant, 'end');
+  }
 
   /* -------------------------------------------- */
 
@@ -617,68 +624,25 @@ export default class WWCombat extends Combat {
   }*/
 
   /* -------------------------------------------- */
-  /*  Event Handlers                              */
+  /*  Properties                                  */
   /* -------------------------------------------- */
-  
-  async _preCreate(...[data, options, user]) {
-    // Start the combat without a current turn
-    return this.updateSource({ turn: null }), super._preCreate(data, options, user);
+
+  /**
+   * Return the object of settings which modify the Combat Tracker behavior
+   * @type {object}
+   */
+  get skipActed() {
+    return game.settings.get('weirdwizard', 'skipActed');
   }
 
   /* -------------------------------------------- */
 
   /**
-   * @override
-   * @param {object} data Update data
-   * @param {options} options Context options
-   * @param {string} userId Triggering user ID
-   */
-  async _onUpdate(data, options, userId) {
-    super._onUpdate(data, options, userId);
-
-    /*try {
-      this._expireEffectsOnUpdate(data, options, userId);
-    } catch (error) {
-      console.error(error);
-    }*/
-
-    // Update Status Icons
-    this.combatants.forEach(c => c.token?.object?.updateStatusIcons());
-    
-    // If not a GM, show a Take The Initiative prompt at the beginning of a new round
-    if (options.direction !== -1 && data.round && !game.user.isGM) {
-      
-      if (!game.user.character) {
-        ui.notifications.warn(i18n('WW.Combat.Initiative.NoCharacter'));
-      } else {
-        // Check if the users's character is present as a combatant in the current combat
-        for (const c of game.combat.combatants) {
-          if (c.actorId == game.user.character.id) {
-            const confirm = await WWDialog.confirm({
-              window: {
-                title: 'WW.Combat.Initiative.Title',
-                icon: 'fa-solid fa-bolt'
-              },
-              content: i18n('WW.Combat.Initiative.Msg')
-            })
-            
-            c.takeInit(confirm);
-          }
-        }
-  
-      }
-    }
-    
-  }
-
-  /* -------------------------------------------- */
-
-  /** @inheritdoc */
-  _onDelete(options, userId) {
-    super._onDelete(options, userId);
-    
-    // Update Status Icons after deleting the combat
-    this.combatants.forEach(c => c.token?.object?.updateStatusIcons());
+   * Return the Combat Tracker's standby state
+   * @type {boolean}
+  */
+  get onStandby () {
+    return this.turn === null ? true : false;
   }
 
 }
