@@ -22,7 +22,7 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
   
   /** @inheritDoc */
   _onDelete(options, userId) {
-    if (this.isTemporary && this.duration.expired) ChatMessage.create({
+    if (this.isTemporary/* && this.duration.expired*/) ChatMessage.create({
       type: 'status',
       content: `<p>${this.actor.link}:
         <a class="content-link" data-tooltip="${escape(this.tooltip)}"><img src="${this.img}"> ${this.name}</a>

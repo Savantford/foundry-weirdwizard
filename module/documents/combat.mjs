@@ -406,10 +406,20 @@ export default class WWCombat extends Combat {
     // Prior and next Rounds are different: End round and start a new one
     if (prior.round !== next.round) {
       // End Round
-      // await this.#onEndRound({round: prior.round, skipped: prior.round !== previous.round});
+      const contextEnd = { round: prior.round, skipped: prior.round !== previous.round };
+      
+      if ( CONFIG.debug.combat ) console.debug(` | Combat End Round: ${contextEnd.round}`);
+      await this._onEndRound(contextEnd);
+      await foundry.documents.ActiveEffect.registry.refresh("roundEnd", {...contextEnd, combat: this});
+      this.#triggerWWRegionEvents(CONST.REGION_EVENTS.TOKEN_ROUND_END, contextEnd, this.combatants);
 
       // Start Round
-      // await this.#onStartRound({round: next.round, skipped: next.round !== current.round});
+      const contextStart = { round: next.round, skipped: next.round !== current.round };
+
+      if ( CONFIG.debug.combat ) console.debug(` | Combat Start Round: ${contextStart.round}`);
+      await this._onStartRound(contextStart);
+      await foundry.documents.ActiveEffect.registry.refresh("roundStart", {...contextStart, combat: this});
+      this.#triggerWWRegionEvents(CONST.REGION_EVENTS.TOKEN_ROUND_START, contextStart, this.combatants);
     }
 
     // A next Combatant exists: Start Turn
