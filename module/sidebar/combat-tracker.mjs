@@ -652,9 +652,8 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
     const combatant = combat.combatants.get(combatantId), acted = combatant.acted;
     
     if (combatant.permission) { // Check if user has permission
-
       // Combat NOT in standby; NOT acted; is current turn: End turn
-      if (!combat.onStandby && !acted && combatant === combat.combatant) combat.nextTurn();
+      if (!combat.onStandby && !acted && combatant === combat.combatant) combat.endTurn(combatant); //combat.nextTurn();
 
       // Combat in standby; Combatant has not acted; NOT current turn: Take a turn
       else if (combat.onStandby && !acted && combatant !== combat.combatant) combat.startTurn(combatant);
