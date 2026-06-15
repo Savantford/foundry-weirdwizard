@@ -192,6 +192,7 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
   */
   get originalCombatant() {
     const document = fromUuidSync(this.origin);
+    if (!document) return null;
 
     if (document?.documentName === 'Item') {
       return document.parent.token?.combatant ?? null;
@@ -289,7 +290,8 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
         ? combat.combatants.get(this.start.combatant)
         : combat.getCombatantsByActor(this.actor ?? "")[0]
       : null;
-    
+    const lcPreset = this.system.durationPreset.toLowerCase();
+
     switch ( event ) {
       case "combatStart":
       case "combatEnd":
@@ -297,36 +299,40 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
       case "roundEnd":
         return !!effectCombatant;
       case "turnStart":
-        return !!combat?.started && (combat.combatant === effectCombatant);
-      case "turnEnd": {
-        if ( !combat?.started || !effectCombatant ) return false;
-        const previousCombatantId = combat.previous.combatantId;
-        const lcPreset = this.system.durationPreset.toLowerCase();
-        console.log(lcPreset)
-        console.log(this)
-        console.log(context)
+        console.log('turnStart')
+        // Return false if combat hasn't started a or if combat/effect has no combatant
+        if ( !combat?.started || !effectCombatant) return false;
         
-        // If no preset is selected or turnEnd is selected
+        // If no preset is selected, return true
+        if (!lcPreset) return true;
+        
+        // If TARGET is taken into account (nextTargetTurnStart)
+        if (lcPreset.includes('target')) {
+          if (combat.combatant) return effectCombatant.id === combat.combatant.id; // Prefer matching on combatant
+          else return effectCombatant.turnNumber === combat.turn;                  // Otherwise match turn number
+        
+        // If TRIGGER is taken into account (nextTriggerTurnStart)
+        } else if (!this.originalCombatant || this.originalCombatant?.id === combat.combatant.id) true;
+        else false;
+      case "turnEnd": {
+        // Return false if combat hasn't started a or if combat/effect has no combatant
+        if ( !combat?.started || !effectCombatant) return false;
+
+        // Return false if previous combatant does not exist
+        const previousCombatantId = combat.previous.combatantId;
+        if ( !previousCombatantId ) return false;
+        console.log('turnEnd')
+        // If no preset is selected or turnEnd is selected, return true
         if (!lcPreset || lcPreset === 'turnend') return true;
 
-        // If TARGET is taken into account (nextTargetTurnEnd, nextTargetTurnStart)
+        // If TARGET is taken into account (nextTargetTurnEnd)
         else if (lcPreset.includes('target')) {
-          console.log('target')
-          if (combat.comnbatant !== effectCombatant) return false; // If current combatant is affected by the effect
-          else {
-            if ( previousCombatantId ) return effectCombatant.id === previousCombatantId; // Prefer matching on combatant
-            else return effectCombatant.turnNumber === combat.previous.turn;              // Otherwise match turn number
-          };
+          if (previousCombatantId) return effectCombatant.id === previousCombatantId; // Prefer matching on combatant
+          else return effectCombatant.turnNumber === combat.previous.turn;            // Otherwise match turn number
         
-        // If TRIGGER is taken into account: nextTriggerTurnEnd, nextTriggerTurnStart
-        } else {
-          console.log('trigger')
-          if (combat.combatant !== this.originalCombatant) return false; // If current combatant is the origin of the effect
-          else {
-            if ( previousCombatantId ) return effectCombatant.id === previousCombatantId; // Prefer matching on combatant
-            else return effectCombatant.turnNumber === combat.previous.turn;              // Otherwise match turn number
-          };
-        }
+        // If TRIGGER is taken into account (nextTriggerTurnEnd)
+        } else if (!this.originalCombatant || this.originalCombatant?.id === previousCombatantId) true;
+        else false;
       }
       default:
         return false;
