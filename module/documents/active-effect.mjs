@@ -193,7 +193,7 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
   get originalCombatant() {
     const document = fromUuidSync(this.origin);
 
-    if (document.documentName === 'Item') {
+    if (document?.documentName === 'Item') {
       return document.parent.token?.combatant ?? null;
     } else {
       return document.token?.combatant ?? null;
@@ -301,8 +301,32 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
       case "turnEnd": {
         if ( !combat?.started || !effectCombatant ) return false;
         const previousCombatantId = combat.previous.combatantId;
-        if ( previousCombatantId ) return effectCombatant.id === previousCombatantId; // Prefer matching on combatant
-        else return effectCombatant.turnNumber === combat.previous.turn;              // Otherwise match turn number
+        const lcPreset = this.system.durationPreset.toLowerCase();
+        console.log(lcPreset)
+        console.log(this)
+        console.log(context)
+        
+        // If no preset is selected or turnEnd is selected
+        if (!lcPreset || lcPreset === 'turnend') return true;
+
+        // If TARGET is taken into account (nextTargetTurnEnd, nextTargetTurnStart)
+        else if (lcPreset.includes('target')) {
+          console.log('target')
+          if (combat.comnbatant !== effectCombatant) return false; // If current combatant is affected by the effect
+          else {
+            if ( previousCombatantId ) return effectCombatant.id === previousCombatantId; // Prefer matching on combatant
+            else return effectCombatant.turnNumber === combat.previous.turn;              // Otherwise match turn number
+          };
+        
+        // If TRIGGER is taken into account: nextTriggerTurnEnd, nextTriggerTurnStart
+        } else {
+          console.log('trigger')
+          if (combat.combatant !== this.originalCombatant) return false; // If current combatant is the origin of the effect
+          else {
+            if ( previousCombatantId ) return effectCombatant.id === previousCombatantId; // Prefer matching on combatant
+            else return effectCombatant.turnNumber === combat.previous.turn;              // Otherwise match turn number
+          };
+        }
       }
       default:
         return false;

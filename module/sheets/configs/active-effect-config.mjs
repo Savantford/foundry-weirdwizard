@@ -233,8 +233,8 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
       case 'turnEnd': submitData.duration = { value: 0, units: 'rounds', expiry: 'turnEnd' }; break;
       case 'nextTriggerTurnStart': submitData.duration = { value: 0, units: 'rounds', expiry: 'turnStart' }; break;
       case 'nextTargetTurnStart': submitData.duration = { value: 0, units: 'rounds', expiry: 'turnStart' }; break;
-      case 'nextTriggerTurnEnd': submitData.duration = { value: 0, units: 'rounds', expiry: 'turnEnd' }; break;
-      case 'nextTargetTurnEnd': submitData.duration = { value: 0, units: 'rounds', expiry: 'turnEnd' }; break;
+      case 'nextTriggerTurnEnd': submitData.duration = { value: 1, units: 'rounds', expiry: 'turnEnd' }; break;
+      case 'nextTargetTurnEnd': submitData.duration = { value: 1, units: 'rounds', expiry: 'turnEnd' }; break;
 
       // World Time duration
       case '1minute': submitData.duration = { value: 1, units: 'minutes', expiry: null }; break;
