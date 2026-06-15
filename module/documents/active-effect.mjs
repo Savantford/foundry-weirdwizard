@@ -9,24 +9,20 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
   /* -------------------------------------------- */
 
   /*async _preCreate(data, options, user) {
-    this._validateDuration(data, '_preCreate');
-
     return await super._preCreate(data, options, user);
   }*/
 
   /* -------------------------------------------- */
 
-  async _preUpdate(changes, options, user) {
-    //this._validateDuration(changes, '_preUpdate');
-    
+  /*async _preUpdate(changes, options, user) {
     return await super._preUpdate(changes, options, user);
-  }
+  }*/
 
   /* -------------------------------------------- */
   
   /** @inheritDoc */
   _onDelete(options, userId) {
-    if (this.isTemporary && this.duration.remaining <= 0) ChatMessage.create({
+    if (this.isTemporary && this.duration.expired) ChatMessage.create({
       type: 'status',
       content: `<p>${this.actor.link}:
         <a class="content-link" data-tooltip="${escape(this.tooltip)}"><img src="${this.img}"> ${this.name}</a>
@@ -37,53 +33,6 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
 
     super._onDelete(options, userId);
   }
-
-  /* -------------------------------------------- */
-
-  /*_validateDuration(data, stage) {
-    console.log('validating duration')
-    const selected = data.system?.duration?.selected ?? this.system.duration.selected;
-    const rounds = data.duration?.rounds ?? this.duration.rounds;
-    const minutes = data.system?.duration?.inMinutes ?? this.system.duration.inMinutes;
-    const hours = data.system?.duration?.inHours ?? this.system.duration.inHours;
-    const days = data.system?.duration?.inDays ?? this.system.duration.inDays;
-    
-    const updateData = function(rounds, seconds) {
-      // Stage is probably not needed for this and thus was removed from the check. More testing needed!
-      //if (stage === '_preCreate') this.updateSource({ 'duration.rounds': rounds, 'duration.seconds': seconds });
-      /*else if (stage === '_preUpdate')*/ /*data = foundry.utils.mergeObject(data, { 'duration.rounds': rounds, 'duration.seconds': seconds });
-    };
-    
-    // Check the selected value and set duration values
-    switch (selected) {
-      // No duration
-      case 'none': updateData(null, null); break;
-
-      // Rounds duration
-      case 'luckEnds': updateData(777, null); break;
-
-      case '1round': updateData(1, null); break;
-      case '2rounds': updateData(2, null); break;
-      case 'Xrounds': updateData(rounds, null); break;
-
-      case 'turnEnd': updateData(1, null); break;
-      case 'nextTriggerTurnStart': updateData(1, null); break;
-      case 'nextTargetTurnStart': updateData(1, null); break;
-      case 'nextTriggerTurnEnd': updateData(1, null); break;
-      case 'nextTargetTurnEnd': updateData(1, null); break;
-
-      // Real World duration
-      case '1minute': updateData(null, 60); break;
-      case 'minutes': if (minutes) updateData(null, minutes * 60); break;
-      case 'hours': if (hours) updateData(null, hours * 60*60); break;
-      case 'days': if (days) updateData(null, days * 60*60*24); break;
-    }
-
-    // Format duration
-    if (rounds === 777) this.system.duration.formatted = 'Luck ends';
-    else if (rounds) this.system.duration.formatted = `${rounds} ${(rounds > 1 ? _loc(rounds + 'Rounds') : _loc(rounds + 'Round'))}`;
-    else this.system.duration.formatted = formatTime(this.duration.seconds);
-  }*/
 
   /* -------------------------------------------- */
   /*  Data Preparation                            */
@@ -262,6 +211,8 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
     return changes;
   }
 
+  /* -------------------------------------------- */
+
   /**
    * A determination of whether the ActiveEffect's expiry event was reached. This check is independent of whether the
    * duration was also reached.
@@ -338,6 +289,8 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
         return false;
     }
   }
+
+  /* -------------------------------------------- */
 
   get formattedDuration() {
     const { value, units, expiry, ... duration } = this.duration;
