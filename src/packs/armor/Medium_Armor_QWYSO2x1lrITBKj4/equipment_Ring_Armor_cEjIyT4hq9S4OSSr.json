@@ -73,30 +73,13 @@
       "name": "Armor Equipped",
       "origin": "Compendium.weirdwizard.armor.Item.cEjIyT4hq9S4OSSr",
       "duration": {
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "rounds": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "_id": "MEpanLl5bQ4oXfTE",
-      "changes": [
-        {
-          "key": "defense.armored",
-          "value": "14",
-          "": 4,
-          "priority": 1
-        },
-        {
-          "key": "defense.naturalIncrease",
-          "value": "2",
-          "": 2,
-          "priority": null
-        }
-      ],
       "description": "",
       "transfer": true,
       "statuses": [],
@@ -109,7 +92,7 @@
       },
       "tint": "#ffffff",
       "_stats": {
-        "coreVersion": "13.345",
+        "coreVersion": "14.360",
         "systemId": null,
         "systemVersion": null,
         "createdTime": null,
@@ -121,8 +104,28 @@
       },
       "img": "icons/equipment/chest/breastplate-scale-grey.webp",
       "type": "base",
-      "system": {},
+      "system": {
+        "changes": [
+          {
+            "key": "defense.armored",
+            "value": 14,
+            "": 4,
+            "priority": 1,
+            "type": "custom"
+          },
+          {
+            "key": "defense.naturalIncrease",
+            "value": 2,
+            "": 2,
+            "priority": null,
+            "type": "custom"
+          }
+        ]
+      },
       "sort": 0,
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!cEjIyT4hq9S4OSSr.MEpanLl5bQ4oXfTE"
     }
   ],
@@ -132,7 +135,7 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "13.350",
+    "coreVersion": "14.360",
     "createdTime": 1692116593788,
     "modifiedTime": 1766768873108,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",

@@ -1,0 +1,313 @@
+{
+  "folder": null,
+  "name": "Cultist",
+  "type": "npc",
+  "_id": "IhCu83bAZioAxH0r",
+  "img": "icons/svg/mystery-man-black.svg",
+  "system": {
+    "description": "<p>From the ranks of ordinary people arise cultists, those who came under the influence of charismatic leaders. Cultists believe they have secret knowledge of the world and strive to demonstrate their worthiness. In a fight, they throw themselves at their enemies without regard for their own lives.</p>",
+    "attributes": {
+      "str": {
+        "value": 11
+      },
+      "agi": {
+        "value": 10
+      },
+      "int": {
+        "value": 9
+      },
+      "wil": {
+        "value": 10
+      }
+    },
+    "stats": {
+      "defense": {
+        "total": 0,
+        "natural": 10,
+        "details": ""
+      },
+      "health": {
+        "current": 10,
+        "normal": 5,
+        "lost": 0
+      },
+      "damage": {
+        "raw": 0,
+        "value": 0,
+        "max": 0
+      },
+      "size": 1,
+      "speed": {
+        "normal": 5,
+        "current": 0
+      },
+      "difficulty": 1
+    },
+    "listEntries": {
+      "descriptors": {
+        "human": {
+          "name": "Human",
+          "desc": "Human, dwarf, haren, or something else, an ancestry descriptor indicates that the creature belongs to a larger people in the world, a people that has a language, society, and some semblance of culture.",
+          "grantedBy": null
+        }
+      },
+      "senses": {},
+      "languages": {
+        "common": {
+          "name": "Common",
+          "desc": "The Common tongue originated with a seafaring people and was important for facilitating trade. It became the dominant language in the Great Kingdom and has spread to the new lands from the lips of refugees pouring across the borderlands. A dialect of Common—Seafarer—comes freighted with nautical jargon and odd digressions in which the speaker offers mild oaths to the sea god.",
+          "grantedBy": null
+        }
+      },
+      "immunities": {},
+      "movementTraits": {}
+    },
+    "charOptions": {
+      "ancestry": null
+    },
+    "details": {
+      "individualTraits": ""
+    }
+  },
+  "prototypeToken": {
+    "name": "Cultist",
+    "displayName": 0,
+    "actorLink": false,
+    "width": 1,
+    "height": 1,
+    "depth": 1,
+    "texture": {
+      "src": "icons/svg/mystery-man-black.svg",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "fit": "contain",
+      "scaleX": 1,
+      "scaleY": 1,
+      "tint": "#ffffff",
+      "alphaThreshold": 0.75
+    },
+    "lockRotation": false,
+    "rotation": 0,
+    "alpha": 1,
+    "disposition": -1,
+    "displayBars": 0,
+    "bar1": {
+      "attribute": "stats.damage"
+    },
+    "bar2": {
+      "attribute": null
+    },
+    "light": {
+      "negative": false,
+      "priority": 0,
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "color": null,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "sight": {
+      "enabled": false,
+      "range": 0,
+      "angle": 360,
+      "visionMode": "basic",
+      "color": null,
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0
+    },
+    "detectionModes": {},
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 1,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "turnMarker": {
+      "mode": 1,
+      "animation": null,
+      "src": null,
+      "disposition": false
+    },
+    "movementAction": null,
+    "flags": {},
+    "randomImg": false,
+    "appendNumber": false,
+    "prependAdjective": false
+  },
+  "items": [
+    {
+      "name": "Fanatic",
+      "type": "talent",
+      "system": {
+        "subtype": "trait",
+        "magical": false,
+        "description": "<p>A cultist makes @[wil+1] rolls with 1 boon.</p>",
+        "active": true,
+        "grantedBy": null,
+        "usedBy": [],
+        "attribute": "",
+        "against": "",
+        "boons": 0,
+        "range": 0,
+        "affliction": "",
+        "uses": {
+          "value": 0,
+          "max": 0,
+          "onRest": true,
+          "levelRelative": "manual"
+        },
+        "healing": "",
+        "instant": [],
+        "targeting": "manual",
+        "template": {
+          "type": "size",
+          "value": 5
+        },
+        "source": "none",
+        "boonsAlt": ""
+      },
+      "_id": "OTUl4sx2eBw7lygt",
+      "img": "icons/svg/card-hand.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.361",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+        "createdTime": 1781624245069,
+        "modifiedTime": 1781624245069,
+        "exportSource": null,
+        "compendiumSource": null,
+        "duplicateSource": null
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!IhCu83bAZioAxH0r.OTUl4sx2eBw7lygt"
+    },
+    {
+      "name": "Dagger",
+      "type": "equipment",
+      "system": {
+        "subtype": "weapon",
+        "magical": false,
+        "description": "<p>Strength (+1) with 1 boon (1d6)</p>",
+        "active": true,
+        "grantedBy": null,
+        "usedBy": [],
+        "attribute": "str",
+        "against": "def",
+        "boons": 1,
+        "range": 5,
+        "affliction": "",
+        "uses": {
+          "value": 0,
+          "max": 0,
+          "onRest": false,
+          "levelRelative": "manual"
+        },
+        "healing": "",
+        "instant": [],
+        "targeting": "manual",
+        "template": {
+          "type": "size",
+          "value": 5
+        },
+        "quantity": 1,
+        "weightUnit": 1,
+        "heldBy": null,
+        "availability": "common",
+        "quality": "standard",
+        "price": {
+          "value": 0,
+          "coin": "sp"
+        },
+        "armorType": "light",
+        "capacity": 1,
+        "requirements": "",
+        "damage": "1d6",
+        "grip": "natural",
+        "reloaded": true,
+        "traits": [
+          "thrown"
+        ],
+        "attackRider": {
+          "name": "",
+          "value": ""
+        },
+        "damageAlt": "",
+        "boonsAlt": ""
+      },
+      "_id": "256DJVrp4OtwzSw8",
+      "img": "icons/svg/item-bag.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.361",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+        "createdTime": 1781624245069,
+        "modifiedTime": 1781624245069,
+        "exportSource": null,
+        "compendiumSource": null,
+        "duplicateSource": null
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!IhCu83bAZioAxH0r.256DJVrp4OtwzSw8"
+    }
+  ],
+  "effects": [],
+  "ownership": {
+    "default": 0,
+    "7Z8jr2YYjOUPt6i3": 3
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "14.361",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1781624245069,
+    "modifiedTime": 1781624245069,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "exportSource": null,
+    "compendiumSource": null,
+    "duplicateSource": null
+  },
+  "sort": 0,
+  "_key": "!actors!IhCu83bAZioAxH0r"
+}

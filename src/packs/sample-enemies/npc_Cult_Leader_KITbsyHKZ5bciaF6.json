@@ -1,0 +1,560 @@
+{
+  "folder": null,
+  "name": "Cult Leader",
+  "type": "npc",
+  "_id": "KITbsyHKZ5bciaF6",
+  "img": "icons/svg/mystery-man-black.svg",
+  "system": {
+    "description": "<p>A leader heads every cult cell, overseeing congregations of various sizes, depending on the host community. Most leaders are former deacons promoted to a higher rank, but some might be lesser cultists who assumed the mantle afer a display of skillful command.</p>",
+    "attributes": {
+      "str": {
+        "value": 12
+      },
+      "agi": {
+        "value": 10
+      },
+      "int": {
+        "value": 11
+      },
+      "wil": {
+        "value": 12
+      }
+    },
+    "stats": {
+      "defense": {
+        "total": 0,
+        "natural": 15,
+        "details": "mail"
+      },
+      "health": {
+        "current": 20,
+        "normal": 10,
+        "lost": 0
+      },
+      "damage": {
+        "raw": 0,
+        "value": 0,
+        "max": 0
+      },
+      "size": 1,
+      "speed": {
+        "normal": 5,
+        "current": 0
+      },
+      "difficulty": 4
+    },
+    "listEntries": {
+      "descriptors": {
+        "human": {
+          "name": "Human",
+          "desc": "Human, dwarf, haren, or something else, an ancestry descriptor indicates that the creature belongs to a larger people in the world, a people that has a language, society, and some semblance of culture.",
+          "grantedBy": null
+        }
+      },
+      "senses": {},
+      "languages": {
+        "common": {
+          "name": "Common",
+          "desc": "The Common tongue originated with a seafaring people and was important for facilitating trade. It became the dominant language in the Great Kingdom and has spread to the new lands from the lips of refugees pouring across the borderlands. A dialect of Common—Seafarer—comes freighted with nautical jargon and odd digressions in which the speaker offers mild oaths to the sea god.",
+          "grantedBy": null
+        }
+      },
+      "immunities": {
+        "frightened": {
+          "name": "Frightened",
+          "desc": "",
+          "grantedBy": null
+        }
+      },
+      "movementTraits": {}
+    },
+    "charOptions": {
+      "ancestry": null
+    },
+    "details": {
+      "individualTraits": ""
+    }
+  },
+  "prototypeToken": {
+    "name": "Cult Leader",
+    "displayName": 0,
+    "actorLink": false,
+    "width": 1,
+    "height": 1,
+    "depth": 1,
+    "texture": {
+      "src": "icons/svg/mystery-man-black.svg",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "fit": "contain",
+      "scaleX": 1,
+      "scaleY": 1,
+      "tint": "#ffffff",
+      "alphaThreshold": 0.75
+    },
+    "lockRotation": false,
+    "rotation": 0,
+    "alpha": 1,
+    "disposition": -1,
+    "displayBars": 0,
+    "bar1": {
+      "attribute": "stats.damage"
+    },
+    "bar2": {
+      "attribute": null
+    },
+    "light": {
+      "negative": false,
+      "priority": 0,
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "color": null,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "sight": {
+      "enabled": false,
+      "range": 0,
+      "angle": 360,
+      "visionMode": "basic",
+      "color": null,
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0
+    },
+    "detectionModes": {},
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 1,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "turnMarker": {
+      "mode": 1,
+      "animation": null,
+      "src": null,
+      "disposition": false
+    },
+    "movementAction": null,
+    "flags": {},
+    "randomImg": false,
+    "appendNumber": false,
+    "prependAdjective": false
+  },
+  "items": [
+    {
+      "name": "Leadership",
+      "type": "talent",
+      "system": {
+        "subtype": "trait",
+        "magical": false,
+        "description": "<p>Each ally within 5 yards of the cult leader rolls to attack with 1 boon.</p>",
+        "active": true,
+        "grantedBy": null,
+        "usedBy": [],
+        "attribute": "",
+        "against": "",
+        "boons": 0,
+        "range": 0,
+        "affliction": "",
+        "uses": {
+          "value": 0,
+          "max": 0,
+          "onRest": true,
+          "levelRelative": "manual"
+        },
+        "healing": "",
+        "instant": [],
+        "targeting": "manual",
+        "template": {
+          "type": "size",
+          "value": 5
+        },
+        "source": "none",
+        "boonsAlt": ""
+      },
+      "_id": "fygpcROuIV7GdrA7",
+      "img": "icons/svg/card-hand.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.361",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+        "createdTime": 1781624227507,
+        "modifiedTime": 1781624227507,
+        "exportSource": null,
+        "compendiumSource": null,
+        "duplicateSource": null
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!KITbsyHKZ5bciaF6.fygpcROuIV7GdrA7"
+    },
+    {
+      "name": "Fanatic",
+      "type": "talent",
+      "system": {
+        "subtype": "trait",
+        "magical": false,
+        "description": "<p>A cultist makes @[wil+1] rolls with 1 boon.</p>",
+        "active": true,
+        "grantedBy": null,
+        "usedBy": [],
+        "attribute": "",
+        "against": "",
+        "boons": 0,
+        "range": 0,
+        "affliction": "",
+        "uses": {
+          "value": 0,
+          "max": 0,
+          "onRest": true,
+          "levelRelative": "manual"
+        },
+        "healing": "",
+        "instant": [],
+        "targeting": "manual",
+        "template": {
+          "type": "size",
+          "value": 5
+        },
+        "source": "none",
+        "boonsAlt": ""
+      },
+      "_id": "JMV4otbMuubnV1MB",
+      "img": "icons/svg/card-hand.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.361",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+        "createdTime": 1781624227507,
+        "modifiedTime": 1781624227507,
+        "exportSource": null,
+        "compendiumSource": null,
+        "duplicateSource": null
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!KITbsyHKZ5bciaF6.JMV4otbMuubnV1MB"
+    },
+    {
+      "name": "Sword",
+      "type": "equipment",
+      "system": {
+        "subtype": "weapon",
+        "magical": false,
+        "description": "<p>Strength (+2) with 1 boon (2d6)</p>",
+        "active": true,
+        "grantedBy": null,
+        "usedBy": [],
+        "attribute": "str",
+        "against": "def",
+        "boons": 1,
+        "range": 0,
+        "affliction": "",
+        "uses": {
+          "value": 0,
+          "max": 0,
+          "onRest": false,
+          "levelRelative": "manual"
+        },
+        "healing": "",
+        "instant": [],
+        "targeting": "manual",
+        "template": {
+          "type": "size",
+          "value": 5
+        },
+        "quantity": 1,
+        "weightUnit": 1,
+        "heldBy": null,
+        "availability": "common",
+        "quality": "standard",
+        "price": {
+          "value": 0,
+          "coin": "sp"
+        },
+        "armorType": "light",
+        "capacity": 1,
+        "requirements": "",
+        "damage": "2d6",
+        "grip": "natural",
+        "reloaded": true,
+        "traits": [
+          "slashing"
+        ],
+        "attackRider": {
+          "name": "",
+          "value": ""
+        },
+        "damageAlt": "",
+        "boonsAlt": ""
+      },
+      "_id": "ywMzhPxEofJEDczh",
+      "img": "icons/svg/item-bag.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.361",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+        "createdTime": 1781624227507,
+        "modifiedTime": 1781624227507,
+        "exportSource": null,
+        "compendiumSource": null,
+        "duplicateSource": null
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!KITbsyHKZ5bciaF6.ywMzhPxEofJEDczh"
+    },
+    {
+      "name": "Kill the Unbelievers",
+      "type": "talent",
+      "system": {
+        "subtype": "reaction",
+        "magical": false,
+        "description": "<p>When a cult leader gets a success on a roll to attack, each ally affected by their Leadership trait can use a reaction to attack. Then, the cult leader loses access to this talent for 1 minute.</p>",
+        "active": true,
+        "grantedBy": null,
+        "usedBy": [],
+        "attribute": "",
+        "against": "",
+        "boons": 0,
+        "range": 0,
+        "affliction": "",
+        "uses": {
+          "value": 0,
+          "max": 0,
+          "onRest": true,
+          "levelRelative": "manual"
+        },
+        "healing": "",
+        "instant": [],
+        "targeting": "manual",
+        "template": {
+          "type": "size",
+          "value": 5
+        },
+        "source": "none",
+        "boonsAlt": ""
+      },
+      "_id": "4DBrNVoZBj9T8llX",
+      "img": "icons/svg/card-hand.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.361",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+        "createdTime": 1781624227507,
+        "modifiedTime": 1781624227507,
+        "exportSource": null,
+        "compendiumSource": null,
+        "duplicateSource": null
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!KITbsyHKZ5bciaF6.4DBrNVoZBj9T8llX"
+    },
+    {
+      "name": "Mail Armor",
+      "type": "equipment",
+      "img": "icons/equipment/chest/breastplate-banded-steel-gold.webp",
+      "system": {
+        "description": "<p>Made from a mesh of interlocked rings designed to stop thrusts and cuts, mail is one of the most common types of armor in the borderlands.</p>",
+        "active": true,
+        "quantity": 1,
+        "weightUnit": 2,
+        "price": {
+          "value": 15,
+          "coin": "sp"
+        },
+        "availability": "uncommon",
+        "attribute": "",
+        "boons": 0,
+        "against": "",
+        "range": 0,
+        "affliction": "",
+        "uses": {
+          "value": 0,
+          "max": 0,
+          "onRest": false,
+          "levelRelative": "manual"
+        },
+        "damage": "",
+        "healing": "",
+        "subtype": "armor",
+        "quality": "standard",
+        "grip": "one",
+        "attackRider": {
+          "value": "",
+          "name": ""
+        },
+        "reloaded": true,
+        "armorType": "medium",
+        "instant": [],
+        "requirements": "",
+        "traits": [],
+        "grantedBy": null,
+        "magical": false,
+        "targeting": "manual",
+        "template": {
+          "type": "size",
+          "value": 5
+        },
+        "heldBy": null,
+        "capacity": 1,
+        "usedBy": [],
+        "boonsAlt": "",
+        "damageAlt": ""
+      },
+      "effects": [
+        {
+          "name": "Armor Equipped",
+          "origin": "Compendium.weirdwizard.armor.Item.8kdTjI16oQxvcKow",
+          "duration": {
+            "value": null,
+            "units": "seconds",
+            "expiry": null,
+            "expired": false
+          },
+          "disabled": false,
+          "_id": "Nu6YqCTqVi1ErYX0",
+          "description": "",
+          "transfer": true,
+          "statuses": [],
+          "flags": {
+            "weirdwizard": {
+              "external": true,
+              "trigger": "passive",
+              "target": "none"
+            }
+          },
+          "tint": "#ffffff",
+          "_stats": {
+            "coreVersion": "14.361",
+            "systemId": "weirdwizard",
+            "systemVersion": "#{VERSION}#",
+            "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+            "createdTime": 1781624227507,
+            "modifiedTime": 1781624227507,
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null
+          },
+          "img": "icons/equipment/chest/breastplate-banded-steel-gold.webp",
+          "type": "base",
+          "system": {
+            "changes": [
+              {
+                "key": "defense.armored",
+                "value": 15,
+                "priority": 1,
+                "type": "upgrade",
+                "phase": "initial"
+              }
+            ]
+          },
+          "sort": 0,
+          "start": {
+            "combat": null,
+            "round": 1,
+            "time": 0,
+            "turn": 0,
+            "combatant": null,
+            "initiative": null
+          },
+          "showIcon": 1,
+          "folder": null,
+          "_key": "!actors.items.effects!KITbsyHKZ5bciaF6.8kdTjI16oQxvcKow.Nu6YqCTqVi1ErYX0"
+        }
+      ],
+      "flags": {
+        "core": {}
+      },
+      "_stats": {
+        "coreVersion": "14.361",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+        "createdTime": 1781624227507,
+        "modifiedTime": 1781624227507,
+        "exportSource": null,
+        "compendiumSource": null,
+        "duplicateSource": null
+      },
+      "folder": "QWYSO2x1lrITBKj4",
+      "_id": "8kdTjI16oQxvcKow",
+      "sort": 100000,
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!KITbsyHKZ5bciaF6.8kdTjI16oQxvcKow"
+    }
+  ],
+  "effects": [],
+  "ownership": {
+    "default": 0,
+    "7Z8jr2YYjOUPt6i3": 3
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "14.361",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1781624227507,
+    "modifiedTime": 1781624227507,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "exportSource": null,
+    "compendiumSource": null,
+    "duplicateSource": null
+  },
+  "sort": 0,
+  "_key": "!actors!KITbsyHKZ5bciaF6"
+}

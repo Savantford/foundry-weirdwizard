@@ -83,12 +83,9 @@
       "src": "systems/weirdwizard/assets/compendia/hedge-mage.png",
       "anchorX": 0.5,
       "anchorY": 0.5,
-      "offsetX": 0,
-      "offsetY": 0,
       "fit": "contain",
       "scaleX": 1,
       "scaleY": 1,
-      "rotation": 0,
       "tint": "#ffffff",
       "alphaThreshold": 0.75
     },
@@ -139,7 +136,7 @@
       "saturation": 0,
       "contrast": 0
     },
-    "detectionModes": [],
+    "detectionModes": {},
     "occludable": {
       "radius": 0
     },
@@ -158,12 +155,13 @@
     "flags": {},
     "randomImg": false,
     "turnMarker": {
-      "": 1,
       "animation": null,
       "src": null,
-      "disposition": false
+      "disposition": false,
+      "mode": 1
     },
-    "movementAction": null
+    "movementAction": null,
+    "depth": 1
   },
   "items": [
     {
@@ -210,7 +208,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.345",
+        "coreVersion": "14.360",
         "systemId": "weirdwizard",
         "systemVersion": "#{VERSION}#",
         "createdTime": 1721419015652,
@@ -264,7 +262,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.345",
+        "coreVersion": "14.360",
         "systemId": "weirdwizard",
         "systemVersion": "#{VERSION}#",
         "createdTime": 1721419053212,
@@ -318,7 +316,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.345",
+        "coreVersion": "14.360",
         "systemId": "weirdwizard",
         "systemVersion": "#{VERSION}#",
         "createdTime": 1721419058644,
@@ -407,7 +405,7 @@
       "_stats": {
         "compendiumSource": "Compendium.weirdwizard.weapons.Item.CXVX2qXNjAUvWkpi",
         "duplicateSource": null,
-        "coreVersion": "13.345",
+        "coreVersion": "14.360",
         "systemId": "weirdwizard",
         "systemVersion": "#{VERSION}#",
         "createdTime": 1721423919993,
@@ -436,7 +434,7 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.360",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721418712670,

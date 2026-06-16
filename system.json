@@ -142,6 +142,14 @@
           "compendiumType": "spells"
         }
       }
+    },
+    {
+      "name": "sample-enemies",
+      "label": "Sample Enemies",
+      "banner": "systems/weirdwizard/assets/artwork/banners/sample-enemies.webp",
+      "system": "weirdwizard",
+      "path": "packs/sample-enemies.db",
+      "type": "Actor"
     }
   ],
   "packFolders": [
@@ -163,8 +171,13 @@
           "sorting": "m",
           "color": "#775B7B",
           "packs": ["character-options", "traits", "talents", "spells"]
+        },
+        {
+          "name": "Miscellaneous",
+          "sorting": "m",
+          "color": "#775B7B",
+          "packs": ["afflictions", "sample-enemies"]
         }
-        
       ]
     }
   ],
