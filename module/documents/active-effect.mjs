@@ -176,10 +176,11 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
    * @returns {Record<string, unknown>} An object of property keys and their updated values
    */
 
-  static applyChange(targetDoc, change, {replacementData={}, modifyTarget=true}={}) {
+  /*static applyChange(targetDoc, change, {replacementData={}, modifyTarget=true}={}) {
     // Weird Wizard: Replace preset with real change key
-    change.key = CONFIG.WW.EFFECT_CHANGE_PRESET_KEYS[change.key]; // Better solution pending
-
+    console.log(change.key)
+    //change.key = CONFIG.WW.EFFECT_CHANGE_PRESET_KEYS[change.key]; // Better solution pending
+    console.log(change.key)
     let field;
     const changes = {};
     if ( (typeof change.key === "string") && change.key.startsWith("system.") ) {
@@ -209,7 +210,7 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
       else this._applyChangeUnguided(targetDoc, change, changes, {replacementData, modifyTarget});
     }
     return changes;
-  }
+  }*/
 
   /* -------------------------------------------- */
 

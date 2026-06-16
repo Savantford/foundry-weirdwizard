@@ -242,7 +242,7 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
 
     // Update Changes
     const effChanges = this.document.system.changes;
-    
+
     submitData.system.changes?.forEach((change, index) => {
       // Apply preset
       if (change.preset !== effChanges[index]?.preset) {
