@@ -613,8 +613,10 @@
 "WW.Effects.Inactive": "Inactive Effects",
 
 "TYPES.ActiveEffect.generic": "Generic Effect",
-"TYPES.ActiveEffect.affliction": "Affliction",
 "TYPES.ActiveEffect.benefit": "Character Option Benefit",
+"TYPES.ActiveEffect.affliction": "Affliction",
+"TYPES.ActiveEffect.sense": "Sense",
+"TYPES.ActiveEffect.movementTrait": "Movement Trait",
 
 "WW.Effect.Temporary": "Temporary Effect",
 "WW.Effect.Permanent": "Permanent Effect",

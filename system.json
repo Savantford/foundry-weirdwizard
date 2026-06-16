@@ -150,6 +150,22 @@
       "system": "weirdwizard",
       "path": "packs/sample-enemies.db",
       "type": "Actor"
+    },
+    {
+      "name": "senses",
+      "label": "Senses",
+      "banner": "systems/weirdwizard/assets/artwork/banners/senses.webp",
+      "system": "weirdwizard",
+      "path": "packs/senses.db",
+      "type": "ActiveEffect"
+    },
+    {
+      "name": "movement-traits",
+      "label": "Special Movement Traits",
+      "banner": "systems/weirdwizard/assets/artwork/banners/movement-traits.webp",
+      "system": "weirdwizard",
+      "path": "packs/movement-traits.db",
+      "type": "ActiveEffect"
     }
   ],
   "packFolders": [
@@ -170,7 +186,7 @@
           "name": "Character Options",
           "sorting": "m",
           "color": "#775B7B",
-          "packs": ["character-options", "traits", "talents", "spells"]
+          "packs": ["character-options", "traits", "talents", "spells", "senses", "movement-traits"]
         },
         {
           "name": "Miscellaneous",
