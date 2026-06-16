@@ -1,0 +1,59 @@
+{
+  "name": "Awareness 5",
+  "type": "sense",
+  "_id": "6Ewtxu5Q60DYpKcx",
+  "img": "icons/magic/control/silhouette-aura-energy.webp",
+  "system": {
+    "changes": [
+      {
+        "preset": "custom",
+        "value": true,
+        "key": "token.detectionModes.senseAll.enabled",
+        "type": "override",
+        "phase": "initial",
+        "priority": null
+      },
+      {
+        "preset": "custom",
+        "value": 5,
+        "key": "token.detectionModes.senseAll.range",
+        "type": "upgrade",
+        "phase": "initial",
+        "priority": null
+      }
+    ],
+    "target": "none",
+    "trigger": "passive",
+    "durationPreset": "",
+    "grantedBy": null
+  },
+  "disabled": false,
+  "start": null,
+  "duration": {
+    "value": null,
+    "units": "seconds",
+    "expiry": null,
+    "expired": false
+  },
+  "description": "<p>The creature always perceives everything around it within the listed number in yards. This perception ignores the effects of obscurement and lighting.</p>",
+  "origin": null,
+  "tint": "#ffffff",
+  "transfer": false,
+  "statuses": [],
+  "showIcon": 1,
+  "folder": null,
+  "flags": {},
+  "_stats": {
+    "coreVersion": "14.361",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1781645523219,
+    "modifiedTime": 1781646372272,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
+  },
+  "sort": 0,
+  "_key": "!effects!6Ewtxu5Q60DYpKcx"
+}

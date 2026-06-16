@@ -1,0 +1,67 @@
+{
+  "name": "True Vision",
+  "type": "sense",
+  "_id": "fc9FUFyxmBANbPV7",
+  "img": "icons/creatures/eyes/humanoid-single-blind.webp",
+  "system": {
+    "changes": [
+      {
+        "preset": "custom",
+        "value": true,
+        "key": "token.detectionModes.seeAll.enabled",
+        "type": "override",
+        "phase": "initial",
+        "priority": null
+      },
+      {
+        "preset": "custom",
+        "value": "Infinity",
+        "key": "token.detectionModes.seeAll.range",
+        "type": "override",
+        "phase": "initial",
+        "priority": null
+      },
+      {
+        "preset": "custom",
+        "value": 9999999,
+        "key": "token.sight.range",
+        "type": "override",
+        "phase": "initial",
+        "priority": null
+      }
+    ],
+    "target": "none",
+    "trigger": "passive",
+    "durationPreset": "",
+    "grantedBy": null
+  },
+  "disabled": false,
+  "start": null,
+  "duration": {
+    "value": null,
+    "units": "seconds",
+    "expiry": null,
+    "expired": false
+  },
+  "description": "<p>The creature needs no light to see and treats everything within its line of sight as being illuminated. It perceives outlines around invisible creatures and objects in its line of sight. It also sees through mundane and magical disguises, perceives transformed creatures in their normal forms, and recognizes visual illusions for what they are.</p>",
+  "origin": null,
+  "tint": "#ffffff",
+  "transfer": false,
+  "statuses": [],
+  "showIcon": 1,
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "_stats": {
+    "coreVersion": "14.361",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1781645607483,
+    "modifiedTime": 1781648013072,
+    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
+  },
+  "_key": "!effects!fc9FUFyxmBANbPV7"
+}
