@@ -166,6 +166,14 @@
       "system": "weirdwizard",
       "path": "packs/movement-traits.db",
       "type": "ActiveEffect"
+    },
+    {
+      "name": "artificial-light",
+      "label": "Artificial Light",
+      "banner": "systems/weirdwizard/assets/artwork/banners/artificial-light.webp",
+      "system": "weirdwizard",
+      "path": "packs/artificial-light.db",
+      "type": "ActiveEffect"
     }
   ],
   "packFolders": [
@@ -186,13 +194,19 @@
           "name": "Character Options",
           "sorting": "m",
           "color": "#775B7B",
-          "packs": ["character-options", "traits", "talents", "spells", "senses", "movement-traits"]
+          "packs": ["character-options", "traits", "talents", "spells"]
+        },
+        {
+          "name": "Effects",
+          "sorting": "m",
+          "color": "#775B7B",
+          "packs": ["senses", "movement-traits", "artificial-light"]
         },
         {
           "name": "Miscellaneous",
           "sorting": "m",
           "color": "#775B7B",
-          "packs": ["afflictions", "sample-enemies"]
+          "packs": ["sample-enemies"]
         }
       ]
     }
