@@ -2,7 +2,7 @@
   "name": "Dark Vision",
   "type": "sense",
   "_id": "uqPqLivkxAljrJK5",
-  "img": "icons/magic/perception/eye-winged-pink.webp",
+  "img": "icons/creatures/eyes/humanoid-single-blind.webp",
   "system": {
     "changes": [
       {
@@ -65,7 +65,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1781645558819,
-    "modifiedTime": 1781646393676,
+    "modifiedTime": 1782235898312,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "compendiumSource": null,
     "duplicateSource": null,

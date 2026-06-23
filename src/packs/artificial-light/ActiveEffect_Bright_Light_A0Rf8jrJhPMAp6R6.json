@@ -1,22 +1,14 @@
 {
-  "name": "Awareness 5",
-  "type": "sense",
-  "_id": "6Ewtxu5Q60DYpKcx",
-  "img": "icons/creatures/magical/humanoid-silhouette-glowing-pink.webp",
+  "name": "Bright Light",
+  "type": "generic",
+  "_id": "A0Rf8jrJhPMAp6R6",
+  "img": "icons/sundries/lights/lantern-iron-lit-yellow.webp",
   "system": {
     "changes": [
       {
         "preset": "custom",
-        "value": true,
-        "key": "token.detectionModes.senseAll.enabled",
-        "type": "override",
-        "phase": "initial",
-        "priority": null
-      },
-      {
-        "preset": "custom",
-        "value": 5,
-        "key": "token.detectionModes.senseAll.range",
+        "value": 30,
+        "key": "token.light.bright",
         "type": "upgrade",
         "phase": "initial",
         "priority": null
@@ -35,25 +27,25 @@
     "expiry": null,
     "expired": false
   },
-  "description": "<p>The creature always perceives everything around it within the listed number in yards. This perception ignores the effects of obscurement and lighting.</p>",
+  "description": "<p>Bright light, such as that from a lantern, lights the area around it out to a range of 30 yards.</p>",
   "origin": null,
   "tint": "#ffffff",
   "transfer": false,
   "statuses": [],
   "showIcon": 1,
   "folder": null,
+  "sort": 0,
   "flags": {},
   "_stats": {
     "coreVersion": "14.361",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "createdTime": 1781645523219,
-    "modifiedTime": 1782236004911,
+    "createdTime": 1782239815870,
+    "modifiedTime": 1782240456596,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null
   },
-  "sort": 0,
-  "_key": "!effects!6Ewtxu5Q60DYpKcx"
+  "_key": "!effects!A0Rf8jrJhPMAp6R6"
 }

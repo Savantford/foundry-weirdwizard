@@ -2,7 +2,7 @@
   "name": "True Vision",
   "type": "sense",
   "_id": "fc9FUFyxmBANbPV7",
-  "img": "icons/creatures/eyes/humanoid-single-blind.webp",
+  "img": "icons/magic/perception/third-eye-blue-red.webp",
   "system": {
     "changes": [
       {
@@ -57,7 +57,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1781645607483,
-    "modifiedTime": 1781648013072,
+    "modifiedTime": 1782235931270,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
     "compendiumSource": null,
     "duplicateSource": null,
