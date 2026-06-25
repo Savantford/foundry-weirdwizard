@@ -13,69 +13,15 @@ export default class WWToken extends foundry.canvas.placeables.Token {
   #ylw = 0xDDDD00;
   #gry = 0x999999;
 
-  /* Flip Damage Bar Gradiant */
-  static getDamageColor(current, max) {
-    const minDegrees = 30;
-    const maxDegrees = 120;
+  /* -------------------------------------------- */
+  /*  Incremental Refresh                         */
+  /* -------------------------------------------- */
 
-    // Get the degrees on the HSV wheel, going from 30° (greenish-yellow) to 120° (green)
-    const degrees = mapRange(current, 0, max, minDegrees, maxDegrees);
-    // Invert the degrees and map them from 0 to a third
-    const hue = mapRange(maxDegrees - degrees, 0, maxDegrees, 0, 1 / 3);
-    // Get a usable color value with 100% saturation and 90% value
-
-    return Color.fromHSV([hue, 1, 0.9]);
-  }
-
-  _drawBar(number, bar, data) {
-    if (data?.attribute === 'stats.damage') {
-      return this._drawDamageBar(number, bar, data);
-    }
-
-    return super._drawBar(number, bar, data);
-  }
-
-  _drawDamageBar(number, bar, data) {
-    const { value, max } = data;
-    let colorPct = Math.clamp(value, 0, max) / max;
-    if (game.settings.get('weirdwizard', 'damageBarReverse')) {
-      colorPct = Math.clamp(max-value, 0, max) / max;
-    }
-    const damageColor = WWToken.getDamageColor(value, max);
+  /** @inheritdoc */
+  _applyRenderFlags(flags) {
+    super._applyRenderFlags(flags);
     
-    // Determine the container size (logic borrowed from core)
-    const w = this.w;
-    let h = Math.max(canvas.dimensions.size / 12, 8);
-    if (this.document.height >= 2) {
-      h *= 1.6;
-    }
-    const stroke = Math.clamp(h / 8, 1, 2);
-
-    // Set up bar container
-    this._resetVitalsBar(bar, w, h, stroke);
-
-    // Fill bar as damage increases, gradually going from green to red as it fills
-    bar
-      .beginFill(damageColor, 1.0)
-      .lineStyle(stroke, this.#blk, 1.0)
-      .drawRoundedRect(0, 0, colorPct * w, h, 2);
-
-    // Position the bar according to its number
-    this._setVitalsBarPosition(bar, number, h);
-  }
-
-  _resetVitalsBar(bar, width, height, stroke) {
-    bar
-      .clear()
-      .beginFill(this.#blk, 0.5)
-      .lineStyle(stroke, this.#blk, 1.0)
-      .drawRoundedRect(0, 0, width, height, 3);
-  }
-
-  _setVitalsBarPosition(bar, order, height) {
-    // Set position
-    const posY = order === 0 ? this.h - height : 0;
-    bar.position.set(0, posY);
+    if (this.actor.type !== 'group') this.updateStatusIcons();
   }
 
   /* Update Status Icons Display */
@@ -233,11 +179,138 @@ export default class WWToken extends foundry.canvas.placeables.Token {
     container.setChildIndex(turnBg, newIndex-1);
   }
 
-  /** @inheritdoc */
-  _applyRenderFlags(flags) {
-    super._applyRenderFlags(flags);
-    
-    if (this.actor.type !== 'group') this.updateStatusIcons();
+  /* -------------------------------------------- */
+
+  /**
+   * @override
+   * Draw a single resource bar, given provided data
+   * @param {number} index        The Bar index
+   * @param {PIXI.Graphics} bar   The Bar container
+   * @param {object} data         Resource data for this bar
+   * @protected
+   */
+  _drawBar(number, bar, data) {
+    if (data?.attribute === 'stats.damage') {
+      return this._drawDamageBar(number, bar, data);
+    }
+
+    return super._drawBar(number, bar, data);
   }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Draw a custom damage bar
+   * @param {number} index        The Bar index
+   * @param {PIXI.Graphics} bar   The Bar container
+   * @param {object} data         Resource data for this bar
+  */
+  _drawDamageBar(number, bar, data) {
+    const { value, max } = data;
+    let colorPct = Math.clamp(value, 0, max) / max;
+    if (game.settings.get('weirdwizard', 'damageBarReverse')) {
+      colorPct = Math.clamp(max-value, 0, max) / max;
+    }
+    const damageColor = WWToken.getDamageColor(value, max);
+    
+    // Determine the container size (logic borrowed from core)
+    const w = this.w;
+    let h = Math.max(canvas.dimensions.size / 12, 8);
+    if (this.document.height >= 2) {
+      h *= 1.6;
+    }
+    const stroke = Math.clamp(h / 8, 1, 2);
+
+    // Set up bar container
+    this._resetVitalsBar(bar, w, h, stroke);
+
+    // Fill bar as damage increases, gradually going from green to red as it fills
+    bar
+      .beginFill(damageColor, 1.0)
+      .lineStyle(stroke, this.#blk, 1.0)
+      .drawRoundedRect(0, 0, colorPct * w, h, 2);
+
+    // Position the bar according to its number
+    this._setVitalsBarPosition(bar, number, h);
+  }
+
+  /* -------------------------------------------- */
+
+  /* Flip Damage Bar Gradiant */
+  static getDamageColor(current, max) {
+    const minDegrees = 30;
+    const maxDegrees = 120;
+
+    // Get the degrees on the HSV wheel, going from 30° (greenish-yellow) to 120° (green)
+    const degrees = mapRange(current, 0, max, minDegrees, maxDegrees);
+    // Invert the degrees and map them from 0 to a third
+    const hue = mapRange(maxDegrees - degrees, 0, maxDegrees, 0, 1 / 3);
+    // Get a usable color value with 100% saturation and 90% value
+
+    return Color.fromHSV([hue, 1, 0.9]);
+  }
+
+  /* -------------------------------------------- */
+
+  _resetVitalsBar(bar, width, height, stroke) {
+    bar
+      .clear()
+      .beginFill(this.#blk, 0.5)
+      .lineStyle(stroke, this.#blk, 1.0)
+      .drawRoundedRect(0, 0, width, height, 3);
+  }
+
+  /* -------------------------------------------- */
+
+  _setVitalsBarPosition(bar, order, height) {
+    // Set position
+    const posY = order === 0 ? this.h - height : 0;
+    bar.position.set(0, posY);
+  }
+
+  /* -------------------------------------------- */
+  /*  Methods                                     */
+  /* -------------------------------------------- */
+
+  /**
+   * @override
+   * Create the movement cost function for this Token.
+   * In square and hexagonal grids it calculates the cost for single grid space move between two grid space offsets.
+   * For tokens that occupy more than one grid space the cost of movement is calculated as the median of all individual
+   * grid space moves unless the cost of any of these is infinite, in which case total cost is always infinite.
+   * In gridless grids the `from` and `to` parameters of the cost function are top-left offsets.
+   * If the movement cost function is undefined, the cost equals the distance moved.
+   * @param {TokenMeasureMovementPathOptions} [options]    Additional options that affect cost calculations
+   * @returns {TokenMovementCostFunction|void}
+   * @protected
+   */
+  /*_getMovementCostFunction(options) {
+    const calculateTerrainCost = CONFIG.Token.movement.TerrainData.getMovementCostFunction(this.document, options);
+    const actionCostFunctions = {};
+    return (from, to, distance, segment) => {
+      const terrainCost = calculateTerrainCost(from, to, distance, segment);
+      console.log(terrainCost)
+      const calculateActionCost = actionCostFunctions[segment.action]
+        ??= segment.actionConfig.getCostFunction(this.document, options);
+      const test = calculateActionCost(terrainCost, from, to, distance, segment);
+      console.log(test)
+      return test;
+    };
+  }*/
+
+  /**
+   * @override
+   * Measure the movement path for this Token.
+   * @param {TokenMeasurableMovementWaypoint[]} waypoints     The waypoints of movement
+   * @param {TokenMeasureMovementPathOptions} [options]       Additional options that affect cost calculations
+   *                                                          (passed to {@link Token#_getMovementCostFunction})
+   * @returns {GridMeasurePathResult}
+   */
+  /*measureMovementPath(waypoints, options) {
+    console.log(waypoints)
+    console.log(options)
+    const cost = this._getMovementCostFunction(options);
+    return this.document.measureMovementPath(waypoints, {cost});
+  }*/
 
 }
