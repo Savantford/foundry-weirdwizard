@@ -1,10 +1,11 @@
 console.log('SWW | Initializing weirdwizard.mjs...')
 
-// Import document classes.
+// Import document classes
 import WWActor from './documents/actor.mjs';
 import WWItem from './documents/item.mjs';
 import WWActiveEffect from './documents/active-effect.mjs';
 import WWJournalPage from './documents/journal-page.mjs';
+import WWTokenDocument from './documents/token.mjs';
 import WWCombat from './documents/combat.mjs';
 import WWCombatant from './documents/combatant.mjs';
 import WWCombatantGroup from './documents/combatant-group.mjs';
@@ -24,7 +25,7 @@ import TraditionModel from './data/journal/tradition.mjs';
 import BaseEffectModel from './data/effects/base-effect.mjs';
 import BenefitEffectModel from './data/effects/benefit-effect.mjs';
 
-// Import sheet classes.
+// Import sheet classes
 import WWCharacterSheet from './sheets/actors/character-sheet.mjs';
 import WWNpcSheet from './sheets/actors/npc-sheet.mjs';
 import WWGroupSheet from './sheets/actors/group-sheet.mjs';
@@ -39,12 +40,12 @@ import WWTraditionSheet from './sheets/journal/tradition-sheet.mjs';
 import WWActiveEffectConfig from './sheets/configs/active-effect-config.mjs';
 import WWRollTableSheet from './sheets/roll-table-sheet.mjs';
 
-// Import sidebar related classes.
+// Import sidebar related classes
 import WWCombatTracker from './sidebar/combat-tracker.mjs';
 import WWCombatantGroupConfig from './sheets/configs/combatant-group-config.mjs';
 import { initChatListeners } from './sidebar/chat-listeners.mjs';
 
-// Import UI apps.
+// Import UI apps
 import WWRoll from './dice/roll.mjs';
 import CompendiumIndex from './apps/compendium-index.mjs';
 import SageTools from './ui/sage-tools.mjs';
@@ -65,6 +66,7 @@ import * as utils from './helpers/utils.mjs';
 import { initializeEffectLookups } from './helpers/effect-presets.mjs';
 import { addFormattingOptions } from './helpers/text-editor.mjs';
 import { fullMigration, migrationsReference } from './helpers/migrations.mjs';
+
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -95,6 +97,7 @@ Hooks.once('init', function () {
   CONFIG.Combatant.documentClass = WWCombatant;
   CONFIG.CombatantGroup.documentClass = WWCombatantGroup;
   CONFIG.ChatMessage.documentClass = WWChatMessage;
+  CONFIG.Token.documentClass = WWTokenDocument;
 
   // Register Actor and Item data models
   CONFIG.Actor.dataModels.character = CharacterModel;
@@ -231,6 +234,83 @@ Hooks.once('init', function () {
 
   // Register system settings
   registerSystemSettings();
+
+  // Canvas related settings and classes
+  
+  // Adjusting "Blink (Teleport)" to just be "Teleport" and maintain its use elsewhere
+  const td = foundry.documents.TokenDocument;
+  const speed0 = ['held', 'stunned', 'unconscious'];
+  const teleport = {
+    ...CONFIG.Token.movement.actions.blink,
+    label: "TOKEN.MOVEMENT.ACTIONS.teleport.label",
+    canSelect: (token) => token instanceof td && token.movementTraits.has("teleport") && !token.hasAnyStatusEffect([... speed0, "prone"]),
+    getCostFunction: (token, _options) => cost => cost * 0 // No cost
+  };
+
+  // Optional chaining on canSelect until https://github.com/foundryvtt/foundryvtt/issues/12603 is resolved
+  foundry.utils.mergeObject(CONFIG.Token.movement.actions, {
+    /** @type {TokenMovementActionConfig} */
+    burrow: {
+      canSelect: (token) => token instanceof td && token.movementTraits.has("burrower") && !token.hasAnyStatusEffect([... speed0, "prone"]),
+      getCostFunction: () => cost => cost * 2 // Default is * 1
+    },
+
+    climb: {
+      canSelect: (token) => !(token instanceof td) || !token.hasAnyStatusEffect([... speed0, "prone"]),
+      getCostFunction: (token, _options) => cost => cost * (token.movementTraits.has("climber") ? 1 : 2) // Cheaper for Climbers
+    },
+
+    descend: {
+      label: "TOKEN.MOVEMENT.ACTIONS.descend.label",
+      icon: "fa-solid fa-arrow-down",
+      img: "icons/svg/down.svg",
+      canSelect: (token) => !(token instanceof td) || !token.hasAnyStatusEffect([... speed0, "prone"]),
+      getCostFunction: () => cost => cost * 0.5
+    },
+
+    crawl: {
+      canSelect: (token) => token instanceof td && token.hasStatusEffect("prone") && !token.hasAnyStatusEffect(speed0),
+      getCostFunction: () => cost => cost * 2 // Default is * 1
+    },
+
+    fly: {
+      canSelect: (token) => token instanceof td && token.movementTraits.has("fly") && !token.hasAnyStatusEffect([... speed0, "prone"]),
+      getCostFunction: () => cost => cost * 0.5 // Default is * 1
+    },
+
+    jump: {
+      canSelect: (token) => !(token instanceof td) || !token.hasAnyStatusEffect([... speed0, "prone"]),
+      getCostFunction: () => () => 2 // Flat 2; default is * 2
+    },
+
+    retreat: {
+      label: "TOKEN.MOVEMENT.ACTIONS.retreat.label",
+      icon: "fa-solid fa-person-walking-arrow-loop-left",
+      img: "icons/svg/door-exit.svg",
+      canSelect: (token) => !(token instanceof td) || !token.hasAnyStatusEffect([... speed0, "prone"]),
+      getCostFunction: () => cost => cost + 1
+    },
+
+    sneak: {
+      label: "TOKEN.MOVEMENT.ACTIONS.sneak.label",
+      icon: "fa-solid fa-eye-low-vision",
+      img: "icons/svg/blind.svg",
+      canSelect: (token) => !(token instanceof td) || !token.hasAnyStatusEffect([... speed0, "prone"]),
+      getCostFunction: (token, _options) => cost => cost * (token.movementTraits.has("silent") ? 1 : 2) // Cheaper for Silent
+    },
+
+    swim: {
+      canSelect: (token) => !(token instanceof td) || !token.hasAnyStatusEffect([... speed0, "prone"]),
+      getCostFunction: (token, _options) => cost => cost * (token.movementTraits.has("swimmer") ? 1 : 2) // Cheaper for Swimmer
+    },
+
+    blink: _del,
+    teleport,
+
+    walk: {
+      canSelect: (token) => !(token instanceof td) || !token.hasAnyStatusEffect([... speed0, "prone"]),
+    }
+  }, { applyOperators: true });
 
   // Preload Handlebars templates.
   return preloadHandlebarsTemplates();
