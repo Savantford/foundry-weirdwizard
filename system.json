@@ -160,14 +160,6 @@
       "type": "ActiveEffect"
     },
     {
-      "name": "movement-traits",
-      "label": "Special Movement Traits",
-      "banner": "systems/weirdwizard/assets/artwork/banners/movement-traits.webp",
-      "system": "weirdwizard",
-      "path": "packs/movement-traits.db",
-      "type": "ActiveEffect"
-    },
-    {
       "name": "artificial-light",
       "label": "Artificial Light",
       "banner": "systems/weirdwizard/assets/artwork/banners/artificial-light.webp",
@@ -200,7 +192,7 @@
           "name": "Effects",
           "sorting": "m",
           "color": "#775B7B",
-          "packs": ["senses", "movement-traits", "artificial-light"]
+          "packs": ["senses", "artificial-light"]
         },
         {
           "name": "Miscellaneous",

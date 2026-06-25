@@ -112,7 +112,6 @@ Hooks.once('init', function () {
   CONFIG.ActiveEffect.dataModels.benefit = BenefitEffectModel;
   CONFIG.ActiveEffect.dataModels.affliction = BaseEffectModel;
   CONFIG.ActiveEffect.dataModels.sense = BaseEffectModel;
-  CONFIG.ActiveEffect.dataModels.movementTrait = BaseEffectModel;
 
   // Journal Entry Page data models
   CONFIG.JournalEntryPage.dataModels.ancestry = AncestryModel;
