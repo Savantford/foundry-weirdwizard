@@ -239,22 +239,47 @@ Hooks.once('init', function () {
   // Adjusting "Blink (Teleport)" to just be "Teleport" and maintain its use elsewhere
   const td = foundry.documents.TokenDocument;
   const speed0 = ['held', 'stunned', 'unconscious'];
-  const teleport = {
-    ...CONFIG.Token.movement.actions.blink,
-    label: "TOKEN.MOVEMENT.ACTIONS.teleport.label",
-    canSelect: (token) => token instanceof td && token.movementTraits.has("teleport") && !token.hasAnyStatusEffect([... speed0, "prone"]),
-    getCostFunction: (token, _options) => cost => cost * 0 // No cost
-  };
 
   // Optional chaining on canSelect until https://github.com/foundryvtt/foundryvtt/issues/12603 is resolved
   foundry.utils.mergeObject(CONFIG.Token.movement.actions, {
     /** @type {TokenMovementActionConfig} */
+    /* Main modes of locomotion */
+    walk: {
+      order: 0,
+      canSelect: (token) => !(token instanceof td) || !token.hasAnyStatusEffect([... speed0, "prone"]),
+    },
+
+    crawl: {
+      order: 1,
+      canSelect: (token) => token instanceof td && token.hasStatusEffect("prone") && !token.hasAnyStatusEffect(speed0),
+      getCostFunction: () => cost => cost * 2 // Default is * 1
+    },
+
+    /* Special modes */
+    fly: {
+      order: 2,
+      canSelect: (token) => token instanceof td && token.movementTraits.has("fly") && !token.hasAnyStatusEffect([... speed0, "prone"]),
+      getCostFunction: () => cost => cost * 0.5 // Default is * 1
+    },
+
+    teleport: {  
+      ...CONFIG.Token.movement.actions.blink,
+      label: "TOKEN.MOVEMENT.ACTIONS.teleport.label",
+      order: 3,
+      canSelect: (token) => token instanceof td && token.movementTraits.has("teleport") && !token.hasAnyStatusEffect([... speed0, "prone"]),
+      getCostFunction: (token, _options) => cost => cost * 0 // No cost
+    },
+    blink: _del,
+
     burrow: {
+      order: 4,
       canSelect: (token) => token instanceof td && token.movementTraits.has("burrower") && !token.hasAnyStatusEffect([... speed0, "prone"]),
       getCostFunction: () => cost => cost * 2 // Default is * 1
     },
 
+    /* Situational modes */
     climb: {
+      order: 5,
       canSelect: (token) => !(token instanceof td) || !token.hasAnyStatusEffect([... speed0, "prone"]),
       getCostFunction: (token, _options) => cost => cost * (token.movementTraits.has("climber") ? 1 : 2) // Cheaper for Climbers
     },
@@ -263,29 +288,22 @@ Hooks.once('init', function () {
       label: "TOKEN.MOVEMENT.ACTIONS.descend.label",
       icon: "fa-solid fa-arrow-down",
       img: "icons/svg/down.svg",
+      order: 6,
       canSelect: (token) => !(token instanceof td) || !token.hasAnyStatusEffect([... speed0, "prone"]),
       getCostFunction: () => cost => cost * 0.5
     },
 
-    crawl: {
-      canSelect: (token) => token instanceof td && token.hasStatusEffect("prone") && !token.hasAnyStatusEffect(speed0),
-      getCostFunction: () => cost => cost * 2 // Default is * 1
-    },
-
-    fly: {
-      canSelect: (token) => token instanceof td && token.movementTraits.has("fly") && !token.hasAnyStatusEffect([... speed0, "prone"]),
-      getCostFunction: () => cost => cost * 0.5 // Default is * 1
-    },
-
     jump: {
+      order: 7,
       canSelect: (token) => !(token instanceof td) || !token.hasAnyStatusEffect([... speed0, "prone"]),
-      getCostFunction: () => () => 2 // Flat 2; default is * 2
+      getCostFunction: () => () => cost * 0 // default is * 2; should be a flat 2, but it's not possible to track as the cost is per step
     },
 
     retreat: {
       label: "TOKEN.MOVEMENT.ACTIONS.retreat.label",
       icon: "fa-solid fa-person-walking-arrow-loop-left",
       img: "icons/svg/door-exit.svg",
+      order: 8,
       canSelect: (token) => !(token instanceof td) || !token.hasAnyStatusEffect([... speed0, "prone"]),
       getCostFunction: () => cost => cost + 1
     },
@@ -294,20 +312,15 @@ Hooks.once('init', function () {
       label: "TOKEN.MOVEMENT.ACTIONS.sneak.label",
       icon: "fa-solid fa-eye-low-vision",
       img: "icons/svg/blind.svg",
+      order: 9,
       canSelect: (token) => !(token instanceof td) || !token.hasAnyStatusEffect([... speed0, "prone"]),
       getCostFunction: (token, _options) => cost => cost * (token.movementTraits.has("silent") ? 1 : 2) // Cheaper for Silent
     },
 
     swim: {
+      order: 10,
       canSelect: (token) => !(token instanceof td) || !token.hasAnyStatusEffect([... speed0, "prone"]),
       getCostFunction: (token, _options) => cost => cost * (token.movementTraits.has("swimmer") ? 1 : 2) // Cheaper for Swimmer
-    },
-
-    blink: _del,
-    teleport,
-
-    walk: {
-      canSelect: (token) => !(token instanceof td) || !token.hasAnyStatusEffect([... speed0, "prone"]),
     }
   }, { applyOperators: true });
 

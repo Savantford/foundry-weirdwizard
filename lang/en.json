@@ -160,6 +160,7 @@
 "WW.ListEntry.MovementTrait.Remove": "Remove special movement trait",
 
 "TOKEN.MOVEMENT.ACTIONS.descend.label": "Descend (Climb)",
+"TOKEN.MOVEMENT.ACTIONS.jump.label": "Jump or Leap",
 "TOKEN.MOVEMENT.ACTIONS.retreat.label": "Retreat",
 "TOKEN.MOVEMENT.ACTIONS.sneak.label": "Sneak",
 "TOKEN.MOVEMENT.ACTIONS.teleport.label": "Teleport",
