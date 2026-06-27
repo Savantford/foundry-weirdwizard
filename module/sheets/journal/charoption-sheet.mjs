@@ -108,6 +108,10 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
       })
     };
 
+    // Source Image and Caption
+    const { image, src } = this.page;
+    Object.assign(context, { src, caption: image.caption, srcInput: this.#createSourceInput.bind(this) });
+
     // Prepare Items Area Hint
     context.itemsAreaHint = `
       <p>${i18n("WW.CharOption.DropHere")}</p>
@@ -236,6 +240,18 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     }
     
     return context;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Create a FilePicker input for the image source field.
+   * @param {DataField} field              The source field.
+   * @param {FormInputConfig} inputConfig  The form input configuration.
+   * @returns {HTMLFilePickerElement}
+   */
+  #createSourceInput(field, inputConfig) {
+    return foundry.applications.elements.HTMLFilePickerElement.create({ type: "image", ...inputConfig });
   }
 
   /* -------------------------------------------- */

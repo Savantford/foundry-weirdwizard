@@ -584,63 +584,63 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     const changes = [];
     
     if (stats.naturalSet) changes.push({
-      key: 'defense.natural',
+      key: 'system.stats.defense.natural',
       value: stats.naturalSet,
       type: "override",
       priority: 1
     })
 
     if (cOpt.system.tier === 'novice') changes.push({
-      key: 'health.starting',
+      key: 'system.stats.health.normal',
       value: stats.healthStarting,
       type: "override",
       priority: 1
     })
 
     if (stats.naturalIncrease) changes.push({
-      key: 'defense.naturalIncrease',
+      key: 'system.stats.defense.natural',
       value: stats.naturalIncrease,
       type: "add",
       priority: null
     })
 
     if (stats.armoredIncrease) changes.push({
-      key: 'defense.armoredIncrease',
+      key: 'system.stats.defense.armored',
       value: stats.armoredIncrease,
       type: "add",
       priority: null
     })
     
     if (stats.healthIncrease) changes.push({
-      key: 'health.increase',
+      key: 'system.stats.health.normal',
       value: stats.healthIncrease,
       type: "add",
       priority: null
     })
 
     if (stats.sizeNormal) changes.push({
-      key: 'size.normal',
+      key: 'system.stats.size',
       value: stats.sizeNormal,
       type: "override",
       priority: 1
     })
 
     if (stats.speedNormal) changes.push({
-      key: 'speed.normal',
+      key: 'system.stats.speed.normal',
       value: stats.speedNormal,
       type: "override",
       priority: 1
     })
 
     if (stats.speedIncrease) changes.push({
-      key: 'speed.increase',
+      key: 'system.stats.speed.normal',
       value: stats.speedIncrease,
       type: "add",
       priority: null
     })
 
     if (stats.bonusDamage) changes.push({
-      key: 'bonusDamage.increase',
+      key: 'system.stats.bonusdamage',
       value: stats.bonusDamage,
       type: "add",
       priority: null
