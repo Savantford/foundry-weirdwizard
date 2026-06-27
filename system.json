@@ -203,6 +203,37 @@
       ]
     }
   ],
+  "documentTypes": {
+    "Actor": {
+      "character": {},
+      "npc": {},
+      "group": {},
+      "vehicle": {}
+    },
+    "Item": {
+      "equipment": {},
+      "talent": {},
+      "spell": {}
+    },
+    "ActiveEffect": {
+      "benefit": {},
+      "affliction": {},
+      "sense": {}
+    },
+    "JournalEntryPage": {
+      "ancestry": {},
+      "path": {},
+      "profession": {},
+      "tradition": {}
+    },
+    "ChatMessage": {
+      "d20-roll": {},
+      "d6-roll": {},
+      "unrolled-use": {},
+      "embed-card": {},
+      "status": {}
+    }
+  },
   "grid": {
     "distance": 1,
     "units": "yard"
