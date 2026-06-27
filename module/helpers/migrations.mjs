@@ -165,7 +165,7 @@ export async function migrateType(collection, options = {}) {
     _id: doc.id,
     type: doc.type,
     '==system': doc.system.toObject(),
-    'flags.weirdwizard.-=migrateType': null,
+    'flags.weirdwizard.migrateType': new foundry.data.operators.ForcedDeletion(),
   }));
 
   // Update in increments of 100

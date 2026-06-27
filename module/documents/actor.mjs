@@ -586,63 +586,63 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     if (stats.naturalSet) changes.push({
       key: 'defense.natural',
       value: stats.naturalSet,
-      type: 5,
+      type: "override",
       priority: 1
     })
 
     if (cOpt.system.tier === 'novice') changes.push({
       key: 'health.starting',
       value: stats.healthStarting,
-      type: 5,
+      type: "override",
       priority: 1
     })
 
     if (stats.naturalIncrease) changes.push({
       key: 'defense.naturalIncrease',
       value: stats.naturalIncrease,
-      type: 2,
+      type: "add",
       priority: null
     })
 
     if (stats.armoredIncrease) changes.push({
       key: 'defense.armoredIncrease',
       value: stats.armoredIncrease,
-      type: 2,
+      type: "add",
       priority: null
     })
     
     if (stats.healthIncrease) changes.push({
       key: 'health.increase',
       value: stats.healthIncrease,
-      type: 2,
+      type: "add",
       priority: null
     })
 
     if (stats.sizeNormal) changes.push({
       key: 'size.normal',
       value: stats.sizeNormal,
-      type: 5,
+      type: "override",
       priority: 1
     })
 
     if (stats.speedNormal) changes.push({
       key: 'speed.normal',
       value: stats.speedNormal,
-      type: 5,
+      type: "override",
       priority: 1
     })
 
     if (stats.speedIncrease) changes.push({
       key: 'speed.increase',
       value: stats.speedIncrease,
-      type: 2,
+      type: "add",
       priority: null
     })
 
     if (stats.bonusDamage) changes.push({
       key: 'bonusDamage.increase',
       value: stats.bonusDamage,
-      type: 2,
+      type: "add",
       priority: null
     })
     
@@ -656,13 +656,17 @@ export default class WWActor extends WWDocumentMixin(Actor) {
       description: cOpt.text.content,
 
       origin: this.uuid,
-      changes: changes,
-      'system.grantedBy': cOpt.uuid
+      system: {
+        changes: changes,
+        grantedBy: cOpt.uuid
+      }
+      
     };
+    console.log(effectData.system.changes)
 
     // Create or update main effect
-    if (eff) this.updateEmbeddedDocuments("ActiveEffect", [{ _id: eff.id, ...effectData }]);
-    else this.createEmbeddedDocuments("ActiveEffect", [effectData]);
+    if (eff) await this.updateEmbeddedDocuments("ActiveEffect", [{ _id: eff.id, ...effectData }]);
+    else await this.createEmbeddedDocuments("ActiveEffect", [effectData]);
 
   }
 
@@ -849,7 +853,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     const objFilter = list => Object
       .fromEntries(Object.entries(entries[list])
       .filter(([k, v]) => v.grantedBy === uuid )
-    .map(([k]) => [`-=${k}`, null]));
+    .map(([k]) => [k, new foundry.data.operators.ForcedDeletion()]));
     
     const obj = {
       descriptors: objFilter('descriptors'),
@@ -1056,86 +1060,6 @@ export default class WWActor extends WWDocumentMixin(Actor) {
       }
     }
   }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Deletes expired temporary active effects and disables linked expired buffs.
-   * Code borrowed from Pathfinder 1e system.
-   *
-   * @param {object} [options] Additional options
-   * @param {Combat} [options.combat] Combat to expire data in, if relevant
-   * @param {number} [options.timeOffset=0] Time offset from world time
-   * @param {DocumentModificationContext} [context] Document update context
-   */
-  /*async expireActiveEffects({ combat, timeOffset = 0 } = {}, context = {}) {
-    if (!this.isOwner) throw new Error("Must be owner");
-    const worldTime = game.time.worldTime + timeOffset;
-    
-    const temporaryEffects = this.temporaryEffects.filter((ae) => {
-      const { seconds, rounds, startTime, startRound } = ae.duration;
-      // Calculate remaining duration.
-      // AE.duration.remaining is updated by Foundry only in combat and is unreliable.
-      
-      if (seconds > 0) {
-        const elapsed = worldTime - (startTime ?? 0),
-          remaining = seconds - elapsed;
-        return remaining <= 0;
-      }
-      else return false;
-    });
-
-    const disableActiveEffects = [],
-      deleteActiveEffects = [],
-      disableBuffs = [],
-      actorUpdate = {};
-
-    const v11 = game.release.generation >= 11;
-    
-    for (const ae of temporaryEffects) {
-      const conditionId = v11 ? ae.statuses.first() : ae.getFlag("core", "statusId");
-
-      if (conditionId) {
-        // Disable expired conditions
-        actorUpdate[`system.attributes.conditions.-=${conditionId}`] = null;
-      } else {
-        const duration = ae.duration.seconds ? formatTime(ae.duration.seconds) : ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? i18n('WW.Effect.Duration.Rounds') : i18n('WW.Effect.Duration.Round'));
-
-        await ChatMessage.create({
-          type: 'status',
-          speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
-          flavor: this.label,
-          content: `<p>@UUID[${this.uuid}]: @UUID[${ae.uuid}] ${i18n("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
-          sound: CONFIG.sounds.notification
-        });
-
-        if (ae.system.duration.autoExpire) {
-          deleteActiveEffects.push(ae.id);
-        } else {
-          disableActiveEffects.push({ _id: ae.id, disabled: true });
-        }
-      }
-    }
-
-    // Add context info for why this update happens to allow modules to understand the cause.
-    const hasActorUpdates = !foundry.utils.isEmpty(actorUpdate);
-
-    const deleteAEContext = foundry.utils.mergeObject(
-      { render: !disableBuffs.length && !disableActiveEffects.length && !hasActorUpdates },
-      context
-    );
-    if (deleteActiveEffects.length)
-      await this.deleteEmbeddedDocuments("ActiveEffect", deleteActiveEffects, deleteAEContext);
-
-    const disableAEContext = foundry.utils.mergeObject({ render: !disableBuffs.length && !hasActorUpdates }, context);
-    if (disableActiveEffects.length)
-      await this.updateEmbeddedDocuments("ActiveEffect", disableActiveEffects, disableAEContext);
-
-    const disableBuffContext = foundry.utils.mergeObject({ render: !hasActorUpdates }, context);
-    if (disableBuffs.length) await this.updateEmbeddedDocuments("Item", disableBuffs, disableBuffContext);
-
-    if (hasActorUpdates) await this.update(actorUpdate, context);
-  }*/
 
   /* -------------------------------------------- */
   /*  Getters                                     */

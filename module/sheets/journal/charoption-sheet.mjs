@@ -375,7 +375,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     delete await obj[dialogInput.key].key;
 
     // Delete old entry if key changed
-    if (dialogInput.key !== entryKey) obj['-=' + entryKey] = null;
+    if (dialogInput.key !== entryKey) obj[entryKey] = new foundry.data.operators.ForcedDeletion();
 
     await this.page.update({ [path]: obj });
   }
@@ -401,7 +401,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     delete await newObj[key];
     
     // Update document
-    await this.page.update({ [`${path}.-=${key}`]: null });
+    await this.page.update({ [`${path}.${key}`]: new foundry.data.operators.ForcedDeletion() });
     
   }
 
