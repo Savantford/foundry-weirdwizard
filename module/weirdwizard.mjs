@@ -93,6 +93,7 @@ Hooks.once('init', function () {
   CONFIG.Item.documentClass = WWItem;
   CONFIG.JournalEntryPage.documentClass = WWJournalPage;
   CONFIG.ActiveEffect.documentClass = WWActiveEffect;
+  CONFIG.ActiveEffect.defaultType = 'base';
   CONFIG.Combat.documentClass = WWCombat;
   CONFIG.Combatant.documentClass = WWCombatant;
   CONFIG.CombatantGroup.documentClass = WWCombatantGroup;
@@ -108,7 +109,7 @@ Hooks.once('init', function () {
   CONFIG.Item.dataModels.spell = SpellModel;
 
   // Active Effect data models
-  CONFIG.ActiveEffect.dataModels.generic = BaseEffectModel;
+  CONFIG.ActiveEffect.dataModels.base = BaseEffectModel;
   CONFIG.ActiveEffect.dataModels.benefit = BenefitEffectModel;
   CONFIG.ActiveEffect.dataModels.affliction = BaseEffectModel;
   CONFIG.ActiveEffect.dataModels.sense = BaseEffectModel;

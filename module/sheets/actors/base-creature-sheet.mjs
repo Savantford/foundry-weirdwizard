@@ -58,10 +58,10 @@ export default class WWCreatureSheet extends WWActorSheet {
       itemUpdateUses: this.#onItemUpdateUses,
       containerCollapse: this.#onContainerCollapse,
 
-      effectCreate: this.#onEffectCreate,
-      effectEdit: this.#onEffectEdit,
-      effectToggle: this.#onEffectToggle,
-      effectRemove: this.#onEffectRemove
+      effectCreate: this.#onActiveEffectCreate,
+      effectEdit: this.#onActiveEffectEdit,
+      effectToggle: this.#onActiveEffectToggle,
+      effectRemove: this.#onActiveEffectRemove
     },
     form: {
       handler: this.#onSubmitDocumentForm, // needed for damage update
@@ -773,25 +773,25 @@ export default class WWCreatureSheet extends WWActorSheet {
   /*  Active Effect handling actions              */
   /* -------------------------------------------- */
 
-  static #onEffectCreate(event, button) {
+  static #onActiveEffectCreate(event, button) {
     const dataset = Object.assign({}, button.dataset);
 
     createActiveEffect(dataset, this.actor)
   }
 
-  static #onEffectEdit(event, button) {
+  static #onActiveEffectEdit(event, button) {
     const effect = this.actor.effects.get(button.dataset.effectId);
 
     editActiveEffect(effect, this.actor);
   }
 
-  static #onEffectToggle(event, button) {
+  static #onActiveEffectToggle(event, button) {
     const effect = this.actor.effects.get(button.dataset.effectId);
 
     effect.update({ disabled: effect.disabled ? false : true });
   }
 
-  static #onEffectRemove(event, button) {
+  static #onActiveEffectRemove(event, button) {
     const effect = this.actor.effects.get(button.dataset.effectId);
 
     deleteActiveEffect(effect, this.actor);

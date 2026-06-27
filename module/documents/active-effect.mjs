@@ -166,55 +166,6 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
   /* -------------------------------------------- */
 
   /**
-   * @override
-   * Apply this ActiveEffect to a provided Actor.
-   * @param {Actor|Item|TokenDocument} targetDoc The Document to which this effect should be applied
-   * @param {ActiveEffectChangeData} change      The change data being applied
-   * @param {object} [options]                   Options affecting the change application
-   * @param {object} [options.replacementData]   Data used to resolve "@" expressions in a string value
-   * @param {boolean} [options.modifyTarget]     Modify the target Document with the updated value.
-   * @returns {Record<string, unknown>} An object of property keys and their updated values
-   */
-
-  /*static applyChange(targetDoc, change, {replacementData={}, modifyTarget=true}={}) {
-    // Weird Wizard: Replace preset with real change key
-    console.log(change.key)
-    //change.key = CONFIG.WW.EFFECT_CHANGE_PRESET_KEYS[change.key]; // Better solution pending
-    console.log(change.key)
-    let field;
-    const changes = {};
-    if ( (typeof change.key === "string") && change.key.startsWith("system.") ) {
-      if ( targetDoc.system instanceof foundry.abstract.DataModel ) {
-        field = targetDoc.system.getFieldForProperty(change.key.slice(7));
-      }
-    }
-    else field = targetDoc.getFieldForProperty(String(change.key ?? ""));
-    const configuredHandler = ActiveEffect.CHANGE_TYPES[change.type]?.handler;
-    if ( typeof configuredHandler === "function" ) {
-      configuredHandler(targetDoc, change, {field, replacementData, modifyTarget});
-    }
-    else if ( field ) {
-      if ( foundry.utils.getDefiningClass(this, "applyField") !== ActiveEffect ) {
-        foundry.utils.logCompatibilityWarning("The ActiveEffect implementation overrides applyField, which is"
-          + " deprecated. Please override applyChangeField instead.", {since: 14, until: 16, once: true});
-        changes[change.key] = this.applyField(targetDoc, change, field);
-      }
-      else changes[change.key] = this.applyChangeField(targetDoc, change, {field, replacementData, modifyTarget});
-    }
-    else {
-      if ( change.effect && (foundry.utils.getDefiningClass(change.effect, "_applyLegacy") !== ActiveEffect) ) {
-        foundry.utils.logCompatibilityWarning("The ActiveEffect implementation overrides _applyLegacy, which is"
-          + " deprecated. Please override static _applyChangeUnguided instead.", {since: 14, until: 16, once: true});
-        change.effect._applyLegacy(targetDoc, change, changes);
-      }
-      else this._applyChangeUnguided(targetDoc, change, changes, {replacementData, modifyTarget});
-    }
-    return changes;
-  }*/
-
-  /* -------------------------------------------- */
-
-  /**
    * A determination of whether the ActiveEffect's expiry event was reached. This check is independent of whether the
    * duration was also reached.
    * @param {string} event     The event that triggered this check
@@ -251,7 +202,6 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
       case "roundEnd":
         return !!effectCombatant;
       case "turnStart":
-        console.log('turnStart')
         // Return false if combat hasn't started a or if combat/effect has no combatant
         if ( !combat?.started || !effectCombatant) return false;
         
@@ -273,7 +223,7 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
         // Return false if previous combatant does not exist
         const previousCombatantId = combat.previous.combatantId;
         if ( !previousCombatantId ) return false;
-        console.log('turnEnd')
+        
         // If no preset is selected or turnEnd is selected, return true
         if (!lcPreset || lcPreset === 'turnend') return true;
 

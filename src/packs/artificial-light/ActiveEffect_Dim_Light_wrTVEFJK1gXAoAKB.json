@@ -1,6 +1,6 @@
 {
   "name": "Dim Light",
-  "type": "generic",
+  "type": "base",
   "_id": "wrTVEFJK1gXAoAKB",
   "img": "icons/sundries/lights/torch-brown-lit.webp",
   "system": {
