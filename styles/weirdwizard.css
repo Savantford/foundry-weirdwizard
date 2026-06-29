@@ -811,7 +811,7 @@ body.theme-dark.application.weirdwizard .window-content {
 }
 
 /* Heading 5: Descriptors and Invividual Traits */
-.weirdwizard .window-content h5.descriptors,
+.weirdwizard.view-mode .window-content h5.descriptors,
 .weirdwizard .window-content h5.individual-traits {
   display: flex;
   flex-flow: wrap;
@@ -829,9 +829,14 @@ body.theme-dark.application.weirdwizard .window-content {
 
 .weirdwizard .window-content h5.individual-traits {
   font-variant-caps: normal;
+  padding: 0px 5px;
   border-image-slice: 11 fill;
   border-image-width: 45px 80px;
   border-image-outset: 0 7px 0 0;
+}
+
+.weirdwizard.edit-mode .window-content h5.descriptors {
+  margin-top: 5px;
 }
 
 .weirdwizard .descriptors .buttons i {
@@ -903,6 +908,7 @@ body.theme-dark.application.weirdwizard .window-content {
 /* Style App V2 Inputs */
 .weirdwizard.application input[type="text"],
 .weirdwizard.application input[type="search"] {
+  --input-text-color: var(--body-text-color);
   --input-placeholder-color: var(--placeholder-text-color);
   background: var(--background-color-shadow);
   border-radius: 1px;
@@ -1128,6 +1134,9 @@ body.theme-dark.application.weirdwizard .window-content {
     color: var(--body-text-color);
     font-style: italic;
     font-family: var(--ww-font-fancy);
+  }
+
+  .edit-mode .individual-traits {
     padding: 0px 5px;
   }
 
@@ -2631,8 +2640,8 @@ hr.bug {
   }
 
   > p,
-  ol,
-  ul {
+  ol:not(:first-child),
+  ul:not(:first-child) {
     margin: 0.25rem 0;
   }
 
@@ -2667,6 +2676,7 @@ prose-mirror .statbox {
 .weirdwizard.actor .statbox {
   display: flex;
   flex-flow: column wrap;
+  margin: 0;
 
   > :last-child {
     flex: 1;
@@ -2687,13 +2697,18 @@ prose-mirror .statbox {
 .weirdwizard.npc .statbox {
   min-width: 240px;
 
-  > h4 {
+  > h4,
+  .statbox-name {
     display: flex;
     justify-content: space-between;
     background-color: var(--purple-medium);
     border-radius: 3px;
     margin: 3px 0 0;
     padding: 2px 0 2px 5px;
+
+    > input {
+      color: inherit;
+    }
   }
 
   .statbox-section:not(:first-of-type) {
@@ -5914,19 +5929,44 @@ p {
 /*  Chat Messages                               */
 /* -------------------------------------------- */
 
+#chat-message,
+.themed.theme-dark #chat-message {
+  --text-color: var(--body-text-color);
+  --placeholder-color: var(--purple-dark);
+  --background-color: transparent;
+  --border-color: var(--purple-medium);
+  --menu-background: var(--purple-medium);
+}
+
+/* Chat Controls */
+.themed.theme-dark #chat-controls .ui-control {
+  --control-bg-color: var(--purple-medium);
+  --control-active-bg-color: var(--purple-dark);
+  --control-hover-bg-color: var(--purple-dark);
+  --control-border-color: var(--purple-medium);
+  --control-icon-color: white;
+}
+
+.chat-sidebar .chat-input menu {
+  --menu-padding: 8px 4px;
+}
+
 /* Chat Message Input */
-#chat-message {
+#chat-message > .editor-container {
   background: url(../assets/decorations/stars/chat-background.svg), var(--paper-bg);
   background-repeat: no-repeat, repeat;
   background-position: center;
   background-size: 30%, auto;
   font-family: var(--ww-font-serif);
   font-weight: 500;
-  color: var(--body-text-color);
+
+  > .editor-content {
+    color: var(--text-color);
+  }
 }
 
-#chat-message::placeholder {
-  color: var(--purple-dark);
+.themed.theme-dark #chat-message button {
+  --button-text-color: white;
 }
 
 /* Chat Messages */

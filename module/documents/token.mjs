@@ -18,14 +18,11 @@ export default class WWTokenDocument extends foundry.documents.TokenDocument {
 
   /** @inheritdoc */
   _inferMovementAction() {
-    // Flying and teleporting creatures should always prefer it
+    // Flying creatures should always prefer it
     if (this.movementTraits.has("fly")) return "fly";
-    if (this.movementTraits.has("teleport")) return "teleport";
+    // Prone should only Crawl
     else if (this.hasStatusEffect("prone")) return "crawl";
-    else {
-      //for (const action of CONFIG.Token.movement.actions) if (this.movementTraits.has(action) || this.movementTraits.has(action)) return action;
-      return super._inferMovementAction();
-    }
+    else return super._inferMovementAction();
   }
 
   /* -------------------------------------------------- */
