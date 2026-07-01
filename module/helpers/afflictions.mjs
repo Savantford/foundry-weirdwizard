@@ -1,14 +1,13 @@
-import { addEffect, multiplyEffect, downgradeEffect, overrideEffect } from '../helpers/item-effects.mjs'
-import { i18n } from "../helpers/utils.mjs";
+import { addEffect, multiplyEffect, downgradeEffect, overrideEffect } from '../helpers/item-effects.mjs';
 
 const addPriority = 120;
 const overridePriority = 150;
 
 const _buildBaseAffliction = (label, img, changes = [], flags = {}) => ({
   id: label, // TODO: Check corrections here?
-  name: i18n(CONFIG.WW.AFFLICTIONS[label]),
+  name: _loc(CONFIG.WW.AFFLICTIONS[label]),
   img: img,
-  description: label.includes('impaired') ? i18n('WW.Affliction.ImpairedDesc') : i18n(CONFIG.WW.AFFLICTIONS[label] + 'Desc'),
+  description: label.includes('impaired') ? _loc('WW.Affliction.ImpairedDesc') : _loc(CONFIG.WW.AFFLICTIONS[label] + 'Desc'),
   disabled: false,
   transfer: true,
   duration: { seconds: 3600 },
@@ -45,7 +44,7 @@ export class WWAfflictions {
       // TODO: more precise message? Currently it picks the first message
       let msg = actor.getEmbeddedCollection('ActiveEffect').find(effect => Boolean(effect.flags?.warningMessage))
         ?.flags.warningMessage;
-      msg = msg ?? i18n(`WW.AutoFail${actionType.capitalize()}s`);
+      msg = msg ?? _loc(`WW.AutoFail${actionType.capitalize()}s`);
       ui.notifications.error(msg);
     }
     return isBlocked

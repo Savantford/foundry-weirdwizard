@@ -53,7 +53,7 @@ export default class WWCombatantGroupConfig extends HandlebarsApplicationMixin(D
     const buttons = [
       {
         type: "submit",
-        label: game.i18n.format("DOCUMENT.Update", { type: game.i18n.localize("DOCUMENT.CombatantGroup") }),
+        label: _loc("DOCUMENT.Update", { type: _loc("DOCUMENT.CombatantGroup") }),
         icon: "fa-solid fa-save",
       },
     ];

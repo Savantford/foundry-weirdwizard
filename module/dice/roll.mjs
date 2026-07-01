@@ -1,4 +1,3 @@
-import { i18n } from '../helpers/utils.mjs';
 import { dataFromLabel } from '../sidebar/chat-html-templates.mjs';
 
 export default class WWRoll extends Roll {
@@ -28,9 +27,9 @@ export default class WWRoll extends Roll {
       tooltip: isPrivate ? "" : await this.getTooltip(),
       total: isPrivate ? "?" : Math.round(this.total * 100) / 100,
       targetNo: isPrivate ? "?" : this.options.targetNo,
-      attributeLabel: isPrivate ? null : (attribute ? i18n(CONFIG.WW.ROLL_ATTRIBUTES[attribute]) : null),
+      attributeLabel: isPrivate ? null : (attribute ? _loc(CONFIG.WW.ROLL_ATTRIBUTES[attribute]) : null),
       attributeImg: isPrivate ? null : (attribute ? CONFIG.WW.ATTRIBUTE_ICONS[attribute] : null),
-      againstLabel: isPrivate ? null : (against ? i18n(CONFIG.WW.ROLL_AGAINST[against]) : null),
+      againstLabel: isPrivate ? null : (against ? _loc(CONFIG.WW.ROLL_AGAINST[against]) : null),
       againstImg: isPrivate ? null : (against ? CONFIG.WW.ATTRIBUTE_ICONS[against] : null),
       terms: await this.terms,
       originUuid: isPrivate ? null : this.options.originUuid,

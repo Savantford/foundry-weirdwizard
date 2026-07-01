@@ -1,6 +1,6 @@
 import WWDialog from "../../apps/dialog.mjs";
 import { EntrySettingsDisplay } from "../../apps/entry-settings-display.mjs";
-import { defaultListEntryKey, defaultListEntryName, i18n } from "../../helpers/utils.mjs";
+import { defaultListEntryKey, defaultListEntryName } from "../../helpers/utils.mjs";
 import WWSheetMixin from "../ww-sheet.mjs";
 
 const JournalEntryPageHandlebarsSheet = foundry.applications.sheets.journal.JournalEntryPageHandlebarsSheet;
@@ -114,8 +114,8 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
 
     // Prepare Items Area Hint
     context.itemsAreaHint = `
-      <p>${i18n("WW.CharOption.DropHere")}</p>
-      <p>${i18n("WW.CharOption.Help", { itemType: this.page.type })}</p>
+      <p>${_loc("WW.CharOption.DropHere")}</p>
+      <p>${_loc("WW.CharOption.Help", { itemType: this.page.type })}</p>
     `;
 
     // Prepare common select dropdown
@@ -132,7 +132,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
         const benefit = context.benefits[b];
 
         // Prepare benefit heading
-        benefit.heading = i18n("WW.CharOption.BenefitHeading", { charOption: this.page.name, level: benefit.levelReq });
+        benefit.heading = _loc("WW.CharOption.BenefitHeading", { charOption: this.page.name, level: benefit.levelReq });
         
         // Prepare information for granted items
         const itemsInfo = [];
@@ -142,9 +142,9 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
 
           itemsInfo.push({
             uuid: i,
-            name: retrieved ? (retrieved.system.magical ? `${retrieved.name} (${i18n('WW.Talent.Magical')})` : retrieved.name) : i18n('WW.CharOption.Unknown'),
+            name: retrieved ? (retrieved.system.magical ? `${retrieved.name} (${_loc('WW.Talent.Magical')})` : retrieved.name) : _loc('WW.CharOption.Unknown'),
             img: retrieved ? retrieved.img : '',
-            description: retrieved ? await TextEditor.enrichHTML(retrieved.system.description, { secrets: retrieved.isOwner, relativeTo: retrieved }) : i18n('WW.CharOption.MissingRef'),
+            description: retrieved ? await TextEditor.enrichHTML(retrieved.system.description, { secrets: retrieved.isOwner, relativeTo: retrieved }) : _loc('WW.CharOption.MissingRef'),
             missing: retrieved ? false : true
           });
         }
@@ -178,13 +178,13 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
 
     // Prepare Ancestries
     if (this.isAncestry) {
-      context.traitsHeading = i18n("WW.CharOption.AncestryTraitsHeading", { ancestry: this.page.name });
+      context.traitsHeading = _loc("WW.CharOption.AncestryTraitsHeading", { ancestry: this.page.name });
 
       for (const b in context.benefits) {
         const benefit = context.benefits[b];
         
         benefit.sizeDisplayed = CONFIG.WW.SIZE_FRACTIONS[benefit.stats.sizeNormal] ?? benefit.stats.sizeNormal;
-        benefit.sizeTooltip = i18n('WW.Stats.SizeConversionTip');
+        benefit.sizeTooltip = _loc('WW.Stats.SizeConversionTip');
       }
     }
     
@@ -383,7 +383,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     if (!dialogInput) return;
 
     // Return with warning if the key or name are missing
-    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
+    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(_loc('WW.Settings.Entry.EditWarning'));
 
     // Update key and value with dialogInput
     obj[dialogInput.key] = dialogInput;
@@ -466,8 +466,8 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
         icon: 'fa-solid fa-trash'
       },
       content: `
-        <div>${i18n('WW.CharOption.Reference.RemoveDialog.Msg')}</div>
-        <div class="dialog-sure">${i18n('WW.CharOption.Reference.RemoveDialog.Confirm')}</div>
+        <div>${_loc('WW.CharOption.Reference.RemoveDialog.Msg')}</div>
+        <div class="dialog-sure">${_loc('WW.CharOption.Reference.RemoveDialog.Confirm')}</div>
       `
     });
 
@@ -610,16 +610,16 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
 
     // Return if not from an apropriate type
     if (allowedTypes.includes(document.type)) return await ui.notifications.warn(`
-      ${i18n('WW.CharOption.TypeWarning')}
+      ${_loc('WW.CharOption.TypeWarning')}
       <br/>
-      ${i18n("WW.CharOption.Help", { itemType: item.type })}
+      ${_loc("WW.CharOption.Help", { itemType: item.type })}
     `);
     
     // Return with warning if not in a pack
     if (!item.pack) return await ui.notifications.warn(`
-      ${i18n('WW.CharOption.CompendiumWarning')}
+      ${_loc('WW.CharOption.CompendiumWarning')}
       <br/>
-      ${i18n("WW.CharOption.Help", { itemType: item.type })}
+      ${_loc("WW.CharOption.Help", { itemType: item.type })}
     `);
     
     // Handle drop on Tradition
@@ -636,7 +636,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
         await this.document.update({ 'system.talents': talents });
 
       } else if (item.type === 'equipment') {
-        return ui.notifications.warn(i18n('WW.Tradition.EquipmentWarning'));
+        return ui.notifications.warn(_loc('WW.Tradition.EquipmentWarning'));
       }
     
     // Handle drop on non-Tradition

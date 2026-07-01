@@ -1,4 +1,3 @@
-import { i18n } from '../helpers/utils.mjs'
 import WWDialog from '../apps/dialog.mjs';
 
 export default class WWCombatant extends Combatant {
@@ -40,7 +39,7 @@ export default class WWCombatant extends Combatant {
     
     // Prepare message
     const name = token?.actor ? `@UUID[${ this.actor.uuid }]` : '<b>' + game.weirdwizard.utils.getAlias({ token }) + '</b>';
-    const msg = taking ? i18n('WW.Combat.Initiative.ChatMsg', { name }) : i18n('WW.Combat.RegularTurn.ChatMsg', { name });
+    const msg = taking ? _loc('WW.Combat.Initiative.ChatMsg', { name }) : _loc('WW.Combat.RegularTurn.ChatMsg', { name });
 
     // Send to chat
     ChatMessage.create({
@@ -71,8 +70,8 @@ export default class WWCombatant extends Combatant {
         title: 'WW.Combat.ResetActed.Title',
         icon: 'fa-solid fa-rotate-left'
       },
-      content: `<p>${i18n('WW.Combat.ResetActed.Msg')}</p>
-        <p class="dialog-sure">${i18n('WW.Combat.ResetActed.Confirm')}</p>`
+      content: `<p>${_loc('WW.Combat.ResetActed.Msg')}</p>
+        <p class="dialog-sure">${_loc('WW.Combat.ResetActed.Confirm')}</p>`
     });
 
     if (!confirm) return;

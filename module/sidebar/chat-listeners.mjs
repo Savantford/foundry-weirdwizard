@@ -1,4 +1,4 @@
-import { i18n, slideDown, slideUp } from '../helpers/utils.mjs';
+import { slideDown, slideUp } from '../helpers/utils.mjs';
 import MultiChoice from '../apps/multi-choice.mjs';
 import RollDamage from '../dice/roll-damage.mjs';
 import WWRoll from '../dice/roll.mjs';
@@ -182,7 +182,7 @@ export function _onMultiChoice(ev, purpose) {
   
   for (const group in groups) {
     sections.push({
-      title: i18n(CONFIG.WW.MULTI_CHOICE_TARGET_HEADERS[group]),
+      title: _loc(CONFIG.WW.MULTI_CHOICE_TARGET_HEADERS[group]),
       img: CONFIG.WW.MULTI_CHOICE_TARGET_HEADER_ICONS[group],
       choices: groups[group],
       collapsed: (group === 'actors-tab' && Object.keys(groups).length > 1) ? true : false
@@ -239,7 +239,7 @@ async function _onChatRoll(dataset, label, nextAction) {
       value: dataset.value,
       action: dataset.action
     }
-  const labelHtml = data.item?.name ? `${label ? i18n(label) + ' ' : ''}<span class="owner-only">${data.item?.name}</span><span class="non-owner-only">? ? ?</span>` : '';
+  const labelHtml = data.item?.name ? `${label ? _loc(label) + ' ' : ''}<span class="owner-only">${data.item?.name}</span><span class="non-owner-only">? ? ?</span>` : '';
   
   // Prepare roll
   const r = await new WWRoll(data.value, data.actor?.getRollData(),

@@ -52,14 +52,13 @@ import SageTools from './ui/sage-tools.mjs';
 import QuestCalendar from './ui/quest-calendar.mjs';
 
 // Import canvas-related classes
-import WWToken from './canvas/token.mjs';
+//import WWToken from './canvas/token.mjs';
 
 // Import helper/utility classes and constants.
 import { WW } from './config.mjs';
 import registerSystemSettings from './helpers/system-settings.mjs'
 import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
 import { WWAfflictions } from './helpers/afflictions.mjs';
-//import { expireFromTokens } from './helpers/effect-actions.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
 import * as utils from './helpers/utils.mjs';
@@ -205,7 +204,7 @@ Hooks.once('init', function () {
   CONFIG.ActiveEffect.legacyTransferral = false;
 
   // Register custom Object classes (placeables)
-  CONFIG.Token.objectClass = WWToken;
+  //CONFIG.Token.objectClass = WWToken;
 
   // Define token resources/bars
   CONFIG.Actor.trackableAttributes = {
@@ -355,10 +354,8 @@ Hooks.once('ready', function (app, html) {
 
 /**
  * This function runs after game data has been requested and loaded from the servers, so entities exist
-*/
-
+ */
 Hooks.once('setup', function () {
-
   // Get afflictions
   const effects = WWAfflictions.buildAll();
 
@@ -385,6 +382,8 @@ Hooks.on("renderCompendiumDirectory", (app, html) => {
   CompendiumIndex.injectSidebarButton(html);
 })
 
+/* -------------------------------------------- */
+
 Hooks.on('renderChatMessageHTML', (message, html, context) => {
   // Remove html elements meant for owners or non-owners only
   if (!game.user.isOwner) {
@@ -395,44 +394,6 @@ Hooks.on('renderChatMessageHTML', (message, html, context) => {
 
   // Initialize chat message listeners
   initChatListeners(html, message, context);
-});
-
-/* -------------------------------------------- */
-
-Hooks.on('renderSettingsConfig', (app, html, data) => {
-  // Add sections to settings dialog by iterating all *our* settings, stripping the module/system ID,
-  // then checking whether they have the format '<section>.setting'.
-  // If so, we check whether the section matches the last section we saw;
-  // otherwise, this is a new section and we insert a new section header.
-  /*let lastSectionID = '';
-
-  const wwSettings = [... html.querySelectorAll('.tab[data-tab=system] .form-group')];
-
-  for (const [i, value] of wwSettings.entries()) {
-    const setting = (value.querySelector('label').getAttribute('for') || '').replace(/^(weirdwizard\.)/, '');
-    
-    if (!setting || setting.indexOf('.') < 1) {
-      continue;
-    }
-
-    const section = setting.split('.')[0];
-    
-    if (section !== lastSectionID) {
-      const key = 'WW.Settings.Section.' + section;
-      const div = document.createElement("div");
-
-      div.innerHTML = `
-        <h3>${game.i18n.localize(key + '.Title')}</h3>
-        <p class="notes">${game.i18n.localize(key + '.Hint')}</p>
-      `;
-
-      wwSettings[i].before(div);
-
-      lastSectionID = section;
-    }
-
-  }*/
-
 });
 
 /* -------------------------------------------- */
@@ -496,7 +457,6 @@ Hooks.on("renderFolderConfig", (app, html, context) => {
 /* -------------------------------------------- */
 
 Hooks.on('getSceneControlButtons', (controls) => {
-
   // Add Sage Tools button
   controls['tokens'].tools['sage-tools'] = {
     name: 'sage-tools',
@@ -523,8 +483,6 @@ Hooks.on('getSceneControlButtons', (controls) => {
 
 // On game world time change
 Hooks.on('updateWorldTime', (worldTime, dt, options, userId) => {
-  //expireFromTokens();
-
   if (ui.questcalendar?.rendered) ui.questcalendar.render();
 });
 

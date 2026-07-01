@@ -1,4 +1,4 @@
-import { i18n, plusify } from '../helpers/utils.mjs';
+import { plusify } from '../helpers/utils.mjs';
 import IndexFilter from '../ux/index-filter.mjs';
 
 // Similar syntax to importing, but note that
@@ -145,7 +145,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     // Source Compendia filter
     context.filters.push({
       name: 'sourceCompendia',
-      title: i18n("WW.Index.Filters.SourceCompendia"),
+      title: _loc("WW.Index.Filters.SourceCompendia"),
       value: this.sourceCompendia ?? CompendiumIndex.getCompendiumArray().map(x => x.value),
       options: CompendiumIndex.getCompendiumArray(),
       hidden: false
@@ -179,7 +179,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       // Add filter only if view requires it
       context.filters.push({
         name: filterKey,
-        title: i18n(CONFIG.WW.COMPENDIUM_INDEX_FILTER_LABELS[filterKey]),
+        title: _loc(CONFIG.WW.COMPENDIUM_INDEX_FILTER_LABELS[filterKey]),
         value: appliedFilter ?? filterData?.map(x => x.value),
         options: filterData,
         hidden: filterKey === 'type' ? false : !viewFilters[this.view].includes(filterKey)
@@ -324,7 +324,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
   async _updateFullDocumentData(sourceCompendia = this.sourceCompendia) {
     const validTypes = this.filtersData['type'].map(x => x.value);
-    const progress = ui.notifications.info(i18n('WW.Index.Loading.InProgress'), { progress: true });
+    const progress = ui.notifications.info(_loc('WW.Index.Loading.InProgress'), { progress: true });
 
     const getDocumentData = async (pack) => {
       let docList = [];
@@ -372,17 +372,17 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       );
 
       // Get (sub)type labels
-      doc.typeLabel = i18n(CONFIG[doc.documentName].typeLabels[doc.type]);
+      doc.typeLabel = _loc(CONFIG[doc.documentName].typeLabels[doc.type]);
       const subtypes = {...CONFIG.WW.EQUIPMENT_SUBTYPES, ...CONFIG.WW.TALENT_SUBTYPES};
 
       if (doc.type === 'equipment') {
-        doc.equipmentSubtype = i18n(subtypes[sys.subtype]) ?? doc.typeLabel;
+        doc.equipmentSubtype = _loc(subtypes[sys.subtype]) ?? doc.typeLabel;
       }
 
       if (doc.type === 'talent') {
         doc.talentType = sys.source === 'none'
-        ? `${i18n("TYPES.Actor.npc")}: ${i18n(CONFIG.WW.TALENT_SUBTYPES[sys.subtype])}`
-        : i18n(CONFIG.WW.TALENT_SOURCE_LABELS[sys.source]);
+        ? `${_loc("TYPES.Actor.npc")}: ${_loc(CONFIG.WW.TALENT_SUBTYPES[sys.subtype])}`
+        : _loc(CONFIG.WW.TALENT_SOURCE_LABELS[sys.source]);
       }
 
       if (doc.talentType) doc.genericTypeLabel = doc.talentType;
@@ -395,11 +395,11 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       // Prepare Equipment specifics
       if (doc.type === 'equipment') {
         // Get Availability
-        doc.equipmentAvailability = i18n(CONFIG.WW.EQUIPMENT_AVAILABILITIES[sys.availability]);
+        doc.equipmentAvailability = _loc(CONFIG.WW.EQUIPMENT_AVAILABILITIES[sys.availability]);
 
         // Get Price
         if (sys.price?.value) {
-          const tip = i18n(CONFIG.WW.EQUIPMENT_COINS[sys.price.coin].tip);
+          const tip = _loc(CONFIG.WW.EQUIPMENT_COINS[sys.price.coin].tip);
           const color = CONFIG.WW.EQUIPMENT_COINS[sys.price.coin].color;
 
           doc.equipmentPrice = `${sys.price.value} <i class="fa-solid fa-coins ${color}" data-tooltip="${tip}"></i>`;
@@ -409,7 +409,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         doc.equipmentUses = sys.uses.max === 0 ? 'inf' : sys.uses.max;
 
         // Get Requirements
-        doc.weaponRequirement = sys.requirements ? i18n(CONFIG.WW.EQUIPMENT_REQUIREMENTS[sys.requirements]) : '—';
+        doc.weaponRequirement = sys.requirements ? _loc(CONFIG.WW.EQUIPMENT_REQUIREMENTS[sys.requirements]) : '—';
 
         // Get Defense Stats
         let armored = 0,
@@ -429,14 +429,14 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         // Set Defense and Armor Type labels
         doc.armorDefense = bonus ? `+${bonus}` : `${armored} ${natural ? 'or +' + natural : ''}`;
 
-        if (sys.subtype === 'armor') doc.armorType = i18n(CONFIG.WW.ARMOR_TYPES[sys.armorType]);
-        else if (doc.armorDefense != 0) doc.armorType = i18n('WW.Armor.Shield');
+        if (sys.subtype === 'armor') doc.armorType = _loc(CONFIG.WW.ARMOR_TYPES[sys.armorType]);
+        else if (doc.armorDefense != 0) doc.armorType = _loc('WW.Armor.Shield');
         if (doc.armorDefense == 0) doc.armorDefense = '—';
 
         // Prepare Weapon specifics
         if (sys.subtype == 'weapon') {
-          doc.weaponRange = sys.traits.range ? i18n("WW.Weapon.Ranged") : i18n("WW.Weapon.Melee");
-          doc.weaponGrip = CONFIG.WW.WEAPON_GRIPS_SHORT[sys.grip] ? i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[sys.grip]) : sys.grip;
+          doc.weaponRange = sys.traits.range ? _loc("WW.Weapon.Ranged") : _loc("WW.Weapon.Melee");
+          doc.weaponGrip = CONFIG.WW.WEAPON_GRIPS_SHORT[sys.grip] ? _loc(CONFIG.WW.WEAPON_GRIPS_SHORT[sys.grip]) : sys.grip;
           doc.weaponDamage = sys.damage;
 
           // Prepare Weapon Traits
@@ -445,7 +445,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
           for (const [key,trait] of Object.entries(CONFIG.WW.WEAPON_TRAITS)) {
             if (sys.traits[key]) {
               traits += `<span class="info" data-tooltip="${trait.tip}">
-                ${i18n(trait.label)} 
+                ${_loc(trait.label)} 
                 ${(key === "range" || key === "thrown") ? sys.range : ''}
               </span>`;
             }
@@ -473,7 +473,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
       // Prepare Spell specifics
       if (doc.type === 'spell') {
-        doc.spellTier = i18n(CONFIG.WW.TIERS[sys.tier]);
+        doc.spellTier = _loc(CONFIG.WW.TIERS[sys.tier]);
         doc.spellTradition = sys.tradition ?? '—';
         doc.spellCastings = sys.casting && (sys.casting.replace(/\s/g,'') !== '<p></p>') ? sys.casting : `<p>${sys.uses.max}</p>` ?? '—';
         doc.spellTarget = sys.target ?? '—';
@@ -489,7 +489,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         let ancestryStats = '';
         for (const [k, v] of Object.entries(stats)) {
           let label = k === 'healthIncrease' ? "WW.Health.Short" : "WW.Defense.NaturalShort";
-          if (v) ancestryStats += `<li><b>${i18n(label)}:</b> ${plusify(v)}</li>`;
+          if (v) ancestryStats += `<li><b>${_loc(label)}:</b> ${plusify(v)}</li>`;
         }
         doc.ancestryStats = ancestryStats ? `<ol>${ancestryStats}</ol>` : '—';
 
@@ -545,7 +545,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
       // Prepare Path specifics
       if (doc.type === 'path') {
-        doc.pathTier = i18n(CONFIG.WW.TIERS[sys.tier]);
+        doc.pathTier = _loc(CONFIG.WW.TIERS[sys.tier]);
 
         const bs = {
           natural: '',
@@ -559,7 +559,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         };
 
         for await (const [_, v] of Object.entries(sys.benefits)) {
-          const lv = `<b>${i18n("WW.CharOption.BenefitsSummaryLevel", {level: v.levelReq})}:</b>`;
+          const lv = `<b>${_loc("WW.CharOption.BenefitsSummaryLevel", {level: v.levelReq})}:</b>`;
           
           // Natural Defense
           if (v.stats.naturalIncrease || v.stats.naturalSet) {
@@ -596,7 +596,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
           }
 
           // Spells
-          if (v.spells && v.spells !== '0') bs.spells += `${bs.spells ? '<br>' : ''}${lv} ${i18n(CONFIG.WW.SPELLS_LEARNED[v.spells])}`;
+          if (v.spells && v.spells !== '0') bs.spells += `${bs.spells ? '<br>' : ''}${lv} ${_loc(CONFIG.WW.SPELLS_LEARNED[v.spells])}`;
           
           // Talents
           if (v.items.length) {
@@ -627,7 +627,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         const benefit = sys.benefits.benefit1;
 
         // Category
-        doc.professionCategory = i18n(CONFIG.WW.PROFESSION_CATEGORIES[sys.category]);
+        doc.professionCategory = _loc(CONFIG.WW.PROFESSION_CATEGORIES[sys.category]);
 
         // Languages
         let languages = '';
@@ -714,7 +714,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
     // Update full document list
     ui.notifications.remove(progress);
-    ui.notifications.success(i18n('WW.Index.Loading.Finished'), { permanent: false });
+    ui.notifications.success(_loc('WW.Index.Loading.Finished'), { permanent: false });
     this.fullDocumentList = documents;
   }
 
@@ -938,7 +938,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
         filters['type'].push({
           value: typeKey,
-          label: i18n(type.typeLabels[typeKey]),
+          label: _loc(type.typeLabels[typeKey]),
           //group: type.documentClass.documentName
         })
       }
@@ -967,7 +967,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       for (const [key, loc] of Object.entries(locMap)) {
         filters[filterKey].push({
           value: key,
-          label: i18n(loc)
+          label: _loc(loc)
         })
       }
     }
@@ -1110,7 +1110,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
   static async #createRollTable(event, target) {
     const table = await RollTable.create({
-      name: i18n("WW.Index.RollTable.Title"),
+      name: _loc("WW.Index.RollTable.Title"),
       results: this.filteredDocuments.map((item, index) => {
         return ({
           img: item.img,
@@ -1333,7 +1333,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         views: ['ancestries']
       },
       'ancestryStats': {
-        label: `${i18n("WW.Defense.Label")} & ${i18n("WW.Health.Label")}`,
+        label: `${_loc("WW.Defense.Label")} & ${_loc("WW.Health.Label")}`,
         css: "flex-width-70",
         views: ['ancestries']
       },
@@ -1585,7 +1585,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     ciButton.classList.add("open-compendium-index");
     ciButton.innerHTML = `
       <i class="fa-solid fa-book-bookmark" inert></i>
-      ${i18n("WW.Index.Open")}
+      ${_loc("WW.Index.Open")}
     `;
     ciButton.addEventListener("click", event => (new CompendiumIndex()).render({ force: true }));''
 
@@ -1595,10 +1595,10 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
     const presetsButton = document.createElement("button");
     presetsButton.type = "button";
     presetsButton.classList.add("open-ci-presets");
-    presetsButton.setAttribute("data-tooltip", i18n("WW.Index.PresetsTip"));
+    presetsButton.setAttribute("data-tooltip", _loc("WW.Index.PresetsTip"));
     presetsButton.innerHTML = `
       <i class="fa-solid fa-wand-sparkles" inert></i>
-      ${i18n("WW.Index.PresetsLabel")}
+      ${_loc("WW.Index.PresetsLabel")}
     `;
     //presetsButton.addEventListener("click", event => (new CompendiumIndexPresets()).render({ force: true }));''
     
@@ -1624,7 +1624,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
       arr.push({
         value: data.id,
         label: data.label,
-        group: i18n(group)
+        group: _loc(group)
       })
 
     }

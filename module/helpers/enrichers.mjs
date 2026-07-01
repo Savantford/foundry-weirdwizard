@@ -1,6 +1,5 @@
 import CompendiumIndex from '../apps/compendium-index.mjs';
 import { _onInstantEffectRoll, _onMultiChoice } from '../sidebar/chat-listeners.mjs';
-import { i18n } from './utils.mjs';
 
 // Add custom enrichers during init phase
 export default function addCustomEnrichers() {
@@ -38,7 +37,7 @@ async function inlineAttributeCallEnricher (match, options) {
   const container = document.createElement("a");
   container.className = 'enricher-call';
 
-  const label = i18n(CONFIG.WW.ROLL_ATTRIBUTES[match[1]]);
+  const label = _loc(CONFIG.WW.ROLL_ATTRIBUTES[match[1]]);
   container.innerHTML = `${label}`;
 
   // Record values in dataset
@@ -51,13 +50,13 @@ async function inlineAttributeCallEnricher (match, options) {
   container.title = `Roll ${label}`;
 
   if (boons > 1) {
-    container.title += " " + i18n("WW.Boons.With") + " " + parseInt(boons) + " " + i18n("WW.Boons.Boons");
+    container.title += " " + _loc("WW.Boons.With") + " " + parseInt(boons) + " " + _loc("WW.Boons.Boons");
   } else if (boons > 0) {
-    container.title += " " + i18n("WW.Boons.With") + " " + parseInt(boons) + " " + i18n("WW.Boons.Boon");
+    container.title += " " + _loc("WW.Boons.With") + " " + parseInt(boons) + " " + _loc("WW.Boons.Boon");
   } else if (boons < -1) {
-    container.title += " " + i18n("WW.Boons.With") + " " + boons * -1 + " " + i18n("WW.Boons.Banes");
+    container.title += " " + _loc("WW.Boons.With") + " " + boons * -1 + " " + _loc("WW.Boons.Banes");
   } else if (boons < 0) {
-    container.title += " " + i18n("WW.Boons.With") + " " + boons * -1 + " " + i18n("WW.Boons.Bane");
+    container.title += " " + _loc("WW.Boons.With") + " " + boons * -1 + " " + _loc("WW.Boons.Bane");
   }
 
   container.title += '\nClick to select a creature.'
@@ -93,8 +92,8 @@ async function inlineRollEnricher (match, options) {
 
   // Determine action
   function loc(string) {
-    let str = i18n("WW.InstantEffect.Roll.Label") + ' ' + exp;
-    if (string) str += ' ' + i18n("WW.InstantEffect.Roll." + string);
+    let str = _loc("WW.InstantEffect.Roll.Label") + ' ' + exp;
+    if (string) str += ' ' + _loc("WW.InstantEffect.Roll." + string);
     return str; 
   };
 
@@ -163,8 +162,8 @@ async function compediumIndexLinkEnricher (match, options) {
   }
 
   // Prepare label and tooltip
-  if (!settings.label) settings.label = i18n(CONFIG.WW.COMPENDIUM_INDEX_PRESET_LABELS[settings.preset ?? 'all']);
-  if (!settings.tooltip) settings.tooltip = i18n('WW.Index.Tooltip', {type: settings.label});
+  if (!settings.label) settings.label = _loc(CONFIG.WW.COMPENDIUM_INDEX_PRESET_LABELS[settings.preset ?? 'all']);
+  if (!settings.tooltip) settings.tooltip = _loc('WW.Index.Tooltip', {type: settings.label});
   
   // Prepare container
   const container = document.createElement("a");

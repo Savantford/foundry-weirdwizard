@@ -1,5 +1,5 @@
 import WWRoll from '../dice/roll.mjs';
-import { i18n, capitalize } from '../helpers/utils.mjs';
+import { capitalize } from '../helpers/utils.mjs';
 import { actDataFromEffect, dataFromLabel } from '../sidebar/chat-html-templates.mjs';
 
 /**
@@ -82,15 +82,15 @@ export default class WWChatMessage extends ChatMessage {
       // Prepare subtitle
       switch (await item.type) {
         case 'equipment':
-          item.subtitle = i18n(CONFIG.WW.EQUIPMENT_SUBTYPES[sys.subtype]);
+          item.subtitle = _loc(CONFIG.WW.EQUIPMENT_SUBTYPES[sys.subtype]);
         break;
 
         case 'talent':
-          item.subtitle = i18n(CONFIG.WW.TALENT_SOURCE_LABELS[sys.source]);
+          item.subtitle = _loc(CONFIG.WW.TALENT_SOURCE_LABELS[sys.source]);
         break;
 
         case 'spell':
-          item.subtitle = i18n(CONFIG.WW.SPELL_TIERS[sys.tier]);
+          item.subtitle = _loc(CONFIG.WW.SPELL_TIERS[sys.tier]);
           if (sys.tradition) item.subtitle += ` • ${sys.tradition}`;
         break;
 
@@ -101,13 +101,13 @@ export default class WWChatMessage extends ChatMessage {
       item.traits = [];
 
       if (sys.traits) Object.entries(sys.traits).filter(([, val]) => val === true).map((x) => {
-        let label = i18n('WW.Weapon.Traits.' + capitalize(x[0]) + '.Label');
+        let label = _loc('WW.Weapon.Traits.' + capitalize(x[0]) + '.Label');
 
         if ((x[0] == 'range') || (x[0] == 'reach' && sys.range) || (x[0] == 'thrown') ) label += ' ' + sys.range;
 
         item.traits.push({
           label: label,
-          tip: i18n('WW.Weapon.Traits.' + capitalize(x[0]) + '.Tip'),
+          tip: _loc('WW.Weapon.Traits.' + capitalize(x[0]) + '.Tip'),
         })
       })
 
@@ -120,13 +120,13 @@ export default class WWChatMessage extends ChatMessage {
       if (item.type == 'spell') {
         const header = `
           <div class="inline-second">
-            <b>${i18n("WW.Spell.Castings")}:</b> ${sys.castingsLabel ?? '<p></p>'}
+            <b>${_loc("WW.Spell.Castings")}:</b> ${sys.castingsLabel ?? '<p></p>'}
           </div>
           <div class="inline-second">
-            <b>${i18n("WW.Spell.Target")}:</b> ${sys.target ?? '<p></p>'}
+            <b>${_loc("WW.Spell.Target")}:</b> ${sys.target ?? '<p></p>'}
           </div>
           <div class="inline-second">
-            <b>${i18n("WW.Spell.Duration")}:</b> ${sys.duration ?? '<p></p>'}
+            <b>${_loc("WW.Spell.Duration")}:</b> ${sys.duration ?? '<p></p>'}
           </div>
         `;
 
@@ -251,8 +251,8 @@ export default class WWChatMessage extends ChatMessage {
 
     // Otherwise, show "rolled privately" messages for Roll content
     else {
-      const name = this.author?.name ?? game.i18n.localize("CHAT.UnknownUser");
-      data.flavor = game.i18n.format("CHAT.PrivateRollContent", {user: foundry.utils.escapeHTML(name)});
+      const name = this.author?.name ?? _loc("CHAT.UnknownUser");
+      data.flavor = _loc("CHAT.PrivateRollContent", {user: foundry.utils.escapeHTML(name)});
       data.content += await renderRolls(true);
       messageData.alias = name;
     }

@@ -1,5 +1,3 @@
-import { i18n } from './utils.mjs';
-
 export const migrationsReference = {
   fullMigration,
   effectOverhaul,
@@ -844,9 +842,9 @@ function _convertKey(change) {
 /* Notification Functions                       */
 /* -------------------------------------------- */
 
-function _notifyStart() { ui.notifications.warn(i18n('WW.System.Migration.Started')); }
+function _notifyStart() { ui.notifications.warn(_loc('WW.System.Migration.Started')); }
 
-function _notifyForcedStart() { ui.notifications.warn(i18n('WW.System.Migration.Forced')); }
+function _notifyForcedStart() { ui.notifications.warn(_loc('WW.System.Migration.Forced')); }
 
-function _notifyFinish(delay=3000) { setTimeout(function(){ ui.notifications.warn(i18n('WW.System.Migration.Finished')); }, delay); }
+function _notifyFinish(delay=3000) { setTimeout(function(){ ui.notifications.warn(_loc('WW.System.Migration.Finished')); }, delay); }
 

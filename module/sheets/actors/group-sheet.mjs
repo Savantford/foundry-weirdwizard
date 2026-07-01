@@ -1,4 +1,4 @@
-import { defaultListEntryKey, defaultListEntryName, i18n } from '../../helpers/utils.mjs';
+import { defaultListEntryKey, defaultListEntryName } from '../../helpers/utils.mjs';
 import { EntrySettingsDisplay } from '../../apps/entry-settings-display.mjs';
 import WWActorSheet from './base-actor-sheet.mjs';
 import WWDialog from '../../apps/dialog.mjs';
@@ -72,7 +72,7 @@ export default class WWGroupSheet extends WWActorSheet {
     const context = await super._prepareContext(options);
     const actorData = this.actor;
 
-    context.tier = i18n(CONFIG.WW.TIERS[actorData.system.tier]);
+    context.tier = _loc(CONFIG.WW.TIERS[actorData.system.tier]);
     
     return context;
   }
@@ -304,7 +304,7 @@ export default class WWGroupSheet extends WWActorSheet {
 
     // Return if not from an appropriate type
     if (!allowedTypes.includes(actor.type)) {
-      return await ui.notifications.warn(i18n('WW.Group.ActorDropWarning'));
+      return await ui.notifications.warn(_loc('WW.Group.ActorDropWarning'));
     }
 
     // Fade out the area around the correct drop places
@@ -347,7 +347,7 @@ export default class WWGroupSheet extends WWActorSheet {
 
     // Return if not an Equipment
     if (item.type !== 'equipment') {
-      return await ui.notifications.warn(i18n('WW.Group.EquipmentDropWarning'));
+      return await ui.notifications.warn(_loc('WW.Group.EquipmentDropWarning'));
     }
     
     const itemData = item.toObject();

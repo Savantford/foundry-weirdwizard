@@ -1,4 +1,4 @@
-import { camelCase, i18n } from "../../helpers/utils.mjs";
+import { camelCase } from "../../helpers/utils.mjs";
 import { makeAttributeField, makeHtmlField, makeIntField, makeFloField, makeStrField, makeUuidStrField } from "../field-presets.mjs";
 
 export default class BaseActorModel extends foundry.abstract.TypeDataModel {
@@ -52,7 +52,7 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
 
         descriptors: new fields.TypedObjectField(
           new fields.SchemaField({
-            name: makeStrField(i18n("WW.ListEntry.DefaultName"), 0),
+            name: makeStrField(_loc("WW.ListEntry.DefaultName"), 0),
             desc: makeStrField(),
             grantedBy: makeUuidStrField()
           }, {nullable: true})
@@ -60,7 +60,7 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
 
         senses: new fields.TypedObjectField(
           new fields.SchemaField({
-            name: makeStrField(i18n("WW.ListEntry.DefaultName"), 0),
+            name: makeStrField(_loc("WW.ListEntry.DefaultName"), 0),
             desc: makeStrField(),
             grantedBy: makeUuidStrField()
           }, {nullable: true})
@@ -68,7 +68,7 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
 
         languages: new fields.TypedObjectField(
           new fields.SchemaField({
-            name: makeStrField(i18n("WW.ListEntry.DefaultName"), 0),
+            name: makeStrField(_loc("WW.ListEntry.DefaultName"), 0),
             desc: makeStrField(),
             grantedBy: makeUuidStrField()
           }, {nullable: true})
@@ -76,7 +76,7 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
 
         immunities: new fields.TypedObjectField(
           new fields.SchemaField({
-            name: makeStrField(i18n("WW.ListEntry.DefaultName"), 0),
+            name: makeStrField(_loc("WW.ListEntry.DefaultName"), 0),
             desc: makeStrField(),
             grantedBy: makeUuidStrField()
           }, {nullable: true})
@@ -84,7 +84,7 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
 
         movementTraits: new fields.TypedObjectField(
           new fields.SchemaField({
-            name: makeStrField(i18n("WW.ListEntry.DefaultName"), 0),
+            name: makeStrField(_loc("WW.ListEntry.DefaultName"), 0),
             desc: makeStrField(),
             grantedBy: makeUuidStrField()
           }, {nullable: true})

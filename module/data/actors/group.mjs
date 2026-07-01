@@ -1,5 +1,4 @@
 import { makeBooField, makeHtmlField, makeRequiredStrField, makeStrField, makeUuidStrField } from "../field-presets.mjs";
-import { i18n } from "../../helpers/utils.mjs";
 
 export default class GroupModel extends foundry.abstract.TypeDataModel {
 
@@ -10,7 +9,7 @@ export default class GroupModel extends foundry.abstract.TypeDataModel {
     const schema = {
       // Details
       details: new fields.SchemaField({
-        origin: makeHtmlField(`<p>${i18n("WW.Group.OriginDefault")}</p>`),
+        origin: makeHtmlField(`<p>${_loc("WW.Group.OriginDefault")}</p>`),
         achievements: makeHtmlField(),
         notes: makeHtmlField()
       }),
@@ -40,7 +39,7 @@ export default class GroupModel extends foundry.abstract.TypeDataModel {
 
         connections: new fields.TypedObjectField(
           new fields.SchemaField({
-            name: makeStrField(i18n("WW.ListEntry.DefaultName"), 0),
+            name: makeStrField(_loc("WW.ListEntry.DefaultName"), 0),
             desc: makeStrField(),
             type: makeRequiredStrField('financial'),
             grantedBy: makeUuidStrField()

@@ -38,7 +38,7 @@ export function formatTime(seconds, isDate) {
     day = 86400, // 3600*24
     week = 604800, // 3600*24*7
     month = 2419200, // 3600*24*7*4
-    label = (k) => { return i18n('WW.Effect.Duration.' + k) }, // Get localized label
+    label = (k) => { return _loc('WW.Effect.Duration.' + k) }, // Get localized label
     obj = {
       months: Math.floor(seconds / month),
       weeks: Math.floor(seconds % month / week),
@@ -80,15 +80,13 @@ export function formatTime(seconds, isDate) {
 
     arr.forEach((v,id) => {
       if (id < arr.length-2) str += v + ', ';
-      else if (id < arr.length-1) str += v + ' ' + i18n('WW.Effect.Duration.And') + ' ';
+      else if (id < arr.length-1) str += v + ' ' + _loc('WW.Effect.Duration.And') + ' ';
       else str += v;
     })
 
     return str;
   }
 }
-
-export const i18n = (s,d={}) => game.i18n.format(s,d);
 
 export function plusify(x) {
   return x >= 0 ? '+' + x : x
@@ -140,12 +138,12 @@ export function defaultListEntryName(list, listKey) {
   // Determine base name listKey and localize it
   const baseNameKey = listKey ? CONFIG.WW.NEW_DEFAULT_ENTRY[listKey]?.loc : null;
   
-  const baseName = baseNameKey ? i18n(baseNameKey) : 'Entry';
+  const baseName = baseNameKey ? _loc(baseNameKey) : 'Entry';
   
   // Determine and return name
   let name = baseName;
 
-  if (listKey.includes('languages') && !Object.keys(list).length) name = i18n('WW.ListEntry.Language.Common');
+  if (listKey.includes('languages') && !Object.keys(list).length) name = _loc('WW.ListEntry.Language.Common');
   else {
     let index = 1;
     while (takenNames.has(name)) name = `${baseName} (${++index})`;
@@ -219,7 +217,7 @@ export function getFolderList(compendium) {
     folderList[folder.id] = {
       value: folder.id,
       label: folder.name,
-      group: i18n('Existing folders')
+      group: _loc('Existing folders')
     }
 
   }
@@ -313,7 +311,7 @@ export function handleWelcomeMessage(force = false) {
   }
 
   const intro = `<img style="background: none;" src="systems/weirdwizard/assets/decorations/sww-logo.png">`;
-  const content = i18n('WW.System.Welcome', { intro: intro }) + i18n('WW.System.WelcomeFooter');
+  const content = _loc('WW.System.Welcome', { intro: intro }) + _loc('WW.System.WelcomeFooter');
   ChatMessage.create({
     speaker: game.weirdwizard.utils.getSpeaker({ alias: game.system.title }),
     content: content,

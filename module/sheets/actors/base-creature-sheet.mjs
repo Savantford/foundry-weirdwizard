@@ -1,4 +1,4 @@
-import { escape, i18n, plusify, slideDown, slideUp } from '../../helpers/utils.mjs';
+import { escape, plusify, slideDown, slideUp } from '../../helpers/utils.mjs';
 import { diceTotalHtml } from '../../sidebar/chat-html-templates.mjs';
 import { mapRange } from '../../canvas/canvas-functions.mjs';
 import MultiChoice from '../../apps/multi-choice.mjs';
@@ -104,13 +104,13 @@ export default class WWCreatureSheet extends WWActorSheet {
         key: key,
         name: `system.attributes.${key}.value`,
         field: field(`attributes.${key}.value`),
-        label: i18n(CONFIG.WW.ATTRIBUTES_SHORT[key] ?? key),
+        label: _loc(CONFIG.WW.ATTRIBUTES_SHORT[key] ?? key),
 
         sourceValue: context.system._source.attributes[key].value,
         finalValue: context.system.attributes[key].value,
         finalMod: context.system.attributes[key].mod,
-        tooltip: i18n(CONFIG.WW.ROLL_ATTRIBUTE_LABELS[key]),
-        inputTooltip: i18n('WW.Attributes.EditHint', { value: context.system.attributes[key].value })
+        tooltip: _loc(CONFIG.WW.ROLL_ATTRIBUTE_LABELS[key]),
+        inputTooltip: _loc('WW.Attributes.EditHint', { value: context.system.attributes[key].value })
       };
       
       context.attributes[key] = obj;
@@ -129,7 +129,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     context.stats.defenseNatural = {
       name: `system.stats.defense.natural`,
       field: field(`stats.defense.natural`),
-      label: this.actor.type === 'npc' ? i18n("WW.Defense.NaturalNPC") : i18n("WW.Defense.Natural"),
+      label: this.actor.type === 'npc' ? _loc("WW.Defense.NaturalNPC") : _loc("WW.Defense.Natural"),
       
       sourceValue: context.system._source.stats.defense.natural,
       finalValue: context.system.stats.defense.natural,
@@ -140,23 +140,23 @@ export default class WWCreatureSheet extends WWActorSheet {
     context.stats.defenseTotal = {
       name: `system.stats.defense.total`,
       field: field(`stats.defense.total`),
-      label: i18n("WW.Defense.Label"),
+      label: _loc("WW.Defense.Label"),
       
       sourceValue: context.system._source.stats.defense.total,
       finalValue: context.system.stats.defense.total,
       bonusValue: parseInt(context.system.stats.defense.total - context.system._source.stats.defense.total),
       autoTooltip: `
-        <p><b>${i18n("WW.Defense.Score")}: ${context.system.stats.defense.total}</b>
+        <p><b>${_loc("WW.Defense.Score")}: ${context.system.stats.defense.total}</b>
           ${context.system.stats.defense.total !== usedDefense ?
           " (" + usedDefense + plusify(context.system.stats.defense.total - usedDefense) + ")" : ""}
         </p>
-        ${context.system.stats.defense.armored ? '<p>' + i18n("WW.Defense.Armored") + ': ' + context.system.stats.defense.armored + '</p>' : ""}
-        <p>${i18n("WW.Defense.Natural")}: ${context.system.stats.defense.natural}
+        ${context.system.stats.defense.armored ? '<p>' + _loc("WW.Defense.Armored") + ': ' + context.system.stats.defense.armored + '</p>' : ""}
+        <p>${_loc("WW.Defense.Natural")}: ${context.system.stats.defense.natural}
           ${context.system.stats.defense.natural !== context.system._source.stats.defense.natural ?
           " (" + context.system._source.stats.defense.natural + plusify(parseInt(context.system.stats.defense.natural) - parseInt(context.system._source.stats.defense.natural)) + ")" : ""}
         </p>
-        <p>• ${i18n("WW.Stats.AutomationHint", { stat: i18n("WW.Defense.Label") })}</p>
-        ${this.actor.type === 'npc' ? '<p>• ' + i18n("WW.Defense.NaturalNPCTip") + '</p>' : ''}
+        <p>• ${_loc("WW.Stats.AutomationHint", { stat: _loc("WW.Defense.Label") })}</p>
+        ${this.actor.type === 'npc' ? '<p>• ' + _loc("WW.Defense.NaturalNPCTip") + '</p>' : ''}
       `
     }
 
@@ -164,41 +164,41 @@ export default class WWCreatureSheet extends WWActorSheet {
     context.stats.size = {
       name: `system.stats.size`,
       field: field(`stats.size`),
-      label: i18n("WW.Stats.Size"),
+      label: _loc("WW.Stats.Size"),
 
       sourceValue: context.system._source.stats.size,
       finalValue: context.system.stats.size,
       displayedValue: CONFIG.WW.SIZE_FRACTIONS[context.system.stats.size] ?? context.system.stats.size,
       autoTooltip: this.actor.type === 'npc' && (context.system.stats.size !== context.system._source.stats.size) ? `
-        <p>${i18n('WW.Stats.SizeNormal')}: ${context.system._source.stats.size}</p>
-        <p>• ${i18n('WW.Stats.AutomationHint', { stat: i18n("WW.Stats.Size") })}</p>
-      ` : i18n('WW.Stats.AutomationHint', { stat: i18n("WW.Stats.Size") }),
-      inputTooltip: `<p>${i18n('WW.Stats.SizeTip', { value: context.system.stats.size })}</p> ${i18n('WW.Stats.SizeConversionTip')}`
+        <p>${_loc('WW.Stats.SizeNormal')}: ${context.system._source.stats.size}</p>
+        <p>• ${_loc('WW.Stats.AutomationHint', { stat: _loc("WW.Stats.Size") })}</p>
+      ` : _loc('WW.Stats.AutomationHint', { stat: _loc("WW.Stats.Size") }),
+      inputTooltip: `<p>${_loc('WW.Stats.SizeTip', { value: context.system.stats.size })}</p> ${_loc('WW.Stats.SizeConversionTip')}`
     }
 
     // Normal Speed
     context.stats.speedNormal = {
       name: `system.stats.speed.normal`,
       field: field(`stats.speed.normal`),
-      label: i18n("WW.Stats.SpeedNormal"),
+      label: _loc("WW.Stats.SpeedNormal"),
       
       sourceValue: context.system._source.stats.speed.normal,
       finalValue: context.system.stats.speed.normal,
-      inputTooltip: i18n('WW.Stats.SpeedNormalTip', { value: context.system.stats.speed.current })
+      inputTooltip: _loc('WW.Stats.SpeedNormalTip', { value: context.system.stats.speed.current })
     }
 
     // Current Speed
     context.stats.speedCurrent = {
       name: `system.stats.speed.current`,
       field: field(`stats.speed.current`),
-      label: i18n("WW.Stats.Speed"),
+      label: _loc("WW.Stats.Speed"),
       
       sourceValue: context.system._source.stats.speed.current,
       finalValue: context.system.stats.speed.current,
       autoTooltip: context.system.stats.speed.current !== context.system.stats.speed.normal ? `
-        <p>${i18n('WW.Stats.SpeedNormal')}: ${context.system.stats.speed.normal}</p>
-        <p>• ${i18n('WW.Stats.AutomationHint', { stat: i18n("WW.Stats.SpeedNormal") })}</p>
-      ` : i18n('WW.Stats.AutomationHint', { stat: i18n("WW.Stats.Speed") })
+        <p>${_loc('WW.Stats.SpeedNormal')}: ${context.system.stats.speed.normal}</p>
+        <p>• ${_loc('WW.Stats.AutomationHint', { stat: _loc("WW.Stats.SpeedNormal") })}</p>
+      ` : _loc('WW.Stats.AutomationHint', { stat: _loc("WW.Stats.Speed") })
     };
 
     // Prepare Disposition
@@ -230,19 +230,19 @@ export default class WWCreatureSheet extends WWActorSheet {
 
     // Health tooltip
     context.healthTooltip = escape(`
-      <p>${i18n("WW.Health.Current")}: ${health.current}</p>
-      <p>${i18n("WW.Health.NormalScore")}: ${health.normal}</p>
-      <p>${i18n("WW.Health.Temporary")}: ${health.temp}</p>
-      <p>${i18n("WW.Health.Lost")}: ${health.lost}</p>
+      <p>${_loc("WW.Health.Current")}: ${health.current}</p>
+      <p>${_loc("WW.Health.NormalScore")}: ${health.normal}</p>
+      <p>${_loc("WW.Health.Temporary")}: ${health.temp}</p>
+      <p>${_loc("WW.Health.Lost")}: ${health.lost}</p>
     `);
 
     if (!health.normal || health.temp) context.healthTooltip += `<hr/>`;
-    if (!health.normal) context.healthTooltip += escape(`<p>• ${i18n('WW.Health.NormalHint')}</p>`);
-    if (health.temp) context.healthTooltip += escape(`<p>• ${i18n("WW.Health.CurrentHint")}</p>`);
+    if (!health.normal) context.healthTooltip += escape(`<p>• ${_loc('WW.Health.NormalHint')}</p>`);
+    if (health.temp) context.healthTooltip += escape(`<p>• ${_loc("WW.Health.CurrentHint")}</p>`);
 
     // Bonus Damage Tooltip
     context.bonusDamageTooltip = escape(`
-      <p>${i18n('WW.Stats.AutomationHint', { stat: i18n("WW.Damage.Bonus") })}</p>
+      <p>${_loc('WW.Stats.AutomationHint', { stat: _loc("WW.Damage.Bonus") })}</p>
     `);
 
     // Prepare character data
@@ -586,7 +586,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     const dataset = Object.assign({}, button.dataset);
 
     // Define variables to be used
-    const attKey = dataset.key, label = i18n(CONFIG.WW.ATTRIBUTE_ROLLS[attKey]);
+    const attKey = dataset.key, label = _loc(CONFIG.WW.ATTRIBUTE_ROLLS[attKey]);
 
     let content = '';
 
@@ -605,7 +605,7 @@ export default class WWCreatureSheet extends WWActorSheet {
         type: 'd20-roll',
         speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
         flavor: label,
-        content: `<div class="dice-outcome chat-failure">${i18n('WW.Roll.AutoFail')}!</div>`,
+        content: `<div class="dice-outcome chat-failure">${_loc('WW.Roll.AutoFail')}!</div>`,
         sound: CONFIG.sounds.dice,
         'flags.weirdwizard': {
           icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey]
@@ -635,7 +635,7 @@ export default class WWCreatureSheet extends WWActorSheet {
       type: 'd6-roll',
       rolls: rollArray,
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
-      flavor: `<span>${i18n('WW.Health.IncapacitatedLost')}</span>`,
+      flavor: `<span>${_loc('WW.Health.IncapacitatedLost')}</span>`,
       content: '<div></div>',
       sound: CONFIG.sounds.dice,
       'flags.weirdwizard': {
@@ -727,8 +727,8 @@ export default class WWCreatureSheet extends WWActorSheet {
         icon: 'fa-solid fa-trash'
       },
       content: `
-        <div>${i18n('WW.CharOption.Reference.RemoveDialog.Msg')}</div>
-        <div class="dialog-sure">${i18n('WW.CharOption.Reference.RemoveDialog.Confirm')}</div>
+        <div>${_loc('WW.CharOption.Reference.RemoveDialog.Msg')}</div>
+        <div class="dialog-sure">${_loc('WW.CharOption.Reference.RemoveDialog.Confirm')}</div>
       `
     });
 
@@ -883,7 +883,7 @@ export default class WWCreatureSheet extends WWActorSheet {
       // If targeted-use button was clicked
       if (operation === 'targeted-use') {
         // If item is a weapon, throw a warning if an against attribute was not selected
-        if (item?.system?.subtype === 'weapon' && !item.system.against) ui.notifications.warn(i18n("WW.Roll.AgainstWrn"));
+        if (item?.system?.subtype === 'weapon' && !item.system.against) ui.notifications.warn(_loc("WW.Roll.AgainstWrn"));
 
         // If the item uses a template, draw it
         else if (item.system.targeting == 'template') {
@@ -1014,7 +1014,7 @@ export default class WWCreatureSheet extends WWActorSheet {
           sound: CONFIG.sounds.dice,
           'flags.weirdwizard': {
             item: item.uuid,
-            rollHtml: '<div class="dice-outcome chat-failure">' + i18n('WW.Roll.AutoFail') + '!</div>',
+            rollHtml: '<div class="dice-outcome chat-failure">' + _loc('WW.Roll.AutoFail') + '!</div>',
             emptyContent: !content ?? true
           }
         };
@@ -1026,7 +1026,7 @@ export default class WWCreatureSheet extends WWActorSheet {
         if (operation === 'targeted-use') {
 
           // If item is a weapon, throw a warning if an against attribute was not selected
-          if (item?.system?.subtype === 'weapon' && !item.system.against) ui.notifications.warn(i18n("WW.Roll.AgainstWrn"));
+          if (item?.system?.subtype === 'weapon' && !item.system.against) ui.notifications.warn(_loc("WW.Roll.AgainstWrn"));
 
           // If the item uses a template, draw it
           else if (item.system.targeting == 'template') {
@@ -1150,8 +1150,8 @@ export default class WWCreatureSheet extends WWActorSheet {
         icon: 'fa-solid fa-campground'
       },
       content: `
-        <div>${i18n('WW.Rest.Msg')}</div>
-        <div class="dialog-sure">${i18n('WW.Rest.Confirm')}</div>
+        <div>${_loc('WW.Rest.Msg')}</div>
+        <div class="dialog-sure">${_loc('WW.Rest.Confirm')}</div>
       `,
       ok: {
         label: 'WW.System.Dialog.Confirm',
@@ -1177,8 +1177,8 @@ export default class WWCreatureSheet extends WWActorSheet {
 
     // Create message content
     const content = `
-      <p style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this.actor })}</b> ${i18n('WW.Rest.Finished')}.</p>
-      <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${health.current} <i class="fa-solid fa-arrow-right"></i> ${newCurrent}</p>
+      <p style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this.actor })}</b> ${_loc('WW.Rest.Finished')}.</p>
+      <p>${_loc('WW.InstantEffect.Apply.CurrentHealth')}: ${health.current} <i class="fa-solid fa-arrow-right"></i> ${newCurrent}</p>
     `;
 
     // Create and send message to chat
@@ -1203,10 +1203,10 @@ export default class WWCreatureSheet extends WWActorSheet {
         title: 'WW.Reset.Label',
         icon: 'fa-solid fa-rotate-left'
       },
-      title: i18n('WW.Reset.Label'),
+      title: _loc('WW.Reset.Label'),
       content: `
-        <div>${i18n('WW.Reset.Msg')}</div>
-        <p class="dialog-sure">${i18n('WW.Reset.Confirm')}</div>
+        <div>${_loc('WW.Reset.Msg')}</div>
+        <p class="dialog-sure">${_loc('WW.Reset.Confirm')}</div>
       `
     });
 
@@ -1381,7 +1381,7 @@ export default class WWCreatureSheet extends WWActorSheet {
       case "Folder":
         return this._onDropFolder(event, /** @type Folder */ document);
       case "JournalEntry":
-        return ui.notifications.warn(i18n("WW.CharOptions.JournalEntryWarning"));
+        return ui.notifications.warn(_loc("WW.CharOptions.JournalEntryWarning"));
       case "JournalEntryPage":
         return this._onDropJournalEntryPage(event, /** @type JournalEntryPage */ document);
     }
@@ -1615,7 +1615,7 @@ export default class WWCreatureSheet extends WWActorSheet {
             title: 'WW.CharOption.Reference.ReplaceDialog.Title',
             icon: 'fa-solid fa-right-left'
           },
-          content: `<div>${i18n('WW.CharOption.Reference.ReplaceDialog.Msg', { old: oldName, new: page.name, type: page.type })}</div>`
+          content: `<div>${_loc('WW.CharOption.Reference.ReplaceDialog.Msg', { old: oldName, new: page.name, type: page.type })}</div>`
         });
 
         if (!confirm) return;

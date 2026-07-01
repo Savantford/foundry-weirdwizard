@@ -1,6 +1,5 @@
 import { makeBooField, makeHtmlField, makeIntField, makeRequiredStrField, makeStrField } from '../field-presets.mjs';
 import BaseItemModel from './base-item.mjs';
-import { i18n } from '../../helpers/utils.mjs';
 
 export default class SpellModel extends BaseItemModel {
 
@@ -13,11 +12,11 @@ export default class SpellModel extends BaseItemModel {
     schema.tradition = makeStrField();
     schema.casting = makeHtmlField();
     schema.target = makeHtmlField();
-    schema.duration = makeHtmlField(`<p>${i18n("WW.Spell.DurationDefault")}</p>`);
+    schema.duration = makeHtmlField(`<p>${_loc("WW.Spell.DurationDefault")}</p>`);
 
     // Adjust Spell-specific initials
     schema.active = makeBooField(false);
-    schema.description = makeHtmlField(`<p>${i18n("WW.System.Sheet.NoDescription")}</p>`);
+    schema.description = makeHtmlField(`<p>${_loc("WW.System.Sheet.NoDescription")}</p>`);
     schema.magical = makeBooField(true);
     schema.uses.fields.max = makeIntField(1);
 

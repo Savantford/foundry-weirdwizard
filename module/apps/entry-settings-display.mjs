@@ -1,4 +1,4 @@
-import { capitalize, i18n } from '../helpers/utils.mjs';
+import { capitalize } from '../helpers/utils.mjs';
 import WWDialog from './dialog.mjs';
 
 // Similar syntax to importing, but note that
@@ -12,7 +12,6 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
 */
 
 export class EntrySettingsDisplay extends HandlebarsApplicationMixin(ApplicationV2) {
-
   static DEFAULT_OPTIONS = {
     id: 'entry-settings-display',
     tag: 'div',
@@ -33,7 +32,7 @@ export class EntrySettingsDisplay extends HandlebarsApplicationMixin(Application
   get title() {
     const type = this.options.listKey;
     
-    return i18n(`WW.Settings.${capitalize(type, 1)}.Name`);
+    return _loc(`WW.Settings.${capitalize(type, 1)}.Name`);
   }
 
   /* -------------------------------------------- */
@@ -66,7 +65,7 @@ export class EntrySettingsDisplay extends HandlebarsApplicationMixin(Application
    */
   async _prepareContext(options = {}) {
     const context = {
-      listTitle: i18n(`WW.Settings.${capitalize(this.listKey, 1)}.EntryType`),
+      listTitle: _loc(`WW.Settings.${capitalize(this.listKey, 1)}.EntryType`),
       list: this.list
     }
 
@@ -114,7 +113,7 @@ export class EntrySettingsDisplay extends HandlebarsApplicationMixin(Application
     const dragData =  {
       listKey: this.listKey,
       entryKey: li.dataset.entryKey,
-      entryName: i18n(li.dataset.entryName),
+      entryName: _loc(li.dataset.entryName),
       desc: li.dataset.tooltip
     };
     

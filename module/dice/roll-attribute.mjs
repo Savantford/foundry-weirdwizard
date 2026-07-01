@@ -1,4 +1,4 @@
-import { i18n, plusify } from '../helpers/utils.mjs';
+import { plusify } from '../helpers/utils.mjs';
 import WWRoll from './roll.mjs';
 
 // Similar syntax to importing, but note that
@@ -28,7 +28,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
       baseHtml, action, label, content,
       icon: icon ?? (item ? item.img : null),
       attKey: attKey,
-      attLabel: i18n(CONFIG.WW.ROLL_ATTRIBUTES[attKey]),
+      attLabel: _loc(CONFIG.WW.ROLL_ATTRIBUTES[attKey]),
       attMod: sys.attributes[attKey]?.mod ? plusify(sys.attributes[attKey].mod) : '+0',
       against: item?.system?.against ?? null
     };
@@ -134,39 +134,39 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
     let boonsDisplay = '';
 
     if (boonsFinal > 1) {
-      boonsDisplay = " " + i18n("WW.Boons.With") + " " + parseInt(boonsFinal) + " " + i18n("WW.Boons.Boons");
+      boonsDisplay = " " + _loc("WW.Boons.With") + " " + parseInt(boonsFinal) + " " + _loc("WW.Boons.Boons");
     } else if (boonsFinal > 0) {
-      boonsDisplay = " " + i18n("WW.Boons.With") + " " + parseInt(boonsFinal) + " " + i18n("WW.Boons.Boon");
+      boonsDisplay = " " + _loc("WW.Boons.With") + " " + parseInt(boonsFinal) + " " + _loc("WW.Boons.Boon");
     } else if (boonsFinal < -1) {
-      boonsDisplay = " " + i18n("WW.Boons.With") + " " + boonsFinal * -1 + " " + i18n("WW.Boons.Banes");
+      boonsDisplay = " " + _loc("WW.Boons.With") + " " + boonsFinal * -1 + " " + _loc("WW.Boons.Banes");
     } else if (boonsFinal < 0) {
-      boonsDisplay = " " + i18n("WW.Boons.With") + " " + boonsFinal * -1 + " " + i18n("WW.Boons.Bane");
+      boonsDisplay = " " + _loc("WW.Boons.With") + " " + boonsFinal * -1 + " " + _loc("WW.Boons.Bane");
     }
 
     // Prepare against display
-    let againstDisplay = ` ${i18n('WW.Roll.Against').toLowerCase()} `;
+    let againstDisplay = ` ${_loc('WW.Roll.Against').toLowerCase()} `;
     
     if (customTn) againstDisplay += customTn;
     else if (against) {
       switch (against) {
         case 'def': {
-          againstDisplay += i18n('WW.Defense.Label');
+          againstDisplay += _loc('WW.Defense.Label');
           break;
         }
         case 'str': {
-          againstDisplay += i18n('WW.Attributes.Strength');
+          againstDisplay += _loc('WW.Attributes.Strength');
           break;
         }
         case 'agi': {
-          againstDisplay += i18n('WW.Attributes.Agility');
+          againstDisplay += _loc('WW.Attributes.Agility');
           break;
         }
         case 'int': {
-          againstDisplay += i18n('WW.Attributes.Intellect');
+          againstDisplay += _loc('WW.Attributes.Intellect');
           break;
         }
         case 'wil': {
-          againstDisplay += i18n('WW.Attributes.Will');
+          againstDisplay += _loc('WW.Attributes.Will');
           break;
         }
       }
@@ -189,7 +189,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
         
         // Boons display
         const boonsNo = boonsAgainst;
-        const boonsTip = boonsNo > 0 ? i18n('WW.Boons.ExtraBoons') : i18n('WW.Boons.ExtraBanes');
+        const boonsTip = boonsNo > 0 ? _loc('WW.Boons.ExtraBoons') : _loc('WW.Boons.ExtraBanes');
         const boonsIcon = boonsNo > 0 ? 'boons-colored' : 'banes-colored';
         
         const againstIcon = CONFIG.WW.ATTRIBUTE_ICONS[against];
@@ -291,9 +291,9 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
         // Determine the rollFormula
         const rollFormula = [
           "1d20",
-          (attKey && attKey !== 'luck') ? `${attMod}[${i18n(CONFIG.WW.ATTRIBUTES_SHORT[attKey])}]` : null,
-          flatMod ? flatMod + `[${i18n("WW.Roll.Flat")}]` : null,
-          boons ? boons + `[${i18n(boonsFinal < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
+          (attKey && attKey !== 'luck') ? `${attMod}[${_loc(CONFIG.WW.ATTRIBUTES_SHORT[attKey])}]` : null,
+          flatMod ? flatMod + `[${_loc("WW.Roll.Flat")}]` : null,
+          boons ? boons + `[${_loc(boonsFinal < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
         ].filterJoin(" + ");
 
         // Determine target number
@@ -321,9 +321,9 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
       // Determine the rollFormula
       const rollFormula = [
         "1d20",
-        (attKey && attKey !== 'luck') ? `${attMod}[${i18n(CONFIG.WW.ATTRIBUTES_SHORT[attKey])}]` : null,
-        flatMod ? flatMod + `[${i18n("WW.Roll.Flat")}]` : null,
-        boons ? boons + `[${i18n(boonsFinal < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
+        (attKey && attKey !== 'luck') ? `${attMod}[${_loc(CONFIG.WW.ATTRIBUTES_SHORT[attKey])}]` : null,
+        flatMod ? flatMod + `[${_loc("WW.Roll.Flat")}]` : null,
+        boons ? boons + `[${_loc(boonsFinal < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
       ].filterJoin(" + ");
 
       // Set targetNo to the custom; 10 is used otherwise
@@ -450,7 +450,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
   /** @override */
   get title() {
     const { constructor: id, name, type } = this.item ?? this.actor;
-    return `${i18n('WW.Roll.Details')}: ${name ?? id}`;
+    return `${_loc('WW.Roll.Details')}: ${name ?? id}`;
   }
   
   /* -------------------------------------------- */

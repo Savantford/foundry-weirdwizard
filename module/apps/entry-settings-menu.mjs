@@ -1,4 +1,4 @@
-import { capitalize, defaultListEntryKey, defaultListEntryName, i18n } from '../helpers/utils.mjs';
+import { capitalize, defaultListEntryKey, defaultListEntryName } from '../helpers/utils.mjs';
 import WWDialog from './dialog.mjs';
 
 // Similar syntax to importing, but note that
@@ -41,7 +41,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
   get title() {
     const type = this.options.listKey;
     
-    return i18n(`WW.Settings.${capitalize(type, 1)}.Name`);
+    return _loc(`WW.Settings.${capitalize(type, 1)}.Name`);
   }
 
   /* -------------------------------------------- */
@@ -75,7 +75,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
    */
   async _prepareContext(options = {}) {
     const context = {
-      listTitle: i18n(`WW.Settings.${capitalize(this.listKey, 1)}.EntryType`),
+      listTitle: _loc(`WW.Settings.${capitalize(this.listKey, 1)}.EntryType`),
       list: this.list,
       buttons: [
         {type: "submit", icon: "fa-solid fa-save", label: "PERMISSION.Submit"},
@@ -150,7 +150,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
     if (!dialogInput) return;
 
     // Return with warning if the key or name are missing
-    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
+    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(_loc('WW.Settings.Entry.EditWarning'));
 
     newList[dialogInput.key] = dialogInput;
 
@@ -201,7 +201,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
     if (!dialogInput) return;
 
     // Return with warning if the key or name are missing
-    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
+    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(_loc('WW.Settings.Entry.EditWarning'));
 
     newList[dialogInput.key] = dialogInput;
 
@@ -232,7 +232,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
         title: 'WW.Settings.Entry.Remove',
         icon: 'fa-solid fa-trash'
       },
-      content: i18n('WW.Settings.Entry.RemoveDialog.Msg')
+      content: _loc('WW.Settings.Entry.RemoveDialog.Msg')
     });
 
     if (!confirm) return;
@@ -267,7 +267,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
       ...systemDefaults[this.listKey]
     };
 
-    ui.notifications.info(i18n('WW.Settings.Entry.SetNotification'));
+    ui.notifications.info(_loc('WW.Settings.Entry.SetNotification'));
 
     this.render(true);
   }

@@ -1,4 +1,4 @@
-import { i18n, slideDown, slideUp } from '../helpers/utils.mjs';
+import { slideDown, slideUp } from '../helpers/utils.mjs';
 import { WWAfflictions } from '../helpers/afflictions.mjs'
 import RollAttribute from '../dice/roll-attribute.mjs';
 
@@ -81,8 +81,8 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
     }
     
     // Define submit button label
-    context.submitLabel = opt.purpose === 'editWeaponTraits' ? i18n('WW.System.Dialog.Save') : i18n('WW.System.Dialog.Confirm');
-    if (opt.purpose === 'updateAfflictions') context.clearAfflictionsLabel =  i18n('WW.Affliction.Clear');
+    context.submitLabel = opt.purpose === 'editWeaponTraits' ? _loc('WW.System.Dialog.Save') : _loc('WW.System.Dialog.Confirm');
+    if (opt.purpose === 'updateAfflictions') context.clearAfflictionsLabel =  _loc('WW.Affliction.Clear');
 
     return context;
   }
@@ -198,7 +198,7 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
 
           const rollInfo = {
             actor: target,
-            label: i18n(CONFIG.WW.ROLL_ATTRIBUTES[attribute]),
+            label: _loc(CONFIG.WW.ROLL_ATTRIBUTES[attribute]),
             content: '',
             attKey: attribute,
             fixedBoons: parseInt(fixedBoons)

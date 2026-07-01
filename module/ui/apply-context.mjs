@@ -1,4 +1,3 @@
-import { i18n } from "../helpers/utils.mjs";
 /**
  * Extend ContextMenu to make a custom context menu with localized header labels
  * @extends {ContextMenu}
@@ -31,7 +30,7 @@ export default class ApplyContext extends ContextMenu {
       let parent = ol;
       if ( group !== "_none" ) {
         const groupIcon = CONFIG.WW.APPLY_CONTEXT_ICONS[group];
-        const groupHeader = i18n(CONFIG.WW.APPLY_CONTEXT_HEADERS[group]);
+        const groupHeader = _loc(CONFIG.WW.APPLY_CONTEXT_HEADERS[group]);
         const groupItem = $(`<li class="context-group" data-group-id="${group}"><div class="context-header"><i class="fa-solid fa-${groupIcon}"></i> ${groupHeader}</div><ol></ol></li>`);
         ol.append(groupItem);
         parent = groupItem.find("ol");
@@ -45,7 +44,7 @@ export default class ApplyContext extends ContextMenu {
         if ( !display ) continue;
 
         // Construct and add the menu item
-        const name = game.i18n.localize(item.name);
+        const name = _loc(item.name);
         const li = $(`<li class="context-item">${item.icon}${name}</li>`);
         li.children("i").addClass("fa-fw");
         parent.append(li);

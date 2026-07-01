@@ -1,4 +1,3 @@
-import { i18n } from '../helpers/utils.mjs'
 import WWRoll from './roll.mjs';
 
 /**
@@ -190,7 +189,7 @@ export default class RollDamage extends FormApplication {
   // On submit
   async _onButtonSubmit(event) {
     // Prepare apply button.
-    const labelHtml = this.item ? i18n('WW.Damage.Of', { name: '<span class="owner-only">' + this.item.name + '</span><span class="non-owner-only">? ? ?</span>' }) : '';
+    const labelHtml = this.item ? _loc('WW.Damage.Of', { name: '<span class="owner-only">' + this.item.name + '</span><span class="non-owner-only">? ? ?</span>' }) : '';
 
     const dataset = {
       action: 'applyDamage',
@@ -237,7 +236,7 @@ export default class RollDamage extends FormApplication {
 
   /** @override */
   get title() {
-    let title = `${i18n('WW.Roll.Details')}`;
+    let title = `${_loc('WW.Roll.Details')}`;
     if (this.item || this.actor) {
       const { constructor: id, name, type } = this.item ?? this.actor;
       title += `: ${name ?? id}`;

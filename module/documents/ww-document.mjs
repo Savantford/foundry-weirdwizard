@@ -1,4 +1,4 @@
-import { capitalize, i18n, plusify, sysPath } from "../helpers/utils.mjs";
+import { capitalize, plusify, sysPath } from "../helpers/utils.mjs";
 
 /**
  * A mixin which extends each Document definition with specialized client-side behaviors.
@@ -49,7 +49,7 @@ export default function WWDocumentMixin(Base) {
     async toAnchor({attrs={}, dataset={}, classes=[], name, icon}={}) {
       // Build dataset
       const documentConfig = CONFIG[this.documentName];
-      const documentName = game.i18n.localize(`DOCUMENT.${this.documentName}`);
+      const documentName = _loc(`DOCUMENT.${this.documentName}`);
       let anchorIcon = icon ?? documentConfig.sidebarIcon;
       
       if ( !classes.includes("content-link") ) classes.unshift("content-link");
@@ -66,9 +66,9 @@ export default function WWDocumentMixin(Base) {
       // If this is a typed document, add the type to the dataset
       if ( this.type ) {
         /*const typeLabel = documentConfig.typeLabels[this.type];
-        const typeName = game.i18n.has(typeLabel) ? `${game.i18n.localize(typeLabel)}` : "";
+        const typeName = game._loc.has(typeLabel) ? `${_loc(typeLabel)}` : "";
         dataset.tooltipText ??= typeName ?
-          game.i18n.format("DOCUMENT.TypePageFormat", {type: typeName, page: documentName}) :
+          _loc("DOCUMENT.TypePageFormat", {type: typeName, page: documentName}) :
           documentName;*/
         anchorIcon = icon ?? documentConfig.typeIcons?.[this.type] ?? documentConfig.sidebarIcon;
       }
@@ -196,16 +196,16 @@ export default function WWDocumentMixin(Base) {
               if (subtypes.includes(subtype)) category = subtype;
 
               // Prepare name label
-              let label = item.system.magical ? `${item.name} (${i18n("WW.Talent.Magical")})` : item.name;
+              let label = item.system.magical ? `${item.name} (${_loc("WW.Talent.Magical")})` : item.name;
 
               // Prepare attribute label
               let attributeLabel = null;
 
               if (item.system.attribute == 'luck') {
-                attributeLabel = `${i18n('WW.Attributes.Luck')} (+0)`;
+                attributeLabel = `${_loc('WW.Attributes.Luck')} (+0)`;
               } else if (item.system.attribute) {
                 const attribute = context.system.attributes[item.system.attribute];
-                attributeLabel = `${i18n(CONFIG.WW.ATTRIBUTES[item.system.attribute])} (${plusify(attribute.mod)})`
+                attributeLabel = `${_loc(CONFIG.WW.ATTRIBUTES[item.system.attribute])} (${plusify(attribute.mod)})`
               }
 
               // Prepare absolute boons
@@ -220,7 +220,7 @@ export default function WWDocumentMixin(Base) {
                 else if (boons < 0) boonsLoc = "WW.Boons.Bane";
                 else if (boons > 1) boonsLoc = "WW.Boons.Boons";
 
-                boonsLabel = `${i18n("WW.Boons.With")} ${Math.abs(boons)} ${i18n(boonsLoc)}`;
+                boonsLabel = `${_loc("WW.Boons.With")} ${Math.abs(boons)} ${_loc(boonsLoc)}`;
               }
               
               // Prepare weapon fields
@@ -230,19 +230,19 @@ export default function WWDocumentMixin(Base) {
                 let list = '';
 
                 for (const x of item.system.traits) {
-                  let string = i18n('WW.Weapon.Traits.' + capitalize(x) + '.Label');
+                  let string = _loc('WW.Weapon.Traits.' + capitalize(x) + '.Label');
                   
                   if ((x === 'range') || (x === 'reach' && item.system.range) || (x === 'thrown')) string += ` ${item.system.range}`;
 
                   list = list.concat(list ? ', ' + string : string);
                 }
 
-                if (item.system.magical) list += ` (${i18n("WW.Talent.Magical")})`;
+                if (item.system.magical) list += ` (${_loc("WW.Talent.Magical")})`;
 
                 item.system.traitsList = list;
 
                 // Prepare name and grip label
-                label = (item.system.traits.has('range') ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + item.name + (item.system.traitsList ? ' • ' + item.system.traitsList : '');
+                label = (item.system.traits.has('range') ? _loc('WW.Attack.Ranged') : _loc('WW.Attack.Melee')) + '—' + item.name + (item.system.traitsList ? ' • ' + item.system.traitsList : '');
 
                 // Is shield?
                 for (const e of item.effects) {
@@ -280,16 +280,16 @@ export default function WWDocumentMixin(Base) {
           // Prepare subtitle
           switch (this.type) {
             case 'equipment':
-              context.subtitle = i18n(CONFIG.WW.EQUIPMENT_SUBTYPES[this.system.subtype]);
-              if (this.system.subtype === 'weapon') context.subtitle += ` • ${i18n(CONFIG.WW.WEAPON_GRIPS[this.system.grip])}`;
+              context.subtitle = _loc(CONFIG.WW.EQUIPMENT_SUBTYPES[this.system.subtype]);
+              if (this.system.subtype === 'weapon') context.subtitle += ` • ${_loc(CONFIG.WW.WEAPON_GRIPS[this.system.grip])}`;
             break;
 
             case 'talent':
-              context.subtitle = i18n(CONFIG.WW.TALENT_SOURCE_LABELS[this.system.source]);
+              context.subtitle = _loc(CONFIG.WW.TALENT_SOURCE_LABELS[this.system.source]);
             break;
 
             case 'spell':
-              context.subtitle = i18n(CONFIG.WW.SPELL_TIERS[this.system.tier]);
+              context.subtitle = _loc(CONFIG.WW.SPELL_TIERS[this.system.tier]);
               if (this.system.tradition) context.subtitle += ` • ${this.system.tradition}`;
             break;
           }
@@ -301,7 +301,7 @@ export default function WWDocumentMixin(Base) {
 
         case 'ActiveEffect': {
           // Prepare subtitle
-          context.subtitle = i18n((this.duration.rounds || this.duration.seconds) ? "WW.Effect.Temporary" : "WW.Effect.Permanent");
+          context.subtitle = _loc((this.duration.rounds || this.duration.seconds) ? "WW.Effect.Temporary" : "WW.Effect.Permanent");
 
           // Prepare main text
           context.text = await TextEditor.enrichHTML(this.description);
@@ -310,7 +310,7 @@ export default function WWDocumentMixin(Base) {
           context.changes = '';
 
           for (const c of this.changes) {
-            const label = CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.key] ? i18n(CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.key]) : 'BROKEN EFFECT CHANGE, FIX IT!';
+            const label = CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.key] ? _loc(CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.key]) : 'BROKEN EFFECT CHANGE, FIX IT!';
             context.changes += `<li>${label} ${(c.value !== true) ? `${c.value}.` : ''}</li>`;
           }
 
@@ -318,7 +318,7 @@ export default function WWDocumentMixin(Base) {
 
         case 'JournalEntryPage': {
           // Prepare subtitle for Character Options
-          if (this.isCharOption) context.subtitle = i18n(CONFIG.WW.CHARACTER_OPTIONS[this.type]);
+          if (this.isCharOption) context.subtitle = _loc(CONFIG.WW.CHARACTER_OPTIONS[this.type]);
 
           // Prepare main text
           context.text = await TextEditor.enrichHTML(this.text.content);

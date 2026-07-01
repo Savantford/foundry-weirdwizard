@@ -1,4 +1,4 @@
-import { i18n, sysPath } from './utils.mjs';
+import { sysPath } from './utils.mjs';
 import InstantEffectConfig from '../sheets/configs/instant-effect-config.mjs';
 import WWDialog from '../apps/dialog.mjs';
 
@@ -52,8 +52,8 @@ export async function deleteInstantEffect(effect, owner) {
       icon: 'fa-solid fa-trash'
     },
     content: `
-      <div>${i18n('WW.Item.Remove.Dialog.Msg', { name: '<b>' + i18n(effect.labelLoc) + '</b>' })}</div>
-      <div class="dialog-sure">${i18n('WW.Item.Remove.Dialog.Confirm', { name: i18n(effect.labelLoc) })}</div>
+      <div>${_loc('WW.Item.Remove.Dialog.Msg', { name: '<b>' + _loc(effect.labelLoc) + '</b>' })}</div>
+      <div class="dialog-sure">${_loc('WW.Item.Remove.Dialog.Confirm', { name: _loc(effect.labelLoc) })}</div>
     `
   });
 
@@ -76,7 +76,7 @@ export async function deleteInstantEffect(effect, owner) {
   * @param {Actor|Item}  owner    The owning entity which manages this effect
 */
 export async function createActiveEffect(dataset, owner) {
-  const name = i18n('WW.Effect.New') // Initialize a default name.
+  const name = _loc('WW.Effect.New') // Initialize a default name.
   const type = dataset.type;
   const isTemp = type === 'temporary';
 
@@ -135,8 +135,8 @@ export async function deleteActiveEffect(effect, owner) {
       icon: 'fa-solid fa-trash'
     },
     content: `
-      <div>${i18n('WW.Item.Remove.Dialog.Msg', { name: '<b>' + effect.name + '</b>' })}</div>
-      <div class="dialog-sure">${i18n('WW.Item.Remove.Dialog.Confirm', { name: effect.name })}</div>
+      <div>${_loc('WW.Item.Remove.Dialog.Msg', { name: '<b>' + effect.name + '</b>' })}</div>
+      <div class="dialog-sure">${_loc('WW.Item.Remove.Dialog.Confirm', { name: effect.name })}</div>
     `
   });
 
@@ -198,14 +198,14 @@ export async function prepareActiveEffectCategories(effects, showDuration = fals
       img: e.img,
       type: e.type,
 
-      subtitle: i18n((e.duration.rounds || e.duration.seconds) ? "WW.Effect.Temporary" : "WW.Effect.Permanent"),
+      subtitle: _loc((e.duration.rounds || e.duration.seconds) ? "WW.Effect.Temporary" : "WW.Effect.Permanent"),
       text: await foundry.applications.ux.TextEditor.implementation.enrichHTML(e.description, { secrets: e.isOwner }),
       changes: ''
     }
 
     // Prepare changes
     for (const c of e.changes) {
-      const label = CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.key] ? i18n(CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.key]) : 'BROKEN EFFECT CHANGE, FIX IT!';
+      const label = CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.key] ? _loc(CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.key]) : 'BROKEN EFFECT CHANGE, FIX IT!';
       context.changes += `<li>${label} ${(c.value !== true) ? `${c.value}.` : ''}</li>`;
     }
 

@@ -1,5 +1,4 @@
 import WWDialog from '../apps/dialog.mjs';
-import { i18n } from '../helpers/utils.mjs';
 import WWCombatant from './combatant.mjs';
 
 /**
@@ -77,7 +76,7 @@ export default class WWCombat extends Combat {
     if (options.direction !== -1 && data.round && !game.user.isGM) {
       
       if (!game.user.character) {
-        ui.notifications.warn(i18n('WW.Combat.Initiative.NoCharacter'));
+        ui.notifications.warn(_loc('WW.Combat.Initiative.NoCharacter'));
       } else {
         // Check if the users's character is present as a combatant in the current combat
         for (const c of game.combat.combatants) {
@@ -87,7 +86,7 @@ export default class WWCombat extends Combat {
                 title: 'WW.Combat.Initiative.Title',
                 icon: 'fa-solid fa-bolt'
               },
-              content: i18n('WW.Combat.Initiative.Msg')
+              content: _loc('WW.Combat.Initiative.Msg')
             })
             
             c.takeInit(confirm);
@@ -199,8 +198,8 @@ export default class WWCombat extends Combat {
         icon: 'fa-solid fa-bolt'
       },
       content: `
-        <div>${i18n('WW.Combat.StartTurn.Msg')}</div>
-        <div class="dialog-sure">${i18n('WW.Combat.StartTurn.Confirm')}</div>
+        <div>${_loc('WW.Combat.StartTurn.Msg')}</div>
+        <div class="dialog-sure">${_loc('WW.Combat.StartTurn.Confirm')}</div>
       `
     });
 
@@ -229,7 +228,7 @@ export default class WWCombat extends Combat {
   async endCombat() {
     await WWDialog.input({
       window: { icon: 'fa-solid fa-hourglass', title: 'WW.Combat.End.Title' },
-      content: `<p>${i18n("WW.Combat.End.Msg")}</p><p>${i18n("WW.Combat.End.Msg2")}</p>`,
+      content: `<p>${_loc("WW.Combat.End.Msg")}</p><p>${_loc("WW.Combat.End.Msg2")}</p>`,
       ok: {
         action: 'skip',
         label: 'WW.Combat.End.Skip',
@@ -558,13 +557,13 @@ export default class WWCombat extends Combat {
       actorUpdate = {};
 
       for (const ae of temporaryEffects) {
-        const duration = ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? i18n('WW.Effect.Duration.Rounds') : i18n('WW.Effect.Duration.Round'));
+        const duration = ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? _loc('WW.Effect.Duration.Rounds') : _loc('WW.Effect.Duration.Round'));
       
         await ChatMessage.create({
           type: 'status',
           speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
           flavor: this.label,
-          content: `<p>@UUID[${c.actor.uuid}]: @UUID[${ae.uuid}] ${i18n("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
+          content: `<p>@UUID[${c.actor.uuid}]: @UUID[${ae.uuid}] ${_loc("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
           sound: CONFIG.sounds.notification
         });
 
@@ -626,13 +625,13 @@ export default class WWCombat extends Combat {
       
       for (const ae of temporaryEffects) {
 
-        const duration = ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? i18n('WW.Effect.Duration.Rounds') : i18n('WW.Effect.Duration.Round'));
+        const duration = ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? _loc('WW.Effect.Duration.Rounds') : _loc('WW.Effect.Duration.Round'));
         
         await ChatMessage.create({
           type: 'status',
           speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
           flavor: this.label,
-          content: `<p>@UUID[${c.actor.uuid}]: @UUID[${ae.uuid}] ${i18n("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
+          content: `<p>@UUID[${c.actor.uuid}]: @UUID[${ae.uuid}] ${_loc("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
           sound: CONFIG.sounds.notification
         });
         
@@ -710,13 +709,13 @@ export default class WWCombat extends Combat {
 
       for (const ae of temporaryEffects) {
 
-        const duration = ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? i18n('WW.Effect.Duration.Rounds') : i18n('WW.Effect.Duration.Round'));
+        const duration = ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? _loc('WW.Effect.Duration.Rounds') : _loc('WW.Effect.Duration.Round'));
         
         await ChatMessage.create({
           type: 'status',
           speaker: game.weirdwizard.utils.getSpeaker({ actor: c.actor }),
           flavor: this.label,
-          content: `<p>@UUID[${c.actor.uuid}]: @UUID[${ae.uuid}] ${i18n("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
+          content: `<p>@UUID[${c.actor.uuid}]: @UUID[${ae.uuid}] ${_loc("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
           sound: CONFIG.sounds.notification
         });
 

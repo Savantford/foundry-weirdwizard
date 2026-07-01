@@ -130,9 +130,34 @@ export default class WWItem extends WWDocumentMixin(Item) {
   }
 
   /* -------------------------------------------- */
+  /*  Methods                                     */
+  /* -------------------------------------------- */
 
-  get charOption() {
-    if (this.type == 'Ancestry' || this.type == 'Profession' || this.type == 'Path') return true; else return false;
+  async placeTemplate(options = {}) {
+    const {
+      type = "emanation",
+      radius = 5,
+      isAura = true,
+      shape = CONST.TOKEN_SHAPES.RECTANGLE_1,
+      ... params
+    } = options;
+
+    await canvas.regions.placeRegion({
+      name: this.name,
+      shapes: [{
+        type: type,
+        base: { type: "token", x: 0, y: 0, width: 1, height: 1, shape: shape },
+        radius: radius * canvas.dimensions.distancePixels, // In yards
+        gridBased: true
+      }],
+      color: game.user.color,
+      restriction: { enabled: true },
+      levels: [canvas.level.id],
+      highlightMode: "coverage",
+      displayMeasurements: true,
+      visibility: CONST.REGION_VISIBILITY.ALWAYS,
+      ownership: { [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER }
+    }, { attachToToken: isAura });
   }
 
 }

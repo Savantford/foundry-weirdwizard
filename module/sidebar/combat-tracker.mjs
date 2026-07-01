@@ -96,7 +96,7 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
       initiativeIcon: CONFIG.Combat.initiativeIcon,
       linked: combat?.scene !== null,
       labels: {
-        scope: game.i18n.localize(`COMBAT.${combat?.scene ? "Linked" : "Unlinked"}`)
+        scope: _loc(`COMBAT.${combat?.scene ? "Linked" : "Unlinked"}`)
       }
     });
   }
@@ -486,7 +486,7 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
   _getCombatContextOptions() {
     return [
       {
-        label: game.i18n.format("DOCUMENT.Create", { type: _loc("DOCUMENT.CombatantGroup") }),
+        label: _loc("DOCUMENT.Create", { type: _loc("DOCUMENT.CombatantGroup") }),
         icon: '<i class="fa-solid fa-users-rectangle"></i>',
         onClick: () => WWCombatantGroup.createDialog({}, { parent: this.viewed }),
       },
@@ -506,7 +506,7 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
     const getCombatantGroup = li => this.viewed.groups.get(li.dataset.groupId);
     return [
       {
-        label: game.i18n.format("DOCUMENT.Update", { type: game.i18n.localize("DOCUMENT.CombatantGroup") }),
+        label: _loc("DOCUMENT.Update", { type: _loc("DOCUMENT.CombatantGroup") }),
         icon: "<i class=\"fa-solid fa-edit\"></i>",
         visible: li => getCombatantGroup(li).isOwner,
         onClick: (event, li) => getCombatantGroup(li)?.sheet.render({
@@ -524,7 +524,7 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
         onClick: (event, li) => getCombatantGroup(li).clearMovementHistories(),
       },
       {
-        label: game.i18n.format("DOCUMENT.Delete", { type: game.i18n.localize("DOCUMENT.CombatantGroup") }),
+        label: _loc("DOCUMENT.Delete", { type: _loc("DOCUMENT.CombatantGroup") }),
         icon: "<i class=\"fa-solid fa-trash\"></i>",
         visible: li => game.user.isGM,
         onClick: (event, li) => getCombatantGroup(li).delete(),

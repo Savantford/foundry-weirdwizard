@@ -4,7 +4,7 @@ const adv = (t) => game.time.advance(t),
   day = 86400, // 3600*24
   week = 604800, // 3600*24*7
   month = 2419200, // 3600*24*7*4
-  i18n = (s,d={}) => game.i18n.format(s,d)
+  _loc = (s,d={}) => _loc(s,d)
 ;
 
 import WWDialog from '../apps/dialog.mjs';
@@ -235,7 +235,7 @@ export default class QuestCalendar extends Application {
         title: 'QC.Reset.Title',
         icon: 'fa-solid fa-eraser'
       },
-      content: i18n('QC.Reset.Msg') + '<p class="qc-dialog-sure">' + i18n('QC.Reset.Confirm') + '</p>'
+      content: _loc('QC.Reset.Msg') + '<p class="qc-dialog-sure">' + _loc('QC.Reset.Confirm') + '</p>'
     });
 
     if (confirm) { return adv(-this.world) } else { return };

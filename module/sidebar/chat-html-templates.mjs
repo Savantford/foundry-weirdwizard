@@ -1,5 +1,3 @@
-import { i18n } from '../helpers/utils.mjs';
-
 // Prepare Dice Total html template - obsolete?
 export async function diceTotalHtml(roll) {
   return '<span class="owner-only">' + await roll.render() + '</span><h4 class="secret-dice-total non-owner-only">' + await roll.total + '</h4>';
@@ -9,7 +7,7 @@ export async function diceTotalHtml(roll) {
 export function targetHeader(target, html, noItem) {
   if ((target.id === undefined) || noItem) return (html ? html : '');
 
-  else return `<p class="owner-only chat-target">${i18n('WW.Targeting.Target')}: ${target.name}</p><p class="non-owner-only chat-target">${i18n('WW.Targeting.Target')}: ???</p><div class="chat-target-content">${html}</div>`;
+  else return `<p class="owner-only chat-target">${_loc('WW.Targeting.Target')}: ${target.name}</p><p class="non-owner-only chat-target">${_loc('WW.Targeting.Target')}: ???</p><div class="chat-target-content">${html}</div>`;
 }
 
 // Prepare html header for a target
@@ -101,7 +99,7 @@ export function chatMessageButton({action, value, effectUuid, originUuid, target
     '" data-origin-uuid="' + originUuid +
     '" data-target-ids="' + targetIds + '">' +
     '<img src="' + img + '"/>' + 
-    '<div>' + i18n(loc) + (effectUuid ? ': ' + fromUuidSync(effectUuid)?.name : '') +
+    '<div>' + _loc(loc) + (effectUuid ? ': ' + fromUuidSync(effectUuid)?.name : '') +
     (showNo ? (': ' + value) : '') + '</div></div>'
   } else { // Inline Button
     html = '<div class="chat-button" data-action="' + action +
@@ -110,7 +108,7 @@ export function chatMessageButton({action, value, effectUuid, originUuid, target
     '" data-origin-uuid="' + originUuid +
     '" data-target-ids="' + targetIds + '">' +
     '<i class="fa-solid fa-' + icon + '"></i>' +
-    i18n(loc) + (effectUuid ? ': ' + fromUuidSync(effectUuid)?.name : '') +
+    _loc(loc) + (effectUuid ? ': ' + fromUuidSync(effectUuid)?.name : '') +
     (showNo ? (': ' + value) : '') + '</div>';
   }
   
@@ -249,7 +247,7 @@ export function addInstEffs(effects, origin, target) {
   effects = effects.filter(e => e.trigger === 'onUse');
   
   effects.forEach(e => {
-    if (!e.value && !e.affliction) return ui.notifications.warn(i18n("WW.Roll.AgainstWrn"));
+    if (!e.value && !e.affliction) return ui.notifications.warn(_loc("WW.Roll.AgainstWrn"));
     let html = '';
     
     if (e.target === 'self') target = this.token.uuid;

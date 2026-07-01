@@ -1,4 +1,4 @@
-import { i18n, formatTime } from '../helpers/utils.mjs';
+import { formatTime } from '../helpers/utils.mjs';
 import WWDocumentMixin from './ww-document.mjs';
 
 /**
@@ -889,8 +889,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     }
 
     const content = `
-      <p>@UUID[${this.uuid}] ${i18n('WW.InstantEffect.Apply.Took')} ${damage} ${i18n('WW.InstantEffect.Apply.DamageLc')}.</p>
-      <p>${i18n('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fa-solid fa-arrow-right"></i> ${newTotal}</p>
+      <p>@UUID[${this.uuid}] ${_loc('WW.InstantEffect.Apply.Took')} ${damage} ${_loc('WW.InstantEffect.Apply.DamageLc')}.</p>
+      <p>${_loc('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fa-solid fa-arrow-right"></i> ${newTotal}</p>
     `;
 
     ChatMessage.create({
@@ -911,8 +911,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     const newTotal = ((oldTotal - parseInt(healing)) > 0) ? oldTotal - parseInt(healing) : 0;
 
     const content = `
-      <p>@UUID[${this.uuid}] ${i18n('WW.InstantEffect.Apply.Healed')} ${healing} ${i18n('WW.InstantEffect.Apply.DamageLc')}.</p>
-      <p>${i18n('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fa-solid fa-arrow-right"></i> ${newTotal}</p>
+      <p>@UUID[${this.uuid}] ${_loc('WW.InstantEffect.Apply.Healed')} ${healing} ${_loc('WW.InstantEffect.Apply.DamageLc')}.</p>
+      <p>${_loc('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fa-solid fa-arrow-right"></i> ${newTotal}</p>
     `;
 
     ChatMessage.create({
@@ -935,8 +935,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     const temp = this.system.stats.health.current - rawCurrent; // Diference between final vs raw current Health
     
     const content = `
-      <p>@UUID[${this.uuid}] ${i18n('WW.InstantEffect.Apply.Lost')} ${loss} ${i18n('WW.InstantEffect.Apply.Health')}.</p>
-      <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${rawCurrent + temp} <i class="fa-solid fa-arrow-right"></i> ${newCurrent + temp}</p>
+      <p>@UUID[${this.uuid}] ${_loc('WW.InstantEffect.Apply.Lost')} ${loss} ${_loc('WW.InstantEffect.Apply.Health')}.</p>
+      <p>${_loc('WW.InstantEffect.Apply.CurrentHealth')}: ${rawCurrent + temp} <i class="fa-solid fa-arrow-right"></i> ${newCurrent + temp}</p>
     `;
 
     ChatMessage.create({
@@ -961,8 +961,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     const temp = this.system.stats.health.current - rawCurrent; // Diference between final vs raw current Health
     
     const content = `
-      <p>@UUID[${this.uuid}] ${i18n('WW.InstantEffect.Apply.Regained')} ${regained} ${i18n('WW.InstantEffect.Apply.Health')}.</p>
-      <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${rawCurrent + temp} <i class="fa-solid fa-arrow-right"></i> ${newCurrent + temp}</p>
+      <p>@UUID[${this.uuid}] ${_loc('WW.InstantEffect.Apply.Regained')} ${regained} ${_loc('WW.InstantEffect.Apply.Health')}.</p>
+      <p>${_loc('WW.InstantEffect.Apply.CurrentHealth')}: ${rawCurrent + temp} <i class="fa-solid fa-arrow-right"></i> ${newCurrent + temp}</p>
     `;
 
     ChatMessage.create({
@@ -993,10 +993,10 @@ export default class WWActor extends WWDocumentMixin(Actor) {
 
     // Check if the actor already has the affliction
     if (this.statuses.has(key)) {
-      content = `@UUID[${this.uuid}] ${i18n('WW.Affliction.Already')} <b class="info" data-tooltip="${effect.description}">${effect.name}</b>.`;
+      content = `@UUID[${this.uuid}] ${_loc('WW.Affliction.Already')} <b class="info" data-tooltip="${effect.description}">${effect.name}</b>.`;
     } else {
       await ActiveEffect.create(effect, {parent: this});
-      content = `@UUID[${this.uuid}] ${i18n('WW.Affliction.Becomes')} <b class="info" data-tooltip="${effect.description}">${effect.name}</b>.`;
+      content = `@UUID[${this.uuid}] ${_loc('WW.Affliction.Becomes')} <b class="info" data-tooltip="${effect.description}">${effect.name}</b>.`;
     }
 
     // Send chat message
@@ -1021,7 +1021,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
 
     const content = `<p>
       @UUID[${effect.uuid}]
-      ${i18n('WW.Effect.AppliedTo')}
+      ${_loc('WW.Effect.AppliedTo')}
       @UUID[${this.uuid}].
     </p>`;
 

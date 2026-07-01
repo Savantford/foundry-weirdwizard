@@ -2,7 +2,6 @@ import {
   capitalize,
   defaultListEntryKey,
   defaultListEntryName,
-  i18n,
   plusify,
   sum,
   sysPath
@@ -129,10 +128,10 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       // Assign attributeLabel for template use
       if (context.system.attributes) {
         if (i.system.attribute == 'luck') {
-          i.system.attributeLabel = `${i18n('WW.Attributes.Luck')} (+0)`;
+          i.system.attributeLabel = `${_loc('WW.Attributes.Luck')} (+0)`;
         } else if (i.system.attribute) {
           const attribute = context.system.attributes[i.system.attribute];
-          const name = i18n(CONFIG.WW.ATTRIBUTES[i.system.attribute]);
+          const name = _loc(CONFIG.WW.ATTRIBUTES[i.system.attribute]);
           i.system.attributeLabel = `${name} (${plusify(attribute.mod)})`
         }
       }
@@ -159,23 +158,23 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
           let list = '';
 
           for (const x of i.system.traits) {
-            let string = i18n('WW.Weapon.Traits.' + capitalize(x) + '.Label');
+            let string = _loc('WW.Weapon.Traits.' + capitalize(x) + '.Label');
 
             if ((x === 'range') || (x === 'reach' && i.system.range) || (x === 'thrown')) string += ` ${i.system.range}`;
 
             list = list.concat(list ? ', ' + string : string);
           }
 
-          if (i.system.magical) list += ` (${i18n("WW.Talent.Magical")})`;
+          if (i.system.magical) list += ` (${_loc("WW.Talent.Magical")})`;
 
           i.system.traitsList = list;
 
           // Prepare name and grip label
           if (context.actor.type == 'character') {
-            i.system.gripLabel = CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip] ? i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip]) : i.system.grip;
+            i.system.gripLabel = CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip] ? _loc(CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip]) : i.system.grip;
             
             i.label = `${i.name} (${i.system.gripLabel})${(i.system.traitsList ? ' • ' + i.system.traitsList : '')}`;
-          } else i.label = (i.system.traits.has('range') ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + i.name + (i.system.traitsList ? ' • ' + i.system.traitsList : '');
+          } else i.label = (i.system.traits.has('range') ? _loc('WW.Attack.Ranged') : _loc('WW.Attack.Melee')) + '—' + i.name + (i.system.traitsList ? ' • ' + i.system.traitsList : '');
 
           // Can reload?
           i.canReload = (i.system.traits.has('reload') || i.system.traits.has('firearm')) ?? false;
@@ -217,7 +216,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
           i.heldList = list;
           
           // Prepare tooltip
-          i.containerTooltip = i18n('WW.Container.FilledHint', { filled: i.filled, capacity: i.system.capacity });
+          i.containerTooltip = _loc('WW.Container.FilledHint', { filled: i.filled, capacity: i.system.capacity });
         }
 
         // Prepare label for other Equipment
@@ -249,7 +248,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       // Append to talents.
       else if (i.type === 'talent') {
         // Set label
-        i.label = i.system.magical ? `${i.name} (${i18n("WW.Talent.Magical")})` : i.name;
+        i.label = i.system.magical ? `${i.name} (${_loc("WW.Talent.Magical")})` : i.name;
 
         if (context.actor.type == 'npc') {
           switch (i.system.subtype) {
@@ -484,7 +483,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     if (!dialogInput) return;
 
     // Return with warning if the key or name are missing
-    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
+    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(_loc('WW.Settings.Entry.EditWarning'));
 
     // Update key and value with dialogInput
     obj[dialogInput.key] = dialogInput;
@@ -578,7 +577,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     if (system.subtype && type === 'talent') defaultName = CONFIG.WW.TALENT_SUBTYPES[system.subtype];
 
     const itemData = {
-      name: i18n(defaultName),
+      name: _loc(defaultName),
       type: type,
       system: system
     };
@@ -635,8 +634,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
         icon: 'fa-solid fa-trash'
       },
       content: `
-        <div>${i18n('WW.Item.Remove.Dialog.Msg', {name: '<b>' + item.name + '</b>'})}</div>
-        <div class="dialog-sure">${i18n('WW.Item.Remove.Dialog.Confirm', {name: item.name})}</div>
+        <div>${_loc('WW.Item.Remove.Dialog.Msg', {name: '<b>' + item.name + '</b>'})}</div>
+        <div class="dialog-sure">${_loc('WW.Item.Remove.Dialog.Confirm', {name: item.name})}</div>
       `
     });
 

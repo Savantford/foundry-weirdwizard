@@ -14,9 +14,9 @@ export default class WWTour extends Tour {
     
     // Actor step: If we need an actor, make it and render
     if (currentStep.actor) {
-      currentStep.actor.name = game.i18n.localize(currentStep.actor.name);
+      currentStep.actor.name = _loc(currentStep.actor.name);
       for (const item of currentStep.actor.items) {
-        item.name = game.i18n.localize(item.name);
+        item.name = _loc(item.name);
       }
       this.actor = (new WWActor(
         currentStep.actor,
@@ -31,7 +31,7 @@ export default class WWTour extends Tour {
       if (!this.actor) {
         console.warn('No actor found for step ' + currentStep.title);
       }
-      const localizedName = game.i18n.localize(currentStep.itemName);
+      const localizedName = _loc(currentStep.itemName);
       this.item = this.actor?.items.getName(localizedName);
       const app = this.item.sheet;
       //@ts-expect-error Calling _render because it's async unlike render
