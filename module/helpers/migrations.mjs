@@ -49,12 +49,16 @@ export async function v14Support(forced) {
       for (const [_, effect] of doc.traverseEmbeddedDocuments()) {
         const { parent, documentName, pack } = effect;
         if (documentName !== "ActiveEffect") continue; // Skip if not an Active Effect
+        if (!effect.changes.length) continue;
+        
         const changes = [];
 
         for (const change of effect.changes) {
 
-          // Skip if key is null or already updated
-          if (!change.key) continue;
+          // Skip if key or preset is null
+          if (!(change.key || change.preset)) continue;
+
+          // Map key
           if (!(change.key.includes('system.') || change.key.includes('token.'))) {
             change.preset = change.key;
             change.key = presetToKey[change.key];
@@ -68,7 +72,7 @@ export async function v14Support(forced) {
           documentName,
           parent,
           pack,
-          updates: [{ _id: effect.id, changes: changes }]
+          updates: [{ _id: effect.id, 'system.changes': changes }]
         });
       }
     }
