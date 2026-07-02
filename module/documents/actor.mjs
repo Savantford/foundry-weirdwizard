@@ -586,64 +586,59 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     if (stats.naturalSet) changes.push({
       key: 'system.stats.defense.natural',
       value: stats.naturalSet,
-      type: "override",
-      priority: 1
+      type: "upgrade"
     })
 
     if (cOpt.system.tier === 'novice') changes.push({
       key: 'system.stats.health.normal',
       value: stats.healthStarting,
-      type: "override",
-      priority: 1
+      type: "upgrade"
     })
 
     if (stats.naturalIncrease) changes.push({
       key: 'system.stats.defense.natural',
       value: stats.naturalIncrease,
       type: "add",
-      priority: null
+      phase: "final"
     })
 
     if (stats.armoredIncrease) changes.push({
       key: 'system.stats.defense.armored',
       value: stats.armoredIncrease,
       type: "add",
-      priority: null
+      phase: "final"
     })
     
     if (stats.healthIncrease) changes.push({
       key: 'system.stats.health.normal',
       value: stats.healthIncrease,
       type: "add",
-      priority: null
+      phase: "final"
     })
 
     if (stats.sizeNormal) changes.push({
       key: 'system.stats.size',
       value: stats.sizeNormal,
-      type: "override",
-      priority: 1
+      type: "upgrade"
     })
 
     if (stats.speedNormal) changes.push({
       key: 'system.stats.speed.normal',
       value: stats.speedNormal,
-      type: "override",
-      priority: 1
+      type: "upgrade"
     })
 
     if (stats.speedIncrease) changes.push({
       key: 'system.stats.speed.normal',
       value: stats.speedIncrease,
       type: "add",
-      priority: null
+      phase: "final"
     })
 
     if (stats.bonusDamage) changes.push({
       key: 'system.stats.bonusdamage',
       value: stats.bonusDamage,
-      type: "add",
-      priority: null
+      type: "add"
     })
     
     // Create effect data object
@@ -662,12 +657,10 @@ export default class WWActor extends WWDocumentMixin(Actor) {
       }
       
     };
-    console.log(effectData.system.changes)
 
     // Create or update main effect
     if (eff) await this.updateEmbeddedDocuments("ActiveEffect", [{ _id: eff.id, ...effectData }]);
     else await this.createEmbeddedDocuments("ActiveEffect", [effectData]);
-
   }
 
   /* -------------------------------------------- */

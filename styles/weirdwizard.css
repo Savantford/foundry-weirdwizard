@@ -803,6 +803,7 @@ body.theme-dark.application.weirdwizard .window-content {
   font-size: var(--font-size-15);
   letter-spacing: 0.01em;
   text-align: left;
+  text-indent: 0;
   background: var(--pink);
   box-shadow: 0 0 1px 0 var(--purple-medium);
   border: none;
