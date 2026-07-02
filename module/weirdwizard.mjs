@@ -344,8 +344,6 @@ Hooks.once('ready', function (app, html) {
 
   // Check and run full data migration if needed
   fullMigration();
-  console.log(migrations)
-  console.log(migrationsReference)
 
   // Post a welcome message if needed
   utils.handleWelcomeMessage();

@@ -32,41 +32,64 @@ export async function v14Support(forced) {
     { format: { version: version }, progress: true }
   );
 
-  // Record invalid Item IDs
-  const invalidItemIds = Array.from(game.items.invalidDocumentIds);
+  // Prepare database operations for modifyBatch()
+  const operations = [];
+  const presetToKey = Object.entries(CONFIG.WW.EFFECT_CHANGE_PRESET_DATA).reduce((acc, [groupKey, groupValue]) => {
+    if (groupValue.options) {
+      Object.entries(groupValue.options).forEach(([presetKey, presetData]) => {
+        acc[presetKey] = presetData.key;
+      });
+    }
+    return acc;
+  }, {});
 
-  // Record invalid Actors
-  const invalidActorIds = Array.from(game.actors.invalidDocumentIds);
-  const invalidActors = [];
-  invalidActorIds.forEach(x => {
-    invalidActors.push(game.actors.getInvalid(x));
-  })
-  console.log(invalidItemIds)
-  console.log(invalidActorIds)
+  // Loop through effects and fix them
+  const fixEffects = (collection) => {
+    for (const doc of collection) {
+      for (const [_, effect] of doc.traverseEmbeddedDocuments()) {
+        const { parent, documentName, pack } = effect;
+        if (documentName !== "ActiveEffect") continue; // Skip if not an Active Effect
+        const changes = [];
 
-  // Delete invalid item references from world Actors
-  /*console.log('Deleting invalid world item references from world Actors');
-  for (const actor of invalidActors) {
-    console.log(actor)
-    for (const [listKey, list] of Object.entries(actor.system.listEntries)) {
-      for (const [entryKey, entry] of Object.entries(list)) {
-        console.log(entry)
-        if (invalidItemIds.includes(entry.grantedBy)) {
-          const path = `system.listEntries.${listKey}.${entryKey}.grantedBy`;
-          console.log(path)
-          await actor.update({ [path]: null });
+        for (const change of effect.changes) {
+
+          // Skip if key is null or already updated
+          if (!change.key) continue;
+          if (!(change.key.includes('system.') || change.key.includes('token.'))) {
+            change.preset = change.key;
+            change.key = presetToKey[change.key];
+          }
+          
+          changes.push(change);
         }
+
+        operations.push({
+          action: "update",
+          documentName,
+          parent,
+          pack,
+          updates: [{ _id: effect.id, changes: changes }]
+        });
       }
     }
   }
-  warning.update({ pct: 0.5 });
 
-  // Delete invalid world Items
-  console.log('Deleting invalid world Items');
-  invalidItemIds.forEach(x => {
-    const invalidItem = game.items.getInvalid(x);
-    invalidItem.delete();
-  })*/
+  // Loop through world documents
+  for (const collection of [game.actors, game.items, game.scenes]) {
+    fixEffects(collection);
+  }
+
+  // Loop through world packs
+  const worldPacks = game.packs.filter(pack => pack.metadata.packageType === 'world');
+
+  for (const collection of worldPacks) {
+    fixEffects(await collection.getDocuments());
+  }
+
+  // Perform the operations
+  console.log('Operations:', operations)
+  //await foundry.documents.modifyBatch(operations);
+
   warning.update({ pct: 1.0 });
 
   ui.notifications.remove(warning);
