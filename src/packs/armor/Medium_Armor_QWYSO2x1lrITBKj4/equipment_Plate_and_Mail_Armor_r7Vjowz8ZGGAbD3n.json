@@ -109,9 +109,8 @@
           {
             "key": "defense.armored",
             "value": 16,
-            "": 4,
-            "priority": 1,
-            "type": "custom"
+            "type": "upgrade",
+            "priority": 1
           }
         ]
       },

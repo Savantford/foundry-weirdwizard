@@ -58,9 +58,9 @@
           {
             "key": "boons.attacks",
             "value": 1,
-            "": 2,
-            "priority": null,
-            "type": "custom"
+            "type": "add",
+            "phase": "final",
+            "priority": null
           }
         ]
       },

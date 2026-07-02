@@ -109,16 +109,15 @@
           {
             "key": "defense.armored",
             "value": 13,
-            "": 4,
-            "priority": 1,
-            "type": "custom"
+            "type": "upgrade",
+            "priority": 1
           },
           {
             "key": "defense.naturalIncrease",
             "value": 1,
-            "": 2,
-            "priority": null,
-            "type": "custom"
+            "type": "add",
+            "phase": "final",
+            "priority": null
           }
         ]
       },

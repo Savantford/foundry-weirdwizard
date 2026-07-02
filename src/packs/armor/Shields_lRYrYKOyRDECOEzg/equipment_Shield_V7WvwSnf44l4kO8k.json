@@ -96,9 +96,9 @@
           {
             "key": "defense.bonus",
             "value": 2,
-            "": 2,
-            "priority": null,
-            "type": "custom"
+            "type": "add",
+            "phase": "final",
+            "priority": null
           }
         ]
       },

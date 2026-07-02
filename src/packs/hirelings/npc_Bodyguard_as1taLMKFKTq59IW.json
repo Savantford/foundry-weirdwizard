@@ -272,9 +272,8 @@
               {
                 "key": "defense.armored",
                 "value": 15,
-                "": 4,
-                "priority": 1,
-                "type": "custom"
+                "type": "upgrade",
+                "priority": 1
               }
             ]
           },
@@ -415,9 +414,9 @@
               {
                 "key": "defense.bonus",
                 "value": 2,
-                "": 2,
-                "priority": null,
-                "type": "custom"
+                "type": "add",
+                "phase": "final",
+                "priority": null
               }
             ]
           },
