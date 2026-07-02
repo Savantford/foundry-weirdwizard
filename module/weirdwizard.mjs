@@ -64,7 +64,7 @@ import registerWWTours from './tours/registration.mjs';
 import * as utils from './helpers/utils.mjs';
 import { initializeEffectLookups } from './helpers/effect-presets.mjs';
 import { addFormattingOptions } from './helpers/text-editor.mjs';
-import { fullMigration, migrationsReference } from './helpers/migrations.mjs';
+import * as migrationsReference from './helpers/migrations.mjs';
 
 
 /* -------------------------------------------- */
@@ -339,10 +339,13 @@ Hooks.once('ready', function (app, html) {
   registerWWTours();
 
   // Append data migration functions to game.system.migrations so tye can be used for manual forced migrations
-  game.system.migrations = migrationsReference;
+  const { fullMigration, ...migrations} = migrationsReference;
+  game.system.migrations = migrations;
 
   // Check and run full data migration if needed
   fullMigration();
+  console.log(migrations)
+  console.log(migrationsReference)
 
   // Post a welcome message if needed
   utils.handleWelcomeMessage();

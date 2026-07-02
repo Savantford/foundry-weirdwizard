@@ -1,34 +1,81 @@
-export const migrationsReference = {
-  fullMigration,
-  effectOverhaul,
-  strToCharOptions,
-  pathsOfJournaling,
-  improvedListEntries,
-  v13Support,
-  secrets
-}
-
+/**
+ * Perform migrations in sequence as needed
+ */
 export function fullMigration(forced) {
   const lastMigration = game.settings.get('weirdwizard', 'lastMigrationVersion');
-
   const isNewer = foundry.utils.isNewerVersion;
+  const isExperimental = lastMigration.includes('-exp');
 
-  // Check if the versions are experimental
-  const isLastMigrationExp = lastMigration.includes('-exp');
-
-  // Check if the world is new or old
-  if (game.actors.size || game.items.size || game.journal.size) {
+  if (game.actors.size || game.items.size || game.journal.size) { // Old world
     // If last migration was done before the version provided, perform the necessary data migration
-    if (isNewer(isLastMigrationExp ? '2.3.0-exp' : '2.0.0', lastMigration) || forced) effectOverhaul(forced);
-    if (isNewer(isLastMigrationExp ? '3.0.0-exp' : '3.0.0', lastMigration) || forced) strToCharOptions(forced);
-    if (isNewer(isLastMigrationExp ? '6.0.0-exp' : '6.0.0', lastMigration) || forced) pathsOfJournaling(forced);
-    if (isNewer(isLastMigrationExp ? '6.1.0-exp' : '6.1.0', lastMigration) || forced) improvedListEntries(forced);
-    if (isNewer(isLastMigrationExp ? '6.2.0-exp' : '6.2.0', lastMigration) || forced) v13Support(forced);
-    if (isNewer(isLastMigrationExp ? '6.3.1-exp' : '6.3.0', lastMigration) || forced) secrets(forced);
-  } else if (game.system.version !== '#{VERSION}#') {
-    // If world is new, set lastMigrationVersion to current system version
+    if (isNewer(isExperimental ? '2.3.0-exp' : '2.0.0', lastMigration) || forced) effectOverhaul(forced);
+    if (isNewer(isExperimental ? '3.0.0-exp' : '3.0.0', lastMigration) || forced) strToCharOptions(forced);
+    if (isNewer(isExperimental ? '6.0.0-exp' : '6.0.0', lastMigration) || forced) pathsOfJournaling(forced);
+    if (isNewer(isExperimental ? '6.1.0-exp' : '6.1.0', lastMigration) || forced) improvedListEntries(forced);
+    if (isNewer(isExperimental ? '6.2.0-exp' : '6.2.0', lastMigration) || forced) v13Support(forced);
+    if (isNewer(isExperimental ? '6.3.1-exp' : '6.3.0', lastMigration) || forced) secrets(forced);
+    //if (isNewer(isExperimental ? '7.0.0-exp' : '7.0.0', lastMigration) || forced) v14Support(forced);
+  } else if (game.system.version !== '#{VERSION}#') { // New world, set lastMigrationVersion to current system version
     game.settings.set('weirdwizard', 'lastMigrationVersion', game.system.version);
   }
+}
+
+/* -------------------------------------------- */
+/* v14 Support                                  */
+/* 7.0.0-exp / 7.0.0                            */
+/* -------------------------------------------- */
+
+export async function v14Support(forced) {
+  const version = '7.0.0';
+  const warning = ui.notifications.warn(
+    forced ? 'WW.System.Migration.Forced' : 'WW.System.Migration.Started',
+    { format: { version: version }, progress: true }
+  );
+
+  // Record invalid Item IDs
+  const invalidItemIds = Array.from(game.items.invalidDocumentIds);
+
+  // Record invalid Actors
+  const invalidActorIds = Array.from(game.actors.invalidDocumentIds);
+  const invalidActors = [];
+  invalidActorIds.forEach(x => {
+    invalidActors.push(game.actors.getInvalid(x));
+  })
+  console.log(invalidItemIds)
+  console.log(invalidActorIds)
+
+  // Delete invalid item references from world Actors
+  /*console.log('Deleting invalid world item references from world Actors');
+  for (const actor of invalidActors) {
+    console.log(actor)
+    for (const [listKey, list] of Object.entries(actor.system.listEntries)) {
+      for (const [entryKey, entry] of Object.entries(list)) {
+        console.log(entry)
+        if (invalidItemIds.includes(entry.grantedBy)) {
+          const path = `system.listEntries.${listKey}.${entryKey}.grantedBy`;
+          console.log(path)
+          await actor.update({ [path]: null });
+        }
+      }
+    }
+  }
+  warning.update({ pct: 0.5 });
+
+  // Delete invalid world Items
+  console.log('Deleting invalid world Items');
+  invalidItemIds.forEach(x => {
+    const invalidItem = game.items.getInvalid(x);
+    invalidItem.delete();
+  })*/
+  warning.update({ pct: 1.0 });
+
+  ui.notifications.remove(warning);
+  ui.notifications.success('WW.System.Migration.Finished', { format: { version: version }, permanent: true });
+  console.log('Migration complete');
+  
+  // Update version
+  //const current = game.system.version != '#{VERSION}#' ? game.system.version : version;
+  //await game.settings.set('weirdwizard', 'lastMigrationVersion', current);
 }
 
 /* -------------------------------------------- */
@@ -158,7 +205,7 @@ export async function v13Support(forced) {
  * @param {string} [options.pack]     Pack to update.
  * @param {Document} [options.parent] Parent of the collection for embedded collections.
  */
-export async function migrateType(collection, options = {}) {
+async function migrateType(collection, options = {}) {
   const toMigrate = collection.filter(doc => doc?.getFlag('weirdwizard', 'migrateType')).map(doc => ({
     _id: doc.id,
     type: doc.type,
@@ -622,6 +669,7 @@ async function getEntryFromActor(actor, folder) {
 /* String to Character Options                  */
 /* 3.0.0-exp / 3.0.0                            */
 /* -------------------------------------------- */
+
 export function strToCharOptions(forced) {
   forced ? _notifyForcedStart() : _notifyStart();
 
@@ -847,4 +895,3 @@ function _notifyStart() { ui.notifications.warn(_loc('WW.System.Migration.Starte
 function _notifyForcedStart() { ui.notifications.warn(_loc('WW.System.Migration.Forced')); }
 
 function _notifyFinish(delay=3000) { setTimeout(function(){ ui.notifications.warn(_loc('WW.System.Migration.Finished')); }, delay); }
-
