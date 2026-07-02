@@ -33,7 +33,11 @@
     </div>
 
     {{!-- Phase --}}
-    <input type="hidden" name="{{change.phasePath}}" value="{{change.phase}}">
+    {{log changePhases}}
+    <div class="phase">
+      <strong>{{localize "EFFECT.FIELDS.changes.element.phase.label"}}:</strong>
+      {{formInput fields.phase name=change.phasePath value=change.phase choices=changePhases disabled=(ne change.preset 'custom')}}
+    </div>
 
     {{!-- Priority --}}
     <div class="priority">

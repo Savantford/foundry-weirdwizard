@@ -119,6 +119,15 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
             return types;
           }, {});
         
+        // Prepare changePhases
+        const changePhases = Object.entries(ActiveEffect.CHANGE_PHASES)
+          .map(([phase, {label}]) => ({phase, label: _loc(label)}))
+          .sort((a, b) => a.label.localeCompare(b.label, game.i18n.lang))
+          .reduce((phases, {phase, label}) => {
+            phases[phase] = label;
+            return phases;
+          }, {});
+        
         // Prepare changes
         partContext.changes = await Promise.all(foundry.utils.deepClone(context.source.changes).map((change, index) => {
           const defaultPriority = ActiveEffect.CHANGE_TYPES[change.type]?.defaultPriority;
@@ -148,7 +157,7 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
           change.typedValue = change.field.clean(change.value);
 
           // Render change
-          return this._renderChange({change, index, fields, defaultPriority, changeTypes, changePresetOptions});
+          return this._renderChange({change, index, fields, defaultPriority, changeTypes, changePhases, changePresetOptions});
         }));
         
       } break;
