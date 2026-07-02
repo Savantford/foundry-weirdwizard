@@ -52,7 +52,7 @@ import SageTools from './ui/sage-tools.mjs';
 import QuestCalendar from './ui/quest-calendar.mjs';
 
 // Import canvas-related classes
-//import WWToken from './canvas/token.mjs';
+import WWToken from './canvas/token.mjs';
 
 // Import helper/utility classes and constants.
 import { WW } from './config.mjs';
@@ -204,7 +204,7 @@ Hooks.once('init', function () {
   CONFIG.ActiveEffect.legacyTransferral = false;
 
   // Register custom Object classes (placeables)
-  //CONFIG.Token.objectClass = WWToken;
+  CONFIG.Token.objectClass = WWToken;
 
   // Define token resources/bars
   CONFIG.Actor.trackableAttributes = {
