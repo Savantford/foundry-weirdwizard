@@ -108,12 +108,12 @@ export class WWAfflictions {
     ));
 
     // Controlled
-    effectsDataList.push(_buildBaseAffliction('controlled', '/systems/weirdwizard/assets/icons/puppet.svg'));
+    effectsDataList.push(_buildBaseAffliction('controlled', 'systems/weirdwizard/assets/icons/puppet.svg'));
     
     // Cursed
     effectsDataList.push(_buildBaseAffliction(
       'cursed',
-      '/systems/weirdwizard/assets/icons/bleeding-eye.svg',
+      'systems/weirdwizard/assets/icons/bleeding-eye.svg',
       [ addEffect('banes.luck', 1, addPriority) ]
     ));
 
@@ -133,7 +133,7 @@ export class WWAfflictions {
     // Held
     effectsDataList.push(_buildBaseAffliction(
       'held',
-      '/systems/weirdwizard/assets/icons/manacles.svg',
+      'systems/weirdwizard/assets/icons/manacles.svg',
       [
         downgradeEffect('speed.override', 0, overridePriority),
         overrideEffect('autoSuccessAgainst.agi', true, addPriority),
@@ -144,7 +144,7 @@ export class WWAfflictions {
     effectsDataList.push(
       _buildBaseAffliction(
         'impairedStr',
-        '/systems/weirdwizard/assets/icons/biceps-impaired.svg',
+        'systems/weirdwizard/assets/icons/biceps-impaired.svg',
         [
           addEffect('banes.str', 1, addPriority),
           addEffect('boonsAgainst.str', 1, addPriority)
@@ -156,7 +156,7 @@ export class WWAfflictions {
     effectsDataList.push(
       _buildBaseAffliction(
         'impairedAgi',
-        '/systems/weirdwizard/assets/icons/agility-impaired.svg',
+        'systems/weirdwizard/assets/icons/agility-impaired.svg',
         [
           addEffect('banes.agi', 1, addPriority),
           addEffect('boonsAgainst.agi', 1, addPriority)
@@ -168,7 +168,7 @@ export class WWAfflictions {
     effectsDataList.push(
       _buildBaseAffliction(
         'impairedInt',
-        '/systems/weirdwizard/assets/icons/open-book-impaired.svg',
+        'systems/weirdwizard/assets/icons/open-book-impaired.svg',
         [
           addEffect('banes.int', 1, addPriority),
           addEffect('boonsAgainst.int', 1, addPriority)
@@ -180,7 +180,7 @@ export class WWAfflictions {
     effectsDataList.push(
       _buildBaseAffliction(
         'impairedWil',
-        '/systems/weirdwizard/assets/icons/burning-star-impaired.svg',
+        'systems/weirdwizard/assets/icons/burning-star-impaired.svg',
         [
           addEffect('banes.wil', 1, addPriority),
           addEffect('boonsAgainst.wil', 1, addPriority)
@@ -191,26 +191,26 @@ export class WWAfflictions {
     // On Fire
     effectsDataList.push(_buildBaseAffliction(
       'onFire',
-      '/systems/weirdwizard/assets/icons/flaming-claw.svg',
+      'systems/weirdwizard/assets/icons/flaming-claw.svg',
       []
     ));
 
     // Poisoned
     effectsDataList.push(_buildBaseAffliction(
       'poisoned',
-      '/systems/weirdwizard/assets/icons/poison.svg',
+      'systems/weirdwizard/assets/icons/poison.svg',
       [].concat(baneAllAttributes(1))
         .concat(againstAll(1))
     ));
 
     // Prone
-    effectsDataList.push(_buildBaseAffliction('prone', '/systems/weirdwizard/assets/icons/fallen.svg'));
+    effectsDataList.push(_buildBaseAffliction('prone', 'systems/weirdwizard/assets/icons/fallen.svg'));
 
     // Slowed
     effectsDataList.push(
       _buildBaseAffliction(
         'slowed',
-        '/systems/weirdwizard/assets/icons/snail.svg',
+        'systems/weirdwizard/assets/icons/snail.svg',
         [ downgradeEffect('speed.override', 2, overridePriority) ]
       ),
     );
@@ -249,14 +249,14 @@ export class WWAfflictions {
     // Vulnerable
     effectsDataList.push(_buildBaseAffliction(
       'vulnerable',
-      '/systems/weirdwizard/assets/icons/broken-shield.svg',
+      'systems/weirdwizard/assets/icons/broken-shield.svg',
       [].concat(againstAll(1))
     ));
 
     // Weakened
     effectsDataList.push(_buildBaseAffliction(
       'weakened',
-      '/systems/weirdwizard/assets/icons/back-pain.svg',
+      'systems/weirdwizard/assets/icons/back-pain.svg',
       [
         addEffect('banes.str', 1, addPriority),
         addEffect('banes.agi', 1, addPriority),

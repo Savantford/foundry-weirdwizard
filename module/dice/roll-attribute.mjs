@@ -199,7 +199,7 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
           img: tar.img,
           name: tar.name,
           boonsNo,
-          boonsIcon: '/systems/weirdwizard/assets/icons/' + boonsIcon + '.svg',
+          boonsIcon: 'systems/weirdwizard/assets/icons/' + boonsIcon + '.svg',
           boonsTip,
           againstNo: tar.againstNo,
           againstLabel,

@@ -1224,7 +1224,7 @@ body.theme-dark.application.weirdwizard .window-content {
     text-align: center;
     color: var(--purple-dark);
     font-weight: 600;
-    background: url(/systems/weirdwizard/assets/ui/badges/npc-attribute.svg) no-repeat;
+    background: url(/../assets/ui/badges/npc-attribute.svg) no-repeat;
     background-position: center;
     background-size: contain;
 
@@ -1282,7 +1282,7 @@ body.theme-dark.application.weirdwizard .window-content {
       justify-content: center;
       width: var(--stat-size);
       height: var(--stat-size);
-      background: url(/systems/weirdwizard/assets/ui/badges/octagonal.svg) no-repeat;
+      background: url(../assets/ui/badges/octagonal.svg) no-repeat;
       background-position: center;
       background-size: contain;
       color: var(--body-text-color);
@@ -2248,7 +2248,7 @@ body.theme-dark.application.weirdwizard .window-content {
   justify-content: center;
   width: var(--stat-size);
   height: var(--stat-size);
-  background: url(/systems/weirdwizard/assets/ui/badges/shield.svg) no-repeat;
+  background: url(../assets/ui/badges/shield.svg) no-repeat;
   background-position: center;
   background-size: contain;
   margin: 0;
@@ -2389,17 +2389,17 @@ body.theme-dark.application.weirdwizard .window-content {
   width: var(--stat-size);
   height: var(--stat-size);
   line-height: normal;
-  background: url(/systems/weirdwizard/assets/ui/badges/octagonal.svg) no-repeat;
+  background: url(../assets/ui/badges/octagonal.svg) no-repeat;
   background-position: center;
   background-size: contain;
 }
 
 .weirdwizard .character-stats .stat.defense > div {
-  background-image: url(/systems/weirdwizard/assets/ui/badges/shield.svg);
+  background-image: url(../assets/ui/badges/shield.svg);
 }
 
 .weirdwizard .character-stats .stat.bonus-damage > div {
-  background-image: url(/systems/weirdwizard/assets/ui/badges/spiked.svg);
+  background-image: url(../assets/ui/badges/spiked.svg);
   --stat-size: 55px;
 }
 
@@ -6314,7 +6314,7 @@ p {
 }
 
 .weirdwizard .dice-comparison > .rolled-number {
-  background: url(/icons/svg/d20-grey.svg);
+  background: url(../../../icons/svg/d20-grey.svg);
 }
 
 .weirdwizard .dice-comparison > .target-number {

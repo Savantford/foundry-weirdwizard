@@ -62,7 +62,7 @@ export default class WWCharacterSheet extends WWCreatureSheet {
         {id: 'equipment', tooltip: 'WW.Equipment.Label', icon: 'systems/weirdwizard/assets/icons/backpack.svg', iconType: 'img'},
         {id: 'talents', tooltip: 'WW.Talents.Label', icon: 'systems/weirdwizard/assets/icons/skills.svg', iconType: 'img'},
         {id: 'spells', tooltip: 'WW.Spells.Label', icon: 'systems/weirdwizard/assets/icons/spell-book.svg', iconType: 'img'},
-        {id: 'effects', tooltip: 'WW.Effects.Label', iconType: 'img', icon: '/icons/svg/aura.svg', iconType: 'img'}
+        {id: 'effects', tooltip: 'WW.Effects.Label', iconType: 'img', icon: 'icons/svg/aura.svg', iconType: 'img'}
       ],
       initial: "summary",
       labelPrefix: "EFFECT.TABS"

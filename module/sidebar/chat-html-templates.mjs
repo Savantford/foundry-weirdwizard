@@ -47,37 +47,37 @@ export function chatMessageButton({action, value, effectUuid, originUuid, target
     }
     /* Apply Actions */
     case 'applyDamage': {
-      img = '/systems/weirdwizard/assets/icons/rough-wound-black.svg';
+      img = 'systems/weirdwizard/assets/icons/rough-wound-black.svg';
       loc += 'Damage';
       showNo = false;
       break;
     }
     case 'applyDamageHalf': {
-      img = '/systems/weirdwizard/assets/icons/slashed-shield-black.svg';
+      img = 'systems/weirdwizard/assets/icons/slashed-shield-black.svg';
       loc += 'Half';
       showNo = false;
       break;
     }
     case 'applyDamageDouble': {
-      img = '/systems/weirdwizard/assets/icons/cross-mark-black.svg';
+      img = 'systems/weirdwizard/assets/icons/cross-mark-black.svg';
       loc += 'Double';
       showNo = false;
       break;
     }
     case 'applyHealing': {
-      img = '/systems/weirdwizard/assets/icons/caduceus-black.svg';
+      img = 'systems/weirdwizard/assets/icons/caduceus-black.svg';
       loc += 'Healing';
       showNo = false;
       break;
     }
     case 'applyHealthLoss': {
-      img = '/systems/weirdwizard/assets/icons/health-decrease-black.svg';
+      img = 'systems/weirdwizard/assets/icons/health-decrease-black.svg';
       loc += 'LoseHealth';
       showNo = false;
       break;
     }
     case 'applyHealthRegain': {
-      img = '/systems/weirdwizard/assets/icons/health-increase-black.svg';
+      img = 'systems/weirdwizard/assets/icons/health-increase-black.svg';
       loc += 'RegainHealth';
       showNo = false;
       break;
@@ -180,37 +180,37 @@ export function dataFromLabel(label) {
     }
     /* Apply Actions */
     case 'applyDamage': {
-      data.img = '/systems/weirdwizard/assets/icons/rough-wound-black.svg';
+      data.img = 'systems/weirdwizard/assets/icons/rough-wound-black.svg';
       data.loc += 'Damage';
       data.showNo = false;
       break;
     }
     case 'applyDamageHalf': {
-      data.img = '/systems/weirdwizard/assets/icons/slashed-shield-black.svg';
+      data.img = 'systems/weirdwizard/assets/icons/slashed-shield-black.svg';
       data.loc += 'Half';
       data.showNo = false;
       break;
     }
     case 'applyDamageDouble': {
-      data.img = '/systems/weirdwizard/assets/icons/cross-mark-black.svg';
+      data.img = 'systems/weirdwizard/assets/icons/cross-mark-black.svg';
       data.loc += 'Double';
       data.showNo = false;
       break;
     }
     case 'applyHealing': {
-      data.img = '/systems/weirdwizard/assets/icons/caduceus-black.svg';
+      data.img = 'systems/weirdwizard/assets/icons/caduceus-black.svg';
       data.loc += 'Healing';
       data.showNo = false;
       break;
     }
     case 'applyHealthLoss': {
-      data.img = '/systems/weirdwizard/assets/icons/health-decrease-black.svg';
+      data.img = 'systems/weirdwizard/assets/icons/health-decrease-black.svg';
       data.loc += 'LoseHealth';
       data.showNo = false;
       break;
     }
     case 'applyHealthRegain': {
-      data.img = '/systems/weirdwizard/assets/icons/health-increase-black.svg';
+      data.img = 'systems/weirdwizard/assets/icons/health-increase-black.svg';
       data.loc += 'RegainHealth';
       data.showNo = false;
       break;
