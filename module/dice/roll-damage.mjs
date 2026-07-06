@@ -60,8 +60,8 @@ export default class RollDamage extends FormApplication {
     if (this.item) {
       context.label = this.item.name;
       context.system = this.item.system;
-      context.brutal = this.item.system.traits?.brutal;
-      context.versatile = this.item.system.traits?.versatile;
+      context.brutal = this.item.system.traits?.has("brutal");
+      context.versatile = this.item.system.traits?.has("versatile");
     }
     
     if (this.actor) {
@@ -176,7 +176,7 @@ export default class RollDamage extends FormApplication {
     if (this.isAttack && this.usedBonusDamage) exp += addDice(this.usedBonusDamage, exp);
     if (diceCount) exp += addDice(diceCount, exp);
     if (modCount) exp += (exp ? ' + ' : '') + modCount;
-    if (this.item?.system?.traits?.brutal) exp = exp.replaceAll('d6', 'd6r1');
+    if (this.item?.system?.traits?.has("brutal")) exp = exp.replaceAll('d6', 'd6r1');
     
     // Display final expression
     this.finalExp = exp;
