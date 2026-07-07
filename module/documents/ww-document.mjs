@@ -6,10 +6,8 @@ import { capitalize, plusify, sysPath } from "../helpers/utils.mjs";
  * @category Mixins
  * @param {typeof Document} Base    The base Document class to be mixed
  */
-export default function WWDocumentMixin(Base) {
-  
-  class WWBaseDocument extends Base {
-
+export default function WWDocumentMixin(base) {
+  return class WWBaseDocument extends base {
     /* -------------------------------------------- */
     /*  Data Preparation                            */
     /* -------------------------------------------- */
@@ -329,7 +327,4 @@ export default function WWDocumentMixin(Base) {
 
     }
   }
-
-  return WWBaseDocument;
-
 }

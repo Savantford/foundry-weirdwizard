@@ -4,7 +4,7 @@ import WWDocumentMixin from "./ww-document.mjs";
  * Extend the core JournalEntryPage with Weird Wizard modifications.
  * @extends {JournalEntryPage}
 */
-export default class WWJournalPage extends WWDocumentMixin(JournalEntryPage) {
+export default class WWJournalPage extends WWDocumentMixin(foundry.documents.JournalEntryPage) {
 
   /* -------------------------------------------- */
   /*  Document Creation                           */

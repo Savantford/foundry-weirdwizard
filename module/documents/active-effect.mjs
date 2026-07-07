@@ -2,7 +2,7 @@
 import { escape } from '../helpers/utils.mjs';
 import WWDocumentMixin from './ww-document.mjs';
 
-export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
+export default class WWActiveEffect extends WWDocumentMixin(foundry.documents.ActiveEffect) {
 
   /* -------------------------------------------- */
   /*  Document Lifecycle                          */

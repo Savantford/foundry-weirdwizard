@@ -8,7 +8,7 @@ import { actDataFromEffect, dataFromLabel } from '../sidebar/chat-html-templates
  * @extends ChatMessage
  *
  */
-export default class WWChatMessage extends ChatMessage {
+export default class WWChatMessage extends foundry.documents.ChatMessage {
 
   /* -------------------------------------------- */
   /*  Properties                                  */

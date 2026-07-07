@@ -67,6 +67,8 @@ export async function v14Support(forced) {
           changes.push(change);
         }
 
+        console.log(parent instanceof Document)
+
         operations.push({
           action: "update",
           documentName,

@@ -5,7 +5,7 @@ import WWDocumentMixin from './ww-document.mjs';
 * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
 * @extends {Actor}
  */
-export default class WWActor extends WWDocumentMixin(Actor) {
+export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
   /* -------------------------------------------- */
   /*  Document Creation                           */

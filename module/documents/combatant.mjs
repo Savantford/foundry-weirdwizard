@@ -1,6 +1,6 @@
 import WWDialog from '../apps/dialog.mjs';
 
-export default class WWCombatant extends Combatant {
+export default class WWCombatant extends foundry.documents.Combatant {
 
   /**
    * Update the value of the tracked resource for this Combatant.

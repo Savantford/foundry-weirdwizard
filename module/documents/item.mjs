@@ -4,7 +4,7 @@ import WWDocumentMixin from "./ww-document.mjs";
  * Extend the basic Item with some modifications.
  * @extends {Item}
 */
-export default class WWItem extends WWDocumentMixin(Item) {
+export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
 
   /* -------------------------------------------- */
   /*  Document Creation                           */

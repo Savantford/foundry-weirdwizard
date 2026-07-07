@@ -19,7 +19,7 @@ import WWCombatant from './combatant.mjs';
  * @see {@link Combatant}                     The Combatant embedded document which exists within a Combat document
  * @see {@link CombatConfig}                  The Combat configuration application
  */
-export default class WWCombat extends Combat {
+export default class WWCombat extends foundry.documents.Combat {
 
   /* -------------------------------------------- */
   /*  Properties                                  */
