@@ -1243,8 +1243,8 @@ body.theme-dark.application.weirdwizard .window-content {
       background-position: center;
       background-size: contain;
       color: var(--body-text-color);
-      font-family: var(--ww-font-sans);
-      font-weight: 600;
+      font-family: var(--ww-font-serif);
+      font-weight: 800;
     }
 
     .stat-content {
