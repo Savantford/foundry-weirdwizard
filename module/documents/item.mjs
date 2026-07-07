@@ -60,11 +60,10 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
   /* -------------------------------------------- */
 
   async _preUpdate(changes, options, user) {
-    await super._preUpdate(changes, options, user);
-    
     // Null heldBy if item has no actor
     if (!this.actor && this.system.heldBy) this.system.heldBy = null;
 
+    await super._preUpdate(changes, options, user);
   }
 
   /* -------------------------------------------- */

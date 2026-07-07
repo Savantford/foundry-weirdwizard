@@ -65,14 +65,14 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
   /* -------------------------------------------- */
 
   async _preUpdate(changes, options, user) {
-    await super._preUpdate(changes, options, user);
-    
     const damage = foundry.utils.getProperty(this, 'system.stats.damage.value');
 
     // Update token status icons
     if (( damage || foundry.utils.getProperty(changes, 'system.stats.health')) && this.token ) {
       this.token.object?.updateStatusIcons();
     }
+
+    await super._preUpdate(changes, options, user);
   }
 
   /* -------------------------------------------- */

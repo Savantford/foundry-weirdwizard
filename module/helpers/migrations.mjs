@@ -46,11 +46,12 @@ export async function v14Support(forced) {
   // Loop through effects and fix them
   const fixEffects = (collection) => {
     for (const doc of collection) {
+      console.log(doc)
       for (const [_, effect] of doc.traverseEmbeddedDocuments()) {
         const { documentName, pack, parent } = effect;
         if (documentName !== "ActiveEffect") continue; // Skip if not an Active Effect
         if (!effect.changes.length) continue;
-
+        
         const changes = [];
 
         for (const change of effect.changes) {
@@ -67,12 +68,10 @@ export async function v14Support(forced) {
           changes.push(change);
         }
 
-        console.log(parent instanceof Document)
-
         operations.push({
           action: "update",
           documentName,
-          parent,
+          parentUuid: parent.uuid,
           pack,
           updates: [{ _id: effect.id, 'system.changes': changes }]
         });
@@ -81,7 +80,7 @@ export async function v14Support(forced) {
   }
 
   // Loop through world documents
-  for (const collection of [game.actors, game.items, game.scenes]) {
+  for (const collection of [/*game.actors, game.items,*/ game.scenes]) {
     fixEffects(collection);
   }
   warning.update({ pct: 0.4 });
