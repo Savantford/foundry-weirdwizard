@@ -81,14 +81,14 @@ export default class WWToken extends foundry.canvas.placeables.Token {
     const tokenSize = canvas.grid.size * this.document.width;
     const iconSize = tokenSize / 5;
 
-    let texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/shattered-heart.svg');
+    let texture = PIXI.Texture.from('systems/weirdwizard/assets/icons/shattered-heart.svg');
     let tint = this.#drd;
 
     if (dead) {
-      texture = PIXI.Texture.from('/icons/svg/skull.svg');
+      texture = PIXI.Texture.from('icons/svg/skull.svg');
       tint = this.#blk;
     } else if (incapacitated) {
-      texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/cross-mark.svg');
+      texture = PIXI.Texture.from('systems/weirdwizard/assets/icons/cross-mark.svg');
       tint = this.#ddr;
     }
     
@@ -134,20 +134,20 @@ export default class WWToken extends foundry.canvas.placeables.Token {
     const tokenSize = canvas.grid.size * this.document.width;
     const iconSize = tokenSize / 5;
 
-    let texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/skull-shield.svg');
+    let texture = PIXI.Texture.from('systems/weirdwizard/assets/icons/skull-shield.svg');
     let tint = this.#drd;
 
     if (current) {
-      texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/pointy-sword.svg');
+      texture = PIXI.Texture.from('systems/weirdwizard/assets/icons/pointy-sword.svg');
       tint = this.#grn;
     } else if (acted) {
-      texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/hourglass.svg');
+      texture = PIXI.Texture.from('systems/weirdwizard/assets/icons/hourglass.svg');
       tint = this.#gry;
     } else if (takingInit) {
-      texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/reactions.svg');
+      texture = PIXI.Texture.from('systems/weirdwizard/assets/icons/reactions.svg');
       tint = this.#ylw;
     } else if (combatant.actor?.type === 'character' || (combatant.actor?.type == 'npc' && dispo === 1)) {
-      texture = PIXI.Texture.from('/systems/weirdwizard/assets/icons/heart-shield.svg');
+      texture = PIXI.Texture.from('systems/weirdwizard/assets/icons/heart-shield.svg');
       tint = this.#wht;
     }
     

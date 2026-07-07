@@ -74,7 +74,7 @@ export default class WWNpcSheet extends WWCreatureSheet {
       tabs: [
         {id: 'summary', tooltip: 'WW.Actor.Summary', iconType: 'img', icon: 'systems/weirdwizard/assets/icons/diploma.svg'},
         {id: 'description', tooltip: 'WW.Item.Description', icon: 'systems/weirdwizard/assets/icons/scroll-quill.svg', iconType: 'img'},
-        {id: 'effects', tooltip: 'WW.Effects.Label', iconType: 'img', icon: '/icons/svg/aura.svg', iconType: 'img'}
+        {id: 'effects', tooltip: 'WW.Effects.Label', iconType: 'img', icon: 'icons/svg/aura.svg', iconType: 'img'}
       ],
       initial: "summary",
       labelPrefix: "EFFECT.TABS"

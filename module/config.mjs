@@ -24,11 +24,11 @@ WW.ATTRIBUTE_ROLLS = {
 }
 
 WW.ATTRIBUTE_ICONS = {
-  'str': '/systems/weirdwizard/assets/icons/biceps.svg',
-  'agi': '/systems/weirdwizard/assets/icons/agility.svg',
-  'int': '/systems/weirdwizard/assets/icons/open-book.svg',
-  'wil': '/systems/weirdwizard/assets/icons/burning-star.svg',
-  'luck': '/systems/weirdwizard/assets/icons/clover.svg',
+  'str': 'systems/weirdwizard/assets/icons/biceps.svg',
+  'agi': 'systems/weirdwizard/assets/icons/agility.svg',
+  'int': 'systems/weirdwizard/assets/icons/open-book.svg',
+  'wil': 'systems/weirdwizard/assets/icons/burning-star.svg',
+  'luck': 'systems/weirdwizard/assets/icons/clover.svg',
   'def': 'icons/svg/shield.svg'
 }
 
