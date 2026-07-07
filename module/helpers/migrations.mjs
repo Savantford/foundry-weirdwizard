@@ -47,16 +47,16 @@ export async function v14Support(forced) {
   const fixEffects = (collection) => {
     for (const doc of collection) {
       for (const [_, effect] of doc.traverseEmbeddedDocuments()) {
-        const { parent, documentName, pack } = effect;
+        const { documentName, pack, parent } = effect;
         if (documentName !== "ActiveEffect") continue; // Skip if not an Active Effect
         if (!effect.changes.length) continue;
-        
+
         const changes = [];
 
         for (const change of effect.changes) {
 
-          // Skip if key or preset is null
-          if (!(change.key || change.preset)) continue;
+          // Fix key
+          if (!(change.key || change.preset)) continue; // Skip if key or preset is null
 
           // Map key
           if (!(change.key.includes('system.') || change.key.includes('token.'))) {
@@ -82,6 +82,7 @@ export async function v14Support(forced) {
   for (const collection of [game.actors, game.items, game.scenes]) {
     fixEffects(collection);
   }
+  warning.update({ pct: 0.4 });
 
   // Loop through world packs
   const worldPacks = game.packs.filter(pack => pack.metadata.packageType === 'world');
@@ -89,16 +90,16 @@ export async function v14Support(forced) {
   for (const collection of worldPacks) {
     fixEffects(await collection.getDocuments());
   }
+  warning.update({ pct: 0.7 });
 
   // Perform the operations
   console.log('Operations:', operations)
-  //await foundry.documents.modifyBatch(operations);
+  await foundry.documents.modifyBatch(operations);
 
-  warning.update({ pct: 1.0 });
+  /*warning.update({ pct: 1.0 });
 
   ui.notifications.remove(warning);
-  ui.notifications.success('WW.System.Migration.Finished', { format: { version: version }, permanent: true });
-  console.log('Migration complete');
+  ui.notifications.success('WW.System.Migration.Finished', { format: { version: version }, permanent: true });*/
   
   // Update version
   //const current = game.system.version != '#{VERSION}#' ? game.system.version : version;
@@ -153,7 +154,6 @@ export async function secrets(forced) {
 
   ui.notifications.remove(warning);
   ui.notifications.success('WW.System.Migration.Finished', { format: { version: '6.3.0' }, permanent: true });
-  console.log('Migration complete');
   
   // Update version
   const current = game.system.version != '#{VERSION}#' ? game.system.version : '6.3.0';
@@ -213,7 +213,6 @@ export async function v13Support(forced) {
 
   ui.notifications.remove(warning);
   ui.notifications.success('WW.System.Migration.Finished', { format: { version: '6.2.0' }, permanent: true });
-  console.log('Migration complete');
   
   // Update version
   const current = game.system.version != '#{VERSION}#' ? game.system.version : '6.2.0';
