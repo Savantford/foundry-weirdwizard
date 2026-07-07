@@ -19,9 +19,9 @@ export default class WWToken extends foundry.canvas.placeables.Token {
 
   /** @inheritdoc */
   _applyRenderFlags(flags) {
+    if (this.actor && this.actor.type !== 'group') this.updateStatusIcons();
+
     super._applyRenderFlags(flags);
-    
-    if (this.actor.type !== 'group') this.updateStatusIcons();
   }
 
   /* Update Status Icons Display */
