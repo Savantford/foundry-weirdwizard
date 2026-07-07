@@ -46,12 +46,11 @@ export async function v14Support(forced) {
   // Loop through effects and fix them
   const fixEffects = (collection) => {
     for (const doc of collection) {
-      console.log(doc)
       for (const [_, effect] of doc.traverseEmbeddedDocuments()) {
         const { documentName, pack, parent } = effect;
         if (documentName !== "ActiveEffect") continue; // Skip if not an Active Effect
         if (!effect.changes.length) continue;
-        
+
         const changes = [];
 
         for (const change of effect.changes) {
@@ -67,14 +66,19 @@ export async function v14Support(forced) {
           
           changes.push(change);
         }
-
-        operations.push({
+        //if (pack) continue;
+        const operation = {
           action: "update",
           documentName,
-          parentUuid: parent.uuid,
+          parent: parent,
+          //parentUuid: parent.uuid,
           pack,
           updates: [{ _id: effect.id, 'system.changes': changes }]
-        });
+        };
+        console.log(operation)
+        effect.update({ 'system.changes': changes, changes: new foundry.data.operators.ForcedDeletion() });
+
+        //operations.push(operation);
       }
     }
   }

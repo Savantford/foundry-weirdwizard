@@ -129,7 +129,7 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
           }, {});
         
         // Prepare changes
-        partContext.changes = await Promise.all(foundry.utils.deepClone(context.source.changes).map((change, index) => {
+        partContext.changes = await Promise.all(foundry.utils.deepClone(context.source.system.changes).map((change, index) => {
           const defaultPriority = ActiveEffect.CHANGE_TYPES[change.type]?.defaultPriority;
           
           const changeDataPreset = getEffectChangeMeta(change.preset); // TODO - Remove this intermediary function
