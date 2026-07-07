@@ -49,7 +49,7 @@ export async function v14Support(forced) {
       for (const [_, effect] of doc.traverseEmbeddedDocuments()) {
         const { documentName, pack, parent } = effect;
         if (documentName !== "ActiveEffect") continue; // Skip if not an Active Effect
-        if (!effect.changes.length) continue;
+        if (!effect.changes.length) continue; // Skip if in a pack or has no changes
 
         const changes = [];
 
@@ -66,19 +66,14 @@ export async function v14Support(forced) {
           
           changes.push(change);
         }
-        //if (pack) continue;
-        const operation = {
-          action: "update",
-          documentName,
-          parent: parent,
-          //parentUuid: parent.uuid,
-          pack,
-          updates: [{ _id: effect.id, 'system.changes': changes }]
-        };
-        console.log(operation)
-        effect.update({ 'system.changes': changes, changes: new foundry.data.operators.ForcedDeletion() });
 
-        //operations.push(operation);
+        // Perform the update
+        const update = {
+          'system.changes': changes,
+          changes: new foundry.data.operators.ForcedDeletion()
+        }
+
+        effect.update();
       }
     }
   }
@@ -101,14 +96,14 @@ export async function v14Support(forced) {
   console.log('Operations:', operations)
   await foundry.documents.modifyBatch(operations);
 
-  /*warning.update({ pct: 1.0 });
+  warning.update({ pct: 1.0 });
 
   ui.notifications.remove(warning);
-  ui.notifications.success('WW.System.Migration.Finished', { format: { version: version }, permanent: true });*/
+  ui.notifications.success('WW.System.Migration.Finished', { format: { version: version }, permanent: true });
   
   // Update version
-  //const current = game.system.version != '#{VERSION}#' ? game.system.version : version;
-  //await game.settings.set('weirdwizard', 'lastMigrationVersion', current);
+  const current = game.system.version != '#{VERSION}#' ? game.system.version : version;
+  await game.settings.set('weirdwizard', 'lastMigrationVersion', current);
 }
 
 /* -------------------------------------------- */
