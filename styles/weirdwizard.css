@@ -1207,49 +1207,6 @@ body.theme-dark.application.weirdwizard .window-content {
   }
 }
 
-/* NPC: Attributes */
-.weirdwizard.sheet.npc .attributes {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 5px 0;
-
-  .stat {
-    --stat-size: 55px;
-    flex: 1;
-    height: var(--stat-size);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: var(--purple-dark);
-    font-weight: 600;
-    background: url(/../assets/ui/badges/npc-attribute.svg) no-repeat;
-    background-position: center;
-    background-size: contain;
-
-    > div {
-      display: flex;
-      flex-flow: column;
-      width: var(--stat-size);
-      padding-left: 2px;
-
-      >*:first-child {
-        font-size: var(--font-size-12);
-      }
-
-      >*:last-child {
-        font-size: var(--font-size-16);
-      }
-    }
-
-    > a {
-      width: calc(var(--stat-size) / 2 + 5px);
-      padding-right: 7px;
-    }
-  }
-}
-
 /* NPC: Stats */
 .weirdwizard.sheet.npc .npc-stats {
   display: flex;
@@ -2304,6 +2261,51 @@ body.theme-dark.application.weirdwizard .window-content {
   background: mediumpurple;
 }
 
+/* NPC Attribute Banners */
+.weirdwizard .attribute-banners {
+  display: flex;
+  justify-content: space-evenly;
+  font-family: var(--ww-font-sans);
+  margin: 0 5px;
+
+  > * {
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+    gap: 5px;
+    border-image: url(../assets/ui/banners/pink-outline.svg);
+    border-image-slice: 15 fill;
+    border-image-width: 15px;
+    padding: 5px 4px 10px;
+    color: var(--purple-dark);
+    font-weight: 600;
+
+    > * {
+      line-height: 1;
+    }
+  }
+
+  .score {
+    font-size: large;
+  }
+
+  img {
+    flex: 0;
+    height: auto;
+    filter: drop-shadow(0 0 1px gray);
+    margin-top: auto;
+  }
+
+  .str,
+  .wil {
+    margin-bottom: 5px;
+  }
+
+  label {
+    font-weight: 600;
+  }
+}
+
 /* Character Stats */
 .weirdwizard .character-stats {
   --stats-height-offset: 5px;
@@ -2401,51 +2403,6 @@ body.theme-dark.application.weirdwizard .window-content {
 .weirdwizard .character-stats .stat.bonus-damage > div {
   background-image: url(../assets/ui/badges/spiked.svg);
   --stat-size: 55px;
-}
-
-/* NPC Attribute Banners */
-.weirdwizard .attribute-banners {
-  display: flex;
-  justify-content: space-evenly;
-  font-family: var(--ww-font-sans);
-  margin: 0 5px;
-
-  > * {
-    flex: 1;
-    display: flex;
-    flex-flow: column;
-    gap: 5px;
-    border-image: url(../assets/ui/banners/pink-outline.svg);
-    border-image-slice: 15 fill;
-    border-image-width: 15px;
-    padding: 5px 4px 10px;
-    color: var(--purple-dark);
-    font-weight: 600;
-
-    > * {
-      line-height: 1;
-    }
-  }
-
-  .score {
-    font-size: large;
-  }
-
-  img {
-    flex: 0;
-    height: auto;
-    filter: drop-shadow(0 0 1px gray);
-    margin-top: auto;
-  }
-
-  .str,
-  .wil {
-    margin-bottom: 5px;
-  }
-
-  label {
-    font-weight: 600;
-  }
 }
 
 hr.spear {
