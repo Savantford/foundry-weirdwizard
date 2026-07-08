@@ -186,7 +186,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     const flags = this.flags.weirdwizard || {};
 
     // Return earlier if a Group
-    if (this.type === 'group') return this._prepareGroupData(system);;
+    if (this.type === 'group') return this._prepareGroupData(system);
     
     // Loop through attributes, and add their modifiers calculated with DLE rules to our sheet output.
     for (let [key, attribute] of Object.entries(system.attributes)) {
@@ -352,19 +352,20 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     const stats = this.system.stats;
     
     const data = {
+      system: this.system,
+
       // Attributes
       str: att.str.value,
-      strMod: att.str.mod,
-      
-      agiMod: att.agi.mod,
+      strMod: att.str.value - 10,
+
       agi: att.agi.value,
-    
-      
+      agiMod: att.agi.value - 10,
+
       int: att.int.value,
-      intMod: att.int.mod,
+      intMod: att.int.value - 10,
       
       wil: att.wil.value,
-      wilMod: att.wil.mod,
+      wilMod: att.wil.value - 10,
 
       // Defense
       naturalDef: stats.defense.natural,
