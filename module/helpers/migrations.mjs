@@ -48,9 +48,51 @@ export async function v14Support(forced) {
     for (const doc of collection) {
       for (const [_, effect] of doc.traverseEmbeddedDocuments()) {
         const { documentName, pack, parent } = effect;
-        if (documentName !== "ActiveEffect") continue; // Skip if not an Active Effect
-        if (!effect.changes.length) continue; // Skip if in a pack or has no changes
 
+        // Skip if not an Active Effect
+        if (documentName !== "ActiveEffect") continue;
+
+        // Skip if has no changes or old duration
+        const oldDur = effect.system.duration;
+        if (!(effect.changes.length || oldDur)) continue;
+
+        // Migrate Duration
+        const duration = { ...effect.duration };
+        const durationPreset = oldDur?.selected ?? null;
+        
+        if (oldDur) {
+          if (oldDur.inMinutes) {
+            duration.value = oldDur.inMinutes;
+            duration.units = "minutes";
+          } if (oldDur.inHours) {
+            duration.value = oldDur.inHours;
+            duration.units = "hours";
+          } if (oldDur.inDays) {
+            duration.value = oldDur.inDays;
+            duration.units = "days";
+          }
+
+          // Convert Duration Presets
+          switch (oldDur.selected) {
+            case '': duration = { ...duration, value: null, units: dur.units, expiry: null }; break;
+            case 'custom': duration = { ...duration, value: dur.value, units: dur.units, expiry: dur.expiry }; break;
+
+            // Combat Rounds duration (value 0 means next)
+            case 'luckEnds': duration = { ...duration, value: null, units: dur.units, expiry: 'luckEnds' }; break;
+            case '1round': duration = { ...duration, value: 0, units: 'rounds', expiry: 'roundEnd' }; break;
+            case '2rounds': duration = { ...duration, value: 1, units: 'rounds', expiry: 'roundEnd' }; break;
+            case 'turnEnd': duration = { ...duration, value: 0, units: 'rounds', expiry: 'turnEnd' }; break;
+            case 'nextTriggerTurnStart': duration = { ...duration, value: 0, units: 'rounds', expiry: 'turnStart' }; break;
+            case 'nextTargetTurnStart': duration = { ...duration, value: 0, units: 'rounds', expiry: 'turnStart' }; break;
+            case 'nextTriggerTurnEnd': duration = { ...duration, value: 1, units: 'rounds', expiry: 'turnEnd' }; break;
+            case 'nextTargetTurnEnd': duration = { ...duration, value: 1, units: 'rounds', expiry: 'turnEnd' }; break;
+
+            // World Time duration
+            case '1minute': duration = { ...duration, value: 1, units: 'minutes', expiry: null }; break;
+          }
+        }
+
+        // Migrate Changes
         const changes = [];
 
         for (const change of effect.changes) {
@@ -68,21 +110,23 @@ export async function v14Support(forced) {
         }
 
         // Perform the update
-        const update = {
+        if (duration.value === Infinity) duration.value = null;
+        
+        effect.update({
+          changes: new foundry.data.operators.ForcedDeletion(),
+          duration,
           'system.changes': changes,
-          changes: new foundry.data.operators.ForcedDeletion()
-        }
-
-        effect.update();
+          'system.duration': new foundry.data.operators.ForcedDeletion()
+        });
       }
     }
   }
 
   // Loop through world documents
-  for (const collection of [/*game.actors, game.items,*/ game.scenes]) {
+  for (const collection of [game.actors, game.items, game.scenes]) {
     fixEffects(collection);
   }
-  warning.update({ pct: 0.4 });
+  warning.update({ pct: 0.5 });
 
   // Loop through world packs
   const worldPacks = game.packs.filter(pack => pack.metadata.packageType === 'world');
@@ -90,12 +134,6 @@ export async function v14Support(forced) {
   for (const collection of worldPacks) {
     fixEffects(await collection.getDocuments());
   }
-  warning.update({ pct: 0.7 });
-
-  // Perform the operations
-  console.log('Operations:', operations)
-  await foundry.documents.modifyBatch(operations);
-
   warning.update({ pct: 1.0 });
 
   ui.notifications.remove(warning);

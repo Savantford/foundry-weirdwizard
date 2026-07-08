@@ -27,41 +27,6 @@ export default class BaseEffectModel extends foundry.data.ActiveEffectTypeDataMo
   static migrateData(data) {
     if (data.duration?.selected) data.durationPreset = data.duration.selected === 'none' ? '' : data.duration.selected;
 
-    /*      duration: new fields.SchemaField({ <<< TODO: migrate these
-        selected: makeRequiredStrField('none'),
-        inMinutes: makePosIntField(null),
-        inHours: makePosIntField(null),
-        inDays: makePosIntField(null),
-        autoExpire: makeBooField(true)
-      }),
-    */
-
-    // Migrate changes (from DrawSteel)
-    let migrateChanges = false;
-
-    /*for (const change of data.system?.changes ?? []) {
-      for (const [oldPath, newPath] of Object.entries(this.keyMigrations)) {
-        const oldKey = change.key;
-        change.key = change.key.replace(oldPath, newPath);
-        if (change.key !== oldKey) migrateChanges ||= true;
-      }
-    }
-
-    if (migrateChanges) foundry.utils.setProperty(data, "flags.draw-steel.migrateChanges", true);
-
-    const oldExpiry = "system.end.type";
-    const newExpiry = "duration.expiry";
-    // only works for *freshly* created documents, existing ones are server migrated and get skipped
-    foundry.abstract.Document._addDataFieldMigration(data, oldExpiry, newExpiry, data => {
-      const oldValue = foundry.utils.getProperty(data, oldExpiry);
-      return ds.CONFIG.effectEnds[oldValue]?.expiryEvent ?? "";
-    });
-
-    // Server migrated
-    if (foundry.utils.hasProperty(data, oldExpiry) && (data.duration?.expiry === null)) {
-      foundry.utils.setProperty(data, "flags.draw-steel.oldExpiry", data.system.end.type);
-    }*/
-
     return super.migrateData(data);
   }
 
