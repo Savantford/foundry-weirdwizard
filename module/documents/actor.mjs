@@ -541,6 +541,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     
     const benefits = cOpt.system.benefits;
     const level = this.system.stats.level ?? 0;
+    let currentLevel = 0;
 
     const stats = {
       naturalSet: 0,
@@ -560,6 +561,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       
       // If level does not meet the requirement, ignore it
       if (level >= benefit.levelReq) {
+        currentLevel = benefit.levelReq;
         const bStats = benefit.stats;
 
         // Defense
@@ -645,7 +647,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     const eff = this.effects.find(e => { return e.system.grantedBy === cOpt.uuid });
 
     const effectData = {
-      name: cOpt.name,
+      name: currentLevel ? _loc('WW.CharOption.BenefitEffectName', {name: cOpt.name, level: currentLevel}) : cOpt.name,
       icon: cOpt.src,
       type: 'benefit',
       description: cOpt.text.content,

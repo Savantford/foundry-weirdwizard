@@ -567,6 +567,7 @@
 
 "WW.CharOption.Description": "Description",
 "WW.CharOption.Benefits": "Benefits",
+"WW.CharOption.BenefitEffectName": "{name} (Level {level})",
 "WW.CharOption.BenefitHeading": "Level {level} {charOption}",
 "WW.CharOption.BenefitsSummaryLevel": "Lv{level}",
 "WW.CharOption.AncestryTraitsHeading": "{ancestry} Traits",
