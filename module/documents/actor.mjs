@@ -346,73 +346,50 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
    * to mutate the original object.
   */
   getRollData() {
-    const sys = this.system;
-    const atts = this.system.attributes;
-    const data = {...sys};
+    if (this.type === 'group') return; // Return earlier if group
 
-    // Return earlier if group
-    if (this.type === 'group') return;
+    const att = this.system.attributes;
+    const stats = this.system.stats;
     
-    // Attribute Modifiers and Scores
-    data.str = {
-      mod: atts.str.mod,
-      scr: atts.str.value
-    }
-
-    data.agi = {
-      mod: atts.agi.mod,
-      scr: atts.agi.value
-    }
+    const data = {
+      // Attributes
+      str: att.str.value,
+      strMod: att.str.mod,
+      
+      agiMod: att.agi.mod,
+      agi: att.agi.value,
     
-    data.int = {
-      mod: atts.int.mod,
-      scr: atts.int.value
-    }
-    
-    data.wil = {
-      mod: atts.wil.mod,
-      scr: atts.wil.value
-    }
+      
+      int: att.int.value,
+      intMod: att.int.mod,
+      
+      wil: att.wil.value,
+      wilMod: att.wil.mod,
 
-    // Defense
-    data.def = {
-      nat: sys.stats.defense.natural,
-      arm: sys.stats.defense.armored,
-      total: sys.stats.defense.total,
-    }
+      // Defense
+      naturalDef: stats.defense.natural,
+      armoredDef: stats.defense.armored,
+      def: stats.defense.total,
 
-    // Health
-    data.hth = {
-      cur: sys.stats.health.current,
-      nrm: sys.stats.health.normal,
-      lost: sys.stats.health.lost,
-    }
+      // Health
+      health: stats.health.current,
+      normalHealth: stats.health.normal,
+      lostHealth: stats.health.lost,
 
-    // Damage Total
-    data.dmg = {
-      total: sys.stats.damage.value,
-      half: Math.floor(sys.stats.damage.value / 2)
-    }
+      // Damage Total
+      damage: stats.damage.value,
+      damageHalf: Math.floor(stats.damage.value / 2),
 
-    // Speed
-    data.spd = {
-      cur: sys.stats.speed.current,
-      nrm: sys.stats.speed.normal,
+      // Speed
+      speed: stats.speed.current,
+      normalSpeed: stats.speed.normal,
+      
+      // Other stats
+      level: stats.level,
+      size: stats.size,
+      bonusDamage: stats.bonusdamage
     }
 
-    // Other stats
-    data.lvl = sys.stats.level;
-    data.size = sys.stats.size;
-    data.bd = sys.stats.bonusdamage;
-
-    // Clean unused data
-    delete data.description;
-    delete data.attributes;
-    delete data.stats;
-    delete data.currency;
-    delete data.details;
-    delete data.listEntries;
-    
     return data;
   }
 
