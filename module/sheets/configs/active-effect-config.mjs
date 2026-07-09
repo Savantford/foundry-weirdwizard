@@ -254,7 +254,7 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
 
     submitData.system.changes?.forEach((change, index) => {
       // Apply preset
-      if (change.preset !== effChanges[index]?.preset) {
+      if (change.preset) {
         // Pass preset data to the change
         submitData.system.changes[index] = {
           ...change,
