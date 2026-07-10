@@ -39,7 +39,7 @@
     "traits": [
       "bludgeoning",
       "large",
-      "long"
+      "slow"
     ],
     "requirements": "str14",
     "grantedBy": null,
@@ -60,10 +60,10 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "13.350",
+    "coreVersion": "14.364",
     "createdTime": 1691865076351,
-    "modifiedTime": 1769799785597,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1783706080842,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null
