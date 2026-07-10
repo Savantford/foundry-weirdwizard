@@ -1,14 +1,12 @@
 <li class="change statbox" data-index="{{index}}">
   {{!-- Header --}}
   <div class="header">
-      {{formInput fields.preset name=change.presetPath value=change.preset options=changePresetOptions
+    {{formInput fields.preset name=change.presetPath value=change.preset options=changePresetOptions
       blank=(localize "WW.Effect.ChangePresets.None")}}
       
-      <div class="value">
-        {{formInput fields.value name=change.valuePath value=change.value elementType="input"}}
-      </div>
-
-      {{log change.field}}
+    <div class="value">
+      {{formInput fields.value name=change.valuePath value=change.value elementType="input"}}
+    </div>
 
     <div class="controls">
       {{#if change.preset}}<button type="button" class="inline-control icon fa-solid fa-eye" data-action="toggleDetails"></button>{{/if}}
