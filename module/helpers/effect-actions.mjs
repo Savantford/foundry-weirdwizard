@@ -205,7 +205,7 @@ export async function prepareActiveEffectCategories(effects, showDuration = fals
 
     // Prepare changes
     for (const c of e.changes) {
-      const label = CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.preset] ? _loc(CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.preset]) : 'BROKEN EFFECT CHANGE, FIX IT!';
+      const label = CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.preset] ? _loc(CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.preset]) : c.key;
       context.changes += `<li>${label} ${(c.value !== true) ? `${c.value}.` : ''}</li>`;
     }
 
