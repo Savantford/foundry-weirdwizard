@@ -74,3 +74,5 @@ Finally, thanks to ferrer (jeferrer) and Zaxim (zaxim) from the `SotDL for Found
 
 Icons in the `assets/icons` folder are provided under the CC-BY license (or even Public Domain for some of them).
 Authors can be found in <https://game-icons.net/about.html#authors>.
+
+For image credits, please see https://github.com/Savantford/foundry-weirdwizard/blob/secrets/CREDITS.md
