@@ -13,6 +13,8 @@ If you instead want to install it manually, please read the instructions below.
 If you want to talk to us, contribute or give feedback,
 please join the [Discord](https://discord.gg/X5XustKpe4).
 
+*Shadow of the Weird Wizard* is a game written and designed by **Robert J. Schwalb**, published by [Schwalb Entertainment](https://schwalbentertainment.com/).
+
 ## Installing the Module
 
 To install the system, follow the steps below.
@@ -55,10 +57,4 @@ I also wanted to personally mention these folks for their patience and effort to
 Finally, thanks to ferrer (jeferrer) and Zaxim (zaxim) from the `SotDL for Foundry VTT` server for helping me so much in the beginning. You guys rock!
 
 ## Credits
-
-*Shadow of the Weird Wizard* is a fantasy game written and designed by **Robert J. Schwalb**, published by [Schwalb Entertainment](https://schwalbentertainment.com/).
-
-Icons in the `assets/icons` folder are provided under the CC-BY license (or even Public Domain for some of them).
-Authors can be found in <https://game-icons.net/about.html#authors>.
-
-For image credits, please see [CREDITS.md](./CREDITS.md).
+For the used assets' credits, please see [CREDITS.md](./CREDITS.md).
