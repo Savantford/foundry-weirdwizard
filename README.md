@@ -20,9 +20,7 @@ To install the system, follow the steps below.
 1. Open `Foundry Virtual Tabletop` application.
 2. Go to the `Game Systems` tab.
 3. Click on the `Install System` button at the top.
-4. On the new window, go to the bottom and paste this as URL manifest:  
-  `https://github.com/Savantford/foundry-weirdwizard/releases/latest/download/system.json`  
-  If you want to install older versions of the system, see `Installing Older Versions` below.
+4. On the new window, go to the bottom and paste this as URL manifest: `https://github.com/Savantford/foundry-weirdwizard/releases/latest/download/system.json`. If you want to install older versions of the system, see `Installing Older Versions` below.
 5. Click on `Install`. Done!
 
 ### Installing Older Versions
@@ -38,13 +36,11 @@ Follow the steps below to get the Manifest URL.
 
 ## Bugs & Feedback
 
-If you want to report a bug or share feedback about the system,
-please join the [Weird Wizard for Foundry Discord](https://discord.gg/X5XustKpe4)
-server and talk to us in the `#ww-feedback-requests` channel.
-Feel free to talk to `Friend / Savantford` there, if you wish!
+If you want to report a bug or share feedback about the system, please join the [Weird Wizard for Foundry Discord](https://discord.gg/X5XustKpe4) server and talk to us in `#bug-reports` or `#suggestions`.
 
-You can check our [Issues](https://github.com/Savantford/foundry-weirdwizard/issues) for a list of existing bug reports and suggestions.
-Issues are also grouped in [Milestones](https://github.com/Savantford/foundry-weirdwizard/milestones) in a more comprehensive manner.
+If you need help, see [SUPPORT.md](./.github/SUPPORT.md).
+
+If you want to to contribute to the system, see [CONTIBUTING.md](./.github/CONTRIBUTING.md).
 
 Thank you for all the reports and feedback!
 
@@ -52,7 +48,7 @@ Thank you for all the reports and feedback!
 
 A big thanks to the `Shadow of the Demon Lord`, `Shadow of the Weird Wizard` and `Foundry VTT` Discord communities! You guys are all amazing and I couldn't pull any of this without your help or support.
 
-All the system [contributors](./.github/CONTRIBUTING.md) we had so far. You added and fixed more than you think!
+All the system [contributors](https://github.com/Savantford/foundry-weirdwizard/graphs/contributors?all=1) we had so far. You added and fixed more than you think!
 
 I also wanted to personally mention these folks for their patience and effort towards helping me out to get this done. In alphabetical order: ChaosOS, Mana, Mezryss 💖, mxzf and Zhell. Thank you humbly!
 
