@@ -73,24 +73,13 @@
       "name": "Armor Equipped",
       "origin": "Compendium.weirdwizard.armor.Item.aDMnX2Z2PGHrGU1m",
       "duration": {
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "rounds": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "_id": "N884LcQisQstl8We",
-      "changes": [
-        {
-          "key": "defense.armored",
-          "value": "18",
-          "mode": 4,
-          "priority": 1
-        }
-      ],
       "description": "",
       "transfer": true,
       "statuses": [],
@@ -103,7 +92,7 @@
       },
       "tint": "#ffffff",
       "_stats": {
-        "coreVersion": "13.345",
+        "coreVersion": "14.360",
         "systemId": null,
         "systemVersion": null,
         "createdTime": null,
@@ -115,8 +104,20 @@
       },
       "img": "icons/equipment/chest/breastplate-cuirass-steel-grey.webp",
       "type": "base",
-      "system": {},
+      "system": {
+        "changes": [
+          {
+            "key": "defense.armored",
+            "value": 18,
+            "type": 4,
+            "priority": 1
+          }
+        ]
+      },
       "sort": 0,
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!aDMnX2Z2PGHrGU1m.N884LcQisQstl8We"
     }
   ],
@@ -126,7 +127,7 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "13.351",
+    "coreVersion": "14.360",
     "createdTime": 1692116593788,
     "modifiedTime": 1777484567082,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",

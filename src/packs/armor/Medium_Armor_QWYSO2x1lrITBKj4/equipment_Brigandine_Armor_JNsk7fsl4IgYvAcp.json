@@ -73,30 +73,13 @@
       "name": "Armor Equipped",
       "origin": "Compendium.weirdwizard.armor.Item.JNsk7fsl4IgYvAcp",
       "duration": {
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "rounds": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "_id": "ZdYix6w5TKWDcnaF",
-      "changes": [
-        {
-          "key": "defense.armored",
-          "value": "13",
-          "mode": 4,
-          "priority": 1
-        },
-        {
-          "key": "defense.naturalIncrease",
-          "value": "1",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "",
       "transfer": true,
       "statuses": [],
@@ -109,7 +92,7 @@
       },
       "tint": "#ffffff",
       "_stats": {
-        "coreVersion": "13.345",
+        "coreVersion": "14.360",
         "systemId": null,
         "systemVersion": null,
         "createdTime": null,
@@ -121,8 +104,28 @@
       },
       "img": "icons/equipment/chest/breastplate-rivited-red.webp",
       "type": "base",
-      "system": {},
+      "system": {
+        "changes": [
+          {
+            "key": "defense.armored",
+            "value": 13,
+            "": 4,
+            "priority": 1,
+            "type": "custom"
+          },
+          {
+            "key": "defense.naturalIncrease",
+            "value": 1,
+            "": 2,
+            "priority": null,
+            "type": "custom"
+          }
+        ]
+      },
       "sort": 0,
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!JNsk7fsl4IgYvAcp.ZdYix6w5TKWDcnaF"
     }
   ],
@@ -132,7 +135,7 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "13.350",
+    "coreVersion": "14.360",
     "createdTime": 1692116593788,
     "modifiedTime": 1766768903604,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",

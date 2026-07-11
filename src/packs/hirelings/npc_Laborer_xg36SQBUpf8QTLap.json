@@ -78,12 +78,9 @@
       "src": "systems/weirdwizard/assets/compendia/laborer.png",
       "anchorX": 0.5,
       "anchorY": 0.5,
-      "offsetX": 0,
-      "offsetY": 0,
       "fit": "contain",
       "scaleX": 1,
       "scaleY": 1,
-      "rotation": 0,
       "tint": "#ffffff",
       "alphaThreshold": 0.75
     },
@@ -134,7 +131,7 @@
       "saturation": 0,
       "contrast": 0
     },
-    "detectionModes": [],
+    "detectionModes": {},
     "occludable": {
       "radius": 0
     },
@@ -153,12 +150,13 @@
     "flags": {},
     "randomImg": false,
     "turnMarker": {
-      "mode": 1,
       "animation": null,
       "src": null,
-      "disposition": false
+      "disposition": false,
+      "mode": 1
     },
-    "movementAction": null
+    "movementAction": null,
+    "depth": 1
   },
   "items": [
     {
@@ -240,7 +238,7 @@
       "_stats": {
         "compendiumSource": "Compendium.weirdwizard.weapons.Item.CXVX2qXNjAUvWkpi",
         "duplicateSource": null,
-        "coreVersion": "13.345",
+        "coreVersion": "14.360",
         "systemId": "weirdwizard",
         "systemVersion": "#{VERSION}#",
         "createdTime": 1721418353749,
@@ -341,7 +339,7 @@
       "_stats": {
         "compendiumSource": "Compendium.weirdwizard.weapons.Item.7HV0q5qG3zTLHAdT",
         "duplicateSource": null,
-        "coreVersion": "13.345",
+        "coreVersion": "14.360",
         "systemId": "weirdwizard",
         "systemVersion": "#{VERSION}#",
         "createdTime": 1721418359882,
@@ -435,7 +433,7 @@
       "_stats": {
         "compendiumSource": "Compendium.weirdwizard.weapons.Item.d4K7RleLn1rsh5mQ",
         "duplicateSource": null,
-        "coreVersion": "13.345",
+        "coreVersion": "14.360",
         "systemId": "weirdwizard",
         "systemVersion": "#{VERSION}#",
         "createdTime": 1721418361098,
@@ -457,7 +455,7 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.360",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721416087836,
