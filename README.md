@@ -48,17 +48,6 @@ Issues are also grouped in [Milestones](https://github.com/Savantford/foundry-we
 
 Thank you for all the reports and feedback!
 
-## Contributions
-
-This project was created and is currently maintained by @Savantford (Friend).
-
-However, contributions were done directly to the project by a few awesome contributors:
-- [@SolarizedRed](https://github.com/SolarizedRed): Initial styling and Fonts selection. A founder member!
-- [@mhilbrunner](https://github.com/mhilbrunner): Lots of stuff. Lots of good stuff! They are too many to list, but many were valuable backend additions.
-- [@yschnellbach](https://github.com/yschnellbach): Many contributions, mainly visual changes. The system wouldn't look the way it does without them!
-
-Please make sure to thank all of them!
-
 ## Acknowledgments
 
 A big thanks to the `Shadow of the Demon Lord`, `Shadow of the Weird Wizard` and `Foundry VTT` Discord communities! You guys are all amazing and I couldn't pull any of this without your help or support.
@@ -74,3 +63,5 @@ Finally, thanks to ferrer (jeferrer) and Zaxim (zaxim) from the `SotDL for Found
 
 Icons in the `assets/icons` folder are provided under the CC-BY license (or even Public Domain for some of them).
 Authors can be found in <https://game-icons.net/about.html#authors>.
+
+For image credits, please see [CREDITS.md](./CREDITS.md).
