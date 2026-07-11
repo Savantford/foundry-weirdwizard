@@ -57,4 +57,4 @@ I also wanted to personally mention these folks for their patience and effort to
 Finally, thanks to ferrer (jeferrer) and Zaxim (zaxim) from the `SotDL for Foundry VTT` server for helping me so much in the beginning. You guys rock!
 
 ## Credits
-For the used assets' credits, please see [CREDITS.md](./CREDITS.md).
+For credits of the asset files used by the system, please see [CREDITS.md](./CREDITS.md).
