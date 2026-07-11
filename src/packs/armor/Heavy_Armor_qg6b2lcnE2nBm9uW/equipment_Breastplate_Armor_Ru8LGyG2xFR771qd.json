@@ -73,30 +73,13 @@
       "name": "Armor Equipped",
       "origin": "Compendium.weirdwizard.armor.Item.Ru8LGyG2xFR771qd",
       "duration": {
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "rounds": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "_id": "8fnTKoiG94yFk5qS",
-      "changes": [
-        {
-          "key": "defense.armored",
-          "value": "16",
-          "mode": 4,
-          "priority": 1
-        },
-        {
-          "key": "defense.naturalIncrease",
-          "value": "3",
-          "mode": 2,
-          "priority": null
-        }
-      ],
       "description": "",
       "transfer": true,
       "statuses": [],
@@ -109,7 +92,7 @@
       },
       "tint": "#ffffff",
       "_stats": {
-        "coreVersion": "13.345",
+        "coreVersion": "14.360",
         "systemId": null,
         "systemVersion": null,
         "createdTime": null,
@@ -121,8 +104,26 @@
       },
       "img": "icons/equipment/chest/breastplate-gorget-steel-white.webp",
       "type": "base",
-      "system": {},
+      "system": {
+        "changes": [
+          {
+            "key": "defense.armored",
+            "value": 16,
+            "type": 4,
+            "priority": 1
+          },
+          {
+            "key": "defense.naturalIncrease",
+            "value": 3,
+            "type": 2,
+            "priority": null
+          }
+        ]
+      },
       "sort": 0,
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!Ru8LGyG2xFR771qd.8fnTKoiG94yFk5qS"
     }
   ],
@@ -132,7 +133,7 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "13.351",
+    "coreVersion": "14.360",
     "createdTime": 1692116593788,
     "modifiedTime": 1777484565569,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",

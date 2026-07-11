@@ -35,13 +35,10 @@
       "name": "Spell Expertise",
       "origin": "Compendium.weirdwizard.talents.Item.N2cAax0wL8WZxthe",
       "duration": {
-        "rounds": null,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "flags": {
         "weirdwizard": {
@@ -55,15 +52,17 @@
       "img": "icons/svg/card-hand.svg",
       "_id": "l7ege9iTxbfQIT0H",
       "type": "base",
-      "system": {},
-      "changes": [
-        {
-          "key": "boons.spells",
-          "value": "1",
-          "mode": 2,
-          "priority": null
-        }
-      ],
+      "system": {
+        "changes": [
+          {
+            "key": "boons.spells",
+            "value": 1,
+            "": 2,
+            "priority": null,
+            "type": "custom"
+          }
+        ]
+      },
       "description": "",
       "tint": "#ffffff",
       "transfer": true,
@@ -72,7 +71,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.345",
+        "coreVersion": "14.360",
         "systemId": "weirdwizard",
         "systemVersion": "#{VERSION}#",
         "createdTime": 1738016869472,
@@ -80,6 +79,9 @@
         "lastModifiedBy": "zin7Kb6P2LomswaD",
         "exportSource": null
       },
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!N2cAax0wL8WZxthe.l7ege9iTxbfQIT0H"
     }
   ],
@@ -92,7 +94,7 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.360",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1720986860993,

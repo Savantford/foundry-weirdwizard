@@ -73,24 +73,13 @@
       "name": "Armor Equipped",
       "origin": "Compendium.weirdwizard.armor.Item.r7Vjowz8ZGGAbD3n",
       "duration": {
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "rounds": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
       },
       "disabled": false,
       "_id": "k1mHXJOIELUhGoM5",
-      "changes": [
-        {
-          "key": "defense.armored",
-          "value": "16",
-          "mode": 4,
-          "priority": 1
-        }
-      ],
       "description": "",
       "transfer": true,
       "statuses": [],
@@ -103,7 +92,7 @@
       },
       "tint": "#ffffff",
       "_stats": {
-        "coreVersion": "13.345",
+        "coreVersion": "14.360",
         "systemId": null,
         "systemVersion": null,
         "createdTime": null,
@@ -115,8 +104,21 @@
       },
       "img": "icons/equipment/chest/breastplate-metal-scaled-grey.webp",
       "type": "base",
-      "system": {},
+      "system": {
+        "changes": [
+          {
+            "key": "defense.armored",
+            "value": 16,
+            "": 4,
+            "priority": 1,
+            "type": "custom"
+          }
+        ]
+      },
       "sort": 0,
+      "start": null,
+      "showIcon": 1,
+      "folder": null,
       "_key": "!items.effects!r7Vjowz8ZGGAbD3n.k1mHXJOIELUhGoM5"
     }
   ],
@@ -126,7 +128,7 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "13.350",
+    "coreVersion": "14.360",
     "createdTime": 1692116593788,
     "modifiedTime": 1766768883251,
     "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
