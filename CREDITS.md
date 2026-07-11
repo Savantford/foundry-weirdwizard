@@ -1,4 +1,12 @@
-# Public Domain Images
+# Credits
+Below are the credits for assets used by the system.
+
+## Icons
+Icons in the `assets/icons/svg` folder are provided under the CC-BY licens or even Public Domain. Authors can be found in <https://game-icons.net/about.html#authors>.
+
+Icons in other `assets/icons/` subfolders are from the [6000 Fantasy Icons pack](https://poneti.itch.io/6000-fantasy-icons) by [PONETI](https://poneti.itch.io/).
+
+## Public Domain Images
 All images in `assets/public-domain` are Public Domain / CC0.
 
 By the time they were first integrated ino the system, they could be found at:
