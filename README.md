@@ -52,8 +52,9 @@ Thank you for all the reports and feedback!
 
 A big thanks to the `Shadow of the Demon Lord`, `Shadow of the Weird Wizard` and `Foundry VTT` Discord communities! You guys are all amazing and I couldn't pull any of this without your help or support.
 
-I also wanted to personally mention these folks for their patience and effort towards helping me out to get this done.
-In alphabetical order: ChaosOS, Mana, Mezryss 💖, mxzf and Zhell. Thank you humbly!
+All the system [contributors](./.github/CONTRIBUTING.md) we had so far. You added and fixed more than you think!
+
+I also wanted to personally mention these folks for their patience and effort towards helping me out to get this done. In alphabetical order: ChaosOS, Mana, Mezryss 💖, mxzf and Zhell. Thank you humbly!
 
 Finally, thanks to ferrer (jeferrer) and Zaxim (zaxim) from the `SotDL for Foundry VTT` server for helping me so much in the beginning. You guys rock!
 
