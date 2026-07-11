@@ -20,11 +20,32 @@ const _buildBaseAffliction = (label, img, changes = [], flags = {}) => ({
     },
     ...flags
   },
-  changes: changes,
-  system: {
-    duration: {
-      selected: '1minute'
+  changes: changes.map(c => {
+    // get the key, c.key is currently holding the preset, not the key. needs to be refactored
+    const [groupKey] = c.key ? c.key.split('.') : [];
+    const key = CONFIG.WW.EFFECT_CHANGE_PRESET_DATA?.[groupKey]?.options?.[c.key].key;
+
+    // convert type from integer to string
+    let mathType = 'add'; // default fallback
+    switch (c.type) {
+      case CONST.ACTIVE_EFFECT_CHANGE_TYPES.multiply: mathType = 'multiply'; break;
+      case CONST.ACTIVE_EFFECT_CHANGE_TYPES.subtract: mathType = 'subtract'; break;
+      case CONST.ACTIVE_EFFECT_CHANGE_TYPES.downgrade: mathType = 'downgrade'; break;
+      case CONST.ACTIVE_EFFECT_CHANGE_TYPES.upgrade: mathType = 'upgrade'; break;
+      case CONST.ACTIVE_EFFECT_CHANGE_TYPES.override: mathType = 'override'; break;
     }
+    
+    return {
+      key: key,
+      preset: c.key,
+      value: c.value,
+      mode: c.mode ?? 2,
+      priority: c.priority ?? null,
+      type: mathType
+    };
+  }),
+  system: {
+    durationPreset: '1minute',
   }
 });
 
