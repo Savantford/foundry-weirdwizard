@@ -34,12 +34,11 @@ const _buildBaseAffliction = (label, img, changes = [], flags = {}) => ({
       case CONST.ACTIVE_EFFECT_CHANGE_TYPES.upgrade: mathType = 'upgrade'; break;
       case CONST.ACTIVE_EFFECT_CHANGE_TYPES.override: mathType = 'override'; break;
     }
-    
+
     return {
       key: key,
       preset: c.key,
       value: c.value,
-      mode: c.mode ?? 2,
       priority: c.priority ?? null,
       type: mathType
     };
