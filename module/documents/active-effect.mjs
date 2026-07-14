@@ -25,7 +25,7 @@ export default class WWActiveEffect extends WWDocumentMixin(foundry.documents.Ac
     if (this.isTemporary/* && this.duration.expired*/) ChatMessage.create({
       type: 'status',
       content: `<p>${this.actor.link}:
-        <a class="content-link" data-tooltip="${escape(this.tooltip)}"><img src="${this.img}"> ${this.name}</a>
+        <a class="content-link" data-tooltip="${escape(this.description)}"><img src="${this.img}"> ${this.name}</a>
         ${_loc("WW.Effect.Duration.ExpiredMsg")} ${this.formattedDuration}.
       </p>`,
       sound: CONFIG.sounds.notification
