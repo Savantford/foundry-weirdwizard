@@ -1,53 +1,3 @@
-import { addEffect, multiplyEffect, downgradeEffect, overrideEffect } from '../helpers/item-effects.mjs';
-
-const addPriority = 120;
-const overridePriority = 150;
-
-const _buildBaseAffliction = (label, img, changes = [], flags = {}) => ({
-  id: label, // TODO: Check corrections here?
-  name: _loc(CONFIG.WW.AFFLICTIONS[label]),
-  img: img,
-  description: label.includes('impaired') ? _loc('WW.Affliction.ImpairedDesc') : _loc(CONFIG.WW.AFFLICTIONS[label] + 'Desc'),
-  disabled: false,
-  transfer: true,
-  duration: { seconds: 3600 },
-  tint: '#FF0900',
-  flags: {
-    sourceType: 'affliction',
-    permanent: false,
-    weirdwizard: {
-      selectedDuration: 'luckEnds'
-    },
-    ...flags
-  },
-  changes: changes.map(c => {
-    // get the key, c.key is currently holding the preset, not the key. needs to be refactored
-    const [groupKey] = c.key ? c.key.split('.') : [];
-    const key = CONFIG.WW.EFFECT_CHANGE_PRESET_DATA?.[groupKey]?.options?.[c.key].key;
-
-    // convert type from integer to string
-    let mathType = 'add'; // default fallback
-    switch (c.type) {
-      case CONST.ACTIVE_EFFECT_CHANGE_TYPES.multiply: mathType = 'multiply'; break;
-      case CONST.ACTIVE_EFFECT_CHANGE_TYPES.subtract: mathType = 'subtract'; break;
-      case CONST.ACTIVE_EFFECT_CHANGE_TYPES.downgrade: mathType = 'downgrade'; break;
-      case CONST.ACTIVE_EFFECT_CHANGE_TYPES.upgrade: mathType = 'upgrade'; break;
-      case CONST.ACTIVE_EFFECT_CHANGE_TYPES.override: mathType = 'override'; break;
-    }
-
-    return {
-      key: key,
-      preset: c.key,
-      value: c.value,
-      priority: c.priority ?? null,
-      type: mathType
-    };
-  }),
-  system: {
-    durationPreset: '1minute',
-  }
-});
-
 export class WWAfflictions {
   /**
    * Checks if the actor can do the action he is trying to perform, with the relative attribute
@@ -56,7 +6,6 @@ export class WWAfflictions {
    * @param actionAttribute       The attribute name, lowercase
    * @returns {boolean}           True if the actor is blocked
   */
-  
   static isActorBlocked(actor, actionType, actionAttribute) {
     actionAttribute = actionAttribute.toLowerCase();
     const isBlocked = actor.system.maluses.autoFail[actionType]?.[actionAttribute] > 0;
@@ -76,7 +25,7 @@ export class WWAfflictions {
     const afflictions = actor
       .getEmbeddedCollection('ActiveEffect')
       .filter(e => e.statuses.size > 0)
-      .filter(e => e.flags.sourceType = 'affliction')
+      .filter(e => e.type = 'affliction')
       .map(e => e._id);
     await actor.deleteEmbeddedDocuments('ActiveEffect', afflictions);
   }
@@ -85,279 +34,245 @@ export class WWAfflictions {
    * Builds the Afflictions Active Effects for the token quick menu
    * @returns list of active effect data
   */
-
   static buildAll() {
-    const effectsDataList = [];
-    
-    const baneAllAttributes = function(v) {
+    const buildAffliction = affliction => {
+      const {changes = [], ...data} = affliction;
+      
+      return {
+        ... data,
+        name: _loc(CONFIG.WW.AFFLICTIONS[data.id]),
+        tint: '#FF0900',
+        description: data.id.includes('impaired') ? _loc('WW.Affliction.ImpairedDesc') : _loc(CONFIG.WW.AFFLICTIONS[data.id] + 'Desc'),
+        duration: { expiry: 'luckEnds' },
+        system: {
+          durationPreset: 'luckEnds',
+          changes: changes
+        }
+      }
+    }
+
+    return this.afflictionsData().map(affliction => buildAffliction(affliction));
+  }
+
+  /**
+   * A getter for data used by afflictions.
+   */
+  static afflictionsData() {
+    const baneAllAttributes = value => {
       return [
-        addEffect('banes.str', v, addPriority),
-        addEffect('banes.agi', v, addPriority),
-        addEffect('banes.int', v, addPriority),
-        addEffect('banes.wil', v, addPriority)
+        addChange('banes.str', value),
+        addChange('banes.agi', value),
+        addChange('banes.int', value),
+        addChange('banes.wil', value)
       ];
     }
 
-    const againstAll = function(v) {
+    const againstAll = value => {
       return [
-        addEffect('boonsAgainst.def', v, addPriority),
-        addEffect('boonsAgainst.str', v, addPriority),
-        addEffect('boonsAgainst.agi', v, addPriority),
-        addEffect('boonsAgainst.int', v, addPriority),
-        addEffect('boonsAgainst.wil', v, addPriority)
+        addChange('boonsAgainst.def', value),
+        addChange('boonsAgainst.str', value),
+        addChange('boonsAgainst.agi', value),
+        addChange('boonsAgainst.int', value),
+        addChange('boonsAgainst.wil', value)
       ];
     }
 
-    // Blinded
-    effectsDataList.push(_buildBaseAffliction(
-      'blinded',
-      'icons/svg/blind.svg',
-      [
-        overrideEffect('speed.halved', true, overridePriority)
-      ]
-    ));
-
-    // Confused
-    effectsDataList.push(_buildBaseAffliction(
-      'confused',
-      'icons/svg/stoned.svg',
-      [
-        addEffect('banes.int', 1, addPriority),
-        addEffect('banes.wil', 1, addPriority)
-      ]
-    ));
-
-    // Controlled
-    effectsDataList.push(_buildBaseAffliction('controlled', 'systems/weirdwizard/assets/icons/puppet.svg'));
-    
-    // Cursed
-    effectsDataList.push(_buildBaseAffliction(
-      'cursed',
-      'systems/weirdwizard/assets/icons/bleeding-eye.svg',
-      [ addEffect('banes.luck', 1, addPriority) ]
-    ));
-
-    // Deafened
-    effectsDataList.push(_buildBaseAffliction('deafened', 'icons/svg/deaf.svg'));
-
-    // Frightened
-    effectsDataList.push(
-      _buildBaseAffliction(
-        'frightened',
-        'icons/svg/terror.svg',
-        [].concat(baneAllAttributes(1))
-          .concat(againstAll(1))
-      ),
-    );
-
-    // Held
-    effectsDataList.push(_buildBaseAffliction(
-      'held',
-      'systems/weirdwizard/assets/icons/manacles.svg',
-      [
-        downgradeEffect('speed.override', 0, overridePriority),
-        overrideEffect('autoSuccessAgainst.agi', true, addPriority),
-      ]
-    ));
-
-    // Strength Impaired
-    effectsDataList.push(
-      _buildBaseAffliction(
-        'impairedStr',
-        'systems/weirdwizard/assets/icons/biceps-impaired.svg',
-        [
-          addEffect('banes.str', 1, addPriority),
-          addEffect('boonsAgainst.str', 1, addPriority)
+    return [
+      // Blinded
+      {
+        id: 'blinded',
+        img: 'icons/svg/blind.svg',
+        changes: [
+          booleanChange('speed.halved')
         ]
-      ),
-    );
+      },
 
-    // Agility Impaired
-    effectsDataList.push(
-      _buildBaseAffliction(
-        'impairedAgi',
-        'systems/weirdwizard/assets/icons/agility-impaired.svg',
-        [
-          addEffect('banes.agi', 1, addPriority),
-          addEffect('boonsAgainst.agi', 1, addPriority)
+      // Confused
+      {
+        id: 'confused',
+        img: 'icons/svg/stoned.svg',
+        changes: [
+          addChange('banes.int'),
+          addChange('banes.wil')
         ]
-      ),
-    );
+      },
 
-    // Intellect Impaired
-    effectsDataList.push(
-      _buildBaseAffliction(
-        'impairedInt',
-        'systems/weirdwizard/assets/icons/open-book-impaired.svg',
-        [
-          addEffect('banes.int', 1, addPriority),
-          addEffect('boonsAgainst.int', 1, addPriority)
+      // Controlled
+      { id: 'controlled', img: 'systems/weirdwizard/assets/icons/puppet.svg' },
+
+      // Cursed
+      {
+        id: 'cursed',
+        img: 'systems/weirdwizard/assets/icons/bleeding-eye.svg',
+        changes: [addChange('banes.luck')]
+      },
+
+      // Deafened
+      { id: 'deafened', img: 'icons/svg/deaf.svg' },
+
+      // Frightened
+      {
+        id: 'frightened',
+        img: 'icons/svg/terror.svg',
+        changes: [
+          ...baneAllAttributes(1),
+          ...againstAll(1)
         ]
-      ),
-    );
+      },
 
-    // Will Impaired
-    effectsDataList.push(
-      _buildBaseAffliction(
-        'impairedWil',
-        'systems/weirdwizard/assets/icons/burning-star-impaired.svg',
-        [
-          addEffect('banes.wil', 1, addPriority),
-          addEffect('boonsAgainst.wil', 1, addPriority)
+      // Held
+      {
+        id: 'held',
+        img: 'systems/weirdwizard/assets/icons/manacles.svg',
+        changes: [
+          downgradeChange('speed.override'),
+          booleanChange('autoSuccessAgainst.agi'),
         ]
-      ),
-    );
+      },
 
-    // On Fire
-    effectsDataList.push(_buildBaseAffliction(
-      'onFire',
-      'systems/weirdwizard/assets/icons/flaming-claw.svg',
-      []
-    ));
+      // Strength Impaired
+      {
+        id: 'impairedStr',
+        img: 'systems/weirdwizard/assets/icons/biceps-impaired.svg',
+        changes: [
+          addChange('banes.str'),
+          addChange('boonsAgainst.str')
+        ]
+      },
 
-    // Poisoned
-    effectsDataList.push(_buildBaseAffliction(
-      'poisoned',
-      'systems/weirdwizard/assets/icons/poison.svg',
-      [].concat(baneAllAttributes(1))
-        .concat(againstAll(1))
-    ));
+      // Agility Impaired
+      {
+        id: 'impairedAgi',
+        img: 'systems/weirdwizard/assets/icons/agility-impaired.svg',
+        changes: [
+          addChange('banes.agi'),
+          addChange('boonsAgainst.agi')
+        ]
+      },
 
-    // Prone
-    effectsDataList.push(_buildBaseAffliction('prone', 'systems/weirdwizard/assets/icons/fallen.svg'));
+      // Intellect Impaired
+      {
+        id: 'impairedInt',
+        img: 'systems/weirdwizard/assets/icons/open-book-impaired.svg',
+        changes: [
+          addChange('banes.int'),
+          addChange('boonsAgainst.int')
+        ]
+      },
 
-    // Slowed
-    effectsDataList.push(
-      _buildBaseAffliction(
-        'slowed',
-        'systems/weirdwizard/assets/icons/snail.svg',
-        [ downgradeEffect('speed.override', 2, overridePriority) ]
-      ),
-    );
+      // Will Impaired
+      {
+        id: 'impairedWil',
+        img: 'systems/weirdwizard/assets/icons/burning-star-impaired.svg',
+        changes: [
+          addChange('banes.wil'),
+          addChange('boonsAgainst.wil')
+        ]
+      },
 
-    // Stunned
-    effectsDataList.push(
-      _buildBaseAffliction(
-        'stunned',
-        'icons/svg/daze.svg',
-        [ downgradeEffect('speed.override', 0, overridePriority) ]
-          .concat(baneAllAttributes(-2))
-          .concat(againstAll(2))
-        
-      ),
-    );
+      // On Fire
+      {
+        id: 'onFire',
+        img: 'systems/weirdwizard/assets/icons/flaming-claw.svg'
+      },
 
-    // Unconscious
-    effectsDataList.push(
-      _buildBaseAffliction(
-        'unconscious',
-        'icons/svg/unconscious.svg',
-        [
-          downgradeEffect('speed.override', 0, overridePriority),
-          overrideEffect('autoFail.str', true, addPriority),
-          overrideEffect('autoFail.agi', true, addPriority),
-          overrideEffect('autoFail.int', true, addPriority),
-          overrideEffect('autoFail.wil', true, addPriority)
-        ].concat(againstAll(3))
-        
-      ),
-    );
+      // Poisoned
+      {
+        id: 'poisoned',
+        img: 'systems/weirdwizard/assets/icons/poison.svg',
+        changes: [
+          ...baneAllAttributes(1),
+          ...againstAll(1)
+        ]
+      },
 
-    // Asleep
-    effectsDataList.push(_buildBaseAffliction('asleep', 'icons/svg/sleep.svg'));
+      // Prone
+      { id: 'prone', img: 'systems/weirdwizard/assets/icons/fallen.svg' },
 
-    // Vulnerable
-    effectsDataList.push(_buildBaseAffliction(
-      'vulnerable',
-      'systems/weirdwizard/assets/icons/broken-shield.svg',
-      [].concat(againstAll(1))
-    ));
+      // Slowed
+      {
+        id: 'slowed',
+        img: 'systems/weirdwizard/assets/icons/snail.svg',
+        changes: [ downgradeChange('speed.override', 2) ]
+      },
 
-    // Weakened
-    effectsDataList.push(_buildBaseAffliction(
-      'weakened',
-      'systems/weirdwizard/assets/icons/back-pain.svg',
-      [
-        addEffect('banes.str', 1, addPriority),
-        addEffect('banes.agi', 1, addPriority),
-        addEffect('boonsAgainst.str', 1, addPriority),
-        addEffect('boonsAgainst.agi', 1, addPriority),
-        overrideEffect('speed.halved', true, addPriority)
-      ]
-    ));
+      // Stunned
+      {
+        id: 'stunned',
+        img: 'icons/svg/daze.svg',
+        changes: [
+          downgradeChange('speed.override'),
+          ...baneAllAttributes(2),
+          ...againstAll(2)
+        ]
+      },
 
-    // ----------------------- ACTIONS -------------------------- //
-    /*
-    // Concentrate
-    effectsDataList.push(_buildBaseAffliction('concentrate', 'systems/weirdwizard/assets/icons/effects/concentrate.svg'));
+      // Unconscious
+      {
+        id: 'unconscious',
+        img: 'icons/svg/unconscious.svg',
+        changes: [
+          downgradeChange('speed.override'),
+          booleanChange('autoFail.str'),
+          booleanChange('autoFail.agi'),
+          booleanChange('autoFail.int'),
+          booleanChange('autoFail.wil'),
+          ...againstAll(3)
+        ]
+      },
 
-    // Defend
-    effectsDataList.push(
-      _buildBaseAffliction('defend', 'systems/weirdwizard/assets/icons/effects/defend.svg', [
-        addEffect('system.bonuses.defense.boons.defense', 1, addPriority),
-        addEffect('system.bonuses.defense.boons.strength', 1, addPriority),
-        addEffect('system.bonuses.defense.boons.agility', 1, addPriority),
-        addEffect('system.bonuses.defense.boons.will', 1, addPriority),
-        addEffect('system.bonuses.defense.boons.intellect', 1, addPriority),
-        addEffect('system.bonuses.defense.boons.perception', 1, addPriority),
-        // TODO: Auto disable when Dazed, Stunned or Unconscious
-      ]),
-    );
+      // Asleep
+      { id: 'asleep', img: 'icons/svg/sleep.svg' },
 
-    // Help
-    effectsDataList.push(
-      _buildBaseAffliction(
-        'help',
-        'systems/weirdwizard/assets/icons/effects/help.svg',
-        [], // TODO: Add boons? Aka help should be applied to the receiver
-      ),
-    );
+      // Vulnerable
+      {
+        id: 'vulnerable',
+        img: 'systems/weirdwizard/assets/icons/broken-shield.svg',
+        changes: [ ...againstAll(1) ]
+      },
 
-    // Prepare
-    effectsDataList.push(
-      _buildBaseAffliction('prepare', 'systems/weirdwizard/assets/icons/effects/prepare.svg', [
-        addEffect('system.bonuses.challenge.boons.strength', 1, addPriority),
-        addEffect('system.bonuses.challenge.boons.agility', 1, addPriority),
-        addEffect('system.bonuses.challenge.boons.intellect', 1, addPriority),
-        addEffect('system.bonuses.challenge.boons.will', 1, addPriority),
-        addEffect('system.bonuses.challenge.boons.perception', 1, addPriority),
-        addEffect('system.bonuses.attack.boons.strength', 1, addPriority),
-        addEffect('system.bonuses.attack.boons.agility', 1, addPriority),
-        addEffect('system.bonuses.attack.boons.intellect', 1, addPriority),
-        addEffect('system.bonuses.attack.boons.will', 1, addPriority),
-        addEffect('system.bonuses.attack.boons.perception', 1, addPriority),
-      ]),
-    );
-
-    // Reload
-    effectsDataList.push(_buildBaseAffliction('reload', 'systems/weirdwizard/assets/icons/effects/reload.svg'));
-
-    // Retreat
-    effectsDataList.push(_buildBaseAffliction('retreat', 'systems/weirdwizard/assets/icons/effects/retreat.svg'));
-
-    // Rush
-    effectsDataList.push(_buildBaseAffliction('rush', 'systems/weirdwizard/assets/icons/effects/rush.svg'));
-
-    // Stabilize
-    effectsDataList.push(_buildBaseAffliction('stabilize', 'systems/weirdwizard/assets/icons/effects/stabilize.svg'));
-
-    // ----------------------- DAMAGE EFFECTS -------------------------- //
-
-    // Injured
-    effectsDataList.push(_buildBaseAffliction('injured', 'icons/svg/blood.svg'));
-
-    // Incapacitated
-    effectsDataList.push(
-      _buildBaseAffliction('incapacitated', 'systems/weirdwizard/assets/icons/effects/incapacitated.svg'),
-    );
-
-    // Disabled
-    effectsDataList.push(_buildBaseAffliction('disabled', 'systems/weirdwizard/assets/icons/effects/disabled.svg', [], {'core.overlay': true}));
-
-    // Dying
-    effectsDataList.push(_buildBaseAffliction('dying', 'systems/weirdwizard/assets/icons/effects/dying.svg', [], {'core.overlay': true}));
-    */
-    
-    return effectsDataList;
+      // Weakened
+      {
+        id: 'weakened',
+        img: 'systems/weirdwizard/assets/icons/back-pain.svg',
+        changes: [
+          addChange('banes.str'),
+          addChange('banes.agi'),
+          addChange('boonsAgainst.str'),
+          addChange('boonsAgainst.agi'),
+          booleanChange('speed.halved')
+        ]
+      }
+    ]
   }
 }
+
+// Constants
+const keyFromPreset = preset => {
+  const [groupKey] = preset ? preset.split('.') : [];
+  return CONFIG.WW.EFFECT_CHANGE_PRESET_DATA?.[groupKey]?.options?.[preset].key;
+}
+
+const addChange = (preset, value = 1, priority = 120) => ({
+  preset,
+  key: keyFromPreset(preset),
+  value: parseInt(value),
+  type: 'add',
+  priority: priority
+})
+
+const booleanChange = (preset, value = 0, priority = 120) => ({
+  preset,
+  key: keyFromPreset(preset),
+  value: (value !== true) ? parseInt(value) : true,
+  type: 'override',
+  priority: priority
+})
+
+const downgradeChange = (preset, value = 0, priority = 150) => ({
+  preset,
+  key: keyFromPreset(preset),
+  value: parseInt(value),
+  type: 'downgrade',
+  priority: priority
+})
