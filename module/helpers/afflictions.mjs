@@ -257,7 +257,7 @@ const addChange = (preset, value = 1, priority = 120) => ({
   preset,
   key: keyFromPreset(preset),
   value: parseInt(value),
-  type: 'add',
+  type: preset.startsWith('banes') ? 'subtract' : 'add',
   priority: priority
 })
 
