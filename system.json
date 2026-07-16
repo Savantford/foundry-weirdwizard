@@ -21,9 +21,7 @@
     },
     {
       "name": "ErrantPigeon",
-      "discord": "@errantpigeon",
-      "url": "",
-      "flags": {}
+      "discord": "@errantpigeon"
     }
   ],
   "esmodules": ["module/weirdwizard.mjs"],
