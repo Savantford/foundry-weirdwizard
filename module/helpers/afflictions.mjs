@@ -126,7 +126,7 @@ export class WWAfflictions {
         img: 'systems/weirdwizard/assets/icons/manacles.svg',
         changes: [
           downgradeChange('speed.override'),
-          booleanChange('autoSuccessAgainst.agi', true),
+          booleanChange('autoSuccessAgainst.agi'),
         ]
       },
 
@@ -213,10 +213,10 @@ export class WWAfflictions {
         img: 'icons/svg/unconscious.svg',
         changes: [
           downgradeChange('speed.override'),
-          booleanChange('autoFail.str', true),
-          booleanChange('autoFail.agi', true),
-          booleanChange('autoFail.int', true),
-          booleanChange('autoFail.wil', true),
+          booleanChange('autoFail.str'),
+          booleanChange('autoFail.agi'),
+          booleanChange('autoFail.int'),
+          booleanChange('autoFail.wil'),
           ...againstAll(3)
         ]
       },
@@ -240,7 +240,7 @@ export class WWAfflictions {
           addChange('banes.agi'),
           addChange('boonsAgainst.str'),
           addChange('boonsAgainst.agi'),
-          booleanChange('speed.halved', true)
+          booleanChange('speed.halved')
         ]
       }
     ]
@@ -264,5 +264,5 @@ const createChange = (preset, value, priority, type) => ({
 
 const addChange = (preset, value = 1, priority = 120) => createChange(preset, value, priority, 'add');
 const subtractChange = (preset, value = 1, priority = 120) => createChange(preset, value, priority, 'subtract');
-const booleanChange = (preset, value = true, priority = 120) => createChange(preset, value, priority, 'override');
 const downgradeChange = (preset, value = 0, priority = 150) => createChange(preset, value, priority, 'downgrade');
+const booleanChange = (preset, value = true, priority = 170) => createChange(preset, value, priority, 'override');
