@@ -369,14 +369,14 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       wilMod: att.wil.value - 10,
 
       // Defense
-      naturalDef: stats.defense.natural,
-      armoredDef: stats.defense.armored,
       def: stats.defense.total,
+      defNatural: stats.defense.natural,
+      defArmored: stats.defense.armored,
 
       // Health
       health: stats.health.current,
-      normalHealth: stats.health.normal,
-      lostHealth: stats.health.lost,
+      healthNormal: stats.health.normal,
+      healthLost: stats.health.lost,
 
       // Damage Total
       damage: stats.damage.value,
@@ -384,7 +384,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
       // Speed
       speed: stats.speed.current,
-      normalSpeed: stats.speed.normal,
+      speedNormal: stats.speed.normal,
       
       // Other stats
       level: stats.level,
