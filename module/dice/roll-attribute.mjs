@@ -195,6 +195,8 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
         const againstIcon = CONFIG.WW.ATTRIBUTE_ICONS[against];
         const againstLabel = CONFIG.WW.ROLL_AGAINST[against];
         
+        const autoSuccess = against ? !!tar.autoSuccessAgainst?.[against] : false;
+
         targets.push({
           img: tar.img,
           name: tar.name,
@@ -203,7 +205,8 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
           boonsTip,
           againstNo: tar.againstNo,
           againstLabel,
-          againstIcon
+          againstIcon,
+          autoSuccess
         })
 
       });
@@ -298,12 +301,15 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
 
         // Determine target number
         const targetNo = against === 'def' ? tar.defense : tar.attributes[against].value;
+
+        const autoSuccess = against ? !!tar.autoSuccessAgainst?.[against] : false;
         
         // Construct the Roll instance and evaluate the roll
         const roll = await new WWRoll(rollFormula, rollData, {
           ... rollOptions,
           target: tar,
-          targetNo
+          targetNo,
+          autoSuccess
         }).evaluate();
         
         // Prepare DSN data
@@ -472,7 +478,8 @@ export default class RollAttribute extends HandlebarsApplicationMixin(Applicatio
         defense: actor ? sys.stats.defense.total : null,
         againstNo: sys ? (this.rollConfig.against === 'def' ? sys.stats.defense.total : sys.attributes[this.rollConfig.against]?.value) : "—",
         boons: actor ? sys.boons.selfRoll : null,
-        boonsAgainst: actor ? sys.boons.against : null
+        boonsAgainst: actor ? sys.boons.against : null,
+        autoSuccessAgainst: actor ? sys.autoSuccess?.against : null
       })
 
     });

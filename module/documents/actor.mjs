@@ -152,7 +152,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     // Initialize auto failure
     this.system.autoFail = {};
-
+    this.system.autoSuccess = { against: {} };
     // Initialize Attributes boons and banes
     ['str', 'agi', 'int', 'wil'].forEach(attribute => {
       this.system.boons.selfRoll[attribute] = 0;
@@ -160,10 +160,13 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       this.system.boons.against[attribute] = 0;
 
       this.system.autoFail[attribute] = false;
+      this.system.autoSuccess.against[attribute] = false;
     })
 
     // Initialize Speed variables
     this.system.stats.speed.halved = false;
+    // give effects with override something to compare their value to, instead of comparing to null
+    this.system.stats.speed.override = Infinity;
 
     // Initialize dynamic Defense properties
     this.system.stats.defense.armored = 0;
@@ -478,7 +481,9 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     speed.current = speed.halved ? Math.floor(adjusted / 2) : adjusted;
     
     // Override Speed
-    if (speed.override && speed.current > speed.override) speed.current = speed.override;
+    if (speed.override !== null && speed.override !== undefined && speed.current > speed.override) {
+      speed.current = speed.override;
+    }
   }
 
   /* -------------------------------------------- */

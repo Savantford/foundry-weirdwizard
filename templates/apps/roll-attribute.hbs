@@ -78,7 +78,12 @@
             <li>
                 <label><img class="target-icon" src="{{ img }}"> {{ name }}</label>
 
-                {{#if againstNo}}
+                {{#if autoSuccess}}
+                <div class="target-auto-success" data-tooltip="{{localize 'WW.Roll.AutoSuccess'}}">
+                    <i class="fa-solid fa-check color-green"></i> {{localize "WW.Roll.AutoSuccess"}}
+                </div>
+
+                {{else if againstNo}}
                     {{#if (ne boonsNo 0)}}
                     <div class="target-boons">({{ boonsNo }} <img src="{{ boonsIcon }}" data-tooltip="{{boonsTip}}"/>)</div>
                     {{/if}}

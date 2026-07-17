@@ -4944,6 +4944,14 @@ details.document-card .card-header:hover::after {
     }
   }
 
+  .target-auto-success {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--color-positive, green);
+    font-weight: bold;
+  }
+
   img.target-icon {
     width: 30px;
     height: auto;

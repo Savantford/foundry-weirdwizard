@@ -275,6 +275,7 @@
 "WW.Roll.CriticalSuccess": "Kritischer Erfolg",
 "WW.Roll.Failure": "Fehlschlag",
 "WW.Roll.AutoFail": "Automatischer Fehlschlag",
+"WW.Roll.AutoSuccess": "Automatischer Erfolg",
 "WW.Roll.Strength": "Stärkewurf",
 "WW.Roll.Agility": "Gewandheitswurf",
 "WW.Roll.Intellect": "Intelligenzwurf",

@@ -51,12 +51,19 @@ export default class WWRoll extends Roll {
   */
   get outcome() {
     const targetNo = this.options.targetNo;
+    const autoSuccess = this.options.autoSuccess;
+
+    // If auto-success is active, never fail, but still allow a critical on a great roll
+    if (autoSuccess) {
+      if (targetNo && this.total >= 20 && this.total >= targetNo + 5) return 'critical';
+      return 'success';
+    }
 
     // Return nothing if there is no target number
-    if (!targetNo) return ''; 
-    
+    if (!targetNo) return '';
+
     // Determine outcome
-    if (this.total >= 20 && this.total >= targetNo + 5) return 'critical';  
+    if (this.total >= 20 && this.total >= targetNo + 5) return 'critical';
     else if (this.total >= targetNo) return 'success';
     else return 'failure';
   }
