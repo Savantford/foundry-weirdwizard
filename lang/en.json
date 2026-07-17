@@ -298,6 +298,7 @@
 "WW.Roll.CriticalSuccess": "Critical Success",
 "WW.Roll.Failure": "Failure",
 "WW.Roll.AutoFail": "Automatic Failure",
+"WW.Roll.AutoSuccess": "Automatic Success",
 "WW.Roll.Strength": "Roll Strength",
 "WW.Roll.Agility": "Roll Agility",
 "WW.Roll.Intellect": "Roll Intellect",

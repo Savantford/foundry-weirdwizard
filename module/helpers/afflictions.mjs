@@ -126,7 +126,7 @@ export class WWAfflictions {
         img: 'systems/weirdwizard/assets/icons/manacles.svg',
         changes: [
           downgradeChange('speed.override'),
-          booleanChange('autoSuccessAgainst.agi'),
+          booleanChange('autoSuccessAgainst.agi', true),
         ]
       },
 

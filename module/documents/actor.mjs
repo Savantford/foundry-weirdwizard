@@ -152,7 +152,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     // Initialize auto failure
     this.system.autoFail = {};
-
+    this.system.autoSuccess = { against: {} };
     // Initialize Attributes boons and banes
     ['str', 'agi', 'int', 'wil'].forEach(attribute => {
       this.system.boons.selfRoll[attribute] = 0;
@@ -160,6 +160,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       this.system.boons.against[attribute] = 0;
 
       this.system.autoFail[attribute] = false;
+      this.system.autoSuccess.against[attribute] = false;
     })
 
     // Initialize Speed variables
