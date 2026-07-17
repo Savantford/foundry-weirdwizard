@@ -699,7 +699,7 @@
 "WW.Effect.ChangePresets.BanesAgainst.FromSpells": "Nachteile auf Würfe gg. dich durch Zauber +",
 "WW.Effect.ChangePresets.BanesAgainst.FromMagical": "Nachteile auf Würfe gg. dich durch magische Effekte +",
 
-"WW.Effect.ChangePresets.AutoSuccessAgainst.Header": "Automatischer Erfolg gg. dich (DEFEKT)",
+"WW.Effect.ChangePresets.AutoSuccessAgainst.Header": "Automatischer Erfolg gg. dich",
 "WW.Effect.ChangePresets.AutoSuccessAgainst.Defense": "Automatischer Erfolg gg. deine Verteidigung",
 "WW.Effect.ChangePresets.AutoSuccessAgainst.Strength": "Automatischer Erfolg gg. deine Stärke",
 "WW.Effect.ChangePresets.AutoSuccessAgainst.Agility": "Automatischer Erfolg gg. deine Gewandheit",

@@ -709,7 +709,7 @@
 "WW.Effect.ChangePresets.BanesAgainst.FromSpells": "Revés contra seus feitiços",
 "WW.Effect.ChangePresets.BanesAgainst.FromMagical": "Revés contra seus efeitos mágicos",
 
-"WW.Effect.ChangePresets.AutoSuccessAgainst.Header": "Sucesso Automático Contra Você (BROKEN)",
+"WW.Effect.ChangePresets.AutoSuccessAgainst.Header": "Sucesso Automático Contra Você",
 "WW.Effect.ChangePresets.AutoSuccessAgainst.Defense": "Sucesso automático contra sua Defesa",
 "WW.Effect.ChangePresets.AutoSuccessAgainst.Strength": "Sucesso automático contra sua Força",
 "WW.Effect.ChangePresets.AutoSuccessAgainst.Agility": "Sucesso automático contra sua Agilidade",

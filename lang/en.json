@@ -733,7 +733,7 @@
 "WW.Effect.ChangePresets.BanesAgainst.FromSpells": "Banes on rolls against you from spells +",
 "WW.Effect.ChangePresets.BanesAgainst.FromMagical": "Banes on rolls against you from magical effects +",
 
-"WW.Effect.ChangePresets.AutoSuccessAgainst.Header": "Automatic success against self (BROKEN)",
+"WW.Effect.ChangePresets.AutoSuccessAgainst.Header": "Automatic success against self",
 "WW.Effect.ChangePresets.AutoSuccessAgainst.Defense": "Automatic success against your Defense",
 "WW.Effect.ChangePresets.AutoSuccessAgainst.Strength": "Automatic success against your Strength",
 "WW.Effect.ChangePresets.AutoSuccessAgainst.Agility": "Automatic success against your Agility",
