@@ -213,10 +213,10 @@ export class WWAfflictions {
         img: 'icons/svg/unconscious.svg',
         changes: [
           downgradeChange('speed.override'),
-          booleanChange('autoFail.str'),
-          booleanChange('autoFail.agi'),
-          booleanChange('autoFail.int'),
-          booleanChange('autoFail.wil'),
+          booleanChange('autoFail.str', true),
+          booleanChange('autoFail.agi', true),
+          booleanChange('autoFail.int', true),
+          booleanChange('autoFail.wil', true),
           ...againstAll(3)
         ]
       },
@@ -240,7 +240,7 @@ export class WWAfflictions {
           addChange('banes.agi'),
           addChange('boonsAgainst.str'),
           addChange('boonsAgainst.agi'),
-          booleanChange('speed.halved')
+          booleanChange('speed.halved', true)
         ]
       }
     ]
