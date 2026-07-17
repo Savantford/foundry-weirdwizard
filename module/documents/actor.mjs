@@ -165,8 +165,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     // Initialize Speed variables
     this.system.stats.speed.halved = false;
-    // give effects with override something to compare their value to, instead of comparing to null
-    this.system.stats.speed.override = Infinity;
 
     // Initialize dynamic Defense properties
     this.system.stats.defense.armored = 0;
@@ -481,7 +479,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     speed.current = speed.halved ? Math.floor(adjusted / 2) : adjusted;
     
     // Override Speed
-    if (speed.override !== null && speed.override !== undefined && speed.current > speed.override) {
+    if (speed.override ?? speed.current !== speed.current) {
       speed.current = speed.override;
     }
   }

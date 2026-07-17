@@ -125,7 +125,7 @@ export class WWAfflictions {
         id: 'held',
         img: 'systems/weirdwizard/assets/icons/manacles.svg',
         changes: [
-          downgradeChange('speed.override'),
+          downgradeChange('speed.downgrade'),
           booleanChange('autoSuccessAgainst.agi'),
         ]
       },
@@ -193,7 +193,7 @@ export class WWAfflictions {
       {
         id: 'slowed',
         img: 'systems/weirdwizard/assets/icons/snail.svg',
-        changes: [ downgradeChange('speed.override', 2) ]
+        changes: [ downgradeChange('speed.downgrade', 2) ]
       },
 
       // Stunned
@@ -201,7 +201,7 @@ export class WWAfflictions {
         id: 'stunned',
         img: 'icons/svg/daze.svg',
         changes: [
-          downgradeChange('speed.override'),
+          downgradeChange('speed.downgrade'),
           ...baneAllAttributes(2),
           ...againstAll(2)
         ]
@@ -212,7 +212,7 @@ export class WWAfflictions {
         id: 'unconscious',
         img: 'icons/svg/unconscious.svg',
         changes: [
-          downgradeChange('speed.override'),
+          downgradeChange('speed.downgrade'),
           booleanChange('autoFail.str'),
           booleanChange('autoFail.agi'),
           booleanChange('autoFail.int'),

@@ -740,7 +740,8 @@
 "WW.Effect.ChangePresets.Speed.TempIncrease": "Aumento Temporário de Velocidade",
 "WW.Effect.ChangePresets.Speed.TempReduce": "Redução temporária de Velocidade",
 "WW.Effect.ChangePresets.Speed.Halved": "Velocidade é reduzida pela metade",
-"WW.Effect.ChangePresets.Speed.Override": "Velocidade reduz e não pode ser maior que X",
+"WW.Effect.ChangePresets.Speed.Downgrade": "Velocidade cai e não pode ser maior que",
+"WW.Effect.ChangePresets.Speed.Override": "Velocidade se torna",
 "WW.Effect.ChangePresets.Speed.Increase": "Aumentar Velocidade Normal",
 "WW.Effect.ChangePresets.Speed.Normal": "Modificar Velocidade Normal",
 

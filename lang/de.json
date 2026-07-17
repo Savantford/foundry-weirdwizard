@@ -730,7 +730,8 @@
 "WW.Effect.ChangePresets.Speed.TempIncrease": "BR temporär erhöht um",
 "WW.Effect.ChangePresets.Speed.TempReduce": "BR temporär gesenkt um",
 "WW.Effect.ChangePresets.Speed.Halved": "BR halbiert",
-"WW.Effect.ChangePresets.Speed.Override": "BR gesenkt auf (kann nicht von Boni profitieren)",
+"WW.Effect.ChangePresets.Speed.Downgrade": "BR gesenkt auf (kann nicht von Boni profitieren)",
+"WW.Effect.ChangePresets.Speed.Override": "BR gesetzt auf",
 "WW.Effect.ChangePresets.Speed.Increase": "Normale BR erhöht um",
 "WW.Effect.ChangePresets.Speed.Normal": "Normale BR:",
 

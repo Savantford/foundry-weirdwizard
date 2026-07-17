@@ -764,7 +764,8 @@
 "WW.Effect.ChangePresets.Speed.TempIncrease": "Temporarily increase Speed by",
 "WW.Effect.ChangePresets.Speed.TempReduce": "Temporarily reduce Speed by",
 "WW.Effect.ChangePresets.Speed.Halved": "Speed is halved",
-"WW.Effect.ChangePresets.Speed.Override": "Speed drops to and cannot be increased above",
+"WW.Effect.ChangePresets.Speed.Downgrade": "Speed drops to and cannot be increased above",
+"WW.Effect.ChangePresets.Speed.Override": "Speed becomes",
 "WW.Effect.ChangePresets.Speed.Increase": "Increase normal Speed by",
 "WW.Effect.ChangePresets.Speed.Normal": "Normal Speed is",
 

@@ -775,6 +775,10 @@ WW.EFFECT_CHANGE_PRESET_DATA = {
         key: 'system.stats.speed.halved',
         label: 'WW.Effect.ChangePresets.Speed.Halved'
       },
+      'speed.downgrade': {
+        key: 'system.stats.speed.override',
+        label: 'WW.Effect.ChangePresets.Speed.Downgrade'
+      },
       'speed.override': {
         key: 'system.stats.speed.override',
         label: 'WW.Effect.ChangePresets.Speed.Override'
