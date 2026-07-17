@@ -253,26 +253,16 @@ const keyFromPreset = preset => {
   return CONFIG.WW.EFFECT_CHANGE_PRESET_DATA?.[groupKey]?.options?.[preset].key;
 }
 
-const addChange = (preset, value = 1, priority = 120) => ({
-  preset,
+const createChange = (preset, value, priority, type) => ({
   key: keyFromPreset(preset),
-  value: parseInt(value),
-  type: preset.startsWith('banes') ? 'subtract' : 'add',
-  priority: priority
+  preset,
+  value,
+  priority,
+  phase: 'final',
+  type
 })
 
-const booleanChange = (preset, value = 0, priority = 120) => ({
-  preset,
-  key: keyFromPreset(preset),
-  value: (value !== true) ? parseInt(value) : true,
-  type: 'override',
-  priority: priority
-})
-
-const downgradeChange = (preset, value = 0, priority = 150) => ({
-  preset,
-  key: keyFromPreset(preset),
-  value: parseInt(value),
-  type: 'downgrade',
-  priority: priority
-})
+const addChange = (preset, value = 1, priority = 120) => createChange(preset, value, priority, 'add');
+const subtractChange = (preset, value = 1, priority = 120) => createChange(preset, value, priority, 'subtract');
+const booleanChange = (preset, value = true, priority = 120) => createChange(preset, value, priority, 'override');
+const downgradeChange = (preset, value = 0, priority = 150) => createChange(preset, value, priority, 'downgrade');
