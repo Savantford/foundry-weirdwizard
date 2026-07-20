@@ -258,7 +258,7 @@ const createChange = (preset, value, priority, type) => ({
   preset,
   value,
   priority,
-  phase: 'final',
+  phase: 'initial', //use initial so changes are considered during prepareDerivedData
   type
 })
 
