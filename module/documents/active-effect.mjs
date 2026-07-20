@@ -252,12 +252,8 @@ export default class WWActiveEffect extends WWDocumentMixin(foundry.documents.Ac
    * 
    * */
   static _applyChangeUpgrade(targetDoc, change, current, delta, changes) {
-    if (current === null || current === undefined) {
-      if (change.type === "upgrade" || change.type === "downgrade") {
-        changes[change.key] = delta;
-      }
-      return;
-    }
+    if (current === null || current === undefined) return changes[change.key] = delta;
+    
     return super._applyChangeUpgrade(targetDoc, change, current, delta, changes);
   }
 
