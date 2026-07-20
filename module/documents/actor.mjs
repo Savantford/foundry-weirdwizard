@@ -479,7 +479,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     speed.current = speed.halved ? Math.floor(adjusted / 2) : adjusted;
     
     // Override Speed
-    if (speed.override ?? speed.current !== speed.current) {
+    if (speed.override !== null && speed.override !== undefined) {
       speed.current = speed.override;
     }
   }
