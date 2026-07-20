@@ -243,6 +243,26 @@ export default class WWActiveEffect extends WWDocumentMixin(foundry.documents.Ac
 
   /* -------------------------------------------- */
 
+  /** 
+   * @override 
+   * 
+   * treat an unset current value as "no baseline to compare against
+   * yet" and apply the incoming delta directly, then fall back to core's
+   * real comparison logic once a base value exists. 
+   * 
+   * */
+  static _applyChangeUpgrade(targetDoc, change, current, delta, changes) {
+    if (current === null || current === undefined) {
+      if (change.type === "upgrade" || change.type === "downgrade") {
+        changes[change.key] = delta;
+      }
+      return;
+    }
+    return super._applyChangeUpgrade(targetDoc, change, current, delta, changes);
+  }
+
+  /* -------------------------------------------- */
+
   get formattedDuration() {
     const { value, units, expiry, ... duration } = this.duration;
     
