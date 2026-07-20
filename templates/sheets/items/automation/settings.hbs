@@ -1,88 +1,114 @@
-<div class="item-settings grid-2">
-    
-    {{!-- Left Column --}}
-    <div class="flex-group-left">
-        <h3>{{localize "WW.Roll.Settings"}}</h3>
+<div class="item-settings">
+  {{!-- Attribute Roll --}}
+  <h3>{{localize "WW.Roll.Settings"}}</h3>
 
-        <div class="flex-row stat-inline nowrap flex-wrap nogap">
-            {{localize "WW.Roll.Always"}}
-            
-            <select class="ml-1 bold" name="system.attribute">
-                {{selectOptions attributes selected=system.attribute localize=true}}
-            </select>
-            
-            {{#if system.attribute}}
-                {{localize "WW.Boons.With"}}
+  <div class="flex-row stat-inline nowrap flex-wrap nogap">
+    {{localize "WW.Roll.Always"}}
 
-                <div class="mx-1 input-wrap bold">
-                    <input type="number" name="system.boons" value="{{system.boons}}" placeholder="0"
-                        data-dtype="Number" />
+    <select class="ml-1 bold" name="system.attribute">
+      {{selectOptions attributes selected=system.attribute localize=true}}
+    </select>
 
-                    <div class="input-overlay">{{system.boons}}</div>
-                </div>
-                
-                {{#if (lt item.system.boons -1)}}{{localize "WW.Boons.Banes"}}
-                    {{else if (lt item.system.boons 0)}}{{localize "WW.Boons.Bane"}}
-                    {{else if (gt item.system.boons 1)}}{{localize "WW.Boons.Boons"}}
-                    {{else}}{{localize "WW.Boons.Boon"}}
-                {{/if}}
+    {{#if system.attribute}}
+    {{localize "WW.Boons.With"}}
 
-            {{/if}}
-        </div>
+    <div class="mx-1 input-wrap bold">
+      <input type="number" name="system.boons" value="{{system.boons}}" placeholder="0"/>
 
-        {{#if system.attribute}}
-        {{!-- Boons Alt --}}
-        <div class="mt-1">
-            <input type="text" name="system.boonsAlt" value="{{ system.boonsAlt }}" placeholder="{{localize "WW.Item.Alt"}}"
-                data-tooltip-text="{{localize "WW.Item.AltTip"}}" data-dtype="String" />
-        </div>
-
-        <div class="flex-row stat-inline mt-1">
-            {{localize "WW.Roll.Against"}}
-
-            <select class="mx-1 bold" name="system.against">
-                {{selectOptions against selected=system.against localize=true}}
-            </select>
-            
-        </div>
-        {{/if}}
+      <div class="input-overlay">{{system.boons}}</div>
     </div>
 
-    {{!-- Right Column --}}
-    <div class="flex-group-left">
-        <h3>{{localize "WW.Targeting.Label"}}</h3>
+    {{#if (lt item.system.boons -1)}}{{localize "WW.Boons.Banes"}}
+    {{else if (lt item.system.boons 0)}}{{localize "WW.Boons.Bane"}}
+    {{else if (gt item.system.boons 1)}}{{localize "WW.Boons.Boons"}}
+    {{else}}{{localize "WW.Boons.Boon"}}
+    {{/if}}
 
-        <div class="flex-row stat-inline mt-1">
-            <label>{{localize "WW.Targeting.Method"}}</label>
+    {{/if}}
+  </div>
 
-            <select name="system.targeting">
-                {{selectOptions targetingMethods selected=system.targeting localize=true}}
-            </select>
-        </div>
+  {{#if system.attribute}}
+  {{!-- Boons Alt --}}
+  <div class="mt-1">
+    <input type="text" name="system.boonsAlt" value="{{ system.boonsAlt }}" placeholder="{{localize " WW.Item.Alt"}}"
+      data-tooltip-text="{{localize " WW.Item.AltTip"}}" data-dtype="String" />
+  </div>
 
-        {{#if (eq system.targeting 'template')}}
-        <div class="flex-row stat-inline mt-1">
-            <label>{{localize "WW.Targeting.Type"}}</label>
-            
-            <select name="system.template.type">
-                {{selectOptions templateTypes selected=system.template.type localize=true}}
-            </select>
-        </div>
+  <div class="flex-row stat-inline mt-1">
+    {{localize "WW.Roll.Against"}}
+    <select class="mx-1 bold" name="system.against">
+      {{selectOptions against selected=system.against localize=true}}
+    </select>
+  </div>
+  {{/if}}
 
-        <div class="flex-row stat-inline mt-1">
-            <label>{{localize "WW.Targeting.Value"}}</label>
+  {{!-- Targeting & Scene Region --}}
+  <h3>{{localize "WW.Targeting.Label"}}</h3>
 
-            <div class="input-wrap mr-1">
-                <input type="number" name="system.template.value" value="{{system.template.value}}" min="1" data-dtype="Number" />
+  <div class="flex-row stat-inline">
+    <label>{{localize "WW.Targeting.Method"}}:</label>
+    {{log system.targetingMethod}}
+    <select name="system.targetingMethod">
+      {{selectOptions targetingMethods selected=system.targetingMethod localize=true}}
+    </select>
+  </div>
 
-                <div class="input-overlay">{{system.template.value}}</div>
-            </div>
-
-            {{localize "WW.Targeting.MeasuredUnit"}}
-        </div>
-        {{/if}}
-
+  {{#if (eq system.targetingMethod 'template')}}
+  {{!-- Template Fields --}}
+  <div class="flex-row flex-wrap gap-5 stat-inline mt-1">
+    {{!-- Size / Radius --}}
+    <div class="stat-inline">
+      <label>{{localize "WW.Item.Template.Radius"}}:</label>
+      <div class="input-wrap mr-1">
+        <input type="number" name="system.template.radius" value="{{system.template.radius}}" min="1"/>
+        <div class="input-overlay">{{system.template.radius}}</div>
+      </div>
+      {{localize "WW.Item.Template.RadiusUnit"}}
     </div>
+
+    {{!-- Attached --}}
+    <div class="stat-inline">
+      <label>{{localize "WW.Item.Template.AttachToToken"}}:</label>
+      <input type="checkbox" name="system.template.attached" {{checked system.template.attached}} />
+    </div>
+
+    {{!-- Color --}}
+    <div class="stat-inline">
+      <label>{{localize "REGION.FIELDS.color.label"}}:</label>
+      <color-picker name="system.template.color" value="{{system.template.color}}" placeholder="{{localize "WW.Item.Template.DefaultColor"}}">
+      </color-picker>
+      <i class="info fa-solid fa-circle-question ml-1" title="{{localize "REGION.FIELDS.color.hint"}}"></i>
+    </div>
+  </div>
+
+  {{!-- Restriction Enabled --}}
+  <fieldset class="mt-2">
+    <legend>{{localize "REGION.SECTIONS.restriction"}}</legend>
+
+    <div class="stat-inline">
+      <label>{{localize "REGION.FIELDS.restriction.enabled.label"}}:</label>
+      <input type="checkbox" name="system.template.restriction.enabled" {{checked system.template.restriction.enabled}} />
+      <i class="info fa-solid fa-circle-question" title="{{localize "REGION.FIELDS.restriction.enabled.hint"}}"></i>
+    </div>
+
+    {{!-- Restriction Type --}}
+    <div class="stat-inline mt-1">
+      <label>{{localize "REGION.FIELDS.restriction.type.label"}}:</label>
+      <select name="system.template.restriction.type">
+        {{selectOptions templateRestrictions selected=system.template.restriction.type localize=true}}
+      </select>
+      {{!--formInput field options=templateRestrictions name= value=system.template.restriction localize=true sort=true --}}
+    </div>
+
+    {{!-- Restriction Priority --}}
+    <div class="stat-inline mt-1">
+      <label>{{localize "REGION.FIELDS.restriction.priority.label"}}:</label>
+      <div class="input-wrap mr-1">
+        <input type="number" name="system.template.restriction.priority" value="{{system.template.restriction.priority}}" min="0"/>
+        <div class="input-overlay">{{system.template.restriction.priority}}</div>
+      </div>
+    </div>
+  </fieldset>
+  {{/if}}
 
 </div>
-

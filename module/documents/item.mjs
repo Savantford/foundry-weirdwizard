@@ -133,30 +133,33 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
   /* -------------------------------------------- */
 
   async placeTemplate(options = {}) {
+    const temp = this.system.template;
     const {
-      type = "emanation",
-      radius = 5,
-      isAura = true,
+      type = temp.type,
+      radius = temp.radius ?? 5,
+      attached = temp.attached ?? true,
       shape = CONST.TOKEN_SHAPES.RECTANGLE_1,
+      color = temp.color ?? game.user.color,
+      restriction = temp.restriction,
       ... params
     } = options;
 
     await canvas.regions.placeRegion({
-      name: this.name,
+      name: this.parent ? `${this.name} (${this.parent.name})` : this.name,
       shapes: [{
         type: type,
         base: { type: "token", x: 0, y: 0, width: 1, height: 1, shape: shape },
         radius: radius * canvas.dimensions.distancePixels, // In yards
         gridBased: true
       }],
-      color: game.user.color,
-      restriction: { enabled: true },
+      color,
+      restriction,
       levels: [canvas.level.id],
       highlightMode: "coverage",
       displayMeasurements: true,
       visibility: CONST.REGION_VISIBILITY.ALWAYS,
       ownership: { [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER }
-    }, { attachToToken: isAura });
+    }, { attachToToken: attached });
   }
 
 }

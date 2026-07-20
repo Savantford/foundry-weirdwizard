@@ -338,6 +338,14 @@ WW.TEMPLATE_TYPES = {
   'spread': 'WW.Targeting.Spread'
 }
 
+WW.ITEM_TEMPLATE_RESTRICTIONS = {
+  '': 'WW.Item.Template.Restriction.None',
+  'move': 'WALL.FIELDS.move.label',
+  'light': 'WALL.FIELDS.light.label',
+  'sight': 'WALL.FIELDS.sight.label',
+  'sound': 'WALL.FIELDS.sound.label'
+}
+
 /* Character Options */
 
 WW.CHARACTER_OPTIONS = {

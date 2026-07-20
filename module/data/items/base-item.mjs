@@ -1,4 +1,4 @@
-import { makeStrField, makeBooField, makeIntField, makeHtmlField, makeUuidStrField, makeRequiredStrField } from '../field-presets.mjs';
+import { makeStrField, makeBooField, makeIntField, makeHtmlField, makeUuidStrField, makeRequiredStrField, makeNumField } from '../field-presets.mjs';
 
 export default class BaseItemModel extends foundry.abstract.TypeDataModel {
   /** @inheritdoc */
@@ -44,10 +44,20 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
         })
       ),
 
-      targeting: makeRequiredStrField('manual'),
+      // Targeting & scene region template
+      targetingMethod: makeRequiredStrField('manual'),
+
       template: new fields.SchemaField({
-        type: makeRequiredStrField('size'),
-        value: makeIntField(5)
+        radius: makeIntField(5),
+        attached: makeBooField(),
+        color: new fields.ColorField(),
+        type: makeRequiredStrField('emanation'),
+
+        restriction: new fields.SchemaField({
+          enabled: makeBooField(),
+          type: makeStrField(),
+          priority: makeIntField(0)
+        })
       })
 
     };
@@ -69,6 +79,12 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
       if (source.grantedBy === 'jYwMjI0baL87WX3c') source.grantedBy = 'JournalEntry.LMmphPzAYiO8vOgI.JournalEntryPage.jYwMjI0baL87WX3c';
       else if (!source.grantedBy?.includes('.')) source.grantedBy = null;
     }
+
+    // Migrate measured template params to scene region options
+    if (source.targeting) source.targetingMethod = source.targeting;
+    if (source.template?.type === 'spread' || source.template?.type === 'size') source.template.type = 'emanation';
+    if (source.template?.type === 'spread') source.template.enabled = true;
+    if (source.template?.value) source.template.radius = source.template.value;
     
     return source;
   }

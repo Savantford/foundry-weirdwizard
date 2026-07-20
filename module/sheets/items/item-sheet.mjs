@@ -151,12 +151,17 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     // Prepare common dropdown menu objects
     context.attributes = CONFIG.WW.ROLL_ATTRIBUTES;
     context.against = CONFIG.WW.ROLL_AGAINST;
+
+    // Targeting and scene region template
     context.targetingMethods = CONFIG.WW.TARGETING_METHODS;
+    context.needTargets = this.document.needTargets;
     context.templateTypes = CONFIG.WW.TEMPLATE_TYPES;
+    context.templateRestrictions = Object.fromEntries(
+      Object.entries(CONST.EDGE_RESTRICTION_TYPES).map(([key, value]) => [value, `REGION.RESTRICTION_TYPES.${value}.label`])
+    );
 
     // Prepare specific dropdown menu objects
     switch (context.item.type) {
-  
       case 'equipment':
         context.subtypes = CONFIG.WW.EQUIPMENT_SUBTYPES;
         context.coins = CONFIG.WW.COINS;
@@ -232,9 +237,6 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       break;
       
     }
-
-    // Pass down whether the item needs targets or not
-    context.needTargets = this.document.needTargets;
     
     return context;
   }

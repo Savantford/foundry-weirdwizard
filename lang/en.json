@@ -328,19 +328,21 @@
 
 "WW.Targeting.Label": "Targeting",
 "WW.Targeting.Method": "Method",
-"WW.Targeting.Template": "Use a grid area template",
 "WW.Targeting.Manual": "Select tokens manually",
-"WW.Targeting.Type": "Area Type",
-"WW.Targeting.Value": "Range",
-"WW.Targeting.Size": "Size # Area",
-"WW.Targeting.Spread": "Spread from Central Point (BROKEN)",
-"WW.Targeting.MeasuredUnit": "yard(s)",
+"WW.Targeting.Template": "Use a grid area template",
 "WW.Targeting.Targets": "Targets",
 "WW.Targeting.Target": "Target",
 
 "WW.Targeting.Dialog.SelectTargets": "Please select one or more tokens to target.",
 "WW.Targeting.Dialog.Confirm": "Confirm Targets and Continue",
 "WW.Targeting.Dialog.Replace": "Replace Template",
+
+"WW.Item.Template.Radius": "Size (Radius)",
+"WW.Item.Template.RadiusUnit": "yard(s)",
+"WW.Item.Template.AttachToToken": "Attach to Token",
+"WW.Item.Template.DefaultColor": "Default Color (User)",
+"WW.Item.Template.Restriction.Label": "Spread Restriction",
+"WW.Item.Template.Restriction.None": "No restriction",
 
 "WW.RollDamage.Base": "Base Damage",
 "WW.RollDamage.BaseApply": "Apply the base damage",
