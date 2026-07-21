@@ -149,25 +149,6 @@ export default function WWSheetMixin(BaseSheet) {
     }
 
     /* -------------------------------------------- */
-
-    /** @inheritDoc */
-    async _onRender(context, options) {
-      await super._onRender(context, options);
-
-      // Drag and Drop
-      /*new foundry.applications.ux.DragDrop.implementation({
-        dropSelector: ".window-content",
-        permissions: {
-          dragstart: () => false,
-          drop: () => this.isEditMode
-        },
-        callbacks: {
-          drop: this._onDrop.bind(this)
-        }
-      }).bind(this.element);*/
-    }
-
-    /* -------------------------------------------- */
     /*  Actions                                     */
     /* -------------------------------------------- */
 
