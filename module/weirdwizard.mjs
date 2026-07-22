@@ -439,9 +439,9 @@ Hooks.on("getProseMirrorMenuDropDowns", (menu, dropdowns) => {
 /* -------------------------------------------- */
 
 Hooks.on("preUpdateToken", (token, changed, options, userId) => {
-  const img = changed.texture.src;
+  const img = changed.texture?.src;
   
-  if (img.includes('systems/weirdwizard/assets/public-domain/tokens/')) {
+  if (img?.includes('systems/weirdwizard/assets/public-domain/tokens/')) {
     const base = {
       lockRotation: true,
       texture: { scaleX: 1, scaleY: 1 },
