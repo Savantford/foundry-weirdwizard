@@ -437,6 +437,25 @@ Hooks.on("getProseMirrorMenuDropDowns", (menu, dropdowns) => {
 });
 
 /* -------------------------------------------- */
+
+Hooks.on("preUpdateToken", (token, changed, options, userId) => {
+  const img = changed.texture?.src;
+  
+  if (img?.includes('systems/weirdwizard/assets/public-domain/tokens/')) {
+    const base = {
+      lockRotation: true,
+      texture: { scaleX: 1, scaleY: 1 },
+      ring: { enabled: true, subject: { scale: 1 }, effects: 1 }
+    };
+
+    const match = CONFIG.WW.DEFAULT_TOKEN_PRESETS.find(x => x.texture.src === img);
+    
+    if (match) foundry.utils.mergeObject(base, match);
+    foundry.utils.mergeObject(changed, base);
+  }
+})
+
+/* -------------------------------------------- */
 /*  External Module Hooks                       */
 /* -------------------------------------------- */
 

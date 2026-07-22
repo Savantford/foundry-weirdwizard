@@ -417,13 +417,12 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
           bonus = null;
 
         for (const e of doc.effects) {
+          if (!e.changes) continue;
           for (const c of e.changes) {
-
             if (c.key === 'defense.armored') armored = c.value;
             if (c.key === 'defense.naturalIncrease') natural = c.value;
             if (c.key === 'defense.bonus') bonus = c.value;
           }
-
         }
 
         // Set Defense and Armor Type labels

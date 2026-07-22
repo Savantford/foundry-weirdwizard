@@ -1483,7 +1483,6 @@ export default class WWCreatureSheet extends WWActorSheet {
     
     // If within the same Actor
     if ( this.actor.uuid === item.parent?.uuid ) {
-
       if ((targetData.system?.subtype === 'container') && (item.system.subtype !== 'container')) { // Dropped on a container, but not a container
         return item.update({'system.heldBy': targetData._id});
       } else if (item.system.heldBy && (item.system.heldBy !== targetData.system.heldBy)) { // Item is held by a container dropped elsewhere
@@ -1495,7 +1494,6 @@ export default class WWCreatureSheet extends WWActorSheet {
         // Handle sorting
         return this._onSortItem(event, itemData);
       }
-
     }
     
     // Create the owned item
