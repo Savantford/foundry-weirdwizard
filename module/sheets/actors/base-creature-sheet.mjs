@@ -837,6 +837,7 @@ export default class WWCreatureSheet extends WWActorSheet {
 
     // Determine operation with modifier keys
     dataset.operation = 'untargeted-use';
+    
     if (event.shiftKey) dataset.operation = 'targeted-use';
     if (event.ctrlKey) dataset.operation = 'item-scroll';
     if (event.altKey) dataset.operation = 'item-edit';
@@ -854,7 +855,9 @@ export default class WWCreatureSheet extends WWActorSheet {
   /* -------------------------------------------- */
 
   _onItemUse(dataset, operation='untargeted-use') {
-    
+    console.log(dataset)
+    console.log(operation)
+
     // Define variables to be used
     const system = this.actor.system,
       item = this.actor.items.get(dataset.itemId),
@@ -1256,30 +1259,21 @@ export default class WWCreatureSheet extends WWActorSheet {
   /* -------------------------------------------- */
 
   /**
-   * Draw template from an item
-   * @param {Object} obj
-   */
-  async drawTemplate(obj) {
-    const initialLayer = canvas.activeLayer;
-
-    new TargetingHUD(obj, initialLayer, 'areaTarget').render(true);
-  }
-
-  /**
    * Select targets for an item roll
-   * @param {Object} obj
+   * @param {Object} context
    */
-  async selectTargets(obj) {
-    // Switch to the controls layer, activate target tool then switch to tokens layer
-    const initialLayer = canvas.activeLayer;
-    canvas.controls.activate({tool: 'target'});
-    canvas.tokens.activate();
+  async selectTargets(context) {
+    // Activate Target tool in the Tokens layer
+    context.initialLayer = canvas.activeLayer;
+    canvas.tokens.activate({ tool: 'target' });
 
     // Hide the sheet that originated the preview
     this.minimize();
 
+    console.log(context)
+
     // Activate TargetingHUD app
-    new TargetingHUD(obj, initialLayer, 'manual').render(true);
+    new TargetingHUD(context).render(true);
   }
   
   /* -------------------------------------------- */

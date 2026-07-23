@@ -1,5 +1,4 @@
 import { addInstEffs, addActEffs, targetHeader } from '../sidebar/chat-html-templates.mjs';
-import GridTemplate from '../canvas/grid-template.mjs';
 import RollAttribute from '../dice/roll-attribute.mjs';
 
 /**
@@ -10,21 +9,20 @@ import RollAttribute from '../dice/roll-attribute.mjs';
 export default class TargetingHUD extends Application {
   debounceRender = foundry.utils.debounce(this.render, 50)
 
-  constructor(obj, initLayer, method) {
+  constructor(options) {
     super(); // This is required for the constructor to work
-
-    this.obj = obj;
-    this.initLayer = initLayer;
-    this.method = method;
-    const item = fromUuidSync(obj.origin);
+    
+    this.context = {
+      ...options,
+      method: 'manual'
+    };
 
     Hooks.on("targetToken", () => {
       this.debounceRender();
     });
 
     // Start drawing a template if the method uses template
-    if (method === 'areaTarget') this.drawTemplate();
-    
+    if (this.context.method === 'areaTarget') this.drawTemplate();
   }
 
   static get defaultOptions() {
@@ -41,7 +39,7 @@ export default class TargetingHUD extends Application {
   getData(options = {}) {
     const context = super.getData()
     context.hasTargets = !game.user.targets.size;
-    context.isTemplate = this.method === 'areaTarget' ? true : false;
+    context.isTemplate = this.context.method === 'areaTarget' ? true : false;
     return context;
   }
 
@@ -52,9 +50,9 @@ export default class TargetingHUD extends Application {
       this.return();
 
       // Don't roll, just create a chat message
-      if (this.obj.dontRoll) {
+      if (this.context.dontRoll) {
         
-        const { action, attKey, content, label, origin } = this.obj,
+        const { action, attKey, content, label, origin } = this.context,
           item = fromUuidSync(origin),
           instEffs = item.system.instant,
           actEffs = item.effects,
@@ -99,7 +97,7 @@ export default class TargetingHUD extends Application {
         
         ChatMessage.create(messageData);
       // Roll
-      } else new RollAttribute(this.obj).render(true);
+      } else new RollAttribute(this.context).render(true);
     })
 
     html.find('#targeting-cancel').click(() => {
@@ -114,27 +112,17 @@ export default class TargetingHUD extends Application {
 
   return() {
     this.close();
-    
-    // Go back to previous layer
-    const initLayer = this.initLayer;
 
     // If the initial layer was the token layer, first switch the active tool to select
-    if (initLayer.options.name == 'tokens') canvas.controls.activate({tool: 'select'});
+    //if (initialLayer.options.name == 'tokens') canvas.tokens.activate({ tool: 'select' });
 
-    initLayer.activate();
+    this.context.initialLayer.activate();
 
     // Maximize actor sheet
-    const actor = fromUuidSync(this.obj.origin).parent;
-    actor.sheet.maximize();
+    this.context.actor.sheet.maximize();
     
     // Turn off the targetToken hook
     Hooks.off('targetToken');
-  }
-
-  drawTemplate() {
-    const item = fromUuidSync(this.obj.origin);
-
-    GridTemplate.fromItem(item)?.drawPreview(this.obj);
   }
 
 }
