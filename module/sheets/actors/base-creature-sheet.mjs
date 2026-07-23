@@ -644,7 +644,7 @@ export default class WWCreatureSheet extends WWActorSheet {
       }
     };
     
-    await ChatMessage.applyRollMode(messageData, game.settings.get('core', 'rollMode'));
+    await ChatMessage.applyRollMode(messageData, game.settings.get('core', 'messageMode'));
     
     // Send to chat
     const msg = await ChatMessage.create(messageData);

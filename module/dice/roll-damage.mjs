@@ -223,7 +223,7 @@ export default class RollDamage extends FormApplication {
       }
     };
 
-    await ChatMessage.applyRollMode(messageData, game.settings.get('core', 'rollMode'));
+    await ChatMessage.applyRollMode(messageData, game.settings.get('core', 'messageMode'));
 
     // Send to chat
     await ChatMessage.create(messageData);
