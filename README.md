@@ -13,6 +13,8 @@ If you instead want to install it manually, please read the instructions below.
 If you want to talk to us, contribute or give feedback,
 please join the [Discord](https://discord.gg/X5XustKpe4).
 
+*Shadow of the Weird Wizard* is a game written and designed by **Robert J. Schwalb**, published by [Schwalb Entertainment](https://schwalbentertainment.com/).
+
 ## Installing the Module
 
 To install the system, follow the steps below.
@@ -20,9 +22,7 @@ To install the system, follow the steps below.
 1. Open `Foundry Virtual Tabletop` application.
 2. Go to the `Game Systems` tab.
 3. Click on the `Install System` button at the top.
-4. On the new window, go to the bottom and paste this as URL manifest:  
-  `https://github.com/Savantford/foundry-weirdwizard/releases/latest/download/system.json`  
-  If you want to install older versions of the system, see `Installing Older Versions` below.
+4. On the new window, go to the bottom and paste this as URL manifest: `https://github.com/Savantford/foundry-weirdwizard/releases/latest/download/system.json`. If you want to install older versions of the system, see `Installing Older Versions` below.
 5. Click on `Install`. Done!
 
 ### Installing Older Versions
@@ -38,39 +38,23 @@ Follow the steps below to get the Manifest URL.
 
 ## Bugs & Feedback
 
-If you want to report a bug or share feedback about the system,
-please join the [Weird Wizard for Foundry Discord](https://discord.gg/X5XustKpe4)
-server and talk to us in the `#ww-feedback-requests` channel.
-Feel free to talk to `Friend / Savantford` there, if you wish!
+If you want to report a bug or share feedback about the system, please join the [Weird Wizard for Foundry Discord](https://discord.gg/X5XustKpe4) server and talk to us in `#bug-reports` or `#suggestions`.
 
-You can check our [Issues](https://github.com/Savantford/foundry-weirdwizard/issues) for a list of existing bug reports and suggestions.
-Issues are also grouped in [Milestones](https://github.com/Savantford/foundry-weirdwizard/milestones) in a more comprehensive manner.
+If you need help, see [SUPPORT.md](./.github/SUPPORT.md).
+
+If you want to to contribute to the system, see [CONTIBUTING.md](./.github/CONTRIBUTING.md).
 
 Thank you for all the reports and feedback!
-
-## Contributions
-
-This project was created and is currently maintained by @Savantford (Friend).
-
-However, contributions were done directly to the project by a few awesome contributors:
-- [@SolarizedRed](https://github.com/SolarizedRed): Initial styling and Fonts selection. A founder member!
-- [@mhilbrunner](https://github.com/mhilbrunner): Lots of stuff. Lots of good stuff! They are too many to list, but many were valuable backend additions.
-- [@yschnellbach](https://github.com/yschnellbach): Many contributions, mainly visual changes. The system wouldn't look the way it does without them!
-
-Please make sure to thank all of them!
 
 ## Acknowledgments
 
 A big thanks to the `Shadow of the Demon Lord`, `Shadow of the Weird Wizard` and `Foundry VTT` Discord communities! You guys are all amazing and I couldn't pull any of this without your help or support.
 
-I also wanted to personally mention these folks for their patience and effort towards helping me out to get this done.
-In alphabetical order: ChaosOS, Mana, Mezryss 💖, mxzf and Zhell. Thank you humbly!
+All the system [contributors](https://github.com/Savantford/foundry-weirdwizard/graphs/contributors?all=1) we had so far. You added and fixed more than you think!
+
+I also wanted to personally mention these folks for their patience and effort towards helping me out to get this done. In alphabetical order: ChaosOS, Mana, Mezryss 💖, mxzf and Zhell. Thank you humbly!
 
 Finally, thanks to ferrer (jeferrer) and Zaxim (zaxim) from the `SotDL for Foundry VTT` server for helping me so much in the beginning. You guys rock!
 
 ## Credits
-
-*Shadow of the Weird Wizard* is a fantasy game written and designed by **Robert J. Schwalb**, published by [Schwalb Entertainment](https://schwalbentertainment.com/).
-
-Icons in the `assets/icons` folder are provided under the CC-BY license (or even Public Domain for some of them).
-Authors can be found in <https://game-icons.net/about.html#authors>.
+For credits of the asset files used by the system, please see [CREDITS.md](./CREDITS.md).

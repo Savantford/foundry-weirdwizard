@@ -51,7 +51,7 @@ export default class WWChatMessage extends foundry.documents.ChatMessage {
 
     // Determine some additional WW metadata
     const itemUuid = (data.flags?.weirdwizard?.item && (typeof data.flags?.weirdwizard?.item === 'string')) ? data.flags.weirdwizard.item : null;
-    const item = await fromUuid(itemUuid);
+    const item = itemUuid ? await fromUuid(itemUuid) : null;
     const icon = (data.flags?.weirdwizard?.icon && (typeof data.flags?.weirdwizard?.icon === 'string')) ? data.flags.weirdwizard.icon : null;
     
     const instEffs = item ? item.system.instant.filter(e => e.trigger === 'onUse') : null;
