@@ -73,3 +73,14 @@ test('does not merge additionalMethods', function (t) {
   t.same(manifest.additionalMethods, { bar: true })
   t.end()
 })
+
+test('adds snapshots alias', function (t) {
+  for (const value of [true, false]) {
+    t.is(supports({ implicitSnapshots: value }).implicitSnapshots, value)
+    t.is(supports({ implicitSnapshots: value }).snapshots, value)
+    t.is(supports({ snapshots: value }).implicitSnapshots, value)
+    t.is(supports({ snapshots: value }).snapshots, value)
+  }
+
+  t.end()
+})

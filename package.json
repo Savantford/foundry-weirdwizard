@@ -11,7 +11,6 @@
   "author": "Friend (Savantford)",
   "private": true,
   "devDependencies": {
-    "@foundryvtt/foundryvtt-cli": "^3.0.3"
+    "@foundryvtt/foundryvtt-cli": "^3.0.4"
   }
 }
-

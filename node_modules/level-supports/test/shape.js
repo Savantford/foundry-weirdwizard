@@ -5,6 +5,7 @@ const hasOwnProperty = Object.prototype.hasOwnProperty
 module.exports = function shape (t, manifest) {
   t.ok(isObject(manifest), 'manifest is object')
   t.ok(isObject(manifest.additionalMethods), 'additionalMethods is object')
+  t.ok(isObject(manifest.signals), 'signals is object')
 
   for (const k in manifest) {
     if (!hasOwnProperty.call(manifest, k)) continue
