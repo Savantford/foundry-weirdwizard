@@ -54,8 +54,8 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
         type: makeRequiredStrField('emanation'),
 
         restriction: new fields.SchemaField({
-          enabled: makeBooField(),
-          type: makeStrField(),
+          enabled: makeBooField(true),
+          type: makeRequiredStrField('move'),
           priority: makeIntField(0)
         })
       })
