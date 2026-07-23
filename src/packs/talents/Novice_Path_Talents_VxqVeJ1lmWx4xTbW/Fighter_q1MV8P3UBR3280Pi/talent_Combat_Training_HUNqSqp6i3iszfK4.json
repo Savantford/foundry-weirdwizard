@@ -39,10 +39,6 @@
         "units": "seconds",
         "expiry": null,
         "expired": false
-        "value": null,
-        "units": "seconds",
-        "expiry": null,
-        "expired": false
       },
       "flags": {
         "weirdwizard": {
@@ -77,7 +73,6 @@
         "compendiumSource": null,
         "duplicateSource": null,
         "coreVersion": "14.360",
-        "coreVersion": "14.360",
         "systemId": "weirdwizard",
         "systemVersion": "#{VERSION}#",
         "createdTime": 1720985351761,
@@ -85,9 +80,6 @@
         "lastModifiedBy": "zin7Kb6P2LomswaD",
         "exportSource": null
       },
-      "start": null,
-      "showIcon": 1,
-      "folder": null,
       "start": null,
       "showIcon": 1,
       "folder": null,
@@ -103,7 +95,6 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "14.360",
     "coreVersion": "14.360",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",

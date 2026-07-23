@@ -77,10 +77,6 @@
         "units": "seconds",
         "expiry": null,
         "expired": false
-        "value": null,
-        "units": "seconds",
-        "expiry": null,
-        "expired": false
       },
       "disabled": false,
       "_id": "MEpanLl5bQ4oXfTE",
@@ -96,7 +92,6 @@
       },
       "tint": "#ffffff",
       "_stats": {
-        "coreVersion": "14.360",
         "coreVersion": "14.360",
         "systemId": null,
         "systemVersion": null,
@@ -130,9 +125,6 @@
       "start": null,
       "showIcon": 1,
       "folder": null,
-      "start": null,
-      "showIcon": 1,
-      "folder": null,
       "_key": "!items.effects!cEjIyT4hq9S4OSSr.MEpanLl5bQ4oXfTE"
     }
   ],
@@ -142,7 +134,6 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "14.360",
     "coreVersion": "14.360",
     "createdTime": 1692116593788,
     "modifiedTime": 1766768873108,
