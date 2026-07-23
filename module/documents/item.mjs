@@ -133,6 +133,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
   /* -------------------------------------------- */
 
   async placeTemplate(options = {}) {
+    // Prepare region template
     const temp = this.system.template;
     const {
       type = temp.type,
@@ -144,9 +145,8 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       ... params
     } = options;
 
-    const targetAndRemove = this.system.targetingOperation === 'areaTarget'; // Do something to this
-
-    await canvas.regions.placeRegion({
+    // Prompt region placement
+    const region = await canvas.regions.placeRegion({
       name: this.parent ? `${this.name} (${this.parent.name})` : this.name,
       shapes: [{
         type: type,
@@ -162,6 +162,26 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       visibility: CONST.REGION_VISIBILITY.ALWAYS,
       ownership: { [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER }
     }, { attachToToken: attached });
+
+    // Target tokens
+    const targeting = this.system.targetingOperation === 'areaTarget';
+    if (!targeting || !region) return region;
+
+    // Select and filter tokens
+    const candidates = canvas.tokens.quadtree.getObjects(region.bounds);
+    const targetIds = candidates.filter(token => {
+      if (!token.visible) return false; // Exclude invisible
+      if (token.document.disposition === CONST.TOKEN_DISPOSITIONS.SECRET && !token.isOwner) return false; // Exclude secret
+
+      return token.document.testInsideRegion(region);
+    }).map(token => token.id);
+
+    // Replace selected targets
+    if (targetIds.size) canvas.tokens.setTargets(targetIds);
+
+    region.delete();
+
+    return region;
   }
 
 }
