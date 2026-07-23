@@ -38,6 +38,10 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         }
       ]
     },
+    position: {
+      width: 570,
+      height: 480
+    },
     actions: {
       editImage: this.#onEditImage, // delete in V13; core functionality
       showItemArtwork: this.#onShowItemArtwork,
@@ -55,10 +59,6 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       handler: this.#onSubmitDocumentForm, // delete in v13, core functionality
       submitOnChange: true,
       closeOnSubmit: false
-    },
-    position: {
-      width: 550,
-      height: 480
     }
   };
 
