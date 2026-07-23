@@ -30,8 +30,8 @@
   {{#if system.attribute}}
   {{!-- Boons Alt --}}
   <div class="mt-1">
-    <input type="text" name="system.boonsAlt" value="{{ system.boonsAlt }}" placeholder="{{localize " WW.Item.Alt"}}"
-      data-tooltip-text="{{localize " WW.Item.AltTip"}}" data-dtype="String" />
+    <input type="text" name="system.boonsAlt" value="{{ system.boonsAlt }}" placeholder="{{localize "WW.Item.Alt"}}"
+      data-tooltip-text="{{localize "WW.Item.AltTip"}}" data-dtype="String" />
   </div>
 
   <div class="flex-row stat-inline mt-1">
@@ -42,29 +42,35 @@
   </div>
   {{/if}}
 
-  {{!-- Targeting & Scene Region --}}
+  {{!-- Targeting --}}
   <h3>{{localize "WW.Targeting.Label"}}</h3>
 
-  <div class="flex-row stat-inline">
-    <label>{{localize "WW.Targeting.Operation"}}:</label>
+  <div class="flex-row flex-wrap gap-5 stat-inline mt-1">
+    {{!-- Targeting Operation --}}
+    <div class="stat-inline">
+      <label>{{localize "WW.Targeting.Operation"}}:</label>
+      
+      <select name="system.targetingOperation">
+        {{selectOptions targetingOperations selected=system.targetingOperation localize=true}}
+      </select>
+    </div>
     
-    <select name="system.targetingOperation">
-      {{selectOptions targetingOperations selected=system.targetingOperation localize=true}}
-    </select>
+    {{!-- Scene Radius / Size --}}
+    {{#if (ne system.targetingOperation 'manual')}}
+    <div class="stat-inline">
+      <label>{{localize "WW.Item.Template.Radius"}}:</label>
+      <div class="input-wrap mr-1">
+        <input type="number" name="system.template.radius" value="{{system.template.radius}}" min="1" />
+        <div class="input-overlay">{{system.template.radius}}</div>
+      </div>
+      {{localize "WW.Item.Template.RadiusUnit"}}
+    </div>
+    {{/if}}
   </div>
 
   {{#if (ne system.targetingOperation 'manual')}}
   {{!-- Template Fields --}}
   <div class="flex-row flex-wrap gap-5 stat-inline mt-1">
-    {{!-- Size / Radius --}}
-    <div class="stat-inline">
-      <label>{{localize "WW.Item.Template.Radius"}}:</label>
-      <div class="input-wrap mr-1">
-        <input type="number" name="system.template.radius" value="{{system.template.radius}}" min="1"/>
-        <div class="input-overlay">{{system.template.radius}}</div>
-      </div>
-      {{localize "WW.Item.Template.RadiusUnit"}}
-    </div>
 
     {{!-- Attached --}}
     <div class="stat-inline">

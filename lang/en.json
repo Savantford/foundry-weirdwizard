@@ -338,7 +338,7 @@
 "WW.Targeting.Dialog.Confirm": "Confirm Targets and Continue",
 "WW.Targeting.Dialog.Replace": "Replace Template",
 
-"WW.Item.Template.Radius": "Size (Radius)",
+"WW.Item.Template.Radius": "Radius (Size)",
 "WW.Item.Template.RadiusUnit": "yard(s)",
 "WW.Item.Template.AttachToToken": "Attach to Token",
 "WW.Item.Template.DefaultColor": "Default Color (User)",

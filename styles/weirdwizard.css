@@ -900,33 +900,37 @@ body.theme-dark.application.weirdwizard .window-content {
 /* INPUT FIELDS */
 
 /* Remove padding */
-.weirdwizard.sheet input,
-.weirdwizard.sheet select,
-.weirdwizard.sheet textarea {
-  padding: 0px;
+.weirdwizard.sheet {
+  input,
+  select,
+  textarea {
+    padding: 0px;
+  }
 }
 
 /* Style App V2 Inputs */
-.weirdwizard.application input[type="text"],
-.weirdwizard.application input[type="search"] {
-  --input-text-color: var(--body-text-color);
-  --input-placeholder-color: var(--placeholder-text-color);
-  background: var(--background-color-shadow);
-  border-radius: 1px;
-  padding: 0;
-  line-height: normal;
-  height: auto;
-  min-height: 1lh;
-}
+.weirdwizard.application {
+  input[type="text"],
+  input[type="search"] {
+    --input-text-color: var(--body-text-color);
+    --input-placeholder-color: var(--placeholder-text-color);
+    background: var(--background-color-shadow);
+    border-radius: 1px;
+    padding: 0;
+    line-height: normal;
+    height: auto;
+    min-height: 1lh;
+  }
 
-.weirdwizard.application textarea {
-  --input-placeholder-color: var(--placeholder-text-color);
-  background: var(--background-color-shadow);
-  border-radius: 1px;
-  width: 100%;
-  min-height: 2lh;
-  color: inherit;
-  font-family: inherit;
+  textarea {
+    --input-placeholder-color: var(--placeholder-text-color);
+    background: var(--background-color-shadow);
+    border-radius: 1px;
+    width: 100%;
+    min-height: 2lh;
+    color: inherit;
+    font-family: inherit;
+  }
 }
 
 /* Remove border and background from inputs/selects/textareas not hovered */
@@ -934,7 +938,8 @@ body.theme-dark.application.weirdwizard .window-content {
   input[type="number"],
   input[type="text"],
   select,
-  textarea {
+  textarea,
+  color-picker {
     --input-text-color: var(--body-text-color);
     --input-placeholder-color: var(--placeholder-text-color);
     --input-background-color: var(--background-color-shadow);
@@ -962,6 +967,20 @@ body.theme-dark.application.weirdwizard .window-content {
 .journal-entry-page .weirdwizard input {
   height: var(--sheet-input-height);
   line-height: normal;
+}
+
+.weirdwizard.sheet.item color-picker {
+  height: auto;
+
+  input[type=text] {
+    height: auto;
+    background: none;
+  }
+
+  input[type=color] {
+    height: 20px;
+    margin: 0;
+  }
 }
 
 .weirdwizard.sheet.creature input[type="number"] {
