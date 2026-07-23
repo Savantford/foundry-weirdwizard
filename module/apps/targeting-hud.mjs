@@ -23,7 +23,7 @@ export default class TargetingHUD extends Application {
     });
 
     // Start drawing a template if the method uses template
-    if (method === 'template') this.drawTemplate();
+    if (method === 'areaTarget') this.drawTemplate();
     
   }
 
@@ -41,7 +41,7 @@ export default class TargetingHUD extends Application {
   getData(options = {}) {
     const context = super.getData()
     context.hasTargets = !game.user.targets.size;
-    context.isTemplate = this.method === 'template' ? true : false;
+    context.isTemplate = this.method === 'areaTarget' ? true : false;
     return context;
   }
 

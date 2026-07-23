@@ -46,14 +46,14 @@
   <h3>{{localize "WW.Targeting.Label"}}</h3>
 
   <div class="flex-row stat-inline">
-    <label>{{localize "WW.Targeting.Method"}}:</label>
-    {{log system.targetingMethod}}
-    <select name="system.targetingMethod">
-      {{selectOptions targetingMethods selected=system.targetingMethod localize=true}}
+    <label>{{localize "WW.Targeting.Operation"}}:</label>
+    
+    <select name="system.targetingOperation">
+      {{selectOptions targetingOperations selected=system.targetingOperation localize=true}}
     </select>
   </div>
 
-  {{#if (eq system.targetingMethod 'template')}}
+  {{#if (ne system.targetingOperation 'manual')}}
   {{!-- Template Fields --}}
   <div class="flex-row flex-wrap gap-5 stat-inline mt-1">
     {{!-- Size / Radius --}}

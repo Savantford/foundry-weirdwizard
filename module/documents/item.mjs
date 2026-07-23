@@ -144,6 +144,8 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       ... params
     } = options;
 
+    const targetAndRemove = this.system.targetingOperation === 'areaTarget'; // Do something to this
+
     await canvas.regions.placeRegion({
       name: this.parent ? `${this.name} (${this.parent.name})` : this.name,
       shapes: [{

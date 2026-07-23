@@ -886,7 +886,7 @@ export default class WWCreatureSheet extends WWActorSheet {
         if (item?.system?.subtype === 'weapon' && !item.system.against) ui.notifications.warn(_loc("WW.Roll.AgainstWrn"));
 
         // If the item uses a template, draw it
-        else if (item.system.targeting == 'template') {
+        else if (item.system.targetingOperation == 'areaTarget') {
           this.drawTemplate(obj);
         }
 
@@ -1029,12 +1029,12 @@ export default class WWCreatureSheet extends WWActorSheet {
           if (item?.system?.subtype === 'weapon' && !item.system.against) ui.notifications.warn(_loc("WW.Roll.AgainstWrn"));
 
           // If the item uses a template, draw it
-          else if (item.system.targeting == 'template') {
+          else if (item.system.targetingOperation == 'areaTarget') {
             this.drawTemplate(obj);
           }
 
           // If the item uses manual targets, prompt selection
-          else if (item.system.targeting == 'manual') {
+          else if (item.system.targetingOperation == 'manual') {
             this.selectTargets(obj);
           }
         } 
@@ -1262,7 +1262,7 @@ export default class WWCreatureSheet extends WWActorSheet {
   async drawTemplate(obj) {
     const initialLayer = canvas.activeLayer;
 
-    new TargetingHUD(obj, initialLayer, 'template').render(true);
+    new TargetingHUD(obj, initialLayer, 'areaTarget').render(true);
   }
 
   /**

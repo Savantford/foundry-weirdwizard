@@ -327,10 +327,10 @@ WW.ROLL_AGAINST = {
   'wil': 'WW.Attributes.Will'
 }
 
-WW.TARGETING_METHODS = {
+WW.TARGETING_OPERATIONS = {
   'manual': 'WW.Targeting.Manual',
-  'template': 'WW.Targeting.Template'
-  /*'': 'WW.Roll.Targeting.Disable'*/
+  'areaTarget': 'WW.Targeting.AreaTarget',
+  'areaPersistent': 'WW.Targeting.AreaPersistent'
 }
 
 WW.TEMPLATE_TYPES = {

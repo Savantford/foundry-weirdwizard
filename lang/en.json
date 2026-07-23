@@ -327,9 +327,10 @@
 "WW.Boons.ExtraBanes": "Extra bane(s) against this target",
 
 "WW.Targeting.Label": "Targeting",
-"WW.Targeting.Method": "Method",
-"WW.Targeting.Manual": "Select tokens manually",
-"WW.Targeting.Template": "Use a grid area template",
+"WW.Targeting.Operation": "Operation",
+"WW.Targeting.Manual": "Target tokens manually",
+"WW.Targeting.AreaTarget": "Target tokens within the area",
+"WW.Targeting.AreaPersistent": "Create a persistent area",
 "WW.Targeting.Targets": "Targets",
 "WW.Targeting.Target": "Target",
 
