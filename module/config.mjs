@@ -995,24 +995,6 @@ WW.COMPENDIUM_GROUPS = {
   'sww-wa': 'WW.System.Compendium.Group.WeirdAncestries'
 };
 
-/* Default Presets for Generic PD Token Images */
-const tokensPath = 'systems/weirdwizard/assets/public-domain/tokens/';
-
-WW.DEFAULT_TOKEN_PRESETS = [
-  {
-    texture: { src: tokensPath + 'humanoid-brute.webp', scaleX: 1.5, scaleY: 1.5 },
-    ring: { subject: { scale: 1.5 } }
-  },
-  {
-    texture: { src: tokensPath + 'humanoid-caster.webp', scaleX: 1.5, scaleY: 1.5 },
-    ring: { subject: { scale: 1.5 } }
-  },
-  {
-    texture: { src: tokensPath + 'spirit-glowing.webp' },
-    ring: { effects: 17 }
-  }
-]
-
 /* Default Entries */
 WW.NEW_DEFAULT_ENTRY = {
   'afflictions': {
