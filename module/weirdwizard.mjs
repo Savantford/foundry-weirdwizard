@@ -439,19 +439,22 @@ Hooks.on("getProseMirrorMenuDropDowns", (menu, dropdowns) => {
 /* -------------------------------------------- */
 
 Hooks.on("preUpdateToken", (token, changed, options, userId) => {
+  // Adjust public domain token images
   const img = changed.texture?.src;
   
   if (img?.includes('systems/weirdwizard/assets/public-domain/tokens/')) {
-    const base = {
+    const scale = img.includes('x1.5') ? 1.5 : 1;
+    const adjustments = {
       lockRotation: true,
-      texture: { scaleX: 1, scaleY: 1 },
-      ring: { enabled: true, subject: { scale: 1 }, effects: 1 }
+      texture: { scaleX: scale, scaleY: scale },
+      ring: {
+        enabled: true,
+        subject: { scale: scale },
+        effects: img.includes('glowing') ? 17 :  1
+      }
     };
 
-    const match = CONFIG.WW.DEFAULT_TOKEN_PRESETS.find(x => x.texture.src === img);
-    
-    if (match) foundry.utils.mergeObject(base, match);
-    foundry.utils.mergeObject(changed, base);
+    foundry.utils.mergeObject(changed, adjustments);
   }
 })
 
