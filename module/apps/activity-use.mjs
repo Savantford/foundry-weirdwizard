@@ -48,9 +48,10 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     // Properties
     this.properties = {
       // Rendering properties
+      skipApp: options.skipApp ?? false,
       noRoll: attKey ? true : false,
       noTargeting: options.noTargeting ?? false,
-      skipApp: options.skipApp ?? false,
+      targetingMode: item ? item.system.targetingMode : null,
 
       // Boons properties
       isWeapon: this.item?.system?.subtype === 'weapon' ?? false,
@@ -87,7 +88,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
       // Targeting actions
       selectTargets: ActivityUse.#selectTargets,
-      areaTarget: ActivityUse.#areaTarget,
+      placeTemplate: ActivityUse.#placeTemplate,
     },
     form: {
       handler: this.#onSubmit,
@@ -132,7 +133,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       rollConfig: this.rollConfig,
       boonsConfig: this.boonsConfig,
       properties: this.properties,
-      targeted: this.rollConfig.action === 'targeted-use' ?? false,
+      targeted: this.rollConfig.action === 'targeted-use' ?? false
     };
 
     // Destructure variables
@@ -392,7 +393,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     }
     
     // Apply roll mode and send to chat
-    await ChatMessage.applyRollMode(messageData, game.settings.get('core', 'messageMode'));
+    await ChatMessage.applyMode(messageData, game.settings.get('core', 'messageMode'));
     await ChatMessage.create(messageData);
 
     // Submit, close app and turn off target token hook
@@ -480,8 +481,10 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   /**
    * Scene region selection.
    */
-  static #areaTarget() {
+  static #placeTemplate() {
     console.log('area targeting')
+
+    this.item.placeTemplate({ origin: this });
   }
 
   /* -------------------------------------------- */

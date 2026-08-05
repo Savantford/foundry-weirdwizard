@@ -45,7 +45,7 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
       ),
 
       // Targeting & scene region template
-      targetingOperation: makeRequiredStrField('manual'),
+      targetingMode: makeRequiredStrField('manual'),
 
       template: new fields.SchemaField({
         radius: makeIntField(5),
@@ -81,8 +81,8 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
     }
 
     // Migrate measured template params to scene region options
-    if (source.targeting) source.targetingOperation = source.targeting;
-    if (source.targetingOperation === 'template') source.targetingOperation = 'areaTarget';
+    if (source.targeting) source.targetingMode = source.targeting;
+    if (source.targetingMode === 'template') source.targetingMode = 'areaTarget';
     if (source.template?.type === 'spread' || source.template?.type === 'size') source.template.type = 'emanation';
     if (source.template?.type === 'spread') source.template.enabled = true;
     if (source.template?.value) source.template.radius = source.template.value;

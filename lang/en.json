@@ -289,6 +289,8 @@
 "WW.Activity.Target.None": "No targets selected.",
 "WW.Activity.Target.SelectTargets": "Target and select tokens manually",
 "WW.Activity.Target.UseTemplate": "Use a region template to target",
+"WW.Activity.Target.AreaTarget": "Target tokens within template",
+"WW.Activity.Target.PlaceTemplate": "Place a new template",
 
 "WW.Roll.Label": "Roll",
 "WW.Roll.Details": "Roll Details",

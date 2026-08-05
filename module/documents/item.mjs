@@ -133,6 +133,8 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
   /* -------------------------------------------- */
 
   async placeTemplate(options = {}) {
+    options.origin?.minimize();
+
     // Prepare region template
     const temp = this.system.template;
     const {
@@ -163,8 +165,10 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       ownership: { [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER }
     }, { attachToToken: attached });
 
+    options.origin?.maximize();
+
     // Target tokens
-    const targeting = this.system.targetingOperation === 'areaTarget';
+    const targeting = this.system.targetingMode === 'areaTarget';
     if (!targeting || !region) return region;
 
     // Select and filter tokens

@@ -50,13 +50,13 @@
     <div class="stat-inline">
       <label>{{localize "WW.Targeting.Operation"}}:</label>
       
-      <select name="system.targetingOperation">
-        {{selectOptions targetingOperations selected=system.targetingOperation localize=true}}
+      <select name="system.targetingMode">
+        {{selectOptions targetingModes selected=system.targetingMode localize=true}}
       </select>
     </div>
     
     {{!-- Scene Radius / Size --}}
-    {{#if (ne system.targetingOperation 'manual')}}
+    {{#if (ne system.targetingMode 'manual')}}
     <div class="stat-inline">
       <label>{{localize "WW.Item.Template.Radius"}}:</label>
       <div class="input-wrap mr-1">
@@ -68,7 +68,7 @@
     {{/if}}
   </div>
 
-  {{#if (ne system.targetingOperation 'manual')}}
+  {{#if (ne system.targetingMode 'manual')}}
   {{!-- Template Fields --}}
   <div class="flex-row flex-wrap gap-5 stat-inline mt-1">
 

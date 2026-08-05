@@ -269,7 +269,7 @@ async function _onChatRoll(dataset, label, nextAction) {
     }
   };
   
-  await ChatMessage.applyRollMode(messageData, game.settings.get('core', 'messageMode'));
+  await ChatMessage.applyMode(messageData, game.settings.get('core', 'messageMode'));
   
   // Send to chat
   await ChatMessage.create(messageData);

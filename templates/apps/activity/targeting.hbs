@@ -3,13 +3,21 @@
   <h2>{{localize "WW.Targeting.Targets"}}</h2>
 
   {{!-- Add Buttons --}}
-  <button data-action="selectTargets">
-    <i class="fa-solid fa-arrows-down-to-people"></i> {{localize "WW.Targeting.Manual"}}
-  </button>
-  
-  <button data-action="areaTarget">
-    <i class="fa-solid fa-users-viewfinder"></i> {{localize "WW.Targeting.AreaTarget"}}
-  </button>
+  <div class="buttons">
+    <button data-action="selectTargets">
+      <i class="fa-solid fa-arrows-down-to-people"></i> {{localize "WW.Targeting.Manual"}}
+    </button>
+    
+    {{#if (eq properties.targetingMode 'areaTarget')}}
+    <button data-action="placeTemplate">
+      <i class="fa-solid fa-users-viewfinder"></i> {{localize "WW.Activity.Target.AreaTarget"}}
+    </button>
+    {{else if (eq properties.targetingMode 'areaPersistent')}}
+    <button data-action="placeTemplate">
+      <i class="fa-regular fa-square-full"></i> {{localize "WW.Activity.Target.PlaceTemplate"}}
+    </button>
+    {{/if}}
+  </div>
 
   {{!-- Targets Box --}}
   <div class="targets-box" data-tooltip="WW.Activity.Target.TargetingInfo">
