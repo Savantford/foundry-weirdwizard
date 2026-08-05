@@ -8,7 +8,7 @@ const ApplicationV2 = foundry.applications?.api?.ApplicationV2 ?? (class {});
 const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicationMixin ?? (cls => cls);
 
 /**
- * An attribute and luck roll app
+ * A powerful general app to handle general activity use and dice rolling.
  * @extends {ApplicationV2}
 */
 export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV2) {

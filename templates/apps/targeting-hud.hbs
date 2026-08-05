@@ -1,11 +1,11 @@
-<div class="{{cssClass}} weirdwizard targeting-hud">
+<section>
     <div>{{localize "WW.Targeting.Dialog.SelectTargets"}}</div>
 
     <div class="buttons">
 
-        <button type="button" id="targeting-confirm" {{disabled hasTargets}}>
+        <button type="button" data-action="confirm" {{disabled hasTargets}}>
             <i class="fa-solid fa-dice"></i> {{localize "WW.Targeting.Dialog.Confirm"}}
         </button>
-        
+
     </div>
-</div>
+</section>

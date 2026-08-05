@@ -1,12 +1,16 @@
 import { addInstEffs, addActEffs, targetHeader } from '../sidebar/chat-html-templates.mjs';
 import RollAttribute from '../dice/roll-attribute.mjs';
 
-/**
- * Extend FormApplication to make a prompt shown by damage rolls
- * @extends {FormApplication}
-*/
+// Similar syntax to importing, but note that
+// this is object destructuring rather than an actual import
+const ApplicationV2 = foundry.applications?.api?.ApplicationV2 ?? (class {});
+const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicationMixin ?? (cls => cls);
 
-export default class TargetingHUD extends Application {
+/**
+ * A powerful general app to handle general activity use and dice rolling.
+ * @extends {ApplicationV2}
+*/
+export default class TargetingHUD extends HandlebarsApplicationMixin(ApplicationV2) {
   debounceRender = foundry.utils.debounce(this.render, 50);
 
   constructor(options={}) {
@@ -26,31 +30,54 @@ export default class TargetingHUD extends Application {
     Hooks.on("targetToken", () => this.debounceRender() );
   }
 
-  static get defaultOptions() {
-    const options = super.defaultOptions;
-    options.id = 'targeting-hud';
-    options.template = 'systems/weirdwizard/templates/apps/targeting-hud.hbs';
-    options.height = 'auto';
-    options.popOut = false;
-    options.width = 400;
+  /* -------------------------------------------- */
 
-    return options;
+  static DEFAULT_OPTIONS = {
+    //tag: 'form',
+    //id: 'targeting-hud',
+    classes: ['weirdwizard', 'targeting-hud'],
+    actions: {
+      confirm: TargetingHUD.#onConfirm
+    },
+    window: {
+      frame: false,
+      positioned: false
+    },
+    position: {
+      width: "auto",
+      height: "auto"
+    }
   }
 
-  getData(options = {}) {
-    const context = super.getData()
-    context.hasTargets = !game.user.targets.size;
-    
+  /* -------------------------------------------- */
+
+  static PARTS = {
+    main: {
+      template: 'systems/weirdwizard/templates/apps/targeting-hud.hbs'
+    }
+  }
+
+  /* -------------------------------------------- */
+  /*  Rendering                                   */
+  /* -------------------------------------------- */
+
+  async _prepareContext(options = {}) {
+    const context = {
+      hasTargets: !game.user.targets.size
+    };
+
     return context;
   }
 
-  activateListeners(html) {
-    super.activateListeners(html);
-    
-    html.find('#targeting-confirm').click(() => this.return() );
-  }
+  /* -------------------------------------------- */
+  /*  Actions                                     */
+  /* -------------------------------------------- */
 
-  return() {
+  /**
+   * @param {PointerEvent} event - The originating click event
+   * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
+  */
+  static #onConfirm(event, target) {
     this.close();
 
     // Switch back to the initial layer
