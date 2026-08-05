@@ -1007,6 +1007,7 @@ export default class WWCreatureSheet extends WWActorSheet {
   
         ChatMessage.create(messageData);
       } else {
+        this.minimize();
         new ActivityUse(obj).render(true);
       }
     }

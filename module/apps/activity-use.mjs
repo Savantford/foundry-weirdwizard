@@ -12,7 +12,8 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
  * @extends {ApplicationV2}
 */
 export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV2) {
-
+  debounceRender = foundry.utils.debounce(this.render, 50);
+  
   constructor(config) {
     super(); // Required for "this." to work
 
@@ -63,6 +64,8 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       applySpellBoons: this.properties.isSpell ?? false,
       situationalBoons: 0
     }
+
+    Hooks.on("targetToken", () => this.debounceRender() );
 
   }
 
@@ -269,6 +272,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   */
   static #cancelRoll(event, target) {
     this.close({ submit: false });
+    Hooks.off('targetToken');
   }
 
   /* -------------------------------------------- */
@@ -390,8 +394,9 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     await ChatMessage.applyRollMode(messageData, game.settings.get('core', 'messageMode'));
     await ChatMessage.create(messageData);
 
-    // Submit and close app
+    // Submit, close app and turn off target token hook
     this.close({ submit: true });
+    Hooks.off('targetToken');
   }
 
   /* -------------------------------------------- */
@@ -463,19 +468,12 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   static #selectTargets() {
     const context = {
       ...this.rollConfig,
-      initialLayer: canvas.activeLayer
+      activityApp: this,
+      actor: this.actor
     }
 
-    // Activate Target tool in the Tokens layer
-    canvas.tokens.activate({ tool: 'target' });
-
-    // Hide the sheet that originated the preview
-    this.minimize();
-    this.actor.sheet.minimize();
-
     // Activate TargetingHUD app
-    console.log('targeting')
-    new TargetingHUD(this.config).render(true);
+    new TargetingHUD(context).render(true);
   }
 
   /**
@@ -525,7 +523,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
       // Allow only Characters and NPCs
       if (actor.type === 'character' || actor.type === 'npc') {
-        const against = this.rollConfig.against ? sys.attributes[this.rollConfig.against]?.value : null;
+        let against = this.rollConfig.against ? sys.attributes[this.rollConfig.against]?.value : null;
         if (this.rollConfig.against === 'def') against = sys.stats.defense.total;
         
         targets.push({
