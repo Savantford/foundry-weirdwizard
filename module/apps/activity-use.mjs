@@ -14,10 +14,10 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
 export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV2) {
   debounceRender = foundry.utils.debounce(this.render, 50);
   
-  constructor(config) {
-    super(); // Required for "this." to work
+  constructor(options={}) {
+    super(options); // Required for "this." to work
 
-    const { action, actor, attKey, baseHtml, content, fixedBoons, icon, item, label } = config;
+    const { action, actor, attKey, baseHtml, content, fixedBoons, icon, item, label } = options;
     const sys = actor.system;
 
     // Documents
@@ -49,7 +49,8 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     this.properties = {
       // Rendering properties
       noRoll: attKey ? true : false,
-      noTargeting: config.noTargeting ?? false,
+      noTargeting: options.noTargeting ?? false,
+      skipApp: options.skipApp ?? false,
 
       // Boons properties
       isWeapon: this.item?.system?.subtype === 'weapon' ?? false,

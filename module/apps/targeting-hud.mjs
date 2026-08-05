@@ -9,8 +9,8 @@ import RollAttribute from '../dice/roll-attribute.mjs';
 export default class TargetingHUD extends Application {
   debounceRender = foundry.utils.debounce(this.render, 50);
 
-  constructor(options) {
-    super(); // This is required for the constructor to work
+  constructor(options={}) {
+    super(options); // Required for "this." to work
     
     this.context = options;
     this.initialLayer = canvas.activeLayer;
