@@ -8,6 +8,7 @@ import TargetingHUD from '../../apps/targeting-hud.mjs';
 import WWDialog from '../../apps/dialog.mjs';
 import WWRoll from '../../dice/roll.mjs';
 import WWActorSheet from './base-actor-sheet.mjs';
+import ActivityUse from '../../apps/activity-use.mjs';
 
 /**
  * Extend the basic ActorSheetV2 with modifications tailored for SotWW
@@ -1043,7 +1044,7 @@ export default class WWCreatureSheet extends WWActorSheet {
         } 
 
         // If untargeted-use was clicked
-        else if (operation === 'untargeted-use') new RollAttribute(obj).render(true);
+        else if (operation === 'untargeted-use') new ActivityUse(obj).render(true);
         
       }
     }

@@ -1,0 +1,77 @@
+<section class="standard-form">
+  {{#unless noRoll}}
+  ROLL MODE
+  <div class="roll-main">
+
+
+    {{!-- Total Boones/Banes --}}
+    <h3 class="boons-header">
+      <span>{{localize "WW.Boons.Total"}}</span>
+
+      <span class="boons-display total ml-auto">{{ boonsFinal }}</span>
+    </h3>
+
+    {{!-- Boons Count Box --}}
+    <div class="h3-box">
+
+      {{!-- Affliction Banes --}}
+      <div class="stat-stretch flex-group-left">
+        <label>{{localize "WW.Boons.Afflictions"}}</label>
+        <span class="boons-display">{{numberFormat boonsConfig.fromEffects decimals=0 sign=true}}</span>
+      </div>
+
+      {{!-- Attack Boons --}}
+      {{#if boonsConfig.forAttacks}}
+      <div class="stat-stretch flex-group-left">
+        <label>{{localize "WW.Boons.Attack"}}</label>
+        <input name="applyAttackBoons" class="damage-checkbox attack" type="checkbox" data-tooltip="WW.Boons.Apply"
+          {{#if inputs.applyAttackBoons}}checked{{/if}}>
+        <span class="boons-display attack">{{numberFormat boonsConfig.forAttacks decimals=0 sign=true}}</span>
+      </div>
+      {{/if}}
+
+      {{!-- Fixed Boons --}}
+      {{#if boonsConfig.fixed}}
+      <div class="stat-stretch flex-group-left">
+        <label>{{localize "WW.Boons.Fixed"}}</label>
+        <span class="boons-display fixed">{{numberFormat boonsConfig.fixed decimals=0 sign=true}}</span>
+      </div>
+      {{/if}}
+
+      {{!-- Situational Boons Widget --}}
+      <div class="adjustment-widget">
+        <a class="down" data-action="situationalDown" data-tooltip="WW.Boons.AddBanes"></a>
+
+        <input name="situationalBoons" class="boons-input situational mx-1" type="number"
+          value="{{ inputs.situationalBoons }}" data-tooltip="WW.Boons.Situational" />
+
+        <a class="up" data-action="situationalUp" data-tooltip="WW.Boons.AddBoons"></a>
+      </div>
+
+    </div>
+
+  </div>
+
+  {{!-- Right Column --}}
+  <div class="roll-options">
+
+    {{!-- Custom Target Number --}}
+    <div class="override stat-inline align-center">
+      <label>{{localize "WW.Roll.Flat"}}:</label>
+      <input name="flatMod" type="number" value="{{ inputs.flatMod }}" placeholder="—"
+        data-tooltip="WW.Roll.FlatHint" />
+    </div>
+
+    {{!-- Custom Target Number --}}
+    <div class="override stat-inline align-center">
+      <label>{{localize "WW.Roll.TargetNumber"}}:</label>
+      <input name="customTn" type="number" value="{{ inputs.customTn }}" placeholder="—"
+        data-tooltip="WW.Roll.TargetNumberHint" />
+    </div>
+
+  </div>
+
+  {{!-- Terms Expression --}}
+  <div class="boons-expression flex-group-center">{{ boonsExpression }}</div>
+  {{/unless}}
+</section>

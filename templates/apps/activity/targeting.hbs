@@ -1,0 +1,64 @@
+<section class="targeting">
+  {{#unless noTargeting}}
+  {{!-- Add Buttons --}}
+  <div class="buttons">
+    <button class="icon fa-solid fa-user-large" data-action="targetingAddSelf" data-tooltip="WW.Activity.Target.AddSelf"></button>
+
+    <button class="icon fa-solid fa-arrows-down-to-people" data-action="targetingAddTargets" data-tooltip="WW.Activity.Target.AddTargetedTokens"></button>
+
+    <button class="icon fa-solid fa-users-viewfinder" data-action="targetingSelectTargets" data-tooltip="WW.Activity.Target.SelectTargets"></button>
+
+    <button class="icon fa-solid fa-users-rectangle" data-action="targetingTemplate" data-tooltip="WW.Activity.Target.UseTemplate"></button>
+  </div>
+
+  {{!-- Targets Area --}}
+  <div class="targetsArea" data-tooltip="WW.Activity.Target.Drop">
+    {{#each targetsList as |target|}}
+      {{target}}
+    {{/each}}
+  </div>
+
+  {{!-- Targets Box --}}
+  {{#if targets}}
+  <div class="targets-box">
+    <h3>{{localize "WW.Targeting.Targets"}}</h3>
+  
+    <div class="h3-box boons-targets">
+      {{#each targets as |target id|}}
+      <li>
+        <label><img class="target-icon" src="{{ img }}"> {{ name }}</label>
+  
+        {{#if autoSuccess}}
+        <div class="target-auto-success" data-tooltip="{{localize 'WW.Roll.AutoSuccess'}}">
+          <i class="fa-solid fa-check color-green"></i> {{localize "WW.Roll.AutoSuccess"}}
+        </div>
+  
+        {{else if againstNo}}
+        {{#if (ne boonsNo 0)}}
+        <div class="target-boons">({{ boonsNo }} <img src="{{ boonsIcon }}" data-tooltip="{{boonsTip}}" />)</div>
+        {{/if}}
+  
+        <div class="target-against" data-tooltip="{{ againstLabel }}">{{ againstNo }} <img src="{{ againstIcon }}"></div>
+        {{/if}}
+      </li>
+      {{/each}}
+    </div>
+  </div>
+  {{/if}}
+
+  {{!-- Restrict By --}}
+  <div class="buttons">
+    <button data-action="targetingRestrictBy" data-selected="any" data-tooltip="WW.Effect.AnyTargeted">
+      {{localize "WW.Effect.Any"}}
+    </button>
+
+    <button data-action="targetingRestrictBy" data-selected="enemies" data-tooltip="WW.Effect.EnemiesTargeted">
+      {{localize "WW.Effect.Enemies"}}
+    </button>
+
+    <button data-action="targetingRestrictBy" data-selected="allies" data-tooltip="WW.Effect.AlliesTargeted">
+      {{localize "WW.Effect.Allies"}}
+    </button>
+  </div>
+  {{/unless}}
+</section>

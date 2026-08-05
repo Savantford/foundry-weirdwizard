@@ -415,7 +415,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         let armored = 0,
           natural = null,
           bonus = null;
-
+        console.log(doc.name, doc.uuid, doc.effects)
         for (const e of doc.effects) {
           if (!e.changes) continue;
           for (const c of e.changes) {

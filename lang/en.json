@@ -283,6 +283,11 @@
 "WW.Item.Uses.Full": "Equal to level",
 "WW.Item.Uses.Third": "Increases at 3rd and 7th level",
 
+"WW.Activity.Label": "Activity",
+
+"WW.Activity.Target.SelectTargets": "Target and select tokens manually",
+"WW.Activity.Target.UseTemplate": "Use a region template to target",
+
 "WW.Roll.Label": "Roll",
 "WW.Roll.Details": "Roll Details",
 "WW.Roll.Settings": "Roll Settings",
