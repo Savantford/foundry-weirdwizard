@@ -343,7 +343,6 @@
 
 "WW.Targeting.Dialog.SelectTargets": "Please select one or more tokens to target.",
 "WW.Targeting.Dialog.Confirm": "Confirm Targets and Continue",
-"WW.Targeting.Dialog.Replace": "Replace Template",
 
 "WW.Item.Template.Radius": "Radius (Size)",
 "WW.Item.Template.RadiusUnit": "yard(s)",

@@ -5062,13 +5062,11 @@ details.document-card .card-header:hover::after {
 }
 
 .weirdwizard.targeting-hud .buttons {
-  display: flex;
-  gap: 5px;
+  justify-content: center;
 }
 
 .weirdwizard.targeting-hud button {
   white-space: nowrap;
-  background: var(--color-border-light-2);
 }
 
 .weirdwizard .health-display {
