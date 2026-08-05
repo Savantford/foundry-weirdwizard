@@ -1,5 +1,6 @@
 import WWRoll from '../dice/roll.mjs';
 import { plusify } from '../helpers/utils.mjs';
+import TargetingHUD from './targeting-hud.mjs';
 
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
@@ -74,10 +75,15 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       resizable: true
     },
     actions: {
+      // Roll actions
       situationalUp: ActivityUse.#changeSituationalBoons,
       situationalDown: ActivityUse.#changeSituationalBoons,
       submitRoll: ActivityUse.#submitRoll,
-      cancelRoll: ActivityUse.#cancelRoll
+      cancelRoll: ActivityUse.#cancelRoll,
+
+      // Targeting actions
+      selectTargets: ActivityUse.#selectTargets,
+      areaTarget: ActivityUse.#areaTarget,
     },
     form: {
       handler: this.#onSubmit,
@@ -267,7 +273,6 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
   /* -------------------------------------------- */
 
-  
   /**
    * @param {PointerEvent} event - The originating click event
    * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
@@ -449,6 +454,38 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   }
 
   /* -------------------------------------------- */
+  /*  Targeting actions                           */
+  /* -------------------------------------------- */
+
+  /**
+   * Prompt target selection.
+   */
+  static #selectTargets() {
+    const context = {
+      ...this.rollConfig,
+      initialLayer: canvas.activeLayer
+    }
+
+    // Activate Target tool in the Tokens layer
+    canvas.tokens.activate({ tool: 'target' });
+
+    // Hide the sheet that originated the preview
+    this.minimize();
+    this.actor.sheet.minimize();
+
+    // Activate TargetingHUD app
+    console.log('targeting')
+    new TargetingHUD(this.config).render(true);
+  }
+
+  /**
+   * Scene region selection.
+   */
+  static #areaTarget() {
+    console.log('area targeting')
+  }
+
+  /* -------------------------------------------- */
   /*  Form handling                               */
   /* -------------------------------------------- */
 
@@ -482,22 +519,28 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     const targets = [];
 
     game.user.targets.forEach(tar => {
-      const tDoc = tar.document;
-      const actor = tDoc?.actor;
+      const tokenDoc = tar.document;
+      const actor = tokenDoc.actor;
       const sys = actor?.system;
-      
-      targets.push({
-        id: tar.id,
-        uuid: tDoc.uuid,
-        img: tDoc?.texture?.src,
-        name: game.weirdwizard.utils.getAlias({ token: tDoc, actor: actor }),
-        attributes: actor ? sys.attributes : null,
-        defense: actor ? sys.stats.defense.total : null,
-        againstNo: sys ? (this.rollConfig.against === 'def' ? sys.stats.defense.total : sys.attributes[this.rollConfig.against]?.value) : "—",
-        boons: actor ? sys.boons.selfRoll : null,
-        boonsAgainst: actor ? sys.boons.against : null,
-        autoSuccessAgainst: actor ? sys.autoSuccess?.against : null
-      })
+
+      // Allow only Characters and NPCs
+      if (actor.type === 'character' || actor.type === 'npc') {
+        const against = this.rollConfig.against ? sys.attributes[this.rollConfig.against]?.value : null;
+        if (this.rollConfig.against === 'def') against = sys.stats.defense.total;
+        
+        targets.push({
+          id: tar.id,
+          uuid: tokenDoc.uuid,
+          img: tokenDoc.texture.src,
+          name: game.weirdwizard.utils.getAlias({ token: tokenDoc, actor: actor }),
+          attributes: sys.attributes,
+          defense: sys.stats.defense.total,
+          againstNo: against,
+          boons: sys.boons.selfRoll,
+          boonsAgainst: sys.boons.against,
+          autoSuccessAgainst: sys.autoSuccess.against
+        });
+      }
 
     });
 

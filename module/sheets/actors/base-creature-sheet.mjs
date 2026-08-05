@@ -884,117 +884,99 @@ export default class WWCreatureSheet extends WWActorSheet {
         actEffs: effects
       }
 
-      // If targeted-use button was clicked
-      if (operation === 'targeted-use') {
-        // If item is a weapon, throw a warning if an against attribute was not selected
-        if (item?.system?.subtype === 'weapon' && !item.system.against) ui.notifications.warn(_loc("WW.Roll.AgainstWrn"));
-
-        // If the item uses a template, draw it
-        else if (item.system.targetingOperation == 'areaTarget') {
-          this.drawTemplate(obj);
-        }
-
-        // If the item uses manual targets, prompt selection
-        else if (item.system.targeting == 'manual') {
-          this.selectTargets(obj);
-        }
-      } 
-
       // If untargeted-use was clicked
-      else if (operation === 'untargeted-use') {
 
-        function actEffs() {
-          const effs = {
-            onUse: [],
-            onSuccess: [],
-            onCritical: [],
-            onFailure: []
-          }
-          
-          item.effects?.forEach(effect => {
-            const e = {...effect};
-            e.uuid = effect.uuid;
+      function actEffs() {
+        const effs = {
+          onUse: [],
+          onSuccess: [],
+          onCritical: [],
+          onFailure: []
+        }
 
-            switch (e.system.trigger) {
-              case 'onUse': {
-                effs.onUse.push(e);
-                effs.onSuccess.push(e);
-                effs.onCritical.push(e);
-                effs.onFailure.push(e);
-              }; break;
-              case 'onSuccess': effs.onSuccess.push(e); effs.onCritical.push(e); break;
-              case 'onCritical': effs.onCritical.push(e); break;
-              case 'onFailure': effs.onFailure.push(e); break;
-            }
-      
-          })
-          
-          return effs;
-        }
-      
-        function instEffs() {
-          const effs = {
-            onUse: [],
-            onSuccess: [],
-            onCritical: [],
-            onFailure: []
-          }
-      
-          // Add Weapon Damage
-          const itemSystem = item.system;
-          const weaponDamage = (itemSystem.subtype == 'weapon' && itemSystem.damage) ? itemSystem.damage : 0;
-          
-          if (weaponDamage) {
-            const eff = {
-              label: 'damage',
-              originUuid: item.uuid,
-              value: weaponDamage
-            };
-      
-            effs.onSuccess.push(eff);
-            effs.onCritical.push(eff);
-          }
-          
-          // Add Instant Effects
-          item.system?.instant?.forEach(e => {
+        item.effects?.forEach(effect => {
+          const e = { ...effect };
+          e.uuid = effect.uuid;
 
-            if (!e.trigger) e.trigger = 'onUse';
-            
-            switch (e.trigger) {
-              case 'onUse': {
-                effs.onUse.push(e);
-                effs.onSuccess.push(e);
-                effs.onCritical.push(e);
-                effs.onFailure.push(e);
-              }; break;
-              case 'onSuccess': effs.onSuccess.push(e); effs.onCritical.push(e); break;
-              case 'onCritical': effs.onCritical.push(e); break;
-              case 'onFailure': effs.onFailure.push(e); break;
-            }
-      
-          })
-          
-          return effs;
-        }
-        
-        // Create message data to chat
-        const messageData = {
-          type: 'unrolled-use',
-          speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
-          flavor: label,
-          content: content,
-          sound: CONFIG.sounds.dice,
-          'flags.weirdwizard': {
-            icon: item.img,
-            item: item.uuid,
-            emptyContent: !content ?? true,
-            instEffs: instEffs(),
-            actEffs: actEffs()
+          switch (e.system.trigger) {
+            case 'onUse': {
+              effs.onUse.push(e);
+              effs.onSuccess.push(e);
+              effs.onCritical.push(e);
+              effs.onFailure.push(e);
+            }; break;
+            case 'onSuccess': effs.onSuccess.push(e); effs.onCritical.push(e); break;
+            case 'onCritical': effs.onCritical.push(e); break;
+            case 'onFailure': effs.onFailure.push(e); break;
           }
-        }
-        
-        ChatMessage.create(messageData);
+
+        })
+
+        return effs;
       }
+
+      function instEffs() {
+        const effs = {
+          onUse: [],
+          onSuccess: [],
+          onCritical: [],
+          onFailure: []
+        }
+
+        // Add Weapon Damage
+        const itemSystem = item.system;
+        const weaponDamage = (itemSystem.subtype == 'weapon' && itemSystem.damage) ? itemSystem.damage : 0;
+
+        if (weaponDamage) {
+          const eff = {
+            label: 'damage',
+            originUuid: item.uuid,
+            value: weaponDamage
+          };
+
+          effs.onSuccess.push(eff);
+          effs.onCritical.push(eff);
+        }
+
+        // Add Instant Effects
+        item.system?.instant?.forEach(e => {
+
+          if (!e.trigger) e.trigger = 'onUse';
+
+          switch (e.trigger) {
+            case 'onUse': {
+              effs.onUse.push(e);
+              effs.onSuccess.push(e);
+              effs.onCritical.push(e);
+              effs.onFailure.push(e);
+            }; break;
+            case 'onSuccess': effs.onSuccess.push(e); effs.onCritical.push(e); break;
+            case 'onCritical': effs.onCritical.push(e); break;
+            case 'onFailure': effs.onFailure.push(e); break;
+          }
+
+        })
+
+        return effs;
+      }
+
+      // Create message data to chat
+      const messageData = {
+        type: 'unrolled-use',
+        speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
+        flavor: label,
+        content: content,
+        sound: CONFIG.sounds.dice,
+        'flags.weirdwizard': {
+          icon: item.img,
+          item: item.uuid,
+          emptyContent: !content ?? true,
+          instEffs: instEffs(),
+          actEffs: actEffs()
+        }
+      }
+
+      ChatMessage.create(messageData);
       
     } else { // Attempt to use RollAttribute app
 
@@ -1024,28 +1006,8 @@ export default class WWCreatureSheet extends WWActorSheet {
         };
   
         ChatMessage.create(messageData);
-      } else { // Roll
-        
-        // If targeted-use button was clicked
-        if (operation === 'targeted-use') {
-
-          // If item is a weapon, throw a warning if an against attribute was not selected
-          if (item?.system?.subtype === 'weapon' && !item.system.against) ui.notifications.warn(_loc("WW.Roll.AgainstWrn"));
-
-          // If the item uses a template, draw it
-          else if (item.system.targetingOperation == 'areaTarget') {
-            this.drawTemplate(obj);
-          }
-
-          // If the item uses manual targets, prompt selection
-          else if (item.system.targetingOperation == 'manual') {
-            this.selectTargets(obj);
-          }
-        } 
-
-        // If untargeted-use was clicked
-        else if (operation === 'untargeted-use') new ActivityUse(obj).render(true);
-        
+      } else {
+        new ActivityUse(obj).render(true);
       }
     }
     
@@ -1253,28 +1215,6 @@ export default class WWCreatureSheet extends WWActorSheet {
 
   static #onFolderEdit() {
     this.actor.folder.sheet.render(true);
-  }
-
-  /* -------------------------------------------- */
-  /*  Utility methods                             */
-  /* -------------------------------------------- */
-
-  /**
-   * Select targets for an item roll
-   * @param {Object} context
-   */
-  async selectTargets(context) {
-    // Activate Target tool in the Tokens layer
-    context.initialLayer = canvas.activeLayer;
-    canvas.tokens.activate({ tool: 'target' });
-
-    // Hide the sheet that originated the preview
-    this.minimize();
-
-    console.log(context)
-
-    // Activate TargetingHUD app
-    new TargetingHUD(context).render(true);
   }
   
   /* -------------------------------------------- */
