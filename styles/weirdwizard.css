@@ -314,13 +314,13 @@ body.theme-dark,
 }
 
 .flex,
-.flex-children>* {
+.flex-children > * {
   display: flex;
   gap: 5px;
   align-items: center;
 }
 
-.flex-children.baseline>* {
+.flex-children.baseline >*  {
   align-items: baseline;
 }
 
@@ -1498,7 +1498,7 @@ body.theme-dark.application.weirdwizard .window-content {
   margin: -0.5em 0.5em 0.5em calc(var(--sheet-banner-width) - 0.5rem);
   filter: drop-shadow(1px 0 1px black);
 
-  >*:first-child {
+  > *:first-child {
     flex: 1;
   }
 
@@ -3188,7 +3188,7 @@ prose-mirror .textbox {
   text-align: center;
 }
 
-.weirdwizard.instant-effect .form-group>* {
+.weirdwizard.instant-effect .form-group > * {
   flex: 1;
 }
 
@@ -4713,7 +4713,7 @@ details.document-card .card-header:hover::after {
   justify-content: space-around;
 }
 
-#multi-choice .mc-buttons>* {
+#multi-choice .mc-buttons > * {
   flex: 1;
 }
 
@@ -4847,16 +4847,25 @@ details.document-card .card-header:hover::after {
     margin: 10px 0 0;
   }
 
+  .targets-box,
   .h3-box {
     display: flex;
     flex-flow: column;
     gap: 5px;
-    text-align: center;
-    border: 1px solid var(--purple-dark);
-    border-top: none;
-    padding: 5px;
-    border-radius: 0 0 5px 5px;
     background: var(--background-color-shadow);
+    border: 1px solid var(--purple-dark);
+    border-radius: 5px;
+    padding: 5px;
+    text-align: center;
+  }
+
+  .targets-box {
+    margin: 5px 0;
+  }
+
+  .h3-box {
+    border-top: none;
+    border-radius: 0 0 5px 5px;
   }
 
   .damage-display {
@@ -4916,8 +4925,12 @@ details.document-card .card-header:hover::after {
 .weirdwizard.activity-use {
   .form-body {
     display: flex;
-    flex-flow: nowrap;
+    flex-flow: wrap;
     gap: 1em;
+
+    > * {
+      flex: 1;
+    }
   }
 }
 
@@ -4959,7 +4972,7 @@ details.document-card .card-header:hover::after {
     width: 30px;
   }
 
-  .boons-targets {
+  .targets-box {
     li {
       display: flex;
       gap: 5px;

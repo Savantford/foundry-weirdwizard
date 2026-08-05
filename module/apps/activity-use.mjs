@@ -85,7 +85,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       closeOnSubmit: false
     },
     position: {
-      width: "auto",
+      width: 670,
       height: "auto"
     }
   }
