@@ -154,7 +154,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
 
     // Targeting and scene region template
     context.targetingModes = CONFIG.WW.TARGETING_MODES;
-    context.targetingRestrictions = CONFIG.WW.TARGETING_MODES;
+    context.targetingRestrictions = CONFIG.WW.TARGETING_RESTRICTIONS;
     context.needTargets = this.document.needTargets;
     context.templateTypes = CONFIG.WW.TEMPLATE_TYPES;
     context.templateRestrictions = Object.fromEntries(
@@ -269,7 +269,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
             labelLoc: CONFIG.WW.INSTANT_LABELS[e.label],
             triggerLoc: CONFIG.WW.INSTANT_TRIGGERS[e.trigger],
             triggerIcon: CONFIG.WW.EFFECT_TRIGGER_ICONS[e.trigger],
-            targetLoc: CONFIG.WW.TARGETING_MODES[e.target],
+            targetLoc: CONFIG.WW.TARGETING_RESTRICTIONS[e.target],
             targetIcon: CONFIG.WW.EFFECT_TARGET_ICONS[e.target],
           };
           
@@ -290,7 +290,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
             const system = effect.system;
             effect.triggerLoc = CONFIG.WW.INSTANT_TRIGGERS[system.trigger];
             effect.triggerIcon = CONFIG.WW.EFFECT_TRIGGER_ICONS[system.trigger];
-            effect.targetLoc = CONFIG.WW.TARGETING_MODES[system.target];
+            effect.targetLoc = CONFIG.WW.TARGETING_RESTRICTIONS[system.target];
             effect.targetIcon = CONFIG.WW.EFFECT_TARGET_ICONS[system.target];
           }
         }

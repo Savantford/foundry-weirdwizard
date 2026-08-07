@@ -4312,7 +4312,7 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard.dialog .form-footer button.default,
 .weirdwizard.roll-table-sheet .form-footer > button,
 #multi-choice .mc-buttons button,
-.roll-attribute .form-footer button,
+.activity-use .form-footer button,
 #roll-damage .form-footer button,
 .folder-edit button[type="submit"] {
   border: none;
@@ -4336,8 +4336,9 @@ input[type="checkbox"].checkbox-uses {
   margin-top: 5px;
 }
 
-.weirdwizard.dialog .form-footer button.default {
-  filter: drop-shadow(0 0 0px var(--purple-dark));
+.weirdwizard.dialog .form-footer button.default,
+.activity-use .form-footer button[aria-pressed=true] {
+  filter: drop-shadow(0 0 0px var(--control-active-border-color)) drop-shadow(0 0 0px var(--control-active-border-color));
 }
 
 .weirdwizard.dialog .form-footer button:hover,
@@ -4346,8 +4347,8 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard.roll-table-sheet .form-footer > button:focus,
 #multi-choice .mc-buttons button:hover,
 #multi-choice .mc-buttons button:focus,
-.roll-attribute .form-footer button:hover,
-.roll-attribute .form-footer button:focus,
+.activity-use .form-footer button:hover,
+.activity-use .form-footer button:focus,
 #roll-damage .form-footer button:hover,
 #roll-damage .form-footer button:focus {
   border-image-source: url(../assets/ui/plates/single-transparent-thicker.svg);
@@ -4824,7 +4825,6 @@ details.document-card .card-header:hover::after {
 
 /* Shared Style */
 .weirdwizard.activity-use,
-.weirdwizard.roll-attribute,
 #roll-damage {
   form {
     display: flex;
@@ -4857,10 +4857,6 @@ details.document-card .card-header:hover::after {
     border-radius: 5px;
     padding: 5px;
     text-align: center;
-  }
-
-  .targets-box {
-    margin: 5px 0;
   }
 
   .h3-box {
@@ -4920,27 +4916,52 @@ details.document-card .card-header:hover::after {
     line-height: normal;
   }
 
-  .split-button.targeting-mode .ui-control {
+  .split-button.targeting-restriction .ui-control {
     width: auto;
+    font-size: inherit;
   }
-}
 
-/* Use Activity App */
-.weirdwizard.activity-use {
-  .form-body {
+  .form-footer {
     display: flex;
-    flex-flow: wrap;
-    gap: 1em;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
 
-    > * {
+    button:not(.message-modes) {
       flex: 1;
     }
   }
 }
 
+/* Use Activity App */
+.weirdwizard.activity-use {
+  .window-content {
+    gap: 1em;
+
+    .form-body {
+      display: flex;
+      flex-flow: wrap;
+      gap: 1em;
+      padding: 0;
+      overflow: auto;
+
+      > * {
+        flex: 1;    
+        display: flex;
+        flex-flow: column;
+        gap: 0.5em;
+      }
+
+      h2 {
+        margin: 0;
+      }
+    }
+  }
+}
+
 /* Attribute Roll App */
-.weirdwizard.activity-use,
-.weirdwizard.roll-attribute {
+.weirdwizard.activity-use {
   h3.boons-header {
     display: flex;
     align-items: center;

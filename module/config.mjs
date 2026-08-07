@@ -335,7 +335,7 @@ WW.TARGETING_MODES = {
   'areaPersistent': 'WW.Targeting.Modes.AreaPersistent'
 }
 
-WW.TARGETING_MODES = {
+WW.TARGETING_RESTRICTIONS = {
   'any': 'WW.Targeting.Restrictions.Any',
   'enemies': 'WW.Targeting.Restrictions.Enemies',
   'allies': 'WW.Targeting.Restrictions.Allies'

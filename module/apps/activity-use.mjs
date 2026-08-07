@@ -77,7 +77,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     classes: ['weirdwizard', 'activity-use'],
     window: {
       title: this.title,
-      icon: 'fa-solid fa-dice-d20',
+      icon: 'fa-regular fa-dice-d20',
       resizable: true
     },
     actions: {
@@ -90,7 +90,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       // Targeting actions
       selectTargets: ActivityUse.#selectTargets,
       placeTemplate: ActivityUse.#placeTemplate,
-      targetingMode: ActivityUse.#onChangeTargetingMode,
+      targetingRestriction: ActivityUse.#onChangeTargetingRestriction,
 
       // Other actions
       messageMode: ActivityUse.#onChangeMessageMode
@@ -101,7 +101,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       closeOnSubmit: false
     },
     position: {
-      width: 670,
+      width: 400,
       height: "auto"
     }
   }
@@ -110,20 +110,18 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
   static PARTS = {
     header: {
-      template: 'systems/weirdwizard/templates/apps/activity/header.hbs',
-      scrollable: []
+      template: 'systems/weirdwizard/templates/apps/activity/header.hbs'
     },
     body: {
       template: 'systems/weirdwizard/templates/apps/activity/body.hbs',
-      scrollable: [],
+      scrollable: ['.standard-form'],
       templates: [
         'systems/weirdwizard/templates/apps/activity/roll.hbs',
         'systems/weirdwizard/templates/apps/activity/targeting.hbs'
       ]
     },
     footer: {
-      template: 'systems/weirdwizard/templates/apps/activity/footer.hbs',
-      scrollable: []
+      template: 'systems/weirdwizard/templates/apps/activity/footer.hbs'
     }
   }
 
@@ -248,9 +246,10 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     }
 
     // Targeting Modes
-    const targetingMode = this.targeting.mode ?? 'any';
-    context.targetingModes = Object.entries(CONFIG.WW.TARGETING_MODES).map(([action, label]) => {
-      return {label, action, active: action === targetingMode};
+    const targetingRestriction = this.targeting.restriction ?? 'any';
+    context.targetingRestrictions = Object.entries(CONFIG.WW.TARGETING_RESTRICTIONS).map(([action, label]) => {
+      console.log(action, targetingRestriction)
+      return {label, action, active: action === targetingRestriction};
     });
 
     // Message Modes
@@ -509,12 +508,14 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   /* -------------------------------------------- */
 
   /**
-   * Handle changing the targeting mode.
+   * Handle changing the targeting restriction.
    * @type {ApplicationClickAction}
    */
-  static #onChangeTargetingMode(event) {
-    const mode = event.target.dataset.mode;
-    this.targeting.mode = mode;
+  static #onChangeTargetingRestriction(event, target) {
+    const restriction = target.dataset.restriction;
+    console.log(restriction)
+    this.targeting.restriction = restriction;
+    console.log(this.targeting.restriction)
     this.render();
   }
 
@@ -526,8 +527,8 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
    * Handle changing the message mode.
    * @type {ApplicationClickAction}
    */
-  static #onChangeMessageMode(event) {
-    const mode = event.target.dataset.mode;
+  static #onChangeMessageMode(event, target) {
+    const mode = target.dataset.mode;
     game.settings.set("core", "messageMode", mode);
     this.render();
   }

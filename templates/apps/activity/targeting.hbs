@@ -46,21 +46,14 @@
   </div>
 
   {{!-- Targeting Mode --}}
-  <div class="split-button targeting-mode">
-    {{#each targetingModes as |mode|}}
-    <button type="button" class="ui-control" data-action="targetingMode" data-mode="{{mode.action}}" aria-pressed="{{mode.active}}">
-      {{localize mode.label}}
+  <div class="split-button targeting-restriction">
+    {{#each targetingRestrictions as |restriction|}}
+    <button type="button" class="ui-control" data-action="targetingRestriction"
+      data-restriction="{{restriction.action}}" aria-pressed="{{restriction.active}}">
+      {{localize restriction.label}}
     </button>
     {{/each}}
   </div>
   {{/unless}}
-
-  {{!-- Message Mode --}}
-  <div id="message-modes" class="split-button">
-    {{#each messageModes as |mode|}}
-    <button type="button" class="ui-control icon {{mode.icon}}" data-action="messageMode" data-mode="{{mode.action}}"
-      aria-pressed="{{mode.active}}" data-tooltip aria-label="{{localize mode.label}}"></button>
-    {{/each}}
-  </div>
 
 </section>

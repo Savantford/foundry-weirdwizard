@@ -1,9 +1,11 @@
-<section class="standard-form">
+<section class="roll">
   {{#unless noRoll}}
-  ROLL MODE
+  <h2>{{localize "WW.Roll.Label"}}</h2>
+
+  {{!-- Terms Expression --}}
+  <div class="boons-expression flex-group-center">{{ boonsExpression }}</div>
+
   <div class="roll-main">
-
-
     {{!-- Total Boones/Banes --}}
     <h3 class="boons-header">
       <span>{{localize "WW.Boons.Total"}}</span>
@@ -38,22 +40,21 @@
       </div>
       {{/if}}
 
-      {{!-- Situational Boons Widget --}}
-      <div class="adjustment-widget">
-        <a class="down" data-action="situationalDown" data-tooltip="WW.Boons.AddBanes"></a>
-
-        <input name="situationalBoons" class="boons-input situational mx-1" type="number"
-          value="{{ inputs.situationalBoons }}" data-tooltip="WW.Boons.Situational" />
-
-        <a class="up" data-action="situationalUp" data-tooltip="WW.Boons.AddBoons"></a>
-      </div>
-
     </div>
 
   </div>
 
   {{!-- Right Column --}}
   <div class="roll-options">
+    {{!-- Situational Boons Widget --}}
+    <div class="adjustment-widget">
+      <a class="down" data-action="situationalDown" data-tooltip="WW.Boons.AddBanes"></a>
+    
+      <input name="situationalBoons" class="boons-input situational mx-1" type="number"
+        value="{{ inputs.situationalBoons }}" data-tooltip="WW.Boons.Situational" />
+    
+      <a class="up" data-action="situationalUp" data-tooltip="WW.Boons.AddBoons"></a>
+    </div>
 
     {{!-- Custom Target Number --}}
     <div class="override stat-inline align-center">
@@ -70,8 +71,5 @@
     </div>
 
   </div>
-
-  {{!-- Terms Expression --}}
-  <div class="boons-expression flex-group-center">{{ boonsExpression }}</div>
   {{/unless}}
 </section>
