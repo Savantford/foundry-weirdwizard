@@ -327,10 +327,18 @@ WW.ROLL_AGAINST = {
   'wil': 'WW.Attributes.Will'
 }
 
-WW.TARGETING_OPERATIONS = {
-  'manual': 'WW.Targeting.Manual',
-  'areaTarget': 'WW.Targeting.AreaTarget',
-  'areaPersistent': 'WW.Targeting.AreaPersistent'
+WW.TARGETING_MODES = {
+  'none': 'WW.Targeting.Modes.None',
+  'self': 'WW.Targeting.Modes.Self',
+  'manual': 'WW.Targeting.Modes.Manual',
+  'areaTarget': 'WW.Targeting.Modes.AreaTarget',
+  'areaPersistent': 'WW.Targeting.Modes.AreaPersistent'
+}
+
+WW.TARGETING_RESTRICTIONS = {
+  'any': 'WW.Targeting.Restrictions.Any',
+  'enemies': 'WW.Targeting.Restrictions.Enemies',
+  'allies': 'WW.Targeting.Restrictions.Allies'
 }
 
 WW.TEMPLATE_TYPES = {
@@ -469,25 +477,11 @@ WW.EFFECT_TRIGGER_ICONS = {
   'onFailure': 'fa-solid fa-x'
 }
 
-WW.EFFECT_TARGETS = {
-  'none': 'WW.Effect.None',
-  'tokens': 'WW.Effect.Any',
-  'enemies': 'WW.Effect.Enemies',
-  'allies': 'WW.Effect.Allies'
-}
-
 WW.EFFECT_TARGET_ICONS = {
   'none': 'fa-solid fa-user',
   'tokens': 'fa-solid fa-users-viewfinder',
   'enemies': 'fa-solid fa-users-viewfinder color-red',
   'allies': 'fa-solid fa-users-viewfinder color-green'
-}
-
-WW.EFFECT_TARGETS_TARGETED = {
-  'none': 'WW.Effect.NoneTargeted',
-  'tokens': 'WW.Effect.AnyTargeted',
-  'enemies': 'WW.Effect.EnemiesTargeted',
-  'allies': 'WW.Effect.AlliesTargeted'
 }
 
 WW.EFFECT_DURATION_PRESETS = {

@@ -58,7 +58,7 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
       case "details":
         // If effect has duration, use instant triggers since they remove "passive" option
         partContext.triggers = this.document.isTemporary ? CONFIG.WW.INSTANT_TRIGGERS : CONFIG.WW.EFFECT_TRIGGERS;
-        partContext.targets = CONFIG.WW.EFFECT_TARGETS;
+        partContext.targets = CONFIG.WW.TARGETING_RESTRICTIONS;
         break;
 
       // Duration tab

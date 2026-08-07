@@ -46,31 +46,48 @@
   <h3>{{localize "WW.Targeting.Label"}}</h3>
 
   <div class="flex-row flex-wrap gap-5 stat-inline mt-1">
-    {{!-- Targeting Operation --}}
+    {{!-- Targeting Mode / Operation --}}
     <div class="stat-inline">
-      <label>{{localize "WW.Targeting.Operation"}}:</label>
+      <label>{{localize "WW.Targeting.Modes.Label"}}:</label>
       
-      <select name="system.targetingMode">
-        {{selectOptions targetingModes selected=system.targetingMode localize=true}}
+      <select name="system.targeting.mode">
+        {{selectOptions targetingModes selected=system.targeting.mode localize=true}}
       </select>
     </div>
     
-    {{!-- Scene Radius / Size --}}
-    {{#if (ne system.targetingMode 'manual')}}
+    {{#if (or (eq system.targeting.mode 'manual') (eq system.targeting.mode 'areaTarget') (eq system.targeting.mode 'areaPersistent'))}}
+    {{!-- Restriction --}}
     <div class="stat-inline">
-      <label>{{localize "WW.Item.Template.Radius"}}:</label>
+      <label>{{localize "WW.Targeting.Restrictions.Label"}}:</label>
+      
+      <select name="system.targeting.restriction">
+        {{selectOptions targetingRestrictions selected=system.targeting.restriction localize=true}}
+      </select>
+    </div>
+
+    {{!-- Range --}}
+    <div class="stat-inline">
+      <label>{{localize "WW.Targeting.Range"}}:</label>
       <div class="input-wrap mr-1">
-        <input type="number" name="system.template.radius" value="{{system.template.radius}}" min="1" />
-        <div class="input-overlay">{{system.template.radius}}</div>
+        <input type="number" name="system.targeting.range" value="{{system.targeting.range}}" min="0" data-tooltip="WW.System.YardsHint" />
+        <div class="input-overlay">{{system.targeting.range}}</div>
       </div>
-      {{localize "WW.Item.Template.RadiusUnit"}}
     </div>
     {{/if}}
   </div>
 
-  {{#if (ne system.targetingMode 'manual')}}
   {{!-- Template Fields --}}
+  {{#if (or (eq system.targeting.mode 'areaTarget') (eq system.targeting.mode 'areaPersistent'))}}
   <div class="flex-row flex-wrap gap-5 stat-inline mt-1">
+
+    {{!-- Scene Radius / Size --}}
+    <div class="stat-inline">
+      <label>{{localize "WW.Item.Template.Radius"}}:</label>
+      <div class="input-wrap mr-1">
+        <input type="number" name="system.template.radius" value="{{system.template.radius}}" min="1" data-tooltip="WW.System.YardsHint" />
+        <div class="input-overlay">{{system.template.radius}}</div>
+      </div>
+    </div>
 
     {{!-- Attached --}}
     <div class="stat-inline">

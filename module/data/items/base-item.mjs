@@ -24,7 +24,6 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
       }),
       boonsAlt: makeStrField(),
 
-      range: makeIntField(),
       affliction: makeStrField(), // Make it required maybe
 
       uses: new fields.SchemaField({
@@ -45,7 +44,11 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
       ),
 
       // Targeting & scene region template
-      targetingMode: makeRequiredStrField('manual'),
+      targeting: new fields.SchemaField({
+        mode: makeRequiredStrField('manual'),
+        restriction: makeRequiredStrField('any'),
+        range: makeIntField()
+      }),
 
       template: new fields.SchemaField({
         radius: makeIntField(5),
@@ -80,11 +83,16 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
       else if (!source.grantedBy?.includes('.')) source.grantedBy = null;
     }
 
-    // Migrate measured template params to scene region options
-    if (source.targeting && !source.targetingMode) source.targetingMode = source.targeting;
-    if (source.targetingMode === 'template') source.targetingMode = 'areaTarget';
-    if (source.template?.type === 'spread' || source.template?.type === 'size') source.template.type = 'emanation';
-    if (source.template?.type === 'spread') source.template.enabled = true;
+    // Migrate targeting & scene region template
+    if (typeof source.targeting === 'string') {
+      source.targeting = {
+        mode: source.targeting,
+        range: source.range
+      };
+
+      if (source.targeting.mode === 'template') source.targeting.mode = 'areaTarget';
+    }
+    
     if (source.template?.value) source.template.radius = source.template.value;
     
     return source;

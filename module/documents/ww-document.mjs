@@ -230,7 +230,7 @@ export default function WWDocumentMixin(base) {
                 for (const x of item.system.traits) {
                   let string = _loc('WW.Weapon.Traits.' + capitalize(x) + '.Label');
                   
-                  if ((x === 'range') || (x === 'reach' && item.system.range) || (x === 'thrown')) string += ` ${item.system.range}`;
+                  if ((x === 'range') || (x === 'reach' && item.system.targeting.range) || (x === 'thrown')) string += ` ${item.system.targeting.range}`;
 
                   list = list.concat(list ? ', ' + string : string);
                 }

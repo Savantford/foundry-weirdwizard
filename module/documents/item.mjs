@@ -168,7 +168,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     options.origin?.maximize();
 
     // Target tokens
-    const targeting = this.system.targetingMode === 'areaTarget';
+    const targeting = this.system.targeting.mode === 'areaTarget';
     if (!targeting || !region) return region;
 
     // Select and filter tokens

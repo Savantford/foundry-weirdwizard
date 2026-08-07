@@ -50,8 +50,8 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       // Rendering properties
       skipApp: options.skipApp ?? false,
       noRoll: attKey ? true : false,
-      noTargeting: options.noTargeting ?? false,
-      targetingMode: item ? item.system.targetingMode : null,
+      targeting: item.system.targeting ?? null,
+      range: item.system.targeting.range ?? null,
 
       // Boons properties
       isWeapon: this.item?.system?.subtype === 'weapon' ?? false,

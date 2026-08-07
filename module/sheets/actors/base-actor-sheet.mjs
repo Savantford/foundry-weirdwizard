@@ -160,7 +160,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
           for (const x of i.system.traits) {
             let string = _loc('WW.Weapon.Traits.' + capitalize(x) + '.Label');
 
-            if ((x === 'range') || (x === 'reach' && i.system.range) || (x === 'thrown')) string += ` ${i.system.range}`;
+            if ((x === 'range') || (x === 'reach' && i.system.targeting.range) || (x === 'thrown')) string += ` ${i.system.targeting.range}`;
 
             list = list.concat(list ? ', ' + string : string);
           }
