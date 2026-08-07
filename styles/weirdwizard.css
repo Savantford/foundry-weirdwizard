@@ -4313,6 +4313,7 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard.roll-table-sheet .form-footer > button,
 #multi-choice .mc-buttons button,
 .activity-use button,
+.activity-use .customize-roll,
 #roll-damage .form-footer button,
 .folder-edit button[type="submit"] {
   border: none;
@@ -4342,6 +4343,14 @@ input[type="checkbox"].checkbox-uses {
   filter: drop-shadow(0 0 0px var(--control-active-border-color)) drop-shadow(0 0 0px var(--control-active-border-color));
 }
 
+.activity-use .customize-roll {
+  font: inherit;
+
+  summary {
+    margin-left: 3px;
+  }
+}
+
 .weirdwizard.dialog .form-footer button:hover,
 .weirdwizard.dialog .form-footer button:focus,
 .weirdwizard.roll-table-sheet .form-footer > button:hover,
@@ -4350,6 +4359,8 @@ input[type="checkbox"].checkbox-uses {
 #multi-choice .mc-buttons button:focus,
 .activity-use button:hover,
 .activity-use button:focus,
+.activity-use .customize-roll:hover,
+.activity-use .customize-roll:focus,
 #roll-damage .form-footer button:hover,
 #roll-damage .form-footer button:focus {
   border-image-source: url(../assets/ui/plates/single-transparent-thicker.svg);
@@ -4966,6 +4977,7 @@ details.document-card .card-header:hover::after {
         display: flex;
         flex-flow: column;
         gap: 0.5em;
+        min-width: 250px;
       }
 
       h2 {
@@ -5006,6 +5018,7 @@ details.document-card .card-header:hover::after {
     display: flex;
     flex-flow: column;
     gap: 5px;
+    margin: 5px 0;
   }
 
   .override input {

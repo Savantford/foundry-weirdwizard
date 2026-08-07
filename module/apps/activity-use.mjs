@@ -60,6 +60,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       isMagical: this.item?.system?.magical,
       isSpell: this.item?.type === 'spell' ?? false
     };
+    
 
     // Default Form Data Values
     this.formData = {
@@ -68,8 +69,8 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       situationalBoons: 0
     }
 
+    // Enable token targeting listener
     Hooks.on("targetToken", () => this.debounceRender() );
-
   }
 
   static DEFAULT_OPTIONS = {
@@ -82,6 +83,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     },
     actions: {
       // Roll actions
+      toggleCustomization: ActivityUse.#onToggleRollCustomization,
       situationalUp: ActivityUse.#changeSituationalBoons,
       situationalDown: ActivityUse.#changeSituationalBoons,
       submitRoll: ActivityUse.#submitRoll,
@@ -101,7 +103,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       closeOnSubmit: false
     },
     position: {
-      width: 400,
+      width: 425,
       height: "auto"
     }
   }
@@ -248,7 +250,6 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     // Targeting Modes
     const targetingRestriction = this.targeting.restriction ?? 'any';
     context.targetingRestrictions = Object.entries(CONFIG.WW.TARGETING_RESTRICTIONS).map(([action, label]) => {
-      console.log(action, targetingRestriction)
       return {label, action, active: action === targetingRestriction};
     });
 
@@ -263,6 +264,19 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
   /* -------------------------------------------- */
   /*  Actions                                     */
+  /* -------------------------------------------- */
+
+  /**
+   * @param {PointerEvent} event - The originating click event
+   * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
+  */
+  static #onToggleRollCustomization(event, target) {
+    const open = target.parentNode.open;
+    console.log('isOpen', open)
+    this.properties.customizationOpen = !open;
+    console.log('property', this.properties.customizationOpen)
+  }
+
   /* -------------------------------------------- */
 
   /**
@@ -500,8 +514,6 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
    * Scene region selection.
    */
   static #placeTemplate() {
-    console.log('area targeting')
-
     this.item.placeTemplate({ origin: this });
   }
 
@@ -513,9 +525,8 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
    */
   static #onChangeTargetingRestriction(event, target) {
     const restriction = target.dataset.restriction;
-    console.log(restriction)
+    
     this.targeting.restriction = restriction;
-    console.log(this.targeting.restriction)
     this.render();
   }
 
