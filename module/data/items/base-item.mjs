@@ -81,7 +81,7 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
     }
 
     // Migrate measured template params to scene region options
-    if (source.targeting) source.targetingMode = source.targeting;
+    if (source.targeting && !source.targetingMode) source.targetingMode = source.targeting;
     if (source.targetingMode === 'template') source.targetingMode = 'areaTarget';
     if (source.template?.type === 'spread' || source.template?.type === 'size') source.template.type = 'emanation';
     if (source.template?.type === 'spread') source.template.enabled = true;
