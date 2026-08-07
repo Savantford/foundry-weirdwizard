@@ -4312,7 +4312,7 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard.dialog .form-footer button.default,
 .weirdwizard.roll-table-sheet .form-footer > button,
 #multi-choice .mc-buttons button,
-.activity-use .form-footer button,
+.activity-use button,
 #roll-damage .form-footer button,
 .folder-edit button[type="submit"] {
   border: none;
@@ -4324,6 +4324,7 @@ input[type="checkbox"].checkbox-uses {
   color: var(--body-text-color);
   font-variant-caps: small-caps;
   font-size: var(--font-size-16);
+  font-weight: 600;
   white-space: nowrap;
 }
 
@@ -4337,7 +4338,7 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .weirdwizard.dialog .form-footer button.default,
-.activity-use .form-footer button[aria-pressed=true] {
+.activity-use button[aria-pressed=true] {
   filter: drop-shadow(0 0 0px var(--control-active-border-color)) drop-shadow(0 0 0px var(--control-active-border-color));
 }
 
@@ -4347,8 +4348,8 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard.roll-table-sheet .form-footer > button:focus,
 #multi-choice .mc-buttons button:hover,
 #multi-choice .mc-buttons button:focus,
-.activity-use .form-footer button:hover,
-.activity-use .form-footer button:focus,
+.activity-use button:hover,
+.activity-use button:focus,
 #roll-damage .form-footer button:hover,
 #roll-damage .form-footer button:focus {
   border-image-source: url(../assets/ui/plates/single-transparent-thicker.svg);
@@ -4356,6 +4357,20 @@ input[type="checkbox"].checkbox-uses {
   border-image-width: 6px;
   box-shadow: none;
   outline: none;
+}
+
+.activity-use .split-button {
+  button {
+    border-image-width: 5px 0;
+  }
+
+  button:first-child {
+    border-image-width: 5px 0 5px 5px;
+  }
+
+  button:last-child {
+    border-image-width: 5px 5px 5px 0;
+  }
 }
 
 /* -------------------------------------------- */
@@ -4928,7 +4943,7 @@ details.document-card .card-header:hover::after {
     align-items: center;
     gap: 5px;
 
-    button:not(.message-modes) {
+    button {
       flex: 1;
     }
   }
