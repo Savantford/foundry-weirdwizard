@@ -44,14 +44,15 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       forSpells: sys.boons.selfRoll.spells,
       final: 0
     };
+
+    // Targeting properties
+    this.targeting = item.system.targeting ?? null;
     
     // Properties
     this.properties = {
       // Rendering properties
       skipApp: options.skipApp ?? false,
       noRoll: attKey ? true : false,
-      targeting: item.system.targeting ?? null,
-      range: item.system.targeting.range ?? null,
 
       // Boons properties
       isWeapon: this.item?.system?.subtype === 'weapon' ?? false,
@@ -89,6 +90,10 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       // Targeting actions
       selectTargets: ActivityUse.#selectTargets,
       placeTemplate: ActivityUse.#placeTemplate,
+      targetingMode: ActivityUse.#onChangeTargetingMode,
+
+      // Other actions
+      messageMode: ActivityUse.#onChangeMessageMode
     },
     form: {
       handler: this.#onSubmit,
@@ -241,6 +246,18 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
       context.targets = targets;
     }
+
+    // Targeting Modes
+    const targetingMode = this.targeting.mode ?? 'any';
+    context.targetingModes = Object.entries(CONFIG.WW.TARGETING_MODES).map(([action, label]) => {
+      return {label, action, active: action === targetingMode};
+    });
+
+    // Message Modes
+    const messageMode = game.settings.get("core", "messageMode");
+    context.messageModes = Object.entries(CONFIG.ChatMessage.modes).map(([action, {label, icon}]) => {
+      return {icon, label, action, active: action === messageMode};
+    });
     
     return context;
   }
@@ -478,6 +495,8 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     new TargetingHUD(context).render(true);
   }
 
+  /* -------------------------------------------- */
+
   /**
    * Scene region selection.
    */
@@ -485,6 +504,32 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     console.log('area targeting')
 
     this.item.placeTemplate({ origin: this });
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle changing the targeting mode.
+   * @type {ApplicationClickAction}
+   */
+  static #onChangeTargetingMode(event) {
+    const mode = event.target.dataset.mode;
+    this.targeting.mode = mode;
+    this.render();
+  }
+
+  /* -------------------------------------------- */
+  /*  Other actions                               */
+  /* -------------------------------------------- */
+
+  /**
+   * Handle changing the message mode.
+   * @type {ApplicationClickAction}
+   */
+  static #onChangeMessageMode(event) {
+    const mode = event.target.dataset.mode;
+    game.settings.set("core", "messageMode", mode);
+    this.render();
   }
 
   /* -------------------------------------------- */

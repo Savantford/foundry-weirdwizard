@@ -2,17 +2,19 @@
   {{#unless noTargeting}}
   <h2>{{localize "WW.Targeting.Targets"}}</h2>
 
-  {{!-- Add Buttons --}}
+  {{!-- Targeting Buttons --}}
   <div class="buttons">
+    {{!-- Toggle Targeting HUD --}}
     <button data-action="selectTargets">
-      <i class="fa-solid fa-arrows-down-to-people"></i> {{localize "WW.Targeting.Manual"}}
+      <i class="fa-solid fa-arrows-down-to-people"></i> {{localize "WW.Targeting.Modes.Manual"}}
     </button>
     
-    {{#if (eq properties.targetingMode 'areaTarget')}}
+    {{!-- Place templates --}}
+    {{#if (eq targeting.mode 'areaTarget')}}
     <button data-action="placeTemplate">
       <i class="fa-solid fa-users-viewfinder"></i> {{localize "WW.Activity.Target.AreaTarget"}}
     </button>
-    {{else if (eq properties.targetingMode 'areaPersistent')}}
+    {{else if (eq targeting.mode 'areaPersistent')}}
     <button data-action="placeTemplate">
       <i class="fa-regular fa-square-full"></i> {{localize "WW.Activity.Target.PlaceTemplate"}}
     </button>
@@ -43,19 +45,22 @@
     {{/each}}
   </div>
 
-  {{!-- Restrict By --}}
-  <div class="buttons">
-    <button data-action="targetingRestrictBy" data-selected="any" data-tooltip="WW.Effect.AnyTargeted">
-      {{localize "WW.Effect.Any"}}
+  {{!-- Targeting Mode --}}
+  <div class="split-button targeting-mode">
+    {{#each targetingModes as |mode|}}
+    <button type="button" class="ui-control" data-action="targetingMode" data-mode="{{mode.action}}" aria-pressed="{{mode.active}}">
+      {{localize mode.label}}
     </button>
-
-    <button data-action="targetingRestrictBy" data-selected="enemies" data-tooltip="WW.Effect.EnemiesTargeted">
-      {{localize "WW.Effect.Enemies"}}
-    </button>
-
-    <button data-action="targetingRestrictBy" data-selected="allies" data-tooltip="WW.Effect.AlliesTargeted">
-      {{localize "WW.Effect.Allies"}}
-    </button>
+    {{/each}}
   </div>
   {{/unless}}
+
+  {{!-- Message Mode --}}
+  <div id="message-modes" class="split-button">
+    {{#each messageModes as |mode|}}
+    <button type="button" class="ui-control icon {{mode.icon}}" data-action="messageMode" data-mode="{{mode.action}}"
+      aria-pressed="{{mode.active}}" data-tooltip aria-label="{{localize mode.label}}"></button>
+    {{/each}}
+  </div>
+
 </section>

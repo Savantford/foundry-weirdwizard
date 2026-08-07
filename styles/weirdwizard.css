@@ -4919,6 +4919,10 @@ details.document-card .card-header:hover::after {
     text-align: center;
     line-height: normal;
   }
+
+  .split-button.targeting-mode .ui-control {
+    width: auto;
+  }
 }
 
 /* Use Activity App */
