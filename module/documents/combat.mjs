@@ -119,7 +119,7 @@ export default class WWCombat extends foundry.documents.Combat {
    */
   /*async startCombat() { 
     await super.startCombat();
-    console.log('starting combat!')
+    
     return this;
   }*/
 
@@ -132,7 +132,7 @@ export default class WWCombat extends foundry.documents.Combat {
    */
   async nextRound() {
     this.turns.forEach((t) => t.setFlag('weirdwizard', 'acted', false)); // Reset acted flag
-    console.log('next round')
+    
     await super.nextRound();
   }
 

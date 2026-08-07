@@ -856,9 +856,6 @@ export default class WWCreatureSheet extends WWActorSheet {
   /* -------------------------------------------- */
 
   _onItemUse(dataset, operation='untargeted-use') {
-    console.log(dataset)
-    console.log(operation)
-
     // Define variables to be used
     const system = this.actor.system,
       item = this.actor.items.get(dataset.itemId),
