@@ -83,7 +83,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     },
     actions: {
       // Roll actions
-      toggleCustomization: ActivityUse.#onToggleRollCustomization,
+      toggleRollDetails: ActivityUse.#onToggleRollDetails,
       situationalUp: ActivityUse.#changeSituationalBoons,
       situationalDown: ActivityUse.#changeSituationalBoons,
       submitRoll: ActivityUse.#submitRoll,
@@ -111,9 +111,9 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   /* -------------------------------------------- */
 
   static PARTS = {
-    header: {
+    /*header: {
       template: 'systems/weirdwizard/templates/apps/activity/header.hbs'
-    },
+    },*/
     body: {
       template: 'systems/weirdwizard/templates/apps/activity/body.hbs',
       scrollable: ['.standard-form'],
@@ -270,7 +270,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
    * @param {PointerEvent} event - The originating click event
    * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
   */
-  static #onToggleRollCustomization(event, target) {
+  static #onToggleRollDetails(event, target) {
     const open = target.parentNode.open;
     
     this.properties.customizationOpen = !open;

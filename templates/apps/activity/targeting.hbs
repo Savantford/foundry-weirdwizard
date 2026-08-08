@@ -1,6 +1,6 @@
 <section class="targeting">
   {{#unless noTargeting}}
-  <h2>{{localize "WW.Targeting.Targets"}}</h2>
+  <h4 class="icon"><i class="fa-regular fa-bullseye"></i> {{localize "WW.Targeting.Targets"}}</h4>
 
   {{!-- Targeting Buttons --}}
   <div class="buttons">
@@ -22,7 +22,7 @@
   </div>
 
   {{!-- Targets Box --}}
-  <div class="targets-box" data-tooltip="WW.Activity.Target.TargetingInfo">
+  <div class="targets-box mt-1 mb-1" data-tooltip="WW.Activity.Target.TargetingInfo">
     {{#each targets as |target id|}}
     <li>
       <label><img class="target-icon" src="{{ img }}"> {{ name }}</label>

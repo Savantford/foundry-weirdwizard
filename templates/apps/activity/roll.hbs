@@ -1,23 +1,23 @@
 <section class="roll">
   {{#unless noRoll}}
-  <h2>{{localize "WW.Roll.Label"}}</h2>
+  <h4 class="icon"><i class="fa-regular fa-dice-d20"></i> {{localize "WW.Roll.Label"}}</h4>
 
   {{!-- Terms Expression --}}
   <div class="boons-expression flex-group-center">{{ boonsExpression }}</div>
   
-  <details class="customize-roll" {{#if properties.customizationOpen}}open{{/if}}>
-    <summary data-action="toggleCustomization">{{localize "WW.Roll.Customize"}}</summary>
+  <details class="roll-details mt-1" {{#if properties.customizationOpen}}open{{/if}}>
+    <summary data-action="toggleRollDetails">{{localize "WW.Roll.SeeDetails"}}</summary>
 
     <div class="roll-main">
       {{!-- Total Boones/Banes --}}
-      <h3 class="boons-header">
+      <h4 class="rounded boons-header">
         <span>{{localize "WW.Boons.Total"}}</span>
 
         <span class="boons-display total ml-auto">{{ boonsFinal }}</span>
-      </h3>
+      </h4>
 
       {{!-- Boons Count Box --}}
-      <div class="h3-box">
+      <div class="h4-box">
 
         {{!-- Affliction Banes --}}
         <div class="stat-stretch flex-group-left">

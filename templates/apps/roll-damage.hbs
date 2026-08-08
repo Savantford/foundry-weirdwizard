@@ -2,9 +2,9 @@
    
    {{!-- Weapon/Attack Header --}}
     <div>
-        <h3>{{label}}</h3>
+        <h4 class="rounded">{{label}}</h4>
 
-        <div class="h3-box">
+        <div class="h4-box">
             <div class="stat-stretch flex-group-left">
                 <label class="resource-label">{{localize "WW.RollDamage.Base"}}</label>
                 <input name="applyBase" class="damage-checkbox applyBase" type="checkbox" data-tooltip="WW.RollDamage.BaseApply" checked="true">
@@ -25,9 +25,9 @@
     <div>
         {{!-- Bonus Damage Container --}}
         {{#if (and isAttack bonusDamage)}}
-        <h3>{{localize "WW.Damage.Bonus"}}</h3>
+        <h4 class="rounded">{{localize "WW.Damage.Bonus"}}</h4>
 
-        <div class="h3-box">
+        <div class="h4-box">
 
             {{!-- Bonus Damage Widget --}}
             <div class="adjustment-widget">
@@ -43,9 +43,9 @@
     {{!-- Extra Damage --}}
     <div>
         
-        <h3>{{localize "WW.RollDamage.Extra.Label"}}</h3>
+        <h4 class="rounded">{{localize "WW.RollDamage.Extra.Label"}}</h4>
 
-        <div class="h3-box">
+        <div class="h4-box">
 
             {{!-- Attack Dice --}}
             {{#if attackDice}}

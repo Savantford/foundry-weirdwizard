@@ -4313,7 +4313,7 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard.roll-table-sheet .form-footer > button,
 #multi-choice .mc-buttons button,
 .activity-use button,
-.activity-use .customize-roll,
+.activity-use .roll-details,
 #roll-damage .form-footer button,
 .folder-edit button[type="submit"] {
   border: none;
@@ -4343,7 +4343,7 @@ input[type="checkbox"].checkbox-uses {
   filter: drop-shadow(0 0 0px var(--control-active-border-color)) drop-shadow(0 0 0px var(--control-active-border-color));
 }
 
-.activity-use .customize-roll {
+.activity-use .roll-details {
   font: inherit;
 
   summary {
@@ -4359,8 +4359,8 @@ input[type="checkbox"].checkbox-uses {
 #multi-choice .mc-buttons button:focus,
 .activity-use button:hover,
 .activity-use button:focus,
-.activity-use .customize-roll:hover,
-.activity-use .customize-roll:focus,
+.activity-use .roll-details:hover,
+.activity-use .roll-details:focus,
 #roll-damage .form-footer button:hover,
 #roll-damage .form-footer button:focus {
   border-image-source: url(../assets/ui/plates/single-transparent-thicker.svg);
@@ -4858,7 +4858,23 @@ details.document-card .card-header:hover::after {
     gap: 0.5rem;
   }
 
-  h3 {
+  h4.icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+
+    i[class^="fa-"] {
+      filter: drop-shadow(0 0 1px var(--purple-dark)) drop-shadow(0 0 1px var(--purple-dark)) drop-shadow(0 0 1px var(--purple-dark));
+      margin: -4px 0 -2px;
+      font-size: calc(100% + 4px);
+    }
+
+    i.fa-dice-d20 {
+      font-weight: 200;
+    }
+  }
+
+  h4.rounded {
     background: var(--purple-dark);
     color: white;
     text-align: center;
@@ -4869,12 +4885,17 @@ details.document-card .card-header:hover::after {
     border: none;
   }
 
-  h3:not(:first-child) {
+  h4.boons-header {
+    display: flex;
+    align-items: center;
+  }
+
+  h4:not(:first-child) {
     margin: 10px 0 0;
   }
 
   .targets-box,
-  .h3-box {
+  .h4-box {
     display: flex;
     flex-flow: column;
     gap: 5px;
@@ -4885,7 +4906,7 @@ details.document-card .card-header:hover::after {
     text-align: center;
   }
 
-  .h3-box {
+  .h4-box {
     border-top: none;
     border-radius: 0 0 5px 5px;
   }
@@ -4927,7 +4948,7 @@ details.document-card .card-header:hover::after {
     font-size: 1.4em;
     border-image: url(../assets/ui/plates/single-transparent.svg);
     border-image-slice: 120 fill;
-    border-image-width: 15px;
+    border-image-width: 12px;
     padding: 6px 16px;
     filter: brightness(0) saturate(100%) invert(15%) sepia(25%) saturate(2839%) hue-rotate(258deg) brightness(87%) contrast(88%);
     text-shadow: 0 0 1px black;
@@ -4970,14 +4991,16 @@ details.document-card .card-header:hover::after {
       flex-flow: wrap;
       gap: 1em;
       padding: 0;
+      margin: 0;
+      border: none;
       overflow: auto;
 
       > * {
         flex: 1;    
         display: flex;
         flex-flow: column;
-        gap: 0.5em;
         min-width: 250px;
+        padding: 5px 0 !important;
       }
 
       h2 {
@@ -4985,11 +5008,8 @@ details.document-card .card-header:hover::after {
       }
     }
   }
-}
-
-/* Attribute Roll App */
-.weirdwizard.activity-use {
-  h3.boons-header {
+  
+  h4.boons-header {
     display: flex;
     align-items: center;
     margin: 0;
