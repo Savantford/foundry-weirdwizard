@@ -12,7 +12,7 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
  * @extends {ApplicationV2}
 */
 export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV2) {
-  //debounceRender = foundry.utils.debounce(this.render, 50);
+  debounceRender = foundry.utils.debounce(this.render, 50);
   
   constructor(options={}, config = {}) {
     super(options); // Required for "this." to work
@@ -79,7 +79,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     }
 
     // Enable token targeting listener
-    //Hooks.on("targetToken", () => this.debounceRender() );
+    Hooks.on("targetToken", () => this.debounceRender() );
   }
 
   static DEFAULT_OPTIONS = {
