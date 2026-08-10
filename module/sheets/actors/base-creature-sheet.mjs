@@ -858,12 +858,12 @@ export default class WWCreatureSheet extends WWActorSheet {
 
   /* -------------------------------------------- */
 
-  _onItemUse(dataset, operation='untargeted-use') {
+  _onItemUse(dataset) {
     // Define variables to be used
     const system = this.actor.system,
       item = this.actor.items.get(dataset.itemId),
       actor = this.actor,
-      label = _secretLabel(item.name),
+      flavor = _secretLabel(item.name),
       content = _secretContent(item.system.description),
       instEffs = item.system.instant,
       effects = item.effects;
@@ -871,21 +871,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     const attKey = CONFIG.WW.ATTRIBUTE_ROLLS[item.system.attribute] ? item.system.attribute : '';
     
     if (!attKey) { // If an attribute key is not defined, do not roll
-      
-      const obj = {
-        actor: actor,
-        item: item,
-        label: label,
-        content: content,
-        attKey: attKey,
-        operation: operation,
-        dontRoll: true,
-        instEffs: instEffs,
-        actEffs: effects
-      }
-
-      // If untargeted-use was clicked
-
+      // Effects
       function actEffs() {
         const effs = {
           onUse: [],
@@ -964,8 +950,8 @@ export default class WWCreatureSheet extends WWActorSheet {
       const messageData = {
         type: 'unrolled-use',
         speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
-        flavor: label,
-        content: content,
+        flavor,
+        content,
         sound: CONFIG.sounds.dice,
         'flags.weirdwizard': {
           icon: item.img,
@@ -983,13 +969,12 @@ export default class WWCreatureSheet extends WWActorSheet {
       const data = {
         actor,
         item,
-        msg: { label, content },
+        msg: { flavor, content },
         roll: { attKey }
       }
   
       // Check for Automatic Failure
       if (system.autoFail[data.attKey]) {
-        
         const messageData = {
           type: 'd20-roll',
           speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),

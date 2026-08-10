@@ -180,7 +180,7 @@ export default class RollDamage extends FormApplication {
     
     // Display final expression
     this.finalExp = exp;
-    parent.querySelector('.damage-expression').innerHTML = this.finalExp;
+    parent.querySelector('.roll-expression').innerHTML = this.finalExp;
     
   }
 

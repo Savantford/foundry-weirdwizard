@@ -2,8 +2,43 @@
   {{!-- Heading --}}
   <h4 class="icon"><i class="fa-regular fa-dice-d20"></i> {{localize "WW.Roll.Label"}}</h4>
 
-  {{!-- Terms Expression --}}
-  <div class="boons-expression flex-group-center">{{ boonsExpression }}</div>
+  {{!-- Roll Expression --}}
+  <div class="roll-expression">{{ boonsExpression }}</div>
+  
+  {{!-- Icons --}}
+  <div class="icons-expression">
+    {{#with roll}}
+    {{!-- d20 --}}
+    <div class="term d20">
+      <img src="icons/svg/d20-highlight.svg"></img>
+      <div>d20</div>
+    </div>
+
+    {{!-- Attribute Modifier --}}
+    {{#if attKey}}
+    <div class="operator">+</div>
+
+    <div class="term">
+      <div>{{attDisplay}}</div>
+      <img src="{{attIcon}}" />
+    </div>
+    {{/if}}
+  
+    {{!-- d20 --}}
+    {{#if boons.total}}
+    <div class="term">
+      <img src="icons/svg/d20-highlight.svg"></img>
+      <div>d20</div>
+    </div>
+  
+    {{!-- d20 --}}
+    <div class="term">
+      <img src="icons/svg/d6.svg"></img>
+      <div>{{boons.total}}</div>
+    </div>
+    {{/if}}
+    {{/with}}
+  </div>
   
   {{!-- Roll Customization --}}
   <details class="roll-details mt-1" {{#if args.rollDetailsOpen}}open{{/if}}>

@@ -215,6 +215,10 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
     // Prepare the final boons expression
     context.boonsExpression = attDisplay + boonsDisplay + againstDisplay;
+    context.roll.attDisplay = attDisplay;
+    context.roll.attIcon = CONFIG.WW.ATTRIBUTE_ICONS[attKey] ?? null;
+    context.roll.boonsDisplay = boonsDisplay;
+    context.roll.againstDisplay = againstDisplay;
 
     // Targets display
     if (this.targets.length) {

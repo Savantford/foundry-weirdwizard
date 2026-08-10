@@ -4312,7 +4312,7 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard.dialog .form-footer button.default,
 .weirdwizard.roll-table-sheet .form-footer > button,
 #multi-choice .mc-buttons button,
-.activity-use button,
+.activity-use .window-content button,
 .activity-use .roll-details,
 #roll-damage .form-footer button,
 .folder-edit button[type="submit"] {
@@ -4339,7 +4339,7 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .weirdwizard.dialog .form-footer button.default,
-.activity-use button[aria-pressed=true] {
+.activity-use .window-content button[aria-pressed=true] {
   filter: drop-shadow(0 0 0px var(--control-active-border-color)) drop-shadow(0 0 0px var(--control-active-border-color));
 }
 
@@ -4357,8 +4357,8 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard.roll-table-sheet .form-footer > button:focus,
 #multi-choice .mc-buttons button:hover,
 #multi-choice .mc-buttons button:focus,
-.activity-use button:hover,
-.activity-use button:focus,
+.activity-use .window-content button:hover,
+.activity-use .window-content button:focus,
 .activity-use .roll-details:hover,
 .activity-use .roll-details:focus,
 #roll-damage .form-footer button:hover,
@@ -4943,15 +4943,63 @@ details.document-card .card-header:hover::after {
     }
   }
 
-  .boons-expression,
-  .damage-expression {
-    font-size: 1.4em;
+  .roll-expression {
     border-image: url(../assets/ui/plates/single-transparent.svg);
     border-image-slice: 120 fill;
     border-image-width: 12px;
     padding: 6px 16px;
-    filter: brightness(0) saturate(100%) invert(15%) sepia(25%) saturate(2839%) hue-rotate(258deg) brightness(87%) contrast(88%);
+    text-align: center;
     text-shadow: 0 0 1px black;
+    font-size: 1.4em;
+    filter: brightness(0) saturate(100%) invert(15%) sepia(25%) saturate(2839%) hue-rotate(258deg) brightness(87%) contrast(88%);
+  }
+
+  .icons-expression {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    font-size: 1.2em;
+
+    .term {
+      position: relative;
+      display: grid;
+
+      > * {
+        grid-area: 1 / 1 / 2 / 2;
+      }
+
+      img {
+        height: 40px;
+        margin: 0 auto 0.5lh;
+        z-index: -1;
+      }
+
+      img.d20 {
+        filter: hue-rotate(265deg) contrast(0.5);
+      }
+
+      img.boon {
+        filter: hue-rotate(200deg);
+      }
+
+      img.bane {
+        filter: hue-rotate(330deg);
+      }
+
+      > div {
+        margin-top: auto;
+        color: white;
+        text-align: center;
+        text-shadow: 0 0 3px var(--purple-dark), 0 0 3px var(--purple-dark), 0 0 3px var(--purple-dark), 0 0 3px var(--purple-dark), 0 0 3px var(--purple-dark);
+      }
+    }
+
+    .operator {
+      color: var(--purple-dark);
+      font-size: 1.5em;
+      font-weight: bold;
+    }
   }
 
   input[type="number"] {
