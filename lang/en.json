@@ -291,6 +291,7 @@
 "WW.Activity.Target.UseTemplate": "Use a region template to target",
 "WW.Activity.Target.AreaTarget": "Target tokens within template",
 "WW.Activity.Target.PlaceTemplate": "Place a new template",
+"WW.Activity.Confirm": "Confirm",
 
 "WW.Roll.Label": "Roll",
 "WW.Roll.Settings": "Roll Settings",

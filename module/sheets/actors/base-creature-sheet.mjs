@@ -3,7 +3,6 @@ import { diceTotalHtml } from '../../sidebar/chat-html-templates.mjs';
 import { mapRange } from '../../canvas/canvas-functions.mjs';
 import MultiChoice from '../../apps/multi-choice.mjs';
 import { createActiveEffect, deleteActiveEffect, editActiveEffect, prepareActiveEffectCategories } from '../../helpers/effect-actions.mjs';
-import RollAttribute from '../../dice/roll-attribute.mjs';
 import TargetingHUD from '../../apps/targeting-hud.mjs';
 import WWDialog from '../../apps/dialog.mjs';
 import WWRoll from '../../dice/roll.mjs';
@@ -43,7 +42,7 @@ export default class WWCreatureSheet extends WWActorSheet {
 
       dispositionToggle: this.#onDispositionToggle,
       incapacitatedRoll: this.#onIncapacitatedRoll,
-      attributeRoll: this.#onAttributeRoll,
+      attributeUse: this.#onAttributeUse,
       afflictionsMenu: this.#onAfflictionsMenuOpen,
       folderEdit: this.#onFolderEdit,
 
@@ -583,7 +582,7 @@ export default class WWCreatureSheet extends WWActorSheet {
   /*  General Event Listeners and Handlers        */
   /* -------------------------------------------- */
 
-  static #onAttributeRoll(event, button) {
+  static #onAttributeUse(event, button) {
     const dataset = Object.assign({}, button.dataset);
 
     // Define variables to be used
@@ -591,7 +590,7 @@ export default class WWCreatureSheet extends WWActorSheet {
 
     let content = '';
 
-    const obj = {
+    const activity = {
       actor: this.actor,
       label: label,
       icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey],
@@ -600,7 +599,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     }
 
     // Check for Automatic Failure
-    if (this.actor.system.autoFail[obj.attKey]) {
+    if (this.actor.system.autoFail[activity.attKey]) {
 
       const messageData = {
         type: 'd20-roll',
@@ -615,7 +614,7 @@ export default class WWCreatureSheet extends WWActorSheet {
       
       ChatMessage.create(messageData);
     } else {
-      new RollAttribute(obj).render(true);
+      new ActivityUse(activity, { noTargeting: true }).render(true);
     }
     
   }
@@ -975,19 +974,17 @@ export default class WWCreatureSheet extends WWActorSheet {
 
       ChatMessage.create(messageData);
       
-    } else { // Attempt to use RollAttribute app
+    } else { // Attempt to use Use Activity app
 
-      const obj = {
-        actor: actor,
-        item: item,
-        label: label,
-        content: content,
-        attKey: attKey,
-        operation: operation
+      const activity = {
+        actor,
+        item,
+        msg: { label, content },
+        roll: { attKey }
       }
   
       // Check for Automatic Failure
-      if (system.autoFail[obj.attKey]) {
+      if (system.autoFail[activity.attKey]) {
         
         const messageData = {
           type: 'd20-roll',
@@ -1005,7 +1002,7 @@ export default class WWCreatureSheet extends WWActorSheet {
         ChatMessage.create(messageData);
       } else {
         this.minimize();
-        new ActivityUse(obj).render(true);
+        new ActivityUse(activity).render(true);
       }
     }
     

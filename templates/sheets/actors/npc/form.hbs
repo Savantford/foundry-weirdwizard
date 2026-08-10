@@ -133,7 +133,7 @@
         <div class="mt-2 stat-inline">
   
           {{!-- Strength --}}
-          <label><a class="item-button" data-action="attributeRoll" data-key="str"
+          <label><a class="item-button" data-action="attributeUse" data-key="str"
             data-tooltip="WW.Roll.Strength">{{localize "WW.Attributes.Strength"}}:</a></label>
   
           <div class="input-wrap">
@@ -143,13 +143,13 @@
           </div>
   
           {{#if system.attributes.str.value}}
-          <a class="attribute-mod item-button" data-action="attributeRoll" data-key="str" data-tooltip="WW.Roll.Agility">
+          <a class="attribute-mod item-button" data-action="attributeUse" data-key="str" data-tooltip="WW.Roll.Agility">
             ({{numberFormat system.attributes.str.mod decimals=0 sign=true}})
           </a>
           {{/if}}
   
           {{!-- Agility --}}
-          <label class="ml-1"><a class="item-button" data-action="attributeRoll" data-key="agi"
+          <label class="ml-1"><a class="item-button" data-action="attributeUse" data-key="agi"
             data-tooltip="WW.Roll.Agility">{{localize "WW.Attributes.Agility"}}:</a></label>
   
           <div class="input-wrap">
@@ -159,7 +159,7 @@
           </div>
   
           {{#if system.attributes.agi.value}}
-          <a class="attribute-mod item-button" data-action="attributeRoll" data-key="agi" data-tooltip="WW.Roll.Agility">
+          <a class="attribute-mod item-button" data-action="attributeUse" data-key="agi" data-tooltip="WW.Roll.Agility">
             ({{numberFormat system.attributes.agi.mod decimals=0 sign=true}})
           </a>
           {{/if}}
@@ -170,7 +170,7 @@
         <div class="stat-inline">
   
           {{!-- Intellect --}}
-          <label><a class="item-button" data-action="attributeRoll" data-key="int"
+          <label><a class="item-button" data-action="attributeUse" data-key="int"
             data-tooltip="WW.Roll.Intellect">{{localize "WW.Attributes.Intellect"}}:</a></label>
   
           <div class="input-wrap">
@@ -180,14 +180,14 @@
           </div>
   
           {{#if system.attributes.int.value}}
-          <a class="attribute-mod item-button" data-action="attributeRoll" data-key="int"
+          <a class="attribute-mod item-button" data-action="attributeUse" data-key="int"
             data-tooltip="WW.Roll.Intellect">
             ({{numberFormat system.attributes.int.mod decimals=0 sign=true}})
           </a>
           {{/if}}
   
           {{!-- Will --}}
-          <label class="ml-1"><a class="item-button" data-action="attributeRoll" data-key="wil"
+          <label class="ml-1"><a class="item-button" data-action="attributeUse" data-key="wil"
             data-tooltip="WW.Roll.Will">{{localize "WW.Attributes.Will"}}:</a></label>
   
           <div class="input-wrap">
@@ -197,7 +197,7 @@
           </div>
   
           {{#if system.attributes.wil.value}}
-          <a class="attribute-mod item-button" data-action="attributeRoll" data-key="wil" data-tooltip="WW.Roll.Will">
+          <a class="attribute-mod item-button" data-action="attributeUse" data-key="wil" data-tooltip="WW.Roll.Will">
             ({{numberFormat system.attributes.wil.mod decimals=0 sign=true}})
           </a>
           {{/if}}

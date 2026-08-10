@@ -6,7 +6,7 @@
 
         {{!-- Attribute Circles --}}
         {{#each attributes as |attribute|}}
-        <div class="stat {{ key }}" style="--i:{{ index }}" {{#unless @root.isEditMode}}data-action="attributeRoll" data-key="{{ key }}" data-tooltip-text="{{ tooltip }}"{{/unless}}>
+        <div class="stat {{ key }}" style="--i:{{ index }}" {{#unless @root.isEditMode}}data-action="attributeUse" data-key="{{ key }}" data-tooltip-text="{{ tooltip }}"{{/unless}}>
             <label>{{localize label }}</label>
             {{#if @root.isEditMode}}
             {{formInput field name=name value=sourceValue dataset=(object tooltip=inputTooltip)}}
@@ -24,7 +24,7 @@
 
         {{!-- Luck Circle --}}
         <div class="stat luck" style="--i:3">
-            <label><a class="item-button" data-action="attributeRoll" data-key="luck" data-tooltip="WW.Roll.Luck">
+            <label><a class="item-button" data-action="attributeUse" data-key="luck" data-tooltip="WW.Roll.Luck">
                 {{localize "WW.Attributes.Luck"}}
             </a></label>
         </div>

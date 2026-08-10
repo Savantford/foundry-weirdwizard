@@ -14,11 +14,11 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
 export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV2) {
   debounceRender = foundry.utils.debounce(this.render, 50);
   
-  constructor(data = {}, options={}) {
-    super(data, options); // Required for "this." to work
+  constructor(options={}, data = {}) {
+    super(options); // Required for "this." to work
     console.log(data)
     console.log(options)
-    const { action, actor, attKey, baseHtml, content, fixedBoons, icon, item, label } = data;
+    /*const { action, actor, attKey, baseHtml, content, fixedBoons, icon, item, label } = data;
     const sys = actor.system;
 
     // Documents
@@ -77,7 +77,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     }
 
     // Enable token targeting listener
-    Hooks.on("targetToken", () => this.debounceRender() );
+    Hooks.on("targetToken", () => this.debounceRender() );*/
   }
 
   static DEFAULT_OPTIONS = {
@@ -93,8 +93,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       toggleRollDetails: ActivityUse.#onToggleRollDetails,
       situationalUp: ActivityUse.#changeSituationalBoons,
       situationalDown: ActivityUse.#changeSituationalBoons,
-      submitRoll: ActivityUse.#submitRoll,
-      cancelRoll: ActivityUse.#cancelRoll,
+      confirm: ActivityUse.#confirm,
 
       // Targeting actions
       selectTargets: ActivityUse.#selectTargets,
@@ -310,18 +309,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
    * @param {PointerEvent} event - The originating click event
    * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
   */
-  static #cancelRoll(event, target) {
-    this.close({ submit: false });
-    Hooks.off('targetToken');
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * @param {PointerEvent} event - The originating click event
-   * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
-  */
-  static async #submitRoll(event, target) {
+  static async #confirm(event, target) {
     const { against, attKey, attMod } = this.rollConfig;
     
     const boonsFinal = this.boonsConfig.final,
@@ -575,10 +563,10 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   /* -------------------------------------------- */
 
   /** @override */
-  get title() {
+  /*get title() {
     const { constructor: id, name, type } = this.item ?? this.actor;
     return `${_loc("WW.Activity.Label")}: ${name ?? id}`;
-  }
+  }*/
   
   /* -------------------------------------------- */
 

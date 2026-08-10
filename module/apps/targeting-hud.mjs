@@ -1,5 +1,4 @@
 import { addInstEffs, addActEffs, targetHeader } from '../sidebar/chat-html-templates.mjs';
-import RollAttribute from '../dice/roll-attribute.mjs';
 
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
