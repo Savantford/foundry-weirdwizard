@@ -614,7 +614,7 @@ export default class WWCreatureSheet extends WWActorSheet {
       
       ChatMessage.create(messageData);
     } else {
-      new ActivityUse(activity, { noTargeting: true }).render(true);
+      new ActivityUse({ noTargeting: true }, activity).render(true);
     }
     
   }
@@ -976,7 +976,7 @@ export default class WWCreatureSheet extends WWActorSheet {
       
     } else { // Attempt to use Use Activity app
 
-      const activity = {
+      const data = {
         actor,
         item,
         msg: { label, content },
@@ -984,7 +984,7 @@ export default class WWCreatureSheet extends WWActorSheet {
       }
   
       // Check for Automatic Failure
-      if (system.autoFail[activity.attKey]) {
+      if (system.autoFail[data.attKey]) {
         
         const messageData = {
           type: 'd20-roll',
@@ -1002,7 +1002,7 @@ export default class WWCreatureSheet extends WWActorSheet {
         ChatMessage.create(messageData);
       } else {
         this.minimize();
-        new ActivityUse(activity).render(true);
+        new ActivityUse({}, data).render(true);
       }
     }
     

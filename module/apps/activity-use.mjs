@@ -12,58 +12,60 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
  * @extends {ApplicationV2}
 */
 export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV2) {
-  debounceRender = foundry.utils.debounce(this.render, 50);
+  //debounceRender = foundry.utils.debounce(this.render, 50);
   
-  constructor(options={}, data = {}) {
+  constructor(options={}, config = {}) {
     super(options); // Required for "this." to work
-    console.log(data)
+    console.log(config)
     console.log(options)
-    /*const { action, actor, attKey, baseHtml, content, fixedBoons, icon, item, label } = data;
-    const sys = actor.system;
+    const { actor, item, args, msg, roll } = config;
 
     // Documents
     this.actor = actor;
     this.item = item ?? null;
     this.token = actor.token;
+    const sys = actor.system;
 
-    // Roll Configuration
-    this.rollConfig = {
-      baseHtml, action, label, content,
-      icon: icon ?? (item ? item.img : null),
-      attKey: attKey,
+    // Message Config
+    const icon = msg.icon = item ? item.img : null;
+    this.msg = {
+      ...msg,
+      icon: msg.icon ?? icon
+    }
+
+    // Roll Config
+    const attKey = roll.attKey;
+
+    this.roll = {
+      ...roll,
       attLabel: _loc(CONFIG.WW.ROLL_ATTRIBUTES[attKey]),
       attMod: sys.attributes[attKey]?.mod ? plusify(sys.attributes[attKey].mod) : '+0',
-      against: item?.system?.against ?? null
-    };
+      against: item?.system?.against ?? null,
 
-    // Roll Parameters
-    this.boonsConfig = {
-      actor: sys.boons,
-      fixed: fixedBoons ?? (item?.system?.boons ? item.system.boons : 0),
-      fromEffects: sys.boons.selfRoll[attKey] ? sys.boons.selfRoll[attKey] : 0, // Conditional boons should be added here later
-      forAttacks: sys.boons.selfRoll.attacks,
-      forSpells: sys.boons.selfRoll.spells,
-      final: 0
+      boons: {
+        ...roll.boons,
+        actor: sys.boons,
+        fixed: roll?.boons?.fixed ?? (item?.system?.boons ? item.system.boons : 0),
+        fromEffects: sys.boons.selfRoll[attKey] ? sys.boons.selfRoll[attKey] : 0, // Conditional boons should be added here later
+        forAttacks: sys.boons.selfRoll.attacks,
+        forSpells: sys.boons.selfRoll.spells,
+        final: 0
+      }
     };
 
     // Targeting properties
     this.targeting = item?.system?.targeting ?? null;
     
-    // Properties
-    this.properties = {
-      // Rendering properties
-      skipApp: data.skipApp ?? false,
-      noRoll: attKey ? true : false,
-
-      // Boons properties
+    // Item Properties
+    this.itemProperties = {
       isWeapon: this.item?.system?.subtype === 'weapon' ?? false,
-      isAttack: (this.item?.system?.subtype === 'weapon' || this.rollConfig.against === 'def') ?? false,
+      isAttack: (this.item?.system?.subtype === 'weapon' || this.roll.against === 'def') ?? false,
       isMagical: this.item?.system?.magical,
       isSpell: this.item?.type === 'spell' ?? false
     };
 
     // Options
-    this.options = {
+    this.args = {
       noTargeting: options.noTargeting ?? (this.targeting ? true : false),
       noRoll: options.noRoll ?? (attKey ? true : false),
       skipApp: options.skipApp ?? false
@@ -71,13 +73,13 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     
     // Default Form Data Values
     this.formData = {
-      applyAttackBoons: this.properties.isWeapon ?? false,
-      applySpellBoons: this.properties.isSpell ?? false,
+      applyAttackBoons: this.itemProperties.isWeapon ?? false,
+      applySpellBoons: this.itemProperties.isSpell ?? false,
       situationalBoons: 0
     }
 
     // Enable token targeting listener
-    Hooks.on("targetToken", () => this.debounceRender() );*/
+    //Hooks.on("targetToken", () => this.debounceRender() );
   }
 
   static DEFAULT_OPTIONS = {
@@ -141,15 +143,15 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     const context = {
       ...await super._prepareContext(options),
 
-      rollConfig: this.rollConfig,
-      boonsConfig: this.boonsConfig,
-      properties: this.properties,
-      targeted: this.rollConfig.action === 'targeted-use' ?? false
+      args: this.args,
+      roll: this.roll,
+      msg: this.msg,
+      itemProperties: this.itemProperties
     };
 
     // Destructure variables
-    const { against, attKey, attLabel, attMod } = this.rollConfig;
-    const { fixed, forAttacks, forSpells, fromEffects } = this.boonsConfig;
+    const { against, attKey, attLabel, attMod } = this.roll;
+    const { fixed, forAttacks, forSpells, fromEffects } = this.roll.boons;
     const { applyAttackBoons, applySpellBoons, customTn, flatMod, situationalBoons } = this.formData;
     
     // Prepare input context
@@ -166,7 +168,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     if (applyAttackBoons && forAttacks) boonsFinal += forAttacks;
     if (fixed) boonsFinal += fixed; // If there are fixed boons or banes, add it
 
-    this.boonsConfig.final = boonsFinal;
+    this.roll.boons.final = boonsFinal;
     context.boonsFinal = plusify(boonsFinal);
 
     // Prepare boons display
@@ -222,9 +224,9 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
         // Boons against count
         let boonsAgainst = 0;
         if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against];
-        if (this.properties.isAttack) boonsAgainst += tar.boonsAgainst.fromAttacks;
-        if (this.properties.isSpell) boonsAgainst += tar.boonsAgainst.fromSpells;
-        if (this.properties.isMagical) boonsAgainst += tar.boonsAgainst.fromMagical + tar.boons.resistMagical;
+        if (this.itemProperties.isAttack) boonsAgainst += tar.boonsAgainst.fromAttacks;
+        if (this.itemProperties.isSpell) boonsAgainst += tar.boonsAgainst.fromSpells;
+        if (this.itemProperties.isMagical) boonsAgainst += tar.boonsAgainst.fromMagical + tar.boons.resistMagical;
         
         // Boons display
         const boonsNo = boonsAgainst;
@@ -281,7 +283,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   static #onToggleRollDetails(event, target) {
     const open = target.parentNode.open;
     
-    this.properties.customizationOpen = !open;
+    this.args.customizationOpen = !open;
   }
 
   /* -------------------------------------------- */
@@ -310,22 +312,22 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
    * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
   */
   static async #confirm(event, target) {
-    const { against, attKey, attMod } = this.rollConfig;
+    const { against, attKey, attMod } = this.roll;
     
-    const boonsFinal = this.boonsConfig.final,
-      targeted = (this.rollConfig.action === 'targeted-use' || game.user.targets?.size) ? true : false,
+    const boonsFinal = this.roll.boons.final,
+      targeted = game.user.targets?.size ? true : false,
       flatMod = this.formData.flatMod,
       rollData = this.actor.getRollData(),
-      rollsArray = [],
-      rollOptions = {
-        template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
-        actor: this.actor,
-        item: this.item,
-        originUuid: this.item ? this.item.uuid : this.actor.uuid, // TODO: Replace with item/actor
-        attribute: attKey,
-        against: against,
-        instEffs: this.instEffs,
-        actEffs: this.actEffs
+      rollsArray = [];
+    const rollOptions = {
+      template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
+      actor: this.actor,
+      item: this.item,
+      originUuid: this.item ? this.item.uuid : this.actor.uuid, // TODO: Replace with item/actor
+      attribute: attKey,
+      against: against,
+      instEffs: this.instEffs,
+      actEffs: this.actEffs
     };
     
     let rollHtml = '', boons = "0";
@@ -337,9 +339,9 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
         // Set boons text
         let boonsAgainst = 0;
         if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against];
-        if (this.properties.isAttack) boonsAgainst += tar.boonsAgainst.fromAttacks;
-        if (this.properties.isSpell) boonsAgainst += tar.boonsAgainst.fromSpells;
-        if (this.properties.isMagical) boonsAgainst += tar.boonsAgainst.fromMagical;
+        if (this.itemProperties.isAttack) boonsAgainst += tar.boonsAgainst.fromAttacks;
+        if (this.itemProperties.isSpell) boonsAgainst += tar.boonsAgainst.fromSpells;
+        if (this.itemProperties.isMagical) boonsAgainst += tar.boonsAgainst.fromMagical;
 
         const boonsNo = parseInt(boonsFinal) + boonsAgainst;
 
@@ -404,17 +406,18 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     
     // Create message data
     const messageData = {
+      ...this.msg,
       type: 'd20-roll',
       rolls: rollsArray,
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
-      flavor: this.rollConfig.label,
-      content: this.rollConfig.content,
+      flavor: msg.label,
+      content: this.msg.content,
       sound: CONFIG.sounds.dice,
       'flags.weirdwizard': {
-        icon: this.rollConfig.icon,
+        icon: this.msg.icon,
         item: this.item?.uuid,
         rollHtml: rollHtml,
-        emptyContent: !this.rollConfig.content ?? true
+        emptyContent: !this.msg.content ?? true
       }
     }
     
@@ -495,7 +498,6 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
    */
   static #selectTargets() {
     const context = {
-      ...this.rollConfig,
       activityApp: this,
       actor: this.actor
     }
@@ -563,10 +565,10 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   /* -------------------------------------------- */
 
   /** @override */
-  /*get title() {
+  get title() {
     const { constructor: id, name, type } = this.item ?? this.actor;
     return `${_loc("WW.Activity.Label")}: ${name ?? id}`;
-  }*/
+  }
   
   /* -------------------------------------------- */
 
@@ -580,8 +582,8 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
       // Allow only Characters and NPCs
       if (actor.type === 'character' || actor.type === 'npc') {
-        let against = this.rollConfig.against ? sys.attributes[this.rollConfig.against]?.value : null;
-        if (this.rollConfig.against === 'def') against = sys.stats.defense.total;
+        let against = this.roll.against ? sys.attributes[this.roll.against]?.value : null;
+        if (this.roll.against === 'def') against = sys.stats.defense.total;
         
         targets.push({
           id: tar.id,

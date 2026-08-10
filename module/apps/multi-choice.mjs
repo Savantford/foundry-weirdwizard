@@ -196,19 +196,21 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
 
           const target = await fromUuid(uuid);
 
-          const config = {
+          const data = {
             actor: target,
             msg: {
-              label: _loc(CONFIG.WW.ROLL_ATTRIBUTES[attribute]),
+              flavor: _loc(CONFIG.WW.ROLL_ATTRIBUTES[attribute]),
               content: '',  
             },
             roll: {
               attKey: attribute,
-              fixedBoons: parseInt(fixedBoons)
+              boons: {
+                fixed: parseInt(fixedBoons)
+              }
             }
           }
 
-          new ActivityUse(config, { noTargeting: true }).render(true);
+          new ActivityUse({ noTargeting: true }, data).render(true);
 
         }
 
