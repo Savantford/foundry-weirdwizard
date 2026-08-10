@@ -283,7 +283,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   static #onToggleRollDetails(event, target) {
     const open = target.parentNode.open;
     
-    this.args.customizationOpen = !open;
+    this.args.rollDetailsOpen = !open;
   }
 
   /* -------------------------------------------- */

@@ -1,9 +1,9 @@
 <section class="form-body statbox scrollable">
-  {{#unless noRoll}}
-  {{!--> "systems/weirdwizard/templates/apps/activity/roll.hbs" data=context --}}
+  {{#unless args.noRoll}}
+  {{> "systems/weirdwizard/templates/apps/activity/roll.hbs" data=context }}
   {{/unless}}
 
-  {{#unless noTargeting}}
+  {{#unless args.noTargeting}}
   {{> "systems/weirdwizard/templates/apps/activity/targeting.hbs" data=context }}
   {{/unless}}
 </section>
