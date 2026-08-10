@@ -1,6 +1,6 @@
 import { slideDown, slideUp } from '../helpers/utils.mjs';
 import { WWAfflictions } from '../helpers/afflictions.mjs'
-import RollAttribute from '../dice/roll-attribute.mjs';
+import ActivityUse from './activity-use.mjs';
 
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
@@ -204,7 +204,7 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
             fixedBoons: parseInt(fixedBoons)
           }
 
-          new RollAttribute(rollInfo).render(true);
+          new ActivityUse(rollInfo, { noTargeting: true }).render(true);
 
         }
 

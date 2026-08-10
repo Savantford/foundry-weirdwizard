@@ -14,10 +14,11 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
 export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV2) {
   debounceRender = foundry.utils.debounce(this.render, 50);
   
-  constructor(options={}) {
-    super(options); // Required for "this." to work
-
-    const { action, actor, attKey, baseHtml, content, fixedBoons, icon, item, label } = options;
+  constructor(data = {}, options={}) {
+    super(data, options); // Required for "this." to work
+    console.log(data)
+    console.log(options)
+    const { action, actor, attKey, baseHtml, content, fixedBoons, icon, item, label } = data;
     const sys = actor.system;
 
     // Documents
@@ -46,12 +47,12 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     };
 
     // Targeting properties
-    this.targeting = item.system.targeting ?? null;
+    this.targeting = item?.system?.targeting ?? null;
     
     // Properties
     this.properties = {
       // Rendering properties
-      skipApp: options.skipApp ?? false,
+      skipApp: data.skipApp ?? false,
       noRoll: attKey ? true : false,
 
       // Boons properties
@@ -60,8 +61,14 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       isMagical: this.item?.system?.magical,
       isSpell: this.item?.type === 'spell' ?? false
     };
-    
 
+    // Options
+    this.options = {
+      noTargeting: options.noTargeting ?? (this.targeting ? true : false),
+      noRoll: options.noRoll ?? (attKey ? true : false),
+      skipApp: options.skipApp ?? false
+    }
+    
     // Default Form Data Values
     this.formData = {
       applyAttackBoons: this.properties.isWeapon ?? false,
@@ -248,11 +255,13 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     }
 
     // Targeting Modes
-    const targetingRestriction = this.targeting.restriction ?? 'any';
-    context.targetingRestrictions = Object.entries(CONFIG.WW.TARGETING_RESTRICTIONS).map(([action, label]) => {
-      return {label, action, active: action === targetingRestriction};
-    });
-
+    if (this.targeting) {
+      const targetingRestriction = this.targeting.restriction ?? 'any';
+      context.targetingRestrictions = Object.entries(CONFIG.WW.TARGETING_RESTRICTIONS).map(([action, label]) => {
+        return {label, action, active: action === targetingRestriction};
+      });
+    }
+    
     // Message Modes
     const messageMode = game.settings.get("core", "messageMode");
     context.messageModes = Object.entries(CONFIG.ChatMessage.modes).map(([action, {label, icon}]) => {
