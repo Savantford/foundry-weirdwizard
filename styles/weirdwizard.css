@@ -4960,6 +4960,12 @@ details.document-card .card-header:hover::after {
     align-items: center;
     gap: 5px;
     font-size: 1.2em;
+    
+    .operator {
+      color: var(--purple-dark);
+      font-size: 1.5em;
+      font-weight: bold;
+    }
 
     .term {
       position: relative;
@@ -4975,18 +4981,6 @@ details.document-card .card-header:hover::after {
         z-index: -1;
       }
 
-      img.d20 {
-        filter: hue-rotate(265deg) contrast(0.5);
-      }
-
-      img.boon {
-        filter: hue-rotate(200deg);
-      }
-
-      img.bane {
-        filter: hue-rotate(330deg);
-      }
-
       > div {
         margin-top: auto;
         color: white;
@@ -4995,10 +4989,17 @@ details.document-card .card-header:hover::after {
       }
     }
 
-    .operator {
-      color: var(--purple-dark);
-      font-size: 1.5em;
-      font-weight: bold;
+    
+    .term.d20 img {
+      filter: hue-rotate(265deg) contrast(0.5);
+    }
+
+    .term.boons img {
+      rotate: -15deg;
+    }
+
+    .term.banes img {
+      rotate: 15deg;
     }
   }
 

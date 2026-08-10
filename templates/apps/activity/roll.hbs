@@ -6,6 +6,7 @@
   <div class="roll-expression">{{ boonsExpression }}</div>
   
   {{!-- Icons --}}
+  {{log roll}}
   <div class="icons-expression">
     {{#with roll}}
     {{!-- d20 --}}
@@ -16,25 +17,30 @@
 
     {{!-- Attribute Modifier --}}
     {{#if attKey}}
-    <div class="operator">+</div>
+    <div class="operator attribute">{{#if (lt attMod 0)}}−{{else}}+{{/if}}</div>
 
-    <div class="term">
+    <div class="term attribute">
       <div>{{attDisplay}}</div>
       <img src="{{attIcon}}" />
     </div>
     {{/if}}
   
-    {{!-- d20 --}}
-    {{#if boons.total}}
-    <div class="term">
-      <img src="icons/svg/d20-highlight.svg"></img>
-      <div>d20</div>
+    {{!-- Boons --}}
+    {{#if (gt boons.final 0)}}
+    <div class="operator boons">+</div>
+
+    <div class="term boons">
+      <div>{{boons.absolute}} {{localize "WW.Roll.Boons"}} ({{boons.display}}d6kh)</div>
+      <img src="systems/weirdwizard/assets/icons/rolling-boons-colored.svg"></img>
     </div>
-  
-    {{!-- d20 --}}
-    <div class="term">
-      <img src="icons/svg/d6.svg"></img>
-      <div>{{boons.total}}</div>
+
+    {{!-- Banes --}}
+    {{else if (lt boons.final 0)}}
+    <div class="operator banes">−</div>
+
+    <div class="term banes">
+      <div>{{boons.absolute}} {{localize "WW.Roll.Banes"}} ({{boons.display}}d6kh)</div>
+      <img src="systems/weirdwizard/assets/icons/rolling-banes-colored.svg"></img>
     </div>
     {{/if}}
     {{/with}}

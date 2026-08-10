@@ -169,7 +169,8 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     if (fixed) boonsFinal += fixed; // If there are fixed boons or banes, add it
 
     this.roll.boons.final = boonsFinal;
-    context.boonsFinal = plusify(boonsFinal);
+    this.roll.boons.display = plusify(boonsFinal);
+    this.roll.boons.absolute = Math.abs(boonsFinal);
 
     // Prepare boons display
     let boonsDisplay = '';
