@@ -586,16 +586,20 @@ export default class WWCreatureSheet extends WWActorSheet {
     const dataset = Object.assign({}, button.dataset);
 
     // Define variables to be used
-    const attKey = dataset.key, label = _loc(CONFIG.WW.ATTRIBUTE_ROLLS[attKey]);
-
+    const attKey = dataset.key,
+      flavor = _loc(CONFIG.WW.ATTRIBUTE_ROLLS[attKey]);
     let content = '';
 
     const activity = {
       actor: this.actor,
-      label: label,
-      icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey],
-      content: content,
-      attKey: attKey
+      roll: {
+        attKey
+      },
+      msg: {
+        icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey],
+        flavor,
+        content
+      }
     }
 
     // Check for Automatic Failure
@@ -604,7 +608,7 @@ export default class WWCreatureSheet extends WWActorSheet {
       const messageData = {
         type: 'd20-roll',
         speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
-        flavor: label,
+        flavor,
         content: `<div class="dice-outcome chat-failure">${_loc('WW.Roll.AutoFail')}!</div>`,
         sound: CONFIG.sounds.dice,
         'flags.weirdwizard': {

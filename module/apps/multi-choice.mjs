@@ -211,7 +211,6 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
           }
 
           new ActivityUse({ noTargeting: true }, data).render(true);
-
         }
 
       break;    

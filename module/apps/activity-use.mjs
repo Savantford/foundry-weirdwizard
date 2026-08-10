@@ -66,8 +66,8 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
     // Options
     this.args = {
-      noTargeting: options.noTargeting ?? (this.targeting ? true : false),
-      noRoll: options.noRoll ?? (attKey ? true : false),
+      noTargeting: options.noTargeting ?? (this.targeting ? false : true),
+      noRoll: options.noRoll ?? (attKey ? false: true),
       skipApp: options.skipApp ?? false
     }
     
@@ -410,8 +410,6 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       type: 'd20-roll',
       rolls: rollsArray,
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
-      flavor: msg.label,
-      content: this.msg.content,
       sound: CONFIG.sounds.dice,
       'flags.weirdwizard': {
         icon: this.msg.icon,
