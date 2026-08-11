@@ -100,6 +100,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       scrollable: ['.standard-form'],
       templates: [
         'systems/weirdwizard/templates/apps/activity/roll.hbs',
+        'systems/weirdwizard/templates/apps/activity/roll-details.hbs',
         'systems/weirdwizard/templates/apps/activity/targeting.hbs'
       ]
     },
@@ -218,7 +219,8 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       },
       against: {
         attribute: against,
-        display: againstDisplay
+        display: againstDisplay,
+        tn: customTn ?? 10
       }
     });
 
