@@ -203,7 +203,9 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
               content: '',  
             },
             roll: {
-              attKey: attribute,
+              attribute: {
+                key: attribute
+              },
               boons: {
                 fixed: parseInt(fixedBoons)
               }

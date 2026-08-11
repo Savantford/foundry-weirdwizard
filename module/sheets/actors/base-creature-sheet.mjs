@@ -593,7 +593,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     const activity = {
       actor: this.actor,
       roll: {
-        attKey
+        attribute: { key: attKey }
       },
       msg: {
         icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey],
@@ -603,7 +603,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     }
 
     // Check for Automatic Failure
-    if (this.actor.system.autoFail[activity.attKey]) {
+    if (this.actor.system.autoFail[attKey]) {
 
       const messageData = {
         type: 'd20-roll',
@@ -970,11 +970,11 @@ export default class WWCreatureSheet extends WWActorSheet {
         actor,
         item,
         msg: { flavor, content },
-        roll: { attKey }
+        roll: { attribute: { key: attKey } }
       }
   
       // Check for Automatic Failure
-      if (system.autoFail[data.attKey]) {
+      if (system.autoFail[attKey]) {
         const messageData = {
           type: 'd20-roll',
           speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),

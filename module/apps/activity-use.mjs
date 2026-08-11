@@ -16,61 +16,34 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   
   constructor(options={}, config = {}) {
     super(options); // Required for "this." to work
-    console.log(config)
-    console.log(options)
-    const { actor, item, args, msg, roll } = config;
+    
+    const { actor, item, roll, msg, args } = config;
 
     // Documents
     this.actor = actor;
     this.item = item ?? null;
     this.token = actor.token;
-    const sys = actor.system;
 
-    // Message Config
-    const icon = msg.icon = item ? item.img : null;
-    this.msg = {
-      ...msg,
-      icon: msg.icon ?? icon
-    }
-
-    // Roll Config
-    const attKey = roll.attKey;
-
-    this.roll = {
-      ...roll,
-      attLabel: _loc(CONFIG.WW.ROLL_ATTRIBUTES[attKey]),
-      attMod: sys.attributes[attKey]?.mod ? plusify(sys.attributes[attKey].mod) : '+0',
-      against: item?.system?.against ?? null,
-
-      boons: {
-        ...roll.boons,
-        actor: sys.boons,
-        fixed: roll?.boons?.fixed ?? (item?.system?.boons ? item.system.boons : 0),
-        fromEffects: sys.boons.selfRoll[attKey] ? sys.boons.selfRoll[attKey] : 0, // Conditional boons should be added here later
-        forAttacks: sys.boons.selfRoll.attacks,
-        forSpells: sys.boons.selfRoll.spells,
-        final: 0
-      }
-    };
-
-    // Targeting properties
+    // Config
+    this.roll = roll;
+    this.msg = msg;
     this.targeting = item?.system?.targeting ?? null;
-    
-    // Item Properties
-    this.itemProperties = {
-      isWeapon: this.item?.system?.subtype === 'weapon' ?? false,
-      isAttack: (this.item?.system?.subtype === 'weapon' || this.roll.against === 'def') ?? false,
-      isMagical: this.item?.system?.magical,
-      isSpell: this.item?.type === 'spell' ?? false
-    };
 
-    // Options
+    // Arguments
     this.args = {
       noTargeting: options.noTargeting ?? (this.targeting ? false : true),
-      noRoll: options.noRoll ?? (attKey ? false: true),
+      noRoll: options.noRoll ?? (roll.attribute.key ? false: true),
       skipApp: options.skipApp ?? false
     }
-    
+
+    // Item Properties
+    this.itemProperties = {
+      isWeapon: item?.system?.subtype === 'weapon' ?? false,
+      isAttack: (item?.system?.subtype === 'weapon' || roll?.against?.attribute === 'def') ?? false,
+      isMagical: item?.system?.magical,
+      isSpell: item?.type === 'spell' ?? false
+    };
+
     // Default Form Data Values
     this.formData = {
       applyAttackBoons: this.itemProperties.isWeapon ?? false,
@@ -146,31 +119,40 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       args: this.args,
       roll: this.roll,
       msg: this.msg,
-      itemProperties: this.itemProperties
+      itemProperties: this.itemProperties,
     };
-
-    // Destructure variables
-    const { against, attKey, attLabel, attMod } = this.roll;
-    const { fixed, forAttacks, forSpells, fromEffects } = this.roll.boons;
-    const { applyAttackBoons, applySpellBoons, customTn, flatMod, situationalBoons } = this.formData;
     
-    // Prepare input context
+    const item = this.item;
+    const sys = this.actor.system;
+
+    // Get and prepare form input variables
+    const { applyAttackBoons, applySpellBoons, customTn, flatMod, situationalBoons } = this.formData;
     context.inputs = this.formData ?? { applyAttackBoons, applySpellBoons, situationalBoons };
+
+    // Attribute variables
+    const attKey = this.roll.attribute.key;
+    const attMod = sys.attributes[attKey]?.mod ? plusify(sys.attributes[attKey].mod) : '+0';
+    const attLabel = _loc(CONFIG.WW.ROLL_ATTRIBUTES[attKey]);
 
     // Prepare attribute display
     const attDisplay = (attLabel ? `${attLabel} (${attMod})` : '1d20 + 0') + (flatMod ? ` + ${flatMod}` : '');
+
+    // Boons
+    const boons = {
+      actor: sys.boons,
+      fixed: this.roll?.boons?.fixed ?? (item?.system?.boons ? item.system.boons : 0),
+      fromEffects: sys.boons.selfRoll[attKey] ? sys.boons.selfRoll[attKey] : 0, // Conditional boons should be added here later
+      forAttacks: sys.boons.selfRoll.attacks,
+      forSpells: sys.boons.selfRoll.spells
+    };
 
     // Calculate and display final boons
     let boonsFinal = 0;
 
     if (situationalBoons) boonsFinal += situationalBoons; // Add situational boons input value
-    if (fromEffects) boonsFinal += fromEffects; // If there are boons or banes applied by Active Effects, add it
-    if (applyAttackBoons && forAttacks) boonsFinal += forAttacks;
-    if (fixed) boonsFinal += fixed; // If there are fixed boons or banes, add it
-
-    this.roll.boons.final = boonsFinal;
-    this.roll.boons.display = plusify(boonsFinal);
-    this.roll.boons.absolute = Math.abs(boonsFinal);
+    if (boons.fromEffects) boonsFinal += boons.fromEffects; // If there are boons or banes applied by Active Effects, add it
+    if (applyAttackBoons && boons.forAttacks) boonsFinal += boons.forAttacks;
+    if (boons.fixed) boonsFinal += boons.fixed; // If there are fixed boons or banes, add it
 
     // Prepare boons display
     let boonsDisplay = '';
@@ -185,7 +167,17 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       boonsDisplay = " " + _loc("WW.Boons.With") + " " + boonsFinal * -1 + " " + _loc("WW.Boons.Bane");
     }
 
+    // Merge boons
+    this.roll.boons = {
+      ...this.roll.boons,
+      ...boons,
+      final: boonsFinal,
+      abs: Math.abs(boonsFinal),
+      display: plusify(boonsFinal)
+    };
+
     // Prepare against display
+    const against = item?.system?.against ?? null;
     let againstDisplay = ` ${_loc('WW.Roll.Against').toLowerCase()} `;
     
     if (customTn) againstDisplay += customTn;
@@ -214,12 +206,21 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       }
     } else againstDisplay = '';
 
-    // Prepare the final boons expression
-    context.boonsExpression = attDisplay + boonsDisplay + againstDisplay;
-    context.roll.attDisplay = attDisplay;
-    context.roll.attIcon = CONFIG.WW.ATTRIBUTE_ICONS[attKey] ?? null;
-    context.roll.boonsDisplay = boonsDisplay;
-    context.roll.againstDisplay = againstDisplay;
+    // Merge roll context
+    foundry.utils.mergeObject(this.roll, {
+      expression: attDisplay + boonsDisplay + againstDisplay,
+      flatMod: flatMod,
+      flatModAbs: Math.abs(flatMod),
+      attribute: {
+        icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey] ?? null,  
+        mod: attMod,
+        label: attLabel
+      },
+      against: {
+        attribute: against,
+        display: againstDisplay
+      }
+    });
 
     // Targets display
     if (this.targets.length) {
@@ -317,8 +318,8 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
    * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
   */
   static async #confirm(event, target) {
-    const { against, attKey, attMod } = this.roll;
-    
+    const { attMod, attKey } = this.roll;
+    const { against } = this.roll.against.attribute;
     const boonsFinal = this.roll.boons.final,
       targeted = game.user.targets?.size ? true : false,
       flatMod = this.formData.flatMod,
@@ -412,6 +413,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     // Create message data
     const messageData = {
       ...this.msg,
+      icon: this.msg.icon ?? (this.item.img ?? null),
       type: 'd20-roll',
       rolls: rollsArray,
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),

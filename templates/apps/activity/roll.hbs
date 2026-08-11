@@ -1,14 +1,14 @@
 <section class="roll">
   {{!-- Heading --}}
   <h4 class="icon"><i class="fa-regular fa-dice-d20"></i> {{localize "WW.Roll.Label"}}</h4>
-
+  {{log roll}}
   {{!-- Roll Expression --}}
-  <div class="roll-expression">{{ boonsExpression }}</div>
+  {{#with roll}}
+  <div class="roll-expression">{{ expression }}</div>
   
   {{!-- Icons --}}
-  {{log roll}}
-  <div class="icons-expression">
-    {{#with roll}}
+  <div class="icons-expression mt-1">
+    
     {{!-- d20 --}}
     <div class="term d20">
       <img src="icons/svg/d20-highlight.svg"></img>
@@ -16,21 +16,26 @@
     </div>
 
     {{!-- Attribute Modifier --}}
-    {{#if attKey}}
-    <div class="operator attribute">{{#if (lt attMod 0)}}−{{else}}+{{/if}}</div>
+    {{#if attribute.key}}
+    <div class="operator attribute">{{#if (lt attribute.mod 0)}}−{{else}}+{{/if}}</div>
 
-    <div class="term attribute">
-      <div>{{attDisplay}}</div>
-      <img src="{{attIcon}}" />
+    <div class="term attribute" data-tooltip="{{ attribute.label }}">
+      <div>{{ attribute.mod }}</div>
+      <img src="{{ attribute.icon }}" />
     </div>
+    {{/if}}
+
+    {{!-- Flat Modifier --}}
+    {{#if flatMod}}
+    <div class="operator flat" data-tooltip="WW.Roll.Flat">{{#if (lt flatMod 0)}}−{{else}}+{{/if}} {{ flatModAbs }}</div>
     {{/if}}
   
     {{!-- Boons --}}
     {{#if (gt boons.final 0)}}
     <div class="operator boons">+</div>
 
-    <div class="term boons">
-      <div>{{boons.absolute}} {{localize "WW.Roll.Boons"}} ({{boons.display}}d6kh)</div>
+    <div class="term boons" data-tooltip="{{ boons.abs }} {{localize "WW.Roll.Boons"}}">
+      <div>{{ boons.display }}d6kh</div>
       <img src="systems/weirdwizard/assets/icons/rolling-boons-colored.svg"></img>
     </div>
 
@@ -38,14 +43,14 @@
     {{else if (lt boons.final 0)}}
     <div class="operator banes">−</div>
 
-    <div class="term banes">
-      <div>{{boons.absolute}} {{localize "WW.Roll.Banes"}} ({{boons.display}}d6kh)</div>
+    <div class="term banes" data-tooltip="{{ boons.abs }} {{localize "WW.Roll.Banes"}}">
+      <div>{{ boons.display }}d6kh</div>
       <img src="systems/weirdwizard/assets/icons/rolling-banes-colored.svg"></img>
     </div>
     {{/if}}
-    {{/with}}
   </div>
-  
+  {{/with}}
+
   {{!-- Roll Customization --}}
   <details class="roll-details mt-1" {{#if args.rollDetailsOpen}}open{{/if}}>
     <summary data-action="toggleRollDetails">{{localize "WW.Roll.SeeDetails"}}</summary>
