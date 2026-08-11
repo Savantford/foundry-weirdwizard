@@ -4959,7 +4959,7 @@ details.document-card .card-header:hover::after {
     justify-content: center;
     align-items: center;
     gap: 5px;
-    font-size: 1.2em;
+    font-size: 1.1em;
     
     .operator {
       color: var(--purple-dark);
@@ -4982,15 +4982,21 @@ details.document-card .card-header:hover::after {
       }
 
       > div {
-        margin-top: auto;
+        margin: auto auto 0;
+        padding: 0 3px;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 5px;
         color: white;
         text-align: center;
-        text-shadow: 0 0 3px var(--purple-dark), 0 0 3px var(--purple-dark), 0 0 3px var(--purple-dark), 0 0 3px var(--purple-dark), 0 0 3px var(--purple-dark);
       }
     }
     
     .term.d20 img {
-      filter: hue-rotate(265deg) contrast(0.5);
+      filter: hue-rotate(265deg) contrast(0.7) drop-shadow(0 0 3px black);
+    }
+
+    .term.attribute img {
+      filter: contrast(0.5) drop-shadow(0 0 1px black);
     }
 
     .term.boons img {
@@ -5008,7 +5014,9 @@ details.document-card .card-header:hover::after {
 
       > div {
         margin: auto;
-        font-size: 1.4em;
+        font-size: 1.3em;
+        background: none;
+        text-shadow: 0 0 3px var(--purple-dark), 0 0 3px var(--purple-dark), 0 0 3px var(--purple-dark), 0 0 3px var(--purple-dark), 0 0 3px var(--purple-dark);
       }
     }
   }

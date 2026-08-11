@@ -220,7 +220,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       against: {
         key: against,
         tn: customTn ?? 10,
-        icon: CONFIG.WW.ATTRIBUTE_ICONS[against] ?? 'systems/weirdwizard/assets/ui/badges/cross-grey.svg',
+        icon: CONFIG.WW.ATTRIBUTE_ICONS[against] ?? 'systems/weirdwizard/assets/ui/badges/octagonal.svg',
         label: CONFIG.WW.ROLL_AGAINST[against]
       }
     });
