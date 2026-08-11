@@ -6476,7 +6476,8 @@ p {
   border-image-width: 10px;
 }
 
-.weirdwizard .chat-failure {
+.weirdwizard .chat-failure,
+.weirdwizard .red {
   color: #a51700;
   filter: brightness(0) saturate(100%) invert(10%) sepia(91%) saturate(6105%) hue-rotate(20deg) brightness(86%) contrast(100%);
 }

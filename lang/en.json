@@ -291,6 +291,7 @@
 "WW.Activity.Target.UseTemplate": "Use a region template to target",
 "WW.Activity.Target.AreaTarget": "Target tokens within template",
 "WW.Activity.Target.PlaceTemplate": "Place a new template",
+"WW.Activity.Target.ExpectHint": "This activity expects targets to be selected. Please make sure to select targets in case you forgot it!",
 "WW.Activity.Confirm": "Confirm",
 
 "WW.Roll.Label": "Roll",

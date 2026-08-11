@@ -1,5 +1,4 @@
 <section class="form-footer flex-flow">
-
   {{!-- Message Mode --}}
   <div class="message-modes split-button">
     {{#each messageModes as |mode|}}
@@ -8,7 +7,7 @@
     {{/each}}
   </div>
 
-  <button type="submit" id="boons-submit" data-action="confirm">
+  <button type="submit" id="boons-submit" data-action="confirm" {{#if (and needTargets (not targets.length))}}class="red" data-tooltip="WW.Activity.Target.ExpectHint"{{/if}}>
     <i class="fa-solid fa-dice"></i> {{localize "WW.Activity.Confirm"}}
   </button>
 
