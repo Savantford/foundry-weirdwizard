@@ -39,7 +39,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     // Item Properties
     this.itemProperties = {
       isWeapon: item?.system?.subtype === 'weapon' ?? false,
-      isAttack: (item?.system?.subtype === 'weapon' || roll?.against?.attribute === 'def') ?? false,
+      isAttack: (item?.system?.subtype === 'weapon' || roll?.against?.key === 'def') ?? false,
       isMagical: item?.system?.magical,
       isSpell: item?.type === 'spell' ?? false
     };
@@ -213,14 +213,15 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       flatMod: flatMod,
       flatModAbs: Math.abs(flatMod),
       attribute: {
-        icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey] ?? null,  
         mod: attMod,
+        icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey] ?? null,  
         label: attLabel
       },
       against: {
-        attribute: against,
-        display: againstDisplay,
-        tn: customTn ?? 10
+        key: against,
+        tn: customTn ?? 10,
+        icon: CONFIG.WW.ATTRIBUTE_ICONS[against] ?? 'systems/weirdwizard/assets/ui/badges/cross-grey.svg',
+        label: CONFIG.WW.ROLL_AGAINST[against]
       }
     });
 
@@ -321,7 +322,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   */
   static async #confirm(event, target) {
     const { attMod, attKey } = this.roll;
-    const { against } = this.roll.against.attribute;
+    const { against } = this.roll.against.key;
     const boonsFinal = this.roll.boons.final,
       targeted = game.user.targets?.size ? true : false,
       flatMod = this.formData.flatMod,

@@ -48,6 +48,16 @@
       <img src="systems/weirdwizard/assets/icons/rolling-banes-colored.svg"></img>
     </div>
     {{/if}}
+
+    {{!-- Against --}}
+    {{#if (or against.key (ne against.tn 10))}}
+    <div class="operator against mx-1">vs</div>
+
+    <div class="term against" data-tooltip="{{ against.label }}">
+      <div>{{ against.tn }}</div>
+      <img src="{{ against.icon }}" />
+    </div>
+    {{/if}}
   </div>
   {{/with}}
 

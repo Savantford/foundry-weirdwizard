@@ -4988,7 +4988,6 @@ details.document-card .card-header:hover::after {
         text-shadow: 0 0 3px var(--purple-dark), 0 0 3px var(--purple-dark), 0 0 3px var(--purple-dark), 0 0 3px var(--purple-dark), 0 0 3px var(--purple-dark);
       }
     }
-
     
     .term.d20 img {
       filter: hue-rotate(265deg) contrast(0.5);
@@ -5000,6 +4999,17 @@ details.document-card .card-header:hover::after {
 
     .term.banes img {
       rotate: 15deg;
+    }
+
+    .term.against {
+      > img {
+        margin: 0;
+      }
+
+      > div {
+        margin: auto;
+        font-size: 1.4em;
+      }
     }
   }
 
