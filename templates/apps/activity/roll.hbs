@@ -54,7 +54,8 @@
     <div class="operator against mx-1">vs</div>
 
     <div class="term against" data-tooltip="{{ against.label }}">
-      <div>{{ against.tn }}</div>
+      {{#unless against.key}}<div>{{ against.tn }}</div>{{/unless}}
+
       <img src="{{ against.icon }}" />
     </div>
     {{/if}}
