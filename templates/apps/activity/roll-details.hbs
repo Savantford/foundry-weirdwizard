@@ -2,6 +2,7 @@
 <details class="roll-details mt-1" {{#if args.rollDetailsOpen}}open{{/if}}>
   <summary data-action="toggleRollDetails">{{localize "WW.Roll.SeeDetails"}}</summary>
 
+  {{!-- List of Boons and Banes --}}
   <div class="boons-list">
     {{#with roll.boons}}
     {{!-- Total Boones/Banes --}}
@@ -42,7 +43,7 @@
     {{/with}}
   </div>
 
-  {{!-- Right Column --}}
+  {{!-- Roll Customization --}}
   <div class="roll-options">
     {{!-- Situational Boons Widget --}}
     <div class="adjustment-widget">
@@ -54,16 +55,33 @@
       <a class="up" data-action="situationalUp" data-tooltip="WW.Boons.AddBoons"></a>
     </div>
 
-    {{!-- Custom Target Number --}}
+    {{!-- Modifier --}}
     <div class="override stat-inline align-center">
-      <label>{{localize "WW.Roll.Flat"}}:</label>
+
+      <label>{{localize "WW.Roll.Modifiers"}}:</label>
+
+      <select name="against.key">
+        {{selectOptions attributeKeys selected=against.key localize=true}}
+      </select>
+
+      <label class="ml-2">{{localize "WW.Roll.Flat"}}:</label>
+
       <input name="flatMod" type="number" value="{{ inputs.flatMod }}" placeholder="—"
         data-tooltip="WW.Roll.FlatHint" />
     </div>
 
-    {{!-- Custom Target Number --}}
+    {{!-- Against --}}
     <div class="override stat-inline align-center">
-      <label>{{localize "WW.Roll.TargetNumber"}}:</label>
+      <label>{{localize "WW.Roll.AgainstTargetNumber"}}:</label>
+
+      <select name="against.key">
+        {{selectOptions againstKeys selected=against.key localize=true}}
+      </select>
+
+      OR
+
+      <label class="ml-2">{{localize "WW.Roll.TargetNumber"}}:</label>
+
       <input name="customTn" type="number" value="{{ inputs.customTn }}" placeholder="—"
         data-tooltip="WW.Roll.TargetNumberHint" />
     </div>

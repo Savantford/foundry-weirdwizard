@@ -1,6 +1,13 @@
 <section class="tab{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
-    {{> "systems/weirdwizard/templates/sheets/items/automation/settings.hbs"}}
+    {{!-- Roll Settings --}}
+    {{> "systems/weirdwizard/templates/sheets/items/automation/roll.hbs"}}
+
+    {{!-- Targeting --}}
+    {{> "systems/weirdwizard/templates/sheets/items/automation/targeting.hbs"}}
+
     <hr class="spear" />
+
+    {{!-- Effects --}}
     {{> "systems/weirdwizard/templates/sheets/items/automation/effects.hbs"}}
 
     <div class="flex-1"></div>

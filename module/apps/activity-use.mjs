@@ -278,6 +278,10 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     context.messageModes = Object.entries(CONFIG.ChatMessage.modes).map(([action, {label, icon}]) => {
       return {icon, label, action, active: action === messageMode};
     });
+
+    // Dropdown pairs
+    context.attributeKeys = CONFIG.WW.ROLL_ATTRIBUTES;
+    context.againstKeys = CONFIG.WW.ROLL_AGAINST;
     
     return context;
   }

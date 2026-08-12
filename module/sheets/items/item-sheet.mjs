@@ -79,7 +79,8 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     automation: {
       template: 'systems/weirdwizard/templates/sheets/items/automation/tab.hbs',
       templates: [
-        'systems/weirdwizard/templates/sheets/items/automation/settings.hbs',
+        'systems/weirdwizard/templates/sheets/items/automation/roll.hbs',
+        'systems/weirdwizard/templates/sheets/items/automation/targeting.hbs',
         'systems/weirdwizard/templates/sheets/items/automation/effects.hbs'
       ]
     }

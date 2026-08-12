@@ -4991,7 +4991,7 @@ details.document-card .card-header:hover::after {
       }
     }
 
-    .term:hover {
+    .term:not(.d20):hover {
       cursor: help;
       filter: drop-shadow(0 0 5px var(--color-shadow-primary));
     }
