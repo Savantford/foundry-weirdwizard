@@ -121,6 +121,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       roll: this.roll,
       msg: this.msg,
       itemProperties: this.itemProperties,
+      targeting: this.targeting
     };
     
     const item = this.item;
@@ -279,14 +280,14 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       return {icon, label, action, active: action === messageMode};
     });
 
-    // Dropdown pairs
+    // Dropdown select options
     context.attributeMods = Object.fromEntries(Object.entries(CONFIG.WW.ROLL_ATTRIBUTES).map(([key, loc]) => {
       const attributes = this.actor.system.attributes;
       const label = `${_loc(loc)} (${plusify(attributes[key]?.mod) ?? '+0'})`;
 
-      return [key, key ? label : loc];
+      return [key, key ? label : _loc(loc)];
     }));
-    console.log(context.attributeMods)
+
     context.againstKeys = CONFIG.WW.ROLL_AGAINST;
     
     return context;
