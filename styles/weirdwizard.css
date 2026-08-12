@@ -4976,7 +4976,7 @@ details.document-card .card-header:hover::after {
       }
 
       img {
-        height: 40px;
+        height: 50px;
         margin: 0 auto 0.5lh;
         z-index: -1;
       }
@@ -4989,6 +4989,11 @@ details.document-card .card-header:hover::after {
         color: white;
         text-align: center;
       }
+    }
+
+    .term:hover {
+      cursor: help;
+      filter: drop-shadow(0 0 5px var(--color-shadow-primary));
     }
     
     .term.d20 img {

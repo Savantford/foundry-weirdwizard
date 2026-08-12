@@ -2,21 +2,22 @@
 <details class="roll-details mt-1" {{#if args.rollDetailsOpen}}open{{/if}}>
   <summary data-action="toggleRollDetails">{{localize "WW.Roll.SeeDetails"}}</summary>
 
-  <div class="roll-main">
+  <div class="boons-list">
+    {{#with roll.boons}}
     {{!-- Total Boones/Banes --}}
     <h4 class="rounded boons-header">
       <span>{{localize "WW.Boons.Total"}}</span>
 
-      <span class="boons-display total ml-auto">{{ boonsFinal }}</span>
+      <span class="boons-display total ml-auto">{{numberFormat final sign=true}}</span>
     </h4>
 
     {{!-- Boons Count Box --}}
     <div class="h4-box">
-      {{#with roll.boons}}
+      
       {{!-- Affliction Banes --}}
       <div class="stat-stretch flex-group-left">
         <label>{{localize "WW.Boons.Afflictions"}}</label>
-        <span class="boons-display">{{numberFormat fromEffects decimals=0 sign=true}}</span>
+        <span class="boons-display">{{numberFormat fromEffects sign=true}}</span>
       </div>
 
       {{!-- Attack Boons --}}
@@ -25,7 +26,7 @@
         <label>{{localize "WW.Boons.Attack"}}</label>
         <input name="applyAttackBoons" class="damage-checkbox attack" type="checkbox" data-tooltip="WW.Boons.Apply"
           {{#if inputs.applyAttackBoons}}checked{{/if}}>
-        <span class="boons-display attack">{{numberFormat forAttacks decimals=0 sign=true}}</span>
+        <span class="boons-display attack">{{numberFormat forAttacks sign=true}}</span>
       </div>
       {{/if}}
 
@@ -33,12 +34,12 @@
       {{#if fixed}}
       <div class="stat-stretch flex-group-left">
         <label>{{localize "WW.Boons.Fixed"}}</label>
-        <span class="boons-display fixed">{{numberFormat fixed decimals=0 sign=true}}</span>
+        <span class="boons-display fixed">{{numberFormat fixed sign=true}}</span>
       </div>
       {{/if}}
-      {{/with}}
-    </div>
 
+    </div>
+    {{/with}}
   </div>
 
   {{!-- Right Column --}}
