@@ -83,7 +83,14 @@ export class WWAfflictions {
         id: 'blinded',
         img: 'icons/svg/blind.svg',
         changes: [
-          booleanChange('speed.halved')
+          booleanChange('speed.halved'),
+          {
+            preset: 'custom',
+            key: 'token.sight.range',
+            value: 0,
+            type: 'downgrade',
+            phase: 'final'
+          }
         ]
       },
 
@@ -251,7 +258,7 @@ export class WWAfflictions {
 const keyFromPreset = preset => {
   const [groupKey] = preset ? preset.split('.') : [];
   return CONFIG.WW.EFFECT_CHANGE_PRESET_DATA?.[groupKey]?.options?.[preset].key;
-}
+};
 
 const createChange = (preset, value, priority, type) => ({
   key: keyFromPreset(preset),
@@ -260,7 +267,7 @@ const createChange = (preset, value, priority, type) => ({
   priority,
   phase: 'initial', //use initial so changes are considered during prepareDerivedData
   type
-})
+});
 
 const addChange = (preset, value = 1, priority = 120) => createChange(preset, value, priority, 'add');
 const subtractChange = (preset, value = 1, priority = 120) => createChange(preset, value, priority, 'subtract');
