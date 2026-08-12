@@ -140,10 +140,9 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     const grid = canvas.grid ?? foundry.documents.BaseScene.defaultGrid;
     const temp = this.system.template;
     const {
-      type = 'emanation', //temp.type,
+      type = /*grid.isGridless ? 'circle' : */'emanation',
       radius = temp.radius ?? 5,
       attached = temp.attached ?? true,
-      shape = grid.isHexagonal ? CONST.TOKEN_SHAPES.ELLIPSE_1 : CONST.TOKEN_SHAPES.RECTANGLE_1,
       color = temp.color ?? game.user.color,
       restriction = temp.restriction,
       ... params
@@ -154,9 +153,9 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       name: this.parent ? `${this.name} (${this.parent.name})` : this.name,
       shapes: [{
         type: type,
-        base: { type: "token", x: 0, y: 0, width: 1, height: 1, shape: shape },
+        base: { type: "token", x: 0, y: 0, width: 1, height: 1, shape: grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1 },
         radius: radius * canvas.dimensions.distancePixels, // In yards
-        gridBased: true
+        gridBased: !grid.isGridless
       }],
       color,
       restriction,
