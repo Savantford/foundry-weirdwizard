@@ -36,7 +36,7 @@
 
     <div class="term boons" data-tooltip="{{ boons.abs }} {{localize "WW.Roll.Boons"}}">
       <div>{{ boons.display }}d6kh</div>
-      <img src="systems/weirdwizard/assets/icons/rolling-boons-colored.svg"></img>
+      <img src="systems/weirdwizard/assets/icons/rolling-boon{{#if (gt boons.abs 1)}}s{{/if}}-colored.svg"/>
     </div>
 
     {{!-- Banes --}}
@@ -45,7 +45,7 @@
 
     <div class="term banes" data-tooltip="{{ boons.abs }} {{localize "WW.Roll.Banes"}}">
       <div>{{ boons.display }}d6kh</div>
-      <img src="systems/weirdwizard/assets/icons/rolling-banes-colored.svg"></img>
+      <img src="systems/weirdwizard/assets/icons/rolling-bane{{#if (gt boons.abs 1)}}s{{/if}}-colored.svg"/>
     </div>
     {{/if}}
 
