@@ -37,6 +37,10 @@ export default class WWChatMessage extends foundry.documents.ChatMessage {
   async renderHTML({ canDelete, canClose=false, ...rest }={}) {
     canDelete ??= game.user.isGM; // By default, GM users have the trash-bin icon in the chat log itself
 
+    // Render the chat message
+    await foundry.applications.handlebars.loadTemplates(["systems/weirdwizard/templates/sidebar/chat/dice-tooltip.hbs"]);
+
+    // Render the chat message
     if ( typeof this.system.renderHTML === "function" ) {
       const html = await this.system.renderHTML({ canDelete, canClose, ...rest });
       Hooks.callAll("renderChatMessageHTML", this, html);
@@ -201,8 +205,7 @@ export default class WWChatMessage extends foundry.documents.ChatMessage {
 
     // Define a border color
     if ( this.style === CONST.CHAT_MESSAGE_STYLES.OOC ) messageData.borderColor = this.author?.color.css;
-    
-    // Render the chat message
+
     let html = await foundry.applications.handlebars.renderTemplate(`systems/weirdwizard/templates/sidebar/chat/${this.type}-message.hbs`, messageData); // Default: CONFIG.ChatMessage.template
     html = foundry.utils.parseHTML(html);
 

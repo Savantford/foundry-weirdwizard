@@ -56,8 +56,7 @@ import WWToken from './canvas/token.mjs';
 
 // Import helper/utility classes and constants.
 import { WW } from './config.mjs';
-import registerSystemSettings from './helpers/system-settings.mjs'
-import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
+import registerSystemSettings from './helpers/system-settings.mjs';
 import { WWAfflictions } from './helpers/afflictions.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
@@ -323,9 +322,6 @@ Hooks.once('init', function () {
       getCostFunction: (token, _options) => cost => cost * (token.movementTraits.has("swimmer") ? 1 : 2) // Cheaper for Swimmer
     }
   }, { applyOperators: true });
-
-  // Preload Handlebars templates.
-  return preloadHandlebarsTemplates();
 });
 
 /* -------------------------------------------- */
