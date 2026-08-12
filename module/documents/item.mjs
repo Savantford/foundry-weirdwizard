@@ -140,7 +140,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     const grid = canvas.grid ?? foundry.documents.BaseScene.defaultGrid;
     const temp = this.system.template;
     const {
-      type = /*grid.isGridless ? 'circle' : */'emanation',
+      type = 'emanation',
       radius = temp.radius ?? 5,
       attached = temp.attached ?? true,
       color = temp.color ?? game.user.color,
