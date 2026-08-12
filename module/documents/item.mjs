@@ -133,20 +133,22 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
   /* -------------------------------------------- */
 
   async placeTemplate(options = {}) {
+    // Minimize origin app
     options.origin?.minimize();
 
     // Prepare region template
+    const grid = canvas.grid ?? foundry.documents.BaseScene.defaultGrid;
     const temp = this.system.template;
     const {
-      type = temp.type,
+      type = 'emanation', //temp.type,
       radius = temp.radius ?? 5,
       attached = temp.attached ?? true,
-      shape = CONST.TOKEN_SHAPES.RECTANGLE_1,
+      shape = grid.isHexagonal ? CONST.TOKEN_SHAPES.ELLIPSE_1 : CONST.TOKEN_SHAPES.RECTANGLE_1,
       color = temp.color ?? game.user.color,
       restriction = temp.restriction,
       ... params
     } = options;
-
+    
     // Prompt region placement
     const region = await canvas.regions.placeRegion({
       name: this.parent ? `${this.name} (${this.parent.name})` : this.name,
