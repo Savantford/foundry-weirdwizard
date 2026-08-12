@@ -319,8 +319,9 @@
 
 "WW.Roll.Against.Label": "Against",
 "WW.Roll.Against.Default": "10 (Default)",
-"WW.Roll.Against.TargetNumber": "Against (Target Number)",
-"WW.Roll.Against.CustomTargetNumber": "Custom",
+"WW.Roll.Against.AndOr": "and/or",
+"WW.Roll.Against.Or": "or",
+"WW.Roll.Against.CustomTargetNumber": "Custom Target Number",
 "WW.Roll.Against.CustomTargetNumberHint": "<p>If a custom target number is set, the attribute or luck will be rolled against it.</p><p>If unset, it will try to roll against the target number from targeted tokens.</p><p>If unable to, it will instead roll against the default target number for the game, 10.</p>",
 
 "WW.Boons.Apply": "Apply boons/banes",

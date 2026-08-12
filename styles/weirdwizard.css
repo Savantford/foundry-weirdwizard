@@ -4344,10 +4344,14 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .activity-use .roll-details {
+  padding: 0 0.5em;
   font: inherit;
 
-  summary {
-    margin-left: 3px;
+  .wrapper {
+    display: flex;
+    flex-flow: column;
+    gap: 5px;
+    padding: 5px;
   }
 }
 
@@ -5104,13 +5108,6 @@ details.document-card .card-header:hover::after {
     > a.down {
       background-image: url(../assets/icons/banes-colored.svg);
     }
-  }
-
-  .roll-options {
-    display: flex;
-    flex-flow: column;
-    gap: 5px;
-    margin: 5px 0;
   }
 
   .override input {

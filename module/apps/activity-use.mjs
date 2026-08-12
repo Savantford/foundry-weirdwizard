@@ -280,7 +280,13 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     });
 
     // Dropdown pairs
-    context.attributeKeys = CONFIG.WW.ROLL_ATTRIBUTES;
+    context.attributeMods = Object.fromEntries(Object.entries(CONFIG.WW.ROLL_ATTRIBUTES).map(([key, loc]) => {
+      const attributes = this.actor.system.attributes;
+      const label = `${_loc(loc)} (${plusify(attributes[key]?.mod) ?? '+0'})`;
+
+      return [key, key ? label : loc];
+    }));
+    console.log(context.attributeMods)
     context.againstKeys = CONFIG.WW.ROLL_AGAINST;
     
     return context;

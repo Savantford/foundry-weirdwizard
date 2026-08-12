@@ -319,7 +319,7 @@ WW.ROLL_ATTRIBUTES = {
 }
 
 WW.ROLL_AGAINST = {
-  '': 'WW.Roll.AgainstDefault',
+  '': 'WW.Roll.Against.Default',
   'def': 'WW.Defense.Label',
   'str': 'WW.Attributes.Strength',
   'agi': 'WW.Attributes.Agility',

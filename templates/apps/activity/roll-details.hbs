@@ -2,89 +2,89 @@
 <details class="roll-details mt-1" {{#if args.rollDetailsOpen}}open{{/if}}>
   <summary data-action="toggleRollDetails">{{localize "WW.Roll.SeeDetails"}}</summary>
 
-  {{!-- List of Boons and Banes --}}
-  <div class="boons-list">
-    {{#with roll.boons}}
-    {{!-- Total Boones/Banes --}}
-    <h4 class="rounded boons-header">
-      <span>{{localize "WW.Boons.Total"}}</span>
-
-      <span class="boons-display total ml-auto">{{numberFormat final sign=true}}</span>
-    </h4>
-
-    {{!-- Boons Count Box --}}
-    <div class="h4-box">
-      
-      {{!-- Affliction Banes --}}
-      <div class="stat-stretch flex-group-left">
-        <label>{{localize "WW.Boons.Afflictions"}}</label>
-        <span class="boons-display">{{numberFormat fromEffects sign=true}}</span>
-      </div>
-
-      {{!-- Attack Boons --}}
-      {{#if forAttacks}}
-      <div class="stat-stretch flex-group-left">
-        <label>{{localize "WW.Boons.Attack"}}</label>
-        <input name="applyAttackBoons" class="damage-checkbox attack" type="checkbox" data-tooltip="WW.Boons.Apply"
-          {{#if inputs.applyAttackBoons}}checked{{/if}}>
-        <span class="boons-display attack">{{numberFormat forAttacks sign=true}}</span>
-      </div>
-      {{/if}}
-
-      {{!-- Fixed Boons --}}
-      {{#if fixed}}
-      <div class="stat-stretch flex-group-left">
-        <label>{{localize "WW.Boons.Fixed"}}</label>
-        <span class="boons-display fixed">{{numberFormat fixed sign=true}}</span>
-      </div>
-      {{/if}}
-
+  <div class="wrapper">
+    {{!-- Modifier --}}
+    <div class="override stat-inline align-center">
+    
+      <label>{{localize "WW.Roll.Modifiers"}}:</label>
+    
+      <select name="against.key">
+        {{selectOptions attributeMods selected=against.key localize=true}}
+      </select>
+    
+      <span class="mx-2">{{localize "WW.Roll.Against.AndOr"}}</span>
+    
+      <label>{{localize "WW.Roll.Flat"}}:</label>
+    
+      <input name="flatMod" type="number" value="{{ inputs.flatMod }}" placeholder="—" data-tooltip="WW.Roll.FlatHint" />
     </div>
-    {{/with}}
-  </div>
 
-  {{!-- Roll Customization --}}
-  <div class="roll-options">
+    {{!-- List of Boons and Banes --}}
+    <div class="boons-list">
+      {{#with roll.boons}}
+      {{!-- Total Boones/Banes --}}
+      <h4 class="rounded boons-header">
+        <span>{{localize "WW.Boons.Total"}}</span>
+
+        <span class="boons-display total ml-auto">{{numberFormat final sign=true}}</span>
+      </h4>
+
+      {{!-- Boons Count Box --}}
+      <div class="h4-box">
+        
+        {{!-- Affliction Banes --}}
+        <div class="stat-stretch flex-group-left">
+          <label>{{localize "WW.Boons.Afflictions"}}</label>
+          <span class="boons-display">{{numberFormat fromEffects sign=true}}</span>
+        </div>
+
+        {{!-- Attack Boons --}}
+        {{#if forAttacks}}
+        <div class="stat-stretch flex-group-left">
+          <label>{{localize "WW.Boons.Attack"}}</label>
+          <input name="applyAttackBoons" class="damage-checkbox attack" type="checkbox" data-tooltip="WW.Boons.Apply"
+            {{#if inputs.applyAttackBoons}}checked{{/if}}>
+          <span class="boons-display attack">{{numberFormat forAttacks sign=true}}</span>
+        </div>
+        {{/if}}
+
+        {{!-- Fixed Boons --}}
+        {{#if fixed}}
+        <div class="stat-stretch flex-group-left">
+          <label>{{localize "WW.Boons.Fixed"}}</label>
+          <span class="boons-display fixed">{{numberFormat fixed sign=true}}</span>
+        </div>
+        {{/if}}
+
+      </div>
+      {{/with}}
+    </div>
+
     {{!-- Situational Boons Widget --}}
     <div class="adjustment-widget">
       <a class="down" data-action="situationalDown" data-tooltip="WW.Boons.AddBanes"></a>
-
+    
       <input name="situationalBoons" class="boons-input situational mx-1" type="number"
         value="{{ inputs.situationalBoons }}" data-tooltip="WW.Boons.Situational" />
-
+    
       <a class="up" data-action="situationalUp" data-tooltip="WW.Boons.AddBoons"></a>
     </div>
-
-    {{!-- Modifier --}}
-    <div class="override stat-inline align-center">
-
-      <label>{{localize "WW.Roll.Modifiers"}}:</label>
-
-      <select name="against.key">
-        {{selectOptions attributeKeys selected=against.key localize=true}}
-      </select>
-
-      <label class="ml-2">{{localize "WW.Roll.Flat"}}:</label>
-
-      <input name="flatMod" type="number" value="{{ inputs.flatMod }}" placeholder="—"
-        data-tooltip="WW.Roll.FlatHint" />
-    </div>
-
+    
     {{!-- Against --}}
     <div class="override stat-inline align-center">
-      <label>{{localize "WW.Roll.AgainstTargetNumber"}}:</label>
-
+      <label>{{localize "WW.Roll.Against.Label"}}:</label>
+    
       <select name="against.key">
         {{selectOptions againstKeys selected=against.key localize=true}}
       </select>
-
-      OR
-
-      <label class="ml-2">{{localize "WW.Roll.TargetNumber"}}:</label>
-
+    
+      <span class="mx-2">{{localize "WW.Roll.Against.Or"}}</span>
+    
+      <label>{{localize "WW.Roll.Against.CustomTargetNumber"}}:</label>
+    
       <input name="customTn" type="number" value="{{ inputs.customTn }}" placeholder="—"
         data-tooltip="WW.Roll.TargetNumberHint" />
     </div>
-
   </div>
+
 </details>
