@@ -346,7 +346,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
    * Scene region selection.
    */
   static #placeTemplate() {
-    this.item.placeTemplate({ origin: this });
+    this.config.item.placeTemplate({ origin: this });
   }
 
   /* -------------------------------------------- */
@@ -415,7 +415,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     /*const config = {
       rolls: [this.config.roll],
       skill: null,
-      messageMode: this.options.msg.mode,
+      messageMode: this.config.message.mode,
     };
 
     if (formData.skill) config.skill = formData.skill;*/
@@ -430,53 +430,54 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
    * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
   */
   static async #confirm(event, target) {
-    const { attMod, attKey } = this.roll;
-    const { against } = this.roll.against.key;
-    const boonsFinal = this.roll.boons.final,
-      targeted = game.user.targets?.size ? true : false,
-      flatMod = this.options.roll.flatMod,
-      rollData = this.options.actor.getRollData(),
-      rollsArray = [];
+    const { attribute, boons, against, flatMod } = this.config.roll;
+    const rollData = this.config.actor.getRollData();
     const rollOptions = {
       template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
-      actor: this.options.actor,
-      item: this.item,
-      originUuid: this.item ? this.item.uuid : this.options.actor.uuid, // TODO: Replace with item/actor
-      attribute: attKey,
-      against: against,
+      actor: this.config.actor,
+      item: this.config.item,
+      originUuid: this.config.item ? this.config.item.uuid : this.config.actor.uuid, // TODO: Replace with item/actor
+      attribute: attribute.key,
+      against: against.key,
       instEffs: this.instEffs,
       actEffs: this.actEffs
     };
-    
-    let rollHtml = '', boons = "0";
-    
-    if (targeted && against) { // If Action is Targeted and Against is filled: perform one separate roll for each target
+    const rollsArray = [];
+    let rollHtml = '', boonsDisplay = "0";
+
+    // Check if targeted
+    const targeted = game.user.targets?.size ? true : false;
+
+    if (targeted && against.key) { // If Action is Targeted and Against is filled: perform one separate roll for each target
       
       for (const tar of this.targets) {
-        
         // Set boons text
         let boonsAgainst = 0;
-        if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against];
-        if (this.options.itemProperties.isAttack) boonsAgainst += tar.boonsAgainst.fromAttacks;
-        if (this.options.itemProperties.isSpell) boonsAgainst += tar.boonsAgainst.fromSpells;
-        if (this.options.itemProperties.isMagical) boonsAgainst += tar.boonsAgainst.fromMagical;
+        if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against.key];
+        if (this.config.itemProperties.isAttack) boonsAgainst += tar.boonsAgainst.fromAttacks;
+        if (this.config.itemProperties.isSpell) boonsAgainst += tar.boonsAgainst.fromSpells;
+        if (this.config.itemProperties.isMagical) boonsAgainst += tar.boonsAgainst.fromMagical;
 
-        const boonsNo = parseInt(boonsFinal) + boonsAgainst;
+        const boonsNo = parseInt(boons.final) + boonsAgainst;
 
-        if (boonsNo != 0) { boons = (boonsNo < 0 ? "" : "+") + boonsNo + "d6kh" } else { boons = ""; };
+        if (boonsNo != 0) {
+          boonsDisplay = (boonsNo < 0 ? "" : "+") + boonsNo + "d6kh"
+        } else {
+          boonsDisplay = "";
+        };
 
         // Determine the rollFormula
         const rollFormula = [
           "1d20",
-          (attKey && attKey !== 'luck') ? `${attMod}[${_loc(CONFIG.WW.ATTRIBUTES_SHORT[attKey])}]` : null,
+          (attribute.key && attribute.key !== 'luck') ? `${attribute.mod}[${_loc(CONFIG.WW.ATTRIBUTES_SHORT[attribute.key])}]` : null,
           flatMod ? flatMod + `[${_loc("WW.Roll.Flat")}]` : null,
-          boons ? boons + `[${_loc(boonsFinal < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
+          boonsDisplay ? boonsDisplay + `[${_loc(boons.final < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
         ].filterJoin(" + ");
 
         // Determine target number
-        const targetNo = against === 'def' ? tar.defense : tar.attributes[against].value;
+        const targetNo = against.key === 'def' ? tar.defense : tar.attributes[against.key].value;
 
-        const autoSuccess = against ? !!tar.autoSuccessAgainst?.[against] : false;
+        const autoSuccess = against.key ? !!tar.autoSuccessAgainst?.[against.key] : false;
         
         // Construct the Roll instance and evaluate the roll
         const roll = await new WWRoll(rollFormula, rollData, {
@@ -496,18 +497,18 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
     } else { // Not targeted and Against is false: perform a SINGLE ROLL for all targets
       // Set boons text
-      if (boonsFinal != 0) { boons = boonsFinal + "d6kh" } else { boons = ""; };
+      if (boons.final != 0) { boonsDisplay = boons.final + "d6kh" } else { boonsDisplay = ""; };
       
       // Determine the rollFormula
       const rollFormula = [
         "1d20",
-        (attKey && attKey !== 'luck') ? `${attMod}[${_loc(CONFIG.WW.ATTRIBUTES_SHORT[attKey])}]` : null,
+        (attribute.key && attribute.key !== 'luck') ? `${attribute.mod}[${_loc(CONFIG.WW.ATTRIBUTES_SHORT[attribute.key])}]` : null,
         flatMod ? flatMod + `[${_loc("WW.Roll.Flat")}]` : null,
-        boons ? boons + `[${_loc(boonsFinal < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
+        boonsDisplay ? boonsDisplay + `[${_loc(boons.final < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
       ].filterJoin(" + ");
 
       // Set targetNo to the custom; 10 is used otherwise
-      const targetNo = this.options.roll.against.customTn ?? 10;
+      const targetNo = against.customTn ?? 10;
 
       // Construct the Roll instance and evaluate the roll
       const roll = await new WWRoll(rollFormula, rollData, {
@@ -523,17 +524,18 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     }
     
     // Create message data
+    const msg = this.config.message;
     const messageData = {
-      ...this.msg,
+      ...msg,
       type: 'd20-roll',
       rolls: rollsArray,
-      speaker: game.weirdwizard.utils.getSpeaker({ actor: this.options.actor }),
+      speaker: game.weirdwizard.utils.getSpeaker({ actor: this.config.actor }),
       sound: CONFIG.sounds.dice,
       'flags.weirdwizard': {
-        icon: this.msg.icon ?? (this.item.img ?? null),
-        item: this.item?.uuid,
+        icon: msg.icon ?? (this.config.item.img ?? null),
+        item: this.config.item?.uuid,
         rollHtml: rollHtml,
-        emptyContent: !this.msg.content ?? true
+        emptyContent: !msg.content ?? true
       }
     }
     
@@ -614,7 +616,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     Hooks.off('targetToken');
 
     // Maximize related Actor sheet
-    if (this.options.actor) this.options.actor.sheet.maximize();
+    if (this.config.actor) this.config.actor.sheet.maximize();
   }
 
   /* -------------------------------------------- */
@@ -663,7 +665,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       onFailure: []
     }
     
-    this.item?.effects?.forEach(effect => {
+    this.config.item?.effects?.forEach(effect => {
       const e = {...effect};
       e.uuid = effect.uuid;
 
@@ -695,16 +697,16 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     }
 
     // Return earlier if there is no item
-    if (!this.item) return effs;
+    if (!this.config.item) return effs;
 
     // Add Weapon Damage
-    const itemSystem = this.item.system;
+    const itemSystem = this.config.item.system;
     const weaponDamage = (itemSystem.subtype == 'weapon' && itemSystem.damage) ? itemSystem.damage : 0;
     
     if (weaponDamage) {
       const eff = {
         label: 'damage',
-        item: this.item,
+        item: this.config.item,
         value: weaponDamage
       };
       
@@ -713,7 +715,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     }
     
     // Add Instant Effects
-    this.item.system.instant.forEach(e => {
+    this.config.item.system.instant.forEach(e => {
       
       if (!e.trigger) e.trigger = e.flags.weirdwizard.trigger;
 
