@@ -871,7 +871,9 @@ export default class WWCreatureSheet extends WWActorSheet {
       instEffs = item.system.instant,
       effects = item.effects;
 
+    // Ensure keys are valid
     const attKey = CONFIG.WW.ATTRIBUTE_ROLLS[item.system.attribute] ? item.system.attribute : '';
+    const againstKey = CONFIG.WW.ROLL_AGAINST[item.system.against] ? item.system.against : '';
     
     if (!attKey) { // If an attribute key is not defined, do not roll
       // Effects
@@ -979,6 +981,9 @@ export default class WWCreatureSheet extends WWActorSheet {
         roll: {
           attribute: {
             key: attKey
+          },
+          against: {
+            key: againstKey
           }
         }
       }
