@@ -51,6 +51,9 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       situationalBoons: 0
     }
 
+    // Minimize related Actor sheet
+    if (this.actor) this.actor.sheet.minimize();
+
     // Enable token targeting listener
     Hooks.on("targetToken", () => this.debounceRender() );
   }
@@ -180,7 +183,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
     // Prepare against display
     const against = item?.system?.against ?? null;
-    let againstDisplay = ` ${_loc('WW.Roll.Against').toLowerCase()} `;
+    let againstDisplay = ` ${_loc('WW.Roll.Against.Label').toLowerCase()} `;
     
     if (customTn) againstDisplay += customTn;
     else if (against) {
@@ -327,6 +330,78 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   }
 
   /* -------------------------------------------- */
+  /*  Targeting actions                           */
+  /* -------------------------------------------- */
+
+  /**
+   * Prompt target selection.
+   */
+  static #selectTargets() {
+    const context = {
+      activityApp: this,
+      actor: this.actor
+    }
+
+    // Activate TargetingHUD app
+    new TargetingHUD(context).render(true);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Scene region selection.
+   */
+  static #placeTemplate() {
+    this.item.placeTemplate({ origin: this });
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle changing the targeting restriction.
+   * @type {ApplicationClickAction}
+   */
+  static #onChangeTargetingRestriction(event, target) {
+    const restriction = target.dataset.restriction;
+    
+    this.targeting.restriction = restriction;
+    this.render();
+  }
+
+  /* -------------------------------------------- */
+  /*  Other actions                               */
+  /* -------------------------------------------- */
+
+  /**
+   * Handle changing the message mode.
+   * @type {ApplicationClickAction}
+   */
+  static #onChangeMessageMode(event, target) {
+    const mode = target.dataset.mode;
+    game.settings.set("core", "messageMode", mode);
+    this.render();
+  }
+
+  /* -------------------------------------------- */
+  /*  Lifecycle & Form handling                   */
+  /* -------------------------------------------- */
+
+  /**
+   * Handle the sidebar's form submission
+   * @this {DocumentSheetV2}                      The handler is called with the application as its bound scope
+   * @param {SubmitEvent} event                   The originating form submission event
+   * @param {HTMLFormElement} form                The form element that was submitted
+   * @param {FormDataExtended} formData           Processed data for the submitted form
+   * @returns {Promise<void>}
+   */
+  static async #onSubmit(event, form, formData) {
+    this.formData = formData.object;
+    
+    return this.render();
+  }
+
+  
+  /* -------------------------------------------- */
 
   /**
    * @param {PointerEvent} event - The originating click event
@@ -428,13 +503,12 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     // Create message data
     const messageData = {
       ...this.msg,
-      icon: this.msg.icon ?? (this.item.img ?? null),
       type: 'd20-roll',
       rolls: rollsArray,
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
       sound: CONFIG.sounds.dice,
       'flags.weirdwizard': {
-        icon: this.msg.icon,
+        icon: this.msg.icon ?? (this.item.img ?? null),
         item: this.item?.uuid,
         rollHtml: rollHtml,
         emptyContent: !this.msg.content ?? true
@@ -447,7 +521,6 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
     // Submit, close app and turn off target token hook
     this.close({ submit: true });
-    Hooks.off('targetToken');
   }
 
   /* -------------------------------------------- */
@@ -510,74 +583,16 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   }
 
   /* -------------------------------------------- */
-  /*  Targeting actions                           */
-  /* -------------------------------------------- */
 
-  /**
-   * Prompt target selection.
-   */
-  static #selectTargets() {
-    const context = {
-      activityApp: this,
-      actor: this.actor
-    }
-
-    // Activate TargetingHUD app
-    new TargetingHUD(context).render(true);
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Scene region selection.
-   */
-  static #placeTemplate() {
-    this.item.placeTemplate({ origin: this });
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Handle changing the targeting restriction.
-   * @type {ApplicationClickAction}
-   */
-  static #onChangeTargetingRestriction(event, target) {
-    const restriction = target.dataset.restriction;
+  /** @inheritDoc */
+  _onClose(options) {
+    super._onClose(options);
     
-    this.targeting.restriction = restriction;
-    this.render();
-  }
+    // Turn off targeting hook
+    Hooks.off('targetToken');
 
-  /* -------------------------------------------- */
-  /*  Other actions                               */
-  /* -------------------------------------------- */
-
-  /**
-   * Handle changing the message mode.
-   * @type {ApplicationClickAction}
-   */
-  static #onChangeMessageMode(event, target) {
-    const mode = target.dataset.mode;
-    game.settings.set("core", "messageMode", mode);
-    this.render();
-  }
-
-  /* -------------------------------------------- */
-  /*  Form handling                               */
-  /* -------------------------------------------- */
-
-  /**
-   * Handle the sidebar's form submission
-   * @this {DocumentSheetV2}                      The handler is called with the application as its bound scope
-   * @param {SubmitEvent} event                   The originating form submission event
-   * @param {HTMLFormElement} form                The form element that was submitted
-   * @param {FormDataExtended} formData           Processed data for the submitted form
-   * @returns {Promise<void>}
-   */
-  static async #onSubmit(event, form, formData) {
-    this.formData = formData.object;
-    
-    return this.render();
+    // Maximize related Actor sheet
+    if (this.actor) this.actor.sheet.maximize();
   }
 
   /* -------------------------------------------- */

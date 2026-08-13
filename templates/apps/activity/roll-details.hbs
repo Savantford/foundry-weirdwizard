@@ -18,6 +18,16 @@
     
       <input name="flatMod" type="number" value="{{ inputs.flatMod }}" placeholder="—" data-tooltip="WW.Roll.FlatHint" />
     </div>
+    
+    {{!-- Situational Boons Widget --}}
+    <div class="adjustment-widget">
+      <a class="down" data-action="situationalDown" data-tooltip="WW.Boons.AddBanes"></a>
+    
+      <input name="situationalBoons" class="boons-input situational mx-1" type="number"
+        value="{{ inputs.situationalBoons }}" data-tooltip="WW.Boons.Situational" />
+    
+      <a class="up" data-action="situationalUp" data-tooltip="WW.Boons.AddBoons"></a>
+    </div>
 
     {{!-- List of Boons and Banes --}}
     <div class="boons-list">
@@ -58,16 +68,6 @@
 
       </div>
       {{/with}}
-    </div>
-
-    {{!-- Situational Boons Widget --}}
-    <div class="adjustment-widget">
-      <a class="down" data-action="situationalDown" data-tooltip="WW.Boons.AddBanes"></a>
-    
-      <input name="situationalBoons" class="boons-input situational mx-1" type="number"
-        value="{{ inputs.situationalBoons }}" data-tooltip="WW.Boons.Situational" />
-    
-      <a class="up" data-action="situationalUp" data-tooltip="WW.Boons.AddBoons"></a>
     </div>
     
     {{!-- Against --}}
