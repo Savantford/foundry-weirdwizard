@@ -16,43 +16,9 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   
   constructor(options={}, config = {}) {
     super(options); // Required for "this." to work
-    
-    const { actor, item, roll, msg, args } = config;
-
-    // Documents
-    this.actor = actor;
-    this.item = item ?? null;
-    this.token = actor.token;
-
-    // Config
-    this.roll = roll;
-    this.msg = msg;
-    this.targeting = item?.system?.targeting ?? null;
-
-    // Arguments
-    this.args = {
-      noTargeting: options.noTargeting ?? (this.targeting ? false : true),
-      noRoll: options.noRoll ?? (roll.attribute.key ? false: true),
-      skipApp: options.skipApp ?? false
-    }
-
-    // Item Properties
-    this.itemProperties = {
-      isWeapon: item?.system?.subtype === 'weapon' ?? false,
-      isAttack: (item?.system?.subtype === 'weapon' || roll?.against?.key === 'def') ?? false,
-      isMagical: item?.system?.magical,
-      isSpell: item?.type === 'spell' ?? false
-    };
-
-    // Default Form Data Values
-    this.formData = {
-      applyAttackBoons: this.itemProperties.isWeapon ?? false,
-      applySpellBoons: this.itemProperties.isSpell ?? false,
-      situationalBoons: 0
-    }
 
     // Minimize related Actor sheet
-    if (this.actor) this.actor.sheet.minimize();
+    if (options.actor) options.actor.sheet.minimize();
 
     // Enable token targeting listener
     Hooks.on("targetToken", () => this.debounceRender() );
@@ -81,15 +47,51 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       // Other actions
       messageMode: ActivityUse.#onChangeMessageMode
     },
-    form: {
-      handler: this.#onSubmit,
-      submitOnChange: true,
-      closeOnSubmit: false
-    },
     position: {
       width: 425,
       height: "auto"
     }
+  }
+
+  /* -------------------------------------------- */
+
+  /** @inheritDoc */
+  _initializeApplicationOptions(options) {
+    const { args = {}, actor, item, roll = {}, message = {} } = options;
+    const targeting = item?.system?.targeting ?? null;
+
+    // Arguments
+    args.noTargeting ??= targeting ? false : true;
+    args.noRoll ??= roll.attribute.key ? false : true;
+    args.skipApp ??= false;
+
+    // Item Properties
+    const itemProperties = {
+      isWeapon: item?.system?.subtype === 'weapon' ?? false,
+      isAttack: (item?.system?.subtype === 'weapon' || roll?.against?.key === 'def') ?? false,
+      isMagical: item?.system?.magical,
+      isSpell: item?.type === 'spell' ?? false
+    }
+
+    // Roll
+    roll.attribute ??= {};
+    roll.attribute.key ??= item?.system?.attribute ?? null;
+
+    roll.boons ??= {};
+    roll.boons.applyAttack ??= itemProperties.isAttack;
+    roll.boons.applySpell ??= itemProperties.isSpell;
+    roll.boons.situational ??= 0;
+
+    roll.against ??= {};
+    roll.against?.key ?? item?.system?.against ?? null;
+
+    // Additional options
+    this.config = {
+      args, actor, item, roll, message, itemProperties,
+      token: actor.token
+    }
+
+    return options = super._initializeApplicationOptions(options);
   }
 
   /* -------------------------------------------- */
@@ -113,31 +115,31 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   }
 
   /* -------------------------------------------- */
+
+  /** @override */
+  get title() {
+    const { constructor: id, name, type } = this.config.item ?? this.config.actor;
+    return `${_loc("WW.Activity.Label")}: ${name ?? id}`;
+  }
+
+  /* -------------------------------------------- */
   /*  Rendering                                   */
   /* -------------------------------------------- */
 
   async _prepareContext(options = {}) {
     const context = {
       ...await super._prepareContext(options),
-
-      args: this.args,
-      roll: this.roll,
-      msg: this.msg,
-      itemProperties: this.itemProperties,
-      targeting: this.targeting
+      ...this.config
     };
     
-    const item = this.item;
-    const sys = this.actor.system;
-
-    // Get and prepare form input variables
-    const { applyAttackBoons, applySpellBoons, customTn, flatMod, situationalBoons } = this.formData;
-    context.inputs = this.formData ?? { applyAttackBoons, applySpellBoons, situationalBoons };
+    const item = context.item;
+    const sys = context.actor.system;
 
     // Attribute variables
-    const attKey = this.roll.attribute.key;
+    const attKey = context.roll.attribute.key;
     const attMod = sys.attributes[attKey]?.mod ? plusify(sys.attributes[attKey].mod) : '+0';
     const attLabel = _loc(CONFIG.WW.ROLL_ATTRIBUTES[attKey]);
+    const flatMod = context.roll.flatMod;
 
     // Prepare attribute display
     const attDisplay = (attLabel ? `${attLabel} (${attMod})` : '1d20 + 0') + (flatMod ? ` + ${flatMod}` : '');
@@ -145,18 +147,22 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     // Boons
     const boons = {
       actor: sys.boons,
-      fixed: this.roll?.boons?.fixed ?? (item?.system?.boons ? item.system.boons : 0),
+      fixed: context.roll?.boons?.fixed ?? (item?.system?.boons ? item.system.boons : 0),
       fromEffects: sys.boons.selfRoll[attKey] ? sys.boons.selfRoll[attKey] : 0, // Conditional boons should be added here later
       forAttacks: sys.boons.selfRoll.attacks,
-      forSpells: sys.boons.selfRoll.spells
+      forSpells: sys.boons.selfRoll.spells,
+      situational: context.roll.boons.situational,
+      applyAttack: context.roll.boons.applyAttack,
+      applySpell: context.roll.boons.applySpell
     };
 
     // Calculate and display final boons
     let boonsFinal = 0;
 
-    if (situationalBoons) boonsFinal += situationalBoons; // Add situational boons input value
+    if (boons.situational) boonsFinal += boons.situational; // Add situational boons input value
     if (boons.fromEffects) boonsFinal += boons.fromEffects; // If there are boons or banes applied by Active Effects, add it
-    if (applyAttackBoons && boons.forAttacks) boonsFinal += boons.forAttacks;
+    if (boons.applyAttack && boons.forAttacks) boonsFinal += boons.forAttacks;
+    if (boons.applySpell && boons.forAttacks) boonsFinal += boons.forSpells;
     if (boons.fixed) boonsFinal += boons.fixed; // If there are fixed boons or banes, add it
 
     // Prepare boons display
@@ -173,8 +179,8 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     }
 
     // Merge boons
-    this.roll.boons = {
-      ...this.roll.boons,
+    context.roll.boons = {
+      ...context.roll.boons,
       ...boons,
       final: boonsFinal,
       abs: Math.abs(boonsFinal),
@@ -182,12 +188,13 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     };
 
     // Prepare against display
-    const against = item?.system?.against ?? null;
+    const against = context.roll.against;
+    const customTn = context.roll.against.customTn;
     let againstDisplay = ` ${_loc('WW.Roll.Against.Label').toLowerCase()} `;
     
     if (customTn) againstDisplay += customTn;
-    else if (against) {
-      switch (against) {
+    else if (against.key) {
+      switch (against.key) {
         case 'def': {
           againstDisplay += _loc('WW.Defense.Label');
           break;
@@ -212,20 +219,18 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     } else againstDisplay = '';
 
     // Merge roll context
-    foundry.utils.mergeObject(this.roll, {
+    foundry.utils.mergeObject(context.roll, {
       expression: attDisplay + boonsDisplay + againstDisplay,
-      flatMod: flatMod,
-      flatModAbs: Math.abs(flatMod),
+      flatModAbs: Math.abs(context.roll.flatMod),
       attribute: {
         mod: attMod,
         icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey] ?? null,  
         label: attLabel
       },
       against: {
-        key: against,
-        tn: customTn ?? 10,
-        icon: CONFIG.WW.ATTRIBUTE_ICONS[against] ?? 'systems/weirdwizard/assets/ui/badges/octagonal.svg',
-        label: CONFIG.WW.ROLL_AGAINST[against]
+        tn: context.roll.against.customTn ?? 10,
+        icon: CONFIG.WW.ATTRIBUTE_ICONS[against.key] ?? 'systems/weirdwizard/assets/ui/badges/octagonal.svg',
+        label: CONFIG.WW.ROLL_AGAINST[against.key]
       }
     });
 
@@ -234,33 +239,22 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       const targets = [];
       
       this.targets.forEach(tar => {
+        console.log(tar)
         // Boons against count
         let boonsAgainst = 0;
-        if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against];
-        if (this.itemProperties.isAttack) boonsAgainst += tar.boonsAgainst.fromAttacks;
-        if (this.itemProperties.isSpell) boonsAgainst += tar.boonsAgainst.fromSpells;
-        if (this.itemProperties.isMagical) boonsAgainst += tar.boonsAgainst.fromMagical + tar.boons.resistMagical;
-        
-        // Boons display
-        const boonsNo = boonsAgainst;
-        const boonsTip = boonsNo > 0 ? _loc('WW.Boons.ExtraBoons') : _loc('WW.Boons.ExtraBanes');
-        const boonsIcon = boonsNo > 0 ? 'boons-colored' : 'banes-colored';
-        
-        const againstIcon = CONFIG.WW.ATTRIBUTE_ICONS[against];
-        const againstLabel = CONFIG.WW.ROLL_AGAINST[against];
-        
-        const autoSuccess = against ? !!tar.autoSuccessAgainst?.[against] : false;
+        if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against.key];
+        if (context.itemProperties.isAttack) boonsAgainst += tar.boonsAgainst.fromAttacks;
+        if (context.itemProperties.isSpell) boonsAgainst += tar.boonsAgainst.fromSpells;
+        if (context.itemProperties.isMagical) boonsAgainst += tar.boonsAgainst.fromMagical + tar.boons.resistMagical;
 
         targets.push({
           img: tar.img,
           name: tar.name,
-          boonsNo,
-          boonsIcon: 'systems/weirdwizard/assets/icons/' + boonsIcon + '.svg',
-          boonsTip,
+          boonsNo: boonsAgainst,
+          boonsIcon: `systems/weirdwizard/assets/icons/rolling-${boonsAgainst > 0 ? 'boons' : 'banes'}-colored.svg`,
+          boonsTip: boonsAgainst > 0 ? _loc('WW.Boons.ExtraBoons') : _loc('WW.Boons.ExtraBanes'),
           againstNo: tar.againstNo,
-          againstLabel,
-          againstIcon,
-          autoSuccess
+          autoSuccess: against.key ? !!tar.autoSuccessAgainst?.[against.key] : false
         })
 
       });
@@ -270,8 +264,8 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     context.needTargets = item.needTargets;
 
     // Targeting Modes
-    if (this.targeting) {
-      const targetingRestriction = this.targeting.restriction ?? 'any';
+    if (context.targeting) {
+      const targetingRestriction = context.targeting.restriction ?? 'any';
       context.targetingRestrictions = Object.entries(CONFIG.WW.TARGETING_RESTRICTIONS).map(([action, label]) => {
         return {label, action, active: action === targetingRestriction};
       });
@@ -285,7 +279,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
     // Dropdown select options
     context.attributeMods = Object.fromEntries(Object.entries(CONFIG.WW.ROLL_ATTRIBUTES).map(([key, loc]) => {
-      const attributes = this.actor.system.attributes;
+      const attributes = context.actor.system.attributes;
       const label = `${_loc(loc)} (${plusify(attributes[key]?.mod) ?? '+0'})`;
 
       return [key, key ? label : _loc(loc)];
@@ -307,7 +301,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   static #onToggleRollDetails(event, target) {
     const open = target.parentNode.open;
     
-    this.args.rollDetailsOpen = !open;
+    this.config.args.rollDetailsOpen = !open;
   }
 
   /* -------------------------------------------- */
@@ -321,9 +315,9 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     const action = target.dataset.action;
 
     if (action === 'situationalUp') {
-      this.formData.situationalBoons++;
+      this.config.roll.boons.situational++;
     } else {
-      this.formData.situationalBoons--;
+      this.config.roll.boons.situational--;
     }
     
     this.render();
@@ -339,7 +333,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   static #selectTargets() {
     const context = {
       activityApp: this,
-      actor: this.actor
+      actor: this.config.actor
     }
 
     // Activate TargetingHUD app
@@ -386,20 +380,48 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   /*  Lifecycle & Form handling                   */
   /* -------------------------------------------- */
 
-  /**
-   * Handle the sidebar's form submission
-   * @this {DocumentSheetV2}                      The handler is called with the application as its bound scope
-   * @param {SubmitEvent} event                   The originating form submission event
-   * @param {HTMLFormElement} form                The form element that was submitted
-   * @param {FormDataExtended} formData           Processed data for the submitted form
-   * @returns {Promise<void>}
-   */
-  static async #onSubmit(event, form, formData) {
-    this.formData = formData.object;
-    
-    return this.render();
+  /** @inheritdoc */
+  async _onChangeForm(formConfig, event) {
+    super._onChangeForm(formConfig, event);
+    console.log('form changed')
+    const formData = foundry.utils.expandObject(new foundry.applications.ux.FormDataExtended(this.element).object);
+
+    this._refreshInputs(formData);
+
+    // Ensures the next input can be selected before re-rendering, maintaining focus while transitioning inputs.
+    setTimeout(() => this.render(), 20);
   }
 
+  /* -------------------------------------------- */
+
+  /**
+   * Refresh all inputs based on changed values.
+   * @param {Record<string, unknown>} formData
+   */
+  _refreshInputs(formData) {
+    for (const [key1, value1] of Object.entries(formData)) {
+      for (const [key2, value2] of Object.entries(value1)) {
+        this.config[key1][key2] = value2;
+      }
+    }
+  }
+
+  /* -------------------------------------------- */
+
+  /** @inheritdoc */
+  _processFormData(event, form, formData) {
+    formData = super._processFormData(event, form, formData);
+    console.log('form submitted')
+    /*const config = {
+      rolls: [this.config.roll],
+      skill: null,
+      messageMode: this.options.msg.mode,
+    };
+
+    if (formData.skill) config.skill = formData.skill;*/
+
+    //return config;
+  }
   
   /* -------------------------------------------- */
 
@@ -412,14 +434,14 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     const { against } = this.roll.against.key;
     const boonsFinal = this.roll.boons.final,
       targeted = game.user.targets?.size ? true : false,
-      flatMod = this.formData.flatMod,
-      rollData = this.actor.getRollData(),
+      flatMod = this.options.roll.flatMod,
+      rollData = this.options.actor.getRollData(),
       rollsArray = [];
     const rollOptions = {
       template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
-      actor: this.actor,
+      actor: this.options.actor,
       item: this.item,
-      originUuid: this.item ? this.item.uuid : this.actor.uuid, // TODO: Replace with item/actor
+      originUuid: this.item ? this.item.uuid : this.options.actor.uuid, // TODO: Replace with item/actor
       attribute: attKey,
       against: against,
       instEffs: this.instEffs,
@@ -435,9 +457,9 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
         // Set boons text
         let boonsAgainst = 0;
         if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against];
-        if (this.itemProperties.isAttack) boonsAgainst += tar.boonsAgainst.fromAttacks;
-        if (this.itemProperties.isSpell) boonsAgainst += tar.boonsAgainst.fromSpells;
-        if (this.itemProperties.isMagical) boonsAgainst += tar.boonsAgainst.fromMagical;
+        if (this.options.itemProperties.isAttack) boonsAgainst += tar.boonsAgainst.fromAttacks;
+        if (this.options.itemProperties.isSpell) boonsAgainst += tar.boonsAgainst.fromSpells;
+        if (this.options.itemProperties.isMagical) boonsAgainst += tar.boonsAgainst.fromMagical;
 
         const boonsNo = parseInt(boonsFinal) + boonsAgainst;
 
@@ -485,7 +507,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       ].filterJoin(" + ");
 
       // Set targetNo to the custom; 10 is used otherwise
-      const targetNo = this.formData.customTn ?? 10;
+      const targetNo = this.options.roll.against.customTn ?? 10;
 
       // Construct the Roll instance and evaluate the roll
       const roll = await new WWRoll(rollFormula, rollData, {
@@ -505,7 +527,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       ...this.msg,
       type: 'd20-roll',
       rolls: rollsArray,
-      speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
+      speaker: game.weirdwizard.utils.getSpeaker({ actor: this.options.actor }),
       sound: CONFIG.sounds.dice,
       'flags.weirdwizard': {
         icon: this.msg.icon ?? (this.item.img ?? null),
@@ -592,19 +614,11 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     Hooks.off('targetToken');
 
     // Maximize related Actor sheet
-    if (this.actor) this.actor.sheet.maximize();
+    if (this.options.actor) this.options.actor.sheet.maximize();
   }
 
   /* -------------------------------------------- */
   /*  Getters                                     */
-  /* -------------------------------------------- */
-
-  /** @override */
-  get title() {
-    const { constructor: id, name, type } = this.item ?? this.actor;
-    return `${_loc("WW.Activity.Label")}: ${name ?? id}`;
-  }
-  
   /* -------------------------------------------- */
 
   get targets() {
@@ -617,8 +631,8 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
       // Allow only Characters and NPCs
       if (actor.type === 'character' || actor.type === 'npc') {
-        let against = this.roll.against ? sys.attributes[this.roll.against]?.value : null;
-        if (this.roll.against === 'def') against = sys.stats.defense.total;
+        let against = this.config.roll.against.key ? sys.attributes[this.config.roll.against.key]?.value : null;
+        if (this.config.roll.against.key === 'def') against = sys.stats.defense.total;
         
         targets.push({
           id: tar.id,

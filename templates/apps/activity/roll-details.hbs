@@ -7,24 +7,24 @@
     <div class="override stat-inline align-center">
     
       <label>{{localize "WW.Roll.Modifiers"}}:</label>
-    
-      <select name="against.key">
-        {{selectOptions attributeMods selected=against.key localize=true}}
+      
+      <select name="roll.attribute.key">
+        {{selectOptions attributeMods selected=roll.attribute.key localize=true}}
       </select>
     
       <span class="mx-2">{{localize "WW.Roll.Against.AndOr"}}</span>
     
       <label>{{localize "WW.Roll.Flat"}}:</label>
     
-      <input name="flatMod" type="number" value="{{ inputs.flatMod }}" placeholder="—" data-tooltip="WW.Roll.FlatHint" />
+      <input name="roll.flatMod" type="number" value="{{ roll.flatMod }}" placeholder="—" data-tooltip="WW.Roll.FlatHint" />
     </div>
     
     {{!-- Situational Boons Widget --}}
     <div class="adjustment-widget">
       <a class="down" data-action="situationalDown" data-tooltip="WW.Boons.AddBanes"></a>
     
-      <input name="situationalBoons" class="boons-input situational mx-1" type="number"
-        value="{{ inputs.situationalBoons }}" data-tooltip="WW.Boons.Situational" />
+      <input name="roll.boons.situational" class="boons-input situational mx-1" type="number"
+        value="{{ roll.boons.situational }}" data-tooltip="WW.Boons.Situational" />
     
       <a class="up" data-action="situationalUp" data-tooltip="WW.Boons.AddBoons"></a>
     </div>
@@ -52,8 +52,8 @@
         {{#if forAttacks}}
         <div class="stat-stretch flex-group-left">
           <label>{{localize "WW.Boons.Attack"}}</label>
-          <input name="applyAttackBoons" class="damage-checkbox attack" type="checkbox" data-tooltip="WW.Boons.Apply"
-            {{#if inputs.applyAttackBoons}}checked{{/if}}>
+          <input name="roll.boons.applyAttack" class="damage-checkbox attack" type="checkbox" data-tooltip="WW.Boons.Apply"
+            {{#if roll.boons.applyAttack}}checked{{/if}}>
           <span class="boons-display attack">{{numberFormat forAttacks sign=true}}</span>
         </div>
         {{/if}}
@@ -74,16 +74,16 @@
     <div class="override stat-inline align-center">
       <label>{{localize "WW.Roll.Against.Label"}}:</label>
     
-      <select name="against.key">
-        {{selectOptions againstKeys selected=against.key localize=true}}
+      <select name="roll.against.key">
+        {{selectOptions againstKeys selected=roll.against.key localize=true}}
       </select>
     
       <span class="mx-2">{{localize "WW.Roll.Against.Or"}}</span>
     
       <label>{{localize "WW.Roll.Against.CustomTargetNumber"}}:</label>
     
-      <input name="customTn" type="number" value="{{ inputs.customTn }}" placeholder="—"
-        data-tooltip="WW.Roll.TargetNumberHint" />
+      <input name="roll.against.customTn" type="number" value="{{ roll.against.customTn }}" placeholder="—"
+        data-tooltip="WW.Roll.Against.CustomTargetNumberHint" />
     </div>
   </div>
 

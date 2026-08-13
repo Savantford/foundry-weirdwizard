@@ -193,15 +193,10 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
         const { attribute, fixedBoons } = opt.dataset;
 
         for (const uuid in selected) {
-
           const target = await fromUuid(uuid);
 
-          const data = {
+          const activityOptions = {
             actor: target,
-            msg: {
-              flavor: _loc(CONFIG.WW.ROLL_ATTRIBUTES[attribute]),
-              content: '',  
-            },
             roll: {
               attribute: {
                 key: attribute
@@ -209,10 +204,17 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
               boons: {
                 fixed: parseInt(fixedBoons)
               }
+            },
+            message: {
+              flavor: _loc(CONFIG.WW.ROLL_ATTRIBUTES[attribute]),
+              content: '',  
+            },
+            args: {
+              noTargeting: true
             }
           }
 
-          new ActivityUse({ noTargeting: true }, data).render(true);
+          new ActivityUse(activityOptions).render(true);
         }
 
       break;    

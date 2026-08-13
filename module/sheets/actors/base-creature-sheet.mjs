@@ -590,15 +590,18 @@ export default class WWCreatureSheet extends WWActorSheet {
       flavor = _loc(CONFIG.WW.ATTRIBUTE_ROLLS[attKey]);
     let content = '';
 
-    const activity = {
+    const activityOptions = {
       actor: this.actor,
       roll: {
         attribute: { key: attKey }
       },
-      msg: {
+      message: {
         icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey],
         flavor,
         content
+      },
+      args: {
+        noTargeting: true
       }
     }
 
@@ -618,7 +621,7 @@ export default class WWCreatureSheet extends WWActorSheet {
       
       ChatMessage.create(messageData);
     } else {
-      new ActivityUse({ noTargeting: true }, activity).render(true);
+      new ActivityUse(activityOptions).render(true);
     }
     
   }
@@ -966,11 +969,18 @@ export default class WWCreatureSheet extends WWActorSheet {
       
     } else { // Attempt to use Use Activity app
 
-      const data = {
+      const activityOptions = {
         actor,
         item,
-        msg: { flavor, content },
-        roll: { attribute: { key: attKey } }
+        message: {
+          flavor,
+          content
+        },
+        roll: {
+          attribute: {
+            key: attKey
+          }
+        }
       }
   
       // Check for Automatic Failure
@@ -990,7 +1000,7 @@ export default class WWCreatureSheet extends WWActorSheet {
   
         ChatMessage.create(messageData);
       } else {
-        new ActivityUse({}, data).render(true);
+        new ActivityUse(activityOptions).render(true);
       }
     }
     
