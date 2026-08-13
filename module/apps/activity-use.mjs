@@ -261,7 +261,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
       context.targets = targets;
     }
-    context.needTargets = item.needTargets;
+    context.needTargets = item?.needTargets;
 
     // Targeting Modes
     if (context.targeting) {
