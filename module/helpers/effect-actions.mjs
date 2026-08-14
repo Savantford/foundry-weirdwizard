@@ -104,7 +104,7 @@ export async function createActiveEffect(dataset, owner) {
   // Create the effect
   const effects = Array.from(await owner.effects);
   effects.push(effectData);
-  const createdEffect = await ActiveEffect.create(effectData, { parent: owner });
+  const createdEffect = await ActiveEffect.create(effectData, { parent: owner, keepId: true });
 
   // Render the created effect's template
   createdEffect.sheet.render(true);

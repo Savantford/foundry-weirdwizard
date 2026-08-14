@@ -48,8 +48,8 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
   /* -------------------------------------------- */
 
   /** @inheritDoc */
-  async _preparePartContext(partId, context) {
-    const partContext = await super._preparePartContext(partId, context);
+  async _preparePartContext(partId, context, options) {
+    const partContext = await super._preparePartContext(partId, context, options);
     if ( partId in partContext.tabs ) partContext.tab = partContext.tabs[partId];
     const effect = await this.document;
     

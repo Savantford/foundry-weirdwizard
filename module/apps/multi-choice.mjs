@@ -146,23 +146,20 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
 
       // Update Afflictions
       case 'updateAfflictions':
-        for (const aff in CONFIG.WW.AFFLICTIONS) {
-          
-          if (selected[aff]) {
-            const affliction = CONFIG.statusEffects.find(a => a.id === aff);
-            
-            if (affliction && !opt.document.effects.find(e => e.statuses.has(aff))) {
-              affliction['statuses'] = [affliction.id];
-              
-              await ActiveEffect.create(affliction, {parent: opt.document});
-            }
+        const ActiveEffect = getDocumentClass("ActiveEffect");
 
+        for (const affId in CONFIG.WW.AFFLICTIONS) {
+          if (selected[affId]) {
+            const affliction = await ActiveEffect.fromStatusEffect(affId, {parent: opt.document});
+            
+            if (affliction && !opt.document.effects.find(e => e.statuses.has(affId))) {
+              return ActiveEffect.create(affliction.toObject(), {parent: opt.document, keepId: true});
+            }
           } else {
-            const affliction = opt.document.effects.find(e => e.statuses.has(aff));
+            const affliction = opt.document.effects.find(e => e.statuses.has(affId));
             
             if (affliction) await affliction.delete();
           }
-
         }
       break;
 
