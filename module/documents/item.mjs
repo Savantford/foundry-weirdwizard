@@ -138,6 +138,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
 
     // Prepare region template
     const grid = canvas.grid ?? foundry.documents.BaseScene.defaultGrid;
+    const yard = canvas.dimensions.distancePixels;
     const token = this.actor.token;
     const temp = this.system.template;
     const {
@@ -155,7 +156,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       shapes: [{
         type: isSpace ? 'circle' : 'emanation',
         base: { type: "token", x: 0, y: 0, width: 1, height: 1, shape: grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1 },
-        radius: radius * canvas.dimensions.distancePixels, // In yards
+        radius: radius * yard, // In yards
         x: 0,
         y: 0,
         gridBased: !grid.isGridless
@@ -178,7 +179,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       shapes: [{
         type: 'emanation',
         base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: tshape },
-        radius: radius * canvas.dimensions.distancePixels, // In yards
+        radius: range * yard, // In yards
         gridBased: !grid.isGridless
       }],
       color: '#ff0000',
@@ -193,10 +194,8 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     // Create placeable and draw it
     const PlaceableClass = foundry.utils.getPlaceableObjectClass("Region");
     const rangePlaceable = new PlaceableClass(rangeRegion);
-    canvas.regions.addChild(rangePlaceable);
+    canvas.regions.preview.addChild(rangePlaceable);
     rangePlaceable.draw();
-
-    console.log(rangeRegion)
 
     // Prepare placement constraints
     const onMove = ({shape, position, snap}) => {
@@ -209,18 +208,23 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       position.x = x;
       position.y = y;
 
-      // Restrict placement to distance
-      console.log(rangeRegion.polygonTree.testPoint(position))
-      //const distance = canvas.grid.measurePath([token, position]).distance;
+      // Restrict placement to range region
+      const rangeShape = rangeRegion.shapes[0];
+
+      // If left/top, subtract radius, else add radius - 1
+      const offsetPos = {
+        x: rangeShape.origin.x >= position.x ? position.x - radius * yard : position.x + (radius - 1) * yard,
+        y: rangeShape.origin.y >= position.y ? position.y - radius * yard : position.y + (radius - 1) * yard
+      }
       
-      //if (range != null && distance > range - radius) return false;
+      if (!rangeShape.testPoint(offsetPos)) return false;
     };
     
     // Prompt region placement
     const region = await canvas.regions.placeRegion(regionData, { attachToToken: attached, onMove });
 
     // After placement
-    //rangePlaceable.destroy({children: true});
+    rangePlaceable.destroy({children: true});
     options.origin?.maximize();
 
     // Target tokens
