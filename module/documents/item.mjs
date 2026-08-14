@@ -138,23 +138,26 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
 
     // Prepare region template
     const grid = canvas.grid ?? foundry.documents.BaseScene.defaultGrid;
+    const token = this.actor.token;
     const temp = this.system.template;
     const {
-      type = 'emanation',
       radius = temp.radius ?? 5,
       attached = temp.attached ?? true,
       color = temp.color ?? game.user.color,
       restriction = temp.restriction,
+      isSpace = true,
       ... params
     } = options;
-    
-    // Prompt region placement
-    const region = await canvas.regions.placeRegion({
+
+    // Prepare region data
+    const regionData = {
       name: this.parent ? `${this.name} (${this.parent.name})` : this.name,
       shapes: [{
-        type: type,
+        type: isSpace ? 'circle' : 'emanation',
         base: { type: "token", x: 0, y: 0, width: 1, height: 1, shape: grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1 },
         radius: radius * canvas.dimensions.distancePixels, // In yards
+        x: 0,
+        y: 0,
         gridBased: !grid.isGridless
       }],
       color,
@@ -164,8 +167,60 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       displayMeasurements: true,
       visibility: CONST.REGION_VISIBILITY.ALWAYS,
       ownership: { [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER }
-    }, { attachToToken: attached });
+    };
 
+    // Prepare range preview region
+    const range = this.system.targeting.range;
+    const { x: tx, y: ty, width: twidth, height: theight, shape: tshape } = token._source;
+    
+    const rangeRegion = new RegionDocument.implementation({
+      name: 'temp',
+      shapes: [{
+        type: 'emanation',
+        base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: tshape },
+        radius: radius * canvas.dimensions.distancePixels, // In yards
+        gridBased: !grid.isGridless
+      }],
+      color: '#ff0000',
+      restriction,
+      levels: [canvas.level.id],
+      highlightMode: "coverage",
+      displayMeasurements: true,
+      visibility: CONST.REGION_VISIBILITY.OBSERVER,
+      ownership: { [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER }
+    }, { parent: canvas.scene });
+    
+    // Create placeable and draw it
+    const PlaceableClass = foundry.utils.getPlaceableObjectClass("Region");
+    const rangePlaceable = new PlaceableClass(rangeRegion);
+    canvas.regions.addChild(rangePlaceable);
+    rangePlaceable.draw();
+
+    console.log(rangeRegion)
+
+    // Prepare placement constraints
+    const onMove = ({shape, position, snap}) => {
+      // Snap is gonna be true if user is not holding shift
+      if ( !snap ) return;
+
+      // Restrict snapping to vertex/center
+      const mode = CONST.GRID_SNAPPING_MODES[(isSpace && radius * 2 % 2 === 0) ? "VERTEX" : "CENTER"];
+      const { x, y } = shape.grid.getSnappedPoint(position, { mode });
+      position.x = x;
+      position.y = y;
+
+      // Restrict placement to distance
+      console.log(rangeRegion.polygonTree.testPoint(position))
+      //const distance = canvas.grid.measurePath([token, position]).distance;
+      
+      //if (range != null && distance > range - radius) return false;
+    };
+    
+    // Prompt region placement
+    const region = await canvas.regions.placeRegion(regionData, { attachToToken: attached, onMove });
+
+    // After placement
+    //rangePlaceable.destroy({children: true});
     options.origin?.maximize();
 
     // Target tokens

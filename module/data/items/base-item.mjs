@@ -47,7 +47,7 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
       targeting: new fields.SchemaField({
         mode: makeRequiredStrField('manual'),
         restriction: makeRequiredStrField('any'),
-        range: makeIntField()
+        range: makeIntField(null)
       }),
 
       template: new fields.SchemaField({

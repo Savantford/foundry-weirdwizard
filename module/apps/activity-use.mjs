@@ -87,7 +87,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
     // Additional options
     this.config = {
-      args, actor, item, roll, message, itemProperties,
+      args, actor, item, roll, targeting, message, itemProperties,
       token: actor.token
     }
 

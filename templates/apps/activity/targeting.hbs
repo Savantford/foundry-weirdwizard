@@ -8,7 +8,7 @@
     <button data-action="selectTargets">
       <i class="fa-solid fa-arrows-down-to-people"></i> {{localize "WW.Targeting.Modes.Manual"}}
     </button>
-    
+    {{log targeting}}
     {{!-- Place templates --}}
     {{#if (eq targeting.mode 'areaTarget')}}
     <button data-action="placeTemplate">
