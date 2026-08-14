@@ -954,13 +954,11 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
   /* -------------------------------------------- */
 
   /* Apply Affliction */
-  async applyAffliction(key) {
-    
-    // Get affliction
-    const effect = CONFIG.statusEffects.find(a => a.id === key);
-    effect['statuses'] = [effect.id];
+  async applyAffliction(statusId) {
+    const ActiveEffect = getDocumentClass("ActiveEffect");
+    const affliction = await ActiveEffect.fromStatusEffect(statusId, {parent: this});
   
-    if (!effect) {
+    if (!affliction) {
       console.warn('Weird Wizard | applyAffliction | Affliction not found!')
       return;
     }
@@ -968,21 +966,20 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     let content = '';
 
     // Check if the actor already has the affliction
-    if (this.statuses.has(key)) {
-      content = `@UUID[${this.uuid}] ${_loc('WW.Affliction.Already')} <b class="info" data-tooltip="${effect.description}">${effect.name}</b>.`;
+    if (this.statuses.has(statusId)) {
+      content = `@UUID[${this.uuid}] ${_loc('WW.Affliction.Already')} <b class="info" data-tooltip="${affliction.description}">${affliction.name}</b>.`;
     } else {
-      await ActiveEffect.create(effect, {parent: this});
-      content = `@UUID[${this.uuid}] ${_loc('WW.Affliction.Becomes')} <b class="info" data-tooltip="${effect.description}">${effect.name}</b>.`;
+      await ActiveEffect.create(affliction.toObject(), {parent: this, keepId: true});
+      content = `@UUID[${this.uuid}] ${_loc('WW.Affliction.Becomes')} <b class="info" data-tooltip="${affliction.description}">${affliction.name}</b>.`;
     }
 
     // Send chat message
-    ChatMessage.create({
+    getDocumentClass("ChatMessage").create({
       type: 'status',
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
       content: content,
       sound: CONFIG.sounds.notification
     })
-
   }
 
   /* -------------------------------------------- */
