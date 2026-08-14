@@ -234,12 +234,11 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       }
     });
 
-    // Targets display
+    // Prepare targets
     if (this.targets.length) {
       const targets = [];
       
       this.targets.forEach(tar => {
-        console.log(tar)
         // Boons against count
         let boonsAgainst = 0;
         if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against.key];
@@ -383,7 +382,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   /** @inheritdoc */
   async _onChangeForm(formConfig, event) {
     super._onChangeForm(formConfig, event);
-    console.log('form changed')
+    
     const formData = foundry.utils.expandObject(new foundry.applications.ux.FormDataExtended(this.element).object);
 
     this._refreshInputs(formData);
