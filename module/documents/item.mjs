@@ -173,7 +173,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
 
     // Prepare range preview region
     const range = this.system.targeting.range;
-    const rangeColorIn = '#000000', rangeColorOut = '#7c0000';
+    const rangeColorIn = '#000000', rangeColorOut = '#400800';
     const { x: tx, y: ty, width: twidth, height: theight, shape: tshape } = token._source;
     
     const rangeRegion = new RegionDocument.implementation({
@@ -203,7 +203,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     
     // Create placeable and draw it
     const PlaceableClass = foundry.utils.getPlaceableObjectClass("Region");
-    //rangeRegion.updateShapeConstraints();
+
     const rangePlaceable = new PlaceableClass(rangeRegion);
     canvas.regions.preview.addChild(rangePlaceable);
     rangePlaceable.draw();
