@@ -141,6 +141,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     const yard = canvas.dimensions.distancePixels;
     const token = this.actor.token;
     const temp = this.system.template;
+    const emanationShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
     const {
       radius = temp.radius ?? 5,
       attached = temp.attached ?? true,
@@ -155,8 +156,8 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       name: this.parent ? `${this.name} (${this.parent.name})` : this.name,
       shapes: [{
         type: isSpace ? 'circle' : 'emanation',
-        base: { type: "token", x: 0, y: 0, width: 1, height: 1, shape: grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1 },
-        radius: radius * yard, // In yards
+        base: { type: "token", x: 0, y: 0, width: 1, height: 1, shape: emanationShape },
+        radius: radius * yard,
         x: 0,
         y: 0,
         gridBased: !grid.isGridless
@@ -172,18 +173,27 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
 
     // Prepare range preview region
     const range = this.system.targeting.range;
+    const rangeColorIn = '#000000', rangeColorOut = '#7c0000';
     const { x: tx, y: ty, width: twidth, height: theight, shape: tshape } = token._source;
     
     const rangeRegion = new RegionDocument.implementation({
       name: 'temp',
-      shapes: [{
-        type: 'emanation',
-        base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: tshape },
-        radius: range * yard, // In yards
-        gridBased: !grid.isGridless
-      }],
-      color: '#ff0000',
-      restriction,
+      shapes: [
+        {
+          type: 'emanation',
+          base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: emanationShape },
+          radius: 1000 * yard,
+          gridBased: !grid.isGridless
+        },
+        {
+          type: 'emanation',
+          hole: true,
+          base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: emanationShape },
+          radius: range * yard,
+          gridBased: !grid.isGridless
+        }
+      ],
+      color: rangeColorIn,
       levels: [canvas.level.id],
       highlightMode: "coverage",
       displayMeasurements: true,
@@ -193,11 +203,14 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     
     // Create placeable and draw it
     const PlaceableClass = foundry.utils.getPlaceableObjectClass("Region");
+    //rangeRegion.updateShapeConstraints();
     const rangePlaceable = new PlaceableClass(rangeRegion);
     canvas.regions.preview.addChild(rangePlaceable);
     rangePlaceable.draw();
 
     // Prepare placement constraints
+    let msg;
+
     const onMove = ({shape, position, snap}) => {
       // Snap is gonna be true if user is not holding shift
       if ( !snap ) return;
@@ -209,21 +222,63 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       position.y = y;
 
       // Restrict placement to range region
-      const rangeShape = rangeRegion.shapes[0];
+      const hole = rangeRegion.shapes[1];
+      const left = hole.origin.x >= position.x;
+      const top = hole.origin.y >= position.y;
 
-      // If left/top, subtract radius, else add radius - 1
+      // Square grid
       const offsetPos = {
-        x: rangeShape.origin.x >= position.x ? position.x - radius * yard : position.x + (radius - 1) * yard,
-        y: rangeShape.origin.y >= position.y ? position.y - radius * yard : position.y + (radius - 1) * yard
+        x: left ? position.x - radius * yard : position.x + (radius - 1) * yard, // Left / Right
+        y: top ? position.y - radius * yard : position.y + (radius - 1) * yard // Top / Bottom
       }
+
+      // Hexagonal grid (Rows)
+      if (grid.isHexagonal && !grid.columns) {
+        offsetPos.x = left ? position.x - (radius - 2.5) * yard : position.x + (radius - 2.5) * yard, // Left / Right
+        offsetPos.y = top ? position.y - (radius - 1) * yard : position.y + (radius - 1) * yard; // Top / Bottom
+      }
+
+      // Hexagonal grid (Columns)
+      if (grid.isHexagonal && grid.columns) {
+        offsetPos.x = left ? position.x - (radius - 1) * yard : position.x + (radius - 1) * yard, // Left / Right
+        offsetPos.y = top ? position.y - (radius - 2.5) * yard : position.y + (radius - 2.5) * yard; // Top / Bottom
+      }
+
+      // Hexagonal grid (Columns)
+      if (grid.isHexagonal && grid.columns) {
+        offsetPos.x = left ? position.x - (radius - 1) * yard : position.x + (radius - 1) * yard, // Left / Right
+        offsetPos.y = top ? position.y - (radius - 2.5) * yard : position.y + (radius - 2.5) * yard; // Top / Bottom
+      }
+
+      // Gridless - Not perfect, as the grid does not round it
+      if (grid.isGridless) {
+        offsetPos.x = left ? position.x - (radius - 0.9) * yard : position.x + (radius - 0.9) * yard, // Left / Right
+        offsetPos.y = top ? position.y - (radius - 0.9) * yard : position.y + (radius - 0.9) * yard; // Top / Bottom
+      }
+
+      // Out of Range warning
+      const outOfRange = !hole.testPoint(offsetPos);
       
-      if (!rangeShape.testPoint(offsetPos)) return false;
+      if (outOfRange) {
+        if (!msg || msg?.active === false) msg = ui.notifications.warn("WW.Targeting.RangeOut", { permanent: true });
+        if (rangeRegion.color.css === rangeColorIn) {
+          rangeRegion.updateSource({ color: rangeColorOut });
+          rangePlaceable.draw();
+        };
+      } else {
+        msg?.remove();
+        if (rangeRegion.color.css === rangeColorOut) {
+          rangeRegion.updateSource({ color: rangeColorIn });
+          rangePlaceable.draw();
+        };
+      }
     };
     
     // Prompt region placement
     const region = await canvas.regions.placeRegion(regionData, { attachToToken: attached, onMove });
 
     // After placement
+    msg?.remove();
     rangePlaceable.destroy({children: true});
     options.origin?.maximize();
 

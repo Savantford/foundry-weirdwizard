@@ -345,6 +345,7 @@
 "WW.Targeting.Targets": "Targets",
 "WW.Targeting.Target": "Target",
 "WW.Targeting.Range": "Range",
+"WW.Targeting.RangeOut": "Out of range!",
 
 "WW.Targeting.Modes.Label": "Operation",
 "WW.Targeting.Modes.None": "No targeting",
