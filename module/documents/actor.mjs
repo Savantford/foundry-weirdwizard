@@ -857,7 +857,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     // Arguments
     args.noTargeting ??= targeting ? false : true;
-    args.noRoll ??= roll.attribute.key ? false : true;
+    args.noRoll ??= roll.attribute?.key ? false : true;
 
     // Item Properties
     const itemProperties = {
@@ -897,7 +897,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     }
 
     // Open or skip ActivityUse app
-    const mutatedConfig = !options.args.skipApp ? await ActivityUse.wait(config) : config;
+    const mutatedConfig = !options.args?.skipApp ? await ActivityUse.wait(config) : config;
 
     // Finish activity
     this.finishActivity(mutatedConfig);
@@ -1099,7 +1099,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
   getActivityTargets(config) {
     const all = [], valid = [], invalid = [];
-    const restriction = config.targeting.restriction ?? 'any';
+    const restriction = config.targeting?.restriction ?? 'any';
 
     // Validate disposition
     function validateDispo(tokenDispo) {
