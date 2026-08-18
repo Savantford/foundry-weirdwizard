@@ -21,6 +21,16 @@
     {{/if}}
   </div>
 
+  {{!-- Targeting Restriction --}}
+  <div class="split-button targeting-restriction mt-1">
+    {{#each targetingRestrictions as |restriction|}}
+    <button type="button" class="ui-control" data-action="targetingRestriction"
+      data-restriction="{{restriction.action}}" aria-pressed="{{restriction.active}}">
+      {{localize restriction.label}}
+    </button>
+    {{/each}}
+  </div>
+
   {{!-- Targets Box --}}
   <div class="targets-box mt-1 mb-1" data-tooltip="WW.Activity.Target.TargetingInfo">
     {{!-- Valid Targets --}}
@@ -54,16 +64,6 @@
     <li class="invalid">
       <label><img class="target-icon" src="{{ img }}"> {{ name }}</label>
     </li>
-    {{/each}}
-  </div>
-
-  {{!-- Targeting Mode --}}
-  <div class="split-button targeting-restriction">
-    {{#each targetingRestrictions as |restriction|}}
-    <button type="button" class="ui-control" data-action="targetingRestriction"
-      data-restriction="{{restriction.action}}" aria-pressed="{{restriction.active}}">
-      {{localize restriction.label}}
-    </button>
     {{/each}}
   </div>
 

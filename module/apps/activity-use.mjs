@@ -57,7 +57,6 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
   /** @inheritDoc */
   _initializeApplicationOptions(options) {
-    console.log(options)
     this.config = options;
 
     return options = super._initializeApplicationOptions(options);

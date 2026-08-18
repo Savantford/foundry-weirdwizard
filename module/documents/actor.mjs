@@ -852,12 +852,11 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
   async useActivity(options) {
     const { args = {}, item = null, roll = {}, message = {} } = options;
-    const targeting = item?.system?.targeting ?? null;
     const sys = this.system;
 
-    // Arguments
+    // Targeting
+    const targeting = item?.system?.targeting ?? null;
     args.noTargeting ??= targeting ? false : true;
-    args.noRoll ??= roll.attribute?.key ? false : true;
 
     // Item Properties
     const itemProperties = {
@@ -872,6 +871,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     roll.attribute.key ??= item?.system?.attribute ?? null;
     const attKey = roll.attribute.key;
     roll.attribute.mod ??= sys.attributes[attKey]?.mod ? game.weirdwizard.utils.plusify(sys.attributes[attKey].mod) : '+0';
+    args.noRoll ??= roll.attribute?.key ? false : true;
     
     // Roll Boons
     foundry.utils.mergeObject(roll.boons = {}, {
@@ -887,7 +887,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     roll.boons.situational ??= 0;
 
     roll.against ??= {};
-    roll.against?.key ?? item?.system?.against ?? null;
+    roll.against.key ??= item?.system?.against ?? null;
 
     // Create config object
     const config = {
@@ -906,7 +906,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
   /* -------------------------------------------- */
 
   async finishActivity(config) {
-    console.log(config)
     const { attribute, boons, against, flatMod } = config.roll;
     const rollData = this.getRollData();
     const rollOptions = {
@@ -954,7 +953,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
         };
 
         // Determine the rollFormula
-        console.log(boonsDisplay)
         const rollFormula = [
           "1d20",
           (attribute.key && attribute.key !== 'luck') ? `${attribute.mod}[${_loc(CONFIG.WW.ATTRIBUTES_SHORT[attribute.key])}]` : null,
@@ -985,7 +983,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     } else { // Not targeted and Against is false: perform a SINGLE ROLL for all targets
       // Set boons text
-      console.log(boons)
       if (boons.final != 0) { boonsDisplay = boons.final + "d6kh" } else { boonsDisplay = ""; };
       
       // Determine the rollFormula
@@ -998,10 +995,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
       // Set targetNo to the custom; 10 is used otherwise
       const targetNo = against.customTn ?? 10;
-      console.log(rollFormula)
-      console.log(rollData)
-      console.log(rollOptions)
-      console.log(targetNo)
+      
       // Construct the Roll instance and evaluate the roll
       const roll = await new WWRoll(rollFormula, rollData, {
         ... rollOptions,
@@ -1108,12 +1102,10 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       else if (restriction === 'any') return true;
       else return false;
     }
-    console.log(config)
 
     // Loop through targets
     game.user.targets.forEach(target => {
       const tokenDoc = target.document;
-      console.log(tokenDoc)
       const actor = tokenDoc.actor;
       const sys = actor?.system;
 

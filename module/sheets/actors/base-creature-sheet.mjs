@@ -484,7 +484,6 @@ export default class WWCreatureSheet extends WWActorSheet {
         label: "WW.Item.Perform.AttackQuick",
         icon: '<i class="fa-solid fa-bolt"></i>',
         onClick: (ev, li) => {
-          console.log(ev)
           return this._onItemUse(li.dataset, { skipApp: true });
         },
         visible: li => {
@@ -860,10 +859,6 @@ export default class WWCreatureSheet extends WWActorSheet {
       content = _secretContent(item.system.description),
       instEffs = item.system.instant,
       effects = item.effects;
-
-    // Ensure keys are valid
-    const attKey = CONFIG.WW.ATTRIBUTE_ROLLS[item.system.attribute] ? item.system.attribute : '';
-    const againstKey = CONFIG.WW.ROLL_AGAINST[item.system.against] ? item.system.against : '';
     
     if (!attKey) { // If an attribute key is not defined, do not roll
       // Effects
@@ -967,19 +962,11 @@ export default class WWCreatureSheet extends WWActorSheet {
         message: {
           flavor,
           content
-        },
-        roll: {
-          attribute: {
-            key: attKey
-          },
-          against: {
-            key: againstKey
-          }
         }
       }
   
       // Check for Automatic Failure
-      if (system.autoFail[attKey]) {
+      if (system.autoFail[item.system.attribute]) {
         const messageData = {
           type: 'd20-roll',
           speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
