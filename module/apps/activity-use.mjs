@@ -241,7 +241,6 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       const valid = [];
       
       this.targets.valid.forEach(tar => {
-        console.log(tar)
         // Boons against count
         let boonsAgainst = 0;
         if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against.key];
