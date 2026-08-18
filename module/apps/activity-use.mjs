@@ -455,135 +455,19 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   /* -------------------------------------------- */
 
   get targets() {
-    const all = [], valid = [], invalid = [];
-    const restriction = this.config.targeting.restriction ?? 'any';
-
-    // Validate disposition
-    function validateDispo(tokenDispo) {
-      if (restriction === 'allies' && tokenDispo === 1) return true;
-      else if (restriction === 'enemies' && tokenDispo === -1) return true;
-      else if (restriction === 'any') return true;
-      else return false;
-    }
-
-    // Loop through targets
-    game.user.targets.forEach(target => {
-      const tokenDoc = target.document;
-      const actor = tokenDoc.actor;
-      const sys = actor?.system;
-
-      // Allow only Characters and NPCs
-      let against = this.config.roll.against.key ? sys.attributes[this.config.roll.against.key]?.value : null;
-      if (this.config.roll.against.key === 'def') against = sys.stats.defense.total;
-
-      const targetData = {
-        id: target.id,
-        uuid: tokenDoc.uuid,
-        img: tokenDoc.texture.src,
-        name: game.weirdwizard.utils.getAlias({ token: tokenDoc, actor: actor }),
-        dispostion: tokenDoc.disposition,
-        isCreature: actor.type === 'character' || actor.type === 'npc'
-      };
-
-      // Add Creature data
-      if (targetData.isCreature) foundry.utils.mergeObject(targetData, {
-        attributes: sys.attributes,
-        defense: sys.stats.defense.total,
-        againstNo: against,
-        boons: sys.boons.selfRoll,
-        boonsAgainst: sys.boons.against,
-        autoSuccessAgainst: sys.autoSuccess.against
-      })
-
-      // Push to correct arrays
-      all.push(targetData);
-
-      if (targetData.isCreature && validateDispo(tokenDoc.disposition)) valid.push(targetData);
-      else invalid.push(targetData);
-    });
-
-    return { all, valid, invalid };
+    return this.config.actor.getActivityTargets(this.config);
   }
 
   /* -------------------------------------------- */
 
   get actEffs() {
-    const effs = {
-      onUse: [],
-      onSuccess: [],
-      onCritical: [],
-      onFailure: []
-    }
-    
-    this.config.item?.effects?.forEach(effect => {
-      const e = {...effect};
-      e.uuid = effect.uuid;
-
-      switch (e.system.trigger) {
-        case 'onUse': {
-          effs.onUse.push(e);
-          effs.onSuccess.push(e);
-          effs.onCritical.push(e);
-          effs.onFailure.push(e);
-        }; break;
-        case 'onSuccess': effs.onSuccess.push(e); effs.onCritical.push(e); break;
-        case 'onCritical': effs.onCritical.push(e); break;
-        case 'onFailure': effs.onFailure.push(e); break;
-      }
-
-    })
-    
-    return effs;
+    return this.config.actor.getActivityActiveEffects(this.config);
   }
 
   /* -------------------------------------------- */
 
   get instEffs() {
-    const effs = {
-      onUse: [],
-      onSuccess: [],
-      onCritical: [],
-      onFailure: []
-    }
-
-    // Return earlier if there is no item
-    if (!this.config.item) return effs;
-
-    // Add Weapon Damage
-    const itemSystem = this.config.item.system;
-    const weaponDamage = (itemSystem.subtype == 'weapon' && itemSystem.damage) ? itemSystem.damage : 0;
-    
-    if (weaponDamage) {
-      const eff = {
-        label: 'damage',
-        item: this.config.item,
-        value: weaponDamage
-      };
-      
-      effs.onSuccess.push(eff);
-      effs.onCritical.push(eff);
-    }
-    
-    // Add Instant Effects
-    this.config.item.system.instant.forEach(e => {
-      
-      if (!e.trigger) e.trigger = e.flags.weirdwizard.trigger;
-
-      switch (e.trigger) {
-        case 'onUse': {
-          effs.onUse.push(e);
-          effs.onSuccess.push(e);
-          effs.onCritical.push(e);
-          effs.onFailure.push(e);
-        }; break;
-        case 'onSuccess': effs.onSuccess.push(e); effs.onCritical.push(e); break;
-        case 'onCritical': effs.onCritical.push(e); break;
-        case 'onFailure': effs.onFailure.push(e); break;
-      }
-
-    })
-    
-    return effs;
+    return this.config.actor.getActivityInstantEffects(this.config);
   }
 
 }

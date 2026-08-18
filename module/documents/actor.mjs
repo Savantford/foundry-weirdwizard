@@ -903,6 +903,8 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     this.finishActivity(mutatedConfig);
   }
 
+  /* -------------------------------------------- */
+
   async finishActivity(config) {
     console.log(config)
     const { attribute, boons, against, flatMod } = config.roll;
@@ -914,8 +916,8 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       originUuid: config.item ? config.item.uuid : this.uuid, // TODO: Replace with item/actor
       attribute: attribute.key,
       against: against.key,
-      instEffs: this.instEffs,
-      actEffs: this.actEffs
+      instEffs: this.getActivityInstantEffects(config),
+      actEffs: this.getActivityActiveEffects(config)
     };
     const rollsArray = [];
     let rollHtml = '', boonsDisplay = "0";
@@ -935,8 +937,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     const targeted = game.user.targets?.size ? true : false;
 
     if (targeted && against.key) { // If Action is Targeted and Against is filled: perform one separate roll for each target
-      
-      for (const tar of this.targets.valid) {
+      for (const tar of this.getActivityTargets(config).valid) {
         // Set boons text
         let boonsAgainst = 0;
         if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against.key];
@@ -975,7 +976,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
         }).evaluate();
         
         // Prepare DSN data
-        const index = this.targets.valid.findIndex(obj => { return obj.id === tar.id; });
+        const index = this.getActivityTargets(config).valid.findIndex(obj => { return obj.id === tar.id; });
         this.prepareDSN(roll, index);
 
         // Push roll to roll array
@@ -1092,6 +1093,139 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
         }
       }
     }
+  }
+
+  /* -------------------------------------------- */
+
+  getActivityTargets(config) {
+    const all = [], valid = [], invalid = [];
+    const restriction = config.targeting.restriction ?? 'any';
+
+    // Validate disposition
+    function validateDispo(tokenDispo) {
+      if (restriction === 'allies' && tokenDispo === 1) return true;
+      else if (restriction === 'enemies' && tokenDispo === -1) return true;
+      else if (restriction === 'any') return true;
+      else return false;
+    }
+    console.log(config)
+
+    // Loop through targets
+    game.user.targets.forEach(target => {
+      const tokenDoc = target.document;
+      console.log(tokenDoc)
+      const actor = tokenDoc.actor;
+      const sys = actor?.system;
+
+      // Prepare shared actor data
+      const targetData = {
+        id: target.id,
+        uuid: tokenDoc.uuid,
+        img: tokenDoc.texture.src,
+        name: game.weirdwizard.utils.getAlias({ token: tokenDoc, actor: actor }),
+        dispostion: tokenDoc.disposition,
+        isCreature: actor.type === 'character' || actor.type === 'npc'
+      };
+
+      // Add Creature specific data
+      if (targetData.isCreature) foundry.utils.mergeObject(targetData, {
+        attributes: sys.attributes,
+        defense: sys.stats.defense.total,
+        againstNo: config.roll.against.key === 'def' ? sys.stats.defense.total : (config.roll.against.key ? sys.attributes[config.roll.against.key]?.value : null),
+        boons: sys.boons.selfRoll,
+        boonsAgainst: sys.boons.against,
+        autoSuccessAgainst: sys.autoSuccess.against
+      })
+
+      // Push to correct arrays
+      all.push(targetData);
+
+      if (targetData.isCreature && validateDispo(tokenDoc.disposition)) valid.push(targetData);
+      else invalid.push(targetData);
+    });
+
+    return { all, valid, invalid };
+  }
+
+  /* -------------------------------------------- */
+
+  getActivityActiveEffects(config) {
+    const effs = {
+      onUse: [],
+      onSuccess: [],
+      onCritical: [],
+      onFailure: []
+    }
+    
+    config.item?.effects?.forEach(effect => {
+      const e = {...effect};
+      e.uuid = effect.uuid;
+
+      switch (e.system.trigger) {
+        case 'onUse': {
+          effs.onUse.push(e);
+          effs.onSuccess.push(e);
+          effs.onCritical.push(e);
+          effs.onFailure.push(e);
+        }; break;
+        case 'onSuccess': effs.onSuccess.push(e); effs.onCritical.push(e); break;
+        case 'onCritical': effs.onCritical.push(e); break;
+        case 'onFailure': effs.onFailure.push(e); break;
+      }
+
+    })
+    
+    return effs;
+  }
+
+  /* -------------------------------------------- */
+
+  getActivityInstantEffects(config) {
+    const effs = {
+      onUse: [],
+      onSuccess: [],
+      onCritical: [],
+      onFailure: []
+    }
+
+    // Return earlier if there is no item
+    if (!config.item) return effs;
+
+    // Add Weapon Damage
+    const itemSystem = config.item.system;
+    const weaponDamage = (itemSystem.subtype == 'weapon' && itemSystem.damage) ? itemSystem.damage : 0;
+    
+    if (weaponDamage) {
+      const eff = {
+        label: 'damage',
+        item: config.item,
+        value: weaponDamage
+      };
+      
+      effs.onSuccess.push(eff);
+      effs.onCritical.push(eff);
+    }
+    
+    // Add Instant Effects
+    config.item.system.instant.forEach(e => {
+      
+      if (!e.trigger) e.trigger = e.flags.weirdwizard.trigger;
+
+      switch (e.trigger) {
+        case 'onUse': {
+          effs.onUse.push(e);
+          effs.onSuccess.push(e);
+          effs.onCritical.push(e);
+          effs.onFailure.push(e);
+        }; break;
+        case 'onSuccess': effs.onSuccess.push(e); effs.onCritical.push(e); break;
+        case 'onCritical': effs.onCritical.push(e); break;
+        case 'onFailure': effs.onFailure.push(e); break;
+      }
+
+    })
+    
+    return effs;
   }
 
   /* -------------------------------------------- */
