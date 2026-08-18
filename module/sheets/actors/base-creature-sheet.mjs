@@ -433,12 +433,11 @@ export default class WWCreatureSheet extends WWActorSheet {
    * @private
    */
   _getProfileImageContextEntries() {
-    
     return [
       {
         label: "WW.Actor.ShowPortrait",
         icon: '<i class="fa-solid fa-image-portrait"></i>',
-        onClick: li => {
+        onClick: (ev, li) => {
           // From #onShowPortraitArtwork
           const {img, name, uuid} = this.actor;
           return new ImagePopout({src: img, uuid, window: {title: name}}).render({force: true});
@@ -450,7 +449,7 @@ export default class WWCreatureSheet extends WWActorSheet {
       {
         label: "WW.Actor.ShowToken",
         icon: '<i class="fa-solid fa-circle-user"></i>',
-        onClick: li => {
+        onClick: (ev, li) => {
           // From #onShowTokenArtwork
           const {prototypeToken, name, uuid} = this.actor;
           return new ImagePopout({src: prototypeToken.texture.src, uuid, window: {title: name}}).render({force: true});
@@ -470,12 +469,11 @@ export default class WWCreatureSheet extends WWActorSheet {
    * @returns {ContextMenuEntry[]}
    */
   _getItemContextEntries() {
-    
     return [
       {
         label: "WW.Item.Perform.Attack",
-        icon: '<i class="fa-solid fa-bolt"></i>',
-        onClick: li => {
+        icon: '<i class="fa-solid fa-hand-fist"></i>',
+        onClick: (ev, li) => {
           return this._onItemUse(li.dataset);
         },
         visible: li => {
@@ -483,10 +481,11 @@ export default class WWCreatureSheet extends WWActorSheet {
           return item.type === 'equipment' && item.system.subtype === 'weapon';
         }
       }, {
-        label: "WW.Item.Perform.AttackTarget",
-        icon: '<i class="fa-solid fa-bullseye"></i>',
-        onClick: li => {
-          return this._onItemUse(li.dataset, 'targeted-use');
+        label: "WW.Item.Perform.AttackQuick",
+        icon: '<i class="fa-solid fa-bolt"></i>',
+        onClick: (ev, li) => {
+          console.log(ev)
+          return this._onItemUse(li.dataset, { skipApp: true });
         },
         visible: li => {
           const item = this.actor.items.get(li.dataset.itemId);
@@ -494,8 +493,8 @@ export default class WWCreatureSheet extends WWActorSheet {
         }
       }, {
         label: "WW.Item.Perform.Equipment",
-        icon: '<i class="fa-solid fa-bolt"></i>',
-        onClick: li => {
+        icon: '<i class="fa-solid fa-hammer"></i>',
+        onClick: (ev, li) => {
           return this._onItemUse(li.dataset);
         },
         visible: li => {
@@ -503,10 +502,10 @@ export default class WWCreatureSheet extends WWActorSheet {
           return item.type === 'equipment' && item.system.subtype !== 'weapon';
         }
       }, {
-        label: "WW.Item.Perform.EquipmentTarget",
-        icon: '<i class="fa-solid fa-bullseye"></i>',
-        onClick: li => {
-          return this._onItemUse(li.dataset, 'targeted-use');
+        label: "WW.Item.Perform.EquipmentQuick",
+        icon: '<i class="fa-solid fa-bolt"></i>',
+        onClick: (ev, li) => {
+          return this._onItemUse(li.dataset, { skipApp: true });
         },
         visible: li => {
           const item = this.actor.items.get(li.dataset.itemId);
@@ -514,8 +513,8 @@ export default class WWCreatureSheet extends WWActorSheet {
         }
       }, {
         label: "WW.Item.Perform.Spell",
-        icon: '<i class="fa-solid fa-bolt"></i>',
-        onClick: li => {
+        icon: '<i class="fa-solid fa-wand-sparkles"></i>',
+        onClick: (ev, li) => {
           return this._onItemUse(li.dataset);
         },
         visible: li => {
@@ -523,10 +522,10 @@ export default class WWCreatureSheet extends WWActorSheet {
           return item.type === 'spell';
         }
       }, {
-        label: "WW.Item.Perform.SpellTarget",
-        icon: '<i class="fa-solid fa-bullseye"></i>',
-        onClick: li => {
-          return this._onItemUse(li.dataset, 'targeted-use');
+        label: "WW.Item.Perform.SpellQuick",
+        icon: '<i class="fa-solid fa-bolt"></i>',
+        onClick: (ev, li) => {
+          return this._onItemUse(li.dataset, { skipApp: true });
         },
         visible: li => {
           const item = this.actor.items.get(li.dataset.itemId);
@@ -534,8 +533,8 @@ export default class WWCreatureSheet extends WWActorSheet {
         }
       }, {
         label: "WW.Item.Perform.Talent",
-        icon: '<i class="fa-solid fa-bolt"></i>',
-        onClick: li => {
+        icon: '<i class="fa-solid fa-hand"></i>',
+        onClick: (ev, li) => {
           return this._onItemUse(li.dataset);
         },
         visible: li => {
@@ -543,10 +542,10 @@ export default class WWCreatureSheet extends WWActorSheet {
           return item.type === 'talent';
         }
       }, {
-        label: "WW.Item.Perform.TalentTarget",
-        icon: '<i class="fa-solid fa-bullseye"></i>',
-        onClick: li => {
-          return this._onItemUse(li.dataset, 'targeted-use');
+        label: "WW.Item.Perform.TalentQuick",
+        icon: '<i class="fa-solid fa-bolt"></i>',
+        onClick: (ev, li) => {
+          return this._onItemUse(li.dataset, { skipApp: true });
         },
         visible: li => {
           const item = this.actor.items.get(li.dataset.itemId);
@@ -555,21 +554,21 @@ export default class WWCreatureSheet extends WWActorSheet {
       }, {
         label: "WW.Item.Send",
         icon: '<i class="fa-solid fa-scroll"></i>',
-        onClick: li => {
+        onClick: (ev, li) => {
           const item = this.actor.items.get(li.dataset.itemId);
           return this._onItemScroll(item);
         }
       }, {
         label: "WW.Item.Edit.Activity",
         icon: '<i class="fa-solid fa-edit"></i>',
-        onClick: li => {
+        onClick: (ev, li) => {
           const item = this.actor.items.get(li.dataset.itemId);
           return this._onItemEdit(item);
         }
       }, {
         label: "WW.Item.Remove.Activity",
         icon: '<i class="fa-solid fa-trash"></i>',
-        onClick: li => {
+        onClick: (ev, li) => {
           const item = this.actor.items.get(li.dataset.itemId);
           return this._onItemRemove(item, li);
         }
@@ -844,25 +843,15 @@ export default class WWCreatureSheet extends WWActorSheet {
     const item = this.actor.items.get(dataset.itemId);
 
     // Determine operation with modifier keys
-    dataset.operation = 'untargeted-use';
-    
-    if (event.shiftKey) dataset.operation = 'targeted-use';
-    if (event.ctrlKey) dataset.operation = 'item-scroll';
-    if (event.altKey) dataset.operation = 'item-edit';
-    
-    // Evaluate action if no keys were clicked
-    switch (dataset.operation) {
-      case 'targeted-use': this._onItemUse(dataset); break;
-      case 'untargeted-use': this._onItemUse(dataset); break;
-      case 'item-scroll': this._onItemScroll(item); break;
-      case 'item-edit': this._onItemEdit(item); break;
-    }
-    
+    if (event.ctrlKey) this._onItemScroll(item);
+    else if (event.altKey) this._onItemEdit(item);
+    else if (event.shiftKey) this._onItemUse(dataset, { skipApp: true });
+    else this._onItemUse(dataset);
   }
 
   /* -------------------------------------------- */
 
-  _onItemUse(dataset) {
+  _onItemUse(dataset, args = {}) {
     // Define variables to be used
     const system = this.actor.system,
       item = this.actor.items.get(dataset.itemId),
@@ -971,9 +960,9 @@ export default class WWCreatureSheet extends WWActorSheet {
       ChatMessage.create(messageData);
       
     } else { // Attempt to use Use Activity app
-
       const activityOptions = {
-        event: dataset.event,
+        args,
+        event,
         item,
         message: {
           flavor,
@@ -1007,10 +996,8 @@ export default class WWCreatureSheet extends WWActorSheet {
         ChatMessage.create(messageData);
       } else {
         this.actor.useActivity(activityOptions);
-        //new ActivityUse(activityOptions).render(true);
       }
     }
-    
   }
 
   /* -------------------------------------------- */

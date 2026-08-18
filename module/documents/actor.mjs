@@ -896,8 +896,8 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       token: this.token
     }
 
-    // If shift key is not pressed, open ActivityUse app
-    const mutatedConfig = !options.event.shiftKey ? await ActivityUse.wait(config) : config;
+    // Open or skip ActivityUse app
+    const mutatedConfig = !options.args.skipApp ? await ActivityUse.wait(config) : config;
 
     // Finish activity
     this.finishActivity(mutatedConfig);
