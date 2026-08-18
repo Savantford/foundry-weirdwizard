@@ -1,6 +1,6 @@
-import ActivityUse from '../apps/activity-use.mjs';
-import { formatTime } from '../helpers/utils.mjs';
 import WWDocumentMixin from './ww-document.mjs';
+import ActivityUse from '../apps/activity-use.mjs';
+import WWRoll from '../dice/roll.mjs';
 
 /**
 * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
@@ -853,6 +853,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
   async useActivity(options) {
     const { args = {}, item = null, roll = {}, message = {} } = options;
     const targeting = item?.system?.targeting ?? null;
+    const sys = this.system;
 
     // Arguments
     args.noTargeting ??= targeting ? false : true;
@@ -869,8 +870,18 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     // Roll
     roll.attribute ??= {};
     roll.attribute.key ??= item?.system?.attribute ?? null;
+    const attKey = roll.attribute.key;
+    roll.attribute.mod ??= sys.attributes[attKey]?.mod ? game.weirdwizard.utils.plusify(sys.attributes[attKey].mod) : '+0';
+    
+    // Roll Boons
+    foundry.utils.mergeObject(roll.boons = {}, {
+      actor: sys.boons,
+      fromEffects: sys.boons.selfRoll[attKey] ? sys.boons.selfRoll[attKey] : 0, // Conditional boons should be added here later
+      forAttacks: sys.boons.selfRoll.attacks,
+      forSpells: sys.boons.selfRoll.spells,
+    });
 
-    roll.boons ??= {};
+    roll.boons.fixed ??= item?.system?.boons ?? 0;
     roll.boons.applyAttack ??= itemProperties.isAttack;
     roll.boons.applySpell ??= itemProperties.isSpell;
     roll.boons.situational ??= 0;
@@ -886,18 +897,201 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     }
 
     // If shift key is not pressed, open ActivityUse app
-    if (!options.event.shiftKey) {
-      const appData = await ActivityUse.wait(config);
-      console.log(appData)
+    const mutatedConfig = !options.event.shiftKey ? await ActivityUse.wait(config) : config;
+
+    // Finish activity
+    this.finishActivity(mutatedConfig);
+  }
+
+  async finishActivity(config) {
+    console.log(config)
+    const { attribute, boons, against, flatMod } = config.roll;
+    const rollData = this.getRollData();
+    const rollOptions = {
+      template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
+      actor: this,
+      item: config.item,
+      originUuid: config.item ? config.item.uuid : this.uuid, // TODO: Replace with item/actor
+      attribute: attribute.key,
+      against: against.key,
+      instEffs: this.instEffs,
+      actEffs: this.actEffs
+    };
+    const rollsArray = [];
+    let rollHtml = '', boonsDisplay = "0";
+
+    // Calculate final boons
+    let boonsFinal = 0;
+
+    if (boons.situational) boonsFinal += boons.situational; // Add situational boons input value
+    if (boons.fromEffects) boonsFinal += boons.fromEffects; // If there are boons or banes applied by Active Effects, add it
+    if (boons.applyAttack && boons.forAttacks) boonsFinal += boons.forAttacks;
+    if (boons.applySpell && boons.forAttacks) boonsFinal += boons.forSpells;
+    if (boons.fixed) boonsFinal += boons.fixed; // If there are fixed boons or banes, add it
+
+    config.roll.boons.final = boonsFinal;
+
+    // Check if targeted
+    const targeted = game.user.targets?.size ? true : false;
+
+    if (targeted && against.key) { // If Action is Targeted and Against is filled: perform one separate roll for each target
+      
+      for (const tar of this.targets.valid) {
+        // Set boons text
+        let boonsAgainst = 0;
+        if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against.key];
+        if (config.itemProperties.isAttack) boonsAgainst += tar.boonsAgainst.fromAttacks;
+        if (config.itemProperties.isSpell) boonsAgainst += tar.boonsAgainst.fromSpells;
+        if (config.itemProperties.isMagical) boonsAgainst += tar.boonsAgainst.fromMagical;
+
+        const boonsNo = parseInt(boons.final) + boonsAgainst;
+
+        if (boonsNo != 0) {
+          boonsDisplay = (boonsNo < 0 ? "" : "+") + boonsNo + "d6kh"
+        } else {
+          boonsDisplay = "";
+        };
+
+        // Determine the rollFormula
+        console.log(boonsDisplay)
+        const rollFormula = [
+          "1d20",
+          (attribute.key && attribute.key !== 'luck') ? `${attribute.mod}[${_loc(CONFIG.WW.ATTRIBUTES_SHORT[attribute.key])}]` : null,
+          flatMod ? flatMod + `[${_loc("WW.Roll.Flat")}]` : null,
+          boonsDisplay ? boonsDisplay + `[${_loc(boons.final < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
+        ].filterJoin(" + ");
+
+        // Determine target number
+        const targetNo = against.key === 'def' ? tar.defense : tar.attributes[against.key].value;
+
+        const autoSuccess = against.key ? !!tar.autoSuccessAgainst?.[against.key] : false;
+        
+        // Construct the Roll instance and evaluate the roll
+        const roll = await new WWRoll(rollFormula, rollData, {
+          ... rollOptions,
+          target: tar,
+          targetNo,
+          autoSuccess
+        }).evaluate();
+        
+        // Prepare DSN data
+        const index = this.targets.valid.findIndex(obj => { return obj.id === tar.id; });
+        this.prepareDSN(roll, index);
+
+        // Push roll to roll array
+        rollsArray.push(roll);
+      }
+
+    } else { // Not targeted and Against is false: perform a SINGLE ROLL for all targets
+      // Set boons text
+      console.log(boons)
+      if (boons.final != 0) { boonsDisplay = boons.final + "d6kh" } else { boonsDisplay = ""; };
+      
+      // Determine the rollFormula
+      const rollFormula = [
+        "1d20",
+        (attribute.key && attribute.key !== 'luck') ? `${attribute.mod}[${_loc(CONFIG.WW.ATTRIBUTES_SHORT[attribute.key])}]` : null,
+        flatMod ? flatMod + `[${_loc("WW.Roll.Flat")}]` : null,
+        boonsDisplay ? boonsDisplay + `[${_loc(boons.final < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
+      ].filterJoin(" + ");
+
+      // Set targetNo to the custom; 10 is used otherwise
+      const targetNo = against.customTn ?? 10;
+      console.log(rollFormula)
+      console.log(rollData)
+      console.log(rollOptions)
+      console.log(targetNo)
+      // Construct the Roll instance and evaluate the roll
+      const roll = await new WWRoll(rollFormula, rollData, {
+        ... rollOptions,
+        targetNo
+      }).evaluate();
+
+      // Prepare DSN data
+      this.prepareDSN(roll, 0);
+
+      // Push roll to roll array
+      rollsArray.push(roll);
+    }
     
-      if (!appData) return; // Cancel the process if app does not return a data object
-      else { 
-        // mutate config
+    // Create message data
+    const msg = config.message;
+    const messageData = {
+      ...msg,
+      type: 'd20-roll',
+      rolls: rollsArray,
+      speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
+      sound: CONFIG.sounds.dice,
+      'flags.weirdwizard': {
+        icon: msg.icon ?? (config.item.img ?? null),
+        item: config.item?.uuid,
+        rollHtml: rollHtml,
+        emptyContent: !msg.content ?? true
       }
     }
+    
+    // Apply roll mode and send to chat
+    await ChatMessage.applyMode(messageData, game.settings.get('core', 'messageMode'));
+    await ChatMessage.create(messageData);
+  }
+  
+  /* -------------------------------------------- */
 
-    // Start use
-    console.log('initiate use')
+  prepareDSN(roll, index) {
+    for (let i = 0; i < roll.dice.length; i++) {
+      roll.dice[i].options.rollOrder = index;
+
+      const exp = roll.dice[i].expression;
+      if (exp.includes('d20')) {
+        roll.dice[i].options.appearance = {
+          colorset: 'wwd20',
+          texture: 'stars',
+          material: 'metal',
+          font: 'Amiri',
+          foreground: '#FFAE00', // Label Color
+          background: "#AE00FF", // Dice Color
+          outline: '#FF7B00',
+          edge: '#FFAE00',
+          material: 'metal',
+          font: 'Amiri',
+          default: true
+        };
+      }
+
+      if (exp.includes('d6')) {
+        const sub = roll.formula.substring(0, roll.formula.indexOf(exp)).trim();
+        const sign = sub.slice(-1);
+
+        if (sign === '+') { // Boon dice
+          roll.dice[i].options.appearance = {
+            colorset: 'wwboon',
+            texture: 'stars',
+            material: 'metal',
+            font: 'Amiri',
+            foreground: '#FFAE00', // Label Color
+            background: "#4394FE", // Dice Color
+            outline: '#FF7B00',
+            edge: '#FFAE00',
+            material: 'metal',
+            font: 'Amiri'
+          };
+
+        } else if (sign === '-') { // Bane dice
+          roll.dice[i].options.appearance = {
+            colorset: 'wwbane',
+            texture: 'stars',
+            material: 'metal',
+            font: 'Amiri',
+            foreground: '#FFAE00', // Label Color
+            background: "#C70000", // Dice Color
+            outline: '#FF7B00',
+            edge: '#FFAE00',
+            material: 'metal',
+            font: 'Amiri'
+          };
+        }
+      }
+    }
   }
 
   /* -------------------------------------------- */
