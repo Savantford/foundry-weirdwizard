@@ -132,6 +132,15 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
   /*  Methods                                     */
   /* -------------------------------------------- */
 
+  /* A shortcut for macros to use an Item belonging to an Actor as an activity. */
+  async useActivity(options = {}) {
+    if (!this.parent) return console.error('In order to be used, the Item must be embedded to an Actor!');
+    this.parent.useActivity({
+      ...options,
+      item: this
+    })
+  }
+
   async placeTemplate(options = {}) {
     // Minimize origin app
     options.origin?.minimize();
