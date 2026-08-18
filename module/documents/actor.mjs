@@ -1,3 +1,4 @@
+import ActivityUse from '../apps/activity-use.mjs';
 import { formatTime } from '../helpers/utils.mjs';
 import WWDocumentMixin from './ww-document.mjs';
 
@@ -843,6 +844,60 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     return obj;
 
+  }
+
+  /* -------------------------------------------- */
+  /*  Activities                                  */
+  /* -------------------------------------------- */
+
+  async useActivity(options) {
+    const { args = {}, item = null, roll = {}, message = {} } = options;
+    const targeting = item?.system?.targeting ?? null;
+
+    // Arguments
+    args.noTargeting ??= targeting ? false : true;
+    args.noRoll ??= roll.attribute.key ? false : true;
+
+    // Item Properties
+    const itemProperties = {
+      isWeapon: item?.system?.subtype === 'weapon' ?? false,
+      isAttack: (item?.system?.subtype === 'weapon' || roll?.against?.key === 'def') ?? false,
+      isMagical: item?.system?.magical,
+      isSpell: item?.type === 'spell' ?? false
+    }
+
+    // Roll
+    roll.attribute ??= {};
+    roll.attribute.key ??= item?.system?.attribute ?? null;
+
+    roll.boons ??= {};
+    roll.boons.applyAttack ??= itemProperties.isAttack;
+    roll.boons.applySpell ??= itemProperties.isSpell;
+    roll.boons.situational ??= 0;
+
+    roll.against ??= {};
+    roll.against?.key ?? item?.system?.against ?? null;
+
+    // Create config object
+    const config = {
+      args, item, roll, targeting, message, itemProperties,
+      actor: this,
+      token: this.token
+    }
+
+    // If shift key is not pressed, open ActivityUse app
+    if (!options.event.shiftKey) {
+      const appData = await ActivityUse.wait(config);
+      console.log(appData)
+    
+      if (!appData) return; // Cancel the process if app does not return a data object
+      else { 
+        // mutate config
+      }
+    }
+
+    // Start use
+    console.log('initiate use')
   }
 
   /* -------------------------------------------- */

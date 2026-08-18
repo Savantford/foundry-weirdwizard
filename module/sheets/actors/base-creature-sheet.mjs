@@ -591,7 +591,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     let content = '';
 
     const activityOptions = {
-      actor: this.actor,
+      event,
       roll: {
         attribute: { key: attKey }
       },
@@ -621,7 +621,8 @@ export default class WWCreatureSheet extends WWActorSheet {
       
       ChatMessage.create(messageData);
     } else {
-      new ActivityUse(activityOptions).render(true);
+      this.actor.useActivity(activityOptions);
+      //new ActivityUse(activityOptions).render(true);
     }
     
   }
@@ -839,7 +840,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     event.preventDefault();
     event.stopPropagation();
 
-    const dataset = Object.assign({}, button.dataset);
+    const dataset = { ...button.dataset, event };
     const item = this.actor.items.get(dataset.itemId);
 
     // Determine operation with modifier keys
@@ -972,7 +973,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     } else { // Attempt to use Use Activity app
 
       const activityOptions = {
-        actor,
+        event: dataset.event,
         item,
         message: {
           flavor,
@@ -1005,7 +1006,8 @@ export default class WWCreatureSheet extends WWActorSheet {
   
         ChatMessage.create(messageData);
       } else {
-        new ActivityUse(activityOptions).render(true);
+        this.actor.useActivity(activityOptions);
+        //new ActivityUse(activityOptions).render(true);
       }
     }
     

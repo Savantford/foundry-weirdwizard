@@ -57,39 +57,8 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
   /** @inheritDoc */
   _initializeApplicationOptions(options) {
-    const { args = {}, actor, item, roll = {}, message = {} } = options;
-    const targeting = item?.system?.targeting ?? null;
-
-    // Arguments
-    args.noTargeting ??= targeting ? false : true;
-    args.noRoll ??= roll.attribute.key ? false : true;
-    args.skipApp ??= false;
-
-    // Item Properties
-    const itemProperties = {
-      isWeapon: item?.system?.subtype === 'weapon' ?? false,
-      isAttack: (item?.system?.subtype === 'weapon' || roll?.against?.key === 'def') ?? false,
-      isMagical: item?.system?.magical,
-      isSpell: item?.type === 'spell' ?? false
-    }
-
-    // Roll
-    roll.attribute ??= {};
-    roll.attribute.key ??= item?.system?.attribute ?? null;
-
-    roll.boons ??= {};
-    roll.boons.applyAttack ??= itemProperties.isAttack;
-    roll.boons.applySpell ??= itemProperties.isSpell;
-    roll.boons.situational ??= 0;
-
-    roll.against ??= {};
-    roll.against?.key ?? item?.system?.against ?? null;
-
-    // Additional options
-    this.config = {
-      args, actor, item, roll, targeting, message, itemProperties,
-      token: actor.token
-    }
+    console.log(options)
+    this.config = options;
 
     return options = super._initializeApplicationOptions(options);
   }
@@ -124,6 +93,32 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
   /* -------------------------------------------- */
   /*  Rendering                                   */
+  /* -------------------------------------------- */
+
+  /**
+   * Spawn an Activity app and wait for it to be dismissed or confirmed.
+   * @param config
+   * @returns {Promise<any>}                          Resolves to the identifier of the button used to submit the
+   *                                                  dialog, or the value returned by that button's callback. If the
+   *                                                  dialog was dismissed, and rejectClose is false, the Promise
+   *                                                  resolves to null.
+   */
+  static async wait({renderOptions, ...config}={}) {
+    return new Promise((resolve, reject) => {
+      const app = new this(config);
+      
+      // Add close listener
+      app.addEventListener("close", event => {
+        /*if ( true ) reject(new Error("Activity app was dismissed without pressing a button."));
+        else resolve(app.config ?? null);*/
+        resolve(app.config ?? null)
+      }, {once: true});
+      
+      // Render app
+      app.render({ ...renderOptions, force: true });
+    });
+  }
+
   /* -------------------------------------------- */
 
   async _prepareContext(options = {}) {
