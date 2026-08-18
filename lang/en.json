@@ -286,7 +286,7 @@
 "WW.Activity.Label": "Activity",
 "WW.Activity.Target.Targeting": "Targeting",
 "WW.Activity.Target.TargetingInfo": "In order to select targets, either use Foundry's targeting tool, the buttons above or drag and drop a combatant to this area.",
-"WW.Activity.Target.None": "No targets selected.",
+"WW.Activity.Target.None": "No valid targets selected.",
 "WW.Activity.Target.SelectTargets": "Target and select tokens manually",
 "WW.Activity.Target.UseTemplate": "Use a region template to target",
 "WW.Activity.Target.AreaTarget": "Target tokens within template",

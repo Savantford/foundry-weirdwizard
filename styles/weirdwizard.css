@@ -5120,6 +5120,11 @@ details.document-card .card-header:hover::after {
       gap: 5px;
     }
 
+    li.invalid {
+      filter: grayscale(1) contrast(0.5);
+      opacity: 0.5;
+    }
+
     label {
       display: inline-flex;
       align-items: center;

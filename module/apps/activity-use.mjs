@@ -235,10 +235,13 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     });
 
     // Prepare targets
-    if (this.targets.length) {
-      const targets = [];
+    context.needTargets = item?.needTargets;
+
+    if (this.targets.valid.length) {
+      const valid = [];
       
-      this.targets.forEach(tar => {
+      this.targets.valid.forEach(tar => {
+        console.log(tar)
         // Boons against count
         let boonsAgainst = 0;
         if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against.key];
@@ -246,7 +249,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
         if (context.itemProperties.isSpell) boonsAgainst += tar.boonsAgainst.fromSpells;
         if (context.itemProperties.isMagical) boonsAgainst += tar.boonsAgainst.fromMagical + tar.boons.resistMagical;
 
-        targets.push({
+        valid.push({
           img: tar.img,
           name: tar.name,
           boonsNo: boonsAgainst,
@@ -258,13 +261,29 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
       });
 
-      context.targets = targets;
+      context.validTargets = valid;
     }
-    context.needTargets = item?.needTargets;
+
+    // Prepare valid targets
+    if (this.targets.invalid.length) {
+      const invalid = [];
+      
+      this.targets.invalid.forEach(tar => {
+        // Boons against count
+
+        invalid.push({
+          img: tar.img,
+          name: tar.name
+        })
+
+      });
+
+      context.invalidTargets = invalid;
+    }
 
     // Targeting Modes
     if (context.targeting) {
-      const targetingRestriction = context.targeting.restriction ?? 'any';
+      const targetingRestriction = context.targeting.restriction;
       context.targetingRestrictions = Object.entries(CONFIG.WW.TARGETING_RESTRICTIONS).map(([action, label]) => {
         return {label, action, active: action === targetingRestriction};
       });
@@ -357,7 +376,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   static #onChangeTargetingRestriction(event, target) {
     const restriction = target.dataset.restriction;
     
-    this.targeting.restriction = restriction;
+    this.config.targeting.restriction = restriction;
     this.render();
   }
 
@@ -449,7 +468,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
     if (targeted && against.key) { // If Action is Targeted and Against is filled: perform one separate roll for each target
       
-      for (const tar of this.targets) {
+      for (const tar of this.targets.valid) {
         // Set boons text
         let boonsAgainst = 0;
         if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against.key];
@@ -487,7 +506,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
         }).evaluate();
         
         // Prepare DSN data
-        const index = this.targets.findIndex(obj => { return obj.id === tar.id; });
+        const index = this.targets.valid.findIndex(obj => { return obj.id === tar.id; });
         this.prepareDSN(roll, index);
 
         // Push roll to roll array
@@ -623,35 +642,54 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   /* -------------------------------------------- */
 
   get targets() {
-    const targets = [];
+    const all = [], valid = [], invalid = [];
+    const restriction = this.config.targeting.restriction ?? 'any';
 
-    game.user.targets.forEach(tar => {
-      const tokenDoc = tar.document;
+    // Validate disposition
+    function validateDispo(tokenDispo) {
+      if (restriction === 'allies' && tokenDispo === 1) return true;
+      else if (restriction === 'enemies' && tokenDispo === -1) return true;
+      else if (restriction === 'any') return true;
+      else return false;
+    }
+
+    // Loop through targets
+    game.user.targets.forEach(target => {
+      const tokenDoc = target.document;
       const actor = tokenDoc.actor;
       const sys = actor?.system;
 
       // Allow only Characters and NPCs
-      if (actor.type === 'character' || actor.type === 'npc') {
-        let against = this.config.roll.against.key ? sys.attributes[this.config.roll.against.key]?.value : null;
-        if (this.config.roll.against.key === 'def') against = sys.stats.defense.total;
-        
-        targets.push({
-          id: tar.id,
-          uuid: tokenDoc.uuid,
-          img: tokenDoc.texture.src,
-          name: game.weirdwizard.utils.getAlias({ token: tokenDoc, actor: actor }),
-          attributes: sys.attributes,
-          defense: sys.stats.defense.total,
-          againstNo: against,
-          boons: sys.boons.selfRoll,
-          boonsAgainst: sys.boons.against,
-          autoSuccessAgainst: sys.autoSuccess.against
-        });
-      }
+      let against = this.config.roll.against.key ? sys.attributes[this.config.roll.against.key]?.value : null;
+      if (this.config.roll.against.key === 'def') against = sys.stats.defense.total;
 
+      const targetData = {
+        id: target.id,
+        uuid: tokenDoc.uuid,
+        img: tokenDoc.texture.src,
+        name: game.weirdwizard.utils.getAlias({ token: tokenDoc, actor: actor }),
+        dispostion: tokenDoc.disposition,
+        isCreature: actor.type === 'character' || actor.type === 'npc'
+      };
+
+      // Add Creature data
+      if (targetData.isCreature) foundry.utils.mergeObject(targetData, {
+        attributes: sys.attributes,
+        defense: sys.stats.defense.total,
+        againstNo: against,
+        boons: sys.boons.selfRoll,
+        boonsAgainst: sys.boons.against,
+        autoSuccessAgainst: sys.autoSuccess.against
+      })
+
+      // Push to correct arrays
+      all.push(targetData);
+
+      if (targetData.isCreature && validateDispo(tokenDoc.disposition)) valid.push(targetData);
+      else invalid.push(targetData);
     });
 
-    return targets;
+    return { all, valid, invalid };
   }
 
   /* -------------------------------------------- */
@@ -733,31 +771,6 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     })
     
     return effs;
-  }
-
-  /* -------------------------------------------- */
-
-  _getTargetIds(targets, effTarget) {
-    let targetIds = '';
-
-    function compareDispo(effTarget, compared) {
-      const dispo = canvas.tokens.get(compared)?.document?.disposition;
-      
-      if ((effTarget === 'allies') && (dispo === 1)) return true;
-      else if ((effTarget === 'enemies') && (dispo === -1)) return true;
-      else if (effTarget === 'tokens') return true;
-      else return false;
-    }
-
-    targets.forEach(tar => {
-      if (compareDispo(effTarget, tar.id)) {
-        if (targetIds) targetIds += ',';
-
-        targetIds += tar.id;
-      }
-    })
-
-    return targetIds;
   }
 
 }
