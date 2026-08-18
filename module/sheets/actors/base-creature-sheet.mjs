@@ -436,26 +436,26 @@ export default class WWCreatureSheet extends WWActorSheet {
     
     return [
       {
-        name: "WW.Actor.ShowPortrait",
+        label: "WW.Actor.ShowPortrait",
         icon: '<i class="fa-solid fa-image-portrait"></i>',
-        callback: li => {
+        onClick: li => {
           // From #onShowPortraitArtwork
           const {img, name, uuid} = this.actor;
           return new ImagePopout({src: img, uuid, window: {title: name}}).render({force: true});
         },
-        condition: li => {
+        visible: li => {
           return true;
         }
       },
       {
-        name: "WW.Actor.ShowToken",
+        label: "WW.Actor.ShowToken",
         icon: '<i class="fa-solid fa-circle-user"></i>',
-        callback: li => {
+        onClick: li => {
           // From #onShowTokenArtwork
           const {prototypeToken, name, uuid} = this.actor;
           return new ImagePopout({src: prototypeToken.texture.src, uuid, window: {title: name}}).render({force: true});
         },
-        condition: li => {
+        visible: li => {
           return this.token ? true : false;
         }
       }
@@ -473,103 +473,103 @@ export default class WWCreatureSheet extends WWActorSheet {
     
     return [
       {
-        name: "WW.Item.Perform.Attack",
+        label: "WW.Item.Perform.Attack",
         icon: '<i class="fa-solid fa-bolt"></i>',
-        callback: li => {
+        onClick: li => {
           return this._onItemUse(li.dataset);
         },
-        condition: li => {
+        visible: li => {
           const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'equipment' && item.system.subtype === 'weapon';
         }
       }, {
-        name: "WW.Item.Perform.AttackTarget",
+        label: "WW.Item.Perform.AttackTarget",
         icon: '<i class="fa-solid fa-bullseye"></i>',
-        callback: li => {
+        onClick: li => {
           return this._onItemUse(li.dataset, 'targeted-use');
         },
-        condition: li => {
+        visible: li => {
           const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'equipment' && item.system.subtype === 'weapon';
         }
       }, {
-        name: "WW.Item.Perform.Equipment",
+        label: "WW.Item.Perform.Equipment",
         icon: '<i class="fa-solid fa-bolt"></i>',
-        callback: li => {
+        onClick: li => {
           return this._onItemUse(li.dataset);
         },
-        condition: li => {
+        visible: li => {
           const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'equipment' && item.system.subtype !== 'weapon';
         }
       }, {
-        name: "WW.Item.Perform.EquipmentTarget",
+        label: "WW.Item.Perform.EquipmentTarget",
         icon: '<i class="fa-solid fa-bullseye"></i>',
-        callback: li => {
+        onClick: li => {
           return this._onItemUse(li.dataset, 'targeted-use');
         },
-        condition: li => {
+        visible: li => {
           const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'equipment' && item.system.subtype !== 'weapon';
         }
       }, {
-        name: "WW.Item.Perform.Spell",
+        label: "WW.Item.Perform.Spell",
         icon: '<i class="fa-solid fa-bolt"></i>',
-        callback: li => {
+        onClick: li => {
           return this._onItemUse(li.dataset);
         },
-        condition: li => {
+        visible: li => {
           const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'spell';
         }
       }, {
-        name: "WW.Item.Perform.SpellTarget",
+        label: "WW.Item.Perform.SpellTarget",
         icon: '<i class="fa-solid fa-bullseye"></i>',
-        callback: li => {
+        onClick: li => {
           return this._onItemUse(li.dataset, 'targeted-use');
         },
-        condition: li => {
+        visible: li => {
           const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'spell';
         }
       }, {
-        name: "WW.Item.Perform.Talent",
+        label: "WW.Item.Perform.Talent",
         icon: '<i class="fa-solid fa-bolt"></i>',
-        callback: li => {
+        onClick: li => {
           return this._onItemUse(li.dataset);
         },
-        condition: li => {
+        visible: li => {
           const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'talent';
         }
       }, {
-        name: "WW.Item.Perform.TalentTarget",
+        label: "WW.Item.Perform.TalentTarget",
         icon: '<i class="fa-solid fa-bullseye"></i>',
-        callback: li => {
+        onClick: li => {
           return this._onItemUse(li.dataset, 'targeted-use');
         },
-        condition: li => {
+        visible: li => {
           const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'talent';
         }
       }, {
-        name: "WW.Item.Send",
+        label: "WW.Item.Send",
         icon: '<i class="fa-solid fa-scroll"></i>',
-        callback: li => {
+        onClick: li => {
           const item = this.actor.items.get(li.dataset.itemId);
           return this._onItemScroll(item);
         }
       }, {
-        name: "WW.Item.Edit.Activity",
+        label: "WW.Item.Edit.Activity",
         icon: '<i class="fa-solid fa-edit"></i>',
-        callback: li => {
+        onClick: li => {
           const item = this.actor.items.get(li.dataset.itemId);
           return this._onItemEdit(item);
         }
       }, {
-        name: "WW.Item.Remove.Activity",
+        label: "WW.Item.Remove.Activity",
         icon: '<i class="fa-solid fa-trash"></i>',
-        callback: li => {
+        onClick: li => {
           const item = this.actor.items.get(li.dataset.itemId);
           return this._onItemRemove(item, li);
         }
