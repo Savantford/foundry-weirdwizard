@@ -239,13 +239,13 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
         if (!msg || msg?.active === false) msg = ui.notifications.warn("WW.Targeting.RangeOut", { permanent: true });
         if (rangeRegion.color.css === rangeColorIn) {
           rangeRegion.updateSource({ color: rangeColorOut });
-          rangePlaceable.draw();
+          rangeRegion.object.draw();
         };
       } else {
         msg?.remove();
         if (rangeRegion.color.css === rangeColorOut) {
           rangeRegion.updateSource({ color: rangeColorIn });
-          rangePlaceable.draw();
+          rangeRegion.object.draw();
         };
       }
     };

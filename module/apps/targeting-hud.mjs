@@ -18,7 +18,6 @@ export default class TargetingHUD extends HandlebarsApplicationMixin(Application
     this.context = options;
     this.initialLayer = canvas.activeLayer;
     this.activityApp = options.activityApp;
-    //this.actorSheet = options.actor.sheet;
 
     // Activate the Targeting tool in the Tokens layer
     canvas.tokens.activate({ tool: 'target' });
@@ -27,13 +26,13 @@ export default class TargetingHUD extends HandlebarsApplicationMixin(Application
     this.activityApp.minimize();
 
     Hooks.on("targetToken", () => this.debounceRender() );
+    const rangeRegion = this.activityApp.config.item.displayRange();
   }
 
   /* -------------------------------------------- */
 
   static DEFAULT_OPTIONS = {
-    //tag: 'form',
-    //id: 'targeting-hud',
+    id: 'targeting-hud',
     classes: ['weirdwizard', 'targeting-hud'],
     actions: {
       confirm: TargetingHUD.#onConfirm
@@ -78,15 +77,25 @@ export default class TargetingHUD extends HandlebarsApplicationMixin(Application
   */
   static #onConfirm(event, target) {
     this.close();
+  }
+
+  /* -------------------------------------------- */
+
+  /** @inheritDoc */
+  _onClose(options) {
+    super._onClose(options);
 
     // Switch back to the initial layer
     this.initialLayer.activate();
+    
+    // Turn off targeting hook
+    Hooks.off('targetToken');
 
+    // Clear preview templates (Range)
+    canvas.regions.clearPreviewContainer();
+    
     // Maximize the Activity App
     this.activityApp.maximize();
-    
-    // Turn off the targetToken hook
-    Hooks.off('targetToken');
   }
 
 }
