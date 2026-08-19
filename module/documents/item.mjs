@@ -180,42 +180,8 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       ownership: { [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER }
     };
 
-    // Prepare range preview region
-    const range = this.system.targeting.range;
-    const rangeColorIn = '#000000', rangeColorOut = '#400800';
-    const { x: tx, y: ty, width: twidth, height: theight, shape: tshape } = token._source;
-    
-    const rangeRegion = new RegionDocument.implementation({
-      name: 'temp',
-      shapes: [
-        {
-          type: 'emanation',
-          base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: emanationShape },
-          radius: 1000 * yard,
-          gridBased: !grid.isGridless
-        },
-        {
-          type: 'emanation',
-          hole: true,
-          base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: emanationShape },
-          radius: range * yard,
-          gridBased: !grid.isGridless
-        }
-      ],
-      color: rangeColorIn,
-      levels: [canvas.level.id],
-      highlightMode: "coverage",
-      displayMeasurements: true,
-      visibility: CONST.REGION_VISIBILITY.OBSERVER,
-      ownership: { [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER }
-    }, { parent: canvas.scene });
-    
-    // Create placeable and draw it
-    const PlaceableClass = foundry.utils.getPlaceableObjectClass("Region");
-
-    const rangePlaceable = new PlaceableClass(rangeRegion);
-    canvas.regions.preview.addChild(rangePlaceable);
-    rangePlaceable.draw();
+    // Toggle region display
+    const rangeRegion = this.displayRange();
 
     // Prepare placement constraints
     let msg;
@@ -267,6 +233,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
 
       // Out of Range warning
       const outOfRange = !hole.testPoint(offsetPos);
+      const rangeColorIn = '#000000', rangeColorOut = '#400800';
       
       if (outOfRange) {
         if (!msg || msg?.active === false) msg = ui.notifications.warn("WW.Targeting.RangeOut", { permanent: true });
@@ -288,7 +255,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
 
     // After placement
     msg?.remove();
-    rangePlaceable.destroy({children: true});
+    canvas.regions.clearPreviewContainer();
     options.origin?.maximize();
 
     // Target tokens
@@ -310,6 +277,52 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     region.delete();
 
     return region;
+  }
+
+  /**
+   * Display the item's Range as a Scene Region and return it.
+   * @returns RegionDocument
+  */
+  displayRange({disable = false, color='#000000', ...options}={}) {
+    const range = this.system.targeting.range;
+    const { x: tx, y: ty, width: twidth, height: theight, shape: tshape } = this.actor.token._source;
+    const grid = canvas.grid ?? foundry.documents.BaseScene.defaultGrid;
+    const yard = canvas.dimensions.distancePixels;
+    const emanationShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
+    
+    const rangeRegion = new RegionDocument.implementation({
+      name: 'temp',
+      shapes: [
+        {
+          type: 'emanation',
+          base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: emanationShape },
+          radius: 1000 * yard,
+          gridBased: !grid.isGridless
+        },
+        {
+          type: 'emanation',
+          hole: true,
+          base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: emanationShape },
+          radius: range * yard,
+          gridBased: !grid.isGridless
+        }
+      ],
+      color: color,
+      levels: [canvas.level.id],
+      highlightMode: "coverage",
+      displayMeasurements: true,
+      visibility: CONST.REGION_VISIBILITY.OBSERVER,
+      ownership: { [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER }
+    }, { parent: canvas.scene });
+    
+    // Create placeable and draw it
+    const PlaceableClass = foundry.utils.getPlaceableObjectClass("Region");
+
+    const rangePlaceable = new PlaceableClass(rangeRegion);
+    canvas.regions.preview.addChild(rangePlaceable);
+    rangePlaceable.draw();
+
+    return rangeRegion;
   }
 
 }

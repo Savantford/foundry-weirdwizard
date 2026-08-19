@@ -850,16 +850,17 @@ export default class WWCreatureSheet extends WWActorSheet {
 
   /* -------------------------------------------- */
 
-  _onItemUse(dataset, args = {}) {
+  _onItemUse(dataset, args={}) {
     // Define variables to be used
     const system = this.actor.system,
       item = this.actor.items.get(dataset.itemId),
+      attKey = item.system.attribute,
       actor = this.actor,
       flavor = _secretLabel(item.name),
       content = _secretContent(item.system.description),
       instEffs = item.system.instant,
       effects = item.effects;
-    
+
     if (!attKey) { // If an attribute key is not defined, do not roll
       // Effects
       function actEffs() {
