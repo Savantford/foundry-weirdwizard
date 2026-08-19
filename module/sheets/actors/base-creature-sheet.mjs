@@ -532,7 +532,7 @@ export default class WWCreatureSheet extends WWActorSheet {
         }
       }, {
         label: "WW.Item.Perform.Talent",
-        icon: '<i class="fa-solid fa-hand"></i>',
+        icon: '<i class="fa-solid fa-dice-d20"></i>',
         onClick: (ev, li) => {
           return this._onItemUse(li.dataset);
         },
