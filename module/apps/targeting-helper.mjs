@@ -14,15 +14,14 @@ export default class TargetingHelper extends HandlebarsApplicationMixin(Applicat
 
   constructor(options={}) {
     super(options); // Required for "this." to work
-    
-    this.context = options;
+
     this.initialLayer = canvas.activeLayer;
     this.activityApp = options.activityApp;
 
     // Activate the Targeting tool in the Tokens layer
     canvas.tokens.activate({ tool: 'target' });
 
-    // Hide the app that originated the HUD
+    // Hide the app that originated the Helper
     this.activityApp.minimize();
 
     Hooks.on("targetToken", () => this.debounceRender() );
@@ -34,9 +33,6 @@ export default class TargetingHelper extends HandlebarsApplicationMixin(Applicat
   static DEFAULT_OPTIONS = {
     id: 'targeting-helper',
     classes: ['weirdwizard', 'targeting-helper'],
-    actions: {
-      confirm: TargetingHelper.#onConfirm
-    },
     window: {
       frame: false,
       positioned: false
@@ -61,7 +57,7 @@ export default class TargetingHelper extends HandlebarsApplicationMixin(Applicat
 
   async _prepareContext(options = {}) {
     const context = {
-      hasTargets: !game.user.targets.size
+      noTargets: false //!game.user.targets.size
     };
 
     return context;
@@ -71,28 +67,16 @@ export default class TargetingHelper extends HandlebarsApplicationMixin(Applicat
   /*  Actions                                     */
   /* -------------------------------------------- */
 
-  /**
-   * @param {PointerEvent} event - The originating click event
-   * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
-  */
-  static #onConfirm(event, target) {
-    this.close();
-  }
-
-  /* -------------------------------------------- */
-
-  /** @inheritDoc */
+  /** @override */
   _onClose(options) {
-    super._onClose(options);
-
-    // Switch back to the initial layer
-    this.initialLayer.activate();
-    
     // Turn off targeting hook
     Hooks.off('targetToken');
 
     // Clear preview templates (Range)
     canvas.regions.clearPreviewContainer();
+
+    // Switch back to the initial layer
+    this.initialLayer.activate();
     
     // Maximize the Activity App
     this.activityApp.maximize();
