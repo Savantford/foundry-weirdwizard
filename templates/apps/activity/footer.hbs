@@ -6,8 +6,9 @@
       aria-pressed="{{mode.active}}" data-tooltip aria-label="{{localize mode.label}}"></button>
     {{/each}}
   </div>
+  {{log validTargets}}
 
-  <button type="submit" id="boons-submit" data-action="confirm" {{#if (and needTargets (not targets.length))}}class="red" data-tooltip="WW.Activity.Target.ExpectHint"{{/if}}>
+  <button type="submit" id="boons-submit" data-action="confirm" {{#if (and needTargets (not validTargets.length))}}class="red" data-tooltip="WW.Activity.Target.ExpectHint"{{/if}}>
     <i class="fa-solid fa-dice"></i> {{localize "WW.Activity.Confirm"}}
   </button>
 
