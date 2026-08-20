@@ -899,8 +899,8 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     // Open or skip ActivityUse app
     const mutatedConfig = !options.args?.skipApp ? await ActivityUse.wait(config) : config;
 
-    // Finish activity
-    this.finishActivity(mutatedConfig);
+    // Finish activity if mutated config data exists
+    if (mutatedConfig) this.finishActivity(mutatedConfig);
   }
 
   /* -------------------------------------------- */

@@ -94,32 +94,6 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   /*  Rendering                                   */
   /* -------------------------------------------- */
 
-  /**
-   * Spawn an Activity app and wait for it to be dismissed or confirmed.
-   * @param config
-   * @returns {Promise<any>}                          Resolves to the identifier of the button used to submit the
-   *                                                  dialog, or the value returned by that button's callback. If the
-   *                                                  dialog was dismissed, and rejectClose is false, the Promise
-   *                                                  resolves to null.
-   */
-  static async wait({renderOptions, ...config}={}) {
-    return new Promise((resolve, reject) => {
-      const app = new this(config);
-      
-      // Add close listener
-      app.addEventListener("close", event => {
-        /*if ( true ) reject(new Error("Activity app was dismissed without pressing a button."));
-        else resolve(app.config ?? null);*/
-        resolve(app.config ?? null)
-      }, {once: true});
-      
-      // Render app
-      app.render({ ...renderOptions, force: true });
-    });
-  }
-
-  /* -------------------------------------------- */
-
   async _prepareContext(options = {}) {
     const context = {
       ...await super._prepareContext(options),
@@ -382,6 +356,26 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   /*  Lifecycle & Form handling                   */
   /* -------------------------------------------- */
 
+  #resolvers = Promise.withResolvers();
+
+  get promise() { return this.#resolvers.promise; };
+
+  /* -------------------------------------------- */
+
+  /**
+   * Create an Activity app instance and wait for it to be closed or confirmed.
+   * @param config
+   * @returns {Promise<any>}                          Resolves to the identifi
+   */
+
+  static async wait(options) {
+    const app = new this(options);
+    app.render(true);
+    return app.promise;
+  }
+
+  /* -------------------------------------------- */
+
   /** @inheritdoc */
   async _onChangeForm(formConfig, event) {
     super._onChangeForm(formConfig, event);
@@ -407,23 +401,6 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       }
     }
   }
-
-  /* -------------------------------------------- */
-
-  /** @inheritdoc */
-  _processFormData(event, form, formData) {
-    formData = super._processFormData(event, form, formData);
-    console.log('form submitted')
-    /*const config = {
-      rolls: [this.config.roll],
-      skill: null,
-      messageMode: this.config.message.mode,
-    };
-
-    if (formData.skill) config.skill = formData.skill;*/
-
-    //return config;
-  }
   
   /* -------------------------------------------- */
 
@@ -432,22 +409,24 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
    * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
   */
   static async #confirm(event, target) {
-    // Submit and close app
-    this.close({ submit: true });
+    this.#resolvers.resolve(this.config);
+    this.close();
   }
 
   /* -------------------------------------------- */
 
-  /** @inheritDoc */
+  /** @override */
   _onClose(options) {
-    super._onClose(options);
-    
+    this.#resolvers.resolve(null);
+
+    console.log(options)
+
     // Turn off targeting hook
     Hooks.off('targetToken');
 
     // Maximize related Actor sheet
     if (this.config.actor) this.config.actor.sheet.maximize();
-  }
+  };
 
   /* -------------------------------------------- */
   /*  Getters                                     */
