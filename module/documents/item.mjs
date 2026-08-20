@@ -289,9 +289,17 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     const grid = canvas.grid ?? foundry.documents.BaseScene.defaultGrid;
     const yard = canvas.dimensions.distancePixels;
     const emanationShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
+
+    const holeShape = {
+      type: 'emanation',
+      hole: true,
+      base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: emanationShape },
+      radius: range * yard,
+      gridBased: !grid.isGridless
+    }
     
     const rangeRegion = new RegionDocument.implementation({
-      name: 'temp',
+      name: 'rangeRegion',
       shapes: [
         {
           type: 'emanation',
@@ -299,15 +307,21 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
           radius: 1000 * yard,
           gridBased: !grid.isGridless
         },
-        {
-          type: 'emanation',
-          hole: true,
-          base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: emanationShape },
-          radius: range * yard,
-          gridBased: !grid.isGridless
-        }
+        holeShape
       ],
       color: color,
+      levels: [canvas.level.id],
+      highlightMode: "coverage",
+      displayMeasurements: false,
+      visibility: CONST.REGION_VISIBILITY.OBSERVER,
+      ownership: { [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER }
+    }, { parent: canvas.scene });
+
+    const holeRegion = new RegionDocument.implementation({
+      name: 'rangeHole',
+      shapes: [
+        holeShape
+      ],
       levels: [canvas.level.id],
       highlightMode: "coverage",
       displayMeasurements: true,
@@ -315,12 +329,18 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       ownership: { [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER }
     }, { parent: canvas.scene });
     
-    // Create placeable and draw it
+    // Create placeables
     const PlaceableClass = foundry.utils.getPlaceableObjectClass("Region");
-
     const rangePlaceable = new PlaceableClass(rangeRegion);
+    const holePlaceable = new PlaceableClass(holeRegion);
+
+    // Add placeables as a child to previews
     canvas.regions.preview.addChild(rangePlaceable);
+    canvas.regions.preview.addChild(holePlaceable);
+
+    // Draw regions
     rangePlaceable.draw();
+    holePlaceable.draw();
 
     return rangeRegion;
   }
