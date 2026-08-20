@@ -128,6 +128,13 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     return need;
   }
 
+  get inferToken() {
+    const controlledTokens = canvas.tokens.controlled;
+    if (this.actor.token) return this.actor.token; // Unlinked synthetic actor's token
+    if (controlledTokens.length) return controlledTokens[0].document; // First controlled token
+    return null;
+  }
+
   /* -------------------------------------------- */
   /*  Methods                                     */
   /* -------------------------------------------- */
@@ -148,7 +155,6 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     // Prepare region template
     const grid = canvas.grid ?? foundry.documents.BaseScene.defaultGrid;
     const yard = canvas.dimensions.distancePixels;
-    const token = this.actor.token;
     const temp = this.system.template;
     const emanationShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
     const {
@@ -283,12 +289,15 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
    * Display the item's Range as a Scene Region and return it.
    * @returns RegionDocument
   */
-  displayRange({disable = false, color='#000000', ...options}={}) {
-    const range = this.system.targeting.range;
-    const { x: tx, y: ty, width: twidth, height: theight, shape: tshape } = this.actor.token._source;
+  displayRange(options={}) {
+    const { color='#000000', token=this.inferToken } = options;
+    console.log(token)
+    if (!token) return null;
+    const { x: tx, y: ty, width: twidth, height: theight, shape: tshape } = token._source;
     const grid = canvas.grid ?? foundry.documents.BaseScene.defaultGrid;
     const yard = canvas.dimensions.distancePixels;
     const emanationShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
+    const range = this.system.targeting.range;
 
     const holeShape = {
       type: 'emanation',
