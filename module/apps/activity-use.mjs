@@ -1,6 +1,6 @@
 import WWRoll from '../dice/roll.mjs';
 import { plusify } from '../helpers/utils.mjs';
-import TargetingHUD from './targeting-hud.mjs';
+import TargetingHelper from './targeting-helper.mjs';
 
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
@@ -58,6 +58,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   /** @inheritDoc */
   _initializeApplicationOptions(options) {
     this.config = options;
+    this.targetingHelper = null;
 
     return options = super._initializeApplicationOptions(options);
   }
@@ -312,8 +313,10 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       actor: this.config.actor
     }
 
-    // Activate TargetingHUD app
-    new TargetingHUD(context).render(true);
+    // Activate TargetingHelper app
+    const targetingHelper = new TargetingHelper(context)
+    targetingHelper.render(true);
+    this.targetingHelper = targetingHelper;
   }
 
   /* -------------------------------------------- */
@@ -419,10 +422,12 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   _onClose(options) {
     this.#resolvers.resolve(null);
 
-    console.log(options)
-
     // Turn off targeting hook
     Hooks.off('targetToken');
+
+    // Close Targeting HUD
+    console.log(this)
+    this.targetingHelper.close();
 
     // Maximize related Actor sheet
     if (this.config.actor) this.config.actor.sheet.maximize();

@@ -3,7 +3,7 @@ import { diceTotalHtml } from '../../sidebar/chat-html-templates.mjs';
 import { mapRange } from '../../canvas/canvas-functions.mjs';
 import MultiChoice from '../../apps/multi-choice.mjs';
 import { createActiveEffect, deleteActiveEffect, editActiveEffect, prepareActiveEffectCategories } from '../../helpers/effect-actions.mjs';
-import TargetingHUD from '../../apps/targeting-hud.mjs';
+import TargetingHelper from '../../apps/targeting-helper.mjs';
 import WWDialog from '../../apps/dialog.mjs';
 import WWRoll from '../../dice/roll.mjs';
 import WWActorSheet from './base-actor-sheet.mjs';
