@@ -128,6 +128,12 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     return need;
   }
 
+  /* -------------------------------------------- */
+
+  /**
+   * Attempt to infer an Actor token for the item.
+   * @returns TokenDocument
+  */
   get inferToken() {
     const controlledTokens = canvas.tokens.controlled;
     if (this.actor.token) return this.actor.token; // Unlinked synthetic actor's token
@@ -242,7 +248,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       const rangeColorIn = '#000000', rangeColorOut = '#400800';
       
       if (outOfRange) {
-        if (!msg || msg?.active === false) msg = ui.notifications.warn("WW.Targeting.RangeOut", { permanent: true });
+        if (!msg || msg?.active === false) msg = ui.notifications.warn("WW.Targeting.RangeOut", { localize: true, permanent: true });
         if (rangeRegion.color.css === rangeColorIn) {
           rangeRegion.updateSource({ color: rangeColorOut });
           rangeRegion.object.draw();
