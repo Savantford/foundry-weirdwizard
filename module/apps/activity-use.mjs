@@ -367,7 +367,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   /**
    * Create an Activity app instance and wait for it to be closed or confirmed.
    * @param config
-   * @returns {Promise<any>}                          Resolves to the identifi
+   * @returns {Promise<any>}
    */
 
   static async wait(options) {
@@ -409,7 +409,8 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   /**
    * @param {PointerEvent} event - The originating click event
    * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
-  */
+   * @this {ActivityUse}
+   */
   static async #confirm(event, target) {
     this.#resolvers.resolve(this.config);
     this.close();

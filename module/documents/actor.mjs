@@ -935,11 +935,11 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     config.roll.boons.final = boonsFinal;
 
-    // Check if targeted
-    const targeted = game.user.targets?.size ? true : false;
+    // Check if user has valid targets
+    const validTargets = this.getActivityTargets(config).valid;
 
-    if (targeted && against.key) { // If Action is Targeted and Against is filled: perform one separate roll for each target
-      for (const tar of this.getActivityTargets(config).valid) {
+    if (!!validTargets.length && against.key) { // If Action is Targeted and Against is filled: perform one separate roll for each target
+      for (const tar of validTargets) {
         // Set boons text
         let boonsAgainst = 0;
         if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against.key];
@@ -977,14 +977,14 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
         }).evaluate();
         
         // Prepare DSN data
-        const index = this.getActivityTargets(config).valid.findIndex(obj => { return obj.id === tar.id; });
+        const index = validTargets.findIndex(obj => { return obj.id === tar.id; });
         this.prepareDSN(roll, index);
 
         // Push roll to roll array
         rollsArray.push(roll);
       }
 
-    } else { // Not targeted and Against is false: perform a SINGLE ROLL for all targets
+    } else { // No targets and Against is false: perform a SINGLE ROLL for all targets
       // Set boons text
       if (boons.final != 0) { boonsDisplay = boons.final + "d6kh" } else { boonsDisplay = ""; };
       
@@ -1105,6 +1105,10 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       else if (restriction === 'any') return true;
       else return false;
     }
+
+    // If Targeting Operation is self, infer token and target it
+    const item = config.item;
+    if (item.system.targeting.mode === 'self' && item.inferToken) canvas.tokens.setTargets(item.inferToken);
 
     // Loop through targets
     game.user.targets.forEach(target => {
