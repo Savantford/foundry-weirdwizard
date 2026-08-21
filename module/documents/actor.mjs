@@ -888,7 +888,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     roll.against.key ??= item?.system?.against ?? null;
 
     // Arguments
-    args.noTargeting ??= ['none', 'self'].includes(targeting?.mode) ? true : false;
+    args.noTargeting ??= targeting?.mode === 'none' ? true : false;
     args.noRoll ??= roll.attribute?.key ? false : true;
     args.skipApp ??= (args.noTargeting && args.noRoll);
 
