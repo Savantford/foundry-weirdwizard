@@ -856,7 +856,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     // Targeting
     const targeting = item?.system?.targeting ?? null;
-    args.noTargeting ??= targeting ? false : true;
 
     // Item Properties
     const itemProperties = {
@@ -871,7 +870,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     roll.attribute.key ??= item?.system?.attribute ?? null;
     const attKey = roll.attribute.key;
     roll.attribute.mod ??= sys.attributes[attKey]?.mod ? game.weirdwizard.utils.plusify(sys.attributes[attKey].mod) : '+0';
-    args.noRoll ??= roll.attribute?.key ? false : true;
     
     // Roll Boons
     foundry.utils.mergeObject(roll.boons = {}, {
@@ -889,6 +887,11 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     roll.against ??= {};
     roll.against.key ??= item?.system?.against ?? null;
 
+    // Arguments
+    args.noTargeting ??= ['none', 'self'].includes(targeting?.mode) ? true : false;
+    args.noRoll ??= roll.attribute?.key ? false : true;
+    args.skipApp ??= (args.noTargeting && args.noRoll);
+
     // Create config object
     const config = {
       args, item, roll, targeting, message, itemProperties,
@@ -897,7 +900,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     }
 
     // Open or skip ActivityUse app
-    const mutatedConfig = !options.args?.skipApp ? await ActivityUse.wait(config) : config;
+    const mutatedConfig = !args.skipApp ? await ActivityUse.wait(config) : config;
 
     // Finish activity if mutated config data exists
     if (mutatedConfig) this.finishActivity(mutatedConfig);

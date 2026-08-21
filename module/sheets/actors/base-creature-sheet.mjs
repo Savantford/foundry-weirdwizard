@@ -852,139 +852,38 @@ export default class WWCreatureSheet extends WWActorSheet {
 
   _onItemUse(dataset, args={}) {
     // Define variables to be used
-    const system = this.actor.system,
-      item = this.actor.items.get(dataset.itemId),
-      attKey = item.system.attribute,
-      actor = this.actor,
-      flavor = _secretLabel(item.name),
-      content = _secretContent(item.system.description),
-      instEffs = item.system.instant,
-      effects = item.effects;
+    const system = this.actor.system;
+    const item = this.actor.items.get(dataset.itemId);
+    const flavor = _secretLabel(item.name);
+    const content = _secretContent(item.system.description);
 
-    if (!attKey) { // If an attribute key is not defined, do not roll
-      // Effects
-      function actEffs() {
-        const effs = {
-          onUse: [],
-          onSuccess: [],
-          onCritical: [],
-          onFailure: []
-        }
-
-        item.effects?.forEach(effect => {
-          const e = { ...effect };
-          e.uuid = effect.uuid;
-
-          switch (e.system.trigger) {
-            case 'onUse': {
-              effs.onUse.push(e);
-              effs.onSuccess.push(e);
-              effs.onCritical.push(e);
-              effs.onFailure.push(e);
-            }; break;
-            case 'onSuccess': effs.onSuccess.push(e); effs.onCritical.push(e); break;
-            case 'onCritical': effs.onCritical.push(e); break;
-            case 'onFailure': effs.onFailure.push(e); break;
-          }
-
-        })
-
-        return effs;
-      }
-
-      function instEffs() {
-        const effs = {
-          onUse: [],
-          onSuccess: [],
-          onCritical: [],
-          onFailure: []
-        }
-
-        // Add Weapon Damage
-        const itemSystem = item.system;
-        const weaponDamage = (itemSystem.subtype == 'weapon' && itemSystem.damage) ? itemSystem.damage : 0;
-
-        if (weaponDamage) {
-          const eff = {
-            label: 'damage',
-            originUuid: item.uuid,
-            value: weaponDamage
-          };
-
-          effs.onSuccess.push(eff);
-          effs.onCritical.push(eff);
-        }
-
-        // Add Instant Effects
-        item.system?.instant?.forEach(e => {
-
-          if (!e.trigger) e.trigger = 'onUse';
-
-          switch (e.trigger) {
-            case 'onUse': {
-              effs.onUse.push(e);
-              effs.onSuccess.push(e);
-              effs.onCritical.push(e);
-              effs.onFailure.push(e);
-            }; break;
-            case 'onSuccess': effs.onSuccess.push(e); effs.onCritical.push(e); break;
-            case 'onCritical': effs.onCritical.push(e); break;
-            case 'onFailure': effs.onFailure.push(e); break;
-          }
-
-        })
-
-        return effs;
-      }
-
-      // Create message data to chat
-      const messageData = {
-        type: 'unrolled-use',
-        speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
+    const activityOptions = {
+      args,
+      item,
+      message: {
         flavor,
-        content,
+        content
+      }
+    }
+
+    // Check for Automatic Failure
+    if (system.autoFail[item.system.attribute]) {
+      const messageData = {
+        type: 'd20-roll',
+        speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
+        flavor: label,
+        content: content,
         sound: CONFIG.sounds.dice,
         'flags.weirdwizard': {
-          icon: item.img,
           item: item.uuid,
-          emptyContent: !content ?? true,
-          instEffs: instEffs(),
-          actEffs: actEffs()
+          rollHtml: '<div class="dice-outcome chat-failure">' + _loc('WW.Roll.AutoFail') + '!</div>',
+          emptyContent: !content ?? true
         }
-      }
+      };
 
       ChatMessage.create(messageData);
-      
-    } else { // Attempt to use Use Activity app
-      const activityOptions = {
-        args,
-        event,
-        item,
-        message: {
-          flavor,
-          content
-        }
-      }
-  
-      // Check for Automatic Failure
-      if (system.autoFail[item.system.attribute]) {
-        const messageData = {
-          type: 'd20-roll',
-          speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
-          flavor: label,
-          content: content,
-          sound: CONFIG.sounds.dice,
-          'flags.weirdwizard': {
-            item: item.uuid,
-            rollHtml: '<div class="dice-outcome chat-failure">' + _loc('WW.Roll.AutoFail') + '!</div>',
-            emptyContent: !content ?? true
-          }
-        };
-  
-        ChatMessage.create(messageData);
-      } else {
-        this.actor.useActivity(activityOptions);
-      }
+    } else {
+      this.actor.useActivity(activityOptions);
     }
   }
 
