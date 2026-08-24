@@ -58,12 +58,18 @@
       {{!-- Shape --}}
       <div class="stat-inline">
         <label>{{localize "WW.Item.Area.Shape.Label"}}:</label>
+
+        {{!-- Shape icon --}}
+        {{#if (eq system.area.shape "emanation")}}
+        <i class="info fa-solid fa-maximize" title="{{localize "WW.Item.Area.Shape.EmanationTip"}}"></i>
+        {{else}}
+        <i class="info fa-solid fa-square" title="{{localize "WW.Item.Area.Shape.CircleTip"}}"></i>
+        {{/if}}
         
+        {{!-- Shape dropdown --}}
         <select name="system.area.shape">
           {{selectOptions areaShapes selected=system.area.shape localize=true}}
         </select>
-
-        <i class="info fa-solid fa-circle-question ml-1" data-tooltip="<p>{{localize "WW.Item.Area.Shape.CircleTip"}}</p><p>{{localize "WW.Item.Area.Shape.EmanationTip"}}</p>"></i>
       </div>
 
       {{!-- Size --}}

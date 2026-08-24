@@ -162,7 +162,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     // Scene region area
     context.areaShapes = CONFIG.WW.ITEM_AREA_SHAPES;
     context.areaRestrictions = Object.fromEntries(
-      Object.entries(CONST.EDGE_RESTRICTION_TYPES).map(([key, value]) => [value, `REGION.RESTRICTION_TYPES.${value}.label`])
+      Object.entries(CONST.EDGE_RESTRICTION_TYPES).map(([key, value]) => [key, `REGION.RESTRICTION_TYPES.${value}.label`])
     );
 
     // Prepare specific dropdown menu objects
