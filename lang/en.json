@@ -348,7 +348,7 @@
 "WW.Targeting.RangeOut": "Out of range!",
 
 "WW.Targeting.Operations.Label": "Operation",
-"WW.Targeting.Operations.None": "No targeting",
+"WW.Targeting.Operations.None": "No targeting or area",
 "WW.Targeting.Operations.TargetTokens": "Target tokens",
 "WW.Targeting.Operations.PlaceArea": "Place a persistent area",
 
