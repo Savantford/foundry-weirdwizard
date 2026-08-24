@@ -210,7 +210,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       if ( !snap ) return;
 
       // Restrict snapping to vertex/center
-      const mode = CONST.GRID_SNAPPING_MODES[(isCircle && radius * 2 % 2 === 0) ? "VERTEX" : "CENTER"];
+      const mode = CONST.GRID_SNAPPING_MODES[(isCircle && size % 2 === 0) ? "VERTEX" : "CENTER"]; // If even Sized circle, snap to vertex instead
       const { x, y } = shape.grid.getSnappedPoint(position, { mode });
       position.x = x;
       position.y = y;
