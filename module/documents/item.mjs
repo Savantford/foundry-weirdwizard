@@ -170,12 +170,14 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     const emanationBaseShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
     const {
       shape = area.shape ?? 'circle',
-      radius = area.radius ?? 5, // Radius for emanation
+      radius: emaRadius = area.radius ?? 5, // Radius for emanation
       size = area.size ?? 5, // Size for circle
       attached = area.attached ?? true,
       color = area.color ?? game.user.color,
       restriction = area.restriction
     } = options;
+    const isCircle = shape === 'circle';
+    const radius = (isCircle ? size / 2 : emaRadius) * yard; // Half Size for circle, radius for emanation
 
     // Prepare region data
     const regionData = {
@@ -183,7 +185,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       shapes: [{
         type: shape,
         base: { type: "token", x: 0, y: 0, width: 1, height: 1, shape: emanationBaseShape },
-        radius: (shape === 'circle' ? size / 2 : radius) * yard, // Use half Size for circle or radius for emanation
+        radius: radius,
         x: 0,
         y: 0,
         gridBased: !grid.isGridless
@@ -208,7 +210,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       if ( !snap ) return;
 
       // Restrict snapping to vertex/center
-      const mode = CONST.GRID_SNAPPING_MODES[(isSpace && radius * 2 % 2 === 0) ? "VERTEX" : "CENTER"];
+      const mode = CONST.GRID_SNAPPING_MODES[(isCircle && radius * 2 % 2 === 0) ? "VERTEX" : "CENTER"];
       const { x, y } = shape.grid.getSnappedPoint(position, { mode });
       position.x = x;
       position.y = y;
@@ -266,7 +268,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
         };
       }
     };
-    
+
     // Prompt region placement
     const region = await canvas.regions.placeRegion(regionData, { attachToToken: attached, onMove });
 
