@@ -177,7 +177,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       restriction = area.restriction
     } = options;
     const isCircle = shape === 'circle';
-    const radius = (isCircle ? size / 2 : emaRadius) * yard; // Half Size for circle, radius for emanation
+    const radius = isCircle ? size / 2 : emaRadius; // Half Size for circle, radius for emanation
 
     // Prepare region data
     const regionData = {
@@ -185,7 +185,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       shapes: [{
         type: shape,
         base: { type: "token", x: 0, y: 0, width: 1, height: 1, shape: emanationBaseShape },
-        radius: radius,
+        radius: radius * yard,
         x: 0,
         y: 0,
         gridBased: !grid.isGridless
