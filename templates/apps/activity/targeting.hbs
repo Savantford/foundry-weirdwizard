@@ -6,18 +6,19 @@
   <div class="buttons">
     {{!-- Toggle Targeting Helper --}}
     <button data-action="selectTargets">
-      <i class="fa-solid fa-arrows-down-to-people"></i> {{localize "WW.Targeting.Manual"}}
+      <i class="fa-solid fa-arrows-down-to-people"></i> {{localize "WW.Targeting.Methods.Manual"}}
     </button>
     
     {{!-- Place templates --}}
-    {{#if (eq targeting.operation 'areaTarget')}}
-    <button data-action="placeArea">
-      <i class="fa-solid fa-users-viewfinder"></i> {{localize "WW.Activity.Target.AreaTarget"}}
-    </button>
-    {{else if (eq targeting.operation 'areaPersistent')}}
+    {{#if (eq targeting.operation "placeArea")}}
     <button data-action="placeArea">
       <i class="fa-regular fa-square-full"></i> {{localize "WW.Activity.Target.PlaceTemplate"}}
     </button>
+    {{else if (eq targeting.method "area")}}
+    <button data-action="placeArea">
+      <i class="fa-solid fa-users-viewfinder"></i> {{localize "WW.Activity.Target.AreaTarget"}}
+    </button>
+    
     {{/if}}
   </div>
 
