@@ -153,13 +153,15 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     context.attributes = CONFIG.WW.ROLL_ATTRIBUTES;
     context.against = CONFIG.WW.ROLL_AGAINST;
 
-    // Targeting and scene region template
+    // Targeting and scene region area
     context.targetingOperations = CONFIG.WW.TARGETING_OPERATIONS;
     context.targetingMethods = CONFIG.WW.TARGETING_METHODS;
     context.targetingRestrictions = CONFIG.WW.TARGETING_RESTRICTIONS;
     context.needTargets = this.document.needTargets;
-    context.templateTypes = CONFIG.WW.TEMPLATE_TYPES;
-    context.templateRestrictions = Object.fromEntries(
+
+    // Scene region area
+    context.areaShapes = CONFIG.WW.ITEM_AREA_SHAPES;
+    context.areaRestrictions = Object.fromEntries(
       Object.entries(CONST.EDGE_RESTRICTION_TYPES).map(([key, value]) => [value, `REGION.RESTRICTION_TYPES.${value}.label`])
     );
 

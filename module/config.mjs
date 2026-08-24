@@ -347,7 +347,7 @@ WW.TARGETING_RESTRICTIONS = {
   'allies': 'WW.Targeting.Restrictions.Allies'
 }
 
-WW.ITEM_AREA_TYPES = {
+WW.ITEM_AREA_SHAPES = {
   'circle': 'WW.Item.Area.Shape.Circle',
   'emanation': 'WW.Item.Area.Shape.Emanation'
 }

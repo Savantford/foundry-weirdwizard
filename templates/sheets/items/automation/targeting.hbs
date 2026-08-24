@@ -17,6 +17,7 @@
     {{#if (ne system.targeting.operation 'none')}}
     <div class="stat-inline">
       <label>{{localize "WW.Targeting.Range"}}:</label>
+
       <div class="input-wrap">
         <input type="number" name="system.targeting.range" value="{{system.targeting.range}}" min="0" data-tooltip="WW.System.YardsHint" />
         <div class="input-overlay">{{system.targeting.range}}</div>
@@ -35,6 +36,7 @@
     </div>
     
     {{!-- Targeting Restriction --}}
+    {{#if (ne system.targeting.method 'self')}}
     <div class="stat-inline">
       <label>{{localize "WW.Targeting.Restrictions.Label"}}:</label>
       
@@ -42,6 +44,7 @@
         {{selectOptions targetingRestrictions selected=system.targeting.restriction localize=true}}
       </select>
     </div>
+    {{/if}}
     {{/if}}
 
   </div>
@@ -51,12 +54,23 @@
   <fieldset class="mt-2">
     <legend>{{localize "WW.Item.Area.Settings"}}</legend>
 
-    <div class="flex-row flex-wrap gap-5 stat-inline">
+    <div class="flex-row flex-wrap gap-10 stat-inline">
+      {{!-- Shape --}}
+      <div class="stat-inline">
+        <label>{{localize "WW.Item.Area.Shape.Label"}}:</label>
+        
+        <select name="system.area.shape">
+          {{selectOptions areaShapes selected=system.area.shape localize=true}}
+        </select>
+
+        <i class="info fa-solid fa-circle-question ml-1" data-tooltip="<p>{{localize "WW.Item.Area.Shape.CircleTip"}}</p><p>{{localize "WW.Item.Area.Shape.EmanationTip"}}</p>"></i>
+      </div>
 
       {{!-- Size --}}
       {{#if (eq system.area.shape 'circle')}}
       <div class="stat-inline">
         <label>{{localize "WW.Item.Area.Size"}}:</label>
+
         <div class="input-wrap mr-1">
           <input type="number" name="system.area.size" value="{{system.area.size}}" min="1" data-tooltip="WW.System.YardsHint" />
           <div class="input-overlay">{{system.area.size}}</div>
@@ -67,6 +81,7 @@
       {{else}}
       <div class="stat-inline">
         <label>{{localize "WW.Item.Area.Radius"}}:</label>
+
         <div class="input-wrap mr-1">
           <input type="number" name="system.area.radius" value="{{system.area.radius}}" min="1" data-tooltip="WW.System.YardsHint" />
           <div class="input-overlay">{{system.area.radius}}</div>
@@ -75,7 +90,8 @@
 
       {{!-- Attached --}}
       <div class="stat-inline">
-        <label>{{localize "WW.Item.Area.AttachToToken"}}:</label>
+        <label class="mr-0">{{localize "WW.Item.Area.AttachToToken"}}:</label>
+
         <input type="checkbox" name="system.area.attached" {{checked system.area.attached}} />
       </div>
       {{/if}}
@@ -83,8 +99,10 @@
       {{!-- Color --}}
       <div class="stat-inline">
         <label>{{localize "REGION.FIELDS.color.label"}}:</label>
+
         <color-picker name="system.area.color" value="{{system.area.color}}" placeholder="{{localize "WW.Item.Area.DefaultColor"}}">
         </color-picker>
+        
         <i class="info fa-solid fa-circle-question ml-1" title="{{localize "REGION.FIELDS.color.hint"}}"></i>
       </div>
     </div>
@@ -97,11 +115,13 @@
     <div class="stat-inline">
       {{!-- Restriction Enabled --}}
       <label>{{localize "REGION.FIELDS.restriction.enabled.label"}}:</label>
+
       <input type="checkbox" name="system.area.restriction.enabled" {{checked system.area.restriction.enabled}} />
       <i class="info fa-solid fa-circle-question" title="{{localize "REGION.FIELDS.restriction.enabled.hint"}}"></i>
 
       {{!-- Restriction Priority --}}
       <label class="ml-2">{{localize "REGION.FIELDS.restriction.priority.label"}}:</label>
+
       <div class="input-wrap mr-1">
         <input type="number" name="system.area.restriction.priority" value="{{system.area.restriction.priority}}" min="0"/>
         <div class="input-overlay">{{system.area.restriction.priority}}</div>
@@ -111,12 +131,11 @@
     {{!-- Restriction Type --}}
     <div class="stat-inline mt-1">
       <label>{{localize "REGION.FIELDS.restriction.type.label"}}:</label>
+
       <select name="system.area.restriction.type">
-        {{selectOptions templateRestrictions selected=system.area.restriction.type localize=true}}
+        {{selectOptions areaRestrictions selected=system.area.restriction.type localize=true}}
       </select>
-      {{!--formInput field options=templateRestrictions name= value=system.area.restriction localize=true sort=true --}}
     </div>
   </fieldset>
   {{/if}}
-
 </div>

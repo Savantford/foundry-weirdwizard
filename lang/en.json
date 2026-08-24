@@ -373,9 +373,9 @@
 
 "WW.Item.Area.Shape.Label": "Shape",
 "WW.Item.Area.Shape.Circle": "Circle",
-"WW.Item.Area.Shape.CircleTip": "<b>Circle</b> is the shape used for most areas, as they have a Size representing its diameter. On a square grid, a circle becomes a square!",
+"WW.Item.Area.Shape.CircleTip": "Circle is the shape used for most areas, as they have a Size representing its diameter. On a square grid, a circle becomes a square!",
 "WW.Item.Area.Shape.Emanation": "Emanation",
-"WW.Item.Area.Shape.EmanationTip": "<b>Emanation</b> is a shape that spreads from the edge of a single square/hex/token and up to its Radius, such as auras. You can optionally attach an emanation to a token.",
+"WW.Item.Area.Shape.EmanationTip": "Emanation is a shape that spreads from the edge of a single square/hex/token and up to its Radius, such as auras. You can optionally attach an emanation to a token.",
 
 "WW.RollDamage.Base": "Base Damage",
 "WW.RollDamage.BaseApply": "Apply the base damage",
