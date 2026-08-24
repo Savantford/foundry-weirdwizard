@@ -327,18 +327,18 @@ WW.ROLL_AGAINST = {
   'wil': 'WW.Attributes.Will'
 }
 
+/* Targeting */
+
 WW.TARGETING_OPERATIONS = {
   'none': 'WW.Targeting.Operations.None',
   'target': 'WW.Targeting.Operations.TargetTokens',
-  'placeArea': 'WW.Targeting.Operations.CreateArea'
+  'placeArea': 'WW.Targeting.Operations.PlaceArea'
 }
 
-WW.TARGETING_AAAAAAAAAAAAAA = {
-  'none': 'WW.Targeting.Modes.None',
-  'self': 'WW.Targeting.Modes.Self',
-  'manual': 'WW.Targeting.Modes.Manual',
-  'areaTarget': 'WW.Targeting.Modes.AreaTarget',
-  'areaPersistent': 'WW.Targeting.Modes.AreaPersistent'
+WW.TARGETING_METHODS = {
+  'manual': 'WW.Targeting.Methods.Manual',
+  'self': 'WW.Targeting.Methods.Self',
+  'area': 'WW.Targeting.Methods.Area'
 }
 
 WW.TARGETING_RESTRICTIONS = {
@@ -347,17 +347,9 @@ WW.TARGETING_RESTRICTIONS = {
   'allies': 'WW.Targeting.Restrictions.Allies'
 }
 
-WW.TEMPLATE_TYPES = {
-  'size': 'WW.Targeting.Size',
-  'spread': 'WW.Targeting.Spread'
-}
-
-WW.ITEM_TEMPLATE_RESTRICTIONS = {
-  '': 'WW.Item.Area.Restriction.None',
-  'move': 'WALL.FIELDS.move.label',
-  'light': 'WALL.FIELDS.light.label',
-  'sight': 'WALL.FIELDS.sight.label',
-  'sound': 'WALL.FIELDS.sound.label'
+WW.ITEM_AREA_TYPES = {
+  'circle': 'WW.Item.Area.Shape.Circle',
+  'emanation': 'WW.Item.Area.Shape.Emanation'
 }
 
 /* Character Options */

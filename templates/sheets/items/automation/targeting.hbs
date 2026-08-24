@@ -24,8 +24,17 @@
     </div>
     {{/if}}
 
-    {{!-- Targeting Restriction --}}
+    {{!-- Targeting Method --}}
     {{#if (eq system.targeting.operation 'target')}}
+    <div class="stat-inline">
+      <label>{{localize "WW.Targeting.Methods.Label"}}:</label>
+      
+      <select name="system.targeting.method">
+        {{selectOptions targetingMethods selected=system.targeting.method localize=true}}
+      </select>
+    </div>
+    
+    {{!-- Targeting Restriction --}}
     <div class="stat-inline">
       <label>{{localize "WW.Targeting.Restrictions.Label"}}:</label>
       
@@ -34,10 +43,11 @@
       </select>
     </div>
     {{/if}}
+
   </div>
 
   {{!-- Area / Region Fields --}}
-  {{#if (or (eq system.targeting.operation 'placeArea') (eq system.targeting.method 'areaTarget'))}}
+  {{#if (or (eq system.targeting.operation 'placeArea') (eq system.targeting.method 'area'))}}
   <fieldset class="mt-2">
     <legend>{{localize "WW.Item.Area.Settings"}}</legend>
 

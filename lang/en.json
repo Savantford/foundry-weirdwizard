@@ -341,20 +341,21 @@
 "WW.Boons.ExtraBoons": "Extra boon(s) against this target",
 "WW.Boons.ExtraBanes": "Extra bane(s) against this target",
 
-"WW.Targeting.Label": "Targeting",
+"WW.Targeting.Label": "Targeting & Area",
 "WW.Targeting.Targets": "Targets",
 "WW.Targeting.Target": "Target",
-"WW.Targeting.TargetSelf": "Target self",
-"WW.Targeting.ManualTarget": "Target tokens manually",
-"WW.Targeting.AreaTarget": "Target tokens within an area",
-"WW.Targeting.PlaceArea": "Place a persistent area",
 "WW.Targeting.Range": "Range",
 "WW.Targeting.RangeOut": "Out of range!",
 
 "WW.Targeting.Operations.Label": "Operation",
 "WW.Targeting.Operations.None": "No targeting",
 "WW.Targeting.Operations.TargetTokens": "Target tokens",
-"WW.Targeting.Operations.CreateArea": "Create a persistent area",
+"WW.Targeting.Operations.PlaceArea": "Place a persistent area",
+
+"WW.Targeting.Methods.Label": "Targeting Method",
+"WW.Targeting.Methods.Manual": "Target tokens manually",
+"WW.Targeting.Methods.Self": "Target self",
+"WW.Targeting.Methods.Area": "Target tokens within an area",
 
 "WW.Targeting.Restrictions.Label": "Restriction",
 "WW.Targeting.Restrictions.Any": "Anyone",
