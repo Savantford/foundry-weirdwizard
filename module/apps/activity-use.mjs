@@ -41,7 +41,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
       // Targeting actions
       selectTargets: ActivityUse.#selectTargets,
-      placeTemplate: ActivityUse.#placeTemplate,
+      placeArea: ActivityUse.#placeArea,
       targetingRestriction: ActivityUse.#onChangeTargetingRestriction,
 
       // Other actions
@@ -323,8 +323,8 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   /**
    * Scene region selection.
    */
-  static #placeTemplate() {
-    this.config.item.placeTemplate({ origin: this });
+  static #placeArea() {
+    this.config.item.placeArea({ origin: this });
   }
 
   /* -------------------------------------------- */

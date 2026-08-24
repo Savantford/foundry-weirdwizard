@@ -102,8 +102,8 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
   /* -------------------------------------------- */
 
   /**
-   * Check if item needs targets
-   * @returns needTargets
+   * Check if item needs targets.
+   * @returns {Boolean} Need targets?
   */ 
   get needTargets() {
     let need = false;
@@ -132,7 +132,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
 
   /**
    * Attempt to infer an Actor token for the item.
-   * @returns TokenDocument
+   * @returns {TokenDocument}
   */
   get inferToken() {
     const controlledTokens = canvas.tokens.controlled;
@@ -154,31 +154,36 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     })
   }
 
-  async placeTemplate(options = {}) {
+  /**
+   * Prompt the placement of an area (Scene Region).
+   * @param {Object} options 
+   * @returns {RegionDocument} || null
+   */
+  async placeArea(options = {}) {
     // Minimize origin app
     options.origin?.minimize();
 
-    // Prepare region template
+    // Prepare scene region
     const grid = canvas.grid ?? foundry.documents.BaseScene.defaultGrid;
     const yard = canvas.dimensions.distancePixels;
-    const temp = this.system.template;
-    const emanationShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
+    const area = this.system.area;
+    const emanationBaseShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
     const {
-      radius = temp.radius ?? 5,
-      attached = temp.attached ?? true,
-      color = temp.color ?? game.user.color,
-      restriction = temp.restriction,
-      isSpace = true,
-      ... params
+      shape = area.shape ?? 'circle',
+      radius = area.radius ?? 5, // Radius for emanation
+      size = area.size ?? 5, // Size for circle
+      attached = area.attached ?? true,
+      color = area.color ?? game.user.color,
+      restriction = area.restriction
     } = options;
 
     // Prepare region data
     const regionData = {
       name: this.parent ? `${this.name} (${this.parent.name})` : this.name,
       shapes: [{
-        type: isSpace ? 'circle' : 'emanation',
-        base: { type: "token", x: 0, y: 0, width: 1, height: 1, shape: emanationShape },
-        radius: radius * yard,
+        type: shape,
+        base: { type: "token", x: 0, y: 0, width: 1, height: 1, shape: emanationBaseShape },
+        radius: (shape === 'circle' ? size / 2 : radius) * yard, // Use half Size for circle or radius for emanation
         x: 0,
         y: 0,
         gridBased: !grid.isGridless
@@ -271,7 +276,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     options.origin?.maximize();
 
     // Target tokens
-    const targeting = this.system.targeting.mode === 'areaTarget';
+    const targeting = this.system.targeting.operation === 'areaTarget';
     if (!targeting || !region) return region;
 
     // Select and filter tokens
@@ -293,22 +298,22 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
 
   /**
    * Display the item's Range as a Scene Region and return it.
-   * @returns RegionDocument
+   * @returns {RegionDocument}
   */
   displayRange(options={}) {
     const { color='#000000', token=this.inferToken } = options;
-    console.log(token)
+    
     if (!token) return null;
     const { x: tx, y: ty, width: twidth, height: theight, shape: tshape } = token._source;
     const grid = canvas.grid ?? foundry.documents.BaseScene.defaultGrid;
     const yard = canvas.dimensions.distancePixels;
-    const emanationShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
+    const emanationBaseShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
     const range = this.system.targeting.range;
 
     const holeShape = {
       type: 'emanation',
       hole: true,
-      base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: emanationShape },
+      base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: emanationBaseShape },
       radius: range * yard,
       gridBased: !grid.isGridless
     }
@@ -318,7 +323,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       shapes: [
         {
           type: 'emanation',
-          base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: emanationShape },
+          base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: emanationBaseShape },
           radius: 1000 * yard,
           gridBased: !grid.isGridless
         },

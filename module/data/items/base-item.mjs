@@ -45,16 +45,19 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
 
       // Targeting & scene region template
       targeting: new fields.SchemaField({
-        mode: makeRequiredStrField('manual'),
-        restriction: makeRequiredStrField('any'),
-        range: makeIntField(null)
+        operation: makeRequiredStrField('none'),
+        range: makeIntField(0),
+        method: makeRequiredStrField('manual'),
+        restriction: makeRequiredStrField('any')
       }),
 
-      template: new fields.SchemaField({
+      // Area (Scene Region) template
+      area: new fields.SchemaField({
         radius: makeIntField(5),
+        size: makeIntField(5),
         attached: makeBooField(),
         color: new fields.ColorField(),
-        type: makeRequiredStrField('emanation'),
+        shape: makeRequiredStrField('emanation'),
 
         restriction: new fields.SchemaField({
           enabled: makeBooField(true),
@@ -84,16 +87,16 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
     }
 
     // Migrate targeting & scene region template
-    if (typeof source.targeting === 'string') {
+    /*if (typeof source.targeting === 'string') {
       source.targeting = {
-        mode: source.targeting,
+        operation: source.targeting,
         range: source.range
       };
 
-      if (source.targeting.mode === 'template') source.targeting.mode = 'areaTarget';
-    }
+      if (source.targeting.operation === 'template') source.targeting.operation = 'spawnRegion';
+    }*/
     
-    if (source.template?.value) source.template.radius = source.template.value;
+    //if (source.template?.value) source.area.size = source.template.value;
     
     return source;
   }

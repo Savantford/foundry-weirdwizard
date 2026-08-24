@@ -1108,7 +1108,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     // If Targeting Operation is self, infer token and target it
     const item = config.item;
-    if (item.system.targeting.mode === 'self' && item.inferToken) canvas.tokens.setTargets([item.inferToken.object.id]);
+    if (item.system.targeting.operation === 'self' && item.inferToken) canvas.tokens.setTargets([item.inferToken.object.id]);
 
     // Loop through targets
     game.user.targets.forEach(target => {

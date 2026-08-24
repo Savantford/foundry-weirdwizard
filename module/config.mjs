@@ -327,7 +327,13 @@ WW.ROLL_AGAINST = {
   'wil': 'WW.Attributes.Will'
 }
 
-WW.TARGETING_MODES = {
+WW.TARGETING_OPERATIONS = {
+  'none': 'WW.Targeting.Operations.None',
+  'target': 'WW.Targeting.Operations.TargetTokens',
+  'placeArea': 'WW.Targeting.Operations.CreateArea'
+}
+
+WW.TARGETING_AAAAAAAAAAAAAA = {
   'none': 'WW.Targeting.Modes.None',
   'self': 'WW.Targeting.Modes.Self',
   'manual': 'WW.Targeting.Modes.Manual',
@@ -347,7 +353,7 @@ WW.TEMPLATE_TYPES = {
 }
 
 WW.ITEM_TEMPLATE_RESTRICTIONS = {
-  '': 'WW.Item.Template.Restriction.None',
+  '': 'WW.Item.Area.Restriction.None',
   'move': 'WALL.FIELDS.move.label',
   'light': 'WALL.FIELDS.light.label',
   'sight': 'WALL.FIELDS.sight.label',

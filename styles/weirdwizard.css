@@ -349,6 +349,10 @@ body.theme-dark,
   gap: 5px;
 }
 
+.gap-10 {
+  gap: 5px 10px;
+}
+
 .gap-20 {
   gap: 20px;
 }
