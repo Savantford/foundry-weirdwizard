@@ -310,7 +310,8 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     const grid = canvas.grid ?? foundry.documents.BaseScene.defaultGrid;
     const yard = canvas.dimensions.distancePixels;
     const emanationBaseShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
-    const range = this.system.targeting.range;
+    const targeting = this.system.targeting;
+    const range = targeting.method === 'self' ? 0 : targeting.range; // Treat as 0 if self targeted
 
     // Return earlier if range is null
     if (!range) return null;
