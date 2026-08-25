@@ -200,7 +200,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     };
 
     // Toggle region display
-    const rangeRegion = this.displayRange();
+    const [rangeRegion, rangePlaceable] = this.displayRange();
 
     // Prepare placement constraints
     let msg;
@@ -258,13 +258,13 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
         if (!msg || msg?.active === false) msg = ui.notifications.warn("WW.Targeting.RangeOut", { localize: true, permanent: true });
         if (rangeRegion.color.css === rangeColorIn) {
           rangeRegion.updateSource({ color: rangeColorOut });
-          rangeRegion.object.draw();
+          rangePlaceable.refresh();
         };
       } else {
         msg?.remove();
         if (rangeRegion.color.css === rangeColorOut) {
           rangeRegion.updateSource({ color: rangeColorIn });
-          rangeRegion.object.draw();
+          rangePlaceable.refresh();
         };
       }
     };
@@ -369,7 +369,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     rangePlaceable.draw();
     holePlaceable.draw();
 
-    return rangeRegion;
+    return [rangeRegion, rangePlaceable];
   }
 
 }
