@@ -888,9 +888,10 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     roll.against.key ??= item?.system?.against ?? null;
 
     // Arguments
-    args.noTargeting ??= targeting?.operation === 'target' ? false : true;
     args.noRoll ??= roll.attribute?.key ? false : true;
-    args.skipApp ??= (args.noTargeting && args.noRoll);
+    args.noTargeting ??= targeting?.operation === 'target' ? false : true;
+    args.noArea ??= targeting?.operation === 'placeArea' ? false : true;
+    args.skipApp ??= args.noRoll && args.noTargeting && args.noArea;
 
     // Create config object
     const config = {
@@ -903,12 +904,15 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     const mutatedConfig = !args.skipApp ? await ActivityUse.wait(config) : config;
 
     // Finish activity if mutated config data exists
-    if (mutatedConfig) this.finishActivity(mutatedConfig);
+    if (!mutatedConfig) return;
+    
+    await this.activityMessage(args.noRoll ? mutatedConfig : await this.activityRoll(mutatedConfig));
   }
 
   /* -------------------------------------------- */
 
-  async finishActivity(config) {
+  async activityRoll(config) {
+    console.log('activity roll')
     const { attribute, boons, against, flatMod } = config.roll;
     const rollData = this.getRollData();
     const rollOptions = {
@@ -1011,20 +1015,29 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       // Push roll to roll array
       rollsArray.push(roll);
     }
+
+    // Add rolls array to config
+    config.rollsArray = rollsArray;
+    config.rollHtml = rollHtml;
     
+    return config;
+  }
+  
+  async activityMessage(config) {
+    console.log('activity message')
     // Create message data
-    const msg = config.message;
+    const { message, rollsArray, rollHtml } = config;
     const messageData = {
-      ...msg,
+      ...message,
       type: 'd20-roll',
       rolls: rollsArray,
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
       sound: CONFIG.sounds.dice,
       'flags.weirdwizard': {
-        icon: msg.icon ?? (config.item.img ?? null),
+        icon: message.icon ?? (config.item.img ?? null),
         item: config.item?.uuid,
         rollHtml: rollHtml,
-        emptyContent: !msg.content ?? true
+        emptyContent: !message.content ?? true
       }
     }
     
@@ -1106,9 +1119,9 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       else return false;
     }
 
-    // If Targeting Operation is self, infer token and target it
+    // If Targeting Method is Self, infer token and target it
     const item = config.item;
-    if (item.system.targeting.operation === 'self' && item.inferToken) canvas.tokens.setTargets([item.inferToken.object.id]);
+    if (item.system.targeting.method === 'self' && item.inferToken) canvas.tokens.setTargets([item.inferToken.object.id]);
 
     // Loop through targets
     game.user.targets.forEach(target => {
