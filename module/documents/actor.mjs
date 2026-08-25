@@ -850,6 +850,11 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
   /*  Activities                                  */
   /* -------------------------------------------- */
 
+  /**
+   * Handle the use of an Activity.
+   * @param {ActivityOptions} options
+   * @returns {ActivityConfig}
+   */
   async useActivity(options) {
     const { args = {}, item = null, roll = {}, message = {} } = options;
     const sys = this.system;
@@ -911,8 +916,12 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
   /* -------------------------------------------- */
 
+  /**
+   * Make rolls for an Activity.
+   * @param {ActivityConfig} config
+   * @returns {ActivityConfig}
+   */
   async activityRoll(config) {
-    console.log('activity roll')
     const { attribute, boons, against, flatMod } = config.roll;
     const rollData = this.getRollData();
     const rollOptions = {
@@ -1022,9 +1031,14 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     
     return config;
   }
+
+  /* -------------------------------------------- */
   
+  /**
+   * Create a Chat Message for an Activity.
+   * @param {ActivityConfig} config
+   */
   async activityMessage(config) {
-    console.log('activity message')
     // Create message data
     const { message, rollsArray, rollHtml } = config;
     const messageData = {
