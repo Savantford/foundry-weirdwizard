@@ -1655,9 +1655,9 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
 
     // Items
     CONFIG.Item.compendiumIndexFields = [
+      'effects', // It was effects.changes before v14, but something changed that made .changes break for some items
       'system.description',
       'system.subtype',
-      'effects.changes',
       // Equipment specific
       'system.armorType',
       'system.availability',
