@@ -9,16 +9,11 @@
       <i class="fa-solid fa-arrows-down-to-people"></i> {{localize "WW.Targeting.Methods.Manual"}}
     </button>
     
-    {{!-- Place templates --}}
-    {{#if (eq targeting.operation "placeArea")}}
+    {{!-- Place template --}}
+    {{#if (eq targeting.method "area")}}
     <button data-action="placeArea">
-      <i class="fa-regular fa-square-full"></i> {{localize "WW.Activity.Target.PlaceTemplate"}}
+      <i class="fa-solid fa-users-viewfinder"></i> {{localize "WW.Targeting.Methods.Area"}}
     </button>
-    {{else if (eq targeting.method "area")}}
-    <button data-action="placeArea">
-      <i class="fa-solid fa-users-viewfinder"></i> {{localize "WW.Activity.Target.AreaTarget"}}
-    </button>
-    
     {{/if}}
   </div>
 

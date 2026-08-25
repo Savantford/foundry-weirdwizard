@@ -1,9 +1,16 @@
 <section class="form-body statbox scrollable">
+  {{!-- Render Roll --}}
   {{#unless args.noRoll}}
   {{> "systems/weirdwizard/templates/apps/activity/roll.hbs" data=context }}
   {{/unless}}
 
+  {{!-- Render Targeting --}}
   {{#unless args.noTargeting}}
   {{> "systems/weirdwizard/templates/apps/activity/targeting.hbs" data=context }}
   {{/unless}}
+
+  {{!-- Render Area --}}
+  {{#if (eq targeting.operation "placeArea")}}
+  {{> "systems/weirdwizard/templates/apps/activity/area.hbs" data=context }}
+  {{/if}}
 </section>

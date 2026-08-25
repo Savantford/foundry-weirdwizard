@@ -4880,6 +4880,10 @@ details.document-card .card-header:hover::after {
     i.fa-dice-d20 {
       font-weight: 200;
     }
+
+    i.fa-arrows-up-down-left-right {
+      font-weight: 300;
+    }
   }
 
   h4.rounded {

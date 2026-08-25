@@ -74,7 +74,8 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       templates: [
         'systems/weirdwizard/templates/apps/activity/roll.hbs',
         'systems/weirdwizard/templates/apps/activity/roll-details.hbs',
-        'systems/weirdwizard/templates/apps/activity/targeting.hbs'
+        'systems/weirdwizard/templates/apps/activity/targeting.hbs',
+        'systems/weirdwizard/templates/apps/activity/area.hbs'
       ]
     },
     footer: {

@@ -287,10 +287,7 @@
 "WW.Activity.Target.Targeting": "Targeting",
 "WW.Activity.Target.TargetingInfo": "In order to select targets, either use Foundry's targeting tool, the buttons above or drag and drop a combatant to this area.",
 "WW.Activity.Target.None": "No valid targets selected.",
-"WW.Activity.Target.SelectTargets": "Target and select tokens manually",
-"WW.Activity.Target.UseTemplate": "Use a region template to target",
-"WW.Activity.Target.AreaTarget": "Target tokens within template",
-"WW.Activity.Target.PlaceTemplate": "Place a new template",
+"WW.Activity.Target.PlaceArea": "Place a persistent area",
 "WW.Activity.Target.ExpectHint": "This activity expects targets to be selected. Please make sure to select targets in case you forgot it!",
 "WW.Activity.Confirm": "Confirm",
 
@@ -365,6 +362,7 @@
 "WW.Targeting.Dialog.SelectTargets": "Please select one or more tokens to target.",
 "WW.Targeting.Dialog.Confirm": "Confirm Targets and Continue",
 
+"WW.Item.Area.Label": "Area",
 "WW.Item.Area.Settings": "Area Settings",
 "WW.Item.Area.Size": "Size",
 "WW.Item.Area.Radius": "Radius",
