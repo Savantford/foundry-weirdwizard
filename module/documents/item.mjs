@@ -312,6 +312,10 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     const emanationBaseShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
     const range = this.system.targeting.range;
 
+    // Return earlier if range is null
+    if (!range) return null;
+
+    // The inner hole shape
     const holeShape = {
       type: 'emanation',
       hole: true,
