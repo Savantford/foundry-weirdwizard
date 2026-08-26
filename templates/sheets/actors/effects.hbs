@@ -26,8 +26,11 @@
       {{!-- Header Row --}}
       <li class="item items-header flexrow" data-effect-type="{{section.type}}">
         <div class="item-image"></div>
+
         <div class="item-name">{{localize section.name}}</div>
+
         {{#if section.showDuration}}<div class="effect-duration">{{localize "WW.Effect.Duration.Short"}}</div>{{/if}}
+        
         {{#if section.showSource}}<div class="effect-source">{{localize "WW.Effect.Source"}}</div>{{/if}}
         
         <div class="item-controls effect-controls flexrow">
@@ -50,7 +53,15 @@
 
         <div class="item-name" data-tooltip="{{effect.tooltip}}"><label>{{effect.name}}</label></div>
         
-        {{#if section.showDuration}}<div class="effect-duration">{{system.duration.formatted}}</div>{{/if}}
+        {{#if section.showDuration}}<div class="effect-duration">
+          {{#if (eq effect.duration.expiry "luckEnds")}}
+          <a class="luck-ends" data-action="effectLuckEnds" data-effect-id="{{effect.id}}">
+            <img src="systems/weirdwizard/assets/icons/clover.svg" height="13"> {{localize "WW.Effect.Duration.Expiry.LuckEnds"}}
+          </a>
+          {{else}}
+          {{system.duration.formatted}}
+          {{/if}}
+        </div>{{/if}}
 
         {{#if section.showSource}}<div class="effect-source">{{{effect.sourceCard}}}</div>{{/if}}
         

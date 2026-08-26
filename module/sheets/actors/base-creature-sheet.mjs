@@ -61,7 +61,8 @@ export default class WWCreatureSheet extends WWActorSheet {
       effectCreate: this.#onActiveEffectCreate,
       effectEdit: this.#onActiveEffectEdit,
       effectToggle: this.#onActiveEffectToggle,
-      effectRemove: this.#onActiveEffectRemove
+      effectRemove: this.#onActiveEffectRemove,
+      effectLuckEnds: this.#onActiveEffectLuckEnds
     },
     form: {
       handler: this.#onSubmitDocumentForm, // needed for damage update
@@ -778,6 +779,12 @@ export default class WWCreatureSheet extends WWActorSheet {
     const effect = this.actor.effects.get(button.dataset.effectId);
 
     deleteActiveEffect(effect, this.actor);
+  }
+
+  static #onActiveEffectLuckEnds(event, button) {
+    const effect = this.actor.effects.get(button.dataset.effectId);
+
+    this.actor.luckEnds(effect);
   }
 
   /* -------------------------------------------- */

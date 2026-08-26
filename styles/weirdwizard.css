@@ -3303,6 +3303,12 @@ input[type="checkbox"].checkbox-uses {
   .content-link {
     font-weight: 500;
   }
+
+  .luck-ends {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+  }
 }
 
 .weirdwizard .items-header,
