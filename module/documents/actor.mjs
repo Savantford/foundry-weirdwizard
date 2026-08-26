@@ -1293,8 +1293,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
    * @param {ActiveEffect} effect
    */
   async luckEnds(effect) {
-    console.log(this.appliedEffects)
-    const title = `Luck Ends: ${effect.name}`;
+    const title = `${_loc('WW.Effect.Duration.Expiry.LuckEnds')}: ${effect.name}`;
     const config = {
       title: title,
       roll: { attribute: { key: 'luck' } },
@@ -1316,7 +1315,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       await effect.update({ 'duration.expired': true });
       effect.delete();
     }
-
   }
 
   /* -------------------------------------------- */
