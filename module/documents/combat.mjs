@@ -221,7 +221,6 @@ export default class WWCombat extends foundry.documents.Combat {
         label: 'WW.Combat.End.Skip',
         icon: 'fa-solid fa-hourglass-end',
         callback: () => {
-          this._expireLeftoverEffects(); // Expire leftover effects - no longer needed in v14?
           game.time.advance(60); // Advance 1 minute to end 1 minute durations
           this.delete();
         }
@@ -446,72 +445,6 @@ export default class WWCombat extends foundry.documents.Combat {
       }
     }
     await Promise.allSettled(promises);
-  }
-
-  /* -------------------------------------------- */
-  /*  Expire Effect Methods                       */
-  /* -------------------------------------------- */
-
-  /**
-   * Expire active effects with round durations that carried over from other combats.
-   */
-  async _expireLeftoverEffects() {
-
-    // Loop for each combatant
-    for (const c of this.combatants) {
-
-      // Filter effects
-      const temporaryEffects = c.actor?.temporaryEffects.filter((ae) => {
-        const { seconds, rounds, startTime, startRound } = ae.duration;
-      
-        return rounds > 0;
-      })
-
-      if (!temporaryEffects) return; // Stop if no effects were found
-
-      const disableActiveEffects = [],
-      deleteActiveEffects = [],
-      disableBuffs = [],
-      actorUpdate = {};
-
-      for (const ae of temporaryEffects) {
-        const duration = ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? _loc('WW.Effect.Duration.Rounds') : _loc('WW.Effect.Duration.Round'));
-      
-        await ChatMessage.create({
-          type: 'status',
-          speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
-          flavor: this.label,
-          content: `<p>@UUID[${c.actor.uuid}]: @UUID[${ae.uuid}] ${_loc("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
-          sound: CONFIG.sounds.notification
-        });
-
-        if (ae.system.duration.autoExpire) {
-          deleteActiveEffects.push(ae.id);
-        } else {
-          disableActiveEffects.push({ _id: ae.id, disabled: true });
-        }
-      }
-
-      const hasActorUpdates = !foundry.utils.isEmpty(actorUpdate);
-
-      const deleteAEContext = foundry.utils.mergeObject(
-        { render: !disableBuffs.length && !disableActiveEffects.length && !hasActorUpdates },
-        context
-      );
-      
-      if (deleteActiveEffects.length) await c.actor.deleteEmbeddedDocuments("ActiveEffect", deleteActiveEffects, deleteAEContext);
-
-      const disableAEContext = foundry.utils.mergeObject({ render: !disableBuffs.length && !hasActorUpdates }, context);
-
-      if (disableActiveEffects.length) await c.actor.updateEmbeddedDocuments("ActiveEffect", disableActiveEffects, disableAEContext);
-
-      const disableBuffContext = foundry.utils.mergeObject({ render: !hasActorUpdates }, context);
-
-      if (disableBuffs.length) await c.actor.updateEmbeddedDocuments("Item", disableBuffs, disableBuffContext);
-
-      if (hasActorUpdates) await c.actor.update(actorUpdate, context);
-
-    }
   }
 
 }
