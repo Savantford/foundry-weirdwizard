@@ -18,7 +18,7 @@
     
     <div class="form-group slim" data-duration>
       <label class="flexrow" for="{{rootId}}-duration.value">
-        <span>{{localize "WW.Effect.Duration.ExpiryDuration"}}</span>
+        <span>{{localize "WW.Effect.Duration.Expiry.Duration"}}</span>
         <span class="warning" hidden><i class="fa-duotone fa-triangle-exclamation"></i></span>
       </label>
       <div class="form-fields">
@@ -27,7 +27,7 @@
         disabled=(ne source.system.durationPreset 'custom')}}
 
         {{#unless durationIsTimeBased}}
-        <i class="info flex-0 fa-solid fa-circle-question" data-tooltip="{{localize "WW.Effect.Duration.ExpiryDurationHint"}}"></i>
+        <i class="info flex-0 fa-solid fa-circle-question" data-tooltip="{{localize "WW.Effect.Duration.Expiry.DurationHint"}}"></i>
         {{/unless}}
 
         {{formInput fields.duration.fields.units value=source.duration.units id=(concat rootId "-duration.units")

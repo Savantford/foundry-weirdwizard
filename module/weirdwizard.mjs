@@ -82,8 +82,9 @@ Hooks.once('init', function () {
   // Add custom constants for configuration.
   CONFIG.WW = WW;
 
-  // Delete effects when expired
-  CONFIG.ActiveEffect.expiryAction = 'delete';
+  // Active Effect expiration
+  CONFIG.ActiveEffect.expiryAction = 'delete'; // Delete when expired
+  CONFIG.ActiveEffect.expiryEvents.luckEnds = 'WW.Effect.Duration.Expiry.LuckEnds'; // Register Luck ends event
   
   // Define custom Document classes
   CONFIG.Actor.documentClass = WWActor;
