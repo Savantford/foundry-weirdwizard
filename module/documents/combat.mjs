@@ -63,12 +63,6 @@ export default class WWCombat extends foundry.documents.Combat {
   async _onUpdate(data, options, userId) {
     super._onUpdate(data, options, userId);
 
-    /*try {
-      this._expireEffectsOnUpdate(data, options, userId);
-    } catch (error) {
-      console.error(error);
-    }*/
-
     // Update Status Icons
     this.combatants.forEach(c => c.token?.object?.updateStatusIcons());
     

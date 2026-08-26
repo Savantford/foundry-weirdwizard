@@ -229,15 +229,3 @@ export async function prepareActiveEffectCategories(effects, showDuration = fals
   
   return categories;
 }
-
-/*export function expireFromTokens() {
-  if (game.users.activeGM?.isSelf) {
-    for (const t of canvas.tokens.placeables) {
-      
-      // Don't do anything for actors without this function (e.g. basic actors)
-      if (!t.actor?.expireActiveEffects) continue;
-      
-      t.actor.expireActiveEffects();
-    }
-  }
-}*/
