@@ -910,8 +910,10 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     // Finish activity if mutated config data exists
     if (!mutatedConfig) return;
-    
-    await this.activityMessage(args.noRoll ? mutatedConfig : await this.activityRoll(mutatedConfig));
+    if (!args.noRoll) await this.activityRoll(mutatedConfig); // Handle roll
+    await this.activityMessage(mutatedConfig); // Handle chat message creation
+
+    return mutatedConfig;
   }
 
   /* -------------------------------------------- */
@@ -935,6 +937,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       actEffs: this.getActivityActiveEffects(config)
     };
     const rollsArray = [];
+    
     let rollHtml = '', boonsDisplay = "0";
 
     // Calculate final boons
@@ -1013,10 +1016,11 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       const targetNo = against.customTn ?? 10;
       
       // Construct the Roll instance and evaluate the roll
-      const roll = await new WWRoll(rollFormula, rollData, {
+      const roll = new WWRoll(rollFormula, rollData, {
         ... rollOptions,
         targetNo
-      }).evaluate();
+      });
+      await roll.evaluate();
 
       // Prepare DSN data
       this.prepareDSN(roll, 0);
@@ -1039,16 +1043,16 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
    * @param {ActivityConfig} config
    */
   async activityMessage(config) {
-    // Create message data
     const { message, rollsArray, rollHtml } = config;
+
     const messageData = {
       ...message,
       type: 'd20-roll',
-      rolls: rollsArray,
+      rolls: [...rollsArray],
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
       sound: CONFIG.sounds.dice,
       'flags.weirdwizard': {
-        icon: message.icon ?? (config.item.img ?? null),
+        icon: message.icon ?? (config.item?.img ?? null),
         item: config.item?.uuid,
         rollHtml: rollHtml,
         emptyContent: !message.content ?? true
@@ -1280,6 +1284,39 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     } else {
       this.useActivity(config);
     }
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Attempt to end an effect with a Luck roll.
+   * @param {ActiveEffect} effect
+   */
+  async luckEnds(effect) {
+    console.log(this.appliedEffects)
+    const title = `Luck Ends: ${effect.name}`;
+    const config = {
+      title: title,
+      roll: { attribute: { key: 'luck' } },
+      message: {
+        flavor: title,
+        content: '',
+        icon: effect.img ?? null
+      },
+      args: {
+        noTargeting: true
+      }
+    }
+
+    const activity = await this.useActivity(config);
+    if (!activity) return;
+
+    const isSuccess = ['success', 'critical'].includes(activity.rollsArray[0].outcome);
+    if (isSuccess) {
+      await effect.update({ 'duration.expired': true });
+      effect.delete();
+    }
+
   }
 
   /* -------------------------------------------- */
