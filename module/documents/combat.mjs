@@ -114,19 +114,6 @@ export default class WWCombat extends foundry.documents.Combat {
 
   /**
    * @override
-   * Begin the combat encounter, advancing to round 1 and turn 1
-   * @returns {Promise<this>}
-   */
-  /*async startCombat() { 
-    await super.startCombat();
-    
-    return this;
-  }*/
-
-  /* -------------------------------------------- */
-
-  /**
-   * @override
    * Advance the combat to the next round
    * @returns {Promise<this>}
    */
@@ -234,7 +221,7 @@ export default class WWCombat extends foundry.documents.Combat {
         label: 'WW.Combat.End.Skip',
         icon: 'fa-solid fa-hourglass-end',
         callback: () => {
-          this._expireLeftoverEffects(); // Expire leftover effects - no longer needed?
+          this._expireLeftoverEffects(); // Expire leftover effects - no longer needed in v14?
           game.time.advance(60); // Advance 1 minute to end 1 minute durations
           this.delete();
         }
@@ -442,7 +429,7 @@ export default class WWCombat extends foundry.documents.Combat {
   /**
    * Trigger Weird Wizard Region events for Combat events.
    * Needed by WWCombat#triggerWWTurnEvents.
-   * Unchanged from Combat.#triggerWWRegionEvents.
+   * Unchanged from core Combat.#triggerRegionEvents.
    * @param {string} eventName                  The event name
    * @param {object & {token: never, combatant: never, combat: never}} eventData
    *                                            The event data (without `token`, `combatant`, and `combat`)
@@ -460,75 +447,6 @@ export default class WWCombat extends foundry.documents.Combat {
     }
     await Promise.allSettled(promises);
   }
-
-  /* -------------------------------------------- */
-  
-  /**
-   * A workflow that occurs at the end of each Combat Turn.
-   * This workflow occurs after the Combat document update, prior round information exists in this.previous.
-   * This can be overridden to implement system-specific combat tracking behaviors.
-   * This method only executes for one designated GM user. If no GM users are present this method will not be called.
-   * @inheritdoc
-   * @param {Combatant} combatant     The Combatant whose turn just ended
-   * @returns {Promise<void>}
-   * @protected
-   */
-  /*async _onEndTurn(combatant) {
-    super._onEndTurn(combatant);
-    //this._expireEffectsOnTurn(combatant, 'end');
-  }*/
-
-  /* -------------------------------------------- */
-
-  /**
-   * @override
-   * A workflow that occurs at the end of each Combat Round.
-   * This workflow occurs after the Combat document update.
-   * This can be overridden to implement system-specific combat tracking behaviors.
-   * The default implementation of this function does nothing.
-   * This method only executes for one designated GM user. If no GM users are present this method will not be called.
-   * @param {CombatRoundEventContext} context    The context of the round that just ended
-   * @returns {Promise<void>}
-   * @protected
-   */
-  /*async _onEndRound(context) {
-    super._onEndRound();
-
-    this._expireEffectsOnEndOfRound();
-  }*/
-
-  /* -------------------------------------------- */
-
-  /**
-   * A workflow that occurs at the start of each Combat Round.
-   * This workflow occurs after the Combat document update, new round information exists in this.current.
-   * This can be overridden to implement system-specific combat tracking behaviors.
-   * This method only executes for one designated GM user. If no GM users are present this method will not be called.
-   * @returns {Promise<void>}
-   * @protected
-   */
-  /*async _onStartRound(context) {
-
-  }*/
-
-  /* -------------------------------------------- */
-
-  /**
-   * A workflow that occurs at the start of each Combat Turn.
-   * This workflow occurs after the Combat document update.
-   * This can be overridden to implement system-specific combat tracking behaviors.
-   * The default implementation of this function does nothing.
-   * This method only executes for one designated GM user. If no GM users are present this method will not be called.
-   * @param {Combatant} combatant               The Combatant whose turn just started
-   * @param {CombatTurnEventContext} context    The context of the turn that just started
-   * @returns {Promise<void>}
-   * @protected
-   */
-  /*async _onStartTurn(combatant, context) {
-    super._onStartTurn(combatant);
-
-    //this._expireEffectsOnTurn(combatant, 'start');
-  }*/
 
   /* -------------------------------------------- */
   /*  Expire Effect Methods                       */
@@ -595,188 +513,5 @@ export default class WWCombat extends foundry.documents.Combat {
 
     }
   }
-
-  /**
-   * Expire active effects that lasts until an end of round.
-   */
-  /*async _expireEffectsOnEndOfRound() {
-
-    // Loop for each combatant
-    for (const c of this.combatants) {
-      
-      // Filter effects
-      const temporaryEffects = c.actor?.temporaryEffects.filter((ae) => {
-        const { seconds, rounds, startTime, startRound } = ae.duration;
-        
-        // If selectedDuration does not includes 'round', return false
-        if (!ae.system.duration.selected?.includes('round')) return false;
-        
-        const elapsed = this.round - (startRound ?? 0),
-          remaining = rounds - elapsed;
-        return remaining <= 0;
-      })
-
-      if (!temporaryEffects) return; // Stop if no effects were found
-
-      const disableActiveEffects = [],
-      deleteActiveEffects = [],
-      disableBuffs = [],
-      actorUpdate = {};
-      
-      for (const ae of temporaryEffects) {
-
-        const duration = ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? _loc('WW.Effect.Duration.Rounds') : _loc('WW.Effect.Duration.Round'));
-        
-        await ChatMessage.create({
-          type: 'status',
-          speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
-          flavor: this.label,
-          content: `<p>@UUID[${c.actor.uuid}]: @UUID[${ae.uuid}] ${_loc("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
-          sound: CONFIG.sounds.notification
-        });
-        
-        if (ae.system.duration.autoExpire) {
-          deleteActiveEffects.push(ae.id);
-        } else {
-          disableActiveEffects.push({ _id: ae.id, disabled: true });
-        }
-      }
-
-      const hasActorUpdates = !foundry.utils.isEmpty(actorUpdate);
-
-      const deleteAEContext = foundry.utils.mergeObject(
-        { render: !disableBuffs.length && !disableActiveEffects.length && !hasActorUpdates },
-        context
-      );
-      
-      if (deleteActiveEffects.length) await c.actor.deleteEmbeddedDocuments("ActiveEffect", deleteActiveEffects, deleteAEContext);
-
-      const disableAEContext = foundry.utils.mergeObject({ render: !disableBuffs.length && !hasActorUpdates }, context);
-      if (disableActiveEffects.length) await c.actor.updateEmbeddedDocuments("ActiveEffect", disableActiveEffects, disableAEContext);
-
-      const disableBuffContext = foundry.utils.mergeObject({ render: !hasActorUpdates }, context);
-      if (disableBuffs.length) await c.actor.updateEmbeddedDocuments("Item", disableBuffs, disableBuffContext);
-
-      if (hasActorUpdates) await c.actor.update(actorUpdate, context);
-
-    }
-  }*/
-
-  /**
-   * Expire active effects that lasts until an end of a turn.
-   */
-  /*async _expireEffectsOnTurn(current, phase) {
-    // Loop for each combatant
-    for (const c of this.combatants) {
-
-      // Filter effects
-      const temporaryEffects = c.actor?.temporaryEffects.filter((ae) => {
-        const { seconds, rounds, startTime, startRound } = ae.duration;
-        
-        const lcSelected = ae.system.duration.selected?.toLowerCase();
-        
-        // If selectedDuration does not includes 'turn' or the provided phase, return false
-        if (!lcSelected) return false; // Return false if lcSelected does not exist
-        if (!lcSelected.includes('turn')) return false;
-        if (!lcSelected.includes(phase)) return false;
-        
-        if (lcSelected === 'turnend') return true; // return true if turn end
-        else if (lcSelected.includes('target')) { // If target is taken into account: nexttargetturnend, nexttargetturnstart
-          if (current != c) return false; // If current combatant is affected by the effect
-          
-          const elapsed = this.round - (startRound ?? 0),
-            remaining = rounds - elapsed,
-            offset = this.round == startRound ? 0 : 1;
-          return remaining <= offset;
-
-        } else { // If trigger is taken into account: turnEnd, nextTriggerTurnEnd, nextTriggerTurnStart
-          if (current != ae.originCombatant) return false; // If current combatant is the origin of the effect
-
-          const elapsed = this.round - (startRound ?? 0),
-            remaining = rounds - elapsed,
-            offset = this.round == startRound ? 0 : 1;
-          return remaining <= offset;
-        }
-
-      })
-
-      if (!temporaryEffects) return; // Stop if no effects were found
-
-      const disableActiveEffects = [],
-        deleteActiveEffects = [],
-        disableBuffs = [],
-        actorUpdate = {};
-
-      for (const ae of temporaryEffects) {
-
-        const duration = ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? _loc('WW.Effect.Duration.Rounds') : _loc('WW.Effect.Duration.Round'));
-        
-        await ChatMessage.create({
-          type: 'status',
-          speaker: game.weirdwizard.utils.getSpeaker({ actor: c.actor }),
-          flavor: this.label,
-          content: `<p>@UUID[${c.actor.uuid}]: @UUID[${ae.uuid}] ${_loc("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
-          sound: CONFIG.sounds.notification
-        });
-
-        if (ae.system.duration.autoExpire) {
-          deleteActiveEffects.push(ae.id);
-        } else {
-          disableActiveEffects.push({ _id: ae.id, disabled: true });
-        }
-      }
-
-      const hasActorUpdates = !foundry.utils.isEmpty(actorUpdate);
-
-      const deleteAEContext = foundry.utils.mergeObject(
-        { render: !disableBuffs.length && !disableActiveEffects.length && !hasActorUpdates },
-        context
-      );
-
-      if (deleteActiveEffects.length)
-        await c.actor.deleteEmbeddedDocuments("ActiveEffect", deleteActiveEffects, deleteAEContext);
-
-      const disableAEContext = foundry.utils.mergeObject({ render: !disableBuffs.length && !hasActorUpdates }, context);
-      if (disableActiveEffects.length)
-        await c.actor.updateEmbeddedDocuments("ActiveEffect", disableActiveEffects, disableAEContext);
-
-      const disableBuffContext = foundry.utils.mergeObject({ render: !hasActorUpdates }, context);
-      if (disableBuffs.length) await c.actor.updateEmbeddedDocuments("Item", disableBuffs, disableBuffContext);
-
-      if (hasActorUpdates) await c.actor.update(actorUpdate, context);
-
-    }
-
-  }*/
-
-  /**
-   * Expire active effects on update.
-   *
-   * @param {object} data Update data
-   * @param {options} options Context options
-   * @param {string} userId Triggering user ID
-   */
-  /*async _expireEffectsOnUpdate(data, options, userId) {
-    
-    if (data.turn === undefined && data.round === undefined) return;
-
-    const actor = this.combatant?.actor;
-    
-    if (!actor) return;
-
-    const timeOffset = options.advanceTime ?? 0;
-    
-    // Attempt to perform expiration on owning active user
-    const firstOwner = Object.entries(actor.ownership)
-      .filter(([_, level]) => level >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)
-      .map(([userId, _]) => game.users.get(userId))
-      .filter((u) => u?.active)
-      .sort((a, b) => a.id.localeCompare(b.id))[0];
-    if (firstOwner) {
-      if (firstOwner.id !== game.user.id) return;
-    } else if (!game.user.isGM) return;
-    
-    actor.expireActiveEffects({ timeOffset, combat: this });
-  }*/
 
 }
