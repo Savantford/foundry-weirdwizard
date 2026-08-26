@@ -14,7 +14,7 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
 export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV2) {
   debounceRender = foundry.utils.debounce(this.render, 50);
   
-  constructor(options={}, config = {}) {
+  constructor(options={}) {
     super(options); // Required for "this." to work
 
     // Minimize related Actor sheet
@@ -28,7 +28,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     tag: 'form',
     classes: ['weirdwizard', 'activity-use'],
     window: {
-      title: this.title,
+      //title: this.title,
       icon: 'fa-regular fa-dice-d20',
       resizable: true
     },
@@ -58,6 +58,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   /** @inheritDoc */
   _initializeApplicationOptions(options) {
     this.config = options;
+    console.log(options)
 
     return options = super._initializeApplicationOptions(options);
   }
@@ -87,8 +88,10 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
   /** @override */
   get title() {
-    const { constructor: id, name, type } = this.config.item ?? this.config.actor;
-    return `${_loc("WW.Activity.Label")}: ${name ?? id}`;
+    const { actor, item, title } = this.config;
+    console.log(this.config)
+    const { constructor: id, name, type } = item ?? actor;
+    return title ?? `${_loc("WW.Activity.Label")}: ${name ?? id}`;
   }
 
   /* -------------------------------------------- */

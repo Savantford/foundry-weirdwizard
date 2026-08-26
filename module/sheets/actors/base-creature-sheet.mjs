@@ -582,14 +582,16 @@ export default class WWCreatureSheet extends WWActorSheet {
 
   static #onAttributeUse(event, button) {
     const dataset = Object.assign({}, button.dataset);
-    const attKey = dataset.key
+    const attKey = dataset.key;
+    const title = _loc(CONFIG.WW.ATTRIBUTE_ROLLS[attKey]);
     const activityOptions = {
+      title,
       roll: {
         attribute: { key: attKey }
       },
       message: {
         icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey],
-        flavor: _loc(CONFIG.WW.ATTRIBUTE_ROLLS[attKey]),
+        flavor: title,
         content: ''
       },
       args: {

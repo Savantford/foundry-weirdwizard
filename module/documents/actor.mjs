@@ -856,7 +856,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
    * @returns {ActivityConfig}
    */
   async useActivity(options) {
-    const { args = {}, item = null, roll = {}, message = {} } = options;
+    const { args = {}, item = null, roll = {}, message = {}, title } = options;
     const sys = this.system;
 
     // Targeting
@@ -900,7 +900,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     // Create config object
     const config = {
-      args, item, roll, targeting, message, itemProperties,
+      args, item, roll, targeting, message, itemProperties, title,
       actor: this,
       token: this.token
     }
@@ -1295,7 +1295,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
   async luckEnds(effect) {
     const title = `${_loc('WW.Effect.Duration.Expiry.LuckEnds')}: ${effect.name}`;
     const config = {
-      title: title,
+      title,
       roll: { attribute: { key: 'luck' } },
       message: {
         flavor: title,
