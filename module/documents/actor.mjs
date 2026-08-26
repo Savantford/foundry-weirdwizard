@@ -1135,7 +1135,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     // If Targeting Method is Self, infer token and target it
     const item = config.item;
-    if (item.system.targeting.method === 'self' && item.inferToken) canvas.tokens.setTargets([item.inferToken.object.id]);
+    if (item?.system?.targeting?.method === 'self' && item?.inferToken) canvas.tokens.setTargets([item.inferToken.object.id]);
 
     // Loop through targets
     game.user.targets.forEach(target => {
@@ -1252,6 +1252,34 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     })
     
     return effs;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle the use of an Attribute.
+   * @param {ActivityOptions} options
+   */
+  async useAttribute(config) {
+    const attKey = config.roll.attribute.key;
+
+    // Check for Automatic Failure
+    if (this.system.autoFail[attKey]) {
+      const messageData = {
+        ...config.message,
+        type: 'd20-roll',
+        speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
+        content: `<div class="dice-outcome chat-failure">${_loc('WW.Roll.AutoFail')}!</div>`,
+        sound: CONFIG.sounds.dice,
+        'flags.weirdwizard': {
+          icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey]
+        }
+      };
+
+      ChatMessage.create(messageData);
+    } else {
+      this.useActivity(config);
+    }
   }
 
   /* -------------------------------------------- */

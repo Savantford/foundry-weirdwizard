@@ -582,47 +582,22 @@ export default class WWCreatureSheet extends WWActorSheet {
 
   static #onAttributeUse(event, button) {
     const dataset = Object.assign({}, button.dataset);
-
-    // Define variables to be used
-    const attKey = dataset.key,
-      flavor = _loc(CONFIG.WW.ATTRIBUTE_ROLLS[attKey]);
-    let content = '';
-
+    const attKey = dataset.key
     const activityOptions = {
-      event,
       roll: {
         attribute: { key: attKey }
       },
       message: {
         icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey],
-        flavor,
-        content
+        flavor: _loc(CONFIG.WW.ATTRIBUTE_ROLLS[attKey]),
+        content: ''
       },
       args: {
         noTargeting: true
       }
     }
 
-    // Check for Automatic Failure
-    if (this.actor.system.autoFail[attKey]) {
-
-      const messageData = {
-        type: 'd20-roll',
-        speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
-        flavor,
-        content: `<div class="dice-outcome chat-failure">${_loc('WW.Roll.AutoFail')}!</div>`,
-        sound: CONFIG.sounds.dice,
-        'flags.weirdwizard': {
-          icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey]
-        }
-      };
-      
-      ChatMessage.create(messageData);
-    } else {
-      this.actor.useActivity(activityOptions);
-      //new ActivityUse(activityOptions).render(true);
-    }
-    
+    this.actor.useAttribute(activityOptions);
   }
 
   /* -------------------------------------------- */
