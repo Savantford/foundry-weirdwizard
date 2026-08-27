@@ -129,8 +129,13 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
           }, {});
         
         // Prepare changes
+        partContext.changes = await Promise.all(foundry.utils.deepClone(context.source.changes).map((change, index) => {
+          const defaultPriority = ActiveEffect.CHANGE_TYPES[change.type]?.defaultPriority ?? 0;
+          return this._renderChange({change, index, fields, defaultPriority, changeTypes});
+        }));
+
         partContext.changes = await Promise.all(foundry.utils.deepClone(context.source.system.changes).map((change, index) => {
-          const defaultPriority = ActiveEffect.CHANGE_TYPES[change.type]?.defaultPriority;
+          const defaultPriority = ActiveEffect.CHANGE_TYPES[change.type]?.defaultPriority ?? 0;
           
           const changeDataPreset = getEffectChangeMeta(change.preset); // TODO - Remove this intermediary function
           const valueType = changeDataPreset?.valueType ?? 'str';
@@ -183,20 +188,33 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
   async _renderChange(context) {
     const {change, index} = context;
 
-    if ( typeof change.value !== "string" ) change.value = JSON.stringify(change.value);
+    if ( ("value" in change) && (typeof change.value !== "string") ) change.value = JSON.stringify(change.value);
     Object.assign(
       change,
       ["key", "type", "value", "phase", "priority", "preset"].reduce((paths, fieldName) => {
-        paths[`${fieldName}Path`] = `system.changes.${index}.${fieldName}`;
+        if ( fieldName in change ) paths[`${fieldName}Path`] = `system.changes.${index}.${fieldName}`;
         return paths;
       }, {}));
     
-    return ActiveEffect.CHANGE_TYPES[change.type].render?.(context)
-      ?? foundry.applications.handlebars.renderTemplate("systems/weirdwizard/templates/sheets/active-effects/change.hbs", context);
+    const changeType = ActiveEffect.CHANGE_TYPES[change.type];
+    context.changeType = changeType;
+
+    return changeType?.render?.(context) ?? foundry.applications.handlebars.renderTemplate("systems/weirdwizard/templates/sheets/active-effects/change.hbs", context);
   }
 
   /* -------------------------------------------- */
   /*  Form Handling                               */
+  /* -------------------------------------------- */
+
+  /**
+   * @override
+   * An override to allow change.preset to be allowed by the form submission.
+   * TODO: Think of a better fix.
+   */
+  _processFormData(event, form, formData) {
+    return foundry.utils.expandObject(formData.object);
+  }
+
   /* -------------------------------------------- */
 
   /** @override */
@@ -204,7 +222,7 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
     super._onChangeForm(formConfig, event);
     
     // Submit the form if a Change Preset or Duration Preset is changed
-    if (event.target instanceof HTMLSelectElement && (event.target.name.endsWith(".preset")) || event.target.name.endsWith(".durationPreset")) {
+    if (event.target instanceof HTMLSelectElement && (event.target.name.endsWith(".preset") || event.target.name.endsWith(".durationPreset"))) {
       this.submit({ preventClose: true });
     }
   }
@@ -250,8 +268,6 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
     }
 
     // Update Changes
-    const effChanges = this.document.system.changes;
-
     submitData.system.changes?.forEach((change, index) => {
       // Apply preset
       if (change.preset) {
