@@ -403,8 +403,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     
     // Reorder array using durations
     const durations = [...CONST.ACTIVE_EFFECT_DURATION_UNITS].reverse();
-    const expiryEvents = ['luckEnds', ...ACTIVE_EFFECT_EXPIRY_EVENTS];
-    console.log(temporary)
+    const expiryEvents = ['luckEnds', ...CONST.ACTIVE_EFFECT_EXPIRY_EVENTS];
 
     temporary.sort((a,b) => {
       if (a.duration.units !== b.duration.units) return durations.indexOf(a.duration.units) - durations.indexOf(b.duration.units);
@@ -412,8 +411,6 @@ export default class WWCreatureSheet extends WWActorSheet {
       else if (a.duration.expiry !== b.duration.expiry) return expiryEvents.indexOf(a.duration.expiry) - expiryEvents.indexOf(b.duration.expiry);
       else return a - b;
     })
-
-    console.log(temporary)
     
     // Assign arrays
     context.effectsList = {

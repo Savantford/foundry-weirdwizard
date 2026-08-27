@@ -1,50 +1,55 @@
 <li class="effect-card" data-effect-id="{{this._id}}">
-    {{log this.duration}}
-    {{!-- Title --}}
-    <label class="item-button" data-action="itemLabelClick" data-item-id="{{this._id}}"
-        data-tooltip="{{this.tooltip}}">{{this.name}}:</label>
-        {{this.duration.units}} >
-        {{this.duration.remaining}} >
-        {{this.duration.expiry}}
+  {{#with this}}
+  {{!-- Image --}}
+  <img class="image" src="{{ img }}">
 
-    {{!-- Modifier --}}
-    <span class="modifier-line">
-        {{localize this.system.attributeLabel}}
+  {{!-- Main block --}}
+  <div class="main">
+    <div class="header">
+      {{!-- Title --}}
+      <label class="item-button" data-action="itemLabelClick" data-item-id="{{ _id }}" data-tooltip="{{ tooltip }}">{{ name }}</label>
 
-        {{!-- Boons --}}
-        {{#if this.system.boonsAlt}}
-            {{ this.system.boonsAlt }}
-        {{else if this.system.boons}}
-            {{localize "WW.Boons.With"}} {{this.system.boons}}
+      {{!-- Controls --}}
+      <div class="effect-controls flexrow">
+        {{#if showRemoveButton}}
 
-            {{#if (lt this.system.boons -1)}}{{localize "WW.Boons.Banes"}}
-                {{else if (lt this.system.boons 0)}}{{localize "WW.Boons.Bane"}}
-                {{else if (gt this.system.boons 1)}}{{localize "WW.Boons.Boons"}}
-                {{else}}{{localize "WW.Boons.Boon"}}
-            {{/if}}
+        <a class="effect-control" data-action="effectToggle" data-effect-id="{{ _id }}" data-tooltip="WW.Effect.Toggle">
+          <i class="fa-solid {{#if disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
+        </a>
+
+        <a class="effect-control" data-action="effectEdit" data-effect-id="{{ _id }}" data-tooltip="WW.Effect.Edit">
+          <i class="fa-solid fa-edit"></i>
+        </a>
+
+        <a class="effect-control" data-action="effectRemove" data-effect-id="{{ _id }}" data-tooltip="WW.Effect.Remove">
+          <i class="fa-solid fa-trash"></i>
+        </a>
+        {{else}}
+        <a data-tooltip="{{#if isBenefit}}WW.Effect.HandledByCharOption{{else}}WW.Effect.HandledByItem{{/if}}">
+          <i class="fa-solid fa-circle-question"></i>
+        </a>
         {{/if}}
-    </span>
-
-    {{!-- Damage --}}
-    <span class="damage-line">({{#if this.system.damageAlt}}{{ this.system.damageAlt }}{{else if this.system.damage}}{{ this.system.damage }}{{else}}0{{/if}})</span>
-
-    {{#if (or this.canReload)}}
-    <span class="buttons">
-        {{!-- Toggle Reloaded --}}
-        {{#if this.canReload}}
-        <a class="item-button" data-action="itemToggleReloaded" data-item-id="{{this._id}}"
-            data-tooltip="{{#if this.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
-        <i class="fa-solid {{#if this.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
-        {{/if}}
-    </span>
-    {{/if}}
-
-    {{!-- Attack Rider --}}
-    {{#if (or this.system.attackRider.value this.system.attackRider.name)}}
-    <div class="attack-rider">
-        <label>{{this.system.attackRider.name}}:</label>
-        {{{this.system.attackRiderEnriched}}}
+      </div>
     </div>
-    {{/if}}
 
+    <div class="tags">
+      {{!-- Duration --}}
+      {{#if (ne duration.expiry "luckEnds")}}
+      <div class="frame duration">
+        <img src="systems/weirdwizard/assets/icons/hourglass.svg" height="13"> {{ duration.label }}
+      </div>
+      {{else}}
+      {{!-- Luck Ends --}}
+      <a class="frame duration luck-ends" data-action="effectLuckEnds" data-effect-id="{{ _id }}">
+        <img src="systems/weirdwizard/assets/icons/clover.svg" height="13"> {{localize "WW.Effect.Duration.Expiry.LuckEnds"}}
+      </a>
+      {{/if}}
+
+      {{!-- Source --}}
+      {{!--<div class="frame source effect-source">
+        {{{ sourceCard }}}
+      </div>--}}
+    </div>
+  </div>
+  {{/with}}
 </li>

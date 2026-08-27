@@ -1,12 +1,4 @@
 <section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
-
-  {{!-- Temporary Effects --}}
-  <ol class="effects">
-    {{#each effectsList.temporary}}
-    {{> "systems/weirdwizard/templates/sheets/actors/common/parts/effect.hbs" this=this}}
-    {{/each}}
-  </ol>
-
   {{!-- Afflictions List --}}
   <ol class="list-entries afflictions stat mb-2">
     <label>{{localize "WW.Affliction.Label"}}:</label>
@@ -21,10 +13,18 @@
     <a data-action="afflictionsMenu"><i class="fa-solid {{#if afflictions.length}}fa-edit{{else}}fa-circle-plus{{/if}}"></i></a>
 
   </ol>
+  
+  {{!-- Temporary Effects --}}
+  <h3>{{localize "WW.Effects.Temporary"}}</h3>
+
+  <ol class="effects temporary">
+    {{#each effectsList.temporary}}
+    {{> "systems/weirdwizard/templates/sheets/actors/common/parts/effect.hbs" this=this}}
+    {{/each}}
+  </ol>
 
   {{!-- All Effects --}}
   <div class="effects-wrapper">
-
     {{!-- Applied Effects --}}
     {{#each appliedEffects as |section sectionId|}}
     {{#if (ne section.type 'inactive')}}
@@ -60,7 +60,8 @@
 
         <div class="item-name" data-tooltip="{{effect.tooltip}}"><label>{{effect.name}}</label></div>
         
-        {{#if section.showDuration}}<div class="effect-duration">
+        {{#if section.showDuration}}
+        <div class="effect-duration">
           {{#if (eq effect.duration.expiry "luckEnds")}}
           <a class="luck-ends" data-action="effectLuckEnds" data-effect-id="{{effect.id}}">
             <img src="systems/weirdwizard/assets/icons/clover.svg" height="13"> {{localize "WW.Effect.Duration.Expiry.LuckEnds"}}
@@ -68,7 +69,8 @@
           {{else}}
           {{system.duration.formatted}}
           {{/if}}
-        </div>{{/if}}
+        </div>
+        {{/if}}
 
         {{#if section.showSource}}<div class="effect-source">{{{effect.sourceCard}}}</div>{{/if}}
         

@@ -2594,6 +2594,65 @@ hr.bug {
   gap: 5px;
 }
 
+.weirdwizard.creature .effects.temporary {
+  display: flex;
+  flex-flow: wrap;
+  gap: 5px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  .effect-card {
+    display: flex;
+    gap: 5px;
+    margin: 0;
+    padding: 3px 5px;
+    background: var(--background-color-shadow);
+    border-radius: 5px;
+    flex: 250px;
+
+    .main {
+      display: flex;
+      flex-flow: column;
+      gap: 2px;
+      flex: 1;
+
+      > div {
+        display: flex;
+        gap: 5px;
+        flex: 1;
+      }
+
+      .header > label {
+        font-family: var(--ww-font-serif);
+        font-variant-caps: small-caps;
+        font-weight: 600;
+      }
+
+      .tags {
+        > * {
+          display: flex;
+          align-items: center;
+          gap: 0 3px;
+          padding: 0 3px;
+          background: var(--purple-medium);
+          border-radius: 5px;
+          color: white;
+
+          .content-link,
+          .content-link > i {
+            color: white;
+          }
+        }
+      }
+    }
+
+    .image {
+      height: 2lh;
+    }
+  }
+}
+
 .weirdwizard.creature .temporary-effects .effect-source {
   flex: 0.7;
 }
