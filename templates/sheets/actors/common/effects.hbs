@@ -1,5 +1,12 @@
 <section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
 
+  {{!-- Temporary Effects --}}
+  <ol class="effects">
+    {{#each effectsList.temporary}}
+    {{> "systems/weirdwizard/templates/sheets/actors/common/parts/effect.hbs" this=this}}
+    {{/each}}
+  </ol>
+
   {{!-- Afflictions List --}}
   <ol class="list-entries afflictions stat mb-2">
     <label>{{localize "WW.Affliction.Label"}}:</label>
@@ -19,7 +26,7 @@
   <div class="effects-wrapper">
 
     {{!-- Applied Effects --}}
-    {{#each appliedEffects as |section sid|}}
+    {{#each appliedEffects as |section sectionId|}}
     {{#if (ne section.type 'inactive')}}
     <ol class="item-list effects-list {{section.type}}-effects">
 
@@ -93,7 +100,7 @@
     {{/each}}
 
     {{!-- Inactive Effects --}}
-    {{#each effects as |section sid|}}
+    {{#each effects as |section sectionId|}}
     {{#if (eq section.type 'inactive')}}
     <ol class="item-list effects-list {{section.type}}-effects">
 

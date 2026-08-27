@@ -1,0 +1,47 @@
+<li class="effect-card" data-effect-id="{{this._id}}">
+    
+    {{!-- Title --}}
+    <label class="item-button" data-action="itemLabelClick" data-item-id="{{this._id}}"
+        data-tooltip="{{this.tooltip}}">{{this.label}}:</label>
+
+    {{!-- Modifier --}}
+    <span class="modifier-line">
+        {{localize this.system.attributeLabel}}
+
+        {{!-- Boons --}}
+        {{#if this.system.boonsAlt}}
+            {{ this.system.boonsAlt }}
+        {{else if this.system.boons}}
+            {{localize "WW.Boons.With"}} {{this.system.boons}}
+
+            {{#if (lt this.system.boons -1)}}{{localize "WW.Boons.Banes"}}
+                {{else if (lt this.system.boons 0)}}{{localize "WW.Boons.Bane"}}
+                {{else if (gt this.system.boons 1)}}{{localize "WW.Boons.Boons"}}
+                {{else}}{{localize "WW.Boons.Boon"}}
+            {{/if}}
+        {{/if}}
+    </span>
+
+    {{!-- Damage --}}
+    <span class="damage-line">({{#if this.system.damageAlt}}{{ this.system.damageAlt }}{{else if this.system.damage}}{{ this.system.damage }}{{else}}0{{/if}})</span>
+
+    {{#if (or this.canReload)}}
+    <span class="buttons">
+        {{!-- Toggle Reloaded --}}
+        {{#if this.canReload}}
+        <a class="item-button" data-action="itemToggleReloaded" data-item-id="{{this._id}}"
+            data-tooltip="{{#if this.system.reloaded}}{{localize "WW.Weapon.Fire"}}{{else}}{{localize "WW.Weapon.Reload"}}{{/if}}">
+        <i class="fa-solid {{#if this.system.reloaded}}fa-hexagon-check{{else}}fa-arrows-rotate{{/if}}"></i></a>
+        {{/if}}
+    </span>
+    {{/if}}
+
+    {{!-- Attack Rider --}}
+    {{#if (or this.system.attackRider.value this.system.attackRider.name)}}
+    <div class="attack-rider">
+        <label>{{this.system.attackRider.name}}:</label>
+        {{{this.system.attackRiderEnriched}}}
+    </div>
+    {{/if}}
+
+</li>

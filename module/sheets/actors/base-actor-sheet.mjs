@@ -104,10 +104,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   /* -------------------------------------------- */
 
   /**
-   * Organize and classify Items for actor sheets.
-   *
-   * @param {Object} actorData The actor to prepare.
-   *
+   * Organize and classify Items for the sheet.
+   * @param {Object} context The actor sheet's context.
    * @return {Promise<void>}
   */
   async _prepareItems(context) {

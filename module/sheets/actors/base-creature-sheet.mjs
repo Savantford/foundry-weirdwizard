@@ -309,6 +309,8 @@ export default class WWCreatureSheet extends WWActorSheet {
         for (const c in context.effects) {
           context.effects[c].effects = context.effects[c].effects.toSorted((a, b) => a.sort - b.sort)
         };
+
+        this._prepareEffects(context);
         
       break;
     }
@@ -367,6 +369,46 @@ export default class WWCreatureSheet extends WWActorSheet {
     // Prepare editable Natural Defense check
     if (this.actor._source.system.stats.defense.natural !== this.actor.system.stats.defense.natural) context.defenseDisabled = true;
 
+  }
+  
+  /* -------------------------------------------- */
+
+  /**
+   * Organize and classify Effects for the sheet.
+   *
+   * @param {Object} context The actor sheet's context.
+   *
+   * @return {Promise<void>}
+  */
+  async _prepareEffects(context) {
+    // Initialize effect arrays
+    const benefits = [];
+    const temporary = [];
+    const item = [];
+    const permanent = [];
+    const disabled = [];
+
+    // Iterate through effects, then allocate it to lists
+    for (const e of this.actor.appliedEffects) {
+      if (e.type === 'benefit') benefits.push(e);
+      else if (e.isTemporary) temporary.push(e);
+      else if (e.item) item.push(e);
+      else permanent.push(e);
+    }
+
+    // Get disabled effects
+    for (const e of this.actor.effects) {
+      if (e.disabled) disabled.push(e);
+    }
+    
+    // Assign arrays
+    context.effectsList = {
+      benefits,
+      temporary,
+      item,
+      permanent,
+      disabled
+    }
   }
 
   /* -------------------------------------------- */

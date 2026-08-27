@@ -31,11 +31,11 @@ export default class WWNpcSheet extends WWCreatureSheet {
   static PARTS = {
     // View Mode Parts:
     sidetabs: { template: 'systems/weirdwizard/templates/generic/side-tabs.hbs' },
-    namestripe: { template: 'systems/weirdwizard/templates/sheets/actors/name-stripe.hbs' },
+    namestripe: { template: 'systems/weirdwizard/templates/sheets/actors/common/name-stripe.hbs' },
     banner: {
       template: 'systems/weirdwizard/templates/sheets/actors/npc/banner.hbs',
       templates: [
-        'systems/weirdwizard/templates/sheets/actors/portrait.hbs'
+        'systems/weirdwizard/templates/sheets/actors/common/portrait.hbs'
       ]
     },
     summary: {
@@ -47,7 +47,7 @@ export default class WWNpcSheet extends WWCreatureSheet {
       ]
     },
     description: { template: 'systems/weirdwizard/templates/sheets/actors/npc/description.hbs' },
-    effects: { template: 'systems/weirdwizard/templates/sheets/actors/effects.hbs' },
+    effects: { template: 'systems/weirdwizard/templates/sheets/actors/common/effects.hbs' },
     // Edit Mode Parts:
     npcform: {
       template: 'systems/weirdwizard/templates/sheets/actors/npc/form.hbs',
