@@ -17,7 +17,8 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
       toggleGroupExpand: this.#toggleGroupExpand,
       //activateCombatant: this.#onCombatantMouseDown,
       //trackerSettings: this.#onConfigure
-      turnControl: this.#onCombatantTurnControl
+      turnControl: this.#onCombatantTurnControl,
+      luckEnds: this.#onActiveEffectLuckEnds
     }
   };
   
@@ -76,7 +77,6 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
     const canControl = combat?.turn && combat.turn.between(1, combat.turns.length - 2)
       ? combat.canUserModify(game.user, "update", { turn: 0 })
       : combat?.canUserModify(game.user, "update", { round: 0 });
-    const allActed = 
     
     //const settings = game.settings.get('core', Combat.CONFIG_SETTING); - no longer needed?
 
@@ -187,6 +187,21 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
       if ( Number.isFinite(t.initiative) ) t.initiative = t.initiative.toFixed(hasDecimals ? precision : 0);
     });
     context.hasDecimals = hasDecimals;
+
+    // Add Luck Ends effects
+    context.luckEnds = [];
+
+    for ( const [i, turn] of combat.turns.entries() ) {
+      const effects = turn.actor.appliedEffects;
+      const luckEndsEffects = effects.filter(e => e.duration.expiry === 'luckEnds');
+      if (luckEndsEffects.length) {
+        context.luckEnds.push({
+          combatant: turn,
+          actor: turn.actor,
+          effects: luckEndsEffects
+        })
+      }
+    }
   }
 
   /* -------------------------------------------- */
@@ -670,6 +685,26 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
 
     }
 
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Start a Luck ends roll.
+   * @private
+   * @param {Event} event   The originating mousedown event
+   */
+  static #onActiveEffectLuckEnds(event, button) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const combatants = this.viewed.combatants;
+    const li = button.closest('.luck-ends');
+    const combatant = combatants.get(li.dataset.combatantId);
+    const actor = combatant.actor;
+    const effect = actor.effects.get(button.dataset.effectId);
+
+    actor.luckEnds(effect);
   }
 
   /* -------------------------------------------- */

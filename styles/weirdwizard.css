@@ -6916,6 +6916,35 @@ p {
   object-fit: contain;
 }
 
+/* Combat Tracker: Luck Ends */
+.combat-phase.end {
+  .luck-ends {
+    --sidebar-item-height: 24px;
+
+    .luck-ends-buttons {
+      display: flex;
+
+      button {
+        position: relative;
+        padding: 0;
+
+        img {
+          height: 100%;
+        }
+
+        img.clover {
+          position: absolute;
+          height: 12px;
+          filter: brightness(0) saturate(100%) invert(23%) sepia(99%) saturate(1959%) hue-rotate(100deg) brightness(96%) contrast(105%) drop-shadow(0 0 0px black) drop-shadow(0 0 0px black) drop-shadow(0 0 1px black);
+          bottom: 0;
+          right: 0;
+        }
+      }
+    }
+  }
+  
+}
+
 /* Combat Tracker: Footer */
 .combat-sidebar .combat-controls [data-action="nextRound"] {
   filter: drop-shadow(0 0 3px var(--button-hover-background-color)) drop-shadow(0 0 3px var(--button-hover-background-color)) drop-shadow(0 0 3px var(--button-hover-background-color)) drop-shadow(0 0 3px var(--button-hover-background-color));

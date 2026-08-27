@@ -38,6 +38,26 @@
     
       <div class="count">{{ end.length }}</div>
     </li>
+
+    {{#each luckEnds as |luckEnd|}}
+    <li class="combatant luck-ends {{ css }}" data-action="luckEndsAll" data-combatant-id="{{ combatant.id }}">
+      <img class="token-image" src="{{ combatant.img }}" alt="{{ combatant.name }}" loading="lazy">
+
+      <div class="token-name">
+        <strong class="name">{{ combatant.name }}</strong>
+      </div>
+
+      {{!-- Luck Ends: Effect Buttons --}}
+      <div class="luck-ends-buttons">
+      {{#each effects}}
+        <button class="inline-control" data-action="luckEnds" data-effect-id="{{ this.id }}" title="{{localize "WW.Effect.Duration.Expiry.LuckEnds"}}: {{ this.name }}">
+          <img src={{ this.img }}>
+          <img class="clover" src="systems/weirdwizard/assets/icons/clover.svg">
+        </button>
+      {{/each}}
+      </div>
+    </li>
+    {{/each}}
   </ol>
   
   
