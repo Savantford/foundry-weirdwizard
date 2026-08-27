@@ -401,6 +401,20 @@ export default class WWCreatureSheet extends WWActorSheet {
       if (e.disabled) disabled.push(e);
     }
     
+    // Reorder array using durations
+    const durations = [...CONST.ACTIVE_EFFECT_DURATION_UNITS].reverse();
+    const expiryEvents = ['luckEnds', ...ACTIVE_EFFECT_EXPIRY_EVENTS];
+    console.log(temporary)
+
+    temporary.sort((a,b) => {
+      if (a.duration.units !== b.duration.units) return durations.indexOf(a.duration.units) - durations.indexOf(b.duration.units);
+      else if (a.duration.remaining !== b.duration.remaining) return a.duration.remaining - b.duration.remaining;
+      else if (a.duration.expiry !== b.duration.expiry) return expiryEvents.indexOf(a.duration.expiry) - expiryEvents.indexOf(b.duration.expiry);
+      else return a - b;
+    })
+
+    console.log(temporary)
+    
     // Assign arrays
     context.effectsList = {
       benefits,

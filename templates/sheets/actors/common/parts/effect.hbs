@@ -1,8 +1,11 @@
 <li class="effect-card" data-effect-id="{{this._id}}">
-    
+    {{log this.duration}}
     {{!-- Title --}}
     <label class="item-button" data-action="itemLabelClick" data-item-id="{{this._id}}"
-        data-tooltip="{{this.tooltip}}">{{this.label}}:</label>
+        data-tooltip="{{this.tooltip}}">{{this.name}}:</label>
+        {{this.duration.units}} >
+        {{this.duration.remaining}} >
+        {{this.duration.expiry}}
 
     {{!-- Modifier --}}
     <span class="modifier-line">
