@@ -650,9 +650,10 @@
 "WW.Effects.All": "All Effects",
 "WW.Effects.Instant": "Instant Effects",
 "WW.Effects.Temporary": "Temporary Effects",
+"WW.Effects.Permanent": "Permanent Effects",
 "WW.Effects.Benefits": "Character Option Benefits",
 "WW.Effects.Item": "Effects from Items",
-"WW.Effects.Permanent": "Permanent Effects",
+"WW.Effects.Actor": "Actor Effects",
 "WW.Effects.Inactive": "Inactive Effects",
 "WW.Effects.AfflictionsAndTemporary": "Afflictions & Temporary Effects",
 

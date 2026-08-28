@@ -190,8 +190,8 @@ export async function prepareActiveEffectCategories(document, options={}) {
       showControls: false,
       effects: []
     },
-    permanent: { ...base,
-      name: 'WW.Effects.Permanent',
+    actor: { ...base,
+      name: 'WW.Effects.Actor',
       showCreate: true,
       effects: []
     },
@@ -244,7 +244,7 @@ export async function prepareActiveEffectCategories(document, options={}) {
     else if (e.isTemporary) categories.temporary.effects.push(e);
     else if (e.type === 'benefit') categories.benefits.effects.push(e);
     else if (e.item) categories.item.effects.push(e);
-    else categories.permanent.effects.push(e);
+    else categories.actor.effects.push(e);
   }
   
   // Iterate through effects, then push them to categories
