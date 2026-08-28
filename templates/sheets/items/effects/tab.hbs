@@ -1,0 +1,85 @@
+<section class="tab{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+  {{!-- Instant Effects List --}}
+  <ol class="item-list effects-list instant-effects">
+    {{!-- Header Row --}}
+    <li class="item items-header flexrow">
+      <div class="item-image"></div>
+      <div class="item-name">{{localize "WW.Effects.Instant"}}</div>
+      <div class="instant-effect-value">{{localize "EFFECT.FIELDS.changes.element.value.label"}}</div>
+      <div class="item-controls itemeffect-controls flexrow">
+        <a class="instant-control" data-action="instantCreate" data-tooltip="WW.Effect.Create">
+          <i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}
+        </a>
+      </div>
+    </li>
+  
+    {{!-- Table Rows --}}
+    {{#each instantEffects as |effect id|}}
+    <li class="item effect flexrow" data-effect-id="{{id}}">
+      <div class="item-image">
+        <img src="{{img}}" width="24" height="24" />
+      </div>
+  
+      {{!-- Instant Effect Name and Icons --}}
+      <div class="item-name">
+        <label>{{localize labelLoc}}</label>
+  
+        <span class="buttons" data-tooltip="{{localize "WW.Effect.TriggerShort"}}: {{localize
+          triggerLoc}}<br>{{localize "WW.Effect.Target"}}: {{localize targetLoc}}">
+          <i class="{{triggerIcon}}"></i>
+  
+          <i class="{{targetIcon}}"></i>
+        </span>
+  
+      </div>
+  
+      <div class="instant-effect-value">
+        {{#if (eq label "affliction")}}{{affliction}}
+        {{else}}{{value}}
+        {{/if}}
+      </div>
+  
+      <div class="item-controls itemeffect-controls flexrow">
+        <a class="instant-control" data-action="instantEdit" data-effect-id="{{id}}" data-tooltip="WW.Effect.Edit">
+          <i class="fa-solid fa-edit"></i>
+        </a>
+  
+        <a class="instant-control" data-action="instantRemove" data-effect-id="{{id}}" data-tooltip="WW.Effect.Remove">
+          <i class="fa-solid fa-trash"></i>
+        </a>
+      </div>
+  
+    </li>
+    {{/each}}
+  </ol>
+  {{log this}}
+  {{!-- Active Effects Categories --}}
+  {{#each effectCategories as |cat catId|}}
+  <ol class="item-list effects-list {{ catId }}-effects">
+  
+    {{!-- Header Row --}}
+    <li class="item items-header flexrow" data-effect-type="{{ catId }}">
+      <div class="item-image"></div>
+      <div class="item-name">{{localize name}}</div>
+      {{#if showDuration}}<div class="effect-duration">{{localize "WW.Effect.Duration.Short"}}</div>{{/if}}
+  
+      <div class="item-controls effect-controls flexrow">
+        {{#if showCreate}}
+        <a class="effect-control" data-action="effectCreate" data-type="{{ catId }}" data-tooltip="WW.Effect.Create">
+          <i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}
+        </a>
+        {{/if}}
+      </div>
+    </li>
+  
+    {{!-- Table Rows --}}
+    {{#each cat.effects as |effect|}}
+      {{> "systems/weirdwizard/templates/sheets/items/effects/active-effect.hbs" this=this cat=cat catId=catId}}
+    {{/each}}
+  
+  </ol>
+  {{/each}}
+
+  <div class="flex-1"></div>
+  <hr class="bug">
+</section>

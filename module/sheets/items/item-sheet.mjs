@@ -2,7 +2,7 @@ import MultiChoice from '../../apps/multi-choice.mjs';
 import {
   createActiveEffect, deleteActiveEffect, editActiveEffect,
   createInstantEffect, deleteInstantEffect, editInstantEffect,
-  prepareActiveEffectCategories
+  prepareItemEffectCategories
 } from '../../helpers/effect-actions.mjs';
 import WWSheetMixin from '../ww-sheet.mjs';
 
@@ -75,24 +75,28 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         'systems/weirdwizard/templates/sheets/items/details/spell.hbs'
       ],
     },
-
     automation: {
       template: 'systems/weirdwizard/templates/sheets/items/automation/tab.hbs',
       templates: [
         'systems/weirdwizard/templates/sheets/items/automation/roll.hbs',
-        'systems/weirdwizard/templates/sheets/items/automation/targeting.hbs',
-        'systems/weirdwizard/templates/sheets/items/automation/effects.hbs'
+        'systems/weirdwizard/templates/sheets/items/automation/targeting.hbs'
+      ]
+    },
+    effects: {
+      template: 'systems/weirdwizard/templates/sheets/items/effects/tab.hbs',
+      templates: [
+        'systems/weirdwizard/templates/sheets/items/effects/active-effect.hbs'
       ]
     }
-    
   };
 
   /** @override */
   static TABS = {
     sheet: {
       tabs: [
-        {id: 'details', tooltip: 'WW.Actor.Details', icon: 'systems/weirdwizard/assets/icons/diploma.svg', iconType: 'img'},
-        {id: 'automation', tooltip: 'WW.Effects.TabLabel', iconType: 'img', icon: 'systems/weirdwizard/assets/icons/gear-hammer.svg', iconType: 'img'}
+        {id: 'details',    tooltip: 'WW.Actor.Details',        icon: 'systems/weirdwizard/assets/icons/diploma.svg',     iconType: 'img' },
+        {id: 'automation', tooltip: 'WW.Targeting.Automation', icon: 'systems/weirdwizard/assets/icons/gear-hammer.svg', iconType: 'img' },
+        {id: 'effects',    tooltip: 'WW.Effects.Label',        icon: 'icons/svg/aura.svg',                               iconType: 'img' }
       ],
       initial: 'details',
       labelPrefix: "EFFECT.TABS"
@@ -259,9 +263,14 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         
         context.detailsPartial = [`systems/weirdwizard/templates/sheets/items/details/${this.item.type}.hbs`];
       break;
+
+      // Automation tab
+      case 'automation':
+        context.tab = context.tabs[partId];
+      break;
       
       // Effects tab
-      case 'automation':
+      case 'effects':
         context.tab = context.tabs[partId];
 
         // Prepare instant effects
@@ -283,10 +292,10 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         context.instantEffects = instEffs;
 
         // Prepare active effects
-        const actEffs = await prepareActiveEffectCategories(this.document); /* await is needed, ignore linter */
+        const effectCats = await prepareItemEffectCategories(this.document); /* await is needed, ignore linter */
         
-        for (const cat in actEffs) {
-          const category = actEffs[cat];
+        for (const cat in effectCats) {
+          const category = effectCats[cat];
           category.effects = category.effects.toSorted((a, b) => a.sort - b.sort);
           
           for (const e in category.effects) {
@@ -299,13 +308,11 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
           }
         }
 
-        context.effects = actEffs;
+        context.effectCategories = effectCats;
 
         // Prepare effect change labels to display
         context.effectChangeLabels = CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS;
-        
       break;
-
     }
 
     return context;

@@ -2,7 +2,7 @@ import { escape, plusify, slideDown, slideUp } from '../../helpers/utils.mjs';
 import { diceTotalHtml } from '../../sidebar/chat-html-templates.mjs';
 import { mapRange } from '../../canvas/canvas-functions.mjs';
 import MultiChoice from '../../apps/multi-choice.mjs';
-import { createActiveEffect, deleteActiveEffect, editActiveEffect, prepareActiveEffectCategories } from '../../helpers/effect-actions.mjs';
+import { createActiveEffect, deleteActiveEffect, editActiveEffect, prepareActorEffectCategories } from '../../helpers/effect-actions.mjs';
 import TargetingHelper from '../../apps/targeting-helper.mjs';
 import WWDialog from '../../apps/dialog.mjs';
 import WWRoll from '../../dice/roll.mjs';
@@ -260,9 +260,8 @@ export default class WWCreatureSheet extends WWActorSheet {
   /** @override */
   async _preparePartContext(partId, context, options) {
     await super._preparePartContext(partId, context, options);
-
     
-    const allCats = await prepareActiveEffectCategories(this.actor);
+    const allCats = await prepareActorEffectCategories(this.actor);
     const { afflictions, temporary, ...permaCats } = allCats;
 
     switch (partId) {

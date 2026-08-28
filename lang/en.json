@@ -339,6 +339,7 @@
 "WW.Boons.ExtraBanes": "Extra bane(s) against this target",
 
 "WW.Targeting.Label": "Targeting & Area",
+"WW.Targeting.Automation": "Targeting & Area Automations",
 "WW.Targeting.Targets": "Targets",
 "WW.Targeting.Target": "Target",
 "WW.Targeting.Range": "Range",
@@ -646,7 +647,6 @@
 "WW.Tradition.EquipmentWarning": "Traditions cannot record Equipment items.<br>Please drag and drop a Talent or Spell.",
 
 "WW.Effects.Label": "Effects",
-"WW.Effects.TabLabel": "Automations & Effects",
 "WW.Effects.All": "All Effects",
 "WW.Effects.Instant": "Instant Effects",
 "WW.Effects.Temporary": "Temporary Effects",

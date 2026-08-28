@@ -1,8 +1,7 @@
-<cat class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
-  {{log effectCategories}}
-  {{!-- All Effects --}}
+<section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+  {{!-- Effects Section Wrapper --}}
   <div class="effects-wrapper">
-    {{!-- Applied Effects --}}
+    {{!-- Effect Categories --}}
     {{#each effectCategories as |cat catId|}}
     <ol class="item-list effects-list {{catId}}-effects">
 
@@ -34,6 +33,6 @@
     {{/each}}
   </div>
 
+  {{!-- Filler --}}
   <div class="flex-1"></div>
-
-</cat>
+</section>

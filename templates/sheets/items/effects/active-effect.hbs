@@ -1,0 +1,34 @@
+<li class="item effect flexrow {{#if (eq parent.id @root.actor.id)}}draggable{{/if}}" data-effect-id="{{ _id }}">
+  {{!-- Image --}}
+  <div class="item-image">
+    <img src="{{ img }}" width="24" height="24" />
+  </div>
+
+  {{!-- Name --}}
+  <div class="item-name" data-tooltip="{{ tooltip }}">
+    <label>{{ name }}</label>
+
+    <span class="buttons" data-tooltip="{{localize "WW.Effect.TriggerShort"}}: {{localize triggerLoc}}<br>{{localize "WW.Effect.Target"}}: {{localize targetLoc}}">
+      <i class="{{ triggerIcon }}"></i>
+
+      <i class="{{ targetIcon }}"></i>
+    </span>
+
+  </div>
+
+  {{!-- Duration --}}
+  {{#if cat.showDuration}}<div class="effect-duration">{{system.duration.formatted}}</div>{{/if}}
+
+  {{!-- Control Buttons --}}
+  <div class="item-controls effect-controls flexrow">
+    {{!-- Edit --}}
+    <a class="effect-control" data-action="effectEdit" data-effect-id="{{ _id }}" data-tooltip="WW.Effect.Edit">
+      <i class="fa-solid fa-edit"></i>
+    </a>
+
+    {{!-- Remove --}}
+    <a class="effect-control" data-action="effectRemove" data-effect-id="{{ _id }}" data-tooltip="WW.Effect.Remove">
+      <i class="fa-solid fa-trash"></i>
+    </a>
+  </div>
+</li>

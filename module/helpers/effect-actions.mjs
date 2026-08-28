@@ -158,7 +158,7 @@ export async function deleteActiveEffect(effect, owner) {
  * @param {Boolean} showCreate        Show create buttons on page
  * @return {Object}                   Data for rendering
 */
-export async function prepareActiveEffectCategories(document, options={}) {
+export async function prepareActorEffectCategories(document, options={}) {
   const { showDuration = false, showSource = true, showControls = true, showCreate = false } = options;
   const base = {
     showDuration,
@@ -200,40 +200,6 @@ export async function prepareActiveEffectCategories(document, options={}) {
       effects: []
     }
   }
-  
-  // Get effect data
-  const getEffectData = async (effect) => {
-    
-    const context = {
-      label: effect.name,
-      system: effect.system,
-      img: effect.img,
-      type: effect.type,
-
-      subtitle: _loc((effect.duration.rounds || effect.duration.seconds) ? "WW.Effect.Temporary" : "WW.Effect.Permanent"),
-      text: await foundry.applications.ux.TextEditor.implementation.enrichHTML(effect.description, { secrets: effect.isOwner }),
-      changes: ''
-    }
-
-    // Prepare changes
-    for (const c of effect.changes) {
-      const label = CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.preset] ? _loc(CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.preset]) : c.key;
-      context.changes += `<li>${label} ${(c.value !== true) ? `${c.value}.` : ''}</li>`;
-    }
-
-    effect.tooltip = await foundry.applications.handlebars.renderTemplate(sysPath(`templates/apps/tooltips/effect.hbs`), context);
-
-    // Prepare source document cards
-    if (effect.origin) {
-      const source = `@UUID[${effect.origin}]`;
-    
-      effect.sourceCard = await foundry.applications.ux.TextEditor.implementation.enrichHTML(source, { secrets: effect.isOwner });
-    } else {
-      effect.sourceCard = effect.sourceName;
-    }
-
-    return effect;
-  }
 
   // Iterate through applied effects, then push them to categories
   for (const effect of document.appliedEffects) {
@@ -256,4 +222,88 @@ export async function prepareActiveEffectCategories(document, options={}) {
   }
   
   return categories;
+}
+
+/* -------------------------------------------- */
+
+/**
+ * Prepare the data structure for Active Effects which are currently applied to an Actor or Item.
+ * @param {ActiveEffect[]} effects    The array of Active Effect instances to prepare sheet data for
+ * @param {Boolean} showDuration      Show effect duration on page
+ * @param {Boolean} showSource        Show effect source on page
+ * @param {Boolean} showControls      Show control buttons on page
+ * @param {Boolean} showCreate        Show create buttons on page
+ * @return {Object}                   Data for rendering
+*/
+export async function prepareItemEffectCategories(document, options={}) {
+  const { showDuration = false, showSource = true, showControls = true, showCreate = true } = options;
+  const base = {
+    showDuration,
+    showSource,
+    showControls,
+    showCreate
+  };
+
+  // Define effect categories
+  const categories = {
+    temporary: { ...base,
+      name: 'WW.Effects.Temporary',
+      showDuration: true,
+      effects: []
+    },
+    permanent: { ...base,
+      name: 'WW.Effects.Permanent',
+      effects: []
+    }
+  }
+
+  // Iterate through effects, then push them to categories
+  for (const effect of document.effects) {
+    const e = await getEffectData(effect);
+
+    // Assign to correct category
+    if (e.isTemporary) categories.temporary.effects.push(e);
+    else categories.permanent.effects.push(e);
+  }
+  
+  return categories;
+}
+
+/* -------------------------------------------- */
+
+/**
+ * Modify effect data to include new prepared data.
+ * @param {ActiveEffect} effect 
+ * @returns {ActiveEffect}
+ */
+const getEffectData = async (effect) => {
+  const context = {
+    label: effect.name,
+    system: effect.system,
+    img: effect.img,
+    type: effect.type,
+
+    subtitle: _loc((effect.duration.rounds || effect.duration.seconds) ? "WW.Effect.Temporary" : "WW.Effect.Permanent"),
+    text: await foundry.applications.ux.TextEditor.implementation.enrichHTML(effect.description, { secrets: effect.isOwner }),
+    changes: ''
+  }
+
+  // Prepare changes
+  for (const c of effect.changes) {
+    const label = CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.preset] ? _loc(CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.preset]) : c.key;
+    context.changes += `<li>${label} ${(c.value !== true) ? `${c.value}.` : ''}</li>`;
+  }
+
+  effect.tooltip = await foundry.applications.handlebars.renderTemplate(sysPath(`templates/apps/tooltips/effect.hbs`), context);
+
+  // Prepare source document cards
+  if (effect.origin) {
+    const source = `@UUID[${effect.origin}]`;
+
+    effect.sourceCard = await foundry.applications.ux.TextEditor.implementation.enrichHTML(source, { secrets: effect.isOwner });
+  } else {
+    effect.sourceCard = effect.sourceName;
+  }
+
+  return effect;
 }
