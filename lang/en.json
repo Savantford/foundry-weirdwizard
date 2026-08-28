@@ -357,6 +357,7 @@
 "WW.Targeting.Target": "Target",
 "WW.Targeting.Range": "Range",
 "WW.Targeting.RangeOut": "Out of range!",
+"WW.Targeting.RangeWeaponTip": "You can customize Range in the Automations tab.",
 
 "WW.Targeting.Operations.Label": "Operation",
 "WW.Targeting.Operations.None": "No targeting or area",

@@ -155,11 +155,7 @@
       <div>
         <label>{{localize "WW.Weapon.Traits.Range.Label"}} / {{localize "WW.Weapon.Traits.Thrown.Label"}}:</label>
     
-        <div class="input-wrap">
-          <input type="number" name="system.targeting.range" value="{{system.targeting.range}}" min="0" placeholder="0" data-dtype="Number" />
-    
-          <div class="input-overlay">{{system.targeting.range}}</div>
-        </div>
+        <div class="info" data-tooltip="WW.Targeting.RangeWeaponTip">{{system.targeting.range}}</div>
       </div>
       {{/if}}
   
