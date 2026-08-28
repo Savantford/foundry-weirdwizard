@@ -3241,9 +3241,9 @@ prose-mirror .textbox {
 .weirdwizard .item-controls {
   display: flex;
   flex: 0 0 55px;
-  justify-content: flex-end;
-  padding-right: 5px;
   gap: 5px;
+  text-align: center;
+  margin: 0;
 }
 
 .weirdwizard .item-controls a {

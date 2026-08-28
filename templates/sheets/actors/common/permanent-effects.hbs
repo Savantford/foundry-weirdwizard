@@ -4,7 +4,7 @@
   <div class="effects-wrapper">
     {{!-- Applied Effects --}}
     {{#each appliedEffects as |section sectionId|}}
-    {{#if (ne section.type 'inactive')}}
+    {{#if (eq section.type 'permanent')}}
     <ol class="item-list effects-list {{section.type}}-effects">
 
       {{!-- Header Row --}}
