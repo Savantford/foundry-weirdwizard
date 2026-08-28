@@ -1,28 +1,5 @@
 <section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
-  {{!-- Afflictions List --}}
-  <ol class="list-entries afflictions stat mb-2">
-    <label>{{localize "WW.Affliction.Label"}}:</label>
-
-    {{#each afflictions as |affliction id|}}
-      <li class="list-entry affliction" data-tooltip="{{affliction.description}}">
-        <img class="icon" src="{{affliction.img}}">
-        {{localize affliction.name}}
-      </li>
-    {{/each}}
-
-    <a data-action="afflictionsMenu"><i class="fa-solid {{#if afflictions.length}}fa-edit{{else}}fa-circle-plus{{/if}}"></i></a>
-
-  </ol>
-  
-  {{!-- Temporary Effects --}}
-  <h3>{{localize "WW.Effects.Temporary"}}</h3>
-
-  <ol class="effects temporary">
-    {{#each effectsList.temporary}}
-    {{> "systems/weirdwizard/templates/sheets/actors/common/parts/effect.hbs" this=this}}
-    {{/each}}
-  </ol>
-
+  {{log appliedEffects}}
   {{!-- All Effects --}}
   <div class="effects-wrapper">
     {{!-- Applied Effects --}}

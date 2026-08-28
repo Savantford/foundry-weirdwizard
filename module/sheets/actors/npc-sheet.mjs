@@ -47,7 +47,14 @@ export default class WWNpcSheet extends WWCreatureSheet {
       ]
     },
     description: { template: 'systems/weirdwizard/templates/sheets/actors/npc/description.hbs' },
-    effects: { template: 'systems/weirdwizard/templates/sheets/actors/common/effects.hbs' },
+    temporary: {
+      template: 'systems/weirdwizard/templates/sheets/actors/common/temporary-effects.hbs',
+      templates: [
+        'systems/weirdwizard/templates/sheets/actors/common/parts/effect.hbs'
+      ]
+    },
+    permanent: { template: 'systems/weirdwizard/templates/sheets/actors/common/permanent-effects.hbs' },
+
     // Edit Mode Parts:
     npcform: {
       template: 'systems/weirdwizard/templates/sheets/actors/npc/form.hbs',
@@ -65,16 +72,17 @@ export default class WWNpcSheet extends WWCreatureSheet {
    */
   static MODE_PARTS = {
     edit: ["npcform"],
-    view: ["sidetabs", "namestripe", "banner", "summary", "description", "effects"]
+    view: ["sidetabs", "namestripe", "banner", "summary", "description", "temporary", "permanent"]
   };
 
   /** @override */
   static TABS = {
     sheet: {
       tabs: [
-        {id: 'summary', tooltip: 'WW.Actor.Summary', iconType: 'img', icon: 'systems/weirdwizard/assets/icons/diploma.svg'},
-        {id: 'description', tooltip: 'WW.Item.Description', icon: 'systems/weirdwizard/assets/icons/scroll-quill.svg', iconType: 'img'},
-        {id: 'effects', tooltip: 'WW.Effects.Label', iconType: 'img', icon: 'icons/svg/aura.svg', iconType: 'img'}
+        {id: 'summary',     tooltip: 'WW.Actor.Summary',                   icon: 'systems/weirdwizard/assets/icons/diploma.svg',      iconType: 'img' },
+        {id: 'description', tooltip: 'WW.Item.Description',                icon: 'systems/weirdwizard/assets/icons/scroll-quill.svg', iconType: 'img' },
+        {id: 'temporary',   tooltip: 'WW.Effects.AfflictionsAndTemporary', icon: 'systems/weirdwizard/assets/icons/duration.svg',     iconType: 'img' },
+        {id: 'permanent',   tooltip: 'WW.Effects.Permanent',               icon: 'icons/svg/aura.svg',                                iconType: 'img' }
       ],
       initial: "summary",
       labelPrefix: "EFFECT.TABS"

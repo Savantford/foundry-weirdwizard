@@ -291,31 +291,118 @@ export default class WWCreatureSheet extends WWActorSheet {
       case 'description':
         context.tab = context.tabs[partId];
       break;
+
+      // Afflictions & Temporary Effects tab
+      case 'temporary':
+        context.tab = context.tabs[partId];
+
+        // Prepare temporary effect lists
+        this._prepareTemporaryEffects(context);
+      break;
       
-      // Effects tab
-      case 'effects':
+      // Permanent Effects tab
+      case 'permanent':
         context.tab = context.tabs[partId];
 
         // Prepare all applied active effects
-        context.appliedEffects = await prepareActiveEffectCategories(await this.actor.appliedEffects);
+        context.appliedEffects = await prepareActiveEffectCategories(this.actor.appliedEffects);
         
         for (const c in context.appliedEffects) {
           context.appliedEffects[c].effects = context.appliedEffects[c].effects.toSorted((a, b) => a.sort - b.sort)
         }
 
         // Prepare all embedded active effects
-        context.effects = await prepareActiveEffectCategories(await this.actor.effects);
+        context.effects = await prepareActiveEffectCategories(this.actor.effects);
 
         for (const c in context.effects) {
           context.effects[c].effects = context.effects[c].effects.toSorted((a, b) => a.sort - b.sort)
         };
 
-        this._prepareEffects(context);
-        
+        // Prepare permanent effect lists
+        this._preparePermanentEffects(context);
+        console.log(context)
       break;
     }
 
     return context;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Organize and classify Effects for the sheet.
+   *
+   * @param {Object} context The actor sheet's context.
+   *
+   * @return {Promise<void>}
+  */
+  async _prepareTemporaryEffects(context) {
+    // Initialize effect arrays
+    const afflictions = [];
+    const temporary = [];
+
+    // Iterate through effects, then allocate it to lists
+    for (const e of this.actor.appliedEffects) {
+      if (e.type === 'affliction') afflictions.push(e);
+      else if (e.isTemporary) temporary.push(e);
+    }
+    
+    // Reorder array using durations
+    const durations = [...CONST.ACTIVE_EFFECT_DURATION_UNITS].reverse();
+    const expiryEvents = ['luckEnds', ...CONST.ACTIVE_EFFECT_EXPIRY_EVENTS];
+
+    temporary.sort((a,b) => {
+      if (a.duration.units !== b.duration.units) return durations.indexOf(a.duration.units) - durations.indexOf(b.duration.units);
+      else if (a.duration.remaining !== b.duration.remaining) return a.duration.remaining - b.duration.remaining;
+      else if (a.duration.expiry !== b.duration.expiry) return expiryEvents.indexOf(a.duration.expiry) - expiryEvents.indexOf(b.duration.expiry);
+      else return a - b;
+    })
+    
+    // Assign arrays
+    context.effectsList = {
+      afflictions,
+      temporary
+    }
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Organize and classify permanent Effects.
+   *
+   * @param {Object} context The actor sheet's context.
+   *
+   * @return {Promise<void>}
+  */
+  async _preparePermanentEffects(context) {
+    console.log('preparing permanent')
+    // Initialize effect arrays
+    const benefits = [];
+    const item = [];
+    const permanent = [];
+    const disabled = [];
+
+    // Iterate through effects, then allocate it to lists
+    for (const e of this.actor.appliedEffects) {
+      if (e.isTemporary) continue;
+
+      if (e.type === 'benefit') benefits.push(e);
+      else if (e.item) item.push(e);
+      else permanent.push(e);
+    }
+
+    // Get disabled effects
+    for (const e of this.actor.effects) {
+      if (e.disabled) disabled.push(e);
+    }
+    
+    // Assign arrays
+    context.effectsList = {
+      benefits,
+      item,
+      permanent,
+      disabled
+    }
   }
 
   /* -------------------------------------------- */
@@ -369,57 +456,6 @@ export default class WWCreatureSheet extends WWActorSheet {
     // Prepare editable Natural Defense check
     if (this.actor._source.system.stats.defense.natural !== this.actor.system.stats.defense.natural) context.defenseDisabled = true;
 
-  }
-  
-  /* -------------------------------------------- */
-
-  /**
-   * Organize and classify Effects for the sheet.
-   *
-   * @param {Object} context The actor sheet's context.
-   *
-   * @return {Promise<void>}
-  */
-  async _prepareEffects(context) {
-    // Initialize effect arrays
-    const benefits = [];
-    const temporary = [];
-    const item = [];
-    const permanent = [];
-    const disabled = [];
-
-    // Iterate through effects, then allocate it to lists
-    for (const e of this.actor.appliedEffects) {
-      if (e.type === 'benefit') benefits.push(e);
-      else if (e.isTemporary) temporary.push(e);
-      else if (e.item) item.push(e);
-      else permanent.push(e);
-    }
-
-    // Get disabled effects
-    for (const e of this.actor.effects) {
-      if (e.disabled) disabled.push(e);
-    }
-    
-    // Reorder array using durations
-    const durations = [...CONST.ACTIVE_EFFECT_DURATION_UNITS].reverse();
-    const expiryEvents = ['luckEnds', ...CONST.ACTIVE_EFFECT_EXPIRY_EVENTS];
-
-    temporary.sort((a,b) => {
-      if (a.duration.units !== b.duration.units) return durations.indexOf(a.duration.units) - durations.indexOf(b.duration.units);
-      else if (a.duration.remaining !== b.duration.remaining) return a.duration.remaining - b.duration.remaining;
-      else if (a.duration.expiry !== b.duration.expiry) return expiryEvents.indexOf(a.duration.expiry) - expiryEvents.indexOf(b.duration.expiry);
-      else return a - b;
-    })
-    
-    // Assign arrays
-    context.effectsList = {
-      benefits,
-      temporary,
-      item,
-      permanent,
-      disabled
-    }
   }
 
   /* -------------------------------------------- */
