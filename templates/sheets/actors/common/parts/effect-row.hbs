@@ -29,19 +29,19 @@
     {{#if cat.showControls}}
 
     {{!-- Toggle --}}
-    {{#if isTemporary}}
-    <a class="effect-control" data-action="effectToggle" data-effect-id="{{id}}" data-tooltip="WW.Effect.Toggle">
+    {{#unless isTemporary}}
+    <a class="effect-control" data-action="effectToggle" data-effect-id="{{ _id }}" data-tooltip="WW.Effect.Toggle">
       <i class="fa-solid {{#if disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
     </a>
-    {{/if}}
+    {{/unless}}
 
     {{!-- Edit --}}
-    <a class="effect-control" data-action="effectEdit" data-effect-id="{{id}}" data-tooltip="WW.Effect.Edit">
+    <a class="effect-control" data-action="effectEdit" data-effect-id="{{ _id }}" data-tooltip="WW.Effect.Edit">
       <i class="fa-solid fa-edit"></i>
     </a>
 
     {{!-- Remove --}}
-    <a class="effect-control" data-action="effectRemove" data-effect-id="{{id}}" data-tooltip="WW.Effect.Remove">
+    <a class="effect-control" data-action="effectRemove" data-effect-id="{{ _id }}" data-tooltip="WW.Effect.Remove">
       <i class="fa-solid fa-trash"></i>
     </a>
 
