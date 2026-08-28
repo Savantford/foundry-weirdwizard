@@ -214,6 +214,7 @@
 "WW.Item.HideDesc": "Hide description",
 "WW.Item.Send": "Send description to chat",
 "WW.Item.ArtworkShow": "Show item image",
+"WW.Item.Automations": "Automations",
 "WW.Item.EnableEffects": "Enable passive effects",
 "WW.Item.DisableEffects": "Disable passive effects",
 "WW.Item.Equip": "Wear equipment",
@@ -283,6 +284,19 @@
 "WW.Item.Uses.Full": "Equal to level",
 "WW.Item.Uses.Third": "Increases at 3rd and 7th level",
 
+"WW.Item.Area.Label": "Area",
+"WW.Item.Area.Settings": "Area Settings",
+"WW.Item.Area.Size": "Size",
+"WW.Item.Area.Radius": "Radius",
+"WW.Item.Area.AttachToToken": "Attach to Token",
+"WW.Item.Area.DefaultColor": "Default Color (User)",
+
+"WW.Item.Area.Shape.Label": "Shape",
+"WW.Item.Area.Shape.Circle": "Circle",
+"WW.Item.Area.Shape.CircleTip": "Circle is the shape used for most areas, as they have a Size representing its diameter. On a square grid, a circle becomes a square!",
+"WW.Item.Area.Shape.Emanation": "Emanation",
+"WW.Item.Area.Shape.EmanationTip": "Emanation is a shape that spreads from the edge of a single square/hex or token and up to its Radius, such as auras. You can optionally attach an emanation to a token.",
+
 "WW.Activity.Label": "Activity",
 "WW.Activity.Target.Targeting": "Targeting",
 "WW.Activity.Target.TargetingInfo": "In order to select targets, either use Foundry's targeting tool, the buttons above or drag and drop a combatant to this area.",
@@ -339,7 +353,6 @@
 "WW.Boons.ExtraBanes": "Extra bane(s) against this target",
 
 "WW.Targeting.Label": "Targeting & Area",
-"WW.Targeting.Automation": "Targeting & Area Automations",
 "WW.Targeting.Targets": "Targets",
 "WW.Targeting.Target": "Target",
 "WW.Targeting.Range": "Range",
@@ -362,19 +375,6 @@
 
 "WW.Targeting.Dialog.SelectTargets": "Please select one or more tokens to target.",
 "WW.Targeting.Dialog.Confirm": "Confirm Targets and Continue",
-
-"WW.Item.Area.Label": "Area",
-"WW.Item.Area.Settings": "Area Settings",
-"WW.Item.Area.Size": "Size",
-"WW.Item.Area.Radius": "Radius",
-"WW.Item.Area.AttachToToken": "Attach to Token",
-"WW.Item.Area.DefaultColor": "Default Color (User)",
-
-"WW.Item.Area.Shape.Label": "Shape",
-"WW.Item.Area.Shape.Circle": "Circle",
-"WW.Item.Area.Shape.CircleTip": "Circle is the shape used for most areas, as they have a Size representing its diameter. On a square grid, a circle becomes a square!",
-"WW.Item.Area.Shape.Emanation": "Emanation",
-"WW.Item.Area.Shape.EmanationTip": "Emanation is a shape that spreads from the edge of a single square/hex or token and up to its Radius, such as auras. You can optionally attach an emanation to a token.",
 
 "WW.RollDamage.Base": "Base Damage",
 "WW.RollDamage.BaseApply": "Apply the base damage",

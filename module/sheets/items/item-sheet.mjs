@@ -94,9 +94,9 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
   static TABS = {
     sheet: {
       tabs: [
-        {id: 'details',    tooltip: 'WW.Actor.Details',        icon: 'systems/weirdwizard/assets/icons/diploma.svg',     iconType: 'img' },
-        {id: 'automation', tooltip: 'WW.Targeting.Automation', icon: 'systems/weirdwizard/assets/icons/gear-hammer.svg', iconType: 'img' },
-        {id: 'effects',    tooltip: 'WW.Effects.Label',        icon: 'icons/svg/aura.svg',                               iconType: 'img' }
+        {id: 'details',    tooltip: 'WW.Actor.Details',    icon: 'systems/weirdwizard/assets/icons/diploma.svg',     iconType: 'img' },
+        {id: 'automation', tooltip: 'WW.Item.Automations', icon: 'systems/weirdwizard/assets/icons/gear-hammer.svg', iconType: 'img' },
+        {id: 'effects',    tooltip: 'WW.Effects.Label',    icon: 'icons/svg/aura.svg',                               iconType: 'img' }
       ],
       initial: 'details',
       labelPrefix: "EFFECT.TABS"
