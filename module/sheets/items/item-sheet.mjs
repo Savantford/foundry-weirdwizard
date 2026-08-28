@@ -283,7 +283,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         context.instantEffects = instEffs;
 
         // Prepare active effects
-        const actEffs = await prepareActiveEffectCategories(this.document.effects); /* await is needed, ignore linter */
+        const actEffs = await prepareActiveEffectCategories(this.document); /* await is needed, ignore linter */
         
         for (const cat in actEffs) {
           const category = actEffs[cat];

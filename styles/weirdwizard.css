@@ -7029,7 +7029,8 @@ body {
   margin: auto;
 }
 
-.weirdwizard .effects-list .item.effect:has(.disabled, i.fa-toggle-off) :is(.item-name, .item-image) {
+.weirdwizard .effects-list .item.effect:has(.disabled, i.fa-toggle-off) :is(.item-name, .item-image),
+.weirdwizard .effects-list .effect.disabled :is(.item-name, .item-image) {
   opacity: 0.6;
 }
 

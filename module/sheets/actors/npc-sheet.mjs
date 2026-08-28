@@ -53,7 +53,12 @@ export default class WWNpcSheet extends WWCreatureSheet {
         'systems/weirdwizard/templates/sheets/actors/common/parts/effect.hbs'
       ]
     },
-    permanent: { template: 'systems/weirdwizard/templates/sheets/actors/common/permanent-effects.hbs' },
+    permanent: {
+      template: 'systems/weirdwizard/templates/sheets/actors/common/permanent-effects.hbs',
+      templates: [
+        'systems/weirdwizard/templates/sheets/actors/common/parts/effect-row.hbs'
+      ]
+    },
 
     // Edit Mode Parts:
     npcform: {

@@ -50,11 +50,15 @@ export default class WWCharacterSheet extends WWCreatureSheet {
     temporary: {
       template: 'systems/weirdwizard/templates/sheets/actors/common/temporary-effects.hbs',
       templates: [
-        'systems/weirdwizard/templates/sheets/actors/common/parts/effect.hbs'
+        'systems/weirdwizard/templates/sheets/actors/common/parts/effect-card.hbs'
       ]
     },
-    permanent: { template: 'systems/weirdwizard/templates/sheets/actors/common/permanent-effects.hbs' },
-    
+    permanent: {
+      template: 'systems/weirdwizard/templates/sheets/actors/common/permanent-effects.hbs',
+      templates: [
+        'systems/weirdwizard/templates/sheets/actors/common/parts/effect-row.hbs'
+      ]
+    }
   }
 
   /* -------------------------------------------- */

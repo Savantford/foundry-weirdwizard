@@ -1,0 +1,55 @@
+<li class="item effect {{#if disabled}}disabled{{/if}} flexrow {{#if (eq parent.id @root.actor.id)}}draggable{{/if}}" data-effect-id="{{ id }}">
+  {{!-- Image --}}
+  <div class="item-image">
+    <img src="{{ img }}" width="24" height="24" />
+  </div>
+
+  {{!-- Name --}}
+  <div class="item-name" data-tooltip="{{ tooltip }}"><label>{{ name }}</label></div>
+
+  {{!-- Duration --}}
+  {{#if cat.showDuration}}
+  <div class="effect-duration">
+    {{#if (eq effect.duration.expiry "luckEnds")}}
+      <a class="luck-ends" data-action="effectLuckEnds" data-effect-id="{{ id }}">
+        <img src="systems/weirdwizard/assets/icons/clover.svg" height="13">
+        {{localize "WW.Effect.Duration.Expiry.LuckEnds"}}
+      </a>
+    {{else}}
+      {{system.duration.formatted}}
+    {{/if}}
+  </div>
+  {{/if}}
+
+  {{!-- Source --}}
+  {{#if cat.showSource}}<div class="effect-source">{{{ sourceCard }}}</div>{{/if}}
+
+  {{!-- Control Buttons --}}
+  <div class="item-controls effect-controls flexrow">
+    {{#if cat.showControls}}
+
+    {{!-- Toggle --}}
+    {{#if isTemporary}}
+    <a class="effect-control" data-action="effectToggle" data-effect-id="{{id}}" data-tooltip="WW.Effect.Toggle">
+      <i class="fa-solid {{#if disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
+    </a>
+    {{/if}}
+
+    {{!-- Edit --}}
+    <a class="effect-control" data-action="effectEdit" data-effect-id="{{id}}" data-tooltip="WW.Effect.Edit">
+      <i class="fa-solid fa-edit"></i>
+    </a>
+
+    {{!-- Remove --}}
+    <a class="effect-control" data-action="effectRemove" data-effect-id="{{id}}" data-tooltip="WW.Effect.Remove">
+      <i class="fa-solid fa-trash"></i>
+    </a>
+
+    {{else}}
+    {{!-- Information --}}
+    <a data-tooltip="{{#if isBenefit}}WW.Effect.HandledByCharOption{{else}}WW.Effect.HandledByItem{{/if}}">
+      <i class="fa-solid fa-circle-question"></i>
+    </a>
+    {{/if}}
+  </div>
+</li>

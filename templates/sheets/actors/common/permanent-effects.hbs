@@ -1,25 +1,24 @@
-<section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
-  {{log appliedEffects}}
+<cat class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+  {{log effectCategories}}
   {{!-- All Effects --}}
   <div class="effects-wrapper">
     {{!-- Applied Effects --}}
-    {{#each appliedEffects as |section sectionId|}}
-    {{#if (eq section.type 'permanent')}}
-    <ol class="item-list effects-list {{section.type}}-effects">
+    {{#each effectCategories as |cat catId|}}
+    <ol class="item-list effects-list {{catId}}-effects">
 
       {{!-- Header Row --}}
-      <li class="item items-header flexrow" data-effect-type="{{section.type}}">
+      <li class="item items-header flexrow" data-effect-type="{{ catId }}">
         <div class="item-image"></div>
 
-        <div class="item-name">{{localize section.name}}</div>
+        <div class="item-name">{{localize cat.name}}</div>
 
-        {{#if section.showDuration}}<div class="effect-duration">{{localize "WW.Effect.Duration.Short"}}</div>{{/if}}
+        {{#if cat.showDuration}}<div class="effect-duration">{{localize "WW.Effect.Duration.Short"}}</div>{{/if}}
         
-        {{#if section.showSource}}<div class="effect-source">{{localize "WW.Effect.Source"}}</div>{{/if}}
+        {{#if cat.showSource}}<div class="effect-source">{{localize "WW.Effect.Source"}}</div>{{/if}}
         
         <div class="item-controls effect-controls flexrow">
-          {{#if section.showCreate}}
-          <a class="effect-control" data-action="effectCreate" data-type="{{section.type}}" data-tooltip="WW.Effect.Create">
+          {{#if cat.showCreate}}
+          <a class="effect-control" data-action="effectCreate" data-type="{{catId}}" data-tooltip="WW.Effect.Create">
             <i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}
           </a>
           {{/if}}
@@ -28,116 +27,13 @@
       </li>
       
       {{!-- Effect Rows --}}
-      {{#each section.effects as |effect|}}
-      <li class="item effect flexrow {{#if (eq effect.parent.id @root.actor.id)}}draggable{{/if}}" data-effect-id="{{effect.id}}">
-        
-        <div class="item-image">
-          <img src="{{effect.img}}" width="24" height="24" />
-        </div>
-
-        <div class="item-name" data-tooltip="{{effect.tooltip}}"><label>{{effect.name}}</label></div>
-        
-        {{#if section.showDuration}}
-        <div class="effect-duration">
-          {{#if (eq effect.duration.expiry "luckEnds")}}
-          <a class="luck-ends" data-action="effectLuckEnds" data-effect-id="{{effect.id}}">
-            <img src="systems/weirdwizard/assets/icons/clover.svg" height="13"> {{localize "WW.Effect.Duration.Expiry.LuckEnds"}}
-          </a>
-          {{else}}
-          {{system.duration.formatted}}
-          {{/if}}
-        </div>
-        {{/if}}
-
-        {{#if section.showSource}}<div class="effect-source">{{{effect.sourceCard}}}</div>{{/if}}
-        
-        <div class="item-controls effect-controls flexrow">
-          {{#if effect.showRemoveButton}}
-
-          {{#if (ne section.type 'temporary')}}
-          <a class="effect-control" data-action="effectToggle" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Toggle">
-            <i class="fa-solid {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
-          </a>
-          {{/if}}
-      
-          <a class="effect-control" data-action="effectEdit" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Edit">
-            <i class="fa-solid fa-edit"></i>
-          </a>
-
-          <a class="effect-control" data-action="effectRemove" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Remove">
-            <i class="fa-solid fa-trash"></i>
-          </a>
-          {{else}}
-          <a data-tooltip="{{#if effect.isBenefit}}WW.Effect.HandledByCharOption{{else}}WW.Effect.HandledByItem{{/if}}"><i class="fa-solid fa-circle-question"></i></a>
-          {{/if}}
-        </div>
-        
-      </li>
+      {{#each cat.effects as |effect|}}
+      {{> "systems/weirdwizard/templates/sheets/actors/common/parts/effect-row.hbs" this=this cat=cat catId=catId}}
       {{/each}}
     </ol>
-    {{/if}}
     {{/each}}
-
-    {{!-- Inactive Effects --}}
-    {{#each effects as |section sectionId|}}
-    {{#if (eq section.type 'inactive')}}
-    <ol class="item-list effects-list {{section.type}}-effects">
-
-      {{!-- Header Row --}}
-      <li class="item items-header flexrow" data-effect-type="{{section.type}}">
-        <div class="item-image"></div>
-        <div class="item-name">{{localize section.name}}</div>
-        {{#if section.showDuration}}<div class="effect-duration">{{localize "WW.Effect.Duration.Short"}}</div>{{/if}}
-        
-        <div class="item-controls effect-controls flexrow">
-          {{#if section.showCreate}}
-          <a class="effect-control" data-action="effectCreate" data-type="{{section.type}}" data-tooltip="WW.Effect.Create">
-            <i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}
-          </a>
-          {{/if}}
-        </div>
-      </li>
-      
-      {{!-- Effect Rows --}}
-      {{#each section.effects as |effect|}}
-      <li class="item effect flexrow {{#if (eq effect.parent.id @root.actor.id)}}draggable{{/if}}" data-effect-id="{{effect.id}}">
-
-        <div class="item-image">
-          <img src="{{effect.img}}" width="24" height="24" />
-        </div>
-
-        <div class="item-name" data-tooltip="{{effect.tooltip}}"><label>{{effect.name}}</label></div>
-        
-        {{#if section.showDuration}}<div class="effect-duration">{{system.duration.formatted}}</div>{{/if}}
-      
-        <div class="item-controls effect-controls flexrow">
-          {{#if (or (eq effect.parent.type 'character') (eq effect.parent.type 'npc'))}}
-
-          {{#if (ne section.type 'temporary')}}
-          <a class="effect-control" data-action="effectToggle" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Toggle">
-            <i class="fa-solid {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
-          </a>
-          {{/if}}
-      
-          <a class="effect-control" data-action="effectEdit" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Edit">
-            <i class="fa-solid fa-edit"></i>
-          </a>
-
-          <a class="effect-control" data-action="effectRemove" data-effect-id="{{effect.id}}" data-tooltip="WW.Effect.Remove">
-            <i class="fa-solid fa-trash"></i>
-          </a>
-
-          {{/if}}
-        </div>
-        
-      </li>
-      {{/each}}
-    </ol>
-    {{/if}}
-    {{/each}}
-    
   </div>
 
   <div class="flex-1"></div>
 
-</section>
+</cat>

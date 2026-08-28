@@ -261,6 +261,10 @@ export default class WWCreatureSheet extends WWActorSheet {
   async _preparePartContext(partId, context, options) {
     await super._preparePartContext(partId, context, options);
 
+    
+    const allCats = await prepareActiveEffectCategories(this.actor);
+    const { afflictions, temporary, ...permaCats } = allCats;
+
     switch (partId) {
       // Summmary tab
       case 'summary':
@@ -296,31 +300,22 @@ export default class WWCreatureSheet extends WWActorSheet {
       case 'temporary':
         context.tab = context.tabs[partId];
 
-        // Prepare temporary effect lists
-        this._prepareTemporaryEffects(context);
+        // Prepare effect categories
+        context.effectCategories = { afflictions, temporary };
+
+        //this._prepareTemporaryEffects(context);
       break;
       
       // Permanent Effects tab
       case 'permanent':
         context.tab = context.tabs[partId];
-
-        // Prepare all applied active effects
-        context.appliedEffects = await prepareActiveEffectCategories(this.actor.appliedEffects);
         
-        for (const c in context.appliedEffects) {
-          context.appliedEffects[c].effects = context.appliedEffects[c].effects.toSorted((a, b) => a.sort - b.sort)
-        }
+        // Prepare effect categories
+        context.effectCategories = permaCats;
 
-        // Prepare all embedded active effects
-        context.effects = await prepareActiveEffectCategories(this.actor.effects);
-
-        for (const c in context.effects) {
-          context.effects[c].effects = context.effects[c].effects.toSorted((a, b) => a.sort - b.sort)
+        for (const c in context.effectCategories) {
+          context.effectCategories[c].effects = context.effectCategories[c].effects.toSorted((a, b) => a.sort - b.sort)
         };
-
-        // Prepare permanent effect lists
-        this._preparePermanentEffects(context);
-        console.log(context)
       break;
     }
 
@@ -362,46 +357,6 @@ export default class WWCreatureSheet extends WWActorSheet {
     context.effectsList = {
       afflictions,
       temporary
-    }
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Organize and classify permanent Effects.
-   *
-   * @param {Object} context The actor sheet's context.
-   *
-   * @return {Promise<void>}
-  */
-  async _preparePermanentEffects(context) {
-    console.log('preparing permanent')
-    // Initialize effect arrays
-    const benefits = [];
-    const item = [];
-    const permanent = [];
-    const disabled = [];
-
-    // Iterate through effects, then allocate it to lists
-    for (const e of this.actor.appliedEffects) {
-      if (e.isTemporary) continue;
-
-      if (e.type === 'benefit') benefits.push(e);
-      else if (e.item) item.push(e);
-      else permanent.push(e);
-    }
-
-    // Get disabled effects
-    for (const e of this.actor.effects) {
-      if (e.disabled) disabled.push(e);
-    }
-    
-    // Assign arrays
-    context.effectsList = {
-      benefits,
-      item,
-      permanent,
-      disabled
     }
   }
 
