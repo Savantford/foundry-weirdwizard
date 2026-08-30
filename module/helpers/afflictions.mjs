@@ -101,7 +101,7 @@ export class WWAfflictions {
     // Confused
     effectsDataList.push(_buildBaseAffliction(
       'confused',
-      'icons/svg/stoned.svg',
+      '/systems/weirdwizard/assets/icons/confused.svg',
       [
         addEffect('banes.int', 1, addPriority),
         addEffect('banes.wil', 1, addPriority)
@@ -199,7 +199,7 @@ export class WWAfflictions {
     // Poisoned
     effectsDataList.push(_buildBaseAffliction(
       'poisoned',
-      '/systems/weirdwizard/assets/icons/poison.svg',
+      '/systems/weirdwizard/assets/icons/poisoned.svg',
       [].concat(baneAllAttributes(1))
         .concat(againstAll(1))
     ));
@@ -257,7 +257,7 @@ export class WWAfflictions {
     // Weakened
     effectsDataList.push(_buildBaseAffliction(
       'weakened',
-      '/systems/weirdwizard/assets/icons/back-pain.svg',
+      '/systems/weirdwizard/assets/icons/weakened.svg',
       [
         addEffect('banes.str', 1, addPriority),
         addEffect('banes.agi', 1, addPriority),
