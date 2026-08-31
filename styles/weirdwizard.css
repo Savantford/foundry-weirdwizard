@@ -2623,10 +2623,19 @@ hr.bug {
         flex: 1;
       }
 
-      .header > label {
-        font-family: var(--ww-font-serif);
-        font-variant-caps: small-caps;
-        font-weight: 600;
+      .header {
+        > label {
+          font-family: var(--ww-font-serif);
+          font-variant-caps: small-caps;
+          font-weight: 600;
+        }
+
+        .item-controls {
+          flex: 0;
+          flex-flow: nowrap;
+          gap: 3px;
+          margin-left: auto;
+        }
       }
 
       .tags {
@@ -2638,10 +2647,16 @@ hr.bug {
           background: var(--purple-medium);
           border-radius: 5px;
           color: white;
+        }
+
+        .effect-source {
+          background: none;
+          padding: 0;
+          margin-left: auto;
 
           .content-link,
           .content-link > i {
-            color: white;
+            color: var(--purple-dark);
           }
         }
       }
