@@ -170,32 +170,38 @@ export async function prepareActorEffectCategories(document, options={}) {
   // Define effect categories
   const categories = {
     afflictions: { ...base,
+      id: 'afflictions',
       name: 'WW.Affliction.Label',
       showDuration: true,
       effects: []
     },
     temporary: { ...base,
+      id: 'temporary',
       name: 'WW.Effects.Temporary',
       showCreate: true,
       showDuration: true,
       effects: []
     },
     benefits: { ...base,
+      id: 'benefits',
       name: 'WW.Effects.Benefits',
       showControls: false,
       effects: []
     },
     item: { ...base,
+      id: 'item',
       name: 'WW.Effects.Item',
       showControls: false,
       effects: []
     },
     actor: { ...base,
+      id: 'actor',
       name: 'WW.Effects.Actor',
       showCreate: true,
       effects: []
     },
     disabled: { ...base,
+      id: 'disabled',
       name: 'WW.Effects.Inactive',
       effects: []
     }
@@ -247,11 +253,13 @@ export async function prepareItemEffectCategories(document, options={}) {
   // Define effect categories
   const categories = {
     temporary: { ...base,
+      id: 'temporary',
       name: 'WW.Effects.Temporary',
       showDuration: true,
       effects: []
     },
     permanent: { ...base,
+      id: 'permanent',
       name: 'WW.Effects.Permanent',
       effects: []
     }

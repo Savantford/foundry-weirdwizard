@@ -2,11 +2,11 @@
   {{!-- Effects Section Wrapper --}}
   <div class="effects-wrapper">
     {{!-- Effect Categories --}}
-    {{#each effectCategories as |cat catId|}}
-    <ol class="item-list effects-list {{catId}}-effects">
+    {{#each effectCategories as |cat|}}
+    <ol class="item-list effects-list {{cat.id}}-effects">
 
       {{!-- Header Row --}}
-      <li class="item items-header flexrow" data-effect-type="{{ catId }}">
+      <li class="item items-header flexrow" data-effect-type="{{ cat.id }}">
         <div class="item-image"></div>
 
         <div class="item-name">{{localize cat.name}}</div>
@@ -17,7 +17,7 @@
         
         <div class="item-controls effect-controls flexrow">
           {{#if cat.showCreate}}
-          <a class="effect-control" data-action="effectCreate" data-type="{{catId}}" data-tooltip="WW.Effect.Create">
+          <a class="effect-control" data-action="effectCreate" data-type="{{cat.id}}" data-tooltip="WW.Effect.Create">
             <i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}
           </a>
           {{/if}}
@@ -27,7 +27,7 @@
       
       {{!-- Effect Rows --}}
       {{#each cat.effects as |effect|}}
-      {{> "systems/weirdwizard/templates/sheets/actors/common/parts/effect-row.hbs" this=this cat=cat catId=catId}}
+      {{> "systems/weirdwizard/templates/sheets/actors/common/parts/effect-row.hbs" cat=cat}}
       {{/each}}
     </ol>
     {{/each}}

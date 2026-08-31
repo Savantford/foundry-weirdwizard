@@ -1,4 +1,5 @@
 <li class="effect-card" data-effect-id="{{ _id }}">
+  {{log cat}}
   {{!-- Image --}}
   <img class="image" src="{{ img }}">
 
@@ -9,21 +10,28 @@
       <label class="item-button" data-action="itemLabelClick" data-item-id="{{ _id }}" data-tooltip="{{ tooltip }}">{{ name }}</label>
 
       {{!-- Controls --}}
-      <div class="effect-controls flexrow">
-        {{#if showRemoveButton}}
+      <div class="item-controls effect-controls flexrow">
+        {{#if cat.showControls}}
 
+        {{!-- Toggle --}}
+        {{#unless cat.showDuration}}
         <a class="effect-control" data-action="effectToggle" data-effect-id="{{ _id }}" data-tooltip="WW.Effect.Toggle">
           <i class="fa-solid {{#if disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
         </a>
+        {{/unless}}
 
+        {{!-- Edit --}}
         <a class="effect-control" data-action="effectEdit" data-effect-id="{{ _id }}" data-tooltip="WW.Effect.Edit">
           <i class="fa-solid fa-edit"></i>
         </a>
 
+        {{!-- Remove --}}
         <a class="effect-control" data-action="effectRemove" data-effect-id="{{ _id }}" data-tooltip="WW.Effect.Remove">
           <i class="fa-solid fa-trash"></i>
         </a>
+
         {{else}}
+        {{!-- Information --}}
         <a data-tooltip="{{#if isBenefit}}WW.Effect.HandledByCharOption{{else}}WW.Effect.HandledByItem{{/if}}">
           <i class="fa-solid fa-circle-question"></i>
         </a>
