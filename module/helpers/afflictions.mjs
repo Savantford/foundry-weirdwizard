@@ -40,6 +40,7 @@ export class WWAfflictions {
       
       return {
         ... data,
+        type: 'affliction',
         name: _loc(CONFIG.WW.AFFLICTIONS[data.id]),
         tint: '#FF0900',
         description: data.id.includes('impaired') ? _loc('WW.Affliction.ImpairedDesc') : _loc(CONFIG.WW.AFFLICTIONS[data.id] + 'Desc'),

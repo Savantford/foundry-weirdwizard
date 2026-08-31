@@ -2562,29 +2562,28 @@ hr.bug {
 }
 
 /* Effects Tab */
-
-.weirdwizard .afflictions {
+.weirdwizard .list-entries.afflictions {
   display: inline-flex;
   align-items: center;
   flex-flow: wrap;
   gap: 5px;
+
+  .affliction {
+    display: inline-flex;
+    cursor: help;
+
+    .icon {
+      width: 14px;
+      height: 14px;
+      align-self: center;
+      border: none;
+      margin-right: 2px;
+      filter: invert(1);
+    }
+  }
 }
 
-.weirdwizard .affliction {
-  display: inline-flex;
-  cursor: help;
-}
-
-.weirdwizard .afflictions img {
-  width: 14px;
-  height: 14px;
-  align-self: center;
-  border: none;
-  margin-right: 2px;
-  filter: invert(1);
-}
-
-.weirdwizard .affliction:not(:last-of-type)::after {
+.weirdwizard .list-entries.affliction:not(:last-of-type)::after {
   content: ", ";
 }
 
@@ -2594,77 +2593,95 @@ hr.bug {
   gap: 5px;
 }
 
-.weirdwizard.creature .effects.cards {
-  display: flex;
-  flex-flow: wrap;
-  gap: 5px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.weirdwizard.creature {
 
-  .effect-card {
+  .cat-heading {
+    display: inline-flex;
+
+    .cat-control {
+      color: var(--body-text-color);
+      font-size: smaller;
+      margin: auto 0 0 auto;
+    }
+  }
+
+  .effects.cards {
     display: flex;
+    flex-flow: wrap;
     gap: 5px;
+    list-style: none;
     margin: 0;
-    padding: 3px 5px;
-    background: var(--background-color-shadow);
-    border-radius: 5px;
-    flex: 250px;
+    padding: 0;
 
-    .main {
+    .effect-card {
       display: flex;
-      flex-flow: column;
-      gap: 2px;
-      flex: 1;
+      gap: 5px;
+      margin: 0;
+      padding: 3px 5px;
+      background: var(--background-color-shadow);
+      border-radius: 5px;
+      flex: 250px;
 
-      > div {
+      .main {
         display: flex;
-        gap: 5px;
+        flex-flow: column;
+        gap: 2px;
         flex: 1;
-      }
 
-      .header {
-        > label {
-          font-family: var(--ww-font-serif);
-          font-variant-caps: small-caps;
-          font-weight: 600;
-        }
-
-        .item-controls {
-          flex: 0;
-          flex-flow: nowrap;
-          gap: 3px;
-          margin-left: auto;
-        }
-      }
-
-      .tags {
-        > * {
+        > div {
           display: flex;
-          align-items: center;
-          gap: 0 3px;
-          padding: 0 3px;
-          background: var(--purple-medium);
-          border-radius: 5px;
-          color: white;
+          gap: 5px;
+          flex: 1;
         }
 
-        .effect-source {
-          background: none;
-          padding: 0;
-          margin-left: auto;
+        .header {
+          > label {
+            font-family: var(--ww-font-serif);
+            font-variant-caps: small-caps;
+            font-weight: 600;
+          }
 
-          .content-link,
-          .content-link > i {
-            color: var(--purple-dark);
+          .item-controls {
+            flex: 0;
+            flex-flow: nowrap;
+            gap: 3px;
+            margin-left: auto;
+          }
+        }
+
+        .tags {
+          > * {
+            display: flex;
+            align-items: center;
+            gap: 0 3px;
+            padding: 0 3px;
+            background: var(--purple-medium);
+            border-radius: 5px;
+            color: white;
+          }
+
+          .effect-source {
+            background: none;
+            padding: 0;
+            margin-left: auto;
+
+            .content-link,
+            .content-link > i {
+              color: var(--purple-dark);
+            }
           }
         }
       }
-    }
 
-    .image {
-      height: 2lh;
+      .image {
+        height: 2lh;
+        width: auto;
+      }
     }
+  }
+
+  .effects.cards.afflictions .effect-card .image {
+    filter: brightness(0) saturate(100%) invert(10%) sepia(91%) saturate(6105%) hue-rotate(20deg) brightness(86%) contrast(100%);
   }
 }
 

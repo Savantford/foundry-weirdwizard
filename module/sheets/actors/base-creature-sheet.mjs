@@ -299,7 +299,7 @@ export default class WWCreatureSheet extends WWActorSheet {
       case 'temporary':
         context.tab = context.tabs[partId];
 
-        // Reorder array using durations
+        // Sort Effects by ascending remaining duration
         const durations = [...CONST.ACTIVE_EFFECT_DURATION_UNITS].reverse();
         const expiryEvents = ['luckEnds', ...CONST.ACTIVE_EFFECT_EXPIRY_EVENTS];
 
@@ -311,6 +311,7 @@ export default class WWCreatureSheet extends WWActorSheet {
         })
 
         // Prepare effect categories
+        console.log(afflictions)
         context.effectCategories = { afflictions, temporary };
       break;
       

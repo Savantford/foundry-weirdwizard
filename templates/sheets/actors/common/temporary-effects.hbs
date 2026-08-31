@@ -15,12 +15,24 @@
   </ol>
   
   {{!-- Temporary Effects --}}
-  <h3>{{localize "WW.Effects.Temporary"}}</h3>
+  {{#each effectCategories as |cat|}}
+  <h3 class="cat-heading">
+    {{localize cat.name}}
 
-  <ol class="effects cards temporary">
-    {{#each effectCategories.temporary.effects}}
-    {{> "systems/weirdwizard/templates/sheets/actors/common/parts/effect-card.hbs" cat=@root.effectCategories.temporary }}
+    {{!-- Category Control Buttons --}}
+    {{#if (eq cat.id 'afflictions')}}
+      <a class="cat-control" data-action="afflictionsMenu"><i class="fa-solid {{#if cat.effects.length}}fa-edit{{else}}fa-circle-plus{{/if}}"></i></a>
+
+    {{else if cat.showCreate}}
+      <a class="cat-control effect-control" data-action="effectCreate" data-type="{{ cat.id }}" data-tooltip="WW.Effect.Create"><i class="fa-solid fa-circle-plus"></i></a>
+    {{/if}}
+  </h3>
+
+  {{!-- Effect Cards --}}
+  <ol class="effects cards {{cat.id}}">
+    {{#each cat.effects}}
+      {{> "systems/weirdwizard/templates/sheets/actors/common/parts/effect-card.hbs" cat=cat }}
     {{/each}}
   </ol>
-
+  {{/each}}
 </section>
