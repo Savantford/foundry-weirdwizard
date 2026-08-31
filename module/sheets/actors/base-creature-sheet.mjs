@@ -86,7 +86,6 @@ export default class WWCreatureSheet extends WWActorSheet {
 
     context.charOptions = actorData.charOptions;
     context.folder = await actorData.folder;
-    context.afflictions = this.appliedAfflictions;
     context.injured = actorData.injured;
     context.incapacitated = actorData.incapacitated;
     context.dead = actorData.dead;
@@ -311,7 +310,6 @@ export default class WWCreatureSheet extends WWActorSheet {
         })
 
         // Prepare effect categories
-        console.log(afflictions)
         context.effectCategories = { afflictions, temporary };
       break;
       
@@ -665,7 +663,6 @@ export default class WWCreatureSheet extends WWActorSheet {
     * @param {HTMLElement} element     The element the menu opens on.
   */
   static #onAfflictionsMenuOpen(event, button) {
-    const user = game.user;
     const afflictions = [];
     
     // Create MultiChoice choices data

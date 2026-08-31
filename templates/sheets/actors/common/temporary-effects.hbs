@@ -1,20 +1,5 @@
 <section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
-  {{!-- Afflictions List --}}
-  <ol class="list-entries afflictions stat mb-2">
-    <label>{{localize "WW.Affliction.Label"}}:</label>
-
-    {{#each afflictions as |affliction id|}}
-      <li class="list-entry affliction" data-tooltip="{{affliction.description}}">
-        <img class="icon" src="{{affliction.img}}">
-        {{localize affliction.name}}
-      </li>
-    {{/each}}
-
-    <a data-action="afflictionsMenu"><i class="fa-solid {{#if afflictions.length}}fa-edit{{else}}fa-circle-plus{{/if}}"></i></a>
-
-  </ol>
-  
-  {{!-- Temporary Effects --}}
+  {{!-- Effect Categories --}}
   {{#each effectCategories as |cat|}}
   <h3 class="cat-heading">
     {{localize cat.name}}
