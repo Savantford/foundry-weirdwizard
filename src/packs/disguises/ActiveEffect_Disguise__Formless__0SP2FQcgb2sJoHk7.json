@@ -1,0 +1,51 @@
+{
+  "name": "Disguise (Formless)",
+  "type": "base",
+  "img": "systems/weirdwizard/assets/public-domain/portraits/elemental-standard.webp",
+  "system": {
+    "changes": [
+      {
+        "preset": "custom",
+        "value": "systems/weirdwizard/assets/public-domain/tokens/elemental-standard.webp",
+        "key": "token.texture.src",
+        "type": "override",
+        "phase": "initial",
+        "priority": null
+      }
+    ],
+    "target": "none",
+    "trigger": "passive",
+    "durationPreset": "",
+    "grantedBy": null
+  },
+  "disabled": false,
+  "start": null,
+  "duration": {
+    "value": null,
+    "units": "seconds",
+    "expiry": null,
+    "expired": false
+  },
+  "description": "",
+  "origin": null,
+  "tint": "#ffffff",
+  "transfer": false,
+  "statuses": [],
+  "showIcon": 1,
+  "folder": null,
+  "flags": {},
+  "_stats": {
+    "coreVersion": "14.367",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1788208646123,
+    "modifiedTime": 1788208647287,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
+  },
+  "_id": "0SP2FQcgb2sJoHk7",
+  "sort": 300000,
+  "_key": "!effects!0SP2FQcgb2sJoHk7"
+}
