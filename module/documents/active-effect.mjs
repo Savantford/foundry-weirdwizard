@@ -52,29 +52,46 @@ export default class WWActiveEffect extends WWDocumentMixin(foundry.documents.Ac
   prepareDerivedData() {
     super.prepareDerivedData();
 
-    const system = this.system;
-    
-    // The item which this effect originates from if it has been transferred from an item to an actor
+    // Record the item which this effect originates from if it has been transferred from an item to an actor
     this.originalItem = (this.parent instanceof Item) ? this.parent : null;
 
-    // Get derived duration variables
-    /*const key = 'WW.Effect.Duration.';
-    const rounds = this.duration.rounds;
-    const selected = this.system.duration.selected;
-    
-    if (selected !== 'none' && rounds) { // (selected !== 'none') should not be needed post pathsOfJournaling migration
-      // Prepare formatted selected label
-      let str = '';
-      if (selected) {
-        str += _loc(CONFIG.WW.EFFECT_DURATION_PRESETS.combat.options[selected]);
-        if (selected !== 'luckEnds') str += ` (${rounds} ${(rounds > 1 ? _loc(key + 'Rounds') : _loc(key + 'Round'))})`;
-        if (selected === 'Xrounds') str = `${rounds} ${(rounds > 1 ? _loc(key + 'Rounds') : _loc(key + 'Round'))}`; // Override if X rounds
-      }
-      
-      this.system.duration.formatted = str;
+    // Prepare formatted duration
+    this.duration.initialLabel = this.formatDurationLabel(this.duration);
+  }
 
-    } else this.system.duration.formatted = formatTime(this.duration.seconds);*/
+  /* -------------------------------------------- */
+
+  formatDurationLabel (duration) {
+    const { value, units } = duration;
     
+    const path = "WW.Effect.Duration.";
+
+    // Permanent
+    if (value === Infinity) return _loc(path + 'Permanent');
+
+    // World time duration (Out of combat)
+    else if (CONST.ACTIVE_EFFECT_TIME_DURATION_UNITS.includes(units)) {
+      // Convert time to seconds - Adapted from _prepareTimeBasedDuration
+      const calendar = game.time.calendar;
+      const durationInMonths = units === "months";
+      const unitsSingular = durationInMonths ? "day": units.slice(0, -1);
+      const avgDaysPerMonth = durationInMonths && calendar.months.values.length
+        ? calendar.days.daysPerYear / calendar.months.values.length
+        : 0;
+      const durationValue = durationInMonths ? Math.ceil(value * avgDaysPerMonth) : value;
+      const seconds = calendar.componentsToTime({[unitsSingular]: durationValue});
+      
+      return game.time.calendar.format(seconds, 'formatDuration');
+    }
+
+    // Combat duration (Turns and rounds)
+    else {
+      const adjusted = value + 1;
+      const unitLabel = adjusted > 1
+        ? (units === 'turns' ? _loc(path + 'Turns') : _loc(path + 'Rounds'))
+        : (units === 'turns' ? _loc(path + 'Turn') : _loc(path + 'Round'));
+      return `${adjusted} ${unitLabel}`;
+    }
   }
 
   /* -------------------------------------------- */
@@ -257,41 +274,6 @@ export default class WWActiveEffect extends WWDocumentMixin(foundry.documents.Ac
     if (current === null || current === undefined) return changes[change.key] = delta;
     
     return super._applyChangeUpgrade(targetDoc, change, current, delta, changes);
-  }
-
-  /* -------------------------------------------- */
-
-  get formattedDuration() {
-    const { value, units, expiry, ... duration } = this.duration;
-    
-    const path = "WW.Effect.Duration.";
-
-    // Permanent
-    if (value === Infinity) return _loc(path + 'Permanent');
-
-    // World time duration (Out of combat)
-    else if (CONST.ACTIVE_EFFECT_TIME_DURATION_UNITS.includes(units)) {
-      // Convert time to seconds - Adapted from _prepareTimeBasedDuration
-      const calendar = game.time.calendar;
-      const durationInMonths = units === "months";
-      const unitsSingular = durationInMonths ? "day": units.slice(0, -1);
-      const avgDaysPerMonth = durationInMonths && calendar.months.values.length
-        ? calendar.days.daysPerYear / calendar.months.values.length
-        : 0;
-      const durationValue = durationInMonths ? Math.ceil(value * avgDaysPerMonth) : value;
-      const seconds = calendar.componentsToTime({[unitsSingular]: durationValue});
-      
-      return game.time.calendar.format(seconds, 'formatDuration');
-    }
-
-    // Combat duration (Turns and rounds)
-    else {
-      const adjusted = value + 1;
-      const unitLabel = adjusted > 1
-        ? (units === 'turns' ? _loc(path + 'Turns') : _loc(path + 'Rounds'))
-        : (units === 'turns' ? _loc(path + 'Turn') : _loc(path + 'Round'));
-      return `${adjusted} ${unitLabel}`;
-    }
   }
 
 }

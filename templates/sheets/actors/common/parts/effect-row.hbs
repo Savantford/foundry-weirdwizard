@@ -10,13 +10,13 @@
   {{!-- Duration --}}
   {{#if cat.showDuration}}
   <div class="effect-duration">
-    {{#if (eq effect.duration.expiry "luckEnds")}}
+    {{#if (eq duration.expiry "luckEnds")}}
       <a class="luck-ends" data-action="effectLuckEnds" data-effect-id="{{ id }}">
         <img src="systems/weirdwizard/assets/icons/clover.svg" height="13">
         {{localize "WW.Effect.Duration.Expiry.LuckEnds"}}
       </a>
     {{else}}
-      {{system.duration.formatted}}
+      {{ duration.initialLabel }}
     {{/if}}
   </div>
   {{/if}}
