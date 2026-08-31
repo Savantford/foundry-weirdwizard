@@ -299,10 +299,19 @@ export default class WWCreatureSheet extends WWActorSheet {
       case 'temporary':
         context.tab = context.tabs[partId];
 
+        // Reorder array using durations
+        const durations = [...CONST.ACTIVE_EFFECT_DURATION_UNITS].reverse();
+        const expiryEvents = ['luckEnds', ...CONST.ACTIVE_EFFECT_EXPIRY_EVENTS];
+
+        temporary.effects.sort((a,b) => {
+          if (a.duration.units !== b.duration.units) return durations.indexOf(a.duration.units) - durations.indexOf(b.duration.units);
+          else if (a.duration.remaining !== b.duration.remaining) return a.duration.remaining - b.duration.remaining;
+          else if (a.duration.expiry !== b.duration.expiry) return expiryEvents.indexOf(a.duration.expiry) - expiryEvents.indexOf(b.duration.expiry);
+          else return a - b;
+        })
+
         // Prepare effect categories
         context.effectCategories = { afflictions, temporary };
-
-        //this._prepareTemporaryEffects(context);
       break;
       
       // Permanent Effects tab
@@ -319,44 +328,6 @@ export default class WWCreatureSheet extends WWActorSheet {
     }
 
     return context;
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Organize and classify Effects for the sheet.
-   *
-   * @param {Object} context The actor sheet's context.
-   *
-   * @return {Promise<void>}
-  */
-  async _prepareTemporaryEffects(context) {
-    // Initialize effect arrays
-    const afflictions = [];
-    const temporary = [];
-
-    // Iterate through effects, then allocate it to lists
-    for (const e of this.actor.appliedEffects) {
-      if (e.type === 'affliction') afflictions.push(e);
-      else if (e.isTemporary) temporary.push(e);
-    }
-    
-    // Reorder array using durations
-    const durations = [...CONST.ACTIVE_EFFECT_DURATION_UNITS].reverse();
-    const expiryEvents = ['luckEnds', ...CONST.ACTIVE_EFFECT_EXPIRY_EVENTS];
-
-    temporary.sort((a,b) => {
-      if (a.duration.units !== b.duration.units) return durations.indexOf(a.duration.units) - durations.indexOf(b.duration.units);
-      else if (a.duration.remaining !== b.duration.remaining) return a.duration.remaining - b.duration.remaining;
-      else if (a.duration.expiry !== b.duration.expiry) return expiryEvents.indexOf(a.duration.expiry) - expiryEvents.indexOf(b.duration.expiry);
-      else return a - b;
-    })
-    
-    // Assign arrays
-    context.effectsList = {
-      afflictions,
-      temporary
-    }
   }
 
   /* -------------------------------------------- */

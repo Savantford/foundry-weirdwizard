@@ -1,5 +1,4 @@
-<li class="effect-card" data-effect-id="{{this._id}}">
-  {{#with this}}
+<li class="effect-card" data-effect-id="{{ _id }}">
   {{!-- Image --}}
   <img class="image" src="{{ img }}">
 
@@ -46,10 +45,11 @@
       {{/if}}
 
       {{!-- Source --}}
-      {{!--<div class="frame source effect-source">
+      {{#if (ne sourceCard 'None')}} {{!-- TODO: Improve to exclude the own Actor --}}
+      <div class="frame source effect-source">
         {{{ sourceCard }}}
-      </div>--}}
+      </div>
+      {{/if}}
     </div>
   </div>
-  {{/with}}
 </li>
