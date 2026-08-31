@@ -3,6 +3,22 @@
   <div class="effects-wrapper">
     {{!-- Effect Categories --}}
     {{#each effectCategories as |cat|}}
+
+    {{!-- Cards Display --}}
+    {{#if (eq cat.id "benefits")}}
+    <h3>{{localize cat.name}}</h3>
+
+    {{!-- Effect Cards --}}
+    <ol class="effects cards {{ cat.id }}">
+    {{#each cat.effects as |effect|}}
+      {{> "systems/weirdwizard/templates/sheets/actors/common/parts/effect-card.hbs" cat=cat}}
+    {{/each}}
+    </ol>
+
+    <h3>{{localize "WW.Effects.OtherPermanent"}}</h3>
+
+    {{!-- Table Display --}}
+    {{else}}
     <ol class="item-list effects-list {{cat.id}}-effects">
 
       {{!-- Header Row --}}
@@ -27,9 +43,10 @@
       
       {{!-- Effect Rows --}}
       {{#each cat.effects as |effect|}}
-      {{> "systems/weirdwizard/templates/sheets/actors/common/parts/effect-row.hbs" cat=cat}}
+        {{> "systems/weirdwizard/templates/sheets/actors/common/parts/effect-row.hbs" cat=cat}}
       {{/each}}
     </ol>
+    {{/if}}
     {{/each}}
   </div>
 

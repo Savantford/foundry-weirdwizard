@@ -2594,7 +2594,7 @@ hr.bug {
   gap: 5px;
 }
 
-.weirdwizard.creature .effects.temporary {
+.weirdwizard.creature .effects.cards {
   display: flex;
   flex-flow: wrap;
   gap: 5px;

@@ -40,15 +40,17 @@
 
     <div class="tags">
       {{!-- Duration --}}
-      {{#if (ne duration.expiry "luckEnds")}}
-      <div class="frame duration">
-        <img src="systems/weirdwizard/assets/icons/hourglass.svg" height="13"> {{ duration.label }}
-      </div>
-      {{else}}
-      {{!-- Luck Ends --}}
-      <a class="frame duration luck-ends" data-action="effectLuckEnds" data-effect-id="{{ _id }}">
-        <img src="systems/weirdwizard/assets/icons/clover.svg" height="13"> {{localize "WW.Effect.Duration.Expiry.LuckEnds"}}
-      </a>
+      {{#if cat.showDuration}}
+        {{#if (ne duration.expiry "luckEnds")}}
+        <div class="frame duration">
+          <img src="systems/weirdwizard/assets/icons/hourglass.svg" height="13"> {{ duration.label }}
+        </div>
+        {{else}}
+        {{!-- Luck Ends --}}
+        <a class="frame duration luck-ends" data-action="effectLuckEnds" data-effect-id="{{ _id }}">
+          <img src="systems/weirdwizard/assets/icons/clover.svg" height="13"> {{localize "WW.Effect.Duration.Expiry.LuckEnds"}}
+        </a>
+        {{/if}}
       {{/if}}
 
       {{!-- Source --}}
