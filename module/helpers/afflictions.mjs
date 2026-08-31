@@ -97,7 +97,7 @@ export class WWAfflictions {
       // Confused
       {
         id: 'confused',
-        img: 'icons/svg/stoned.svg',
+        img: 'systems/weirdwizard/assets/icons/confused.svg',
         changes: [
           addChange('banes.int'),
           addChange('banes.wil')
@@ -186,7 +186,7 @@ export class WWAfflictions {
       // Poisoned
       {
         id: 'poisoned',
-        img: 'systems/weirdwizard/assets/icons/poison.svg',
+        img: 'systems/weirdwizard/assets/icons/poisoned.svg',
         changes: [
           ...baneAllAttributes(1),
           ...againstAll(1)
@@ -241,7 +241,7 @@ export class WWAfflictions {
       // Weakened
       {
         id: 'weakened',
-        img: 'systems/weirdwizard/assets/icons/back-pain.svg',
+        img: 'systems/weirdwizard/assets/icons/weakened.svg',
         changes: [
           addChange('banes.str'),
           addChange('banes.agi'),
