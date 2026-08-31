@@ -164,6 +164,14 @@
       "system": "weirdwizard",
       "path": "packs/artificial-light.db",
       "type": "ActiveEffect"
+    },
+    {
+      "name": "disguises",
+      "label": "Disguises",
+      "banner": "systems/weirdwizard/assets/artwork/banners/disguises.webp",
+      "system": "weirdwizard",
+      "path": "packs/disguises.db",
+      "type": "ActiveEffect"
     }
   ],
   "packFolders": [
@@ -190,7 +198,7 @@
           "name": "Effects",
           "sorting": "m",
           "color": "#775B7B",
-          "packs": ["senses", "artificial-light"]
+          "packs": ["senses", "artificial-light", "disguises"]
         },
         {
           "name": "Miscellaneous",

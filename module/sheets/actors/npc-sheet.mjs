@@ -50,7 +50,7 @@ export default class WWNpcSheet extends WWCreatureSheet {
     temporary: {
       template: 'systems/weirdwizard/templates/sheets/actors/common/temporary-effects.hbs',
       templates: [
-        'systems/weirdwizard/templates/sheets/actors/common/parts/effect.hbs'
+        'systems/weirdwizard/templates/sheets/actors/common/parts/effect-card.hbs'
       ]
     },
     permanent: {
