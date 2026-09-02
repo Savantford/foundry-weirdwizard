@@ -925,6 +925,8 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
    */
   async activityRoll(config) {
     const { attribute, boons, against, flatMod } = config.roll;
+
+    // Proceed to roll
     const rollData = this.getRollData();
     const rollOptions = {
       template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
@@ -937,10 +939,9 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       actEffs: this.getActivityActiveEffects(config)
     };
     const rollsArray = [];
-    
-    let rollHtml = '', boonsDisplay = "0";
 
     // Calculate final boons
+    let boonsDisplay = "0";
     let boonsFinal = 0;
 
     if (boons.situational) boonsFinal += boons.situational; // Add situational boons input value
@@ -1031,7 +1032,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     // Add rolls array to config
     config.rollsArray = rollsArray;
-    config.rollHtml = rollHtml;
     
     return config;
   }
@@ -1043,7 +1043,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
    * @param {ActivityConfig} config
    */
   async activityMessage(config) {
-    const { message, rollsArray=[], rollHtml } = config;
+    const { message, rollsArray=[] } = config;
     
     const messageData = {
       ...message,
@@ -1054,7 +1054,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       'flags.weirdwizard': {
         icon: message.icon ?? (config.item?.img ?? null),
         item: config.item?.uuid,
-        rollHtml: rollHtml,
         emptyContent: !message.content ?? true
       }
     }
@@ -1256,34 +1255,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     })
     
     return effs;
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Handle the use of an Attribute.
-   * @param {ActivityOptions} options
-   */
-  async useAttribute(config) {
-    const attKey = config.roll.attribute.key;
-
-    // Check for Automatic Failure
-    if (this.system.autoFail[attKey]) {
-      const messageData = {
-        ...config.message,
-        type: 'd20-roll',
-        speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
-        content: `<div class="dice-outcome chat-failure">${_loc('WW.Roll.AutoFail')}!</div>`,
-        sound: CONFIG.sounds.dice,
-        'flags.weirdwizard': {
-          icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey]
-        }
-      };
-
-      ChatMessage.create(messageData);
-    } else {
-      this.useActivity(config);
-    }
   }
 
   /* -------------------------------------------- */

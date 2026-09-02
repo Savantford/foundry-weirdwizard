@@ -613,7 +613,7 @@ export default class WWCreatureSheet extends WWActorSheet {
       }
     }
 
-    this.actor.useAttribute(activityOptions);
+    this.actor.useActivity(activityOptions);
   }
 
   /* -------------------------------------------- */
@@ -863,11 +863,11 @@ export default class WWCreatureSheet extends WWActorSheet {
     }
 
     // Check for Automatic Failure
-    if (system.autoFail[item.system.attribute]) {
+    /*if (system.autoFail[item.system.attribute]) {
       const messageData = {
         type: 'd20-roll',
         speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
-        flavor: label,
+        flavor: flavor,
         content: content,
         sound: CONFIG.sounds.dice,
         'flags.weirdwizard': {
@@ -876,11 +876,11 @@ export default class WWCreatureSheet extends WWActorSheet {
           emptyContent: !content ?? true
         }
       };
-
+      console.log('automatic failing')
       ChatMessage.create(messageData);
-    } else {
+    } else {*/
       this.actor.useActivity(activityOptions);
-    }
+    //}
   }
 
   /* -------------------------------------------- */

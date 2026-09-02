@@ -1,7 +1,10 @@
 import { dataFromLabel } from '../sidebar/chat-html-templates.mjs';
 
 export default class WWRoll extends Roll {
-  
+  /* -------------------------------------------- */
+  /*  Rendering                                   */
+  /* -------------------------------------------- */
+
   /**
    * Render a Roll instance to HTML
    * @override
@@ -45,47 +48,8 @@ export default class WWRoll extends Roll {
 
     return foundry.applications.handlebars.renderTemplate(template, chatData);
   }
-
-  /** 
-   * Get the outcome (None, Critical, Success or Failure)
-  */
-  get outcome() {
-    const targetNo = this.options.targetNo;
-    const autoSuccess = this.options.autoSuccess;
-
-    // If auto-success is active, never fail, but still allow a critical on a great roll
-    if (autoSuccess) {
-      if (targetNo && this.total >= 20 && this.total >= targetNo + 5) return 'critical';
-      return 'success';
-    }
-
-    // Return nothing if there is no target number
-    if (!targetNo) return '';
-
-    // Determine outcome
-    if (this.total >= 20 && this.total >= targetNo + 5) return 'critical';
-    else if (this.total >= targetNo) return 'success';
-    else return 'failure';
-  }
-
-  get instEffs() {
-    const effCats = this.options.instEffs;
-    
-    if (!effCats || Object.values(effCats).flat().every(el => el.length === 0)) return null;
-    
-    for (const trigger in effCats) {
-      const effects = effCats[trigger];
-      
-      for (const e in effects) {
-        effects[e] = {
-          ...effects[e],
-          ...dataFromLabel(effects[e].label)
-        };
-      }
-    }
-
-    return effCats;
-  }
+  
+  /* -------------------------------------------- */
 
   get actEffs() {
     const effCats = this.options.actEffs;
@@ -110,6 +74,8 @@ export default class WWRoll extends Roll {
 
     return effCats;
   }
+
+  /* -------------------------------------------- */
 
   get applyButtons() {
     const dataset = this.options.dataset;
@@ -172,6 +138,8 @@ export default class WWRoll extends Roll {
     return buttons;
   }
 
+  /* -------------------------------------------- */
+
   // Get target ids string
   _getTargetIds(targets, effTarget) {
     let targetIds = '';
@@ -183,6 +151,96 @@ export default class WWRoll extends Roll {
     })
 
     return targetIds;
+  }
+
+  /* -------------------------------------------- */
+  /*  Roll details                                */
+  /* -------------------------------------------- */
+
+  get targetNo() {
+    return this.options.targetNo ?? 10;
+  }
+
+  get autoSuccess() {
+    return !!this.options.autoSuccess;
+  }
+
+  get autoFailure() {
+    return !!this.options.autoFailure;
+  }
+
+  get outcome() {
+    // Return nothing if there is no target number
+    if (!this.targetNo) return null;
+
+    // Determine outcome
+    if (this.isCriticalSuccess) return 'critSuccess';
+    else if (this.isCriticalFailure) return 'critFailure';
+    else if (this.isSuccess) return 'success';
+    else return 'failure';
+  }
+
+  get isSuccess() {
+    if (this.autoSuccess) true;
+    return this.total >= this.targetNo;
+  }
+
+  get isCriticalSuccess() {
+    return this.total >= 20 && this.total >= this.targetNo + 5;
+  }
+
+  get isFailure() {
+    if (this.autoFailure) true;
+    return this.total < this.targetNo;
+  }
+
+  get isCriticalFailure() {
+    return this.total <= 0;
+  }
+
+  /* -------------------------------------------- */
+
+  /** 
+   * Get the outcome (None, Critical, Success or Failure)
+  */
+  get outcome() {
+    const targetNo = this.options.targetNo;
+    const autoSuccess = this.options.autoSuccess;
+
+    // If auto-success is active, never fail, but still allow a critical on a great roll
+    if (autoSuccess) {
+      if (targetNo && this.total >= 20 && this.total >= targetNo + 5) return 'critical';
+      return 'success';
+    }
+
+    // Return nothing if there is no target number
+    if (!targetNo) return '';
+
+    // Determine outcome
+    if (this.total >= 20 && this.total >= targetNo + 5) return 'critical';
+    else if (this.total >= targetNo) return 'success';
+    else return 'failure';
+  }
+
+  /* -------------------------------------------- */
+
+  get instEffs() {
+    const effCats = this.options.instEffs;
+    
+    if (!effCats || Object.values(effCats).flat().every(el => el.length === 0)) return null;
+    
+    for (const trigger in effCats) {
+      const effects = effCats[trigger];
+      
+      for (const e in effects) {
+        effects[e] = {
+          ...effects[e],
+          ...dataFromLabel(effects[e].label)
+        };
+      }
+    }
+
+    return effCats;
   }
 
 }
