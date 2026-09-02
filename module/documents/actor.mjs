@@ -1043,8 +1043,8 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
    * @param {ActivityConfig} config
    */
   async activityMessage(config) {
-    const { message, rollsArray, rollHtml } = config;
-
+    const { message, rollsArray=[], rollHtml } = config;
+    
     const messageData = {
       ...message,
       type: 'd20-roll',
