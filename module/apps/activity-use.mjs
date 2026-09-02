@@ -58,7 +58,6 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   /** @inheritDoc */
   _initializeApplicationOptions(options) {
     this.config = options;
-    console.log(options)
 
     return options = super._initializeApplicationOptions(options);
   }
@@ -89,7 +88,6 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   /** @override */
   get title() {
     const { actor, item, title } = this.config;
-    console.log(this.config)
     const { constructor: id, name, type } = item ?? actor;
     return title ?? `${_loc("WW.Activity.Label")}: ${name ?? id}`;
   }
