@@ -42,6 +42,8 @@ export default class WWRoll extends Roll {
       applyButtons: isPrivate ? null : this.applyButtons
     }
 
+    console.log(this)
+
     if (this.options?.template) template = this.options.template;
     template = template.replace('sidebar/r', 'sidebar/chat/');
     template = template.replace('templates/chat/', 'templates/sidebar/chat/');
@@ -161,19 +163,28 @@ export default class WWRoll extends Roll {
     return this.options.targetNo ?? 10;
   }
 
+  /** 
+   * Get the outcome of the roll: Failure, Success, Critical Failure or Critical Failure.
+  */
   get outcome() {
     // Return nothing if there is no target number
     if (!this.targetNo) return null;
 
     // Determine outcome
-    if (this.isCriticalSuccess) return 'critSuccess';
+    if (this.forcedOutcome) return this.forcedOutcome;
+    else if (this.isCriticalSuccess) return 'critSuccess';
     else if (this.isCriticalFailure) return 'critFailure';
     else if (this.isSuccess) return 'success';
     else return 'failure';
   }
 
   get forcedOutcome() {
-    return this.options.forcedOutcome ?? null;
+    const opt = this.options;
+
+    if (opt.forcedOutcome) return opt.forcedOutcome;
+    if (opt.autoSuccess) return 'success';
+    if (opt.autoFail) return 'failure';
+    return null;
   }
 
   get isForcedOutcome() {
@@ -200,30 +211,6 @@ export default class WWRoll extends Roll {
   get isFailure() {
     if (this.forcedOutcome === 'failure') return true;
     return this.total < this.targetNo;
-  }
-
-  /* -------------------------------------------- */
-
-  /** 
-   * Get the outcome (None, Critical, Success or Failure)
-  */
-  get outcome() {
-    const targetNo = this.options.targetNo;
-    const autoSuccess = this.options.autoSuccess;
-
-    // If auto-success is active, never fail, but still allow a critical on a great roll
-    if (autoSuccess) {
-      if (targetNo && this.total >= 20 && this.total >= targetNo + 5) return 'critical';
-      return 'success';
-    }
-
-    // Return nothing if there is no target number
-    if (!targetNo) return '';
-
-    // Determine outcome
-    if (this.total >= 20 && this.total >= targetNo + 5) return 'critical';
-    else if (this.total >= targetNo) return 'success';
-    else return 'failure';
   }
 
   /* -------------------------------------------- */
