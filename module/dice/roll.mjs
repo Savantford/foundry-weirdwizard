@@ -161,14 +161,6 @@ export default class WWRoll extends Roll {
     return this.options.targetNo ?? 10;
   }
 
-  get autoSuccess() {
-    return !!this.options.autoSuccess;
-  }
-
-  get autoFailure() {
-    return !!this.options.autoFailure;
-  }
-
   get outcome() {
     // Return nothing if there is no target number
     if (!this.targetNo) return null;
@@ -180,22 +172,34 @@ export default class WWRoll extends Roll {
     else return 'failure';
   }
 
-  get isSuccess() {
-    if (this.autoSuccess) true;
-    return this.total >= this.targetNo;
+  get forcedOutcome() {
+    return this.options.forcedOutcome ?? null;
   }
 
+  get isForcedOutcome() {
+    return !!this.forcedOutcome;
+  }
+
+  /* -------------------------------------------- */
+
   get isCriticalSuccess() {
+    if (this.forcedOutcome === 'critSuccess') return true;
     return this.total >= 20 && this.total >= this.targetNo + 5;
   }
 
-  get isFailure() {
-    if (this.autoFailure) true;
-    return this.total < this.targetNo;
+  get isCriticalFailure() {
+    if (this.forcedOutcome === 'critFailure') return true;
+    return this.total <= 0;
   }
 
-  get isCriticalFailure() {
-    return this.total <= 0;
+  get isSuccess() {
+    if (this.forcedOutcome === 'success') return true;
+    return this.total >= this.targetNo;
+  }
+
+  get isFailure() {
+    if (this.forcedOutcome === 'failure') return true;
+    return this.total < this.targetNo;
   }
 
   /* -------------------------------------------- */
