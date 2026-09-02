@@ -154,6 +154,8 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     })
   }
 
+  /* -------------------------------------------- */
+
   /**
    * Prompt the placement of an area (Scene Region).
    * @param {Object} options 
@@ -278,8 +280,8 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     options.origin?.maximize();
 
     // Target tokens
-    const targeting = this.system.targeting.operation === 'areaTarget';
-    if (!targeting || !region) return region;
+    const forTargeting = this.system.targeting.operation === 'target';
+    if (!forTargeting || !region) return region;
 
     // Select and filter tokens
     const candidates = canvas.tokens.quadtree.getObjects(region.bounds);
@@ -297,6 +299,8 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
 
     return region;
   }
+
+  /* -------------------------------------------- */
 
   /**
    * Display the item's Range as a Scene Region and return it.
