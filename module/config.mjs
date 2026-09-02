@@ -40,6 +40,13 @@ WW.ROLL_ATTRIBUTE_LABELS = {
   'luck': 'WW.Roll.Luck'
 }
 
+WW.ROLL_OUTCOME_LABELS = {
+  'success': 'WW.Roll.Success',
+  'failure': 'WW.Roll.Failure',
+  'critSuccess': 'WW.Roll.CriticalSuccess',
+  'critFailure': 'WW.Roll.CriticalFailure'
+}
+
 /* Dropdown Menus */
 WW.LEVELS = {
   1: '1',

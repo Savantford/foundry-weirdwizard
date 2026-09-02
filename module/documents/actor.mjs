@@ -939,6 +939,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       actEffs: this.getActivityActiveEffects(config)
     };
     const rollsArray = [];
+    const autoFailure = this.system.autoFail;
 
     // Calculate final boons
     let boonsDisplay = "0";
@@ -990,7 +991,8 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
           ... rollOptions,
           target: tar,
           targetNo,
-          autoSuccess
+          autoSuccess,
+          autoFailure
         }).evaluate();
         
         // Prepare DSN data
@@ -1019,7 +1021,8 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       // Construct the Roll instance and evaluate the roll
       const roll = new WWRoll(rollFormula, rollData, {
         ... rollOptions,
-        targetNo
+        targetNo,
+        autoFailure
       });
       await roll.evaluate();
 

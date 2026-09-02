@@ -6569,6 +6569,16 @@ p {
 
 .weirdwizard .dice-comparison > .rolled-number {
   background: url(../../../icons/svg/d20-grey.svg);
+  cursor: help;
+}
+
+.weirdwizard .forced .dice-comparison > .rolled-number {
+  filter: none;
+  background: none;
+
+  .forced-icon {
+    filter: brightness(0) saturate(100%) invert(10%) sepia(91%) saturate(6105%) hue-rotate(20deg) brightness(86%) contrast(100%);
+  }
 }
 
 .weirdwizard .dice-comparison > .target-number {
@@ -6589,7 +6599,8 @@ p {
 }
 
 .weirdwizard .chat-failure,
-.weirdwizard .red {
+.weirdwizard .red,
+.weirdwizard .forced-icon {
   color: #a51700;
   filter: brightness(0) saturate(100%) invert(10%) sepia(91%) saturate(6105%) hue-rotate(20deg) brightness(86%) contrast(100%);
 }

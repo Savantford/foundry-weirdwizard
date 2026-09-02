@@ -17,11 +17,17 @@ export default class WWRoll extends Roll {
   
   async render({flavor, template=this.constructor.CHAT_TEMPLATE, isPrivate=false}={}) {
     if ( !this._evaluated ) await this.evaluate();
+
+    const { outcome, outcomeLabel, isOutcomePositive, isForcedOutcome } = this;
+    const outcomeData = { outcome, outcomeLabel, isOutcomePositive, isForcedOutcome };
     
     const attribute = this.options.attribute;
     const against = this.options.against;
+    console.log(this.options)
+    console.log(this.forcedOutcome)
     
     const chatData = {
+      ...outcomeData,
       isPrivate: isPrivate,
       formula: isPrivate ? "???" : this._formula,
       flavor: isPrivate ? null : flavor,
@@ -36,17 +42,16 @@ export default class WWRoll extends Roll {
       againstImg: isPrivate ? null : (against ? CONFIG.WW.ATTRIBUTE_ICONS[against] : null),
       terms: await this.terms,
       originUuid: isPrivate ? null : this.options.originUuid,
-      outcome: isPrivate ? null : this.outcome,
       instEffs: isPrivate ? null : await this.instEffs,
       actEffs: isPrivate ? null : await this.actEffs,
       applyButtons: isPrivate ? null : this.applyButtons
     }
 
-    console.log(this)
-
+    // Template with legacy support
     if (this.options?.template) template = this.options.template;
     template = template.replace('sidebar/r', 'sidebar/chat/');
     template = template.replace('templates/chat/', 'templates/sidebar/chat/');
+    console.log(template)
 
     return foundry.applications.handlebars.renderTemplate(template, chatData);
   }
@@ -164,7 +169,7 @@ export default class WWRoll extends Roll {
   }
 
   /** 
-   * Get the outcome of the roll: Failure, Success, Critical Failure or Critical Failure.
+   * Get final outcome of the roll: Failure, Success, Critical Failure or Critical Failure.
   */
   get outcome() {
     // Return nothing if there is no target number
@@ -172,18 +177,23 @@ export default class WWRoll extends Roll {
 
     // Determine outcome
     if (this.forcedOutcome) return this.forcedOutcome;
-    else if (this.isCriticalSuccess) return 'critSuccess';
+
+    if (this.isCriticalSuccess) return 'critSuccess';
     else if (this.isCriticalFailure) return 'critFailure';
     else if (this.isSuccess) return 'success';
     else return 'failure';
+  }
+
+  get outcomeLabel() {
+    return CONFIG.WW.ROLL_OUTCOME_LABELS[this.outcome] ?? null;
   }
 
   get forcedOutcome() {
     const opt = this.options;
 
     if (opt.forcedOutcome) return opt.forcedOutcome;
-    if (opt.autoSuccess) return 'success';
-    if (opt.autoFail) return 'failure';
+    if (opt.autoSuccess?.[opt.attribute]) return 'success';
+    if (opt.autoFailure?.[opt.attribute]) return 'failure';
     return null;
   }
 
@@ -194,23 +204,24 @@ export default class WWRoll extends Roll {
   /* -------------------------------------------- */
 
   get isCriticalSuccess() {
-    if (this.forcedOutcome === 'critSuccess') return true;
     return this.total >= 20 && this.total >= this.targetNo + 5;
   }
 
   get isCriticalFailure() {
-    if (this.forcedOutcome === 'critFailure') return true;
     return this.total <= 0;
   }
 
   get isSuccess() {
-    if (this.forcedOutcome === 'success') return true;
     return this.total >= this.targetNo;
   }
 
   get isFailure() {
-    if (this.forcedOutcome === 'failure') return true;
     return this.total < this.targetNo;
+  }
+
+  get isOutcomePositive() {
+    if (this.outcome.toLowerCase().includes('success') ) return true;
+    return false;
   }
 
   /* -------------------------------------------- */
