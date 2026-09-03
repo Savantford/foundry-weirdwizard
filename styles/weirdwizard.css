@@ -5239,14 +5239,6 @@ details.document-card .card-header:hover::after {
     }
   }
 
-  .target-auto-success {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    color: var(--color-positive, green);
-    font-weight: bold;
-  }
-
   img.target-icon {
     width: 30px;
     height: auto;
@@ -5261,11 +5253,14 @@ details.document-card .card-header:hover::after {
     img {
       width: 24px;
       height: auto;
-      filter: none;
     }
   }
 
-  .target-against img {
+  .target-boons img {
+    filter: none;
+  }
+
+  .target-against img:not(.forced-icon) {
     filter: var(--grey-filter);
   }
 }
@@ -6573,20 +6568,10 @@ p {
 }
 
 .weirdwizard .forced .dice-comparison {
-  > .rolled-number {
-    background: none;
-  }
-
+  > .rolled-number,
   > .rolled-number.highlight {
+    background: none;
     filter: none;
-  }
-
-  .chat-failure .forced-icon {
-    filter: brightness(0) saturate(100%) invert(10%) sepia(91%) saturate(6105%) hue-rotate(20deg) brightness(86%) contrast(100%);
-  }
-
-  .chat-success .forced-icon {
-    filter: brightness(0) saturate(100%) invert(21%) sepia(98%) saturate(1358%) hue-rotate(119deg) brightness(93%) contrast(101%);
   }
 }
 
@@ -6609,12 +6594,13 @@ p {
 
 .weirdwizard .chat-failure,
 .weirdwizard .red,
-.weirdwizard .forced-icon {
+.weirdwizard .forced-icon.failure {
   color: #a51700;
   filter: brightness(0) saturate(100%) invert(10%) sepia(91%) saturate(6105%) hue-rotate(20deg) brightness(86%) contrast(100%);
 }
 
-.weirdwizard .chat-success {
+.weirdwizard .chat-success,
+.weirdwizard .forced-icon.success {
   color: #006920;
   filter: brightness(0) saturate(100%) invert(21%) sepia(98%) saturate(1358%) hue-rotate(119deg) brightness(93%) contrast(101%);
 }

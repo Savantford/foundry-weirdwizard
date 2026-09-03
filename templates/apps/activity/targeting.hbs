@@ -21,7 +21,7 @@
   <div class="split-button targeting-restriction mt-1">
     {{#each targetingRestrictions as |restriction|}}
     <button type="button" class="ui-control" data-action="targetingRestriction"
-      data-restriction="{{restriction.action}}" aria-pressed="{{restriction.active}}">
+      data-restriction="{{ restriction.action }}" aria-pressed="{{ restriction.active }}">
       {{localize restriction.label}}
     </button>
     {{/each}}
@@ -35,8 +35,8 @@
       <label><img class="target-icon" src="{{ img }}"> {{ name }}</label>
   
       {{#if autoSuccess}}
-      <div class="target-auto-success" data-tooltip="{{localize 'WW.Roll.AutoSuccess'}}">
-        <i class="fa-solid fa-check color-green"></i> {{localize "WW.Roll.AutoSuccess"}}
+      <div class="target-against" data-tooltip="{{localize 'WW.Roll.AutoSuccess'}}">
+        <img class="forced-icon success" src="systems/weirdwizard/assets/icons/chained-d20.svg">
       </div>
   
       {{else if againstNo}}
