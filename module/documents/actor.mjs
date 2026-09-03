@@ -910,16 +910,19 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     let cancel = false;
 
     if (args.skipApp) { // Skip Activity app, but maybe open a helper
-      if (targeting?.operation === 'target') {
-        const helperOptions = { originApp: this.sheet, actor: this, cancelable: true };
-        const targetingHelper = await TargetingHelper.wait(helperOptions); // Open Targeting Helper
-
-        if (targetingHelper.cancel) cancel = true;
-      } else if (targeting?.operation === 'placeArea') {
-        const area = await item.placeArea({ originApp: this.sheet }); // Prompt Area placement
+      // Prompt Area placement
+      if (targeting?.operation === 'placeArea' || (targeting?.operation === 'target' && targeting?.method === 'area')) {
+        const area = await item.placeArea({ originApp: this.sheet });
 
         if (!area) cancel = true;
-      };
+        
+      // Open Targeting Helper
+      } else if (targeting?.operation === 'target') {
+        const helperOptions = { originApp: this.sheet, actor: this, cancelable: true };
+        const targetingHelper = await TargetingHelper.wait(helperOptions);
+
+        if (targetingHelper.cancel) cancel = true;
+      } 
     } else { // Open Activity app
       const mutated = await ActivityUse.wait(config);
       if (mutated) (config, mutated); else cancel = true;
