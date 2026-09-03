@@ -326,7 +326,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
    * Scene region selection.
    */
   static #placeArea() {
-    this.config.item.placeArea({ origin: this });
+    this.config.item.placeArea({ originApp: this });
   }
 
   /* -------------------------------------------- */

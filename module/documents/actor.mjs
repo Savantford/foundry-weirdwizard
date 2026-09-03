@@ -906,14 +906,26 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     }
 
     // Open or skip ActivityUse app
-    const mutatedConfig = !args.skipApp ? await ActivityUse.wait(config) : config;
+    let cancel = false;
 
-    // Finish activity if mutated config data exists
-    if (!mutatedConfig) return;
-    if (!args.noRoll) await this.activityRoll(mutatedConfig); // Handle roll
-    await this.activityMessage(mutatedConfig); // Handle chat message creation
+    if (args.skipApp) {
+      if (targeting?.operation === 'target') console.log('openTargeting'); // Open Targeting Helper
+      else if (targeting?.operation === 'placeArea') {
+        const area = await item.placeArea({ originApp: this.sheet });
+        
+        if (!area) cancel = true;
+      }; // Prompt Area placement
+    } else {
+      const mutated = await ActivityUse.wait(config);
+      if (mutated) (config, mutated); else cancel = true;
+    }
 
-    return mutatedConfig;
+    // Cancel activity if needed, otherwise proceed to roll and chat message
+    if (cancel) return;
+    if (!args.noRoll) await this.activityRoll(config); // Handle roll
+    await this.activityMessage(config); // Handle chat message creation
+
+    return config;
   }
 
   /* -------------------------------------------- */

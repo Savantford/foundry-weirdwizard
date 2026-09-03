@@ -25,7 +25,6 @@ export default class TargetingHelper extends HandlebarsApplicationMixin(Applicat
     this.activityApp.minimize();
 
     Hooks.on("targetToken", () => this.debounceRender() );
-    const rangeRegion = this.activityApp.config.item.displayRange();
   }
 
   /* -------------------------------------------- */

@@ -241,8 +241,9 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
    * @returns {RegionDocument} || null
    */
   async placeArea(options = {}) {
+    const { originApp } = options;
     // Minimize origin app
-    options.origin?.minimize();
+    originApp?.minimize();
 
     // Prepare scene region
     const grid = canvas.grid ?? foundry.documents.BaseScene.defaultGrid;
@@ -356,7 +357,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     // After placement
     msg?.remove();
     canvas.regions.clearPreviewContainer();
-    options.origin?.maximize();
+    originApp?.maximize();
 
     // Target tokens
     const forTargeting = this.system.targeting.operation === 'target';
