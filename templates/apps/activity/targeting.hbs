@@ -4,17 +4,17 @@
 
   {{!-- Targeting Buttons --}}
   <div class="buttons">
-    {{!-- Toggle Targeting Helper --}}
-    <button data-action="selectTargets">
-      <i class="fa-solid fa-arrows-down-to-people"></i> {{localize "WW.Targeting.Methods.Manual"}}
-    </button>
-    
     {{!-- Place template --}}
     {{#if (eq targeting.method "area")}}
     <button data-action="placeArea">
       <i class="fa-solid fa-users-viewfinder"></i> {{localize "WW.Targeting.Methods.Area"}}
     </button>
     {{/if}}
+
+    {{!-- Toggle Targeting Helper --}}
+    <button data-action="selectTargets">
+      <i class="fa-solid fa-arrows-down-to-people"></i> {{localize "WW.Targeting.Methods.Manual"}}
+    </button>
   </div>
 
   {{!-- Targeting Restriction --}}
