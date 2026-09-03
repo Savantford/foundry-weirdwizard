@@ -61,10 +61,10 @@ export class WWAfflictions {
   static afflictionsData() {
     const baneAllAttributes = value => {
       return [
-        addChange('banes.str', value),
-        addChange('banes.agi', value),
-        addChange('banes.int', value),
-        addChange('banes.wil', value)
+        subtractChange('banes.str', value),
+        subtractChange('banes.agi', value),
+        subtractChange('banes.int', value),
+        subtractChange('banes.wil', value)
       ];
     }
 
@@ -100,8 +100,8 @@ export class WWAfflictions {
         id: 'confused',
         img: 'systems/weirdwizard/assets/icons/confused.svg',
         changes: [
-          addChange('banes.int'),
-          addChange('banes.wil')
+          subtractChange('banes.int'),
+          subtractChange('banes.wil')
         ]
       },
 
@@ -112,7 +112,7 @@ export class WWAfflictions {
       {
         id: 'cursed',
         img: 'systems/weirdwizard/assets/icons/bleeding-eye.svg',
-        changes: [addChange('banes.luck')]
+        changes: [subtractChange('banes.luck')]
       },
 
       // Deafened
@@ -143,7 +143,7 @@ export class WWAfflictions {
         id: 'impairedStr',
         img: 'systems/weirdwizard/assets/icons/biceps-impaired.svg',
         changes: [
-          addChange('banes.str'),
+          subtractChange('banes.str'),
           addChange('boonsAgainst.str')
         ]
       },
@@ -153,7 +153,7 @@ export class WWAfflictions {
         id: 'impairedAgi',
         img: 'systems/weirdwizard/assets/icons/agility-impaired.svg',
         changes: [
-          addChange('banes.agi'),
+          subtractChange('banes.agi'),
           addChange('boonsAgainst.agi')
         ]
       },
@@ -163,7 +163,7 @@ export class WWAfflictions {
         id: 'impairedInt',
         img: 'systems/weirdwizard/assets/icons/open-book-impaired.svg',
         changes: [
-          addChange('banes.int'),
+          subtractChange('banes.int'),
           addChange('boonsAgainst.int')
         ]
       },
@@ -173,7 +173,7 @@ export class WWAfflictions {
         id: 'impairedWil',
         img: 'systems/weirdwizard/assets/icons/burning-star-impaired.svg',
         changes: [
-          addChange('banes.wil'),
+          subtractChange('banes.wil'),
           addChange('boonsAgainst.wil')
         ]
       },
@@ -244,8 +244,8 @@ export class WWAfflictions {
         id: 'weakened',
         img: 'systems/weirdwizard/assets/icons/weakened.svg',
         changes: [
-          addChange('banes.str'),
-          addChange('banes.agi'),
+          subtractChange('banes.str'),
+          subtractChange('banes.agi'),
           addChange('boonsAgainst.str'),
           addChange('boonsAgainst.agi'),
           booleanChange('speed.halved')
