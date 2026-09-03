@@ -6572,12 +6572,21 @@ p {
   cursor: help;
 }
 
-.weirdwizard .forced .dice-comparison > .rolled-number {
-  filter: none;
-  background: none;
+.weirdwizard .forced .dice-comparison {
+  > .rolled-number {
+    background: none;
+  }
 
-  .forced-icon {
+  > .rolled-number.highlight {
+    filter: none;
+  }
+
+  .chat-failure .forced-icon {
     filter: brightness(0) saturate(100%) invert(10%) sepia(91%) saturate(6105%) hue-rotate(20deg) brightness(86%) contrast(100%);
+  }
+
+  .chat-success .forced-icon {
+    filter: brightness(0) saturate(100%) invert(21%) sepia(98%) saturate(1358%) hue-rotate(119deg) brightness(93%) contrast(101%);
   }
 }
 

@@ -49,7 +49,6 @@ export default class WWRoll extends Roll {
     if (this.options?.template) template = this.options.template;
     template = template.replace('sidebar/r', 'sidebar/chat/');
     template = template.replace('templates/chat/', 'templates/sidebar/chat/');
-    console.log(template)
 
     return foundry.applications.handlebars.renderTemplate(template, chatData);
   }
@@ -190,7 +189,7 @@ export default class WWRoll extends Roll {
     const opt = this.options;
 
     if (opt.forcedOutcome) return opt.forcedOutcome;
-    if (opt.autoSuccess?.[opt.attribute]) return 'success';
+    if (opt.autoSuccess) return 'success';
     if (opt.autoFailure?.[opt.attribute]) return 'failure';
     return null;
   }

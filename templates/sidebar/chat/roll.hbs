@@ -37,9 +37,10 @@
           {{/if}}
   
           {{!-- Attribute Dice No --}}
-          <div class="dice-number rolled-number {{#if isOutcomePositive}}highlight{{/if}}" data-tooltip='{{> "systems/weirdwizard/templates/sidebar/chat/dice-tooltip.hbs" formula=formula terms=terms}}'>
+          <div class="dice-number rolled-number {{#if isForcedOutcome}}{{#if isOutcomePositive}}chat-success{{else}}chat-failure{{/if}}{{/if}} 
+            {{#if isOutcomePositive}}highlight{{/if}}" data-tooltip='{{> "systems/weirdwizard/templates/sidebar/chat/dice-tooltip.hbs" formula=formula terms=terms}}'>
             {{#if isForcedOutcome}}
-            <img class="forced-icon {{#if isOutcomePositive}}chat-success{{else}}chat-failure{{/if}}" src="systems/weirdwizard/assets/icons/chained-d20.svg">
+            <img class="forced-icon" src="systems/weirdwizard/assets/icons/chained-d20.svg">
             {{else}}
             <span>{{ total }}</span>
             {{/if}}
