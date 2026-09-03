@@ -212,7 +212,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
         valid.push({
           img: tar.img,
           name: tar.name,
-          boonsNo: boonsAgainst,
+          boonsAgainst: boonsAgainst,
           boonsIcon: `systems/weirdwizard/assets/icons/rolling-${boonsAgainst > 0 ? 'boons' : 'banes'}-colored.svg`,
           boonsTip: boonsAgainst > 0 ? _loc('WW.Boons.ExtraBoons') : _loc('WW.Boons.ExtraBanes'),
           againstNo: tar.againstNo,
