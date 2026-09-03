@@ -317,8 +317,8 @@
 "WW.Targeting.Targets": "Alvos",
 "WW.Targeting.Target": "Alvo",
 
-"WW.Targeting.Dialog.SelectTargets": "Selecione um ou mais tokens como alvo.",
-"WW.Targeting.Dialog.Confirm": "Confirme os alvos e continue",
+"WW.Targeting.Helper.SelectTargets": "Selecione um ou mais tokens como alvo.",
+"WW.Targeting.Helper.Confirm": "Confirme os alvos e continue",
 
 "WW.RollDamage.Base": "Dano base",
 "WW.RollDamage.BaseApply": "Aplicar dano base",

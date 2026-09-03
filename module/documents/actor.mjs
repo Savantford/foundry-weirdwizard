@@ -1,5 +1,6 @@
 import WWDocumentMixin from './ww-document.mjs';
 import ActivityUse from '../apps/activity-use.mjs';
+import TargetingHelper from '../apps/targeting-helper.mjs';
 import WWRoll from '../dice/roll.mjs';
 
 /**
@@ -908,14 +909,18 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     // Open or skip ActivityUse app
     let cancel = false;
 
-    if (args.skipApp) {
-      if (targeting?.operation === 'target') console.log('openTargeting'); // Open Targeting Helper
-      else if (targeting?.operation === 'placeArea') {
-        const area = await item.placeArea({ originApp: this.sheet });
-        
+    if (args.skipApp) { // Skip Activity app, but maybe open a helper
+      if (targeting?.operation === 'target') {
+        const helperOptions = { originApp: this.sheet, actor: this, cancelable: true };
+        const targetingHelper = await TargetingHelper.wait(helperOptions); // Open Targeting Helper
+
+        if (targetingHelper.cancel) cancel = true;
+      } else if (targeting?.operation === 'placeArea') {
+        const area = await item.placeArea({ originApp: this.sheet }); // Prompt Area placement
+
         if (!area) cancel = true;
-      }; // Prompt Area placement
-    } else {
+      };
+    } else { // Open Activity app
       const mutated = await ActivityUse.wait(config);
       if (mutated) (config, mutated); else cancel = true;
     }

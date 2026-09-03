@@ -310,7 +310,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
    */
   static #selectTargets() {
     const context = {
-      activityApp: this,
+      originApp: this,
       actor: this.config.actor
     }
 

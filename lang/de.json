@@ -313,8 +313,8 @@
 "WW.Targeting.Targets": "Ziele",
 "WW.Targeting.Target": "Ziel",
 
-"WW.Targeting.Dialog.SelectTargets": "Bitte eine oder mehr Figuren als Ziel(e) wählen.",
-"WW.Targeting.Dialog.Confirm": "Ziele bestätigen und fortfahren",
+"WW.Targeting.Helper.SelectTargets": "Bitte eine oder mehr Figuren als Ziel(e) wählen.",
+"WW.Targeting.Helper.Confirm": "Ziele bestätigen und fortfahren",
 
 "WW.RollDamage.Base": "Basisschaden",
 "WW.RollDamage.BaseApply": "Basisschaden anrechnen",

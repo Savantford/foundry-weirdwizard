@@ -375,8 +375,9 @@
 "WW.Targeting.Restrictions.Enemies": "Enemies",
 "WW.Targeting.Restrictions.Allies": "Allies",
 
-"WW.Targeting.Dialog.SelectTargets": "Please select one or more tokens to target.",
-"WW.Targeting.Dialog.Confirm": "Confirm Targets and Continue",
+"WW.Targeting.Helper.SelectTargets": "Please select one or more tokens to target.",
+"WW.Targeting.Helper.Confirm": "Confirm Targets and Continue",
+"WW.Targeting.Helper.Cancel": "Cancel Activity",
 
 "WW.RollDamage.Base": "Base Damage",
 "WW.RollDamage.BaseApply": "Apply the base damage",

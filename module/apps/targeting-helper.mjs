@@ -14,15 +14,15 @@ export default class TargetingHelper extends HandlebarsApplicationMixin(Applicat
 
   constructor(options={}) {
     super(options); // Required for "this." to work
+    console.log(options)
 
     this.initialLayer = canvas.activeLayer;
-    this.activityApp = options.activityApp;
 
     // Activate the Targeting tool in the Tokens layer
     canvas.tokens.activate({ tool: 'target' });
 
     // Hide the app that originated the Helper
-    this.activityApp.minimize();
+    options.originApp?.minimize();
 
     Hooks.on("targetToken", () => this.debounceRender() );
   }
@@ -39,6 +39,9 @@ export default class TargetingHelper extends HandlebarsApplicationMixin(Applicat
     position: {
       width: "auto",
       height: "auto"
+    },
+    actions: {
+      cancel: this.#cancel
     }
   }
 
@@ -56,18 +59,53 @@ export default class TargetingHelper extends HandlebarsApplicationMixin(Applicat
 
   async _prepareContext(options = {}) {
     const context = {
-      noTargets: false //!game.user.targets.size
+      noTargets: false, //!game.user.targets.size
+      cancelable: this.options.cancelable
     };
 
     return context;
   }
 
   /* -------------------------------------------- */
-  /*  Actions                                     */
+  /*  Lifecycle & Form handling                   */
+  /* -------------------------------------------- */
+
+  #resolvers = Promise.withResolvers();
+
+  get promise() { return this.#resolvers.promise; };
+
+  /* -------------------------------------------- */
+
+  /**
+   * Create an Activity app instance and wait for it to be closed or confirmed.
+   * @param config
+   * @returns {Promise<any>}
+   */
+
+  static async wait(options) {
+    const app = new this(options);
+    app.render(true);
+    return app.promise;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * @param {PointerEvent} event - The originating click event
+   * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
+   * @this {ActivityUse}
+   */
+  static async #cancel(event, target) {
+    this.#resolvers.resolve({ cancel: true });
+    this.close();
+  }
+
   /* -------------------------------------------- */
 
   /** @override */
   _onClose(options) {
+    this.#resolvers.resolve({ cancel: false });
+
     // Turn off targeting hook
     Hooks.off('targetToken');
 
@@ -77,8 +115,7 @@ export default class TargetingHelper extends HandlebarsApplicationMixin(Applicat
     // Switch back to the initial layer
     this.initialLayer.activate();
     
-    // Maximize the Activity App
-    this.activityApp.maximize();
+    // Maximize the origin app
+    options.originApp?.maximize();
   }
-
 }

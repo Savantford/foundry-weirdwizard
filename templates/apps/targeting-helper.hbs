@@ -1,11 +1,17 @@
 <section>
-  <div>{{localize "WW.Targeting.Dialog.SelectTargets"}}</div>
+  <div>{{localize "WW.Targeting.Helper.SelectTargets"}}</div>
   
   <div class="buttons">
   
     <button type="button" data-action="close" {{disabled noTargets}}>
-      <i class="fa-solid fa-dice"></i> {{localize "WW.Targeting.Dialog.Confirm"}}
+      <i class="fa-solid fa-dice"></i> {{localize "WW.Targeting.Helper.Confirm"}}
     </button>
+
+    {{#if cancelable}}
+    <button type="button" data-action="cancel">
+      <i class="fa-solid fa-dice"></i> {{localize "WW.Targeting.Helper.Cancel"}}
+    </button>
+    {{/if}}
   
   </div>
 
