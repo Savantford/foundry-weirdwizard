@@ -165,18 +165,19 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
   */
   displayRange(options={}) {
     const { color='#000000', token=this.inferToken } = options;
-    
+
     if (!token) return null;
+    
     const { x: tx, y: ty, width: twidth, height: theight, shape: tshape } = token._source;
     const grid = canvas.grid ?? foundry.documents.BaseScene.defaultGrid;
     const yard = canvas.dimensions.distancePixels;
     const emanationBaseShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
     const targeting = this.system.targeting;
     const range = targeting.method === 'self' ? 0 : targeting.range; // Treat as 0 if self targeted
-
+    
     // Return earlier if range is null
     if (!range) return null;
-
+    
     // The inner hole shape
     const holeShape = {
       type: 'emanation',
@@ -204,7 +205,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       visibility: CONST.REGION_VISIBILITY.OBSERVER,
       ownership: { [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER }
     }, { parent: canvas.scene });
-
+    
     const holeRegion = new RegionDocument.implementation({
       name: 'rangeHole',
       shapes: [
@@ -221,7 +222,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     const PlaceableClass = foundry.utils.getPlaceableObjectClass("Region");
     const rangePlaceable = new PlaceableClass(rangeRegion);
     const holePlaceable = new PlaceableClass(holeRegion);
-
+    
     // Add placeables as a child to previews
     canvas.regions.preview.addChild(rangePlaceable);
     canvas.regions.preview.addChild(holePlaceable);
@@ -282,14 +283,16 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     };
 
     // Toggle region display
-    const [rangeRegion, rangePlaceable] = this.displayRange();
+    const displayRange = this.displayRange();
 
     // Prepare placement constraints
-    let msg;
+    let warning;
 
     const onMove = ({shape, position, snap}) => {
       // Snap is gonna be true if user is not holding shift
-      if ( !snap ) return;
+      if ( !snap || !this.system.range ) return;
+
+      const [rangeRegion, rangePlaceable] = displayRange;
 
       // Restrict snapping to vertex/center
       const mode = CONST.GRID_SNAPPING_MODES[(isCircle && size % 2 === 0) ? "VERTEX" : "CENTER"]; // If even Sized circle, snap to vertex instead
@@ -337,13 +340,13 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       const rangeColorIn = '#000000', rangeColorOut = '#400800';
       
       if (outOfRange) {
-        if (!msg || msg?.active === false) msg = ui.notifications.warn("WW.Targeting.RangeOut", { localize: true, permanent: true });
+        if (!warning || warning?.active === false) warning = ui.notifications.warn("WW.Targeting.RangeOut", { localize: true, permanent: true });
         if (rangeRegion.color.css === rangeColorIn) {
           rangeRegion.updateSource({ color: rangeColorOut });
           rangePlaceable.refresh();
         };
       } else {
-        msg?.remove();
+        warning?.remove();
         if (rangeRegion.color.css === rangeColorOut) {
           rangeRegion.updateSource({ color: rangeColorIn });
           rangePlaceable.refresh();
@@ -355,8 +358,10 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     const region = await canvas.regions.placeRegion(regionData, { attachToToken: attached, onMove });
 
     // After placement
-    msg?.remove();
+    warning?.remove();
     canvas.regions.clearPreviewContainer();
+
+    // Maximize origin app
     originApp?.maximize();
 
     // Target tokens
