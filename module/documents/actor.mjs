@@ -444,7 +444,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     this.system.stats.damage.max = current;
 
     // Update incapacitated status
-    if (this.incapacitated === undefined) this.incapcitated = false;
+    this.incapacitated ??= false;
     if (!this.incapacitated) this.incapacitated = damage >= current;
 
   }

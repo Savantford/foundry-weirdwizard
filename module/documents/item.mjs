@@ -135,8 +135,11 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
    * @returns {TokenDocument}
   */
   get inferToken() {
+    const actorTokens = this.actor.getActiveTokens();
     const controlledTokens = canvas.tokens.controlled;
+
     if (this.actor.token) return this.actor.token; // Unlinked synthetic actor's token
+    if (actorTokens.length) return actorTokens[0].document; // First token associated the linked Actor
     if (controlledTokens.length) return controlledTokens[0].document; // First controlled token
     return null;
   }
@@ -152,6 +155,82 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       ...options,
       item: this
     })
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Display the item's Range as a Scene Region and return it.
+   * @returns {RegionDocument}
+  */
+  displayRange(options={}) {
+    const { color='#000000', token=this.inferToken } = options;
+    
+    if (!token) return null;
+    const { x: tx, y: ty, width: twidth, height: theight, shape: tshape } = token._source;
+    const grid = canvas.grid ?? foundry.documents.BaseScene.defaultGrid;
+    const yard = canvas.dimensions.distancePixels;
+    const emanationBaseShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
+    const targeting = this.system.targeting;
+    const range = targeting.method === 'self' ? 0 : targeting.range; // Treat as 0 if self targeted
+
+    // Return earlier if range is null
+    if (!range) return null;
+
+    // The inner hole shape
+    const holeShape = {
+      type: 'emanation',
+      hole: true,
+      base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: emanationBaseShape },
+      radius: range * yard,
+      gridBased: !grid.isGridless
+    }
+    
+    const rangeRegion = new RegionDocument.implementation({
+      name: 'rangeRegion',
+      shapes: [
+        {
+          type: 'emanation',
+          base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: emanationBaseShape },
+          radius: 1000 * yard,
+          gridBased: !grid.isGridless
+        },
+        holeShape
+      ],
+      color: color,
+      levels: [canvas.level.id],
+      highlightMode: "coverage",
+      displayMeasurements: false,
+      visibility: CONST.REGION_VISIBILITY.OBSERVER,
+      ownership: { [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER }
+    }, { parent: canvas.scene });
+
+    const holeRegion = new RegionDocument.implementation({
+      name: 'rangeHole',
+      shapes: [
+        holeShape
+      ],
+      levels: [canvas.level.id],
+      highlightMode: "coverage",
+      displayMeasurements: true,
+      visibility: CONST.REGION_VISIBILITY.OBSERVER,
+      ownership: { [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER }
+    }, { parent: canvas.scene });
+    
+    // Create placeables
+    const PlaceableClass = foundry.utils.getPlaceableObjectClass("Region");
+    const rangePlaceable = new PlaceableClass(rangeRegion);
+    const holePlaceable = new PlaceableClass(holeRegion);
+
+    // Add placeables as a child to previews
+    canvas.regions.preview.addChild(rangePlaceable);
+    canvas.regions.preview.addChild(holePlaceable);
+
+    // Draw regions
+    rangePlaceable.draw();
+    holePlaceable.draw();
+
+    return [rangeRegion, rangePlaceable];
   }
 
   /* -------------------------------------------- */
@@ -298,82 +377,6 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     region.delete();
 
     return region;
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Display the item's Range as a Scene Region and return it.
-   * @returns {RegionDocument}
-  */
-  displayRange(options={}) {
-    const { color='#000000', token=this.inferToken } = options;
-    
-    if (!token) return null;
-    const { x: tx, y: ty, width: twidth, height: theight, shape: tshape } = token._source;
-    const grid = canvas.grid ?? foundry.documents.BaseScene.defaultGrid;
-    const yard = canvas.dimensions.distancePixels;
-    const emanationBaseShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
-    const targeting = this.system.targeting;
-    const range = targeting.method === 'self' ? 0 : targeting.range; // Treat as 0 if self targeted
-
-    // Return earlier if range is null
-    if (!range) return null;
-
-    // The inner hole shape
-    const holeShape = {
-      type: 'emanation',
-      hole: true,
-      base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: emanationBaseShape },
-      radius: range * yard,
-      gridBased: !grid.isGridless
-    }
-    
-    const rangeRegion = new RegionDocument.implementation({
-      name: 'rangeRegion',
-      shapes: [
-        {
-          type: 'emanation',
-          base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: emanationBaseShape },
-          radius: 1000 * yard,
-          gridBased: !grid.isGridless
-        },
-        holeShape
-      ],
-      color: color,
-      levels: [canvas.level.id],
-      highlightMode: "coverage",
-      displayMeasurements: false,
-      visibility: CONST.REGION_VISIBILITY.OBSERVER,
-      ownership: { [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER }
-    }, { parent: canvas.scene });
-
-    const holeRegion = new RegionDocument.implementation({
-      name: 'rangeHole',
-      shapes: [
-        holeShape
-      ],
-      levels: [canvas.level.id],
-      highlightMode: "coverage",
-      displayMeasurements: true,
-      visibility: CONST.REGION_VISIBILITY.OBSERVER,
-      ownership: { [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER }
-    }, { parent: canvas.scene });
-    
-    // Create placeables
-    const PlaceableClass = foundry.utils.getPlaceableObjectClass("Region");
-    const rangePlaceable = new PlaceableClass(rangeRegion);
-    const holePlaceable = new PlaceableClass(holeRegion);
-
-    // Add placeables as a child to previews
-    canvas.regions.preview.addChild(rangePlaceable);
-    canvas.regions.preview.addChild(holePlaceable);
-
-    // Draw regions
-    rangePlaceable.draw();
-    holePlaceable.draw();
-
-    return [rangeRegion, rangePlaceable];
   }
 
 }

@@ -23,8 +23,6 @@ export default class WWRoll extends Roll {
     
     const attribute = this.options.attribute;
     const against = this.options.against;
-    console.log(this.options)
-    console.log(this.forcedOutcome)
     
     const chatData = {
       ...outcomeData,
