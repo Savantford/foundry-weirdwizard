@@ -988,7 +988,7 @@ body.theme-dark.application.weirdwizard .window-content {
 }
 
 .weirdwizard.sheet.creature input[type="number"],
-.weirdwizard.sheet.creature input[name="sizeFraction"] {
+.weirdwizard input[name*="sizeFraction"] {
   min-width: 2.5ch;
   max-width: 4.5ch;
 }
@@ -4156,6 +4156,7 @@ input[type="checkbox"].checkbox-uses {
 .journal-entry-page.charoption .edit-mode .benefits-section input,
 .journal-entry-page.charoption .edit-mode .benefits-section select {
   background: var(--background-color-shadow);
+  border: none;
   border-radius: 3px;
   margin: 0;
   color: var(--body-text-color);

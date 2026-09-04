@@ -179,13 +179,6 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     // Prepare Ancestries
     if (this.isAncestry) {
       context.traitsHeading = _loc("WW.CharOption.AncestryTraitsHeading", { ancestry: this.page.name });
-
-      for (const b in context.benefits) {
-        const benefit = context.benefits[b];
-        
-        benefit.sizeFraction = game.weirdwizard.utils.nearestFraction(benefit.stats.sizeNormal);
-        benefit.sizeTooltip = _loc('WW.Stats.SizeConversionTip');
-      }
     }
     
     // Prepare Paths
@@ -292,6 +285,26 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
         },
       }).bind(this.element);
     }
+  }
+
+  /* -------------------------------------------- */
+  /*  Form Submission                             */
+  /* -------------------------------------------- */
+
+  /** @inheritdoc */
+  _processFormData(event, form, formData) {
+    formData = super._processFormData(event, form, formData);
+    const ut = foundry.utils;
+
+    // Convert Size fraction to number
+    const benefitPath = 'system.benefits.benefit1';
+
+    if (ut.hasProperty(formData, `${benefitPath}.sizeFraction`)) {
+      const sizeNum = game.weirdwizard.utils.fractionToNumber(ut.getProperty(formData, `${benefitPath}.sizeFraction`));
+      ut.setProperty(formData, `${benefitPath}.stats.sizeNormal`, sizeNum);
+    }
+
+    return formData;
   }
 
   /* -------------------------------------------- */

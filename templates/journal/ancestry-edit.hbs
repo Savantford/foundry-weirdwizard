@@ -88,14 +88,7 @@
         {{!-- Size --}}
         <label>{{localize "WW.Stats.Size"}}:</label>
   
-        <div class="input-wrap">
-          <input name="system.benefits.benefit1.stats.sizeNormal" type="number"
-            value="{{benefits.benefit1.stats.sizeNormal}}" min="0" placeholder="1" data-tooltip="{{ benefits.benefit1.sizeTooltip }}"/>
-  
-          <div class="input-overlay">{{benefits.benefit1.stats.sizeNormal}}</div>
-        </div>
-
-        ({{ benefits.benefit1.sizeFraction }})
+        <input name="system.benefits.benefit1.sizeFraction" type="string" value="{{ benefits.benefit1.stats.sizeFraction }}">
   
         {{!-- Speed --}}
         <label>{{localize "WW.Stats.Speed"}}:</label>

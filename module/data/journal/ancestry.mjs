@@ -20,7 +20,6 @@ export default class AncestryModel extends BaseCharOptionModel {
 
           sizeNormal: new fields.NumberField({
             min: 0,
-            max: 10,
             initial: 1
           }),
           speedNormal: makeIntField()
@@ -73,6 +72,13 @@ export default class AncestryModel extends BaseCharOptionModel {
     });
 
     return schema;
+  }
+
+  /** @inheritdoc */
+  prepareDerivedData() {
+    super.prepareDerivedData();
+    
+    this.benefits.benefit1.stats.sizeFraction = game.weirdwizard.utils.nearestFraction(this.benefits.benefit1.stats.sizeNormal);
   }
 
   /**
