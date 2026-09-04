@@ -209,9 +209,7 @@
           {{!-- Size --}}
           <label>{{ stats.size.label }}:</label>
   
-          {{ formInput stats.size.field name=stats.size.name value=stats.size.sourceValue dataset=(object tooltip=stats.size.inputTooltip) }}
-  
-          ({{ stats.size.fraction }})
+          {{ formInput stats.size.field name=stats.size.name value=stats.size.fraction dataset=(object tooltip=stats.size.inputTooltip) }}
   
           {{!-- Speed --}}
           <label class="ml-1">{{localize "WW.Stats.SpeedNormalNPC"}}:</label>

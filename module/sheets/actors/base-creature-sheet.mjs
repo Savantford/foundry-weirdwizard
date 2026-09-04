@@ -65,7 +65,6 @@ export default class WWCreatureSheet extends WWActorSheet {
       effectLuckEnds: this.#onActiveEffectLuckEnds
     },
     form: {
-      handler: this.#onSubmitDocumentForm, // needed for damage update
       submitOnChange: true,
       closeOnSubmit: false
     }
@@ -162,24 +161,24 @@ export default class WWCreatureSheet extends WWActorSheet {
 
     // Size
     context.stats.size = {
-      name: `system.stats.size`,
-      field: field(`stats.size`),
+      name: 'sizeFraction',
+      field: new foundry.data.fields.StringField(), //field('stats.size'),
       label: _loc("WW.Stats.Size"),
 
       sourceValue: context.system._source.stats.size,
       finalValue: context.system.stats.size,
-      fraction: game.weirdwizard.utils.nearestFraction(context.system.stats.size),
+      fraction: context.system.stats.sizeFraction,
       autoTooltip: this.actor.type === 'npc' && (context.system.stats.size !== context.system._source.stats.size) ? `
         <p>${_loc('WW.Stats.SizeNormal')}: ${context.system._source.stats.size}</p>
         <p>• ${_loc('WW.Stats.AutomationHint', { stat: _loc("WW.Stats.Size") })}</p>
       ` : _loc('WW.Stats.AutomationHint', { stat: _loc("WW.Stats.Size") }),
-      inputTooltip: `<p>${_loc('WW.Stats.SizeTip', { value: context.system.stats.size })}</p> ${_loc('WW.Stats.SizeConversionTip')}`
+      inputTooltip: _loc('WW.Stats.SizeTip', { value: context.system.stats.sizeFraction })
     }
 
     // Normal Speed
     context.stats.speedNormal = {
-      name: `system.stats.speed.normal`,
-      field: field(`stats.speed.normal`),
+      name: 'system.stats.speed.normal',
+      field: field('stats.speed.normal'),
       label: _loc("WW.Stats.SpeedNormal"),
       
       sourceValue: context.system._source.stats.speed.normal,
@@ -803,22 +802,23 @@ export default class WWCreatureSheet extends WWActorSheet {
   /*  Form Submission                             */
   /* -------------------------------------------- */
 
-  /**
-   * @override
-   * Process form submission for the sheet
-   * @this {DocumentSheetV2}                      The handler is called with the application as its bound scope
-   * @param {SubmitEvent} event                   The originating form submission event
-   * @param {HTMLFormElement} form                The form element that was submitted
-   * @param {FormDataExtended} formData           Processed data for the submitted form
-   * @returns {Promise<void>}
-   */
-  static async #onSubmitDocumentForm(event, form, formData) {
-    if ( !this.isEditable ) return;
-    
-    formData.object['system.stats.damage.value'] = formData.object.damage;
-    
-    const submitData = this._prepareSubmitData(event, form, formData);
-    await this._processSubmitData(event, form, submitData);
+  /** @inheritdoc */
+  _processFormData(event, form, formData) {
+    formData = super._processFormData(event, form, formData);
+    const ut = foundry.utils;
+
+    // Assign damage value
+    if (ut.hasProperty(formData, 'damage')) {
+      ut.setProperty(formData, 'system.stats.damage.value', ut.getProperty(formData, 'damage'));
+    }
+
+    // Convert Size fraction to number
+    if (ut.hasProperty(formData, 'sizeFraction')) {
+      const sizeNum = game.weirdwizard.utils.fractionToNumber(ut.getProperty(formData, 'sizeFraction'));
+      ut.setProperty(formData, 'system.stats.size', sizeNum);
+    }
+
+    return formData;
   }
 
   /* -------------------------------------------- */

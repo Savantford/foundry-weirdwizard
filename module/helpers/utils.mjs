@@ -168,6 +168,7 @@ export function sum(array) {
  * @returns {number|null}
  */
 export function fractionToNumber(fraction, digits=4) {
+  if (typeof fraction !== 'string') return null;
   if (!fraction.includes("/")) return parseInt(fraction);
 
   const [numerator, denominator] = fraction.split("/");
@@ -175,7 +176,7 @@ export function fractionToNumber(fraction, digits=4) {
   const factor = 10 ** digits;
   const trimmed = Math.trunc(number * factor) / factor;
   
-  return trimmed === Infinity ? null : trimmed;
+  return Number.isFinite(trimmed) ? trimmed : null;
 }
 
 /**

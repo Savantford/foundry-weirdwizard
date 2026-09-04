@@ -66,7 +66,6 @@
 "WW.Stats.Size": "Size",
 "WW.Stats.SizeNormal": "Normal Size",
 "WW.Stats.SizeTip": "You are editing the Normal Size value. The final Size score should be {value}.",
-"WW.Stats.SizeConversionTip": "<p>If you want to use a fraction, such as Size 1/2, you must write on the field the equivalent decimal number:</p><p>0.5 for 1/2</p><p>0.25 for 1/4</p><p>0.125 for 1/8</p><p>0.0625 for 1/16</p><p>0.03125 for 1/32</p>",
 "WW.Stats.Speed": "Speed",
 "WW.Stats.SpeedNormal": "Normal Speed",
 "WW.Stats.SpeedNormalNPC": "Speed (Normal)",

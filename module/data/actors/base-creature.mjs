@@ -97,6 +97,13 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
     return schema;
   }
 
+  /** @inheritdoc */
+  prepareDerivedData() {
+    super.prepareDerivedData();
+    
+    this.stats.sizeFraction = game.weirdwizard.utils.nearestFraction(this.stats.size);
+  }
+
   /**
    * Migrate source data from some prior format into a new specification.
    * The source parameter is either original data retrieved from disk or provided by an update operation.

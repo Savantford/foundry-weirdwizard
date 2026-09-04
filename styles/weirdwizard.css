@@ -987,7 +987,8 @@ body.theme-dark.application.weirdwizard .window-content {
   }
 }
 
-.weirdwizard.sheet.creature input[type="number"] {
+.weirdwizard.sheet.creature input[type="number"],
+.weirdwizard.sheet.creature input[name="sizeFraction"] {
   min-width: 2.5ch;
   max-width: 4.5ch;
 }
