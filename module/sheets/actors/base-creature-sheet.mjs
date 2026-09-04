@@ -168,7 +168,7 @@ export default class WWCreatureSheet extends WWActorSheet {
 
       sourceValue: context.system._source.stats.size,
       finalValue: context.system.stats.size,
-      displayedValue: game.weirdwizard.utils.nearestFraction(context.system.stats.size),
+      fraction: game.weirdwizard.utils.nearestFraction(context.system.stats.size),
       autoTooltip: this.actor.type === 'npc' && (context.system.stats.size !== context.system._source.stats.size) ? `
         <p>${_loc('WW.Stats.SizeNormal')}: ${context.system._source.stats.size}</p>
         <p>• ${_loc('WW.Stats.AutomationHint', { stat: _loc("WW.Stats.Size") })}</p>
