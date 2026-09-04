@@ -104,24 +104,22 @@
       },
       "img": "icons/equipment/chest/breastplate-collared-leather-brown.webp",
       "type": "base",
-      "system": {
-        "changes": [
-          {
-            "key": "defense.armored",
-            "value": 12,
-            "": 4,
-            "priority": 1,
-            "type": "custom"
-          },
-          {
-            "key": "defense.naturalIncrease",
-            "value": 1,
-            "": 2,
-            "priority": null,
-            "type": "custom"
-          }
-        ]
-      },
+      "changes": [
+        {
+          "key": "defense.armored",
+          "value": 12,
+          "": 4,
+          "priority": 1,
+          "type": "custom"
+        },
+        {
+          "key": "defense.naturalIncrease",
+          "value": 1,
+          "": 2,
+          "priority": null,
+          "type": "custom"
+        }
+      ],
       "sort": 0,
       "start": null,
       "showIcon": 1,

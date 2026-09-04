@@ -104,24 +104,22 @@
       },
       "img": "icons/equipment/chest/breastplate-quilted-brown.webp",
       "type": "base",
-      "system": {
-        "changes": [
-          {
-            "key": "defense.armored",
-            "value": 11,
-            "": 4,
-            "priority": 1,
-            "type": "custom"
-          },
-          {
-            "key": "defense.naturalIncrease",
-            "value": 0,
-            "": 2,
-            "priority": null,
-            "type": "custom"
-          }
-        ]
-      },
+      "changes": [
+        {
+          "key": "defense.armored",
+          "value": 11,
+          "": 4,
+          "priority": 1,
+          "type": "custom"
+        },
+        {
+          "key": "defense.naturalIncrease",
+          "value": 0,
+          "": 2,
+          "priority": null,
+          "type": "custom"
+        }
+      ],
       "sort": 0,
       "start": null,
       "showIcon": 1,
