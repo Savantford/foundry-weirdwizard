@@ -52,17 +52,15 @@
       "img": "icons/svg/card-hand.svg",
       "_id": "l7ege9iTxbfQIT0H",
       "type": "base",
-      "system": {
-        "changes": [
-          {
-            "key": "boons.spells",
-            "value": 1,
-            "": 2,
-            "priority": null,
-            "type": "custom"
-          }
-        ]
-      },
+      "changes": [
+        {
+          "key": "boons.spells",
+          "value": 1,
+          "": 2,
+          "priority": null,
+          "type": "custom"
+        }
+      ],
       "description": "",
       "tint": "#ffffff",
       "transfer": true,

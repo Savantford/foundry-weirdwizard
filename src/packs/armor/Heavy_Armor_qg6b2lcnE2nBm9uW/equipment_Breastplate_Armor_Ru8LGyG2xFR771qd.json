@@ -104,22 +104,20 @@
       },
       "img": "icons/equipment/chest/breastplate-gorget-steel-white.webp",
       "type": "base",
-      "system": {
-        "changes": [
-          {
-            "key": "defense.armored",
-            "value": 16,
-            "type": 4,
-            "priority": 1
-          },
-          {
-            "key": "defense.naturalIncrease",
-            "value": 3,
-            "type": 2,
-            "priority": null
-          }
-        ]
-      },
+      "changes": [
+        {
+          "key": "defense.armored",
+          "value": 16,
+          "type": 4,
+          "priority": 1
+        },
+        {
+          "key": "defense.naturalIncrease",
+          "value": 3,
+          "type": 2,
+          "priority": null
+        }
+      ],
       "sort": 0,
       "start": null,
       "showIcon": 1,

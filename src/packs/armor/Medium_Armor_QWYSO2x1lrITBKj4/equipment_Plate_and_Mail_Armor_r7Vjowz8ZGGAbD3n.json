@@ -104,17 +104,15 @@
       },
       "img": "icons/equipment/chest/breastplate-metal-scaled-grey.webp",
       "type": "base",
-      "system": {
-        "changes": [
-          {
-            "key": "defense.armored",
-            "value": 16,
-            "": 4,
-            "priority": 1,
-            "type": "custom"
-          }
-        ]
-      },
+      "changes": [
+        {
+          "key": "defense.armored",
+          "value": 16,
+          "": 4,
+          "priority": 1,
+          "type": "custom"
+        }
+      ],
       "sort": 0,
       "start": null,
       "showIcon": 1,

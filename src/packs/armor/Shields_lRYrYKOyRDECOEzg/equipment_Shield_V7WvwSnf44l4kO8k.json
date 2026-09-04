@@ -91,17 +91,15 @@
       "img": "icons/equipment/shield/heater-steel-boss-red.webp",
       "_id": "6CApAcAOoxllfLyA",
       "type": "base",
-      "system": {
-        "changes": [
-          {
-            "key": "defense.bonus",
-            "value": 2,
-            "": 2,
-            "priority": null,
-            "type": "custom"
-          }
-        ]
-      },
+      "changes": [
+        {
+          "key": "defense.bonus",
+          "value": 2,
+          "": 2,
+          "priority": null,
+          "type": "custom"
+        }
+      ],
       "description": "",
       "tint": "#ffffff",
       "transfer": true,

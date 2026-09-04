@@ -104,16 +104,14 @@
       },
       "img": "icons/equipment/chest/breastplate-cuirass-steel-grey.webp",
       "type": "base",
-      "system": {
-        "changes": [
-          {
-            "key": "defense.armored",
-            "value": 18,
-            "type": 4,
-            "priority": 1
-          }
-        ]
-      },
+      "changes": [
+        {
+          "key": "defense.armored",
+          "value": 18,
+          "type": 4,
+          "priority": 1
+        }
+      ],
       "sort": 0,
       "start": null,
       "showIcon": 1,

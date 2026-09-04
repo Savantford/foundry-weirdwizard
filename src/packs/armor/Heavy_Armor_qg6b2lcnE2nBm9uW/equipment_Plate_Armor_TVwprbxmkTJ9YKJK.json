@@ -104,17 +104,15 @@
       },
       "img": "icons/equipment/chest/breastplate-layered-steel.webp",
       "type": "base",
-      "system": {
-        "changes": [
-          {
-            "key": "defense.armored",
-            "value": 17,
-            "": 4,
-            "priority": 1,
-            "type": "custom"
-          }
-        ]
-      },
+      "changes": [
+        {
+          "key": "defense.armored",
+          "value": 17,
+          "": 4,
+          "priority": 1,
+          "type": "custom"
+        }
+      ],
       "sort": 0,
       "start": null,
       "showIcon": 1,

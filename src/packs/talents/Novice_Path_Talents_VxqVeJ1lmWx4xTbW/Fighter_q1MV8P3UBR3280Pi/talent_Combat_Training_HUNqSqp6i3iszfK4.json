@@ -53,17 +53,15 @@
       "img": "icons/svg/card-hand.svg",
       "_id": "FAMNoDNbqWe3wqqA",
       "type": "base",
-      "system": {
-        "changes": [
-          {
-            "key": "boons.attacks",
-            "value": 1,
-            "": 2,
-            "priority": null,
-            "type": "custom"
-          }
-        ]
-      },
+      "changes": [
+        {
+          "key": "boons.attacks",
+          "value": 1,
+          "": 2,
+          "priority": null,
+          "type": "custom"
+        }
+      ],
       "description": "",
       "tint": "#ffffff",
       "transfer": true,
