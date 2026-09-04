@@ -38,8 +38,7 @@
     "instant": [],
     "traits": [
       "disarming",
-      "nimble",
-      "slashing"
+      "nimble"
     ],
     "requirements": "agi11",
     "grantedBy": null,
@@ -60,10 +59,10 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "13.350",
+    "coreVersion": "13.351",
     "createdTime": 1691868642734,
-    "modifiedTime": 1769799865563,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788529199596,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null
