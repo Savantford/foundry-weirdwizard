@@ -165,7 +165,7 @@ export function sum(array) {
  * Convert a fraction string to a number of up to X decimal digits.
  * @param {string} fraction 
  * @param {number} digits 
- * @returns {Number|null}
+ * @returns {number|null}
  */
 export function fractionToNumber(fraction, digits=4) {
   if (!fraction.includes("/")) return parseInt(fraction);
@@ -183,7 +183,7 @@ export function fractionToNumber(fraction, digits=4) {
  * Returns 0 if fraction is too small.
  * @param {number} number
  * @param {number} maxDenominator
- * @returns {string} fraction or null
+ * @returns {string|null} Fraction or null
  */
 export function nearestFraction(number, maxDenominator=128) {
   let lowerNumerator = 1, lowerDenominator = 0;
