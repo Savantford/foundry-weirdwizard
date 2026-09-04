@@ -161,6 +161,42 @@ export function sum(array) {
   return sum;
 }
 
+/**
+ * Find the nearest fraction for a given number.
+ * Returns 0 if fraction is too small.
+ * @param {Number} number
+ * @param {Number} maxDenominator
+ * @returns {String} fraction | 0
+ */
+export function nearestFraction(number, maxDenominator=128) {
+  let lowerNumerator = 1, lowerDenominator = 0;
+  let upperNumerator = 0, upperDenominator = 1;
+
+  // Continued fractions
+  while (true) {
+    const whole = Math.floor(number);
+    const nextNum = lowerNumerator * whole + upperNumerator;
+    const nextDen = lowerDenominator * whole + upperDenominator;
+
+    // Top if bigger than maximum denominator
+    if (nextDen > maxDenominator) break;
+
+    // Assign next numerators and denominators
+    upperNumerator = lowerNumerator;
+    upperDenominator = lowerDenominator;
+    lowerNumerator = nextNum;
+    lowerDenominator = nextDen;
+
+    // Check remainder to see if it's still relevant
+    const remainder = number - whole;
+    if (remainder < 1e-7) break;
+    number = 1 / remainder;
+  }
+
+  if (lowerNumerator === 0) return 0;
+  else return `${lowerNumerator}/${lowerDenominator}`;
+}
+
 /* -------------------------------------------- */
 /*  Getters                                     */
 /* -------------------------------------------- */
