@@ -493,7 +493,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         doc.ancestryStats = ancestryStats ? `<ol>${ancestryStats}</ol>` : '—';
 
         // Size
-        doc.ancestrySize = CONFIG.WW.SIZE_FRACTIONS[sizeNormal] ?? sizeNormal;
+        doc.ancestrySize = game.weirdwizard.utils.nearestFraction(sizeNormal);
         
         // Speed
         let movementTraits = '';
@@ -702,7 +702,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         // Other Stats
         doc.creatureDefense = stats.defense.natural ?? '—';
         doc.creatureHealth = stats.health.normal ?? '—';
-        doc.creatureSize = (CONFIG.WW.SIZE_FRACTIONS[stats.size] ?? stats.size) ?? '—';
+        doc.creatureSize = game.weirdwizard.utils.nearestFraction(stats.size) ?? '—';
         doc.creatureSpeed = stats.speed.normal ?? '—';
       }
 

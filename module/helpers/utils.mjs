@@ -189,6 +189,8 @@ export function nearestFraction(number, maxDenominator=128) {
   let lowerNumerator = 1, lowerDenominator = 0;
   let upperNumerator = 0, upperDenominator = 1;
 
+  // Return earlier
+  if (!number) return null;
   if (number >= 1) return `${number}`;
 
   // Continued fractions

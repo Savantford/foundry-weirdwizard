@@ -67,14 +67,6 @@ WW.TIERS = {
   'master': 'WW.CharOptions.Master'
 };
 
-WW.SIZE_FRACTIONS = {
-  0.5: '1/2',
-  0.25: '1/4',
-  0.125: '1/8',
-  0.0625: '1/16',
-  0.03125: '1/32'
-}
-
 WW.BESTIARY_DIFFICULTIES = {
   1: 1,
   2: 2,
