@@ -20,7 +20,6 @@ export default class AncestryModel extends BaseCharOptionModel {
 
           sizeNormal: new fields.NumberField({
             min: 0,
-            max: 10,
             initial: 1
           }),
           speedNormal: makeIntField()
