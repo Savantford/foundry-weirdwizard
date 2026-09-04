@@ -162,15 +162,34 @@ export function sum(array) {
 }
 
 /**
+ * Convert a fraction string to a number of up to X decimal digits.
+ * @param {string} fraction 
+ * @param {number} digits 
+ * @returns {Number|null}
+ */
+export function fractionToNumber(fraction, digits=4) {
+  if (!fraction.includes("/")) return parseInt(fraction);
+
+  const [numerator, denominator] = fraction.split("/");
+  const number = numerator / denominator;
+  const factor = 10 ** digits;
+  const trimmed = Math.trunc(number * factor) / factor;
+  
+  return trimmed === Infinity ? null : trimmed;
+}
+
+/**
  * Find the nearest fraction for a given number.
  * Returns 0 if fraction is too small.
- * @param {Number} number
- * @param {Number} maxDenominator
- * @returns {String} fraction | 0
+ * @param {number} number
+ * @param {number} maxDenominator
+ * @returns {string} fraction or null
  */
 export function nearestFraction(number, maxDenominator=128) {
   let lowerNumerator = 1, lowerDenominator = 0;
   let upperNumerator = 0, upperDenominator = 1;
+
+  if (number >= 1) return `${number}`;
 
   // Continued fractions
   while (true) {
@@ -193,8 +212,8 @@ export function nearestFraction(number, maxDenominator=128) {
     number = 1 / remainder;
   }
 
-  if (lowerNumerator === 0) return 0;
-  else return `${lowerNumerator}/${lowerDenominator}`;
+  // Return null if too low
+  return lowerNumerator === 0 ? null : `${lowerNumerator}/${lowerDenominator}`;
 }
 
 /* -------------------------------------------- */

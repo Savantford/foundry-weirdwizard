@@ -59,7 +59,7 @@ export default class GroupModel extends foundry.abstract.TypeDataModel {
 
   /**
    * Get the group's max level Character from Active Members list.
-   * @type {integer}
+   * @type {number}
    */
   get maxLevel() {
     const membersArr = [... this.membersList.active].filter(x => x.type === 'character');

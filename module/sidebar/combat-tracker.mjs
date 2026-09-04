@@ -796,7 +796,7 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
   /**
    * Handle a drop event for an existing embedded Combatant to sort that Combatant relative to its siblings
    * @param {Event} event
-   * @param {String} combatantId
+   * @param {string} combatantId
    * @private
    */
   _onSortCombatant(event, combatantId, dropTarget) {

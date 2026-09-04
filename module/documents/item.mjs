@@ -103,7 +103,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
 
   /**
    * Check if item needs targets.
-   * @returns {Boolean} Need targets?
+   * @returns {boolean} Need targets?
   */ 
   get needTargets() {
     let need = false;

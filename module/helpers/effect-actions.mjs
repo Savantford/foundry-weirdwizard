@@ -152,10 +152,10 @@ export async function deleteActiveEffect(effect, owner) {
 /**
  * Prepare the data structure for Active Effects which are currently applied to an Actor or Item.
  * @param {ActiveEffect[]} effects    The array of Active Effect instances to prepare sheet data for
- * @param {Boolean} showDuration      Show effect duration on page
- * @param {Boolean} showSource        Show effect source on page
- * @param {Boolean} showControls      Show control buttons on page
- * @param {Boolean} showCreate        Show create buttons on page
+ * @param {boolean} showDuration      Show effect duration on page
+ * @param {boolean} showSource        Show effect source on page
+ * @param {boolean} showControls      Show control buttons on page
+ * @param {boolean} showCreate        Show create buttons on page
  * @return {Object}                   Data for rendering
 */
 export async function prepareActorEffectCategories(document, options={}) {
@@ -235,10 +235,10 @@ export async function prepareActorEffectCategories(document, options={}) {
 /**
  * Prepare the data structure for Active Effects which are currently applied to an Actor or Item.
  * @param {ActiveEffect[]} effects    The array of Active Effect instances to prepare sheet data for
- * @param {Boolean} showDuration      Show effect duration on page
- * @param {Boolean} showSource        Show effect source on page
- * @param {Boolean} showControls      Show control buttons on page
- * @param {Boolean} showCreate        Show create buttons on page
+ * @param {boolean} showDuration      Show effect duration on page
+ * @param {boolean} showSource        Show effect source on page
+ * @param {boolean} showControls      Show control buttons on page
+ * @param {boolean} showCreate        Show create buttons on page
  * @return {Object}                   Data for rendering
 */
 export async function prepareItemEffectCategories(document, options={}) {
