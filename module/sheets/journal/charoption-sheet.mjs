@@ -183,7 +183,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
       for (const b in context.benefits) {
         const benefit = context.benefits[b];
         
-        benefit.sizeDisplayed = game.weirdwizard.utils.nearestFraction(benefit.stats.sizeNormal);
+        benefit.sizeFraction = game.weirdwizard.utils.nearestFraction(benefit.stats.sizeNormal);
         benefit.sizeTooltip = _loc('WW.Stats.SizeConversionTip');
       }
     }
