@@ -148,17 +148,7 @@
 
   <div class="weapon-fields">
     {{!-- Range and Damage Row --}}
-    <div class="stat-inline flex-wrap flex-children">
-
-      {{!-- Range --}}
-      {{#if hasRange}}
-      <div>
-        <label>{{localize "WW.Weapon.Traits.Range.Label"}} / {{localize "WW.Weapon.Traits.Thrown.Label"}}:</label>
-    
-        <div class="info" data-tooltip="WW.Targeting.RangeWeaponTip">{{system.targeting.range}}</div>
-      </div>
-      {{/if}}
-  
+    <div class="stat-inline flex-wrap flex-children"> 
       {{!-- Damage --}}
       <div>
         <label>{{localize "WW.Damage.Label"}}:</label>
@@ -176,7 +166,7 @@
     {{!-- Weapon Traits --}}
     <div class="weapon-traits">
     {{#with traits}}
-      {{formInput field type="checkboxes" class="weapon-traits" options=options name=name value=value localize=true sort=true }}
+      {{formInput field type="checkboxes" class="weapon-traits" options=options name=name value=value localize=true sort=true dataset=(object tooltip="WW.Targeting.RangeWeaponTip") }}
     {{/with}}
     </div>
     

@@ -190,10 +190,15 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
           const options = [];
 
           for (const [key, data] of Object.entries(CONFIG.WW.WEAPON_TRAITS)) {
-            options.push({
+            const trait = {
               value: key,
-              label: data.label
-            })
+              label: _loc(data.label),
+              /*dataset: { tooltip: ['range', 'thrown'].includes(key) ? 'test' : ''}*/
+            }
+
+            if (['range', 'thrown'].includes(key)) trait.label += ` ${context.system.targeting.range}`;
+
+            options.push(trait);
           }
           
           context.traits = {
