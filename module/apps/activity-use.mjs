@@ -311,7 +311,8 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   static #selectTargets() {
     const context = {
       originApp: this,
-      actor: this.config.actor
+      actor: this.config.actor,
+      item: this.config.item
     }
 
     // Activate TargetingHelper app

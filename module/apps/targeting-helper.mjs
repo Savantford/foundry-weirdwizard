@@ -23,6 +23,9 @@ export default class TargetingHelper extends HandlebarsApplicationMixin(Applicat
     // Hide the app that originated the Helper
     options.originApp?.minimize();
 
+    // Display range
+    if (options.item) options.item.displayRange();
+
     Hooks.on("targetToken", () => this.debounceRender() );
   }
 
@@ -113,6 +116,9 @@ export default class TargetingHelper extends HandlebarsApplicationMixin(Applicat
 
     // Switch back to the initial layer
     this.initialLayer.activate();
+
+    // Clear region previews (Range display)
+    canvas.regions.clearPreviewContainer();
     
     // Maximize the origin app
     options.originApp?.maximize();

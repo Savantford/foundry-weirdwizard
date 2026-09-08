@@ -918,7 +918,12 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
         
       // Open Targeting Helper
       } else if (targeting?.operation === 'target') {
-        const helperOptions = { originApp: this.sheet, actor: this, cancelable: true };
+        const helperOptions = {
+          originApp: this.sheet,
+          actor: this,
+          item,
+          cancelable: true
+        };
         const targetingHelper = await TargetingHelper.wait(helperOptions);
 
         if (targetingHelper.cancel) cancel = true;
