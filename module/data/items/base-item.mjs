@@ -88,8 +88,10 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
 
     // Migrate targeting and area settings
     if (typeof source.targeting === 'string') {
+      const needTargeting = source.range || source.targeting === 'template' || source.against;
+      
       source.targeting = {
-        operation: 'target',
+        operation: needTargeting ? 'target' : 'none',
         method: source.targeting === 'template' ? 'area' : 'manual'
       }
     }
