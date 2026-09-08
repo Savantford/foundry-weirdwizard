@@ -37,16 +37,18 @@
     "reloaded": true,
     "armorType": "light",
     "traits": [
+      "ammunition",
       "large",
       "light",
-      "range",
-      "ammunition"
+      "range"
     ],
     "instant": [],
     "requirements": "",
     "grantedBy": null,
     "magical": false,
-    "targeting": "manual",
+    "targeting": {
+      "operation": "target"
+    },
     "template": {
       "type": "size",
       "value": 5
@@ -61,10 +63,10 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "createdTime": 1692214385649,
-    "modifiedTime": 1769799901554,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788897283116,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null

@@ -5,7 +5,7 @@
   "_id": "3jN4UViEJJ3pV2hx",
   "img": "icons/magic/time/arrows-circling-green.webp",
   "system": {
-    "description": "<p>You can use an action to heal half your dam- age total and enable one other creature within 5 yards to heal half their damage total. Once you use this talent, you lose access to it until after you rest.</p>",
+    "description": "<p>You can use an action to heal half your damage total and enable one other creature within 5 yards to heal half their damage total. Once you use this talent, you lose access to it until after you rest.</p>",
     "active": true,
     "attribute": "",
     "against": "",
@@ -39,7 +39,11 @@
         "affliction": ""
       }
     ],
-    "targeting": "manual",
+    "targeting": {
+      "operation": "target",
+      "method": "self",
+      "range": 5
+    },
     "template": {
       "type": "size",
       "value": 5
@@ -59,12 +63,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1720988744283,
-    "modifiedTime": 1766597301229,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788899509541,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!3jN4UViEJJ3pV2hx"
