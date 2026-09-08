@@ -39,9 +39,8 @@
     "instant": [],
     "traits": [
       "light",
-      "nimble",
-      "piercing",
-      "thrown"
+      "thrown",
+      "nimble"
     ],
     "requirements": "",
     "grantedBy": null,
@@ -61,10 +60,10 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "createdTime": 1692071093156,
-    "modifiedTime": 1769799769852,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788894034146,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null
