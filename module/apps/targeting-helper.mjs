@@ -14,7 +14,6 @@ export default class TargetingHelper extends HandlebarsApplicationMixin(Applicat
 
   constructor(options={}) {
     super(options); // Required for "this." to work
-    console.log(options)
 
     this.initialLayer = canvas.activeLayer;
 
