@@ -86,19 +86,18 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
       else if (!source.grantedBy?.includes('.')) source.grantedBy = null;
     }
 
-    // Migrate targeting & scene region template
-    /*if (typeof source.targeting === 'string') {
+    // Migrate targeting and area settings
+    if (typeof source.targeting === 'string') {
       source.targeting = {
-        operation: source.targeting,
-        range: source.range
-      };
+        operation: 'target',
+        method: source.targeting === 'template' ? 'area' : 'manual'
+      }
+    }
 
-      if (source.targeting.operation === 'template') source.targeting.operation = 'spawnRegion';
-    }*/
-    
-    //if (source.template?.value) source.area.size = source.template.value;
+    if (source.range) foundry.utils.setProperty(source, 'targeting.range', source.range);
+
+    if (source.template?.value) foundry.utils.setProperty(source, 'area.size', source.template.value);
     
     return source;
   }
-
 }
