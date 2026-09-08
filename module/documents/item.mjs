@@ -174,6 +174,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     const emanationBaseShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
     const targeting = this.system.targeting;
     const range = targeting.method === 'self' ? 0 : targeting.range; // Treat as 0 if self targeted
+    console.log(range)
     
     // Return earlier if range is null
     if (!range) return null;
@@ -290,7 +291,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
 
     const onMove = ({shape, position, snap}) => {
       // Snap is gonna be true if user is not holding shift
-      if ( !snap || !this.system.range ) return;
+      if ( !snap || !this.system.targeting.range ) return;
 
       const [rangeRegion, rangePlaceable] = displayRange;
 
