@@ -248,6 +248,9 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
         return {label, action, active: action === targetingRestriction};
       });
     }
+
+    // Area
+    if (item) context.area = item.system.area;
     
     // Message Modes
     const messageMode = game.settings.get("core", "messageMode");

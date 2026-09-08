@@ -1,6 +1,28 @@
 <section class="targeting">
   {{!-- Heading --}}
-  <h4 class="icon"><i class="fa-regular fa-bullseye"></i> {{localize "WW.Targeting.Targets"}}</h4>
+  <h4 class="icon">
+    <i class="fa-regular fa-bullseye"></i>
+
+    {{localize "WW.Targeting.Targets"}}
+
+    {{!-- Area Parameters --}}
+    <ol class="params">
+      {{!-- Range --}}
+      <li>{{localize "WW.Targeting.Range"}} {{ targeting.range }}</li>
+
+      {{!-- Area Parameters --}}
+      {{#if (eq targeting.method "area")}}
+        {{!-- Shape, Size / Radius --}}
+        {{#if (eq area.shape "circle")}}
+        <li>{{localize "WW.Item.Area.Shape.Circle"}}</li>
+        <li>{{localize "WW.Item.Area.Size"}} {{ area.size }}</li>
+        {{else}}
+        <li>{{localize "WW.Item.Area.Shape.Emanation"}}</li>
+        <li>{{localize "WW.Item.Area.Radius"}} {{ area.radius }}</li>
+        {{/if}}
+      {{/if}}
+    </ol>
+  </h4>
 
   {{!-- Targeting Buttons --}}
   <div class="buttons">

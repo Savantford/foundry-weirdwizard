@@ -4983,6 +4983,24 @@ details.document-card .card-header:hover::after {
     i.fa-arrows-up-down-left-right {
       font-weight: 300;
     }
+
+    .params {
+      display: inline-flex;
+      flex-flow: wrap;
+      gap: 0 5px;
+      list-style: none;
+      font-size: smaller;
+      margin: 0 0 0 auto;
+      padding: 0;
+
+      li {
+        margin: 0;
+      }
+
+      li:not(:last-of-type)::after {
+        content: ", ";
+      }
+    }
   }
 
   h4.rounded {
@@ -5654,7 +5672,7 @@ table.roll-table-embed {
           gap: 0 4px;
           justify-content: center;
 
-          >li:not(:last-of-type)::after {
+          > li:not(:last-of-type)::after {
             content: ", ";
           }
 
