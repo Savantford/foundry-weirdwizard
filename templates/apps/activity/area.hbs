@@ -1,6 +1,25 @@
 <section class="area">
   {{!-- Heading --}}
-  <h4 class="icon"><i class="fa-regular fa-arrows-up-down-left-right"></i> {{localize "WW.Item.Area.Label"}}</h4>
+  <h4 class="icon">
+    <i class="fa-regular fa-arrows-up-down-left-right"></i>
+    
+    {{localize "WW.Item.Area.Label"}}
+
+    {{!-- Area Parameters --}}
+    <ol class="params">
+      {{!-- Range --}}
+      <li>{{localize "WW.Targeting.Range"}} {{ targeting.range }}</li>
+
+      {{!-- Shape, Size / Radius --}}
+      {{#if (eq area.shape "circle")}}
+        <li>{{localize "WW.Item.Area.Shape.Circle"}}</li>
+        <li>{{localize "WW.Item.Area.Size"}} {{ area.size }}</li>
+      {{else}}
+        <li>{{localize "WW.Item.Area.Shape.Emanation"}}</li>
+        <li>{{localize "WW.Item.Area.Radius"}} {{ area.radius }}</li>
+      {{/if}}
+    </ol>
+  </h4>
 
   {{!-- Buttons --}}
   <div class="buttons">
