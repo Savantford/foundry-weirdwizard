@@ -845,8 +845,6 @@ export default class WWCreatureSheet extends WWActorSheet {
   /* -------------------------------------------- */
 
   _onItemUse(dataset, args={}) {
-    // Define variables to be used
-    const system = this.actor.system;
     const item = this.actor.items.get(dataset.itemId);
     const flavor = _secretLabel(item.name);
     const content = _secretContent(item.system.description);
@@ -860,25 +858,7 @@ export default class WWCreatureSheet extends WWActorSheet {
       }
     }
 
-    // Check for Automatic Failure
-    /*if (system.autoFail[item.system.attribute]) {
-      const messageData = {
-        type: 'd20-roll',
-        speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
-        flavor: flavor,
-        content: content,
-        sound: CONFIG.sounds.dice,
-        'flags.weirdwizard': {
-          item: item.uuid,
-          rollHtml: '<div class="dice-outcome chat-failure">' + _loc('WW.Roll.AutoFail') + '!</div>',
-          emptyContent: !content ?? true
-        }
-      };
-      console.log('automatic failing')
-      ChatMessage.create(messageData);
-    } else {*/
-      this.actor.useActivity(activityOptions);
-    //}
+    this.actor.useActivity(activityOptions);
   }
 
   /* -------------------------------------------- */

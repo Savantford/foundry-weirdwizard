@@ -94,6 +94,44 @@
         <div class="message-content">
             {{{message.content}}}
         </div>
+
+        {{!-- Chat Application Buttons --}}
+        {{#if (and (not message.rolls.length) (or instEffs.length actEffs.length))}}
+        <div class="chat-buttons">
+            
+            {{!-- Instant Effect Buttons --}}
+            {{#if instEffs.length}}
+            {{#each instEffs as |effect id|}}
+            <div class="chat-button" data-action="{{action}}" data-value="{{#if (eq label 'affliction')}}{{affliction}}{{else}}{{{value}}}{{/if}}"
+                data-origin-uuid="{{@root.originUuid}}" data-target-ids="{{targetIds}}">
+                <i class="fa-solid fa-{{icon}}"></i>{{localize loc}}: {{#if (eq label 'affliction')}}{{affliction}}{{else}}{{{value}}}{{/if}}
+            </div>
+            {{/each}}
+            {{/if}} {{!-- END Instant Effect Buttons --}}
+
+            {{!-- Active Effect Buttons --}}
+            {{#if actEffs.length}}
+            {{#each actEffs as |effect id|}}
+            <div class="chat-button" data-action="{{action}}" data-effect-uuid="{{uuid}}" data-origin-uuid="{{@root.originUuid}}" data-target-ids="{{targetIds}}">
+                {{#if img}}<img src="{{img}}" />{{/if}}{{name}}
+            </div>
+            {{/each}}
+            {{/if}} {{!-- END Active Effect Buttons --}}
+
+        </div>
+        {{/if}}
+        
+        {{!-- Apply Buttons --}}        
+        {{#if applyButtons}}
+        <div class="chat-button-container">
+            {{#each applyButtons as |button id|}}
+            <div class="chat-button flexcol" data-action="{{action}}" data-value="{{value}}" data-effect-uuid="{{effectUuid}}" data-origin-uuid="{{originUuid}}" data-target-ids="{{targetIds}}">
+                <img src="{{img}}"/>
+                <div>{{localize loc}}</div>
+            </div>
+            {{/each}}
+        </div>
+        {{/if}}
         
     </div>
 
