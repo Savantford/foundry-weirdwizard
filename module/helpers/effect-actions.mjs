@@ -298,8 +298,10 @@ const getEffectData = async (effect) => {
 
   // Prepare changes
   for (const c of effect.changes) {
-    const label = CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.preset] ? _loc(CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.preset]) : c.key;
-    context.changes += `<li>${label} ${(c.value !== true) ? `${c.value}.` : ''}</li>`;
+    const loc = _loc(CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.preset]);
+    
+    if (loc) context.changes += `<li>${loc} ${(c.value !== 'true') ? `${c.value}.` : ''}</li>`;
+    else context.changes += `<li>${c.key} = ${c.value}</li>`;
   }
 
   effect.tooltip = await foundry.applications.handlebars.renderTemplate(sysPath(`templates/apps/tooltips/effect.hbs`), context);

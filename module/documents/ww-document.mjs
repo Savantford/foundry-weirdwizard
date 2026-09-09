@@ -308,8 +308,10 @@ export default function WWDocumentMixin(base) {
           context.changes = '';
 
           for (const c of this.changes) {
-            const label = CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.key] ? _loc(CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.key]) : 'BROKEN EFFECT CHANGE, FIX IT!';
-            context.changes += `<li>${label} ${(c.value !== true) ? `${c.value}.` : ''}</li>`;
+            const loc = _loc(CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.preset]);
+    
+            if (loc) context.changes += `<li>${loc} ${(c.value !== 'true') ? `${c.value}.` : ''}</li>`;
+            else context.changes += `<li>${c.key} = ${c.value}</li>`;
           }
 
         }; break;
