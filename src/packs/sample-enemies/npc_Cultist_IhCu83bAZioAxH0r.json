@@ -195,7 +195,59 @@
       },
       "_id": "OTUl4sx2eBw7lygt",
       "img": "icons/svg/card-hand.svg",
-      "effects": [],
+      "effects": [
+        {
+          "name": "Fanatic",
+          "img": "icons/svg/card-hand.svg",
+          "origin": "Compendium.weirdwizard.sample-enemies.Actor.IhCu83bAZioAxH0r.Item.OTUl4sx2eBw7lygt",
+          "disabled": false,
+          "duration": {
+            "value": null,
+            "units": "seconds",
+            "expiry": null,
+            "expired": false
+          },
+          "system": {
+            "durationPreset": "",
+            "trigger": "passive",
+            "changes": [
+              {
+                "preset": "boons.wil",
+                "value": "1",
+                "key": "system.boons.selfRoll.wil",
+                "type": "add",
+                "phase": "initial",
+                "priority": null
+              }
+            ],
+            "target": "any",
+            "grantedBy": null
+          },
+          "_id": "rkirpekTQkS8XAhd",
+          "type": "base",
+          "start": null,
+          "description": "",
+          "tint": "#ffffff",
+          "transfer": true,
+          "statuses": [],
+          "showIcon": 1,
+          "folder": null,
+          "sort": 0,
+          "flags": {},
+          "_stats": {
+            "coreVersion": "14.367",
+            "systemId": "weirdwizard",
+            "systemVersion": "#{VERSION}#",
+            "createdTime": 1788986078575,
+            "modifiedTime": 1788986089638,
+            "lastModifiedBy": "zin7Kb6P2LomswaD",
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null
+          },
+          "_key": "!actors.items.effects!IhCu83bAZioAxH0r.OTUl4sx2eBw7lygt.rkirpekTQkS8XAhd"
+        }
+      ],
       "folder": null,
       "sort": 0,
       "flags": {},

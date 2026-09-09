@@ -191,13 +191,19 @@
         },
         "healing": "",
         "instant": [],
-        "targeting": "manual",
+        "targeting": {
+          "operation": "placeArea"
+        },
         "template": {
           "type": "size",
           "value": 5
         },
         "source": "none",
-        "boonsAlt": ""
+        "boonsAlt": "",
+        "area": {
+          "shape": "emanation",
+          "attached": true
+        }
       },
       "_id": "fygpcROuIV7GdrA7",
       "img": "icons/svg/card-hand.svg",
@@ -206,12 +212,12 @@
       "sort": 0,
       "flags": {},
       "_stats": {
-        "coreVersion": "14.361",
+        "coreVersion": "14.367",
         "systemId": "weirdwizard",
         "systemVersion": "#{VERSION}#",
-        "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
         "createdTime": 1781624227507,
-        "modifiedTime": 1781624227507,
+        "modifiedTime": 1788985934007,
         "exportSource": null,
         "compendiumSource": null,
         "duplicateSource": null
@@ -254,7 +260,59 @@
       },
       "_id": "JMV4otbMuubnV1MB",
       "img": "icons/svg/card-hand.svg",
-      "effects": [],
+      "effects": [
+        {
+          "name": "Fanatic",
+          "img": "icons/svg/card-hand.svg",
+          "origin": "Compendium.weirdwizard.sample-enemies.Actor.KITbsyHKZ5bciaF6.Item.JMV4otbMuubnV1MB",
+          "disabled": false,
+          "duration": {
+            "value": null,
+            "units": "seconds",
+            "expiry": null,
+            "expired": false
+          },
+          "system": {
+            "durationPreset": "",
+            "trigger": "passive",
+            "changes": [
+              {
+                "preset": "boons.wil",
+                "value": "1",
+                "key": "system.boons.selfRoll.wil",
+                "type": "add",
+                "phase": "initial",
+                "priority": null
+              }
+            ],
+            "target": "any",
+            "grantedBy": null
+          },
+          "_id": "ldwQP0BWusp2xk3u",
+          "type": "base",
+          "start": null,
+          "description": "",
+          "tint": "#ffffff",
+          "transfer": true,
+          "statuses": [],
+          "showIcon": 1,
+          "folder": null,
+          "sort": 0,
+          "flags": {},
+          "_stats": {
+            "coreVersion": "14.367",
+            "systemId": "weirdwizard",
+            "systemVersion": "#{VERSION}#",
+            "createdTime": 1788985967987,
+            "modifiedTime": 1788986012592,
+            "lastModifiedBy": "zin7Kb6P2LomswaD",
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null
+          },
+          "_key": "!actors.items.effects!KITbsyHKZ5bciaF6.JMV4otbMuubnV1MB.ldwQP0BWusp2xk3u"
+        }
+      ],
       "folder": null,
       "sort": 0,
       "flags": {},

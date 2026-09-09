@@ -609,26 +609,11 @@
         "reloaded": true,
         "armorType": "light",
         "instant": [],
-        "traits": {
-          "ammunition": false,
-          "brutal": false,
-          "firearm": false,
-          "long": false,
-          "nimble": true,
-          "range": false,
-          "special": false,
-          "thrown": true,
-          "versatile": false,
-          "light": true,
-          "piercing": true,
-          "bludgeoning": false,
-          "disarming": false,
-          "large": false,
-          "misfire": false,
-          "reload": false,
-          "slashing": false,
-          "slow": false
-        },
+        "traits": [
+          "light",
+          "nimble",
+          "thrown"
+        ],
         "requirements": "",
         "targeting": "manual",
         "template": {
@@ -647,11 +632,11 @@
       "_stats": {
         "compendiumSource": "Compendium.weirdwizard.weapons.Item.CXVX2qXNjAUvWkpi",
         "duplicateSource": null,
-        "coreVersion": "14.360",
+        "coreVersion": "14.367",
         "systemId": "weirdwizard",
         "systemVersion": "#{VERSION}#",
         "createdTime": 1721419277165,
-        "modifiedTime": 1754186600931,
+        "modifiedTime": 1788985599771,
         "lastModifiedBy": "zin7Kb6P2LomswaD",
         "exportSource": null
       },
