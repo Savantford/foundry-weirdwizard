@@ -63,6 +63,7 @@
 "WW.Stats.Label": "Stats",
 "WW.Stats.Level": "Level",
 "WW.Stats.Difficulty": "Difficulty",
+"WW.Stats.DifficultyNone": "None",
 "WW.Stats.Size": "Size",
 "WW.Stats.SizeNormal": "Normal Size",
 "WW.Stats.SizeTip": "You are editing the Normal Size value. The final Size score should be {value}.",

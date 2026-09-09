@@ -67,7 +67,8 @@ WW.TIERS = {
   'master': 'WW.CharOptions.Master'
 };
 
-WW.BESTIARY_DIFFICULTIES = {
+WW.ENEMY_DIFFICULTIES = {
+  0: "WW.Stats.DifficultyNone",
   1: 1,
   2: 2,
   4: 4,

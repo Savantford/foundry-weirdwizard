@@ -1,29 +1,27 @@
 {{!-- Name Stripe --}}
 <div class="name-stripe">
+  {{!-- Character Name --}}
+  <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.Actor.Name"}}" {{#unless isEditMode}}disabled{{/unless}}/></h1>
 
-    {{!-- Character Name --}}
-    <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "WW.Actor.Name"}}" {{#unless isEditMode}}disabled{{/unless}}/></h1>
-
-    {{!-- Level / Difficulty --}}
-    <div>
-        {{#if levels}}
-        {{localize "WW.Stats.Level"}}
-        {{else}}
-        {{localize "WW.Stats.Difficulty"}}
-        {{/if}}
-
-        <div class="level-badge" {{#unless isEditMode}}disabled{{/unless}}>
-            {{#if levels}}
-            <select name="system.stats.level" {{#unless isEditMode}}disabled{{/unless}}>
-                {{selectOptions levels selected=system.stats.level}}
-            </select>
-            {{else if difficulties}}
-            <select name="system.stats.difficulty" {{#unless isEditMode}}disabled{{/unless}}>
-                {{selectOptions difficulties selected=system.stats.difficulty}}
-            </select>
-            {{/if}}
-        </div>
-
+  {{!-- Level / Difficulty --}}
+  {{#unless (and (eq actor.type "npc") (eq system.stats.difficulty 0)) }}
+  <div>
+    {{#if levels}}
+    {{localize "WW.Stats.Level"}}
+    {{else}}
+    {{localize "WW.Stats.Difficulty"}}
+    {{/if}}
+  
+    <div class="level-badge" {{#unless isEditMode}}disabled{{/unless}}>
+      {{#if levels}}
+      <select name="system.stats.level" {{#unless isEditMode}}disabled{{/unless}}>
+        {{selectOptions levels selected=system.stats.level}}
+      </select>
+      {{else if difficulties}}
+      {{ system.stats.difficulty }}
+      </select>
+      {{/if}}
     </div>
-
+  </div>
+  {{/unless}}
 </div>

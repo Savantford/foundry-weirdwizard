@@ -372,7 +372,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     }
 
     // Prepare dropdown lists
-    context.difficulties = CONFIG.WW.BESTIARY_DIFFICULTIES;
+    context.difficulties = CONFIG.WW.ENEMY_DIFFICULTIES;
 
     // Prepare editable Natural Defense check
     if (this.actor._source.system.stats.defense.natural !== this.actor.system.stats.defense.natural) context.defenseDisabled = true;

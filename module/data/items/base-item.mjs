@@ -57,7 +57,7 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
         size: makeIntField(5),
         attached: makeBooField(),
         color: new fields.ColorField(),
-        shape: makeRequiredStrField('emanation'),
+        shape: makeRequiredStrField('circle'),
 
         restriction: new fields.SchemaField({
           enabled: makeBooField(true),
