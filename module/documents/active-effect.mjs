@@ -7,20 +7,6 @@ export default class WWActiveEffect extends WWDocumentMixin(foundry.documents.Ac
   /* -------------------------------------------- */
   /*  Document Lifecycle                          */
   /* -------------------------------------------- */
-
-  /*async _preCreate(data, options, user) {
-    console.log(data)
-    console.log(options)
-    return await super._preCreate(data, options, user);
-  }*/
-
-  /* -------------------------------------------- */
-
-  /*async _preUpdate(changes, options, user) {
-    return await super._preUpdate(changes, options, user);
-  }*/
-
-  /* -------------------------------------------- */
   
   /** @inheritDoc */
   _onDelete(options, userId) {
