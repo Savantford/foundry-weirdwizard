@@ -21,7 +21,10 @@
     },
     "healing": "",
     "instant": [],
-    "targeting": "manual",
+    "targeting": {
+      "operation": "placeArea",
+      "range": 15
+    },
     "template": {
       "type": "size",
       "value": 5
@@ -43,12 +46,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744750245133,
-    "modifiedTime": 1769707476591,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788962245292,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!YR79igjQHrrFHFx4"

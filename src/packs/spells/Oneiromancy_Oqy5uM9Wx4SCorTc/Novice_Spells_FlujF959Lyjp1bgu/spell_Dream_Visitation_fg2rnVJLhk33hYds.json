@@ -8,8 +8,8 @@
     "description": "<p>Your mind enters the dreamlands to search for the target’s sleeping mind. Make an Intellect roll against its Will. On a success, you find the target’s mind and enter its dreams. To the target’s dreaming self, you present yourself as anyone you choose and can communicate with the target regardless of having any languages in common. In addition, you make the target’s dreams pleasant, so that it regains twice as much Health as normal when it wakens, or unpleasant, in which case the target derives no benefit from resting.</p>",
     "active": false,
     "magical": true,
-    "attribute": "",
-    "against": "",
+    "attribute": "int",
+    "against": "wil",
     "boons": 0,
     "range": 0,
     "affliction": "",
@@ -21,7 +21,9 @@
     },
     "healing": "",
     "instant": [],
-    "targeting": "manual",
+    "targeting": {
+      "operation": "target"
+    },
     "template": {
       "type": "size",
       "value": 5
@@ -43,12 +45,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744754579953,
-    "modifiedTime": 1769707806105,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788979722338,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!fg2rnVJLhk33hYds"

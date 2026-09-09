@@ -21,7 +21,10 @@
     },
     "healing": "",
     "instant": [],
-    "targeting": "manual",
+    "targeting": {
+      "operation": "target",
+      "method": "area"
+    },
     "template": {
       "type": "size",
       "value": 5
@@ -31,9 +34,88 @@
     "casting": "<p>1 at level 1, 2 at level 3, or 4 at level 7, on your turn, no action required when you lack the confused, controlled, stunned, and unconscious afflictions</p>",
     "target": "<p>Each creature in a Size 3 space centered on you if you whisper, a Size 10 space if you speak, or a Size 60 space if you shout</p>",
     "duration": "<p>Instantaneous</p>",
-    "grantedBy": null
+    "grantedBy": null,
+    "area": {
+      "size": 3
+    }
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Hindering Syllable",
+      "img": "icons/magic/control/debuff-chains-red.webp",
+      "origin": "Compendium.weirdwizard.spells.Item.85H1VpTCmNCVroOA",
+      "disabled": false,
+      "duration": {
+        "value": 1,
+        "units": "rounds",
+        "expiry": "turnEnd",
+        "expired": false
+      },
+      "system": {
+        "durationPreset": "nextTriggerTurnEnd",
+        "trigger": "onUse",
+        "changes": [
+          {
+            "preset": "banes.str",
+            "value": 1,
+            "key": "system.boons.selfRoll.str",
+            "type": "subtract",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "preset": "banes.agi",
+            "value": 1,
+            "key": "system.boons.selfRoll.agi",
+            "type": "subtract",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "preset": "banes.int",
+            "value": 1,
+            "key": "system.boons.selfRoll.int",
+            "type": "subtract",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "preset": "banes.wil",
+            "value": 1,
+            "key": "system.boons.selfRoll.wil",
+            "type": "subtract",
+            "phase": "initial",
+            "priority": null
+          }
+        ],
+        "target": "any",
+        "grantedBy": null
+      },
+      "_id": "UGxX7Y2FDWKEOTak",
+      "type": "base",
+      "start": null,
+      "description": "",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "showIcon": 1,
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.367",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1788976017064,
+        "modifiedTime": 1788976095665,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_key": "!items.effects!85H1VpTCmNCVroOA.UGxX7Y2FDWKEOTak"
+    }
+  ],
   "sort": 0,
   "ownership": {
     "default": 0,
@@ -43,12 +125,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744753814735,
-    "modifiedTime": 1769707761328,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788975458068,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!85H1VpTCmNCVroOA"

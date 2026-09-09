@@ -33,7 +33,67 @@
     "duration": "<p>1 minute</p>",
     "grantedBy": null
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Celeritous Moves",
+      "img": "icons/magic/light/explosion-impact-purple.webp",
+      "origin": "Compendium.weirdwizard.spells.Item.jO5eROWGLMgAqv0L",
+      "disabled": false,
+      "duration": {
+        "value": 1,
+        "units": "minutes",
+        "expiry": null,
+        "expired": false
+      },
+      "system": {
+        "durationPreset": "1minute",
+        "trigger": "onUse",
+        "changes": [
+          {
+            "preset": "speed.tempIncrease",
+            "value": 5,
+            "key": "system.stats.speed.current",
+            "type": "add",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "preset": "boons.attacks",
+            "value": 1,
+            "key": "system.boons.selfRoll.attacks",
+            "type": "add",
+            "phase": "initial",
+            "priority": null
+          }
+        ],
+        "target": "allies",
+        "grantedBy": null
+      },
+      "_id": "PJTOT233vyokdNsg",
+      "type": "base",
+      "start": null,
+      "description": "<p>You pick up speed until you leave tracers when you move. Increase your Speed by 5, roll to attack with 1 boon, and gain the Slippery trait.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "showIcon": 1,
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.367",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1788984696478,
+        "modifiedTime": 1788984797111,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_key": "!items.effects!jO5eROWGLMgAqv0L.PJTOT233vyokdNsg"
+    }
+  ],
   "sort": 0,
   "ownership": {
     "default": 0,

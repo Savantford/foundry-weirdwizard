@@ -30,7 +30,52 @@
     "source": "tradition",
     "grantedBy": null
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Invisible",
+      "img": "icons/magic/air/fog-gas-smoke-purple.webp",
+      "origin": "Compendium.weirdwizard.spells.Item.PVNvTFQlNW0s0wP2",
+      "disabled": false,
+      "duration": {
+        "value": 0,
+        "units": "rounds",
+        "expiry": "turnStart",
+        "expired": false
+      },
+      "system": {
+        "durationPreset": "nextTriggerTurnStart",
+        "trigger": "onUse",
+        "changes": [],
+        "target": "any",
+        "grantedBy": null
+      },
+      "_id": "b7od4SMJxj9U0YmM",
+      "type": "base",
+      "start": null,
+      "description": "",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [
+        "invisible"
+      ],
+      "showIcon": 1,
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.367",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1788976389881,
+        "modifiedTime": 1788976423657,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_key": "!items.effects!PVNvTFQlNW0s0wP2.b7od4SMJxj9U0YmM"
+    }
+  ],
   "sort": 0,
   "ownership": {
     "default": 0,

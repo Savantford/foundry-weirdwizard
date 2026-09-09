@@ -5,7 +5,7 @@
   "_id": "IZoCOU6D8QP71cTg",
   "img": "icons/magic/defensive/armor-shield-barrier-steel.webp",
   "system": {
-    "description": "<p>You can use a reaction when a creature you can see attacks you to block the attack. Roll a d20 and subtract the number rolled from the result of the attacker’s roll. You can use this talent once, twice at level 3, and three times at level 7. You regain expended uses after you rest.</p>",
+    "description": "<p>You can use a reaction when a creature you can see attacks you to block the attack. Roll @[1d20] and subtract the number rolled from the result of the attacker’s roll. You can use this talent once, twice at level 3, and three times at level 7. You regain expended uses after you rest.</p>",
     "active": true,
     "magical": true,
     "attribute": "",
@@ -15,9 +15,9 @@
     "affliction": "",
     "uses": {
       "value": 0,
-      "max": 0,
+      "max": 1,
       "onRest": true,
-      "levelRelative": "manual"
+      "levelRelative": "third"
     },
     "healing": "",
     "instant": [],
@@ -40,12 +40,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744756636820,
-    "modifiedTime": 1766598328858,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788984563778,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!IZoCOU6D8QP71cTg"

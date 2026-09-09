@@ -15,9 +15,9 @@
     "affliction": "",
     "uses": {
       "value": 0,
-      "max": 0,
+      "max": 1,
       "onRest": true,
-      "levelRelative": "manual"
+      "levelRelative": "third"
     },
     "healing": "",
     "instant": [],
@@ -30,7 +30,59 @@
     "source": "tradition",
     "grantedBy": null
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Bright Light (Fire Cloak)",
+      "img": "icons/magic/fire/projectile-feathers-embers-gold.webp",
+      "origin": "Compendium.weirdwizard.spells.Item.mEui8CHwL9qUBBLJ",
+      "disabled": false,
+      "duration": {
+        "value": 1,
+        "units": "minutes",
+        "expiry": null,
+        "expired": false
+      },
+      "system": {
+        "durationPreset": "1minute",
+        "trigger": "onUse",
+        "changes": [
+          {
+            "preset": "custom",
+            "value": 30,
+            "key": "token.light.bright",
+            "type": "upgrade",
+            "phase": "initial",
+            "priority": null
+          }
+        ],
+        "target": "allies",
+        "grantedBy": null
+      },
+      "_id": "PmrvR62VTvSQ0IM1",
+      "type": "base",
+      "start": null,
+      "description": "<p>Bright light, such as that from a lantern, lights the area around it out to a range of 30 yards.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "showIcon": 1,
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.367",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1788983370005,
+        "modifiedTime": 1788983448997,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_key": "!items.effects!mEui8CHwL9qUBBLJ.PmrvR62VTvSQ0IM1"
+    }
+  ],
   "sort": 0,
   "ownership": {
     "default": 0,
@@ -40,12 +92,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744755665148,
-    "modifiedTime": 1766598497327,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788983480835,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!mEui8CHwL9qUBBLJ"

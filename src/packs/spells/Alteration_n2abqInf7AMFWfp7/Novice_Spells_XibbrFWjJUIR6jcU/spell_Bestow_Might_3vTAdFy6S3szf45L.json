@@ -5,7 +5,7 @@
   "_id": "3vTAdFy6S3szf45L",
   "img": "icons/skills/social/intimidation-impressing.webp",
   "system": {
-    "description": "<p>The target grows a bit bigger and stronger. The target increases its Health by 5, makes Strength rolls with 1 boon, imposes 1 bane on rolls against its Strength, and its melee attacks deal an extra @[1d6|d] damage. The spell ends early if the target becomes unconscious.</p>",
+    "description": "<p>The target grows a bit bigger and stronger. The target increases its Health by 5, makes Strength rolls with 1 boon, imposes 1 bane on rolls against its Strength, and its melee attacks deal an extra 1d6 damage. The spell ends early if the target becomes unconscious.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -21,7 +21,10 @@
     },
     "healing": "",
     "instant": [],
-    "targeting": "manual",
+    "targeting": {
+      "operation": "target",
+      "range": 5
+    },
     "template": {
       "type": "size",
       "value": 5
@@ -33,7 +36,83 @@
     "duration": "<p>1 minute</p>",
     "grantedBy": null
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Bestow Might",
+      "img": "icons/skills/social/intimidation-impressing.webp",
+      "origin": "Compendium.weirdwizard.spells.Item.3vTAdFy6S3szf45L",
+      "disabled": false,
+      "duration": {
+        "value": 1,
+        "units": "minutes",
+        "expiry": null,
+        "expired": false
+      },
+      "system": {
+        "durationPreset": "1minute",
+        "trigger": "onUse",
+        "changes": [
+          {
+            "preset": "health.tempIncrease",
+            "value": 5,
+            "key": "system.stats.health.current",
+            "type": "add",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "preset": "boons.str",
+            "value": 1,
+            "key": "system.boons.selfRoll.str",
+            "type": "add",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "preset": "banesAgainst.str",
+            "value": 1,
+            "key": "system.boons.against.str",
+            "type": "subtract",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "preset": "extraDamage.mod",
+            "value": "1d6",
+            "key": "system.extraDamage.attacks.mod",
+            "type": "add",
+            "phase": "initial",
+            "priority": null
+          }
+        ],
+        "target": "any",
+        "grantedBy": null
+      },
+      "_id": "ONikk0EJo8GLuDtu",
+      "type": "base",
+      "start": null,
+      "description": "<p>The target grows a bit bigger and stronger. The target increases its Health by 5, makes Strength rolls with 1 boon, imposes 1 bane on rolls against its Strength, and its melee attacks deal an extra @[1d6|d] damage.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "showIcon": 1,
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.367",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1788968718454,
+        "modifiedTime": 1788968876998,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_key": "!items.effects!3vTAdFy6S3szf45L.ONikk0EJo8GLuDtu"
+    }
+  ],
   "sort": 0,
   "ownership": {
     "default": 0,
@@ -43,12 +122,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744752959633,
-    "modifiedTime": 1769707619150,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788968937606,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!3vTAdFy6S3szf45L"

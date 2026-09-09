@@ -33,7 +33,83 @@
     "duration": "<p>1 hour</p>",
     "grantedBy": null
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Wild Vigor",
+      "img": "icons/creatures/abilities/paw-print-yellow.webp",
+      "origin": "Compendium.weirdwizard.spells.Item.QasqZsDDWRxlVxUI",
+      "disabled": false,
+      "duration": {
+        "value": 1,
+        "units": "hours",
+        "expiry": "turnStart",
+        "expired": false
+      },
+      "system": {
+        "durationPreset": "custom",
+        "trigger": "onUse",
+        "changes": [
+          {
+            "preset": "health.tempIncrease",
+            "value": "10",
+            "key": "system.stats.health.current",
+            "type": "add",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "preset": "boons.str",
+            "value": "1",
+            "key": "system.boons.selfRoll.str",
+            "type": "add",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "preset": "banesAgainst.str",
+            "value": "1",
+            "key": "system.boons.against.str",
+            "type": "subtract",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "preset": "bonusDamage.increase",
+            "value": "1",
+            "key": "system.stats.bonusdamage",
+            "type": "add",
+            "phase": "initial",
+            "priority": null
+          }
+        ],
+        "target": "allies",
+        "grantedBy": null
+      },
+      "_id": "DWiVbi6LOXvEd9lN",
+      "type": "base",
+      "start": null,
+      "description": "<p>Hunger grows inside you and images of predators killing their prey dance through your mind. Increase your Health by 10, make Strength rolls with 1 boon, impose 1 bane on rolls against your Strength, and increase your supply of Bonus Damage dice by 1. The spell ends early if you become unconscious.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "showIcon": 1,
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.367",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1788982952237,
+        "modifiedTime": 1788983068597,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_key": "!items.effects!QasqZsDDWRxlVxUI.DWiVbi6LOXvEd9lN"
+    }
+  ],
   "sort": 0,
   "ownership": {
     "default": 0,
@@ -43,12 +119,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744755498214,
-    "modifiedTime": 1769707929930,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788982950138,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!QasqZsDDWRxlVxUI"

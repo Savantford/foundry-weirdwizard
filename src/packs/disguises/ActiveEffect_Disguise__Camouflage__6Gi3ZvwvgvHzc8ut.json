@@ -12,6 +12,14 @@
         "type": "override",
         "phase": "initial",
         "priority": null
+      },
+      {
+        "preset": "custom",
+        "value": "true",
+        "key": "token.ring.enabled",
+        "type": "override",
+        "phase": "initial",
+        "priority": null
       }
     ],
     "target": "none",
@@ -40,7 +48,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1788208644513,
-    "modifiedTime": 1788208647287,
+    "modifiedTime": 1788971837304,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "compendiumSource": null,
     "duplicateSource": null,

@@ -33,7 +33,59 @@
     "duration": "<p>1 minute</p>",
     "grantedBy": null
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Speed of the Cheetah",
+      "img": "icons/creatures/abilities/cougar-pounce-stalk-black.webp",
+      "origin": "Compendium.weirdwizard.spells.Item.R4xHnoAtlj3uxkEf",
+      "disabled": false,
+      "duration": {
+        "value": 1,
+        "units": "minutes",
+        "expiry": null,
+        "expired": false
+      },
+      "system": {
+        "durationPreset": "1minute",
+        "trigger": "onUse",
+        "changes": [
+          {
+            "preset": "speed.tempIncrease",
+            "value": "2",
+            "key": "system.stats.speed.current",
+            "type": "add",
+            "phase": "initial",
+            "priority": null
+          }
+        ],
+        "target": "allies",
+        "grantedBy": null
+      },
+      "_id": "FYgoehw16xFyNiXt",
+      "type": "base",
+      "start": null,
+      "description": "",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "showIcon": 1,
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.367",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1788982389276,
+        "modifiedTime": 1788982448460,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_key": "!items.effects!R4xHnoAtlj3uxkEf.FYgoehw16xFyNiXt"
+    }
+  ],
   "sort": 0,
   "ownership": {
     "default": 0,

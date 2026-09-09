@@ -33,7 +33,67 @@
     "duration": "<p>1 minute</p>",
     "grantedBy": null
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Martial Insights",
+      "img": "icons/skills/melee/weapons-crossed-swords-pink.webp",
+      "origin": "Compendium.weirdwizard.spells.Item.7kqA02Z52RLy4Nb7",
+      "disabled": false,
+      "duration": {
+        "value": 1,
+        "units": "minutes",
+        "expiry": null,
+        "expired": false
+      },
+      "system": {
+        "durationPreset": "1minute",
+        "trigger": "onUse",
+        "changes": [
+          {
+            "preset": "banesAgainst.fromAttacks",
+            "value": "1",
+            "key": "system.boons.against.fromAttacks",
+            "type": "subtract",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "preset": "bonusDamage.increase",
+            "value": "2",
+            "key": "system.stats.bonusdamage",
+            "type": "add",
+            "phase": "initial",
+            "priority": null
+          }
+        ],
+        "target": "any",
+        "grantedBy": null
+      },
+      "_id": "6ZopKsxfXBgbkmD1",
+      "type": "base",
+      "start": null,
+      "description": "<p>You enhance your fighting instincts. You impose 1 bane on rolls to attack you and you increase your supply of Bonus Damage dice by 2.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "showIcon": 1,
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.367",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1788985097438,
+        "modifiedTime": 1788985132157,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_key": "!items.effects!7kqA02Z52RLy4Nb7.6ZopKsxfXBgbkmD1"
+    }
+  ],
   "sort": 0,
   "ownership": {
     "default": 0,

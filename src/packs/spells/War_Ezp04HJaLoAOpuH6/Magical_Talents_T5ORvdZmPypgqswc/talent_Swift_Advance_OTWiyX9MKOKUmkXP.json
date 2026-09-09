@@ -30,7 +30,59 @@
     "source": "tradition",
     "grantedBy": null
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Swift Advance",
+      "img": "icons/skills/movement/feet-winged-sandals-tan.webp",
+      "origin": "Compendium.weirdwizard.spells.Item.OTWiyX9MKOKUmkXP",
+      "disabled": false,
+      "duration": {
+        "value": 0,
+        "units": "rounds",
+        "expiry": "turnEnd",
+        "expired": false
+      },
+      "system": {
+        "durationPreset": "turnEnd",
+        "trigger": "onUse",
+        "changes": [
+          {
+            "preset": "speed.tempIncrease",
+            "value": "10",
+            "key": "system.stats.speed.current",
+            "type": "add",
+            "phase": "initial",
+            "priority": null
+          }
+        ],
+        "target": "any",
+        "grantedBy": null
+      },
+      "_id": "9O7wPa997ti2rI2H",
+      "type": "base",
+      "start": null,
+      "description": "<p>Until the end of your turn, increase your Speed by 10 and gain the Slippery trait.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "showIcon": 1,
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.367",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1788984487268,
+        "modifiedTime": 1788984534348,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_key": "!items.effects!OTWiyX9MKOKUmkXP.9O7wPa997ti2rI2H"
+    }
+  ],
   "sort": 0,
   "ownership": {
     "default": 0,

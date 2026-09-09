@@ -33,7 +33,83 @@
     "duration": "<p>1 hour</p>",
     "grantedBy": null
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Minor Polymorph",
+      "img": "icons/creatures/mammals/cat-hunched-glowing-red.webp",
+      "origin": "Compendium.weirdwizard.spells.Item.KtyXN7Jl1SXTpi4t",
+      "disabled": false,
+      "duration": {
+        "value": 1,
+        "units": "hours",
+        "expiry": "turnStart",
+        "expired": false
+      },
+      "system": {
+        "durationPreset": "custom",
+        "trigger": "onUse",
+        "changes": [
+          {
+            "preset": "size.override",
+            "value": "1/4",
+            "key": "system.stats.size",
+            "type": "override",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "preset": "speed.override",
+            "value": "4",
+            "key": "system.stats.speed.override",
+            "type": "override",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "preset": "custom",
+            "value": "systems/weirdwizard/assets/public-domain/tokens/beast-standard.webp",
+            "key": "token.texture.src",
+            "type": "override",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "preset": "custom",
+            "value": "true",
+            "key": "token.ring.enabled",
+            "type": "override",
+            "phase": "initial",
+            "priority": null
+          }
+        ],
+        "target": "any",
+        "grantedBy": null
+      },
+      "_id": "bggtINlGrlx9geol",
+      "type": "base",
+      "start": null,
+      "description": "<p>You, along with everything you wear and carry, transform into a Size 1/4 harmless animal of your choice such as a bird, cat, or frog. The effect ends early if you are harmed. Your Speed is 4 and you have the Slippery trait and other movement traits appropriate to your form. You have no attacks and you lose the ability to speak.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "showIcon": 1,
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.367",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1788969020637,
+        "modifiedTime": 1788972020030,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_key": "!items.effects!KtyXN7Jl1SXTpi4t.bggtINlGrlx9geol"
+    }
+  ],
   "sort": 0,
   "ownership": {
     "default": 0,

@@ -8,9 +8,9 @@
     "description": "<p>A forked bolt of lightning leaps from your hand. For each target separately, make a Will roll with 1 boon against its Agility. On a success, the target takes @[5d6|d] damage. On a critical success, the target takes an extra @[1d6|d] damage.</p>",
     "active": false,
     "magical": true,
-    "attribute": "",
-    "against": "",
-    "boons": 0,
+    "attribute": "wil",
+    "against": "agi",
+    "boons": 1,
     "range": 0,
     "affliction": "",
     "uses": {
@@ -20,8 +20,31 @@
       "levelRelative": "manual"
     },
     "healing": "",
-    "instant": [],
-    "targeting": "manual",
+    "instant": [
+      {
+        "label": "damage",
+        "trigger": "onSuccess",
+        "target": "any",
+        "value": "5d6",
+        "affliction": "",
+        "img": "icons/svg/explosion.svg",
+        "labelLoc": "WW.InstantEffect.Damage",
+        "triggerLoc": "WW.Effect.OnSuccess",
+        "triggerIcon": "fa-solid fa-check",
+        "targetLoc": "WW.Targeting.Restrictions.Any"
+      },
+      {
+        "label": "damage",
+        "trigger": "onCritical",
+        "target": "any",
+        "value": "1d6",
+        "affliction": ""
+      }
+    ],
+    "targeting": {
+      "operation": "target",
+      "range": 15
+    },
     "template": {
       "type": "size",
       "value": 5
@@ -43,12 +66,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744750195078,
-    "modifiedTime": 1769707461341,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788962184207,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!usLJQR5Sk49rdoBo"

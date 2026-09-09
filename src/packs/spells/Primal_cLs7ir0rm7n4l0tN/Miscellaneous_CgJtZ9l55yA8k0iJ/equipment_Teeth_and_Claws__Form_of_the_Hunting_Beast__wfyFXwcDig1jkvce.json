@@ -1,0 +1,86 @@
+{
+  "folder": "CgJtZ9l55yA8k0iJ",
+  "name": "Teeth and Claws (Form of the Hunting Beast)",
+  "type": "equipment",
+  "_id": "wfyFXwcDig1jkvce",
+  "img": "icons/creatures/abilities/fangs-teeth-bite.webp",
+  "system": {
+    "description": "<p>You can use your teeth and claws as a single natural weapon that deals 4d6 damage. When you attack with your natural weapon, you roll with 1 boon.</p>",
+    "active": true,
+    "grantedBy": null,
+    "usedBy": [],
+    "magical": false,
+    "attribute": "str",
+    "against": "def",
+    "boons": 1,
+    "boonsAlt": "",
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": false,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": {
+      "operation": "target",
+      "range": 0,
+      "method": "manual",
+      "restriction": "any"
+    },
+    "area": {
+      "radius": 5,
+      "size": 5,
+      "attached": false,
+      "color": null,
+      "shape": "circle",
+      "restriction": {
+        "enabled": true,
+        "type": "move",
+        "priority": 0
+      }
+    },
+    "subtype": "weapon",
+    "quantity": 1,
+    "weightUnit": 1,
+    "heldBy": null,
+    "availability": "common",
+    "quality": "standard",
+    "price": {
+      "value": 0,
+      "coin": "sp"
+    },
+    "armorType": "light",
+    "capacity": 1,
+    "requirements": "",
+    "damage": "4d6",
+    "damageAlt": "",
+    "grip": "natural",
+    "reloaded": true,
+    "traits": [],
+    "attackRider": {
+      "name": "",
+      "value": ""
+    }
+  },
+  "effects": [],
+  "sort": 100000,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "14.367",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1788981695419,
+    "modifiedTime": 1788982148379,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
+  },
+  "_key": "!items!wfyFXwcDig1jkvce"
+}

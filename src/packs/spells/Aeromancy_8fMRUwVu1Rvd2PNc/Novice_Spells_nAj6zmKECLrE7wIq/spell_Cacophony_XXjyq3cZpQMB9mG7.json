@@ -5,7 +5,7 @@
   "_id": "XXjyq3cZpQMB9mG7",
   "img": "icons/magic/sonic/projectile-shock-wave-blue.webp",
   "system": {
-    "description": "<p>Thunder booms. Each creature in the target space takes @[1d6|d] damage, while each object in it takes @[3d6|d] damage. A creature also makes a Strength roll. On a failure, the creature takes an extra @[2d6|d] damage and becomes deafened (luck ends). The noise of this spell carries 1 mile.</p>",
+    "description": "<p>Thunder booms. Each creature in the target space takes @[1d6|d] damage, while each object in it takes @[3d6|d] damage. A creature also makes a @[str] roll. On a failure, the creature takes an extra @[2d6|d] damage and becomes deafened (luck ends). The noise of this spell carries 1 mile.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -20,8 +20,20 @@
       "levelRelative": "manual"
     },
     "healing": "",
-    "instant": [],
-    "targeting": "manual",
+    "instant": [
+      {
+        "label": "damage",
+        "trigger": "onUse",
+        "target": "any",
+        "value": "1d6",
+        "affliction": ""
+      }
+    ],
+    "targeting": {
+      "operation": "target",
+      "method": "area",
+      "range": 15
+    },
     "template": {
       "type": "size",
       "value": 5
@@ -31,7 +43,10 @@
     "casting": "",
     "target": "<p>One Size 5 space within 15 yards</p>",
     "duration": "<p>Instantaneous</p>",
-    "grantedBy": null
+    "grantedBy": null,
+    "area": {
+      "shape": "circle"
+    }
   },
   "effects": [],
   "sort": 0,
@@ -43,12 +58,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744750102356,
-    "modifiedTime": 1769707446758,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788962056409,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!XXjyq3cZpQMB9mG7"

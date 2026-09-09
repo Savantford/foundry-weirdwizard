@@ -5,7 +5,7 @@
   "_id": "WkGH4e7sdJc3V5tb",
   "img": "icons/magic/fire/elemental-creature-horse.webp",
   "system": {
-    "description": "<p>Sparks fly from your feet. Until the end of your turn, you have the Slippery and Strider traits. In addition, when you move to within 1 yard of a creature or object, the object takes @[1d6|d] damage and the creature makes an Agility roll. On a failure, the creature takes @[1d6|d] damage. A creature can be affected in this way just once.</p>",
+    "description": "<p>Sparks fly from your feet. Until the end of your turn, you have the Slippery and Strider traits. In addition, when you move to within 1 yard of a creature or object, the object takes @[1d6|d] damage and the creature makes an @[agi] roll. On a failure, the creature takes @[1d6|d] damage. A creature can be affected in this way just once.</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -43,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744756149870,
-    "modifiedTime": 1769707999403,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788983988307,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!WkGH4e7sdJc3V5tb"

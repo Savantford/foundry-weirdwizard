@@ -5,7 +5,7 @@
   "_id": "qMhoZNsXch4SCTxZ",
   "img": "icons/magic/control/sleep-bubble-purple.webp",
   "system": {
-    "description": "<p>Waves of lethargy wash over the targets. Each target with a Health score of 15 or less falls prone and goes to sleep (luck ends). The effect ends early for a target if it is harmed. Each other target makes a Will roll. On a failure, the target becomes weakened (luck ends).</p>",
+    "description": "<p>Waves of lethargy wash over the targets. Each target with a Health score of 15 or less falls prone and goes to sleep (luck ends). The effect ends early for a target if it is harmed. Each other target makes a @[wil] roll. On a failure, the target becomes weakened (luck ends).</p>",
     "active": false,
     "magical": true,
     "attribute": "",
@@ -20,8 +20,32 @@
       "levelRelative": "manual"
     },
     "healing": "",
-    "instant": [],
-    "targeting": "manual",
+    "instant": [
+      {
+        "label": "affliction",
+        "trigger": "onUse",
+        "target": "any",
+        "affliction": "asleep",
+        "value": "",
+        "img": "icons/svg/skull.svg",
+        "labelLoc": "WW.InstantEffect.Affliction",
+        "triggerLoc": "WW.Effect.OnUse",
+        "triggerIcon": "fa-solid fa-bolt",
+        "targetLoc": "WW.Targeting.Restrictions.Any"
+      },
+      {
+        "label": "affliction",
+        "trigger": "onUse",
+        "target": "any",
+        "affliction": "weakened",
+        "value": ""
+      }
+    ],
+    "targeting": {
+      "operation": "target",
+      "method": "area",
+      "range": 10
+    },
     "template": {
       "type": "size",
       "value": 5
@@ -43,12 +67,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744754714176,
-    "modifiedTime": 1769707826968,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788980219322,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!qMhoZNsXch4SCTxZ"

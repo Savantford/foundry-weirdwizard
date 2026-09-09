@@ -3,7 +3,7 @@
   "name": "Cultist",
   "type": "npc",
   "_id": "IhCu83bAZioAxH0r",
-  "img": "icons/svg/mystery-man-black.svg",
+  "img": "systems/weirdwizard/assets/public-domain/portraits/humanoid-robed.webp",
   "system": {
     "description": "<p>From the ranks of ordinary people arise cultists, those who came under the influence of charismatic leaders. Cultists believe they have secret knowledge of the world and strive to demonstrate their worthiness. In a fight, they throw themselves at their enemies without regard for their own lives.</p>",
     "attributes": {
@@ -77,7 +77,7 @@
     "height": 1,
     "depth": 1,
     "texture": {
-      "src": "icons/svg/mystery-man-black.svg",
+      "src": "systems/weirdwizard/assets/public-domain/tokens/humanoid-robed.webp",
       "anchorX": 0.5,
       "anchorY": 0.5,
       "fit": "contain",
@@ -138,7 +138,7 @@
       "radius": 0
     },
     "ring": {
-      "enabled": false,
+      "enabled": true,
       "colors": {
         "ring": null,
         "background": null
@@ -298,16 +298,16 @@
   },
   "flags": {},
   "_stats": {
-    "coreVersion": "14.361",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1781624245069,
-    "modifiedTime": 1781624245069,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788967734721,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null,
     "compendiumSource": null,
     "duplicateSource": null
   },
-  "sort": 0,
+  "sort": 100000,
   "_key": "!actors!IhCu83bAZioAxH0r"
 }

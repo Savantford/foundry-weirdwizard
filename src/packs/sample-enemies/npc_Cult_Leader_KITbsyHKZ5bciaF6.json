@@ -3,7 +3,7 @@
   "name": "Cult Leader",
   "type": "npc",
   "_id": "KITbsyHKZ5bciaF6",
-  "img": "icons/svg/mystery-man-black.svg",
+  "img": "systems/weirdwizard/assets/public-domain/portraits/humanoid-caster.webp",
   "system": {
     "description": "<p>A leader heads every cult cell, overseeing congregations of various sizes, depending on the host community. Most leaders are former deacons promoted to a higher rank, but some might be lesser cultists who assumed the mantle afer a display of skillful command.</p>",
     "attributes": {
@@ -83,12 +83,12 @@
     "height": 1,
     "depth": 1,
     "texture": {
-      "src": "icons/svg/mystery-man-black.svg",
+      "src": "systems/weirdwizard/assets/public-domain/tokens/humanoid-caster-x1.5.webp",
       "anchorX": 0.5,
       "anchorY": 0.5,
       "fit": "contain",
-      "scaleX": 1,
-      "scaleY": 1,
+      "scaleX": 1.5,
+      "scaleY": 1.5,
       "tint": "#ffffff",
       "alphaThreshold": 0.75
     },
@@ -144,14 +144,14 @@
       "radius": 0
     },
     "ring": {
-      "enabled": false,
+      "enabled": true,
       "colors": {
         "ring": null,
         "background": null
       },
       "effects": 1,
       "subject": {
-        "scale": 1,
+        "scale": 1.5,
         "texture": null
       }
     },
@@ -545,16 +545,16 @@
   },
   "flags": {},
   "_stats": {
-    "coreVersion": "14.361",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1781624227507,
-    "modifiedTime": 1781624227507,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788967734722,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null,
     "compendiumSource": null,
     "duplicateSource": null
   },
-  "sort": 0,
+  "sort": 300000,
   "_key": "!actors!KITbsyHKZ5bciaF6"
 }

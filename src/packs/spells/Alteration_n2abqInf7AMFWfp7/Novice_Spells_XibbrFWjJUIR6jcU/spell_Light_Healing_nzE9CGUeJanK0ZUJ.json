@@ -20,8 +20,19 @@
       "levelRelative": "manual"
     },
     "healing": "",
-    "instant": [],
-    "targeting": "manual",
+    "instant": [
+      {
+        "label": "heal",
+        "trigger": "onUse",
+        "target": "any",
+        "value": "2d6",
+        "affliction": ""
+      }
+    ],
+    "targeting": {
+      "operation": "target",
+      "range": 5
+    },
     "template": {
       "type": "size",
       "value": 5
@@ -43,12 +54,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744753008392,
-    "modifiedTime": 1769707630120,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788968970617,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!nzE9CGUeJanK0ZUJ"

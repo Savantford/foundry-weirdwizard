@@ -8,8 +8,8 @@
     "description": "<p>You can use an action to flick a globule of sticky acid from your hand. Target one creature or object within 5 yards. Make an Intellect roll against its Agility. On a success, the target takes @[1d6|d] damage, @[3d6|d] damage at level 3, or @[6d6|d] at level 7. At the end of each round, the target takes @[1d6|d] damage (luck ends). On a critical success, the target takes @[2d6|d] damage at the end of each round.</p>",
     "active": true,
     "magical": true,
-    "attribute": "",
-    "against": "",
+    "attribute": "int",
+    "against": "agi",
     "boons": 0,
     "range": 0,
     "affliction": "",
@@ -20,8 +20,19 @@
       "levelRelative": "manual"
     },
     "healing": "",
-    "instant": [],
-    "targeting": "manual",
+    "instant": [
+      {
+        "label": "damage",
+        "trigger": "onSuccess",
+        "target": "any",
+        "value": "1d6",
+        "affliction": ""
+      }
+    ],
+    "targeting": {
+      "operation": "target",
+      "range": 5
+    },
     "template": {
       "type": "size",
       "value": 5
@@ -40,12 +51,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744750542109,
-    "modifiedTime": 1766598005892,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788965287728,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!DYHFyTq6fmH4zweS"

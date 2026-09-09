@@ -1,0 +1,27 @@
+{
+  "type": "Item",
+  "folder": "cLs7ir0rm7n4l0tN",
+  "name": "Miscellaneous",
+  "color": null,
+  "sorting": "a",
+  "flags": {
+    "weirdwizard": {
+      "description": ""
+    }
+  },
+  "_id": "CgJtZ9l55yA8k0iJ",
+  "description": "",
+  "sort": 0,
+  "_stats": {
+    "coreVersion": "14.367",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1788982131323,
+    "modifiedTime": 1788982131323,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
+  },
+  "_key": "!folders!CgJtZ9l55yA8k0iJ"
+}

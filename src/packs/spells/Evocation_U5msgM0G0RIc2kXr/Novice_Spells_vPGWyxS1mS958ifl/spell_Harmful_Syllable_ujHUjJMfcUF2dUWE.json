@@ -20,8 +20,20 @@
       "levelRelative": "manual"
     },
     "healing": "",
-    "instant": [],
-    "targeting": "manual",
+    "instant": [
+      {
+        "label": "damage",
+        "trigger": "onUse",
+        "target": "any",
+        "value": "1d6",
+        "affliction": ""
+      }
+    ],
+    "targeting": {
+      "operation": "target",
+      "range": 0,
+      "method": "area"
+    },
     "template": {
       "type": "size",
       "value": 5
@@ -31,7 +43,10 @@
     "casting": "<p>1 at level 1, 2 at level 3, or 4 at level 7, on your turn, no action required when you lack the confused, controlled, stunned, and unconscious afflictions</p>",
     "target": "<p>Each creature in a Size 3 space centered on you if you whisper, a Size 10 space if you speak, or a Size 60 space if you shout</p>",
     "duration": "<p>Instantaneous</p>",
-    "grantedBy": null
+    "grantedBy": null,
+    "area": {
+      "size": 3
+    }
   },
   "effects": [],
   "sort": 0,
@@ -43,12 +58,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744753673936,
-    "modifiedTime": 1769707715249,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788975888909,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!ujHUjJMfcUF2dUWE"
