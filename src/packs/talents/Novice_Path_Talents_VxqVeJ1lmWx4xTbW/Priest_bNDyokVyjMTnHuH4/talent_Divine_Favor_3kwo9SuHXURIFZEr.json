@@ -5,7 +5,7 @@
   "_id": "3kwo9SuHXURIFZEr",
   "img": "icons/magic/holy/angel-winged-humanoid-blue.webp",
   "system": {
-    "description": "<p>You make luck rolls with 1 boon.</p>",
+    "description": "<p>You make @[luck+1] rolls with 1 boon.</p>",
     "active": true,
     "attribute": "luck",
     "against": "",
@@ -32,7 +32,59 @@
     "grantedBy": null,
     "magical": false
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Divine Favor",
+      "img": "icons/magic/holy/angel-winged-humanoid-blue.webp",
+      "origin": "Compendium.weirdwizard.talents.Item.3kwo9SuHXURIFZEr",
+      "disabled": false,
+      "duration": {
+        "value": null,
+        "units": "seconds",
+        "expiry": null,
+        "expired": false
+      },
+      "system": {
+        "durationPreset": "",
+        "trigger": "passive",
+        "changes": [
+          {
+            "preset": "boons.luck",
+            "value": 1,
+            "key": "system.boons.selfRoll.luck",
+            "type": "add",
+            "phase": "initial",
+            "priority": null
+          }
+        ],
+        "target": "any",
+        "grantedBy": null
+      },
+      "_id": "9kAp7xrohrVSIRZT",
+      "type": "base",
+      "start": null,
+      "description": "",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "showIcon": 1,
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.367",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1789578684278,
+        "modifiedTime": 1789578703661,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_key": "!items.effects!3kwo9SuHXURIFZEr.9kAp7xrohrVSIRZT"
+    }
+  ],
   "sort": 0,
   "ownership": {
     "default": 0,
@@ -46,7 +98,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1720988986284,
-    "modifiedTime": 1788899043685,
+    "modifiedTime": 1789579132720,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

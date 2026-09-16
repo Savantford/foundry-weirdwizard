@@ -4,7 +4,7 @@
   "type": "talent",
   "img": "icons/skills/melee/maneuver-greatsword-yellow.webp",
   "system": {
-    "description": "<p>Choose an additional fighting style from the options presented at level 2.</p>",
+    "description": "<p>Choose an additional @UUID[Compendium.weirdwizard.talents.Item.jUAyOKf62V6GaTSQ]{Fighting Style} from the options presented at level 2.</p>",
     "active": true,
     "attribute": "",
     "against": "",
@@ -44,7 +44,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744398306699,
-    "modifiedTime": 1788898829340,
+    "modifiedTime": 1789579391519,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

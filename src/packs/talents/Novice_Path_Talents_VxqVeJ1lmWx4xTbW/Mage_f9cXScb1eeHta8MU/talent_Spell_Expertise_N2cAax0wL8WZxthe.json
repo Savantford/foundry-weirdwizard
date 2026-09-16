@@ -51,19 +51,21 @@
         }
       },
       "disabled": false,
-      "img": "icons/svg/card-hand.svg",
+      "img": "icons/magic/control/debuff-energy-hold-levitate-pink.webp",
       "_id": "l7ege9iTxbfQIT0H",
       "type": "base",
       "system": {
         "changes": [
           {
-            "key": "boons.spells",
-            "value": 1,
+            "preset": "boons.spells",
+            "value": "1",
+            "key": "system.boons.selfRoll.spells",
             "type": "add",
-            "phase": "final",
+            "phase": "initial",
             "priority": null
           }
-        ]
+        ],
+        "target": "any"
       },
       "description": "",
       "tint": "#ffffff",
@@ -73,11 +75,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "14.360",
+        "coreVersion": "14.367",
         "systemId": "weirdwizard",
         "systemVersion": "#{VERSION}#",
         "createdTime": 1738016869472,
-        "modifiedTime": 1738016954254,
+        "modifiedTime": 1789578658014,
         "lastModifiedBy": "zin7Kb6P2LomswaD",
         "exportSource": null
       },

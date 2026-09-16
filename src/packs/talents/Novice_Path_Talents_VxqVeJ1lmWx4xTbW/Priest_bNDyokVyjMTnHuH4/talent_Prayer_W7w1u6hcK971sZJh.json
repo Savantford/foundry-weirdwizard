@@ -5,7 +5,7 @@
   "_id": "W7w1u6hcK971sZJh",
   "img": "icons/magic/holy/prayer-hands-glowing-yellow.webp",
   "system": {
-    "description": "<p>You can use a reaction when you or a creature within 5 yards of you makes an attribute roll to speak aloud a prayer that grants 1 boon to the roll. After you use this talent, you lose access to it (luck ends).</p>",
+    "description": "<p>You can use a reaction when you or a creature within 5 yards of you makes an attribute roll to speak aloud a prayer that grants 1 boon to the roll. After you use this talent, you lose access to it (@[luck] ends).</p>",
     "active": true,
     "attribute": "",
     "against": "",
@@ -47,7 +47,7 @@
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1720988407372,
-    "modifiedTime": 1788899456119,
+    "modifiedTime": 1789578794241,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
