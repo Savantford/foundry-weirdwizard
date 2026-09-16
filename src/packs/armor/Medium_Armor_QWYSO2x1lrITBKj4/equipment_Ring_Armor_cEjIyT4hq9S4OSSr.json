@@ -92,12 +92,12 @@
       },
       "tint": "#ffffff",
       "_stats": {
-        "coreVersion": "14.360",
-        "systemId": null,
-        "systemVersion": null,
-        "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null,
+        "coreVersion": "14.367",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1789576786140,
+        "modifiedTime": 1789576795124,
+        "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
         "compendiumSource": null,
         "duplicateSource": null,
         "exportSource": null
@@ -107,19 +107,23 @@
       "system": {
         "changes": [
           {
-            "key": "defense.armored",
-            "value": 14,
+            "preset": "defense.armored",
+            "value": "14",
+            "key": "system.stats.defense.armored",
             "type": "upgrade",
+            "phase": "initial",
             "priority": 1
           },
           {
-            "key": "defense.naturalIncrease",
-            "value": 2,
+            "preset": "defense.naturalIncrease",
+            "value": "2",
+            "key": "system.stats.defense.natural",
             "type": "add",
-            "phase": "final",
+            "phase": "initial",
             "priority": null
           }
-        ]
+        ],
+        "target": "any"
       },
       "sort": 0,
       "start": null,
