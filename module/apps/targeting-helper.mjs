@@ -121,7 +121,6 @@ export default class TargetingHelper extends HandlebarsApplicationMixin(Applicat
     canvas.regions.clearPreviewContainer();
     
     // Maximize the origin app
-    console.log(this.options)
     this.options.originApp?.maximize();
   }
 }
