@@ -106,12 +106,10 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
           
           if (typeof cOpt !== 'string') {
             for (const e in cOpt) {
-              await console.log(cOpt[e])
               await this.updateCharOptionBenefits(cOpt[e], 'levelChange');
             }
 
           } else {
-            await console.log(cOpt)
             await this.updateCharOptionBenefits(cOpt, 'levelChange');
           }
         }
@@ -234,7 +232,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       // Assign array of pages
       if (opt && opt.constructor === Array) {
         charOptions[o] = [];
-        console.log(opt)
+        
         for (const idx in opt) {
           const uuid = opt[idx];
           charOptions[o].push(await fromUuid(uuid) ?? {... invalid, uuid });
@@ -500,7 +498,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
   async updateCharOptionBenefits(uuid, source) {
     if (!uuid) return;
     const cOption = await fromUuid(uuid);
-    console.log(cOption?.name)
     
     // Return if invalid uuid, tradition or ancestry on level change
     if (!cOption) return ui.notifications.error(`"${uuid}" is not a valid Character Option UUID. Please remove it from the sheet!`);
@@ -812,7 +809,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
   _entriesToGrant(uuid) {
     const entries = this.system.listEntries;
-    console.log(entries)
+
     const objFilter = list => Object
       .fromEntries(Object.entries(entries[list])
     .filter(([k, v]) => v?.grantedBy === uuid ));
