@@ -106,30 +106,13 @@
                 <ol class="list-entries statbox-ancestry">
                     
                     {{!-- Ancestry --}}
-                    <div class="list-entry">
-                        {{#if charOptions.ancestry}}
-                            <a data-action="journalView" data-page-uuid="{{charOptions.ancestry.uuid}}">{{charOptions.ancestry.name}}</a>
-                            
-                            {{#if isEditMode}}
-                            <span class="buttons">
-                                <a class="item-button" data-action="journalRemove" data-page-uuid="{{charOptions.ancestry.uuid}}" data-option-type="ancestry"
-                                    data-tooltip="WW.Ancestry.Remove"><i class="fa-solid fa-trash"></i>
-                                </a>
-                            </span>
-                            {{/if}}
-                        {{else if system.charOptions.ancestry}}
-                            {{#if isEditMode}}
-                            <a class="invalid">{{system.charOptions.ancestry}}</a><span class="buttons">
-                                <a class="array-button" data-action="journalInvalid" data-charoption-type="ancestry" data-entry-key="{{id}}"
-                                    data-tooltip="WW.Ancestry.Remove"><i class="fa-solid fa-trash"></i></a>
-
-                                </span>
-                            </span>
-                            {{/if}}
-                        {{/if}}
-                        {{#unless charOptions.ancestry}}<span>—</span>{{/unless}}
-                    </div>
+                    {{#if charOptions.ancestry}}
+                        {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=charOptions.ancestry removeTip="WW.Ancestry.Remove" isEditMode=isEditMode }}
+                    {{else}}
+                        <span>—</span>
+                    {{/if}}
                     
+                    {{!-- Separator --}}
                     {{#if (or isEditMode listEntries.descriptors.length)}}<div>●</div>{{/if}}
 
                     {{!-- Descriptors --}}
@@ -250,24 +233,10 @@
 
                 {{!-- Professions --}}
                 <ol class="stat-inline list-entries">
-
                     <label>{{localize "WW.CharOptions.Professions"}}:</label>    
                     
                     {{#each charOptions.professions as |profession id|}}
-                        <li class="list-entry draggable">
-                            <a data-action="journalView" data-page-uuid="{{profession.uuid}}" data-option-type="professions"
-                                data-tooltip="{{profession.desc}}">{{profession.name}}
-                            </a>
-
-                            {{#if @root.isEditMode}}
-                            <span class="edit-buttons">
-                                <a class="array-button" data-action="journalRemove" data-page-uuid="{{profession.uuid}}" data-option-type="professions"
-                                    data-tooltip="WW.Profession.Remove"><i class="fa-solid fa-trash"></i>
-                                </a>
-                            </span>
-                            {{/if}}
-
-                        </li>
+                        {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=profession removeTip="WW.Profession.Remove" isEditMode=@root.isEditMode }}
                     {{else}}
                         <span>—</span>
                     {{/each}}
@@ -277,7 +246,6 @@
                         <a class="help-button" data-action="journalHelp" data-tooltip="WW.System.Documentation"><i class="fa-solid fa-circle-question"></i></a>
                     </span>
                     {{/if}}
-                    
                 </ol>
                 
             </div>

@@ -619,13 +619,15 @@
 
 "WW.CharOption.Reference.EditRef": "Edit the referenced item in the Compendium.",
 "WW.CharOption.Reference.RemoveRef": "Remove reference from this list. This won't affect the item in the Compendium!",
+"WW.CharOption.Reference.Invalid": "Invalid UUID Reference!",
+"WW.CharOption.Reference.InvalidTip": "The Character Option UUID referenced is invalid. You can either delete this entry or replace it with a valid one.",
 "WW.CharOption.Reference.RemoveDialog.Title": "Remove Reference",
 "WW.CharOption.Reference.RemoveDialog.Msg": "You are about to remove a reference for an item in a Compendium. Removing the reference will not make any changes the referenced item.",
 "WW.CharOption.Reference.RemoveDialog.Confirm": "Are you sure you want to remove the reference?",
 "WW.CharOption.Reference.ReplaceDialog.Title": "Replace Character Option Reference",
 "WW.CharOption.Reference.ReplaceDialog.Msg": "This character already has <b>{old}</b> registered as a {type}.<br/>Are you sure you want to replace it with <b>{new}</b>?",
 
-"WW.Ancestry.Remove": "Remove path",
+"WW.Ancestry.Remove": "Remove ancestry",
 
 "WW.Path.Remove": "Remove path",
 
