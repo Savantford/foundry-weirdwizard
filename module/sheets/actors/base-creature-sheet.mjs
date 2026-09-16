@@ -710,10 +710,9 @@ export default class WWCreatureSheet extends WWActorSheet {
   /* -------------------------------------------- */
 
   static async #onJournalRemove(event, button) {
-    const page = await fromUuid(button.dataset.pageUuid);
-    console.log(page)
+    const uuid = button.dataset.pageUuid;
+    const page = await fromUuid(uuid);
     const type = button.dataset.optionType;
-    
     const charOptions = this.actor.system.charOptions;
 
     // Open a dialog to confirm
@@ -734,19 +733,20 @@ export default class WWCreatureSheet extends WWActorSheet {
     const path = 'system.charOptions.' + type;
 
     if (type === 'professions' || type === 'traditions') {
-      console.log(charOptions[type])
-      const arr = charOptions[type].filter(v => { return v !== button.dataset.pageUuid; });
-      console.log(arr)
-      if (page) await this.actor.update({ [path]: arr });
+      const arr = charOptions[type].filter(v => {
+        return v !== uuid;
+      });
+      
+      await this.actor.update({ [path]: arr });
     } else if (type) {
       
       await this.actor.update({ [path]: null });
     }
 
     // Clear benefits granted by the Character Option
-    if (page) await this.actor.clearCharOptionBenefits(page.uuid);
+    if (page) await this.actor.clearCharOptionBenefits(uuid);
     
-    this.render();
+    await this.render();
   }
 
   /* -------------------------------------------- */

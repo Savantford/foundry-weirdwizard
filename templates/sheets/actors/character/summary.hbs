@@ -236,7 +236,7 @@
                     <label>{{localize "WW.CharOptions.Professions"}}:</label>    
                     
                     {{#each charOptions.professions as |profession id|}}
-                        {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=profession group="traditions" isEditMode=@root.isEditMode }}
+                        {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=profession group="professions" isEditMode=@root.isEditMode }}
                     {{else}}
                         <span>—</span>
                     {{/each}}
