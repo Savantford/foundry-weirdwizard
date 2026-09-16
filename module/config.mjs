@@ -361,6 +361,13 @@ WW.CHARACTER_OPTIONS = {
   'tradition': 'TYPES.JournalEntryPage.tradition'
 }
 
+WW.CHARACTER_OPTION_REMOVE_TOOLTIPS = {
+  'ancestry': 'WW.Ancestry.Remove',
+  'path': 'WW.Path.Remove',
+  'profession': 'WW.Profession.Remove',
+  'tradition': 'WW.Tradition.Remove'
+}
+
 WW.PATH_TIERS = {
   'novice': 'WW.CharOptions.NovicePath',
   'expert': 'WW.CharOptions.ExpertPath',

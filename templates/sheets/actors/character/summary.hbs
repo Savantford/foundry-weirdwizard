@@ -107,7 +107,7 @@
                     
                     {{!-- Ancestry --}}
                     {{#if charOptions.ancestry}}
-                        {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=charOptions.ancestry removeTip="WW.Ancestry.Remove" isEditMode=isEditMode }}
+                        {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=charOptions.ancestry isEditMode=isEditMode }}
                     {{else}}
                         <span>—</span>
                     {{/if}}
@@ -236,7 +236,7 @@
                     <label>{{localize "WW.CharOptions.Professions"}}:</label>    
                     
                     {{#each charOptions.professions as |profession id|}}
-                        {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=profession removeTip="WW.Profession.Remove" isEditMode=@root.isEditMode }}
+                        {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=profession group="traditions" isEditMode=@root.isEditMode }}
                     {{else}}
                         <span>—</span>
                     {{/each}}
@@ -322,7 +322,7 @@
                     <label>{{localize "WW.Tradition.Label"}}:</label>
 
                     {{#each charOptions.traditions as |tradition id|}}
-                        {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=tradition removeTip="WW.Tradition.Remove" isEditMode=@root.isEditMode }}
+                        {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=tradition group="traditions" isEditMode=@root.isEditMode }}
                     {{else}}
                         <span>—</span>
                     {{/each}}

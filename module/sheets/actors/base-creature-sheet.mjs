@@ -242,6 +242,8 @@ export default class WWCreatureSheet extends WWActorSheet {
       <p>${_loc('WW.Stats.AutomationHint', { stat: _loc("WW.Damage.Bonus") })}</p>
     `);
 
+    context.cOptionRemoveTips = CONFIG.WW.CHARACTER_OPTION_REMOVE_TOOLTIPS;
+
     // Prepare character data
     if (actorData.type == 'character') await this._prepareCharacterData(context);
 
@@ -709,6 +711,7 @@ export default class WWCreatureSheet extends WWActorSheet {
 
   static async #onJournalRemove(event, button) {
     const page = await fromUuid(button.dataset.pageUuid);
+    console.log(page)
     const type = button.dataset.optionType;
     
     const charOptions = this.actor.system.charOptions;
@@ -727,18 +730,20 @@ export default class WWCreatureSheet extends WWActorSheet {
 
     if (!confirm) return;
     
-    // Remove the UUID from the benefit's pages
-    const str = 'system.charOptions.' + type;
+    // Remove the UUID reference
+    const path = 'system.charOptions.' + type;
 
     if (type === 'professions' || type === 'traditions') {
+      console.log(charOptions[type])
       const arr = charOptions[type].filter(v => { return v !== button.dataset.pageUuid; });
-
-      if (page) await this.actor.update({ [str]: arr });
+      console.log(arr)
+      if (page) await this.actor.update({ [path]: arr });
     } else if (type) {
       
-      await this.actor.update({ [str]: null });
+      await this.actor.update({ [path]: null });
     }
 
+    // Clear benefits granted by the Character Option
     if (page) await this.actor.clearCharOptionBenefits(page.uuid);
     
     this.render();

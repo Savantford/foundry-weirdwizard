@@ -838,7 +838,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     
     const objFilter = list => Object
       .fromEntries(Object.entries(entries[list])
-      .filter(([k, v]) => v.grantedBy === uuid )
+      .filter(([k, v]) => v?.grantedBy === uuid )
     .map(([k]) => [k, new foundry.data.operators.ForcedDeletion()]));
     
     const obj = {
