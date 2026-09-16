@@ -299,7 +299,7 @@ export default function WWDocumentMixin(base) {
 
         case 'ActiveEffect': {
           // Prepare subtitle
-          context.subtitle = _loc((this.duration.rounds || this.duration.seconds) ? "WW.Effect.Temporary" : "WW.Effect.Permanent");
+          context.subtitle = _loc(this.isTemporary ? "WW.Effect.Temporary" : "WW.Effect.Permanent");
 
           // Prepare main text
           context.text = await TextEditor.enrichHTML(this.description);

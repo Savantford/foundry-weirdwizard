@@ -291,7 +291,7 @@ const getEffectData = async (effect) => {
     img: effect.img,
     type: effect.type,
 
-    subtitle: _loc((effect.duration.rounds || effect.duration.seconds) ? "WW.Effect.Temporary" : "WW.Effect.Permanent"),
+    subtitle: _loc(effect.isTemporary ? "WW.Effect.Temporary" : "WW.Effect.Permanent"),
     text: await foundry.applications.ux.TextEditor.implementation.enrichHTML(effect.description, { secrets: effect.isOwner }),
     changes: ''
   }
