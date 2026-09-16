@@ -1,0 +1,86 @@
+{
+  "name": "Improvised Weapon",
+  "type": "equipment",
+  "_id": "M35d8TgQyVxkuCFR",
+  "img": "icons/tools/cooking/fork-steel-grey.webp",
+  "system": {
+    "description": "<p>An improvised weapon is an object constructed for a function other than harm but nevertheless can cause injury. Examples include frying pans and broken bottles. When you use an improvised weapon to attack, you roll with 1 bane. On a critical success or critical failure, the improvised weapon breaks. An improvised weapon deals 1d6 damage. Reduce any Bonus Damage applied to the attack to 0.</p>",
+    "active": true,
+    "grantedBy": null,
+    "usedBy": [],
+    "magical": false,
+    "attribute": "str",
+    "against": "def",
+    "boons": -1,
+    "boonsAlt": "",
+    "affliction": "",
+    "uses": {
+      "value": 0,
+      "max": 0,
+      "onRest": false,
+      "levelRelative": "manual"
+    },
+    "healing": "",
+    "instant": [],
+    "targeting": {
+      "operation": "target",
+      "range": 0,
+      "method": "manual",
+      "restriction": "any"
+    },
+    "area": {
+      "radius": 5,
+      "size": 5,
+      "attached": false,
+      "color": null,
+      "shape": "circle",
+      "restriction": {
+        "enabled": true,
+        "type": "move",
+        "priority": 0
+      }
+    },
+    "subtype": "weapon",
+    "quantity": 1,
+    "weightUnit": 1,
+    "heldBy": null,
+    "availability": "common",
+    "quality": "standard",
+    "price": {
+      "value": 0,
+      "coin": "sp"
+    },
+    "armorType": "light",
+    "capacity": 1,
+    "requirements": "",
+    "damage": "1d6",
+    "damageAlt": "",
+    "grip": "off",
+    "reloaded": true,
+    "traits": [],
+    "attackRider": {
+      "name": "",
+      "value": ""
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "zin7Kb6P2LomswaD": 3
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "14.367",
+    "systemId": "weirdwizard",
+    "systemVersion": "#{VERSION}#",
+    "createdTime": 1789579964262,
+    "modifiedTime": 1789580553087,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
+  },
+  "_key": "!items!M35d8TgQyVxkuCFR"
+}
