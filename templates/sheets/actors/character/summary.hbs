@@ -319,27 +319,13 @@
 
                 {{!-- Traditions --}}
                 <ol class="stat-inline mb-1 list-entries">
-
                     <label>{{localize "WW.Tradition.Label"}}:</label>
 
                     {{#each charOptions.traditions as |tradition id|}}
-                    <li class="list-entry draggable">
-                        <a data-action="journalView" data-page-uuid="{{tradition.uuid}}" data-option-type="traditions"
-                            data-tooltip="{{tradition.desc}}">{{tradition.name}}
-                        </a>
-                        
-                        {{#if @root.isEditMode}}
-                        <span class="edit-buttons">
-                            <a class="array-button" data-action="journalRemove" data-page-uuid="{{tradition.uuid}}" data-option-type="traditions"
-                                data-tooltip="WW.Tradition.Remove"><i class="fa-solid fa-trash"></i>
-                            </a>
-                        </span>
-                        {{/if}}
-                    </li>
+                        {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=tradition removeTip="WW.Tradition.Remove" isEditMode=@root.isEditMode }}
+                    {{else}}
+                        <span>—</span>
                     {{/each}}
-                        
-                    {{#unless charOptions.traditions.length}}<span>—</span>{{/unless}}
-                    
                 </ol>
 
                 {{!-- Spells List --}}
