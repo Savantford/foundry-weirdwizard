@@ -1254,10 +1254,8 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     if (!config.item) return effs;
 
     // Add Weapon Damage
-    console.log(config)
     const itemSystem = config.item.system;
     const weaponDamage = (itemSystem.subtype === 'weapon' && itemSystem.damage) ? itemSystem.damage : 0;
-    console.log(weaponDamage)
     
     if (weaponDamage) {
       const eff = {
@@ -1288,8 +1286,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       }
 
     })
-
-    console.log(effs)
     
     return effs;
   }
@@ -1465,12 +1461,27 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
   /* -------------------------------------------- */
 
   /* Apply Active Effect */
-  async applyEffect(effectUuid) {
-    
-    const effect = fromUuidSync(effectUuid);
+  async applyEffect(effectUuid, options={}) {
+    const { combatant } = options;
+    const baseEffect = await fromUuid(effectUuid);
+    const effectData = baseEffect.toObject();
 
     // Swap trigger to passive for it to take effect immediately
-    effect.system.trigger = 'passive';
+    effectData.system.trigger = 'passive';
+
+    // Assign target-based start duration data
+    if (baseEffect.system.targetRelativeTurns) {
+      if (!combatant) console.warn(`You need to select a Combatant for the duration to be relative to the target's turn. Actor UUID: "${this.uuid}"`);
+
+      effectData.start = {
+        time: game.time.worldTime,
+        combat: game.combat,
+        combatant: combatant
+      };
+    }
+    
+    const effects = await this.createEmbeddedDocuments("ActiveEffect", [effectData]);
+    const effect = effects[0];
 
     const content = `<p>
       @UUID[${effect.uuid}]
@@ -1484,9 +1495,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       content: content,
       sound: CONFIG.sounds.notification
     })
-
-    this.createEmbeddedDocuments("ActiveEffect", [await effect.toObject()]);
-
   }
 
   /* -------------------------------------------- */

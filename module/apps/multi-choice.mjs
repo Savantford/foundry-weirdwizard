@@ -165,10 +165,10 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
 
       // Chat Effect Application
       case 'applyEffect':
-        const value = opt.dataset.value, effect = opt.dataset.effectUuid;
+        const value = opt.dataset.value;
+        const effect = opt.dataset.effectUuid;
 
         for (const uuid in selected) {
-
           const target = await fromUuid(uuid);
 
           switch (opt.dataset.action) {
@@ -181,7 +181,6 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
             case 'applyAffliction': target.applyAffliction(value); break;
             case 'applyEffect': target.applyEffect(effect); break;
           }
-
         }
       break;
 

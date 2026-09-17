@@ -1,6 +1,53 @@
 import WWDialog from '../apps/dialog.mjs';
 
 export default class WWCombatant extends foundry.documents.Combatant {
+  /* -------------------------------------------- */
+  /*  Getters                                     */
+  /* -------------------------------------------- */
+  
+  get actorType() {
+    return this.actor?.type ?? null;
+  }
+
+  get injured() {
+    return this.actor?.injured ?? false;
+  }
+
+  get acted() {
+    return this.flags.weirdwizard?.acted ?? false;
+  }
+
+  get disposition() {
+    return this.token?.disposition ?? -2;
+  }
+
+  get takingInit() {
+    return this.flags.weirdwizard?.takingInit ?? false;
+  }
+  
+  get initiativeBracket() {
+    if ((this.actor?.type == 'character')) {
+      if (this.takingInit) return 1000; // Taking the Initiative
+      else return 3000; // Allies' regular turn
+    } else { // NPCs
+      if (this.token?.disposition === 1) return 3000; // Allies' regular turn
+      else return 2000; // Enemies' Taking the Initiative
+    }
+  }
+
+  get phase() {
+    if ((this.actor?.type == 'character')) {
+      if (this.takingInit) return 'init'; // Taking the Initiative
+      else return 'allies'; // Allies' regular turn
+    } else { // NPCs
+      if (this.token?.disposition === 1) return 'allies'; // Allies' regular turn
+      else return 'enemies'; // Enemies' Taking the Initiative
+    }
+  }
+
+  /* -------------------------------------------- */
+  /*  Combat Methods                              */
+  /* -------------------------------------------- */
 
   /**
    * Update the value of the tracked resource for this Combatant.
@@ -20,16 +67,11 @@ export default class WWCombatant extends foundry.documents.Combatant {
     } else {
       return this.resource = value;
     }
-    
-    
   }
 
   /* -------------------------------------------- */
-  /*  Methods                                     */
-  /* -------------------------------------------- */
 
   async takeInit(taking) {
-    
     // Set takingInit flag
     await this.setFlag('weirdwizard', 'takingInit', taking)
 
@@ -112,47 +154,30 @@ export default class WWCombatant extends foundry.documents.Combatant {
   }
 
   /* -------------------------------------------- */
-  /*  Getters                                     */
+  /*  Actor Shortcut Methods                      */
   /* -------------------------------------------- */
-  
-  get actorType() {
-    return this.actor?.type ?? null;
+
+  applyDamage(value) {
+    this.actor.applyDamage(value, { combatant: this });
   }
 
-  get injured() {
-    return this.actor?.injured ?? false;
+  applyHealing(value) {
+    this.actor.applyHealing(value, { combatant: this });
   }
 
-  get acted() {
-    return this.flags.weirdwizard?.acted ?? false;
+  applyHealthLoss(value) {
+    this.actor.applyHealthLoss(value, { combatant: this });
   }
 
-  get disposition() {
-    return this.token?.disposition ?? -2;
+  applyHealthRegain(value) {
+    this.actor.applyHealthRegain(value, { combatant: this });
   }
 
-  get takingInit() {
-    return this.flags.weirdwizard?.takingInit ?? false;
-  }
-  
-  get initiativeBracket() {
-    if ((this.actor?.type == 'character')) {
-      if (this.takingInit) return 1000; // Taking the Initiative
-      else return 3000; // Allies' regular turn
-    } else { // NPCs
-      if (this.token?.disposition === 1) return 3000; // Allies' regular turn
-      else return 2000; // Enemies' Taking the Initiative
-    }
+  applyAffliction(id) {
+    this.actor.applyAffliction(id, { combatant: this });
   }
 
-  get phase() {
-    if ((this.actor?.type == 'character')) {
-      if (this.takingInit) return 'init'; // Taking the Initiative
-      else return 'allies'; // Allies' regular turn
-    } else { // NPCs
-      if (this.token?.disposition === 1) return 'allies'; // Allies' regular turn
-      else return 'enemies'; // Enemies' Taking the Initiative
-    }
+  applyEffect(effect) {
+    this.actor.applyEffect(effect, { combatant: this })
   }
-
 }

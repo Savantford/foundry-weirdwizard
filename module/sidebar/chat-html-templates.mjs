@@ -16,7 +16,8 @@ export function buttonsHeader(html, label, noItem) {
 }
 
 // Prepare Html Button for a chat message
-export function chatMessageButton({action, value, effectUuid, originUuid, targetIds}) {
+export function chatMessageButton(options) {
+  const { action, value, effectUuid, originUuid, targetIds } = options;
   let icon = 'dice';
   let img = '';
   let loc = 'WW.InstantEffect.Button.';
@@ -96,6 +97,7 @@ export function chatMessageButton({action, value, effectUuid, originUuid, target
     html = '<div class="chat-button flexcol" data-action="' + action +
     (value ? '" data-value="' + value : '') +
     (effectUuid ? '" data-effect-uuid="' + effectUuid : '') +
+    (combatantUuid ? '" data-combatant-uuid="' + combatantUuid : '') +
     '" data-origin-uuid="' + originUuid +
     '" data-target-ids="' + targetIds + '">' +
     '<img src="' + img + '"/>' + 
@@ -105,6 +107,7 @@ export function chatMessageButton({action, value, effectUuid, originUuid, target
     html = '<div class="chat-button" data-action="' + action +
     (value ? '" data-value="' + value : '') +
     (effectUuid ? '" data-effect-uuid="' + effectUuid : '') +
+    (combatantUuid ? '" data-combatant-uuid="' + combatantUuid : '') +
     '" data-origin-uuid="' + originUuid +
     '" data-target-ids="' + targetIds + '">' +
     '<i class="fa-solid fa-' + icon + '"></i>' +
@@ -274,12 +277,7 @@ export function addInstEffs(effects, origin, target) {
 
 // Add Active Effects to chat message html
 export function addActEffs(actEffs, origin, target, singleRoll = false) {
-  //const origin = this.origin.uuid,
-  //const instEffs = this.instEffs[trigger],
-    /*actEffs = this.effects[trigger],
-    /*target = options.target,*/
-  
-  let targets = target// ? this.targets.filter(t => t.id === target) : this.targets;
+  let targets = target;
   
   let finalHtml = '',
     anyHtml = '',
@@ -287,39 +285,6 @@ export function addActEffs(actEffs, origin, target, singleRoll = false) {
     alliesHtml = '',
     noneHtml = ''
   ;
-  
-  // Handle instant effects
-  /*instEffs.forEach(e => {
-    let html = '';
-    
-    if (e.target === 'self') targets = this.token.uuid;
-
-    // Get target ids string
-    const targetIds = this._getTargetIds(targets, e.target);
-
-    // Create the chat button
-    if (e.label === 'affliction') html = chatMessageButton({
-      action: actionFromLabel(e.label),
-      value: e.affliction,
-      originUuid: origin,
-      targetIds: targetIds
-    });
-
-    else html = chatMessageButton({
-      action: actionFromLabel(e.label),
-      value: e.value,
-      originUuid: origin,
-      targetIds: targetIds
-    });
-    
-    // Assign to group html
-    switch (e.target) {
-      case 'tokens': anyHtml += html; break;
-      case 'enemies': enemiesHtml += html; break;
-      case 'allies': alliesHtml += html; break;
-    }
-    
-  })*/
 
   // Handle active effects
   actEffs.forEach(e => {

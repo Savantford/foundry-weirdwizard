@@ -51,7 +51,6 @@ export function _onInstantEffectRoll(event) {
   * @param {HTMLElement} element     The element the menu opens on.
 */
 export function _onMultiChoice(ev, purpose) {
-  
   const element = ev.currentTarget;
   const user = game.user;
   const menuItems = [];
@@ -61,13 +60,12 @@ export function _onMultiChoice(ev, purpose) {
   const preTargets = [];
   
   preTargetIds.forEach(t => {
-    if(game.actors.tokens[t]) preTargets.push(game.actors.tokens[t]);
+    if (game.actors.tokens[t]) preTargets.push(game.actors.tokens[t]);
   })
 
   // Assign pre-selected Targets, if any exists
   if (preTargets) {
     preTargets.forEach(actor => {
-      
       if (actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
         label: game.weirdwizard.utils.getAlias({ actor: actor }),
         img: actor.token ? actor.token.texture.src : actor.img,
@@ -75,7 +73,6 @@ export function _onMultiChoice(ev, purpose) {
         group: 'pre-targets',
         uuid: actor.uuid
       });
-    
     })
   }
 
@@ -89,15 +86,13 @@ export function _onMultiChoice(ev, purpose) {
         img: actor.token ? actor.token.texture.src : actor.img,
         tip: `ID: ${actor.uuid}`,
         group: 'targets',
-        uuid: actor.uuid
+        uuid: token.combatant.uuid ?? actor.uuid
       });
-    
     })
   }
 
   // Assign user's selected tokens, if any exists
   if (canvas.tokens.controlled) {
-    
     canvas.tokens.controlled.forEach(token => {
       const actor = token.document.actor;
       
@@ -106,9 +101,8 @@ export function _onMultiChoice(ev, purpose) {
         img: actor.token ? actor.token.texture.src : actor.img,
         tip: `ID: ${actor.uuid}`,
         group: 'selected',
-        uuid: actor.uuid
+        uuid: token.combatant.uuid ?? actor.uuid
       });
-    
     })
   }
 
@@ -116,7 +110,6 @@ export function _onMultiChoice(ev, purpose) {
   const character = user.character;
 
   if (character && (!menuItems.find(o => o.uuid === character.uuid))) {
-    
     menuItems.push({
       label: game.weirdwizard.utils.getAlias({ actor: character }),
       img: character.img,
@@ -127,15 +120,15 @@ export function _onMultiChoice(ev, purpose) {
   }
 
   // Assign combatants from current combat, if there are any
-  game.combat?.combatants.forEach(c => {
-    const actor = c.actor;
+  game.combat?.combatants.forEach(combatant => {
+    const actor = combatant.actor;
     
     if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
       label: game.weirdwizard.utils.getAlias({ actor: actor }),
       img: actor.token ? actor.token.texture.src : actor.img,
       tip: `ID: ${actor.uuid}`,
       group: 'combatants',
-      uuid: actor.uuid
+      uuid: combatant.uuid ?? actor.uuid
     });
   
   })
@@ -149,14 +142,12 @@ export function _onMultiChoice(ev, purpose) {
       img: actor.token ? actor.token.texture.src : actor.img,
       tip: `ID: ${actor.uuid}`,
       group: 'scene-tokens',
-      uuid: actor.uuid
+      uuid: actor.token.combatant.uuid ?? actor.uuid
     });
-  
   }
 
   // Add actors in the actor tab
   for (const actor of game.actors) {
-
     if (actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) {
       
       menuItems.push({
@@ -165,8 +156,7 @@ export function _onMultiChoice(ev, purpose) {
         tip: `ID: ${actor.uuid}`,
         group: 'actors-tab',
         uuid: actor.uuid
-      })  
-      
+      })
     }
   }
 
@@ -201,7 +191,6 @@ export function _onMultiChoice(ev, purpose) {
     },
     sections: sections
   }).render(true);
-
 }
 
 /* -------------------------------------------- */

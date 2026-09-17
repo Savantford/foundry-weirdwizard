@@ -21,7 +21,7 @@
                 <div class="choices-grid" style="--cols: {{cols}};">
                     {{#each choices as |choice|}}
                     <label data-tooltip="{{tip}}">
-                        <input type="checkbox" name="{{#if uuid}}{{uuid}}{{else if id}}{{id}}{{else}}{{path}}{{/if}}" {{checked value}}>
+                        <input type="checkbox" name="{{#if uuid}}{{ uuid }}{{else if id}}{{ id }}{{else}}{{ path }}{{/if}}" {{checked value}}>
                         {{#if img}}<img src={{img}}> {{/if}}{{localize label}}
                     </label>
                     {{/each}}

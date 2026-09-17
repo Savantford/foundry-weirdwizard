@@ -112,7 +112,7 @@
             {{!-- Active Effect Buttons --}}
             {{#if actEffs.length}}
             {{#each actEffs as |effect id|}}
-            <div class="chat-button" data-action="{{action}}" data-effect-uuid="{{uuid}}" data-origin-uuid="{{@root.originUuid}}" data-target-ids="{{targetIds}}">
+            <div class="chat-button" data-action="{{ action }}" data-effect-uuid="{{ uuid }}" data-origin-uuid="{{ @root.originUuid }}" data-target-ids="{{ targetIds }}">
                 {{#if img}}<img src="{{img}}" />{{/if}}{{name}}
             </div>
             {{/each}}
