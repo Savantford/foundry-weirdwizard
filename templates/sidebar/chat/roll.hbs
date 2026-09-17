@@ -74,7 +74,8 @@
       {{#if instEffs}}
   
       {{!-- On Critical --}}
-      {{#if (eq outcome "criticalSuccesss")}}
+      {{log outcome}}
+      {{#if (eq outcome "critSuccess")}}
       {{#each (lookup instEffs "onCritical") as |effect id|}}
       <div class="chat-button" data-action="{{action}}"
         data-value="{{#if (eq label 'affliction')}}{{affliction}}{{else}}{{value}}{{/if}}"

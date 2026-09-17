@@ -1254,8 +1254,10 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     if (!config.item) return effs;
 
     // Add Weapon Damage
+    console.log(config)
     const itemSystem = config.item.system;
-    const weaponDamage = (itemSystem.subtype == 'weapon' && itemSystem.damage) ? itemSystem.damage : 0;
+    const weaponDamage = (itemSystem.subtype === 'weapon' && itemSystem.damage) ? itemSystem.damage : 0;
+    console.log(weaponDamage)
     
     if (weaponDamage) {
       const eff = {
@@ -1286,6 +1288,8 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       }
 
     })
+
+    console.log(effs)
     
     return effs;
   }

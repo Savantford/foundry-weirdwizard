@@ -175,8 +175,8 @@ export default class WWRoll extends Roll {
     // Determine outcome
     if (this.forcedOutcome) return this.forcedOutcome;
 
-    if (this.isCriticalSuccess) return 'critSuccess';
-    else if (this.isCriticalFailure) return 'critFailure';
+    if (this.isCritSuccess) return 'critSuccess';
+    else if (this.isCritFailure) return 'critFailure';
     else if (this.isSuccess) return 'success';
     else return 'failure';
   }
@@ -200,11 +200,11 @@ export default class WWRoll extends Roll {
 
   /* -------------------------------------------- */
 
-  get isCriticalSuccess() {
+  get isCritSuccess() {
     return this.total >= 20 && this.total >= this.targetNo + 5;
   }
 
-  get isCriticalFailure() {
+  get isCritFailure() {
     return this.total <= 0;
   }
 
