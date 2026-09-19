@@ -491,13 +491,14 @@ WW.EFFECT_TARGET_ICONS = {
 
 WW.EFFECT_DURATION_PRESETS = {
   '1minute': 'WW.Effect.DurationPresets.1Minute',
+  '1hour': 'WW.Effect.DurationPresets.1Hour',
   'luckEnds': 'WW.Effect.DurationPresets.LuckEnds',
   '1round': 'WW.Effect.DurationPresets.RoundEnd',
   '2rounds': 'WW.Effect.DurationPresets.NextRoundEnd',
   'turnEnd': 'WW.Effect.DurationPresets.TurnEnd',
   'nextTriggerTurnStart': 'WW.Effect.DurationPresets.NextTriggerTurnStart',
-  'nextTargetTurnStart': 'WW.Effect.DurationPresets.NextTargetTurnStart',
   'nextTriggerTurnEnd': 'WW.Effect.DurationPresets.NextTriggerTurnEnd',
+  'nextTargetTurnStart': 'WW.Effect.DurationPresets.NextTargetTurnStart',
   'nextTargetTurnEnd': 'WW.Effect.DurationPresets.NextTargetTurnEnd',
 }
 

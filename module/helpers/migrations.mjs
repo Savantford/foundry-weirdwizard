@@ -81,11 +81,11 @@ export async function v14Support(forced) {
             case 'luckEnds': duration = { ...duration, value: null, units: dur.units, expiry: 'luckEnds' }; break;
             case '1round': duration = { ...duration, value: 0, units: 'rounds', expiry: 'roundEnd' }; break;
             case '2rounds': duration = { ...duration, value: 1, units: 'rounds', expiry: 'roundEnd' }; break;
-            case 'turnEnd': duration = { ...duration, value: 0, units: 'rounds', expiry: 'turnEnd' }; break;
-            case 'nextTriggerTurnStart': duration = { ...duration, value: 0, units: 'rounds', expiry: 'turnStart' }; break;
-            case 'nextTargetTurnStart': duration = { ...duration, value: 0, units: 'rounds', expiry: 'turnStart' }; break;
-            case 'nextTriggerTurnEnd': duration = { ...duration, value: 1, units: 'rounds', expiry: 'turnEnd' }; break;
-            case 'nextTargetTurnEnd': duration = { ...duration, value: 1, units: 'rounds', expiry: 'turnEnd' }; break;
+            case 'turnEnd': duration = { ...duration, value: 0, units: 'turns', expiry: 'turnEnd' }; break;
+            case 'nextTriggerTurnStart': duration = { ...duration, value: 0, units: 'turns', expiry: 'turnStart' }; break;
+            case 'nextTriggerTurnEnd': duration = { ...duration, value: 1, units: 'turns', expiry: 'turnEnd' }; break;
+            case 'nextTargetTurnStart': duration = { ...duration, value: 0, units: 'turns', expiry: 'turnStart' }; break;
+            case 'nextTargetTurnEnd': duration = { ...duration, value: 1, units: 'turns', expiry: 'turnEnd' }; break;
 
             // World Time duration
             case '1minute': duration = { ...duration, value: 1, units: 'minutes', expiry: null }; break;

@@ -1,9 +1,6 @@
 import WWSheetMixin from '../ww-sheet.mjs';
 import { getEffectChangeMeta } from '../../helpers/effect-presets.mjs';
 import { makeBooField, makeFloField, makePosIntField, makeStrField } from '../../data/field-presets.mjs';
-import CharacterModel from '../../data/actors/character.mjs';
-import WWActor from '../../documents/actor.mjs';
-
 
 export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applications.sheets.ActiveEffectConfig) {
   /** @inheritDoc */
@@ -257,14 +254,32 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
       case 'luckEnds': submitData.duration = { value: null, units: dur.units, expiry: 'luckEnds' }; break;
       case '1round': submitData.duration = { value: 0, units: 'rounds', expiry: 'roundEnd' }; break;
       case '2rounds': submitData.duration = { value: 1, units: 'rounds', expiry: 'roundEnd' }; break;
-      case 'turnEnd': submitData.duration = { value: 0, units: 'rounds', expiry: 'turnEnd' }; break;
-      case 'nextTriggerTurnStart': submitData.duration = { value: 0, units: 'rounds', expiry: 'turnStart' }; break;
-      case 'nextTargetTurnStart': submitData.duration = { value: 0, units: 'rounds', expiry: 'turnStart' }; break;
-      case 'nextTriggerTurnEnd': submitData.duration = { value: 1, units: 'rounds', expiry: 'turnEnd' }; break;
-      case 'nextTargetTurnEnd': submitData.duration = { value: 1, units: 'rounds', expiry: 'turnEnd' }; break;
+
+      // Combat Turns
+      case 'turnEnd': {
+        submitData.duration = { value: 0, units: 'turns', expiry: 'turnEnd' }
+        submitData.system.targetRelativeTurns = false;
+      }; break;
+      case 'nextTriggerTurnStart': {
+        submitData.duration = { value: 0, units: 'turns', expiry: 'turnStart' };
+        submitData.system.targetRelativeTurns = false;
+      }; break;
+      case 'nextTriggerTurnEnd': {
+        submitData.duration = { value: 1, units: 'turns', expiry: 'turnEnd' };
+        submitData.system.targetRelativeTurns = false;
+      }; break;
+      case 'nextTargetTurnStart': {
+        submitData.duration = { value: 0, units: 'turns', expiry: 'turnStart' };
+        submitData.system.targetRelativeTurns = true;
+      }; break;
+      case 'nextTargetTurnEnd': {
+        submitData.duration = { value: 1, units: 'turns', expiry: 'turnEnd' };
+        submitData.system.targetRelativeTurns = true;
+      }; break;
 
       // World Time duration
       case '1minute': submitData.duration = { value: 1, units: 'minutes', expiry: null }; break;
+      case '1hour': submitData.duration = { value: 1, units: 'hours', expiry: null }; break;
     }
 
     // Update Changes
