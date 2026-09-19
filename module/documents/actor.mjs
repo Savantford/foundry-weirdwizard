@@ -1462,22 +1462,22 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
   /* Apply Active Effect */
   async applyEffect(effectUuid, options={}) {
-    const { combatant } = options;
+    const { combatant: target } = options;
     const baseEffect = await fromUuid(effectUuid);
+    const sys = baseEffect.system;
     const effectData = baseEffect.toObject();
 
     // Swap trigger to passive for it to take effect immediately
     effectData.system.trigger = 'passive';
 
     // Assign target-based start duration data
-    console.log(baseEffect.system.targetRelativeTurns)
-    if (baseEffect.system.targetRelativeTurns) {
-      if (!combatant) console.warn(`You need to select a Combatant for the duration to be relative to the target's turn. Actor UUID: "${this.uuid}"`);
+    if (baseEffect.duration.units === 'turns') {
+      if (sys.targetRelativeTurns && !target) console.warn(`You need to select a Combatant for the duration to be relative to the target's turn. Actor UUID: "${this.uuid}"`);
 
       effectData.start = {
         time: game.time.worldTime,
         combat: game.combat,
-        combatant: combatant
+        combatant: sys.targetRelativeTurns ? target : game.combat.combatant
       };
     }
     
