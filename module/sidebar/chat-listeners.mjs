@@ -81,7 +81,7 @@ export function _onMultiChoice(ev, purpose) {
     game.user.targets.forEach(token => {
       const actor = token.document.actor;
       
-      if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
+      if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === token.combatant.uuid ?? actor.uuid))) menuItems.push({
         label: game.weirdwizard.utils.getAlias({ actor: actor }),
         img: actor.token ? actor.token.texture.src : actor.img,
         tip: `ID: ${actor.uuid}`,
@@ -96,7 +96,7 @@ export function _onMultiChoice(ev, purpose) {
     canvas.tokens.controlled.forEach(token => {
       const actor = token.document.actor;
       
-      if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
+      if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === token.combatant.uuid ?? actor.uuid))) menuItems.push({
         label: game.weirdwizard.utils.getAlias({ actor: actor }),
         img: actor.token ? actor.token.texture.src : actor.img,
         tip: `ID: ${actor.uuid}`,
@@ -123,7 +123,7 @@ export function _onMultiChoice(ev, purpose) {
   game.combat?.combatants.forEach(combatant => {
     const actor = combatant.actor;
     
-    if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
+    if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === combatant.uuid ?? actor.uuid))) menuItems.push({
       label: game.weirdwizard.utils.getAlias({ actor: actor }),
       img: actor.token ? actor.token.texture.src : actor.img,
       tip: `ID: ${actor.uuid}`,
@@ -137,7 +137,7 @@ export function _onMultiChoice(ev, purpose) {
   for (const id in game.actors.tokens) {
     const actor = game.actors.tokens[id];
     
-    if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.uuid))) menuItems.push({
+    if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.token.combatant.uuid ?? actor.uuid))) menuItems.push({
       label: game.weirdwizard.utils.getAlias({ actor: actor }),
       img: actor.token ? actor.token.texture.src : actor.img,
       tip: `ID: ${actor.uuid}`,
