@@ -137,12 +137,12 @@ export function _onMultiChoice(ev, purpose) {
   for (const id in game.actors.tokens) {
     const actor = game.actors.tokens[id];
     
-    if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.token.combatant.uuid ?? actor.uuid))) menuItems.push({
+    if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === actor.token.combatant?.uuid ?? actor.uuid))) menuItems.push({
       label: game.weirdwizard.utils.getAlias({ actor: actor }),
       img: actor.token ? actor.token.texture.src : actor.img,
       tip: `ID: ${actor.uuid}`,
       group: 'scene-tokens',
-      uuid: actor.token.combatant.uuid ?? actor.uuid
+      uuid: actor.token.combatant?.uuid ?? actor.uuid
     });
   }
 
