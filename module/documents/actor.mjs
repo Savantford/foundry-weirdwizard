@@ -1470,6 +1470,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     effectData.system.trigger = 'passive';
 
     // Assign target-based start duration data
+    console.log(baseEffect.system.targetRelativeTurns)
     if (baseEffect.system.targetRelativeTurns) {
       if (!combatant) console.warn(`You need to select a Combatant for the duration to be relative to the target's turn. Actor UUID: "${this.uuid}"`);
 

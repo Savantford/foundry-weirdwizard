@@ -44,7 +44,7 @@
     disabled=(ne source.system.durationPreset 'custom')}}
 
     {{!-- Target Relative Turns? --}}
-    {{formGroup systemFields.targetRelativeTurns value=source.system.targetRelativeTurns rootId=rootId}}
+    {{formGroup systemFields.targetRelativeTurns value=source.system.targetRelativeTurns rootId=rootId disabled=(ne source.system.durationPreset 'custom')}}
   </div>
 
   {{!-- Start Block --}}
