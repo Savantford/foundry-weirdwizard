@@ -1,7 +1,10 @@
 <section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
   {{formGroup fields.tint value=source.tint rootId=rootId placeholder="#ffffff"}}
 
+  {{!-- Description --}}
   {{formGroup fields.description value=source.description rootId=rootId}}
+
+  {{!-- Suspended --}}
   {{formGroup fields.disabled value=source.disabled rootId=rootId}}
 
   {{#if isActorEffect}}
