@@ -198,8 +198,8 @@ export default class WWActiveEffect extends WWDocumentMixin(foundry.documents.Ac
         ? combat.combatants.get(this.start.combatant)
         : combat.getCombatantsByActor(this.actor ?? "")[0]
       : null;
-    const lcPreset = this.system.durationPreset.toLowerCase();
-
+    const targetRelative = this.system.targetRelativeTurns;
+    
     switch ( event ) {
       case "combatStart":
       case "combatEnd":
@@ -210,17 +210,16 @@ export default class WWActiveEffect extends WWDocumentMixin(foundry.documents.Ac
         // Return false if combat hasn't started a or if combat/effect has no combatant
         if ( !combat?.started || !effectCombatant) return false;
         
-        // If no preset is selected, return true
-        if (!lcPreset) return true;
-        
-        // If TARGET is taken into account (nextTargetTurnStart)
-        if (lcPreset.includes('target')) {
+        // If TARGET is taken into account (nextTargetTurnStart), use effectCombatant
+        if (targetRelative) {
           if (combat.combatant) return effectCombatant.id === combat.combatant.id; // Prefer matching on combatant
           else return effectCombatant.turnNumber === combat.turn;                  // Otherwise match turn number
         
-        // If TRIGGER is taken into account (nextTriggerTurnStart)
-        } else if (!this.originalCombatant || this.originalCombatant?.id === combat.combatant.id) true;
-        else false;
+        // If TRIGGER is taken into account (nextTriggerTurnStart), use originalCombatant
+        } else if (!this.originalCombatant || this.originalCombatant?.id === combat.combatant.id) return true;
+
+        // Return false otherwise
+        else return false;
       case "turnEnd": {
         // Return false if combat hasn't started a or if combat/effect has no combatant
         if ( !combat?.started || !effectCombatant) return false;
@@ -228,18 +227,17 @@ export default class WWActiveEffect extends WWDocumentMixin(foundry.documents.Ac
         // Return false if previous combatant does not exist
         const previousCombatantId = combat.previous.combatantId;
         if ( !previousCombatantId ) return false;
-        
-        // If no preset is selected or turnEnd is selected, return true
-        if (!lcPreset || lcPreset === 'turnend') return true;
 
-        // If TARGET is taken into account (nextTargetTurnEnd)
-        else if (lcPreset.includes('target')) {
-          if (previousCombatantId) return effectCombatant.id === previousCombatantId; // Prefer matching on combatant
-          else return effectCombatant.turnNumber === combat.previous.turn;            // Otherwise match turn number
+        // If TARGET is taken into account (nextTargetTurnStart), use effectCombatant
+        if (targetRelative) {
+          if (combat.combatant) return effectCombatant.id === combat.combatant.id; // Prefer matching on combatant
+          else return effectCombatant.turnNumber === combat.turn;                  // Otherwise match turn number
         
-        // If TRIGGER is taken into account (nextTriggerTurnEnd)
-        } else if (!this.originalCombatant || this.originalCombatant?.id === previousCombatantId) true;
-        else false;
+        // If TRIGGER is taken into account (nextTriggerTurnStart), use originalCombatant
+        } else if (!this.originalCombatant || this.originalCombatant?.id === combat.combatant.id) return true;
+        
+        // Return false otherwise
+        else return false;
       }
       default:
         return false;
