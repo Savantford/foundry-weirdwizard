@@ -216,7 +216,7 @@ export default class WWActiveEffect extends WWDocumentMixin(foundry.documents.Ac
           else return effectCombatant.turnNumber === combat.turn;                  // Otherwise match turn number
         
         // If TRIGGER is taken into account (nextTriggerTurnStart), use originalCombatant
-        } else if (!this.originalCombatant || this.originalCombatant?.id === combat.combatant.id) return true;
+        } else if (!this.originalCombatant || this.originalCombatant?.id === combat.combatant?.id) return true;
 
         // Return false otherwise
         else return false;
@@ -234,7 +234,7 @@ export default class WWActiveEffect extends WWDocumentMixin(foundry.documents.Ac
           else return effectCombatant.turnNumber === combat.turn;                  // Otherwise match turn number
         
         // If TRIGGER is taken into account (nextTriggerTurnStart), use originalCombatant
-        } else if (!this.originalCombatant || this.originalCombatant?.id === combat.combatant.id) return true;
+        } else if (!this.originalCombatant || this.originalCombatant?.id === combat.combatant?.id) return true;
         
         // Return false otherwise
         else return false;
