@@ -6,11 +6,11 @@ const fields = foundry.data.fields;
 
 /* Integer (Min 0) */
 export const makeIntField = (options={}) => {
-  const { init = 0 } = options;
+  const { initial = 0, label } = options;
 
   return new fields.NumberField({
     required: true,
-    initial: init,
+    initial: initial,
     min: 0,
     nullable: true,
     integer: true,
@@ -20,11 +20,11 @@ export const makeIntField = (options={}) => {
 
 /* Positive Integer (Min 1) */
 export const makePosIntField = (options={}) => {
-  const { init = 1 } = options;
+  const { initial = 1, label } = options;
 
   return new fields.NumberField({
     required: true,
-    initial: init,
+    initial: initial,
     min: 1,
     nullable: true,
     integer: true,
@@ -34,11 +34,11 @@ export const makePosIntField = (options={}) => {
 
 /* Float (Min 0) */
 export const makeFloField = (options={}) => {
-  const { init = 0 } = options;
+  const { initial = 0, label } = options;
 
   return new fields.NumberField({
     required: true,
-    initial: init,
+    initial: initial,
     min: 0,
     nullable: true,
     integer: false
@@ -47,11 +47,11 @@ export const makeFloField = (options={}) => {
 
 /* Positive Integer */
 export const makePosNegIntField = (options={}) => {
-  const { init = 0 } = options;
+  const { initial = 0, label } = options;
 
   return new fields.NumberField({
     required: true,
-    initial: init,
+    initial: initial,
     nullable: true,
     integer: true,
     clean: true
@@ -60,11 +60,11 @@ export const makePosNegIntField = (options={}) => {
 
 /* Any Number */
 export const makeNumField = (options={}) => {
-  const { init = 1 } = options;
+  const { initial = 1, label } = options;
 
   return new fields.NumberField({
     required: true,
-    initial: init,
+    initial: initial,
     positive: true
   })
 }
@@ -75,10 +75,10 @@ export const makeNumField = (options={}) => {
 
 /* Regular String */
 export const makeStrField = (options={}) => {
-  const { init = ''} = options;
+  const { initial = ''} = options;
 
   return new fields.StringField({
-    initial: init,
+    initial: initial,
     blank: true,
     textSearch: true
   })
@@ -86,20 +86,20 @@ export const makeStrField = (options={}) => {
 
 /* ID Reference String (Nullable, cannot be blank) */
 export const makeIdStrField = (options={}) => {
-  const { init = null } = options;
+  const { initial = null, label } = options;
   
   return new fields.StringField({
-    initial: init,
+    initial: initial,
     nullable: true
   })
 }
 
 /* UUID Reference String (Nullable, cannot be blank) */
 export const makeUuidStrField = (options={}) => {
-  const { init = null } = options;
+  const { initial = null, label } = options;
 
   return new fields.DocumentUUIDField({
-    initial: init,
+    initial: initial,
     nullable: true,
     //relative: true - v14 only
   })
@@ -107,10 +107,10 @@ export const makeUuidStrField = (options={}) => {
 
 /* Required String (Cannot be blank; for dropdown and name fields) */
 export const makeRequiredStrField = (options={}) => {
-  const { init = '' } = options;
+  const { initial = '', label } = options;
 
   return new fields.StringField({
-    initial: init,
+    initial: initial,
     blank: false
   })
 }
@@ -120,25 +120,25 @@ export const makeRequiredStrField = (options={}) => {
 /* -------------------------------------------- */
 
 export const makeBooField = (options={}) => {
-  const { init = false } = options;
+  const { initial = false, label } = options;
 
   return new fields.BooleanField ({
-    initial: init
+    initial: initial
   })
 }
 
 /* Complex Fields */
 export const makeHtmlField = (options={}) => {
-  const { init = '' } = options;
+  const { initial = '', label } = options;
 
   return new fields.HTMLField({
-    initial: init,
+    initial: initial,
     textSearch: true // Allow it to be searched in the Search Bar
   })
 }
 
-export function makeAttributeField(attribute) {
-  const label = 'WW.' + attribute;
+export function makeAttributeField({ options={} }) {
+  const { initial = '', label } = options;
 
   return new fields.SchemaField({
     value: new fields.NumberField({
@@ -148,7 +148,7 @@ export function makeAttributeField(attribute) {
       min: 0,
       integer: true,
       label: label,
-      hint: label
+      hint: label + 'Score'
     })
   })
 }

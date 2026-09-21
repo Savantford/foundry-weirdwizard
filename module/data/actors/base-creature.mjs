@@ -13,17 +13,17 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
       
       // Attributes
       attributes: new fields.SchemaField({
-        str: makeAttributeField('Strength'),
-        agi: makeAttributeField('Agility'),
-        int: makeAttributeField('Intellect'),
-        wil: makeAttributeField('Will')
+        str: makeAttributeField({ label: 'WW.Attributes.Strength' }),
+        agi: makeAttributeField({ label: 'WW.Attributes.Agility' }),
+        int: makeAttributeField({ label: 'WW.Attributes.Intellect' }),
+        wil: makeAttributeField({ label: 'WW.Attributes.Will' })
       }),
 
       // Stats
       stats: new fields.SchemaField({
         defense: new fields.SchemaField({
           total: makeIntField(),
-          natural: makeIntField(10),
+          natural: makeIntField({ initial: 10 }),
           details: makeStrField()
         }),
 
@@ -39,10 +39,10 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
           max: makeIntField()
         }),
 
-        size: makeFloField(1),
+        size: makeFloField({ initial: 1 }),
 
         speed: new fields.SchemaField({
-          normal: makeIntField(5),
+          normal: makeIntField({ initial: 5 }),
           current: makeIntField()
         })
       }),
@@ -52,7 +52,7 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
 
         descriptors: new fields.TypedObjectField(
           new fields.SchemaField({
-            name: makeStrField(_loc("WW.ListEntry.DefaultName"), 0),
+            name: makeStrField({ initial: _loc("WW.ListEntry.DefaultName") }),
             desc: makeStrField(),
             grantedBy: makeUuidStrField()
           }, {nullable: true})
@@ -60,7 +60,7 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
 
         senses: new fields.TypedObjectField(
           new fields.SchemaField({
-            name: makeStrField(_loc("WW.ListEntry.DefaultName"), 0),
+            name: makeStrField({ initial: _loc("WW.ListEntry.DefaultName") }),
             desc: makeStrField(),
             grantedBy: makeUuidStrField()
           }, {nullable: true})
@@ -68,7 +68,7 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
 
         languages: new fields.TypedObjectField(
           new fields.SchemaField({
-            name: makeStrField(_loc("WW.ListEntry.DefaultName"), 0),
+            name: makeStrField({ initial: _loc("WW.ListEntry.DefaultName") }),
             desc: makeStrField(),
             grantedBy: makeUuidStrField()
           }, {nullable: true})
@@ -76,7 +76,7 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
 
         immunities: new fields.TypedObjectField(
           new fields.SchemaField({
-            name: makeStrField(_loc("WW.ListEntry.DefaultName"), 0),
+            name: makeStrField({ initial: _loc("WW.ListEntry.DefaultName") }),
             desc: makeStrField(),
             grantedBy: makeUuidStrField()
           }, {nullable: true})
@@ -84,7 +84,7 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
 
         movementTraits: new fields.TypedObjectField(
           new fields.SchemaField({
-            name: makeStrField(_loc("WW.ListEntry.DefaultName"), 0),
+            name: makeStrField({ initial: _loc("WW.ListEntry.DefaultName") }),
             desc: makeStrField(),
             grantedBy: makeUuidStrField()
           }, {nullable: true})

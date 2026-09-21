@@ -12,7 +12,7 @@ export default class ProfessionModel extends BaseCharOptionModel {
     schema.benefits = new fields.SchemaField({
 
       benefit1: new fields.SchemaField({
-        levelReq: makeIntField(0),
+        levelReq: makeIntField({ initial: 0 }),
 
         items: new fields.ArrayField(
           makeUuidStrField()

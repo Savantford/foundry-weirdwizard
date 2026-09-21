@@ -9,12 +9,12 @@ export default class PathModel extends BaseCharOptionModel {
     const fields = foundry.data.fields;
     const schema = super.defineSchema();
     
-    schema.tier = makeRequiredStrField('novice');
+    schema.tier = makeRequiredStrField({ initial: 'novice' });
 
     schema.benefits = new fields.SchemaField({
-      benefit1: makeBenefitField(1),
-      benefit2: makeBenefitField(2),
-      benefit3: makeBenefitField(5),
+      benefit1: makeBenefitField({ initial: 1 }),
+      benefit2: makeBenefitField({ initial: 2 }),
+      benefit3: makeBenefitField({ initial: 5 }),
       benefit4: makeBenefitField()
     });
 
@@ -37,7 +37,7 @@ export default class PathModel extends BaseCharOptionModel {
 
 /* Path Benefit Field */
 const makeBenefitField = (level = 99) => new fields.SchemaField({
-  levelReq: makeIntField(level),
+  levelReq: makeIntField({ initial: level }),
 
   stats: new fields.SchemaField({
     naturalSet: makeIntField(),
@@ -49,7 +49,7 @@ const makeBenefitField = (level = 99) => new fields.SchemaField({
     bonusDamage: makeIntField(),
   }),
 
-  spells: makeRequiredStrField('0'),
+  spells: makeRequiredStrField({ initial: '0' }),
 
   // Granted items
   items: new fields.ArrayField(

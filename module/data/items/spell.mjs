@@ -8,17 +8,17 @@ export default class SpellModel extends BaseItemModel {
     const schema = super.defineSchema();
     
     // Add Spell fields
-    schema.tier = makeRequiredStrField('novice');
+    schema.tier = makeRequiredStrField({ initial: 'novice' });
     schema.tradition = makeStrField();
     schema.casting = makeHtmlField();
     schema.target = makeHtmlField();
-    schema.duration = makeHtmlField(`<p>${_loc("WW.Spell.DurationDefault")}</p>`);
+    schema.duration = makeHtmlField({ initial: `<p>${_loc("WW.Spell.DurationDefault")}</p>` });
 
     // Adjust Spell-specific initials
-    schema.active = makeBooField(false);
-    schema.description = makeHtmlField(`<p>${_loc("WW.System.Sheet.NoDescription")}</p>`);
-    schema.magical = makeBooField(true);
-    schema.uses.fields.max = makeIntField(1);
+    schema.active = makeBooField();
+    schema.description = makeHtmlField({ initial: `<p>${_loc("WW.System.Sheet.NoDescription")}</p>` });
+    schema.magical = makeBooField({ initial: true });
+    schema.uses.fields.max = makeIntField({ initial: 1 });
 
     return schema;
   }

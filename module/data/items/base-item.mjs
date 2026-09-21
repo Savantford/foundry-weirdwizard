@@ -7,13 +7,13 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
 
     const schema = {
       description: makeHtmlField(),
-      active: makeBooField(true),
+      active: makeBooField({ initial: true }),
       grantedBy: makeUuidStrField(),
       usedBy: new fields.ArrayField(
         makeUuidStrField()
       ),
 
-      magical: makeBooField(false),
+      magical: makeBooField(),
       attribute: makeStrField(), // Make it required maybe
       against: makeStrField(), // Make it required maybe
 
@@ -29,40 +29,40 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
       uses: new fields.SchemaField({
         value: makeIntField(),
         max: makeIntField(),
-        onRest: makeBooField(true),
-        levelRelative: makeRequiredStrField('manual')
+        onRest: makeBooField({ initial: true }),
+        levelRelative: makeRequiredStrField({ initial: 'manual' })
       }),
 
       healing: makeStrField(),
       instant: new fields.ArrayField(
         new fields.ObjectField({
           label: makeStrField(),
-          trigger: makeRequiredStrField('onUse'),
-          target: makeRequiredStrField('tokens'),
+          trigger: makeRequiredStrField({ initial: 'onUse' }),
+          target: makeRequiredStrField({ initial: 'tokens' }),
           value: makeStrField()
         })
       ),
 
       // Targeting & scene region template
       targeting: new fields.SchemaField({
-        operation: makeRequiredStrField('none'),
-        range: makeIntField(0),
-        method: makeRequiredStrField('manual'),
-        restriction: makeRequiredStrField('any')
+        operation: makeRequiredStrField({ initial: 'none' }),
+        range: makeIntField({ initial: 0 }),
+        method: makeRequiredStrField({ initial: 'manual' }),
+        restriction: makeRequiredStrField({ initial: 'any' })
       }),
 
       // Area (Scene Region) template
       area: new fields.SchemaField({
-        radius: makeIntField(5),
-        size: makeIntField(5),
+        radius: makeIntField({ initial: 5 }),
+        size: makeIntField({ initial: 5 }),
         attached: makeBooField(),
         color: new fields.ColorField(),
-        shape: makeRequiredStrField('circle'),
+        shape: makeRequiredStrField({ initial: 'circle' }),
 
         restriction: new fields.SchemaField({
-          enabled: makeBooField(true),
-          type: makeRequiredStrField('move'),
-          priority: makeIntField(0)
+          enabled: makeBooField({ initial: true }),
+          type: makeRequiredStrField({ initial: 'move' }),
+          priority: makeIntField({ initial: 0 })
         })
       })
 

@@ -7,10 +7,10 @@ export default class BaseEffectModel extends foundry.data.ActiveEffectTypeDataMo
     const schema = {
       ... super.defineSchema(),
 
-      target: makeRequiredStrField('none'),
-      trigger: makeRequiredStrField('passive'),
+      target: makeRequiredStrField({ initial: 'none' }),
+      trigger: makeRequiredStrField({ initial: 'passive' }),
 
-      durationPreset: makeStrField(''),
+      durationPreset: makeStrField({ initial: '' }),
       targetRelativeTurns: makeBooField(),
       
       grantedBy: makeUuidStrField(),
@@ -18,7 +18,7 @@ export default class BaseEffectModel extends foundry.data.ActiveEffectTypeDataMo
     
     // Custom Changes fields
     schema.changes.element.extendFields({
-      preset: makeStrField('')
+      preset: makeStrField({ initial: '' })
     });
 
     return schema;

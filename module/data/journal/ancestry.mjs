@@ -9,7 +9,7 @@ export default class AncestryModel extends BaseCharOptionModel {
 
     schema.benefits = new fields.SchemaField({
       benefit1: new fields.SchemaField({
-        levelReq: makeIntField(0),
+        levelReq: makeIntField({ initial: 0 }),
 
         attributes: makeStrField(),
 
@@ -33,7 +33,7 @@ export default class AncestryModel extends BaseCharOptionModel {
           new fields.SchemaField({
             name: makeRequiredStrField(),
             desc: makeStrField(),
-            grantedBy: makeUuidStrField(null)
+            grantedBy: makeUuidStrField({ initial: null })
           }, { nullable: true })
         ),
 
@@ -41,7 +41,7 @@ export default class AncestryModel extends BaseCharOptionModel {
           new fields.SchemaField({
             name: makeRequiredStrField(),
             desc: makeStrField(),
-            grantedBy: makeUuidStrField(null)
+            grantedBy: makeUuidStrField({ initial: null })
           }, { nullable: true })
         ),
 
@@ -49,7 +49,7 @@ export default class AncestryModel extends BaseCharOptionModel {
           new fields.SchemaField({
             name: makeRequiredStrField(),
             desc: makeStrField(),
-            grantedBy: makeUuidStrField(null)
+            grantedBy: makeUuidStrField({ initial: null })
           }, { nullable: true })
         ),
 
@@ -57,7 +57,7 @@ export default class AncestryModel extends BaseCharOptionModel {
           new fields.SchemaField({
             name: makeRequiredStrField(),
             desc: makeStrField(),
-            grantedBy: makeUuidStrField(null)
+            grantedBy: makeUuidStrField({ initial: null })
           }, { nullable: true })
         ),
 
@@ -65,7 +65,7 @@ export default class AncestryModel extends BaseCharOptionModel {
           new fields.SchemaField({
             name: makeRequiredStrField(),
             desc: makeStrField(),
-            grantedBy: makeUuidStrField(null)
+            grantedBy: makeUuidStrField({ initial: null })
           }, { nullable: true })
         ),
       })

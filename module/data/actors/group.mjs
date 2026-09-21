@@ -9,7 +9,7 @@ export default class GroupModel extends foundry.abstract.TypeDataModel {
     const schema = {
       // Details
       details: new fields.SchemaField({
-        origin: makeHtmlField(`<p>${_loc("WW.Group.OriginDefault")}</p>`),
+        origin: makeHtmlField({ initial: `<p>${_loc("WW.Group.OriginDefault")}</p>` }),
         achievements: makeHtmlField(),
         notes: makeHtmlField()
       }),
@@ -39,9 +39,9 @@ export default class GroupModel extends foundry.abstract.TypeDataModel {
 
         connections: new fields.TypedObjectField(
           new fields.SchemaField({
-            name: makeStrField(_loc("WW.ListEntry.DefaultName"), 0),
+            name: makeStrField({ initial: _loc("WW.ListEntry.DefaultName") }),
             desc: makeStrField(),
-            type: makeRequiredStrField('financial'),
+            type: makeRequiredStrField({ initial: 'financial' }),
             grantedBy: makeUuidStrField()
           }, { nullable: true })
         )

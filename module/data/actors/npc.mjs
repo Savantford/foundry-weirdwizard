@@ -15,13 +15,13 @@ export default class NpcModel extends BaseActorModel {
     });
 
     // Add NPC stats
-    schema.stats.fields.difficulty = makeIntField(1);
+    schema.stats.fields.difficulty = makeIntField({ initial: 1 });
 
     // Change NPC initial stats
-    schema.stats.fields.defense.fields.natural = makeIntField(10);
-    schema.stats.fields.defense.fields.natural = makeIntField(10);
-    schema.stats.fields.health.fields.normal = makeIntField(10);
-    schema.stats.fields.health.fields.current = makeIntField(10);
+    schema.stats.fields.defense.fields.natural = makeIntField({ initial: 10 });
+    schema.stats.fields.defense.fields.natural = makeIntField({ initial: 10 });
+    schema.stats.fields.health.fields.normal = makeIntField({ initial: 10 });
+    schema.stats.fields.health.fields.current = makeIntField({ initial: 10 });
 
     // Add details
     schema.details = new fields.SchemaField({

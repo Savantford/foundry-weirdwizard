@@ -29,7 +29,7 @@ export default class CharacterModel extends BaseActorModel {
     // Add Character Options
     schema.charOptions = new fields.SchemaField({
 
-      ancestry: makeUuidStrField('Compendium.weirdwizard.character-options.JournalEntry.pAAZKv2vrilITojZ.JournalEntryPage.GI4b6WkOLlTszbRe'),
+      ancestry: makeUuidStrField({ initial: 'Compendium.weirdwizard.character-options.JournalEntry.pAAZKv2vrilITojZ.JournalEntryPage.GI4b6WkOLlTszbRe' }),
 
       // Path UUIDs
       novice: makeUuidStrField(),
@@ -47,18 +47,18 @@ export default class CharacterModel extends BaseActorModel {
     });
     
     // Add Character stats
-    schema.stats.fields.level = makeIntField(1);
+    schema.stats.fields.level = makeIntField({ initial: 1 });
     schema.stats.fields.bonusdamage = makeIntField();
     
     // Adjust Character-specific initials
-    schema.stats.fields.defense.fields.natural = makeIntField(8);
-    schema.stats.fields.health.fields.normal = makeIntField(5);
-    schema.stats.fields.health.fields.current = makeIntField(5);
+    schema.stats.fields.defense.fields.natural = makeIntField({ initial: 8 });
+    schema.stats.fields.health.fields.normal = makeIntField({ initial: 5 });
+    schema.stats.fields.health.fields.current = makeIntField({ initial: 5 });
     
     // Will be deleted in a later date
     schema.listEntries.fields.traditions = new fields.TypedObjectField(
       new fields.SchemaField({
-        name: makeStrField(""),
+        name: makeStrField({ initial: "" }),
         desc: makeStrField(),
         grantedBy: makeUuidStrField()
       }, { nullable: true })
