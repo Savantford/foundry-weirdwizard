@@ -1472,13 +1472,17 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     // Assign target-based start duration data
     if (baseEffect.duration.units === 'turns') {
-      if (sys.targetRelativeTurns && !target) console.warn(`You need to select a Combatant for the duration to be relative to the target's turn. Actor UUID: "${this.uuid}"`);
+      const combatant = sys.targetRelativeTurns ? target : game.combat.combatant;
 
-      effectData.start = {
-        time: game.time.worldTime,
-        combat: game.combat,
-        combatant: sys.targetRelativeTurns ? target : game.combat.combatant
-      };
+      if (sys.targetRelativeTurns && !target) return ui.notifications.warn(_loc('WW.Effect.Duration.TargetRelativeTip'));
+      else if (!combatant) return ui.notifications.warn(_loc('WW.Effect.Duration.TriggerRelativeTip'));
+      else {
+        effectData.start = {
+          time: game.time.worldTime,
+          combat: game.combat,
+          combatant: combatant
+        };
+      }
     }
     
     const effects = await this.createEmbeddedDocuments("ActiveEffect", [effectData]);
