@@ -11,7 +11,7 @@ export default class BaseEffectModel extends foundry.data.ActiveEffectTypeDataMo
       trigger: makeRequiredStrField({ initial: 'passive' }),
 
       durationPreset: makeStrField({ initial: '' }),
-      targetRelativeTurns: makeBooField(),
+      targetRelativeTurns: makeBooField({ label: 'WW.Effect.Duration.TargetRelative' }),
       
       grantedBy: makeUuidStrField(),
     }

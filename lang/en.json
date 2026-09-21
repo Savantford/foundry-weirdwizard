@@ -703,6 +703,7 @@
 "WW.Effect.Duration.Rounds": "rounds",
 "WW.Effect.Duration.Turn": "turn",
 "WW.Effect.Duration.Turns": "turns",
+"WW.Effect.Duration.TargetRelative": "Target Relative Turns?",
 "WW.Effect.Duration.TargetRelativeTip": "You need to select a Combatant for the effect's duration to be relative to the their turn. Please add the creature's token to the Combat Tracker!",
 
 "WW.Effect.DurationPresets.Label": "Presets",

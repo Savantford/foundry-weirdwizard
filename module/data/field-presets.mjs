@@ -9,9 +9,9 @@ export const makeIntField = (options={}) => {
   const { initial = 0, label } = options;
 
   return new fields.NumberField({
-    required: true,
-    initial: initial,
+    initial, label,
     min: 0,
+    required: true,
     nullable: true,
     integer: true,
     clean: true
@@ -23,9 +23,9 @@ export const makePosIntField = (options={}) => {
   const { initial = 1, label } = options;
 
   return new fields.NumberField({
-    required: true,
-    initial: initial,
+    initial, label,
     min: 1,
+    required: true,
     nullable: true,
     integer: true,
     clean: true
@@ -37,9 +37,9 @@ export const makeFloField = (options={}) => {
   const { initial = 0, label } = options;
 
   return new fields.NumberField({
-    required: true,
-    initial: initial,
+    initial, label,
     min: 0,
+    required: true,
     nullable: true,
     integer: false
   })
@@ -50,8 +50,8 @@ export const makePosNegIntField = (options={}) => {
   const { initial = 0, label } = options;
 
   return new fields.NumberField({
+    initial, label,
     required: true,
-    initial: initial,
     nullable: true,
     integer: true,
     clean: true
@@ -63,8 +63,8 @@ export const makeNumField = (options={}) => {
   const { initial = 1, label } = options;
 
   return new fields.NumberField({
+    initial, label,
     required: true,
-    initial: initial,
     positive: true
   })
 }
@@ -75,10 +75,10 @@ export const makeNumField = (options={}) => {
 
 /* Regular String */
 export const makeStrField = (options={}) => {
-  const { initial = ''} = options;
+  const { initial = '', label } = options;
 
   return new fields.StringField({
-    initial: initial,
+    initial, label,
     blank: true,
     textSearch: true
   })
@@ -89,7 +89,7 @@ export const makeIdStrField = (options={}) => {
   const { initial = null, label } = options;
   
   return new fields.StringField({
-    initial: initial,
+    initial, label,
     nullable: true
   })
 }
@@ -99,7 +99,7 @@ export const makeUuidStrField = (options={}) => {
   const { initial = null, label } = options;
 
   return new fields.DocumentUUIDField({
-    initial: initial,
+    initial, label,
     nullable: true,
     //relative: true - v14 only
   })
@@ -110,7 +110,7 @@ export const makeRequiredStrField = (options={}) => {
   const { initial = '', label } = options;
 
   return new fields.StringField({
-    initial: initial,
+    initial, label,
     blank: false
   })
 }
@@ -123,7 +123,7 @@ export const makeBooField = (options={}) => {
   const { initial = false, label } = options;
 
   return new fields.BooleanField ({
-    initial: initial
+    initial, label
   })
 }
 
@@ -132,22 +132,22 @@ export const makeHtmlField = (options={}) => {
   const { initial = '', label } = options;
 
   return new fields.HTMLField({
-    initial: initial,
+    initial, label,
     textSearch: true // Allow it to be searched in the Search Bar
   })
 }
 
 export function makeAttributeField({ options={} }) {
-  const { initial = '', label } = options;
+  const { label } = options;
 
   return new fields.SchemaField({
     value: new fields.NumberField({
-      required: true,
+      label,
       initial: 10,
       max: 20,
       min: 0,
+      required: true,
       integer: true,
-      label: label,
       hint: label + 'Score'
     })
   })
