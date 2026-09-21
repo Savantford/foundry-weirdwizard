@@ -48,14 +48,14 @@
           </a>
 
         {{!-- Expiry Event --}}
-        {{else if (lte duration.remaining 0)}}
+        {{else if duration.isRemainingExpired}}
           <div class="frame duration expiry">
-            <img src="systems/weirdwizard/assets/icons/hourglass.svg" height="13"> {{ localize "EFFECT.DURATION.EXPIRY_EVENTS.turnStart" }}
+            <img src="systems/weirdwizard/assets/icons/hourglass.svg" height="13"> {{ localize (lookup @root.expiryEvents duration.expiry) }}
           </div>
 
         {{!-- Duration in Units --}}
         {{else}}
-        <div class="frame duration expiry">
+        <div class="frame duration units">
           <img src="systems/weirdwizard/assets/icons/hourglass.svg" height="13"> {{ duration.label }}
         </div>
         {{/if}}

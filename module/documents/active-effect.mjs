@@ -42,7 +42,9 @@ export default class WWActiveEffect extends WWDocumentMixin(foundry.documents.Ac
     this.originalItem = (this.parent instanceof Item) ? this.parent : null;
 
     // Prepare formatted duration
-    this.duration.initialLabel = this.formatDurationLabel(this.duration);
+    const dur = this.duration;
+    this.duration.initialLabel = this.formatDurationLabel(dur);
+    this.duration.isRemainingExpired = dur.remaining <= 0 || dur.remaining === Infinity ? true : false;
   }
 
   /* -------------------------------------------- */

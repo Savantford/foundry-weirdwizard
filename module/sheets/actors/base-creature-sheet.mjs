@@ -310,6 +310,15 @@ export default class WWCreatureSheet extends WWActorSheet {
 
         // Prepare effect categories
         context.effectCategories = { afflictions, temporary };
+
+        // Prepare expiry event labels
+        context.expiryEvents = Object.entries(ActiveEffect.EXPIRY_EVENTS)
+          .map(([value, label]) => ({value, label: _loc(label)}))
+          .sort((a, b) => a.label.localeCompare(b.label, game.i18n.lang))
+          .reduce((events, {value, label}) => {
+            events[value] = label;
+            return events;
+          }, {});
       break;
       
       // Permanent Effects tab
