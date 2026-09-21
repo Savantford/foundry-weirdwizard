@@ -41,15 +41,23 @@
     <div class="tags">
       {{!-- Duration --}}
       {{#if cat.showDuration}}
-        {{#if (ne duration.expiry "luckEnds")}}
-        <div class="frame duration">
+        {{!-- Luck Ends --}}
+        {{#if (and (lte duration.remaining 0) (eq duration.expiry "luckEnds"))}}
+          <a class="frame duration expiry luck-ends" data-action="effectLuckEnds" data-effect-id="{{ _id }}">
+            <img src="systems/weirdwizard/assets/icons/clover.svg" height="13"> {{localize "WW.Effect.Duration.Expiry.LuckEnds"}}
+          </a>
+
+        {{!-- Expiry Event --}}
+        {{else if (lte duration.remaining 0)}}
+          <div class="frame duration expiry">
+            <img src="systems/weirdwizard/assets/icons/hourglass.svg" height="13"> {{ localize "EFFECT.DURATION.EXPIRY_EVENTS.turnStart" }}
+          </div>
+
+        {{!-- Duration in Units --}}
+        {{else}}
+        <div class="frame duration expiry">
           <img src="systems/weirdwizard/assets/icons/hourglass.svg" height="13"> {{ duration.label }}
         </div>
-        {{else}}
-        {{!-- Luck Ends --}}
-        <a class="frame duration luck-ends" data-action="effectLuckEnds" data-effect-id="{{ _id }}">
-          <img src="systems/weirdwizard/assets/icons/clover.svg" height="13"> {{localize "WW.Effect.Duration.Expiry.LuckEnds"}}
-        </a>
         {{/if}}
       {{/if}}
 
