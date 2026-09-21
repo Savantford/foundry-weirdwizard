@@ -1472,7 +1472,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     // Assign target-based start duration data
     if (baseEffect.duration.units === 'turns') {
-      const combatant = sys.targetRelativeTurns ? target : game.combat.combatant;
+      const combatant = sys.targetRelativeTurns ? target : await baseEffect.item.inferToken.combatant;
 
       if (sys.targetRelativeTurns && !target) return ui.notifications.warn(_loc('WW.Effect.Duration.TargetRelativeTip'));
       else if (!combatant) return ui.notifications.warn(_loc('WW.Effect.Duration.TriggerRelativeTip'));

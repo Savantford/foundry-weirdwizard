@@ -7121,6 +7121,13 @@ body {
 
     .form-fields {
       flex: 1;
+
+      img {
+        flex: 0;
+        height: 1lh;
+        filter: none;
+        margin-right: -5px;
+      }
     }
   }
 

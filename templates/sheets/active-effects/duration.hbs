@@ -21,7 +21,9 @@
         <span>{{localize "WW.Effect.Duration.Expiry.Duration"}}</span>
         <span class="warning" hidden><i class="fa-duotone fa-triangle-exclamation"></i></span>
       </label>
+
       <div class="form-fields">
+        {{!-- Value --}}
         {{formInput fields.duration.fields.value value=source.duration.value id=(concat rootId "-duration.value")
         aria=(object label=(localize "EFFECT.FIELDS.duration.value.label"))
         disabled=(ne source.system.durationPreset 'custom')}}
@@ -30,12 +32,10 @@
         <i class="info flex-0 fa-solid fa-circle-question" data-tooltip="{{localize "WW.Effect.Duration.Expiry.DurationHint"}}"></i>
         {{/unless}}
 
+        {{!-- Units --}}
         {{formInput fields.duration.fields.units value=source.duration.units id=(concat rootId "-duration.units")
         options=durationUnits aria=(object label=(localize "EFFECT.FIELDS.duration.units.label"))
         disabled=(ne source.system.durationPreset 'custom')}}
-
-        {{!--formInput systemFields.targetRelativeTurns value=source.system.targetRelativeTurns id=(concat rootId "-system.targetRelativeTurns")
-        checked=source.system.targetRelativeTurns disabled=(ne source.system.durationPreset 'custom')--}}
       </div>
     </div>
 
@@ -69,7 +69,8 @@
       <div class="form-group">
         <label>{{localize "DOCUMENT.Combatant"}}</label>
         <div class="form-fields">
-          {{start.combatantName}}
+          <img class="mini-icon" src="{{ start.combatant.img }}">
+          {{ start.combatantName }}
         </div>
       </div>
       {{/if}}
