@@ -573,18 +573,21 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     const changes = [];
     
     if (stats.naturalSet) changes.push({
+      preset: 'defense.natural',
       key: 'system.stats.defense.natural',
       value: stats.naturalSet,
       type: "upgrade"
     })
 
     if (cOpt.system.tier === 'novice') changes.push({
+      preset: 'health.starting',
       key: 'system.stats.health.normal',
       value: stats.healthStarting,
       type: "upgrade"
     })
 
     if (stats.naturalIncrease) changes.push({
+      preset: 'defense.naturalIncrease',
       key: 'system.stats.defense.natural',
       value: stats.naturalIncrease,
       type: "add",
@@ -592,6 +595,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     })
 
     if (stats.armoredIncrease) changes.push({
+      preset: 'defense.armoredIncrease',
       key: 'system.stats.defense.armored',
       value: stats.armoredIncrease,
       type: "add",
@@ -599,6 +603,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     })
     
     if (stats.healthIncrease) changes.push({
+      preset: 'health.increase',
       key: 'system.stats.health.normal',
       value: stats.healthIncrease,
       type: "add",
@@ -606,18 +611,21 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     })
 
     if (stats.sizeNormal) changes.push({
+      preset: 'size.normal',
       key: 'system.stats.size',
       value: stats.sizeNormal,
       type: "upgrade"
     })
 
     if (stats.speedNormal) changes.push({
+      preset: 'speed.normal',
       key: 'system.stats.speed.normal',
       value: stats.speedNormal,
       type: "upgrade"
     })
 
     if (stats.speedIncrease) changes.push({
+      preset: 'speed.increase',
       key: 'system.stats.speed.normal',
       value: stats.speedIncrease,
       type: "add",
@@ -625,6 +633,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     })
 
     if (stats.bonusDamage) changes.push({
+      preset: 'bonusDamage.increase',
       key: 'system.stats.bonusdamage',
       value: stats.bonusDamage,
       type: "add"
