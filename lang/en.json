@@ -1031,13 +1031,13 @@
 "WW.Settings.Descriptors.Label": "Edit Descriptors",
 
 "WW.Settings.WeaponTraits.EntryType": "Weapon Trait",
-"WW.Settings.WeaponTraits.Name": "Weapon Traits Available",
-"WW.Settings.WeaponTraits.Hint": "Here you can edit the Weapon Traits available in your world.",
+"WW.Settings.WeaponTraits.Name": "(BROKEN) Weapon Traits Available",
+"WW.Settings.WeaponTraits.Hint": "(Not implemented yet!) Here you can edit the Weapon Traits available in your world.",
 "WW.Settings.WeaponTraits.Label": "Edit Weapon Traits",
 
 "WW.Settings.Afflictions.EntryType": "Affliction",
-"WW.Settings.Afflictions.Name": "Afflictions Available to Creatures",
-"WW.Settings.Afflictions.Hint": "Here you can edit the Afflictions available to creatures in your world.",
+"WW.Settings.Afflictions.Name": "(BROKEN) Afflictions Available to Creatures",
+"WW.Settings.Afflictions.Hint": "(Not implemented yet!) Here you can edit the Afflictions available to creatures in your world.",
 "WW.Settings.Afflictions.Label": "Edit Afflictions",
 
 "WW.Settings.Connections.EntryType": "Connection",
