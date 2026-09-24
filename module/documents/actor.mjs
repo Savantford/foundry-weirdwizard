@@ -782,7 +782,34 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
   }
 
   /* -------------------------------------------- */
-  
+
+  _entriesToGrant(uuid) {
+    const entries = this.system.listEntries;
+
+    const objFilter = list => Object
+      .fromEntries(Object.entries(entries[list])
+    .filter(([k, v]) => v?.grantedBy === uuid ));
+
+    const obj = {
+      descriptors: objFilter('descriptors'),
+      immunities: objFilter('immunities'),
+      languages: objFilter('languages'),
+      movementTraits: objFilter('movementTraits'),
+      senses: objFilter('senses')
+    }
+
+    if (this.type === 'character') obj.traditions = objFilter('traditions');
+
+    return obj;
+
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Removed benefits granted by a Character Option.
+   * @param {string} uuid 
+   */
   async clearCharOptionBenefits(uuid) {
     const cOption = await fromUuid(uuid);
 
@@ -809,45 +836,23 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     const newEntries = this._removeEntriesGrantedBy(uuid);
 
     // Update actor with new listEntries
-    this.update({['system.listEntries']: newEntries});
-
+    console.log(await this.system.listEntries)
+    await this.update({['system.listEntries']: newEntries});
+    console.log(await this.system.listEntries)
     ui.notifications.info(`${cOption.name}'s benefits were cleared from the actor.`);
   }
 
   /* -------------------------------------------- */
 
-  _entriesToGrant(uuid) {
-    const entries = this.system.listEntries;
-
-    const objFilter = list => Object
-      .fromEntries(Object.entries(entries[list])
-    .filter(([k, v]) => v?.grantedBy === uuid ));
-
-    const obj = {
-      descriptors: objFilter('descriptors'),
-      immunities: objFilter('immunities'),
-      languages: objFilter('languages'),
-      movementTraits: objFilter('movementTraits'),
-      senses: objFilter('senses')
-    }
-
-    if (this.type === 'character') obj.traditions = objFilter('traditions');
-
-    return obj;
-
-  }
-
-  /* -------------------------------------------- */
-
   _removeEntriesGrantedBy(uuid) {
-    const entries = this.system.listEntries;
+    const oldEntries = this.system.listEntries;
     
     const objFilter = list => Object
-      .fromEntries(Object.entries(entries[list])
+      .fromEntries(Object.entries(oldEntries[list])
       .filter(([k, v]) => v?.grantedBy === uuid )
     .map(([k]) => [k, new foundry.data.operators.ForcedDeletion()]));
     
-    const obj = {
+    const newEntries = {
       descriptors: objFilter('descriptors'),
       immunities: objFilter('immunities'),
       languages: objFilter('languages'),
@@ -855,10 +860,9 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       senses: objFilter('senses')
     }
 
-    if (this.type === 'character') obj.traditions = objFilter('traditions');
+    if (this.type === 'character') newEntries.traditions = objFilter('traditions');
 
-    return obj;
-
+    return newEntries;
   }
 
   /* -------------------------------------------- */
