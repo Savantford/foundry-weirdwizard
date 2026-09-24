@@ -591,7 +591,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       key: 'system.stats.defense.natural',
       value: stats.naturalIncrease,
       type: "add",
-      phase: "final"
+      phase: "initial"
     })
 
     if (stats.armoredIncrease) changes.push({
@@ -599,7 +599,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       key: 'system.stats.defense.armored',
       value: stats.armoredIncrease,
       type: "add",
-      phase: "final"
+      phase: "initial"
     })
     
     if (stats.healthIncrease) changes.push({
@@ -607,7 +607,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       key: 'system.stats.health.normal',
       value: stats.healthIncrease,
       type: "add",
-      phase: "final"
+      phase: "initial"
     })
 
     if (stats.sizeNormal) changes.push({
@@ -629,7 +629,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       key: 'system.stats.speed.normal',
       value: stats.speedIncrease,
       type: "add",
-      phase: "final"
+      phase: "initial"
     })
 
     if (stats.bonusDamage) changes.push({
