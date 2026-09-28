@@ -835,9 +835,8 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     const newEntries = this._removeEntriesGrantedBy(uuid);
 
     // Update actor with new listEntries
-    console.log(await this.system.listEntries)
     await this.update({['system.listEntries']: newEntries});
-    console.log(await this.system.listEntries)
+    
     ui.notifications.info(`${cOption.name}'s benefits were cleared from the actor.`);
   }
 
