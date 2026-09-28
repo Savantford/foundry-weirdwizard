@@ -1,7 +1,8 @@
 // Effect change metadata registry (label-keyed). Example: "boons.str" -> { type, valueType, priority }
-export const changePresets = {};
+const changePresets = {};
+
 // Back-compat clearer alias; prefer this in new code
-export { changePresets as effectChangeMetaRegistry };
+export { changePresets as effectChangePresetData };
 
 /* -------------------------------------------- */
 /*  Change Presets                              */
@@ -78,9 +79,9 @@ changePresets.extraDamage = {
 changePresets.defense = {
   override: overInt(),
   bonus: addInt(),
-  armored: upInt(1),
+  armored: upInt({ priority: 1 }),
   armoredIncrease: addInt(),
-  natural: overInt(1),
+  natural: overInt({ priority: 1 }),
   naturalIncrease: addInt(),
   naturalReduce: subInt()
 }
@@ -89,7 +90,7 @@ changePresets.health = {
   tempIncrease: addInt(),
   tempReduce: subInt(),
   override: overInt(),
-  starting: overInt(1),
+  starting: upInt({ priority: 1 }),
   increase: addInt()
 }
 
@@ -98,14 +99,14 @@ changePresets.speed = {
   tempReduce: subInt(),
   halved: setBoo(),
   override: overInt(),
-  normal: overInt(1),
+  normal: overInt({ priority: 1 }),
   increase: addInt()
 }
 
 changePresets.size = {
   increase: addFlo(),
   override: overFlo(),
-  normal: overFlo(1)
+  normal: overFlo({ priority: 1 })
 }
 
 changePresets.bonusDamage = {
@@ -155,61 +156,81 @@ changePresets.reduceAttribute = {
   https://foundryvtt.com/api/variables/CONST.ACTIVE_EFFECT_CHANGE_TYPES.html
 */
 
-function addInt(priority = null) {
+function addInt(options={}) {
+  const { priority } = options;
+
   return makeChangeData('add', 'int', priority);
 }
 
 /* -------------------------------------------- */
 
-function subInt(priority = null) {
+function subInt(options={}) {
+  const { priority } = options;
+
   return makeChangeData('subtract', 'int', priority);
 }
 
 /* -------------------------------------------- */
 
-function overInt(priority = null) {
+function overInt(options={}) {
+  const { priority } = options;
+
   return makeChangeData('override', 'int', priority);
 }
 
 /* -------------------------------------------- */
 
-function upInt(priority = null) {
+function upInt(options={}) {
+  const { priority } = options;
+
   return makeChangeData('upgrade', 'int', priority);
 }
 
 /* -------------------------------------------- */
 
-function downInt(priority = null) {
+function downInt(options={}) {
+  const { priority } = options;
+
   return makeChangeData('downgrade', 'int', priority);
 }
 
 /* -------------------------------------------- */
 
-function addFlo(priority = null) {
+function addFlo(options={}) {
+  const { priority } = options;
+
   return makeChangeData('add', 'flo', priority);
 }
 
 /* -------------------------------------------- */
 
-function overFlo(priority = null) {
+function overFlo(options={}) {
+  const { priority } = options;
+
   return makeChangeData('override', 'flo', priority);
 }
 
 /* -------------------------------------------- */
 
-function upFlo(priority = null) {
+function upFlo(options={}) {
+  const { priority } = options;
+
   return makeChangeData('upgrade', 'flo', priority);
 }
 
 /* -------------------------------------------- */
 
-function downFlo(priority = null) {
+function downFlo(options={}) {
+  const { priority } = options;
+
   return makeChangeData('downgrade', 'flo', priority);
 }
 
 /* -------------------------------------------- */
 
-function setBoo(priority = null) {
+function setBoo(options={}) {
+  const { priority } = options;
+
   return makeChangeData('override', 'boo', priority);
 }
 
@@ -217,12 +238,14 @@ function setBoo(priority = null) {
 
 /**
  * Make a change data object to use in Active Effects.
- * @param {*} type      The change's Type (Add, Override, etc)
- * @param {*} valueType The change data Type (Integer, Boolean, etc)
- * @param {*} priority  The effect's Priority
+ * @param {string} type      The change's Type (Add, Override, etc)
+ * @param {string} valueType The change data Type (Integer, Boolean, etc)
+ * @param {number} priority  The effect's Priority
  * @returns 
  */
-function makeChangeData(type, valueType, priority = null) {
+function makeChangeData(type, valueType, options={}) {
+  const { priority } = options;
+
   return {
     type: type,
     priority: priority,

@@ -424,7 +424,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
   /* Called during prepareDerivedData */
   _calculateHealthVariables(system) {
-    
     // Get variables
     const health = system.stats.health;
     const current = health.current;
@@ -435,16 +434,14 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       system.stats.damage.value = current;
     };
     
-    // Health override effect exists
-    if (health.override) {
-      health.normal = health.override;
-    }
+    // Determine Normal value and use override if available
+    const normal = health.override ?? health.normal;
     
     // Calculate temporary Health and assign it
     health.temp = health.current - this._source.system.stats.health.current;
 
     // Calculate lost Health and assign it
-    if (health.normal - health.current >= 0) health.lost = health.normal - health.current; else health.lost = 0;
+    if (normal - health.current >= 0) health.lost = normal - health.current; else health.lost = 0;
 
     // Assign Current Health to Max Damage for Token Bars
     this.system.stats.damage.max = current;
@@ -452,7 +449,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     // Update incapacitated status
     this.incapacitated ??= false;
     if (!this.incapacitated) this.incapacitated = damage >= current;
-
   }
 
   /* -------------------------------------------- */
@@ -566,24 +562,26 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
         stats.speedIncrease += bStats.speedIncrease;
         stats.bonusDamage += bStats.bonusDamage;
       }
-      
     }
 
     // Prepare changes for effect data
+    // TODO: Use imported preset data instead
     const changes = [];
     
     if (stats.naturalSet) changes.push({
       preset: 'defense.natural',
       key: 'system.stats.defense.natural',
       value: stats.naturalSet,
-      type: "upgrade"
+      type: "upgrade",
+      priority: 1
     })
 
     if (cOpt.system.tier === 'novice') changes.push({
       preset: 'health.starting',
       key: 'system.stats.health.normal',
       value: stats.healthStarting,
-      type: "upgrade"
+      type: "upgrade",
+      priority: 1
     })
 
     if (stats.naturalIncrease) changes.push({
@@ -614,14 +612,16 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       preset: 'size.normal',
       key: 'system.stats.size',
       value: stats.sizeNormal,
-      type: "upgrade"
+      type: "upgrade",
+      priority: 1
     })
 
     if (stats.speedNormal) changes.push({
       preset: 'speed.normal',
       key: 'system.stats.speed.normal',
       value: stats.speedNormal,
-      type: "upgrade"
+      type: "upgrade",
+      priority: 1
     })
 
     if (stats.speedIncrease) changes.push({
@@ -653,7 +653,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
         changes: changes,
         grantedBy: cOpt.uuid
       }
-      
     };
 
     // Create or update main effect
