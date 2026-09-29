@@ -432,7 +432,6 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     
     // Update document
     await this.page.update({ [`${path}.${key}`]: new foundry.data.operators.ForcedDeletion() });
-    
   }
 
   /* -------------------------------------------- */
