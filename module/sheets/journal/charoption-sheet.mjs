@@ -421,17 +421,20 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
   static async #onEntryRemove(event, button) {
     if (event.currentTarget.classList.contains('benefit-block')) event.stopPropagation();
     
-    const dataset = Object.assign({}, button.dataset),
-      listPath = dataset.listPath,
-      path = 'system.' + listPath,
-      obj = foundry.utils.getProperty(this.page, path),
-    key = dataset.entryKey;
-    
-    const newObj = {...obj}; 
-    delete await newObj[key];
+    const { entryKey: key, listPath } = button.dataset;
+    const path = `system.${listPath}`;
+    const fullPath = `${path}.${key}`;
+    const oldData = foundry.utils.getProperty(this.page, path);
+    console.log(oldData)
+    // Update set
+    const set = new Set(oldData);
+    console.log(set)
+    set.delete(key);
+    //const arr = [...await foundry.utils.getProperty(this.page, path)].filter(item => item !== key);
+    console.log(set)
     
     // Update document
-    await this.page.update({ [`${path}.${key}`]: new foundry.data.operators.ForcedDeletion() });
+    await this.page.update({ [fullPath]: set });
   }
 
   /* -------------------------------------------- */

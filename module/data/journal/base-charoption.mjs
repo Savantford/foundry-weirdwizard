@@ -19,6 +19,9 @@ export default class BaseCharOptionModel extends foundry.abstract.TypeDataModel 
    * @inheritDoc
    */
   static migrateData(data) {
+    // Migrate description to a single string
+    if (typeof data.description === 'object') data.description = data.description.value;
+    
     // Migrate immune to immunities
     if ('benefits' in data) {
       const listKeys = ['senses', 'descriptors', 'languages', 'immunities', 'movementTraits', 'traditions'];
@@ -29,30 +32,26 @@ export default class BaseCharOptionModel extends foundry.abstract.TypeDataModel 
         for (const listKey in benefit) {
           const list = benefit[listKey];
 
-          // Check for the listKeys and if it's an array
+          // Check for the listKeys
           if (benefit.hasOwnProperty(listKey) && listKeys.includes(listKey)) {
             // Migrate object to keys
-            if (benefit[listKey] && foundry.utils.getType(benefit?.[listKey]) === "Object") {
+            if (foundry.utils.getType(benefit?.[listKey]) === "Object") {
               const settings = listKey === 'traditions' ? null : game.settings.get('weirdwizard', 'available' + capitalize(listKey, 1));
-              const arr = [];
+              const set = new Set();
 
               for (const [entryKey, entry] of Object.entries(benefit[listKey])) {
                 const setting = settings?.[entryKey];
                 
-                if (setting || !entry.name) arr.push(entryKey); else arr.push(entry.name);
+                if (setting || !entry.name) set.add(entryKey); else set.add(entry.name);
               }
               
-              benefit[listKey] = arr;
+              benefit[listKey] = set;
             }
           }
         }
       }
     }
-
-    // Migrate description to a single string
-    if (typeof data.description === 'object') data.description = data.description.value;
-
+    
     return super.migrateData(data);
   }
-
 }

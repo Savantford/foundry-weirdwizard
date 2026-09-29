@@ -9,7 +9,6 @@ export default class ProfessionModel extends BaseCharOptionModel {
     schema.category = makeRequiredStrField('commoner');
 
     schema.benefits = new fields.SchemaField({
-
       benefit1: new fields.SchemaField({
         levelReq: makeIntField({ initial: 0 }),
 
@@ -18,7 +17,6 @@ export default class ProfessionModel extends BaseCharOptionModel {
         // List entries
         languages: new fields.SetField( makeStrField() )
       })
-
     });
 
     return schema;

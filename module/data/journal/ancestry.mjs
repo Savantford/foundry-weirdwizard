@@ -1,5 +1,5 @@
 import BaseCharOptionModel from './base-charoption.mjs';
-import { makeIntField, makeRequiredStrField, makeStrField, makeUuidStrField } from '../field-presets.mjs';
+import { makeIntField, makeStrField } from '../field-presets.mjs';
 
 export default class AncestryModel extends BaseCharOptionModel {
 
@@ -14,7 +14,6 @@ export default class AncestryModel extends BaseCharOptionModel {
         attributes: makeStrField(),
 
         stats: new fields.SchemaField({
-          
           naturalIncrease: makeIntField(),
           healthIncrease: makeIntField(),
 
@@ -23,7 +22,6 @@ export default class AncestryModel extends BaseCharOptionModel {
             initial: 1
           }),
           speedNormal: makeIntField()
-          
         }),
 
         items: new fields.SetField( makeStrField() ),
@@ -45,17 +43,5 @@ export default class AncestryModel extends BaseCharOptionModel {
     super.prepareDerivedData();
     
     this.benefits.benefit1.stats.sizeFraction = game.weirdwizard.utils.nearestFraction(this.benefits.benefit1.stats.sizeNormal);
-  }
-
-  /**
-   * Migrate source data from some prior format into a new specification.
-   * The source parameter is either original data retrieved from disk or provided by an update operation.
-   * @inheritDoc
-   */
-  static migrateData(source) {
-    // Migrate Types to Descriptors
-    if (source.details?.types) source.details.descriptors = source.details.types;
-
-    return super.migrateData(source);
   }
 }

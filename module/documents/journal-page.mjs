@@ -48,7 +48,6 @@ export default class WWJournalPage extends WWDocumentMixin(foundry.documents.Jou
   /* -------------------------------------------- */
 
   async _preUpdate(changes, options, user) {
-
     // If Path and Tier changed, apply on tier change flow
     if (this.isPath && changes.system?.tier && (this.system.tier !== changes.system?.tier)) {
       await this._onTierChange(await changes);
@@ -58,7 +57,7 @@ export default class WWJournalPage extends WWDocumentMixin(foundry.documents.Jou
     if (this.isProfession && changes.system?.category !== this.system.category && (this.src === 'icons/svg/book.svg' || this.src.includes('systems/weirdwizard/assets/icons/professions'))) {
       await this._onProfessionCategoryChange(await changes);
     }
-
+    console.log(changes)
     return await super._preUpdate(changes, options, user);
   }
 
