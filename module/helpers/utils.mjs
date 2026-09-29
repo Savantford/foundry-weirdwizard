@@ -96,6 +96,26 @@ export function sysPath(string) {
   return 'systems/weirdwizard/' + string;
 }
 
+/* -------------------------------------------------------- */
+/*  Formating Functions                                     */
+/* -------------------------------------------------------- */
+
+/**
+ * 
+ * @param {string} listKey 
+ * @param {string} entryKey 
+ * @returns {Document|Setting}
+ */
+export async function getListEntryData(listKey, entryKey) {
+  const settings = listKey === 'traditions' ? null : game.settings.get('weirdwizard', 'available' + capitalize(listKey, 1));
+  const doc = await fromUuid(entryKey);
+  const setting = settings?.[entryKey] ?? {};
+  if (setting) setting.key ??= entryKey;
+  if (setting) setting.name ??= entryKey;
+
+  return doc ?? setting
+}
+
 /**
   * Gets the default new key for a list entry
   * @param {object} list            A list object which the entry list should belong

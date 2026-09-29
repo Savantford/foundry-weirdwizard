@@ -1,6 +1,6 @@
 import WWDialog from "../../apps/dialog.mjs";
 import { EntrySettingsDisplay } from "../../apps/entry-settings-display.mjs";
-import { capitalize, defaultListEntryKey, defaultListEntryName } from "../../helpers/utils.mjs";
+import { defaultListEntryKey, defaultListEntryName, getListEntryData } from "../../helpers/utils.mjs";
 import WWSheetMixin from "../ww-sheet.mjs";
 
 const JournalEntryPageHandlebarsSheet = foundry.applications.sheets.journal.JournalEntryPageHandlebarsSheet;
@@ -162,13 +162,9 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
             const arr = [];
 
             for (const entryKey of list) {
-              const settings = listKey === 'traditions' ? null : game.settings.get('weirdwizard', 'available' + capitalize(listKey, 1));
-              const doc = await fromUuid(entryKey);
-              const setting = settings?.[entryKey] ?? {};
-              if (setting) setting.key ??= entryKey;
-              if (setting) setting.name ??= entryKey;
+              const entry = await getListEntryData(listKey, entryKey);
               
-              arr.push(doc ?? setting);
+              arr.push(entry);
             }
             
             context.listEntries[b][listKey] = arr;
@@ -352,25 +348,17 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
   /* -------------------------------------------- */
 
   async _updateEntry(dataset, entryKey) {
-    const listPath = dataset.listPath;
-    const path = 'system.' + listPath;
-    const obj = { ...foundry.utils.getProperty(this.page, path) };
+    const { listKey, listPath } = dataset;
+    const fullPath = 'system.' + listPath;
+    const set = new Set(foundry.utils.getProperty(this.page, fullPath));
+    const entryData = getListEntryData(listKey, entryKey);
 
-    // Get or set entry key and data
-    let entryData = null;
-
-    if (entryKey) {
-      entryData = obj[entryKey];
-    } else {
-      entryKey = defaultListEntryKey(obj, dataset.listKey);
-      const entryName = defaultListEntryName(obj, dataset.listKey);
-      entryData = { name: entryName };
-    }
-
-    // Prepare context
-    const context = {
-      entry: await entryData,
-      key: entryKey,
+    // Prepare entry context
+    const entry = {
+      ...entryData,
+      key: entryKey ?? defaultListEntryKey(set, listKey),
+      name: entryData.name ?? defaultListEntryName(set, listKey),
+      grantedBy: null,
       showKey: true
     };
 
@@ -380,7 +368,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
         icon: "fa-solid fa-edit",
         title: 'WW.Settings.Entry.Edit',
       },
-      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
+      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', entry),
       ok: {
         label: 'WW.System.Dialog.Save',
         icon: 'fa-solid fa-save'
@@ -396,18 +384,16 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     // Return if cancelled
     if (!dialogInput) return;
 
-    // Return with warning if the key or name are missing
-    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(_loc('WW.Settings.Entry.EditWarning'));
+    // Return with warning if the key is missing
+    if (!dialogInput.key) return ui.notifications.warn(_loc('WW.Settings.Entry.EditWarning'));
 
     // Update key and value with dialogInput
-    obj[dialogInput.key] = dialogInput;
-
-    delete await obj[dialogInput.key].key;
+    set.add(dialogInput.key);
 
     // Delete old entry if key changed
-    if (dialogInput.key !== entryKey) obj[entryKey] = new foundry.data.operators.ForcedDeletion();
+    if (dialogInput.key !== entryKey) set.delete(entryKey);
 
-    await this.page.update({ [path]: obj });
+    await this.page.update({ [fullPath]: set });
   }
 
   /* -------------------------------------------- */
@@ -682,16 +668,16 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
 
     const benefit = div.dataset.benefitId,
       path = `system.benefits.${benefit}.${listKey}`,
-    obj = {... foundry.utils.getProperty(this.document, path)};
+    set = {... foundry.utils.getProperty(this.document, path)};
     
     const entry = {
       name: name,
       desc: desc
     };
 
-    obj[key] = entry;
+    set[key] = entry;
     
-    await this.document.update({ [path]: obj });
+    await this.document.update({ [path]: set });
   }
 
   /* -------------------------------------------- */
