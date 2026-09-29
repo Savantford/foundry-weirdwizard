@@ -422,7 +422,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
   /* -------------------------------------------- */
 
   /**
-   * Handle removing an element from an array
+   * Render an Entry Settings Display app instance
    * @param {Event} event          The originating click event
    * @param {HTMLElement} button   The button element originating the click event
    * @private
@@ -660,18 +660,13 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
 
     $(div).removeClass('fadeout');
 
-    const { listKey, entryKey, entryName, desc: desc } = dataset;
+    const { listKey, entryKey } = dataset;
 
     const benefit = div.dataset.benefitId,
       path = `system.benefits.${benefit}.${listKey}`,
-    set = {... foundry.utils.getProperty(this.document, path)};
-    
-    const entry = {
-      name: name,
-      desc: desc
-    };
+    set = new Set(foundry.utils.getProperty(this.document, path));
 
-    set[entryKey] = entry;
+    set.add(entryKey);
     
     await this.document.update({ [path]: set });
   }
