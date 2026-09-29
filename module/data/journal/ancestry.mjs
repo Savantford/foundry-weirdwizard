@@ -26,14 +26,14 @@ export default class AncestryModel extends BaseCharOptionModel {
           
         }),
 
-        items: new fields.ArrayField( makeStrField() ),
+        items: new fields.SetField( makeStrField() ),
 
         // List Entries
-        descriptors: new fields.ArrayField( makeStrField() ),
-        immunities: new fields.ArrayField( makeStrField() ),
-        languages: new fields.ArrayField( makeStrField() ),
-        movementTraits: new fields.ArrayField( makeStrField() ),
-        senses: new fields.ArrayField( makeStrField() )
+        descriptors: new fields.SetField( makeStrField() ),
+        immunities: new fields.SetField( makeStrField() ),
+        languages: new fields.SetField( makeStrField() ),
+        movementTraits: new fields.SetField( makeStrField() ),
+        senses: new fields.SetField( makeStrField() )
       })
     });
 

@@ -52,9 +52,9 @@ const makeBenefitField = (level = 99) => new fields.SchemaField({
   spells: makeRequiredStrField({ initial: '0' }),
 
   // Granted items
-  items: new fields.ArrayField( makeUuidStrField() ),
+  items: new fields.SetField( makeUuidStrField() ),
 
   // Granted list entries
-  languages: new fields.ArrayField( makeStrField() ),
-  traditions: new fields.ArrayField( makeStrField() )
+  languages: new fields.SetField( makeStrField() ),
+  traditions: new fields.SetField( makeStrField() )
 })

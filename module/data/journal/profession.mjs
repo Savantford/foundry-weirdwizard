@@ -13,10 +13,10 @@ export default class ProfessionModel extends BaseCharOptionModel {
       benefit1: new fields.SchemaField({
         levelReq: makeIntField({ initial: 0 }),
 
-        items: new fields.ArrayField( makeUuidStrField() ),
+        items: new fields.SetField( makeUuidStrField() ),
 
         // List entries
-        languages: new fields.ArrayField( makeStrField() )
+        languages: new fields.SetField( makeStrField() )
       })
 
     });

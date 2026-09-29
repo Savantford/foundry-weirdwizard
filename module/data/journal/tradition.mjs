@@ -7,12 +7,12 @@ export default class TraditionModel extends BaseCharOptionModel {
     const schema = super.defineSchema();
 
     // Item references
-    schema.talents = new fields.ArrayField( makeUuidStrField() );
+    schema.talents = new fields.SetField( makeUuidStrField() );
 
     schema.spells = new fields.SchemaField({
-      novice: new fields.ArrayField( makeUuidStrField() ),
-      expert: new fields.ArrayField( makeUuidStrField() ),
-      master: new fields.ArrayField( makeUuidStrField() )
+      novice: new fields.SetField( makeUuidStrField() ),
+      expert: new fields.SetField( makeUuidStrField() ),
+      master: new fields.SetField( makeUuidStrField() )
     });
 
     return schema;
