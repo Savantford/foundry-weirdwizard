@@ -42,8 +42,8 @@ export default class BaseCharOptionModel extends foundry.abstract.TypeDataModel 
             }
 
             // Migrate object to keys
-            if (benefit?.[listKey] && foundry.utils.getType(benefit?.[listKey]) === "Object") {
-              benefit[listKey] = Object.keys(benefit?.[listKey]);
+            if (benefit[listKey] && foundry.utils.getType(benefit?.[listKey]) === "Object") {
+              benefit[listKey] = Object.keys(benefit[listKey]);
             }
           }
         }
