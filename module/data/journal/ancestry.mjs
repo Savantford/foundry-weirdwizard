@@ -26,48 +26,14 @@ export default class AncestryModel extends BaseCharOptionModel {
           
         }),
 
-        items: new fields.ArrayField(makeStrField()),
+        items: new fields.ArrayField( makeStrField() ),
 
         // List Entries
-        descriptors: new fields.TypedObjectField(
-          new fields.SchemaField({
-            name: makeRequiredStrField(),
-            desc: makeStrField(),
-            grantedBy: makeUuidStrField({ initial: null })
-          }, { nullable: true })
-        ),
-
-        immunities: new fields.TypedObjectField(
-          new fields.SchemaField({
-            name: makeRequiredStrField(),
-            desc: makeStrField(),
-            grantedBy: makeUuidStrField({ initial: null })
-          }, { nullable: true })
-        ),
-
-        languages: new fields.TypedObjectField(
-          new fields.SchemaField({
-            name: makeRequiredStrField(),
-            desc: makeStrField(),
-            grantedBy: makeUuidStrField({ initial: null })
-          }, { nullable: true })
-        ),
-
-        movementTraits: new fields.TypedObjectField(
-          new fields.SchemaField({
-            name: makeRequiredStrField(),
-            desc: makeStrField(),
-            grantedBy: makeUuidStrField({ initial: null })
-          }, { nullable: true })
-        ),
-
-        senses: new fields.TypedObjectField(
-          new fields.SchemaField({
-            name: makeRequiredStrField(),
-            desc: makeStrField(),
-            grantedBy: makeUuidStrField({ initial: null })
-          }, { nullable: true })
-        ),
+        descriptors: new fields.ArrayField( makeStrField() ),
+        immunities: new fields.ArrayField( makeStrField() ),
+        languages: new fields.ArrayField( makeStrField() ),
+        movementTraits: new fields.ArrayField( makeStrField() ),
+        senses: new fields.ArrayField( makeStrField() )
       })
     });
 
@@ -87,11 +53,9 @@ export default class AncestryModel extends BaseCharOptionModel {
    * @inheritDoc
    */
   static migrateData(source) {
-
     // Migrate Types to Descriptors
     if (source.details?.types) source.details.descriptors = source.details.types;
 
     return super.migrateData(source);
   }
-
 }

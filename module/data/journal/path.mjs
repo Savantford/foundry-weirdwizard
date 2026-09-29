@@ -52,25 +52,9 @@ const makeBenefitField = (level = 99) => new fields.SchemaField({
   spells: makeRequiredStrField({ initial: '0' }),
 
   // Granted items
-  items: new fields.ArrayField(
-    makeUuidStrField()
-  ),
+  items: new fields.ArrayField( makeUuidStrField() ),
 
   // Granted list entries
-  languages: new fields.TypedObjectField(
-    new fields.SchemaField({
-      name: makeRequiredStrField(),
-      desc: makeStrField(),
-      grantedBy: makeUuidStrField()
-    }, { nullable: true })
-  ),
-
-  traditions: new fields.TypedObjectField( // Delete on a later update
-    new fields.SchemaField({
-      name: makeRequiredStrField(),
-      desc: makeStrField(),
-      grantedBy: makeUuidStrField()
-    }, { nullable: true })
-  )
-
+  languages: new fields.ArrayField( makeStrField() ),
+  traditions: new fields.ArrayField( makeStrField() )
 })

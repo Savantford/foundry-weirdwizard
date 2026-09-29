@@ -18,31 +18,32 @@ export default class BaseCharOptionModel extends foundry.abstract.TypeDataModel 
    * The source parameter is either original data retrieved from disk or provided by an update operation.
    * @inheritDoc
    */
-  static migrateData(source) {
-
+  static migrateData(data) {
     // Migrate immune to immunities
-    if ('benefits' in source) {
+    if ('benefits' in data) {
       const listKeys = ['senses', 'descriptors', 'languages', 'immunities', 'movementTraits', 'traditions'];
 
-      for (const b in source.benefits) {
-        const benefit = source.benefits[b];
+      for (const b in data.benefits) {
+        const benefit = data.benefits[b];
         
         for (const listKey in benefit) {
           const list = benefit[listKey];
 
           // Check for the listKeys and if it's an array
           if (benefit.hasOwnProperty(listKey) && listKeys.includes(listKey)) {
-            
             if (Array.isArray(list)) {
-
               if (list.length) {
                 const map = list.map(value => [value.name ? camelCase(value.name) : camelCase(value), value]);
 
                 benefit[listKey] = Object.fromEntries(map);
               } else {
-                benefit[listKey] = {};
+                benefit[listKey] = [];
               }
+            }
 
+            // Migrate object to keys
+            if (benefit?.[listKey] && foundry.utils.getType(benefit?.[listKey]) === "Object") {
+              benefit[listKey] = Object.keys(benefit?.[listKey]);
             }
           }
         }
@@ -50,9 +51,9 @@ export default class BaseCharOptionModel extends foundry.abstract.TypeDataModel 
     }
 
     // Migrate description to a single string
-    if (typeof source.description === 'object') source.description = source.description.value;
+    if (typeof data.description === 'object') data.description = data.description.value;
 
-    return source;
+    return super.migrateData(data);
   }
 
 }
