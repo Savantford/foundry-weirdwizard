@@ -1,4 +1,4 @@
-import { camelCase } from "../../helpers/utils.mjs";
+import { camelCase, capitalize } from "../../helpers/utils.mjs";
 import { makeHtmlField } from "../field-presets.mjs";
 
 export default class BaseCharOptionModel extends foundry.abstract.TypeDataModel {
@@ -31,7 +31,7 @@ export default class BaseCharOptionModel extends foundry.abstract.TypeDataModel 
 
           // Check for the listKeys and if it's an array
           if (benefit.hasOwnProperty(listKey) && listKeys.includes(listKey)) {
-            if (Array.isArray(list)) {
+            /*if (Array.isArray(list)) {
               if (list.length) {
                 const map = list.map(value => [value.name ? camelCase(value.name) : camelCase(value), value]);
 
@@ -39,11 +39,22 @@ export default class BaseCharOptionModel extends foundry.abstract.TypeDataModel 
               } else {
                 benefit[listKey] = [];
               }
-            }
+            }*/
 
             // Migrate object to keys
             if (benefit[listKey] && foundry.utils.getType(benefit?.[listKey]) === "Object") {
-              benefit[listKey] = Object.keys(benefit[listKey]);
+              const settings = game.settings.get('weirdwizard', 'available' + capitalize(listKey, 1)) ?? null;
+              const arr = [];
+
+              for (const [entryKey, entry] of Object.entries(benefit[listKey])) {
+                console.log(entryKey)
+                console.log(entry)
+                const setting = settings[entryKey];
+                console.log(setting)
+                if (setting || !entry.name) arr.push(entryKey); else arr.push(entry.name);
+              }
+              
+              benefit[listKey] = arr;
             }
           }
         }

@@ -39,7 +39,7 @@
   
         {{#each listEntries.benefit1.descriptors as |entry|}}
         <li class="list-entry">
-          <a data-tooltip="{{entry.desc}}">{{entry.name}}</a>
+          <a data-tooltip="{{entry.desc}}">{{localize entry.name}}</a>
         </li>
         {{/each}}
   
@@ -87,7 +87,7 @@
         {{!-- Movement Traits --}}
         {{#each listEntries.benefit1.movementTraits as |entry|}}
         <li class="list-entry">
-          <a data-tooltip="{{entry.desc}}">{{entry.name}}</a>
+          <a data-tooltip="{{entry.desc}}">{{localize entry.name}}</a>
         </li>
         {{/each}}
   
@@ -109,7 +109,7 @@
   
         {{#each listEntries.benefit1.languages as |entry|}}
         <li class="list-entry">
-          <a data-tooltip="{{entry.desc}}">{{entry.name}}</a>
+          <a data-tooltip="{{entry.desc}}">{{localize entry.name}}</a>
         </li>
         {{/each}}
   
@@ -123,7 +123,7 @@
   
         {{#each listEntries.benefit1.senses as |entry|}}
         <li class="list-entry">
-          <a data-tooltip="{{entry.desc}}">{{entry.name}}</a>
+          <a data-tooltip="{{entry.desc}}">{{localize entry.name}}</a>
         </li>
         {{/each}}
   
@@ -137,7 +137,7 @@
   
         {{#each listEntries.benefit1.immunities as |entry|}}
         <li class="list-entry">
-          <a data-tooltip="{{entry.desc}}">{{entry.name}}</a>
+          <a data-tooltip="{{entry.desc}}">{{localize entry.name}}</a>
         </li>
         {{/each}}
   

@@ -182,7 +182,7 @@
             {{#if listEntries.movementTraits.length}}
             <div class="stat-content">
                 {{#each listEntries.movementTraits as |entry id|}}
-                <div data-tooltip="{{entry.desc}}">{{entry.name}}</div>
+                <div data-tooltip="{{entry.desc}}">{{localize entry.name}}</div>
                 {{/each}}
             </div>
             {{/if}}
@@ -197,7 +197,7 @@
     
             <div class="stat-content">
                 {{#each listEntries.senses as |entry id|}}
-                <div data-tooltip="{{entry.desc}}">{{entry.name}}</div>
+                <div data-tooltip="{{entry.desc}}">{{localize entry.name}}</div>
                 {{/each}}
             </div>
     

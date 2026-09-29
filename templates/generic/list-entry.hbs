@@ -1,7 +1,8 @@
 <li class="list-entry">
-
     {{!-- Name --}}
-    <a class="array-button" data-action="entryEdit" data-list-key="{{listKey}}" data-entry-key="{{entryKey}}" data-tooltip="{{entry.desc}}">{{entry.name}}</a>
+    <a class="array-button" data-action="entryEdit" data-list-key="{{listKey}}" data-entry-key="{{entryKey}}" data-tooltip="{{entry.desc}}">
+        {{localize entry.name}}
+    </a>
 
     {{!-- Buttons --}}
     {{#if isEditMode}}
@@ -13,5 +14,4 @@
             data-tooltip="WW.ListEntry.{{loc}}.Remove"><i class="fa-solid fa-trash"></i></a>
     </span>
     {{/if}}
-
 </li>

@@ -1,6 +1,6 @@
 import WWDialog from "../../apps/dialog.mjs";
 import { EntrySettingsDisplay } from "../../apps/entry-settings-display.mjs";
-import { defaultListEntryKey, defaultListEntryName } from "../../helpers/utils.mjs";
+import { capitalize, defaultListEntryKey, defaultListEntryName } from "../../helpers/utils.mjs";
 import WWSheetMixin from "../ww-sheet.mjs";
 
 const JournalEntryPageHandlebarsSheet = foundry.applications.sheets.journal.JournalEntryPageHandlebarsSheet;
@@ -161,19 +161,19 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
           if (benefit.hasOwnProperty(listKey) && listKeys.includes(listKey)) {
             const arr = [];
 
-            for (const entryKey in list) {
-              const entry = list[entryKey];
-
-              arr.push({ ...await entry, key: entryKey });
+            for (const entryKey of list) {
+              const settings = game.settings.get('weirdwizard', 'available' + capitalize(listKey, 1));
+              const doc = await fromUuid(entryKey);
+              const setting = { ...settings[entryKey], key: entryKey };
+              setting.name ??= entryKey;
+              
+              arr.push(doc ?? setting);
             }
             
             context.listEntries[b][listKey] = arr;
           }
-
         }
-
       }
-
     }
 
     // Prepare Ancestries
