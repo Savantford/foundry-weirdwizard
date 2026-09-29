@@ -115,7 +115,7 @@ export async function getListEntryData(listKey, entryKey) {
   // Document
   if (doc) return {
     ...doc, key: entryKey,
-    desc: await doc.toCard()
+    desc: /*doc.documentName === 'JournalEntryPage' ? await doc.toEmbed() :*/ await doc.toCard()
   };
 
   // Status Effect

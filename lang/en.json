@@ -612,8 +612,8 @@
 "WW.CharOption.DropHere": "Drop Equipment, Traits, Talents and Spells stored in a <b>Compendium</b> here to add them to the level benefit.",
 "WW.CharOption.Unknown": "Unknown",
 "WW.CharOption.MissingRef": "Missing UUID reference for the equipment, trait, talent or spell. You can either delete this entry or restore it by putting the item back in the original Compendium.",
-"WW.CharOption.TypeWarning": "Dropped item type must be one of the following: Equipment, Trait/Talent or Spell.",
-"WW.CharOption.CompendiumWarning": "Item must be dragged from a <b>Compendium</b>.",
+"WW.CharOption.TypeWarning": "The document you tried to drop is not compatible with the target document's sheet. Please drag and drop an allowed document type!",
+"WW.CharOption.CompendiumWarning": "Document must be dragged from a <b>Compendium</b>.",
 "WW.CharOption.Help": "For more information about character options, click on <b>Help</b> at the top right of the window.",
 "WW.CharOption.GrantedBy": "Granted by",
 

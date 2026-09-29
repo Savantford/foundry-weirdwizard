@@ -592,9 +592,6 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
 
   /** @inheritdoc */
   async _onDropDocument(event, dataset, doc) {
-    // Ignore other document types
-    if (!['ActiveEffect', 'Item'].includes(doc.documentName)) return;
-    
     // Fade out the area around the correct drop places
     const el = doc.documentName === 'Item' ? event.target.closest('.items-area') : event.target.closest('.benefit-block');
     
@@ -605,28 +602,28 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     const benefit = el.classList[2];
     
     // Check if document is from the correct allowed types
-    const docType = this.document.type;
-    let allowedTypes = [];
+    const allowedTypes = ['Actor', 'Item', 'ActiveEffect', 'JournalEntryPage'];
+    let isAllowed = allowedTypes.includes(doc.documentName);
 
-    switch (docType) {
+    /*switch (docType) {
       case 'ancestry': allowedTypes = ['talent', 'spell', 'descriptor', 'sense', 'affliction']; break;
       case 'path': allowedTypes = ['equipment', 'talent', 'spell', 'tradition']; break;
       case 'profession': allowedTypes = ['equipment']; break;
       case 'tradition': allowedTypes = ['talent', 'spell']; break;
-    }
+    }*/
     
     // Return if not from an apropriate type
-    if (!allowedTypes.includes(doc.type)) return await ui.notifications.warn(`
+    if (!isAllowed) return await ui.notifications.warn(`
       ${_loc('WW.CharOption.TypeWarning')}
       <br/>
-      ${_loc("WW.CharOption.Help", { itemType: doc.type })}
+      ${_loc("WW.CharOption.Help")}
     `);
     
     // Return with warning if not in a pack
     if (!doc.pack) return await ui.notifications.warn(`
       ${_loc('WW.CharOption.CompendiumWarning')}
       <br/>
-      ${_loc("WW.CharOption.Help", { itemType: doc.type })}
+      ${_loc("WW.CharOption.Help")}
     `);
     
     // Handle drop on Tradition
@@ -654,7 +651,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
 
       await this.document.update({'system.benefits': benefits});
     
-    // Handle list entry documents
+    // Handle list entry Documents
     } else {
       let listKey = '';
 
@@ -666,9 +663,20 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
         default: listKey = 'immunities'; break;
       }
 
+      // Get full path and old set
       const benefit = el.dataset.benefitId;
       const fullPath = `system.benefits.${benefit}.${listKey}`;
-      const set = new Set(foundry.utils.getProperty(this.page, fullPath));
+      const oldSet = foundry.utils.getProperty(this.page, fullPath);
+
+      // Return with warning if invalid entry list
+      if (!oldSet) return await ui.notifications.warn(`
+        ${_loc('WW.CharOption.TypeWarning')}
+        <br/>
+        ${_loc("WW.CharOption.Help")}
+      `);
+
+      // Add to new set and update document
+      const set = new Set(oldSet);
 
       set.add(doc.uuid);
 
