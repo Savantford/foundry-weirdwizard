@@ -113,7 +113,10 @@ export async function getListEntryData(listKey, entryKey) {
   const statusEffect = listKey === 'immunities' ? CONFIG.statusEffects.find(e => e.id === entryKey) : null;
   
   // Document
-  if (doc) return { ...doc, key: entryKey, desc: doc.description };
+  if (doc) return {
+    ...doc, key: entryKey,
+    desc: await doc.toCard()
+  };
 
   // Status Effect
   else if (statusEffect) return { ...statusEffect, key: entryKey, desc: statusEffect.description };
