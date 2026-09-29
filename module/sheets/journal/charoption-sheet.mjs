@@ -162,10 +162,11 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
             const arr = [];
 
             for (const entryKey of list) {
-              const settings = game.settings.get('weirdwizard', 'available' + capitalize(listKey, 1));
+              const settings = listKey === 'traditions' ? null : game.settings.get('weirdwizard', 'available' + capitalize(listKey, 1));
               const doc = await fromUuid(entryKey);
-              const setting = { ...settings[entryKey], key: entryKey };
-              setting.name ??= entryKey;
+              const setting = settings?.[entryKey] ?? {};
+              if (setting) setting.key ??= entryKey;
+              if (setting) setting.name ??= entryKey;
               
               arr.push(doc ?? setting);
             }
