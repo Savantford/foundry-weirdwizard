@@ -406,19 +406,15 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
   */
   static async #onEntryRemove(event, button) {
     if (event.currentTarget.classList.contains('benefit-block')) event.stopPropagation();
-    
-    const { entryKey: key, listPath } = button.dataset;
-    const path = `system.${listPath}`;
-    const fullPath = `${path}.${key}`;
-    const oldData = foundry.utils.getProperty(this.page, path);
-    console.log(oldData)
-    // Update set
-    const set = new Set(oldData);
-    console.log(set)
-    set.delete(key);
-    //const arr = [...await foundry.utils.getProperty(this.page, path)].filter(item => item !== key);
-    console.log(set)
-    
+
+    const dataset = Object.assign({}, button.dataset);
+    const { listPath, entryKey } = dataset;
+    const fullPath = 'system.' + listPath;
+    const set = new Set(foundry.utils.getProperty(this.page, fullPath));
+
+    // Delete old entry if key changed
+    set.delete(entryKey);
+
     // Update document
     await this.page.update({ [fullPath]: set });
   }
@@ -435,7 +431,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     const dataset = Object.assign({}, button.dataset),
     listKey = dataset.listKey;
     
-    new EntrySettingsDisplay({ listKey: listKey }).render(true);
+    new EntrySettingsDisplay({ listKey }).render(true);
   }
 
   /* -------------------------------------------- */
@@ -664,7 +660,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
 
     $(div).removeClass('fadeout');
 
-    const { listKey: listKey, entryKey: key, entryName: name, desc: desc } = dataset;
+    const { listKey, entryKey, entryName, desc: desc } = dataset;
 
     const benefit = div.dataset.benefitId,
       path = `system.benefits.${benefit}.${listKey}`,
@@ -675,7 +671,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
       desc: desc
     };
 
-    set[key] = entry;
+    set[entryKey] = entry;
     
     await this.document.update({ [path]: set });
   }
