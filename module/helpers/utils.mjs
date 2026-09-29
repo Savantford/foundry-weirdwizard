@@ -107,13 +107,22 @@ export function sysPath(string) {
  * @returns {Document|Setting}
  */
 export async function getListEntryData(listKey, entryKey) {
-  const settings = listKey === 'traditions' ? null : game.settings.get('weirdwizard', 'available' + capitalize(listKey, 1));
+  const settings = listKey !== 'traditions' ? game.settings.get('weirdwizard', 'available' + capitalize(listKey, 1)) : null;
+  const setting = settings?.[entryKey];
   const doc = await fromUuid(entryKey);
-  const setting = settings?.[entryKey] ?? {};
-  if (setting) setting.key ??= entryKey;
-  if (setting) setting.name ??= entryKey;
+  const statusEffect = listKey === 'immunities' ? CONFIG.statusEffects.find(e => e.id === entryKey) : null;
+  
+  // Document
+  if (doc) return { ...doc, key: listKey, desc: doc.description };
 
-  return doc ?? setting
+  // Status Effect
+  else if (statusEffect) return { ...statusEffect, key: entryKey, desc: statusEffect.description };
+
+  // Setting
+  else if (setting) return setting;
+
+  // Fallback
+  else return { key: entryKey, name: entryKey };
 }
 
 /**
