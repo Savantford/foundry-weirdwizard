@@ -537,16 +537,22 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
 
   /** @inheritdoc */
   _onDragOver(event) {
+    const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
+    
+    // Dropped Documents
+    const documentClass = getDocumentClass(data.type);
+    const document = documentClass?.fromDropData(data);
+
     // Highlight items area or benefit block
-    const ol = event.target.closest('.items-area') ?? event.target.closest('.benefit-block');
+    const el = document?.documentName === 'Item' ? event.target.closest('.items-area') : event.target.closest('.benefit-block');
 
-    if (!ol) return;
+    if (!el) return;
 
-    if ($(ol).hasClass('fadeout')) return;
+    if ($(el).hasClass('fadeout')) return;
 
-    $(ol).addClass('fadeout');
+    $(el).addClass('fadeout');
 
-    ol.addEventListener("dragleave", (event) => $(ol).removeClass('fadeout') );
+    el.addEventListener("dragleave", (event) => $(el).removeClass('fadeout') );
   }
 
   /* -------------------------------------------- */
@@ -573,51 +579,54 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     if ( documentClass ) {
       const document = await documentClass.fromDropData(data);
       
-      await this._onDropDocument(event, document);
+      await this._onDropDocument(event, data, document);
     }
 
     // Dropped List Entry
     if (data.listKey) {
       await this._onDropListEntry(event, data);
     }
-
   }
 
   /* -------------------------------------------- */
 
   /** @inheritdoc */
-  async _onDropDocument(event, item) {
+  async _onDropDocument(event, dataset, doc) {
     // Ignore other document types
-    if (item.documentName !== 'Item') return;
-
-    // Fade out the area around the correct drop places
-    const ol = event.target.closest('.items-area');
+    if (!['ActiveEffect', 'Item'].includes(doc.documentName)) return;
     
-    if (!ol) return;
+    // Fade out the area around the correct drop places
+    const el = doc.documentName === 'Item' ? event.target.closest('.items-area') : event.target.closest('.benefit-block');
+    
+    if (!el) return;
 
-    $(ol).removeClass('fadeout');
+    $(el).removeClass('fadeout');
 
-    const benefit = ol.classList[2];
+    const benefit = el.classList[2];
     
     // Check if document is from the correct allowed types
     const docType = this.document.type;
-    let allowedTypes = ['equipment', 'talent', 'spell'];
+    let allowedTypes = [];
 
-    if (docType === 'ancestry' || docType === 'tradition') allowedTypes = ['talent', 'spell'];
-    if (docType === 'profession') allowedTypes = ['equipment'];
-
+    switch (docType) {
+      case 'ancestry': allowedTypes = ['talent', 'spell', 'descriptor', 'sense', 'affliction']; break;
+      case 'path': allowedTypes = ['equipment', 'talent', 'spell', 'tradition']; break;
+      case 'profession': allowedTypes = ['equipment']; break;
+      case 'tradition': allowedTypes = ['talent', 'spell']; break;
+    }
+    
     // Return if not from an apropriate type
-    if (allowedTypes.includes(document.type)) return await ui.notifications.warn(`
+    if (!allowedTypes.includes(doc.type)) return await ui.notifications.warn(`
       ${_loc('WW.CharOption.TypeWarning')}
       <br/>
-      ${_loc("WW.CharOption.Help", { itemType: item.type })}
+      ${_loc("WW.CharOption.Help", { itemType: doc.type })}
     `);
     
     // Return with warning if not in a pack
-    if (!item.pack) return await ui.notifications.warn(`
+    if (!doc.pack) return await ui.notifications.warn(`
       ${_loc('WW.CharOption.CompendiumWarning')}
       <br/>
-      ${_loc("WW.CharOption.Help", { itemType: item.type })}
+      ${_loc("WW.CharOption.Help", { itemType: doc.type })}
     `);
     
     // Handle drop on Tradition
@@ -625,27 +634,45 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
       const spells = this.document.system.spells;
       const talents = this.document.system.talents;
 
-      if (item.type === 'spell' && !spells[item.system.tier].filter(x => x === item.uuid).length) {
-        spells[item.system.tier].push(item.uuid);
+      if (doc.type === 'spell' && !spells[doc.system.tier].filter(x => x === doc.uuid).length) {
+        spells[doc.system.tier].push(doc.uuid);
         await this.document.update({ 'system.spells': spells });
 
-      } else if (item.type === 'talent' && !talents.filter(x => x === item.uuid).length) {
-        talents.push(item.uuid);
+      } else if (doc.type === 'talent' && !talents.filter(x => x === doc.uuid).length) {
+        talents.push(doc.uuid);
         await this.document.update({ 'system.talents': talents });
 
-      } else if (item.type === 'equipment') {
+      } else if (doc.type === 'equipment') {
         return ui.notifications.warn(_loc('WW.Tradition.EquipmentWarning'));
       }
     
     // Handle drop on non-Tradition
-    } else {
+    } else if (doc.documentName === 'Item') {
       const benefits = this.document.system.benefits;
       
-      await benefits[benefit].items.push(item.uuid);
+      await benefits[benefit].items.push(doc.uuid);
 
       await this.document.update({'system.benefits': benefits});
-    }
+    
+    // Handle list entry documents
+    } else {
+      let listKey = '';
 
+      switch (doc.type) {
+        case 'descriptor': listKey = 'descriptors'; break;
+        case 'affliction': listKey = 'immunities'; break;
+        case 'sense': listKey = 'senses'; break;
+        case 'tradition': listKey = 'traditions'; break;
+      }
+
+      const benefit = el.dataset.benefitId;
+      const fullPath = `system.benefits.${benefit}.${listKey}`;
+      const set = new Set(foundry.utils.getProperty(this.page, fullPath));
+
+      set.add(doc.uuid);
+
+      await this.page.update({ [fullPath]: set });
+    }
   }
 
   /* -------------------------------------------- */
