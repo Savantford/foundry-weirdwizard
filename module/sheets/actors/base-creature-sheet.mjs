@@ -662,8 +662,6 @@ export default class WWCreatureSheet extends WWActorSheet {
     } else {
       this.actor.applyHealthLoss(r.total);
     }
-    
-  
   }
 
   /**
