@@ -660,9 +660,10 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
 
       switch (doc.type) {
         case 'descriptor': listKey = 'descriptors'; break;
-        case 'affliction': listKey = 'immunities'; break;
         case 'sense': listKey = 'senses'; break;
         case 'tradition': listKey = 'traditions'; break;
+        case 'affliction':
+        default: listKey = 'immunities'; break;
       }
 
       const benefit = el.dataset.benefitId;
