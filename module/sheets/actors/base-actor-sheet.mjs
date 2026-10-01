@@ -395,7 +395,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   */
   static async #onEntryCreate(event, button) {
     const dataset = Object.assign({}, button.dataset);
-    
+    console.log(dataset)
     await this._updateEntry(dataset);
   }
 
@@ -416,8 +416,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   /* -------------------------------------------- */
 
   async _updateEntry(dataset) {
-    const { listKey, listPath, entryKey } = dataset;
-    const fullPath = 'system.' + listPath;
+    const { listKey, entryKey } = dataset;
+    const fullPath = 'system.listEntries.' + listKey;
     const set = new Set(foundry.utils.getProperty(this.document, fullPath));
     const entryData = inferDataFromKey(listKey, entryKey);
     console.log(set)
@@ -476,14 +476,18 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   */
   static async #onEntryRemove(event, button) {
     const dataset = Object.assign({}, button.dataset);
-    const { listPath, entryKey } = dataset;
-    const fullPath = 'system.' + listPath;
+    const { listKey, entryKey } = dataset;
+    const fullPath = 'system.listEntries.' + listKey;
     const set = new Set(foundry.utils.getProperty(this.document, fullPath));
+    console.log(set)
+    console.log(listKey)
+    console.log(fullPath)
+    console.log(entryKey)
     //baseObj = foundry.utils.getProperty(this.actor.token?.baseActor, path),
 
     // Delete old entry if key changed
     set.delete(entryKey);
-
+    console.log(set)
     // Update document
     await this.document.update({ [fullPath]: set });
   }

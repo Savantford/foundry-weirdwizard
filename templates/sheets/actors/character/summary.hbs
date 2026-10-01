@@ -117,7 +117,7 @@
 
                     {{!-- Descriptors --}}
                     {{#each listEntries.descriptors as |entry|}}
-                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="descriptors" listPath="listEntries.descriptors" loc="Descriptor" isEditMode=@root.isEditMode }}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="descriptors" loc="Descriptor" isEditMode=@root.isEditMode }}
                     {{else}}
                         {{#if isEditMode}}<span>({{localize "WW.ListEntry.Descriptor.Label"}})</span>{{/if}}
                     {{/each}}
@@ -153,7 +153,7 @@
                     
                     {{!-- Movement Traits --}}
                     {{#each listEntries.movementTraits as |entry|}}
-                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="movementTraits" listPath="listEntries.movementTraits" loc="MovementTrait" isEditMode=@root.isEditMode }}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="movementTraits" loc="MovementTrait" isEditMode=@root.isEditMode }}
                     {{/each}}
                     
                     {{#if isEditMode}}
@@ -173,7 +173,7 @@
                     <label>{{localize "WW.ListEntry.Language.Label"}}:</label>
 
                     {{#each listEntries.languages as |entry|}}
-                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="languages" listPath="listEntries.languages" loc="Language" isEditMode=@root.isEditMode }}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="languages" loc="Language" isEditMode=@root.isEditMode }}
                     {{else}}
                         <span>—</span>
                     {{/each}}
@@ -194,7 +194,7 @@
                     <label>{{localize "WW.ListEntry.Sense.Label"}}:</label>
                 
                     {{#each listEntries.senses as |entry key|}}
-                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="senses" listPath="listEntries.senses" loc="Sense" isEditMode=@root.isEditMode }}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="senses" loc="Sense" isEditMode=@root.isEditMode }}
                     {{else}}
                         <span>—</span>
                     {{/each}}
@@ -215,7 +215,7 @@
                     <label>{{localize "WW.ListEntry.Immunity.Label"}}:</label>
                 
                     {{#each listEntries.immunities as |entry key|}}
-                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="immunities" listPath="listEntries.immunities" loc="Immunity" isEditMode=@root.isEditMode }}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="immunities" loc="Immunity" isEditMode=@root.isEditMode }}
                     {{else}}
                         <span>—</span>
                     {{/each}}
