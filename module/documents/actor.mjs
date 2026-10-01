@@ -207,6 +207,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     // Prepare CharOptions
     this._prepareCharOptions(system);
+    this._prepareListEntries(system);
 
     // Make separate methods for each Actor type (character, npc, etc) to keep things organized.
     this._prepareCharacterData(system);
@@ -218,7 +219,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
   /* Prepare Char Options */
   async _prepareCharOptions(system) {
-    // Prepare Character Options
     const cOpts = system.charOptions;
     const charOptions = {};
     const invalid = {
@@ -245,6 +245,26 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     }
 
     return this.charOptions = charOptions;
+  }
+
+  /* -------------------------------------------- */
+
+  /* Prepare List Entries */
+  async _prepareListEntries(system) {
+    const baseEntries = system.listEntries;
+    const listEntries = {};
+
+    for (const listKey in baseEntries) {
+      const list = baseEntries[listKey];
+      listEntries[listKey] = [];
+
+      for (const entryKey in list) {
+        const entryData = inferDataFromKey(listKey, entryKey);
+        listEntries[listKey].push(entryData);
+      }
+    }
+
+    return this.listEntries = listEntries;
   }
 
   /* -------------------------------------------- */
@@ -693,9 +713,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
           if (!aItems.find(i => i.name === itemData.name )) itemsArr.push(itemData);
           
         }
-
       }
-      
     }
 
     // Create items on actor

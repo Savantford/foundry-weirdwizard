@@ -106,7 +106,7 @@ export function sysPath(string) {
  * @param {string} entryKey 
  * @returns {Document|Setting}
  */
-export async function getListEntryData(listKey, entryKey) {
+export async function inferDataFromKey(listKey, entryKey) {
   const settings = listKey !== 'traditions' ? game.settings.get('weirdwizard', 'available' + capitalize(listKey, 1)) : null;
   const setting = settings?.[entryKey];
   const doc = await fromUuid(entryKey);

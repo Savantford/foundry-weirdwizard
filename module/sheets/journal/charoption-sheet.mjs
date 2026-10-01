@@ -1,6 +1,6 @@
 import WWDialog from "../../apps/dialog.mjs";
 import { EntrySettingsDisplay } from "../../apps/entry-settings-display.mjs";
-import { defaultListEntryKey, defaultListEntryName, getListEntryData } from "../../helpers/utils.mjs";
+import { defaultListEntryKey, defaultListEntryName, inferDataFromKey } from "../../helpers/utils.mjs";
 import WWSheetMixin from "../ww-sheet.mjs";
 
 const JournalEntryPageHandlebarsSheet = foundry.applications.sheets.journal.JournalEntryPageHandlebarsSheet;
@@ -162,7 +162,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
             const arr = [];
 
             for (const entryKey of list) {
-              const entry = await getListEntryData(listKey, entryKey);
+              const entry = await inferDataFromKey(listKey, entryKey);
               
               arr.push(entry);
             }
@@ -351,7 +351,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     const { listKey, listPath } = dataset;
     const fullPath = 'system.' + listPath;
     const set = new Set(foundry.utils.getProperty(this.page, fullPath));
-    const entryData = getListEntryData(listKey, entryKey);
+    const entryData = inferDataFromKey(listKey, entryKey);
 
     // Prepare entry context
     const entry = {
@@ -604,13 +604,6 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     // Check if document is from the correct allowed types
     const allowedTypes = ['Actor', 'Item', 'ActiveEffect', 'JournalEntryPage'];
     let isAllowed = allowedTypes.includes(doc.documentName);
-
-    /*switch (docType) {
-      case 'ancestry': allowedTypes = ['talent', 'spell', 'descriptor', 'sense', 'affliction']; break;
-      case 'path': allowedTypes = ['equipment', 'talent', 'spell', 'tradition']; break;
-      case 'profession': allowedTypes = ['equipment']; break;
-      case 'tradition': allowedTypes = ['talent', 'spell']; break;
-    }*/
     
     // Return if not from an apropriate type
     if (!isAllowed) return await ui.notifications.warn(`
