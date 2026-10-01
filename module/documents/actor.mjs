@@ -120,6 +120,104 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
   }
 
   /* -------------------------------------------- */
+  /*  Getters                                     */
+  /* -------------------------------------------- */
+
+  /**
+   * Determine whether the character is injured.
+   * @type {boolean}
+   */
+  get injured() {
+    let isInjured = false;
+
+    if (this.type !== 'group') {
+      const health = this.system.stats.health;
+      const current = health.current;
+      const damage = this.system.stats.damage.value;
+
+      isInjured = damage >= Math.floor(current / 2);
+      if (this.type === 'character' && health.normal <= 0) isInjured = false;
+    }
+
+    return isInjured ? true : false;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Determine whether the character is dead or destroyed.
+   * @type {boolean}
+   */
+  get dead() {
+    let isDead = false;
+
+    if (this.type !== 'group') {
+      const health = this.system.stats.health;
+    
+      isDead = health.current <= 0;
+      if (this.type === 'character' && health.normal <= 0) isDead = false;
+    }
+
+    return isDead ? true : false;
+  }
+
+  /* -------------------------------------------- */
+
+  /* Prepare Char Options */
+  get charOptions() {
+    return (async () => {
+      const cOpts = system.charOptions;
+      const charOptions = {};
+      const invalid = {
+        name: 'INVALID',
+        invalid: true
+      }
+
+      for (const o in cOpts) {
+        const opt = cOpts[o];
+
+        // Assign array of pages
+        if (opt && opt.constructor === Array) {
+          charOptions[o] = [];
+          
+          for (const idx in opt) {
+            const uuid = opt[idx];
+            charOptions[o].push(await fromUuid(uuid) ?? {... invalid, uuid });
+          }
+        }
+        // Assign page
+        else if (typeof opt === 'string' && opt.includes('.')) {
+          charOptions[o] = await fromUuid(opt) ?? {... invalid, uuid: opt };
+        }
+      }
+
+      return charOptions;
+    })();
+  }
+
+  /* -------------------------------------------- */
+
+  /* Prepare List Entries */
+  get listEntries() {
+    return (async () => {
+      const baseEntries = this.system.listEntries;
+      const listEntries = {};
+
+      for (const [listKey, list] of Object.entries(baseEntries)) {
+        listEntries[listKey] = [];
+        
+        for (const entryKey of list) {
+          const entryData = await game.weirdwizard.utils.inferDataFromKey(listKey, entryKey);
+
+          listEntries[listKey].push(entryData);
+        }
+      }
+      
+      return listEntries;
+    })();
+  }
+
+  /* -------------------------------------------- */
   /*  Data Preparation                            */
   /* -------------------------------------------- */
 
@@ -217,60 +315,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
   /* -------------------------------------------- */
 
-  /* Prepare Char Options */
-  async _prepareCharOptions(system) {
-    const cOpts = system.charOptions;
-    const charOptions = {};
-    const invalid = {
-      name: 'INVALID',
-      invalid: true
-    }
-
-    for (const o in cOpts) {
-      const opt = cOpts[o];
-
-      // Assign array of pages
-      if (opt && opt.constructor === Array) {
-        charOptions[o] = [];
-        
-        for (const idx in opt) {
-          const uuid = opt[idx];
-          charOptions[o].push(await fromUuid(uuid) ?? {... invalid, uuid });
-        }
-      }
-      // Assign page
-      else if (typeof opt === 'string' && opt.includes('.')) {
-        charOptions[o] = await fromUuid(opt) ?? {... invalid, uuid: opt };
-      }
-    }
-
-    return this.charOptions = charOptions;
-  }
-
-  /* -------------------------------------------- */
-
-  /* Prepare List Entries */
-  get listEntries() {
-    return (async () => {
-      const baseEntries = this.system.listEntries;
-      const listEntries = {};
-
-      for (const [listKey, list] of Object.entries(baseEntries)) {
-        listEntries[listKey] = [];
-        
-        for (const entryKey of list) {
-          const entryData = await game.weirdwizard.utils.inferDataFromKey(listKey, entryKey);
-
-          listEntries[listKey].push(entryData);
-        }
-      }
-      
-      return listEntries;
-    })();
-  }
-
-  /* -------------------------------------------- */
-
   /**
   * Prepare Character type specific data
   */
@@ -295,7 +339,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
   /**
   * Prepare Character type specific data
   */
-  async _prepareGroupData(system) {
+  _prepareGroupData(system) {
     if (this.type !== 'group') return;
     
     // Prepare list of members
@@ -361,7 +405,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     system.wealth = wealth;
     system.equipmentList = equipmentList;
-    
   }
 
   /* -------------------------------------------- */
@@ -864,6 +907,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
   /* -------------------------------------------- */
 
   _removeEntriesGrantedBy(uuid) {
+    console.warn('outdated list entries granting')
     const oldEntries = this.system.listEntries;
     
     const objFilter = list => Object
@@ -1555,47 +1599,4 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       }
     }
   }
-
-  /* -------------------------------------------- */
-  /*  Getters                                     */
-  /* -------------------------------------------- */
-
-  /**
-   * Determine whether the character is injured.
-   * @type {boolean}
-   */
-  get injured() {
-    let isInjured = false;
-
-    if (this.type !== 'group') {
-      const health = this.system.stats.health;
-      const current = health.current;
-      const damage = this.system.stats.damage.value;
-
-      isInjured = damage >= Math.floor(current / 2);
-      if (this.type === 'character' && health.normal <= 0) isInjured = false;
-    }
-
-    return isInjured ? true : false;
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Determine whether the character is dead or destroyed.
-   * @type {boolean}
-   */
-  get dead() {
-    let isDead = false;
-
-    if (this.type !== 'group') {
-      const health = this.system.stats.health;
-    
-      isDead = health.current <= 0;
-      if (this.type === 'character' && health.normal <= 0) isDead = false;
-    }
-
-    return isDead ? true : false;
-  }
-  
 }
