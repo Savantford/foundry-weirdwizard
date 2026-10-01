@@ -36,8 +36,8 @@
         <label>{{localize "WW.ListEntry.Descriptor.Label"}}:</label>
   
         {{#each listEntries.benefit1.descriptors as |entry|}}
-          {{> "systems/weirdwizard/templates/journal/parts/list-entry.hbs" entry=entry entryKey=entry.key
-            listKey="descriptors" listPath="benefits.benefit1.descriptors" loc="Descriptor"}}
+          {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key
+            listKey="descriptors" listPath="benefits.benefit1.descriptors" loc="Descriptor" isEditMode=@root.isEditMode}}
         {{else}}<span>—</span>
         {{/each}}
 
@@ -102,8 +102,8 @@
   
         {{!-- Movement Traits --}}
         {{#each listEntries.benefit1.movementTraits as |entry|}}
-          {{> "systems/weirdwizard/templates/journal/parts/list-entry.hbs" entry=entry entryKey=entry.key
-            listKey="movementTraits" listPath="benefits.benefit1.movementTraits" loc="MovementTrait"}}
+          {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key
+            listKey="movementTraits" listPath="benefits.benefit1.movementTraits" loc="MovementTrait" isEditMode=@root.isEditMode}}
         {{/each}}
   
         <a class="array-button" data-action="entryCreate" data-list-key="movementTraits" data-list-path="benefits.benefit1.movementTraits" data-loc="MovementTrait"
@@ -126,8 +126,8 @@
         <label>{{localize "WW.ListEntry.Language.Bonus"}}:</label>
   
         {{#each listEntries.benefit1.languages as |entry|}}
-          {{> "systems/weirdwizard/templates/journal/parts/list-entry.hbs" entry=entry entryKey=entry.key
-            listKey="languages" listPath="benefits.benefit1.languages" loc="Language"}}
+          {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key
+            listKey="languages" listPath="benefits.benefit1.languages" loc="Language" isEditMode=@root.isEditMode}}
         {{else}}<span>—</span>
         {{/each}}
   
@@ -144,8 +144,8 @@
         <label>{{localize "WW.ListEntry.Sense.Label"}}:</label>
   
         {{#each listEntries.benefit1.senses as |entry|}}
-          {{> "systems/weirdwizard/templates/journal/parts/list-entry.hbs" entry=entry entryKey=entry.key
-            listKey="senses" listPath="benefits.benefit1.senses" loc="Sense"}}
+          {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key
+            listKey="senses" listPath="benefits.benefit1.senses" loc="Sense" isEditMode=@root.isEditMode}}
         {{else}}<span>—</span>
         {{/each}}
   
@@ -162,8 +162,8 @@
         <label>{{localize "WW.ListEntry.Immunity.Label"}}:</label>
   
         {{#each listEntries.benefit1.immunities as |entry|}}
-          {{> "systems/weirdwizard/templates/journal/parts/list-entry.hbs" entry=entry entryKey=entry.key
-            listKey="immunities" listPath="benefits.benefit1.immunities" loc="Immunity"}}
+          {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key
+            listKey="immunities" listPath="benefits.benefit1.immunities" loc="Immunity" isEditMode=@root.isEditMode}}
         {{else}}<span>—</span>
         {{/each}}
   

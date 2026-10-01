@@ -127,7 +127,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     context.folder = await itemData.folder;
     context.flags = itemData.flags;
     context.dtypes = ['String', 'Number', 'Boolean'];
-    context.editMode = this.isEditMode;
+    context.isEditMode = this.isEditMode;
     
     // Prepare enriched document reference links
     context.grantedBy = await fromUuid(sys.grantedBy) ?

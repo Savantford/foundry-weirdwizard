@@ -166,8 +166,8 @@
         <label>{{localize "WW.ListEntry.Language.Label"}}:</label>
 
         {{#each list as |entry|}}
-          {{> "systems/weirdwizard/templates/journal/parts/list-entry.hbs" entry=entry entryKey=entry.key
-            listKey="languages" listPath=(concat "benefits." id ".languages") loc="Language"}}
+          {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key
+            listKey="languages" listPath=(concat "benefits." id ".languages") loc="Language" isEditMode=@root.isEditMode}}
         {{else}}<span>—</span>
         {{/each}}
   
@@ -191,8 +191,8 @@
           <label>{{localize "WW.Tradition.Label"}}:</label>
 
           {{#each list as |entry|}}
-            {{> "systems/weirdwizard/templates/journal/parts/list-entry.hbs" entry=entry entryKey=entry.key
-              listKey="traditions" listPath=(concat "benefits." id ".traditions") loc="Tradition"}}
+            {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key
+              listKey="traditions" listPath=(concat "benefits." id ".traditions") loc="Tradition" isEditMode=@root.isEditMode}}
           {{else}}<span>—</span>
           {{/each}}
     

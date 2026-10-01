@@ -98,6 +98,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     context.flags = docData.flags,
     context.dtypes = ['String', 'Number', 'Boolean']
     context.singlePage = options?.window?.title ? true : false;
+    context.isEditMode = !this.isView;
 
     context.editor = {
       engine: "prosemirror",
