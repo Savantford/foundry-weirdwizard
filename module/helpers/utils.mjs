@@ -113,16 +113,13 @@ export async function inferDataFromKey(listKey, entryKey) {
   const statusEffect = listKey === 'immunities' ? CONFIG.statusEffects.find(e => e.id === entryKey) : null;
   
   // Document
-  if (doc) return {
-    ...doc, key: entryKey,
-    desc: /*doc.documentName === 'JournalEntryPage' ? await doc.toEmbed() :*/ await doc.toCard()
-  };
+  if (doc) return { ...doc, key: entryKey, desc: await doc.toCard() };
 
   // Status Effect
   else if (statusEffect) return { ...statusEffect, key: entryKey, desc: statusEffect.description };
 
   // Setting
-  else if (setting) return setting;
+  else if (setting) return {... setting, key: entryKey };
 
   // Fallback
   else return { key: entryKey, name: entryKey };
