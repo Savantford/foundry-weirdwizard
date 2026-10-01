@@ -207,7 +207,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     // Prepare CharOptions
     this._prepareCharOptions(system);
-    this._prepareListEntries(system);
+    //this._prepareListEntries(system);
 
     // Make separate methods for each Actor type (character, npc, etc) to keep things organized.
     this._prepareCharacterData(system);
@@ -250,21 +250,23 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
   /* -------------------------------------------- */
 
   /* Prepare List Entries */
-  async _prepareListEntries(system) {
-    const baseEntries = system.listEntries;
-    const listEntries = {};
+  get listEntries() {
+    return (async () => {
+      const baseEntries = this.system.listEntries;
+      const listEntries = {};
 
-    for (const [listKey, list] of Object.entries(baseEntries)) {
-      listEntries[listKey] = [];
-      
-      for (const entryKey of list) {
-        const entryData = await game.weirdwizard.utils.inferDataFromKey(listKey, entryKey);
+      for (const [listKey, list] of Object.entries(baseEntries)) {
+        listEntries[listKey] = [];
+        
+        for (const entryKey of list) {
+          const entryData = await game.weirdwizard.utils.inferDataFromKey(listKey, entryKey);
 
-        listEntries[listKey].push(entryData);
+          listEntries[listKey].push(entryData);
+        }
       }
-    }
-
-    return this.listEntries = listEntries;
+      
+      return listEntries;
+    })();
   }
 
   /* -------------------------------------------- */
@@ -286,7 +288,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     // Assign Current Health to Max Damage for Token Bars
     system.stats.damage.max = system.stats.health.current;
-
   }
 
   /* -------------------------------------------- */
@@ -724,7 +725,8 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
   /* -------------------------------------------- */
 
   async _updateGrantedEntries(uuid) {
-    const cOption = await fromUuid(uuid);
+    console.warn('trying to add list entries. do this by the main active effect instead!')
+    /*const cOption = await fromUuid(uuid);
 
     if (!cOption) return ;
 
@@ -771,13 +773,14 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     // Update actor with new listEntries object
     const obj = {...await listEntries, ... newEntries };
     
-    await this.updateSource({['system.listEntries']: obj });
+    await this.updateSource({['system.listEntries']: obj });*/
   }
 
   /* -------------------------------------------- */
 
   async _addEntries(uuid, grantedEntries, newEntries, benefit, listName) {
-    const list = {...benefit[listName]};
+    console.warn('trying to add list entries. do this by the main active effect instead!')
+    /*const list = {...benefit[listName]};
     
     // For each entry
     for (const entryId in list) {
@@ -791,17 +794,18 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
         delete await list[entryId];
       }
 
-    };
+    };*/
     
     // Add entries to newEntries object
     //if (Object.keys(await list).length) newEntries[listName] = newEntries[listName] ? { ...await list, ...newEntries[listName] } : list;
-    return await list;
+    //return await list;
   }
 
   /* -------------------------------------------- */
 
   _entriesToGrant(uuid) {
-    const entries = this.system.listEntries;
+    console.warn('trying to grant list entries. do this by the main active effect instead!')
+    /*const entries = this.system.listEntries;
 
     const objFilter = list => Object
       .fromEntries(Object.entries(entries[list])
@@ -817,8 +821,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     if (this.type === 'character') obj.traditions = objFilter('traditions');
 
-    return obj;
-
+    return obj;*/
   }
 
   /* -------------------------------------------- */

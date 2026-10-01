@@ -1424,7 +1424,7 @@ export default class WWCreatureSheet extends WWActorSheet {
       
     }
 
-    this.render(); // Force re-rendering because it's not being triggered
+    this.render(); // Force re-rendering because it's not being correctly
   }
 
 

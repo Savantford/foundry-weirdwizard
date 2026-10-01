@@ -64,22 +64,21 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
    */
   async _prepareContext(options = {}) {
     const context = await super._prepareContext(options);
-    const actorData = await this.actor;
     
-    context.actor = actorData; // Use a safe clone of the actor data for further operations.
-    context.system = actorData.system; // Add the actor's data to context.system for easier access, as well as flags.
-    context.flags = actorData.flags;
+    context.actor = this.actor; // Use a safe clone of the actor data for further operations.
+    context.system = this.actor.system; // Add the actor's data to context.system for easier access, as well as flags.
+    context.flags = this.actor.flags;
     context.dtypes = ['String', 'Number', 'Boolean'];
     context.itemSources = CONFIG.WW.TALENT_SOURCES;
     context.tiers = CONFIG.WW.TIERS;
-    context.listEntries = actorData.listEntries;
+    context.listEntries = await this.actor.listEntries;
 
     // Prepare Items
     context.items = this.actor.items.contents.toSorted((a, b) => a.sort - b.sort);
     await this._prepareItems(context);
 
     // Add roll data for Prose Mirror editors
-    context.rollData = actorData.getRollData();
+    context.rollData = this.actor.getRollData();
     
     return context;
   }
@@ -395,8 +394,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   */
   static async #onEntryCreate(event, button) {
     const dataset = Object.assign({}, button.dataset);
-    console.log(dataset)
-    await this._updateEntry(dataset);
+    
+    this._updateEntry(dataset);
   }
 
   /* -------------------------------------------- */
@@ -410,7 +409,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   static async #onEntryEdit(event, button) {
     const dataset = Object.assign({}, button.dataset);
 
-    await this._updateEntry(dataset, dataset.entryKey);
+    this._updateEntry(dataset, dataset.entryKey);
   }
 
   /* -------------------------------------------- */
@@ -418,11 +417,9 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   async _updateEntry(dataset) {
     const { listKey, entryKey } = dataset;
     const fullPath = 'system.listEntries.' + listKey;
-    const set = new Set(foundry.utils.getProperty(this.document, fullPath));
+    const set = new Set(foundry.utils.getProperty(this.document, '_source.' + fullPath));
     const entryData = inferDataFromKey(listKey, entryKey);
-    console.log(set)
-    console.log(this.document)
-    console.log(fullPath)
+    
     // Prepare entry context
     const entry = {
       ...entryData,
@@ -462,8 +459,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
 
     // Delete old entry if key changed
     if (dialogInput.key !== entryKey) set.delete(entryKey);
-    console.log(set)
-    await this.document.update({ [fullPath]: set });
+    
+    this.document.update({ [fullPath]: set });
   }
 
   /* -------------------------------------------- */
@@ -475,21 +472,15 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
    * @private
   */
   static async #onEntryRemove(event, button) {
-    const dataset = Object.assign({}, button.dataset);
-    const { listKey, entryKey } = dataset;
+    const { listKey, entryKey } = button.dataset;
     const fullPath = 'system.listEntries.' + listKey;
-    const set = new Set(foundry.utils.getProperty(this.document, fullPath));
-    console.log(set)
-    console.log(listKey)
-    console.log(fullPath)
-    console.log(entryKey)
-    //baseObj = foundry.utils.getProperty(this.actor.token?.baseActor, path),
+    const values = [...foundry.utils.getProperty(this.document._source, fullPath)];
 
-    // Delete old entry if key changed
-    set.delete(entryKey);
-    console.log(set)
+    // Splice off the entry
+    values.findSplice(v => v === entryKey);
+
     // Update document
-    await this.document.update({ [fullPath]: set });
+    this.document.update({ [fullPath]: values });
   }
 
   /* -------------------------------------------- */
