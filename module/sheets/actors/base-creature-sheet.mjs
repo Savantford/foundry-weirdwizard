@@ -1444,20 +1444,16 @@ export default class WWCreatureSheet extends WWActorSheet {
   /**
    * Handle a droped List Entry on the Actor Sheet.
    */
-  async _onDropListEntry(event, data) {
-    const { listKey: listKey, entryKey: key, entryName: name, desc: desc } = data,
-    obj = {... this.actor.system.listEntries[listKey]};
-    
-    const entry = {
-      name: name,
-      desc: desc
-    };
+  async _onDropListEntry(event, dataset) {
+    const { listKey, entryKey } = dataset;
 
-    obj[key] = entry;
+    const path = `system.listEntries.${listKey}`,
+    set = new Set(foundry.utils.getProperty(this.document, path));
+
+    set.add(entryKey);
     
-    await this.actor.update({ ['system.listEntries.' + listKey]: obj });
+    await this.document.update({ [path]: set });
   }
-  
 }
 
 /* -------------------------------------------- */
