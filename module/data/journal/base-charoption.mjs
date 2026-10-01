@@ -33,20 +33,19 @@ export default class BaseCharOptionModel extends foundry.abstract.TypeDataModel 
           const list = benefit[listKey];
 
           // Check for the listKeys
-          if (Object.hasOwn(benefit, listKey) && listKeys.includes(listKey)) {
-            // Migrate object to keys
-            if (foundry.utils.getType(benefit?.[listKey]) === "Object") {
-              const settings = listKey === 'traditions' ? null : game.settings.get('weirdwizard', 'available' + capitalize(listKey, 1));
-              const set = new Set();
+          if (Object.hasOwn(benefit, listKey) && listKeys.includes(listKey) && foundry.utils.getType(benefit?.[listKey]) === "Object") {
+            // Get respective settings
+            const settings = listKey === 'traditions' ? null : game.settings.get('weirdwizard', 'available' + capitalize(listKey, 1));
+            const set = new Set();
 
-              for (const [entryKey, entry] of Object.entries(benefit[listKey])) {
-                const setting = settings?.[entryKey];
-                
-                if (setting || !entry?.name) set.add(entryKey); else set.add(entry.name);
-              }
-              
-              benefit[listKey] = set;
+            // Convert entry object to appropriate key/name strings
+            for (const [entryKey, entry] of Object.entries(benefit[listKey])) {
+              const setting = settings?.[entryKey];
+
+              if (setting || !entry?.name) set.add(entryKey); else set.add(entry.name);
             }
+
+            benefit[listKey] = set;
           }
         }
       }

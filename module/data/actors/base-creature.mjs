@@ -1,8 +1,7 @@
-import { capitalize, inferDataFromKey } from "../../helpers/utils.mjs";
+import { capitalize } from "../../helpers/utils.mjs";
 import { makeAttributeField, makeHtmlField, makeIntField, makeFloField, makeStrField } from "../field-presets.mjs";
 
 export default class BaseActorModel extends foundry.abstract.TypeDataModel {
-
   /** @inheritdoc */
   static defineSchema() {
     const fields = foundry.data.fields;
@@ -125,10 +124,11 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
     if ('listEntries' in data) {
       for (const [listKey, list] of Object.entries(data.listEntries)) {
         if (listKeys.includes(listKey) && foundry.utils.getType(list) === "Object") {
-          // Migrate object to keys
+          // Get respective settings
           const settings = listKey === 'traditions' ? null : game.settings.get('weirdwizard', 'available' + capitalize(listKey, 1));
           const set = new Set();
           
+          // Convert entry object to appropriate key/name strings
           for (const [entryKey, entry] of Object.entries(list)) {
             const setting = settings?.[entryKey];
             
