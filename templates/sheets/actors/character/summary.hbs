@@ -117,7 +117,6 @@
 
                     {{!-- Descriptors --}}
                     {{#each listEntries.descriptors as |entry|}}
-                        {{log entry}}
                         {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="descriptors" listPath="listEntries.descriptors" loc="Descriptor" isEditMode=@root.isEditMode }}
                     {{else}}
                         {{#if isEditMode}}<span>({{localize "WW.ListEntry.Descriptor.Label"}})</span>{{/if}}

@@ -409,13 +409,13 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     const dataset = Object.assign({}, button.dataset);
     const { listPath, entryKey } = dataset;
     const fullPath = 'system.' + listPath;
-    const set = new Set(foundry.utils.getProperty(this.page, fullPath));
+    const set = new Set(foundry.utils.getProperty(this.document, fullPath));
 
     // Delete old entry if key changed
     set.delete(entryKey);
 
     // Update document
-    await this.page.update({ [fullPath]: set });
+    await this.document.update({ [fullPath]: set });
   }
 
   /* -------------------------------------------- */

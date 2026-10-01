@@ -475,18 +475,17 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
    * @private
   */
   static async #onEntryRemove(event, button) {
-    const dataset = Object.assign({}, button.dataset),
-      path = 'system.listEntries.' + dataset.listKey,
-      baseObj = foundry.utils.getProperty(this.actor.token?.baseActor, path),
-    key = dataset.entryKey;
-    
+    const dataset = Object.assign({}, button.dataset);
+    const { listPath, entryKey } = dataset;
+    const fullPath = 'system.' + listPath;
+    const set = new Set(foundry.utils.getProperty(this.document, fullPath));
+    //baseObj = foundry.utils.getProperty(this.actor.token?.baseActor, path),
+
+    // Delete old entry if key changed
+    set.delete(entryKey);
+
     // Update document
-    if (baseObj?.hasOwn(key)) {
-      await this.actor.update({ [`${path}.${key}`]: null }); // If the key exists in the Base Actor, null it
-    } else {
-      await this.actor.update({ [`${path}.${key}`]: new foundry.data.operators.ForcedDeletion() }); // Delete key otherwise
-    }
-    
+    await this.document.update({ [fullPath]: set });
   }
 
   /* -------------------------------------------- */
