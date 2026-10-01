@@ -33,7 +33,7 @@ export default class BaseCharOptionModel extends foundry.abstract.TypeDataModel 
           const list = benefit[listKey];
 
           // Check for the listKeys
-          if (benefit.hasOwnProperty(listKey) && listKeys.includes(listKey)) {
+          if (Object.hasOwn(benefit, listKey) && listKeys.includes(listKey)) {
             // Migrate object to keys
             if (foundry.utils.getType(benefit?.[listKey]) === "Object") {
               const settings = listKey === 'traditions' ? null : game.settings.get('weirdwizard', 'available' + capitalize(listKey, 1));

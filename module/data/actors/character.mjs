@@ -3,7 +3,6 @@ import BaseActorModel from './base-creature.mjs';
 import { makeHtmlField, makeIntField, makeStrField, makeUuidStrField } from '../field-presets.mjs';
 
 export default class CharacterModel extends BaseActorModel {
-
   /** @inheritdoc */
   static defineSchema() {
     const fields = foundry.data.fields;
@@ -59,7 +58,6 @@ export default class CharacterModel extends BaseActorModel {
    * @inheritDoc
    */
   static migrateData(source) {
-    
     // Migrate Details
     if (source.details?.features?.value && !source.details?.appearance?.value) source.details.appearance = {value: source.details.features.value};
     if ((source.description?.value || source.details?.bg_ancestry?.value) && !source.details?.background?.value) source.details.background = {value: source.description.value + source.details.bg_ancestry?.value};
@@ -69,12 +67,6 @@ export default class CharacterModel extends BaseActorModel {
     // Migrate Speed
     if ('stats.speed.value' in source) source.stats.speed.current = source.stats.speed.value;
     if ('stats.speed.raw' in source) source.stats.speed.normal = source.stats.speed.raw;
-
-    // Migrate legacy Traditions
-    if (typeof source.details?.traditions === 'string') {
-      const arr = source.details.traditions.split(",");
-      source.details.traditions = arr.filter(s => s).map((s) => ({ name: s.trim() }));
-    }
 
     // Migrate bonus damage and reputation
     if ('stats' in source && isNaN(source.stats?.bonusdamage)) source.stats.bonusdamage = 0;
@@ -91,5 +83,4 @@ export default class CharacterModel extends BaseActorModel {
     
     return super.migrateData(source);
   }
-
 }

@@ -158,7 +158,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
           const list = await benefit[listKey];
           
           // Check for the listKeys and if it's an array
-          if (benefit.hasOwnProperty(listKey) && listKeys.includes(listKey)) {
+          if (Object.hasOwn(benefit, listKey) && listKeys.includes(listKey)) {
             const arr = [];
 
             for (const entryKey of list) {

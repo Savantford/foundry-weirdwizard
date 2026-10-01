@@ -492,7 +492,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     // Delete old entry if key changed
     if (dialogInput.key !== entryKey) {
       // If the key exists in the Base Actor, null it
-      if (baseObj?.hasOwnProperty(entryKey) && entryKey !== dialogInput.key) obj[entryKey] = null;
+      if (baseObj?.hasOwn(entryKey) && entryKey !== dialogInput.key) obj[entryKey] = null;
       // Delete key otherwise
       else obj[entryKey] = new foundry.data.operators.ForcedDeletion();
     }
@@ -515,7 +515,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     key = dataset.entryKey;
     
     // Update document
-    if (baseObj?.hasOwnProperty(key)) {
+    if (baseObj?.hasOwn(key)) {
       await this.actor.update({ [`${path}.${key}`]: null }); // If the key exists in the Base Actor, null it
     } else {
       await this.actor.update({ [`${path}.${key}`]: new foundry.data.operators.ForcedDeletion() }); // Delete key otherwise

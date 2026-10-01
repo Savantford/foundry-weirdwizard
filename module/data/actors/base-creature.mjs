@@ -1,3 +1,4 @@
+import { capitalize, inferDataFromKey } from "../../helpers/utils.mjs";
 import { makeAttributeField, makeHtmlField, makeIntField, makeFloField, makeStrField } from "../field-presets.mjs";
 
 export default class BaseActorModel extends foundry.abstract.TypeDataModel {
@@ -98,9 +99,15 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
     // Migrate immune to immunities
     if ('details' in data && data.details?.immune) data.details.immunities = data.details.immune;
 
+    // Migrate legacy Traditions
+    if (typeof data.details?.traditions === 'string') {
+      const arr = data.details.traditions.split(",");
+      data.details.traditions = arr.filter(s => s).map((s) => ({ name: s.trim() }));
+    }
+
     // Migrate details to list entries
     const listKeys = ['senses', 'descriptors', 'languages', 'immunities', 'movementTraits'];
-
+    
     if ('details' in data) {
       if (!data.listEntries) data.listEntries = [];
 
@@ -108,42 +115,27 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
         const prop = data.details[propKey];
         
         // Check for the listKeys and if it's an array
-        if (data.details.hasOwnProperty(propKey) && listKeys.includes(propKey)) {
+        if (Object.hasOwn(data.details, propKey) && listKeys.includes(propKey)) {
           if (Array.isArray(prop) && prop.length) data.listEntries.push(prop);
         }
       }
     }
-
-    // Migrate list entries to Character Options
-    if ('listEntries' in data) {
-      for (const listKey in data.listEntries) {
-        const list = data.listEntries[listKey];
-
-        // Check for the listKeys
-        if (list.hasOwnProperty(listKey) && listKeys.includes(listKey)) {
-          // Migrate object to keys
-          if (foundry.utils.getType(list?.[listKey]) === "Object") {
-            const settings = listKey === 'traditions' ? null : game.settings.get('weirdwizard', 'available' + capitalize(listKey, 1));
-            const set = new Set();
-
-            for (const [entryKey, entry] of Object.entries(list[listKey])) {
-              const setting = settings?.[entryKey];
-
-              if (setting || !entry.name) set.add(entryKey); else set.add(entry.name);
-            }
-
-            data.listEntries[listKey] = set;
-          }
-        }
-      }
-    }
-
-    // Migrate invalid UUIDs
+    
+    // Migrate list entries: Object of objects to set of keys
     if ('listEntries' in data) {
       for (const [listKey, list] of Object.entries(data.listEntries)) {
-        for (const [entryKey, entry] of Object.entries(list)) {
-          if (!entry?.grantedBy) continue;
-          if (!entry.grantedBy.includes('.')) data.listEntries[listKey][entryKey].grantedBy = null;
+        if (listKeys.includes(listKey) && foundry.utils.getType(list) === "Object") {
+          // Migrate object to keys
+          const settings = listKey === 'traditions' ? null : game.settings.get('weirdwizard', 'available' + capitalize(listKey, 1));
+          const set = new Set();
+          
+          for (const [entryKey, entry] of Object.entries(list)) {
+            const setting = settings?.[entryKey];
+            
+            if (setting || !entry?.name) set.add(entryKey); else set.add(entry.name);
+          }
+          
+          data.listEntries[listKey] = set;
         }
       }
     }
