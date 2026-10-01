@@ -8,7 +8,6 @@ import WWRoll from '../dice/roll.mjs';
 * @extends {Actor}
  */
 export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
-
   /* -------------------------------------------- */
   /*  Document Creation                           */
   /* -------------------------------------------- */
@@ -50,7 +49,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
   /* -------------------------------------------- */
 
   async _onCreate(data, options, user) {
-    
     // Fix Health and Incapacitated
     this.incapacitated = false;
 
@@ -113,9 +111,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
             await this.updateCharOptionBenefits(cOpt, 'levelChange');
           }
         }
-        
       }
-
     }
   }
 
@@ -166,7 +162,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
   /* Prepare Char Options */
   get charOptions() {
     return (async () => {
-      const cOpts = system.charOptions;
+      const cOpts = this.system.charOptions;
       const charOptions = {};
       const invalid = {
         name: 'INVALID',
@@ -302,10 +298,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     // Calculate Speed
     this._calculateSpeed(system);
-
-    // Prepare CharOptions
-    this._prepareCharOptions(system);
-    //this._prepareListEntries(system);
 
     // Make separate methods for each Actor type (character, npc, etc) to keep things organized.
     this._prepareCharacterData(system);
