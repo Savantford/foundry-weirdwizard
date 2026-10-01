@@ -2,9 +2,9 @@ import {
   capitalize,
   defaultListEntryKey,
   defaultListEntryName,
+  inferDataFromKey,
   plusify,
-  sum,
-  sysPath
+  sum
 } from '../../helpers/utils.mjs';
 import WWDialog from '../../apps/dialog.mjs';
 import { EntrySettingsDisplay } from '../../apps/entry-settings-display.mjs';
@@ -396,7 +396,6 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   static async #onEntryCreate(event, button) {
     const dataset = Object.assign({}, button.dataset);
     
-    // Update entry
     await this._updateEntry(dataset);
   }
 
@@ -411,35 +410,26 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   static async #onEntryEdit(event, button) {
     const dataset = Object.assign({}, button.dataset);
 
-    // Update entry
     await this._updateEntry(dataset, dataset.entryKey);
   }
 
   /* -------------------------------------------- */
 
-  async _updateEntry(dataset, entryKey) {
-    const path = 'system.listEntries.' + dataset.listKey;
-    const baseObj = {... foundry.utils.getProperty(this.actor.token?.baseActor, path)};
-    const obj = {... foundry.utils.getProperty(this.actor, path)};
-
-    // Get or set entry key and data
-    let entryData = null;
-
-    if (entryKey) {
-      entryData = obj[entryKey];
-    } else {
-      entryKey = defaultListEntryKey(obj, dataset.listKey);
-      const entryName = defaultListEntryName(obj, dataset.listKey);
-      entryData = { name: entryName };
-    }
-
-    // Prepare context
-    const context = {
-      entry: await entryData,
-      key: entryKey,
-      showKey: true,
-      grantedBy: await fromUuid(entryData.grantedBy) ?
-        await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${entryData.grantedBy}]`, { secrets: this.actor.isOwner }) : null
+  async _updateEntry(dataset) {
+    const { listKey, listPath, entryKey } = dataset;
+    const fullPath = 'system.' + listPath;
+    const set = new Set(foundry.utils.getProperty(this.document, fullPath));
+    const entryData = inferDataFromKey(listKey, entryKey);
+    console.log(set)
+    console.log(this.document)
+    console.log(fullPath)
+    // Prepare entry context
+    const entry = {
+      ...entryData,
+      key: entryKey ?? defaultListEntryKey(set, listKey),
+      name: entryData.name ?? defaultListEntryName(set, listKey),
+      grantedBy: null,
+      showKey: true
     };
 
     // Show a dialog 
@@ -448,7 +438,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
         icon: "fa-solid fa-edit",
         title: 'WW.Settings.Entry.Edit',
       },
-      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
+      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', entry),
       ok: {
         label: 'WW.System.Dialog.Save',
         icon: 'fa-solid fa-save'
@@ -464,23 +454,16 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     // Return if cancelled
     if (!dialogInput) return;
 
-    // Return with warning if the key or name are missing
-    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(_loc('WW.Settings.Entry.EditWarning'));
+    // Return with warning if the key is missing
+    if (!dialogInput.key) return ui.notifications.warn(_loc('WW.Settings.Entry.EditWarning'));
 
     // Update key and value with dialogInput
-    obj[dialogInput.key] = dialogInput;
-
-    delete await obj[dialogInput.key].key;
+    set.add(dialogInput.key);
 
     // Delete old entry if key changed
-    if (dialogInput.key !== entryKey) {
-      // If the key exists in the Base Actor, null it
-      if (baseObj?.hasOwn(entryKey) && entryKey !== dialogInput.key) obj[entryKey] = null;
-      // Delete key otherwise
-      else obj[entryKey] = new foundry.data.operators.ForcedDeletion();
-    }
-    
-    await this.actor.update({ [path]: obj });
+    if (dialogInput.key !== entryKey) set.delete(entryKey);
+    console.log(set)
+    await this.document.update({ [fullPath]: set });
   }
 
   /* -------------------------------------------- */

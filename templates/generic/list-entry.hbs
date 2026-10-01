@@ -1,24 +1,24 @@
 <li class="list-entry">
     {{!-- Name --}}
     <a class="array-button" data-action="entryEdit" data-list-key="{{listKey}}" data-list-path="{{listPath}}"
-        data-entry-key="{{entryKey}}" data-tooltip="{{entry.desc}}">
+        data-entry-key="{{entry.key}}" data-tooltip="{{entry.desc}}">
         {{localize entry.name}}
     </a>
-    
+
     {{!-- Buttons --}}
     {{#if isEditMode}}
     <span class="edit-buttons">
         {{!-- Edit --}}
         {{#unless noEdit}}
         <a class="array-button" data-action="entryEdit" data-list-key="{{listKey}}" data-list-path="{{listPath}}"
-            data-entry-key="{{entryKey}}" data-tooltip="WW.ListEntry.{{loc}}.Edit">
+            data-entry-key="{{entry.key}}" data-tooltip="WW.ListEntry.{{loc}}.Edit">
             <i class="fa-solid fa-edit"></i>
         </a>
         {{/unless}}
 
         {{!-- Remove --}}
         <a class="array-button" data-action="entryRemove" data-list-key="{{listKey}}" data-list-path="{{listPath}}"
-            data-entry-key="{{entryKey}}" data-tooltip="WW.ListEntry.{{loc}}.Remove">
+            data-entry-key="{{entry.key}}" data-tooltip="WW.ListEntry.{{loc}}.Remove">
             <i class="fa-solid fa-trash"></i>
         </a>
     </span>

@@ -327,7 +327,6 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
   static async #onEntryCreate(event, button) {
     const dataset = Object.assign({}, button.dataset);
     
-    // Update entry
     await this._updateEntry(dataset);
   }
 
@@ -342,18 +341,17 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
   static async #onEntryEdit(event, button) {
     const dataset = Object.assign({}, button.dataset);
 
-    // Update entry
-    await this._updateEntry(dataset, dataset.entryKey);
+    await this._updateEntry(dataset);
   }
 
   /* -------------------------------------------- */
 
-  async _updateEntry(dataset, entryKey) {
-    const { listKey, listPath } = dataset;
+  async _updateEntry(dataset) {
+    const { listKey, listPath, entryKey } = dataset;
     const fullPath = 'system.' + listPath;
-    const set = new Set(foundry.utils.getProperty(this.page, fullPath));
+    const set = new Set(foundry.utils.getProperty(this.document, fullPath));
     const entryData = inferDataFromKey(listKey, entryKey);
-
+    
     // Prepare entry context
     const entry = {
       ...entryData,
@@ -393,8 +391,8 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
 
     // Delete old entry if key changed
     if (dialogInput.key !== entryKey) set.delete(entryKey);
-
-    await this.page.update({ [fullPath]: set });
+    
+    await this.document.update({ [fullPath]: set });
   }
 
   /* -------------------------------------------- */

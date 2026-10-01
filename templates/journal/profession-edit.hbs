@@ -41,7 +41,7 @@
         <label>{{localize "WW.ListEntry.Language.Bonus"}}:</label>
   
         {{#each listEntries.benefit1.languages as |entry|}}
-          {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key
+          {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry
             listKey="languages" listPath="benefits.benefit1.languages" loc="Language" isEditMode=@root.isEditMode}}
         {{else}}<span>—</span>
         {{/each}}

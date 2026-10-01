@@ -68,7 +68,7 @@
                 <ol class="stat-inline list-entries connections">
                     {{!-- Movement Traits --}}
                     {{#each listEntries.connections as |entry|}}
-                    {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key
+                    {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry
                     listKey="connections" loc="Connection" isEditMode=@root.isEditMode }}
                     {{/each}}
                 </ol>

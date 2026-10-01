@@ -34,7 +34,7 @@
             <label>Legacy, Delete:</label>
         
             {{#each listEntries.traditions as |entry|}}
-                {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry entryKey=entry.key listKey="traditions" loc="Tradition" isEditMode=@root.isEditMode }}
+                {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="traditions" loc="Tradition" isEditMode=@root.isEditMode }}
             {{/each}}
         
         )</ol>
