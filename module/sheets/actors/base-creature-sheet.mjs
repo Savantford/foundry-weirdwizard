@@ -81,7 +81,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     const context = await super._prepareContext(options);
     const actorData = this.actor;
 
-    context.charOptions = actorData.charOptions;
+    context.charOptions = await actorData.charOptions;
     context.folder = await actorData.folder;
     context.injured = actorData.injured;
     context.incapacitated = actorData.incapacitated;
