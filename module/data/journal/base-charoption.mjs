@@ -42,7 +42,7 @@ export default class BaseCharOptionModel extends foundry.abstract.TypeDataModel 
               for (const [entryKey, entry] of Object.entries(benefit[listKey])) {
                 const setting = settings?.[entryKey];
                 
-                if (setting || !entry.name) set.add(entryKey); else set.add(entry.name);
+                if (setting || !entry?.name) set.add(entryKey); else set.add(entry.name);
               }
               
               benefit[listKey] = set;

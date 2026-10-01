@@ -142,5 +142,4 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
 
     return data;
   }
-
 }
