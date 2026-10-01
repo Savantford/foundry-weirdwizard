@@ -1,6 +1,6 @@
 
 import BaseActorModel from './base-creature.mjs';
-import { makeFloField, makeHtmlField, makeIntField, makeStrField, makeUuidStrField } from '../field-presets.mjs';
+import { makeHtmlField, makeIntField, makeStrField, makeUuidStrField } from '../field-presets.mjs';
 
 export default class CharacterModel extends BaseActorModel {
 
@@ -32,18 +32,13 @@ export default class CharacterModel extends BaseActorModel {
       ancestry: makeUuidStrField({ initial: 'Compendium.weirdwizard.character-options.JournalEntry.pAAZKv2vrilITojZ.JournalEntryPage.GI4b6WkOLlTszbRe' }),
 
       // Path UUIDs
-      novice: makeUuidStrField(),
-      expert: makeUuidStrField(),
-      master: makeUuidStrField(),
+      novice: makeStrField(),
+      expert: makeStrField(),
+      master: makeStrField(),
 
-      // Array of UUIDs
-      professions: new fields.ArrayField(
-        makeUuidStrField()
-      ),
-      traditions: new fields.ArrayField(
-        makeUuidStrField()
-      )
-      
+      // Set of UUIDs
+      professions: new fields.SetField( makeStrField() ),
+      traditions: new fields.SetField( makeStrField() )
     });
     
     // Add Character stats
@@ -54,15 +49,6 @@ export default class CharacterModel extends BaseActorModel {
     schema.stats.fields.defense.fields.natural = makeIntField({ initial: 8 });
     schema.stats.fields.health.fields.normal = makeIntField({ initial: 5 });
     schema.stats.fields.health.fields.current = makeIntField({ initial: 5 });
-    
-    // Will be deleted in a later date
-    schema.listEntries.fields.traditions = new fields.TypedObjectField(
-      new fields.SchemaField({
-        name: makeStrField({ initial: "" }),
-        desc: makeStrField(),
-        grantedBy: makeUuidStrField()
-      }, { nullable: true })
-    );
 
     return schema;
   }

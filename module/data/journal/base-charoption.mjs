@@ -1,4 +1,4 @@
-import { camelCase, capitalize } from "../../helpers/utils.mjs";
+import { capitalize } from "../../helpers/utils.mjs";
 import { makeHtmlField } from "../field-presets.mjs";
 
 export default class BaseCharOptionModel extends foundry.abstract.TypeDataModel {
@@ -22,7 +22,7 @@ export default class BaseCharOptionModel extends foundry.abstract.TypeDataModel 
     // Migrate description to a single string
     if (typeof data.description === 'object') data.description = data.description.value;
     
-    // Migrate immune to immunities
+    // Migrate Character Options object to array
     if ('benefits' in data) {
       const listKeys = ['senses', 'descriptors', 'languages', 'immunities', 'movementTraits', 'traditions'];
 

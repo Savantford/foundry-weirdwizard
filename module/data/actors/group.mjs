@@ -16,18 +16,10 @@ export default class GroupModel extends foundry.abstract.TypeDataModel {
 
       // Group Members
       members: new fields.SchemaField({
-        active: new fields.ArrayField(
-          makeUuidStrField()
-        ),
-        inactive: new fields.ArrayField(
-          makeUuidStrField()
-        ),
-        retired: new fields.ArrayField(
-          makeUuidStrField()
-        ),
-        dead: new fields.ArrayField(
-          makeUuidStrField()
-        ),
+        active: new fields.SetField( makeUuidStrField() ),
+        inactive: new fields.SetField( makeUuidStrField() ),
+        retired: new fields.SetField( makeUuidStrField() ),
+        dead: new fields.SetField( makeUuidStrField() ),
       }),
 
       resources: new fields.SchemaField({
@@ -36,7 +28,6 @@ export default class GroupModel extends foundry.abstract.TypeDataModel {
 
       // List Entries
       listEntries: new fields.SchemaField({
-
         connections: new fields.TypedObjectField(
           new fields.SchemaField({
             name: makeStrField({ initial: _loc("WW.ListEntry.DefaultName") }),
@@ -45,9 +36,7 @@ export default class GroupModel extends foundry.abstract.TypeDataModel {
             grantedBy: makeUuidStrField()
           }, { nullable: true })
         )
-
       })
-
     }
 
     return schema;
