@@ -72,28 +72,11 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     context.dtypes = ['String', 'Number', 'Boolean'];
     context.itemSources = CONFIG.WW.TALENT_SOURCES;
     context.tiers = CONFIG.WW.TIERS;
+    context.listEntries = actorData.listEntries;
 
     // Prepare Items
     context.items = this.actor.items.contents.toSorted((a, b) => a.sort - b.sort);
     await this._prepareItems(context);
-
-    // Prepare list entries
-    const listEntries = {};
-
-    for (const listKey in context.system.listEntries) {
-      const list = context.system.listEntries[listKey];
-      
-      listEntries[listKey] = [];
-      
-      for (const entryKey in list) {
-        const entry = list[entryKey];
-        
-        if (entry) listEntries[listKey].push({ ...entry, key: entryKey });
-      }
-
-    }
-    
-    context.listEntries = listEntries;
 
     // Add roll data for Prose Mirror editors
     context.rollData = actorData.getRollData();
