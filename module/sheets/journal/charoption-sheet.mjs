@@ -163,7 +163,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
             const arr = [];
 
             for (const entryKey of list) {
-              const entry = await inferDataFromKey(listKey, entryKey);
+              const entry = inferDataFromKey(listKey, entryKey);
               
               arr.push(entry);
             }
@@ -263,7 +263,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
         dragSelector: '.draggable',
         dropSelector: '.actor'
       }, {
-        dragSelector: '#entry-settings-display .draggable',
+        dragSelector: '#list-entry-config .draggable',
         dropSelector: '.benefit-block'
       }
     ];

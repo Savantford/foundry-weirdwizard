@@ -106,14 +106,14 @@ export function sysPath(string) {
  * @param {string} entryKey 
  * @returns {Document|Setting}
  */
-export async function inferDataFromKey(listKey, entryKey) {
-  const settings = listKey !== 'traditions' ? game.settings.get('weirdwizard', 'available' + capitalize(listKey, 1)) : null;
+export function inferDataFromKey(listKey, entryKey) {
+  const settings = game.settings.get('weirdwizard', 'available' + capitalize(listKey, 1));
   const setting = settings?.[entryKey];
-  const doc = await fromUuid(entryKey);
+  const doc = fromUuidSync(entryKey);
   const statusEffect = listKey === 'immunities' ? CONFIG.statusEffects.find(e => e.id === entryKey) : null;
   
   // Document
-  if (doc) return { ...doc, key: entryKey, desc: await doc.toCard() };
+  if (doc) return { ...doc, key: entryKey, desc: doc.toCard() };
 
   // Status Effect
   else if (statusEffect) return { ...statusEffect, key: entryKey, desc: statusEffect.description };

@@ -49,7 +49,7 @@ export class ListEntryConfig extends HandlebarsApplicationMixin(ApplicationV2) {
   /* -------------------------------------------- */
 
   static PARTS = {
-    form: { template: 'systems/weirdwizard/templates/apps/entry-settings-display.hbs' }
+    form: { template: 'systems/weirdwizard/templates/apps/list-entry-config.hbs' }
   }
 
   /* -------------------------------------------- */
