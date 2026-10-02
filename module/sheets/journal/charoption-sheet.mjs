@@ -163,7 +163,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
             const arr = [];
 
             for (const entryKey of list) {
-              const entry = inferDataFromKey(listKey, entryKey);
+              const entry = await inferDataFromKey(listKey, entryKey);
               
               arr.push(entry);
             }
@@ -350,7 +350,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     const { listKey, listPath, entryKey } = dataset;
     const fullPath = 'system.' + listPath;
     const set = new Set(foundry.utils.getProperty(this.document, fullPath));
-    const entryData = inferDataFromKey(listKey, entryKey);
+    const entryData = await inferDataFromKey(listKey, entryKey);
     
     // Prepare entry context
     const entry = {

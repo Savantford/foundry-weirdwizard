@@ -418,7 +418,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     const { listKey, entryKey } = dataset;
     const fullPath = 'system.listEntries.' + listKey;
     const set = new Set(foundry.utils.getProperty(this.document, '_source.' + fullPath));
-    const entryData = inferDataFromKey(listKey, entryKey);
+    const entryData = await inferDataFromKey(listKey, entryKey);
     
     // Prepare entry context
     const entry = {

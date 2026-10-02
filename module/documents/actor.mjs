@@ -195,20 +195,22 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
   /* Prepare List Entries */
   get listEntries() {
-    const baseEntries = this.system.listEntries;
-    const listEntries = {};
+    return (async () => {
+      const baseEntries = this.system.listEntries;
+      const listEntries = {};
 
-    for (const [listKey, list] of Object.entries(baseEntries)) {
-      listEntries[listKey] = [];
+      for (const [listKey, list] of Object.entries(baseEntries)) {
+        listEntries[listKey] = [];
+        
+        for (const entryKey of list) {
+          const entryData = await game.weirdwizard.utils.inferDataFromKey(listKey, entryKey);
 
-      for (const entryKey of list) {
-        const entryData = game.weirdwizard.utils.inferDataFromKey(listKey, entryKey);
-
-        listEntries[listKey].push(entryData);
+          listEntries[listKey].push(entryData);
+        }
       }
-    }
-
-    return listEntries;
+      
+      return listEntries;
+    })();
   }
 
   /* -------------------------------------------- */
