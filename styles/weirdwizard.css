@@ -5399,9 +5399,9 @@ details.document-card .card-header:hover::after {
   flex: 0 0 16px;
 }
 
-/* List Entry Sub-Settings: Display */
-#entry-settings-display {
-  .window-title {
+/* List Entry Config */
+.weirdwizard.application.list-entry-config {
+  .window-header .window-title {
     border-image: none;
     filter: none;
     backdrop-filter: contrast(0.1) sepia(0.5);

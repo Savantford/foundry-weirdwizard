@@ -1,5 +1,5 @@
 import { defaultListEntryKey, defaultListEntryName } from '../../helpers/utils.mjs';
-import { EntrySettingsDisplay } from '../../apps/entry-settings-display.mjs';
+import { ListEntryConfig } from '../../apps/entry-settings-display.mjs';
 import WWActorSheet from './base-actor-sheet.mjs';
 import WWDialog from '../../apps/dialog.mjs';
 

@@ -10,7 +10,6 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
  * Extend FormApplication to make windows to display a compendium more neatly
  * @extends {ApplicationV2}
 */
-
 export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2) {
 
   static DEFAULT_OPTIONS = {

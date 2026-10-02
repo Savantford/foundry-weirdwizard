@@ -1,15 +1,42 @@
-<div>
-    <div>{{{localize "WW.Settings.Entry.DisplayInstructions"}}}</div>
+<section>
+  {{!-- Key --}}
+  <input type="text" name="key" placeholder="{{localize "WW.Settings.Entry.Key"}}" required>
+    {{ entry.key }}
+  </input>
+  
+  <h6>PREVIEW</h6>
 
-    <br/>
+  {{!-- Name --}}
+  <div class="stat-inline">{{ entry.name }} </div>
 
-    {{!-- List --}}
-    <ol class="permissions-list">
-        {{#each list as |entry key|}}
-        <li class="draggable form-group" data-entry-key="{{key}}" data-entry-name="{{localize entry.name}}" data-tooltip="{{entry.desc}}">
-            {{localize entry.name}}
-        </li>
-        {{/each}}
-    </ol>
+  {{!-- Description --}}
+  <div class="stat">{{ entry.desc }}</div>
+  
+  {{!-- Granted By --}}
+  {{#if entry.grantedBy}}
+  <div class="stat-inline">
+    <label>{{localize "WW.CharOption.GrantedBy"}}:</label>
+  
+    {{{ entry.grantedBy }}}
+  </div>
+  {{/if}}
+  
+  {{!-- List --}}
+  <h6>{{ listName }}</h6>
 
-</div>
+  <ol class="permissions-list">
+    {{#each list as |entry key|}}
+    <li class="draggable form-group" data-entry-key="{{key}}" data-entry-name="{{localize entry.name}}"
+      data-tooltip="{{entry.desc}}">
+      {{localize entry.name}}
+    </li>
+    {{/each}}
+  </ol>
+
+  {{!-- List Instructions --}}
+  <div>{{{localize "WW.Settings.Entry.DisplayInstructions"}}}</div>
+
+  <button type="submit">
+    Test
+  </button>
+</section>

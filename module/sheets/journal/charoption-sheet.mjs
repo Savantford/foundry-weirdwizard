@@ -1,5 +1,5 @@
 import WWDialog from "../../apps/dialog.mjs";
-import { EntrySettingsDisplay } from "../../apps/entry-settings-display.mjs";
+import { ListEntryConfig } from "../../apps/list-entry-config.mjs";
 import { defaultListEntryKey, defaultListEntryName, inferDataFromKey } from "../../helpers/utils.mjs";
 import WWSheetMixin from "../ww-sheet.mjs";
 
@@ -25,7 +25,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
       entryCreate: this.#onEntryCreate,
       entryEdit: this.#onEntryEdit,
       entryRemove: this.#onEntryRemove,
-      entrySettings: this.#onEntrySettingsDisplay,
+      entrySettings: this.#onListEntryConfig,
 
       refEdit: this.#onRefEdit,
       refRemove: this.#onRefRemove
@@ -426,11 +426,11 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
    * @param {HTMLElement} button   The button element originating the click event
    * @private
   */
-  static #onEntrySettingsDisplay(event, button) {
+  static #onListEntryConfig(event, button) {
     const dataset = Object.assign({}, button.dataset),
     listKey = dataset.listKey;
     
-    new EntrySettingsDisplay({ listKey }).render(true);
+    new ListEntryConfig({ listKey }).render(true);
   }
 
   /* -------------------------------------------- */

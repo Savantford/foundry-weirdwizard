@@ -3,7 +3,6 @@
  * @extends {DialogV2}
 */
 export default class WWDialog extends foundry.applications.api.DialogV2 {
-
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["weirdwizard"],
@@ -12,5 +11,4 @@ export default class WWDialog extends foundry.applications.api.DialogV2 {
       height: "auto",
     }
   };
-
 }
