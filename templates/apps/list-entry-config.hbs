@@ -1,22 +1,32 @@
 <section>
-  {{!-- Key --}}
-  <input type="text" name="key" placeholder="{{localize "WW.Settings.Entry.Key"}}" required>
-    {{ entry.key }}
-  </input>
-  
-  <h6>PREVIEW</h6>
+  {{!-- Entry Key --}}
+  <input type="text" name="key" placeholder="{{localize "WW.Settings.Entry.Key"}}" value="{{ entry.key }}" required>
 
-  {{!-- Name --}}
-  <div class="stat-inline">{{ entry.name }} </div>
+  {{!-- Entry Preview --}}
+  <div class="stat-inline">
+    <label>{{localize "WW.Settings.Entry.Preview"}}:</label>
+    
+    {{!-- Document --}}
+    {{#if entry.uuid}}
+      <a class="content-link" draggable="true" data-link="" data-uuid="{{entry.uuid}}" data-id="{{entry.id}}" data-type="{{entry.documentName}}" data-tooltip="{{entry.desc}}">
+        <img src="{{entry.img}}">
 
-  {{!-- Description --}}
-  <div class="stat">{{ entry.desc }}</div>
-  
+        {{entry.name}}
+      </a>
+    {{!-- Setting --}}
+    {{else if entry.desc}}
+      <span class="info" data-tooltip="{{ entry.desc }}">{{localize entry.name}}</span>
+    {{!-- Plain Text --}}
+    {{else}}
+      <span>{{localize entry.name}}</span>
+    {{/if}}
+  </div>
+
   {{!-- Granted By --}}
   {{#if entry.grantedBy}}
   <div class="stat-inline">
     <label>{{localize "WW.CharOption.GrantedBy"}}:</label>
-  
+
     {{{ entry.grantedBy }}}
   </div>
   {{/if}}

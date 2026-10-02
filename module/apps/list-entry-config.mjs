@@ -71,7 +71,7 @@ export class ListEntryConfig extends HandlebarsApplicationMixin(ApplicationV2) {
     }
 
     // Add entry data preview
-    context.entry = this.entryKey ? await inferDataFromKey(this.entryKey) : null;
+    context.entry = this.entryKey ? await inferDataFromKey(listKey, this.entryKey) : null;
 
     return context;
   }

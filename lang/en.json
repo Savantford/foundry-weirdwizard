@@ -999,9 +999,8 @@
 "WW.Settings.Entry.EditWarning": "The entry is missing an ID/key and/or a name. Please provide both.",
 "WW.Settings.Entry.Remove": "Remove Entry",
 "WW.Settings.Entry.RemoveDialog.Msg": "Are you sure you want to remove the entry?",
-"WW.Settings.Entry.Key": "ID/Key (Required)",
-"WW.Settings.Entry.Name": "Name (Required)",
-"WW.Settings.Entry.Description": "Description (Optional)",
+"WW.Settings.Entry.Key": "Setting Key, UUID, Status Effect ID, or Plain Text",
+"WW.Settings.Entry.Preview": "Preview",
 "WW.Settings.Entry.DisplayList": "Check the list of available entries",
 "WW.Settings.Entry.DisplayInstructions": "Hover an entry to see its description.<br>Drag an entry and drop it on a Character or NPC sheet to add it to them.",
 
