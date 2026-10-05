@@ -560,6 +560,15 @@ body.theme-dark,
   font-weight: 600;
 }
 
+.weirdwizard img.mini-icon {
+  height: 1lh;
+  width: auto;
+}
+
+.weirdwizard img.mini-icon.circle {
+  border-radius: 50%;
+}
+
 /* -------------------------------------------- */
 /*  General Sheet / App Style                   */
 /* -------------------------------------------- */
@@ -1881,7 +1890,7 @@ body.theme-dark.application.weirdwizard .window-content {
 }
 
 /* Profile Image: Circle */
-.weirdwizard .circle {
+.weirdwizard .circle:not(img) {
   display: grid;
   grid-template-areas: "layer";
   place-items: center;
@@ -2022,7 +2031,7 @@ body.theme-dark.application.weirdwizard .window-content {
   }
 }
 
-.weirdwizard.character .circle {
+.weirdwizard.character .circle:not(img) {
   .stat.luck {
     --icon: url(../assets/icons/circle-luck.svg);
     background-position: calc(50% + 1px) calc(50% + 1px);
@@ -2034,7 +2043,7 @@ body.theme-dark.application.weirdwizard .window-content {
   }
 }
 
-.weirdwizard.npc .circle {
+.weirdwizard.npc .circle:not(img) {
   --radius: 55px;
   outline-offset: 3px;
   margin: 12px auto;
@@ -2056,7 +2065,7 @@ body.theme-dark.application.weirdwizard .window-content {
   }
 }
 
-.weirdwizard .sheet-banner:hover .circle {
+.weirdwizard .sheet-banner:hover .circle:not(img) {
 
   .stat.luck,
   .stat.rest {

@@ -69,7 +69,19 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     context.dtypes = ['String', 'Number', 'Boolean'];
     context.itemSources = CONFIG.WW.TALENT_SOURCES;
     context.tiers = CONFIG.WW.TIERS;
+
+    // Prepare list entries
     context.listEntries = await this.actor.listEntries;
+    
+    for (const [listKey, list] of Object.entries(context.listEntries)) {
+      for (const entry of list) {
+        if (entry.grantedBy) {
+          const effect = await fromUuid(entry.grantedBy);
+
+          if (effect) entry.grantedBy = { ...effect, tooltip: await effect.toCard() };
+        }
+      }
+    }
 
     // Prepare Items
     context.items = this.actor.items.contents.toSorted((a, b) => a.sort - b.sort);

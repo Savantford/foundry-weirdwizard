@@ -4,9 +4,15 @@
         data-entry-key="{{entry.key}}" data-tooltip="{{entry.desc}}">
         {{localize entry.name}}
     </a>
+    
+    {{!-- Granted By Effect --}}
+    {{#if grantedBy}}
+    {{#with grantedBy}}
+    <img class="mini-icon circle info ml-1" src="{{ img }}" data-tooltip="{{ tooltip }}">
+    {{/with}}
 
     {{!-- Buttons --}}
-    {{#if isEditMode}}
+    {{else if isEditMode}}
     <span class="edit-buttons">
         {{!-- Edit --}}
         {{#unless noEdit}}
