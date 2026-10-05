@@ -619,15 +619,18 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       speedIncrease: 0,
       bonusDamage: 0
     };
-    
+
+    // Prepare changes
+    const lists = {};
+
     for (const b in benefits) {
 
       const benefit = benefits[b];
       
       // If level does not meet the requirement, ignore it
       if (level >= benefit.levelReq) {
-        currentLevel = benefit.levelReq;
-        const bStats = benefit.stats;
+        const { levelReq, stats: bStats, spells, items, attributes, ...listEntries } = benefit;
+        currentLevel = levelReq;
 
         // Defense
         if (bStats.naturalSet) stats.naturalSet = bStats.naturalSet;
@@ -635,7 +638,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
         stats.armoredIncrease += bStats.armoredIncrease;
 
         // Health
-        if (cOpt.system.tier === 'novice' && benefit.levelReq === 1) stats.healthStarting = bStats.healthStarting;
+        if (cOpt.system.tier === 'novice' && levelReq === 1) stats.healthStarting = bStats.healthStarting;
         stats.healthIncrease += bStats.healthIncrease;
 
         // Other stats
@@ -643,13 +646,19 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
         if (bStats.speedNormal) stats.speedNormal = bStats.speedNormal;
         stats.speedIncrease += bStats.speedIncrease;
         stats.bonusDamage += bStats.bonusDamage;
+
+        // List entry changes
+        for (const [listKey, list] of Object.entries(listEntries)) {
+          console.log(lists[listKey])
+          if (!lists[listKey]) lists[listKey] = list;
+          else if (list.length) lists[listKey] = new Set([...lists[listKey], ...list]);
+        }
       }
     }
 
+    const changes = [];
     // Prepare changes for effect data
     // TODO: Use imported preset data instead
-    const changes = [];
-    
     if (stats.naturalSet) changes.push({
       preset: 'defense.natural',
       key: 'system.stats.defense.natural',
@@ -720,6 +729,18 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       value: stats.bonusDamage,
       type: "add"
     })
+
+    // Add list entry changes
+    for (const [listKey, list] of Object.entries(lists)) {
+      for (const entryKey of list) {
+        changes.push({
+          preset: `${listKey}.add`,
+          key: `system.listEntries.${listKey}`,
+          value: entryKey,
+          type: "add"
+        })
+      }
+    }
     
     // Create effect data object
     const eff = this.effects.find(e => { return e.system.grantedBy === cOpt.uuid });
