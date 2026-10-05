@@ -198,17 +198,43 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     return (async () => {
       const baseEntries = this.system.listEntries;
       const listEntries = {};
+      
+      // Filter effects relevant to list entries
+      const effects = this.appliedEffects.filter(e => {
+        const changes = e.system.changes;
+        const filtered = changes.filter(c => c.key.startsWith('system.listEntries.') && c.type === "add");
 
+        return filtered.length;
+      })
+
+      // Reduce data to relevant bits
+      const mapped = effects.map(e => ({
+        uuid: e.uuid,
+        changes: e.system.changes.map(c => ({
+          key: c.key.replace('system.listEntries.', ''),
+          value: c.value
+        }))
+      }));
+      
+      // Loop through lists
       for (const [listKey, list] of Object.entries(baseEntries)) {
         listEntries[listKey] = [];
         
+        // Loop through entries
         for (const entryKey of list) {
           const entryData = await game.weirdwizard.utils.inferDataFromKey(listKey, entryKey);
+          const relevantEffs = mapped.filter(e => e.changes.some(c => c.key === listKey));
+          
+          if (relevantEffs.length) {
+            for (const effect of relevantEffs) {
+              if (effect.changes.findLast(c => c.key === listKey)) entryData.grantedBy = effect.uuid;
+            }
+          }
 
           listEntries[listKey].push(entryData);
         }
       }
-      
+
       return listEntries;
     })();
   }
