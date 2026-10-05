@@ -582,9 +582,8 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     if (cOption.type === 'tradition') return;
     if (cOption.type === 'ancestry' && source === 'levelChange') return;
     
-    // Handle char option's main effect, granted list entries and granted items
+    // Handle char option's main effect, list entries included
     await this._updateMainEffect(uuid);
-    await this._updateGrantedEntries(uuid);
 
     // Only grant items to professions if it's a drop and no other professions exist
     if (cOption.type === 'profession') {
@@ -649,7 +648,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
         // List entry changes
         for (const [listKey, list] of Object.entries(listEntries)) {
-          console.log(lists[listKey])
           if (!lists[listKey]) lists[listKey] = list;
           else if (list.length) lists[listKey] = new Set([...lists[listKey], ...list]);
         }
@@ -747,7 +745,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     const effectData = {
       name: currentLevel ? _loc('WW.CharOption.BenefitEffectName', {name: cOpt.name, level: currentLevel}) : cOpt.name,
-      icon: cOpt.src,
+      img: cOpt.src,
       type: 'benefit',
       description: cOpt.text.content,
 
@@ -802,108 +800,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     // Create items on actor
     return await this.createEmbeddedDocuments("Item", itemsArr);
 
-  }
-
-  /* -------------------------------------------- */
-
-  async _updateGrantedEntries(uuid) {
-    console.warn('trying to add list entries. do this by the main active effect instead!')
-    /*const cOption = await fromUuid(uuid);
-
-    if (!cOption) return ;
-
-    const benefits = cOption.system.benefits,
-    listEntries = this.system.listEntries,
-    level = this.system.stats.level;
-
-    // Get list entries granted by the character option existing on the actor
-    const grantedEntries = this._entriesToGrant(uuid);
-    
-    // Create newEntries to store the updated list entries
-    const newEntries = {
-      descriptors: listEntries.descriptors,
-      immunities: listEntries.immunities,
-      languages: listEntries.languages,
-      movementTraits: listEntries.movementTraits,
-      senses: listEntries.senses,
-      traditions: listEntries.traditions
-    };
-
-    // Loop through each benefit
-    for (const b in benefits) {
-
-      const benefit = benefits[b];
-      
-      // If level does not meet the requirement, ignore it
-      if (level >= benefit.levelReq) {
-        if (benefit.descriptors) newEntries.descriptors = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'descriptors');
-        
-        if (benefit.immunities) newEntries.immunities = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'immunities');
-
-        if (benefit.languages) newEntries.languages = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'languages');
-
-        if (benefit.movementTraits) newEntries.movementTraits = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'movementTraits');
-
-        if (benefit.senses) newEntries.senses = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'senses');
-
-        if (benefit.traditions) newEntries.traditions = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'traditions');
-        
-      }
-      
-    }
-    
-    // Update actor with new listEntries object
-    const obj = {...await listEntries, ... newEntries };
-    
-    await this.updateSource({['system.listEntries']: obj });*/
-  }
-
-  /* -------------------------------------------- */
-
-  async _addEntries(uuid, grantedEntries, newEntries, benefit, listName) {
-    console.warn('trying to add list entries. do this by the main active effect instead!')
-    /*const list = {...benefit[listName]};
-    
-    // For each entry
-    for (const entryId in list) {
-      const entry = list[entryId];
-      
-      // Store the character option's UUID in grantedBy
-      entry.grantedBy = uuid;
-
-      // If entry with the same key is found, delete the entry from the list object
-      if (Object.keys(await grantedEntries[listName]).find(e => e === entryId)) {
-        delete await list[entryId];
-      }
-
-    };*/
-    
-    // Add entries to newEntries object
-    //if (Object.keys(await list).length) newEntries[listName] = newEntries[listName] ? { ...await list, ...newEntries[listName] } : list;
-    //return await list;
-  }
-
-  /* -------------------------------------------- */
-
-  _entriesToGrant(uuid) {
-    console.warn('trying to grant list entries. do this by the main active effect instead!')
-    /*const entries = this.system.listEntries;
-
-    const objFilter = list => Object
-      .fromEntries(Object.entries(entries[list])
-    .filter(([k, v]) => v?.grantedBy === uuid ));
-
-    const obj = {
-      descriptors: objFilter('descriptors'),
-      immunities: objFilter('immunities'),
-      languages: objFilter('languages'),
-      movementTraits: objFilter('movementTraits'),
-      senses: objFilter('senses')
-    }
-
-    if (this.type === 'character') obj.traditions = objFilter('traditions');
-
-    return obj;*/
   }
 
   /* -------------------------------------------- */
