@@ -9,7 +9,7 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
  * Extend FormApplication to make windows to display a compendium more neatly
  * @extends {ApplicationV2}
 */
-export class ListEntryConfig extends HandlebarsApplicationMixin(ApplicationV2) {
+export default class ListEntryConfig extends HandlebarsApplicationMixin(ApplicationV2) {
   static DEFAULT_OPTIONS = {
     tag: 'form',
     classes: ['weirdwizard', 'list-entry-config'],
@@ -17,7 +17,9 @@ export class ListEntryConfig extends HandlebarsApplicationMixin(ApplicationV2) {
       icon: 'fa-solid fa-list',
       resizable: true
     },
-    actions: {},
+    actions: {
+      replaceKey: this.#onReplaceEntryKey
+    },
     position: {
       width: 400
     },
@@ -99,6 +101,16 @@ export class ListEntryConfig extends HandlebarsApplicationMixin(ApplicationV2) {
   }
 
   /* -------------------------------------------- */
+  /*  Actions                                     */
+  /* -------------------------------------------- */
+
+  static async #onReplaceEntryKey(event, button) {
+    const dataset = Object.assign({}, button.dataset);
+    console.log(button)
+    console.log(dataset)
+  }
+
+  /* -------------------------------------------- */
   /*  Form handling                               */
   /* -------------------------------------------- */
 
@@ -126,7 +138,7 @@ export class ListEntryConfig extends HandlebarsApplicationMixin(ApplicationV2) {
    */
   static async #onSubmit(event, form, formData) {
     const {view, searchQuery, sourceCompendia, ...filters} = formData.object;
-    console.loog(formData.object)
+    console.log(formData.object)
     /*this.view = view;
     this.searchQuery = searchQuery;
     this.searchFilters = filters;

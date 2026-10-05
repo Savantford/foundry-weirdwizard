@@ -7,7 +7,7 @@ import {
   sum
 } from '../../helpers/utils.mjs';
 import WWDialog from '../../apps/dialog.mjs';
-import { ListEntryConfig } from '../../apps/list-entry-config.mjs';
+import ListEntryConfig from '../../apps/list-entry-config.mjs';
 import WWSheetMixin from '../ww-sheet.mjs';
 
 // Similar syntax to importing, but note that
@@ -447,6 +447,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
         },
       ]
     });
+
+    new ListEntryConfig
 
     // Return if cancelled
     if (!dialogInput) return;

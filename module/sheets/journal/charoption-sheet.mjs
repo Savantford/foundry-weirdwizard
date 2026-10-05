@@ -1,5 +1,5 @@
 import WWDialog from "../../apps/dialog.mjs";
-import { ListEntryConfig } from "../../apps/list-entry-config.mjs";
+import ListEntryConfig from "../../apps/list-entry-config.mjs";
 import { defaultListEntryKey, defaultListEntryName, inferDataFromKey } from "../../helpers/utils.mjs";
 import WWSheetMixin from "../ww-sheet.mjs";
 

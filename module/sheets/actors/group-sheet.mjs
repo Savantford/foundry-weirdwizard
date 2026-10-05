@@ -1,7 +1,4 @@
-import { defaultListEntryKey, defaultListEntryName } from '../../helpers/utils.mjs';
-import { ListEntryConfig } from '../../apps/list-entry-config.mjs';
 import WWActorSheet from './base-actor-sheet.mjs';
-import WWDialog from '../../apps/dialog.mjs';
 
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import

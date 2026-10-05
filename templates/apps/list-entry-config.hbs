@@ -36,8 +36,8 @@
 
   <ol class="permissions-list">
     {{#each list as |entry key|}}
-    <li class="draggable form-group" data-entry-key="{{key}}" data-entry-name="{{localize entry.name}}"
-      data-tooltip="{{entry.desc}}">
+    <li class="draggable form-group" data-action="replaceKey" data-entry-key="{{key}}"
+      data-entry-name="{{localize entry.name}}" data-tooltip="{{entry.desc}}">
       {{localize entry.name}}
     </li>
     {{/each}}
