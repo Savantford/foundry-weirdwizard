@@ -5170,18 +5170,6 @@ details.document-card .card-header:hover::after {
     width: auto;
     font-size: inherit;
   }
-
-  .form-footer {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 5px;
-
-    button {
-      flex: 1;
-    }
-  }
 }
 
 /* Use Activity App */

@@ -25,12 +25,12 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   }
 
   static DEFAULT_OPTIONS = {
-    tag: 'form',
     classes: ['weirdwizard', 'activity-use'],
     window: {
-      //title: this.title,
       icon: 'fa-regular fa-dice-d20',
-      resizable: true
+      resizable: true,
+      contentTag: "form",
+      contentClasses: ["standard-form"]
     },
     actions: {
       // Roll actions
