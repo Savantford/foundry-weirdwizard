@@ -421,13 +421,15 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     const entryData = await inferDataFromKey(listKey, entryKey);
     
     // Prepare entry context
-    const entry = {
-      ...entryData,
-      key: entryKey ?? defaultListEntryKey(set, listKey),
-      name: entryData.name ?? defaultListEntryName(set, listKey),
-      grantedBy: null,
-      showKey: true
+    const context = {
+      listKey: listKey,
+      entryKey: entryKey,
+      entry: entryData
     };
+
+    // New Config
+    const config = new ListEntryConfig(context).render();
+    console.log(config)
 
     // Show a dialog 
     const dialogInput = await WWDialog.input({
@@ -435,7 +437,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
         icon: "fa-solid fa-edit",
         title: 'WW.Settings.Entry.Edit',
       },
-      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', entry),
+      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
       ok: {
         label: 'WW.System.Dialog.Save',
         icon: 'fa-solid fa-save'
@@ -447,8 +449,6 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
         },
       ]
     });
-
-    new ListEntryConfig
 
     // Return if cancelled
     if (!dialogInput) return;

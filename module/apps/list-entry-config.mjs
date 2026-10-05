@@ -41,7 +41,7 @@ export default class ListEntryConfig extends HandlebarsApplicationMixin(Applicat
 
   constructor(options = {}) {
     super(options); // This is required for the constructor to work
-    
+    console.log(options)
     // Record important data
     this.entryKey = this.options.entryKey;
     this.settingKey = 'available' + capitalize(this.options.listKey, 1);
