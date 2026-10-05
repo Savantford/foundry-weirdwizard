@@ -1,6 +1,6 @@
 import WWDialog from "../../apps/dialog.mjs";
 import ListEntryConfig from "../../apps/list-entry-config.mjs";
-import { defaultListEntryKey, defaultListEntryName, inferDataFromKey } from "../../helpers/utils.mjs";
+import { inferDataFromKey } from "../../helpers/utils.mjs";
 import WWSheetMixin from "../ww-sheet.mjs";
 
 const JournalEntryPageHandlebarsSheet = foundry.applications.sheets.journal.JournalEntryPageHandlebarsSheet;
@@ -341,7 +341,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
   static async #onEntryEdit(event, button) {
     const dataset = Object.assign({}, button.dataset);
 
-    await this._updateEntry(dataset);
+    await this._updateEntry(dataset, dataset.entryKey);
   }
 
   /* -------------------------------------------- */
@@ -353,45 +353,27 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     const entryData = await inferDataFromKey(listKey, entryKey);
     
     // Prepare entry context
-    const entry = {
-      ...entryData,
-      key: entryKey ?? defaultListEntryKey(set, listKey),
-      name: entryData.name ?? defaultListEntryName(set, listKey),
-      grantedBy: null,
-      showKey: true
+    const context = {
+      listKey: listKey,
+      entryKey: entryKey,
+      entry: entryData
     };
 
-    // Show a dialog 
-    const dialogInput = await WWDialog.input({
-      window: {
-        icon: "fa-solid fa-edit",
-        title: 'WW.Settings.Entry.Edit',
-      },
-      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', entry),
-      ok: {
-        label: 'WW.System.Dialog.Save',
-        icon: 'fa-solid fa-save'
-      },
-      buttons: [
-        {
-          label: 'WW.System.Dialog.Cancel',
-          icon: 'fa-solid fa-xmark'
-        },
-      ]
-    });
+    // Open Config app
+    const configKey = await ListEntryConfig.wait(context);
 
-    // Return if cancelled
-    if (!dialogInput) return;
+    // Return if app is cancelled
+    if (!configKey) return;
 
-    // Return with warning if the key is missing
-    if (!dialogInput.key) return ui.notifications.warn(_loc('WW.Settings.Entry.EditWarning'));
+    // Return with warning if the key is missing (Not possible anymore?)
+    if (!configKey) return ui.notifications.warn(_loc('WW.Settings.Entry.EditWarning'));
 
-    // Update key and value with dialogInput
-    set.add(dialogInput.key);
+    // Add key provided by the app to the set
+    set.add(configKey);
 
-    // Delete old entry if key changed
-    if (dialogInput.key !== entryKey) set.delete(entryKey);
-    
+    // Delete old key if it's changed
+    if (configKey !== entryKey) set.delete(entryKey);
+
     await this.document.update({ [fullPath]: set });
   }
 

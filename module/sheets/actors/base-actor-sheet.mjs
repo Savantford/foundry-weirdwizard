@@ -419,7 +419,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   static async #onEntryEdit(event, button) {
     const dataset = Object.assign({}, button.dataset);
 
-    this._updateEntry(dataset, dataset.entryKey);
+    this._updateEntry(dataset);
   }
 
   /* -------------------------------------------- */
