@@ -415,7 +415,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   async _updateEntry(dataset) {
     const { listKey, entryKey } = dataset;
     const fullPath = 'system.listEntries.' + listKey;
-    const set = new Set(foundry.utils.getProperty(this.document, '_source.' + fullPath));
+    const set = new Set(foundry.utils.getProperty(this.document._source, fullPath));
     const entryData = await inferDataFromKey(listKey, entryKey);
     
     // Prepare entry context
@@ -425,22 +425,22 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       entry: entryData
     };
 
-    // New Config
+    // Open Config app
     const configKey = await ListEntryConfig.wait(context);
 
-    // Return if cancelled
+    // Return if app is cancelled
     if (!configKey) return;
 
-    // Return with warning if the key is missing
+    // Return with warning if the key is missing (Not possible anymore?)
     if (!configKey) return ui.notifications.warn(_loc('WW.Settings.Entry.EditWarning'));
 
-    // Update key and value with dialogInput
+    // Add key provided by the app to the set
     set.add(configKey);
-
-    // Delete old entry if key changed
+    
+    // Delete old key if it's changed
     if (configKey !== entryKey) set.delete(entryKey);
     
-    this.document.update({ [fullPath]: set });
+    await this.document.update({ [fullPath]: set });
   }
 
   /* -------------------------------------------- */
@@ -455,12 +455,12 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     const { listKey, entryKey } = button.dataset;
     const fullPath = 'system.listEntries.' + listKey;
     const values = [...foundry.utils.getProperty(this.document._source, fullPath)];
-
+    
     // Splice off the entry
-    values.findSplice(v => v === entryKey);
-
+    await values.findSplice(v => v === entryKey);
+    
     // Update document
-    this.document.update({ [fullPath]: values });
+    await this.document.update({ [fullPath]: values });
   }
 
   /* -------------------------------------------- */
