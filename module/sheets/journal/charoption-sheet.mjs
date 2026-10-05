@@ -25,7 +25,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
       entryCreate: this.#onEntryCreate,
       entryEdit: this.#onEntryEdit,
       entryRemove: this.#onEntryRemove,
-      entrySettings: this.#onListEntryConfig,
+      entrySettings: this.#onDisplayEntryList,
 
       refEdit: this.#onRefEdit,
       refRemove: this.#onRefRemove
@@ -408,11 +408,11 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
    * @param {HTMLElement} button   The button element originating the click event
    * @private
   */
-  static #onListEntryConfig(event, button) {
+  static #onDisplayEntryList(event, button) {
     const dataset = Object.assign({}, button.dataset),
     listKey = dataset.listKey;
     
-    new ListEntryConfig({ listKey }).render(true);
+    new ListEntryConfig({ listKey, settingsOnly: true }).render(true);
   }
 
   /* -------------------------------------------- */
