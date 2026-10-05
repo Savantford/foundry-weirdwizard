@@ -1,7 +1,5 @@
 import {
   capitalize,
-  defaultListEntryKey,
-  defaultListEntryName,
   inferDataFromKey,
   plusify,
   sum

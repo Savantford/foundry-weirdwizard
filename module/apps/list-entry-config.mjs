@@ -51,7 +51,8 @@ export default class ListEntryConfig extends HandlebarsApplicationMixin(Applicat
   /* -------------------------------------------- */
 
   static PARTS = {
-    form: { template: 'systems/weirdwizard/templates/apps/list-entry-config.hbs' }
+    form: { template: 'systems/weirdwizard/templates/apps/list-entry-config.hbs' },
+    buttons: { template: 'templates/generic/form-footer.hbs' }
   }
 
   /* -------------------------------------------- */
@@ -69,7 +70,11 @@ export default class ListEntryConfig extends HandlebarsApplicationMixin(Applicat
     const context = {
       listTitle: _loc(`WW.Settings.${capitalize(listKey, 1)}.EntryType`),
       listName: _loc(`WW.Settings.${capitalize(listKey, 1)}.Name`),
-      list: this.setting
+      list: this.setting,
+      buttons: [
+        {type: "submit", icon: "fa-solid fa-save", label: "WW.System.Dialog.Save"},
+        {type: "button", action: "close", icon: "fa-solid fa-xmark", label: "WW.System.Dialog.Cancel"}
+      ]
     }
 
     // Add entry data preview

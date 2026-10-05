@@ -3569,6 +3569,7 @@ input[type="checkbox"].checkbox-uses {
   gap: 3px;
   color: var(--body-text-color);
   text-indent: 0;
+  z-index: 1;
 }
 
 .weirdwizard .buttons {
