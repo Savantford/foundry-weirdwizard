@@ -1,4 +1,6 @@
 <section>
+  {{!-- Entry Section --}}
+  {{#unless settingsOnly}}
   {{!-- Entry Key --}}
   <input type="text" name="key" placeholder="{{localize "WW.Settings.Entry.Key"}}" value="{{ entry.key }}" required>
 
@@ -30,6 +32,7 @@
     {{{ entry.grantedBy }}}
   </div>
   {{/if}}
+  {{/unless}}
   
   {{!-- List Heading --}}
   <h6>
@@ -43,7 +46,7 @@
   {{!-- List --}}
   <ol class="entries-list">
     {{#each list as |entry key|}}
-    <li class="draggable form-group {{#if (eq key @root.entry.key)}}selected{{/if}}" data-action="replaceKey" data-entry-key="{{key}}"
+    <li class="draggable form-group {{#if (eq key @root.selectedKey)}}selected{{/if}}" data-action="replaceKey" data-entry-key="{{key}}"
       data-entry-name="{{localize entry.name}}" data-tooltip="{{entry.desc}}">
       {{localize entry.name}}
     </li>

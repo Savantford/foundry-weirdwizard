@@ -997,6 +997,7 @@
 "WW.Settings.Entry.SetNotification": "Default set of entries added.",
 "WW.Settings.Entry.Edit": "Edit Entry",
 "WW.Settings.Entry.EditWarning": "The entry is missing an ID/key and/or a name. Please provide both.",
+"WW.Settings.Entry.Available": "Available Entries",
 "WW.Settings.Entry.Remove": "Remove Entry",
 "WW.Settings.Entry.RemoveDialog.Msg": "Are you sure you want to remove the entry?",
 "WW.Settings.Entry.Key": "Setting Key, UUID, Status Effect ID, or Plain Text",

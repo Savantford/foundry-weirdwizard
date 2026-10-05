@@ -37,7 +37,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       entryCreate: this.#onEntryCreate,
       entryEdit: this.#onEntryEdit,
       entryRemove: this.#onEntryRemove,
-      entrySettings: this.#onListEntryConfig,
+      entrySettings: this.#onDisplayEntryList,
 
       itemCreate: this.#onItemCreate,
       itemEdit: this.#onItemEdit,
@@ -466,16 +466,16 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   /* -------------------------------------------- */
 
   /**
-   * Handle removing an element from an array
+   * Display a ListEntryConfig instance with only settings shown.
    * @param {Event} event          The originating click event
    * @param {HTMLElement} button   The button element originating the click event
    * @private
   */
-  static #onListEntryConfig(event, button) {
+  static #onDisplayEntryList(event, button) {
     const dataset = Object.assign({}, button.dataset),
     listKey = dataset.listKey;
     
-    new ListEntryConfig({ listKey: listKey }).render(true);
+    new ListEntryConfig({ listKey, settingsOnly: true }).render(true);
   }
 
   /* -------------------------------------------- */

@@ -14,7 +14,6 @@ export default class ListEntryConfig extends HandlebarsApplicationMixin(Applicat
     classes: ['weirdwizard', 'list-entry-config'],
     window: {
       icon: 'fa-solid fa-list',
-      title: "WW.Settings.Entry.Edit",
       resizable: true,
       contentTag: "form",
       contentClasses: ["standard-form"]
@@ -43,6 +42,13 @@ export default class ListEntryConfig extends HandlebarsApplicationMixin(Applicat
 
   /* -------------------------------------------- */
 
+  /** @override */
+  get title() {
+    return _loc(this.options.settingsOnly ? "WW.Settings.Entry.Available" : "WW.Settings.Entry.Edit");
+  }
+
+  /* -------------------------------------------- */
+
   static PARTS = {
     form: { template: 'systems/weirdwizard/templates/apps/list-entry-config.hbs' },
     buttons: { template: 'templates/generic/form-footer.hbs' }
@@ -64,6 +70,8 @@ export default class ListEntryConfig extends HandlebarsApplicationMixin(Applicat
       listTitle: _loc(`WW.Settings.${capitalize(listKey, 1)}.EntryType`),
       listName: _loc(`WW.Settings.${capitalize(listKey, 1)}.Name`),
       list: this.setting,
+      settingsOnly: this.options.settingsOnly ?? false,
+      selectedKey: this.options.settingsOnly ? null : this.entryKey,
       buttons: [
         {type: "submit", icon: "fa-solid fa-save", label: "WW.System.Dialog.Save"},
         {type: "button", action: "close", icon: "fa-solid fa-xmark", label: "WW.System.Dialog.Cancel"}
