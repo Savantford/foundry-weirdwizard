@@ -5421,6 +5421,15 @@ details.document-card .card-header:hover::after {
     li:hover {
       background: var(--pink);
     }
+
+    li.selected {
+      background: none;
+      border-image-source: url(../assets/ui/plates/single-transparent-thick.svg);
+      border-image-slice: 118 fill;
+      border-image-width: 5px;
+      color: var(--purple-dark);
+      font-weight: 600;
+    }
   }
 }
 

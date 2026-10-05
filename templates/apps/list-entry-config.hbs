@@ -31,18 +31,22 @@
   </div>
   {{/if}}
   
-  {{!-- List --}}
-  <h6>{{ listName }}</h6>
+  {{!-- List Heading --}}
+  <h6>
+    {{!-- List Name --}}
+    {{ listName }}
 
-  <ol class="permissions-list">
+    {{!-- List Instructions --}}
+    <i class="fa-solid fa-question-circle smaller info" data-tooltip="{{{localize "WW.Settings.Entry.DisplayInstructions"}}}"></i>
+  </h6>
+
+  {{!-- List --}}
+  <ol class="entries-list">
     {{#each list as |entry key|}}
-    <li class="draggable form-group" data-action="replaceKey" data-entry-key="{{key}}"
+    <li class="draggable form-group {{#if (eq key @root.entry.key)}}selected{{/if}}" data-action="replaceKey" data-entry-key="{{key}}"
       data-entry-name="{{localize entry.name}}" data-tooltip="{{entry.desc}}">
       {{localize entry.name}}
     </li>
     {{/each}}
   </ol>
-
-  {{!-- List Instructions --}}
-  <div>{{{localize "WW.Settings.Entry.DisplayInstructions"}}}</div>
 </section>

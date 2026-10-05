@@ -14,6 +14,7 @@ export default class ListEntryConfig extends HandlebarsApplicationMixin(Applicat
     classes: ['weirdwizard', 'list-entry-config'],
     window: {
       icon: 'fa-solid fa-list',
+      title: "WW.Settings.Entry.Edit",
       resizable: true,
       contentTag: "form",
       contentClasses: ["standard-form"]
@@ -27,15 +28,6 @@ export default class ListEntryConfig extends HandlebarsApplicationMixin(Applicat
     form: {
       handler: ListEntryConfig.#onSubmit
     }
-  }
-
-  /* -------------------------------------------- */
-
-  /** @override */
-  get title() {
-    const type = this.options.listKey;
-    
-    return _loc(`WW.Settings.${capitalize(type, 1)}.Name`);
   }
 
   /* -------------------------------------------- */
@@ -112,8 +104,9 @@ export default class ListEntryConfig extends HandlebarsApplicationMixin(Applicat
 
   static async #onReplaceKey(event, button) {
     const dataset = Object.assign({}, button.dataset);
-    console.log(button)
-    console.log(dataset)
+    
+    this.entryKey = dataset.entryKey;
+    this.render()
   }
 
   /* -------------------------------------------- */
