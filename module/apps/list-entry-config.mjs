@@ -18,13 +18,13 @@ export default class ListEntryConfig extends HandlebarsApplicationMixin(Applicat
       resizable: true
     },
     actions: {
-      replaceKey: this.#onReplaceEntryKey
+      replaceKey: ListEntryConfig.#onReplaceKey
     },
     position: {
       width: 400
     },
     form: {
-      handler: this.#onSubmit
+      handler: ListEntryConfig.#onSubmit
     }
   }
 
@@ -41,7 +41,7 @@ export default class ListEntryConfig extends HandlebarsApplicationMixin(Applicat
 
   constructor(options = {}) {
     super(options); // This is required for the constructor to work
-    console.log(options)
+    
     // Record important data
     this.entryKey = this.options.entryKey;
     this.settingKey = 'available' + capitalize(this.options.listKey, 1);
@@ -104,14 +104,34 @@ export default class ListEntryConfig extends HandlebarsApplicationMixin(Applicat
   /*  Actions                                     */
   /* -------------------------------------------- */
 
-  static async #onReplaceEntryKey(event, button) {
+  static async #onReplaceKey(event, button) {
     const dataset = Object.assign({}, button.dataset);
     console.log(button)
     console.log(dataset)
   }
 
   /* -------------------------------------------- */
-  /*  Form handling                               */
+  /*  Lifecycle & Form handling                   */
+  /* -------------------------------------------- */
+
+  #resolvers = Promise.withResolvers();
+
+  get promise() { return this.#resolvers.promise; };
+
+  /* -------------------------------------------- */
+
+  /**
+   * Create an Activity app instance and wait for it to be closed or confirmed.
+   * @param config
+   * @returns {Promise<any>}
+   */
+
+  static async wait(options) {
+    const app = new this(options);
+    app.render(true);
+    return app.promise;
+  }
+
   /* -------------------------------------------- */
 
   /**
@@ -137,19 +157,15 @@ export default class ListEntryConfig extends HandlebarsApplicationMixin(Applicat
    * @returns {Promise<void>}
    */
   static async #onSubmit(event, form, formData) {
-    const {view, searchQuery, sourceCompendia, ...filters} = formData.object;
-    console.log(formData.object)
-    /*this.view = view;
-    this.searchQuery = searchQuery;
-    this.searchFilters = filters;
+    this.#resolvers.resolve(this.entryKey);
+    this.close();
+  }
 
-    // Update full document data if it does not exist
-    if (sourceCompendia !== this.sourceCompendia) {
-      this.sourceCompendia = sourceCompendia;
-      await this._updateFullDocumentData(sourceCompendia);
-    }
-    
-    return this.render();*/
+  /* -------------------------------------------- */
+
+  /** @override */
+  _onClose(options) {
+    this.#resolvers.resolve(null);
   }
 
   /* -------------------------------------------- */

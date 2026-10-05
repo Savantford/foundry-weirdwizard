@@ -428,39 +428,19 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     };
 
     // New Config
-    const config = new ListEntryConfig(context).render();
-    console.log(config)
-
-    // Show a dialog 
-    const dialogInput = await WWDialog.input({
-      window: {
-        icon: "fa-solid fa-edit",
-        title: 'WW.Settings.Entry.Edit',
-      },
-      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
-      ok: {
-        label: 'WW.System.Dialog.Save',
-        icon: 'fa-solid fa-save'
-      },
-      buttons: [
-        {
-          label: 'WW.System.Dialog.Cancel',
-          icon: 'fa-solid fa-xmark'
-        },
-      ]
-    });
+    const configKey = await ListEntryConfig.wait(context);
 
     // Return if cancelled
-    if (!dialogInput) return;
+    if (!configKey) return;
 
     // Return with warning if the key is missing
-    if (!dialogInput.key) return ui.notifications.warn(_loc('WW.Settings.Entry.EditWarning'));
+    if (!configKey) return ui.notifications.warn(_loc('WW.Settings.Entry.EditWarning'));
 
     // Update key and value with dialogInput
-    set.add(dialogInput.key);
+    set.add(configKey);
 
     // Delete old entry if key changed
-    if (dialogInput.key !== entryKey) set.delete(entryKey);
+    if (configKey !== entryKey) set.delete(entryKey);
     
     this.document.update({ [fullPath]: set });
   }
