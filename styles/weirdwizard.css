@@ -4413,8 +4413,8 @@ input[type="checkbox"].checkbox-uses {
 
 /* Dialog Buttons */
 
-.weirdwizard.dialog .form-footer button,
-.weirdwizard.dialog .form-footer button.default,
+.weirdwizard .form-footer button,
+.weirdwizard .form-footer button.default,
 .weirdwizard.roll-table-sheet .form-footer > button,
 #multi-choice .mc-buttons button,
 .activity-use .window-content button,
@@ -4443,7 +4443,7 @@ input[type="checkbox"].checkbox-uses {
   margin-top: 5px;
 }
 
-.weirdwizard.dialog .form-footer button.default,
+.weirdwizard .form-footer button.default,
 .activity-use .window-content button[aria-pressed=true] {
   filter: drop-shadow(0 0 0px var(--control-active-border-color)) drop-shadow(0 0 0px var(--control-active-border-color));
 }
@@ -4460,8 +4460,8 @@ input[type="checkbox"].checkbox-uses {
   }
 }
 
-.weirdwizard.dialog .form-footer button:hover,
-.weirdwizard.dialog .form-footer button:focus,
+.weirdwizard .form-footer button:hover,
+.weirdwizard .form-footer button:focus,
 .weirdwizard.roll-table-sheet .form-footer > button:hover,
 .weirdwizard.roll-table-sheet .form-footer > button:focus,
 #multi-choice .mc-buttons button:hover,

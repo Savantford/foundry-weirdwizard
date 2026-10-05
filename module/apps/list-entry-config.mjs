@@ -11,11 +11,12 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
 */
 export default class ListEntryConfig extends HandlebarsApplicationMixin(ApplicationV2) {
   static DEFAULT_OPTIONS = {
-    tag: 'form',
     classes: ['weirdwizard', 'list-entry-config'],
     window: {
       icon: 'fa-solid fa-list',
-      resizable: true
+      resizable: true,
+      contentTag: "form",
+      contentClasses: ["standard-form"]
     },
     actions: {
       replaceKey: ListEntryConfig.#onReplaceKey
