@@ -128,6 +128,7 @@
 "WW.ListEntry.Preview": "Preview",
 "WW.ListEntry.WorldSetting": "World Setting",
 "WW.ListEntry.StatusEffect": "Affliction or Other Status Effect",
+"WW.ListEntry.NoMatch": "No match found",
 "WW.ListEntry.DisplayList": "Check the list of available entries",
 "WW.ListEntry.DisplayInstructions": "Hover an entry to see its description.<br>Drag an entry and drop it on a Character or NPC sheet to add it to them.",
 
