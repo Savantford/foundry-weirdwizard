@@ -1820,7 +1820,6 @@ body.theme-dark.application.weirdwizard .window-content {
 
 /* Equipment Sheet */
 .weirdwizard.equipment {
-
   .weapon-traits {
     width: 100%;
 
@@ -1860,6 +1859,11 @@ body.theme-dark.application.weirdwizard .window-content {
     input[type="number"] {
       --input-text-color: inherit;
     }
+  }
+
+  .list-entries {
+    flex-flow: nowrap;
+    gap: 0;
   }
 }
 

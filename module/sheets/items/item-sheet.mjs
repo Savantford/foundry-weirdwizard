@@ -4,6 +4,7 @@ import {
   createInstantEffect, deleteInstantEffect, editInstantEffect,
   prepareItemEffectCategories
 } from '../../helpers/effect-actions.mjs';
+import { inferDataFromKey } from '../../helpers/utils.mjs';
 import WWSheetMixin from '../ww-sheet.mjs';
 
 // Similar syntax to importing, but note that
@@ -267,6 +268,10 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         context.tab = context.tabs[partId];
         
         context.detailsPartial = [`systems/weirdwizard/templates/sheets/items/details/${this.item.type}.hbs`];
+
+        // Add Tradition data for Spells
+        if (this.item.type === 'spell') context.traditionData = await inferDataFromKey('traditions', this.item.system.tradition);
+        console.log(context.traditionData)
       break;
 
       // Automation tab
@@ -633,9 +638,9 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
    * @protected
    */
   async _onDrop(event) {
-    const data = TextEditor.implementation.getDragEventData(event);
+    const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
     const actor = this.actor;
-    const allowed = Hooks.call("dropActorSheetData", actor, this, data);
+    const allowed = Hooks.call("dropItemSheetData", actor, this, data);
     if ( allowed === false ) return;
 
     // Dropped Documents
@@ -646,4 +651,35 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     }
   }
 
+  /* -------------------------------------------- */
+
+  /**
+   * @override
+   * Handle a dropped document on the ItemSheet
+   * @template {Document} TDocument
+   * @param {DragEvent} event         The initiating drop event
+   * @param {TDocument} document       The resolved Document class
+   * @returns {Promise<TDocument|null>} A Document of the same type as the dropped one in case of a successful result,
+   *                                    or null in case of failure or no action being taken
+   * @protected
+   */
+  async _onDropDocument(event, document) {
+    switch (document.documentName) {
+      case "ActiveEffect": return await this._onDropActiveEffect(event, document);
+      case "JournalEntryPage": return await this._onDropJournalEntryPage(event, document);
+      default: null;
+    }
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle a dropped document on the ItemSheet
+   * @param {DragEvent} event             The initiating drop event
+   * @param {JournalEntryPage} page       The resolved JournalEntryPage class
+   * @protected
+   */
+  async _onDropJournalEntryPage(event, page) {
+    if (this.item.type === 'spell' && page.type === 'tradition') await this.item.update({ 'system.tradition': page.uuid });
+  }
 }

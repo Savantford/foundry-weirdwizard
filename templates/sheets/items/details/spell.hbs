@@ -14,7 +14,13 @@
       <label>{{localize "WW.Spell.Tradition"}}:</label>
 
       <input type="text" name="system.tradition" value="{{system.tradition}}"
-        placeholder="{{localize "WW.Spell.Tradition"}}" data-dtype="String" />
+        placeholder="Drop for UUID or Plain Text" data-dtype="String" />
+      {{log traditionData}}
+      {{#if traditionData._id}}
+      <ol class="list-entries">
+        ({{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=traditionData listKey="traditions" loc="Tradition" isEditMode=@root.isEditMode }})
+      </ol>
+      {{/if}}
     </div>
   
   </div>
