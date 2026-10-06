@@ -1,4 +1,4 @@
-import { capitalize, plusify, sysPath } from "../helpers/utils.mjs";
+import { capitalize, inferDataFromKey, plusify, sysPath } from "../helpers/utils.mjs";
 
 /**
  * A mixin which extends each Document definition with specialized client-side behaviors.
@@ -288,7 +288,7 @@ export default function WWDocumentMixin(base) {
 
             case 'spell':
               context.subtitle = _loc(CONFIG.WW.SPELL_TIERS[this.system.tier]);
-              if (this.system.tradition) context.subtitle += ` • ${this.system.tradition}`;
+              if (this.system.tradition) context.subtitle += ` • ${(await inferDataFromKey('traditions', this.system.tradition)).name}`;
             break;
           }
           
