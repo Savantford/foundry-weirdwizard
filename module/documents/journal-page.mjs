@@ -57,7 +57,7 @@ export default class WWJournalPage extends WWDocumentMixin(foundry.documents.Jou
     if (this.isProfession && changes.system?.category !== this.system.category && (this.src === 'icons/svg/book.svg' || this.src.includes('systems/weirdwizard/assets/icons/professions'))) {
       await this._onProfessionCategoryChange(await changes);
     }
-    console.log(changes)
+    
     return await super._preUpdate(changes, options, user);
   }
 

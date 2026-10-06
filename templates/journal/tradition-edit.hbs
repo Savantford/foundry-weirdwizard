@@ -1,5 +1,4 @@
 <div class="journal-page-content edit-mode scrollable">
-
   {{!-- Image Wrapper --}}
   <div class="image-wrapper">
     {{!-- Image Preview --}}
@@ -22,48 +21,42 @@
   
   {{!-- Benefits Section --}}
   <section class="benefits-section weirdwizard">
-
+    {{!-- Talents Heading --}}
     <h5>{{localize "WW.Tradition.Talents"}}</h5>
-
+    
     {{!-- Talents --}}
     <div class="benefit-block">
-      
       <ol class="described-list items-area talents">
-        
-        {{!-- Populate Spells --}}
         {{#each talents as |item id|}}
           {{> "systems/weirdwizard/templates/journal/parts/item-reference.hbs" item=item }}
-        {{else}}{{{@root.itemsAreaHint}}}
+        {{else}}
+          {{{@root.itemsAreaHint}}}
         {{/each}}
-
       </ol>
-
     </div>
   
-    {{!-- Spells --}}
+    {{!-- Spells Heading --}}
     {{#each spells as |tier tierKey|}}
     <h2>
-      {{#if (eq tierKey 'master')}}{{localize "WW.Spells.Master"}}
-      {{else if (eq tierKey 'expert')}}{{localize "WW.Spells.Expert"}}
-      {{else}}{{localize "WW.Spells.Novice"}}
+      {{#if (eq tierKey 'master')}}
+        {{localize "WW.Spells.Master"}}
+      {{else if (eq tierKey 'expert')}}
+        {{localize "WW.Spells.Expert"}}
+      {{else}}
+        {{localize "WW.Spells.Novice"}}
       {{/if}}
     </h2>
 
+    {{!-- Spells --}}
     <div class="benefit-block">
-      
       <ol class="described-list items-area spells {{tierKey}}">
-        
-        {{!-- Populate Spells --}}
         {{#each tier as |item id|}}
           {{> "systems/weirdwizard/templates/journal/parts/item-reference.hbs" item=item }}
-        {{else}}{{{../itemsAreaHint}}}
+        {{else}}
+          {{{../itemsAreaHint}}}
         {{/each}}
-
       </ol>
-
     </div>
     {{/each}}
-
   </section>
-
 </div>

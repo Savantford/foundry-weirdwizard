@@ -191,9 +191,8 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
 
     // Prepare Traditions
     if (this.isTradition) {
-
       // Prepare talents
-      const talents = this.page.system.talents;
+      const talents = [... this.page.system.talents];
       context.talents = [];
       
       for (const t in talents) {
@@ -212,12 +211,10 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
         expert: [],
         master: [],
       };
-
-      for (const tier in spells) {
-        const list = spells[tier];
-        
-        for (const s in list) {
-          const spell = await fromUuid(list[s]);
+      
+      for (const [tier, list] of Object.entries(spells)) {
+        for (const spellUuid of [... list]) {
+          const spell = await fromUuid(spellUuid);
 
           // Prepare enriched variables for editor
           spell.system.descriptionEnriched = await TextEditor.enrichHTML(spell.system.description, { secrets: spell.isOwner, relativeTo: spell });
