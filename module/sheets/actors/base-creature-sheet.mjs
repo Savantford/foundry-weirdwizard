@@ -243,11 +243,16 @@ export default class WWCreatureSheet extends WWActorSheet {
     `);
 
     context.cOptionRemoveTips = CONFIG.WW.CHARACTER_OPTION_REMOVE_TOOLTIPS;
+    
+    // Prepare Effect Senses data
+    const sensesData = this.actor.appliedEffects
+      .filter(e => e.type === 'sense')
+      .map(async s => await inferDataFromKey('senses', s.uuid));
 
-    // Prepare character data
+    context.effectSenses = await Promise.all(sensesData);
+
+    // Prepare Type specific data
     if (actorData.type == 'character') await this._prepareCharacterData(context);
-
-    // Prepare NPC data
     if (actorData.type == 'npc') await this._prepareNPCData(context);
     
     return context;
@@ -266,12 +271,6 @@ export default class WWCreatureSheet extends WWActorSheet {
       // Summmary tab
       case 'summary':
         context.tab = context.tabs[partId];
-      
-        const sensesData = this.actor.appliedEffects
-          .filter(e => e.type === 'sense')
-          .map(async s => await inferDataFromKey('senses', s.uuid));
-        
-        context.effectSenses = await Promise.all(sensesData);
       break;
       
       // Details tab

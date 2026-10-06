@@ -65,16 +65,23 @@
                 {{/if}}
 
                 {{!-- Senses --}}
-                {{#if listEntries.senses.length}}
+                {{#if (or effectSenses.length listEntries.senses.length)}}
                 <ol class="stat-inline list-entries">
                     <label>{{localize "WW.ListEntry.Sense.Label"}}:</label>
                 
-                    {{#each listEntries.senses as |entry key|}}
-                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="senses" loc="Sense" isEditMode=@root.isEditMode }}
-                    {{else}}
-                        <span>—</span>
+                    {{!-- Add Effect Senses --}}
+                    {{#each effectSenses as |entry|}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="senses" loc="Sense" isEditMode=false }}
                     {{/each}}
 
+                    {{!-- Add Effect Senses --}}
+                    {{#each listEntries.senses as |entry key|}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="senses" loc="Sense" isEditMode=@root.isEditMode }}
+                    {{/each}}
+
+                    {{#unless (or effectSenses.length listEntries.senses.length)}}
+                        <span>—</span>
+                    {{/unless}}
                 </ol>
                 {{/if}}
 
