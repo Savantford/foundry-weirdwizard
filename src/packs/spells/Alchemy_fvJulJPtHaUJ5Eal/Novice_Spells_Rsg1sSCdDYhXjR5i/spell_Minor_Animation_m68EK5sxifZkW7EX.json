@@ -30,7 +30,7 @@
       "value": 5
     },
     "tier": "novice",
-    "tradition": "",
+    "tradition": "Compendium.weirdwizard.character-options.JournalEntry.gCfd9YYqPSviAzcZ.JournalEntryPage.70veH57gcE0VBLgY",
     "casting": "",
     "target": "<p>One unsecured Size 1/4 to Size 1 object within 5 yards</p>",
     "duration": "<p>1 minute</p>",
@@ -46,11 +46,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "14.367",
+    "coreVersion": "14.368",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744752491747,
-    "modifiedTime": 1788967760390,
+    "modifiedTime": 1791305168790,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

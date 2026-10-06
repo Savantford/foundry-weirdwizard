@@ -27,7 +27,7 @@
       "value": 5
     },
     "tier": "novice",
-    "tradition": "",
+    "tradition": "Compendium.weirdwizard.character-options.JournalEntry.gCfd9YYqPSviAzcZ.JournalEntryPage.HK03KrrWON5B1I2I",
     "casting": "",
     "target": "<p>One line-shaped space, up to 10 yards wide, 10 yards tall, and 1 yard thick originating from a point within 10 yards</p>",
     "duration": "<p>1 minute</p>",
@@ -43,12 +43,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.368",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744750463828,
-    "modifiedTime": 1769707524501,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1791305116782,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!4FXlMHoT51yodTvB"

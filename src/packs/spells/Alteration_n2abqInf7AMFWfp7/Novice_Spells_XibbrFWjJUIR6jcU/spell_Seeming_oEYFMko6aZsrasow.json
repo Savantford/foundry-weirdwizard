@@ -31,7 +31,7 @@
       "value": 5
     },
     "tier": "novice",
-    "tradition": "",
+    "tradition": "Compendium.weirdwizard.character-options.JournalEntry.gCfd9YYqPSviAzcZ.JournalEntryPage.kvOZ8HE2wRQBJ19J",
     "casting": "",
     "target": "<p>Up to five creatures all inside a Size 5 space within 5 yards</p>",
     "duration": "<p>8 hours</p>",
@@ -47,11 +47,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "14.367",
+    "coreVersion": "14.368",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744753091754,
-    "modifiedTime": 1788974858127,
+    "modifiedTime": 1791305197569,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

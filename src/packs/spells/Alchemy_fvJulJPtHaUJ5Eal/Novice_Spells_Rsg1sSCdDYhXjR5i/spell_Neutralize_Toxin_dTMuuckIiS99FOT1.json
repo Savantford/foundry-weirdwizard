@@ -30,7 +30,7 @@
       "value": 5
     },
     "tier": "novice",
-    "tradition": "",
+    "tradition": "Compendium.weirdwizard.character-options.JournalEntry.gCfd9YYqPSviAzcZ.JournalEntryPage.70veH57gcE0VBLgY",
     "casting": "",
     "target": "<p>One Size 1 creature or object within 5 yards</p>",
     "duration": "<p>Instantaneous</p>",
@@ -46,11 +46,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "14.367",
+    "coreVersion": "14.368",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744752738820,
-    "modifiedTime": 1788968236962,
+    "modifiedTime": 1791305166514,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

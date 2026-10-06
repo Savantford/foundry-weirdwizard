@@ -27,7 +27,7 @@
       "value": 5
     },
     "tier": "novice",
-    "tradition": "",
+    "tradition": "Compendium.weirdwizard.character-options.JournalEntry.gCfd9YYqPSviAzcZ.JournalEntryPage.kvOZ8HE2wRQBJ19J",
     "casting": "",
     "target": "<p>You</p>",
     "duration": "<p>1 hour</p>",
@@ -59,7 +59,7 @@
           },
           {
             "preset": "speed.override",
-            "value": "4",
+            "value": 4,
             "key": "system.stats.speed.override",
             "type": "override",
             "phase": "initial",
@@ -75,7 +75,7 @@
           },
           {
             "preset": "custom",
-            "value": "true",
+            "value": true,
             "key": "token.ring.enabled",
             "type": "override",
             "phase": "initial",
@@ -119,12 +119,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.368",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744753050264,
-    "modifiedTime": 1769707643311,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1791305199699,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!KtyXN7Jl1SXTpi4t"

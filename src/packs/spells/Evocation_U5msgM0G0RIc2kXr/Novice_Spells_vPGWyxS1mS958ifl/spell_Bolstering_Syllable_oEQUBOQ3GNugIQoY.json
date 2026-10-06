@@ -31,7 +31,7 @@
       "value": 5
     },
     "tier": "novice",
-    "tradition": "",
+    "tradition": "Compendium.weirdwizard.character-options.JournalEntry.gCfd9YYqPSviAzcZ.JournalEntryPage.KZedvVcL6smdZYSv",
     "casting": "<p>1 at level 1, 2 at level 3, or 4 at level 7, on your turn, no action required when you lack the confused, controlled, stunned, and unconscious afflictions</p>",
     "target": "<p>Each creature in a Size 3 space centered on you if you whisper, a Size 10 space if you speak, or a Size 60 space if you shout</p>",
     "duration": "<p>Instantaneous</p>",
@@ -58,7 +58,7 @@
         "changes": [
           {
             "preset": "boons.str",
-            "value": "1",
+            "value": 1,
             "key": "system.boons.selfRoll.str",
             "type": "add",
             "phase": "initial",
@@ -66,7 +66,7 @@
           },
           {
             "preset": "boons.agi",
-            "value": "1",
+            "value": 1,
             "key": "system.boons.selfRoll.agi",
             "type": "add",
             "phase": "initial",
@@ -74,7 +74,7 @@
           },
           {
             "preset": "boons.int",
-            "value": "1",
+            "value": 1,
             "key": "system.boons.selfRoll.int",
             "type": "add",
             "phase": "initial",
@@ -82,7 +82,7 @@
           },
           {
             "preset": "boons.wil",
-            "value": "1",
+            "value": 1,
             "key": "system.boons.selfRoll.wil",
             "type": "add",
             "phase": "initial",
@@ -126,11 +126,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "14.367",
+    "coreVersion": "14.368",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744753564513,
-    "modifiedTime": 1788975373594,
+    "modifiedTime": 1791305235491,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

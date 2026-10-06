@@ -30,7 +30,7 @@
       "value": 5
     },
     "tier": "novice",
-    "tradition": "",
+    "tradition": "Compendium.weirdwizard.character-options.JournalEntry.gCfd9YYqPSviAzcZ.JournalEntryPage.kKhnTv8MYMRCngXK",
     "casting": "",
     "target": "<p>One empty Size 1 space on the ground within 5 yards</p>",
     "duration": "<p>1 hour</p>",
@@ -49,11 +49,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "14.367",
+    "coreVersion": "14.368",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744754665585,
-    "modifiedTime": 1788979910256,
+    "modifiedTime": 1791305275041,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

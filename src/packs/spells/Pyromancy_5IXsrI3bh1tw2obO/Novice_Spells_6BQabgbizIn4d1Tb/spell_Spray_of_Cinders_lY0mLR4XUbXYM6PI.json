@@ -37,7 +37,7 @@
       "value": 5
     },
     "tier": "novice",
-    "tradition": "",
+    "tradition": "Compendium.weirdwizard.character-options.JournalEntry.gCfd9YYqPSviAzcZ.JournalEntryPage.nSMBWCwJHnNXmI3I",
     "casting": "<p>1, reaction when a creature within 5 yards attacks you</p>",
     "target": "<p>The creature that enabled the casting of this spell</p>",
     "duration": "<p>Instantaneous</p>",
@@ -53,11 +53,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "14.367",
+    "coreVersion": "14.368",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744756183084,
-    "modifiedTime": 1788984164456,
+    "modifiedTime": 1791305347303,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

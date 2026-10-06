@@ -27,7 +27,7 @@
       "value": 5
     },
     "tier": "novice",
-    "tradition": "",
+    "tradition": "Compendium.weirdwizard.character-options.JournalEntry.gCfd9YYqPSviAzcZ.JournalEntryPage.nSMBWCwJHnNXmI3I",
     "casting": "<p>3, reaction when you move 1 yard</p>",
     "target": "<p>You</p>",
     "duration": "<p>Instantaneous</p>",
@@ -43,11 +43,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "14.367",
+    "coreVersion": "14.368",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744756149870,
-    "modifiedTime": 1788983988307,
+    "modifiedTime": 1791305352589,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

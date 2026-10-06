@@ -30,7 +30,7 @@
       "value": 5
     },
     "tier": "novice",
-    "tradition": "",
+    "tradition": "Compendium.weirdwizard.character-options.JournalEntry.gCfd9YYqPSviAzcZ.JournalEntryPage.sbhX08THvJjU4p4m",
     "casting": "",
     "target": "<p>One flesh-and-blood creature within 5 yards</p>",
     "duration": "<p>Instantaneous</p>",
@@ -46,11 +46,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "14.367",
+    "coreVersion": "14.368",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744755239936,
-    "modifiedTime": 1788982250471,
+    "modifiedTime": 1791305329227,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

@@ -31,7 +31,7 @@
       "value": 5
     },
     "tier": "novice",
-    "tradition": "",
+    "tradition": "Compendium.weirdwizard.character-options.JournalEntry.gCfd9YYqPSviAzcZ.JournalEntryPage.rWvyRNRLAgRMHPKL",
     "casting": "<p>1, reaction when you get a success on a roll to attack</p>",
     "target": "<p>Each enemy inside one Size 5 space centered on you other than the target of the attack that enabled the casting of this spell</p>",
     "duration": "<p>Instantaneous</p>",
@@ -47,11 +47,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "14.367",
+    "coreVersion": "14.368",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744756873660,
-    "modifiedTime": 1788984860508,
+    "modifiedTime": 1791305387875,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },

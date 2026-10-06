@@ -30,7 +30,7 @@
       "value": 5
     },
     "tier": "novice",
-    "tradition": "",
+    "tradition": "Compendium.weirdwizard.character-options.JournalEntry.gCfd9YYqPSviAzcZ.JournalEntryPage.KZedvVcL6smdZYSv",
     "casting": "<p>1 at level 1, 2 at level 3, or 4 at level 7, on your turn, no action required when you lack the confused, controlled, stunned, and unconscious afflictions</p>",
     "target": "<p>Each creature in a Size 3 space centered on you if you whisper, a Size 10 space if you speak, or a Size 60 space if you shout</p>",
     "duration": "<p>Instantaneous</p>",
@@ -49,11 +49,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "14.367",
+    "coreVersion": "14.368",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744753725072,
-    "modifiedTime": 1788975405660,
+    "modifiedTime": 1791305230026,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
