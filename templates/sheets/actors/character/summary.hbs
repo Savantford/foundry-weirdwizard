@@ -192,12 +192,20 @@
                 {{!-- Senses --}}
                 <ol class="stat-inline list-entries">
                     <label>{{localize "WW.ListEntry.Sense.Label"}}:</label>
-                
+                    
+                    {{!-- Add Effect Senses --}}
+                    {{#each effectSenses as |entry|}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="senses" loc="Sense" isEditMode=@root.isEditMode }}
+                    {{/each}}
+
+                    {{!-- Add Effect Senses --}}
                     {{#each listEntries.senses as |entry key|}}
                         {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="senses" loc="Sense" isEditMode=@root.isEditMode }}
-                    {{else}}
-                        <span>—</span>
                     {{/each}}
+
+                    {{#unless (or effectSenses.length listEntries.senses.length)}}
+                        <span>—</span>
+                    {{/unless}}
 
                     {{#if isEditMode}}
                     <span class="buttons">

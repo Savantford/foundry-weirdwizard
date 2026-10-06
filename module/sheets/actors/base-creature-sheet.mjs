@@ -1,4 +1,4 @@
-import { escape, plusify, slideDown, slideUp } from '../../helpers/utils.mjs';
+import { escape, inferDataFromKey, plusify, slideDown, slideUp } from '../../helpers/utils.mjs';
 import { diceTotalHtml } from '../../sidebar/chat-html-templates.mjs';
 import { mapRange } from '../../canvas/canvas-functions.mjs';
 import MultiChoice from '../../apps/multi-choice.mjs';
@@ -266,6 +266,12 @@ export default class WWCreatureSheet extends WWActorSheet {
       // Summmary tab
       case 'summary':
         context.tab = context.tabs[partId];
+      
+        const sensesData = this.actor.appliedEffects
+          .filter(e => e.type === 'sense')
+          .map(async s => await inferDataFromKey('senses', s.uuid));
+        
+        context.effectSenses = await Promise.all(sensesData);
       break;
       
       // Details tab
