@@ -27,18 +27,6 @@
                 <a class="help-button" data-action="journalHelp" data-tooltip="WW.System.Documentation"><i class="fa-solid fa-circle-question"></i></a>
             </span>
         {{/if}}
-
-        {{!-- Legacy Traditions --}}
-        {{#if listEntries.traditions.length}}
-        <ol class="stat-inline list-entries">(
-            <label>Legacy, Delete:</label>
-        
-            {{#each listEntries.traditions as |entry|}}
-                {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="traditions" loc="Tradition" isEditMode=@root.isEditMode }}
-            {{/each}}
-        
-        )</ol>
-        {{/if}}
     </ol>
 
     {{!-- Spells Table --}}
