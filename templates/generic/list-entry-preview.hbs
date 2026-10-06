@@ -1,0 +1,20 @@
+<span class="list-entry">
+    {{!-- Name --}}
+    <a class="array-button" data-action="entryEdit" data-list-key="{{listKey}}" data-list-path="{{listPath}}"
+        data-entry-key="{{entry.key}}" data-tooltip="{{entry.desc}}">
+        {{localize entry.name}}
+    </a>
+    
+    {{!-- Indicator --}}
+    {{#if (eq entry.matchedAs 'charOption')}}
+    <i class="fa-solid fa-user-tag indicator success info" data-tooltip="{{localize "WW.CharOption.Label"}}"></i>
+    {{else if (eq entry.matchedAs 'document')}}
+    <i class="fa-solid fa-passport indicator success info" data-tooltip="{{localize "DOCUMENT.Document"}}"></i>
+    {{else if (eq entry.matchedAs 'statusEffect')}}
+    <i class="fa-solid fa-skull indicator success info" data-tooltip="{{localize "WW.ListEntry.StatusEffect"}}"></i>
+    {{else if (eq entry.matchedAs 'setting')}}
+    <i class="fa-solid fa-globe indicator success info" data-tooltip="{{localize "WW.ListEntry.WorldSetting"}}"></i>
+    {{else}}
+    <i class="fa-solid fa-xmark indicator failure info" data-tooltip="No match"></i>
+    {{/if}}
+</span>

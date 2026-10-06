@@ -52,7 +52,10 @@
             <div>{{localize "WW.Item.Tier"}}</div>
             <div>{{localize "WW.Spell.Tradition"}}</div>
             <div class="item-controls">
-                <a class="item-control item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Spell" data-type="spell"><i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}</a>
+                <a class="item-control item-create" data-action="itemCreate" data-tooltip="WW.Item.Create.Spell" data-type="spell">
+                    <i class="fa-solid fa-plus"></i>
+                    {{localize "WW.Item.Create.Label"}}
+                </a>
             </div>
         </li>
         
@@ -94,12 +97,17 @@
                 </div>
                 {{/if}}
             </div>
-
+            
+            {{!-- Tier --}}
             <div>{{localize (lookup @root.tiers item.system.tier)}}</div>
-            <div>{{item.system.tradition}}</div>
 
+            {{!-- Tradition --}}
+            <ol class="list-entries align-center">
+                {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=item.system.traditionData listKey="traditions" loc="Tradition" isEditMode=@root.isEditMode }}
+            </ol>
+
+            {{!-- Control Buttons --}}
             <div class="item-controls">
-
                 {{!-- Scroll Button --}}
                 {{#if item.system.description}}
                     <a class="item-button" data-action="itemScroll" data-item-id="{{item._id}}"
@@ -114,7 +122,6 @@
 
                 {{!-- Remove Button --}}
                 <a class="item-button" data-action="itemRemove" data-item-id="{{item._id}}" data-tooltip="WW.Item.Remove.Spell"><i class="fa-solid fa-trash"></i></a>
-
             </div>
         </li>
         {{/each}}

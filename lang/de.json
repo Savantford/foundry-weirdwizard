@@ -932,8 +932,8 @@
 "WW.Settings.Entry.Key": "ID/Schlüssel (benötigt)",
 "WW.Settings.Entry.Name": "Name (benötigt)",
 "WW.Settings.Entry.Description": "Beschreibung (optional)",
-"WW.Settings.Entry.DisplayList": "Check the list of available entries",
-"WW.Settings.Entry.DisplayInstructions": "Hover an entry to see its description.<br>Drag an entry and drop it on a Character or NPC sheet to add it to them.",
+"WW.ListEntry.DisplayList": "Check the list of available entries",
+"WW.ListEntry.DisplayInstructions": "Hover an entry to see its description.<br>Drag an entry and drop it on a Character or NPC sheet to add it to them.",
 
 "WW.Settings.Languages.EntryType": "Sprachen",
 "WW.Settings.Languages.Name": "Für Wesen verfügbare Sprachen",

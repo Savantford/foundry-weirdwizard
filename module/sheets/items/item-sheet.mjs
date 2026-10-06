@@ -73,7 +73,8 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         'systems/weirdwizard/templates/sheets/items/header.hbs',
         'systems/weirdwizard/templates/sheets/items/details/equipment.hbs',
         'systems/weirdwizard/templates/sheets/items/details/talent.hbs',
-        'systems/weirdwizard/templates/sheets/items/details/spell.hbs'
+        'systems/weirdwizard/templates/sheets/items/details/spell.hbs',
+        'systems/weirdwizard/templates/generic/list-entry-preview.hbs'
       ],
     },
     automation: {
@@ -271,7 +272,6 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
 
         // Add Tradition data for Spells
         if (this.item.type === 'spell') context.traditionData = await inferDataFromKey('traditions', this.item.system.tradition);
-        console.log(context.traditionData)
       break;
 
       // Automation tab

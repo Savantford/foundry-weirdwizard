@@ -6617,13 +6617,15 @@ p {
 
 .weirdwizard .chat-failure,
 .weirdwizard .red,
-.weirdwizard .forced-icon.failure {
+.weirdwizard .forced-icon.failure,
+.weirdwizard .indicator.failure {
   color: #a51700;
   filter: brightness(0) saturate(100%) invert(10%) sepia(91%) saturate(6105%) hue-rotate(20deg) brightness(86%) contrast(100%);
 }
 
 .weirdwizard .chat-success,
-.weirdwizard .forced-icon.success {
+.weirdwizard .forced-icon.success,
+.weirdwizard .indicator.success {
   color: #006920;
   filter: brightness(0) saturate(100%) invert(21%) sepia(98%) saturate(1358%) hue-rotate(119deg) brightness(93%) contrast(101%);
 }

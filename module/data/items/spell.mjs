@@ -2,7 +2,6 @@ import { makeBooField, makeHtmlField, makeIntField, makeRequiredStrField, makeSt
 import BaseItemModel from './base-item.mjs';
 
 export default class SpellModel extends BaseItemModel {
-
   static defineSchema() {
     const fields = foundry.data.fields;
     const schema = super.defineSchema();
@@ -29,7 +28,6 @@ export default class SpellModel extends BaseItemModel {
    * @inheritDoc
    */
   static migrateData(source) {
-    
     // Validate range
     if ('range' in source && isNaN(source.range)) source.range = 0;
 
@@ -45,21 +43,4 @@ export default class SpellModel extends BaseItemModel {
 
     return super.migrateData(source);
   }
-
-  /**
-   * Determine whether the item is destroyed.
-   * @type {boolean}
-   */
-  get destroyed() {
-    const invulnerable = CONFIG.specialStatusEffects.INVULNERABLE;
-    if ( this.parent.effects.some(e => e.statuses.has('invulnerable') )) return false;
-    return this.health.value <= this.health.min;
-  }
-
-  /* The defined destroyed property could then be accessed on any Actor document of the item type as follows:
-
-  // Determine if a item is destroyed.
-  game.actors.getName('character').system.destroyed;
-  */
-
 }

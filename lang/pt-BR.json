@@ -943,8 +943,8 @@
 "WW.Settings.Entry.Key": "ID/Key (Obrigatório)",
 "WW.Settings.Entry.Name": "Nome (Obrigatório)",
 "WW.Settings.Entry.Description": "Descrição (Opcional)",
-"WW.Settings.Entry.DisplayList": "Lista",
-"WW.Settings.Entry.DisplayInstructions": "Passe o mouse sobre um item para ver sua descrição.<br>Arraste e solte um item na ficha do Personagem/NPC para adicioná-lo.",
+"WW.ListEntry.DisplayList": "Lista",
+"WW.ListEntry.DisplayInstructions": "Passe o mouse sobre um item para ver sua descrição.<br>Arraste e solte um item na ficha do Personagem/NPC para adicioná-lo.",
 
 "WW.Settings.Languages.EntryType": "Idiomas",
 "WW.Settings.Languages.Name": "Idiomas",

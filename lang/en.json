@@ -125,6 +125,11 @@
 "WW.Reset.Confirm": "Do you really want to reset the sheet?",
 
 "WW.ListEntry.DefaultName": "Unnamed",
+"WW.ListEntry.Preview": "Preview",
+"WW.ListEntry.WorldSetting": "World Setting",
+"WW.ListEntry.StatusEffect": "Affliction or Other Status Effect",
+"WW.ListEntry.DisplayList": "Check the list of available entries",
+"WW.ListEntry.DisplayInstructions": "Hover an entry to see its description.<br>Drag an entry and drop it on a Character or NPC sheet to add it to them.",
 
 "WW.ListEntry.Descriptor.Label": "Descriptors",
 "WW.ListEntry.Descriptor.None": "No Descriptor",
@@ -603,6 +608,7 @@
 
 "WW.CharOptions.JournalEntryWarning": "You are trying to drag and drop a Journal Entry. If you wanted to drag a Character Option, make sure to drag a PAGE from the Journal Entry's hierarchy!",
 
+"WW.CharOption.Label": "Character Option",
 "WW.CharOption.Description": "Description",
 "WW.CharOption.Benefits": "Benefits",
 "WW.CharOption.BenefitEffectName": "{name} (Level {level})",
@@ -1001,9 +1007,6 @@
 "WW.Settings.Entry.Remove": "Remove Entry",
 "WW.Settings.Entry.RemoveDialog.Msg": "Are you sure you want to remove the entry?",
 "WW.Settings.Entry.Key": "Setting Key, UUID, Status Effect ID, or Plain Text",
-"WW.Settings.Entry.Preview": "Preview",
-"WW.Settings.Entry.DisplayList": "Check the list of available entries",
-"WW.Settings.Entry.DisplayInstructions": "Hover an entry to see its description.<br>Drag an entry and drop it on a Character or NPC sheet to add it to them.",
 
 "WW.Settings.Languages.EntryType": "Language",
 "WW.Settings.Languages.Name": "Languages Available to Creatures",

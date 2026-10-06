@@ -282,6 +282,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       // Append to spells.
       else if (i.type === 'spell') {
         i.label = i.name;
+        i.system.traditionData = await inferDataFromKey('traditions', i.system.tradition);
         spells.push(i);
       }
 

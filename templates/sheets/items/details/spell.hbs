@@ -15,10 +15,10 @@
 
       <input type="text" name="system.tradition" value="{{system.tradition}}"
         placeholder="Drop for UUID or Plain Text" data-dtype="String" />
-      {{log traditionData}}
-      {{#if traditionData._id}}
+      
+      {{#if traditionData.matchedAs}}
       <ol class="list-entries">
-        ({{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=traditionData listKey="traditions" loc="Tradition" isEditMode=@root.isEditMode }})
+        ({{> "systems/weirdwizard/templates/generic/list-entry-preview.hbs" entry=traditionData listKey="traditions" loc="Tradition" isEditMode=@root.isEditMode }})
       </ol>
       {{/if}}
     </div>
