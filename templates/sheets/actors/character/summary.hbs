@@ -1,8 +1,6 @@
 <section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
-    
     {{!-- Paths --}}
     <h5 class="descriptors stat-inline list-entries">
-
         {{!-- Novice Path --}}
         <div class="list-entry">
             {{#if charOptions.novice}}
@@ -91,31 +89,28 @@
             <a class="help-button" data-action="journalHelp" data-tooltip="WW.System.Documentation"><i class="fa-solid fa-circle-question"></i></a>
         </span>
         {{/if}}
-
     </h5>
     
     {{!-- Summary --}}
     <div class="summary flex-1 auto-grid-2">
-
         {{!-- Left Column --}}
         <div class="statbox">
-
-            <h5 class="statbox-header">
-                
-                {{!-- Ancestry, Descriptors --}}
+            {{!-- Ancestry, Descriptors --}}
+            <h5 class="statbox-header descriptors">
+                {{!-- Ancestry --}}
                 <ol class="list-entries statbox-ancestry">
-                    
-                    {{!-- Ancestry --}}
                     {{#if charOptions.ancestry}}
                         {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=charOptions.ancestry isEditMode=isEditMode }}
                     {{else}}
                         <span>—</span>
                     {{/if}}
+                </ol>
                     
-                    {{!-- Separator --}}
-                    {{#if (or isEditMode listEntries.descriptors.length)}}<div>●</div>{{/if}}
+                {{!-- Separator --}}
+                {{#if (or isEditMode listEntries.descriptors.length)}}<div>●</div>{{/if}}
 
-                    {{!-- Descriptors --}}
+                {{!-- Descriptors --}}
+                <ol class="list-entries">
                     {{#each listEntries.descriptors as |entry|}}
                         {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="descriptors" loc="Descriptor" isEditMode=@root.isEditMode }}
                     {{else}}
@@ -131,13 +126,11 @@
                             data-tooltip="WW.ListEntry.DisplayList"><i class="fa-solid fa-list"></i></a>
                     </span>
                     {{/if}}
-                    
                 </ol>
-
             </h5>
 
+            {{!-- Stats & List Entries --}}
             <div class="statbox-section stats">
-
                 {{!-- Size, Speed --}}
                 <ol class="stat-inline list-entries movement-traits">
 
@@ -258,10 +251,10 @@
                 
             </div>
 
+            {{!-- Attacks/Weapons --}}
             <h6>{{localize "WW.Attack.Plural"}}</h6>
             
             <div class="statbox-section attacks">
-
                 {{!-- Bonus Damage --}}
                 {{#if system.stats.bonusdamage}}
                 <div class="stat">
@@ -279,17 +272,15 @@
                     </ol>
                 </div>
             </div>
-
         </div>
 
         {{!-- Right Column --}}
         <div class="statbox">
-
-            {{!-- Talents --}}
+            {{!-- Traits & Talents --}}
             <h6>{{localize "WW.Talents.Label"}}</h6>
 
             <div class="statbox-section talents">
-
+                {{!-- Talents --}}
                 <ol class="compact-list stat">
                     {{#each talents as |item id|}}
                         {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-item.hbs" item=item id=id}}
@@ -324,7 +315,6 @@
             <h6>{{localize "WW.Spells.Label"}}</h6>
 
             <div class="statbox-section spells">
-
                 {{!-- Traditions --}}
                 <ol class="stat-inline mb-1 list-entries">
                     <label>{{localize "WW.Tradition.Label"}}:</label>
@@ -342,13 +332,8 @@
                         {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-item.hbs" item=item id=id}}
                     {{/each}}
                 </ol>
-                
-
             </div>
             {{/if}}
-            
         </div>
-
     </div>
-
 </section>
