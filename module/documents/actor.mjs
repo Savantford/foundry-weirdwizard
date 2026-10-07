@@ -827,40 +827,8 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     
     // Delete items granted by the Character Option
     this.deleteEmbeddedDocuments('Item', ids);
-
-    /* Granted List Entries */
-
-    // Get list entries granted by the character option existing on the actor
-    const newEntries = this._removeEntriesGrantedBy(uuid);
-
-    // Update actor with new listEntries
-    await this.update({['system.listEntries']: newEntries});
     
     ui.notifications.info(`${cOption.name}'s benefits were cleared from the actor.`);
-  }
-
-  /* -------------------------------------------- */
-
-  _removeEntriesGrantedBy(uuid) {
-    console.warn('outdated list entries granting')
-    const oldEntries = this.system.listEntries;
-    
-    const objFilter = list => Object
-      .fromEntries(Object.entries(oldEntries[list])
-      .filter(([k, v]) => v?.grantedBy === uuid )
-    .map(([k]) => [k, new foundry.data.operators.ForcedDeletion()]));
-    
-    const newEntries = {
-      descriptors: objFilter('descriptors'),
-      immunities: objFilter('immunities'),
-      languages: objFilter('languages'),
-      movementTraits: objFilter('movementTraits'),
-      senses: objFilter('senses')
-    }
-
-    if (this.type === 'character') newEntries.traditions = objFilter('traditions');
-
-    return newEntries;
   }
 
   /* -------------------------------------------- */
