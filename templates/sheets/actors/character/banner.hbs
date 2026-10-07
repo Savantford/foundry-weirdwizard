@@ -55,7 +55,6 @@
     
         {{!-- Damage / Health Widget --}}
         <div class="health-wrapper">
-    
             {{!-- Numbers: Top Layer --}}
             <div class="health-numbers">
                 {{!-- Damage --}}
@@ -72,6 +71,35 @@
                     <input type="number" name="system.stats.health.current" value="{{system.stats.health.current}}" min="0"
                         data-dtype="Number" {{~#if system.stats.health.temp}}disabled{{/if}}/>
     
+                </div>
+            </div>
+            
+            {{!-- Buttons --}}
+            <div class="health-buttons">
+                {{!-- Damage / Healing --}}
+                <div class="damage">
+                    {{!-- Healing --}}
+                    <a class="button" data-action="openApply" data-operation="healing" data-tooltip="WW.InstantEffect.Heal">
+                        <i class="fa-regular fa-circle-plus"></i>
+                    </a>
+
+                    {{!-- Damage --}}
+                    <a class="button" data-action="openApply" data-operation="damage" data-tooltip="WW.InstantEffect.Damage">
+                        <i class="fa-regular fa-circle-minus"></i>
+                    </a>
+                </div>
+
+                {{!-- Health --}}
+                <div class="health">
+                    {{!-- Health Regain --}}
+                    <a class="button" data-action="openApply" data-operation="healthRegain" data-tooltip="WW.InstantEffect.HealthRegain">
+                        <i class="fa-regular fa-circle-plus"></i>
+                    </a>
+
+                    {{!-- Health Loss --}}
+                    <a class="button" data-action="openApply" data-operation="healthLoss" data-tooltip="WW.InstantEffect.HealthLose">
+                        <i class="fa-regular fa-circle-minus"></i>
+                    </a>                    
                 </div>
             </div>
     

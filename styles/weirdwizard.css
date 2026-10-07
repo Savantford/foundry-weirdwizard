@@ -2206,6 +2206,45 @@ body.theme-dark.application.weirdwizard .window-content {
   padding: 0;
 }
 
+.weirdwizard .health-buttons {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--health-number-width);
+  z-index: 2;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+  opacity: 0;
+
+  > * {
+    display: flex;
+    flex-flow: column;
+    gap: 3px;
+
+    a.button {
+      background: none;
+      border: none;
+      padding: 0;
+      height: 1lh;
+      min-height: auto;
+      pointer-events: all;
+
+      i {
+        font-weight: 500;
+        color: white;
+        text-shadow: 0 0 2px var(--purple-dark), 0 0 2px var(--purple-dark), 0 0 2px var(--purple-dark), 0 0 2px var(--purple-dark);
+      }
+    }
+  }
+}
+
+.weirdwizard .health-wrapper:hover .health-buttons {
+  opacity: 1;
+}
+
 .weirdwizard .health-wrapper .stat {
   width: var(--health-number-width);
   height: var(--sheet-input-height);
