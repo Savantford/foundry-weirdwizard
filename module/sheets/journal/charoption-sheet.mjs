@@ -293,7 +293,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
 
     // Convert Size fraction to number
     const benefitPath = 'system.benefits.benefit1';
-
+    
     if (ut.hasProperty(formData, `${benefitPath}.sizeFraction`)) {
       const sizeNum = game.weirdwizard.utils.fractionToNumber(ut.getProperty(formData, `${benefitPath}.sizeFraction`));
       ut.setProperty(formData, `${benefitPath}.stats.sizeNormal`, sizeNum);
