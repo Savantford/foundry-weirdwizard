@@ -149,6 +149,32 @@ changePresets.reduceAttribute = {
   wil: subInt()
 }
 
+/* List Entries */
+changePresets.descriptors = {
+  add: addInt(),
+  remove: subInt()
+}
+
+changePresets.immunities = {
+  add: addInt(),
+  remove: subInt()
+}
+
+changePresets.languages = {
+  add: addInt(),
+  remove: subInt()
+}
+
+changePresets.movementTraits = {
+  add: addInt(),
+  remove: subInt()
+}
+
+changePresets.senses = {
+  add: addInt(),
+  remove: subInt()
+}
+
 /* -------------------------------------------- */
 /*  Simplified Change Data making functions     */
 /* -------------------------------------------- */

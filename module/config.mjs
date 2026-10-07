@@ -932,6 +932,72 @@ WW.EFFECT_CHANGE_PRESET_DATA = {
       }
     }
   },
+  /* List Entries */
+  descriptors: {
+    header: "WW.ListEntry.Descriptor.Label",
+    options: {
+      'descriptors.add': {
+        key: 'system.listEntries.descriptors',
+        label: "WW.ListEntry.Descriptor.Create"
+      },
+      'descriptors.remove': {
+        key: 'system.listEntries.descriptors',
+        label: "Remove language"
+      }
+    }
+  },
+  immunities: {
+    header: "WW.ListEntry.Immunity.Label",
+    options: {
+      'immunities.add': {
+        key: 'system.listEntries.immunities',
+        label: "WW.ListEntry.Immunity.Create"
+      },
+      'immunities.remove': {
+        key: 'system.listEntries.immunities',
+        label: "Remove language"
+      }
+    }
+  },
+  languages: {
+    header: "WW.ListEntry.Language.Label",
+    options: {
+      'languages.add': {
+        key: 'system.listEntries.languages',
+        label: "WW.ListEntry.Language.Create"
+      },
+      'languages.remove': {
+        key: 'system.listEntries.languages',
+        label: "Remove language"
+      }
+    }
+  },
+  movementTraits: {
+    header: "WW.ListEntry.MovementTrait.Label",
+    options: {
+      'movementTraits.add': {
+        key: 'system.listEntries.movementTraits',
+        label: "WW.ListEntry.MovementTrait.Create"
+      },
+      'movementTraits.remove': {
+        key: 'system.listEntries.movementTraits',
+        label: "Remove language"
+      }
+    }
+  },
+  senses: {
+    header: "WW.ListEntry.Sense.Label",
+    options: {
+      'senses.add': {
+        key: 'system.listEntries.senses',
+        label: "WW.ListEntry.Sense.Create"
+      },
+      'senses.remove': {
+        key: 'system.listEntries.senses',
+        label: "Remove language"
+      }
+    }
+  }
 }
 
 WW.COMPENDIUM_INDEX_VIEWS = {
