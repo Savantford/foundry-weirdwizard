@@ -2241,6 +2241,11 @@ body.theme-dark.application.weirdwizard .window-content {
   }
 }
 
+.weirdwizard.npc .health-buttons {
+  left: 36px;
+  right: -5px;
+}
+
 .weirdwizard .health-wrapper:hover .health-buttons {
   opacity: 1;
 }

@@ -65,6 +65,35 @@
     
                 </div>
             </div>
+
+            {{!-- Buttons --}}
+            <div class="health-buttons">
+                {{!-- Damage / Healing --}}
+                <div class="damage">
+                    {{!-- Damage --}}
+                    <a class="button" data-action="openApplyDialog" data-operation="damage" data-tooltip="WW.InstantEffect.Damage">
+                        <i class="fa-regular fa-circle-minus"></i>
+                    </a>
+
+                    {{!-- Healing --}}
+                    <a class="button" data-action="openApplyDialog" data-operation="heal" data-tooltip="WW.InstantEffect.Heal">
+                        <i class="fa-regular fa-circle-plus"></i>
+                    </a>
+                </div>
+
+                {{!-- Health --}}
+                <div class="health">
+                    {{!-- Lose Health --}}
+                    <a class="button" data-action="openApplyDialog" data-operation="healthLose" data-tooltip="WW.InstantEffect.HealthLose">
+                        <i class="fa-regular fa-circle-minus"></i>
+                    </a>
+
+                    {{!-- Regain Lost Health --}}
+                    <a class="button" data-action="openApplyDialog" data-operation="healthRegain" data-tooltip="WW.InstantEffect.HealthRegain">
+                        <i class="fa-regular fa-circle-plus"></i>
+                    </a>             
+                </div>
+            </div>
     
             {{!-- Overlay: Mid Layer --}}
             <div class="health-overlay"></div>
