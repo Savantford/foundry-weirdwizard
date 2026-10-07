@@ -227,7 +227,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
           
           if (relevantEffs.length) {
             for (const effect of relevantEffs) {
-              if (effect.changes.findLast(c => c.key === listKey)) entryData.grantedBy = effect.uuid;
+              if (effect.changes.findLast(c => c.key === listKey && c.value === entryKey)) entryData.grantedBy = effect.uuid;
             }
           }
 
