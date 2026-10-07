@@ -12,7 +12,6 @@ import WWActorSheet from './base-actor-sheet.mjs';
  * @extends {WWActorSheet}
  */
 export default class WWCreatureSheet extends WWActorSheet {
-
   constructor(options = {}) {
     super(options); // Required for the constructor to work 
   }
@@ -43,6 +42,7 @@ export default class WWCreatureSheet extends WWActorSheet {
       attributeUse: this.#onAttributeUse,
       afflictionsMenu: this.#onAfflictionsMenuOpen,
       folderEdit: this.#onFolderEdit,
+      openApplyDialog: this.#onOpenApplyDialog,
 
       journalView: this.#onJournalView,
       journalRemove: this.#onJournalRemove,
@@ -1080,6 +1080,35 @@ export default class WWCreatureSheet extends WWActorSheet {
 
   static #onFolderEdit() {
     this.actor.folder.sheet.render(true);
+  }
+
+  static async #onOpenApplyDialog(event, button) {
+    const { operation } = button.dataset;
+    const context = { actor: this.actor, operation };
+
+    // Show a dialog 
+    const dialogInput = await WWDialog.input({
+      window: {
+        icon: "fa-solid fa-circle-plus",
+        title: CONFIG.WW.INSTANT_APPLY_LABELS[operation],
+      },
+      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/apps/instant-effect-apply-dialog.hbs', context),
+      ok: {
+        label: "WW.System.Dialog.Confirm",
+        icon: 'fa-solid fa-check'
+      },
+      buttons: [
+        {
+          label: 'WW.System.Dialog.Cancel',
+          icon: 'fa-solid fa-xmark'
+        }
+      ]
+    });
+
+    // Return if cancelled
+    if (!dialogInput) return;
+
+    await this.actor.applyInstantEffect(operation, dialogInput.value);
   }
   
   /* -------------------------------------------- */

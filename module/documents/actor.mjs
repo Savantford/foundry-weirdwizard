@@ -1304,6 +1304,16 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
   /*  Apply Methods                               */
   /* -------------------------------------------- */
 
+  async applyInstantEffect(operation, value) {
+    switch (operation) {
+      case 'damage': this.applyDamage(value); break;
+      case 'heal': this.applyHealing(value); break;
+      case 'healthLose': this.applyHealthLoss(value); break;
+      case 'healthRegain': this.applyHealthRegain(value); break;
+      case 'affliction': this.applyAffliction(value); break;
+    }
+  }
+
   async applyDamage(damage) {
     // If incapacitated, turn damage into Health loss
     if (this.incapacitated) return this.applyHealthLoss(damage);

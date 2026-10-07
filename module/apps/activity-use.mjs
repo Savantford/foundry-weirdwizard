@@ -1,4 +1,3 @@
-import WWRoll from '../dice/roll.mjs';
 import { plusify } from '../helpers/utils.mjs';
 import TargetingHelper from './targeting-helper.mjs';
 

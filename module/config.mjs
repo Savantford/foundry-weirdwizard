@@ -434,6 +434,14 @@ WW.INSTANT_ICONS = {
   'affliction': 'icons/svg/skull.svg'
 }
 
+WW.INSTANT_APPLY_LABELS = {
+  'damage': "WW.InstantEffect.Damage",
+  'heal': "Heal Damage",
+  'healthLose': "Lose Health",
+  'healthRegain': "Regain Lost Health",
+  'affliction': "Bestow Affliction"
+}
+
 WW.INSTANT_TRIGGERS = {
   'onUse': 'WW.Effect.OnUse',
   'onSuccess': 'WW.Effect.OnSuccess',
