@@ -10,7 +10,6 @@ import {
 } from "../apps/entry-settings-menu.mjs";
 
 export default function registerSystemSettings() {
-  
   /* -------------------------------------------- */
   /* Basic System Settings                        */
   /* -------------------------------------------- */
@@ -169,7 +168,7 @@ export default function registerSystemSettings() {
     config: false,
     requiresReload: false,
     type: Object,
-    default: CONFIG.WW.DEFAULT_ENTRIES.AFFLICTIONS
+    default: CONFIG.WW.DEFAULT_AFFLICTIONS
   });
 
   game.settings.registerMenu('weirdwizard', 'afflictions', {

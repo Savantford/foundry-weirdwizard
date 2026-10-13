@@ -357,7 +357,7 @@ Hooks.once('ready', function (app, html) {
  */
 Hooks.once('setup', function () {
   // Get afflictions
-  const statusEffects = CONFIG.WW.DEFAULT_AFFLICTIONS;
+  const statusEffects = game.settings.get('weirdwizard', 'availableAfflictions');
 
   // Add invisible and dead status to the list of statusEffects so that
   statusEffects.push(CONFIG.statusEffects.find(e => e.id === 'invisible'));
