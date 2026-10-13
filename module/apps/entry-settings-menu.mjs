@@ -177,8 +177,9 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
       showKey: true
     };
 
+    
     // Show a dialog 
-    const dialogInput = await WWDialog.input({
+    const dialogInput = await foundry.applications.Dialog.input({
       window: {
         icon: "fa-solid fa-edit",
         title: 'WW.Settings.Entry.Edit',

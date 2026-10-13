@@ -1308,78 +1308,94 @@ body.theme-dark.application.weirdwizard .window-content {
 /*  Sheet Navigation Tabs                       */
 /* -------------------------------------------- */
 
-.weirdwizard.sheet:not(.roll-table-sheet) nav.tabs {
+.weirdwizard.sheet:not(.roll-table-sheet) {
   --tab-full-width: 44px;
   --tab-inactive-width: 32px;
-  position: absolute;
-  left: 100%;
-  top: var(--header-height);
-  width: max-content;
-  display: flex;
-  margin: 0;
-  font-family: var(--ww-font-fancy);
-  font-size: var(--font-size-14);
-  font-weight: 600;
-  text-transform: uppercase;
-  z-index: -1;
 
-  >div {
-    display: flex;
-    flex-grow: 1;
-    min-width: 18rem;
-    gap: 2px 2px;
-  }
-
-  [data-tab] {
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    width: var(--tab-inactive-width);
-    height: 40px;
-    background-color: var(--purple-dark);
-    border: 1px solid transparent;
-    border-radius: 0 8px 8px 0;
-    padding: 0;
-    padding-inline-end: 6px;
-    transition: all 250ms ease;
-    box-shadow: 5px 4px 5px -4px black;
-  }
-
-  [data-tab].active,
-  [data-tab]:hover {
-    background: var(--paper-bg);
-    width: var(--tab-full-width);
-  }
-
-  [data-tab]:hover {
-    text-shadow: none;
-  }
-
-  [data-tab]:first-of-type {
-    padding: 0;
-    padding-inline-end: 6px;
-  }
-
-  [data-tab]>img {
+  nav.tabs {
     position: absolute;
-    width: var(--sheet-tabs-icon-height);
-    transition: all 250ms ease;
-  }
+    left: 100%;
+    top: var(--header-height);
+    width: max-content;
+    display: flex;
+    margin: 0;
+    font-family: var(--ww-font-fancy);
+    font-size: var(--font-size-14);
+    font-weight: 600;
+    text-transform: uppercase;
+    z-index: -1;
 
-  [data-tab].active>img,
-  [data-tab]:hover>img {
-    filter: brightness(0) saturate(100%) invert(14%) sepia(39%) saturate(1426%) hue-rotate(252deg) brightness(94%) contrast(90%) drop-shadow(0 0 1px white);
-  }
+    >div {
+      display: flex;
+      flex-grow: 1;
+      min-width: 18rem;
+      gap: 2px 2px;
+    }
 
-  [data-tab]>i {
-    width: var(--sheet-tabs-icon-height);
-    font-size: calc(var(--sheet-tabs-icon-height) - 6px);
-    text-align: center;
-    vertical-align: middle;
-  }
+    [data-tab] {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: end;
+      align-items: center;
+      width: var(--tab-inactive-width);
+      height: 40px;
+      background-color: var(--purple-dark);
+      border: 1px solid transparent;
+      border-radius: 0 8px 8px 0;
+      padding: 0;
+      padding-inline-end: 6px;
+      transition: all 250ms ease;
+      box-shadow: 5px 4px 5px -4px black;
+    }
 
+    [data-tab].active,
+    [data-tab]:hover {
+      background: var(--paper-bg);
+      width: var(--tab-full-width);
+    }
+
+    [data-tab]:hover {
+      text-shadow: none;
+    }
+
+    [data-tab]:first-of-type {
+      padding: 0;
+      padding-inline-end: 6px;
+    }
+
+    [data-tab]>img {
+      position: absolute;
+      width: var(--sheet-tabs-icon-height);
+      transition: all 250ms ease;
+    }
+
+    [data-tab].active>img,
+    [data-tab]:hover>img {
+      filter: brightness(0) saturate(100%) invert(14%) sepia(39%) saturate(1426%) hue-rotate(252deg) brightness(94%) contrast(90%) drop-shadow(0 0 1px white);
+    }
+
+    [data-tab]>i {
+      width: var(--sheet-tabs-icon-height);
+      font-size: calc(var(--sheet-tabs-icon-height) - 6px);
+      text-align: center;
+      vertical-align: middle;
+    }
+  }
+}
+
+/* Detached Window Adjustments */
+.detached .application.weirdwizard.sheet:not(.roll-table-sheet) {
+  padding-right: var(--tab-full-width);
+
+  .window-content:has(nav.tabs) {
+    padding-right: 44px;
+
+    nav.tabs {
+      left: calc(100% - var(--tab-full-width));
+      z-index: 0;
+    }
+  }
 }
 
 .weirdwizard.sheet nav.tabs.icon-only [data-tab] span {
@@ -4376,8 +4392,6 @@ input[type="checkbox"].checkbox-uses {
 /* ---------------------------- Non-Sheet Applications -----------------------------*/
 
 .weirdwizard.application {
-  background: var(--paper-bg) repeat;
-
   .window-header {
     background: none;
     border: none;
@@ -4395,6 +4409,10 @@ input[type="checkbox"].checkbox-uses {
     button::before {
       filter: drop-shadow(0px 0px 1px #B5AA95);
     }
+  }
+
+  .window-content {
+    background: var(--paper-bg) repeat;
   }
 }
 
