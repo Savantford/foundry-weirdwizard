@@ -61,7 +61,7 @@ export default function registerSystemSettings() {
     config: false,
     requiresReload: false,
     type: Object,
-    default: CONFIG.WW.DEFAULT_LANGUAGES
+    default: CONFIG.WW.DEFAULT_ENTRIES.LANGUAGES
   });
 
   game.settings.registerMenu('weirdwizard', 'languages', {
@@ -79,7 +79,7 @@ export default function registerSystemSettings() {
     config: false,
     requiresReload: false,
     type: Object,
-    default: CONFIG.WW.DEFAULT_SENSES
+    default: CONFIG.WW.DEFAULT_ENTRIES.SENSES
   });
 
   game.settings.registerMenu('weirdwizard', 'senses', {
@@ -97,7 +97,7 @@ export default function registerSystemSettings() {
     config: false,
     requiresReload: false,
     type: Object,
-    default: CONFIG.WW.DEFAULT_IMMUNITIES
+    default: CONFIG.WW.DEFAULT_ENTRIES.IMMUNITIES
   });
 
   game.settings.registerMenu('weirdwizard', 'immunities', {
@@ -115,7 +115,7 @@ export default function registerSystemSettings() {
     config: false,
     requiresReload: false,
     type: Object,
-    default: CONFIG.WW.DEFAULT_MOVEMENT_TRAITS
+    default: CONFIG.WW.DEFAULT_ENTRIES.MOVEMENT_TRAITS
   });
 
   game.settings.registerMenu('weirdwizard', 'movementTraits', {
@@ -133,7 +133,7 @@ export default function registerSystemSettings() {
     config: false,
     requiresReload: false,
     type: Object,
-    default: CONFIG.WW.DEFAULT_DESCRIPTORS
+    default: CONFIG.WW.DEFAULT_ENTRIES.DESCRIPTORS
   });
 
   game.settings.registerMenu('weirdwizard', 'descriptors', {
@@ -151,7 +151,7 @@ export default function registerSystemSettings() {
     config: false,
     requiresReload: false,
     type: Object,
-    default: CONFIG.WW.DEFAULT_WEAPON_TRAITS
+    default: CONFIG.WW.DEFAULT_ENTRIES.WEAPON_TRAITS
   });
 
   game.settings.registerMenu('weirdwizard', 'weaponTraits', {
@@ -169,7 +169,7 @@ export default function registerSystemSettings() {
     config: false,
     requiresReload: false,
     type: Object,
-    default: CONFIG.WW.DEFAULT_AFFLICTIONS
+    default: CONFIG.WW.DEFAULT_ENTRIES.AFFLICTIONS
   });
 
   game.settings.registerMenu('weirdwizard', 'afflictions', {
@@ -187,7 +187,7 @@ export default function registerSystemSettings() {
     config: false,
     requiresReload: false,
     type: Object,
-    default: CONFIG.WW.DEFAULT_CONNECTIONS
+    default: CONFIG.WW.DEFAULT_ENTRIES.CONNECTIONS
   });
 
   game.settings.registerMenu('weirdwizard', 'connections', {

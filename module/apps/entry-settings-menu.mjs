@@ -251,13 +251,13 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
   static #addSet(event, button) {
     // Fetch default lists
     const systemDefaults = {
-      languages: CONFIG.WW.DEFAULT_LANGUAGES,
-      senses: CONFIG.WW.DEFAULT_SENSES,
-      immunities: CONFIG.WW.DEFAULT_IMMUNITIES,
-      movementTraits: CONFIG.WW.DEFAULT_MOVEMENT_TRAITS,
-      descriptors: CONFIG.WW.DEFAULT_DESCRIPTORS,
-      weaponTraits: CONFIG.WW.DEFAULT_WEAPON_TRAITS,
-      afflictions: CONFIG.WW.DEFAULT_AFFLICTIONS
+      languages: CONFIG.WW.DEFAULT_ENTRIES.LANGUAGES,
+      senses: CONFIG.WW.DEFAULT_ENTRIES.SENSES,
+      immunities: CONFIG.WW.DEFAULT_ENTRIES.IMMUNITIES,
+      movementTraits: CONFIG.WW.DEFAULT_ENTRIES.MOVEMENT_TRAITS,
+      descriptors: CONFIG.WW.DEFAULT_ENTRIES.DESCRIPTORS,
+      weaponTraits: CONFIG.WW.DEFAULT_ENTRIES.WEAPON_TRAITS,
+      afflictions: CONFIG.WW.DEFAULT_ENTRIES.AFFLICTIONS
     }
 
     // Update list with the default values

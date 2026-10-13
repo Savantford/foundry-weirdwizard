@@ -156,7 +156,7 @@ export function defaultListEntryKey(list, listKey) {
   for (const entryKey in list) takenKeys.add(entryKey);
   
   // Determine base name listKey and localize it
-  const baseKey = CONFIG.WW.NEW_DEFAULT_ENTRY[listKey]?.key ?? 'entry';
+  const baseKey = CONFIG.WW.DEFAULT_ENTRIES.NEW_LIST[listKey]?.key ?? 'entry';
 
   // Determine and return name
   let key = baseKey;
@@ -184,7 +184,7 @@ export function defaultListEntryName(list, listKey) {
   }
   
   // Determine base name listKey and localize it
-  const baseNameKey = listKey ? CONFIG.WW.NEW_DEFAULT_ENTRY[listKey]?.loc : null;
+  const baseNameKey = listKey ? CONFIG.WW.DEFAULT_ENTRIES.NEW_LIST[listKey]?.loc : null;
   
   const baseName = baseNameKey ? _loc(baseNameKey) : 'Entry';
   

@@ -55,7 +55,8 @@ import QuestCalendar from './ui/quest-calendar.mjs';
 import WWToken from './canvas/token.mjs';
 
 // Import helper/utility classes and constants.
-import { WW } from './config.mjs';
+import { WW } from './constants/config.mjs';
+import { DEFAULT_ENTRIES } from './constants/list-entries.mjs';
 import registerSystemSettings from './helpers/system-settings.mjs';
 import { WWAfflictions } from './helpers/afflictions.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
@@ -81,6 +82,7 @@ Hooks.once('init', function () {
   
   // Add custom constants for configuration.
   CONFIG.WW = WW;
+  CONFIG.WW.DEFAULT_ENTRIES = DEFAULT_ENTRIES;
 
   // Active Effect expiration
   CONFIG.ActiveEffect.expiryAction = 'delete'; // Delete when expired
