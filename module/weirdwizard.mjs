@@ -57,15 +57,14 @@ import WWToken from './canvas/token.mjs';
 // Import helper/utility classes and constants.
 import { WW } from './constants/config.mjs';
 import { DEFAULT_ENTRIES } from './constants/default-entries.mjs';
+import { DefaultAfflictions } from './constants/default-afflictions.mjs';
 import registerSystemSettings from './helpers/system-settings.mjs';
-import { WWAfflictions } from './helpers/afflictions.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
 import * as utils from './helpers/utils.mjs';
 import { initializeEffectLookups } from './helpers/effect-presets.mjs';
 import { addFormattingOptions } from './helpers/text-editor.mjs';
 import * as migrationsReference from './helpers/migrations.mjs';
-
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -83,6 +82,7 @@ Hooks.once('init', function () {
   // Add custom constants for configuration.
   CONFIG.WW = WW;
   CONFIG.WW.DEFAULT_ENTRIES = DEFAULT_ENTRIES;
+  CONFIG.WW.DEFAULT_AFFLICTIONS = DefaultAfflictions.buildAll();
 
   // Active Effect expiration
   CONFIG.ActiveEffect.expiryAction = 'delete'; // Delete when expired
@@ -357,21 +357,20 @@ Hooks.once('ready', function (app, html) {
  */
 Hooks.once('setup', function () {
   // Get afflictions
-  const effects = WWAfflictions.buildAll();
+  const statusEffects = CONFIG.WW.DEFAULT_AFFLICTIONS;
 
-  // Add invisible and dead status to the list of effects so that
-  effects.push(CONFIG.statusEffects.find(e => e.id === 'invisible'));
-  effects.push(CONFIG.statusEffects.find(e => e.id === 'dead'));
+  // Add invisible and dead status to the list of statusEffects so that
+  statusEffects.push(CONFIG.statusEffects.find(e => e.id === 'invisible'));
+  statusEffects.push(CONFIG.statusEffects.find(e => e.id === 'dead'));
 
   // Assign Afflictions to token HUD
-  CONFIG.statusEffects = effects;
+  CONFIG.statusEffects = statusEffects;
 
   // Assign blinded as the BLIND special status effect
   CONFIG.specialStatusEffects.BLIND = 'blinded';
 
   // Add custom enrichers
   addCustomEnrichers();
-  
 });
 
 /* -------------------------------------------- */

@@ -4,7 +4,7 @@ const changePresets = {};
 // Back-compat clearer alias; prefer this in new code
 export { changePresets as effectChangePresetData };
 
-const EFFECT_CHANGE_PRESET_DATA = {
+export const EFFECT_CHANGE_PRESET_DATA = {
   boons: {
     header: 'WW.Effect.ChangePresets.Boons.Header',
     options: {

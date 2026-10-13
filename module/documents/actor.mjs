@@ -1314,6 +1314,8 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     }
   }
 
+  /* -------------------------------------------- */
+
   async applyDamage(damage) {
     // If incapacitated, turn damage into Health loss
     if (this.incapacitated) return this.applyHealthLoss(damage);
@@ -1486,6 +1488,17 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       content: content,
       sound: CONFIG.sounds.notification
     })
+  }
+
+  /* -------------------------------------------- */
+
+  static async clearAfflictions() {
+    const afflictions = this
+      .getEmbeddedCollection('ActiveEffect')
+      .filter(e => e.statuses.size > 0)
+      .filter(e => e.type = 'affliction')
+      .map(e => e._id);
+    await this.deleteEmbeddedDocuments('ActiveEffect', afflictions);
   }
 
   /* -------------------------------------------- */

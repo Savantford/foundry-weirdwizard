@@ -510,7 +510,7 @@ WW.AFFLICTIONS = {
   'weakened': 'WW.Affliction.Weakened',
 }
 
-/* Compendiua */
+/* Compendia & Index */
 
 WW.COMPENDIUM_INDEX_VIEWS = {
   'generic': 'WW.Index.Generic',

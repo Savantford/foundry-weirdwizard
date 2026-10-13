@@ -1,5 +1,4 @@
 import { slideDown, slideUp } from '../helpers/utils.mjs';
-import { WWAfflictions } from '../helpers/afflictions.mjs'
 import ActivityUse from './activity-use.mjs';
 
 // Similar syntax to importing, but note that
@@ -115,7 +114,7 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
    * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
   */
   static #clearAfflictions(event, target) {
-    WWAfflictions.clearAfflictions(this.document);
+    this.document.clearAfflictions();
   }
 
   /**
