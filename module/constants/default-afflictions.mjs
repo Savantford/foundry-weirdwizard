@@ -21,7 +21,11 @@ export class DefaultAfflictions {
       }
     }
 
-    return this.afflictionsData().map(affliction => buildAffliction(affliction));
+    const afflictions = {};
+
+    Object.fromEntries( this.afflictionsData().map(affliction => [affliction.id, buildAffliction(affliction)]) );
+    
+    return afflictions;
   }
 
   /**

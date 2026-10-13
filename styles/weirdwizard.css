@@ -4393,8 +4393,8 @@ input[type="checkbox"].checkbox-uses {
 
 .weirdwizard.application {
   .window-header {
-    background: none;
-    border: none;
+    background: var(--paper-bg);
+    border-radius: 5px;
 
     .window-icon,
     .window-title,
@@ -4419,6 +4419,8 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard.application:not(.minimized) {
   .window-header {
     background: url(../assets/decorations/frames/rose.webp);
+    border: none;
+    border-radius: 0;
     overflow: visible;
   }
 
