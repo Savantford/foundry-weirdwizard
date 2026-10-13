@@ -5467,6 +5467,25 @@ details.document-card .card-header:hover::after {
   flex: 0 0 16px;
 }
 
+/* List Entry Dialog */
+.list-entry-dialog {
+  section {
+    display: flex;
+    flex-flow: column;
+    gap: 1em;
+
+    label {
+      display: block;
+      font-weight: bold;
+    }
+
+    textarea {
+      display: block;
+      width: 100%;
+    }
+  }
+}
+
 /* List Entry Config */
 .weirdwizard.application.list-entry-config {
   .entries-list {

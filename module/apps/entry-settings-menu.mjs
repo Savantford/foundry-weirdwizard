@@ -1,5 +1,4 @@
 import { capitalize, defaultListEntryKey, defaultListEntryName } from '../helpers/utils.mjs';
-import WWDialog from './dialog.mjs';
 
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
@@ -126,24 +125,8 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
         await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${entry.grantedBy}]`, { secrets: this.actor.isOwner }) : null
     };
 
-    // Show a dialog 
-    const dialogInput = await WWDialog.input({
-      window: {
-        icon: "fa-solid fa-circle-plus",
-        title: 'WW.Settings.Entry.Add',
-      },
-      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
-      ok: {
-        label: 'WW.System.Dialog.Save',
-        icon: 'fa-solid fa-save'
-      },
-      buttons: [
-        {
-          label: 'WW.System.Dialog.Cancel',
-          icon: 'fa-solid fa-xmark'
-        },
-      ]
-    });
+    // Resolve Dialog
+    const dialogInput = await this.resolveDialog(context);
 
     // Return if cancelled
     if (!dialogInput) return;
@@ -176,26 +159,9 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
       key: entryKey,
       showKey: true
     };
-
     
-    // Show a dialog 
-    const dialogInput = await foundry.applications.Dialog.input({
-      window: {
-        icon: "fa-solid fa-edit",
-        title: 'WW.Settings.Entry.Edit',
-      },
-      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
-      ok: {
-        label: 'WW.System.Dialog.Save',
-        icon: 'fa-solid fa-save'
-      },
-      buttons: [
-        {
-          label: 'WW.System.Dialog.Cancel',
-          icon: 'fa-solid fa-xmark'
-        },
-      ]
-    });
+    // Resolve Dialog
+    const dialogInput = await this.resolveDialog(context);
 
     // Return if cancelled
     if (!dialogInput) return;
@@ -216,6 +182,30 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
     this.render(true);
   }
 
+  async resolveDialog(context) {
+    // Show a dialog 
+    const dialogInput = await foundry.applications.api.DialogV2.input({
+      classes: ['list-entry-dialog'],
+      window: {
+        icon: "fa-solid fa-edit",
+        title: 'WW.Settings.Entry.Edit',
+      },
+      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
+      ok: {
+        label: 'WW.System.Dialog.Save',
+        icon: 'fa-solid fa-save'
+      },
+      buttons: [
+        {
+          label: 'WW.System.Dialog.Cancel',
+          icon: 'fa-solid fa-xmark'
+        },
+      ]
+    });
+
+    return dialogInput;
+  }
+
   /* -------------------------------------------- */
 
   /**
@@ -227,7 +217,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
     const newList = {... this.list};
     
     // Open a dialog to confirm
-    const confirm = await WWDialog.confirm({
+    const confirm = await foundry.applications.api.DialogV2.confirm({
       window: {
         title: 'WW.Settings.Entry.Remove',
         icon: 'fa-solid fa-trash'
