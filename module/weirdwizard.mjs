@@ -56,7 +56,7 @@ import WWToken from './canvas/token.mjs';
 
 // Import helper/utility classes and constants.
 import { WW } from './constants/config.mjs';
-import { DEFAULT_ENTRIES } from './constants/list-entries.mjs';
+import { DEFAULT_ENTRIES } from './constants/default-entries.mjs';
 import registerSystemSettings from './helpers/system-settings.mjs';
 import { WWAfflictions } from './helpers/afflictions.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
