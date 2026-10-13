@@ -257,7 +257,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
       movementTraits: CONFIG.WW.DEFAULT_ENTRIES.MOVEMENT_TRAITS,
       descriptors: CONFIG.WW.DEFAULT_ENTRIES.DESCRIPTORS,
       weaponTraits: CONFIG.WW.DEFAULT_ENTRIES.WEAPON_TRAITS,
-      afflictions: CONFIG.WW.DEFAULT_ENTRIES.AFFLICTIONS
+      afflictions: CONFIG.WW.DEFAULT_AFFLICTIONS
     }
 
     // Update list with the default values
