@@ -353,13 +353,13 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
 
         newList[statusEffect.id] = statusEffect;
       } else {
-        console.log('not affliction')
+        // Handle non-affliction drops
       }
     }
 
     // Dropped List Entry
     else if (data.listKey && this.listKey !== 'afflictions') {
-      console.log(data)
+      // Handle list entry drops
     }
 
     if (this.list === newList) return;
