@@ -1315,7 +1315,7 @@ body.theme-dark.application.weirdwizard .window-content {
   nav.tabs {
     position: absolute;
     left: 100%;
-    top: var(--header-height);
+    top: calc(var(--header-height) + 1px);
     width: max-content;
     display: flex;
     margin: 0;
@@ -1400,11 +1400,6 @@ body.theme-dark.application.weirdwizard .window-content {
 
 .weirdwizard.sheet nav.tabs.icon-only [data-tab] span {
   display: none;
-}
-
-.weirdwizard.sheet.character nav.tabs,
-.weirdwizard.sheet.npc nav.tabs {
-  top: var(--header-height);
 }
 
 /* Edit Mode Toggle */
@@ -4419,7 +4414,7 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard.application:not(.minimized) {
   .window-header {
     background: url(../assets/decorations/frames/rose.webp);
-    border: none;
+    border-color: transparent;
     border-radius: 0;
     overflow: visible;
   }
