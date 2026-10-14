@@ -397,6 +397,18 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     window.classList.toggle('magical', item.system.magical);
     window.classList.toggle('weapon', item.system.subtype === 'weapon');
 
+    // Add weapon trait tooltips
+    if (item.system.subtype === 'weapon') {
+      const mc = window.querySelector('multi-checkbox[name="system.traits"]');
+      const arr = mc.querySelectorAll('.checkbox');
+
+      arr.forEach(checkbox => {
+        const key = checkbox.querySelector('input').value;
+        checkbox.dataset.tooltip = `<p>${_loc(CONFIG.WW.WEAPON_TRAITS[key].tip)}</p>`;
+        if (key === 'range' || key === 'thrown') checkbox.dataset.tooltip += `<p>${_loc('WW.Targeting.RangeWeaponTip')}</p>`;
+      })
+    }
+
     // Create dragDrop flow
     new foundry.applications.ux.DragDrop.implementation({
       dragSelector: ".draggable",
