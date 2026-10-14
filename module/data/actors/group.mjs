@@ -28,14 +28,7 @@ export default class GroupModel extends foundry.abstract.TypeDataModel {
 
       // List Entries
       listEntries: new fields.SchemaField({
-        connections: new fields.TypedObjectField(
-          new fields.SchemaField({
-            name: makeStrField({ initial: _loc("WW.ListEntry.DefaultName") }),
-            desc: makeStrField(),
-            type: makeRequiredStrField({ initial: 'financial' }),
-            grantedBy: makeUuidStrField()
-          }, { nullable: true })
-        )
+        connections: new fields.SetField( makeStrField() )
       })
     }
 
