@@ -72,12 +72,20 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
    */
   async _prepareContext(options = {}) {
     const context = {
+      listKey: this.listKey,
       listTitle: _loc(`WW.Settings.${capitalize(this.listKey, 1)}.EntryType`),
-      list: this.list,
       buttons: [
         {type: "submit", icon: "fa-solid fa-save", label: "PERMISSION.Submit"},
         {type: "cancel", action: "cancel", icon: "fa-solid fa-xmark", label: "WW.System.Dialog.Cancel"}
       ]
+    }
+
+    // Assign descriptions for documents
+    context.list = {... this.list};
+
+    for (const [key, entry] of Object.entries(context.list)) {
+      if (!entry.desc && entry?.description) entry.desc = _loc(entry.description);
+      else if (!entry.desc && entry.system?.description) entry.desc = entry.system.description;
     }
 
     return context;
