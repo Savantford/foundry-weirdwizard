@@ -166,7 +166,7 @@ export default function registerSystemSettings() {
   game.settings.register('weirdwizard', 'availableAfflictions', {
     scope: 'world',
     config: false,
-    requiresReload: false,
+    requiresReload: true,
     type: Object,
     default: CONFIG.WW.DEFAULT_AFFLICTIONS
   });

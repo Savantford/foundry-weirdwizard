@@ -400,12 +400,12 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     // Add weapon trait tooltips
     if (item.system.subtype === 'weapon') {
       const mc = window.querySelector('multi-checkbox[name="system.traits"]');
-      const arr = mc.querySelectorAll('.checkbox');
+      const list = mc.querySelectorAll('.checkbox');
 
-      arr.forEach(checkbox => {
+      list.forEach(checkbox => {
         const key = checkbox.querySelector('input').value;
         checkbox.dataset.tooltip = `<p>${_loc(CONFIG.WW.WEAPON_TRAITS[key].tip)}</p>`;
-        if (key === 'range' || key === 'thrown') checkbox.dataset.tooltip += `<p>${_loc('WW.Targeting.RangeWeaponTip')}</p>`;
+        if (key === 'range' || key === 'thrown') checkbox.dataset.tooltipHtml += `<p>${_loc('WW.Targeting.RangeWeaponTip')}</p>`;
       })
     }
 
@@ -422,12 +422,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         drop: this._onDrop.bind(this)
       }
     }).bind(this.element);
-
   }
-
-  /*async _onFirstRender(context, options) {
-    await super._onFirstRender(context, options);
-  }*/
 
   /* -------------------------------------------- */
   /*  General Event Listeners and Handlers        */

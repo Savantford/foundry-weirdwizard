@@ -1,4 +1,4 @@
-import { capitalize, defaultListEntryKey, defaultListEntryName } from '../helpers/utils.mjs';
+import { camelCase, capitalize, defaultListEntryKey, defaultListEntryName } from '../helpers/utils.mjs';
 
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
@@ -10,7 +10,6 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
  * @extends {ApplicationV2}
 */
 export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2) {
-
   static DEFAULT_OPTIONS = {
     id: 'entry-settings-menu',
     tag: 'form',
@@ -63,7 +62,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
   }
 
   /* -------------------------------------------- */
-  /*  Context preparation                         */
+  /*  Rendering                                   */
   /* -------------------------------------------- */
 
   /**
@@ -82,6 +81,23 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
     }
 
     return context;
+  }
+
+  /* -------------------------------------------- */
+
+  async _onRender(context, options) {
+    await super._onRender(context, options);
+
+    // Create dragDrop listener
+    new foundry.applications.ux.DragDrop.implementation({
+      dragSelector: ".draggable",
+      dropSelector: null,
+      callbacks: {
+        dragstart: this._onDragStart.bind(this),
+        dragover: this._onDragOver.bind(this),
+        drop: this._onDrop.bind(this)
+      }
+    }).bind(this.element);
   }
 
   /* -------------------------------------------- */
@@ -262,6 +278,87 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
     this.render(true);
   }
 
+  /* -------------------------------------------- */
+  /*  Drag and Drop                               */
+  /* -------------------------------------------- */
+
+  /**
+   * An event that occurs when a drag workflow begins for a draggable item on the sheet.
+   * @param {DragEvent} event       The initiating drag start event
+   * @returns {Promise<void>}
+   * @protected
+   * @override
+   */
+  async _onDragStart(event) {
+    const li = event.currentTarget;
+
+    const dragData =  {
+      listKey: this.options.listKey,
+      entryKey: li.dataset.entryKey,
+      entryName: _loc(li.dataset.entryName),
+      desc: li.dataset.tooltip
+    };
+    
+    // Set data transfer
+    if ( !dragData ) return;
+    event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Callback actions which occur when a dragged element is over a drop target.
+   * @param {DragEvent} event       The originating DragEvent
+   * @protected
+   */
+  _onDragOver(event) {
+    // Do nothing
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Callback actions which occur when a dragged element is dropped on a target.
+   * @param {DragEvent} event       The originating DragEvent
+   * @protected
+   */
+  async _onDrop(event) {
+    const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
+    const newList = {... this.list};
+
+    // Dropped Documents
+    const documentClass = getDocumentClass(data.type);
+    
+    if ( documentClass ) {
+      const document = await documentClass.fromDropData(data);
+
+      if (this.listKey === 'afflictions') {
+        const statusEffect = document.toObject();
+
+        foundry.utils.mergeObject(statusEffect, {
+          type: 'affliction',
+          tint: '#FF0900',
+          id: camelCase(document.name)
+        })
+
+        delete statusEffect._id;
+
+        newList[statusEffect.id] = statusEffect;
+      } else {
+        console.log('not affliction')
+      }
+    }
+
+    // Dropped List Entry
+    else if (data.listKey && this.listKey !== 'afflictions') {
+      console.log(data)
+    }
+
+    if (this.list === newList) return;
+
+    this.list = await newList;
+    this.render(true);
+  }
 }
 
 /* Other Subclasses */
