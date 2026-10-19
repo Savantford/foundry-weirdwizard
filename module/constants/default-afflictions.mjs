@@ -21,10 +21,9 @@ export class DefaultAfflictions {
       }
     }
 
-    const afflictions = {};
+    const arr = this.afflictionsData().map(affliction => [affliction.id, buildAffliction(affliction)]);
+    const afflictions = Object.fromEntries(arr);
 
-    Object.fromEntries( this.afflictionsData().map(affliction => [affliction.id, buildAffliction(affliction)]) );
-    
     return afflictions;
   }
 
