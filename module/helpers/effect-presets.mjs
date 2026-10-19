@@ -797,6 +797,7 @@ export function initializeEffectLookups() {
     });
   }
 
+  CONFIG.WW.EFFECT_CHANGE_PRESET_DATA = EFFECT_CHANGE_PRESET_DATA;
   CONFIG.WW.EFFECT_CHANGE_PRESET_KEYS = keys;
   CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS = labels;
 }
