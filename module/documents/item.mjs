@@ -292,6 +292,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     // Prepare placement constraints
     let warning;
 
+    // Callback for area moving
     const onMove = (options) => {
       const { shape, position, snap } = options;
       
@@ -370,8 +371,33 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       }
     };
 
+    // Callback for area rotating
+    const onRotate = (options) => {
+      const { event, shape, precise } = options;
+      const isHex = canvas.grid.isHexagonal;
+      const isGridless = canvas.grid.isGridless;
+
+      let interval;
+      switch (shape.type) {
+        case "line":
+          const lineReg = isGridless ? 5 : (isHex ? 30 : 90); // Regular: 5° gridless, 30° hex, 90° square
+          const linePre = isGridless ? 1 : (isHex ? 15 : 45); // Precise: 1° gridless, 15° hex, 45° square
+          interval = precise ? linePre : lineReg; 
+          break;
+        default:
+          const squareReg = isGridless ? 5 : (isHex ? 60 : 90); // Regular: 5° gridless, 30° hex, 90° square
+          const squarePre = isGridless ? 1 : (isHex ? 30 : 45); // Precise: 1° gridless, 15° hex, 45° square
+          interval = precise ? squarePre : squareReg;
+          break;
+      }
+
+      const delta = interval * Math.sign(event.delta);
+      shape.rotate((shape.rotation + delta).toNearest(interval) - shape.rotation);
+      return false;
+    }
+
     // Prompt region placement
-    const region = await canvas.regions.placeRegion(regionData, { attachToToken: attached, onMove });
+    const region = await canvas.regions.placeRegion(regionData, { attachToToken: attached, onMove, onRotate });
 
     // After placement
     warning?.remove();
@@ -399,24 +425,5 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     region.delete();
 
     return region;
-  }
-
-  static _onAreaRotate(options) {
-    const { event, shape, precise } = options;
-    const isHex = canvas.grid.isHexagonal;
-
-    let interval;
-    switch (shape.type) {
-      case "line":
-        interval = precise ? 15 : (isHex ? 30 : 45);
-        break;
-      default:
-        interval = precise ? (isHex ? 30 : 45) : (isHex ? 60 : 90);
-        break;
-    }
-
-    const delta = interval * Math.sign(event.delta);
-    shape.rotate((shape.rotation + delta).toNearest(interval) - shape.rotation);
-    return false;
   }
 }
