@@ -255,7 +255,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       shape = area.shape ?? 'circle',
       radius: emaRadius = area.radius ?? 5, // Radius for emanation
       size = area.size ?? 5, // Size for circle or length for a Line
-      width = area.width ?? 5, // Width for line
+      width = area.width ?? 1, // Width for line
       attached = area.attached ?? true,
       color = area.color ?? game.user.color,
       restriction = area.restriction

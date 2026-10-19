@@ -53,11 +53,12 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
 
       // Area (Scene Region) template
       area: new fields.SchemaField({
-        radius: makeIntField({ initial: 5 }),
-        size: makeIntField({ initial: 5 }),
-        attached: makeBooField(),
-        color: new fields.ColorField(),
         shape: makeRequiredStrField({ initial: 'circle' }),
+        size: makeIntField({ initial: 5 }), // Circle Size or Line Length
+        radius: makeIntField({ initial: 5 }), // Emanation only
+        width: makeIntField({ initial: 1 }), // Line only
+        attached: makeBooField(), // Emanation only
+        color: new fields.ColorField(),
 
         restriction: new fields.SchemaField({
           enabled: makeBooField({ initial: true }),
