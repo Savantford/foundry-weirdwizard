@@ -295,6 +295,8 @@
 "WW.Item.Area.Settings": "Area Settings",
 "WW.Item.Area.Size": "Size",
 "WW.Item.Area.Radius": "Radius",
+"WW.Item.Area.Length": "Width",
+"WW.Item.Area.Width": "Width",
 "WW.Item.Area.AttachToToken": "Attach to Token",
 "WW.Item.Area.DefaultColor": "Default Color (User)",
 
@@ -304,7 +306,7 @@
 "WW.Item.Area.Shape.Emanation": "Emanation",
 "WW.Item.Area.Shape.EmanationTip": "Emanation is a shape that spreads from the edge of a single square/hex or token and up to its Radius, such as auras. You can optionally attach an emanation to a token.",
 "WW.Item.Area.Shape.Line": "Line",
-"WW.Item.Area.Shape.LineTip": "Line has a Size. On a square grid, a circle becomes a square!",
+"WW.Item.Area.Shape.LineTip": "Line has a Length and Width values.",
 
 "WW.Activity.Label": "Activity",
 "WW.Activity.Target.Targeting": "Targeting",
