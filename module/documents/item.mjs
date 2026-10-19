@@ -304,13 +304,14 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
 
       // Restrict snapping to vertex/center
       let mode = CONST.GRID_SNAPPING_MODES["CENTER"];
+      
       switch (shape.type) {
         case 'line':
           if (width % 2 === 0) {
             mode = CONST.GRID_SNAPPING_MODES["VERTEX"]; // Vertex if even, edge midpoint if odd
           }
           else {
-            // TODO: Improve this. Need help with the math. lol
+            // TODO: Improve this. Need help with the math!
             function getModeFromAngle(a) {
               if (a >= 337.5 || a < 22.5)   return "LEFT_SIDE_MIDPOINT";
               if (a >= 22.5  && a < 67.5)   return "TOP_LEFT_VERTEX";
