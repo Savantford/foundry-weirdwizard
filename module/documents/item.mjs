@@ -254,8 +254,8 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     const {
       shape = area.shape ?? 'circle',
       radius: emaRadius = area.radius ?? 5, // Radius for emanation
-      size = area.size ?? 5, // Size for circle
-      width = area.width ?? 3, // Width for line
+      size = area.size ?? 5, // Size for circle or length for a Line
+      width = area.width ?? 5, // Width for line
       attached = area.attached ?? true,
       color = area.color ?? game.user.color,
       restriction = area.restriction
@@ -306,7 +306,24 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       let mode = CONST.GRID_SNAPPING_MODES["CENTER"];
       switch (shape.type) {
         case 'line':
-          mode = CONST.GRID_SNAPPING_MODES[width % 2 === 0 ? "VERTEX" : "SIDE_MIDPOINT"]; // Vertex if even, mid point if odd
+          if (width % 2 === 0) {
+            mode = CONST.GRID_SNAPPING_MODES["VERTEX"]; // Vertex if even, edge midpoint if odd
+          }
+          else {
+            // TODO: Improve this. Need help with the math. lol
+            function getModeFromAngle(a) {
+              if (a >= 337.5 || a < 22.5)   return "LEFT_SIDE_MIDPOINT";
+              if (a >= 22.5  && a < 67.5)   return "TOP_LEFT_VERTEX";
+              if (a >= 67.5  && a < 112.5)  return "TOP_SIDE_MIDPOINT";
+              if (a >= 112.5 && a < 157.5)  return "TOP_RIGHT_VERTEX";
+              if (a >= 157.5 && a < 202.5)  return "RIGHT_SIDE_MIDPOINT";
+              if (a >= 202.5 && a < 247.5)  return "BOTTOM_RIGHT_VERTEX";
+              if (a >= 247.5 && a < 292.5)  return "BOTTOM_SIDE_MIDPOINT";
+              if (a >= 292.5 && a < 337.5)  return "BOTTOM_LEFT_VERTEX";
+            }
+            
+            mode = CONST.GRID_SNAPPING_MODES[getModeFromAngle(shape.rotation)];
+          }
           break;
         case 'circle':
           if (size % 2 === 0) mode = CONST.GRID_SNAPPING_MODES["VERTEX"]; // Vertex if even Sized
