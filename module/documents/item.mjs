@@ -171,7 +171,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     const { x: tx, y: ty, width: twidth, height: theight, shape: tshape } = token._source;
     const grid = canvas.grid ?? foundry.documents.BaseScene.defaultGrid;
     const yard = canvas.dimensions.distancePixels;
-    const emanationBaseShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
+    const baseShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
     const targeting = this.system.targeting;
     const range = targeting.method === 'self' ? 0 : targeting.range; // Treat as 0 if self targeted
     
@@ -182,7 +182,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     const holeShape = {
       type: 'emanation',
       hole: true,
-      base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: emanationBaseShape },
+      base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: baseShape },
       radius: range * yard,
       gridBased: !grid.isGridless
     }
@@ -192,7 +192,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       shapes: [
         {
           type: 'emanation',
-          base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: emanationBaseShape },
+          base: { type: "token", x: tx, y: ty, width: twidth, height: theight, shape: baseShape },
           radius: 1000 * yard,
           gridBased: !grid.isGridless
         },
@@ -250,16 +250,18 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     const grid = canvas.grid ?? foundry.documents.BaseScene.defaultGrid;
     const yard = canvas.dimensions.distancePixels;
     const area = this.system.area;
-    const emanationBaseShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
+    const baseShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
     const {
       shape = area.shape ?? 'circle',
       radius: emaRadius = area.radius ?? 5, // Radius for emanation
       size = area.size ?? 5, // Size for circle
+      width = area.width ?? 3, // Width for line
       attached = area.attached ?? true,
       color = area.color ?? game.user.color,
       restriction = area.restriction
     } = options;
     const isCircle = shape === 'circle';
+    const isLine = shape === 'line';
     const radius = isCircle ? size / 2 : emaRadius; // Half Size for circle, radius for emanation
 
     // Prepare region data
@@ -267,8 +269,10 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       name: this.parent ? `${this.name} (${this.parent.name})` : this.name,
       shapes: [{
         type: shape,
-        base: { type: "token", x: 0, y: 0, width: 1, height: 1, shape: emanationBaseShape },
+        base: { type: "token", x: 0, y: 0, width: 1, height: 1, shape: baseShape },
         radius: radius * yard,
+        length: isLine ? size * yard : undefined,
+        width: isLine ? width * yard : undefined,
         x: 0,
         y: 0,
         gridBased: !grid.isGridless
@@ -288,14 +292,26 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     // Prepare placement constraints
     let warning;
 
-    const onMove = ({shape, position, snap}) => {
-      // Snap is gonna be true if user is not holding shift
-      if ( !snap || !this.system.targeting.range ) return;
+    const onMove = (options) => {
+      const { shape, position, snap } = options;
+      
+      // Snap is gonna be true if user is not holding shift      
+      if (!snap) return;
 
+      const grid = canvas.grid ?? foundry.documents.BaseScene.defaultGrid;
       const [rangeRegion, rangePlaceable] = displayRange;
 
       // Restrict snapping to vertex/center
-      const mode = CONST.GRID_SNAPPING_MODES[(isCircle && size % 2 === 0) ? "VERTEX" : "CENTER"]; // If even Sized circle, snap to vertex instead
+      let mode = CONST.GRID_SNAPPING_MODES["CENTER"];
+      switch (shape.type) {
+        case 'line':
+          mode = CONST.GRID_SNAPPING_MODES[width % 2 === 0 ? "VERTEX" : "SIDE_MIDPOINT"]; // Vertex if even, mid point if odd
+          break;
+        case 'circle':
+          if (size % 2 === 0) mode = CONST.GRID_SNAPPING_MODES["VERTEX"]; // Vertex if even Sized
+        break;
+      }
+
       const { x, y } = shape.grid.getSnappedPoint(position, { mode });
       position.x = x;
       position.y = y;
@@ -304,7 +320,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       const hole = rangeRegion.shapes[1];
       const left = hole.origin.x >= position.x;
       const top = hole.origin.y >= position.y;
-
+      
       // Square grid
       const offsetPos = {
         x: left ? position.x - radius * yard : position.x + (radius - 1) * yard, // Left / Right
@@ -314,31 +330,31 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       // Hexagonal grid (Rows)
       if (grid.isHexagonal && !grid.columns) {
         offsetPos.x = left ? position.x - (radius - 2.5) * yard : position.x + (radius - 2.5) * yard, // Left / Right
-        offsetPos.y = top ? position.y - (radius - 1) * yard : position.y + (radius - 1) * yard; // Top / Bottom
+          offsetPos.y = top ? position.y - (radius - 1) * yard : position.y + (radius - 1) * yard; // Top / Bottom
       }
 
       // Hexagonal grid (Columns)
       if (grid.isHexagonal && grid.columns) {
         offsetPos.x = left ? position.x - (radius - 1) * yard : position.x + (radius - 1) * yard, // Left / Right
-        offsetPos.y = top ? position.y - (radius - 2.5) * yard : position.y + (radius - 2.5) * yard; // Top / Bottom
+          offsetPos.y = top ? position.y - (radius - 2.5) * yard : position.y + (radius - 2.5) * yard; // Top / Bottom
       }
 
       // Hexagonal grid (Columns)
       if (grid.isHexagonal && grid.columns) {
         offsetPos.x = left ? position.x - (radius - 1) * yard : position.x + (radius - 1) * yard, // Left / Right
-        offsetPos.y = top ? position.y - (radius - 2.5) * yard : position.y + (radius - 2.5) * yard; // Top / Bottom
+          offsetPos.y = top ? position.y - (radius - 2.5) * yard : position.y + (radius - 2.5) * yard; // Top / Bottom
       }
 
       // Gridless - Not perfect, as the grid does not round it
       if (grid.isGridless) {
         offsetPos.x = left ? position.x - (radius - 0.9) * yard : position.x + (radius - 0.9) * yard, // Left / Right
-        offsetPos.y = top ? position.y - (radius - 0.9) * yard : position.y + (radius - 0.9) * yard; // Top / Bottom
+          offsetPos.y = top ? position.y - (radius - 0.9) * yard : position.y + (radius - 0.9) * yard; // Top / Bottom
       }
 
       // Out of Range warning
       const outOfRange = !hole.testPoint(offsetPos);
       const rangeColorIn = '#000000', rangeColorOut = '#400800';
-      
+
       if (outOfRange) {
         if (!warning || warning?.active === false) warning = ui.notifications.warn("WW.Targeting.RangeOut", { localize: true, permanent: true });
         if (rangeRegion.color.css === rangeColorIn) {
@@ -385,4 +401,22 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     return region;
   }
 
+  static _onAreaRotate(options) {
+    const { event, shape, precise } = options;
+    const isHex = canvas.grid.isHexagonal;
+
+    let interval;
+    switch (shape.type) {
+      case "line":
+        interval = precise ? 15 : (isHex ? 30 : 45);
+        break;
+      default:
+        interval = precise ? (isHex ? 30 : 45) : (isHex ? 60 : 90);
+        break;
+    }
+
+    const delta = interval * Math.sign(event.delta);
+    shape.rotate((shape.rotation + delta).toNearest(interval) - shape.rotation);
+    return false;
+  }
 }

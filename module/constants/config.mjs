@@ -349,7 +349,8 @@ WW.TARGETING_RESTRICTIONS = {
 
 WW.ITEM_AREA_SHAPES = {
   'circle': 'WW.Item.Area.Shape.Circle',
-  'emanation': 'WW.Item.Area.Shape.Emanation'
+  'emanation': 'WW.Item.Area.Shape.Emanation',
+  'line': 'WW.Item.Area.Shape.Line'
 }
 
 /* Character Options */
