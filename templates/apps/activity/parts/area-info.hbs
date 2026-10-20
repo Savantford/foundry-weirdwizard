@@ -1,0 +1,21 @@
+<ol class="area-info">
+  {{!-- Range --}}
+  <li>{{localize "WW.Targeting.Range"}} {{ targeting.range }}</li>
+
+  {{!-- Emanation Radius --}}
+  {{#if (eq area.shape "emanation")}}
+    <li>{{localize "WW.Item.Area.Shape.Emanation"}}</li>
+    <li>{{localize "WW.Item.Area.Radius"}} {{ area.radius }}</li>
+  
+  {{!-- Line Length and Width --}}
+  {{else if (eq area.shape "line")}}
+    <li>{{localize "WW.Item.Area.Shape.Line"}}</li>
+    <li>{{localize "WW.Item.Area.Length"}} {{ area.size }}</li>
+    <li>{{localize "WW.Item.Area.Width"}} {{ area.width }}</li>
+
+  {{!-- Circle Size --}}
+  {{else}}
+    <li>{{localize "WW.Item.Area.Shape.Circle"}}</li>
+    <li>{{localize "WW.Item.Area.Size"}} {{ area.size }}</li>
+  {{/if}}
+</ol>

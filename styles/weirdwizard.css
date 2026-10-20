@@ -5061,7 +5061,7 @@ details.document-card .card-header:hover::after {
       font-weight: 300;
     }
 
-    .params {
+    .area-info {
       display: inline-flex;
       flex-flow: wrap;
       gap: 0 5px;

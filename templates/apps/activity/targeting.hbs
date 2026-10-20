@@ -6,22 +6,7 @@
     {{localize "WW.Targeting.Targets"}}
 
     {{!-- Area Parameters --}}
-    <ol class="params">
-      {{!-- Range --}}
-      <li>{{localize "WW.Targeting.Range"}} {{ targeting.range }}</li>
-
-      {{!-- Area Parameters --}}
-      {{#if (eq targeting.method "area")}}
-        {{!-- Shape, Size / Radius --}}
-        {{#if (eq area.shape "circle")}}
-        <li>{{localize "WW.Item.Area.Shape.Circle"}}</li>
-        <li>{{localize "WW.Item.Area.Size"}} {{ area.size }}</li>
-        {{else}}
-        <li>{{localize "WW.Item.Area.Shape.Emanation"}}</li>
-        <li>{{localize "WW.Item.Area.Radius"}} {{ area.radius }}</li>
-        {{/if}}
-      {{/if}}
-    </ol>
+    {{> "systems/weirdwizard/templates/apps/activity/parts/area-info.hbs"}}
   </h4>
 
   {{!-- Targeting Buttons --}}
