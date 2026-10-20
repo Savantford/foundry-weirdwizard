@@ -21,7 +21,10 @@
     },
     "healing": "",
     "instant": [],
-    "targeting": "manual",
+    "targeting": {
+      "operation": "placeArea",
+      "range": 10
+    },
     "template": {
       "type": "size",
       "value": 5
@@ -31,7 +34,11 @@
     "casting": "",
     "target": "<p>One line-shaped space, up to 10 yards wide, 10 yards tall, and 1 yard thick originating from a point within 10 yards</p>",
     "duration": "<p>1 minute</p>",
-    "grantedBy": null
+    "grantedBy": null,
+    "area": {
+      "shape": "line",
+      "size": 10
+    }
   },
   "effects": [],
   "sort": 0,
@@ -43,11 +50,11 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "14.368",
+    "coreVersion": "14.369",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744750463828,
-    "modifiedTime": 1791305116782,
+    "modifiedTime": 1792454340855,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
