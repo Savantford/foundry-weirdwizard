@@ -1,5 +1,5 @@
 import WWRoll from '../dice/roll.mjs';
-import { capitalize } from '../helpers/utils.mjs';
+import { capitalize, inferDataFromKey } from '../helpers/utils.mjs';
 import { actDataFromEffect, dataFromLabel } from '../sidebar/chat-html-templates.mjs';
 
 /**
@@ -95,7 +95,7 @@ export default class WWChatMessage extends foundry.documents.ChatMessage {
 
         case 'spell':
           item.subtitle = _loc(CONFIG.WW.SPELL_TIERS[sys.tier]);
-          if (sys.tradition) item.subtitle += ` • ${sys.tradition}`;
+          if (sys.tradition) item.subtitle += ` • ${(await inferDataFromKey('traditions', sys.tradition)).name}`;
         break;
 
         default: item.subtitle = sys.subtype ?? item.type; break;
