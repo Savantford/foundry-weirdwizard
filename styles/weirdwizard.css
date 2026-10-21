@@ -5582,10 +5582,21 @@ table.roll-table-embed {
     all: inherit !important;
     padding: 0 !important;
   }
+
+  .roll-table-embed-title {
+    all: inherit;
+  }
+}
+
+.statbox table.roll-table-embed .roll-table-embed-title {
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
 }
 
 .journal-entry-page figure {
   margin: 0;
+
   figcaption {
     margin: 0;
   }
