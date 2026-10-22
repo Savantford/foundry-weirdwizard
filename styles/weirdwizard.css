@@ -926,11 +926,11 @@ body.theme-dark.application.weirdwizard .window-content {
 
 /* Style App V2 Inputs */
 .weirdwizard.application {
-  input[type="text"],
-  input[type="search"] {
+  input[type=text],
+  input[type=search] {
     --input-text-color: var(--body-text-color);
     --input-placeholder-color: var(--placeholder-text-color);
-    background: var(--background-color-shadow);
+    --input-background-color: var(--background-color-shadow);
     border-radius: 1px;
     padding: 0;
     line-height: normal;
@@ -940,7 +940,7 @@ body.theme-dark.application.weirdwizard .window-content {
 
   textarea {
     --input-placeholder-color: var(--placeholder-text-color);
-    background: var(--background-color-shadow);
+    --input-background-color: var(--background-color-shadow);
     border-radius: 1px;
     width: 100%;
     min-height: 2lh;
@@ -951,8 +951,8 @@ body.theme-dark.application.weirdwizard .window-content {
 
 /* Remove border and background from inputs/selects/textareas not hovered */
 .weirdwizard.sheet .window-content {
-  input[type="number"],
-  input[type="text"],
+  input[type=number],
+  input[type=text],
   select,
   textarea,
   color-picker {
@@ -962,8 +962,8 @@ body.theme-dark.application.weirdwizard .window-content {
     border: 1px solid transparent;
   }
 
-  input[type="number"]:disabled,
-  input[type="text"]:disabled,
+  input[type=number]:disabled,
+  input[type=text]:disabled,
   select:disabled,
   textarea:disabled {
     --input-text-color: var(--disabled-text-color);
@@ -999,7 +999,7 @@ body.theme-dark.application.weirdwizard .window-content {
   }
 }
 
-.weirdwizard.sheet.creature input[type="number"],
+.weirdwizard.sheet.creature input[type=number],
 .weirdwizard input[name*="sizeFraction"] {
   min-width: 2.5ch;
   max-width: 4.5ch;
@@ -1044,7 +1044,10 @@ body.theme-dark.application.weirdwizard .window-content {
 
 /* Selects dropdown */
 .weirdwizard select {
+  --input-text-color: var(--body-text-color);
   --input-placeholder-color: var(--placeholder-text-color);
+  --input-background-color: var(--background-color-shadow);
+  border: 1px solid transparent;
   height: auto;
   width: max-content;
   min-height: 1lh;
@@ -1054,6 +1057,38 @@ body.theme-dark.application.weirdwizard .window-content {
 
 .weirdwizard select:hover:not([disabled]) {
   outline: 2px solid var(--input-focus-outline-color);
+}
+
+/* File select */
+.weirdwizard color-picker,
+.weirdwizard file-picker,
+.weirdwizard formula-input,
+.weirdwizard :is(document-tags, string-tags) > .input-group {
+  --input-text-color: var(--body-text-color);
+  --input-placeholder-color: var(--placeholder-text-color);
+  --input-background-color: var(--background-color-shadow);
+  border: 1px solid transparent;
+}
+
+.weirdwizard.application .window-content {
+  color-picker > input[type=text],
+  file-picker > input[type=text],
+  formula-input > input[type=text],
+  :is(document-tags, string-tags) > .input-group > input[type=text] {
+    --input-background-color: transparent;
+    --input-box-shadow: none;
+    --input-focus-outline-color: transparent;
+    border: none;
+    padding-right: 0;
+  }
+
+  color-picker > button,
+  file-picker > button,
+  formula-input > button,
+  :is(document-tags, string-tags) > .input-group > button {
+    --button-text-color: var(--body-text-color);
+    --button-hover-text-color: var(--body-text-color);
+}
 }
 
 /* Text Areas */
@@ -1868,7 +1903,7 @@ body.theme-dark.application.weirdwizard .window-content {
     width: 100%;
     font-size: var(--font-size-16);
 
-    input[type="number"] {
+    input[type=number] {
       --input-text-color: inherit;
     }
   }
@@ -1991,7 +2026,7 @@ body.theme-dark.application.weirdwizard .window-content {
         flex: 0;
       }
 
-      input[type="number"] {
+      input[type=number] {
         min-width: 2.5ch;
         padding: 0;
         min-height: 1lh;
@@ -4241,7 +4276,7 @@ input[type="checkbox"].checkbox-uses {
   line-height: normal;
 }
 
-.journal-entry-page.charoption .edit-mode .benefits-section input[type="number"] {
+.journal-entry-page.charoption .edit-mode .benefits-section input[type=number] {
   padding: 0;
   text-align: center;
 }
@@ -4555,7 +4590,8 @@ input[type="checkbox"].checkbox-uses {
 }
 
 .activity-use .split-button {
-  button {
+  button,
+  button:hover {
     border-image-width: 5px 0;
   }
 
@@ -5184,7 +5220,7 @@ details.document-card .card-header:hover::after {
       img {
         height: 50px;
         margin: 0 auto 0.5lh;
-        z-index: -1;
+        z-index: 0;
       }
 
       > div {
@@ -5194,6 +5230,7 @@ details.document-card .card-header:hover::after {
         border-radius: 5px;
         color: white;
         text-align: center;
+        z-index: 1;
       }
     }
 
@@ -5232,7 +5269,7 @@ details.document-card .card-header:hover::after {
     }
   }
 
-  input[type="number"] {
+  input[type=number] {
     --input-text-color: var(--body-text-color);
     height: 1lh;
     background: var(--background-color-shadow);
@@ -6140,7 +6177,7 @@ form.quest-calendar {
   margin: 0;
 }
 
-#quest-calendar-config input[type="number"] {
+#quest-calendar-config input[type=number] {
   width: 30px;
   text-align: center;
 }
@@ -7229,14 +7266,14 @@ body {
   }
 
   /* Active Effect Config: Inputs */
-  input[type="number"],
-  input[type="text"],
+  input[type=number],
+  input[type=text],
   select {
     --input-height: 100%;
   }
 
-  input[type="number"],
-  input[type="text"] {
+  input[type=number],
+  input[type=text] {
     padding: 0 5px;
   }
 
@@ -7310,7 +7347,7 @@ body {
           }
         }
 
-        input[type="number"] {
+        input[type=number] {
           flex: 0 50px;
         }
       }
