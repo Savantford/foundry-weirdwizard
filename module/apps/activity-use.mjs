@@ -388,7 +388,8 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   async _onChangeForm(formConfig, event) {
     super._onChangeForm(formConfig, event);
     
-    const formData = foundry.utils.expandObject(new foundry.applications.ux.FormDataExtended(this.element).object);
+    const form = this.element.querySelector('form')
+    const formData = foundry.utils.expandObject(new foundry.applications.ux.FormDataExtended(form).object);
 
     this._refreshInputs(formData);
 
