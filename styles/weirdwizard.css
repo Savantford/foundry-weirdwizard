@@ -4867,20 +4867,24 @@ details.document-card .card-header:hover::after {
 /*  Multi-Choice App                            */
 /* -------------------------------------------- */
 
-#multi-choice .window-content {
-  padding: 0.75rem 0.25rem 0.75rem 0.75rem;
-  background: none;
-  backdrop-filter: none;
+#multi-choice {
+  .window-title {
+    opacity: 0;
+  }
+  
+  .window-content {
+    padding: 0.75rem 0.25rem 0.75rem 0.75rem;
+  }
 }
 
-#multi-choice .window-content>div {
+#multi-choice .window-content > div {
   display: flex;
   flex-flow: column;
   gap: 10px;
   flex: 1;
 }
 
-#multi-choice .window-content>div>*:not(.bug):not(.spear-divider) {
+#multi-choice .window-content > div > *:not(.bug):not(.spear-divider) {
   margin: 0 20px;
 }
 
