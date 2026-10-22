@@ -5619,6 +5619,8 @@ details.document-card .card-header:hover::after {
 
 /* Embedded Rollable Table */
 table.roll-table-embed {
+  margin: 0;
+
   tbody > tr > td > h4 {
     all: inherit !important;
     padding: 0 !important;
@@ -5627,6 +5629,10 @@ table.roll-table-embed {
   .roll-table-embed-title {
     all: inherit;
   }
+}
+
+table.roll-table-embed + figcaption {
+  margin: 0;
 }
 
 .statbox table.roll-table-embed .roll-table-embed-title {
