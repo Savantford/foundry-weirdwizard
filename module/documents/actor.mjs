@@ -864,7 +864,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     // Roll Boons
     foundry.utils.mergeObject(roll.boons = {}, {
       actor: sys.boons,
-      fromEffects: sys.boons.selfRoll[attKey] ? sys.boons.selfRoll[attKey] : 0, // Conditional boons should be added here later
+      fromEffects: sys.boons.selfRoll[attKey], // Conditional boons should be added here later
       forAttacks: sys.boons.selfRoll.attacks,
       forSpells: sys.boons.selfRoll.spells,
     });
@@ -957,7 +957,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     if (boons.situational) boonsFinal += boons.situational; // Add situational boons input value
     if (boons.fromEffects) boonsFinal += boons.fromEffects; // If there are boons or banes applied by Active Effects, add it
     if (boons.applyAttack && boons.forAttacks) boonsFinal += boons.forAttacks;
-    if (boons.applySpell && boons.forAttacks) boonsFinal += boons.forSpells;
+    if (boons.applySpell && boons.forSpells) boonsFinal += boons.forSpells;
     if (boons.fixed) boonsFinal += boons.fixed; // If there are fixed boons or banes, add it
 
     config.roll.boons.final = boonsFinal;

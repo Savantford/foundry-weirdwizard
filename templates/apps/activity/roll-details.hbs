@@ -35,7 +35,6 @@
       {{!-- Total Boones/Banes --}}
       <h4 class="rounded boons-header">
         <span>{{localize "WW.Boons.Total"}}</span>
-
         <span class="boons-display total ml-auto">{{numberFormat final sign=true}}</span>
       </h4>
 
@@ -52,9 +51,18 @@
         {{#if forAttacks}}
         <div class="stat-stretch flex-group-left">
           <label>{{localize "WW.Boons.Attack"}}</label>
-          <input name="roll.boons.applyAttack" class="damage-checkbox attack" type="checkbox" data-tooltip="WW.Boons.Apply"
-            {{#if roll.boons.applyAttack}}checked{{/if}}>
+          <input type="checkbox" class="attack" name="roll.boons.applyAttack" data-tooltip="WW.Boons.Apply" {{#if applyAttack}}checked{{/if}}>
           <span class="boons-display attack">{{numberFormat forAttacks sign=true}}</span>
+        </div>
+        {{/if}}
+
+        {{!-- Spell Boons --}}
+        {{#if forSpells}}
+        {{log applySpell}}
+        <div class="stat-stretch flex-group-left">
+          <label>{{localize "WW.Boons.Spell"}}</label>
+          <input type="checkbox" class="spell" name="roll.boons.applySpell" data-tooltip="WW.Boons.Apply" {{#if applySpell}}checked{{/if}}>
+          <span class="boons-display attack">{{numberFormat forSpells sign=true}}</span>
         </div>
         {{/if}}
 

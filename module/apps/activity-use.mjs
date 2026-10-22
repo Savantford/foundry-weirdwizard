@@ -101,7 +101,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       ...await super._prepareContext(options),
       ...this.config
     };
-    
+    console.log(this.config)
     const item = context.item;
     const sys = context.actor.system;
 
@@ -123,9 +123,9 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     if (boons.situational) boonsFinal += boons.situational; // Add situational boons input value
     if (boons.fromEffects) boonsFinal += boons.fromEffects; // If there are boons or banes applied by Active Effects, add it
     if (boons.applyAttack && boons.forAttacks) boonsFinal += boons.forAttacks;
-    if (boons.applySpell && boons.forAttacks) boonsFinal += boons.forSpells;
+    if (boons.applySpell && boons.forSpells) boonsFinal += boons.forSpells;
     if (boons.fixed) boonsFinal += boons.fixed; // If there are fixed boons or banes, add it
-
+    
     // Prepare boons display
     let boonsDisplay = '';
 
@@ -140,8 +140,9 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     }
 
     // Merge boons
+    console.log(context.roll.boons)
+    console.log(boons)
     context.roll.boons = {
-      ...context.roll.boons,
       ...boons,
       final: boonsFinal,
       abs: Math.abs(boonsFinal),
@@ -294,7 +295,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   static #changeSituationalBoons(event, target) {
     const parent = target.closest('.adjustment-widget');
     const action = target.dataset.action;
-
+    
     if (action === 'situationalUp') {
       this.config.roll.boons.situational++;
     } else {
@@ -387,28 +388,16 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   /** @inheritdoc */
   async _onChangeForm(formConfig, event) {
     super._onChangeForm(formConfig, event);
-    
+
+    // Get form data
     const form = this.element.querySelector('form')
     const formData = foundry.utils.expandObject(new foundry.applications.ux.FormDataExtended(form).object);
 
-    this._refreshInputs(formData);
+    // Merge config with formData
+    foundry.utils.mergeObject(this.config, formData);
 
     // Ensures the next input can be selected before re-rendering, maintaining focus while transitioning inputs.
     setTimeout(() => this.render(), 20);
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Refresh all inputs based on changed values.
-   * @param {Record<string, unknown>} formData
-   */
-  _refreshInputs(formData) {
-    for (const [key1, value1] of Object.entries(formData)) {
-      for (const [key2, value2] of Object.entries(value1)) {
-        this.config[key1][key2] = value2;
-      }
-    }
   }
   
   /* -------------------------------------------- */
