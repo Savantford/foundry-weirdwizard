@@ -101,7 +101,6 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
       ...await super._prepareContext(options),
       ...this.config
     };
-    console.log(this.config)
     const item = context.item;
     const sys = context.actor.system;
 
@@ -140,8 +139,6 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     }
 
     // Merge boons
-    console.log(context.roll.boons)
-    console.log(boons)
     context.roll.boons = {
       ...boons,
       final: boonsFinal,
