@@ -618,7 +618,7 @@ export default class WWCharOptionSheet extends WWSheetMixin(JournalEntryPageHand
     } else if (doc.documentName === 'Item') {
       const benefits = this.document.system.benefits;
       
-      await benefits[benefit].items.push(doc.uuid);
+      await benefits[benefit].items.add(doc.uuid);
 
       await this.document.update({'system.benefits': benefits});
     
