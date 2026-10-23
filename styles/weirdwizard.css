@@ -5628,6 +5628,7 @@ table.roll-table-embed {
 
   .roll-table-embed-title {
     all: inherit;
+    padding: 0;
   }
 }
 

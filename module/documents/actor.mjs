@@ -172,13 +172,14 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       for (const o in cOpts) {
         const opt = cOpts[o];
 
-        // Assign array of pages
-        if (opt && opt.constructor === Array) {
-          charOptions[o] = [];
+        // Assign set of character options
+        if (opt && opt.constructor === Set) {
+          console.log(opt.constructor)
+          charOptions[o] = new Set();
           
-          for (const idx in opt) {
-            const uuid = opt[idx];
-            charOptions[o].push(await fromUuid(uuid) ?? {... invalid, uuid });
+          for await (const uuid of opt) {
+            console.log(uuid)
+            charOptions[o].add(await fromUuid(uuid) ?? {... invalid, uuid });
           }
         }
         // Assign page
@@ -186,7 +187,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
           charOptions[o] = await fromUuid(opt) ?? {... invalid, uuid: opt };
         }
       }
-
+      console.log(charOptions)
       return charOptions;
     })();
   }
