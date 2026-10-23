@@ -174,11 +174,9 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
         // Assign set of character options
         if (opt && opt.constructor === Set) {
-          console.log(opt.constructor)
           charOptions[o] = new Set();
           
           for await (const uuid of opt) {
-            console.log(uuid)
             charOptions[o].add(await fromUuid(uuid) ?? {... invalid, uuid });
           }
         }
@@ -187,7 +185,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
           charOptions[o] = await fromUuid(opt) ?? {... invalid, uuid: opt };
         }
       }
-      console.log(charOptions)
+      
       return charOptions;
     })();
   }

@@ -100,6 +100,15 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
     if (source.range) foundry.utils.setProperty(source, 'targeting.range', source.range);
 
     if (source.template?.value) foundry.utils.setProperty(source, 'area.size', source.template.value);
+
+    // Migrate half damage
+    const instEffs = source.instant;
+    
+    if (instEffs?.length) {
+      for (const eff of instEffs) {
+        if (eff.value.includes('dmg.half')) eff.value = eff.value.replace('dmg.half', 'damageHalf');
+      }
+    }
     
     return source;
   }
