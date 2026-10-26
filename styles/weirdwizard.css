@@ -2558,27 +2558,25 @@ hr.bug {
 /* Attack Rider */
 .statbox .attack-rider {
   text-align: left;
-}
+  margin-left: 1.5em;
+  text-indent: -1em;
 
-.statbox .attack-rider {
-  margin-left: 5px;
-}
+  > label {
+    font-weight: 600;
+    color: var(--purple-dark);
+  }
 
-.statbox .attack-rider > label {
-  font-weight: 600;
-  color: var(--purple-dark);
-}
+  > p {
+    margin: 0
+  }
 
-.statbox .attack-rider > p {
-  margin: 0
-}
+  > p:first-of-type {
+    display: inline;
+  }
 
-.statbox .attack-rider > p:first-of-type {
-  display: inline;
-}
-
-.statbox .attack-rider > p:last-of-type {
-  margin-bottom: 0;
+  > p:last-of-type {
+    margin-bottom: 0;
+  }
 }
 
 /* -------------------------------------------- */
@@ -3570,7 +3568,7 @@ input[type="checkbox"].checkbox-uses {
   margin-right: 5px;
 }
 
-/*.described-list > .item,*/
+.described-list > .item,
 .weirdwizard .list-entries {
   padding-left: 1em;
   text-indent: -1em;
