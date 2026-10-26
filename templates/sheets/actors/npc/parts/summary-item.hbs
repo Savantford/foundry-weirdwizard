@@ -1,5 +1,7 @@
 <li class="item draggable" data-item-id="{{item._id}}">
-
+    {{!-- Icon --}}
+    <img class="mini-icon" src="{{item.img}}">
+    
     {{!-- Title --}}
     <label class="item-button" data-action="itemLabelClick" data-item-id="{{item._id}}"
         data-tooltip="{{item.tooltip}}">{{item.label}}{{#if (ne item.type "equipment")}}:{{/if}}</label>

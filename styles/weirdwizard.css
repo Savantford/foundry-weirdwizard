@@ -3520,6 +3520,12 @@ input[type="checkbox"].checkbox-uses {
   margin-bottom: 0;
   border-bottom: none;
   font-size: inherit;
+
+  img.mini-icon {
+    display: inline;
+    vertical-align: sub;
+    margin-right: -2px;
+  }
 }
 
 .described-list li > * {
@@ -3564,7 +3570,7 @@ input[type="checkbox"].checkbox-uses {
   margin-right: 5px;
 }
 
-.described-list > .item,
+/*.described-list > .item,*/
 .weirdwizard .list-entries {
   padding-left: 1em;
   text-indent: -1em;
