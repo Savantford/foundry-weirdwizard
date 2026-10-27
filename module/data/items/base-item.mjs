@@ -54,8 +54,7 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
       // Area (Scene Region) template
       area: new fields.SchemaField({
         shape: makeRequiredStrField({ initial: 'circle' }),
-        size: makeIntField({ initial: 5 }), // Circle Size or Line Length
-        radius: makeIntField({ initial: 5 }), // Emanation only
+        measure: makeIntField({ initial: 5 }),
         width: makeIntField({ initial: 1 }), // Line only
         attached: makeBooField({ initial: true }), // Emanation only
         color: new fields.ColorField(),
@@ -99,7 +98,15 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
 
     if (source.range) foundry.utils.setProperty(source, 'targeting.range', source.range);
 
-    if (source.template?.value) foundry.utils.setProperty(source, 'area.size', source.template.value);
+    if (source.template?.value) foundry.utils.setProperty(source, 'area.measure', source.template.value);
+
+    // Migrate Area Size / Radius to Measure
+    if ('area' in source) {
+      const a = source.area;
+      
+      if (a.shape === 'emanation' && a.radius) foundry.utils.setProperty(source, 'area.measure', a.radius);
+      else if (a.shape === 'circle' && a.size) foundry.utils.setProperty(source, 'area.measure', a.size);
+    }
 
     // Migrate half damage
     const instEffs = source.instant;
