@@ -5,7 +5,7 @@ export function fullMigration(forced) {
   const lastMigration = game.settings.get('weirdwizard', 'lastMigrationVersion');
   const isNewer = foundry.utils.isNewerVersion;
   const isExperimental = lastMigration.includes('-exp');
-
+  
   if (game.actors.size || game.items.size || game.journal.size) { // Old world
     // If last migration was done before the version provided, perform the necessary data migration
     if (isNewer(isExperimental ? '2.3.0-exp' : '2.0.0', lastMigration) || forced) effectOverhaul(forced);
@@ -14,7 +14,7 @@ export function fullMigration(forced) {
     if (isNewer(isExperimental ? '6.1.0-exp' : '6.1.0', lastMigration) || forced) improvedListEntries(forced);
     if (isNewer(isExperimental ? '6.2.0-exp' : '6.2.0', lastMigration) || forced) v13Support(forced);
     if (isNewer(isExperimental ? '6.3.1-exp' : '6.3.0', lastMigration) || forced) secrets(forced);
-    //if (isNewer(isExperimental ? '7.0.0-exp' : '7.0.0', lastMigration) || forced) v14Support(forced);
+    if (isNewer(isExperimental ? '7.0.0-exp' : '7.0.0', lastMigration) || forced) v14Support(forced);
   } else if (game.system.version !== '#{VERSION}#') { // New world, set lastMigrationVersion to current system version
     game.settings.set('weirdwizard', 'lastMigrationVersion', game.system.version);
   }
