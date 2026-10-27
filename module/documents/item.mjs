@@ -174,7 +174,8 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     const baseShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
     const targeting = this.system.targeting;
     const range = targeting.method === 'self' ? 0 : targeting.range; // Treat as 0 if self targeted
-    
+    console.log(targeting)
+    console.log(range)
     // Return earlier if range is null
     if (!range) return null;
     
@@ -230,7 +231,9 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     // Draw regions
     rangePlaceable.draw();
     holePlaceable.draw();
-
+    console.log('test')
+    console.log(rangeRegion)
+    console.log(rangePlaceable)
     return [rangeRegion, rangePlaceable];
   }
 
@@ -253,8 +256,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     const baseShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
     const {
       shape = area.shape ?? 'circle',
-      radius: emaRadius = area.radius ?? 5, // Radius for emanation
-      size = area.size ?? 5, // Size for circle or length for a Line
+      measure = area.measure ?? 5,
       width = area.width ?? 1, // Width for line
       attached = area.attached ?? true,
       color = area.color ?? game.user.color,
@@ -262,7 +264,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     } = options;
     const isCircle = shape === 'circle';
     const isLine = shape === 'line';
-    const radius = isCircle ? size / 2 : emaRadius; // Half Size for circle, radius for emanation
+    const radius = isCircle ? measure / 2 : measure; // Half Size for circle, radius for emanation
 
     // Prepare region data
     const regionData = {
@@ -271,7 +273,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
         type: shape,
         base: { type: "token", x: 0, y: 0, width: 1, height: 1, shape: baseShape },
         radius: radius * yard,
-        length: isLine ? size * yard : undefined,
+        length: isLine ? measure * yard : undefined,
         width: isLine ? width * yard : undefined,
         x: 0,
         y: 0,
@@ -300,7 +302,6 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       if (!snap) return;
 
       const grid = canvas.grid ?? foundry.documents.BaseScene.defaultGrid;
-      const [rangeRegion, rangePlaceable] = displayRange;
 
       // Restrict snapping to vertex/center
       let mode = CONST.GRID_SNAPPING_MODES["CENTER"];
@@ -327,7 +328,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
           }
           break;
         case 'circle':
-          if (size % 2 === 0) mode = CONST.GRID_SNAPPING_MODES["VERTEX"]; // Vertex if even Sized
+          if (measure % 2 === 0) mode = CONST.GRID_SNAPPING_MODES["VERTEX"]; // Vertex if even Sized
         break;
       }
 
@@ -336,56 +337,59 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       position.y = y;
 
       // Restrict placement to range region
-      const hole = rangeRegion.shapes[1];
-      const left = hole.origin.x >= position.x;
-      const top = hole.origin.y >= position.y;
-      
-      // Square grid
-      const offsetPos = {
-        x: left ? position.x - radius * yard : position.x + (radius - 1) * yard, // Left / Right
-        y: top ? position.y - radius * yard : position.y + (radius - 1) * yard // Top / Bottom
-      }
+      if (displayRange) {
+        const [rangeRegion, rangePlaceable] = displayRange;
+        const hole = rangeRegion.shapes[1];
+        const left = hole.origin.x >= position.x;
+        const top = hole.origin.y >= position.y;
+        
+        // Square grid
+        const offsetPos = {
+          x: left ? position.x - radius * yard : position.x + (radius - 1) * yard, // Left / Right
+          y: top ? position.y - radius * yard : position.y + (radius - 1) * yard // Top / Bottom
+        }
 
-      // Hexagonal grid (Rows)
-      if (grid.isHexagonal && !grid.columns) {
-        offsetPos.x = left ? position.x - (radius - 2.5) * yard : position.x + (radius - 2.5) * yard, // Left / Right
-          offsetPos.y = top ? position.y - (radius - 1) * yard : position.y + (radius - 1) * yard; // Top / Bottom
-      }
+        // Hexagonal grid (Rows)
+        if (grid.isHexagonal && !grid.columns) {
+          offsetPos.x = left ? position.x - (radius - 2.5) * yard : position.x + (radius - 2.5) * yard, // Left / Right
+            offsetPos.y = top ? position.y - (radius - 1) * yard : position.y + (radius - 1) * yard; // Top / Bottom
+        }
 
-      // Hexagonal grid (Columns)
-      if (grid.isHexagonal && grid.columns) {
-        offsetPos.x = left ? position.x - (radius - 1) * yard : position.x + (radius - 1) * yard, // Left / Right
-          offsetPos.y = top ? position.y - (radius - 2.5) * yard : position.y + (radius - 2.5) * yard; // Top / Bottom
-      }
+        // Hexagonal grid (Columns)
+        if (grid.isHexagonal && grid.columns) {
+          offsetPos.x = left ? position.x - (radius - 1) * yard : position.x + (radius - 1) * yard, // Left / Right
+            offsetPos.y = top ? position.y - (radius - 2.5) * yard : position.y + (radius - 2.5) * yard; // Top / Bottom
+        }
 
-      // Hexagonal grid (Columns)
-      if (grid.isHexagonal && grid.columns) {
-        offsetPos.x = left ? position.x - (radius - 1) * yard : position.x + (radius - 1) * yard, // Left / Right
-          offsetPos.y = top ? position.y - (radius - 2.5) * yard : position.y + (radius - 2.5) * yard; // Top / Bottom
-      }
+        // Hexagonal grid (Columns)
+        if (grid.isHexagonal && grid.columns) {
+          offsetPos.x = left ? position.x - (radius - 1) * yard : position.x + (radius - 1) * yard, // Left / Right
+            offsetPos.y = top ? position.y - (radius - 2.5) * yard : position.y + (radius - 2.5) * yard; // Top / Bottom
+        }
 
-      // Gridless - Not perfect, as the grid does not round it
-      if (grid.isGridless) {
-        offsetPos.x = left ? position.x - (radius - 0.9) * yard : position.x + (radius - 0.9) * yard, // Left / Right
-          offsetPos.y = top ? position.y - (radius - 0.9) * yard : position.y + (radius - 0.9) * yard; // Top / Bottom
-      }
+        // Gridless - Not perfect, as the grid does not round it
+        if (grid.isGridless) {
+          offsetPos.x = left ? position.x - (radius - 0.9) * yard : position.x + (radius - 0.9) * yard, // Left / Right
+            offsetPos.y = top ? position.y - (radius - 0.9) * yard : position.y + (radius - 0.9) * yard; // Top / Bottom
+        }
 
-      // Out of Range warning
-      const outOfRange = !hole.testPoint(offsetPos);
-      const rangeColorIn = '#000000', rangeColorOut = '#400800';
+        // Out of Range warning
+        const outOfRange = !hole.testPoint(offsetPos);
+        const rangeColorIn = '#000000', rangeColorOut = '#400800';
 
-      if (outOfRange) {
-        if (!warning || warning?.active === false) warning = ui.notifications.warn("WW.Targeting.RangeOut", { localize: true, permanent: true });
-        if (rangeRegion.color.css === rangeColorIn) {
-          rangeRegion.updateSource({ color: rangeColorOut });
-          rangePlaceable.refresh();
-        };
-      } else {
-        warning?.remove();
-        if (rangeRegion.color.css === rangeColorOut) {
-          rangeRegion.updateSource({ color: rangeColorIn });
-          rangePlaceable.refresh();
-        };
+        if (outOfRange) {
+          if (!warning || warning?.active === false) warning = ui.notifications.warn("WW.Targeting.RangeOut", { localize: true, permanent: true });
+          if (rangeRegion.color.css === rangeColorIn) {
+            rangeRegion.updateSource({ color: rangeColorOut });
+            rangePlaceable.refresh();
+          };
+        } else {
+          warning?.remove();
+          if (rangeRegion.color.css === rangeColorOut) {
+            rangeRegion.updateSource({ color: rangeColorIn });
+            rangePlaceable.refresh();
+          };
+        }
       }
     };
 
