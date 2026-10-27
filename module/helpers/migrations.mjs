@@ -96,7 +96,6 @@ export async function v14Support(forced) {
         const changes = [];
 
         for (const change of effect.changes) {
-
           // Fix key
           if (!(change.key || change.preset)) continue; // Skip if key or preset is null
 
@@ -104,6 +103,9 @@ export async function v14Support(forced) {
           if (!(change.key.includes('system.') || change.key.includes('token.'))) {
             change.preset = change.key;
             change.key = presetToKey[change.key];
+            
+            // Make banes become subtract instead of add type
+            if (change.preset.toLowerCase().includes('bane')) change.type = 'subtract';
           }
           
           changes.push(change);
