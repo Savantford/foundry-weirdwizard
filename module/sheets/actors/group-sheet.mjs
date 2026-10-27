@@ -315,18 +315,17 @@ export default class WWGroupSheet extends WWActorSheet {
 
     // Handle drop
     const memberCats = { ... await this.document.system.members };
-
+    
     // Remove UUID reference from other arrays
     for (const c in memberCats) {
       const cat = memberCats[c];
-      const index = cat.indexOf(actor.uuid);
-      if (index > -1) cat.splice(index, 1);
+      
+      cat.delete(actor.uuid);
     }
 
-    await memberCats[memberCat].push(actor.uuid);
+    await memberCats[memberCat].add(actor.uuid);
 
     await this.document.update({ 'system.members': memberCats });
-
   }
 
   /* -------------------------------------------- */
