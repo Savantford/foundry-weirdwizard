@@ -57,7 +57,7 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
         size: makeIntField({ initial: 5 }), // Circle Size or Line Length
         radius: makeIntField({ initial: 5 }), // Emanation only
         width: makeIntField({ initial: 1 }), // Line only
-        attached: makeBooField(), // Emanation only
+        attached: makeBooField({ initial: true }), // Emanation only
         color: new fields.ColorField(),
 
         restriction: new fields.SchemaField({
