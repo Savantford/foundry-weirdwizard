@@ -133,11 +133,10 @@
             <div class="statbox-section stats">
                 {{!-- Size, Speed --}}
                 <ol class="stat-inline list-entries movement-traits">
-
                     {{!-- Size --}}
                     <label>{{localize "WW.Stats.Size"}}:</label>
 
-                    <span class="info" data-tooltip="{{{ stats.size.autoTooltip }}}">{{system.stats.size}}</span>
+                    <span class="info" data-tooltip="{{{ stats.size.autoTooltip }}}">{{ system.stats.sizeFraction }}</span>
                     
                     {{!-- Speed --}}
                     <label>{{localize "WW.Stats.Speed"}}:</label>
@@ -158,7 +157,6 @@
                             data-tooltip="WW.ListEntry.DisplayList"><i class="fa-solid fa-list"></i></a>
                     </span>
                     {{/if}}
-                    
                 </ol>
 
                 {{!-- Languages --}}
