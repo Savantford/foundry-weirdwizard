@@ -23,6 +23,6 @@ export default class WWRollTableSheet extends RollTableSheet {
   get title() {
     const { constructor: cls, id, name, type } = this.document;
     const prefix = cls.hasTypeData && type !== "base" ? CONFIG[cls.documentName].typeLabels[type] : cls.metadata.label;
-    return `${name} - ${game.i18n.localize(prefix)}`;
+    return `${name} - ${_loc(prefix)}`;
   }
 }

@@ -1,8 +1,10 @@
-import { i18n } from '../helpers/utils.mjs';
 import { dataFromLabel } from '../sidebar/chat-html-templates.mjs';
 
 export default class WWRoll extends Roll {
-  
+  /* -------------------------------------------- */
+  /*  Rendering                                   */
+  /* -------------------------------------------- */
+
   /**
    * Render a Roll instance to HTML
    * @override
@@ -15,11 +17,15 @@ export default class WWRoll extends Roll {
   
   async render({flavor, template=this.constructor.CHAT_TEMPLATE, isPrivate=false}={}) {
     if ( !this._evaluated ) await this.evaluate();
+
+    const { outcome, outcomeLabel, isOutcomePositive, isForcedOutcome } = this;
+    const outcomeData = { outcome, outcomeLabel, isOutcomePositive, isForcedOutcome };
     
     const attribute = this.options.attribute;
     const against = this.options.against;
     
     const chatData = {
+      ...outcomeData,
       isPrivate: isPrivate,
       formula: isPrivate ? "???" : this._formula,
       flavor: isPrivate ? null : flavor,
@@ -28,58 +34,26 @@ export default class WWRoll extends Roll {
       tooltip: isPrivate ? "" : await this.getTooltip(),
       total: isPrivate ? "?" : Math.round(this.total * 100) / 100,
       targetNo: isPrivate ? "?" : this.options.targetNo,
-      attributeLabel: isPrivate ? null : (attribute ? i18n(CONFIG.WW.ROLL_ATTRIBUTES[attribute]) : null),
+      attributeLabel: isPrivate ? null : (attribute ? _loc(CONFIG.WW.ROLL_ATTRIBUTES[attribute]) : null),
       attributeImg: isPrivate ? null : (attribute ? CONFIG.WW.ATTRIBUTE_ICONS[attribute] : null),
-      againstLabel: isPrivate ? null : (against ? i18n(CONFIG.WW.ROLL_AGAINST[against]) : null),
+      againstLabel: isPrivate ? null : (against ? _loc(CONFIG.WW.ROLL_AGAINST[against]) : null),
       againstImg: isPrivate ? null : (against ? CONFIG.WW.ATTRIBUTE_ICONS[against] : null),
       terms: await this.terms,
       originUuid: isPrivate ? null : this.options.originUuid,
-      outcome: isPrivate ? null : this.outcome,
       instEffs: isPrivate ? null : await this.instEffs,
       actEffs: isPrivate ? null : await this.actEffs,
       applyButtons: isPrivate ? null : this.applyButtons
     }
 
+    // Template with legacy support
     if (this.options?.template) template = this.options.template;
     template = template.replace('sidebar/r', 'sidebar/chat/');
     template = template.replace('templates/chat/', 'templates/sidebar/chat/');
 
     return foundry.applications.handlebars.renderTemplate(template, chatData);
   }
-
-  /** 
-   * Get the outcome (None, Critical, Success or Failure)
-  */
-  get outcome() {
-    const targetNo = this.options.targetNo;
-
-    // Return nothing if there is no target number
-    if (!targetNo) return ''; 
-    
-    // Determine outcome
-    if (this.total >= 20 && this.total >= targetNo + 5) return 'critical';  
-    else if (this.total >= targetNo) return 'success';
-    else return 'failure';
-  }
-
-  get instEffs() {
-    const effCats = this.options.instEffs;
-    
-    if (!effCats || Object.values(effCats).flat().every(el => el.length === 0)) return null;
-    
-    for (const trigger in effCats) {
-      const effects = effCats[trigger];
-      
-      for (const e in effects) {
-        effects[e] = {
-          ...effects[e],
-          ...dataFromLabel(effects[e].label)
-        };
-      }
-    }
-
-    return effCats;
-  }
+  
+  /* -------------------------------------------- */
 
   get actEffs() {
     const effCats = this.options.actEffs;
@@ -104,6 +78,8 @@ export default class WWRoll extends Roll {
 
     return effCats;
   }
+
+  /* -------------------------------------------- */
 
   get applyButtons() {
     const dataset = this.options.dataset;
@@ -166,6 +142,8 @@ export default class WWRoll extends Roll {
     return buttons;
   }
 
+  /* -------------------------------------------- */
+
   // Get target ids string
   _getTargetIds(targets, effTarget) {
     let targetIds = '';
@@ -177,6 +155,91 @@ export default class WWRoll extends Roll {
     })
 
     return targetIds;
+  }
+
+  /* -------------------------------------------- */
+  /*  Roll details                                */
+  /* -------------------------------------------- */
+
+  get targetNo() {
+    return this.options.targetNo ?? 10;
+  }
+
+  /** 
+   * Get final outcome of the roll: Failure, Success, Critical Failure or Critical Failure.
+  */
+  get outcome() {
+    // Return nothing if there is no target number
+    if (!this.targetNo) return null;
+
+    // Determine outcome
+    if (this.forcedOutcome) return this.forcedOutcome;
+
+    if (this.isCritSuccess) return 'critSuccess';
+    else if (this.isCritFailure) return 'critFailure';
+    else if (this.isSuccess) return 'success';
+    else return 'failure';
+  }
+
+  get outcomeLabel() {
+    return CONFIG.WW.ROLL_OUTCOME_LABELS[this.outcome] ?? null;
+  }
+
+  get forcedOutcome() {
+    const opt = this.options;
+
+    if (opt.forcedOutcome) return opt.forcedOutcome;
+    if (opt.autoSuccess) return 'success';
+    if (opt.autoFailure?.[opt.attribute]) return 'failure';
+    return null;
+  }
+
+  get isForcedOutcome() {
+    return !!this.forcedOutcome;
+  }
+
+  /* -------------------------------------------- */
+
+  get isCritSuccess() {
+    return this.total >= 20 && this.total >= this.targetNo + 5;
+  }
+
+  get isCritFailure() {
+    return this.total <= 0;
+  }
+
+  get isSuccess() {
+    return this.total >= this.targetNo;
+  }
+
+  get isFailure() {
+    return this.total < this.targetNo;
+  }
+
+  get isOutcomePositive() {
+    if (this.outcome.toLowerCase().includes('success') ) return true;
+    return false;
+  }
+
+  /* -------------------------------------------- */
+
+  get instEffs() {
+    const effCats = this.options.instEffs;
+    
+    if (!effCats || Object.values(effCats).flat().every(el => el.length === 0)) return null;
+    
+    for (const trigger in effCats) {
+      const effects = effCats[trigger];
+      
+      for (const e in effects) {
+        effects[e] = {
+          ...effects[e],
+          ...dataFromLabel(effects[e].label)
+        };
+      }
+    }
+
+    return effCats;
   }
 
 }

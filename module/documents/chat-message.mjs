@@ -1,5 +1,5 @@
 import WWRoll from '../dice/roll.mjs';
-import { i18n, capitalize } from '../helpers/utils.mjs';
+import { capitalize, inferDataFromKey } from '../helpers/utils.mjs';
 import { actDataFromEffect, dataFromLabel } from '../sidebar/chat-html-templates.mjs';
 
 /**
@@ -8,7 +8,7 @@ import { actDataFromEffect, dataFromLabel } from '../sidebar/chat-html-templates
  * @extends ChatMessage
  *
  */
-export default class WWChatMessage extends ChatMessage {
+export default class WWChatMessage extends foundry.documents.ChatMessage {
 
   /* -------------------------------------------- */
   /*  Properties                                  */
@@ -37,6 +37,10 @@ export default class WWChatMessage extends ChatMessage {
   async renderHTML({ canDelete, canClose=false, ...rest }={}) {
     canDelete ??= game.user.isGM; // By default, GM users have the trash-bin icon in the chat log itself
 
+    // Render the chat message
+    await foundry.applications.handlebars.loadTemplates(["systems/weirdwizard/templates/sidebar/chat/dice-tooltip.hbs"]);
+
+    // Render the chat message
     if ( typeof this.system.renderHTML === "function" ) {
       const html = await this.system.renderHTML({ canDelete, canClose, ...rest });
       Hooks.callAll("renderChatMessageHTML", this, html);
@@ -82,16 +86,16 @@ export default class WWChatMessage extends ChatMessage {
       // Prepare subtitle
       switch (await item.type) {
         case 'equipment':
-          item.subtitle = i18n(CONFIG.WW.EQUIPMENT_SUBTYPES[sys.subtype]);
+          item.subtitle = _loc(CONFIG.WW.EQUIPMENT_SUBTYPES[sys.subtype]);
         break;
 
         case 'talent':
-          item.subtitle = i18n(CONFIG.WW.TALENT_SOURCE_LABELS[sys.source]);
+          item.subtitle = _loc(CONFIG.WW.TALENT_SOURCE_LABELS[sys.source]);
         break;
 
         case 'spell':
-          item.subtitle = i18n(CONFIG.WW.SPELL_TIERS[sys.tier]);
-          if (sys.tradition) item.subtitle += ` • ${sys.tradition}`;
+          item.subtitle = _loc(CONFIG.WW.SPELL_TIERS[sys.tier]);
+          if (sys.tradition) item.subtitle += ` • ${(await inferDataFromKey('traditions', sys.tradition)).name}`;
         break;
 
         default: item.subtitle = sys.subtype ?? item.type; break;
@@ -101,13 +105,13 @@ export default class WWChatMessage extends ChatMessage {
       item.traits = [];
 
       if (sys.traits) Object.entries(sys.traits).filter(([, val]) => val === true).map((x) => {
-        let label = i18n('WW.Weapon.Traits.' + capitalize(x[0]) + '.Label');
+        let label = _loc('WW.Weapon.Traits.' + capitalize(x[0]) + '.Label');
 
         if ((x[0] == 'range') || (x[0] == 'reach' && sys.range) || (x[0] == 'thrown') ) label += ' ' + sys.range;
 
         item.traits.push({
           label: label,
-          tip: i18n('WW.Weapon.Traits.' + capitalize(x[0]) + '.Tip'),
+          tip: _loc('WW.Weapon.Traits.' + capitalize(x[0]) + '.Tip'),
         })
       })
 
@@ -120,13 +124,13 @@ export default class WWChatMessage extends ChatMessage {
       if (item.type == 'spell') {
         const header = `
           <div class="inline-second">
-            <b>${i18n("WW.Spell.Castings")}:</b> ${sys.castingsLabel ?? '<p></p>'}
+            <b>${_loc("WW.Spell.Castings")}:</b> ${sys.castingsLabel ?? '<p></p>'}
           </div>
           <div class="inline-second">
-            <b>${i18n("WW.Spell.Target")}:</b> ${sys.target ?? '<p></p>'}
+            <b>${_loc("WW.Spell.Target")}:</b> ${sys.target ?? '<p></p>'}
           </div>
           <div class="inline-second">
-            <b>${i18n("WW.Spell.Duration")}:</b> ${sys.duration ?? '<p></p>'}
+            <b>${_loc("WW.Spell.Duration")}:</b> ${sys.duration ?? '<p></p>'}
           </div>
         `;
 
@@ -201,8 +205,7 @@ export default class WWChatMessage extends ChatMessage {
 
     // Define a border color
     if ( this.style === CONST.CHAT_MESSAGE_STYLES.OOC ) messageData.borderColor = this.author?.color.css;
-    
-    // Render the chat message
+
     let html = await foundry.applications.handlebars.renderTemplate(`systems/weirdwizard/templates/sidebar/chat/${this.type}-message.hbs`, messageData); // Default: CONFIG.ChatMessage.template
     html = foundry.utils.parseHTML(html);
 
@@ -251,8 +254,8 @@ export default class WWChatMessage extends ChatMessage {
 
     // Otherwise, show "rolled privately" messages for Roll content
     else {
-      const name = this.author?.name ?? game.i18n.localize("CHAT.UnknownUser");
-      data.flavor = game.i18n.format("CHAT.PrivateRollContent", {user: foundry.utils.escapeHTML(name)});
+      const name = this.author?.name ?? _loc("CHAT.UnknownUser");
+      data.flavor = _loc("CHAT.PrivateRollContent", {user: foundry.utils.escapeHTML(name)});
       data.content += await renderRolls(true);
       messageData.alias = name;
     }

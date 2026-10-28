@@ -5,10 +5,10 @@
   "_id": "FONbbSfV0CRW6qq8",
   "img": "icons/magic/defensive/shield-barrier-glowing-triangle-red.webp",
   "system": {
-    "description": "<p>The study of the uncanny has fortified your psyche. You can use a reaction when you would become confused, controlled, or stunned to make a luck roll. On a success, you do not gain the affliction.</p>",
+    "description": "<p>The study of the uncanny has fortified your psyche. You can use a reaction when you would become confused, controlled, or stunned to make a @[luck] roll. On a success, you do not gain the affliction.</p>",
     "active": true,
     "magical": true,
-    "attribute": "",
+    "attribute": "luck",
     "against": "",
     "boons": 0,
     "range": 0,
@@ -40,12 +40,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744753444024,
-    "modifiedTime": 1766597672575,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788975201649,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!FONbbSfV0CRW6qq8"

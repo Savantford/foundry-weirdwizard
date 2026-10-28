@@ -2,27 +2,19 @@
   
   {{!-- Image Wrapper --}}
   <div class="image-wrapper">
+    {{!-- Image Preview --}}
     <figure class="image-preview">
-      <img src="{{ document.src }}" title="{{ title }}" alt="{{ title }}" />
-      <figcaption>{{ document.image.caption }}</figcaption>
+        {{#if src}}<img src="{{ src }}" alt="{{ name }}">{{/if}}
+        {{#if caption}}<figcaption>{{ caption }}</figcaption>{{/if}}
     </figure>
-  
+
     <div>
-      <div class="form-group picker">
-        <label>{{ localize "JOURNALENTRYPAGE.ImageSource" }}</label>
-        <div class="form-fields">
-          <file-picker name="src" type="image" value="{{ document.src }}"></file-picker>
-        </div>
-      </div>
-  
-      <div class="form-group">
-        <label>{{ localize "JOURNALENTRYPAGE.ImageCaption" }}</label>
-        <div class="form-fields">
-          <input type="text" name="image.caption" value="{{ document.image.caption }}">
-        </div>
-      </div>
+      {{!-- Image Source --}}
+      {{formGroup fields.src value=source.src input=srcInput}}
+
+      {{!-- Caption --}}
+      {{formGroup fields.image.fields.caption value=source.image.caption}}
     </div>
-  
   </div>
 
   {{!-- Editor --}}
@@ -49,8 +41,8 @@
         <label>{{localize "WW.ListEntry.Language.Bonus"}}:</label>
   
         {{#each listEntries.benefit1.languages as |entry|}}
-          {{> "systems/weirdwizard/templates/journal/parts/list-entry.hbs" entry=entry entryKey=entry.key
-            listKey="languages" listPath="benefits.benefit1.languages" loc="Language"}}
+          {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry
+            listKey="languages" listPath="benefits.benefit1.languages" loc="Language" isEditMode=@root.isEditMode}}
         {{else}}<span>—</span>
         {{/each}}
   
@@ -58,7 +50,7 @@
           data-tooltip="WW.ListEntry.Language.Create"><i class="fa-solid fa-circle-plus"></i></a>
 
         <a class="array-button" data-action="entrySettings" data-list-key="languages" data-list-path="benefits.benefit1.languages"
-          data-tooltip="WW.Settings.Entry.DisplayList"><i class="fa-solid fa-list"></i></a>
+          data-tooltip="WW.ListEntry.DisplayList"><i class="fa-solid fa-list"></i></a>
 
       </ol>
   

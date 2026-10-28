@@ -108,7 +108,7 @@ export default class SageTools extends HandlebarsApplicationMixin(ApplicationV2)
     switch (partId) {
       case "trackers":
         context.combat = game.combat;
-        context.worldTime = game.weirdwizard.utils.formatTime(game.time.worldTime);
+        context.worldTime = game.time.calendar.format(game.time.worldTime, 'formatDuration');
       break;
       
       case "players":

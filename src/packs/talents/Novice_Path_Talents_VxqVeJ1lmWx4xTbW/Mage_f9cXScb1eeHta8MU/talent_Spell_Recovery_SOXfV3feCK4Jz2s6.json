@@ -28,7 +28,10 @@
         "affliction": ""
       }
     ],
-    "targeting": "manual",
+    "targeting": {
+      "operation": "none",
+      "method": "self"
+    },
     "template": {
       "type": "size",
       "value": 5
@@ -48,12 +51,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1720986791026,
-    "modifiedTime": 1766597335258,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788899630854,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!SOXfV3feCK4Jz2s6"

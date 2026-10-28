@@ -1,5 +1,7 @@
 <div>
-
+    {{!-- Afflictions Drag and Drop Tip --}}
+    {{#if (eq listKey "afflictions")}}<p>{{localize "WW.Settings.Afflictions.DropHint"}}</p>{{/if}}
+    
     {{!-- List --}}
     <ol class="permissions-list">
         <header class="table-header flexrow">
@@ -14,7 +16,7 @@
         </header>
     {{#each list as |entry key|}}
         <li class="draggable form-group" data-entry-data="{{entry}}">
-            <label class="index">{{localize entry.name}}</label>
+            <label>{{localize entry.name}} {{#if entry.img}}<img class="mini-icon" src="{{ entry.img }}">{{/if}}</label>
 
             <div class="control form-fields">
                 <a data-action="editEntry" data-entry-key="{{key}}" data-tooltip="WW.Settings.Entry.Edit"><i class="fa-solid fa-edit"></i></a>
@@ -22,9 +24,8 @@
                 <a data-action="removeEntry" data-entry-key="{{key}}" data-tooltip="WW.Settings.Entry.Remove"><i class="fa-solid fa-trash"></i></a>
             </div>
 
-            <p class="hint">{{entry.desc}}</p>
+            <div class="hint">{{{ entry.desc }}}</div>
         </li>
     {{/each}}
     </ol>
-
 </div>

@@ -1,0 +1,248 @@
+export class DefaultAfflictions {
+  /**
+   * Builds the Afflictions Active Effects for the token quick menu
+   * @returns list of active effect data
+  */
+  static buildAll() {
+    const buildAffliction = affliction => {
+      const {changes = [], ...data} = affliction;
+      
+      return {
+        ... data,
+        type: 'affliction',
+        name: _loc(CONFIG.WW.AFFLICTIONS[data.id]),
+        tint: '#FF0900',
+        description: data.id.includes('impaired') ? _loc('WW.Affliction.ImpairedDesc') : _loc(CONFIG.WW.AFFLICTIONS[data.id] + 'Desc'),
+        duration: { expiry: 'luckEnds' },
+        system: {
+          durationPreset: 'luckEnds',
+          changes: changes
+        }
+      }
+    }
+
+    const arr = this.afflictionsData().map(affliction => [affliction.id, buildAffliction(affliction)]);
+    const afflictions = Object.fromEntries(arr);
+
+    return afflictions;
+  }
+
+  /**
+   * A getter for data used by afflictions.
+   */
+  static afflictionsData() {
+    const baneAllAttributes = value => {
+      return [
+        subtractChange('banes.str', value),
+        subtractChange('banes.agi', value),
+        subtractChange('banes.int', value),
+        subtractChange('banes.wil', value)
+      ];
+    }
+
+    const againstAll = value => {
+      return [
+        addChange('boonsAgainst.def', value),
+        addChange('boonsAgainst.str', value),
+        addChange('boonsAgainst.agi', value),
+        addChange('boonsAgainst.int', value),
+        addChange('boonsAgainst.wil', value)
+      ];
+    }
+
+    return [
+      // Blinded
+      {
+        id: 'blinded',
+        img: 'icons/svg/blind.svg',
+        changes: [
+          booleanChange('speed.halved'),
+          {
+            preset: 'custom',
+            key: 'token.sight.range',
+            value: 0,
+            type: 'downgrade',
+            phase: 'final'
+          }
+        ]
+      },
+
+      // Confused
+      {
+        id: 'confused',
+        img: 'systems/weirdwizard/assets/icons/confused.svg',
+        changes: [
+          subtractChange('banes.int'),
+          subtractChange('banes.wil')
+        ]
+      },
+
+      // Controlled
+      { id: 'controlled', img: 'systems/weirdwizard/assets/icons/puppet.svg' },
+
+      // Cursed
+      {
+        id: 'cursed',
+        img: 'systems/weirdwizard/assets/icons/bleeding-eye.svg',
+        changes: [subtractChange('banes.luck')]
+      },
+
+      // Deafened
+      { id: 'deafened', img: 'icons/svg/deaf.svg' },
+
+      // Frightened
+      {
+        id: 'frightened',
+        img: 'icons/svg/terror.svg',
+        changes: [
+          ...baneAllAttributes(1),
+          ...againstAll(1)
+        ]
+      },
+
+      // Held
+      {
+        id: 'held',
+        img: 'systems/weirdwizard/assets/icons/manacles.svg',
+        changes: [
+          downgradeChange('speed.downgrade'),
+          booleanChange('autoSuccessAgainst.agi'),
+        ]
+      },
+
+      // Strength Impaired
+      {
+        id: 'impairedStr',
+        img: 'systems/weirdwizard/assets/icons/biceps-impaired.svg',
+        changes: [
+          subtractChange('banes.str'),
+          addChange('boonsAgainst.str')
+        ]
+      },
+
+      // Agility Impaired
+      {
+        id: 'impairedAgi',
+        img: 'systems/weirdwizard/assets/icons/agility-impaired.svg',
+        changes: [
+          subtractChange('banes.agi'),
+          addChange('boonsAgainst.agi')
+        ]
+      },
+
+      // Intellect Impaired
+      {
+        id: 'impairedInt',
+        img: 'systems/weirdwizard/assets/icons/open-book-impaired.svg',
+        changes: [
+          subtractChange('banes.int'),
+          addChange('boonsAgainst.int')
+        ]
+      },
+
+      // Will Impaired
+      {
+        id: 'impairedWil',
+        img: 'systems/weirdwizard/assets/icons/burning-star-impaired.svg',
+        changes: [
+          subtractChange('banes.wil'),
+          addChange('boonsAgainst.wil')
+        ]
+      },
+
+      // On Fire
+      {
+        id: 'onFire',
+        img: 'systems/weirdwizard/assets/icons/flaming-claw.svg'
+      },
+
+      // Poisoned
+      {
+        id: 'poisoned',
+        img: 'systems/weirdwizard/assets/icons/poisoned.svg',
+        changes: [
+          ...baneAllAttributes(1),
+          ...againstAll(1)
+        ]
+      },
+
+      // Prone
+      { id: 'prone', img: 'systems/weirdwizard/assets/icons/fallen.svg' },
+
+      // Slowed
+      {
+        id: 'slowed',
+        img: 'systems/weirdwizard/assets/icons/snail.svg',
+        changes: [ downgradeChange('speed.downgrade', 2) ]
+      },
+
+      // Stunned
+      {
+        id: 'stunned',
+        img: 'icons/svg/daze.svg',
+        changes: [
+          downgradeChange('speed.downgrade'),
+          ...baneAllAttributes(2),
+          ...againstAll(2)
+        ]
+      },
+
+      // Unconscious
+      {
+        id: 'unconscious',
+        img: 'icons/svg/unconscious.svg',
+        changes: [
+          downgradeChange('speed.downgrade'),
+          booleanChange('autoFail.str'),
+          booleanChange('autoFail.agi'),
+          booleanChange('autoFail.int'),
+          booleanChange('autoFail.wil'),
+          ...againstAll(3)
+        ]
+      },
+
+      // Asleep
+      { id: 'asleep', img: 'icons/svg/sleep.svg' },
+
+      // Vulnerable
+      {
+        id: 'vulnerable',
+        img: 'systems/weirdwizard/assets/icons/broken-shield.svg',
+        changes: [ ...againstAll(1) ]
+      },
+
+      // Weakened
+      {
+        id: 'weakened',
+        img: 'systems/weirdwizard/assets/icons/weakened.svg',
+        changes: [
+          subtractChange('banes.str'),
+          subtractChange('banes.agi'),
+          addChange('boonsAgainst.str'),
+          addChange('boonsAgainst.agi'),
+          booleanChange('speed.halved')
+        ]
+      }
+    ]
+  }
+}
+
+// Constants
+const keyFromPreset = preset => {
+  const [groupKey] = preset ? preset.split('.') : [];
+  return CONFIG.WW.EFFECT_CHANGE_PRESET_DATA?.[groupKey]?.options?.[preset].key;
+};
+
+const createChange = (preset, value, priority, type) => ({
+  key: keyFromPreset(preset),
+  preset,
+  value,
+  priority,
+  phase: 'initial', //use initial so changes are considered during prepareDerivedData
+  type
+});
+
+const addChange = (preset, value = 1, priority = 120) => createChange(preset, value, priority, 'add');
+const subtractChange = (preset, value = 1, priority = 120) => createChange(preset, value, priority, 'subtract');
+const downgradeChange = (preset, value = 0, priority = 150) => createChange(preset, value, priority, 'downgrade');
+const booleanChange = (preset, value = true, priority = 170) => createChange(preset, value, priority, 'override');

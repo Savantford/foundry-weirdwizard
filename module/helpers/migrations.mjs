@@ -1,36 +1,149 @@
-import { i18n } from './utils.mjs';
-
-export const migrationsReference = {
-  fullMigration,
-  effectOverhaul,
-  strToCharOptions,
-  pathsOfJournaling,
-  improvedListEntries,
-  v13Support,
-  secrets
-}
-
+/**
+ * Perform migrations in sequence as needed
+ */
 export function fullMigration(forced) {
   const lastMigration = game.settings.get('weirdwizard', 'lastMigrationVersion');
-
   const isNewer = foundry.utils.isNewerVersion;
-
-  // Check if the versions are experimental
-  const isLastMigrationExp = lastMigration.includes('-exp');
-
-  // Check if the world is new or old
-  if (game.actors.size || game.items.size || game.journal.size) {
+  const isExperimental = lastMigration.includes('-exp');
+  
+  if (game.actors.size || game.items.size || game.journal.size) { // Old world
     // If last migration was done before the version provided, perform the necessary data migration
-    if (isNewer(isLastMigrationExp ? '2.3.0-exp' : '2.0.0', lastMigration) || forced) effectOverhaul(forced);
-    if (isNewer(isLastMigrationExp ? '3.0.0-exp' : '3.0.0', lastMigration) || forced) strToCharOptions(forced);
-    if (isNewer(isLastMigrationExp ? '6.0.0-exp' : '6.0.0', lastMigration) || forced) pathsOfJournaling(forced);
-    if (isNewer(isLastMigrationExp ? '6.1.0-exp' : '6.1.0', lastMigration) || forced) improvedListEntries(forced);
-    if (isNewer(isLastMigrationExp ? '6.2.0-exp' : '6.2.0', lastMigration) || forced) v13Support(forced);
-    if (isNewer(isLastMigrationExp ? '6.3.1-exp' : '6.3.0', lastMigration) || forced) secrets(forced);
-  } else if (game.system.version !== '#{VERSION}#') {
-    // If world is new, set lastMigrationVersion to current system version
+    if (isNewer(isExperimental ? '2.3.0-exp' : '2.0.0', lastMigration) || forced) effectOverhaul(forced);
+    if (isNewer(isExperimental ? '3.0.0-exp' : '3.0.0', lastMigration) || forced) strToCharOptions(forced);
+    if (isNewer(isExperimental ? '6.0.0-exp' : '6.0.0', lastMigration) || forced) pathsOfJournaling(forced);
+    if (isNewer(isExperimental ? '6.1.0-exp' : '6.1.0', lastMigration) || forced) improvedListEntries(forced);
+    if (isNewer(isExperimental ? '6.2.0-exp' : '6.2.0', lastMigration) || forced) v13Support(forced);
+    if (isNewer(isExperimental ? '6.3.1-exp' : '6.3.0', lastMigration) || forced) secrets(forced);
+    if (isNewer(isExperimental ? '7.0.0-exp' : '7.0.0', lastMigration) || forced) v14Support(forced);
+  } else if (game.system.version !== '#{VERSION}#') { // New world, set lastMigrationVersion to current system version
     game.settings.set('weirdwizard', 'lastMigrationVersion', game.system.version);
   }
+}
+
+/* -------------------------------------------- */
+/* v14 Support                                  */
+/* 7.0.0-exp / 7.0.0                            */
+/* -------------------------------------------- */
+
+export async function v14Support(forced) {
+  const version = '7.0.0';
+  const warning = ui.notifications.warn(
+    forced ? 'WW.System.Migration.Forced' : 'WW.System.Migration.Started',
+    { format: { version: version }, progress: true }
+  );
+
+  // Prepare database operations for modifyBatch()
+  const operations = [];
+  const presetToKey = Object.entries(CONFIG.WW.EFFECT_CHANGE_PRESET_DATA).reduce((acc, [groupKey, groupValue]) => {
+    if (groupValue.options) {
+      Object.entries(groupValue.options).forEach(([presetKey, presetData]) => {
+        acc[presetKey] = presetData.key;
+      });
+    }
+    return acc;
+  }, {});
+
+  // Loop through effects and fix them
+  const fixEffects = (collection) => {
+    for (const doc of collection) {
+      for (const [_, effect] of doc.traverseEmbeddedDocuments()) {
+        const { documentName, pack, parent } = effect;
+
+        // Skip if not an Active Effect
+        if (documentName !== "ActiveEffect") continue;
+
+        // Skip if has no changes or old duration
+        const oldDur = effect.system.duration;
+        if (!(effect.changes.length || oldDur)) continue;
+
+        // Migrate Duration
+        const duration = { ...effect.duration };
+        const durationPreset = oldDur?.selected ?? null;
+        
+        if (oldDur) {
+          if (oldDur.inMinutes) {
+            duration.value = oldDur.inMinutes;
+            duration.units = "minutes";
+          } if (oldDur.inHours) {
+            duration.value = oldDur.inHours;
+            duration.units = "hours";
+          } if (oldDur.inDays) {
+            duration.value = oldDur.inDays;
+            duration.units = "days";
+          }
+
+          // Convert Duration Presets
+          switch (oldDur.selected) {
+            case '': duration = { ...duration, value: null, units: dur.units, expiry: null }; break;
+            case 'custom': duration = { ...duration, value: dur.value, units: dur.units, expiry: dur.expiry }; break;
+
+            // Combat Rounds duration (value 0 means next)
+            case 'luckEnds': duration = { ...duration, value: null, units: dur.units, expiry: 'luckEnds' }; break;
+            case '1round': duration = { ...duration, value: 0, units: 'rounds', expiry: 'roundEnd' }; break;
+            case '2rounds': duration = { ...duration, value: 1, units: 'rounds', expiry: 'roundEnd' }; break;
+            case 'turnEnd': duration = { ...duration, value: 0, units: 'turns', expiry: 'turnEnd' }; break;
+            case 'nextTriggerTurnStart': duration = { ...duration, value: 0, units: 'turns', expiry: 'turnStart' }; break;
+            case 'nextTriggerTurnEnd': duration = { ...duration, value: 1, units: 'turns', expiry: 'turnEnd' }; break;
+            case 'nextTargetTurnStart': duration = { ...duration, value: 0, units: 'turns', expiry: 'turnStart' }; break;
+            case 'nextTargetTurnEnd': duration = { ...duration, value: 1, units: 'turns', expiry: 'turnEnd' }; break;
+
+            // World Time duration
+            case '1minute': duration = { ...duration, value: 1, units: 'minutes', expiry: null }; break;
+          }
+        }
+
+        // Migrate Changes
+        const changes = [];
+
+        for (const change of effect.changes) {
+          // Fix key
+          if (!(change.key || change.preset)) continue; // Skip if key or preset is null
+
+          // Map key
+          if (!(change.key.includes('system.') || change.key.includes('token.'))) {
+            change.preset = change.key;
+            change.key = presetToKey[change.key];
+            
+            // Make banes become subtract instead of add type
+            if (change.preset.toLowerCase().includes('bane')) change.type = 'subtract';
+          }
+          
+          changes.push(change);
+        }
+
+        // Perform the update
+        if (duration.value === Infinity) duration.value = null;
+        
+        effect.update({
+          changes: new foundry.data.operators.ForcedDeletion(),
+          duration,
+          'system.changes': changes,
+          'system.duration': new foundry.data.operators.ForcedDeletion()
+        });
+      }
+    }
+  }
+
+  // Loop through world documents
+  for (const collection of [game.actors, game.items, game.scenes]) {
+    fixEffects(collection);
+  }
+  warning.update({ pct: 0.5 });
+
+  // Loop through world packs
+  const worldPacks = game.packs.filter(pack => pack.metadata.packageType === 'world');
+
+  for (const collection of worldPacks) {
+    fixEffects(await collection.getDocuments());
+  }
+  warning.update({ pct: 1.0 });
+
+  ui.notifications.remove(warning);
+  ui.notifications.success('WW.System.Migration.Finished', { format: { version: version }, permanent: true });
+  
+  // Update version
+  const current = game.system.version != '#{VERSION}#' ? game.system.version : version;
+  await game.settings.set('weirdwizard', 'lastMigrationVersion', current);
 }
 
 /* -------------------------------------------- */
@@ -81,7 +194,6 @@ export async function secrets(forced) {
 
   ui.notifications.remove(warning);
   ui.notifications.success('WW.System.Migration.Finished', { format: { version: '6.3.0' }, permanent: true });
-  console.log('Migration complete');
   
   // Update version
   const current = game.system.version != '#{VERSION}#' ? game.system.version : '6.3.0';
@@ -141,7 +253,6 @@ export async function v13Support(forced) {
 
   ui.notifications.remove(warning);
   ui.notifications.success('WW.System.Migration.Finished', { format: { version: '6.2.0' }, permanent: true });
-  console.log('Migration complete');
   
   // Update version
   const current = game.system.version != '#{VERSION}#' ? game.system.version : '6.2.0';
@@ -160,12 +271,12 @@ export async function v13Support(forced) {
  * @param {string} [options.pack]     Pack to update.
  * @param {Document} [options.parent] Parent of the collection for embedded collections.
  */
-export async function migrateType(collection, options = {}) {
+async function migrateType(collection, options = {}) {
   const toMigrate = collection.filter(doc => doc?.getFlag('weirdwizard', 'migrateType')).map(doc => ({
     _id: doc.id,
     type: doc.type,
     '==system': doc.system.toObject(),
-    'flags.weirdwizard.-=migrateType': null,
+    'flags.weirdwizard.migrateType': new foundry.data.operators.ForcedDeletion(),
   }));
 
   // Update in increments of 100
@@ -624,6 +735,7 @@ async function getEntryFromActor(actor, folder) {
 /* String to Character Options                  */
 /* 3.0.0-exp / 3.0.0                            */
 /* -------------------------------------------- */
+
 export function strToCharOptions(forced) {
   forced ? _notifyForcedStart() : _notifyStart();
 
@@ -814,21 +926,21 @@ function _convertKey(change) {
       } else { // Match not found
         if (oldKey.includes('defense.total')) {
           
-          if (change.mode == 2) {
+          if (change.type == 2) {
             newKey = 'defense.bonus';
             break;
 
-          } else if (change.mode == 4 || change.mode == 5) {
+          } else if (change.type == 4 || change.type == 5) {
             newKey = 'defense.armored';
             break;
           }
         } else if (oldKey.includes('defense.natural')) {
           
-          if (change.mode == 2) {
+          if (change.type == 2) {
             newKey = change.value < 0 ? 'defense.naturalReduce' : 'defense.naturalIncrease';
             break;
 
-          } else if (change.mode == 4 || change.mode == 5) {
+          } else if (change.type == 4 || change.type == 5) {
             newKey = 'defense.natural';
             break;
           }
@@ -844,9 +956,8 @@ function _convertKey(change) {
 /* Notification Functions                       */
 /* -------------------------------------------- */
 
-function _notifyStart() { ui.notifications.warn(i18n('WW.System.Migration.Started')); }
+function _notifyStart() { ui.notifications.warn(_loc('WW.System.Migration.Started')); }
 
-function _notifyForcedStart() { ui.notifications.warn(i18n('WW.System.Migration.Forced')); }
+function _notifyForcedStart() { ui.notifications.warn(_loc('WW.System.Migration.Forced')); }
 
-function _notifyFinish(delay=3000) { setTimeout(function(){ ui.notifications.warn(i18n('WW.System.Migration.Finished')); }, delay); }
-
+function _notifyFinish(delay=3000) { setTimeout(function(){ ui.notifications.warn(_loc('WW.System.Migration.Finished')); }, delay); }

@@ -2,8 +2,9 @@ import MultiChoice from '../../apps/multi-choice.mjs';
 import {
   createActiveEffect, deleteActiveEffect, editActiveEffect,
   createInstantEffect, deleteInstantEffect, editInstantEffect,
-  prepareActiveEffectCategories
+  prepareItemEffectCategories
 } from '../../helpers/effect-actions.mjs';
+import { inferDataFromKey } from '../../helpers/utils.mjs';
 import WWSheetMixin from '../ww-sheet.mjs';
 
 // Similar syntax to importing, but note that
@@ -38,6 +39,10 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         }
       ]
     },
+    position: {
+      width: 570,
+      height: 480
+    },
     actions: {
       editImage: this.#onEditImage, // delete in V13; core functionality
       showItemArtwork: this.#onShowItemArtwork,
@@ -55,10 +60,6 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       handler: this.#onSubmitDocumentForm, // delete in v13, core functionality
       submitOnChange: true,
       closeOnSubmit: false
-    },
-    position: {
-      width: 550,
-      height: 480
     }
   };
 
@@ -67,31 +68,37 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     sidetabs: { template: 'systems/weirdwizard/templates/generic/side-tabs.hbs' },
     
     details: {
-      template: 'systems/weirdwizard/templates/items/details/tab.hbs',
+      template: 'systems/weirdwizard/templates/sheets/items/details/tab.hbs',
       templates: [
-        'systems/weirdwizard/templates/items/header.hbs',
-        'systems/weirdwizard/templates/items/details/equipment.hbs',
-        'systems/weirdwizard/templates/items/details/talent.hbs',
-        'systems/weirdwizard/templates/items/details/spell.hbs'
+        'systems/weirdwizard/templates/sheets/items/header.hbs',
+        'systems/weirdwizard/templates/sheets/items/details/equipment.hbs',
+        'systems/weirdwizard/templates/sheets/items/details/talent.hbs',
+        'systems/weirdwizard/templates/sheets/items/details/spell.hbs',
+        'systems/weirdwizard/templates/generic/list-entry-preview.hbs'
       ],
     },
-
     automation: {
-      template: 'systems/weirdwizard/templates/items/automation/tab.hbs',
+      template: 'systems/weirdwizard/templates/sheets/items/automation/tab.hbs',
       templates: [
-        'systems/weirdwizard/templates/items/automation/settings.hbs',
-        'systems/weirdwizard/templates/items/automation/effects.hbs'
+        'systems/weirdwizard/templates/sheets/items/automation/roll.hbs',
+        'systems/weirdwizard/templates/sheets/items/automation/targeting.hbs'
+      ]
+    },
+    effects: {
+      template: 'systems/weirdwizard/templates/sheets/items/effects/tab.hbs',
+      templates: [
+        'systems/weirdwizard/templates/sheets/items/effects/active-effect.hbs'
       ]
     }
-    
   };
 
   /** @override */
   static TABS = {
     sheet: {
       tabs: [
-        {id: 'details', tooltip: 'WW.Actor.Details', icon: 'systems/weirdwizard/assets/icons/diploma.svg', iconType: 'img'},
-        {id: 'automation', tooltip: 'WW.Effects.TabLabel', iconType: 'img', icon: 'systems/weirdwizard/assets/icons/gear-hammer.svg', iconType: 'img'}
+        {id: 'details',    tooltip: 'WW.Actor.Details',    icon: 'systems/weirdwizard/assets/icons/diploma.svg',     iconType: 'img' },
+        {id: 'automation', tooltip: 'WW.Item.Automations', icon: 'systems/weirdwizard/assets/icons/gear-hammer.svg', iconType: 'img' },
+        {id: 'effects',    tooltip: 'WW.Effects.Label',    icon: 'icons/svg/aura.svg',                               iconType: 'img' }
       ],
       initial: 'details',
       labelPrefix: "EFFECT.TABS"
@@ -122,7 +129,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     context.folder = await itemData.folder;
     context.flags = itemData.flags;
     context.dtypes = ['String', 'Number', 'Boolean'];
-    context.editMode = this.isEditMode;
+    context.isEditMode = this.isEditMode;
     
     // Prepare enriched document reference links
     context.grantedBy = await fromUuid(sys.grantedBy) ?
@@ -151,12 +158,21 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     // Prepare common dropdown menu objects
     context.attributes = CONFIG.WW.ROLL_ATTRIBUTES;
     context.against = CONFIG.WW.ROLL_AGAINST;
+
+    // Targeting and scene region area
+    context.targetingOperations = CONFIG.WW.TARGETING_OPERATIONS;
     context.targetingMethods = CONFIG.WW.TARGETING_METHODS;
-    context.templateTypes = CONFIG.WW.TEMPLATE_TYPES;
+    context.targetingRestrictions = CONFIG.WW.TARGETING_RESTRICTIONS;
+    context.needTargets = this.document.needTargets;
+
+    // Scene region area
+    context.areaShapes = CONFIG.WW.ITEM_AREA_SHAPES;
+    context.areaRestrictions = Object.fromEntries(
+      Object.entries(CONST.EDGE_RESTRICTION_TYPES).map(([key, value]) => [value, `REGION.RESTRICTION_TYPES.${value}.label`])
+    );
 
     // Prepare specific dropdown menu objects
     switch (context.item.type) {
-  
       case 'equipment':
         context.subtypes = CONFIG.WW.EQUIPMENT_SUBTYPES;
         context.coins = CONFIG.WW.COINS;
@@ -176,10 +192,15 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
           const options = [];
 
           for (const [key, data] of Object.entries(CONFIG.WW.WEAPON_TRAITS)) {
-            options.push({
+            const trait = {
               value: key,
-              label: data.label
-            })
+              label: _loc(data.label),
+              /*dataset: { tooltip: ['range', 'thrown'].includes(key) ? 'test' : ''}*/
+            }
+
+            if (['range', 'thrown'].includes(key)) trait.label += ` ${context.system.targeting.range}`;
+
+            options.push(trait);
           }
           
           context.traits = {
@@ -232,9 +253,6 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       break;
       
     }
-
-    // Pass down whether the item needs targets or not
-    context.needTargets = this.document.needTargets;
     
     return context;
   }
@@ -250,11 +268,19 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       case 'details':
         context.tab = context.tabs[partId];
         
-        context.detailsPartial = [`systems/weirdwizard/templates/items/details/${this.item.type}.hbs`];
+        context.detailsPartial = [`systems/weirdwizard/templates/sheets/items/details/${this.item.type}.hbs`];
+
+        // Add Tradition data for Spells
+        if (this.item.type === 'spell') context.traditionData = await inferDataFromKey('traditions', this.item.system.tradition);
+      break;
+
+      // Automation tab
+      case 'automation':
+        context.tab = context.tabs[partId];
       break;
       
       // Effects tab
-      case 'automation':
+      case 'effects':
         context.tab = context.tabs[partId];
 
         // Prepare instant effects
@@ -266,7 +292,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
             labelLoc: CONFIG.WW.INSTANT_LABELS[e.label],
             triggerLoc: CONFIG.WW.INSTANT_TRIGGERS[e.trigger],
             triggerIcon: CONFIG.WW.EFFECT_TRIGGER_ICONS[e.trigger],
-            targetLoc: CONFIG.WW.EFFECT_TARGETS[e.target],
+            targetLoc: CONFIG.WW.TARGETING_RESTRICTIONS[e.target],
             targetIcon: CONFIG.WW.EFFECT_TARGET_ICONS[e.target],
           };
           
@@ -276,10 +302,10 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         context.instantEffects = instEffs;
 
         // Prepare active effects
-        const actEffs = await prepareActiveEffectCategories(this.document.effects); /* await is needed, ignore linter */
+        const effectCats = await prepareItemEffectCategories(this.document); /* await is needed, ignore linter */
         
-        for (const cat in actEffs) {
-          const category = actEffs[cat];
+        for (const cat in effectCats) {
+          const category = effectCats[cat];
           category.effects = category.effects.toSorted((a, b) => a.sort - b.sort);
           
           for (const e in category.effects) {
@@ -287,18 +313,16 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
             const system = effect.system;
             effect.triggerLoc = CONFIG.WW.INSTANT_TRIGGERS[system.trigger];
             effect.triggerIcon = CONFIG.WW.EFFECT_TRIGGER_ICONS[system.trigger];
-            effect.targetLoc = CONFIG.WW.EFFECT_TARGETS_TARGETED[system.target];
+            effect.targetLoc = CONFIG.WW.TARGETING_RESTRICTIONS[system.target];
             effect.targetIcon = CONFIG.WW.EFFECT_TARGET_ICONS[system.target];
           }
         }
 
-        context.effects = actEffs;
+        context.effectCategories = effectCats;
 
         // Prepare effect change labels to display
         context.effectChangeLabels = CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS;
-        
       break;
-
     }
 
     return context;
@@ -373,6 +397,18 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     window.classList.toggle('magical', item.system.magical);
     window.classList.toggle('weapon', item.system.subtype === 'weapon');
 
+    // Add weapon trait tooltips
+    if (item.system.subtype === 'weapon') {
+      const mc = window.querySelector('multi-checkbox[name="system.traits"]');
+      const list = mc.querySelectorAll('.checkbox');
+
+      list.forEach(checkbox => {
+        const key = checkbox.querySelector('input').value;
+        checkbox.dataset.tooltip = `<p>${_loc(CONFIG.WW.WEAPON_TRAITS[key].tip)}</p>`;
+        if (key === 'range' || key === 'thrown') checkbox.dataset.tooltipHtml += `<p>${_loc('WW.Targeting.RangeWeaponTip')}</p>`;
+      })
+    }
+
     // Create dragDrop flow
     new foundry.applications.ux.DragDrop.implementation({
       dragSelector: ".draggable",
@@ -386,12 +422,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         drop: this._onDrop.bind(this)
       }
     }).bind(this.element);
-
   }
-
-  /*async _onFirstRender(context, options) {
-    await super._onFirstRender(context, options);
-  }*/
 
   /* -------------------------------------------- */
   /*  General Event Listeners and Handlers        */
@@ -614,9 +645,9 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
    * @protected
    */
   async _onDrop(event) {
-    const data = TextEditor.implementation.getDragEventData(event);
+    const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
     const actor = this.actor;
-    const allowed = Hooks.call("dropActorSheetData", actor, this, data);
+    const allowed = Hooks.call("dropItemSheetData", actor, this, data);
     if ( allowed === false ) return;
 
     // Dropped Documents
@@ -627,4 +658,35 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     }
   }
 
+  /* -------------------------------------------- */
+
+  /**
+   * @override
+   * Handle a dropped document on the ItemSheet
+   * @template {Document} TDocument
+   * @param {DragEvent} event         The initiating drop event
+   * @param {TDocument} document       The resolved Document class
+   * @returns {Promise<TDocument|null>} A Document of the same type as the dropped one in case of a successful result,
+   *                                    or null in case of failure or no action being taken
+   * @protected
+   */
+  async _onDropDocument(event, document) {
+    switch (document.documentName) {
+      case "ActiveEffect": return await this._onDropActiveEffect(event, document);
+      case "JournalEntryPage": return await this._onDropJournalEntryPage(event, document);
+      default: null;
+    }
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle a dropped document on the ItemSheet
+   * @param {DragEvent} event             The initiating drop event
+   * @param {JournalEntryPage} page       The resolved JournalEntryPage class
+   * @protected
+   */
+  async _onDropJournalEntryPage(event, page) {
+    if (this.item.type === 'spell' && page.type === 'tradition') await this.item.update({ 'system.tradition': page.uuid });
+  }
 }

@@ -1,0 +1,312 @@
+<section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+    {{!-- Ancestry / Paths --}}
+    <h5 class="descriptors stat-inline list-entries">
+        <ol class="list-entries ancestry-paths">
+            {{!-- Ancestry --}}
+            {{#if charOptions.ancestry}}
+                {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=charOptions.ancestry isEditMode=isEditMode }}
+            {{else}}
+                <span>—</span>
+            {{/if}}
+
+            {{!-- Novice Path --}}
+            {{#if charOptions.novice}}
+                {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=charOptions.novice isEditMode=isEditMode }}
+            {{else if system.charOptions.novice}}
+                <div class="list-entry">
+                    <a class="invalid">{{system.charOptions.novice}}</a>
+                    
+                    {{#if isEditMode}}
+                        <span class="buttons">
+                            <a class="array-button" data-action="journalInvalid" data-charoption-type="novice" data-entry-key="{{id}}"
+                                data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i></a>
+                        </span>
+                    {{/if}}
+                </div>
+            {{else}}
+                <span>—</span>
+            {{/if}}
+
+            {{!-- Expert Path --}}
+            {{#if (gte system.stats.level 3)}}
+                {{#if charOptions.expert}}
+                    {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=charOptions.expert isEditMode=isEditMode }}
+                {{else if system.charOptions.expert}}      
+                <div class="list-entry">
+                    <a class="invalid">{{system.charOptions.expert}}</a>
+
+                    {{#if isEditMode}}
+                    <span class="buttons">
+                        <a class="array-button" data-action="journalInvalid" data-charoption-type="expert" data-entry-key="{{id}}"
+                            data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i></a>
+                    </span>
+                    {{/if}}
+                </div>
+                {{else}}
+                    <span>—</span>
+                {{/if}}
+            {{/if}}
+
+            {{!-- Master Path --}}
+            {{#if (gte system.stats.level 7)}}
+                {{#if charOptions.master}}
+                    {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=charOptions.master isEditMode=isEditMode }}
+                {{else if system.charOptions.master}}
+                    <div class="list-entry">
+                        <a class="invalid">{{system.charOptions.master}}</a>
+
+                        {{#if isEditMode}}
+                        <span class="buttons">
+                            <a class="array-button" data-action="journalInvalid" data-charoption-type="master" data-entry-key="{{id}}"
+                                data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i></a>
+                        </span>
+                        {{/if}}
+                    </div>
+                {{else}}
+                    <span>—</span>
+                {{/if}}
+            </div>
+            {{/if}}
+        </ol>
+
+        {{!-- Help Button --}}
+        {{#if isEditMode}}
+        <span class="buttons">
+            <a class="help-button" data-action="journalHelp" data-tooltip="WW.System.Documentation"><i class="fa-solid fa-circle-question"></i></a>
+        </span>
+        {{/if}}
+    </h5>
+    
+    {{!-- Summary --}}
+    <div class="summary flex-1 auto-grid-2">
+        {{!-- Left Column --}}
+        <div class="statbox">
+            {{!-- Descriptors --}}
+            {{#if listEntries.descriptors.length}}
+            <h5 class="statbox-header descriptors">
+                <ol class="list-entries">
+                    {{#each listEntries.descriptors as |entry|}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="descriptors" loc="Descriptor" isEditMode=@root.isEditMode }}
+                    {{else}}
+                        {{#if isEditMode}}<span>({{localize "WW.ListEntry.Descriptor.Label"}})</span>{{/if}}
+                    {{/each}}
+                    
+                    {{#if isEditMode}}
+                    <span class="buttons">
+                        <a class="array-button" data-action="entryCreate" data-list-key="descriptors" data-loc="Descriptor"
+                            data-tooltip="WW.ListEntry.Descriptor.Create"><i class="fa-solid fa-circle-plus"></i></a>
+                        
+                        <a class="array-button" data-action="entrySettings" data-list-key="descriptors"
+                            data-tooltip="WW.ListEntry.DisplayList"><i class="fa-solid fa-list"></i></a>
+                    </span>
+                    {{/if}}
+                </ol>
+            </h5>
+            {{/if}}
+
+            {{!-- Stats & List Entries --}}
+            <div class="statbox-section stats">
+                {{!-- Size, Speed --}}
+                <ol class="stat-inline list-entries movement-traits">
+                    {{!-- Size --}}
+                    <label>{{localize "WW.Stats.Size"}}:</label>
+
+                    <span class="info" data-tooltip="{{{ stats.size.autoTooltip }}}">{{ system.stats.sizeFraction }}</span>
+                    
+                    {{!-- Speed --}}
+                    <label>{{localize "WW.Stats.Speed"}}:</label>
+
+                    <a data-action="speedRoll" data-tooltip="{{{ stats.speedCurrent.autoTooltip }}}">{{system.stats.speed.current}}</a>
+                    
+                    {{!-- Movement Traits --}}
+                    {{#each listEntries.movementTraits as |entry|}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="movementTraits" loc="MovementTrait" isEditMode=@root.isEditMode }}
+                    {{/each}}
+                    
+                    {{#if isEditMode}}
+                    <span class="buttons">
+                        <a class="array-button" data-action="entryCreate" data-list-key="movementTraits" data-loc="MovementTrait"
+                            data-tooltip="WW.ListEntry.MovementTrait.Create"><i class="fa-solid fa-circle-plus"></i></a>
+                        
+                        <a class="array-button" data-action="entrySettings" data-list-key="movementTraits"
+                            data-tooltip="WW.ListEntry.DisplayList"><i class="fa-solid fa-list"></i></a>
+                    </span>
+                    {{/if}}
+                </ol>
+
+                {{!-- Languages --}}
+                <ol class="stat-inline list-entries">
+                    <label>{{localize "WW.ListEntry.Language.Label"}}:</label>
+
+                    {{#each listEntries.languages as |entry|}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="languages" loc="Language" isEditMode=@root.isEditMode }}
+                    {{else}}
+                        <span>—</span>
+                    {{/each}}
+
+                    {{#if isEditMode}}
+                    <span class="buttons">
+                        <a class="array-button" data-action="entryCreate" data-list-key="languages" data-loc="Language"
+                            data-tooltip="WW.ListEntry.Language.Create"><i class="fa-solid fa-circle-plus"></i></a>
+                    
+                        <a class="array-button" data-action="entrySettings" data-list-key="languages"
+                            data-tooltip="WW.ListEntry.DisplayList"><i class="fa-solid fa-list"></i></a>
+                    </span>
+                    {{/if}}
+                </ol>
+
+                {{!-- Senses --}}
+                <ol class="stat-inline list-entries">
+                    <label>{{localize "WW.ListEntry.Sense.Label"}}:</label>
+                    
+                    {{!-- Add Effect Senses --}}
+                    {{#each effectSenses as |entry|}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="senses" loc="Sense" isEditMode=false }}
+                    {{/each}}
+
+                    {{!-- Add Effect Senses --}}
+                    {{#each listEntries.senses as |entry key|}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="senses" loc="Sense" isEditMode=@root.isEditMode }}
+                    {{/each}}
+
+                    {{#unless (or effectSenses.length listEntries.senses.length)}}
+                        <span>—</span>
+                    {{/unless}}
+
+                    {{#if isEditMode}}
+                    <span class="buttons">
+                        <a class="array-button" data-action="entryCreate" data-list-key="senses" data-loc="Sense"
+                            data-tooltip="WW.ListEntry.Sense.Create"><i class="fa-solid fa-circle-plus"></i></a>
+                    
+                        <a class="array-button" data-action="entrySettings" data-list-key="senses"
+                            data-tooltip="WW.ListEntry.DisplayList"><i class="fa-solid fa-list"></i></a>
+                    </span>
+                    {{/if}}
+                </ol>
+
+                {{!-- Immune --}}
+                <ol class="stat-inline list-entries">
+                    <label>{{localize "WW.ListEntry.Immunity.Label"}}:</label>
+                
+                    {{#each listEntries.immunities as |entry key|}}
+                        {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="immunities" loc="Immunity" isEditMode=@root.isEditMode }}
+                    {{else}}
+                        <span>—</span>
+                    {{/each}}
+
+                    {{#if isEditMode}}
+                    <span class="buttons">
+                        <a class="array-button" data-action="entryCreate" data-list-key="immunities" data-loc="Immunity"
+                            data-tooltip="WW.ListEntry.Immunity.Create"><i class="fa-solid fa-circle-plus"></i></a>
+                    
+                        <a class="array-button" data-action="entrySettings" data-list-key="immunities"
+                            data-tooltip="WW.ListEntry.DisplayList"><i class="fa-solid fa-list"></i></a>
+                    </span>
+                    {{/if}}
+                </ol>
+
+                {{!-- Professions --}}
+                <ol class="stat-inline list-entries">
+                    <label>{{localize "WW.CharOptions.Professions"}}:</label>    
+                    
+                    {{#each charOptions.professions as |profession id|}}
+                        {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=profession group="professions" isEditMode=@root.isEditMode }}
+                    {{else}}
+                        <span>—</span>
+                    {{/each}}
+                        
+                    {{#if isEditMode}}
+                    <span class="buttons">
+                        <a class="help-button" data-action="journalHelp" data-tooltip="WW.System.Documentation"><i class="fa-solid fa-circle-question"></i></a>
+                    </span>
+                    {{/if}}
+                </ol>
+                
+            </div>
+
+            {{!-- Attacks/Weapons --}}
+            <h6>{{localize "WW.Attack.Plural"}}</h6>
+            
+            <div class="statbox-section attacks">
+                {{!-- Bonus Damage --}}
+                {{#if system.stats.bonusdamage}}
+                <div class="stat">
+                    <label class="" for="bonusdamage" class="resource-label">{{localize "WW.Damage.Bonus"}}:</label>
+                    <span data-tooltip="{{{bonusDamageTooltip}}}">+{{system.stats.bonusdamage}}d6</span>
+                </div>
+                {{/if}}
+
+                {{!-- Weapons List --}}
+                <div>
+                    <ol class="described-list">
+                        {{#each weapons as |item id|}}
+                            {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-weapon.hbs" item=item id=id}}
+                        {{/each}}
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        {{!-- Right Column --}}
+        <div class="statbox">
+            {{!-- Traits & Talents --}}
+            <h6>{{localize "WW.Talents.Label"}}</h6>
+
+            <div class="statbox-section talents">
+                {{!-- Talents --}}
+                <ol class="compact-list stat">
+                    {{#each talents as |item id|}}
+                        {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-item.hbs" item=item id=id}}
+                    {{/each}}
+                </ol>
+
+                {{!-- Actions --}}
+                {{#if actions}}
+                <h6>{{localize "WW.Talents.Actions"}}</h6>
+
+                <ol class="compact-list stat">
+                    {{#each actions as |item id|}}
+                        {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-item.hbs" item=item id=id}}
+                    {{/each}}
+                </ol>
+                {{/if}}
+
+                {{!-- Reactions --}}
+                {{#if reactions}}
+                <h6>{{localize "WW.Talents.Reactions"}}</h6>
+
+                <ol class="compact-list stat">
+                    {{#each reactions as |item id|}}
+                        {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-item.hbs" item=item id=id}}
+                    {{/each}}
+                </ol>
+                {{/if}}
+            </div>
+
+            {{!-- Spells Section --}}
+            {{#if (or charOptions.traditions spells.length)}}
+            <h6>{{localize "WW.Spells.Label"}}</h6>
+
+            <div class="statbox-section spells">
+                {{!-- Traditions --}}
+                <ol class="stat-inline mb-1 list-entries">
+                    <label>{{localize "WW.Tradition.Label"}}:</label>
+
+                    {{#each charOptions.traditions as |tradition id|}}
+                        {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=tradition group="traditions" isEditMode=@root.isEditMode }}
+                    {{else}}
+                        <span>—</span>
+                    {{/each}}
+                </ol>
+
+                {{!-- Spells List --}}
+                <ol class="compact-list stat">
+                    {{#each spells as |item id|}}
+                        {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-item.hbs" item=item id=id}}
+                    {{/each}}
+                </ol>
+            </div>
+            {{/if}}
+        </div>
+    </div>
+</section>

@@ -8,8 +8,8 @@
     "description": "<p>You can use an action to cause flames to spill out from your fingertip. Target one creature within 10 yards. Make a Will roll against the target’s Agility. On a success, the target takes @[2d6|d] damage, @[3d6|d] damage at level 3, or @[7d6] damage at level 7. On a critical success, the target also catches fire (luck ends). After you use this talent, a tongue of fire appears above the tip of your finger and remains for 1 minute. The fire sheds dim light.</p>",
     "active": true,
     "magical": true,
-    "attribute": "",
-    "against": "",
+    "attribute": "wil",
+    "against": "agi",
     "boons": 0,
     "range": 0,
     "affliction": "",
@@ -20,8 +20,31 @@
       "levelRelative": "manual"
     },
     "healing": "",
-    "instant": [],
-    "targeting": "manual",
+    "instant": [
+      {
+        "label": "damage",
+        "trigger": "onSuccess",
+        "target": "any",
+        "value": "2d6",
+        "affliction": "",
+        "img": "icons/svg/explosion.svg",
+        "labelLoc": "WW.InstantEffect.Damage",
+        "triggerLoc": "WW.Effect.OnSuccess",
+        "triggerIcon": "fa-solid fa-check",
+        "targetLoc": "WW.Targeting.Restrictions.Any"
+      },
+      {
+        "label": "affliction",
+        "trigger": "onCritical",
+        "target": "any",
+        "affliction": "onFire",
+        "value": ""
+      }
+    ],
+    "targeting": {
+      "operation": "target",
+      "range": 10
+    },
     "template": {
       "type": "size",
       "value": 5
@@ -30,7 +53,59 @@
     "source": "tradition",
     "grantedBy": null
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Dim Light (Finger of Fire)",
+      "img": "icons/magic/fire/explosion-flame-lightning-strike.webp",
+      "origin": "Compendium.weirdwizard.spells.Item.Xi2MOieJeiqzIsI5",
+      "disabled": false,
+      "duration": {
+        "value": 1,
+        "units": "minutes",
+        "expiry": null,
+        "expired": false
+      },
+      "system": {
+        "durationPreset": "1minute",
+        "trigger": "onUse",
+        "changes": [
+          {
+            "preset": "custom",
+            "value": "10",
+            "key": "token.light.bright",
+            "type": "upgrade",
+            "phase": "initial",
+            "priority": null
+          }
+        ],
+        "target": "allies",
+        "grantedBy": null
+      },
+      "_id": "qs6Bqbx9TbpFQ5T1",
+      "type": "base",
+      "start": null,
+      "description": "<p>Dim light, such as that cast by a torch, lights the area around it out to a range of 10 yards.</p>",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "showIcon": 1,
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.367",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1788983224236,
+        "modifiedTime": 1788983312397,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_key": "!items.effects!Xi2MOieJeiqzIsI5.qs6Bqbx9TbpFQ5T1"
+    }
+  ],
   "sort": 0,
   "ownership": {
     "default": 0,
@@ -40,12 +115,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744755640785,
-    "modifiedTime": 1766598515898,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788983200421,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!Xi2MOieJeiqzIsI5"

@@ -1,0 +1,57 @@
+<section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+  {{!-- Effects Section Wrapper --}}
+  <div class="effects-wrapper">
+    {{!-- Effect Categories --}}
+    {{#each effectCategories as |cat|}}
+
+    {{!-- Cards Display --}}
+    {{#if (eq cat.id "benefits")}}
+      {{#if cat.effects.length}}
+      <h3>{{localize cat.name}}</h3>
+
+      {{!-- Effect Cards --}}
+      <ol class="effects cards {{ cat.id }}">
+      {{#each cat.effects as |effect|}}
+        {{> "systems/weirdwizard/templates/sheets/actors/common/parts/effect-card.hbs" cat=cat}}
+      {{/each}}
+      </ol>
+
+      <h3>{{localize "WW.Effects.OtherPermanent"}}</h3>
+      {{/if}}
+
+    {{!-- Table Display --}}
+    {{else}}
+    <ol class="item-list effects-list {{cat.id}}-effects">
+
+      {{!-- Header Row --}}
+      <li class="item items-header flexrow" data-effect-type="{{ cat.id }}">
+        <div class="item-image"></div>
+
+        <div class="item-name">{{localize cat.name}}</div>
+
+        {{#if cat.showDuration}}<div class="effect-duration">{{localize "WW.Effect.Duration.Short"}}</div>{{/if}}
+        
+        {{#if cat.showSource}}<div class="effect-source">{{localize "WW.Effect.Source"}}</div>{{/if}}
+        
+        <div class="item-controls effect-controls flexrow">
+          {{#if cat.showCreate}}
+          <a class="effect-control" data-action="effectCreate" data-type="{{cat.id}}" data-tooltip="WW.Effect.Create">
+            <i class="fa-solid fa-plus"></i> {{localize "WW.Item.Create.Label"}}
+          </a>
+          {{/if}}
+        </div>
+        
+      </li>
+      
+      {{!-- Effect Rows --}}
+      {{#each cat.effects as |effect|}}
+        {{> "systems/weirdwizard/templates/sheets/actors/common/parts/effect-row.hbs" cat=cat}}
+      {{/each}}
+    </ol>
+    {{/if}}
+    {{/each}}
+  </div>
+
+  {{!-- Filler --}}
+  <div class="flex-1"></div>
+</section>

@@ -1,12 +1,13 @@
-import { i18n, formatTime } from '../helpers/utils.mjs';
 import WWDocumentMixin from './ww-document.mjs';
+import ActivityUse from '../apps/activity-use.mjs';
+import TargetingHelper from '../apps/targeting-helper.mjs';
+import WWRoll from '../dice/roll.mjs';
 
 /**
 * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
 * @extends {Actor}
  */
-export default class WWActor extends WWDocumentMixin(Actor) {
-
+export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
   /* -------------------------------------------- */
   /*  Document Creation                           */
   /* -------------------------------------------- */
@@ -48,7 +49,6 @@ export default class WWActor extends WWDocumentMixin(Actor) {
   /* -------------------------------------------- */
 
   async _onCreate(data, options, user) {
-    
     // Fix Health and Incapacitated
     this.incapacitated = false;
 
@@ -65,14 +65,14 @@ export default class WWActor extends WWDocumentMixin(Actor) {
   /* -------------------------------------------- */
 
   async _preUpdate(changes, options, user) {
-    await super._preUpdate(changes, options, user);
-    
     const damage = foundry.utils.getProperty(this, 'system.stats.damage.value');
 
     // Update token status icons
     if (( damage || foundry.utils.getProperty(changes, 'system.stats.health')) && this.token ) {
       this.token.object?.updateStatusIcons();
     }
+
+    await super._preUpdate(changes, options, user);
   }
 
   /* -------------------------------------------- */
@@ -104,17 +104,138 @@ export default class WWActor extends WWDocumentMixin(Actor) {
           
           if (typeof cOpt !== 'string') {
             for (const e in cOpt) {
-              this.updateCharOptionBenefits(cOpt[e], 'levelChange');
+              await this.updateCharOptionBenefits(cOpt[e], 'levelChange');
             }
 
           } else {
-            this.updateCharOptionBenefits(cOpt, 'levelChange');
+            await this.updateCharOptionBenefits(cOpt, 'levelChange');
           }
         }
-        
+      }
+    }
+  }
+
+  /* -------------------------------------------- */
+  /*  Getters                                     */
+  /* -------------------------------------------- */
+
+  /**
+   * Determine whether the character is injured.
+   * @type {boolean}
+   */
+  get injured() {
+    let isInjured = false;
+
+    if (this.type !== 'group') {
+      const health = this.system.stats.health;
+      const current = health.current;
+      const damage = this.system.stats.damage.value;
+
+      isInjured = damage >= Math.floor(current / 2);
+      if (this.type === 'character' && health.normal <= 0) isInjured = false;
+    }
+
+    return isInjured ? true : false;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Determine whether the character is dead or destroyed.
+   * @type {boolean}
+   */
+  get dead() {
+    let isDead = false;
+
+    if (this.type !== 'group') {
+      const health = this.system.stats.health;
+    
+      isDead = health.current <= 0;
+      if (this.type === 'character' && health.normal <= 0) isDead = false;
+    }
+
+    return isDead ? true : false;
+  }
+
+  /* -------------------------------------------- */
+
+  /* Prepare Char Options */
+  get charOptions() {
+    return (async () => {
+      const cOpts = this.system.charOptions;
+      const charOptions = {};
+      const invalid = {
+        name: 'INVALID',
+        invalid: true
       }
 
-    }
+      for (const o in cOpts) {
+        const opt = cOpts[o];
+
+        // Assign set of character options
+        if (opt && opt.constructor === Set) {
+          charOptions[o] = new Set();
+          
+          for await (const uuid of opt) {
+            charOptions[o].add(await fromUuid(uuid) ?? {... invalid, uuid });
+          }
+        }
+        // Assign page
+        else if (typeof opt === 'string' && opt.includes('.')) {
+          charOptions[o] = await fromUuid(opt) ?? {... invalid, uuid: opt };
+        }
+      }
+      
+      return charOptions;
+    })();
+  }
+
+  /* -------------------------------------------- */
+
+  /* Prepare List Entries */
+  get listEntries() {
+    return (async () => {
+      const baseEntries = this.system.listEntries;
+      const listEntries = {};
+      
+      // Filter effects relevant to list entries
+      const effects = this.appliedEffects.filter(e => {
+        const changes = e.system.changes;
+        const filtered = changes.filter(c => c.key.startsWith('system.listEntries.') && c.type === "add");
+
+        return filtered.length;
+      })
+
+      // Reduce data to relevant bits
+      const mapped = effects.map(e => ({
+        uuid: e.uuid,
+        changes: e.system.changes.map(c => ({
+          key: c.key.replace('system.listEntries.', ''),
+          value: c.value
+        }))
+      }));
+      
+      // Loop through lists
+      for (const [listKey, list] of Object.entries(baseEntries)) {
+        listEntries[listKey] = [];
+        
+        // Loop through entries
+        for (const entryKey of list) {
+          const entryData = await game.weirdwizard.utils.inferDataFromKey(listKey, entryKey);
+          const relevantEffs = mapped.filter(e => e.changes.some(c => c.key === listKey));
+          
+          if (relevantEffs.length) {
+            for (const effect of relevantEffs) {
+              if (effect.changes.findLast(c => c.key === listKey && c.value === entryKey)) entryData.grantedBy = effect.uuid;
+            }
+          }
+
+          listEntries[listKey].push(entryData);
+        }
+      }
+
+      return listEntries;
+    })();
   }
 
   /* -------------------------------------------- */
@@ -152,7 +273,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
 
     // Initialize auto failure
     this.system.autoFail = {};
-
+    this.system.autoSuccess = { against: {} };
     // Initialize Attributes boons and banes
     ['str', 'agi', 'int', 'wil'].forEach(attribute => {
       this.system.boons.selfRoll[attribute] = 0;
@@ -160,6 +281,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
       this.system.boons.against[attribute] = 0;
 
       this.system.autoFail[attribute] = false;
+      this.system.autoSuccess.against[attribute] = false;
     })
 
     // Initialize Speed variables
@@ -186,7 +308,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     const flags = this.flags.weirdwizard || {};
 
     // Return earlier if a Group
-    if (this.type === 'group') return this._prepareGroupData(system);;
+    if (this.type === 'group') return this._prepareGroupData(system);
     
     // Loop through attributes, and add their modifiers calculated with DLE rules to our sheet output.
     for (let [key, attribute] of Object.entries(system.attributes)) {
@@ -202,41 +324,10 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     // Calculate Speed
     this._calculateSpeed(system);
 
-    // Prepare CharOptions
-    this._prepareCharOptions(system);
-
     // Make separate methods for each Actor type (character, npc, etc) to keep things organized.
     this._prepareCharacterData(system);
     this._prepareNpcData(system);
     this._prepareGroupData(system);
-  }
-
-  /* -------------------------------------------- */
-
-  /* Prepare Char Options */
-  async _prepareCharOptions(system) {
-    // Prepare Character Options
-    const cOpts = system.charOptions;
-    const charOptions = {};
-
-    for (const o in cOpts) {
-      const opt = cOpts[o];
-
-      // Assign array of pages
-      if (opt && opt.constructor === Array) {
-        charOptions[o] = [];
-
-        for (const idx in opt) {
-          const page = await fromUuid(opt[idx]);
-          
-          charOptions[o].push(await page ? page : opt[idx]);
-        }
-      }
-      // Assign page
-      else if (typeof opt === 'string' && opt.includes('.')) charOptions[o] = await fromUuid(opt) ? await fromUuid(opt) : opt;
-    }
-
-    return this.charOptions = charOptions;
   }
 
   /* -------------------------------------------- */
@@ -258,7 +349,6 @@ export default class WWActor extends WWDocumentMixin(Actor) {
 
     // Assign Current Health to Max Damage for Token Bars
     system.stats.damage.max = system.stats.health.current;
-
   }
 
   /* -------------------------------------------- */
@@ -266,7 +356,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
   /**
   * Prepare Character type specific data
   */
-  async _prepareGroupData(system) {
+  _prepareGroupData(system) {
     if (this.type !== 'group') return;
     
     // Prepare list of members
@@ -332,7 +422,6 @@ export default class WWActor extends WWDocumentMixin(Actor) {
 
     system.wealth = wealth;
     system.equipmentList = equipmentList;
-    
   }
 
   /* -------------------------------------------- */
@@ -346,73 +435,51 @@ export default class WWActor extends WWDocumentMixin(Actor) {
    * to mutate the original object.
   */
   getRollData() {
-    const sys = this.system;
-    const atts = this.system.attributes;
-    const data = {...sys};
+    if (this.type === 'group') return; // Return earlier if group
 
-    // Return earlier if group
-    if (this.type === 'group') return;
+    const att = this.system.attributes;
+    const stats = this.system.stats;
     
-    // Attribute Modifiers and Scores
-    data.str = {
-      mod: atts.str.mod,
-      scr: atts.str.value
+    const data = {
+      system: this.system,
+
+      // Attributes
+      str: att.str.value,
+      strMod: att.str.value - 10,
+
+      agi: att.agi.value,
+      agiMod: att.agi.value - 10,
+
+      int: att.int.value,
+      intMod: att.int.value - 10,
+      
+      wil: att.wil.value,
+      wilMod: att.wil.value - 10,
+
+      // Defense
+      def: stats.defense.total,
+      defNatural: stats.defense.natural,
+      defArmored: stats.defense.armored,
+
+      // Health
+      health: stats.health.current,
+      healthNormal: stats.health.normal,
+      healthLost: stats.health.lost,
+
+      // Damage Total
+      damage: stats.damage.value,
+      damageHalf: Math.floor(stats.damage.value / 2),
+
+      // Speed
+      speed: stats.speed.current,
+      speedNormal: stats.speed.normal,
+      
+      // Other stats
+      level: stats.level,
+      size: stats.size,
+      bonusDamage: stats.bonusdamage
     }
 
-    data.agi = {
-      mod: atts.agi.mod,
-      scr: atts.agi.value
-    }
-    
-    data.int = {
-      mod: atts.int.mod,
-      scr: atts.int.value
-    }
-    
-    data.wil = {
-      mod: atts.wil.mod,
-      scr: atts.wil.value
-    }
-
-    // Defense
-    data.def = {
-      nat: sys.stats.defense.natural,
-      arm: sys.stats.defense.armored,
-      total: sys.stats.defense.total,
-    }
-
-    // Health
-    data.hth = {
-      cur: sys.stats.health.current,
-      nrm: sys.stats.health.normal,
-      lost: sys.stats.health.lost,
-    }
-
-    // Damage Total
-    data.dmg = {
-      total: sys.stats.damage.value,
-      half: Math.floor(sys.stats.damage.value / 2)
-    }
-
-    // Speed
-    data.spd = {
-      cur: sys.stats.speed.current,
-      nrm: sys.stats.speed.normal,
-    }
-
-    // Other stats
-    data.lvl = sys.stats.level;
-    data.size = sys.stats.size;
-    data.bd = sys.stats.bonusdamage;
-
-    // Clean unused data
-    delete data.description;
-    delete data.attributes;
-    delete data.stats;
-    delete data.currency;
-    delete data.details;
-    delete data.listEntries;
-    
     return data;
   }
 
@@ -438,7 +505,6 @@ export default class WWActor extends WWDocumentMixin(Actor) {
 
   /* Called during prepareDerivedData */
   _calculateHealthVariables(system) {
-    
     // Get variables
     const health = system.stats.health;
     const current = health.current;
@@ -449,24 +515,21 @@ export default class WWActor extends WWDocumentMixin(Actor) {
       system.stats.damage.value = current;
     };
     
-    // Health override effect exists
-    if (health.override) {
-      health.normal = health.override;
-    }
+    // Determine Normal value and use override if available
+    const normal = health.override ?? health.normal;
     
     // Calculate temporary Health and assign it
     health.temp = health.current - this._source.system.stats.health.current;
 
     // Calculate lost Health and assign it
-    if (health.normal - health.current >= 0) health.lost = health.normal - health.current; else health.lost = 0;
+    if (normal - health.current >= 0) health.lost = normal - health.current; else health.lost = 0;
 
     // Assign Current Health to Max Damage for Token Bars
     this.system.stats.damage.max = current;
 
     // Update incapacitated status
-    if (this.incapacitated === undefined) this.incapcitated = false;
+    this.incapacitated ??= false;
     if (!this.incapacitated) this.incapacitated = damage >= current;
-
   }
 
   /* -------------------------------------------- */
@@ -500,7 +563,9 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     speed.current = speed.halved ? Math.floor(adjusted / 2) : adjusted;
     
     // Override Speed
-    if (speed.override && speed.current > speed.override) speed.current = speed.override;
+    if (speed.override !== null && speed.override !== undefined) {
+      speed.current = speed.override;
+    }
   }
 
   /* -------------------------------------------- */
@@ -516,9 +581,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     if (cOption.type === 'tradition') return;
     if (cOption.type === 'ancestry' && source === 'levelChange') return;
     
-    // Handle char option's main effect, granted list entries and granted items
+    // Handle char option's main effect, list entries included
     await this._updateMainEffect(uuid);
-    await this._updateGrantedEntries(uuid);
 
     // Only grant items to professions if it's a drop and no other professions exist
     if (cOption.type === 'profession') {
@@ -529,7 +593,6 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     } else this._updateGrantedItems(uuid);
 
     ui.notifications.info(`${cOption.name}'s benefits updated.`);
-
   }
 
   /* -------------------------------------------- */
@@ -541,6 +604,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     
     const benefits = cOpt.system.benefits;
     const level = this.system.stats.level ?? 0;
+    let currentLevel = 0;
 
     const stats = {
       naturalSet: 0,
@@ -553,14 +617,18 @@ export default class WWActor extends WWDocumentMixin(Actor) {
       speedIncrease: 0,
       bonusDamage: 0
     };
-    
+
+    // Prepare changes
+    const lists = {};
+
     for (const b in benefits) {
 
       const benefit = benefits[b];
       
       // If level does not meet the requirement, ignore it
       if (level >= benefit.levelReq) {
-        const bStats = benefit.stats;
+        const { levelReq, stats: bStats, spells, items, attributes, ...listEntries } = benefit;
+        currentLevel = levelReq;
 
         // Defense
         if (bStats.naturalSet) stats.naturalSet = bStats.naturalSet;
@@ -568,7 +636,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
         stats.armoredIncrease += bStats.armoredIncrease;
 
         // Health
-        if (cOpt.system.tier === 'novice' && benefit.levelReq === 1) stats.healthStarting = bStats.healthStarting;
+        if (cOpt.system.tier === 'novice' && levelReq === 1) stats.healthStarting = bStats.healthStarting;
         stats.healthIncrease += bStats.healthIncrease;
 
         // Other stats
@@ -576,94 +644,120 @@ export default class WWActor extends WWDocumentMixin(Actor) {
         if (bStats.speedNormal) stats.speedNormal = bStats.speedNormal;
         stats.speedIncrease += bStats.speedIncrease;
         stats.bonusDamage += bStats.bonusDamage;
+
+        // List entry changes
+        for (const [listKey, list] of Object.entries(listEntries)) {
+          if (!lists[listKey]) lists[listKey] = list;
+          else if (list.length) lists[listKey] = new Set([...lists[listKey], ...list]);
+        }
       }
-      
     }
 
-    // Prepare changes for effect data
     const changes = [];
-    
+    // Prepare changes for effect data
+    // TODO: Use imported preset data instead
     if (stats.naturalSet) changes.push({
-      key: 'defense.natural',
+      preset: 'defense.natural',
+      key: 'system.stats.defense.natural',
       value: stats.naturalSet,
-      mode: 5,
+      type: "upgrade",
       priority: 1
     })
 
     if (cOpt.system.tier === 'novice') changes.push({
-      key: 'health.starting',
+      preset: 'health.starting',
+      key: 'system.stats.health.normal',
       value: stats.healthStarting,
-      mode: 5,
+      type: "upgrade",
       priority: 1
     })
 
     if (stats.naturalIncrease) changes.push({
-      key: 'defense.naturalIncrease',
+      preset: 'defense.naturalIncrease',
+      key: 'system.stats.defense.natural',
       value: stats.naturalIncrease,
-      mode: 2,
-      priority: null
+      type: "add",
+      phase: "initial"
     })
 
     if (stats.armoredIncrease) changes.push({
-      key: 'defense.armoredIncrease',
+      preset: 'defense.armoredIncrease',
+      key: 'system.stats.defense.armored',
       value: stats.armoredIncrease,
-      mode: 2,
-      priority: null
+      type: "add",
+      phase: "initial"
     })
     
     if (stats.healthIncrease) changes.push({
-      key: 'health.increase',
+      preset: 'health.increase',
+      key: 'system.stats.health.normal',
       value: stats.healthIncrease,
-      mode: 2,
-      priority: null
+      type: "add",
+      phase: "initial"
     })
 
     if (stats.sizeNormal) changes.push({
-      key: 'size.normal',
+      preset: 'size.normal',
+      key: 'system.stats.size',
       value: stats.sizeNormal,
-      mode: 5,
+      type: "upgrade",
       priority: 1
     })
 
     if (stats.speedNormal) changes.push({
-      key: 'speed.normal',
+      preset: 'speed.normal',
+      key: 'system.stats.speed.normal',
       value: stats.speedNormal,
-      mode: 5,
+      type: "upgrade",
       priority: 1
     })
 
     if (stats.speedIncrease) changes.push({
-      key: 'speed.increase',
+      preset: 'speed.increase',
+      key: 'system.stats.speed.normal',
       value: stats.speedIncrease,
-      mode: 2,
-      priority: null
+      type: "add",
+      phase: "initial"
     })
 
     if (stats.bonusDamage) changes.push({
-      key: 'bonusDamage.increase',
+      preset: 'bonusDamage.increase',
+      key: 'system.stats.bonusdamage',
       value: stats.bonusDamage,
-      mode: 2,
-      priority: null
+      type: "add"
     })
+
+    // Add list entry changes
+    for (const [listKey, list] of Object.entries(lists)) {
+      for (const entryKey of list) {
+        changes.push({
+          preset: `${listKey}.add`,
+          key: `system.listEntries.${listKey}`,
+          value: entryKey,
+          type: "add"
+        })
+      }
+    }
     
     // Create effect data object
     const eff = this.effects.find(e => { return e.system.grantedBy === cOpt.uuid });
 
     const effectData = {
-      name: cOpt.name,
-      icon: cOpt.src,
+      name: currentLevel ? _loc('WW.CharOption.BenefitEffectName', {name: cOpt.name, level: currentLevel}) : cOpt.name,
+      img: cOpt.src,
       type: 'benefit',
       description: cOpt.text.content,
 
       origin: this.uuid,
-      changes: changes,
-      'system.grantedBy': cOpt.uuid
+      system: {
+        changes: changes,
+        grantedBy: cOpt.uuid
+      }
     };
 
     // Create or update main effect
-    if (eff) this.updateEmbeddedDocuments("ActiveEffect", [{ _id: eff.id, ...effectData }]);
-    else this.createEmbeddedDocuments("ActiveEffect", [effectData]);
-
+    if (eff) await this.updateEmbeddedDocuments("ActiveEffect", [{ _id: eff.id, ...effectData }]);
+    else await this.createEmbeddedDocuments("ActiveEffect", [effectData]);
   }
 
   /* -------------------------------------------- */
@@ -699,9 +793,7 @@ export default class WWActor extends WWDocumentMixin(Actor) {
           if (!aItems.find(i => i.name === itemData.name )) itemsArr.push(itemData);
           
         }
-
       }
-      
     }
 
     // Create items on actor
@@ -711,83 +803,10 @@ export default class WWActor extends WWDocumentMixin(Actor) {
 
   /* -------------------------------------------- */
 
-  async _updateGrantedEntries(uuid) {
-    const cOption = await fromUuid(uuid);
-
-    if (!cOption) return ;
-
-    const benefits = cOption.system.benefits,
-    listEntries = this.system.listEntries,
-    level = this.system.stats.level;
-
-    // Get list entries granted by the character option existing on the actor
-    const grantedEntries = this._entriesToGrant(uuid);
-    
-    // Create newEntries to store the updated list entries
-    const newEntries = {
-      descriptors: listEntries.descriptors,
-      immunities: listEntries.immunities,
-      languages: listEntries.languages,
-      movementTraits: listEntries.movementTraits,
-      senses: listEntries.senses,
-      traditions: listEntries.traditions
-    };
-
-    // Loop through each benefit
-    for (const b in benefits) {
-
-      const benefit = benefits[b];
-      
-      // If level does not meet the requirement, ignore it
-      if (level >= benefit.levelReq) {
-        if (benefit.descriptors) newEntries.descriptors = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'descriptors');
-        
-        if (benefit.immunities) newEntries.immunities = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'immunities');
-
-        if (benefit.languages) newEntries.languages = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'languages');
-
-        if (benefit.movementTraits) newEntries.movementTraits = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'movementTraits');
-
-        if (benefit.senses) newEntries.senses = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'senses');
-
-        if (benefit.traditions) newEntries.traditions = await this._addEntries(uuid, grantedEntries, newEntries, benefit, 'traditions');
-        
-      }
-      
-    }
-    
-    // Update actor with new listEntries object
-    const obj = {...await listEntries, ... newEntries };
-    
-    await this.updateSource({['system.listEntries']: obj });
-  }
-
-  /* -------------------------------------------- */
-
-  async _addEntries(uuid, grantedEntries, newEntries, benefit, listName) {
-    const list = {...benefit[listName]};
-    
-    // For each entry
-    for (const entryId in list) {
-      const entry = list[entryId];
-      
-      // Store the character option's UUID in grantedBy
-      entry.grantedBy = uuid;
-
-      // If entry with the same key is found, delete the entry from the list object
-      if (Object.keys(await grantedEntries[listName]).find(e => e === entryId)) {
-        delete await list[entryId];
-      }
-
-    };
-    
-    // Add entries to newEntries object
-    //if (Object.keys(await list).length) newEntries[listName] = newEntries[listName] ? { ...await list, ...newEntries[listName] } : list;
-    return await list;
-  }
-
-  /* -------------------------------------------- */
-  
+  /**
+   * Removed benefits granted by a Character Option.
+   * @param {string} uuid 
+   */
   async clearCharOptionBenefits(uuid) {
     const cOption = await fromUuid(uuid);
 
@@ -807,66 +826,493 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     
     // Delete items granted by the Character Option
     this.deleteEmbeddedDocuments('Item', ids);
-
-    /* Granted List Entries */
-
-    // Get list entries granted by the character option existing on the actor
-    const newEntries = this._removeEntriesGrantedBy(uuid);
-
-    // Update actor with new listEntries
-    this.update({['system.listEntries']: newEntries});
-
+    
     ui.notifications.info(`${cOption.name}'s benefits were cleared from the actor.`);
   }
 
   /* -------------------------------------------- */
+  /*  Activities                                  */
+  /* -------------------------------------------- */
 
-  _entriesToGrant(uuid) {
-    const entries = this.system.listEntries;
-    const objFilter = list => Object
-      .fromEntries(Object.entries(entries[list])
-    .filter(([k, v]) => v.grantedBy === uuid ));
+  /**
+   * Handle the use of an Activity.
+   * @param {ActivityOptions} options
+   * @returns {ActivityConfig}
+   */
+  async useActivity(options) {
+    const { args = {}, item = null, roll = {}, message = {}, title } = options;
+    const sys = this.system;
 
-    const obj = {
-      descriptors: objFilter('descriptors'),
-      immunities: objFilter('immunities'),
-      languages: objFilter('languages'),
-      movementTraits: objFilter('movementTraits'),
-      senses: objFilter('senses')
+    // Targeting
+    const targeting = item?.system?.targeting ?? null;
+
+    // Item Properties
+    const itemProperties = {
+      isWeapon: item?.system?.subtype === 'weapon' ?? false,
+      isAttack: (item?.system?.subtype === 'weapon' || roll?.against?.key === 'def') ?? false,
+      isMagical: item?.system?.magical,
+      isSpell: item?.type === 'spell' ?? false
     }
 
-    if (this.type === 'character') obj.traditions = objFilter('traditions');
+    // Roll
+    roll.attribute ??= {};
+    roll.attribute.key ??= item?.system?.attribute ?? null;
+    const attKey = roll.attribute.key;
+    roll.attribute.mod ??= sys.attributes[attKey]?.mod ? game.weirdwizard.utils.plusify(sys.attributes[attKey].mod) : '+0';
+    
+    // Roll Boons
+    foundry.utils.mergeObject(roll.boons = {}, {
+      actor: sys.boons,
+      fromEffects: sys.boons.selfRoll[attKey], // Conditional boons should be added here later
+      forAttacks: sys.boons.selfRoll.attacks,
+      forSpells: sys.boons.selfRoll.spells,
+    });
 
-    return obj;
+    roll.boons.fixed ??= item?.system?.boons ?? 0;
+    roll.boons.applyAttack ??= itemProperties.isAttack;
+    roll.boons.applySpell ??= itemProperties.isSpell;
+    roll.boons.situational ??= 0;
 
+    roll.against ??= {};
+    roll.against.key ??= item?.system?.against ?? null;
+
+    // Arguments
+    args.noRoll ??= roll.attribute?.key ? false : true;
+    args.noTargeting ??= targeting?.operation === 'target' ? false : true;
+    args.noArea ??= targeting?.operation === 'placeArea' ? false : true;
+    args.skipApp ??= args.noRoll && args.noTargeting && args.noArea;
+
+    // Create config object
+    const config = {
+      args, item, roll, targeting, message, itemProperties, title,
+      actor: this,
+      token: this.token
+    }
+
+    // Open or skip ActivityUse app
+    let cancel = false;
+
+    if (args.skipApp) { // Skip Activity app, but maybe open a helper
+      // Prompt Area placement
+      if (targeting?.operation === 'placeArea' || (targeting?.operation === 'target' && targeting?.method === 'area')) {
+        const area = await item.placeArea({ originApp: this.sheet });
+
+        if (!area) cancel = true;
+        
+      // Open Targeting Helper
+      } else if (targeting?.operation === 'target') {
+        const helperOptions = {
+          originApp: this.sheet,
+          actor: this,
+          item,
+          cancelable: true
+        };
+        const targetingHelper = await TargetingHelper.wait(helperOptions);
+
+        if (targetingHelper.cancel) cancel = true;
+      } 
+    } else { // Open Activity app
+      const mutated = await ActivityUse.wait(config);
+      if (mutated) (config, mutated); else cancel = true;
+    }
+
+    // Cancel activity if needed, otherwise proceed to roll and chat message
+    if (cancel) return;
+    if (!args.noRoll) await this.activityRoll(config); // Handle roll
+    await this.activityMessage(config); // Handle chat message creation
+
+    return config;
   }
 
   /* -------------------------------------------- */
 
-  _removeEntriesGrantedBy(uuid) {
-    const entries = this.system.listEntries;
-    
-    const objFilter = list => Object
-      .fromEntries(Object.entries(entries[list])
-      .filter(([k, v]) => v.grantedBy === uuid )
-    .map(([k]) => [`-=${k}`, null]));
-    
-    const obj = {
-      descriptors: objFilter('descriptors'),
-      immunities: objFilter('immunities'),
-      languages: objFilter('languages'),
-      movementTraits: objFilter('movementTraits'),
-      senses: objFilter('senses')
+  /**
+   * Make rolls for an Activity.
+   * @param {ActivityConfig} config
+   * @returns {ActivityConfig}
+   */
+  async activityRoll(config) {
+    const { attribute, boons, against, flatMod } = config.roll;
+
+    // Proceed to roll
+    const rollData = this.getRollData();
+    const rollOptions = {
+      template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
+      actor: this,
+      item: config.item,
+      originUuid: config.item ? config.item.uuid : this.uuid, // TODO: Replace with item/actor
+      attribute: attribute.key,
+      against: against.key,
+      instEffs: this.getActivityInstantEffects(config),
+      actEffs: this.getActivityActiveEffects(config)
+    };
+    const rollsArray = [];
+    const autoFailure = this.system.autoFail;
+
+    // Calculate final boons
+    let boonsDisplay = "0";
+    let boonsFinal = 0;
+
+    if (boons.situational) boonsFinal += boons.situational; // Add situational boons input value
+    if (boons.fromEffects) boonsFinal += boons.fromEffects; // If there are boons or banes applied by Active Effects, add it
+    if (boons.applyAttack && boons.forAttacks) boonsFinal += boons.forAttacks;
+    if (boons.applySpell && boons.forSpells) boonsFinal += boons.forSpells;
+    if (boons.fixed) boonsFinal += boons.fixed; // If there are fixed boons or banes, add it
+
+    config.roll.boons.final = boonsFinal;
+
+    // Check if user has valid targets
+    const validTargets = this.getActivityTargets(config).valid;
+
+    if (!!validTargets.length && against.key) { // If Action is Targeted and Against is filled: perform one separate roll for each target
+      for (const tar of validTargets) {
+        // Set boons text
+        let boonsAgainst = 0;
+        if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against.key];
+        if (config.itemProperties.isAttack) boonsAgainst += tar.boonsAgainst.fromAttacks;
+        if (config.itemProperties.isSpell) boonsAgainst += tar.boonsAgainst.fromSpells;
+        if (config.itemProperties.isMagical) boonsAgainst += tar.boonsAgainst.fromMagical;
+
+        const boonsNo = parseInt(boons.final) + boonsAgainst;
+
+        if (boonsNo != 0) {
+          boonsDisplay = (boonsNo < 0 ? "" : "+") + boonsNo + "d6kh"
+        } else {
+          boonsDisplay = "";
+        };
+
+        // Determine the rollFormula
+        const rollFormula = [
+          "1d20",
+          (attribute.key && attribute.key !== 'luck') ? `${attribute.mod}[${_loc(CONFIG.WW.ATTRIBUTES_SHORT[attribute.key])}]` : null,
+          flatMod ? flatMod + `[${_loc("WW.Roll.Flat")}]` : null,
+          boonsDisplay ? boonsDisplay + `[${_loc(boons.final < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
+        ].filterJoin(" + ");
+
+        // Determine target number
+        const targetNo = against.key === 'def' ? tar.defense : tar.attributes[against.key].value;
+
+        const autoSuccess = against.key ? !!tar.autoSuccessAgainst?.[against.key] : false;
+        
+        // Construct the Roll instance and evaluate the roll
+        const roll = await new WWRoll(rollFormula, rollData, {
+          ... rollOptions,
+          target: tar,
+          targetNo,
+          autoSuccess,
+          autoFailure
+        }).evaluate();
+        
+        // Prepare DSN data
+        const index = validTargets.findIndex(obj => { return obj.id === tar.id; });
+        this.prepareDSN(roll, index);
+
+        // Push roll to roll array
+        rollsArray.push(roll);
+      }
+
+    } else { // No targets and Against is false: perform a SINGLE ROLL for all targets
+      // Set boons text
+      if (boons.final != 0) { boonsDisplay = boons.final + "d6kh" } else { boonsDisplay = ""; };
+      
+      // Determine the rollFormula
+      const rollFormula = [
+        "1d20",
+        (attribute.key && attribute.key !== 'luck') ? `${attribute.mod}[${_loc(CONFIG.WW.ATTRIBUTES_SHORT[attribute.key])}]` : null,
+        flatMod ? flatMod + `[${_loc("WW.Roll.Flat")}]` : null,
+        boonsDisplay ? boonsDisplay + `[${_loc(boons.final < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
+      ].filterJoin(" + ");
+
+      // Set targetNo to the custom; 10 is used otherwise
+      const targetNo = against.customTn ?? 10;
+      
+      // Construct the Roll instance and evaluate the roll
+      const roll = new WWRoll(rollFormula, rollData, {
+        ... rollOptions,
+        targetNo,
+        autoFailure
+      });
+      await roll.evaluate();
+
+      // Prepare DSN data
+      this.prepareDSN(roll, 0);
+
+      // Push roll to roll array
+      rollsArray.push(roll);
     }
 
-    if (this.type === 'character') obj.traditions = objFilter('traditions');
+    // Add rolls array to config
+    config.rollsArray = rollsArray;
+    
+    return config;
+  }
 
-    return obj;
+  /* -------------------------------------------- */
+  
+  /**
+   * Create a Chat Message for an Activity.
+   * @param {ActivityConfig} config
+   */
+  async activityMessage(config) {
+    const { message, rollsArray=[] } = config;
+    
+    const messageData = {
+      ...message,
+      type: 'd20-roll',
+      rolls: [...rollsArray],
+      speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
+      sound: CONFIG.sounds.dice,
+      'flags.weirdwizard': {
+        icon: message.icon ?? (config.item?.img ?? null),
+        item: config.item?.uuid,
+        emptyContent: !message.content ?? true
+      }
+    }
+    
+    // Apply roll mode and send to chat
+    await ChatMessage.applyMode(messageData, game.settings.get('core', 'messageMode'));
+    await ChatMessage.create(messageData);
+  }
+  
+  /* -------------------------------------------- */
 
+  prepareDSN(roll, index) {
+    for (let i = 0; i < roll.dice.length; i++) {
+      roll.dice[i].options.rollOrder = index;
+
+      const exp = roll.dice[i].expression;
+      if (exp.includes('d20')) {
+        roll.dice[i].options.appearance = {
+          colorset: 'wwd20',
+          texture: 'stars',
+          material: 'metal',
+          font: 'Amiri',
+          foreground: '#FFAE00', // Label Color
+          background: "#AE00FF", // Dice Color
+          outline: '#FF7B00',
+          edge: '#FFAE00',
+          material: 'metal',
+          font: 'Amiri',
+          default: true
+        };
+      }
+
+      if (exp.includes('d6')) {
+        const sub = roll.formula.substring(0, roll.formula.indexOf(exp)).trim();
+        const sign = sub.slice(-1);
+
+        if (sign === '+') { // Boon dice
+          roll.dice[i].options.appearance = {
+            colorset: 'wwboon',
+            texture: 'stars',
+            material: 'metal',
+            font: 'Amiri',
+            foreground: '#FFAE00', // Label Color
+            background: "#4394FE", // Dice Color
+            outline: '#FF7B00',
+            edge: '#FFAE00',
+            material: 'metal',
+            font: 'Amiri'
+          };
+
+        } else if (sign === '-') { // Bane dice
+          roll.dice[i].options.appearance = {
+            colorset: 'wwbane',
+            texture: 'stars',
+            material: 'metal',
+            font: 'Amiri',
+            foreground: '#FFAE00', // Label Color
+            background: "#C70000", // Dice Color
+            outline: '#FF7B00',
+            edge: '#FFAE00',
+            material: 'metal',
+            font: 'Amiri'
+          };
+        }
+      }
+    }
+  }
+
+  /* -------------------------------------------- */
+
+  getActivityTargets(config) {
+    const all = [], valid = [], invalid = [];
+    const restriction = config.targeting?.restriction ?? 'any';
+
+    // Validate disposition
+    function validateDispo(tokenDispo) {
+      if (restriction === 'allies' && tokenDispo === 1) return true;
+      else if (restriction === 'enemies' && tokenDispo === -1) return true;
+      else if (restriction === 'any') return true;
+      else return false;
+    }
+
+    // If Targeting Method is Self, infer token and target it
+    const item = config.item;
+    if (item?.system?.targeting?.method === 'self' && item?.inferToken) canvas.tokens.setTargets([item.inferToken.object.id]);
+
+    // Loop through targets
+    game.user.targets.forEach(target => {
+      const tokenDoc = target.document;
+      const actor = tokenDoc.actor;
+      const sys = actor?.system;
+
+      // Prepare shared actor data
+      const targetData = {
+        id: target.id,
+        uuid: tokenDoc.uuid,
+        img: tokenDoc.texture.src,
+        name: game.weirdwizard.utils.getAlias({ token: tokenDoc, actor: actor }),
+        dispostion: tokenDoc.disposition,
+        isCreature: actor.type === 'character' || actor.type === 'npc'
+      };
+
+      // Add Creature specific data
+      if (targetData.isCreature) foundry.utils.mergeObject(targetData, {
+        attributes: sys.attributes,
+        defense: sys.stats.defense.total,
+        againstNo: config.roll.against.key === 'def' ? sys.stats.defense.total : (config.roll.against.key ? sys.attributes[config.roll.against.key]?.value : null),
+        boons: sys.boons.selfRoll,
+        boonsAgainst: sys.boons.against,
+        autoSuccessAgainst: sys.autoSuccess.against
+      })
+
+      // Push to correct arrays
+      all.push(targetData);
+
+      if (targetData.isCreature && validateDispo(tokenDoc.disposition)) valid.push(targetData);
+      else invalid.push(targetData);
+    });
+
+    return { all, valid, invalid };
+  }
+
+  /* -------------------------------------------- */
+
+  getActivityActiveEffects(config) {
+    const effs = {
+      onUse: [],
+      onSuccess: [],
+      onCritical: [],
+      onFailure: []
+    }
+    
+    config.item?.effects?.forEach(effect => {
+      const e = {...effect};
+      e.uuid = effect.uuid;
+
+      switch (e.system.trigger) {
+        case 'onUse': {
+          effs.onUse.push(e);
+          effs.onSuccess.push(e);
+          effs.onCritical.push(e);
+          effs.onFailure.push(e);
+        }; break;
+        case 'onSuccess': effs.onSuccess.push(e); effs.onCritical.push(e); break;
+        case 'onCritical': effs.onCritical.push(e); break;
+        case 'onFailure': effs.onFailure.push(e); break;
+      }
+
+    })
+    
+    return effs;
+  }
+
+  /* -------------------------------------------- */
+
+  getActivityInstantEffects(config) {
+    const effs = {
+      onUse: [],
+      onSuccess: [],
+      onCritical: [],
+      onFailure: []
+    }
+
+    // Return earlier if there is no item
+    if (!config.item) return effs;
+
+    // Add Weapon Damage
+    const itemSystem = config.item.system;
+    const weaponDamage = (itemSystem.subtype === 'weapon' && itemSystem.damage) ? itemSystem.damage : 0;
+    
+    if (weaponDamage) {
+      const eff = {
+        label: 'damage',
+        item: config.item,
+        value: weaponDamage
+      };
+      
+      effs.onSuccess.push(eff);
+      effs.onCritical.push(eff);
+    }
+    
+    // Add Instant Effects
+    config.item.system.instant.forEach(e => {
+      
+      if (!e.trigger) e.trigger = e.flags.weirdwizard.trigger;
+
+      switch (e.trigger) {
+        case 'onUse': {
+          effs.onUse.push(e);
+          effs.onSuccess.push(e);
+          effs.onCritical.push(e);
+          effs.onFailure.push(e);
+        }; break;
+        case 'onSuccess': effs.onSuccess.push(e); effs.onCritical.push(e); break;
+        case 'onCritical': effs.onCritical.push(e); break;
+        case 'onFailure': effs.onFailure.push(e); break;
+      }
+
+    })
+    
+    return effs;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Attempt to end an effect with a Luck roll.
+   * @param {ActiveEffect} effect
+   */
+  async luckEnds(effect) {
+    const title = `${_loc('WW.Effect.Duration.Expiry.LuckEnds')}: ${effect.name}`;
+    const config = {
+      title,
+      roll: { attribute: { key: 'luck' } },
+      message: {
+        flavor: title,
+        content: '',
+        icon: effect.img ?? null
+      },
+      args: {
+        noTargeting: true
+      }
+    }
+
+    const activity = await this.useActivity(config);
+    if (!activity) return;
+
+    const isSuccess = ['success', 'critical'].includes(activity.rollsArray[0].outcome);
+    if (isSuccess) {
+      await effect.update({ 'duration.expired': true });
+      effect.delete();
+    }
   }
 
   /* -------------------------------------------- */
   /*  Apply Methods                               */
+  /* -------------------------------------------- */
+
+  async applyInstantEffect(operation, value) {
+    switch (operation) {
+      case 'damage': this.applyDamage(value); break;
+      case 'heal': this.applyHealing(value); break;
+      case 'healthLose': this.applyHealthLoss(value); break;
+      case 'healthRegain': this.applyHealthRegain(value); break;
+      case 'affliction': this.applyAffliction(value); break;
+    }
+  }
+
   /* -------------------------------------------- */
 
   async applyDamage(damage) {
@@ -885,8 +1331,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     }
 
     const content = `
-      <p>@UUID[${this.uuid}] ${i18n('WW.InstantEffect.Apply.Took')} ${damage} ${i18n('WW.InstantEffect.Apply.DamageLc')}.</p>
-      <p>${i18n('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fa-solid fa-arrow-right"></i> ${newTotal}</p>
+      <p>@UUID[${this.uuid}] ${_loc('WW.InstantEffect.Apply.Took')} ${damage} ${_loc('WW.InstantEffect.Apply.DamageLc')}.</p>
+      <p>${_loc('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fa-solid fa-arrow-right"></i> ${newTotal}</p>
     `;
 
     ChatMessage.create({
@@ -907,8 +1353,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     const newTotal = ((oldTotal - parseInt(healing)) > 0) ? oldTotal - parseInt(healing) : 0;
 
     const content = `
-      <p>@UUID[${this.uuid}] ${i18n('WW.InstantEffect.Apply.Healed')} ${healing} ${i18n('WW.InstantEffect.Apply.DamageLc')}.</p>
-      <p>${i18n('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fa-solid fa-arrow-right"></i> ${newTotal}</p>
+      <p>@UUID[${this.uuid}] ${_loc('WW.InstantEffect.Apply.Healed')} ${healing} ${_loc('WW.InstantEffect.Apply.DamageLc')}.</p>
+      <p>${_loc('WW.InstantEffect.Apply.DamageTotal')}: ${oldTotal} <i class="fa-solid fa-arrow-right"></i> ${newTotal}</p>
     `;
 
     ChatMessage.create({
@@ -931,8 +1377,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     const temp = this.system.stats.health.current - rawCurrent; // Diference between final vs raw current Health
     
     const content = `
-      <p>@UUID[${this.uuid}] ${i18n('WW.InstantEffect.Apply.Lost')} ${loss} ${i18n('WW.InstantEffect.Apply.Health')}.</p>
-      <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${rawCurrent + temp} <i class="fa-solid fa-arrow-right"></i> ${newCurrent + temp}</p>
+      <p>@UUID[${this.uuid}] ${_loc('WW.InstantEffect.Apply.Lost')} ${loss} ${_loc('WW.InstantEffect.Apply.Health')}.</p>
+      <p>${_loc('WW.InstantEffect.Apply.CurrentHealth')}: ${rawCurrent + temp} <i class="fa-solid fa-arrow-right"></i> ${newCurrent + temp}</p>
     `;
 
     ChatMessage.create({
@@ -957,8 +1403,8 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     const temp = this.system.stats.health.current - rawCurrent; // Diference between final vs raw current Health
     
     const content = `
-      <p>@UUID[${this.uuid}] ${i18n('WW.InstantEffect.Apply.Regained')} ${regained} ${i18n('WW.InstantEffect.Apply.Health')}.</p>
-      <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${rawCurrent + temp} <i class="fa-solid fa-arrow-right"></i> ${newCurrent + temp}</p>
+      <p>@UUID[${this.uuid}] ${_loc('WW.InstantEffect.Apply.Regained')} ${regained} ${_loc('WW.InstantEffect.Apply.Health')}.</p>
+      <p>${_loc('WW.InstantEffect.Apply.CurrentHealth')}: ${rawCurrent + temp} <i class="fa-solid fa-arrow-right"></i> ${newCurrent + temp}</p>
     `;
 
     ChatMessage.create({
@@ -974,13 +1420,11 @@ export default class WWActor extends WWDocumentMixin(Actor) {
   /* -------------------------------------------- */
 
   /* Apply Affliction */
-  async applyAffliction(key) {
-    
-    // Get affliction
-    const effect = CONFIG.statusEffects.find(a => a.id === key);
-    effect['statuses'] = [effect.id];
+  async applyAffliction(statusId) {
+    const ActiveEffect = getDocumentClass("ActiveEffect");
+    const affliction = await ActiveEffect.fromStatusEffect(statusId, {parent: this});
   
-    if (!effect) {
+    if (!affliction) {
       console.warn('Weird Wizard | applyAffliction | Affliction not found!')
       return;
     }
@@ -988,36 +1432,52 @@ export default class WWActor extends WWDocumentMixin(Actor) {
     let content = '';
 
     // Check if the actor already has the affliction
-    if (this.statuses.has(key)) {
-      content = `@UUID[${this.uuid}] ${i18n('WW.Affliction.Already')} <b class="info" data-tooltip="${effect.description}">${effect.name}</b>.`;
+    if (this.statuses.has(statusId)) {
+      content = `@UUID[${this.uuid}] ${_loc('WW.Affliction.Already')} <b class="info" data-tooltip="${affliction.description}">${affliction.name}</b>.`;
     } else {
-      await ActiveEffect.create(effect, {parent: this});
-      content = `@UUID[${this.uuid}] ${i18n('WW.Affliction.Becomes')} <b class="info" data-tooltip="${effect.description}">${effect.name}</b>.`;
+      await ActiveEffect.create(affliction.toObject(), {parent: this, keepId: true});
+      content = `@UUID[${this.uuid}] ${_loc('WW.Affliction.Becomes')} <b class="info" data-tooltip="${affliction.description}">${affliction.name}</b>.`;
     }
 
     // Send chat message
-    ChatMessage.create({
+    getDocumentClass("ChatMessage").create({
       type: 'status',
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
       content: content,
       sound: CONFIG.sounds.notification
     })
-
   }
 
   /* -------------------------------------------- */
 
   /* Apply Active Effect */
-  async applyEffect(effectUuid) {
-    
-    const effect = fromUuidSync(effectUuid);
+  async applyEffect(effectUuid, options={}) {
+    const { combatant: target } = options;
+    const baseEffect = await fromUuid(effectUuid);
+    const sys = baseEffect.system;
+    const effectData = baseEffect.toObject();
 
     // Swap trigger to passive for it to take effect immediately
-    effect.system.trigger = 'passive';
+    effectData.system.trigger = 'passive';
+
+    // Assign target-based start duration data
+    if (baseEffect.duration.units === 'turns') {
+      if (sys.targetRelativeTurns && !target) return ui.notifications.warn(_loc('WW.Effect.Duration.TargetRelativeTip'));
+      else {
+        effectData.start = {
+          time: game.time.worldTime,
+          combat: game.combat,
+          combatant: target
+        };
+      }
+    }
+    
+    const effects = await this.createEmbeddedDocuments("ActiveEffect", [effectData]);
+    const effect = effects[0];
 
     const content = `<p>
       @UUID[${effect.uuid}]
-      ${i18n('WW.Effect.AppliedTo')}
+      ${_loc('WW.Effect.AppliedTo')}
       @UUID[${this.uuid}].
     </p>`;
 
@@ -1027,9 +1487,17 @@ export default class WWActor extends WWDocumentMixin(Actor) {
       content: content,
       sound: CONFIG.sounds.notification
     })
+  }
 
-    this.createEmbeddedDocuments("ActiveEffect", [await effect.toObject()]);
+  /* -------------------------------------------- */
 
+  static async clearAfflictions() {
+    const afflictions = this
+      .getEmbeddedCollection('ActiveEffect')
+      .filter(e => e.statuses.size > 0)
+      .filter(e => e.type = 'affliction')
+      .map(e => e._id);
+    await this.deleteEmbeddedDocuments('ActiveEffect', afflictions);
   }
 
   /* -------------------------------------------- */
@@ -1056,127 +1524,4 @@ export default class WWActor extends WWDocumentMixin(Actor) {
       }
     }
   }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Deletes expired temporary active effects and disables linked expired buffs.
-   * Code borrowed from Pathfinder 1e system.
-   *
-   * @param {object} [options] Additional options
-   * @param {Combat} [options.combat] Combat to expire data in, if relevant
-   * @param {number} [options.timeOffset=0] Time offset from world time
-   * @param {DocumentModificationContext} [context] Document update context
-   */
-  async expireActiveEffects({ combat, timeOffset = 0 } = {}, context = {}) {
-    if (!this.isOwner) throw new Error("Must be owner");
-    const worldTime = game.time.worldTime + timeOffset;
-    
-    const temporaryEffects = this.temporaryEffects.filter((ae) => {
-      const { seconds, rounds, startTime, startRound } = ae.duration;
-      // Calculate remaining duration.
-      // AE.duration.remaining is updated by Foundry only in combat and is unreliable.
-      
-      if (seconds > 0) {
-        const elapsed = worldTime - (startTime ?? 0),
-          remaining = seconds - elapsed;
-        return remaining <= 0;
-      }
-      else return false;
-    });
-
-    const disableActiveEffects = [],
-      deleteActiveEffects = [],
-      disableBuffs = [],
-      actorUpdate = {};
-
-    const v11 = game.release.generation >= 11;
-    
-    for (const ae of temporaryEffects) {
-      const conditionId = v11 ? ae.statuses.first() : ae.getFlag("core", "statusId");
-
-      if (conditionId) {
-        // Disable expired conditions
-        actorUpdate[`system.attributes.conditions.-=${conditionId}`] = null;
-      } else {
-        const duration = ae.duration.seconds ? formatTime(ae.duration.seconds) : ae.duration.rounds + ' ' + (ae.duration.rounds > 1 ? i18n('WW.Effect.Duration.Rounds') : i18n('WW.Effect.Duration.Round'));
-
-        await ChatMessage.create({
-          type: 'status',
-          speaker: game.weirdwizard.utils.getSpeaker({ actor: this }),
-          flavor: this.label,
-          content: `<p>@UUID[${this.uuid}]: @UUID[${ae.uuid}] ${i18n("WW.Effect.Duration.ExpiredMsg")} ${duration}.</div>`,
-          sound: CONFIG.sounds.notification
-        });
-
-        if (ae.system.duration.autoExpire) {
-          deleteActiveEffects.push(ae.id);
-        } else {
-          disableActiveEffects.push({ _id: ae.id, disabled: true });
-        }
-      }
-    }
-
-    // Add context info for why this update happens to allow modules to understand the cause.
-    const hasActorUpdates = !foundry.utils.isEmpty(actorUpdate);
-
-    const deleteAEContext = foundry.utils.mergeObject(
-      { render: !disableBuffs.length && !disableActiveEffects.length && !hasActorUpdates },
-      context
-    );
-    if (deleteActiveEffects.length)
-      await this.deleteEmbeddedDocuments("ActiveEffect", deleteActiveEffects, deleteAEContext);
-
-    const disableAEContext = foundry.utils.mergeObject({ render: !disableBuffs.length && !hasActorUpdates }, context);
-    if (disableActiveEffects.length)
-      await this.updateEmbeddedDocuments("ActiveEffect", disableActiveEffects, disableAEContext);
-
-    const disableBuffContext = foundry.utils.mergeObject({ render: !hasActorUpdates }, context);
-    if (disableBuffs.length) await this.updateEmbeddedDocuments("Item", disableBuffs, disableBuffContext);
-
-    if (hasActorUpdates) await this.update(actorUpdate, context);
-  }
-
-  /* -------------------------------------------- */
-  /*  Getters                                     */
-  /* -------------------------------------------- */
-
-  /**
-   * Determine whether the character is injured.
-   * @type {boolean}
-   */
-  get injured() {
-    let isInjured = false;
-
-    if (this.type !== 'group') {
-      const health = this.system.stats.health;
-      const current = health.current;
-      const damage = this.system.stats.damage.value;
-
-      isInjured = damage >= Math.floor(current / 2);
-      if (this.type === 'character' && health.normal <= 0) isInjured = false;
-    }
-
-    return isInjured ? true : false;
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Determine whether the character is dead or destroyed.
-   * @type {boolean}
-   */
-  get dead() {
-    let isDead = false;
-
-    if (this.type !== 'group') {
-      const health = this.system.stats.health;
-    
-      isDead = health.current <= 0;
-      if (this.type === 'character' && health.normal <= 0) isDead = false;
-    }
-
-    return isDead ? true : false;
-  }
-  
 }

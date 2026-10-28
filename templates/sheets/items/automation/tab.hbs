@@ -1,0 +1,10 @@
+<section class="tab{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+    {{!-- Targeting & Area --}}
+    {{> "systems/weirdwizard/templates/sheets/items/automation/targeting.hbs"}}
+
+    {{!-- Roll Settings --}}
+    {{> "systems/weirdwizard/templates/sheets/items/automation/roll.hbs"}}
+    
+    <div class="flex-1"></div>
+    <hr class="bug">
+</section>

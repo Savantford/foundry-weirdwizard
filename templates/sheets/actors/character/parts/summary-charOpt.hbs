@@ -1,0 +1,17 @@
+<li class="list-entry char-option">
+  {{!-- Label --}}
+  <a {{#if opt.invalid}}class="invalid"{{/if}} data-action="journalView" data-page-uuid="{{ opt.uuid }}" data-option-type="professions"
+    data-tooltip="{{#if opt.invalid}}{{localize "WW.CharOption.Reference.InvalidTip"}}{{else}}{{ opt.text.content }}{{/if}}">
+    {{ opt.name }}
+  </a>
+  
+  {{!-- Remove Button --}}
+  {{#if isEditMode}}
+  <span class="edit-buttons">
+    <a class="item-button" data-action="journalRemove" data-page-uuid="{{ opt.uuid }}" data-tooltip="{{ localize (lookup @root.cOptionRemoveTips opt.type) }}"
+      data-option-type="{{#if group}}{{ group }}{{else}}{{ opt.type }}{{/if}}">
+      <i class="fa-solid fa-trash"></i>
+    </a>
+  </span>
+  {{/if}}
+</li>

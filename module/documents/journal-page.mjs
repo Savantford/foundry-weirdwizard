@@ -4,7 +4,7 @@ import WWDocumentMixin from "./ww-document.mjs";
  * Extend the core JournalEntryPage with Weird Wizard modifications.
  * @extends {JournalEntryPage}
 */
-export default class WWJournalPage extends WWDocumentMixin(JournalEntryPage) {
+export default class WWJournalPage extends WWDocumentMixin(foundry.documents.JournalEntryPage) {
 
   /* -------------------------------------------- */
   /*  Document Creation                           */
@@ -48,7 +48,6 @@ export default class WWJournalPage extends WWDocumentMixin(JournalEntryPage) {
   /* -------------------------------------------- */
 
   async _preUpdate(changes, options, user) {
-
     // If Path and Tier changed, apply on tier change flow
     if (this.isPath && changes.system?.tier && (this.system.tier !== changes.system?.tier)) {
       await this._onTierChange(await changes);
@@ -58,7 +57,7 @@ export default class WWJournalPage extends WWDocumentMixin(JournalEntryPage) {
     if (this.isProfession && changes.system?.category !== this.system.category && (this.src === 'icons/svg/book.svg' || this.src.includes('systems/weirdwizard/assets/icons/professions'))) {
       await this._onProfessionCategoryChange(await changes);
     }
-
+    
     return await super._preUpdate(changes, options, user);
   }
 

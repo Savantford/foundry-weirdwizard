@@ -1,4 +1,4 @@
-import { i18n, sysPath } from './utils.mjs';
+import { sysPath } from './utils.mjs';
 import InstantEffectConfig from '../sheets/configs/instant-effect-config.mjs';
 import WWDialog from '../apps/dialog.mjs';
 
@@ -52,8 +52,8 @@ export async function deleteInstantEffect(effect, owner) {
       icon: 'fa-solid fa-trash'
     },
     content: `
-      <div>${i18n('WW.Item.Remove.Dialog.Msg', { name: '<b>' + i18n(effect.labelLoc) + '</b>' })}</div>
-      <div class="dialog-sure">${i18n('WW.Item.Remove.Dialog.Confirm', { name: i18n(effect.labelLoc) })}</div>
+      <div>${_loc('WW.Item.Remove.Dialog.Msg', { name: '<b>' + _loc(effect.labelLoc) + '</b>' })}</div>
+      <div class="dialog-sure">${_loc('WW.Item.Remove.Dialog.Confirm', { name: _loc(effect.labelLoc) })}</div>
     `
   });
 
@@ -76,8 +76,7 @@ export async function deleteInstantEffect(effect, owner) {
   * @param {Actor|Item}  owner    The owning entity which manages this effect
 */
 export async function createActiveEffect(dataset, owner) {
-  
-  const name = i18n('WW.Effect.New') // Initialize a default name.
+  const name = _loc('WW.Effect.New') // Initialize a default name.
   const type = dataset.type;
   const isTemp = type === 'temporary';
 
@@ -87,18 +86,25 @@ export async function createActiveEffect(dataset, owner) {
     img: owner.img,
     origin: owner.uuid,
     disabled: type === 'inactive',
-    'duration.type': type === 'temporary' ? 'seconds' : 'none',
-    'duration.seconds': isTemp ? 3600 : null,
-    'duration.rounds': isTemp ? 1 : undefined,
-    'system.duration.selected': isTemp ? '1round' : '',
-    'system.duration.autoExpire': true,
-    'system.trigger': isTemp ? 'onUse' : 'passive'
+
+    // Duration (Until the end of the round)
+    duration: {
+      value: isTemp ? 0 : null,
+      units: 'rounds',
+      expiry: isTemp ? 'roundEnd' : null
+    },
+    
+    // System
+    system: {
+      durationPreset: isTemp ? '1round' : '',
+      trigger: isTemp ? 'onUse' : 'passive'
+    }
   };
   
   // Create the effect
   const effects = Array.from(await owner.effects);
   effects.push(effectData);
-  const createdEffect = await ActiveEffect.create(effectData, { parent: owner });
+  const createdEffect = await ActiveEffect.create(effectData, { parent: owner, keepId: true });
 
   // Render the created effect's template
   createdEffect.sheet.render(true);
@@ -129,8 +135,8 @@ export async function deleteActiveEffect(effect, owner) {
       icon: 'fa-solid fa-trash'
     },
     content: `
-      <div>${i18n('WW.Item.Remove.Dialog.Msg', { name: '<b>' + effect.name + '</b>' })}</div>
-      <div class="dialog-sure">${i18n('WW.Item.Remove.Dialog.Confirm', { name: effect.name })}</div>
+      <div>${_loc('WW.Item.Remove.Dialog.Msg', { name: '<b>' + effect.name + '</b>' })}</div>
+      <div class="dialog-sure">${_loc('WW.Item.Remove.Dialog.Confirm', { name: effect.name })}</div>
     `
   });
 
@@ -146,92 +152,168 @@ export async function deleteActiveEffect(effect, owner) {
 /**
  * Prepare the data structure for Active Effects which are currently applied to an Actor or Item.
  * @param {ActiveEffect[]} effects    The array of Active Effect instances to prepare sheet data for
- * @param {Boolean} showDuration      Show effect duration on page
- * @param {Boolean} showSource        Show effect source on page
- * @param {Boolean} showControls      Show control buttons on page
- * @param {Boolean} showCreate        Show create buttons on page
+ * @param {boolean} showDuration      Show effect duration on page
+ * @param {boolean} showSource        Show effect source on page
+ * @param {boolean} showControls      Show control buttons on page
+ * @param {boolean} showCreate        Show create buttons on page
  * @return {Object}                   Data for rendering
 */
-export async function prepareActiveEffectCategories(effects, showDuration = false, showSource = true, showControls = true, showCreate = true) {
-  // Define effect header categories
+export async function prepareActorEffectCategories(document, options={}) {
+  const { showDuration = false, showSource = true, showControls = true, showCreate = false } = options;
+  const base = {
+    showDuration,
+    showSource,
+    showControls,
+    showCreate
+  };
+
+  // Define effect categories
   const categories = {
-    temporary: {
-      type: 'temporary',
-      name: 'WW.Effects.Temporary',
+    afflictions: { ...base,
+      id: 'afflictions',
+      name: 'WW.Affliction.Label',
       showDuration: true,
-      showSource: showSource,
-      showControls: showControls,
-      showCreate: showCreate,
-      effects: [],
+      effects: []
     },
-    permanent: {
-      type: 'permanent',
-      name: 'WW.Effects.Permanent',
-      showDuration: showDuration,
-      showSource: showSource,
-      showControls: showControls,
-      showCreate: showCreate,
-      effects: [],
+    temporary: { ...base,
+      id: 'temporary',
+      name: 'WW.Effects.Temporary',
+      showCreate: true,
+      showDuration: true,
+      effects: []
     },
-    inactive: {
-      type: 'inactive',
+    benefits: { ...base,
+      id: 'benefits',
+      name: 'WW.Effects.Benefits',
+      showControls: false,
+      effects: []
+    },
+    item: { ...base,
+      id: 'item',
+      name: 'WW.Effects.Item',
+      showControls: false,
+      effects: []
+    },
+    actor: { ...base,
+      id: 'actor',
+      name: 'WW.Effects.Actor',
+      showCreate: true,
+      effects: []
+    },
+    disabled: { ...base,
+      id: 'disabled',
       name: 'WW.Effects.Inactive',
-      showDuration: showDuration,
-      showSource: showSource,
-      showControls: showControls,
-      showCreate: false,
-      effects: [],
-    },
+      effects: []
+    }
+  }
+
+  // Iterate through applied effects, then push them to categories
+  for (const effect of document.appliedEffects) {
+    const e = await getEffectData(effect);
+
+    // Assign to correct category
+    if (e.type === 'affliction') categories.afflictions.effects.push(e);
+    else if (e.isTemporary) categories.temporary.effects.push(e);
+    else if (e.type === 'benefit') categories.benefits.effects.push(e);
+    else if (e.item) categories.item.effects.push(e);
+    else categories.actor.effects.push(e);
   }
   
-  // Iterate over active effects
-  for (const e of effects) {
-    const context = {
-      label: e.name,
-      system: e.system,
-      img: e.img,
-      type: e.type,
+  // Iterate through effects, then push them to categories
+  for (const effect of document.effects) {
+    const e = await getEffectData(effect);
 
-      subtitle: i18n((e.duration.rounds || e.duration.seconds) ? "WW.Effect.Temporary" : "WW.Effect.Permanent"),
-      text: await foundry.applications.ux.TextEditor.implementation.enrichHTML(e.description, { secrets: e.isOwner }),
-      changes: ''
-    }
-
-    // Prepare changes
-    for (const c of e.changes) {
-      const label = CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.key] ? i18n(CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.key]) : 'BROKEN EFFECT CHANGE, FIX IT!';
-      context.changes += `<li>${label} ${(c.value !== true) ? `${c.value}.` : ''}</li>`;
-    }
-
-    e.tooltip = await foundry.applications.handlebars.renderTemplate(sysPath(`templates/apps/tooltips/effect.hbs`), context);
-
-    // Prepare source document cards
-    if (e.origin) {
-      const source = `@UUID[${e.origin}]`;
-    
-      e.sourceCard = await foundry.applications.ux.TextEditor.implementation.enrichHTML(source, { secrets: e.isOwner });
-    } else {
-      e.sourceCard = e.sourceName;
-    }
-    
-    // Push them into categories
-    if (await e.disabled) categories.inactive.effects.push(e); // TODO: Think of a way to group Actor + Item inactive effects into temporary/permanent effects
-    else if (await e.isTemporary) categories.temporary.effects.push(e);
-    else categories.permanent.effects.push(e);
-    
+    // Assign to disabled
+    if (e.disabled) categories.disabled.effects.push(e);
   }
   
   return categories;
 }
 
-export function expireFromTokens() {
-  if (game.users.activeGM?.isSelf) {
-    for (const t of canvas.tokens.placeables) {
-      
-      // Don't do anything for actors without this function (e.g. basic actors)
-      if (!t.actor?.expireActiveEffects) continue;
-      
-      t.actor.expireActiveEffects();
+/* -------------------------------------------- */
+
+/**
+ * Prepare the data structure for Active Effects which are currently applied to an Actor or Item.
+ * @param {ActiveEffect[]} effects    The array of Active Effect instances to prepare sheet data for
+ * @param {boolean} showDuration      Show effect duration on page
+ * @param {boolean} showSource        Show effect source on page
+ * @param {boolean} showControls      Show control buttons on page
+ * @param {boolean} showCreate        Show create buttons on page
+ * @return {Object}                   Data for rendering
+*/
+export async function prepareItemEffectCategories(document, options={}) {
+  const { showDuration = false, showSource = true, showControls = true, showCreate = true } = options;
+  const base = {
+    showDuration,
+    showSource,
+    showControls,
+    showCreate
+  };
+
+  // Define effect categories
+  const categories = {
+    temporary: { ...base,
+      id: 'temporary',
+      name: 'WW.Effects.Temporary',
+      showDuration: true,
+      effects: []
+    },
+    permanent: { ...base,
+      id: 'permanent',
+      name: 'WW.Effects.Permanent',
+      effects: []
     }
   }
+
+  // Iterate through effects, then push them to categories
+  for (const effect of document.effects) {
+    const e = await getEffectData(effect);
+
+    // Assign to correct category
+    if (e.isTemporary) categories.temporary.effects.push(e);
+    else categories.permanent.effects.push(e);
+  }
+  
+  return categories;
+}
+
+/* -------------------------------------------- */
+
+/**
+ * Modify effect data to include new prepared data.
+ * @param {ActiveEffect} effect 
+ * @returns {ActiveEffect}
+ */
+const getEffectData = async (effect) => {
+  const context = {
+    label: effect.name,
+    system: effect.system,
+    img: effect.img,
+    type: effect.type,
+
+    subtitle: _loc(effect.isTemporary ? "WW.Effect.Temporary" : "WW.Effect.Permanent"),
+    text: await foundry.applications.ux.TextEditor.implementation.enrichHTML(effect.description, { secrets: effect.isOwner }),
+    changes: ''
+  }
+
+  // Prepare changes
+  for (const c of effect.changes) {
+    const loc = _loc(CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.preset]);
+    
+    if (loc) context.changes += `<li>${loc} ${(c.value !== 'true') ? `${c.value}.` : ''}</li>`;
+    else context.changes += `<li>${c.key} = ${c.value}</li>`;
+  }
+
+  effect.tooltip = await foundry.applications.handlebars.renderTemplate(sysPath(`templates/apps/tooltips/effect.hbs`), context);
+
+  // Prepare source document cards
+  if (effect.origin) {
+    const source = `@UUID[${effect.origin}]`;
+
+    effect.sourceCard = await foundry.applications.ux.TextEditor.implementation.enrichHTML(source, { secrets: effect.isOwner });
+  } else {
+    effect.sourceCard = effect.sourceName;
+  }
+
+  return effect;
 }

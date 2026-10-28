@@ -1,6 +1,5 @@
 import BaseItemModel from './base-item.mjs';
 import { makeHtmlField, makeRequiredStrField } from '../field-presets.mjs';
-import { i18n } from '../../helpers/utils.mjs';
 
 export default class TalentModel extends BaseItemModel {
 
@@ -8,9 +7,9 @@ export default class TalentModel extends BaseItemModel {
     const fields = foundry.data.fields;
     const schema = super.defineSchema();
     
-    schema.description = makeHtmlField(`<p>${i18n("WW.System.Sheet.NoDescription")}</p>`),
-    schema.subtype =  makeRequiredStrField('trait'),
-    schema.source = makeRequiredStrField('none')
+    schema.description = makeHtmlField({ initial: `<p>${_loc("WW.System.Sheet.NoDescription")}</p>` }),
+    schema.subtype =  makeRequiredStrField({ initial: 'trait' }),
+    schema.source = makeRequiredStrField({ initial: 'none' })
     
 
     return schema;

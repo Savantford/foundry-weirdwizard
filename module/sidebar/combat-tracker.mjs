@@ -17,7 +17,8 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
       toggleGroupExpand: this.#toggleGroupExpand,
       //activateCombatant: this.#onCombatantMouseDown,
       //trackerSettings: this.#onConfigure
-      turnControl: this.#onCombatantTurnControl
+      turnControl: this.#onCombatantTurnControl,
+      luckEnds: this.#onActiveEffectLuckEnds
     }
   };
   
@@ -76,7 +77,6 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
     const canControl = combat?.turn && combat.turn.between(1, combat.turns.length - 2)
       ? combat.canUserModify(game.user, "update", { turn: 0 })
       : combat?.canUserModify(game.user, "update", { round: 0 });
-    const allActed = 
     
     //const settings = game.settings.get('core', Combat.CONFIG_SETTING); - no longer needed?
 
@@ -96,7 +96,7 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
       initiativeIcon: CONFIG.Combat.initiativeIcon,
       linked: combat?.scene !== null,
       labels: {
-        scope: game.i18n.localize(`COMBAT.${combat?.scene ? "Linked" : "Unlinked"}`)
+        scope: _loc(`COMBAT.${combat?.scene ? "Linked" : "Unlinked"}`)
       }
     });
   }
@@ -187,6 +187,21 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
       if ( Number.isFinite(t.initiative) ) t.initiative = t.initiative.toFixed(hasDecimals ? precision : 0);
     });
     context.hasDecimals = hasDecimals;
+
+    // Add Luck Ends effects
+    context.luckEnds = [];
+
+    for ( const [i, turn] of combat.turns.entries() ) {
+      const effects = turn.actor.appliedEffects;
+      const luckEndsEffects = effects.filter(e => e.duration.expiry === 'luckEnds');
+      if (luckEndsEffects.length) {
+        context.luckEnds.push({
+          combatant: turn,
+          actor: turn.actor,
+          effects: luckEndsEffects
+        })
+      }
+    }
   }
 
   /* -------------------------------------------- */
@@ -387,101 +402,92 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
     const getCombatant = li => this.viewed.combatants.get(li.dataset.combatantId);
     const hasPerms = li => getCombatant(li)?.permission >= 2;
     
-    return [{
-      name: "COMBAT.CombatantUpdate",
-      icon: '<i class="fa-solid fa-pen-to-square"></i>',
-      condition: () => game.user.isGM,
-      callback: li => getCombatant(li)?.sheet.render({
-        force: true,
-        position: {
-          top: Math.min(li.offsetTop, window.innerHeight - 350),
-          left: window.innerWidth - 720
+    return [
+      {
+        label: "WW.Combat.EndTurn",
+        icon: '<i><img src="systems/weirdwizard/assets/icons/check-mark.svg"></i>',
+        visible: li => {
+          const combatant = getCombatant(li);
+          return (hasPerms) && !combatant?.acted && (combatant === this.viewed.combatant);
+        },
+        onClick: (event, li) => {
+          const combatant = getCombatant(li);
+          if (combatant) return this.viewed.nextTurn();
         }
-      })
-    }, {
-      name: "WW.Combat.EndTurn",
-      icon: '<i><img src="systems/weirdwizard/assets/icons/check-mark.svg"></i>',
-      condition: li => {
-        const combatant = getCombatant(li);
-        return (hasPerms) && !combatant?.acted && (combatant === this.viewed.combatant);
-      },
-      callback: li => {
-        const combatant = getCombatant(li);
-        if (combatant) return this.viewed.nextTurn();
+      }, {
+        label: "WW.Combat.StartTurn.Title",
+        icon: '<i><img src="systems/weirdwizard/assets/icons/pointy-sword.svg"></i>',
+        visible: li => {
+          const combatant = getCombatant(li);
+          return (hasPerms(li)) && !combatant?.acted && (combatant !== this.viewed.combatant);
+        },
+        onClick: (event, li) => {
+          const combatant = getCombatant(li);
+          if (combatant) return this.viewed.startTurn(combatant);
+        }
+      }, {
+        label: "WW.Combat.Initiative.Label",
+        icon: '<i><img src="systems/weirdwizard/assets/icons/reactions.svg"></i>',
+        visible: li => {
+          const combatant = getCombatant(li);
+          return (hasPerms(li)) && (combatant?.actor.type === 'character') && !combatant?.takingInit && (combatant !== this.viewed.combatant);
+        },
+        onClick: (event, li) => {
+          const combatant = getCombatant(li);
+          if (combatant) return combatant?.takeInit(true);
+        }
+      }, {
+        label: "WW.Combat.RegularTurn.Label",
+        icon: '<i><img src="systems/weirdwizard/assets/icons/actions.svg"></i>',
+        visible: li => {
+          const combatant = getCombatant(li);
+          return (hasPerms(li)) && (combatant?.actor.type === 'character') && combatant?.takingInit && (combatant !== this.viewed.combatant);
+        },
+        onClick: (event, li) => {
+          const combatant = getCombatant(li);
+          if (combatant) return combatant?.takeInit(false);
+        }
+      }, {
+        label: "WW.Combat.ResetActed.Title",
+        icon: '<i><img src="systems/weirdwizard/assets/icons/anticlockwise-rotation.svg"></i>',
+        visible: li => {
+          const combatant = getCombatant(li);
+          return (hasPerms(li)) && combatant?.acted;
+        },
+        onClick: (event, li) => {
+          const combatant = getCombatant(li);
+          if (combatant) return combatant?.resetActed();
+        }
+      }, /*{
+        label: "COMBAT.CombatantClear",
+        icon: '<i class="fa-solid fa-arrow-rotate-left"></i>',
+        visible: li => game.user.isGM && Number.isFinite(getCombatant(li)?.initiative),
+        onClick: (event, li) => getCombatant(li)?.update({ initiative: null })
+      }, {
+        label: "COMBAT.CombatantReroll",
+        icon: '<i class="fa-solid fa-dice-d20"></i>',
+        visible: () => game.user.isGM,
+        onClick: (event, li) => {
+          const combatant = getCombatant(li);
+          if ( combatant ) return this.viewed.rollInitiative([combatant.id]);
+        }
+      },*/ {
+        label: "COMBATANT.ACTIONS.ClearMovementHistory",
+        icon: "fa-solid fa-shoe-prints",
+        visible: li => game.user.isGM && (getCombatant(li)?.token?.movementHistory.length > 0),
+        onClick: async (event, li) => {
+          const combatant = getCombatant(li);
+          if ( !combatant ) return;
+          await combatant.clearMovementHistory();
+          ui.notifications.info("COMBAT.CombatantMovementHistoryCleared", {format: {name: combatant.token?.name}});
+        }
+      }, {
+        label: "COMBATANT.ACTIONS.Remove",
+        icon: "fa-solid fa-trash",
+        visible: () => game.user.isGM,
+        onClick: (event, li) => getCombatant(li)?.delete()
       }
-    }, {
-      name: "WW.Combat.StartTurn.Title",
-      icon: '<i><img src="systems/weirdwizard/assets/icons/pointy-sword.svg"></i>',
-      condition: li => {
-        const combatant = getCombatant(li);
-        return (hasPerms(li)) && !combatant?.acted && (combatant !== this.viewed.combatant);
-      },
-      callback: li => {
-        const combatant = getCombatant(li);
-        if (combatant) return this.viewed.startTurn(combatant);
-      }
-    }, {
-      name: "WW.Combat.Initiative.Label",
-      icon: '<i><img src="systems/weirdwizard/assets/icons/reactions.svg"></i>',
-      condition: li => {
-        const combatant = getCombatant(li);
-        return (hasPerms(li)) && (combatant?.actor.type === 'character') && !combatant?.takingInit && (combatant !== this.viewed.combatant);
-      },
-      callback: li => {
-        const combatant = getCombatant(li);
-        if (combatant) return combatant?.takeInit(true);
-      }
-    }, {
-      name: "WW.Combat.RegularTurn.Label",
-      icon: '<i><img src="systems/weirdwizard/assets/icons/actions.svg"></i>',
-      condition: li => {
-        const combatant = getCombatant(li);
-        return (hasPerms(li)) && (combatant?.actor.type === 'character') && combatant?.takingInit && (combatant !== this.viewed.combatant);
-      },
-      callback: li => {
-        const combatant = getCombatant(li);
-        if (combatant) return combatant?.takeInit(false);
-      }
-    }, {
-      name: "WW.Combat.ResetActed.Title",
-      icon: '<i><img src="systems/weirdwizard/assets/icons/anticlockwise-rotation.svg"></i>',
-      condition: li => {
-        const combatant = getCombatant(li);
-        return (hasPerms(li)) && combatant?.acted;
-      },
-      callback: li => {
-        const combatant = getCombatant(li);
-        if (combatant) return combatant?.resetActed();
-      }
-    }, /*{
-      name: "COMBAT.CombatantClear",
-      icon: '<i class="fa-solid fa-arrow-rotate-left"></i>',
-      condition: li => game.user.isGM && Number.isFinite(getCombatant(li)?.initiative),
-      callback: li => getCombatant(li)?.update({ initiative: null })
-    }, {
-      name: "COMBAT.CombatantReroll",
-      icon: '<i class="fa-solid fa-dice-d20"></i>',
-      condition: () => game.user.isGM,
-      callback: li => {
-        const combatant = getCombatant(li);
-        if ( combatant ) return this.viewed.rollInitiative([combatant.id]);
-      }
-    },*/ {
-      name: "COMBAT.CombatantClearMovementHistory",
-      icon: '<i class="fa-solid fa-shoe-prints"></i>',
-      condition: li => game.user.isGM && (getCombatant(li)?.token?.movementHistory.length > 0),
-      callback: async li => {
-        const combatant = getCombatant(li);
-        if ( !combatant ) return;
-        await combatant.clearMovementHistory();
-        ui.notifications.info("COMBAT.CombatantMovementHistoryCleared", {format: {name: combatant.token?.name}});
-      }
-    }, {
-      name: "COMBAT.CombatantRemove",
-      icon: '<i class="fa-solid fa-trash"></i>',
-      condition: () => game.user.isGM,
-      callback: li => getCombatant(li)?.delete()
-    }];
+    ];
 
   }
 
@@ -495,20 +501,11 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
   _getCombatContextOptions() {
     return [
       {
-        name: game.i18n.format("DOCUMENT.Create", { type: game.i18n.localize("DOCUMENT.CombatantGroup") }),
+        label: _loc("DOCUMENT.Create", { type: _loc("DOCUMENT.CombatantGroup") }),
         icon: '<i class="fa-solid fa-users-rectangle"></i>',
-        callback: () => WWCombatantGroup.createDialog({}, { parent: this.viewed }),
-      }, {
-        name: "COMBAT.ClearMovementHistories",
-        icon: '<i class="fa-solid fa-shoe-prints"></i>',
-        condition: () => game.user.isGM && (this.viewed?.combatants.size > 0),
-        callback: () => this.viewed.clearMovementHistories()
-      }, {
-        name: "COMBAT.Delete",
-        icon: '<i class="fa-solid fa-trash"></i>',
-        condition: () => game.user.isGM && !!this.viewed,
-        callback: () => this.viewed.endCombat()
-      }
+        onClick: () => WWCombatantGroup.createDialog({}, { parent: this.viewed }),
+      },
+      ... super._getCombatContextOptions()
     ];
   }
 
@@ -524,10 +521,10 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
     const getCombatantGroup = li => this.viewed.groups.get(li.dataset.groupId);
     return [
       {
-        name: game.i18n.format("DOCUMENT.Update", { type: game.i18n.localize("DOCUMENT.CombatantGroup") }),
+        label: _loc("DOCUMENT.Update", { type: _loc("DOCUMENT.CombatantGroup") }),
         icon: "<i class=\"fa-solid fa-edit\"></i>",
-        condition: li => getCombatantGroup(li).isOwner,
-        callback: li => getCombatantGroup(li)?.sheet.render({
+        visible: li => getCombatantGroup(li).isOwner,
+        onClick: (event, li) => getCombatantGroup(li)?.sheet.render({
           force: true,
           position: {
             top: Math.min(li.offsetTop, window.innerHeight - 350),
@@ -536,34 +533,22 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
         }),
       },
       {
-        name: "DRAW_STEEL.CombatantGroup.ResetSquadHP",
-        icon: "<i class=\"fa-solid fa-rotate\"></i>",
-        condition: li => {
-          const group = getCombatantGroup(li);
-          return ((group.type === "squad") && group.isOwner);
-        },
-        callback: li => {
-          const group = getCombatantGroup(li);
-          group.update({ "system.staminaValue": group.system.staminaMax });
-        },
-      },
-      {
-        name: "COMBAT.ClearMovementHistories",
+        label: "COMBAT.ClearMovementHistories",
         icon: "<i class=\"fa-solid fa-shoe-prints\"></i>",
-        condition: li => game.user.isGM,
-        callback: li => getCombatantGroup(li).clearMovementHistories(),
+        visible: li => game.user.isGM,
+        onClick: (event, li) => getCombatantGroup(li).clearMovementHistories(),
       },
       {
-        name: game.i18n.format("DOCUMENT.Delete", { type: game.i18n.localize("DOCUMENT.CombatantGroup") }),
+        label: _loc("DOCUMENT.Delete", { type: _loc("DOCUMENT.CombatantGroup") }),
         icon: "<i class=\"fa-solid fa-trash\"></i>",
-        condition: li => game.user.isGM,
-        callback: li => getCombatantGroup(li).delete(),
+        visible: li => game.user.isGM,
+        onClick: (event, li) => getCombatantGroup(li).delete(),
       },
       {
-        name: "OWNERSHIP.Configure",
+        label: "OWNERSHIP.Configure",
         icon: "<i class=\"fa-solid fa-lock\"></i>",
-        condition: game.user.isGM,
-        callback: li => new foundry.applications.apps.DocumentOwnershipConfig({
+        visible: game.user.isGM,
+        onClick: (event, li) => new foundry.applications.apps.DocumentOwnershipConfig({
           document: getCombatantGroup(li),
           position: {
             top: Math.min(li.offsetTop, window.innerHeight - 350),
@@ -682,9 +667,8 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
     const combatant = combat.combatants.get(combatantId), acted = combatant.acted;
     
     if (combatant.permission) { // Check if user has permission
-
       // Combat NOT in standby; NOT acted; is current turn: End turn
-      if (!combat.onStandby && !acted && combatant === combat.combatant) combat.nextTurn();
+      if (!combat.onStandby && !acted && combatant === combat.combatant) combat.endTurn(combatant); //combat.nextTurn();
 
       // Combat in standby; Combatant has not acted; NOT current turn: Take a turn
       else if (combat.onStandby && !acted && combatant !== combat.combatant) combat.startTurn(combatant);
@@ -701,6 +685,26 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
 
     }
 
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Start a Luck ends roll.
+   * @private
+   * @param {Event} event   The originating mousedown event
+   */
+  static #onActiveEffectLuckEnds(event, button) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const combatants = this.viewed.combatants;
+    const li = button.closest('.luck-ends');
+    const combatant = combatants.get(li.dataset.combatantId);
+    const actor = combatant.actor;
+    const effect = actor.effects.get(button.dataset.effectId);
+
+    actor.luckEnds(effect);
   }
 
   /* -------------------------------------------- */
@@ -792,7 +796,7 @@ export default class WWCombatTracker extends foundry.applications.sidebar.tabs.C
   /**
    * Handle a drop event for an existing embedded Combatant to sort that Combatant relative to its siblings
    * @param {Event} event
-   * @param {String} combatantId
+   * @param {string} combatantId
    * @private
    */
   _onSortCombatant(event, combatantId, dropTarget) {

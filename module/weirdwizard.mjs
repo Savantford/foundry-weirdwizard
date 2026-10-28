@@ -1,10 +1,11 @@
 console.log('SWW | Initializing weirdwizard.mjs...')
 
-// Import document classes.
+// Import document classes
 import WWActor from './documents/actor.mjs';
 import WWItem from './documents/item.mjs';
 import WWActiveEffect from './documents/active-effect.mjs';
 import WWJournalPage from './documents/journal-page.mjs';
+import WWTokenDocument from './documents/token.mjs';
 import WWCombat from './documents/combat.mjs';
 import WWCombatant from './documents/combatant.mjs';
 import WWCombatantGroup from './documents/combatant-group.mjs';
@@ -24,7 +25,7 @@ import TraditionModel from './data/journal/tradition.mjs';
 import BaseEffectModel from './data/effects/base-effect.mjs';
 import BenefitEffectModel from './data/effects/benefit-effect.mjs';
 
-// Import sheet classes.
+// Import sheet classes
 import WWCharacterSheet from './sheets/actors/character-sheet.mjs';
 import WWNpcSheet from './sheets/actors/npc-sheet.mjs';
 import WWGroupSheet from './sheets/actors/group-sheet.mjs';
@@ -39,12 +40,12 @@ import WWTraditionSheet from './sheets/journal/tradition-sheet.mjs';
 import WWActiveEffectConfig from './sheets/configs/active-effect-config.mjs';
 import WWRollTableSheet from './sheets/roll-table-sheet.mjs';
 
-// Import sidebar related classes.
+// Import sidebar related classes
 import WWCombatTracker from './sidebar/combat-tracker.mjs';
 import WWCombatantGroupConfig from './sheets/configs/combatant-group-config.mjs';
 import { initChatListeners } from './sidebar/chat-listeners.mjs';
 
-// Import UI apps.
+// Import UI apps
 import WWRoll from './dice/roll.mjs';
 import CompendiumIndex from './apps/compendium-index.mjs';
 import SageTools from './ui/sage-tools.mjs';
@@ -54,17 +55,16 @@ import QuestCalendar from './ui/quest-calendar.mjs';
 import WWToken from './canvas/token.mjs';
 
 // Import helper/utility classes and constants.
-import { WW } from './config.mjs';
-import registerSystemSettings from './helpers/system-settings.mjs'
-import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
-import { WWAfflictions } from './helpers/afflictions.mjs';
-import { expireFromTokens } from './helpers/effect-actions.mjs';
+import { WW } from './constants/config.mjs';
+import { DEFAULT_ENTRIES } from './constants/default-entries.mjs';
+import { DefaultAfflictions } from './constants/default-afflictions.mjs';
+import registerSystemSettings from './helpers/system-settings.mjs';
 import addCustomEnrichers from './helpers/enrichers.mjs';
 import registerWWTours from './tours/registration.mjs';
-import { Utils, handleWelcomeMessage } from './helpers/utils.mjs';
+import * as utils from './helpers/utils.mjs';
 import { initializeEffectLookups } from './helpers/effect-presets.mjs';
 import { addFormattingOptions } from './helpers/text-editor.mjs';
-import { fullMigration, migrationsReference } from './helpers/migrations.mjs';
+import * as migrationsReference from './helpers/migrations.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -76,11 +76,17 @@ Hooks.once('init', function () {
   game.weirdwizard = {
     WWActor,
     WWItem,
-    utils: Utils
+    utils
   };
   
   // Add custom constants for configuration.
   CONFIG.WW = WW;
+  CONFIG.WW.DEFAULT_ENTRIES = DEFAULT_ENTRIES;
+  CONFIG.WW.DEFAULT_AFFLICTIONS = DefaultAfflictions.buildAll();
+
+  // Active Effect expiration
+  CONFIG.ActiveEffect.expiryAction = 'delete'; // Delete when expired
+  CONFIG.ActiveEffect.expiryEvents.luckEnds = 'WW.Effect.Duration.Expiry.LuckEnds'; // Register Luck ends event
   
   // Define custom Document classes
   CONFIG.Actor.documentClass = WWActor;
@@ -88,10 +94,12 @@ Hooks.once('init', function () {
   CONFIG.Item.documentClass = WWItem;
   CONFIG.JournalEntryPage.documentClass = WWJournalPage;
   CONFIG.ActiveEffect.documentClass = WWActiveEffect;
+  CONFIG.ActiveEffect.defaultType = 'base';
   CONFIG.Combat.documentClass = WWCombat;
   CONFIG.Combatant.documentClass = WWCombatant;
   CONFIG.CombatantGroup.documentClass = WWCombatantGroup;
   CONFIG.ChatMessage.documentClass = WWChatMessage;
+  CONFIG.Token.documentClass = WWTokenDocument;
 
   // Register Actor and Item data models
   CONFIG.Actor.dataModels.character = CharacterModel;
@@ -104,6 +112,8 @@ Hooks.once('init', function () {
   // Active Effect data models
   CONFIG.ActiveEffect.dataModels.base = BaseEffectModel;
   CONFIG.ActiveEffect.dataModels.benefit = BenefitEffectModel;
+  CONFIG.ActiveEffect.dataModels.affliction = BaseEffectModel;
+  CONFIG.ActiveEffect.dataModels.sense = BaseEffectModel;
 
   // Journal Entry Page data models
   CONFIG.JournalEntryPage.dataModels.ancestry = AncestryModel;
@@ -226,8 +236,95 @@ Hooks.once('init', function () {
   // Register system settings
   registerSystemSettings();
 
-  // Preload Handlebars templates.
-  return preloadHandlebarsTemplates();
+  // Canvas related settings and classes
+  
+  // Adjusting "Blink (Teleport)" to just be "Teleport" and maintain its use elsewhere
+  const td = foundry.documents.TokenDocument;
+  const speed0 = ['held', 'stunned', 'unconscious'];
+
+  // Optional chaining on canSelect until https://github.com/foundryvtt/foundryvtt/issues/12603 is resolved
+  foundry.utils.mergeObject(CONFIG.Token.movement.actions, {
+    /** @type {TokenMovementActionConfig} */
+    /* Main modes of locomotion */
+    walk: {
+      order: 0,
+      canSelect: (token) => !(token instanceof td) || !token.hasAnyStatusEffect([... speed0, "prone"]),
+    },
+
+    crawl: {
+      order: 1,
+      canSelect: (token) => token instanceof td && token.hasStatusEffect("prone") && !token.hasAnyStatusEffect(speed0),
+      getCostFunction: () => cost => cost * 2 // Default is * 1
+    },
+
+    /* Special modes */
+    fly: {
+      order: 2,
+      canSelect: (token) => token instanceof td && token.movementTraits.has("fly") && !token.hasAnyStatusEffect([... speed0, "prone"]),
+      getCostFunction: () => cost => cost * 0.5 // Default is * 1
+    },
+
+    teleport: {  
+      ...CONFIG.Token.movement.actions.blink,
+      label: "TOKEN.MOVEMENT.ACTIONS.teleport.label",
+      order: 3,
+      canSelect: (token) => token instanceof td && token.movementTraits.has("teleport") && !token.hasAnyStatusEffect([... speed0, "prone"]),
+      getCostFunction: (token, _options) => cost => cost * 0 // No cost
+    },
+    blink: _del,
+
+    burrow: {
+      order: 4,
+      canSelect: (token) => token instanceof td && token.movementTraits.has("burrower") && !token.hasAnyStatusEffect([... speed0, "prone"]),
+      getCostFunction: () => cost => cost * 2 // Default is * 1
+    },
+
+    /* Situational modes */
+    climb: {
+      order: 5,
+      canSelect: (token) => !(token instanceof td) || !token.hasAnyStatusEffect([... speed0, "prone"]),
+      getCostFunction: (token, _options) => cost => cost * (token.movementTraits.has("climber") ? 1 : 2) // Cheaper for Climbers
+    },
+
+    descend: {
+      label: "TOKEN.MOVEMENT.ACTIONS.descend.label",
+      icon: "fa-solid fa-arrow-down",
+      img: "icons/svg/down.svg",
+      order: 6,
+      canSelect: (token) => !(token instanceof td) || !token.hasAnyStatusEffect([... speed0, "prone"]),
+      getCostFunction: () => cost => cost * 0.5
+    },
+
+    jump: {
+      order: 7,
+      canSelect: (token) => !(token instanceof td) || !token.hasAnyStatusEffect([... speed0, "prone"]),
+      getCostFunction: () => () => cost * 0 // default is * 2; should be a flat 2, but it's not possible to track as the cost is per step
+    },
+
+    retreat: {
+      label: "TOKEN.MOVEMENT.ACTIONS.retreat.label",
+      icon: "fa-solid fa-person-walking-arrow-loop-left",
+      img: "icons/svg/door-exit.svg",
+      order: 8,
+      canSelect: (token) => !(token instanceof td) || !token.hasAnyStatusEffect([... speed0, "prone"]),
+      getCostFunction: () => cost => cost + 1
+    },
+
+    sneak: {
+      label: "TOKEN.MOVEMENT.ACTIONS.sneak.label",
+      icon: "fa-solid fa-eye-low-vision",
+      img: "icons/svg/blind.svg",
+      order: 9,
+      canSelect: (token) => !(token instanceof td) || !token.hasAnyStatusEffect([... speed0, "prone"]),
+      getCostFunction: (token, _options) => cost => cost * (token.movementTraits.has("silent") ? 1 : 2) // Cheaper for Silent
+    },
+
+    swim: {
+      order: 10,
+      canSelect: (token) => !(token instanceof td) || !token.hasAnyStatusEffect([... speed0, "prone"]),
+      getCostFunction: (token, _options) => cost => cost * (token.movementTraits.has("swimmer") ? 1 : 2) // Cheaper for Swimmer
+    }
+  }, { applyOperators: true });
 });
 
 /* -------------------------------------------- */
@@ -241,13 +338,14 @@ Hooks.once('ready', function (app, html) {
   registerWWTours();
 
   // Append data migration functions to game.system.migrations so tye can be used for manual forced migrations
-  game.system.migrations = migrationsReference;
+  const { fullMigration, ...migrations} = migrationsReference;
+  game.system.migrations = migrations;
 
   // Check and run full data migration if needed
   fullMigration();
 
   // Post a welcome message if needed
-  handleWelcomeMessage();
+  utils.handleWelcomeMessage();
 });
 
 /* -------------------------------------------- */
@@ -256,26 +354,24 @@ Hooks.once('ready', function (app, html) {
 
 /**
  * This function runs after game data has been requested and loaded from the servers, so entities exist
-*/
-
+ */
 Hooks.once('setup', function () {
-
   // Get afflictions
-  const effects = WWAfflictions.buildAll();
+  const afflictions = game.settings.get('weirdwizard', 'availableAfflictions');
+  const statusEffects = [... Object.values(afflictions)];
 
-  // Add invisible and dead status to the list of effects so that
-  effects.push(CONFIG.statusEffects.find(e => e.id === 'invisible'));
-  effects.push(CONFIG.statusEffects.find(e => e.id === 'dead'));
+  // Add invisible and dead status to the list of statusEffects so that
+  statusEffects.push(CONFIG.statusEffects.find(e => e.id === 'invisible'));
+  statusEffects.push(CONFIG.statusEffects.find(e => e.id === 'dead'));
 
   // Assign Afflictions to token HUD
-  CONFIG.statusEffects = effects;
+  CONFIG.statusEffects = statusEffects;
 
   // Assign blinded as the BLIND special status effect
   CONFIG.specialStatusEffects.BLIND = 'blinded';
 
   // Add custom enrichers
   addCustomEnrichers();
-  
 });
 
 /* -------------------------------------------- */
@@ -285,6 +381,8 @@ Hooks.once('setup', function () {
 Hooks.on("renderCompendiumDirectory", (app, html) => {
   CompendiumIndex.injectSidebarButton(html);
 })
+
+/* -------------------------------------------- */
 
 Hooks.on('renderChatMessageHTML', (message, html, context) => {
   // Remove html elements meant for owners or non-owners only
@@ -296,44 +394,6 @@ Hooks.on('renderChatMessageHTML', (message, html, context) => {
 
   // Initialize chat message listeners
   initChatListeners(html, message, context);
-});
-
-/* -------------------------------------------- */
-
-Hooks.on('renderSettingsConfig', (app, html, data) => {
-  // Add sections to settings dialog by iterating all *our* settings, stripping the module/system ID,
-  // then checking whether they have the format '<section>.setting'.
-  // If so, we check whether the section matches the last section we saw;
-  // otherwise, this is a new section and we insert a new section header.
-  /*let lastSectionID = '';
-
-  const wwSettings = [... html.querySelectorAll('.tab[data-tab=system] .form-group')];
-
-  for (const [i, value] of wwSettings.entries()) {
-    const setting = (value.querySelector('label').getAttribute('for') || '').replace(/^(weirdwizard\.)/, '');
-    
-    if (!setting || setting.indexOf('.') < 1) {
-      continue;
-    }
-
-    const section = setting.split('.')[0];
-    
-    if (section !== lastSectionID) {
-      const key = 'WW.Settings.Section.' + section;
-      const div = document.createElement("div");
-
-      div.innerHTML = `
-        <h3>${game.i18n.localize(key + '.Title')}</h3>
-        <p class="notes">${game.i18n.localize(key + '.Hint')}</p>
-      `;
-
-      wwSettings[i].before(div);
-
-      lastSectionID = section;
-    }
-
-  }*/
-
 });
 
 /* -------------------------------------------- */
@@ -397,7 +457,6 @@ Hooks.on("renderFolderConfig", (app, html, context) => {
 /* -------------------------------------------- */
 
 Hooks.on('getSceneControlButtons', (controls) => {
-
   // Add Sage Tools button
   controls['tokens'].tools['sage-tools'] = {
     name: 'sage-tools',
@@ -424,8 +483,6 @@ Hooks.on('getSceneControlButtons', (controls) => {
 
 // On game world time change
 Hooks.on('updateWorldTime', (worldTime, dt, options, userId) => {
-  expireFromTokens();
-
   if (ui.questcalendar?.rendered) ui.questcalendar.render();
 });
 

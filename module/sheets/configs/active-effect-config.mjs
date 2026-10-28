@@ -6,11 +6,7 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
   /** @inheritDoc */
   static DEFAULT_OPTIONS = {
     classes: ["weirdwizard", "sheet"],
-    position: { width: 580 },
-    form: {
-      closeOnSubmit: false,
-      submitOnChange: true,
-    }
+    position: { width: 580 }
   }
 
   /** @inheritdoc */
@@ -21,14 +17,15 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
       template: 'systems/weirdwizard/templates/generic/side-tabs.hbs'
     },
     details: {
-      template: "systems/weirdwizard/templates/configs/active-effect/details.hbs",
+      template: "systems/weirdwizard/templates/sheets/active-effects/details.hbs",
     },
     duration: {
-      template: "systems/weirdwizard/templates/configs/active-effect/duration.hbs",
+      template: "systems/weirdwizard/templates/sheets/active-effects/duration.hbs",
     },
     changes: {
-      template: "systems/weirdwizard/templates/configs/active-effect/changes.hbs",
-      scrollable: ["ol[data-changes]"],
+      template: "systems/weirdwizard/templates/sheets/active-effects/changes.hbs",
+      templates: ["systems/weirdwizard/templates/sheets/active-effects/change.hbs"],
+      scrollable: ["ol[data-changes]"]
     }
   }
 
@@ -48,83 +45,181 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
   /* -------------------------------------------- */
 
   /** @inheritDoc */
-  async _prepareContext(options) {
-    const context = await super._prepareContext(options);
-    context.buttons = [];
-    return context;
-  }
-
-  /* -------------------------------------------- */
-
-  /** @inheritDoc */
-  async _preparePartContext(partId, context) {
-    const partContext = await super._preparePartContext(partId, context);
+  async _preparePartContext(partId, context, options) {
+    const partContext = await super._preparePartContext(partId, context, options);
     if ( partId in partContext.tabs ) partContext.tab = partContext.tabs[partId];
+    const effect = await this.document;
     
     switch (partId) {
-      case 'details': {
+      // Details Tab
+      case "details":
         // If effect has duration, use instant triggers since they remove "passive" option
         partContext.triggers = this.document.isTemporary ? CONFIG.WW.INSTANT_TRIGGERS : CONFIG.WW.EFFECT_TRIGGERS;
-        partContext.targets = CONFIG.WW.EFFECT_TARGETS;
-      } break;
+        partContext.targets = CONFIG.WW.TARGETING_RESTRICTIONS;
+        break;
+
+      // Duration tab
       case 'duration': {
-        // Prepare durationSelect dropdown
-        partContext.durationOptions = CONFIG.WW.EFFECT_DURATIONS;
+        const fields = effect.system.schema.fields;
 
-        // Pass down durations to display
-        partContext.formattedStartTime = game.weirdwizard.utils.formatTime(this.document.duration.startTime, 1);
+        // Prepare options for the duration preset dropdown
+        partContext.durationPresetOptions = [
+          {
+            value: 'custom',
+            label: _loc("WW.Effect.DurationPresets.Custom"),
+          },
+          ... Object.entries(CONFIG.WW.EFFECT_DURATION_PRESETS).map(([value, label]) => ({
+            value,
+            label,
+            group: _loc('WW.Effect.DurationPresets.Label')
+          }))
+        ];
+
+        // Other duration related variables
+        partContext.systemFields = fields;
+        partContext.formattedDuration = effect.formattedDuration;
+        partContext.durationIsTimeBased = CONST.ACTIVE_EFFECT_TIME_DURATION_UNITS.includes(effect.duration.units);
+
+        if (effect.start) partContext.startTime = partContext.durationIsTimeBased
+          ? game.time.calendar.format(effect.start.time, 'formatDuration') : null;
+        
       } break;
-      case 'changes': {
-        partContext.effectChangeOptions = CONFIG.WW.EFFECT_CHANGE_PRESET_DATA;
-        partContext.source.changes = partContext.source.changes.map(change => {
-          const changeDataPreset = getEffectChangeMeta(change.key);
-          const valueType = changeDataPreset?.valueType ?? 'str';
 
+      // Changes tab
+      case 'changes': {
+        const fields = effect.system.schema.fields.changes.element.fields;
+        
+        // Prepare change preset options
+        const changePresetOptions = [{
+          value: 'custom',
+          label: _loc("WW.Effect.ChangePresets.Custom")
+        }];
+
+        for (const [groupKey, groupData] of Object.entries(CONFIG.WW.EFFECT_CHANGE_PRESET_DATA)) {
+          const group = _loc(groupData.header);
+
+          for (const [presetKey, presetData] of Object.entries(groupData.options)) {  
+            changePresetOptions.push({
+              value: presetKey,
+              label: _loc(presetData.label),
+              group
+            })
+          }
+        }
+
+        // Prepare changeTypes
+        const changeTypes = Object.entries(ActiveEffect.CHANGE_TYPES)
+          .map(([type, {label}]) => ({type, label: _loc(label)}))
+          .sort((a, b) => a.label.localeCompare(b.label, game.i18n.lang))
+          .reduce((types, {type, label}) => {
+            types[type] = label;
+            return types;
+          }, {});
+        
+        // Prepare changePhases
+        const changePhases = Object.entries(ActiveEffect.CHANGE_PHASES)
+          .map(([phase, {label}]) => ({phase, label: _loc(label)}))
+          .sort((a, b) => a.label.localeCompare(b.label, game.i18n.lang))
+          .reduce((phases, {phase, label}) => {
+            phases[phase] = label;
+            return phases;
+          }, {});
+        
+        // Prepare changes
+        partContext.changes = await Promise.all(foundry.utils.deepClone(context.source.changes).map((change, index) => {
+          const defaultPriority = ActiveEffect.CHANGE_TYPES[change.type]?.defaultPriority ?? 0;
+          return this._renderChange({change, index, fields, defaultPriority, changeTypes});
+        }));
+
+        partContext.changes = await Promise.all(foundry.utils.deepClone(context.source.system.changes).map((change, index) => {
+          const defaultPriority = ActiveEffect.CHANGE_TYPES[change.type]?.defaultPriority ?? 0;
+          
+          const changeDataPreset = getEffectChangeMeta(change.preset); // TODO - Remove this intermediary function
+          const valueType = changeDataPreset?.valueType ?? 'str';
+          
           // Pass preset data to the change
-          change = {... change, ...changeDataPreset};
+          change = {
+            ... change,
+            ... changeDataPreset,
+            key: CONFIG.WW.EFFECT_CHANGE_PRESET_KEYS[change.preset] ?? change.key
+          };
 
           // Assign field
-          switch (valueType) {
-            case 'boo': {
-              change.field = makeBooField(true);
-            }; break;
-
-            case 'flo': {
-              change.field = makeFloField();
-            } break;
-
-            case 'int': {
-              change.field = makePosIntField();
-            } break;
-
-            case 'str': {
-              change.field = makeStrField();
-            } break;
+          switch (valueType) { // TODO - Automate somehow using character.schema.getField(change.key) or something else
+            case 'boo': change.field = makeBooField(true); break;
+            case 'flo': change.field = makeFloField(); break;
+            case 'int': change.field = makePosIntField(); break;
+            case 'str': change.field = makeStrField(); break;
+            default: change.field = makeStrField(); break;
           }
           
           // Ensure integer field does not have true or false as value
-          if (valueType === 'int' & (change.value === 'true' || change.value === 'false')) change.value = 1;
+          if (valueType === 'int' && (change.value === 'true' || change.value === 'false')) change.value = 1;
 
           change.typedValue = change.field.clean(change.value);
 
-          return change;
-        })
+          // Render change
+          return this._renderChange({change, index, fields, defaultPriority, changeTypes, changePhases, changePresetOptions});
+        }));
+        
       } break;
     }
 
     return context;
   }
 
+  /* ----------------------------------------- */
+
+  /**
+   * @override
+   * Prepare render context for a single change object.
+   * @param {object} context                   Data for rendering the change row
+   * @param {EffectChangeData} context.change  A copy of the change from the Effect's source array
+   * @param {number} context.index             The change object's index in the array
+   * @param {DataSchema} context.fields        The defined fields of the change data
+   * @param {number} context.defaultPriority   The change type's default priority
+   * @param {Record<string, string>} context.changeTypes All change types and their localized labels
+   * @returns {Promise<string>}
+   * @protected
+   */
+  async _renderChange(context) {
+    const {change, index} = context;
+
+    if ( ("value" in change) && (typeof change.value !== "string") ) change.value = JSON.stringify(change.value);
+    Object.assign(
+      change,
+      ["key", "type", "value", "phase", "priority", "preset"].reduce((paths, fieldName) => {
+        if ( fieldName in change ) paths[`${fieldName}Path`] = `system.changes.${index}.${fieldName}`;
+        return paths;
+      }, {}));
+    
+    const changeType = ActiveEffect.CHANGE_TYPES[change.type];
+    context.changeType = changeType;
+
+    return changeType?.render?.(context) ?? foundry.applications.handlebars.renderTemplate("systems/weirdwizard/templates/sheets/active-effects/change.hbs", context);
+  }
+
   /* -------------------------------------------- */
-  /*  Form Submission                             */
+  /*  Form Handling                               */
+  /* -------------------------------------------- */
+
+  /**
+   * @override
+   * An override to allow change.preset to be allowed by the form submission.
+   * TODO: Think of a better fix.
+   */
+  _processFormData(event, form, formData) {
+    return foundry.utils.expandObject(formData.object);
+  }
+
   /* -------------------------------------------- */
 
   /** @override */
   _onChangeForm(formConfig, event) {
     super._onChangeForm(formConfig, event);
-
-    // Re-submit the form if a change key is changed to update the change on the Actor
-    if (event.target instanceof HTMLSelectElement && event.target.name.endsWith(".key")) {
+    
+    // Submit the form if a Change Preset or Duration Preset is changed
+    if (event.target instanceof HTMLSelectElement && (event.target.name.endsWith(".preset") || event.target.name.endsWith(".durationPreset"))) {
       this.submit({ preventClose: true });
     }
   }
@@ -142,35 +237,64 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
    * @protected
    */
   async _processSubmitData(event, form, submitData, options={}) {
-    // Update duration
-    const sysDur = submitData.system.duration;
-    let inSeconds = null;
-    
-    if (!submitData.duration) submitData.duration = {};
-    
-    switch (submitData.system.duration.selected) {
-      case 'minutes': 
-        inSeconds = sysDur.inMinutes ? sysDur.inMinutes * 60 : 60;
-        submitData.duration = { seconds: inSeconds, rounds: null };
-        if (!sysDur.inMinutes) sysDur.inMinutes = 1;
-      break;
+    // Check the Duration Preset and apply modifications
+    const effDur = this.document.duration;
+    const submitDur = submitData.duration;
+    const dur = {
+      value: submitDur?.value ? submitDur?.value : (effDur.value === Infinity ? null : effDur.value),
+      units: submitDur?.units ?? effDur.units,
+      expiry: submitDur?.expiry ?? effDur.expiry
+    };
 
-      case 'hours':
-        inSeconds = sysDur.inHours ? sysDur.inHours * 60*60 : 60*60;
-        submitData.duration = { seconds: inSeconds, rounds: null };
-        if (!sysDur.inHours) sysDur.inHours = 1;
-      break;
+    switch (submitData.system.durationPreset) {
+      case '': submitData.duration = { value: null, units: dur.units, expiry: null }; break;
+      case 'custom': submitData.duration = { value: dur.value, units: dur.units, expiry: dur.expiry }; break;
 
-      case 'days':
-        inSeconds = sysDur.inDays ? sysDur.inDays * 60*60*24 : 60*60*24;
-        submitData.duration = { seconds: inSeconds, rounds: null };
-        if (!sysDur.inDays) sysDur.inDays = 1;
-      break;
+      // Combat Rounds duration (value 0 means next)
+      case 'luckEnds': submitData.duration = { value: null, units: dur.units, expiry: 'luckEnds' }; break;
+      case '1round': submitData.duration = { value: 0, units: 'rounds', expiry: 'roundEnd' }; break;
+      case '2rounds': submitData.duration = { value: 1, units: 'rounds', expiry: 'roundEnd' }; break;
 
-      case 'none':
-        submitData.duration = { seconds: null, rounds: null };
-      break;
+      // Combat Turns
+      case 'turnEnd': {
+        submitData.duration = { value: 0, units: 'turns', expiry: 'turnEnd' }
+        submitData.system.targetRelativeTurns = false;
+      }; break;
+      case 'nextTriggerTurnStart': {
+        submitData.duration = { value: 0, units: 'turns', expiry: 'turnStart' };
+        submitData.system.targetRelativeTurns = false;
+      }; break;
+      case 'nextTriggerTurnEnd': {
+        submitData.duration = { value: 1, units: 'turns', expiry: 'turnEnd' };
+        submitData.system.targetRelativeTurns = false;
+      }; break;
+      case 'nextTargetTurnStart': {
+        submitData.duration = { value: 0, units: 'turns', expiry: 'turnStart' };
+        submitData.system.targetRelativeTurns = true;
+      }; break;
+      case 'nextTargetTurnEnd': {
+        submitData.duration = { value: 1, units: 'turns', expiry: 'turnEnd' };
+        submitData.system.targetRelativeTurns = true;
+      }; break;
+
+      // World Time duration
+      case '1minute': submitData.duration = { value: 1, units: 'minutes', expiry: null }; break;
+      case '1hour': submitData.duration = { value: 1, units: 'hours', expiry: null }; break;
     }
+
+    // Update Changes
+    submitData.system.changes?.forEach((change, index) => {
+      // Apply preset
+      if (change.preset) {
+        // Pass preset data to the change
+        submitData.system.changes[index] = {
+          ...change,
+          ...getEffectChangeMeta(change.preset), // TODO - Improve this
+          key: CONFIG.WW.EFFECT_CHANGE_PRESET_KEYS[change.preset] ?? change.key
+        };
+      }
+      
+    })
     
     // Submit processed data
     return super._processSubmitData(event, form, submitData, options);

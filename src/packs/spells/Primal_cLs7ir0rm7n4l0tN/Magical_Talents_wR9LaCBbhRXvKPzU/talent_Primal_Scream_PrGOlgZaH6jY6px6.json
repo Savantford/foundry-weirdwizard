@@ -5,7 +5,7 @@
   "_id": "PrGOlgZaH6jY6px6",
   "img": "icons/creatures/abilities/wolf-howl-moon-purple.webp",
   "system": {
-    "description": "<p>You can use a reaction when you harm a creature or are harmed to give voice to a terrible scream. Each creature within 5 yards of you makes a Will roll. On a failure, the creature becomes frightened of you until the end of your next turn. Then, for 1 minute, you roll to attack with 1 boon. You can use this talent once, twice at level 3, and three times at level 7. You regain expended uses after you rest.</p>",
+    "description": "<p>You can use a reaction when you harm a creature or are harmed to give voice to a terrible scream. Each creature within 5 yards of you makes a @[wil] roll. On a failure, the creature becomes frightened of you until the end of your next turn. Then, for 1 minute, you roll to attack with 1 boon. You can use this talent once, twice at level 3, and three times at level 7. You regain expended uses after you rest.</p>",
     "active": true,
     "magical": true,
     "attribute": "",
@@ -20,17 +20,85 @@
       "levelRelative": "manual"
     },
     "healing": "",
-    "instant": [],
-    "targeting": "manual",
+    "instant": [
+      {
+        "label": "affliction",
+        "trigger": "onUse",
+        "target": "any",
+        "affliction": "frightened",
+        "value": ""
+      }
+    ],
+    "targeting": {
+      "operation": "target",
+      "range": 5,
+      "method": "area"
+    },
     "template": {
       "type": "size",
       "value": 5
     },
     "subtype": "trait",
     "source": "tradition",
-    "grantedBy": null
+    "grantedBy": null,
+    "area": {
+      "shape": "emanation",
+      "attached": true
+    }
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Primal Scream",
+      "img": "icons/creatures/abilities/wolf-howl-moon-purple.webp",
+      "origin": "Compendium.weirdwizard.spells.Item.PrGOlgZaH6jY6px6",
+      "disabled": false,
+      "duration": {
+        "value": 1,
+        "units": "minutes",
+        "expiry": null,
+        "expired": false
+      },
+      "system": {
+        "durationPreset": "1minute",
+        "trigger": "onUse",
+        "changes": [
+          {
+            "preset": "boons.attacks",
+            "value": 1,
+            "key": "system.boons.selfRoll.attacks",
+            "type": "add",
+            "phase": "initial",
+            "priority": null
+          }
+        ],
+        "target": "allies",
+        "grantedBy": null
+      },
+      "_id": "XXTaGFXWpkLscBdX",
+      "type": "base",
+      "start": null,
+      "description": "",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "showIcon": 1,
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.367",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1788981009394,
+        "modifiedTime": 1788981155763,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_key": "!items.effects!PrGOlgZaH6jY6px6.XXTaGFXWpkLscBdX"
+    }
+  ],
   "sort": 0,
   "ownership": {
     "default": 0,
@@ -40,12 +108,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744754986470,
-    "modifiedTime": 1766598612743,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788981041654,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!PrGOlgZaH6jY6px6"

@@ -1,0 +1,45 @@
+<li class="change statbox" data-index="{{index}}">
+  {{!-- Header --}}
+  <div class="header">
+    {{formInput fields.preset name=change.presetPath value=change.preset options=changePresetOptions
+      blank=(localize "WW.Effect.ChangePresets.None")}}
+      
+    <div class="value">
+      {{formInput fields.value name=change.valuePath value=change.value elementType="input"}}
+    </div>
+
+    <div class="controls">
+      {{#if change.preset}}<button type="button" class="inline-control icon fa-solid fa-eye" data-action="toggleDetails"></button>{{/if}}
+      <button type="button" class="inline-control icon fa-solid fa-trash" data-action="deleteChange"></button>
+    </div>
+  </div>
+
+  {{#if change.preset}}
+  <div class="key">
+    <strong>{{localize "EFFECT.FIELDS.changes.element.key.label"}}:</strong>
+    {{formInput fields.key name=change.keyPath value=change.key disabled=(ne change.preset 'custom')}}
+  </div>
+
+  {{!-- Details --}}
+  <div class="details">
+    {{!-- Type --}}
+    <div class="type">
+      <strong>{{localize "EFFECT.FIELDS.changes.element.type.label"}}:</strong>
+      {{formInput fields.type name=change.typePath value=change.type choices=changeTypes disabled=(ne change.preset 'custom')}}
+    </div>
+
+    {{!-- Phase --}}
+    <div class="phase">
+      <strong>{{localize "EFFECT.FIELDS.changes.element.phase.label"}}:</strong>
+      {{formInput fields.phase name=change.phasePath value=change.phase choices=changePhases disabled=(ne change.preset 'custom')}}
+    </div>
+
+    {{!-- Priority --}}
+    <div class="priority">
+      <strong>{{localize "EFFECT.FIELDS.changes.element.priority.label"}}:</strong>
+      {{formInput fields.priority name=change.priorityPath value=change.priority placeholder=defaultPriority disabled=(ne change.preset 'custom')}}
+    </div>
+  </div>
+  {{/if}}
+
+</li>

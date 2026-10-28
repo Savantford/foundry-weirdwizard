@@ -1,10 +1,8 @@
-import { escape, i18n, plusify, slideDown, slideUp } from '../../helpers/utils.mjs';
+import { escape, inferDataFromKey, plusify, slideDown, slideUp } from '../../helpers/utils.mjs';
 import { diceTotalHtml } from '../../sidebar/chat-html-templates.mjs';
 import { mapRange } from '../../canvas/canvas-functions.mjs';
 import MultiChoice from '../../apps/multi-choice.mjs';
-import { createActiveEffect, deleteActiveEffect, editActiveEffect, prepareActiveEffectCategories } from '../../helpers/effect-actions.mjs';
-import RollAttribute from '../../dice/roll-attribute.mjs';
-import TargetingHUD from '../../apps/targeting-hud.mjs';
+import { createActiveEffect, deleteActiveEffect, editActiveEffect, prepareActorEffectCategories } from '../../helpers/effect-actions.mjs';
 import WWDialog from '../../apps/dialog.mjs';
 import WWRoll from '../../dice/roll.mjs';
 import WWActorSheet from './base-actor-sheet.mjs';
@@ -14,7 +12,6 @@ import WWActorSheet from './base-actor-sheet.mjs';
  * @extends {WWActorSheet}
  */
 export default class WWCreatureSheet extends WWActorSheet {
-
   constructor(options = {}) {
     super(options); // Required for the constructor to work 
   }
@@ -42,9 +39,10 @@ export default class WWCreatureSheet extends WWActorSheet {
 
       dispositionToggle: this.#onDispositionToggle,
       incapacitatedRoll: this.#onIncapacitatedRoll,
-      attributeRoll: this.#onAttributeRoll,
+      attributeUse: this.#onAttributeUse,
       afflictionsMenu: this.#onAfflictionsMenuOpen,
       folderEdit: this.#onFolderEdit,
+      openApplyDialog: this.#onOpenApplyDialog,
 
       journalView: this.#onJournalView,
       journalRemove: this.#onJournalRemove,
@@ -58,13 +56,13 @@ export default class WWCreatureSheet extends WWActorSheet {
       itemUpdateUses: this.#onItemUpdateUses,
       containerCollapse: this.#onContainerCollapse,
 
-      effectCreate: this.#onEffectCreate,
-      effectEdit: this.#onEffectEdit,
-      effectToggle: this.#onEffectToggle,
-      effectRemove: this.#onEffectRemove
+      effectCreate: this.#onActiveEffectCreate,
+      effectEdit: this.#onActiveEffectEdit,
+      effectToggle: this.#onActiveEffectToggle,
+      effectRemove: this.#onActiveEffectRemove,
+      effectLuckEnds: this.#onActiveEffectLuckEnds
     },
     form: {
-      handler: this.#onSubmitDocumentForm, // needed for damage update
       submitOnChange: true,
       closeOnSubmit: false
     }
@@ -82,10 +80,9 @@ export default class WWCreatureSheet extends WWActorSheet {
   async _prepareContext(options = {}) {
     const context = await super._prepareContext(options);
     const actorData = this.actor;
-
-    context.charOptions = actorData.charOptions;
+    
+    context.charOptions = await actorData.charOptions;
     context.folder = await actorData.folder;
-    context.afflictions = this.appliedAfflictions;
     context.injured = actorData.injured;
     context.incapacitated = actorData.incapacitated;
     context.dead = actorData.dead;
@@ -104,13 +101,13 @@ export default class WWCreatureSheet extends WWActorSheet {
         key: key,
         name: `system.attributes.${key}.value`,
         field: field(`attributes.${key}.value`),
-        label: i18n(CONFIG.WW.ATTRIBUTES_SHORT[key] ?? key),
+        label: _loc(CONFIG.WW.ATTRIBUTES_SHORT[key] ?? key),
 
         sourceValue: context.system._source.attributes[key].value,
         finalValue: context.system.attributes[key].value,
         finalMod: context.system.attributes[key].mod,
-        tooltip: i18n(CONFIG.WW.ROLL_ATTRIBUTE_LABELS[key]),
-        inputTooltip: i18n('WW.Attributes.EditHint', { value: context.system.attributes[key].value })
+        tooltip: _loc(CONFIG.WW.ROLL_ATTRIBUTE_LABELS[key]),
+        inputTooltip: _loc('WW.Attributes.EditHint', { value: context.system.attributes[key].value })
       };
       
       context.attributes[key] = obj;
@@ -129,7 +126,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     context.stats.defenseNatural = {
       name: `system.stats.defense.natural`,
       field: field(`stats.defense.natural`),
-      label: this.actor.type === 'npc' ? i18n("WW.Defense.NaturalNPC") : i18n("WW.Defense.Natural"),
+      label: this.actor.type === 'npc' ? _loc("WW.Defense.NaturalNPC") : _loc("WW.Defense.Natural"),
       
       sourceValue: context.system._source.stats.defense.natural,
       finalValue: context.system.stats.defense.natural,
@@ -140,65 +137,65 @@ export default class WWCreatureSheet extends WWActorSheet {
     context.stats.defenseTotal = {
       name: `system.stats.defense.total`,
       field: field(`stats.defense.total`),
-      label: i18n("WW.Defense.Label"),
+      label: _loc("WW.Defense.Label"),
       
       sourceValue: context.system._source.stats.defense.total,
       finalValue: context.system.stats.defense.total,
       bonusValue: parseInt(context.system.stats.defense.total - context.system._source.stats.defense.total),
       autoTooltip: `
-        <p><b>${i18n("WW.Defense.Score")}: ${context.system.stats.defense.total}</b>
+        <p><b>${_loc("WW.Defense.Score")}: ${context.system.stats.defense.total}</b>
           ${context.system.stats.defense.total !== usedDefense ?
           " (" + usedDefense + plusify(context.system.stats.defense.total - usedDefense) + ")" : ""}
         </p>
-        ${context.system.stats.defense.armored ? '<p>' + i18n("WW.Defense.Armored") + ': ' + context.system.stats.defense.armored + '</p>' : ""}
-        <p>${i18n("WW.Defense.Natural")}: ${context.system.stats.defense.natural}
+        ${context.system.stats.defense.armored ? '<p>' + _loc("WW.Defense.Armored") + ': ' + context.system.stats.defense.armored + '</p>' : ""}
+        <p>${_loc("WW.Defense.Natural")}: ${context.system.stats.defense.natural}
           ${context.system.stats.defense.natural !== context.system._source.stats.defense.natural ?
           " (" + context.system._source.stats.defense.natural + plusify(parseInt(context.system.stats.defense.natural) - parseInt(context.system._source.stats.defense.natural)) + ")" : ""}
         </p>
-        <p>• ${i18n("WW.Stats.AutomationHint", { stat: i18n("WW.Defense.Label") })}</p>
-        ${this.actor.type === 'npc' ? '<p>• ' + i18n("WW.Defense.NaturalNPCTip") + '</p>' : ''}
+        <p>• ${_loc("WW.Stats.AutomationHint", { stat: _loc("WW.Defense.Label") })}</p>
+        ${this.actor.type === 'npc' ? '<p>• ' + _loc("WW.Defense.NaturalNPCTip") + '</p>' : ''}
       `
     }
 
     // Size
     context.stats.size = {
-      name: `system.stats.size`,
-      field: field(`stats.size`),
-      label: i18n("WW.Stats.Size"),
+      name: 'sizeFraction',
+      field: new foundry.data.fields.StringField(), //field('stats.size'),
+      label: _loc("WW.Stats.Size"),
 
       sourceValue: context.system._source.stats.size,
       finalValue: context.system.stats.size,
-      displayedValue: CONFIG.WW.SIZE_FRACTIONS[context.system.stats.size] ?? context.system.stats.size,
+      fraction: context.system.stats.sizeFraction,
       autoTooltip: this.actor.type === 'npc' && (context.system.stats.size !== context.system._source.stats.size) ? `
-        <p>${i18n('WW.Stats.SizeNormal')}: ${context.system._source.stats.size}</p>
-        <p>• ${i18n('WW.Stats.AutomationHint', { stat: i18n("WW.Stats.Size") })}</p>
-      ` : i18n('WW.Stats.AutomationHint', { stat: i18n("WW.Stats.Size") }),
-      inputTooltip: `<p>${i18n('WW.Stats.SizeTip', { value: context.system.stats.size })}</p> ${i18n('WW.Stats.SizeConversionTip')}`
+        <p>${_loc('WW.Stats.SizeNormal')}: ${context.system._source.stats.size}</p>
+        <p>• ${_loc('WW.Stats.AutomationHint', { stat: _loc("WW.Stats.Size") })}</p>
+      ` : _loc('WW.Stats.AutomationHint', { stat: _loc("WW.Stats.Size") }),
+      inputTooltip: _loc('WW.Stats.SizeTip', { value: context.system.stats.sizeFraction })
     }
 
     // Normal Speed
     context.stats.speedNormal = {
-      name: `system.stats.speed.normal`,
-      field: field(`stats.speed.normal`),
-      label: i18n("WW.Stats.SpeedNormal"),
+      name: 'system.stats.speed.normal',
+      field: field('stats.speed.normal'),
+      label: _loc("WW.Stats.SpeedNormal"),
       
       sourceValue: context.system._source.stats.speed.normal,
       finalValue: context.system.stats.speed.normal,
-      inputTooltip: i18n('WW.Stats.SpeedNormalTip', { value: context.system.stats.speed.current })
+      inputTooltip: _loc('WW.Stats.SpeedNormalTip', { value: context.system.stats.speed.current })
     }
 
     // Current Speed
     context.stats.speedCurrent = {
       name: `system.stats.speed.current`,
       field: field(`stats.speed.current`),
-      label: i18n("WW.Stats.Speed"),
+      label: _loc("WW.Stats.Speed"),
       
       sourceValue: context.system._source.stats.speed.current,
       finalValue: context.system.stats.speed.current,
       autoTooltip: context.system.stats.speed.current !== context.system.stats.speed.normal ? `
-        <p>${i18n('WW.Stats.SpeedNormal')}: ${context.system.stats.speed.normal}</p>
-        <p>• ${i18n('WW.Stats.AutomationHint', { stat: i18n("WW.Stats.SpeedNormal") })}</p>
-      ` : i18n('WW.Stats.AutomationHint', { stat: i18n("WW.Stats.Speed") })
+        <p>${_loc('WW.Stats.SpeedNormal')}: ${context.system.stats.speed.normal}</p>
+        <p>• ${_loc('WW.Stats.AutomationHint', { stat: _loc("WW.Stats.SpeedNormal") })}</p>
+      ` : _loc('WW.Stats.AutomationHint', { stat: _loc("WW.Stats.Speed") })
     };
 
     // Prepare Disposition
@@ -230,25 +227,32 @@ export default class WWCreatureSheet extends WWActorSheet {
 
     // Health tooltip
     context.healthTooltip = escape(`
-      <p>${i18n("WW.Health.Current")}: ${health.current}</p>
-      <p>${i18n("WW.Health.NormalScore")}: ${health.normal}</p>
-      <p>${i18n("WW.Health.Temporary")}: ${health.temp}</p>
-      <p>${i18n("WW.Health.Lost")}: ${health.lost}</p>
+      <p>${_loc("WW.Health.Current")}: ${health.current}</p>
+      <p>${_loc("WW.Health.NormalScore")}: ${health.normal}</p>
+      <p>${_loc("WW.Health.Temporary")}: ${health.temp}</p>
+      <p>${_loc("WW.Health.Lost")}: ${health.lost}</p>
     `);
 
     if (!health.normal || health.temp) context.healthTooltip += `<hr/>`;
-    if (!health.normal) context.healthTooltip += escape(`<p>• ${i18n('WW.Health.NormalHint')}</p>`);
-    if (health.temp) context.healthTooltip += escape(`<p>• ${i18n("WW.Health.CurrentHint")}</p>`);
+    if (!health.normal) context.healthTooltip += escape(`<p>• ${_loc('WW.Health.NormalHint')}</p>`);
+    if (health.temp) context.healthTooltip += escape(`<p>• ${_loc("WW.Health.CurrentHint")}</p>`);
 
     // Bonus Damage Tooltip
     context.bonusDamageTooltip = escape(`
-      <p>${i18n('WW.Stats.AutomationHint', { stat: i18n("WW.Damage.Bonus") })}</p>
+      <p>${_loc('WW.Stats.AutomationHint', { stat: _loc("WW.Damage.Bonus") })}</p>
     `);
 
-    // Prepare character data
-    if (actorData.type == 'character') await this._prepareCharacterData(context);
+    context.cOptionRemoveTips = CONFIG.WW.CHARACTER_OPTION_REMOVE_TOOLTIPS;
+    
+    // Prepare Effect Senses data
+    const sensesData = this.actor.appliedEffects
+      .filter(e => e.type === 'sense')
+      .map(async s => await inferDataFromKey('senses', s.uuid));
 
-    // Prepare NPC data
+    context.effectSenses = await Promise.all(sensesData);
+
+    // Prepare Type specific data
+    if (actorData.type == 'character') await this._prepareCharacterData(context);
     if (actorData.type == 'npc') await this._prepareNPCData(context);
     
     return context;
@@ -259,6 +263,9 @@ export default class WWCreatureSheet extends WWActorSheet {
   /** @override */
   async _preparePartContext(partId, context, options) {
     await super._preparePartContext(partId, context, options);
+    
+    const allCats = await prepareActorEffectCategories(this.actor);
+    const { afflictions, temporary, ...permaCats } = allCats;
 
     switch (partId) {
       // Summmary tab
@@ -290,25 +297,45 @@ export default class WWCreatureSheet extends WWActorSheet {
       case 'description':
         context.tab = context.tabs[partId];
       break;
-      
-      // Effects tab
-      case 'effects':
+
+      // Afflictions & Temporary Effects tab
+      case 'temporary':
         context.tab = context.tabs[partId];
 
-        // Prepare all applied active effects
-        context.appliedEffects = await prepareActiveEffectCategories(await this.actor.appliedEffects);
+        // Sort Effects by ascending remaining duration
+        const durations = [...CONST.ACTIVE_EFFECT_DURATION_UNITS].reverse();
+        const expiryEvents = ['luckEnds', ...CONST.ACTIVE_EFFECT_EXPIRY_EVENTS];
+
+        temporary.effects.sort((a,b) => {
+          if (a.duration.units !== b.duration.units) return durations.indexOf(a.duration.units) - durations.indexOf(b.duration.units);
+          else if (a.duration.remaining !== b.duration.remaining) return a.duration.remaining - b.duration.remaining;
+          else if (a.duration.expiry !== b.duration.expiry) return expiryEvents.indexOf(a.duration.expiry) - expiryEvents.indexOf(b.duration.expiry);
+          else return a - b;
+        })
+
+        // Prepare effect categories
+        context.effectCategories = { afflictions, temporary };
+
+        // Prepare expiry event labels
+        context.expiryEvents = Object.entries(ActiveEffect.EXPIRY_EVENTS)
+          .map(([value, label]) => ({value, label: _loc(label)}))
+          .sort((a, b) => a.label.localeCompare(b.label, game.i18n.lang))
+          .reduce((events, {value, label}) => {
+            events[value] = label;
+            return events;
+          }, {});
+      break;
+      
+      // Permanent Effects tab
+      case 'permanent':
+        context.tab = context.tabs[partId];
         
-        for (const c in context.appliedEffects) {
-          context.appliedEffects[c].effects = context.appliedEffects[c].effects.toSorted((a, b) => a.sort - b.sort)
-        }
+        // Prepare effect categories
+        context.effectCategories = permaCats;
 
-        // Prepare all embedded active effects
-        context.effects = await prepareActiveEffectCategories(await this.actor.effects);
-
-        for (const c in context.effects) {
-          context.effects[c].effects = context.effects[c].effects.toSorted((a, b) => a.sort - b.sort)
+        for (const c in context.effectCategories) {
+          context.effectCategories[c].effects = context.effectCategories[c].effects.toSorted((a, b) => a.sort - b.sort)
         };
-        
       break;
     }
 
@@ -361,7 +388,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     }
 
     // Prepare dropdown lists
-    context.difficulties = CONFIG.WW.BESTIARY_DIFFICULTIES;
+    context.difficulties = CONFIG.WW.ENEMY_DIFFICULTIES;
 
     // Prepare editable Natural Defense check
     if (this.actor._source.system.stats.defense.natural !== this.actor.system.stats.defense.natural) context.defenseDisabled = true;
@@ -433,29 +460,28 @@ export default class WWCreatureSheet extends WWActorSheet {
    * @private
    */
   _getProfileImageContextEntries() {
-    
     return [
       {
-        name: "WW.Actor.ShowPortrait",
+        label: "WW.Actor.ShowPortrait",
         icon: '<i class="fa-solid fa-image-portrait"></i>',
-        callback: li => {
+        onClick: (ev, li) => {
           // From #onShowPortraitArtwork
           const {img, name, uuid} = this.actor;
           return new ImagePopout({src: img, uuid, window: {title: name}}).render({force: true});
         },
-        condition: li => {
+        visible: li => {
           return true;
         }
       },
       {
-        name: "WW.Actor.ShowToken",
+        label: "WW.Actor.ShowToken",
         icon: '<i class="fa-solid fa-circle-user"></i>',
-        callback: li => {
+        onClick: (ev, li) => {
           // From #onShowTokenArtwork
           const {prototypeToken, name, uuid} = this.actor;
           return new ImagePopout({src: prototypeToken.texture.src, uuid, window: {title: name}}).render({force: true});
         },
-        condition: li => {
+        visible: li => {
           return this.token ? true : false;
         }
       }
@@ -470,106 +496,105 @@ export default class WWCreatureSheet extends WWActorSheet {
    * @returns {ContextMenuEntry[]}
    */
   _getItemContextEntries() {
-    
     return [
       {
-        name: "WW.Item.Perform.Attack",
-        icon: '<i class="fa-solid fa-bolt"></i>',
-        callback: li => {
+        label: "WW.Item.Perform.Attack",
+        icon: '<i class="fa-solid fa-hand-fist"></i>',
+        onClick: (ev, li) => {
           return this._onItemUse(li.dataset);
         },
-        condition: li => {
+        visible: li => {
           const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'equipment' && item.system.subtype === 'weapon';
         }
       }, {
-        name: "WW.Item.Perform.AttackTarget",
-        icon: '<i class="fa-solid fa-bullseye"></i>',
-        callback: li => {
-          return this._onItemUse(li.dataset, 'targeted-use');
+        label: "WW.Item.Perform.AttackQuick",
+        icon: '<i class="fa-solid fa-bolt"></i>',
+        onClick: (ev, li) => {
+          return this._onItemUse(li.dataset, { skipApp: true });
         },
-        condition: li => {
+        visible: li => {
           const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'equipment' && item.system.subtype === 'weapon';
         }
       }, {
-        name: "WW.Item.Perform.Equipment",
-        icon: '<i class="fa-solid fa-bolt"></i>',
-        callback: li => {
+        label: "WW.Item.Perform.Equipment",
+        icon: '<i class="fa-solid fa-hammer"></i>',
+        onClick: (ev, li) => {
           return this._onItemUse(li.dataset);
         },
-        condition: li => {
+        visible: li => {
           const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'equipment' && item.system.subtype !== 'weapon';
         }
       }, {
-        name: "WW.Item.Perform.EquipmentTarget",
-        icon: '<i class="fa-solid fa-bullseye"></i>',
-        callback: li => {
-          return this._onItemUse(li.dataset, 'targeted-use');
+        label: "WW.Item.Perform.EquipmentQuick",
+        icon: '<i class="fa-solid fa-bolt"></i>',
+        onClick: (ev, li) => {
+          return this._onItemUse(li.dataset, { skipApp: true });
         },
-        condition: li => {
+        visible: li => {
           const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'equipment' && item.system.subtype !== 'weapon';
         }
       }, {
-        name: "WW.Item.Perform.Spell",
-        icon: '<i class="fa-solid fa-bolt"></i>',
-        callback: li => {
+        label: "WW.Item.Perform.Spell",
+        icon: '<i class="fa-solid fa-wand-sparkles"></i>',
+        onClick: (ev, li) => {
           return this._onItemUse(li.dataset);
         },
-        condition: li => {
+        visible: li => {
           const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'spell';
         }
       }, {
-        name: "WW.Item.Perform.SpellTarget",
-        icon: '<i class="fa-solid fa-bullseye"></i>',
-        callback: li => {
-          return this._onItemUse(li.dataset, 'targeted-use');
+        label: "WW.Item.Perform.SpellQuick",
+        icon: '<i class="fa-solid fa-bolt"></i>',
+        onClick: (ev, li) => {
+          return this._onItemUse(li.dataset, { skipApp: true });
         },
-        condition: li => {
+        visible: li => {
           const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'spell';
         }
       }, {
-        name: "WW.Item.Perform.Talent",
-        icon: '<i class="fa-solid fa-bolt"></i>',
-        callback: li => {
+        label: "WW.Item.Perform.Talent",
+        icon: '<i class="fa-solid fa-dice-d20"></i>',
+        onClick: (ev, li) => {
           return this._onItemUse(li.dataset);
         },
-        condition: li => {
+        visible: li => {
           const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'talent';
         }
       }, {
-        name: "WW.Item.Perform.TalentTarget",
-        icon: '<i class="fa-solid fa-bullseye"></i>',
-        callback: li => {
-          return this._onItemUse(li.dataset, 'targeted-use');
+        label: "WW.Item.Perform.TalentQuick",
+        icon: '<i class="fa-solid fa-bolt"></i>',
+        onClick: (ev, li) => {
+          return this._onItemUse(li.dataset, { skipApp: true });
         },
-        condition: li => {
+        visible: li => {
           const item = this.actor.items.get(li.dataset.itemId);
           return item.type === 'talent';
         }
       }, {
-        name: "WW.Item.Send",
+        label: "WW.Item.Send",
         icon: '<i class="fa-solid fa-scroll"></i>',
-        callback: li => {
+        onClick: (ev, li) => {
           const item = this.actor.items.get(li.dataset.itemId);
           return this._onItemScroll(item);
         }
       }, {
-        name: "WW.Item.Edit.Activity",
+        label: "WW.Item.Edit.Activity",
         icon: '<i class="fa-solid fa-edit"></i>',
-        callback: li => {
+        onClick: (ev, li) => {
           const item = this.actor.items.get(li.dataset.itemId);
           return this._onItemEdit(item);
         }
       }, {
-        name: "WW.Item.Remove.Activity",
+        label: "WW.Item.Remove.Activity",
         icon: '<i class="fa-solid fa-trash"></i>',
-        callback: li => {
+        onClick: (ev, li) => {
           const item = this.actor.items.get(li.dataset.itemId);
           return this._onItemRemove(item, li);
         }
@@ -582,41 +607,26 @@ export default class WWCreatureSheet extends WWActorSheet {
   /*  General Event Listeners and Handlers        */
   /* -------------------------------------------- */
 
-  static #onAttributeRoll(event, button) {
+  static #onAttributeUse(event, button) {
     const dataset = Object.assign({}, button.dataset);
-
-    // Define variables to be used
-    const attKey = dataset.key, label = i18n(CONFIG.WW.ATTRIBUTE_ROLLS[attKey]);
-
-    let content = '';
-
-    const obj = {
-      actor: this.actor,
-      label: label,
-      icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey],
-      content: content,
-      attKey: attKey
+    const attKey = dataset.key;
+    const title = _loc(CONFIG.WW.ATTRIBUTE_ROLLS[attKey]);
+    const activityOptions = {
+      title,
+      roll: {
+        attribute: { key: attKey }
+      },
+      message: {
+        icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey],
+        flavor: title,
+        content: ''
+      },
+      args: {
+        noTargeting: true
+      }
     }
 
-    // Check for Automatic Failure
-    if (this.actor.system.autoFail[obj.attKey]) {
-
-      const messageData = {
-        type: 'd20-roll',
-        speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
-        flavor: label,
-        content: `<div class="dice-outcome chat-failure">${i18n('WW.Roll.AutoFail')}!</div>`,
-        sound: CONFIG.sounds.dice,
-        'flags.weirdwizard': {
-          icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey]
-        }
-      };
-      
-      ChatMessage.create(messageData);
-    } else {
-      new RollAttribute(obj).render(true);
-    }
-    
+    this.actor.useActivity(activityOptions);
   }
 
   /* -------------------------------------------- */
@@ -635,7 +645,7 @@ export default class WWCreatureSheet extends WWActorSheet {
       type: 'd6-roll',
       rolls: rollArray,
       speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
-      flavor: `<span>${i18n('WW.Health.IncapacitatedLost')}</span>`,
+      flavor: `<span>${_loc('WW.Health.IncapacitatedLost')}</span>`,
       content: '<div></div>',
       sound: CONFIG.sounds.dice,
       'flags.weirdwizard': {
@@ -644,7 +654,7 @@ export default class WWCreatureSheet extends WWActorSheet {
       }
     };
     
-    await ChatMessage.applyRollMode(messageData, game.settings.get('core', 'rollMode'));
+    await ChatMessage.applyMode(messageData, game.settings.get('core', 'messageMode'));
     
     // Send to chat
     const msg = await ChatMessage.create(messageData);
@@ -657,8 +667,6 @@ export default class WWCreatureSheet extends WWActorSheet {
     } else {
       this.actor.applyHealthLoss(r.total);
     }
-    
-  
   }
 
   /**
@@ -666,7 +674,6 @@ export default class WWCreatureSheet extends WWActorSheet {
     * @param {HTMLElement} element     The element the menu opens on.
   */
   static #onAfflictionsMenuOpen(event, button) {
-    const user = game.user;
     const afflictions = [];
     
     // Create MultiChoice choices data
@@ -715,9 +722,9 @@ export default class WWCreatureSheet extends WWActorSheet {
   /* -------------------------------------------- */
 
   static async #onJournalRemove(event, button) {
-    const page = await fromUuid(button.dataset.pageUuid);
+    const uuid = button.dataset.pageUuid;
+    const page = await fromUuid(uuid);
     const type = button.dataset.optionType;
-    
     const charOptions = this.actor.system.charOptions;
 
     // Open a dialog to confirm
@@ -727,28 +734,31 @@ export default class WWCreatureSheet extends WWActorSheet {
         icon: 'fa-solid fa-trash'
       },
       content: `
-        <div>${i18n('WW.CharOption.Reference.RemoveDialog.Msg')}</div>
-        <div class="dialog-sure">${i18n('WW.CharOption.Reference.RemoveDialog.Confirm')}</div>
+        <div>${_loc('WW.CharOption.Reference.RemoveDialog.Msg')}</div>
+        <div class="dialog-sure">${_loc('WW.CharOption.Reference.RemoveDialog.Confirm')}</div>
       `
     });
 
     if (!confirm) return;
     
-    // Remove the UUID from the benefit's pages
-    const str = 'system.charOptions.' + type;
+    // Remove the UUID reference
+    const path = 'system.charOptions.' + type;
 
     if (type === 'professions' || type === 'traditions') {
-      const arr = charOptions[type].filter(v => { return v !== button.dataset.pageUuid; });
-
-      if (page) await this.actor.update({ [str]: arr });
+      const arr = charOptions[type].filter(v => {
+        return v !== uuid;
+      });
+      
+      await this.actor.update({ [path]: arr });
     } else if (type) {
       
-      await this.actor.update({ [str]: null });
+      await this.actor.update({ [path]: null });
     }
 
-    if (page) await this.actor.clearCharOptionBenefits(page.uuid);
+    // Clear benefits granted by the Character Option
+    if (page) await this.actor.clearCharOptionBenefits(uuid);
     
-    this.render();
+    await this.render();
   }
 
   /* -------------------------------------------- */
@@ -773,50 +783,57 @@ export default class WWCreatureSheet extends WWActorSheet {
   /*  Active Effect handling actions              */
   /* -------------------------------------------- */
 
-  static #onEffectCreate(event, button) {
+  static #onActiveEffectCreate(event, button) {
     const dataset = Object.assign({}, button.dataset);
 
     createActiveEffect(dataset, this.actor)
   }
 
-  static #onEffectEdit(event, button) {
+  static #onActiveEffectEdit(event, button) {
     const effect = this.actor.effects.get(button.dataset.effectId);
 
     editActiveEffect(effect, this.actor);
   }
 
-  static #onEffectToggle(event, button) {
+  static #onActiveEffectToggle(event, button) {
     const effect = this.actor.effects.get(button.dataset.effectId);
 
     effect.update({ disabled: effect.disabled ? false : true });
   }
 
-  static #onEffectRemove(event, button) {
+  static #onActiveEffectRemove(event, button) {
     const effect = this.actor.effects.get(button.dataset.effectId);
 
     deleteActiveEffect(effect, this.actor);
+  }
+
+  static #onActiveEffectLuckEnds(event, button) {
+    const effect = this.actor.effects.get(button.dataset.effectId);
+
+    this.actor.luckEnds(effect);
   }
 
   /* -------------------------------------------- */
   /*  Form Submission                             */
   /* -------------------------------------------- */
 
-  /**
-   * @override
-   * Process form submission for the sheet
-   * @this {DocumentSheetV2}                      The handler is called with the application as its bound scope
-   * @param {SubmitEvent} event                   The originating form submission event
-   * @param {HTMLFormElement} form                The form element that was submitted
-   * @param {FormDataExtended} formData           Processed data for the submitted form
-   * @returns {Promise<void>}
-   */
-  static async #onSubmitDocumentForm(event, form, formData) {
-    if ( !this.isEditable ) return;
-    
-    formData.object['system.stats.damage.value'] = formData.object.damage;
-    
-    const submitData = this._prepareSubmitData(event, form, formData);
-    await this._processSubmitData(event, form, submitData);
+  /** @inheritdoc */
+  _processFormData(event, form, formData) {
+    formData = super._processFormData(event, form, formData);
+    const ut = foundry.utils;
+
+    // Assign damage value
+    if (ut.hasProperty(formData, 'damage')) {
+      ut.setProperty(formData, 'system.stats.damage.value', ut.getProperty(formData, 'damage'));
+    }
+
+    // Convert Size fraction to number
+    if (ut.hasProperty(formData, 'sizeFraction')) {
+      const sizeNum = game.weirdwizard.utils.fractionToNumber(ut.getProperty(formData, 'sizeFraction'));
+      ut.setProperty(formData, 'system.stats.size', sizeNum);
+    }
+
+    return formData;
   }
 
   /* -------------------------------------------- */
@@ -832,219 +849,33 @@ export default class WWCreatureSheet extends WWActorSheet {
     event.preventDefault();
     event.stopPropagation();
 
-    const dataset = Object.assign({}, button.dataset);
+    const dataset = { ...button.dataset, event };
     const item = this.actor.items.get(dataset.itemId);
 
     // Determine operation with modifier keys
-    dataset.operation = 'untargeted-use';
-    if (event.shiftKey) dataset.operation = 'targeted-use';
-    if (event.ctrlKey) dataset.operation = 'item-scroll';
-    if (event.altKey) dataset.operation = 'item-edit';
-    
-    // Evaluate action if no keys were clicked
-    switch (dataset.operation) {
-      case 'targeted-use': this._onItemUse(dataset); break;
-      case 'untargeted-use': this._onItemUse(dataset); break;
-      case 'item-scroll': this._onItemScroll(item); break;
-      case 'item-edit': this._onItemEdit(item); break;
-    }
-    
+    if (event.ctrlKey) this._onItemScroll(item);
+    else if (event.altKey) this._onItemEdit(item);
+    else if (event.shiftKey) this._onItemUse(dataset, { skipApp: true });
+    else this._onItemUse(dataset);
   }
 
   /* -------------------------------------------- */
 
-  _onItemUse(dataset, operation='untargeted-use') {
-    
-    // Define variables to be used
-    const system = this.actor.system,
-      item = this.actor.items.get(dataset.itemId),
-      actor = this.actor,
-      label = _secretLabel(item.name),
-      content = _secretContent(item.system.description),
-      instEffs = item.system.instant,
-      effects = item.effects;
+  _onItemUse(dataset, args={}) {
+    const item = this.actor.items.get(dataset.itemId);
+    const flavor = _secretLabel(item.name);
+    const content = _secretContent(item.system.description);
 
-    const attKey = CONFIG.WW.ATTRIBUTE_ROLLS[item.system.attribute] ? item.system.attribute : '';
-    
-    if (!attKey) { // If an attribute key is not defined, do not roll
-      
-      const obj = {
-        actor: actor,
-        item: item,
-        label: label,
-        content: content,
-        attKey: attKey,
-        operation: operation,
-        dontRoll: true,
-        instEffs: instEffs,
-        actEffs: effects
-      }
-
-      // If targeted-use button was clicked
-      if (operation === 'targeted-use') {
-        // If item is a weapon, throw a warning if an against attribute was not selected
-        if (item?.system?.subtype === 'weapon' && !item.system.against) ui.notifications.warn(i18n("WW.Roll.AgainstWrn"));
-
-        // If the item uses a template, draw it
-        else if (item.system.targeting == 'template') {
-          this.drawTemplate(obj);
-        }
-
-        // If the item uses manual targets, prompt selection
-        else if (item.system.targeting == 'manual') {
-          this.selectTargets(obj);
-        }
-      } 
-
-      // If untargeted-use was clicked
-      else if (operation === 'untargeted-use') {
-
-        function actEffs() {
-          const effs = {
-            onUse: [],
-            onSuccess: [],
-            onCritical: [],
-            onFailure: []
-          }
-          
-          item.effects?.forEach(effect => {
-            const e = {...effect};
-            e.uuid = effect.uuid;
-
-            switch (e.system.trigger) {
-              case 'onUse': {
-                effs.onUse.push(e);
-                effs.onSuccess.push(e);
-                effs.onCritical.push(e);
-                effs.onFailure.push(e);
-              }; break;
-              case 'onSuccess': effs.onSuccess.push(e); effs.onCritical.push(e); break;
-              case 'onCritical': effs.onCritical.push(e); break;
-              case 'onFailure': effs.onFailure.push(e); break;
-            }
-      
-          })
-          
-          return effs;
-        }
-      
-        function instEffs() {
-          const effs = {
-            onUse: [],
-            onSuccess: [],
-            onCritical: [],
-            onFailure: []
-          }
-      
-          // Add Weapon Damage
-          const itemSystem = item.system;
-          const weaponDamage = (itemSystem.subtype == 'weapon' && itemSystem.damage) ? itemSystem.damage : 0;
-          
-          if (weaponDamage) {
-            const eff = {
-              label: 'damage',
-              originUuid: item.uuid,
-              value: weaponDamage
-            };
-      
-            effs.onSuccess.push(eff);
-            effs.onCritical.push(eff);
-          }
-          
-          // Add Instant Effects
-          item.system?.instant?.forEach(e => {
-
-            if (!e.trigger) e.trigger = 'onUse';
-            
-            switch (e.trigger) {
-              case 'onUse': {
-                effs.onUse.push(e);
-                effs.onSuccess.push(e);
-                effs.onCritical.push(e);
-                effs.onFailure.push(e);
-              }; break;
-              case 'onSuccess': effs.onSuccess.push(e); effs.onCritical.push(e); break;
-              case 'onCritical': effs.onCritical.push(e); break;
-              case 'onFailure': effs.onFailure.push(e); break;
-            }
-      
-          })
-          
-          return effs;
-        }
-        
-        // Create message data to chat
-        const messageData = {
-          type: 'unrolled-use',
-          speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
-          flavor: label,
-          content: content,
-          sound: CONFIG.sounds.dice,
-          'flags.weirdwizard': {
-            icon: item.img,
-            item: item.uuid,
-            emptyContent: !content ?? true,
-            instEffs: instEffs(),
-            actEffs: actEffs()
-          }
-        }
-        
-        ChatMessage.create(messageData);
-      }
-      
-    } else { // Attempt to use RollAttribute app
-
-      const obj = {
-        actor: actor,
-        item: item,
-        label: label,
-        content: content,
-        attKey: attKey,
-        operation: operation
-      }
-  
-      // Check for Automatic Failure
-      if (system.autoFail[obj.attKey]) {
-        
-        const messageData = {
-          type: 'd20-roll',
-          speaker: game.weirdwizard.utils.getSpeaker({ actor: this.actor }),
-          flavor: label,
-          content: content,
-          sound: CONFIG.sounds.dice,
-          'flags.weirdwizard': {
-            item: item.uuid,
-            rollHtml: '<div class="dice-outcome chat-failure">' + i18n('WW.Roll.AutoFail') + '!</div>',
-            emptyContent: !content ?? true
-          }
-        };
-  
-        ChatMessage.create(messageData);
-      } else { // Roll
-        
-        // If targeted-use button was clicked
-        if (operation === 'targeted-use') {
-
-          // If item is a weapon, throw a warning if an against attribute was not selected
-          if (item?.system?.subtype === 'weapon' && !item.system.against) ui.notifications.warn(i18n("WW.Roll.AgainstWrn"));
-
-          // If the item uses a template, draw it
-          else if (item.system.targeting == 'template') {
-            this.drawTemplate(obj);
-          }
-
-          // If the item uses manual targets, prompt selection
-          else if (item.system.targeting == 'manual') {
-            this.selectTargets(obj);
-          }
-        } 
-
-        // If untargeted-use was clicked
-        else if (operation === 'untargeted-use') new RollAttribute(obj).render(true);
-        
+    const activityOptions = {
+      args,
+      item,
+      message: {
+        flavor,
+        content
       }
     }
-    
+
+    this.actor.useActivity(activityOptions);
   }
 
   /* -------------------------------------------- */
@@ -1150,8 +981,8 @@ export default class WWCreatureSheet extends WWActorSheet {
         icon: 'fa-solid fa-campground'
       },
       content: `
-        <div>${i18n('WW.Rest.Msg')}</div>
-        <div class="dialog-sure">${i18n('WW.Rest.Confirm')}</div>
+        <div>${_loc('WW.Rest.Msg')}</div>
+        <div class="dialog-sure">${_loc('WW.Rest.Confirm')}</div>
       `,
       ok: {
         label: 'WW.System.Dialog.Confirm',
@@ -1177,8 +1008,8 @@ export default class WWCreatureSheet extends WWActorSheet {
 
     // Create message content
     const content = `
-      <p style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this.actor })}</b> ${i18n('WW.Rest.Finished')}.</p>
-      <p>${i18n('WW.InstantEffect.Apply.CurrentHealth')}: ${health.current} <i class="fa-solid fa-arrow-right"></i> ${newCurrent}</p>
+      <p style="display: inline"><b>${game.weirdwizard.utils.getAlias({ actor: this.actor })}</b> ${_loc('WW.Rest.Finished')}.</p>
+      <p>${_loc('WW.InstantEffect.Apply.CurrentHealth')}: ${health.current} <i class="fa-solid fa-arrow-right"></i> ${newCurrent}</p>
     `;
 
     // Create and send message to chat
@@ -1203,10 +1034,10 @@ export default class WWCreatureSheet extends WWActorSheet {
         title: 'WW.Reset.Label',
         icon: 'fa-solid fa-rotate-left'
       },
-      title: i18n('WW.Reset.Label'),
+      title: _loc('WW.Reset.Label'),
       content: `
-        <div>${i18n('WW.Reset.Msg')}</div>
-        <p class="dialog-sure">${i18n('WW.Reset.Confirm')}</div>
+        <div>${_loc('WW.Reset.Msg')}</div>
+        <p class="dialog-sure">${_loc('WW.Reset.Confirm')}</div>
       `
     });
 
@@ -1251,35 +1082,33 @@ export default class WWCreatureSheet extends WWActorSheet {
     this.actor.folder.sheet.render(true);
   }
 
-  /* -------------------------------------------- */
-  /*  Utility methods                             */
-  /* -------------------------------------------- */
+  static async #onOpenApplyDialog(event, button) {
+    const { operation } = button.dataset;
+    const context = { actor: this.actor, operation };
 
-  /**
-   * Draw template from an item
-   * @param {Object} obj
-   */
-  async drawTemplate(obj) {
-    const initialLayer = canvas.activeLayer;
+    // Show a dialog 
+    const dialogInput = await WWDialog.input({
+      window: {
+        icon: "fa-solid fa-circle-plus",
+        title: CONFIG.WW.INSTANT_APPLY_LABELS[operation],
+      },
+      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/apps/instant-effect-apply-dialog.hbs', context),
+      ok: {
+        label: "WW.System.Dialog.Confirm",
+        icon: 'fa-solid fa-check'
+      },
+      buttons: [
+        {
+          label: 'WW.System.Dialog.Cancel',
+          icon: 'fa-solid fa-xmark'
+        }
+      ]
+    });
 
-    new TargetingHUD(obj, initialLayer, 'template').render(true);
-  }
+    // Return if cancelled
+    if (!dialogInput) return;
 
-  /**
-   * Select targets for an item roll
-   * @param {Object} obj
-   */
-  async selectTargets(obj) {
-    // Switch to the controls layer, activate target tool then switch to tokens layer
-    const initialLayer = canvas.activeLayer;
-    canvas.controls.activate({tool: 'target'});
-    canvas.tokens.activate();
-
-    // Hide the sheet that originated the preview
-    this.minimize();
-
-    // Activate TargetingHUD app
-    new TargetingHUD(obj, initialLayer, 'manual').render(true);
+    await this.actor.applyInstantEffect(operation, dialogInput.value);
   }
   
   /* -------------------------------------------- */
@@ -1381,7 +1210,7 @@ export default class WWCreatureSheet extends WWActorSheet {
       case "Folder":
         return this._onDropFolder(event, /** @type Folder */ document);
       case "JournalEntry":
-        return ui.notifications.warn(i18n("WW.CharOptions.JournalEntryWarning"));
+        return ui.notifications.warn(_loc("WW.CharOptions.JournalEntryWarning"));
       case "JournalEntryPage":
         return this._onDropJournalEntryPage(event, /** @type JournalEntryPage */ document);
     }
@@ -1613,7 +1442,7 @@ export default class WWCreatureSheet extends WWActorSheet {
             title: 'WW.CharOption.Reference.ReplaceDialog.Title',
             icon: 'fa-solid fa-right-left'
           },
-          content: `<div>${i18n('WW.CharOption.Reference.ReplaceDialog.Msg', { old: oldName, new: page.name, type: page.type })}</div>`
+          content: `<div>${_loc('WW.CharOption.Reference.ReplaceDialog.Msg', { old: oldName, new: page.name, type: page.type })}</div>`
         });
 
         if (!confirm) return;
@@ -1629,7 +1458,7 @@ export default class WWCreatureSheet extends WWActorSheet {
       
     }
 
-    this.render(); // Force re-rendering because it's not being triggered
+    this.render(); // Force re-rendering because it's not being correctly
   }
 
 
@@ -1649,20 +1478,16 @@ export default class WWCreatureSheet extends WWActorSheet {
   /**
    * Handle a droped List Entry on the Actor Sheet.
    */
-  async _onDropListEntry(event, data) {
-    const { listKey: listKey, entryKey: key, entryName: name, desc: desc } = data,
-    obj = {... this.actor.system.listEntries[listKey]};
-    
-    const entry = {
-      name: name,
-      desc: desc
-    };
+  async _onDropListEntry(event, dataset) {
+    const { listKey, entryKey } = dataset;
 
-    obj[key] = entry;
+    const path = `system.listEntries.${listKey}`,
+    set = new Set(foundry.utils.getProperty(this.document, path));
+
+    set.add(entryKey);
     
-    await this.actor.update({ ['system.listEntries.' + listKey]: obj });
+    await this.document.update({ [path]: set });
   }
-  
 }
 
 /* -------------------------------------------- */

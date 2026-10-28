@@ -1,5 +1,4 @@
-import { capitalize, defaultListEntryKey, defaultListEntryName, i18n } from '../helpers/utils.mjs';
-import WWDialog from './dialog.mjs';
+import { camelCase, capitalize, defaultListEntryKey, defaultListEntryName } from '../helpers/utils.mjs';
 
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
@@ -10,9 +9,7 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
  * Extend FormApplication to make windows to display a compendium more neatly
  * @extends {ApplicationV2}
 */
-
 export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2) {
-
   static DEFAULT_OPTIONS = {
     id: 'entry-settings-menu',
     tag: 'form',
@@ -41,7 +38,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
   get title() {
     const type = this.options.listKey;
     
-    return i18n(`WW.Settings.${capitalize(type, 1)}.Name`);
+    return _loc(`WW.Settings.${capitalize(type, 1)}.Name`);
   }
 
   /* -------------------------------------------- */
@@ -65,7 +62,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
   }
 
   /* -------------------------------------------- */
-  /*  Context preparation                         */
+  /*  Rendering                                   */
   /* -------------------------------------------- */
 
   /**
@@ -75,15 +72,40 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
    */
   async _prepareContext(options = {}) {
     const context = {
-      listTitle: i18n(`WW.Settings.${capitalize(this.listKey, 1)}.EntryType`),
-      list: this.list,
+      listKey: this.listKey,
+      listTitle: _loc(`WW.Settings.${capitalize(this.listKey, 1)}.EntryType`),
       buttons: [
         {type: "submit", icon: "fa-solid fa-save", label: "PERMISSION.Submit"},
         {type: "cancel", action: "cancel", icon: "fa-solid fa-xmark", label: "WW.System.Dialog.Cancel"}
       ]
     }
 
+    // Assign descriptions for documents
+    context.list = {... this.list};
+
+    for (const [key, entry] of Object.entries(context.list)) {
+      if (!entry.desc && entry?.description) entry.desc = _loc(entry.description);
+      else if (!entry.desc && entry.system?.description) entry.desc = entry.system.description;
+    }
+
     return context;
+  }
+
+  /* -------------------------------------------- */
+
+  async _onRender(context, options) {
+    await super._onRender(context, options);
+
+    // Create dragDrop listener
+    new foundry.applications.ux.DragDrop.implementation({
+      dragSelector: ".draggable",
+      dropSelector: null,
+      callbacks: {
+        dragstart: this._onDragStart.bind(this),
+        dragover: this._onDragOver.bind(this),
+        drop: this._onDrop.bind(this)
+      }
+    }).bind(this.element);
   }
 
   /* -------------------------------------------- */
@@ -127,30 +149,14 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
         await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${entry.grantedBy}]`, { secrets: this.actor.isOwner }) : null
     };
 
-    // Show a dialog 
-    const dialogInput = await WWDialog.input({
-      window: {
-        icon: "fa-solid fa-circle-plus",
-        title: 'WW.Settings.Entry.Add',
-      },
-      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
-      ok: {
-        label: 'WW.System.Dialog.Save',
-        icon: 'fa-solid fa-save'
-      },
-      buttons: [
-        {
-          label: 'WW.System.Dialog.Cancel',
-          icon: 'fa-solid fa-xmark'
-        },
-      ]
-    });
+    // Resolve Dialog
+    const dialogInput = await this.resolveDialog(context);
 
     // Return if cancelled
     if (!dialogInput) return;
 
     // Return with warning if the key or name are missing
-    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
+    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(_loc('WW.Settings.Entry.EditWarning'));
 
     newList[dialogInput.key] = dialogInput;
 
@@ -177,9 +183,33 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
       key: entryKey,
       showKey: true
     };
+    
+    // Resolve Dialog
+    const dialogInput = await this.resolveDialog(context);
 
+    // Return if cancelled
+    if (!dialogInput) return;
+
+    // Return with warning if the key or name are missing
+    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(_loc('WW.Settings.Entry.EditWarning'));
+
+    newList[dialogInput.key] = dialogInput;
+
+    delete await newList[dialogInput.key].key;
+    
+    // Delete old key if key has changed
+    if (entryKey !== dialogInput.key) delete newList[entryKey];
+    
+    // Update list and re-render
+    this.list = await newList;
+
+    this.render(true);
+  }
+
+  async resolveDialog(context) {
     // Show a dialog 
-    const dialogInput = await WWDialog.input({
+    const dialogInput = await foundry.applications.api.DialogV2.input({
+      classes: ['list-entry-dialog'],
       window: {
         icon: "fa-solid fa-edit",
         title: 'WW.Settings.Entry.Edit',
@@ -197,23 +227,7 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
       ]
     });
 
-    // Return if cancelled
-    if (!dialogInput) return;
-
-    // Return with warning if the key or name are missing
-    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
-
-    newList[dialogInput.key] = dialogInput;
-
-    delete await newList[dialogInput.key].key;
-    
-    // Delete old key if key has changed
-    if (entryKey !== dialogInput.key) delete newList[entryKey];
-    
-    // Update list and re-render
-    this.list = await newList;
-
-    this.render(true);
+    return dialogInput;
   }
 
   /* -------------------------------------------- */
@@ -227,12 +241,12 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
     const newList = {... this.list};
     
     // Open a dialog to confirm
-    const confirm = await WWDialog.confirm({
+    const confirm = await foundry.applications.api.DialogV2.confirm({
       window: {
         title: 'WW.Settings.Entry.Remove',
         icon: 'fa-solid fa-trash'
       },
-      content: i18n('WW.Settings.Entry.RemoveDialog.Msg')
+      content: _loc('WW.Settings.Entry.RemoveDialog.Msg')
     });
 
     if (!confirm) return;
@@ -252,12 +266,12 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
   static #addSet(event, button) {
     // Fetch default lists
     const systemDefaults = {
-      languages: CONFIG.WW.DEFAULT_LANGUAGES,
-      senses: CONFIG.WW.DEFAULT_SENSES,
-      immunities: CONFIG.WW.DEFAULT_IMMUNITIES,
-      movementTraits: CONFIG.WW.DEFAULT_MOVEMENT_TRAITS,
-      descriptors: CONFIG.WW.DEFAULT_DESCRIPTORS,
-      weaponTraits: CONFIG.WW.DEFAULT_WEAPON_TRAITS,
+      languages: CONFIG.WW.DEFAULT_ENTRIES.LANGUAGES,
+      senses: CONFIG.WW.DEFAULT_ENTRIES.SENSES,
+      immunities: CONFIG.WW.DEFAULT_ENTRIES.IMMUNITIES,
+      movementTraits: CONFIG.WW.DEFAULT_ENTRIES.MOVEMENT_TRAITS,
+      descriptors: CONFIG.WW.DEFAULT_ENTRIES.DESCRIPTORS,
+      weaponTraits: CONFIG.WW.DEFAULT_ENTRIES.WEAPON_TRAITS,
       afflictions: CONFIG.WW.DEFAULT_AFFLICTIONS
     }
 
@@ -267,11 +281,92 @@ export class EntrySettingsMenu extends HandlebarsApplicationMixin(ApplicationV2)
       ...systemDefaults[this.listKey]
     };
 
-    ui.notifications.info(i18n('WW.Settings.Entry.SetNotification'));
+    ui.notifications.info(_loc('WW.Settings.Entry.SetNotification'));
 
     this.render(true);
   }
 
+  /* -------------------------------------------- */
+  /*  Drag and Drop                               */
+  /* -------------------------------------------- */
+
+  /**
+   * An event that occurs when a drag workflow begins for a draggable item on the sheet.
+   * @param {DragEvent} event       The initiating drag start event
+   * @returns {Promise<void>}
+   * @protected
+   * @override
+   */
+  async _onDragStart(event) {
+    const li = event.currentTarget;
+
+    const dragData =  {
+      listKey: this.options.listKey,
+      entryKey: li.dataset.entryKey,
+      entryName: _loc(li.dataset.entryName),
+      desc: li.dataset.tooltip
+    };
+    
+    // Set data transfer
+    if ( !dragData ) return;
+    event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Callback actions which occur when a dragged element is over a drop target.
+   * @param {DragEvent} event       The originating DragEvent
+   * @protected
+   */
+  _onDragOver(event) {
+    // Do nothing
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Callback actions which occur when a dragged element is dropped on a target.
+   * @param {DragEvent} event       The originating DragEvent
+   * @protected
+   */
+  async _onDrop(event) {
+    const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
+    const newList = {... this.list};
+
+    // Dropped Documents
+    const documentClass = getDocumentClass(data.type);
+    
+    if ( documentClass ) {
+      const document = await documentClass.fromDropData(data);
+
+      if (this.listKey === 'afflictions') {
+        const statusEffect = document.toObject();
+
+        foundry.utils.mergeObject(statusEffect, {
+          type: 'affliction',
+          tint: '#FF0900',
+          id: camelCase(document.name)
+        })
+
+        delete statusEffect._id;
+
+        newList[statusEffect.id] = statusEffect;
+      } else {
+        // Handle non-affliction drops
+      }
+    }
+
+    // Dropped List Entry
+    else if (data.listKey && this.listKey !== 'afflictions') {
+      // Handle list entry drops
+    }
+
+    if (this.list === newList) return;
+
+    this.list = await newList;
+    this.render(true);
+  }
 }
 
 /* Other Subclasses */

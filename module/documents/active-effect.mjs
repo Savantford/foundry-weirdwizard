@@ -1,72 +1,25 @@
-import { i18n, formatTime } from '../helpers/utils.mjs';
+//import { formatTime } from '../helpers/utils.mjs';
+import { escape } from '../helpers/utils.mjs';
 import WWDocumentMixin from './ww-document.mjs';
 
-export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
+export default class WWActiveEffect extends WWDocumentMixin(foundry.documents.ActiveEffect) {
 
   /* -------------------------------------------- */
-  /*  Document Creation                           */
+  /*  Document Lifecycle                          */
   /* -------------------------------------------- */
+  
+  /** @inheritDoc */
+  _onDelete(options, userId) {
+    if (this.isTemporary && this.actor) ChatMessage.create({
+      type: 'status',
+      content: `<p>${this.actor.link}:
+        <a class="content-link" data-tooltip="${escape(this.description)}"><img src="${this.img}"> ${this.name}</a>
+        ${_loc("WW.Effect.Duration.ExpiredMsg")} ${this.formattedDuration}.
+      </p>`,
+      sound: CONFIG.sounds.notification
+    });
 
-  async _preCreate(data, options, user) {
-    this._validateDuration(data, '_preCreate');
-
-    return await super._preCreate(data, options, user);
-  }
-
-  /* -------------------------------------------- */
-  /*  Document Update                             */
-  /* -------------------------------------------- */
-
-  async _preUpdate(changes, options, user) {
-    this._validateDuration(changes, '_preUpdate');
-    
-    return await super._preUpdate(changes, options, user);
-  }
-
-  /* -------------------------------------------- */
-
-  _validateDuration(data, stage) {
-    const selected = data.system?.duration?.selected ?? this.system.duration.selected;
-    const rounds = data.duration?.rounds ?? this.duration.rounds;
-    const minutes = data.system?.duration?.inMinutes ?? this.system.duration.inMinutes;
-    const hours = data.system?.duration?.inHours ?? this.system.duration.inHours;
-    const days = data.system?.duration?.inDays ?? this.system.duration.inDays;
-    
-    const updateData = function(rounds, seconds) {
-      // Stage is probably not needed for this and thus was removed from the check. More testing needed!
-      //if (stage === '_preCreate') this.updateSource({ 'duration.rounds': rounds, 'duration.seconds': seconds });
-      /*else if (stage === '_preUpdate')*/ data = foundry.utils.mergeObject(data, { 'duration.rounds': rounds, 'duration.seconds': seconds });
-    };
-    
-    // Check the selected value and set duration values
-    switch (selected) {
-      // No duration
-      case 'none': updateData(null, null); break;
-
-      // Rounds duration
-      case 'luckEnds': updateData(777, null); break;
-
-      case '1round': updateData(1, null); break;
-      case '2rounds': updateData(2, null); break;
-      case 'Xrounds': updateData(rounds, null); break;
-
-      case 'turnEnd': updateData(1, null); break;
-      case 'nextTriggerTurnStart': updateData(1, null); break;
-      case 'nextTargetTurnStart': updateData(1, null); break;
-      case 'nextTriggerTurnEnd': updateData(1, null); break;
-      case 'nextTargetTurnEnd': updateData(1, null); break;
-
-      // Real World duration
-      case '1minute': updateData(null, 60); break;
-      case 'minutes': if (minutes) updateData(null, minutes * 60); break;
-      case 'hours': if (hours) updateData(null, hours * 60*60); break;
-      case 'days': if (days) updateData(null, days * 60*60*24); break;
-    }
-
-    // Format duration
-    if (rounds === 777) this.system.duration.formatted = 'Luck ends';
-    else if (rounds) this.system.duration.formatted = `${rounds} ${(rounds > 1 ? i18n(rounds + 'Rounds') : i18n(rounds + 'Round'))}`;
-    else this.system.duration.formatted = formatTime(this.duration.seconds);
+    super._onDelete(options, userId);
   }
 
   /* -------------------------------------------- */
@@ -83,29 +36,50 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
    * is queried and has a roll executed directly from it).
   */
   prepareDerivedData() {
-    const system = this.system;
-    
-    // The item which this effect originates from if it has been transferred from an item to an actor
+    super.prepareDerivedData();
+
+    // Record the item which this effect originates from if it has been transferred from an item to an actor
     this.originalItem = (this.parent instanceof Item) ? this.parent : null;
 
-    // Get derived duration variables
-    const key = 'WW.Effect.Duration.';
-    const rounds = this.duration.rounds;
-    const selected = this.system.duration.selected;
-    
-    if (selected !== 'none' && rounds) { // (selected !== 'none') should not be needed post pathsOfJournaling migration
-      // Prepare formatted selected label
-      let str = '';
-      if (selected) {
-        str += i18n(CONFIG.WW.EFFECT_DURATIONS.combat.options[selected]);
-        if (selected !== 'luckEnds') str += ` (${rounds} ${(rounds > 1 ? i18n(key + 'Rounds') : i18n(key + 'Round'))})`;
-        if (selected === 'Xrounds') str = `${rounds} ${(rounds > 1 ? i18n(key + 'Rounds') : i18n(key + 'Round'))}`; // Override if X rounds
-      }
-      
-      this.system.duration.formatted = str;
+    // Prepare formatted duration
+    const dur = this.duration;
+    this.duration.initialLabel = this.formatDurationLabel(dur);
+    this.duration.isRemainingExpired = dur.remaining <= 0 || dur.remaining === Infinity ? true : false;
+  }
 
-    } else this.system.duration.formatted = formatTime(this.duration.seconds);
+  /* -------------------------------------------- */
+
+  formatDurationLabel (duration) {
+    const { value, units } = duration;
     
+    const path = "WW.Effect.Duration.";
+
+    // Permanent
+    if (value === Infinity) return _loc(path + 'Permanent');
+
+    // World time duration (Out of combat)
+    else if (CONST.ACTIVE_EFFECT_TIME_DURATION_UNITS.includes(units)) {
+      // Convert time to seconds - Adapted from _prepareTimeBasedDuration
+      const calendar = game.time.calendar;
+      const durationInMonths = units === "months";
+      const unitsSingular = durationInMonths ? "day": units.slice(0, -1);
+      const avgDaysPerMonth = durationInMonths && calendar.months.values.length
+        ? calendar.days.daysPerYear / calendar.months.values.length
+        : 0;
+      const durationValue = durationInMonths ? Math.ceil(value * avgDaysPerMonth) : value;
+      const seconds = calendar.componentsToTime({[unitsSingular]: durationValue});
+      
+      return game.time.calendar.format(seconds, 'formatDuration');
+    }
+
+    // Combat duration (Turns and rounds)
+    else {
+      const adjusted = value + 1;
+      const unitLabel = adjusted > 1
+        ? (units === 'turns' ? _loc(path + 'Turns') : _loc(path + 'Rounds'))
+        : (units === 'turns' ? _loc(path + 'Turn') : _loc(path + 'Round'));
+      return `${adjusted} ${unitLabel}`;
+    }
   }
 
   /* -------------------------------------------- */
@@ -138,17 +112,6 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
   */
   get factor() {
     return this.system.originalItem?.activeEffectFactor ?? 1;
-  }
-
-  /* -------------------------------------------- */
-  
-  /** @override */
-  get isSuppressed() {
-    // Suppress if parent is an inactive item
-    if (this.parent instanceof Item && !foundry.utils.getProperty(this.parent, 'system.active')) return true;
-
-    // False otherwise
-    return false;
   }
 
   /* -------------------------------------------- */
@@ -185,8 +148,9 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
   */
   get originalCombatant() {
     const document = fromUuidSync(this.origin);
+    if (!document) return null;
 
-    if (document.documentName === 'Item') {
+    if (document?.documentName === 'Item') {
       return document.parent.token?.combatant ?? null;
     } else {
       return document.token?.combatant ?? null;
@@ -199,163 +163,103 @@ export default class WWActiveEffect extends WWDocumentMixin(ActiveEffect) {
   /* -------------------------------------------- */
 
   // Transfer to actor only if the item is passive
-  determineTransfer(){
+  determineTransfer() {
     if (this.system.trigger === 'passive') return true;
     else return false;
   }
 
   /* -------------------------------------------- */
+  /*  Methods                                     */
+  /* -------------------------------------------- */
 
   /**
-   * Apply this ActiveEffect to a provided Actor.
-   * @param {Actor} actor                   The Actor to whom this effect should be applied
-   * @param {EffectChangeData} change       The change data being applied
-   * @returns {Record<string, *>}           An object of property paths and their updated values.
+   * A determination of whether the ActiveEffect's expiry event was reached. This check is independent of whether the
+   * duration was also reached.
+   * @param {string} event     The event that triggered this check
+   * @param {object} [context] Contextual information for use in the determination
+   * @returns {boolean}
    */
+  isExpiryEvent(event, context) {
+    const CORE_EXPIRY_EVENTS = CONST.ACTIVE_EFFECT_EXPIRY_EVENTS
+    const expiry = this.duration.expiry;
+    if ( event === "updateWorldTime" ) {
+      // Expiry is determined by duration alone
+      if ( !expiry ) return true;
+      // Outside of combat, treat any time advancement as satisfying in-combat expiry events
+      return !this.actor?.inCombat && CORE_EXPIRY_EVENTS.includes(expiry) && expiry !== "combatStart";
+    }
+    if ( event !== expiry ) return false;
+    
+    if ( !CORE_EXPIRY_EVENTS.includes(expiry) ) return true;
 
-  apply(actor, change) {
-    // TODO: This method is poorly conceived. Its functionality is static, applying a provided change to an Actor
-    // TODO: When we revisit this in Active Effects V2 this should become an Actor method, or a static method
-    let field;
-    const changes = {};
-    if ( change.key.startsWith("system.") ) {
-      if ( actor.system instanceof foundry.abstract.DataModel ) {
-        field = actor.system.schema.getField(change.key.slice(7));
+    /** @type {Combat|null} */
+    const combat = context.combat ?? game.combat;
+    /** @type {Combatant|null|undefined} */
+    const effectCombatant = combat?.started
+      ? combat === this.start.combat && combat.combatants.get(this.start.combatant)
+        ? combat.combatants.get(this.start.combatant)
+        : combat.getCombatantsByActor(this.actor ?? "")[0]
+      : null;
+    const targetRelative = this.system.targetRelativeTurns;
+    
+    switch ( event ) {
+      case "combatStart":
+      case "combatEnd":
+      case "roundStart":
+      case "roundEnd":
+        return !!effectCombatant;
+      case "turnStart":
+        // Return false if combat hasn't started a or if combat/effect has no combatant
+        if ( !combat?.started || !effectCombatant) return false;
+        
+        // If TARGET is taken into account (nextTargetTurnStart), use effectCombatant
+        if (targetRelative) {
+          if (combat.combatant) return effectCombatant.id === combat.combatant.id; // Prefer matching on combatant
+          else return effectCombatant.turnNumber === combat.turn;                  // Otherwise match turn number
+        
+        // If TRIGGER is taken into account (nextTriggerTurnStart), use originalCombatant
+        } else if (!this.originalCombatant || this.originalCombatant?.id === combat.combatant?.id) return true;
+
+        // Return false otherwise
+        else return false;
+      case "turnEnd": {
+        // Return false if combat hasn't started a or if combat/effect has no combatant
+        if ( !combat?.started || !effectCombatant) return false;
+
+        // Return false if previous combatant does not exist
+        const previousCombatantId = combat.previous.combatantId;
+        if ( !previousCombatantId ) return false;
+
+        // If TARGET is taken into account (nextTargetTurnStart), use effectCombatant
+        if (targetRelative) {
+          if (combat.combatant) return effectCombatant.id === combat.combatant.id; // Prefer matching on combatant
+          else return effectCombatant.turnNumber === combat.turn;                  // Otherwise match turn number
+        
+        // If TRIGGER is taken into account (nextTriggerTurnStart), use originalCombatant
+        } else if (!this.originalCombatant || this.originalCombatant?.id === combat.combatant?.id) return true;
+        
+        // Return false otherwise
+        else return false;
       }
-      // field = actor.system.schema?.getField(change.key.slice(7));
-    } else field = actor.schema.getField(change.key);
-    if ( field ) changes[change.key] = this.constructor.applyField(actor, change, field);
-    else this._applyLegacy(actor, change, changes);
-    return changes;
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Apply this ActiveEffect to a provided Actor using a heuristic to infer the value types based on the current value
-   * and/or the default value in the template.json.
-   * @param {Actor} actor                The Actor to whom this effect should be applied.
-   * @param {EffectChangeData} change    The change data being applied.
-   * @param {Record<string, *>} changes  The aggregate update paths and their updated values.
-   * @protected
-   */
-  _applyLegacy(actor, change, changes) {
-    // Weird Wizard: Save label key and get real change key
-    const labelKey = '' + change.key;
-    change.key = CONFIG.WW.EFFECT_CHANGE_PRESET_KEYS[change.key];
-
-    // Determine the data type of the target field
-    const current = foundry.utils.getProperty(actor, change.key) ?? null;
-    let target = current;
-    if ( current === null ) {
-      const model = game.model.Actor[actor.type] || {};
-      target = foundry.utils.getProperty(model, change.key) ?? null;
-    }
-    const targetType = foundry.utils.getType(target);
-
-    // Weird Wizard: Alter Change Values to negative values if they are meant to be
-    if (labelKey.includes('banes') || (labelKey.toLowerCase().includes('reduce') && !labelKey.includes('health'))) change.value = -change.value;
-
-    // Cast the effect change value to the correct type
-    let delta;
-    try {
-      if ( targetType === "Array" ) {
-        const innerType = target.length ? foundry.utils.getType(target[0]) : "string";
-        delta = this.#castArray(change.value, innerType);
-      }
-      else delta = this.#castDelta(change.value, targetType);
-    } catch(err) {
-      console.warn(`Actor [${actor.id}] | Unable to parse active effect change for ${change.key}: "${change.value}"`);
-      return;
-    }
-
-    // Apply the change depending on the application mode
-    const modes = CONST.ACTIVE_EFFECT_MODES;
-    switch ( change.mode ) {
-      case modes.ADD:
-        this._applyAdd(actor, change, current, delta, changes);
-        break;
-      case modes.MULTIPLY:
-        this._applyMultiply(actor, change, current, delta, changes);
-        break;
-      case modes.OVERRIDE:
-        this._applyOverride(actor, change, current, delta, changes);
-        break;
-      case modes.UPGRADE:
-      case modes.DOWNGRADE:
-        this._applyUpgrade(actor, change, current, delta, changes);
-        break;
       default:
-        this._applyCustom(actor, change, current, delta, changes);
-        break;
+        return false;
     }
-
-    // Apply all changes to the Actor data
-    foundry.utils.mergeObject(actor, changes);
-
-  }
-
-  /* -------------------------------------------- */
-  /*  Static Actions (Unmodified)                 */
-  /* -------------------------------------------- */
-
-  /**
-   * Cast a raw EffectChangeData change string to the desired data type.
-   * @param {string} raw      The raw string value
-   * @param {string} type     The target data type that the raw value should be cast to match
-   * @returns {*}             The parsed delta cast to the target data type
-   */
-  #castDelta(raw, type) {
-    let delta;
-    switch ( type ) {
-      case "boolean":
-        delta = Boolean(this.#parseOrString(raw));
-        break;
-      case "number":
-        delta = Number.fromString(raw);
-        if ( Number.isNaN(delta) ) delta = 0;
-        break;
-      case "string":
-        delta = String(raw);
-        break;
-      default:
-        delta = this.#parseOrString(raw);
-    }
-    return delta;
   }
 
   /* -------------------------------------------- */
 
-  /**
-   * Cast a raw EffectChangeData change string to an Array of an inner type.
-   * @param {string} raw      The raw string value
-   * @param {string} type     The target data type of inner array elements
-   * @returns {Array<*>}      The parsed delta cast as a typed array
-   */
-  #castArray(raw, type) {
-    let delta;
-    try {
-      delta = this.#parseOrString(raw);
-      delta = delta instanceof Array ? delta : [delta];
-    } catch(e) {
-      delta = [raw];
-    }
-    return delta.map(d => this.#castDelta(d, type));
-  }
-
-  /* -------------------------------------------- */
-
-  /**
-   * Parse serialized JSON, or retain the raw string.
-   * @param {string} raw      A raw serialized string
-   * @returns {*}             The parsed value, or the original value if parsing failed
-   */
-  #parseOrString(raw) {
-    try {
-      return JSON.parse(raw);
-    } catch(err) {
-      return raw;
-    }
+  /** 
+   * @override 
+   * 
+   * treat an unset current value as "no baseline to compare against
+   * yet" and apply the incoming delta directly, then fall back to core's
+   * real comparison logic once a base value exists. 
+   * 
+   * */
+  static _applyChangeUpgrade(targetDoc, change, current, delta, changes) {
+    if (current === null || current === undefined) return changes[change.key] = delta;
+    
+    return super._applyChangeUpgrade(targetDoc, change, current, delta, changes);
   }
 
 }

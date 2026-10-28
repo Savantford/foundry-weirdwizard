@@ -1,5 +1,4 @@
 import { makeBooField, makeHtmlField, makeRequiredStrField, makeStrField, makeUuidStrField } from "../field-presets.mjs";
-import { i18n } from "../../helpers/utils.mjs";
 
 export default class GroupModel extends foundry.abstract.TypeDataModel {
 
@@ -10,25 +9,17 @@ export default class GroupModel extends foundry.abstract.TypeDataModel {
     const schema = {
       // Details
       details: new fields.SchemaField({
-        origin: makeHtmlField(`<p>${i18n("WW.Group.OriginDefault")}</p>`),
+        origin: makeHtmlField({ initial: `<p>${_loc("WW.Group.OriginDefault")}</p>` }),
         achievements: makeHtmlField(),
         notes: makeHtmlField()
       }),
 
       // Group Members
       members: new fields.SchemaField({
-        active: new fields.ArrayField(
-          makeUuidStrField()
-        ),
-        inactive: new fields.ArrayField(
-          makeUuidStrField()
-        ),
-        retired: new fields.ArrayField(
-          makeUuidStrField()
-        ),
-        dead: new fields.ArrayField(
-          makeUuidStrField()
-        ),
+        active: new fields.SetField( makeUuidStrField() ),
+        inactive: new fields.SetField( makeUuidStrField() ),
+        retired: new fields.SetField( makeUuidStrField() ),
+        dead: new fields.SetField( makeUuidStrField() ),
       }),
 
       resources: new fields.SchemaField({
@@ -37,18 +28,8 @@ export default class GroupModel extends foundry.abstract.TypeDataModel {
 
       // List Entries
       listEntries: new fields.SchemaField({
-
-        connections: new fields.TypedObjectField(
-          new fields.SchemaField({
-            name: makeStrField(i18n("WW.ListEntry.DefaultName"), 0),
-            desc: makeStrField(),
-            type: makeRequiredStrField('financial'),
-            grantedBy: makeUuidStrField()
-          }, { nullable: true })
-        )
-
+        connections: new fields.SetField( makeStrField() )
       })
-
     }
 
     return schema;
@@ -60,7 +41,7 @@ export default class GroupModel extends foundry.abstract.TypeDataModel {
 
   /**
    * Get the group's max level Character from Active Members list.
-   * @type {integer}
+   * @type {number}
    */
   get maxLevel() {
     const membersArr = [... this.membersList.active].filter(x => x.type === 'character');

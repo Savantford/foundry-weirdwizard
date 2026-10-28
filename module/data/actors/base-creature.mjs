@@ -1,8 +1,7 @@
-import { camelCase, i18n } from "../../helpers/utils.mjs";
-import { makeAttributeField, makeHtmlField, makeIntField, makeFloField, makeStrField, makeUuidStrField } from "../field-presets.mjs";
+import { capitalize } from "../../helpers/utils.mjs";
+import { makeAttributeField, makeHtmlField, makeIntField, makeFloField, makeStrField } from "../field-presets.mjs";
 
 export default class BaseActorModel extends foundry.abstract.TypeDataModel {
-
   /** @inheritdoc */
   static defineSchema() {
     const fields = foundry.data.fields;
@@ -13,17 +12,17 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
       
       // Attributes
       attributes: new fields.SchemaField({
-        str: makeAttributeField('Strength'),
-        agi: makeAttributeField('Agility'),
-        int: makeAttributeField('Intellect'),
-        wil: makeAttributeField('Will')
+        str: makeAttributeField({ label: 'WW.Attributes.Strength' }),
+        agi: makeAttributeField({ label: 'WW.Attributes.Agility' }),
+        int: makeAttributeField({ label: 'WW.Attributes.Intellect' }),
+        wil: makeAttributeField({ label: 'WW.Attributes.Will' })
       }),
 
       // Stats
       stats: new fields.SchemaField({
         defense: new fields.SchemaField({
           total: makeIntField(),
-          natural: makeIntField(10),
+          natural: makeIntField({ initial: 10 }),
           details: makeStrField()
         }),
 
@@ -39,158 +38,108 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
           max: makeIntField()
         }),
 
-        size: makeFloField(1),
+        size: makeFloField({ initial: 1 }),
 
         speed: new fields.SchemaField({
-          normal: makeIntField(5),
+          normal: makeIntField({ initial: 5 }),
           current: makeIntField()
         })
       }),
 
       // List Entries
       listEntries: new fields.SchemaField({
-
-        descriptors: new fields.TypedObjectField(
-          new fields.SchemaField({
-            name: makeStrField(i18n("WW.ListEntry.DefaultName"), 0),
-            desc: makeStrField(),
-            grantedBy: makeUuidStrField()
-          }, {nullable: true})
-        ),
-
-        senses: new fields.TypedObjectField(
-          new fields.SchemaField({
-            name: makeStrField(i18n("WW.ListEntry.DefaultName"), 0),
-            desc: makeStrField(),
-            grantedBy: makeUuidStrField()
-          }, {nullable: true})
-        ),
-
-        languages: new fields.TypedObjectField(
-          new fields.SchemaField({
-            name: makeStrField(i18n("WW.ListEntry.DefaultName"), 0),
-            desc: makeStrField(),
-            grantedBy: makeUuidStrField()
-          }, {nullable: true})
-        ),
-
-        immunities: new fields.TypedObjectField(
-          new fields.SchemaField({
-            name: makeStrField(i18n("WW.ListEntry.DefaultName"), 0),
-            desc: makeStrField(),
-            grantedBy: makeUuidStrField()
-          }, {nullable: true})
-        ),
-
-        movementTraits: new fields.TypedObjectField(
-          new fields.SchemaField({
-            name: makeStrField(i18n("WW.ListEntry.DefaultName"), 0),
-            desc: makeStrField(),
-            grantedBy: makeUuidStrField()
-          }, {nullable: true})
-        )
-
+        descriptors: new fields.SetField( makeStrField() ),
+        immunities: new fields.SetField( makeStrField() ),
+        languages: new fields.SetField( makeStrField() ),
+        movementTraits: new fields.SetField( makeStrField() ),
+        senses: new fields.SetField( makeStrField() )
       })
-      
     };
 
     return schema;
   }
 
+  /** @inheritdoc */
+  prepareDerivedData() {
+    super.prepareDerivedData();
+    
+    this.stats.sizeFraction = game.weirdwizard.utils.nearestFraction(this.stats.size);
+  }
+
   /**
    * Migrate source data from some prior format into a new specification.
-   * The source parameter is either original data retrieved from disk or provided by an update operation.
+   * The data parameter is either original data retrieved from disk or provided by an update operation.
    * @inheritDoc
    */
-  static migrateData(source) {
-    // Migrate List Entries
-    if (typeof source.details?.type === 'string') { // Types
-      const arr = source.details.type.split(",");
-      source.details.types = arr.filter(s => s).map((s) => ({ name: s.trim() }));
-    }
-
-    // Migrate Types to Descriptors
-    if (source.details?.types && !source.details?.descriptors) source.details.descriptors = source.details.types;
-
-    if (typeof source.details?.senses === 'string') { // Senses
-      const arr = source.details.senses.split(",");
-      source.details.senses = arr.filter(s => s).map((s) => ({ name: s.trim() }));
-    }
-    
-    if (typeof source.details?.languages === 'string') { // Languages
-      const arr = source.details.languages.split(",");
-      source.details.languages = arr.filter(s => s).map((s) => ({ name: s.trim() }));
-    }
-
-    if (typeof source.details?.immune === 'string') { // Immune
-      const arr = source.details.immune.split(",");
-      source.details.immune = arr.filter(s => s).map((s) => ({ name: s.trim() }));
-    }
-
-    if (typeof source.stats?.speed?.special === 'string') { // Movement Traits (Speed Special)
-      const arr = source.stats.speed.special.split(",");
-      source.details.movementTraits = arr.filter(s => s).map((s) => ({ name: s.trim() }));
-    }
-
+  static migrateData(data) {
     // Migrate Level
-    if (isNaN(source.stats?.level)) {
+    if (isNaN(data.stats?.level)) {
 
-      switch (source.stats?.level) {
-        case '⅛': source.stats.level = 0.125; break;
-        case '¼': source.stats.level = 0.25; break;
-        case '½': source.stats.level = 0.5; break;
+      switch (data.stats?.level) {
+        case '⅛': data.stats.level = 0.125; break;
+        case '¼': data.stats.level = 0.25; break;
+        case '½': data.stats.level = 0.5; break;
       }
     }
 
     // Migrate Size
-    if (isNaN(source.stats?.size)) {
+    if (isNaN(data.stats?.size)) {
 
-      switch (source.stats?.size) {
-        case '⅛': source.stats.size = 0.125; break;
-        case '¼': source.stats.size = 0.25; break;
-        case '½': source.stats.size = 0.5; break;
+      switch (data.stats?.size) {
+        case '⅛': data.stats.size = 0.125; break;
+        case '¼': data.stats.size = 0.25; break;
+        case '½': data.stats.size = 0.5; break;
       }
     }
 
     // Migrate damage.raw to damage.value
-    if ('stats' in source && !source.stats?.damage?.raw && source.stats?.damage?.value) source.stats.damage.raw = source.stats?.damage?.value;
+    if ('stats' in data && !data.stats?.damage?.raw && data.stats?.damage?.value) data.stats.damage.raw = data.stats?.damage?.value;
 
     // Migrate immune to immunities
-    if ('details' in source && source.details?.immune) source.details.immunities = source.details.immune;
+    if ('details' in data && data.details?.immune) data.details.immunities = data.details.immune;
 
-    // Migrate entry lists from array to object to system.listEntries
-    if ('details' in source) {
-      const listKeys = ['senses', 'descriptors', 'languages', 'immunities', 'movementTraits', 'traditions'];
-      
-      for (const key in source.details) {
-        const prop = source.details[key];
-        
-        // Check for the listKeys and if it's an array
-        if (source.details.hasOwnProperty(key) && listKeys.includes(key)) {
-          if (Array.isArray(prop)) {
-            if (prop.length) {
-              const map = prop.map(value => [value.name ? camelCase(value.name) : camelCase(value), value]);
-
-              if (!source.listEntries) source.listEntries = {};
-
-              source.listEntries[key] = Object.fromEntries(map);
-            } 
-          } 
-        }
-      } 
+    // Migrate legacy Traditions
+    if (typeof data.details?.traditions === 'string') {
+      const arr = data.details.traditions.split(",");
+      data.details.traditions = arr.filter(s => s).map((s) => ({ name: s.trim() }));
     }
 
-    // Migrate invalid UUIDs
-    if ('listEntries' in source) {
-      for (const [listKey, list] of Object.entries(source.listEntries)) {
-        for (const [entryKey, entry] of Object.entries(list)) {
-          if (!entry?.grantedBy) continue;
-          if (!entry.grantedBy.includes('.')) source.listEntries[listKey][entryKey].grantedBy = null;
+    // Migrate details to list entries
+    const listKeys = ['senses', 'descriptors', 'languages', 'immunities', 'movementTraits'];
+    
+    if ('details' in data) {
+      if (!data.listEntries) data.listEntries = [];
+
+      for (const propKey in data.details) {
+        const prop = data.details[propKey];
+        
+        // Check for the listKeys and if it's an array
+        if (Object.hasOwn(data.details, propKey) && listKeys.includes(propKey)) {
+          if (Array.isArray(prop) && prop.length) data.listEntries.push(prop);
+        }
+      }
+    }
+    
+    // Migrate list entries: Object of objects to set of keys
+    if ('listEntries' in data) {
+      for (const [listKey, list] of Object.entries(data.listEntries)) {
+        if (listKeys.includes(listKey) && foundry.utils.getType(list) === "Object") {
+          // Get respective settings
+          const settings = listKey === 'traditions' ? null : game.settings.get('weirdwizard', 'available' + capitalize(listKey, 1));
+          const set = new Set();
+          
+          // Convert entry object to appropriate key/name strings
+          for (const [entryKey, entry] of Object.entries(list)) {
+            const setting = settings?.[entryKey];
+            
+            if (setting || !entry?.name) set.add(entryKey); else set.add(entry.name);
+          }
+          
+          data.listEntries[listKey] = set;
         }
       }
     }
 
-    return source;
+    return data;
   }
-
 }

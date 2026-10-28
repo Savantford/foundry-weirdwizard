@@ -1,4 +1,4 @@
-import { makeStrField, makeBooField, makeIntField, makeHtmlField, makeUuidStrField, makeRequiredStrField } from '../field-presets.mjs';
+import { makeStrField, makeBooField, makeIntField, makeHtmlField, makeUuidStrField, makeRequiredStrField, makeNumField } from '../field-presets.mjs';
 
 export default class BaseItemModel extends foundry.abstract.TypeDataModel {
   /** @inheritdoc */
@@ -7,13 +7,13 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
 
     const schema = {
       description: makeHtmlField(),
-      active: makeBooField(true),
+      active: makeBooField({ initial: true }),
       grantedBy: makeUuidStrField(),
       usedBy: new fields.ArrayField(
         makeUuidStrField()
       ),
 
-      magical: makeBooField(false),
+      magical: makeBooField(),
       attribute: makeStrField(), // Make it required maybe
       against: makeStrField(), // Make it required maybe
 
@@ -24,30 +24,46 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
       }),
       boonsAlt: makeStrField(),
 
-      range: makeIntField(),
       affliction: makeStrField(), // Make it required maybe
 
       uses: new fields.SchemaField({
         value: makeIntField(),
         max: makeIntField(),
-        onRest: makeBooField(true),
-        levelRelative: makeRequiredStrField('manual')
+        onRest: makeBooField({ initial: true }),
+        levelRelative: makeRequiredStrField({ initial: 'manual' })
       }),
 
       healing: makeStrField(),
       instant: new fields.ArrayField(
         new fields.ObjectField({
           label: makeStrField(),
-          trigger: makeRequiredStrField('onUse'),
-          target: makeRequiredStrField('tokens'),
+          trigger: makeRequiredStrField({ initial: 'onUse' }),
+          target: makeRequiredStrField({ initial: 'tokens' }),
           value: makeStrField()
         })
       ),
 
-      targeting: makeRequiredStrField('manual'),
-      template: new fields.SchemaField({
-        type: makeRequiredStrField('size'),
-        value: makeIntField(5)
+      // Targeting & scene region template
+      targeting: new fields.SchemaField({
+        operation: makeRequiredStrField({ initial: 'none' }),
+        range: makeIntField({ initial: 0 }),
+        method: makeRequiredStrField({ initial: 'manual' }),
+        restriction: makeRequiredStrField({ initial: 'any' })
+      }),
+
+      // Area (Scene Region) template
+      area: new fields.SchemaField({
+        shape: makeRequiredStrField({ initial: 'circle' }),
+        measure: makeIntField({ initial: 5 }),
+        width: makeIntField({ initial: 1 }), // Line only
+        attached: makeBooField({ initial: true }), // Emanation only
+        color: new fields.ColorField(),
+
+        restriction: new fields.SchemaField({
+          enabled: makeBooField({ initial: true }),
+          type: makeRequiredStrField({ initial: 'move' }),
+          priority: makeIntField({ initial: 0 })
+        })
       })
 
     };
@@ -69,8 +85,38 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
       if (source.grantedBy === 'jYwMjI0baL87WX3c') source.grantedBy = 'JournalEntry.LMmphPzAYiO8vOgI.JournalEntryPage.jYwMjI0baL87WX3c';
       else if (!source.grantedBy?.includes('.')) source.grantedBy = null;
     }
+
+    // Migrate targeting and area settings
+    if (typeof source.targeting === 'string') {
+      const needTargeting = source.range || source.targeting === 'template' || source.against;
+      
+      source.targeting = {
+        operation: needTargeting ? 'target' : 'none',
+        method: source.targeting === 'template' ? 'area' : 'manual'
+      }
+    }
+
+    if (source.range) foundry.utils.setProperty(source, 'targeting.range', source.range);
+
+    if (source.template?.value) foundry.utils.setProperty(source, 'area.measure', source.template.value);
+
+    // Migrate Area Size / Radius to Measure
+    if ('area' in source) {
+      const a = source.area;
+      
+      if (a.shape === 'emanation' && a.radius) foundry.utils.setProperty(source, 'area.measure', a.radius);
+      else if (a.shape === 'circle' && a.size) foundry.utils.setProperty(source, 'area.measure', a.size);
+    }
+
+    // Migrate half damage
+    const instEffs = source.instant;
+    
+    if (instEffs?.length) {
+      for (const eff of instEffs) {
+        if (eff.value.includes('dmg.half')) eff.value = eff.value.replace('dmg.half', 'damageHalf');
+      }
+    }
     
     return source;
   }
-
 }

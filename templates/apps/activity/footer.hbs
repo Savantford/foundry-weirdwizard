@@ -1,0 +1,14 @@
+<footer class="form-footer flex-flow">
+  {{!-- Message Mode --}}
+  <div class="message-modes split-button">
+    {{#each messageModes as |mode|}}
+    <button type="button" class="ui-control icon {{mode.icon}}" data-action="messageMode" data-mode="{{mode.action}}"
+      aria-pressed="{{mode.active}}" data-tooltip aria-label="{{localize mode.label}}"></button>
+    {{/each}}
+  </div>
+
+  {{!-- Confirm button --}}
+  <button type="submit" id="boons-submit" data-action="confirm" {{#if (and needTargets (not validTargets.length))}}class="red" data-tooltip="WW.Activity.Target.ExpectHint"{{/if}}>
+    <i class="fa-solid fa-dice"></i> {{localize "WW.Activity.Confirm"}}
+  </button>
+</footer>

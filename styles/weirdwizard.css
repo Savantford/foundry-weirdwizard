@@ -15,6 +15,7 @@ body {
   /* Colors */
   --body-text-color: #000000;
   --placeholder-text-color: #777777;
+  --disabled-text-color: #555555;
   --gray: #BCBEC0;
   --pink: #DBD3DC;
   --pink-medium: #D2C8D3;
@@ -313,13 +314,13 @@ body.theme-dark,
 }
 
 .flex,
-.flex-children>* {
+.flex-children > * {
   display: flex;
   gap: 5px;
   align-items: center;
 }
 
-.flex-children.baseline>* {
+.flex-children.baseline >*  {
   align-items: baseline;
 }
 
@@ -346,6 +347,10 @@ body.theme-dark,
 
 .gap-5 {
   gap: 5px;
+}
+
+.gap-10 {
+  gap: 5px 10px;
 }
 
 .gap-20 {
@@ -555,6 +560,16 @@ body.theme-dark,
   font-weight: 600;
 }
 
+.weirdwizard img.mini-icon,
+#entry-settings-menu img.mini-icon {
+  height: 1lh;
+  width: auto;
+}
+
+.weirdwizard img.mini-icon.circle {
+  border-radius: 50%;
+}
+
 /* -------------------------------------------- */
 /*  General Sheet / App Style                   */
 /* -------------------------------------------- */
@@ -602,7 +617,7 @@ body.theme-dark.application.weirdwizard .window-content {
   /* Readjust on some sheets */
 }
 
-.application.weirdwizard.sheet:not(.roll-table-sheet) .window-content {
+.application.weirdwizard.sheet:not(.roll-table-sheet):not(.active-effect-config) .window-content {
   padding-right: 0.25rem;
 }
 
@@ -708,11 +723,13 @@ body.theme-dark.application.weirdwizard .window-content {
 .weirdwizard .window-content h3:first-child,
 .weirdwizard .window-content h4:first-child,
 .weirdwizard .window-content h5:first-child,
+.weirdwizard .window-content h6:first-child,
 .journal-entry-page h1:first-child:not(.window-title),
 .journal-entry-page h2:first-child,
 .journal-entry-page h3:first-child,
 .journal-entry-page h4:not(.window-title):first-child,
-.journal-entry-page h5:first-child {
+.journal-entry-page h5:first-child,
+.journal-entry-page h6:first-child {
   margin-top: 0px;
 }
 
@@ -802,6 +819,7 @@ body.theme-dark.application.weirdwizard .window-content {
   font-size: var(--font-size-15);
   letter-spacing: 0.01em;
   text-align: left;
+  text-indent: 0;
   background: var(--pink);
   box-shadow: 0 0 1px 0 var(--purple-medium);
   border: none;
@@ -810,7 +828,7 @@ body.theme-dark.application.weirdwizard .window-content {
 }
 
 /* Heading 5: Descriptors and Invividual Traits */
-.weirdwizard .window-content h5.descriptors,
+.weirdwizard.view-mode .window-content h5.descriptors,
 .weirdwizard .window-content h5.individual-traits {
   display: flex;
   flex-flow: wrap;
@@ -828,9 +846,14 @@ body.theme-dark.application.weirdwizard .window-content {
 
 .weirdwizard .window-content h5.individual-traits {
   font-variant-caps: normal;
+  padding: 0px 5px;
   border-image-slice: 11 fill;
   border-image-width: 45px 80px;
   border-image-outset: 0 7px 0 0;
+}
+
+.weirdwizard.edit-mode .window-content h5.descriptors {
+  margin-top: 5px;
 }
 
 .weirdwizard .descriptors .buttons i {
@@ -893,56 +916,62 @@ body.theme-dark.application.weirdwizard .window-content {
 /* INPUT FIELDS */
 
 /* Remove padding */
-.weirdwizard.sheet input,
-.weirdwizard.sheet select,
-.weirdwizard.sheet textarea {
-  padding: 0px;
+.weirdwizard.sheet {
+  input,
+  select,
+  textarea {
+    padding: 0px;
+  }
 }
 
 /* Style App V2 Inputs */
-.weirdwizard.application input[type="text"],
-.weirdwizard.application input[type="search"] {
-  --input-placeholder-color: var(--placeholder-text-color);
-  background: var(--background-color-shadow);
-  border-radius: 1px;
-  padding: 0;
-  line-height: normal;
-  height: auto;
-  min-height: 1lh;
-  font-size: inherit;
-  color: inherit;
-  font-weight: inherit;
-}
+.weirdwizard.application {
+  input[type=text],
+  input[type=search] {
+    --input-text-color: var(--body-text-color);
+    --input-placeholder-color: var(--placeholder-text-color);
+    --input-background-color: var(--background-color-shadow);
+    border-radius: 1px;
+    padding: 0;
+    line-height: normal;
+    height: auto;
+    min-height: 1lh;
+  }
 
-.weirdwizard.application textarea {
-  --input-placeholder-color: var(--placeholder-text-color);
-  background: var(--background-color-shadow);
-  border-radius: 1px;
-  width: 100%;
-  min-height: 2lh;
-  color: inherit;
-  font-family: inherit;
+  textarea {
+    --input-placeholder-color: var(--placeholder-text-color);
+    --input-background-color: var(--background-color-shadow);
+    border-radius: 1px;
+    width: 100%;
+    min-height: 2lh;
+    color: inherit;
+    font-family: inherit;
+  }
 }
 
 /* Remove border and background from inputs/selects/textareas not hovered */
 .weirdwizard.sheet .window-content {
-  input[type="number"],
-  input[type="text"],
+  input[type=number],
+  input[type=text],
   select,
-  textarea {
+  textarea,
+  color-picker {
     --input-text-color: var(--body-text-color);
-    background: var(--background-color-shadow);
+    --input-placeholder-color: var(--placeholder-text-color);
+    --input-background-color: var(--background-color-shadow);
     border: 1px solid transparent;
+  }
+
+  input[type=number]:disabled,
+  input[type=text]:disabled,
+  select:disabled,
+  textarea:disabled {
+    --input-text-color: var(--disabled-text-color);
   }
 
   input[type="checkbox"] {
     height: var(--checkbox-size);
   }
-}
-
-.weirdwizard.sheet input:hover,
-.weirdwizard.sheet input:focus {
-  background: none;
 }
 
 .weirdwizard input:hover:not([disabled]) {
@@ -956,7 +985,22 @@ body.theme-dark.application.weirdwizard .window-content {
   line-height: normal;
 }
 
-.weirdwizard.sheet.creature input[type="number"] {
+.weirdwizard.sheet.item color-picker {
+  height: auto;
+
+  input[type=text] {
+    height: auto;
+    background: none;
+  }
+
+  input[type=color] {
+    height: 20px;
+    margin: 0;
+  }
+}
+
+.weirdwizard.sheet.creature input[type=number],
+.weirdwizard input[name*="sizeFraction"] {
   min-width: 2.5ch;
   max-width: 4.5ch;
 }
@@ -1000,18 +1044,51 @@ body.theme-dark.application.weirdwizard .window-content {
 
 /* Selects dropdown */
 .weirdwizard select {
-  --input-background-color: transparent;
+  --input-text-color: var(--body-text-color);
   --input-placeholder-color: var(--placeholder-text-color);
+  --input-background-color: var(--background-color-shadow);
+  border: 1px solid transparent;
   height: auto;
   width: max-content;
   min-height: 1lh;
   line-height: normal;
   padding: 0;
-  color: var(--body-text-color);
 }
 
-.weirdwizard select:hover {
+.weirdwizard select:hover:not([disabled]) {
   outline: 2px solid var(--input-focus-outline-color);
+}
+
+/* File select */
+.weirdwizard color-picker,
+.weirdwizard file-picker,
+.weirdwizard formula-input,
+.weirdwizard :is(document-tags, string-tags) > .input-group {
+  --input-text-color: var(--body-text-color);
+  --input-placeholder-color: var(--placeholder-text-color);
+  --input-background-color: var(--background-color-shadow);
+  border: 1px solid transparent;
+}
+
+.weirdwizard.application .window-content {
+  color-picker > input[type=text],
+  file-picker > input[type=text],
+  formula-input > input[type=text],
+  :is(document-tags, string-tags) > .input-group > input[type=text] {
+    --input-background-color: transparent;
+    --input-box-shadow: none;
+    --input-focus-outline-color: transparent;
+    border: none;
+    padding-right: 0;
+  }
+
+  color-picker > button,
+  file-picker > button,
+  formula-input > button,
+  :is(document-tags, string-tags) > .input-group > button {
+    --button-text-color: var(--body-text-color);
+    --button-hover-text-color: var(--body-text-color);
+}
 }
 
 /* Text Areas */
@@ -1129,6 +1206,9 @@ body.theme-dark.application.weirdwizard .window-content {
     color: var(--body-text-color);
     font-style: italic;
     font-family: var(--ww-font-fancy);
+  }
+
+  .edit-mode .individual-traits {
     padding: 0px 5px;
   }
 
@@ -1198,49 +1278,6 @@ body.theme-dark.application.weirdwizard .window-content {
   }
 }
 
-/* NPC: Attributes */
-.weirdwizard.sheet.npc .attributes {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 5px 0;
-
-  .stat {
-    --stat-size: 55px;
-    flex: 1;
-    height: var(--stat-size);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: var(--purple-dark);
-    font-weight: 600;
-    background: url(/systems/weirdwizard/assets/ui/badges/npc-attribute.svg) no-repeat;
-    background-position: center;
-    background-size: contain;
-
-    > div {
-      display: flex;
-      flex-flow: column;
-      width: var(--stat-size);
-      padding-left: 2px;
-
-      >*:first-child {
-        font-size: var(--font-size-12);
-      }
-
-      >*:last-child {
-        font-size: var(--font-size-16);
-      }
-    }
-
-    > a {
-      width: calc(var(--stat-size) / 2 + 5px);
-      padding-right: 7px;
-    }
-  }
-}
-
 /* NPC: Stats */
 .weirdwizard.sheet.npc .npc-stats {
   display: flex;
@@ -1273,12 +1310,12 @@ body.theme-dark.application.weirdwizard .window-content {
       justify-content: center;
       width: var(--stat-size);
       height: var(--stat-size);
-      background: url(/systems/weirdwizard/assets/ui/badges/octagonal.svg) no-repeat;
+      background: url(../assets/ui/badges/octagonal.svg) no-repeat;
       background-position: center;
       background-size: contain;
       color: var(--body-text-color);
-      font-family: var(--ww-font-sans);
-      font-weight: 600;
+      font-family: var(--ww-font-serif);
+      font-weight: 800;
     }
 
     .stat-content {
@@ -1307,87 +1344,98 @@ body.theme-dark.application.weirdwizard .window-content {
 /*  Sheet Navigation Tabs                       */
 /* -------------------------------------------- */
 
-.weirdwizard.sheet:not(.roll-table-sheet) nav.tabs {
+.weirdwizard.sheet:not(.roll-table-sheet) {
   --tab-full-width: 44px;
   --tab-inactive-width: 32px;
-  position: absolute;
-  left: 100%;
-  top: var(--header-height);
-  width: max-content;
-  display: flex;
-  margin: 0;
-  font-family: var(--ww-font-fancy);
-  font-size: var(--font-size-14);
-  font-weight: 600;
-  text-transform: uppercase;
-  z-index: -1;
 
-  >div {
-    display: flex;
-    flex-grow: 1;
-    min-width: 18rem;
-    gap: 2px 2px;
-  }
-
-  [data-tab] {
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    width: var(--tab-inactive-width);
-    height: 40px;
-    background-color: var(--purple-dark);
-    border: 1px solid transparent;
-    border-radius: 0 8px 8px 0;
-    padding: 0;
-    padding-inline-end: 6px;
-    transition: all 250ms ease;
-    box-shadow: 5px 4px 5px -4px black;
-  }
-
-  [data-tab].active,
-  [data-tab]:hover {
-    background: var(--paper-bg);
-    width: var(--tab-full-width);
-  }
-
-  [data-tab]:hover {
-    text-shadow: none;
-  }
-
-  [data-tab]:first-of-type {
-    padding: 0;
-    padding-inline-end: 6px;
-  }
-
-  [data-tab]>img {
+  nav.tabs {
     position: absolute;
-    width: var(--sheet-tabs-icon-height);
-    transition: all 250ms ease;
-  }
+    left: 100%;
+    top: calc(var(--header-height) + 1px);
+    width: max-content;
+    display: flex;
+    margin: 0;
+    font-family: var(--ww-font-fancy);
+    font-size: var(--font-size-14);
+    font-weight: 600;
+    text-transform: uppercase;
+    z-index: -1;
 
-  [data-tab].active>img,
-  [data-tab]:hover>img {
-    filter: brightness(0) saturate(100%) invert(14%) sepia(39%) saturate(1426%) hue-rotate(252deg) brightness(94%) contrast(90%) drop-shadow(0 0 1px white);
-  }
+    >div {
+      display: flex;
+      flex-grow: 1;
+      min-width: 18rem;
+      gap: 2px 2px;
+    }
 
-  [data-tab]>i {
-    width: var(--sheet-tabs-icon-height);
-    font-size: calc(var(--sheet-tabs-icon-height) - 6px);
-    text-align: center;
-    vertical-align: middle;
-  }
+    [data-tab] {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: end;
+      align-items: center;
+      width: var(--tab-inactive-width);
+      height: 40px;
+      background-color: var(--purple-dark);
+      border: 1px solid transparent;
+      border-radius: 0 8px 8px 0;
+      padding: 0;
+      padding-inline-end: 6px;
+      transition: all 250ms ease;
+      box-shadow: 5px 4px 5px -4px black;
+    }
 
+    [data-tab].active,
+    [data-tab]:hover {
+      background: var(--paper-bg);
+      width: var(--tab-full-width);
+    }
+
+    [data-tab]:hover {
+      text-shadow: none;
+    }
+
+    [data-tab]:first-of-type {
+      padding: 0;
+      padding-inline-end: 6px;
+    }
+
+    [data-tab]>img {
+      position: absolute;
+      width: var(--sheet-tabs-icon-height);
+      transition: all 250ms ease;
+    }
+
+    [data-tab].active>img,
+    [data-tab]:hover>img {
+      filter: brightness(0) saturate(100%) invert(14%) sepia(39%) saturate(1426%) hue-rotate(252deg) brightness(94%) contrast(90%) drop-shadow(0 0 1px white);
+    }
+
+    [data-tab]>i {
+      width: var(--sheet-tabs-icon-height);
+      font-size: calc(var(--sheet-tabs-icon-height) - 6px);
+      text-align: center;
+      vertical-align: middle;
+    }
+  }
+}
+
+/* Detached Window Adjustments */
+.detached .application.weirdwizard.sheet:not(.roll-table-sheet) {
+  padding-right: var(--tab-full-width);
+
+  .window-content:has(nav.tabs) {
+    padding-right: 44px;
+
+    nav.tabs {
+      left: calc(100% - var(--tab-full-width));
+      z-index: 0;
+    }
+  }
 }
 
 .weirdwizard.sheet nav.tabs.icon-only [data-tab] span {
   display: none;
-}
-
-.weirdwizard.sheet.character nav.tabs,
-.weirdwizard.sheet.npc nav.tabs {
-  top: var(--header-height);
 }
 
 /* Edit Mode Toggle */
@@ -1436,8 +1484,7 @@ body.theme-dark.application.weirdwizard .window-content {
 .weirdwizard.sheet.active-effect-config,
 .weirdwizard.sheet.group {
   header.sheet-header {
-    padding-right: 0.75rem;
-    padding-left: 0.75rem;
+    padding-left: 1rem;
     gap: 0;
 
     img[data-edit] {
@@ -1490,6 +1537,13 @@ body.theme-dark.application.weirdwizard .window-content {
   height: 100%;
 }
 
+.weirdwizard.sheet.group {
+  header.sheet-header {
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+  }
+}
+
 /* Sheet Name Stripe */
 .weirdwizard .name-stripe {
   height: var(--sheet-name-stripe-height);
@@ -1507,7 +1561,7 @@ body.theme-dark.application.weirdwizard .window-content {
   margin: -0.5em 0.5em 0.5em calc(var(--sheet-banner-width) - 0.5rem);
   filter: drop-shadow(1px 0 1px black);
 
-  >*:first-child {
+  > *:first-child {
     flex: 1;
   }
 
@@ -1813,7 +1867,6 @@ body.theme-dark.application.weirdwizard .window-content {
 
 /* Equipment Sheet */
 .weirdwizard.equipment {
-
   .weapon-traits {
     width: 100%;
 
@@ -1850,9 +1903,14 @@ body.theme-dark.application.weirdwizard .window-content {
     width: 100%;
     font-size: var(--font-size-16);
 
-    input[type="number"] {
+    input[type=number] {
       --input-text-color: inherit;
     }
+  }
+
+  .list-entries {
+    flex-flow: nowrap;
+    gap: 0;
   }
 }
 
@@ -1883,7 +1941,7 @@ body.theme-dark.application.weirdwizard .window-content {
 }
 
 /* Profile Image: Circle */
-.weirdwizard .circle {
+.weirdwizard .circle:not(img) {
   display: grid;
   grid-template-areas: "layer";
   place-items: center;
@@ -1968,7 +2026,7 @@ body.theme-dark.application.weirdwizard .window-content {
         flex: 0;
       }
 
-      input[type="number"] {
+      input[type=number] {
         min-width: 2.5ch;
         padding: 0;
         min-height: 1lh;
@@ -2024,7 +2082,7 @@ body.theme-dark.application.weirdwizard .window-content {
   }
 }
 
-.weirdwizard.character .circle {
+.weirdwizard.character .circle:not(img) {
   .stat.luck {
     --icon: url(../assets/icons/circle-luck.svg);
     background-position: calc(50% + 1px) calc(50% + 1px);
@@ -2036,7 +2094,7 @@ body.theme-dark.application.weirdwizard .window-content {
   }
 }
 
-.weirdwizard.npc .circle {
+.weirdwizard.npc .circle:not(img) {
   --radius: 55px;
   outline-offset: 3px;
   margin: 12px auto;
@@ -2058,7 +2116,7 @@ body.theme-dark.application.weirdwizard .window-content {
   }
 }
 
-.weirdwizard .sheet-banner:hover .circle {
+.weirdwizard .sheet-banner:hover .circle:not(img) {
 
   .stat.luck,
   .stat.rest {
@@ -2195,6 +2253,50 @@ body.theme-dark.application.weirdwizard .window-content {
   padding: 0;
 }
 
+.weirdwizard .health-buttons {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--health-number-width);
+  z-index: 2;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+  opacity: 0;
+
+  > * {
+    display: flex;
+    flex-flow: column;
+    gap: 3px;
+
+    a.button {
+      background: none;
+      border: none;
+      padding: 0;
+      height: 1lh;
+      min-height: auto;
+      pointer-events: all;
+
+      i {
+        font-weight: 500;
+        color: white;
+        text-shadow: 0 0 2px var(--purple-dark), 0 0 2px var(--purple-dark), 0 0 2px var(--purple-dark), 0 0 2px var(--purple-dark);
+      }
+    }
+  }
+}
+
+.weirdwizard.npc .health-buttons {
+  left: 36px;
+  right: -5px;
+}
+
+.weirdwizard .health-wrapper:hover .health-buttons {
+  opacity: 1;
+}
+
 .weirdwizard .health-wrapper .stat {
   width: var(--health-number-width);
   height: var(--sheet-input-height);
@@ -2233,7 +2335,7 @@ body.theme-dark.application.weirdwizard .window-content {
   justify-content: center;
   width: var(--stat-size);
   height: var(--stat-size);
-  background: url(/systems/weirdwizard/assets/ui/badges/shield.svg) no-repeat;
+  background: url(../assets/ui/badges/shield.svg) no-repeat;
   background-position: center;
   background-size: contain;
   margin: 0;
@@ -2287,6 +2389,51 @@ body.theme-dark.application.weirdwizard .window-content {
 
 .weirdwizard .health-temporary:hover {
   background: mediumpurple;
+}
+
+/* NPC Attribute Banners */
+.weirdwizard .attribute-banners {
+  display: flex;
+  justify-content: space-evenly;
+  font-family: var(--ww-font-sans);
+  margin: 0 5px;
+
+  > * {
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+    gap: 5px;
+    border-image: url(../assets/ui/banners/pink-outline.svg);
+    border-image-slice: 15 fill;
+    border-image-width: 15px;
+    padding: 5px 4px 10px;
+    color: var(--purple-dark);
+    font-weight: 600;
+
+    > * {
+      line-height: 1;
+    }
+  }
+
+  .score {
+    font-size: large;
+  }
+
+  img {
+    flex: 0;
+    height: auto;
+    filter: drop-shadow(0 0 1px gray);
+    margin-top: auto;
+  }
+
+  .str,
+  .wil {
+    margin-bottom: 5px;
+  }
+
+  label {
+    font-weight: 600;
+  }
 }
 
 /* Character Stats */
@@ -2374,63 +2521,18 @@ body.theme-dark.application.weirdwizard .window-content {
   width: var(--stat-size);
   height: var(--stat-size);
   line-height: normal;
-  background: url(/systems/weirdwizard/assets/ui/badges/octagonal.svg) no-repeat;
+  background: url(../assets/ui/badges/octagonal.svg) no-repeat;
   background-position: center;
   background-size: contain;
 }
 
 .weirdwizard .character-stats .stat.defense > div {
-  background-image: url(/systems/weirdwizard/assets/ui/badges/shield.svg);
+  background-image: url(../assets/ui/badges/shield.svg);
 }
 
 .weirdwizard .character-stats .stat.bonus-damage > div {
-  background-image: url(/systems/weirdwizard/assets/ui/badges/spiked.svg);
+  background-image: url(../assets/ui/badges/spiked.svg);
   --stat-size: 55px;
-}
-
-/* NPC Attribute Banners */
-.weirdwizard .attribute-banners {
-  display: flex;
-  justify-content: space-evenly;
-  font-family: var(--ww-font-sans);
-  margin: 0 5px;
-
-  > * {
-    flex: 1;
-    display: flex;
-    flex-flow: column;
-    gap: 5px;
-    border-image: url(../assets/ui/banners/pink-outline.svg);
-    border-image-slice: 15 fill;
-    border-image-width: 15px;
-    padding: 5px 4px 10px;
-    color: var(--purple-dark);
-    font-weight: 600;
-
-    > * {
-      line-height: 1;
-    }
-  }
-
-  .score {
-    font-size: large;
-  }
-
-  img {
-    flex: 0;
-    height: auto;
-    filter: drop-shadow(0 0 1px gray);
-    margin-top: auto;
-  }
-
-  .str,
-  .wil {
-    margin-bottom: 5px;
-  }
-
-  label {
-    font-weight: 600;
-  }
 }
 
 hr.spear {
@@ -2456,27 +2558,25 @@ hr.bug {
 /* Attack Rider */
 .statbox .attack-rider {
   text-align: left;
-}
+  margin-left: 1.5em;
+  text-indent: -1em;
 
-.statbox .attack-rider {
-  margin-left: 5px;
-}
+  > label {
+    font-weight: 600;
+    color: var(--purple-dark);
+  }
 
-.statbox .attack-rider > label {
-  font-weight: 600;
-  color: var(--purple-dark);
-}
+  > p {
+    margin: 0
+  }
 
-.statbox .attack-rider > p {
-  margin: 0
-}
+  > p:first-of-type {
+    display: inline;
+  }
 
-.statbox .attack-rider > p:first-of-type {
-  display: inline;
-}
-
-.statbox .attack-rider > p:last-of-type {
-  margin-bottom: 0;
+  > p:last-of-type {
+    margin-bottom: 0;
+  }
 }
 
 /* -------------------------------------------- */
@@ -2567,29 +2667,28 @@ hr.bug {
 }
 
 /* Effects Tab */
-
-.weirdwizard .afflictions {
+.weirdwizard .list-entries.afflictions {
   display: inline-flex;
   align-items: center;
   flex-flow: wrap;
   gap: 5px;
+
+  .affliction {
+    display: inline-flex;
+    cursor: help;
+
+    .icon {
+      width: 14px;
+      height: 14px;
+      align-self: center;
+      border: none;
+      margin-right: 2px;
+      filter: invert(1);
+    }
+  }
 }
 
-.weirdwizard .affliction {
-  display: inline-flex;
-  cursor: help;
-}
-
-.weirdwizard .afflictions img {
-  width: 14px;
-  height: 14px;
-  align-self: center;
-  border: none;
-  margin-right: 2px;
-  filter: invert(1);
-}
-
-.weirdwizard .affliction:not(:last-of-type)::after {
+.weirdwizard .list-entries.affliction:not(:last-of-type)::after {
   content: ", ";
 }
 
@@ -2597,6 +2696,99 @@ hr.bug {
   display: flex;
   flex-flow: column;
   gap: 5px;
+}
+
+.weirdwizard.creature {
+
+  .cat-heading {
+    display: inline-flex;
+
+    .cat-control {
+      color: var(--body-text-color);
+      font-size: smaller;
+      margin: auto 0 0 auto;
+    }
+  }
+
+  .effects.cards {
+    display: flex;
+    flex-flow: wrap;
+    gap: 5px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    .effect-card {
+      display: flex;
+      gap: 5px;
+      margin: 0;
+      padding: 3px 5px;
+      background: var(--background-color-shadow);
+      border-radius: 5px;
+      flex: 250px;
+
+      .main {
+        display: flex;
+        flex-flow: column;
+        gap: 2px;
+        flex: 1;
+
+        > div {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 5px;
+          flex: 1;
+        }
+
+        .header {
+          > label {
+            font-family: var(--ww-font-serif);
+            font-variant-caps: small-caps;
+            font-weight: 600;
+          }
+
+          .item-controls {
+            flex: 0;
+            flex-flow: nowrap;
+            gap: 3px;
+            margin-left: auto;
+          }
+        }
+
+        .tags {
+          > * {
+            display: flex;
+            align-items: center;
+            gap: 0 3px;
+            padding: 0 3px;
+            background: var(--purple-medium);
+            border-radius: 5px;
+            color: white;
+          }
+
+          .effect-source {
+            background: none;
+            padding: 0;
+            margin-left: auto;
+
+            .content-link,
+            .content-link > i {
+              color: var(--purple-dark);
+            }
+          }
+        }
+      }
+
+      .image {
+        height: 2lh;
+        width: auto;
+      }
+    }
+  }
+
+  .effects.cards.afflictions .effect-card .image {
+    filter: brightness(0) saturate(100%) invert(10%) sepia(91%) saturate(6105%) hue-rotate(20deg) brightness(86%) contrast(100%);
+  }
 }
 
 .weirdwizard.creature .temporary-effects .effect-source {
@@ -2626,8 +2818,8 @@ hr.bug {
   }
 
   > p,
-  ol,
-  ul {
+  ol:not(:first-child),
+  ul:not(:first-child) {
     margin: 0.25rem 0;
   }
 
@@ -2662,6 +2854,7 @@ prose-mirror .statbox {
 .weirdwizard.actor .statbox {
   display: flex;
   flex-flow: column wrap;
+  margin: 0;
 
   > :last-child {
     flex: 1;
@@ -2682,13 +2875,18 @@ prose-mirror .statbox {
 .weirdwizard.npc .statbox {
   min-width: 240px;
 
-  > h4 {
+  > h4,
+  .statbox-name {
     display: flex;
     justify-content: space-between;
     background-color: var(--purple-medium);
     border-radius: 3px;
     margin: 3px 0 0;
     padding: 2px 0 2px 5px;
+
+    > input {
+      color: inherit;
+    }
   }
 
   .statbox-section:not(:first-of-type) {
@@ -3181,9 +3379,9 @@ prose-mirror .textbox {
 .weirdwizard .item-controls {
   display: flex;
   flex: 0 0 55px;
-  justify-content: flex-end;
-  padding-right: 5px;
   gap: 5px;
+  text-align: center;
+  margin: 0;
 }
 
 .weirdwizard .item-controls a {
@@ -3191,7 +3389,7 @@ prose-mirror .textbox {
   text-align: center;
 }
 
-.weirdwizard.instant-effect .form-group>* {
+.weirdwizard.instant-effect .form-group > * {
   flex: 1;
 }
 
@@ -3298,6 +3496,16 @@ input[type="checkbox"].checkbox-uses {
   margin: 0;
   border-bottom: 1px solid #c9c7b8;
   font-size: var(--font-size-12);
+
+  .content-link {
+    font-weight: 500;
+  }
+
+  .luck-ends {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+  }
 }
 
 .weirdwizard .items-header,
@@ -3310,6 +3518,12 @@ input[type="checkbox"].checkbox-uses {
   margin-bottom: 0;
   border-bottom: none;
   font-size: inherit;
+
+  img.mini-icon {
+    display: inline;
+    vertical-align: sub;
+    margin-right: -2px;
+  }
 }
 
 .described-list li > * {
@@ -3465,6 +3679,7 @@ input[type="checkbox"].checkbox-uses {
   gap: 3px;
   color: var(--body-text-color);
   text-indent: 0;
+  z-index: 1;
 }
 
 .weirdwizard .buttons {
@@ -3709,6 +3924,13 @@ input[type="checkbox"].checkbox-uses {
 
   > li:not(:last-of-type)::after {
     content: ', ';
+  }
+}
+
+.weirdwizard ol.list-entries.ancestry-paths {
+  > *:not(:last-child)::after {
+    margin-left: 5px;
+    content: '●';
   }
 }
 
@@ -4053,6 +4275,7 @@ input[type="checkbox"].checkbox-uses {
 .journal-entry-page.charoption .edit-mode .benefits-section input,
 .journal-entry-page.charoption .edit-mode .benefits-section select {
   background: var(--background-color-shadow);
+  border: none;
   border-radius: 3px;
   margin: 0;
   color: var(--body-text-color);
@@ -4064,7 +4287,7 @@ input[type="checkbox"].checkbox-uses {
   line-height: normal;
 }
 
-.journal-entry-page.charoption .edit-mode .benefits-section input[type="number"] {
+.journal-entry-page.charoption .edit-mode .benefits-section input[type=number] {
   padding: 0;
   text-align: center;
 }
@@ -4211,11 +4434,9 @@ input[type="checkbox"].checkbox-uses {
 /* ---------------------------- Non-Sheet Applications -----------------------------*/
 
 .weirdwizard.application {
-  background: var(--paper-bg) repeat;
-
   .window-header {
-    background: none;
-    border: none;
+    background: var(--paper-bg);
+    border-radius: 5px;
 
     .window-icon,
     .window-title,
@@ -4231,11 +4452,17 @@ input[type="checkbox"].checkbox-uses {
       filter: drop-shadow(0px 0px 1px #B5AA95);
     }
   }
+
+  .window-content {
+    background: var(--paper-bg) repeat;
+  }
 }
 
 .weirdwizard.application:not(.minimized) {
   .window-header {
     background: url(../assets/decorations/frames/rose.webp);
+    border-color: transparent;
+    border-radius: 0;
     overflow: visible;
   }
 
@@ -4307,11 +4534,12 @@ input[type="checkbox"].checkbox-uses {
 
 /* Dialog Buttons */
 
-.weirdwizard.dialog .form-footer button,
-.weirdwizard.dialog .form-footer button.default,
+.weirdwizard .form-footer button,
+.weirdwizard .form-footer button.default,
 .weirdwizard.roll-table-sheet .form-footer > button,
 #multi-choice .mc-buttons button,
-.roll-attribute .form-footer button,
+.activity-use .window-content button,
+.activity-use .roll-details,
 #roll-damage .form-footer button,
 .folder-edit button[type="submit"] {
   border: none;
@@ -4323,6 +4551,7 @@ input[type="checkbox"].checkbox-uses {
   color: var(--body-text-color);
   font-variant-caps: small-caps;
   font-size: var(--font-size-16);
+  font-weight: 600;
   white-space: nowrap;
 }
 
@@ -4335,18 +4564,33 @@ input[type="checkbox"].checkbox-uses {
   margin-top: 5px;
 }
 
-.weirdwizard.dialog .form-footer button.default {
-  filter: drop-shadow(0 0 0px var(--purple-dark));
+.weirdwizard .form-footer button.default,
+.activity-use .window-content button[aria-pressed=true] {
+  filter: drop-shadow(0 0 0px var(--control-active-border-color)) drop-shadow(0 0 0px var(--control-active-border-color));
 }
 
-.weirdwizard.dialog .form-footer button:hover,
-.weirdwizard.dialog .form-footer button:focus,
+.activity-use .roll-details {
+  padding: 0 0.5em;
+  font: inherit;
+
+  .wrapper {
+    display: flex;
+    flex-flow: column;
+    gap: 5px;
+    padding: 5px;
+  }
+}
+
+.weirdwizard .form-footer button:hover,
+.weirdwizard .form-footer button:focus,
 .weirdwizard.roll-table-sheet .form-footer > button:hover,
 .weirdwizard.roll-table-sheet .form-footer > button:focus,
 #multi-choice .mc-buttons button:hover,
 #multi-choice .mc-buttons button:focus,
-.roll-attribute .form-footer button:hover,
-.roll-attribute .form-footer button:focus,
+.activity-use .window-content button:hover,
+.activity-use .window-content button:focus,
+.activity-use .roll-details:hover,
+.activity-use .roll-details:focus,
 #roll-damage .form-footer button:hover,
 #roll-damage .form-footer button:focus {
   border-image-source: url(../assets/ui/plates/single-transparent-thicker.svg);
@@ -4354,6 +4598,21 @@ input[type="checkbox"].checkbox-uses {
   border-image-width: 6px;
   box-shadow: none;
   outline: none;
+}
+
+.activity-use .split-button {
+  button,
+  button:hover {
+    border-image-width: 5px 0;
+  }
+
+  button:first-child {
+    border-image-width: 5px 0 5px 5px;
+  }
+
+  button:last-child {
+    border-image-width: 5px 5px 5px 0;
+  }
 }
 
 /* -------------------------------------------- */
@@ -4400,10 +4659,16 @@ input[type="checkbox"].checkbox-uses {
   margin: 0;
   padding: 0;
   line-height: normal;
-}
 
-.content-link > i {
-  color: var(--body-text-color);
+  > i {
+    color: var(--body-text-color);
+  }
+
+  > img {
+    display: inline;
+    vertical-align: text-bottom;
+    height: 1lh;
+  }
 }
 
 /* -------------------------------------------- */
@@ -4613,20 +4878,24 @@ details.document-card .card-header:hover::after {
 /*  Multi-Choice App                            */
 /* -------------------------------------------- */
 
-#multi-choice .window-content {
-  padding: 0.75rem 0.25rem 0.75rem 0.75rem;
-  background: none;
-  backdrop-filter: none;
+#multi-choice {
+  .window-title {
+    opacity: 0;
+  }
+  
+  .window-content {
+    padding: 0.75rem 0.25rem 0.75rem 0.75rem;
+  }
 }
 
-#multi-choice .window-content>div {
+#multi-choice .window-content > div {
   display: flex;
   flex-flow: column;
   gap: 10px;
   flex: 1;
 }
 
-#multi-choice .window-content>div>*:not(.bug):not(.spear-divider) {
+#multi-choice .window-content > div > *:not(.bug):not(.spear-divider) {
   margin: 0 20px;
 }
 
@@ -4706,7 +4975,7 @@ details.document-card .card-header:hover::after {
   justify-content: space-around;
 }
 
-#multi-choice .mc-buttons>* {
+#multi-choice .mc-buttons > * {
   flex: 1;
 }
 
@@ -4718,17 +4987,12 @@ details.document-card .card-header:hover::after {
 #context-menu li.context-item {
   display: flex;
   align-items: center;
-}
 
-#context-menu li.context-item>i {
-  line-height: 1;
-  display: inline-flex;
-  justify-content: center;
-}
-
-#context-menu li.context-item>i>img {
-  height: auto;
-  flex: 0;
+  > i {
+    display: inline-flex;
+    justify-content: center;
+    height: 1lh;
+  }
 }
 
 /* Context Menu: Item */
@@ -4821,7 +5085,7 @@ details.document-card .card-header:hover::after {
 /* -------------------------------------------- */
 
 /* Shared Style */
-.weirdwizard.roll-attribute,
+.weirdwizard.activity-use,
 #roll-damage {
   form {
     display: flex;
@@ -4829,7 +5093,45 @@ details.document-card .card-header:hover::after {
     gap: 0.5rem;
   }
 
-  h3 {
+  h4.icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+
+    i[class^="fa-"] {
+      filter: drop-shadow(0 0 1px var(--purple-dark)) drop-shadow(0 0 1px var(--purple-dark)) drop-shadow(0 0 1px var(--purple-dark));
+      margin: -4px 0 -2px;
+      font-size: calc(100% + 4px);
+    }
+
+    i.fa-dice-d20 {
+      font-weight: 200;
+    }
+
+    i.fa-arrows-up-down-left-right {
+      font-weight: 300;
+    }
+
+    .area-info {
+      display: inline-flex;
+      flex-flow: wrap;
+      gap: 0 5px;
+      list-style: none;
+      font-size: smaller;
+      margin: 0 0 0 auto;
+      padding: 0;
+
+      li {
+        margin: 0;
+      }
+
+      li:not(:last-of-type)::after {
+        content: ", ";
+      }
+    }
+  }
+
+  h4.rounded {
     background: var(--purple-dark);
     color: white;
     text-align: center;
@@ -4840,20 +5142,30 @@ details.document-card .card-header:hover::after {
     border: none;
   }
 
-  h3:not(:first-child) {
+  h4.boons-header {
+    display: flex;
+    align-items: center;
+  }
+
+  h4:not(:first-child) {
     margin: 10px 0 0;
   }
 
-  .h3-box {
+  .targets-box,
+  .h4-box {
     display: flex;
     flex-flow: column;
     gap: 5px;
-    text-align: center;
-    border: 1px solid var(--purple-dark);
-    border-top: none;
-    padding: 5px;
-    border-radius: 0 0 5px 5px;
     background: var(--background-color-shadow);
+    border: 1px solid var(--purple-dark);
+    border-radius: 5px;
+    padding: 5px;
+    text-align: center;
+  }
+
+  .h4-box {
+    border-top: none;
+    border-radius: 0 0 5px 5px;
   }
 
   .damage-display {
@@ -4888,18 +5200,91 @@ details.document-card .card-header:hover::after {
     }
   }
 
-  .boons-expression,
-  .damage-expression {
-    font-size: 1.4em;
+  .roll-expression {
     border-image: url(../assets/ui/plates/single-transparent.svg);
     border-image-slice: 120 fill;
-    border-image-width: 15px;
+    border-image-width: 12px;
     padding: 6px 16px;
-    filter: brightness(0) saturate(100%) invert(15%) sepia(25%) saturate(2839%) hue-rotate(258deg) brightness(87%) contrast(88%);
+    text-align: center;
     text-shadow: 0 0 1px black;
+    font-size: 1.4em;
+    filter: brightness(0) saturate(100%) invert(15%) sepia(25%) saturate(2839%) hue-rotate(258deg) brightness(87%) contrast(88%);
   }
 
-  input[type="number"] {
+  .icons-expression {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    font-size: 1.1em;
+    
+    .operator {
+      color: var(--purple-dark);
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    .term {
+      position: relative;
+      display: grid;
+
+      > * {
+        grid-area: 1 / 1 / 2 / 2;
+      }
+
+      img {
+        height: 50px;
+        margin: 0 auto 0.5lh;
+        z-index: 0;
+      }
+
+      > div {
+        margin: auto auto 0;
+        padding: 0 3px;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 5px;
+        color: white;
+        text-align: center;
+        z-index: 1;
+      }
+    }
+
+    .term:not(.d20):hover {
+      cursor: help;
+      filter: drop-shadow(0 0 5px var(--color-shadow-primary));
+    }
+    
+    .term.d20 img {
+      filter: hue-rotate(265deg) contrast(0.7) drop-shadow(0 0 3px black);
+    }
+
+    .term.attribute img {
+      filter: contrast(0.5) drop-shadow(0 0 1px black);
+    }
+
+    .term.boons img {
+      rotate: -15deg;
+    }
+
+    .term.banes img {
+      rotate: 15deg;
+    }
+
+    .term.against {
+      > img {
+        margin: 0;
+      }
+
+      > div {
+        margin: auto;
+        font-size: 1.3em;
+        background: none;
+        text-shadow: 0 0 3px var(--purple-dark), 0 0 3px var(--purple-dark), 0 0 3px var(--purple-dark), 0 0 3px var(--purple-dark), 0 0 3px var(--purple-dark);
+      }
+    }
+  }
+
+  input[type=number] {
     --input-text-color: var(--body-text-color);
     height: 1lh;
     background: var(--background-color-shadow);
@@ -4907,11 +5292,42 @@ details.document-card .card-header:hover::after {
     text-align: center;
     line-height: normal;
   }
+
+  .split-button.targeting-restriction .ui-control {
+    width: auto;
+    font-size: inherit;
+  }
 }
 
-/* Attribute Roll App */
-.weirdwizard.roll-attribute {
-  h3.boons-header {
+/* Use Activity App */
+.weirdwizard.activity-use {
+  .window-content {
+    gap: 1em;
+
+    .form-body {
+      display: flex;
+      flex-flow: wrap;
+      gap: 1em;
+      padding: 0;
+      margin: 0;
+      border: none;
+      overflow: auto;
+
+      > * {
+        flex: 1;    
+        display: flex;
+        flex-flow: column;
+        min-width: 250px;
+        padding: 5px 0 !important;
+      }
+
+      h2 {
+        margin: 0;
+      }
+    }
+  }
+  
+  h4.boons-header {
     display: flex;
     align-items: center;
     margin: 0;
@@ -4936,20 +5352,19 @@ details.document-card .card-header:hover::after {
     }
   }
 
-  .roll-options {
-    display: flex;
-    flex-flow: column;
-    gap: 5px;
-  }
-
   .override input {
     width: 30px;
   }
 
-  .boons-targets {
+  .targets-box {
     li {
       display: flex;
       gap: 5px;
+    }
+
+    li.invalid {
+      filter: grayscale(1) contrast(0.5);
+      opacity: 0.5;
     }
 
     label {
@@ -4975,11 +5390,14 @@ details.document-card .card-header:hover::after {
     img {
       width: 24px;
       height: auto;
-      filter: none;
     }
   }
 
-  .target-against img {
+  .target-boons img {
+    filter: none;
+  }
+
+  .target-against img:not(.forced-icon) {
     filter: var(--grey-filter);
   }
 }
@@ -5010,113 +5428,118 @@ details.document-card .card-header:hover::after {
 }
 
 /* -------------------------------------------- */
-/*  Targeting HUD                               */
+/*  Targeting Helper                               */
 /* -------------------------------------------- */
 
-.weirdwizard.targeting-hud {
-  position: absolute;
-  left: calc(50% - 200px);
-  top: 6%;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  border: 1px solid var(--purple-dark);
-  padding: 5px;
-  border-radius: 5px;
-  background: rgba(var(--purple-dark-rgb), 0.3);
-  color: white;
-}
+.weirdwizard.targeting-helper {
+  section {
+    position: absolute;
+    left: calc(50% - 200px);
+    top: 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border: 1px solid var(--purple-dark);
+    padding: 5px;
+    border-radius: 5px;
+    background: rgba(var(--purple-dark-rgb), 0.3);
+    color: white;
+  }
 
-.weirdwizard.targeting-hud .buttons {
-  display: flex;
-  gap: 5px;
-}
+  .buttons {
+    justify-content: center;
 
-.weirdwizard.targeting-hud button {
-  white-space: nowrap;
-  background: var(--color-border-light-2);
-}
-
-.weirdwizard .health-display {
-  text-align: center;
-  font-weight: 600;
-  width: 30px;
+    button {
+      white-space: nowrap;
+    }
+  }
 }
 
 /* -------------------------------------------- */
 /*  List Entry Sub-Settings: Menu & Display     */
 /* -------------------------------------------- */
 
+#entry-settings-menu {
+  ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 400px;
+    overflow: hidden auto;
+    header .control {
+      display: flex;
+      flex-flow: nowrap;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 1em;
+      text-align: right;
+      font-size: smaller;
+    }
+
+    header.table-header {
+      background-color: var(--color-cool-4);
+      border-color: var(--color-cool-4);
+      background: var(--color-text-dark-inactive);
+      padding: 0.5rem;
+      color: var(--color-text-light-highlight);
+      border: 1px solid var(--color-border-dark-4);
+      text-align: center;
+      font-weight: 600;
+      text-shadow: 1px 1px var(--color-shadow-dark);
+    }
+
+    li {
+      justify-content: space-between;
+      padding: 0.25rem 0.5rem;
+      border-bottom: 1px solid var(--color-border-dark-4);
+
+      > label {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        line-height: 1.3rem;
+      }
+
+      > .form-fields > a {
+        flex: 0 0 16px;
+      }
+    }
+  }
+
+  ol .index {
+    flex: 0 0 200px;
+    text-align: left;
+    font-weight: 600;
+  }
+}
+
 .theme-dark #entry-settings-menu header.table-header {
   background-color: var(--color-cool-4);
   border-color: var(--color-cool-4);
 }
 
-#entry-settings-menu ol {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  max-height: 400px;
-  overflow: hidden auto;
-}
+/* List Entry Dialog */
+.list-entry-dialog {
+  section {
+    display: flex;
+    flex-flow: column;
+    gap: 1em;
 
-#entry-settings-menu header.table-header {
-  background-color: var(--color-cool-4);
-  border-color: var(--color-cool-4);
-  background: var(--color-text-dark-inactive);
-  padding: 0.5rem;
-  color: var(--color-text-light-highlight);
-  border: 1px solid var(--color-border-dark-4);
-  text-align: center;
-  font-weight: 600;
-  text-shadow: 1px 1px var(--color-shadow-dark);
-}
+    label {
+      display: block;
+      font-weight: bold;
+    }
 
-#entry-settings-menu header .control {
-  display: flex;
-  flex-flow: nowrap;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 1em;
-  text-align: right;
-  font-size: smaller;
-}
-
-#entry-settings-menu li {
-  justify-content: space-between;
-  padding: 0.25rem 0.5rem;
-  border-bottom: 1px solid var(--color-border-dark-4);
-}
-
-#entry-settings-menu ol .index {
-  flex: 0 0 200px;
-  text-align: left;
-  font-weight: 600;
-}
-
-#entry-settings-menu ol .control.form-fields {
-  flex: 0 0 40px;
-  text-align: center;
-}
-
-#entry-settings-menu li > .form-fields > a {
-  flex: 0 0 16px;
-}
-
-/* List Entry Sub-Settings: Display */
-#entry-settings-display {
-  .window-title {
-    border-image: none;
-    filter: none;
-    backdrop-filter: contrast(0.1) sepia(0.5);
-    border-radius: 4px;
-    margin: 8px auto auto;
-    padding: 0 0.5rem;
-    font-size: inherit;
-    line-height: normal;
+    textarea {
+      display: block;
+      width: 100%;
+    }
   }
+}
 
-  ol {
+/* List Entry Config */
+.weirdwizard.application.list-entry-config {
+  .entries-list {
     list-style: none;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -5135,6 +5558,15 @@ details.document-card .card-header:hover::after {
 
     li:hover {
       background: var(--pink);
+    }
+
+    li.selected {
+      background: none;
+      border-image-source: url(../assets/ui/plates/single-transparent-thick.svg);
+      border-image-slice: 118 fill;
+      border-image-width: 5px;
+      color: var(--purple-dark);
+      font-weight: 600;
     }
   }
 }
@@ -5198,14 +5630,32 @@ details.document-card .card-header:hover::after {
 
 /* Embedded Rollable Table */
 table.roll-table-embed {
+  margin: 0;
+
   tbody > tr > td > h4 {
     all: inherit !important;
     padding: 0 !important;
   }
+
+  .roll-table-embed-title {
+    all: inherit;
+    padding: 0;
+  }
+}
+
+table.roll-table-embed + figcaption {
+  margin: 0;
+}
+
+.statbox table.roll-table-embed .roll-table-embed-title {
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
 }
 
 .journal-entry-page figure {
   margin: 0;
+
   figcaption {
     margin: 0;
   }
@@ -5377,7 +5827,7 @@ table.roll-table-embed {
           gap: 0 4px;
           justify-content: center;
 
-          >li:not(:last-of-type)::after {
+          > li:not(:last-of-type)::after {
             content: ", ";
           }
 
@@ -5749,7 +6199,7 @@ form.quest-calendar {
   margin: 0;
 }
 
-#quest-calendar-config input[type="number"] {
+#quest-calendar-config input[type=number] {
   width: 30px;
   text-align: center;
 }
@@ -5904,19 +6354,44 @@ p {
 /*  Chat Messages                               */
 /* -------------------------------------------- */
 
+#chat-message,
+.themed.theme-dark #chat-message {
+  --text-color: var(--body-text-color);
+  --placeholder-color: var(--purple-dark);
+  --background-color: transparent;
+  --border-color: var(--purple-medium);
+  --menu-background: var(--purple-medium);
+}
+
+/* Chat Controls */
+.themed.theme-dark #chat-controls .ui-control {
+  --control-bg-color: var(--purple-medium);
+  --control-active-bg-color: var(--purple-dark);
+  --control-hover-bg-color: var(--purple-dark);
+  --control-border-color: var(--purple-medium);
+  --control-icon-color: white;
+}
+
+.chat-sidebar .chat-input menu {
+  --menu-padding: 8px 4px;
+}
+
 /* Chat Message Input */
-#chat-message {
+#chat-message > .editor-container {
   background: url(../assets/decorations/stars/chat-background.svg), var(--paper-bg);
   background-repeat: no-repeat, repeat;
   background-position: center;
   background-size: 30%, auto;
   font-family: var(--ww-font-serif);
   font-weight: 500;
-  color: var(--body-text-color);
+
+  > .editor-content {
+    color: var(--text-color);
+  }
 }
 
-#chat-message::placeholder {
-  color: var(--purple-dark);
+.themed.theme-dark #chat-message button {
+  --button-text-color: white;
 }
 
 /* Chat Messages */
@@ -6263,7 +6738,16 @@ p {
 }
 
 .weirdwizard .dice-comparison > .rolled-number {
-  background: url(/icons/svg/d20-grey.svg);
+  background: url(../../../icons/svg/d20-grey.svg);
+  cursor: help;
+}
+
+.weirdwizard .forced .dice-comparison {
+  > .rolled-number,
+  > .rolled-number.highlight {
+    background: none;
+    filter: none;
+  }
 }
 
 .weirdwizard .dice-comparison > .target-number {
@@ -6283,12 +6767,17 @@ p {
   border-image-width: 10px;
 }
 
-.weirdwizard .chat-failure {
+.weirdwizard .chat-failure,
+.weirdwizard .red,
+.weirdwizard .forced-icon.failure,
+.weirdwizard .indicator.failure {
   color: #a51700;
   filter: brightness(0) saturate(100%) invert(10%) sepia(91%) saturate(6105%) hue-rotate(20deg) brightness(86%) contrast(100%);
 }
 
-.weirdwizard .chat-success {
+.weirdwizard .chat-success,
+.weirdwizard .forced-icon.success,
+.weirdwizard .indicator.success {
   color: #006920;
   filter: brightness(0) saturate(100%) invert(21%) sepia(98%) saturate(1358%) hue-rotate(119deg) brightness(93%) contrast(101%);
 }
@@ -6701,6 +7190,35 @@ p {
   object-fit: contain;
 }
 
+/* Combat Tracker: Luck Ends */
+.combat-phase.end {
+  .luck-ends {
+    --sidebar-item-height: 24px;
+
+    .luck-ends-buttons {
+      display: flex;
+
+      button {
+        position: relative;
+        padding: 0;
+
+        img {
+          height: 100%;
+        }
+
+        img.clover {
+          position: absolute;
+          height: 12px;
+          filter: brightness(0) saturate(100%) invert(23%) sepia(99%) saturate(1959%) hue-rotate(100deg) brightness(96%) contrast(105%) drop-shadow(0 0 0px black) drop-shadow(0 0 0px black) drop-shadow(0 0 1px black);
+          bottom: 0;
+          right: 0;
+        }
+      }
+    }
+  }
+  
+}
+
 /* Combat Tracker: Footer */
 .combat-sidebar .combat-controls [data-action="nextRound"] {
   filter: drop-shadow(0 0 3px var(--button-hover-background-color)) drop-shadow(0 0 3px var(--button-hover-background-color)) drop-shadow(0 0 3px var(--button-hover-background-color)) drop-shadow(0 0 3px var(--button-hover-background-color));
@@ -6752,10 +7270,6 @@ body {
 
   /* Active Effect Config: Form Group */
   .form-group {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-
     label {
       font-weight: 600;
       color: var(--purple-dark);
@@ -6763,17 +7277,26 @@ body {
 
     .form-fields {
       flex: 1;
+
+      img {
+        flex: 0;
+        height: 1lh;
+        filter: none;
+        margin-right: -5px;
+      }
     }
   }
 
   /* Active Effect Config: Inputs */
-  input[type="number"],
-  input[type="text"],
+  input[type=number],
+  input[type=text],
   select {
     --input-height: 100%;
-    background: var(--background-color-shadow);
-    appearance: auto;
-    width: 100%;
+  }
+
+  input[type=number],
+  input[type=text] {
+    padding: 0 5px;
   }
 
   input[type="color"] {
@@ -6790,7 +7313,68 @@ body {
   }
 
   /* Active Effect Config: Changes Tab */
-  [data-tab="changes"] {
+  .tab.changes {
+    h3 {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    ol {
+      display: flex;
+      flex-flow: column;
+      padding: 0;
+
+      .change {
+        display: flex;
+        flex-flow: column;
+        width: 100%;
+        background: var(--background-color-shadow);
+        border: solid 1px var(--purple-dark);
+        border-radius: 5px;
+        margin: 0;
+
+        .header,
+        .details,
+        .key {
+          display: flex;
+          flex-flow: wrap;
+          align-items: center;
+          gap: 5px 10px;
+          padding: 5px;
+
+          > * {
+            display: flex;
+            flex-flow: nowrap;
+            align-items: center;
+            gap: 0 5px;
+            white-space: nowrap;
+          }
+        }
+
+        .key {
+          border-top: 1px solid var(--purple-dark);
+          padding-bottom: 0;
+          flex-flow: nowrap;
+          gap: 5px;
+        }
+
+        .value {
+          flex: 1;
+        }
+
+        .header {
+          .controls {
+            gap: 0;
+            margin-left: auto;
+          }
+        }
+
+        input[type=number] {
+          flex: 0 50px;
+        }
+      }
+    }
+
     .item {
       font-size: var(--font-size-14);
     }
@@ -6799,7 +7383,7 @@ body {
       background: none;
     }
 
-    .items-header>* {
+    .items-header > * {
       font-size: var(--font-size-14);
     }
 

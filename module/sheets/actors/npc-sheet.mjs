@@ -31,30 +31,42 @@ export default class WWNpcSheet extends WWCreatureSheet {
   static PARTS = {
     // View Mode Parts:
     sidetabs: { template: 'systems/weirdwizard/templates/generic/side-tabs.hbs' },
-    namestripe: { template: 'systems/weirdwizard/templates/actors/name-stripe.hbs' },
+    namestripe: { template: 'systems/weirdwizard/templates/sheets/actors/common/name-stripe.hbs' },
     banner: {
-      template: 'systems/weirdwizard/templates/actors/npc/banner.hbs',
+      template: 'systems/weirdwizard/templates/sheets/actors/npc/banner.hbs',
       templates: [
-        'systems/weirdwizard/templates/actors/portrait.hbs'
+        'systems/weirdwizard/templates/sheets/actors/common/portrait.hbs'
       ]
     },
     summary: {
-      template: 'systems/weirdwizard/templates/actors/npc/summary.hbs',
+      template: 'systems/weirdwizard/templates/sheets/actors/npc/summary.hbs',
       templates: [
-        'systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs',
-        'systems/weirdwizard/templates/actors/npc/parts/summary-weapon.hbs',
+        'systems/weirdwizard/templates/sheets/actors/npc/parts/summary-item.hbs',
+        'systems/weirdwizard/templates/sheets/actors/npc/parts/summary-weapon.hbs',
         'systems/weirdwizard/templates/generic/list-entry.hbs'
       ]
     },
-    description: { template: 'systems/weirdwizard/templates/actors/npc/description.hbs' },
-    effects: { template: 'systems/weirdwizard/templates/actors/effects.hbs' },
+    description: { template: 'systems/weirdwizard/templates/sheets/actors/npc/description.hbs' },
+    temporary: {
+      template: 'systems/weirdwizard/templates/sheets/actors/common/temporary-effects.hbs',
+      templates: [
+        'systems/weirdwizard/templates/sheets/actors/common/parts/effect-card.hbs'
+      ]
+    },
+    permanent: {
+      template: 'systems/weirdwizard/templates/sheets/actors/common/permanent-effects.hbs',
+      templates: [
+        'systems/weirdwizard/templates/sheets/actors/common/parts/effect-row.hbs'
+      ]
+    },
+
     // Edit Mode Parts:
     npcform: {
-      template: 'systems/weirdwizard/templates/actors/npc/form.hbs',
+      template: 'systems/weirdwizard/templates/sheets/actors/npc/form.hbs',
       scrollable: [''],
       templates: [
-        'systems/weirdwizard/templates/actors/npc/parts/summary-item.hbs',
-        'systems/weirdwizard/templates/actors/npc/parts/summary-weapon.hbs',
+        'systems/weirdwizard/templates/sheets/actors/npc/parts/summary-item.hbs',
+        'systems/weirdwizard/templates/sheets/actors/npc/parts/summary-weapon.hbs',
         'systems/weirdwizard/templates/generic/list-entry.hbs'
       ]
     },
@@ -65,16 +77,17 @@ export default class WWNpcSheet extends WWCreatureSheet {
    */
   static MODE_PARTS = {
     edit: ["npcform"],
-    view: ["sidetabs", "namestripe", "banner", "summary", "description", "effects"]
+    view: ["sidetabs", "namestripe", "banner", "summary", "description", "temporary", "permanent"]
   };
 
   /** @override */
   static TABS = {
     sheet: {
       tabs: [
-        {id: 'summary', tooltip: 'WW.Actor.Summary', iconType: 'img', icon: 'systems/weirdwizard/assets/icons/diploma.svg'},
-        {id: 'description', tooltip: 'WW.Item.Description', icon: 'systems/weirdwizard/assets/icons/scroll-quill.svg', iconType: 'img'},
-        {id: 'effects', tooltip: 'WW.Effects.Label', iconType: 'img', icon: '/icons/svg/aura.svg', iconType: 'img'}
+        {id: 'summary',     tooltip: 'WW.Actor.Summary',                   icon: 'systems/weirdwizard/assets/icons/diploma.svg',      iconType: 'img' },
+        {id: 'description', tooltip: 'WW.Item.Description',                icon: 'systems/weirdwizard/assets/icons/scroll-quill.svg', iconType: 'img' },
+        {id: 'temporary',   tooltip: 'WW.Effects.AfflictionsAndTemporary', icon: 'systems/weirdwizard/assets/icons/duration.svg',     iconType: 'img' },
+        {id: 'permanent',   tooltip: 'WW.Effects.Permanent',               icon: 'icons/svg/aura.svg',                                iconType: 'img' }
       ],
       initial: "summary",
       labelPrefix: "EFFECT.TABS"

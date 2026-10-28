@@ -91,15 +91,19 @@
       "img": "icons/equipment/shield/heater-steel-boss-red.webp",
       "_id": "6CApAcAOoxllfLyA",
       "type": "base",
-      "changes": [
-        {
-          "key": "defense.bonus",
-          "value": 2,
-          "": 2,
-          "priority": null,
-          "type": "custom"
-        }
-      ],
+      "system": {
+        "changes": [
+          {
+            "preset": "defense.bonus",
+            "value": "2",
+            "key": "system.stats.defense.bonus",
+            "type": "add",
+            "phase": "initial",
+            "priority": null
+          }
+        ],
+        "target": "any"
+      },
       "description": "",
       "tint": "#ffffff",
       "transfer": true,
@@ -108,12 +112,12 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "14.360",
+        "coreVersion": "14.367",
         "systemId": "weirdwizard",
         "systemVersion": "#{VERSION}#",
         "createdTime": 1721397934273,
-        "modifiedTime": 1721397986865,
-        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "modifiedTime": 1789577196091,
+        "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
         "exportSource": null
       },
       "start": null,

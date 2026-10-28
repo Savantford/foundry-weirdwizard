@@ -1,25 +1,23 @@
 import { makeBooField, makeHtmlField, makeIntField, makeRequiredStrField, makeStrField } from '../field-presets.mjs';
 import BaseItemModel from './base-item.mjs';
-import { i18n } from '../../helpers/utils.mjs';
 
 export default class SpellModel extends BaseItemModel {
-
   static defineSchema() {
     const fields = foundry.data.fields;
     const schema = super.defineSchema();
     
     // Add Spell fields
-    schema.tier = makeRequiredStrField('novice');
+    schema.tier = makeRequiredStrField({ initial: 'novice' });
     schema.tradition = makeStrField();
     schema.casting = makeHtmlField();
     schema.target = makeHtmlField();
-    schema.duration = makeHtmlField(`<p>${i18n("WW.Spell.DurationDefault")}</p>`);
+    schema.duration = makeHtmlField({ initial: `<p>${_loc("WW.Spell.DurationDefault")}</p>` });
 
     // Adjust Spell-specific initials
-    schema.active = makeBooField(false);
-    schema.description = makeHtmlField(`<p>${i18n("WW.System.Sheet.NoDescription")}</p>`);
-    schema.magical = makeBooField(true);
-    schema.uses.fields.max = makeIntField(1);
+    schema.active = makeBooField();
+    schema.description = makeHtmlField({ initial: `<p>${_loc("WW.System.Sheet.NoDescription")}</p>` });
+    schema.magical = makeBooField({ initial: true });
+    schema.uses.fields.max = makeIntField({ initial: 1 });
 
     return schema;
   }
@@ -30,7 +28,6 @@ export default class SpellModel extends BaseItemModel {
    * @inheritDoc
    */
   static migrateData(source) {
-    
     // Validate range
     if ('range' in source && isNaN(source.range)) source.range = 0;
 
@@ -46,21 +43,4 @@ export default class SpellModel extends BaseItemModel {
 
     return super.migrateData(source);
   }
-
-  /**
-   * Determine whether the item is destroyed.
-   * @type {boolean}
-   */
-  get destroyed() {
-    const invulnerable = CONFIG.specialStatusEffects.INVULNERABLE;
-    if ( this.parent.effects.some(e => e.statuses.has('invulnerable') )) return false;
-    return this.health.value <= this.health.min;
-  }
-
-  /* The defined destroyed property could then be accessed on any Actor document of the item type as follows:
-
-  // Determine if a item is destroyed.
-  game.actors.getName('character').system.destroyed;
-  */
-
 }

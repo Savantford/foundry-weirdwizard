@@ -30,7 +30,50 @@
     "source": "tradition",
     "grantedBy": null
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Fly (Soaring Leap)",
+      "img": "icons/magic/control/debuff-energy-hold-blue-yellow.webp",
+      "origin": "Compendium.weirdwizard.spells.Item.uTieiCqfyvnxlED0",
+      "disabled": false,
+      "duration": {
+        "value": 0,
+        "units": "rounds",
+        "expiry": "turnEnd",
+        "expired": false
+      },
+      "system": {
+        "durationPreset": "turnEnd",
+        "trigger": "onUse",
+        "changes": [],
+        "target": "any",
+        "grantedBy": null
+      },
+      "_id": "83HOQl3F1D2lFeEq",
+      "type": "base",
+      "start": null,
+      "description": "",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "showIcon": 1,
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.367",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1788961614719,
+        "modifiedTime": 1788961704420,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_key": "!items.effects!uTieiCqfyvnxlED0.83HOQl3F1D2lFeEq"
+    }
+  ],
   "sort": 0,
   "ownership": {
     "default": 0,

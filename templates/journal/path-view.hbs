@@ -111,7 +111,7 @@
 
             {{#each list as |entry|}}
             <li class="list-entry">
-              <a data-tooltip="{{entry.desc}}">{{entry.name}}</a>
+              <a data-tooltip="{{entry.desc}}">{{localize entry.name}}</a>
             </li>
             {{/each}}
             
@@ -131,7 +131,7 @@
 
         {{#each list as |entry|}}
         <li class="list-entry">
-          <a data-tooltip="{{entry.desc}}">{{entry.name}}</a>
+          <a data-tooltip="{{entry.desc}}">{{localize entry.name}}</a>
         </li>
         {{/each}}
         {{/if}}

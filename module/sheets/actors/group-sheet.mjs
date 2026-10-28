@@ -1,7 +1,4 @@
-import { defaultListEntryKey, defaultListEntryName, i18n } from '../../helpers/utils.mjs';
-import { EntrySettingsDisplay } from '../../apps/entry-settings-display.mjs';
 import WWActorSheet from './base-actor-sheet.mjs';
-import WWDialog from '../../apps/dialog.mjs';
 
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
@@ -40,11 +37,11 @@ export default class WWGroupSheet extends WWActorSheet {
   };
 
   static PARTS = {
-    header: {template: 'systems/weirdwizard/templates/actors/group/header.hbs'},
+    header: {template: 'systems/weirdwizard/templates/sheets/actors/group/header.hbs'},
     tabs: {template: 'systems/weirdwizard/templates/generic/side-tabs.hbs'},
-    details: {template: 'systems/weirdwizard/templates/actors/group/details.hbs'},
+    details: {template: 'systems/weirdwizard/templates/sheets/actors/group/details.hbs'},
     resources: {
-      template: 'systems/weirdwizard/templates/actors/group/resources.hbs',
+      template: 'systems/weirdwizard/templates/sheets/actors/group/resources.hbs',
       templates: ['systems/weirdwizard/templates/generic/list-entry.hbs']
     }
   };
@@ -72,7 +69,7 @@ export default class WWGroupSheet extends WWActorSheet {
     const context = await super._prepareContext(options);
     const actorData = this.actor;
 
-    context.tier = i18n(CONFIG.WW.TIERS[actorData.system.tier]);
+    context.tier = _loc(CONFIG.WW.TIERS[actorData.system.tier]);
     
     return context;
   }
@@ -304,7 +301,7 @@ export default class WWGroupSheet extends WWActorSheet {
 
     // Return if not from an appropriate type
     if (!allowedTypes.includes(actor.type)) {
-      return await ui.notifications.warn(i18n('WW.Group.ActorDropWarning'));
+      return await ui.notifications.warn(_loc('WW.Group.ActorDropWarning'));
     }
 
     // Fade out the area around the correct drop places
@@ -318,18 +315,17 @@ export default class WWGroupSheet extends WWActorSheet {
 
     // Handle drop
     const memberCats = { ... await this.document.system.members };
-
+    
     // Remove UUID reference from other arrays
     for (const c in memberCats) {
       const cat = memberCats[c];
-      const index = cat.indexOf(actor.uuid);
-      if (index > -1) cat.splice(index, 1);
+      
+      cat.delete(actor.uuid);
     }
 
-    await memberCats[memberCat].push(actor.uuid);
+    await memberCats[memberCat].add(actor.uuid);
 
     await this.document.update({ 'system.members': memberCats });
-
   }
 
   /* -------------------------------------------- */
@@ -347,7 +343,7 @@ export default class WWGroupSheet extends WWActorSheet {
 
     // Return if not an Equipment
     if (item.type !== 'equipment') {
-      return await ui.notifications.warn(i18n('WW.Group.EquipmentDropWarning'));
+      return await ui.notifications.warn(_loc('WW.Group.EquipmentDropWarning'));
     }
     
     const itemData = item.toObject();

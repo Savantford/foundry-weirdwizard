@@ -1,14 +1,11 @@
 import {
   capitalize,
-  defaultListEntryKey,
-  defaultListEntryName,
-  i18n,
+  inferDataFromKey,
   plusify,
-  sum,
-  sysPath
+  sum
 } from '../../helpers/utils.mjs';
 import WWDialog from '../../apps/dialog.mjs';
-import { EntrySettingsDisplay } from '../../apps/entry-settings-display.mjs';
+import ListEntryConfig from '../../apps/list-entry-config.mjs';
 import WWSheetMixin from '../ww-sheet.mjs';
 
 // Similar syntax to importing, but note that
@@ -40,7 +37,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       entryCreate: this.#onEntryCreate,
       entryEdit: this.#onEntryEdit,
       entryRemove: this.#onEntryRemove,
-      entrySettings: this.#onEntrySettingsDisplay,
+      entrySettings: this.#onDisplayEntryList,
 
       itemCreate: this.#onItemCreate,
       itemEdit: this.#onItemEdit,
@@ -65,39 +62,33 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
    */
   async _prepareContext(options = {}) {
     const context = await super._prepareContext(options);
-    const actorData = await this.actor;
     
-    context.actor = actorData; // Use a safe clone of the actor data for further operations.
-    context.system = actorData.system; // Add the actor's data to context.system for easier access, as well as flags.
-    context.flags = actorData.flags;
+    context.actor = this.actor; // Use a safe clone of the actor data for further operations.
+    context.system = this.actor.system; // Add the actor's data to context.system for easier access, as well as flags.
+    context.flags = this.actor.flags;
     context.dtypes = ['String', 'Number', 'Boolean'];
     context.itemSources = CONFIG.WW.TALENT_SOURCES;
     context.tiers = CONFIG.WW.TIERS;
+
+    // Prepare list entries
+    context.listEntries = await this.actor.listEntries;
+    
+    for (const [listKey, list] of Object.entries(context.listEntries)) {
+      for (const entry of list) {
+        if (entry.grantedBy) {
+          const effect = await fromUuid(entry.grantedBy);
+
+          if (effect) entry.grantedBy = { ...effect, tooltip: await effect.toCard() };
+        }
+      }
+    }
 
     // Prepare Items
     context.items = this.actor.items.contents.toSorted((a, b) => a.sort - b.sort);
     await this._prepareItems(context);
 
-    // Prepare list entries
-    const listEntries = {};
-
-    for (const listKey in context.system.listEntries) {
-      const list = context.system.listEntries[listKey];
-      
-      listEntries[listKey] = [];
-      
-      for (const entryKey in list) {
-        const entry = list[entryKey];
-        
-        if (entry) listEntries[listKey].push({ ...entry, key: entryKey });
-      }
-
-    }
-    
-    context.listEntries = listEntries;
-
     // Add roll data for Prose Mirror editors
-    context.rollData = actorData.getRollData();
+    context.rollData = this.actor.getRollData();
     
     return context;
   }
@@ -105,10 +96,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   /* -------------------------------------------- */
 
   /**
-   * Organize and classify Items for actor sheets.
-   *
-   * @param {Object} actorData The actor to prepare.
-   *
+   * Organize and classify Items for the sheet.
+   * @param {Object} context The actor sheet's context.
    * @return {Promise<void>}
   */
   async _prepareItems(context) {
@@ -129,10 +118,10 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       // Assign attributeLabel for template use
       if (context.system.attributes) {
         if (i.system.attribute == 'luck') {
-          i.system.attributeLabel = `${i18n('WW.Attributes.Luck')} (+0)`;
+          i.system.attributeLabel = `${_loc('WW.Attributes.Luck')} (+0)`;
         } else if (i.system.attribute) {
           const attribute = context.system.attributes[i.system.attribute];
-          const name = i18n(CONFIG.WW.ATTRIBUTES[i.system.attribute]);
+          const name = _loc(CONFIG.WW.ATTRIBUTES[i.system.attribute]);
           i.system.attributeLabel = `${name} (${plusify(attribute.mod)})`
         }
       }
@@ -146,7 +135,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       i.system.descriptionEnriched = await TextEditor.enrichHTML(i.system.description, { secrets: isOwner });
       if (i.system.attackRider) i.system.attackRiderEnriched = await TextEditor.enrichHTML(i.system.attackRider.value, { secrets: isOwner });
       i.subtypeLabel = CONFIG.WW.EQUIPMENT_SUBTYPES[i.system.subtype];
-      i.sourceLabel = CONFIG.WW.TALENT_SOURCES[i.system.source];
+      const charOption = await fromUuid(i.system.grantedBy);
+      i.sourceLabel = charOption ? await TextEditor.enrichHTML(`@UUID[${charOption.uuid}]`) : _loc(CONFIG.WW.TALENT_SOURCES[i.system.source]);
 
       // Prepare tooltip context
       i.tooltip = await i.toCard({ usageFooter: true });
@@ -159,23 +149,23 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
           let list = '';
 
           for (const x of i.system.traits) {
-            let string = i18n('WW.Weapon.Traits.' + capitalize(x) + '.Label');
+            let string = _loc('WW.Weapon.Traits.' + capitalize(x) + '.Label');
 
-            if ((x === 'range') || (x === 'reach' && i.system.range) || (x === 'thrown')) string += ` ${i.system.range}`;
+            if ((x === 'range') || (x === 'reach' && i.system.targeting.range) || (x === 'thrown')) string += ` ${i.system.targeting.range}`;
 
             list = list.concat(list ? ', ' + string : string);
           }
 
-          if (i.system.magical) list += ` (${i18n("WW.Talent.Magical")})`;
+          if (i.system.magical) list += ` (${_loc("WW.Talent.Magical")})`;
 
           i.system.traitsList = list;
 
           // Prepare name and grip label
           if (context.actor.type == 'character') {
-            i.system.gripLabel = CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip] ? i18n(CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip]) : i.system.grip;
+            i.system.gripLabel = CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip] ? _loc(CONFIG.WW.WEAPON_GRIPS_SHORT[i.system.grip]) : i.system.grip;
             
             i.label = `${i.name} (${i.system.gripLabel})${(i.system.traitsList ? ' • ' + i.system.traitsList : '')}`;
-          } else i.label = (i.system.traits.has('range') ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + i.name + (i.system.traitsList ? ' • ' + i.system.traitsList : '');
+          } else i.label = (i.system.traits.has('range') ? _loc('WW.Attack.Ranged') : _loc('WW.Attack.Melee')) + '—' + i.name + (i.system.traitsList ? ' • ' + i.system.traitsList : '');
 
           // Can reload?
           i.canReload = (i.system.traits.has('reload') || i.system.traits.has('firearm')) ?? false;
@@ -217,7 +207,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
           i.heldList = list;
           
           // Prepare tooltip
-          i.containerTooltip = i18n('WW.Container.FilledHint', { filled: i.filled, capacity: i.system.capacity });
+          i.containerTooltip = _loc('WW.Container.FilledHint', { filled: i.filled, capacity: i.system.capacity });
         }
 
         // Prepare label for other Equipment
@@ -249,7 +239,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       // Append to talents.
       else if (i.type === 'talent') {
         // Set label
-        i.label = i.system.magical ? `${i.name} (${i18n("WW.Talent.Magical")})` : i.name;
+        i.label = i.system.magical ? `${i.name} (${_loc("WW.Talent.Magical")})` : i.name;
 
         if (context.actor.type == 'npc') {
           switch (i.system.subtype) {
@@ -292,6 +282,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
       // Append to spells.
       else if (i.type === 'spell') {
         i.label = i.name;
+        i.system.traditionData = await inferDataFromKey('traditions', i.system.tradition);
         spells.push(i);
       }
 
@@ -415,8 +406,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   static async #onEntryCreate(event, button) {
     const dataset = Object.assign({}, button.dataset);
     
-    // Update entry
-    await this._updateEntry(dataset);
+    this._updateEntry(dataset);
   }
 
   /* -------------------------------------------- */
@@ -430,76 +420,40 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
   static async #onEntryEdit(event, button) {
     const dataset = Object.assign({}, button.dataset);
 
-    // Update entry
-    await this._updateEntry(dataset, dataset.entryKey);
+    this._updateEntry(dataset);
   }
 
   /* -------------------------------------------- */
 
-  async _updateEntry(dataset, entryKey) {
-    const path = 'system.listEntries.' + dataset.listKey;
-    const baseObj = {... foundry.utils.getProperty(this.actor.token?.baseActor, path)};
-    const obj = {... foundry.utils.getProperty(this.actor, path)};
-
-    // Get or set entry key and data
-    let entryData = null;
-
-    if (entryKey) {
-      entryData = obj[entryKey];
-    } else {
-      entryKey = defaultListEntryKey(obj, dataset.listKey);
-      const entryName = defaultListEntryName(obj, dataset.listKey);
-      entryData = { name: entryName };
-    }
-
-    // Prepare context
+  async _updateEntry(dataset) {
+    const { listKey, entryKey } = dataset;
+    const fullPath = 'system.listEntries.' + listKey;
+    const set = new Set(foundry.utils.getProperty(this.document._source, fullPath));
+    const entryData = await inferDataFromKey(listKey, entryKey);
+    
+    // Prepare entry context
     const context = {
-      entry: await entryData,
-      key: entryKey,
-      showKey: true,
-      grantedBy: await fromUuid(entryData.grantedBy) ?
-        await foundry.applications.ux.TextEditor.implementation.enrichHTML(`@UUID[${entryData.grantedBy}]`, { secrets: this.actor.isOwner }) : null
+      listKey: listKey,
+      entryKey: entryKey,
+      entry: entryData
     };
 
-    // Show a dialog 
-    const dialogInput = await WWDialog.input({
-      window: {
-        icon: "fa-solid fa-edit",
-        title: 'WW.Settings.Entry.Edit',
-      },
-      content: await foundry.applications.handlebars.renderTemplate('systems/weirdwizard/templates/configs/list-entry-dialog.hbs', context),
-      ok: {
-        label: 'WW.System.Dialog.Save',
-        icon: 'fa-solid fa-save'
-      },
-      buttons: [
-        {
-          label: 'WW.System.Dialog.Cancel',
-          icon: 'fa-solid fa-xmark'
-        },
-      ]
-    });
+    // Open Config app
+    const configKey = await ListEntryConfig.wait(context);
 
-    // Return if cancelled
-    if (!dialogInput) return;
+    // Return if app is cancelled
+    if (!configKey) return;
 
-    // Return with warning if the key or name are missing
-    if (!dialogInput.key || !dialogInput.name) return ui.notifications.warn(i18n('WW.Settings.Entry.EditWarning'));
+    // Return with warning if the key is missing (Not possible anymore?)
+    if (!configKey) return ui.notifications.warn(_loc('WW.Settings.Entry.EditWarning'));
 
-    // Update key and value with dialogInput
-    obj[dialogInput.key] = dialogInput;
-
-    delete await obj[dialogInput.key].key;
-
-    // Delete old entry if key changed
-    if (dialogInput.key !== entryKey) {
-      // If the key exists in the Base Actor, null it
-      if (baseObj?.hasOwnProperty(entryKey) && entryKey !== dialogInput.key) obj[entryKey] = null;
-      // Delete key otherwise
-      else obj['-=' + entryKey] = null;
-    }
+    // Add key provided by the app to the set
+    set.add(configKey);
     
-    await this.actor.update({ [path]: obj });
+    // Delete old key if it's changed
+    if (configKey !== entryKey) set.delete(entryKey);
+    
+    await this.document.update({ [fullPath]: set });
   }
 
   /* -------------------------------------------- */
@@ -511,33 +465,30 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
    * @private
   */
   static async #onEntryRemove(event, button) {
-    const dataset = Object.assign({}, button.dataset),
-      path = 'system.listEntries.' + dataset.listKey,
-      baseObj = foundry.utils.getProperty(this.actor.token?.baseActor, path),
-    key = dataset.entryKey;
+    const { listKey, entryKey } = button.dataset;
+    const fullPath = 'system.listEntries.' + listKey;
+    const values = [...foundry.utils.getProperty(this.document._source, fullPath)];
+    
+    // Splice off the entry
+    await values.findSplice(v => v === entryKey);
     
     // Update document
-    if (baseObj?.hasOwnProperty(key)) {
-      await this.actor.update({ [`${path}.${key}`]: null }); // If the key exists in the Base Actor, null it
-    } else {
-      await this.actor.update({ [`${path}.-=${key}`]: null }); // Delete key otherwise
-    }
-    
+    await this.document.update({ [fullPath]: values });
   }
 
   /* -------------------------------------------- */
 
   /**
-   * Handle removing an element from an array
+   * Display a ListEntryConfig instance with only settings shown.
    * @param {Event} event          The originating click event
    * @param {HTMLElement} button   The button element originating the click event
    * @private
   */
-  static #onEntrySettingsDisplay(event, button) {
+  static #onDisplayEntryList(event, button) {
     const dataset = Object.assign({}, button.dataset),
     listKey = dataset.listKey;
     
-    new EntrySettingsDisplay({ listKey: listKey }).render(true);
+    new ListEntryConfig({ listKey, settingsOnly: true }).render(true);
   }
 
   /* -------------------------------------------- */
@@ -578,7 +529,7 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
     if (system.subtype && type === 'talent') defaultName = CONFIG.WW.TALENT_SUBTYPES[system.subtype];
 
     const itemData = {
-      name: i18n(defaultName),
+      name: _loc(defaultName),
       type: type,
       system: system
     };
@@ -635,8 +586,8 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
         icon: 'fa-solid fa-trash'
       },
       content: `
-        <div>${i18n('WW.Item.Remove.Dialog.Msg', {name: '<b>' + item.name + '</b>'})}</div>
-        <div class="dialog-sure">${i18n('WW.Item.Remove.Dialog.Confirm', {name: item.name})}</div>
+        <div>${_loc('WW.Item.Remove.Dialog.Msg', {name: '<b>' + item.name + '</b>'})}</div>
+        <div class="dialog-sure">${_loc('WW.Item.Remove.Dialog.Confirm', {name: item.name})}</div>
       `
     });
 

@@ -5,7 +5,7 @@
   "_id": "RkhFoaRfdLO0jrlc",
   "img": "icons/magic/light/explosion-star-glow-silhouette.webp",
   "system": {
-    "description": "<p>You can perform a ritual to place yourself into a restful sleep. When you finish, you fall prone and sleep for 1 hour. The effect ends early if you are harmed. If you sleep the whole time, you heal 4d6 damage and you make Intellect and Will rolls with 1 boon for 24 hours. Once you use this talent, you lose access to it until after you rest.</p>",
+    "description": "<p>You can perform a ritual to place yourself into a restful sleep. When you finish, you fall prone and sleep for 1 hour. The effect ends early if you are harmed. If you sleep the whole time, you heal @[4d6|h] damage and you make Intellect and Will rolls with 1 boon for 24 hours. Once you use this talent, you lose access to it until after you rest.</p>",
     "active": true,
     "magical": true,
     "attribute": "",
@@ -20,7 +20,32 @@
       "levelRelative": "manual"
     },
     "healing": "",
-    "instant": [],
+    "instant": [
+      {
+        "label": "affliction",
+        "trigger": "onUse",
+        "target": "any",
+        "affliction": "asleep",
+        "value": "",
+        "img": "icons/svg/skull.svg",
+        "labelLoc": "WW.InstantEffect.Affliction",
+        "triggerLoc": "WW.Effect.OnUse",
+        "triggerIcon": "fa-solid fa-bolt",
+        "targetLoc": "WW.Targeting.Restrictions.Any"
+      },
+      {
+        "label": "heal",
+        "trigger": "onUse",
+        "target": "any",
+        "value": "4d6",
+        "affliction": "",
+        "img": "icons/svg/heal.svg",
+        "labelLoc": "WW.InstantEffect.Heal",
+        "triggerLoc": "WW.Effect.OnUse",
+        "triggerIcon": "fa-solid fa-bolt",
+        "targetLoc": "WW.Targeting.Restrictions.Any"
+      }
+    ],
     "targeting": "manual",
     "template": {
       "type": "size",
@@ -30,7 +55,67 @@
     "source": "tradition",
     "grantedBy": null
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Lucid Dreaming",
+      "img": "icons/magic/light/explosion-star-glow-silhouette.webp",
+      "origin": "Compendium.weirdwizard.spells.Item.RkhFoaRfdLO0jrlc",
+      "disabled": false,
+      "duration": {
+        "value": 24,
+        "units": "hours",
+        "expiry": "turnStart",
+        "expired": false
+      },
+      "system": {
+        "durationPreset": "custom",
+        "trigger": "onUse",
+        "changes": [
+          {
+            "preset": "boons.int",
+            "value": "1",
+            "key": "system.boons.selfRoll.int",
+            "type": "add",
+            "phase": "initial",
+            "priority": null
+          },
+          {
+            "preset": "boons.wil",
+            "value": "1",
+            "key": "system.boons.selfRoll.wil",
+            "type": "add",
+            "phase": "initial",
+            "priority": null
+          }
+        ],
+        "target": "any",
+        "grantedBy": null
+      },
+      "_id": "SPpnZkk4TLapBFl0",
+      "type": "base",
+      "start": null,
+      "description": "",
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": [],
+      "showIcon": 1,
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.367",
+        "systemId": "weirdwizard",
+        "systemVersion": "#{VERSION}#",
+        "createdTime": 1788976916209,
+        "modifiedTime": 1788976973121,
+        "lastModifiedBy": "zin7Kb6P2LomswaD",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_key": "!items.effects!RkhFoaRfdLO0jrlc.SPpnZkk4TLapBFl0"
+    }
+  ],
   "sort": 0,
   "ownership": {
     "default": 0,
@@ -40,12 +125,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744754481534,
-    "modifiedTime": 1766598733666,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788976912859,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!RkhFoaRfdLO0jrlc"

@@ -2,19 +2,9 @@
 /*  Utility Functions (available as game.weirdwizard.utils) */
 /* -------------------------------------------------------- */
 
-export class Utils {
-  static capitalize = capitalize;
-  static plusify = plusify;
-  static formatTime = formatTime;
-  static getEffectBoons = getEffectBoons;
-  static getSpeaker = getSpeaker;
-  static getAlias = getAlias;
-  static sum = sum;
-  static sysPath = sysPath;
-  static constructHTMLButton = constructHTMLButton;
-}
-
-/* Formatting Functions */
+/* -------------------------------------------------------- */
+/*  Formating Functions                                     */
+/* -------------------------------------------------------- */
 export function capitalize(string, noLowerCase) {
   return noLowerCase ? string?.charAt(0).toUpperCase() + string?.slice(1) : string?.charAt(0).toUpperCase() + string?.toLowerCase().slice(1);
 }
@@ -48,7 +38,7 @@ export function formatTime(seconds, isDate) {
     day = 86400, // 3600*24
     week = 604800, // 3600*24*7
     month = 2419200, // 3600*24*7*4
-    label = (k) => { return i18n('WW.Effect.Duration.' + k) }, // Get localized label
+    label = (k) => { return _loc('WW.Effect.Duration.' + k) }, // Get localized label
     obj = {
       months: Math.floor(seconds / month),
       weeks: Math.floor(seconds % month / week),
@@ -90,7 +80,7 @@ export function formatTime(seconds, isDate) {
 
     arr.forEach((v,id) => {
       if (id < arr.length-2) str += v + ', ';
-      else if (id < arr.length-1) str += v + ' ' + i18n('WW.Effect.Duration.And') + ' ';
+      else if (id < arr.length-1) str += v + ' ' + _loc('WW.Effect.Duration.And') + ' ';
       else str += v;
     })
 
@@ -98,14 +88,60 @@ export function formatTime(seconds, isDate) {
   }
 }
 
-export const i18n = (s,d={}) => game.i18n.format(s,d);
-
 export function plusify(x) {
   return x >= 0 ? '+' + x : x
 }
 
 export function sysPath(string) {
   return 'systems/weirdwizard/' + string;
+}
+
+/* -------------------------------------------------------- */
+/*  Formating Functions                                     */
+/* -------------------------------------------------------- */
+
+/**
+ * 
+ * @param {string} listKey 
+ * @param {string} entryKey 
+ * @returns {Document|Setting}
+ */
+export async function inferDataFromKey(listKey, entryKey) {
+  const settingKey = 'available' + capitalize(listKey, 1);
+  const settings = game.settings.settings.has(`weirdwizard.${settingKey}`) ? game.settings.get('weirdwizard', settingKey) : null;
+  const setting = settings?.[entryKey];
+  const doc = await fromUuid(entryKey);
+  const statusEffect = listKey === 'immunities' ? CONFIG.statusEffects.find(e => e.id === entryKey) : null;
+  
+  // Document
+  if (doc) return {
+    ...doc,
+    key: entryKey,
+    desc: await doc.toCard(),
+    matchedAs: doc.documentName === 'JournalEntryPage' ? 'charOption' : 'document'
+  };
+
+  // Status Effect
+  else if (statusEffect) return {
+    ...statusEffect,
+    key: entryKey,
+    desc: statusEffect.description,
+    matchedAs: 'statusEffect'
+  };
+
+  // Setting
+  else if (setting) return {
+    ... setting,
+    key: entryKey,
+    matchedAs: 'setting'
+  };
+
+  // Fallback
+  else return {
+    key: entryKey,
+    name: entryKey,
+    matchedAs: null
+  };
 }
 
 /**
@@ -120,7 +156,7 @@ export function defaultListEntryKey(list, listKey) {
   for (const entryKey in list) takenKeys.add(entryKey);
   
   // Determine base name listKey and localize it
-  const baseKey = CONFIG.WW.NEW_DEFAULT_ENTRY[listKey]?.key ?? 'entry';
+  const baseKey = CONFIG.WW.DEFAULT_ENTRIES.NEW_LIST[listKey]?.key ?? 'entry';
 
   // Determine and return name
   let key = baseKey;
@@ -148,14 +184,14 @@ export function defaultListEntryName(list, listKey) {
   }
   
   // Determine base name listKey and localize it
-  const baseNameKey = listKey ? CONFIG.WW.NEW_DEFAULT_ENTRY[listKey]?.loc : null;
+  const baseNameKey = listKey ? CONFIG.WW.DEFAULT_ENTRIES.NEW_LIST[listKey]?.loc : null;
   
-  const baseName = baseNameKey ? i18n(baseNameKey) : 'Entry';
+  const baseName = baseNameKey ? _loc(baseNameKey) : 'Entry';
   
   // Determine and return name
   let name = baseName;
 
-  if (listKey.includes('languages') && !Object.keys(list).length) name = i18n('WW.ListEntry.Language.Common');
+  if (listKey.includes('languages') && !Object.keys(list).length) name = _loc('WW.ListEntry.Language.Common');
   else {
     let index = 1;
     while (takenNames.has(name)) name = `${baseName} (${++index})`;
@@ -171,6 +207,64 @@ export function defaultListEntryName(list, listKey) {
 export function sum(array) {
   let sum = array.reduce((partialSum, a) => partialSum + a, 0);
   return sum;
+}
+
+/**
+ * Convert a fraction string to a number of up to X decimal digits.
+ * @param {string} fraction 
+ * @param {number} digits 
+ * @returns {number|null}
+ */
+export function fractionToNumber(fraction, digits=4) {
+  if (typeof fraction !== 'string') return null;
+  if (!fraction.includes("/")) return parseInt(fraction);
+
+  const [numerator, denominator] = fraction.split("/");
+  const number = numerator / denominator;
+  const factor = 10 ** digits;
+  const trimmed = Math.trunc(number * factor) / factor;
+  
+  return Number.isFinite(trimmed) ? trimmed : null;
+}
+
+/**
+ * Find the nearest fraction for a given number.
+ * Returns 0 if fraction is too small.
+ * @param {number} number
+ * @param {number} maxDenominator
+ * @returns {string|null} Fraction or null
+ */
+export function nearestFraction(number, maxDenominator=128) {
+  let lowerNumerator = 1, lowerDenominator = 0;
+  let upperNumerator = 0, upperDenominator = 1;
+
+  // Return earlier
+  if (!number) return null;
+  if (number >= 1) return `${number}`;
+
+  // Continued fractions
+  while (true) {
+    const whole = Math.floor(number);
+    const nextNum = lowerNumerator * whole + upperNumerator;
+    const nextDen = lowerDenominator * whole + upperDenominator;
+
+    // Top if bigger than maximum denominator
+    if (nextDen > maxDenominator) break;
+
+    // Assign next numerators and denominators
+    upperNumerator = lowerNumerator;
+    upperDenominator = lowerDenominator;
+    lowerNumerator = nextNum;
+    lowerDenominator = nextDen;
+
+    // Check remainder to see if it's still relevant
+    const remainder = number - whole;
+    if (remainder < 1e-7) break;
+    number = 1 / remainder;
+  }
+
+  // Return null if too low
+  return lowerNumerator === 0 ? null : `${lowerNumerator}/${lowerDenominator}`;
 }
 
 /* -------------------------------------------- */
@@ -229,7 +323,7 @@ export function getFolderList(compendium) {
     folderList[folder.id] = {
       value: folder.id,
       label: folder.name,
-      group: i18n('Existing folders')
+      group: _loc('Existing folders')
     }
 
   }
@@ -323,7 +417,7 @@ export function handleWelcomeMessage(force = false) {
   }
 
   const intro = `<img style="background: none;" src="systems/weirdwizard/assets/decorations/sww-logo.png">`;
-  const content = i18n('WW.System.Welcome', { intro: intro }) + i18n('WW.System.WelcomeFooter');
+  const content = _loc('WW.System.Welcome', { intro: intro }) + _loc('WW.System.WelcomeFooter');
   ChatMessage.create({
     speaker: game.weirdwizard.utils.getSpeaker({ alias: game.system.title }),
     content: content,

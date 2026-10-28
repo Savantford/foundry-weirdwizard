@@ -8,9 +8,9 @@
   "download": "#{DOWNLOAD}#",
   "readme": "https://github.com/Savantford/foundry-weirdwizard#readme",
   "compatibility": {
-    "minimum": "13",
-    "verified": "13",
-    "maximum": "13"
+    "minimum": "14",
+    "verified": "14",
+    "maximum": "14"
   },
   "authors": [
     {
@@ -140,6 +140,38 @@
           "compendiumType": "spells"
         }
       }
+    },
+    {
+      "name": "sample-enemies",
+      "label": "Sample Enemies",
+      "banner": "systems/weirdwizard/assets/artwork/banners/sample-enemies.webp",
+      "system": "weirdwizard",
+      "path": "packs/sample-enemies.db",
+      "type": "Actor"
+    },
+    {
+      "name": "senses",
+      "label": "Senses",
+      "banner": "systems/weirdwizard/assets/artwork/banners/senses.webp",
+      "system": "weirdwizard",
+      "path": "packs/senses.db",
+      "type": "ActiveEffect"
+    },
+    {
+      "name": "artificial-light",
+      "label": "Artificial Light",
+      "banner": "systems/weirdwizard/assets/artwork/banners/artificial-light.webp",
+      "system": "weirdwizard",
+      "path": "packs/artificial-light.db",
+      "type": "ActiveEffect"
+    },
+    {
+      "name": "disguises",
+      "label": "Disguises",
+      "banner": "systems/weirdwizard/assets/artwork/banners/disguises.webp",
+      "system": "weirdwizard",
+      "path": "packs/disguises.db",
+      "type": "ActiveEffect"
     }
   ],
   "packFolders": [
@@ -161,11 +193,53 @@
           "sorting": "m",
           "color": "#775B7B",
           "packs": ["character-options", "traits", "talents", "spells"]
+        },
+        {
+          "name": "Effects",
+          "sorting": "m",
+          "color": "#775B7B",
+          "packs": ["senses", "artificial-light", "disguises"]
+        },
+        {
+          "name": "Miscellaneous",
+          "sorting": "m",
+          "color": "#775B7B",
+          "packs": ["sample-enemies"]
         }
-        
       ]
     }
   ],
+  "documentTypes": {
+    "Actor": {
+      "character": {},
+      "npc": {},
+      "group": {},
+      "vehicle": {}
+    },
+    "Item": {
+      "equipment": {},
+      "talent": {},
+      "spell": {}
+    },
+    "ActiveEffect": {
+      "benefit": {},
+      "affliction": {},
+      "sense": {}
+    },
+    "JournalEntryPage": {
+      "ancestry": {},
+      "path": {},
+      "profession": {},
+      "tradition": {}
+    },
+    "ChatMessage": {
+      "d20-roll": {},
+      "d6-roll": {},
+      "unrolled-use": {},
+      "embed-card": {},
+      "status": {}
+    }
+  },
   "grid": {
     "distance": 1,
     "units": "yard"

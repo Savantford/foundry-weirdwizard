@@ -1,0 +1,72 @@
+<li class="effect-card" data-effect-id="{{ _id }}">
+  {{!-- Image --}}
+  <img class="image" src="{{ img }}">
+
+  {{!-- Main block --}}
+  <div class="main">
+    <div class="header">
+      {{!-- Title --}}
+      <label class="item-button" data-action="effectEdit" data-effect-id="{{ _id }}" data-tooltip="{{ tooltip }}">{{ name }}</label>
+
+      {{!-- Controls --}}
+      <div class="item-controls effect-controls flexrow">
+        {{#if cat.showControls}}
+
+        {{!-- Toggle --}}
+        {{#unless cat.showDuration}}
+        <a class="effect-control" data-action="effectToggle" data-effect-id="{{ _id }}" data-tooltip="WW.Effect.Toggle">
+          <i class="fa-solid {{#if disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i>
+        </a>
+        {{/unless}}
+
+        {{!-- Edit --}}
+        <a class="effect-control" data-action="effectEdit" data-effect-id="{{ _id }}" data-tooltip="WW.Effect.Edit">
+          <i class="fa-solid fa-edit"></i>
+        </a>
+
+        {{!-- Remove --}}
+        <a class="effect-control" data-action="effectRemove" data-effect-id="{{ _id }}" data-tooltip="WW.Effect.Remove">
+          <i class="fa-solid fa-trash"></i>
+        </a>
+
+        {{else}}
+        {{!-- Information --}}
+        <a data-tooltip="{{#if isBenefit}}WW.Effect.HandledByCharOption{{else}}WW.Effect.HandledByItem{{/if}}">
+          <i class="fa-solid fa-circle-question"></i>
+        </a>
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="tags">
+      {{!-- Duration --}}
+      {{#if cat.showDuration}}
+        {{!-- Luck Ends --}}
+        {{#if (and (lte duration.remaining 0) (eq duration.expiry "luckEnds"))}}
+          <a class="frame duration expiry luck-ends" data-action="effectLuckEnds" data-effect-id="{{ _id }}">
+            <img src="systems/weirdwizard/assets/icons/clover.svg" height="13"> {{localize "WW.Effect.Duration.Expiry.LuckEnds"}}
+          </a>
+
+        {{!-- Expiry Event --}}
+        {{else if duration.isRemainingExpired}}
+          <div class="frame duration expiry">
+            <img src="systems/weirdwizard/assets/icons/hourglass.svg" height="13"> {{ localize (lookup @root.expiryEvents duration.expiry) }}
+          </div>
+
+        {{!-- Duration in Units --}}
+        {{else}}
+        <div class="frame duration units">
+          <img src="systems/weirdwizard/assets/icons/hourglass.svg" height="13"> {{ duration.label }}
+        </div>
+        {{/if}}
+      {{/if}}
+
+      {{!-- Source --}}
+      {{#if (ne sourceCard 'None')}} {{!-- TODO: Improve to exclude the own Actor --}}
+      <div class="frame source effect-source">
+        {{{ sourceCard }}}
+      </div>
+      {{/if}}
+    </div>
+  </div>
+</li>

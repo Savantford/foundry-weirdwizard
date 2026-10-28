@@ -1,6 +1,5 @@
-import { i18n, slideDown, slideUp } from '../helpers/utils.mjs';
-import { WWAfflictions } from '../helpers/afflictions.mjs'
-import RollAttribute from '../dice/roll-attribute.mjs';
+import { slideDown, slideUp } from '../helpers/utils.mjs';
+import ActivityUse from './activity-use.mjs';
 
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
@@ -81,8 +80,8 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
     }
     
     // Define submit button label
-    context.submitLabel = opt.purpose === 'editWeaponTraits' ? i18n('WW.System.Dialog.Save') : i18n('WW.System.Dialog.Confirm');
-    if (opt.purpose === 'updateAfflictions') context.clearAfflictionsLabel =  i18n('WW.Affliction.Clear');
+    context.submitLabel = opt.purpose === 'editWeaponTraits' ? _loc('WW.System.Dialog.Save') : _loc('WW.System.Dialog.Confirm');
+    if (opt.purpose === 'updateAfflictions') context.clearAfflictionsLabel =  _loc('WW.Affliction.Clear');
 
     return context;
   }
@@ -115,7 +114,7 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
    * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
   */
   static #clearAfflictions(event, target) {
-    WWAfflictions.clearAfflictions(this.document);
+    this.document.clearAfflictions();
   }
 
   /**
@@ -146,32 +145,29 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
 
       // Update Afflictions
       case 'updateAfflictions':
-        for (const aff in CONFIG.WW.AFFLICTIONS) {
-          
-          if (selected[aff]) {
-            const affliction = CONFIG.statusEffects.find(a => a.id === aff);
-            
-            if (affliction && !opt.document.effects.find(e => e.statuses.has(aff))) {
-              affliction['statuses'] = [affliction.id];
-              
-              await ActiveEffect.create(affliction, {parent: opt.document});
-            }
+        const ActiveEffect = getDocumentClass("ActiveEffect");
 
+        for (const affId in CONFIG.WW.AFFLICTIONS) {
+          if (selected[affId]) {
+            const affliction = await ActiveEffect.fromStatusEffect(affId, {parent: opt.document});
+            
+            if (affliction && !opt.document.effects.find(e => e.statuses.has(affId))) {
+              return ActiveEffect.create(affliction.toObject(), {parent: opt.document, keepId: true});
+            }
           } else {
-            const affliction = opt.document.effects.find(e => e.statuses.has(aff));
+            const affliction = opt.document.effects.find(e => e.statuses.has(affId));
             
             if (affliction) await affliction.delete();
           }
-
         }
       break;
 
       // Chat Effect Application
       case 'applyEffect':
-        const value = opt.dataset.value, effect = opt.dataset.effectUuid;
+        const value = opt.dataset.value;
+        const effect = opt.dataset.effectUuid;
 
         for (const uuid in selected) {
-
           const target = await fromUuid(uuid);
 
           switch (opt.dataset.action) {
@@ -184,7 +180,6 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
             case 'applyAffliction': target.applyAffliction(value); break;
             case 'applyEffect': target.applyEffect(effect); break;
           }
-
         }
       break;
 
@@ -193,19 +188,28 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
         const { attribute, fixedBoons } = opt.dataset;
 
         for (const uuid in selected) {
-
           const target = await fromUuid(uuid);
 
-          const rollInfo = {
+          const activityOptions = {
             actor: target,
-            label: i18n(CONFIG.WW.ROLL_ATTRIBUTES[attribute]),
-            content: '',
-            attKey: attribute,
-            fixedBoons: parseInt(fixedBoons)
+            roll: {
+              attribute: {
+                key: attribute
+              },
+              boons: {
+                fixed: parseInt(fixedBoons)
+              }
+            },
+            message: {
+              flavor: _loc(CONFIG.WW.ROLL_ATTRIBUTES[attribute]),
+              content: '',  
+            },
+            args: {
+              noTargeting: true
+            }
           }
 
-          new RollAttribute(rollInfo).render(true);
-
+          new ActivityUse(activityOptions).render(true);
         }
 
       break;    

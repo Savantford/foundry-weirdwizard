@@ -15,7 +15,7 @@
     "affliction": "",
     "uses": {
       "value": 0,
-      "max": 0,
+      "max": 1,
       "onRest": true,
       "levelRelative": "manual"
     },
@@ -40,12 +40,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.367",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1744755015302,
-    "modifiedTime": 1766598605081,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1788981215495,
+    "lastModifiedBy": "zin7Kb6P2LomswaD",
     "exportSource": null
   },
   "_key": "!items!STijj3H9c4BM5kcM"

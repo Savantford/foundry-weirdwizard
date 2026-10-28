@@ -1,4 +1,4 @@
-import { capitalize, i18n, plusify, sysPath } from "../helpers/utils.mjs";
+import { capitalize, inferDataFromKey, plusify, sysPath } from "../helpers/utils.mjs";
 
 /**
  * A mixin which extends each Document definition with specialized client-side behaviors.
@@ -6,10 +6,8 @@ import { capitalize, i18n, plusify, sysPath } from "../helpers/utils.mjs";
  * @category Mixins
  * @param {typeof Document} Base    The base Document class to be mixed
  */
-export default function WWDocumentMixin(Base) {
-  
-  class WWBaseDocument extends Base {
-
+export default function WWDocumentMixin(base) {
+  return class WWBaseDocument extends base {
     /* -------------------------------------------- */
     /*  Data Preparation                            */
     /* -------------------------------------------- */
@@ -49,7 +47,7 @@ export default function WWDocumentMixin(Base) {
     async toAnchor({attrs={}, dataset={}, classes=[], name, icon}={}) {
       // Build dataset
       const documentConfig = CONFIG[this.documentName];
-      const documentName = game.i18n.localize(`DOCUMENT.${this.documentName}`);
+      const documentName = _loc(`DOCUMENT.${this.documentName}`);
       let anchorIcon = icon ?? documentConfig.sidebarIcon;
       
       if ( !classes.includes("content-link") ) classes.unshift("content-link");
@@ -66,9 +64,9 @@ export default function WWDocumentMixin(Base) {
       // If this is a typed document, add the type to the dataset
       if ( this.type ) {
         /*const typeLabel = documentConfig.typeLabels[this.type];
-        const typeName = game.i18n.has(typeLabel) ? `${game.i18n.localize(typeLabel)}` : "";
+        const typeName = game._loc.has(typeLabel) ? `${_loc(typeLabel)}` : "";
         dataset.tooltipText ??= typeName ?
-          game.i18n.format("DOCUMENT.TypePageFormat", {type: typeName, page: documentName}) :
+          _loc("DOCUMENT.TypePageFormat", {type: typeName, page: documentName}) :
           documentName;*/
         anchorIcon = icon ?? documentConfig.typeIcons?.[this.type] ?? documentConfig.sidebarIcon;
       }
@@ -196,16 +194,16 @@ export default function WWDocumentMixin(Base) {
               if (subtypes.includes(subtype)) category = subtype;
 
               // Prepare name label
-              let label = item.system.magical ? `${item.name} (${i18n("WW.Talent.Magical")})` : item.name;
+              let label = item.system.magical ? `${item.name} (${_loc("WW.Talent.Magical")})` : item.name;
 
               // Prepare attribute label
               let attributeLabel = null;
 
               if (item.system.attribute == 'luck') {
-                attributeLabel = `${i18n('WW.Attributes.Luck')} (+0)`;
+                attributeLabel = `${_loc('WW.Attributes.Luck')} (+0)`;
               } else if (item.system.attribute) {
                 const attribute = context.system.attributes[item.system.attribute];
-                attributeLabel = `${i18n(CONFIG.WW.ATTRIBUTES[item.system.attribute])} (${plusify(attribute.mod)})`
+                attributeLabel = `${_loc(CONFIG.WW.ATTRIBUTES[item.system.attribute])} (${plusify(attribute.mod)})`
               }
 
               // Prepare absolute boons
@@ -220,7 +218,7 @@ export default function WWDocumentMixin(Base) {
                 else if (boons < 0) boonsLoc = "WW.Boons.Bane";
                 else if (boons > 1) boonsLoc = "WW.Boons.Boons";
 
-                boonsLabel = `${i18n("WW.Boons.With")} ${Math.abs(boons)} ${i18n(boonsLoc)}`;
+                boonsLabel = `${_loc("WW.Boons.With")} ${Math.abs(boons)} ${_loc(boonsLoc)}`;
               }
               
               // Prepare weapon fields
@@ -230,19 +228,19 @@ export default function WWDocumentMixin(Base) {
                 let list = '';
 
                 for (const x of item.system.traits) {
-                  let string = i18n('WW.Weapon.Traits.' + capitalize(x) + '.Label');
+                  let string = _loc('WW.Weapon.Traits.' + capitalize(x) + '.Label');
                   
-                  if ((x === 'range') || (x === 'reach' && item.system.range) || (x === 'thrown')) string += ` ${item.system.range}`;
+                  if ((x === 'range') || (x === 'reach' && item.system.targeting.range) || (x === 'thrown')) string += ` ${item.system.targeting.range}`;
 
                   list = list.concat(list ? ', ' + string : string);
                 }
 
-                if (item.system.magical) list += ` (${i18n("WW.Talent.Magical")})`;
+                if (item.system.magical) list += ` (${_loc("WW.Talent.Magical")})`;
 
                 item.system.traitsList = list;
 
                 // Prepare name and grip label
-                label = (item.system.traits.has('range') ? i18n('WW.Attack.Ranged') : i18n('WW.Attack.Melee')) + '—' + item.name + (item.system.traitsList ? ' • ' + item.system.traitsList : '');
+                label = (item.system.traits.has('range') ? _loc('WW.Attack.Ranged') : _loc('WW.Attack.Melee')) + '—' + item.name + (item.system.traitsList ? ' • ' + item.system.traitsList : '');
 
                 // Is shield?
                 for (const e of item.effects) {
@@ -280,17 +278,17 @@ export default function WWDocumentMixin(Base) {
           // Prepare subtitle
           switch (this.type) {
             case 'equipment':
-              context.subtitle = i18n(CONFIG.WW.EQUIPMENT_SUBTYPES[this.system.subtype]);
-              if (this.system.subtype === 'weapon') context.subtitle += ` • ${i18n(CONFIG.WW.WEAPON_GRIPS[this.system.grip])}`;
+              context.subtitle = _loc(CONFIG.WW.EQUIPMENT_SUBTYPES[this.system.subtype]);
+              if (this.system.subtype === 'weapon') context.subtitle += ` • ${_loc(CONFIG.WW.WEAPON_GRIPS[this.system.grip])}`;
             break;
 
             case 'talent':
-              context.subtitle = i18n(CONFIG.WW.TALENT_SOURCE_LABELS[this.system.source]);
+              context.subtitle = _loc(CONFIG.WW.TALENT_SOURCE_LABELS[this.system.source]);
             break;
 
             case 'spell':
-              context.subtitle = i18n(CONFIG.WW.SPELL_TIERS[this.system.tier]);
-              if (this.system.tradition) context.subtitle += ` • ${this.system.tradition}`;
+              context.subtitle = _loc(CONFIG.WW.SPELL_TIERS[this.system.tier]);
+              if (this.system.tradition) context.subtitle += ` • ${(await inferDataFromKey('traditions', this.system.tradition)).name}`;
             break;
           }
           
@@ -301,7 +299,7 @@ export default function WWDocumentMixin(Base) {
 
         case 'ActiveEffect': {
           // Prepare subtitle
-          context.subtitle = i18n((this.duration.rounds || this.duration.seconds) ? "WW.Effect.Temporary" : "WW.Effect.Permanent");
+          context.subtitle = _loc(this.isTemporary ? "WW.Effect.Temporary" : "WW.Effect.Permanent");
 
           // Prepare main text
           context.text = await TextEditor.enrichHTML(this.description);
@@ -310,15 +308,17 @@ export default function WWDocumentMixin(Base) {
           context.changes = '';
 
           for (const c of this.changes) {
-            const label = CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.key] ? i18n(CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.key]) : 'BROKEN EFFECT CHANGE, FIX IT!';
-            context.changes += `<li>${label} ${(c.value !== true) ? `${c.value}.` : ''}</li>`;
+            const loc = _loc(CONFIG.WW.EFFECT_CHANGE_PRESET_LABELS[c.preset]);
+    
+            if (loc) context.changes += `<li>${loc} ${(c.value !== 'true') ? `${c.value}.` : ''}</li>`;
+            else context.changes += `<li>${c.key} = ${c.value}</li>`;
           }
 
         }; break;
 
         case 'JournalEntryPage': {
           // Prepare subtitle for Character Options
-          if (this.isCharOption) context.subtitle = i18n(CONFIG.WW.CHARACTER_OPTIONS[this.type]);
+          if (this.isCharOption) context.subtitle = _loc(CONFIG.WW.CHARACTER_OPTIONS[this.type]);
 
           // Prepare main text
           context.text = await TextEditor.enrichHTML(this.text.content);
@@ -328,121 +328,5 @@ export default function WWDocumentMixin(Base) {
       return context;
 
     }
-
-    /**
-     * @override
-     * Present a Dialog form to create a new Document of this type.
-     * Choose a name and a type from a select menu of types.
-     * @param {object} data                Document creation data
-     * @param {DatabaseCreateOperation} [createOptions]  Document creation options.
-     * @param {object} [options={}]        Options forwarded to DialogV2.prompt
-     * @param {{id: string; name: string}[]} [options.folders] Available folders in which the new Document can be place
-     * @param {string[]} [options.types]   A restriction of the selectable sub-types of the Dialog.
-     * @param {string} [options.template]  A template to use for the dialog contents instead of the default.
-     * @param {object} [options.context]   Additional render context to provide to the template.
-     * @returns {Promise<Document|null>}   A Promise which resolves to the created Document, or null if the dialog was
-     *                                     closed.
-     */
-    static async createDialog(data={}, createOptions={}, {folders, types, template, context, ...dialogOptions}={}) {
-      const applicationOptions = {
-        top: "position", left: "position", width: "position", height: "position", scale: "position", zIndex: "position",
-        title: "window", id: "", classes: "", jQuery: ""
-      };
-
-      for ( const [k, v] of Object.entries(createOptions) ) {
-        if ( k in applicationOptions ) {
-          foundry.utils.logCompatibilityWarning("The ClientDocument.createDialog signature has changed. "
-            + "It now accepts database operation options in its second parameter, "
-            + "and options for DialogV2.prompt in its third parameter.", { since: 13, until: 15, once: true });
-          const dialogOption = applicationOptions[k];
-          if ( dialogOption ) foundry.utils.setProperty(dialogOptions, `${dialogOption}.${k}`, v);
-          else dialogOptions[k] = v;
-          delete createOptions[k];
-        }
-      }
-
-      const { parent, pack } = createOptions;
-      const cls = this.implementation;
-
-      // Identify allowed types
-      const documentTypes = [];
-      let defaultType = CONFIG[this.documentName]?.defaultType;
-      let defaultTypeAllowed = false;
-      let hasTypes = false;
-      if ( this.TYPES.length > 1 ) {
-        if ( types?.length === 0 ) throw new Error("The array of sub-types to restrict to must not be empty");
-
-        // Register supported types
-        for ( const type of this.TYPES ) {
-          if ( type === CONST.BASE_DOCUMENT_TYPE ) continue;
-          if ( types && !types.includes(type) ) continue;
-          let label = CONFIG[this.documentName]?.typeLabels?.[type];
-          label = label && game.i18n.has(label) ? game.i18n.localize(label) : type;
-          documentTypes.push({value: type, label});
-          if ( type === defaultType ) defaultTypeAllowed = true;
-        }
-        if ( !documentTypes.length ) throw new Error("No document types were permitted to be created");
-
-        if ( !defaultTypeAllowed ) defaultType = documentTypes[0].value;
-        // Sort alphabetically
-        //documentTypes.sort((a, b) => a.label.localeCompare(b.label, game.i18n.lang));
-        hasTypes = true;
-      }
-
-      // Identify destination collection
-      let collection;
-      if ( !parent ) {
-        if ( pack ) collection = game.packs.get(pack);
-        else collection = game.collections.get(this.documentName);
-      }
-
-      // Collect data
-      folders ??= collection?._formatFolderSelectOptions() ?? [];
-      const label = game.i18n.localize(this.metadata.label);
-      const title = game.i18n.format("DOCUMENT.Create", {type: label});
-      const type = data.type || defaultType;
-
-      // Render the document creation form
-      template ??= "templates/sidebar/document-create.html";
-      const html = await foundry.applications.handlebars.renderTemplate(template, {
-        folders, hasTypes, type,
-        name: data.name || "",
-        defaultName: cls.defaultName({type, parent, pack}),
-        folder: data.folder,
-        hasFolders: folders.length >= 1,
-        types: documentTypes,
-        ...context
-      });
-      const content = document.createElement("div");
-      content.innerHTML = html;
-
-      // Render the confirmation dialog window
-      return foundry.applications.api.DialogV2.prompt(foundry.utils.mergeObject({
-        content,
-        window: {title}, // FIXME: double localization
-        position: {width: 360},
-        render: (event, dialog) => {
-          if ( !hasTypes ) return;
-          dialog.element.querySelector('[name="type"]').addEventListener("change", e => {
-            const nameInput = dialog.element.querySelector('[name="name"]');
-            nameInput.placeholder = cls.defaultName({type: e.target.value, parent, pack});
-          });
-        },
-        ok: {
-          label: title, // FIXME: double localization
-          callback: (event, button) => {
-            const fd = new foundry.applications.ux.FormDataExtended(button.form);
-            foundry.utils.mergeObject(data, fd.object);
-            if ( !data.folder ) delete data.folder;
-            if ( !data.name?.trim() ) data.name = cls.defaultName({type: data.type, parent, pack});
-            return cls.create(data, {renderSheet: true, ...createOptions});
-          }
-        }
-      }, dialogOptions));
-    }
-
   }
-
-  return WWBaseDocument;
-
 }

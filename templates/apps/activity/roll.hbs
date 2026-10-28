@@ -1,0 +1,68 @@
+<section class="roll">
+  {{!-- Heading --}}
+  <h4 class="icon"><i class="fa-regular fa-dice-d20"></i> {{localize "WW.Roll.Label"}}</h4>
+  
+  {{!-- Roll Expression --}}
+  {{#with roll}}
+  <div class="roll-expression">{{ expression }}</div>
+  
+  {{!-- Icons --}}
+  <div class="icons-expression mt-1">
+    
+    {{!-- d20 --}}
+    <div class="term d20">
+      <img src="icons/svg/d20-highlight.svg"></img>
+      <div>d20</div>
+    </div>
+
+    {{!-- Attribute Modifier --}}
+    {{#if attribute.key}}
+    <div class="operator attribute">{{#if (lt attribute.mod 0)}}−{{else}}+{{/if}}</div>
+
+    <div class="term attribute" data-tooltip="{{ attribute.label }}">
+      <div>{{ attribute.mod }}</div>
+      <img src="{{ attribute.icon }}" />
+    </div>
+    {{/if}}
+
+    {{!-- Flat Modifier --}}
+    {{#if flatMod}}
+    <div class="operator flat" data-tooltip="WW.Roll.Flat">{{#if (lt flatMod 0)}}−{{else}}+{{/if}} {{ flatModAbs }}</div>
+    {{/if}}
+  
+    {{!-- Boons --}}
+    {{#if (gt boons.final 0)}}
+    <div class="operator boons">+</div>
+
+    <div class="term boons" data-tooltip="{{ boons.abs }} {{localize "WW.Roll.Boons"}}">
+      <div>{{ boons.display }}d6kh</div>
+      <img src="systems/weirdwizard/assets/icons/rolling-boon{{#if (gt boons.abs 1)}}s{{/if}}-colored.svg"/>
+    </div>
+
+    {{!-- Banes --}}
+    {{else if (lt boons.final 0)}}
+    <div class="operator banes">−</div>
+
+    <div class="term banes" data-tooltip="{{ boons.abs }} {{localize "WW.Roll.Banes"}}">
+      <div>{{ boons.display }}d6kh</div>
+      <img src="systems/weirdwizard/assets/icons/rolling-bane{{#if (gt boons.abs 1)}}s{{/if}}-colored.svg"/>
+    </div>
+    {{/if}}
+
+    {{!-- Against --}}
+    {{#if (or against.key (ne against.tn 10))}}
+    <div class="operator against mx-1">vs</div>
+
+    <div class="term against" data-tooltip="{{ against.label }}">
+      {{#unless against.key}}<div>{{ against.tn }}</div>{{/unless}}
+
+      <img src="{{ against.icon }}" />
+    </div>
+    {{/if}}
+  </div>
+  {{/with}}
+
+  {{!-- Roll Details Collapsible --}}
+  {{> "systems/weirdwizard/templates/apps/activity/roll-details.hbs" data=context }}
+
+</section>

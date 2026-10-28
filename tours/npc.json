@@ -68,7 +68,7 @@
                 "changes": [
                   {
                     "key": "system.boons.attributes.str.global",
-                    "mode": 2,
+                    "type": 2,
                     "priority": null,
                     "value": 1
                   }

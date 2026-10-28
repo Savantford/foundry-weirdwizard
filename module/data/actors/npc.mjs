@@ -1,5 +1,5 @@
 import BaseActorModel from './base-creature.mjs';
-import { makeIntField, makeStrField, makeUuidStrField } from '../field-presets.mjs';
+import { makeIntField, makeStrField } from '../field-presets.mjs';
 
 export default class NpcModel extends BaseActorModel {
 
@@ -11,21 +11,21 @@ export default class NpcModel extends BaseActorModel {
       
     // Character Options
     schema.charOptions = new fields.SchemaField({
-      ancestry: makeUuidStrField()
+      ancestry: makeStrField()
     });
 
     // Add NPC stats
-    schema.stats.fields.difficulty = makeIntField(1);
+    schema.stats.fields.difficulty = makeIntField({ initial: 1 });
 
     // Change NPC initial stats
-    schema.stats.fields.defense.fields.natural = makeIntField(10);
-    schema.stats.fields.defense.fields.natural = makeIntField(10);
-    schema.stats.fields.health.fields.normal = makeIntField(10);
-    schema.stats.fields.health.fields.current = makeIntField(10);
+    schema.stats.fields.defense.fields.natural = makeIntField({ initial: 10 });
+    schema.stats.fields.defense.fields.natural = makeIntField({ initial: 10 });
+    schema.stats.fields.health.fields.normal = makeIntField({ initial: 10 });
+    schema.stats.fields.health.fields.current = makeIntField({ initial: 10 });
 
     // Add details
     schema.details = new fields.SchemaField({
-      individualTraits: makeStrField(),
+      individualTraits: makeStrField()
     });
 
     return schema;
@@ -47,5 +47,4 @@ export default class NpcModel extends BaseActorModel {
 
     return super.migrateData(source);
   }
-
 }

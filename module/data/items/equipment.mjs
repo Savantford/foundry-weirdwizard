@@ -9,54 +9,32 @@ export default class EquipmentModel extends BaseItemModel {
     const schema = super.defineSchema();
 
     // Add common Equipment fields
-    schema.subtype = makeRequiredStrField('generic');
-    schema.quantity = makeIntField(1);
-    schema.weightUnit = makeIntField(1);
+    schema.subtype = makeRequiredStrField({ initial: 'generic' });
+    schema.quantity = makeIntField({ initial: 1 });
+    schema.weightUnit = makeIntField({ initial: 1 });
     schema.heldBy = makeIdStrField();
-    schema.availability = makeRequiredStrField('common');
-    schema.quality = makeRequiredStrField('standard');
+    schema.availability = makeRequiredStrField({ initial: 'common' });
+    schema.quality = makeRequiredStrField({ initial: 'standard' });
     schema.price = new fields.SchemaField({
       value: makeFloField(),
-      coin: makeRequiredStrField('sp')
+      coin: makeRequiredStrField({ initial: 'sp' })
     });
     
     // Add subtype specific fields
-    schema.armorType = makeRequiredStrField('light');
-    schema.capacity = makeIntField(1);
-    //schema.consumableType = makeRequiredStrField('potion');
+    schema.armorType = makeRequiredStrField({ initial: 'light' });
+    schema.capacity = makeIntField({ initial: 1 });
+    //schema.consumableType = makeRequiredStrField({ initial: 'potion' });
 
     // Adjust Equipment-specific initials
-    schema.uses.fields.onRest = makeBooField(false);
-    //obj.uses.fields.autoDestroy = makeBooField(false);
+    schema.uses.fields.onRest = makeBooField();
+    //obj.uses.fields.autoDestroy = makeBooField();
 
     // Add Weapon fields
     schema.requirements = makeStrField();
     schema.damage = makeStrField();
     schema.damageAlt = makeStrField();
-    schema.grip = makeRequiredStrField('one');
-    schema.reloaded = makeBooField(true);
-
-    /*schema.traits = new fields.SchemaField({
-      ammunition: makeBooField(false),
-      bludgeoning: makeBooField(false),
-      brutal: makeBooField(false),
-      disarming: makeBooField(false),
-      firearm: makeBooField(false),
-      large: makeBooField(false),
-      light: makeBooField(false),
-      long: makeBooField(false),
-      misfire: makeBooField(false),
-      nimble: makeBooField(false),
-      piercing: makeBooField(false),
-      range: makeBooField(false),
-      reload: makeBooField(false),
-      slashing: makeBooField(false),
-      slow: makeBooField(false),
-      special: makeBooField(false),
-      thrown: makeBooField(false),
-      versatile: makeBooField(false)
-    });*/
-
+    schema.grip = makeRequiredStrField({ initial: 'one' });
+    schema.reloaded = makeBooField({ initial: true });
     schema.traits = new fields.SetField(
       makeRequiredStrField()
     );

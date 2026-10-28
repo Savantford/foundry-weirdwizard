@@ -1,17 +1,34 @@
 <li class="list-entry">
-
     {{!-- Name --}}
-    <a class="array-button" data-action="entryEdit" data-list-key="{{listKey}}" data-entry-key="{{entryKey}}" data-tooltip="{{entry.desc}}">{{entry.name}}</a>
-
-    {{!-- Buttons --}}
+    <a class="array-button" data-action="entryEdit" data-list-key="{{listKey}}" data-list-path="{{listPath}}"
+        data-entry-key="{{entry.key}}" data-tooltip="{{entry.desc}}">
+        {{localize entry.name}}
+    </a>
+    
     {{#if isEditMode}}
-    <span class="edit-buttons">
-        {{#unless noEdit}}<a class="array-button" data-action="entryEdit" data-list-key="{{listKey}}" data-entry-key="{{entryKey}}"
-            data-tooltip="WW.ListEntry.{{loc}}.Edit"><i class="fa-solid fa-edit"></i></a>{{/unless}}
+        {{!-- Granted By Effect --}}
+        {{#if grantedBy}}
+            {{#with grantedBy}}
+            <img class="mini-icon circle info ml-1" src="{{ img }}" data-tooltip="{{ tooltip }}">
+            {{/with}}
+        
+        {{!-- Buttons --}}
+        {{else}}
+            <span class="edit-buttons">
+                {{!-- Edit --}}
+                {{#unless noEdit}}
+                <a class="array-button" data-action="entryEdit" data-list-key="{{listKey}}" data-list-path="{{listPath}}"
+                    data-entry-key="{{entry.key}}" data-tooltip="WW.ListEntry.{{loc}}.Edit">
+                    <i class="fa-solid fa-edit"></i>
+                </a>
+                {{/unless}}
 
-        <a class="array-button" data-action="entryRemove" data-list-key="{{listKey}}" data-entry-key="{{entryKey}}"
-            data-tooltip="WW.ListEntry.{{loc}}.Remove"><i class="fa-solid fa-trash"></i></a>
-    </span>
+                {{!-- Remove --}}
+                <a class="array-button" data-action="entryRemove" data-list-key="{{listKey}}" data-list-path="{{listPath}}"
+                    data-entry-key="{{entry.key}}" data-tooltip="WW.ListEntry.{{loc}}.Remove">
+                    <i class="fa-solid fa-trash"></i>
+                </a>
+            </span>
+        {{/if}}
     {{/if}}
-
 </li>

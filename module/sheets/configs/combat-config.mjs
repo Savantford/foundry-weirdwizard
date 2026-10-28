@@ -8,7 +8,7 @@ export default class WWCombatTrackerConfig extends CombatTrackerConfig {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       id: "combat-config",
-      title: game.i18n.localize("COMBAT.Settings"),
+      title: _loc("COMBAT.Settings"),
       classes: ["sheet", "combat-sheet"],
       template: "systems/weirdwizard/templates/configs/combat-config.hbs",
       width: 420
