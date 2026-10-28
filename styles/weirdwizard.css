@@ -3927,6 +3927,13 @@ input[type="checkbox"].checkbox-uses {
   }
 }
 
+.weirdwizard ol.list-entries.ancestry-paths {
+  > *:not(:last-child)::after {
+    margin-left: 5px;
+    content: '●';
+  }
+}
+
 .weirdwizard ol.list-entries.movement-traits {
   > li:first-of-type::before {
     content: '(';

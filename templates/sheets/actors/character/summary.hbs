@@ -1,98 +1,73 @@
 <section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
-    {{!-- Paths --}}
+    {{!-- Ancestry / Paths --}}
     <h5 class="descriptors stat-inline list-entries">
-        {{!-- Ancestry --}}
-        <ol class="list-entries statbox-ancestry">
+        <ol class="list-entries ancestry-paths">
+            {{!-- Ancestry --}}
             {{#if charOptions.ancestry}}
                 {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=charOptions.ancestry isEditMode=isEditMode }}
             {{else}}
                 <span>—</span>
             {{/if}}
-        </ol>
 
-        <span>●</span>
-
-        {{!-- Novice Path --}}
-        <div class="list-entry">
+            {{!-- Novice Path --}}
             {{#if charOptions.novice}}
-                <a data-action="journalView" data-page-uuid="{{charOptions.novice.uuid}}">{{charOptions.novice.name}}</a>
+                {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=charOptions.novice isEditMode=isEditMode }}
+            {{else if system.charOptions.novice}}
+                <div class="list-entry">
+                    <a class="invalid">{{system.charOptions.novice}}</a>
+                    
+                    {{#if isEditMode}}
+                        <span class="buttons">
+                            <a class="array-button" data-action="journalInvalid" data-charoption-type="novice" data-entry-key="{{id}}"
+                                data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i></a>
+                        </span>
+                    {{/if}}
+                </div>
+            {{else}}
+                <span>—</span>
+            {{/if}}
 
-                {{#if isEditMode}}
-                <span class="buttons">
-                    <a class="item-button" data-action="journalRemove" data-page-uuid="{{charOptions.novice.uuid}}" data-option-type="novice"
-                        data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i>
-                    </a>
-                </span>
-                {{/if}}
-            {{else if system.charOptions.novice}}      
-                <a class="invalid">{{system.charOptions.novice}}</a>
+            {{!-- Expert Path --}}
+            {{#if (gte system.stats.level 3)}}
+                {{#if charOptions.expert}}
+                    {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=charOptions.expert isEditMode=isEditMode }}
+                {{else if system.charOptions.expert}}      
+                <div class="list-entry">
+                    <a class="invalid">{{system.charOptions.expert}}</a>
 
-                {{#if isEditMode}}
-                <span class="buttons">
-                    <a class="array-button" data-action="journalInvalid" data-charoption-type="novice" data-entry-key="{{id}}"
-                        data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i></a>
-                </span>
+                    {{#if isEditMode}}
+                    <span class="buttons">
+                        <a class="array-button" data-action="journalInvalid" data-charoption-type="expert" data-entry-key="{{id}}"
+                            data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i></a>
+                    </span>
+                    {{/if}}
+                </div>
+                {{else}}
+                    <span>—</span>
                 {{/if}}
             {{/if}}
-            {{#unless charOptions.novice}}<span>—</span>{{/unless}}{{#if (gte system.stats.level 3)}} ● {{/if}}
 
-        </div>
+            {{!-- Master Path --}}
+            {{#if (gte system.stats.level 7)}}
+                {{#if charOptions.master}}
+                    {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=charOptions.master isEditMode=isEditMode }}
+                {{else if system.charOptions.master}}
+                    <div class="list-entry">
+                        <a class="invalid">{{system.charOptions.master}}</a>
 
-        {{!-- Expert Path --}}
-        {{#if (gte system.stats.level 3)}}
-        <div class="list-entry">
-            {{#if charOptions.expert}}
-                <a data-action="journalView" data-page-uuid="{{charOptions.expert.uuid}}">{{charOptions.expert.name}}</a>
-
-                {{#if isEditMode}}
-                <span class="buttons">
-                    <a class="item-button" data-action="journalRemove" data-page-uuid="{{charOptions.expert.uuid}}" data-option-type="expert"
-                        data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i>
-                    </a>
-                </span>
+                        {{#if isEditMode}}
+                        <span class="buttons">
+                            <a class="array-button" data-action="journalInvalid" data-charoption-type="master" data-entry-key="{{id}}"
+                                data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i></a>
+                        </span>
+                        {{/if}}
+                    </div>
+                {{else}}
+                    <span>—</span>
                 {{/if}}
-            {{else if system.charOptions.expert}}      
-                <a class="invalid">{{system.charOptions.expert}}</a>
-
-                {{#if isEditMode}}
-                <span class="buttons">
-                    <a class="array-button" data-action="journalInvalid" data-charoption-type="expert" data-entry-key="{{id}}"
-                        data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i></a>
-                </span>
-                {{/if}}
+            </div>
             {{/if}}
-            {{#unless charOptions.expert}}<span>—</span>{{/unless}}{{#if (gte system.stats.level 7)}} ● {{/if}}
-            
-        </div>
-        {{/if}}
-
-        {{!-- Master Path --}}
-        {{#if (gte system.stats.level 7)}}
-        <div class="list-entry">
-            {{#if charOptions.master}}
-                <a data-action="journalView" data-page-uuid="{{charOptions.master.uuid}}">{{charOptions.master.name}}</a>
-                
-                {{#if isEditMode}}
-                <span class="buttons">
-                    <a class="item-button" data-action="journalRemove" data-page-uuid="{{charOptions.master.uuid}}" data-option-type="master"
-                        data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i>
-                    </a>
-                </span>
-                {{/if}}
-            {{else if system.charOptions.master}}      
-                <a class="invalid">{{system.charOptions.master}}</a>
-
-                {{#if isEditMode}}
-                <span class="buttons">
-                    <a class="array-button" data-action="journalInvalid" data-charoption-type="master" data-entry-key="{{id}}"
-                        data-tooltip="WW.Path.Remove"><i class="fa-solid fa-trash"></i></a>
-                </span>
-                {{/if}}
-            {{/if}}
-            {{#unless charOptions.master}}<span>—</span>{{/unless}}
-
-        </div>
-        {{/if}}
+        </ol>
 
         {{!-- Help Button --}}
         {{#if isEditMode}}
