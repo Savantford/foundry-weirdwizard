@@ -1,6 +1,17 @@
 <section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
     {{!-- Paths --}}
     <h5 class="descriptors stat-inline list-entries">
+        {{!-- Ancestry --}}
+        <ol class="list-entries statbox-ancestry">
+            {{#if charOptions.ancestry}}
+                {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=charOptions.ancestry isEditMode=isEditMode }}
+            {{else}}
+                <span>—</span>
+            {{/if}}
+        </ol>
+
+        <span>●</span>
+
         {{!-- Novice Path --}}
         <div class="list-entry">
             {{#if charOptions.novice}}
@@ -95,21 +106,8 @@
     <div class="summary flex-1 auto-grid-2">
         {{!-- Left Column --}}
         <div class="statbox">
-            {{!-- Ancestry, Descriptors --}}
+            {{!-- Descriptors --}}
             <h5 class="statbox-header descriptors">
-                {{!-- Ancestry --}}
-                <ol class="list-entries statbox-ancestry">
-                    {{#if charOptions.ancestry}}
-                        {{> "systems/weirdwizard/templates/sheets/actors/character/parts/summary-charOpt.hbs" opt=charOptions.ancestry isEditMode=isEditMode }}
-                    {{else}}
-                        <span>—</span>
-                    {{/if}}
-                </ol>
-                    
-                {{!-- Separator --}}
-                {{#if (or isEditMode listEntries.descriptors.length)}}<div>●</div>{{/if}}
-
-                {{!-- Descriptors --}}
                 <ol class="list-entries">
                     {{#each listEntries.descriptors as |entry|}}
                         {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry listKey="descriptors" loc="Descriptor" isEditMode=@root.isEditMode }}
