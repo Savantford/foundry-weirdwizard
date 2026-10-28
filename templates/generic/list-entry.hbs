@@ -5,14 +5,15 @@
         {{localize entry.name}}
     </a>
     
+    {{#if isEditMode}}
     {{!-- Granted By Effect --}}
     {{#if grantedBy}}
-    {{#with grantedBy}}
-    <img class="mini-icon circle info ml-1" src="{{ img }}" data-tooltip="{{ tooltip }}">
-    {{/with}}
+        {{#with grantedBy}}
+        <img class="mini-icon circle info ml-1" src="{{ img }}" data-tooltip="{{ tooltip }}">
+        {{/with}}
+    {{/if}}
 
     {{!-- Buttons --}}
-    {{else if isEditMode}}
     <span class="edit-buttons">
         {{!-- Edit --}}
         {{#unless noEdit}}
