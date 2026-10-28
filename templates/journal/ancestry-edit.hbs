@@ -94,8 +94,9 @@
         <label>{{localize "WW.Stats.Speed"}}:</label>
   
         <div class="input-wrap">
-          <input name="system.benefits.benefit1.stats.speedNormal" type="number"
-            value="{{benefits.benefit1.stats.speedNormal}}" min="1" placeholder="1" />
+          {{!-- TODO: REPLACE BY formInput --}}
+          <input name="system.benefits.benefit1.stats.speedNormal" type="number" min="0" placeholder="1" 
+            value="{{benefits.benefit1.stats.speedNormal}}">
   
           <div class="input-overlay">{{benefits.benefit1.stats.speedNormal}}</div>
         </div>

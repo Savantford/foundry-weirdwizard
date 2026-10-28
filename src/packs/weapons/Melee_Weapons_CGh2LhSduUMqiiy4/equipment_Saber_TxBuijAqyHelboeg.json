@@ -59,9 +59,9 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "14.367",
+    "coreVersion": "13.351",
     "createdTime": 1691868642734,
-    "modifiedTime": 1788894069632,
+    "modifiedTime": 1788529199596,
     "lastModifiedBy": "zin7Kb6P2LomswaD",
     "compendiumSource": null,
     "duplicateSource": null,
