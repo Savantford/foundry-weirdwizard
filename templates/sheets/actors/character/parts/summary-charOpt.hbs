@@ -1,7 +1,8 @@
 <li class="list-entry char-option">
+  {{log opt}}
   {{!-- Label --}}
   <a {{#if opt.invalid}}class="invalid"{{/if}} data-action="journalView" data-page-uuid="{{ opt.uuid }}" data-option-type="professions"
-    data-tooltip="{{#if opt.invalid}}{{localize "WW.CharOption.Reference.InvalidTip"}}{{else}}{{ opt.desc }}{{/if}}">
+    data-tooltip="{{#if opt.invalid}}{{localize "WW.CharOption.Reference.InvalidTip"}}{{else}}{{ opt.text.content }}{{/if}}">
     {{ opt.name }}
   </a>
   
