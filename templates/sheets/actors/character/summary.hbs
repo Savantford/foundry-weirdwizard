@@ -107,6 +107,7 @@
         {{!-- Left Column --}}
         <div class="statbox">
             {{!-- Descriptors --}}
+            {{#if listEntries.descriptors.length}}
             <h5 class="statbox-header descriptors">
                 <ol class="list-entries">
                     {{#each listEntries.descriptors as |entry|}}
@@ -126,6 +127,7 @@
                     {{/if}}
                 </ol>
             </h5>
+            {{/if}}
 
             {{!-- Stats & List Entries --}}
             <div class="statbox-section stats">
