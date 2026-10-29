@@ -38,10 +38,10 @@
     "damage": "1d6",
     "grip": "off",
     "traits": [
+      "ammunition",
       "light",
       "range",
-      "reload",
-      "ammunition"
+      "reload"
     ],
     "attackRider": {
       "value": {
@@ -66,12 +66,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.369",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721405436713,
-    "modifiedTime": 1769799906741,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1793242929703,
+    "lastModifiedBy": "MlMhJHWtZHiUvbLh",
     "exportSource": null
   },
   "_key": "!items!t3Iig3V6AugdsADB"

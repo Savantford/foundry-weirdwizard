@@ -37,9 +37,9 @@
     "armorType": "light",
     "instant": [],
     "traits": [
+      "ammunition",
       "large",
-      "range",
-      "ammunition"
+      "range"
     ],
     "requirements": "str12",
     "grantedBy": null,
@@ -60,10 +60,10 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "13.350",
+    "coreVersion": "14.369",
     "createdTime": 1691867934136,
-    "modifiedTime": 1769799911875,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1793242961024,
+    "lastModifiedBy": "MlMhJHWtZHiUvbLh",
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null
