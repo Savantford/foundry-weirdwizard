@@ -52,6 +52,13 @@ export default class WWTokenDocument extends foundry.documents.TokenDocument {
 
   /* -------------------------------------------------- */
 
+  /** @inheritdoc */
+  async _onOverrideSize(changes) {
+    return this.resize(changes, { pan: false, animation: { duration: 500 } });
+  }
+
+  /* -------------------------------------------------- */
+
   /** @override */
   /*getTrackedAttributes(data, path = []) {
     const attr = 0;/*super.getTrackedAttributes(data, path);

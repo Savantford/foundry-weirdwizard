@@ -174,8 +174,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     const baseShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
     const targeting = this.system.targeting;
     const range = targeting.method === 'self' ? 0 : targeting.range; // Treat as 0 if self targeted
-    console.log(targeting)
-    console.log(range)
+    
     // Return earlier if range is null
     if (!range) return null;
     
@@ -231,9 +230,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     // Draw regions
     rangePlaceable.draw();
     holePlaceable.draw();
-    console.log('test')
-    console.log(rangeRegion)
-    console.log(rangePlaceable)
+    
     return [rangeRegion, rangePlaceable];
   }
 

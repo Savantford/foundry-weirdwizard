@@ -38,9 +38,9 @@
     "damage": "3d6",
     "grip": "two",
     "traits": [
+      "brutal",
       "large",
-      "slow",
-      "brutal"
+      "slow"
     ],
     "attackRider": {
       "value": {
@@ -65,12 +65,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.350",
+    "coreVersion": "14.369",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721400764653,
-    "modifiedTime": 1769799566107,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1793235476487,
+    "lastModifiedBy": "MlMhJHWtZHiUvbLh",
     "exportSource": null
   },
   "_key": "!items!EgMTO2hk8XhwT2G5"

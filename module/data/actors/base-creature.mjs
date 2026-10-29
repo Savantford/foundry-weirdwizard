@@ -64,6 +64,17 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
     super.prepareDerivedData();
     
     this.stats.sizeFraction = game.weirdwizard.utils.nearestFraction(this.stats.size);
+
+    // Make Token Sizes match Actor Size value through an artificial AE Change applied to token
+    this.parent.tokenActiveEffectChanges.initial.push(
+      ...["width", "height", "depth"].map(key => ({
+        key,
+        phase: "initial",
+        priority: 5,
+        type: "override",
+        value: this.stats.size
+      }))
+    )
   }
 
   /**

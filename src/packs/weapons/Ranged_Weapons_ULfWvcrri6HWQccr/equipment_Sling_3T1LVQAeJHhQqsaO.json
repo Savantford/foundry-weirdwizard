@@ -37,12 +37,12 @@
     "armorType": "light",
     "instant": [],
     "traits": [
+      "ammunition",
       "bludgeoning",
       "light",
       "range",
       "slow",
-      "special",
-      "ammunition"
+      "special"
     ],
     "requirements": "",
     "grantedBy": null,
@@ -55,7 +55,7 @@
     "heldBy": null,
     "capacity": 1
   },
-  "img": "icons/commodities/stone/clay-grey.webp",
+  "img": "icons/weapons/slings/sling-leather.webp",
   "effects": [],
   "flags": {
     "core": {}
@@ -63,10 +63,10 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "13.350",
+    "coreVersion": "14.369",
     "createdTime": 1692034694759,
-    "modifiedTime": 1769799935411,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1793243479806,
+    "lastModifiedBy": "MlMhJHWtZHiUvbLh",
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null
