@@ -81,12 +81,12 @@ export function _onMultiChoice(ev, purpose) {
     game.user.targets.forEach(token => {
       const actor = token.document.actor;
       
-      if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === token.combatant.uuid ?? actor.uuid))) menuItems.push({
+      if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === token.combatant?.uuid ?? actor.uuid))) menuItems.push({
         label: game.weirdwizard.utils.getAlias({ actor: actor }),
         img: actor.token ? actor.token.texture.src : actor.img,
         tip: `ID: ${actor.uuid}`,
         group: 'targets',
-        uuid: token.combatant.uuid ?? actor.uuid
+        uuid: token.combatant?.uuid ?? actor.uuid
       });
     })
   }
@@ -96,12 +96,12 @@ export function _onMultiChoice(ev, purpose) {
     canvas.tokens.controlled.forEach(token => {
       const actor = token.document.actor;
       
-      if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === token.combatant.uuid ?? actor.uuid))) menuItems.push({
+      if (actor && actor.testUserPermission(user, "OBSERVER") && (!menuItems.find(o => o.uuid === token.combatant?.uuid ?? actor.uuid))) menuItems.push({
         label: game.weirdwizard.utils.getAlias({ actor: actor }),
         img: actor.token ? actor.token.texture.src : actor.img,
         tip: `ID: ${actor.uuid}`,
         group: 'selected',
-        uuid: token.combatant.uuid ?? actor.uuid
+        uuid: token.combatant?.uuid ?? actor.uuid
       });
     })
   }
