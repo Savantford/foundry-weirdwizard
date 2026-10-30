@@ -444,7 +444,7 @@ export const EFFECT_CHANGE_PRESET_DATA = {
       },
       'descriptors.remove': {
         key: 'system.listEntries.descriptors',
-        label: "Remove language"
+        label: "WW.ListEntry.Descriptor.Remove"
       }
     }
   },
@@ -457,7 +457,7 @@ export const EFFECT_CHANGE_PRESET_DATA = {
       },
       'immunities.remove': {
         key: 'system.listEntries.immunities',
-        label: "Remove language"
+        label: "WW.ListEntry.Immunity.Remove"
       }
     }
   },
@@ -470,7 +470,7 @@ export const EFFECT_CHANGE_PRESET_DATA = {
       },
       'languages.remove': {
         key: 'system.listEntries.languages',
-        label: "Remove language"
+        label: "WW.ListEntry.Language.Remove"
       }
     }
   },
@@ -483,7 +483,7 @@ export const EFFECT_CHANGE_PRESET_DATA = {
       },
       'movementTraits.remove': {
         key: 'system.listEntries.movementTraits',
-        label: "Remove language"
+        label: "WW.ListEntry.MovementTrait.Remove"
       }
     }
   },
@@ -496,7 +496,7 @@ export const EFFECT_CHANGE_PRESET_DATA = {
       },
       'senses.remove': {
         key: 'system.listEntries.senses',
-        label: "Remove language"
+        label: "WW.ListEntry.Sense.Remove"
       }
     }
   }
