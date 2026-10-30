@@ -254,7 +254,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     const {
       shape = area.shape ?? 'circle',
       measure = area.measure ?? 5,
-      width = area.width ?? 1, // Width for line
+      width = (area.width === 0 ? 0.25 : area.width) ?? 1, // Width for line
       attached = area.attached ?? true,
       color = area.color ?? game.user.color,
       restriction = area.restriction
@@ -305,7 +305,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
       
       switch (shape.type) {
         case 'line':
-          if (width % 2 === 0) {
+          if (width % 2 === 0 || width === 0.25) {
             mode = CONST.GRID_SNAPPING_MODES["VERTEX"]; // Vertex if even, edge midpoint if odd
           }
           else {
