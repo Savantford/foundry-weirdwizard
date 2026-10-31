@@ -1,55 +1,59 @@
 <section>
   {{!-- Entry Section --}}
   {{#unless settingsOnly}}
-  {{!-- Entry Key --}}
-  <input type="text" name="key" placeholder="{{localize "WW.Settings.Entry.Key"}}" value="{{ entry.key }}" required>
+    {{!-- Entry Key --}}
+    <input type="text" name="key" placeholder="{{localize "WW.Settings.Entry.Key"}}" value="{{ entry.key }}" required>
 
-  {{!-- Entry Preview --}}
-  <div class="stat-inline">
-    <label>{{localize "WW.ListEntry.Preview"}}:</label>
-    
-    {{!-- Document --}}
-    {{#if entry.uuid}}
-      <a class="content-link" draggable="true" data-link="" data-uuid="{{entry.uuid}}" data-id="{{entry.id}}" data-type="{{entry.documentName}}" data-tooltip="{{entry.desc}}">
-        <img src="{{entry.img}}">
+    {{!-- Entry Preview --}}
+    <div class="stat-inline">
+      <label>{{localize "WW.ListEntry.Preview"}}:</label>
 
-        {{entry.name}}
-      </a>
-    {{!-- Setting --}}
-    {{else if entry.desc}}
-      <span class="info" data-tooltip="{{ entry.desc }}">{{localize entry.name}}</span>
-    {{!-- Plain Text --}}
-    {{else}}
-      <span>{{localize entry.name}}</span>
+      {{#if entry.uuid}}
+        {{!-- Document --}}
+        <a class="content-link" draggable="true" data-link="" data-uuid="{{entry.uuid}}" data-id="{{entry.id}}" data-type="{{entry.documentName}}" data-tooltip="{{entry.desc}}">
+          <img src="{{entry.img}}">
+
+          {{entry.name}}
+        </a>
+      
+      {{else if entry.desc}}
+        {{!-- Setting --}}
+        <span class="info" data-tooltip="{{ entry.desc }}">{{localize entry.name}}</span>
+      
+      {{else}}
+        {{!-- Plain Text --}}
+        <span>{{localize entry.name}}</span>
+      {{/if}}
+    </div>
+
+    {{!-- Granted By --}}
+    {{#if entry.grantedBy}}
+      <div class="stat-inline">
+        <label>{{localize "WW.CharOption.GrantedBy"}}:</label>
+
+        {{{ entry.grantedBy }}}
+      </div>
     {{/if}}
-  </div>
-
-  {{!-- Granted By --}}
-  {{#if entry.grantedBy}}
-  <div class="stat-inline">
-    <label>{{localize "WW.CharOption.GrantedBy"}}:</label>
-
-    {{{ entry.grantedBy }}}
-  </div>
-  {{/if}}
   {{/unless}}
-  
-  {{!-- List Heading --}}
-  <h6>
-    {{!-- List Name --}}
-    {{ listName }}
+  {{log this}}
+  {{#if setting}}
+    {{!-- List Heading --}}
+    <h6>
+      {{!-- List Name --}}
+      {{ listName }}
 
-    {{!-- List Instructions --}}
-    <i class="fa-solid fa-question-circle smaller info" data-tooltip="{{{localize "WW.ListEntry.DisplayInstructions"}}}"></i>
-  </h6>
+      {{!-- List Instructions --}}
+      <i class="fa-solid fa-question-circle smaller info" data-tooltip="{{{localize "WW.ListEntry.DisplayInstructions"}}}"></i>
+    </h6>
 
-  {{!-- List --}}
-  <ol class="entries-list">
-    {{#each list as |entry key|}}
-    <li class="draggable form-group {{#if (eq key @root.selectedKey)}}selected{{/if}}" data-action="replaceKey" data-entry-key="{{key}}"
-      data-entry-name="{{localize entry.name}}" data-tooltip="{{entry.desc}}">
-      {{localize entry.name}}
-    </li>
-    {{/each}}
-  </ol>
+    {{!-- List --}}
+    <ol class="entries-list">
+      {{#each list as |entry key|}}
+      <li class="draggable form-group {{#if (eq key @root.selectedKey)}}selected{{/if}}" data-action="replaceKey" data-entry-key="{{key}}"
+        data-entry-name="{{localize entry.name}}" data-tooltip="{{entry.desc}}">
+        {{localize entry.name}}
+      </li>
+      {{/each}}
+    </ol>
+  {{/if}}
 </section>

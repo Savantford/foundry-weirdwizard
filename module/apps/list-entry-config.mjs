@@ -37,7 +37,7 @@ export default class ListEntryConfig extends HandlebarsApplicationMixin(Applicat
     // Record important data
     this.entryKey = this.options.entryKey;
     this.settingKey = 'available' + capitalize(this.options.listKey, 1);
-    this.setting = game.settings.get('weirdwizard', this.settingKey);
+    this.setting = game.settings.settings.has(`weirdwizard.${this.settingKey}`) ? game.settings.get('weirdwizard', this.settingKey) : null;
   }
 
   /* -------------------------------------------- */
@@ -71,6 +71,7 @@ export default class ListEntryConfig extends HandlebarsApplicationMixin(Applicat
       listName: _loc(`WW.Settings.${capitalize(listKey, 1)}.Name`),
       list: this.setting,
       settingsOnly: this.options.settingsOnly ?? false,
+      keyOnly: this.options.keyOnly ?? !this.setting,
       selectedKey: this.options.settingsOnly ? null : this.entryKey,
       buttons: [
         {type: "submit", icon: "fa-solid fa-save", label: "WW.System.Dialog.Save"},
