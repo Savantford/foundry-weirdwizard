@@ -63,7 +63,10 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
   prepareDerivedData() {
     super.prepareDerivedData();
     
-    this.stats.sizeFraction = game.weirdwizard.utils.nearestFraction(this.stats.size);
+    // Prepare Size related values
+    const size = this.stats.size;
+    const scale = parseFloat((0.4 / size ** -0.5 + 0.4).toFixed(2));
+    this.stats.sizeFraction = game.weirdwizard.utils.nearestFraction(size);
 
     // Make Token Sizes match Actor Size value through an artificial AE Change applied to token
     this.parent.tokenActiveEffectChanges.initial.push(
@@ -72,7 +75,18 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
         phase: "initial",
         priority: 5,
         type: "override",
-        value: this.stats.size
+        value: size >= 1 ? size : 1 // Limit token dimension to 1 yard
+      }))
+    )
+
+    // Make Token Scale change proportional to Actor Size
+    this.parent.tokenActiveEffectChanges.initial.push(
+      ...["texture.scaleX", "texture.scaleY"].map(key => ({
+        key,
+        phase: "initial",
+        priority: 5,
+        type: "override",
+        value: size < 1 ? scale : 1 // Only scale for Size < 1
       }))
     )
   }
