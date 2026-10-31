@@ -172,6 +172,10 @@
 "TOKEN.MOVEMENT.ACTIONS.sneak.label": "Sneak",
 "TOKEN.MOVEMENT.ACTIONS.teleport.label": "Teleport",
 
+"WW.ListEntry.Tradition.Create": "Add new tradition",
+"WW.ListEntry.Tradition.Edit": "Edit tradition",
+"WW.ListEntry.Tradition.Remove": "Remove tradition",
+
 "WW.ListEntry.Connection.Label": "Connections",
 "WW.ListEntry.Connection.New": "New connection",
 "WW.ListEntry.Connection.Create": "Add new connection",
@@ -657,9 +661,6 @@
 
 "WW.Tradition.Label": "Traditions",
 "WW.Tradition.New": "New Tradition",
-"WW.Tradition.Create": "Add new tradition",
-"WW.Tradition.Edit": "Edit tradition",
-"WW.Tradition.Remove": "Remove tradition",
 "WW.Tradition.Talents": "Tradition Talents",
 "WW.Tradition.EquipmentWarning": "Traditions cannot record Equipment items.<br>Please drag and drop a Talent or Spell.",
 
