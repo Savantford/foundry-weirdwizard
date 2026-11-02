@@ -74,7 +74,7 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
         key,
         phase: "initial",
         priority: 5,
-        type: "override",
+        type: "multiply",
         value: size >= 1 ? size : 1 // Limit token dimension to 1 yard
       }))
     )
@@ -85,7 +85,7 @@ export default class BaseActorModel extends foundry.abstract.TypeDataModel {
         key,
         phase: "initial",
         priority: 5,
-        type: "override",
+        type: "multiply",
         value: size < 1 ? scale : 1 // Only scale for Size < 1
       }))
     )
