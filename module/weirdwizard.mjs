@@ -236,6 +236,12 @@ Hooks.once('init', function () {
   // Register system settings
   registerSystemSettings();
 
+  // Preload common Handlebars partials
+  foundry.applications.handlebars.loadTemplates({
+    listEntry: "systems/weirdwizard/templates/generic/list-entry.hbs",
+    listEntryPreview: "systems/weirdwizard/templates/generic/list-entry-preview.hbs"
+  })
+
   // Canvas related settings and classes
   
   // Adjusting "Blink (Teleport)" to just be "Teleport" and maintain its use elsewhere

@@ -18,7 +18,7 @@
       
       {{#if traditionData.matchedAs}}
       <ol class="list-entries">
-        ({{> "systems/weirdwizard/templates/generic/list-entry-preview.hbs" entry=traditionData listKey="traditions" loc="Tradition" isEditMode=@root.isEditMode }})
+        ({{> listEntryPreview entry=traditionData listKey="traditions" loc="Tradition" isEditMode=@root.isEditMode }})
       </ol>
       {{/if}}
     </div>

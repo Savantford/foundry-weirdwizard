@@ -42,8 +42,7 @@ export default class WWNpcSheet extends WWCreatureSheet {
       template: 'systems/weirdwizard/templates/sheets/actors/npc/summary.hbs',
       templates: [
         'systems/weirdwizard/templates/sheets/actors/npc/parts/summary-item.hbs',
-        'systems/weirdwizard/templates/sheets/actors/npc/parts/summary-weapon.hbs',
-        'systems/weirdwizard/templates/generic/list-entry.hbs'
+        'systems/weirdwizard/templates/sheets/actors/npc/parts/summary-weapon.hbs'
       ]
     },
     description: { template: 'systems/weirdwizard/templates/sheets/actors/npc/description.hbs' },
@@ -66,8 +65,7 @@ export default class WWNpcSheet extends WWCreatureSheet {
       scrollable: [''],
       templates: [
         'systems/weirdwizard/templates/sheets/actors/npc/parts/summary-item.hbs',
-        'systems/weirdwizard/templates/sheets/actors/npc/parts/summary-weapon.hbs',
-        'systems/weirdwizard/templates/generic/list-entry.hbs'
+        'systems/weirdwizard/templates/sheets/actors/npc/parts/summary-weapon.hbs'
       ]
     },
   }

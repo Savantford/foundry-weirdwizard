@@ -73,8 +73,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         'systems/weirdwizard/templates/sheets/items/header.hbs',
         'systems/weirdwizard/templates/sheets/items/details/equipment.hbs',
         'systems/weirdwizard/templates/sheets/items/details/talent.hbs',
-        'systems/weirdwizard/templates/sheets/items/details/spell.hbs',
-        'systems/weirdwizard/templates/generic/list-entry-preview.hbs'
+        'systems/weirdwizard/templates/sheets/items/details/spell.hbs'
       ],
     },
     automation: {

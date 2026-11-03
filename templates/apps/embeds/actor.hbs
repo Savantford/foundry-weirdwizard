@@ -1,5 +1,5 @@
 <section class="document-card">
-
+    {{log listEntries}}
     {{#if text}}
     {{!-- Heading & Description --}}
     <div class="card-text">
@@ -16,10 +16,16 @@
 
             {{!-- Descriptors --}}
             <h5>
-            {{#if listEntries.descriptors}}{{ listEntries.descriptors }}{{/if}}
+            {{#if listEntries.descriptors.length}}
+                <ol class="list-entries">
+                    {{#each listEntries.descriptors as |entry|}}
+                        {{> listEntry entry=entry listKey="descriptors" loc="Descriptor" isEditMode=false }}
+                    {{/each}}
+                </ol>
+            {{/if}}
             {{!-- Individual Traits --}}
             {{#if actor.system.details.individualTraits}}
-            {{#if listEntries.descriptors}}<span>•</span>{{/if}}
+            {{#if listEntries.descriptors.length}}<span>•</span>{{/if}}
             <span class="individual-traits">{{ actor.system.details.individualTraits }}</span>
             {{/if}} · {{localize "WW.Stats.Difficulty"}} {{ system.stats.difficulty }}</h5>
 
