@@ -59,7 +59,7 @@
 
         <div>
             <strong>{{localize "WW.Stats.Size"}}:</strong> {{ system.stats.sizeFraction }},
-            <strong>{{localize "WW.Stats.Speed"}}:</strong> {{ system.stats.speed.normal }} {{#if listEntries.movementTraits.length}}(<ol class="stat-inline list-entries">
+            <strong>{{localize "WW.Stats.Speed"}}:</strong> {{ system.stats.speed.normal }} {{#if listEntries.movementTraits.length}}(<ol class="list-entries inline">
                 {{#each listEntries.movementTraits as |entry|}}
                     {{> listEntry entry=entry listKey="movementTraits" loc="movementTraits" isEditMode=false }}
                 {{/each}}

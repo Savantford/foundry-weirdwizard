@@ -3282,7 +3282,7 @@ prose-mirror .textbox {
   margin-bottom: -1px;
 }
 
-.weirdwizard .items-header>* {
+.weirdwizard .items-header > * {
   font-size: var(--font-size-12);
 }
 
@@ -3575,6 +3575,10 @@ input[type="checkbox"].checkbox-uses {
 .weirdwizard .list-entries {
   padding-left: 1em;
   text-indent: -1em;
+
+  > p:not(:first-of-type) {
+    text-indent: 1em;
+  }
 }
 
 .described-list > .item ul > li,
@@ -3929,6 +3933,11 @@ input[type="checkbox"].checkbox-uses {
   > li:not(:last-of-type)::after {
     content: ', ';
   }
+}
+
+ol.list-entries.inline {
+  display: inline-flex;
+  gap: 0 5px;
 }
 
 .weirdwizard ol.list-entries.ancestry-paths {
