@@ -336,8 +336,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         const packDocs = Array.from(await pack.getIndex());
         
         for (const entry of packDocs) {
-          const pages = await entry.pages;
-          const allowedDocs = [...pages].filter(p => validTypes.includes(p.type));
+          const allowedDocs = [...await entry.pages].filter(p => validTypes.includes(p.type));
           
           allowedDocs.forEach(x => {
             x.uuid = foundry.utils.buildUuid({parent: entry, id: x._id, documentName: 'JournalEntryPage'});
