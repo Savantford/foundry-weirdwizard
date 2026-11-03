@@ -336,7 +336,9 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         const packDocs = Array.from(await pack.getIndex());
         
         for (const entry of packDocs) {
-          const allowedDocs = [...await entry.pages].filter(p => validTypes.includes(p.type));
+          const pages = await entry.pages;
+          const allowedDocs = [...pages].filter(p => validTypes.includes(p.type));
+          
           allowedDocs.forEach(x => {
             x.uuid = foundry.utils.buildUuid({parent: entry, id: x._id, documentName: 'JournalEntryPage'});
             x.documentName = 'JournalEntryPage';
@@ -346,6 +348,7 @@ export default class CompendiumIndex extends HandlebarsApplicationMixin(Applicat
         }
       } else {
         const allowedDocs = [... Array.from(await pack.getIndex())].filter(d => validTypes.includes(d.type));
+
         allowedDocs.forEach(x => {
           x.documentName = pack.documentName;
         });
