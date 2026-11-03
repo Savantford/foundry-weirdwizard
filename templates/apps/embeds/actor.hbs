@@ -1,5 +1,4 @@
 <section class="document-card">
-    {{log listEntries}}
     {{#if text}}
     {{!-- Heading & Description --}}
     <div class="card-text">
@@ -16,18 +15,25 @@
 
             {{!-- Descriptors --}}
             <h5>
-            {{#if listEntries.descriptors.length}}
-                <ol class="list-entries">
-                    {{#each listEntries.descriptors as |entry|}}
-                        {{> listEntry entry=entry listKey="descriptors" loc="Descriptor" isEditMode=false }}
-                    {{/each}}
-                </ol>
-            {{/if}}
-            {{!-- Individual Traits --}}
-            {{#if actor.system.details.individualTraits}}
-            {{#if listEntries.descriptors.length}}<span>•</span>{{/if}}
-            <span class="individual-traits">{{ actor.system.details.individualTraits }}</span>
-            {{/if}} · {{localize "WW.Stats.Difficulty"}} {{ system.stats.difficulty }}</h5>
+                {{#if listEntries.descriptors.length}}
+                    <ol class="list-entries">
+                        {{#each listEntries.descriptors as |entry|}}
+                            {{> listEntry entry=entry listKey="descriptors" loc="Descriptor" isEditMode=false }}
+                        {{/each}}
+                    </ol>
+                {{/if}}
+
+                {{!-- Individual Traits --}}
+                {{#if actor.system.details.individualTraits}}
+                    {{#if listEntries.descriptors.length}}<span>•</span>{{/if}}
+                    <span class="individual-traits">{{ actor.system.details.individualTraits }}</span>
+                {{/if}}
+
+                <span>•</span>
+                
+                {{!-- Difficulty --}}
+                {{localize "WW.Stats.Difficulty"}} {{ system.stats.difficulty }}
+            </h5>
 
             {{!-- Image --}}
             <img class="statbox-image" src="{{ img }}">
@@ -51,35 +57,45 @@
             <strong>{{localize "WW.Attributes.Will"}}:</strong> {{ system.attributes.wil.value }} ({{numberFormat system.attributes.wil.mod sign=true }})
         </p>
 
-        <p>
+        <div>
             <strong>{{localize "WW.Stats.Size"}}:</strong> {{ system.stats.sizeFraction }},
-            <strong>{{localize "WW.Stats.Speed"}}:</strong> {{ system.stats.speed.normal }} {{#if listEntries.movementTraits}}({{ listEntries.movementTraits }}){{/if}}
-        </p>
+            <strong>{{localize "WW.Stats.Speed"}}:</strong> {{ system.stats.speed.normal }} {{#if listEntries.movementTraits.length}}(<ol class="stat-inline list-entries">
+                {{#each listEntries.movementTraits as |entry|}}
+                    {{> listEntry entry=entry listKey="movementTraits" loc="movementTraits" isEditMode=false }}
+                {{/each}}
+            </ol>){{/if}}
+        </div>
 
         {{!-- Languages --}}
-        {{#if listEntries.languages}}
+        {{#if listEntries.languages.length}}
         <ol class="stat-inline list-entries">
             <strong>{{localize "WW.ListEntry.Language.Label"}}:</strong>
-        
-            {{ listEntries.languages }}
+
+            {{#each listEntries.languages as |entry|}}
+                {{> listEntry entry=entry listKey="languages" loc="Language" isEditMode=false }}
+            {{/each}}
         </ol>
         {{/if}}
         
         {{!-- Senses --}}
-        {{#if listEntries.senses}}
+        {{#if listEntries.senses.length}}
         <ol class="stat-inline list-entries">
             <strong>{{localize "WW.ListEntry.Sense.Label"}}:</strong>
         
-            {{ listEntries.senses }}
+            {{#each listEntries.senses as |entry|}}
+                {{> listEntry entry=entry listKey="senses" loc="Sense" isEditMode=false }}
+            {{/each}}
         </ol>
         {{/if}}
         
         {{!-- Immune --}}
-        {{#if listEntries.immunities}}
+        {{#if listEntries.immunities.length}}
         <ol class="stat-inline list-entries">
             <strong>{{localize "WW.ListEntry.Immunity.Label"}}:</strong>
         
-            {{ listEntries.immunities }}
+            {{#each listEntries.immunities as |entry|}}
+                {{> listEntry entry=entry listKey="immunities" loc="Immunity" isEditMode=false }}
+            {{/each}}
         </ol>
         {{/if}}
 

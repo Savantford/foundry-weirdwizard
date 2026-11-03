@@ -814,6 +814,8 @@ body.theme-dark.application.weirdwizard .window-content {
 .journal-entry-page .statbox h5,
 .weirdwizard .window-content h5.descriptors,
 .journal-entry-page h5.statbox-heading {
+  display: flex;
+  gap: 0 5px;
   color: var(--purple-dark);
   font-weight: 800;
   font-size: var(--font-size-15);
@@ -2818,6 +2820,7 @@ hr.bug {
   }
 
   > p,
+  div,
   ol:not(:first-child),
   ul:not(:first-child) {
     margin: 0.25rem 0;
@@ -3906,7 +3909,8 @@ input[type="checkbox"].checkbox-uses {
   align-items: center;
 }
 
-.weirdwizard ol.list-entries {
+.weirdwizard ol.list-entries,
+.statbox ol.list-entries {
   list-style: none;
   margin: 0;
   padding: 0;
