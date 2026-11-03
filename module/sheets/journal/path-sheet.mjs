@@ -23,7 +23,6 @@ export default class WWPathSheet extends WWCharOptionSheet {
       classes: ["standard-form"],
       scrollable: [""],
       templates: [
-        'systems/weirdwizard/templates/generic/list-entry.hbs',
         'systems/weirdwizard/templates/journal/parts/item-reference.hbs'
       ]
     },

@@ -163,16 +163,11 @@ export default function WWDocumentMixin(base) {
             context.text = await TextEditor.enrichHTML(this.system.description);
 
             // Prepare list entries
-            context.listEntries = {};
-
-            for (const list in listEntries) {
-              context.listEntries[list] = '';
-
-              for (const e in listEntries[list]) {
-                const entry = listEntries[list][e];
-                context.listEntries[list] += (context.listEntries[list] ? ', ' : '') + entry.name;
-              }
-            }
+            context.listEntries = Object.fromEntries(
+              await Promise.all(
+                Object.entries(listEntries).map(async ([list, entries]) => [list, await Promise.all(entries.map(x => inferDataFromKey(list, x)))])
+              )
+            );
 
             // Prepare items
             context.items = {

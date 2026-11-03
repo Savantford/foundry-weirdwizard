@@ -236,6 +236,12 @@ Hooks.once('init', function () {
   // Register system settings
   registerSystemSettings();
 
+  // Preload common Handlebars partials
+  foundry.applications.handlebars.loadTemplates({
+    listEntry: "systems/weirdwizard/templates/generic/list-entry.hbs",
+    listEntryPreview: "systems/weirdwizard/templates/generic/list-entry-preview.hbs"
+  })
+
   // Canvas related settings and classes
   
   // Adjusting "Blink (Teleport)" to just be "Teleport" and maintain its use elsewhere
@@ -434,22 +440,24 @@ Hooks.on('renderSettings', (app, html) => {
  * @param {JQuery<HTMLElement>} jquery  The inner HTML of the document that will be displayed and may be modified
  * @param {Record<string, any>} context The object of data used when rendering the application
  */
-Hooks.on("renderFolderConfig", (app, html, context) => {
+Hooks.on("renderFolderConfig", async (app, html, context) => {
   const folder = app.document;
 
   const description = folder.getFlag('weirdwizard', 'description') ?? '';
+  const enriched = await foundry.applications.ux.TextEditor.implementation.enrichHTML(description, { secrets: folder.isOwner });
 
   // Create HTML string, inject it, then set app's position
-  const htmlStr = `<prose-mirror class="editor prosemirror"
-    name="flags.weirdwizard.description" data-document-UUID="${folder.uuid}" value="${description}"
-    toggled compact>${description}</prose-mirror>`;
+  const htmlStr = `
+    <prose-mirror class="editor prosemirror" name="flags.weirdwizard.description"
+      data-document-UUID="${folder.uuid}" value="${description}" toggled compact>
+      ${enriched}
+    </prose-mirror>`;
   
   html.querySelector('[data-application-part=body]').insertAdjacentHTML('beforeEnd', htmlStr);
   
   // Add weirdwizard class to html and resize app's height
   //html.classList.add('weirdwizard');
   app.setPosition({ width: 435, height: 'auto' });
-
 });
 
 /* -------------------------------------------- */

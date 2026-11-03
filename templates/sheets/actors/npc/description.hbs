@@ -6,7 +6,7 @@
         <h2>{{#if folder.name}}{{folder.name}}{{else}}{{localize "WW.Actor.Folder.Unnamed"}}{{/if}}</h2>
 
         {{!-- Folder / Creature Group Description --}}
-        <div>{{#if folder.flags.weirdwizard.description}}{{{folder.flags.weirdwizard.description}}}{{else}}{{localize "WW.Actor.Folder.NoDescription"}}{{/if}}</div>
+        <div>{{#if folderDesc}}{{{folderDesc}}}{{else}}{{localize "WW.Actor.Folder.NoDescription"}}{{/if}}</div>
 
         <button class="edit-folder" data-action="folderEdit"><i class="fa-solid fa-edit"></i></button>
 

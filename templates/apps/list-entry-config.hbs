@@ -35,8 +35,8 @@
       </div>
     {{/if}}
   {{/unless}}
-  {{log this}}
-  {{#if setting}}
+  
+  {{#unless keyOnly}}
     {{!-- List Heading --}}
     <h6>
       {{!-- List Name --}}
@@ -55,5 +55,5 @@
       </li>
       {{/each}}
     </ol>
-  {{/if}}
+  {{/unless}}
 </section>

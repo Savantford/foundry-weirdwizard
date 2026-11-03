@@ -36,7 +36,7 @@
         <label>{{localize "WW.ListEntry.Descriptor.Label"}}:</label>
   
         {{#each listEntries.benefit1.descriptors as |entry|}}
-          {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry
+          {{> listEntry entry=entry
             listKey="descriptors" listPath="benefits.benefit1.descriptors" loc="Descriptor" isEditMode=@root.isEditMode}}
         {{else}}<span>—</span>
         {{/each}}
@@ -103,7 +103,7 @@
   
         {{!-- Movement Traits --}}
         {{#each listEntries.benefit1.movementTraits as |entry|}}
-          {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry
+          {{> listEntry entry=entry
             listKey="movementTraits" listPath="benefits.benefit1.movementTraits" loc="MovementTrait" isEditMode=@root.isEditMode}}
         {{/each}}
   
@@ -127,7 +127,7 @@
         <label>{{localize "WW.ListEntry.Language.Bonus"}}:</label>
   
         {{#each listEntries.benefit1.languages as |entry|}}
-          {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry
+          {{> listEntry entry=entry
             listKey="languages" listPath="benefits.benefit1.languages" loc="Language" isEditMode=@root.isEditMode}}
         {{else}}<span>—</span>
         {{/each}}
@@ -145,7 +145,7 @@
         <label>{{localize "WW.ListEntry.Sense.Label"}}:</label>
   
         {{#each listEntries.benefit1.senses as |entry|}}
-          {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry
+          {{> listEntry entry=entry
             listKey="senses" listPath="benefits.benefit1.senses" loc="Sense" isEditMode=@root.isEditMode}}
         {{else}}<span>—</span>
         {{/each}}
@@ -163,7 +163,7 @@
         <label>{{localize "WW.ListEntry.Immunity.Label"}}:</label>
   
         {{#each listEntries.benefit1.immunities as |entry|}}
-          {{> "systems/weirdwizard/templates/generic/list-entry.hbs" entry=entry
+          {{> listEntry entry=entry
             listKey="immunities" listPath="benefits.benefit1.immunities" loc="Immunity" isEditMode=@root.isEditMode}}
         {{else}}<span>—</span>
         {{/each}}
