@@ -4674,6 +4674,7 @@ ol.list-entries.inline {
   line-height: normal;
 
   > i {
+    text-indent: 0;
     color: var(--body-text-color);
   }
 
