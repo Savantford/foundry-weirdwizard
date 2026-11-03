@@ -87,6 +87,10 @@ export default class WWCreatureSheet extends WWActorSheet {
     context.incapacitated = actorData.incapacitated;
     context.dead = actorData.dead;
 
+    // Prepare folder
+    context.folder = await actorData.folder;
+    context.folderDesc = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.folder.flags.weirdwizard.description, { secrets: this.actor.isOwner });
+
     // Prepare Enriched Text
     context.system.descriptionEnriched = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.system.description, { secrets: this.actor.isOwner });
 
