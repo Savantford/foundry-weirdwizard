@@ -58,7 +58,9 @@
       "slow": false
     },
     "requirements": "",
-    "targeting": "manual",
+    "targeting": {
+      "operation": "target"
+    },
     "template": {
       "type": "size",
       "value": 5
@@ -95,7 +97,7 @@
         "changes": [
           {
             "preset": "defense.bonus",
-            "value": "2",
+            "value": 2,
             "key": "system.stats.defense.bonus",
             "type": "add",
             "phase": "initial",
@@ -132,12 +134,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "14.360",
+    "coreVersion": "14.370",
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
     "createdTime": 1721397738535,
-    "modifiedTime": 1766692769220,
-    "lastModifiedBy": "zin7Kb6P2LomswaD",
+    "modifiedTime": 1793901179896,
+    "lastModifiedBy": "MlMhJHWtZHiUvbLh",
     "exportSource": null
   },
   "folder": "lRYrYKOyRDECOEzg",
