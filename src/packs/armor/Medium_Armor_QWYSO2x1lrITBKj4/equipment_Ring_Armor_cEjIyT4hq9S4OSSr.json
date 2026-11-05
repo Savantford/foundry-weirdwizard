@@ -37,7 +37,7 @@
     "reloaded": true,
     "armorType": "medium",
     "instant": [],
-    "requirements": "",
+    "requirements": "str11",
     "traits": {
       "ammunition": false,
       "brutal": false,
@@ -108,7 +108,7 @@
         "changes": [
           {
             "preset": "defense.armored",
-            "value": "14",
+            "value": 14,
             "key": "system.stats.defense.armored",
             "type": "upgrade",
             "phase": "initial",
@@ -116,7 +116,7 @@
           },
           {
             "preset": "defense.naturalIncrease",
-            "value": "2",
+            "value": 2,
             "key": "system.stats.defense.natural",
             "type": "add",
             "phase": "initial",
@@ -138,10 +138,10 @@
   "_stats": {
     "systemId": "weirdwizard",
     "systemVersion": "#{VERSION}#",
-    "coreVersion": "14.360",
+    "coreVersion": "14.370",
     "createdTime": 1692116593788,
-    "modifiedTime": 1766768873108,
-    "lastModifiedBy": "7Z8jr2YYjOUPt6i3",
+    "modifiedTime": 1793902656457,
+    "lastModifiedBy": "MlMhJHWtZHiUvbLh",
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null

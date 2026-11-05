@@ -89,8 +89,9 @@ export default class WWCreatureSheet extends WWActorSheet {
 
     // Prepare folder
     context.folder = await actorData.folder;
-    context.folderDesc = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.folder.flags.weirdwizard.description, { secrets: this.actor.isOwner });
-
+    const description = context.folder?.getFlag('weirdwizard', 'description') ?? '';
+    context.folderDesc = await foundry.applications.ux.TextEditor.implementation.enrichHTML(description, { secrets: this.actor.isOwner }) ?? '';
+    console.log(context.folderDesc)
     // Prepare Enriched Text
     context.system.descriptionEnriched = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.system.description, { secrets: this.actor.isOwner });
 
