@@ -2820,7 +2820,7 @@ hr.bug {
   }
 
   > p,
-  div,
+  > div,
   ol:not(:first-child),
   ul:not(:first-child) {
     margin: 0.25rem 0;
@@ -7346,6 +7346,10 @@ body {
         border: solid 1px var(--purple-dark);
         border-radius: 5px;
         margin: 0;
+
+        > * {
+          margin: 0;
+        }
 
         .header,
         .details,
