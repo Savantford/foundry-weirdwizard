@@ -220,7 +220,6 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
         listEntries[listKey] = [];
         
         // Loop through entries
-        console.log(list)
         for (const entryKey of list) {
           const entryData = await game.weirdwizard.utils.inferDataFromKey(listKey, entryKey);
           const relevantEffs = mapped.filter(e => e.changes.some(c => c.key === listKey));
@@ -729,10 +728,9 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     })
 
     // Add list entry changes
-    console.log(lists)
     for (const [listKey, list] of Object.entries(lists)) {
       if (!list) continue;
-      
+
       for (const entryKey of list) {
         changes.push({
           preset: `${listKey}.add`,
