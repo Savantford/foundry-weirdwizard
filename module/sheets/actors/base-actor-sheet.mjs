@@ -101,7 +101,6 @@ export default class WWActorSheet extends WWSheetMixin(ActorSheetV2) {
    * @return {Promise<void>}
   */
   async _prepareItems(context) {
-
     // Initialize item lists
     const equipment = [];
     const weapons = [];

@@ -45,6 +45,7 @@ export default class WWCreatureSheet extends WWActorSheet {
       openApplyDialog: this.#onOpenApplyDialog,
 
       journalView: this.#onJournalView,
+      journalResync: this.#onJournalResync,
       journalRemove: this.#onJournalRemove,
       journalHelp: this.#onJournalHelp,
       journalInvalid: this.#onJournalInvalid,
@@ -427,19 +428,6 @@ export default class WWCreatureSheet extends WWActorSheet {
     window.classList.toggle('incapacitated', actor.incapacitated && !actor.dead);
     window.classList.toggle('dead', actor.dead);
     window.classList.toggle('ally', (this.actor?.token ? this.actor.token.disposition : this.actor.prototypeToken.disposition) === 1);
-
-    // Drag events for macros.
-    /*if (this.actor.isOwner) {
-      
-      const handler = ev => this._onDragStart(ev)
-
-      html.find('.dropitem').each((i, li) => {
-        if (li.classList.contains('inventory-header')) return
-        li.setAttribute('draggable', true)
-        li.addEventListener('dragstart', handler, false)
-      })
-    }*/
-
   }
 
   /* -------------------------------------------- */
@@ -722,6 +710,16 @@ export default class WWCreatureSheet extends WWActorSheet {
   static async #onJournalView(event, button) {
     const page = await fromUuid(button.dataset.pageUuid);
     page.viewPage();
+  }
+
+  /* -------------------------------------------- */
+
+  static async #onJournalResync(event, button) {
+    const uuid = button.dataset.pageUuid;
+    const page = await fromUuid(uuid);
+
+    // Clear benefits granted by the Character Option
+    if (page) await this.actor.updateCharOptionBenefits(page.uuid, 'resync');
   }
 
   /* -------------------------------------------- */
