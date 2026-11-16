@@ -91,7 +91,7 @@ export default class WWCreatureSheet extends WWActorSheet {
     context.folder = await actorData.folder;
     const description = context.folder?.getFlag('weirdwizard', 'description') ?? '';
     context.folderDesc = await foundry.applications.ux.TextEditor.implementation.enrichHTML(description, { secrets: this.actor.isOwner }) ?? '';
-    console.log(context.folderDesc)
+    
     // Prepare Enriched Text
     context.system.descriptionEnriched = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.system.description, { secrets: this.actor.isOwner });
 
@@ -729,8 +729,7 @@ export default class WWCreatureSheet extends WWActorSheet {
   static async #onJournalRemove(event, button) {
     const uuid = button.dataset.pageUuid;
     const page = await fromUuid(uuid);
-    const type = button.dataset.optionType;
-    const charOptions = this.actor.system.charOptions;
+    const type = page.system.tier ?? page.type;
 
     // Open a dialog to confirm
     const confirm = await WWDialog.confirm({
@@ -747,16 +746,16 @@ export default class WWCreatureSheet extends WWActorSheet {
     if (!confirm) return;
     
     // Remove the UUID reference
-    const path = 'system.charOptions.' + type;
+    const isArr = type === 'profession' || type === 'tradition';
+    const path = 'system.charOptions.' + type + (isArr ? 's' : '');
 
-    if (type === 'professions' || type === 'traditions') {
-      const arr = charOptions[type].filter(v => {
+    if (isArr) {
+      const arr = foundry.utils.getProperty(this.actor, path).filter(v => {
         return v !== uuid;
       });
       
       await this.actor.update({ [path]: arr });
     } else if (type) {
-      
       await this.actor.update({ [path]: null });
     }
 
