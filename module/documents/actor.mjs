@@ -95,22 +95,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       
       // Update Character Options if Level updates
       if (foundry.utils.getProperty(changed, 'system.stats.level')) {
-        
-        if (user !== game.user.id) return;
-        const cOpts = this.system.charOptions;
-        
-        for (const o in cOpts) {
-          const cOpt = cOpts[o];
-          
-          if (typeof cOpt !== 'string') {
-            for (const e in cOpt) {
-              await this.updateCharOptionBenefits(cOpt[e], 'levelChange');
-            }
-
-          } else {
-            await this.updateCharOptionBenefits(cOpt, 'levelChange');
-          }
-        }
+        await this._updateCharOptions({ event: 'levelChange', user });
       }
     }
   }
@@ -328,6 +313,9 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     this._prepareCharacterData(system);
     this._prepareNpcData(system);
     this._prepareGroupData(system);
+
+    // Sync Character Options
+    //this._updateCharOptions({ event: 'dataPrep' });
   }
 
   /* -------------------------------------------- */
@@ -422,6 +410,26 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     system.wealth = wealth;
     system.equipmentList = equipmentList;
+  }
+
+  /* -------------------------------------------- */
+
+  async _updateCharOptions(options={}) {
+    console.log('syncing')
+    const { event, user } = options;
+
+    if (user && user !== game.user.id) return;
+    const cOpts = this.system.charOptions;
+    
+    for (const [o, cOpt] of Object.entries(cOpts)) {
+      if (typeof cOpt !== 'string') {
+        for (const uuid of cOpt) {
+          if (uuid) await this.updateCharOptionBenefits(uuid, event);
+        }
+      } else if (cOpt) {
+        await this.updateCharOptionBenefits(cOpt, event);
+      }
+    }
   }
 
   /* -------------------------------------------- */
@@ -572,14 +580,14 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
   /*  Character Options Handling                  */
   /* -------------------------------------------- */
 
-  async updateCharOptionBenefits(uuid, source) {
+  async updateCharOptionBenefits(uuid, event) {
     if (!uuid) return;
     const cOption = await fromUuid(uuid);
     
     // Return if invalid uuid, tradition or ancestry on level change
     if (!cOption) return ui.notifications.error(`"${uuid}" is not a valid Character Option UUID. Please remove it from the sheet!`);
     if (cOption.type === 'tradition') return;
-    if (cOption.type === 'ancestry' && source === 'levelChange') return;
+    if (cOption.type === 'ancestry' && event === 'levelChange') return;
     
     // Handle char option's main effect, list entries included
     await this._updateMainEffect(uuid);
@@ -589,10 +597,10 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       const professions = [...this.system.charOptions.professions].filter(x => x !== uuid); 
       const noOtherProfessions = professions.length > 0 ? false : true;
       
-      if (source === 'dragDrop' && noOtherProfessions) this._updateGrantedItems(uuid);
+      if (event === 'dragDrop' && noOtherProfessions) this._updateGrantedItems(uuid);
     } else this._updateGrantedItems(uuid);
 
-    ui.notifications.info(`${cOption.name}'s benefits updated.`);
+    if (event !== 'dataPrep') ui.notifications.info(`${cOption.name}'s benefits updated.`);
   }
 
   /* -------------------------------------------- */
@@ -622,13 +630,13 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     const lists = {};
 
     for (const b in benefits) {
-
       const benefit = benefits[b];
       
       // If level does not meet the requirement, ignore it
       if (level >= benefit.levelReq) {
-        const { levelReq, stats: bStats, spells, items, attributes, ...listEntries } = benefit;
+        const { levelReq, stats: bStats, descriptors, immunities, languages, movementTraits, senses } = benefit;
         currentLevel = levelReq;
+        const listEntries = { descriptors, immunities, languages, movementTraits, senses };
 
         // Defense
         if (bStats.naturalSet) stats.naturalSet = bStats.naturalSet;
@@ -729,6 +737,8 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
     // Add list entry changes
     for (const [listKey, list] of Object.entries(lists)) {
+      if (!list) continue;
+
       for (const entryKey of list) {
         changes.push({
           preset: `${listKey}.add`,

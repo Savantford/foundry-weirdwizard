@@ -27,7 +27,6 @@ export default class CharacterModel extends BaseActorModel {
 
     // Add Character Options
     schema.charOptions = new fields.SchemaField({
-
       ancestry: makeUuidStrField({ initial: 'Compendium.weirdwizard.character-options.JournalEntry.pAAZKv2vrilITojZ.JournalEntryPage.GI4b6WkOLlTszbRe' }),
 
       // Path UUIDs

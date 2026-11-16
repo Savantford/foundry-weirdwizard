@@ -620,6 +620,7 @@
 
 "WW.CharOption.Label": "Character Option",
 "WW.CharOption.Description": "Description",
+"WW.CharOption.Resync": "Resynchronize",
 "WW.CharOption.Benefits": "Benefits",
 "WW.CharOption.BenefitEffectName": "{name} (Level {level})",
 "WW.CharOption.BenefitHeading": "Level {level} {charOption}",
