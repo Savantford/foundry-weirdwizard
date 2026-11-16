@@ -1440,6 +1440,8 @@ export default class WWCreatureSheet extends WWActorSheet {
       
       const oldName = oldPage ? oldPage.name : 'Unknown';
 
+      if (oldUuid === page.uuid) return ui.notifications.warn(`${actor.name} already has ${page.name}!`);
+
       if (oldUuid) {
         const confirm = await WWDialog.confirm({
           window: {
