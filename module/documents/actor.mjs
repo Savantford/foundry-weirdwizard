@@ -220,6 +220,7 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
         listEntries[listKey] = [];
         
         // Loop through entries
+        console.log(list)
         for (const entryKey of list) {
           const entryData = await game.weirdwizard.utils.inferDataFromKey(listKey, entryKey);
           const relevantEffs = mapped.filter(e => e.changes.some(c => c.key === listKey));
@@ -622,13 +623,13 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     const lists = {};
 
     for (const b in benefits) {
-
       const benefit = benefits[b];
       
       // If level does not meet the requirement, ignore it
       if (level >= benefit.levelReq) {
-        const { levelReq, stats: bStats, spells, items, attributes, ...listEntries } = benefit;
+        const { levelReq, stats: bStats, descriptors, immunities, languages, movementTraits, senses } = benefit;
         currentLevel = levelReq;
+        const listEntries = { descriptors, immunities, languages, movementTraits, senses };
 
         // Defense
         if (bStats.naturalSet) stats.naturalSet = bStats.naturalSet;
@@ -728,7 +729,10 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     })
 
     // Add list entry changes
+    console.log(lists)
     for (const [listKey, list] of Object.entries(lists)) {
+      if (!list) continue;
+      
       for (const entryKey of list) {
         changes.push({
           preset: `${listKey}.add`,
