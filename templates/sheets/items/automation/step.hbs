@@ -1,4 +1,14 @@
-<li class="automation=step">
-  {{log this}}
-  {{formGroup fields.operation name="system.autoSteps.{{idx}}.operation" value=step.operation}}
-</li>
+<details class="automation-step">
+  <summary>{{localize "WW.Automation.Step.Number"}}{{idx}}</summary>
+  {{formGroup fields.operation name=(concat "system.autoSteps." idx ".operation") value=operation blank=false localize=true}}
+
+  {{!-- Targeting Settings --}}
+  {{#if (eq operation "target")}}
+    {{> "systems/weirdwizard/templates/sheets/items/automation/targeting.hbs"}}
+  {{/if}}
+
+  {{!-- Roll Settings --}}
+  {{#if (eq data 'asdasdasd')}}
+    {{> "systems/weirdwizard/templates/sheets/items/automation/roll.hbs"}}
+  {{/if}}
+</details>

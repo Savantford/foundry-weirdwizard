@@ -157,22 +157,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
 
     // Prepare attribute labels
     context.system.attributeLabel = CONFIG.WW.ATTRIBUTES[context.system.attribute];
-
-    // Prepare common dropdown menu objects
-    context.attributes = CONFIG.WW.ROLL_ATTRIBUTES;
-    context.against = CONFIG.WW.ROLL_AGAINST;
-
-    // Targeting and scene region area
-    context.targetingOperations = CONFIG.WW.TARGETING_OPERATIONS;
-    context.targetingMethods = CONFIG.WW.TARGETING_METHODS;
-    context.targetingRestrictions = CONFIG.WW.TARGETING_RESTRICTIONS;
     context.needTargets = this.document.needTargets;
-
-    // Scene region area
-    context.areaShapes = CONFIG.WW.ITEM_AREA_SHAPES;
-    context.areaRestrictions = Object.fromEntries(
-      Object.entries(CONST.EDGE_RESTRICTION_TYPES).map(([key, value]) => [value, `REGION.RESTRICTION_TYPES.${value}.label`])
-    );
 
     // Prepare specific dropdown menu objects
     switch (context.item.type) {

@@ -13,8 +13,12 @@ export default class AutomationStepModel extends foundry.abstract.DataModel {
 
       // Roll
       roll: new fields.SchemaField({
-        attribute: makeStrField(),
-        against: makeStrField(),
+        attribute: makeStrField({
+          choices: CONFIG.WW.ROLL_ATTRIBUTES
+        }),
+        against: makeStrField({
+          choices: CONFIG.WW.ROLL_AGAINST
+        }),
         boons: new fields.NumberField({
           required: true,
           initial: 0,
@@ -35,15 +39,24 @@ export default class AutomationStepModel extends foundry.abstract.DataModel {
 
       // Targeting
       targeting: new fields.SchemaField({
-        operation: makeRequiredStrField({ initial: 'none' }),
         range: makeIntField({ initial: 0 }),
-        method: makeRequiredStrField({ initial: 'manual' }),
-        restriction: makeRequiredStrField({ initial: 'any' })
+        
+        method: makeRequiredStrField({
+          initial: 'manual',
+          choices: CONFIG.WW.TARGETING_METHODS
+        }),
+        restriction: makeRequiredStrField({
+          initial: 'any',
+          choices: CONFIG.WW.TARGETING_RESTRICTIONS
+        })
       }),
 
       // Area (Scene Region)
       area: new fields.SchemaField({
-        shape: makeRequiredStrField({ initial: 'circle' }),
+        shape: makeRequiredStrField({
+          initial: 'circle',
+          choices: CONFIG.WW.ITEM_AREA_SHAPES
+        }),
         measure: makeIntField({ initial: 5 }),
         width: makeIntField({ initial: 1 }), // Line only
         attached: makeBooField({ initial: true }), // Emanation only
@@ -51,7 +64,12 @@ export default class AutomationStepModel extends foundry.abstract.DataModel {
 
         restriction: new fields.SchemaField({
           enabled: makeBooField({ initial: true }),
-          type: makeRequiredStrField({ initial: 'move' }),
+          type: makeRequiredStrField({
+            initial: 'move',
+            choices: Object.fromEntries(
+              Object.entries(CONST.EDGE_RESTRICTION_TYPES).map(([key, value]) => [value, `REGION.RESTRICTION_TYPES.${value}.label`])
+            )
+          }),
           priority: makeIntField({ initial: 0 })
         })
       })

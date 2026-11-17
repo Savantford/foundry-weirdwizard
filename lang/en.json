@@ -295,6 +295,8 @@
 "WW.Item.Uses.Full": "Equal to level",
 "WW.Item.Uses.Third": "Increases at 3rd and 7th level",
 
+"WW.Automation.Step.Number": "Step #",
+
 "WW.Item.Area.Label": "Area",
 "WW.Item.Area.Settings": "Area Settings",
 "WW.Item.Area.Size": "Size",

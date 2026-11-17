@@ -1865,6 +1865,31 @@ body.theme-dark.application.weirdwizard .window-content {
       width: 100%;
     }
   }
+
+  /* Automation Steps */
+  .automation-steps {
+    margin: 0;
+    padding: 0;
+
+    .automation-step {
+      display: flex;
+      flex-flow: column;
+      width: 100%;
+      background: var(--background-color-shadow);
+      border: solid 1px var(--purple-dark);
+      border-radius: 5px;
+      margin: 0;
+
+      > * {
+        padding: 0.5em;
+      }
+
+      > div:first-of-type {
+        border-top: 1px solid var(--purple-dark);
+        padding-bottom: 0;
+      }
+    }
+  }
 }
 
 /* Equipment Sheet */

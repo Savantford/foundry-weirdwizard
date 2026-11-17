@@ -1,55 +1,35 @@
 <div class="targeting">
-  {{!-- Heading --}}
-  <h4>{{localize "WW.Targeting.Label"}}</h4>
-
   {{!-- Common Fields --}}
   <div class="flex-row flex-wrap gap-10 stat-inline mt-1">
-    {{!-- Targeting Operation --}}
-    <div class="stat-inline">
-      <label>{{localize "WW.Targeting.Operations.Label"}}:</label>
-      
-      <select name="system.targeting.operation">
-        {{selectOptions targetingOperations selected=system.targeting.operation localize=true}}
-      </select>
-    </div>
-
     {{!-- Range --}}
-    {{#if (ne system.targeting.operation 'none')}}
-      <div class="stat-inline">
-        <label>{{localize "WW.Targeting.Range"}}:</label>
-
-        <div class="input-wrap">
-          <input type="number" name="system.targeting.range" value="{{system.targeting.range}}" min="0" data-tooltip="WW.System.YardsHint" />
-          <div class="input-overlay">{{system.targeting.range}}</div>
-        </div>
-      </div>
-    {{/if}}
-
+    <div class="stat-inline">
+      <label>{{localize "WW.Targeting.Range"}}:</label>
+      
+      {{formInput fields.targeting.fields.range name=(concat "system.autoSteps." idx ".targeting.range")
+        value=targeting.range dataset=(object tooltip="WW.System.YardsHint")}}
+    </div>
+  
     {{!-- Targeting Method --}}
-    {{#if (eq system.targeting.operation 'target')}}
-      <div class="stat-inline">
-        <label>{{localize "WW.Targeting.Methods.Label"}}:</label>
-        
-        <select name="system.targeting.method">
-          {{selectOptions targetingMethods selected=system.targeting.method localize=true}}
-        </select>
-      </div>
-    
-      {{!-- Targeting Restriction --}}
-      {{#if (ne system.targeting.method 'self')}}
-        <div class="stat-inline">
-          <label>{{localize "WW.Targeting.Restrictions.Label"}}:</label>
-          
-          <select name="system.targeting.restriction">
-            {{selectOptions targetingRestrictions selected=system.targeting.restriction localize=true}}
-          </select>
-        </div>
-      {{/if}}
+    <div class="stat-inline">
+      <label>{{localize "WW.Targeting.Methods.Label"}}:</label>
+  
+      {{formInput fields.targeting.fields.method name=(concat "system.autoSteps." idx ".targeting.method")
+        value=targeting.method localize=true blank=false}}
+    </div>
+  
+    {{!-- Targeting Restriction --}}
+    {{#if (ne targeting.method 'self')}}
+    <div class="stat-inline">
+      <label>{{localize "WW.Targeting.Restrictions.Label"}}:</label>
+  
+      {{formInput fields.targeting.fields.restriction name=(concat "system.autoSteps." idx ".targeting.restriction" )
+        value=targeting.restriction localize=true blank=false}}
+    </div>
     {{/if}}
   </div>
 
   {{!-- Area / Region Fields --}}
-  {{#if (or (eq system.targeting.operation 'placeArea') (eq system.targeting.method 'area'))}}
+  {{#if (or (eq targeting.operation 'placeArea') (eq targeting.method 'area'))}}
     <fieldset class="mt-2">
       <legend>{{localize "WW.Item.Area.Settings"}}</legend>
 
@@ -59,56 +39,52 @@
           <label>{{localize "WW.Item.Area.Shape.Label"}}:</label>
 
           {{!-- Shape icon --}}
-          {{#if (eq system.area.shape "line")}}
+          {{#if (eq area.shape "line")}}
             <i class="info fa-solid fa-up-long" title="{{localize "WW.Item.Area.Shape.LineTip"}}"></i>
-          {{else if (eq system.area.shape "emanation")}}
+          {{else if (eq area.shape "emanation")}}
             <i class="info fa-solid fa-maximize" title="{{localize "WW.Item.Area.Shape.EmanationTip"}}"></i>
           {{else}}
             <i class="info fa-solid fa-square" title="{{localize "WW.Item.Area.Shape.CircleTip"}}"></i>
           {{/if}}
           
           {{!-- Shape dropdown --}}
-          <select name="system.area.shape">
-            {{selectOptions areaShapes selected=system.area.shape localize=true}}
-          </select>
+          {{formInput fields.area.fields.shape name=(concat "system.autoSteps." idx ".area.shape")
+            value=area.shape localize=true blank=false}}
         </div>
 
         {{!-- Measure (Size, Radius, Length) --}}
         <div class="stat-inline">
           <label>
-            {{#if (eq system.area.shape 'line')}}
+            {{#if (eq area.shape 'line')}}
               {{localize "WW.Item.Area.Length"}}
-            {{else if (eq system.area.shape 'emanation')}}
+            {{else if (eq area.shape 'emanation')}}
               {{localize "WW.Item.Area.Radius"}}
             {{else}}
               {{localize "WW.Item.Area.Size"}}
             {{/if}}:
           </label>
-
-          <div class="input-wrap mr-1">
-            <input type="number" name="system.area.measure" value="{{system.area.measure}}" min="1" data-tooltip="WW.System.YardsHint" />
-            <div class="input-overlay">{{system.area.measure}}</div>
-          </div>
+          
+          {{formInput fields.area.fields.measure name=(concat "system.autoSteps." idx ".area.measure")
+            value=area.measure dataset=(object tooltip="WW.System.YardsHint")}}
         </div>
 
         {{!-- Line Width --}}
-        {{#if (eq system.area.shape 'line')}}
+        {{#if (eq area.shape 'line')}}
         <div class="stat-inline">
           <label>{{localize "WW.Item.Area.Width"}}:</label>
 
-          <div class="input-wrap mr-1">
-            <input type="number" name="system.area.width" value="{{system.area.width}}" min="0" data-tooltip="WW.System.YardsHint" />
-            <div class="input-overlay">{{system.area.width}}</div>
-          </div>
+          {{formInput fields.area.fields.width name=(concat "system.autoSteps." idx ".area.width")
+            value=area.width dataset=(object tooltip="WW.System.YardsHint")}}
         </div>
         {{/if}}
         
-        {{#if (eq system.area.shape 'emanation')}}
+        {{#if (eq area.shape 'emanation')}}
         {{!-- Token Attached --}}
         <div class="stat-inline">
           <label class="mr-0">{{localize "WW.Item.Area.AttachToToken"}}:</label>
 
-          <input type="checkbox" name="system.area.attached" {{checked system.area.attached}} />
+          {{formInput fields.area.fields.attached name=(concat "system.autoSteps." idx ".area.attached")
+            value=area.attached}}
         </div>
         {{/if}}
 
@@ -116,7 +92,7 @@
         <div class="stat-inline">
           <label>{{localize "REGION.FIELDS.color.label"}}:</label>
 
-          <color-picker name="system.area.color" value="{{system.area.color}}" placeholder="{{localize "WW.Item.Area.DefaultColor"}}">
+          <color-picker name="system.autoSteps.{{idx}}.area.color" value="{{area.color}}" placeholder="{{localize "WW.Item.Area.DefaultColor"}}">
           </color-picker>
           
           <i class="info fa-solid fa-circle-question ml-1" title="{{localize "REGION.FIELDS.color.hint"}}"></i>
@@ -132,24 +108,23 @@
         {{!-- Restriction Enabled --}}
         <label>{{localize "REGION.FIELDS.restriction.enabled.label"}}:</label>
 
-        <input type="checkbox" name="system.area.restriction.enabled" {{checked system.area.restriction.enabled}} />
+        {{formInput fields.area.fields.restriction.fields.enabled
+          name=(concat "system.autoSteps." idx ".area.restriction.enabled") value=area.restriction.enabled}}
+
         <i class="info fa-solid fa-circle-question" title="{{localize "REGION.FIELDS.restriction.enabled.hint"}}"></i>
 
         {{!-- Restriction Priority --}}
         <label class="ml-2">{{localize "REGION.FIELDS.restriction.priority.label"}}:</label>
-
-        <div class="input-wrap mr-1">
-          <input type="number" name="system.area.restriction.priority" value="{{system.area.restriction.priority}}" min="0"/>
-          <div class="input-overlay">{{system.area.restriction.priority}}</div>
-        </div>
+        
+        {{formInput fields.area.fields.restriction.fields.priority
+          name=(concat "system.autoSteps." idx ".area.restriction.priority") value=area.restriction.priority}}
       </div>
 
       {{!-- Restriction Type --}}
       <div class="stat-inline mt-1">
         <label>{{localize "REGION.FIELDS.restriction.type.label"}}:</label>
 
-        <select name="system.area.restriction.type">
-          {{selectOptions areaRestrictions selected=system.area.restriction.type localize=true}}
+        {{formInput fields.area.fields.restriction.fields.type name=(concat "system.autoSteps." idx ".area.restriction.type") value=area.restriction.type localize=true}}
         </select>
       </div>
     </fieldset>
