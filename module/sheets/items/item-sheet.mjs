@@ -1,4 +1,5 @@
 import MultiChoice from '../../apps/multi-choice.mjs';
+import AutomationStepModel from '../../data/items/automation-step.mjs';
 import {
   createActiveEffect, deleteActiveEffect, editActiveEffect,
   createInstantEffect, deleteInstantEffect, editInstantEffect,
@@ -48,6 +49,8 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       showItemArtwork: this.#onShowItemArtwork,
       traitsMenu: this.#onTraitsMenuOpen,
 
+      stepCreate: this.#onStepCreate,
+      stepRemove: this.#onStepRemove,
       instantCreate: this.#onInstantEffectCreate,
       instantEdit: this.#onInstantEffectEdit,
       instantRemove: this.#onInstantEffectRemove,
@@ -80,7 +83,8 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       template: 'systems/weirdwizard/templates/sheets/items/automation/tab.hbs',
       templates: [
         'systems/weirdwizard/templates/sheets/items/automation/roll.hbs',
-        'systems/weirdwizard/templates/sheets/items/automation/targeting.hbs'
+        'systems/weirdwizard/templates/sheets/items/automation/targeting.hbs',
+        'systems/weirdwizard/templates/sheets/items/automation/step.hbs'
       ]
     },
     effects: {
@@ -276,6 +280,8 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       // Automation tab
       case 'automation':
         context.tab = context.tabs[partId];
+        
+        context.stepFields = (new AutomationStepModel).schema.fields;
       break;
       
       // Effects tab
@@ -283,7 +289,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         context.tab = context.tabs[partId];
 
         // Prepare instant effects
-        let instEffs = context.system.instant;
+        /*let instEffs = context.system.instant;
 
         instEffs.forEach((e,id) => {
           const obj = {...e,
@@ -298,7 +304,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
           instEffs[id] = obj;
         })
         
-        context.instantEffects = instEffs;
+        context.instantEffects = instEffs;*/
 
         // Prepare active effects
         const effectCats = await prepareItemEffectCategories(this.document); /* await is needed, ignore linter */
@@ -507,6 +513,20 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       ]
     }).render(true);
 
+  }
+
+  /* -------------------------------------------- */
+  /*  Automation Steps handling actions           */
+  /* -------------------------------------------- */
+
+  static #onStepCreate(event, button) {
+    this.document.update({ 'system.autoSteps': [... foundry.utils.getProperty(this.document, 'system.autoSteps'), {}]});
+  }
+
+  static #onStepRemove(event, button) {
+    const arr = foundry.utils.getProperty(this.document, 'system.autoSteps').splice(button.dataset.stepIndex, 1);
+
+    this.document.update({ 'system.autoSteps': arr });
   }
 
   /* -------------------------------------------- */

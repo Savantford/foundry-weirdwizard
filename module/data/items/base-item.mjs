@@ -1,4 +1,5 @@
-import { makeStrField, makeBooField, makeIntField, makeHtmlField, makeUuidStrField, makeRequiredStrField, makeNumField } from '../field-presets.mjs';
+import { makeBooField, makeIntField, makeHtmlField, makeUuidStrField, makeRequiredStrField } from '../field-presets.mjs';
+import AutomationStepModel from './automation-step.mjs';
 
 export default class BaseItemModel extends foundry.abstract.TypeDataModel {
   /** @inheritdoc */
@@ -14,17 +15,6 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
       ),
 
       magical: makeBooField(),
-      attribute: makeStrField(), // Make it required maybe
-      against: makeStrField(), // Make it required maybe
-
-      boons: new fields.NumberField({
-        required: true,
-        initial: 0,
-        integer: true
-      }),
-      boonsAlt: makeStrField(),
-
-      affliction: makeStrField(), // Make it required maybe
 
       uses: new fields.SchemaField({
         value: makeIntField(),
@@ -32,40 +22,8 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
         onRest: makeBooField({ initial: true }),
         levelRelative: makeRequiredStrField({ initial: 'manual' })
       }),
-
-      healing: makeStrField(),
-      instant: new fields.ArrayField(
-        new fields.ObjectField({
-          label: makeStrField(),
-          trigger: makeRequiredStrField({ initial: 'onUse' }),
-          target: makeRequiredStrField({ initial: 'tokens' }),
-          value: makeStrField()
-        })
-      ),
-
-      // Targeting & scene region template
-      targeting: new fields.SchemaField({
-        operation: makeRequiredStrField({ initial: 'none' }),
-        range: makeIntField({ initial: 0 }),
-        method: makeRequiredStrField({ initial: 'manual' }),
-        restriction: makeRequiredStrField({ initial: 'any' })
-      }),
-
-      // Area (Scene Region) template
-      area: new fields.SchemaField({
-        shape: makeRequiredStrField({ initial: 'circle' }),
-        measure: makeIntField({ initial: 5 }),
-        width: makeIntField({ initial: 1 }), // Line only
-        attached: makeBooField({ initial: true }), // Emanation only
-        color: new fields.ColorField(),
-
-        restriction: new fields.SchemaField({
-          enabled: makeBooField({ initial: true }),
-          type: makeRequiredStrField({ initial: 'move' }),
-          priority: makeIntField({ initial: 0 })
-        })
-      })
-
+      
+      autoSteps: new fields.ArrayField(new fields.EmbeddedDataField(AutomationStepModel))
     };
 
     return schema;

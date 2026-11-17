@@ -307,7 +307,19 @@ WW.ARMOR_TYPES = {
   'heavy': 'WW.Armor.Heavy'
 }
 
-/* Item Automations */
+/* Automation Steps */
+
+WW.AUTOMATION_STEP_OPERATIONS = {
+  'target': 'WW.Targeting.Operations.TargetTokens',
+  'roll': 'WW.Roll.Label',
+  'placeArea': 'WW.Targeting.Operations.PlaceArea',
+  'damage': 'WW.InstantEffect.Damage',
+  'heal': 'WW.InstantEffect.Heal',
+  'healthLose': 'WW.InstantEffect.HealthLose',
+  'healthRegain': 'WW.InstantEffect.HealthRegain',
+  'affliction': 'WW.InstantEffect.Affliction',
+  'activeEffect': 'Effect'
+},
 
 WW.ROLL_ATTRIBUTES = {
   '': 'WW.Roll.Dont',
