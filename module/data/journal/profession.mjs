@@ -6,7 +6,7 @@ export default class ProfessionModel extends BaseCharOptionModel {
     const fields = foundry.data.fields;
     const schema = super.defineSchema();
 
-    schema.category = makeRequiredStrField('commoner');
+    schema.category = makeRequiredStrField({ initial: 'commoner' });
 
     schema.benefits = new fields.SchemaField({
       benefit1: new fields.SchemaField({
