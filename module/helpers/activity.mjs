@@ -3,7 +3,6 @@ import TargetingHelper from "../apps/targeting-helper.mjs";
 
 export class Activity {
   constructor(options) {
-    console.log(options)
     const { args = {}, actor, item = null, roll = {}, message = {}, title } = options;
     const sys = actor.system;
 
@@ -64,7 +63,7 @@ export class Activity {
    * @param {ActivityOptions} options
    * @returns {ActivityConfig}
    */
-  async use(options) {
+  async use() {
     const config = this.config;
     const { args, actor, item, targeting } = config;
     
@@ -114,23 +113,24 @@ export class Activity {
    * @param {ActivityConfig} config
    * @returns {ActivityConfig}
    */
-  async rollDice(config) {
-    const { attribute, boons, against, flatMod } = this.config.roll;
+  async rollDice() {
+    const config = this.config;
+    const { actor, item, itemProperties } = config;
+    const { attribute, boons, against, flatMod } = config.roll;
 
     // Proceed to roll
     const rollData = this.getRollData();
     const rollOptions = {
+      actor, item,
       template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
-      actor: this,
-      item: config.item,
-      originUuid: config.item ? config.item.uuid : this.config.actor.uuid, // TODO: Replace with item/actor
+      originUuid: item ? item.uuid : actor.uuid, // TODO: Replace with item/actor
       attribute: attribute.key,
       against: against.key,
       instEffs: this.getActivityInstantEffects(config),
       actEffs: this.getActiveEffects(config)
     };
     const rollsArray = [];
-    const autoFailure = this.config.actor.system.autoFail;
+    const autoFailure = actor.system.autoFail;
 
     // Calculate final boons
     let boonsDisplay = "0";
@@ -142,7 +142,7 @@ export class Activity {
     if (boons.applySpell && boons.forSpells) boonsFinal += boons.forSpells;
     if (boons.fixed) boonsFinal += boons.fixed; // If there are fixed boons or banes, add it
 
-    config.roll.boons.final = boonsFinal;
+    this.config.roll.boons.final = boonsFinal;
 
     // Check if user has valid targets
     const validTargets = this.getTargets(config).valid;
@@ -152,9 +152,9 @@ export class Activity {
         // Set boons text
         let boonsAgainst = 0;
         if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against.key];
-        if (config.itemProperties.isAttack) boonsAgainst += tar.boonsAgainst.fromAttacks;
-        if (config.itemProperties.isSpell) boonsAgainst += tar.boonsAgainst.fromSpells;
-        if (config.itemProperties.isMagical) boonsAgainst += tar.boonsAgainst.fromMagical;
+        if (itemProperties.isAttack) boonsAgainst += tar.boonsAgainst.fromAttacks;
+        if (itemProperties.isSpell) boonsAgainst += tar.boonsAgainst.fromSpells;
+        if (itemProperties.isMagical) boonsAgainst += tar.boonsAgainst.fromMagical;
 
         const boonsNo = parseInt(boons.final) + boonsAgainst;
 
@@ -236,9 +236,9 @@ export class Activity {
    * Create a Chat Message for an Activity.
    * @param {ActivityConfig} config
    */
-  async sendMessage(config) {
-    const { actor, message, rollsArray=[] } = config;
-    console.log(config)
+  async sendMessage() {
+    const { actor, item, message, rollsArray=[] } = this.config;
+    
     const messageData = {
       ...message,
       type: 'd20-roll',
@@ -246,8 +246,8 @@ export class Activity {
       speaker: game.weirdwizard.utils.getSpeaker({ actor }),
       sound: CONFIG.sounds.dice,
       'flags.weirdwizard': {
-        icon: message.icon ?? (config.item?.img ?? null),
-        item: config.item?.uuid,
+        icon: message.icon ?? (item?.img ?? null),
+        item: item?.uuid,
         emptyContent: !message.content ?? true
       }
     }
