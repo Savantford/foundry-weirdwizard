@@ -1,7 +1,7 @@
 import MultiChoice from '../../apps/multi-choice.mjs';
 import AutomationStepModel from '../../data/items/automation-step.mjs';
 import { createActiveEffect, deleteActiveEffect, editActiveEffect, prepareItemEffectCategories } from '../../helpers/effect-actions.mjs';
-import { inferDataFromKey } from '../../helpers/utils.mjs';
+import { inferDataFromKey, makeRollExpressionText } from '../../helpers/utils.mjs';
 import WWSheetMixin from '../ww-sheet.mjs';
 
 // Similar syntax to importing, but note that
@@ -183,6 +183,19 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
               ? areaInfo
               : `${_loc('WW.Targeting.Range')} ${step.targeting.range}, ${_loc(CONFIG.WW.TARGETING_RESTRICTIONS[step.targeting.restriction])}`
             })
+          `;
+        }; break;
+
+        case 'roll': {
+          const { attribute, boons, against } = step.roll;
+          
+          step.summary = makeRollExpressionText({ attribute, boons, against });
+        }; break;
+
+        case 'placeArea': {
+          step.summary = `
+            ${_loc(CONFIG.WW.AUTOMATION_STEP_OPERATIONS[step.operation])}
+            (${areaInfo})
           `;
         }; break;
 

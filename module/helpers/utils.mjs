@@ -100,6 +100,26 @@ export function sysPath(string) {
 /*  Formating Functions                                     */
 /* -------------------------------------------------------- */
 
+export function makeRollExpressionText(options={}) {
+  const attribute = _loc(CONFIG.WW.ROLL_ATTRIBUTES[options.attribute]);
+  const against = _loc(CONFIG.WW.ROLL_AGAINST[options.against])
+
+  // Prepare boons display
+  const boonsAbs = Math.abs(options.boons);
+  let boons = '';
+
+  if (options.boons > 1) boons = _loc("WW.Roll.Expression.Boons", boonsAbs);
+  else if (options.boons > 0) boons = _loc("WW.Roll.Expression.Boon", boonsAbs);
+  else if (options.boons < -1) boons = _loc("WW.Roll.Expression.Banes", boonsAbs);
+  else if (options.boons < 0) boons = _loc("WW.Roll.Expression.Bane", boonsAbs);
+
+  // Make string
+  if (attribute && boons && against) return _loc("WW.Roll.Expression.Complete", { attribute, boons, against });
+  if (attribute && boons) return _loc("WW.Roll.Expression.NoAgainst", { attribute, boons });
+  if (attribute && against) return _loc("WW.Roll.Expression.NoBoons", { attribute, against });
+  return _loc("WW.Roll.Expression.Minimal", {attribute: CONFIG.WW.ROLL_ATTRIBUTES[attribute]});
+}
+
 /**
  * 
  * @param {string} listKey 

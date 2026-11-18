@@ -388,6 +388,15 @@
 "WW.Roll.Boons": "Boons",
 "WW.Roll.Banes": "Banes",
 
+"WW.Roll.Expression.Complete": "Roll {attribute} with {boons} against {against}",
+"WW.Roll.Expression.NoBoons": "Roll {attribute} against {against}",
+"WW.Roll.Expression.NoAgainst": "Roll {attribute} with {boons}",
+"WW.Roll.Expression.Minimal": "Roll {attribute}",
+"WW.Roll.Expression.Boon": "with {number} boon",
+"WW.Roll.Expression.Boons": "with {number} boons",
+"WW.Roll.Expression.Bane": "with {number} bane",
+"WW.Roll.Expression.Banes": "with {number} banes",
+
 "WW.Roll.Against.Label": "Against",
 "WW.Roll.Against.Lc": "against",
 "WW.Roll.Against.Default": "10 (Default)",
