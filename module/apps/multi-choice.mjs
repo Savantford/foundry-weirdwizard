@@ -1,5 +1,5 @@
 import { slideDown, slideUp } from '../helpers/utils.mjs';
-import ActivityUse from './activity-use.mjs';
+import ActivityApp from './activity-app.mjs';
 
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
@@ -209,7 +209,7 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
             }
           }
 
-          new ActivityUse(activityOptions).render(true);
+          new ActivityApp(activityOptions).render(true);
         }
 
       break;    

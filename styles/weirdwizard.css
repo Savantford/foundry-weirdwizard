@@ -4620,8 +4620,8 @@ ol.list-entries.inline {
 .weirdwizard .form-footer button.default,
 .weirdwizard.roll-table-sheet .form-footer > button,
 #multi-choice .mc-buttons button,
-.activity-use .window-content button,
-.activity-use .roll-details,
+.activity-app .window-content button,
+.activity-app .roll-details,
 #roll-damage .form-footer button,
 .folder-edit button[type="submit"] {
   border: none;
@@ -4647,11 +4647,11 @@ ol.list-entries.inline {
 }
 
 .weirdwizard .form-footer button.default,
-.activity-use .window-content button[aria-pressed=true] {
+.activity-app .window-content button[aria-pressed=true] {
   filter: drop-shadow(0 0 0px var(--control-active-border-color)) drop-shadow(0 0 0px var(--control-active-border-color));
 }
 
-.activity-use .roll-details {
+.activity-app .roll-details {
   padding: 0 0.5em;
   font: inherit;
 
@@ -4669,10 +4669,10 @@ ol.list-entries.inline {
 .weirdwizard.roll-table-sheet .form-footer > button:focus,
 #multi-choice .mc-buttons button:hover,
 #multi-choice .mc-buttons button:focus,
-.activity-use .window-content button:hover,
-.activity-use .window-content button:focus,
-.activity-use .roll-details:hover,
-.activity-use .roll-details:focus,
+.activity-app .window-content button:hover,
+.activity-app .window-content button:focus,
+.activity-app .roll-details:hover,
+.activity-app .roll-details:focus,
 #roll-damage .form-footer button:hover,
 #roll-damage .form-footer button:focus {
   border-image-source: url(../assets/ui/plates/single-transparent-thicker.svg);
@@ -4682,7 +4682,7 @@ ol.list-entries.inline {
   outline: none;
 }
 
-.activity-use .split-button {
+.activity-app .split-button {
   button,
   button:hover {
     border-image-width: 5px 0;
@@ -5168,7 +5168,7 @@ details.document-card .card-header:hover::after {
 /* -------------------------------------------- */
 
 /* Shared Style */
-.weirdwizard.activity-use,
+.weirdwizard.activity-app,
 #roll-damage {
   form {
     display: flex;
@@ -5383,7 +5383,7 @@ details.document-card .card-header:hover::after {
 }
 
 /* Use Activity App */
-.weirdwizard.activity-use {
+.weirdwizard.activity-app {
   .window-content {
     gap: 1em;
 

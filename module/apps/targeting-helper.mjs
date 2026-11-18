@@ -95,7 +95,7 @@ export default class TargetingHelper extends HandlebarsApplicationMixin(Applicat
   /**
    * @param {PointerEvent} event - The originating click event
    * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
-   * @this {ActivityUse}
+   * @this {ActivityApp}
    */
   static async #cancel(event, target) {
     this.#resolvers.resolve({ cancel: true });

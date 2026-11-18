@@ -1,5 +1,5 @@
 import WWDocumentMixin from './ww-document.mjs';
-import ActivityUse from '../apps/activity-use.mjs';
+import ActivityApp from '../apps/activity-app.mjs';
 import TargetingHelper from '../apps/targeting-helper.mjs';
 import WWRoll from '../dice/roll.mjs';
 import { Activity } from '../helpers/activity.mjs';
@@ -851,15 +851,18 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     const title = `${_loc('WW.Effect.Duration.Expiry.LuckEnds')}: ${effect.name}`;
     const config = {
       title,
-      roll: { attribute: { key: 'luck' } },
       message: {
         flavor: title,
         content: '',
         icon: effect.img ?? null
       },
-      args: {
-        noTargeting: true
-      }
+
+      steps: [
+        {
+          operation: 'roll',
+          roll: { attribute: 'luck' }
+        }
+      ]
     }
 
     const activity = await this.useActivity(config);

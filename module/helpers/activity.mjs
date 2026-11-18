@@ -1,53 +1,55 @@
-import ActivityUse from "../apps/activity-use.mjs";
+import ActivityApp from "../apps/activity-app.mjs";
 import TargetingHelper from "../apps/targeting-helper.mjs";
 
 export class Activity {
   constructor(options) {
-    const { args = {}, actor, item = null, roll = {}, message = {}, title } = options;
+    console.log(options)
+    const config = {...options};
+    const { args = {}, steps, actor, item = null, message = {}, title } = config;
     const sys = actor.system;
-
-    // Targeting
-    const targeting = item?.system?.targeting ?? null;
 
     // Item Properties
     const itemProperties = {
       isWeapon: item?.system?.subtype === 'weapon' ?? false,
-      isAttack: (item?.system?.subtype === 'weapon' || roll?.against?.key === 'def') ?? false,
+      isAttack: item?.system?.subtype === 'weapon' ?? false,
       isMagical: item?.system?.magical,
       isSpell: item?.type === 'spell' ?? false
     }
 
-    // Roll
-    roll.attribute ??= {};
-    roll.attribute.key ??= item?.system?.attribute ?? null;
-    const attKey = roll.attribute.key;
-    roll.attribute.mod ??= sys.attributes[attKey]?.mod ? game.weirdwizard.utils.plusify(sys.attributes[attKey].mod) : '+0';
-    
-    // Roll Boons
-    foundry.utils.mergeObject(roll.boons = {}, {
-      actor: sys.boons,
-      fromEffects: sys.boons.selfRoll[attKey], // Conditional boons should be added here later
-      forAttacks: sys.boons.selfRoll.attacks,
-      forSpells: sys.boons.selfRoll.spells,
-    });
+    if (steps && steps.length) for (const [idx, step] of steps.entries()) {
+      step.number = idx + 1;
 
-    roll.boons.fixed ??= item?.system?.boons ?? 0;
-    roll.boons.applyAttack ??= itemProperties.isAttack;
-    roll.boons.applySpell ??= itemProperties.isSpell;
-    roll.boons.situational ??= 0;
-
-    roll.against ??= {};
-    roll.against.key ??= item?.system?.against ?? null;
+      // Roll
+      if (step.operation === 'roll') {
+        const roll = step.roll;
+        const attKey = roll.attribute;
+        
+        // Attribute Modifier
+        roll.mod ??= sys.attributes[attKey]?.mod ? game.weirdwizard.utils.plusify(sys.attributes[attKey].mod) : '+0';
+        
+        // Roll Boons
+        roll.boonsBreakdown = {
+          actor: sys.boons,
+          fromEffects: sys.boons.selfRoll[attKey], // Conditional boons should be added here later
+          forAttacks: sys.boons.selfRoll.attacks,
+          forSpells: sys.boons.selfRoll.spells,
+          fixed: roll.boons ?? 0,
+          applyAttack: itemProperties.isAttack,
+          applySpell: itemProperties.isSpell,
+          situational: 0
+        }
+      }
+    }
 
     // Arguments
-    args.noRoll ??= roll.attribute?.key ? false : true;
+    /*args.noRoll ??= roll.attribute?.key ? false : true;
     args.noTargeting ??= targeting?.operation === 'target' ? false : true;
-    args.noArea ??= targeting?.operation === 'placeArea' ? false : true;
-    args.skipApp ??= args.noRoll && args.noTargeting && args.noArea;
+    args.noArea ??= targeting?.operation === 'placeArea' ? false : true;*/
+    //args.skipApp ??= args.noRoll && args.noTargeting && args.noArea;
 
     // Create config object
     this.config = {
-      args, actor, item, roll, targeting, message, itemProperties, title,
+      args, steps, actor, item, itemProperties, title, message,
       token: actor.token
     }
 
@@ -67,7 +69,7 @@ export class Activity {
     const config = this.config;
     const { args, actor, item, targeting } = config;
     
-    // Open or skip ActivityUse app
+    // Open or skip ActivityApp app
     let cancel = false;
 
     if (args.skipApp) { // Skip Activity app, but maybe open a helper
@@ -90,20 +92,26 @@ export class Activity {
         if (targetingHelper.cancel) cancel = true;
       } 
     } else { // Open Activity app
-      const mutated = await ActivityUse.wait(config);
+      const mutated = await ActivityApp.wait(config);
       if (mutated) (config, mutated); else cancel = true;
     }
 
     // Cancel activity if needed, otherwise proceed to roll and chat message
     if (cancel) return;
 
-    //await this.resolveSteps();
+    await this.resolveSteps();
 
     if (!args.noRoll) await this.rollDice(config); // Handle roll
 
     await this.sendMessage(config); // Handle chat message creation
 
     return config;
+  }
+
+  /* -------------------------------------------- */
+
+  async resolveSteps() {
+    console.log(this.config.steps)
   }
 
   /* -------------------------------------------- */

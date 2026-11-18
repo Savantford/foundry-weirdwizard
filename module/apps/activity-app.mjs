@@ -10,7 +10,7 @@ const HandlebarsApplicationMixin = foundry.applications?.api?.HandlebarsApplicat
  * A powerful general app to handle general activity use and dice rolling.
  * @extends {ApplicationV2}
 */
-export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV2) {
+export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV2) {
   debounceRender = foundry.utils.debounce(this.render, 50);
   
   constructor(options={}) {
@@ -24,7 +24,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   }
 
   static DEFAULT_OPTIONS = {
-    classes: ['weirdwizard', 'activity-use'],
+    classes: ['weirdwizard', 'activity-app'],
     window: {
       icon: 'fa-regular fa-dice-d20',
       resizable: true,
@@ -33,18 +33,18 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
     },
     actions: {
       // Roll actions
-      toggleRollDetails: ActivityUse.#onToggleRollDetails,
-      situationalUp: ActivityUse.#changeSituationalBoons,
-      situationalDown: ActivityUse.#changeSituationalBoons,
-      confirm: ActivityUse.#confirm,
+      toggleRollDetails: ActivityApp.#onToggleRollDetails,
+      situationalUp: ActivityApp.#changeSituationalBoons,
+      situationalDown: ActivityApp.#changeSituationalBoons,
+      confirm: ActivityApp.#confirm,
 
       // Targeting actions
-      selectTargets: ActivityUse.#selectTargets,
-      placeArea: ActivityUse.#placeArea,
-      targetingRestriction: ActivityUse.#onChangeTargetingRestriction,
+      selectTargets: ActivityApp.#selectTargets,
+      placeArea: ActivityApp.#placeArea,
+      targetingRestriction: ActivityApp.#onChangeTargetingRestriction,
 
       // Other actions
-      messageMode: ActivityUse.#onChangeMessageMode
+      messageMode: ActivityApp.#onChangeMessageMode
     },
     position: {
       width: 425,
@@ -402,7 +402,7 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
   /**
    * @param {PointerEvent} event - The originating click event
    * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
-   * @this {ActivityUse}
+   * @this {ActivityApp}
    */
   static async #confirm(event, target) {
     this.#resolvers.resolve(this.config);
