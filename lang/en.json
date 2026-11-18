@@ -295,7 +295,21 @@
 "WW.Item.Uses.Full": "Equal to level",
 "WW.Item.Uses.Third": "Increases at 3rd and 7th level",
 
+"WW.Automation.Step.Label": "Automation Step",
+"WW.Automation.Step.Plural": "Automation Steps",
 "WW.Automation.Step.Number": "Step #",
+"WW.Automation.Step.Add": "Add Step",
+"WW.Automation.Step.Remove": "Remove Step",
+"WW.Automation.Operations.Label": "Operation",
+"WW.Automation.Operations.TargetTokens": "Target tokens",
+"WW.Automation.Operations.RollAttribute": "Roll Attribute or Luck",
+"WW.Automation.Operations.PlaceArea": "Place a persistent area",
+"WW.Automation.Operations.Damage": "Deal Damage",
+"WW.Automation.Operations.Heal": "Heal Damage",
+"WW.Automation.Operations.HealthLose": "Lose Health",
+"WW.Automation.Operations.HealthRegain": "Regain Lost Health",
+"WW.Automation.Operations.Affliction": "Bestow Affliction",
+"WW.Automation.Operations.ApplyEffect": "Apply Ongoing Effect",
 
 "WW.Item.Area.Label": "Area",
 "WW.Item.Area.Settings": "Area Settings",
@@ -321,6 +335,27 @@
 "WW.Activity.Target.PlaceArea": "Place a persistent area",
 "WW.Activity.Target.ExpectHint": "This activity expects targets to be selected. Please make sure to select targets in case you forgot it!",
 "WW.Activity.Confirm": "Confirm",
+
+"WW.Targeting.Label": "Targeting",
+"WW.Targeting.Targets": "Targets",
+"WW.Targeting.Target": "Target",
+"WW.Targeting.Range": "Range",
+"WW.Targeting.RangeOut": "Out of range!",
+"WW.Targeting.RangeWeaponTip": "You can customize the Range/Thrown value in the Automations tab.",
+
+"WW.Targeting.Methods.Label": "Targeting Method",
+"WW.Targeting.Methods.Manual": "Target tokens manually",
+"WW.Targeting.Methods.Area": "Target tokens within an area",
+
+"WW.Targeting.Restrictions.Label": "Restriction",
+"WW.Targeting.Restrictions.Any": "Anyone",
+"WW.Targeting.Restrictions.Enemies": "Enemies",
+"WW.Targeting.Restrictions.Allies": "Allies",
+"WW.Targeting.Restrictions.Self": "Self",
+
+"WW.Targeting.Helper.SelectTargets": "Please select one or more tokens to target.",
+"WW.Targeting.Helper.Confirm": "Confirm Targets and Continue",
+"WW.Targeting.Helper.Cancel": "Cancel Activity",
 
 "WW.Roll.Label": "Roll",
 "WW.Roll.Settings": "Roll Settings",
@@ -369,32 +404,6 @@
 "WW.Boons.Against": "Boon(s) against own",
 "WW.Boons.ExtraBoons": "Extra boon(s) against this target",
 "WW.Boons.ExtraBanes": "Extra bane(s) against this target",
-
-"WW.Targeting.Label": "Targeting & Area",
-"WW.Targeting.Targets": "Targets",
-"WW.Targeting.Target": "Target",
-"WW.Targeting.Range": "Range",
-"WW.Targeting.RangeOut": "Out of range!",
-"WW.Targeting.RangeWeaponTip": "You can customize the Range/Thrown value in the Automations tab.",
-
-"WW.Targeting.Operations.Label": "Operation",
-"WW.Targeting.Operations.None": "No targeting or area",
-"WW.Targeting.Operations.TargetTokens": "Target tokens",
-"WW.Targeting.Operations.PlaceArea": "Place a persistent area",
-
-"WW.Targeting.Methods.Label": "Targeting Method",
-"WW.Targeting.Methods.Manual": "Target tokens manually",
-"WW.Targeting.Methods.Self": "Target self",
-"WW.Targeting.Methods.Area": "Target tokens within an area",
-
-"WW.Targeting.Restrictions.Label": "Restriction",
-"WW.Targeting.Restrictions.Any": "Anyone",
-"WW.Targeting.Restrictions.Enemies": "Enemies",
-"WW.Targeting.Restrictions.Allies": "Allies",
-
-"WW.Targeting.Helper.SelectTargets": "Please select one or more tokens to target.",
-"WW.Targeting.Helper.Confirm": "Confirm Targets and Continue",
-"WW.Targeting.Helper.Cancel": "Cancel Activity",
 
 "WW.RollDamage.Base": "Base Damage",
 "WW.RollDamage.BaseApply": "Apply the base damage",

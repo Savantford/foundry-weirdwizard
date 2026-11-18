@@ -1888,6 +1888,10 @@ body.theme-dark.application.weirdwizard .window-content {
         border-top: 1px solid var(--purple-dark);
         padding-bottom: 0;
       }
+
+      input[type=number] {
+        max-width: 3ch;
+      }
     }
   }
 }

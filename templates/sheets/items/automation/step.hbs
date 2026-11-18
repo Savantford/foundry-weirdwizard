@@ -1,6 +1,18 @@
 <details class="automation-step">
-  <summary>{{localize "WW.Automation.Step.Number"}}{{idx}}</summary>
-  {{formGroup fields.operation name=(concat "system.autoSteps." idx ".operation") value=operation blank=false localize=true}}
+  {{!-- Summary --}}
+  <summary>
+    <strong>{{localize "WW.Automation.Step.Number"}}{{number}}:</strong>
+    {{summary}}
+    <button class="mini" data-action="stepRemove" data-step-index="{{idx}}" data-tooltip="WW.Automation.Step.Remove">
+      <i class="fa-solid fa-trash"></i>
+    </button>
+  </summary>
+
+  {{!-- Operation --}}
+  <div class="stat-inline">
+    <label>{{localize "WW.Automation.Operations.Label"}}:</label>
+    {{formInput fields.operation name=(concat "system.autoSteps." idx ".operation") value=operation blank=false localize=true}}
+  </div>
 
   {{!-- Targeting Settings --}}
   {{#if (eq operation "target")}}

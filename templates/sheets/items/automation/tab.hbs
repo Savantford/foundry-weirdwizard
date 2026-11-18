@@ -1,9 +1,13 @@
 <section class="tab{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
-  {{!-- Automation Steps --}}
-  <button data-action="stepCreate"></button>
+  {{!-- Heading --}}
+  <h2>
+    {{localize "WW.Automation.Step.Plural"}}
+    <button data-action="stepAdd">{{localize "WW.Automation.Step.Add"}}</button>
+  </h2>
 
+  {{!-- Automation Steps --}}
   <ol class="automation-steps">
-    {{#each system.autoSteps as |step idx|}}
+    {{#each automationSteps as |step idx|}}
       {{> "systems/weirdwizard/templates/sheets/items/automation/step.hbs" idx=idx fields=@root.stepFields}}
     {{/each}}
   </ol>

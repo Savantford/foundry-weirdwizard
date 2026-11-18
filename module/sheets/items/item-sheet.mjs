@@ -159,6 +159,41 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     context.system.attributeLabel = CONFIG.WW.ATTRIBUTES[context.system.attribute];
     context.needTargets = this.document.needTargets;
 
+    // Prepare Automation Steps
+    const autoSteps = [];
+    
+    for (const [idx, source] of this.item.system.autoSteps.entries()) {
+      const step = source.toObject();
+      const { area, targeting } = step;
+      step.number = idx + 1;
+
+      const areaDetails = {
+        emanation: `${_loc("WW.Item.Area.Radius")} ${area.measure} ${_loc("WW.Item.Area.Shape.Emanation")}`,
+        line: `${_loc("WW.Item.Area.Length")} ${area.measure}, ${_loc("WW.Item.Area.Width")} ${area.width} ${_loc("WW.Item.Area.Shape.Line")}`,
+        circle: `${_loc("WW.Item.Area.Size")} ${area.measure} ${_loc("WW.Item.Area.Shape.Circle")}`
+      }
+
+      const areaInfo = `${areaDetails[area.shape]} within ${targeting.range} yards`
+
+      switch (step.operation) {
+        case 'target': {
+          step.summary = `
+            ${_loc(CONFIG.WW.TARGETING_METHODS[step.targeting.method])}
+            (${step.targeting.method === 'area'
+              ? areaInfo
+              : `${_loc('WW.Targeting.Range')} ${step.targeting.range}, ${_loc(CONFIG.WW.TARGETING_RESTRICTIONS[step.targeting.restriction])}`
+            })
+          `;
+        }; break;
+
+        default: step.summary = _loc(CONFIG.WW.AUTOMATION_STEP_OPERATIONS[step.operation]);
+      }
+
+      autoSteps.push(step);
+    }
+
+    context.automationSteps = autoSteps;
+
     // Prepare specific dropdown menu objects
     switch (context.item.type) {
       case 'equipment':

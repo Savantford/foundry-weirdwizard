@@ -56,12 +56,12 @@
         <div class="stat-inline">
           <label>
             {{#if (eq area.shape 'line')}}
-              {{localize "WW.Item.Area.Length"}}
+              {{localize "WW.Item.Area.Length"}}:
             {{else if (eq area.shape 'emanation')}}
-              {{localize "WW.Item.Area.Radius"}}
+              {{localize "WW.Item.Area.Radius"}}:
             {{else}}
-              {{localize "WW.Item.Area.Size"}}
-            {{/if}}:
+              {{localize "WW.Item.Area.Size"}}:
+            {{/if}}
           </label>
           
           {{formInput fields.area.fields.measure name=(concat "system.autoSteps." idx ".area.measure")

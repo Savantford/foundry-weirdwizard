@@ -310,15 +310,15 @@ WW.ARMOR_TYPES = {
 /* Automation Steps */
 
 WW.AUTOMATION_STEP_OPERATIONS = {
-  'target': 'WW.Targeting.Operations.TargetTokens',
-  'roll': 'WW.Roll.Label',
-  'placeArea': 'WW.Targeting.Operations.PlaceArea',
-  'damage': 'WW.InstantEffect.Damage',
-  'heal': 'WW.InstantEffect.Heal',
-  'healthLose': 'WW.InstantEffect.HealthLose',
-  'healthRegain': 'WW.InstantEffect.HealthRegain',
-  'affliction': 'WW.InstantEffect.Affliction',
-  'activeEffect': 'Effect'
+  'target': 'WW.Automation.Operations.TargetTokens',
+  'roll': 'WW.Automation.Operations.RollAttribute',
+  'placeArea': 'WW.Automation.Operations.PlaceArea',
+  'damage': 'WW.Automation.Operations.Damage',
+  'heal': 'WW.Automation.Operations.Heal',
+  'healthLose': 'WW.Automation.Operations.HealthLose',
+  'healthRegain': 'WW.Automation.Operations.HealthRegain',
+  'affliction': 'WW.Automation.Operations.Affliction',
+  'activeEffect': 'WW.Automation.Operations.ApplyEffect'
 },
 
 WW.ROLL_ATTRIBUTES = {
@@ -349,14 +349,14 @@ WW.TARGETING_OPERATIONS = {
 
 WW.TARGETING_METHODS = {
   'manual': 'WW.Targeting.Methods.Manual',
-  'self': 'WW.Targeting.Methods.Self',
   'area': 'WW.Targeting.Methods.Area'
 }
 
 WW.TARGETING_RESTRICTIONS = {
   'any': 'WW.Targeting.Restrictions.Any',
   'enemies': 'WW.Targeting.Restrictions.Enemies',
-  'allies': 'WW.Targeting.Restrictions.Allies'
+  'allies': 'WW.Targeting.Restrictions.Allies',
+  'self': 'WW.Targeting.Restrictions.Self',
 }
 
 WW.ITEM_AREA_SHAPES = {
