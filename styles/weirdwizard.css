@@ -1913,6 +1913,18 @@ body.theme-dark.application.weirdwizard .window-content {
       padding: 0 0.5em 0.5em;
       margin: 0 -0.5em 0.5em;
     }
+
+    .automation-step.condition {
+      margin-left: 1em;
+      width: calc(100% - 1em);
+    }
+
+    .roll:has(~ .affliction) summary::after {
+      content: "\f0c1";
+      font-family: "Font Awesome 7 Pro";
+      font-weight: 900;
+      color: #006920;
+    }
   }
 }
 
