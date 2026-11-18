@@ -23,4 +23,9 @@
   {{#if (eq operation "roll")}}
     {{> "systems/weirdwizard/templates/sheets/items/automation/roll.hbs"}}
   {{/if}}
+
+  {{!-- Area Settings --}}
+  {{#if (eq operation "placeArea")}}
+    {{> "systems/weirdwizard/templates/sheets/items/automation/area.hbs"}}
+  {{/if}}
 </details>

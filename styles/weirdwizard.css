@@ -1062,7 +1062,7 @@ body.theme-dark.application.weirdwizard .window-content {
   --input-background-color: var(--background-color-shadow);
   border: 1px solid transparent;
   height: auto;
-  width: max-content;
+  width: auto; /*max-content;*/
   min-height: 1lh;
   line-height: normal;
   padding: 0;

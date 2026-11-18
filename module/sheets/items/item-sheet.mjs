@@ -82,9 +82,10 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     automation: {
       template: 'systems/weirdwizard/templates/sheets/items/automation/tab.hbs',
       templates: [
-        'systems/weirdwizard/templates/sheets/items/automation/roll.hbs',
+        'systems/weirdwizard/templates/sheets/items/automation/step.hbs',
         'systems/weirdwizard/templates/sheets/items/automation/targeting.hbs',
-        'systems/weirdwizard/templates/sheets/items/automation/step.hbs'
+        'systems/weirdwizard/templates/sheets/items/automation/roll.hbs',
+        'systems/weirdwizard/templates/sheets/items/automation/area.hbs'
       ]
     },
     effects: {
@@ -545,11 +546,9 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
 
   static #onStepRemove(event, button) {
     const index = parseInt(button.dataset.stepIndex);
-    console.log(index)
-    const arr = foundry.utils.getProperty(this.document, 'system.autoSteps')
-    console.log(arr)
+    const arr = foundry.utils.getProperty(this.document, 'system.autoSteps');
     arr.splice(index, 1);
-    console.log(arr)
+    
     this.document.update({ 'system.autoSteps': arr });
   }
 
