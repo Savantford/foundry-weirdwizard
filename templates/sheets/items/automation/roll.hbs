@@ -2,7 +2,7 @@
   {{!-- Attribute Roll --}}
   <div class="flex-row stat-inline nowrap flex-wrap gap-5">
     {{localize "WW.Roll.Label"}}
-    
+    {{log this}}
     {{!-- Attribute --}}
     {{formInput fields.roll.fields.attribute name=(concat "system.autoSteps." idx ".roll.attribute")
       value=roll.attribute localize=true blank=false}}
@@ -11,11 +11,7 @@
     {{!-- Boons --}}
     {{localize "WW.Boons.With"}}
     
-    <div class="input-wrap bold">
-      <input type="number" name="roll.boons" value="{{roll.boons}}" placeholder="0"/>
-
-      <div class="input-overlay">{{roll.boons}}</div>
-    </div>
+    {{formInput fields.roll.fields.boons name=(concat "system.autoSteps." idx ".roll.boons") value=roll.boons}}
 
     {{#if (lt roll.boons -1)}}{{localize "WW.Boons.Banes"}}
     {{else if (lt roll.boons 0)}}{{localize "WW.Boons.Bane"}}
@@ -30,13 +26,10 @@
       value=roll.against localize=true blank=false}}
     {{/if}}
   </div>
-
   
   {{#if roll.attribute}}
   {{!-- Boons Alt --}}
-  <div class="mt-1">
-    <input type="text" name="roll.boonsAlt" value="{{ roll.boonsAlt }}" placeholder="{{localize "WW.Item.Alt"}}"
-      data-tooltip-text="{{localize "WW.Item.AltTip"}}" data-dtype="String" />
-  </div>  
+  {{formInput fields.roll.fields.boonsAlt name=(concat "system.autoSteps." idx ".roll.boonsAlt")
+    value=roll.boonsAlt dataset=(object tooltip="WW.Item.AltTip")}}
   {{/if}}
 </div>

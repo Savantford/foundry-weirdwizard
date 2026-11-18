@@ -11,32 +11,6 @@ export default class AutomationStepModel extends foundry.abstract.DataModel {
         choices: {... CONFIG.WW.AUTOMATION_STEP_OPERATIONS}
       }),
 
-      // Roll
-      roll: new fields.SchemaField({
-        attribute: makeStrField({
-          choices: CONFIG.WW.ROLL_ATTRIBUTES
-        }),
-        against: makeStrField({
-          choices: CONFIG.WW.ROLL_AGAINST
-        }),
-        boons: new fields.NumberField({
-          required: true,
-          initial: 0,
-          integer: true
-        }),
-        boonsAlt: makeStrField(),
-      }),
-
-      // Instant Effects
-      instant: new fields.ArrayField(
-        new fields.ObjectField({
-          label: makeStrField(),
-          trigger: makeRequiredStrField({ initial: 'onUse' }),
-          target: makeRequiredStrField({ initial: 'tokens' }),
-          value: makeStrField()
-        })
-      ),
-
       // Targeting
       targeting: new fields.SchemaField({
         range: makeIntField({ initial: 0 }),
@@ -72,7 +46,38 @@ export default class AutomationStepModel extends foundry.abstract.DataModel {
           }),
           priority: makeIntField({ initial: 0 })
         })
-      })
+      }),
+
+      // Roll
+      roll: new fields.SchemaField({
+        attribute: makeRequiredStrField({
+          initial: 'str',
+          choices: CONFIG.WW.ROLL_ATTRIBUTES
+        }),
+        against: makeRequiredStrField({
+          initial: 'default',
+          choices: CONFIG.WW.ROLL_AGAINST
+        }),
+        boons: new fields.NumberField({
+          required: true,
+          initial: 0,
+          placeholder: 0,
+          integer: true
+        }),
+        boonsAlt: makeStrField({
+          placeholder: _loc("WW.Item.Alt")
+        }),
+      }),
+
+      // Instant Effects
+      instant: new fields.ArrayField(
+        new fields.ObjectField({
+          label: makeStrField(),
+          trigger: makeRequiredStrField({ initial: 'onUse' }),
+          target: makeRequiredStrField({ initial: 'tokens' }),
+          value: makeStrField()
+        })
+      )
     }
     console.log(schema.operation)
     return schema;
