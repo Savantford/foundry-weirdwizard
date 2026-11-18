@@ -392,10 +392,10 @@
 "WW.Roll.Expression.NoBoons": "Roll {attribute} against {against}",
 "WW.Roll.Expression.NoAgainst": "Roll {attribute} with {boons}",
 "WW.Roll.Expression.Minimal": "Roll {attribute}",
-"WW.Roll.Expression.Boon": "with {number} boon",
-"WW.Roll.Expression.Boons": "with {number} boons",
-"WW.Roll.Expression.Bane": "with {number} bane",
-"WW.Roll.Expression.Banes": "with {number} banes",
+"WW.Roll.Expression.Boon": "{number} boon",
+"WW.Roll.Expression.Boons": "{number} boons",
+"WW.Roll.Expression.Bane": "{number} bane",
+"WW.Roll.Expression.Banes": "{number} banes",
 
 "WW.Roll.Against.Label": "Against",
 "WW.Roll.Against.Lc": "against",
@@ -422,12 +422,15 @@
 "WW.Boons.ExtraBoons": "Extra boon(s) against this target",
 "WW.Boons.ExtraBanes": "Extra bane(s) against this target",
 
-"WW.InstantEffect.Label": "Instant Effect",
-"WW.InstantEffect.Title": "Instant Effect Details",
 "WW.InstantEffect.HealOf": "Healing of",
 "WW.InstantEffect.HealthLoseOf": "Health Lost from",
 "WW.InstantEffect.HealthRegainedBy": "Health Regained by",
 "WW.InstantEffect.Value": "Value",
+
+"WW.InstantEffect.Expression.Damage": "Deal {number} damage",
+"WW.InstantEffect.Expression.Heal": "Heal {number} damage",
+"WW.InstantEffect.Expression.HealthLose": "Lose {number} Health",
+"WW.InstantEffect.Expression.HealthRegain": "Regain {number} lost Health",
 
 "WW.InstantEffect.Button.Damage": "Damage",
 "WW.InstantEffect.Button.Half": "Half",
@@ -455,6 +458,7 @@
 
 "WW.Affliction.Label": "Affliction",
 "WW.Affliction.Plural": "Afflictions",
+"WW.Affliction.Bestow": "Bestow {affliction}",
 "WW.Affliction.Becomes": "becomes",
 "WW.Affliction.Already": "is already",
 "WW.Affliction.Clear": "Clear All",

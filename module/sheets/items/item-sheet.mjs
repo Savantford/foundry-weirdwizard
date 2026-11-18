@@ -188,7 +188,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
 
         case 'roll': {
           const { attribute, boons, against } = step.roll;
-          
+
           step.summary = makeRollExpressionText({ attribute, boons, against });
         }; break;
 
@@ -198,7 +198,17 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
             (${areaInfo})
           `;
         }; break;
+        
+        // Instant Effects
+        case 'damage':
+        case 'heal':
+        case 'healthLose':
+        case 'healthRegain': step.summary = _loc(CONFIG.WW.INSTANT_EFFECT_EXPRESSIONS[step.operation], { number: step.instant.value }); break;
 
+        // Affliction
+        case 'affliction': step.summary = _loc("WW.Affliction.Bestow", { affliction: _loc(CONFIG.WW.AFFLICTIONS[step.affliction.key]) }); break;
+        
+        // Default
         default: step.summary = _loc(CONFIG.WW.AUTOMATION_STEP_OPERATIONS[step.operation]);
       }
 

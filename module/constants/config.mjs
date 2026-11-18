@@ -373,6 +373,31 @@ WW.ITEM_AREA_SHAPES = {
   'line': 'WW.Item.Area.Shape.Line'
 }
 
+/* Instant Effects */
+
+WW.INSTANT_EFFECT_EXPRESSIONS = {
+  'damage': 'WW.InstantEffect.Expression.Damage',
+  'heal': 'WW.InstantEffect.Expression.Heal',
+  'healthLose': 'WW.InstantEffect.Expression.HealthLose',
+  'healthRegain': 'WW.InstantEffect.Expression.HealthRegain'
+}
+
+WW.INSTANT_EFFECT_ICONS = {
+  'damage': 'icons/svg/explosion.svg',
+  'heal': 'icons/svg/heal.svg',
+  'healthLose': 'icons/svg/degen.svg',
+  'healthRegain': 'icons/svg/regen.svg',
+  'affliction': 'icons/svg/skull.svg'
+}
+
+WW.INSTANT_APPLY_LABELS = {
+  'damage': "WW.InstantEffect.Damage",
+  'heal': "Heal Damage",
+  'healthLose': "Lose Health",
+  'healthRegain': "Regain Lost Health",
+  'affliction': "Bestow Affliction"
+}
+
 /* Character Options */
 
 WW.CHARACTER_OPTIONS = {
@@ -435,32 +460,6 @@ WW.MULTI_CHOICE_TARGET_HEADER_ICONS = {
   'combatants': 'swords',
   'scene-tokens': 'users',
   'actors-tab': 'folder-open'
-}
-
-/* Instant Effects */
-
-WW.INSTANT_LABELS = {
-  'damage': 'WW.InstantEffect.Damage',
-  'heal': 'WW.InstantEffect.Heal',
-  'healthLose': 'WW.InstantEffect.HealthLose',
-  'healthRegain': 'WW.InstantEffect.HealthRegain',
-  'affliction': 'WW.InstantEffect.Affliction'
-}
-
-WW.INSTANT_ICONS = {
-  'damage': 'icons/svg/explosion.svg',
-  'heal': 'icons/svg/heal.svg',
-  'healthLose': 'icons/svg/degen.svg',
-  'healthRegain': 'icons/svg/regen.svg',
-  'affliction': 'icons/svg/skull.svg'
-}
-
-WW.INSTANT_APPLY_LABELS = {
-  'damage': "WW.InstantEffect.Damage",
-  'heal': "Heal Damage",
-  'healthLose': "Lose Health",
-  'healthRegain': "Regain Lost Health",
-  'affliction': "Bestow Affliction"
 }
 
 /* Active Effects */

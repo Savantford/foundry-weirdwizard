@@ -108,10 +108,10 @@ export function makeRollExpressionText(options={}) {
   const boonsAbs = Math.abs(options.boons);
   let boons = '';
 
-  if (options.boons > 1) boons = _loc("WW.Roll.Expression.Boons", boonsAbs);
-  else if (options.boons > 0) boons = _loc("WW.Roll.Expression.Boon", boonsAbs);
-  else if (options.boons < -1) boons = _loc("WW.Roll.Expression.Banes", boonsAbs);
-  else if (options.boons < 0) boons = _loc("WW.Roll.Expression.Bane", boonsAbs);
+  if (options.boons > 1) boons = _loc("WW.Roll.Expression.Boons", { number: boonsAbs });
+  else if (options.boons > 0) boons = _loc("WW.Roll.Expression.Boon", { number: boonsAbs });
+  else if (options.boons < -1) boons = _loc("WW.Roll.Expression.Banes", { number: boonsAbs });
+  else if (options.boons < 0) boons = _loc("WW.Roll.Expression.Bane", { number: boonsAbs });
 
   // Make string
   if (attribute && boons && against) return _loc("WW.Roll.Expression.Complete", { attribute, boons, against });
