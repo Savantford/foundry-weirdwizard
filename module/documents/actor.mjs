@@ -860,7 +860,9 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
       steps: [
         {
           operation: 'roll',
-          roll: { attribute: 'luck' }
+          roll: {
+            attribute: 'luck'
+          }
         }
       ]
     }

@@ -1,6 +1,5 @@
-import { plusify } from '../helpers/utils.mjs';
+import { makeRollExpressionText, plusify } from '../helpers/utils.mjs';
 import TargetingHelper from './targeting-helper.mjs';
-
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
 const ApplicationV2 = foundry.applications?.api?.ApplicationV2 ?? (class {});
@@ -103,95 +102,96 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
     };
     const item = context.item;
     const sys = context.actor.system;
+    const steps = context.steps;
 
-    // Attribute variables
-    const attKey = context.roll.attribute.key;
-    const attMod = sys.attributes[attKey]?.mod ? plusify(sys.attributes[attKey].mod) : '+0';
-    const attLabel = _loc(CONFIG.WW.ROLL_ATTRIBUTES[attKey]);
-    const flatMod = context.roll.flatMod;
+    if (steps && steps.length) for (const [idx, step] of steps.entries()) {
+      if (step.operation === 'roll') {
+        // Attribute variables
+        const { attribute, against, flatMod } = step.roll;
+        const attMod = sys.attributes[attribute]?.mod ? plusify(sys.attributes[attribute].mod) : '+0';
+        const attLabel = _loc(CONFIG.WW.ROLL_ATTRIBUTES[attribute]);
 
-    // Prepare attribute display
-    const attDisplay = (attLabel ? `${attLabel} (${attMod})` : '1d20 + 0') + (flatMod ? ` + ${flatMod}` : '');
+        // Prepare attribute display
+        const attDisplay = (attLabel ? `${attLabel} (${attMod})` : '1d20 + 0') + (flatMod ? ` + ${flatMod}` : '');
 
-    // Boons
-    const boons = this.config.roll.boons;
+        // Boons
+        const boonsB = step.roll.boonsBreakdown;
 
-    // Calculate and display final boons
-    let boonsFinal = 0;
+        // Calculate and display final boons
+        let boonsFinal = 0;
 
-    if (boons.situational) boonsFinal += boons.situational; // Add situational boons input value
-    if (boons.fromEffects) boonsFinal += boons.fromEffects; // If there are boons or banes applied by Active Effects, add it
-    if (boons.applyAttack && boons.forAttacks) boonsFinal += boons.forAttacks;
-    if (boons.applySpell && boons.forSpells) boonsFinal += boons.forSpells;
-    if (boons.fixed) boonsFinal += boons.fixed; // If there are fixed boons or banes, add it
-    
-    // Prepare boons display
-    let boonsDisplay = '';
+        if (boonsB.situational) boonsFinal += boonsB.situational; // Add situational boons input value
+        if (boonsB.fromEffects) boonsFinal += boonsB.fromEffects; // If there are boons or banes applied by Active Effects, add it
+        if (boonsB.applyAttack && boonsB.forAttacks) boonsFinal += boonsB.forAttacks;
+        if (boonsB.applySpell && boonsB.forSpells) boonsFinal += boonsB.forSpells;
+        if (boonsB.fixed) boonsFinal += boonsB.fixed; // If there are fixed boons or banes, add it
+        
+        // Prepare boons display
+        let boonsDisplay = '';
 
-    if (boonsFinal > 1) {
-      boonsDisplay = " " + _loc("WW.Boons.With") + " " + parseInt(boonsFinal) + " " + _loc("WW.Boons.Boons");
-    } else if (boonsFinal > 0) {
-      boonsDisplay = " " + _loc("WW.Boons.With") + " " + parseInt(boonsFinal) + " " + _loc("WW.Boons.Boon");
-    } else if (boonsFinal < -1) {
-      boonsDisplay = " " + _loc("WW.Boons.With") + " " + boonsFinal * -1 + " " + _loc("WW.Boons.Banes");
-    } else if (boonsFinal < 0) {
-      boonsDisplay = " " + _loc("WW.Boons.With") + " " + boonsFinal * -1 + " " + _loc("WW.Boons.Bane");
+        if (boonsFinal > 1) {
+          boonsDisplay = " " + _loc("WW.Boons.With") + " " + parseInt(boonsFinal) + " " + _loc("WW.Boons.Boons");
+        } else if (boonsFinal > 0) {
+          boonsDisplay = " " + _loc("WW.Boons.With") + " " + parseInt(boonsFinal) + " " + _loc("WW.Boons.Boon");
+        } else if (boonsFinal < -1) {
+          boonsDisplay = " " + _loc("WW.Boons.With") + " " + boonsFinal * -1 + " " + _loc("WW.Boons.Banes");
+        } else if (boonsFinal < 0) {
+          boonsDisplay = " " + _loc("WW.Boons.With") + " " + boonsFinal * -1 + " " + _loc("WW.Boons.Bane");
+        }
+
+        // Merge boons
+        foundry.utils.mergeObject(step.roll.boonsBreakdown, {
+          final: boonsFinal,
+          abs: Math.abs(boonsFinal),
+          display: plusify(boonsFinal)
+        });
+
+        // Prepare against display
+        const customTn = step.roll.againstCustomTn;
+        let againstDisplay = ` ${_loc('WW.Roll.Against.Label').toLowerCase()} `;
+        
+        if (customTn) againstDisplay += customTn;
+        else if (against) {
+          switch (against) {
+            case 'def': {
+              againstDisplay += _loc('WW.Defense.Label');
+              break;
+            }
+            case 'str': {
+              againstDisplay += _loc('WW.Attributes.Strength');
+              break;
+            }
+            case 'agi': {
+              againstDisplay += _loc('WW.Attributes.Agility');
+              break;
+            }
+            case 'int': {
+              againstDisplay += _loc('WW.Attributes.Intellect');
+              break;
+            }
+            case 'wil': {
+              againstDisplay += _loc('WW.Attributes.Will');
+              break;
+            }
+          }
+        } else againstDisplay = '';
+        // Merge roll context
+        foundry.utils.mergeObject(step.roll, {
+          expression: makeRollExpressionText({ attribute, against, boonsFinal })/*attDisplay + boonsDisplay + againstDisplay*/,
+          flatModAbs: Math.abs(step.roll.flatMod),
+          attributeBreakdown: {
+            mod: attMod,
+            icon: CONFIG.WW.ATTRIBUTE_ICONS[attribute] ?? null,  
+            label: attLabel
+          },
+          againstBreakdown: {
+            tn: step.roll.againstCustomTn ?? 10,
+            icon: CONFIG.WW.ATTRIBUTE_ICONS[against] ?? 'systems/weirdwizard/assets/ui/badges/octagonal.svg',
+            label: CONFIG.WW.ROLL_AGAINST[against]
+          }
+        });
+      }
     }
-
-    // Merge boons
-    context.roll.boons = {
-      ...boons,
-      final: boonsFinal,
-      abs: Math.abs(boonsFinal),
-      display: plusify(boonsFinal)
-    };
-
-    // Prepare against display
-    const against = context.roll.against;
-    const customTn = context.roll.against.customTn;
-    let againstDisplay = ` ${_loc('WW.Roll.Against.Label').toLowerCase()} `;
-    
-    if (customTn) againstDisplay += customTn;
-    else if (against.key) {
-      switch (against.key) {
-        case 'def': {
-          againstDisplay += _loc('WW.Defense.Label');
-          break;
-        }
-        case 'str': {
-          againstDisplay += _loc('WW.Attributes.Strength');
-          break;
-        }
-        case 'agi': {
-          againstDisplay += _loc('WW.Attributes.Agility');
-          break;
-        }
-        case 'int': {
-          againstDisplay += _loc('WW.Attributes.Intellect');
-          break;
-        }
-        case 'wil': {
-          againstDisplay += _loc('WW.Attributes.Will');
-          break;
-        }
-      }
-    } else againstDisplay = '';
-
-    // Merge roll context
-    foundry.utils.mergeObject(context.roll, {
-      expression: attDisplay + boonsDisplay + againstDisplay,
-      flatModAbs: Math.abs(context.roll.flatMod),
-      attribute: {
-        mod: attMod,
-        icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey] ?? null,  
-        label: attLabel
-      },
-      against: {
-        tn: context.roll.against.customTn ?? 10,
-        icon: CONFIG.WW.ATTRIBUTE_ICONS[against.key] ?? 'systems/weirdwizard/assets/ui/badges/octagonal.svg',
-        label: CONFIG.WW.ROLL_AGAINST[against.key]
-      }
-    });
 
     // Prepare targets
     context.needTargets = item?.needTargets;
@@ -430,19 +430,12 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
   /* -------------------------------------------- */
 
   get targets() {
-    return this.config.actor.getActivityTargets(this.config);
+    return this.config.activity.getTargets(this.config);
   }
 
   /* -------------------------------------------- */
 
   get actEffs() {
-    return this.config.actor.getActivityActiveEffects(this.config);
+    return this.config.activity.getActiveEffects(this.config);
   }
-
-  /* -------------------------------------------- */
-
-  get instEffs() {
-    return this.config.actor.getActivityInstantEffects(this.config);
-  }
-
 }

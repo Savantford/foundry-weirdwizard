@@ -315,10 +315,10 @@
 
 "WW.Automation.Condition.Label": "Condition",
 "WW.Automation.Condition.None": "None",
-"WW.Automation.Condition.RollSuccess": "Success on Roll",
-"WW.Automation.Condition.RollCriticalSuccess": "Critical Success on Roll",
-"WW.Automation.Condition.RollFailure": "Failure on Roll",
-"WW.Automation.Condition.RollCriticalFailure": "Critical Failure on Roll",
+"WW.Automation.Condition.RollSuccess": "Roll - Success",
+"WW.Automation.Condition.RollCriticalSuccess": "Roll - Critical Success",
+"WW.Automation.Condition.RollFailure": "Roll - Failure",
+"WW.Automation.Condition.RollCriticalFailure": "Roll - Critical Failure",
 
 "WW.Item.Area.Label": "Area",
 "WW.Item.Area.Settings": "Area Settings",

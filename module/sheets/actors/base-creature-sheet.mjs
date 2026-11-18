@@ -606,17 +606,18 @@ export default class WWCreatureSheet extends WWActorSheet {
     const title = _loc(CONFIG.WW.ATTRIBUTE_ROLLS[attKey]);
     const activityOptions = {
       title,
-      roll: {
-        attribute: { key: attKey }
-      },
       message: {
         icon: CONFIG.WW.ATTRIBUTE_ICONS[attKey],
         flavor: title,
         content: ''
       },
-      args: {
-        noTargeting: true
-      }
+
+      steps: [{
+        operation: 'roll',
+        roll: {
+          attribute: attKey
+        }
+      }]
     }
 
     this.actor.useActivity(activityOptions);
@@ -867,14 +868,17 @@ export default class WWCreatureSheet extends WWActorSheet {
     const item = this.actor.items.get(dataset.itemId);
     const flavor = _secretLabel(item.name);
     const content = _secretContent(item.system.description);
-
+    
     const activityOptions = {
       args,
+      actor: this.actor,
       item,
       message: {
         flavor,
         content
-      }
+      },
+
+      steps: item.system.autoSteps
     }
 
     this.actor.useActivity(activityOptions);

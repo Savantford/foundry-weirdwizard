@@ -22,15 +22,15 @@ export class Activity {
       // Roll
       if (step.operation === 'roll') {
         const roll = step.roll;
-        const attKey = roll.attribute;
+        const attribute = roll.attribute;
         
         // Attribute Modifier
-        roll.mod ??= sys.attributes[attKey]?.mod ? game.weirdwizard.utils.plusify(sys.attributes[attKey].mod) : '+0';
+        roll.mod ??= sys.attributes[attribute]?.mod ? game.weirdwizard.utils.plusify(sys.attributes[attribute].mod) : '+0';
         
         // Roll Boons
         roll.boonsBreakdown = {
           actor: sys.boons,
-          fromEffects: sys.boons.selfRoll[attKey], // Conditional boons should be added here later
+          fromEffects: sys.boons.selfRoll[attribute], // Conditional boons should be added here later
           forAttacks: sys.boons.selfRoll.attacks,
           forSpells: sys.boons.selfRoll.spells,
           fixed: roll.boons ?? 0,
@@ -50,7 +50,8 @@ export class Activity {
     // Create config object
     this.config = {
       args, steps, actor, item, itemProperties, title, message,
-      token: actor.token
+      token: actor.token,
+      activity: this
     }
 
     console.log(this.config)
@@ -121,10 +122,10 @@ export class Activity {
    * @param {ActivityConfig} config
    * @returns {ActivityConfig}
    */
-  async rollDice() {
+  async rollDice(step) {
     const config = this.config;
     const { actor, item, itemProperties } = config;
-    const { attribute, boons, against, flatMod } = config.roll;
+    const { attribute, attributeBreakdown: attributeB, boonsBreakdown: boonsB, against, flatMod } = config.roll;
 
     // Proceed to roll
     const rollData = this.getRollData();
@@ -132,10 +133,8 @@ export class Activity {
       actor, item,
       template: "systems/weirdwizard/templates/sidebar/chat/roll.hbs",
       originUuid: item ? item.uuid : actor.uuid, // TODO: Replace with item/actor
-      attribute: attribute.key,
-      against: against.key,
-      instEffs: this.getActivityInstantEffects(config),
-      actEffs: this.getActiveEffects(config)
+      attribute: attribute,
+      against: against
     };
     const rollsArray = [];
     const autoFailure = actor.system.autoFail;
@@ -144,22 +143,22 @@ export class Activity {
     let boonsDisplay = "0";
     let boonsFinal = 0;
 
-    if (boons.situational) boonsFinal += boons.situational; // Add situational boons input value
-    if (boons.fromEffects) boonsFinal += boons.fromEffects; // If there are boons or banes applied by Active Effects, add it
-    if (boons.applyAttack && boons.forAttacks) boonsFinal += boons.forAttacks;
-    if (boons.applySpell && boons.forSpells) boonsFinal += boons.forSpells;
-    if (boons.fixed) boonsFinal += boons.fixed; // If there are fixed boons or banes, add it
+    if (boonsB.situational) boonsFinal += boonsB.situational; // Add situational boons input value
+    if (boonsB.fromEffects) boonsFinal += boonsB.fromEffects; // If there are boons or banes applied by Active Effects, add it
+    if (boonsB.applyAttack && boonsB.forAttacks) boonsFinal += boonsB.forAttacks;
+    if (boonsB.applySpell && boonsB.forSpells) boonsFinal += boonsB.forSpells;
+    if (boonsB.fixed) boonsFinal += boonsB.fixed; // If there are fixed boons or banes, add it
 
-    this.config.roll.boons.final = boonsFinal;
+    step.roll.boonsBreakdown.final = boonsFinal;
 
     // Check if user has valid targets
     const validTargets = this.getTargets(config).valid;
 
-    if (!!validTargets.length && against.key) { // If Action is Targeted and Against is filled: perform one separate roll for each target
+    if (!!validTargets.length && against) { // If Action is Targeted and Against is filled: perform one separate roll for each target
       for (const tar of validTargets) {
         // Set boons text
         let boonsAgainst = 0;
-        if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against.key];
+        if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against];
         if (itemProperties.isAttack) boonsAgainst += tar.boonsAgainst.fromAttacks;
         if (itemProperties.isSpell) boonsAgainst += tar.boonsAgainst.fromSpells;
         if (itemProperties.isMagical) boonsAgainst += tar.boonsAgainst.fromMagical;
@@ -175,15 +174,15 @@ export class Activity {
         // Determine the rollFormula
         const rollFormula = [
           "1d20",
-          (attribute.key && attribute.key !== 'luck') ? `${attribute.mod}[${_loc(CONFIG.WW.ATTRIBUTES_SHORT[attribute.key])}]` : null,
+          (attribute && attribute !== 'luck') ? `${attributeB.mod}[${_loc(CONFIG.WW.ATTRIBUTES_SHORT[attribute])}]` : null,
           flatMod ? flatMod + `[${_loc("WW.Roll.Flat")}]` : null,
           boonsDisplay ? boonsDisplay + `[${_loc(boons.final < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
         ].filterJoin(" + ");
 
         // Determine target number
-        const targetNo = against.key === 'def' ? tar.defense : tar.attributes[against.key].value;
+        const targetNo = against === 'def' ? tar.defense : tar.attributes[against].value;
 
-        const autoSuccess = against.key ? !!tar.autoSuccessAgainst?.[against.key] : false;
+        const autoSuccess = against ? !!tar.autoSuccessAgainst?.[against] : false;
         
         // Construct the Roll instance and evaluate the roll
         const roll = await new WWRoll(rollFormula, rollData, {
@@ -209,7 +208,7 @@ export class Activity {
       // Determine the rollFormula
       const rollFormula = [
         "1d20",
-        (attribute.key && attribute.key !== 'luck') ? `${attribute.mod}[${_loc(CONFIG.WW.ATTRIBUTES_SHORT[attribute.key])}]` : null,
+        (attribute && attribute !== 'luck') ? `${attributeB.mod}[${_loc(CONFIG.WW.ATTRIBUTES_SHORT[attribute])}]` : null,
         flatMod ? flatMod + `[${_loc("WW.Roll.Flat")}]` : null,
         boonsDisplay ? boonsDisplay + `[${_loc(boons.final < 0 ? "WW.Roll.Banes" : "WW.Roll.Boons")}]` : null
       ].filterJoin(" + ");
@@ -362,7 +361,7 @@ export class Activity {
       if (targetData.isCreature) foundry.utils.mergeObject(targetData, {
         attributes: sys.attributes,
         defense: sys.stats.defense.total,
-        againstNo: config.roll.against.key === 'def' ? sys.stats.defense.total : (config.roll.against.key ? sys.attributes[config.roll.against.key]?.value : null),
+        againstNo: config.roll.against === 'def' ? sys.stats.defense.total : (config.roll.against ? sys.attributes[config.roll.against]?.value : null),
         boons: sys.boons.selfRoll,
         boonsAgainst: sys.boons.against,
         autoSuccessAgainst: sys.autoSuccess.against
