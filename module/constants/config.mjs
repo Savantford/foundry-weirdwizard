@@ -322,6 +322,14 @@ WW.AUTOMATION_STEP_OPERATIONS = {
   'activeEffect': 'WW.Automation.Operations.ApplyEffect'
 },
 
+WW.AUTOMATION_STEP_CONDITIONS = {
+  'none': 'WW.Automation.Condition.None',
+  'rollSuccess': 'WW.Automation.Condition.RollSuccess',
+  'rollCriticalSuccess': 'WW.Automation.Condition.RollCriticalSuccess',
+  'rollFailure': 'WW.Automation.Condition.RollFailure',
+  'rollCriticalFailure': 'WW.Automation.Condition.RollCriticalFailure',
+}
+
 WW.ROLL_ATTRIBUTES = {
   'str': 'WW.Attributes.Strength',
   'agi': 'WW.Attributes.Agility',
@@ -455,21 +463,14 @@ WW.INSTANT_APPLY_LABELS = {
   'affliction': "Bestow Affliction"
 }
 
-WW.INSTANT_TRIGGERS = {
-  'onUse': 'WW.Effect.OnUse',
-  'onSuccess': 'WW.Effect.OnSuccess',
-  'onCritical': 'WW.Effect.OnCritical',
-  'onFailure': 'WW.Effect.OnFailure'
-}
-
 /* Active Effects */
 
 WW.EFFECT_TRIGGERS = {
   'passive': 'WW.Effect.Passive',
   'onUse': 'WW.Effect.OnUse',
-  'onSuccess': 'WW.Effect.OnSuccess',
-  'onCritical': 'WW.Effect.OnCritical',
-  'onFailure': 'WW.Effect.OnFailure'
+  'onSuccess': 'WW.Automation.Condition.RollSuccess',
+  'onCritical': 'WW.Automation.Condition.RollCriticalSuccess',
+  'onFailure': 'WW.Automation.Condition.RollFailure'
 }
 
 WW.EFFECT_TRIGGER_ICONS = {

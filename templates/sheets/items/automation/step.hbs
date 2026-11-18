@@ -16,6 +16,10 @@
   {{else if (eq operation "roll")}}
     {{> "systems/weirdwizard/templates/sheets/items/automation/roll.hbs"}}
 
+  {{!-- Request Roll --}}
+  {{else if (eq operation "requestRoll")}}
+    {{!--> "systems/weirdwizard/templates/sheets/items/automation/roll-request.hbs"--}}
+
   {{!-- Area --}}
   {{else if (eq operation "placeArea")}}
     {{> "systems/weirdwizard/templates/sheets/items/automation/area.hbs"}}
@@ -24,6 +28,10 @@
   {{else if (eq operation "affliction")}}
     {{> "systems/weirdwizard/templates/sheets/items/automation/affliction.hbs"}}
   
+  {{!-- Active Effect --}}
+  {{else if (eq operation "applyEffect")}}
+    {{!--> "systems/weirdwizard/templates/sheets/items/automation/instant-effect.hbs"--}}
+    
   {{!-- Instant Effect --}}
   {{else}}
     {{> "systems/weirdwizard/templates/sheets/items/automation/instant-effect.hbs"}}

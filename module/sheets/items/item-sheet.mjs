@@ -161,8 +161,12 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     for (const [idx, source] of this.item.system.autoSteps.entries()) {
       const step = source.toObject();
       const { area, targeting } = step;
-      step.number = idx + 1;
 
+      // Tracking
+      step.number = idx + 1;
+      step.previous = idx -1 >= 0 ? idx -1 : null;
+
+      // Summary Label
       const areaDetails = {
         emanation: `${_loc("WW.Item.Area.Radius")} ${area.measure} ${_loc("WW.Item.Area.Shape.Emanation")}`,
         line: `${_loc("WW.Item.Area.Length")} ${area.measure}, ${_loc("WW.Item.Area.Width")} ${area.width} ${_loc("WW.Item.Area.Shape.Line")}`,

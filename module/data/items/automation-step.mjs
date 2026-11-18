@@ -8,7 +8,12 @@ export default class AutomationStepModel extends foundry.abstract.DataModel {
     const schema = {
       operation: makeRequiredStrField({
         initial: 'target',
-        choices: {... CONFIG.WW.AUTOMATION_STEP_OPERATIONS}
+        choices: CONFIG.WW.AUTOMATION_STEP_OPERATIONS
+      }),
+
+      condition: makeRequiredStrField({
+        initial: 'none',
+        choices: CONFIG.WW.AUTOMATION_STEP_CONDITIONS
       }),
 
       // Targeting
@@ -66,17 +71,13 @@ export default class AutomationStepModel extends foundry.abstract.DataModel {
         }),
         boonsAlt: makeStrField({
           placeholder: _loc("WW.Item.Alt")
-        }),
+        })
       }),
 
       // Instant Effect
       instant: new fields.SchemaField({
         value: makeStrField({ placeholder: '1d6' }),
 
-        trigger: makeRequiredStrField({
-          initial: 'onUse',
-          choices: CONFIG.WW.INSTANT_TRIGGERS
-        }),
         restriction: makeRequiredStrField({
           initial: 'any',
           choices: CONFIG.WW.TARGETING_RESTRICTIONS

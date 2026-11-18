@@ -6,20 +6,19 @@
     {{formInput fields.operation name=(concat "system.autoSteps." idx ".operation") value=operation blank=false localize=true}}
   </span>
 
+  {{!-- Condition --}}
+  <span class="stat-inline">
+    <label>{{localize "WW.Automation.Condition.Label"}}:</label>
+
+    {{formInput fields.condition name=(concat "system.autoSteps." idx ".condition") value=condition localize=true blank=false}}
+  </span>
+
   {{!-- Value --}}
   <span class="stat-inline">
     <label>{{localize "WW.InstantEffect.Value"}}:</label>
 
     {{formInput fields.instant.fields.value name=(concat "system.autoSteps." idx ".instant.value")
       value=instant.value}}
-  </span>
-  
-  {{!-- Trigger --}}
-  <span class="stat-inline">
-    <label>{{localize "WW.Effect.Trigger"}}:</label>
-
-    {{formInput fields.instant.fields.trigger name=(concat "system.autoSteps." idx ".instant.trigger")
-      value=instant.trigger localize=true blank=false}}
   </span>
 
   {{!-- Restriction --}}
