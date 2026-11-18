@@ -58,7 +58,7 @@ export default class WWChatMessage extends foundry.documents.ChatMessage {
     const item = itemUuid ? await fromUuid(itemUuid) : null;
     const icon = (data.flags?.weirdwizard?.icon && (typeof data.flags?.weirdwizard?.icon === 'string')) ? data.flags.weirdwizard.icon : null;
     
-    const instEffs = item ? item.system.instant.filter(e => e.trigger === 'onUse') : null;
+    const instEffs = /*item ? item.system.instant.filter(e => e.trigger === 'onUse') :*/ null;
     const actEffs = item ? item.effects.filter(e => e.system.trigger === 'onUse') : null;
     
     // Replace formula values with roll data
