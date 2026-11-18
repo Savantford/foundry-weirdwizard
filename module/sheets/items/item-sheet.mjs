@@ -49,7 +49,7 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       showItemArtwork: this.#onShowItemArtwork,
       traitsMenu: this.#onTraitsMenuOpen,
 
-      stepCreate: this.#onStepCreate,
+      stepAdd: this.#onStepAdd,
       stepRemove: this.#onStepRemove,
       instantCreate: this.#onInstantEffectCreate,
       instantEdit: this.#onInstantEffectEdit,
@@ -539,13 +539,17 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
   /*  Automation Steps handling actions           */
   /* -------------------------------------------- */
 
-  static #onStepCreate(event, button) {
+  static #onStepAdd(event, button) {
     this.document.update({ 'system.autoSteps': [... foundry.utils.getProperty(this.document, 'system.autoSteps'), {}]});
   }
 
   static #onStepRemove(event, button) {
-    const arr = foundry.utils.getProperty(this.document, 'system.autoSteps').splice(button.dataset.stepIndex, 1);
-
+    const index = parseInt(button.dataset.stepIndex);
+    console.log(index)
+    const arr = foundry.utils.getProperty(this.document, 'system.autoSteps')
+    console.log(arr)
+    arr.splice(index, 1);
+    console.log(arr)
     this.document.update({ 'system.autoSteps': arr });
   }
 

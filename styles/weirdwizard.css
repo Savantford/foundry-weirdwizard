@@ -570,6 +570,17 @@ body.theme-dark,
   border-radius: 50%;
 }
 
+button.mini {
+  --button-size: auto;
+  padding: 0.25rem;
+
+  i {
+    width: 1lh;
+    height: 1lh;
+    font-size: 0.5em;
+  }
+}
+
 /* -------------------------------------------- */
 /*  General Sheet / App Style                   */
 /* -------------------------------------------- */
@@ -1868,8 +1879,9 @@ body.theme-dark.application.weirdwizard .window-content {
 
   /* Automation Steps */
   .automation-steps {
-    margin: 0;
-    padding: 0;
+    display: flex;
+    flex-flow: column;
+    gap: 5px;
 
     .automation-step {
       display: flex;
