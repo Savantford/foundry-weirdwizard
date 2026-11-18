@@ -1,70 +1,5 @@
 import { sysPath } from './utils.mjs';
-import InstantEffectConfig from '../sheets/configs/instant-effect-config.mjs';
 import WWDialog from '../apps/dialog.mjs';
-
-/* -------------------------------------------- */
-/*  Instant Effect handling actions             */
-/* -------------------------------------------- */
-
-/**
-  * Handle creating a new Owned Effect for the actor using initial data defined in the HTML dataset
-  * @param {Actor|Item}  owner    The owning entity which manages this effect
-*/
-export async function createInstantEffect(owner) {
-  const arr = owner.system.instant;
-
-  const effectData = {
-    label: 'damage',
-    trigger: 'onUse',
-    target: 'tokens',
-    value: '1d6',
-    affliction: 'Blinded'
-  }
-    
-  arr.push(effectData);
-
-  await owner.update({ 'system.instant': arr });
-  
-  return new InstantEffectConfig(arr.length-1, owner).render(true);
-}
-
-/**
- * Handle editing an Owned Effect for the actor using initial data defined in the HTML dataset
-  * @param {InstantEffect} effect    The effect being edited
-  * @param {Actor|Item}   owner     The owning entity which manages this effect
-*/
-export function editInstantEffect(effect, owner) {
-  new InstantEffectConfig(effect.id, owner).render(true);
-}
-
-/**
-  * Handle delete of an Owned Effect for the actor using initial data defined in the HTML dataset
-  * @param {InstantEffect} effect    The effect being editedt
-  * @param {Actor|Item}   owner     The owning entity which manages this effect
-*/
-export async function deleteInstantEffect(effect, owner) {
-  const arr = owner.system.instant;
-
-  // Confirm Dialog
-  const confirm = await WWDialog.confirm({
-    window: {
-      title: 'WW.Item.Remove.Dialog.Title',
-      icon: 'fa-solid fa-trash'
-    },
-    content: `
-      <div>${_loc('WW.Item.Remove.Dialog.Msg', { name: '<b>' + _loc(effect.labelLoc) + '</b>' })}</div>
-      <div class="dialog-sure">${_loc('WW.Item.Remove.Dialog.Confirm', { name: _loc(effect.labelLoc) })}</div>
-    `
-  });
-
-  if (!confirm) return;
-
-  if (effect.id > -1) { // only splice array when item is found
-    arr.splice(effect.id, 1); // 2nd parameter means remove one item only
-  }
-
-  return owner.update({ 'system.instant': arr });
-}
 
 /* -------------------------------------------- */
 /*  Active Effect handling actions              */
@@ -171,7 +106,7 @@ export async function prepareActorEffectCategories(document, options={}) {
   const categories = {
     afflictions: { ...base,
       id: 'afflictions',
-      name: 'WW.Affliction.Label',
+      name: 'WW.Affliction.Plural',
       showDuration: true,
       effects: []
     },

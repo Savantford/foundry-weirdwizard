@@ -1061,8 +1061,8 @@ body.theme-dark.application.weirdwizard .window-content {
   --input-placeholder-color: var(--placeholder-text-color);
   --input-background-color: var(--background-color-shadow);
   border: 1px solid transparent;
+  max-width: max-content;
   height: auto;
-  width: auto; /*max-content;*/
   min-height: 1lh;
   line-height: normal;
   padding: 0;

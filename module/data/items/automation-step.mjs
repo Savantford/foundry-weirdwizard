@@ -69,17 +69,38 @@ export default class AutomationStepModel extends foundry.abstract.DataModel {
         }),
       }),
 
-      // Instant Effects
-      instant: new fields.ArrayField(
-        new fields.ObjectField({
-          label: makeStrField(),
-          trigger: makeRequiredStrField({ initial: 'onUse' }),
-          target: makeRequiredStrField({ initial: 'tokens' }),
-          value: makeStrField()
+      // Instant Effect
+      instant: new fields.SchemaField({
+        value: makeStrField({ placeholder: '1d6' }),
+
+        trigger: makeRequiredStrField({
+          initial: 'onUse',
+          choices: CONFIG.WW.INSTANT_TRIGGERS
+        }),
+        restriction: makeRequiredStrField({
+          initial: 'any',
+          choices: CONFIG.WW.TARGETING_RESTRICTIONS
+        }),
+      }),
+
+      // Affliction
+      affliction: new fields.SchemaField({
+        key: makeRequiredStrField({
+          initial: 'blinded',
+          choices: CONFIG.WW.AFFLICTIONS
+        }),
+
+        trigger: makeRequiredStrField({
+          initial: 'onUse',
+          choices: CONFIG.WW.INSTANT_TRIGGERS
+        }),
+        restriction: makeRequiredStrField({
+          initial: 'any',
+          choices: CONFIG.WW.TARGETING_RESTRICTIONS
         })
-      )
+      })
     }
-    console.log(schema.operation)
+    
     return schema;
   }
 }

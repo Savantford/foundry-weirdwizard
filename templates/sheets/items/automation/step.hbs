@@ -14,18 +14,24 @@
     {{formInput fields.operation name=(concat "system.autoSteps." idx ".operation") value=operation blank=false localize=true}}
   </div>
 
-  {{!-- Targeting Settings --}}
+  {{!-- Target --}}
   {{#if (eq operation "target")}}
     {{> "systems/weirdwizard/templates/sheets/items/automation/targeting.hbs"}}
-  {{/if}}
 
-  {{!-- Roll Settings --}}
-  {{#if (eq operation "roll")}}
+  {{!-- Roll --}}
+  {{else if (eq operation "roll")}}
     {{> "systems/weirdwizard/templates/sheets/items/automation/roll.hbs"}}
-  {{/if}}
 
-  {{!-- Area Settings --}}
-  {{#if (eq operation "placeArea")}}
+  {{!-- Area --}}
+  {{else if (eq operation "placeArea")}}
     {{> "systems/weirdwizard/templates/sheets/items/automation/area.hbs"}}
+
+  {{!-- Affliction --}}
+  {{else if (eq operation "affliction")}}
+    {{> "systems/weirdwizard/templates/sheets/items/automation/affliction.hbs"}}
+  
+  {{!-- Instant Effect --}}
+  {{else}}
+    {{> "systems/weirdwizard/templates/sheets/items/automation/instant-effect.hbs"}}
   {{/if}}
 </details>

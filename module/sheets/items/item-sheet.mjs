@@ -1,10 +1,6 @@
 import MultiChoice from '../../apps/multi-choice.mjs';
 import AutomationStepModel from '../../data/items/automation-step.mjs';
-import {
-  createActiveEffect, deleteActiveEffect, editActiveEffect,
-  createInstantEffect, deleteInstantEffect, editInstantEffect,
-  prepareItemEffectCategories
-} from '../../helpers/effect-actions.mjs';
+import { createActiveEffect, deleteActiveEffect, editActiveEffect, prepareItemEffectCategories } from '../../helpers/effect-actions.mjs';
 import { inferDataFromKey } from '../../helpers/utils.mjs';
 import WWSheetMixin from '../ww-sheet.mjs';
 
@@ -51,9 +47,6 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
 
       stepAdd: this.#onStepAdd,
       stepRemove: this.#onStepRemove,
-      instantCreate: this.#onInstantEffectCreate,
-      instantEdit: this.#onInstantEffectEdit,
-      instantRemove: this.#onInstantEffectRemove,
       
       effectCreate: this.#onActiveEffectCreate,
       effectEdit: this.#onActiveEffectEdit,
@@ -85,7 +78,9 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
         'systems/weirdwizard/templates/sheets/items/automation/step.hbs',
         'systems/weirdwizard/templates/sheets/items/automation/targeting.hbs',
         'systems/weirdwizard/templates/sheets/items/automation/roll.hbs',
-        'systems/weirdwizard/templates/sheets/items/automation/area.hbs'
+        'systems/weirdwizard/templates/sheets/items/automation/area.hbs',
+        'systems/weirdwizard/templates/sheets/items/automation/instant-effect.hbs',
+        'systems/weirdwizard/templates/sheets/items/automation/affliction.hbs'
       ]
     },
     effects: {
@@ -308,24 +303,6 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
       // Effects tab
       case 'effects':
         context.tab = context.tabs[partId];
-
-        // Prepare instant effects
-        /*let instEffs = context.system.instant;
-
-        instEffs.forEach((e,id) => {
-          const obj = {...e,
-            img: CONFIG.WW.INSTANT_ICONS[e.label],
-            labelLoc: CONFIG.WW.INSTANT_LABELS[e.label],
-            triggerLoc: CONFIG.WW.INSTANT_TRIGGERS[e.trigger],
-            triggerIcon: CONFIG.WW.EFFECT_TRIGGER_ICONS[e.trigger],
-            targetLoc: CONFIG.WW.TARGETING_RESTRICTIONS[e.target],
-            targetIcon: CONFIG.WW.EFFECT_TARGET_ICONS[e.target],
-          };
-          
-          instEffs[id] = obj;
-        })
-        
-        context.instantEffects = instEffs;*/
 
         // Prepare active effects
         const effectCats = await prepareItemEffectCategories(this.document); /* await is needed, ignore linter */
@@ -550,30 +527,6 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     arr.splice(index, 1);
     
     this.document.update({ 'system.autoSteps': arr });
-  }
-
-  /* -------------------------------------------- */
-  /*  Instant Effect handling actions             */
-  /* -------------------------------------------- */
-
-  static #onInstantEffectCreate(event, button) {
-    createInstantEffect(this.document);
-  }
-
-  static #onInstantEffectEdit(event, button) {
-    const id = button.dataset.effectId;
-    const effect = this.document.system.instant[id];
-    effect.id = id;
-
-    editInstantEffect(effect, this.document);
-  }
-
-  static #onInstantEffectRemove(event, button) {
-    const id = button.dataset.effectId;
-    const effect = this.document.system.instant[id];
-    effect.id = id;
-
-    deleteInstantEffect(effect, this.document);
   }
 
   /* -------------------------------------------- */

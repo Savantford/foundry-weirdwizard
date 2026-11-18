@@ -481,10 +481,10 @@ WW.EFFECT_TRIGGER_ICONS = {
 }
 
 WW.EFFECT_TARGET_ICONS = {
-  'none': 'fa-solid fa-user',
-  'tokens': 'fa-solid fa-users-viewfinder',
+  'any': 'fa-solid fa-users-viewfinder',
   'enemies': 'fa-solid fa-users-viewfinder color-red',
-  'allies': 'fa-solid fa-users-viewfinder color-green'
+  'allies': 'fa-solid fa-users-viewfinder color-green',
+  'self': 'fa-solid fa-user'
 }
 
 WW.EFFECT_DURATION_PRESETS = {

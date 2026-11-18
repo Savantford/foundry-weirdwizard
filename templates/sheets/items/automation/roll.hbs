@@ -2,7 +2,7 @@
   {{!-- Attribute Roll --}}
   <div class="flex-row stat-inline nowrap flex-wrap gap-5">
     {{localize "WW.Roll.Label"}}
-    {{log this}}
+    
     {{!-- Attribute --}}
     {{formInput fields.roll.fields.attribute name=(concat "system.autoSteps." idx ".roll.attribute")
       value=roll.attribute localize=true blank=false}}

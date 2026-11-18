@@ -807,7 +807,7 @@
 "WW.InstantEffect.Apply.Regained": "wiederhergestellt",
 "WW.InstantEffect.Apply.CurrentHealth": "Aktuelle Lebenspunkte",
 
-"WW.Affliction.Label": "Leiden",
+"WW.Affliction.Plural": "Leiden",
 "WW.Affliction.Becomes": "wird",
 "WW.Affliction.Already": "ist bereits",
 "WW.Affliction.Clear": "Alle löschen",
