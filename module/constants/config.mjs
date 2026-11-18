@@ -312,6 +312,7 @@ WW.ARMOR_TYPES = {
 WW.AUTOMATION_STEP_OPERATIONS = {
   'target': 'WW.Automation.Operations.TargetTokens',
   'roll': 'WW.Automation.Operations.RollAttribute',
+  'rollRequest': 'WW.Automation.Operations.RequestRoll',
   'placeArea': 'WW.Automation.Operations.PlaceArea',
   'damage': 'WW.Automation.Operations.Damage',
   'heal': 'WW.Automation.Operations.Heal',
@@ -322,7 +323,6 @@ WW.AUTOMATION_STEP_OPERATIONS = {
 },
 
 WW.ROLL_ATTRIBUTES = {
-  '': 'WW.Roll.Dont',
   'str': 'WW.Attributes.Strength',
   'agi': 'WW.Attributes.Agility',
   'int': 'WW.Attributes.Intellect',

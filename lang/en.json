@@ -360,8 +360,6 @@
 "WW.Roll.Label": "Roll",
 "WW.Roll.Settings": "Roll Settings",
 "WW.Roll.SeeDetails": "See Roll Details",
-"WW.Roll.Always": "Always roll",
-"WW.Roll.Dont": "Don't roll",
 "WW.Roll.ForEach": "Roll separately for each target",
 "WW.Roll.AgainstWrn": "Nothing selected to roll against. Please select Defense or an attribute to roll against in the Weapon's Automation & Effects tab.",
 "WW.Roll.Success": "Success",
@@ -382,6 +380,7 @@
 "WW.Roll.Banes": "Banes",
 
 "WW.Roll.Against.Label": "Against",
+"WW.Roll.Against.Lc": "against",
 "WW.Roll.Against.Default": "10 (Default)",
 "WW.Roll.Against.AndOr": "and/or",
 "WW.Roll.Against.Or": "or",

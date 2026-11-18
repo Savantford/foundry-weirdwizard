@@ -1,46 +1,42 @@
 <div class="roll-settings">
-  {{!-- Heading --}}
-  <h4>{{localize "WW.Roll.Settings"}}</h4>
-
   {{!-- Attribute Roll --}}
-  <div class="flex-row stat-inline nowrap flex-wrap nogap">
-    {{localize "WW.Roll.Always"}}
+  <div class="flex-row stat-inline nowrap flex-wrap gap-5">
+    {{localize "WW.Roll.Label"}}
+    
+    {{!-- Attribute --}}
+    {{formInput fields.roll.fields.attribute name=(concat "system.autoSteps." idx ".roll.attribute")
+      value=roll.attribute localize=true blank=false}}
 
-    <select class="ml-1 bold" name="system.attribute">
-      {{selectOptions attributes selected=system.attribute localize=true}}
-    </select>
-
-    {{#if system.attribute}}
+    {{#if roll.attribute}}
+    {{!-- Boons --}}
     {{localize "WW.Boons.With"}}
+    
+    <div class="input-wrap bold">
+      <input type="number" name="roll.boons" value="{{roll.boons}}" placeholder="0"/>
 
-    <div class="mx-1 input-wrap bold">
-      <input type="number" name="system.boons" value="{{system.boons}}" placeholder="0"/>
-
-      <div class="input-overlay">{{system.boons}}</div>
+      <div class="input-overlay">{{roll.boons}}</div>
     </div>
 
-    {{#if (lt item.system.boons -1)}}{{localize "WW.Boons.Banes"}}
-    {{else if (lt item.system.boons 0)}}{{localize "WW.Boons.Bane"}}
-    {{else if (gt item.system.boons 1)}}{{localize "WW.Boons.Boons"}}
+    {{#if (lt roll.boons -1)}}{{localize "WW.Boons.Banes"}}
+    {{else if (lt roll.boons 0)}}{{localize "WW.Boons.Bane"}}
+    {{else if (gt roll.boons 1)}}{{localize "WW.Boons.Boons"}}
     {{else}}{{localize "WW.Boons.Boon"}}
     {{/if}}
 
+    {{!-- Against --}}
+    {{localize "WW.Roll.Against.Lc"}}
+      
+    {{formInput fields.roll.fields.against name=(concat "system.autoSteps." idx ".roll.against")
+      value=roll.against localize=true blank=false}}
     {{/if}}
   </div>
 
-  {{#if system.attribute}}
+  
+  {{#if roll.attribute}}
   {{!-- Boons Alt --}}
   <div class="mt-1">
-    <input type="text" name="system.boonsAlt" value="{{ system.boonsAlt }}" placeholder="{{localize "WW.Item.Alt"}}"
+    <input type="text" name="roll.boonsAlt" value="{{ roll.boonsAlt }}" placeholder="{{localize "WW.Item.Alt"}}"
       data-tooltip-text="{{localize "WW.Item.AltTip"}}" data-dtype="String" />
-  </div>
-
-  <div class="flex-row stat-inline mt-1">
-    {{localize "WW.Roll.Against.Label"}}
-    
-    <select class="mx-1 bold" name="system.against">
-      {{selectOptions against selected=system.against localize=true}}
-    </select>
-  </div>
+  </div>  
   {{/if}}
 </div>
