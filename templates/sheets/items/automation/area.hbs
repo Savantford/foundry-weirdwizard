@@ -1,5 +1,14 @@
 <div class="area">
-  {{#if (eq targeting.operation 'placeArea')}}
+  {{#if (eq operation 'placeArea')}}
+  {{!-- Common Fields --}}
+  <div class="stat-row">
+    {{!-- Operation --}}
+    <span class="stat-inline">
+      <label>{{localize "WW.Automation.Operations.Label"}}:</label>
+      
+      {{formInput fields.operation name=(concat "system.autoSteps." idx ".operation") value=operation blank=false localize=true}}
+    </span>
+
     {{!-- Range --}}
     <div class="stat-inline">
       <label>{{localize "WW.Targeting.Range"}}:</label>
@@ -7,9 +16,10 @@
       {{formInput fields.targeting.fields.range name=(concat "system.autoSteps." idx ".targeting.range")
         value=targeting.range dataset=(object tooltip="WW.System.YardsHint")}}
     </div>
+  </div>
   {{/if}}
 
-  <fieldset class="mt-2">
+  <fieldset>
     <legend>{{localize "WW.Item.Area.Settings"}}</legend>
   
     <div class="flex-row flex-wrap gap-10 stat-inline">
@@ -80,7 +90,7 @@
   </fieldset>
   
   {{!-- Area / Region Restriction --}}
-  <fieldset class="mt-2">
+  <fieldset>
     <legend>{{localize "REGION.SECTIONS.restriction"}}</legend>
   
     <div class="stat-inline">
@@ -100,7 +110,7 @@
     </div>
   
     {{!-- Restriction Type --}}
-    <div class="stat-inline mt-1">
+    <div class="stat-inline">
       <label>{{localize "REGION.FIELDS.restriction.type.label"}}:</label>
   
       {{formInput fields.area.fields.restriction.fields.type name=(concat "system.autoSteps." idx ".area.restriction.type")

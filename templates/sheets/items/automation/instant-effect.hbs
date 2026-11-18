@@ -1,21 +1,32 @@
-<div class="instant-effect">
-  <div class="stat-inline gap-5">
-    {{!-- Value --}}
+<div class="instant-effect stat-row">
+  {{!-- Operation --}}
+  <span class="stat-inline">
+    <label>{{localize "WW.Automation.Operations.Label"}}:</label>
+
+    {{formInput fields.operation name=(concat "system.autoSteps." idx ".operation") value=operation blank=false localize=true}}
+  </span>
+
+  {{!-- Value --}}
+  <span class="stat-inline">
     <label>{{localize "WW.InstantEffect.Value"}}:</label>
-    
+
     {{formInput fields.instant.fields.value name=(concat "system.autoSteps." idx ".instant.value")
       value=instant.value}}
-
-    {{!-- Trigger --}}
+  </span>
+  
+  {{!-- Trigger --}}
+  <span class="stat-inline">
     <label>{{localize "WW.Effect.Trigger"}}:</label>
 
     {{formInput fields.instant.fields.trigger name=(concat "system.autoSteps." idx ".instant.trigger")
       value=instant.trigger localize=true blank=false}}
-  
-    {{!-- Restriction --}}
+  </span>
+
+  {{!-- Restriction --}}
+  <span class="stat-inline">
     <label>{{localize "WW.Targeting.Restrictions.Label"}}:</label>
-    
+
     {{formInput fields.instant.fields.restriction name=(concat "system.autoSteps." idx ".instant.restriction")
       value=instant.restriction localize=true blank=false}}
-  </div>
+  </span>
 </div>

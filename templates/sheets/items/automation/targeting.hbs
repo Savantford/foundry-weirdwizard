@@ -1,30 +1,37 @@
 <div class="targeting">
   {{!-- Common Fields --}}
-  <div class="flex-row flex-wrap gap-10 stat-inline mt-1">
+  <div class="stat-row">
+    {{!-- Operation --}}
+    <span class="stat-inline">
+      <label>{{localize "WW.Automation.Operations.Label"}}:</label>
+      
+      {{formInput fields.operation name=(concat "system.autoSteps." idx ".operation") value=operation blank=false localize=true}}
+    </span>
+
     {{!-- Range --}}
-    <div class="stat-inline">
+    <span class="stat-inline">
       <label>{{localize "WW.Targeting.Range"}}:</label>
       
       {{formInput fields.targeting.fields.range name=(concat "system.autoSteps." idx ".targeting.range")
         value=targeting.range dataset=(object tooltip="WW.System.YardsHint")}}
-    </div>
+    </span>
   
     {{!-- Targeting Method --}}
-    <div class="stat-inline">
+    <span class="stat-inline">
       <label>{{localize "WW.Targeting.Methods.Label"}}:</label>
   
       {{formInput fields.targeting.fields.method name=(concat "system.autoSteps." idx ".targeting.method")
         value=targeting.method localize=true blank=false}}
-    </div>
+    </span>
   
     {{!-- Targeting Restriction --}}
     {{#if (ne targeting.method 'self')}}
-    <div class="stat-inline">
+    <span class="stat-inline">
       <label>{{localize "WW.Targeting.Restrictions.Label"}}:</label>
   
       {{formInput fields.targeting.fields.restriction name=(concat "system.autoSteps." idx ".targeting.restriction" )
         value=targeting.restriction localize=true blank=false}}
-    </div>
+    </span>
     {{/if}}
   </div>
 

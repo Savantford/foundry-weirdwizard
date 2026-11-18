@@ -386,6 +386,10 @@ body.theme-dark,
   text-align: center;
 }
 
+.inline {
+  display: inline !important;
+}
+
 .inline-second > *:nth-child(2) {
   display: inline;
 }
@@ -1891,19 +1895,23 @@ body.theme-dark.application.weirdwizard .window-content {
       border: solid 1px var(--purple-dark);
       border-radius: 5px;
       margin: 0;
+      padding: 0.5em;
 
-      > * {
-        padding: 0.5em;
-      }
-
-      > div:first-of-type {
-        border-top: 1px solid var(--purple-dark);
-        padding-bottom: 0;
+      > div:not(.stat-row) {
+        display: flex;
+        flex-flow: column;
+        gap: 5px;
       }
 
       input[type=number] {
         max-width: 3ch;
       }
+    }
+
+    .automation-step[open] summary {
+      border-bottom: 1px solid var(--purple-dark);
+      padding: 0 0.5em 0.5em;
+      margin: 0 -0.5em 0.5em;
     }
   }
 }
@@ -3227,7 +3235,7 @@ prose-mirror .textbox {
 /* -------------------------------------------- */
 
 /* Internal Element Formatting */
-.weirdwizard:not(.npc):not(.roll-table-sheet) .window-content .flexrow {
+.weirdwizard:not(.npc):not(.roll-table-sheet):not(.sheet.item) .window-content .flexrow {
   gap: 5px;
 }
 
@@ -3235,9 +3243,16 @@ prose-mirror .textbox {
   justify-content: space-between;
 }
 
+.weirdwizard .stat-row {
+  display: inline-flex;
+  flex-flow: wrap;
+  gap: 5px 10px;
+  align-items: center;
+}
+
 .weirdwizard .stat-inline,
 .weirdwizard .stat-stretch {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   font-family: var(--ww-font-sans);
   font-weight: 400;

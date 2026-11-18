@@ -304,6 +304,7 @@
 "WW.Automation.Operations.Label": "Operation",
 "WW.Automation.Operations.TargetTokens": "Target tokens",
 "WW.Automation.Operations.RollAttribute": "Roll Attribute or Luck",
+"WW.Automation.Operations.RequestRoll": "Request Attribute or Luck Roll",
 "WW.Automation.Operations.PlaceArea": "Place a persistent area",
 "WW.Automation.Operations.Damage": "Deal Damage",
 "WW.Automation.Operations.Heal": "Heal Damage",

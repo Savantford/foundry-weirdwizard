@@ -8,12 +8,6 @@
     </button>
   </summary>
 
-  {{!-- Operation --}}
-  <div class="stat-inline">
-    <label>{{localize "WW.Automation.Operations.Label"}}:</label>
-    {{formInput fields.operation name=(concat "system.autoSteps." idx ".operation") value=operation blank=false localize=true}}
-  </div>
-
   {{!-- Target --}}
   {{#if (eq operation "target")}}
     {{> "systems/weirdwizard/templates/sheets/items/automation/targeting.hbs"}}

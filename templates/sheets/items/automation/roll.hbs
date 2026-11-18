@@ -1,29 +1,43 @@
 <div class="roll-settings">
-  {{!-- Attribute Roll --}}
-  <div class="flex-row stat-inline nowrap flex-wrap gap-5">
-    {{localize "WW.Roll.Label"}}
-    
+  {{!-- Operation --}}
+  <div class="stat-inline">
+    <label>{{localize "WW.Automation.Operations.Label"}}:</label>
+      
+    {{formInput fields.operation name=(concat "system.autoSteps." idx ".operation") value=operation blank=false localize=true}}
+  </div>
+
+  {{!-- Common Fields --}}
+  <div class="stat-row">
     {{!-- Attribute --}}
-    {{formInput fields.roll.fields.attribute name=(concat "system.autoSteps." idx ".roll.attribute")
-      value=roll.attribute localize=true blank=false}}
+    <span class="stat-inline">
+      {{localize "WW.Roll.Label"}}
+
+      {{formInput fields.roll.fields.attribute name=(concat "system.autoSteps." idx ".roll.attribute")
+        value=roll.attribute localize=true blank=false}}
+    </span>
 
     {{#if roll.attribute}}
     {{!-- Boons --}}
-    {{localize "WW.Boons.With"}}
+    <span class="stat-inline">
+      {{localize "WW.Boons.With"}}
     
-    {{formInput fields.roll.fields.boons name=(concat "system.autoSteps." idx ".roll.boons") value=roll.boons}}
+      {{formInput fields.roll.fields.boons name=(concat "system.autoSteps." idx ".roll.boons") value=roll.boons}}
 
-    {{#if (lt roll.boons -1)}}{{localize "WW.Boons.Banes"}}
-    {{else if (lt roll.boons 0)}}{{localize "WW.Boons.Bane"}}
-    {{else if (gt roll.boons 1)}}{{localize "WW.Boons.Boons"}}
-    {{else}}{{localize "WW.Boons.Boon"}}
-    {{/if}}
-
+      {{#if (lt roll.boons -1)}}{{localize "WW.Boons.Banes"}}
+      {{else if (lt roll.boons 0)}}{{localize "WW.Boons.Bane"}}
+      {{else if (gt roll.boons 1)}}{{localize "WW.Boons.Boons"}}
+      {{else}}{{localize "WW.Boons.Boon"}}
+      {{/if}}
+    </span>
+    
     {{!-- Against --}}
-    {{localize "WW.Roll.Against.Lc"}}
+    <span class="stat-inline">
+      {{localize "WW.Roll.Against.Lc"}}
       
-    {{formInput fields.roll.fields.against name=(concat "system.autoSteps." idx ".roll.against")
-      value=roll.against localize=true blank=false}}
+      {{formInput fields.roll.fields.against name=(concat "system.autoSteps." idx ".roll.against")
+        value=roll.against localize=true blank=false}}
+    </span>
+    
     {{/if}}
   </div>
   
