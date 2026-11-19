@@ -1,0 +1,10 @@
+<section class="form-header">
+  <ol class="steps-rail">
+    {{#each steps as |step idx|}}
+      <li class="step-button info {{#if (eq @root.currentIdx idx)}}current{{/if}}" data-tooltip="{{step.summary.title}}"
+        data-action="skipToStep" data-step-index="{{idx}}">
+        <i class="{{step.icon}}"></i>
+      </li>
+    {{/each}}
+  </ol>
+</section>

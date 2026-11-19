@@ -5418,6 +5418,33 @@ details.document-card .card-header:hover::after {
       }
     }
   }
+
+  .steps-rail {
+    list-style: none;
+    display: flex;
+    width: fit-content;
+    border-image: url(../assets/ui/ribbons/rolled-pink-flipped.svg);
+    border-image-slice: 1 30 7 73 fill;
+    border-image-width: 1px 30px 7px 45px;
+    border-image-outset: 0 1px 4px;
+    padding: 0px 23px 0px 17px;
+    margin: 0;
+    font-size: var(--font-size-20);
+
+    .step-button {
+      margin: 0;
+      padding: 8px 4px;
+    }
+
+    .step-button.current {
+      border-image: url(../assets/ui/banners/simple.svg);
+      border-image-slice: 3 3 43 3 fill;
+      border-image-width: 2px 0 8px 0;
+      border-image-outset: 2px 0 0;
+      filter: drop-shadow(0 2px 2px black);
+      color: var(--pink);
+    }
+  }
   
   h4.boons-header {
     display: flex;

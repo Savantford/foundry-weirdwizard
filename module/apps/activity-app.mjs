@@ -64,9 +64,9 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
   /* -------------------------------------------- */
 
   static PARTS = {
-    /*header: {
-      template: 'systems/weirdwizard/templates/apps/activity/header.hbs'
-    },*/
+    rail: {
+      template: 'systems/weirdwizard/templates/apps/activity/steps-rail.hbs'
+    },
     step: {
       template: 'systems/weirdwizard/templates/apps/activity/step.hbs',
       scrollable: ['.standard-form'],

@@ -327,12 +327,12 @@ WW.AUTOMATION_STEP_ICONS = {
   'roll': 'fa-regular fa-dice-d20',
   'rollRequest': 'fa-solid fa-dice-d20',
   'placeArea': 'fa-regular fa-arrows-up-down-left-right',
-  'damage': 'icons/svg/explosion.svg',
-  'heal': 'icons/svg/heal.svg',
-  'healthLose': 'icons/svg/degen.svg',
-  'healthRegain': 'icons/svg/regen.svg',
-  'affliction': 'icons/svg/skull.svg',
-  'activeEffect': 'fa-solid fa-person-rays'
+  'damage': 'fa-regular fa-burst',
+  'heal': 'fa-regular fa-staff-snake',
+  'healthLose': 'fa-regular fa-heart-circle-minus',
+  'healthRegain': 'fa-regular fa-heart-circle-plus',
+  'affliction': 'fa-solid fa-skull-crossbones',
+  'activeEffect': 'fa-solid fa-wand-sparkles'
 }
 
 WW.AUTOMATION_STEP_CONDITIONS = {
