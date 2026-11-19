@@ -251,7 +251,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     // Prepare scene region
     const grid = canvas.grid ?? foundry.documents.BaseScene.defaultGrid;
     const yard = canvas.dimensions.distancePixels;
-    const area = this.system.area;
+    const area = step.area;
     const baseShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
     const {
       shape = area.shape ?? 'circle',
@@ -428,7 +428,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     originApp?.maximize();
 
     // Target tokens
-    const forTargeting = this.system.targeting.operation === 'target';
+    const forTargeting = step.operation === 'target';
     if (!forTargeting || !region) return region;
 
     // Select and filter tokens

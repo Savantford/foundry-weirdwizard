@@ -331,8 +331,11 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
   /**
    * Scene region selection.
    */
-  static #placeArea() {
-    this.config.item.placeArea({ originApp: this });
+  static #placeArea(event, button) {
+    this.config.item.placeArea({
+      originApp: this,
+      step: this.currentStep
+    });
   }
 
   /* -------------------------------------------- */
@@ -341,8 +344,8 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
    * Handle changing the targeting restriction.
    * @type {ApplicationClickAction}
    */
-  static #onChangeTargetingRestriction(event, target) {
-    const restriction = target.dataset.restriction;
+  static #onChangeTargetingRestriction(event, button) {
+    const restriction = button.dataset.restriction;
     
     this.config.targeting.restriction = restriction;
     this.render();
@@ -440,9 +443,7 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
   /* -------------------------------------------- */
 
   get targets() {
-    const targets = this.config.activity.getTargets(this.currentStep);
-    console.log(targets)
-    return targets;
+    return this.config.activity.getTargets(this.currentStep);
   }
 
   /* -------------------------------------------- */
