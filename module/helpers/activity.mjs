@@ -325,7 +325,6 @@ export class Activity {
   getTargets(step) {
     const all = [], valid = [], invalid = [];
     const restriction = step.targeting?.restriction ?? 'any';
-    console.log(step)
 
     // Validate disposition
     function validateDispo(tokenDispo) {

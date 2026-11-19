@@ -185,7 +185,7 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
         // Merge roll context
         foundry.utils.mergeObject(step.roll, {
           expression: makeRollExpressionText({ attribute, against, boonsFinal })/*attDisplay + boonsDisplay + againstDisplay*/,
-          flatModAbs: Math.abs(step.roll.flatMod),
+          flatModAbs: Math.abs(step.roll.flatMod ?? 0),
           attributeBreakdown: {
             mod: attMod,
             icon: CONFIG.WW.ATTRIBUTE_ICONS[attribute] ?? null,  
