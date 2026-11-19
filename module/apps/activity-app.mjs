@@ -1,4 +1,4 @@
-import { makeRollExpressionText, plusify } from '../helpers/utils.mjs';
+import { getAutomationStepSummary, makeRollExpressionText, plusify } from '../helpers/utils.mjs';
 import TargetingHelper from './targeting-helper.mjs';
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
@@ -108,6 +108,9 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
     const steps = context.steps;
 
     if (steps && steps.length) for (const [idx, step] of steps.entries()) {
+      step.icon = CONFIG.WW.AUTOMATION_STEP_ICONS[step.operation];
+      step.summary = getAutomationStepSummary(step);
+
       if (step.operation === 'roll') {
         // Attribute variables
         const { attribute, against, flatMod } = step.roll;

@@ -100,6 +100,63 @@ export function sysPath(string) {
 /*  Formating Functions                                     */
 /* -------------------------------------------------------- */
 
+export function getAutomationStepSummary(step) {
+  const { area, targeting } = step;
+
+  // Summary Label
+  const areaDetails = {
+    emanation: `${_loc("WW.Item.Area.Radius")} ${area.measure} ${_loc("WW.Item.Area.Shape.Emanation")}`,
+    line: `${_loc("WW.Item.Area.Length")} ${area.measure}, ${_loc("WW.Item.Area.Width")} ${area.width} ${_loc("WW.Item.Area.Shape.Line")}`,
+    circle: `${_loc("WW.Item.Area.Size")} ${area.measure} ${_loc("WW.Item.Area.Shape.Circle")}`
+  }
+
+  const areaInfo = `${areaDetails[area.shape]} within ${targeting.range} yards`;
+
+  switch (step.operation) {
+    case 'target': return {
+      title: _loc(CONFIG.WW.TARGETING_METHODS[step.targeting.method]),
+      subtitle: step.targeting.method === 'area'
+        ? areaInfo
+        : `${_loc('WW.Targeting.Range')} ${step.targeting.range}, ${_loc(CONFIG.WW.TARGETING_RESTRICTIONS[step.targeting.restriction])}`
+    };
+
+    case 'roll': {
+      const { attribute, boons, against } = step.roll;
+
+      return {
+        title: makeRollExpressionText({ attribute, boons, against }),
+        subtitle: null
+      };
+    };
+
+    case 'placeArea': return {
+      title: _loc(CONFIG.WW.AUTOMATION_STEP_OPERATIONS[step.operation]),
+      subtitle: areaInfo
+    };
+
+    // Instant Effects
+    case 'damage':
+    case 'heal':
+    case 'healthLose':
+    case 'healthRegain': return {
+      title: _loc(CONFIG.WW.INSTANT_EFFECT_EXPRESSIONS[step.operation], { number: step.instant.value }),
+      subtitle: null
+    };
+
+    // Affliction
+    case 'affliction': return {
+      title: _loc("WW.Affliction.Bestow", { affliction: _loc(CONFIG.WW.AFFLICTIONS[step.affliction.key]) }),
+      subtitle: null
+    };
+
+    // Default
+    default: return {
+      title: _loc(CONFIG.WW.AUTOMATION_STEP_OPERATIONS[step.operation]),
+      subtitle: null
+    };
+  }
+}
+
 export function makeRollExpressionText(options={}) {
   const attribute = _loc(CONFIG.WW.ROLL_ATTRIBUTES[options.attribute]);
   const against = _loc(CONFIG.WW.ROLL_AGAINST[options.against])

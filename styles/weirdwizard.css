@@ -5178,8 +5178,9 @@ details.document-card .card-header:hover::after {
 
   h4.icon {
     display: inline-flex;
+    flex-flow: nowrap;
     align-items: center;
-    gap: 3px;
+    gap: 5px;
 
     i[class^="fa-"] {
       filter: drop-shadow(0 0 1px var(--purple-dark)) drop-shadow(0 0 1px var(--purple-dark)) drop-shadow(0 0 1px var(--purple-dark));
@@ -5390,7 +5391,7 @@ details.document-card .card-header:hover::after {
     .form-body {
       display: flex;
       flex-flow: wrap;
-      gap: 1em;
+      gap: 0.5em;
       padding: 0;
       margin: 0;
       border: none;
@@ -5401,7 +5402,15 @@ details.document-card .card-header:hover::after {
         display: flex;
         flex-flow: column;
         min-width: 250px;
-        padding: 5px 0 !important;
+      }
+
+      .step-header {
+        margin: 0;
+        padding: 3px;
+
+        h5 {
+          margin: 0;
+        }
       }
 
       h2 {

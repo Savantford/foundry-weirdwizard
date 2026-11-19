@@ -322,6 +322,19 @@ WW.AUTOMATION_STEP_OPERATIONS = {
   'activeEffect': 'WW.Automation.Operations.ApplyEffect'
 },
 
+WW.AUTOMATION_STEP_ICONS = {
+  'target': 'fa-regular fa-bullseye',
+  'roll': 'fa-regular fa-dice-d20',
+  'rollRequest': 'fa-solid fa-dice-d20',
+  'placeArea': 'fa-regular fa-arrows-up-down-left-right',
+  'damage': 'icons/svg/explosion.svg',
+  'heal': 'icons/svg/heal.svg',
+  'healthLose': 'icons/svg/degen.svg',
+  'healthRegain': 'icons/svg/regen.svg',
+  'affliction': 'icons/svg/skull.svg',
+  'activeEffect': 'fa-solid fa-person-rays'
+}
+
 WW.AUTOMATION_STEP_CONDITIONS = {
   'none': 'WW.Automation.Condition.None',
   'rollSuccess': 'WW.Automation.Condition.RollSuccess',

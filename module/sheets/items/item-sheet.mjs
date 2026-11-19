@@ -1,7 +1,7 @@
 import MultiChoice from '../../apps/multi-choice.mjs';
 import AutomationStepModel from '../../data/items/automation-step.mjs';
 import { createActiveEffect, deleteActiveEffect, editActiveEffect, prepareItemEffectCategories } from '../../helpers/effect-actions.mjs';
-import { inferDataFromKey, makeRollExpressionText } from '../../helpers/utils.mjs';
+import { getAutomationStepSummary, inferDataFromKey } from '../../helpers/utils.mjs';
 import WWSheetMixin from '../ww-sheet.mjs';
 
 // Similar syntax to importing, but note that
@@ -160,57 +160,12 @@ export default class WWItemSheet extends WWSheetMixin(ItemSheetV2) {
     
     for (const [idx, source] of this.item.system.autoSteps.entries()) {
       const step = source.toObject();
-      const { area, targeting } = step;
 
       // Tracking
       step.number = idx + 1;
       step.previous = idx -1 >= 0 ? idx -1 : null;
 
-      // Summary Label
-      const areaDetails = {
-        emanation: `${_loc("WW.Item.Area.Radius")} ${area.measure} ${_loc("WW.Item.Area.Shape.Emanation")}`,
-        line: `${_loc("WW.Item.Area.Length")} ${area.measure}, ${_loc("WW.Item.Area.Width")} ${area.width} ${_loc("WW.Item.Area.Shape.Line")}`,
-        circle: `${_loc("WW.Item.Area.Size")} ${area.measure} ${_loc("WW.Item.Area.Shape.Circle")}`
-      }
-
-      const areaInfo = `${areaDetails[area.shape]} within ${targeting.range} yards`
-
-      switch (step.operation) {
-        case 'target': {
-          step.summary = `
-            ${_loc(CONFIG.WW.TARGETING_METHODS[step.targeting.method])}
-            (${step.targeting.method === 'area'
-              ? areaInfo
-              : `${_loc('WW.Targeting.Range')} ${step.targeting.range}, ${_loc(CONFIG.WW.TARGETING_RESTRICTIONS[step.targeting.restriction])}`
-            })
-          `;
-        }; break;
-
-        case 'roll': {
-          const { attribute, boons, against } = step.roll;
-
-          step.summary = makeRollExpressionText({ attribute, boons, against });
-        }; break;
-
-        case 'placeArea': {
-          step.summary = `
-            ${_loc(CONFIG.WW.AUTOMATION_STEP_OPERATIONS[step.operation])}
-            (${areaInfo})
-          `;
-        }; break;
-        
-        // Instant Effects
-        case 'damage':
-        case 'heal':
-        case 'healthLose':
-        case 'healthRegain': step.summary = _loc(CONFIG.WW.INSTANT_EFFECT_EXPRESSIONS[step.operation], { number: step.instant.value }); break;
-
-        // Affliction
-        case 'affliction': step.summary = _loc("WW.Affliction.Bestow", { affliction: _loc(CONFIG.WW.AFFLICTIONS[step.affliction.key]) }); break;
-        
-        // Default
-        default: step.summary = _loc(CONFIG.WW.AUTOMATION_STEP_OPERATIONS[step.operation]);
-      }
+      step.summary = getAutomationStepSummary(step);
 
       autoSteps.push(step);
     }

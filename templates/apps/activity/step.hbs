@@ -1,8 +1,15 @@
 <section class="form-body statbox automation-step num-{{number}} {{operation}} {{#if (ne condition "none")}}condition{{/if}}">
   {{#with currentStep}}
-  {{!-- Summary --}}
+  {{!-- Heading --}}
+  <div class="step-header">
+    <h4 class="icon">
+      <i class="{{icon}}"></i>
 
-  {{localize "WW.Automation.Step.Number"}}{{number}}: {{summary}}
+      {{localize "WW.Automation.Step.Number"}}{{number}}: {{summary.title}}
+    </h4>
+
+    <h5>{{summary.subtitle}}</h5>
+  </div>
 
   {{!-- Target --}}
   {{#if (eq operation "target")}}
