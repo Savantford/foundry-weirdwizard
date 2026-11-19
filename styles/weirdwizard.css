@@ -5388,6 +5388,13 @@ details.document-card .card-header:hover::after {
   .window-content {
     gap: 1em;
 
+    .form-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 5px;
+    }
+
     .form-body {
       display: flex;
       flex-flow: wrap;

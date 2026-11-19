@@ -31,19 +31,20 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
       contentClasses: ["standard-form"]
     },
     actions: {
-      // Roll actions
-      toggleRollDetails: ActivityApp.#onToggleRollDetails,
-      situationalUp: ActivityApp.#changeSituationalBoons,
-      situationalDown: ActivityApp.#changeSituationalBoons,
+      // General actions
+      messageMode: ActivityApp.#onChangeMessageMode,
+      nextStep: ActivityApp.#onNextStep,
       confirm: ActivityApp.#confirm,
 
-      // Targeting actions
+      // Targeting & Area
       selectTargets: ActivityApp.#selectTargets,
-      placeArea: ActivityApp.#placeArea,
       targetingRestriction: ActivityApp.#onChangeTargetingRestriction,
+      placeArea: ActivityApp.#placeArea,
 
-      // Other actions
-      messageMode: ActivityApp.#onChangeMessageMode
+      // Roll
+      toggleRollDetails: ActivityApp.#onToggleRollDetails,
+      situationalUp: ActivityApp.#changeSituationalBoons,
+      situationalDown: ActivityApp.#changeSituationalBoons
     },
     position: {
       width: 425,
@@ -273,40 +274,33 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
   }
 
   /* -------------------------------------------- */
-  /*  Actions                                     */
+  /*  General actions                             */
   /* -------------------------------------------- */
 
   /**
-   * @param {PointerEvent} event - The originating click event
-   * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
-  */
-  static #onToggleRollDetails(event, target) {
-    const open = target.parentNode.open;
-    
-    this.config.args.rollDetailsOpen = !open;
-  }
+   * Handle next step transition.
+   * @type {ApplicationClickAction}
+   */
+  static #onNextStep(event, target) {
+    this.config.currentIdx++;
 
-  /* -------------------------------------------- */
-
-  /**
-   * @param {PointerEvent} event - The originating click event
-   * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
-  */
-  static #changeSituationalBoons(event, target) {
-    const parent = target.closest('.adjustment-widget');
-    const action = target.dataset.action;
-    
-    if (action === 'situationalUp') {
-      this.config.roll.boons.situational++;
-    } else {
-      this.config.roll.boons.situational--;
-    }
-    
     this.render();
   }
 
   /* -------------------------------------------- */
-  /*  Targeting actions                           */
+
+  /**
+   * Handle changing the message mode.
+   * @type {ApplicationClickAction}
+   */
+  static #onChangeMessageMode(event, target) {
+    const mode = target.dataset.mode;
+    game.settings.set("core", "messageMode", mode);
+    this.render();
+  }
+
+  /* -------------------------------------------- */
+  /*  Targeting & Area actions                    */
   /* -------------------------------------------- */
 
   /**
@@ -347,21 +341,40 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
   static #onChangeTargetingRestriction(event, button) {
     const restriction = button.dataset.restriction;
     
-    this.config.targeting.restriction = restriction;
+    this.currentStep.restriction = restriction;
     this.render();
   }
 
   /* -------------------------------------------- */
-  /*  Other actions                               */
+  /*  Roll Actions                                */
   /* -------------------------------------------- */
 
   /**
-   * Handle changing the message mode.
-   * @type {ApplicationClickAction}
-   */
-  static #onChangeMessageMode(event, target) {
-    const mode = target.dataset.mode;
-    game.settings.set("core", "messageMode", mode);
+   * @param {PointerEvent} event - The originating click event
+   * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
+  */
+  static #onToggleRollDetails(event, target) {
+    const open = target.parentNode.open;
+    
+    this.config.args.rollDetailsOpen = !open;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * @param {PointerEvent} event - The originating click event
+   * @param {HTMLElement} target - the capturing HTML element which defined a [data-action]
+  */
+  static #changeSituationalBoons(event, target) {
+    const parent = target.closest('.adjustment-widget');
+    const action = target.dataset.action;
+    
+    if (action === 'situationalUp') {
+      this.config.roll.boons.situational++;
+    } else {
+      this.config.roll.boons.situational--;
+    }
+    
     this.render();
   }
 
