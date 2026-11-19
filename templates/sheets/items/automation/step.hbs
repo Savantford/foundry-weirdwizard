@@ -2,7 +2,8 @@
   {{!-- Summary --}}
   <summary>
     <strong>{{localize "WW.Automation.Step.Number"}}{{number}}:</strong>
-    {{summary}}
+    {{summary.title}}
+    {{#if summary.subtitle}}({{summary.subtitle}}){{/if}}
     <button class="mini float-right" data-action="stepRemove" data-step-index="{{idx}}" data-tooltip="WW.Automation.Step.Remove">
       <i class="fa-solid fa-trash"></i>
     </button>
