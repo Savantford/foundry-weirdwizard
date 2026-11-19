@@ -3,7 +3,6 @@ import TargetingHelper from "../apps/targeting-helper.mjs";
 
 export class Activity {
   constructor(options) {
-    console.log(options)
     const config = {...options};
     const { args = {}, steps, actor, item = null, message = {}, title } = config;
     const sys = actor.system;
@@ -53,8 +52,6 @@ export class Activity {
       token: actor.token,
       activity: this
     }
-
-    console.log(this.config)
   }
 
   /* -------------------------------------------- */
@@ -152,7 +149,7 @@ export class Activity {
     step.roll.boonsBreakdown.final = boonsFinal;
 
     // Check if user has valid targets
-    const validTargets = this.getTargets(config).valid;
+    const validTargets = this.getTargets(step).valid;
 
     if (!!validTargets.length && against) { // If Action is Targeted and Against is filled: perform one separate roll for each target
       for (const tar of validTargets) {
@@ -325,9 +322,10 @@ export class Activity {
 
   /* -------------------------------------------- */
 
-  getTargets(config) {
+  getTargets(step) {
     const all = [], valid = [], invalid = [];
-    const restriction = config.targeting?.restriction ?? 'any';
+    const restriction = step.targeting?.restriction ?? 'any';
+    console.log(step)
 
     // Validate disposition
     function validateDispo(tokenDispo) {
@@ -338,7 +336,7 @@ export class Activity {
     }
 
     // If Targeting Method is Self, infer token and target it
-    const item = config.item;
+    const item = this.config.item;
     if (item?.system?.targeting?.method === 'self' && item?.inferToken) canvas.tokens.setTargets([item.inferToken.object.id]);
 
     // Loop through targets
@@ -361,7 +359,7 @@ export class Activity {
       if (targetData.isCreature) foundry.utils.mergeObject(targetData, {
         attributes: sys.attributes,
         defense: sys.stats.defense.total,
-        againstNo: config.roll.against === 'def' ? sys.stats.defense.total : (config.roll.against ? sys.attributes[config.roll.against]?.value : null),
+        againstNo: step.roll.against === 'def' ? sys.stats.defense.total : (step.roll.against ? sys.attributes[step.roll.against]?.value : null),
         boons: sys.boons.selfRoll,
         boonsAgainst: sys.boons.against,
         autoSuccessAgainst: sys.autoSuccess.against

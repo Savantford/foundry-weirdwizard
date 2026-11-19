@@ -166,7 +166,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
    * @returns {RegionDocument}
   */
   displayRange(options={}) {
-    const { color='#000000', token=this.inferToken } = options;
+    const { color='#000000', token=this.inferToken, step } = options;
 
     if (!token) return null;
     
@@ -174,8 +174,8 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     const grid = canvas.grid ?? foundry.documents.BaseScene.defaultGrid;
     const yard = canvas.dimensions.distancePixels;
     const baseShape = grid.isSquare ? CONST.TOKEN_SHAPES.RECTANGLE_1 : CONST.TOKEN_SHAPES.ELLIPSE_1;
-    const targeting = this.system.targeting;
-    const range = targeting.method === 'self' ? 0 : targeting.range; // Treat as 0 if self targeted
+    const targeting = step.targeting;
+    const range = targeting.restriction === 'self' ? 0 : targeting.range; // Treat as 0 if self targeted
     
     // Return earlier if range is null
     if (!range) return null;
@@ -244,7 +244,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
    * @returns {RegionDocument} || null
    */
   async placeArea(options = {}) {
-    const { originApp } = options;
+    const { originApp, step } = options;
     // Minimize origin app
     originApp?.minimize();
 
@@ -288,7 +288,7 @@ export default class WWItem extends WWDocumentMixin(foundry.documents.Item) {
     };
 
     // Toggle region display
-    const displayRange = this.displayRange();
+    const displayRange = this.displayRange({ step });
 
     // Prepare placement constraints
     let warning;

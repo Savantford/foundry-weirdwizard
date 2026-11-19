@@ -14,7 +14,7 @@ export default class TargetingHelper extends HandlebarsApplicationMixin(Applicat
 
   constructor(options={}) {
     super(options); // Required for "this." to work
-
+    
     this.initialLayer = canvas.activeLayer;
 
     // Activate the Targeting tool in the Tokens layer
@@ -24,7 +24,7 @@ export default class TargetingHelper extends HandlebarsApplicationMixin(Applicat
     options.originApp?.minimize();
 
     // Display range
-    if (options.item) options.item.displayRange();
+    if (options.item) options.item.displayRange({ step: options.step });
 
     Hooks.on("targetToken", () => this.debounceRender() );
   }

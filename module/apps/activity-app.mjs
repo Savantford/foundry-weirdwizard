@@ -205,7 +205,7 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
       }
     }
 
-    context.currentStep = steps[context.currentIdx];
+    context.currentStep = this.currentStep;
 
     // Prepare targets
     context.needTargets = item?.needTargets;
@@ -216,7 +216,7 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
       this.targets.valid.forEach(tar => {
         // Boons against count
         let boonsAgainst = 0;
-        if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against.key];
+        //if (tar.boonsAgainst) boonsAgainst += tar.boonsAgainst[against.key]; // Must be fixed later
         if (context.itemProperties.isAttack) boonsAgainst += tar.boonsAgainst.fromAttacks;
         if (context.itemProperties.isSpell) boonsAgainst += tar.boonsAgainst.fromSpells;
         if (context.itemProperties.isMagical) boonsAgainst += tar.boonsAgainst.fromMagical + tar.boons.resistMagical;
@@ -228,7 +228,7 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
           boonsIcon: `systems/weirdwizard/assets/icons/rolling-${boonsAgainst > 0 ? 'boons' : 'banes'}-colored.svg`,
           boonsTip: boonsAgainst > 0 ? _loc('WW.Boons.ExtraBoons') : _loc('WW.Boons.ExtraBanes'),
           againstNo: tar.againstNo,
-          autoSuccess: against.key ? !!tar.autoSuccessAgainst?.[against.key] : false
+          //autoSuccess: against.key ? !!tar.autoSuccessAgainst?.[against.key] : false // Must be fixed later
         })
 
       });
@@ -316,7 +316,8 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
     const context = {
       originApp: this,
       actor: this.config.actor,
-      item: this.config.item
+      item: this.config.item,
+      step: this.currentStep
     }
 
     // Activate TargetingHelper app
@@ -432,8 +433,16 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
   /*  Getters                                     */
   /* -------------------------------------------- */
 
+  get currentStep() {
+    return this.config.steps[this.config.currentIdx];
+  }
+
+  /* -------------------------------------------- */
+
   get targets() {
-    return this.config.activity.getTargets(this.config);
+    const targets = this.config.activity.getTargets(this.currentStep);
+    console.log(targets)
+    return targets;
   }
 
   /* -------------------------------------------- */
