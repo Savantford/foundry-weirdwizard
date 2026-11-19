@@ -1,0 +1,36 @@
+<section class="form-body statbox automation-step num-{{number}} {{operation}} {{#if (ne condition "none")}}condition{{/if}}">
+  {{#with currentStep}}
+  {{!-- Summary --}}
+
+  {{localize "WW.Automation.Step.Number"}}{{number}}: {{summary}}
+
+  {{!-- Target --}}
+  {{#if (eq operation "target")}}
+    {{> "systems/weirdwizard/templates/apps/activity/steps/targeting.hbs"}}
+    
+  {{!-- Roll --}}
+  {{else if (eq operation "roll")}}
+    {{> "systems/weirdwizard/templates/apps/activity/steps/roll.hbs"}}
+
+  {{!-- Request Roll --}}
+  {{else if (eq operation "requestRoll")}}
+    {{!--> "systems/weirdwizard/templates/apps/activity/steps/roll-request.hbs"--}}
+
+  {{!-- Area --}}
+  {{else if (eq operation "placeArea")}}
+    {{> "systems/weirdwizard/templates/apps/activity/steps/area.hbs"}}
+
+  {{!-- Affliction --}}
+  {{else if (eq operation "affliction")}}
+    {{> "systems/weirdwizard/templates/apps/activity/steps/affliction.hbs"}}
+  
+  {{!-- Active Effect --}}
+  {{else if (eq operation "applyEffect")}}
+    {{!--> "systems/weirdwizard/templates/apps/activity/steps/instant-effect.hbs"--}}
+    
+  {{!-- Instant Effect --}}
+  {{else}}
+    {{> "systems/weirdwizard/templates/apps/activity/steps/instant-effect.hbs"}}
+  {{/if}}
+  {{/with}}
+</section>

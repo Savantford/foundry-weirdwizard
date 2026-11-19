@@ -56,6 +56,7 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
   /** @inheritDoc */
   _initializeApplicationOptions(options) {
     this.config = options;
+    this.config.currentIdx = 0;
 
     return options = super._initializeApplicationOptions(options);
   }
@@ -66,15 +67,17 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
     /*header: {
       template: 'systems/weirdwizard/templates/apps/activity/header.hbs'
     },*/
-    body: {
-      template: 'systems/weirdwizard/templates/apps/activity/body.hbs',
+    step: {
+      template: 'systems/weirdwizard/templates/apps/activity/step.hbs',
       scrollable: ['.standard-form'],
       templates: [
-        'systems/weirdwizard/templates/apps/activity/roll.hbs',
-        'systems/weirdwizard/templates/apps/activity/roll-details.hbs',
-        'systems/weirdwizard/templates/apps/activity/targeting.hbs',
-        'systems/weirdwizard/templates/apps/activity/area.hbs',
-        'systems/weirdwizard/templates/apps/activity/parts/area-info.hbs'
+        'systems/weirdwizard/templates/apps/activity/steps/roll.hbs',
+        'systems/weirdwizard/templates/apps/activity/steps/parts/roll-details.hbs',
+        'systems/weirdwizard/templates/apps/activity/steps/targeting.hbs',
+        'systems/weirdwizard/templates/apps/activity/steps/area.hbs',
+        'systems/weirdwizard/templates/apps/activity/steps/parts/area-info.hbs',
+        'systems/weirdwizard/templates/apps/activity/steps/instant-effect.hbs',
+        'systems/weirdwizard/templates/apps/activity/steps/affliction.hbs',
       ]
     },
     footer: {
@@ -190,8 +193,16 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
             label: CONFIG.WW.ROLL_AGAINST[against]
           }
         });
+      } else if (step.operation === 'target') { // Targeting Bar
+        const targetingRestriction = step.targeting.restriction;
+
+        step.targetingRestrictions = Object.entries(CONFIG.WW.TARGETING_RESTRICTIONS).map(([action, label]) => {
+          return {label, action, active: action === targetingRestriction};
+        });
       }
     }
+
+    context.currentStep = steps[context.currentIdx];
 
     // Prepare targets
     context.needTargets = item?.needTargets;
@@ -238,17 +249,6 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
 
       context.invalidTargets = invalid;
     }
-
-    // Targeting Modes
-    if (context.targeting) {
-      const targetingRestriction = context.targeting.restriction;
-      context.targetingRestrictions = Object.entries(CONFIG.WW.TARGETING_RESTRICTIONS).map(([action, label]) => {
-        return {label, action, active: action === targetingRestriction};
-      });
-    }
-
-    // Area
-    if (item) context.area = item.system.area;
     
     // Message Modes
     const messageMode = game.settings.get("core", "messageMode");
