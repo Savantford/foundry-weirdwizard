@@ -1,4 +1,5 @@
 import ActivityModel from '../data/activities/activity.mjs';
+import AutomationStepModel from '../data/activities/automation-step.mjs';
 import { getAutomationStepSummary, makeRollExpressionText, plusify } from '../helpers/utils.mjs';
 import TargetingHelper from './targeting-helper.mjs';
 
@@ -106,9 +107,12 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
   /* -------------------------------------------- */
 
   async _prepareContext(options = {}) {
+    const fields = (new AutomationStepModel).schema.fields;
     const context = {
       ...await super._prepareContext(options),
-      ...this.activity
+      ...this.activity,
+      fields,
+      instantFields: fields.instant.fields
     };
     const item = context.item;
     const sys = context.actor.system;
@@ -213,6 +217,7 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
       }
     }
 
+    context.currentIdx = this.currentIdx;
     context.currentStep = this.currentStep;
 
     // Prepare targets
@@ -416,12 +421,17 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
 
     // Get form data
     const form = this.element.querySelector('form');
-    const formData = foundry.utils.expandObject(new foundry.applications.ux.FormDataExtended(form).object);
+    const test = new foundry.applications.ux.FormDataExtended(form).object;
+    console.log(test)
+    const formData = foundry.utils.expandObject(test);
     const formSteps = formData.steps;
     const activitySteps = this.activity.system.steps;
     await foundry.utils.mergeObject(activitySteps, formSteps, { recursive: true });
 
     // Merge system with formData
+    console.log(formData)
+    console.log(formSteps)
+    console.log(activitySteps)
     this.activity.system.updateSource({ 'steps': activitySteps });
 
     // Ensures the next input can be selected before re-rendering, maintaining focus while transitioning inputs.
