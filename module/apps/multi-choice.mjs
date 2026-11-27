@@ -189,9 +189,10 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
 
         for (const uuid in selected) {
           const target = await fromUuid(uuid);
+          const actor = target.actor ?? target;
 
           const activityOptions = {
-            actor: target,
+            actor,
             roll: {
               attribute: {
                 key: attribute
@@ -209,7 +210,7 @@ export default class MultiChoice extends HandlebarsApplicationMixin(ApplicationV
             }
           }
 
-          new ActivityUse(activityOptions).render(true);
+          actor.useActivity(activityOptions);
         }
 
       break;    

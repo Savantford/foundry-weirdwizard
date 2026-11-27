@@ -7279,7 +7279,7 @@ body {
   }
 
   .standard-form .tab {
-    overflow: visible;
+    overflow: auto;
     gap: 0.5rem;
   }
 
