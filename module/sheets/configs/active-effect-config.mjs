@@ -25,7 +25,7 @@ export default class WWActiveEffectConfig extends WWSheetMixin(foundry.applicati
     changes: {
       template: "systems/weirdwizard/templates/sheets/active-effects/changes.hbs",
       templates: ["systems/weirdwizard/templates/sheets/active-effects/change.hbs"],
-      scrollable: ["ol[data-changes]"]
+      scrollable: [".scrollable"]
     }
   }
 
