@@ -154,7 +154,7 @@ export class Activity {
     if (boonsB.applySpell && boonsB.forSpells) boonsFinal += boonsB.forSpells;
     if (boonsB.fixed) boonsFinal += boonsB.fixed; // If there are fixed boons or banes, add it
 
-    step.roll.boonsBreakdown.final = boonsFinal;
+    step.rollBreakdown.boons.final = boonsFinal;
 
     // Check if user has valid targets
     const validTargets = this.getTargets(step).valid;

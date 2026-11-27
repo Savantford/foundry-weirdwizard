@@ -1,5 +1,5 @@
 
-<details class="roll-details mt-1" {{#if args.rollDetailsOpen}}open{{/if}}>
+<details class="roll-details mt-1" {{#if rollDetailsOpen}}open{{/if}}>
   <summary data-action="toggleRollDetails">{{localize "WW.Roll.SeeDetails"}}</summary>
   
   <div class="wrapper">
@@ -23,8 +23,8 @@
     <div class="adjustment-widget">
       <a class="down" data-action="situationalDown" data-tooltip="WW.Boons.AddBanes"></a>
     
-      <input name="steps.{{index}}.roll.boonsBreakdown.situational" class="boons-input situational mx-1" type="number"
-        value="{{ roll.boonsBreakdown.situational }}" data-tooltip="WW.Boons.Situational" />
+      <input name="steps.{{index}}.rollBreakdown.boons.situational" class="boons-input situational mx-1" type="number"
+        value="{{ rollBreakdown.boons.situational }}" data-tooltip="WW.Boons.Situational" />
     
       <a class="up" data-action="situationalUp" data-tooltip="WW.Boons.AddBoons"></a>
     </div>
@@ -35,7 +35,7 @@
       <h4 class="rounded boons-header">
         <span>{{localize "WW.Boons.Total"}}</span>
 
-        <span class="boons-display total ml-auto">{{numberFormat roll.boonsBreakdown.final sign=true}}</span>
+        <span class="boons-display total ml-auto">{{numberFormat rollBreakdown.boons.final sign=true}}</span>
       </h4>
 
       {{!-- Boons Count Box --}}
@@ -44,16 +44,16 @@
         <div class="stat-stretch flex-group-left">
           <label>{{localize "WW.Boons.Afflictions"}}</label>
 
-          <span class="boons-display">{{numberFormat roll.boonsBreakdown.fromEffects sign=true}}</span>
+          <span class="boons-display">{{numberFormat rollBreakdown.boons.fromEffects sign=true}}</span>
         </div>
 
         {{!-- Attack Boons --}}
         {{#if forAttacks}}
         <div class="stat-stretch flex-group-left">
           <label>{{localize "WW.Boons.Attack"}}</label>
-          <input type="checkbox" class="attack" name="steps.{{index}}.roll.boonsBreakdown.applyAttack" data-tooltip="WW.Boons.Apply" {{#if roll.boonsBreakdown.applyAttack}}checked{{/if}}>
+          <input type="checkbox" class="attack" name="steps.{{index}}.rollBreakdown.boons.applyAttack" data-tooltip="WW.Boons.Apply" {{#if rollBreakdown.boons.applyAttack}}checked{{/if}}>
 
-          <span class="boons-display attack">{{numberFormat roll.boonsBreakdown.forAttacks sign=true}}</span>
+          <span class="boons-display attack">{{numberFormat rollBreakdown.boons.forAttacks sign=true}}</span>
         </div>
         {{/if}}
 
@@ -61,8 +61,8 @@
         {{#if forSpells}}
         <div class="stat-stretch flex-group-left">
           <label>{{localize "WW.Boons.Spell"}}</label>
-          <input type="checkbox" class="spell" name="steps.{{index}}.roll.boonsBreakdown.applySpell" data-tooltip="WW.Boons.Apply" {{#if roll.boonsBreakdown.applySpell}}checked{{/if}}>
-          <span class="boons-display attack">{{numberFormat roll.boonsBreakdown.forSpells sign=true}}</span>
+          <input type="checkbox" class="spell" name="steps.{{index}}.rollBreakdown.boons.applySpell" data-tooltip="WW.Boons.Apply" {{#if rollBreakdown.boons.applySpell}}checked{{/if}}>
+          <span class="boons-display attack">{{numberFormat rollBreakdown.boons.forSpells sign=true}}</span>
         </div>
         {{/if}}
 
@@ -70,7 +70,7 @@
         {{#if fixed}}
         <div class="stat-stretch flex-group-left">
           <label>{{localize "WW.Boons.Fixed"}}</label>
-          <span class="boons-display fixed">{{numberFormat roll.boonsBreakdown.fixed sign=true}}</span>
+          <span class="boons-display fixed">{{numberFormat rollBreakdown.boons.fixed sign=true}}</span>
         </div>
         {{/if}}
       </div>
@@ -88,7 +88,7 @@
     
       <label>{{localize "WW.Roll.Against.CustomTargetNumber"}}:</label>
     
-      <input name="steps.{{index}}.roll.againstBreakdown.customTn" type="number" value="{{ roll.againstBreakdown.customTn }}" placeholder="—"
+      <input name="steps.{{index}}.rollBreakdown.against.customTn" type="number" value="{{ rollBreakdown.against.customTn }}" placeholder="—"
         data-tooltip="WW.Roll.Against.CustomTargetNumberHint" />
     </div>
   </div>

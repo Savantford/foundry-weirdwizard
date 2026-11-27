@@ -349,7 +349,7 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
   static #onChangeTargetingRestriction(event, button) {
     const restriction = button.dataset.restriction;
     
-    this.currentStep.restriction = restriction;
+    this.activity.system.steps[this.currentIdx].restriction = restriction;
     this.render();
   }
 
@@ -364,7 +364,7 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
   static #onToggleRollDetails(event, target) {
     const open = target.parentNode.open;
     
-    this.activity.system.args.rollDetailsOpen = !open;
+    this.activity.system.steps[this.currentIdx].rollDetailsOpen = !open;
   }
 
   /* -------------------------------------------- */
@@ -417,10 +417,12 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
     // Get form data
     const form = this.element.querySelector('form');
     const formData = foundry.utils.expandObject(new foundry.applications.ux.FormDataExtended(form).object);
-    const activity = ActivityModel.cleanData(formData);
-    
+    const formSteps = formData.steps;
+    const activitySteps = this.activity.system.steps;
+    await foundry.utils.mergeObject(activitySteps, formSteps, { recursive: true });
+
     // Merge system with formData
-    foundry.utils.mergeObject(this.activity.system, activity, { recursive: true });
+    this.activity.system.updateSource({ 'steps': activitySteps });
 
     // Ensures the next input can be selected before re-rendering, maintaining focus while transitioning inputs.
     setTimeout(() => this.render(), 20);

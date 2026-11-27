@@ -1,6 +1,6 @@
 <section class="roll">
   {{!-- Roll Expression --}}
-  {{#with roll}}
+  {{#with rollBreakdown}}
   <div class="roll-expression">{{ expression }}</div>
   
   {{!-- Icons --}}
@@ -12,12 +12,12 @@
     </div>
 
     {{!-- Attribute Modifier --}}
-    {{#if attribute}}
-    <div class="operator attribute">{{#if (lt attributeBreakdown.mod 0)}}−{{else}}+{{/if}}</div>
+    {{#if ../roll.attribute}}
+    <div class="operator attribute">{{#if (lt attribute.mod 0)}}−{{else}}+{{/if}}</div>
 
-    <div class="term attribute" data-tooltip="{{ attributeBreakdown.label }}">
-      <div>{{ attributeBreakdown.mod }}</div>
-      <img src="{{ attributeBreakdown.icon }}" />
+    <div class="term attribute" data-tooltip="{{ attribute.label }}">
+      <div>{{ attribute.mod }}</div>
+      <img src="{{ attribute.icon }}" />
     </div>
     {{/if}}
 
@@ -27,32 +27,32 @@
     {{/if}}
   
     {{!-- Boons --}}
-    {{#if (gt boonsBreakdown.final 0)}}
+    {{#if (gt boons.final 0)}}
     <div class="operator boons">+</div>
 
-    <div class="term boons" data-tooltip="{{ boonsBreakdown.abs }} {{localize "WW.Roll.Boons"}}">
-      <div>{{ boonsBreakdown.display }}d6kh</div>
-      <img src="systems/weirdwizard/assets/icons/rolling-boon{{#if (gt boonsBreakdown.abs 1)}}s{{/if}}-colored.svg"/>
+    <div class="term boons" data-tooltip="{{ boons.abs }} {{localize "WW.Roll.Boons"}}">
+      <div>{{ boons.display }}d6kh</div>
+      <img src="systems/weirdwizard/assets/icons/rolling-boon{{#if (gt boons.abs 1)}}s{{/if}}-colored.svg"/>
     </div>
 
     {{!-- Banes --}}
-    {{else if (lt boonsBreakdown.final 0)}}
+    {{else if (lt boons.final 0)}}
     <div class="operator banes">−</div>
 
-    <div class="term banes" data-tooltip="{{ boonsBreakdown.abs }} {{localize "WW.Roll.Banes"}}">
-      <div>{{ boonsBreakdown.display }}d6kh</div>
-      <img src="systems/weirdwizard/assets/icons/rolling-bane{{#if (gt boonsBreakdown.abs 1)}}s{{/if}}-colored.svg"/>
+    <div class="term banes" data-tooltip="{{ boons.abs }} {{localize "WW.Roll.Banes"}}">
+      <div>{{ boons.display }}d6kh</div>
+      <img src="systems/weirdwizard/assets/icons/rolling-bane{{#if (gt boons.abs 1)}}s{{/if}}-colored.svg"/>
     </div>
     {{/if}}
 
     {{!-- Against --}}
-    {{#if (or against (ne againstBreakdown.tn 10))}}
+    {{#if (or ../roll.against (ne against.tn 10))}}
     <div class="operator against mx-1">vs</div>
 
-    <div class="term against" data-tooltip="{{ againstBreakdown.label }}">
-      {{#unless against}}<div>{{ againstBreakdown.tn }}</div>{{/unless}}
+    <div class="term against" data-tooltip="{{ against.label }}">
+      {{#unless ../roll.against}}<div>{{ against.tn }}</div>{{/unless}}
 
-      <img src="{{ againstBreakdown.icon }}" />
+      <img src="{{ against.icon }}" />
     </div>
     {{/if}}
   </div>
