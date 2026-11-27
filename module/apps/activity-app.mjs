@@ -95,9 +95,10 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
 
   /** @override */
   get title() {
-    const { title } = this.activity.system;
-    const { constructor: id, name, type } = this.item ?? this.actor;
-    return title ?? `${_loc("WW.Activity.Label")}: ${name ?? id}`;
+    const { constructor: id, name, type } = this.options.item ?? this.options.actor;
+    const { title } = this.options.system;
+    
+    return !!title ? title : `${_loc("WW.Activity.Label")}: ${name ?? id}`;
   }
 
   /* -------------------------------------------- */
@@ -111,7 +112,7 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
     };
     const item = context.item;
     const sys = context.actor.system;
-    const steps = context.steps;
+    const steps = context.system.steps;
 
     if (steps && steps.length) for (const [idx, step] of steps.entries()) {
       step.icon = CONFIG.WW.AUTOMATION_STEP_ICONS[step.operation];
@@ -416,15 +417,10 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
     // Get form data
     const form = this.element.querySelector('form');
     const formData = foundry.utils.expandObject(new foundry.applications.ux.FormDataExtended(form).object);
-    
-    console.log(this.activity.system)
-    console.log(ActivityModel)
     const activity = ActivityModel.cleanData(formData);
     
     // Merge system with formData
     foundry.utils.mergeObject(this.activity.system, activity, { recursive: true });
-
-    console.log(this.activity.system)
 
     // Ensures the next input can be selected before re-rendering, maintaining focus while transitioning inputs.
     setTimeout(() => this.render(), 20);

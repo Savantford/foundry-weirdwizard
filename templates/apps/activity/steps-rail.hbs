@@ -1,12 +1,14 @@
 <section class="form-header">
+  {{!-- Rail --}}
   <ol class="steps-rail">
-    {{#each steps as |step idx|}}
+    {{#each system.steps as |step idx|}}
       <li class="step-button info {{#if (eq @root.currentIdx idx)}}current{{/if}}" data-tooltip="{{step.summary.title}}"
         data-action="skipToStep" data-step-index="{{idx}}">
         <i class="{{step.icon}}"></i>
       </li>
     {{/each}}
   </ol>
-  {{log currentStep}}
+  
+  {{!-- Next Button --}}
   <button data-action="nextStep">Next</button>
 </section>
