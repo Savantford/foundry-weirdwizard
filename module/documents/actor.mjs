@@ -1150,9 +1150,8 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
     const restriction = config.targeting?.restriction ?? 'any';
 
     // Validate disposition
-    function validateDispo(tokenDispo) {
-      if (restriction === 'allies' && tokenDispo === 1) return true;
-      else if (restriction === 'enemies' && tokenDispo === -1) return true;
+    function validateDispo(a, b) {
+      if (restriction === game.weirdwizard.utils.enemiesOrAllies(a, b)) return true;
       else if (restriction === 'any') return true;
       else return false;
     }
@@ -1189,8 +1188,8 @@ export default class WWActor extends WWDocumentMixin(foundry.documents.Actor) {
 
       // Push to correct arrays
       all.push(targetData);
-
-      if (targetData.isCreature && validateDispo(tokenDoc.disposition)) valid.push(targetData);
+      const selfToken = config.token ?? config.actor.prototypeToken;
+      if (targetData.isCreature && validateDispo(selfToken, tokenDoc)) valid.push(targetData);
       else invalid.push(targetData);
     });
 

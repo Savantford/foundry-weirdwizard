@@ -145,6 +145,23 @@ export async function inferDataFromKey(listKey, entryKey) {
 }
 
 /**
+ * Compare two tokens or disposition values to check if they are allies or enemies.
+ * @param {TokenDocument|integer} a Token or Disposition A
+ * @param {TokenDocument|integer} b Token or Disposition B
+ * @returns {string} 'allies'|'enemies'
+ */
+export function enemiesOrAllies(a, b) {
+  const { FRIENDLY, HOSTILE } = CONST.TOKEN_DISPOSITIONS;
+
+  // Ensure a and b are integers
+  if (!Number.isInteger(a)) a = a.disposition;
+  if (!Number.isInteger(b)) b = b.disposition;
+  
+  if ((a === FRIENDLY && b === HOSTILE) || (a === HOSTILE && b === FRIENDLY)) return 'enemies';
+  else return 'allies';
+}
+
+/**
   * Gets the default new key for a list entry
   * @param {object} list            A list object which the entry list should belong
   * @param {string} listKey         The entry list key to be used
