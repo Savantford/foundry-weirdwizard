@@ -148,11 +148,11 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
 
     // Prepare against display
     const against = context.roll.against;
-    const customTn = context.roll.against.customTn;
+    const customTn = context.roll.against?.customTn;
     let againstDisplay = ` ${_loc('WW.Roll.Against.Label').toLowerCase()} `;
     
     if (customTn) againstDisplay += customTn;
-    else if (against.key) {
+    else if (against?.key) {
       switch (against.key) {
         case 'def': {
           againstDisplay += _loc('WW.Defense.Label');
@@ -187,9 +187,9 @@ export default class ActivityUse extends HandlebarsApplicationMixin(ApplicationV
         label: attLabel
       },
       against: {
-        tn: context.roll.against.customTn ?? 10,
-        icon: CONFIG.WW.ATTRIBUTE_ICONS[against.key] ?? 'systems/weirdwizard/assets/ui/badges/octagonal.svg',
-        label: CONFIG.WW.ROLL_AGAINST[against.key]
+        tn: context.roll.against?.customTn ?? 10,
+        icon: CONFIG.WW.ATTRIBUTE_ICONS[against?.key] ?? 'systems/weirdwizard/assets/ui/badges/octagonal.svg',
+        label: CONFIG.WW.ROLL_AGAINST[against?.key]
       }
     });
 
