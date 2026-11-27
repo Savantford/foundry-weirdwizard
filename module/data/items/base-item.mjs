@@ -1,5 +1,5 @@
 import { makeBooField, makeIntField, makeHtmlField, makeUuidStrField, makeRequiredStrField } from '../field-presets.mjs';
-import AutomationStepModel from './automation-step.mjs';
+import AutomationStepModel from '../activities/automation-step.mjs';
 
 export default class BaseItemModel extends foundry.abstract.TypeDataModel {
   /** @inheritdoc */
@@ -27,6 +27,18 @@ export default class BaseItemModel extends foundry.abstract.TypeDataModel {
     };
 
     return schema;
+  }
+
+  get isAttack() {
+    return this.subtype === 'weapon' ?? false;
+  }
+
+  get isWeapon() {
+    return this.subtype === 'weapon' ?? false;
+  }
+
+  get isSpell() {
+    return this.subtype === 'spell' ?? false;
   }
 
   /**

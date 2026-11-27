@@ -1895,7 +1895,10 @@ body.theme-dark.application.weirdwizard .window-content {
       border: solid 1px var(--purple-dark);
       border-radius: 5px;
       margin: 0;
-      padding: 0.5em;
+
+      > * {
+        padding: 0.5em;
+      }
 
       > div:not(.stat-row) {
         display: flex;
@@ -1908,10 +1911,12 @@ body.theme-dark.application.weirdwizard .window-content {
       }
     }
 
+    .automation-step summary {
+      padding: 0.5em;
+    }
+
     .automation-step[open] summary {
       border-bottom: 1px solid var(--purple-dark);
-      padding: 0 0.5em 0.5em;
-      margin: 0 -0.5em 0.5em;
     }
 
     .automation-step.condition {

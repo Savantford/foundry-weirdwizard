@@ -1,5 +1,7 @@
+import ActivityModel from '../data/activities/activity.mjs';
 import { getAutomationStepSummary, makeRollExpressionText, plusify } from '../helpers/utils.mjs';
 import TargetingHelper from './targeting-helper.mjs';
+
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
 const ApplicationV2 = foundry.applications?.api?.ApplicationV2 ?? (class {});
@@ -14,7 +16,7 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
   
   constructor(options={}) {
     super(options); // Required for "this." to work
-
+    
     // Minimize related Actor sheet
     if (options.actor) options.actor.sheet.minimize();
 
@@ -56,8 +58,11 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
 
   /** @inheritDoc */
   _initializeApplicationOptions(options) {
-    this.config = options;
-    this.config.currentIdx = 0;
+    this.activity = options;
+    this.actor = options.actor;
+    this.item = options.item;
+    this.token = options.actor;
+    this.currentIdx = 0;
 
     return options = super._initializeApplicationOptions(options);
   }
@@ -90,8 +95,8 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
 
   /** @override */
   get title() {
-    const { actor, item, title } = this.config;
-    const { constructor: id, name, type } = item ?? actor;
+    const { title } = this.activity.system;
+    const { constructor: id, name, type } = this.item ?? this.actor;
     return title ?? `${_loc("WW.Activity.Label")}: ${name ?? id}`;
   }
 
@@ -102,7 +107,7 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
   async _prepareContext(options = {}) {
     const context = {
       ...await super._prepareContext(options),
-      ...this.config
+      ...this.activity
     };
     const item = context.item;
     const sys = context.actor.system;
@@ -122,7 +127,7 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
         const attDisplay = (attLabel ? `${attLabel} (${attMod})` : '1d20 + 0') + (flatMod ? ` + ${flatMod}` : '');
 
         // Boons
-        const boonsB = step.roll.boonsBreakdown;
+        const boonsB = step.rollBreakdown.boons;
 
         // Calculate and display final boons
         let boonsFinal = 0;
@@ -147,7 +152,7 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
         }
 
         // Merge boons
-        foundry.utils.mergeObject(step.roll.boonsBreakdown, {
+        foundry.utils.mergeObject(step.rollBreakdown.boons, {
           final: boonsFinal,
           abs: Math.abs(boonsFinal),
           display: plusify(boonsFinal)
@@ -182,16 +187,17 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
             }
           }
         } else againstDisplay = '';
-        // Merge roll context
-        foundry.utils.mergeObject(step.roll, {
+
+        // Merge roll breakdown
+        foundry.utils.mergeObject(step.rollBreakdown, {
           expression: makeRollExpressionText({ attribute, against, boonsFinal })/*attDisplay + boonsDisplay + againstDisplay*/,
           flatModAbs: Math.abs(step.roll.flatMod ?? 0),
-          attributeBreakdown: {
+          attribute: {
             mod: attMod,
             icon: CONFIG.WW.ATTRIBUTE_ICONS[attribute] ?? null,  
             label: attLabel
           },
-          againstBreakdown: {
+          against: {
             tn: step.roll.againstCustomTn ?? 10,
             icon: CONFIG.WW.ATTRIBUTE_ICONS[against] ?? 'systems/weirdwizard/assets/ui/badges/octagonal.svg',
             label: CONFIG.WW.ROLL_AGAINST[against]
@@ -282,7 +288,7 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
    * @type {ApplicationClickAction}
    */
   static #onNextStep(event, target) {
-    this.config.currentIdx++;
+    this.currentIdx++;
 
     this.render();
   }
@@ -309,8 +315,8 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
   static #selectTargets() {
     const context = {
       originApp: this,
-      actor: this.config.actor,
-      item: this.config.item,
+      actor: this.actor,
+      item: this.item,
       step: this.currentStep
     }
 
@@ -326,7 +332,8 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
    * Scene region selection.
    */
   static #placeArea(event, button) {
-    this.config.item.placeArea({
+    console.log(this)
+    this.item.placeArea({
       originApp: this,
       step: this.currentStep
     });
@@ -356,7 +363,7 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
   static #onToggleRollDetails(event, target) {
     const open = target.parentNode.open;
     
-    this.config.args.rollDetailsOpen = !open;
+    this.activity.system.args.rollDetailsOpen = !open;
   }
 
   /* -------------------------------------------- */
@@ -370,9 +377,9 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
     const action = target.dataset.action;
     
     if (action === 'situationalUp') {
-      this.config.roll.boons.situational++;
+      this.activity.system.roll.boons.situational++;
     } else {
-      this.config.roll.boons.situational--;
+      this.activity.system.roll.boons.situational--;
     }
     
     this.render();
@@ -390,7 +397,7 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
 
   /**
    * Create an Activity app instance and wait for it to be closed or confirmed.
-   * @param config
+   * @param system
    * @returns {Promise<any>}
    */
 
@@ -407,11 +414,17 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
     super._onChangeForm(formConfig, event);
 
     // Get form data
-    const form = this.element.querySelector('form')
+    const form = this.element.querySelector('form');
     const formData = foundry.utils.expandObject(new foundry.applications.ux.FormDataExtended(form).object);
+    
+    console.log(this.activity.system)
+    console.log(ActivityModel)
+    const activity = ActivityModel.cleanData(formData);
+    
+    // Merge system with formData
+    foundry.utils.mergeObject(this.activity.system, activity, { recursive: true });
 
-    // Merge config with formData
-    foundry.utils.mergeObject(this.config, formData);
+    console.log(this.activity.system)
 
     // Ensures the next input can be selected before re-rendering, maintaining focus while transitioning inputs.
     setTimeout(() => this.render(), 20);
@@ -425,7 +438,7 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
    * @this {ActivityApp}
    */
   static async #confirm(event, target) {
-    this.#resolvers.resolve(this.config);
+    this.#resolvers.resolve(this.activity.system);
     this.close();
   }
 
@@ -442,7 +455,7 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
     if (this.targetingHelper) this.targetingHelper.close();
 
     // Maximize related Actor sheet
-    if (this.config.actor) this.config.actor.sheet.maximize();
+    if (this.actor) this.actor.sheet.maximize();
   }
 
   /* -------------------------------------------- */
@@ -450,18 +463,18 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
   /* -------------------------------------------- */
 
   get currentStep() {
-    return this.config.steps[this.config.currentIdx];
+    return this.activity.system.steps[this.currentIdx];
   }
 
   /* -------------------------------------------- */
 
   get targets() {
-    return this.config.activity.getTargets(this.currentStep);
+    return this.activity.getTargets(this.currentStep);
   }
 
   /* -------------------------------------------- */
 
   get actEffs() {
-    return this.config.activity.getActiveEffects(this.config);
+    return this.activity.getActiveEffects(this.activity.system);
   }
 }

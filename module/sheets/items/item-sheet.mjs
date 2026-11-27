@@ -1,5 +1,5 @@
 import MultiChoice from '../../apps/multi-choice.mjs';
-import AutomationStepModel from '../../data/items/automation-step.mjs';
+import AutomationStepModel from '../../data/activities/automation-step.mjs';
 import { createActiveEffect, deleteActiveEffect, editActiveEffect, prepareItemEffectCategories } from '../../helpers/effect-actions.mjs';
 import { getAutomationStepSummary, inferDataFromKey } from '../../helpers/utils.mjs';
 import WWSheetMixin from '../ww-sheet.mjs';

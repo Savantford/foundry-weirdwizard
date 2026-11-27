@@ -1,21 +1,39 @@
 import ActivityApp from "../apps/activity-app.mjs";
 import TargetingHelper from "../apps/targeting-helper.mjs";
+import ActivityModel from "../data/activities/activity.mjs";
 
 export class Activity {
   constructor(options) {
-    const config = {...options};
-    const { args = {}, steps, actor, item = null, message = {}, title } = config;
+    const system = {
+      ...options,
+      steps: options.steps.map(step => step.toObject())
+    };
+    
+    const { args = {}, actor, item = null, steps, message = {}, title } = system;
     const sys = actor.system;
 
-    // Item Properties
-    const itemProperties = {
-      isWeapon: item?.system?.subtype === 'weapon' ?? false,
-      isAttack: item?.system?.subtype === 'weapon' ?? false,
-      isMagical: item?.system?.magical,
-      isSpell: item?.type === 'spell' ?? false
-    }
+    // Arguments
+    /*args.noRoll ??= roll.attribute?.key ? false : true;
+    args.noTargeting ??= targeting?.operation === 'target' ? false : true;
+    args.noArea ??= targeting?.operation === 'placeArea' ? false : true;*/
+    
 
-    if (steps && steps.length) for (const [idx, step] of steps.entries()) {
+    // Create system object
+    this.system = new ActivityModel({
+      steps, title, message,
+    })
+
+    // Add document and data references
+    foundry.utils.mergeObject(this, {
+      item: item,
+      actor: actor,
+      token: actor.token ?? item.inferToken,
+      skipApp: args.skipApp ?? !!(args.noRoll && args.noTargeting && args.noArea)
+    })
+    
+    // Add more data to steps
+    if (this.system.steps && this.system.steps.length) for (const [idx, step] of this.system.steps.entries()) {
+      step.index = idx;
       step.number = idx + 1;
 
       // Roll
@@ -26,31 +44,19 @@ export class Activity {
         // Attribute Modifier
         roll.mod ??= sys.attributes[attribute]?.mod ? game.weirdwizard.utils.plusify(sys.attributes[attribute].mod) : '+0';
         
-        // Roll Boons
-        roll.boonsBreakdown = {
-          actor: sys.boons,
-          fromEffects: sys.boons.selfRoll[attribute], // Conditional boons should be added here later
-          forAttacks: sys.boons.selfRoll.attacks,
-          forSpells: sys.boons.selfRoll.spells,
-          fixed: roll.boons ?? 0,
-          applyAttack: itemProperties.isAttack,
-          applySpell: itemProperties.isSpell,
-          situational: 0
+        step.rollBreakdown = {
+          boons: {
+            actor: sys.boons,
+            fromEffects: sys.boons.selfRoll[step.roll.attribute], // Conditional boons should be added here later
+            forAttacks: sys.boons.selfRoll.attacks,
+            forSpells: sys.boons.selfRoll.spells,
+            fixed: step.roll.boons ?? 0,
+            applyAttack: sys.isAttack,
+            applySpell: sys.isSpell,
+            situational: 0
+          }
         }
       }
-    }
-
-    // Arguments
-    /*args.noRoll ??= roll.attribute?.key ? false : true;
-    args.noTargeting ??= targeting?.operation === 'target' ? false : true;
-    args.noArea ??= targeting?.operation === 'placeArea' ? false : true;*/
-    //args.skipApp ??= args.noRoll && args.noTargeting && args.noArea;
-
-    // Create config object
-    this.config = {
-      args, steps, actor, item, itemProperties, title, message,
-      token: actor.token,
-      activity: this
     }
   }
 
@@ -64,13 +70,13 @@ export class Activity {
    * @returns {ActivityConfig}
    */
   async use() {
-    const config = this.config;
-    const { args, actor, item, targeting } = config;
+    const system = this.system;
+    const { skipApp, actor, item, targeting } = system;
     
     // Open or skip ActivityApp app
     let cancel = false;
 
-    if (args.skipApp) { // Skip Activity app, but maybe open a helper
+    if (skipApp) { // Skip Activity app, but maybe open a helper
       // Prompt Area placement
       if (targeting?.operation === 'placeArea' || (targeting?.operation === 'target' && targeting?.method === 'area')) {
         const area = await item.placeArea({ originApp: actor.sheet });
@@ -90,8 +96,8 @@ export class Activity {
         if (targetingHelper.cancel) cancel = true;
       } 
     } else { // Open Activity app
-      const mutated = await ActivityApp.wait(config);
-      if (mutated) (config, mutated); else cancel = true;
+      const mutated = await ActivityApp.wait(this);
+      if (mutated) (system, mutated); else cancel = true;
     }
 
     // Cancel activity if needed, otherwise proceed to roll and chat message
@@ -99,30 +105,32 @@ export class Activity {
 
     await this.resolveSteps();
 
-    if (!args.noRoll) await this.rollDice(config); // Handle roll
+    await this.sendMessage(system); // Handle chat message creation
 
-    await this.sendMessage(config); // Handle chat message creation
-
-    return config;
+    return system;
   }
 
   /* -------------------------------------------- */
 
   async resolveSteps() {
-    console.log(this.config.steps)
+    for (const [idx, step] of this.system.steps) {
+      console.log(idx, step)
+      if (!args.noRoll) await this.rollDice(step); // Handle roll
+    }
   }
 
   /* -------------------------------------------- */
 
   /**
    * Make rolls for an Activity.
-   * @param {ActivityConfig} config
+   * @param {ActivityConfig} system
    * @returns {ActivityConfig}
    */
   async rollDice(step) {
-    const config = this.config;
-    const { actor, item, itemProperties } = config;
-    const { attribute, attributeBreakdown: attributeB, boonsBreakdown: boonsB, against, flatMod } = config.roll;
+    const system = this.system;
+    const { actor, item, itemProperties } = system;
+    const { attribute, against, flatMod } = system.roll;
+    const { attribute: attributeB, boons: boonsB } = system.rollBreakdown;
 
     // Proceed to roll
     const rollData = this.getRollData();
@@ -228,20 +236,20 @@ export class Activity {
       rollsArray.push(roll);
     }
 
-    // Add rolls array to config
-    config.rollsArray = rollsArray;
+    // Add rolls array to system
+    system.rollsArray = rollsArray;
     
-    return config;
+    return system;
   }
 
   /* -------------------------------------------- */
   
   /**
    * Create a Chat Message for an Activity.
-   * @param {ActivityConfig} config
+   * @param {ActivityConfig} system
    */
   async sendMessage() {
-    const { actor, item, message, rollsArray=[] } = this.config;
+    const { actor, item, message, rollsArray=[] } = this.system;
     
     const messageData = {
       ...message,
@@ -335,7 +343,7 @@ export class Activity {
     }
 
     // If Targeting Method is Self, infer token and target it
-    const item = this.config.item;
+    const item = this.system.item;
     if (item?.system?.targeting?.method === 'self' && item?.inferToken) canvas.tokens.setTargets([item.inferToken.object.id]);
 
     // Loop through targets
@@ -376,7 +384,7 @@ export class Activity {
 
   /* -------------------------------------------- */
 
-  getActiveEffects(config) {
+  getActiveEffects(system) {
     const effs = {
       onUse: [],
       onSuccess: [],
@@ -384,7 +392,7 @@ export class Activity {
       onFailure: []
     }
     
-    config.item?.effects?.forEach(effect => {
+    system.item?.effects?.forEach(effect => {
       const e = {...effect};
       e.uuid = effect.uuid;
 
@@ -407,7 +415,7 @@ export class Activity {
 
   /* -------------------------------------------- */
 
-  getActivityInstantEffects(config) {
+  getActivityInstantEffects(system) {
     const effs = {
       onUse: [],
       onSuccess: [],
@@ -416,16 +424,16 @@ export class Activity {
     }
 
     // Return earlier if there is no item
-    if (!config.item) return effs;
+    if (!system.item) return effs;
 
     // Add Weapon Damage
-    const itemSystem = config.item.system;
+    const itemSystem = system.item.system;
     const weaponDamage = (itemSystem.subtype === 'weapon' && itemSystem.damage) ? itemSystem.damage : 0;
     
     if (weaponDamage) {
       const eff = {
         label: 'damage',
-        item: config.item,
+        item: system.item,
         value: weaponDamage
       };
       
@@ -434,7 +442,7 @@ export class Activity {
     }
     
     // Add Instant Effects
-    config.item.system.instant.forEach(e => {
+    system.item.system.instant.forEach(e => {
       
       if (!e.trigger) e.trigger = e.flags.weirdwizard.trigger;
 

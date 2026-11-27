@@ -2,10 +2,9 @@
   {{!-- Roll Expression --}}
   {{#with roll}}
   <div class="roll-expression">{{ expression }}</div>
-  {{log this}}
+  
   {{!-- Icons --}}
   <div class="icons-expression mt-1">
-    
     {{!-- d20 --}}
     <div class="term d20">
       <img src="icons/svg/d20-highlight.svg"></img>
@@ -28,21 +27,21 @@
     {{/if}}
   
     {{!-- Boons --}}
-    {{#if (gt boons.final 0)}}
+    {{#if (gt boonsBreakdown.final 0)}}
     <div class="operator boons">+</div>
 
-    <div class="term boons" data-tooltip="{{ boons.abs }} {{localize "WW.Roll.Boons"}}">
-      <div>{{ boons.display }}d6kh</div>
-      <img src="systems/weirdwizard/assets/icons/rolling-boon{{#if (gt boons.abs 1)}}s{{/if}}-colored.svg"/>
+    <div class="term boons" data-tooltip="{{ boonsBreakdown.abs }} {{localize "WW.Roll.Boons"}}">
+      <div>{{ boonsBreakdown.display }}d6kh</div>
+      <img src="systems/weirdwizard/assets/icons/rolling-boon{{#if (gt boonsBreakdown.abs 1)}}s{{/if}}-colored.svg"/>
     </div>
 
     {{!-- Banes --}}
-    {{else if (lt boons.final 0)}}
+    {{else if (lt boonsBreakdown.final 0)}}
     <div class="operator banes">−</div>
 
-    <div class="term banes" data-tooltip="{{ boons.abs }} {{localize "WW.Roll.Banes"}}">
-      <div>{{ boons.display }}d6kh</div>
-      <img src="systems/weirdwizard/assets/icons/rolling-bane{{#if (gt boons.abs 1)}}s{{/if}}-colored.svg"/>
+    <div class="term banes" data-tooltip="{{ boonsBreakdown.abs }} {{localize "WW.Roll.Banes"}}">
+      <div>{{ boonsBreakdown.display }}d6kh</div>
+      <img src="systems/weirdwizard/assets/icons/rolling-bane{{#if (gt boonsBreakdown.abs 1)}}s{{/if}}-colored.svg"/>
     </div>
     {{/if}}
 
@@ -60,5 +59,5 @@
   {{/with}}
 
   {{!-- Roll Details Collapsible --}}
-  {{!--> "systems/weirdwizard/templates/apps/activity/steps/parts/roll-details.hbs" data=context --}}
+  {{> "systems/weirdwizard/templates/apps/activity/steps/parts/roll-details.hbs"}}
 </section>
