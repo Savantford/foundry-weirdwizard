@@ -2,7 +2,6 @@
   {{!-- Rail --}}
   <ol class="steps-rail">
     {{#each system.steps as |step idx|}}
-    {{log @root}}
       <li class="step-button info {{#if (eq @root.currentIdx idx)}}current{{/if}}" data-tooltip="{{step.summary.title}}"
         data-action="skipToStep" data-step-index="{{idx}}">
         <i class="{{step.icon}}"></i>

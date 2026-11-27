@@ -1,5 +1,4 @@
 <div class="instant-effect">
-  {{log this}}
   <div class="stat-row">
     {{!-- Value --}}
     <span class="stat-inline">
@@ -7,9 +6,7 @@
 
       {{formInput @root.instantFields.value name=(concat "steps." index ".instant.value") value=instant.value}}
     </span>
-  </div>
-  
-  <div class="stat-row">
+    
     {{!-- Condition --}}
     <span class="stat-inline">
       <label>{{localize "WW.Automation.Condition.Label"}}:</label>

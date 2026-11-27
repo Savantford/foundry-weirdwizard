@@ -1,35 +1,25 @@
 <div class="affliction">
   <div class="stat-row">
-    {{!-- Operation --}}
-    <span class="stat-inline">
-      <label>{{localize "WW.Automation.Operations.Label"}}:</label>
-      
-      {{formInput fields.operation name=(concat "system.autoSteps." idx ".operation") value=operation blank=false localize=true}}
-    </span>
-
     {{!-- Affliction --}}
     <span class="stat-inline">
       <label>{{localize "WW.Affliction.Label"}}:</label>
 
-      {{formInput fields.affliction.fields.key name=(concat "system.autoSteps." idx ".affliction.key")
-        value=affliction.key localize=true blank=false}}
+      {{formInput @root.afflictionFields.key name=(concat "steps." index ".affliction.key") value=affliction.key localize=true blank=false}}
     </span>
-  </div>
-
-  <div class="stat-row">
+    
     {{!-- Condition --}}
     <span class="stat-inline">
       <label>{{localize "WW.Automation.Condition.Label"}}:</label>
 
-      {{formInput fields.condition name=(concat "system.autoSteps." idx ".condition") value=condition localize=true blank=false}}
+      {{formInput @root.fields.condition name=(concat "steps." index ".condition") value=condition localize=true blank=false}}
     </span>
 
     {{!-- Restriction --}}
     <span class="stat-inline">
       <label>{{localize "WW.Targeting.Restrictions.Label"}}:</label>
 
-      {{formInput fields.instant.fields.restriction name=(concat "system.autoSteps." idx ".instant.restriction")
-        value=instant.restriction localize=true blank=false}}
+      {{formInput @root.afflictionFields.restriction name=(concat "steps." index ".affliction.restriction")
+        value=affliction.restriction localize=true blank=false}}
     </span>
   </div>
 </div>

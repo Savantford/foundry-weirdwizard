@@ -112,7 +112,8 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
       ...await super._prepareContext(options),
       ...this.activity,
       fields,
-      instantFields: fields.instant.fields
+      instantFields: fields.instant.fields,
+      afflictionFields: fields.affliction.fields
     };
     const item = context.item;
     const sys = context.actor.system;
@@ -338,7 +339,6 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
    * Scene region selection.
    */
   static #placeArea(event, button) {
-    console.log(this)
     this.item.placeArea({
       originApp: this,
       step: this.currentStep
@@ -421,17 +421,12 @@ export default class ActivityApp extends HandlebarsApplicationMixin(ApplicationV
 
     // Get form data
     const form = this.element.querySelector('form');
-    const test = new foundry.applications.ux.FormDataExtended(form).object;
-    console.log(test)
-    const formData = foundry.utils.expandObject(test);
+    const formData = foundry.utils.expandObject(new foundry.applications.ux.FormDataExtended(form).object);
     const formSteps = formData.steps;
     const activitySteps = this.activity.system.steps;
     await foundry.utils.mergeObject(activitySteps, formSteps, { recursive: true });
 
     // Merge system with formData
-    console.log(formData)
-    console.log(formSteps)
-    console.log(activitySteps)
     this.activity.system.updateSource({ 'steps': activitySteps });
 
     // Ensures the next input can be selected before re-rendering, maintaining focus while transitioning inputs.

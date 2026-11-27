@@ -114,7 +114,7 @@ export class Activity {
 
   async resolveSteps() {
     for (const [idx, step] of this.system.steps) {
-      console.log(idx, step)
+      console.log(step)
       if (!args.noRoll) await this.rollDice(step); // Handle roll
     }
   }
@@ -263,7 +263,7 @@ export class Activity {
         emptyContent: !message.content ?? true
       }
     }
-    console.log(messageData)
+    
     // Apply roll mode and send to chat
     await ChatMessage.applyMode(messageData, game.settings.get('core', 'messageMode'));
     await ChatMessage.create(messageData);
